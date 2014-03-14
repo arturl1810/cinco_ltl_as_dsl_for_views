@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="de.jabc.cinco.meta.core.ge.style.sdk"
+      label="Style SDK Feature "
+      version="1.0.0.qualifier">
+
+   <plugin
+         id="de.jabc.cinco.meta.core.ge.style"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="de.jabc.cinco.meta.core.ge.style.ui"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+</feature>

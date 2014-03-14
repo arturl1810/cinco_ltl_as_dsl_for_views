@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.navigator.navigatorContent">
+      <commonWizard
+            menuGroupId="mgl"
+            type="new"
+            wizardId="de.jabc.cinco.mgl.wizards.mglProjectWizard">
+         <enablement></enablement>
+      </commonWizard>
+   </extension>
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <wizard
+            category="de.jabc.cinco.mgl.wizards.mglCategory"
+            class="de.jabc.cinco.meta.core.wizards.project.NewMGLProjectWizard"
+            id="de.jabc.cinco.mgl.wizards.mglProjectWizard"
+            name="MGL Project">
+      </wizard>
+      <category
+            id="de.jabc.cinco.mgl.wizards.mglCategory"
+            name="MGL Project">
+      </category>
+   </extension>
+
+</plugin>

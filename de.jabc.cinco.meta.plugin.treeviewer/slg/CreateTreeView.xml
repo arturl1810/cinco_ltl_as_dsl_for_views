@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<model version="2.1">
+  <id>198fa6b9-53b1-4916-a54c-8dd85b5262c7</id>
+  <name>CreateTreeView</name>
+  <changecounter>14</changecounter>
+  <sib>
+    <id>e842c771-2669-4f76-b01c-70d3295fc69c</id>
+    <name>MacroSIB</name>
+    <label>GetTreeViewElements</label>
+    <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
+    <position>150.5,151.0</position>
+    <finalbranches>error</finalbranches>
+    <finalbranches>exit</finalbranches>
+    <userobject key="ABC$START">
+      <boolean>true</boolean>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>725f56d1-138b-4747-9522-e58ee63db3a3</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>GetTreeViewElements</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>e842c771-2669-4f76-b01c-70d3295fc69c</source>
+    <target>b51e7766-eae1-4daa-b78b-551c35056f02</target>
+    <point>185.0,171.42857142857142</point>
+    <point>565.0,171.42857142857142</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>exit</branch>
+  </edge>
+  <sib>
+    <id>b6ce66c1-17e8-49b8-90a8-86c16b5e226b</id>
+    <name>MacroSIB_4</name>
+    <label>BuildPluginXml</label>
+    <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
+    <position>788.0,151.0</position>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>bf021cce-172c-4032-bc63-a3df4f194744</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>BuildPluginXml</string>
+    </userobject>
+  </sib>
+  <sib>
+    <id>b51e7766-eae1-4daa-b78b-551c35056f02</id>
+    <name>MacroSIB_2</name>
+    <label>GenerateProviders</label>
+    <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
+    <position>371.5,151.0</position>
+    <finalbranches>error</finalbranches>
+    <finalbranches>exit</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>d14bf6c4-e2bc-4ddf-a0e0-3f79626f87ea</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>GenerateProviders</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>b51e7766-eae1-4daa-b78b-551c35056f02</source>
+    <target>d03d7e35-0f8c-4adf-87d1-d7a32b05a690</target>
+    <point>455.0,176.53846153846155</point>
+    <point>610.0,212.30769230769232</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>exit</branch>
+  </edge>
+  <sib>
+    <id>d03d7e35-0f8c-4adf-87d1-d7a32b05a690</id>
+    <name>MacroSIB_1</name>
+    <label>Create Activator</label>
+    <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
+    <position>574.0,151.0</position>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>f5b181f7-7b56-4453-a871-383da672cbaa</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Create Activator</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>d03d7e35-0f8c-4adf-87d1-d7a32b05a690</source>
+    <target>b6ce66c1-17e8-49b8-90a8-86c16b5e226b</target>
+    <point>615.0,180.0</point>
+    <point>771.0,173.0</point>
+    <branch>default</branch>
+  </edge>
+  <values/>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>e842c771-2669-4f76-b01c-70d3295fc69c</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>b6ce66c1-17e8-49b8-90a8-86c16b5e226b</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>b51e7766-eae1-4daa-b78b-551c35056f02</sib>
+  </branch>
+  <branch>
+    <name>default</name>
+    <branch>default</branch>
+    <sib>b6ce66c1-17e8-49b8-90a8-86c16b5e226b</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>d03d7e35-0f8c-4adf-87d1-d7a32b05a690</sib>
+  </branch>
+</model>

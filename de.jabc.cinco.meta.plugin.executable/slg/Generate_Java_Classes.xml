@@ -1,0 +1,937 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<model version="2.1">
+  <id>7330b450-2b06-4965-840f-3ee793cc4f1f</id>
+  <name>Generate Java Classes</name>
+  <changecounter>35</changecounter>
+  <sib>
+    <id>07caad00-bb7d-4299-b5ce-9320dd3fa7f6</id>
+    <name>RunStringTemplate</name>
+    <label>Generate Activator</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>236.0,108.0</position>
+    <parameter name="append">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>classContent</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>package de.jabc.cinco.plugin.executor;
+
+import java.lang.reflect.Constructor;
+
+import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.IExtension;
+import org.eclipse.core.runtime.IExtensionPoint;
+import org.eclipse.core.runtime.IExtensionRegistry;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.osgi.framework.BundleContext;
+
+/**
+ * The activator class controls the plug-in life cycle
+ */
+public class Activator extends AbstractUIPlugin {
+
+	// The plug-in ID
+	public static final String PLUGIN_ID = &quot;de.jabc.cinco.plugin.executable&quot;; //\$NON-NLS-1\$
+
+	// The shared instance
+	private static Activator plugin;
+	
+	/**
+	 * The constructor
+	 */
+	public Activator() {
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext)
+	 */
+	public void start(BundleContext context) throws Exception {
+		super.start(context);
+		plugin = this;
+		IExtensionRegistry registry = Platform.getExtensionRegistry();
+		IExtensionPoint point = registry
+				.getExtensionPoint(&quot;de.jabc.cinco.plugin.executor&quot;);
+		if(point!=null){
+			
+			for(IExtension ext: point.getExtensions()){
+				for(IConfigurationElement elem: ext.getConfigurationElements()){
+					if(elem.getName().equals(&quot;executor&quot;)){
+						String className = elem.getAttribute(&quot;implementing_executor&quot;);
+						String graphModelName = elem.getAttribute(&quot;graphModelName&quot;);
+
+						Class&lt;?&gt; executorClass;
+						System.out.println(className);
+						
+						executorClass = this.getClass().getClassLoader()
+								.loadClass(className);
+
+						Class&lt;?&gt; params[] = new Class[0];
+
+						Constructor&lt;?&gt; s = executorClass.getConstructor(params);
+
+						IExecutor ex = (IExecutor) s.newInstance(params);
+						
+						ExecutorRegistry.getInstance().registerExecutor(graphModelName, ex);
+						
+					}
+					
+				}
+				
+			}
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
+	 */
+	public void stop(BundleContext context) throws Exception {
+		plugin = null;
+		super.stop(context);
+	}
+
+	/**
+	 * Returns the shared instance
+	 *
+	 * @return the shared instance
+	 */
+	public static Activator getDefault() {
+		return plugin;
+	}
+
+	/**
+	 * Returns an image descriptor for the image file at the given
+	 * plug-in relative path
+	 *
+	 * @param path the path
+	 * @return the image descriptor
+	 */
+	public static ImageDescriptor getImageDescriptor(String path) {
+		return imageDescriptorFromPlugin(PLUGIN_ID, path);
+	}
+}
+</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>ab3f6dfe-6618-45e9-ac71-adccdabdbafc</id>
+    <name>WriteJavaFile</name>
+    <label>WriteJavaFile</label>
+    <sib-uid>genesys-sibs/WriteJavaFile</sib-uid>
+    <taxonomy>de.jabc.sib.genesys.WriteJavaFile</taxonomy>
+    <position>748.0,108.0</position>
+    <parameter name="baseDirectory">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>srcgen</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="beautify">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="beautifyMethod">
+      <de.metaframe.common.sib.parameter.ListBox>
+        <ListBoxFoundation>
+          <list>
+            <string>Eclipse</string>
+            <string>Jalopy</string>
+          </list>
+          <selected>0</selected>
+        </ListBoxFoundation>
+      </de.metaframe.common.sib.parameter.ListBox>
+    </parameter>
+    <parameter name="className">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>className</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="fileContent">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>classContent</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="packageName">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>pluginPackageName</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>07caad00-bb7d-4299-b5ce-9320dd3fa7f6</source>
+    <target>34ced4b8-3f34-461b-ad59-35c8885c5895</target>
+    <point>363.0,140.85</point>
+    <point>447.0,203.85</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>41830c7d-18c4-4832-8c96-ee77623f4117</id>
+    <name>PutExpression</name>
+    <label>Put src-gen Directory</label>
+    <sib-uid>basic-sibs/PutExpression</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
+    <position>3.5,108.0</position>
+    <parameter name="resolve">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="value">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>${executorPath}/src/</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>srcgen</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$START">
+      <boolean>true</boolean>
+    </userobject>
+  </sib>
+  <edge>
+    <source>41830c7d-18c4-4832-8c96-ee77623f4117</source>
+    <target>07caad00-bb7d-4299-b5ce-9320dd3fa7f6</target>
+    <point>60.0,135.0</point>
+    <point>195.0,126.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>34ced4b8-3f34-461b-ad59-35c8885c5895</id>
+    <name>PutExpression_1</name>
+    <label>PutActivatorClassName</label>
+    <sib-uid>basic-sibs/PutExpression</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
+    <position>461.5,108.0</position>
+    <parameter name="resolve">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="value">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>Activator</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>className</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>34ced4b8-3f34-461b-ad59-35c8885c5895</source>
+    <target>ab3f6dfe-6618-45e9-ac71-adccdabdbafc</target>
+    <point>510.0,135.0</point>
+    <point>638.0,131.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>a481f14b-3d0b-4bb2-86db-a3e91171121f</id>
+    <name>RunStringTemplate_1</name>
+    <label>Generate ExecutorRegistry</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>210.5,243.0</position>
+    <parameter name="append">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>classContent</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>package de.jabc.cinco.plugin.executor;
+import java.util.HashMap;
+public class ExecutorRegistry {
+	private HashMap&lt;String,IExecutor&gt; executorMap;
+	private static ExecutorRegistry instance = null;
+	private ExecutorRegistry(){
+		this.executorMap = new HashMap&lt;String,IExecutor&gt;();
+	}
+	
+	public static ExecutorRegistry getInstance(){
+		if(instance==null)
+			instance = new ExecutorRegistry();
+		
+		return instance;
+	}
+	
+	public IExecutor get(String graphModelName){
+		return this.executorMap.get(graphModelName);
+	}
+	
+	public void registerExecutor(String graphModelName, IExecutor executor){
+		this.executorMap.put(graphModelName,executor);
+	}
+	
+	public IExecutor removeExecutor(String graphModelName){
+		return this.executorMap.remove(graphModelName);
+	}
+}
+</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>879c2bb1-4356-441b-a0a7-0fda43c68f1a</id>
+    <name>WriteJavaFile_1</name>
+    <label>WriteJavaFile</label>
+    <sib-uid>genesys-sibs/WriteJavaFile</sib-uid>
+    <taxonomy>de.jabc.sib.genesys.WriteJavaFile</taxonomy>
+    <position>748.0,243.0</position>
+    <parameter name="baseDirectory">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>srcgen</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="beautify">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="beautifyMethod">
+      <de.metaframe.common.sib.parameter.ListBox>
+        <ListBoxFoundation>
+          <list>
+            <string>Eclipse</string>
+            <string>Jalopy</string>
+          </list>
+          <selected>0</selected>
+        </ListBoxFoundation>
+      </de.metaframe.common.sib.parameter.ListBox>
+    </parameter>
+    <parameter name="className">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>className</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="fileContent">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>classContent</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="packageName">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>pluginPackageName</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>a481f14b-3d0b-4bb2-86db-a3e91171121f</source>
+    <target>e7b02c00-4dfe-4607-89ea-d41758ab6280</target>
+    <point>345.0,270.0</point>
+    <point>525.0,270.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>e7b02c00-4dfe-4607-89ea-d41758ab6280</id>
+    <name>PutExpression_2</name>
+    <label>PutExecutorRegistryClassName</label>
+    <sib-uid>basic-sibs/PutExpression</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
+    <position>436.0,243.0</position>
+    <parameter name="resolve">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="value">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>ExecutorRegistry</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>className</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>e7b02c00-4dfe-4607-89ea-d41758ab6280</source>
+    <target>879c2bb1-4356-441b-a0a7-0fda43c68f1a</target>
+    <point>525.0,270.0</point>
+    <point>750.0,270.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>ab3f6dfe-6618-45e9-ac71-adccdabdbafc</source>
+    <target>a481f14b-3d0b-4bb2-86db-a3e91171121f</target>
+    <point>735.0,135.0</point>
+    <point>362.0,272.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>99b7a3a9-567c-4338-b6bb-440f9a5e747a</id>
+    <name>RunStringTemplate_2</name>
+    <label>Generate IExecutor</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>234.5,393.0</position>
+    <parameter name="append">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>classContent</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>package de.jabc.cinco.plugin.executor;
+
+import graphmodel.GraphModel;
+import graphmodel.Node;
+
+public interface IExecutor {
+
+	public abstract void startExecution(GraphModel graphModel) throws Exception;
+
+	public abstract Node getStartNode();
+
+	public abstract Node execute(Node node);
+
+}</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>4e536bc9-ba65-42e9-9dc8-5faff197ca5f</id>
+    <name>WriteJavaFile_2</name>
+    <label>WriteJavaFile</label>
+    <sib-uid>genesys-sibs/WriteJavaFile</sib-uid>
+    <taxonomy>de.jabc.sib.genesys.WriteJavaFile</taxonomy>
+    <position>748.0,393.0</position>
+    <parameter name="baseDirectory">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>srcgen</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="beautify">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="beautifyMethod">
+      <de.metaframe.common.sib.parameter.ListBox>
+        <ListBoxFoundation>
+          <list>
+            <string>Eclipse</string>
+            <string>Jalopy</string>
+          </list>
+          <selected>0</selected>
+        </ListBoxFoundation>
+      </de.metaframe.common.sib.parameter.ListBox>
+    </parameter>
+    <parameter name="className">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>className</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="fileContent">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>classContent</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="packageName">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>pluginPackageName</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>99b7a3a9-567c-4338-b6bb-440f9a5e747a</source>
+    <target>3b580e6f-90ee-4336-b79c-014f39251336</target>
+    <point>345.0,420.0</point>
+    <point>525.0,420.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>3b580e6f-90ee-4336-b79c-014f39251336</id>
+    <name>PutExpression_3</name>
+    <label>PutIExecutorClassName</label>
+    <sib-uid>basic-sibs/PutExpression</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
+    <position>460.0,393.0</position>
+    <parameter name="resolve">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="value">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>IExecutor</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>className</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>3b580e6f-90ee-4336-b79c-014f39251336</source>
+    <target>4e536bc9-ba65-42e9-9dc8-5faff197ca5f</target>
+    <point>525.0,420.0</point>
+    <point>735.0,420.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>879c2bb1-4356-441b-a0a7-0fda43c68f1a</source>
+    <target>99b7a3a9-567c-4338-b6bb-440f9a5e747a</target>
+    <point>735.0,270.0</point>
+    <point>359.0,414.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>f8fd8171-f8b1-44d2-8086-c8abfcb7b2d9</id>
+    <name>RunStringTemplate_3</name>
+    <label>Generate ExecutorHandler</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>211.5,543.0</position>
+    <parameter name="append">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>classContent</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>package de.jabc.cinco.plugin.executor.handlers;
+
+import graphmodel.GraphModel;
+import graphmodel.Node;
+
+import java.lang.reflect.InvocationTargetException;
+
+import org.eclipse.core.commands.AbstractHandler;
+import org.eclipse.core.commands.ExecutionEvent;
+import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.graphiti.ui.editor.DiagramEditorInput;
+import org.eclipse.jface.operation.IRunnableWithProgress;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.handlers.HandlerUtil;
+import org.eclipse.ui.progress.IProgressService;
+
+import de.jabc.cinco.plugin.executor.ExecutorRegistry;
+import de.jabc.cinco.plugin.executor.IExecutor;
+
+/**
+ * Our sample handler extends AbstractHandler, an IHandler base class.
+ * @see org.eclipse.core.commands.IHandler
+ * @see org.eclipse.core.commands.AbstractHandler
+ */
+public class ExecutorHandler extends AbstractHandler {
+	/**
+	 * The constructor.
+	 */
+	public ExecutorHandler() {
+	}
+
+	/**
+	 * the command has been executed, so extract extract the needed information
+	 * from the application context.
+	 */
+	public Object execute(ExecutionEvent event) throws ExecutionException {
+		
+		
+		
+		IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindowChecked(event);
+		IEditorPart activeEditor =  window.getActivePage().getActiveEditor();
+		
+		DiagramEditorInput input = (DiagramEditorInput)activeEditor.getEditorInput();
+		URI uri = input.getUri();
+		ExecutorHandler.startExecution(uri,event);
+		return null;
+	}
+
+	public static void startExecution(URI uri, ExecutionEvent event) {
+		try{
+			ResourceSet set = new ResourceSetImpl();
+			Resource res = set.createResource(uri);
+			graphmodel.GraphModel graphModel =null;
+			res.load(null);
+			for(EObject obj: res.getContents()){
+				if(obj instanceof GraphModel){
+					graphModel = (GraphModel)obj;
+					break;
+				}
+				
+			}
+			if(graphModel!=null){
+				IProgressService ps = PlatformUI.getWorkbench().getProgressService();
+				ps.run(true, true, new GraphModelExecution(graphModel, uri));
+				
+			}
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+	}
+	
+	
+	
+	
+}
+class GraphModelExecution implements IRunnableWithProgress{
+	private GraphModel graphModel;
+	private URI uri;
+
+	public GraphModelExecution(GraphModel graphModel, URI uri){
+		this.graphModel = graphModel;
+		this.uri = uri;
+	}
+
+	@Override
+	public void run(IProgressMonitor monitor)
+			throws InvocationTargetException, InterruptedException {
+		System.out.println(&quot;******************************&quot;);
+		System.out.println(&quot;Starting Execution of Model: &quot;+uri.toPlatformString(true));
+		IExecutor pme = ExecutorRegistry.getInstance().get(graphModel.eClass().getName());
+		if(pme==null)
+			throw new InterruptedException(&quot;No Executor registered for model type: &quot;+graphModel.eClass().getName());
+		try {
+			pme.startExecution(graphModel);
+		} catch (Exception e) {
+			throw new InvocationTargetException(e);
+			
+		}
+		Node next = pme.getStartNode();
+		while(next!=null&amp;&amp;!monitor.isCanceled()){
+			//System.out.println(&quot;Entering Node: &quot;+next);
+			next = pme.execute(next);
+			
+		}
+		System.out.println(&quot;Execution stopped.&quot;);
+		System.out.println(&quot;******************************&quot;);
+		
+	}
+}
+</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>f9b55264-cd9a-425e-8781-cd8cd2ca7036</id>
+    <name>WriteJavaFile_3</name>
+    <label>WriteJavaFile</label>
+    <sib-uid>genesys-sibs/WriteJavaFile</sib-uid>
+    <taxonomy>de.jabc.sib.genesys.WriteJavaFile</taxonomy>
+    <position>748.0,543.0</position>
+    <parameter name="baseDirectory">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>srcgen</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="beautify">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="beautifyMethod">
+      <de.metaframe.common.sib.parameter.ListBox>
+        <ListBoxFoundation>
+          <list>
+            <string>Eclipse</string>
+            <string>Jalopy</string>
+          </list>
+          <selected>0</selected>
+        </ListBoxFoundation>
+      </de.metaframe.common.sib.parameter.ListBox>
+    </parameter>
+    <parameter name="className">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>className</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="fileContent">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>classContent</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="packageName">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>handlerPackageName</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>f8fd8171-f8b1-44d2-8086-c8abfcb7b2d9</source>
+    <target>bd3c85db-7dc7-428a-89c9-3d5cc36b3535</target>
+    <point>315.0,570.0</point>
+    <point>555.0,570.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>bd3c85db-7dc7-428a-89c9-3d5cc36b3535</id>
+    <name>PutExpression_4</name>
+    <label>PutExecutorHandlerClassName</label>
+    <sib-uid>basic-sibs/PutExpression</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
+    <position>437.0,543.0</position>
+    <parameter name="resolve">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="value">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>ExecutorHandler</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>className</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>bd3c85db-7dc7-428a-89c9-3d5cc36b3535</source>
+    <target>f9b55264-cd9a-425e-8781-cd8cd2ca7036</target>
+    <point>555.0,570.0</point>
+    <point>795.0,570.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>4e536bc9-ba65-42e9-9dc8-5faff197ca5f</source>
+    <target>f8fd8171-f8b1-44d2-8086-c8abfcb7b2d9</target>
+    <point>780.0,420.0</point>
+    <point>310.0,550.0</point>
+    <branch>default</branch>
+  </edge>
+  <values/>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>41830c7d-18c4-4832-8c96-ee77623f4117</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>a481f14b-3d0b-4bb2-86db-a3e91171121f</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>e7b02c00-4dfe-4607-89ea-d41758ab6280</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>3b580e6f-90ee-4336-b79c-014f39251336</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>f8fd8171-f8b1-44d2-8086-c8abfcb7b2d9</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>bd3c85db-7dc7-428a-89c9-3d5cc36b3535</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>99b7a3a9-567c-4338-b6bb-440f9a5e747a</sib>
+  </branch>
+  <branch>
+    <name>default</name>
+    <branch>default</branch>
+    <sib>f9b55264-cd9a-425e-8781-cd8cd2ca7036</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>ab3f6dfe-6618-45e9-ac71-adccdabdbafc</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>34ced4b8-3f34-461b-ad59-35c8885c5895</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>879c2bb1-4356-441b-a0a7-0fda43c68f1a</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>07caad00-bb7d-4299-b5ce-9320dd3fa7f6</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>4e536bc9-ba65-42e9-9dc8-5faff197ca5f</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>f9b55264-cd9a-425e-8781-cd8cd2ca7036</sib>
+  </branch>
+</model>

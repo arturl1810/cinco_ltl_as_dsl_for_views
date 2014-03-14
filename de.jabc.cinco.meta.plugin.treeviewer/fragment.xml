@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<fragment>
+   <extension
+         id="id1"
+         name="name"
+         point="de.jabc.cinco.meta.core.pluginregistry.metaplugin">
+      <metaplugin_description
+            metapluginService="de.jabc.cinco.meta.plugin.treeviewer.TreeViewMetaPlugin">
+      </metaplugin_description>
+      <annotation
+            recognized-annotation="treeView">
+      </annotation>
+      <graphmodel-annotation
+            recognized-annotation="treeView">
+      </graphmodel-annotation>
+   </extension>
+
+</fragment>

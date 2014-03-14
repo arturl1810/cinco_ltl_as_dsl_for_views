@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>de.jabc.cinco</groupId>
+  <artifactId>de.jabc.cinco.meta.parent</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <modules><module>de.jabc.cinco.meta.branding</module>
+<module>de.jabc.cinco.meta.core.ge.generator</module>
+<module>de.jabc.cinco.meta.core.ge.style</module>
+<module>de.jabc.cinco.meta.core.ge.style.fragment</module>
+<module>de.jabc.cinco.meta.core.ge.style.model</module>
+<module>de.jabc.cinco.meta.core.ge.style.sdk</module>
+<module>de.jabc.cinco.meta.core.ge.style.ui</module>
+<module>de.jabc.cinco.meta.core.mgl</module>
+<module>de.jabc.cinco.meta.core.mgl.model</module>
+<!--
+<module>de.jabc.cinco.meta.core.mgl.model.edit</module>
+<module>de.jabc.cinco.meta.core.mgl.model.editor</module>
+-->
+<module>de.jabc.cinco.meta.core.mgl.sdk</module>
+<module>de.jabc.cinco.meta.core.mgl.transformation</module>
+<module>de.jabc.cinco.meta.core.mgl.ui</module>
+<module>de.jabc.cinco.meta.core.pluginregistry</module>
+<module>de.jabc.cinco.meta.core.referenceregistry</module>
+<module>de.jabc.cinco.meta.core.utils</module>
+<module>de.jabc.cinco.meta.core.wizards</module>
+<module>de.jabc.cinco.meta.feature</module>
+<module>de.jabc.cinco.meta.plugin.generator</module>
+<module>de.jabc.cinco.meta.plugin.ocl</module>
+<module>de.jabc.cinco.meta.plugin.primeviewer</module>
+<module>de.jabc.cinco.meta.plugin.treeviewer</module>
+<module>de.jabc.cinco.meta.product</module>
+<module>de.jabc.cinco.meta.core.ui</module>
+<module>de.jabc.cinco.meta.plugin.executable</module>
+<module>de.jabc.cinco.meta.core</module>
+<!--<module>de.jabc.cinco.meta.updatesite</module>-->
+
+<module>de.jabc.cinco.meta.core.ge.style.sibs</module>
+<module>de.jabc.cinco.meta.core.adapters</module>
+<module>de.jabc.cinco.meta.core.sibs</module>
+<module>de.jabc.cinco.meta.libraries</module>
+</modules>
+  <properties>
+   <tycho.version>0.19.0</tycho.version>
+    <kepler-repo.url>http://download.eclipse.org/releases/kepler</kepler-repo.url>
+ </properties>
+<repositories>
+ <repository>
+  <id>kepler</id>
+ <url>${kepler-repo.url}</url>
+ <layout>p2</layout>
+</repository>
+  </repositories>
+ <build>
+    <plugins>
+     <plugin>
+       <groupId>org.eclipse.tycho</groupId>
+       <artifactId>tycho-maven-plugin</artifactId>
+       <version>${tycho.version}</version>
+       <extensions>true</extensions>
+      </plugin>
+   	<plugin>
+          <groupId>org.eclipse.tycho</groupId>
+          <artifactId>tycho-versions-plugin</artifactId>
+          <version>${tycho.version}</version>
+        </plugin>
+     <plugin>
+       <groupId>org.eclipse.tycho</groupId>
+       <artifactId>target-platform-configuration</artifactId>
+       <configuration>
+         <environments>
+           <environment>
+             <os>linux</os>
+             <ws>gtk</ws>
+             <arch>x86</arch>
+           </environment>
+           <environment>
+             <os>linux</os>
+             <ws>gtk</ws>
+             <arch>x86_64</arch>
+           </environment>
+           <environment>
+             <os>win32</os>
+             <ws>win32</ws>
+             <arch>x86</arch>
+           </environment>
+           <environment>
+             <os>win32</os>
+             <ws>win32</ws>
+             <arch>x86_64</arch>
+           </environment>
+           <environment>
+             <os>macosx</os>
+             <ws>cocoa</ws>
+             <arch>x86_64</arch>
+           </environment>
+         </environments>
+       </configuration>
+     </plugin>
+   </plugins>
+	<extensions>
+		<extension>
+        		<groupId>org.apache.maven.wagon</groupId>
+        		<artifactId>wagon-ssh-external</artifactId>
+        		<version>1.0</version>
+	      </extension>
+	</extensions>
+ </build>
+<profiles>
+	<profile>
+		<id>linux_x86_64</id>
+		<build>
+			    <plugins>
+			      <plugin>
+			       <groupId>org.eclipse.tycho</groupId>
+			       <artifactId>target-platform-configuration</artifactId>
+			       <configuration>
+				 <environments>
+				   <environment>
+				     <os>linux</os>
+				     <ws>gtk</ws>
+				     <arch>x86_64</arch>
+				   </environment>
+				 </environments>
+			       </configuration>
+			     </plugin>
+			   </plugins>
+		</build>
+	</profile>
+</profiles>
+		
+<distributionManagement>
+	<repository>
+		<id>vulturius-webdav</id>
+		<name>jABC Repository</name>
+		<url>http://ls5svn.cs.tu-dortmund.de/maven</url>
+		<layout>default</layout>
+		<snapshots>
+			<enabled>true</enabled>
+		</snapshots>
+	</repository>
+</distributionManagement>
+  <scm>
+    <connection>https://projekte.itmc.tu-dortmund.de/svn/cinco/trunk/</connection>
+    <developerConnection>https://projekte.itmc.tu-dortmund.de/svn/cinco/trunk/</developerConnection>
+    <url>https://projekte.itmc.tu-dortmund.de/projects/cinco</url>
+  </scm>
+
+  <name>jABC Cinco</name>
+  <description>This is jABC Cinco, the meta tool for developing graphical editors.</description>
+</project>

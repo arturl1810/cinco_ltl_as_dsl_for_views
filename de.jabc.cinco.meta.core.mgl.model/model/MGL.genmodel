@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/de.jabc.cinco.meta.core.mgl.model/src-gen" modelPluginID="de.jabc.cinco.meta.core.mgl.model"
+    modelName="MGL" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    importerID="org.eclipse.emf.importer.ecore" complianceLevel="6.0" copyrightFields="false"
+    usedGenPackages="../../org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore" operationReflection="true"
+    importOrganizing="true">
+  <foreignModel>MGL.ecore</foreignModel>
+  <genPackages prefix="Mgl" disposableProviderFactory="true" ecorePackage="MGL.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="MGL.ecore#//EdgeDirection">
+      <genEnumLiterals ecoreEnumLiteral="MGL.ecore#//EdgeDirection/NODIRECTION"/>
+      <genEnumLiterals ecoreEnumLiteral="MGL.ecore#//EdgeDirection/Undirected"/>
+      <genEnumLiterals ecoreEnumLiteral="MGL.ecore#//EdgeDirection/SourceDirected"/>
+      <genEnumLiterals ecoreEnumLiteral="MGL.ecore#//EdgeDirection/TargetDirected"/>
+      <genEnumLiterals ecoreEnumLiteral="MGL.ecore#//EdgeDirection/Bidirected"/>
+    </genEnums>
+    <genClasses ecoreClass="MGL.ecore#//GraphModel">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MGL.ecore#//GraphModel/edges"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MGL.ecore#//GraphModel/nodes"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MGL.ecore#//GraphModel/nodeContainers"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGL.ecore#//GraphModel/package"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGL.ecore#//GraphModel/nsURI"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MGL.ecore#//GraphModel/submodels"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MGL.ecore#//GraphModel/extends"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MGL.ecore#//GraphModel/imports"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MGL.ecore#//GraphModel/types"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGL.ecore#//GraphModel/iconPath"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGL.ecore#//GraphModel/fileExtension"/>
+    </genClasses>
+    <genClasses ecoreClass="MGL.ecore#//Edge">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MGL.ecore#//Edge/targetElements"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MGL.ecore#//Edge/sourceElements"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MGL.ecore#//Edge/extends"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGL.ecore#//Edge/direction"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference MGL.ecore#//Edge/graphModel"/>
+    </genClasses>
+    <genClasses ecoreClass="MGL.ecore#//Node">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MGL.ecore#//Node/information"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MGL.ecore#//Node/extends"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference MGL.ecore#//Node/graphModel"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGL.ecore#//Node/executable"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGL.ecore#//Node/generatable"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MGL.ecore#//Node/primeReference"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="MGL.ecore#//ModelElement">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MGL.ecore#//ModelElement/attributes"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGL.ecore#//ModelElement/isAbstract"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="MGL.ecore#//Information">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference MGL.ecore#//Information/node"/>
+    </genClasses>
+    <genClasses ecoreClass="MGL.ecore#//ModelCheckInformation">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MGL.ecore#//ModelCheckInformation/extends"/>
+    </genClasses>
+    <genClasses ecoreClass="MGL.ecore#//DataFlowInformation">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MGL.ecore#//DataFlowInformation/extends"/>
+    </genClasses>
+    <genClasses ecoreClass="MGL.ecore#//NodeContainer">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MGL.ecore#//NodeContainer/containableNodes"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MGL.ecore#//NodeContainer/extends"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference MGL.ecore#//NodeContainer/graphModel"/>
+    </genClasses>
+    <genClasses ecoreClass="MGL.ecore#//Import">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGL.ecore#//Import/importURI"/>
+    </genClasses>
+    <genClasses ecoreClass="MGL.ecore#//Attribute">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGL.ecore#//Attribute/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGL.ecore#//Attribute/type"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGL.ecore#//Attribute/lowerBound"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGL.ecore#//Attribute/upperBound"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference MGL.ecore#//Attribute/modelElement"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGL.ecore#//Attribute/unique"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGL.ecore#//Attribute/notChangeable"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MGL.ecore#//Attribute/annotations"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGL.ecore#//Attribute/instanceAttribute"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGL.ecore#//Attribute/defaultValue"/>
+    </genClasses>
+    <genClasses ecoreClass="MGL.ecore#//Enumeration">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGL.ecore#//Enumeration/literals"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="MGL.ecore#//Type">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGL.ecore#//Type/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MGL.ecore#//Type/annotations"/>
+    </genClasses>
+    <genClasses ecoreClass="MGL.ecore#//UserDefinedType"/>
+    <genClasses ecoreClass="MGL.ecore#//Annotation">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGL.ecore#//Annotation/name"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference MGL.ecore#//Annotation/parent"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGL.ecore#//Annotation/value"/>
+    </genClasses>
+    <genClasses ecoreClass="MGL.ecore#//ReferencedType">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MGL.ecore#//ReferencedType/type"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGL.ecore#//ReferencedType/importURI"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MGL.ecore#//ReferencedType/copiedAttributes"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="MGL.ecore#//GraphicalModelElement">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MGL.ecore#//GraphicalModelElement/incomingEdges"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MGL.ecore#//GraphicalModelElement/outgoingEdges"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGL.ecore#//GraphicalModelElement/minIncoming"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGL.ecore#//GraphicalModelElement/maxIncoming"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGL.ecore#//GraphicalModelElement/minOutgoing"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGL.ecore#//GraphicalModelElement/maxOutgoing"/>
+    </genClasses>
+    <genClasses ecoreClass="MGL.ecore#//ReferencedAttribute">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGL.ecore#//ReferencedAttribute/name"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MGL.ecore#//ReferencedAttribute/feature"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference MGL.ecore#//ReferencedAttribute/referencedType"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGL.ecore#//ReferencedAttribute/parameter"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

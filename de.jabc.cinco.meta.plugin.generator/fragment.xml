@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<fragment>
+   <extension
+         id="id1"
+         name="name"
+         point="de.jabc.cinco.meta.core.pluginregistry.metaplugin">
+      <metaplugin_description
+            metapluginService="de.jabc.cinco.meta.plugin.generator.GeneratorMetaPlugin">
+      </metaplugin_description>
+      <graphmodel-annotation
+            recognized-annotation="generatable">
+      </graphmodel-annotation>
+      <validator
+            ValidatorClass="de.jabc.cinco.meta.plugin.generator.validation.GeneratorValidator">
+      </validator>
+   </extension>
+
+</fragment>

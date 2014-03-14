@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Treeviewer
+Bundle-SymbolicName: de.jabc.cinco.meta.plugin.treeviewer;singleton:=true
+Fragment-Host: de.jabc.cinco.meta.core.pluginregistry
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Import-Package: de.jabc.cinco.meta.core.mgl.transformation.helper,
+ de.jabc.cinco.meta.core.utils.projects,
+ mgl,
+ org.eclipse.core.resources
+Bundle-Version: 1.0.0.qualifier

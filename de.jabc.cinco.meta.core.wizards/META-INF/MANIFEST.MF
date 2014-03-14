@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Wizards
+Bundle-SymbolicName: de.jabc.cinco.meta.core.wizards;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: de.jabc.cinco.meta.core.wizards.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.ui.navigator;bundle-version="3.5.200",
+ org.eclipse.core.resources;bundle-version="3.8.1",
+ org.eclipse.xtext.ui.shared;bundle-version="2.4.1",
+ de.jabc.cinco.meta.core.mgl.model,
+ de.jabc.cinco.meta.core.utils
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7

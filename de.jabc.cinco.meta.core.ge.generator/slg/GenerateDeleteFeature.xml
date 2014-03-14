@@ -1,0 +1,711 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<model version="2.1">
+  <id>b6b70873-b6bd-4d16-a90b-5490e6667e1b</id>
+  <name>GenerateDeleteFeature</name>
+  <changecounter>99</changecounter>
+  <sib>
+    <id>8464a500-52cc-46c9-9da7-02946ccea28f</id>
+    <name>RunStringTemplate</name>
+    <label>DeleteNodeFeature</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>83.5,198.0</position>
+    <parameter name="append">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>deleteNodeContent</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>package $context.localPkgName$;
+
+import graphmodel.Edge;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
+
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.graphiti.features.IDeleteFeature;
+import org.eclipse.graphiti.features.IFeatureProvider;
+import org.eclipse.graphiti.features.context.IDeleteContext;
+import org.eclipse.graphiti.features.context.impl.DeleteContext;
+import org.eclipse.graphiti.mm.pictograms.Connection;
+import org.eclipse.graphiti.mm.pictograms.PictogramElement;
+import org.eclipse.graphiti.services.Graphiti;
+import org.eclipse.graphiti.ui.features.DefaultDeleteFeature;
+
+public class DeleteNodeFeature extends DefaultDeleteFeature {
+
+	public DeleteNodeFeature(IFeatureProvider fp) {
+		super(fp);
+		// TODO Auto-generated constructor stub
+	}
+	
+	@Override
+	public boolean canDelete(IDeleteContext context) {
+		PictogramElement pe = context.getPictogramElement();
+		EObject bo = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
+		if (bo instanceof graphmodel.Node) {
+			return true;
+		}
+		return super.canDelete(context);
+	}
+	
+	@Override
+	public void delete(IDeleteContext context) {
+		PictogramElement pe = context.getPictogramElement();
+
+		EObject bo = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
+		
+		if (bo instanceof graphmodel.Node) {
+			graphmodel.Node n = (graphmodel.Node) bo;
+			List&lt;Edge&gt; delEdges = new ArrayList&lt;Edge&gt;();
+			
+			delEdges.addAll(n.getIncoming());
+			delEdges.addAll(n.getOutgoing());
+			
+			Map&lt;Object, Connection&gt; bo2edge = new HashMap&lt;Object, Connection&gt;();
+			for (Connection c : getDiagram().getConnections()) {
+				Object o = getBusinessObjectForPictogramElement(c);
+				bo2edge.put(o, c);
+			}
+			
+			for (Edge e : delEdges) {
+				PictogramElement edgePE = bo2edge.get(e);
+				DeleteContext delContext = new DeleteContext(edgePE);
+				IDeleteFeature df = getFeatureProvider().getDeleteFeature(delContext);
+				if (df != null &amp;&amp; df.canDelete(delContext)) {
+					df.delete(delContext);
+				}
+			}
+		}
+		super.delete(context);
+	}
+
+	@Override
+	protected boolean getUserDecision(IDeleteContext context) {
+		return true;
+	}
+
+}
+</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>48c293c0-e511-429f-8b62-0b3d3f176e77</id>
+    <name>RunStringTemplate_1</name>
+    <label>DeleteEdgeFeature</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>84.0,318.0</position>
+    <parameter name="append">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>deleteEdgeContent</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>package $context.localPkgName$;
+
+import graphmodel.Edge;
+
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.graphiti.features.IFeatureProvider;
+import org.eclipse.graphiti.features.context.IDeleteContext;
+import org.eclipse.graphiti.ui.features.DefaultDeleteFeature;
+
+public class DeleteEdgeFeature extends DefaultDeleteFeature {
+
+	public DeleteEdgeFeature(IFeatureProvider fp) {
+		super(fp);
+		// TODO Auto-generated constructor stub
+	}
+	
+	@Override
+	public boolean canDelete(IDeleteContext context) {
+		EObject bo = (EObject) getBusinessObjectForPictogramElement(context.getPictogramElement());
+		if (bo instanceof Edge) {
+			return true;
+		}
+		return super.canDelete(context);
+	}
+	
+	@Override
+	public void delete(IDeleteContext context) {
+		super.delete(context);
+	}
+	
+	@Override
+	protected boolean getUserDecision(IDeleteContext context) {
+		return true;
+	}
+	
+}
+</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>977a3d6b-e596-4326-9b71-485a6b8ea503</id>
+    <name>PutExpression</name>
+    <label>LocalPkgName</label>
+    <sib-uid>basic-sibs/PutExpression</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
+    <position>99.5,63.0</position>
+    <parameter name="resolve">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="value">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>${packageName}.graphiti.features.delete</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>localPkgName</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$START">
+      <boolean>true</boolean>
+    </userobject>
+  </sib>
+  <edge>
+    <source>977a3d6b-e596-4326-9b71-485a6b8ea503</source>
+    <target>8464a500-52cc-46c9-9da7-02946ccea28f</target>
+    <point>150.0,90.0</point>
+    <point>150.0,240.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>8464a500-52cc-46c9-9da7-02946ccea28f</source>
+    <target>48c293c0-e511-429f-8b62-0b3d3f176e77</target>
+    <point>150.0,255.0</point>
+    <point>153.0,383.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>638057ff-54db-4b4a-b620-e33f0bdfdb0d</id>
+    <name>WriteJavaFile</name>
+    <label>WriteJavaFile</label>
+    <sib-uid>genesys-sibs/WriteJavaFile</sib-uid>
+    <taxonomy>de.jabc.sib.genesys.WriteJavaFile</taxonomy>
+    <position>328.0,648.0</position>
+    <parameter name="baseDirectory">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>outletPath</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="beautify">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="beautifyMethod">
+      <de.metaframe.common.sib.parameter.ListBox>
+        <ListBoxFoundation>
+          <list>
+            <string>Eclipse</string>
+            <string>Jalopy</string>
+          </list>
+          <selected>0</selected>
+        </ListBoxFoundation>
+      </de.metaframe.common.sib.parameter.ListBox>
+    </parameter>
+    <parameter name="className">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>className</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="fileContent">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>deleteNodeContent</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="packageName">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>localPkgName</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>33ccb16b-40c3-4d65-9678-451f6d215fda</id>
+    <name>PutExpression_1</name>
+    <label>ClassName</label>
+    <sib-uid>basic-sibs/PutExpression</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
+    <position>110.5,648.0</position>
+    <parameter name="resolve">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="value">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>DeleteNodeFeature</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>className</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>48c293c0-e511-429f-8b62-0b3d3f176e77</source>
+    <target>83890216-39ea-4561-b978-e5fa8d6a7d2c</target>
+    <point>160.18867924528303,354.0</point>
+    <point>228.51063829787233,468.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>33ccb16b-40c3-4d65-9678-451f6d215fda</source>
+    <target>638057ff-54db-4b4a-b620-e33f0bdfdb0d</target>
+    <point>150.0,510.0</point>
+    <point>155.0,598.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>6952ed92-69d1-4a7f-819a-e0252a6b2ede</id>
+    <name>PutExpression_2</name>
+    <label>ClassName</label>
+    <sib-uid>basic-sibs/PutExpression</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
+    <position>335.5,483.0</position>
+    <parameter name="resolve">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="value">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>DeleteEdgeFeature</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>className</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>638057ff-54db-4b4a-b620-e33f0bdfdb0d</source>
+    <target>6952ed92-69d1-4a7f-819a-e0252a6b2ede</target>
+    <point>150.0,615.0</point>
+    <point>149.0,732.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>6952ed92-69d1-4a7f-819a-e0252a6b2ede</source>
+    <target>4161e8f3-e58b-43d7-ab6a-e1d57e61bc20</target>
+    <point>153.39622641509433,684.0</point>
+    <point>176.17021276595744,798.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>4161e8f3-e58b-43d7-ab6a-e1d57e61bc20</id>
+    <name>WriteJavaFile_2</name>
+    <label>WriteJavaFile</label>
+    <sib-uid>genesys-sibs/WriteJavaFile</sib-uid>
+    <taxonomy>de.jabc.sib.genesys.WriteJavaFile</taxonomy>
+    <position>328.0,318.0</position>
+    <parameter name="baseDirectory">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>outletPath</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="beautify">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="beautifyMethod">
+      <de.metaframe.common.sib.parameter.ListBox>
+        <ListBoxFoundation>
+          <list>
+            <string>Eclipse</string>
+            <string>Jalopy</string>
+          </list>
+          <selected>0</selected>
+        </ListBoxFoundation>
+      </de.metaframe.common.sib.parameter.ListBox>
+    </parameter>
+    <parameter name="className">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>className</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="fileContent">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>deleteEdgeContent</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="packageName">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>localPkgName</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>83890216-39ea-4561-b978-e5fa8d6a7d2c</id>
+    <name>RunStringTemplate_2</name>
+    <label>DeleteNodeContainerFeature</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>52.0,468.0</position>
+    <parameter name="append">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>deleteNodeContainerContent</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>package $context.localPkgName$;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import graphmodel.Node;
+import graphmodel.NodeContainer;
+
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.graphiti.features.IDeleteFeature;
+import org.eclipse.graphiti.features.IFeatureProvider;
+import org.eclipse.graphiti.features.context.IDeleteContext;
+import org.eclipse.graphiti.features.context.impl.DeleteContext;
+import org.eclipse.graphiti.mm.pictograms.PictogramElement;
+import org.eclipse.graphiti.services.Graphiti;
+import org.eclipse.graphiti.ui.features.DefaultDeleteFeature;
+
+public class DeleteNodeContainerFeature extends DefaultDeleteFeature {
+
+	public DeleteNodeContainerFeature(IFeatureProvider fp) {
+		super(fp);
+	}
+
+	@Override
+	public boolean canDelete(IDeleteContext context) {
+		if (getBusinessObjectForPictogramElement(context.getPictogramElement()) instanceof NodeContainer)
+			return true;
+		return super.canDelete(context);
+	}
+	
+	@Override
+	public void delete(IDeleteContext context) {
+		EObject bo = (EObject) getBusinessObjectForPictogramElement(context.getPictogramElement());
+		if (bo instanceof NodeContainer) {
+			NodeContainer nc = (NodeContainer) bo;
+			List&lt;Node&gt; delNodes = new ArrayList&lt;Node&gt;();
+			delNodes.addAll(nc.getNodes());
+			for (Node containedNode : delNodes) {
+				PictogramElement containedNodePE = Graphiti.getLinkService().getPictogramElements(getDiagram(), containedNode).get(0);
+				DeleteContext delContext = new DeleteContext(containedNodePE);
+				IDeleteFeature df = getFeatureProvider().getDeleteFeature(delContext);
+				if (df != null &amp;&amp; df.canDelete(delContext)) {
+					df.delete(delContext);
+				}
+			}
+		}
+		super.delete(context);
+	}
+	
+	
+	@Override
+	protected boolean getUserDecision(IDeleteContext context) {
+		return true;
+	}
+}
+</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>83890216-39ea-4561-b978-e5fa8d6a7d2c</source>
+    <target>33ccb16b-40c3-4d65-9678-451f6d215fda</target>
+    <point>240.0,495.0</point>
+    <point>146.0,666.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>0a27561c-ef41-4ac3-9605-bda66ed0ea96</id>
+    <name>PutExpression_3</name>
+    <label>ClassName</label>
+    <sib-uid>basic-sibs/PutExpression</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
+    <position>335.5,213.0</position>
+    <parameter name="resolve">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="value">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>DeleteNodeContainerFeature</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>className</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>0a27561c-ef41-4ac3-9605-bda66ed0ea96</source>
+    <target>ef499a7d-94d6-4357-b03a-1911a0eaa93d</target>
+    <point>360.0,255.0</point>
+    <point>375.0,90.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>ef499a7d-94d6-4357-b03a-1911a0eaa93d</id>
+    <name>WriteJavaFile_3</name>
+    <label>WriteJavaFile</label>
+    <sib-uid>genesys-sibs/WriteJavaFile</sib-uid>
+    <taxonomy>de.jabc.sib.genesys.WriteJavaFile</taxonomy>
+    <position>328.0,63.0</position>
+    <parameter name="baseDirectory">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>outletPath</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="beautify">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="beautifyMethod">
+      <de.metaframe.common.sib.parameter.ListBox>
+        <ListBoxFoundation>
+          <list>
+            <string>Eclipse</string>
+            <string>Jalopy</string>
+          </list>
+          <selected>0</selected>
+        </ListBoxFoundation>
+      </de.metaframe.common.sib.parameter.ListBox>
+    </parameter>
+    <parameter name="className">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>className</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="fileContent">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>deleteNodeContainerContent</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="packageName">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>localPkgName</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>4161e8f3-e58b-43d7-ab6a-e1d57e61bc20</source>
+    <target>0a27561c-ef41-4ac3-9605-bda66ed0ea96</target>
+    <point>375.0,345.0</point>
+    <point>366.0,256.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>b01887b9-d97f-4f96-804b-3f6a75e72f6a</id>
+    <name>PrintConsoleMessage</name>
+    <label>PrintConsoleMessage</label>
+    <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
+    <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
+    <position>496.5,63.0</position>
+    <parameter name="error">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="message">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>Wrote DeleteFeatures</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>false</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <finalbranches>default</finalbranches>
+  </sib>
+  <edge>
+    <source>ef499a7d-94d6-4357-b03a-1911a0eaa93d</source>
+    <target>b01887b9-d97f-4f96-804b-3f6a75e72f6a</target>
+    <point>375.0,90.0</point>
+    <point>533.0,80.0</point>
+    <branch>default</branch>
+  </edge>
+  <values/>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>977a3d6b-e596-4326-9b71-485a6b8ea503</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>4161e8f3-e58b-43d7-ab6a-e1d57e61bc20</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>8464a500-52cc-46c9-9da7-02946ccea28f</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>48c293c0-e511-429f-8b62-0b3d3f176e77</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>33ccb16b-40c3-4d65-9678-451f6d215fda</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>638057ff-54db-4b4a-b620-e33f0bdfdb0d</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>6952ed92-69d1-4a7f-819a-e0252a6b2ede</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>83890216-39ea-4561-b978-e5fa8d6a7d2c</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>ef499a7d-94d6-4357-b03a-1911a0eaa93d</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>0a27561c-ef41-4ac3-9605-bda66ed0ea96</sib>
+  </branch>
+  <branch>
+    <name>default</name>
+    <branch>default</branch>
+    <sib>b01887b9-d97f-4f96-804b-3f6a75e72f6a</sib>
+  </branch>
+</model>

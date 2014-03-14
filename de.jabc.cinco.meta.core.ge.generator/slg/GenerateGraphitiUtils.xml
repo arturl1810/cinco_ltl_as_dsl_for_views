@@ -1,0 +1,416 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<model version="2.1">
+  <id>b227a7a0-5af9-431e-b485-0ba300749007</id>
+  <name>GenerateGraphitiUtils</name>
+  <changecounter>119</changecounter>
+  <sib>
+    <id>801054f5-02ab-407f-9a7a-c39fb7a43cb9</id>
+    <name>PutExpression</name>
+    <label>LocalPkgName</label>
+    <sib-uid>basic-sibs/PutExpression</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
+    <position>39.5,138.0</position>
+    <parameter name="resolve">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="value">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>${packageName}.graphiti</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>localPkgName</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$START">
+      <boolean>true</boolean>
+    </userobject>
+  </sib>
+  <sib>
+    <id>93ef9628-8ee2-4b5d-a22d-bd17d4d5c723</id>
+    <name>PutExpression_1</name>
+    <label>ClassName</label>
+    <sib-uid>basic-sibs/PutExpression</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
+    <position>230.5,138.0</position>
+    <parameter name="resolve">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="value">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>${graphModelName}GraphitiUtils</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>className</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>34ef9113-e704-46f0-9bfe-847dfe9a8e1b</id>
+    <name>ToFirstUpper</name>
+    <label>ToFirstUpper</label>
+    <sib-uid>basic-sibs/ToFirstUpper</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.ToFirstUpper</taxonomy>
+    <position>434.5,138.0</position>
+    <parameter name="inputString">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>lcGraphModelName</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>fuGMN</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>801054f5-02ab-407f-9a7a-c39fb7a43cb9</source>
+    <target>93ef9628-8ee2-4b5d-a22d-bd17d4d5c723</target>
+    <point>90.0,165.0</point>
+    <point>237.0,155.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>93ef9628-8ee2-4b5d-a22d-bd17d4d5c723</source>
+    <target>34ef9113-e704-46f0-9bfe-847dfe9a8e1b</target>
+    <point>288.0,156.45</point>
+    <point>612.0,156.45</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>4b322230-ae05-4c54-b1f2-30448966c986</id>
+    <name>RunStringTemplate</name>
+    <label>RunStringTemplate</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>610.0,138.0</position>
+    <parameter name="append">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>guContent</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>package $context.packageName$.graphiti;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.graphiti.dt.IDiagramTypeProvider;
+import org.eclipse.graphiti.features.IFeatureProvider;
+import org.eclipse.graphiti.mm.pictograms.Diagram;
+import org.osgi.framework.Bundle;
+
+import $context.importPath$.*;
+
+public class $context.graphModelName$GraphitiUtils {
+
+	public static final String KEY_FORMAT_STRING = &quot;formatString&quot;;
+	private $context.fuGraphModelName$ImageProvider ip;
+	private IDiagramTypeProvider dtp;
+
+	private static $context.fuGraphModelName$GraphitiUtils instance;
+
+	private $context.fuGraphModelName$GraphitiUtils() {
+	}
+	
+	public static $context.fuGraphModelName$GraphitiUtils getInstance() {
+		if (instance == null)
+			instance = new $context.fuGraphModelName$GraphitiUtils();
+		return instance;
+	}
+
+	public static $context.graphModelName$ addToResource(Diagram d, IFeatureProvider fp) {
+		$context.graphModelName$ $context.lcGraphModelName$ = null;
+		for (Object o : d.eResource().getContents()){
+			if (o instanceof $context.graphModelName$) {
+				$context.lcGraphModelName$ = ($context.graphModelName$) o;
+				break;
+			}
+		}
+		if ($context.lcGraphModelName$ == null) {
+			$context.lcGraphModelName$ = $context.fuGMN$Factory.eINSTANCE.create$context.graphModelName$();
+			d.eResource().getContents().add($context.lcGraphModelName$);
+			fp.link(d, $context.lcGraphModelName$);
+		}
+		
+	return $context.lcGraphModelName$;
+		/*if (obj instanceof Node) {
+			$context.lcGraphModelName$.getAllNodes().add((Node) obj);
+		}
+		if (obj instanceof Edge) {
+			$context.lcGraphModelName$.getAllEdges().add((Edge) obj);
+		}*/
+		
+	}
+
+	public String loadGraphitiImage(String path, EObject bo) {
+		try{
+		
+			File file = new File(path);
+			Bundle b = Platform.getBundle(&quot;$context.projectName$&quot;);
+			File bundleFile = FileLocator.getBundleFile(b);
+		
+			if (!file.exists()) {
+				String filePath = bo.eResource().getURI().toPlatformString(true);
+				IFile resFile = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(filePath));
+				IProject p = resFile.getProject();
+				IFile iFile = p.getFile(path);
+				if (iFile.exists()) {
+					file = iFile.getLocation().toFile();
+				}
+				else {
+					throw new FileNotFoundException(&quot;No file with path: &quot; + path +&quot; found...&quot;);
+				}
+			}
+			
+			FileInputStream fis = new FileInputStream(file);
+			File trgFile = bundleFile.toPath().resolve(&quot;icons/&quot;+file.getName()).toFile();
+			trgFile.createNewFile();
+			FileOutputStream fos = new FileOutputStream(trgFile);
+			
+			copy(fis, fos);
+			
+			String id = (file.getName().contains(&quot;.&quot;) ? file.getName().split(&quot;\\\.&quot;)[0] : file.getName());
+			String relPath = &quot;icons/&quot; + file.getName();
+			addImage(id, relPath);
+			return id;
+			
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} 
+		return null;
+		
+	}
+
+	public void addImage(String id, String path) {
+		ip.addImage(id, path);
+	}
+
+	public String getImageId(String path) {
+		return ip.getImageId(path);
+	}
+
+	public void setImageProvider($context.fuGraphModelName$ImageProvider ip) {
+		this.ip = ip;
+	}
+
+	public void loadImages() {
+		ip.initImages();
+	}
+
+	public void setDTP(IDiagramTypeProvider dtp) {
+		this.dtp = dtp;
+	}
+	
+	public IDiagramTypeProvider getDTP() {
+		return this.dtp;
+	}
+
+	private void copy(FileInputStream fis, FileOutputStream fos) {
+		int b = 0;
+		try {
+			while ((b = fis.read()) != -1) {
+				fos.write(b);
+			}
+			fis.close();
+			fos.flush();fos.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+}</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>34ef9113-e704-46f0-9bfe-847dfe9a8e1b</source>
+    <target>4b322230-ae05-4c54-b1f2-30448966c986</target>
+    <point>480.0,165.0</point>
+    <point>647.0,149.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>96ab74d7-a9e3-4d43-85e3-55a0040c93f0</id>
+    <name>WriteJavaFile</name>
+    <label>WriteJavaFile</label>
+    <sib-uid>genesys-sibs/WriteJavaFile</sib-uid>
+    <taxonomy>de.jabc.sib.genesys.WriteJavaFile</taxonomy>
+    <position>838.0,138.0</position>
+    <parameter name="baseDirectory">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>outletPath</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="beautify">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="beautifyMethod">
+      <de.metaframe.common.sib.parameter.ListBox>
+        <ListBoxFoundation>
+          <list>
+            <string>Eclipse</string>
+            <string>Jalopy</string>
+          </list>
+          <selected>0</selected>
+        </ListBoxFoundation>
+      </de.metaframe.common.sib.parameter.ListBox>
+    </parameter>
+    <parameter name="className">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>className</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="fileContent">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>guContent</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="packageName">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>localPkgName</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>3c6b9bec-76a6-449a-882a-39541ef41b96</id>
+    <name>PrintConsoleMessage</name>
+    <label>PrintConsoleMessage</label>
+    <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
+    <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
+    <position>811.5,288.0</position>
+    <parameter name="error">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="message">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>Wrote GraphitiUtils</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>false</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <finalbranches>default</finalbranches>
+  </sib>
+  <edge>
+    <source>4b322230-ae05-4c54-b1f2-30448966c986</source>
+    <target>96ab74d7-a9e3-4d43-85e3-55a0040c93f0</target>
+    <point>675.0,165.0</point>
+    <point>850.0,152.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>96ab74d7-a9e3-4d43-85e3-55a0040c93f0</source>
+    <target>3c6b9bec-76a6-449a-882a-39541ef41b96</target>
+    <point>870.0,165.0</point>
+    <point>1090.0,154.0</point>
+    <branch>default</branch>
+  </edge>
+  <values/>
+  <branch>
+    <name>default</name>
+    <branch>default</branch>
+    <sib>3c6b9bec-76a6-449a-882a-39541ef41b96</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>96ab74d7-a9e3-4d43-85e3-55a0040c93f0</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>4b322230-ae05-4c54-b1f2-30448966c986</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>34ef9113-e704-46f0-9bfe-847dfe9a8e1b</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>93ef9628-8ee2-4b5d-a22d-bd17d4d5c723</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>801054f5-02ab-407f-9a7a-c39fb7a43cb9</sib>
+  </branch>
+</model>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            description="Generates a Feature Project for a Cinco Editor"
+            id="de.jabc.cinco.meta.core.generatefeature"
+            name="Generate Feature Project">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            class="de.jabc.cinco.meta.core.feature.handler.GenerateFeatureProjectHandler"
+            commandId="de.jabc.cinco.meta.core.generatefeature">
+      </handler>
+   </extension>
+
+</plugin>

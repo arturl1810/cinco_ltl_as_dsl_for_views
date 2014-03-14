@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<fragment>
+   <extension
+         id="de.jabc.cinco.meta.core.ge.style.fragment"
+         name="StyleAnnotations"
+         point="de.jabc.cinco.meta.core.pluginregistry.metaplugin">
+      <metaplugin_description
+            metapluginService="de.jabc.cinco.meta.core.ge.style.fragment.GraphitiGenerator">
+      </metaplugin_description>
+      <node-annotation
+            recognized-annotation="Style">
+      </node-annotation>
+      <edge-annotation
+            recognized-annotation="Style">
+      </edge-annotation>
+      <graphmodel-annotation
+            recognized-annotation="Style">
+      </graphmodel-annotation>
+      <nodecontainer-annotation
+            recognized-annotation="Style">
+      </nodecontainer-annotation>
+      <proposalprovider
+            MetaPluginAcceptor="de.jabc.cinco.meta.core.ge.style.fragment.StyleValueProposalProvider">
+      </proposalprovider>
+   </extension>
+
+</fragment>

@@ -1,0 +1,334 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Schema file written by PDE -->
+<schema targetNamespace="de.jabc.cinco.meta.core.pluginregistry" xmlns="http://www.w3.org/2001/XMLSchema">
+<annotation>
+      <appinfo>
+         <meta.schema plugin="de.jabc.cinco.meta.core.pluginregistry" id="de.jabc.cinco.meta.core.pluginregistry.metaplugin" name="MetaPlugin"/>
+      </appinfo>
+      <documentation>
+         [Enter description of this extension point.]
+      </documentation>
+   </annotation>
+
+   <element name="extension">
+      <annotation>
+         <appinfo>
+            <meta.element />
+         </appinfo>
+      </annotation>
+      <complexType>
+         <sequence>
+            <element ref="metaplugin_description"/>
+            <element ref="annotation" minOccurs="0" maxOccurs="unbounded"/>
+            <element ref="used_ecore_model" minOccurs="0" maxOccurs="1"/>
+            <element ref="node-annotation" minOccurs="0" maxOccurs="unbounded"/>
+            <element ref="edge-annotation" minOccurs="0" maxOccurs="unbounded"/>
+            <element ref="type-annotation" minOccurs="0" maxOccurs="unbounded"/>
+            <element ref="graphmodel-annotation" minOccurs="1" maxOccurs="unbounded"/>
+            <element ref="nodecontainer-annotation" minOccurs="0" maxOccurs="unbounded"/>
+            <element ref="validator" minOccurs="0" maxOccurs="1"/>
+            <element ref="proposalprovider" minOccurs="0" maxOccurs="1"/>
+            <element ref="attribute-annotation" minOccurs="0" maxOccurs="unbounded"/>
+            <element ref="prime-annotation" minOccurs="0" maxOccurs="unbounded"/>
+            <element ref="used_plugin" minOccurs="0" maxOccurs="unbounded"/>
+         </sequence>
+         <attribute name="point" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="id" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="name" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appinfo>
+                  <meta.attribute translatable="true"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="metaplugin_description">
+      <complexType>
+         <attribute name="metapluginService" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appinfo>
+                  <meta.attribute kind="java" basedOn=":de.jabc.cinco.meta.core.pluginregistry.IMetaPlugin"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="annotation">
+      <complexType>
+         <attribute name="recognized-annotation" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="node-annotation">
+      <annotation>
+         <appinfo>
+            <meta.element deprecated="true"/>
+         </appinfo>
+      </annotation>
+      <complexType>
+         <attribute name="recognized-annotation" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="edge-annotation">
+      <complexType>
+         <attribute name="recognized-annotation" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="graphmodel-annotation">
+      <complexType>
+         <attribute name="recognized-annotation" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="nodecontainer-annotation">
+      <complexType>
+         <attribute name="recognized-annotation" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="type-annotation">
+      <complexType>
+         <attribute name="recognized-annotation" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="used_ecore_model">
+      <complexType>
+         <attribute name="Used_GenModel" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appinfo>
+                  <meta.attribute kind="resource"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+         <attribute name="Node-Supertype" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="Edge-Supertype" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="GraphModel-Supertype" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="NodeContainer-Supertype" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="Used_Ecore-Model" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appinfo>
+                  <meta.attribute kind="resource"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="validator">
+      <annotation>
+         <documentation>
+            Option to give the MetaPlugin a Validator for validating MetaPlugin-Annotations
+         </documentation>
+      </annotation>
+      <complexType>
+         <attribute name="ValidatorClass" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appinfo>
+                  <meta.attribute kind="java" basedOn=":de.jabc.cinco.meta.core.pluginregistry.validation.IMetaPluginValidator"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="proposalprovider">
+      <annotation>
+         <documentation>
+            Provides a ProposalProvider for given Annotations
+         </documentation>
+      </annotation>
+      <complexType>
+         <attribute name="MetaPluginAcceptor" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appinfo>
+                  <meta.attribute kind="java" basedOn=":de.jabc.cinco.meta.core.pluginregistry.proposalprovider.IMetaPluginAcceptor"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="attribute-annotation">
+      <complexType>
+         <attribute name="recognized-annotation" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="prime-annotation">
+      <complexType>
+         <attribute name="recognized-annotation" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="used_plugin">
+      <complexType>
+         <attribute name="plugin_name" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="mgl_dependent" type="boolean" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="is_fragment" type="boolean" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <annotation>
+      <appinfo>
+         <meta.section type="since"/>
+      </appinfo>
+      <documentation>
+         [Enter the first release in which this extension point appears.]
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appinfo>
+         <meta.section type="examples"/>
+      </appinfo>
+      <documentation>
+         [Enter extension point usage example here.]
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appinfo>
+         <meta.section type="apiinfo"/>
+      </appinfo>
+      <documentation>
+         [Enter API information here.]
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appinfo>
+         <meta.section type="implementation"/>
+      </appinfo>
+      <documentation>
+         [Enter information about supplied implementation of this extension point.]
+      </documentation>
+   </annotation>
+
+
+</schema>

@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<model version="2.1">
+  <id>6297d3f2-4f19-491f-bcde-3ea7de394403</id>
+  <name>Generate Extension Point</name>
+  <changecounter>12</changecounter>
+  <sib>
+    <id>3a6fba4e-9be7-4f68-b4fd-58cf962b5b24</id>
+    <name>RunStringTemplate</name>
+    <label>RunStringTemplate</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>265.0,228.0</position>
+    <parameter name="append">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>extensionpoint</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>&lt;?xml version=&apos;1.0&apos; encoding=&apos;UTF-8&apos;?&gt;
+&lt;!-- Schema file written by Cinco Executable Meta Plugin --&gt;
+&lt;schema targetNamespace=&quot;de.jabc.cinco.plugin.executable&quot; xmlns=&quot;http://www.w3.org/2001/XMLSchema&quot;&gt;
+&lt;annotation&gt;
+      &lt;appinfo&gt;
+         &lt;meta.schema plugin=&quot;de.jabc.cinco.plugin.executable&quot; id=&quot;de.jabc.cinco.plugin.executor&quot; name=&quot;de.jabc.cinco.plugin.executor&quot;/&gt;
+      &lt;/appinfo&gt;
+      &lt;documentation&gt;
+         [Enter description of this extension point.]
+      &lt;/documentation&gt;
+   &lt;/annotation&gt;
+
+   &lt;element name=&quot;extension&quot;&gt;
+      &lt;annotation&gt;
+         &lt;appinfo&gt;
+            &lt;meta.element /&gt;
+         &lt;/appinfo&gt;
+      &lt;/annotation&gt;
+      &lt;complexType&gt;
+         &lt;sequence&gt;
+            &lt;element ref=&quot;executor&quot;/&gt;
+         &lt;/sequence&gt;
+         &lt;attribute name=&quot;point&quot; type=&quot;string&quot; use=&quot;required&quot;&gt;
+            &lt;annotation&gt;
+               &lt;documentation&gt;
+                  
+               &lt;/documentation&gt;
+            &lt;/annotation&gt;
+         &lt;/attribute&gt;
+         &lt;attribute name=&quot;id&quot; type=&quot;string&quot;&gt;
+            &lt;annotation&gt;
+               &lt;documentation&gt;
+                  
+               &lt;/documentation&gt;
+            &lt;/annotation&gt;
+         &lt;/attribute&gt;
+         &lt;attribute name=&quot;name&quot; type=&quot;string&quot;&gt;
+            &lt;annotation&gt;
+               &lt;documentation&gt;
+                  
+               &lt;/documentation&gt;
+               &lt;appinfo&gt;
+                  &lt;meta.attribute translatable=&quot;true&quot;/&gt;
+               &lt;/appinfo&gt;
+            &lt;/annotation&gt;
+         &lt;/attribute&gt;
+      &lt;/complexType&gt;
+   &lt;/element&gt;
+
+   &lt;element name=&quot;executor&quot;&gt;
+      &lt;complexType&gt;
+         &lt;attribute name=&quot;implementing_executor&quot; type=&quot;string&quot; use=&quot;required&quot;&gt;
+            &lt;annotation&gt;
+               &lt;documentation&gt;
+                  
+               &lt;/documentation&gt;
+               &lt;appinfo&gt;
+                  &lt;meta.attribute kind=&quot;java&quot; basedOn=&quot;:de.jabc.cinco.plugin.executor.IExecutor&quot;/&gt;
+               &lt;/appinfo&gt;
+            &lt;/annotation&gt;
+         &lt;/attribute&gt;
+         &lt;attribute name=&quot;graphModelName&quot; type=&quot;string&quot; use=&quot;required&quot;&gt;
+            &lt;annotation&gt;
+               &lt;documentation&gt;
+                  
+               &lt;/documentation&gt;
+            &lt;/annotation&gt;
+         &lt;/attribute&gt;
+      &lt;/complexType&gt;
+   &lt;/element&gt;
+
+   &lt;annotation&gt;
+      &lt;appinfo&gt;
+         &lt;meta.section type=&quot;since&quot;/&gt;
+      &lt;/appinfo&gt;
+      &lt;documentation&gt;
+         [Enter the first release in which this extension point appears.]
+      &lt;/documentation&gt;
+   &lt;/annotation&gt;
+
+   &lt;annotation&gt;
+      &lt;appinfo&gt;
+         &lt;meta.section type=&quot;examples&quot;/&gt;
+      &lt;/appinfo&gt;
+      &lt;documentation&gt;
+         [Enter extension point usage example here.]
+      &lt;/documentation&gt;
+   &lt;/annotation&gt;
+
+   &lt;annotation&gt;
+      &lt;appinfo&gt;
+         &lt;meta.section type=&quot;apiinfo&quot;/&gt;
+      &lt;/appinfo&gt;
+      &lt;documentation&gt;
+         [Enter API information here.]
+      &lt;/documentation&gt;
+   &lt;/annotation&gt;
+
+   &lt;annotation&gt;
+      &lt;appinfo&gt;
+         &lt;meta.section type=&quot;implementation&quot;/&gt;
+      &lt;/appinfo&gt;
+      &lt;documentation&gt;
+         [Enter information about supplied implementation of this extension point.]
+      &lt;/documentation&gt;
+   &lt;/annotation&gt;
+
+
+&lt;/schema&gt;
+</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$START">
+      <boolean>true</boolean>
+    </userobject>
+  </sib>
+  <sib>
+    <id>ceef3323-e9f7-4eb9-9ac7-d8b68c530a93</id>
+    <name>WriteTextFile</name>
+    <label>WriteTextFile</label>
+    <sib-uid>io-sibs/WriteTextFile</sib-uid>
+    <taxonomy>de.jabc.sib.common.io.WriteTextFile</taxonomy>
+    <position>507.5,228.0</position>
+    <parameter name="encoding">
+      <string>ISO-8859-1</string>
+    </parameter>
+    <parameter name="file">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>${schemaDirectory}/de.jabc.cinco.plugin.executor.exsd</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>false</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="text">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>${extensionpoint}</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>false</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>3a6fba4e-9be7-4f68-b4fd-58cf962b5b24</source>
+    <target>ceef3323-e9f7-4eb9-9ac7-d8b68c530a93</target>
+    <point>300.0,255.0</point>
+    <point>532.0,242.0</point>
+    <branch>default</branch>
+  </edge>
+  <values/>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>3a6fba4e-9be7-4f68-b4fd-58cf962b5b24</sib>
+  </branch>
+  <branch>
+    <name>default</name>
+    <branch>default</branch>
+    <sib>ceef3323-e9f7-4eb9-9ac7-d8b68c530a93</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>ceef3323-e9f7-4eb9-9ac7-d8b68c530a93</sib>
+  </branch>
+</model>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<fragment>
+   <extension
+         id="id2"
+         name="name"
+         point="de.jabc.cinco.meta.core.pluginregistry.metaplugin">
+      <metaplugin_description
+            metapluginService="de.jabc.cinco.meta.plugin.ocl.OCLMetaPlugin">
+      </metaplugin_description>
+      <graphmodel-annotation
+            recognized-annotation="ocl">
+      </graphmodel-annotation>
+      <validator
+            ValidatorClass="de.jabc.cinco.meta.plugin.ocl.validation.OCLSyntaxValidator">
+      </validator>
+      <annotation
+            recognized-annotation="oclExpression">
+      </annotation>
+   </extension>
+
+</fragment>

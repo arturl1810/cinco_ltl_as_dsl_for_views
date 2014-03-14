@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<model version="2.1">
+  <id>50093a2f-f127-4315-978c-59bea9c2a6a3</id>
+  <name>GenerateSingleBooleanCode</name>
+  <changecounter>49</changecounter>
+  <sib>
+    <id>a9db252a-8d07-44cf-8977-ce56b1572780</id>
+    <name>RunStringTemplate</name>
+    <label>GenRefreshCode</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>542.5,138.0</position>
+    <parameter name="append">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>refreshCode</key>
+          <scope>PARENT</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>$context.flAttributeName$Button.setSelection(tmp.is$context.fuAttributeName$());</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>ee2438ce-f990-41dc-937e-d0e4e609554e</id>
+    <name>RunStringTemplate_1</name>
+    <label>GenChangeValue</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>391.0,138.0</position>
+    <parameter name="append">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>changeValueCode</key>
+          <scope>PARENT</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>PictogramElement pe = getSelectedPictogramElement();
+if (pe == null)
+	return;
+
+EObject tmp = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
+if (tmp instanceof $context.modelElementName$) {
+	(($context.modelElementName$) tmp).set$context.fuAttributeName$($context.flAttributeName$Button.getSelection());
+}
+</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>8504fd49-f4f2-4ec1-975b-2b43f65ad5d6</id>
+    <name>RunStringTemplate_2</name>
+    <label>GenControl</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>230.0,138.0</position>
+    <parameter name="append">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>controlCode</key>
+          <scope>PARENT</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>private Button $context.flAttributeName$Button;
+	
+	@Override
+	public void createControls(Composite parent, TabbedPropertySheetPage tabbedPropertySheetPage) {
+		super.createControls(parent, tabbedPropertySheetPage);
+		TabbedPropertySheetWidgetFactory factory = getWidgetFactory();
+		Composite composite = factory.createFlatFormComposite(parent);
+		
+		GridLayout grid = new GridLayout(2, false);
+		composite.setLayout(grid);
+
+		GridData data;
+
+		Label $context.flAttributeName$Label = factory.createLabel(composite, &quot;$context.fuAttributeName$:&quot;);
+		data = new GridData(SWT.LEFT, SWT.CENTER, false, false);
+		$context.flAttributeName$Label.setLayoutData(data);
+
+		$context.flAttributeName$Button = factory.createButton(composite, &quot;true&quot;, SWT.CHECK);
+		data = new GridData(SWT.FILL, SWT.CENTER, true, false);
+		$context.flAttributeName$Button.setLayoutData(data);
+
+		$context.flAttributeName$Button.addSelectionListener(selectionListener);
+
+	}</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>8504fd49-f4f2-4ec1-975b-2b43f65ad5d6</source>
+    <target>ee2438ce-f990-41dc-937e-d0e4e609554e</target>
+    <point>270.0,165.0</point>
+    <point>450.0,165.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>ee2438ce-f990-41dc-937e-d0e4e609554e</source>
+    <target>a9db252a-8d07-44cf-8977-ce56b1572780</target>
+    <point>450.0,165.0</point>
+    <point>600.0,165.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>c9128bf0-fbfd-4261-877f-eb25f774c6cd</id>
+    <name>RunStringTemplate_3</name>
+    <label>GenListenerCode</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>706.0,138.0</position>
+    <parameter name="append">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>listenerCode</key>
+          <scope>PARENT</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>SelectionListener selectionListener = new SelectionListener() {
+		
+	@Override
+	public void widgetSelected(SelectionEvent e) {
+		TransactionalEditingDomain dom = getDiagramContainer().getDiagramBehavior().getEditingDomain();
+		dom.getCommandStack().execute(new RecordingCommand(dom, &quot;Set uni&quot;) {
+			
+			@Override
+			protected void doExecute() {
+				changeValue();
+			}
+		});
+	}
+	
+	@Override
+	public void widgetDefaultSelected(SelectionEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+};</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>a9db252a-8d07-44cf-8977-ce56b1572780</source>
+    <target>c9128bf0-fbfd-4261-877f-eb25f774c6cd</target>
+    <point>600.0,165.0</point>
+    <point>765.0,165.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>7367253c-99ca-45f1-b6a3-1838260dd84a</id>
+    <name>EvaluateBoolean</name>
+    <label>EvaluateBoolean</label>
+    <sib-uid>basic-sibs/EvaluateBoolean</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.EvaluateBoolean</taxonomy>
+    <position>106.5,228.0</position>
+    <parameter name="bool">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>isPrimeRef</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>false</finalbranches>
+    <finalbranches>true</finalbranches>
+    <userobject key="ABC$START">
+      <boolean>true</boolean>
+    </userobject>
+  </sib>
+  <sib>
+    <id>5c462b30-f629-41f7-a167-d95000a6e3d8</id>
+    <name>RunStringTemplate_4</name>
+    <label>GenRefreshCode</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>392.5,333.0</position>
+    <parameter name="append">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>refreshCode</key>
+          <scope>PARENT</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>$context.fuModelElementName$ $context.flModelElementName$ = null;
+PictogramElement pe = getSelectedPictogramElement();
+if (pe != null) {
+	bo = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
+}
+if (bo instanceof $context.fuModelElementName$)
+	$context.flModelElementName$ = ($context.fuModelElementName$) bo;
+else return;
+String id = $context.flModelElementName$.get$context.fuEClassName$UID();
+EObject referenced = ReferenceRegistry.getInstance().getEObject(Integer.valueOf(id));
+EStructuralFeature feature = referenced.eClass().getEStructuralFeature(&quot;$context.flAttributeName$&quot;);
+Object value = referenced.eGet(feature, true);
+$context.flAttributeName$Button.setSelection( (Boolean) value);
+$context.flAttributeName$Button.setText( ((Boolean) value).toString());</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>b001c5ae-832b-4d5b-88ad-8219beccb114</id>
+    <name>RunStringTemplate_6</name>
+    <label>GenControl</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>230.0,333.0</position>
+    <parameter name="append">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>controlCode</key>
+          <scope>PARENT</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>private Button $context.flAttributeName$Button;
+	
+@Override
+public void createControls(Composite parent, TabbedPropertySheetPage tabbedPropertySheetPage) {
+	super.createControls(parent, tabbedPropertySheetPage);
+	TabbedPropertySheetWidgetFactory factory = getWidgetFactory();
+	Composite composite = factory.createFlatFormComposite(parent);
+	
+	GridLayout grid = new GridLayout(2, false);
+	composite.setLayout(grid);
+	GridData data;
+	Label $context.flAttributeName$Label = factory.createLabel(composite, &quot;$context.fuAttributeName$:&quot;);
+	data = new GridData(SWT.LEFT, SWT.CENTER, false, false);
+	$context.flAttributeName$Label.setLayoutData(data);
+
+	$context.flAttributeName$Button = factory.createButton(composite, &quot;true&quot;, SWT.CHECK);
+	data = new GridData(SWT.FILL, SWT.CENTER, true, false);
+	$context.flAttributeName$Button.setLayoutData(data);
+
+	$context.flAttributeName$Button.setEnabled(false);
+	}</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>b001c5ae-832b-4d5b-88ad-8219beccb114</source>
+    <target>5c462b30-f629-41f7-a167-d95000a6e3d8</target>
+    <point>240.0,360.0</point>
+    <point>405.0,360.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>7367253c-99ca-45f1-b6a3-1838260dd84a</source>
+    <target>b001c5ae-832b-4d5b-88ad-8219beccb114</target>
+    <point>135.0,270.0</point>
+    <point>240.0,360.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>true</branch>
+  </edge>
+  <edge>
+    <source>7367253c-99ca-45f1-b6a3-1838260dd84a</source>
+    <target>8504fd49-f4f2-4ec1-975b-2b43f65ad5d6</target>
+    <point>135.0,270.0</point>
+    <point>255.0,164.0</point>
+    <branch>false</branch>
+  </edge>
+  <values/>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>8504fd49-f4f2-4ec1-975b-2b43f65ad5d6</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>ee2438ce-f990-41dc-937e-d0e4e609554e</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>a9db252a-8d07-44cf-8977-ce56b1572780</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>c9128bf0-fbfd-4261-877f-eb25f774c6cd</sib>
+  </branch>
+  <branch>
+    <name>default</name>
+    <branch>default</branch>
+    <sib>c9128bf0-fbfd-4261-877f-eb25f774c6cd</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>7367253c-99ca-45f1-b6a3-1838260dd84a</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>b001c5ae-832b-4d5b-88ad-8219beccb114</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>5c462b30-f629-41f7-a167-d95000a6e3d8</sib>
+  </branch>
+  <branch>
+    <name>default</name>
+    <branch>default</branch>
+    <sib>5c462b30-f629-41f7-a167-d95000a6e3d8</sib>
+  </branch>
+</model>

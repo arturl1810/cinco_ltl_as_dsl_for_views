@@ -1,0 +1,472 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<model version="2.1">
+  <id>f159d8f0-e8b9-4834-89e0-bf3575687fe6</id>
+  <name>GenerateResizeFeatures</name>
+  <changecounter>123</changecounter>
+  <sib>
+    <id>cb2c4b69-1ec8-4d0c-b400-1bb4a320ae7e</id>
+    <name>IterateElements</name>
+    <label>IterateContainer</label>
+    <sib-uid>collection-sibs/IterateElements</sib-uid>
+    <taxonomy>de.jabc.sib.common.collection.IterateElements</taxonomy>
+    <position>48.0,483.0</position>
+    <parameter name="collection">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>containers</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="element">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>container</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="iterator">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>containerIterator</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>exit</finalbranches>
+    <finalbranches>next</finalbranches>
+  </sib>
+  <sib>
+    <id>5f6e53f7-9a7a-4a97-b38a-46b5c608cefb</id>
+    <name>GraphSIB</name>
+    <label>GenerateResizeModelElementFeature</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>280.0,481.0</position>
+    <parameter name="modelElementKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>container</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>bd602dcf-2ea3-4585-953e-853c0406cc4e</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>GenerateResizeModelElementFeature</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>cb2c4b69-1ec8-4d0c-b400-1bb4a320ae7e</source>
+    <target>5f6e53f7-9a7a-4a97-b38a-46b5c608cefb</target>
+    <spline/>
+    <point>123.0,494.2</point>
+    <point>240.0,450.0</point>
+    <point>370.0,494.2</point>
+    <labelposition>489.5798624098811,-36.78213761696873</labelposition>
+    <branch>next</branch>
+  </edge>
+  <edge>
+    <source>5f6e53f7-9a7a-4a97-b38a-46b5c608cefb</source>
+    <target>cb2c4b69-1ec8-4d0c-b400-1bb4a320ae7e</target>
+    <point>390.0,330.0</point>
+    <point>105.0,405.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>893779f3-ec64-4169-8894-e2a2559f2de8</id>
+    <name>RunStringTemplate</name>
+    <label>ResizeGraphModel</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>41.5,228.0</position>
+    <parameter name="append">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>resizeGraphModelFeatureContent</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>package $context.localPkgName$;
+
+import org.eclipse.graphiti.features.IFeatureProvider;
+import org.eclipse.graphiti.features.IResizeShapeFeature;
+import org.eclipse.graphiti.features.context.IResizeShapeContext;
+import org.eclipse.graphiti.features.context.impl.ResizeShapeContext;
+import org.eclipse.graphiti.features.impl.DefaultResizeShapeFeature;
+import org.eclipse.graphiti.mm.pictograms.Diagram;
+import org.eclipse.graphiti.mm.pictograms.Shape;
+
+import $context.importPath$.$context.graphModelName$;
+
+public class Resize$context.graphModelName$Feature extends DefaultResizeShapeFeature {
+
+	public Resize$context.graphModelName$Feature(IFeatureProvider fp) {
+		super(fp);
+		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	public boolean canResizeShape(IResizeShapeContext context) {
+			Object bo = getBusinessObjectForPictogramElement(context.getPictogramElement());
+			return (bo instanceof $context.graphModelName$);
+	}
+	
+	@Override
+	public void resizeShape(IResizeShapeContext context) {
+		Shape s = context.getShape();
+		if (s instanceof Diagram) {
+			Diagram d = (Diagram) s;
+			for (Shape child : d.getChildren()) {
+				ResizeShapeContext resizeShapeContext = new ResizeShapeContext(child);
+				IResizeShapeFeature rsf = getFeatureProvider().getResizeShapeFeature(resizeShapeContext);
+				if (rsf != null &amp;&amp; rsf.canResizeShape(resizeShapeContext)) {
+					rsf.resizeShape(resizeShapeContext);
+				}
+			}
+		}
+	}
+	
+}
+</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>2f96ae8a-eafd-4c51-8b2a-c78c432daa5e</id>
+    <name>PutExpression_1</name>
+    <label>PkgName</label>
+    <sib-uid>basic-sibs/PutExpression</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
+    <position>71.5,18.0</position>
+    <parameter name="resolve">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="value">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>${packageName}.graphiti.features.resize</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>localPkgName</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$START">
+      <boolean>true</boolean>
+    </userobject>
+  </sib>
+  <sib>
+    <id>8d8494c5-71a4-4f45-a17f-f1a4947761d7</id>
+    <name>PutExpression_2</name>
+    <label>ClassName</label>
+    <sib-uid>basic-sibs/PutExpression</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
+    <position>65.5,123.0</position>
+    <parameter name="resolve">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="value">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>Resize${graphModelName}Feature</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>className</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>2f96ae8a-eafd-4c51-8b2a-c78c432daa5e</source>
+    <target>8d8494c5-71a4-4f45-a17f-f1a4947761d7</target>
+    <point>105.0,45.0</point>
+    <point>100.0,115.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>8d8494c5-71a4-4f45-a17f-f1a4947761d7</source>
+    <target>893779f3-ec64-4169-8894-e2a2559f2de8</target>
+    <point>105.0,135.0</point>
+    <point>106.0,215.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>893779f3-ec64-4169-8894-e2a2559f2de8</source>
+    <target>84d31802-48a7-465a-b186-971e1a691f67</target>
+    <point>105.0,264.0</point>
+    <point>105.0,348.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>84d31802-48a7-465a-b186-971e1a691f67</id>
+    <name>WriteJavaFile</name>
+    <label>WriteJavaFile</label>
+    <sib-uid>genesys-sibs/WriteJavaFile</sib-uid>
+    <taxonomy>de.jabc.sib.genesys.WriteJavaFile</taxonomy>
+    <position>58.0,348.0</position>
+    <parameter name="baseDirectory">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>outletPath</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="beautify">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="beautifyMethod">
+      <de.metaframe.common.sib.parameter.ListBox>
+        <ListBoxFoundation>
+          <list>
+            <string>Eclipse</string>
+            <string>Jalopy</string>
+          </list>
+          <selected>0</selected>
+        </ListBoxFoundation>
+      </de.metaframe.common.sib.parameter.ListBox>
+    </parameter>
+    <parameter name="className">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>className</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="fileContent">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>resizeGraphModelFeatureContent</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="packageName">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>localPkgName</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>84d31802-48a7-465a-b186-971e1a691f67</source>
+    <target>cb2c4b69-1ec8-4d0c-b400-1bb4a320ae7e</target>
+    <point>105.0,384.0</point>
+    <point>105.0,483.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>28ec53a3-fb3e-4a01-86cd-babebd8f41f0</id>
+    <name>PrintConsoleMessage</name>
+    <label>PrintConsoleMessage</label>
+    <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
+    <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
+    <position>31.5,813.0</position>
+    <parameter name="error">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="message">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>Wrote ResizeFeatures</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>false</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <finalbranches>default</finalbranches>
+  </sib>
+  <edge>
+    <source>cb2c4b69-1ec8-4d0c-b400-1bb4a320ae7e</source>
+    <target>7995a66f-bebc-46a3-a49b-8ae6db36d09b</target>
+    <point>117.85714285714286,519.0</point>
+    <point>225.78947368421052,663.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>exit</branch>
+  </edge>
+  <sib>
+    <id>7995a66f-bebc-46a3-a49b-8ae6db36d09b</id>
+    <name>IterateElements_1</name>
+    <label>IterateNodes</label>
+    <sib-uid>collection-sibs/IterateElements</sib-uid>
+    <taxonomy>de.jabc.sib.common.collection.IterateElements</taxonomy>
+    <position>59.5,663.0</position>
+    <parameter name="collection">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>nodes</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="element">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>node</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="iterator">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>nodeIterator</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>exit</finalbranches>
+    <finalbranches>next</finalbranches>
+  </sib>
+  <edge>
+    <source>7995a66f-bebc-46a3-a49b-8ae6db36d09b</source>
+    <target>28ec53a3-fb3e-4a01-86cd-babebd8f41f0</target>
+    <point>105.0,690.0</point>
+    <point>104.0,823.0</point>
+    <branch>exit</branch>
+  </edge>
+  <sib>
+    <id>5b2ca9dc-bfda-4829-8c82-07f12e6066d5</id>
+    <name>GraphSIB_1</name>
+    <label>GenerateResizeModelElementFeature</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>280.0,661.0</position>
+    <parameter name="modelElementKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>node</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>bd602dcf-2ea3-4585-953e-853c0406cc4e</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>GenerateResizeModelElementFeature</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>7995a66f-bebc-46a3-a49b-8ae6db36d09b</source>
+    <target>5b2ca9dc-bfda-4829-8c82-07f12e6066d5</target>
+    <spline/>
+    <point>123.0,674.2</point>
+    <point>240.0,630.0</point>
+    <point>370.0,674.2</point>
+    <labelposition>494.0,-41.0</labelposition>
+    <branch>next</branch>
+  </edge>
+  <edge>
+    <source>5b2ca9dc-bfda-4829-8c82-07f12e6066d5</source>
+    <target>7995a66f-bebc-46a3-a49b-8ae6db36d09b</target>
+    <point>390.0,690.0</point>
+    <point>132.0,681.0</point>
+    <branch>default</branch>
+  </edge>
+  <values/>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>5f6e53f7-9a7a-4a97-b38a-46b5c608cefb</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>cb2c4b69-1ec8-4d0c-b400-1bb4a320ae7e</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>84d31802-48a7-465a-b186-971e1a691f67</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>893779f3-ec64-4169-8894-e2a2559f2de8</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>8d8494c5-71a4-4f45-a17f-f1a4947761d7</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>2f96ae8a-eafd-4c51-8b2a-c78c432daa5e</sib>
+  </branch>
+  <branch>
+    <name>default</name>
+    <branch>default</branch>
+    <sib>28ec53a3-fb3e-4a01-86cd-babebd8f41f0</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>7995a66f-bebc-46a3-a49b-8ae6db36d09b</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>5b2ca9dc-bfda-4829-8c82-07f12e6066d5</sib>
+  </branch>
+</model>

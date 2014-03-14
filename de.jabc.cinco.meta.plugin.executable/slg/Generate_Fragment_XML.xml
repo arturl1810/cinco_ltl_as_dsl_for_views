@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<model version="2.1">
+  <id>1aaa30c3-481e-43ed-8708-4b7896beff58</id>
+  <name>Generate Fragment XML</name>
+  <changecounter>8</changecounter>
+  <sib>
+    <id>916f5951-a5f5-4838-b83c-38b039bbab6e</id>
+    <name>RunStringTemplate</name>
+    <label>RunStringTemplate</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>265.0,78.0</position>
+    <parameter name="append">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>fragmentxml</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;?eclipse version=&quot;3.4&quot;?&gt;
+&lt;fragment&gt;
+   &lt;extension
+         point=&quot;de.jabc.cinco.plugin.executor&quot;&gt;
+      &lt;executor
+            graphModelName=&quot;$graphModelName$&quot;
+            implementing_executor=&quot;$packageName$.executor.$graphModelName$Executor&quot;&gt;
+      &lt;/executor&gt;
+   &lt;/extension&gt;
+
+&lt;/fragment&gt;
+</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$START">
+      <boolean>true</boolean>
+    </userobject>
+  </sib>
+  <sib>
+    <id>84a73766-0dab-4c40-b99c-1b708e0d6fad</id>
+    <name>WriteTextFile</name>
+    <label>WriteTextFile</label>
+    <sib-uid>io-sibs/WriteTextFile</sib-uid>
+    <taxonomy>de.jabc.sib.common.io.WriteTextFile</taxonomy>
+    <position>537.5,78.0</position>
+    <parameter name="encoding">
+      <string>ISO-8859-1</string>
+    </parameter>
+    <parameter name="file">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>${outlet}/fragment.xml</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>false</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="text">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>${fragmentxml}</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>false</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>916f5951-a5f5-4838-b83c-38b039bbab6e</source>
+    <target>84a73766-0dab-4c40-b99c-1b708e0d6fad</target>
+    <point>330.0,105.0</point>
+    <point>570.0,105.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <values/>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>916f5951-a5f5-4838-b83c-38b039bbab6e</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>84a73766-0dab-4c40-b99c-1b708e0d6fad</sib>
+  </branch>
+  <branch>
+    <name>default</name>
+    <branch>default</branch>
+    <sib>84a73766-0dab-4c40-b99c-1b708e0d6fad</sib>
+  </branch>
+</model>

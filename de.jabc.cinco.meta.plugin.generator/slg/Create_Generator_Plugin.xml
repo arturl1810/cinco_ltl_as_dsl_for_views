@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<model version="2.1">
+  <id>2433c1ce-3450-434d-bca0-daf015c49c9c</id>
+  <name>Create Generator Plugin</name>
+  <changecounter>6</changecounter>
+  <sib>
+    <id>77fb0219-4a80-4436-b80d-a248ab35bc0c</id>
+    <name>MacroSIB</name>
+    <label>Initialize</label>
+    <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
+    <position>43.0,136.0</position>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$START">
+      <boolean>true</boolean>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>e5a319e3-2f10-4f17-9d6e-d027dc2688cf</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Initialize</string>
+    </userobject>
+  </sib>
+  <sib>
+    <id>1017d62b-b02a-4e51-9cb4-b2b8c803963d</id>
+    <name>MacroSIB_1</name>
+    <label>Create Activator</label>
+    <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
+    <position>364.0,136.0</position>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>abb0a8f7-f7b8-4e19-a6c4-6c81695fc376</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Create Activator</string>
+    </userobject>
+  </sib>
+  <sib>
+    <id>07ef7259-690d-4c6d-b079-5e826d54c2c7</id>
+    <name>MacroSIB_2</name>
+    <label>Generate Plugin.xml</label>
+    <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
+    <position>531.5,136.0</position>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>74f6a199-0d97-42d3-a1cc-bf9c41a36192</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Generate Plugin.xml</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>77fb0219-4a80-4436-b80d-a248ab35bc0c</source>
+    <target>5f18d07a-932b-48a5-9b46-dd1385783e6c</target>
+    <point>200.0,171.46666666666667</point>
+    <point>385.0,307.1333333333333</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>1017d62b-b02a-4e51-9cb4-b2b8c803963d</source>
+    <target>07ef7259-690d-4c6d-b079-5e826d54c2c7</target>
+    <point>345.0,165.0</point>
+    <point>497.0,169.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>5f18d07a-932b-48a5-9b46-dd1385783e6c</id>
+    <name>MacroSIB_3</name>
+    <label>Generate Generator Stub</label>
+    <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
+    <position>171.0,136.0</position>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>d6ca0c4a-6d65-4752-930b-c5fa72874a59</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Create CodeGen Handler</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>5f18d07a-932b-48a5-9b46-dd1385783e6c</source>
+    <target>1017d62b-b02a-4e51-9cb4-b2b8c803963d</target>
+    <point>210.0,165.0</point>
+    <point>320.0,157.0</point>
+    <branch>default</branch>
+  </edge>
+  <values/>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>5f18d07a-932b-48a5-9b46-dd1385783e6c</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>1017d62b-b02a-4e51-9cb4-b2b8c803963d</sib>
+  </branch>
+  <branch>
+    <name>default</name>
+    <branch>default</branch>
+    <sib>07ef7259-690d-4c6d-b079-5e826d54c2c7</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>07ef7259-690d-4c6d-b079-5e826d54c2c7</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>77fb0219-4a80-4436-b80d-a248ab35bc0c</sib>
+  </branch>
+</model>

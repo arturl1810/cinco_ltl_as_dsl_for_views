@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<model version="2.1">
+  <id>74f6a199-0d97-42d3-a1cc-bf9c41a36192</id>
+  <name>Generate Plugin.xml</name>
+  <changecounter>4</changecounter>
+  <sib>
+    <id>ad9a4cd6-37e7-4746-be45-419aaafe4154</id>
+    <name>WriteTextFile</name>
+    <label>WriteTextFile</label>
+    <sib-uid>io-sibs/WriteTextFile</sib-uid>
+    <taxonomy>de.jabc.sib.common.io.WriteTextFile</taxonomy>
+    <position>702.5,108.0</position>
+    <parameter name="encoding">
+      <string>ISO-8859-1</string>
+    </parameter>
+    <parameter name="file">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>${projectPath}/plugin.xml</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>false</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="text">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>${pluginXml}</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>false</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>237680bf-694d-4ac5-9a51-4faa764912f0</source>
+    <target>ad9a4cd6-37e7-4746-be45-419aaafe4154</target>
+    <point>540.0,135.0</point>
+    <point>735.0,120.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>237680bf-694d-4ac5-9a51-4faa764912f0</id>
+    <name>RunStringTemplate</name>
+    <label>RunStringTemplate</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>475.0,108.0</position>
+    <parameter name="append">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>pluginXml</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;?eclipse version=&quot;3.4&quot;?&gt;
+&lt;plugin&gt;
+   &lt;extension
+         point=&quot;org.eclipse.ui.commands&quot;&gt;
+      &lt;category
+            id=&quot;$codegenPackage$.commands.category&quot;
+            name=&quot;$graphModelName$&quot;&gt;
+      &lt;/category&gt;
+      &lt;command
+            categoryId=&quot;$codegenPackage$.commands.category&quot;
+            id=&quot;$codegenPackage$.commands.generateCommand&quot;
+            name=&quot;Generate Code&quot;&gt;
+      &lt;/command&gt;
+   &lt;/extension&gt;
+   &lt;extension
+         point=&quot;org.eclipse.ui.handlers&quot;&gt;
+      &lt;handler
+            class=&quot;$codegenPackage$.handlers.$graphModelName$CodeGenerationHandler&quot;
+            commandId=&quot;$codegenPackage$.commands.generateCommand&quot;&gt;
+      &lt;/handler&gt;
+   &lt;/extension&gt;
+   &lt;extension
+         point=&quot;org.eclipse.ui.bindings&quot;&gt;
+      &lt;key
+            commandId=&quot;$codegenPackage$.commands.generateCommand&quot;
+            contextId=&quot;org.eclipse.ui.contexts.window&quot;
+            schemeId=&quot;org.eclipse.ui.defaultAcceleratorConfiguration&quot;
+            sequence=&quot;M1+7&quot;&gt;
+      &lt;/key&gt;
+   &lt;/extension&gt;
+   &lt;extension
+         point=&quot;org.eclipse.ui.menus&quot;&gt;
+      &lt;menuContribution
+            locationURI=&quot;menu:org.eclipse.ui.main.menu?after=additions&quot;&gt;
+         &lt;menu
+               id=&quot;$codegenPackage$.menus.generateMenu&quot;
+               label=&quot;$graphModelName$&quot;
+               mnemonic=&quot;M&quot;&gt;
+            &lt;command
+                  commandId=&quot;$codegenPackage$.commands.generateCommand&quot;
+                  icon=&quot;icons/g.gif&quot;
+                  id=&quot;$codegenPackage$.menus.generateCommand&quot;
+                  mnemonic=&quot;S&quot;&gt;
+            &lt;/command&gt;
+         &lt;/menu&gt;
+      &lt;/menuContribution&gt;
+      &lt;menuContribution
+            locationURI=&quot;toolbar:org.eclipse.ui.main.toolbar?after=additions&quot;&gt;
+         &lt;toolbar
+               id=&quot;$codegenPackage$.toolbars.generateToolbar&quot;&gt;
+            &lt;command
+                  commandId=&quot;$codegenPackage$.commands.generateCommand&quot;
+                  icon=&quot;icons/g.gif&quot;
+                  id=&quot;$codegenPackage$.toolbars.generateCommand&quot;
+                  tooltip=&quot;Generates Code from a $graphModelName$ model&quot;&gt;
+            &lt;/command&gt;
+         &lt;/toolbar&gt;
+      &lt;/menuContribution&gt;
+   &lt;/extension&gt;
+
+&lt;/plugin&gt;
+</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$START">
+      <boolean>true</boolean>
+    </userobject>
+  </sib>
+  <values/>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>237680bf-694d-4ac5-9a51-4faa764912f0</sib>
+  </branch>
+  <branch>
+    <name>default</name>
+    <branch>default</branch>
+    <sib>ad9a4cd6-37e7-4746-be45-419aaafe4154</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>ad9a4cd6-37e7-4746-be45-419aaafe4154</sib>
+  </branch>
+</model>

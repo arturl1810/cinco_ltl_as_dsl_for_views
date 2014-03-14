@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Primeviewer
+Bundle-SymbolicName: de.jabc.cinco.meta.plugin.primeviewer;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Fragment-Host: de.jabc.cinco.meta.core.pluginregistry
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-ActivationPolicy: lazy
+Import-Package: de.jabc.cinco.meta.core.mgl.transformation.helper,
+ de.jabc.cinco.meta.core.utils.projects,
+ mgl,
+ org.eclipse.core.resources,
+ org.eclipse.xtext.util

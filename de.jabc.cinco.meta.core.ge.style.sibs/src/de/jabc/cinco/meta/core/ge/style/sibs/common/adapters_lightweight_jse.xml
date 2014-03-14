@@ -1,0 +1,118 @@
+<serviceAdapters defaultAdapter="de.jabc.cinco.meta.core.ge.style.sibs.adapter.ServiceAdapter">
+	
+	<serviceAdapter uid="ge-util-sibs/GenerateAppearanceDefaultValues">
+		<service>generateAppearanceDefaultValues</service>
+		<arguments>
+			<argument name="appearance" />
+		</arguments>
+	</serviceAdapter>
+	
+	<serviceAdapter uid="ge-util-sibs/GenerateAppearance">
+		<service>generateAppearance</service>
+		<arguments>
+			<argument name="appearance" />
+			<argument name="newAppearance" />
+		</arguments>
+	</serviceAdapter>
+	
+	<serviceAdapter uid="ge-util-sibs/ComputePosition">
+		<service>computePosition</service>
+		<arguments>
+			<argument name="relativePosition" />
+			<argument name="size" />
+			<argument name="newPosition" />
+		</arguments>
+	</serviceAdapter>
+	
+	<serviceAdapter uid="ge-util-sibs/IsNodeContained">
+		<service>isNodeContained</service>
+		<arguments>
+			<argument name="nodeContainer" />
+			<argument name="node" />
+		</arguments>
+	</serviceAdapter>
+	
+	<serviceAdapter uid="ge-util-sibs/GetModelElementIdentifier">
+		<service>getModelElementIdentifier</service>
+		<arguments>
+			<argument name="modelElementName" />
+			<argument name="meIdentifier" />
+		</arguments>
+	</serviceAdapter>
+	
+	<serviceAdapter uid="ge-util-sibs/GenerateUniqueGaName">
+		<service>generateUniqueGaName</service>
+		<arguments>
+			<argument name="graphicsAlgorithmName" />
+			<argument name="uniqueGaName" />
+			<argument name="clearCache" />
+		</arguments>
+	</serviceAdapter>
+	
+	<serviceAdapter uid="ge-util-sibs/GenerateUniqueShapeName">
+		<service>generateUniqueShapeName</service>
+		<arguments>
+			<argument name="shapeName" />
+			<argument name="uniqueShapeName" />
+			<argument name="clearCache" />
+		</arguments>
+	</serviceAdapter>
+	
+	<serviceAdapter uid="ge-util-sibs/HasEStructuralFeature">
+		<service>hasEStructuralFeature</service>
+		<arguments>
+			<argument name="eClass" />
+			<argument name="featureName" />
+		</arguments>
+	</serviceAdapter>
+	
+	<serviceAdapter uid="ge-util-sibs/LoadGraphitiImage">
+		<service>loadGraphitiImage</service>
+		<arguments>
+			<argument name="imagePath" />
+			<argument name="imageId" />
+			<argument name="relativePath" />
+		</arguments>
+	</serviceAdapter>
+	
+	<serviceAdapter uid="ge-util-sibs/ParseExtension">
+		<service>parseExtension</service>
+		<arguments>
+			<argument name="extension" />
+			<argument name="result" />
+		</arguments>
+	</serviceAdapter>
+	
+	<serviceAdapter uid="ge-util-sibs/GetStyleAnnotationValues">
+		<service>getStyleAnnotationValues</service>
+		<arguments>
+			<argument name="annotation" />
+			<argument name="values" />
+		</arguments>
+	</serviceAdapter>
+	
+	<serviceAdapter uid="ge-util-sibs/ResolveAnnotationValue">
+		<service>resolveAnnotationValue</service>
+		<arguments>
+			<argument name="value" />
+			<argument name="result" />
+		</arguments>
+	</serviceAdapter>
+	
+	<serviceAdapter uid="ge-util-sibs/GetStyleAnnotation">
+	<service>getStyleAnnotation</service>
+		<arguments>
+			<argument name="annotations" />
+			<argument name="annotation" />
+		</arguments>
+	</serviceAdapter>
+	
+	<serviceAdapter uid="ge-util-sibs/CheckStyleAnnotationValue">
+	<service>checkStyleAnnotationValue</service>
+		<arguments>
+			<argument name="modelElement" />
+			<argument name="value" />
+			<argument name="attributeName" />
+		</arguments>
+	</serviceAdapter>
+</serviceAdapters>

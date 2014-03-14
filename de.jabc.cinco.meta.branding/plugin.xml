@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         id="product"
+         point="org.eclipse.core.runtime.products">
+      <product
+            application="org.eclipse.ui.ide.workbench"
+            name="Cinco Meta Modeling Suite">
+         <property
+               name="windowImages"
+               value="16.png,32.png,48.png,64.png,128.png">
+         </property>
+         <property
+               name="aboutImage"
+               value="about.png">
+         </property>
+         <property
+               name="startupForegroundColor"
+               value="000000">
+         </property>
+         <property
+               name="startupProgressRect"
+               value="2,320,496,10">
+         </property>
+         <property
+               name="startupMessageRect"
+               value="7,300,320,20">
+         </property>
+         <property
+               name="preferenceCustomization"
+               value="plugin_customization.ini">
+         </property>
+         <property
+               name="appName"
+               value="Cinco Meta Modeling Suite">
+         </property>
+      </product>
+   </extension>
+</plugin>

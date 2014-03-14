@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<model version="2.1">
+  <id>de43b109-ffd6-4dd9-9481-a4e5edefb291</id>
+  <name>GenerateContentProvider</name>
+  <changecounter>10</changecounter>
+  <sib>
+    <id>6eee949d-1e1f-4c83-8aa0-9aa7cc30b0f0</id>
+    <name>RunStringTemplate</name>
+    <label>RunStringTemplate</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>550.0,183.0</position>
+    <parameter name="append">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>contentProviderContent</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>package $graphModelPackageName$.treeview;
+import org.eclipse.core.resources.IFile;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.jface.viewers.ITreeContentProvider;
+import org.eclipse.jface.viewers.Viewer;
+import $graphModelPackageName$.$graphModelNameLower$.$graphModelName$;
+
+
+public class $treeViewElementName$ContentProvider implements ITreeContentProvider{
+
+	private Viewer viewer;
+
+	@Override
+	public void dispose() {
+		
+	}
+
+	@Override
+	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
+		this.viewer = viewer;
+		
+	}
+
+	@Override
+	public Object[] getElements(Object inputElement) {
+		return null;
+	}
+
+	@Override
+	public Object[] getChildren(Object parentElement) {
+		if(parentElement instanceof IFile){
+		IFile file = (IFile) parentElement;
+		if(file.getName().endsWith(&quot;.diagram&quot;)){
+			URI fileURI = URI.createPlatformResourceURI(file.getFullPath().toString(), true) ;
+			$graphModelName$ graph = null;
+			Resource resource = new ResourceSetImpl().getResource(fileURI, true);
+	        for (EObject o : resource.getContents()) {
+	        	if ($graphModelName$.class.isAssignableFrom(o.getClass())){
+	        		graph = ($graphModelName$)o;
+	        		break;
+	        	}
+	        		
+	        }
+	        if(graph==null)
+	        	return null;
+	        
+	        return graph.get$treeViewElementName$s().toArray();
+	        
+		}
+		return null;
+		}
+		return null;
+	}
+
+	@Override
+	public Object getParent(Object element) {
+
+		return null;
+	}
+
+	@Override
+	public boolean hasChildren(Object element) {
+		if(element instanceof IFile){
+		IFile file = (IFile) element;
+		if(file.getName().endsWith(&quot;.diagram&quot;)){
+			URI fileURI = URI.createPlatformResourceURI(file.getFullPath().toString(), true) ;
+			$graphModelName$ graph = null;
+			Resource resource = new ResourceSetImpl().getResource(fileURI, true);
+	        for (EObject o : resource.getContents()) {
+	        	if ($graphModelName$.class.isAssignableFrom(o.getClass())){
+	        		graph = ($graphModelName$)o;
+	        		break;
+	        	}
+	        		
+	        }
+	        if(graph==null)
+	        	return false;
+	        
+	        return !graph.get$treeViewElementName$s().isEmpty();
+		}
+		return false;
+	}
+	
+	return false;
+	}
+}
+</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>9dbf6d64-c0e4-49cf-9b60-13d02c769eb3</id>
+    <name>PutExpression</name>
+    <label>PutProviderName</label>
+    <sib-uid>basic-sibs/PutExpression</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
+    <position>31.0,183.0</position>
+    <parameter name="resolve">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="value">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>${treeViewElementName}ContentProvider</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>contentProviderClassName</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$START">
+      <boolean>true</boolean>
+    </userobject>
+  </sib>
+  <edge>
+    <source>9dbf6d64-c0e4-49cf-9b60-13d02c769eb3</source>
+    <target>6eee949d-1e1f-4c83-8aa0-9aa7cc30b0f0</target>
+    <point>108.0,201.30857142857144</point>
+    <point>597.0,201.3085714285714</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>8406c398-dba1-4f43-af44-d52c72b99b34</id>
+    <name>WriteJavaFile</name>
+    <label>WriteJavaFile</label>
+    <sib-uid>genesys-sibs/WriteJavaFile</sib-uid>
+    <taxonomy>de.jabc.sib.genesys.WriteJavaFile</taxonomy>
+    <position>778.0,183.0</position>
+    <parameter name="baseDirectory">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>sourcePath</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="beautify">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="beautifyMethod">
+      <de.metaframe.common.sib.parameter.ListBox>
+        <ListBoxFoundation>
+          <list>
+            <string>Eclipse</string>
+            <string>Jalopy</string>
+          </list>
+          <selected>0</selected>
+        </ListBoxFoundation>
+      </de.metaframe.common.sib.parameter.ListBox>
+    </parameter>
+    <parameter name="className">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>contentProviderClassName</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="fileContent">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>contentProviderContent</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="packageName">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>providerPackage</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>6eee949d-1e1f-4c83-8aa0-9aa7cc30b0f0</source>
+    <target>8406c398-dba1-4f43-af44-d52c72b99b34</target>
+    <point>615.0,210.0</point>
+    <point>1185.0,210.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <values/>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>8406c398-dba1-4f43-af44-d52c72b99b34</sib>
+  </branch>
+  <branch>
+    <name>default</name>
+    <branch>default</branch>
+    <sib>8406c398-dba1-4f43-af44-d52c72b99b34</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>6eee949d-1e1f-4c83-8aa0-9aa7cc30b0f0</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>9dbf6d64-c0e4-49cf-9b60-13d02c769eb3</sib>
+  </branch>
+</model>

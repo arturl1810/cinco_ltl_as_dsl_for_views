@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<model version="2.1">
+  <id>6f7f5be4-ea16-48c7-88f4-256ad7b313df</id>
+  <name>GenerateDiagramEditor</name>
+  <changecounter>55</changecounter>
+  <sib>
+    <id>e97de522-155e-4799-8276-7e12d0fd9715</id>
+    <name>RunStringTemplate</name>
+    <label>DiagramEditorContent</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>30.0,273.0</position>
+    <parameter name="append">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>diagramEditorContent</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>package $context.localPkgName$;
+
+import org.eclipse.draw2d.FigureCanvas;
+import org.eclipse.emf.transaction.RecordingCommand;
+import org.eclipse.emf.transaction.TransactionalEditingDomain;
+import org.eclipse.graphiti.features.IResizeShapeFeature;
+import org.eclipse.graphiti.features.context.impl.ResizeShapeContext;
+import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
+import org.eclipse.graphiti.mm.pictograms.Shape;
+import org.eclipse.graphiti.ui.editor.DiagramEditor;
+import org.eclipse.swt.events.ControlEvent;
+import org.eclipse.swt.events.ControlListener;
+
+public class $context.graphModelName$DiagramEditor extends DiagramEditor {
+
+	@Override
+	public void initializeGraphicalViewer() {
+		super.initializeGraphicalViewer();
+		
+		FigureCanvas canvas = (FigureCanvas) getGraphicalControl();
+		canvas.addControlListener(new ControlListener() {
+			
+			@Override
+			public void controlResized(ControlEvent e) {
+				if (getDiagramTypeProvider() instanceof $context.graphModelName$DiagramTypeProvider) {
+					$context.graphModelName$DiagramTypeProvider dtp = ($context.graphModelName$DiagramTypeProvider) getDiagramTypeProvider();
+					for (Shape child : dtp.getDiagram().getChildren()) {
+						final ResizeShapeContext context = createContext(child);
+						final IResizeShapeFeature rsf = dtp.getFeatureProvider().getResizeShapeFeature(context);
+						if (rsf.canResizeShape(context)) {
+							TransactionalEditingDomain dom = dtp.getDiagramBehavior().getEditingDomain();
+							dom.getCommandStack().execute(new RecordingCommand(dom, &quot;Resize Diagram&quot;) {
+								
+								@Override
+								protected void doExecute() {
+									rsf.resizeShape(context);
+								}
+							});
+							
+						}
+					}
+				}
+			}
+			
+			@Override
+			public void controlMoved(ControlEvent e) {
+				System.err.println(&quot;Reciving move event&quot;);
+			}
+		});
+		
+	}
+
+	protected ResizeShapeContext createContext(Shape child) {
+		GraphicsAlgorithm ga = child.getGraphicsAlgorithm();
+		ResizeShapeContext context = new ResizeShapeContext(child);
+		context.setSize(ga.getWidth(), ga.getHeight());
+		context.setLocation(ga.getX(), ga.getY());
+		return context;
+	}
+}
+</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>3109b231-7649-428d-987e-3bdd10c7eb7c</id>
+    <name>PutExpression</name>
+    <label>LocalPkgName</label>
+    <sib-uid>basic-sibs/PutExpression</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
+    <position>54.5,48.0</position>
+    <parameter name="resolve">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="value">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>${packageName}.graphiti</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>localPkgName</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$START">
+      <boolean>true</boolean>
+    </userobject>
+  </sib>
+  <sib>
+    <id>5f52421d-0f1b-476d-9367-4631e059e45b</id>
+    <name>PutExpression_1</name>
+    <label>ClassName</label>
+    <sib-uid>basic-sibs/PutExpression</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
+    <position>65.5,153.0</position>
+    <parameter name="resolve">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="value">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>${graphModelName}DiagramEditor</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>className</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>3109b231-7649-428d-987e-3bdd10c7eb7c</source>
+    <target>5f52421d-0f1b-476d-9367-4631e059e45b</target>
+    <point>105.0,75.0</point>
+    <point>101.0,163.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>5f52421d-0f1b-476d-9367-4631e059e45b</source>
+    <target>e97de522-155e-4799-8276-7e12d0fd9715</target>
+    <point>105.0,180.0</point>
+    <point>106.0,277.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>4f701be8-3447-47bc-a8ba-453ca37b4dbd</id>
+    <name>PrintConsoleMessage</name>
+    <label>PrintConsoleMessage</label>
+    <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
+    <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
+    <position>31.5,528.0</position>
+    <parameter name="error">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="message">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>Wrote DiagramEditor Class</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>false</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <finalbranches>default</finalbranches>
+  </sib>
+  <edge>
+    <source>e97de522-155e-4799-8276-7e12d0fd9715</source>
+    <target>e2d68143-309b-4d93-b764-6cd745e0877f</target>
+    <point>117.41379310344827,309.0</point>
+    <point>211.15384615384616,438.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>e2d68143-309b-4d93-b764-6cd745e0877f</id>
+    <name>WriteJavaFile</name>
+    <label>WriteJavaFile</label>
+    <sib-uid>genesys-sibs/WriteJavaFile</sib-uid>
+    <taxonomy>de.jabc.sib.genesys.WriteJavaFile</taxonomy>
+    <position>58.0,408.0</position>
+    <parameter name="baseDirectory">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>outletPath</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="beautify">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="beautifyMethod">
+      <de.metaframe.common.sib.parameter.ListBox>
+        <ListBoxFoundation>
+          <list>
+            <string>Eclipse</string>
+            <string>Jalopy</string>
+          </list>
+          <selected>0</selected>
+        </ListBoxFoundation>
+      </de.metaframe.common.sib.parameter.ListBox>
+    </parameter>
+    <parameter name="className">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>className</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="fileContent">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>diagramEditorContent</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="packageName">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>localPkgName</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>e2d68143-309b-4d93-b764-6cd745e0877f</source>
+    <target>4f701be8-3447-47bc-a8ba-453ca37b4dbd</target>
+    <point>105.0,435.0</point>
+    <point>120.0,583.0</point>
+    <branch>default</branch>
+  </edge>
+  <values/>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>3109b231-7649-428d-987e-3bdd10c7eb7c</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>5f52421d-0f1b-476d-9367-4631e059e45b</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>e97de522-155e-4799-8276-7e12d0fd9715</sib>
+  </branch>
+  <branch>
+    <name>default</name>
+    <branch>default</branch>
+    <sib>4f701be8-3447-47bc-a8ba-453ca37b4dbd</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>e2d68143-309b-4d93-b764-6cd745e0877f</sib>
+  </branch>
+</model>

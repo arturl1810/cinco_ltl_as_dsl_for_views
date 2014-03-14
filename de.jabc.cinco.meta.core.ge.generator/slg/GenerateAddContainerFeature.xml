@@ -1,0 +1,873 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<model version="2.1">
+  <id>c7542d87-aa25-4707-a286-db91e10d7301</id>
+  <name>GenerateAddContainerFeature</name>
+  <changecounter>352</changecounter>
+  <sib>
+    <id>3f7b7312-5278-4d0a-b7f8-45424c587ca9</id>
+    <name>GetNodeContainerIsAbstract</name>
+    <label>GetNodeContainerIsAbstract</label>
+    <sib-uid>mgl/mgl/GetNodeContainerIsAbstract</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.ge.sib.mgl.GetNodeContainerIsAbstract</taxonomy>
+    <position>57.5,63.0</position>
+    <parameter name="nodeContainerKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>nodeContainerKey</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="nodeContainerisAbstractKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>containerIsAbstract</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$START">
+      <boolean>true</boolean>
+    </userobject>
+  </sib>
+  <sib>
+    <id>290e4d22-e391-4406-b767-5e6d97df06b0</id>
+    <name>EvaluateBoolean</name>
+    <label>EvaluateBoolean</label>
+    <sib-uid>basic-sibs/EvaluateBoolean</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.EvaluateBoolean</taxonomy>
+    <position>316.5,63.0</position>
+    <parameter name="bool">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>containerIsAbstract</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>false</finalbranches>
+    <finalbranches>true</finalbranches>
+  </sib>
+  <sib>
+    <id>4e4b3e2f-2109-46f3-951d-c9cf07fba023</id>
+    <name>PutExpression</name>
+    <label>SetContainerName</label>
+    <sib-uid>basic-sibs/PutExpression</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
+    <position>611.0,63.0</position>
+    <parameter name="resolve">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="value">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>${container.name}</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>containerName</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>4e4b3e2f-2109-46f3-951d-c9cf07fba023</source>
+    <target>5baba1ce-3715-4d4a-954c-253feba56021</target>
+    <point>645.0,90.0</point>
+    <point>780.0,90.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>2ac14484-1730-4690-b31f-2d1199e9dda8</id>
+    <name>PutExpression_1</name>
+    <label>PkgName</label>
+    <sib-uid>basic-sibs/PutExpression</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
+    <position>491.5,63.0</position>
+    <parameter name="resolve">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="value">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>${packageName}.graphiti.features.add</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>localPkgName</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>2ac14484-1730-4690-b31f-2d1199e9dda8</source>
+    <target>4e4b3e2f-2109-46f3-951d-c9cf07fba023</target>
+    <point>540.0,90.0</point>
+    <point>645.0,90.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>5baba1ce-3715-4d4a-954c-253feba56021</id>
+    <name>PutExpression_2</name>
+    <label>ClassName</label>
+    <sib-uid>basic-sibs/PutExpression</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
+    <position>800.5,63.0</position>
+    <parameter name="resolve">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="value">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>Add${containerName}Feature</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>className</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>5baba1ce-3715-4d4a-954c-253feba56021</source>
+    <target>5a6ea7ce-21a0-469f-93b1-22cf019ec67e</target>
+    <point>780.0,90.0</point>
+    <point>915.0,90.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>5a6ea7ce-21a0-469f-93b1-22cf019ec67e</id>
+    <name>ToFirstLower</name>
+    <label>ToFirstLower</label>
+    <sib-uid>basic-sibs/ToFirstLower</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.ToFirstLower</taxonomy>
+    <position>989.0,63.0</position>
+    <parameter name="inputString">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>containerName</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>lcContainerName</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>3f7b7312-5278-4d0a-b7f8-45424c587ca9</source>
+    <target>290e4d22-e391-4406-b767-5e6d97df06b0</target>
+    <point>150.0,90.0</point>
+    <point>328.0,76.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>290e4d22-e391-4406-b767-5e6d97df06b0</source>
+    <target>2ac14484-1730-4690-b31f-2d1199e9dda8</target>
+    <point>360.0,90.0</point>
+    <point>503.0,80.0</point>
+    <branch>false</branch>
+  </edge>
+  <sib>
+    <id>20f5e9f2-ef1a-460e-9fe1-bce67160ec57</id>
+    <name>FormatIdentifier</name>
+    <label>FormatIdentifier</label>
+    <sib-uid>genesys-sibs/FormatIdentifier</sib-uid>
+    <taxonomy>de.jabc.sib.genesys.FormatIdentifier</taxonomy>
+    <position>979.0,198.0</position>
+    <parameter name="identifier">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>containerName</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="identifierLC">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>flContainerName</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="identifierUC">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>fuContainerName</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>5a6ea7ce-21a0-469f-93b1-22cf019ec67e</source>
+    <target>20f5e9f2-ef1a-460e-9fe1-bce67160ec57</target>
+    <point>1035.0,90.0</point>
+    <point>1037.0,205.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>20f5e9f2-ef1a-460e-9fe1-bce67160ec57</source>
+    <target>f85e6502-59a3-4080-830f-783fcebe2c04</target>
+    <point>1017.0,215.2</point>
+    <point>920.0,204.55555555555554</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>04865dd4-e71e-4c08-bf33-26d812f971c2</source>
+    <target>1a6a98d5-2902-4b61-8334-46a479e3fdea</target>
+    <point>672.0,284.4</point>
+    <point>528.0,224.4</point>
+    <labelposition>514.8349956844879,-2.9768456393321614</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>1278907f-52f1-44a7-a4f5-7f4183c9cf0c</id>
+    <name>PutExpression_3</name>
+    <label>SetParentName</label>
+    <sib-uid>basic-sibs/PutExpression</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
+    <position>96.5,318.0</position>
+    <parameter name="resolve">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="value">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>d</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>parentName</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>1278907f-52f1-44a7-a4f5-7f4183c9cf0c</source>
+    <target>90a23784-08ab-41b3-ab4e-97b3fd9d134a</target>
+    <point>168.0,434.2</point>
+    <point>267.0,390.2</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>0cae7192-66cb-4b93-baa7-a392c5c9a0e5</source>
+    <target>ab6fad9e-02ad-487e-9159-db0774193b6a</target>
+    <point>395.0,482.3076923076923</point>
+    <point>552.0,445.9846153846154</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>1a6a98d5-2902-4b61-8334-46a479e3fdea</id>
+    <name>PutExpression_4</name>
+    <label>CopyRootShape</label>
+    <sib-uid>basic-sibs/PutExpression</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
+    <position>455.5,198.0</position>
+    <parameter name="resolve">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="value">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>${currentShape}</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>rootShape</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>1a6a98d5-2902-4b61-8334-46a479e3fdea</source>
+    <target>65ae1057-eac6-4d76-9eb0-95340470fd64</target>
+    <point>547.8947368421052,234.0</point>
+    <point>518.4375,303.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>f85e6502-59a3-4080-830f-783fcebe2c04</source>
+    <target>04865dd4-e71e-4c08-bf33-26d812f971c2</target>
+    <point>835.0,226.1818181818182</point>
+    <point>708.0,283.8</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>ab6fad9e-02ad-487e-9159-db0774193b6a</id>
+    <name>RunStringTemplate</name>
+    <label>RunStringTemplate</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>505.0,423.0</position>
+    <parameter name="append">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>addContainerFeatureContent</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>package $context.localPkgName$;
+
+import $context.importPath$.*;
+import $context.projectName$.*;
+import $context.projectName$.expression.*;
+import $context.projectName$.features.layout.*;
+
+import org.eclipse.graphiti.features.*;
+import org.eclipse.graphiti.features.context.*;
+import org.eclipse.graphiti.features.context.impl.ResizeShapeContext;
+import org.eclipse.graphiti.features.impl.*;
+import org.eclipse.graphiti.mm.algorithms.*;
+import org.eclipse.graphiti.mm.algorithms.styles.*;
+import org.eclipse.graphiti.mm.pictograms.*;
+import org.eclipse.graphiti.services.*;
+import org.eclipse.graphiti.util.*;
+
+import com.sun.el.ExpressionFactoryImpl;
+
+public class Add$context.modelElementName$Feature extends AbstractAddShapeFeature {
+	
+	public Add$context.modelElementName$Feature(IFeatureProvider fp) {
+		super(fp);
+	}
+	
+	public boolean canAdd(IAddContext context) {
+		Object bo = context.getNewObject();
+		if (bo instanceof $context.modelElementName$) {
+			if (context.getTargetContainer() instanceof Diagram)
+				return true;
+		}
+		return false;
+	}
+
+	public PictogramElement add(IAddContext context) {
+		$context.modelElementName$ $context.meIdentifier$ = ($context.modelElementName$) context.getNewObject();
+		Diagram d = (Diagram) context.getTargetContainer();
+
+		IPeService peService = Graphiti.getPeService();
+		IGaService gaService = Graphiti.getGaService();
+
+		$context.graphicalRep$
+
+		link($context.rootShapeName$, $context.meIdentifier$);
+		
+		peService.createChopboxAnchor($context.rootShapeName$);
+		
+		ResizeShapeContext rssContext = new ResizeShapeContext($context.rootShapeName$);
+		IResizeShapeFeature rsf = getFeatureProvider().getResizeShapeFeature(rssContext);
+		rssContext.setSize($context.rootShapeName$.getGraphicsAlgorithm().getWidth(), $context.rootShapeName$.getGraphicsAlgorithm().getHeight());
+		rssContext.setLocation($context.rootShapeName$.getGraphicsAlgorithm().getX(), $context.rootShapeName$.getGraphicsAlgorithm().getY());
+		if (rsf != null &amp;&amp; rsf.canResizeShape(rssContext))
+			rsf.resizeShape(rssContext);
+
+		layoutPictogramElement($context.rootShapeName$);
+		
+		return $context.rootShapeName$;
+
+	}
+}</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>ab6fad9e-02ad-487e-9159-db0774193b6a</source>
+    <target>732a62ac-ec3a-4a7e-a7ed-6a7216a47104</target>
+    <point>168.0,441.51428571428573</point>
+    <point>447.0,441.51428571428573</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>732a62ac-ec3a-4a7e-a7ed-6a7216a47104</id>
+    <name>WriteJavaFile</name>
+    <label>WriteJavaFile</label>
+    <sib-uid>genesys-sibs/WriteJavaFile</sib-uid>
+    <taxonomy>de.jabc.sib.genesys.WriteJavaFile</taxonomy>
+    <position>688.0,423.0</position>
+    <parameter name="baseDirectory">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>outletPath</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="beautify">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="beautifyMethod">
+      <de.metaframe.common.sib.parameter.ListBox>
+        <ListBoxFoundation>
+          <list>
+            <string>Eclipse</string>
+            <string>Jalopy</string>
+          </list>
+          <selected>0</selected>
+        </ListBoxFoundation>
+      </de.metaframe.common.sib.parameter.ListBox>
+    </parameter>
+    <parameter name="className">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>className</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="fileContent">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>addContainerFeatureContent</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="packageName">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>localPkgName</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>f85e6502-59a3-4080-830f-783fcebe2c04</id>
+    <name>GraphSIB</name>
+    <label>CheckStyleAnnotation</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>782.0,196.0</position>
+    <parameter name="modelElementKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>nodeContainerKey</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>843b7fe1-9b8e-4b49-94ab-777e60336bda</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>CheckStyleAnnotation</string>
+    </userobject>
+  </sib>
+  <sib>
+    <id>04865dd4-e71e-4c08-bf33-26d812f971c2</id>
+    <name>GetNodeStyleMainShape</name>
+    <label>GetNodeStyleMainShape</label>
+    <sib-uid>style/style/GetNodeStyleMainShape</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.ge.sib.style.GetNodeStyleMainShape</taxonomy>
+    <position>607.0,198.0</position>
+    <parameter name="nodeStyleKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>style</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="nodeStylemainShapeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>currentShape</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>65ae1057-eac6-4d76-9eb0-95340470fd64</id>
+    <name>PutExpression_5</name>
+    <label>PutExpression</label>
+    <sib-uid>basic-sibs/PutExpression</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
+    <position>295.5,198.0</position>
+    <parameter name="resolve">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="value">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>${rootShape.name}</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>shapeName</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>65ae1057-eac6-4d76-9eb0-95340470fd64</source>
+    <target>ba78a7af-d3e9-4adb-abfe-1d08100be1d7</target>
+    <point>435.0,225.0</point>
+    <point>346.0,208.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>ba78a7af-d3e9-4adb-abfe-1d08100be1d7</source>
+    <target>1278907f-52f1-44a7-a4f5-7f4183c9cf0c</target>
+    <point>300.0,225.0</point>
+    <point>176.0,215.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>ba78a7af-d3e9-4adb-abfe-1d08100be1d7</id>
+    <name>GenerateUniqueShapeName</name>
+    <label>GenerateUniqueShapeName</label>
+    <sib-uid>ge-util-sibs/GenerateUniqueShapeName</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.GenerateUniqueShapeName</taxonomy>
+    <position>56.0,198.0</position>
+    <parameter name="clearCache">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>true</expression>
+          <clazz>java.lang.Boolean</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="shapeName">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>shapeName</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="uniqueShapeName">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>rootShapeName</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>90a23784-08ab-41b3-ab4e-97b3fd9d134a</id>
+    <name>PutExpression_6</name>
+    <label>ClearGraphicalRep</label>
+    <sib-uid>basic-sibs/PutExpression</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
+    <position>86.5,423.0</position>
+    <parameter name="resolve">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="value">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression></expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>graphicalRep</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>90a23784-08ab-41b3-ab4e-97b3fd9d134a</source>
+    <target>0cae7192-66cb-4b93-baa7-a392c5c9a0e5</target>
+    <point>168.0,445.32</point>
+    <point>355.0,482.8</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>0cae7192-66cb-4b93-baa7-a392c5c9a0e5</id>
+    <name>GraphSIB_1</name>
+    <label>GenerateAbstractShape</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>283.0,421.0</position>
+    <parameter name="currentShapeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>currentShape</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="modelElementKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>nodeContainerKey</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="parentName">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>${parentName}</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="styleKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>style</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>83d95140-6c37-4d47-b41c-dc01202047a8</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>GenerateAbstractShape</string>
+    </userobject>
+  </sib>
+  <parameter>
+    <name>containerKey</name>
+    <field>nodeContainerKey</field>
+    <sib>3f7b7312-5278-4d0a-b7f8-45424c587ca9</sib>
+  </parameter>
+  <parameter>
+    <name>containerKey</name>
+    <field>modelElementKey</field>
+    <sib>f85e6502-59a3-4080-830f-783fcebe2c04</sib>
+  </parameter>
+  <parameter>
+    <name>containerKey</name>
+    <field>modelElementKey</field>
+    <sib>0cae7192-66cb-4b93-baa7-a392c5c9a0e5</sib>
+  </parameter>
+  <values>
+    <entry>
+      <string>containerKey</string>
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>nodeContainerKey</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </entry>
+  </values>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>3f7b7312-5278-4d0a-b7f8-45424c587ca9</sib>
+  </branch>
+  <branch>
+    <name>default</name>
+    <branch>default</branch>
+    <sib>732a62ac-ec3a-4a7e-a7ed-6a7216a47104</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>732a62ac-ec3a-4a7e-a7ed-6a7216a47104</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>290e4d22-e391-4406-b767-5e6d97df06b0</sib>
+  </branch>
+  <branch>
+    <name>default</name>
+    <branch>true</branch>
+    <sib>290e4d22-e391-4406-b767-5e6d97df06b0</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>2ac14484-1730-4690-b31f-2d1199e9dda8</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>4e4b3e2f-2109-46f3-951d-c9cf07fba023</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>5baba1ce-3715-4d4a-954c-253feba56021</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>5a6ea7ce-21a0-469f-93b1-22cf019ec67e</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>20f5e9f2-ef1a-460e-9fe1-bce67160ec57</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>1a6a98d5-2902-4b61-8334-46a479e3fdea</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>1278907f-52f1-44a7-a4f5-7f4183c9cf0c</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>ab6fad9e-02ad-487e-9159-db0774193b6a</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>f85e6502-59a3-4080-830f-783fcebe2c04</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>04865dd4-e71e-4c08-bf33-26d812f971c2</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>65ae1057-eac6-4d76-9eb0-95340470fd64</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>ba78a7af-d3e9-4adb-abfe-1d08100be1d7</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>90a23784-08ab-41b3-ab4e-97b3fd9d134a</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>0cae7192-66cb-4b93-baa7-a392c5c9a0e5</sib>
+  </branch>
+</model>

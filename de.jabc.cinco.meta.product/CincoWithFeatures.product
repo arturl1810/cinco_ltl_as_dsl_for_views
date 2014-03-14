@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?pde version="3.5"?>
+
+<product name="Cinco Meta Modeling Suite" uid="de.jabc.cinco.meta.product.product" id="de.jabc.cinco.meta.branding.product" application="org.eclipse.ui.ide.workbench" version="1.0.0.qualifier" useFeatures="true" includeLaunchers="true">
+
+   <aboutInfo>
+      <image path="/de.jabc.cinco.meta.branding/about.png"/>
+   </aboutInfo>
+
+   <configIni use="default">
+   </configIni>
+
+   <launcherArgs>
+      <vmArgs>-XX:MaxPermSize=256m
+-Xms40m
+-Xmx512m
+-XX:+CMSClassUnloadingEnabled 
+-XX:+UseConcMarkSweepGC</vmArgs>
+      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
+   </launcherArgs>
+
+   <windowImages i16="/de.jabc.cinco.meta.branding/16.png" i32="/de.jabc.cinco.meta.branding/32.png" i48="/de.jabc.cinco.meta.branding/48.png" i64="/de.jabc.cinco.meta.branding/64.png" i128="/de.jabc.cinco.meta.branding/128.png"/>
+
+   <splash
+      location="de.jabc.cinco.meta.branding"
+      startupProgressRect="2,320,496,10"
+      startupMessageRect="7,300,320,20"
+      startupForegroundColor="000000" />
+   <launcher name="cinco">
+      <linux icon="icon.xpm"/>
+      <solaris/>
+      <win useIco="false">
+         <bmp/>
+      </win>
+   </launcher>
+
+   <vm>
+      <linux include="false">org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7</linux>
+   </vm>
+
+   <plugins>
+   </plugins>
+
+   <features>
+      <feature id="de.jabc.cinco.meta.feature"/>
+      <feature id="org.eclipse.sdk"/>
+      <feature id="org.eclipse.equinox.p2.core.feature"/>
+      <feature id="org.eclipse.e4.rcp"/>
+      <feature id="org.eclipse.platform"/>
+      <feature id="org.eclipse.help"/>
+      <feature id="org.eclipse.help.source"/>
+      <feature id="org.eclipse.emf.ecore"/>
+      <feature id="org.eclipse.rcp.source"/>
+      <feature id="org.eclipse.pde.source"/>
+      <feature id="org.eclipse.equinox.p2.rcp.feature"/>
+      <feature id="org.eclipse.equinox.p2.user.ui"/>
+      <feature id="org.eclipse.cvs"/>
+      <feature id="org.eclipse.equinox.p2.rcp.feature.source"/>
+      <feature id="org.eclipse.jdt.source"/>
+      <feature id="org.eclipse.jdt"/>
+      <feature id="org.eclipse.rcp"/>
+      <feature id="org.eclipse.e4.rcp.source"/>
+      <feature id="org.eclipse.equinox.p2.user.ui.source"/>
+      <feature id="org.eclipse.emf.common"/>
+      <feature id="org.eclipse.platform.source"/>
+      <feature id="org.eclipse.equinox.p2.core.feature.source"/>
+      <feature id="org.eclipse.pde"/>
+      <feature id="org.eclipse.equinox.p2.extras.feature"/>
+      <feature id="org.eclipse.xtext.sdk"/>
+      <feature id="org.eclipse.emf.sdk"/>
+      <feature id="org.eclipse.xtend.sdk"/>
+      <feature id="org.eclipse.emf.mapping"/>
+      <feature id="org.eclipse.emf.codegen.ecore.ui"/>
+      <feature id="org.eclipse.emf.codegen.ui.source"/>
+      <feature id="org.eclipse.xtext.ui.source"/>
+      <feature id="org.eclipse.equinox.p2.extras.feature.source"/>
+      <feature id="org.eclipse.emf.mapping.ui.source"/>
+      <feature id="org.eclipse.xtext.xtext.ui.source"/>
+      <feature id="org.eclipse.xtext.xbase.lib"/>
+      <feature id="org.eclipse.emf.doc"/>
+      <feature id="org.eclipse.emf.ecore.edit.source"/>
+      <feature id="org.eclipse.emf.common.ui.source"/>
+      <feature id="org.eclipse.emf.codegen.ui"/>
+      <feature id="org.eclipse.emf.mapping.ecore.editor.source"/>
+      <feature id="org.eclipse.emf.ecore.editor.source"/>
+      <feature id="org.eclipse.emf.edit.source"/>
+      <feature id="org.eclipse.emf.source"/>
+      <feature id="org.eclipse.emf"/>
+      <feature id="org.eclipse.emf.converter.source"/>
+      <feature id="org.eclipse.emf.edit"/>
+      <feature id="org.eclipse.emf.converter"/>
+      <feature id="org.eclipse.emf.mapping.ecore.source"/>
+      <feature id="org.eclipse.xtext.examples.source"/>
+      <feature id="org.eclipse.emf.databinding.source"/>
+      <feature id="org.eclipse.emf.mapping.source"/>
+      <feature id="org.eclipse.xtext.xbase.source"/>
+      <feature id="org.eclipse.cvs.source"/>
+      <feature id="org.eclipse.emf.doc.source"/>
+      <feature id="org.eclipse.emf.databinding.edit"/>
+      <feature id="org.eclipse.xtext.examples"/>
+      <feature id="org.eclipse.emf.common.ui"/>
+      <feature id="org.eclipse.emf.ecore.edit"/>
+      <feature id="org.eclipse.emf.mapping.ecore.editor"/>
+      <feature id="org.eclipse.emf.ecore.editor"/>
+      <feature id="org.eclipse.emf.codegen.ecore.source"/>
+      <feature id="org.eclipse.emf.databinding.edit.source"/>
+      <feature id="org.eclipse.emf.codegen.source"/>
+      <feature id="org.eclipse.emf.codegen.ecore"/>
+      <feature id="org.eclipse.emf.databinding"/>
+      <feature id="org.eclipse.xtext.xbase.lib.source"/>
+      <feature id="org.eclipse.xtext.ui"/>
+      <feature id="org.eclipse.xtext.docs"/>
+      <feature id="org.eclipse.xtext.xbase"/>
+      <feature id="org.eclipse.emf.edit.ui"/>
+      <feature id="org.eclipse.xtext.runtime.source"/>
+      <feature id="org.eclipse.emf.codegen.ecore.ui.source"/>
+      <feature id="org.eclipse.emf.mapping.ecore"/>
+      <feature id="org.eclipse.xtext.xtext.ui"/>
+      <feature id="org.eclipse.emf.mapping.ui"/>
+      <feature id="org.eclipse.emf.edit.ui.source"/>
+      <feature id="org.eclipse.xtext.runtime"/>
+      <feature id="org.eclipse.emf.codegen"/>
+      <feature id="org.eclipse.graphiti.feature"/>
+      <feature id="org.eclipse.graphiti.feature.tools"/>
+      <feature id="org.eclipse.graphiti.sdk.feature"/>
+      <feature id="org.eclipse.egit"/>
+      <feature id="org.eclipse.graphiti.feature.examples"/>
+      <feature id="de.jabc.cinco.meta.core.mgl.sdk"/>
+      <feature id="org.eclipse.jgit"/>
+      <feature id="org.eclipse.graphiti.feature.tools.source"/>
+      <feature id="org.eclipse.graphiti.source.feature"/>
+      <feature id="org.eclipse.graphiti.feature.examples.source"/>
+      <feature id="de.jabc.cinco.meta.core.ge.style.sdk"/>
+      <feature id="org.eclipse.emf.ecoretools"/>
+      <feature id="org.eclipse.emf.validation.ocl"/>
+      <feature id="org.eclipse.xsd"/>
+      <feature id="org.eclipse.xsd.edit"/>
+      <feature id="org.eclipse.gef"/>
+      <feature id="org.eclipse.mylyn_feature"/>
+      <feature id="org.eclipse.mylyn.context_feature"/>
+      <feature id="org.eclipse.mylyn.ide_feature"/>
+      <feature id="org.eclipse.mylyn.java_feature"/>
+      <feature id="org.eclipse.mylyn.bugzilla_feature"/>
+      <feature id="org.eclipse.mylyn.commons.notifications"/>
+      <feature id="org.eclipse.draw2d"/>
+      <feature id="org.eclipse.mylyn.commons"/>
+      <feature id="org.eclipse.mylyn.commons.repositories"/>
+      <feature id="org.eclipse.mylyn.tasks.ide"/>
+      <feature id="org.eclipse.mylyn.monitor"/>
+      <feature id="org.eclipse.mylyn.discovery"/>
+      <feature id="org.eclipse.mylyn.team_feature"/>
+      <feature id="org.eclipse.mylyn.commons.identity"/>
+      <feature id="org.eclipse.emf.transaction"/>
+   </features>
+
+   <configurations>
+      <plugin id="org.eclipse.core.runtime" autoStart="true" startLevel="2" />
+      <plugin id="org.eclipse.equinox.ds" autoStart="true" startLevel="2" />
+      <plugin id="org.eclipse.equinox.event" autoStart="true" startLevel="3" />
+   </configurations>
+
+</product>

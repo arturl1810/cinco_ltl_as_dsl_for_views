@@ -1,0 +1,673 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<model version="2.1">
+  <id>4b8f0479-9813-462d-b7d3-1e7c977bb9c6</id>
+  <name>GenerateNewDiagramWizard</name>
+  <changecounter>134</changecounter>
+  <sib>
+    <id>4db12997-4cd3-4e00-94ed-f5405dd7aa9b</id>
+    <name>PutExpression</name>
+    <label>LocalPkgName</label>
+    <sib-uid>basic-sibs/PutExpression</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
+    <position>129.5,78.0</position>
+    <parameter name="resolve">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="value">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>${packageName}.graphiti.wizard</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>localPkgName</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$START">
+      <boolean>true</boolean>
+    </userobject>
+  </sib>
+  <sib>
+    <id>22ed90d0-18fe-4da1-873c-3a2443a05db2</id>
+    <name>PutExpression_1</name>
+    <label>ClassName</label>
+    <sib-uid>basic-sibs/PutExpression</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
+    <position>305.5,78.0</position>
+    <parameter name="resolve">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="value">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>New${fuGraphModelName}DiagramWizard</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>className</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>4db12997-4cd3-4e00-94ed-f5405dd7aa9b</source>
+    <target>22ed90d0-18fe-4da1-873c-3a2443a05db2</target>
+    <point>288.0,216.432</point>
+    <point>627.0,216.43200000000002</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>22ed90d0-18fe-4da1-873c-3a2443a05db2</source>
+    <target>55d921a7-c306-4e43-ad07-1c0510a2445f</target>
+    <point>363.0,96.54</point>
+    <point>627.0,96.54</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>55d921a7-c306-4e43-ad07-1c0510a2445f</id>
+    <name>RunStringTemplate</name>
+    <label>Wizard</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>483.5,78.0</position>
+    <parameter name="append">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>NewWizardContent</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>package $context.projectName$.wizard;
+
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+
+import org.eclipse.core.resources.IContainer;
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.graphiti.mm.pictograms.Diagram;
+import org.eclipse.graphiti.services.Graphiti;
+import org.eclipse.jface.operation.IRunnableWithProgress;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.wizard.IWizardPage;
+import org.eclipse.jface.wizard.Wizard;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.INewWizard;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.ide.IDE;
+public class New$context.fuGraphModelName$DiagramWizard extends Wizard implements INewWizard {
+
+	private IWizardPage page;
+
+	private IStructuredSelection ssel;
+	
+	public New$context.fuGraphModelName$DiagramWizard() {
+	}
+
+	@Override
+	public void addPages() {
+		page = new Create$context.fuGraphModelName$WizardPage(&quot;new$context.fuGraphModelName$&quot;);
+		addPage(page);
+		
+		super.addPages();
+	}
+	
+	@Override
+	public void init(IWorkbench workbench, IStructuredSelection selection) {
+		ssel = selection;
+	}
+
+	@Override
+	public boolean performFinish() {
+		if (page instanceof Create$context.fuGraphModelName$WizardPage) {
+			Create$context.fuGraphModelName$WizardPage p = (Create$context.fuGraphModelName$WizardPage) page;
+			final String dir = p.getDirectory();
+			final String fileName = p.getFileName();
+			IRunnableWithProgress operation = new IRunnableWithProgress() {
+				
+				@Override
+				public void run(IProgressMonitor monitor) throws InvocationTargetException,
+						InterruptedException {
+					createDiagram(dir, fileName);
+				}
+			};
+			
+			try {
+				getContainer().run(false, false, operation);
+			} catch (InvocationTargetException | InterruptedException e) {
+				e.printStackTrace();
+				return false;
+			}
+		}
+		return true;
+	}
+
+	
+	private void createDiagram(String dir, String fName) {
+		String extension = &quot;$context.extension$&quot;;
+		String fNameWithExt = (fName.contains(&quot;.&quot;)) ? fName : fName.concat(&quot;.&quot; + extension);
+		String dName = fNameWithExt.split(&quot;\\\.&quot;)[0];
+		
+		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+		IResource containerResource = root.getContainerForLocation(new Path(dir));
+		if (containerResource instanceof IContainer) {
+			IPath filePath = new Path(containerResource.getFullPath().append(fNameWithExt).toOSString());
+			IFile file = root.getFile(filePath);
+			URI resUri = URI.createPlatformResourceURI(filePath.toOSString() ,true);
+			Resource res = new ResourceSetImpl().createResource(resUri);
+			Diagram diagram = Graphiti.getPeService().createDiagram(&quot;$context.fuGraphModelName$&quot;, dName, true);
+			
+			try {
+				res.unload();
+				res.getContents().add(diagram);
+				res.save(null);
+				
+				IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+				
+				IDE.openEditor(page, file,&quot;$context.projectName$.$context.fuGraphModelName$Editor&quot;, true);
+				
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (PartInitException e) {
+				e.printStackTrace();
+			}
+		}
+		
+	}
+	
+	public IStructuredSelection getSelection() {
+		return this.ssel;
+	}
+
+	@Override
+	public void createPageControls(Composite pageContainer) {
+		super.createPageControls(pageContainer);
+	}
+	
+	@Override
+	public boolean canFinish() {
+		return page.isPageComplete(); 
+	}
+		
+}
+</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>66e2ad22-7b6e-4619-a7a2-aa1999b28616</id>
+    <name>WriteJavaFile</name>
+    <label>WriteJavaFile</label>
+    <sib-uid>genesys-sibs/WriteJavaFile</sib-uid>
+    <taxonomy>de.jabc.sib.genesys.WriteJavaFile</taxonomy>
+    <position>688.0,78.0</position>
+    <parameter name="baseDirectory">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>outletPath</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="beautify">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="beautifyMethod">
+      <de.metaframe.common.sib.parameter.ListBox>
+        <ListBoxFoundation>
+          <list>
+            <string>Eclipse</string>
+            <string>Jalopy</string>
+          </list>
+          <selected>0</selected>
+        </ListBoxFoundation>
+      </de.metaframe.common.sib.parameter.ListBox>
+    </parameter>
+    <parameter name="className">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>className</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="fileContent">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>NewWizardContent</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="packageName">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>localPkgName</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>55d921a7-c306-4e43-ad07-1c0510a2445f</source>
+    <target>66e2ad22-7b6e-4619-a7a2-aa1999b28616</target>
+    <point>690.0,285.0</point>
+    <point>525.0,285.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>8c5850e9-44c6-4a46-b968-15fbe0929af3</id>
+    <name>PutExpression_2</name>
+    <label>ClassName</label>
+    <sib-uid>basic-sibs/PutExpression</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
+    <position>695.5,228.0</position>
+    <parameter name="resolve">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="value">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>Create${fuGraphModelName}WizardPage</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>className</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>66e2ad22-7b6e-4619-a7a2-aa1999b28616</source>
+    <target>8c5850e9-44c6-4a46-b968-15fbe0929af3</target>
+    <point>525.0,285.0</point>
+    <point>390.0,285.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>38a89a08-7a72-4122-9151-9b02ea0a7f3a</id>
+    <name>RunStringTemplate_1</name>
+    <label>WizardPage</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>497.5,228.0</position>
+    <parameter name="append">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>WizardPageContent</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>package $context.projectName$.wizard;
+
+import org.eclipse.core.resources.IContainer;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.jface.wizard.WizardPage;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.KeyListener;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.DirectoryDialog;
+
+public class Create$context.fuGraphModelName$WizardPage extends WizardPage {
+
+	private IContainer container;
+
+	private Text dirText;
+	private Text fileNameText;
+	
+	private Button browseButton;
+
+	protected Create$context.fuGraphModelName$WizardPage(String pageName) {
+		super(pageName);
+		setTitle(&quot;Create new $context.graphModelName$ diagram&quot;);
+		setMessage(&quot;Create a new diagram in an existing or new project&quot;);
+	}
+
+	public String getDirectory() {
+		return dirText.getText();
+	}
+	
+	public String getFileName() {
+		return fileNameText.getText();
+	}
+
+	@Override
+	public void createControl(Composite parent) {
+		Composite composite = new Composite(parent, SWT.NONE);
+		GridLayout layout = new GridLayout(3, false);
+		composite.setLayout(layout);
+		
+		Label projectLbl = new Label(composite, SWT.NONE);
+		projectLbl.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false));
+		projectLbl.setText(&quot;Di&amp;rectory: &quot;);
+
+		dirText = new Text(composite, SWT.BORDER);
+		dirText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		dirText.setEditable(false);
+		dirText.setEnabled(false);
+				
+		browseButton = new Button(composite, SWT.PUSH);
+		browseButton.setText(&quot;Brows&amp;e...&quot;);
+		browseButton.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false));
+
+		Label pNameLbl = new Label(composite, SWT.NONE);
+		pNameLbl.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false));
+		pNameLbl.setText(&quot;Fi&amp;le name: &quot;);
+		
+		fileNameText = new Text(composite, SWT.BORDER);
+		fileNameText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		fileNameText.setText(&quot;&quot;);
+		
+		dirText.addKeyListener(textKeyListener);
+		fileNameText.addKeyListener(textKeyListener);
+		browseButton.addSelectionListener(buttonListener);
+		
+		IStructuredSelection selection = null; 
+		if (getWizard() instanceof New$context.fuGraphModelName$DiagramWizard) 
+			selection = ((New$context.fuGraphModelName$DiagramWizard) getWizard()).getSelection();
+		
+		if (selection != null &amp;&amp; selection.getFirstElement() instanceof IContainer) {
+			container = (IContainer) selection.getFirstElement();
+			dirText.setText(container.getLocation().toOSString());
+		}
+
+		dialogChanged();
+		
+		setControl(composite);
+	}
+	
+	private String validateProjectName() {
+		String directory = dirText.getText();
+		if (directory.isEmpty())
+			return &quot;Select existing project or enter new project name&quot;;
+		else return null;
+	}
+	
+	private String validateFileName() {
+		String fileName = fileNameText.getText();
+		String fileExtension = &quot;$context.extension$&quot;;
+		if (fileName.isEmpty()) {
+			return &quot;Enter file name&quot;;
+		} else if (fileName.contains(&quot;.&quot;) &amp;&amp; !fileName.endsWith(fileExtension)) {
+			return &quot;Worng file extension&quot;;
+		} else return null;
+	}
+	
+	private boolean checkFileExists() {
+		String fileName = (fileNameText.getText().contains(&quot;.&quot;) ? fileNameText.getText() : fileNameText.getText().concat(&quot;.$context.extension$&quot;));
+		try {
+			if (container == null)
+				return false;
+			for (IResource res : container.members()) {
+				if (res.getName().equals(fileName)) 
+					return true;
+			}
+		} catch (CoreException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	private void dialogChanged() {
+		String projectNameError = validateProjectName();
+		String fileNameError = validateFileName();
+		boolean fileExists = checkFileExists();
+		if (projectNameError != null) {
+			updateStatus(projectNameError);
+		} else if (fileNameError != null) {
+			updateStatus(fileNameError);
+		} else if (fileExists) {
+			updateStatus(&quot;File already exists&quot;);
+		}
+		else updateStatus(null);
+	}
+	
+	private void updateStatus(String msg) {
+		setErrorMessage(msg);
+		if (getContainer().getCurrentPage() != null) {
+			getWizard().getContainer().updateMessage();
+			getWizard().getContainer().updateButtons();
+		}
+		setPageComplete(getErrorMessage() == null);
+	}
+	
+	
+	private SelectionListener buttonListener = new SelectionListener() {
+		
+		@Override
+		public void widgetSelected(SelectionEvent e) {
+			DirectoryDialog dialog = new DirectoryDialog(getShell());
+			dialog.setText(&quot;Select a directory&quot;);
+			String rootLocation = ResourcesPlugin.getWorkspace().getRoot().getLocation().toOSString();
+			dialog.setFilterPath(rootLocation);
+			String dirName = dialog.open();
+			if (dirName != null) {
+				dirText.setText(dirName);
+			}
+			dialogChanged();
+		}
+		
+		@Override
+		public void widgetDefaultSelected(SelectionEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+	};
+	
+	
+	private KeyListener textKeyListener = new KeyListener() {
+		
+		@Override
+		public void keyReleased(KeyEvent e) {
+			dialogChanged();
+		}
+		
+		@Override
+		public void keyPressed(KeyEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+	};
+}
+</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>8c5850e9-44c6-4a46-b968-15fbe0929af3</source>
+    <target>38a89a08-7a72-4122-9151-9b02ea0a7f3a</target>
+    <point>390.0,285.0</point>
+    <point>270.0,285.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>1876ddcf-fc37-48fd-beab-2d7bd78b20c2</id>
+    <name>WriteJavaFile_1</name>
+    <label>WriteJavaFile</label>
+    <sib-uid>genesys-sibs/WriteJavaFile</sib-uid>
+    <taxonomy>de.jabc.sib.genesys.WriteJavaFile</taxonomy>
+    <position>298.0,228.0</position>
+    <parameter name="baseDirectory">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>outletPath</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="beautify">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="beautifyMethod">
+      <de.metaframe.common.sib.parameter.ListBox>
+        <ListBoxFoundation>
+          <list>
+            <string>Eclipse</string>
+            <string>Jalopy</string>
+          </list>
+          <selected>0</selected>
+        </ListBoxFoundation>
+      </de.metaframe.common.sib.parameter.ListBox>
+    </parameter>
+    <parameter name="className">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>className</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="fileContent">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>WizardPageContent</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="packageName">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>localPkgName</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>38a89a08-7a72-4122-9151-9b02ea0a7f3a</source>
+    <target>1876ddcf-fc37-48fd-beab-2d7bd78b20c2</target>
+    <point>270.0,285.0</point>
+    <point>120.0,285.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <values/>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>4db12997-4cd3-4e00-94ed-f5405dd7aa9b</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>22ed90d0-18fe-4da1-873c-3a2443a05db2</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>55d921a7-c306-4e43-ad07-1c0510a2445f</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>66e2ad22-7b6e-4619-a7a2-aa1999b28616</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>8c5850e9-44c6-4a46-b968-15fbe0929af3</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>38a89a08-7a72-4122-9151-9b02ea0a7f3a</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>1876ddcf-fc37-48fd-beab-2d7bd78b20c2</sib>
+  </branch>
+  <branch>
+    <name>default</name>
+    <branch>default</branch>
+    <sib>1876ddcf-fc37-48fd-beab-2d7bd78b20c2</sib>
+  </branch>
+</model>

@@ -1,0 +1,690 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<model version="2.1">
+  <id>15f253f6-7caa-4260-a5e1-643c9b7adbf0</id>
+  <name>GenerateLabelProvider</name>
+  <changecounter>23</changecounter>
+  <sib>
+    <id>1589bc35-aab8-4a5c-ba8b-4af14a6986a9</id>
+    <name>RunStringTemplate</name>
+    <label>RunStringTemplate</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>610.0,468.0</position>
+    <parameter name="append">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>labelProviderContent</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>package $graphModelPackageName$.treeview;
+
+import org.eclipse.jface.viewers.ILabelProvider;
+import org.eclipse.jface.viewers.ILabelProviderListener;
+import org.eclipse.swt.graphics.Image;
+import $graphModelPackageName$.$graphModelNameLower$.$treeViewElementName$;
+public class $treeViewElementName$LabelProvider implements ILabelProvider {
+
+	@Override
+	public void addListener(ILabelProviderListener listener) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void dispose() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public boolean isLabelProperty(Object element, String property) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void removeListener(ILabelProviderListener listener) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public Image getImage(Object element) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getText(Object element) {
+		if(element instanceof $treeViewElementName$){
+			return $labelElement$;
+		}else{
+			return null;
+		}
+	}
+
+}
+</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>7e5c38e5-314e-48b6-b513-aa119f491357</id>
+    <name>PutExpression</name>
+    <label>PutProviderName</label>
+    <sib-uid>basic-sibs/PutExpression</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
+    <position>106.0,468.0</position>
+    <parameter name="resolve">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="value">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>${treeViewElementName}LabelProvider</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>labelProviderClassName</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>7e5c38e5-314e-48b6-b513-aa119f491357</source>
+    <target>1589bc35-aab8-4a5c-ba8b-4af14a6986a9</target>
+    <point>183.0,486.3176470588235</point>
+    <point>657.0,486.3176470588235</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>5c46244a-0f13-41a5-b797-5300e78df559</id>
+    <name>WriteJavaFile</name>
+    <label>WriteJavaFile</label>
+    <sib-uid>genesys-sibs/WriteJavaFile</sib-uid>
+    <taxonomy>de.jabc.sib.genesys.WriteJavaFile</taxonomy>
+    <position>1183.0,468.0</position>
+    <parameter name="baseDirectory">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>sourcePath</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="beautify">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="beautifyMethod">
+      <de.metaframe.common.sib.parameter.ListBox>
+        <ListBoxFoundation>
+          <list>
+            <string>Eclipse</string>
+            <string>Jalopy</string>
+          </list>
+          <selected>0</selected>
+        </ListBoxFoundation>
+      </de.metaframe.common.sib.parameter.ListBox>
+    </parameter>
+    <parameter name="className">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>labelProviderClassName</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="fileContent">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>labelProviderContent</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="packageName">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>providerPackage</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>1589bc35-aab8-4a5c-ba8b-4af14a6986a9</source>
+    <target>5c46244a-0f13-41a5-b797-5300e78df559</target>
+    <point>693.0,486.2918918918919</point>
+    <point>1212.0,486.2918918918919</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>516fdc3c-28b1-4bed-87dd-d133815ecddd</id>
+    <name>IterateGraphicalModelElementAttributes</name>
+    <label>IterateGraphicalModelElementAttributes</label>
+    <sib-uid>mgl/mgl/IterateGraphicalModelElementAttributes</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.mgl.sib.mgl.IterateGraphicalModelElementAttributes</taxonomy>
+    <position>32.0,63.0</position>
+    <parameter name="elementKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>treeViewElementAttribute</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>false</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="graphicalModelElementKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>treeViewElement</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="iteratorKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>treeViewElementAttributriteratorKey</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>false</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>exit</finalbranches>
+    <finalbranches>next</finalbranches>
+    <finalbranches>noElements</finalbranches>
+    <userobject key="ABC$START">
+      <boolean>true</boolean>
+    </userobject>
+  </sib>
+  <edge>
+    <source>516fdc3c-28b1-4bed-87dd-d133815ecddd</source>
+    <target>dcbf86be-5733-463d-acc7-c0628a02335f</target>
+    <point>155.76923076923077,99.0</point>
+    <point>55.0,288.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>exit</branch>
+    <branch>noElements</branch>
+  </edge>
+  <sib>
+    <id>c059d01e-b851-492f-9624-e631cdb41131</id>
+    <name>PutExpression_3</name>
+    <label>PutExpression</label>
+    <sib-uid>basic-sibs/PutExpression</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
+    <position>115.5,258.0</position>
+    <parameter name="resolve">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="value">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>&quot;${treeViewElementName} &quot;+${label}</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>labelElement</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>c059d01e-b851-492f-9624-e631cdb41131</source>
+    <target>7e5c38e5-314e-48b6-b513-aa119f491357</target>
+    <point>165.0,294.0</point>
+    <point>165.0,468.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>12782481-2f83-48d1-9670-6db9aea04acc</id>
+    <name>IterateAttributeAnnotations</name>
+    <label>IterateAttributeAnnotations</label>
+    <sib-uid>mgl/mgl/IterateAttributeAnnotations</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.mgl.sib.mgl.IterateAttributeAnnotations</taxonomy>
+    <position>343.0,63.0</position>
+    <parameter name="attributeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>treeViewElementAttribute</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="elementKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>treeViewElementAttributeAnnotation</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>false</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="iteratorKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>treeViewElementAttributeAnnotationiteratorKey</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>false</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>exit</finalbranches>
+    <finalbranches>next</finalbranches>
+    <finalbranches>noElements</finalbranches>
+  </sib>
+  <edge>
+    <source>516fdc3c-28b1-4bed-87dd-d133815ecddd</source>
+    <target>12782481-2f83-48d1-9670-6db9aea04acc</target>
+    <point>183.0,81.6</point>
+    <point>417.0,81.60000000000001</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>next</branch>
+  </edge>
+  <sib>
+    <id>fd927593-53f1-4d03-ba53-c5d0b98ccdfe</id>
+    <name>GetAnnotationName</name>
+    <label>GetAnnotationName</label>
+    <sib-uid>mgl/mgl/GetAnnotationName</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.mgl.sib.mgl.GetAnnotationName</taxonomy>
+    <position>562.0,63.0</position>
+    <parameter name="annotationKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>treeViewElementAttributeAnnotation</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="annotationnameKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>treeViewElementAttributeAnnotationName</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>12782481-2f83-48d1-9670-6db9aea04acc</source>
+    <target>fd927593-53f1-4d03-ba53-c5d0b98ccdfe</target>
+    <point>423.0,95.0</point>
+    <point>618.0,95.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>next</branch>
+  </edge>
+  <sib>
+    <id>13ef0b52-4756-48e9-9c94-f6442cb05df7</id>
+    <name>MatchString</name>
+    <label>MatchString</label>
+    <sib-uid>basic-sibs/MatchString</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.MatchString</taxonomy>
+    <position>722.5,63.0</position>
+    <parameter name="pattern">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>treeView</expression>
+          <clazz>java.lang.String</clazz>
+          <classMutable>false</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="string">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>${treeViewElementAttributeAnnotationName}</expression>
+          <clazz>java.lang.String</clazz>
+          <classMutable>false</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>false</finalbranches>
+    <finalbranches>true</finalbranches>
+  </sib>
+  <edge>
+    <source>fd927593-53f1-4d03-ba53-c5d0b98ccdfe</source>
+    <target>13ef0b52-4756-48e9-9c94-f6442cb05df7</target>
+    <point>618.0,95.0</point>
+    <point>768.0,95.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>13ef0b52-4756-48e9-9c94-f6442cb05df7</source>
+    <target>12782481-2f83-48d1-9670-6db9aea04acc</target>
+    <spline/>
+    <point>768.0,95.0</point>
+    <point>618.0,155.0</point>
+    <point>423.0,95.0</point>
+    <labelposition>448.0,-61.0</labelposition>
+    <branch>false</branch>
+  </edge>
+  <sib>
+    <id>5119c5f7-c40a-4fb0-9e63-25b144bb338c</id>
+    <name>PutExpression_4</name>
+    <label>PutExpression</label>
+    <sib-uid>basic-sibs/PutExpression</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
+    <position>1120.5,63.0</position>
+    <parameter name="resolve">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="value">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>((${treeViewElementName})element).get${treeViewElementAttributeUpper}()</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>label</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>13ef0b52-4756-48e9-9c94-f6442cb05df7</source>
+    <target>1177d6aa-799f-4e78-825f-fb7dc89a7adf</target>
+    <point>768.0,95.0</point>
+    <point>888.0,95.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>true</branch>
+  </edge>
+  <edge>
+    <source>12782481-2f83-48d1-9670-6db9aea04acc</source>
+    <target>516fdc3c-28b1-4bed-87dd-d133815ecddd</target>
+    <spline/>
+    <point>423.0,95.0</point>
+    <point>333.0,155.0</point>
+    <point>168.0,95.0</point>
+    <labelposition>457.0,-53.0</labelposition>
+    <branch>exit</branch>
+    <branch>noElements</branch>
+  </edge>
+  <sib>
+    <id>5e241de2-5490-46f8-ab04-46c3216ec115</id>
+    <name>ToFirstUpper</name>
+    <label>ToFirstUpper</label>
+    <sib-uid>basic-sibs/ToFirstUpper</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.ToFirstUpper</taxonomy>
+    <position>974.5,63.0</position>
+    <parameter name="inputString">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>treeViewElementAttributeName</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>treeViewElementAttributeUpper</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>1177d6aa-799f-4e78-825f-fb7dc89a7adf</id>
+    <name>GetAttributeName</name>
+    <label>GetAttributeName</label>
+    <sib-uid>mgl/mgl/GetAttributeName</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.mgl.sib.mgl.GetAttributeName</taxonomy>
+    <position>824.0,63.0</position>
+    <parameter name="attributeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>treeViewElementAttribute</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="attributenameKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>treeViewElementAttributeName</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>1177d6aa-799f-4e78-825f-fb7dc89a7adf</source>
+    <target>5e241de2-5490-46f8-ab04-46c3216ec115</target>
+    <point>888.0,95.0</point>
+    <point>1023.0,95.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>5e241de2-5490-46f8-ab04-46c3216ec115</source>
+    <target>5119c5f7-c40a-4fb0-9e63-25b144bb338c</target>
+    <point>1023.0,95.0</point>
+    <point>1173.0,95.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>5119c5f7-c40a-4fb0-9e63-25b144bb338c</source>
+    <target>e7748c7f-3fb7-461b-b6d3-90163429a11a</target>
+    <point>1173.0,95.0</point>
+    <point>1143.0,290.0</point>
+    <point>438.0,290.0</point>
+    <labelposition>483.2968623160273,-88.6088248508971</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>e7748c7f-3fb7-461b-b6d3-90163429a11a</id>
+    <name>RemoveElements</name>
+    <label>RemoveElements</label>
+    <sib-uid>basic-sibs/RemoveElements</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.RemoveElements</taxonomy>
+    <position>376.5,258.0</position>
+    <parameter name="variables">
+      <de.metaframe.jabc.framework.sib.parameter.StrictList>
+        <StrictListFoundation>
+          <delegate class="list">
+            <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+              <ContextKeyFoundation>
+                <key>treeViewElementAttributeAnnotationiteratorKey</key>
+                <scope>GLOBAL</scope>
+                <scopeMutable>true</scopeMutable>
+              </ContextKeyFoundation>
+            </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+            <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+              <ContextKeyFoundation>
+                <key>treeViewElementAttributriteratorKey</key>
+                <scope>GLOBAL</scope>
+                <scopeMutable>true</scopeMutable>
+              </ContextKeyFoundation>
+            </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+          </delegate>
+          <validatorClass>de.metaframe.jabc.framework.sib.parameter.ContextKey</validatorClass>
+        </StrictListFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.StrictList>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>e7748c7f-3fb7-461b-b6d3-90163429a11a</source>
+    <target>c059d01e-b851-492f-9624-e631cdb41131</target>
+    <point>438.0,290.0</point>
+    <point>183.0,290.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>dcbf86be-5733-463d-acc7-c0628a02335f</id>
+    <name>PutExpression_5</name>
+    <label>PutExpression</label>
+    <sib-uid>basic-sibs/PutExpression</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
+    <position>10.5,258.0</position>
+    <parameter name="resolve">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="value">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>&quot;${treeViewElementName}&quot;</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>labelElement</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>dcbf86be-5733-463d-acc7-c0628a02335f</source>
+    <target>7e5c38e5-314e-48b6-b513-aa119f491357</target>
+    <point>60.0,285.0</point>
+    <point>165.0,485.0</point>
+    <branch>default</branch>
+  </edge>
+  <values/>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>516fdc3c-28b1-4bed-87dd-d133815ecddd</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>c059d01e-b851-492f-9624-e631cdb41131</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>7e5c38e5-314e-48b6-b513-aa119f491357</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>1589bc35-aab8-4a5c-ba8b-4af14a6986a9</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>e7748c7f-3fb7-461b-b6d3-90163429a11a</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>12782481-2f83-48d1-9670-6db9aea04acc</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>fd927593-53f1-4d03-ba53-c5d0b98ccdfe</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>13ef0b52-4756-48e9-9c94-f6442cb05df7</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>1177d6aa-799f-4e78-825f-fb7dc89a7adf</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>5e241de2-5490-46f8-ab04-46c3216ec115</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>5119c5f7-c40a-4fb0-9e63-25b144bb338c</sib>
+  </branch>
+  <branch>
+    <name>default</name>
+    <branch>default</branch>
+    <sib>5c46244a-0f13-41a5-b797-5300e78df559</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>5c46244a-0f13-41a5-b797-5300e78df559</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>dcbf86be-5733-463d-acc7-c0628a02335f</sib>
+  </branch>
+</model>

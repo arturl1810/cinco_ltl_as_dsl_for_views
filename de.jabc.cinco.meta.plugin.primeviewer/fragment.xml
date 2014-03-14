@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<fragment>
+   <extension
+         id="id1"
+         name="name"
+         point="de.jabc.cinco.meta.core.pluginregistry.metaplugin">
+      <metaplugin_description
+            metapluginService="de.jabc.cinco.meta.plugin.primeviewer.PrimeViewMetaPlugin">
+      </metaplugin_description>
+      <graphmodel-annotation
+            recognized-annotation="primeviewer">
+      </graphmodel-annotation>
+      <validator
+            ValidatorClass="de.jabc.cinco.meta.plugin.primeviewer.validation.PrimeViewerValidator">
+      </validator>
+      <proposalprovider
+            MetaPluginAcceptor="de.jabc.cinco.meta.plugin.primeviewer.proposalprovider.PrimeViewerAcceptor">
+      </proposalprovider>
+      <prime-annotation
+            recognized-annotation="pvLabel">
+      </prime-annotation>
+      <prime-annotation
+            recognized-annotation="pvFileExtension">
+      </prime-annotation>
+   </extension>
+
+</fragment>

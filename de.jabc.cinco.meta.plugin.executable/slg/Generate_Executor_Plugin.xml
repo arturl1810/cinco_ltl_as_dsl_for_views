@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<model version="2.1">
+  <id>ce0c5a7f-8c12-4f80-b1bb-ce59a157e6cc</id>
+  <name>Generate Executor Plugin</name>
+  <changecounter>17</changecounter>
+  <sib>
+    <id>4db17c13-c5e1-49db-94eb-31001adde1f3</id>
+    <name>MacroSIB_1</name>
+    <label>Generate Executor Class</label>
+    <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
+    <position>270.0,121.0</position>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>27030019-1698-4dc3-8a57-7a954a335761</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Generate Executor Class</string>
+    </userobject>
+  </sib>
+  <sib>
+    <id>7613d556-557b-4193-853b-07a283fa57df</id>
+    <name>MacroSIB_2</name>
+    <label>Generate Fragment XML</label>
+    <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
+    <position>474.0,121.0</position>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>1aaa30c3-481e-43ed-8708-4b7896beff58</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Generate Fragment XML</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>4db17c13-c5e1-49db-94eb-31001adde1f3</source>
+    <target>7613d556-557b-4193-853b-07a283fa57df</target>
+    <point>365.0,141.85714285714286</point>
+    <point>535.0,141.85714285714286</point>
+    <labelposition>523.5294117647059,-3.8571428571428603</labelposition>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>7613d556-557b-4193-853b-07a283fa57df</source>
+    <target>16931780-8fa0-4e91-ac53-ad8367ff0994</target>
+    <point>539.0909090909091,161.0</point>
+    <point>360.3658536585366,378.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>error</branch>
+  </edge>
+  <edge>
+    <source>4db17c13-c5e1-49db-94eb-31001adde1f3</source>
+    <target>16931780-8fa0-4e91-ac53-ad8367ff0994</target>
+    <point>345.0,161.0</point>
+    <point>345.0,378.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>error</branch>
+  </edge>
+  <sib>
+    <id>1f3db822-d3fa-475c-9ca2-d7cbda554428</id>
+    <name>MacroSIB</name>
+    <label>Generate Executable Plugin</label>
+    <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
+    <position>53.0,121.0</position>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$START">
+      <boolean>true</boolean>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>bf0bf557-8392-4afa-ab51-5f203f57d0e5</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Generate Executable Plugin</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>1f3db822-d3fa-475c-9ca2-d7cbda554428</source>
+    <target>4db17c13-c5e1-49db-94eb-31001adde1f3</target>
+    <point>370.0,58.333333333333336</point>
+    <point>140.0,135.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>1f3db822-d3fa-475c-9ca2-d7cbda554428</source>
+    <target>16931780-8fa0-4e91-ac53-ad8367ff0994</target>
+    <point>150.9090909090909,161.0</point>
+    <point>329.6341463414634,378.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>error</branch>
+  </edge>
+  <sib>
+    <id>16931780-8fa0-4e91-ac53-ad8367ff0994</id>
+    <name>ThrowException</name>
+    <label>ThrowException</label>
+    <sib-uid>basic-sibs/ThrowException</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.ThrowException</taxonomy>
+    <position>289.5,378.0</position>
+    <parameter name="message">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression></expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <values/>
+  <branch>
+    <name>default</name>
+    <branch>default</branch>
+    <sib>7613d556-557b-4193-853b-07a283fa57df</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>16931780-8fa0-4e91-ac53-ad8367ff0994</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>default</branch>
+    <sib>16931780-8fa0-4e91-ac53-ad8367ff0994</sib>
+  </branch>
+</model>

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         id="de.jabc.cinco.meta.core.CincoNature"
+         point="org.eclipse.core.resources.natures">
+      <runtime>
+         <run
+               class="de.jabc.cinco.meta.core.ui.CincoNature">
+         </run>
+      </runtime>
+      <requires-nature
+            id="org.eclipse.xtext.ui.shared.xtextNature">
+      </requires-nature>
+   </extension>
+	<extension
+        id="de.jabc.cinco.meta.core.mgl.ui.productgeneration"
+        name="CincoProductGeneration"
+        point="org.eclipse.ui.commands">
+     <command
+           defaultHandler="de.jabc.cinco.meta.core.ui.handlers.ToggleCincoNatureHandler"
+           description="Adds/Removes Cinco Nature to/from Project."
+           id="de.jabc.cinco.meta.core.ui.togglenature"
+           name="Toggle Cinco Nature">
+     </command>
+  </extension>
+  <extension
+        id="de.jabc.cinco.meta.core.mgl.ui.menus.productgeneration"
+        name="Cinco Product Generation Menu"
+        point="org.eclipse.ui.menus">
+     
+     <menuContribution
+           allPopups="false"
+           locationURI="popup:org.eclipse.ui.popup.any">
+        <command
+              commandId="de.jabc.cinco.meta.core.ui.togglenature"
+              disabledIcon="platform:/plugin/de.jabc.cinco.meta.core.ui/16-deact.png"
+              icon="platform:/plugin/de.jabc.cinco.meta.core.ui/16.png"
+              label="Toggle Cinco Product Nature"
+              style="push">
+           <visibleWhen
+                 checkEnabled="false">
+              <with
+                    variable="activeMenuSelection">
+                 <iterate
+                       ifEmpty="false"
+                       operator="and">
+                    <adapt
+                          type="org.eclipse.core.resources.IProject">
+                    </adapt>
+                 </iterate>
+              </with>
+           </visibleWhen>
+        </command>
+     </menuContribution>
+     <menuContribution
+           allPopups="false"
+           locationURI="popup:org.eclipse.ui.popup.any">
+        <command
+              commandId="de.jabc.cinco.meta.core.ui.cincoproductgenerationcommand"
+              disabledIcon="platform:/plugin/de.jabc.cinco.meta.core.ui/16-deact.png"
+              icon="platform:/plugin/de.jabc.cinco.meta.core.ui/16.png"
+              label="Generate Cinco Product"
+              style="push">
+           <visibleWhen
+                 checkEnabled="false">
+              <with
+                    variable="activeMenuSelection">
+                 <iterate
+                       ifEmpty="false"
+                       operator="and">
+                    <adapt
+                          type="org.eclipse.core.resources.IFile">
+                       <test
+                             property="org.eclipse.core.resources.name"
+                             value="*.mgl">
+                       </test>
+                    </adapt>
+                 </iterate>
+              </with>
+           </visibleWhen>
+        </command>
+     </menuContribution>
+  </extension>
+  <extension
+        id="de.jabc.cinco.meta.core.ui.productgenerationhandlers"
+        name="CincoProductGenerationHandlers"
+        point="org.eclipse.ui.handlers">
+     <!--<handler
+           class="de.jabc.cinco.meta.core.ui.handlers.CincoProductGenerationHandler"
+           commandId="de.jabc.cinco.meta.core.ui.handlers.CincoProductGenerationHandler">
+     </handler> -->
+     <handler
+           class="de.jabc.cinco.meta.core.ui.handlers.ToggleCincoNatureHandler"
+           commandId="de.jabc.cinco.meta.core.ui.handlers.ToggleCincoNatureHandler">
+     </handler>
+     <handler
+           class="de.jabc.cinco.meta.core.ui.handlers.CincoProductGenerationHandler"
+           commandId="de.jabc.cinco.meta.core.ui.cincoproductgenerationcommand">
+     </handler>
+  </extension>
+  <extension
+        id="de.jabc.cinco.meta.core.CincoNatureImages"
+        point="org.eclipse.ui.ide.projectNatureImages">
+     <image
+           icon="8.png"
+           id="de.jabc.cinco.meta.core.CincoNatureImage"
+           natureId="de.jabc.cinco.meta.core.CincoNature">
+     </image>
+  </extension>
+  <extension
+        point="org.eclipse.ui.commands">
+     <command
+           id="de.jabc.cinco.meta.core.ui.cincoproductgenerationcommand"
+           name="Cinco Product Generation">
+     </command>
+  </extension>
+</plugin>

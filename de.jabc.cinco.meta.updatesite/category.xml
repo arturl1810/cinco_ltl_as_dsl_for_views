@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/de.jabc.cinco.meta.core.ge.style.sdk_1.0.0.qualifier.jar" id="de.jabc.cinco.meta.core.ge.style.sdk" version="1.0.0.qualifier">
+      <category name="de.jabc.cinco.category"/>
+   </feature>
+   <feature url="features/de.jabc.cinco.meta.core.mgl.sdk_1.0.0.qualifier.jar" id="de.jabc.cinco.meta.core.mgl.sdk" version="1.0.0.qualifier">
+      <category name="de.jabc.cinco.category"/>
+   </feature>
+   <feature url="features/de.jabc.cinco.meta.feature_1.0.0.qualifier.jar" id="de.jabc.cinco.meta.feature" version="1.0.0.qualifier">
+      <category name="de.jabc.cinco.category"/>
+   </feature>
+   <category-def name="de.jabc.cinco.category" label="jABC Cinco"/>
+</site>
