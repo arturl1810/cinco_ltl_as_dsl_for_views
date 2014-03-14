@@ -43,6 +43,15 @@
     </plugins>
   </build> 
 
-
+  <repositories>
+	<repository>
+	  <id>vulturius-webdav</id>
+	  <name>JavaABC Repository</name>
+	  <url>https://vulturius.cs.uni-dortmund.de/maven</url>
+	  <layout>default</layout>
+	  <snapshots>
+	  </snapshots>
+	</repository>
+  </repositories>
 
 </project> 
