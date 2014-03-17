@@ -446,4 +446,5 @@ Export-Package: de.jabc.cinco.meta.core.mgl.transformation,
  de.jabc.cinco.meta.core.mgl.transformation.helper,
  de.jabc.cinco.meta.core.mgl.transformation.submodels,
  de.metaframe.jabc.framework.execution,
- de.metaframe.jabc.framework.execution.context
+ de.metaframe.jabc.framework.execution.context,
+ de.metaframe.jabc.framework.sib.parameter.foundation
