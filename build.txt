@@ -17,11 +17,13 @@ de.jabc.cinco.meta.core.ge.style.model
 
 de.jabc.cinco.meta.core.mgl
  src/de.jabc.cinco.meta.core.mgl/GenerateMGL.mwe2 -> Run as -> MWE2 Workflow -> Proceed
+confirm donwload of antlr with 'y'
 
 4)
 
 de.jabc.cinco.meta.core.ge.style
  src/de.jabc.cinco.meta.core.ge.style/GenerateStyle.mwe2 -> Run as -> MWE2 Workflow -> Proceed
+confirm donwload of antlr with 'y'
 
 
 === Building Cinco ===
