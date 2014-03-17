@@ -46,7 +46,7 @@
 								</rootModelPaths>
 								<packageName>de.jabc.cinco.meta.plugin.generator</packageName>
 								<generateHelperClasses>false</generateHelperClasses>
-								<generateLightweightFramework>true</generateLightweightFramework>
+								<generateLightweightFramework>false</generateLightweightFramework>
 								<helperClassesPackageName>de.jabc.cinco.meta.core.mgl.transformation.helper</helperClassesPackageName>
 								<beautify>false</beautify>
 							</arguments>
