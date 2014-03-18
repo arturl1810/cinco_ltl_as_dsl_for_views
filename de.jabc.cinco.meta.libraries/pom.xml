@@ -133,7 +133,7 @@
 	<repository>
 	  <id>vulturius-webdav</id>
 	  <name>JavaABC Repository</name>
-	  <url>https://vulturius.cs.uni-dortmund.de/maven</url>
+	  <url>https://vulturius.cs.tu-dortmund.de/maven</url>
 	  <layout>default</layout>
 	  <snapshots>
 	  </snapshots>
