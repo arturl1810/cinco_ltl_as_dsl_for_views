@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>149d1ca1-a6c8-418b-820e-fb6403963115</id>
   <name>Create CodeGen Handler</name>
-  <changecounter>21</changecounter>
+  <changecounter>24</changecounter>
   <sib>
     <id>6ec4d4e6-7c89-44fe-8552-f555aa651230</id>
     <name>RunStringTemplate</name>
@@ -106,6 +106,11 @@ public class $graphModelName$CodeGenerationHandler extends AbstractHandler {
 					project = s.getProject();
 				}
 				org.eclipse.core.runtime.IPath outlet = project.getLocation().append(&quot;$outlet$&quot;);
+        if(!outlet.toFile().exists()){
+           outlet.toFile().mkdirs();
+        }else if (!outlet.toFile().isDirectory()){
+					throw new RuntimeException(&quot;Outlet $outlet$ already exists, but is no directory.&quot;);
+				}
 				IFile f = project.getWorkspace().getRoot().getFile(new Path(uri.toPlatformString(true)));
 				generator.generate(graphModel,f,outlet,monitor);
 			}
@@ -117,7 +122,6 @@ public class $graphModelName$CodeGenerationHandler extends AbstractHandler {
 				
 			});
 		} catch (InvocationTargetException | InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     return null;
