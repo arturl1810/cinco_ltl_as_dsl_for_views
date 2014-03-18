@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>2433c1ce-3450-434d-bca0-daf015c49c9c</id>
   <name>Create Generator Plugin</name>
-  <changecounter>6</changecounter>
+  <changecounter>7</changecounter>
   <sib>
     <id>77fb0219-4a80-4436-b80d-a248ab35bc0c</id>
     <name>MacroSIB</name>
@@ -78,10 +78,10 @@
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
     <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>d6ca0c4a-6d65-4752-930b-c5fa72874a59</string>
+      <string>2433c1ce-3450-434d-bca0-daf015c49c9c</string>
     </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
-      <string>Create CodeGen Handler</string>
+      <string>Create Generator Plugin</string>
     </userobject>
   </sib>
   <edge>
