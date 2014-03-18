@@ -27,7 +27,7 @@ public class GenModelCreator {
         ResourceSet resourceSet = new ResourceSetImpl(); 
         resourceSet.getResources().add(genModelResource);
         System.out.println(projectPath);
-        genModel.setModelDirectory("/"+projectPath.append("src").toPortableString());
+        genModel.setModelDirectory("/"+projectPath.append("src-gen").toPortableString());
         genModel.getForeignModel().add("platform:/resource/"+projectPath.append("src-gen/model").addTrailingSeparator().toPortableString()+ecorePath.lastSegment());
         //genModel.getForeignModel().add("platform:/plugin/de.jabc.cinco.meta.core.mgl/model/GraphModel.ecore");
         
