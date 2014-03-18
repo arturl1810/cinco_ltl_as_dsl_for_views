@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <model version="2.1">
-  <id>d6ca0c4a-6d65-4752-930b-c5fa72874a59</id>
+  <id>149d1ca1-a6c8-418b-820e-fb6403963115</id>
   <name>Create CodeGen Handler</name>
-  <changecounter>14</changecounter>
+  <changecounter>21</changecounter>
   <sib>
     <id>6ec4d4e6-7c89-44fe-8552-f555aa651230</id>
     <name>RunStringTemplate</name>
@@ -27,24 +27,30 @@
     </parameter>
     <parameter name="template">
       <string>package $handlersPackageName$;
-
 import graphmodel.GraphModel;
+
+import java.lang.reflect.InvocationTargetException;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.graphiti.ui.editor.DiagramEditorInput;
+import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.handlers.HandlerUtil;
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.ui.progress.IProgressService;
 
 /**
  * Our sample handler extends AbstractHandler, an IHandler base class.
@@ -69,9 +75,16 @@ public class $graphModelName$CodeGenerationHandler extends AbstractHandler {
 		IEditorPart activeEditor =  window.getActivePage().getActiveEditor();
 		
 		DiagramEditorInput input = (DiagramEditorInput)activeEditor.getEditorInput();
-		URI uri = input.getUri();
+		final URI uri = input.getUri();
 		System.out.println(uri.toPlatformString(true));
-		try{
+		
+    IProgressService ps = window.getWorkbench().getProgressService();
+		try {
+			ps.run(true, true, new IRunnableWithProgress() {
+				
+				@Override
+				public void run(IProgressMonitor monitor) throws InvocationTargetException,
+						InterruptedException {try{
 			ResourceSet set = new ResourceSetImpl();
 			Resource res = set.createResource(uri);
 			graphmodel.GraphModel graphModel =null;
@@ -92,14 +105,22 @@ public class $graphModelName$CodeGenerationHandler extends AbstractHandler {
 					IResource s = ResourcesPlugin.getWorkspace().getRoot().findMember(platformString);
 					project = s.getProject();
 				}
-				org.eclipse.core.runtime.IPath outlet = project.getProjectRelativePath().append(&quot;/src-gen/&quot;);
-				generator.generate(graphModel,outlet);
+				org.eclipse.core.runtime.IPath outlet = project.getLocation().append(&quot;$outlet$&quot;);
+				IFile f = project.getWorkspace().getRoot().getFile(new Path(uri.toPlatformString(true)));
+				generator.generate(graphModel,f,outlet,monitor);
 			}
-			return null;
+			
 		}catch(Exception e){
-			return null;		
+			e.printStackTrace();
 		}
-		
+		}	
+				
+			});
+		} catch (InvocationTargetException | InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    return null;
 	}
 }</string>
     </parameter>
