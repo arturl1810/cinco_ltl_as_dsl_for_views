@@ -28,6 +28,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -190,6 +191,8 @@ public class Generate extends AbstractHandler {
 				URI.createPlatformResourceURI(path, true), true);
 
 		if (res != null && res.getContents().get(0) instanceof Styles) {
+			res.load(null);
+			EcoreUtil.resolveAll(res.getResourceSet());
 			s = (Styles) res.getContents().get(0);
 		} else {
 			throw new IOException("Couldn't load resource from: \""
