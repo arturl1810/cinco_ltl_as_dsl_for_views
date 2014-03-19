@@ -18,6 +18,7 @@ GraphModel returns GraphModel:
 		'nsURI' nsURI=EString
 		('iconPath' iconPath=EString)?
 		'diagramExtension' fileExtension=EString
+		('containableElements' '{' containableElements+=GraphicalElementContainment ( "," containableElements+=GraphicalElementContainment)* '}' )?
 		(attributes+=Attribute)*
 		('submodels' '(' submodels+=[GraphModel|EString] ( "," submodels+=[GraphModel|EString])* ')' )?
 		
@@ -27,6 +28,8 @@ GraphModel returns GraphModel:
 		  |(nodeContainers+=NodeContainer)
 		  |(types+=Type) 
 		)*
+		
+		
 	'}'
 ;
 
@@ -111,11 +114,15 @@ NodeContainer returns NodeContainer:
 	name=EString ('extends' extends=[NodeContainer|EString])?
 	'{'
 		(attributes+=Attribute)*
-		('containableNodes' '(' containableNodes+=[Node|EString] ( "," containableNodes+=[Node|EString])* ')' )?
+		('containableElements' '{' containableElements+=GraphicalElementContainment ( "," containableElements+=GraphicalElementContainment)* '}' )?
 		('incoming cardinality''['minIncoming=EInt','maxIncoming=EInt']')?
 		('outgoing cardinality''['minOutgoing=EInt','maxOutgoing=EInt']')?
 		
 	'}'
+;
+
+GraphicalElementContainment returns GraphicalElementContainment:
+	'(''type' ((type=[GraphicalModelElement|QName])|'dont_care')',''['lowerBound=EInt ','upperBound=EInt ']' ')'
 ;
 
 Import returns Import:
