@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>fc94b8b8-21f0-499c-a1bb-5968d40ae550</id>
   <name>GenerateSingleAttribute</name>
-  <changecounter>116</changecounter>
+  <changecounter>171</changecounter>
   <sib>
     <id>68ef8ffb-b956-40b6-a5af-a8ed91dce549</id>
     <name>GetAttributeType</name>
@@ -62,9 +62,7 @@
       </de.metaframe.common.sib.parameter.ContextExpression>
     </parameter>
     <branch>EBoolean</branch>
-    <branch>EClass</branch>
     <branch>EDouble</branch>
-    <branch>EEnum</branch>
     <branch>EInt</branch>
     <branch>EString</branch>
     <finalbranches>default</finalbranches>
@@ -148,16 +146,18 @@
   </sib>
   <edge>
     <source>bf5c5cb5-00b3-45d3-a4ef-7f94073f116f</source>
-    <target>38f2cade-e872-4a90-82ff-9a73525757d1</target>
-    <point>210.0,90.0</point>
-    <point>293.0,84.0</point>
+    <target>f78b389e-2aa3-4e62-bf2f-d8d8dcfd426c</target>
+    <point>288.0,90.2</point>
+    <point>387.0,134.2</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
     <source>38f2cade-e872-4a90-82ff-9a73525757d1</source>
     <target>51427352-4dce-4953-8acc-2d0acd6f37b6</target>
-    <point>390.0,90.0</point>
-    <point>598.0,81.0</point>
+    <point>465.0,99.0</point>
+    <point>465.0,168.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
@@ -182,7 +182,7 @@
     <label>GenerateSingleIntegerCode</label>
     <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
-    <position>267.0,271.0</position>
+    <position>237.0,271.0</position>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
     <userobject key="ABC$GRAPHSIB$MODELID">
@@ -205,7 +205,7 @@
     <label>GenerateSingleBooleanCode</label>
     <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
-    <position>518.5,271.0</position>
+    <position>443.5,271.0</position>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
     <userobject key="ABC$GRAPHSIB$MODELID">
@@ -228,7 +228,9 @@
     <label>GenerateSingleDoubleCode</label>
     <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
-    <position>803.0,271.0</position>
+    <position>672.5,271.0</position>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
     <userobject key="ABC$GRAPHSIB$MODELID">
       <string>58218bce-14ea-427d-8c72-e67903670e10</string>
     </userobject>
@@ -243,6 +245,112 @@
     <point>851.0,278.0</point>
     <branch>EDouble</branch>
   </edge>
+  <sib>
+    <id>f78b389e-2aa3-4e62-bf2f-d8d8dcfd426c</id>
+    <name>PrintConsoleMessage</name>
+    <label>PrintConsoleMessage</label>
+    <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
+    <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
+    <position>294.5,123.0</position>
+    <parameter name="error">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="message">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>AttributeType is ${attributeType}</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>false</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <finalbranches>default</finalbranches>
+  </sib>
+  <edge>
+    <source>f78b389e-2aa3-4e62-bf2f-d8d8dcfd426c</source>
+    <target>38f2cade-e872-4a90-82ff-9a73525757d1</target>
+    <point>345.0,165.0</point>
+    <point>439.0,91.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>51427352-4dce-4953-8acc-2d0acd6f37b6</source>
+    <target>dd7a60b0-7413-42aa-8ad8-99dd737e85ea</target>
+    <point>483.0,187.4625</point>
+    <point>927.0,215.2125</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>dd7a60b0-7413-42aa-8ad8-99dd737e85ea</id>
+    <name>GetElement</name>
+    <label>GetType</label>
+    <sib-uid>collection-sibs/GetElement</sib-uid>
+    <taxonomy>de.jabc.sib.common.collection.GetElement</taxonomy>
+    <position>944.5,168.0</position>
+    <parameter name="element">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>type</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="index">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>attributeType</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="list">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>typesMap</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>dd7a60b0-7413-42aa-8ad8-99dd737e85ea</source>
+    <target>c21b7fb1-200f-43eb-81e4-f621bf80cc13</target>
+    <point>977.8571428571429,204.0</point>
+    <point>1001.4912280701755,346.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>c21b7fb1-200f-43eb-81e4-f621bf80cc13</id>
+    <name>MacroSIB_4</name>
+    <label>GenerateSingleEnumeration</label>
+    <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
+    <position>881.0,286.0</position>
+    <parameter name="enumKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>type</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>21a09387-7e17-4606-a778-1e7bb342ecbd</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>GenerateSingleEnumeration</string>
+    </userobject>
+  </sib>
   <parameter>
     <name>attributeKey</name>
     <field>attributeKey</field>
@@ -298,16 +406,41 @@
   <branch>
     <name>error</name>
     <branch>error</branch>
-    <sib>51427352-4dce-4953-8acc-2d0acd6f37b6</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
     <sib>bf5c5cb5-00b3-45d3-a4ef-7f94073f116f</sib>
   </branch>
   <branch>
     <name>error</name>
     <branch>error</branch>
     <sib>38f2cade-e872-4a90-82ff-9a73525757d1</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>fb7bcde6-c6f3-4e6f-915d-49cbef2cf2f6</sib>
+  </branch>
+  <branch>
+    <name>default</name>
+    <branch>default</branch>
+    <sib>fb7bcde6-c6f3-4e6f-915d-49cbef2cf2f6</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>51427352-4dce-4953-8acc-2d0acd6f37b6</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>dd7a60b0-7413-42aa-8ad8-99dd737e85ea</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>c21b7fb1-200f-43eb-81e4-f621bf80cc13</sib>
+  </branch>
+  <branch>
+    <name>default</name>
+    <branch>default</branch>
+    <sib>c21b7fb1-200f-43eb-81e4-f621bf80cc13</sib>
   </branch>
 </model>

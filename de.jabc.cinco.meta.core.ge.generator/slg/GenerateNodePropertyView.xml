@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>696c3b21-1096-4b9a-86bd-7456a6b80d52</id>
   <name>GenerateModelElementPropertyView</name>
-  <changecounter>98</changecounter>
+  <changecounter>115</changecounter>
   <sib>
     <id>c215c747-bca3-4fbb-9807-9cd2ab3f1b32</id>
     <name>PutExpression</name>
@@ -633,6 +633,7 @@ import org.eclipse.graphiti.ui.platform.*;
 import org.eclipse.jface.viewers.*;
 import org.eclipse.jface.dialogs.*;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.events.*;
 import org.eclipse.swt.layout.*;
 import org.eclipse.swt.widgets.*;
@@ -1082,7 +1083,7 @@ public class $context.modelElementName$_$context.attributeName$_Section extends 
     <label>PrintConsoleMessage</label>
     <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
     <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
-    <position>249.5,93.0</position>
+    <position>234.5,63.0</position>
     <parameter name="error">
       <boolean>false</boolean>
     </parameter>

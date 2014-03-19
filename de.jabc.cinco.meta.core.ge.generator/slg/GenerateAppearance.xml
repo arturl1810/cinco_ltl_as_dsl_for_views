@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>f7b62494-1378-4d7a-afe4-57e7c97b4239</id>
   <name>GenerateAppearance</name>
-  <changecounter>709</changecounter>
+  <changecounter>726</changecounter>
   <sib>
     <id>9cde0543-77f8-4378-9096-382ac82bf1d6</id>
     <name>GetAppearanceAngle</name>
@@ -533,7 +533,7 @@ import org.eclipse.graphiti.mm.pictograms.Diagram;
     <label>GenerateFontCode</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>145.5,513.0</position>
+    <position>160.5,483.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -571,9 +571,10 @@ import org.eclipse.graphiti.mm.pictograms.Diagram;
   </edge>
   <edge>
     <source>7c6f370e-b0dd-43c7-b49c-19f932ef4619</source>
-    <target>d225d66c-5ce0-4258-bc84-411c7add5ed6</target>
-    <point>105.0,420.0</point>
-    <point>104.0,666.0</point>
+    <target>08c4ce97-d3c6-4086-8672-af45fa6e69c4</target>
+    <point>110.09433962264151,429.0</point>
+    <point>144.25531914893617,543.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>false</branch>
   </edge>
   <sib>
@@ -613,9 +614,10 @@ import org.eclipse.graphiti.mm.pictograms.Diagram;
   </edge>
   <edge>
     <source>1ad6f9d6-3000-4079-a14c-f3bd891dfb93</source>
-    <target>5ecbcbe3-a9d1-4169-b362-e9650c68c7a9</target>
-    <point>105.0,795.0</point>
-    <point>341.0,587.0</point>
+    <target>66d43dc5-cc79-4ee6-b263-1cd4a70e1711</target>
+    <point>123.0,781.2923076923076</point>
+    <point>282.0,732.3692307692307</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>false</branch>
   </edge>
   <sib>
@@ -655,9 +657,10 @@ import org.eclipse.graphiti.mm.pictograms.Diagram;
   </edge>
   <edge>
     <source>29c063ac-629f-400c-8452-42b93bffdbdd</source>
-    <target>d01005d8-7109-4a92-82a3-cfbc68617d35</target>
-    <point>345.0,465.0</point>
-    <point>348.0,229.0</point>
+    <target>ffd5055a-7f1e-4eb1-bb64-72cbd62b3a8b</target>
+    <point>369.72972972972974,423.0</point>
+    <point>411.62790697674416,339.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>false</branch>
   </edge>
   <edge>
@@ -695,6 +698,111 @@ import org.eclipse.graphiti.mm.pictograms.Diagram;
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
   </sib>
+  <sib>
+    <id>08c4ce97-d3c6-4086-8672-af45fa6e69c4</id>
+    <name>RunStringTemplate_6</name>
+    <label>GenerateFontCode</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>40.5,513.0</position>
+    <parameter name="append">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>fontCodeContent</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string></string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>08c4ce97-d3c6-4086-8672-af45fa6e69c4</source>
+    <target>d225d66c-5ce0-4258-bc84-411c7add5ed6</target>
+    <point>105.0,555.0</point>
+    <point>100.0,665.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>66d43dc5-cc79-4ee6-b263-1cd4a70e1711</id>
+    <name>RunStringTemplate_7</name>
+    <label>GenerateBGCode</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>196.0,678.0</position>
+    <parameter name="append">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>backgroundCodeContent</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string></string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>66d43dc5-cc79-4ee6-b263-1cd4a70e1711</source>
+    <target>5ecbcbe3-a9d1-4169-b362-e9650c68c7a9</target>
+    <point>270.0,720.0</point>
+    <point>346.0,564.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>ffd5055a-7f1e-4eb1-bb64-72cbd62b3a8b</id>
+    <name>RunStringTemplate_8</name>
+    <label>GenerateFGCode</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>376.5,318.0</position>
+    <parameter name="append">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>foregroundCodeContent</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string></string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>ffd5055a-7f1e-4eb1-bb64-72cbd62b3a8b</source>
+    <target>d01005d8-7109-4a92-82a3-cfbc68617d35</target>
+    <point>390.0,330.0</point>
+    <point>349.0,240.0</point>
+    <branch>default</branch>
+  </edge>
   <parameter>
     <name>eObjectKey</name>
     <field>eObjectKey</field>
@@ -811,5 +919,20 @@ import org.eclipse.graphiti.mm.pictograms.Diagram;
     <name>error</name>
     <branch>error</branch>
     <sib>85deecf3-a52a-4bb8-9d87-d2dd06676c97</sib>
+  </branch>
+  <branch>
+    <name>default</name>
+    <branch>error</branch>
+    <sib>08c4ce97-d3c6-4086-8672-af45fa6e69c4</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>ffd5055a-7f1e-4eb1-bb64-72cbd62b3a8b</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>66d43dc5-cc79-4ee6-b263-1cd4a70e1711</sib>
   </branch>
 </model>

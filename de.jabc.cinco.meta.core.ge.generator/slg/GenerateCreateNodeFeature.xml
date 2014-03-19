@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>9b2878c2-af27-4fb3-878a-6613ed7a16c6</id>
   <name>GenerateCreateNodeFeature</name>
-  <changecounter>290</changecounter>
+  <changecounter>291</changecounter>
   <sib>
     <id>cc5a8f52-a2dd-434a-825b-350e398066fe</id>
     <name>RunStringTemplate</name>
@@ -56,15 +56,16 @@ public Create$context.node.name$Feature(IFeatureProvider fp) {
 		$context.modelElementName$ $context.meIdentifier$ = $context.factoryName$Factory.eINSTANCE.create$context.modelElementName$();
 		PictogramElement target = context.getTargetContainer();
 		EObject bo = (EObject) getBusinessObjectForPictogramElement(target);
-		
+		$context.graphModelName$ $context.lcGraphModelName$ = $context.graphModelName$GraphitiUtils.addToResource(getDiagram(), this.getFeatureProvider());
+
 		if (bo instanceof NodeContainer) {
 			NodeContainer nc = (NodeContainer) bo;
 			nc.getNodes().add($context.meIdentifier$);
-		} 
+		} else {
+			$context.lcGraphModelName$.get$context.modelElementName$s().add($context.meIdentifier$);
+		}
 
 		//TODO: Add for loop over attributes and initialize them
-		$context.graphModelName$ $context.lcGraphModelName$ = $context.graphModelName$GraphitiUtils.addToResource(getDiagram(), this.getFeatureProvider());
-		$context.lcGraphModelName$.get$context.modelElementName$s().add($context.meIdentifier$);
 		addGraphicalRepresentation(context, $context.meIdentifier$);
 
 		return new Object[] {$context.meIdentifier$}; 
