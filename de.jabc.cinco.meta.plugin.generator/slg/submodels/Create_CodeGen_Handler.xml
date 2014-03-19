@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>149d1ca1-a6c8-418b-820e-fb6403963115</id>
   <name>Create CodeGen Handler</name>
-  <changecounter>24</changecounter>
+  <changecounter>28</changecounter>
   <sib>
     <id>6ec4d4e6-7c89-44fe-8552-f555aa651230</id>
     <name>RunStringTemplate</name>
@@ -27,7 +27,7 @@
     </parameter>
     <parameter name="template">
       <string>package $handlersPackageName$;
-import graphmodel.GraphModel;
+import $graphModelPackageName$.$graphModelNameLower$.$graphModelName$;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -87,11 +87,11 @@ public class $graphModelName$CodeGenerationHandler extends AbstractHandler {
 						InterruptedException {try{
 			ResourceSet set = new ResourceSetImpl();
 			Resource res = set.createResource(uri);
-			graphmodel.GraphModel graphModel =null;
+			$graphModelName$ graphModel =null;
 			res.load(null);
 			for(EObject obj: res.getContents()){
-				if(obj instanceof GraphModel){
-					graphModel = (GraphModel)obj;
+				if(obj instanceof $graphModelName$){
+					graphModel = ($graphModelName$)obj;
 					break;
 				}
 				
@@ -111,8 +111,7 @@ public class $graphModelName$CodeGenerationHandler extends AbstractHandler {
         }else if (!outlet.toFile().isDirectory()){
 					throw new RuntimeException(&quot;Outlet $outlet$ already exists, but is no directory.&quot;);
 				}
-				IFile f = project.getWorkspace().getRoot().getFile(new Path(uri.toPlatformString(true)));
-				generator.generate(graphModel,f,outlet,monitor);
+				generator.generate(graphModel,outlet,monitor);
 			}
 			
 		}catch(Exception e){
@@ -137,7 +136,7 @@ public class $graphModelName$CodeGenerationHandler extends AbstractHandler {
     <label>Put CodeGenHandler Name</label>
     <sib-uid>basic-sibs/PutExpression</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
-    <position>149.5,228.0</position>
+    <position>59.5,228.0</position>
     <parameter name="resolve">
       <boolean>true</boolean>
     </parameter>
@@ -228,8 +227,8 @@ public class $graphModelName$CodeGenerationHandler extends AbstractHandler {
   <edge>
     <source>64fc12bc-3e9d-41d2-99f6-8b000849df01</source>
     <target>4c587e73-fd65-4b34-9f50-d9bd212d1d2a</target>
-    <point>258.0,246.3272727272727</point>
-    <point>717.0,246.3272727272727</point>
+    <point>150.0,255.0</point>
+    <point>405.0,255.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -247,7 +246,7 @@ public class $graphModelName$CodeGenerationHandler extends AbstractHandler {
     <label>Put Handler Package</label>
     <sib-uid>basic-sibs/PutExpression</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
-    <position>424.5,228.0</position>
+    <position>334.5,228.0</position>
     <parameter name="resolve">
       <boolean>true</boolean>
     </parameter>
@@ -274,10 +273,45 @@ public class $graphModelName$CodeGenerationHandler extends AbstractHandler {
   </sib>
   <edge>
     <source>4c587e73-fd65-4b34-9f50-d9bd212d1d2a</source>
-    <target>6ec4d4e6-7c89-44fe-8552-f555aa651230</target>
-    <point>717.0,259.92</point>
-    <point>528.0,398.52</point>
+    <target>429342ba-a3d9-4538-bf1e-c333fd29fd3d</target>
+    <point>513.0,254.28</point>
+    <point>627.0,299.88</point>
     <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>429342ba-a3d9-4538-bf1e-c333fd29fd3d</id>
+    <name>ToLowerCase</name>
+    <label>ToLowerCase</label>
+    <sib-uid>utility-sibs/ToLowerCase</sib-uid>
+    <taxonomy>transem.utility.sib.ToLowerCase</taxonomy>
+    <position>537.5,228.0</position>
+    <parameter name="lowerStringKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>graphModelNameLower</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>false</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="stringKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>graphModelName</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>false</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>429342ba-a3d9-4538-bf1e-c333fd29fd3d</source>
+    <target>6ec4d4e6-7c89-44fe-8552-f555aa651230</target>
+    <point>630.0,255.0</point>
+    <point>731.0,254.0</point>
     <branch>default</branch>
   </edge>
   <values/>
@@ -305,5 +339,10 @@ public class $graphModelName$CodeGenerationHandler extends AbstractHandler {
     <name>default</name>
     <branch>default</branch>
     <sib>cac3bb48-d9e9-440f-b4d5-7a7d8993f6a2</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>429342ba-a3d9-4538-bf1e-c333fd29fd3d</sib>
   </branch>
 </model>

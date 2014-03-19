@@ -97,6 +97,7 @@ public class CreateCodeGeneratorPlugin extends AbstractService {
 			requiredBundles.add("org.eclipse.emf.ecore");
 			requiredBundles.add("org.eclipse.graphiti.ui");
 			requiredBundles.add("org.eclipse.ui.workbench");
+			requiredBundles.add("de.jabc.cinco.meta.core.mgl.model");
 			
 			requiredBundles.add(bundleName);
 			
