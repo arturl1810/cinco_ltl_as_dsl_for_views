@@ -12,7 +12,6 @@ import java.util.regex.Pattern;
 
 import mgl.Annotation;
 import mgl.Attribute;
-import mgl.Edge;
 import mgl.ModelElement;
 import mgl.Node;
 import mgl.NodeContainer;
@@ -20,9 +19,9 @@ import mgl.NodeContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import style.AbsolutPosition;
 import style.Alignment;
@@ -35,7 +34,6 @@ import style.LineStyle;
 import style.Size;
 import style.StyleFactory;
 import style.VAlignment;
-import de.jabc.cinco.meta.core.ge.style.sibs.adapter.Branches;
 import de.metaframe.jabc.framework.execution.LightweightExecutionEnvironment;
 import de.metaframe.jabc.framework.execution.context.LightweightExecutionContext;
 import de.metaframe.jabc.framework.sib.parameter.foundation.ContextExpressionFoundation;
@@ -450,8 +448,8 @@ public class ServiceAdapter {
 		try {
 			Appearance app = (Appearance) context.get(appearance);
 			Appearance newApp = StyleFactory.eINSTANCE.createAppearance();
+			
 			setValues(app, newApp);
-//			checkNewAppearance(newApp);
 			context.put(newAppearance, newApp);
 		} catch (Exception e) {
 			context.put("exception", e);
@@ -464,18 +462,21 @@ public class ServiceAdapter {
 	private static void setValues(Appearance app, Appearance newApp) {
 		if (app != null) {
 			Appearance parent = app.getParent();
+			
 			setValues(parent, newApp);
 			
 			if (app.getAngle() != -1) 
 				newApp.setAngle(app.getAngle());
 			
 			if (app.getBackground() != null){
-				newApp.setBackground(app.getBackground());
+				newApp.setBackground(EcoreUtil.copy(app.getBackground()));
 			}
+			
 			if (app.getFont() != null)
-				newApp.setFont(app.getFont());
+				newApp.setFont(EcoreUtil.copy(app.getFont()));
+			
 			if (app.getForeground() != null) {
-				newApp.setForeground(app.getForeground());
+				newApp.setForeground(EcoreUtil.copy(app.getForeground()));
 			}
 			if (app.getLineStyle() != LineStyle.SOLID)
 				newApp.setLineStyle(app.getLineStyle());

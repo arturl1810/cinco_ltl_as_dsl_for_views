@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>e96e3211-9e15-4d4a-94a9-7b4b8375d7a3</id>
   <name>GenerateLayoutFeatures</name>
-  <changecounter>416</changecounter>
+  <changecounter>473</changecounter>
   <sib>
     <id>ff7817b7-c328-4684-827e-afc4ea81c9f3</id>
     <name>PutExpression</name>
@@ -917,8 +917,8 @@ public class Layout$context.container.name$Feature extends AbstractLayoutFeature
   <edge>
     <source>faef0552-1ce6-4a8d-bc57-35c568fa48db</source>
     <target>ef1fb27c-e59b-4294-8800-22695794ae62</target>
-    <point>513.0,283.5230769230769</point>
-    <point>672.0,210.13846153846154</point>
+    <point>513.0,291.83076923076925</point>
+    <point>672.0,291.83076923076925</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>next</branch>
   </edge>
@@ -1081,8 +1081,9 @@ public class Layout$context.container.name$Feature extends AbstractLayoutFeature
   <edge>
     <source>46df0451-bc55-417e-9b16-551149d50056</source>
     <target>e76a0dec-f369-462a-9fef-468d56ee08e7</target>
-    <point>690.0,195.0</point>
-    <point>684.0,94.0</point>
+    <point>690.0,168.0</point>
+    <point>690.0,99.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>

@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>f7b62494-1378-4d7a-afe4-57e7c97b4239</id>
   <name>GenerateAppearance</name>
-  <changecounter>708</changecounter>
+  <changecounter>709</changecounter>
   <sib>
     <id>9cde0543-77f8-4378-9096-382ac82bf1d6</id>
     <name>GetAppearanceAngle</name>
@@ -137,7 +137,7 @@
     <label>CopyEObject</label>
     <sib-uid>utility-sibs/CopyEObject</sib-uid>
     <taxonomy>transem.utility.sib.CopyEObject</taxonomy>
-    <position>60.0,18.0</position>
+    <position>61.5,18.0</position>
     <parameter name="copiedEObjectKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>

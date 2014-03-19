@@ -285,10 +285,12 @@ enum LineStyle returns LineStyle:
 ;
  
 Color returns Color:
+	{Color}
 	"("r=INT","g=INT","b=INT")"
 ;
 
 Appearance returns Appearance:
+	{Appearance}
 	'appearance' name=ID ('extends' parent=[Appearance])? '{'
 		(
 			('angle' angle=INT)? &

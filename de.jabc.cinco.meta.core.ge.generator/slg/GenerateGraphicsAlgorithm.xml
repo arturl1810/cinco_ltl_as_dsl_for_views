@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>51140446-1347-4939-8c10-4439f751b7c3</id>
   <name>GenerateGraphicsAlgorithm</name>
-  <changecounter>183</changecounter>
+  <changecounter>185</changecounter>
   <sib>
     <id>dc5161c1-5eca-4932-ba1b-f2c5daa50852</id>
     <name>SwitchGraphicsAlgorithm</name>
@@ -642,9 +642,9 @@ peService.setPropertyValue($context.peName$, $context.graphModelName$GraphitiUti
   </edge>
   <edge>
     <source>5d58f516-137d-4665-8531-e2f29990497e</source>
-    <target>df99630f-74af-42ec-bdd1-46395c29141a</target>
-    <point>588.0,141.48</point>
-    <point>702.0,232.68</point>
+    <target>ca98a44a-d324-429e-97e7-217c0bb67ea8</target>
+    <point>560.625,144.0</point>
+    <point>505.7142857142857,243.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -816,34 +816,6 @@ peService.setPropertyValue($context.peName$, $context.graphModelName$GraphitiUti
     <point>885.0,45.0</point>
     <point>1450.0,136.0</point>
     <branch>MultiText</branch>
-  </edge>
-  <sib>
-    <id>df99630f-74af-42ec-bdd1-46395c29141a</id>
-    <name>PrintConsoleMessage</name>
-    <label>PrintConsoleMessage</label>
-    <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
-    <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
-    <position>564.5,198.0</position>
-    <parameter name="error">
-      <boolean>false</boolean>
-    </parameter>
-    <parameter name="message">
-      <de.metaframe.common.sib.parameter.ContextExpression>
-        <ContextExpressionFoundation>
-          <expression>In Polyline with ${decoratorShape}</expression>
-          <clazz>java.lang.Object</clazz>
-          <classMutable>false</classMutable>
-        </ContextExpressionFoundation>
-      </de.metaframe.common.sib.parameter.ContextExpression>
-    </parameter>
-    <finalbranches>default</finalbranches>
-  </sib>
-  <edge>
-    <source>df99630f-74af-42ec-bdd1-46395c29141a</source>
-    <target>ca98a44a-d324-429e-97e7-217c0bb67ea8</target>
-    <point>660.0,225.0</point>
-    <point>490.0,257.0</point>
-    <branch>default</branch>
   </edge>
   <parameter>
     <name>graphicsAlgorithmKey</name>
