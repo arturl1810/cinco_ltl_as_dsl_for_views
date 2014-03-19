@@ -75,7 +75,7 @@
 					<dependency>
 						<groupId>de.jabc.sib</groupId>
 						<artifactId>io-sibs</artifactId>
-						<version>1.4</version>
+						<version>1.5.2</version>
 					</dependency>
 					<dependency>
 						<groupId>de.jabc.sib</groupId>
