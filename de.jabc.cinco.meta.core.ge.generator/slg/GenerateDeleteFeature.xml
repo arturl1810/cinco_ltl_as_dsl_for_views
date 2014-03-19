@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>b6b70873-b6bd-4d16-a90b-5490e6667e1b</id>
   <name>GenerateDeleteFeature</name>
-  <changecounter>99</changecounter>
+  <changecounter>101</changecounter>
   <sib>
     <id>8464a500-52cc-46c9-9da7-02946ccea28f</id>
     <name>RunStringTemplate</name>
@@ -457,7 +457,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import graphmodel.Node;
-import graphmodel.NodeContainer;
+import graphmodel.Container;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.graphiti.features.IDeleteFeature;
@@ -476,7 +476,7 @@ public class DeleteNodeContainerFeature extends DefaultDeleteFeature {
 
 	@Override
 	public boolean canDelete(IDeleteContext context) {
-		if (getBusinessObjectForPictogramElement(context.getPictogramElement()) instanceof NodeContainer)
+		if (getBusinessObjectForPictogramElement(context.getPictogramElement()) instanceof Container)
 			return true;
 		return super.canDelete(context);
 	}
@@ -484,10 +484,10 @@ public class DeleteNodeContainerFeature extends DefaultDeleteFeature {
 	@Override
 	public void delete(IDeleteContext context) {
 		EObject bo = (EObject) getBusinessObjectForPictogramElement(context.getPictogramElement());
-		if (bo instanceof NodeContainer) {
-			NodeContainer nc = (NodeContainer) bo;
+		if (bo instanceof Container) {
+			Container nc = (Container) bo;
 			List&lt;Node&gt; delNodes = new ArrayList&lt;Node&gt;();
-			delNodes.addAll(nc.getNodes());
+			delNodes.addAll(nc.getModelElements(Node.class));
 			for (Node containedNode : delNodes) {
 				PictogramElement containedNodePE = Graphiti.getLinkService().getPictogramElements(getDiagram(), containedNode).get(0);
 				DeleteContext delContext = new DeleteContext(containedNodePE);

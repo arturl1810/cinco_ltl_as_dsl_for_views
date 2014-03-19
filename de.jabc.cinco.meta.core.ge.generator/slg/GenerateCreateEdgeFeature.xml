@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>acbfac10-5547-4af8-9d81-08e1d3c67972</id>
   <name>GenerateCreateEdgeFeature</name>
-  <changecounter>294</changecounter>
+  <changecounter>297</changecounter>
   <sib>
     <id>f25e916c-be2e-4728-817b-64548b50fdb7</id>
     <name>RunStringTemplate</name>
@@ -649,7 +649,7 @@ public class Create$context.edgeName$Feature extends AbstractCreateConnectionFea
       <string>
 
 			$context.graphModelName$ $context.lcGraphModelName$ = $context.graphModelName$GraphitiUtils.addToResource(getDiagram(), this.getFeatureProvider());
-			$context.lcGraphModelName$.get$context.fuEdgeName$s().add($context.meIdentifier$);
+			$context.lcGraphModelName$.getModelElements().add($context.meIdentifier$);
 			AddConnectionContext addContext = 
 				new AddConnectionContext(context.getSourceAnchor(), context.getTargetAnchor());
 			addContext.setNewObject($context.meIdentifier$);
@@ -811,7 +811,7 @@ public class Create$context.edgeName$Feature extends AbstractCreateConnectionFea
     <label>GetEdgeSourceElements</label>
     <sib-uid>mgl/mgl/GetEdgeSourceElements</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.sib.mgl.GetEdgeSourceElements</taxonomy>
-    <position>1162.5,258.0</position>
+    <position>1164.5,258.0</position>
     <parameter name="eListKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -839,7 +839,7 @@ public class Create$context.edgeName$Feature extends AbstractCreateConnectionFea
     <label>GetEdgeTargetElements</label>
     <sib-uid>mgl/mgl/GetEdgeTargetElements</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.sib.mgl.GetEdgeTargetElements</taxonomy>
-    <position>998.5,258.0</position>
+    <position>1001.0,258.0</position>
     <parameter name="eListKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1156,7 +1156,7 @@ public class Create$context.edgeName$Feature extends AbstractCreateConnectionFea
     <label>GetEdgeIsAbstract</label>
     <sib-uid>mgl/mgl/GetEdgeIsAbstract</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.sib.mgl.GetEdgeIsAbstract</taxonomy>
-    <position>12.0,33.0</position>
+    <position>13.0,33.0</position>
     <parameter name="edgeKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
