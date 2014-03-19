@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>98ab2190-4ec2-4346-85ee-61b8c0d16099</id>
   <name>GenerateMoveNodeFeature</name>
-  <changecounter>100</changecounter>
+  <changecounter>109</changecounter>
   <sib>
     <id>0c16a4d3-0b90-4180-9f99-856ce6752900</id>
     <name>RunStringTemplate</name>
@@ -78,7 +78,7 @@
     <label>IsNodeContained</label>
     <sib-uid>ge-util-sibs/IsNodeContained</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsNodeContained</taxonomy>
-    <position>301.0,288.0</position>
+    <position>303.0,288.0</position>
     <parameter name="node">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -157,7 +157,7 @@ import org.eclipse.graphiti.features.context.IMoveShapeContext;
 import org.eclipse.graphiti.features.impl.DefaultMoveShapeFeature;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 
-import graphmodel.NodeContainer;
+import graphmodel.Container;
 
 import $context.importPath$.*;
 
@@ -186,13 +186,13 @@ public class Move$context.node.name$Feature extends DefaultMoveShapeFeature{
 		Object o = getBusinessObjectForPictogramElement(context.getShape());
 		Object source = getBusinessObjectForPictogramElement(context.getSourceContainer());
 		Object target = getBusinessObjectForPictogramElement(context.getTargetContainer());
-		if (source instanceof NodeContainer) {
-			NodeContainer nc = (NodeContainer) source;
-			nc.getNodes().remove(($context.node.name$) o);
+		if (source instanceof Container) {
+			Container nc = (Container) source;
+			nc.getModelElements().remove(($context.node.name$) o);
 		}
 		if (target instanceof $context.graphModelName$) {
 			$context.graphModelName$ tmp = ($context.graphModelName$) target;
-			tmp.get$context.node.name$s().add(($context.node.name$) o);
+			tmp.getModelElements().add(($context.node.name$) o);
 		}
 		$context.moveNodeContent$
 		super.moveShape(context);
@@ -352,7 +352,7 @@ public class Move$context.node.name$Feature extends DefaultMoveShapeFeature{
     <parameter name="template">
       <string>if (o instanceof $context.node.name$ &amp;&amp; target instanceof $context.container.name$) {
 	$context.container.name$ container = ($context.container.name$) target;
-	container.getNodes().add(($context.node.name$) o);
+	container.getModelElements().add(($context.node.name$) o);
 }
 </string>
     </parameter>
@@ -463,7 +463,7 @@ import org.eclipse.graphiti.features.context.IMoveShapeContext;
 import org.eclipse.graphiti.features.impl.DefaultMoveShapeFeature;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 
-import graphmodel.NodeContainer;
+import graphmodel.Container;
 
 import $context.importPath$.*;
 
@@ -490,13 +490,13 @@ public class Move$context.node.name$Feature extends DefaultMoveShapeFeature{
 		Object o = getBusinessObjectForPictogramElement(context.getShape());
 		Object source = getBusinessObjectForPictogramElement(context.getSourceContainer());
 		Object target = getBusinessObjectForPictogramElement(context.getTargetContainer());
-		if (source instanceof NodeContainer) {
-			NodeContainer nc = (NodeContainer) source;
-			nc.getNodes().remove(($context.node.name$) o);
+		if (source instanceof Container) {
+			Container nc = (Container) source;
+			nc.getModelElements().remove(($context.node.name$) o);
 		}
 		if (target instanceof $context.graphModelName$) {
 			$context.graphModelName$ tmp = ($context.graphModelName$) target;
-			tmp.get$context.node.name$s().add(($context.node.name$) o);
+			tmp.getModelElements().add(($context.node.name$) o);
 		}
 		$context.moveNodeContent$
 		super.moveShape(context);
