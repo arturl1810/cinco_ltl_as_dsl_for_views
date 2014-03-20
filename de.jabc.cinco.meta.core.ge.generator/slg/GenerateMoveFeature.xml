@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>15578aca-5002-4ec8-9aef-62338c135b36</id>
   <name>GenerateMoveFeature</name>
-  <changecounter>196</changecounter>
+  <changecounter>211</changecounter>
   <sib>
     <id>bd3ebe0a-3353-4ac5-8f08-5fd34ae782e0</id>
     <name>IterateElements</name>
@@ -161,6 +161,15 @@
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
     <position>313.0,361.0</position>
+    <parameter name="container">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>container</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
     <userobject key="ABC$GRAPHSIB$MODELID">
