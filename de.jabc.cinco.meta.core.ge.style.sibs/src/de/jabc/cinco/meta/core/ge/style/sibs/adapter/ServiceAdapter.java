@@ -365,7 +365,7 @@ public class ServiceAdapter {
 		LightweightExecutionContext context = env.getLocalContext();
 		try {
 			NodeContainer nc = (NodeContainer) context.get(nodeContainer);
-			Node n = (Node) context.get(node);
+			ModelElement n = (ModelElement) context.get(node);
 			
 			for (GraphicalElementContainment containedNode : nc.getContainableElements() ) {
 				if (containedNode.getType().equals(n)) {
