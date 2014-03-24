@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>fc94b8b8-21f0-499c-a1bb-5968d40ae550</id>
   <name>GenerateSingleAttribute</name>
-  <changecounter>171</changecounter>
+  <changecounter>175</changecounter>
   <sib>
     <id>68ef8ffb-b956-40b6-a5af-a8ed91dce549</id>
     <name>GetAttributeType</name>
@@ -146,9 +146,9 @@
   </sib>
   <edge>
     <source>bf5c5cb5-00b3-45d3-a4ef-7f94073f116f</source>
-    <target>f78b389e-2aa3-4e62-bf2f-d8d8dcfd426c</target>
-    <point>288.0,90.2</point>
-    <point>387.0,134.2</point>
+    <target>38f2cade-e872-4a90-82ff-9a73525757d1</target>
+    <point>288.0,81.83076923076923</point>
+    <point>447.0,81.83076923076923</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -244,34 +244,6 @@
     <point>465.0,195.0</point>
     <point>851.0,278.0</point>
     <branch>EDouble</branch>
-  </edge>
-  <sib>
-    <id>f78b389e-2aa3-4e62-bf2f-d8d8dcfd426c</id>
-    <name>PrintConsoleMessage</name>
-    <label>PrintConsoleMessage</label>
-    <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
-    <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
-    <position>294.5,123.0</position>
-    <parameter name="error">
-      <boolean>true</boolean>
-    </parameter>
-    <parameter name="message">
-      <de.metaframe.common.sib.parameter.ContextExpression>
-        <ContextExpressionFoundation>
-          <expression>AttributeType is ${attributeType}</expression>
-          <clazz>java.lang.Object</clazz>
-          <classMutable>false</classMutable>
-        </ContextExpressionFoundation>
-      </de.metaframe.common.sib.parameter.ContextExpression>
-    </parameter>
-    <finalbranches>default</finalbranches>
-  </sib>
-  <edge>
-    <source>f78b389e-2aa3-4e62-bf2f-d8d8dcfd426c</source>
-    <target>38f2cade-e872-4a90-82ff-9a73525757d1</target>
-    <point>345.0,165.0</point>
-    <point>439.0,91.0</point>
-    <branch>default</branch>
   </edge>
   <edge>
     <source>51427352-4dce-4953-8acc-2d0acd6f37b6</source>

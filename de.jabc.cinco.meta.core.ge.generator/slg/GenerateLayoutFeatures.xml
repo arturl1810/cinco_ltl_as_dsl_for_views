@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>e96e3211-9e15-4d4a-94a9-7b4b8375d7a3</id>
   <name>GenerateLayoutFeatures</name>
-  <changecounter>477</changecounter>
+  <changecounter>482</changecounter>
   <sib>
     <id>ff7817b7-c328-4684-827e-afc4ea81c9f3</id>
     <name>PutExpression</name>
@@ -1080,9 +1080,9 @@ public class Layout$context.container.name$Feature extends AbstractLayoutFeature
   </sib>
   <edge>
     <source>46df0451-bc55-417e-9b16-551149d50056</source>
-    <target>e76a0dec-f369-462a-9fef-468d56ee08e7</target>
-    <point>690.0,168.0</point>
-    <point>690.0,99.0</point>
+    <target>09073de3-e86c-43f7-8f4d-aa7d2e458d8b</target>
+    <point>708.0,181.92</point>
+    <point>897.0,131.52</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -1358,6 +1358,32 @@ public class Layout$context.edge.name$Feature extends AbstractLayoutFeature {
     <point>105.0,920.0</point>
     <branch>exit</branch>
   </edge>
+  <sib>
+    <id>09073de3-e86c-43f7-8f4d-aa7d2e458d8b</id>
+    <name>GenerateAppearanceDefaultValues</name>
+    <label>GenerateAppearanceDefaultValues</label>
+    <sib-uid>ge-util-sibs/GenerateAppearanceDefaultValues</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.GenerateAppearanceDefaultValues</taxonomy>
+    <position>783.5,168.0</position>
+    <parameter name="appearance">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>newAppearance</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>09073de3-e86c-43f7-8f4d-aa7d2e458d8b</source>
+    <target>e76a0dec-f369-462a-9fef-468d56ee08e7</target>
+    <point>885.0,195.0</point>
+    <point>686.0,86.0</point>
+    <branch>default</branch>
+  </edge>
   <values/>
   <branch>
     <name>error</name>
@@ -1478,5 +1504,10 @@ public class Layout$context.edge.name$Feature extends AbstractLayoutFeature {
     <name>default</name>
     <branch>default</branch>
     <sib>bbca0fa0-c880-490f-8889-e43de40d7630</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>09073de3-e86c-43f7-8f4d-aa7d2e458d8b</sib>
   </branch>
 </model>
