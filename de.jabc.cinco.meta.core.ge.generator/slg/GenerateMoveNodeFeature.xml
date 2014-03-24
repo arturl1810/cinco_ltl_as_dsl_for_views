@@ -2,93 +2,7 @@
 <model version="2.1">
   <id>98ab2190-4ec2-4346-85ee-61b8c0d16099</id>
   <name>GenerateMoveNodeFeature</name>
-  <changecounter>139</changecounter>
-  <sib>
-    <id>a0fff45d-f428-4f11-9b42-62522491d68f</id>
-    <name>IterateElements_1</name>
-    <label>IterateNodeContainer</label>
-    <sib-uid>collection-sibs/IterateElements</sib-uid>
-    <taxonomy>de.jabc.sib.common.collection.IterateElements</taxonomy>
-    <position>76.5,288.0</position>
-    <parameter name="collection">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>containers</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="element">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>container</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="iterator">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>contInter</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>error</finalbranches>
-    <finalbranches>exit</finalbranches>
-    <finalbranches>next</finalbranches>
-  </sib>
-  <sib>
-    <id>8e50e490-c73e-4ec6-9cbc-003f23ce7aa2</id>
-    <name>IsNodeContained</name>
-    <label>IsNodeContained</label>
-    <sib-uid>ge-util-sibs/IsNodeContained</sib-uid>
-    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsNodeContained</taxonomy>
-    <position>303.0,288.0</position>
-    <parameter name="node">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>node</key>
-          <scope>DECLARED</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="nodeContainer">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>container</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>error</finalbranches>
-    <finalbranches>false</finalbranches>
-    <finalbranches>true</finalbranches>
-  </sib>
-  <edge>
-    <source>a0fff45d-f428-4f11-9b42-62522491d68f</source>
-    <target>8e50e490-c73e-4ec6-9cbc-003f23ce7aa2</target>
-    <spline/>
-    <point>168.0,320.4</point>
-    <point>255.0,390.0</point>
-    <point>342.0,320.4</point>
-    <labelposition>494.2528735632184,70.60000000000001</labelposition>
-    <branch>next</branch>
-  </edge>
-  <edge>
-    <source>8e50e490-c73e-4ec6-9cbc-003f23ce7aa2</source>
-    <target>a0fff45d-f428-4f11-9b42-62522491d68f</target>
-    <spline/>
-    <point>360.0,315.0</point>
-    <point>150.0,315.0</point>
-    <labelposition>538.1309506482183,-1.610960393691478</labelposition>
-    <branch>false</branch>
-  </edge>
+  <changecounter>149</changecounter>
   <sib>
     <id>a757414d-68f3-478e-a5f2-cbb249a4880a</id>
     <name>RunStringTemplate_1</name>
@@ -150,11 +64,18 @@ public class Move$context.node.name$Feature extends DefaultMoveShapeFeature{
 			Container nc = (Container) source;
 			nc.getModelElements().remove(($context.node.name$) o);
 		}
+		if (source instanceof $context.graphModelName$) {
+			$context.graphModelName$ tmp = ($context.graphModelName$) source;
+			tmp.getModelElements().remove(($context.node.name$) o);
+		}
 		if (target instanceof $context.graphModelName$) {
 			$context.graphModelName$ tmp = ($context.graphModelName$) target;
 			tmp.getModelElements().add(($context.node.name$) o);
 		}
-		$context.moveNodeContent$
+		if (target instanceof Container) {
+			Container tmp = ($context.graphModelName$) target;
+			tmp.getModelElements().add(($context.node.name$) o);
+		}
 		super.moveShape(context);
 	}
 
@@ -265,57 +186,18 @@ public class Move$context.node.name$Feature extends DefaultMoveShapeFeature{
   </sib>
   <edge>
     <source>82dd5d9b-5c4a-42a2-a9eb-79211789466a</source>
-    <target>a0fff45d-f428-4f11-9b42-62522491d68f</target>
-    <point>150.0,54.0</point>
-    <point>150.0,288.0</point>
+    <target>35e844b0-f099-429d-90d8-86b7d3c5a34e</target>
+    <point>168.0,177.72</point>
+    <point>355.0,240.13333333333333</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
-    <source>a0fff45d-f428-4f11-9b42-62522491d68f</source>
+    <source>35e844b0-f099-429d-90d8-86b7d3c5a34e</source>
     <target>087d711d-b04c-4b7b-a239-244799d7a944</target>
-    <point>168.0,321.9</point>
-    <point>312.0,441.9</point>
+    <point>176.22641509433961,281.0</point>
+    <point>153.82978723404256,393.0</point>
     <labelposition>500.0,0.0</labelposition>
-    <branch>exit</branch>
-  </edge>
-  <sib>
-    <id>9d872bd5-9f49-4c22-a61c-49680058adee</id>
-    <name>RunStringTemplate_2</name>
-    <label>MoveNodeContent</label>
-    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
-    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>417.0,138.0</position>
-    <parameter name="append">
-      <boolean>true</boolean>
-    </parameter>
-    <parameter name="individualVariables">
-      <boolean>false</boolean>
-    </parameter>
-    <parameter name="result">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>moveNodeContent</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="template">
-      <string>if (o instanceof $context.node.name$ &amp;&amp; target instanceof $context.container.name$) {
-	$context.container.name$ container = ($context.container.name$) target;
-	container.getModelElements().add(($context.node.name$) o);
-}
-</string>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-  </sib>
-  <edge>
-    <source>9d872bd5-9f49-4c22-a61c-49680058adee</source>
-    <target>a0fff45d-f428-4f11-9b42-62522491d68f</target>
-    <point>555.0,165.0</point>
-    <point>146.0,296.0</point>
     <branch>default</branch>
   </edge>
   <sib>
@@ -446,11 +328,16 @@ public class Move$context.node.name$Feature extends DefaultMoveShapeFeature{
 			Container nc = (Container) source;
 			nc.getModelElements().remove(($context.node.name$) o);
 		}
+		
+		if (target instanceof Container) {
+			Container nc = (Container) source;
+			nc.getModelElements().add(($context.node.name$) o);
+		}
 		if (target instanceof $context.graphModelName$) {
 			$context.graphModelName$ tmp = ($context.graphModelName$) target;
 			tmp.getModelElements().add(($context.node.name$) o);
 		}
-		$context.moveNodeContent$
+		
 		super.moveShape(context);
 	}
 
@@ -474,312 +361,14 @@ public class Move$context.node.name$Feature extends DefaultMoveShapeFeature{
     <point>169.0,757.0</point>
     <branch>default</branch>
   </edge>
-  <edge>
-    <source>8e50e490-c73e-4ec6-9cbc-003f23ce7aa2</source>
-    <target>a762a5f0-e78a-4000-b061-b2730aea55ed</target>
-    <point>378.0,319.3411764705882</point>
-    <point>597.0,473.9294117647059</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>true</branch>
-  </edge>
   <sib>
-    <id>a762a5f0-e78a-4000-b061-b2730aea55ed</id>
-    <name>GetNodeContainerContainableElements</name>
-    <label>GetNodeContainerContainableElements</label>
-    <sib-uid>mgl/mgl/GetNodeContainerContainableElements</sib-uid>
-    <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetNodeContainerContainableElements</taxonomy>
-    <position>438.5,288.0</position>
-    <parameter name="eListKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>containableElements</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="nodeContainerKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>container</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-  </sib>
-  <edge>
-    <source>a762a5f0-e78a-4000-b061-b2730aea55ed</source>
-    <target>9fdcd952-82c5-42c2-a107-e65d462c0483</target>
-    <point>615.0,504.0</point>
-    <point>615.0,648.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
-  <edge>
-    <source>9fdcd952-82c5-42c2-a107-e65d462c0483</source>
-    <target>8e50e490-c73e-4ec6-9cbc-003f23ce7aa2</target>
-    <spline/>
-    <point>439.61538461538464,453.0</point>
-    <point>369.3103448275862,324.0</point>
-    <labelposition>392.58223183304307,-3.433551511442451</labelposition>
-    <branch>exit</branch>
-  </edge>
-  <edge>
-    <source>08d2186f-76ae-46ce-9c87-0ac7166351b4</source>
-    <target>9fdcd952-82c5-42c2-a107-e65d462c0483</target>
-    <point>927.0,623.9454545454546</point>
-    <point>633.0,664.0363636363636</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>false</branch>
-  </edge>
-  <edge>
-    <source>9fdcd952-82c5-42c2-a107-e65d462c0483</source>
-    <target>08d2186f-76ae-46ce-9c87-0ac7166351b4</target>
-    <spline/>
-    <point>498.0,475.62857142857143</point>
-    <point>690.0,525.0</point>
-    <point>912.0,475.05</point>
-    <labelposition>499.8323635657037,49.660665790864975</labelposition>
-    <branch>next</branch>
-  </edge>
-  <sib>
-    <id>08d2186f-76ae-46ce-9c87-0ac7166351b4</id>
-    <name>MatchString</name>
-    <label>MatchString</label>
-    <sib-uid>basic-sibs/MatchString</sib-uid>
-    <taxonomy>de.jabc.sib.common.basic.MatchString</taxonomy>
-    <position>887.5,468.0</position>
-    <parameter name="pattern">
-      <de.metaframe.common.sib.parameter.ContextExpression>
-        <ContextExpressionFoundation>
-          <expression>${graphicalModelElement.type.name}</expression>
-          <clazz>java.lang.String</clazz>
-          <classMutable>false</classMutable>
-        </ContextExpressionFoundation>
-      </de.metaframe.common.sib.parameter.ContextExpression>
-    </parameter>
-    <parameter name="string">
-      <de.metaframe.common.sib.parameter.ContextExpression>
-        <ContextExpressionFoundation>
-          <expression>${node.name}</expression>
-          <clazz>java.lang.String</clazz>
-          <classMutable>false</classMutable>
-        </ContextExpressionFoundation>
-      </de.metaframe.common.sib.parameter.ContextExpression>
-    </parameter>
-    <finalbranches>error</finalbranches>
-    <finalbranches>false</finalbranches>
-    <finalbranches>true</finalbranches>
-  </sib>
-  <edge>
-    <source>08d2186f-76ae-46ce-9c87-0ac7166351b4</source>
-    <target>50ab409b-d13b-4bcd-a6b9-afdfc7d7b88e</target>
-    <point>945.0,630.0</point>
-    <point>930.0,540.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>true</branch>
-  </edge>
-  <sib>
-    <id>50ab409b-d13b-4bcd-a6b9-afdfc7d7b88e</id>
-    <name>GetGraphicalElementContainmentUpperBound</name>
-    <label>GetGraphicalElementContainmentUpperBound</label>
-    <sib-uid>mgl/mgl/GetGraphicalElementContainmentUpperBound</sib-uid>
-    <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetGraphicalElementContainmentUpperBound</taxonomy>
-    <position>778.0,288.0</position>
-    <parameter name="graphicalElementContainmentKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>graphicalModelElement</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="graphicalElementContainmentupperBoundKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>upperBound</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-  </sib>
-  <edge>
-    <source>50ab409b-d13b-4bcd-a6b9-afdfc7d7b88e</source>
-    <target>8289510f-7973-47fb-85dd-738660794d64</target>
-    <point>930.0,540.0</point>
-    <point>765.0,465.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
-  <sib>
-    <id>8289510f-7973-47fb-85dd-738660794d64</id>
-    <name>EvaluateCondition</name>
-    <label>EvaluateCondition</label>
-    <sib-uid>basic-sibs/EvaluateCondition</sib-uid>
-    <taxonomy>de.jabc.sib.common.basic.EvaluateCondition</taxonomy>
-    <position>867.0,153.0</position>
-    <parameter name="condition">
-      <de.metaframe.common.sib.parameter.ContextExpression>
-        <ContextExpressionFoundation>
-          <expression>${upperBound &gt;= 0}</expression>
-          <clazz>java.lang.Boolean</clazz>
-          <classMutable>false</classMutable>
-        </ContextExpressionFoundation>
-      </de.metaframe.common.sib.parameter.ContextExpression>
-    </parameter>
-    <finalbranches>error</finalbranches>
-    <finalbranches>false</finalbranches>
-    <finalbranches>true</finalbranches>
-  </sib>
-  <edge>
-    <source>8289510f-7973-47fb-85dd-738660794d64</source>
-    <target>944b1564-431f-4aab-8b16-f76d49f1857e</target>
-    <point>780.0,300.0</point>
-    <point>660.0,225.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>true</branch>
-  </edge>
-  <edge>
-    <source>8289510f-7973-47fb-85dd-738660794d64</source>
-    <target>92c4e5e7-290e-4ff1-81e3-58913629fc7a</target>
-    <point>780.0,300.0</point>
-    <point>930.0,225.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>false</branch>
-  </edge>
-  <sib>
-    <id>92c4e5e7-290e-4ff1-81e3-58913629fc7a</id>
-    <name>RunStringTemplate_4</name>
-    <label>ContainerCheck</label>
-    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
-    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>635.0,78.0</position>
-    <parameter name="append">
-      <boolean>true</boolean>
-    </parameter>
-    <parameter name="individualVariables">
-      <boolean>false</boolean>
-    </parameter>
-    <parameter name="result">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>containerCheck</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="template">
-      <string>if (o instanceof $context.container.name$) {
-	return true;
-}
-</string>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-  </sib>
-  <sib>
-    <id>944b1564-431f-4aab-8b16-f76d49f1857e</id>
-    <name>RunStringTemplate_5</name>
-    <label>ContainerCheck</label>
-    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
-    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>635.0,198.0</position>
-    <parameter name="append">
-      <boolean>true</boolean>
-    </parameter>
-    <parameter name="individualVariables">
-      <boolean>false</boolean>
-    </parameter>
-    <parameter name="result">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>containerCheck</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="template">
-      <string>if (o instanceof $context.node.name$ &amp;&amp; target instanceof $context.container.name$) {
-	$context.container.name$ tmp = ($context.container.name$) target;
-	if (tmp.getModelElements($context.node.name$.class).size() &lt; $context.upperBound$)
-		return true;
-}
-</string>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-  </sib>
-  <edge>
-    <source>944b1564-431f-4aab-8b16-f76d49f1857e</source>
-    <target>9d872bd5-9f49-4c22-a61c-49680058adee</target>
-    <point>672.0,214.4</point>
-    <point>303.0,173.4</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
-  <edge>
-    <source>92c4e5e7-290e-4ff1-81e3-58913629fc7a</source>
-    <target>9d872bd5-9f49-4c22-a61c-49680058adee</target>
-    <point>672.0,99.73333333333333</point>
-    <point>303.0,168.06666666666666</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
-  <sib>
-    <id>9fdcd952-82c5-42c2-a107-e65d462c0483</id>
-    <name>IterateElements_2</name>
-    <label>IterateContainableElements</label>
-    <sib-uid>collection-sibs/IterateElements</sib-uid>
-    <taxonomy>de.jabc.sib.common.collection.IterateElements</taxonomy>
-    <position>476.0,468.0</position>
-    <parameter name="collection">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>containableElements</key>
-          <scope>DECLARED</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="element">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>graphicalModelElement</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="iterator">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>containableElementsIterator</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>error</finalbranches>
-    <finalbranches>exit</finalbranches>
-    <finalbranches>next</finalbranches>
-  </sib>
-  <parameter>
-    <name>node</name>
-    <field>node</field>
-    <sib>8e50e490-c73e-4ec6-9cbc-003f23ce7aa2</sib>
-  </parameter>
-  <values>
-    <entry>
-      <string>node</string>
+    <id>35e844b0-f099-429d-90d8-86b7d3c5a34e</id>
+    <name>MacroSIB</name>
+    <label>GenerateCheckContainer</label>
+    <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
+    <position>65.5,271.0</position>
+    <parameter name="ModelElementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
           <key>node</key>
@@ -787,17 +376,21 @@ public class Move$context.node.name$Feature extends DefaultMoveShapeFeature{
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </entry>
-  </values>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>4ac25e32-ae6b-469a-b78c-1764aa97ce4d</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>GenerateCheckContainer</string>
+    </userobject>
+  </sib>
+  <values/>
   <branch>
     <name>error</name>
     <branch>error</branch>
     <sib>82dd5d9b-5c4a-42a2-a9eb-79211789466a</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>a0fff45d-f428-4f11-9b42-62522491d68f</sib>
   </branch>
   <branch>
     <name>error</name>
@@ -817,16 +410,6 @@ public class Move$context.node.name$Feature extends DefaultMoveShapeFeature{
   <branch>
     <name>error</name>
     <branch>error</branch>
-    <sib>8e50e490-c73e-4ec6-9cbc-003f23ce7aa2</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>9d872bd5-9f49-4c22-a61c-49680058adee</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
     <sib>420e3c25-c42b-45a4-9b32-e185b5492caf</sib>
   </branch>
   <branch>
@@ -842,36 +425,6 @@ public class Move$context.node.name$Feature extends DefaultMoveShapeFeature{
   <branch>
     <name>error</name>
     <branch>error</branch>
-    <sib>a762a5f0-e78a-4000-b061-b2730aea55ed</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>9fdcd952-82c5-42c2-a107-e65d462c0483</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>08d2186f-76ae-46ce-9c87-0ac7166351b4</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>50ab409b-d13b-4bcd-a6b9-afdfc7d7b88e</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>8289510f-7973-47fb-85dd-738660794d64</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>944b1564-431f-4aab-8b16-f76d49f1857e</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>92c4e5e7-290e-4ff1-81e3-58913629fc7a</sib>
+    <sib>35e844b0-f099-429d-90d8-86b7d3c5a34e</sib>
   </branch>
 </model>

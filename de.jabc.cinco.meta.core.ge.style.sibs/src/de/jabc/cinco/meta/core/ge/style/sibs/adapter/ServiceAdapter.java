@@ -368,6 +368,8 @@ public class ServiceAdapter {
 			ModelElement n = (ModelElement) context.get(node);
 			
 			for (GraphicalElementContainment containedNode : nc.getContainableElements() ) {
+				if (containedNode.getType() == null)
+					return Branches.TRUE;
 				if (containedNode.getType().equals(n)) {
 					return Branches.TRUE;
 				}
