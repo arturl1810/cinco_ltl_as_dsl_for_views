@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>9b2878c2-af27-4fb3-878a-6613ed7a16c6</id>
   <name>GenerateCreateNodeFeature</name>
-  <changecounter>372</changecounter>
+  <changecounter>400</changecounter>
   <sib>
     <id>cc5a8f52-a2dd-434a-825b-350e398066fe</id>
     <name>RunStringTemplate</name>
@@ -84,14 +84,14 @@ public Create$context.node.name$Feature(IFeatureProvider fp) {
     <label>SetNodeName</label>
     <sib-uid>basic-sibs/PutExpression</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
-    <position>506.0,48.0</position>
+    <position>656.0,48.0</position>
     <parameter name="resolve">
       <boolean>true</boolean>
     </parameter>
     <parameter name="value">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>${node.name}</expression>
+          <expression>${currentNode.name}</expression>
           <clazz>java.lang.Object</clazz>
           <classMutable>true</classMutable>
         </ContextExpressionFoundation>
@@ -191,7 +191,7 @@ public Create$context.node.name$Feature(IFeatureProvider fp) {
     <label>PkgName</label>
     <sib-uid>basic-sibs/PutExpression</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
-    <position>371.5,48.0</position>
+    <position>551.5,48.0</position>
     <parameter name="resolve">
       <boolean>true</boolean>
     </parameter>
@@ -230,7 +230,7 @@ public Create$context.node.name$Feature(IFeatureProvider fp) {
     <label>ClassName</label>
     <sib-uid>basic-sibs/PutExpression</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
-    <position>665.5,48.0</position>
+    <position>800.5,48.0</position>
     <parameter name="resolve">
       <boolean>true</boolean>
     </parameter>
@@ -269,12 +269,12 @@ public Create$context.node.name$Feature(IFeatureProvider fp) {
     <label>GetNodePrimeReference</label>
     <sib-uid>mgl/mgl/GetNodePrimeReference</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.sib.mgl.GetNodePrimeReference</taxonomy>
-    <position>1016.0,48.0</position>
+    <position>1013.0,48.0</position>
     <parameter name="nodeKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>node</key>
-          <scope>GLOBAL</scope>
+          <key>currentNode</key>
+          <scope>LOCAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
@@ -351,7 +351,7 @@ public Create$context.node.name$Feature(IFeatureProvider fp) {
     <label>ToFirstLower</label>
     <sib-uid>basic-sibs/ToFirstLower</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.ToFirstLower</taxonomy>
-    <position>839.0,48.0</position>
+    <position>914.0,48.0</position>
     <parameter name="inputString">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -428,12 +428,12 @@ public Create$context.node.name$Feature(IFeatureProvider fp) {
     <label>GetNodeIsAbstract</label>
     <sib-uid>mgl/mgl/GetNodeIsAbstract</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.sib.mgl.GetNodeIsAbstract</taxonomy>
-    <position>42.5,48.0</position>
+    <position>221.5,48.0</position>
     <parameter name="nodeKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>node</key>
-          <scope>GLOBAL</scope>
+          <key>currentNode</key>
+          <scope>LOCAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
@@ -449,9 +449,6 @@ public Create$context.node.name$Feature(IFeatureProvider fp) {
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$START">
-      <boolean>true</boolean>
-    </userobject>
   </sib>
   <edge>
     <source>f31a6c04-b193-46bb-9a72-faf15372c786</source>
@@ -467,7 +464,7 @@ public Create$context.node.name$Feature(IFeatureProvider fp) {
     <label>EvaluateBoolean</label>
     <sib-uid>basic-sibs/EvaluateBoolean</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.EvaluateBoolean</taxonomy>
-    <position>211.5,48.0</position>
+    <position>376.5,48.0</position>
     <parameter name="bool">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -581,7 +578,7 @@ public Create$context.node.name$Feature(IFeatureProvider fp) {
     <parameter name="ModelElementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>node</key>
+          <key>currentNode</key>
           <scope>DECLARED</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
@@ -596,23 +593,56 @@ public Create$context.node.name$Feature(IFeatureProvider fp) {
       <string>GenerateCheckContainer</string>
     </userobject>
   </sib>
+  <sib>
+    <id>c207bb66-7621-4974-b1aa-b0a64ff11ea3</id>
+    <name>CopyElement</name>
+    <label>CopyElement</label>
+    <sib-uid>basic-sibs/CopyElement</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.CopyElement</taxonomy>
+    <position>75.0,48.0</position>
+    <parameter name="sourceVariable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>nodeKey</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="targetVariable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>currentNode</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$START">
+      <boolean>true</boolean>
+    </userobject>
+  </sib>
+  <edge>
+    <source>c207bb66-7621-4974-b1aa-b0a64ff11ea3</source>
+    <target>f31a6c04-b193-46bb-9a72-faf15372c786</target>
+    <point>120.0,75.0</point>
+    <point>254.0,77.0</point>
+    <branch>default</branch>
+  </edge>
   <parameter>
     <name>nodeKey</name>
-    <field>nodeKey</field>
-    <sib>bd077118-de5a-45be-813a-9826496d9ca8</sib>
-  </parameter>
-  <parameter>
-    <name>nodeKey</name>
-    <field>nodeKey</field>
-    <sib>f31a6c04-b193-46bb-9a72-faf15372c786</sib>
+    <field>sourceVariable</field>
+    <sib>c207bb66-7621-4974-b1aa-b0a64ff11ea3</sib>
   </parameter>
   <values>
     <entry>
       <string>nodeKey</string>
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>node</key>
-          <scope>GLOBAL</scope>
+          <key>currentNode</key>
+          <scope>LOCAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
@@ -692,5 +722,10 @@ public Create$context.node.name$Feature(IFeatureProvider fp) {
     <name>error</name>
     <branch>error</branch>
     <sib>a2faa48d-948a-4e96-809f-cd6600031d9e</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>c207bb66-7621-4974-b1aa-b0a64ff11ea3</sib>
   </branch>
 </model>
