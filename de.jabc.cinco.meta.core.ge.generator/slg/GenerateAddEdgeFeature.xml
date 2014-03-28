@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>730ef53f-e135-46d5-9e4b-96fc4843c423</id>
   <name>GenerateAddEdgeFeature</name>
-  <changecounter>297</changecounter>
+  <changecounter>301</changecounter>
   <sib>
     <id>4966ae71-56db-49f8-b6d7-c3a51fbd1021</id>
     <name>PutExpression</name>
@@ -154,7 +154,7 @@
     <label>CheckStyleAnnotation</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>842.0,91.0</position>
+    <position>840.5,91.0</position>
     <parameter name="modelElementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -226,9 +226,9 @@ import org.eclipse.graphiti.util.*;
 
 import com.sun.el.ExpressionFactoryImpl;
 
-import $context.projectName$.*;
-import $context.projectName$.expression.*;
-import $context.projectName$.features.layout.*;
+import $context.packageName$.graphiti.*;
+import $context.packageName$.graphiti.expression.*;
+import $context.packageName$.graphiti.features.layout.*;
 import $context.importPath$.*;
 
 public class Add$context.edgeName$Feature extends AbstractAddFeature {
@@ -369,7 +369,7 @@ public class Add$context.edgeName$Feature extends AbstractAddFeature {
     <label>GetEdgeIsAbstract</label>
     <sib-uid>mgl/mgl/GetEdgeIsAbstract</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.sib.mgl.GetEdgeIsAbstract</taxonomy>
-    <position>-2.0,93.0</position>
+    <position>-3.0,93.0</position>
     <parameter name="edgeKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -736,7 +736,7 @@ Leaving Generate ${edgeName} AddFeature</expression>
     <label>GenerateGraphicsAlgorithm</label>
     <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
-    <position>824.5,601.0</position>
+    <position>823.0,601.0</position>
     <parameter name="connectionDecoratorKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>

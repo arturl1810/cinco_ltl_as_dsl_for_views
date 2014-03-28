@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>4b8f0479-9813-462d-b7d3-1e7c977bb9c6</id>
   <name>GenerateNewDiagramWizard</name>
-  <changecounter>134</changecounter>
+  <changecounter>140</changecounter>
   <sib>
     <id>4db12997-4cd3-4e00-94ed-f5405dd7aa9b</id>
     <name>PutExpression</name>
@@ -107,7 +107,7 @@
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>package $context.projectName$.wizard;
+      <string>package $context.localPkgName$;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -366,7 +366,7 @@ public class New$context.fuGraphModelName$DiagramWizard extends Wizard implement
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>package $context.projectName$.wizard;
+      <string>package $context.localPkgName$;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IResource;

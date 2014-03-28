@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>3c916ba5-62a2-4951-941d-c4302cc4e008</id>
   <name>GenerateEContentAdapter</name>
-  <changecounter>72</changecounter>
+  <changecounter>77</changecounter>
   <sib>
     <id>ec2d367e-832c-4b37-b128-73a511511d46</id>
     <name>PutExpression_1</name>
@@ -158,7 +158,8 @@ import org.eclipse.graphiti.dt.IDiagramTypeProvider;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 
-import $context.projectName$.*;
+import $context.importPath$.*;
+import $context.packageName$.graphiti.*;
 
 public class $context.graphModelName$EContentAdapter extends EContentAdapter {
 
