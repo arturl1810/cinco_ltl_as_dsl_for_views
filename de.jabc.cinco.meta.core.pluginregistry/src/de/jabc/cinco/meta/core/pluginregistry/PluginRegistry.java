@@ -1,10 +1,11 @@
 package de.jabc.cinco.meta.core.pluginregistry;
+import graphmodel.GraphmodelPackage;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.xtend.typesystem.emf.EcoreUtil2;
 
 import de.jabc.cinco.meta.core.pluginregistry.impl.PluginRegistryEntryImpl;
 //import de.jabc.cinco.meta.core.pluginregistry.service.helper.AbstractService;
@@ -34,7 +35,7 @@ public class PluginRegistry {
 		
 		this.pluginGenerators = new HashMap<String,IMetaPlugin>();
 		
-		EPackage abstractGraphModel = EcoreUtil2.getEPackage("platform:/plugin/de.jabc.cinco.meta.core.mgl.model/model/GraphModel.ecore");
+		EPackage abstractGraphModel = GraphmodelPackage.eINSTANCE;//EcoreUtil2.getEPackageByClassName("GraphModelPackage");
 		ecoreMap.put("abstractGraphModel", abstractGraphModel);
 		genModelMap.put(abstractGraphModel,"platform:/plugin/de.jabc.cinco.meta.core.mgl.model/model/GraphModel.genmodel");
 		
