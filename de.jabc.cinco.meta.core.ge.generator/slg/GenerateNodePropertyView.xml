@@ -2,14 +2,14 @@
 <model version="2.1">
   <id>696c3b21-1096-4b9a-86bd-7456a6b80d52</id>
   <name>GenerateModelElementPropertyView</name>
-  <changecounter>116</changecounter>
+  <changecounter>161</changecounter>
   <sib>
     <id>c215c747-bca3-4fbb-9807-9cd2ab3f1b32</id>
     <name>PutExpression</name>
     <label>FilterPkgName</label>
     <sib-uid>basic-sibs/PutExpression</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
-    <position>1074.5,393.0</position>
+    <position>1104.5,528.0</position>
     <parameter name="resolve">
       <boolean>true</boolean>
     </parameter>
@@ -40,8 +40,8 @@
   <edge>
     <source>c215c747-bca3-4fbb-9807-9cd2ab3f1b32</source>
     <target>ba4cff73-0d56-4af6-853a-d8d1230f413f</target>
-    <point>1125.0,393.0</point>
-    <point>1125.0,309.0</point>
+    <point>1155.0,555.0</point>
+    <point>1155.0,435.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -51,7 +51,7 @@
     <label>FilterClassName</label>
     <sib-uid>basic-sibs/PutExpression</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
-    <position>1068.5,153.0</position>
+    <position>1098.5,288.0</position>
     <parameter name="resolve">
       <boolean>true</boolean>
     </parameter>
@@ -144,7 +144,7 @@
     <label>ViewPkgName</label>
     <sib-uid>basic-sibs/PutExpression</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
-    <position>1076.0,273.0</position>
+    <position>1106.0,408.0</position>
     <parameter name="resolve">
       <boolean>true</boolean>
     </parameter>
@@ -172,8 +172,8 @@
   <edge>
     <source>ba4cff73-0d56-4af6-853a-d8d1230f413f</source>
     <target>521b787c-2ee0-4fe9-b797-0cdf4a093ac4</target>
-    <point>900.0,708.0</point>
-    <point>900.0,309.0</point>
+    <point>1155.0,435.0</point>
+    <point>1155.0,315.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -183,7 +183,7 @@
     <label>GenFilterClassContent</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>658.5,153.0</position>
+    <position>883.5,153.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -235,7 +235,7 @@ public class $context.modelElementName$Filter extends AbstractPropertySectionFil
     <label>WriteJavaFile</label>
     <sib-uid>genesys-sibs/WriteJavaFile</sib-uid>
     <taxonomy>de.jabc.sib.genesys.WriteJavaFile</taxonomy>
-    <position>553.0,153.0</position>
+    <position>763.0,153.0</position>
     <parameter name="baseDirectory">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -299,9 +299,9 @@ public class $context.modelElementName$Filter extends AbstractPropertySectionFil
   </edge>
   <edge>
     <source>d3b18975-8808-4d0f-8d7a-57764196f9fa</source>
-    <target>fc305a02-217e-42f8-bc1d-96ce113fe89e</target>
-    <point>601.0,183.0</point>
-    <point>436.0,183.0</point>
+    <target>a7726038-79e3-498f-9331-08d9b62422eb</target>
+    <point>642.0,154.8</point>
+    <point>586.3636363636364,99.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -732,7 +732,7 @@ public class $context.modelElementName$_$context.attributeName$_Section extends 
     <label>GetAttributeLowerBound</label>
     <sib-uid>mgl/mgl/GetAttributeLowerBound</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.sib.mgl.GetAttributeLowerBound</taxonomy>
-    <position>262.0,258.0</position>
+    <position>232.0,273.0</position>
     <parameter name="attributeKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -893,8 +893,8 @@ public class $context.modelElementName$_$context.attributeName$_Section extends 
   <edge>
     <source>b11ce13f-d169-4b5c-842d-90eedac24e96</source>
     <target>ee15209b-336d-4acb-8fe9-d7ba490ecaf6</target>
-    <point>345.0,399.0</point>
-    <point>345.0,543.0</point>
+    <point>315.0,465.0</point>
+    <point>315.0,585.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>false</branch>
   </edge>
@@ -912,7 +912,7 @@ public class $context.modelElementName$_$context.attributeName$_Section extends 
     <label>CheckVariable</label>
     <sib-uid>basic-sibs/CheckVariable</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.CheckVariable</taxonomy>
-    <position>295.0,363.0</position>
+    <position>265.0,438.0</position>
     <parameter name="variable">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -970,7 +970,7 @@ public class $context.modelElementName$_$context.attributeName$_Section extends 
     <label>PutInteger</label>
     <sib-uid>basic-sibs/PutInteger</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutInteger</taxonomy>
-    <position>307.5,483.0</position>
+    <position>277.5,558.0</position>
     <parameter name="value">
       <int>1</int>
     </parameter>
@@ -992,7 +992,7 @@ public class $context.modelElementName$_$context.attributeName$_Section extends 
     <label>GetModelElementAttributes</label>
     <sib-uid>mgl/mgl/GetModelElementAttributes</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.sib.mgl.GetModelElementAttributes</taxonomy>
-    <position>824.5,153.0</position>
+    <position>1064.5,153.0</position>
     <parameter name="eListKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1052,7 +1052,7 @@ public class $context.modelElementName$_$context.attributeName$_Section extends 
     <label>PrintConsoleMessage</label>
     <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
     <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
-    <position>826.5,273.0</position>
+    <position>796.5,273.0</position>
     <parameter name="error">
       <boolean>false</boolean>
     </parameter>
@@ -1103,6 +1103,179 @@ public class $context.modelElementName$_$context.attributeName$_Section extends 
     <target>c6a74314-b916-44fa-96cd-3b87ac7e1413</target>
     <point>315.0,120.0</point>
     <point>221.0,168.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>a7726038-79e3-498f-9331-08d9b62422eb</id>
+    <name>RunStringTemplate_1</name>
+    <label>GenMETypeSectionCode</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>578.0,153.0</position>
+    <parameter name="append">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>METypeSectionCodeContent</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>package $context.viewPkgName$;
+
+import org.eclipse.graphiti.ui.platform.GFPropertySection;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
+import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
+import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
+
+public class $context.modelElementName$TypeClass extends GFPropertySection implements ITabbedPropertyConstants {
+
+	@Override
+	public void createControls(Composite parent, TabbedPropertySheetPage tabbedPropertySheetPage) {
+		super.createControls(parent, tabbedPropertySheetPage);
+		TabbedPropertySheetWidgetFactory factory = getWidgetFactory();
+		Composite composite = factory.createFlatFormComposite(parent);
+		GridLayout grid = new GridLayout(2, false);
+		composite.setLayout(grid);
+
+		GridData data;
+
+		Label typeLabel = factory.createLabel(composite, &quot;Type: &quot;);
+		data = new GridData(SWT.LEFT, SWT.CENTER, false, false);
+		typeLabel.setLayoutData(data);
+
+		Label $context.modelElementName$Label = factory.createLabel(composite, &quot;$context.modelElementName$&quot;);
+		data = new GridData(SWT.LEFT, SWT.CENTER, false, false);
+		$context.modelElementName$Label.setLayoutData(data);
+	}
+}</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>fce70437-0fe6-4409-9621-6c5c3dc6eb8d</id>
+    <name>WriteJavaFile_2</name>
+    <label>WriteJavaFile</label>
+    <sib-uid>genesys-sibs/WriteJavaFile</sib-uid>
+    <taxonomy>de.jabc.sib.genesys.WriteJavaFile</taxonomy>
+    <position>388.0,48.0</position>
+    <parameter name="baseDirectory">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>outletPath</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="beautify">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="beautifyMethod">
+      <de.metaframe.common.sib.parameter.ListBox>
+        <ListBoxFoundation>
+          <list>
+            <string>Eclipse</string>
+            <string>Jalopy</string>
+          </list>
+          <selected>0</selected>
+        </ListBoxFoundation>
+      </de.metaframe.common.sib.parameter.ListBox>
+    </parameter>
+    <parameter name="className">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>className</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="fileContent">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>METypeSectionCodeContent</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="packageName">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>viewPkgName</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>a7726038-79e3-498f-9331-08d9b62422eb</source>
+    <target>02cde0db-4081-43db-a872-e8458e036b31</target>
+    <point>642.0,79.80000000000001</point>
+    <point>588.0,115.8</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>fce70437-0fe6-4409-9621-6c5c3dc6eb8d</source>
+    <target>fc305a02-217e-42f8-bc1d-96ce113fe89e</target>
+    <point>472.89473684210526,84.0</point>
+    <point>443.4375,153.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>02cde0db-4081-43db-a872-e8458e036b31</id>
+    <name>PutExpression_3</name>
+    <label>TypeClassName</label>
+    <sib-uid>basic-sibs/PutExpression</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
+    <position>605.0,48.0</position>
+    <parameter name="resolve">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="value">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>${modelElementName}TypeClass</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>className</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>02cde0db-4081-43db-a872-e8458e036b31</source>
+    <target>fce70437-0fe6-4409-9621-6c5c3dc6eb8d</target>
+    <point>555.0,75.0</point>
+    <point>456.0,66.0</point>
     <branch>default</branch>
   </edge>
   <parameter>
@@ -1276,5 +1449,20 @@ public class $context.modelElementName$_$context.attributeName$_Section extends 
     <name>default</name>
     <branch>default</branch>
     <sib>234cacf7-df89-4891-af9e-e679d2b174a2</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>02cde0db-4081-43db-a872-e8458e036b31</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>fce70437-0fe6-4409-9621-6c5c3dc6eb8d</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>a7726038-79e3-498f-9331-08d9b62422eb</sib>
   </branch>
 </model>
