@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>696c3b21-1096-4b9a-86bd-7456a6b80d52</id>
   <name>GenerateModelElementPropertyView</name>
-  <changecounter>161</changecounter>
+  <changecounter>168</changecounter>
   <sib>
     <id>c215c747-bca3-4fbb-9807-9cd2ab3f1b32</id>
     <name>PutExpression</name>
@@ -204,10 +204,13 @@
 
 import org.eclipse.emf.ecore.*;
 import org.eclipse.graphiti.mm.pictograms.*;
+import org.eclipse.graphiti.platform.IDiagramBehavior;
 import org.eclipse.graphiti.services.*;
+import org.eclipse.graphiti.ui.editor.DiagramBehavior;
 import org.eclipse.graphiti.ui.platform.*;
 
-import $context.projectName$.content.adapter.*;
+import $context.packageName$.graphiti.*;
+import $context.packageName$.graphiti.content.adapter.*;
 
 import $context.importPath$.*;
 
@@ -216,6 +219,15 @@ public class $context.modelElementName$Filter extends AbstractPropertySectionFil
 	@Override
 	protected boolean accept(PictogramElement pe) {
 		EObject eObject = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
+		IDiagramBehavior idb = $context.graphModelName$GraphitiUtils.getInstance().getDTP().getDiagramBehavior();
+		if (idb instanceof DiagramBehavior) {
+			DiagramBehavior db = (DiagramBehavior) idb;
+			if (pe instanceof ConnectionDecorator) {
+				db.getDiagramContainer().setPictogramElementsForSelection(
+						new PictogramElement[] {pe, ((ConnectionDecorator) pe).getConnection()});
+				db.selectBufferedPictogramElements();
+			}
+		}
 		if (eObject instanceof $context.modelElementName$) {
 			$context.modelElementName$ tmp = ($context.modelElementName$) eObject;
 			if (!tmp.eAdapters().contains($context.modelElementName$EContentAdapter.getInstance()))
