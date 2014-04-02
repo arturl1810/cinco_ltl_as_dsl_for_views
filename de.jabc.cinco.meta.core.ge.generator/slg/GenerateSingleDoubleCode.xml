@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>58218bce-14ea-427d-8c72-e67903670e10</id>
   <name>GenerateSingleDoubleCode</name>
-  <changecounter>20</changecounter>
+  <changecounter>23</changecounter>
   <sib>
     <id>07490c72-84c8-4157-9ddc-dafda795be38</id>
     <name>RunStringTemplate</name>
@@ -183,14 +183,21 @@ VerifyListener verifyListener= new VerifyListener() {
 	@Override
 	public void verifyText(VerifyEvent e) {
 		try {
-			if (e.keyCode == SWT.DEL || e.keyCode == SWT.BS) {
+		if (e.keyCode == SWT.DEL || e.keyCode == SWT.BS) {
 				e.doit = true;
 				return;
 			}
 			if (!(e.widget instanceof Text))
 				return;
-			Double.valueOf(((Text)e.widget).getText().concat(e.text));
-			e.doit = true;
+			Text t = (Text) e.widget;
+			if (e.keyCode == 0) {
+				e.doit = true;
+				return;
+			}
+			if ((e.keyCode &gt;= 48 &amp;&amp; e.keyCode &lt;= 57) || e.keyCode == 46) {
+				Double.valueOf(t.getText().concat(e.text));
+				e.doit = true;
+			} else e.doit = false;
 		} catch (NumberFormatException e1) {
 			e.doit = false;
 		}
