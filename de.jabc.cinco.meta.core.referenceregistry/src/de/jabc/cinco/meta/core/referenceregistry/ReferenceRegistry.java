@@ -53,7 +53,7 @@ public class ReferenceRegistry implements Serializable{
 		return count++;
 	}
 	
-	public static String generateURI(EObject bo) {
+	public String generateURI(EObject bo) {
 		Resource res = bo.eResource();
 		String base = res.getURI().toPlatformString(true);
 		String fragment = res.getURIFragment(bo);

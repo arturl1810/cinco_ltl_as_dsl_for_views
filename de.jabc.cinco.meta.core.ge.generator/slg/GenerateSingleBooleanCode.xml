@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>50093a2f-f127-4315-978c-59bea9c2a6a3</id>
   <name>GenerateSingleBooleanCode</name>
-  <changecounter>81</changecounter>
+  <changecounter>97</changecounter>
   <sib>
     <id>a9db252a-8d07-44cf-8977-ce56b1572780</id>
     <name>RunStringTemplate</name>
@@ -195,7 +195,7 @@ if (tmp instanceof $context.modelElementName$) {
     <label>GenRefreshCode</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>632.5,333.0</position>
+    <position>752.5,318.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -236,7 +236,7 @@ $context.flAttributeName$Button.setText( ((Boolean) value).toString());</string>
     <label>GenControl</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>470.0,333.0</position>
+    <position>230.0,318.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -280,9 +280,9 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
   </sib>
   <edge>
     <source>b001c5ae-832b-4d5b-88ad-8219beccb114</source>
-    <target>5c462b30-f629-41f7-a167-d95000a6e3d8</target>
-    <point>510.0,360.0</point>
-    <point>690.0,360.0</point>
+    <target>f105b914-cb5e-4e6a-93f9-46ce328341da</target>
+    <point>288.0,345.43636363636364</point>
+    <point>417.0,298.5272727272727</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -323,7 +323,7 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
     <label>isPrimeRefParam</label>
     <sib-uid>basic-sibs/EvaluateBoolean</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.EvaluateBoolean</taxonomy>
-    <position>257.0,333.0</position>
+    <position>92.0,363.0</position>
     <parameter name="bool">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -359,7 +359,7 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
     <label>GenControl</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>470.0,438.0</position>
+    <position>470.0,468.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -404,8 +404,8 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
   <edge>
     <source>af1f5dd6-f247-4e73-a916-ddec028626d2</source>
     <target>5c462b30-f629-41f7-a167-d95000a6e3d8</target>
-    <point>528.0,446.4</point>
-    <point>672.0,362.4</point>
+    <point>288.0,481.3</point>
+    <point>792.0,341.3</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -415,6 +415,109 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
     <point>315.0,360.0</point>
     <point>495.0,448.0</point>
     <branch>false</branch>
+  </edge>
+  <sib>
+    <id>f105b914-cb5e-4e6a-93f9-46ce328341da</id>
+    <name>RunStringTemplate_5</name>
+    <label>GenChangeValue</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>391.0,318.0</position>
+    <parameter name="append">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>changeValueCode</key>
+          <scope>PARENT</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>PictogramElement pe = getSelectedPictogramElement();
+if (pe == null)
+	return;
+
+EObject tmp = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
+if (tmp instanceof $context.modelElementName$) {
+	String id = (($context.modelElementName$) tmp).get$context.fuRefTypeName$UID();
+	EObject referenced = ReferenceRegistry.getInstance().getEObject(Integer.valueOf(id));
+	EStructuralFeature feature = referenced.eClass().getEStructuralFeature(&quot;$context.attribute.feature.name$&quot;);
+	referenced.eSet(feature, $context.flAttributeName$Button.getSelection());
+	$context.flAttributeName$Button.setSelection( (Boolean) value);
+	$context.flAttributeName$Button.setText( ((Boolean) value).toString());
+}
+</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>0dcc595a-3b25-47b6-acd5-0db3092f432d</id>
+    <name>RunStringTemplate_8</name>
+    <label>GenListenerCode</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>556.0,318.0</position>
+    <parameter name="append">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>listenerCode</key>
+          <scope>PARENT</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>SelectionListener selectionListener = new SelectionListener() {
+		
+	@Override
+	public void widgetSelected(SelectionEvent e) {
+		TransactionalEditingDomain dom = getDiagramContainer().getDiagramBehavior().getEditingDomain();
+		dom.getCommandStack().execute(new RecordingCommand(dom, &quot;Set uni&quot;) {
+			
+			@Override
+			protected void doExecute() {
+				changeValue();
+			}
+		});
+	}
+	
+	@Override
+	public void widgetDefaultSelected(SelectionEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+};</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>f105b914-cb5e-4e6a-93f9-46ce328341da</source>
+    <target>0dcc595a-3b25-47b6-acd5-0db3092f432d</target>
+    <point>468.0,338.4</point>
+    <point>612.0,350.4</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>0dcc595a-3b25-47b6-acd5-0db3092f432d</source>
+    <target>5c462b30-f629-41f7-a167-d95000a6e3d8</target>
+    <point>615.0,345.0</point>
+    <point>819.0,321.0</point>
+    <branch>default</branch>
   </edge>
   <values/>
   <branch>
@@ -453,11 +556,6 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
     <sib>5c462b30-f629-41f7-a167-d95000a6e3d8</sib>
   </branch>
   <branch>
-    <name>default</name>
-    <branch>default</branch>
-    <sib>5c462b30-f629-41f7-a167-d95000a6e3d8</sib>
-  </branch>
-  <branch>
     <name>error</name>
     <branch>error</branch>
     <sib>b57b4154-de57-4cde-8691-b5b1802a0cf8</sib>
@@ -471,5 +569,20 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
     <name>error</name>
     <branch>error</branch>
     <sib>af1f5dd6-f247-4e73-a916-ddec028626d2</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>0dcc595a-3b25-47b6-acd5-0db3092f432d</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>f105b914-cb5e-4e6a-93f9-46ce328341da</sib>
+  </branch>
+  <branch>
+    <name>default</name>
+    <branch>default</branch>
+    <sib>5c462b30-f629-41f7-a167-d95000a6e3d8</sib>
   </branch>
 </model>

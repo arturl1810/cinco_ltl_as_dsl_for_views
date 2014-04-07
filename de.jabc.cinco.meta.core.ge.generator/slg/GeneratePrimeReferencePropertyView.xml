@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>7ce0cea2-f133-4819-a4df-6d0f1188d2ec</id>
   <name>GeneratePrimeReferencePropertyView</name>
-  <changecounter>208</changecounter>
+  <changecounter>217</changecounter>
   <sib>
     <id>a2cae63c-d9d7-4524-80b8-ad12b33b47d5</id>
     <name>GetReferencedTypeType</name>
@@ -275,7 +275,7 @@
     <label>GenerateSectionCode</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>511.0,213.0</position>
+    <position>481.0,168.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -325,6 +325,12 @@ public class $context.modelElementName$_$context.attributeName$_Section extends 
 		$context.refreshCode$
 	}
 
+	private void changeValue() {
+		$context.changeValueCode$
+	}
+
+	$context.listenerCode$
+
 }</string>
     </parameter>
     <finalbranches>default</finalbranches>
@@ -332,9 +338,9 @@ public class $context.modelElementName$_$context.attributeName$_Section extends 
   </sib>
   <edge>
     <source>12c1e798-7151-4e3d-9fd6-4461ca89cd46</source>
-    <target>f408e792-a9f4-4809-90e0-50d481f4adc9</target>
-    <point>705.0,357.0</point>
-    <point>600.0,267.0</point>
+    <target>cc5aece6-b4ab-432e-94fa-1d17e1eb4742</target>
+    <point>648.0952380952381,316.0</point>
+    <point>594.375,219.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -344,7 +350,7 @@ public class $context.modelElementName$_$context.attributeName$_Section extends 
     <label>ViewClassName</label>
     <sib-uid>basic-sibs/PutExpression</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
-    <position>530.0,78.0</position>
+    <position>350.0,168.0</position>
     <parameter name="resolve">
       <boolean>true</boolean>
     </parameter>
@@ -375,7 +381,7 @@ public class $context.modelElementName$_$context.attributeName$_Section extends 
     <label>WriteJavaFile</label>
     <sib-uid>genesys-sibs/WriteJavaFile</sib-uid>
     <taxonomy>de.jabc.sib.genesys.WriteJavaFile</taxonomy>
-    <position>418.0,78.0</position>
+    <position>358.0,288.0</position>
     <parameter name="baseDirectory">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -741,6 +747,109 @@ public class $context.modelElementName$_$context.attributeName$_Section extends 
     <point>134.0,391.0</point>
     <branch>default</branch>
   </edge>
+  <sib>
+    <id>cc5aece6-b4ab-432e-94fa-1d17e1eb4742</id>
+    <name>EvaluateBoolean</name>
+    <label>isPrimeParameter</label>
+    <sib-uid>basic-sibs/EvaluateBoolean</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.EvaluateBoolean</taxonomy>
+    <position>599.5,198.0</position>
+    <parameter name="bool">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>isPrimeRefParameter</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>false</finalbranches>
+    <finalbranches>true</finalbranches>
+  </sib>
+  <edge>
+    <source>cc5aece6-b4ab-432e-94fa-1d17e1eb4742</source>
+    <target>f408e792-a9f4-4809-90e0-50d481f4adc9</target>
+    <point>660.0,198.0</point>
+    <point>660.0,84.0</point>
+    <branch>true</branch>
+  </edge>
+  <sib>
+    <id>1f57e384-3631-4a3c-b040-83f299c0bbc1</id>
+    <name>RunStringTemplate_5</name>
+    <label>GenerateSectionCode</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>481.0,63.0</position>
+    <parameter name="append">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>viewClassContent</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>package $context.viewPkgName$;
+
+import java.util.*;
+
+import org.eclipse.emf.ecore.*;
+import org.eclipse.emf.transaction.*;
+
+import org.eclipse.graphiti.mm.pictograms.*;
+import org.eclipse.graphiti.services.*;
+import org.eclipse.graphiti.ui.platform.*;
+import org.eclipse.jface.viewers.*;
+import org.eclipse.jface.dialogs.*;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.*;
+import org.eclipse.swt.layout.*;
+import org.eclipse.swt.widgets.*;
+import org.eclipse.swt.widgets.List;
+import org.eclipse.ui.views.properties.tabbed.*;
+
+import $context.importPath$.*;
+import de.jabc.cinco.meta.core.referenceregistry.ReferenceRegistry;
+
+public class $context.modelElementName$_$context.attributeName$_Section extends GFPropertySection implements ITabbedPropertyConstants {
+
+	private EObject bo;
+
+	$context.controlCode$
+ 
+	@Override
+	public void refresh() {
+		$context.refreshCode$
+	}
+
+
+}</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>cc5aece6-b4ab-432e-94fa-1d17e1eb4742</source>
+    <target>1f57e384-3631-4a3c-b040-83f299c0bbc1</target>
+    <point>660.0,225.0</point>
+    <point>585.0,90.0</point>
+    <branch>false</branch>
+  </edge>
+  <edge>
+    <source>1f57e384-3631-4a3c-b040-83f299c0bbc1</source>
+    <target>8456f026-d049-4b3a-afd1-c93b9d745cdc</target>
+    <point>555.0,90.0</point>
+    <point>413.0,169.0</point>
+    <branch>default</branch>
+  </edge>
   <parameter>
     <name>referencedTypeKey</name>
     <field>sourceVariable</field>
@@ -852,5 +961,15 @@ public class $context.modelElementName$_$context.attributeName$_Section extends 
     <name>error</name>
     <branch>error</branch>
     <sib>96872081-3419-451c-b297-943e4ae84fa0</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>cc5aece6-b4ab-432e-94fa-1d17e1eb4742</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>1f57e384-3631-4a3c-b040-83f299c0bbc1</sib>
   </branch>
 </model>
