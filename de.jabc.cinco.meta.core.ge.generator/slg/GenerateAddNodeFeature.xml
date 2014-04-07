@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>4db550cc-f2bc-4c86-b8fb-009d572b0b8b</id>
   <name>GenerateAddNodeFeature</name>
-  <changecounter>1362</changecounter>
+  <changecounter>1367</changecounter>
   <sib>
     <id>b89523ed-9916-4f61-a5e9-9e1d8838a845</id>
     <name>PutExpression_1</name>
@@ -239,7 +239,7 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
     <label>CheckStyleAnnotation</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>645.5,91.0</position>
+    <position>647.0,91.0</position>
     <parameter name="modelElementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -358,7 +358,7 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
     <label>GetNodePrimeReference</label>
     <sib-uid>mgl/mgl/GetNodePrimeReference</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.sib.mgl.GetNodePrimeReference</taxonomy>
-    <position>38.0,618.0</position>
+    <position>41.0,618.0</position>
     <parameter name="nodeKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -808,7 +808,7 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
     <label>GetNodeIsAbstract</label>
     <sib-uid>mgl/mgl/GetNodeIsAbstract</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.sib.mgl.GetNodeIsAbstract</taxonomy>
-    <position>56.5,93.0</position>
+    <position>57.5,93.0</position>
     <parameter name="nodeKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1184,7 +1184,7 @@ Leaving Generate ${nodeName} AddFeature </expression>
     <label>IsNodeContained</label>
     <sib-uid>ge-util-sibs/IsNodeContained</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsNodeContained</taxonomy>
-    <position>286.0,408.0</position>
+    <position>288.0,408.0</position>
     <parameter name="node">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1229,7 +1229,7 @@ Leaving Generate ${nodeName} AddFeature </expression>
     <label>GenerateAbstractShape</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>40.0,226.0</position>
+    <position>43.0,226.0</position>
     <parameter name="currentShapeKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>

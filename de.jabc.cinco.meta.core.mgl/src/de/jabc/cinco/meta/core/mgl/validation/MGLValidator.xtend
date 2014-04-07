@@ -3,29 +3,24 @@
  */
 package de.jabc.cinco.meta.core.mgl.validation
 
+import mgl.Attribute
 import mgl.Edge
+import mgl.GraphModel
+import mgl.GraphicalModelElement
 import mgl.MglPackage
 import mgl.ModelElement
 import mgl.Node
-import org.eclipse.xtext.validation.Check
-import mgl.Attribute
-import org.eclipse.emf.ecore.EcorePackage
-import mgl.GraphModel
-import org.eclipse.emf.ecore.EClass
 import mgl.NodeContainer
+import mgl.ReferencedAttribute
+import mgl.ReferencedType
 import mgl.Type
 import mgl.UserDefinedType
-import mgl.ReferencedType
-import org.eclipse.xtext.EcoreUtil2
-import org.eclipse.emf.ecore.EObject
-import mgl.Annotation
-import de.jabc.cinco.meta.core.pluginregistry.impl.PluginRegistryEntryImpl
-import de.jabc.cinco.meta.core.pluginregistry.PluginRegistry
-import mgl.GraphicalModelElement
-import mgl.Import
-import javax.lang.model.type.ReferenceType
+import org.eclipse.emf.ecore.EClass
 import org.eclipse.emf.ecore.EDataType
-import mgl.ReferencedAttribute
+import org.eclipse.emf.ecore.EObject
+import org.eclipse.emf.ecore.EcorePackage
+import org.eclipse.xtext.EcoreUtil2
+import org.eclipse.xtext.validation.Check
 
 /**
  * Custom validation rules. 
@@ -38,7 +33,7 @@ class MGLValidator extends AbstractMGLValidator {
 	@Check
 	def checkNamedElementNameStartsWithCapital(ModelElement namedElement){
 		if (!Character::isUpperCase(namedElement.name.charAt(0))) {
-			error('Name must start with a capital', MglPackage$Literals::TYPE__NAME)
+			error('Name must start with a capital', MglPackage.Literals::TYPE__NAME)
 					
 		}
 	}
@@ -47,7 +42,7 @@ class MGLValidator extends AbstractMGLValidator {
 	def checkNamedElementNameNotUnique(ModelElement namedElement){
 		for(e: namedElement.eContainer.eAllContents.toIterable.filter(typeof(ModelElement))){
 			if(e.name.equals(namedElement.name)&&e!=namedElement)
-				error('Name must be unique',MglPackage$Literals::TYPE__NAME) 
+				error('Name must be unique',MglPackage.Literals::TYPE__NAME) 
 		}
 			
 	}
@@ -56,11 +51,11 @@ class MGLValidator extends AbstractMGLValidator {
 		
 		for(node : edge.sourceElements){
 			if(node.outgoingEdges==null||node.outgoingEdges.size==0||!node.outgoingEdges.contains(edge))
-				error('Node: '+node.name+' cannot have an outgoing edge.',MglPackage$Literals::EDGE__SOURCE_ELEMENTS)
+				error('Node: '+node.name+' cannot have an outgoing edge.',MglPackage.Literals::EDGE__SOURCE_ELEMENTS)
 		}
 		for(node : edge.targetElements){
 			if(node.incomingEdges==null||node.incomingEdges.size==0||!node.incomingEdges.contains(edge))
-				error('Node: '+node.name+' cannot have an incoming edge.',MglPackage$Literals::EDGE__TARGET_ELEMENTS)
+				error('Node: '+node.name+' cannot have an incoming edge.',MglPackage.Literals::EDGE__TARGET_ELEMENTS)
 		}
 		
 	}
@@ -69,28 +64,28 @@ class MGLValidator extends AbstractMGLValidator {
 	def checkEdgeCanConnectToNode(Node node){
 		for(edge : node.outgoingEdges){
 			if(edge.sourceElements==null||edge.sourceElements.size==0||!edge.sourceElements.contains(node))
-				error('Node: '+node.name+ 'cannot have Edge: '+edge.name+'as outgoing edge' ,MglPackage$Literals::GRAPHICAL_MODEL_ELEMENT__OUTGOING_EDGES)
+				error('Node: '+node.name+ 'cannot have Edge: '+edge.name+'as outgoing edge' ,MglPackage.Literals::GRAPHICAL_MODEL_ELEMENT__OUTGOING_EDGES)
 		}
 		for(edge : node.incomingEdges){
 			if(edge.targetElements==null||edge.targetElements.size==0||!edge.targetElements.contains(node))
-				error('Node: '+node.name+' cannot have Edge: '+edge.name +'as incoming edge.',MglPackage$Literals::GRAPHICAL_MODEL_ELEMENT__INCOMING_EDGES)
+				error('Node: '+node.name+' cannot have Edge: '+edge.name +'as incoming edge.',MglPackage.Literals::GRAPHICAL_MODEL_ELEMENT__INCOMING_EDGES)
 		}
 	}
 	
 	@Check
 	def checkUpperBound(Attribute attribute){
 		if(attribute.upperBound==0||attribute.upperBound<-1)
-			error("Upper Bound of attribute "+attribute.name+" must be -1 or bigger than 0",MglPackage$Literals::ATTRIBUTE__UPPER_BOUND)
+			error("Upper Bound of attribute "+attribute.name+" must be -1 or bigger than 0",MglPackage.Literals::ATTRIBUTE__UPPER_BOUND)
 		if(attribute.upperBound<attribute.lowerBound&&attribute.upperBound!=-1)
-			error("Upper Bound of attribute "+attribute.name+" can not be lower than Lower Bound",MglPackage$Literals::ATTRIBUTE__UPPER_BOUND)
+			error("Upper Bound of attribute "+attribute.name+" can not be lower than Lower Bound",MglPackage.Literals::ATTRIBUTE__UPPER_BOUND)
 	}
 	
 	@Check
 	def checkLowerBound(Attribute attribute){
 		if(attribute.lowerBound<0)
-			error("Lower Bound of attribute "+attribute.name+" cannot be lower than 0.",MglPackage$Literals::ATTRIBUTE__LOWER_BOUND)
+			error("Lower Bound of attribute "+attribute.name+" cannot be lower than 0.",MglPackage.Literals::ATTRIBUTE__LOWER_BOUND)
 		if(attribute.lowerBound>attribute.upperBound&&attribute.upperBound!=-1)
-			error("Lower Bound of attribute "+attribute.name+" cannot be larger than Upper Bound.",MglPackage$Literals::ATTRIBUTE__LOWER_BOUND)
+			error("Lower Bound of attribute "+attribute.name+" cannot be larger than Upper Bound.",MglPackage.Literals::ATTRIBUTE__LOWER_BOUND)
 	}
 	@Check
 	def checkReservedWordsInModelElements(ModelElement modelElement){
@@ -99,7 +94,7 @@ class MGLValidator extends AbstractMGLValidator {
 	@Check
 	def checkReservedWordsInAttributes(Attribute attr){
 		if(attr.name.toUpperCase=="ID")
-			error("Attribute Name cannot be "+attr.name+".",MglPackage$Literals::ATTRIBUTE__NAME)	
+			error("Attribute Name cannot be "+attr.name+".",MglPackage.Literals::ATTRIBUTE__NAME)	
 		
 	}
 	
@@ -148,24 +143,24 @@ class MGLValidator extends AbstractMGLValidator {
 				
 				
 				if(!typeKnown(left,graphModel)){
-					error("Left Attribute Unknown",MglPackage$Literals::ATTRIBUTE__TYPE)
+					error("Left Attribute Unknown",MglPackage.Literals::ATTRIBUTE__TYPE)
 				}
 				if(!typeKnown(right,graphModel)){
-					error("Right Attribute Unknown",MglPackage$Literals::ATTRIBUTE__TYPE)
+					error("Right Attribute Unknown",MglPackage.Literals::ATTRIBUTE__TYPE)
 				
 				}
 							
 			}else {
 				if(!typeKnown(attr.type,graphModel)){
-					error("Attribute Type Unknown",MglPackage$Literals::ATTRIBUTE__TYPE)	
+					error("Attribute Type Unknown",MglPackage.Literals::ATTRIBUTE__TYPE)	
 				}
 		}
 			}else{
 				if(!(attr.modelElement instanceof Node)){
-					error("Instance Attribute Only allowed on Nodes",MglPackage$Literals::ATTRIBUTE__INSTANCE_ATTRIBUTE)
+					error("Instance Attribute Only allowed on Nodes",MglPackage.Literals::ATTRIBUTE__INSTANCE_ATTRIBUTE)
 				}
 				if((attr.modelElement as Node).primeReference==null){
-					error("Prime Reference must be set for Instance Attribute",MglPackage$Literals::ATTRIBUTE__INSTANCE_ATTRIBUTE)
+					error("Prime Reference must be set for Instance Attribute",MglPackage.Literals::ATTRIBUTE__INSTANCE_ATTRIBUTE)
 				}
 			}
 		}
@@ -232,7 +227,7 @@ class MGLValidator extends AbstractMGLValidator {
 			val nodes = edge.sourceElements
 			val superTypeNodes = edge.extends.sourceElements
 			if(nodes.exists(u | superTypeNodes.contains(u))){
-				error("Node already contained in supertype.",MglPackage$Literals::EDGE__SOURCE_ELEMENTS)	
+				error("Node already contained in supertype.",MglPackage.Literals::EDGE__SOURCE_ELEMENTS)	
 			}
 		}
 		
@@ -241,7 +236,7 @@ class MGLValidator extends AbstractMGLValidator {
 	def checkFeatureNameUnique(Attribute attr){
 		for(a: attr.modelElement.attributes)
 			if(a!=attr&&a.name==attr.name)
-				error("Attribute Names must be unique",MglPackage$Literals::ATTRIBUTE__NAME)
+				error("Attribute Names must be unique",MglPackage.Literals::ATTRIBUTE__NAME)
 		if(attr.modelElement instanceof Edge){
 			var element = attr.modelElement as Edge
 			
@@ -250,7 +245,7 @@ class MGLValidator extends AbstractMGLValidator {
 				
 					for(a: superType.attributes){
 						if(a.name==attr.name)
-							error("Attribute Names must be unique",MglPackage$Literals::ATTRIBUTE__NAME)
+							error("Attribute Names must be unique",MglPackage.Literals::ATTRIBUTE__NAME)
 						
 					}
 				
@@ -267,7 +262,7 @@ class MGLValidator extends AbstractMGLValidator {
 			while(superType!=null){
 				for(a: superType.attributes){
 						if(a.name==attr.name)
-							error("Attribute Names must be unique",MglPackage$Literals::ATTRIBUTE__NAME)
+							error("Attribute Names must be unique",MglPackage.Literals::ATTRIBUTE__NAME)
 						
 					}
 				
@@ -281,7 +276,7 @@ class MGLValidator extends AbstractMGLValidator {
 				
 					for(a: superType.attributes){
 						if(a.name==attr.name)
-							error("Attribute Names must be unique",MglPackage$Literals::ATTRIBUTE__NAME)
+							error("Attribute Names must be unique",MglPackage.Literals::ATTRIBUTE__NAME)
 						
 					}
 				
@@ -302,7 +297,7 @@ class MGLValidator extends AbstractMGLValidator {
 				var EObject obj
 				ref.type = EcoreUtil2::resolve(eclass,obj) as EClass
 			}catch(Exception e){
-				error("Cannot resolve EClass: "+eclass,MglPackage$Literals::REFERENCED_TYPE__TYPE)
+				error("Cannot resolve EClass: "+eclass,MglPackage.Literals::REFERENCED_TYPE__TYPE)
 			}
 			
 		}
@@ -314,30 +309,29 @@ class MGLValidator extends AbstractMGLValidator {
 	@Check
 	def checkIncomingCardinality(GraphicalModelElement gme){
 		if(gme.minIncoming<0)
-			error("Minimal incoming cardinality cannot be lower than 0",MglPackage$Literals::GRAPHICAL_MODEL_ELEMENT__MIN_INCOMING);
+			error("Minimal incoming cardinality cannot be lower than 0",MglPackage.Literals::GRAPHICAL_MODEL_ELEMENT__MIN_INCOMING);
 		if(gme.minIncoming>gme.maxIncoming&&gme.maxIncoming!=-1)
-			error("Minimal incoming cardinality must be equal to or lower than maximal incoming cardinality",MglPackage$Literals::GRAPHICAL_MODEL_ELEMENT__MIN_INCOMING)
+			error("Minimal incoming cardinality must be equal to or lower than maximal incoming cardinality",MglPackage.Literals::GRAPHICAL_MODEL_ELEMENT__MIN_INCOMING)
 		if(gme.maxIncoming<0&&gme.maxIncoming!=-1)
-			error("Maximal incoming cardinality must equal to or higher than 0",MglPackage$Literals::GRAPHICAL_MODEL_ELEMENT__MAX_INCOMING)
+			error("Maximal incoming cardinality must equal to or higher than 0",MglPackage.Literals::GRAPHICAL_MODEL_ELEMENT__MAX_INCOMING)
 	}
 	
 	@Check
 	def checkOutgoingCardinality(GraphicalModelElement gme){
 		if(gme.minOutgoing<0)
-			error("Minimal outgoing cardinality cannot be lower than 0",MglPackage$Literals::GRAPHICAL_MODEL_ELEMENT__MIN_OUTGOING);
+			error("Minimal outgoing cardinality cannot be lower than 0",MglPackage.Literals::GRAPHICAL_MODEL_ELEMENT__MIN_OUTGOING);
 		if(gme.minOutgoing>gme.maxOutgoing&&gme.maxOutgoing!=-1)
-			error("Minimal outgoing cardinality must be equal to or lower than maximal outgoing cardinality",MglPackage$Literals::GRAPHICAL_MODEL_ELEMENT__MIN_OUTGOING)
+			error("Minimal outgoing cardinality must be equal to or lower than maximal outgoing cardinality",MglPackage.Literals::GRAPHICAL_MODEL_ELEMENT__MIN_OUTGOING)
 		if(gme.maxOutgoing<0&&gme.maxOutgoing!=-1)
-			error("Maximal outgoing cardinality must equal to or higher than -1",MglPackage$Literals::GRAPHICAL_MODEL_ELEMENT__MAX_OUTGOING)
+			error("Maximal outgoing cardinality must equal to or higher than -1",MglPackage.Literals::GRAPHICAL_MODEL_ELEMENT__MAX_OUTGOING)
 	}
 	
 	@Check
 	def checkPrimeReferenceIsPrime(ReferencedType refType){
-		var type = refType.type
 		var containingNode = refType.eContainer as Node
 		for(node: containingNode.graphModel.nodes){
 			if(node!=containingNode&&node.primeReference!=null&&node.primeReference.type==refType.type)
-				error("The Same type cannot be referenced by two different Nodes in the same graph model.",MglPackage$Literals::REFERENCED_TYPE__TYPE)
+				error("The Same type cannot be referenced by two different Nodes in the same graph model.",MglPackage.Literals::REFERENCED_TYPE__TYPE)
 		} 
 	}
 	
@@ -351,13 +345,13 @@ class MGLValidator extends AbstractMGLValidator {
 				
 					var obj = eDataType.EPackage.EFactoryInstance.createFromString(eDataType,attr.defaultValue)
 					if(obj==null)
-						 error(String::format("DataType %s cannot be instantiated with default value: %s.",attr.type,attr.defaultValue),MglPackage$Literals::ATTRIBUTE__DEFAULT_VALUE)
+						 error(String::format("DataType %s cannot be instantiated with default value: %s.",attr.type,attr.defaultValue),MglPackage.Literals::ATTRIBUTE__DEFAULT_VALUE)
 				
 			}else{
-				error("Default Value cannot be set, if type of attribute is not an EDataType",MglPackage$Literals::ATTRIBUTE__DEFAULT_VALUE)
+				error("Default Value cannot be set, if type of attribute is not an EDataType",MglPackage.Literals::ATTRIBUTE__DEFAULT_VALUE)
 			}
 			}catch(Exception s){
-					error(String::format("DataType %s cannot be instantiated with default value: %s.",attr.type,attr.defaultValue),MglPackage$Literals::ATTRIBUTE__DEFAULT_VALUE)
+					error(String::format("DataType %s cannot be instantiated with default value: %s.",attr.type,attr.defaultValue),MglPackage.Literals::ATTRIBUTE__DEFAULT_VALUE)
 				
 		
 			}
@@ -379,8 +373,27 @@ class MGLValidator extends AbstractMGLValidator {
 	@Check
 	def checkReferencedAttributeMatchesReferencedType(ReferencedAttribute attr){
 		if(attr.referencedType.type!=attr.feature.EContainingClass)
-			error("prime attribute must be an attribute from the prime reference",MglPackage$Literals::REFERENCED_ATTRIBUTE__FEATURE)
+			error("prime attribute must be an attribute from the prime reference",MglPackage.Literals::REFERENCED_ATTRIBUTE__FEATURE)
 		
+	}
+	@Check
+	def checkGraphModelContainableElements(GraphModel model){
+		if(model.containableElements.size>1){
+			for(containment:model.containableElements){
+				if(containment.type==null)
+					error("Dont't care type must not be accompanied by other containable elements.",MglPackage.Literals::GRAPH_MODEL__CONTAINABLE_ELEMENTS);
+			}
+		}
+	}
+	
+	@Check
+	def checkContainerContainableElements(NodeContainer container){
+		if(container.containableElements.size>1){
+			for(containment:container.containableElements){
+				if(containment.type==null)
+					error("Dont't care type must not be accompanied by other containable elements.",MglPackage.Literals::NODE_CONTAINER__CONTAINABLE_ELEMENTS);
+			}
+		}
 	}
 	
 	

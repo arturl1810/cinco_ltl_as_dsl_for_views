@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>ca5a39ee-2606-4461-8c2d-1e6ebdbd9d0e</id>
   <name>MGL2Ecore</name>
-  <changecounter>70</changecounter>
+  <changecounter>71</changecounter>
   <sib>
     <id>e763e08f-ee7b-48f6-8187-dac38f44f435</id>
     <name>MacroSIB</name>
@@ -295,10 +295,11 @@
   </sib>
   <edge>
     <source>6bbe603e-79c9-4547-bc18-f9bb41a277b7</source>
-    <target>82e2bac5-902c-4f3c-b416-e0ba58dddaf9</target>
-    <point>1505.0,73.66666666666667</point>
-    <point>1645.0,120.33333333333333</point>
-    <labelposition>500.0,0.0</labelposition>
+    <target>1492f046-e702-4e6c-b095-6671cb654f98</target>
+    <point>1532.0,46.0</point>
+    <point>1920.0,15.0</point>
+    <point>2067.5,46.0</point>
+    <labelposition>513.5387488328665,-25.0</labelposition>
     <branch>exit</branch>
   </edge>
   <edge>

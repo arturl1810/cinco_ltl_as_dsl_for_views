@@ -12,6 +12,7 @@ import java.util.regex.Pattern;
 
 import mgl.Annotation;
 import mgl.Attribute;
+import mgl.GraphicalElementContainment;
 import mgl.ModelElement;
 import mgl.Node;
 import mgl.NodeContainer;
@@ -364,10 +365,12 @@ public class ServiceAdapter {
 		LightweightExecutionContext context = env.getLocalContext();
 		try {
 			NodeContainer nc = (NodeContainer) context.get(nodeContainer);
-			Node n = (Node) context.get(node);
+			ModelElement n = (ModelElement) context.get(node);
 			
-			for (Node containedNode : nc.getContainableNodes() ) {
-				if (containedNode.getName().equals(n.getName())) {
+			for (GraphicalElementContainment containedNode : nc.getContainableElements() ) {
+				if (containedNode.getType() == null)
+					return Branches.TRUE;
+				if (containedNode.getType().equals(n)) {
 					return Branches.TRUE;
 				}
 			}

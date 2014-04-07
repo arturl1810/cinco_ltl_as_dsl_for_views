@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>bbe15f4c-aa62-4a79-93be-b5b01df883f7</id>
   <name>Create Swimlanes</name>
-  <changecounter>16</changecounter>
+  <changecounter>17</changecounter>
   <sib>
     <id>16bf1154-7de3-4eea-84a6-7a6ea202a8a3</id>
     <name>MacroSIB</name>
@@ -221,9 +221,11 @@
   </sib>
   <edge>
     <source>16bf1154-7de3-4eea-84a6-7a6ea202a8a3</source>
-    <target>1992632e-8802-43a0-bc01-049cf25c9323</target>
-    <point>645.0,240.0</point>
-    <point>789.0,233.0</point>
+    <target>a156e726-d8c9-44cf-a0ac-466eeae7ac8c</target>
+    <point>570.0,211.0</point>
+    <point>540.0,90.0</point>
+    <point>415.5,213.0</point>
+    <labelposition>237.78757447877945,97.48374192491777</labelposition>
     <branch>exit</branch>
   </edge>
   <edge>
