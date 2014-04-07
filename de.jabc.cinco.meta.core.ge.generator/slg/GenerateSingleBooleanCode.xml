@@ -2,14 +2,14 @@
 <model version="2.1">
   <id>50093a2f-f127-4315-978c-59bea9c2a6a3</id>
   <name>GenerateSingleBooleanCode</name>
-  <changecounter>49</changecounter>
+  <changecounter>81</changecounter>
   <sib>
     <id>a9db252a-8d07-44cf-8977-ce56b1572780</id>
     <name>RunStringTemplate</name>
     <label>GenRefreshCode</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>542.5,138.0</position>
+    <position>557.5,138.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -140,7 +140,7 @@ if (tmp instanceof $context.modelElementName$) {
     <label>GenListenerCode</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>706.0,138.0</position>
+    <position>721.0,138.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -190,35 +190,12 @@ if (tmp instanceof $context.modelElementName$) {
     <branch>default</branch>
   </edge>
   <sib>
-    <id>7367253c-99ca-45f1-b6a3-1838260dd84a</id>
-    <name>EvaluateBoolean</name>
-    <label>EvaluateBoolean</label>
-    <sib-uid>basic-sibs/EvaluateBoolean</sib-uid>
-    <taxonomy>de.jabc.sib.common.basic.EvaluateBoolean</taxonomy>
-    <position>106.5,228.0</position>
-    <parameter name="bool">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>isPrimeRef</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>error</finalbranches>
-    <finalbranches>false</finalbranches>
-    <finalbranches>true</finalbranches>
-    <userobject key="ABC$START">
-      <boolean>true</boolean>
-    </userobject>
-  </sib>
-  <sib>
     <id>5c462b30-f629-41f7-a167-d95000a6e3d8</id>
     <name>RunStringTemplate_4</name>
     <label>GenRefreshCode</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>392.5,333.0</position>
+    <position>632.5,333.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -243,9 +220,9 @@ if (pe != null) {
 if (bo instanceof $context.fuModelElementName$)
 	$context.flModelElementName$ = ($context.fuModelElementName$) bo;
 else return;
-String id = $context.flModelElementName$.get$context.fuEClassName$UID();
+String id = $context.flModelElementName$.get$context.fuRefTypeName$UID();
 EObject referenced = ReferenceRegistry.getInstance().getEObject(Integer.valueOf(id));
-EStructuralFeature feature = referenced.eClass().getEStructuralFeature(&quot;$context.flAttributeName$&quot;);
+EStructuralFeature feature = referenced.eClass().getEStructuralFeature(&quot;$context.attribute.feature.name$&quot;);
 Object value = referenced.eGet(feature, true);
 $context.flAttributeName$Button.setSelection( (Boolean) value);
 $context.flAttributeName$Button.setText( ((Boolean) value).toString());</string>
@@ -259,7 +236,130 @@ $context.flAttributeName$Button.setText( ((Boolean) value).toString());</string>
     <label>GenControl</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>230.0,333.0</position>
+    <position>470.0,333.0</position>
+    <parameter name="append">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>controlCode</key>
+          <scope>PARENT</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>private Button $context.flAttributeName$Button;
+	
+@Override
+public void createControls(Composite parent, TabbedPropertySheetPage tabbedPropertySheetPage) {
+	super.createControls(parent, tabbedPropertySheetPage);
+	TabbedPropertySheetWidgetFactory factory = getWidgetFactory();
+	Composite composite = factory.createFlatFormComposite(parent);
+	
+	GridLayout grid = new GridLayout(2, false);
+	composite.setLayout(grid);
+	GridData data;
+	Label $context.flAttributeName$Label = factory.createLabel(composite, &quot;$context.fuAttributeName$:&quot;);
+	data = new GridData(SWT.LEFT, SWT.CENTER, false, false);
+	$context.flAttributeName$Label.setLayoutData(data);
+
+	$context.flAttributeName$Button = factory.createButton(composite, &quot;true&quot;, SWT.CHECK);
+	data = new GridData(SWT.FILL, SWT.CENTER, true, false);
+	$context.flAttributeName$Button.setLayoutData(data);
+
+	$context.flAttributeName$Button.setEnabled(true);
+	}</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>b001c5ae-832b-4d5b-88ad-8219beccb114</source>
+    <target>5c462b30-f629-41f7-a167-d95000a6e3d8</target>
+    <point>510.0,360.0</point>
+    <point>690.0,360.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>b57b4154-de57-4cde-8691-b5b1802a0cf8</source>
+    <target>8504fd49-f4f2-4ec1-975b-2b43f65ad5d6</target>
+    <point>216.31578947368422,318.0</point>
+    <point>264.2857142857143,174.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>false</branch>
+  </edge>
+  <sib>
+    <id>b57b4154-de57-4cde-8691-b5b1802a0cf8</id>
+    <name>EvaluateBoolean_1</name>
+    <label>isPrimeRef</label>
+    <sib-uid>basic-sibs/EvaluateBoolean</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.EvaluateBoolean</taxonomy>
+    <position>112.0,243.0</position>
+    <parameter name="bool">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>isPrimeRef</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>false</finalbranches>
+    <finalbranches>true</finalbranches>
+    <userobject key="ABC$START">
+      <boolean>true</boolean>
+    </userobject>
+  </sib>
+  <sib>
+    <id>8d95b3ec-0263-4fcc-a6ee-ae6c0ccb8ac8</id>
+    <name>EvaluateBoolean_2</name>
+    <label>isPrimeRefParam</label>
+    <sib-uid>basic-sibs/EvaluateBoolean</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.EvaluateBoolean</taxonomy>
+    <position>257.0,333.0</position>
+    <parameter name="bool">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>isPrimeRefParameter</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>false</finalbranches>
+    <finalbranches>true</finalbranches>
+  </sib>
+  <edge>
+    <source>b57b4154-de57-4cde-8691-b5b1802a0cf8</source>
+    <target>8d95b3ec-0263-4fcc-a6ee-ae6c0ccb8ac8</target>
+    <point>210.0,345.0</point>
+    <point>345.0,435.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>true</branch>
+  </edge>
+  <edge>
+    <source>8d95b3ec-0263-4fcc-a6ee-ae6c0ccb8ac8</source>
+    <target>b001c5ae-832b-4d5b-88ad-8219beccb114</target>
+    <point>318.0,337.6</point>
+    <point>552.0,350.6</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>true</branch>
+  </edge>
+  <sib>
+    <id>af1f5dd6-f247-4e73-a916-ddec028626d2</id>
+    <name>RunStringTemplate_7</name>
+    <label>GenControl</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>470.0,438.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -302,26 +402,18 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
     <finalbranches>error</finalbranches>
   </sib>
   <edge>
-    <source>b001c5ae-832b-4d5b-88ad-8219beccb114</source>
+    <source>af1f5dd6-f247-4e73-a916-ddec028626d2</source>
     <target>5c462b30-f629-41f7-a167-d95000a6e3d8</target>
-    <point>240.0,360.0</point>
-    <point>405.0,360.0</point>
+    <point>528.0,446.4</point>
+    <point>672.0,362.4</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
-    <source>7367253c-99ca-45f1-b6a3-1838260dd84a</source>
-    <target>b001c5ae-832b-4d5b-88ad-8219beccb114</target>
-    <point>135.0,270.0</point>
-    <point>240.0,360.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>true</branch>
-  </edge>
-  <edge>
-    <source>7367253c-99ca-45f1-b6a3-1838260dd84a</source>
-    <target>8504fd49-f4f2-4ec1-975b-2b43f65ad5d6</target>
-    <point>135.0,270.0</point>
-    <point>255.0,164.0</point>
+    <source>8d95b3ec-0263-4fcc-a6ee-ae6c0ccb8ac8</source>
+    <target>af1f5dd6-f247-4e73-a916-ddec028626d2</target>
+    <point>315.0,360.0</point>
+    <point>495.0,448.0</point>
     <branch>false</branch>
   </edge>
   <values/>
@@ -353,11 +445,6 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
   <branch>
     <name>error</name>
     <branch>error</branch>
-    <sib>7367253c-99ca-45f1-b6a3-1838260dd84a</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
     <sib>b001c5ae-832b-4d5b-88ad-8219beccb114</sib>
   </branch>
   <branch>
@@ -369,5 +456,20 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
     <name>default</name>
     <branch>default</branch>
     <sib>5c462b30-f629-41f7-a167-d95000a6e3d8</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>b57b4154-de57-4cde-8691-b5b1802a0cf8</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>8d95b3ec-0263-4fcc-a6ee-ae6c0ccb8ac8</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>af1f5dd6-f247-4e73-a916-ddec028626d2</sib>
   </branch>
 </model>

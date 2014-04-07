@@ -2,12 +2,12 @@
 <model version="2.1">
   <id>6231d795-be3b-4d23-82c4-44a04b1084a3</id>
   <name>GenerateSingleEAttribute</name>
-  <changecounter>63</changecounter>
+  <changecounter>90</changecounter>
   <edge>
-    <source>45b5e3b8-e68e-450f-8880-3be0b63fb6f1</source>
+    <source>ae5012a5-52a3-4878-b539-25adabf4f4fb</source>
     <target>656a755b-7d0d-4033-b05b-749697fa1c57</target>
-    <point>183.0,121.08</point>
-    <point>297.0,178.08</point>
+    <point>138.0,192.9</point>
+    <point>282.0,120.9</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -42,18 +42,18 @@
   <edge>
     <source>026ef609-27f1-48a5-a240-709e666813ca</source>
     <target>debfeb81-4280-4371-bc43-ad11b1322d5b</target>
-    <point>735.0,240.0</point>
-    <point>420.0,330.0</point>
+    <point>717.0,236.33793103448275</point>
+    <point>320.0,345.8965517241379</point>
     <labelposition>501.2274828630638,-0.9545180640389903</labelposition>
     <branch>EString</branch>
   </edge>
   <sib>
     <id>a6d204e4-4cd0-40b6-b20b-967542c215cc</id>
     <name>PutExpression</name>
-    <label>PutExpression</label>
+    <label>SetAttributeName</label>
     <sib-uid>basic-sibs/PutExpression</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
-    <position>400.5,93.0</position>
+    <position>389.5,93.0</position>
     <parameter name="resolve">
       <boolean>true</boolean>
     </parameter>
@@ -188,37 +188,6 @@
     <branch>EBoolean</branch>
   </edge>
   <sib>
-    <id>45b5e3b8-e68e-450f-8880-3be0b63fb6f1</id>
-    <name>GetEAttributeEAttributeType</name>
-    <label>GetEAttributeEAttributeType</label>
-    <sib-uid>ecore/ecore/GetEAttributeEAttributeType</sib-uid>
-    <taxonomy>transem.ecore.sib.ecore.GetEAttributeEAttributeType</taxonomy>
-    <position>26.5,93.0</position>
-    <parameter name="eAttributeKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>eAttribute</key>
-          <scope>DECLARED</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="eAttributeeAttributeTypeKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>attributeType</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-    <userobject key="ABC$START">
-      <boolean>true</boolean>
-    </userobject>
-  </sib>
-  <sib>
     <id>a9c6a478-3920-43bb-bdf2-704e09f29898</id>
     <name>PrintConsoleMessage</name>
     <label>PrintConsoleMessage</label>
@@ -316,28 +285,54 @@
     <point>967.0,211.0</point>
     <branch>default</branch>
   </edge>
+  <sib>
+    <id>ae5012a5-52a3-4878-b539-25adabf4f4fb</id>
+    <name>GetEStructuralFeatureEType</name>
+    <label>GetEStructuralFeatureEType</label>
+    <sib-uid>ecore/ecore/GetEStructuralFeatureEType</sib-uid>
+    <taxonomy>transem.ecore.sib.ecore.GetEStructuralFeatureEType</taxonomy>
+    <position>28.0,93.0</position>
+    <parameter name="eStructuralFeatureKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>eStructuralFeatureKey</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="eStructuralFeatureeTypeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>attributeType</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$START">
+      <boolean>true</boolean>
+    </userobject>
+  </sib>
   <parameter>
-    <name>eAttributeKey</name>
-    <field>eAttributeKey</field>
-    <sib>45b5e3b8-e68e-450f-8880-3be0b63fb6f1</sib>
+    <name>eStructuralFeatureKey</name>
+    <field>eStructuralFeatureKey</field>
+    <sib>ae5012a5-52a3-4878-b539-25adabf4f4fb</sib>
   </parameter>
   <values>
     <entry>
-      <string>eAttributeKey</string>
+      <string>eStructuralFeatureKey</string>
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>eAttribute</key>
+          <key>eStructuralFeatureKey</key>
           <scope>DECLARED</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </entry>
   </values>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>45b5e3b8-e68e-450f-8880-3be0b63fb6f1</sib>
-  </branch>
   <branch>
     <name>error</name>
     <branch>error</branch>
@@ -392,5 +387,10 @@
     <name>default</name>
     <branch>default</branch>
     <sib>e1edc20b-a09d-4d14-9bed-4bf05a5d8a6b</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>ae5012a5-52a3-4878-b539-25adabf4f4fb</sib>
   </branch>
 </model>

@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>c6d3a171-4a7c-4363-ab9c-c7be2786983b</id>
   <name>GeneratePluginXML</name>
-  <changecounter>229</changecounter>
+  <changecounter>244</changecounter>
   <sib>
     <id>b9acf74f-0e4c-4f93-80c7-e3f218bfc27e</id>
     <name>RunStringTemplate</name>
@@ -349,34 +349,6 @@
     <point>110.0,133.0</point>
     <branch>false</branch>
   </edge>
-  <sib>
-    <id>74a7f7c8-047f-465c-816b-b692af508732</id>
-    <name>GetEClassEAttributes</name>
-    <label>GetEClassEAttributes</label>
-    <sib-uid>ecore/ecore/GetEClassEAttributes</sib-uid>
-    <taxonomy>transem.ecore.sib.ecore.GetEClassEAttributes</taxonomy>
-    <position>348.0,468.0</position>
-    <parameter name="eClassKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>eClass</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="eListKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>eAttributes</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-  </sib>
   <edge>
     <source>59a615d8-79df-4a4b-9438-48d9610d9108</source>
     <target>508806ca-cfdb-4f1f-8a13-83e648100ccb</target>
@@ -415,9 +387,10 @@
   </sib>
   <edge>
     <source>508806ca-cfdb-4f1f-8a13-83e648100ccb</source>
-    <target>74a7f7c8-047f-465c-816b-b692af508732</target>
-    <point>420.0,495.0</point>
-    <point>415.0,654.0</point>
+    <target>1c0326a3-5213-4cc4-8278-183a97bf249c</target>
+    <point>421.3235294117647,354.0</point>
+    <point>433.5483870967742,513.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
@@ -430,7 +403,7 @@
     <parameter name="collection">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>eAttributes</key>
+          <key>primeRefAttributes</key>
           <scope>LOCAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
@@ -459,10 +432,11 @@
     <finalbranches>next</finalbranches>
   </sib>
   <edge>
-    <source>74a7f7c8-047f-465c-816b-b692af508732</source>
+    <source>1c0326a3-5213-4cc4-8278-183a97bf249c</source>
     <target>e234e591-0a4b-4b1b-879d-a75555f910e4</target>
-    <point>585.0,495.0</point>
-    <point>584.0,332.0</point>
+    <point>435.9677419354839,498.0</point>
+    <point>570.4411764705883,339.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
@@ -471,7 +445,7 @@
     <label>RunStringTemplate</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>520.0,468.0</position>
+    <position>520.0,483.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -1211,6 +1185,34 @@
     <point>1061.0,688.0</point>
     <branch>exit</branch>
   </edge>
+  <sib>
+    <id>1c0326a3-5213-4cc4-8278-183a97bf249c</id>
+    <name>GetReferencedTypeCopiedAttributes</name>
+    <label>GetReferencedTypeCopiedAttributes</label>
+    <sib-uid>mgl/mgl/GetReferencedTypeCopiedAttributes</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetReferencedTypeCopiedAttributes</taxonomy>
+    <position>299.0,438.0</position>
+    <parameter name="eListKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>primeRefAttributes</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="referencedTypeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>primeRef</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
   <values/>
   <branch>
     <name>error</name>
@@ -1261,11 +1263,6 @@
     <name>error</name>
     <branch>error</branch>
     <sib>508806ca-cfdb-4f1f-8a13-83e648100ccb</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>74a7f7c8-047f-465c-816b-b692af508732</sib>
   </branch>
   <branch>
     <name>error</name>
@@ -1341,5 +1338,10 @@
     <name>error</name>
     <branch>error</branch>
     <sib>4ccb00c0-1f39-46e9-8392-4a37bb55fb39</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>1c0326a3-5213-4cc4-8278-183a97bf249c</sib>
   </branch>
 </model>
