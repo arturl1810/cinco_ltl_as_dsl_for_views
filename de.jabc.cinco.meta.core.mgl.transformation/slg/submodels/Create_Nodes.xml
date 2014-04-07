@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>d136ee11-0a5e-458f-8813-648c7e29c207</id>
   <name>Create Nodes</name>
-  <changecounter>48</changecounter>
+  <changecounter>53</changecounter>
   <edge>
     <source>bcbab676-0b89-45b1-87a8-6b31f8136bf1</source>
     <target>55e2fb55-9ab4-4b8a-a441-888598100881</target>
@@ -51,7 +51,7 @@
     <label>Add Nodes Reference To GraphModel</label>
     <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
-    <position>1167.0,271.0</position>
+    <position>1122.0,76.0</position>
     <parameter name="bidirectiveReference">
       <boolean>true</boolean>
     </parameter>
@@ -116,18 +116,18 @@
     </userobject>
   </sib>
   <edge>
-    <source>0042b9c2-51b9-4a97-b1b3-e67084b2a043</source>
+    <source>6ef738a3-fdc7-4a29-9d6a-457adb5ae030</source>
     <target>aa695ed3-b625-4893-9f50-a200a9a21ae0</target>
-    <point>1290.0,311.0</point>
-    <point>1290.0,483.0</point>
+    <point>1360.7627118644068,176.0</point>
+    <point>1294.017857142857,483.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
     <source>71f59236-d90a-4e7a-8177-5ae99b4cb509</source>
-    <target>aa695ed3-b625-4893-9f50-a200a9a21ae0</target>
-    <point>1016.5540540540541,84.0</point>
-    <point>1277.9577464788733,483.0</point>
+    <target>be1a46a5-46f2-419c-a9e8-bf18dde9e167</target>
+    <point>1005.0,84.0</point>
+    <point>1005.0,273.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -295,9 +295,9 @@
   </edge>
   <edge>
     <source>615352c2-3ce8-4e86-ae9b-6f23e5cfdd23</source>
-    <target>0042b9c2-51b9-4a97-b1b3-e67084b2a043</target>
-    <point>1053.0,403.16470588235296</point>
-    <point>1270.0,301.11764705882354</point>
+    <target>6ef738a3-fdc7-4a29-9d6a-457adb5ae030</target>
+    <point>1143.0,281.55</point>
+    <point>1345.0,168.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>true</branch>
   </edge>
@@ -641,6 +641,58 @@
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
   </sib>
+  <sib>
+    <id>6ef738a3-fdc7-4a29-9d6a-457adb5ae030</id>
+    <name>GraphSIB</name>
+    <label>Create Getter</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>1242.5,271.0</position>
+    <parameter name="eClassKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>graphModelClass</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="eOperatiobUpperBound">
+      <int>-1</int>
+    </parameter>
+    <parameter name="eOperationLowerBound">
+      <int>0</int>
+    </parameter>
+    <parameter name="eOperationNameKey">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>get${modelElementNameFirstUpper}s</expression>
+          <clazz>java.lang.String</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="eOperationeTypeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>modelElementClass</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>false</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>return getModelElements($modelElementNameFirstUpper$.class);</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Create EOperation</string>
+    </userobject>
+  </sib>
   <values/>
   <branch>
     <name>error</name>
@@ -736,5 +788,10 @@
     <name>error</name>
     <branch>error</branch>
     <sib>71f59236-d90a-4e7a-8177-5ae99b4cb509</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>6ef738a3-fdc7-4a29-9d6a-457adb5ae030</sib>
   </branch>
 </model>

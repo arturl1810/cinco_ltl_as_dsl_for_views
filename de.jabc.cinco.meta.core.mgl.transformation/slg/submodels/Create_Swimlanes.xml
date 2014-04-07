@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>bbe15f4c-aa62-4a79-93be-b5b01df883f7</id>
   <name>Create Swimlanes</name>
-  <changecounter>17</changecounter>
+  <changecounter>18</changecounter>
   <sib>
     <id>16bf1154-7de3-4eea-84a6-7a6ea202a8a3</id>
     <name>MacroSIB</name>
@@ -155,7 +155,7 @@
     <label>Add NodeContainer Reference To GraphModel</label>
     <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
-    <position>1214.0,211.0</position>
+    <position>1214.0,556.0</position>
     <parameter name="bidirectiveReference">
       <boolean>true</boolean>
     </parameter>
@@ -220,19 +220,10 @@
     </userobject>
   </sib>
   <edge>
-    <source>16bf1154-7de3-4eea-84a6-7a6ea202a8a3</source>
-    <target>a156e726-d8c9-44cf-a0ac-466eeae7ac8c</target>
-    <point>570.0,211.0</point>
-    <point>540.0,90.0</point>
-    <point>415.5,213.0</point>
-    <labelposition>237.78757447877945,97.48374192491777</labelposition>
-    <branch>exit</branch>
-  </edge>
-  <edge>
-    <source>36015ab3-aa1f-487a-9795-5f6269f9e5e9</source>
+    <source>b1e5f535-3afd-4e92-afb4-8c6cdc698e86</source>
     <target>a156e726-d8c9-44cf-a0ac-466eeae7ac8c</target>
     <spline/>
-    <point>1210.0,235.75</point>
+    <point>1285.0,350.7837837837838</point>
     <point>750.0,345.0</point>
     <point>318.0,235.56</point>
     <labelposition>497.7334082374268,-102.34457166929823</labelposition>
@@ -279,9 +270,9 @@
   </sib>
   <edge>
     <source>dad8c30d-18e4-438f-b387-cf5bf96ed803</source>
-    <target>36015ab3-aa1f-487a-9795-5f6269f9e5e9</target>
-    <point>1188.0,231.83076923076922</point>
-    <point>1345.0,231.92307692307693</point>
+    <target>b1e5f535-3afd-4e92-afb4-8c6cdc698e86</target>
+    <point>1188.0,248.2</point>
+    <point>1285.0,334.55555555555554</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>true</branch>
   </edge>
@@ -420,6 +411,65 @@
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
   </sib>
+  <sib>
+    <id>b1e5f535-3afd-4e92-afb4-8c6cdc698e86</id>
+    <name>GraphSIB</name>
+    <label>Create Getter</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>1257.5,331.0</position>
+    <parameter name="eClassKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>graphModelClass</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="eOperatiobUpperBound">
+      <int>-1</int>
+    </parameter>
+    <parameter name="eOperationLowerBound">
+      <int>0</int>
+    </parameter>
+    <parameter name="eOperationNameKey">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>get${modelElementNameFirstUpper}s</expression>
+          <clazz>java.lang.String</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="eOperationeTypeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>modelElementClass</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>false</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>return getModelElements($modelElementNameFirstUpper$.class);</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Create EOperation</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>16bf1154-7de3-4eea-84a6-7a6ea202a8a3</source>
+    <target>1992632e-8802-43a0-bc01-049cf25c9323</target>
+    <point>645.0,240.0</point>
+    <point>827.0,237.0</point>
+    <branch>exit</branch>
+  </edge>
   <values/>
   <branch>
     <name>error</name>
@@ -485,5 +535,10 @@
     <name>error</name>
     <branch>error</branch>
     <sib>40a8f078-f1bb-4487-837d-0312721c3d6a</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>b1e5f535-3afd-4e92-afb4-8c6cdc698e86</sib>
   </branch>
 </model>
