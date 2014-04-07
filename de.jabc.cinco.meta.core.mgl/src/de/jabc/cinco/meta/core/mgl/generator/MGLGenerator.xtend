@@ -62,9 +62,6 @@ class MGLGenerator implements IGenerator {
 		
 		var uri = URI::createFileURI(model.name.toString.toFirstUpper+".ecore")
 		var xmiResource = new XMIResourceFactoryImpl().createResource(uri) as XMIResourceImpl
-		
-		
-		
 		context.put("resource",xmiResource)
 		var environment = new DefaultLightweightExecutionEnvironment(context)
 		context.put("ExecutionEnvironment",environment)
