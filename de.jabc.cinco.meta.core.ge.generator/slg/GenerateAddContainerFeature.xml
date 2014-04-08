@@ -9,7 +9,7 @@
     <label>GetNodeContainerIsAbstract</label>
     <sib-uid>mgl/mgl/GetNodeContainerIsAbstract</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.sib.mgl.GetNodeContainerIsAbstract</taxonomy>
-    <position>57.5,63.0</position>
+    <position>55.0,63.0</position>
     <parameter name="nodeContainerKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -393,9 +393,9 @@
       <string>package $context.localPkgName$;
 
 import $context.importPath$.*;
-import $context.projectName$.*;
-import $context.projectName$.expression.*;
-import $context.projectName$.features.layout.*;
+import $context.packageName$.graphiti.*;
+import $context.packageName$.graphiti.expression.*;
+import $context.packageName$.graphiti.features.layout.*;
 
 import org.eclipse.graphiti.features.*;
 import org.eclipse.graphiti.features.context.*;
@@ -529,7 +529,7 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
     <label>CheckStyleAnnotation</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>782.0,196.0</position>
+    <position>780.5,196.0</position>
     <parameter name="modelElementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>

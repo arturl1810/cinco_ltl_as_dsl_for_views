@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>51140446-1347-4939-8c10-4439f751b7c3</id>
   <name>GenerateGraphicsAlgorithm</name>
-  <changecounter>186</changecounter>
+  <changecounter>187</changecounter>
   <sib>
     <id>dc5161c1-5eca-4932-ba1b-f2c5daa50852</id>
     <name>SwitchGraphicsAlgorithm</name>
