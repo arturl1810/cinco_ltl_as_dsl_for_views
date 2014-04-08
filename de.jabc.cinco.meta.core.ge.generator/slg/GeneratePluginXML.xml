@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>c6d3a171-4a7c-4363-ab9c-c7be2786983b</id>
   <name>GeneratePluginXML</name>
-  <changecounter>267</changecounter>
+  <changecounter>272</changecounter>
   <sib>
     <id>b9acf74f-0e4c-4f93-80c7-e3f218bfc27e</id>
     <name>RunStringTemplate</name>
@@ -468,7 +468,7 @@
 	class=&quot;$context.packageName$.graphiti.property.views.$context.node.name$_$context.attribute.name$_Section&quot;
 	filter=&quot;$context.packageName$.graphiti.property.filter.$context.node.name$Filter&quot;
 	id=&quot;$context.packageName$.graphiti.property.$context.node.name$_$context.attribute.name$_PropertySection&quot;
-	tab=&quot;$context.packageName$.graphiti.property.$context.graphModelName$PropertyTab&quot;&gt;
+	tab=&quot;$context.packageName$.graphiti.property.$context.graphModelName$$context.node.name$PropertyTab&quot;&gt;
 &lt;/propertySection&gt;
 </string>
     </parameter>
@@ -1189,16 +1189,27 @@
     <label>GetReferencedTypeCopiedAttributes</label>
     <sib-uid>mgl/mgl/GetReferencedTypeCopiedAttributes</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetReferencedTypeCopiedAttributes</taxonomy>
-    <position>299.0,438.0</position>
+    <position>299.0,423.0</position>
     <parameter name="eListKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
           <key>primeRefAttributes</key>
-		<scope>LOCAL</scope>
+          <scope>LOCAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
+    <parameter name="referencedTypeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>primeRef</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
   </sib>
   <edge>
     <source>c17a42a1-7db2-4f5a-b8c4-6c8cbd10ca3b</source>
@@ -1457,5 +1468,10 @@
     <name>error</name>
     <branch>error</branch>
     <sib>3afb0d7d-333e-4ad1-98ea-ed440bb404af</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>1c0326a3-5213-4cc4-8278-183a97bf249c</sib>
   </branch>
 </model>
