@@ -2,14 +2,14 @@
 <model version="2.1">
   <id>c6d3a171-4a7c-4363-ab9c-c7be2786983b</id>
   <name>GeneratePluginXML</name>
-  <changecounter>273</changecounter>
+  <changecounter>277</changecounter>
   <sib>
     <id>b9acf74f-0e4c-4f93-80c7-e3f218bfc27e</id>
     <name>RunStringTemplate</name>
     <label>RunStringTemplate</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>955.0,618.0</position>
+    <position>775.0,618.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -37,7 +37,7 @@
     <label>WriteTextFile</label>
     <sib-uid>io-sibs/WriteTextFile</sib-uid>
     <taxonomy>de.jabc.sib.common.io.WriteTextFile</taxonomy>
-    <position>792.5,723.0</position>
+    <position>612.5,723.0</position>
     <parameter name="encoding">
       <string>ISO-8859-1</string>
     </parameter>
@@ -65,8 +65,8 @@
   <edge>
     <source>b9acf74f-0e4c-4f93-80c7-e3f218bfc27e</source>
     <target>111011d2-0b5f-4dbe-97a6-0f5fd43c7db6</target>
-    <point>1020.0,645.0</point>
-    <point>1125.0,750.0</point>
+    <point>840.0,645.0</point>
+    <point>945.0,750.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -76,7 +76,7 @@
     <label>PrintConsoleMessage</label>
     <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
     <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
-    <position>586.5,723.0</position>
+    <position>406.5,723.0</position>
     <parameter name="error">
       <boolean>false</boolean>
     </parameter>
@@ -94,8 +94,8 @@
   <edge>
     <source>304b7e41-12e0-4536-8c49-5557561608e6</source>
     <target>524dcd1c-6963-4a38-8b36-00bb95ac062c</target>
-    <point>840.0,750.0</point>
     <point>660.0,750.0</point>
+    <point>480.0,750.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -532,7 +532,7 @@
     <label>iconPath</label>
     <sib-uid>basic-sibs/CheckVariable</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.CheckVariable</taxonomy>
-    <position>1183.0,618.0</position>
+    <position>1003.0,618.0</position>
     <parameter name="variable">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -550,8 +550,8 @@
   <edge>
     <source>2ad932fc-c0fe-43bb-a951-adaedfa1ba84</source>
     <target>b9acf74f-0e4c-4f93-80c7-e3f218bfc27e</target>
-    <point>1215.0,645.0</point>
-    <point>1020.0,645.0</point>
+    <point>1035.0,645.0</point>
+    <point>840.0,645.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>true</branch>
   </edge>
@@ -561,7 +561,7 @@
     <label>RunStringTemplate</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>1060.0,723.0</position>
+    <position>880.0,723.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -692,8 +692,8 @@
   <edge>
     <source>2ad932fc-c0fe-43bb-a951-adaedfa1ba84</source>
     <target>111011d2-0b5f-4dbe-97a6-0f5fd43c7db6</target>
-    <point>1215.0,645.0</point>
-    <point>1125.0,750.0</point>
+    <point>1035.0,645.0</point>
+    <point>945.0,750.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>emptyString</branch>
     <branch>false</branch>
@@ -701,8 +701,8 @@
   <edge>
     <source>111011d2-0b5f-4dbe-97a6-0f5fd43c7db6</source>
     <target>304b7e41-12e0-4536-8c49-5557561608e6</target>
-    <point>1125.0,750.0</point>
-    <point>840.0,750.0</point>
+    <point>945.0,750.0</point>
+    <point>660.0,750.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -1112,7 +1112,7 @@
     <label>IterateElements</label>
     <sib-uid>collection-sibs/IterateElements</sib-uid>
     <taxonomy>de.jabc.sib.common.collection.IterateElements</taxonomy>
-    <position>1325.0,618.0</position>
+    <position>1340.0,618.0</position>
     <parameter name="collection">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1157,7 +1157,7 @@
     <label>GraphModelAttributeSection</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>1285.5,753.0</position>
+    <position>1300.5,753.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -1204,9 +1204,10 @@
   </edge>
   <edge>
     <source>7541e691-c293-44dd-af00-8d79ded502a0</source>
-    <target>2ad932fc-c0fe-43bb-a951-adaedfa1ba84</target>
-    <point>1380.0,645.0</point>
-    <point>1061.0,688.0</point>
+    <target>c334d2db-8bbe-4578-957c-373064e2a31a</target>
+    <point>1377.0,642.72</point>
+    <point>1188.0,705.72</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>exit</branch>
   </edge>
   <edge>
@@ -1326,6 +1327,45 @@
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
   </sib>
+  <sib>
+    <id>c334d2db-8bbe-4578-957c-373064e2a31a</id>
+    <name>RunStringTemplate_10</name>
+    <label>GraphModelPropertyTab</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>1133.5,618.0</position>
+    <parameter name="append">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>propertyTabContent</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>&lt;propertyTab
+	category=&quot;$context.graphModelName$&quot;
+	id=&quot;$context.packageName$.graphiti.property.$context.graphModelName$PropertyTab&quot;
+	label=&quot;$context.graphModelName$&quot;&gt;
+&lt;/propertyTab&gt;</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>c334d2db-8bbe-4578-957c-373064e2a31a</source>
+    <target>2ad932fc-c0fe-43bb-a951-adaedfa1ba84</target>
+    <point>1215.0,645.0</point>
+    <point>1042.0,637.0</point>
+    <branch>default</branch>
+  </edge>
   <values/>
   <branch>
     <name>error</name>
@@ -1471,5 +1511,10 @@
     <name>error</name>
     <branch>error</branch>
     <sib>3afb0d7d-333e-4ad1-98ea-ed440bb404af</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>c334d2db-8bbe-4578-957c-373064e2a31a</sib>
   </branch>
 </model>
