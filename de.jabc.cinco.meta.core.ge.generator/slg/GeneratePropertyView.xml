@@ -543,7 +543,7 @@
     <label>GetModelElementIdentifier</label>
     <sib-uid>ge-util-sibs/GetModelElementIdentifier</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.GetModelElementIdentifier</taxonomy>
-    <position>105.0,183.0</position>
+    <position>105.0,181.0</position>
     <parameter name="meIdentifier">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -594,7 +594,7 @@
     <label>GetModelElementIdentifier</label>
     <sib-uid>ge-util-sibs/GetModelElementIdentifier</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.GetModelElementIdentifier</taxonomy>
-    <position>420.0,198.0</position>
+    <position>420.0,196.0</position>
     <parameter name="meIdentifier">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -622,7 +622,7 @@
     <label>GetModelElementIdentifier</label>
     <sib-uid>ge-util-sibs/GetModelElementIdentifier</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.GetModelElementIdentifier</taxonomy>
-    <position>690.0,198.0</position>
+    <position>690.0,196.0</position>
     <parameter name="meIdentifier">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -718,7 +718,7 @@
     <label>GetModelElementIdentifier</label>
     <sib-uid>ge-util-sibs/GetModelElementIdentifier</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.GetModelElementIdentifier</taxonomy>
-    <position>960.0,198.0</position>
+    <position>960.0,196.0</position>
     <parameter name="meIdentifier">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>

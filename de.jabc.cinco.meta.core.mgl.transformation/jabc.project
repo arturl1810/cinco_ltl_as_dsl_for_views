@@ -1,4 +1,4 @@
-#Fri Mar 28 13:10:05 CET 2014
+#Mon Apr 07 15:18:06 CEST 2014
 jabc.project.definition=1.0
 jabc.project.name=de.jabc.cinco.meta.core.mgl.transformation
 SaveModel.path=/GDL2Ecore/submodels
@@ -9,4 +9,4 @@ USER$CodeGenerator\#GeneratorConfig=<list>\n  <tree-map>\n    <no-comparator/>\n
 SIBCreator.path.link=-1
 ID=b3804a45-0cf6-451e-b3e7-8842a1f83a3b
 SIBTree.treeView=true
-SIBTree.treeLayout=true
+SIBTree.treeLayout=false

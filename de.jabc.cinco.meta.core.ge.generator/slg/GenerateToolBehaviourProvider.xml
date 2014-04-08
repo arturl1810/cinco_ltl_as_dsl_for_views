@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>6830c0f3-7532-49ad-ad67-7fb466c9d0a9</id>
   <name>GenerateToolBehaviourProvider</name>
-  <changecounter>82</changecounter>
+  <changecounter>86</changecounter>
   <sib>
     <id>c8e21300-66b5-43fa-a031-ae9d0f22cbf2</id>
     <name>PutExpression</name>
@@ -98,7 +98,7 @@
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>package $context.projectName$;
+      <string>package $context.localPkgName$;
 
 import org.eclipse.graphiti.dt.IDiagramTypeProvider;
 import org.eclipse.graphiti.features.ICreateConnectionFeature;

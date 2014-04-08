@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>841d944d-b804-4029-a8af-6d0a9e581856</id>
   <name>Create Edges</name>
-  <changecounter>36</changecounter>
+  <changecounter>38</changecounter>
   <sib>
     <id>765d8a05-8995-4960-b642-d913f218d3f6</id>
     <name>MacroSIB</name>
@@ -253,7 +253,7 @@
     <label>Add Edges Reference To GraphModel</label>
     <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
-    <position>87.5,151.0</position>
+    <position>1002.5,211.0</position>
     <parameter name="bidirectiveReference">
       <boolean>true</boolean>
     </parameter>
@@ -319,18 +319,11 @@
   </sib>
   <edge>
     <source>b6beec96-798e-4d45-9be2-fab025d983d8</source>
-    <target>8520292e-7cdf-45b4-94e2-7b744e7c8108</target>
-    <point>210.0,378.0</point>
-    <point>210.0,191.0</point>
+    <target>c20849b2-34cc-402b-9873-f91aa41585f1</target>
+    <point>192.0,289.2</point>
+    <point>95.0,354.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>true</branch>
-  </edge>
-  <edge>
-    <source>8520292e-7cdf-45b4-94e2-7b744e7c8108</source>
-    <target>a547e4ca-7a57-4126-8003-7f96bb16c397</target>
-    <point>210.0,435.0</point>
-    <point>207.0,78.0</point>
-    <branch>default</branch>
   </edge>
   <sib>
     <id>c4b80db5-3d29-4dd2-be96-6c1a676e73ab</id>
@@ -425,14 +418,6 @@
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
   </sib>
-  <edge>
-    <source>1a4a7c58-0ce6-4964-8d0a-aae397642dee</source>
-    <target>fefe9a2e-f3a7-4617-9bed-14440f582598</target>
-    <point>210.0,483.0</point>
-    <point>210.0,399.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
   <sib>
     <id>fefe9a2e-f3a7-4617-9bed-14440f582598</id>
     <name>EvaluateBoolean</name>
@@ -456,8 +441,8 @@
   <edge>
     <source>fefe9a2e-f3a7-4617-9bed-14440f582598</source>
     <target>b6beec96-798e-4d45-9be2-fab025d983d8</target>
-    <point>210.0,309.0</point>
-    <point>210.0,378.0</point>
+    <point>210.0,363.0</point>
+    <point>210.0,294.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>false</branch>
   </edge>
@@ -569,6 +554,73 @@
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
   </sib>
+  <sib>
+    <id>c20849b2-34cc-402b-9873-f91aa41585f1</id>
+    <name>GraphSIB</name>
+    <label>Create Getter</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>162.5,151.0</position>
+    <parameter name="eClassKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>graphModelClass</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="eOperatiobUpperBound">
+      <int>-1</int>
+    </parameter>
+    <parameter name="eOperationLowerBound">
+      <int>0</int>
+    </parameter>
+    <parameter name="eOperationNameKey">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>get${modelElementNameFirstUpper}s</expression>
+          <clazz>java.lang.String</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="eOperationeTypeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>modelElementClass</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>false</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>return getModelElements($modelElementNameFirstUpper$.class);</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Create EOperation</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>c20849b2-34cc-402b-9873-f91aa41585f1</source>
+    <target>a547e4ca-7a57-4126-8003-7f96bb16c397</target>
+    <point>83.8235294117647,346.0</point>
+    <point>202.5,69.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>1a4a7c58-0ce6-4964-8d0a-aae397642dee</source>
+    <target>fefe9a2e-f3a7-4617-9bed-14440f582598</target>
+    <point>210.0,510.0</point>
+    <point>212.0,401.0</point>
+    <branch>default</branch>
+  </edge>
   <values/>
   <branch>
     <name>error</name>
@@ -654,5 +706,10 @@
     <name>error</name>
     <branch>error</branch>
     <sib>a365e68e-19ab-4c15-addb-3b704f4c25f8</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>c20849b2-34cc-402b-9873-f91aa41585f1</sib>
   </branch>
 </model>

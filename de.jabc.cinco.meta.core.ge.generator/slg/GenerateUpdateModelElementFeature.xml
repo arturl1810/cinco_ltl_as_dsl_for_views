@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>ef7786c5-d04b-45de-89fd-b00e68b99149</id>
   <name>GenerateUpdateModelElementFeature</name>
-  <changecounter>294</changecounter>
+  <changecounter>302</changecounter>
   <sib>
     <id>b31345f6-8607-4397-986e-94a14e803be6</id>
     <name>PutExpression_1</name>
@@ -120,9 +120,9 @@ import org.eclipse.graphiti.services.*;
 
 $context.appearanceProviderImportsContent$
 
-import $context.projectName$.*;
+import $context.packageName$.graphiti.*;
 import $context.importPath$.*;
-import $context.projectName$.expression.*;
+import $context.packageName$.graphiti.expression.*;
 
 import de.jabc.cinco.meta.core.referenceregistry.ReferenceRegistry;
 
@@ -308,7 +308,7 @@ public class Update$context.fuModelElementName$Feature extends AbstractUpdateFea
     <label>GenerateGetTextValues</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>25.0,736.0</position>
+    <position>28.5,736.0</position>
     <parameter name="modelElementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -333,7 +333,7 @@ public class Update$context.fuModelElementName$Feature extends AbstractUpdateFea
     <label>CheckStyleAnnotation</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>30.5,136.0</position>
+    <position>32.0,136.0</position>
     <parameter name="modelElementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -504,7 +504,7 @@ public class Update$context.fuModelElementName$Feature extends AbstractUpdateFea
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>import $context.projectName$.features.layout.$context.graphModelName$LayoutUtils;</string>
+      <string>import $context.packageName$.graphiti.features.layout.$context.graphModelName$LayoutUtils;</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>

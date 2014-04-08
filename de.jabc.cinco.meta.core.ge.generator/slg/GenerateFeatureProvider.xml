@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>5f357517-18d4-4780-adc3-30879fedbfb1</id>
   <name>GenerateFeatureProvider</name>
-  <changecounter>545</changecounter>
+  <changecounter>547</changecounter>
   <sib>
     <id>23fb1326-f00d-4e42-845a-cdf6492fc417</id>
     <name>PutExpression</name>
@@ -135,7 +135,7 @@
     <label>GetAddNodeFeatureIfBlock</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>224.5,498.0</position>
+    <position>224.5,513.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -375,7 +375,7 @@
 
 import graphmodel.Node;
 import graphmodel.Edge;
-import graphmodel.NodeContainer;
+import graphmodel.Container;
 
 import org.eclipse.emf.ecore.*;
 
@@ -438,7 +438,7 @@ public class $context.graphModelName$FeatureProvider extends DefaultFeatureProvi
 		if (bo instanceof Edge) {
 			return new DeleteEdgeFeature(this);
 		}
-		if (bo instanceof NodeContainer) {
+		if (bo instanceof Container) {
 			return new DeleteNodeContainerFeature(this);
 		}
 		return super.getDeleteFeature(context);
@@ -950,7 +950,7 @@ public class $context.graphModelName$FeatureProvider extends DefaultFeatureProvi
     <label>GetEPackageNsURI</label>
     <sib-uid>ecore/ecore/GetEPackageNsURI</sib-uid>
     <taxonomy>transem.ecore.sib.ecore.GetEPackageNsURI</taxonomy>
-    <position>55.5,738.0</position>
+    <position>55.5,723.0</position>
     <parameter name="ePackageKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>

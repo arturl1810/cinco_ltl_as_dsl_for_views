@@ -2,14 +2,14 @@
 <model version="2.1">
   <id>c7542d87-aa25-4707-a286-db91e10d7301</id>
   <name>GenerateAddContainerFeature</name>
-  <changecounter>352</changecounter>
+  <changecounter>368</changecounter>
   <sib>
     <id>3f7b7312-5278-4d0a-b7f8-45424c587ca9</id>
     <name>GetNodeContainerIsAbstract</name>
     <label>GetNodeContainerIsAbstract</label>
     <sib-uid>mgl/mgl/GetNodeContainerIsAbstract</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.sib.mgl.GetNodeContainerIsAbstract</taxonomy>
-    <position>57.5,63.0</position>
+    <position>55.0,63.0</position>
     <parameter name="nodeContainerKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -314,9 +314,9 @@
   </edge>
   <edge>
     <source>0cae7192-66cb-4b93-baa7-a392c5c9a0e5</source>
-    <target>ab6fad9e-02ad-487e-9159-db0774193b6a</target>
-    <point>395.0,482.3076923076923</point>
-    <point>552.0,445.9846153846154</point>
+    <target>0813591f-54f6-43c7-b854-7b7a0705f878</target>
+    <point>334.17808219178085,461.0</point>
+    <point>507.0,633.7714285714286</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -373,7 +373,7 @@
     <label>RunStringTemplate</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>505.0,423.0</position>
+    <position>730.0,423.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -393,9 +393,9 @@
       <string>package $context.localPkgName$;
 
 import $context.importPath$.*;
-import $context.projectName$.*;
-import $context.projectName$.expression.*;
-import $context.projectName$.features.layout.*;
+import $context.packageName$.graphiti.*;
+import $context.packageName$.graphiti.expression.*;
+import $context.packageName$.graphiti.features.layout.*;
 
 import org.eclipse.graphiti.features.*;
 import org.eclipse.graphiti.features.context.*;
@@ -420,13 +420,14 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
 		if (bo instanceof $context.modelElementName$) {
 			if (context.getTargetContainer() instanceof Diagram)
 				return true;
+			$context.containerCheck$
 		}
 		return false;
 	}
 
 	public PictogramElement add(IAddContext context) {
 		$context.modelElementName$ $context.meIdentifier$ = ($context.modelElementName$) context.getNewObject();
-		Diagram d = (Diagram) context.getTargetContainer();
+		ContainerShape d = (ContainerShape) context.getTargetContainer();
 
 		IPeService peService = Graphiti.getPeService();
 		IGaService gaService = Graphiti.getGaService();
@@ -468,7 +469,7 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
     <label>WriteJavaFile</label>
     <sib-uid>genesys-sibs/WriteJavaFile</sib-uid>
     <taxonomy>de.jabc.sib.genesys.WriteJavaFile</taxonomy>
-    <position>688.0,423.0</position>
+    <position>1003.0,423.0</position>
     <parameter name="baseDirectory">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -528,7 +529,7 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
     <label>CheckStyleAnnotation</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>782.0,196.0</position>
+    <position>780.5,196.0</position>
     <parameter name="modelElementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -702,7 +703,7 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
     <label>GenerateAbstractShape</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>283.0,421.0</position>
+    <position>238.0,421.0</position>
     <parameter name="currentShapeKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -748,6 +749,145 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
       <string>GenerateAbstractShape</string>
     </userobject>
   </sib>
+  <sib>
+    <id>0813591f-54f6-43c7-b854-7b7a0705f878</id>
+    <name>IterateElements</name>
+    <label>IterateContainers</label>
+    <sib-uid>collection-sibs/IterateElements</sib-uid>
+    <taxonomy>de.jabc.sib.common.collection.IterateElements</taxonomy>
+    <position>449.5,423.0</position>
+    <parameter name="collection">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>containers</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="element">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>cont</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="iterator">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>contIterator</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>exit</finalbranches>
+    <finalbranches>next</finalbranches>
+  </sib>
+  <edge>
+    <source>0813591f-54f6-43c7-b854-7b7a0705f878</source>
+    <target>48b9c441-3bb2-4570-9fde-acbbeeccfea3</target>
+    <point>525.0,660.0</point>
+    <point>735.0,660.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>next</branch>
+  </edge>
+  <sib>
+    <id>48b9c441-3bb2-4570-9fde-acbbeeccfea3</id>
+    <name>IsNodeContained</name>
+    <label>IsNodeContained</label>
+    <sib-uid>ge-util-sibs/IsNodeContained</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsNodeContained</taxonomy>
+    <position>648.0,543.0</position>
+    <parameter name="node">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>container</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="nodeContainer">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>cont</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>false</finalbranches>
+    <finalbranches>true</finalbranches>
+  </sib>
+  <edge>
+    <source>48b9c441-3bb2-4570-9fde-acbbeeccfea3</source>
+    <target>0813591f-54f6-43c7-b854-7b7a0705f878</target>
+    <spline/>
+    <point>690.9375,543.0</point>
+    <point>630.0,465.0</point>
+    <point>528.0,444.6</point>
+    <labelposition>405.0198830311587,34.615130667820864</labelposition>
+    <branch>false</branch>
+  </edge>
+  <edge>
+    <source>48b9c441-3bb2-4570-9fde-acbbeeccfea3</source>
+    <target>148eccf6-2afe-4653-bbb1-3ae1115ceb2b</target>
+    <point>735.0,660.0</point>
+    <point>735.0,540.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>true</branch>
+  </edge>
+  <sib>
+    <id>148eccf6-2afe-4653-bbb1-3ae1115ceb2b</id>
+    <name>RunStringTemplate_3</name>
+    <label>ContainerCheck</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>455.0,543.0</position>
+    <parameter name="append">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>containerCheck</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>if (Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(context.getTargetContainer()) instanceof $context.cont.name$) {
+	return true;
+}
+</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>148eccf6-2afe-4653-bbb1-3ae1115ceb2b</source>
+    <target>0813591f-54f6-43c7-b854-7b7a0705f878</target>
+    <point>735.0,540.0</point>
+    <point>525.0,660.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>0813591f-54f6-43c7-b854-7b7a0705f878</source>
+    <target>ab6fad9e-02ad-487e-9159-db0774193b6a</target>
+    <point>510.0,450.0</point>
+    <point>879.0,428.0</point>
+    <branch>exit</branch>
+  </edge>
   <parameter>
     <name>containerKey</name>
     <field>nodeContainerKey</field>
@@ -762,6 +902,11 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
     <name>containerKey</name>
     <field>modelElementKey</field>
     <sib>0cae7192-66cb-4b93-baa7-a392c5c9a0e5</sib>
+  </parameter>
+  <parameter>
+    <name>containerKey</name>
+    <field>node</field>
+    <sib>48b9c441-3bb2-4570-9fde-acbbeeccfea3</sib>
   </parameter>
   <values>
     <entry>
@@ -869,5 +1014,20 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
     <name>error</name>
     <branch>error</branch>
     <sib>0cae7192-66cb-4b93-baa7-a392c5c9a0e5</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>0813591f-54f6-43c7-b854-7b7a0705f878</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>148eccf6-2afe-4653-bbb1-3ae1115ceb2b</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>48b9c441-3bb2-4570-9fde-acbbeeccfea3</sib>
   </branch>
 </model>

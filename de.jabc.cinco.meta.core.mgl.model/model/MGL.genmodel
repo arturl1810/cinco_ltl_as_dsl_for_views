@@ -26,6 +26,7 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MGL.ecore#//GraphModel/types"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGL.ecore#//GraphModel/iconPath"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGL.ecore#//GraphModel/fileExtension"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MGL.ecore#//GraphModel/containableElements"/>
     </genClasses>
     <genClasses ecoreClass="MGL.ecore#//Edge">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MGL.ecore#//Edge/targetElements"/>
@@ -56,7 +57,7 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MGL.ecore#//DataFlowInformation/extends"/>
     </genClasses>
     <genClasses ecoreClass="MGL.ecore#//NodeContainer">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MGL.ecore#//NodeContainer/containableNodes"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MGL.ecore#//NodeContainer/containableElements"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MGL.ecore#//NodeContainer/extends"/>
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference MGL.ecore#//NodeContainer/graphModel"/>
     </genClasses>
@@ -106,6 +107,11 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MGL.ecore#//ReferencedAttribute/feature"/>
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference MGL.ecore#//ReferencedAttribute/referencedType"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGL.ecore#//ReferencedAttribute/parameter"/>
+    </genClasses>
+    <genClasses ecoreClass="MGL.ecore#//GraphicalElementContainment">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MGL.ecore#//GraphicalElementContainment/type"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGL.ecore#//GraphicalElementContainment/upperBound"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGL.ecore#//GraphicalElementContainment/lowerBound"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

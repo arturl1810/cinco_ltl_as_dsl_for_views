@@ -27,7 +27,8 @@
     </parameter>
     <parameter name="template">
       <string>if (tmp.get$context.fuAttributeName$() != null)
-	$context.flAttributeName$Text.setText(tmp.get$context.fuAttributeName$());</string>
+	$context.flAttributeName$Text.setText(tmp.get$context.fuAttributeName$());
+else $context.flAttributeName$Text.setText(&quot;&quot;);</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>

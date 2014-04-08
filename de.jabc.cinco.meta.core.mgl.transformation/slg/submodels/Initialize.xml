@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>0e442a3b-428c-42da-ba0f-50231419be44</id>
   <name>Initialize</name>
-  <changecounter>33</changecounter>
+  <changecounter>34</changecounter>
   <sib>
     <id>fc2d926f-8748-458a-a729-faa7ad31bb7f</id>
     <name>PutString</name>
@@ -579,7 +579,7 @@
     <parameter name="eClassifierName">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>NodeContainer</expression>
+          <expression>Container</expression>
           <clazz>java.lang.String</clazz>
           <classMutable>true</classMutable>
         </ContextExpressionFoundation>

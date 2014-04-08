@@ -473,7 +473,7 @@
     <parameter name="message">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>EDITOR GENERATION SUCCEEDED</expression>
+          <expression>EDITOR GENERATION SUCCEED</expression>
           <clazz>java.lang.Object</clazz>
           <classMutable>false</classMutable>
         </ContextExpressionFoundation>

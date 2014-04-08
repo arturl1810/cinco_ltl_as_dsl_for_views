@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>39073575-d6e0-4a85-a100-26d04a15879b</id>
   <name>Add Swimlane Constraints</name>
-  <changecounter>17</changecounter>
+  <changecounter>19</changecounter>
   <sib>
     <id>33ce63de-1331-4e4e-ae43-980cb89ff947</id>
     <name>NewEAnnotationInEClassEAnnotations</name>
@@ -203,8 +203,8 @@
     <finalbranches>error</finalbranches>
   </sib>
   <edge>
-    <source>647422bb-9d3b-4df1-9c90-2e8114b13e27</source>
-    <target>f64e9837-96ea-4316-aac0-b24e552e6f71</target>
+    <source>c45472bf-ccac-45a5-8cb3-b02808aeaccb</source>
+    <target>5ca0b128-f9b2-4187-90e3-42e7a6c25cb1</target>
     <point>510.0,450.0</point>
     <point>675.0,450.0</point>
     <labelposition>500.0,0.0</labelposition>
@@ -223,7 +223,7 @@
     <label>RunStringTemplate</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>760.0,438.0</position>
+    <position>970.0,438.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -247,14 +247,14 @@
   </sib>
   <edge>
     <source>fcc8fbb4-6504-41c7-8620-531896b8b788</source>
-    <target>647422bb-9d3b-4df1-9c90-2e8114b13e27</target>
+    <target>c45472bf-ccac-45a5-8cb3-b02808aeaccb</target>
     <point>480.0,315.0</point>
     <point>285.0,435.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
-    <source>f64e9837-96ea-4316-aac0-b24e552e6f71</source>
+    <source>5ca0b128-f9b2-4187-90e3-42e7a6c25cb1</source>
     <target>fad76af5-18e5-472b-a2a7-e7b68ec2ce90</target>
     <point>675.0,450.0</point>
     <point>840.0,450.0</point>
@@ -263,7 +263,7 @@
   </edge>
   <edge>
     <source>fad76af5-18e5-472b-a2a7-e7b68ec2ce90</source>
-    <target>647422bb-9d3b-4df1-9c90-2e8114b13e27</target>
+    <target>c45472bf-ccac-45a5-8cb3-b02808aeaccb</target>
     <spline/>
     <point>807.0,449.9076923076923</point>
     <point>630.0,390.0</point>
@@ -272,7 +272,7 @@
     <branch>default</branch>
   </edge>
   <edge>
-    <source>647422bb-9d3b-4df1-9c90-2e8114b13e27</source>
+    <source>c45472bf-ccac-45a5-8cb3-b02808aeaccb</source>
     <target>39d28ab4-798c-4065-83f3-737682618f73</target>
     <point>510.0,465.0</point>
     <point>510.0,585.0</point>
@@ -469,9 +469,6 @@
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$START">
-      <boolean>true</boolean>
-    </userobject>
   </sib>
   <edge>
     <source>d55bb207-2ab8-4121-8bb9-8644f335eb77</source>
@@ -481,12 +478,12 @@
     <branch>default</branch>
   </edge>
   <sib>
-    <id>647422bb-9d3b-4df1-9c90-2e8114b13e27</id>
+    <id>c45472bf-ccac-45a5-8cb3-b02808aeaccb</id>
     <name>IterateSwimlaneContainableNodes</name>
-    <label>terateNodeContainerContainableNodes</label>
-    <sib-uid>mgl/mgl/IterateNodeContainerContainableNodes</sib-uid>
-    <taxonomy>de.jabc.cinco.meta.core.mgl.sib.mgl.IterateNodeContainerContainableNodes</taxonomy>
-    <position>370.5,438.0</position>
+    <label>iterateNodeContainerContainableElements</label>
+    <sib-uid>mgl/mgl/IterateNodeContainerContainableElements</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.IterateNodeContainerContainableElements</taxonomy>
+    <position>359.0,438.0</position>
     <parameter name="elementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -520,13 +517,13 @@
     <finalbranches>noElements</finalbranches>
   </sib>
   <sib>
-    <id>f64e9837-96ea-4316-aac0-b24e552e6f71</id>
+    <id>5ca0b128-f9b2-4187-90e3-42e7a6c25cb1</id>
     <name>GetNodeName</name>
-    <label>GetNodeName</label>
-    <sib-uid>mgl/mgl/GetNodeName</sib-uid>
-    <taxonomy>de.jabc.cinco.meta.core.mgl.sib.mgl.GetNodeName</taxonomy>
-    <position>610.5,438.0</position>
-    <parameter name="nodeKey">
+    <label>GetGraphicalElementName</label>
+    <sib-uid>mgl/mgl/GetGraphicalModelElementName</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetGraphicalModelElementName</taxonomy>
+    <position>690.5,438.0</position>
+    <parameter name="graphicalModelElementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
           <key>swimlaneContainableNode</key>
@@ -535,7 +532,7 @@
         </ContextKeyFoundation>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
-    <parameter name="nodenameKey">
+    <parameter name="graphicalModelElementnameKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
           <key>swimlaneContainableNodeName</key>
@@ -546,6 +543,18 @@
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>4a3581cd-1f36-4929-8c41-680ffd665313</id>
+    <name>Noop</name>
+    <label>Noop</label>
+    <sib-uid>basic-sibs/Noop</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.Noop</taxonomy>
+    <position>113.0,33.0</position>
+    <finalbranches>default</finalbranches>
+    <userobject key="ABC$START">
+      <boolean>true</boolean>
+    </userobject>
   </sib>
   <parameter>
     <name>swimlaneClassKey</name>
@@ -560,7 +569,7 @@
   <parameter>
     <name>nodeContainerKey</name>
     <field>nodeContainerKey</field>
-    <sib>647422bb-9d3b-4df1-9c90-2e8114b13e27</sib>
+    <sib>c45472bf-ccac-45a5-8cb3-b02808aeaccb</sib>
   </parameter>
   <values>
     <entry>
@@ -657,11 +666,16 @@
   <branch>
     <name>error</name>
     <branch>error</branch>
-    <sib>647422bb-9d3b-4df1-9c90-2e8114b13e27</sib>
+    <sib>c45472bf-ccac-45a5-8cb3-b02808aeaccb</sib>
   </branch>
   <branch>
     <name>error</name>
     <branch>error</branch>
-    <sib>f64e9837-96ea-4316-aac0-b24e552e6f71</sib>
+    <sib>5ca0b128-f9b2-4187-90e3-42e7a6c25cb1</sib>
+  </branch>
+  <branch>
+    <name>default</name>
+    <branch>default</branch>
+    <sib>4a3581cd-1f36-4929-8c41-680ffd665313</sib>
   </branch>
 </model>

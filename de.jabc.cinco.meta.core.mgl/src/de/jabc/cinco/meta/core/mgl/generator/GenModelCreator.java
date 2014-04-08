@@ -44,7 +44,7 @@ public class GenModelCreator {
         genModel.setEditorPluginID(projectName+".editor");
         genModel.setTestsPluginID(projectName+".tests");
         genModel.setCanGenerate(true);
-        genModel.getUsedGenPackages().addAll(genModel.computeMissingUsedGenPackages());
+        //genModel.getUsedGenPackages().addAll(genModel.computeMissingUsedGenPackages());
 
         
 		return genModel;
