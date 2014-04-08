@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>841d944d-b804-4029-a8af-6d0a9e581856</id>
   <name>Create Edges</name>
-  <changecounter>38</changecounter>
+  <changecounter>39</changecounter>
   <sib>
     <id>765d8a05-8995-4960-b642-d913f218d3f6</id>
     <name>MacroSIB</name>
@@ -595,7 +595,7 @@
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>return getModelElements($modelElementNameFirstUpper$.class);</string>
+      <string>return getModelElements($modelElementName$.class);</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
