@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>4ac25e32-ae6b-469a-b78c-1764aa97ce4d</id>
   <name>GenerateCheckContainer</name>
-  <changecounter>151</changecounter>
+  <changecounter>162</changecounter>
   <sib>
     <id>6f32ddea-91f6-4b9b-ba62-647156ba870d</id>
     <name>CopyElement</name>
@@ -604,7 +604,7 @@
     <label>ContainerCheck</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>1445.0,408.0</position>
+    <position>1520.0,408.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -662,7 +662,7 @@
     <label>GetElement</label>
     <sib-uid>collection-sibs/GetElement</sib-uid>
     <taxonomy>de.jabc.sib.common.collection.GetElement</taxonomy>
-    <position>1339.0,33.0</position>
+    <position>1309.0,33.0</position>
     <parameter name="element">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -696,8 +696,8 @@
   <edge>
     <source>2cb32d2a-457c-41f5-9035-1b907a183ac6</source>
     <target>0977a6bf-52c1-4ac1-bea0-04209be8708e</target>
-    <point>1605.0,375.0</point>
-    <point>1200.0,375.0</point>
+    <point>1368.0,51.56842105263158</point>
+    <point>1617.0,51.56842105263158</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -707,7 +707,7 @@
     <label>isMEContainedInGM?</label>
     <sib-uid>basic-sibs/CheckVariable</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.CheckVariable</taxonomy>
-    <position>1489.0,33.0</position>
+    <position>1564.0,33.0</position>
     <parameter name="variable">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -725,8 +725,8 @@
   <edge>
     <source>0977a6bf-52c1-4ac1-bea0-04209be8708e</source>
     <target>966a370c-fa06-4225-8772-c55c09d61ea0</target>
-    <point>1200.0,375.0</point>
-    <point>1440.0,285.0</point>
+    <point>1635.0,60.0</point>
+    <point>1635.0,195.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>true</branch>
   </edge>
@@ -736,7 +736,7 @@
     <label>ContainerCheck</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>1580.0,408.0</position>
+    <position>1655.0,408.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -766,7 +766,7 @@
     <label>FiniteBound?</label>
     <sib-uid>basic-sibs/EvaluateCondition</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.EvaluateCondition</taxonomy>
-    <position>1514.0,288.0</position>
+    <position>1589.0,288.0</position>
     <parameter name="condition">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
@@ -783,16 +783,16 @@
   <edge>
     <source>3da1c8d9-a942-4b8e-b863-a0bc06a73d1c</source>
     <target>e3a87861-cd4a-45de-86fe-d67b9451d12a</target>
-    <point>1560.0,705.0</point>
-    <point>1410.0,705.0</point>
+    <point>1635.0,315.0</point>
+    <point>1710.0,435.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>true</branch>
   </edge>
   <edge>
     <source>966a370c-fa06-4225-8772-c55c09d61ea0</source>
     <target>3da1c8d9-a942-4b8e-b863-a0bc06a73d1c</target>
-    <point>1560.0,540.0</point>
-    <point>1350.0,540.0</point>
+    <point>1635.0,195.0</point>
+    <point>1635.0,315.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -802,7 +802,7 @@
     <label>GetGraphicalElementContainmentUpperBound</label>
     <sib-uid>mgl/mgl/GetGraphicalElementContainmentUpperBound</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetGraphicalElementContainmentUpperBound</taxonomy>
-    <position>1408.0,168.0</position>
+    <position>1483.0,168.0</position>
     <parameter name="graphicalElementContainmentKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -827,8 +827,8 @@
   <edge>
     <source>3da1c8d9-a942-4b8e-b863-a0bc06a73d1c</source>
     <target>3249f0f3-464b-47a6-931c-ff4713c35134</target>
-    <point>1560.0,705.0</point>
-    <point>1410.0,615.0</point>
+    <point>1635.0,315.0</point>
+    <point>1575.0,435.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>false</branch>
   </edge>
@@ -965,7 +965,7 @@
     <label>GetGraphicalElementContainmentUpperBound</label>
     <sib-uid>mgl/mgl/GetGraphicalElementContainmentUpperBound</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetGraphicalElementContainmentUpperBound</taxonomy>
-    <position>1048.0,333.0</position>
+    <position>1048.0,483.0</position>
     <parameter name="graphicalElementContainmentKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -989,9 +989,10 @@
   </sib>
   <edge>
     <source>1d194351-67e0-4970-8094-2208f7969ca9</source>
-    <target>c2a3ef12-cafa-40c3-a28a-f716b26aad8f</target>
-    <point>1200.0,270.0</point>
-    <point>1197.0,331.0</point>
+    <target>080b09da-d707-4fd0-9562-2ad2e3ec5574</target>
+    <point>1211.842105263158,264.0</point>
+    <point>1260.9375,333.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
@@ -1000,7 +1001,7 @@
     <label>FiniteBound?</label>
     <sib-uid>basic-sibs/EvaluateCondition</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.EvaluateCondition</taxonomy>
-    <position>1154.0,453.0</position>
+    <position>1154.0,603.0</position>
     <parameter name="condition">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
@@ -1017,8 +1018,9 @@
   <edge>
     <source>c2a3ef12-cafa-40c3-a28a-f716b26aad8f</source>
     <target>62ea876d-65d2-4127-a79f-90f52934395f</target>
-    <point>1200.0,360.0</point>
-    <point>1203.0,470.0</point>
+    <point>1200.0,510.0</point>
+    <point>1200.0,630.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
@@ -1027,7 +1029,7 @@
     <label>ContainerCheck</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>1085.0,573.0</position>
+    <position>1025.0,723.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -1057,7 +1059,7 @@
     <label>ContainerCheck</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>1220.0,573.0</position>
+    <position>1250.0,723.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -1084,16 +1086,54 @@
   <edge>
     <source>62ea876d-65d2-4127-a79f-90f52934395f</source>
     <target>bd6e99b1-abc0-459d-b3a8-4665eef67fa2</target>
-    <point>1200.0,480.0</point>
-    <point>1143.0,578.0</point>
+    <point>1200.0,630.0</point>
+    <point>1140.0,750.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>false</branch>
   </edge>
   <edge>
     <source>62ea876d-65d2-4127-a79f-90f52934395f</source>
     <target>8a5dd629-8f25-4ef7-821e-fcead875a676</target>
-    <point>1200.0,480.0</point>
-    <point>1274.0,578.0</point>
+    <point>1200.0,630.0</point>
+    <point>1275.0,750.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>true</branch>
+  </edge>
+  <sib>
+    <id>080b09da-d707-4fd0-9562-2ad2e3ec5574</id>
+    <name>CheckVariable</name>
+    <label>containedElementNotNull?</label>
+    <sib-uid>basic-sibs/CheckVariable</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.CheckVariable</taxonomy>
+    <position>1111.5,363.0</position>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>containedElement</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>emptyString</finalbranches>
+    <finalbranches>error</finalbranches>
+    <finalbranches>false</finalbranches>
+    <finalbranches>true</finalbranches>
+  </sib>
+  <edge>
+    <source>080b09da-d707-4fd0-9562-2ad2e3ec5574</source>
+    <target>c2a3ef12-cafa-40c3-a28a-f716b26aad8f</target>
+    <point>1200.0,384.0</point>
+    <point>1200.0,483.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>true</branch>
+  </edge>
+  <edge>
+    <source>080b09da-d707-4fd0-9562-2ad2e3ec5574</source>
+    <target>bd6e99b1-abc0-459d-b3a8-4665eef67fa2</target>
+    <point>1200.0,375.0</point>
+    <point>1071.0,731.0</point>
+    <branch>false</branch>
   </edge>
   <parameter>
     <name>ModelElementKey</name>
@@ -1281,5 +1321,10 @@
     <name>default</name>
     <branch>false</branch>
     <sib>0977a6bf-52c1-4ac1-bea0-04209be8708e</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>080b09da-d707-4fd0-9562-2ad2e3ec5574</sib>
   </branch>
 </model>
