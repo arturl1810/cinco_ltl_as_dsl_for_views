@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>4ac25e32-ae6b-469a-b78c-1764aa97ce4d</id>
   <name>GenerateCheckContainer</name>
-  <changecounter>144</changecounter>
+  <changecounter>151</changecounter>
   <sib>
     <id>6f32ddea-91f6-4b9b-ba62-647156ba870d</id>
     <name>CopyElement</name>
@@ -675,8 +675,8 @@
     <parameter name="index">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>containerName</key>
-          <scope>DECLARED</scope>
+          <key>modelElementName</key>
+          <scope>LOCAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
@@ -753,7 +753,7 @@
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>if (target instanceof $context.graphModelName$ &amp;&amp; (($context.graphModelName$) target).getModelElements($context.containerName$.class).size() &lt; $context.upperBound$)
+      <string>if (target instanceof $context.graphModelName$ &amp;&amp; (($context.graphModelName$) target).getModelElements($context.modelElementName$.class).size() &lt; $context.upperBound$)
 	return true;
 </string>
     </parameter>
