@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>95ba8afa-8ca1-4186-b10e-c69cc1da7332</id>
   <name>Create Reference With Opposite</name>
-  <changecounter>18</changecounter>
+  <changecounter>19</changecounter>
   <sib>
     <id>55e1e71b-4f98-491b-9a01-0bf73127aefb</id>
     <name>NewEReferenceInEClassEStructuralFeatures_7</name>
@@ -619,9 +619,9 @@
   </sib>
   <edge>
     <source>eaaec179-4209-4ad2-8ec4-b0b5f943fbbe</source>
-    <target>55e1e71b-4f98-491b-9a01-0bf73127aefb</target>
-    <point>680.0,228.0</point>
-    <point>305.0,333.0</point>
+    <target>24b84584-dc04-4c7c-88fe-059d70146403</target>
+    <point>670.7142857142857,234.0</point>
+    <point>634.7368421052631,378.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -725,6 +725,78 @@
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
   </sib>
+  <sib>
+    <id>24b84584-dc04-4c7c-88fe-059d70146403</id>
+    <name>SwitchEClassifier</name>
+    <label>SwitchEClassifier</label>
+    <sib-uid>ecore/ecore/SwitchEClassifier</sib-uid>
+    <taxonomy>transem.ecore.sib.ecore.SwitchEClassifier</taxonomy>
+    <position>542.0,303.0</position>
+    <parameter name="eObjectKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>eObjectKey</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>EClass</finalbranches>
+    <finalbranches>EDataType</finalbranches>
+    <finalbranches>EEnum</finalbranches>
+    <finalbranches>error</finalbranches>
+    <finalbranches>other</finalbranches>
+  </sib>
+  <edge>
+    <source>24b84584-dc04-4c7c-88fe-059d70146403</source>
+    <target>55e1e71b-4f98-491b-9a01-0bf73127aefb</target>
+    <point>585.0,330.0</point>
+    <point>368.0,331.0</point>
+    <branch>EClass</branch>
+  </edge>
+  <sib>
+    <id>77c44bbb-9c2f-4943-8082-97915d58be4a</id>
+    <name>NewEAttributeInEClassEStructuralFeatures</name>
+    <label>NewEAttributeInEClassEStructuralFeatures</label>
+    <sib-uid>ecore/ecore/NewEAttributeInEClassEStructuralFeatures</sib-uid>
+    <taxonomy>transem.ecore.sib.ecore.NewEAttributeInEClassEStructuralFeatures</taxonomy>
+    <position>462.5,408.0</position>
+    <parameter name="eClassKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>eClassKey</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="eObjectKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>containeeReference</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>24b84584-dc04-4c7c-88fe-059d70146403</source>
+    <target>77c44bbb-9c2f-4943-8082-97915d58be4a</target>
+    <point>585.0,330.0</point>
+    <point>573.0,433.0</point>
+    <branch>EDataType</branch>
+    <branch>EEnum</branch>
+  </edge>
+  <edge>
+    <source>77c44bbb-9c2f-4943-8082-97915d58be4a</source>
+    <target>2078aa3e-6eb5-4d70-90a2-5d6b9cdaf2f1</target>
+    <point>585.0,450.0</point>
+    <point>335.0,439.0</point>
+    <branch>default</branch>
+  </edge>
   <parameter>
     <name>containingClassKey</name>
     <field>eClassKey</field>
@@ -785,17 +857,17 @@
     <field>value</field>
     <sib>eaaec179-4209-4ad2-8ec4-b0b5f943fbbe</sib>
   </parameter>
+  <parameter>
+    <name>containedClassKey</name>
+    <field>eObjectKey</field>
+    <sib>24b84584-dc04-4c7c-88fe-059d70146403</sib>
+  </parameter>
+  <parameter>
+    <name>containingClassKey</name>
+    <field>eClassKey</field>
+    <sib>77c44bbb-9c2f-4943-8082-97915d58be4a</sib>
+  </parameter>
   <values>
-    <entry>
-      <string>containedClassKey</string>
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>abstractNodeClass</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>false</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </entry>
     <entry>
       <string>containerReferenceName</string>
       <de.metaframe.common.sib.parameter.ContextExpression>
@@ -807,6 +879,20 @@
       </de.metaframe.common.sib.parameter.ContextExpression>
     </entry>
     <entry>
+      <string>containedClassKey</string>
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>abstractNodeClass</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>false</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </entry>
+    <entry>
+      <string>lowerBound</string>
+      <int>0</int>
+    </entry>
+    <entry>
       <string>containedReferenceName</string>
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
@@ -815,10 +901,6 @@
           <classMutable>true</classMutable>
         </ContextExpressionFoundation>
       </de.metaframe.common.sib.parameter.ContextExpression>
-    </entry>
-    <entry>
-      <string>lowerBound</string>
-      <int>0</int>
     </entry>
     <entry>
       <string>lowerOppositeBound</string>
@@ -965,5 +1047,20 @@
     <name>error</name>
     <branch>error</branch>
     <sib>d1cffa45-f79a-43b8-8229-6dee53b8024f</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>77c44bbb-9c2f-4943-8082-97915d58be4a</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>24b84584-dc04-4c7c-88fe-059d70146403</sib>
+  </branch>
+  <branch>
+    <name>default</name>
+    <branch>other</branch>
+    <sib>24b84584-dc04-4c7c-88fe-059d70146403</sib>
   </branch>
 </model>

@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>0e442a3b-428c-42da-ba0f-50231419be44</id>
   <name>Initialize</name>
-  <changecounter>35</changecounter>
+  <changecounter>37</changecounter>
   <sib>
     <id>fc2d926f-8748-458a-a729-faa7ad31bb7f</id>
     <name>PutString</name>
@@ -343,7 +343,7 @@
     <label>ThrowException</label>
     <sib-uid>basic-sibs/ThrowException</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.ThrowException</taxonomy>
-    <position>814.5,348.0</position>
+    <position>1069.5,348.0</position>
     <parameter name="message">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
@@ -684,6 +684,7 @@
     <target>59ea55c4-3d79-452a-ab77-c7722abb1323</target>
     <point>1335.0,195.0</point>
     <point>1545.0,202.0</point>
+    <branch>default</branch>
   </edge>
   <edge>
     <source>59ea55c4-3d79-452a-ab77-c7722abb1323</source>
