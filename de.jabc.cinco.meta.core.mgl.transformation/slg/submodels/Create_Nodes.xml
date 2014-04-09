@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>d136ee11-0a5e-458f-8813-648c7e29c207</id>
   <name>Create Nodes</name>
-  <changecounter>53</changecounter>
+  <changecounter>54</changecounter>
   <edge>
     <source>bcbab676-0b89-45b1-87a8-6b31f8136bf1</source>
     <target>55e2fb55-9ab4-4b8a-a441-888598100881</target>
@@ -125,9 +125,9 @@
   </edge>
   <edge>
     <source>71f59236-d90a-4e7a-8177-5ae99b4cb509</source>
-    <target>be1a46a5-46f2-419c-a9e8-bf18dde9e167</target>
-    <point>1005.0,84.0</point>
-    <point>1005.0,273.0</point>
+    <target>bf1a8118-cc65-4d1b-8a94-1e6dcf52e1c2</target>
+    <point>987.0,83.2</point>
+    <point>890.0,169.55555555555554</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -693,6 +693,47 @@
       <string>Create EOperation</string>
     </userobject>
   </sib>
+  <sib>
+    <id>bf1a8118-cc65-4d1b-8a94-1e6dcf52e1c2</id>
+    <name>GraphSIB_1</name>
+    <label>CreatePrimeParameterClasses</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>903.5,151.0</position>
+    <parameter name="containingClassKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>modelElementClass</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="nodeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>modelElement</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>exit</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>b45d64c8-b97b-4d96-a2a6-7102d21d79b8</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>CreatePrimeParameterClasses</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>bf1a8118-cc65-4d1b-8a94-1e6dcf52e1c2</source>
+    <target>be1a46a5-46f2-419c-a9e8-bf18dde9e167</target>
+    <point>870.0,195.0</point>
+    <point>1016.0,299.0</point>
+    <branch>exit</branch>
+  </edge>
   <values/>
   <branch>
     <name>error</name>
@@ -793,5 +834,10 @@
     <name>error</name>
     <branch>error</branch>
     <sib>6ef738a3-fdc7-4a29-9d6a-457adb5ae030</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>bf1a8118-cc65-4d1b-8a94-1e6dcf52e1c2</sib>
   </branch>
 </model>

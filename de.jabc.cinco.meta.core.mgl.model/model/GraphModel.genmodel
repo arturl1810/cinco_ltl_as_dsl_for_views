@@ -40,5 +40,8 @@
       <genOperations ecoreOperation="GraphModel.ecore#//ContainingElement/getAllEdges"/>
       <genOperations ecoreOperation="GraphModel.ecore#//ContainingElement/getAllContainers"/>
     </genClasses>
+    <genClasses image="false" ecoreClass="GraphModel.ecore#//Parameter">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute GraphModel.ecore#//Parameter/name"/>
+    </genClasses>
   </genPackages>
 </genmodel:GenModel>

@@ -370,12 +370,12 @@ class MGLValidator extends AbstractMGLValidator {
 			error("GraphModel must have a Style annotation.",graphicalModelElement.eClass.getEStructuralFeature("annotations"))
 	}
 	
-	@Check
-	def checkReferencedAttributeMatchesReferencedType(ReferencedAttribute attr){
-		if(attr.referencedType.type!=attr.feature.EContainingClass)
-			error("prime attribute must be an attribute from the prime reference",MglPackage.Literals::REFERENCED_ATTRIBUTE__FEATURE)
-		
-	}
+//	@Check
+//	def checkReferencedAttributeMatchesReferencedType(ReferencedAttribute attr){
+//		if(attr.referencedType.type!=attr.feature.EType)
+//			error("prime attribute must be an attribute from the prime reference",MglPackage.Literals::REFERENCED_ATTRIBUTE__FEATURE)
+//		
+//	}
 	@Check
 	def checkGraphModelContainableElements(GraphModel model){
 		if(model.containableElements.size>1){
