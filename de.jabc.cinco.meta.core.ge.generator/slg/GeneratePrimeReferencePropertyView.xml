@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>7ce0cea2-f133-4819-a4df-6d0f1188d2ec</id>
   <name>GeneratePrimeReferencePropertyView</name>
-  <changecounter>217</changecounter>
+  <changecounter>228</changecounter>
   <sib>
     <id>a2cae63c-d9d7-4524-80b8-ad12b33b47d5</id>
     <name>GetReferencedTypeType</name>
@@ -177,10 +177,10 @@
   <sib>
     <id>cd4a98f2-47f0-4ce4-a12e-a42615c14b3c</id>
     <name>CompareNumber</name>
-    <label>CompareNumber</label>
+    <label>compareUpperBoundWith1</label>
     <sib-uid>basic-sibs/CompareNumber</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.CompareNumber</taxonomy>
-    <position>528.0,438.0</position>
+    <position>585.0,438.0</position>
     <parameter name="value">
       <double>1.0</double>
     </parameter>
@@ -212,7 +212,7 @@
     <label>GenerateSingleEAttribute</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>574.5,316.0</position>
+    <position>664.5,316.0</position>
     <parameter name="eStructuralFeatureKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -275,7 +275,7 @@
     <label>GenerateSectionCode</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>481.0,168.0</position>
+    <position>511.0,168.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -709,7 +709,7 @@ public class $context.modelElementName$_$context.attributeName$_Section extends 
     <label>FormatRefTypeName</label>
     <sib-uid>genesys-sibs/FormatIdentifier</sib-uid>
     <taxonomy>de.jabc.sib.genesys.FormatIdentifier</taxonomy>
-    <position>184.5,213.0</position>
+    <position>229.5,258.0</position>
     <parameter name="identifier">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -753,7 +753,7 @@ public class $context.modelElementName$_$context.attributeName$_Section extends 
     <label>isPrimeParameter</label>
     <sib-uid>basic-sibs/EvaluateBoolean</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.EvaluateBoolean</taxonomy>
-    <position>599.5,198.0</position>
+    <position>689.5,168.0</position>
     <parameter name="bool">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -780,7 +780,7 @@ public class $context.modelElementName$_$context.attributeName$_Section extends 
     <label>GenerateSectionCode</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>481.0,63.0</position>
+    <position>511.0,63.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>

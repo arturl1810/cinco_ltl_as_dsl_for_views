@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>9bf333cd-76eb-4707-be7a-f62b921e88c5</id>
   <name>GenerateSingleIntegerCode</name>
-  <changecounter>89</changecounter>
+  <changecounter>105</changecounter>
   <sib>
     <id>761a275f-3772-4618-b07b-2202449515c5</id>
     <name>RunStringTemplate</name>
@@ -212,7 +212,7 @@ VerifyListener verifyListener= new VerifyListener() {
     <label>GenRefreshCode</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>707.5,333.0</position>
+    <position>707.5,453.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -241,7 +241,8 @@ String id = $context.flModelElementName$.get$context.fuRefTypeName$UID();
 EObject referenced = ReferenceRegistry.getInstance().getEObject(Integer.valueOf(id));
 EStructuralFeature feature = referenced.eClass().getEStructuralFeature(&quot;$context.attribute.feature.name$&quot;);
 Object value = referenced.eGet(feature, true);
-$context.flAttributeName$Text.setText(value + &quot;&quot;);</string>
+if (value != null)
+	$context.flAttributeName$Text.setText(value + &quot;&quot;);</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
@@ -291,6 +292,9 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
 	
 	$context.attributeName$Text.setEditable(true);
 	$context.attributeName$Text.setEnabled(true);
+
+	$context.attributeName$Text.addTraverseListener(traverseListener);
+	$context.attributeName$Text.addVerifyListener(verifyListener);
 
 }
 </string>
@@ -387,7 +391,7 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
     <label>GenControl</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>455.0,468.0</position>
+    <position>185.0,453.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -527,19 +531,15 @@ VerifyListener verifyListener= new VerifyListener() {
 if (pe == null)
 	return;
 
-EObject tmp = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
-if (tmp instanceof $context.modelElementName$) {
+EObject bo = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
+if (bo instanceof $context.modelElementName$) {
+	$context.modelElementName$ tmp = ($context.modelElementName$) bo;
 	try {
-		String id = (($context.modelElementName$) tmp).get$context.fuRefTypeName$UID();
-		EObject referenced = ReferenceRegistry.getInstance().getEObject(Integer.valueOf(id));
-		EStructuralFeature feature = referenced.eClass().getEStructuralFeature(&quot;$context.attribute.feature.name$&quot;);
-		referenced.eSet(feature, Integer.valueOf($context.flAttributeName$Text.getText()));
+		if (tmp.get$context.fuAttributeName$Parameter().get(0) != null)
+			tmp.get$context.fuAttributeName$Parameter().get(0).setInstance(Integer.valueOf($context.flAttributeName$Text.getText()));
 		
 	} catch (NumberFormatException e) {
-		String id = (($context.modelElementName$) $context.flModelElementName$).get$context.fuRefTypeName$UID();
-		EObject referenced = ReferenceRegistry.getInstance().getEObject(Integer.valueOf(id));
-		EStructuralFeature feature = referenced.eClass().getEStructuralFeature(&quot;$context.attribute.feature.name$&quot;);
-		referenced.eSet(feature, 0);
+		tmp.get$context.fuAttributeName$Parameter().get(0).setInstance(0);	
 	}
 }
 </string>
@@ -556,11 +556,50 @@ if (tmp instanceof $context.modelElementName$) {
   </edge>
   <edge>
     <source>b1120e34-7943-4c37-956a-1fc329330bfb</source>
-    <target>b9b060a7-86bb-4e79-99cc-82c2faf9fce0</target>
-    <point>600.0,285.0</point>
-    <point>791.0,348.0</point>
+    <target>a592f0ef-e22c-4bc1-900b-a32ce0c3981b</target>
+    <point>618.0,351.9818181818182</point>
+    <point>747.0,351.9818181818182</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
+  <sib>
+    <id>a592f0ef-e22c-4bc1-900b-a32ce0c3981b</id>
+    <name>RunStringTemplate_9</name>
+    <label>GenRefreshCode</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>707.5,333.0</position>
+    <parameter name="append">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>refreshCode</key>
+          <scope>PARENT</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>$context.fuModelElementName$ $context.flModelElementName$ = null;
+PictogramElement pe = getSelectedPictogramElement();
+if (pe != null) {
+	bo = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
+}
+if (bo instanceof $context.fuModelElementName$)
+	$context.flModelElementName$ = ($context.fuModelElementName$) bo;
+else return;
+Object value = $context.flModelElementName$.get$context.fuAttributeName$Parameter().get(0).getInstance();
+if (value != null)
+	$context.flAttributeName$Text.setText(value + &quot;&quot;);</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
   <values/>
   <branch>
     <name>error</name>
@@ -626,5 +665,15 @@ if (tmp instanceof $context.modelElementName$) {
     <name>error</name>
     <branch>error</branch>
     <sib>b1120e34-7943-4c37-956a-1fc329330bfb</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>a592f0ef-e22c-4bc1-900b-a32ce0c3981b</sib>
+  </branch>
+  <branch>
+    <name>default</name>
+    <branch>default</branch>
+    <sib>a592f0ef-e22c-4bc1-900b-a32ce0c3981b</sib>
   </branch>
 </model>

@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>50093a2f-f127-4315-978c-59bea9c2a6a3</id>
   <name>GenerateSingleBooleanCode</name>
-  <changecounter>97</changecounter>
+  <changecounter>112</changecounter>
   <sib>
     <id>a9db252a-8d07-44cf-8977-ce56b1572780</id>
     <name>RunStringTemplate</name>
@@ -195,7 +195,7 @@ if (tmp instanceof $context.modelElementName$) {
     <label>GenRefreshCode</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>752.5,318.0</position>
+    <position>767.5,468.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -225,7 +225,8 @@ EObject referenced = ReferenceRegistry.getInstance().getEObject(Integer.valueOf(
 EStructuralFeature feature = referenced.eClass().getEStructuralFeature(&quot;$context.attribute.feature.name$&quot;);
 Object value = referenced.eGet(feature, true);
 $context.flAttributeName$Button.setSelection( (Boolean) value);
-$context.flAttributeName$Button.setText( ((Boolean) value).toString());</string>
+if (value != null)
+	$context.flAttributeName$Button.setText( ((Boolean) value).toString());</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
@@ -273,6 +274,9 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
 	$context.flAttributeName$Button.setLayoutData(data);
 
 	$context.flAttributeName$Button.setEnabled(true);
+
+	$context.flAttributeName$Button.addSelectionListener(selectionListener);
+
 	}</string>
     </parameter>
     <finalbranches>default</finalbranches>
@@ -359,7 +363,7 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
     <label>GenControl</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>470.0,468.0</position>
+    <position>230.0,468.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -443,12 +447,12 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
 if (pe == null)
 	return;
 
-EObject tmp = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
-if (tmp instanceof $context.modelElementName$) {
-	String id = (($context.modelElementName$) tmp).get$context.fuRefTypeName$UID();
-	EObject referenced = ReferenceRegistry.getInstance().getEObject(Integer.valueOf(id));
-	EStructuralFeature feature = referenced.eClass().getEStructuralFeature(&quot;$context.attribute.feature.name$&quot;);
-	referenced.eSet(feature, $context.flAttributeName$Button.getSelection());
+EObject bo = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
+if (bo instanceof $context.modelElementName$) {
+	$context.fuModelElementName$ tmp = ($context.fuModelElementName$) bo;
+	Object value = $context.flAttributeName$Button.getSelection();
+	if (tmp.get$context.fuAttributeName$Parameter().get(0) != null) 
+		tmp.get$context.fuAttributeName$Parameter().get(0).setInstance($context.flAttributeName$Button.getSelection());
 	$context.flAttributeName$Button.setSelection( (Boolean) value);
 	$context.flAttributeName$Button.setText( ((Boolean) value).toString());
 }
@@ -514,11 +518,51 @@ if (tmp instanceof $context.modelElementName$) {
   </edge>
   <edge>
     <source>0dcc595a-3b25-47b6-acd5-0db3092f432d</source>
-    <target>5c462b30-f629-41f7-a167-d95000a6e3d8</target>
-    <point>615.0,345.0</point>
-    <point>819.0,321.0</point>
+    <target>649f5c33-f147-4b1a-9a50-2377c9a2cf8f</target>
+    <point>633.0,336.77142857142854</point>
+    <point>807.0,336.77142857142854</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
+  <sib>
+    <id>649f5c33-f147-4b1a-9a50-2377c9a2cf8f</id>
+    <name>RunStringTemplate_9</name>
+    <label>GenRefreshCode</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>767.5,318.0</position>
+    <parameter name="append">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>refreshCode</key>
+          <scope>PARENT</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>$context.fuModelElementName$ $context.flModelElementName$ = null;
+PictogramElement pe = getSelectedPictogramElement();
+if (pe != null) {
+	bo = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
+}
+if (bo instanceof $context.fuModelElementName$)
+	$context.flModelElementName$ = ($context.fuModelElementName$) bo;
+else return;
+Object value = $context.flModelElementName$.get$context.fuAttributeName$Parameter().get(0).isInstance();
+$context.flAttributeName$Button.setSelection( (Boolean) value);
+if (value != null)
+	$context.flAttributeName$Button.setText( ((Boolean) value).toString());</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
   <values/>
   <branch>
     <name>error</name>
@@ -584,5 +628,15 @@ if (tmp instanceof $context.modelElementName$) {
     <name>default</name>
     <branch>default</branch>
     <sib>5c462b30-f629-41f7-a167-d95000a6e3d8</sib>
+  </branch>
+  <branch>
+    <name>default</name>
+    <branch>default</branch>
+    <sib>649f5c33-f147-4b1a-9a50-2377c9a2cf8f</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>649f5c33-f147-4b1a-9a50-2377c9a2cf8f</sib>
   </branch>
 </model>

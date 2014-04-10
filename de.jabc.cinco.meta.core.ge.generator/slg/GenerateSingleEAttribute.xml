@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>6231d795-be3b-4d23-82c4-44a04b1084a3</id>
   <name>GenerateSingleEAttribute</name>
-  <changecounter>92</changecounter>
+  <changecounter>98</changecounter>
   <edge>
     <source>ae5012a5-52a3-4878-b539-25adabf4f4fb</source>
     <target>656a755b-7d0d-4033-b05b-749697fa1c57</target>

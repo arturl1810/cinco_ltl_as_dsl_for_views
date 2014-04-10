@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>4db550cc-f2bc-4c86-b8fb-009d572b0b8b</id>
   <name>GenerateAddNodeFeature</name>
-  <changecounter>1371</changecounter>
+  <changecounter>1389</changecounter>
   <sib>
     <id>b89523ed-9916-4f61-a5e9-9e1d8838a845</id>
     <name>PutExpression_1</name>
@@ -423,7 +423,7 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
     <label>RunStringTemplate</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>220.0,963.0</position>
+    <position>295.0,963.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -491,6 +491,8 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
 
 		$context.modelElementName$ $context.meIdentifier$ = $context.factoryName$Factory.eINSTANCE.create$context.modelElementName$();
 		
+		$context.primeParamContent$
+
 		String objectUri = ReferenceRegistry.getInstance().generateURI(bo);
 		int id = ReferenceRegistry.getInstance().getKey(objectUri);
 
@@ -550,7 +552,7 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
     <label>GetReferencedTypeType</label>
     <sib-uid>mgl/mgl/GetReferencedTypeType</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.sib.mgl.GetReferencedTypeType</taxonomy>
-    <position>427.5,738.0</position>
+    <position>367.5,738.0</position>
     <parameter name="referencedTypeKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -610,7 +612,7 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
     <label>GetEClassEPackage</label>
     <sib-uid>ecore/ecore/GetEClassEPackage</sib-uid>
     <taxonomy>transem.ecore.sib.ecore.GetEClassEPackage</taxonomy>
-    <position>667.5,738.0</position>
+    <position>562.5,738.0</position>
     <parameter name="eClassKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -646,7 +648,7 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
     <label>GetEPackageNsURI</label>
     <sib-uid>ecore/ecore/GetEPackageNsURI</sib-uid>
     <taxonomy>transem.ecore.sib.ecore.GetEPackageNsURI</taxonomy>
-    <position>835.5,738.0</position>
+    <position>715.5,738.0</position>
     <parameter name="ePackageKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -682,7 +684,7 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
     <label>GetEClassName</label>
     <sib-uid>ecore/ecore/GetEClassName</sib-uid>
     <taxonomy>transem.ecore.sib.ecore.GetEClassName</taxonomy>
-    <position>845.5,963.0</position>
+    <position>875.5,738.0</position>
     <parameter name="eClassKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -710,7 +712,7 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
     <label>FormatIdentifier</label>
     <sib-uid>genesys-sibs/FormatIdentifier</sib-uid>
     <taxonomy>de.jabc.sib.genesys.FormatIdentifier</taxonomy>
-    <position>664.0,963.0</position>
+    <position>874.0,963.0</position>
     <parameter name="identifier">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -763,7 +765,7 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
     <label>FormatIdentifier</label>
     <sib-uid>genesys-sibs/FormatIdentifier</sib-uid>
     <taxonomy>de.jabc.sib.genesys.FormatIdentifier</taxonomy>
-    <position>454.0,963.0</position>
+    <position>724.0,963.0</position>
     <parameter name="identifier">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -796,9 +798,9 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
   </sib>
   <edge>
     <source>133d9178-21cb-4caf-adc1-01eaed0b66e7</source>
-    <target>814245de-6dc8-4511-b290-69abaa62e6a8</target>
-    <point>507.0,994.0</point>
-    <point>282.0,994.0</point>
+    <target>01a08f28-05d8-4f4f-9acd-7ccfca84f693</target>
+    <point>582.0,975.4363636363636</point>
+    <point>455.0,929.3636363636364</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -1383,6 +1385,38 @@ Leaving Generate ${nodeName} AddFeature </expression>
     <point>118.0,633.0</point>
     <branch>true</branch>
   </edge>
+  <sib>
+    <id>01a08f28-05d8-4f4f-9acd-7ccfca84f693</id>
+    <name>MacroSIB</name>
+    <label>GeneratePrimeParameter</label>
+    <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
+    <position>485.5,961.0</position>
+    <parameter name="sourceVariable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>primeRef</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>490b2287-36b7-4f06-83f7-fd9ae2c167c6</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>GeneratePrimeParameter</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>01a08f28-05d8-4f4f-9acd-7ccfca84f693</source>
+    <target>814245de-6dc8-4511-b290-69abaa62e6a8</target>
+    <point>450.0,990.0</point>
+    <point>299.0,976.0</point>
+    <branch>default</branch>
+  </edge>
   <parameter>
     <name>modelElementKey</name>
     <field>modelElementKey</field>
@@ -1589,5 +1623,10 @@ Leaving Generate ${nodeName} AddFeature </expression>
     <name>error</name>
     <branch>error</branch>
     <sib>a0137c15-a7c1-42b9-a6a3-80049b8e3b01</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>01a08f28-05d8-4f4f-9acd-7ccfca84f693</sib>
   </branch>
 </model>
