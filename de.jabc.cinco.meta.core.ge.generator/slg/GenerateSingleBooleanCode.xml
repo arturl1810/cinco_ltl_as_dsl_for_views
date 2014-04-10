@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>50093a2f-f127-4315-978c-59bea9c2a6a3</id>
   <name>GenerateSingleBooleanCode</name>
-  <changecounter>112</changecounter>
+  <changecounter>116</changecounter>
   <sib>
     <id>a9db252a-8d07-44cf-8977-ce56b1572780</id>
     <name>RunStringTemplate</name>

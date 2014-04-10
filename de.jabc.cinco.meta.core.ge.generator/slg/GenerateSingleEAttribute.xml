@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>6231d795-be3b-4d23-82c4-44a04b1084a3</id>
   <name>GenerateSingleEAttribute</name>
-  <changecounter>98</changecounter>
+  <changecounter>177</changecounter>
   <edge>
     <source>ae5012a5-52a3-4878-b539-25adabf4f4fb</source>
     <target>656a755b-7d0d-4033-b05b-749697fa1c57</target>
@@ -195,7 +195,7 @@
     <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
     <position>669.5,93.0</position>
     <parameter name="error">
-      <boolean>false</boolean>
+      <boolean>true</boolean>
     </parameter>
     <parameter name="message">
       <de.metaframe.common.sib.parameter.ContextExpression>
@@ -258,34 +258,6 @@
     <branch>default</branch>
   </edge>
   <sib>
-    <id>e1edc20b-a09d-4d14-9bed-4bf05a5d8a6b</id>
-    <name>PrintConsoleMessage_1</name>
-    <label>PrintConsoleMessage</label>
-    <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
-    <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
-    <position>961.5,213.0</position>
-    <parameter name="error">
-      <boolean>false</boolean>
-    </parameter>
-    <parameter name="message">
-      <de.metaframe.common.sib.parameter.ContextExpression>
-        <ContextExpressionFoundation>
-          <expression>Default, enum, eclass match... leaving...</expression>
-          <clazz>java.lang.Object</clazz>
-          <classMutable>false</classMutable>
-        </ContextExpressionFoundation>
-      </de.metaframe.common.sib.parameter.ContextExpression>
-    </parameter>
-    <finalbranches>default</finalbranches>
-  </sib>
-  <edge>
-    <source>026ef609-27f1-48a5-a240-709e666813ca</source>
-    <target>e1edc20b-a09d-4d14-9bed-4bf05a5d8a6b</target>
-    <point>735.0,240.0</point>
-    <point>967.0,211.0</point>
-    <branch>default</branch>
-  </edge>
-  <sib>
     <id>ae5012a5-52a3-4878-b539-25adabf4f4fb</id>
     <name>GetEStructuralFeatureEType</name>
     <label>GetEStructuralFeatureEType</label>
@@ -316,6 +288,94 @@
       <boolean>true</boolean>
     </userobject>
   </sib>
+  <edge>
+    <source>026ef609-27f1-48a5-a240-709e666813ca</source>
+    <target>2e650444-dddd-4696-9976-e8038cd28502</target>
+    <point>753.0,237.25263157894736</point>
+    <point>1002.0,315.88421052631577</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>4c0d8866-685b-44a2-996f-982ef6985250</id>
+    <name>PrintConsoleMessage_1</name>
+    <label>PrintConsoleMessage</label>
+    <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
+    <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
+    <position>1156.5,213.0</position>
+    <parameter name="error">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="message">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>OTHER... Attribute ${attribute} attrType: ${attributeType}</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>false</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <finalbranches>default</finalbranches>
+  </sib>
+  <sib>
+    <id>2e650444-dddd-4696-9976-e8038cd28502</id>
+    <name>SwitchEDataType</name>
+    <label>SwitchEDataType</label>
+    <sib-uid>ecore/ecore/SwitchEDataType</sib-uid>
+    <taxonomy>transem.ecore.sib.ecore.SwitchEDataType</taxonomy>
+    <position>975.0,213.0</position>
+    <parameter name="eObjectKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>attributeType</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>EEnum</finalbranches>
+    <finalbranches>error</finalbranches>
+    <finalbranches>other</finalbranches>
+  </sib>
+  <edge>
+    <source>2e650444-dddd-4696-9976-e8038cd28502</source>
+    <target>4c0d8866-685b-44a2-996f-982ef6985250</target>
+    <point>1035.0,240.0</point>
+    <point>1175.0,316.0</point>
+    <branch>other</branch>
+  </edge>
+  <sib>
+    <id>fb5939d0-14a2-4817-aecc-2c36f62a5202</id>
+    <name>MacroSIB_3</name>
+    <label>GenerateSingleEnumeration</label>
+    <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
+    <position>941.0,331.0</position>
+    <parameter name="enumKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>attributeType</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>21a09387-7e17-4606-a778-1e7bb342ecbd</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>GenerateSingleEnumeration</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>2e650444-dddd-4696-9976-e8038cd28502</source>
+    <target>fb5939d0-14a2-4817-aecc-2c36f62a5202</target>
+    <point>1035.0,240.0</point>
+    <point>1036.0,350.0</point>
+    <branch>EEnum</branch>
+  </edge>
   <parameter>
     <name>eStructuralFeatureKey</name>
     <field>eStructuralFeatureKey</field>
@@ -384,13 +444,28 @@
     <sib>656a755b-7d0d-4033-b05b-749697fa1c57</sib>
   </branch>
   <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>ae5012a5-52a3-4878-b539-25adabf4f4fb</sib>
+  </branch>
+  <branch>
     <name>default</name>
     <branch>default</branch>
-    <sib>e1edc20b-a09d-4d14-9bed-4bf05a5d8a6b</sib>
+    <sib>4c0d8866-685b-44a2-996f-982ef6985250</sib>
   </branch>
   <branch>
     <name>error</name>
     <branch>error</branch>
-    <sib>ae5012a5-52a3-4878-b539-25adabf4f4fb</sib>
+    <sib>2e650444-dddd-4696-9976-e8038cd28502</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>fb5939d0-14a2-4817-aecc-2c36f62a5202</sib>
+  </branch>
+  <branch>
+    <name>default</name>
+    <branch>default</branch>
+    <sib>fb5939d0-14a2-4817-aecc-2c36f62a5202</sib>
   </branch>
 </model>

@@ -2,14 +2,14 @@
 <model version="2.1">
   <id>7ce0cea2-f133-4819-a4df-6d0f1188d2ec</id>
   <name>GeneratePrimeReferencePropertyView</name>
-  <changecounter>228</changecounter>
+  <changecounter>242</changecounter>
   <sib>
     <id>a2cae63c-d9d7-4524-80b8-ad12b33b47d5</id>
     <name>GetReferencedTypeType</name>
     <label>GetReferencedTypeType</label>
     <sib-uid>mgl/mgl/GetReferencedTypeType</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.sib.mgl.GetReferencedTypeType</taxonomy>
-    <position>37.5,153.0</position>
+    <position>37.5,138.0</position>
     <parameter name="referencedTypeKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -305,6 +305,7 @@ import org.eclipse.graphiti.ui.platform.*;
 import org.eclipse.jface.viewers.*;
 import org.eclipse.jface.dialogs.*;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.*;
 import org.eclipse.swt.events.*;
 import org.eclipse.swt.layout.*;
 import org.eclipse.swt.widgets.*;
@@ -810,6 +811,7 @@ import org.eclipse.graphiti.ui.platform.*;
 import org.eclipse.jface.viewers.*;
 import org.eclipse.jface.dialogs.*;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.*;
 import org.eclipse.swt.events.*;
 import org.eclipse.swt.layout.*;
 import org.eclipse.swt.widgets.*;
