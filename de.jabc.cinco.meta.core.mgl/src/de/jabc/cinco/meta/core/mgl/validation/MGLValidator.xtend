@@ -396,5 +396,4 @@ class MGLValidator extends AbstractMGLValidator {
 		}
 	}
 	
-	
 }

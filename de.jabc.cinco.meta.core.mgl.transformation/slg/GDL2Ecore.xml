@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>ca5a39ee-2606-4461-8c2d-1e6ebdbd9d0e</id>
   <name>MGL2Ecore</name>
-  <changecounter>72</changecounter>
+  <changecounter>76</changecounter>
   <sib>
     <id>e763e08f-ee7b-48f6-8187-dac38f44f435</id>
     <name>MacroSIB</name>
@@ -266,10 +266,10 @@
   <edge>
     <source>6bbe603e-79c9-4547-bc18-f9bb41a277b7</source>
     <target>3966d27a-78d5-4870-aba6-8c1ee8089b98</target>
-    <point>1485.0,75.0</point>
+    <point>1485.0,104.0</point>
     <point>1485.0,195.0</point>
-    <point>1770.0,210.0</point>
-    <labelposition>29.27532286604162,44.53310158568294</labelposition>
+    <point>2064.5,195.0</point>
+    <labelposition>2.547215390818836,15.961433698447872</labelposition>
     <branch>error</branch>
   </edge>
   <sib>
@@ -295,11 +295,11 @@
   </sib>
   <edge>
     <source>6bbe603e-79c9-4547-bc18-f9bb41a277b7</source>
-    <target>1492f046-e702-4e6c-b095-6671cb654f98</target>
-    <point>1532.0,46.0</point>
-    <point>1920.0,15.0</point>
-    <point>2067.5,46.0</point>
-    <labelposition>513.5387488328665,-25.0</labelposition>
+    <target>c8c9f94e-73b9-47f8-935e-8ca1543b4dc2</target>
+    <point>1515.0,104.0</point>
+    <point>1515.0,420.0</point>
+    <point>1862.0,420.0</point>
+    <labelposition>21.947641382730335,14.43731542276192</labelposition>
     <branch>exit</branch>
   </edge>
   <edge>
@@ -589,6 +589,45 @@ return list;</string>
     <point>1935.0,195.0</point>
     <point>2064.5,195.0</point>
     <labelposition>151.03038770520433,35.757188481721535</labelposition>
+    <branch>error</branch>
+  </edge>
+  <sib>
+    <id>c8c9f94e-73b9-47f8-935e-8ca1543b4dc2</id>
+    <name>GraphSIB_1</name>
+    <label>Generate Helper EOperations</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>1862.0,376.0</position>
+    <parameter name="graphModelKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>graphModel</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>exit</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>d5531c11-ffc2-41e6-b1fd-4f08e1327b1f</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Generate Helper EOperations</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>c8c9f94e-73b9-47f8-935e-8ca1543b4dc2</source>
+    <target>1492f046-e702-4e6c-b095-6671cb654f98</target>
+    <point>1695.0,330.0</point>
+    <point>2092.0,73.0</point>
+    <branch>exit</branch>
+  </edge>
+  <edge>
+    <source>c8c9f94e-73b9-47f8-935e-8ca1543b4dc2</source>
+    <target>3966d27a-78d5-4870-aba6-8c1ee8089b98</target>
+    <point>1755.0,330.0</point>
+    <point>2123.0,207.0</point>
     <branch>error</branch>
   </edge>
   <userobject key="ABC$ANNOTATION">

@@ -56,6 +56,34 @@
         </eGenericType>
       </eParameters>
     </eOperations>
+    <eOperations name="getIncoming" upperBound="-1">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="EList&lt;T> list = new org.eclipse.emf.common.util.BasicEList&lt;T>();&#xA;&#x9;&#x9;if(clazz!=null){&#xA;&#x9;&#x9;&#x9;for(Edge e: this.getIncoming()){&#xA;&#x9;&#x9;&#x9;&#x9;if(clazz.isInstance(e)){&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;list.add(clazz.cast(e));&#xA;&#x9;&#x9;&#x9;&#x9;}&#xA;&#x9;&#x9;&#x9;}&#xA;&#x9;&#x9;}else{&#xA;&#x9;&#x9;&#x9;throw new NullPointerException(&quot;Class must not be null.&quot;);&#xA;&#x9;&#x9;}&#xA;&#x9;&#x9;&#xA;&#x9;&#x9;return list;"/>
+      </eAnnotations>
+      <eGenericType eTypeParameter="#//ModelElement/getIncoming/T"/>
+      <eTypeParameters name="T">
+        <eBounds eClassifier="#//Edge"/>
+      </eTypeParameters>
+      <eParameters name="clazz">
+        <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaClass">
+          <eTypeArguments eTypeParameter="#//ModelElement/getIncoming/T"/>
+        </eGenericType>
+      </eParameters>
+    </eOperations>
+    <eOperations name="getOutgoing" upperBound="-1">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="EList&lt;T> list = new org.eclipse.emf.common.util.BasicEList&lt;T>();&#xA;&#x9;&#x9;if(clazz!=null){&#xA;&#x9;&#x9;&#x9;for(Edge e: this.getOutgoing()){&#xA;&#x9;&#x9;&#x9;&#x9;if(clazz.isInstance(e)){&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;list.add(clazz.cast(e));&#xA;&#x9;&#x9;&#x9;&#x9;}&#xA;&#x9;&#x9;&#x9;}&#xA;&#x9;&#x9;}else{&#xA;&#x9;&#x9;&#x9;throw new NullPointerException(&quot;Class must not be null.&quot;);&#xA;&#x9;&#x9;}&#xA;&#x9;&#x9;&#xA;&#x9;&#x9;return list;"/>
+      </eAnnotations>
+      <eGenericType eTypeParameter="#//ModelElement/getOutgoing/T"/>
+      <eTypeParameters name="T">
+        <eBounds eClassifier="#//Edge"/>
+      </eTypeParameters>
+      <eParameters name="clazz">
+        <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaClass">
+          <eTypeArguments eTypeParameter="#//ModelElement/getOutgoing/T"/>
+        </eGenericType>
+      </eParameters>
+    </eOperations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="incoming" upperBound="-1"
         eType="#//Edge" eOpposite="#//Edge/targetElement"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="outgoing" upperBound="-1"
