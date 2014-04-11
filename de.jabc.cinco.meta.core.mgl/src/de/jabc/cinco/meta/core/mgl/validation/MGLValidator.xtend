@@ -4,8 +4,10 @@
 package de.jabc.cinco.meta.core.mgl.validation
 
 import mgl.Attribute
+import mgl.ContainingElement
 import mgl.Edge
 import mgl.GraphModel
+import mgl.GraphicalElementContainment
 import mgl.GraphicalModelElement
 import mgl.MglPackage
 import mgl.ModelElement
@@ -377,23 +379,33 @@ class MGLValidator extends AbstractMGLValidator {
 		
 	}
 	@Check
-	def checkGraphModelContainableElements(GraphModel model){
+	def checkGraphModelContainableElements(ContainingElement model){
 		if(model.containableElements.size>1){
 			for(containment:model.containableElements){
 				if(containment.type==null)
-					error("Dont't care type must not be accompanied by other containable elements.",MglPackage.Literals::GRAPH_MODEL__CONTAINABLE_ELEMENTS);
+					error("Dont't care type must not be accompanied by other containable elements.",MglPackage.Literals::CONTAINING_ELEMENT__CONTAINABLE_ELEMENTS);
 			}
+		}
+		if(model.containableElements.size==1){
+			if(model.containableElements.get(0).type == null)
+				if(model.containableElements.get(0).upperBound==0)
+					warning("Container element cannot contain any model elements by this definition.",MglPackage.Literals::CONTAINING_ELEMENT__CONTAINABLE_ELEMENTS)
 		}
 	}
 	
 	@Check
-	def checkContainerContainableElements(NodeContainer container){
-		if(container.containableElements.size>1){
-			for(containment:container.containableElements){
-				if(containment.type==null)
-					error("Dont't care type must not be accompanied by other containable elements.",MglPackage.Literals::NODE_CONTAINER__CONTAINABLE_ELEMENTS);
-			}
-		}
+	def checkContainableElementsCardinality(GraphicalElementContainment containment){
+		var lower= containment.lowerBound
+		var upper = containment.upperBound
+		
+		if(lower<0)
+			error("Containment lower bound must not be lower 0.",MglPackage.Literals::GRAPHICAL_ELEMENT_CONTAINMENT__LOWER_BOUND)
+		if(lower>upper&&upper!=-1)
+			error("Containment lower bound must not be bigger than upper bound.",MglPackage.Literals::GRAPHICAL_ELEMENT_CONTAINMENT__LOWER_BOUND)
+		if(upper<-1)
+			error("Containment upper bound must not be lower -1",MglPackage.Literals::GRAPHICAL_ELEMENT_CONTAINMENT__UPPER_BOUND)
 	}
+	
+	
 	
 }
