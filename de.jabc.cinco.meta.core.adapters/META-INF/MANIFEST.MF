@@ -3,15 +3,12 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Sibs
 Bundle-SymbolicName: de.jabc.cinco.meta.core.adapters;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Export-Package: 
- de.jabc.cinco.meta.core.sibs.graphmodel.adapter,
- de.jabc.cinco.meta.core.sibs.graphmodel.adapter.graphmodel,
- de.jabc.cinco.meta.core.sibs.mgl.adapter,
- de.jabc.cinco.meta.core.sibs.mgl.adapter.mgl,
- de.jabc.cinco.meta.core.sibs.style.adapter,
- de.jabc.cinco.meta.core.sibs.style.adapter.style
+Export-Package: de.jabc.cinco.meta.core.sibs.graphmodel.adapter,de.jab
+ c.cinco.meta.core.sibs.graphmodel.adapter.graphmodel,de.jabc.cinco.me
+ ta.core.sibs.mgl.adapter,de.jabc.cinco.meta.core.sibs.mgl.adapter.mgl
+ ,de.jabc.cinco.meta.core.sibs.style.adapter,de.jabc.cinco.meta.core.s
+ ibs.style.adapter.style
 Require-Bundle: org.eclipse.emf.ecore,
  org.eclipse.emf.ecore.xmi,
  org.eclipse.xtend.typesystem.emf,
- de.jabc.cinco.meta.libraries;bundle-version="1.0.0"
-
+ de.jabc.cinco.meta.libraries
