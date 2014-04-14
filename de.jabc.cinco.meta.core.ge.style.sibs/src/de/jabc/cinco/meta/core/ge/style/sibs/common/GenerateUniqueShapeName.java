@@ -3,7 +3,6 @@ package de.jabc.cinco.meta.core.ge.style.sibs.common;
 import de.jabc.cinco.meta.core.ge.style.sibs.adapter.Branches;
 import de.jabc.cinco.meta.core.ge.style.sibs.adapter.ServiceAdapter;
 import de.metaframe.jabc.framework.execution.LightweightExecutionEnvironment;
-import de.metaframe.jabc.framework.execution.exceptions.ContextException;
 import de.metaframe.jabc.framework.sib.annotation.SIBClass;
 import de.metaframe.jabc.framework.sib.parameter.ContextExpression;
 import de.metaframe.jabc.framework.sib.parameter.ContextKey;

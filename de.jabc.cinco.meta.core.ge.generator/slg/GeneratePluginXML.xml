@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>c6d3a171-4a7c-4363-ab9c-c7be2786983b</id>
   <name>GeneratePluginXML</name>
-  <changecounter>277</changecounter>
+  <changecounter>280</changecounter>
   <sib>
     <id>b9acf74f-0e4c-4f93-80c7-e3f218bfc27e</id>
     <name>RunStringTemplate</name>
@@ -154,7 +154,7 @@
     <label>GetNodeAttributes</label>
     <sib-uid>mgl/mgl/GetNodeAttributes</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.sib.mgl.GetNodeAttributes</taxonomy>
-    <position>27.0,363.0</position>
+    <position>27.0,361.0</position>
     <parameter name="eListKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -294,7 +294,7 @@
     <label>GetNodePrimeReference</label>
     <sib-uid>mgl/mgl/GetNodePrimeReference</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.sib.mgl.GetNodePrimeReference</taxonomy>
-    <position>173.0,393.0</position>
+    <position>173.0,391.0</position>
     <parameter name="nodeKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -365,7 +365,7 @@
     <label>GetReferencedTypeType</label>
     <sib-uid>mgl/mgl/GetReferencedTypeType</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.sib.mgl.GetReferencedTypeType</taxonomy>
-    <position>337.5,258.0</position>
+    <position>337.5,256.0</position>
     <parameter name="referencedTypeKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -732,7 +732,7 @@
     <label>GetEdgeAttributes</label>
     <sib-uid>mgl/mgl/GetEdgeAttributes</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.sib.mgl.GetEdgeAttributes</taxonomy>
-    <position>702.5,333.0</position>
+    <position>702.5,331.0</position>
     <parameter name="eListKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1030,7 +1030,7 @@
     <label>GetNodeContainerAttributes</label>
     <sib-uid>mgl/mgl/GetNodeContainerAttributes</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.sib.mgl.GetNodeContainerAttributes</taxonomy>
-    <position>985.5,333.0</position>
+    <position>985.5,331.0</position>
     <parameter name="eListKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1058,7 +1058,7 @@
     <label>GetGraphModelAttributes</label>
     <sib-uid>mgl/mgl/GetGraphModelAttributes</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.sib.mgl.GetGraphModelAttributes</taxonomy>
-    <position>1310.0,108.0</position>
+    <position>1310.0,106.0</position>
     <parameter name="eListKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1190,7 +1190,7 @@
     <label>GetReferencedTypeCopiedAttributes</label>
     <sib-uid>mgl/mgl/GetReferencedTypeCopiedAttributes</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetReferencedTypeCopiedAttributes</taxonomy>
-    <position>299.0,423.0</position>
+    <position>299.0,421.0</position>
     <parameter name="eListKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1508,5 +1508,15 @@
     <name>error</name>
     <branch>error</branch>
     <sib>3afb0d7d-333e-4ad1-98ea-ed440bb404af</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>c334d2db-8bbe-4578-957c-373064e2a31a</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>1c0326a3-5213-4cc4-8278-183a97bf249c</sib>
   </branch>
 </model>

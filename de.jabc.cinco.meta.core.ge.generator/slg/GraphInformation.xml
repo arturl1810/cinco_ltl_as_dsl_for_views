@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>86742e86-2110-423a-afde-6fd521759a73</id>
   <name>GraphInformation</name>
-  <changecounter>567</changecounter>
+  <changecounter>605</changecounter>
   <sib>
     <id>9e28dbf6-7ef4-4eef-9ad3-1d0d32bf6020</id>
     <name>GetGraphModelName</name>
@@ -1514,30 +1514,6 @@
     <branch>exit</branch>
   </edge>
   <sib>
-    <id>416f8d49-10af-4003-8538-2c85675eacf5</id>
-    <name>PrintConsoleMessage_2</name>
-    <label>PrintConsoleMessage</label>
-    <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
-    <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
-    <position>699.5,1578.0</position>
-    <parameter name="error">
-      <boolean>false</boolean>
-    </parameter>
-    <parameter name="message">
-      <de.metaframe.common.sib.parameter.ContextExpression>
-        <ContextExpressionFoundation>
-          <expression>Finished GraphInformation Macro. StyleMap: ${stylesMap}
-
-Styles map:
-${stylesMap}</expression>
-          <clazz>java.lang.Object</clazz>
-          <classMutable>false</classMutable>
-        </ContextExpressionFoundation>
-      </de.metaframe.common.sib.parameter.ContextExpression>
-    </parameter>
-    <finalbranches>default</finalbranches>
-  </sib>
-  <sib>
     <id>5555cc2e-85b0-490e-b1e8-986e7ca399e5</id>
     <name>GetGraphModelContainableElements</name>
     <label>GetGraphModelContainableElements</label>
@@ -1653,7 +1629,7 @@ ${stylesMap}</expression>
     <label>GetModelElementName</label>
     <sib-uid>mgl/mgl/GetModelElementName</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetModelElementName</taxonomy>
-    <position>1046.5,1458.0</position>
+    <position>1106.5,1458.0</position>
     <parameter name="modelElementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1739,9 +1715,9 @@ ${stylesMap}</expression>
   </edge>
   <edge>
     <source>b8790f10-055b-4acc-af86-536dc13bc495</source>
-    <target>416f8d49-10af-4003-8538-2c85675eacf5</target>
-    <point>1002.0,1370.4</point>
-    <point>708.0,1597.581818181818</point>
+    <target>3503f414-ef79-4b0d-bf9a-3ca587eb3ece</target>
+    <point>1047.0,1381.8</point>
+    <point>693.0,1586.0307692307692</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>exit</branch>
   </edge>
@@ -1829,7 +1805,7 @@ ${stylesMap}</expression>
     <label>GetGraphicalElementContainmentType</label>
     <sib-uid>mgl/mgl/GetGraphicalElementContainmentType</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetGraphicalElementContainmentType</taxonomy>
-    <position>1177.0,1353.0</position>
+    <position>1222.0,1353.0</position>
     <parameter name="graphicalElementContainmentKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1883,9 +1859,10 @@ ${stylesMap}</expression>
   </sib>
   <edge>
     <source>ff31215e-dcd8-4855-a4cc-dcbe5198ede1</source>
-    <target>416f8d49-10af-4003-8538-2c85675eacf5</target>
-    <point>750.0,1470.0</point>
-    <point>753.0,1556.0</point>
+    <target>3503f414-ef79-4b0d-bf9a-3ca587eb3ece</target>
+    <point>750.7894736842105,1509.0</point>
+    <point>691.875,1578.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
@@ -1902,7 +1879,7 @@ ${stylesMap}</expression>
     <label>EvaluateCondition</label>
     <sib-uid>basic-sibs/EvaluateCondition</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.EvaluateCondition</taxonomy>
-    <position>1227.0,1458.0</position>
+    <position>1287.0,1458.0</position>
     <parameter name="condition">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
@@ -1922,7 +1899,7 @@ ${stylesMap}</expression>
     <label>Put*</label>
     <sib-uid>basic-sibs/PutExpression</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
-    <position>1343.0,1578.0</position>
+    <position>1328.0,1578.0</position>
     <parameter name="resolve">
       <boolean>true</boolean>
     </parameter>
@@ -1997,7 +1974,7 @@ ${stylesMap}</expression>
     <label>PutAllContained</label>
     <sib-uid>basic-sibs/PutBoolean</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutBoolean</taxonomy>
-    <position>1189.5,1593.0</position>
+    <position>1174.5,1578.0</position>
     <parameter name="value">
       <boolean>true</boolean>
     </parameter>
@@ -2018,6 +1995,129 @@ ${stylesMap}</expression>
     <target>4066a3d9-23ae-40f7-850e-256d6dc98ac8</target>
     <point>1215.0,1635.0</point>
     <point>1134.0,1605.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>3503f414-ef79-4b0d-bf9a-3ca587eb3ece</id>
+    <name>GetGraphModelImports</name>
+    <label>GetGraphModelImports</label>
+    <sib-uid>mgl/mgl/GetGraphModelImports</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetGraphModelImports</taxonomy>
+    <position>672.5,1578.0</position>
+    <parameter name="eListKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>graphModelImports</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="graphModelKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>graphModel</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>9683c8cc-83cc-426b-af8a-e63ea66f7dbd</id>
+    <name>GetImportsPackageName</name>
+    <label>GetImportsPackageName</label>
+    <sib-uid>ge-util-sibs/GetImportsPackageName</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.GetImportsPackageName</taxonomy>
+    <position>471.0,1578.0</position>
+    <parameter name="graphModelImports">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>graphModelImports</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="imports">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>imports</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>3503f414-ef79-4b0d-bf9a-3ca587eb3ece</source>
+    <target>9683c8cc-83cc-426b-af8a-e63ea66f7dbd</target>
+    <point>615.0,1605.0</point>
+    <point>429.0,1598.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>e7d49cd7-dfe8-462a-a085-d2827642c8a2</id>
+    <name>PrintConsoleMessage_2</name>
+    <label>PrintConsoleMessage</label>
+    <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
+    <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
+    <position>76.5,1578.0</position>
+    <parameter name="error">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="message">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>Finished GraphInformation Macro. StyleMap: ${stylesMap}
+
+Styles map:
+${stylesMap}</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>false</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <finalbranches>default</finalbranches>
+  </sib>
+  <edge>
+    <source>9683c8cc-83cc-426b-af8a-e63ea66f7dbd</source>
+    <target>045e6956-dcbd-4b64-beb2-c4b4cb4f3bba</target>
+    <point>537.0,1591.68</point>
+    <point>423.0,1557.48</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>045e6956-dcbd-4b64-beb2-c4b4cb4f3bba</id>
+    <name>PrintConsoleMessage</name>
+    <label>PrintConsoleMessage</label>
+    <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
+    <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
+    <position>279.5,1578.0</position>
+    <parameter name="error">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="message">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>The Imports: ${imports}</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>false</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <finalbranches>default</finalbranches>
+  </sib>
+  <edge>
+    <source>045e6956-dcbd-4b64-beb2-c4b4cb4f3bba</source>
+    <target>e7d49cd7-dfe8-462a-a085-d2827642c8a2</target>
+    <point>345.0,1605.0</point>
+    <point>180.0,1589.0</point>
     <branch>default</branch>
   </edge>
   <values/>
@@ -2285,5 +2385,20 @@ ${stylesMap}</expression>
     <name>error</name>
     <branch>error</branch>
     <sib>3710eb22-edcb-46a3-9fe6-3d8498fbb194</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>9683c8cc-83cc-426b-af8a-e63ea66f7dbd</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>3503f414-ef79-4b0d-bf9a-3ca587eb3ece</sib>
+  </branch>
+  <branch>
+    <name>default</name>
+    <branch>default</branch>
+    <sib>e7d49cd7-dfe8-462a-a085-d2827642c8a2</sib>
   </branch>
 </model>

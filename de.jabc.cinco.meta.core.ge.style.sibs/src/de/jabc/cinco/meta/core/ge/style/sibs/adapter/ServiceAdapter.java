@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,16 +13,28 @@ import java.util.regex.Pattern;
 
 import mgl.Annotation;
 import mgl.Attribute;
+import mgl.GraphModel;
 import mgl.GraphicalElementContainment;
+import mgl.Import;
 import mgl.ModelElement;
 import mgl.Node;
 import mgl.NodeContainer;
 
+import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import style.AbsolutPosition;
@@ -35,6 +48,7 @@ import style.LineStyle;
 import style.Size;
 import style.StyleFactory;
 import style.VAlignment;
+import de.jabc.adapter.common.collection.Branches;
 import de.metaframe.jabc.framework.execution.LightweightExecutionEnvironment;
 import de.metaframe.jabc.framework.execution.context.LightweightExecutionContext;
 import de.metaframe.jabc.framework.sib.parameter.foundation.ContextExpressionFoundation;
@@ -546,5 +560,56 @@ public class ServiceAdapter {
 			context.put("exception", e);
 			return Branches.ERROR;
 		}
+	}
+
+	public static String getImportsPackageName(
+			LightweightExecutionEnvironment env,
+			ContextKeyFoundation graphModelImports,
+			ContextKeyFoundation imports) {
+
+		LightweightExecutionContext context = env.getLocalContext();
+		
+		try {
+			List<Import> gmImports= (List<Import>) context.get(graphModelImports);
+			List<String> imps = new ArrayList<>();
+			
+			for (Import i : gmImports){
+				String importUri = i.getImportURI();
+				importUri = importUri.replace("platform:/resource", "");
+				IPath path = new Path(importUri);
+				IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+				IFile file = root.getFile(path);
+				IProject p = file.getProject();
+				IFile mglFile = findMGLFile(p.getFolder("model"));
+				Resource res = new ResourceSetImpl().getResource(
+						URI.createPlatformResourceURI(mglFile.getFullPath().toOSString(), true), 
+						true);
+				for (EObject o : res.getContents()) {
+					if (o instanceof GraphModel) {
+						GraphModel gm = (GraphModel) o;
+						if (gm.getPackage() != null && !gm.getPackage().isEmpty()) {
+							imps.add(gm.getPackage().concat("." + gm.getName().toLowerCase()));
+						} else imps.add(gm.getName().toLowerCase());
+					}
+				}
+			}
+			context.put(imports, imps);
+			return Branches.DEFAULT;
+		} catch (Exception e) {
+			context.put("exception", e);
+			return Branches.ERROR;
+		}
+		
+	}
+
+	private static IFile findMGLFile(IContainer container) throws CoreException {
+		for (IResource res : container.members()) {
+			if (res instanceof IFile) {
+				IFile file = (IFile) res;
+				if ("mgl".equals(file.getFileExtension()))
+					return file;
+			} else return findMGLFile((IContainer) res);
+		}
+		return null;
 	}
 }

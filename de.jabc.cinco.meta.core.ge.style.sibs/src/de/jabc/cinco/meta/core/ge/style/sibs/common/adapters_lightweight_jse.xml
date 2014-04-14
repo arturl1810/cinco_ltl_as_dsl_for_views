@@ -1,5 +1,13 @@
 <serviceAdapters defaultAdapter="de.jabc.cinco.meta.core.ge.style.sibs.adapter.ServiceAdapter">
 	
+	<serviceAdapter uid="ge-util-sibs/GetImportsPackageName">
+		<service>getImportsPackageName</service>
+		<arguments>
+			<argument name="graphModelImports" />
+			<argument name="imports" />
+		</arguments>
+	</serviceAdapter>
+	
 	<serviceAdapter uid="ge-util-sibs/GenerateAppearanceDefaultValues">
 		<service>generateAppearanceDefaultValues</service>
 		<arguments>

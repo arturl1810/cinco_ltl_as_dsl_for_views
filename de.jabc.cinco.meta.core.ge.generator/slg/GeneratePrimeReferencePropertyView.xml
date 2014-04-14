@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>7ce0cea2-f133-4819-a4df-6d0f1188d2ec</id>
   <name>GeneratePrimeReferencePropertyView</name>
-  <changecounter>243</changecounter>
+  <changecounter>260</changecounter>
   <sib>
     <id>a2cae63c-d9d7-4524-80b8-ad12b33b47d5</id>
     <name>GetReferencedTypeType</name>
@@ -275,7 +275,7 @@
     <label>GenerateSectionCode</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>511.0,168.0</position>
+    <position>511.0,48.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -312,6 +312,7 @@ import org.eclipse.swt.widgets.*;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.ui.views.properties.tabbed.*;
 
+$context.refImportsContent$
 import $context.importPath$.*;
 import de.jabc.cinco.meta.core.referenceregistry.ReferenceRegistry;
 
@@ -770,9 +771,10 @@ public class $context.modelElementName$_$context.attributeName$_Section extends 
   </sib>
   <edge>
     <source>cc5aece6-b4ab-432e-94fa-1d17e1eb4742</source>
-    <target>f408e792-a9f4-4809-90e0-50d481f4adc9</target>
-    <point>660.0,198.0</point>
-    <point>660.0,84.0</point>
+    <target>2543bdae-506a-42f2-9db2-668e6c818cd7</target>
+    <point>768.0,187.92</point>
+    <point>957.0,200.52</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>true</branch>
   </edge>
   <sib>
@@ -781,7 +783,7 @@ public class $context.modelElementName$_$context.attributeName$_Section extends 
     <label>GenerateSectionCode</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>511.0,63.0</position>
+    <position>511.0,168.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -850,6 +852,97 @@ public class $context.modelElementName$_$context.attributeName$_Section extends 
     <target>8456f026-d049-4b3a-afd1-c93b9d745cdc</target>
     <point>555.0,90.0</point>
     <point>413.0,169.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>2543bdae-506a-42f2-9db2-668e6c818cd7</id>
+    <name>IterateElements_1</name>
+    <label>IterateImports</label>
+    <sib-uid>collection-sibs/IterateElements</sib-uid>
+    <taxonomy>de.jabc.sib.common.collection.IterateElements</taxonomy>
+    <position>700.5,48.0</position>
+    <parameter name="collection">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>imports</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="element">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>import</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="iterator">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>impIterator</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>exit</finalbranches>
+    <finalbranches>next</finalbranches>
+  </sib>
+  <sib>
+    <id>7de10580-532d-459e-a1b8-741aea0fb09e</id>
+    <name>RunStringTemplate</name>
+    <label>GenerateReferencedImports</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>866.0,48.0</position>
+    <parameter name="append">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>refImportsContent</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>import $context.import$.*;
+</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>2543bdae-506a-42f2-9db2-668e6c818cd7</source>
+    <target>7de10580-532d-459e-a1b8-741aea0fb09e</target>
+    <spline/>
+    <point>768.0,73.8</point>
+    <point>840.0,105.0</point>
+    <point>927.0,72.68571428571428</point>
+    <labelposition>490.96608751904165,39.33094586957645</labelposition>
+    <branch>next</branch>
+  </edge>
+  <edge>
+    <source>2543bdae-506a-42f2-9db2-668e6c818cd7</source>
+    <target>f408e792-a9f4-4809-90e0-50d481f4adc9</target>
+    <point>750.0,75.0</point>
+    <point>629.0,71.0</point>
+    <branch>exit</branch>
+  </edge>
+  <edge>
+    <source>7de10580-532d-459e-a1b8-741aea0fb09e</source>
+    <target>2543bdae-506a-42f2-9db2-668e6c818cd7</target>
+    <point>945.0,75.0</point>
+    <point>711.0,71.0</point>
     <branch>default</branch>
   </edge>
   <parameter>
@@ -973,5 +1066,15 @@ public class $context.modelElementName$_$context.attributeName$_Section extends 
     <name>error</name>
     <branch>error</branch>
     <sib>1f57e384-3631-4a3c-b040-83f299c0bbc1</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>7de10580-532d-459e-a1b8-741aea0fb09e</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>2543bdae-506a-42f2-9db2-668e6c818cd7</sib>
   </branch>
 </model>

@@ -7,26 +7,27 @@ import de.metaframe.jabc.framework.sib.annotation.SIBClass;
 import de.metaframe.jabc.framework.sib.parameter.ContextKey;
 import de.metaframe.jabc.sib.ServiceAdapterDescriptor;
 
-@SIBClass("ge-util-sibs/GetModelElementIdentifier")
-public class GetModelElementIdentifier extends AbstractSIB {
+
+@SIBClass("ge-util-sibs/GetImportsPackageName")
+public class GetImportsPackageName extends AbstractSIB {
 
 	public static final String[] BRANCHES = { Branches.DEFAULT, Branches.ERROR };
+
+	public ContextKey graphModelImports = new ContextKey("graphModelImportsKey", ContextKey.Scope.LOCAL, true);
+	public ContextKey imports = new ContextKey("importsKey", ContextKey.Scope.GLOBAL, true);
 	
-	public ContextKey modelElementName = new ContextKey("modelElementName", ContextKey.Scope.LOCAL, true);
-	public ContextKey meIdentifier = new ContextKey("meIdentifier", ContextKey.Scope.LOCAL, true);
-
 	public String execute(LightweightExecutionEnvironment env) {
-		return ServiceAdapter.getModelElementIdentifier(env,
-				modelElementName.asFoundation(),
-				meIdentifier.asFoundation());
+		return ServiceAdapter.getImportsPackageName(env,
+				graphModelImports.asFoundation(),
+				imports.asFoundation());
 	}
-
+	
 	@Override
 	public ServiceAdapterDescriptor generate() {
 		return new ServiceAdapterDescriptor(ServiceAdapter.class.getName(),
-				"getModelElementIdentifier", 
-				"modelElementName",
-				"meIdentifier");
+				"getImportsPackageName", 
+				"graphModelImports",
+				"imports");
 	}
 	
 }
