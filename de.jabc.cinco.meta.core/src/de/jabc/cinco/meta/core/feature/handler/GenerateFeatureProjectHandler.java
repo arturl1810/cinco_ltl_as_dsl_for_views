@@ -60,7 +60,8 @@ public class GenerateFeatureProjectHandler extends AbstractHandler {
 					file = (IFile) structuredSelection.getFirstElement();
 					ResourceSet rSet = new ResourceSetImpl();
 					
-			ps.run(true, true, new FeatureGenerator(file,rSet));
+			//ps.run(true, true, new FeatureGenerator(file,rSet));
+			ps.busyCursorWhile(new FeatureGenerator(file,rSet));
 				}
 			}
 		} catch (InvocationTargetException | InterruptedException e) {

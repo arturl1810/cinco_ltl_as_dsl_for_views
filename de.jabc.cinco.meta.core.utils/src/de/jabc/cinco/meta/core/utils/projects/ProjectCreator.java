@@ -34,7 +34,7 @@ public class ProjectCreator {
 		 
 		return createProject(projectName, srcFolders,
 				 referencedProjects, requiredBundles,
-				exportedPackages,  additionalNatures,  progressMonitor, null, true);
+				exportedPackages,  additionalNatures,  progressMonitor, null, askIfDel);
 	}
 	
 	public static IProject createProject(final String projectName, final List<String> srcFolders,

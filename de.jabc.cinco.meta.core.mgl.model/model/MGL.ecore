@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="mgl" nsURI="http://www.jabc.de/cinco/meta/core/mgl" nsPrefix="mgl">
-  <eClassifiers xsi:type="ecore:EClass" name="GraphModel" eSuperTypes="#//ModelElement">
+  <eClassifiers xsi:type="ecore:EClass" name="GraphModel" eSuperTypes="#//ModelElement #//ContainingElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="edges" upperBound="-1"
         eType="#//Edge" containment="true" eOpposite="#//Edge/graphModel"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="nodes" lowerBound="1" upperBound="-1"
@@ -20,8 +20,6 @@
         eType="#//Type" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="iconPath" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="fileExtension" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="containableElements" upperBound="-1"
-        eType="#//GraphicalElementContainment" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Edge" eSuperTypes="#//GraphicalModelElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="targetElements" lowerBound="1"
@@ -60,9 +58,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="DataFlowInformation" eSuperTypes="#//Information">
     <eStructuralFeatures xsi:type="ecore:EReference" name="extends" eType="#//DataFlowInformation"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="NodeContainer" eSuperTypes="#//GraphicalModelElement">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="containableElements" upperBound="-1"
-        eType="#//GraphicalElementContainment" containment="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="NodeContainer" eSuperTypes="#//GraphicalModelElement #//ContainingElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="extends" eType="#//NodeContainer"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="graphModel" lowerBound="1"
         eType="#//GraphModel" eOpposite="#//GraphModel/nodeContainers"/>
@@ -129,6 +125,8 @@
         defaultValueLiteral="0"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="maxOutgoing" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
         defaultValueLiteral="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containment" upperBound="-1"
+        eType="#//GraphicalElementContainment" eOpposite="#//GraphicalElementContainment/type"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ReferencedAttribute">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
@@ -139,8 +137,17 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="parameter" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="GraphicalElementContainment">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="#//GraphicalModelElement"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="upperBound" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="lowerBound" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="#//GraphicalModelElement"
+        eOpposite="#//GraphicalModelElement/containment"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="upperBound" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="lowerBound" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="0"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containingElement" eType="#//ContainingElement"
+        eOpposite="#//ContainingElement/containableElements"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ContainingElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containableElements" upperBound="-1"
+        eType="#//GraphicalElementContainment" containment="true" eOpposite="#//GraphicalElementContainment/containingElement"/>
   </eClassifiers>
 </ecore:EPackage>

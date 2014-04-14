@@ -29,6 +29,14 @@
         <genParameters ecoreParameter="GraphModel.ecore#//ModelElement/getPredecessors.1/clazz"/>
         <genTypeParameters ecoreTypeParameter="GraphModel.ecore#//ModelElement/getPredecessors.1/T"/>
       </genOperations>
+      <genOperations ecoreOperation="GraphModel.ecore#//ModelElement/getIncoming">
+        <genParameters ecoreParameter="GraphModel.ecore#//ModelElement/getIncoming/clazz"/>
+        <genTypeParameters ecoreTypeParameter="GraphModel.ecore#//ModelElement/getIncoming/T"/>
+      </genOperations>
+      <genOperations ecoreOperation="GraphModel.ecore#//ModelElement/getOutgoing">
+        <genParameters ecoreParameter="GraphModel.ecore#//ModelElement/getOutgoing/clazz"/>
+        <genTypeParameters ecoreTypeParameter="GraphModel.ecore#//ModelElement/getOutgoing/T"/>
+      </genOperations>
     </genClasses>
     <genClasses image="false" ecoreClass="GraphModel.ecore#//ContainingElement">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference GraphModel.ecore#//ContainingElement/modelElements"/>

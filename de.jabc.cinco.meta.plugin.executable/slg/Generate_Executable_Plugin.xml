@@ -2,14 +2,14 @@
 <model version="2.1">
   <id>bf0bf557-8392-4afa-ab51-5f203f57d0e5</id>
   <name>Generate Executable Plugin</name>
-  <changecounter>20</changecounter>
+  <changecounter>23</changecounter>
   <sib>
     <id>75ddf12f-36e7-4461-ad04-42eb0234d1fe</id>
     <name>MacroSIB</name>
     <label>Generate Extension Point</label>
     <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
-    <position>139.5,196.0</position>
+    <position>244.5,196.0</position>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
     <userobject key="ABC$GRAPHSIB$MODELID">
@@ -25,7 +25,7 @@
     <label>Generate Plugin XML</label>
     <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
-    <position>394.5,196.0</position>
+    <position>499.5,196.0</position>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
     <userobject key="ABC$GRAPHSIB$MODELID">
@@ -41,7 +41,7 @@
     <label>Generate Java Classes</label>
     <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
-    <position>644.0,196.0</position>
+    <position>749.0,196.0</position>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
     <userobject key="ABC$GRAPHSIB$MODELID">
@@ -54,10 +54,10 @@
   <sib>
     <id>6adc751e-24fc-4a7a-ab9a-e06cda0ec4d7</id>
     <name>EvaluateBoolean</name>
-    <label>Was Project Created?</label>
+    <label>Was Executable Project Created?</label>
     <sib-uid>basic-sibs/EvaluateBoolean</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.EvaluateBoolean</taxonomy>
-    <position>152.0,63.0</position>
+    <position>-5.5,3.0</position>
     <parameter name="bool">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -77,22 +77,24 @@
   <edge>
     <source>75ddf12f-36e7-4461-ad04-42eb0234d1fe</source>
     <target>3266806b-2dc1-489c-b446-1caa1284aad0</target>
-    <point>210.0,225.0</point>
-    <point>472.0,215.0</point>
+    <point>330.0,225.0</point>
+    <point>570.0,225.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
     <source>3266806b-2dc1-489c-b446-1caa1284aad0</source>
     <target>dc632181-aaba-488d-a4fa-545d245fd879</target>
-    <point>450.0,225.0</point>
-    <point>752.0,231.0</point>
+    <point>570.0,225.0</point>
+    <point>825.0,225.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
     <source>6adc751e-24fc-4a7a-ab9a-e06cda0ec4d7</source>
     <target>ce21b3d2-4aa8-4a15-8851-8fdc28cd93e2</target>
-    <point>238.0120481927711,99.0</point>
-    <point>390.97402597402595,303.0</point>
+    <point>123.0,21.3</point>
+    <point>627.0,21.3</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>true</branch>
   </edge>
@@ -102,7 +104,7 @@
     <label>PrintConsoleMessage</label>
     <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
     <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
-    <position>369.5,63.0</position>
+    <position>579.5,3.0</position>
     <parameter name="error">
       <boolean>false</boolean>
     </parameter>
@@ -120,8 +122,9 @@
   <edge>
     <source>ce21b3d2-4aa8-4a15-8851-8fdc28cd93e2</source>
     <target>75ddf12f-36e7-4461-ad04-42eb0234d1fe</target>
-    <point>435.0,90.0</point>
-    <point>219.0,202.0</point>
+    <point>540.0,90.0</point>
+    <point>330.0,225.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <values/>
