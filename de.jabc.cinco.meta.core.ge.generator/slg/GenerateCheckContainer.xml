@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>4ac25e32-ae6b-469a-b78c-1764aa97ce4d</id>
   <name>GenerateCheckContainer</name>
-  <changecounter>162</changecounter>
+  <changecounter>163</changecounter>
   <sib>
     <id>6f32ddea-91f6-4b9b-ba62-647156ba870d</id>
     <name>CopyElement</name>
@@ -112,7 +112,7 @@
     <label>ContainerCheck</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>890.0,153.0</position>
+    <position>920.0,168.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
