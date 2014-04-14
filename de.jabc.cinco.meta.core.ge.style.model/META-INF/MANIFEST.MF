@@ -7,10 +7,8 @@ Bundle-ClassPath: .
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
-Export-Package: de.jabc.cinco.meta.core.ge.style.model.appearance,
- style,
- style.impl,
- style.util
+Export-Package: de.jabc.cinco.meta.core.ge.style.model.appearance,styl
+ e,style.impl,style.util
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport
 Bundle-ActivationPolicy: lazy
