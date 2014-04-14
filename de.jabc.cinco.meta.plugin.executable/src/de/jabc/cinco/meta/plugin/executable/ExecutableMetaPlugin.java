@@ -38,7 +38,9 @@ public class ExecutableMetaPlugin implements IMetaPlugin {
 
 	@Override
 	public String execute(Map<String, Object> map) {
-		if(!ResourcesPlugin.getWorkspace().getRoot().exists(new Path("/de.jabc.cinco.plugin.executor/"))){
+		boolean wasCreated = false;
+		boolean executorCreated = false;	
+		String projectPath = "";
 			LightweightExecutionContext context = new DefaultLightweightExecutionContext(null);
 			LightweightExecutionEnvironment environment = new DefaultLightweightExecutionEnvironment(context);
 			for(String str :map.keySet()){
@@ -47,7 +49,11 @@ public class ExecutableMetaPlugin implements IMetaPlugin {
 			GraphModel graphModel = (GraphModel) context.get("graphModel");
 			IProgressMonitor progressMonitor = new NullProgressMonitor();
 			
+			if(!ResourcesPlugin.getWorkspace().getRoot().exists(new Path("/de.jabc.cinco.plugin.executor/")))
+				wasCreated = createExecutorPlugin(progressMonitor,context);
+			
 			String projectName = graphModel.getPackage()+".executor";
+			if(!ResourcesPlugin.getWorkspace().getRoot().exists(new Path("/"+projectName))){
 			List<String> srcFolders = new ArrayList<>();
 			srcFolders.add("src");
 			List<IProject> referencedProjects = new ArrayList<>();
@@ -59,8 +65,9 @@ public class ExecutableMetaPlugin implements IMetaPlugin {
 			List<String> additionalNature = new ArrayList<>();
 			IProject tvProject = ProjectCreator.createProject(projectName,
 					srcFolders, referencedProjects, requiredBundles,
-					exportedPackages, additionalNature, progressMonitor);
-			String projectPath = tvProject.getLocation().makeAbsolute()
+					exportedPackages, additionalNature, progressMonitor,false);
+			executorCreated = true;
+			projectPath = tvProject.getLocation().makeAbsolute()
 					.toPortableString();
 			
 			File maniFile = tvProject.getLocation().append("META-INF/MANIFEST.MF").toFile();
@@ -78,9 +85,9 @@ public class ExecutableMetaPlugin implements IMetaPlugin {
 				map.put("exception", e);
 				return "error";
 			}
+			}
 			
-			boolean wasCreated = createExecutorPlugin(progressMonitor,context);
-			
+			context.put("executorProjectCreated", new Boolean(executorCreated));
 			context.put("wasCreated", new Boolean(wasCreated));
 			context.put("projectPath", projectPath);
 			context.put("outlet",projectPath);
@@ -104,8 +111,8 @@ public class ExecutableMetaPlugin implements IMetaPlugin {
 			}
 			
 			return genBranch;
-		}
-		return "default";
+		
+		
 	}
 
 	private boolean createExecutorPlugin(IProgressMonitor progressMonitor,LightweightExecutionContext context) {
@@ -129,7 +136,7 @@ public class ExecutableMetaPlugin implements IMetaPlugin {
 			List<String> additionalNature = new ArrayList<>();
 			IProject tvProject = ProjectCreator.createProject(projectName,
 					srcFolders, referencedProjects, requiredBundles,
-					exportedPackages, additionalNature, progressMonitor);
+					exportedPackages, additionalNature, progressMonitor,false);
 			try{
 				File maniFile = tvProject.getLocation().append("META-INF/MANIFEST.MF").toFile();
 				BufferedWriter bufwr = new BufferedWriter(new FileWriter(maniFile,true));

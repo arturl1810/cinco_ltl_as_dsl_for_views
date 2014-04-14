@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.InputStream;
-import java.text.Annotation;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -100,14 +99,15 @@ public class CreateCodeGeneratorPlugin extends AbstractService {
 			requiredBundles.add("de.jabc.cinco.meta.core.mgl.model");
 			
 			requiredBundles.add(bundleName);
-			
-
+			if(new Path("/"+projectName).toFile().exists())
+				new Path("/"+projectName).toFile().delete();
 			IProgressMonitor progressMonitor = new NullProgressMonitor();
 			IProject tvProject = ProjectCreator.createProject(projectName,
 					srcFolders, referencedProjects, requiredBundles,
-					exportedPackages, additionalNature, progressMonitor);
+					exportedPackages, additionalNature, progressMonitor,false);
 			String projectPath = tvProject.getLocation().makeAbsolute()
 					.toPortableString();
+			
 			context.put("projectPath", projectPath);
 			
 			File maniFile = tvProject.getLocation().append("META-INF/MANIFEST.MF").toFile();
