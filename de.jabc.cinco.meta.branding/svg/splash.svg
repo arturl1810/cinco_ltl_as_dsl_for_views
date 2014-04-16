@@ -12,7 +12,7 @@
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    inkscape:export-ydpi="90"
    inkscape:export-xdpi="90"
-   inkscape:export-filename="/home/naujokat/git/itmc/cinco-meta/de.jabc.cinco.meta.product/splash.png"
+   inkscape:export-filename="/home/naujokat/git/itmc/cinco-meta/de.jabc.cinco.meta.branding/about.png"
    sodipodi:docname="splash.svg"
    inkscape:version="0.48.3.1 r9886"
    version="1.1"
@@ -27,10 +27,10 @@
      inkscape:pageopacity="1"
      inkscape:pageshadow="2"
      inkscape:zoom="2"
-     inkscape:cx="248.67926"
+     inkscape:cx="249.67926"
      inkscape:cy="138.58598"
      inkscape:document-units="px"
-     inkscape:current-layer="layer1"
+     inkscape:current-layer="g3946"
      showgrid="false"
      inkscape:window-width="1920"
      inkscape:window-height="1137"
@@ -1180,16 +1180,6 @@
            x="91.991463"
            y="804.78961"
            id="tspan4126-6">INCO</tspan></text>
-      <path
-         sodipodi:type="arc"
-         style="color:#000000;fill:url(#radialGradient8010);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.5;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-         id="path3026-2-5"
-         sodipodi:cx="2.4822934"
-         sodipodi:cy="70.907249"
-         sodipodi:rx="24.499157"
-         sodipodi:ry="24.499157"
-         d="m 26.98145,70.907249 c 0,13.530511 -10.968646,24.499157 -24.4991566,24.499157 -13.5305104,0 -24.4991574,-10.968646 -24.4991574,-24.499157 0,-13.53051 10.968647,-24.499157 24.4991574,-24.499157 13.5305106,0 24.4991566,10.968647 24.4991566,24.499157 z"
-         transform="matrix(0.23565465,0,0,0.23565465,99.102838,734.76282)" />
     </g>
     <text
        xml:space="preserve"

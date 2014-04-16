@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>67ec4719-815b-41e1-9394-79b210008edc</id>
   <name>Create getIncoming And getOutgoing EOperations</name>
-  <changecounter>16</changecounter>
+  <changecounter>23</changecounter>
   <sib>
     <id>06ffa364-0e1c-4f43-be59-6de3db812431</id>
     <name>GraphSIB_5</name>
@@ -135,7 +135,7 @@
     <parameter name="iteratorKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>EdgeTargetElementIterator</key>
+          <key>EdgeTargetElementIteratorz</key>
           <scope>GLOBAL</scope>
           <scopeMutable>false</scopeMutable>
         </ContextKeyFoundation>
@@ -272,7 +272,7 @@
     <parameter name="graphicalModelElementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>edge</key>
+          <key>edgeKey</key>
           <scope>GLOBAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
@@ -478,7 +478,7 @@
     <parameter name="iteratorKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>EdgeSourceElementIteratora</key>
+          <key>EdgeSourceElementIteratorb</key>
           <scope>GLOBAL</scope>
           <scopeMutable>false</scopeMutable>
         </ContextKeyFoundation>
@@ -495,7 +495,7 @@
     <label>GetElement</label>
     <sib-uid>collection-sibs/GetElement</sib-uid>
     <taxonomy>de.jabc.sib.common.collection.GetElement</taxonomy>
-    <position>214.0,963.0</position>
+    <position>214.0,933.0</position>
     <parameter name="element">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -602,7 +602,7 @@
     <parameter name="eOperationNameKey">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>getPredecessing${connectedElementName}s</expression>
+          <expression>getPredecessor${connectedElementName}s</expression>
           <clazz>java.lang.String</clazz>
           <classMutable>true</classMutable>
         </ContextExpressionFoundation>
@@ -633,14 +633,14 @@
   </sib>
   <edge>
     <source>5cfc7413-f002-470e-9265-2e4aa20eb546</source>
-    <target>2f52d2c9-2d22-47ab-bdf6-decff8281af7</target>
-    <point>273.0,997.8</point>
-    <point>327.0,1042.8</point>
+    <target>e8902e75-6462-4baa-9cc5-5dede5233bf0</target>
+    <point>244.53488372093022,969.0</point>
+    <point>192.16216216216216,1053.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
-    <source>be48b686-5d53-49f9-9f7d-d22b64e3d7bb</source>
+    <source>13f68634-40d5-43dc-b95a-39a5866632d9</source>
     <target>03d9eee6-2241-40da-9f19-32806d49d083</target>
     <spline/>
     <point>248.33333333333334,1383.0</point>
@@ -667,7 +667,7 @@
     <label>GetElement</label>
     <sib-uid>collection-sibs/GetElement</sib-uid>
     <taxonomy>de.jabc.sib.common.collection.GetElement</taxonomy>
-    <position>469.0,963.0</position>
+    <position>469.0,933.0</position>
     <parameter name="element">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -767,7 +767,7 @@
     <parameter name="eOperationNameKey">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>getSuccessing${connectedElementName}s</expression>
+          <expression>getSuccessor${connectedElementName}s</expression>
           <clazz>java.lang.String</clazz>
           <classMutable>true</classMutable>
         </ContextExpressionFoundation>
@@ -798,9 +798,9 @@
   </sib>
   <edge>
     <source>1267001c-cb9b-43ed-aa0d-d992cd8f94fb</source>
-    <target>96f86db3-6b0e-4073-a032-1db9f826a720</target>
-    <point>492.0,995.0727272727273</point>
-    <point>363.0,1088.8909090909092</point>
+    <target>719bf21f-422d-4858-b027-d728ddd051dd</target>
+    <point>528.0,962.8285714285714</point>
+    <point>597.0,1002.2571428571429</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -878,11 +878,11 @@
     <label>GetElement</label>
     <sib-uid>collection-sibs/GetElement</sib-uid>
     <taxonomy>de.jabc.sib.common.collection.GetElement</taxonomy>
-    <position>214.0,1053.0</position>
+    <position>214.0,1038.0</position>
     <parameter name="element">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>nameFromMap</key>
+          <key>tupleTest</key>
           <scope>GLOBAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
@@ -891,8 +891,8 @@
     <parameter name="index">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>graphModelElementName</key>
-          <scope>DECLARED</scope>
+          <key>tuple</key>
+          <scope>GLOBAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
@@ -919,7 +919,7 @@
     <parameter name="variable">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>nameFromMap</key>
+          <key>tupleTest</key>
           <scope>GLOBAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
@@ -955,49 +955,12 @@
     <labelposition>505.08880330615307,98.59179881715302</labelposition>
     <branch>true</branch>
   </edge>
-  <sib>
-    <id>be48b686-5d53-49f9-9f7d-d22b64e3d7bb</id>
-    <name>PutElement</name>
-    <label>PutElement</label>
-    <sib-uid>collection-sibs/PutElement</sib-uid>
-    <taxonomy>de.jabc.sib.common.collection.PutElement</taxonomy>
-    <position>214.5,1413.0</position>
-    <parameter name="key">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>graphModelName</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="map">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>predecessorMap</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="value">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>connectedElementName</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>error</finalbranches>
-    <finalbranches>false</finalbranches>
-    <finalbranches>true</finalbranches>
-  </sib>
   <edge>
     <source>b4e2f850-52c7-4e42-8ee3-3f5510163aab</source>
-    <target>be48b686-5d53-49f9-9f7d-d22b64e3d7bb</target>
-    <point>255.0,1305.0</point>
-    <point>254.0,1417.0</point>
+    <target>13f68634-40d5-43dc-b95a-39a5866632d9</target>
+    <point>255.0,1316.0</point>
+    <point>255.0,1458.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
@@ -1010,7 +973,7 @@
     <parameter name="element">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>nameFromMap</key>
+          <key>tupleTest</key>
           <scope>GLOBAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
@@ -1019,8 +982,8 @@
     <parameter name="index">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>graphModelElementName</key>
-          <scope>DECLARED</scope>
+          <key>tuple</key>
+          <scope>GLOBAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
@@ -1047,7 +1010,7 @@
     <parameter name="variable">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>nameFromMap</key>
+          <key>tupleTest</key>
           <scope>GLOBAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
@@ -1093,7 +1056,7 @@
     <parameter name="key">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>graphModelName</key>
+          <key>tuple</key>
           <scope>GLOBAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
@@ -1111,7 +1074,7 @@
     <parameter name="value">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>connectedElementName</key>
+          <key>tuple</key>
           <scope>GLOBAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
@@ -1126,6 +1089,142 @@
     <target>866d2b73-f0c7-46b6-a082-581afc5dd354</target>
     <point>510.0,1305.0</point>
     <point>494.0,1458.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>e8902e75-6462-4baa-9cc5-5dede5233bf0</id>
+    <name>PutTuple</name>
+    <label>PutTuple</label>
+    <sib-uid>utility-sibs/PutTuple</sib-uid>
+    <taxonomy>transem.utility.sib.PutTuple</taxonomy>
+    <position>132.5,978.0</position>
+    <parameter name="leftElementKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>graphicalModelElementEClass</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="rightElementKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>connectedElementEClass</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="tupleKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>tuple</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>e8902e75-6462-4baa-9cc5-5dede5233bf0</source>
+    <target>2f52d2c9-2d22-47ab-bdf6-decff8281af7</target>
+    <point>165.0,1005.0</point>
+    <point>233.0,1053.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>13f68634-40d5-43dc-b95a-39a5866632d9</id>
+    <name>PutElement</name>
+    <label>PutElement</label>
+    <sib-uid>collection-sibs/PutElement</sib-uid>
+    <taxonomy>de.jabc.sib.common.collection.PutElement</taxonomy>
+    <position>214.5,1458.0</position>
+    <parameter name="key">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>tuple</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="map">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>predecessorMap</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="value">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>tuple</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>false</finalbranches>
+    <finalbranches>true</finalbranches>
+  </sib>
+  <cell>
+    <form>HTML</form>
+    <bounds>
+      <x>255.5</x>
+      <y>1522.5</y>
+      <width>239.0</width>
+      <height>45.0</height>
+    </bounds>
+    <value>&lt;html&gt;&lt;font color=&quot;#FF0000&quot;&gt;&lt;b&gt;SIB PutElement (lost information):&lt;/b&gt;&lt;br&gt;collection: tupleList&lt;br&gt;element: tuple&lt;br&gt;&lt;/font&gt;&lt;/html&gt;</value>
+  </cell>
+  <sib>
+    <id>719bf21f-422d-4858-b027-d728ddd051dd</id>
+    <name>PutTuple_1</name>
+    <label>PutTuple</label>
+    <sib-uid>utility-sibs/PutTuple</sib-uid>
+    <taxonomy>transem.utility.sib.PutTuple</taxonomy>
+    <position>582.5,993.0</position>
+    <parameter name="leftElementKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>graphicalModelElementEClass</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="rightElementKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>connectedElementEClass</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="tupleKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>tuple</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>719bf21f-422d-4858-b027-d728ddd051dd</source>
+    <target>96f86db3-6b0e-4073-a032-1db9f826a720</target>
+    <point>615.0,1020.0</point>
+    <point>519.0,1062.0</point>
     <branch>default</branch>
   </edge>
   <parameter>
@@ -1273,11 +1372,6 @@
   <branch>
     <name>error</name>
     <branch>error</branch>
-    <sib>be48b686-5d53-49f9-9f7d-d22b64e3d7bb</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
     <sib>63a1982c-27da-4294-8df5-4f6aebbf5b56</sib>
   </branch>
   <branch>
@@ -1294,5 +1388,20 @@
     <name>error</name>
     <branch>error</branch>
     <sib>2f52d2c9-2d22-47ab-bdf6-decff8281af7</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>13f68634-40d5-43dc-b95a-39a5866632d9</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>e8902e75-6462-4baa-9cc5-5dede5233bf0</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>719bf21f-422d-4858-b027-d728ddd051dd</sib>
   </branch>
 </model>

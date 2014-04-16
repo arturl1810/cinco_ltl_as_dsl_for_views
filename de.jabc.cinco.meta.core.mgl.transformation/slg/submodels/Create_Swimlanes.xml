@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>bbe15f4c-aa62-4a79-93be-b5b01df883f7</id>
   <name>Create Swimlanes</name>
-  <changecounter>19</changecounter>
+  <changecounter>20</changecounter>
   <sib>
     <id>16bf1154-7de3-4eea-84a6-7a6ea202a8a3</id>
     <name>MacroSIB</name>
@@ -270,9 +270,9 @@
   </sib>
   <edge>
     <source>dad8c30d-18e4-438f-b387-cf5bf96ed803</source>
-    <target>b1e5f535-3afd-4e92-afb4-8c6cdc698e86</target>
-    <point>1188.0,248.2</point>
-    <point>1285.0,334.55555555555554</point>
+    <target>9f4680ac-46fb-4cc9-889a-359e4f476eac</target>
+    <point>1188.0,230.52</point>
+    <point>1375.0,218.13333333333333</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>true</branch>
   </edge>
@@ -417,7 +417,7 @@
     <label>Create Getter</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>1257.5,331.0</position>
+    <position>1302.5,376.0</position>
     <parameter name="eClassKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -469,6 +469,57 @@
     <point>645.0,240.0</point>
     <point>827.0,237.0</point>
     <branch>exit</branch>
+  </edge>
+  <sib>
+    <id>9f4680ac-46fb-4cc9-889a-359e4f476eac</id>
+    <name>GraphSIB_1</name>
+    <label>Can Element Be Contained</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>1260.0,211.0</position>
+    <parameter name="container">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>graphModel</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="element">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>modelElement</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>false</finalbranches>
+    <finalbranches>true</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>f7eeb39a-54ea-48e4-b8cf-f3970df85f67</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Can Element Be Contained</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>9f4680ac-46fb-4cc9-889a-359e4f476eac</source>
+    <target>b1e5f535-3afd-4e92-afb4-8c6cdc698e86</target>
+    <point>1395.0,225.0</point>
+    <point>1292.0,357.0</point>
+    <branch>true</branch>
+  </edge>
+  <edge>
+    <source>9f4680ac-46fb-4cc9-889a-359e4f476eac</source>
+    <target>a156e726-d8c9-44cf-a0ac-466eeae7ac8c</target>
+    <spline/>
+    <point>1270.0,269.0</point>
+    <point>1095.0,315.0</point>
+    <point>415.5,267.0</point>
+    <branch>false</branch>
   </edge>
   <values/>
   <branch>
@@ -540,5 +591,10 @@
     <name>error</name>
     <branch>error</branch>
     <sib>b1e5f535-3afd-4e92-afb4-8c6cdc698e86</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>9f4680ac-46fb-4cc9-889a-359e4f476eac</sib>
   </branch>
 </model>

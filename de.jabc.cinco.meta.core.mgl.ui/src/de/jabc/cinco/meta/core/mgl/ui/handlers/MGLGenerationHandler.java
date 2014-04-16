@@ -77,7 +77,14 @@ public class MGLGenerationHandler extends AbstractHandler {
 			for(int i=0;i<Math.min(5, trace.length);i++){
 				builder.append(trace[i].toString());
 			}
-			IStatus status = new Status(Status.ERROR,event.getTrigger().getClass().getCanonicalName(),builder.toString());
+			Object trigger = event.getTrigger();
+			String canonicalName = "";
+			if(trigger!=null)
+				canonicalName = trigger.getClass().getCanonicalName();
+			else
+				canonicalName = this.getClass().getCanonicalName();
+			
+			IStatus status = new Status(Status.ERROR,canonicalName,builder.toString());
 			ErrorDialog.openError(HandlerUtil.getActiveShell(event), "Error in Cinco Product Generation", "An error occured: "+e.getMessage(), status);
 			
 			e1.printStackTrace();

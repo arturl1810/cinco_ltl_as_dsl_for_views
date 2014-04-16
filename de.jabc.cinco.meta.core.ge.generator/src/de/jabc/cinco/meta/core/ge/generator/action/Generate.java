@@ -1,6 +1,10 @@
 package de.jabc.cinco.meta.core.ge.generator.action;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -18,7 +22,10 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.codegen.ecore.generator.Generator;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
@@ -84,6 +91,8 @@ public class Generate extends AbstractHandler {
 		    reqBundles.add(file.getProject().getName());
 		    IProject p = ProjectCreator.createProject(projectName, srcFolders, null, reqBundles, null, null, monitor, cleanDirs, false);
 		    copyIcons(file.getProject(), p, monitor);
+		    copyIcons("de.jabc.cinco.meta.core.ge.generator", p, monitor);
+		    
 		    try {
 				p.refreshLocal(IResource.DEPTH_INFINITE, monitor);
 			} catch (CoreException e) {
@@ -115,65 +124,6 @@ public class Generate extends AbstractHandler {
 		return null;
 	}
 	
-//	@Override
-//	public void run(IAction action) {
-//		if (sel instanceof IStructuredSelection && !sel.isEmpty()) {
-//			IStructuredSelection ssel = (IStructuredSelection) sel;
-//			IFile file = (IFile) ssel.getFirstElement();
-//			NullProgressMonitor monitor = new NullProgressMonitor();
-//			
-//			Resource resource = new ResourceSetImpl().getResource(URI.createPlatformResourceURI(file.getFullPath().toOSString(), true), true);
-//		    GraphModel gModel = null;
-//		    Styles styles = null;
-//		    try {
-//		    	gModel = loadGraphModel(resource);
-//				generateGenModelCode(file);
-//				
-//				for (Annotation a : gModel.getAnnotations()) {
-//					if ("Style".equals(a.getName())) {
-//						String stylePath = a.getValue().get(0);
-//						styles = loadStyles(stylePath);
-//					}
-//				}
-//				
-//				String mglProjectName = file.getProject().getName();
-//				String projectName = file.getProject().getName().concat(".graphiti");
-//				String path = ResourcesPlugin.getWorkspace().getRoot().getLocation().append(projectName).toOSString();
-//				
-//				List<String> srcFolders = getSrcFolders();
-//			    Set<String> reqBundles = getReqBundles();
-//			    reqBundles.add(file.getProject().getName());
-//			    IProject p = ProjectCreator.createProject(projectName, srcFolders, null, reqBundles, null, null, monitor, false);
-//			    copyIcons(file.getProject(), p, monitor);
-//			    try {
-//					p.refreshLocal(IResource.DEPTH_INFINITE, monitor);
-//				} catch (CoreException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
-//			    String outletPath = p.getFolder("src-gen").getLocation().makeAbsolute().toString();
-//			    System.out.println(outletPath);
-//				
-//				LightweightExecutionContext context = new DefaultLightweightExecutionContext(null);
-//				context.put("graphModel", gModel);
-//				context.put("styles", styles);
-//				context.put("mglProjectName", mglProjectName);
-//				context.put("projectName", projectName);
-//				context.put("fullPath", path);
-//				context.put("outletPath", outletPath);
-//				LightweightExecutionEnvironment env = new DefaultLightweightExecutionEnvironment(context);
-//				
-//				Main tmp = new Main();
-//				tmp.execute(env);
-//				
-//				p.refreshLocal(IResource.DEPTH_INFINITE, monitor);
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			} catch (CoreException e) {
-//				e.printStackTrace();
-//			}
-//		}
-//	}
 
 	private void copyIcons(IProject source, IProject target, NullProgressMonitor monitor) {
 		IFolder srcIcons = source.getFolder("icons");
@@ -282,4 +232,28 @@ public class Generate extends AbstractHandler {
 		return cleanDirs;
 	}
 
+	private void copyIcons(String bundleId, IProject p, IProgressMonitor monitor) {
+		Bundle b = Platform.getBundle(bundleId);
+		InputStream fis=null;
+		try {
+			
+			fis = FileLocator.openStream(b, new Path("/icons/_Connection.gif"), false);
+			File trgFile = p.getFolder("icons").getFile("_Connection.gif").getLocation().toFile();
+			trgFile.createNewFile();
+			OutputStream os = new FileOutputStream(trgFile);
+			int bt;
+			while ((bt = fis.read()) != -1) {
+				os.write(bt);
+			}
+			fis.close();
+			os.flush();
+			os.close();
+			
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			
+			e.printStackTrace();
+		}
+	}
 }
