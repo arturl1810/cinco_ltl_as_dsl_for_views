@@ -187,8 +187,17 @@ VerifyListener verifyListener= new VerifyListener() {
 				e.doit = true;
 				return;
 			}
-			Integer.valueOf(e.text);
-			e.doit = true;
+			if (!(e.widget instanceof Text))
+				return;
+			Text t = (Text) e.widget;
+			if (e.keyCode == 0) {
+				e.doit = true;
+				return;
+			}
+			if ((e.keyCode &gt;= 48 &amp;&amp; e.keyCode &lt;= 57) || e.keyCode == 46) {
+				Integer.valueOf(t.getText().concat(e.text));
+				e.doit = true;
+			} else e.doit = false;
 		} catch (NumberFormatException e1) {
 			e.doit = false;
 		}
