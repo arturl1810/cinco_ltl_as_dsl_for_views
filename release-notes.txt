@@ -1,0 +1,11 @@
+20140416 - Cinco Release 0.3
+
+- containers can now contain other containers (thus containableNodes is renamed
+  to containableElements)
+- containableElements keyword can also be used for the root model
+- Selecting edge decorators now shows the correct property view and highlights
+  the corresponding edge
+– Several methods are generated into the model code, creating a more
+  domain-specific API (e.g. typed getters for successors, predecessors, contained
+  elements, ...)
+- Many other small features and fixes
