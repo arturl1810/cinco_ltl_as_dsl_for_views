@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>f7eeb39a-54ea-48e4-b8cf-f3970df85f67</id>
   <name>Can Element Be Contained</name>
-  <changecounter>4</changecounter>
+  <changecounter>7</changecounter>
   <sib>
     <id>c838539a-96b7-4cb7-9a3d-4ba06c374e55</id>
     <name>IterateContainingElementContainableElements</name>
@@ -240,11 +240,6 @@
     <sib>c838539a-96b7-4cb7-9a3d-4ba06c374e55</sib>
   </branch>
   <branch>
-    <name>false</name>
-    <branch>noElements</branch>
-    <sib>c838539a-96b7-4cb7-9a3d-4ba06c374e55</sib>
-  </branch>
-  <branch>
     <name>error</name>
     <branch>error</branch>
     <sib>39742dc5-aad7-45fc-b834-6e70dfcbe3f7</sib>
@@ -258,5 +253,15 @@
     <name>true</name>
     <branch>emptyString</branch>
     <sib>39742dc5-aad7-45fc-b834-6e70dfcbe3f7</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>dd687089-b8b0-4c3b-8194-84344cc91840</sib>
+  </branch>
+  <branch>
+    <name>true</name>
+    <branch>noElements</branch>
+    <sib>c838539a-96b7-4cb7-9a3d-4ba06c374e55</sib>
   </branch>
 </model>
