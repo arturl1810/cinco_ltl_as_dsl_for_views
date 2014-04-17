@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>d136ee11-0a5e-458f-8813-648c7e29c207</id>
   <name>Create Nodes</name>
-  <changecounter>53</changecounter>
+  <changecounter>55</changecounter>
   <edge>
     <source>bcbab676-0b89-45b1-87a8-6b31f8136bf1</source>
     <target>55e2fb55-9ab4-4b8a-a441-888598100881</target>
@@ -295,9 +295,9 @@
   </edge>
   <edge>
     <source>615352c2-3ce8-4e86-ae9b-6f23e5cfdd23</source>
-    <target>6ef738a3-fdc7-4a29-9d6a-457adb5ae030</target>
-    <point>1143.0,281.55</point>
-    <point>1345.0,168.0</point>
+    <target>210474c7-9086-471a-a602-af88e2c16042</target>
+    <point>1143.0,274.8</point>
+    <point>1196.8181818181818,221.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>true</branch>
   </edge>
@@ -647,7 +647,7 @@
     <label>Create Getter</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>1242.5,271.0</position>
+    <position>1347.5,271.0</position>
     <parameter name="eClassKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -693,6 +693,113 @@
       <string>Create EOperation</string>
     </userobject>
   </sib>
+  <sib>
+    <id>210474c7-9086-471a-a602-af88e2c16042</id>
+    <name>GraphSIB_1</name>
+    <label>Can Element Be Contained</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>1170.0,271.0</position>
+    <parameter name="container">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>graphModel</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="element">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>modelElement</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>false</finalbranches>
+    <finalbranches>true</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>f7eeb39a-54ea-48e4-b8cf-f3970df85f67</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Can Element Be Contained</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>210474c7-9086-471a-a602-af88e2c16042</source>
+    <target>7dfc7477-7ea2-420e-bcad-010599aafb84</target>
+    <point>1280.0,273.4</point>
+    <point>1318.9285714285713,234.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>true</branch>
+  </edge>
+  <edge>
+    <source>210474c7-9086-471a-a602-af88e2c16042</source>
+    <target>749c270a-5606-4290-a207-26f681cc7f4c</target>
+    <point>1280.0,286.6363636363636</point>
+    <point>1407.0,251.8909090909091</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>false</branch>
+  </edge>
+  <sib>
+    <id>7dfc7477-7ea2-420e-bcad-010599aafb84</id>
+    <name>PrintConsoleMessage_1</name>
+    <label>PrintConsoleMessage</label>
+    <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
+    <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
+    <position>1269.5,198.0</position>
+    <parameter name="error">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="message">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>TRUEE</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>false</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <finalbranches>default</finalbranches>
+  </sib>
+  <edge>
+    <source>7dfc7477-7ea2-420e-bcad-010599aafb84</source>
+    <target>6ef738a3-fdc7-4a29-9d6a-457adb5ae030</target>
+    <point>1335.0,225.0</point>
+    <point>1389.0,304.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>749c270a-5606-4290-a207-26f681cc7f4c</id>
+    <name>PrintConsoleMessage_2</name>
+    <label>PrintConsoleMessage</label>
+    <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
+    <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
+    <position>1179.5,333.0</position>
+    <parameter name="error">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="message">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>FALSEE</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>false</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <finalbranches>default</finalbranches>
+  </sib>
+  <edge>
+    <source>749c270a-5606-4290-a207-26f681cc7f4c</source>
+    <target>aa695ed3-b625-4893-9f50-a200a9a21ae0</target>
+    <point>1245.0,360.0</point>
+    <point>1300.0,516.0</point>
+    <branch>default</branch>
+  </edge>
   <values/>
   <branch>
     <name>error</name>
@@ -793,5 +900,10 @@
     <name>error</name>
     <branch>error</branch>
     <sib>6ef738a3-fdc7-4a29-9d6a-457adb5ae030</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>210474c7-9086-471a-a602-af88e2c16042</sib>
   </branch>
 </model>

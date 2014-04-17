@@ -6,7 +6,7 @@
          point="org.eclipse.core.runtime.products">
       <product
             application="org.eclipse.ui.ide.workbench"
-            name="Cinco Meta Modeling Suite">
+            name="Cinco">
          <property
                name="windowImages"
                value="16.png,32.png,48.png,64.png,128.png">
@@ -17,7 +17,7 @@
          </property>
          <property
                name="startupForegroundColor"
-               value="000000">
+               value="FFFFFF">
          </property>
          <property
                name="startupProgressRect"
@@ -33,7 +33,7 @@
          </property>
          <property
                name="appName"
-               value="Cinco Meta Modeling Suite">
+               value="Cinco">
          </property>
       </product>
    </extension>

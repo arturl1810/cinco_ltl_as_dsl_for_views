@@ -2,14 +2,14 @@
 <model version="2.1">
   <id>9b2878c2-af27-4fb3-878a-6613ed7a16c6</id>
   <name>GenerateCreateNodeFeature</name>
-  <changecounter>400</changecounter>
+  <changecounter>483</changecounter>
   <sib>
     <id>cc5a8f52-a2dd-434a-825b-350e398066fe</id>
     <name>RunStringTemplate</name>
-    <label>CrateNodeFeatureContent</label>
+    <label>CreateNodeFeatureContent</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>526.5,243.0</position>
+    <position>387.5,243.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -180,8 +180,8 @@ public Create$context.node.name$Feature(IFeatureProvider fp) {
   <edge>
     <source>cc5a8f52-a2dd-434a-825b-350e398066fe</source>
     <target>8bc28cb9-5d92-4c9e-b8cd-c8b2d72df96d</target>
-    <point>497.0,275.0</point>
-    <point>257.0,275.0</point>
+    <point>267.0,261.9</point>
+    <point>123.0,261.9</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -488,83 +488,9 @@ public Create$context.node.name$Feature(IFeatureProvider fp) {
   </edge>
   <edge>
     <source>a2faa48d-948a-4e96-809f-cd6600031d9e</source>
-    <target>e8bcbda3-0cd8-47be-81da-b7517246a0d9</target>
-    <point>885.0,286.0</point>
-    <point>885.0,159.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
-  <sib>
-    <id>e8bcbda3-0cd8-47be-81da-b7517246a0d9</id>
-    <name>EvaluateBoolean_1</name>
-    <label>EvaluateBoolean</label>
-    <sib-uid>basic-sibs/EvaluateBoolean</sib-uid>
-    <taxonomy>de.jabc.sib.common.basic.EvaluateBoolean</taxonomy>
-    <position>826.5,123.0</position>
-    <parameter name="bool">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>containersOnly</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>error</finalbranches>
-    <finalbranches>false</finalbranches>
-    <finalbranches>true</finalbranches>
-  </sib>
-  <edge>
-    <source>e8bcbda3-0cd8-47be-81da-b7517246a0d9</source>
     <target>cc5a8f52-a2dd-434a-825b-350e398066fe</target>
-    <point>885.0,150.0</point>
-    <point>615.0,270.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>true</branch>
-  </edge>
-  <sib>
-    <id>60fc9447-c7b6-4b53-9130-bd41e817643b</id>
-    <name>RunStringTemplate_3</name>
-    <label>ContainerCheck</label>
-    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
-    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>560.0,123.0</position>
-    <parameter name="append">
-      <boolean>true</boolean>
-    </parameter>
-    <parameter name="individualVariables">
-      <boolean>false</boolean>
-    </parameter>
-    <parameter name="result">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>containerCheck</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="template">
-      <string>if (context.getTargetContainer() instanceof Diagram)
-	return true;
-</string>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-  </sib>
-  <edge>
-    <source>e8bcbda3-0cd8-47be-81da-b7517246a0d9</source>
-    <target>60fc9447-c7b6-4b53-9130-bd41e817643b</target>
-    <point>885.0,150.0</point>
-    <point>615.0,150.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>false</branch>
-  </edge>
-  <edge>
-    <source>60fc9447-c7b6-4b53-9130-bd41e817643b</source>
-    <target>cc5a8f52-a2dd-434a-825b-350e398066fe</target>
-    <point>615.0,150.0</point>
-    <point>615.0,270.0</point>
+    <point>865.0,261.3</point>
+    <point>303.0,261.27</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -574,7 +500,7 @@ public Create$context.node.name$Feature(IFeatureProvider fp) {
     <label>GenerateCheckContainer</label>
     <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
-    <position>800.5,241.0</position>
+    <position>680.5,241.0</position>
     <parameter name="ModelElementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -603,8 +529,8 @@ public Create$context.node.name$Feature(IFeatureProvider fp) {
     <parameter name="sourceVariable">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>nodeKey</key>
-          <scope>DECLARED</scope>
+          <key>currentNode</key>
+          <scope>LOCAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
@@ -707,16 +633,6 @@ public Create$context.node.name$Feature(IFeatureProvider fp) {
     <name>error</name>
     <branch>error</branch>
     <sib>e48a3178-cbde-4617-9485-0c0dc1acb02d</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>e8bcbda3-0cd8-47be-81da-b7517246a0d9</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>60fc9447-c7b6-4b53-9130-bd41e817643b</sib>
   </branch>
   <branch>
     <name>error</name>

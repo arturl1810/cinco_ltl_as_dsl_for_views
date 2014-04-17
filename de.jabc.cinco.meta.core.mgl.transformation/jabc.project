@@ -1,7 +1,7 @@
-#Mon Apr 07 15:18:06 CEST 2014
+#Fri Apr 11 11:05:42 CEST 2014
 jabc.project.definition=1.0
 jabc.project.name=de.jabc.cinco.meta.core.mgl.transformation
-SaveModel.path=/GDL2Ecore/submodels
+SaveModel.path=/slg/submodels
 jabc.project.sibpath.0=<classpath>
 jabc.project.classpath.1=/metaplugins
 jabc.project.classpath.0=/GDL2Ecore

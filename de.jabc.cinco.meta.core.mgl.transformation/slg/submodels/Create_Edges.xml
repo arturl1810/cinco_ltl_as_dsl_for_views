@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>841d944d-b804-4029-a8af-6d0a9e581856</id>
   <name>Create Edges</name>
-  <changecounter>38</changecounter>
+  <changecounter>42</changecounter>
   <sib>
     <id>765d8a05-8995-4960-b642-d913f218d3f6</id>
     <name>MacroSIB</name>
@@ -66,7 +66,7 @@
     <label>NewEAnnotationInEClassEAnnotations</label>
     <sib-uid>ecore/ecore/NewEAnnotationInEClassEAnnotations</sib-uid>
     <taxonomy>transem.ecore.sib.ecore.NewEAnnotationInEClassEAnnotations</taxonomy>
-    <position>413.0,258.0</position>
+    <position>413.0,318.0</position>
     <parameter name="eClassKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -94,7 +94,7 @@
     <label>SetEAnnotationSource</label>
     <sib-uid>ecore/ecore/SetEAnnotationSource</sib-uid>
     <taxonomy>transem.ecore.sib.ecore.SetEAnnotationSource</taxonomy>
-    <position>464.5,393.0</position>
+    <position>464.5,453.0</position>
     <parameter name="eAnnotationKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -119,8 +119,9 @@
   <edge>
     <source>e293a3ee-323e-4c25-ac38-94e673aa6f4d</source>
     <target>b735a531-a5fa-44a0-b670-50a629801bb0</target>
-    <point>540.0,510.0</point>
-    <point>543.0,652.0</point>
+    <point>540.0,345.0</point>
+    <point>540.0,480.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
@@ -129,7 +130,7 @@
     <label>NewEStringToStringMapEntryInEAnnotationDetails</label>
     <sib-uid>ecore/ecore/NewEStringToStringMapEntryInEAnnotationDetails</sib-uid>
     <taxonomy>transem.ecore.sib.ecore.NewEStringToStringMapEntryInEAnnotationDetails</taxonomy>
-    <position>374.5,558.0</position>
+    <position>374.5,618.0</position>
     <parameter name="eAnnotationKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -154,8 +155,8 @@
   <edge>
     <source>b735a531-a5fa-44a0-b670-50a629801bb0</source>
     <target>93a9bdb7-3ecd-4668-9fad-2916e40baa5a</target>
-    <point>540.0,429.0</point>
-    <point>540.0,603.0</point>
+    <point>540.0,480.0</point>
+    <point>540.0,645.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -165,7 +166,7 @@
     <label>SetEStringToStringMapEntryKey</label>
     <sib-uid>ecore/ecore/SetEStringToStringMapEntryKey</sib-uid>
     <taxonomy>transem.ecore.sib.ecore.SetEStringToStringMapEntryKey</taxonomy>
-    <position>433.5,738.0</position>
+    <position>433.5,798.0</position>
     <parameter name="eStringToStringMapEntryKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -193,7 +194,7 @@
     <label>SetEStringToStringMapEntryValue</label>
     <sib-uid>ecore/ecore/SetEStringToStringMapEntryValue</sib-uid>
     <taxonomy>transem.ecore.sib.ecore.SetEStringToStringMapEntryValue</taxonomy>
-    <position>427.5,873.0</position>
+    <position>427.5,933.0</position>
     <parameter name="eStringToStringMapEntryKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -218,32 +219,33 @@
   <edge>
     <source>93a9bdb7-3ecd-4668-9fad-2916e40baa5a</source>
     <target>1ab007fe-a86d-4e33-9382-7d1e740facaf</target>
-    <point>522.0,621.5684210526316</point>
-    <point>273.0,621.5684210526316</point>
+    <point>540.0,645.0</point>
+    <point>540.0,825.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
     <source>1ab007fe-a86d-4e33-9382-7d1e740facaf</source>
     <target>67c40b0e-f39c-4165-a209-354f2cf93629</target>
-    <point>255.0,630.0</point>
-    <point>510.0,759.0</point>
+    <point>540.0,825.0</point>
+    <point>540.0,960.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
     <source>67c40b0e-f39c-4165-a209-354f2cf93629</source>
     <target>a365e68e-19ab-4c15-addb-3b704f4c25f8</target>
-    <point>427.5,885.0</point>
-    <point>210.0,885.0</point>
-    <point>210.0,792.0</point>
+    <point>540.0,960.0</point>
+    <point>210.0,945.0</point>
+    <point>210.0,825.0</point>
     <labelposition>23.0,-76.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
     <source>a365e68e-19ab-4c15-addb-3b704f4c25f8</source>
     <target>c4b80db5-3d29-4dd2-be96-6c1a676e73ab</target>
-    <point>210.0,738.0</point>
-    <point>210.0,504.0</point>
+    <point>210.0,825.0</point>
+    <point>210.0,690.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -320,8 +322,8 @@
   <edge>
     <source>b6beec96-798e-4d45-9be2-fab025d983d8</source>
     <target>c20849b2-34cc-402b-9873-f91aa41585f1</target>
-    <point>192.0,289.2</point>
-    <point>95.0,354.0</point>
+    <point>210.0,333.0</point>
+    <point>210.0,191.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>true</branch>
   </edge>
@@ -331,7 +333,7 @@
     <label>ToLowerCase</label>
     <sib-uid>utility-sibs/ToLowerCase</sib-uid>
     <taxonomy>transem.utility.sib.ToLowerCase</taxonomy>
-    <position>162.5,603.0</position>
+    <position>162.5,663.0</position>
     <parameter name="lowerStringKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -359,7 +361,7 @@
     <label>AddElement</label>
     <sib-uid>collection-sibs/AddElement</sib-uid>
     <taxonomy>de.jabc.sib.common.collection.AddElement</taxonomy>
-    <position>168.0,258.0</position>
+    <position>168.0,333.0</position>
     <parameter name="collection">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -385,8 +387,8 @@
   <edge>
     <source>c4b80db5-3d29-4dd2-be96-6c1a676e73ab</source>
     <target>1a4a7c58-0ce6-4964-8d0a-aae397642dee</target>
-    <point>192.0,532.8</point>
-    <point>138.0,487.8</point>
+    <point>210.0,690.0</point>
+    <point>210.0,570.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -396,7 +398,7 @@
     <label>ToFirstUpper</label>
     <sib-uid>basic-sibs/ToFirstUpper</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.ToFirstUpper</taxonomy>
-    <position>164.5,483.0</position>
+    <position>164.5,543.0</position>
     <parameter name="inputString">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -424,7 +426,7 @@
     <label>Is Edge Abstract?</label>
     <sib-uid>basic-sibs/EvaluateBoolean</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.EvaluateBoolean</taxonomy>
-    <position>151.0,363.0</position>
+    <position>151.0,423.0</position>
     <parameter name="bool">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -441,8 +443,8 @@
   <edge>
     <source>fefe9a2e-f3a7-4617-9bed-14440f582598</source>
     <target>b6beec96-798e-4d45-9be2-fab025d983d8</target>
-    <point>210.0,363.0</point>
-    <point>210.0,294.0</point>
+    <point>210.0,450.0</point>
+    <point>210.0,360.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>false</branch>
   </edge>
@@ -532,7 +534,7 @@
     <label>GetModelElementName</label>
     <sib-uid>mgl/mgl/GetModelElementName</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.mgl.sib.mgl.GetModelElementName</taxonomy>
-    <position>131.5,738.0</position>
+    <position>131.5,798.0</position>
     <parameter name="modelElementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -579,7 +581,7 @@
     <parameter name="eOperationNameKey">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>get${modelElementNameFirstUpper}s</expression>
+          <expression>get${modelElementName}s</expression>
           <clazz>java.lang.String</clazz>
           <classMutable>true</classMutable>
         </ContextExpressionFoundation>
@@ -595,7 +597,7 @@
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>return getModelElements($modelElementNameFirstUpper$.class);</string>
+      <string>return getModelElements($modelElementName$.class);</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
@@ -617,8 +619,9 @@
   <edge>
     <source>1a4a7c58-0ce6-4964-8d0a-aae397642dee</source>
     <target>fefe9a2e-f3a7-4617-9bed-14440f582598</target>
-    <point>210.0,510.0</point>
-    <point>212.0,401.0</point>
+    <point>210.0,570.0</point>
+    <point>210.0,450.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <values/>

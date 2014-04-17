@@ -71,7 +71,7 @@ public class NewMGLProjectWizard extends Wizard implements IWorkbenchWizard{
 					iconsFolder.create(true, true, monitor);
 				}
 				
-				copyIcons(project, monitor);
+//				copyIcons(project, monitor);
 				
 				IFile mglModelFile = modelFolder.getFile(mglModelFileName);
 				IFile styleModelFile = modelFolder.getFile(styleModelFileName);

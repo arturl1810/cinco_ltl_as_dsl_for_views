@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="Cinco Meta Modeling Suite" uid="de.jabc.cinco.meta.product.product" id="de.jabc.cinco.meta.branding.product" application="org.eclipse.ui.ide.workbench" version="1.0.0.qualifier" useFeatures="true" includeLaunchers="true">
+<product name="Cinco" uid="de.jabc.cinco.meta.product.product" id="de.jabc.cinco.meta.branding.product" application="org.eclipse.ui.ide.workbench" version="0.3.0" useFeatures="true" includeLaunchers="true">
 
    <aboutInfo>
       <image path="/de.jabc.cinco.meta.branding/about.png"/>
@@ -25,7 +25,7 @@
       location="de.jabc.cinco.meta.branding"
       startupProgressRect="2,320,496,10"
       startupMessageRect="7,300,320,20"
-      startupForegroundColor="000000" />
+      startupForegroundColor="FFFFFF" />
    <launcher name="cinco">
       <linux icon="icon.xpm"/>
       <solaris/>
@@ -34,9 +34,11 @@
       </win>
    </launcher>
 
+
    <vm>
       <linux include="false">org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7</linux>
    </vm>
+
 
    <plugins>
    </plugins>

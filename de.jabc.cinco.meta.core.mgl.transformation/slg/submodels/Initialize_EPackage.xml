@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>95a30cb5-13ac-431b-ac50-d456a18e2ff9</id>
   <name>Initialize EPackage</name>
-  <changecounter>21</changecounter>
+  <changecounter>22</changecounter>
   <sib>
     <id>6ef7f224-8a3b-47b3-8a89-f7a1eb4616b9</id>
     <name>GetEcoreFactory</name>
@@ -85,7 +85,7 @@
     <label>SetEPackageName</label>
     <sib-uid>ecore/ecore/SetEPackageName</sib-uid>
     <taxonomy>transem.ecore.sib.ecore.SetEPackageName</taxonomy>
-    <position>176.5,513.0</position>
+    <position>176.5,648.0</position>
     <parameter name="ePackageKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -122,7 +122,7 @@
     <label>SetEPackageNsURI</label>
     <sib-uid>ecore/ecore/SetEPackageNsURI</sib-uid>
     <taxonomy>transem.ecore.sib.ecore.SetEPackageNsURI</taxonomy>
-    <position>176.0,723.0</position>
+    <position>176.0,858.0</position>
     <parameter name="ePackageKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -148,16 +148,18 @@
     <source>3a42f880-25c7-4adc-8e69-1a0ee47c0013</source>
     <target>77b280cb-303d-4a41-bcd9-7ac48bbb2619</target>
     <spline/>
-    <point>631.0,359.0</point>
-    <point>631.0,482.0</point>
+    <point>238.0,678.0</point>
+    <point>238.0,783.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
     <source>77b280cb-303d-4a41-bcd9-7ac48bbb2619</source>
     <target>99216307-4ffb-46ce-aeec-4ad5cca1aad3</target>
     <spline/>
-    <point>631.0,494.0</point>
-    <point>623.0,605.0</point>
+    <point>238.0,783.0</point>
+    <point>238.0,888.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
@@ -166,7 +168,7 @@
     <label>SetEPackageNsPrefix</label>
     <sib-uid>ecore/ecore/SetEPackageNsPrefix</sib-uid>
     <taxonomy>transem.ecore.sib.ecore.SetEPackageNsPrefix</taxonomy>
-    <position>168.0,813.0</position>
+    <position>168.0,948.0</position>
     <parameter name="ePackageKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -192,8 +194,9 @@
     <source>99216307-4ffb-46ce-aeec-4ad5cca1aad3</source>
     <target>e3392326-af29-47e6-b996-52040093c3a0</target>
     <spline/>
-    <point>631.0,614.0</point>
-    <point>640.0,737.0</point>
+    <point>238.0,888.0</point>
+    <point>238.0,978.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
@@ -202,7 +205,7 @@
     <label>NewEAnnotationInEPackageEAnnotations</label>
     <sib-uid>ecore/ecore/NewEAnnotationInEPackageEAnnotations</sib-uid>
     <taxonomy>transem.ecore.sib.ecore.NewEAnnotationInEPackageEAnnotations</taxonomy>
-    <position>103.5,918.0</position>
+    <position>103.5,1053.0</position>
     <parameter name="eObjectKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -228,8 +231,9 @@
     <source>e3392326-af29-47e6-b996-52040093c3a0</source>
     <target>7344c64f-7bf6-45a0-93c6-33a72cc867df</target>
     <spline/>
-    <point>631.0,749.0</point>
-    <point>622.0,838.0</point>
+    <point>238.0,978.0</point>
+    <point>238.0,1083.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
@@ -238,7 +242,7 @@
     <label>NewEStringToStringMapEntryInEAnnotationDetails</label>
     <sib-uid>ecore/ecore/NewEStringToStringMapEntryInEAnnotationDetails</sib-uid>
     <taxonomy>transem.ecore.sib.ecore.NewEStringToStringMapEntryInEAnnotationDetails</taxonomy>
-    <position>74.5,1113.0</position>
+    <position>74.5,1248.0</position>
     <parameter name="eAnnotationKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -266,7 +270,7 @@
     <label>SetEStringToStringMapEntryKey</label>
     <sib-uid>ecore/ecore/SetEStringToStringMapEntryKey</sib-uid>
     <taxonomy>transem.ecore.sib.ecore.SetEStringToStringMapEntryKey</taxonomy>
-    <position>133.5,1218.0</position>
+    <position>133.5,1353.0</position>
     <parameter name="eStringToStringMapEntryKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -294,7 +298,7 @@
     <label>SetEStringToStringMapEntryValue</label>
     <sib-uid>ecore/ecore/SetEStringToStringMapEntryValue</sib-uid>
     <taxonomy>transem.ecore.sib.ecore.SetEStringToStringMapEntryValue</taxonomy>
-    <position>127.5,1323.0</position>
+    <position>127.5,1458.0</position>
     <parameter name="eStringToStringMapEntryKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -322,7 +326,7 @@
     <label>SetEAnnotationSource</label>
     <sib-uid>ecore/ecore/SetEAnnotationSource</sib-uid>
     <taxonomy>transem.ecore.sib.ecore.SetEAnnotationSource</taxonomy>
-    <position>164.5,1023.0</position>
+    <position>164.5,1158.0</position>
     <parameter name="eAnnotationKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -348,32 +352,36 @@
     <source>7344c64f-7bf6-45a0-93c6-33a72cc867df</source>
     <target>09646889-70bc-427d-829d-d5b15d9dc7f1</target>
     <spline/>
-    <point>631.0,854.0</point>
-    <point>883.0,844.0</point>
+    <point>238.0,1083.0</point>
+    <point>238.0,1188.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
     <source>09646889-70bc-427d-829d-d5b15d9dc7f1</source>
     <target>4bab83a8-7246-4a37-b444-bdf6db0605d0</target>
     <spline/>
-    <point>886.0,854.0</point>
-    <point>1232.0,382.0</point>
+    <point>238.0,1188.0</point>
+    <point>238.0,1278.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
     <source>4bab83a8-7246-4a37-b444-bdf6db0605d0</source>
     <target>ed015483-7ace-4544-90d5-c2519a399378</target>
     <spline/>
-    <point>1246.0,374.0</point>
-    <point>1290.0,671.0</point>
+    <point>238.0,1278.0</point>
+    <point>238.0,1383.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
     <source>ed015483-7ace-4544-90d5-c2519a399378</source>
     <target>698dc66b-21fc-4b2d-864b-3a9140f09a5b</target>
     <spline/>
-    <point>1276.0,659.0</point>
-    <point>1288.0,817.0</point>
+    <point>238.0,1383.0</point>
+    <point>238.0,1488.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
@@ -382,7 +390,7 @@
     <label>NewEStringToStringMapEntryInEAnnotationDetails</label>
     <sib-uid>ecore/ecore/NewEStringToStringMapEntryInEAnnotationDetails</sib-uid>
     <taxonomy>transem.ecore.sib.ecore.NewEStringToStringMapEntryInEAnnotationDetails</taxonomy>
-    <position>74.5,1413.0</position>
+    <position>74.5,1548.0</position>
     <parameter name="eAnnotationKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -410,7 +418,7 @@
     <label>SetEStringToStringMapEntryKey</label>
     <sib-uid>ecore/ecore/SetEStringToStringMapEntryKey</sib-uid>
     <taxonomy>transem.ecore.sib.ecore.SetEStringToStringMapEntryKey</taxonomy>
-    <position>133.5,1518.0</position>
+    <position>133.5,1653.0</position>
     <parameter name="eStringToStringMapEntryKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -438,7 +446,7 @@
     <label>SetEStringToStringMapEntryValue</label>
     <sib-uid>ecore/ecore/SetEStringToStringMapEntryValue</sib-uid>
     <taxonomy>transem.ecore.sib.ecore.SetEStringToStringMapEntryValue</taxonomy>
-    <position>127.5,1623.0</position>
+    <position>127.5,1758.0</position>
     <parameter name="eStringToStringMapEntryKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -464,16 +472,18 @@
     <source>5beaca52-90a6-475d-a34c-d0bb6b418711</source>
     <target>3c1d42e7-07cc-4fb6-9951-c4af917abd84</target>
     <spline/>
-    <point>1351.0,389.0</point>
-    <point>1396.0,689.0</point>
+    <point>238.0,1578.0</point>
+    <point>238.0,1683.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
     <source>3c1d42e7-07cc-4fb6-9951-c4af917abd84</source>
     <target>ed231da1-bd77-4b8a-869c-0555ab2a1f10</target>
     <spline/>
-    <point>1381.0,674.0</point>
-    <point>1381.0,839.0</point>
+    <point>238.0,1683.0</point>
+    <point>238.0,1788.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
@@ -482,7 +492,7 @@
     <label>NewEStringToStringMapEntryInEAnnotationDetails</label>
     <sib-uid>ecore/ecore/NewEStringToStringMapEntryInEAnnotationDetails</sib-uid>
     <taxonomy>transem.ecore.sib.ecore.NewEStringToStringMapEntryInEAnnotationDetails</taxonomy>
-    <position>74.5,1713.0</position>
+    <position>74.5,1848.0</position>
     <parameter name="eAnnotationKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -510,7 +520,7 @@
     <label>SetEStringToStringMapEntryKey</label>
     <sib-uid>ecore/ecore/SetEStringToStringMapEntryKey</sib-uid>
     <taxonomy>transem.ecore.sib.ecore.SetEStringToStringMapEntryKey</taxonomy>
-    <position>133.5,1818.0</position>
+    <position>133.5,1953.0</position>
     <parameter name="eStringToStringMapEntryKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -538,7 +548,7 @@
     <label>SetEStringToStringMapEntryValue</label>
     <sib-uid>ecore/ecore/SetEStringToStringMapEntryValue</sib-uid>
     <taxonomy>transem.ecore.sib.ecore.SetEStringToStringMapEntryValue</taxonomy>
-    <position>127.5,1923.0</position>
+    <position>127.5,2058.0</position>
     <parameter name="eStringToStringMapEntryKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -564,8 +574,8 @@
     <source>4e888e3b-1feb-4556-84cc-d5fd42196186</source>
     <target>e19d82c5-816a-45a1-8e08-e1e25d11e2c5</target>
     <spline/>
-    <point>1516.0,404.0</point>
-    <point>1531.0,689.0</point>
+    <point>238.0,1878.0</point>
+    <point>238.0,1983.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -573,8 +583,8 @@
     <source>e19d82c5-816a-45a1-8e08-e1e25d11e2c5</source>
     <target>546a6c85-6026-41f1-a15c-33361fe3b61c</target>
     <spline/>
-    <point>1531.0,689.0</point>
-    <point>1561.0,854.0</point>
+    <point>238.0,1983.0</point>
+    <point>238.0,2088.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -582,16 +592,18 @@
     <source>698dc66b-21fc-4b2d-864b-3a9140f09a5b</source>
     <target>5beaca52-90a6-475d-a34c-d0bb6b418711</target>
     <spline/>
-    <point>1051.0,329.0</point>
-    <point>604.0,473.0</point>
+    <point>238.0,1488.0</point>
+    <point>238.0,1578.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
     <source>ed231da1-bd77-4b8a-869c-0555ab2a1f10</source>
     <target>4e888e3b-1feb-4556-84cc-d5fd42196186</target>
     <spline/>
-    <point>1051.0,494.0</point>
-    <point>617.0,616.0</point>
+    <point>238.0,1788.0</point>
+    <point>238.0,1878.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
@@ -707,7 +719,7 @@
     <label>GetGraphModelPackage</label>
     <sib-uid>mgl/mgl/GetGraphModelPackage</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.mgl.sib.mgl.GetGraphModelPackage</taxonomy>
-    <position>414.5,423.0</position>
+    <position>159.5,513.0</position>
     <parameter name="graphModelKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -735,7 +747,7 @@
     <label>GetGraphModelNsURI</label>
     <sib-uid>mgl/mgl/GetGraphModelNsURI</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.mgl.sib.mgl.GetGraphModelNsURI</taxonomy>
-    <position>168.0,618.0</position>
+    <position>168.0,753.0</position>
     <parameter name="graphModelKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>

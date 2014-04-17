@@ -122,7 +122,8 @@ NodeContainer returns NodeContainer:
 ;
 
 GraphicalElementContainment returns GraphicalElementContainment:
-	((type=[GraphicalModelElement|QName])|'*')'['lowerBound=EInt ','upperBound=EInt ']'
+	{GraphicalElementContainment}
+	((type=[GraphicalModelElement|QName])|'*')('['lowerBound=EInt ','upperBound=EInt ']')?
 ;
 
 Import returns Import:
