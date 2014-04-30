@@ -6,6 +6,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EStructuralFeature;
 
 
 public class URIHandler extends org.eclipse.emf.ecore.xmi.impl.URIHandlerImpl.PlatformSchemeAware{
@@ -23,6 +24,7 @@ public class URIHandler extends org.eclipse.emf.ecore.xmi.impl.URIHandlerImpl.Pl
 					String to = superType.getEPackage().getNsURI()+"#"+superTypeURIFragment;
 					uriMap.put(from, to);
 				}
+				
 			}
 		}
 	}
@@ -32,7 +34,11 @@ public class URIHandler extends org.eclipse.emf.ecore.xmi.impl.URIHandlerImpl.Pl
 		System.out.println("**** Deresolving: "+uri+" ****");
 		URI nURI = null;
 		if(uri.isPlatform()){
-			nURI =URI.createURI( uriMap.get(uri.toString()));
+			String uri2 = uriMap.get(uri.toString());
+			if(uri2!=null)
+				nURI =URI.createURI( uri2);
+			else
+				nURI = super.deresolve(uri);
 		}
 		if(nURI==null)
 			 nURI = super.deresolve(uri);
