@@ -2,27 +2,30 @@ package de.jabc.cinco.meta.core.mgl.generator
 
 import com.google.inject.Inject
 import de.jabc.cinco.meta.core.mgl.transformation.MGL2Ecore
+import de.jabc.cinco.meta.core.pluginregistry.PluginRegistry
 import de.metaframe.jabc.framework.execution.DefaultLightweightExecutionEnvironment
 import de.metaframe.jabc.framework.execution.context.DefaultLightweightExecutionContext
 import de.metaframe.jabc.framework.execution.context.LightweightExecutionContext
-import mgl.GraphModel
 import java.io.ByteArrayOutputStream
 import java.util.ArrayList
+import java.util.HashMap
 import java.util.Set
+import mgl.GraphModel
+import org.eclipse.core.resources.ResourcesPlugin
 import org.eclipse.core.runtime.Path
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.EReference
 import org.eclipse.emf.ecore.resource.Resource
+import org.eclipse.emf.ecore.xmi.XMIResource
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl
 import org.eclipse.xtext.generator.IFileSystemAccess
 import org.eclipse.xtext.generator.IGenerator
 import org.eclipse.xtext.naming.IQualifiedNameProvider
 import org.eclipse.xtext.xbase.lib.Pair
-import de.jabc.cinco.meta.core.pluginregistry.PluginRegistry
-import org.eclipse.core.resources.ResourcesPlugin
+import de.jabc.cinco.meta.core.utils.URIHandler
 
 class MGLGenerator implements IGenerator {
 	@Inject extension IQualifiedNameProvider
@@ -71,10 +74,17 @@ class MGLGenerator implements IGenerator {
 		if(x.equals("default")){
 			
 			var ePackage = context.get("ePackage") as EPackage
-			
+			EPackage$Registry.INSTANCE.put(ePackage.nsURI,ePackage)
 			var bops = new ByteArrayOutputStream()
 			xmiResource.contents.add(ePackage)
-			xmiResource.save(bops,null)
+			var optionMap = new HashMap<String,Object>
+			optionMap.put(XMIResource.OPTION_URI_HANDLER,new URIHandler(ePackage))
+			
+			
+			
+						
+			xmiResource.save(bops,optionMap)
+			
 			var output = bops.toString(xmiResource.getEncoding)
 			var ecorePath = "/model/"+model.fullyQualifiedName.toString("/")+".ecore".toFirstUpper
 			access.generateFile(ecorePath,output)

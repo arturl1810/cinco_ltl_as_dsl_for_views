@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>841d944d-b804-4029-a8af-6d0a9e581856</id>
   <name>Create Edges</name>
-  <changecounter>40</changecounter>
+  <changecounter>42</changecounter>
   <sib>
     <id>765d8a05-8995-4960-b642-d913f218d3f6</id>
     <name>MacroSIB</name>
@@ -321,9 +321,9 @@
   </sib>
   <edge>
     <source>b6beec96-798e-4d45-9be2-fab025d983d8</source>
-    <target>35e2cfd4-00ac-47df-ae55-44c5779bdb3f</target>
-    <point>228.0,281.1</point>
-    <point>310.0,230.0</point>
+    <target>c20849b2-34cc-402b-9873-f91aa41585f1</target>
+    <point>210.0,333.0</point>
+    <point>210.0,191.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>true</branch>
   </edge>
@@ -624,58 +624,6 @@
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
-  <sib>
-    <id>35e2cfd4-00ac-47df-ae55-44c5779bdb3f</id>
-    <name>GraphSIB_1</name>
-    <label>Can Element Be Contained</label>
-    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
-    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>120.0,241.0</position>
-    <parameter name="container">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>graphModel</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="element">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>modelElement</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>error</finalbranches>
-    <finalbranches>false</finalbranches>
-    <finalbranches>true</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>f7eeb39a-54ea-48e4-b8cf-f3970df85f67</string>
-    </userobject>
-    <userobject key="ABC$GRAPHSIB$MODELNAME">
-      <string>Can Element Be Contained</string>
-    </userobject>
-  </sib>
-  <edge>
-    <source>35e2cfd4-00ac-47df-ae55-44c5779bdb3f</source>
-    <target>c20849b2-34cc-402b-9873-f91aa41585f1</target>
-    <point>330.0,225.0</point>
-    <point>237.0,184.0</point>
-    <branch>true</branch>
-  </edge>
-  <edge>
-    <source>35e2cfd4-00ac-47df-ae55-44c5779bdb3f</source>
-    <target>a547e4ca-7a57-4126-8003-7f96bb16c397</target>
-    <spline/>
-    <point>228.75,241.0</point>
-    <point>300.0,165.0</point>
-    <point>224.21052631578948,69.0</point>
-    <labelposition>477.56692079647223,70.44242309765804</labelposition>
-    <branch>false</branch>
-  </edge>
   <values/>
   <branch>
     <name>error</name>
@@ -766,10 +714,5 @@
     <name>error</name>
     <branch>error</branch>
     <sib>c20849b2-34cc-402b-9873-f91aa41585f1</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>35e2cfd4-00ac-47df-ae55-44c5779bdb3f</sib>
   </branch>
 </model>

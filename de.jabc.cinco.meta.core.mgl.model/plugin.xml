@@ -9,16 +9,6 @@
 -->
 
 <plugin>
-   <extension
-         point="org.eclipse.emf.ecore.generated_package">
-      <package
-            class="gdl.GdlPackage"
-            genModel="model/GDL.genmodel"
-            uri="http://www.jabc.de/cinco/gdl">
-      </package>
-
-   </extension>
-
 
    <extension point="org.eclipse.emf.ecore.generated_package">
       <!-- @generated MGL -->
@@ -29,24 +19,8 @@
    </extension>
 
    <extension point="org.eclipse.emf.ecore.generated_package">
-      <!-- @generated GeneratableGraphModel -->
-      <package
-            uri="http://www.jabc.de/cinco/gdl/generatable/generatablegraphmodel"
-            class="GeneratableGraphModel.GeneratableGraphModelPackage"
-            genModel="model/GeneratableGraphModel.genmodel"/>
-   </extension>
-
-   <extension point="org.eclipse.emf.ecore.generated_package">
-      <!-- @generated MCGraphModel -->
-      <package
-            uri="http://www.jabc.de/cinco/gdl/mc"
-            class="mcgraphmodel.McgraphmodelPackage"
-            genModel="model/MCGraphModel.genmodel"/>
-   </extension>
-
-   <extension point="org.eclipse.emf.ecore.generated_package">
       <!-- @generated GraphModel -->
-      <package
+     <package
             uri="http://www.jabc.de/cinco/gdl/graphmodel"
             class="graphmodel.GraphmodelPackage"
             genModel="model/GraphModel.genmodel"/>

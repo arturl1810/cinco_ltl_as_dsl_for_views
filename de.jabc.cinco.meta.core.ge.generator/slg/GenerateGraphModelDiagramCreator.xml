@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>bc163f1e-0219-4ee4-b1a8-2864de76b1af</id>
   <name>GenerateGraphModelDiagramCreator</name>
-  <changecounter>56</changecounter>
+  <changecounter>57</changecounter>
   <sib>
     <id>ad9b9c21-91db-4af5-9d2c-291ad1a050ef</id>
     <name>PutExpression</name>
@@ -349,7 +349,7 @@ public class $context.graphModelName$Creator extends RecordingCommand{
 		HashMap&lt;Object, ContainerShape&gt; addedElements = new HashMap&lt;Object, ContainerShape&gt;();
 		int x = 0;
 		for (Node n : gm.getAllNodes()) {
-			if (n.getContainer() == null) {
+			if (n.getContainer() != null &amp;&amp; n.getContainer() instanceof $context.graphModelName$) {
 				AreaContext ac = new AreaContext();
 				ac.setLocation(x, 10);
 				AddContext addContext = new AddContext(ac, n);
