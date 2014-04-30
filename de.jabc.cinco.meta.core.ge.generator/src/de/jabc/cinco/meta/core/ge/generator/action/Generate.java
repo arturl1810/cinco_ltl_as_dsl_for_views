@@ -6,12 +6,17 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import mgl.Annotation;
 import mgl.GraphModel;
+import mgl.Import;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
@@ -29,10 +34,20 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.codegen.ecore.generator.Generator;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
+import org.eclipse.emf.codegen.ecore.genmodel.GenModelFactory;
+import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
+import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.generator.GenBaseGeneratorAdapter;
+import org.eclipse.emf.codegen.ecore.genmodel.generator.GenPackageGeneratorAdapter;
+import org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl;
+import org.eclipse.emf.codegen.ecore.genmodel.util.GenModelUtil;
 import org.eclipse.emf.common.util.BasicMonitor;
+import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -41,6 +56,7 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IActionDelegate;
 import org.eclipse.ui.handlers.HandlerUtil;
+import org.eclipse.xtend.typesystem.emf.EcoreUtil2;
 import org.osgi.framework.Bundle;
 
 import style.Styles;
@@ -53,6 +69,8 @@ import de.metaframe.jabc.framework.execution.context.LightweightExecutionContext
 
 public class Generate extends AbstractHandler {
 
+	private GraphModel gModel;
+	
 	public Generate() {
 		// TODO Auto-generated constructor stub
 	}
@@ -68,7 +86,6 @@ public class Generate extends AbstractHandler {
 		NullProgressMonitor monitor = new NullProgressMonitor();
 		
 		Resource resource = new ResourceSetImpl().getResource(URI.createPlatformResourceURI(file.getFullPath().toOSString(), true), true);
-	    GraphModel gModel = null;
 	    Styles styles = null;
 	    try {
 	    	gModel = loadGraphModel(resource);
@@ -177,6 +194,8 @@ public class Generate extends AbstractHandler {
 		for (EObject o : res.getContents()) {	
 			if (o instanceof GenModel) {
 				GenModel genModel = (GenModel) o;
+				genModel.getUsedGenPackages().addAll(getUsedGenPackages());
+				System.out.println(genModel.getUsedGenPackages());
 				genModel.setCanGenerate(true);
 				Generator generator = new Generator();
 				generator.setInput(genModel);
@@ -185,6 +204,36 @@ public class Generate extends AbstractHandler {
 		}
 	}
 	
+	private Collection<? extends GenPackage> getUsedGenPackages() {
+		if (gModel == null)
+			return Collections.EMPTY_LIST;
+		List<GenPackage> genPackages = new ArrayList<>();
+		for (Import _import : gModel.getImports()) {
+			String impString = _import.getImportURI();
+			EPackage ePackage = EcoreUtil2.getEPackage(impString);
+			Map<String, URI> map = EcorePlugin.getEPackageNsURIToGenModelLocationMap(true);
+			URI genModelUri = map.get(ePackage.getNsURI());
+			
+			if (genModelUri.isRelative())
+				genModelUri = URI.createPlatformResourceURI(genModelUri.toPlatformString(true), true);
+			
+			Resource res = new ResourceSetImpl().getResource(genModelUri, true);
+			TreeIterator<EObject> it = res.getAllContents();
+			while (it.hasNext()) {
+				EObject object = it.next();
+				if (object instanceof GenPackage) {
+					if (((GenPackage) object).getNSURI().equals(ePackage.getNsURI())) {
+						genPackages.add((GenPackage) object);
+					} else if (object instanceof GenModel) {
+						it.prune();
+					}
+					System.out.println(genModelUri);
+				}
+			}
+		
+		}
+		return genPackages;
+	}
 	private Set<String> getReqBundles() {
 		HashSet<String> reqBundles = new HashSet<String>();
 		List<Bundle> bundles = new ArrayList<Bundle>();
