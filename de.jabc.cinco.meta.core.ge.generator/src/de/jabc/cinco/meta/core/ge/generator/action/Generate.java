@@ -206,7 +206,7 @@ public class Generate extends AbstractHandler {
 	
 	private Collection<? extends GenPackage> getUsedGenPackages() {
 		if (gModel == null)
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList();
 		List<GenPackage> genPackages = new ArrayList<>();
 		for (Import _import : gModel.getImports()) {
 			String impString = _import.getImportURI();
