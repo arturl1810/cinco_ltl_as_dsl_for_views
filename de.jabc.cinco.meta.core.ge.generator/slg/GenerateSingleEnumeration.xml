@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>21a09387-7e17-4606-a778-1e7bb342ecbd</id>
   <name>GenerateSingleEnumeration</name>
-  <changecounter>115</changecounter>
+  <changecounter>117</changecounter>
   <sib>
     <id>d1c30f87-0fd9-4945-b421-8e6ce0817cc2</id>
     <name>CopyEObject</name>
@@ -809,7 +809,7 @@ EObject referenced = ReferenceRegistry.getInstance().getEObject(Integer.valueOf(
 EStructuralFeature feature = referenced.eClass().getEStructuralFeature(&quot;$context.attribute.feature.name$&quot;);
 Object value = referenced.eGet(feature, true);
 if (value != null)
-	$context.flAttributeName$Combo.setText(value);</string>
+	$context.flAttributeName$Combo.setText( (($context.attributeTypeName$) value).getLiteral());</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>

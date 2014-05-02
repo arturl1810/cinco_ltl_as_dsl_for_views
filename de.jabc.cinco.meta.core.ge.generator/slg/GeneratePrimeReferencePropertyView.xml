@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>7ce0cea2-f133-4819-a4df-6d0f1188d2ec</id>
   <name>GeneratePrimeReferencePropertyView</name>
-  <changecounter>260</changecounter>
+  <changecounter>265</changecounter>
   <sib>
     <id>a2cae63c-d9d7-4524-80b8-ad12b33b47d5</id>
     <name>GetReferencedTypeType</name>
@@ -340,9 +340,9 @@ public class $context.modelElementName$_$context.attributeName$_Section extends 
   </sib>
   <edge>
     <source>12c1e798-7151-4e3d-9fd6-4461ca89cd46</source>
-    <target>cc5aece6-b4ab-432e-94fa-1d17e1eb4742</target>
-    <point>648.0952380952381,316.0</point>
-    <point>594.375,219.0</point>
+    <target>2543bdae-506a-42f2-9db2-668e6c818cd7</target>
+    <point>770.0,318.9090909090909</point>
+    <point>897.0,203.34545454545454</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -750,34 +750,6 @@ public class $context.modelElementName$_$context.attributeName$_Section extends 
     <branch>default</branch>
   </edge>
   <sib>
-    <id>cc5aece6-b4ab-432e-94fa-1d17e1eb4742</id>
-    <name>EvaluateBoolean</name>
-    <label>isPrimeParameter</label>
-    <sib-uid>basic-sibs/EvaluateBoolean</sib-uid>
-    <taxonomy>de.jabc.sib.common.basic.EvaluateBoolean</taxonomy>
-    <position>689.5,168.0</position>
-    <parameter name="bool">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>isPrimeRefParameter</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>error</finalbranches>
-    <finalbranches>false</finalbranches>
-    <finalbranches>true</finalbranches>
-  </sib>
-  <edge>
-    <source>cc5aece6-b4ab-432e-94fa-1d17e1eb4742</source>
-    <target>2543bdae-506a-42f2-9db2-668e6c818cd7</target>
-    <point>768.0,187.92</point>
-    <point>957.0,200.52</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>true</branch>
-  </edge>
-  <sib>
     <id>1f57e384-3631-4a3c-b040-83f299c0bbc1</id>
     <name>RunStringTemplate_5</name>
     <label>GenerateSectionCode</label>
@@ -820,6 +792,7 @@ import org.eclipse.swt.widgets.*;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.ui.views.properties.tabbed.*;
 
+$context.refImportsContent$
 import $context.importPath$.*;
 import de.jabc.cinco.meta.core.referenceregistry.ReferenceRegistry;
 
@@ -841,13 +814,6 @@ public class $context.modelElementName$_$context.attributeName$_Section extends 
     <finalbranches>error</finalbranches>
   </sib>
   <edge>
-    <source>cc5aece6-b4ab-432e-94fa-1d17e1eb4742</source>
-    <target>1f57e384-3631-4a3c-b040-83f299c0bbc1</target>
-    <point>660.0,225.0</point>
-    <point>585.0,90.0</point>
-    <branch>false</branch>
-  </edge>
-  <edge>
     <source>1f57e384-3631-4a3c-b040-83f299c0bbc1</source>
     <target>8456f026-d049-4b3a-afd1-c93b9d745cdc</target>
     <point>555.0,90.0</point>
@@ -860,7 +826,7 @@ public class $context.modelElementName$_$context.attributeName$_Section extends 
     <label>IterateImports</label>
     <sib-uid>collection-sibs/IterateElements</sib-uid>
     <taxonomy>de.jabc.sib.common.collection.IterateElements</taxonomy>
-    <position>700.5,48.0</position>
+    <position>700.5,168.0</position>
     <parameter name="collection">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -898,7 +864,7 @@ public class $context.modelElementName$_$context.attributeName$_Section extends 
     <label>GenerateReferencedImports</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>866.0,48.0</position>
+    <position>881.0,168.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -925,26 +891,63 @@ public class $context.modelElementName$_$context.attributeName$_Section extends 
     <source>2543bdae-506a-42f2-9db2-668e6c818cd7</source>
     <target>7de10580-532d-459e-a1b8-741aea0fb09e</target>
     <spline/>
-    <point>768.0,73.8</point>
-    <point>840.0,105.0</point>
-    <point>927.0,72.68571428571428</point>
+    <point>750.0,195.0</point>
+    <point>840.0,225.0</point>
+    <point>975.0,195.0</point>
     <labelposition>490.96608751904165,39.33094586957645</labelposition>
     <branch>next</branch>
   </edge>
   <edge>
     <source>2543bdae-506a-42f2-9db2-668e6c818cd7</source>
-    <target>f408e792-a9f4-4809-90e0-50d481f4adc9</target>
-    <point>750.0,75.0</point>
-    <point>629.0,71.0</point>
+    <target>cc5aece6-b4ab-432e-94fa-1d17e1eb4742</target>
+    <point>897.0,173.89090909090908</point>
+    <point>768.0,80.07272727272728</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>exit</branch>
   </edge>
   <edge>
     <source>7de10580-532d-459e-a1b8-741aea0fb09e</source>
     <target>2543bdae-506a-42f2-9db2-668e6c818cd7</target>
-    <point>945.0,75.0</point>
-    <point>711.0,71.0</point>
+    <point>975.0,195.0</point>
+    <point>750.0,195.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
+  <edge>
+    <source>cc5aece6-b4ab-432e-94fa-1d17e1eb4742</source>
+    <target>f408e792-a9f4-4809-90e0-50d481f4adc9</target>
+    <point>732.0,173.89090909090908</point>
+    <point>603.0,80.07272727272728</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>true</branch>
+  </edge>
+  <edge>
+    <source>cc5aece6-b4ab-432e-94fa-1d17e1eb4742</source>
+    <target>1f57e384-3631-4a3c-b040-83f299c0bbc1</target>
+    <point>750.0,195.0</point>
+    <point>585.0,90.0</point>
+    <branch>false</branch>
+  </edge>
+  <sib>
+    <id>cc5aece6-b4ab-432e-94fa-1d17e1eb4742</id>
+    <name>EvaluateBoolean</name>
+    <label>isPrimeParameter</label>
+    <sib-uid>basic-sibs/EvaluateBoolean</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.EvaluateBoolean</taxonomy>
+    <position>689.5,48.0</position>
+    <parameter name="bool">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>isPrimeRefParameter</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>false</finalbranches>
+    <finalbranches>true</finalbranches>
+  </sib>
   <parameter>
     <name>referencedTypeKey</name>
     <field>sourceVariable</field>
@@ -1060,11 +1063,6 @@ public class $context.modelElementName$_$context.attributeName$_Section extends 
   <branch>
     <name>error</name>
     <branch>error</branch>
-    <sib>cc5aece6-b4ab-432e-94fa-1d17e1eb4742</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
     <sib>1f57e384-3631-4a3c-b040-83f299c0bbc1</sib>
   </branch>
   <branch>
@@ -1076,5 +1074,10 @@ public class $context.modelElementName$_$context.attributeName$_Section extends 
     <name>error</name>
     <branch>error</branch>
     <sib>2543bdae-506a-42f2-9db2-668e6c818cd7</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>cc5aece6-b4ab-432e-94fa-1d17e1eb4742</sib>
   </branch>
 </model>
