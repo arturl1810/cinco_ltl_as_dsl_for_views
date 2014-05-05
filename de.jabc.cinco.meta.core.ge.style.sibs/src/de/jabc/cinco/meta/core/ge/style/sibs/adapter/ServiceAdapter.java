@@ -32,7 +32,9 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -581,15 +583,26 @@ public class ServiceAdapter {
 				IFile file = root.getFile(path);
 				IProject p = file.getProject();
 				IFile mglFile = findMGLFile(p.getFolder("model"));
-				Resource res = new ResourceSetImpl().getResource(
-						URI.createPlatformResourceURI(mglFile.getFullPath().toOSString(), true), 
-						true);
-				for (EObject o : res.getContents()) {
-					if (o instanceof GraphModel) {
-						GraphModel gm = (GraphModel) o;
-						if (gm.getPackage() != null && !gm.getPackage().isEmpty()) {
-							imps.add(gm.getPackage().concat("." + gm.getName().toLowerCase()));
-						} else imps.add(gm.getName().toLowerCase());
+				if (mglFile != null) {
+					Resource res = new ResourceSetImpl().getResource(
+							URI.createPlatformResourceURI(mglFile.getFullPath().toOSString(), true), 
+							true);
+					for (EObject o : res.getContents()) {
+						if (o instanceof GraphModel) {
+							GraphModel gm = (GraphModel) o;
+							if (gm.getPackage() != null && !gm.getPackage().isEmpty()) {
+								imps.add(gm.getPackage().concat("." + gm.getName().toLowerCase()));
+							} else imps.add(gm.getName().toLowerCase());
+						}
+					}
+				} else {
+					Resource res = new ResourceSetImpl().getResource(
+							URI.createPlatformResourceURI(file.getFullPath().toOSString(), true), true);
+					for (EObject o : res.getContents()) {
+						if (o instanceof EPackage) {
+							EPackage ePackage = (EPackage) o;
+							imps.add(ePackage.getName());
+						}
 					}
 				}
 			}
