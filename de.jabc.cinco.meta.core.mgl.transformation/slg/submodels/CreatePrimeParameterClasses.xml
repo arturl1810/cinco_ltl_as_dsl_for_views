@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>b45d64c8-b97b-4d96-a2a6-7102d21d79b8</id>
   <name>CreatePrimeParameterClasses</name>
-  <changecounter>17</changecounter>
+  <changecounter>36</changecounter>
   <sib>
     <id>13254bc3-7568-4c60-8430-f3dcdf901d74</id>
     <name>GetReferencedAttributeParameter</name>
@@ -87,8 +87,8 @@
   <edge>
     <source>afcd0034-31b6-423a-a01c-90f0f938933d</source>
     <target>3dc7b060-5cf2-407d-b59d-8481cc030cc1</target>
-    <point>555.0,165.0</point>
-    <point>870.0,120.0</point>
+    <point>573.0,111.51428571428572</point>
+    <point>852.0,111.51428571428572</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -198,7 +198,7 @@
     <label>Create ContainerReference for Parameter</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>169.5,751.0</position>
+    <position>454.5,646.0</position>
     <parameter name="bidirectiveReference">
       <boolean>true</boolean>
     </parameter>
@@ -271,12 +271,12 @@
     <branch>default</branch>
   </edge>
   <edge>
-    <source>e8139f67-112a-4eb1-9516-c1ec6ed05bfc</source>
+    <source>1e9ee43e-8b6a-44df-bd85-46cb173899ce</source>
     <target>9589712b-e8c1-4c62-9186-31658478225d</target>
     <spline/>
-    <point>287.5,751.0</point>
+    <point>415.0,751.5217391304348</point>
     <point>90.0,435.0</point>
-    <point>552.0,426.3375</point>
+    <point>255.2054794520548,234.0</point>
     <labelposition>515.9609973422523,-179.48623850958273</labelposition>
     <branch>default</branch>
   </edge>
@@ -353,9 +353,10 @@
   <edge>
     <source>f34b6ce8-97f5-4b4e-ad07-8a228472ada4</source>
     <target>e8139f67-112a-4eb1-9516-c1ec6ed05bfc</target>
-    <point>730.0,771.4</point>
-    <point>320.0,771.4</point>
-    <labelposition>500.0,0.0</labelposition>
+    <point>652.0,780.0</point>
+    <point>585.0,780.0</point>
+    <point>355.5,780.0</point>
+    <labelposition>448.2758620689655,9.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
@@ -392,7 +393,7 @@
     <label>GetReferencedAttributeFeature</label>
     <sib-uid>mgl/mgl/GetReferencedAttributeFeature</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetReferencedAttributeFeature</taxonomy>
-    <position>1155.5,93.0</position>
+    <position>1155.5,168.0</position>
     <parameter name="referencedAttributeKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -680,7 +681,7 @@
     <label>ToFirstLower</label>
     <sib-uid>basic-sibs/ToFirstLower</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.ToFirstLower</taxonomy>
-    <position>1034.0,168.0</position>
+    <position>1214.0,93.0</position>
     <parameter name="inputString">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -707,6 +708,143 @@
     <target>b1cf54f5-d8ed-48dd-9de7-7c532fc2530f</target>
     <point>1080.0,195.0</point>
     <point>1285.0,112.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>d29953a0-0040-45ca-8a3b-0bc8b0b5afa9</id>
+    <name>GraphSIB_2</name>
+    <label>Greate Setter</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>388.0,631.0</position>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>3687e7f8-e39c-4f13-be77-cf8831ef249f</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Create Parameter Setter</string>
+    </userobject>
+  </sib>
+  <sib>
+    <id>1e9ee43e-8b6a-44df-bd85-46cb173899ce</id>
+    <name>GraphSIB_3</name>
+    <label>Create Getter</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>392.0,751.0</position>
+    <parameter name="eClassKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>modelElementClass</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="eOperatiobUpperBound">
+      <int>1</int>
+    </parameter>
+    <parameter name="eOperationLowerBound">
+      <int>0</int>
+    </parameter>
+    <parameter name="eOperationNameKey">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>get${nodeReferencedParameterName}</expression>
+          <clazz>java.lang.String</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="eOperationeTypeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>nodeReferencedParameterNameFeatureType</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>false</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>return $nodeReferencedParameterReferencedTypeNameLowerCase$Parameter.get(0).getInstance();
+</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Create EOperation</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>d29953a0-0040-45ca-8a3b-0bc8b0b5afa9</source>
+    <target>1e9ee43e-8b6a-44df-bd85-46cb173899ce</target>
+    <point>555.0,645.0</point>
+    <point>426.0,629.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>e8139f67-112a-4eb1-9516-c1ec6ed05bfc</source>
+    <target>d29953a0-0040-45ca-8a3b-0bc8b0b5afa9</target>
+    <point>565.0,665.2</point>
+    <point>455.0,654.2</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>0676ebbc-c3ec-4ebf-8dcb-07762165e4b3</id>
+    <name>PrintConsoleMessage</name>
+    <label>PrintConsoleMessage</label>
+    <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
+    <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
+    <position>369.5,873.0</position>
+    <parameter name="error">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="message">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>Got an Error...</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>false</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <finalbranches>default</finalbranches>
+  </sib>
+  <edge>
+    <source>1e9ee43e-8b6a-44df-bd85-46cb173899ce</source>
+    <target>0676ebbc-c3ec-4ebf-8dcb-07762165e4b3</target>
+    <point>435.0,780.0</point>
+    <point>413.0,920.0</point>
+    <branch>error</branch>
+  </edge>
+  <sib>
+    <id>7f20d7cd-819c-487c-a584-0e5960b17a93</id>
+    <name>PrintException</name>
+    <label>PrintException</label>
+    <sib-uid>io-sibs/PrintException</sib-uid>
+    <taxonomy>de.jabc.sib.common.io.PrintException</taxonomy>
+    <position>384.5,978.0</position>
+    <parameter name="exception">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>exception</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+  </sib>
+  <edge>
+    <source>0676ebbc-c3ec-4ebf-8dcb-07762165e4b3</source>
+    <target>7f20d7cd-819c-487c-a584-0e5960b17a93</target>
+    <point>420.0,915.0</point>
+    <point>453.0,982.0</point>
     <branch>default</branch>
   </edge>
   <parameter>
@@ -845,5 +983,15 @@
     <name>error</name>
     <branch>error</branch>
     <sib>eb2ca84e-604d-43e6-b4fc-708090b49528</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>default</branch>
+    <sib>7f20d7cd-819c-487c-a584-0e5960b17a93</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>d29953a0-0040-45ca-8a3b-0bc8b0b5afa9</sib>
   </branch>
 </model>
