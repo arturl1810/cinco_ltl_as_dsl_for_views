@@ -117,6 +117,12 @@
                   <version>3.8.5</version>
                   <type>jar</type>
                 </artifactItem>
+                <artifactItem>
+                  <groupId>de.jabc.plugin.transem</groupId>
+  				  <artifactId>mtsg</artifactId>
+  				  <version>1.0.8</version>
+                  <type>jar</type>
+                </artifactItem>
               </artifactItems>
               <outputDirectory>${basedir}/lib</outputDirectory>
               <overWriteReleases>false</overWriteReleases>
