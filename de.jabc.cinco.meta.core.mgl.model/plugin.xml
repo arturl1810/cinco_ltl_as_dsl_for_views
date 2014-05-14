@@ -20,10 +20,9 @@
 
    <extension point="org.eclipse.emf.ecore.generated_package">
       <!-- @generated GraphModel -->
-     <package
+      <package
             uri="http://www.jabc.de/cinco/gdl/graphmodel"
-            class="graphmodel.GraphmodelPackage"
-            genModel="model/GraphModel.genmodel"/>
+            class="graphmodel.GraphmodelPackage"/>
    </extension>
 
 </plugin>

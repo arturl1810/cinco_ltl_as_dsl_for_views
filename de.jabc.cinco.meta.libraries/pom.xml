@@ -25,7 +25,98 @@
             </goals>
             <configuration>
 				 <artifactItems>
-                <artifactItem>
+				 <artifactItem>
+				 <groupId>de.jabc</groupId>
+				<artifactId>jabc-editor</artifactId>
+				<version>3.8.5</version>
+				<type>jar</type>
+				 </artifactItem>
+				 <artifactItem>
+				 	<groupId>de.jabc</groupId>
+					<artifactId>jabc-svg</artifactId>
+					<version>3.8.3</version>
+					<type>jar</type>
+				 </artifactItem>
+				 <artifactItem>
+				 	<groupId>de.jabc.plugin</groupId>
+				<artifactId>genesys-dev-tools</artifactId>
+				<version>${version.jabc.genesys}</version>
+				<type>jar</type>
+				 </artifactItem>
+				<artifactItem>
+				 	<groupId>de.jabc.plugin</groupId>
+				<artifactId>layouter-plugin</artifactId>
+				<version>0.4.6</version>
+				<type>jar</type>
+				 </artifactItem>
+				 <artifactItem>
+				 	<groupId>de.jabc.plugin</groupId>
+					<artifactId>localchecker-plugin</artifactId>
+					<version>1.5.7</version>
+					<type>jar</type>
+				 </artifactItem>
+				 <artifactItem>
+				 	<groupId>de.jabc.plugin</groupId>
+				<artifactId>references</artifactId>
+				<version>1.0</version>
+				<type>jar</type>
+				 </artifactItem>
+				 <artifactItem>
+				 	<groupId>de.jabc.plugin</groupId>
+					<artifactId>tracer-plugin</artifactId>
+					<version>1.1</version>
+					<type>jar</type>
+				 </artifactItem>
+				 <artifactItem>
+				 	<groupId>de.jabc.plugin.jabc-goodies</groupId>
+					<artifactId>jabc-goodies-lib</artifactId>
+					<version>0.14</version>
+					<type>jar</type>
+				 </artifactItem>
+				 <artifactItem>
+				 	<groupId>de.jabc.sib</groupId>
+					<artifactId>basic-sibs</artifactId>
+					<version>1.6.3</version>
+					<type>jar</type>	
+				 </artifactItem>
+				 <artifactItem>
+				 	<groupId>de.jabc.sib</groupId>
+					<artifactId>collection-sibs</artifactId>
+					<version>1.4</version>
+				 	<type>jar</type>
+				 </artifactItem>
+				 <artifactItem>
+				 	<groupId>de.jabc.sib</groupId>
+				<artifactId>graph-model-sibs</artifactId>
+				<version>1.6</version>
+				 	<type>jar</type>
+				 </artifactItem>
+				  <artifactItem>
+				 	<groupId>de.jabc.sib</groupId>
+				<artifactId>graph-model-sibs-adapters</artifactId>
+				<version>1.6</version>
+				 	<type>jar</type>
+				 </artifactItem>
+				 <artifactItem>
+				 	<groupId>de.jabc.sib</groupId>
+				<artifactId>gui-sibs</artifactId>
+				<version>1.4</version>
+				 	<type>jar</type>
+				 </artifactItem>
+				<artifactItem>
+				 	<groupId>de.jabc.sib</groupId>
+				<artifactId>gui-sibs-adapters</artifactId>
+				<version>1.4</version>
+				 	<type>jar</type>
+				 </artifactItem>
+				<artifactItem>
+				 	<groupId>jgraph</groupId>
+				<artifactId>jgraph</artifactId>
+				<version>5.9.2.1</version>
+				 	<type>jar</type>
+				 </artifactItem>
+				  
+                <artifactItem>                
                   <groupId>de.jabc.plugin</groupId>
                   <artifactId>genesys-lib</artifactId>
                   <version>SNAPSHOT</version>
@@ -75,7 +166,7 @@
                 </artifactItem>
                 <artifactItem>
                   <groupId>de.jabc.sib</groupId>
-                  <artifactId>script-sibs-adapters</artifactId>
+                  <artifactId>script-sibs</artifactId>
                   <version>1.2.3</version>
                   <type>jar</type>
                 </artifactItem>
@@ -90,13 +181,19 @@
                   <groupId>de.jabc.plugin.transem</groupId>
                   <artifactId>ecore-sibs</artifactId>
 		  <classifier>adapters</classifier>
-                  <version>1.3</version>
+                  <version>1.3.2</version>
                   <type>jar</type>
                 </artifactItem>
                 <artifactItem>
                   <groupId>de.jabc.sib</groupId>
                   <artifactId>io-sibs-adapters</artifactId>
-                  <version>1.4</version>
+                  <version>1.5.2</version>
+                  <type>jar</type>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>de.jabc.sib</groupId>
+                  <artifactId>io-sibs</artifactId>
+                  <version>1.5.2</version>
                   <type>jar</type>
                 </artifactItem>
                 <artifactItem>
@@ -116,6 +213,25 @@
                   <artifactId>jabc-framework</artifactId>
                   <version>3.8.5</version>
                   <type>jar</type>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>de.jabc.plugin.transem</groupId>
+  				  <artifactId>mtsg</artifactId>
+  				  <version>1.1.1</version>
+                  <type>jar</type>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>de.jabc.plugin.transem</groupId>
+  				  <artifactId>genmodel-sibs</artifactId>
+  				  <version>1.0.0</version>
+                  <type>jar</type>
+                  <classifier>adapters</classifier>
+                </artifactItem>
+                <artifactItem>
+                 	<groupId>de.ls5</groupId>
+					<artifactId>util</artifactId>
+					<version>0.9.5</version>
+					<type>jar</type>
                 </artifactItem>
               </artifactItems>
               <outputDirectory>${basedir}/lib</outputDirectory>
@@ -139,5 +255,21 @@
 	  </snapshots>
 	</repository>
   </repositories>
+<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
+		<version.jabc>3.8.5</version.jabc>
+		<version.jabc.genesys>2.0-beta1</version.jabc.genesys>
+		<version.jabc.sib.basic>1.6.1</version.jabc.sib.basic>
+		<version.jabc.sib.collection>1.5</version.jabc.sib.collection>
+		<version.jabc.sib.event>1.1.1</version.jabc.sib.event>
+		<version.jabc.sib.graph-model>1.7</version.jabc.sib.graph-model>
+		<version.jabc.sib.gui>1.4</version.jabc.sib.gui>
+		<version.jabc.sib.io>1.4</version.jabc.sib.io>
+		<version.jabc.sib.script>1.2.3</version.jabc.sib.script>
+		<version.java.se>1.7</version.java.se>
+		<version.slf4j>1.7.6</version.slf4j>
+		<version.surefire>2.14.1</version.surefire>
+	</properties>
 </project> 
