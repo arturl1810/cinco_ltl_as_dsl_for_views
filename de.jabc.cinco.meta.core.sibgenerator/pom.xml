@@ -1,8 +1,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>de.jabc.cinco.meta.core.sibgenerator</groupId>
+  <parent>
+    <relativePath>../pom.xml</relativePath>
+    <groupId>de.jabc.cinco</groupId>
+    <artifactId>de.jabc.cinco.meta.parent</artifactId>
+    <version>0.4.0-SNAPSHOT</version>
+  </parent>
   <artifactId>de.jabc.cinco.meta.core.sibgenerator</artifactId>
-  <version>0.4.0-SNAPSHOT</version>
+  <version>${parent.version}</version>
   <build>
     <sourceDirectory>src</sourceDirectory>
     <plugins>
@@ -20,7 +25,8 @@
   	<dependency>
   		<groupId>de.jabc.plugin.transem</groupId>
   		<artifactId>mtsg</artifactId>
-  		<version>1.0.8</version>
+  		<version>1.1.1</version>
   	</dependency>
   </dependencies>
+  	
 </project>

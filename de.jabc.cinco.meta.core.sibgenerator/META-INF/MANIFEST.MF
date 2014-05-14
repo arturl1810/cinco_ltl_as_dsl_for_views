@@ -7,7 +7,9 @@ Bundle-Activator: de.jabc.cinco.meta.core.sibgenerator.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  de.jabc.cinco.meta.core.mgl.transformation,
- de.jabc.cinco.meta.core.utils;bundle-version="0.4.0"
+ de.jabc.cinco.meta.core.utils;bundle-version="0.4.0",
+ org.eclipse.jdt.core,
+ de.jabc.cinco.meta.libraries
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ActivationPolicy: lazy
 Import-Package: de.metaframe,
@@ -55,6 +57,7 @@ Import-Package: de.metaframe,
  de.metaframe.jabc.sib.controlsib,
  org.apache.log4j,
  org.eclipse.core.resources,
+ org.eclipse.jdt.core,
  transem.ecore.adapter,
  transem.ecore.adapter.ecore,
  transem.mtsg,

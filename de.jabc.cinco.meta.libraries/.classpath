@@ -1,6 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry exported="true" kind="lib" path="lib/mtsg-1.0.8.jar" sourcepath="/home/lybecait/svn/lybecait/TransEM-Framework/mtsg-mvn/src/main/java.zip"/>
+	<classpathentry exported="true" kind="lib" path="lib/jgraph-5.9.2.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/basic-sibs-1.6.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/collection-sibs-1.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/genesys-dev-tools-2.0-beta1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/graph-model-sibs-1.6.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/graph-model-sibs-adapters-1.6.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/gui-sibs-1.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/gui-sibs-adapters-1.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/io-sibs-1.5.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jabc-editor-3.8.5.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jabc-goodies-lib-0.14.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jabc-svg-3.8.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/layouter-plugin-0.4.6.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/localchecker-plugin-1.5.7.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/references-1.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/script-sibs-1.2.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/tracer-plugin-1.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/mtsg-1.1.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/genmodel-sibs-1.0.0-adapters.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/util-0.9.5.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/io-sibs-adapters-1.5.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/ecore-sibs-1.3.2-adapters.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry exported="true" kind="lib" path="lib/antlr-2.7.7.jar"/>
@@ -9,12 +30,10 @@
 	<classpathentry exported="true" kind="lib" path="lib/commons-el-1.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/commons-io-1.4.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/genesys-lib-SNAPSHOT.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/io-sibs-adapters-1.4.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jabc-framework-3.8.5.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/log4j-1.2.14.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/script-sibs-adapters-1.2.3.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/stringtemplate-3.2.jar"/>
-	<classpathentry kind="lib" path="lib/ecore-sibs-1.3-adapters.jar"/>
 	<classpathentry kind="lib" path="lib/basic-sibs-adapters-1.6.3.jar"/>
 	<classpathentry kind="lib" path="lib/utility-sibs-1.0-adapters.jar"/>
 	<classpathentry kind="output" path="bin"/>
