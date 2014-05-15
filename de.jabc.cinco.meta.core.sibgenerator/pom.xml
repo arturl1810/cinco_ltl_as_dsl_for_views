@@ -7,7 +7,6 @@
     <version>0.4.0-SNAPSHOT</version>
   </parent>
   <artifactId>de.jabc.cinco.meta.core.sibgenerator</artifactId>
-  <version>${parent.version}</version>
   <build>
     <sourceDirectory>src</sourceDirectory>
     <plugins>
@@ -29,4 +28,6 @@
   	</dependency>
   </dependencies>
   	
+  <version>${parent.version}</version>
+  <packaging>eclipse-plugin</packaging>
 </project>
