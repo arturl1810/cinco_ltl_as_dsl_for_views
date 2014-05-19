@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>d5531c11-ffc2-41e6-b1fd-4f08e1327b1f</id>
   <name>Generate Helper EOperations</name>
-  <changecounter>51</changecounter>
+  <changecounter>56</changecounter>
   <sib>
     <id>2db6fa19-1315-4022-abef-abc4426dcce8</id>
     <name>IterateGraphModelNodeContainers</name>
@@ -613,7 +613,7 @@
     <parameter name="graphModelKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>graphModelKey</key>
+          <key>graphModel</key>
           <scope>GLOBAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
@@ -970,7 +970,7 @@
     <parameter name="graphModelKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>graphModelKey</key>
+          <key>graphModel</key>
           <scope>GLOBAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
@@ -1168,7 +1168,7 @@
     <parameter name="graphModelKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>graphModelKey</key>
+          <key>graphModel</key>
           <scope>GLOBAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
@@ -1234,6 +1234,38 @@
     <point>294.0,384.0</point>
     <branch>default</branch>
   </edge>
+  <sib>
+    <id>17f6b916-d4b5-4ac1-b540-9c3741b893ba</id>
+    <name>GraphSIB_6</name>
+    <label>Specialize GetTargetElement GetSourceElementMethods</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>1425.0,16.0</position>
+    <parameter name="graphModelKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>graphModelKey</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>exit</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>9fd83830-7ab7-495e-85a0-e542157f17b0</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Specialize GetTargetElement GetSourceElementMethods</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>1950453b-86df-4810-8d5a-2d53eac2abc0</source>
+    <target>17f6b916-d4b5-4ac1-b540-9c3741b893ba</target>
+    <point>1215.0,45.0</point>
+    <point>1604.0,24.0</point>
+    <branch>exit</branch>
+  </edge>
   <parameter>
     <name>graphModelKey</name>
     <field>graphModelKey</field>
@@ -1263,6 +1295,11 @@
     <name>graphModelKey</name>
     <field>graphModelKey</field>
     <sib>9506f334-2509-424e-91dd-6413489c8162</sib>
+  </parameter>
+  <parameter>
+    <name>graphModelKey</name>
+    <field>graphModelKey</field>
+    <sib>17f6b916-d4b5-4ac1-b540-9c3741b893ba</sib>
   </parameter>
   <values>
     <entry>
@@ -1330,11 +1367,6 @@
     <name>error</name>
     <branch>error</branch>
     <sib>2abff8b4-6d9b-434b-9358-6c0ce5d85bed</sib>
-  </branch>
-  <branch>
-    <name>exit</name>
-    <branch>exit</branch>
-    <sib>1950453b-86df-4810-8d5a-2d53eac2abc0</sib>
   </branch>
   <branch>
     <name>error</name>
@@ -1415,5 +1447,15 @@
     <name>error</name>
     <branch>error</branch>
     <sib>0e641d15-e03d-4be7-bc45-dc96d8d0e95a</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>17f6b916-d4b5-4ac1-b540-9c3741b893ba</sib>
+  </branch>
+  <branch>
+    <name>exit</name>
+    <branch>exit</branch>
+    <sib>17f6b916-d4b5-4ac1-b540-9c3741b893ba</sib>
   </branch>
 </model>
