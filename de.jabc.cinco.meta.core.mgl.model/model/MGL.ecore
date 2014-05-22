@@ -22,10 +22,8 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="fileExtension" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Edge" eSuperTypes="#//GraphicalModelElement">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="targetElements" lowerBound="1"
-        upperBound="-1" eType="#//GraphicalModelElement" eOpposite="#//GraphicalModelElement/incomingEdges"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="sourceElements" lowerBound="1"
-        upperBound="-1" eType="#//GraphicalModelElement" eOpposite="#//GraphicalModelElement/outgoingEdges"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="edgeElementConnections"
+        upperBound="-1" eType="#//EdgeElementConnection" eOpposite="#//EdgeElementConnection/connectingEdge"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="extends" eType="#//Edge"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="direction" lowerBound="1"
         eType="#//EdgeDirection" defaultValueLiteral="NODIRECTION"/>
@@ -113,20 +111,14 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="GraphicalModelElement" abstract="true"
       eSuperTypes="#//ModelElement">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="incomingEdges" upperBound="-1"
-        eType="#//Edge" eOpposite="#//Edge/targetElements"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="outgoingEdges" upperBound="-1"
-        eType="#//Edge" eOpposite="#//Edge/sourceElements"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="minIncoming" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
-        defaultValueLiteral="0"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="maxIncoming" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
-        defaultValueLiteral="-1"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="minOutgoing" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
-        defaultValueLiteral="0"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="maxOutgoing" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
-        defaultValueLiteral="-1"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="containment" upperBound="-1"
         eType="#//GraphicalElementContainment" eOpposite="#//GraphicalElementContainment/type"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="incomingEdgeConnections"
+        upperBound="-1" eType="#//IncomingEdgeElementConnection" containment="true"
+        eOpposite="#//IncomingEdgeElementConnection/connectedElement"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="outgoingEdgeConnections"
+        upperBound="-1" eType="#//OutgoingEdgeElementConnection" containment="true"
+        eOpposite="#//OutgoingEdgeElementConnection/connectedElement"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ReferencedAttribute">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
@@ -149,5 +141,23 @@
   <eClassifiers xsi:type="ecore:EClass" name="ContainingElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="containableElements" upperBound="-1"
         eType="#//GraphicalElementContainment" containment="true" eOpposite="#//GraphicalElementContainment/containingElement"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EdgeElementConnection" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="upperBound" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="lowerBound" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="0"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="connectingEdge" eType="#//Edge"
+        eOpposite="#//Edge/edgeElementConnections"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isOutgoing" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"
+        defaultValueLiteral="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IncomingEdgeElementConnection" eSuperTypes="#//EdgeElementConnection">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="connectedElement" eType="#//GraphicalModelElement"
+        eOpposite="#//GraphicalModelElement/incomingEdgeConnections"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OutgoingEdgeElementConnection" eSuperTypes="#//EdgeElementConnection">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="connectedElement" eType="#//GraphicalModelElement"
+        eOpposite="#//GraphicalModelElement/outgoingEdgeConnections"/>
   </eClassifiers>
 </ecore:EPackage>
