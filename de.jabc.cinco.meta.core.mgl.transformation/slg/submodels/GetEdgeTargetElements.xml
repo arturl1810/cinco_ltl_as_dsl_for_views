@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>f2a62b98-da75-4b1a-a2d5-4f6a6d4d5fa5</id>
   <name>GetEdgeTargetElements</name>
-  <changecounter>4</changecounter>
+  <changecounter>5</changecounter>
   <sib>
     <id>5ab81ef1-415b-4703-8c3d-c306386f95a6</id>
     <name>IterateEdgeEdgeElementConnections</name>
@@ -200,16 +200,6 @@
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
   </sib>
-  <cell>
-    <form>HTML</form>
-    <bounds>
-      <x>573.0</x>
-      <y>667.5</y>
-      <width>594.0</width>
-      <height>45.0</height>
-    </bounds>
-    <value>&lt;html&gt;&lt;font color=&quot;#FF0000&quot;&gt;&lt;b&gt;SIB GetEdgeElementConnectionConnectedElement (lost information):&lt;/b&gt;&lt;br&gt;edgeElementConnectionKey: edgeelementconnectionelementKey&lt;br&gt;edgeElementConnectionconnectedElementKey: edgeElementConnectionconnectedElementKey&lt;br&gt;&lt;/font&gt;&lt;/html&gt;</value>
-  </cell>
   <parameter>
     <name>collection</name>
     <field>variable</field>
