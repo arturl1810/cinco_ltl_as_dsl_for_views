@@ -48,6 +48,7 @@
     </genClasses>
     <genClasses ecoreClass="Style.ecore#//NodeStyle">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Style.ecore#//NodeStyle/mainShape"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Style.ecore#//NodeStyle/fixed"/>
     </genClasses>
     <genClasses ecoreClass="Style.ecore#//EdgeStyle">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Style.ecore#//EdgeStyle/decorator"/>
