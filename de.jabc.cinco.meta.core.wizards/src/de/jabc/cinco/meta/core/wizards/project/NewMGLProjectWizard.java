@@ -180,7 +180,7 @@ public class NewMGLProjectWizard extends Wizard implements IWorkbenchWizard{
 		sb.append("appearance green {\n\tbackground(0,255,0)\n}");
 		sb.append("\n\n");
 		
-		sb.append("nodeStyle NodeStyle appearanceProvider (\"de.test.project.appearance.provider.MyAppearanceProvider\") {\n\t"
+		sb.append("nodeStyle NodeStyle /*appearanceProvider (\"de.test.project.appearance.provider.MyAppearanceProvider\") */{\n\t"
 				+ "ellipse outer appearance green {\n\t"
 				+ "\tsize(50,50)\n"
 				+ "\t\tellipse inner appearance green {\n\t"

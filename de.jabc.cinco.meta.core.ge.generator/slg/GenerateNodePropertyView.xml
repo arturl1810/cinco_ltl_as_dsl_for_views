@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>696c3b21-1096-4b9a-86bd-7456a6b80d52</id>
   <name>GenerateModelElementPropertyView</name>
-  <changecounter>169</changecounter>
+  <changecounter>174</changecounter>
   <sib>
     <id>c215c747-bca3-4fbb-9807-9cd2ab3f1b32</id>
     <name>PutExpression</name>
@@ -653,6 +653,7 @@ import org.eclipse.swt.widgets.List;
 import org.eclipse.ui.views.properties.tabbed.*;
 
 import $context.importPath$.*;
+import $context.packageName$.graphiti.*;
 
 public class $context.modelElementName$_$context.attributeName$_Section extends GFPropertySection implements ITabbedPropertyConstants {
 

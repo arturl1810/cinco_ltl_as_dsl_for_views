@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>fc94b8b8-21f0-499c-a1bb-5968d40ae550</id>
   <name>GenerateSingleAttribute</name>
-  <changecounter>210</changecounter>
+  <changecounter>220</changecounter>
   <sib>
     <id>68ef8ffb-b956-40b6-a5af-a8ed91dce549</id>
     <name>GetAttributeType</name>
@@ -304,7 +304,7 @@
     <label>GenerateSingleEnumeration</label>
     <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
-    <position>881.0,406.0</position>
+    <position>746.0,406.0</position>
     <parameter name="enumKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -364,7 +364,7 @@
     <label>PrintConsoleMessage</label>
     <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
     <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
-    <position>1126.5,408.0</position>
+    <position>1276.5,408.0</position>
     <parameter name="error">
       <boolean>true</boolean>
     </parameter>
@@ -386,6 +386,39 @@
     <point>1214.0,313.0</point>
     <branch>UserDefinedType</branch>
   </edge>
+  <edge>
+    <source>07d299e1-6d10-4018-b9f9-6a8b7e82baa4</source>
+    <target>40542f71-2b22-491c-9f7b-da1933816b47</target>
+    <point>1065.0,309.0</point>
+    <point>1065.0,466.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>Node</branch>
+  </edge>
+  <sib>
+    <id>40542f71-2b22-491c-9f7b-da1933816b47</id>
+    <name>MacroSIB_5</name>
+    <label>GenerateSingleNodePropertyView</label>
+    <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
+    <position>1042.5,421.0</position>
+    <parameter name="nodeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>type</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>fcd44878-83e6-41e6-95f6-9299e05bb180</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>GenerateSingleNodePropertyView</string>
+    </userobject>
+  </sib>
   <parameter>
     <name>attributeKey</name>
     <field>attributeKey</field>
@@ -492,5 +525,15 @@
     <name>default</name>
     <branch>default</branch>
     <sib>9a635df4-e86d-43d2-b44a-f1cce560ebb0</sib>
+  </branch>
+  <branch>
+    <name>default</name>
+    <branch>default</branch>
+    <sib>40542f71-2b22-491c-9f7b-da1933816b47</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>40542f71-2b22-491c-9f7b-da1933816b47</sib>
   </branch>
 </model>
