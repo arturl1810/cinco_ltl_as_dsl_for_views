@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>5f357517-18d4-4780-adc3-30879fedbfb1</id>
   <name>GenerateFeatureProvider</name>
-  <changecounter>547</changecounter>
+  <changecounter>557</changecounter>
   <sib>
     <id>23fb1326-f00d-4e42-845a-cdf6492fc417</id>
     <name>PutExpression</name>
@@ -386,6 +386,7 @@ import org.eclipse.graphiti.ui.features.DefaultFeatureProvider;
 import org.eclipse.graphiti.mm.pictograms.*;
 
 import $context.importPath$.*;
+import $context.localPkgName$.features.*;
 import $context.localPkgName$.features.add.*;
 import $context.localPkgName$.features.create.*;
 import $context.localPkgName$.features.update.*;
@@ -489,6 +490,16 @@ public class $context.graphModelName$FeatureProvider extends DefaultFeatureProvi
 		if (bo instanceof $context.graphModelName$)
 			return new Resize$context.graphModelName$Feature(this);
 		return super.getResizeShapeFeature(context);
+	}
+
+	@Override
+	public ICopyFeature getCopyFeature(ICopyContext context) {
+		return new $context.graphModelName$CopyFeature(this);
+	}
+	
+	@Override
+	public IPasteFeature getPasteFeature(IPasteContext context) {
+		return new $context.graphModelName$PasteFeature(this);
 	}
 }</string>
     </parameter>

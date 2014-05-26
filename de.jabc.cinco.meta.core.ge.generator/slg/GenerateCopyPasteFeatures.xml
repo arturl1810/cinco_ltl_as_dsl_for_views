@@ -1,0 +1,470 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<model version="2.1">
+  <id>67a73b2a-3824-4776-9686-ae1a8aed5282</id>
+  <name>GenerateCopyPasteFeatures</name>
+  <changecounter>48</changecounter>
+  <sib>
+    <id>59a427e8-25c5-482c-a32b-a0aa278eb41b</id>
+    <name>PutExpression</name>
+    <label>LocalPkgName</label>
+    <sib-uid>basic-sibs/PutExpression</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
+    <position>39.5,48.0</position>
+    <parameter name="resolve">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="value">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>${packageName}.graphiti.features</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>localPkgName</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$START">
+      <boolean>true</boolean>
+    </userobject>
+  </sib>
+  <sib>
+    <id>5fb9d5ed-29f7-49c6-885e-d21af9361340</id>
+    <name>PutExpression_1</name>
+    <label>ClassName</label>
+    <sib-uid>basic-sibs/PutExpression</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
+    <position>50.5,168.0</position>
+    <parameter name="resolve">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="value">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>${graphModelName}CopyFeature</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>className</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>59a427e8-25c5-482c-a32b-a0aa278eb41b</source>
+    <target>5fb9d5ed-29f7-49c6-885e-d21af9361340</target>
+    <point>90.0,75.0</point>
+    <point>84.0,209.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>e1354f1f-6e52-44d9-8ccd-716d6ee62744</id>
+    <name>RunStringTemplate</name>
+    <label>CopyFeature</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>45.0,288.0</position>
+    <parameter name="append">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>copyFeatureContent</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>package $context.localPkgName$;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import graphmodel.*;
+
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.graphiti.features.IFeatureProvider;
+import org.eclipse.graphiti.features.context.ICopyContext;
+import org.eclipse.graphiti.mm.pictograms.PictogramElement;
+import org.eclipse.graphiti.ui.features.AbstractCopyFeature;
+
+public class $context.graphModelName$CopyFeature extends AbstractCopyFeature {
+
+	public $context.graphModelName$CopyFeature(IFeatureProvider fp) {
+		super(fp);
+	}
+
+	@Override
+	public void copy(ICopyContext context) {
+		PictogramElement[] pes = context.getPictogramElements();
+		List&lt;Object&gt; bos = new ArrayList&lt;&gt;();
+		for (PictogramElement pe : pes) {
+			Object bo = getBusinessObjectForPictogramElement(pe);
+			if (bo instanceof Node){
+				EObject copy = EcoreUtil.copy((Node) bo);
+				bos.add(copy);
+			}
+		}
+		putToClipboard(bos.toArray(new Object[bos.size()]));
+	}
+
+	@Override
+	public boolean canCopy(ICopyContext context) {
+		PictogramElement[] pes = context.getPictogramElements();
+		if (pes == null || pes.length == 0)
+			return false;
+		return true;
+		
+	}
+
+}
+</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>5fb9d5ed-29f7-49c6-885e-d21af9361340</source>
+    <target>e1354f1f-6e52-44d9-8ccd-716d6ee62744</target>
+    <point>90.0,195.0</point>
+    <point>85.0,300.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>8aa0a1dd-fd90-4abc-a2e9-ff882536ad38</id>
+    <name>RunStringTemplate_1</name>
+    <label>PasteFeature</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>43.0,648.0</position>
+    <parameter name="append">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>pasteFeatureContent</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>package $context.localPkgName$;
+
+import graphmodel.Container;
+import graphmodel.ModelElement;
+
+import org.eclipse.graphiti.features.IAddFeature;
+import org.eclipse.graphiti.features.IFeatureProvider;
+import org.eclipse.graphiti.features.context.IPasteContext;
+import org.eclipse.graphiti.features.context.impl.AddContext;
+import org.eclipse.graphiti.mm.pictograms.ContainerShape;
+import org.eclipse.graphiti.mm.pictograms.Diagram;
+import org.eclipse.graphiti.mm.pictograms.PictogramElement;
+import org.eclipse.graphiti.ui.features.AbstractPasteFeature;
+
+import $context.importPath$.*;
+
+public class $context.graphModelName$PasteFeature extends AbstractPasteFeature {
+
+	public $context.graphModelName$PasteFeature(IFeatureProvider fp) {
+		super(fp);
+		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	public void paste(IPasteContext context) {
+		ContainerShape target = (ContainerShape) context.getPictogramElements()[0];
+		$context.graphModelName$ tmp = ($context.graphModelName$)getBusinessObjectForPictogramElement(target);
+		Object[] bos = getFromClipboard();
+		for (Object bo : bos) {
+			tmp.getModelElements().add((ModelElement) bo);
+			AddContext ac = new AddContext();
+			ac.setNewObject(bo);
+			ac.setTargetContainer(target);
+			ac.setLocation(context.getX(), context.getY());
+			IAddFeature af = getFeatureProvider().getAddFeature(ac);
+			if (af != null &amp;&amp; af.canAdd(ac))
+				af.add(ac);
+		}
+	}
+
+	@Override
+	public boolean canPaste(IPasteContext context) {
+		PictogramElement[] pes = context.getPictogramElements();
+		if (pes == null || pes.length == 0) 
+			return false;
+		Object bo = getBusinessObjectForPictogramElement(pes[0]);
+		if (!(bo instanceof $context.graphModelName$) &amp;&amp; !(bo instanceof Container))
+			return false;
+		
+		Object[] bos = getFromClipboard();
+		if (bos == null || bos.length == 0)
+			return false;
+		for (Object o : bos) {
+			AddContext ac = new AddContext();
+			ac.setNewObject(o);
+			ac.setTargetContainer((ContainerShape) pes[0]);
+			ac.setLocation(context.getX(), context.getY());
+			IAddFeature af = getFeatureProvider().getAddFeature(ac);
+			if (af == null || !af.canAdd(ac))
+				return false;
+		}
+		return true;
+	}
+
+}
+</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>5309ab68-80ac-4a7c-9ec0-be9b0ae6d65e</id>
+    <name>WriteJavaFile</name>
+    <label>WriteCopyFeature</label>
+    <sib-uid>genesys-sibs/WriteJavaFile</sib-uid>
+    <taxonomy>de.jabc.sib.genesys.WriteJavaFile</taxonomy>
+    <position>27.5,408.0</position>
+    <parameter name="baseDirectory">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>outletPath</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="beautify">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="beautifyMethod">
+      <de.metaframe.common.sib.parameter.ListBox>
+        <ListBoxFoundation>
+          <list>
+            <string>Eclipse</string>
+            <string>Jalopy</string>
+          </list>
+          <selected>0</selected>
+        </ListBoxFoundation>
+      </de.metaframe.common.sib.parameter.ListBox>
+    </parameter>
+    <parameter name="className">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>className</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="fileContent">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>copyFeatureContent</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="packageName">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>localPkgName</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>e1354f1f-6e52-44d9-8ccd-716d6ee62744</source>
+    <target>5309ab68-80ac-4a7c-9ec0-be9b0ae6d65e</target>
+    <point>90.0,315.0</point>
+    <point>91.0,433.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>9b993eaa-4198-4e0c-935b-27f234bb5373</id>
+    <name>PutExpression_2</name>
+    <label>ClassName</label>
+    <sib-uid>basic-sibs/PutExpression</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
+    <position>50.5,528.0</position>
+    <parameter name="resolve">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="value">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>${graphModelName}PasteFeature</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>className</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>af959c41-0db9-47da-820e-4cb97cab5b39</id>
+    <name>WriteJavaFile_1</name>
+    <label>WriteJavaFile</label>
+    <sib-uid>genesys-sibs/WriteJavaFile</sib-uid>
+    <taxonomy>de.jabc.sib.genesys.WriteJavaFile</taxonomy>
+    <position>43.0,783.0</position>
+    <parameter name="baseDirectory">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>outletPath</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="beautify">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="beautifyMethod">
+      <de.metaframe.common.sib.parameter.ListBox>
+        <ListBoxFoundation>
+          <list>
+            <string>Eclipse</string>
+            <string>Jalopy</string>
+          </list>
+          <selected>0</selected>
+        </ListBoxFoundation>
+      </de.metaframe.common.sib.parameter.ListBox>
+    </parameter>
+    <parameter name="className">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>className</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="fileContent">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>pasteFeatureContent</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="packageName">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>localPkgName</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>5309ab68-80ac-4a7c-9ec0-be9b0ae6d65e</source>
+    <target>9b993eaa-4198-4e0c-935b-27f234bb5373</target>
+    <point>90.0,435.0</point>
+    <point>100.0,531.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>9b993eaa-4198-4e0c-935b-27f234bb5373</source>
+    <target>8aa0a1dd-fd90-4abc-a2e9-ff882536ad38</target>
+    <point>90.0,555.0</point>
+    <point>80.0,643.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>8aa0a1dd-fd90-4abc-a2e9-ff882536ad38</source>
+    <target>af959c41-0db9-47da-820e-4cb97cab5b39</target>
+    <point>90.0,660.0</point>
+    <point>83.0,764.0</point>
+    <branch>default</branch>
+  </edge>
+  <values/>
+  <branch>
+    <name>default</name>
+    <branch>default</branch>
+    <sib>af959c41-0db9-47da-820e-4cb97cab5b39</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>af959c41-0db9-47da-820e-4cb97cab5b39</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>8aa0a1dd-fd90-4abc-a2e9-ff882536ad38</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>9b993eaa-4198-4e0c-935b-27f234bb5373</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>5309ab68-80ac-4a7c-9ec0-be9b0ae6d65e</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>e1354f1f-6e52-44d9-8ccd-716d6ee62744</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>5fb9d5ed-29f7-49c6-885e-d21af9361340</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>59a427e8-25c5-482c-a32b-a0aa278eb41b</sib>
+  </branch>
+</model>
