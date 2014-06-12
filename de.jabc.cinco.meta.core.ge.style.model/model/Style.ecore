@@ -170,11 +170,13 @@
         defaultValueLiteral="ARROW"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="filled" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject"
         defaultValueLiteral="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="appearance" eType="#//Appearance"
+        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="DecoratorShapes">
     <eLiterals name="ARROW" literal="ARROW"/>
     <eLiterals name="DIAMOND" value="1" literal="DIAMOND"/>
     <eLiterals name="CIRCLE" value="2" literal="CIRCLE"/>
-    <eLiterals name="RECTANGLE" value="3" literal="RECTANGLE"/>
+    <eLiterals name="SQUARE" value="3" literal="SQUARE"/>
   </eClassifiers>
 </ecore:EPackage>

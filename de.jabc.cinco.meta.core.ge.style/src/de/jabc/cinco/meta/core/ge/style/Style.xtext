@@ -262,12 +262,12 @@ ConnectionDecorator returns ConnectionDecorator:
 ;
 
 PredefinedDecorator returns PredefinedDecorator:
-	shape=DecoratorShape
+	shape=DecoratorShape ('appearance' appearance=Appearance)?
 	(filled?='filled')?
 ;
 
 enum DecoratorShape returns DecoratorShapes:
-	ARROW | DIAMOND | RECTANGLE | CIRCLE
+	ARROW | DIAMOND | CIRCLE | SQUARE
 ;
 
 enum ContainerAlignment returns Alingnment:

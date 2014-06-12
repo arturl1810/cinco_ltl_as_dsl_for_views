@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>e96e3211-9e15-4d4a-94a9-7b4b8375d7a3</id>
   <name>GenerateLayoutFeatures</name>
-  <changecounter>486</changecounter>
+  <changecounter>497</changecounter>
   <sib>
     <id>ff7817b7-c328-4684-827e-afc4ea81c9f3</id>
     <name>PutExpression</name>
@@ -79,10 +79,10 @@
   <sib>
     <id>5b768f52-3d9c-409f-8901-5c3c2a674ea6</id>
     <name>RunStringTemplate</name>
-    <label>RunStringTemplate</label>
+    <label>LayoutUtils</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>40.0,273.0</position>
+    <position>65.0,273.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -108,9 +108,18 @@ import $context.packageName$.graphiti.*;
 
 $context.appearanceContentImports$
 import org.eclipse.graphiti.datatypes.IDimension;
-import org.eclipse.graphiti.mm.algorithms.styles.Font;
+import org.eclipse.graphiti.mm.GraphicsAlgorithmContainer;
+import org.eclipse.graphiti.mm.algorithms.AbstractText;
+import org.eclipse.graphiti.mm.algorithms.Ellipse;
+import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
 import org.eclipse.graphiti.mm.algorithms.Image;
+import org.eclipse.graphiti.mm.algorithms.Polygon;
+import org.eclipse.graphiti.mm.algorithms.Polyline;
+import org.eclipse.graphiti.mm.algorithms.Rectangle;
 import org.eclipse.graphiti.mm.algorithms.Text;
+import org.eclipse.graphiti.mm.algorithms.styles.Font;
+import org.eclipse.graphiti.mm.algorithms.styles.LineStyle;
+import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.services.IGaService;
 import org.eclipse.graphiti.services.IPeService;
@@ -244,7 +253,50 @@ public class $context.graphModelName$LayoutUtils {
 			
 		}
 	}
+
+	public static void createCIRCLE(GraphicsAlgorithmContainer gaContainer, Succ succ, boolean filled) {
+			IGaService gaService = Graphiti.getGaService();
+			IPeService peService = Graphiti.getPeService();
+			Ellipse tmp = gaService.createEllipse(gaContainer);
+			gaService.setSize(tmp, 30, 30);
+			tmp.setFilled(filled);
+
+			//SomeGraphLayoutUtils.set_SomeGraphDefaultAppearanceStyle(tmp, getDiagram());
+	}
+
+	public static  void createARROW(GraphicsAlgorithmContainer gaContainer, Succ succ, boolean filled) {
+			IGaService gaService = Graphiti.getGaService();
+			IPeService peService = Graphiti.getPeService();
+			if (filled) {
+				Polygon tmp = gaService.createPolygon(gaContainer, new int[] {-20,15,0,0,-20,-15,-20,15});
+				tmp.setFilled(true);
+			} else {
+				Polyline tmp = gaService.createPolyline(gaContainer, new int[] {-20,15,0,0,-20,-15});
+			}
+			
+
+	}
+
+	public static  void createDIAMOND(GraphicsAlgorithmContainer gaContainer, Succ succ, boolean filled) {
+			IGaService gaService = Graphiti.getGaService();
+			IPeService peService = Graphiti.getPeService();
+			Polygon tmp = gaService.createPolygon(gaContainer, new int[] {-20,15,0,0,-20,-15,-40,0,-20,15});
+			tmp.setFilled(filled);
+
+			//SomeGraphLayoutUtils.set_SomeGraphDefaultAppearanceStyle(tmp, getDiagram());
+	}
 	
+	public static void createSQUARE(GraphicsAlgorithmContainer gaContainer, Succ succ, boolean filled) {
+			IGaService gaService = Graphiti.getGaService();
+			IPeService peService = Graphiti.getPeService();
+			Rectangle tmp = gaService.createRectangle(gaContainer);
+			gaService.setSize(tmp, 30, 30);
+			tmp.setFilled(filled);
+			
+			//SomeGraphLayoutUtils.set_SomeGraphDefaultAppearanceStyle(tmp, getDiagram());
+	}
+
+
 }
 </string>
     </parameter>
