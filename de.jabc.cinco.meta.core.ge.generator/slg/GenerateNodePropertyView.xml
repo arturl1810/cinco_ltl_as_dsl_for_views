@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>696c3b21-1096-4b9a-86bd-7456a6b80d52</id>
   <name>GenerateModelElementPropertyView</name>
-  <changecounter>174</changecounter>
+  <changecounter>177</changecounter>
   <sib>
     <id>c215c747-bca3-4fbb-9807-9cd2ab3f1b32</id>
     <name>PutExpression</name>
@@ -227,6 +227,19 @@ public class $context.modelElementName$Filter extends AbstractPropertySectionFil
 						new PictogramElement[] {pe, ((ConnectionDecorator) pe).getConnection()});
 				db.selectBufferedPictogramElements();
 			}
+			if (db.getSelectedPictogramElements().length == 2) {
+				boolean isEdge = false;
+				boolean isText = false;
+				for (PictogramElement p : db.getSelectedPictogramElements()) {
+					if (p instanceof Connection)
+						isEdge = true;
+					if (p instanceof ConnectionDecorator)
+						isText = true;
+				}
+				if (!(isEdge &amp;&amp; isText))
+					return false;
+			} else if (db.getSelectedPictogramElements().length &gt; 2)
+				return false;
 		}
 		if (eObject instanceof $context.modelElementName$) {
 			$context.modelElementName$ tmp = ($context.modelElementName$) eObject;
