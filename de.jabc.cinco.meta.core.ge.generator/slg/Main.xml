@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>a47695bb-67af-49cf-ac6d-52fff46a2ab6</id>
   <name>Main</name>
-  <changecounter>1849</changecounter>
+  <changecounter>1851</changecounter>
   <sib>
     <id>b1c14399-f7be-4bc0-8225-1aa6db2d05aa</id>
     <name>MacroSIB</name>
@@ -466,7 +466,7 @@
     <label>PrintConsoleMessage</label>
     <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
     <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
-    <position>504.5,858.0</position>
+    <position>189.5,858.0</position>
     <parameter name="error">
       <boolean>false</boolean>
     </parameter>
@@ -780,9 +780,10 @@
   </sib>
   <edge>
     <source>9cfbfe43-49da-43bc-ab84-a2d94d5253bc</source>
-    <target>42081068-da16-47b9-a333-a51171461174</target>
-    <point>795.0,885.0</point>
-    <point>495.0,882.0</point>
+    <target>2e6df89a-b7a8-45d7-8787-352155e77579</target>
+    <point>775.0,874.6</point>
+    <point>515.0,848.6</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
@@ -790,6 +791,36 @@
     <target>a8d9f0da-3d4f-4800-a816-63d8705e91d5</target>
     <point>795.0,885.0</point>
     <point>616.0,797.0</point>
+    <branch>error</branch>
+  </edge>
+  <sib>
+    <id>2e6df89a-b7a8-45d7-8787-352155e77579</id>
+    <name>GraphSIB_21</name>
+    <label>GenerateCustomFeatures</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>447.5,856.0</position>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>ecf26393-b09c-4254-a8ea-2424f6c85723</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>GenerateCustomFeatures</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>2e6df89a-b7a8-45d7-8787-352155e77579</source>
+    <target>42081068-da16-47b9-a333-a51171461174</target>
+    <point>525.0,885.0</point>
+    <point>282.0,876.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>2e6df89a-b7a8-45d7-8787-352155e77579</source>
+    <target>a8d9f0da-3d4f-4800-a816-63d8705e91d5</target>
+    <point>525.0,885.0</point>
+    <point>591.0,804.0</point>
     <branch>error</branch>
   </edge>
   <values/>

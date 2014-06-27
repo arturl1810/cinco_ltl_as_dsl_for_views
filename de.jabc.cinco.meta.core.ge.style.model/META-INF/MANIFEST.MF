@@ -8,9 +8,11 @@ Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Export-Package: de.jabc.cinco.meta.core.ge.style.model.appearance,
+ de.jabc.cinco.meta.core.ge.style.model.customfeature,
  style,
  style.impl,
  style.util
 Require-Bundle: org.eclipse.core.runtime,
- org.eclipse.emf.ecore;visibility:=reexport
+ org.eclipse.emf.ecore;visibility:=reexport,
+ org.eclipse.graphiti;bundle-version="0.10.1"
 Bundle-ActivationPolicy: lazy

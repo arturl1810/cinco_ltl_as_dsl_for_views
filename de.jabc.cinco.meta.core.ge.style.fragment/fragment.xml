@@ -23,6 +23,9 @@
       <proposalprovider
             MetaPluginAcceptor="de.jabc.cinco.meta.core.ge.style.fragment.StyleValueProposalProvider">
       </proposalprovider>
+      <node-annotation
+            recognized-annotation="customFeature">
+      </node-annotation>
    </extension>
 
 </fragment>
