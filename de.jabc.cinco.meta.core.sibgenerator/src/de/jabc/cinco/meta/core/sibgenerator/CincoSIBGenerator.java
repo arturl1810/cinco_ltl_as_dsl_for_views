@@ -42,15 +42,27 @@ public class CincoSIBGenerator implements IRunnableWithProgress{
 		this.packageName = packageName;
 		this.project = project;
 		try {
-			URL fileURL= Platform.getBundle("de.jabc.cinco.meta.core.mgl.model").getEntry("/model/GraphModel.ecore");
-			graphModelFile = new File(FileLocator.resolve(fileURL).toURI());
-			Bundle bundle = Platform.getBundle("org.eclipse.graphiti.mm");
 			String tmpDir = System.getProperty("java.io.tmpdir");
+			Bundle mglModelBundle = Platform.getBundle("de.jabc.cinco.meta.core.mgl.model");
+			URL fileURL= mglModelBundle.getEntry("/model/GraphModel.ecore");
+			System.out.println("***** RESOLVING ***** ");
+			graphModelFile = new File(tmpDir+"/GraphModel.ecore");
+			System.out.println(fileURL);
+			InputStream in = FileLocator.openStream(mglModelBundle, new Path(fileURL.getPath()), true);
+			OutputStream out = new FileOutputStream(graphModelFile);
+			int b =0;
+			while((b=in.read())!=-1){
+				out.write(b);
+			}
+			out.flush();
+			out.close();
+			System.out.println("***** RESOLVING ***** ");
+			Bundle bundle = Platform.getBundle("org.eclipse.graphiti.mm");
 			graphitiFile = new File(tmpDir+"/graphiti.ecore");
 			fileURL = bundle.getEntry("/model/graphiti.ecore");
-			InputStream in = FileLocator.openStream(bundle, new Path(fileURL.getPath()), true);
-			OutputStream out = new FileOutputStream(graphitiFile);
-			int b =0;
+			in = FileLocator.openStream(bundle, new Path(fileURL.getPath()), true);
+			out = new FileOutputStream(graphitiFile);
+			b =0;
 			while((b=in.read())!=-1){
 				out.write(b);
 			}
@@ -59,7 +71,7 @@ public class CincoSIBGenerator implements IRunnableWithProgress{
 			
 			
 			
-		} catch (URISyntaxException | IOException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
