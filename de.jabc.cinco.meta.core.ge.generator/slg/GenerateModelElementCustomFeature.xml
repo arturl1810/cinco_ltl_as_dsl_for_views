@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>20ee1083-42c9-4128-8db1-42f1826d8d49</id>
   <name>GenerateModelElementCustomFeature</name>
-  <changecounter>78</changecounter>
+  <changecounter>100</changecounter>
   <sib>
     <id>c89925ae-3820-4a21-8425-767fe1505ce3</id>
     <name>CopyEObject</name>
@@ -94,7 +94,7 @@ import org.eclipse.graphiti.features.IFeatureProvider;
 
 public class $context.annotationValue$ extends CincoCustomFeature&lt;$context.modelElementName$&gt; {
 	
-	public FeatureOne(IFeatureProvider fp) {
+	public $context.annotationValue$(IFeatureProvider fp) {
 		super(fp);
 	}
 	
@@ -125,7 +125,7 @@ public class $context.annotationValue$ extends CincoCustomFeature&lt;$context.mo
     <label>WriteJavaFile</label>
     <sib-uid>genesys-sibs/WriteJavaFile</sib-uid>
     <taxonomy>de.jabc.sib.genesys.WriteJavaFile</taxonomy>
-    <position>373.0,513.0</position>
+    <position>358.0,513.0</position>
     <parameter name="baseDirectory">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -462,9 +462,9 @@ public class $context.annotationValue$ extends CincoCustomFeature&lt;$context.mo
   </sib>
   <edge>
     <source>6816155e-11da-4597-baf9-26e9e1deebc8</source>
-    <target>8ea03ec6-6e43-4dc2-bae7-9a61d98682e3</target>
-    <point>672.0,657.6</point>
-    <point>438.0,540.6</point>
+    <target>82c28ee7-d08e-4684-b630-6b7e967e84cc</target>
+    <point>708.0,666.72</point>
+    <point>897.0,666.72</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -503,6 +503,134 @@ public class $context.annotationValue$ extends CincoCustomFeature&lt;$context.mo
     <point>358.6363636363636,429.0</point>
     <point>152.5609756097561,648.0</point>
     <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>9bf1af43-42c8-4fb8-93d1-200245f5c1a0</id>
+    <name>FileExists</name>
+    <label>FileExists</label>
+    <sib-uid>ge-util-sibs/FileExists</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.FileExists</taxonomy>
+    <position>535.0,513.0</position>
+    <parameter name="path">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>absolutePath</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>false</finalbranches>
+    <finalbranches>true</finalbranches>
+  </sib>
+  <edge>
+    <source>9bf1af43-42c8-4fb8-93d1-200245f5c1a0</source>
+    <target>8ea03ec6-6e43-4dc2-bae7-9a61d98682e3</target>
+    <point>690.0,555.0</point>
+    <point>426.0,554.0</point>
+    <branch>false</branch>
+  </edge>
+  <edge>
+    <source>9bf1af43-42c8-4fb8-93d1-200245f5c1a0</source>
+    <target>141d3c98-b6fe-4d51-a831-522f236a4302</target>
+    <point>690.0,555.0</point>
+    <point>127.0,666.0</point>
+    <branch>true</branch>
+  </edge>
+  <sib>
+    <id>26fb023d-3783-4812-b97f-a039287b6b27</id>
+    <name>PutExpression_2</name>
+    <label>SetAbsoluteFilePath</label>
+    <sib-uid>basic-sibs/PutExpression</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
+    <position>621.0,333.0</position>
+    <parameter name="resolve">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="value">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>${customFeatureOutletPath}/${path}/${annotationValue}.java</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>absolutePath</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>26fb023d-3783-4812-b97f-a039287b6b27</source>
+    <target>9bf1af43-42c8-4fb8-93d1-200245f5c1a0</target>
+    <point>705.0,540.0</point>
+    <point>592.0,534.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>82c28ee7-d08e-4684-b630-6b7e967e84cc</id>
+    <name>ReplaceString</name>
+    <label>ReplaceString</label>
+    <sib-uid>basic-sibs/ReplaceString</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.ReplaceString</taxonomy>
+    <position>647.0,498.0</position>
+    <parameter name="find">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>.</expression>
+          <clazz>java.lang.String</clazz>
+          <classMutable>false</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="regularExpression">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="replacement">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>/</expression>
+          <clazz>java.lang.String</clazz>
+          <classMutable>false</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>path</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="string">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>${localPkgName}</expression>
+          <clazz>java.lang.String</clazz>
+          <classMutable>false</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>82c28ee7-d08e-4684-b630-6b7e967e84cc</source>
+    <target>26fb023d-3783-4812-b97f-a039287b6b27</target>
+    <point>915.0,675.0</point>
+    <point>718.0,542.0</point>
     <branch>default</branch>
   </edge>
   <parameter>
@@ -581,5 +709,15 @@ public class $context.annotationValue$ extends CincoCustomFeature&lt;$context.mo
     <name>error</name>
     <branch>error</branch>
     <sib>8dc4b037-1ff7-4083-8c74-efec270fdacf</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>9bf1af43-42c8-4fb8-93d1-200245f5c1a0</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>26fb023d-3783-4812-b97f-a039287b6b27</sib>
   </branch>
 </model>
