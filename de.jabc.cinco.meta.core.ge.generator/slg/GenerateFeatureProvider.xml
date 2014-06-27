@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>5f357517-18d4-4780-adc3-30879fedbfb1</id>
   <name>GenerateFeatureProvider</name>
-  <changecounter>557</changecounter>
+  <changecounter>571</changecounter>
   <sib>
     <id>23fb1326-f00d-4e42-845a-cdf6492fc417</id>
     <name>PutExpression</name>
@@ -351,10 +351,10 @@
   <sib>
     <id>d75f0cd8-d473-45e8-8406-8f79337b5958</id>
     <name>RunStringTemplate_4</name>
-    <label>RunStringTemplate</label>
+    <label>GenerateFeatureProvider</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>1600.0,138.0</position>
+    <position>1595.0,138.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -382,10 +382,13 @@ import org.eclipse.emf.ecore.*;
 import org.eclipse.graphiti.dt.IDiagramTypeProvider;
 import org.eclipse.graphiti.features.*;
 import org.eclipse.graphiti.features.context.*;
+import org.eclipse.graphiti.features.custom.ICustomFeature;
 import org.eclipse.graphiti.ui.features.DefaultFeatureProvider;
 import org.eclipse.graphiti.mm.pictograms.*;
 
+$context.featureProviderCustomFeatureImports$
 import $context.importPath$.*;
+import $context.packageName$.graphiti.customfeatures.*;
 import $context.localPkgName$.features.*;
 import $context.localPkgName$.features.add.*;
 import $context.localPkgName$.features.create.*;
@@ -500,6 +503,11 @@ public class $context.graphModelName$FeatureProvider extends DefaultFeatureProvi
 	@Override
 	public IPasteFeature getPasteFeature(IPasteContext context) {
 		return new $context.graphModelName$PasteFeature(this);
+	}
+
+	@Override
+	public ICustomFeature[] getCustomFeatures(ICustomContext context) {
+		return new ICustomFeature[] {$context.featureProviderCustomFeatureContent$};
 	}
 }</string>
     </parameter>
@@ -697,7 +705,7 @@ public class $context.graphModelName$FeatureProvider extends DefaultFeatureProvi
     <label>GetNodePrimeReference</label>
     <sib-uid>mgl/mgl/GetNodePrimeReference</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.sib.mgl.GetNodePrimeReference</taxonomy>
-    <position>428.0,618.0</position>
+    <position>428.0,723.0</position>
     <parameter name="nodeKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -932,7 +940,7 @@ public class $context.graphModelName$FeatureProvider extends DefaultFeatureProvi
     <label>PrintConsoleMessage</label>
     <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
     <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
-    <position>444.5,723.0</position>
+    <position>444.5,843.0</position>
     <parameter name="error">
       <boolean>false</boolean>
     </parameter>

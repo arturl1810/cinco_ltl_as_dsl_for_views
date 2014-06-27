@@ -158,7 +158,7 @@ Text returns Text:
 	(name=ID)?
 	('appearance' appearance=[Appearance])?	'{'
 		('position' position = AbstractPosition)?
-		('value' value=STRING)?
+		'value' value=STRING?
 		('color' color = Color)?
 	'}'
 ;
@@ -168,7 +168,7 @@ SText returns Text:
 	'text'
 	(name=ID)?
 	('appearance' appearance=[Appearance])?	'{'
-		('value' value=STRING)?
+		'value' value=STRING?
 		('color' color = Color)?
 	'}'
 ;
@@ -178,7 +178,7 @@ MultiText returns MultiText:
 	(name=ID)?
 	('appearance' appearance=[Appearance])?	'{'
 		'position' position = AbstractPosition
-		('text' value = STRING)?
+		'value' value = STRING
 		('color' color = Color)?
 	'}'
 ;
@@ -188,7 +188,7 @@ SMultiText returns MultiText:
 	(name=ID)?
 	('appearance' appearance=[Appearance])?	'{'
 		'size' size = Size
-		('text' value = STRING)?
+		'value' value = STRING?
 		('color' color = Color)?
 	'}'
 ;

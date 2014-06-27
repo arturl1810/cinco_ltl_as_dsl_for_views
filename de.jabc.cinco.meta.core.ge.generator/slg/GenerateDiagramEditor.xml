@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>6f7f5be4-ea16-48c7-88f4-256ad7b313df</id>
   <name>GenerateDiagramEditor</name>
-  <changecounter>55</changecounter>
+  <changecounter>58</changecounter>
   <sib>
     <id>e97de522-155e-4799-8276-7e12d0fd9715</id>
     <name>RunStringTemplate</name>
@@ -52,7 +52,7 @@ public class $context.graphModelName$DiagramEditor extends DiagramEditor {
 			public void controlResized(ControlEvent e) {
 				if (getDiagramTypeProvider() instanceof $context.graphModelName$DiagramTypeProvider) {
 					$context.graphModelName$DiagramTypeProvider dtp = ($context.graphModelName$DiagramTypeProvider) getDiagramTypeProvider();
-					for (Shape child : dtp.getDiagram().getChildren()) {
+					/*for (Shape child : dtp.getDiagram().getChildren()) {
 						final ResizeShapeContext context = createContext(child);
 						final IResizeShapeFeature rsf = dtp.getFeatureProvider().getResizeShapeFeature(context);
 						if (rsf.canResizeShape(context)) {
@@ -66,7 +66,7 @@ public class $context.graphModelName$DiagramEditor extends DiagramEditor {
 							});
 							
 						}
-					}
+					}*/
 				}
 			}
 			

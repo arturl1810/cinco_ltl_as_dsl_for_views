@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.nio.file.FileSystem;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,6 +28,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.URI;
@@ -624,5 +626,22 @@ public class ServiceAdapter {
 			} else return findMGLFile((IContainer) res);
 		}
 		return null;
+	}
+
+	public static String fileExists(LightweightExecutionEnvironment env,
+			ContextKeyFoundation path) {
+
+		LightweightExecutionContext context = env.getLocalContext();
+		
+		try {
+			String p = (String) context.get(path);
+			File file = new File(p);
+			if (file.exists())
+				return Branches.TRUE;
+			else return Branches.FALSE;
+		} catch (Exception e) {
+			context.put("exception", e);
+			return Branches.ERROR;
+		}
 	}
 }

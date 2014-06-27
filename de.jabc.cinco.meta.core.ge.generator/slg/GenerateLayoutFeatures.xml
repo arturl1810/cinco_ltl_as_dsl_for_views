@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>e96e3211-9e15-4d4a-94a9-7b4b8375d7a3</id>
   <name>GenerateLayoutFeatures</name>
-  <changecounter>497</changecounter>
+  <changecounter>501</changecounter>
   <sib>
     <id>ff7817b7-c328-4684-827e-afc4ea81c9f3</id>
     <name>PutExpression</name>
@@ -107,12 +107,18 @@ import $context.importPath$.*;
 import $context.packageName$.graphiti.*;
 
 $context.appearanceContentImports$
+import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
+import org.eclipse.graphiti.mm.algorithms.AbstractText;
+import org.eclipse.graphiti.mm.algorithms.styles.LineStyle;
+import org.eclipse.graphiti.mm.algorithms.styles.Style;
+import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.datatypes.IDimension;
 import org.eclipse.graphiti.mm.GraphicsAlgorithmContainer;
 import org.eclipse.graphiti.mm.algorithms.AbstractText;
 import org.eclipse.graphiti.mm.algorithms.Ellipse;
 import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
 import org.eclipse.graphiti.mm.algorithms.Image;
+import org.eclipse.graphiti.mm.algorithms.MultiText;
 import org.eclipse.graphiti.mm.algorithms.Polygon;
 import org.eclipse.graphiti.mm.algorithms.Polyline;
 import org.eclipse.graphiti.mm.algorithms.Rectangle;
@@ -124,7 +130,6 @@ import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.services.IGaService;
 import org.eclipse.graphiti.services.IPeService;
 import org.eclipse.graphiti.ui.services.GraphitiUi;
-
 public class $context.graphModelName$LayoutUtils {
 
 	public static final String KEY_HORIZONTAL = &quot;horizontal&quot;;
@@ -161,6 +166,24 @@ public class $context.graphModelName$LayoutUtils {
 			gaService.setHeight(ga, dim.getHeight());
 			gaWidth = dim.getWidth();
 			gaHeight = dim.getHeight();
+		}
+
+		if (ga instanceof MultiText) {
+			MultiText mt = (MultiText) ga;
+			IDimension dim = getTextDimension(mt);
+			if (dim.getWidth() &gt; parent.getWidth()) {
+				int lines = dim.getWidth() / ga.getWidth() + 1;
+				gaHeight = lines * (dim.getHeight() + 15);
+				gaWidth = parent.getWidth();
+			} else {
+				gaWidth = dim.getWidth()+4;
+				gaHeight = dim.getHeight();
+			}
+			mt.setHeight(gaHeight);
+			mt.setWidth(gaWidth);
+			
+			parentWidth = parent.getWidth();
+			parentHeight = parent.getHeight();
 		}
 		
 		if (horizontal == KEY_HORIZONTAL_UNDEFINED || vertical == KEY_VERTICAL_UNDEFINED)
