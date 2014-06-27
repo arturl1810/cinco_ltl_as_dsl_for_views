@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>20ee1083-42c9-4128-8db1-42f1826d8d49</id>
   <name>GenerateModelElementCustomFeature</name>
-  <changecounter>46</changecounter>
+  <changecounter>78</changecounter>
   <sib>
     <id>c89925ae-3820-4a21-8425-767fe1505ce3</id>
     <name>CopyEObject</name>
@@ -63,97 +63,12 @@
     <finalbranches>error</finalbranches>
   </sib>
   <sib>
-    <id>8eec45e8-667f-4a32-9229-50201707a287</id>
-    <name>GetAnnotationName</name>
-    <label>GetAnnotationName</label>
-    <sib-uid>mgl/mgl/GetAnnotationName</sib-uid>
-    <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetAnnotationName</taxonomy>
-    <position>67.0,333.0</position>
-    <parameter name="annotationKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>annotation</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="annotationnameKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>annotationName</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-  </sib>
-  <sib>
-    <id>c3fad24e-76d3-419b-aefa-55e855d12090</id>
-    <name>MatchString</name>
-    <label>@customFeature?</label>
-    <sib-uid>basic-sibs/MatchString</sib-uid>
-    <taxonomy>de.jabc.sib.common.basic.MatchString</taxonomy>
-    <position>269.5,333.0</position>
-    <parameter name="pattern">
-      <de.metaframe.common.sib.parameter.ContextExpression>
-        <ContextExpressionFoundation>
-          <expression>customFeature</expression>
-          <clazz>java.lang.String</clazz>
-          <classMutable>false</classMutable>
-        </ContextExpressionFoundation>
-      </de.metaframe.common.sib.parameter.ContextExpression>
-    </parameter>
-    <parameter name="string">
-      <de.metaframe.common.sib.parameter.ContextExpression>
-        <ContextExpressionFoundation>
-          <expression>${annotationName}</expression>
-          <clazz>java.lang.String</clazz>
-          <classMutable>false</classMutable>
-        </ContextExpressionFoundation>
-      </de.metaframe.common.sib.parameter.ContextExpression>
-    </parameter>
-    <finalbranches>error</finalbranches>
-    <finalbranches>false</finalbranches>
-    <finalbranches>true</finalbranches>
-  </sib>
-  <sib>
-    <id>4c1afa58-c9ed-4291-82a0-a1a18ecb1ce2</id>
-    <name>GetAnnotationValue</name>
-    <label>GetAnnotationValue</label>
-    <sib-uid>mgl/mgl/GetAnnotationValue</sib-uid>
-    <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetAnnotationValue</taxonomy>
-    <position>67.0,423.0</position>
-    <parameter name="annotationKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>annotation</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="eListKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>annotationValues</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-  </sib>
-  <sib>
     <id>0757784b-272b-4e41-a455-36ca381d90be</id>
     <name>RunStringTemplate</name>
     <label>CustomFeatureContent</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>341.5,648.0</position>
+    <position>371.5,648.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -172,7 +87,32 @@
     <parameter name="template">
       <string>package $context.localPkgName$;
 
+import $context.importPath$.*;
+import de.jabc.cinco.meta.core.ge.style.model.customfeature.CincoCustomFeature;
+
+import org.eclipse.graphiti.features.IFeatureProvider;
+
 public class $context.annotationValue$ extends CincoCustomFeature&lt;$context.modelElementName$&gt; {
+	
+	public FeatureOne(IFeatureProvider fp) {
+		super(fp);
+	}
+	
+	@Override
+	public String getName() {
+		// Replace this String by an arbitrary name for this custom feature
+		return &quot;$context.modelElementName$ $context.annotationValue$&quot;;
+	}
+
+	@Override
+	public boolean canExecute($context.modelElementName$ $context.flModelElementName$) {
+		return false;
+	}
+
+	@Override
+	public void execute($context.modelElementName$ $context.flModelElementName$) {
+		
+	}
 
 }</string>
     </parameter>
@@ -185,7 +125,7 @@ public class $context.annotationValue$ extends CincoCustomFeature&lt;$context.mo
     <label>WriteJavaFile</label>
     <sib-uid>genesys-sibs/WriteJavaFile</sib-uid>
     <taxonomy>de.jabc.sib.genesys.WriteJavaFile</taxonomy>
-    <position>373.0,423.0</position>
+    <position>373.0,513.0</position>
     <parameter name="baseDirectory">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -253,27 +193,6 @@ public class $context.annotationValue$ extends CincoCustomFeature&lt;$context.mo
     <point>195.9375,243.0</point>
     <branch>default</branch>
   </edge>
-  <edge>
-    <source>8eec45e8-667f-4a32-9229-50201707a287</source>
-    <target>c3fad24e-76d3-419b-aefa-55e855d12090</target>
-    <point>135.0,330.0</point>
-    <point>324.0,327.0</point>
-    <branch>default</branch>
-  </edge>
-  <edge>
-    <source>c3fad24e-76d3-419b-aefa-55e855d12090</source>
-    <target>4c1afa58-c9ed-4291-82a0-a1a18ecb1ce2</target>
-    <point>345.0,330.0</point>
-    <point>147.0,451.0</point>
-    <branch>true</branch>
-  </edge>
-  <edge>
-    <source>c3fad24e-76d3-419b-aefa-55e855d12090</source>
-    <target>22fadb8b-8103-4090-889c-219aab253462</target>
-    <point>345.0,330.0</point>
-    <point>143.0,201.0</point>
-    <branch>false</branch>
-  </edge>
   <sib>
     <id>141d3c98-b6fe-4d51-a831-522f236a4302</id>
     <name>IterateElements</name>
@@ -313,14 +232,6 @@ public class $context.annotationValue$ extends CincoCustomFeature&lt;$context.mo
     <finalbranches>next</finalbranches>
   </sib>
   <edge>
-    <source>4c1afa58-c9ed-4291-82a0-a1a18ecb1ce2</source>
-    <target>06fb094c-0a21-457b-b76a-955370e24d75</target>
-    <point>153.0,504.2</point>
-    <point>252.0,515.2</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
-  <edge>
     <source>141d3c98-b6fe-4d51-a831-522f236a4302</source>
     <target>a689ebfd-b98a-45f3-a7bd-ffcb228b518b</target>
     <point>135.0,675.0</point>
@@ -330,9 +241,9 @@ public class $context.annotationValue$ extends CincoCustomFeature&lt;$context.mo
   </edge>
   <edge>
     <source>0757784b-272b-4e41-a455-36ca381d90be</source>
-    <target>8ea03ec6-6e43-4dc2-bae7-9a61d98682e3</target>
-    <point>315.0,810.0</point>
-    <point>495.0,810.0</point>
+    <target>6816155e-11da-4597-baf9-26e9e1deebc8</target>
+    <point>438.0,666.8307692307692</point>
+    <point>597.0,666.8307692307692</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -340,9 +251,9 @@ public class $context.annotationValue$ extends CincoCustomFeature&lt;$context.mo
     <source>141d3c98-b6fe-4d51-a831-522f236a4302</source>
     <target>5a680614-c452-4d7a-ad8e-4f70084c6c60</target>
     <spline/>
-    <point>126.25,648.0</point>
-    <point>30.0,450.0</point>
-    <point>125.73529411764706,264.0</point>
+    <point>117.0,649.35</point>
+    <point>15.0,555.0</point>
+    <point>128.00970873786406,264.0</point>
     <labelposition>515.9530595026337,-93.98452035229596</labelposition>
     <branch>exit</branch>
   </edge>
@@ -386,9 +297,12 @@ public class $context.annotationValue$ extends CincoCustomFeature&lt;$context.mo
   </sib>
   <edge>
     <source>5a680614-c452-4d7a-ad8e-4f70084c6c60</source>
-    <target>8eec45e8-667f-4a32-9229-50201707a287</target>
-    <point>210.0,270.0</point>
-    <point>128.0,345.0</point>
+    <target>9963bd9a-9921-46e1-ab65-bd764a66e13e</target>
+    <spline/>
+    <point>150.65217391304347,264.0</point>
+    <point>195.0,315.0</point>
+    <point>149.8148148148148,376.0</point>
+    <labelposition>470.36111761073346,-42.7428817946834</labelposition>
     <branch>next</branch>
   </edge>
   <edge>
@@ -444,7 +358,7 @@ public class $context.annotationValue$ extends CincoCustomFeature&lt;$context.mo
     <label>LocalPkgName</label>
     <sib-uid>basic-sibs/PutExpression</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
-    <position>84.5,543.0</position>
+    <position>309.5,393.0</position>
     <parameter name="resolve">
       <boolean>true</boolean>
     </parameter>
@@ -471,9 +385,124 @@ public class $context.annotationValue$ extends CincoCustomFeature&lt;$context.mo
   </sib>
   <edge>
     <source>06fb094c-0a21-457b-b76a-955370e24d75</source>
+    <target>8dc4b037-1ff7-4083-8c74-efec270fdacf</target>
+    <point>153.0,467.175</point>
+    <point>357.0,416.175</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>9963bd9a-9921-46e1-ab65-bd764a66e13e</id>
+    <name>GraphSIB</name>
+    <label>CheckCustomFeatureAnnotation</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>27.5,391.0</position>
+    <parameter name="AnnotationKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>annotation</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>false</finalbranches>
+    <finalbranches>true</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>8fd8a2e3-0318-4824-930f-f04d3bde4e69</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>CheckCustomFeatureAnnotation</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>9963bd9a-9921-46e1-ab65-bd764a66e13e</source>
+    <target>06fb094c-0a21-457b-b76a-955370e24d75</target>
+    <point>135.0,431.0</point>
+    <point>135.0,453.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>true</branch>
+  </edge>
+  <edge>
+    <source>9963bd9a-9921-46e1-ab65-bd764a66e13e</source>
+    <target>5a680614-c452-4d7a-ad8e-4f70084c6c60</target>
+    <point>135.0,405.0</point>
+    <point>138.0,260.0</point>
+    <branch>false</branch>
+  </edge>
+  <sib>
+    <id>6816155e-11da-4597-baf9-26e9e1deebc8</id>
+    <name>RunStringTemplate_1</name>
+    <label>FeatureProviderCustomFeatureContent</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>560.0,648.0</position>
+    <parameter name="append">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>featureProviderCustomFeatureContent</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>new $context.annotationValue$(this), </string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>6816155e-11da-4597-baf9-26e9e1deebc8</source>
+    <target>8ea03ec6-6e43-4dc2-bae7-9a61d98682e3</target>
+    <point>672.0,657.6</point>
+    <point>438.0,540.6</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>8dc4b037-1ff7-4083-8c74-efec270fdacf</id>
+    <name>RunStringTemplate_2</name>
+    <label>FeatureProviderCustomFeatureImports</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>6.5,498.0</position>
+    <parameter name="append">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>featureProviderCustomFeatureImports</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>import $context.localPkgName$.*;
+</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>8dc4b037-1ff7-4083-8c74-efec270fdacf</source>
     <target>141d3c98-b6fe-4d51-a831-522f236a4302</target>
-    <point>135.0,585.0</point>
-    <point>128.0,676.0</point>
+    <point>358.6363636363636,429.0</point>
+    <point>152.5609756097561,648.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <parameter>
@@ -511,21 +540,6 @@ public class $context.annotationValue$ extends CincoCustomFeature&lt;$context.mo
   <branch>
     <name>error</name>
     <branch>error</branch>
-    <sib>8eec45e8-667f-4a32-9229-50201707a287</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>c3fad24e-76d3-419b-aefa-55e855d12090</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>4c1afa58-c9ed-4291-82a0-a1a18ecb1ce2</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
     <sib>06fb094c-0a21-457b-b76a-955370e24d75</sib>
   </branch>
   <branch>
@@ -552,5 +566,20 @@ public class $context.annotationValue$ extends CincoCustomFeature&lt;$context.mo
     <name>default</name>
     <branch>exit</branch>
     <sib>5a680614-c452-4d7a-ad8e-4f70084c6c60</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>9963bd9a-9921-46e1-ab65-bd764a66e13e</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>6816155e-11da-4597-baf9-26e9e1deebc8</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>8dc4b037-1ff7-4083-8c74-efec270fdacf</sib>
   </branch>
 </model>
