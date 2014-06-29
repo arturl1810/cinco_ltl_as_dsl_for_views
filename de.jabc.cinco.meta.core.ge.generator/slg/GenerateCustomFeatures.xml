@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>ecf26393-b09c-4254-a8ea-2424f6c85723</id>
   <name>GenerateCustomFeatures</name>
-  <changecounter>55</changecounter>
+  <changecounter>57</changecounter>
   <sib>
     <id>0ec38e5f-be07-4e32-b498-e1f68038d3d6</id>
     <name>IterateElements</name>
@@ -151,7 +151,7 @@
     <parameter name="message">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>WROTE CustomFeatures</expression>
+          <expression>Wrote CustomFeatures</expression>
           <clazz>java.lang.Object</clazz>
           <classMutable>false</classMutable>
         </ContextExpressionFoundation>

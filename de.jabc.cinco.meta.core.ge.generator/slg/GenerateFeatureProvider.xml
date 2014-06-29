@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>5f357517-18d4-4780-adc3-30879fedbfb1</id>
   <name>GenerateFeatureProvider</name>
-  <changecounter>571</changecounter>
+  <changecounter>574</changecounter>
   <sib>
     <id>23fb1326-f00d-4e42-845a-cdf6492fc417</id>
     <name>PutExpression</name>
@@ -388,7 +388,6 @@ import org.eclipse.graphiti.mm.pictograms.*;
 
 $context.featureProviderCustomFeatureImports$
 import $context.importPath$.*;
-import $context.packageName$.graphiti.customfeatures.*;
 import $context.localPkgName$.features.*;
 import $context.localPkgName$.features.add.*;
 import $context.localPkgName$.features.create.*;
