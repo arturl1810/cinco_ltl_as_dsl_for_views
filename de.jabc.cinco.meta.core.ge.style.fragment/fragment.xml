@@ -35,6 +35,9 @@
       <graphmodel-annotation
             recognized-annotation="customFeature">
       </graphmodel-annotation>
+      <validator
+            ValidatorClass="de.jabc.cinco.meta.core.ge.style.fragment.StylesValidator">
+      </validator>
    </extension>
 
 </fragment>

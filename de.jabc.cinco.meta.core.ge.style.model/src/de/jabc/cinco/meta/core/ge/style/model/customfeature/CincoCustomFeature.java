@@ -7,13 +7,16 @@ import org.eclipse.graphiti.features.context.ICustomContext;
 import org.eclipse.graphiti.features.custom.AbstractCustomFeature;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 
-public abstract class CincoCustomFeature<T extends ModelElement> extends AbstractCustomFeature {
+public abstract class CincoCustomFeature<T> extends AbstractCustomFeature {
 
+	
+	
 	public CincoCustomFeature(IFeatureProvider fp) {
 		super(fp);
 		// TODO Auto-generated constructor stub
 	}
 
+	
 	@Override
 	public boolean canExecute(ICustomContext context) {
 		PictogramElement[] pes = context.getPictogramElements();
