@@ -22,7 +22,8 @@
       <!-- @generated GraphModel -->
       <package
             uri="http://www.jabc.de/cinco/gdl/graphmodel"
-            class="graphmodel.GraphmodelPackage"/>
+            class="graphmodel.GraphmodelPackage"
+            genModel="model/GraphModel.genmodel"/>
    </extension>
 
 </plugin>
