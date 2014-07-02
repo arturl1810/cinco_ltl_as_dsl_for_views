@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>586b7b70-5c30-487f-aa09-ffe8208bf019</id>
   <name>GenerateReconnectFeatures</name>
-  <changecounter>133</changecounter>
+  <changecounter>142</changecounter>
   <sib>
     <id>cb541589-b45f-430c-a56b-1cebe00059bf</id>
     <name>PutExpression</name>
@@ -151,39 +151,12 @@
     <finalbranches>exit</finalbranches>
     <finalbranches>next</finalbranches>
   </sib>
-  <sib>
-    <id>55400a1e-b9c3-4004-8cb8-c5e80a0f4e96</id>
-    <name>GetEdgeSourceElements</name>
-    <label>GetEdgeSourceElements</label>
-    <sib-uid>mgl/mgl/GetEdgeSourceElements</sib-uid>
-    <taxonomy>de.jabc.cinco.meta.core.ge.sib.mgl.GetEdgeSourceElements</taxonomy>
-    <position>157.5,288.0</position>
-    <parameter name="eListKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>edgeSources</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="edgeKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>edge</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-  </sib>
   <edge>
     <source>e56f9fc1-dffd-47df-87d2-200e0a21146d</source>
-    <target>55400a1e-b9c3-4004-8cb8-c5e80a0f4e96</target>
-    <point>120.0,315.0</point>
-    <point>119.0,411.0</point>
+    <target>4f1572e3-c424-410e-beb1-24be1576f6eb</target>
+    <point>138.0,297.9</point>
+    <point>282.0,225.9</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>next</branch>
   </edge>
   <sib>
@@ -225,10 +198,11 @@
     <finalbranches>next</finalbranches>
   </sib>
   <edge>
-    <source>55400a1e-b9c3-4004-8cb8-c5e80a0f4e96</source>
+    <source>4f1572e3-c424-410e-beb1-24be1576f6eb</source>
     <target>cfab6ad6-0a2d-4f65-86e0-56adf991e69e</target>
-    <point>270.0,315.0</point>
-    <point>442.0,308.0</point>
+    <point>318.0,225.9</point>
+    <point>462.0,297.9</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
@@ -280,39 +254,12 @@
     <labelposition>480.5198151496372,60.7663263066698</labelposition>
     <branch>default</branch>
   </edge>
-  <sib>
-    <id>858aa640-ef2c-4257-869f-171c4517b16f</id>
-    <name>GetEdgeTargetElements</name>
-    <label>GetEdgeTargetElements</label>
-    <sib-uid>mgl/mgl/GetEdgeTargetElements</sib-uid>
-    <taxonomy>de.jabc.cinco.meta.core.ge.sib.mgl.GetEdgeTargetElements</taxonomy>
-    <position>398.5,393.0</position>
-    <parameter name="eListKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>edgeTargets</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="edgeKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>edge</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-  </sib>
   <edge>
     <source>cfab6ad6-0a2d-4f65-86e0-56adf991e69e</source>
-    <target>858aa640-ef2c-4257-869f-171c4517b16f</target>
-    <point>465.0,315.0</point>
-    <point>320.0,448.0</point>
+    <target>fdd90b3e-79da-4d4d-9ec3-9b255f9e96fd</target>
+    <point>498.0,313.425</point>
+    <point>702.0,389.925</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>exit</branch>
   </edge>
   <sib>
@@ -354,10 +301,10 @@
     <finalbranches>next</finalbranches>
   </sib>
   <edge>
-    <source>858aa640-ef2c-4257-869f-171c4517b16f</source>
+    <source>fdd90b3e-79da-4d4d-9ec3-9b255f9e96fd</source>
     <target>06c418de-deb4-40fb-a030-c576ebf325fd</target>
-    <point>480.0,429.0</point>
-    <point>480.0,528.0</point>
+    <point>702.0,407.925</point>
+    <point>498.0,535.425</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -648,6 +595,62 @@ public class ReconnectEdgeFeature extends DefaultReconnectionFeature{
     <point>122.0,885.0</point>
     <branch>default</branch>
   </edge>
+  <sib>
+    <id>4f1572e3-c424-410e-beb1-24be1576f6eb</id>
+    <name>GetEdgeOutgoingEdgeConnections</name>
+    <label>GetEdgeOutgoingEdgeConnections</label>
+    <sib-uid>mgl/mgl/GetEdgeOutgoingEdgeConnections</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetEdgeOutgoingEdgeConnections</taxonomy>
+    <position>183.5,288.0</position>
+    <parameter name="eListKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>edgeSources</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="edgeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>edge</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>fdd90b3e-79da-4d4d-9ec3-9b255f9e96fd</id>
+    <name>GetEdgeIncomingEdgeConnections</name>
+    <label>GetEdgeIncomingEdgeConnections</label>
+    <sib-uid>mgl/mgl/GetEdgeIncomingEdgeConnections</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetEdgeIncomingEdgeConnections</taxonomy>
+    <position>364.0,393.0</position>
+    <parameter name="eListKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>edgeTargets</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="edgeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>edge</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
   <values/>
   <branch>
     <name>default</name>
@@ -682,17 +685,7 @@ public class ReconnectEdgeFeature extends DefaultReconnectionFeature{
   <branch>
     <name>error</name>
     <branch>error</branch>
-    <sib>55400a1e-b9c3-4004-8cb8-c5e80a0f4e96</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
     <sib>cfab6ad6-0a2d-4f65-86e0-56adf991e69e</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>858aa640-ef2c-4257-869f-171c4517b16f</sib>
   </branch>
   <branch>
     <name>error</name>
@@ -718,5 +711,15 @@ public class ReconnectEdgeFeature extends DefaultReconnectionFeature{
     <name>error</name>
     <branch>error</branch>
     <sib>7e306413-d533-4e46-8c6c-b921cb35913e</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>4f1572e3-c424-410e-beb1-24be1576f6eb</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>fdd90b3e-79da-4d4d-9ec3-9b255f9e96fd</sib>
   </branch>
 </model>
