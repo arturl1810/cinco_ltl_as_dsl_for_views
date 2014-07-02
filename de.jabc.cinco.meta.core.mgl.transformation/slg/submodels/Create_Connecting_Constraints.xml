@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>d56f9277-94e0-48c2-aff2-e2cc43c9b74b</id>
   <name>Create Connecting Constraints</name>
-  <changecounter>15</changecounter>
+  <changecounter>20</changecounter>
   <sib>
     <id>bfd87f61-6514-4fa7-b65c-deda7e931e26</id>
     <name>CompareElements</name>
@@ -521,7 +521,7 @@
     <parameter name="graphicalModelElementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>graphicalModelElementKey</key>
+          <key>modelElement</key>
           <scope>GLOBAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
@@ -872,7 +872,7 @@
     <label>IterateGraphicalModelElementOutgoingEdgeConnections</label>
     <sib-uid>mgl/mgl/IterateGraphicalModelElementOutgoingEdgeConnections</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.IterateGraphicalModelElementOutgoingEdgeConnections</taxonomy>
-    <position>398.0,1368.0</position>
+    <position>403.5,1368.0</position>
     <parameter name="elementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -885,7 +885,7 @@
     <parameter name="graphicalModelElementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>graphicalModelElementKey</key>
+          <key>modelElement</key>
           <scope>GLOBAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
@@ -964,6 +964,11 @@
     <name>modelElementClass</name>
     <field>eClassKey</field>
     <sib>17ef87b3-6e30-4a34-b4cf-d5cc93631ce2</sib>
+  </parameter>
+  <parameter>
+    <name>modelElement</name>
+    <field>graphicalModelElementKey</field>
+    <sib>de391bf8-c25e-4ccb-acb3-a155201b994c</sib>
   </parameter>
   <values>
     <entry>
