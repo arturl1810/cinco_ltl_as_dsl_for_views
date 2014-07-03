@@ -3,6 +3,7 @@
  */
 package de.jabc.cinco.meta.core.mgl.validation
 
+import java.util.HashSet
 import mgl.Attribute
 import mgl.ContainingElement
 import mgl.Edge
@@ -10,10 +11,12 @@ import mgl.EdgeElementConnection
 import mgl.GraphModel
 import mgl.GraphicalElementContainment
 import mgl.GraphicalModelElement
+import mgl.IncomingEdgeElementConnection
 import mgl.MglPackage
 import mgl.ModelElement
 import mgl.Node
 import mgl.NodeContainer
+import mgl.OutgoingEdgeElementConnection
 import mgl.ReferencedType
 import mgl.Type
 import mgl.UserDefinedType
@@ -51,6 +54,7 @@ class MGLValidator extends AbstractMGLValidator {
 	
 	@Check
 	def checkEdgeElementConnectionCardinalities( EdgeElementConnection eec){
+		
 		if(eec.lowerBound<0)
 			error("Lower Bound cannot be less than 0", MglPackage.Literals::EDGE_ELEMENT_CONNECTION__LOWER_BOUND)
 		if(eec.lowerBound>eec.upperBound&&eec.upperBound!=-1)
@@ -59,6 +63,76 @@ class MGLValidator extends AbstractMGLValidator {
 			error("Lower Bound cannot be less than -1", MglPackage.Literals::EDGE_ELEMENT_CONNECTION__LOWER_BOUND)
 		
 	}
+	
+	@Check
+	def checkNodeIncomingConnections(GraphicalModelElement elem){
+		if(elem.incomingEdgeConnections.length<2){
+			return;
+			
+		}
+		for(connection: elem.incomingEdgeConnections){
+			if(connection.connectingEdge==null)
+				error("Incoming Edges cannot have a don't care and other edges.",MglPackage.Literals::GRAPHICAL_MODEL_ELEMENT__INCOMING_EDGE_CONNECTIONS)
+			
+		}
+			
+		
+	}
+	
+	@Check
+	def checkNodeOutgoingConnections(GraphicalModelElement elem){
+		
+		if(elem.outgoingEdgeConnections.length<2){
+			return;
+			
+		}
+		for(connection: elem.outgoingEdgeConnections){
+			if(connection.connectingEdge==null)
+				error("Incoming Edges cannot have a don't care and other edges.",MglPackage.Literals::GRAPHICAL_MODEL_ELEMENT__OUTGOING_EDGE_CONNECTIONS)
+			
+		}
+			
+		
+	}
+	
+	@Check
+	def checkIncomingEdgeConnectionsUnique(GraphicalModelElement elem){
+		var set = new HashSet<Edge>()
+		for(connection: elem.incomingEdgeConnections){
+			if(connection.connectingEdge!=null&&!set.add(connection.connectingEdge)){
+				error("Given Edges should be unique",MglPackage.Literals::GRAPHICAL_MODEL_ELEMENT__INCOMING_EDGE_CONNECTIONS);
+			
+			}
+			
+		}
+		
+	}
+	
+	@Check
+	def checkOutgoingEdgeConnectionsUnique(GraphicalModelElement elem){
+		var set = new HashSet<Edge>()
+		for(connection: elem.outgoingEdgeConnections){
+			if(connection.connectingEdge!=null&&!set.add(connection.connectingEdge)){
+				error("Given Edges should be unique",MglPackage.Literals::GRAPHICAL_MODEL_ELEMENT__OUTGOING_EDGE_CONNECTIONS);
+			
+			}
+			
+		}
+		
+	}
+	
+	def GraphicalModelElement connectedElement(EdgeElementConnection connection){
+		if(connection instanceof IncomingEdgeElementConnection){
+			return (connection as IncomingEdgeElementConnection).connectedElement;
+		
+		}
+		else{ 
+			if(connection instanceof OutgoingEdgeElementConnection)
+				return(connection as OutgoingEdgeElementConnection).connectedElement;
+		}
+		return null;
+	}
+	
 //	@Check
 //	def checkNodeCanConnectToEdge(Edge edge){
 //		
