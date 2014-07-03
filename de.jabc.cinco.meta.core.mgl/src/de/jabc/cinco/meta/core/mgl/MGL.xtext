@@ -101,8 +101,8 @@ Node returns Node:
 	'{'
 		(attributes+=Attribute)*
 		(primeReference=ReferencedType)?
-		('incoming edges' '(' incomingEdgeConnections+=IncomingEdgeElementConnection (',' incomingEdgeConnections+=IncomingEdgeElementConnection)*')')?
-		('outgoing edges' '(' outgoingEdgeConnections+=OutgoingEdgeElementConnection (',' outgoingEdgeConnections+=OutgoingEdgeElementConnection)*')')?
+		('incomingEdges' '(' incomingEdgeConnections+=IncomingEdgeElementConnection (',' incomingEdgeConnections+=IncomingEdgeElementConnection)*')')?
+		('outgoingEdges' '(' outgoingEdgeConnections+=OutgoingEdgeElementConnection (',' outgoingEdgeConnections+=OutgoingEdgeElementConnection)*')')?
 	'}'
 ;
 
@@ -119,8 +119,8 @@ NodeContainer returns NodeContainer:
 	'{'
 		(attributes+=Attribute)*
 		('containableElements' '(' containableElements+=GraphicalElementContainment ( "," containableElements+=GraphicalElementContainment)* ')' )?
-		('incoming edges' '(' incomingEdgeConnections+=IncomingEdgeElementConnection (',' incomingEdgeConnections+=IncomingEdgeElementConnection)*')')?
-		('outgoing edges' '(' outgoingEdgeConnections+=OutgoingEdgeElementConnection (',' outgoingEdgeConnections+=OutgoingEdgeElementConnection)*')')?
+		('incomingEdges' '(' incomingEdgeConnections+=IncomingEdgeElementConnection (',' incomingEdgeConnections+=IncomingEdgeElementConnection)*')')?
+		('outgoingEdges' '(' outgoingEdgeConnections+=OutgoingEdgeElementConnection (',' outgoingEdgeConnections+=OutgoingEdgeElementConnection)*')')?
 		
 	'}'
 ;
