@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>acbfac10-5547-4af8-9d81-08e1d3c67972</id>
   <name>GenerateCreateEdgeFeature</name>
-  <changecounter>365</changecounter>
+  <changecounter>367</changecounter>
   <sib>
     <id>f25e916c-be2e-4728-817b-64548b50fdb7</id>
     <name>RunStringTemplate</name>
@@ -1191,7 +1191,7 @@ public class Create$context.edgeName$Feature extends AbstractCreateConnectionFea
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>if ((($context.n.connectedElement.name$) source).getOutgoing().size() &lt; $context.nMaxOut$)</string>
+      <string>if ((($context.n.connectedElement.name$) source).getOutgoing($context.edgeName$.class).size() &lt; $context.nMaxOut$)</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
@@ -1299,7 +1299,7 @@ public class Create$context.edgeName$Feature extends AbstractCreateConnectionFea
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>if ((($context.n.connectedElement.name$) target).getIncoming().size() &lt; $context.nMaxIn$)</string>
+      <string>if ((($context.n.connectedElement.name$) target).getIncoming($context.edgeName$.class).size() &lt; $context.nMaxIn$)</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
@@ -1524,8 +1524,8 @@ public class Create$context.edgeName$Feature extends AbstractCreateConnectionFea
     <parameter name="edgeKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>edgeKey</key>
-          <scope>DECLARED</scope>
+          <key>edge</key>
+          <scope>LOCAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>

@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>586b7b70-5c30-487f-aa09-ffe8208bf019</id>
   <name>GenerateReconnectFeatures</name>
-  <changecounter>174</changecounter>
+  <changecounter>191</changecounter>
   <sib>
     <id>cb541589-b45f-430c-a56b-1cebe00059bf</id>
     <name>PutExpression</name>
@@ -81,7 +81,7 @@
     <label>CheckNewTarget</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>916.5,498.0</position>
+    <position>931.5,498.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -98,7 +98,7 @@
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>if (bo instanceof $context.edgeTarget.connectedElement.name$) {
+      <string>if (bo instanceof $context.edgeTarget.connectedElement.name$ &amp;&amp; edge instanceof $context.edge.name$) {
 	return true;
 }</string>
     </parameter>
@@ -220,11 +220,12 @@
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>if (bo instanceof $context.edgeSource.connectedElement.name$) {
+      <string>if (bo instanceof $context.edgeSource.connectedElement.name$ &amp;&amp; edge instanceof $context.edge.name$) {
 	$context.edgeSource.connectedElement.name$ tmp = ($context.edgeSource.connectedElement.name$) bo;
-	if (tmp.getOutgoing().size() &lt; $context.edgeMaxOut$)
+	if (tmp.getOutgoing($context.edge.name$.class).size() &lt; $context.edgeMaxOut$)
 		return true;
-}</string>
+}
+</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
@@ -261,7 +262,7 @@
     <label>IterateEdgeTargets</label>
     <sib-uid>collection-sibs/IterateElements</sib-uid>
     <taxonomy>de.jabc.sib.common.collection.IterateElements</taxonomy>
-    <position>414.0,528.0</position>
+    <position>414.0,603.0</position>
     <parameter name="collection">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -355,6 +356,7 @@ public class ReconnectEdgeFeature extends DefaultReconnectionFeature{
 	@Override
 	public boolean canReconnect(IReconnectionContext context) {
 		Anchor newAnchor = context.getNewAnchor();
+		Edge edge = (Edge) getBusinessObjectForPictogramElement(context.getConnection());
 		if (newAnchor != null) {
 			Object bo = getBusinessObjectForPictogramElement(context.getNewAnchor().getParent());
 			if (ReconnectionContext.RECONNECT_TARGET.equals(context.getReconnectType())) {
@@ -618,7 +620,7 @@ public class ReconnectEdgeFeature extends DefaultReconnectionFeature{
     <label>GetOutgoingEdgeElementConnectionUpperBound</label>
     <sib-uid>mgl/mgl/GetOutgoingEdgeElementConnectionUpperBound</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetOutgoingEdgeElementConnectionUpperBound</taxonomy>
-    <position>682.0,393.0</position>
+    <position>662.5,393.0</position>
     <parameter name="outgoingEdgeElementConnectionKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -654,7 +656,7 @@ public class ReconnectEdgeFeature extends DefaultReconnectionFeature{
     <label>EvaluateCondition</label>
     <sib-uid>basic-sibs/EvaluateCondition</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.EvaluateCondition</taxonomy>
-    <position>950.5,303.0</position>
+    <position>942.0,303.0</position>
     <parameter name="condition">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
@@ -681,7 +683,7 @@ public class ReconnectEdgeFeature extends DefaultReconnectionFeature{
     <label>CheckNewSource</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>952.0,198.0</position>
+    <position>945.5,198.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -698,9 +700,10 @@ public class ReconnectEdgeFeature extends DefaultReconnectionFeature{
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>if (bo instanceof $context.edgeSource.connectedElement.name$) {
+      <string>if (bo instanceof $context.edgeSource.connectedElement.name$  &amp;&amp; edge instanceof $context.edge.name$) {
 		return true;
-}</string>
+}
+</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
@@ -725,7 +728,7 @@ public class ReconnectEdgeFeature extends DefaultReconnectionFeature{
     <label>GetIncomingEdgeElementConnectionUpperBound</label>
     <sib-uid>mgl/mgl/GetIncomingEdgeElementConnectionUpperBound</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetIncomingEdgeElementConnectionUpperBound</taxonomy>
-    <position>682.0,723.0</position>
+    <position>678.0,723.0</position>
     <parameter name="incomingEdgeElementConnectionKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -753,7 +756,7 @@ public class ReconnectEdgeFeature extends DefaultReconnectionFeature{
     <label>EvaluateCondition</label>
     <sib-uid>basic-sibs/EvaluateCondition</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.EvaluateCondition</taxonomy>
-    <position>920.5,603.0</position>
+    <position>927.0,603.0</position>
     <parameter name="condition">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
@@ -787,7 +790,7 @@ public class ReconnectEdgeFeature extends DefaultReconnectionFeature{
     <label>CheckNewTarget</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>773.5,603.0</position>
+    <position>766.5,603.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -804,11 +807,12 @@ public class ReconnectEdgeFeature extends DefaultReconnectionFeature{
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>if (bo instanceof $context.edgeTarget.connectedElement.name$) {
+      <string>if (bo instanceof $context.edgeTarget.connectedElement.name$ &amp;&amp; edge instanceof $context.edge.name$) {
 	$context.edgeTarget.connectedElement.name$ tmp = ($context.edgeTarget.connectedElement.name$) bo;
-	if (tmp.getIncoming().size() &lt; $context.edgeMaxIn$)
+	if (tmp.getIncoming($context.edge.name$.class).size() &lt; $context.edgeMaxIn$)
 		return true;
-}</string>
+}
+</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
@@ -892,5 +896,35 @@ public class ReconnectEdgeFeature extends DefaultReconnectionFeature{
     <name>error</name>
     <branch>error</branch>
     <sib>2749a552-b9c8-48fa-ac04-0a64c57e1b5d</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>7e9068a1-abcf-4f84-94d3-aff1fca4835a</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>c1a223c2-d40e-489b-afc0-7d8fe33a5331</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>c5c21ef2-c47e-4244-a864-217013d905e9</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>d198fe3c-dbbc-485a-ae8e-4f6d1f5b2c4f</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>040e2a7e-2e8b-41c6-b547-d6de169e94ec</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>7a4358cc-7956-4c02-b08f-c8387748a1c0</sib>
   </branch>
 </model>
