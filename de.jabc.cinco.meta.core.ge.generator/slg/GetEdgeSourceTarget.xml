@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>cec5c0c4-86a2-4a4e-a054-7c5b88dc8044</id>
   <name>GetEdgeSourceTarget</name>
-  <changecounter>81</changecounter>
+  <changecounter>95</changecounter>
   <sib>
     <id>199c4a69-9dbf-45d3-a23d-66171467f422</id>
     <name>CopyEObject</name>
@@ -181,9 +181,9 @@
   </sib>
   <edge>
     <source>10f444b9-3c98-48fa-b2ef-e6894f088021</source>
-    <target>b764fbf9-59c9-4297-b19d-a6c7896abbf8</target>
-    <point>210.0,150.0</point>
-    <point>210.0,255.0</point>
+    <target>157c6d7b-3422-45b5-8c04-99dda8733ef4</target>
+    <point>228.0,154.68</point>
+    <point>342.0,234.48</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -315,7 +315,7 @@
     <parameter name="condition">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>${connectionEdge.name == edgeName}</expression>
+          <expression>${connectionEdge.name == edgeName || connectionEdge == null}</expression>
           <clazz>java.lang.Boolean</clazz>
           <classMutable>false</classMutable>
         </ContextExpressionFoundation>
@@ -390,7 +390,7 @@
     <parameter name="condition">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>${connectionEdge.name == edgeName}</expression>
+          <expression>${connectionEdge.name == edgeName || connectionEdge == null}</expression>
           <clazz>java.lang.Boolean</clazz>
           <classMutable>false</classMutable>
         </ContextExpressionFoundation>
@@ -409,9 +409,10 @@
   </edge>
   <edge>
     <source>86ae31a7-21c6-41a5-aa6d-58bd6f256b20</source>
-    <target>df44630a-6980-48ea-a00e-945124e6f0ce</target>
-    <point>573.0,326.52</point>
-    <point>762.0,376.92</point>
+    <target>a3f5f82c-3447-4292-880c-9be1314a53ea</target>
+    <point>573.0,373.8</point>
+    <point>777.0,284.55</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
@@ -660,6 +661,110 @@
     <point>765.0,585.0</point>
     <point>573.0,508.2</point>
     <labelposition>479.359511705922,-77.5117325776765</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>157c6d7b-3422-45b5-8c04-99dda8733ef4</id>
+    <name>PutExpression</name>
+    <label>ClearSources</label>
+    <sib-uid>basic-sibs/PutExpression</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
+    <position>287.5,123.0</position>
+    <parameter name="resolve">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="value">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression></expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>edgeSources</key>
+          <scope>PARENT</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>7f894b55-0a81-4bea-b7ed-9e52314ec2b2</id>
+    <name>PutExpression_1</name>
+    <label>ClearTargets</label>
+    <sib-uid>basic-sibs/PutExpression</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
+    <position>289.0,228.0</position>
+    <parameter name="resolve">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="value">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression></expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>edgeTargets</key>
+          <scope>PARENT</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>157c6d7b-3422-45b5-8c04-99dda8733ef4</source>
+    <target>7f894b55-0a81-4bea-b7ed-9e52314ec2b2</target>
+    <point>360.0,255.0</point>
+    <point>455.0,289.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>7f894b55-0a81-4bea-b7ed-9e52314ec2b2</source>
+    <target>b764fbf9-59c9-4297-b19d-a6c7896abbf8</target>
+    <point>330.0,255.0</point>
+    <point>230.0,239.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>a3f5f82c-3447-4292-880c-9be1314a53ea</id>
+    <name>PrintConsoleMessage_2</name>
+    <label>PrintConsoleMessage</label>
+    <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
+    <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
+    <position>714.5,258.0</position>
+    <parameter name="error">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="message">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>Hello ${connectionEdge}!</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>false</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <finalbranches>default</finalbranches>
+  </sib>
+  <edge>
+    <source>a3f5f82c-3447-4292-880c-9be1314a53ea</source>
+    <target>df44630a-6980-48ea-a00e-945124e6f0ce</target>
+    <point>795.0,285.0</point>
+    <point>771.0,391.0</point>
     <branch>default</branch>
   </edge>
   <parameter>
