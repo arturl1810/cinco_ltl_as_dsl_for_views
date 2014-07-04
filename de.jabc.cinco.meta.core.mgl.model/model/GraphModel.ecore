@@ -16,7 +16,10 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="targetElement" eType="#//ModelElement"
         eOpposite="#//ModelElement/incoming"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Container" eSuperTypes="#//ModelElement #//ContainingElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Container" eSuperTypes="#//ModelElement #//ContainingElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="x" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="y" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ModelElement" abstract="true">
     <eOperations name="getSuccessors" upperBound="-1" eType="#//ModelElement">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
