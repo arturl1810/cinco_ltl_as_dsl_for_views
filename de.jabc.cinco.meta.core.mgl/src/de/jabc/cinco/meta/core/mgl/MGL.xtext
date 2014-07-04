@@ -127,12 +127,12 @@ NodeContainer returns NodeContainer:
 
 OutgoingEdgeElementConnection returns OutgoingEdgeElementConnection:
 	{OutgoingEdgeElementConnection}
-	(connectingEdge=[Edge|QName]|'*')('['lowerBound=EInt ',' upperBound=EInt']')?
+	(connectingEdges+=[Edge|QName]|'*'|'{'connectingEdges+=[Edge|QName](','connectingEdges+=[Edge|QName])*'}')('['lowerBound=EInt ',' upperBound=EInt']')?
 ;
 
 IncomingEdgeElementConnection returns IncomingEdgeElementConnection:
 	{IncomingEdgeElementConnection}
-	(connectingEdge=[Edge|QName]|'*')('['lowerBound=EInt ',' upperBound=EInt']')?
+	(connectingEdges+=[Edge|QName]|'*'|'{'connectingEdges+=[Edge|QName](','connectingEdges+=[Edge|QName])*'}')('['lowerBound=EInt ',' upperBound=EInt']')?
 ;
 
 GraphicalElementContainment returns GraphicalElementContainment:

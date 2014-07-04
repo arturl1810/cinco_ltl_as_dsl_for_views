@@ -4,6 +4,7 @@
 package de.jabc.cinco.meta.core.mgl.validation
 
 import java.util.HashSet
+import java.util.List
 import mgl.Attribute
 import mgl.ContainingElement
 import mgl.Edge
@@ -71,7 +72,7 @@ class MGLValidator extends AbstractMGLValidator {
 			
 		}
 		for(connection: elem.incomingEdgeConnections){
-			if(connection.connectingEdge==null)
+			if(connection.connectingEdges==null)
 				error("Incoming Edges cannot have a don't care and other edges.",MglPackage.Literals::GRAPHICAL_MODEL_ELEMENT__INCOMING_EDGE_CONNECTIONS)
 			
 		}
@@ -87,7 +88,7 @@ class MGLValidator extends AbstractMGLValidator {
 			
 		}
 		for(connection: elem.outgoingEdgeConnections){
-			if(connection.connectingEdge==null)
+			if(connection.connectingEdges==null)
 				error("Incoming Edges cannot have a don't care and other edges.",MglPackage.Literals::GRAPHICAL_MODEL_ELEMENT__OUTGOING_EDGE_CONNECTIONS)
 			
 		}
@@ -97,9 +98,9 @@ class MGLValidator extends AbstractMGLValidator {
 	
 	@Check
 	def checkIncomingEdgeConnectionsUnique(GraphicalModelElement elem){
-		var set = new HashSet<Edge>()
+		var set = new HashSet<List<Edge>>()
 		for(connection: elem.incomingEdgeConnections){
-			if(connection.connectingEdge!=null&&!set.add(connection.connectingEdge)){
+			if(connection.connectingEdges!=null&&!set.add(connection.connectingEdges)){
 				error("Given Edges should be unique",MglPackage.Literals::GRAPHICAL_MODEL_ELEMENT__INCOMING_EDGE_CONNECTIONS);
 			
 			}
@@ -110,9 +111,9 @@ class MGLValidator extends AbstractMGLValidator {
 	
 	@Check
 	def checkOutgoingEdgeConnectionsUnique(GraphicalModelElement elem){
-		var set = new HashSet<Edge>()
+		var set = new HashSet<List<Edge>>()
 		for(connection: elem.outgoingEdgeConnections){
-			if(connection.connectingEdge!=null&&!set.add(connection.connectingEdge)){
+			if(connection.connectingEdges!=null&&!set.add(connection.connectingEdges)){
 				error("Given Edges should be unique",MglPackage.Literals::GRAPHICAL_MODEL_ELEMENT__OUTGOING_EDGE_CONNECTIONS);
 			
 			}
