@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>67a73b2a-3824-4776-9686-ae1a8aed5282</id>
   <name>GenerateCopyPasteFeatures</name>
-  <changecounter>76</changecounter>
+  <changecounter>91</changecounter>
   <sib>
     <id>59a427e8-25c5-482c-a32b-a0aa278eb41b</id>
     <name>PutExpression</name>
@@ -266,6 +266,7 @@ import graphmodel.ModelElement;
 import graphmodel.Node;
 
 import java.util.HashMap;
+import java.util.ArrayList;
 
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.graphiti.features.IAddFeature;
@@ -283,6 +284,8 @@ import $context.importPath$.*;
 
 public class $context.graphModelName$PasteFeature extends AbstractPasteFeature {
 
+	private int xFix, yFix;
+
 	public $context.graphModelName$PasteFeature(IFeatureProvider fp) {
 		super(fp);
 		// TODO Auto-generated constructor stub
@@ -295,6 +298,7 @@ public class $context.graphModelName$PasteFeature extends AbstractPasteFeature {
 		Object[] bos = getFromClipboard();
 		HashMap&lt;ModelElement, ModelElement&gt; copiedNodes = new HashMap&lt;&gt;();
 		HashMap&lt;ModelElement, Anchor&gt; anchors = new HashMap&lt;&gt;();
+		computeCenter(bos);
 		for (Object bo : bos) {
 			if (bo instanceof Edge) {
 				Edge edge = (Edge) bo;
@@ -380,8 +384,8 @@ public class $context.graphModelName$PasteFeature extends AbstractPasteFeature {
 			int x = ((Node) me).getX();
 			int y = ((Node) me).getY();
 			
-			int xNew = xContext + (x - xContext);
-			int yNew = yContext + (y - yContext);
+			int xNew = xContext + (x - xFix);
+			int yNew = yContext + (y - yFix);
 			ac.setLocation(xNew, yNew);
 		}
 		IAddFeature af = getFeatureProvider().getAddFeature(ac);
@@ -402,6 +406,44 @@ public class $context.graphModelName$PasteFeature extends AbstractPasteFeature {
 		if (af != null &amp;&amp; af.canAdd(acc)) {
 			af.add(acc);
 		}
+	}
+
+	private void computeCenter(Object[] bos) {
+		ArrayList&lt;ModelElement&gt; marked = new ArrayList&lt;&gt;();
+		for (Object o : bos) {
+			if (o instanceof Edge) {
+				Edge edge = (Edge) o;
+				if (!marked.contains(edge.getSourceElement()))
+						marked.add(edge.getSourceElement());
+				if (!marked.contains(edge.getTargetElement()))
+					marked.add(edge.getTargetElement());
+			}
+			
+			if (o instanceof Node) {
+				Node node = (Node) o;
+				if (!marked.contains(node))
+					marked.add(node);
+			}
+			
+			if (o instanceof Container) {
+				Container container = (Container) o;
+				if (!marked.contains(container));
+					marked.add(container);
+			}
+		}
+		int xSum = 0, ySum = 0;
+		for (ModelElement me : marked) {
+			if (me instanceof Node) {
+				xSum += ((Node) me).getX();
+				ySum += ((Node) me).getY();
+			}
+			if (me instanceof Container) {
+				xSum += ((Container) me).getX();
+				ySum += ((Container) me).getY();
+			}
+		}
+		xFix = xSum / marked.size();
+		yFix = ySum / marked.size();
 	}
 
 }

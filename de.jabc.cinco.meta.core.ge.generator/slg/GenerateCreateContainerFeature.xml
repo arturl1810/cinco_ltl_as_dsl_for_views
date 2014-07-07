@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>fb0af092-c2b0-41ca-88d1-29ad9c540729</id>
   <name>GenerateCreateContainerFeature</name>
-  <changecounter>190</changecounter>
+  <changecounter>191</changecounter>
   <sib>
     <id>9adef199-4664-4d95-b976-c83232fc48df</id>
     <name>RunStringTemplate</name>
@@ -59,6 +59,9 @@ public Create$context.containerName$Feature(IFeatureProvider fp) {
 		EObject bo = (EObject) getBusinessObjectForPictogramElement(target);		
 		$context.graphModelName$ $context.lcGraphModelName$ = $context.graphModelName$GraphitiUtils.addToResource(getDiagram(), this.getFeatureProvider());		
 
+		$context.meIdentifier$.setX(context.getX());
+		$context.meIdentifier$.setY(context.getY());
+		
 		if (bo instanceof Container) {
 			Container nc = (Container) bo;
 			nc.getModelElements().add($context.meIdentifier$);
