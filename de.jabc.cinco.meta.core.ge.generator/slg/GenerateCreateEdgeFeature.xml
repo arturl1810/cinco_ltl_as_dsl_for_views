@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>acbfac10-5547-4af8-9d81-08e1d3c67972</id>
   <name>GenerateCreateEdgeFeature</name>
-  <changecounter>298</changecounter>
+  <changecounter>302</changecounter>
   <sib>
     <id>f25e916c-be2e-4728-817b-64548b50fdb7</id>
     <name>RunStringTemplate</name>
@@ -27,6 +27,9 @@
     </parameter>
     <parameter name="template">
       <string>package $context.localPkgName$;
+
+import graphmodel.ContainingElement;
+import graphmodel.ModelElement;
 
 import $context.packageName$.graphiti.*;
 import $context.packageName$.graphiti.content.adapter.*;
@@ -647,9 +650,15 @@ public class Create$context.edgeName$Feature extends AbstractCreateConnectionFea
     </parameter>
     <parameter name="template">
       <string>
+			
+			if ( ((ModelElement) source).getContainer().equals( ((ModelElement) target).getContainer())) {
+				ContainingElement container = ((ModelElement) source).getContainer();
+				container.getModelElements().add($context.meIdentifier$);
+			} else {
+				$context.graphModelName$ $context.lcGraphModelName$ = $context.graphModelName$GraphitiUtils.addToResource(getDiagram(), this.getFeatureProvider());
+				$context.lcGraphModelName$.getModelElements().add($context.meIdentifier$);
+			}
 
-			$context.graphModelName$ $context.lcGraphModelName$ = $context.graphModelName$GraphitiUtils.addToResource(getDiagram(), this.getFeatureProvider());
-			$context.lcGraphModelName$.getModelElements().add($context.meIdentifier$);
 			AddConnectionContext addContext = 
 				new AddConnectionContext(context.getSourceAnchor(), context.getTargetAnchor());
 			addContext.setNewObject($context.meIdentifier$);
@@ -1073,7 +1082,7 @@ public class Create$context.edgeName$Feature extends AbstractCreateConnectionFea
     <label>ToLowerCase</label>
     <sib-uid>utility-sibs/ToLowerCase</sib-uid>
     <taxonomy>transem.utility.sib.ToLowerCase</taxonomy>
-    <position>1017.5,31.0</position>
+    <position>1017.5,33.0</position>
     <parameter name="lowerStringKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>

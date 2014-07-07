@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>67a73b2a-3824-4776-9686-ae1a8aed5282</id>
   <name>GenerateCopyPasteFeatures</name>
-  <changecounter>91</changecounter>
+  <changecounter>97</changecounter>
   <sib>
     <id>59a427e8-25c5-482c-a32b-a0aa278eb41b</id>
     <name>PutExpression</name>
@@ -173,13 +173,12 @@ public class $context.graphModelName$CopyFeature extends AbstractCopyFeature {
 
 	private List&lt;EObject&gt; getSubGraph(PictogramElement[] pes) {
 		ArrayList&lt;EObject&gt; list = new ArrayList&lt;&gt;();
-		HashMap&lt;Node, Object&gt; map = new HashMap&lt;&gt;();
+		HashMap&lt;ModelElement, Object&gt; map = new HashMap&lt;&gt;();
 		List&lt;Edge&gt; edges = new ArrayList&lt;Edge&gt;();
 		for (PictogramElement pe : pes) {
 			Object bo = getBusinessObjectForPictogramElement(pe);
 			if (bo instanceof Node) {
 				Node node = (Node) bo;
-				setPosition(node, pe);
 				list.add(node);
 				map.put(node, true);
 				for (Edge e : node.getIncoming())
@@ -189,7 +188,13 @@ public class $context.graphModelName$CopyFeature extends AbstractCopyFeature {
 			}
 			
 			if (bo instanceof Container) {
+				Container container = (Container) bo;
 				list.add((EObject) bo);
+				map.put(container, true);
+				for (Edge e : container.getIncoming())
+					edges.add(e);
+				for (Edge e : container.getOutgoing())
+					edges.add(e);
 			}
 			
 			if (bo instanceof Edge)
@@ -205,21 +210,6 @@ public class $context.graphModelName$CopyFeature extends AbstractCopyFeature {
 			}
 		}
 		return list;
-	}
-
-	private void setPosition(final Node node, final PictogramElement pe) {
-		TransactionalEditingDomain domain = TransactionUtil.getEditingDomain(node);
-		if (domain == null)
-			return;
-		domain.getCommandStack().execute(new RecordingCommand(domain) {
-			
-			@Override
-			protected void doExecute() {
-				node.setX(pe.getGraphicsAlgorithm().getX());
-				node.setY(pe.getGraphicsAlgorithm().getY());
-			}
-		});
-		
 	}
 
 }
@@ -267,6 +257,7 @@ import graphmodel.Node;
 
 import java.util.HashMap;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.graphiti.features.IAddFeature;
@@ -278,6 +269,7 @@ import org.eclipse.graphiti.mm.pictograms.Anchor;
 import org.eclipse.graphiti.mm.pictograms.AnchorContainer;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
+import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.ui.features.AbstractPasteFeature;
 
 import $context.importPath$.*;
@@ -297,7 +289,6 @@ public class $context.graphModelName$PasteFeature extends AbstractPasteFeature {
 		SomeGraph tmp = (SomeGraph)getBusinessObjectForPictogramElement(target);
 		Object[] bos = getFromClipboard();
 		HashMap&lt;ModelElement, ModelElement&gt; copiedNodes = new HashMap&lt;&gt;();
-		HashMap&lt;ModelElement, Anchor&gt; anchors = new HashMap&lt;&gt;();
 		computeCenter(bos);
 		for (Object bo : bos) {
 			if (bo instanceof Edge) {
@@ -321,17 +312,8 @@ public class $context.graphModelName$PasteFeature extends AbstractPasteFeature {
 				tmp.getModelElements().add(t);
 				tmp.getModelElements().add((ModelElement) copy);
 				
-				Anchor sAnchor = anchors.get(s);
-				Anchor tAnchor = anchors.get(t);
-	
-				if (sAnchor == null)
-					sAnchor = addModelElement(context, target, s);
-	
-				if (tAnchor == null)
-					tAnchor = addModelElement(context, target, t);
-				
-				anchors.put(s, sAnchor);
-				anchors.put(t, tAnchor);
+				Anchor sAnchor = addModelElement(context, target, s);
+				Anchor tAnchor = addModelElement(context, target, t);
 				
 				addEdge(context, target, copy, sAnchor, tAnchor);
 			}
@@ -374,6 +356,15 @@ public class $context.graphModelName$PasteFeature extends AbstractPasteFeature {
 	}
 
 	private Anchor addModelElement(IPasteContext context, ContainerShape target, ModelElement me) {
+		List&lt;PictogramElement&gt; pes = Graphiti.getLinkService().getPictogramElements(getDiagram(), me);
+		PictogramElement pe = null;
+		if (pes != null &amp;&amp; !pes.isEmpty()) {
+			pe = pes.get(0);
+		}
+		
+		if (pe instanceof AnchorContainer)
+			return ((AnchorContainer) pe).getAnchors().get(0);
+		
 		int xContext = context.getX();
 		int yContext = context.getY();
 		
@@ -388,9 +379,17 @@ public class $context.graphModelName$PasteFeature extends AbstractPasteFeature {
 			int yNew = yContext + (y - yFix);
 			ac.setLocation(xNew, yNew);
 		}
+		if (me instanceof Container) {
+			int x = ((Container) me).getX();
+			int y = ((Container) me).getY();
+			
+			int xNew = xContext + (x - xFix);
+			int yNew = yContext + (y - yFix);
+			ac.setLocation(xNew, yNew);
+		}
 		IAddFeature af = getFeatureProvider().getAddFeature(ac);
 		if (af != null &amp;&amp; af.canAdd(ac)) {
-			PictogramElement pe = af.add(ac);
+			pe = af.add(ac);
 			if (pe instanceof AnchorContainer) {
 				return ((AnchorContainer) pe).getAnchors().get(0);
 			}
