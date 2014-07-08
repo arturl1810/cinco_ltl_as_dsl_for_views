@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>67a73b2a-3824-4776-9686-ae1a8aed5282</id>
   <name>GenerateCopyPasteFeatures</name>
-  <changecounter>97</changecounter>
+  <changecounter>100</changecounter>
   <sib>
     <id>59a427e8-25c5-482c-a32b-a0aa278eb41b</id>
     <name>PutExpression</name>
@@ -286,7 +286,7 @@ public class $context.graphModelName$PasteFeature extends AbstractPasteFeature {
 	@Override
 	public void paste(IPasteContext context) {
 		ContainerShape target = (ContainerShape) context.getPictogramElements()[0];
-		SomeGraph tmp = (SomeGraph)getBusinessObjectForPictogramElement(target);
+		$context.graphModelName$ tmp = ($context.graphModelName$)getBusinessObjectForPictogramElement(target);
 		Object[] bos = getFromClipboard();
 		HashMap&lt;ModelElement, ModelElement&gt; copiedNodes = new HashMap&lt;&gt;();
 		computeCenter(bos);
@@ -334,7 +334,7 @@ public class $context.graphModelName$PasteFeature extends AbstractPasteFeature {
 		if (pes == null || pes.length == 0) 
 			return false;
 		Object bo = getBusinessObjectForPictogramElement(pes[0]);
-		if (!(bo instanceof SomeGraph) &amp;&amp; !(bo instanceof Container))
+		if (!(bo instanceof $context.graphModelName$) &amp;&amp; !(bo instanceof Container))
 			return false;
 		
 		Object[] bos = getFromClipboard();
