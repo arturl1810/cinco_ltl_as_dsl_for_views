@@ -258,13 +258,11 @@ Size returns Size:
 ConnectionDecorator returns ConnectionDecorator:
 	'location' '(' location=EDouble ')'
 	(movable?='movable')?
-	(relative?='relativeToMid')?
 	(decoratorShape=GraphicsAlgorithm | predefinedDecorator=PredefinedDecorator)
 ;
 
 PredefinedDecorator returns PredefinedDecorator:
 	shape=DecoratorShape ('appearance' appearance=[Appearance])?
-	(filled?='filled')?
 ;
 
 enum DecoratorShape returns DecoratorShapes:
