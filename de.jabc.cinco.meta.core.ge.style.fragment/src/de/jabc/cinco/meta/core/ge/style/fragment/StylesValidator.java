@@ -48,7 +48,10 @@ public class StylesValidator implements IMetaPluginValidator {
 			ep = checkGraphModelStyleAnnotation((GraphModel) me, annotation);
 		
 		if (me instanceof Node && annotation.getName().equals("Style")) {
-			ep = checkNodeStyleAnnotation((Node) me, annotation);
+			ep = checkNodeContainerStyleAnnotation((Node) me, annotation);
+		}
+		if (me instanceof NodeContainer && annotation.getName().equals("Style")) {
+			ep = checkNodeContainerStyleAnnotation((NodeContainer) me, annotation);
 		}
 		if (me instanceof Edge && annotation.getName().equals("Style")) {
 			ep = checkEdgeStyleAnnotation((Edge) me, annotation);
@@ -57,8 +60,8 @@ public class StylesValidator implements IMetaPluginValidator {
 		return ep;
 	}
 	
-	private ErrorPair<String, EStructuralFeature> checkNodeStyleAnnotation(	Node node, Annotation annot) {
-		Styles styles = getStyles(getGraphModel(node));
+	private ErrorPair<String, EStructuralFeature> checkNodeContainerStyleAnnotation(ModelElement me, Annotation annot) {
+		Styles styles = getStyles(getGraphModel(me));
 		String styleName = annot.getValue().get(0);
 		if (styleName == null || styleName.isEmpty())
 			return new ErrorPair<String, EStructuralFeature>(
@@ -92,7 +95,7 @@ public class StylesValidator implements IMetaPluginValidator {
 					"Style: " + styleName +" contains text element with " + params + " parameters but you provided: " + (annot.getValue().size()-1),
 					annot.eClass().getEStructuralFeature("value"));
 		else if (params == annot.getValue().size()-1) {
-			List<String> errors = checkParameters(node, annot.getValue());
+			List<String> errors = checkParameters(me, annot.getValue());
 			if (errors != null && !errors.isEmpty()) {
 				String retVal = "";
 				for (String s : errors)
