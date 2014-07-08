@@ -36,6 +36,7 @@ NodeStyle returns NodeStyle:
 EdgeStyle returns EdgeStyle:
 	'edgeStyle' name=ID ('appearanceProvider' '('appearanceProvider=QName')')? '{'
 		'lineStyle' lineStyle=LineStyle
+		('lineWidth' lineWidth=INT)?
 		('decorators' '{'
 			(decorator+=ConnectionDecorator)*
 		'}')?
@@ -51,7 +52,7 @@ ContainerShape returns ContainerShape:
 ;
 
 GraphicsAlgorithm:
-	SText | SMultiText | SImage | SPolyline | SRectangle | SRoundedRectangle | SEllipse | SPolygon
+	SText | SMultiText | SImage | SPolyline | SEllipse | SPolygon
 ; 
 
 Shape returns Shape:
@@ -262,12 +263,12 @@ ConnectionDecorator returns ConnectionDecorator:
 ;
 
 PredefinedDecorator returns PredefinedDecorator:
-	shape=DecoratorShape ('appearance' appearance=Appearance)?
+	shape=DecoratorShape ('appearance' appearance=[Appearance])?
 	(filled?='filled')?
 ;
 
 enum DecoratorShape returns DecoratorShapes:
-	ARROW | DIAMOND | CIRCLE | SQUARE
+	ARROW | DIAMOND | CIRCLE
 ;
 
 enum ContainerAlignment returns Alingnment:

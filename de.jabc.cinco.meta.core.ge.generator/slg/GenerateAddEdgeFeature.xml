@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>730ef53f-e135-46d5-9e4b-96fc4843c423</id>
   <name>GenerateAddEdgeFeature</name>
-  <changecounter>413</changecounter>
+  <changecounter>426</changecounter>
   <sib>
     <id>4966ae71-56db-49f8-b6d7-c3a51fbd1021</id>
     <name>PutExpression</name>
@@ -1128,39 +1128,6 @@ link(cd, $context.meIdentifier$);</string>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
-  <sib>
-    <id>7eb8dbbb-7e3b-48fb-99b2-f844618a7ecc</id>
-    <name>RunStringTemplate_3</name>
-    <label>decoratorShapeContent</label>
-    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
-    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>1044.5,588.0</position>
-    <parameter name="append">
-      <boolean>true</boolean>
-    </parameter>
-    <parameter name="individualVariables">
-      <boolean>false</boolean>
-    </parameter>
-    <parameter name="result">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>decoratorShapeContent</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="template">
-      <string>private void create$context.predefinedDecorator.shape$(GraphicsAlgorithmContainer gaContainer, $context.edgeName$ $context.meIdentifier$) {
-		IGaService gaService = Graphiti.getGaService();
-		IPeService peService = Graphiti.getPeService();
-		$context.gaRepContent$
-}
-</string>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-  </sib>
   <edge>
     <source>e1ba0270-5743-4a92-b563-8317c68b09c6</source>
     <target>908c8e7e-8fe4-4ddb-a575-11dd3885949f</target>
@@ -1175,7 +1142,7 @@ link(cd, $context.meIdentifier$);</string>
     <label>initContent</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>1010.0,438.0</position>
+    <position>1010.0,468.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -1194,18 +1161,12 @@ link(cd, $context.meIdentifier$);</string>
     <parameter name="template">
       <string>cd = peCreateService.createConnectionDecorator(connection, $context.decoratorIsMovable$, $context.decoratorLocation$, $context.decoratorIsRelative$);
 $context.graphModelName$LayoutUtils.create$context.predefinedDecorator.shape$(cd, $context.meIdentifier$, $context.filled$);
+$context.graphModelName$LayoutUtils.set$context.appearance.name$Style(cd.getGraphicsAlgorithm(), getDiagram());
 link(cd, $context.meIdentifier$);</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
   </sib>
-  <edge>
-    <source>7eb8dbbb-7e3b-48fb-99b2-f844618a7ecc</source>
-    <target>0b6b88b3-e43d-4f28-9fa7-63ea597c3f5f</target>
-    <point>1035.0,570.0</point>
-    <point>1028.0,484.0</point>
-    <branch>default</branch>
-  </edge>
   <edge>
     <source>0b6b88b3-e43d-4f28-9fa7-63ea597c3f5f</source>
     <target>621a1067-e312-4e18-b238-81d87fd969d8</target>
@@ -1247,7 +1208,7 @@ link(cd, $context.meIdentifier$);</string>
     <label>GetPredefinedDecoratorFilled</label>
     <sib-uid>style/style/GetPredefinedDecoratorFilled</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.style.sib.style.GetPredefinedDecoratorFilled</taxonomy>
-    <position>963.0,738.0</position>
+    <position>950.5,738.0</position>
     <parameter name="predefinedDecoratorKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1271,9 +1232,9 @@ link(cd, $context.meIdentifier$);</string>
   </sib>
   <edge>
     <source>908c8e7e-8fe4-4ddb-a575-11dd3885949f</source>
-    <target>0b6b88b3-e43d-4f28-9fa7-63ea597c3f5f</target>
-    <point>1050.0,738.0</point>
-    <point>1050.0,474.0</point>
+    <target>1d833221-46db-4d06-b915-a9ed3ac0535b</target>
+    <point>1068.0,742.8</point>
+    <point>1122.0,697.8</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -1461,6 +1422,81 @@ link(cd, $context.meIdentifier$);</string>
     <point>895.0,528.0</point>
     <branch>default</branch>
   </edge>
+  <sib>
+    <id>02ff8712-5f61-4c78-8bfb-40a1cd8c5ebf</id>
+    <name>RunStringTemplate_5</name>
+    <label>initContent</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>1115.0,468.0</position>
+    <parameter name="append">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>connectionDecoratorInitContent</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>cd = peCreateService.createConnectionDecorator(connection, $context.decoratorIsMovable$, $context.decoratorLocation$, $context.decoratorIsRelative$);
+$context.graphModelName$LayoutUtils.create$context.predefinedDecorator.shape$(cd, $context.meIdentifier$, $context.filled$);
+$context.graphModelName$LayoutUtils.set_$context.graphModelName$DefaultAppearanceStyle(cd.getGraphicsAlgorithm(), getDiagram());
+link(cd, $context.meIdentifier$);</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>1d833221-46db-4d06-b915-a9ed3ac0535b</source>
+    <target>0b6b88b3-e43d-4f28-9fa7-63ea597c3f5f</target>
+    <point>1131.2903225806451,663.0</point>
+    <point>1057.9411764705883,504.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>true</branch>
+  </edge>
+  <edge>
+    <source>1d833221-46db-4d06-b915-a9ed3ac0535b</source>
+    <target>02ff8712-5f61-4c78-8bfb-40a1cd8c5ebf</target>
+    <point>1141.4516129032259,663.0</point>
+    <point>1153.6764705882354,504.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>false</branch>
+  </edge>
+  <edge>
+    <source>02ff8712-5f61-4c78-8bfb-40a1cd8c5ebf</source>
+    <target>621a1067-e312-4e18-b238-81d87fd969d8</target>
+    <point>1140.0,465.0</point>
+    <point>766.0,341.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>1d833221-46db-4d06-b915-a9ed3ac0535b</id>
+    <name>CheckVariable_1</name>
+    <label>appearance?</label>
+    <sib-uid>basic-sibs/CheckVariable</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.CheckVariable</taxonomy>
+    <position>1005.0,618.0</position>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>appearance</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>emptyString</finalbranches>
+    <finalbranches>error</finalbranches>
+    <finalbranches>false</finalbranches>
+    <finalbranches>true</finalbranches>
+  </sib>
   <parameter>
     <name>modelElementKey</name>
     <field>modelElementKey</field>
@@ -1646,11 +1682,6 @@ link(cd, $context.meIdentifier$);</string>
   <branch>
     <name>error</name>
     <branch>error</branch>
-    <sib>7eb8dbbb-7e3b-48fb-99b2-f844618a7ecc</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
     <sib>e1ba0270-5743-4a92-b563-8317c68b09c6</sib>
   </branch>
   <branch>
@@ -1677,5 +1708,20 @@ link(cd, $context.meIdentifier$);</string>
     <name>error</name>
     <branch>error</branch>
     <sib>f772b5e8-dada-42ab-b7b4-ba727ac1ff22</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>908c8e7e-8fe4-4ddb-a575-11dd3885949f</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>02ff8712-5f61-4c78-8bfb-40a1cd8c5ebf</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>1d833221-46db-4d06-b915-a9ed3ac0535b</sib>
   </branch>
 </model>

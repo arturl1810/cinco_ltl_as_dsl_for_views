@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>e96e3211-9e15-4d4a-94a9-7b4b8375d7a3</id>
   <name>GenerateLayoutFeatures</name>
-  <changecounter>502</changecounter>
+  <changecounter>507</changecounter>
   <sib>
     <id>ff7817b7-c328-4684-827e-afc4ea81c9f3</id>
     <name>PutExpression</name>
@@ -283,18 +283,16 @@ public class $context.graphModelName$LayoutUtils {
 			Ellipse tmp = gaService.createEllipse(gaContainer);
 			gaService.setSize(tmp, 30, 30);
 			tmp.setFilled(filled);
-
-			//SomeGraphLayoutUtils.set_SomeGraphDefaultAppearanceStyle(tmp, getDiagram());
 	}
 
 	public static  void createARROW(GraphicsAlgorithmContainer gaContainer, graphmodel.Edge edge, boolean filled) {
 			IGaService gaService = Graphiti.getGaService();
 			IPeService peService = Graphiti.getPeService();
 			if (filled) {
-				Polygon tmp = gaService.createPolygon(gaContainer, new int[] {-20,15,0,0,-20,-15,-20,15});
+				Polygon tmp = gaService.createPolygon(gaContainer, new int[] {-11,-8, 0,0, -11,8, -11,-8});
 				tmp.setFilled(true);
 			} else {
-				Polyline tmp = gaService.createPolyline(gaContainer, new int[] {-20,15,0,0,-20,-15});
+				Polyline tmp = gaService.createPolyline(gaContainer, new int[] {-11,-8, 0,0, -11,8, -11,-8});
 			}
 			
 
@@ -303,10 +301,9 @@ public class $context.graphModelName$LayoutUtils {
 	public static  void createDIAMOND(GraphicsAlgorithmContainer gaContainer, graphmodel.Edge edge, boolean filled) {
 			IGaService gaService = Graphiti.getGaService();
 			IPeService peService = Graphiti.getPeService();
-			Polygon tmp = gaService.createPolygon(gaContainer, new int[] {-20,15,0,0,-20,-15,-40,0,-20,15});
+			Polygon tmp = gaService.createPolygon(gaContainer, new int[] {-9,-6, 0,0, -9,6, -18,0, -9,-6});
 			tmp.setFilled(filled);
 
-			//SomeGraphLayoutUtils.set_SomeGraphDefaultAppearanceStyle(tmp, getDiagram());
 	}
 	
 	public static void createSQUARE(GraphicsAlgorithmContainer gaContainer, graphmodel.Edge edge, boolean filled) {
@@ -315,8 +312,6 @@ public class $context.graphModelName$LayoutUtils {
 			Rectangle tmp = gaService.createRectangle(gaContainer);
 			gaService.setSize(tmp, 30, 30);
 			tmp.setFilled(filled);
-			
-			//SomeGraphLayoutUtils.set_SomeGraphDefaultAppearanceStyle(tmp, getDiagram());
 	}
 
 
@@ -898,7 +893,7 @@ public class Layout$context.container.name$Feature extends AbstractLayoutFeature
     <label>GetStylesAppearances</label>
     <sib-uid>style/style/GetStylesAppearances</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.sib.style.GetStylesAppearances</taxonomy>
-    <position>209.0,151.0</position>
+    <position>209.0,153.0</position>
     <parameter name="eListKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1132,7 +1127,7 @@ public class Layout$context.container.name$Feature extends AbstractLayoutFeature
     <label>GenerateAppearance</label>
     <sib-uid>ge-util-sibs/GenerateAppearance</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.GenerateAppearance</taxonomy>
-    <position>618.5,166.0</position>
+    <position>618.5,168.0</position>
     <parameter name="appearance">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1440,7 +1435,7 @@ public class Layout$context.edge.name$Feature extends AbstractLayoutFeature {
     <label>GenerateAppearanceDefaultValues</label>
     <sib-uid>ge-util-sibs/GenerateAppearanceDefaultValues</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.GenerateAppearanceDefaultValues</taxonomy>
-    <position>783.5,166.0</position>
+    <position>783.5,168.0</position>
     <parameter name="appearance">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>

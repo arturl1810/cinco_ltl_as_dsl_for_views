@@ -53,6 +53,7 @@
     <genClasses ecoreClass="Style.ecore#//EdgeStyle">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Style.ecore#//EdgeStyle/decorator"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Style.ecore#//EdgeStyle/lineStyle"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Style.ecore#//EdgeStyle/lineWidth"/>
     </genClasses>
     <genClasses image="false" ecoreClass="Style.ecore#//AbstractShape">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Style.ecore#//AbstractShape/position"/>
