@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>67a73b2a-3824-4776-9686-ae1a8aed5282</id>
   <name>GenerateCopyPasteFeatures</name>
-  <changecounter>100</changecounter>
+  <changecounter>103</changecounter>
   <sib>
     <id>59a427e8-25c5-482c-a32b-a0aa278eb41b</id>
     <name>PutExpression</name>
@@ -250,10 +250,7 @@ public class $context.graphModelName$CopyFeature extends AbstractCopyFeature {
     <parameter name="template">
       <string>package $context.localPkgName$;
 
-import graphmodel.Container;
-import graphmodel.Edge;
-import graphmodel.ModelElement;
-import graphmodel.Node;
+import graphmodel.*;
 
 import java.util.HashMap;
 import java.util.ArrayList;
@@ -286,7 +283,7 @@ public class $context.graphModelName$PasteFeature extends AbstractPasteFeature {
 	@Override
 	public void paste(IPasteContext context) {
 		ContainerShape target = (ContainerShape) context.getPictogramElements()[0];
-		$context.graphModelName$ tmp = ($context.graphModelName$)getBusinessObjectForPictogramElement(target);
+		ContainingElement tmp = (ContainingElement)getBusinessObjectForPictogramElement(target);
 		Object[] bos = getFromClipboard();
 		HashMap&lt;ModelElement, ModelElement&gt; copiedNodes = new HashMap&lt;&gt;();
 		computeCenter(bos);
@@ -368,6 +365,9 @@ public class $context.graphModelName$PasteFeature extends AbstractPasteFeature {
 		int xContext = context.getX();
 		int yContext = context.getY();
 		
+		int xTarget = target.getGraphicsAlgorithm().getX();
+		int yTarget = target.getGraphicsAlgorithm().getY();
+
 		AddContext ac = new AddContext();
 		ac.setNewObject(me);
 		ac.setTargetContainer(target);
@@ -375,16 +375,16 @@ public class $context.graphModelName$PasteFeature extends AbstractPasteFeature {
 			int x = ((Node) me).getX();
 			int y = ((Node) me).getY();
 			
-			int xNew = xContext + (x - xFix);
-			int yNew = yContext + (y - yFix);
+			int xNew = xContext + (x - xFix) - xTarget;
+			int yNew = yContext + (y - yFix) - yTarget;
 			ac.setLocation(xNew, yNew);
 		}
 		if (me instanceof Container) {
 			int x = ((Container) me).getX();
 			int y = ((Container) me).getY();
 			
-			int xNew = xContext + (x - xFix);
-			int yNew = yContext + (y - yFix);
+			int xNew = xContext + (x - xFix) - xTarget;
+			int yNew = yContext + (y - yFix) - yTarget;
 			ac.setLocation(xNew, yNew);
 		}
 		IAddFeature af = getFeatureProvider().getAddFeature(ac);
