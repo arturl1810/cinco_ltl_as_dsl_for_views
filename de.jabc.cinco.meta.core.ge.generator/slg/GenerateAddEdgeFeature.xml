@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>730ef53f-e135-46d5-9e4b-96fc4843c423</id>
   <name>GenerateAddEdgeFeature</name>
-  <changecounter>412</changecounter>
+  <changecounter>413</changecounter>
   <sib>
     <id>4966ae71-56db-49f8-b6d7-c3a51fbd1021</id>
     <name>PutExpression</name>
@@ -1134,7 +1134,7 @@ link(cd, $context.meIdentifier$);</string>
     <label>decoratorShapeContent</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>969.5,588.0</position>
+    <position>1044.5,588.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -1271,9 +1271,10 @@ link(cd, $context.meIdentifier$);</string>
   </sib>
   <edge>
     <source>908c8e7e-8fe4-4ddb-a575-11dd3885949f</source>
-    <target>7eb8dbbb-7e3b-48fb-99b2-f844618a7ecc</target>
-    <point>1050.0,780.0</point>
-    <point>1053.0,623.0</point>
+    <target>0b6b88b3-e43d-4f28-9fa7-63ea597c3f5f</target>
+    <point>1050.0,738.0</point>
+    <point>1050.0,474.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
