@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>86742e86-2110-423a-afde-6fd521759a73</id>
   <name>GraphInformation</name>
-  <changecounter>622</changecounter>
+  <changecounter>651</changecounter>
   <sib>
     <id>9e28dbf6-7ef4-4eef-9ad3-1d0d32bf6020</id>
     <name>GetGraphModelName</name>
@@ -2071,17 +2071,18 @@
     <label>PrintConsoleMessage</label>
     <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
     <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
-    <position>76.5,1878.0</position>
+    <position>481.5,1878.0</position>
     <parameter name="error">
-      <boolean>false</boolean>
+      <boolean>true</boolean>
     </parameter>
     <parameter name="message">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>Finished GraphInformation Macro. StyleMap: ${stylesMap}
+          <expression>Styles map:
+${stylesMap}
 
-Styles map:
-${stylesMap}</expression>
+InlineAppearances:
+${inlineAppearances}</expression>
           <clazz>java.lang.Object</clazz>
           <classMutable>false</classMutable>
         </ContextExpressionFoundation>
@@ -2282,11 +2283,84 @@ ${stylesMap}</expression>
   </sib>
   <edge>
     <source>acea79e6-2d07-4522-bbbc-83009f06721e</source>
-    <target>e7d49cd7-dfe8-462a-a085-d2827642c8a2</target>
-    <point>150.0,1635.0</point>
-    <point>152.0,1725.0</point>
+    <target>579e2658-5d05-4b78-9e03-e15fd72ca986</target>
+    <point>156.79245283018867,1734.0</point>
+    <point>202.3404255319149,1848.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
+  <edge>
+    <source>035ba6b2-02f2-4c05-a67b-5cdd09e1fdef</source>
+    <target>e7d49cd7-dfe8-462a-a085-d2827642c8a2</target>
+    <point>363.0,1814.4857142857143</point>
+    <point>537.0,1889.057142857143</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>579e2658-5d05-4b78-9e03-e15fd72ca986</source>
+    <target>035ba6b2-02f2-4c05-a67b-5cdd09e1fdef</target>
+    <point>168.0,1888.5230769230768</point>
+    <point>327.0,1815.1384615384616</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>035ba6b2-02f2-4c05-a67b-5cdd09e1fdef</id>
+    <name>CollectInlineAppearances</name>
+    <label>CollectInlineAppearances</label>
+    <sib-uid>ge-util-sibs/CollectInlineAppearances</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.CollectInlineAppearances</taxonomy>
+    <position>274.0,1878.0</position>
+    <parameter name="inlineAppearances">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>inlineAppearances</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="styles">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>styles</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>579e2658-5d05-4b78-9e03-e15fd72ca986</id>
+    <name>PutList</name>
+    <label>PutInlineAppearances</label>
+    <sib-uid>collection-sibs/PutList</sib-uid>
+    <taxonomy>de.jabc.sib.common.collection.PutList</taxonomy>
+    <position>76.0,1878.0</position>
+    <parameter name="elements">
+      <list/>
+    </parameter>
+    <parameter name="initialCapacity">
+      <int>10</int>
+    </parameter>
+    <parameter name="synchronization">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>inlineAppearances</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
   <values/>
   <branch>
     <name>error</name>
@@ -2587,5 +2661,15 @@ ${stylesMap}</expression>
     <name>error</name>
     <branch>error</branch>
     <sib>acea79e6-2d07-4522-bbbc-83009f06721e</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>035ba6b2-02f2-4c05-a67b-5cdd09e1fdef</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>579e2658-5d05-4b78-9e03-e15fd72ca986</sib>
   </branch>
 </model>

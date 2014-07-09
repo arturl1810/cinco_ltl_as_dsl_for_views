@@ -60,7 +60,8 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Style.ecore#//AbstractShape/size"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Style.ecore#//AbstractShape/name"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Style.ecore#//AbstractShape/color"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Style.ecore#//AbstractShape/appearance"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Style.ecore#//AbstractShape/referencedAppearance"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Style.ecore#//AbstractShape/inlineAppearance"/>
     </genClasses>
     <genClasses image="false" ecoreClass="Style.ecore#//ContainerShape">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Style.ecore#//ContainerShape/children"/>

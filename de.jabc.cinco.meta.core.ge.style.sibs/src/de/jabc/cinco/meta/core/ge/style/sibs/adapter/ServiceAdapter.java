@@ -42,6 +42,7 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import style.AbsolutPosition;
+import style.AbstractShape;
 import style.Alignment;
 import style.Appearance;
 import style.Color;
@@ -49,8 +50,11 @@ import style.ContainerShape;
 import style.Font;
 import style.HAlignment;
 import style.LineStyle;
+import style.NodeStyle;
 import style.Size;
+import style.Style;
 import style.StyleFactory;
+import style.Styles;
 import style.VAlignment;
 import de.jabc.adapter.common.collection.Branches;
 import de.metaframe.jabc.framework.execution.LightweightExecutionEnvironment;
@@ -642,6 +646,45 @@ public class ServiceAdapter {
 		} catch (Exception e) {
 			context.put("exception", e);
 			return Branches.ERROR;
+		}
+	}
+
+	public static String collectInlineAppearances(
+			LightweightExecutionEnvironment env,
+			ContextKeyFoundation styles,
+			ContextKeyFoundation inlineAppearances) {
+		
+		LightweightExecutionContext context = env.getLocalContext();
+		
+		try {
+			Styles s = (Styles) context.get(styles);
+			List<Appearance> list = new ArrayList<>();
+			for (Style style : s.getStyles()) {
+				if (style instanceof NodeStyle)
+					getInlineAppearance(((NodeStyle) style).getMainShape(), list, 0);
+			}
+			
+			context.put(inlineAppearances, list);
+			
+		} catch (Exception e) {
+			context.put("exception", e);
+			return Branches.ERROR;
+		}
+		
+		return Branches.DEFAULT;
+	}
+
+	private static void getInlineAppearance(AbstractShape as,
+			List<Appearance> list, int count) {
+		Appearance app = as.getInlineAppearance();
+		if (app != null) {
+			String name = "_Appearance" + ++count;
+			app.setName(name);
+			list.add(app);
+		}
+		if (as instanceof ContainerShape) {
+			for (AbstractShape abstractShape : ((ContainerShape) as).getChildren())
+				getInlineAppearance(abstractShape, list, count);
 		}
 	}
 }

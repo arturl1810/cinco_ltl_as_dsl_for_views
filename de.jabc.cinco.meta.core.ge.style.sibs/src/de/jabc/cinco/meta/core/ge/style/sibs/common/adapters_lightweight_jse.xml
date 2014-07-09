@@ -1,5 +1,13 @@
 <serviceAdapters defaultAdapter="de.jabc.cinco.meta.core.ge.style.sibs.adapter.ServiceAdapter">
 	
+	<serviceAdapter uid="ge-util-sibs/CollectInlineAppearances">
+		<service>collectInlineAppearances</service>
+		<arguments>
+			<argument name="styles" />
+			<argument name="inlineAppearances" />
+		</arguments>
+	</serviceAdapter>
+	
 	<serviceAdapter uid="ge-util-sibs/FileExists">
 		<service>fileExists</service>
 		<arguments>

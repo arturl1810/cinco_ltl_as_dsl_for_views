@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>730ef53f-e135-46d5-9e4b-96fc4843c423</id>
   <name>GenerateAddEdgeFeature</name>
-  <changecounter>440</changecounter>
+  <changecounter>461</changecounter>
   <sib>
     <id>4966ae71-56db-49f8-b6d7-c3a51fbd1021</id>
     <name>PutExpression</name>
@@ -594,7 +594,7 @@ Leaving Generate ${edgeName} AddFeature</expression>
     <label>GetConnectionDecoratorLocation</label>
     <sib-uid>style/style/GetConnectionDecoratorLocation</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.sib.style.GetConnectionDecoratorLocation</taxonomy>
-    <position>249.5,363.0</position>
+    <position>129.5,348.0</position>
     <parameter name="connectionDecoratorKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -622,7 +622,7 @@ Leaving Generate ${edgeName} AddFeature</expression>
     <label>GetConnectionDecoratorMovable</label>
     <sib-uid>style/style/GetConnectionDecoratorMovable</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.sib.style.GetConnectionDecoratorMovable</taxonomy>
-    <position>250.0,483.0</position>
+    <position>130.0,468.0</position>
     <parameter name="connectionDecoratorKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -650,7 +650,7 @@ Leaving Generate ${edgeName} AddFeature</expression>
     <label>GetConnectionDecoratorDecoratorShape</label>
     <sib-uid>style/style/GetConnectionDecoratorDecoratorShape</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.sib.style.GetConnectionDecoratorDecoratorShape</taxonomy>
-    <position>225.5,723.0</position>
+    <position>105.5,603.0</position>
     <parameter name="connectionDecoratorKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -701,7 +701,7 @@ Leaving Generate ${edgeName} AddFeature</expression>
     <label>GenerateGraphicsAlgorithm</label>
     <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
-    <position>779.5,691.0</position>
+    <position>779.5,796.0</position>
     <parameter name="connectionDecoratorKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -752,7 +752,7 @@ Leaving Generate ${edgeName} AddFeature</expression>
     <label>SetCurrentShape</label>
     <sib-uid>basic-sibs/PutExpression</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
-    <position>421.5,783.0</position>
+    <position>271.5,768.0</position>
     <parameter name="resolve">
       <boolean>true</boolean>
     </parameter>
@@ -876,7 +876,7 @@ link(cd, $context.meIdentifier$);</string>
     <label>SetParentName</label>
     <sib-uid>basic-sibs/PutExpression</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
-    <position>816.5,783.0</position>
+    <position>666.5,783.0</position>
     <parameter name="resolve">
       <boolean>true</boolean>
     </parameter>
@@ -985,47 +985,12 @@ link(cd, $context.meIdentifier$);</string>
     <branch>default</branch>
   </edge>
   <sib>
-    <id>5297f3a3-9af4-44cd-a929-93393b75cd2a</id>
-    <name>GetShapeAppearance</name>
-    <label>GetShapeAppearance</label>
-    <sib-uid>style/style/GetShapeAppearance</sib-uid>
-    <taxonomy>de.jabc.cinco.meta.core.ge.sib.style.GetShapeAppearance</taxonomy>
-    <position>662.0,783.0</position>
-    <parameter name="shapeKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>currentShape</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="shapeappearanceKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>appearance</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-  </sib>
-  <edge>
-    <source>5297f3a3-9af4-44cd-a929-93393b75cd2a</source>
-    <target>1c379dd5-2573-4992-87fc-e9b9b5a977f6</target>
-    <point>765.0,735.0</point>
-    <point>895.0,744.0</point>
-    <branch>default</branch>
-  </edge>
-  <sib>
     <id>689b1acd-5e30-4b93-a89e-1d38e82bf284</id>
     <name>CheckVariable</name>
     <label>decoratorShape?</label>
     <sib-uid>basic-sibs/CheckVariable</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.CheckVariable</taxonomy>
-    <position>302.0,858.0</position>
+    <position>182.0,858.0</position>
     <parameter name="variable">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1282,7 +1247,7 @@ link(cd, $context.meIdentifier$);</string>
     <label>GetAbstractShapeName</label>
     <sib-uid>style/style/GetAbstractShapeName</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.style.sib.style.GetAbstractShapeName</taxonomy>
-    <position>520.5,753.0</position>
+    <position>400.5,768.0</position>
     <parameter name="abstractShapeKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1306,9 +1271,9 @@ link(cd, $context.meIdentifier$);</string>
   </sib>
   <edge>
     <source>0e80aad4-0ac2-40d4-a2d4-c5e5c1b158e3</source>
-    <target>5297f3a3-9af4-44cd-a929-93393b75cd2a</target>
-    <point>629.2105263157895,714.0</point>
-    <point>688.125,783.0</point>
+    <target>c4fa3d8a-9fbf-4c6b-b0c3-df4b25f488a4</target>
+    <point>605.2702702702703,783.0</point>
+    <point>563.3720930232558,699.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -1425,6 +1390,113 @@ link(cd, $context.meIdentifier$);</string>
     <finalbranches>false</finalbranches>
     <finalbranches>true</finalbranches>
   </sib>
+  <sib>
+    <id>3c814404-22cc-4d86-a2c3-6fb8c1db61d1</id>
+    <name>GetShapeInlineAppearance</name>
+    <label>GetShapeInlineAppearance</label>
+    <sib-uid>style/style/GetShapeInlineAppearance</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.sibs.style.sib.style.GetShapeInlineAppearance</taxonomy>
+    <position>629.0,693.0</position>
+    <parameter name="shapeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>decoratorShape</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="shapeinlineAppearanceKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>appearance</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>c4fa3d8a-9fbf-4c6b-b0c3-df4b25f488a4</id>
+    <name>GetShapeReferencedAppearance</name>
+    <label>GetShapeReferencedAppearance</label>
+    <sib-uid>style/style/GetShapeReferencedAppearance</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.sibs.style.sib.style.GetShapeReferencedAppearance</taxonomy>
+    <position>370.5,633.0</position>
+    <parameter name="shapeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>decoratorShape</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="shapereferencedAppearanceKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>appearance</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>f48a92e6-d3da-4f14-8e2f-7fba395dd324</id>
+    <name>CheckVariable_2</name>
+    <label>CheckVariable</label>
+    <sib-uid>basic-sibs/CheckVariable</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.CheckVariable</taxonomy>
+    <position>520.0,723.0</position>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>appearance</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>emptyString</finalbranches>
+    <finalbranches>error</finalbranches>
+    <finalbranches>false</finalbranches>
+    <finalbranches>true</finalbranches>
+  </sib>
+  <edge>
+    <source>c4fa3d8a-9fbf-4c6b-b0c3-df4b25f488a4</source>
+    <target>f48a92e6-d3da-4f14-8e2f-7fba395dd324</target>
+    <point>525.0,720.0</point>
+    <point>521.0,638.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>f48a92e6-d3da-4f14-8e2f-7fba395dd324</source>
+    <target>1c379dd5-2573-4992-87fc-e9b9b5a977f6</target>
+    <point>498.0,575.4</point>
+    <point>642.0,683.4</point>
+    <labelposition>460.7655626392986,2.343407696715936</labelposition>
+    <branch>true</branch>
+  </edge>
+  <edge>
+    <source>f48a92e6-d3da-4f14-8e2f-7fba395dd324</source>
+    <target>3c814404-22cc-4d86-a2c3-6fb8c1db61d1</target>
+    <point>675.0,810.0</point>
+    <point>698.0,705.0</point>
+    <branch>false</branch>
+  </edge>
+  <edge>
+    <source>3c814404-22cc-4d86-a2c3-6fb8c1db61d1</source>
+    <target>1c379dd5-2573-4992-87fc-e9b9b5a977f6</target>
+    <point>603.0,821.1</point>
+    <point>687.0,768.6</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
   <parameter>
     <name>modelElementKey</name>
     <field>modelElementKey</field>
@@ -1585,11 +1657,6 @@ link(cd, $context.meIdentifier$);</string>
   <branch>
     <name>error</name>
     <branch>error</branch>
-    <sib>5297f3a3-9af4-44cd-a929-93393b75cd2a</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
     <sib>689b1acd-5e30-4b93-a89e-1d38e82bf284</sib>
   </branch>
   <branch>
@@ -1641,5 +1708,20 @@ link(cd, $context.meIdentifier$);</string>
     <name>error</name>
     <branch>error</branch>
     <sib>1d833221-46db-4d06-b915-a9ed3ac0535b</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>c4fa3d8a-9fbf-4c6b-b0c3-df4b25f488a4</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>3c814404-22cc-4d86-a2c3-6fb8c1db61d1</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>f48a92e6-d3da-4f14-8e2f-7fba395dd324</sib>
   </branch>
 </model>

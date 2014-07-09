@@ -32,7 +32,9 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="color" eType="#//Color"
         containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="appearance" eType="#//Appearance"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="referencedAppearance" eType="#//Appearance"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inlineAppearance" eType="#//Appearance"
+        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ContainerShape" abstract="true" interface="true"
       eSuperTypes="#//AbstractShape">
@@ -120,7 +122,7 @@
         defaultValueLiteral="-1.0"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="angle" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
         defaultValueLiteral="-1"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="parent" eType="#//Appearance"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="font" eType="#//Font" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="filled" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject"

@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>c1206c24-81a8-4ae2-b093-4d794fac9742</id>
   <name>GenerateContainerShape</name>
-  <changecounter>989</changecounter>
+  <changecounter>1049</changecounter>
   <sib>
     <id>299dd76d-8397-43af-aff5-bc29e4d4a5d6</id>
     <name>SwitchContainerShape</name>
@@ -187,7 +187,7 @@ gaService.setSize($context.peName$, $context.size.width$, $context.size.height$)
     <label>GenerateSetPosition</label>
     <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
-    <position>680.0,1381.0</position>
+    <position>682.5,1381.0</position>
     <parameter name="modelElementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -261,9 +261,9 @@ gaService.setSize($context.peName$, $context.size.width$, $context.size.height$)
   </edge>
   <edge>
     <source>53e7587c-03c3-4e93-b576-bfb6e4dd01ad</source>
-    <target>76d01b42-ca0b-4c87-87e8-b483df3f1d0a</target>
-    <point>689.0,671.0</point>
-    <point>764.0,776.0</point>
+    <target>1240802f-1393-4822-981d-6ac583a46dc8</target>
+    <point>672.0,672.3</point>
+    <point>468.0,736.05</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -299,9 +299,9 @@ gaService.setSize($context.peName$, 100, 100);
   </sib>
   <edge>
     <source>75d9b96c-16aa-4622-9568-810ed2fbee0a</source>
-    <target>76d01b42-ca0b-4c87-87e8-b483df3f1d0a</target>
-    <point>839.0,671.0</point>
-    <point>764.0,776.0</point>
+    <target>1240802f-1393-4822-981d-6ac583a46dc8</target>
+    <point>822.0,669.876923076923</point>
+    <point>468.0,737.9538461538461</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -485,42 +485,6 @@ gaService.setSize($context.peName$, 100, 100);
     <branch>default</branch>
   </edge>
   <sib>
-    <id>76d01b42-ca0b-4c87-87e8-b483df3f1d0a</id>
-    <name>GetAbstractShapeAppearance</name>
-    <label>GetAbstractShapeAppearance</label>
-    <sib-uid>style/style/GetAbstractShapeAppearance</sib-uid>
-    <taxonomy>de.jabc.cinco.meta.core.ge.sib.style.GetAbstractShapeAppearance</taxonomy>
-    <position>665.5,753.0</position>
-    <parameter name="abstractShapeKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>currentShape</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="abstractShapeappearanceKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>appearance</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-  </sib>
-  <edge>
-    <source>76d01b42-ca0b-4c87-87e8-b483df3f1d0a</source>
-    <target>4782d9e4-924c-4c1d-8f56-7235a1e23813</target>
-    <point>764.0,776.0</point>
-    <point>764.0,881.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
-  <sib>
     <id>4782d9e4-924c-4c1d-8f56-7235a1e23813</id>
     <name>CheckVariable_1</name>
     <label>CheckAppearance</label>
@@ -574,8 +538,8 @@ $context.graphModelName$LayoutUtils.set$context.appearance.name$Style($context.p
   <edge>
     <source>4782d9e4-924c-4c1d-8f56-7235a1e23813</source>
     <target>eb2f96da-7276-41eb-9ba4-73cb5a19e448</target>
-    <point>764.0,881.0</point>
-    <point>689.0,1016.0</point>
+    <point>755.625,894.0</point>
+    <point>700.7142857142857,993.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>true</branch>
   </edge>
@@ -585,7 +549,7 @@ $context.graphModelName$LayoutUtils.set$context.appearance.name$Style($context.p
     <label>SetDeafultAppearance</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>764.0,993.0</position>
+    <position>779.0,993.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -1142,6 +1106,113 @@ $context.setStyleContent$</string>
     <point>645.0,412.0</point>
     <branch>exit</branch>
   </edge>
+  <sib>
+    <id>1240802f-1393-4822-981d-6ac583a46dc8</id>
+    <name>GetShapeReferencedAppearance</name>
+    <label>GetShapeReferencedAppearance</label>
+    <sib-uid>style/style/GetShapeReferencedAppearance</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.sibs.style.sib.style.GetShapeReferencedAppearance</taxonomy>
+    <position>655.5,738.0</position>
+    <parameter name="shapeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>currentShape</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="shapereferencedAppearanceKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>appearance</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>3d1b98c6-1699-4ad5-b58b-28a84f36263b</id>
+    <name>GetShapeInlineAppearance</name>
+    <label>GetShapeInlineAppearance</label>
+    <sib-uid>style/style/GetShapeInlineAppearance</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.sibs.style.sib.style.GetShapeInlineAppearance</taxonomy>
+    <position>899.0,858.0</position>
+    <parameter name="shapeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>currentShape</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="shapeinlineAppearanceKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>appearance</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>1240802f-1393-4822-981d-6ac583a46dc8</source>
+    <target>32fe0448-9251-42d3-bdab-1316362ae205</target>
+    <point>783.0,756.45</point>
+    <point>1107.0,756.45</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>32fe0448-9251-42d3-bdab-1316362ae205</id>
+    <name>CheckVariable_3</name>
+    <label>CheckAppearance</label>
+    <sib-uid>basic-sibs/CheckVariable</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.CheckVariable</taxonomy>
+    <position>928.5,738.0</position>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>appearance</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>emptyString</finalbranches>
+    <finalbranches>error</finalbranches>
+    <finalbranches>false</finalbranches>
+    <finalbranches>true</finalbranches>
+  </sib>
+  <edge>
+    <source>32fe0448-9251-42d3-bdab-1316362ae205</source>
+    <target>3d1b98c6-1699-4ad5-b58b-28a84f36263b</target>
+    <point>960.0,765.0</point>
+    <point>1109.0,751.0</point>
+    <branch>false</branch>
+  </edge>
+  <edge>
+    <source>32fe0448-9251-42d3-bdab-1316362ae205</source>
+    <target>4782d9e4-924c-4c1d-8f56-7235a1e23813</target>
+    <point>972.0,766.32</point>
+    <point>783.0,867.12</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>true</branch>
+  </edge>
+  <edge>
+    <source>3d1b98c6-1699-4ad5-b58b-28a84f36263b</source>
+    <target>4782d9e4-924c-4c1d-8f56-7235a1e23813</target>
+    <point>990.0,885.0</point>
+    <point>808.0,877.0</point>
+    <branch>default</branch>
+  </edge>
   <parameter>
     <name>modelElementKey</name>
     <field>modelElementKey</field>
@@ -1227,11 +1298,6 @@ $context.setStyleContent$</string>
   <branch>
     <name>error</name>
     <branch>error</branch>
-    <sib>76d01b42-ca0b-4c87-87e8-b483df3f1d0a</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
     <sib>4782d9e4-924c-4c1d-8f56-7235a1e23813</sib>
   </branch>
   <branch>
@@ -1303,5 +1369,20 @@ $context.setStyleContent$</string>
     <name>error</name>
     <branch>error</branch>
     <sib>cf75cc0a-edc1-4cd9-9dea-5c6139961104</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>1240802f-1393-4822-981d-6ac583a46dc8</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>32fe0448-9251-42d3-bdab-1316362ae205</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>3d1b98c6-1699-4ad5-b58b-28a84f36263b</sib>
   </branch>
 </model>
