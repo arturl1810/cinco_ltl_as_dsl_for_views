@@ -27,16 +27,17 @@ Style returns Style:
 ;
 
 NodeStyle returns NodeStyle:
-	'nodeStyle' name=ID ('appearanceProvider' '('appearanceProvider=QName')')? '{'
+	'nodeStyle' name=ID '{'
+		('appearanceProvider' '('appearanceProvider=QName')')? 
 		(fixed?='fixed')?
 		mainShape=AbstractShape
 	'}'
 ;
 
 EdgeStyle returns EdgeStyle:
-	'edgeStyle' name=ID ('appearanceProvider' '('appearanceProvider=QName')')? '{'
-		'lineStyle' lineStyle=LineStyle
-		('lineWidth' lineWidth=INT)?
+	'edgeStyle' name=ID '{'
+		('appearanceProvider' '('appearanceProvider=QName')')? 
+		(('appearance' referencedAppearance=[Appearance]) | (inlineAppearance=InlineAppearance) )?
 		('decorators' '{'
 			(decorator+=ConnectionDecorator)*
 		'}')?
@@ -272,7 +273,7 @@ ConnectionDecorator returns ConnectionDecorator:
 ;
 
 PredefinedDecorator returns PredefinedDecorator:
-	shape=DecoratorShape ('appearance' appearance=[Appearance])?
+	shape=DecoratorShape (('appearance' referencedAppearance=[Appearance]) | (inlineAppearance=InlineAppearance) )? 
 ;
 
 enum DecoratorShape returns DecoratorShapes:

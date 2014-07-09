@@ -46,7 +46,9 @@ import style.AbstractShape;
 import style.Alignment;
 import style.Appearance;
 import style.Color;
+import style.ConnectionDecorator;
 import style.ContainerShape;
+import style.EdgeStyle;
 import style.Font;
 import style.HAlignment;
 import style.LineStyle;
@@ -68,6 +70,7 @@ public class ServiceAdapter {
 	private static Map<String, String> shapeNames = new HashMap<String, String>();
 	private static Map<String, String> gaNames = new HashMap<String, String>();
 	private static Map<String, String> keywords = new HashMap<String, String>();
+	private static int appearanceCount = 0;
 	
 	public ServiceAdapter() {
 		
@@ -659,10 +662,9 @@ public class ServiceAdapter {
 		try {
 			Styles s = (Styles) context.get(styles);
 			List<Appearance> list = new ArrayList<>();
-			for (Style style : s.getStyles()) {
-				if (style instanceof NodeStyle)
-					getInlineAppearance(((NodeStyle) style).getMainShape(), list, 0);
-			}
+			Integer count = 0;
+			for (Style style : s.getStyles()) 
+				getInlineAppearance(style, list);
 			
 			context.put(inlineAppearances, list);
 			
@@ -674,17 +676,45 @@ public class ServiceAdapter {
 		return Branches.DEFAULT;
 	}
 
-	private static void getInlineAppearance(AbstractShape as,
-			List<Appearance> list, int count) {
+	private static void getInlineAppearance(Style style, List<Appearance> list) {
+		
+		if (style instanceof NodeStyle)
+			getInlineAppearance(((NodeStyle) style).getMainShape(), list);
+		
+		if (style instanceof EdgeStyle) {
+			EdgeStyle es = (EdgeStyle) style;
+			if (es.getInlineAppearance() != null) {
+				String name = "_Appearance" + appearanceCount++;
+				es.getInlineAppearance().setName(name);
+				list.add(es.getInlineAppearance());
+			}
+		
+			for (ConnectionDecorator cd : es.getDecorator()) {
+				if (cd.getDecoratorShape() instanceof AbstractShape) {
+					getInlineAppearance((AbstractShape) cd.getDecoratorShape(), list);
+				}
+				if (cd.getPredefinedDecorator().getInlineAppearance() != null) {
+					String name = "_Appearance" + appearanceCount++;
+					cd.getPredefinedDecorator().getInlineAppearance().setName(name);
+					list.add(cd.getPredefinedDecorator().getInlineAppearance());
+				}
+			}
+				
+		}
+				
+	}
+		
+
+	private static void getInlineAppearance(AbstractShape as,	List<Appearance> list) {
 		Appearance app = as.getInlineAppearance();
 		if (app != null) {
-			String name = "_Appearance" + ++count;
+			String name = "_Appearance" + appearanceCount++;
 			app.setName(name);
 			list.add(app);
 		}
 		if (as instanceof ContainerShape) {
 			for (AbstractShape abstractShape : ((ContainerShape) as).getChildren())
-				getInlineAppearance(abstractShape, list, count);
+				getInlineAppearance(abstractShape, list);
 		}
 	}
 }

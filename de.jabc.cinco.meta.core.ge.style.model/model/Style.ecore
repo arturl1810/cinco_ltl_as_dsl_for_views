@@ -22,8 +22,9 @@
   <eClassifiers xsi:type="ecore:EClass" name="EdgeStyle" eSuperTypes="#//Style">
     <eStructuralFeatures xsi:type="ecore:EReference" name="decorator" upperBound="-1"
         eType="#//ConnectionDecorator" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="lineStyle" eType="#//LineStyle"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="lineWidth" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="referencedAppearance" eType="#//Appearance"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inlineAppearance" eType="#//Appearance"
+        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="AbstractShape" abstract="true">
     <eStructuralFeatures xsi:type="ecore:EReference" name="position" eType="#//AbstractPosition"
@@ -170,7 +171,9 @@
   <eClassifiers xsi:type="ecore:EClass" name="PredefinedDecorator">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="shape" lowerBound="1" eType="#//DecoratorShapes"
         defaultValueLiteral="ARROW"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="appearance" eType="#//Appearance"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="referencedAppearance" eType="#//Appearance"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inlineAppearance" eType="#//Appearance"
+        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="DecoratorShapes">
     <eLiterals name="ARROW" literal="ARROW"/>

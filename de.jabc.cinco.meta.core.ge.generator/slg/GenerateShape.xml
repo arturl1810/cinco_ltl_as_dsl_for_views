@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>36d9fec6-e1a2-4c6b-8680-956d60534097</id>
   <name>GenerateShape</name>
-  <changecounter>962</changecounter>
+  <changecounter>970</changecounter>
   <sib>
     <id>f901026e-1a69-421b-912a-54b756b8a46b</id>
     <name>GetShapeName</name>
@@ -255,9 +255,9 @@ gaService.setSize($context.peName$, $context.size.width$, $context.size.height$)
   </sib>
   <edge>
     <source>121462ec-09d0-4fb3-8f7c-08352bf7a9b1</source>
-    <target>cf39ae09-71bf-43a6-90fd-f211db5b4c9e</target>
-    <point>153.0,897.64</point>
-    <point>792.0,1124.84</point>
+    <target>163478c5-b0d1-4b20-be71-faac0ffc6630</target>
+    <point>153.0,900.7333333333333</point>
+    <point>520.0,1091.0740740740741</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -931,9 +931,9 @@ Polyline $context.peName$ = gaService.createPolyline($context.meShapeName$, new 
   </edge>
   <edge>
     <source>cc050f3c-be4f-4964-b4ec-0e9d0fe593be</source>
-    <target>cf39ae09-71bf-43a6-90fd-f211db5b4c9e</target>
-    <point>881.7391304347826,744.0</point>
-    <point>813.4090909090909,1113.0</point>
+    <target>163478c5-b0d1-4b20-be71-faac0ffc6630</target>
+    <point>868.828125,744.0</point>
+    <point>558.8524590163935,1081.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -1181,9 +1181,9 @@ Polyline $context.peName$ = gaService.createPolyline($context.meShapeName$, new 
   </sib>
   <edge>
     <source>ba35a0f2-66e4-4c90-ae60-b67dbc3c8197</source>
-    <target>cf39ae09-71bf-43a6-90fd-f211db5b4c9e</target>
-    <point>513.0,947.6571428571428</point>
-    <point>792.0,1120.3714285714286</point>
+    <target>163478c5-b0d1-4b20-be71-faac0ffc6630</target>
+    <point>499.6551724137931,954.0</point>
+    <point>534.2307692307693,1081.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -1213,14 +1213,6 @@ Polyline $context.peName$ = gaService.createPolyline($context.meShapeName$, new 
     <target>bd85fb00-402c-48b0-b63d-1a6a136e5210</target>
     <point>525.0,90.0</point>
     <point>682.0,43.0</point>
-    <branch>default</branch>
-  </edge>
-  <edge>
-    <source>cf39ae09-71bf-43a6-90fd-f211db5b4c9e</source>
-    <target>9c9ed907-c9a0-4786-8df2-1b600830f7bb</target>
-    <point>693.0,1086.9818181818182</point>
-    <point>822.0,1086.9818181818182</point>
-    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
@@ -1743,9 +1735,9 @@ gaService.setSize($context.peName$, 80, 20);
   </edge>
   <edge>
     <source>fb5c6492-35a9-4cf1-bd81-8ededfe82802</source>
-    <target>cf39ae09-71bf-43a6-90fd-f211db5b4c9e</target>
-    <point>1167.0,917.232</point>
-    <point>828.0,1120.632</point>
+    <target>163478c5-b0d1-4b20-be71-faac0ffc6630</target>
+    <point>1167.0,911.693023255814</point>
+    <point>560.0,1095.2325581395348</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -1788,104 +1780,36 @@ gaService.setSize($context.peName$, 80, 20);
     <branch>default</branch>
   </edge>
   <sib>
-    <id>cf39ae09-71bf-43a6-90fd-f211db5b4c9e</id>
-    <name>GetShapeReferencedAppearance</name>
-    <label>GetShapeReferencedAppearance</label>
-    <sib-uid>style/style/GetShapeReferencedAppearance</sib-uid>
-    <taxonomy>de.jabc.cinco.meta.core.sibs.style.sib.style.GetShapeReferencedAppearance</taxonomy>
-    <position>580.5,1068.0</position>
-    <parameter name="shapeKey">
+    <id>163478c5-b0d1-4b20-be71-faac0ffc6630</id>
+    <name>GraphSIB_2</name>
+    <label>GetAbstractShapeAppearance</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>575.5,1066.0</position>
+    <parameter name="abstractShapeKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
           <key>currentShape</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="shapereferencedAppearanceKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>appearance</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-  </sib>
-  <sib>
-    <id>bc2b4a69-e1a0-4af4-8856-38a26a922d17</id>
-    <name>GetShapeInlineAppearance</name>
-    <label>GetShapeInlineAppearance</label>
-    <sib-uid>style/style/GetShapeInlineAppearance</sib-uid>
-    <taxonomy>de.jabc.cinco.meta.core.sibs.style.sib.style.GetShapeInlineAppearance</taxonomy>
-    <position>824.0,1173.0</position>
-    <parameter name="shapeKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>currentShape</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="shapeinlineAppearanceKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>appearance</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-  </sib>
-  <sib>
-    <id>9c9ed907-c9a0-4786-8df2-1b600830f7bb</id>
-    <name>CheckVariable_5</name>
-    <label>CheckAppearance</label>
-    <sib-uid>basic-sibs/CheckVariable</sib-uid>
-    <taxonomy>de.jabc.sib.common.basic.CheckVariable</taxonomy>
-    <position>808.5,1068.0</position>
-    <parameter name="variable">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>appearance</key>
           <scope>DECLARED</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
-    <finalbranches>emptyString</finalbranches>
+    <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <finalbranches>false</finalbranches>
-    <finalbranches>true</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>89d840e4-331f-40a5-a378-646d7f13846a</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>GetAbstractShapeAppearance</string>
+    </userobject>
   </sib>
   <edge>
-    <source>9c9ed907-c9a0-4786-8df2-1b600830f7bb</source>
-    <target>bc2b4a69-e1a0-4af4-8856-38a26a922d17</target>
-    <point>840.0,1095.0</point>
-    <point>969.0,1099.0</point>
-    <branch>false</branch>
-  </edge>
-  <edge>
-    <source>bc2b4a69-e1a0-4af4-8856-38a26a922d17</source>
+    <source>163478c5-b0d1-4b20-be71-faac0ffc6630</source>
     <target>dc788d4b-a76c-40e9-8c99-1f65de1a5c51</target>
-    <point>897.0,1191.675</point>
-    <point>693.0,1191.675</point>
-    <labelposition>500.0,0.0</labelposition>
+    <point>675.0,1095.0</point>
+    <point>677.0,1203.0</point>
     <branch>default</branch>
-  </edge>
-  <edge>
-    <source>9c9ed907-c9a0-4786-8df2-1b600830f7bb</source>
-    <target>dc788d4b-a76c-40e9-8c99-1f65de1a5c51</target>
-    <point>852.0,1096.523076923077</point>
-    <point>693.0,1182.1384615384616</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>true</branch>
   </edge>
   <parameter>
     <name>modelElementKey</name>
@@ -2152,16 +2076,6 @@ gaService.setSize($context.peName$, 80, 20);
   <branch>
     <name>error</name>
     <branch>error</branch>
-    <sib>cf39ae09-71bf-43a6-90fd-f211db5b4c9e</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>bc2b4a69-e1a0-4af4-8856-38a26a922d17</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>9c9ed907-c9a0-4786-8df2-1b600830f7bb</sib>
+    <sib>163478c5-b0d1-4b20-be71-faac0ffc6630</sib>
   </branch>
 </model>
