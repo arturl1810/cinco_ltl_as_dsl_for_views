@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>730ef53f-e135-46d5-9e4b-96fc4843c423</id>
   <name>GenerateAddEdgeFeature</name>
-  <changecounter>428</changecounter>
+  <changecounter>437</changecounter>
   <sib>
     <id>4966ae71-56db-49f8-b6d7-c3a51fbd1021</id>
     <name>PutExpression</name>
@@ -645,34 +645,6 @@ Leaving Generate ${edgeName} AddFeature</expression>
     <finalbranches>error</finalbranches>
   </sib>
   <sib>
-    <id>28730056-2988-4864-981f-68ce5e1a6627</id>
-    <name>GetConnectionDecoratorRelative</name>
-    <label>GetConnectionDecoratorRelative</label>
-    <sib-uid>style/style/GetConnectionDecoratorRelative</sib-uid>
-    <taxonomy>de.jabc.cinco.meta.core.ge.sib.style.GetConnectionDecoratorRelative</taxonomy>
-    <position>251.0,603.0</position>
-    <parameter name="connectionDecoratorKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>decorator</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="connectionDecoratorrelativeKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>decoratorIsRelative</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-  </sib>
-  <sib>
     <id>fc6f3835-0d89-4d33-a01b-726c32ad489f</id>
     <name>GetConnectionDecoratorDecoratorShape</name>
     <label>GetConnectionDecoratorDecoratorShape</label>
@@ -717,17 +689,9 @@ Leaving Generate ${edgeName} AddFeature</expression>
   </edge>
   <edge>
     <source>d80c2ec2-3963-43f5-826b-3bf4deeaa921</source>
-    <target>28730056-2988-4864-981f-68ce5e1a6627</target>
-    <point>360.0,510.0</point>
-    <point>360.0,630.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
-  <edge>
-    <source>28730056-2988-4864-981f-68ce5e1a6627</source>
     <target>fc6f3835-0d89-4d33-a01b-726c32ad489f</target>
-    <point>360.0,630.0</point>
-    <point>360.0,750.0</point>
+    <point>360.0,519.0</point>
+    <point>360.0,723.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -877,7 +841,7 @@ Leaving Generate ${edgeName} AddFeature</expression>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>cd = peCreateService.createConnectionDecorator(connection, $context.decoratorIsMovable$, $context.decoratorLocation$, $context.decoratorIsRelative$);
+      <string>cd = peCreateService.createConnectionDecorator(connection, $context.decoratorIsMovable$, $context.decoratorLocation$, true);
 create$context.decoratorShapeName$(cd, $context.meIdentifier$);
 link(cd, $context.meIdentifier$);</string>
     </parameter>
@@ -1159,7 +1123,7 @@ link(cd, $context.meIdentifier$);</string>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>cd = peCreateService.createConnectionDecorator(connection, $context.decoratorIsMovable$, $context.decoratorLocation$, $context.decoratorIsRelative$);
+      <string>cd = peCreateService.createConnectionDecorator(connection, $context.decoratorIsMovable$, $context.decoratorLocation$, true);
 $context.graphModelName$LayoutUtils.create$context.predefinedDecorator.shape$(cd);
 $context.graphModelName$LayoutUtils.set$context.appearance.name$Style(cd.getGraphicsAlgorithm(), getDiagram());
 link(cd, $context.meIdentifier$);</string>
@@ -1445,7 +1409,7 @@ link(cd, $context.meIdentifier$);</string>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>cd = peCreateService.createConnectionDecorator(connection, $context.decoratorIsMovable$, $context.decoratorLocation$, $context.decoratorIsRelative$);
+      <string>cd = peCreateService.createConnectionDecorator(connection, $context.decoratorIsMovable$, $context.decoratorLocation$, true);
 $context.graphModelName$LayoutUtils.create$context.predefinedDecorator.shape$(cd);
 $context.graphModelName$LayoutUtils.set_$context.graphModelName$DefaultAppearanceStyle(cd.getGraphicsAlgorithm(), getDiagram());
 link(cd, $context.meIdentifier$);</string>
@@ -1613,11 +1577,6 @@ link(cd, $context.meIdentifier$);</string>
     <name>error</name>
     <branch>error</branch>
     <sib>d80c2ec2-3963-43f5-826b-3bf4deeaa921</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>28730056-2988-4864-981f-68ce5e1a6627</sib>
   </branch>
   <branch>
     <name>error</name>
