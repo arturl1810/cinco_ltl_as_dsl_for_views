@@ -266,7 +266,7 @@ PredefinedDecorator returns PredefinedDecorator:
 ;
 
 enum DecoratorShape returns DecoratorShapes:
-	ARROW | DIAMOND | CIRCLE
+	ARROW | DIAMOND | CIRCLE | TRIANGLE
 ;
 
 enum ContainerAlignment returns Alingnment:

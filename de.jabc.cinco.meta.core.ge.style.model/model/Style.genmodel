@@ -35,7 +35,7 @@
       <genEnumLiterals ecoreEnumLiteral="Style.ecore#//DecoratorShapes/ARROW"/>
       <genEnumLiterals ecoreEnumLiteral="Style.ecore#//DecoratorShapes/DIAMOND"/>
       <genEnumLiterals ecoreEnumLiteral="Style.ecore#//DecoratorShapes/CIRCLE"/>
-      <genEnumLiterals ecoreEnumLiteral="Style.ecore#//DecoratorShapes/SQUARE"/>
+      <genEnumLiterals ecoreEnumLiteral="Style.ecore#//DecoratorShapes/TRIANGLE"/>
     </genEnums>
     <genClasses ecoreClass="Style.ecore#//Styles">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Style.ecore#//Styles/styles"/>

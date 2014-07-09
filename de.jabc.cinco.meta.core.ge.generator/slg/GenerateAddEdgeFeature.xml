@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>730ef53f-e135-46d5-9e4b-96fc4843c423</id>
   <name>GenerateAddEdgeFeature</name>
-  <changecounter>437</changecounter>
+  <changecounter>440</changecounter>
   <sib>
     <id>4966ae71-56db-49f8-b6d7-c3a51fbd1021</id>
     <name>PutExpression</name>
@@ -1094,9 +1094,9 @@ link(cd, $context.meIdentifier$);</string>
   </edge>
   <edge>
     <source>e1ba0270-5743-4a92-b563-8317c68b09c6</source>
-    <target>908c8e7e-8fe4-4ddb-a575-11dd3885949f</target>
-    <point>963.0,866.4</point>
-    <point>1107.0,782.4</point>
+    <target>1d833221-46db-4d06-b915-a9ed3ac0535b</target>
+    <point>1050.0,858.0</point>
+    <point>1050.0,654.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -1166,42 +1166,6 @@ link(cd, $context.meIdentifier$);</string>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
   </sib>
-  <sib>
-    <id>908c8e7e-8fe4-4ddb-a575-11dd3885949f</id>
-    <name>GetPredefinedDecoratorFilled</name>
-    <label>GetPredefinedDecoratorFilled</label>
-    <sib-uid>style/style/GetPredefinedDecoratorFilled</sib-uid>
-    <taxonomy>de.jabc.cinco.meta.core.sibs.style.sib.style.GetPredefinedDecoratorFilled</taxonomy>
-    <position>950.5,738.0</position>
-    <parameter name="predefinedDecoratorKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>predefinedDecorator</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="predefinedDecoratorfilledKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>filled</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-  </sib>
-  <edge>
-    <source>908c8e7e-8fe4-4ddb-a575-11dd3885949f</source>
-    <target>1d833221-46db-4d06-b915-a9ed3ac0535b</target>
-    <point>1068.0,742.8</point>
-    <point>1122.0,697.8</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
   <sib>
     <id>67923be9-b766-49c0-abb3-ca4f95d8a310</id>
     <name>EvaluateCondition</name>
@@ -1667,11 +1631,6 @@ link(cd, $context.meIdentifier$);</string>
     <name>error</name>
     <branch>error</branch>
     <sib>f772b5e8-dada-42ab-b7b4-ba727ac1ff22</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>908c8e7e-8fe4-4ddb-a575-11dd3885949f</sib>
   </branch>
   <branch>
     <name>error</name>

@@ -177,6 +177,6 @@
     <eLiterals name="ARROW" literal="ARROW"/>
     <eLiterals name="DIAMOND" value="1" literal="DIAMOND"/>
     <eLiterals name="CIRCLE" value="2" literal="CIRCLE"/>
-    <eLiterals name="SQUARE" value="3" literal="SQUARE"/>
+    <eLiterals name="TRIANGLE" value="3" literal="TRIANGLE"/>
   </eClassifiers>
 </ecore:EPackage>
