@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>e96e3211-9e15-4d4a-94a9-7b4b8375d7a3</id>
   <name>GenerateLayoutFeatures</name>
-  <changecounter>515</changecounter>
+  <changecounter>518</changecounter>
   <sib>
     <id>ff7817b7-c328-4684-827e-afc4ea81c9f3</id>
     <name>PutExpression</name>
@@ -282,6 +282,7 @@ public class $context.graphModelName$LayoutUtils {
 		IPeService peService = Graphiti.getPeService();
 		Ellipse tmp = gaService.createEllipse(gaContainer);
 		gaService.setSize(tmp, 12, 12);
+		gaService.setLocation(tmp, tmp.getX() + $context.xDelta$, tmp.getY());
 		tmp.setFilled(true);
 	}
 
@@ -289,6 +290,7 @@ public class $context.graphModelName$LayoutUtils {
 		IGaService gaService = Graphiti.getGaService();
 		IPeService peService = Graphiti.getPeService();
 		Polygon tmp = gaService.createPolygon(gaContainer, new int[] {-11,-8, 0,0, -11,8, -11,-8});
+		gaService.setLocation(tmp, tmp.getX() + $context.xDelta$, tmp.getY());
 		tmp.setFilled(true);
 	}
 
@@ -296,12 +298,14 @@ public class $context.graphModelName$LayoutUtils {
 		IGaService gaService = Graphiti.getGaService();
 		IPeService peService = Graphiti.getPeService();
 		Polyline tmp = gaService.createPolyline(gaContainer, new int[] {-10,-4, 0,0, -10,4});
+		gaService.setLocation(tmp, tmp.getX() + $context.xDelta$, tmp.getY());
 	}
 
 	public static  void createDIAMOND(GraphicsAlgorithmContainer gaContainer) {
 		IGaService gaService = Graphiti.getGaService();
 		IPeService peService = Graphiti.getPeService();
 		Polygon tmp = gaService.createPolygon(gaContainer, new int[] {-9,-6, 0,0, -9,6, -18,0, -9,-6});
+		gaService.setLocation(tmp, tmp.getX() + $context.xDelta$, tmp.getY());
 		tmp.setFilled(true);
 	}
 	
