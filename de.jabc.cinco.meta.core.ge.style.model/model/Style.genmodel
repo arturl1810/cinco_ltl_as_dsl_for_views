@@ -128,7 +128,6 @@
     </genClasses>
     <genClasses ecoreClass="Style.ecore#//ConnectionDecorator">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Style.ecore#//ConnectionDecorator/movable"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Style.ecore#//ConnectionDecorator/relative"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Style.ecore#//ConnectionDecorator/location"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Style.ecore#//ConnectionDecorator/decoratorShape"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Style.ecore#//ConnectionDecorator/predefinedDecorator"/>
@@ -146,7 +145,6 @@
     </genClasses>
     <genClasses ecoreClass="Style.ecore#//PredefinedDecorator">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Style.ecore#//PredefinedDecorator/shape"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Style.ecore#//PredefinedDecorator/filled"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Style.ecore#//PredefinedDecorator/appearance"/>
     </genClasses>
   </genPackages>
