@@ -693,7 +693,9 @@ public class ServiceAdapter {
 				if (cd.getDecoratorShape() instanceof AbstractShape) {
 					getInlineAppearance((AbstractShape) cd.getDecoratorShape(), list);
 				}
-				if (cd.getPredefinedDecorator().getInlineAppearance() != null) {
+				
+				if (cd.getPredefinedDecorator() != null &&
+						cd.getPredefinedDecorator().getInlineAppearance() != null) {
 					String name = "_Appearance" + appearanceCount++;
 					cd.getPredefinedDecorator().getInlineAppearance().setName(name);
 					list.add(cd.getPredefinedDecorator().getInlineAppearance());
