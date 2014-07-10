@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>e96e3211-9e15-4d4a-94a9-7b4b8375d7a3</id>
   <name>GenerateLayoutFeatures</name>
-  <changecounter>557</changecounter>
+  <changecounter>561</changecounter>
   <sib>
     <id>ff7817b7-c328-4684-827e-afc4ea81c9f3</id>
     <name>PutExpression</name>
@@ -1459,7 +1459,7 @@ public class Layout$context.edge.name$Feature extends AbstractLayoutFeature {
     <label>AddElements</label>
     <sib-uid>collection-sibs/AddElements</sib-uid>
     <taxonomy>de.jabc.sib.common.collection.AddElements</taxonomy>
-    <position>454.0,153.0</position>
+    <position>449.5,153.0</position>
     <parameter name="collection">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1489,6 +1489,41 @@ public class Layout$context.edge.name$Feature extends AbstractLayoutFeature {
     <point>687.0,283.6</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>true</branch>
+  </edge>
+  <sib>
+    <id>2fb7b8ae-08fe-41a8-9c0f-72deb4507f51</id>
+    <name>PrintConsoleMessage_1</name>
+    <label>PrintConsoleMessage</label>
+    <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
+    <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
+    <position>429.5,48.0</position>
+    <parameter name="error">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="message">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>COULD NOT ADD APPEARANCES</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>false</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <finalbranches>default</finalbranches>
+  </sib>
+  <edge>
+    <source>46a897e1-726a-4a1a-832f-52c81272940a</source>
+    <target>2fb7b8ae-08fe-41a8-9c0f-72deb4507f51</target>
+    <point>495.0,180.0</point>
+    <point>489.0,59.0</point>
+    <branch>false</branch>
+  </edge>
+  <edge>
+    <source>2fb7b8ae-08fe-41a8-9c0f-72deb4507f51</source>
+    <target>faef0552-1ce6-4a8d-bc57-35c568fa48db</target>
+    <point>495.0,75.0</point>
+    <point>700.0,283.0</point>
+    <branch>default</branch>
   </edge>
   <values/>
   <branch>
@@ -1615,5 +1650,10 @@ public class Layout$context.edge.name$Feature extends AbstractLayoutFeature {
     <name>error</name>
     <branch>error</branch>
     <sib>09073de3-e86c-43f7-8f4d-aa7d2e458d8b</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>46a897e1-726a-4a1a-832f-52c81272940a</sib>
   </branch>
 </model>
