@@ -2,14 +2,14 @@
 <model version="2.1">
   <id>9b2878c2-af27-4fb3-878a-6613ed7a16c6</id>
   <name>GenerateCreateNodeFeature</name>
-  <changecounter>497</changecounter>
+  <changecounter>500</changecounter>
   <sib>
     <id>cc5a8f52-a2dd-434a-825b-350e398066fe</id>
     <name>RunStringTemplate</name>
     <label>CreateNodeFeatureContent</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>387.5,243.0</position>
+    <position>252.5,243.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -503,8 +503,8 @@ public Create$context.node.name$Feature(IFeatureProvider fp) {
     <label>GenerateCheckContainerForCreateFeature</label>
     <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
-    <position>623.5,241.0</position>
-    <parameter name="modelElementKey">
+    <position>533.5,241.0</position>
+    <parameter name="ModelElementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
           <key>currentNode</key>
@@ -516,10 +516,10 @@ public Create$context.node.name$Feature(IFeatureProvider fp) {
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
     <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>5e86b732-986b-45e9-ab68-1536e5a318ea</string>
+      <string>4ac25e32-ae6b-469a-b78c-1764aa97ce4d</string>
     </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
-      <string>GenerateCheckContainerForCreateFeature</string>
+      <string>GenerateCheckContainer</string>
     </userobject>
   </sib>
   <sib>

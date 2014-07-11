@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>c7542d87-aa25-4707-a286-db91e10d7301</id>
   <name>GenerateAddContainerFeature</name>
-  <changecounter>387</changecounter>
+  <changecounter>389</changecounter>
   <sib>
     <id>3f7b7312-5278-4d0a-b7f8-45424c587ca9</id>
     <name>GetNodeContainerIsAbstract</name>
@@ -430,9 +430,7 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
 		Object bo = context.getNewObject();
 		Object target = getBusinessObjectForPictogramElement(context.getTargetContainer());
 		if (bo instanceof $context.modelElementName$) {
-			if (context.getTargetContainer() instanceof Diagram)
-				return true;
-			$context.containerCheck$
+			return true;
 		}
 		return false;
 	}
@@ -825,7 +823,7 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
     <parameter name="ModelElementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>modelElementKey</key>
+          <key>nodeContainerKey</key>
           <scope>DECLARED</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
