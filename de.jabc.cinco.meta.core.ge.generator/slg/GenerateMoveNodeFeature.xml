@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>98ab2190-4ec2-4346-85ee-61b8c0d16099</id>
   <name>GenerateMoveNodeFeature</name>
-  <changecounter>183</changecounter>
+  <changecounter>184</changecounter>
   <sib>
     <id>a757414d-68f3-478e-a5f2-cbb249a4880a</id>
     <name>RunStringTemplate_1</name>
@@ -370,6 +370,15 @@ public class Move$context.node.name$Feature extends DefaultMoveShapeFeature{
     <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
     <position>65.5,271.0</position>
+    <parameter name="ClearContent">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>${false}</expression>
+          <clazz>java.lang.Boolean</clazz>
+          <classMutable>false</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
     <parameter name="ModelElementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>

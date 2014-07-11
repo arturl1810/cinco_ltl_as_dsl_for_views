@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>4db550cc-f2bc-4c86-b8fb-009d572b0b8b</id>
   <name>GenerateAddNodeFeature</name>
-  <changecounter>1416</changecounter>
+  <changecounter>1418</changecounter>
   <sib>
     <id>b89523ed-9916-4f61-a5e9-9e1d8838a845</id>
     <name>PutExpression_1</name>
@@ -1216,6 +1216,15 @@ Leaving Generate ${nodeName} AddFeature </expression>
     <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
     <position>40.0,361.0</position>
+    <parameter name="ClearContent">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>${false}</expression>
+          <clazz>java.lang.Boolean</clazz>
+          <classMutable>false</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
     <parameter name="ModelElementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>

@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>67a73b2a-3824-4776-9686-ae1a8aed5282</id>
   <name>GenerateCopyPasteFeatures</name>
-  <changecounter>103</changecounter>
+  <changecounter>152</changecounter>
   <sib>
     <id>59a427e8-25c5-482c-a32b-a0aa278eb41b</id>
     <name>PutExpression</name>
@@ -316,11 +316,13 @@ public class $context.graphModelName$PasteFeature extends AbstractPasteFeature {
 			}
 		}
 		for (Object bo : bos) {
-			if ((bo instanceof Node || bo instanceof Container) &amp;&amp; copiedNodes.get(bo) == null) {
-				ModelElement me = (ModelElement) bo;
-				ModelElement copy = EcoreUtil.copy(me);
-				tmp.getModelElements().add(copy);
-				addModelElement(context, target, copy);
+			if (canPaste(bo, getBusinessObjectForPictogramElement(target))) {
+				if ((bo instanceof Node || bo instanceof Container) &amp;&amp; copiedNodes.get(bo) == null) {
+					ModelElement me = (ModelElement) bo;
+					ModelElement copy = EcoreUtil.copy(me);
+					tmp.getModelElements().add(copy);
+					addModelElement(context, target, copy);
+				}
 			}
 		}
 	}
@@ -338,16 +340,9 @@ public class $context.graphModelName$PasteFeature extends AbstractPasteFeature {
 		if (bos == null || bos.length == 0)
 			return false;
 		for (Object o : bos) {
-			if (o instanceof Node || o instanceof Container) {
-				AddContext ac = new AddContext();
-				ac.setNewObject(o);
-				ac.setTargetContainer((ContainerShape) pes[0]);
-				ac.setLocation(context.getX(), context.getY());
-				IAddFeature af = getFeatureProvider().getAddFeature(ac);
-				if (af == null || !af.canAdd(ac))
-					return false;
+			if (!canPaste(o, bo)) {
+				return false;
 			}
-			
 		}
 		return true;
 	}
@@ -443,6 +438,11 @@ public class $context.graphModelName$PasteFeature extends AbstractPasteFeature {
 		}
 		xFix = xSum / marked.size();
 		yFix = ySum / marked.size();
+	}
+
+	private boolean canPaste(Object bo, Object target) {
+		$context.pasteContent$
+		return false;
 	}
 
 }
@@ -618,9 +618,10 @@ public class $context.graphModelName$PasteFeature extends AbstractPasteFeature {
   </edge>
   <edge>
     <source>9b993eaa-4198-4e0c-935b-27f234bb5373</source>
-    <target>8aa0a1dd-fd90-4abc-a2e9-ff882536ad38</target>
-    <point>90.0,555.0</point>
-    <point>80.0,643.0</point>
+    <target>aa92bfe4-ce39-4f48-9ba1-2db17c3b8f9e</target>
+    <point>108.0,557.9076923076923</point>
+    <point>267.0,655.7538461538462</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
@@ -628,6 +629,273 @@ public class $context.graphModelName$PasteFeature extends AbstractPasteFeature {
     <target>af959c41-0db9-47da-820e-4cb97cab5b39</target>
     <point>90.0,660.0</point>
     <point>83.0,764.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>aa92bfe4-ce39-4f48-9ba1-2db17c3b8f9e</id>
+    <name>IterateElements</name>
+    <label>IterateNodes</label>
+    <sib-uid>collection-sibs/IterateElements</sib-uid>
+    <taxonomy>de.jabc.sib.common.collection.IterateElements</taxonomy>
+    <position>299.5,528.0</position>
+    <parameter name="collection">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>nodes</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="element">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>modelElement</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="iterator">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>iterator</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>exit</finalbranches>
+    <finalbranches>next</finalbranches>
+  </sib>
+  <sib>
+    <id>c7a9f388-11af-49f4-b686-2513289d8601</id>
+    <name>IterateElements_1</name>
+    <label>IterateContainer</label>
+    <sib-uid>collection-sibs/IterateElements</sib-uid>
+    <taxonomy>de.jabc.sib.common.collection.IterateElements</taxonomy>
+    <position>483.0,528.0</position>
+    <parameter name="collection">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>containers</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="element">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>modelElement</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="iterator">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>containeriterator</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>exit</finalbranches>
+    <finalbranches>next</finalbranches>
+  </sib>
+  <sib>
+    <id>b4f20ed1-1e2f-4749-b0ec-28cf10fd36fb</id>
+    <name>MacroSIB</name>
+    <label>GenerateCheckContainer</label>
+    <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
+    <position>260.5,316.0</position>
+    <parameter name="ClearContent">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>${true}</expression>
+          <clazz>java.lang.Boolean</clazz>
+          <classMutable>false</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="ModelElementKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>modelElement</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>4ac25e32-ae6b-469a-b78c-1764aa97ce4d</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>GenerateCheckContainer</string>
+    </userobject>
+  </sib>
+  <sib>
+    <id>089f251a-81b3-4412-ba06-537e8677d433</id>
+    <name>MacroSIB_1</name>
+    <label>GenerateCheckContainer</label>
+    <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
+    <position>455.5,316.0</position>
+    <parameter name="ClearContent">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>${true}</expression>
+          <clazz>java.lang.Boolean</clazz>
+          <classMutable>false</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="ModelElementKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>modelElement</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>4ac25e32-ae6b-469a-b78c-1764aa97ce4d</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>GenerateCheckContainer</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>c7a9f388-11af-49f4-b686-2513289d8601</source>
+    <target>089f251a-81b3-4412-ba06-537e8677d433</target>
+    <spline/>
+    <point>525.0,528.0</point>
+    <point>525.0,356.0</point>
+    <labelposition>549.4784594408119,1.4085373397061813</labelposition>
+    <branch>next</branch>
+  </edge>
+  <edge>
+    <source>089f251a-81b3-4412-ba06-537e8677d433</source>
+    <target>6303c061-3cd9-4d1b-8541-8220fdec7b36</target>
+    <point>506.8181818181818,356.0</point>
+    <point>453.0,409.8</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>aa92bfe4-ce39-4f48-9ba1-2db17c3b8f9e</source>
+    <target>c7a9f388-11af-49f4-b686-2513289d8601</target>
+    <point>345.0,555.0</point>
+    <point>499.0,551.0</point>
+    <branch>exit</branch>
+  </edge>
+  <edge>
+    <source>c7a9f388-11af-49f4-b686-2513289d8601</source>
+    <target>8aa0a1dd-fd90-4abc-a2e9-ff882536ad38</target>
+    <point>525.0,555.0</point>
+    <point>101.0,678.0</point>
+    <branch>exit</branch>
+  </edge>
+  <sib>
+    <id>64b170ea-ca16-40c7-a22a-a8bb50df1fda</id>
+    <name>RunStringTemplate_2</name>
+    <label>PasteContent</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>192.5,423.0</position>
+    <parameter name="append">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>pasteContent</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>if (bo instanceof $context.modelElement.name$) {
+	$context.containerCheck$
+}
+
+</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>6303c061-3cd9-4d1b-8541-8220fdec7b36</id>
+    <name>RunStringTemplate_3</name>
+    <label>PasteContent</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>402.5,423.0</position>
+    <parameter name="append">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>pasteContent</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>if (bo instanceof $context.modelElement.name$) {
+	$context.containerCheck$
+}
+
+</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>6303c061-3cd9-4d1b-8541-8220fdec7b36</source>
+    <target>c7a9f388-11af-49f4-b686-2513289d8601</target>
+    <point>465.0,435.0</point>
+    <point>514.0,537.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>aa92bfe4-ce39-4f48-9ba1-2db17c3b8f9e</source>
+    <target>b4f20ed1-1e2f-4749-b0ec-28cf10fd36fb</target>
+    <point>345.0,555.0</point>
+    <point>351.0,353.0</point>
+    <branch>next</branch>
+  </edge>
+  <edge>
+    <source>b4f20ed1-1e2f-4749-b0ec-28cf10fd36fb</source>
+    <target>64b170ea-ca16-40c7-a22a-a8bb50df1fda</target>
+    <point>326.57894736842104,356.0</point>
+    <point>258.0,424.54285714285714</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>64b170ea-ca16-40c7-a22a-a8bb50df1fda</source>
+    <target>aa92bfe4-ce39-4f48-9ba1-2db17c3b8f9e</target>
+    <point>240.0,450.0</point>
+    <point>333.0,535.0</point>
     <branch>default</branch>
   </edge>
   <values/>
@@ -670,5 +938,35 @@ public class $context.graphModelName$PasteFeature extends AbstractPasteFeature {
     <name>error</name>
     <branch>error</branch>
     <sib>59a427e8-25c5-482c-a32b-a0aa278eb41b</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>c7a9f388-11af-49f4-b686-2513289d8601</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>aa92bfe4-ce39-4f48-9ba1-2db17c3b8f9e</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>64b170ea-ca16-40c7-a22a-a8bb50df1fda</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>6303c061-3cd9-4d1b-8541-8220fdec7b36</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>b4f20ed1-1e2f-4749-b0ec-28cf10fd36fb</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>089f251a-81b3-4412-ba06-537e8677d433</sib>
   </branch>
 </model>

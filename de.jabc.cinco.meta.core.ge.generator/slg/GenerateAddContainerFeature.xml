@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>c7542d87-aa25-4707-a286-db91e10d7301</id>
   <name>GenerateAddContainerFeature</name>
-  <changecounter>389</changecounter>
+  <changecounter>390</changecounter>
   <sib>
     <id>3f7b7312-5278-4d0a-b7f8-45424c587ca9</id>
     <name>GetNodeContainerIsAbstract</name>
@@ -820,6 +820,15 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
     <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
     <position>490.0,421.0</position>
+    <parameter name="ClearContent">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>${false}</expression>
+          <clazz>java.lang.Boolean</clazz>
+          <classMutable>false</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
     <parameter name="ModelElementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
