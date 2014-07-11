@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>67a73b2a-3824-4776-9686-ae1a8aed5282</id>
   <name>GenerateCopyPasteFeatures</name>
-  <changecounter>152</changecounter>
+  <changecounter>155</changecounter>
   <sib>
     <id>59a427e8-25c5-482c-a32b-a0aa278eb41b</id>
     <name>PutExpression</name>
@@ -330,7 +330,7 @@ public class $context.graphModelName$PasteFeature extends AbstractPasteFeature {
 	@Override
 	public boolean canPaste(IPasteContext context) {
 		PictogramElement[] pes = context.getPictogramElements();
-		if (pes == null || pes.length == 0) 
+		if (pes == null || pes.length != 1) 
 			return false;
 		Object bo = getBusinessObjectForPictogramElement(pes[0]);
 		if (!(bo instanceof $context.graphModelName$) &amp;&amp; !(bo instanceof Container))
