@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>6337b64c-6817-485e-8307-e4917971ec4c</id>
   <name>GenerateAddFeatures</name>
-  <changecounter>968</changecounter>
+  <changecounter>971</changecounter>
   <sib>
     <id>b32a8ef5-975f-40bb-898a-24caf849acbb</id>
     <name>IterateElements</name>
@@ -63,15 +63,6 @@
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
           <key>node</key>
-          <scope>DECLARED</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="node">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>modelElementKey</key>
           <scope>DECLARED</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>

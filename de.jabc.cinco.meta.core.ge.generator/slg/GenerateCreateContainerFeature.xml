@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>fb0af092-c2b0-41ca-88d1-29ad9c540729</id>
   <name>GenerateCreateContainerFeature</name>
-  <changecounter>191</changecounter>
+  <changecounter>199</changecounter>
   <sib>
     <id>9adef199-4664-4d95-b976-c83232fc48df</id>
     <name>RunStringTemplate</name>
@@ -401,14 +401,14 @@ public Create$context.containerName$Feature(IFeatureProvider fp) {
   <sib>
     <id>b6b0cc62-116d-4b76-9985-950c559e49aa</id>
     <name>MacroSIB</name>
-    <label>GenerateCheckContainer</label>
+    <label>GenerateCheckContainerForCreateFeature</label>
     <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
-    <position>470.5,226.0</position>
-    <parameter name="ModelElementKey">
+    <position>421.5,226.0</position>
+    <parameter name="modelElementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>container</key>
+          <key>modelElementKey</key>
           <scope>DECLARED</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
@@ -417,10 +417,10 @@ public Create$context.containerName$Feature(IFeatureProvider fp) {
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
     <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>4ac25e32-ae6b-469a-b78c-1764aa97ce4d</string>
+      <string>5e86b732-986b-45e9-ab68-1536e5a318ea</string>
     </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
-      <string>GenerateCheckContainer</string>
+      <string>GenerateCheckContainerForCreateFeature</string>
     </userobject>
   </sib>
   <edge>
@@ -432,16 +432,21 @@ public Create$context.containerName$Feature(IFeatureProvider fp) {
     <branch>default</branch>
   </edge>
   <parameter>
-    <name>containerKey</name>
+    <name>modelElementKey</name>
     <field>nodeContainerKey</field>
     <sib>ca8e2e0d-9645-4ddb-bc8b-f714ef2c0a5b</sib>
   </parameter>
+  <parameter>
+    <name>modelElementKey</name>
+    <field>modelElementKey</field>
+    <sib>b6b0cc62-116d-4b76-9985-950c559e49aa</sib>
+  </parameter>
   <values>
     <entry>
-      <string>containerKey</string>
+      <string>modelElementKey</string>
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>nodeContainerKey</key>
+          <key>modelElementKey</key>
           <scope>DECLARED</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
