@@ -118,14 +118,25 @@ public class StylesValidator implements IMetaPluginValidator {
 		if (styles == null)
 			return null;
 
+		Style style = null;
+		
 		for (Style s : styles.getStyles()) {
 			if (s.getName().equals(styleName) ){
 				if (s instanceof NodeStyle)
 					return new ErrorPair<String, EStructuralFeature>(
-							"Node style assigned to an edge...",
+							"Node style assigned to this edge...",
 							annot.eClass().getEStructuralFeature("value"));
+				style = s;
+				break;
 			}
 		}
+		
+		if (style == null) {
+			return new ErrorPair<String, EStructuralFeature>(
+					"Style: " + styleName +" does not exist",
+					annot.eClass().getEStructuralFeature("value"));
+		}
+		
 		return null;
 	}
 	
