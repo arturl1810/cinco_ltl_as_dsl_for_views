@@ -155,15 +155,15 @@ public class NewMGLProjectWizard extends Wizard implements IWorkbenchWizard{
 	
 	private void createDummyMGLModel(IFile modelFile, String modelName, String packageName) {		
 		StringBuilder sb = new StringBuilder();
-		sb.append("@Style(\"/"+packageName+"/model/"+modelName+".style\")\n");
+		sb.append("@style(\"/"+packageName+"/model/"+modelName+".style\")\n");
 		sb.append("graphModel " + modelName + "{\n\tpackage " + packageName + "\n\t" +"nsURI \"http://de/test/project/"+modelName.toLowerCase()+"\"\n\t");
 		sb.append("diagramExtension \"\"\n");
-		sb.append("\n\t@Style(NodeStyle)\n");
+		sb.append("\n\t@style(NodeStyle)\n");
 		sb.append("\tnode Start{\n\n\t}\n\t"
-				+ "@Style(NodeStyle)\n"
+				+ "@style(NodeStyle)\n"
 				+ "\tnode End{\n\n\t}\n\n\t");
 		
-		sb.append("@Style(EdgeStyle)\n");
+		sb.append("@style(EdgeStyle)\n");
 		sb.append("\tedge Succ{\n\t\ttargetNodes(End)\n\t\tsourceNodes(Start)\n\t}\n}");
 		
 		try {
