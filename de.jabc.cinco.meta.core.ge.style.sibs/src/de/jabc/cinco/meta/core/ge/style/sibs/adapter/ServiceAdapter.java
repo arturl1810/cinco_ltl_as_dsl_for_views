@@ -84,7 +84,7 @@ public class ServiceAdapter {
 		try {
 			List<Annotation> annots = (List<Annotation>) context.get(annotations);
 			for (Annotation a : annots) {
-				if ("Style".equals(a.getName())) {
+				if ("style".equals(a.getName())) {
 					context.put(annotation, a);
 					break;
 				}

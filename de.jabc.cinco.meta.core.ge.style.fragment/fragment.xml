@@ -9,16 +9,16 @@
             metapluginService="de.jabc.cinco.meta.core.ge.style.fragment.GraphitiGenerator">
       </metaplugin_description>
       <node-annotation
-            recognized-annotation="Style">
+            recognized-annotation="style">
       </node-annotation>
       <edge-annotation
-            recognized-annotation="Style">
+            recognized-annotation="style">
       </edge-annotation>
       <graphmodel-annotation
-            recognized-annotation="Style">
+            recognized-annotation="style">
       </graphmodel-annotation>
       <nodecontainer-annotation
-            recognized-annotation="Style">
+            recognized-annotation="style">
       </nodecontainer-annotation>
       <proposalprovider
             MetaPluginAcceptor="de.jabc.cinco.meta.core.ge.style.fragment.StyleValueProposalProvider">

@@ -44,16 +44,16 @@ public class StylesValidator implements IMetaPluginValidator {
 			return null;
 		Annotation annotation = (Annotation) eObject;
 		ModelElement me = getModelElement((Annotation) eObject);
-		if (me instanceof GraphModel && annotation.getName().equals("Style"))
+		if (me instanceof GraphModel && annotation.getName().equals("style"))
 			ep = checkGraphModelStyleAnnotation((GraphModel) me, annotation);
 		
-		if (me instanceof Node && annotation.getName().equals("Style")) {
+		if (me instanceof Node && annotation.getName().equals("style")) {
 			ep = checkNodeContainerStyleAnnotation((Node) me, annotation);
 		}
-		if (me instanceof NodeContainer && annotation.getName().equals("Style")) {
+		if (me instanceof NodeContainer && annotation.getName().equals("style")) {
 			ep = checkNodeContainerStyleAnnotation((NodeContainer) me, annotation);
 		}
-		if (me instanceof Edge && annotation.getName().equals("Style")) {
+		if (me instanceof Edge && annotation.getName().equals("style")) {
 			ep = checkEdgeStyleAnnotation((Edge) me, annotation);
 		}
 		
@@ -215,7 +215,7 @@ public class StylesValidator implements IMetaPluginValidator {
 	
 	private Annotation getStyleAnnotation(ModelElement me) {
 		for (Annotation a : me.getAnnotations()) {
-			if ("Style".equals(a.getName())) {
+			if ("style".equals(a.getName())) {
 				return a;
 			}
 		}
@@ -224,7 +224,7 @@ public class StylesValidator implements IMetaPluginValidator {
 	
 	private Styles getStyles(GraphModel gm) {
 		for (Annotation a : gm.getAnnotations()) {
-			if ("Style".equals(a.getName())) {
+			if ("style".equals(a.getName())) {
 				String path = a.getValue().get(0);
 				URI uri = URI.createPlatformResourceURI(path, true);
 				try {

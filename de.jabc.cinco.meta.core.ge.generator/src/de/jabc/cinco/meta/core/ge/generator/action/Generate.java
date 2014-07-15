@@ -92,14 +92,14 @@ public class Generate extends AbstractHandler {
 			generateGenModelCode(file);
 			
 			for (Annotation a : gModel.getAnnotations()) {
-				if ("Style".equals(a.getName())) {
+				if ("style".equals(a.getName())) {
 					String stylePath = a.getValue().get(0);
 					styles = loadStyles(stylePath);
 				}
 			}
 			
 			String mglProjectName = file.getProject().getName();
-			String projectName = file.getProject().getName().concat(".graphiti");
+			String projectName = gModel.getPackage().concat(".graphiti");
 			String path = ResourcesPlugin.getWorkspace().getRoot().getLocation().append(projectName).toOSString();
 			
 			List<String> srcFolders = getSrcFolders();
