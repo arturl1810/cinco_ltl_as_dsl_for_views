@@ -31,7 +31,12 @@ import org.eclipse.xtext.validation.Check
  */
 class MGLValidator extends AbstractMGLValidator {
 
-	
+	@Check
+	def checkPackageNameExists(GraphModel model){
+		if(model.package.nullOrEmpty || model.package.equals("\"\"")){
+			error('Package name must be present.',MglPackage.Literals::TYPE__NAME)
+		}
+	}
 	@Check
 	def checkNamedElementNameStartsWithCapital(ModelElement namedElement){
 		if (!Character::isUpperCase(namedElement.name.charAt(0))) {
