@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>58218bce-14ea-427d-8c72-e67903670e10</id>
   <name>GenerateSingleDoubleCode</name>
-  <changecounter>23</changecounter>
+  <changecounter>53</changecounter>
   <sib>
     <id>07490c72-84c8-4157-9ddc-dafda795be38</id>
     <name>RunStringTemplate</name>
@@ -26,7 +26,8 @@
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>$context.flAttributeName$Text.setText(String.valueOf(tmp.get$context.fuAttributeName$()));</string>
+      <string>$context.flAttributeName$Text.setText(String.valueOf(tmp.get$context.fuAttributeName$()));
+$context.flAttributeName$Text.setSelection($context.flAttributeName$Text.getText().length());</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
@@ -95,6 +96,7 @@ if (tmp instanceof $context.modelElementName$) {
     </parameter>
     <parameter name="template">
       <string>private Text $context.flAttributeName$Text;
+private Object oldVal;
 	
 @Override
 public void createControls(Composite parent, TabbedPropertySheetPage tabbedPropertySheetPage) {
@@ -116,6 +118,7 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
 
 	$context.attributeName$Text.addTraverseListener(traverseListener);
 	$context.attributeName$Text.addVerifyListener(verifyListener);
+	$context.attributeName$Text.addFocusListener(focusListener);
 }
 </string>
     </parameter>
@@ -165,7 +168,11 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
 		
 	@Override
 	public void keyTraversed(TraverseEvent e) {
+		if (oldVal.equals($context.flAttributeName$Text.getText()))
+			return;
 		if (e.detail == SWT.TRAVERSE_RETURN) {
+			if (oldVal.equals($context.flAttributeName$Text.getText()))
+			return;
 			TransactionalEditingDomain dom = getDiagramContainer().getDiagramBehavior().getEditingDomain();
 			dom.getCommandStack().execute(new RecordingCommand(dom, &quot;Set $context.flAttributeName$&quot;) {
 				
@@ -174,6 +181,10 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
 					changeValue();
 				}
 			});
+		}
+
+		if (e.detail == SWT.TRAVERSE_ESCAPE) {
+			refresh();
 		}
 	}
 };
@@ -197,10 +208,37 @@ VerifyListener verifyListener= new VerifyListener() {
 			if ((e.keyCode &gt;= 48 &amp;&amp; e.keyCode &lt;= 57) || e.keyCode == 46) {
 				Double.valueOf(t.getText().concat(e.text));
 				e.doit = true;
-			} else e.doit = false;
+			} else if ( e.keyCode == SWT.ESC) {
+				e.doit = true;
+			}
+			else e.doit = false;
 		} catch (NumberFormatException e1) {
 			e.doit = false;
 		}
+	}
+};
+
+FocusListener focusListener = new FocusListener() {
+	
+	@Override
+	public void focusLost(FocusEvent e) {
+		if (oldVal.equals($context.flAttributeName$Text.getText()))
+			return;
+		
+		TransactionalEditingDomain dom = getDiagramContainer().getDiagramBehavior().getEditingDomain();
+		dom.getCommandStack().execute(new RecordingCommand(dom, &quot;Set char&quot;) {
+			
+			@Override
+			protected void doExecute() {
+				changeValue();
+			}
+		});
+	}
+		
+	
+	@Override
+	public void focusGained(FocusEvent e) {
+		oldVal = $context.flAttributeName$Text.getText();
 	}
 };</string>
     </parameter>
