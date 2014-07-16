@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>149d1ca1-a6c8-418b-820e-fb6403963115</id>
   <name>Create CodeGen Handler</name>
-  <changecounter>29</changecounter>
+  <changecounter>31</changecounter>
   <sib>
     <id>6ec4d4e6-7c89-44fe-8552-f555aa651230</id>
     <name>RunStringTemplate</name>
@@ -72,14 +72,11 @@ public class $graphModelName$CodeGenerationHandler extends AbstractHandler {
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 				IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindowChecked(event);
 		
-		IEditorPart activeEditor =  window.getActivePage().getActiveEditor();
-		
-		DiagramEditorInput input = (DiagramEditorInput)activeEditor.getEditorInput();
-		final URI uri = input.getUri();
-		System.out.println(uri.toPlatformString(true));
-		
-    IProgressService ps = window.getWorkbench().getProgressService();
 		try {
+			IEditorPart activeEditor =  window.getActivePage().getActiveEditor();
+			DiagramEditorInput input = (DiagramEditorInput)activeEditor.getEditorInput();
+			final URI uri = input.getUri();
+    			IProgressService ps = window.getWorkbench().getProgressService();
 			ps.run(true, true, new IRunnableWithProgress() {
 				
 				@Override
@@ -123,6 +120,8 @@ public class $graphModelName$CodeGenerationHandler extends AbstractHandler {
 			});
 		} catch (InvocationTargetException | InterruptedException e) {
 			e.printStackTrace();
+		}catch (ClassCastException e){
+			
 		}
     return null;
 	}
