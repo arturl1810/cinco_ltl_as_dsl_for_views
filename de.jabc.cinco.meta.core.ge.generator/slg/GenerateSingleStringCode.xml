@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>ea6aca34-ec03-4ba1-99b7-4fc762288fa2</id>
   <name>GenerateSingleStringCode</name>
-  <changecounter>186</changecounter>
+  <changecounter>227</changecounter>
   <sib>
     <id>21749b0f-12f8-4797-81b9-3f0453fbf22c</id>
     <name>RunStringTemplate</name>
@@ -28,7 +28,8 @@
     <parameter name="template">
       <string>if (tmp.get$context.fuAttributeName$() != null)
 	$context.flAttributeName$Text.setText(tmp.get$context.fuAttributeName$());
-else $context.flAttributeName$Text.setText(&quot;&quot;);</string>
+else $context.flAttributeName$Text.setText(&quot;&quot;);
+$context.flAttributeName$Text.setSelection($context.flAttributeName$Text.getText().length());</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
@@ -93,6 +94,7 @@ if (tmp instanceof $context.modelElementName$) {
     </parameter>
     <parameter name="template">
       <string>private Text $context.flAttributeName$Text;
+private Object oldVal;
 	
 @Override
 public void createControls(Composite parent, TabbedPropertySheetPage tabbedPropertySheetPage) {
@@ -113,6 +115,7 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
 	$context.attributeName$Text.setLayoutData(data);
 
 	$context.attributeName$Text.addTraverseListener(traverseListener);
+	$context.attributeName$Text.addFocusListener(focusListener);
 }
 </string>
     </parameter>
@@ -160,6 +163,8 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
 		
 	@Override
 	public void keyTraversed(TraverseEvent e) {
+		if (oldVal.equals($context.flAttributeName$Text.getText()))
+			return;
 		if (e.detail == SWT.TRAVERSE_RETURN) {
 			TransactionalEditingDomain dom = getDiagramContainer().getDiagramBehavior().getEditingDomain();
 			dom.getCommandStack().execute(new RecordingCommand(dom, &quot;Set $context.flAttributeName$&quot;) {
@@ -170,9 +175,35 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
 				}
 			});
 		}
+		if (e.detail == SWT.TRAVERSE_ESCAPE) {
+			refresh();
+		}
 	}
 };
-</string>
+
+FocusListener focusListener = new FocusListener() {
+		
+	@Override
+	public void focusLost(FocusEvent e) {
+		if (oldVal.equals($context.flAttributeName$Text.getText()))
+			return;
+		
+		TransactionalEditingDomain dom = getDiagramContainer().getDiagramBehavior().getEditingDomain();
+		dom.getCommandStack().execute(new RecordingCommand(dom, &quot;Set char&quot;) {
+			
+			@Override
+			protected void doExecute() {
+					changeValue();
+			}
+		});
+	}
+		
+	
+	@Override
+	public void focusGained(FocusEvent e) {
+		oldVal = $context.flAttributeName$Text.getText();
+	}
+};</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
@@ -251,7 +282,8 @@ if( tmp.get$context.fuAttributeName$Parameter().get(0) != null )
 	value = tmp.get$context.fuAttributeName$Parameter().get(0).getInstance();
 if (value != null)
 	$context.flAttributeName$Text.setText( (String) value);
-else $context.flAttributeName$Text.setText(&quot;&quot;);</string>
+else $context.flAttributeName$Text.setText(&quot;&quot;);
+$context.flAttributeName$Text.setSelection($context.flAttributeName$Text.getText().length());</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
@@ -280,6 +312,7 @@ else $context.flAttributeName$Text.setText(&quot;&quot;);</string>
     </parameter>
     <parameter name="template">
       <string>private Text $context.flAttributeName$Text;
+private Object oldVal;
 	
 @Override
 public void createControls(Composite parent, TabbedPropertySheetPage tabbedPropertySheetPage) {
@@ -303,6 +336,7 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
 	$context.attributeName$Text.setEnabled(true);
 
 	$context.attributeName$Text.addTraverseListener(traverseListener);
+	$context.attributeName$Text.addFocusListener(focusListener);
 
 }
 </string>
@@ -449,6 +483,8 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
 		
 	@Override
 	public void keyTraversed(TraverseEvent e) {
+		if (oldVal.equals($context.flAttributeName$Text.getText()))
+			return;
 		if (e.detail == SWT.TRAVERSE_RETURN) {
 			TransactionalEditingDomain dom = getDiagramContainer().getDiagramBehavior().getEditingDomain();
 			dom.getCommandStack().execute(new RecordingCommand(dom, &quot;Set $context.flAttributeName$&quot;) {
@@ -459,9 +495,35 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
 				}
 			});
 		}
+		if (e.detail == SWT.TRAVERSE_ESCAPE) {
+			refresh();
+		}
 	}
 };
-</string>
+
+FocusListener focusListener = new FocusListener() {
+	
+	@Override
+	public void focusLost(FocusEvent e) {
+		if (oldVal.equals($context.flAttributeName$Text.getText()))
+			return;
+		
+		TransactionalEditingDomain dom = getDiagramContainer().getDiagramBehavior().getEditingDomain();
+		dom.getCommandStack().execute(new RecordingCommand(dom, &quot;Set char&quot;) {
+			
+			@Override
+			protected void doExecute() {
+					changeValue();
+			}
+		});
+	}
+		
+	
+	@Override
+	public void focusGained(FocusEvent e) {
+		oldVal = $context.flAttributeName$Text.getText();
+	}
+};</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
