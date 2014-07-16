@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>696c3b21-1096-4b9a-86bd-7456a6b80d52</id>
   <name>GenerateModelElementPropertyView</name>
-  <changecounter>177</changecounter>
+  <changecounter>187</changecounter>
   <sib>
     <id>c215c747-bca3-4fbb-9807-9cd2ab3f1b32</id>
     <name>PutExpression</name>
@@ -667,11 +667,16 @@ import org.eclipse.ui.views.properties.tabbed.*;
 
 import $context.importPath$.*;
 import $context.packageName$.graphiti.*;
+import $context.packageName$.graphiti.content.adapter.*;
 
 public class $context.modelElementName$_$context.attributeName$_Section extends GFPropertySection implements ITabbedPropertyConstants {
 
 	$context.controlCode$
  
+	public $context.modelElementName$_$context.attributeName$_Section() {
+		$context.modelElementName$EContentAdapter.getInstance().addSection(this);
+	}
+
 	@Override
 	public void refresh() {
 		PictogramElement pe = getSelectedPictogramElement();
@@ -689,6 +694,10 @@ public class $context.modelElementName$_$context.attributeName$_Section extends 
 	}
 
 	$context.listenerCode$
+	
+	public void dispose() {
+		$context.modelElementName$EContentAdapter.getInstance().remove(this);
+	}
 }</string>
     </parameter>
     <finalbranches>default</finalbranches>
