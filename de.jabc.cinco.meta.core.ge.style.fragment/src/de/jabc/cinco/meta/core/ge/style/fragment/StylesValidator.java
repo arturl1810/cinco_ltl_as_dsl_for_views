@@ -62,6 +62,11 @@ public class StylesValidator implements IMetaPluginValidator {
 	
 	private ErrorPair<String, EStructuralFeature> checkNodeContainerStyleAnnotation(ModelElement me, Annotation annot) {
 		Styles styles = getStyles(getGraphModel(me));
+		if (annot.getValue().size() == 0) {
+			return new ErrorPair<String, EStructuralFeature>(
+					"Please define a style for this style annotation", annot.eClass()
+					.getEStructuralFeature("value"));
+		}
 		String styleName = annot.getValue().get(0);
 		if (styleName == null || styleName.isEmpty())
 			return new ErrorPair<String, EStructuralFeature>(
