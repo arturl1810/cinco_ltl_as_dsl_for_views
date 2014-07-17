@@ -38,9 +38,7 @@ EdgeStyle returns EdgeStyle:
 	'edgeStyle' name=ID '{'
 		('appearanceProvider' '('appearanceProvider=QName')')? 
 		(('appearance' referencedAppearance=[Appearance]) | (inlineAppearance=InlineAppearance) )?
-		('decorators' '{'
-			(decorator+=ConnectionDecorator)*
-		'}')?
+		(decorator+=ConnectionDecorator)*
 	'}'
 ;
 
@@ -253,9 +251,11 @@ Size returns Size:
 ;
 
 ConnectionDecorator returns ConnectionDecorator:
-	'location' '(' location=EDouble ')'
-	(movable?='movable')?
-	(decoratorShape=GraphicsAlgorithm | predefinedDecorator=PredefinedDecorator)
+	'decorator ' '{'
+		'location' '(' location=EDouble ')' &
+		(movable?='movable')? &
+		(decoratorShape=GraphicsAlgorithm | predefinedDecorator=PredefinedDecorator) &
+	'}'
 ;
 
 PredefinedDecorator returns PredefinedDecorator:
