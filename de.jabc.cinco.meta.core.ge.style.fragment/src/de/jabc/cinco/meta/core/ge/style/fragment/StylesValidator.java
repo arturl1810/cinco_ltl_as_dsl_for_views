@@ -171,13 +171,21 @@ public class StylesValidator implements IMetaPluginValidator {
 		String value = "";
 		if (main instanceof Text) {
 			value = ((Text) main).getValue();
-			String s[] = value.split("%.");
-			return s.length-1;
+			int i = 0;
+			for (char s : value.toCharArray()) {
+				if ('%' == s)
+					i++;
+			}
+			return i;
 		}
 		else if (main instanceof MultiText) { 
 			value = ((MultiText) main).getValue();
-			String s[] = value.split("%.");
-			return s.length-1;
+			int i = 0;
+			for (char s : value.toCharArray()) {
+				if ("%".equals(s))
+					i++;
+			}
+			return i;
 		}
 		
 		if (main instanceof ContainerShape) {

@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>5f357517-18d4-4780-adc3-30879fedbfb1</id>
   <name>GenerateFeatureProvider</name>
-  <changecounter>574</changecounter>
+  <changecounter>576</changecounter>
   <sib>
     <id>23fb1326-f00d-4e42-845a-cdf6492fc417</id>
     <name>PutExpression</name>
@@ -911,6 +911,8 @@ public class $context.graphModelName$FeatureProvider extends DefaultFeatureProvi
     </parameter>
     <parameter name="template">
       <string>if (bo.eClass().getName().equals(&quot;$context.eClassName$&quot;) &amp;&amp; bo.eClass().getEPackage().getNsURI().equals(&quot;$context.nsURI$&quot;))
+	return new Add$context.node.name$Feature(this);
+if (bo instanceof $context.node.name$)
 	return new Add$context.node.name$Feature(this);
 </string>
     </parameter>
