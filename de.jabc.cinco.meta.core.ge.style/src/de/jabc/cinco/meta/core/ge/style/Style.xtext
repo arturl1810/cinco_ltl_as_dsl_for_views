@@ -68,7 +68,6 @@ Rectangle returns Rectangle:
 		(('appearance' referencedAppearance=[Appearance]) | (inlineAppearance=InlineAppearance) )? 
 		('position' position = AbstractPosition)?
 		('size' size = Size)?
-		('color' color = Color)?
 		(children+=AbstractShape)*
 	'}'
 ;
@@ -80,7 +79,6 @@ SRectangle returns Rectangle:
 	'{'
 		(('appearance' referencedAppearance=[Appearance]) | (inlineAppearance=InlineAppearance) )? 
 		('size' size = Size)?
-		('color' color = Color)?
 	'}'
 ;
 
@@ -93,7 +91,6 @@ RoundedRectangle returns RoundedRectangle:
 		'position' position = AbstractPosition
 		'size' size = Size
 		'corner' '('cornerWidth=INT','cornerHeight=INT')'
-		('color' color = Color)?
 		(children+=AbstractShape)*
 	'}'
 ;
@@ -106,7 +103,6 @@ SRoundedRectangle returns RoundedRectangle:
 		(('appearance' referencedAppearance=[Appearance]) | (inlineAppearance=InlineAppearance) )? 
 		'size' size = Size
 		'corner' '('cornerWidth=INT','cornerHeight=INT')'
-		('color' color = Color)?
 	'}'
 ;
 
@@ -118,7 +114,6 @@ Ellipse returns Ellipse:
 		(('appearance' referencedAppearance=[Appearance]) | (inlineAppearance=InlineAppearance) )? 
 		('position' position = AbstractPosition)?
 		('size' size = Size)?
-		('color' color = Color)?
 		(children+=AbstractShape)*
 	'}'
 ;
@@ -130,7 +125,6 @@ SEllipse returns Ellipse:
 	'{'
 		(('appearance' referencedAppearance=[Appearance]) | (inlineAppearance=InlineAppearance) )? 
 		('size' size = Size)?
-		('color' color = Color)?
 	'}'
 ;
 
@@ -142,7 +136,6 @@ Polygon returns Polygon:
 		(('appearance' referencedAppearance=[Appearance]) | (inlineAppearance=InlineAppearance) )? 
 		('position' position = AbstractPosition)?
 		'points' '['(points+=Point)*']'
-		('color' color = Color)?
 		(children+=AbstractShape)*
 	'}'
 ;
@@ -154,7 +147,6 @@ SPolygon returns Polygon:
 	'{'
 		(('appearance' referencedAppearance=[Appearance]) | (inlineAppearance=InlineAppearance) )? 
 		'points' '['(points+=Point)*']'
-		('color' color = Color)?
 	'}'
 ;
 
@@ -166,7 +158,6 @@ Text returns Text:
 		(('appearance' referencedAppearance=[Appearance]) | (inlineAppearance=InlineAppearance) )? 
 		('position' position = AbstractPosition)?
 		'value' value=STRING?
-		('color' color = Color)?
 	'}'
 ;
 
@@ -177,7 +168,6 @@ SText returns Text:
 	'{'
 		(('appearance' referencedAppearance=[Appearance]) | (inlineAppearance=InlineAppearance) )? 
 		'value' value=STRING?
-		('color' color = Color)?
 	'}'
 ;
 
@@ -188,7 +178,6 @@ MultiText returns MultiText:
 		(('appearance' referencedAppearance=[Appearance]) | (inlineAppearance=InlineAppearance) )? 
 		'position' position = AbstractPosition
 		'value' value = STRING
-		('color' color = Color)?
 	'}'
 ;
 
@@ -199,7 +188,6 @@ SMultiText returns MultiText:
 		(('appearance' referencedAppearance=[Appearance]) | (inlineAppearance=InlineAppearance) )? 
 		'size' size = Size
 		'value' value = STRING?
-		('color' color = Color)?
 	'}'
 ;
 
@@ -229,7 +217,6 @@ Polyline returns Polyline:
 		(('appearance' referencedAppearance=[Appearance]) | (inlineAppearance=InlineAppearance) )? 
 		'position' position = AbstractPosition
 		'points' '[' (points+=Point)* ']'		
-		('color' color = Color)?
 	'}'
 ;
 
@@ -240,7 +227,6 @@ SPolyline returns Polyline:
 	'{'
 		(('appearance' referencedAppearance=[Appearance]) | (inlineAppearance=InlineAppearance) )? 
 		'points' '[' (points+=Point)* ']'		
-		('color' color = Color)?
 	'}'
 ;
 

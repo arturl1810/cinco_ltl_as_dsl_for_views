@@ -210,7 +210,9 @@ public class StylesValidator implements IMetaPluginValidator {
 	}
 	
 	private ModelElement getModelElement(Annotation annot) {
-		return (ModelElement) annot.getParent();
+		if (annot.getParent() instanceof ModelElement)
+			return (ModelElement) annot.getParent();
+		return null;
 	}
 	
 	private GraphModel getGraphModel(ModelElement me) {
