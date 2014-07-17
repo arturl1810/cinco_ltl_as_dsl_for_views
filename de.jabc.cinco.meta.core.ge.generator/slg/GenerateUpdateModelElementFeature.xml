@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>ef7786c5-d04b-45de-89fd-b00e68b99149</id>
   <name>GenerateUpdateModelElementFeature</name>
-  <changecounter>303</changecounter>
+  <changecounter>314</changecounter>
   <sib>
     <id>b31345f6-8607-4397-986e-94a14e803be6</id>
     <name>PutExpression_1</name>
@@ -450,18 +450,33 @@ public class Update$context.fuModelElementName$Feature extends AbstractUpdateFea
     <parameter name="template">
       <string>private void updateStyle($context.fuModelElementName$ bo, Shape s) {
 	String gaName = Graphiti.getPeService().getPropertyValue(s.getGraphicsAlgorithm(), $context.graphModelName$LayoutUtils.KEY_GA_NAME);
-		if (gaName != null &amp;&amp; !gaName.isEmpty()) {
-			$context.graphModelName$LayoutUtils.updateStyleFromAppearance(s.getGraphicsAlgorithm(), new $context.appearanceProvider$().getAppearance(bo, gaName), getDiagram());
-		}
-		Object object = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(s);
-		if (object instanceof $context.fuModelElementName$) {
-			if (s instanceof ContainerShape) {
-				for (Shape g : ((ContainerShape) s).getChildren()) {
-					updateStyle(($context.fuModelElementName$) object, g);
-				}
+	if (gaName != null &amp;&amp; !gaName.isEmpty()) {
+		$context.graphModelName$LayoutUtils.updateStyleFromAppearance(s.getGraphicsAlgorithm(), new $context.appearanceProvider$().getAppearance(bo, gaName), getDiagram());
+	}
+	Object object = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(s);
+	if (object instanceof $context.fuModelElementName$) {
+		if (s instanceof ContainerShape) {
+			for (Shape g : ((ContainerShape) s).getChildren()) {
+				updateStyle(($context.fuModelElementName$) object, g);
 			}
 		}
-	}</string>
+	}
+}
+
+private void updateStyle($context.fuModelElementName$ bo, Connection s) {
+	String gaName = Graphiti.getPeService().getPropertyValue(s.getGraphicsAlgorithm(), SimpleAutomatonLayoutUtils.KEY_GA_NAME);
+	if (gaName != null &amp;&amp; !gaName.isEmpty()) {
+		$context.graphModelName$LayoutUtils.updateStyleFromAppearance(s.getGraphicsAlgorithm(), new $context.appearanceProvider$().getAppearance(bo, gaName), getDiagram());
+	}
+	Object object = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(s);
+	if (object instanceof $context.fuModelElementName$) {
+		
+		for (Shape g : s.getConnectionDecorators()) {
+			updateStyle(($context.fuModelElementName$) object, g);
+		}
+		
+	}
+}</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
@@ -598,7 +613,9 @@ public class Update$context.fuModelElementName$Feature extends AbstractUpdateFea
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>if (pe instanceof Shape) {
+      <string>if (pe instanceof Connection)
+	updateStyle(bo, (Connection) pe);
+if (pe instanceof Shape) {
 	updateStyle(bo, (Shape) pe);
 }</string>
     </parameter>
