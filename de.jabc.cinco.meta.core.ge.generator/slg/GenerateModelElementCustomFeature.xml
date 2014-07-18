@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>20ee1083-42c9-4128-8db1-42f1826d8d49</id>
   <name>GenerateModelElementCustomFeature</name>
-  <changecounter>100</changecounter>
+  <changecounter>108</changecounter>
   <sib>
     <id>c89925ae-3820-4a21-8425-767fe1505ce3</id>
     <name>CopyEObject</name>
@@ -242,8 +242,8 @@ public class $context.annotationValue$ extends CincoCustomFeature&lt;$context.mo
   <edge>
     <source>0757784b-272b-4e41-a455-36ca381d90be</source>
     <target>6816155e-11da-4597-baf9-26e9e1deebc8</target>
-    <point>438.0,666.8307692307692</point>
-    <point>597.0,666.8307692307692</point>
+    <point>468.0,666.675</point>
+    <point>672.0,666.675</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -583,7 +583,7 @@ public class $context.annotationValue$ extends CincoCustomFeature&lt;$context.mo
     <label>ReplaceString</label>
     <sib-uid>basic-sibs/ReplaceString</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.ReplaceString</taxonomy>
-    <position>647.0,498.0</position>
+    <position>641.5,498.0</position>
     <parameter name="find">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
@@ -719,5 +719,10 @@ public class $context.annotationValue$ extends CincoCustomFeature&lt;$context.mo
     <name>error</name>
     <branch>error</branch>
     <sib>26fb023d-3783-4812-b97f-a039287b6b27</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>82c28ee7-d08e-4684-b630-6b7e967e84cc</sib>
   </branch>
 </model>
