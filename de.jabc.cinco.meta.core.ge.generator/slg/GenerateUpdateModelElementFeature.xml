@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>ef7786c5-d04b-45de-89fd-b00e68b99149</id>
   <name>GenerateUpdateModelElementFeature</name>
-  <changecounter>318</changecounter>
+  <changecounter>321</changecounter>
   <sib>
     <id>b31345f6-8607-4397-986e-94a14e803be6</id>
     <name>PutExpression_1</name>
@@ -615,8 +615,10 @@ private void updateStyle($context.fuModelElementName$ bo, Connection s) {
     <parameter name="template">
       <string>if (pe instanceof Connection)
 	updateStyle(bo, (Connection) pe);
-if (pe instanceof Shape) {
+if (pe instanceof ConnectionDecorator) {
 	updateStyle(bo, ((ConnectionDecorator) pe).getConnection());
+} else if (pe instanceof Shape) {
+	updateStyle(bo, (Shape) pe);
 }</string>
     </parameter>
     <finalbranches>default</finalbranches>
