@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>730ef53f-e135-46d5-9e4b-96fc4843c423</id>
   <name>GenerateAddEdgeFeature</name>
-  <changecounter>549</changecounter>
+  <changecounter>556</changecounter>
   <sib>
     <id>4966ae71-56db-49f8-b6d7-c3a51fbd1021</id>
     <name>PutExpression</name>
@@ -1739,15 +1739,15 @@ Graphiti.getPeService().setPropertyValue(polyline, $context.graphModelName$Layou
     <parameter name="result">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>initContent</key>
+          <key>connectionDecoratorInitContent</key>
           <scope>LOCAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>$context.graphModelName$LayoutUtils.updateStyleFromAppearance($context.peName$, new $context.appearanceProvider$().getAppearance($context.meIdentifier$, &quot;$context.currentShape.name$&quot;), getDiagram());
-peService.setPropertyValue($context.peName$, $context.graphModelName$LayoutUtils.KEY_GA_NAME, &quot;$context.currentShape.name$&quot;);
+      <string>$context.graphModelName$LayoutUtils.updateStyleFromAppearance(cd.getGraphicsAlgorithm(), new $context.appearanceProvider$().getAppearance($context.meIdentifier$, &quot;$context.currentShape.name$&quot;), getDiagram());
+Graphiti.getPeService().setPropertyValue(cd.getGraphicsAlgorithm(), $context.graphModelName$LayoutUtils.KEY_GA_NAME, &quot;$context.currentShape.name$&quot;);
 </string>
     </parameter>
     <finalbranches>default</finalbranches>
