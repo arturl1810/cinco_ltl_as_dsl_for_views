@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>3c916ba5-62a2-4951-941d-c4302cc4e008</id>
   <name>GenerateEContentAdapter</name>
-  <changecounter>95</changecounter>
+  <changecounter>142</changecounter>
   <sib>
     <id>ec2d367e-832c-4b37-b128-73a511511d46</id>
     <name>PutExpression_1</name>
@@ -43,7 +43,7 @@
     <label>ClassName</label>
     <sib-uid>basic-sibs/PutExpression</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
-    <position>65.5,168.0</position>
+    <position>65.5,108.0</position>
     <parameter name="resolve">
       <boolean>true</boolean>
     </parameter>
@@ -74,7 +74,7 @@
     <label>WriteJavaFile</label>
     <sib-uid>genesys-sibs/WriteJavaFile</sib-uid>
     <taxonomy>de.jabc.sib.genesys.WriteJavaFile</taxonomy>
-    <position>58.0,408.0</position>
+    <position>58.0,438.0</position>
     <parameter name="baseDirectory">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -134,7 +134,7 @@
     <label>SuperEContentAdapter</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>28.0,303.0</position>
+    <position>28.0,333.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -158,12 +158,13 @@ import java.util.ArrayList;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.util.EContentAdapter;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.graphiti.dt.IDiagramTypeProvider;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.IUpdateFeature;
 import org.eclipse.graphiti.features.context.impl.UpdateContext;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
-import org.eclipse.graphiti.mm.pictograms.PictogramElement;
+import org.eclipse.graphiti.mm.pictograms.*;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.ui.platform.GFPropertySection;
 
@@ -187,18 +188,13 @@ public class $context.graphModelName$EContentAdapter extends EContentAdapter {
 	}
 
 	protected Diagram getDiagram(){
-		return getDTP().getDiagram();
+		return $context.graphModelName$GraphitiUtils.getInstance().getDTP().getDiagram();
 	}
 	
 	protected IFeatureProvider getFeatureProvider() {
-		return getDTP().getFeatureProvider();
+		return $context.graphModelName$GraphitiUtils.getInstance().getDTP().getFeatureProvider();
 	}
 	
-	protected IDiagramTypeProvider getDTP() {
-		if (dtp == null)
-			dtp = ($context.graphModelName$DiagramTypeProvider) $context.graphModelName$GraphitiUtils.getInstance().getDTP();
-		return dtp;
-	}
 
 	@Override
 	public void notifyChanged(Notification notification) {
@@ -224,6 +220,10 @@ public class $context.graphModelName$EContentAdapter extends EContentAdapter {
 		
 	}
 
+	public void addAdapter(EObject bo) {
+		$context.initAdapterContent$
+	}
+	
 	protected void refreshPropertyView() {
 		for (GFPropertySection gfPS : sections) {
 			if (gfPS != null)
@@ -259,9 +259,10 @@ public class $context.graphModelName$EContentAdapter extends EContentAdapter {
   </edge>
   <edge>
     <source>9c71b03f-9abe-4725-9bd8-f53a09037855</source>
-    <target>0a9dd153-7eeb-4f7d-82ec-a614bba0d469</target>
-    <point>75.0,195.0</point>
-    <point>110.0,343.0</point>
+    <target>0469d54d-b7dc-40a2-bc5d-60f6990a92cd</target>
+    <point>123.0,194.1</point>
+    <point>207.0,225.6</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
@@ -406,8 +407,9 @@ public class $context.graphModelName$EContentAdapter extends EContentAdapter {
   <edge>
     <source>0a9dd153-7eeb-4f7d-82ec-a614bba0d469</source>
     <target>1e84aec9-7065-4ab9-b574-f389d355a1ff</target>
-    <point>105.0,330.0</point>
-    <point>104.0,442.0</point>
+    <point>105.0,324.0</point>
+    <point>105.0,438.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
@@ -560,6 +562,103 @@ public class $context.graphModelName$EContentAdapter extends EContentAdapter {
     <point>106.0,922.0</point>
     <branch>exit</branch>
   </edge>
+  <sib>
+    <id>0469d54d-b7dc-40a2-bc5d-60f6990a92cd</id>
+    <name>IterateElements_3</name>
+    <label>IterateModelElements</label>
+    <sib-uid>collection-sibs/IterateElements</sib-uid>
+    <taxonomy>de.jabc.sib.common.collection.IterateElements</taxonomy>
+    <position>30.5,213.0</position>
+    <parameter name="collection">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>modelElements</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="element">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>modelElement</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="iterator">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>mesIterator</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>exit</finalbranches>
+    <finalbranches>next</finalbranches>
+  </sib>
+  <edge>
+    <source>0469d54d-b7dc-40a2-bc5d-60f6990a92cd</source>
+    <target>9f4c1579-66ad-4a98-bb62-57a65f5a6746</target>
+    <spline/>
+    <point>105.0,240.0</point>
+    <point>225.0,195.0</point>
+    <point>330.0,240.0</point>
+    <labelposition>500.0,-29.82857142857141</labelposition>
+    <branch>next</branch>
+  </edge>
+  <edge>
+    <source>9f4c1579-66ad-4a98-bb62-57a65f5a6746</source>
+    <target>0469d54d-b7dc-40a2-bc5d-60f6990a92cd</target>
+    <point>330.0,240.0</point>
+    <point>105.0,240.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>9f4c1579-66ad-4a98-bb62-57a65f5a6746</id>
+    <name>RunStringTemplate_1</name>
+    <label>RunStringTemplate</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>280.0,213.0</position>
+    <parameter name="append">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>initAdapterContent</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>if (bo instanceof $context.modelElement.name$) {
+	if (!(($context.modelElement.name$) bo).eAdapters().contains($context.modelElement.name$EContentAdapter.getInstance()))
+		(($context.modelElement.name$) bo).eAdapters().add($context.modelElement.name$EContentAdapter.getInstance());
+}
+
+	</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>0469d54d-b7dc-40a2-bc5d-60f6990a92cd</source>
+    <target>0a9dd153-7eeb-4f7d-82ec-a614bba0d469</target>
+    <point>105.0,240.0</point>
+    <point>105.0,330.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>exit</branch>
+  </edge>
   <values/>
   <branch>
     <name>error</name>
@@ -615,5 +714,15 @@ public class $context.graphModelName$EContentAdapter extends EContentAdapter {
     <name>default</name>
     <branch>default</branch>
     <sib>f74edd14-9e6b-4852-9d06-6f79e4a1fec7</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>0469d54d-b7dc-40a2-bc5d-60f6990a92cd</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>9f4c1579-66ad-4a98-bb62-57a65f5a6746</sib>
   </branch>
 </model>

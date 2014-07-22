@@ -2,14 +2,14 @@
 <model version="2.1">
   <id>6f7f5be4-ea16-48c7-88f4-256ad7b313df</id>
   <name>GenerateDiagramEditor</name>
-  <changecounter>58</changecounter>
+  <changecounter>97</changecounter>
   <sib>
     <id>e97de522-155e-4799-8276-7e12d0fd9715</id>
     <name>RunStringTemplate</name>
     <label>DiagramEditorContent</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>30.0,273.0</position>
+    <position>30.0,348.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -29,15 +29,19 @@
       <string>package $context.localPkgName$;
 
 import org.eclipse.draw2d.FigureCanvas;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.graphiti.features.IResizeShapeFeature;
 import org.eclipse.graphiti.features.context.impl.ResizeShapeContext;
 import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
 import org.eclipse.graphiti.mm.pictograms.Shape;
+import org.eclipse.graphiti.mm.pictograms.PictogramLink;
 import org.eclipse.graphiti.ui.editor.DiagramEditor;
 import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.ControlListener;
+
+import $context.projectName$.content.adapter.TestGraphEContentAdapter;
 
 public class $context.graphModelName$DiagramEditor extends DiagramEditor {
 
@@ -45,14 +49,14 @@ public class $context.graphModelName$DiagramEditor extends DiagramEditor {
 	public void initializeGraphicalViewer() {
 		super.initializeGraphicalViewer();
 		
-		FigureCanvas canvas = (FigureCanvas) getGraphicalControl();
+		/*FigureCanvas canvas = (FigureCanvas) getGraphicalControl();
 		canvas.addControlListener(new ControlListener() {
 			
 			@Override
 			public void controlResized(ControlEvent e) {
 				if (getDiagramTypeProvider() instanceof $context.graphModelName$DiagramTypeProvider) {
 					$context.graphModelName$DiagramTypeProvider dtp = ($context.graphModelName$DiagramTypeProvider) getDiagramTypeProvider();
-					/*for (Shape child : dtp.getDiagram().getChildren()) {
+					for (Shape child : dtp.getDiagram().getChildren()) {
 						final ResizeShapeContext context = createContext(child);
 						final IResizeShapeFeature rsf = dtp.getFeatureProvider().getResizeShapeFeature(context);
 						if (rsf.canResizeShape(context)) {
@@ -66,7 +70,7 @@ public class $context.graphModelName$DiagramEditor extends DiagramEditor {
 							});
 							
 						}
-					}*/
+					}
 				}
 			}
 			
@@ -74,7 +78,11 @@ public class $context.graphModelName$DiagramEditor extends DiagramEditor {
 			public void controlMoved(ControlEvent e) {
 				System.err.println(&quot;Reciving move event&quot;);
 			}
-		});
+		});*/
+
+		for (PictogramLink pl : $context.graphModelName$GraphitiUtils.getInstance().getDTP().getDiagram().getPictogramLinks())
+			for (EObject bo : pl.getBusinessObjects())
+				$context.graphModelName$EContentAdapter.getInstance().addAdapter(bo);
 		
 	}
 
@@ -166,8 +174,9 @@ public class $context.graphModelName$DiagramEditor extends DiagramEditor {
   <edge>
     <source>5f52421d-0f1b-476d-9367-4631e059e45b</source>
     <target>e97de522-155e-4799-8276-7e12d0fd9715</target>
-    <point>105.0,180.0</point>
-    <point>106.0,277.0</point>
+    <point>105.0,189.0</point>
+    <point>105.0,393.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
@@ -176,7 +185,7 @@ public class $context.graphModelName$DiagramEditor extends DiagramEditor {
     <label>PrintConsoleMessage</label>
     <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
     <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
-    <position>31.5,528.0</position>
+    <position>31.5,618.0</position>
     <parameter name="error">
       <boolean>false</boolean>
     </parameter>
@@ -205,7 +214,7 @@ public class $context.graphModelName$DiagramEditor extends DiagramEditor {
     <label>WriteJavaFile</label>
     <sib-uid>genesys-sibs/WriteJavaFile</sib-uid>
     <taxonomy>de.jabc.sib.genesys.WriteJavaFile</taxonomy>
-    <position>58.0,408.0</position>
+    <position>58.0,513.0</position>
     <parameter name="baseDirectory">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>

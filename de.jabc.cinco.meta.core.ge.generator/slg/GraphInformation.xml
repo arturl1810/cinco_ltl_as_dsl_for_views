@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>86742e86-2110-423a-afde-6fd521759a73</id>
   <name>GraphInformation</name>
-  <changecounter>651</changecounter>
+  <changecounter>682</changecounter>
   <sib>
     <id>9e28dbf6-7ef4-4eef-9ad3-1d0d32bf6020</id>
     <name>GetGraphModelName</name>
@@ -2071,7 +2071,7 @@
     <label>PrintConsoleMessage</label>
     <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
     <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
-    <position>481.5,1878.0</position>
+    <position>976.5,1878.0</position>
     <parameter name="error">
       <boolean>true</boolean>
     </parameter>
@@ -2291,9 +2291,9 @@ ${inlineAppearances}</expression>
   </edge>
   <edge>
     <source>035ba6b2-02f2-4c05-a67b-5cdd09e1fdef</source>
-    <target>e7d49cd7-dfe8-462a-a085-d2827642c8a2</target>
-    <point>363.0,1814.4857142857143</point>
-    <point>537.0,1889.057142857143</point>
+    <target>44915b80-c792-404b-aedf-821e2e0a60e2</target>
+    <point>378.0,1896.490909090909</point>
+    <point>672.0,1896.490909090909</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -2361,6 +2361,191 @@ ${inlineAppearances}</expression>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
   </sib>
+  <sib>
+    <id>44915b80-c792-404b-aedf-821e2e0a60e2</id>
+    <name>PutList_1</name>
+    <label>PutList</label>
+    <sib-uid>collection-sibs/PutList</sib-uid>
+    <taxonomy>de.jabc.sib.common.collection.PutList</taxonomy>
+    <position>487.0,1878.0</position>
+    <parameter name="elements">
+      <list/>
+    </parameter>
+    <parameter name="initialCapacity">
+      <int>10</int>
+    </parameter>
+    <parameter name="synchronization">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>modelElements</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>7a843ff5-e391-47d7-8c44-545b547c3420</id>
+    <name>AddElements</name>
+    <label>AddElements</label>
+    <sib-uid>collection-sibs/AddElements</sib-uid>
+    <taxonomy>de.jabc.sib.common.collection.AddElements</taxonomy>
+    <position>599.5,1878.0</position>
+    <parameter name="collection">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>modelElements</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="elements">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>nodes</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>false</finalbranches>
+    <finalbranches>true</finalbranches>
+  </sib>
+  <sib>
+    <id>37a8dc5a-ce6a-4908-aa80-5d2222027de6</id>
+    <name>AddElements_1</name>
+    <label>AddElements</label>
+    <sib-uid>collection-sibs/AddElements</sib-uid>
+    <taxonomy>de.jabc.sib.common.collection.AddElements</taxonomy>
+    <position>719.5,1878.0</position>
+    <parameter name="collection">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>modelElements</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="elements">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>edges</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>false</finalbranches>
+    <finalbranches>true</finalbranches>
+  </sib>
+  <sib>
+    <id>f44560d3-54db-4b67-b9c7-59ef89937ccd</id>
+    <name>AddElements_2</name>
+    <label>AddElements</label>
+    <sib-uid>collection-sibs/AddElements</sib-uid>
+    <taxonomy>de.jabc.sib.common.collection.AddElements</taxonomy>
+    <position>839.5,1878.0</position>
+    <parameter name="collection">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>modelElements</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="elements">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>containers</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>false</finalbranches>
+    <finalbranches>true</finalbranches>
+  </sib>
+  <edge>
+    <source>44915b80-c792-404b-aedf-821e2e0a60e2</source>
+    <target>7a843ff5-e391-47d7-8c44-545b547c3420</target>
+    <point>540.0,1905.0</point>
+    <point>679.0,1896.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>7a843ff5-e391-47d7-8c44-545b547c3420</source>
+    <target>37a8dc5a-ce6a-4908-aa80-5d2222027de6</target>
+    <point>690.0,1905.0</point>
+    <point>813.0,1894.0</point>
+    <branch>true</branch>
+  </edge>
+  <edge>
+    <source>37a8dc5a-ce6a-4908-aa80-5d2222027de6</source>
+    <target>f44560d3-54db-4b67-b9c7-59ef89937ccd</target>
+    <point>810.0,1905.0</point>
+    <point>906.0,1894.0</point>
+    <branch>true</branch>
+  </edge>
+  <edge>
+    <source>f44560d3-54db-4b67-b9c7-59ef89937ccd</source>
+    <target>e7d49cd7-dfe8-462a-a085-d2827642c8a2</target>
+    <point>915.0,1905.0</point>
+    <point>1035.0,1892.0</point>
+    <branch>true</branch>
+  </edge>
+  <sib>
+    <id>b1a0df51-db65-4a61-816b-7addd4ae94a0</id>
+    <name>PrintConsoleMessage_4</name>
+    <label>PrintConsoleMessage</label>
+    <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
+    <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
+    <position>699.5,1773.0</position>
+    <parameter name="error">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="message">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>Could not add elements to modelElements list...</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>false</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <finalbranches>default</finalbranches>
+  </sib>
+  <edge>
+    <source>7a843ff5-e391-47d7-8c44-545b547c3420</source>
+    <target>b1a0df51-db65-4a61-816b-7addd4ae94a0</target>
+    <point>645.0,1905.0</point>
+    <point>757.0,1807.0</point>
+    <branch>false</branch>
+  </edge>
+  <edge>
+    <source>37a8dc5a-ce6a-4908-aa80-5d2222027de6</source>
+    <target>b1a0df51-db65-4a61-816b-7addd4ae94a0</target>
+    <point>765.0,1905.0</point>
+    <point>770.0,1819.0</point>
+    <branch>false</branch>
+  </edge>
+  <edge>
+    <source>f44560d3-54db-4b67-b9c7-59ef89937ccd</source>
+    <target>b1a0df51-db65-4a61-816b-7addd4ae94a0</target>
+    <point>885.0,1905.0</point>
+    <point>767.0,1803.0</point>
+    <branch>false</branch>
+  </edge>
   <values/>
   <branch>
     <name>error</name>
@@ -2671,5 +2856,20 @@ ${inlineAppearances}</expression>
     <name>error</name>
     <branch>error</branch>
     <sib>579e2658-5d05-4b78-9e03-e15fd72ca986</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>7a843ff5-e391-47d7-8c44-545b547c3420</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>37a8dc5a-ce6a-4908-aa80-5d2222027de6</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>f44560d3-54db-4b67-b9c7-59ef89937ccd</sib>
   </branch>
 </model>
