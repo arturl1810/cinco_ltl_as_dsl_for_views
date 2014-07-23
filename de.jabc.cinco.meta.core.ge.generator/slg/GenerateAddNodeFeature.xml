@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>4db550cc-f2bc-4c86-b8fb-009d572b0b8b</id>
   <name>GenerateAddNodeFeature</name>
-  <changecounter>1432</changecounter>
+  <changecounter>1435</changecounter>
   <sib>
     <id>b89523ed-9916-4f61-a5e9-9e1d8838a845</id>
     <name>PutExpression_1</name>
@@ -492,20 +492,20 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
 
 	public PictogramElement add(IAddContext context) {
 		EObject bo;
+		$context.modelElementName$ $context.meIdentifier$ = null;
 		if (context.getNewObject() instanceof $context.modelElementName$) {
 			int uid = Integer.parseInt((($context.modelElementName$) context.getNewObject()).get$context.fuPrimeRefTypeName$UID());
 			bo = ReferenceRegistry.getInstance().getEObject(uid);
+			$context.meIdentifier$ = ($context.modelElementName$) context.getNewObject();
 		} else {
 			bo = (EObject) context.getNewObject();
+			$context.meIdentifier$ = $context.factoryName$Factory.eINSTANCE.create$context.modelElementName$();
+			$context.primeParamContent$
 		}
 		ContainerShape d = (ContainerShape) context.getTargetContainer();
 
 		IPeService peService = Graphiti.getPeService();
 		IGaService gaService = Graphiti.getGaService();
-
-		$context.modelElementName$ $context.meIdentifier$ = $context.factoryName$Factory.eINSTANCE.create$context.modelElementName$();
-		
-		$context.primeParamContent$
 
 		String objectUri = ReferenceRegistry.getInstance().generateURI(bo);
 		int id = ReferenceRegistry.getInstance().getKey(objectUri);
