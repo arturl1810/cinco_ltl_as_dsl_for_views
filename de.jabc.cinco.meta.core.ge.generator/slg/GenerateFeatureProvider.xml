@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>5f357517-18d4-4780-adc3-30879fedbfb1</id>
   <name>GenerateFeatureProvider</name>
-  <changecounter>576</changecounter>
+  <changecounter>581</changecounter>
   <sib>
     <id>23fb1326-f00d-4e42-845a-cdf6492fc417</id>
     <name>PutExpression</name>
@@ -342,9 +342,9 @@
   </sib>
   <edge>
     <source>aa633c14-e128-4751-bd70-c584a948ed41</source>
-    <target>1dde31c6-2ac1-4499-b922-80d82b8475d3</target>
-    <point>315.0,420.0</point>
-    <point>120.0,420.0</point>
+    <target>cadfb01a-9cca-469f-82d6-e0cccf42febe</target>
+    <point>315.0,393.0</point>
+    <point>315.0,309.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -390,7 +390,7 @@ $context.featureProviderCustomFeatureImports$
 import $context.importPath$.*;
 import $context.localPkgName$.features.*;
 import $context.localPkgName$.features.add.*;
-import $context.localPkgName$.features.create.*;
+$context.importCreateFeaturesContent$
 import $context.localPkgName$.features.update.*;
 import $context.localPkgName$.features.delete.*;
 import $context.localPkgName$.features.reconnect.*;
@@ -674,7 +674,7 @@ public class $context.graphModelName$FeatureProvider extends DefaultFeatureProvi
     <label>GetUpdateNodeFeatureIfBlock</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>18.5,393.0</position>
+    <position>18.5,408.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -1702,6 +1702,41 @@ if (bo instanceof $context.node.name$)
     <point>498.0,287.0</point>
     <branch>default</branch>
   </edge>
+  <sib>
+    <id>cadfb01a-9cca-469f-82d6-e0cccf42febe</id>
+    <name>RunStringTemplate_18</name>
+    <label>RunStringTemplate</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>250.0,273.0</position>
+    <parameter name="append">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>importCreateFeaturesContent</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>import $context.localPkgName$.features.create.*;</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>cadfb01a-9cca-469f-82d6-e0cccf42febe</source>
+    <target>1dde31c6-2ac1-4499-b922-80d82b8475d3</target>
+    <point>315.0,300.0</point>
+    <point>150.0,415.0</point>
+    <branch>default</branch>
+  </edge>
   <values/>
   <branch>
     <name>default</name>
@@ -1902,5 +1937,10 @@ if (bo instanceof $context.node.name$)
     <name>error</name>
     <branch>error</branch>
     <sib>ecc1778a-cbeb-4e25-9673-7e9d6836e696</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>cadfb01a-9cca-469f-82d6-e0cccf42febe</sib>
   </branch>
 </model>
