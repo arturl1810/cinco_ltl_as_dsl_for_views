@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>9bf333cd-76eb-4707-be7a-f62b921e88c5</id>
   <name>GenerateSingleIntegerCode</name>
-  <changecounter>149</changecounter>
+  <changecounter>151</changecounter>
   <sib>
     <id>761a275f-3772-4618-b07b-2202449515c5</id>
     <name>RunStringTemplate</name>
@@ -557,7 +557,7 @@ FocusListener focusListener = new FocusListener() {
 	
 	@Override
 	public void focusLost(FocusEvent e) {
-		if (oldVal.equals(charText.getText()))
+		if (oldVal.equals($context.flAttributeName$Text.getText()))
 			return;
 		
 		TransactionalEditingDomain dom = getDiagramContainer().getDiagramBehavior().getEditingDomain();
@@ -573,7 +573,7 @@ FocusListener focusListener = new FocusListener() {
 	
 	@Override
 	public void focusGained(FocusEvent e) {
-		oldVal = charText.getText();
+		oldVal = $context.flAttributeName$Text.getText();
 	}
 };</string>
     </parameter>
