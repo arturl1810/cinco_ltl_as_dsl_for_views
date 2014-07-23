@@ -11,13 +11,6 @@ Styles returns Styles:
 	)
 ;
 
-ContainerAttributes returns ContainerAttributes:
-	containersOnly?='containersOnly'
-	'alignContainer' alignment=ContainerAlignment
-	
-;
-
-
 Style returns Style:
 	NodeStyle | EdgeStyle
 ;
@@ -47,7 +40,7 @@ ContainerShape returns ContainerShape:
 ;
 
 GraphicsAlgorithm:
-	SText | SMultiText | SImage | SPolyline | SEllipse | SPolygon
+	Text | MultiText | Image | Polyline | Ellipse | Polygon
 ; 
 
 Shape returns Shape:
@@ -66,15 +59,15 @@ Rectangle returns Rectangle:
 	'}'
 ;
 
-SRectangle returns Rectangle:
-	{Rectangle}
-	'rectangle'
-	(name=ID)?
-	'{'
-		(('appearance' referencedAppearance=[Appearance]) | (inlineAppearance=InlineAppearance) )? 
-		('size' size = Size)?
-	'}'
-;
+//SRectangle returns Rectangle:
+//	{Rectangle}
+//	'rectangle'
+//	(name=ID)?
+//	'{'
+//		(('appearance' referencedAppearance=[Appearance]) | (inlineAppearance=InlineAppearance) )? 
+//		('size' size = Size)?
+//	'}'
+//;
 
 RoundedRectangle returns RoundedRectangle:
 	{RoundedRectangle}
@@ -89,16 +82,16 @@ RoundedRectangle returns RoundedRectangle:
 	'}'
 ;
 
-SRoundedRectangle returns RoundedRectangle:
-	{RoundedRectangle}
-	'roundedRectangle'
-	(name=ID)?
-	'{'
-		(('appearance' referencedAppearance=[Appearance]) | (inlineAppearance=InlineAppearance) )? 
-		'size' size = Size
-		'corner' '('cornerWidth=INT','cornerHeight=INT')'
-	'}'
-;
+//SRoundedRectangle returns RoundedRectangle:
+//	{RoundedRectangle}
+//	'roundedRectangle'
+//	(name=ID)?
+//	'{'
+//		(('appearance' referencedAppearance=[Appearance]) | (inlineAppearance=InlineAppearance) )? 
+//		'size' size = Size
+//		'corner' '('cornerWidth=INT','cornerHeight=INT')'
+//	'}'
+//;
 
 Ellipse returns Ellipse:
 	{Ellipse}
@@ -112,15 +105,15 @@ Ellipse returns Ellipse:
 	'}'
 ;
 
-SEllipse returns Ellipse:
-	{Ellipse}
-	'ellipse'
-	(name=ID)?
-	'{'
-		(('appearance' referencedAppearance=[Appearance]) | (inlineAppearance=InlineAppearance) )? 
-		('size' size = Size)?
-	'}'
-;
+//SEllipse returns Ellipse:
+//	{Ellipse}
+//	'ellipse'
+//	(name=ID)?
+//	'{'
+//		(('appearance' referencedAppearance=[Appearance]) | (inlineAppearance=InlineAppearance) )? 
+//		('size' size = Size)?
+//	'}'
+//;
 
 Polygon returns Polygon: 
 	{Polygon}
@@ -134,15 +127,15 @@ Polygon returns Polygon:
 	'}'
 ;
 
-SPolygon returns Polygon:
-	{Polygon}
-	'polygon'
-	(name=ID)?
-	'{'
-		(('appearance' referencedAppearance=[Appearance]) | (inlineAppearance=InlineAppearance) )? 
-		'points' '['(points+=Point)*']'
-	'}'
-;
+//SPolygon returns Polygon:
+//	{Polygon}
+//	'polygon'
+//	(name=ID)?
+//	'{'
+//		(('appearance' referencedAppearance=[Appearance]) | (inlineAppearance=InlineAppearance) )? 
+//		'points' '['(points+=Point)*']'
+//	'}'
+//;
 
 Text returns Text:
 	{Text}
@@ -155,15 +148,15 @@ Text returns Text:
 	'}'
 ;
 
-SText returns Text:
-	{Text}
-	'text'
-	(name=ID)?
-	'{'
-		(('appearance' referencedAppearance=[Appearance]) | (inlineAppearance=InlineAppearance) )? 
-		'value' value=STRING?
-	'}'
-;
+//SText returns Text:
+//	{Text}
+//	'text'
+//	(name=ID)?
+//	'{'
+//		(('appearance' referencedAppearance=[Appearance]) | (inlineAppearance=InlineAppearance) )? 
+//		'value' value=STRING?
+//	'}'
+//;
 
 MultiText returns MultiText:
 	'multiText'
@@ -175,15 +168,15 @@ MultiText returns MultiText:
 	'}'
 ;
 
-SMultiText returns MultiText:
-	'multiText'
-	(name=ID)?
-	'{'
-		(('appearance' referencedAppearance=[Appearance]) | (inlineAppearance=InlineAppearance) )? 
-		'size' size = Size
-		'value' value = STRING?
-	'}'
-;
+//SMultiText returns MultiText:
+//	'multiText'
+//	(name=ID)?
+//	'{'
+//		(('appearance' referencedAppearance=[Appearance]) | (inlineAppearance=InlineAppearance) )? 
+//		'size' size = Size
+//		'value' value = STRING?
+//	'}'
+//;
 
 Image returns Image:
 	'image'
@@ -195,14 +188,14 @@ Image returns Image:
 	'}'
 ;
 
-SImage returns Image:
-	'image'
-	(name=ID)?
-	'{'
-		'size' size = Size
-		'path('path=STRING')'
-	'}'
-;
+//SImage returns Image:
+//	'image'
+//	(name=ID)?
+//	'{'
+//		'size' size = Size
+//		'path('path=STRING')'
+//	'}'
+//;
 
 Polyline returns Polyline: 
 	'polyline'
@@ -214,15 +207,15 @@ Polyline returns Polyline:
 	'}'
 ;
 
-SPolyline returns Polyline:
-	{Polyline}
-	'polyline'
-	(name=ID)?
-	'{'
-		(('appearance' referencedAppearance=[Appearance]) | (inlineAppearance=InlineAppearance) )? 
-		'points' '[' (points+=Point)* ']'		
-	'}'
-;
+//SPolyline returns Polyline:
+//	{Polyline}
+//	'polyline'
+//	(name=ID)?
+//	'{'
+//		(('appearance' referencedAppearance=[Appearance]) | (inlineAppearance=InlineAppearance) )? 
+//		'points' '[' (points+=Point)* ']'		
+//	'}'
+//;
 
 AbstractPosition returns AbstractPosition:
 	AbsolutPosition | Alignment 
