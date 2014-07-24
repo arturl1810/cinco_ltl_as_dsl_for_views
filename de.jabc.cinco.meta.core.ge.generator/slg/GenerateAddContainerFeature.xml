@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>c7542d87-aa25-4707-a286-db91e10d7301</id>
   <name>GenerateAddContainerFeature</name>
-  <changecounter>390</changecounter>
+  <changecounter>400</changecounter>
   <sib>
     <id>3f7b7312-5278-4d0a-b7f8-45424c587ca9</id>
     <name>GetNodeContainerIsAbstract</name>
@@ -314,9 +314,9 @@
   </edge>
   <edge>
     <source>0cae7192-66cb-4b93-baa7-a392c5c9a0e5</source>
-    <target>216e74c4-78c5-4a37-8da3-b70a91a8f43a</target>
-    <point>335.0,442.5238095238095</point>
-    <point>610.0,455.6190476190476</point>
+    <target>ab6fad9e-02ad-487e-9159-db0774193b6a</target>
+    <point>335.0,441.375</point>
+    <point>777.0,441.3375</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -403,6 +403,7 @@ import graphmodel.ModelElement;
 import graphmodel.Node;
 
 import java.util.List;
+import java.util.ArrayList;
 
 import org.eclipse.graphiti.features.IAddFeature;
 import org.eclipse.graphiti.features.IFeatureProvider;
@@ -457,8 +458,9 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
 
 		layoutPictogramElement($context.rootShapeName$);
 		
+		ArrayList&lt;ModelElement&gt; addedNodes = new ArrayList&lt;&gt;();
 		for (ModelElement me : $context.meIdentifier$.getModelElements()) {
-			if (me instanceof Node || me instanceof Container) {
+			if ((me instanceof Node || me instanceof Container) &amp;&amp; !addedNodes.contains(me) ){
 				AddContext ac = new AddContext();
 				ac.setTargetContainer(Shape0);
 				ac.setNewObject(me);
@@ -480,6 +482,9 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
 				Anchor sourceAnchor = getAnchor(source, Shape0);
 				Anchor targetAnchor = getAnchor(target, Shape0);
 				
+				addedNodes.add(source);
+				addedNodes.add(target);
+
 				AddConnectionContext acc = new AddConnectionContext(sourceAnchor, targetAnchor);
 				acc.setNewObject(edge);
 				IAddFeature af = getFeatureProvider().getAddFeature(acc);
@@ -767,7 +772,7 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
     <label>GenerateAbstractShape</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>238.0,421.0</position>
+    <position>403.0,421.0</position>
     <parameter name="currentShapeKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -813,47 +818,6 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
       <string>GenerateAbstractShape</string>
     </userobject>
   </sib>
-  <sib>
-    <id>216e74c4-78c5-4a37-8da3-b70a91a8f43a</id>
-    <name>MacroSIB</name>
-    <label>GenerateCheckContainer</label>
-    <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
-    <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
-    <position>490.0,421.0</position>
-    <parameter name="ClearContent">
-      <de.metaframe.common.sib.parameter.ContextExpression>
-        <ContextExpressionFoundation>
-          <expression>${false}</expression>
-          <clazz>java.lang.Boolean</clazz>
-          <classMutable>false</classMutable>
-        </ContextExpressionFoundation>
-      </de.metaframe.common.sib.parameter.ContextExpression>
-    </parameter>
-    <parameter name="ModelElementKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>nodeContainerKey</key>
-          <scope>DECLARED</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>4ac25e32-ae6b-469a-b78c-1764aa97ce4d</string>
-    </userobject>
-    <userobject key="ABC$GRAPHSIB$MODELNAME">
-      <string>GenerateCheckContainer</string>
-    </userobject>
-  </sib>
-  <edge>
-    <source>216e74c4-78c5-4a37-8da3-b70a91a8f43a</source>
-    <target>ab6fad9e-02ad-487e-9159-db0774193b6a</target>
-    <point>555.0,450.0</point>
-    <point>786.0,436.0</point>
-    <branch>default</branch>
-  </edge>
   <parameter>
     <name>containerKey</name>
     <field>nodeContainerKey</field>
@@ -868,11 +832,6 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
     <name>containerKey</name>
     <field>modelElementKey</field>
     <sib>0cae7192-66cb-4b93-baa7-a392c5c9a0e5</sib>
-  </parameter>
-  <parameter>
-    <name>containerKey</name>
-    <field>ModelElementKey</field>
-    <sib>216e74c4-78c5-4a37-8da3-b70a91a8f43a</sib>
   </parameter>
   <values>
     <entry>
@@ -980,10 +939,5 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
     <name>error</name>
     <branch>error</branch>
     <sib>0cae7192-66cb-4b93-baa7-a392c5c9a0e5</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>216e74c4-78c5-4a37-8da3-b70a91a8f43a</sib>
   </branch>
 </model>

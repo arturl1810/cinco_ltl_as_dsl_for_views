@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>4db550cc-f2bc-4c86-b8fb-009d572b0b8b</id>
   <name>GenerateAddNodeFeature</name>
-  <changecounter>1435</changecounter>
+  <changecounter>1438</changecounter>
   <sib>
     <id>b89523ed-9916-4f61-a5e9-9e1d8838a845</id>
     <name>PutExpression_1</name>
@@ -308,9 +308,9 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
   </edge>
   <edge>
     <source>296012e1-d2e0-4228-9d8c-ede42d53b69c</source>
-    <target>55b44d10-3b2d-4014-804d-c9d03466c880</target>
-    <point>137.46031746031747,266.0</point>
-    <point>265.70175438596493,406.0</point>
+    <target>fe24d92a-f68f-432e-8322-e04657863492</target>
+    <point>120.0,266.0</point>
+    <point>120.0,528.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -1221,48 +1221,6 @@ Leaving Generate ${nodeName} AddFeature </expression>
     <point>299.0,976.0</point>
     <branch>default</branch>
   </edge>
-  <sib>
-    <id>55b44d10-3b2d-4014-804d-c9d03466c880</id>
-    <name>MacroSIB_1</name>
-    <label>GenerateCheckContainer</label>
-    <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
-    <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
-    <position>40.0,361.0</position>
-    <parameter name="ClearContent">
-      <de.metaframe.common.sib.parameter.ContextExpression>
-        <ContextExpressionFoundation>
-          <expression>${false}</expression>
-          <clazz>java.lang.Boolean</clazz>
-          <classMutable>false</classMutable>
-        </ContextExpressionFoundation>
-      </de.metaframe.common.sib.parameter.ContextExpression>
-    </parameter>
-    <parameter name="ModelElementKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>node</key>
-          <scope>DECLARED</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>4ac25e32-ae6b-469a-b78c-1764aa97ce4d</string>
-    </userobject>
-    <userobject key="ABC$GRAPHSIB$MODELNAME">
-      <string>GenerateCheckContainer</string>
-    </userobject>
-  </sib>
-  <edge>
-    <source>55b44d10-3b2d-4014-804d-c9d03466c880</source>
-    <target>fe24d92a-f68f-432e-8322-e04657863492</target>
-    <point>120.0,401.0</point>
-    <point>120.0,618.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
   <parameter>
     <name>modelElementKey</name>
     <field>modelElementKey</field>
@@ -1282,11 +1240,6 @@ Leaving Generate ${nodeName} AddFeature </expression>
     <name>modelElementKey</name>
     <field>modelElementKey</field>
     <sib>296012e1-d2e0-4228-9d8c-ede42d53b69c</sib>
-  </parameter>
-  <parameter>
-    <name>modelElementKey</name>
-    <field>ModelElementKey</field>
-    <sib>55b44d10-3b2d-4014-804d-c9d03466c880</sib>
   </parameter>
   <values>
     <entry>
@@ -1449,10 +1402,5 @@ Leaving Generate ${nodeName} AddFeature </expression>
     <name>error</name>
     <branch>error</branch>
     <sib>01a08f28-05d8-4f4f-9acd-7ccfca84f693</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>55b44d10-3b2d-4014-804d-c9d03466c880</sib>
   </branch>
 </model>

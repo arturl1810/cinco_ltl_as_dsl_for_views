@@ -130,6 +130,26 @@
 			   </plugins>
 		</build>
 	</profile>
+	<profile>
+		<id>linux</id>
+		<build>
+			    <plugins>
+			      <plugin>
+			       <groupId>org.eclipse.tycho</groupId>
+			       <artifactId>target-platform-configuration</artifactId>
+			       <configuration>
+				 <environments>
+				   <environment>
+				     <os>linux</os>
+				     <ws>gtk</ws>
+				     <arch>x86</arch>
+				   </environment>
+				 </environments>
+			       </configuration>
+			     </plugin>
+			   </plugins>
+		</build>
+	</profile>
 </profiles>
 		
 <distributionManagement>
