@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>67a73b2a-3824-4776-9686-ae1a8aed5282</id>
   <name>GenerateCopyPasteFeatures</name>
-  <changecounter>156</changecounter>
+  <changecounter>157</changecounter>
   <sib>
     <id>59a427e8-25c5-482c-a32b-a0aa278eb41b</id>
     <name>PutExpression</name>
@@ -153,10 +153,18 @@ public class $context.graphModelName$CopyFeature extends AbstractCopyFeature {
 			}
 		}
 		for (EObject bo : subGraphElements) {
-			if ((bo instanceof Node || bo instanceof Container) &amp;&amp; copiedNodes.get((ModelElement) bo) == null) {
+			if (bo instanceof Node &amp;&amp; copiedNodes.get((ModelElement) bo) == null) {
 				ModelElement copy = EcoreUtil.copy((ModelElement) bo);
 				bos.add(copy);
-			}	
+			}
+			if ( bo instanceof Container &amp;&amp; copiedNodes.get((ModelElement) bo) == null ) {
+				ModelElement copy = EcoreUtil.copy((ModelElement) bo);
+				ArrayList&lt;ModelElement&gt; remove = new ArrayList&lt;&gt;();
+				removeMissingLinks((Container) copy, remove);
+				for (ModelElement me : remove)
+					((Container) copy).getModelElements().remove(me);
+				bos.add(copy);
+			}
 		}
 		
 		putToClipboard(bos.toArray(new Object[bos.size()]));
@@ -210,6 +218,19 @@ public class $context.graphModelName$CopyFeature extends AbstractCopyFeature {
 			}
 		}
 		return list;
+	}
+
+	private void removeMissingLinks(Container container, List&lt;ModelElement&gt; remove) {
+		for (ModelElement me : container.getModelElements()) {
+			if (me instanceof Edge) {
+				Edge e = (Edge) me;
+				if (e.getSourceElement() == null || e.getTargetElement() == null) 
+					remove.add(e);
+			}
+			if (me instanceof Container) {
+				removeMissingLinks((Container) me, remove);
+			}
+		}
 	}
 
 }
