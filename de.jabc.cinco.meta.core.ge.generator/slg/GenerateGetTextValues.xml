@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>2a28c6a3-7550-4d5b-a8c5-c31758cd1dd2</id>
   <name>GenerateGetTextValues2</name>
-  <changecounter>356</changecounter>
+  <changecounter>357</changecounter>
   <sib>
     <id>b20307c1-400f-471e-b59a-f2361f53f9aa</id>
     <name>GetModelElementAnnotations</name>
@@ -193,9 +193,9 @@
   </sib>
   <edge>
     <source>08f52c7b-4be4-458b-9651-7b15962ad2a6</source>
-    <target>ee61a4dc-9d36-477c-9ca4-5ce3ebb213d8</target>
-    <point>153.0,524.9076923076923</point>
-    <point>312.0,463.75384615384615</point>
+    <target>519c7f29-0e5f-4be2-a6a7-6392a168b919</target>
+    <point>153.0,531.3724137931034</point>
+    <point>552.0,531.3724137931034</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>next</branch>
   </edge>
@@ -505,34 +505,6 @@ Object $context.flAttributeName$Value = factory.createValueExpression(elContext,
     <point>570.0,540.0</point>
     <point>782.0,513.0</point>
     <branch>emptyString</branch>
-  </edge>
-  <sib>
-    <id>ee61a4dc-9d36-477c-9ca4-5ce3ebb213d8</id>
-    <name>PrintConsoleMessage</name>
-    <label>PrintConsoleMessage</label>
-    <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
-    <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
-    <position>279.5,513.0</position>
-    <parameter name="error">
-      <boolean>false</boolean>
-    </parameter>
-    <parameter name="message">
-      <de.metaframe.common.sib.parameter.ContextExpression>
-        <ContextExpressionFoundation>
-          <expression>Checking StyleAnnotationValue ${value}</expression>
-          <clazz>java.lang.Object</clazz>
-          <classMutable>false</classMutable>
-        </ContextExpressionFoundation>
-      </de.metaframe.common.sib.parameter.ContextExpression>
-    </parameter>
-    <finalbranches>default</finalbranches>
-  </sib>
-  <edge>
-    <source>ee61a4dc-9d36-477c-9ca4-5ce3ebb213d8</source>
-    <target>519c7f29-0e5f-4be2-a6a7-6392a168b919</target>
-    <point>330.0,465.0</point>
-    <point>571.0,536.0</point>
-    <branch>default</branch>
   </edge>
   <sib>
     <id>519c7f29-0e5f-4be2-a6a7-6392a168b919</id>

@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>696c3b21-1096-4b9a-86bd-7456a6b80d52</id>
   <name>GenerateModelElementPropertyView</name>
-  <changecounter>187</changecounter>
+  <changecounter>193</changecounter>
   <sib>
     <id>c215c747-bca3-4fbb-9807-9cd2ab3f1b32</id>
     <name>PutExpression</name>
@@ -360,9 +360,9 @@ public class $context.modelElementName$Filter extends AbstractPropertySectionFil
   </sib>
   <edge>
     <source>fc305a02-217e-42f8-bc1d-96ce113fe89e</source>
-    <target>587c96fc-77c9-43c4-a5c1-ae8e29ed74d1</target>
-    <point>417.0,163.35</point>
-    <point>333.0,121.35</point>
+    <target>c6a74314-b916-44fa-96cd-3b87ac7e1413</target>
+    <point>417.0,171.6</point>
+    <point>183.0,171.6</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>next</branch>
   </edge>
@@ -1107,38 +1107,9 @@ public class $context.modelElementName$_$context.attributeName$_Section extends 
     <target>234cacf7-df89-4891-af9e-e679d2b174a2</target>
     <point>645.0,300.0</point>
     <point>826.0,285.0</point>
-    <branch>GraphModel</branch>
     <branch>GraphicalModelElement</branch>
     <branch>UserDefinedType</branch>
     <branch>other</branch>
-  </edge>
-  <sib>
-    <id>587c96fc-77c9-43c4-a5c1-ae8e29ed74d1</id>
-    <name>PrintConsoleMessage_1</name>
-    <label>PrintConsoleMessage</label>
-    <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
-    <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
-    <position>234.5,63.0</position>
-    <parameter name="error">
-      <boolean>false</boolean>
-    </parameter>
-    <parameter name="message">
-      <de.metaframe.common.sib.parameter.ContextExpression>
-        <ContextExpressionFoundation>
-          <expression>ModelElementName ${modelElementName} with attribute ${attribute}</expression>
-          <clazz>java.lang.Object</clazz>
-          <classMutable>false</classMutable>
-        </ContextExpressionFoundation>
-      </de.metaframe.common.sib.parameter.ContextExpression>
-    </parameter>
-    <finalbranches>default</finalbranches>
-  </sib>
-  <edge>
-    <source>587c96fc-77c9-43c4-a5c1-ae8e29ed74d1</source>
-    <target>c6a74314-b916-44fa-96cd-3b87ac7e1413</target>
-    <point>315.0,120.0</point>
-    <point>221.0,168.0</point>
-    <branch>default</branch>
   </edge>
   <sib>
     <id>a7726038-79e3-498f-9331-08d9b62422eb</id>
@@ -1499,5 +1470,10 @@ public class $context.modelElementName$TypeClass extends GFPropertySection imple
     <name>error</name>
     <branch>error</branch>
     <sib>a7726038-79e3-498f-9331-08d9b62422eb</sib>
+  </branch>
+  <branch>
+    <name>default</name>
+    <branch>GraphModel</branch>
+    <sib>3f66e2d3-5545-401f-bcac-dc18037fbad6</sib>
   </branch>
 </model>

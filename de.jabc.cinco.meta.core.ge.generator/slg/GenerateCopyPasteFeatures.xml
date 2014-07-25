@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>67a73b2a-3824-4776-9686-ae1a8aed5282</id>
   <name>GenerateCopyPasteFeatures</name>
-  <changecounter>157</changecounter>
+  <changecounter>179</changecounter>
   <sib>
     <id>59a427e8-25c5-482c-a32b-a0aa278eb41b</id>
     <name>PutExpression</name>
@@ -683,7 +683,7 @@ public class $context.graphModelName$PasteFeature extends AbstractPasteFeature {
     <parameter name="iterator">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>iterator</key>
+          <key>iteratorfoobar</key>
           <scope>LOCAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
@@ -904,8 +904,9 @@ public class $context.graphModelName$PasteFeature extends AbstractPasteFeature {
   <edge>
     <source>aa92bfe4-ce39-4f48-9ba1-2db17c3b8f9e</source>
     <target>b4f20ed1-1e2f-4749-b0ec-28cf10fd36fb</target>
-    <point>345.0,555.0</point>
-    <point>351.0,353.0</point>
+    <point>345.0,528.0</point>
+    <point>345.0,356.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>next</branch>
   </edge>
   <edge>

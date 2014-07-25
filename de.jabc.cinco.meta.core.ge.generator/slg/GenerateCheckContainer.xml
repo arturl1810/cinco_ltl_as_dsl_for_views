@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>4ac25e32-ae6b-469a-b78c-1764aa97ce4d</id>
   <name>GenerateCheckContainer</name>
-  <changecounter>246</changecounter>
+  <changecounter>248</changecounter>
   <sib>
     <id>6f32ddea-91f6-4b9b-ba62-647156ba870d</id>
     <name>CopyElement</name>
@@ -337,10 +337,10 @@
   </edge>
   <edge>
     <source>e916e211-07ab-4734-8b63-dc8393a65738</source>
-    <target>d626640f-d448-41c0-9e75-4252f0a7a833</target>
+    <target>0ddda4ca-c696-45d8-9b35-c98852210b12</target>
     <spline/>
-    <point>393.0,671.3052631578947</point>
-    <point>642.0,736.8315789473684</point>
+    <point>393.0,666.2842105263157</point>
+    <point>927.0,666.2842105263157</point>
     <labelposition>477.40112994350284,-0.4153846153845724</labelposition>
     <branch>next</branch>
   </edge>
@@ -1209,34 +1209,6 @@
     <finalbranches>false</finalbranches>
     <finalbranches>true</finalbranches>
   </sib>
-  <sib>
-    <id>d626640f-d448-41c0-9e75-4252f0a7a833</id>
-    <name>PrintConsoleMessage_1</name>
-    <label>PrintConsoleMessage</label>
-    <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
-    <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
-    <position>609.5,663.0</position>
-    <parameter name="error">
-      <boolean>false</boolean>
-    </parameter>
-    <parameter name="message">
-      <de.metaframe.common.sib.parameter.ContextExpression>
-        <ContextExpressionFoundation>
-          <expression>GRAPHICALmODELeLEMENT: ${graphicalModelElement}</expression>
-          <clazz>java.lang.Object</clazz>
-          <classMutable>false</classMutable>
-        </ContextExpressionFoundation>
-      </de.metaframe.common.sib.parameter.ContextExpression>
-    </parameter>
-    <finalbranches>default</finalbranches>
-  </sib>
-  <edge>
-    <source>d626640f-d448-41c0-9e75-4252f0a7a833</source>
-    <target>0ddda4ca-c696-45d8-9b35-c98852210b12</target>
-    <point>660.0,750.0</point>
-    <point>930.0,670.0</point>
-    <branch>default</branch>
-  </edge>
   <sib>
     <id>8a134702-4f20-4425-83d4-8e27c151f433</id>
     <name>PutExpression_3</name>

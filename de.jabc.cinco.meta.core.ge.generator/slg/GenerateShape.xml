@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>36d9fec6-e1a2-4c6b-8680-956d60534097</id>
   <name>GenerateShape</name>
-  <changecounter>970</changecounter>
+  <changecounter>971</changecounter>
   <sib>
     <id>f901026e-1a69-421b-912a-54b756b8a46b</id>
     <name>GetShapeName</name>
@@ -976,9 +976,9 @@ Polyline $context.peName$ = gaService.createPolyline($context.meShapeName$, new 
   </sib>
   <edge>
     <source>a2bcea98-0cdc-4499-a2e1-f20e7ce4fccc</source>
-    <target>ec9c981b-6244-419f-8e92-f8fc339aad6e</target>
-    <point>378.0,36.981818181818184</point>
-    <point>507.0,36.981818181818184</point>
+    <target>bd85fb00-402c-48b0-b63d-1a6a136e5210</target>
+    <point>378.0,36.49090909090909</point>
+    <point>672.0,36.49090909090909</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -1185,34 +1185,6 @@ Polyline $context.peName$ = gaService.createPolyline($context.meShapeName$, new 
     <point>499.6551724137931,954.0</point>
     <point>534.2307692307693,1081.0</point>
     <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
-  <sib>
-    <id>ec9c981b-6244-419f-8e92-f8fc339aad6e</id>
-    <name>PrintConsoleMessage</name>
-    <label>PrintConsoleMessage</label>
-    <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
-    <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
-    <position>459.5,18.0</position>
-    <parameter name="error">
-      <boolean>false</boolean>
-    </parameter>
-    <parameter name="message">
-      <de.metaframe.common.sib.parameter.ContextExpression>
-        <ContextExpressionFoundation>
-          <expression>Diag is Parent: ${diagramIsParent} parentname ${parentName}</expression>
-          <clazz>java.lang.Object</clazz>
-          <classMutable>false</classMutable>
-        </ContextExpressionFoundation>
-      </de.metaframe.common.sib.parameter.ContextExpression>
-    </parameter>
-    <finalbranches>default</finalbranches>
-  </sib>
-  <edge>
-    <source>ec9c981b-6244-419f-8e92-f8fc339aad6e</source>
-    <target>bd85fb00-402c-48b0-b63d-1a6a136e5210</target>
-    <point>525.0,90.0</point>
-    <point>682.0,43.0</point>
     <branch>default</branch>
   </edge>
   <sib>
