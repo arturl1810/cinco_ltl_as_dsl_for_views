@@ -30,7 +30,7 @@ public class StyleValueProposalProvider implements IMetaPluginAcceptor {
 	@Override
 	public List<String> getAcceptedStrings(Annotation annotation) {
 		String annotName = annotation.getName();
-		if ("Style".equals(annotName)) {
+		if ("style".equals(annotName)) {
 			Type type = annotation.getParent();
 			GraphModel gModel = null;
 			if (type instanceof Node)
@@ -43,7 +43,7 @@ public class StyleValueProposalProvider implements IMetaPluginAcceptor {
 				gModel = (GraphModel) type;
 			
 			for (Annotation annot : gModel.getAnnotations()) {
-				if ("Style".equals(annot.getName())) {
+				if ("style".equals(annot.getName())) {
 					IPath filePath = new Path(annot.getValue().get(0)); 
 					IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(filePath);
 					

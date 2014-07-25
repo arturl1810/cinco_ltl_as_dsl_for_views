@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>51140446-1347-4939-8c10-4439f751b7c3</id>
   <name>GenerateGraphicsAlgorithm</name>
-  <changecounter>187</changecounter>
+  <changecounter>249</changecounter>
   <sib>
     <id>dc5161c1-5eca-4932-ba1b-f2c5daa50852</id>
     <name>SwitchGraphicsAlgorithm</name>
@@ -238,7 +238,7 @@ peService.setPropertyValue($context.peName$, $context.graphModelName$GraphitiUti
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>gaService.setSize($context.lcModelElementName$Text, $context.size.width$, $context.size.height$);
+      <string>gaService.setSize($context.lcModelElementName$$context.peName$, $context.size.width$, $context.size.height$);
 </string>
     </parameter>
     <finalbranches>default</finalbranches>
@@ -266,7 +266,7 @@ peService.setPropertyValue($context.peName$, $context.graphModelName$GraphitiUti
     <label>GetPolylinePoints</label>
     <sib-uid>style/style/GetPolylinePoints</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.sib.style.GetPolylinePoints</taxonomy>
-    <position>434.5,243.0</position>
+    <position>344.5,258.0</position>
     <parameter name="eListKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -291,8 +291,8 @@ peService.setPropertyValue($context.peName$, $context.graphModelName$GraphitiUti
   <edge>
     <source>ca98a44a-d324-429e-97e7-217c0bb67ea8</source>
     <target>53fd594c-1014-43c6-991e-07058b360619</target>
-    <point>498.0,273.0</point>
-    <point>498.0,363.0</point>
+    <point>405.0,285.0</point>
+    <point>405.0,375.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -302,7 +302,7 @@ peService.setPropertyValue($context.peName$, $context.graphModelName$GraphitiUti
     <label>IteratePoints</label>
     <sib-uid>collection-sibs/IterateElements</sib-uid>
     <taxonomy>de.jabc.sib.common.collection.IterateElements</taxonomy>
-    <position>449.5,438.0</position>
+    <position>359.5,453.0</position>
     <parameter name="collection">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -338,17 +338,17 @@ peService.setPropertyValue($context.peName$, $context.graphModelName$GraphitiUti
     <source>1f5dc85d-663a-48dc-99bf-2dff8c1a4e62</source>
     <target>804ad104-4f4a-4e2b-8371-95c2c64d629b</target>
     <spline/>
-    <point>498.0,468.0</point>
-    <point>603.0,423.0</point>
-    <point>708.0,468.0</point>
+    <point>423.0,462.36</point>
+    <point>480.0,435.0</point>
+    <point>522.0,460.2</point>
     <labelposition>479.0667142473198,-26.241027672075518</labelposition>
     <branch>next</branch>
   </edge>
   <edge>
     <source>804ad104-4f4a-4e2b-8371-95c2c64d629b</source>
     <target>1f5dc85d-663a-48dc-99bf-2dff8c1a4e62</target>
-    <point>708.0,468.0</point>
-    <point>498.0,468.0</point>
+    <point>705.0,465.0</point>
+    <point>405.0,480.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -358,7 +358,7 @@ peService.setPropertyValue($context.peName$, $context.graphModelName$GraphitiUti
     <label>RunStringTemplate</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>640.0,438.0</position>
+    <position>475.0,453.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -383,8 +383,8 @@ peService.setPropertyValue($context.peName$, $context.graphModelName$GraphitiUti
   <edge>
     <source>1f5dc85d-663a-48dc-99bf-2dff8c1a4e62</source>
     <target>7104e8ee-374c-4823-8285-4f18e24af2ee</target>
-    <point>498.0,468.0</point>
-    <point>498.0,558.0</point>
+    <point>405.0,480.0</point>
+    <point>405.0,570.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>exit</branch>
   </edge>
@@ -394,7 +394,7 @@ peService.setPropertyValue($context.peName$, $context.graphModelName$GraphitiUti
     <label>GenPolyline</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>453.0,528.0</position>
+    <position>363.0,543.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -420,8 +420,8 @@ peService.setPropertyValue($context.peName$, $context.graphModelName$GraphitiUti
   <edge>
     <source>7104e8ee-374c-4823-8285-4f18e24af2ee</source>
     <target>e9563e59-6b45-4890-af14-8e7b3b31c270</target>
-    <point>498.0,558.0</point>
-    <point>498.0,663.0</point>
+    <point>405.0,570.0</point>
+    <point>405.0,675.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -431,7 +431,7 @@ peService.setPropertyValue($context.peName$, $context.graphModelName$GraphitiUti
     <label>GetPolylineSize</label>
     <sib-uid>style/style/GetPolylineSize</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.sib.style.GetPolylineSize</taxonomy>
-    <position>442.5,633.0</position>
+    <position>352.5,648.0</position>
     <parameter name="polylineKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -467,7 +467,7 @@ peService.setPropertyValue($context.peName$, $context.graphModelName$GraphitiUti
     <label>ClearPolylinePoints</label>
     <sib-uid>basic-sibs/PutExpression</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
-    <position>428.5,333.0</position>
+    <position>338.5,348.0</position>
     <parameter name="resolve">
       <boolean>true</boolean>
     </parameter>
@@ -495,8 +495,8 @@ peService.setPropertyValue($context.peName$, $context.graphModelName$GraphitiUti
   <edge>
     <source>53fd594c-1014-43c6-991e-07058b360619</source>
     <target>1f5dc85d-663a-48dc-99bf-2dff8c1a4e62</target>
-    <point>498.0,363.0</point>
-    <point>498.0,468.0</point>
+    <point>405.0,375.0</point>
+    <point>405.0,480.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -643,8 +643,8 @@ peService.setPropertyValue($context.peName$, $context.graphModelName$GraphitiUti
   <edge>
     <source>5d58f516-137d-4665-8531-e2f29990497e</source>
     <target>ca98a44a-d324-429e-97e7-217c0bb67ea8</target>
-    <point>560.625,144.0</point>
-    <point>505.7142857142857,243.0</point>
+    <point>480.0,150.0</point>
+    <point>405.0,285.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -654,7 +654,7 @@ peService.setPropertyValue($context.peName$, $context.graphModelName$GraphitiUti
     <label>GenerateUniqueGaName</label>
     <sib-uid>ge-util-sibs/GenerateUniqueGaName</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.GenerateUniqueGaName</taxonomy>
-    <position>487.5,108.0</position>
+    <position>397.5,123.0</position>
     <parameter name="clearCache">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
@@ -691,7 +691,7 @@ peService.setPropertyValue($context.peName$, $context.graphModelName$GraphitiUti
     <label>GenerateUniqueGaName</label>
     <sib-uid>ge-util-sibs/GenerateUniqueGaName</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.GenerateUniqueGaName</taxonomy>
-    <position>817.5,123.0</position>
+    <position>592.5,123.0</position>
     <parameter name="clearCache">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
@@ -735,7 +735,7 @@ peService.setPropertyValue($context.peName$, $context.graphModelName$GraphitiUti
     <label>GenerateUniqueGaName</label>
     <sib-uid>ge-util-sibs/GenerateUniqueGaName</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.GenerateUniqueGaName</taxonomy>
-    <position>1117.5,123.0</position>
+    <position>1117.5,138.0</position>
     <parameter name="clearCache">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
@@ -817,6 +817,430 @@ peService.setPropertyValue($context.peName$, $context.graphModelName$GraphitiUti
     <point>1450.0,136.0</point>
     <branch>MultiText</branch>
   </edge>
+  <sib>
+    <id>c5181385-5711-499e-b7de-e681309c0f76</id>
+    <name>GetPolygonPoints</name>
+    <label>GetPolygonPoints</label>
+    <sib-uid>style/style/GetPolygonPoints</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.ge.sib.style.GetPolygonPoints</taxonomy>
+    <position>1154.5,243.0</position>
+    <parameter name="eListKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>polygonPoints</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="polygonKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>currentShape</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>c5181385-5711-499e-b7de-e681309c0f76</source>
+    <target>102a741a-51be-4e07-8f88-881a88a6ce81</target>
+    <point>1215.0,270.0</point>
+    <point>1215.0,360.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>102a741a-51be-4e07-8f88-881a88a6ce81</id>
+    <name>IterateElements_1</name>
+    <label>IteratePoints</label>
+    <sib-uid>collection-sibs/IterateElements</sib-uid>
+    <taxonomy>de.jabc.sib.common.collection.IterateElements</taxonomy>
+    <position>1169.5,333.0</position>
+    <parameter name="collection">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>polygonPoints</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="element">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>polygonPoint</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="iterator">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>pPointIteratoriterator</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>exit</finalbranches>
+    <finalbranches>next</finalbranches>
+  </sib>
+  <edge>
+    <source>1f9b7137-e1b2-452f-a376-d05b0d4fcccb</source>
+    <target>102a741a-51be-4e07-8f88-881a88a6ce81</target>
+    <point>1305.0,360.0</point>
+    <point>1215.0,360.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>102a741a-51be-4e07-8f88-881a88a6ce81</source>
+    <target>1f9b7137-e1b2-452f-a376-d05b0d4fcccb</target>
+    <spline/>
+    <point>1215.0,360.0</point>
+    <point>1275.0,300.0</point>
+    <point>1305.0,360.0</point>
+    <labelposition>562.1999346454483,-15.196721732215138</labelposition>
+    <branch>next</branch>
+  </edge>
+  <sib>
+    <id>1f9b7137-e1b2-452f-a376-d05b0d4fcccb</id>
+    <name>RunStringTemplate_9</name>
+    <label>PointCode</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>1268.0,333.0</position>
+    <parameter name="append">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>pointCode</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>$context.polygonPoint.x$, $context.polygonPoint.y$, </string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>102a741a-51be-4e07-8f88-881a88a6ce81</source>
+    <target>d0723b47-eada-4fe7-af72-5d6c69d1e1c2</target>
+    <point>1215.0,360.0</point>
+    <point>1215.0,465.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>exit</branch>
+  </edge>
+  <sib>
+    <id>d0723b47-eada-4fe7-af72-5d6c69d1e1c2</id>
+    <name>RunStringTemplate_7</name>
+    <label>GenPolygon</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>1173.0,438.0</position>
+    <parameter name="append">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>gaRepContent</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>$context.appearanceContent$
+//ContainerShape $context.meShapeName$ = peService.createContainerShape($context.parentName$, $context.diagramIsParent$);
+Polygon $context.peName$ = gaService.createPolygon(gaContainer, new int[] {$context.pointCode$});
+
+$context.setStyleContent$</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>85add61e-6505-41d2-a59b-774fbfa4555e</source>
+    <target>c5181385-5711-499e-b7de-e681309c0f76</target>
+    <point>1200.0,150.0</point>
+    <point>1221.0,251.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>d0723b47-eada-4fe7-af72-5d6c69d1e1c2</source>
+    <target>c6620719-1b3d-4e14-ab71-27594fdf58ab</target>
+    <point>1215.0,465.0</point>
+    <point>665.0,826.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>dd83558f-3d5b-4f3f-8442-f0c756d08eb5</id>
+    <name>RunStringTemplate_4</name>
+    <label>GenEllipse</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>1012.0,348.0</position>
+    <parameter name="append">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>gaRepContent</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>$context.appearanceContent$
+//ContainerShape $context.meShapeName$ = peService.createContainerShape(gaContainer, $context.diagramIsParent$);
+Ellipse $context.peName$ = gaService.createPlainEllipse(gaContainer);
+
+$context.setStyleContent$</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>3338430e-6d0a-4274-b5ca-56fdce5d3c9a</id>
+    <name>GenerateUniqueGaName_6</name>
+    <label>GenerateUniqueGaName</label>
+    <sib-uid>ge-util-sibs/GenerateUniqueGaName</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.GenerateUniqueGaName</taxonomy>
+    <position>967.5,123.0</position>
+    <parameter name="clearCache">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>true</expression>
+          <clazz>java.lang.Boolean</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="graphicsAlgorithmName">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>Ellipse</expression>
+          <clazz>java.lang.String</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="uniqueGaName">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>peName</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>dc5161c1-5eca-4932-ba1b-f2c5daa50852</source>
+    <target>3338430e-6d0a-4274-b5ca-56fdce5d3c9a</target>
+    <point>885.0,45.0</point>
+    <point>959.0,145.0</point>
+    <branch>Ellipse</branch>
+  </edge>
+  <edge>
+    <source>3338430e-6d0a-4274-b5ca-56fdce5d3c9a</source>
+    <target>dd83558f-3d5b-4f3f-8442-f0c756d08eb5</target>
+    <point>990.0,165.0</point>
+    <point>995.0,252.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>dd83558f-3d5b-4f3f-8442-f0c756d08eb5</source>
+    <target>521b91aa-9857-4ae4-b0d4-17f7b91405ec</target>
+    <point>985.1612903225806,309.0</point>
+    <point>920.1724137931035,543.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>521b91aa-9857-4ae4-b0d4-17f7b91405ec</id>
+    <name>GetEllipseSize</name>
+    <label>GetEllipseSize</label>
+    <sib-uid>style/style/GetEllipseSize</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.sibs.style.sib.style.GetEllipseSize</taxonomy>
+    <position>1001.5,453.0</position>
+    <parameter name="ellipseKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>graphicsAlgorithm</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="ellipsesizeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>size</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>521b91aa-9857-4ae4-b0d4-17f7b91405ec</source>
+    <target>c6620719-1b3d-4e14-ab71-27594fdf58ab</target>
+    <point>765.0,645.0</point>
+    <point>656.0,829.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>cf6eea45-d447-413d-83ed-fcbf5ac5070a</id>
+    <name>GenerateUniqueGaName_7</name>
+    <label>GenerateUniqueGaName</label>
+    <sib-uid>ge-util-sibs/GenerateUniqueGaName</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.GenerateUniqueGaName</taxonomy>
+    <position>787.5,123.0</position>
+    <parameter name="clearCache">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>true</expression>
+          <clazz>java.lang.Boolean</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="graphicsAlgorithmName">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>Rectangle</expression>
+          <clazz>java.lang.String</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="uniqueGaName">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>peName</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>dc5161c1-5eca-4932-ba1b-f2c5daa50852</source>
+    <target>cf6eea45-d447-413d-83ed-fcbf5ac5070a</target>
+    <point>885.0,45.0</point>
+    <point>858.0,132.0</point>
+    <branch>Rectangle</branch>
+  </edge>
+  <sib>
+    <id>760a6fea-162b-452c-a242-8779da1238d8</id>
+    <name>RunStringTemplate_5</name>
+    <label>GenRectangle</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>806.5,348.0</position>
+    <parameter name="append">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>gaRepContent</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>$context.appearanceContent$
+Rectangle $context.peName$ = gaService.createPlainRectangle(gaContainer);
+
+$context.setStyleContent$</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>cf6eea45-d447-413d-83ed-fcbf5ac5070a</source>
+    <target>760a6fea-162b-452c-a242-8779da1238d8</target>
+    <point>855.0,150.0</point>
+    <point>865.0,362.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>25654319-910f-44b4-a97e-7d2b084c4ba9</id>
+    <name>GetRectangleSize</name>
+    <label>GetRectangleSize</label>
+    <sib-uid>style/style/GetRectangleSize</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.sibs.style.sib.style.GetRectangleSize</taxonomy>
+    <position>797.0,468.0</position>
+    <parameter name="rectangleKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>graphicsAlgorithm</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="rectanglesizeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>size</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>760a6fea-162b-452c-a242-8779da1238d8</source>
+    <target>25654319-910f-44b4-a97e-7d2b084c4ba9</target>
+    <point>855.0,375.0</point>
+    <point>855.0,494.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>25654319-910f-44b4-a97e-7d2b084c4ba9</source>
+    <target>c6620719-1b3d-4e14-ab71-27594fdf58ab</target>
+    <point>855.0,495.0</point>
+    <point>659.0,822.0</point>
+    <branch>default</branch>
+  </edge>
   <parameter>
     <name>graphicsAlgorithmKey</name>
     <field>eObjectKey</field>
@@ -836,6 +1260,16 @@ peService.setPropertyValue($context.peName$, $context.graphModelName$GraphitiUti
     <name>graphicsAlgorithmKey</name>
     <field>polylineKey</field>
     <sib>e9563e59-6b45-4890-af14-8e7b3b31c270</sib>
+  </parameter>
+  <parameter>
+    <name>graphicsAlgorithmKey</name>
+    <field>ellipseKey</field>
+    <sib>521b91aa-9857-4ae4-b0d4-17f7b91405ec</sib>
+  </parameter>
+  <parameter>
+    <name>graphicsAlgorithmKey</name>
+    <field>rectangleKey</field>
+    <sib>25654319-910f-44b4-a97e-7d2b084c4ba9</sib>
   </parameter>
   <values>
     <entry>
@@ -968,5 +1402,55 @@ peService.setPropertyValue($context.peName$, $context.graphModelName$GraphitiUti
     <name>error</name>
     <branch>error</branch>
     <sib>d852e15a-1744-4c1e-a4ee-e2a716338595</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>102a741a-51be-4e07-8f88-881a88a6ce81</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>1f9b7137-e1b2-452f-a376-d05b0d4fcccb</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>c5181385-5711-499e-b7de-e681309c0f76</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>d0723b47-eada-4fe7-af72-5d6c69d1e1c2</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>3338430e-6d0a-4274-b5ca-56fdce5d3c9a</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>521b91aa-9857-4ae4-b0d4-17f7b91405ec</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>dd83558f-3d5b-4f3f-8442-f0c756d08eb5</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>25654319-910f-44b4-a97e-7d2b084c4ba9</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>760a6fea-162b-452c-a242-8779da1238d8</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>cf6eea45-d447-413d-83ed-fcbf5ac5070a</sib>
   </branch>
 </model>

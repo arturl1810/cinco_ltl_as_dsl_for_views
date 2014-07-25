@@ -22,6 +22,10 @@
             id="de.jabc.cinco.mgl.wizards.mglCategory"
             name="MGL Project">
       </category>
+      <category
+            id="de.jabc.cinco.meta.core.wizards.category.cinco"
+            name="Cinco Modeling Tool">
+      </category>
    </extension>
 
 </plugin>

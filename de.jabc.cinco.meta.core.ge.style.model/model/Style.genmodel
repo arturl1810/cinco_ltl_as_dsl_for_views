@@ -35,7 +35,7 @@
       <genEnumLiterals ecoreEnumLiteral="Style.ecore#//DecoratorShapes/ARROW"/>
       <genEnumLiterals ecoreEnumLiteral="Style.ecore#//DecoratorShapes/DIAMOND"/>
       <genEnumLiterals ecoreEnumLiteral="Style.ecore#//DecoratorShapes/CIRCLE"/>
-      <genEnumLiterals ecoreEnumLiteral="Style.ecore#//DecoratorShapes/RECTANGLE"/>
+      <genEnumLiterals ecoreEnumLiteral="Style.ecore#//DecoratorShapes/TRIANGLE"/>
     </genEnums>
     <genClasses ecoreClass="Style.ecore#//Styles">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Style.ecore#//Styles/styles"/>
@@ -48,17 +48,20 @@
     </genClasses>
     <genClasses ecoreClass="Style.ecore#//NodeStyle">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Style.ecore#//NodeStyle/mainShape"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Style.ecore#//NodeStyle/fixed"/>
     </genClasses>
     <genClasses ecoreClass="Style.ecore#//EdgeStyle">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Style.ecore#//EdgeStyle/decorator"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Style.ecore#//EdgeStyle/lineStyle"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Style.ecore#//EdgeStyle/referencedAppearance"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Style.ecore#//EdgeStyle/inlineAppearance"/>
     </genClasses>
     <genClasses image="false" ecoreClass="Style.ecore#//AbstractShape">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Style.ecore#//AbstractShape/position"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Style.ecore#//AbstractShape/size"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Style.ecore#//AbstractShape/name"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Style.ecore#//AbstractShape/color"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Style.ecore#//AbstractShape/appearance"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Style.ecore#//AbstractShape/referencedAppearance"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Style.ecore#//AbstractShape/inlineAppearance"/>
     </genClasses>
     <genClasses image="false" ecoreClass="Style.ecore#//ContainerShape">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Style.ecore#//ContainerShape/children"/>
@@ -126,7 +129,6 @@
     </genClasses>
     <genClasses ecoreClass="Style.ecore#//ConnectionDecorator">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Style.ecore#//ConnectionDecorator/movable"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Style.ecore#//ConnectionDecorator/relative"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Style.ecore#//ConnectionDecorator/location"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Style.ecore#//ConnectionDecorator/decoratorShape"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Style.ecore#//ConnectionDecorator/predefinedDecorator"/>
@@ -144,7 +146,8 @@
     </genClasses>
     <genClasses ecoreClass="Style.ecore#//PredefinedDecorator">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Style.ecore#//PredefinedDecorator/shape"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Style.ecore#//PredefinedDecorator/filled"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Style.ecore#//PredefinedDecorator/referencedAppearance"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Style.ecore#//PredefinedDecorator/inlineAppearance"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

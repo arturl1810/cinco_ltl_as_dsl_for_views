@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>6830c0f3-7532-49ad-ad67-7fb466c9d0a9</id>
   <name>GenerateToolBehaviourProvider</name>
-  <changecounter>87</changecounter>
+  <changecounter>90</changecounter>
   <sib>
     <id>c8e21300-66b5-43fa-a031-ae9d0f22cbf2</id>
     <name>PutExpression</name>
@@ -159,6 +159,13 @@ public class $context.fuGraphModelName$ToolBehaviourProvider extends DefaultTool
 		}
 		
 		return data;
+	}
+
+	@Override
+	public boolean equalsBusinessObjects(Object o1, Object o2) {
+		if (o1 != null)
+			return o1.equals(o2);
+		else return o2 == null;
 	}
 	
 }

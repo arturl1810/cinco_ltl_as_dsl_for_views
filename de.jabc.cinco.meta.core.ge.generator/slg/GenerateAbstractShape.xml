@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>83d95140-6c37-4d47-b41c-dc01202047a8</id>
   <name>GenerateAbstractShape</name>
-  <changecounter>1072</changecounter>
+  <changecounter>1074</changecounter>
   <sib>
     <id>15d12de3-be92-4199-912c-41f8d0975e20</id>
     <name>SwitchAbstractShape</name>
@@ -60,7 +60,7 @@
     <label>GenerateContainerShape</label>
     <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
-    <position>515.0,256.0</position>
+    <position>519.5,256.0</position>
     <parameter name="modelElementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -175,7 +175,7 @@
     <label>GenerateShape</label>
     <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
-    <position>936.5,241.0</position>
+    <position>939.5,241.0</position>
     <parameter name="eObjectKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -212,38 +212,6 @@
     <point>588.918918918919,826.0</point>
     <labelposition>560.2902189706581,-66.6201760156346</labelposition>
     <branch>next</branch>
-  </edge>
-  <sib>
-    <id>07d39db3-d492-42f3-b30d-20cf95c54f5d</id>
-    <name>PrintConsoleMessage</name>
-    <label>PrintConsoleMessage</label>
-    <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
-    <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
-    <position>54.5,783.0</position>
-    <parameter name="error">
-      <boolean>false</boolean>
-    </parameter>
-    <parameter name="message">
-      <de.metaframe.common.sib.parameter.ContextExpression>
-        <ContextExpressionFoundation>
-          <expression>In GenAbstractShape with ${currentShape} and ModelElement: ${meIdentifier}</expression>
-          <clazz>java.lang.Object</clazz>
-          <classMutable>false</classMutable>
-        </ContextExpressionFoundation>
-      </de.metaframe.common.sib.parameter.ContextExpression>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <userobject key="ABC$START">
-      <boolean>true</boolean>
-    </userobject>
-  </sib>
-  <edge>
-    <source>07d39db3-d492-42f3-b30d-20cf95c54f5d</source>
-    <target>2c3868bd-0ce8-41ec-913e-20a5a2872e75</target>
-    <point>120.0,810.0</point>
-    <point>120.0,690.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
   </edge>
   <sib>
     <id>e3a30ddf-6d96-4828-9cc2-d973af801ee7</id>
@@ -389,7 +357,7 @@
     <label>copyCurrentShape</label>
     <sib-uid>utility-sibs/CopyEObject</sib-uid>
     <taxonomy>transem.utility.sib.CopyEObject</taxonomy>
-    <position>57.0,678.0</position>
+    <position>59.0,678.0</position>
     <parameter name="copiedEObjectKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -410,6 +378,9 @@
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
+    <userobject key="ABC$START">
+      <boolean>true</boolean>
+    </userobject>
   </sib>
   <edge>
     <source>2c3868bd-0ce8-41ec-913e-20a5a2872e75</source>
@@ -463,7 +434,7 @@
     <label>CopyExpression</label>
     <sib-uid>basic-sibs/CopyExpression</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.CopyExpression</taxonomy>
-    <position>65.0,408.0</position>
+    <position>66.0,408.0</position>
     <parameter name="sourceValue">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
@@ -499,7 +470,7 @@
     <label>GenerateAbstractShape</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>520.0,796.0</position>
+    <position>523.0,796.0</position>
     <parameter name="currentShapeKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -551,7 +522,7 @@
     <label>CopyStyle</label>
     <sib-uid>utility-sibs/CopyEObject</sib-uid>
     <taxonomy>transem.utility.sib.CopyEObject</taxonomy>
-    <position>84.0,558.0</position>
+    <position>85.0,558.0</position>
     <parameter name="copiedEObjectKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>

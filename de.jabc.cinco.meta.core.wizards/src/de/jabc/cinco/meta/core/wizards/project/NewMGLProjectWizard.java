@@ -155,15 +155,15 @@ public class NewMGLProjectWizard extends Wizard implements IWorkbenchWizard{
 	
 	private void createDummyMGLModel(IFile modelFile, String modelName, String packageName) {		
 		StringBuilder sb = new StringBuilder();
-		sb.append("@(Style, \"/"+packageName+"/model/"+modelName+".style\")\n");
+		sb.append("@style(\"/"+packageName+"/model/"+modelName+".style\")\n");
 		sb.append("graphModel " + modelName + "{\n\tpackage " + packageName + "\n\t" +"nsURI \"http://de/test/project/"+modelName.toLowerCase()+"\"\n\t");
 		sb.append("diagramExtension \"\"\n");
-		sb.append("\n\t@(Style, NodeStyle)\n");
+		sb.append("\n\t@style(NodeStyle)\n");
 		sb.append("\tnode Start{\n\n\t}\n\t"
-				+ "@(Style, NodeStyle)\n"
+				+ "@style(NodeStyle)\n"
 				+ "\tnode End{\n\n\t}\n\n\t");
 		
-		sb.append("@(Style, EdgeStyle)\n");
+		sb.append("@style(EdgeStyle)\n");
 		sb.append("\tedge Succ{\n\t\ttargetNodes(End)\n\t\tsourceNodes(Start)\n\t}\n}");
 		
 		try {
@@ -180,10 +180,13 @@ public class NewMGLProjectWizard extends Wizard implements IWorkbenchWizard{
 		sb.append("appearance green {\n\tbackground(0,255,0)\n}");
 		sb.append("\n\n");
 		
-		sb.append("nodeStyle NodeStyle appearanceProvider (\"de.test.project.appearance.provider.MyAppearanceProvider\") {\n\t"
-				+ "ellipse outer appearance green {\n\t"
+		sb.append("nodeStyle NodeStyle {\n\t"
+				+ "\t/*appearanceProvider (\"de.test.project.appearance.provider.MyAppearanceProvider\") */\n"
+				+ "\tellipse outer {"
+				+ "appearance green \n\t"
 				+ "\tsize(50,50)\n"
-				+ "\t\tellipse inner appearance green {\n\t"
+				+ "\t\tellipse inner {"
+				+ "appearance green \n\t"
 				+ "\t\tposition relativeTo outer (CENTER, MIDDLE)\n"
 				+ "\t\t\tsize (46,46)\n"
 				+ "\t\t}\n"
@@ -191,7 +194,9 @@ public class NewMGLProjectWizard extends Wizard implements IWorkbenchWizard{
 				+ "}\n");
 		
 		sb.append("\nedgeStyle EdgeStyle {\n"
-				+ "\tlineStyle SOLID\n"
+				+ "\tappearance {\n"
+				+ "\t\tlineStyle SOLID\n"
+				+ "\t}\n"
 				+ "}");
 		
 		try {

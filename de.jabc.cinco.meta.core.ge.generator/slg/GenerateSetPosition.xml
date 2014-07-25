@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>e0c76532-9e6d-432c-8bdd-c39fb6516795</id>
   <name>GenerateSetPosition</name>
-  <changecounter>315</changecounter>
+  <changecounter>317</changecounter>
   <sib>
     <id>da0a527b-9125-4bcc-8691-6c1f8c7c1079</id>
     <name>SwitchAbstractPosition</name>
@@ -307,9 +307,9 @@ peService.setPropertyValue($context.peName$, $context.graphModelName$LayoutUtils
   </edge>
   <edge>
     <source>bf5adcd9-5a47-4ec4-8ca5-d5e43fdbfc40</source>
-    <target>8b92ea5d-d2c0-4ced-9b9f-eb1e32f1e1cc</target>
-    <point>513.0,152.4</point>
-    <point>732.0,100.87058823529412</point>
+    <target>5d7b6195-518c-4413-9637-611fbfacf55c</target>
+    <point>513.0,156.83076923076922</point>
+    <point>672.0,156.83076923076922</point>
     <labelposition>484.0,-1.0</labelposition>
     <branch>NodeContainer</branch>
   </edge>
@@ -541,34 +541,6 @@ $context.containerPos$
     <branch>Polyline</branch>
     <branch>Shape</branch>
     <branch>Text</branch>
-  </edge>
-  <sib>
-    <id>8b92ea5d-d2c0-4ced-9b9f-eb1e32f1e1cc</id>
-    <name>PrintConsoleMessage_2</name>
-    <label>PrintConsoleMessage</label>
-    <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
-    <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
-    <position>624.5,63.0</position>
-    <parameter name="error">
-      <boolean>true</boolean>
-    </parameter>
-    <parameter name="message">
-      <de.metaframe.common.sib.parameter.ContextExpression>
-        <ContextExpressionFoundation>
-          <expression>CurrentShape in NodeContainerPos ${currentShape}</expression>
-          <clazz>java.lang.Object</clazz>
-          <classMutable>false</classMutable>
-        </ContextExpressionFoundation>
-      </de.metaframe.common.sib.parameter.ContextExpression>
-    </parameter>
-    <finalbranches>default</finalbranches>
-  </sib>
-  <edge>
-    <source>8b92ea5d-d2c0-4ced-9b9f-eb1e32f1e1cc</source>
-    <target>5d7b6195-518c-4413-9637-611fbfacf55c</target>
-    <point>690.0,90.0</point>
-    <point>679.0,175.0</point>
-    <branch>default</branch>
   </edge>
   <parameter>
     <name>modelElementKey</name>

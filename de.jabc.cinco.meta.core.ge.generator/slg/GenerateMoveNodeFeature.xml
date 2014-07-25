@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>98ab2190-4ec2-4346-85ee-61b8c0d16099</id>
   <name>GenerateMoveNodeFeature</name>
-  <changecounter>158</changecounter>
+  <changecounter>184</changecounter>
   <sib>
     <id>a757414d-68f3-478e-a5f2-cbb249a4880a</id>
     <name>RunStringTemplate_1</name>
@@ -47,7 +47,8 @@ public class Move$context.node.name$Feature extends DefaultMoveShapeFeature{
 	public boolean canMoveShape(IMoveShapeContext context) {
 		Object o = getBusinessObjectForPictogramElement(context.getShape());
 		Object target = getBusinessObjectForPictogramElement(context.getTargetContainer());
-		
+		if ($context.isFixed$)
+			return false;
 		$context.containerCheck$
 		
 		return super.canMoveShape(context);
@@ -74,6 +75,10 @@ public class Move$context.node.name$Feature extends DefaultMoveShapeFeature{
 			Container tmp = (Container) target;
 			tmp.getModelElements().add(($context.node.name$) o);
 		}
+			
+		(($context.node.name$) o).setX(context.getX());
+		(($context.node.name$) o).setY(context.getY());
+
 		super.moveShape(context);
 	}
 
@@ -184,9 +189,9 @@ public class Move$context.node.name$Feature extends DefaultMoveShapeFeature{
   </sib>
   <edge>
     <source>82dd5d9b-5c4a-42a2-a9eb-79211789466a</source>
-    <target>35e844b0-f099-429d-90d8-86b7d3c5a34e</target>
-    <point>168.0,177.72</point>
-    <point>355.0,240.13333333333333</point>
+    <target>c04a5aea-5b89-4212-8114-dfc11ef98308</target>
+    <point>168.0,175.68</point>
+    <point>280.0,198.2</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -365,6 +370,15 @@ public class Move$context.node.name$Feature extends DefaultMoveShapeFeature{
     <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
     <position>65.5,271.0</position>
+    <parameter name="ClearContent">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>${false}</expression>
+          <clazz>java.lang.Boolean</clazz>
+          <classMutable>false</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
     <parameter name="ModelElementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -383,6 +397,74 @@ public class Move$context.node.name$Feature extends DefaultMoveShapeFeature{
       <string>GenerateCheckContainer</string>
     </userobject>
   </sib>
+  <sib>
+    <id>c04a5aea-5b89-4212-8114-dfc11ef98308</id>
+    <name>GraphSIB</name>
+    <label>CheckStyleAnnotation</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>255.5,151.0</position>
+    <parameter name="modelElementKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>node</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>843b7fe1-9b8e-4b49-94ab-777e60336bda</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>CheckStyleAnnotation</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>c04a5aea-5b89-4212-8114-dfc11ef98308</source>
+    <target>e7f1fd14-654b-450d-8222-bb8ebdf9dd83</target>
+    <point>335.2631578947368,191.0</point>
+    <point>354.375,258.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>e7f1fd14-654b-450d-8222-bb8ebdf9dd83</id>
+    <name>GetNodeStyleFixed</name>
+    <label>GetNodeStyleFixed</label>
+    <sib-uid>style/style/GetNodeStyleFixed</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.sibs.style.sib.style.GetNodeStyleFixed</taxonomy>
+    <position>265.0,273.0</position>
+    <parameter name="nodeStyleKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>style</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="nodeStylefixedKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>isFixed</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>e7f1fd14-654b-450d-8222-bb8ebdf9dd83</source>
+    <target>35e844b0-f099-429d-90d8-86b7d3c5a34e</target>
+    <point>360.0,285.0</point>
+    <point>182.0,294.0</point>
+    <branch>default</branch>
+  </edge>
   <values/>
   <branch>
     <name>error</name>
@@ -423,5 +505,15 @@ public class Move$context.node.name$Feature extends DefaultMoveShapeFeature{
     <name>error</name>
     <branch>error</branch>
     <sib>35e844b0-f099-429d-90d8-86b7d3c5a34e</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>c04a5aea-5b89-4212-8114-dfc11ef98308</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>e7f1fd14-654b-450d-8222-bb8ebdf9dd83</sib>
   </branch>
 </model>

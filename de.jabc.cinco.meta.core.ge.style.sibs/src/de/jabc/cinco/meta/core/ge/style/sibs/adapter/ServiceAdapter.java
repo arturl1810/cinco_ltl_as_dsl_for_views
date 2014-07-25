@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.nio.file.FileSystem;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,6 +28,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.URI;
@@ -40,15 +42,21 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import style.AbsolutPosition;
+import style.AbstractShape;
 import style.Alignment;
 import style.Appearance;
 import style.Color;
+import style.ConnectionDecorator;
 import style.ContainerShape;
+import style.EdgeStyle;
 import style.Font;
 import style.HAlignment;
 import style.LineStyle;
+import style.NodeStyle;
 import style.Size;
+import style.Style;
 import style.StyleFactory;
+import style.Styles;
 import style.VAlignment;
 import de.jabc.adapter.common.collection.Branches;
 import de.metaframe.jabc.framework.execution.LightweightExecutionEnvironment;
@@ -62,6 +70,7 @@ public class ServiceAdapter {
 	private static Map<String, String> shapeNames = new HashMap<String, String>();
 	private static Map<String, String> gaNames = new HashMap<String, String>();
 	private static Map<String, String> keywords = new HashMap<String, String>();
+	private static int appearanceCount = 0;
 	
 	public ServiceAdapter() {
 		
@@ -75,7 +84,7 @@ public class ServiceAdapter {
 		try {
 			List<Annotation> annots = (List<Annotation>) context.get(annotations);
 			for (Annotation a : annots) {
-				if ("Style".equals(a.getName())) {
+				if ("style".equals(a.getName())) {
 					context.put(annotation, a);
 					break;
 				}
@@ -624,5 +633,90 @@ public class ServiceAdapter {
 			} else return findMGLFile((IContainer) res);
 		}
 		return null;
+	}
+
+	public static String fileExists(LightweightExecutionEnvironment env,
+			ContextKeyFoundation path) {
+
+		LightweightExecutionContext context = env.getLocalContext();
+		
+		try {
+			String p = (String) context.get(path);
+			File file = new File(p);
+			if (file.exists())
+				return Branches.TRUE;
+			else return Branches.FALSE;
+		} catch (Exception e) {
+			context.put("exception", e);
+			return Branches.ERROR;
+		}
+	}
+
+	public static String collectInlineAppearances(
+			LightweightExecutionEnvironment env,
+			ContextKeyFoundation styles,
+			ContextKeyFoundation inlineAppearances) {
+		
+		LightweightExecutionContext context = env.getLocalContext();
+		
+		try {
+			Styles s = (Styles) context.get(styles);
+			List<Appearance> list = new ArrayList<>();
+			Integer count = 0;
+			for (Style style : s.getStyles()) 
+				getInlineAppearance(style, list);
+			
+			context.put(inlineAppearances, list);
+			
+		} catch (Exception e) {
+			context.put("exception", e);
+			return Branches.ERROR;
+		}
+		
+		return Branches.DEFAULT;
+	}
+
+	private static void getInlineAppearance(Style style, List<Appearance> list) {
+		
+		if (style instanceof NodeStyle)
+			getInlineAppearance(((NodeStyle) style).getMainShape(), list);
+		
+		if (style instanceof EdgeStyle) {
+			EdgeStyle es = (EdgeStyle) style;
+			if (es.getInlineAppearance() != null) {
+				String name = "_Appearance" + appearanceCount++;
+				es.getInlineAppearance().setName(name);
+				list.add(es.getInlineAppearance());
+			}
+		
+			for (ConnectionDecorator cd : es.getDecorator()) {
+				if (cd.getDecoratorShape() instanceof AbstractShape) {
+					getInlineAppearance((AbstractShape) cd.getDecoratorShape(), list);
+				}
+				
+				if (cd.getPredefinedDecorator() != null &&
+						cd.getPredefinedDecorator().getInlineAppearance() != null) {
+					String name = "_Appearance" + appearanceCount++;
+					cd.getPredefinedDecorator().getInlineAppearance().setName(name);
+					list.add(cd.getPredefinedDecorator().getInlineAppearance());
+				}
+			}
+				
+		}
+				
+	}
+		
+
+	private static void getInlineAppearance(AbstractShape as,	List<Appearance> list) {
+		Appearance app = as.getInlineAppearance();
+		if (app != null) {
+			String name = "_Appearance" + appearanceCount++;
+			app.setName(name);
+			list.add(app);
+		}
+		if (as instanceof ContainerShape) {
+			for (AbstractShape abstractShape : ((ContainerShape) as).getChildren())
+				getInlineAppearance(abstractShape, list);
+		}
 	}
 }

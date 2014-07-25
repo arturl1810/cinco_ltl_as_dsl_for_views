@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>e96e3211-9e15-4d4a-94a9-7b4b8375d7a3</id>
   <name>GenerateLayoutFeatures</name>
-  <changecounter>486</changecounter>
+  <changecounter>561</changecounter>
   <sib>
     <id>ff7817b7-c328-4684-827e-afc4ea81c9f3</id>
     <name>PutExpression</name>
@@ -79,10 +79,10 @@
   <sib>
     <id>5b768f52-3d9c-409f-8901-5c3c2a674ea6</id>
     <name>RunStringTemplate</name>
-    <label>RunStringTemplate</label>
+    <label>LayoutUtils</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>40.0,273.0</position>
+    <position>65.0,273.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -107,15 +107,29 @@ import $context.importPath$.*;
 import $context.packageName$.graphiti.*;
 
 $context.appearanceContentImports$
+import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
+import org.eclipse.graphiti.mm.algorithms.AbstractText;
+import org.eclipse.graphiti.mm.algorithms.styles.LineStyle;
+import org.eclipse.graphiti.mm.algorithms.styles.Style;
+import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.datatypes.IDimension;
-import org.eclipse.graphiti.mm.algorithms.styles.Font;
+import org.eclipse.graphiti.mm.GraphicsAlgorithmContainer;
+import org.eclipse.graphiti.mm.algorithms.AbstractText;
+import org.eclipse.graphiti.mm.algorithms.Ellipse;
+import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
 import org.eclipse.graphiti.mm.algorithms.Image;
+import org.eclipse.graphiti.mm.algorithms.MultiText;
+import org.eclipse.graphiti.mm.algorithms.Polygon;
+import org.eclipse.graphiti.mm.algorithms.Polyline;
+import org.eclipse.graphiti.mm.algorithms.Rectangle;
 import org.eclipse.graphiti.mm.algorithms.Text;
+import org.eclipse.graphiti.mm.algorithms.styles.Font;
+import org.eclipse.graphiti.mm.algorithms.styles.LineStyle;
+import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.services.IGaService;
 import org.eclipse.graphiti.services.IPeService;
 import org.eclipse.graphiti.ui.services.GraphitiUi;
-
 public class $context.graphModelName$LayoutUtils {
 
 	public static final String KEY_HORIZONTAL = &quot;horizontal&quot;;
@@ -152,6 +166,24 @@ public class $context.graphModelName$LayoutUtils {
 			gaService.setHeight(ga, dim.getHeight());
 			gaWidth = dim.getWidth();
 			gaHeight = dim.getHeight();
+		}
+
+		if (ga instanceof MultiText) {
+			MultiText mt = (MultiText) ga;
+			IDimension dim = getTextDimension(mt);
+			if (dim.getWidth() &gt; parent.getWidth()) {
+				int lines = dim.getWidth() / ga.getWidth() + 1;
+				gaHeight = lines * (dim.getHeight() + 15);
+				gaWidth = parent.getWidth();
+			} else {
+				gaWidth = dim.getWidth()+4;
+				gaHeight = dim.getHeight();
+			}
+			mt.setHeight(gaHeight);
+			mt.setWidth(gaWidth);
+			
+			parentWidth = parent.getWidth();
+			parentHeight = parent.getHeight();
 		}
 		
 		if (horizontal == KEY_HORIZONTAL_UNDEFINED || vertical == KEY_VERTICAL_UNDEFINED)
@@ -243,6 +275,38 @@ public class $context.graphModelName$LayoutUtils {
 			ga.setLineVisible(!appearance.getLineInVisible());
 			
 		}
+	}
+
+	public static void createCIRCLE(GraphicsAlgorithmContainer gaContainer) {
+		IGaService gaService = Graphiti.getGaService();
+		IPeService peService = Graphiti.getPeService();
+		Ellipse tmp = gaService.createEllipse(gaContainer);
+		gaService.setSize(tmp, 12, 12);
+		gaService.setLocation(tmp, tmp.getX() + $context.xDelta$, tmp.getY());
+		tmp.setFilled(true);
+	}
+
+	public static  void createTRIANGLE(GraphicsAlgorithmContainer gaContainer) {
+		IGaService gaService = Graphiti.getGaService();
+		IPeService peService = Graphiti.getPeService();
+		Polygon tmp = gaService.createPolygon(gaContainer, new int[] {-11,-8, 0,0, -11,8, -11,-8});
+		gaService.setLocation(tmp, tmp.getX() + $context.xDelta$, tmp.getY());
+		tmp.setFilled(true);
+	}
+
+	public static  void createARROW(GraphicsAlgorithmContainer gaContainer) {
+		IGaService gaService = Graphiti.getGaService();
+		IPeService peService = Graphiti.getPeService();
+		Polyline tmp = gaService.createPolyline(gaContainer, new int[] {-10,-4, 0,0, -10,4});
+		gaService.setLocation(tmp, tmp.getX() + $context.xDelta$, tmp.getY());
+	}
+
+	public static  void createDIAMOND(GraphicsAlgorithmContainer gaContainer) {
+		IGaService gaService = Graphiti.getGaService();
+		IPeService peService = Graphiti.getPeService();
+		Polygon tmp = gaService.createPolygon(gaContainer, new int[] {-9,-6, 0,0, -9,6, -18,0, -9,-6});
+		gaService.setLocation(tmp, tmp.getX() + $context.xDelta$, tmp.getY());
+		tmp.setFilled(true);
 	}
 	
 }
@@ -851,7 +915,7 @@ public class Layout$context.container.name$Feature extends AbstractLayoutFeature
     <label>IterateAppearances</label>
     <sib-uid>collection-sibs/IterateElements</sib-uid>
     <taxonomy>de.jabc.sib.common.collection.IterateElements</taxonomy>
-    <position>428.0,273.0</position>
+    <position>638.0,273.0</position>
     <parameter name="collection">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -885,9 +949,10 @@ public class Layout$context.container.name$Feature extends AbstractLayoutFeature
   </sib>
   <edge>
     <source>8c1c9f82-0624-4813-954d-bcd83b39042c</source>
-    <target>faef0552-1ce6-4a8d-bc57-35c568fa48db</target>
-    <point>270.0,180.0</point>
-    <point>442.0,165.0</point>
+    <target>46a897e1-726a-4a1a-832f-52c81272940a</target>
+    <point>303.0,175.32</point>
+    <point>492.0,213.12</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
@@ -896,7 +961,7 @@ public class Layout$context.container.name$Feature extends AbstractLayoutFeature
     <label>GenerateAppearance</label>
     <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
-    <position>423.5,61.0</position>
+    <position>633.5,61.0</position>
     <parameter name="eObjectKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -918,24 +983,25 @@ public class Layout$context.container.name$Feature extends AbstractLayoutFeature
   <edge>
     <source>faef0552-1ce6-4a8d-bc57-35c568fa48db</source>
     <target>ef1fb27c-e59b-4294-8800-22695794ae62</target>
-    <point>513.0,291.83076923076925</point>
-    <point>672.0,291.83076923076925</point>
+    <point>705.0,300.0</point>
+    <point>900.0,300.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>next</branch>
   </edge>
   <edge>
     <source>85dcd2c7-738d-481b-83cb-2120a7f6cc76</source>
     <target>cf96add0-110d-4893-a2c7-d7676f2f9826</target>
-    <point>480.7142857142857,101.0</point>
-    <point>451.3636363636364,138.0</point>
+    <point>705.0,101.0</point>
+    <point>705.0,168.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
     <source>faef0552-1ce6-4a8d-bc57-35c568fa48db</source>
     <target>5b768f52-3d9c-409f-8901-5c3c2a674ea6</target>
-    <point>465.0,180.0</point>
-    <point>101.0,301.0</point>
+    <point>687.0,291.27</point>
+    <point>123.0,291.27</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>exit</branch>
   </edge>
   <sib>
@@ -944,7 +1010,7 @@ public class Layout$context.container.name$Feature extends AbstractLayoutFeature
     <label>ClearAppearanceContent</label>
     <sib-uid>basic-sibs/PutExpression</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
-    <position>605.5,273.0</position>
+    <position>815.5,273.0</position>
     <parameter name="resolve">
       <boolean>true</boolean>
     </parameter>
@@ -972,8 +1038,8 @@ public class Layout$context.container.name$Feature extends AbstractLayoutFeature
   <edge>
     <source>ef1fb27c-e59b-4294-8800-22695794ae62</source>
     <target>46df0451-bc55-417e-9b16-551149d50056</target>
-    <point>708.0,278.85</point>
-    <point>792.0,215.85</point>
+    <point>900.0,300.0</point>
+    <point>900.0,195.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -983,7 +1049,7 @@ public class Layout$context.container.name$Feature extends AbstractLayoutFeature
     <label>SetAppearanceName</label>
     <sib-uid>basic-sibs/PutExpression</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
-    <position>619.5,63.0</position>
+    <position>829.5,63.0</position>
     <parameter name="resolve">
       <boolean>true</boolean>
     </parameter>
@@ -1011,8 +1077,8 @@ public class Layout$context.container.name$Feature extends AbstractLayoutFeature
   <edge>
     <source>e76a0dec-f369-462a-9fef-468d56ee08e7</source>
     <target>85dcd2c7-738d-481b-83cb-2120a7f6cc76</target>
-    <point>672.0,81.83076923076923</point>
-    <point>515.0,81.92307692307692</point>
+    <point>900.0,90.0</point>
+    <point>705.0,90.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -1022,7 +1088,7 @@ public class Layout$context.container.name$Feature extends AbstractLayoutFeature
     <label>RunStringTemplate</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>430.0,168.0</position>
+    <position>640.0,168.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -1047,8 +1113,9 @@ public class Layout$context.container.name$Feature extends AbstractLayoutFeature
   <edge>
     <source>cf96add0-110d-4893-a2c7-d7676f2f9826</source>
     <target>faef0552-1ce6-4a8d-bc57-35c568fa48db</target>
-    <point>495.0,195.0</point>
-    <point>495.0,292.0</point>
+    <point>705.0,195.0</point>
+    <point>705.0,300.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
@@ -1057,7 +1124,7 @@ public class Layout$context.container.name$Feature extends AbstractLayoutFeature
     <label>GenerateAppearance</label>
     <sib-uid>ge-util-sibs/GenerateAppearance</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.GenerateAppearance</taxonomy>
-    <position>618.5,168.0</position>
+    <position>828.5,168.0</position>
     <parameter name="appearance">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1082,8 +1149,8 @@ public class Layout$context.container.name$Feature extends AbstractLayoutFeature
   <edge>
     <source>46df0451-bc55-417e-9b16-551149d50056</source>
     <target>09073de3-e86c-43f7-8f4d-aa7d2e458d8b</target>
-    <point>708.0,181.92</point>
-    <point>897.0,131.52</point>
+    <point>900.0,195.0</point>
+    <point>1110.0,195.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -1365,7 +1432,7 @@ public class Layout$context.edge.name$Feature extends AbstractLayoutFeature {
     <label>GenerateAppearanceDefaultValues</label>
     <sib-uid>ge-util-sibs/GenerateAppearanceDefaultValues</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.GenerateAppearanceDefaultValues</taxonomy>
-    <position>783.5,168.0</position>
+    <position>993.5,168.0</position>
     <parameter name="appearance">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1381,8 +1448,81 @@ public class Layout$context.edge.name$Feature extends AbstractLayoutFeature {
   <edge>
     <source>09073de3-e86c-43f7-8f4d-aa7d2e458d8b</source>
     <target>e76a0dec-f369-462a-9fef-468d56ee08e7</target>
-    <point>885.0,195.0</point>
-    <point>686.0,86.0</point>
+    <point>1110.0,195.0</point>
+    <point>900.0,90.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>46a897e1-726a-4a1a-832f-52c81272940a</id>
+    <name>AddElements</name>
+    <label>AddElements</label>
+    <sib-uid>collection-sibs/AddElements</sib-uid>
+    <taxonomy>de.jabc.sib.common.collection.AddElements</taxonomy>
+    <position>449.5,153.0</position>
+    <parameter name="collection">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>appearances</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="elements">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>inlineAppearances</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>false</finalbranches>
+    <finalbranches>true</finalbranches>
+  </sib>
+  <edge>
+    <source>46a897e1-726a-4a1a-832f-52c81272940a</source>
+    <target>faef0552-1ce6-4a8d-bc57-35c568fa48db</target>
+    <point>453.0,179.6</point>
+    <point>687.0,283.6</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>true</branch>
+  </edge>
+  <sib>
+    <id>2fb7b8ae-08fe-41a8-9c0f-72deb4507f51</id>
+    <name>PrintConsoleMessage_1</name>
+    <label>PrintConsoleMessage</label>
+    <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
+    <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
+    <position>429.5,48.0</position>
+    <parameter name="error">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="message">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>COULD NOT ADD APPEARANCES</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>false</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <finalbranches>default</finalbranches>
+  </sib>
+  <edge>
+    <source>46a897e1-726a-4a1a-832f-52c81272940a</source>
+    <target>2fb7b8ae-08fe-41a8-9c0f-72deb4507f51</target>
+    <point>495.0,180.0</point>
+    <point>489.0,59.0</point>
+    <branch>false</branch>
+  </edge>
+  <edge>
+    <source>2fb7b8ae-08fe-41a8-9c0f-72deb4507f51</source>
+    <target>faef0552-1ce6-4a8d-bc57-35c568fa48db</target>
+    <point>495.0,75.0</point>
+    <point>700.0,283.0</point>
     <branch>default</branch>
   </edge>
   <values/>
@@ -1510,5 +1650,10 @@ public class Layout$context.edge.name$Feature extends AbstractLayoutFeature {
     <name>error</name>
     <branch>error</branch>
     <sib>09073de3-e86c-43f7-8f4d-aa7d2e458d8b</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>46a897e1-726a-4a1a-832f-52c81272940a</sib>
   </branch>
 </model>

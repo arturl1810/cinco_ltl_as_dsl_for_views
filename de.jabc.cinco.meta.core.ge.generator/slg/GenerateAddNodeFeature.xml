@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>4db550cc-f2bc-4c86-b8fb-009d572b0b8b</id>
   <name>GenerateAddNodeFeature</name>
-  <changecounter>1389</changecounter>
+  <changecounter>1438</changecounter>
   <sib>
     <id>b89523ed-9916-4f61-a5e9-9e1d8838a845</id>
     <name>PutExpression_1</name>
@@ -130,8 +130,9 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
 	
 	public boolean canAdd(IAddContext context) {
 		Object bo = context.getNewObject();
+		Object target = getBusinessObjectForPictogramElement(context.getTargetContainer());
 		if (bo instanceof $context.modelElementName$) {
-			$context.containerCheck$
+			return true;
 		}
 		return false;
 	}
@@ -307,9 +308,9 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
   </edge>
   <edge>
     <source>296012e1-d2e0-4228-9d8c-ede42d53b69c</source>
-    <target>fb438aeb-9de4-409e-afdc-0bfb69ddc44e</target>
+    <target>fe24d92a-f68f-432e-8322-e04657863492</target>
     <point>120.0,266.0</point>
-    <point>120.0,408.0</point>
+    <point>120.0,528.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -358,7 +359,7 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
     <label>GetNodePrimeReference</label>
     <sib-uid>mgl/mgl/GetNodePrimeReference</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.sib.mgl.GetNodePrimeReference</taxonomy>
-    <position>41.0,618.0</position>
+    <position>41.0,528.0</position>
     <parameter name="nodeKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -474,8 +475,15 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
 	public boolean canAdd(IAddContext context) {
 		if ( !(context.getNewObject() instanceof EObject))
 			return false;
-		EObject bo = (EObject) context.getNewObject();
+		EObject bo;
+		if (context.getNewObject() instanceof $context.modelElementName$) {
+			int uid = Integer.parseInt((($context.modelElementName$) context.getNewObject()).get$context.fuPrimeRefTypeName$UID());
+			bo = ReferenceRegistry.getInstance().getEObject(uid);
+		} else {
+			bo = (EObject) context.getNewObject();
+		}
 		EClass eClass = bo.eClass();
+		Object target = getBusinessObjectForPictogramElement(context.getTargetContainer());
 		if (eClass.getName().equals(&quot;$context.primeRefType.name$&quot;) &amp;&amp; eClass.getEPackage().getNsURI().equals(&quot;$context.nsURI$&quot;)){
 			$context.containerCheck$
 		}
@@ -483,15 +491,21 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
 	}
 
 	public PictogramElement add(IAddContext context) {
-		EObject bo = (EObject) context.getNewObject();
+		EObject bo;
+		$context.modelElementName$ $context.meIdentifier$ = null;
+		if (context.getNewObject() instanceof $context.modelElementName$) {
+			int uid = Integer.parseInt((($context.modelElementName$) context.getNewObject()).get$context.fuPrimeRefTypeName$UID());
+			bo = ReferenceRegistry.getInstance().getEObject(uid);
+			$context.meIdentifier$ = ($context.modelElementName$) context.getNewObject();
+		} else {
+			bo = (EObject) context.getNewObject();
+			$context.meIdentifier$ = $context.factoryName$Factory.eINSTANCE.create$context.modelElementName$();
+			$context.primeParamContent$
+		}
 		ContainerShape d = (ContainerShape) context.getTargetContainer();
 
 		IPeService peService = Graphiti.getPeService();
 		IGaService gaService = Graphiti.getGaService();
-
-		$context.modelElementName$ $context.meIdentifier$ = $context.factoryName$Factory.eINSTANCE.create$context.modelElementName$();
-		
-		$context.primeParamContent$
 
 		String objectUri = ReferenceRegistry.getInstance().generateURI(bo);
 		int id = ReferenceRegistry.getInstance().getKey(objectUri);
@@ -1086,146 +1100,6 @@ Leaving Generate ${nodeName} AddFeature </expression>
     <finalbranches>error</finalbranches>
   </sib>
   <sib>
-    <id>b93021a2-ac52-44f2-9286-d223c7dc4bd6</id>
-    <name>RunStringTemplate_3</name>
-    <label>ContainerCheck</label>
-    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
-    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>290.0,288.0</position>
-    <parameter name="append">
-      <boolean>true</boolean>
-    </parameter>
-    <parameter name="individualVariables">
-      <boolean>false</boolean>
-    </parameter>
-    <parameter name="result">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>containerCheck</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="template">
-      <string>if (Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(context.getTargetContainer()) instanceof $context.container.name$) {
-	return true;
-}
-</string>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-  </sib>
-  <edge>
-    <source>edd53a3a-9884-4ab4-b8e7-e26ea847a1d4</source>
-    <target>b93021a2-ac52-44f2-9286-d223c7dc4bd6</target>
-    <point>345.0,435.0</point>
-    <point>345.0,600.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>true</branch>
-  </edge>
-  <edge>
-    <source>edd53a3a-9884-4ab4-b8e7-e26ea847a1d4</source>
-    <target>fb438aeb-9de4-409e-afdc-0bfb69ddc44e</target>
-    <spline/>
-    <point>327.0,432.6857142857143</point>
-    <point>240.0,465.0</point>
-    <point>138.0,431.85</point>
-    <labelposition>459.4588823977645,-36.69862082716664</labelposition>
-    <branch>false</branch>
-  </edge>
-  <edge>
-    <source>b93021a2-ac52-44f2-9286-d223c7dc4bd6</source>
-    <target>fb438aeb-9de4-409e-afdc-0bfb69ddc44e</target>
-    <point>345.0,600.0</point>
-    <point>120.0,435.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
-  <sib>
-    <id>fb438aeb-9de4-409e-afdc-0bfb69ddc44e</id>
-    <name>IterateElements</name>
-    <label>IterateContainers</label>
-    <sib-uid>collection-sibs/IterateElements</sib-uid>
-    <taxonomy>de.jabc.sib.common.collection.IterateElements</taxonomy>
-    <position>59.5,408.0</position>
-    <parameter name="collection">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>containers</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="element">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>container</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="iterator">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>contIterator</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>error</finalbranches>
-    <finalbranches>exit</finalbranches>
-    <finalbranches>next</finalbranches>
-  </sib>
-  <sib>
-    <id>edd53a3a-9884-4ab4-b8e7-e26ea847a1d4</id>
-    <name>IsNodeContained</name>
-    <label>IsNodeContained</label>
-    <sib-uid>ge-util-sibs/IsNodeContained</sib-uid>
-    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsNodeContained</taxonomy>
-    <position>288.0,408.0</position>
-    <parameter name="node">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>node</key>
-          <scope>DECLARED</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="nodeContainer">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>container</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>error</finalbranches>
-    <finalbranches>false</finalbranches>
-    <finalbranches>true</finalbranches>
-  </sib>
-  <edge>
-    <source>fb438aeb-9de4-409e-afdc-0bfb69ddc44e</source>
-    <target>edd53a3a-9884-4ab4-b8e7-e26ea847a1d4</target>
-    <point>120.0,435.0</point>
-    <point>345.0,435.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>next</branch>
-  </edge>
-  <edge>
-    <source>fb438aeb-9de4-409e-afdc-0bfb69ddc44e</source>
-    <target>fc848d49-7191-49de-8e4c-c55ddd2e6f23</target>
-    <point>138.0,442.32</point>
-    <point>327.0,606.12</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>exit</branch>
-  </edge>
-  <sib>
     <id>296012e1-d2e0-4228-9d8c-ede42d53b69c</id>
     <name>GraphSIB_1</name>
     <label>GenerateAbstractShape</label>
@@ -1316,76 +1190,6 @@ Leaving Generate ${nodeName} AddFeature </expression>
     <branch>default</branch>
   </edge>
   <sib>
-    <id>fc848d49-7191-49de-8e4c-c55ddd2e6f23</id>
-    <name>EvaluateBoolean_1</name>
-    <label>containersOnly</label>
-    <sib-uid>basic-sibs/EvaluateBoolean</sib-uid>
-    <taxonomy>de.jabc.sib.common.basic.EvaluateBoolean</taxonomy>
-    <position>67.5,513.0</position>
-    <parameter name="bool">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>containersOnly</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>error</finalbranches>
-    <finalbranches>false</finalbranches>
-    <finalbranches>true</finalbranches>
-  </sib>
-  <sib>
-    <id>a0137c15-a7c1-42b9-a6a3-80049b8e3b01</id>
-    <name>RunStringTemplate_4</name>
-    <label>DiagramCheck</label>
-    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
-    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>280.0,618.0</position>
-    <parameter name="append">
-      <boolean>true</boolean>
-    </parameter>
-    <parameter name="individualVariables">
-      <boolean>false</boolean>
-    </parameter>
-    <parameter name="result">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>containerCheck</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="template">
-      <string>if (context.getTargetContainer() instanceof Diagram)
-	return true;</string>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-  </sib>
-  <edge>
-    <source>fc848d49-7191-49de-8e4c-c55ddd2e6f23</source>
-    <target>a0137c15-a7c1-42b9-a6a3-80049b8e3b01</target>
-    <point>345.0,630.0</point>
-    <point>486.0,621.0</point>
-    <branch>false</branch>
-  </edge>
-  <edge>
-    <source>a0137c15-a7c1-42b9-a6a3-80049b8e3b01</source>
-    <target>fe24d92a-f68f-432e-8322-e04657863492</target>
-    <point>330.0,660.0</point>
-    <point>126.0,641.0</point>
-    <branch>default</branch>
-  </edge>
-  <edge>
-    <source>fc848d49-7191-49de-8e4c-c55ddd2e6f23</source>
-    <target>fe24d92a-f68f-432e-8322-e04657863492</target>
-    <point>120.0,525.0</point>
-    <point>118.0,633.0</point>
-    <branch>true</branch>
-  </edge>
-  <sib>
     <id>01a08f28-05d8-4f4f-9acd-7ccfca84f693</id>
     <name>MacroSIB</name>
     <label>GeneratePrimeParameter</label>
@@ -1431,11 +1235,6 @@ Leaving Generate ${nodeName} AddFeature </expression>
     <name>modelElementKey</name>
     <field>nodeKey</field>
     <sib>3dba0534-f2fc-402e-a00f-614a1753c864</sib>
-  </parameter>
-  <parameter>
-    <name>modelElementKey</name>
-    <field>node</field>
-    <sib>edd53a3a-9884-4ab4-b8e7-e26ea847a1d4</sib>
   </parameter>
   <parameter>
     <name>modelElementKey</name>
@@ -1592,37 +1391,12 @@ Leaving Generate ${nodeName} AddFeature </expression>
   <branch>
     <name>error</name>
     <branch>error</branch>
-    <sib>fb438aeb-9de4-409e-afdc-0bfb69ddc44e</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>b93021a2-ac52-44f2-9286-d223c7dc4bd6</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>edd53a3a-9884-4ab4-b8e7-e26ea847a1d4</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
     <sib>296012e1-d2e0-4228-9d8c-ede42d53b69c</sib>
   </branch>
   <branch>
     <name>error</name>
     <branch>error</branch>
     <sib>dbad13c4-2374-4c8e-bd0d-8863a519e4a5</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>fc848d49-7191-49de-8e4c-c55ddd2e6f23</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>a0137c15-a7c1-42b9-a6a3-80049b8e3b01</sib>
   </branch>
   <branch>
     <name>error</name>

@@ -24,10 +24,22 @@
   	<dependency>
   		<groupId>de.jabc.plugin.transem</groupId>
   		<artifactId>mtsg</artifactId>
-  		<version>1.1.1</version>
+  		<version>1.1.2</version>
   	</dependency>
   </dependencies>
   	
   <version>${parent.version}</version>
   <packaging>eclipse-plugin</packaging>
+
+	<repositories>
+		<repository>
+			<id>vulturius-webdav</id>
+			<name>jABC Repository</name>
+			<url>https://vulturius.cs.tu-dortmund.de/maven</url>
+			<layout>default</layout>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
 </project>

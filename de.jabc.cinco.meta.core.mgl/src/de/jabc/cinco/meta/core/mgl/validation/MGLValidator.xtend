@@ -35,7 +35,12 @@ import org.eclipse.xtext.validation.Check
  */
 class MGLValidator extends AbstractMGLValidator {
 
-	
+	@Check
+	def checkPackageNameExists(GraphModel model){
+		if(model.package.nullOrEmpty || model.package.equals("\"\"")){
+			error('Package name must be present.',MglPackage.Literals::TYPE__NAME)
+		}
+	}
 	@Check
 	def checkNamedElementNameStartsWithCapital(ModelElement namedElement){
 		if (!Character::isUpperCase(namedElement.name.charAt(0))) {
@@ -448,14 +453,14 @@ class MGLValidator extends AbstractMGLValidator {
 	}
 	@Check
 	def checkGraphModelHasStyleDocument(GraphModel graphModel){
-		if(!graphModel.annotations.exists[x|x.name.equals("Style")])
-			error("GraphModel must have a Style document.",graphModel.eClass.getEStructuralFeature("annotations"));
+		if(!graphModel.annotations.exists[x|x.name.equals("style")])
+			warning("GraphModel has no Style document.",MglPackage.Literals::TYPE__NAME);
 	}
 	
 	@Check
 	def checkGraphicalModelElementHasStyleAnnotation(GraphicalModelElement graphicalModelElement){
-		if(!graphicalModelElement.annotations.exists[x|x.name.equals("Style")])
-			error("GraphModel must have a Style annotation.",graphicalModelElement.eClass.getEStructuralFeature("annotations"))
+		if(!graphicalModelElement.annotations.exists[x|x.name.equals("style")])
+			warning("Graphical Model Element has no Style annotation.",MglPackage.Literals::TYPE__NAME)
 	}
 	
 //	@Check

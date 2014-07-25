@@ -2,14 +2,14 @@
 <model version="2.1">
   <id>9b2878c2-af27-4fb3-878a-6613ed7a16c6</id>
   <name>GenerateCreateNodeFeature</name>
-  <changecounter>483</changecounter>
+  <changecounter>502</changecounter>
   <sib>
     <id>cc5a8f52-a2dd-434a-825b-350e398066fe</id>
     <name>RunStringTemplate</name>
     <label>CreateNodeFeatureContent</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>387.5,243.0</position>
+    <position>252.5,243.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -59,6 +59,9 @@ public Create$context.node.name$Feature(IFeatureProvider fp) {
 		EObject bo = (EObject) getBusinessObjectForPictogramElement(target);
 		$context.graphModelName$ $context.lcGraphModelName$ = $context.graphModelName$GraphitiUtils.addToResource(getDiagram(), this.getFeatureProvider());		
 
+		$context.meIdentifier$.setX(context.getX());
+		$context.meIdentifier$.setY(context.getY());
+
 		if (bo instanceof Container) {
 			Container nc = (Container) bo;
 			nc.getModelElements().add($context.meIdentifier$);
@@ -84,7 +87,7 @@ public Create$context.node.name$Feature(IFeatureProvider fp) {
     <label>SetNodeName</label>
     <sib-uid>basic-sibs/PutExpression</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
-    <position>656.0,48.0</position>
+    <position>671.0,48.0</position>
     <parameter name="resolve">
       <boolean>true</boolean>
     </parameter>
@@ -428,7 +431,7 @@ public Create$context.node.name$Feature(IFeatureProvider fp) {
     <label>GetNodeIsAbstract</label>
     <sib-uid>mgl/mgl/GetNodeIsAbstract</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.sib.mgl.GetNodeIsAbstract</taxonomy>
-    <position>221.5,48.0</position>
+    <position>206.5,48.0</position>
     <parameter name="nodeKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -500,7 +503,16 @@ public Create$context.node.name$Feature(IFeatureProvider fp) {
     <label>GenerateCheckContainer</label>
     <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
-    <position>680.5,241.0</position>
+    <position>575.5,241.0</position>
+    <parameter name="ClearContent">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>${false}</expression>
+          <clazz>java.lang.Boolean</clazz>
+          <classMutable>false</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
     <parameter name="ModelElementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -525,7 +537,7 @@ public Create$context.node.name$Feature(IFeatureProvider fp) {
     <label>CopyElement</label>
     <sib-uid>basic-sibs/CopyElement</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.CopyElement</taxonomy>
-    <position>75.0,48.0</position>
+    <position>60.0,48.0</position>
     <parameter name="sourceVariable">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>

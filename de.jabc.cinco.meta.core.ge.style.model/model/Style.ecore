@@ -16,11 +16,15 @@
   <eClassifiers xsi:type="ecore:EClass" name="NodeStyle" eSuperTypes="#//Style">
     <eStructuralFeatures xsi:type="ecore:EReference" name="mainShape" lowerBound="1"
         eType="#//AbstractShape" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fixed" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="EdgeStyle" eSuperTypes="#//Style">
     <eStructuralFeatures xsi:type="ecore:EReference" name="decorator" upperBound="-1"
         eType="#//ConnectionDecorator" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="lineStyle" eType="#//LineStyle"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="referencedAppearance" eType="#//Appearance"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inlineAppearance" eType="#//Appearance"
+        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="AbstractShape" abstract="true">
     <eStructuralFeatures xsi:type="ecore:EReference" name="position" eType="#//AbstractPosition"
@@ -29,7 +33,9 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="color" eType="#//Color"
         containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="appearance" eType="#//Appearance"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="referencedAppearance" eType="#//Appearance"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inlineAppearance" eType="#//Appearance"
+        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ContainerShape" abstract="true" interface="true"
       eSuperTypes="#//AbstractShape">
@@ -117,7 +123,7 @@
         defaultValueLiteral="-1.0"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="angle" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
         defaultValueLiteral="-1"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="parent" eType="#//Appearance"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="font" eType="#//Font" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="filled" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject"
@@ -134,7 +140,6 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ConnectionDecorator">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="movable" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="relative" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="location" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="decoratorShape" eType="#//GraphicsAlgorithm"
         containment="true"/>
@@ -166,13 +171,14 @@
   <eClassifiers xsi:type="ecore:EClass" name="PredefinedDecorator">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="shape" lowerBound="1" eType="#//DecoratorShapes"
         defaultValueLiteral="ARROW"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="filled" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject"
-        defaultValueLiteral="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="referencedAppearance" eType="#//Appearance"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inlineAppearance" eType="#//Appearance"
+        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="DecoratorShapes">
     <eLiterals name="ARROW" literal="ARROW"/>
     <eLiterals name="DIAMOND" value="1" literal="DIAMOND"/>
     <eLiterals name="CIRCLE" value="2" literal="CIRCLE"/>
-    <eLiterals name="RECTANGLE" value="3" literal="RECTANGLE"/>
+    <eLiterals name="TRIANGLE" value="3" literal="TRIANGLE"/>
   </eClassifiers>
 </ecore:EPackage>

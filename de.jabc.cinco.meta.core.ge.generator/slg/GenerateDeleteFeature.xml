@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>b6b70873-b6bd-4d16-a90b-5490e6667e1b</id>
   <name>GenerateDeleteFeature</name>
-  <changecounter>101</changecounter>
+  <changecounter>103</changecounter>
   <sib>
     <id>8464a500-52cc-46c9-9da7-02946ccea28f</id>
     <name>RunStringTemplate</name>
@@ -456,6 +456,7 @@ public class DeleteEdgeFeature extends DefaultDeleteFeature {
 import java.util.ArrayList;
 import java.util.List;
 
+import graphmodel.Edge;
 import graphmodel.Node;
 import graphmodel.Container;
 
@@ -496,7 +497,18 @@ public class DeleteNodeContainerFeature extends DefaultDeleteFeature {
 					df.delete(delContext);
 				}
 			}
+			List&lt;Edge&gt; edges = new ArrayList&lt;&gt;();
+			edges.addAll(nc.getIncoming());
+			edges.addAll(nc.getOutgoing());
+			for (Edge e : edges) {
+				PictogramElement pe = Graphiti.getLinkService().getPictogramElements(getDiagram(), e).get(0);
+				DeleteContext dc = new DeleteContext(pe);
+				IDeleteFeature df = getFeatureProvider().getDeleteFeature(dc);
+				if (df != null &amp;&amp; df.canDelete(dc))
+					df.delete(dc);
+			}
 		}
+
 		super.delete(context);
 	}
 	

@@ -92,14 +92,14 @@ public class Generate extends AbstractHandler {
 			generateGenModelCode(file);
 			
 			for (Annotation a : gModel.getAnnotations()) {
-				if ("Style".equals(a.getName())) {
+				if ("style".equals(a.getName())) {
 					String stylePath = a.getValue().get(0);
 					styles = loadStyles(stylePath);
 				}
 			}
 			
 			String mglProjectName = file.getProject().getName();
-			String projectName = file.getProject().getName().concat(".graphiti");
+			String projectName = gModel.getPackage().concat(".graphiti");
 			String path = ResourcesPlugin.getWorkspace().getRoot().getLocation().append(projectName).toOSString();
 			
 			List<String> srcFolders = getSrcFolders();
@@ -117,7 +117,7 @@ public class Generate extends AbstractHandler {
 				e.printStackTrace();
 			}
 		    String outletPath = p.getFolder("src-gen").getLocation().makeAbsolute().toString();
-		    System.out.println(outletPath);
+		    String customFeatureOutletPath = p.getFolder("src").getLocation().makeAbsolute().toOSString();
 			
 			LightweightExecutionContext context = new DefaultLightweightExecutionContext(null);
 			context.put("graphModel", gModel);
@@ -126,6 +126,7 @@ public class Generate extends AbstractHandler {
 			context.put("projectName", projectName);
 			context.put("fullPath", path);
 			context.put("outletPath", outletPath);
+			context.put("customFeatureOutletPath", customFeatureOutletPath);
 			LightweightExecutionEnvironment env = new DefaultLightweightExecutionEnvironment(context);
 			
 			Main tmp = new Main();

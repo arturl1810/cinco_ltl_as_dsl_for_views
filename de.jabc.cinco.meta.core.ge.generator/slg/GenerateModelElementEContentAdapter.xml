@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>0d0bb94f-e4a8-4614-bd88-5a867e133c4c</id>
   <name>GenerateModelElementEContentAdapter</name>
-  <changecounter>49</changecounter>
+  <changecounter>115</changecounter>
   <sib>
     <id>c516040b-59e6-4c24-89ca-20ac4f67f7ab</id>
     <name>CopyEObject</name>
@@ -40,7 +40,7 @@
     <label>PkgName</label>
     <sib-uid>basic-sibs/PutExpression</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
-    <position>71.5,393.0</position>
+    <position>296.5,423.0</position>
     <parameter name="resolve">
       <boolean>true</boolean>
     </parameter>
@@ -68,8 +68,8 @@
   <edge>
     <source>3d1eaaa5-32aa-4f7b-a3a7-4890714b4c46</source>
     <target>2f4903fc-5699-4a7a-9725-1da8cbc15863</target>
-    <point>105.0,450.0</point>
-    <point>105.0,555.0</point>
+    <point>315.0,525.0</point>
+    <point>315.0,390.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -79,7 +79,7 @@
     <label>ClassName</label>
     <sib-uid>basic-sibs/PutExpression</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
-    <position>65.5,528.0</position>
+    <position>290.5,303.0</position>
     <parameter name="resolve">
       <boolean>true</boolean>
     </parameter>
@@ -107,8 +107,8 @@
   <edge>
     <source>2f4903fc-5699-4a7a-9725-1da8cbc15863</source>
     <target>f8c970a5-5bc4-40d1-8867-c7a51c1f910d</target>
-    <point>105.0,555.0</point>
-    <point>105.0,675.0</point>
+    <point>315.0,390.0</point>
+    <point>315.0,285.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -118,7 +118,7 @@
     <label>ModelElementEContentAdapter</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>1.0,663.0</position>
+    <position>226.0,183.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -138,13 +138,17 @@
       <string>package $context.localPkgName$;
 
 import java.util.List;
+import java.util.ArrayList;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.IUpdateFeature;
 import org.eclipse.graphiti.features.context.impl.UpdateContext;
-import org.eclipse.graphiti.mm.pictograms.PictogramElement;
+import org.eclipse.graphiti.mm.pictograms.*;
 import org.eclipse.graphiti.services.Graphiti;
+import org.eclipse.graphiti.ui.platform.GFPropertySection;
+
+$context.appearanceProviderImportsContent$
 
 import $context.importPath$.*;
 
@@ -167,7 +171,9 @@ public class $context.fuModelElementName$EContentAdapter extends $context.graphM
 			List&lt;PictogramElement&gt; pes = Graphiti.getLinkService().getPictogramElements(getDiagram(), tmp);
 			if (pes == null || pes.isEmpty())
 				return;
-
+			
+			PictogramElement pe = pes.get(0);
+			
 			UpdateContext uContext = new UpdateContext(pes.get(0));
 			IFeatureProvider fp = getFeatureProvider();
 			if (fp == null) 
@@ -176,9 +182,14 @@ public class $context.fuModelElementName$EContentAdapter extends $context.graphM
 			if (uf != null &amp;&amp; uf.canUpdate(uContext)) {
 				uf.update(uContext);
 			}
-			
+			$context.appearanceProviderExtensionContent$
 		}
+		
+		refreshPropertyView();
 	}
+	
+	$context.updateProviderContent$
+
 }
 </string>
     </parameter>
@@ -188,8 +199,8 @@ public class $context.fuModelElementName$EContentAdapter extends $context.graphM
   <edge>
     <source>f8c970a5-5bc4-40d1-8867-c7a51c1f910d</source>
     <target>b38b6c08-3293-4228-a381-bf3ad7c6285a</target>
-    <point>105.0,675.0</point>
-    <point>105.0,825.0</point>
+    <point>315.0,285.0</point>
+    <point>315.0,195.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -199,7 +210,7 @@ public class $context.fuModelElementName$EContentAdapter extends $context.graphM
     <label>WriteJavaFile</label>
     <sib-uid>genesys-sibs/WriteJavaFile</sib-uid>
     <taxonomy>de.jabc.sib.genesys.WriteJavaFile</taxonomy>
-    <position>58.0,783.0</position>
+    <position>283.0,63.0</position>
     <parameter name="baseDirectory">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -255,19 +266,509 @@ public class $context.fuModelElementName$EContentAdapter extends $context.graphM
   </sib>
   <edge>
     <source>c516040b-59e6-4c24-89ca-20ac4f67f7ab</source>
-    <target>c8fb2891-3c66-4df5-b8a5-1a74fb25fb7c</target>
-    <point>122.06896551724138,84.0</point>
-    <point>252.0,213.98181818181817</point>
+    <target>62928d36-3708-4c23-8070-bd5fdff81882</target>
+    <point>123.0,79.2</point>
+    <point>222.0,145.2</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
-    <id>23c59bca-d1e1-4801-bb9a-f3f365a96696</id>
-    <name>FormatIdentifier</name>
+    <id>c8fb2891-3c66-4df5-b8a5-1a74fb25fb7c</id>
+    <name>PutExpression</name>
+    <label>PutExpression</label>
+    <sib-uid>basic-sibs/PutExpression</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
+    <position>280.5,573.0</position>
+    <parameter name="resolve">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="value">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>${modelElement.name}</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>modelElementName</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>c8fb2891-3c66-4df5-b8a5-1a74fb25fb7c</source>
+    <target>3d1eaaa5-32aa-4f7b-a3a7-4890714b4c46</target>
+    <point>315.0,618.0</point>
+    <point>315.0,414.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>68473f9b-5538-42f4-b65d-6cb8a5d94012</id>
+    <name>GetStyleAppearanceProvider</name>
+    <label>GetStyleAppearanceProvider</label>
+    <sib-uid>style/style/GetStyleAppearanceProvider</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.ge.sib.style.GetStyleAppearanceProvider</taxonomy>
+    <position>9.5,438.0</position>
+    <parameter name="styleKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>style</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="styleappearanceProviderKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>appearanceProvider</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>68473f9b-5538-42f4-b65d-6cb8a5d94012</source>
+    <target>d209af70-c297-4977-a17a-10e2d7d5144c</target>
+    <point>298.0,266.0</point>
+    <point>523.0,266.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>d209af70-c297-4977-a17a-10e2d7d5144c</id>
+    <name>PutExpression_3</name>
+    <label>clearImports</label>
+    <sib-uid>basic-sibs/PutExpression</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
+    <position>61.0,528.0</position>
+    <parameter name="resolve">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="value">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression></expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>appearanceProviderImportsContent</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>d209af70-c297-4977-a17a-10e2d7d5144c</source>
+    <target>c5a3567e-4f14-450d-a4dc-ffd2528ad7ef</target>
+    <point>730.0,436.0</point>
+    <point>715.0,541.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>c5a3567e-4f14-450d-a4dc-ffd2528ad7ef</id>
+    <name>PutExpression_4</name>
+    <label>clearProviderContent</label>
+    <sib-uid>basic-sibs/PutExpression</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
+    <position>33.0,633.0</position>
+    <parameter name="resolve">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="value">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression></expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>updateProviderContent</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>c5a3567e-4f14-450d-a4dc-ffd2528ad7ef</source>
+    <target>470553c0-f449-4d14-8a94-8f1d1b6ee5ff</target>
+    <point>715.0,541.0</point>
+    <point>505.0,541.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>470553c0-f449-4d14-8a94-8f1d1b6ee5ff</id>
+    <name>PutExpression_5</name>
+    <label>clearProviderExtensionContent</label>
+    <sib-uid>basic-sibs/PutExpression</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
+    <position>1.5,753.0</position>
+    <parameter name="resolve">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="value">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression></expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>appearanceProviderExtensionContent</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>470553c0-f449-4d14-8a94-8f1d1b6ee5ff</source>
+    <target>9fd0c778-406f-4a3f-82a6-8641e1bb84f3</target>
+    <point>505.0,541.0</point>
+    <point>520.0,646.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>9fd0c778-406f-4a3f-82a6-8641e1bb84f3</id>
+    <name>CheckVariable</name>
+    <label>appearanceProvider?</label>
+    <sib-uid>basic-sibs/CheckVariable</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.CheckVariable</taxonomy>
+    <position>33.5,858.0</position>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>appearanceProvider</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>emptyString</finalbranches>
+    <finalbranches>error</finalbranches>
+    <finalbranches>false</finalbranches>
+    <finalbranches>true</finalbranches>
+  </sib>
+  <sib>
+    <id>b53cfda0-2b07-4cb8-86c4-0d05bc4d65f5</id>
+    <name>ReplaceString</name>
+    <label>ReplaceString</label>
+    <sib-uid>basic-sibs/ReplaceString</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.ReplaceString</taxonomy>
+    <position>56.5,978.0</position>
+    <parameter name="find">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>&quot;</expression>
+          <clazz>java.lang.String</clazz>
+          <classMutable>false</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="regularExpression">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="replacement">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression></expression>
+          <clazz>java.lang.String</clazz>
+          <classMutable>false</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>appearanceProvider</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="string">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>${appearanceProvider}</expression>
+          <clazz>java.lang.String</clazz>
+          <classMutable>false</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>9fd0c778-406f-4a3f-82a6-8641e1bb84f3</source>
+    <target>b53cfda0-2b07-4cb8-86c4-0d05bc4d65f5</target>
+    <point>520.0,646.0</point>
+    <point>670.0,646.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>true</branch>
+  </edge>
+  <edge>
+    <source>b53cfda0-2b07-4cb8-86c4-0d05bc4d65f5</source>
+    <target>2c726e8b-137e-4af6-85f4-e5446f114b0d</target>
+    <point>670.0,646.0</point>
+    <point>820.0,646.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>2c726e8b-137e-4af6-85f4-e5446f114b0d</id>
+    <name>RunStringTemplate_1</name>
+    <label>updateProviderCode</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>260.5,978.0</position>
+    <parameter name="append">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>updateProviderContent</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>private void updateStyle($context.fuModelElementName$ bo, Shape s) {
+	String gaName = Graphiti.getPeService().getPropertyValue(s.getGraphicsAlgorithm(), $context.graphModelName$LayoutUtils.KEY_GA_NAME);
+	if (gaName != null &amp;&amp; !gaName.isEmpty()) {
+		$context.graphModelName$LayoutUtils.updateStyleFromAppearance(s.getGraphicsAlgorithm(), new $context.appearanceProvider$().getAppearance(bo, gaName), getDiagram());
+	}
+	Object object = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(s);
+	if (object instanceof $context.fuModelElementName$) {
+		if (s instanceof ContainerShape) {
+			for (Shape g : ((ContainerShape) s).getChildren()) {
+				updateStyle(($context.fuModelElementName$) object, g);
+			}
+		}
+	}
+}
+
+private void updateStyle($context.fuModelElementName$ bo, Connection s) {
+	String gaName = Graphiti.getPeService().getPropertyValue(s.getGraphicsAlgorithm(), $context.graphModelName$LayoutUtils.KEY_GA_NAME);
+	if (gaName != null &amp;&amp; !gaName.isEmpty()) {
+		$context.graphModelName$LayoutUtils.updateStyleFromAppearance(s.getGraphicsAlgorithm(), new $context.appearanceProvider$().getAppearance(bo, gaName), getDiagram());
+	}
+	Object object = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(s);
+	if (object instanceof $context.fuModelElementName$) {
+		
+		for (Shape g : s.getConnectionDecorators()) {
+			updateStyle(($context.fuModelElementName$) object, g);
+		}
+		
+	}
+}</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>2c726e8b-137e-4af6-85f4-e5446f114b0d</source>
+    <target>8b57c2a0-8fc8-4edd-9b42-4a29fa2b7938</target>
+    <point>820.0,646.0</point>
+    <point>835.0,766.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>8b57c2a0-8fc8-4edd-9b42-4a29fa2b7938</id>
+    <name>RunStringTemplate_3</name>
+    <label>updateExtension</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>272.0,873.0</position>
+    <parameter name="append">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>appearanceProviderExtensionContent</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>if (pe instanceof Connection)
+	updateStyle(tmp, (Connection) pe);
+if (pe instanceof ConnectionDecorator) {
+	updateStyle(tmp, ((ConnectionDecorator) pe).getConnection());
+} else if (pe instanceof Shape) {
+	updateStyle(tmp, (Shape) pe);
+}</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>8b57c2a0-8fc8-4edd-9b42-4a29fa2b7938</source>
+    <target>98910124-3d02-410c-8842-42ae0e376db6</target>
+    <point>315.0,1005.0</point>
+    <point>315.0,915.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>98910124-3d02-410c-8842-42ae0e376db6</id>
+    <name>RunStringTemplate_2</name>
+    <label>imports</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>302.0,753.0</position>
+    <parameter name="append">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>appearanceProviderImportsContent</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>import $context.packageName$.graphiti.features.layout.$context.graphModelName$LayoutUtils;</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>98910124-3d02-410c-8842-42ae0e376db6</source>
+    <target>c8fb2891-3c66-4df5-b8a5-1a74fb25fb7c</target>
+    <point>315.0,915.0</point>
+    <point>315.0,795.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>9fd0c778-406f-4a3f-82a6-8641e1bb84f3</source>
+    <target>c8fb2891-3c66-4df5-b8a5-1a74fb25fb7c</target>
+    <point>520.0,646.0</point>
+    <point>310.0,361.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>emptyString</branch>
+    <branch>false</branch>
+  </edge>
+  <sib>
+    <id>174362a4-a604-4195-9a95-c471c6889d42</id>
+    <name>GraphSIB</name>
+    <label>CheckStyleAnnotation</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>30.5,346.0</position>
+    <parameter name="modelElementKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>modelElement</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>843b7fe1-9b8e-4b49-94ab-777e60336bda</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>CheckStyleAnnotation</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>174362a4-a604-4195-9a95-c471c6889d42</source>
+    <target>68473f9b-5538-42f4-b65d-6cb8a5d94012</target>
+    <point>105.0,386.0</point>
+    <point>105.0,438.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>62928d36-3708-4c23-8070-bd5fdff81882</id>
+    <name>GetModelElementName</name>
+    <label>GetModelElementName</label>
+    <sib-uid>mgl/mgl/GetModelElementName</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetModelElementName</taxonomy>
+    <position>26.5,153.0</position>
+    <parameter name="modelElementKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>modelElement</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="modelElementnameKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>modelElementName</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>d877337e-8394-4ef9-b198-793459e335c9</id>
+    <name>FormatIdentifier_1</name>
     <label>FormatIdentifier</label>
     <sib-uid>genesys-sibs/FormatIdentifier</sib-uid>
     <taxonomy>de.jabc.sib.genesys.FormatIdentifier</taxonomy>
-    <position>49.0,273.0</position>
+    <position>49.0,243.0</position>
     <parameter name="identifier">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -299,49 +800,18 @@ public class $context.fuModelElementName$EContentAdapter extends $context.graphM
     <finalbranches>error</finalbranches>
   </sib>
   <edge>
-    <source>23c59bca-d1e1-4801-bb9a-f3f365a96696</source>
-    <target>3d1eaaa5-32aa-4f7b-a3a7-4890714b4c46</target>
-    <point>92.36842105263158,354.0</point>
-    <point>102.1875,423.0</point>
-    <labelposition>490.5768348314303,3.8128087717080192</labelposition>
+    <source>62928d36-3708-4c23-8070-bd5fdff81882</source>
+    <target>d877337e-8394-4ef9-b198-793459e335c9</target>
+    <point>105.0,150.0</point>
+    <point>106.0,187.0</point>
     <branch>default</branch>
   </edge>
-  <sib>
-    <id>c8fb2891-3c66-4df5-b8a5-1a74fb25fb7c</id>
-    <name>PutExpression</name>
-    <label>PutExpression</label>
-    <sib-uid>basic-sibs/PutExpression</sib-uid>
-    <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
-    <position>55.5,168.0</position>
-    <parameter name="resolve">
-      <boolean>true</boolean>
-    </parameter>
-    <parameter name="value">
-      <de.metaframe.common.sib.parameter.ContextExpression>
-        <ContextExpressionFoundation>
-          <expression>${modelElement.name}</expression>
-          <clazz>java.lang.Object</clazz>
-          <classMutable>true</classMutable>
-        </ContextExpressionFoundation>
-      </de.metaframe.common.sib.parameter.ContextExpression>
-    </parameter>
-    <parameter name="variable">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>modelElementName</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-  </sib>
   <edge>
-    <source>c8fb2891-3c66-4df5-b8a5-1a74fb25fb7c</source>
-    <target>23c59bca-d1e1-4801-bb9a-f3f365a96696</target>
-    <point>252.0,242.4</point>
-    <point>108.0,326.4</point>
+    <source>d877337e-8394-4ef9-b198-793459e335c9</source>
+    <target>174362a4-a604-4195-9a95-c471c6889d42</target>
+    <point>105.0,279.0</point>
+    <point>105.0,346.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <parameter>
@@ -389,16 +859,71 @@ public class $context.fuModelElementName$EContentAdapter extends $context.graphM
   <branch>
     <name>error</name>
     <branch>error</branch>
-    <sib>23c59bca-d1e1-4801-bb9a-f3f365a96696</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
     <sib>c8fb2891-3c66-4df5-b8a5-1a74fb25fb7c</sib>
   </branch>
   <branch>
     <name>default</name>
     <branch>default</branch>
     <sib>b38b6c08-3293-4228-a381-bf3ad7c6285a</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>62928d36-3708-4c23-8070-bd5fdff81882</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>d877337e-8394-4ef9-b198-793459e335c9</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>174362a4-a604-4195-9a95-c471c6889d42</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>68473f9b-5538-42f4-b65d-6cb8a5d94012</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>d209af70-c297-4977-a17a-10e2d7d5144c</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>c5a3567e-4f14-450d-a4dc-ffd2528ad7ef</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>470553c0-f449-4d14-8a94-8f1d1b6ee5ff</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>9fd0c778-406f-4a3f-82a6-8641e1bb84f3</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>b53cfda0-2b07-4cb8-86c4-0d05bc4d65f5</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>2c726e8b-137e-4af6-85f4-e5446f114b0d</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>8b57c2a0-8fc8-4edd-9b42-4a29fa2b7938</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>98910124-3d02-410c-8842-42ae0e376db6</sib>
   </branch>
 </model>

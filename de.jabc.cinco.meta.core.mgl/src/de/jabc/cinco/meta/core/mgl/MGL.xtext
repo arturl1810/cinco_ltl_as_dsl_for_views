@@ -108,7 +108,7 @@ Node returns Node:
 
 Annotation:
 	{Annotation}
-	'@' '('name=EString (',' value+=EString)* ')'
+	'@'name=EString('('value+=EString (',' value+=EString)* ')')?
 ;
 
 NodeContainer returns NodeContainer:

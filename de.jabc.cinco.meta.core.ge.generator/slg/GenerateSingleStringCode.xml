@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>ea6aca34-ec03-4ba1-99b7-4fc762288fa2</id>
   <name>GenerateSingleStringCode</name>
-  <changecounter>186</changecounter>
+  <changecounter>243</changecounter>
   <sib>
     <id>21749b0f-12f8-4797-81b9-3f0453fbf22c</id>
     <name>RunStringTemplate</name>
@@ -28,7 +28,8 @@
     <parameter name="template">
       <string>if (tmp.get$context.fuAttributeName$() != null)
 	$context.flAttributeName$Text.setText(tmp.get$context.fuAttributeName$());
-else $context.flAttributeName$Text.setText(&quot;&quot;);</string>
+else $context.flAttributeName$Text.setText(&quot;&quot;);
+$context.flAttributeName$Text.setSelection($context.flAttributeName$Text.getText().length());</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
@@ -93,26 +94,33 @@ if (tmp instanceof $context.modelElementName$) {
     </parameter>
     <parameter name="template">
       <string>private Text $context.flAttributeName$Text;
+private Object oldVal;
 	
 @Override
 public void createControls(Composite parent, TabbedPropertySheetPage tabbedPropertySheetPage) {
 	super.createControls(parent, tabbedPropertySheetPage);
 	TabbedPropertySheetWidgetFactory factory = getWidgetFactory();
 	Composite composite = factory.createFlatFormComposite(parent);
-	GridLayout grid = new GridLayout(2, false);
-	composite.setLayout(grid);
 
-	GridData data;
-
-	Label $context.attribute.name$Label = factory.createLabel(composite, &quot;$context.fuAttributeName$:&quot;);
-	data = new GridData(SWT.LEFT, SWT.CENTER, false, false);
-	$context.attribute.name$Label.setLayoutData(data);
+	FormData data;
 
 	$context.flAttributeName$Text = factory.createText(composite, &quot;&quot;);
-	data = new GridData(SWT.FILL, SWT.CENTER, true, false);
+	data = new FormData();
+        	data.left = new FormAttachment(0, STANDARD_LABEL_WIDTH);
+	data.right = new FormAttachment(100, 0);
+	data.top = new FormAttachment(0, ITabbedPropertyConstants.VSPACE);
 	$context.attributeName$Text.setLayoutData(data);
 
+	Label $context.attribute.name$Label = factory.createLabel(composite, &quot;$context.fuAttributeName$:&quot;);
+	$context.attribute.name$Label.setLayoutData(data);
+	data = new FormData();
+	data.left = new FormAttachment(0, 0);
+	data.right = new FormAttachment($context.flAttributeName$Text, -ITabbedPropertyConstants.HSPACE);
+	data.top = new FormAttachment($context.flAttributeName$Text, 0, SWT.CENTER);
+	$context.attributeName$Label.setLayoutData(data);
+
 	$context.attributeName$Text.addTraverseListener(traverseListener);
+	$context.attributeName$Text.addFocusListener(focusListener);
 }
 </string>
     </parameter>
@@ -160,6 +168,8 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
 		
 	@Override
 	public void keyTraversed(TraverseEvent e) {
+		if (oldVal.equals($context.flAttributeName$Text.getText()))
+			return;
 		if (e.detail == SWT.TRAVERSE_RETURN) {
 			TransactionalEditingDomain dom = getDiagramContainer().getDiagramBehavior().getEditingDomain();
 			dom.getCommandStack().execute(new RecordingCommand(dom, &quot;Set $context.flAttributeName$&quot;) {
@@ -170,9 +180,35 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
 				}
 			});
 		}
+		if (e.detail == SWT.TRAVERSE_ESCAPE) {
+			refresh();
+		}
 	}
 };
-</string>
+
+FocusListener focusListener = new FocusListener() {
+		
+	@Override
+	public void focusLost(FocusEvent e) {
+		if (oldVal.equals($context.flAttributeName$Text.getText()))
+			return;
+		
+		TransactionalEditingDomain dom = getDiagramContainer().getDiagramBehavior().getEditingDomain();
+		dom.getCommandStack().execute(new RecordingCommand(dom, &quot;Set char&quot;) {
+			
+			@Override
+			protected void doExecute() {
+					changeValue();
+			}
+		});
+	}
+		
+	
+	@Override
+	public void focusGained(FocusEvent e) {
+		oldVal = $context.flAttributeName$Text.getText();
+	}
+};</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
@@ -251,7 +287,8 @@ if( tmp.get$context.fuAttributeName$Parameter().get(0) != null )
 	value = tmp.get$context.fuAttributeName$Parameter().get(0).getInstance();
 if (value != null)
 	$context.flAttributeName$Text.setText( (String) value);
-else $context.flAttributeName$Text.setText(&quot;&quot;);</string>
+else $context.flAttributeName$Text.setText(&quot;&quot;);
+$context.flAttributeName$Text.setSelection($context.flAttributeName$Text.getText().length());</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
@@ -280,29 +317,36 @@ else $context.flAttributeName$Text.setText(&quot;&quot;);</string>
     </parameter>
     <parameter name="template">
       <string>private Text $context.flAttributeName$Text;
+private Object oldVal;
 	
 @Override
 public void createControls(Composite parent, TabbedPropertySheetPage tabbedPropertySheetPage) {
 	super.createControls(parent, tabbedPropertySheetPage);
 	TabbedPropertySheetWidgetFactory factory = getWidgetFactory();
 	Composite composite = factory.createFlatFormComposite(parent);
-	GridLayout grid = new GridLayout(2, false);
-	composite.setLayout(grid);
 
-	GridData data;
-
-	Label $context.attribute.name$Label = factory.createLabel(composite, &quot;$context.fuAttributeName$:&quot;);
-	data = new GridData(SWT.LEFT, SWT.CENTER, false, false);
-	$context.attribute.name$Label.setLayoutData(data);
+	FormData data;
 
 	$context.flAttributeName$Text = factory.createText(composite, &quot;&quot;);
-	data = new GridData(SWT.FILL, SWT.CENTER, true, false);
+	data = new FormData();
+        	data.left = new FormAttachment(0, STANDARD_LABEL_WIDTH);
+	data.right = new FormAttachment(100, 0);
+	data.top = new FormAttachment(0, ITabbedPropertyConstants.VSPACE);
 	$context.attributeName$Text.setLayoutData(data);
+
+	Label $context.attribute.name$Label = factory.createLabel(composite, &quot;$context.fuAttributeName$:&quot;);
+	$context.attribute.name$Label.setLayoutData(data);
+	data = new FormData();
+	data.left = new FormAttachment(0, 0);
+	data.right = new FormAttachment($context.flAttributeName$Text -ITabbedPropertyConstants.HSPACE);
+	data.top = new FormAttachment($context.flAttributeName$Text, 0, SWT.CENTER);
+	$context.attributeName$Label.setLayoutData(data);
 	
 	$context.attributeName$Text.setEditable(true);
 	$context.attributeName$Text.setEnabled(true);
 
 	$context.attributeName$Text.addTraverseListener(traverseListener);
+	$context.attributeName$Text.addFocusListener(focusListener);
 
 }
 </string>
@@ -384,18 +428,23 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
 	super.createControls(parent, tabbedPropertySheetPage);
 	TabbedPropertySheetWidgetFactory factory = getWidgetFactory();
 	Composite composite = factory.createFlatFormComposite(parent);
-	GridLayout grid = new GridLayout(2, false);
-	composite.setLayout(grid);
 
-	GridData data;
-
-	Label $context.attribute.name$Label = factory.createLabel(composite, &quot;$context.fuAttributeName$:&quot;);
-	data = new GridData(SWT.LEFT, SWT.CENTER, false, false);
-	$context.attribute.name$Label.setLayoutData(data);
+	FormData data;
 
 	$context.flAttributeName$Text = factory.createText(composite, &quot;&quot;);
-	data = new GridData(SWT.FILL, SWT.CENTER, true, false);
+	data = new FormData();
+        	data.left = new FormAttachment(0, STANDARD_LABEL_WIDTH);
+	data.right = new FormAttachment(100, 0);
+	data.top = new FormAttachment(0, ITabbedPropertyConstants.VSPACE);
 	$context.attributeName$Text.setLayoutData(data);
+
+	Label $context.attribute.name$Label = factory.createLabel(composite, &quot;$context.fuAttributeName$:&quot;);
+	$context.attribute.name$Label.setLayoutData(data);
+	data = new FormData();
+	data.left = new FormAttachment(0, 0);
+	data.right = new FormAttachment($context.flAttributeName$Text, -ITabbedPropertyConstants.HSPACE);
+	data.top = new FormAttachment($context.flAttributeName$Text, 0, SWT.CENTER);
+	$context.attributeName$Label.setLayoutData(data);
 	
 	$context.attributeName$Text.setEditable(false);
 	$context.attributeName$Text.setEnabled(false);
@@ -449,6 +498,8 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
 		
 	@Override
 	public void keyTraversed(TraverseEvent e) {
+		if (oldVal.equals($context.flAttributeName$Text.getText()))
+			return;
 		if (e.detail == SWT.TRAVERSE_RETURN) {
 			TransactionalEditingDomain dom = getDiagramContainer().getDiagramBehavior().getEditingDomain();
 			dom.getCommandStack().execute(new RecordingCommand(dom, &quot;Set $context.flAttributeName$&quot;) {
@@ -459,9 +510,35 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
 				}
 			});
 		}
+		if (e.detail == SWT.TRAVERSE_ESCAPE) {
+			refresh();
+		}
 	}
 };
-</string>
+
+FocusListener focusListener = new FocusListener() {
+	
+	@Override
+	public void focusLost(FocusEvent e) {
+		if (oldVal.equals($context.flAttributeName$Text.getText()))
+			return;
+		
+		TransactionalEditingDomain dom = getDiagramContainer().getDiagramBehavior().getEditingDomain();
+		dom.getCommandStack().execute(new RecordingCommand(dom, &quot;Set char&quot;) {
+			
+			@Override
+			protected void doExecute() {
+					changeValue();
+			}
+		});
+	}
+		
+	
+	@Override
+	public void focusGained(FocusEvent e) {
+		oldVal = $context.flAttributeName$Text.getText();
+	}
+};</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
