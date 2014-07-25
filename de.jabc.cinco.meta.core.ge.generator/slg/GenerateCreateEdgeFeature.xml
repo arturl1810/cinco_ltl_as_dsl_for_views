@@ -2,14 +2,14 @@
 <model version="2.1">
   <id>acbfac10-5547-4af8-9d81-08e1d3c67972</id>
   <name>GenerateCreateEdgeFeature</name>
-  <changecounter>403</changecounter>
+  <changecounter>406</changecounter>
   <sib>
     <id>f25e916c-be2e-4728-817b-64548b50fdb7</id>
     <name>RunStringTemplate</name>
     <label>RunStringTemplate</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>835.0,258.0</position>
+    <position>925.0,258.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -814,22 +814,6 @@ public class Create$context.edgeName$Feature extends AbstractCreateConnectionFea
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
-  <edge>
-    <source>e477824c-9f83-4a66-a223-38da5752e409</source>
-    <target>247ec432-ce8e-4d2b-ab24-47953b1ae4a9</target>
-    <point>1257.6923076923076,318.0</point>
-    <point>1140.5172413793102,189.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
-  <edge>
-    <source>247ec432-ce8e-4d2b-ab24-47953b1ae4a9</source>
-    <target>bc4d1dc8-b6a6-4caa-a515-f9a8215b7051</target>
-    <point>1212.0,271.92</point>
-    <point>1025.0,222.13333333333333</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
   <sib>
     <id>5bea1df9-758c-43f1-9aff-4db8a0a6ba35</id>
     <name>IterateElements</name>
@@ -1415,62 +1399,6 @@ public class Create$context.edgeName$Feature extends AbstractCreateConnectionFea
     <branch>default</branch>
   </edge>
   <sib>
-    <id>247ec432-ce8e-4d2b-ab24-47953b1ae4a9</id>
-    <name>GetEdgeIncomingEdgeConnections</name>
-    <label>GetEdgeIncomingEdgeConnections</label>
-    <sib-uid>mgl/mgl/GetEdgeIncomingEdgeConnections</sib-uid>
-    <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetEdgeIncomingEdgeConnections</taxonomy>
-    <position>1176.0,258.0</position>
-    <parameter name="eListKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>edgeTargets</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="edgeKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>edge</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-  </sib>
-  <sib>
-    <id>e477824c-9f83-4a66-a223-38da5752e409</id>
-    <name>GetEdgeOutgoingEdgeConnections</name>
-    <label>GetEdgeOutgoingEdgeConnections</label>
-    <sib-uid>mgl/mgl/GetEdgeOutgoingEdgeConnections</sib-uid>
-    <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetEdgeOutgoingEdgeConnections</taxonomy>
-    <position>1176.5,123.0</position>
-    <parameter name="eListKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>edgeSources</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="edgeKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>edge</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-  </sib>
-  <sib>
     <id>c055ca30-563d-4dce-abc7-da7fe8b627f4</id>
     <name>GetEdgeElementConnectionUpperBound</name>
     <label>GetEdgeElementConnectionUpperBound</label>
@@ -1532,7 +1460,7 @@ public class Create$context.edgeName$Feature extends AbstractCreateConnectionFea
     <label>GetEdgeSourceTarget</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>993.5,256.0</position>
+    <position>1158.5,256.0</position>
     <parameter name="edgeKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1702,16 +1630,6 @@ public class Create$context.edgeName$Feature extends AbstractCreateConnectionFea
     <name>edgeKey</name>
     <field>edgeKey</field>
     <sib>45000ccd-3f97-463b-8a1a-2bbc63151cc4</sib>
-  </parameter>
-  <parameter>
-    <name>edgeKey</name>
-    <field>edgeKey</field>
-    <sib>e477824c-9f83-4a66-a223-38da5752e409</sib>
-  </parameter>
-  <parameter>
-    <name>edgeKey</name>
-    <field>edgeKey</field>
-    <sib>247ec432-ce8e-4d2b-ab24-47953b1ae4a9</sib>
   </parameter>
   <parameter>
     <name>edgeKey</name>
@@ -1894,16 +1812,6 @@ public class Create$context.edgeName$Feature extends AbstractCreateConnectionFea
     <name>error</name>
     <branch>error</branch>
     <sib>3c1da3fd-35f1-4437-a83b-c2324846f09f</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>e477824c-9f83-4a66-a223-38da5752e409</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>247ec432-ce8e-4d2b-ab24-47953b1ae4a9</sib>
   </branch>
   <branch>
     <name>error</name>
