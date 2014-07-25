@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>50093a2f-f127-4315-978c-59bea9c2a6a3</id>
   <name>GenerateSingleBooleanCode</name>
-  <changecounter>116</changecounter>
+  <changecounter>141</changecounter>
   <sib>
     <id>a9db252a-8d07-44cf-8977-ce56b1572780</id>
     <name>RunStringTemplate</name>
@@ -92,26 +92,30 @@ if (tmp instanceof $context.modelElementName$) {
     <parameter name="template">
       <string>private Button $context.flAttributeName$Button;
 	
-	@Override
-	public void createControls(Composite parent, TabbedPropertySheetPage tabbedPropertySheetPage) {
-		super.createControls(parent, tabbedPropertySheetPage);
-		TabbedPropertySheetWidgetFactory factory = getWidgetFactory();
-		Composite composite = factory.createFlatFormComposite(parent);
-		
-		GridLayout grid = new GridLayout(2, false);
-		composite.setLayout(grid);
+@Override
+public void createControls(Composite parent, TabbedPropertySheetPage tabbedPropertySheetPage) {
+	super.createControls(parent, tabbedPropertySheetPage);
+	TabbedPropertySheetWidgetFactory factory = getWidgetFactory();
+	Composite composite = factory.createFlatFormComposite(parent);
+	
+	FormData data;
 
-		GridData data;
+	$context.flAttributeName$Button = factory.createButton(composite, &quot;true&quot;, SWT.CHECK);
+	data = new FormData();
+        	data.left = new FormAttachment(0, STANDARD_LABEL_WIDTH);
+	data.right = new FormAttachment(100, 0);
+	data.top = new FormAttachment(0, ITabbedPropertyConstants.VSPACE);
+	$context.flAttributeName$Button.setLayoutData(data);
+	
+	Label $context.attribute.name$Label = factory.createLabel(composite, &quot;$context.fuAttributeName$:&quot;);
+	$context.attribute.name$Label.setLayoutData(data);
+	data = new FormData();
+	data.left = new FormAttachment(0, 0);
+	data.right = new FormAttachment($context.flAttributeName$Button, -ITabbedPropertyConstants.HSPACE);
+	data.top = new FormAttachment($context.flAttributeName$Button, 0, SWT.CENTER);
+	$context.attributeName$Label.setLayoutData(data);
 
-		Label $context.flAttributeName$Label = factory.createLabel(composite, &quot;$context.fuAttributeName$:&quot;);
-		data = new GridData(SWT.LEFT, SWT.CENTER, false, false);
-		$context.flAttributeName$Label.setLayoutData(data);
-
-		$context.flAttributeName$Button = factory.createButton(composite, &quot;true&quot;, SWT.CHECK);
-		data = new GridData(SWT.FILL, SWT.CENTER, true, false);
-		$context.flAttributeName$Button.setLayoutData(data);
-
-		$context.flAttributeName$Button.addSelectionListener(selectionListener);
+	$context.flAttributeName$Button.addSelectionListener(selectionListener);
 
 	}</string>
     </parameter>
@@ -262,16 +266,22 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
 	TabbedPropertySheetWidgetFactory factory = getWidgetFactory();
 	Composite composite = factory.createFlatFormComposite(parent);
 	
-	GridLayout grid = new GridLayout(2, false);
-	composite.setLayout(grid);
-	GridData data;
-	Label $context.flAttributeName$Label = factory.createLabel(composite, &quot;$context.fuAttributeName$:&quot;);
-	data = new GridData(SWT.LEFT, SWT.CENTER, false, false);
-	$context.flAttributeName$Label.setLayoutData(data);
+	FormData data;
 
 	$context.flAttributeName$Button = factory.createButton(composite, &quot;true&quot;, SWT.CHECK);
-	data = new GridData(SWT.FILL, SWT.CENTER, true, false);
+	data = new FormData();
+        	data.left = new FormAttachment(0, STANDARD_LABEL_WIDTH);
+	data.right = new FormAttachment(100, 0);
+	data.top = new FormAttachment(0, ITabbedPropertyConstants.VSPACE);
 	$context.flAttributeName$Button.setLayoutData(data);
+
+	Label $context.attribute.name$Label = factory.createLabel(composite, &quot;$context.fuAttributeName$:&quot;);
+	data = new GridData(SWT.LEFT, SWT.CENTER, false, false);
+	data = new FormData();
+	data.left = new FormAttachment(0, 0);
+	data.right = new FormAttachment($context.flAttributeName$Button, -ITabbedPropertyConstants.HSPACE);
+	data.top = new FormAttachment($context.flAttributeName$Button, 0, SWT.CENTER);
+	$context.attributeName$Label.setLayoutData(data);
 
 	$context.flAttributeName$Button.setEnabled(true);
 
@@ -388,19 +398,25 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
 	TabbedPropertySheetWidgetFactory factory = getWidgetFactory();
 	Composite composite = factory.createFlatFormComposite(parent);
 	
-	GridLayout grid = new GridLayout(2, false);
-	composite.setLayout(grid);
-	GridData data;
-	Label $context.flAttributeName$Label = factory.createLabel(composite, &quot;$context.fuAttributeName$:&quot;);
-	data = new GridData(SWT.LEFT, SWT.CENTER, false, false);
-	$context.flAttributeName$Label.setLayoutData(data);
+	FormData data;
 
 	$context.flAttributeName$Button = factory.createButton(composite, &quot;true&quot;, SWT.CHECK);
-	data = new GridData(SWT.FILL, SWT.CENTER, true, false);
+	data = new FormData();
+	data.left = new FormAttachment(0, STANDARD_LABEL_WIDTH);
+	data.right = new FormAttachment(100, 0);
+	data.top = new FormAttachment(0, ITabbedPropertyConstants.VSPACE);
 	$context.flAttributeName$Button.setLayoutData(data);
 
+	Label $context.attribute.name$Label = factory.createLabel(composite, &quot;$context.fuAttributeName$:&quot;);
+	$context.attribute.name$Label.setLayoutData(data);
+	data = new FormData();
+	data.left = new FormAttachment(0, 0);
+	data.right = new FormAttachment($context.flAttributeName$Button, -ITabbedPropertyConstants.HSPACE);
+	data.top = new FormAttachment($context.flAttributeName$Button, 0, SWT.CENTER);
+	$context.attributeName$Label.setLayoutData(data);
+
 	$context.flAttributeName$Button.setEnabled(false);
-	}</string>
+}</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>

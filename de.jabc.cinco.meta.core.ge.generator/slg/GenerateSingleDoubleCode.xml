@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>58218bce-14ea-427d-8c72-e67903670e10</id>
   <name>GenerateSingleDoubleCode</name>
-  <changecounter>53</changecounter>
+  <changecounter>66</changecounter>
   <sib>
     <id>07490c72-84c8-4157-9ddc-dafda795be38</id>
     <name>RunStringTemplate</name>
@@ -103,18 +103,23 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
 	super.createControls(parent, tabbedPropertySheetPage);
 	TabbedPropertySheetWidgetFactory factory = getWidgetFactory();
 	Composite composite = factory.createFlatFormComposite(parent);
-	GridLayout grid = new GridLayout(2, false);
-	composite.setLayout(grid);
-
-	GridData data;
-
-	Label $context.attribute.name$Label = factory.createLabel(composite, &quot;$context.fuAttributeName$:&quot;);
-	data = new GridData(SWT.LEFT, SWT.CENTER, false, false);
-	$context.attribute.name$Label.setLayoutData(data);
+	
+	FormData data;
 
 	$context.flAttributeName$Text = factory.createText(composite, &quot;&quot;);
-	data = new GridData(SWT.FILL, SWT.CENTER, true, false);
+	data = new FormData();
+        	data.left = new FormAttachment(0, STANDARD_LABEL_WIDTH);
+	data.right = new FormAttachment(100, 0);
+	data.top = new FormAttachment(0, ITabbedPropertyConstants.VSPACE);
 	$context.attributeName$Text.setLayoutData(data);
+
+	Label $context.attribute.name$Label = factory.createLabel(composite, &quot;$context.fuAttributeName$:&quot;);
+	$context.attribute.name$Label.setLayoutData(data);
+	data = new FormData();
+	data.left = new FormAttachment(0, 0);
+	data.right = new FormAttachment($context.flAttributeName$Text, -ITabbedPropertyConstants.HSPACE);
+	data.top = new FormAttachment($context.flAttributeName$Text, 0, SWT.CENTER);
+	$context.attributeName$Label.setLayoutData(data);
 
 	$context.attributeName$Text.addTraverseListener(traverseListener);
 	$context.attributeName$Text.addVerifyListener(verifyListener);
@@ -346,18 +351,23 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
 	super.createControls(parent, tabbedPropertySheetPage);
 	TabbedPropertySheetWidgetFactory factory = getWidgetFactory();
 	Composite composite = factory.createFlatFormComposite(parent);
-	GridLayout grid = new GridLayout(2, false);
-	composite.setLayout(grid);
-
-	GridData data;
-
-	Label $context.attribute.name$Label = factory.createLabel(composite, &quot;$context.fuAttributeName$:&quot;);
-	data = new GridData(SWT.LEFT, SWT.CENTER, false, false);
-	$context.attribute.name$Label.setLayoutData(data);
+	
+	FormData data;
 
 	$context.flAttributeName$Text = factory.createText(composite, &quot;&quot;);
-	data = new GridData(SWT.FILL, SWT.CENTER, true, false);
+	data = new FormData();
+        	data.left = new FormAttachment(0, STANDARD_LABEL_WIDTH);
+	data.right = new FormAttachment(100, 0);
+	data.top = new FormAttachment(0, ITabbedPropertyConstants.VSPACE);
 	$context.attributeName$Text.setLayoutData(data);
+
+	Label $context.attribute.name$Label = factory.createLabel(composite, &quot;$context.fuAttributeName$:&quot;);
+	$context.attribute.name$Label.setLayoutData(data);
+	data = new FormData();
+	data.left = new FormAttachment(0, 0);
+	data.right = new FormAttachment($context.flAttributeName$Text, -ITabbedPropertyConstants.HSPACE);
+	data.top = new FormAttachment($context.flAttributeName$Text, 0, SWT.CENTER);
+	$context.attributeName$Label.setLayoutData(data);
 	
 	$context.attributeName$Text.setEditable(false);
 	$context.attributeName$Text.setEnabled(false);

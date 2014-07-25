@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>696c3b21-1096-4b9a-86bd-7456a6b80d52</id>
   <name>GenerateModelElementPropertyView</name>
-  <changecounter>193</changecounter>
+  <changecounter>195</changecounter>
   <sib>
     <id>c215c747-bca3-4fbb-9807-9cd2ab3f1b32</id>
     <name>PutExpression</name>
@@ -981,10 +981,10 @@ public class $context.modelElementName$_$context.attributeName$_Section extends 
   <sib>
     <id>68d77970-b3cc-4de9-aa46-91599d9d1b15</id>
     <name>CheckVariable</name>
-    <label>CheckVariable</label>
+    <label>upperBound?</label>
     <sib-uid>basic-sibs/CheckVariable</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.CheckVariable</taxonomy>
-    <position>115.0,273.0</position>
+    <position>119.0,273.0</position>
     <parameter name="variable">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
