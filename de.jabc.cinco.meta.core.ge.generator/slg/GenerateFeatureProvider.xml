@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>5f357517-18d4-4780-adc3-30879fedbfb1</id>
   <name>GenerateFeatureProvider</name>
-  <changecounter>581</changecounter>
+  <changecounter>583</changecounter>
   <sib>
     <id>23fb1326-f00d-4e42-845a-cdf6492fc417</id>
     <name>PutExpression</name>
@@ -280,7 +280,7 @@
     <label>GetCreateEdgeFeatureIfBlock</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>1010.5,588.0</position>
+    <position>1040.5,588.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -1097,7 +1097,7 @@ if (bo instanceof $context.node.name$)
     <label>EvaluateBoolean</label>
     <sib-uid>basic-sibs/EvaluateBoolean</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.EvaluateBoolean</taxonomy>
-    <position>841.5,318.0</position>
+    <position>751.5,318.0</position>
     <parameter name="bool">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1120,9 +1120,10 @@ if (bo instanceof $context.node.name$)
   </edge>
   <edge>
     <source>14214542-9bf7-40c6-829c-7fdfc0ba5725</source>
-    <target>b01471a1-e45e-4457-a925-3514eb0a9a1f</target>
-    <point>900.0,360.0</point>
-    <point>900.0,427.0</point>
+    <target>3c46a953-efeb-4f8e-9bbe-09644dfe3c3f</target>
+    <point>918.0,337.54285714285714</point>
+    <point>987.0,337.54285714285714</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>false</branch>
   </edge>
   <edge>
@@ -1369,7 +1370,7 @@ if (bo instanceof $context.node.name$)
     <label>GetUpdateEdgeFeatureIfBlock</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>1009.0,468.0</position>
+    <position>1039.0,453.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -1559,7 +1560,7 @@ if (bo instanceof $context.node.name$)
     <label>GetLayoutEdgeFeatureIfBlock</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>1010.5,318.0</position>
+    <position>1040.5,318.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -1736,6 +1737,49 @@ if (bo instanceof $context.node.name$)
     <point>315.0,300.0</point>
     <point>150.0,415.0</point>
     <branch>default</branch>
+  </edge>
+  <sib>
+    <id>3c46a953-efeb-4f8e-9bbe-09644dfe3c3f</id>
+    <name>IsEdgeUsed</name>
+    <label>IsEdgeUsed</label>
+    <sib-uid>ge-util-sibs/IsEdgeUsed</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsEdgeUsed</taxonomy>
+    <position>873.5,318.0</position>
+    <parameter name="edge">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>edge</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="nodes">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>nodes</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>false</finalbranches>
+    <finalbranches>true</finalbranches>
+  </sib>
+  <edge>
+    <source>3c46a953-efeb-4f8e-9bbe-09644dfe3c3f</source>
+    <target>b01471a1-e45e-4457-a925-3514eb0a9a1f</target>
+    <point>915.0,345.0</point>
+    <point>899.0,486.0</point>
+    <branch>true</branch>
+  </edge>
+  <edge>
+    <source>3c46a953-efeb-4f8e-9bbe-09644dfe3c3f</source>
+    <target>7ee3c945-ffd4-41eb-b9a0-52c8957dd660</target>
+    <point>915.0,345.0</point>
+    <point>904.0,159.0</point>
+    <branch>false</branch>
   </edge>
   <values/>
   <branch>
@@ -1942,5 +1986,10 @@ if (bo instanceof $context.node.name$)
     <name>error</name>
     <branch>error</branch>
     <sib>cadfb01a-9cca-469f-82d6-e0cccf42febe</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>3c46a953-efeb-4f8e-9bbe-09644dfe3c3f</sib>
   </branch>
 </model>

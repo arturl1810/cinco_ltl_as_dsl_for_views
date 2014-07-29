@@ -2,14 +2,14 @@
 <model version="2.1">
   <id>21d264a3-a3d0-485e-b5f9-5f9c29fffccf</id>
   <name>GenerateCreateEdgeFeature_1</name>
-  <changecounter>84</changecounter>
+  <changecounter>119</changecounter>
   <sib>
     <id>11d0666f-5a7a-42b8-b045-2c132c173d82</id>
     <name>PutExpression</name>
     <label>SetEdgeName</label>
     <sib-uid>basic-sibs/PutExpression</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
-    <position>61.0,483.0</position>
+    <position>56.5,483.0</position>
     <parameter name="resolve">
       <boolean>true</boolean>
     </parameter>
@@ -56,7 +56,7 @@
     <label>PkgName</label>
     <sib-uid>basic-sibs/PutExpression</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
-    <position>74.5,363.0</position>
+    <position>71.5,363.0</position>
     <parameter name="resolve">
       <boolean>true</boolean>
     </parameter>
@@ -95,7 +95,7 @@
     <label>ClassName</label>
     <sib-uid>basic-sibs/PutExpression</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
-    <position>68.5,723.0</position>
+    <position>65.5,723.0</position>
     <parameter name="resolve">
       <boolean>true</boolean>
     </parameter>
@@ -134,7 +134,7 @@
     <label>ToFirstUpper</label>
     <sib-uid>basic-sibs/ToFirstUpper</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.ToFirstUpper</taxonomy>
-    <position>259.5,708.0</position>
+    <position>254.5,708.0</position>
     <parameter name="inputString">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -162,7 +162,7 @@
     <label>ToFirstLower</label>
     <sib-uid>basic-sibs/ToFirstLower</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.ToFirstLower</taxonomy>
-    <position>64.5,828.0</position>
+    <position>59.0,828.0</position>
     <parameter name="inputString">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -190,7 +190,7 @@
     <label>ToLowerCase</label>
     <sib-uid>utility-sibs/ToLowerCase</sib-uid>
     <taxonomy>transem.utility.sib.ToLowerCase</taxonomy>
-    <position>257.5,828.0</position>
+    <position>252.5,828.0</position>
     <parameter name="lowerStringKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -226,7 +226,7 @@
     <label>PutExpression</label>
     <sib-uid>basic-sibs/PutExpression</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
-    <position>60.5,603.0</position>
+    <position>55.5,603.0</position>
     <parameter name="resolve">
       <boolean>true</boolean>
     </parameter>
@@ -265,7 +265,7 @@
     <label>GetEdgeIsAbstract</label>
     <sib-uid>mgl/mgl/GetEdgeIsAbstract</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.sib.mgl.GetEdgeIsAbstract</taxonomy>
-    <position>48.5,153.0</position>
+    <position>42.0,153.0</position>
     <parameter name="edgeKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -293,7 +293,7 @@
     <label>EdgeIsAbstract</label>
     <sib-uid>basic-sibs/EvaluateBoolean</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.EvaluateBoolean</taxonomy>
-    <position>58.5,258.0</position>
+    <position>53.0,258.0</position>
     <parameter name="bool">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -317,9 +317,9 @@
   </edge>
   <edge>
     <source>1d24a1bf-1c2a-48db-adf7-412187ee6dd4</source>
-    <target>2f27bd7d-f37f-4e15-81e3-121bf7524848</target>
-    <point>105.0,285.0</point>
-    <point>105.0,390.0</point>
+    <target>c494008a-2efe-49d2-8f49-34071ddefde1</target>
+    <point>123.0,278.6181818181818</point>
+    <point>252.0,290.3454545454546</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>false</branch>
   </edge>
@@ -329,7 +329,7 @@
     <label>CopyElement</label>
     <sib-uid>basic-sibs/CopyElement</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.CopyElement</taxonomy>
-    <position>63.5,48.0</position>
+    <position>60.0,48.0</position>
     <parameter name="sourceVariable">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -375,7 +375,7 @@
     <label>RunStringTemplate</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>647.0,588.0</position>
+    <position>430.0,588.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -422,15 +422,8 @@ public class Create$context.edgeName$Feature extends AbstractCreateConnectionFea
 		boolean trgOK = false;
 
 		if (source != null &amp;&amp; target != null) {
-		
-			if (source instanceof $context.n.connectedElement.name$) {
-				srcOK = true;
-			}
-			if (target instanceof $context.n.connectedElement.name$) {
-				$context.maxInContent$
-					trgOK = true;
-			}
-
+			srcOK=checkSource(source);
+			trgOK=checkTarget(target);
 		}
 		return (srcOK &amp;&amp; trgOK);
 	}
@@ -440,7 +433,7 @@ public class Create$context.edgeName$Feature extends AbstractCreateConnectionFea
 	public boolean canStartConnection(ICreateConnectionContext context) {
 		Object source = getBusinessObject(context.getSourceAnchor());
 		if (source != null) {	
-			$context.edgeSourceCode$
+			return checkSource(source);
 		}
 		return false;
 	}
@@ -453,11 +446,11 @@ public class Create$context.edgeName$Feature extends AbstractCreateConnectionFea
 
 		if (source != null &amp;&amp; target != null) {
 			$context.edgeName$ $context.meIdentifier$ = $context.factoryName$Factory.eINSTANCE.create$context.edgeName$();
-				if (source instanceof $context.n.connectedElement.name$) {
-					$context.meIdentifier$.setSourceElement( ($context.n.connectedElement.name$) source);
+				if (source instanceof ModelElement) {
+					$context.meIdentifier$.setSourceElement( (ModelElement) source);
 				}
-				if (target instanceof $context.n.connectedElement.name$) {
-					$context.meIdentifier$.setTargetElement( ($context.n.connectedElement.name$) target);
+				if (target instanceof ModelElement) {
+					$context.meIdentifier$.setTargetElement( (ModelElement) target);
 				}
 			
 			if ( ((ModelElement) source).getContainer().equals( ((ModelElement) target).getContainer())) {
@@ -474,12 +467,24 @@ public class Create$context.edgeName$Feature extends AbstractCreateConnectionFea
 			connection = (Connection) getFeatureProvider().addIfPossible(addContext);
 		}
 		return connection;
-	}	private Object getBusinessObject(Anchor anchor) {
+	}	
+
+	private Object getBusinessObject(Anchor anchor) {
 		if (anchor != null) {
 			Object bo = getBusinessObjectForPictogramElement(anchor.getParent());
 			return bo;
 		}
 		return null;
+	}
+
+	private boolean checkSource(Object source) {
+		$context.sourceCode$
+		return false;
+	}
+
+	private boolean checkTarget(Object target){
+		$context.targetCode$
+		return false;
 	}
 }</string>
     </parameter>
@@ -492,7 +497,7 @@ public class Create$context.edgeName$Feature extends AbstractCreateConnectionFea
     <label>WriteJavaFile</label>
     <sib-uid>genesys-sibs/WriteJavaFile</sib-uid>
     <taxonomy>de.jabc.sib.genesys.WriteJavaFile</taxonomy>
-    <position>666.0,738.0</position>
+    <position>448.0,708.0</position>
     <parameter name="baseDirectory">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -552,7 +557,7 @@ public class Create$context.edgeName$Feature extends AbstractCreateConnectionFea
     <label>PrintConsoleMessage</label>
     <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
     <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
-    <position>631.5,918.0</position>
+    <position>421.5,828.0</position>
     <parameter name="error">
       <boolean>false</boolean>
     </parameter>
@@ -615,6 +620,70 @@ public class Create$context.edgeName$Feature extends AbstractCreateConnectionFea
     <point>695.0,690.0</point>
     <branch>default</branch>
   </edge>
+  <sib>
+    <id>c494008a-2efe-49d2-8f49-34071ddefde1</id>
+    <name>IsEdgeUsed</name>
+    <label>IsEdgeUsed</label>
+    <sib-uid>ge-util-sibs/IsEdgeUsed</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsEdgeUsed</taxonomy>
+    <position>198.5,258.0</position>
+    <parameter name="edge">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>edge</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="nodes">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>nodes</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>false</finalbranches>
+    <finalbranches>true</finalbranches>
+  </sib>
+  <edge>
+    <source>c494008a-2efe-49d2-8f49-34071ddefde1</source>
+    <target>2f27bd7d-f37f-4e15-81e3-121bf7524848</target>
+    <point>240.0,285.0</point>
+    <point>106.0,372.0</point>
+    <branch>true</branch>
+  </edge>
+  <sib>
+    <id>63ea151b-30f1-4157-b114-6d0451a572b2</id>
+    <name>PrintConsoleMessage_1</name>
+    <label>PrintConsoleMessage</label>
+    <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
+    <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
+    <position>346.5,258.0</position>
+    <parameter name="error">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="message">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>Edge ${edge.name} not used</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>false</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <finalbranches>default</finalbranches>
+  </sib>
+  <edge>
+    <source>c494008a-2efe-49d2-8f49-34071ddefde1</source>
+    <target>63ea151b-30f1-4157-b114-6d0451a572b2</target>
+    <point>240.0,285.0</point>
+    <point>386.0,271.0</point>
+    <branch>false</branch>
+  </edge>
   <parameter>
     <name>edgeKey</name>
     <field>sourceVariable</field>
@@ -641,5 +710,80 @@ public class Create$context.edgeName$Feature extends AbstractCreateConnectionFea
     <name>error</name>
     <branch>error</branch>
     <sib>008edbcc-6a7f-44c5-bf9a-0c76c121f950</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>8ca03193-0f64-4635-a771-91c8441de941</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>a0da4c26-d48d-495c-85cd-ee394d3ed409</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>1d24a1bf-1c2a-48db-adf7-412187ee6dd4</sib>
+  </branch>
+  <branch>
+    <name>default</name>
+    <branch>true</branch>
+    <sib>1d24a1bf-1c2a-48db-adf7-412187ee6dd4</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>2f27bd7d-f37f-4e15-81e3-121bf7524848</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>11d0666f-5a7a-42b8-b045-2c132c173d82</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>3635883d-45b4-4bdb-94eb-8d3428486484</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>251cb230-04d0-4559-a262-9813a5780ccf</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>457a2770-747e-47f9-b009-dc53d2f75718</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>703289e2-f3b7-4d70-975e-60c450763bcc</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>758a81e6-0c07-426e-adbe-b990414ea275</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>f0d06449-3f49-494e-bc12-47dbb0644804</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>d5ce152e-688c-44d1-8426-2a6c4972b95b</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>c494008a-2efe-49d2-8f49-34071ddefde1</sib>
+  </branch>
+  <branch>
+    <name>default</name>
+    <branch>default</branch>
+    <sib>63ea151b-30f1-4157-b114-6d0451a572b2</sib>
   </branch>
 </model>

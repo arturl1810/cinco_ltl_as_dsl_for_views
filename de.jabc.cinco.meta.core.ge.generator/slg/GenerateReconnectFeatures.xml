@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>586b7b70-5c30-487f-aa09-ffe8208bf019</id>
   <name>GenerateReconnectFeatures</name>
-  <changecounter>210</changecounter>
+  <changecounter>241</changecounter>
   <sib>
     <id>cb541589-b45f-430c-a56b-1cebe00059bf</id>
     <name>PutExpression</name>
@@ -81,7 +81,7 @@
     <label>CheckNewTarget</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>1036.5,498.0</position>
+    <position>1351.5,483.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -121,7 +121,7 @@
     <label>IterateEdges</label>
     <sib-uid>collection-sibs/IterateElements</sib-uid>
     <taxonomy>de.jabc.sib.common.collection.IterateElements</taxonomy>
-    <position>75.0,288.0</position>
+    <position>75.0,318.0</position>
     <parameter name="collection">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -153,21 +153,13 @@
     <finalbranches>exit</finalbranches>
     <finalbranches>next</finalbranches>
   </sib>
-  <edge>
-    <source>e56f9fc1-dffd-47df-87d2-200e0a21146d</source>
-    <target>2749a552-b9c8-48fa-ac04-0a64c57e1b5d</target>
-    <point>138.0,304.0615384615385</point>
-    <point>295.0,280.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>next</branch>
-  </edge>
   <sib>
     <id>cfab6ad6-0a2d-4f65-86e0-56adf991e69e</id>
     <name>IterateElements_1</name>
     <label>IterateEdgeSources</label>
     <sib-uid>collection-sibs/IterateElements</sib-uid>
     <taxonomy>de.jabc.sib.common.collection.IterateElements</taxonomy>
-    <position>413.0,288.0</position>
+    <position>728.0,273.0</position>
     <parameter name="collection">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -205,7 +197,7 @@
     <label>CheckNewSource</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>765.5,318.0</position>
+    <position>1080.5,303.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -237,8 +229,8 @@
     <source>cfab6ad6-0a2d-4f65-86e0-56adf991e69e</source>
     <target>040e2a7e-2e8b-41c6-b547-d6de169e94ec</target>
     <spline/>
-    <point>498.0,313.2</point>
-    <point>672.0,375.34285714285716</point>
+    <point>789.0,297.0</point>
+    <point>1134.0,402.0</point>
     <labelposition>480.62015503875966,-0.9818181818182055</labelposition>
     <branch>next</branch>
   </edge>
@@ -246,16 +238,16 @@
     <source>b1d20cc8-52e3-4cd7-b818-f7fa7a9b253c</source>
     <target>cfab6ad6-0a2d-4f65-86e0-56adf991e69e</target>
     <spline/>
-    <point>672.0,238.2</point>
-    <point>498.0,300.34285714285716</point>
+    <point>1134.0,192.0</point>
+    <point>789.0,297.0</point>
     <labelposition>444.53112810110844,1.9372976467093446</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
     <source>cfab6ad6-0a2d-4f65-86e0-56adf991e69e</source>
     <target>06c418de-deb4-40fb-a030-c576ebf325fd</target>
-    <point>480.0,324.0</point>
-    <point>480.0,528.0</point>
+    <point>789.0,297.0</point>
+    <point>789.0,657.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>exit</branch>
   </edge>
@@ -265,7 +257,7 @@
     <label>IterateEdgeTargets</label>
     <sib-uid>collection-sibs/IterateElements</sib-uid>
     <taxonomy>de.jabc.sib.common.collection.IterateElements</taxonomy>
-    <position>414.0,648.0</position>
+    <position>729.0,633.0</position>
     <parameter name="collection">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -301,8 +293,8 @@
     <source>06c418de-deb4-40fb-a030-c576ebf325fd</source>
     <target>c1a223c2-d40e-489b-afc0-7d8fe33a5331</target>
     <spline/>
-    <point>498.0,560.4</point>
-    <point>642.0,668.4</point>
+    <point>789.0,657.0</point>
+    <point>1134.0,702.0</point>
     <labelposition>503.1446540880503,-0.8307692307692223</labelposition>
     <branch>next</branch>
   </edge>
@@ -310,8 +302,8 @@
     <source>7e306413-d533-4e46-8c6c-b921cb35913e</source>
     <target>06c418de-deb4-40fb-a030-c576ebf325fd</target>
     <spline/>
-    <point>807.0,518.0347826086957</point>
-    <point>498.0,544.9043478260869</point>
+    <point>1134.0,507.0</point>
+    <point>789.0,657.0</point>
     <labelposition>449.2455843154393,2.1137626393021614</labelposition>
     <branch>default</branch>
   </edge>
@@ -363,11 +355,11 @@ public class ReconnectEdgeFeature extends DefaultReconnectionFeature{
 		if (newAnchor != null) {
 			Object bo = getBusinessObjectForPictogramElement(context.getNewAnchor().getParent());
 			if (ReconnectionContext.RECONNECT_TARGET.equals(context.getReconnectType())) {
-				$context.checkNewTargetContent$
+				return checkTarget(bo);
 			}
 			
 			if (ReconnectionContext.RECONNECT_SOURCE.equals(context.getReconnectType())) {
-				$context.checkNewSourceContent$
+				return checkSource(bo);
 			}
 		}
 		return false;
@@ -391,6 +383,16 @@ public class ReconnectEdgeFeature extends DefaultReconnectionFeature{
 			$context.setNewSourceContent$
 		}
 	}
+
+	private boolean checkSource(Object source) {
+		$context.sourceCheck$
+		return false;
+	}
+
+	private boolean checkTarget(Object target){
+		$context.targetCheck$
+		return false;
+	}
 	
 }
 </string>
@@ -398,13 +400,6 @@ public class ReconnectEdgeFeature extends DefaultReconnectionFeature{
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
   </sib>
-  <edge>
-    <source>06c418de-deb4-40fb-a030-c576ebf325fd</source>
-    <target>e56f9fc1-dffd-47df-87d2-200e0a21146d</target>
-    <point>465.0,465.0</point>
-    <point>125.0,320.0</point>
-    <branch>exit</branch>
-  </edge>
   <edge>
     <source>e56f9fc1-dffd-47df-87d2-200e0a21146d</source>
     <target>3c6248fd-1d17-463a-b0d9-59e90d6812b7</target>
@@ -418,7 +413,7 @@ public class ReconnectEdgeFeature extends DefaultReconnectionFeature{
     <label>SetNewSource</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>774.5,183.0</position>
+    <position>1089.5,168.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -449,7 +444,7 @@ public class ReconnectEdgeFeature extends DefaultReconnectionFeature{
     <label>SetNewTarget</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>775.5,498.0</position>
+    <position>1090.5,483.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -477,16 +472,16 @@ public class ReconnectEdgeFeature extends DefaultReconnectionFeature{
   <edge>
     <source>0d88c5a3-d0f6-4338-a7b8-d3c1aedfceed</source>
     <target>b1d20cc8-52e3-4cd7-b818-f7fa7a9b253c</target>
-    <point>978.0,307.08</point>
-    <point>1092.0,307.08</point>
+    <point>1134.0,327.0</point>
+    <point>1134.0,192.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
     <source>70d81788-1f02-40ac-bb31-f2e32849c9a8</source>
     <target>7e306413-d533-4e46-8c6c-b921cb35913e</target>
-    <point>645.0,555.0</point>
-    <point>825.0,555.0</point>
+    <point>1404.0,507.0</point>
+    <point>1134.0,507.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -591,7 +586,7 @@ public class ReconnectEdgeFeature extends DefaultReconnectionFeature{
     <label>GetEdgeSourceTarget</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>226.0,286.0</position>
+    <position>541.0,271.0</position>
     <parameter name="edgeKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -613,8 +608,9 @@ public class ReconnectEdgeFeature extends DefaultReconnectionFeature{
   <edge>
     <source>2749a552-b9c8-48fa-ac04-0a64c57e1b5d</source>
     <target>cfab6ad6-0a2d-4f65-86e0-56adf991e69e</target>
-    <point>300.0,315.0</point>
-    <point>470.0,299.0</point>
+    <point>609.0,297.0</point>
+    <point>789.0,297.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
@@ -623,7 +619,7 @@ public class ReconnectEdgeFeature extends DefaultReconnectionFeature{
     <label>GetOutgoingEdgeElementConnectionUpperBound</label>
     <sib-uid>mgl/mgl/GetOutgoingEdgeElementConnectionUpperBound</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetOutgoingEdgeElementConnectionUpperBound</taxonomy>
-    <position>662.5,393.0</position>
+    <position>977.5,378.0</position>
     <parameter name="outgoingEdgeElementConnectionKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -648,8 +644,8 @@ public class ReconnectEdgeFeature extends DefaultReconnectionFeature{
   <edge>
     <source>040e2a7e-2e8b-41c6-b547-d6de169e94ec</source>
     <target>d198fe3c-dbbc-485a-ae8e-4f6d1f5b2c4f</target>
-    <point>701.25,363.0</point>
-    <point>740.5263157894736,294.0</point>
+    <point>1134.0,402.0</point>
+    <point>1404.0,402.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -659,7 +655,7 @@ public class ReconnectEdgeFeature extends DefaultReconnectionFeature{
     <label>EvaluateCondition</label>
     <sib-uid>basic-sibs/EvaluateCondition</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.EvaluateCondition</taxonomy>
-    <position>1032.0,393.0</position>
+    <position>1347.0,378.0</position>
     <parameter name="condition">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
@@ -676,8 +672,8 @@ public class ReconnectEdgeFeature extends DefaultReconnectionFeature{
   <edge>
     <source>d198fe3c-dbbc-485a-ae8e-4f6d1f5b2c4f</source>
     <target>511fcffa-1b17-41a0-9f94-ded9786d5ea6</target>
-    <point>1077.0,396.2</point>
-    <point>978.0,308.2</point>
+    <point>1404.0,402.0</point>
+    <point>1269.0,327.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>true</branch>
   </edge>
@@ -687,7 +683,7 @@ public class ReconnectEdgeFeature extends DefaultReconnectionFeature{
     <label>CheckNewSource</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>1035.5,183.0</position>
+    <position>1350.5,168.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -715,15 +711,16 @@ public class ReconnectEdgeFeature extends DefaultReconnectionFeature{
   <edge>
     <source>d198fe3c-dbbc-485a-ae8e-4f6d1f5b2c4f</source>
     <target>7a4358cc-7956-4c02-b08f-c8387748a1c0</target>
-    <point>825.0,330.0</point>
-    <point>919.0,380.0</point>
+    <point>1404.0,402.0</point>
+    <point>1404.0,192.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>false</branch>
   </edge>
   <edge>
     <source>7a4358cc-7956-4c02-b08f-c8387748a1c0</source>
     <target>b1d20cc8-52e3-4cd7-b818-f7fa7a9b253c</target>
-    <point>1095.0,210.0</point>
-    <point>825.0,210.0</point>
+    <point>1404.0,192.0</point>
+    <point>1134.0,192.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -733,7 +730,7 @@ public class ReconnectEdgeFeature extends DefaultReconnectionFeature{
     <label>GetIncomingEdgeElementConnectionUpperBound</label>
     <sib-uid>mgl/mgl/GetIncomingEdgeElementConnectionUpperBound</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetIncomingEdgeElementConnectionUpperBound</taxonomy>
-    <position>663.0,693.0</position>
+    <position>978.0,678.0</position>
     <parameter name="incomingEdgeElementConnectionKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -761,7 +758,7 @@ public class ReconnectEdgeFeature extends DefaultReconnectionFeature{
     <label>EvaluateCondition</label>
     <sib-uid>basic-sibs/EvaluateCondition</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.EvaluateCondition</taxonomy>
-    <position>1032.0,693.0</position>
+    <position>1347.0,678.0</position>
     <parameter name="condition">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
@@ -778,16 +775,17 @@ public class ReconnectEdgeFeature extends DefaultReconnectionFeature{
   <edge>
     <source>c1a223c2-d40e-489b-afc0-7d8fe33a5331</source>
     <target>c5c21ef2-c47e-4244-a864-217013d905e9</target>
-    <point>843.0,711.6</point>
-    <point>1077.0,711.6</point>
+    <point>1134.0,702.0</point>
+    <point>1404.0,702.0</point>
     <labelposition>491.45299145299145,2.400000000000025</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
     <source>c5c21ef2-c47e-4244-a864-217013d905e9</source>
     <target>70d81788-1f02-40ac-bb31-f2e32849c9a8</target>
-    <point>990.0,645.0</point>
-    <point>969.0,528.0</point>
+    <point>1404.0,702.0</point>
+    <point>1404.0,507.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>false</branch>
   </edge>
   <sib>
@@ -796,7 +794,7 @@ public class ReconnectEdgeFeature extends DefaultReconnectionFeature{
     <label>CheckNewTarget</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>766.5,633.0</position>
+    <position>1081.5,618.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -827,16 +825,17 @@ public class ReconnectEdgeFeature extends DefaultReconnectionFeature{
   <edge>
     <source>c5c21ef2-c47e-4244-a864-217013d905e9</source>
     <target>468d25e3-12ad-43ca-9b56-96bfd396fa8f</target>
-    <point>1077.0,704.2</point>
-    <point>978.0,660.2</point>
+    <point>1404.0,702.0</point>
+    <point>1269.0,642.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>true</branch>
   </edge>
   <edge>
     <source>7e9068a1-abcf-4f84-94d3-aff1fca4835a</source>
     <target>7e306413-d533-4e46-8c6c-b921cb35913e</target>
-    <point>825.0,630.0</point>
-    <point>827.0,535.0</point>
+    <point>1134.0,642.0</point>
+    <point>1134.0,507.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
@@ -845,7 +844,7 @@ public class ReconnectEdgeFeature extends DefaultReconnectionFeature{
     <label>Star?</label>
     <sib-uid>basic-sibs/EvaluateCondition</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.EvaluateCondition</taxonomy>
-    <position>938.0,318.0</position>
+    <position>1253.0,303.0</position>
     <parameter name="condition">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
@@ -862,8 +861,9 @@ public class ReconnectEdgeFeature extends DefaultReconnectionFeature{
   <edge>
     <source>511fcffa-1b17-41a0-9f94-ded9786d5ea6</source>
     <target>0d88c5a3-d0f6-4338-a7b8-d3c1aedfceed</target>
-    <point>960.0,360.0</point>
-    <point>830.0,320.0</point>
+    <point>1269.0,327.0</point>
+    <point>1134.0,327.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>false</branch>
   </edge>
   <sib>
@@ -872,7 +872,7 @@ public class ReconnectEdgeFeature extends DefaultReconnectionFeature{
     <label>CheckNewSource</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>900.5,228.0</position>
+    <position>1215.5,213.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -903,15 +903,16 @@ public class ReconnectEdgeFeature extends DefaultReconnectionFeature{
   <edge>
     <source>511fcffa-1b17-41a0-9f94-ded9786d5ea6</source>
     <target>69b82604-93d9-4f78-90b9-2d9a4876fdf0</target>
-    <point>960.0,360.0</point>
-    <point>940.0,291.0</point>
+    <point>1269.0,327.0</point>
+    <point>1269.0,237.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>true</branch>
   </edge>
   <edge>
     <source>69b82604-93d9-4f78-90b9-2d9a4876fdf0</source>
     <target>b1d20cc8-52e3-4cd7-b818-f7fa7a9b253c</target>
-    <point>960.0,255.0</point>
-    <point>825.0,210.0</point>
+    <point>1269.0,237.0</point>
+    <point>1134.0,192.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -921,7 +922,7 @@ public class ReconnectEdgeFeature extends DefaultReconnectionFeature{
     <label>Star?</label>
     <sib-uid>basic-sibs/EvaluateCondition</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.EvaluateCondition</taxonomy>
-    <position>938.0,633.0</position>
+    <position>1253.0,618.0</position>
     <parameter name="condition">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
@@ -941,7 +942,7 @@ public class ReconnectEdgeFeature extends DefaultReconnectionFeature{
     <label>CheckNewTarget</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>901.5,543.0</position>
+    <position>1216.5,528.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -972,22 +973,139 @@ public class ReconnectEdgeFeature extends DefaultReconnectionFeature{
   <edge>
     <source>468d25e3-12ad-43ca-9b56-96bfd396fa8f</source>
     <target>7e9068a1-abcf-4f84-94d3-aff1fca4835a</target>
-    <point>960.0,660.0</point>
-    <point>850.0,632.0</point>
+    <point>1269.0,642.0</point>
+    <point>1134.0,642.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>false</branch>
   </edge>
   <edge>
     <source>468d25e3-12ad-43ca-9b56-96bfd396fa8f</source>
     <target>619d882e-b9e1-420a-b9a2-248fa7fd6742</target>
-    <point>960.0,660.0</point>
-    <point>916.0,567.0</point>
+    <point>1269.0,642.0</point>
+    <point>1269.0,552.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>true</branch>
   </edge>
   <edge>
     <source>619d882e-b9e1-420a-b9a2-248fa7fd6742</source>
     <target>7e306413-d533-4e46-8c6c-b921cb35913e</target>
-    <point>915.0,570.0</point>
-    <point>840.0,514.0</point>
+    <point>1269.0,552.0</point>
+    <point>1134.0,507.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>e56f9fc1-dffd-47df-87d2-200e0a21146d</source>
+    <target>603c3649-1668-4812-936a-e135fe1c1dd9</target>
+    <point>138.0,336.83076923076925</point>
+    <point>295.0,336.9230769230769</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>next</branch>
+  </edge>
+  <sib>
+    <id>603c3649-1668-4812-936a-e135fe1c1dd9</id>
+    <name>GraphSIB_1</name>
+    <label>GenerateEdgeCode</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>234.0,316.0</position>
+    <parameter name="edgeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>edge</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>67c297f2-05a9-4896-8e73-7a7c57da4ed6</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>GenerateEdgeCode</string>
+    </userobject>
+  </sib>
+  <sib>
+    <id>fac49d22-a6df-4d2a-b740-7908524ce975</id>
+    <name>RunStringTemplate_9</name>
+    <label>SourceCheck</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>254.5,423.0</position>
+    <parameter name="append">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>sourceCheck</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>$context.sourceCode$
+
+</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>603c3649-1668-4812-936a-e135fe1c1dd9</source>
+    <target>fac49d22-a6df-4d2a-b740-7908524ce975</target>
+    <point>300.0,345.0</point>
+    <point>298.0,447.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>fac49d22-a6df-4d2a-b740-7908524ce975</source>
+    <target>2b7eef03-0915-48f7-bece-d7859344c31e</target>
+    <point>300.0,474.0</point>
+    <point>300.0,528.0</point>
+    <labelposition>476.0,-1.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>2b7eef03-0915-48f7-bece-d7859344c31e</id>
+    <name>RunStringTemplate_10</name>
+    <label>TargetCheck</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>255.5,528.0</position>
+    <parameter name="append">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>targetCheck</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>$context.targetCode$
+</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>2b7eef03-0915-48f7-bece-d7859344c31e</source>
+    <target>e56f9fc1-dffd-47df-87d2-200e0a21146d</target>
+    <point>300.0,555.0</point>
+    <point>117.0,339.0</point>
     <branch>default</branch>
   </edge>
   <values/>
@@ -1105,5 +1223,20 @@ public class ReconnectEdgeFeature extends DefaultReconnectionFeature{
     <name>error</name>
     <branch>error</branch>
     <sib>468d25e3-12ad-43ca-9b56-96bfd396fa8f</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>fac49d22-a6df-4d2a-b740-7908524ce975</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>2b7eef03-0915-48f7-bece-d7859344c31e</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>603c3649-1668-4812-936a-e135fe1c1dd9</sib>
   </branch>
 </model>

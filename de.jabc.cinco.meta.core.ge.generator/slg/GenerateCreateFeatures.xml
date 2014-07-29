@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>93a0e6ff-3cc2-4d94-8d2f-7da7495af23a</id>
   <name>GenerateCreateFeatures</name>
-  <changecounter>218</changecounter>
+  <changecounter>221</changecounter>
   <sib>
     <id>a1a2eec2-2ffe-49e5-ada4-88f47574b5c0</id>
     <name>IterateElements</name>
@@ -130,7 +130,7 @@
     <label>GenerateCreateEdgeFeature</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>380.0,76.0</position>
+    <position>369.0,76.0</position>
     <parameter name="edgeKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -141,6 +141,7 @@
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
     <userobject key="ABC$GRAPHSIB$MODELID">
       <string>21d264a3-a3d0-485e-b5f9-5f9c29fffccf</string>
     </userobject>
@@ -729,5 +730,10 @@
     <name>error</name>
     <branch>error</branch>
     <sib>e1c5112d-e4b5-42cd-8681-bb74acdfc24b</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>9963b2d9-209a-494e-86dc-1960326cfb75</sib>
   </branch>
 </model>
