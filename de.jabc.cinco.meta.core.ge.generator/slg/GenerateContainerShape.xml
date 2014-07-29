@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>c1206c24-81a8-4ae2-b093-4d794fac9742</id>
   <name>GenerateContainerShape</name>
-  <changecounter>1059</changecounter>
+  <changecounter>1062</changecounter>
   <sib>
     <id>299dd76d-8397-43af-aff5-bc29e4d4a5d6</id>
     <name>SwitchContainerShape</name>
@@ -174,8 +174,10 @@ $context.setStyleContent$</string>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>
-gaService.setSize($context.peName$, $context.size.width$, $context.size.height$);
+      <string>if (context.getWidth() != -1 &amp;&amp; context.getHeight() != -1)  {
+	gaService.setSize($context.peName$, context.getWidth(), context.getHeight());
+} else 
+	gaService.setSize($context.peName$, $context.size.width$, $context.size.height$);
 </string>
     </parameter>
     <finalbranches>default</finalbranches>
@@ -290,8 +292,11 @@ gaService.setSize($context.peName$, $context.size.width$, $context.size.height$)
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>
-gaService.setSize($context.peName$, 100, 100);
+      <string>if (context.getWidth() != -1 &amp;&amp; context.getHeight() != -1)  {
+	gaService.setSize($context.peName$, context.getWidth(), context.getHeight());
+} else 
+	gaService.setSize($context.peName$, 100, 100);
+
 </string>
     </parameter>
     <finalbranches>default</finalbranches>

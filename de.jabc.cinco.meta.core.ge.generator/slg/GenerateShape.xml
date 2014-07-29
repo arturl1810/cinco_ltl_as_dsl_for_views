@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>36d9fec6-e1a2-4c6b-8680-956d60534097</id>
   <name>GenerateShape</name>
-  <changecounter>971</changecounter>
+  <changecounter>983</changecounter>
   <sib>
     <id>f901026e-1a69-421b-912a-54b756b8a46b</id>
     <name>GetShapeName</name>
@@ -571,8 +571,9 @@ $context.peName$.setStretchV(true);</string>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>
-gaService.setSize($context.peName$, $context.size.width$, $context.size.height$);
+      <string>if (context.getWidth() != -1 &amp;&amp; context.getHeight() != -1)  {
+	gaService.setSize($context.peName$, context.getWidth(), context.getHeight());
+} else gaService.setSize($context.peName$, $context.size.width$, $context.size.height$);
 </string>
     </parameter>
     <finalbranches>default</finalbranches>
@@ -601,8 +602,9 @@ gaService.setSize($context.peName$, $context.size.width$, $context.size.height$)
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>
-gaService.setSize($context.peName$, 30, 30);
+      <string>if (context.getWidth() != -1 &amp;&amp; context.getHeight() != -1)  {
+	gaService.setSize($context.peName$, context.getWidth(), context.getHeight());
+} else gaService.setSize($context.peName$, 30, 30);
 </string>
     </parameter>
     <finalbranches>default</finalbranches>
@@ -1636,8 +1638,10 @@ peService.setPropertyValue($context.peName$, $context.graphModelName$GraphitiUti
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>
-gaService.setSize($context.peName$, $context.size.width$, $context.size.height$);
+      <string>if (context.getWidth() != -1 &amp;&amp; context.getHeight() != -1)  {
+	gaService.setSize($context.peName$, context.getWidth(), context.getHeight());
+} else gaService.setSize($context.peName$, $context.size.width$, $context.size.height$);
+
 </string>
     </parameter>
     <finalbranches>default</finalbranches>
@@ -1666,8 +1670,10 @@ gaService.setSize($context.peName$, $context.size.width$, $context.size.height$)
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>
-gaService.setSize($context.peName$, 80, 20);
+      <string>if (context.getWidth() != -1 &amp;&amp; context.getHeight() != -1)  {
+	gaService.setSize($context.peName$, context.getWidth(), context.getHeight());
+} else gaService.setSize($context.peName$, 80, 20);
+
 </string>
     </parameter>
     <finalbranches>default</finalbranches>
@@ -1719,7 +1725,7 @@ gaService.setSize($context.peName$, 80, 20);
     <label>ClearPoints</label>
     <sib-uid>basic-sibs/PutExpression</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
-    <position>848.5,468.0</position>
+    <position>844.0,468.0</position>
     <parameter name="resolve">
       <boolean>true</boolean>
     </parameter>
@@ -2049,5 +2055,10 @@ gaService.setSize($context.peName$, 80, 20);
     <name>error</name>
     <branch>error</branch>
     <sib>163478c5-b0d1-4b20-be71-faac0ffc6630</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>2cd7f43f-46f3-4f88-b5c8-e671d90e7aec</sib>
   </branch>
 </model>

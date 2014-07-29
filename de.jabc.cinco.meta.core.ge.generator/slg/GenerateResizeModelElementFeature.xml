@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>bd602dcf-2ea3-4585-953e-853c0406cc4e</id>
   <name>GenerateResizeModelElementFeature</name>
-  <changecounter>169</changecounter>
+  <changecounter>173</changecounter>
   <sib>
     <id>6cad6f22-f2a9-4f5c-a9dc-5eaeb99341c0</id>
     <name>PutExpression_1</name>
@@ -259,7 +259,7 @@ public class Resize$context.container.name$Feature extends DefaultResizeShapeFea
     <label>CopyEObject</label>
     <sib-uid>utility-sibs/CopyEObject</sib-uid>
     <taxonomy>transem.utility.sib.CopyEObject</taxonomy>
-    <position>45.0,18.0</position>
+    <position>46.5,18.0</position>
     <parameter name="copiedEObjectKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -372,6 +372,11 @@ public class Resize$context.modelElement.name$Feature extends DefaultResizeShape
 	
 	@Override
 	public void resizeShape(IResizeShapeContext context) {
+		Object bo = getBusinessObjectForPictogramElement(context.getPictogramElement());
+		if (bo instanceof $context.modelElement.name$) {
+			(($context.modelElement.name$) bo).setWidth(context.getWidth());
+			(($context.modelElement.name$) bo).setHeight(context.getHeight());
+		}
 		super.resizeShape(context);
 	}
 

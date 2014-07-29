@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>c7542d87-aa25-4707-a286-db91e10d7301</id>
   <name>GenerateAddContainerFeature</name>
-  <changecounter>400</changecounter>
+  <changecounter>409</changecounter>
   <sib>
     <id>3f7b7312-5278-4d0a-b7f8-45424c587ca9</id>
     <name>GetNodeContainerIsAbstract</name>
@@ -445,6 +445,11 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
 
 		$context.graphicalRep$
 
+		$context.meIdentifier$.setWidth($context.rootShapeName$.getGraphicsAlgorithm().getWidth());
+		$context.meIdentifier$.setHeight($context.rootShapeName$.getGraphicsAlgorithm().getHeight());
+		$context.meIdentifier$.setX($context.rootShapeName$.getGraphicsAlgorithm().getX());
+		$context.meIdentifier$.setY($context.rootShapeName$.getGraphicsAlgorithm().getY());
+
 		link($context.rootShapeName$, $context.meIdentifier$);
 		
 		peService.createChopboxAnchor($context.rootShapeName$);
@@ -464,11 +469,16 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
 				AddContext ac = new AddContext();
 				ac.setTargetContainer(Shape0);
 				ac.setNewObject(me);
-				if (me instanceof Node)
+				if (me instanceof Node) {
 					ac.setLocation(((Node) me).getX(), ((Node) me).getY());
-				if (me instanceof Container)
-					ac.setLocation(((Container) me).getX(),
-							((Container) me).getY());
+					ac.setWidth(((Node) me).getWidth());
+					ac.setHeight(((Node) me).getHeight());
+				}
+				if (me instanceof Container) {
+					ac.setLocation(((Container) me).getX(), ((Container) me).getY());
+					ac.setWidth(((Container) me).getWidth());
+					ac.setHeight(((Container) me).getHeight());
+				}
 				IAddFeature af = getFeatureProvider().getAddFeature(ac);
 				if (af != null &amp;&amp; af.canAdd(ac))
 					af.add(ac);

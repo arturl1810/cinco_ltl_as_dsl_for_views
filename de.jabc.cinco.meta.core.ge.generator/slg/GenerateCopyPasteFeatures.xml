@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>67a73b2a-3824-4776-9686-ae1a8aed5282</id>
   <name>GenerateCopyPasteFeatures</name>
-  <changecounter>179</changecounter>
+  <changecounter>184</changecounter>
   <sib>
     <id>59a427e8-25c5-482c-a32b-a0aa278eb41b</id>
     <name>PutExpression</name>
@@ -393,6 +393,10 @@ public class $context.graphModelName$PasteFeature extends AbstractPasteFeature {
 			
 			int xNew = xContext + (x - xFix) - xTarget;
 			int yNew = yContext + (y - yFix) - yTarget;
+
+			ac.setWidth(((Node) me).getWidth());
+			ac.setHeight(((Node) me).getHeight());
+
 			ac.setLocation(xNew, yNew);
 		}
 		if (me instanceof Container) {
@@ -401,6 +405,10 @@ public class $context.graphModelName$PasteFeature extends AbstractPasteFeature {
 			
 			int xNew = xContext + (x - xFix) - xTarget;
 			int yNew = yContext + (y - yFix) - yTarget;
+
+			ac.setWidth(((Container) me).getWidth());
+			ac.setHeight(((Container) me).getHeight());
+
 			ac.setLocation(xNew, yNew);
 		}
 		IAddFeature af = getFeatureProvider().getAddFeature(ac);
