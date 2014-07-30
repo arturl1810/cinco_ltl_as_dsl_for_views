@@ -10,6 +10,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.dialogs.ErrorDialog;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.commands.ICommandService;
@@ -53,7 +54,7 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 				Command featureGenerationCommand = commandService.getCommand("de.jabc.cinco.meta.core.generatefeature");
 				featureGenerationCommand.executeWithChecks(event);
 				
-				System.out.println("Done.");
+				MessageDialog.openInformation(HandlerUtil.getActiveShell(event), "Cinco Generation Process completed", "Genertion successfully completed!");
 				
 			}
 		}catch(Exception e1){
