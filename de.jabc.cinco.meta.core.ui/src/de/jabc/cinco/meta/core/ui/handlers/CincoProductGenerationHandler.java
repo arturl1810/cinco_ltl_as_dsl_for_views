@@ -58,20 +58,10 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 			}
 		}catch(Exception e1){
 			StringBuilder builder = new StringBuilder();
-			Throwable e = e1.getCause();
 			StackTraceElement[] trace =null;
-			if(e!=null)
-				trace = e.getStackTrace();
-			else{
-				trace = e1.getStackTrace();
-				e = e1;
-			}
-			builder.append(e.getLocalizedMessage()+":\n");
-			for(int i=0;i<Math.min(5, trace.length);i++){
-				builder.append(trace[i].toString());
-			}
-			IStatus status = new Status(Status.ERROR,event.getTrigger().getClass().getCanonicalName(),builder.toString());
-			ErrorDialog.openError(HandlerUtil.getActiveShell(event), "Error in Cinco Product Generation", "An error occured: "+e.getMessage(), status);
+			
+			IStatus status = new Status(Status.ERROR,event.getTrigger().getClass().getCanonicalName(),builder.toString(),e1);
+			ErrorDialog.openError(HandlerUtil.getActiveShell(event), "Error in Cinco Product Generation", "An error occured during generation: ", status);
 			
 			e1.printStackTrace();
 		}

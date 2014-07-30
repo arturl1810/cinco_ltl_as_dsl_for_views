@@ -61,6 +61,7 @@ import org.osgi.framework.Bundle;
 
 import style.Styles;
 import de.jabc.cinco.meta.core.ge.generator.Main;
+import de.jabc.cinco.meta.core.mgl.transformation.helper.ServiceException;
 import de.jabc.cinco.meta.core.utils.projects.ProjectCreator;
 import de.metaframe.jabc.framework.execution.DefaultLightweightExecutionEnvironment;
 import de.metaframe.jabc.framework.execution.LightweightExecutionEnvironment;
@@ -130,7 +131,12 @@ public class Generate extends AbstractHandler {
 			LightweightExecutionEnvironment env = new DefaultLightweightExecutionEnvironment(context);
 			
 			Main tmp = new Main();
-			tmp.execute(env);
+			String result = tmp.execute(env);
+			if (result.equals("error")) {
+				Exception e = (Exception) context.get("exception");
+				System.out.println("Caught exception: " + e);
+				throw new ExecutionException(e.getMessage());
+			}
 			
 			p.refreshLocal(IResource.DEPTH_INFINITE, monitor);
 		} catch (IOException e) {
