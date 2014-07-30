@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>acbfac10-5547-4af8-9d81-08e1d3c67972</id>
   <name>GenerateCreateEdgeFeature</name>
-  <changecounter>302</changecounter>
+  <changecounter>309</changecounter>
   <sib>
     <id>f25e916c-be2e-4728-817b-64548b50fdb7</id>
     <name>RunStringTemplate</name>
@@ -507,7 +507,8 @@ public class Create$context.edgeName$Feature extends AbstractCreateConnectionFea
 		Object target = getBusinessObject(context.getTargetAnchor());
 
 		if (source != null &amp;&amp; target != null) {
-			$context.edgeName$ $context.meIdentifier$ = $context.factoryName$Factory.eINSTANCE.create$context.edgeName$();</string>
+			$context.edgeName$ $context.meIdentifier$ = $context.factoryName$Factory.eINSTANCE.create$context.edgeName$();
+			$context.attributeInitContent$</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
@@ -1114,9 +1115,9 @@ public class Create$context.edgeName$Feature extends AbstractCreateConnectionFea
   </edge>
   <edge>
     <source>5417e80a-33d2-40df-b5ab-6d7be2a7ee52</source>
-    <target>17b29a01-b7c2-497f-b3ce-d8557efce82b</target>
-    <point>1241.0,58.0</point>
-    <point>1241.0,283.0</point>
+    <target>2642d88b-6328-440b-b375-7de7e44d5995</target>
+    <point>1231.3636363636363,69.0</point>
+    <point>1188.5185185185185,121.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -1523,6 +1524,38 @@ public class Create$context.edgeName$Feature extends AbstractCreateConnectionFea
     <point>92.0,584.0</point>
     <branch>default</branch>
   </edge>
+  <sib>
+    <id>2642d88b-6328-440b-b375-7de7e44d5995</id>
+    <name>GraphSIB</name>
+    <label>InitializeAttributes</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>1182.5,136.0</position>
+    <parameter name="modelElement">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>edge</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>1f432a14-22e1-48ce-aa1e-72e571fba979</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>InitializeAttributes</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>2642d88b-6328-440b-b375-7de7e44d5995</source>
+    <target>17b29a01-b7c2-497f-b3ce-d8557efce82b</target>
+    <point>1245.0,165.0</point>
+    <point>1246.0,267.0</point>
+    <branch>default</branch>
+  </edge>
   <parameter>
     <name>edgeKey</name>
     <field>edgeKey</field>
@@ -1537,6 +1570,11 @@ public class Create$context.edgeName$Feature extends AbstractCreateConnectionFea
     <name>edgeKey</name>
     <field>edgeKey</field>
     <sib>45000ccd-3f97-463b-8a1a-2bbc63151cc4</sib>
+  </parameter>
+  <parameter>
+    <name>edgeKey</name>
+    <field>modelElement</field>
+    <sib>2642d88b-6328-440b-b375-7de7e44d5995</sib>
   </parameter>
   <values>
     <entry>
@@ -1734,5 +1772,10 @@ public class Create$context.edgeName$Feature extends AbstractCreateConnectionFea
     <name>error</name>
     <branch>error</branch>
     <sib>3c1da3fd-35f1-4437-a83b-c2324846f09f</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>2642d88b-6328-440b-b375-7de7e44d5995</sib>
   </branch>
 </model>

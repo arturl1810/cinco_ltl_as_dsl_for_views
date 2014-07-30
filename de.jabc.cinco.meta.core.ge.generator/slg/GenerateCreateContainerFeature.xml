@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>fb0af092-c2b0-41ca-88d1-29ad9c540729</id>
   <name>GenerateCreateContainerFeature</name>
-  <changecounter>213</changecounter>
+  <changecounter>223</changecounter>
   <sib>
     <id>9adef199-4664-4d95-b976-c83232fc48df</id>
     <name>RunStringTemplate</name>
@@ -280,7 +280,7 @@ public Create$context.containerName$Feature(IFeatureProvider fp) {
     <label>ToFirstLower</label>
     <sib-uid>basic-sibs/ToFirstLower</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.ToFirstLower</taxonomy>
-    <position>719.0,228.0</position>
+    <position>899.0,228.0</position>
     <parameter name="inputString">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -400,9 +400,9 @@ public Create$context.containerName$Feature(IFeatureProvider fp) {
   </sib>
   <edge>
     <source>d4027830-5f9a-4962-aa7f-7148032c31f0</source>
-    <target>9adef199-4664-4d95-b976-c83232fc48df</target>
-    <point>535.0,342.46666666666664</point>
-    <point>348.0,255.12</point>
+    <target>3ecf1580-df3f-4842-b06c-d402911337ff</target>
+    <point>760.0,256.15384615384613</point>
+    <point>605.0,327.6923076923077</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -412,7 +412,7 @@ public Create$context.containerName$Feature(IFeatureProvider fp) {
     <label>GenerateCheckContainer</label>
     <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
-    <position>490.0,226.0</position>
+    <position>700.0,226.0</position>
     <parameter name="ClearContent">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
@@ -440,6 +440,38 @@ public Create$context.containerName$Feature(IFeatureProvider fp) {
       <string>GenerateCheckContainer</string>
     </userobject>
   </sib>
+  <sib>
+    <id>3ecf1580-df3f-4842-b06c-d402911337ff</id>
+    <name>GraphSIB</name>
+    <label>InitializeAttributes</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>507.5,226.0</position>
+    <parameter name="modelElement">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>containerKey</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>1f432a14-22e1-48ce-aa1e-72e571fba979</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>InitializeAttributes</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>3ecf1580-df3f-4842-b06c-d402911337ff</source>
+    <target>9adef199-4664-4d95-b976-c83232fc48df</target>
+    <point>555.0,255.0</point>
+    <point>353.0,240.0</point>
+    <branch>default</branch>
+  </edge>
   <parameter>
     <name>modelElementKey</name>
     <field>nodeContainerKey</field>
@@ -449,6 +481,11 @@ public Create$context.containerName$Feature(IFeatureProvider fp) {
     <name>modelElementKey</name>
     <field>ModelElementKey</field>
     <sib>d4027830-5f9a-4962-aa7f-7148032c31f0</sib>
+  </parameter>
+  <parameter>
+    <name>modelElementKey</name>
+    <field>modelElement</field>
+    <sib>3ecf1580-df3f-4842-b06c-d402911337ff</sib>
   </parameter>
   <values>
     <entry>
@@ -516,5 +553,10 @@ public Create$context.containerName$Feature(IFeatureProvider fp) {
     <name>error</name>
     <branch>error</branch>
     <sib>d4027830-5f9a-4962-aa7f-7148032c31f0</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>3ecf1580-df3f-4842-b06c-d402911337ff</sib>
   </branch>
 </model>
