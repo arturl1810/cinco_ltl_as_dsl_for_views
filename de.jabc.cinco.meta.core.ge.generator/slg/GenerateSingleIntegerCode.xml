@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>9bf333cd-76eb-4707-be7a-f62b921e88c5</id>
   <name>GenerateSingleIntegerCode</name>
-  <changecounter>166</changecounter>
+  <changecounter>173</changecounter>
   <sib>
     <id>761a275f-3772-4618-b07b-2202449515c5</id>
     <name>RunStringTemplate</name>
@@ -108,13 +108,12 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
 
 	$context.flAttributeName$Text = factory.createText(composite, &quot;&quot;);
 	data = new FormData();
-        	data.left = new FormAttachment(0, STANDARD_LABEL_WIDTH);
+	data.left = new FormAttachment(0, $context.width$);
 	data.right = new FormAttachment(100, 0);
 	data.top = new FormAttachment(0, ITabbedPropertyConstants.VSPACE);
 	$context.attributeName$Text.setLayoutData(data);
 
 	Label $context.attribute.name$Label = factory.createLabel(composite, &quot;$context.fuAttributeName$:&quot;);
-	$context.attribute.name$Label.setLayoutData(data);
 	data = new FormData();
 	data.left = new FormAttachment(0, 0);
 	data.right = new FormAttachment($context.flAttributeName$Text, -ITabbedPropertyConstants.HSPACE);
@@ -332,13 +331,12 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
 
 	$context.flAttributeName$Text = factory.createText(composite, &quot;&quot;);
 	data = new FormData();
-        	data.left = new FormAttachment(0, STANDARD_LABEL_WIDTH);
+	data.left = new FormAttachment(0, $context.width$);
 	data.right = new FormAttachment(100, 0);
 	data.top = new FormAttachment(0, ITabbedPropertyConstants.VSPACE);
 	$context.attributeName$Text.setLayoutData(data);
 
 	Label $context.attribute.name$Label = factory.createLabel(composite, &quot;$context.fuAttributeName$:&quot;);
-	$context.attribute.name$Label.setLayoutData(data);
 	data = new FormData();
 	data.left = new FormAttachment(0, 0);
 	data.right = new FormAttachment($context.flAttributeName$Text, -ITabbedPropertyConstants.HSPACE);
@@ -476,13 +474,12 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
 
 	$context.flAttributeName$Text = factory.createText(composite, &quot;&quot;);
 	data = new FormData();
-        	data.left = new FormAttachment(0, STANDARD_LABEL_WIDTH);
+	data.left = new FormAttachment(0, $context.width$);
 	data.right = new FormAttachment(100, 0);
 	data.top = new FormAttachment(0, ITabbedPropertyConstants.VSPACE);
 	$context.attributeName$Text.setLayoutData(data);
 
 	Label $context.attribute.name$Label = factory.createLabel(composite, &quot;$context.fuAttributeName$:&quot;);
-	$context.attribute.name$Label.setLayoutData(data);
 	data = new FormData();
 	data.left = new FormAttachment(0, 0);
 	data.right = new FormAttachment($context.flAttributeName$Text, -ITabbedPropertyConstants.HSPACE);

@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>7ce0cea2-f133-4819-a4df-6d0f1188d2ec</id>
   <name>GeneratePrimeReferencePropertyView</name>
-  <changecounter>271</changecounter>
+  <changecounter>279</changecounter>
   <sib>
     <id>a2cae63c-d9d7-4524-80b8-ad12b33b47d5</id>
     <name>GetReferencedTypeType</name>
@@ -81,7 +81,7 @@
     <label>IterateEAttributes</label>
     <sib-uid>collection-sibs/IterateElements</sib-uid>
     <taxonomy>de.jabc.sib.common.collection.IterateElements</taxonomy>
-    <position>59.0,633.0</position>
+    <position>59.0,678.0</position>
     <parameter name="collection">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -571,9 +571,9 @@ public class $context.modelElementName$_$context.attributeName$_Section extends 
   </sib>
   <edge>
     <source>28638874-0ac7-4665-aa16-947fd34a6fa9</source>
-    <target>94595b79-96e6-4c2f-9da2-f5f07d385417</target>
-    <point>121.0,630.0</point>
-    <point>121.0,735.0</point>
+    <target>127c60b2-d4e0-42cf-9d51-e37377945c2b</target>
+    <point>138.0,499.9714285714286</point>
+    <point>207.0,490.1142857142857</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -953,6 +953,41 @@ public class $context.modelElementName$_$context.attributeName$_Section extends 
     <finalbranches>false</finalbranches>
     <finalbranches>true</finalbranches>
   </sib>
+  <sib>
+    <id>127c60b2-d4e0-42cf-9d51-e37377945c2b</id>
+    <name>ComputeAttributeLabelSize</name>
+    <label>ComputeAttributeLabelSize</label>
+    <sib-uid>ge-util-sibs/ComputeAttributeLabelSize</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.ComputeAttributeLabelSize</taxonomy>
+    <position>28.5,573.0</position>
+    <parameter name="attributes">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>attributes</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="width">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>width</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>127c60b2-d4e0-42cf-9d51-e37377945c2b</source>
+    <target>94595b79-96e6-4c2f-9da2-f5f07d385417</target>
+    <point>120.0,585.0</point>
+    <point>110.0,645.0</point>
+    <branch>default</branch>
+  </edge>
   <parameter>
     <name>referencedTypeKey</name>
     <field>sourceVariable</field>
@@ -1084,5 +1119,10 @@ public class $context.modelElementName$_$context.attributeName$_Section extends 
     <name>error</name>
     <branch>error</branch>
     <sib>cc5aece6-b4ab-432e-94fa-1d17e1eb4742</sib>
+  </branch>
+  <branch>
+    <name>exit</name>
+    <branch>error</branch>
+    <sib>127c60b2-d4e0-42cf-9d51-e37377945c2b</sib>
   </branch>
 </model>

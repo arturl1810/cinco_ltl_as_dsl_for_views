@@ -20,6 +20,7 @@ import mgl.Import;
 import mgl.ModelElement;
 import mgl.Node;
 import mgl.NodeContainer;
+import mgl.ReferencedAttribute;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
@@ -40,6 +41,7 @@ import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.xml.type.internal.RegEx.REUtil;
 
 import style.AbsolutPosition;
 import style.AbstractShape;
@@ -717,6 +719,29 @@ public class ServiceAdapter {
 		if (as instanceof ContainerShape) {
 			for (AbstractShape abstractShape : ((ContainerShape) as).getChildren())
 				getInlineAppearance(abstractShape, list);
+		}
+	}
+
+	public static String computeAttributeLabelSize(
+			LightweightExecutionEnvironment env,
+			ContextKeyFoundation attributes,
+			ContextKeyFoundation width) {
+
+		LightweightExecutionContext context = env.getLocalContext();
+		try {
+			List<Object> attrs = (List<Object>) context.get(attributes);
+			int maxWidth = 0;
+			for (Object a : attrs) {
+				if (a instanceof Attribute)
+					maxWidth = Math.max(((Attribute) a).getName().length() * 8 , maxWidth);
+				if (a instanceof ReferencedAttribute)
+					maxWidth = Math.max(((ReferencedAttribute) a).getName().length() * 8 , maxWidth);
+			}
+			context.put(width, maxWidth);
+			return Branches.DEFAULT;
+		} catch (Exception e) {
+			context.put("exception", e);
+			return Branches.ERROR;
 		}
 	}
 }

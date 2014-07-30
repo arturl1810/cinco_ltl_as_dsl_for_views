@@ -1,5 +1,13 @@
 <serviceAdapters defaultAdapter="de.jabc.cinco.meta.core.ge.style.sibs.adapter.ServiceAdapter">
 	
+	<serviceAdapter uid="ge-util-sibs/ComputeAttributeLabelSize">
+		<service>computeAttributeLabelSize</service>
+		<arguments>
+			<argument name="attributes" />
+			<argument name="width" />
+		</arguments>
+	</serviceAdapter>
+	
 	<serviceAdapter uid="ge-util-sibs/CollectInlineAppearances">
 		<service>collectInlineAppearances</service>
 		<arguments>

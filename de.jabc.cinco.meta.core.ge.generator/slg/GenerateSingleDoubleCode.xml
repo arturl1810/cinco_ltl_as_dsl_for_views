@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>58218bce-14ea-427d-8c72-e67903670e10</id>
   <name>GenerateSingleDoubleCode</name>
-  <changecounter>66</changecounter>
+  <changecounter>73</changecounter>
   <sib>
     <id>07490c72-84c8-4157-9ddc-dafda795be38</id>
     <name>RunStringTemplate</name>
@@ -108,13 +108,12 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
 
 	$context.flAttributeName$Text = factory.createText(composite, &quot;&quot;);
 	data = new FormData();
-        	data.left = new FormAttachment(0, STANDARD_LABEL_WIDTH);
+	data.left = new FormAttachment(0, $context.width$);
 	data.right = new FormAttachment(100, 0);
 	data.top = new FormAttachment(0, ITabbedPropertyConstants.VSPACE);
 	$context.attributeName$Text.setLayoutData(data);
 
 	Label $context.attribute.name$Label = factory.createLabel(composite, &quot;$context.fuAttributeName$:&quot;);
-	$context.attribute.name$Label.setLayoutData(data);
 	data = new FormData();
 	data.left = new FormAttachment(0, 0);
 	data.right = new FormAttachment($context.flAttributeName$Text, -ITabbedPropertyConstants.HSPACE);
@@ -356,13 +355,12 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
 
 	$context.flAttributeName$Text = factory.createText(composite, &quot;&quot;);
 	data = new FormData();
-        	data.left = new FormAttachment(0, STANDARD_LABEL_WIDTH);
+	data.left = new FormAttachment(0, $context.width$);
 	data.right = new FormAttachment(100, 0);
 	data.top = new FormAttachment(0, ITabbedPropertyConstants.VSPACE);
 	$context.attributeName$Text.setLayoutData(data);
 
 	Label $context.attribute.name$Label = factory.createLabel(composite, &quot;$context.fuAttributeName$:&quot;);
-	$context.attribute.name$Label.setLayoutData(data);
 	data = new FormData();
 	data.left = new FormAttachment(0, 0);
 	data.right = new FormAttachment($context.flAttributeName$Text, -ITabbedPropertyConstants.HSPACE);

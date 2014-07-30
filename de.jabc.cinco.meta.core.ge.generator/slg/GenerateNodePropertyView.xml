@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>696c3b21-1096-4b9a-86bd-7456a6b80d52</id>
   <name>GenerateModelElementPropertyView</name>
-  <changecounter>195</changecounter>
+  <changecounter>204</changecounter>
   <sib>
     <id>c215c747-bca3-4fbb-9807-9cd2ab3f1b32</id>
     <name>PutExpression</name>
@@ -124,9 +124,9 @@
   </sib>
   <edge>
     <source>af5be9d1-09d2-446c-9138-1e278f21c25c</source>
-    <target>95cbc564-8964-4143-afc4-80949aa4d365</target>
-    <point>957.0,171.675</point>
-    <point>753.0,171.675</point>
+    <target>f8bbaebb-cc9c-471c-8e66-570ada2132fe</target>
+    <point>1155.0,153.0</point>
+    <point>1155.0,84.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -628,7 +628,7 @@ public class $context.modelElementName$Filter extends AbstractPropertySectionFil
     <label>GenerateSectionCode</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>421.0,783.0</position>
+    <position>421.0,798.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -1282,6 +1282,41 @@ public class $context.modelElementName$TypeClass extends GFPropertySection imple
     <target>fce70437-0fe6-4409-9621-6c5c3dc6eb8d</target>
     <point>555.0,75.0</point>
     <point>456.0,66.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>f8bbaebb-cc9c-471c-8e66-570ada2132fe</id>
+    <name>ComputeAttributeLabelSize</name>
+    <label>ComputeAttributeLabelSize</label>
+    <sib-uid>ge-util-sibs/ComputeAttributeLabelSize</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.ComputeAttributeLabelSize</taxonomy>
+    <position>1075.0,48.0</position>
+    <parameter name="attributes">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>modelElementAttributes</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="width">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>width</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>f8bbaebb-cc9c-471c-8e66-570ada2132fe</source>
+    <target>95cbc564-8964-4143-afc4-80949aa4d365</target>
+    <point>1155.0,75.0</point>
+    <point>973.0,165.0</point>
     <branch>default</branch>
   </edge>
   <parameter>

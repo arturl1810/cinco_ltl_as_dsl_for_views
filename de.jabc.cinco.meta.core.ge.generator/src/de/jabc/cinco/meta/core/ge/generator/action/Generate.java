@@ -134,7 +134,6 @@ public class Generate extends AbstractHandler {
 			String result = tmp.execute(env);
 			if (result.equals("error")) {
 				Exception e = (Exception) context.get("exception");
-				System.out.println("Caught exception: " + e);
 				throw new ExecutionException(e.getMessage());
 			}
 			
