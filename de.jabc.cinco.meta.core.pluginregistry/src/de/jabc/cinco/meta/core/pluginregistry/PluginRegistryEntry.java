@@ -1,6 +1,5 @@
 package de.jabc.cinco.meta.core.pluginregistry;
 
-import java.util.List;
 import java.util.Set;
 
 import org.eclipse.emf.ecore.EPackage;

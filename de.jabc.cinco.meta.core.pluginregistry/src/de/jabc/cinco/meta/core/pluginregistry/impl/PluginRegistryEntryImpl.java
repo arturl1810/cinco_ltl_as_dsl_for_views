@@ -1,12 +1,9 @@
 package de.jabc.cinco.meta.core.pluginregistry.impl;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import org.eclipse.emf.ecore.EPackage;
-
-import com.sun.xml.internal.bind.v2.runtime.RuntimeUtil.ToStringAdapter;
 
 import de.jabc.cinco.meta.core.pluginregistry.IMetaPlugin;
 import de.jabc.cinco.meta.core.pluginregistry.PluginRegistryEntry;
