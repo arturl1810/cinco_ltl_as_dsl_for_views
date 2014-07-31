@@ -6,6 +6,8 @@ import java.util.Set;
 
 import org.eclipse.emf.ecore.EPackage;
 
+import com.sun.xml.internal.bind.v2.runtime.RuntimeUtil.ToStringAdapter;
+
 import de.jabc.cinco.meta.core.pluginregistry.IMetaPlugin;
 import de.jabc.cinco.meta.core.pluginregistry.PluginRegistryEntry;
 //import de.jabc.cinco.meta.core.pluginregistry.service.helper.Service;
@@ -40,41 +42,43 @@ public class PluginRegistryEntryImpl implements PluginRegistryEntry {
 	private Set<String> usedPlugins= new HashSet<String>();
 	private Set<String> mglDependentFragments = new HashSet<String>();
 	private Set<String> usedFragments= new HashSet<String>();
+	private String name = null;
 	
-	public PluginRegistryEntryImpl(IMetaPlugin metaPluginService2){
+	public PluginRegistryEntryImpl(String name, IMetaPlugin metaPluginService2){
 		this.metaPluginService  = metaPluginService2;
+		this.name = name;
 	}
 	
-	public PluginRegistryEntryImpl(IMetaPlugin metaPluginService2, Set<String> recognizedAnnotations){
-		this(metaPluginService2);
+	public PluginRegistryEntryImpl(String name,IMetaPlugin metaPluginService2, Set<String> recognizedAnnotations){
+		this(name, metaPluginService2);
 		this.recognizedAnnotations = recognizedAnnotations;
 	}
 	
-	public PluginRegistryEntryImpl(IMetaPlugin metaPluginService, String recognizedAnnotation){
-		this(metaPluginService);
+	public PluginRegistryEntryImpl(String name, IMetaPlugin metaPluginService, String recognizedAnnotation){
+		this(name,metaPluginService);
 		this.recognizedAnnotations.add(recognizedAnnotation);
 	}
 	
-	public PluginRegistryEntryImpl(IMetaPlugin metaPluginService, Set<String> annotations,
+	public PluginRegistryEntryImpl(String name,IMetaPlugin metaPluginService, Set<String> annotations,
 			EPackage ep,String genModelPath) {
-		this(metaPluginService,annotations);
+		this(name,metaPluginService,annotations);
 		this.usedEPackage = ep;
 		this.genModelPath = genModelPath;
 	}
 	
-	public PluginRegistryEntryImpl(IMetaPlugin metaPluginService, String annotation,
+	public PluginRegistryEntryImpl(String name, IMetaPlugin metaPluginService, String annotation,
 			EPackage ep,String genModelPath) {
-		this(metaPluginService,annotation);
+		this(name,metaPluginService,annotation);
 		this.usedEPackage = ep;
 		this.genModelPath = genModelPath;
 	}
 	
-	public PluginRegistryEntryImpl(IMetaPlugin metaPluginService2,
+	public PluginRegistryEntryImpl(String name,IMetaPlugin metaPluginService2,
 			Set<String> annotations, EPackage ep, String genModelPath,
 			Set<String> nodeAnnotations, Set<String> edgeAnnotations,
 			Set<String> graphModelAnnotations,
 			Set<String> nodeContainerAnnotations, Set<String> typeAnnotations,Set<String> primeAnnotations,Set<String> attributeAnnotations, Set<String> usedPlugins, Set<String> mglDependentPlugins,Set<String> usedFragments, Set<String> mglDependentFragments) {
-		this(metaPluginService2,annotations);
+		this(name,metaPluginService2,annotations);
 		this.usedEPackage = ep;
 		this.genModelPath = genModelPath;
 		this.nodeAnnotations = nodeAnnotations;
@@ -154,10 +158,11 @@ public class PluginRegistryEntryImpl implements PluginRegistryEntry {
 	
 	@Override
 	public String toString() {
-		return "Service: "+this.metaPluginService.getClass().getName()+"\n"+
-				"Recognized Annotations: "+this.recognizedAnnotations+"\n"+
-				"EPackage: "+this.usedEPackage.getNsURI()+"\n"+
-				"GenModelPath: "+this.genModelPath;
+//		return "Service: "+this.metaPluginService.getClass().getName()+"\n"+
+//				"Recognized Annotations: "+this.recognizedAnnotations+"\n"+
+//				"EPackage: "+this.usedEPackage.getNsURI()+"\n"+
+//				"GenModelPath: "+this.genModelPath;
+		return this.name;
 	}
 
 	@Override
@@ -204,6 +209,7 @@ public class PluginRegistryEntryImpl implements PluginRegistryEntry {
 		this.nodeContainerSuperType = superType;
 		
 	}
+	
 
 	public boolean doesRecognizeAnnotation(String annotation, int annotationType) {
 		switch(annotationType){
@@ -264,6 +270,12 @@ public class PluginRegistryEntryImpl implements PluginRegistryEntry {
 	public Set<String> getMGLDependentFragments() {
 		// TODO Auto-generated method stub
 		return this.mglDependentFragments;
+	}
+
+	@Override
+	public String getName() {
+		// TODO Auto-generated method stub
+		return this.name ;
 	}
 	
 

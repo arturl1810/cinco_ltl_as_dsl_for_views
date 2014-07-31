@@ -74,7 +74,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="importURI" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Attribute">
+  <eClassifiers xsi:type="ecore:EClass" name="Attribute" eSuperTypes="#//Annotatable">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="lowerBound" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
@@ -83,8 +83,6 @@
         eType="#//ModelElement" eOpposite="#//ModelElement/attributes"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="unique" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="notChangeable" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="annotations" upperBound="-1"
-        eType="#//Annotation" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="instanceAttribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="defaultValue" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
   </eClassifiers>
@@ -92,16 +90,14 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="literals" upperBound="-1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Type" abstract="true">
+  <eClassifiers xsi:type="ecore:EClass" name="Type" abstract="true" eSuperTypes="#//Annotatable">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="annotations" upperBound="-1"
-        eType="#//Annotation" containment="true" eOpposite="#//Annotation/parent"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="UserDefinedType" eSuperTypes="#//ModelElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="Annotation">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="parent" eType="#//Type"
-        eOpposite="#//Type/annotations"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parent" eType="#//Annotatable"
+        eOpposite="#//Annotatable/annotations"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" unique="false" upperBound="-1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
@@ -149,5 +145,9 @@
   <eClassifiers xsi:type="ecore:EClass" name="ContainingElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="containableElements" upperBound="-1"
         eType="#//GraphicalElementContainment" containment="true" eOpposite="#//GraphicalElementContainment/containingElement"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Annotatable" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="annotations" upperBound="-1"
+        eType="#//Annotation" containment="true" eOpposite="#//Annotation/parent"/>
   </eClassifiers>
 </ecore:EPackage>

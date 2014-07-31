@@ -12,6 +12,7 @@ import de.jabc.cinco.meta.core.pluginregistry.proposalprovider.IMetaPluginAccept
 
 public interface PluginRegistryEntry {
 	
+	public String getName();
 	
 	/**
 	 * 

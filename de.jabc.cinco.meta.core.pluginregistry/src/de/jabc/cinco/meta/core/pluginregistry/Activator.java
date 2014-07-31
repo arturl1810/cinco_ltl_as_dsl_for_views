@@ -230,7 +230,26 @@ public class Activator extends AbstractUIPlugin {
 				
 			}
 			
-			PluginRegistryEntryImpl pEntry = new PluginRegistryEntryImpl(metaPluginService, annotations, ecore, genModelPath,nodeAnnotations,edgeAnnotations,graphModelAnnotations,nodeContainerAnnotations,typeAnnotations,primeAnnotations,attributeAnnotations,usedPlugins,mglDependentPlugins,usedFragments,mglDependentFragments);
+		
+			
+			
+			
+			PluginRegistryEntryImpl pEntry = new PluginRegistryEntryImpl(metaPluginService.getClass().getName(),
+																		 metaPluginService, 
+																		 annotations, 
+																		 ecore, 
+																		 genModelPath,
+																		 nodeAnnotations,
+																		 edgeAnnotations,
+																		 graphModelAnnotations,
+																		 nodeContainerAnnotations,
+																		 typeAnnotations,
+																		 primeAnnotations,
+																		 attributeAnnotations,
+																		 usedPlugins,
+																		 mglDependentPlugins,
+																		 usedFragments,
+																		 mglDependentFragments);
 			pEntry.setEdgeSuperType(edgeSuperType);
 			pEntry.setNodeContainerSuperType(nodeContainerSuperType);
 			pEntry.setNodeSuperType(nodeSuperType);

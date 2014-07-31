@@ -31,40 +31,42 @@ public class StyleValueProposalProvider implements IMetaPluginAcceptor {
 	public List<String> getAcceptedStrings(Annotation annotation) {
 		String annotName = annotation.getName();
 		if ("style".equals(annotName)) {
-			Type type = annotation.getParent();
-			GraphModel gModel = null;
-			if (type instanceof Node)
-				gModel = ((Node) type).getGraphModel();
-			if (type instanceof Edge)
-				gModel = ((Edge) type).getGraphModel();
-			if (type instanceof NodeContainer)
-				gModel = ((NodeContainer) type).getGraphModel();
-			if (type instanceof GraphModel)
-				gModel = (GraphModel) type;
-			
-			for (Annotation annot : gModel.getAnnotations()) {
-				if ("style".equals(annot.getName())) {
-					IPath filePath = new Path(annot.getValue().get(0)); 
-					IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(filePath);
-					
-					if (file == null) 
-						return new ArrayList<String>();
-					URI fileURI = URI.createPlatformResourceURI(filePath.toOSString(), true);
-					Resource res = new ResourceSetImpl().getResource(fileURI, true);
-					if (res == null) {
-						return new ArrayList<String>();
-					}
-					
-					Object o = res.getContents().get(0);
-					if (o instanceof Styles) {
-						ArrayList<String> styleNames = new ArrayList<String>();
-						Styles styles = (Styles) o;
-						for (Style s : styles.getStyles()) {
-							styleNames.add(s.getName());
+			if(annotation.getParent() instanceof Type){
+				Type type = (Type) annotation.getParent();
+				GraphModel gModel = null;
+				if (type instanceof Node)
+					gModel = ((Node) type).getGraphModel();
+				if (type instanceof Edge)
+					gModel = ((Edge) type).getGraphModel();
+				if (type instanceof NodeContainer)
+					gModel = ((NodeContainer) type).getGraphModel();
+				if (type instanceof GraphModel)
+					gModel = (GraphModel) type;
+				
+				for (Annotation annot : gModel.getAnnotations()) {
+					if ("style".equals(annot.getName())) {
+						IPath filePath = new Path(annot.getValue().get(0)); 
+						IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(filePath);
+						
+						if (file == null) 
+							return new ArrayList<String>();
+						URI fileURI = URI.createPlatformResourceURI(filePath.toOSString(), true);
+						Resource res = new ResourceSetImpl().getResource(fileURI, true);
+						if (res == null) {
+							return new ArrayList<String>();
 						}
-						return styleNames;
+						
+						Object o = res.getContents().get(0);
+						if (o instanceof Styles) {
+							ArrayList<String> styleNames = new ArrayList<String>();
+							Styles styles = (Styles) o;
+							for (Style s : styles.getStyles()) {
+								styleNames.add(s.getName());
+							}
+							return styleNames;
+						}
+						
 					}
-					
 				}
 			}
 		}

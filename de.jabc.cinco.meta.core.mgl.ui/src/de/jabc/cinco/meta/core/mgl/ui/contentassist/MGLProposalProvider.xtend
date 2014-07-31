@@ -23,6 +23,7 @@ import mgl.Attribute
 import org.eclipse.xtext.nodemodel.impl.LeafNode
 import org.eclipse.xtext.ui.editor.contentassist.ConfigurableCompletionProposal
 import de.jabc.cinco.meta.core.utils.xtext.ChooseFileTextApplier
+import mgl.Annotatable
 
 /**
  * see http://www.eclipse.org/Xtext/documentation/latest/xtext.html#contentAssist on how to customize content assistant
@@ -50,7 +51,7 @@ class MGLProposalProvider extends AbstractMGLProposalProvider {
 //	}
 	
 	override completeAnnotation_Name(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor){
-		var parent  = null as Type 
+		var parent  = null as Annotatable 
 		if(model instanceof Annotation)
 			parent = (model as Annotation).parent
 		if(parent!=null){

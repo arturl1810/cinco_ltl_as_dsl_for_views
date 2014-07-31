@@ -70,7 +70,6 @@
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference MGL.ecore#//Attribute/modelElement"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGL.ecore#//Attribute/unique"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGL.ecore#//Attribute/notChangeable"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MGL.ecore#//Attribute/annotations"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGL.ecore#//Attribute/instanceAttribute"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGL.ecore#//Attribute/defaultValue"/>
     </genClasses>
@@ -79,7 +78,6 @@
     </genClasses>
     <genClasses image="false" ecoreClass="MGL.ecore#//Type">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGL.ecore#//Type/name"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MGL.ecore#//Type/annotations"/>
     </genClasses>
     <genClasses ecoreClass="MGL.ecore#//UserDefinedType"/>
     <genClasses ecoreClass="MGL.ecore#//Annotation">
@@ -115,6 +113,9 @@
     </genClasses>
     <genClasses ecoreClass="MGL.ecore#//ContainingElement">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MGL.ecore#//ContainingElement/containableElements"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="MGL.ecore#//Annotatable">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MGL.ecore#//Annotatable/annotations"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

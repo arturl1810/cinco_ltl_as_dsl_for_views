@@ -2,13 +2,14 @@ package de.jabc.cinco.meta.plugin.ocl.validation;
 
 import java.util.List;
 
+import mgl.Annotatable;
+import mgl.Annotation;
+
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
 import de.jabc.cinco.meta.core.pluginregistry.validation.ErrorPair;
 import de.jabc.cinco.meta.core.pluginregistry.validation.IMetaPluginValidator;
-import mgl.Annotation;
-import mgl.Type;
 
 public class OCLSyntaxValidator implements IMetaPluginValidator {
 
@@ -25,7 +26,7 @@ public class OCLSyntaxValidator implements IMetaPluginValidator {
 		return null;
 	}
 
-	private String checkConstraint(String constraint, Type parent) {
+	private String checkConstraint(String constraint, Annotatable parent) {
 		// TODO Auto-generated method stub
 		return null;
 	}
