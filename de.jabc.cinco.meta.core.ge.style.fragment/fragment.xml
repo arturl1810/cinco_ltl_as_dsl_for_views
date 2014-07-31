@@ -20,9 +20,6 @@
       <nodecontainer-annotation
             recognized-annotation="style">
       </nodecontainer-annotation>
-      <proposalprovider
-            MetaPluginAcceptor="de.jabc.cinco.meta.core.ge.style.fragment.StyleValueProposalProvider">
-      </proposalprovider>
       <node-annotation
             recognized-annotation="customFeature">
       </node-annotation>
@@ -35,6 +32,12 @@
       <graphmodel-annotation
             recognized-annotation="customFeature">
       </graphmodel-annotation>
+      <attribute-annotation
+            recognized-annotation="multiText">
+      </attribute-annotation>
+      <proposalprovider
+            MetaPluginAcceptor="de.jabc.cinco.meta.core.ge.style.fragment.StyleValueProposalProvider">
+      </proposalprovider>
       <validator
             ValidatorClass="de.jabc.cinco.meta.core.ge.style.fragment.StylesValidator">
       </validator>

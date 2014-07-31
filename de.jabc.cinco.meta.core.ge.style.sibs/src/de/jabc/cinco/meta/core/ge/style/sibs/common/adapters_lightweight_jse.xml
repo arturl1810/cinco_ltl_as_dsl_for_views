@@ -1,5 +1,12 @@
 <serviceAdapters defaultAdapter="de.jabc.cinco.meta.core.ge.style.sibs.adapter.ServiceAdapter">
 	
+	<serviceAdapter uid="ge-util-sibs/IsMultiTextAttribute">
+		<service>isMultiTextAttribute</service>
+		<arguments>
+			<argument name="attribute" />
+		</arguments>
+	</serviceAdapter>
+	
 	<serviceAdapter uid="ge-util-sibs/ComputeAttributeLabelSize">
 		<service>computeAttributeLabelSize</service>
 		<arguments>

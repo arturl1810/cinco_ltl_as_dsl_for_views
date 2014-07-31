@@ -2,43 +2,14 @@
 <model version="2.1">
   <id>58218bce-14ea-427d-8c72-e67903670e10</id>
   <name>GenerateSingleDoubleCode</name>
-  <changecounter>73</changecounter>
-  <sib>
-    <id>07490c72-84c8-4157-9ddc-dafda795be38</id>
-    <name>RunStringTemplate</name>
-    <label>GenRefreshCode</label>
-    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
-    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>632.5,138.0</position>
-    <parameter name="append">
-      <boolean>false</boolean>
-    </parameter>
-    <parameter name="individualVariables">
-      <boolean>false</boolean>
-    </parameter>
-    <parameter name="result">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>refreshCode</key>
-          <scope>PARENT</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="template">
-      <string>$context.flAttributeName$Text.setText(String.valueOf(tmp.get$context.fuAttributeName$()));
-$context.flAttributeName$Text.setSelection($context.flAttributeName$Text.getText().length());</string>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-  </sib>
+  <changecounter>82</changecounter>
   <sib>
     <id>04e295fe-943a-4974-80d0-c5dbe081048d</id>
     <name>RunStringTemplate_1</name>
     <label>GenChangeValue</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>481.0,138.0</position>
+    <position>736.0,78.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -73,85 +44,12 @@ if (tmp instanceof $context.modelElementName$) {
     <finalbranches>error</finalbranches>
   </sib>
   <sib>
-    <id>7f1585b8-9960-4d85-95a1-0f4af29f5ff3</id>
-    <name>RunStringTemplate_2</name>
-    <label>GenControl</label>
-    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
-    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>290.0,138.0</position>
-    <parameter name="append">
-      <boolean>false</boolean>
-    </parameter>
-    <parameter name="individualVariables">
-      <boolean>false</boolean>
-    </parameter>
-    <parameter name="result">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>controlCode</key>
-          <scope>PARENT</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="template">
-      <string>private Text $context.flAttributeName$Text;
-private Object oldVal;
-	
-@Override
-public void createControls(Composite parent, TabbedPropertySheetPage tabbedPropertySheetPage) {
-	super.createControls(parent, tabbedPropertySheetPage);
-	TabbedPropertySheetWidgetFactory factory = getWidgetFactory();
-	Composite composite = factory.createFlatFormComposite(parent);
-	
-	FormData data;
-
-	$context.flAttributeName$Text = factory.createText(composite, &quot;&quot;);
-	data = new FormData();
-	data.left = new FormAttachment(0, $context.width$);
-	data.right = new FormAttachment(100, 0);
-	data.top = new FormAttachment(0, ITabbedPropertyConstants.VSPACE);
-	$context.attributeName$Text.setLayoutData(data);
-
-	Label $context.attribute.name$Label = factory.createLabel(composite, &quot;$context.fuAttributeName$:&quot;);
-	data = new FormData();
-	data.left = new FormAttachment(0, 0);
-	data.right = new FormAttachment($context.flAttributeName$Text, -ITabbedPropertyConstants.HSPACE);
-	data.top = new FormAttachment($context.flAttributeName$Text, 0, SWT.CENTER);
-	$context.attributeName$Label.setLayoutData(data);
-
-	$context.attributeName$Text.addTraverseListener(traverseListener);
-	$context.attributeName$Text.addVerifyListener(verifyListener);
-	$context.attributeName$Text.addFocusListener(focusListener);
-}
-</string>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-  </sib>
-  <edge>
-    <source>7f1585b8-9960-4d85-95a1-0f4af29f5ff3</source>
-    <target>04e295fe-943a-4974-80d0-c5dbe081048d</target>
-    <point>345.0,150.0</point>
-    <point>540.0,150.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
-  <edge>
-    <source>04e295fe-943a-4974-80d0-c5dbe081048d</source>
-    <target>07490c72-84c8-4157-9ddc-dafda795be38</target>
-    <point>540.0,150.0</point>
-    <point>705.0,150.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
-  <sib>
     <id>c05042d1-48b7-4546-b768-c37cc024b65f</id>
     <name>RunStringTemplate_3</name>
     <label>GenListenerCode</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>811.0,138.0</position>
+    <position>301.0,183.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -249,44 +147,13 @@ FocusListener focusListener = new FocusListener() {
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
   </sib>
-  <edge>
-    <source>07490c72-84c8-4157-9ddc-dafda795be38</source>
-    <target>c05042d1-48b7-4546-b768-c37cc024b65f</target>
-    <point>705.0,150.0</point>
-    <point>870.0,150.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
-  <sib>
-    <id>132b4ad6-e767-4ce9-a3eb-97b84b40c6f6</id>
-    <name>EvaluateBoolean</name>
-    <label>EvaluateBoolean</label>
-    <sib-uid>basic-sibs/EvaluateBoolean</sib-uid>
-    <taxonomy>de.jabc.sib.common.basic.EvaluateBoolean</taxonomy>
-    <position>151.5,243.0</position>
-    <parameter name="bool">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>isPrimeRef</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>error</finalbranches>
-    <finalbranches>false</finalbranches>
-    <finalbranches>true</finalbranches>
-    <userobject key="ABC$START">
-      <boolean>true</boolean>
-    </userobject>
-  </sib>
   <sib>
     <id>6c60203e-599d-4714-8604-4fa507925954</id>
     <name>RunStringTemplate_4</name>
     <label>GenRefreshCode</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>467.5,363.0</position>
+    <position>932.5,303.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -326,7 +193,7 @@ $context.flAttributeName$Text.setText(value + &quot;&quot;);</string>
     <label>GenControl</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>290.0,363.0</position>
+    <position>755.0,303.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -376,40 +243,392 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
   </sib>
+  <sib>
+    <id>9ae8b1c2-00f1-46bf-a54c-b198ed51fdc7</id>
+    <name>RunStringTemplate_5</name>
+    <label>GenRefreshCode</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>932.5,78.0</position>
+    <parameter name="append">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>refreshCode</key>
+          <scope>PARENT</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>$context.flAttributeName$Text.setText(String.valueOf(tmp.get$context.fuAttributeName$()));
+$context.flAttributeName$Text.setSelection($context.flAttributeName$Text.getText().length());</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>7c4bc52e-5fa5-4422-a68e-c4620031c738</id>
+    <name>RunStringTemplate_8</name>
+    <label>GenControl</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>200.0,273.0</position>
+    <parameter name="append">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>controlCode</key>
+          <scope>PARENT</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>private Text $context.flAttributeName$Text;
+private Object oldVal;
+	
+@Override
+public void createControls(Composite parent, TabbedPropertySheetPage tabbedPropertySheetPage) {
+	super.createControls(parent, tabbedPropertySheetPage);
+	TabbedPropertySheetWidgetFactory factory = getWidgetFactory();
+	Composite composite = factory.createFlatFormComposite(parent);
+
+	FormData data;
+
+	$context.flAttributeName$Text = factory.createText(composite, &quot;&quot;);
+	data = new FormData();
+	data.left = new FormAttachment(0, $context.width$);
+	data.right = new FormAttachment(100, 0);
+	data.top = new FormAttachment(0, ITabbedPropertyConstants.VSPACE);
+	$context.attributeName$Text.setLayoutData(data);
+
+	Label $context.attribute.name$Label = factory.createLabel(composite, &quot;$context.fuAttributeName$:&quot;);
+	data = new FormData();
+	data.left = new FormAttachment(0, 0);
+	data.right = new FormAttachment($context.flAttributeName$Text, -ITabbedPropertyConstants.HSPACE);
+	data.top = new FormAttachment($context.flAttributeName$Text, 0, SWT.CENTER);
+	$context.attributeName$Label.setLayoutData(data);
+
+	$context.attributeName$Text.addTraverseListener(traverseListener);
+	$context.attributeName$Text.addVerifyListener(verifyListener);
+	$context.attributeName$Text.addFocusListener(focusListener);
+}
+</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
   <edge>
-    <source>b4f6df94-e7cb-4a21-bb77-82d8536fd5a9</source>
-    <target>6c60203e-599d-4714-8604-4fa507925954</target>
-    <point>300.0,345.0</point>
-    <point>465.0,345.0</point>
+    <source>7c4bc52e-5fa5-4422-a68e-c4620031c738</source>
+    <target>c05042d1-48b7-4546-b768-c37cc024b65f</target>
+    <point>244.0,307.0</point>
+    <point>364.0,217.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
-    <source>132b4ad6-e767-4ce9-a3eb-97b84b40c6f6</source>
-    <target>b4f6df94-e7cb-4a21-bb77-82d8536fd5a9</target>
-    <point>195.0,255.0</point>
-    <point>300.0,345.0</point>
+    <source>04e295fe-943a-4974-80d0-c5dbe081048d</source>
+    <target>9ae8b1c2-00f1-46bf-a54c-b198ed51fdc7</target>
+    <point>799.0,112.0</point>
+    <point>994.0,112.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>d09ca11c-b3d2-412e-9e6b-5aa702e9d79c</source>
+    <target>04e295fe-943a-4974-80d0-c5dbe081048d</target>
+    <point>499.0,217.0</point>
+    <point>799.0,112.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>false</branch>
+  </edge>
+  <sib>
+    <id>d09ca11c-b3d2-412e-9e6b-5aa702e9d79c</id>
+    <name>EvaluateBoolean_1</name>
+    <label>isPrimeRef</label>
+    <sib-uid>basic-sibs/EvaluateBoolean</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.EvaluateBoolean</taxonomy>
+    <position>457.0,183.0</position>
+    <parameter name="bool">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>isPrimeRef</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>false</finalbranches>
+    <finalbranches>true</finalbranches>
+  </sib>
+  <sib>
+    <id>16eaf465-c14e-445e-8150-f6355121fa62</id>
+    <name>EvaluateBoolean_2</name>
+    <label>isPrimeRefParam</label>
+    <sib-uid>basic-sibs/EvaluateBoolean</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.EvaluateBoolean</taxonomy>
+    <position>587.0,183.0</position>
+    <parameter name="bool">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>isPrimeRefParameter</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>false</finalbranches>
+    <finalbranches>true</finalbranches>
+  </sib>
+  <edge>
+    <source>d09ca11c-b3d2-412e-9e6b-5aa702e9d79c</source>
+    <target>16eaf465-c14e-445e-8150-f6355121fa62</target>
+    <point>499.0,217.0</point>
+    <point>649.0,217.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>true</branch>
   </edge>
   <edge>
-    <source>132b4ad6-e767-4ce9-a3eb-97b84b40c6f6</source>
-    <target>7f1585b8-9960-4d85-95a1-0f4af29f5ff3</target>
-    <point>195.0,255.0</point>
-    <point>330.0,150.0</point>
+    <source>16eaf465-c14e-445e-8150-f6355121fa62</source>
+    <target>1e83bce9-50b7-41b4-ba9a-7d7f8860d78c</target>
+    <point>649.0,217.0</point>
+    <point>799.0,217.0</point>
+    <labelposition>589.2775765252923,0.7330727315719573</labelposition>
+    <branch>true</branch>
+  </edge>
+  <edge>
+    <source>16eaf465-c14e-445e-8150-f6355121fa62</source>
+    <target>b4f6df94-e7cb-4a21-bb77-82d8536fd5a9</target>
+    <point>649.0,217.0</point>
+    <point>799.0,337.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>false</branch>
   </edge>
+  <edge>
+    <source>b4f6df94-e7cb-4a21-bb77-82d8536fd5a9</source>
+    <target>6c60203e-599d-4714-8604-4fa507925954</target>
+    <point>799.0,337.0</point>
+    <point>994.0,337.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>1e83bce9-50b7-41b4-ba9a-7d7f8860d78c</id>
+    <name>RunStringTemplate_13</name>
+    <label>GenChangeValue</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>736.0,183.0</position>
+    <parameter name="append">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>changeValueCode</key>
+          <scope>PARENT</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>PictogramElement pe = getSelectedPictogramElement();
+if (pe == null)
+	return;
+
+EObject bo = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
+if (bo instanceof $context.modelElementName$) {
+	$context.modelElementName$ tmp = ($context.modelElementName$) bo;
+	try {
+		if (tmp.get$context.fuAttributeName$Parameter().get(0) != null)
+			tmp.get$context.fuAttributeName$Parameter().get(0).setInstance(Integer.valueOf($context.flAttributeName$Text.getText()));
+		
+	} catch (NumberFormatException e) {
+		tmp.get$context.fuAttributeName$Parameter().get(0).setInstance(0);	
+	}
+}
+</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>1e83bce9-50b7-41b4-ba9a-7d7f8860d78c</source>
+    <target>463342ce-9115-4b19-962c-9a58bf8e2bee</target>
+    <point>799.0,217.0</point>
+    <point>994.0,217.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>c05042d1-48b7-4546-b768-c37cc024b65f</source>
+    <target>d09ca11c-b3d2-412e-9e6b-5aa702e9d79c</target>
+    <point>364.0,217.0</point>
+    <point>499.0,217.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>463342ce-9115-4b19-962c-9a58bf8e2bee</id>
+    <name>RunStringTemplate_14</name>
+    <label>GenRefreshCode</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>932.5,183.0</position>
+    <parameter name="append">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>refreshCode</key>
+          <scope>PARENT</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>$context.fuModelElementName$ $context.flModelElementName$ = null;
+PictogramElement pe = getSelectedPictogramElement();
+if (pe != null) {
+	bo = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
+}
+if (bo instanceof $context.fuModelElementName$)
+	$context.flModelElementName$ = ($context.fuModelElementName$) bo;
+else return;
+Object value = $context.flModelElementName$.get$context.fuAttributeName$Parameter().get(0).getInstance();
+if (value != null)
+	$context.flAttributeName$Text.setText(value + &quot;&quot;);
+$context.flAttributeName$Text.setSelection($context.flAttributeName$Text.getText().length());</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>e7139e20-f1cb-4b6d-bdd5-39c9f4b18557</id>
+    <name>EvaluateBoolean_3</name>
+    <label>IsMultiTextAttribute</label>
+    <sib-uid>basic-sibs/EvaluateBoolean</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.EvaluateBoolean</taxonomy>
+    <position>82.5,183.0</position>
+    <parameter name="bool">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>multiText</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>false</finalbranches>
+    <finalbranches>true</finalbranches>
+    <userobject key="ABC$START">
+      <boolean>true</boolean>
+    </userobject>
+  </sib>
+  <edge>
+    <source>e7139e20-f1cb-4b6d-bdd5-39c9f4b18557</source>
+    <target>f6cf0c75-5064-47fb-8808-82227dc782f0</target>
+    <point>154.0,217.0</point>
+    <point>244.0,142.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>true</branch>
+  </edge>
+  <edge>
+    <source>e7139e20-f1cb-4b6d-bdd5-39c9f4b18557</source>
+    <target>7c4bc52e-5fa5-4422-a68e-c4620031c738</target>
+    <point>154.0,217.0</point>
+    <point>244.0,307.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>false</branch>
+  </edge>
+  <sib>
+    <id>f6cf0c75-5064-47fb-8808-82227dc782f0</id>
+    <name>RunStringTemplate_15</name>
+    <label>GenControl</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>200.0,108.0</position>
+    <parameter name="append">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>controlCode</key>
+          <scope>PARENT</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>private Text $context.flAttributeName$Text;
+private Object oldVal;
+	
+@Override
+public void createControls(Composite parent, TabbedPropertySheetPage tabbedPropertySheetPage) {
+	super.createControls(parent, tabbedPropertySheetPage);
+	TabbedPropertySheetWidgetFactory factory = getWidgetFactory();
+	Composite composite = factory.createFlatFormComposite(parent);
+
+	FormData data;
+
+	$context.flAttributeName$Text = factory.createText(composite, &quot;&quot;, SWT.MULTI | SWT.V_SCROLL);
+	data = new FormData();
+	data.left = new FormAttachment(0, $context.width$);
+	data.right = new FormAttachment(100, 0);
+	data.top = new FormAttachment(0, ITabbedPropertyConstants.VSPACE);
+	data.bottom = new FormAttachment(0, 80);
+	$context.attributeName$Text.setLayoutData(data);
+
+	Label $context.attribute.name$Label = factory.createLabel(composite, &quot;$context.fuAttributeName$:&quot;);
+	data = new FormData();
+	data.left = new FormAttachment(0, 0);
+	data.right = new FormAttachment($context.flAttributeName$Text, -ITabbedPropertyConstants.HSPACE);
+	data.top = new FormAttachment($context.flAttributeName$Text, 0, SWT.TOP);
+	$context.attributeName$Label.setLayoutData(data);
+
+	$context.attributeName$Text.addTraverseListener(traverseListener);
+	$context.attributeName$Text.addVerifyListener(verifyListener);
+	$context.attributeName$Text.addFocusListener(focusListener);
+}
+</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>f6cf0c75-5064-47fb-8808-82227dc782f0</source>
+    <target>c05042d1-48b7-4546-b768-c37cc024b65f</target>
+    <point>244.0,142.0</point>
+    <point>364.0,217.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
   <values/>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>132b4ad6-e767-4ce9-a3eb-97b84b40c6f6</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>7f1585b8-9960-4d85-95a1-0f4af29f5ff3</sib>
-  </branch>
   <branch>
     <name>error</name>
     <branch>error</branch>
@@ -418,16 +637,6 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
   <branch>
     <name>error</name>
     <branch>error</branch>
-    <sib>07490c72-84c8-4157-9ddc-dafda795be38</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>c05042d1-48b7-4546-b768-c37cc024b65f</sib>
-  </branch>
-  <branch>
-    <name>default</name>
-    <branch>default</branch>
     <sib>c05042d1-48b7-4546-b768-c37cc024b65f</sib>
   </branch>
   <branch>
@@ -444,5 +653,55 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
     <name>default</name>
     <branch>default</branch>
     <sib>6c60203e-599d-4714-8604-4fa507925954</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>e7139e20-f1cb-4b6d-bdd5-39c9f4b18557</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>f6cf0c75-5064-47fb-8808-82227dc782f0</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>7c4bc52e-5fa5-4422-a68e-c4620031c738</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>d09ca11c-b3d2-412e-9e6b-5aa702e9d79c</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>16eaf465-c14e-445e-8150-f6355121fa62</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>9ae8b1c2-00f1-46bf-a54c-b198ed51fdc7</sib>
+  </branch>
+  <branch>
+    <name>default</name>
+    <branch>default</branch>
+    <sib>9ae8b1c2-00f1-46bf-a54c-b198ed51fdc7</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>463342ce-9115-4b19-962c-9a58bf8e2bee</sib>
+  </branch>
+  <branch>
+    <name>default</name>
+    <branch>default</branch>
+    <sib>463342ce-9115-4b19-962c-9a58bf8e2bee</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>1e83bce9-50b7-41b4-ba9a-7d7f8860d78c</sib>
   </branch>
 </model>

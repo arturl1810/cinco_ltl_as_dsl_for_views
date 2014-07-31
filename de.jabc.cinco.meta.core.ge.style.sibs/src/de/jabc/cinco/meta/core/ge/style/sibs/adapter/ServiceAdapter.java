@@ -737,8 +737,26 @@ public class ServiceAdapter {
 				if (a instanceof ReferencedAttribute)
 					maxWidth = Math.max(((ReferencedAttribute) a).getName().length() * 8 , maxWidth);
 			}
+			maxWidth = Math.max(maxWidth, 90);
 			context.put(width, maxWidth);
 			return Branches.DEFAULT;
+		} catch (Exception e) {
+			context.put("exception", e);
+			return Branches.ERROR;
+		}
+	}
+
+	public static String isMultiTextAttribute(
+			LightweightExecutionEnvironment env,
+			ContextKeyFoundation attribute) {
+		LightweightExecutionContext context = env.getLocalContext();
+		try {
+			Attribute attr = (Attribute) context.get(attribute);
+			for (Annotation a : attr.getAnnotations())
+				if ("multiText".equals(a.getName()))
+					return Branches.TRUE;
+			
+			return Branches.FALSE;
 		} catch (Exception e) {
 			context.put("exception", e);
 			return Branches.ERROR;
