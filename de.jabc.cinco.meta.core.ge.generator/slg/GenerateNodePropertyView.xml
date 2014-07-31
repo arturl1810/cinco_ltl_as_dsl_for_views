@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>696c3b21-1096-4b9a-86bd-7456a6b80d52</id>
   <name>GenerateModelElementPropertyView</name>
-  <changecounter>219</changecounter>
+  <changecounter>223</changecounter>
   <sib>
     <id>c215c747-bca3-4fbb-9807-9cd2ab3f1b32</id>
     <name>PutExpression</name>
@@ -360,7 +360,7 @@ public class $context.modelElementName$Filter extends AbstractPropertySectionFil
   </sib>
   <edge>
     <source>fc305a02-217e-42f8-bc1d-96ce113fe89e</source>
-    <target>8f170c50-6b74-44a3-83a5-cfee2059b234</target>
+    <target>6efc0854-274b-42c3-94d3-2cd46148b9ce</target>
     <point>417.0,166.2</point>
     <point>318.0,133.2</point>
     <labelposition>500.0,0.0</labelposition>
@@ -1290,7 +1290,7 @@ public class $context.modelElementName$TypeClass extends GFPropertySection imple
     <label>ComputeAttributeLabelSize</label>
     <sib-uid>ge-util-sibs/ComputeAttributeLabelSize</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.ComputeAttributeLabelSize</taxonomy>
-    <position>1075.0,48.0</position>
+    <position>1063.5,48.0</position>
     <parameter name="attributes">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1320,26 +1320,6 @@ public class $context.modelElementName$TypeClass extends GFPropertySection imple
     <branch>default</branch>
   </edge>
   <sib>
-    <id>8f170c50-6b74-44a3-83a5-cfee2059b234</id>
-    <name>IsMultiTextAttribute</name>
-    <label>IsMultiTextAttribute</label>
-    <sib-uid>ge-util-sibs/IsMultiTextAttribute</sib-uid>
-    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsMultiTextAttribute</taxonomy>
-    <position>232.5,153.0</position>
-    <parameter name="attribute">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>attribute</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>error</finalbranches>
-    <finalbranches>false</finalbranches>
-    <finalbranches>true</finalbranches>
-  </sib>
-  <sib>
     <id>3a1a51f4-b103-4d5c-a457-cd40f4c7bc22</id>
     <name>PutBoolean_1</name>
     <label>PutBoolean</label>
@@ -1362,7 +1342,7 @@ public class $context.modelElementName$TypeClass extends GFPropertySection imple
     <finalbranches>error</finalbranches>
   </sib>
   <edge>
-    <source>8f170c50-6b74-44a3-83a5-cfee2059b234</source>
+    <source>6efc0854-274b-42c3-94d3-2cd46148b9ce</source>
     <target>3a1a51f4-b103-4d5c-a457-cd40f4c7bc22</target>
     <point>315.0,180.0</point>
     <point>254.0,77.0</point>
@@ -1377,7 +1357,7 @@ public class $context.modelElementName$TypeClass extends GFPropertySection imple
     <branch>default</branch>
   </edge>
   <edge>
-    <source>8f170c50-6b74-44a3-83a5-cfee2059b234</source>
+    <source>6efc0854-274b-42c3-94d3-2cd46148b9ce</source>
     <target>5bcac3bd-a611-4b3b-8b8a-e20cf28ab62a</target>
     <point>282.0,184.8</point>
     <point>228.0,220.8</point>
@@ -1413,6 +1393,26 @@ public class $context.modelElementName$TypeClass extends GFPropertySection imple
     <point>125.0,173.0</point>
     <branch>default</branch>
   </edge>
+  <sib>
+    <id>6efc0854-274b-42c3-94d3-2cd46148b9ce</id>
+    <name>IsMultiTextAttribute</name>
+    <label>IsMultiTextAttribute</label>
+    <sib-uid>ge-util-sibs/IsMultiLineAttribute</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsMultiLineAttribute</taxonomy>
+    <position>232.5,153.0</position>
+    <parameter name="attribute">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>attribute</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>false</finalbranches>
+    <finalbranches>true</finalbranches>
+  </sib>
   <parameter>
     <name>modelElementKey</name>
     <field>modelElementKey</field>
@@ -1608,16 +1608,21 @@ public class $context.modelElementName$TypeClass extends GFPropertySection imple
   <branch>
     <name>error</name>
     <branch>error</branch>
-    <sib>8f170c50-6b74-44a3-83a5-cfee2059b234</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
     <sib>3a1a51f4-b103-4d5c-a457-cd40f4c7bc22</sib>
   </branch>
   <branch>
     <name>error</name>
     <branch>error</branch>
     <sib>5bcac3bd-a611-4b3b-8b8a-e20cf28ab62a</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>6efc0854-274b-42c3-94d3-2cd46148b9ce</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>f8bbaebb-cc9c-471c-8e66-570ada2132fe</sib>
   </branch>
 </model>

@@ -238,7 +238,7 @@ public class ServiceAdapter {
 				}
 			}
 			System.out.println("Throwing exception");
-			context.putGlobally("exception", new Exception("No file found at given path: " + p));
+			context.put("exception", new Exception("No file found at given path: " + p));
 			return Branches.ERROR;
 			
 		} catch (Exception e) {
@@ -746,14 +746,14 @@ public class ServiceAdapter {
 		}
 	}
 
-	public static String isMultiTextAttribute(
+	public static String isMultiLineAttribute(
 			LightweightExecutionEnvironment env,
 			ContextKeyFoundation attribute) {
 		LightweightExecutionContext context = env.getLocalContext();
 		try {
 			Attribute attr = (Attribute) context.get(attribute);
 			for (Annotation a : attr.getAnnotations())
-				if ("multiText".equals(a.getName()))
+				if ("multiLine".equals(a.getName()))
 					return Branches.TRUE;
 			
 			return Branches.FALSE;

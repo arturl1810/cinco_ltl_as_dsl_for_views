@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>6830c0f3-7532-49ad-ad67-7fb466c9d0a9</id>
   <name>GenerateToolBehaviourProvider</name>
-  <changecounter>90</changecounter>
+  <changecounter>92</changecounter>
   <sib>
     <id>c8e21300-66b5-43fa-a031-ae9d0f22cbf2</id>
     <name>PutExpression</name>
@@ -412,7 +412,7 @@ public class $context.fuGraphModelName$ToolBehaviourProvider extends DefaultTool
     <label>containersOnly</label>
     <sib-uid>basic-sibs/EvaluateBoolean</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.EvaluateBoolean</taxonomy>
-    <position>253.5,168.0</position>
+    <position>247.5,168.0</position>
     <parameter name="bool">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -521,5 +521,10 @@ public class $context.fuGraphModelName$ToolBehaviourProvider extends DefaultTool
     <name>error</name>
     <branch>error</branch>
     <sib>35054b54-272a-45f5-8f21-166e90546c22</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>96734170-3cc8-45e1-ac1b-cc8043c0f2e2</sib>
   </branch>
 </model>

@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>86742e86-2110-423a-afde-6fd521759a73</id>
   <name>GraphInformation</name>
-  <changecounter>682</changecounter>
+  <changecounter>684</changecounter>
   <sib>
     <id>9e28dbf6-7ef4-4eef-9ad3-1d0d32bf6020</id>
     <name>GetGraphModelName</name>
@@ -2367,7 +2367,7 @@ ${inlineAppearances}</expression>
     <label>PutList</label>
     <sib-uid>collection-sibs/PutList</sib-uid>
     <taxonomy>de.jabc.sib.common.collection.PutList</taxonomy>
-    <position>487.0,1878.0</position>
+    <position>484.0,1878.0</position>
     <parameter name="elements">
       <list/>
     </parameter>
@@ -2871,5 +2871,10 @@ ${inlineAppearances}</expression>
     <name>error</name>
     <branch>error</branch>
     <sib>f44560d3-54db-4b67-b9c7-59ef89937ccd</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>44915b80-c792-404b-aedf-821e2e0a60e2</sib>
   </branch>
 </model>

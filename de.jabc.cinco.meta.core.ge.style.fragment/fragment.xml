@@ -33,7 +33,7 @@
             recognized-annotation="customFeature">
       </graphmodel-annotation>
       <attribute-annotation
-            recognized-annotation="multiText">
+            recognized-annotation="multiLine">
       </attribute-annotation>
       <proposalprovider
             MetaPluginAcceptor="de.jabc.cinco.meta.core.ge.style.fragment.StyleValueProposalProvider">
