@@ -2,12 +2,18 @@ package de.jabc.cinco.meta.core.ui.handlers;
 
 
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.Command;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -58,11 +64,21 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 				
 			}
 		}catch(Exception e1){
-			StringBuilder builder = new StringBuilder();
-			StackTraceElement[] trace = null;
+
+			StringWriter sw = new StringWriter();
+			PrintWriter pw = new PrintWriter(sw);
+			e1.printStackTrace(pw);
 			
-			IStatus status = new Status(Status.ERROR,event.getTrigger().getClass().getCanonicalName(),builder.toString(),e1);
-			ErrorDialog.openError(HandlerUtil.getActiveShell(event), "Error in Cinco Product Generation", "An error occured during generation: ", status);
+			List<Status> children = new ArrayList<>();
+			
+			String pluginId = event.getTrigger().getClass().getCanonicalName();
+			for (String line : sw.toString().split(System.lineSeparator())) {
+				Status status = new Status(IStatus.ERROR, pluginId, line);
+				children.add(status);
+			}
+			
+			MultiStatus mstat = new MultiStatus(pluginId, IStatus.ERROR, children.toArray(new IStatus[children.size()]), e1.getLocalizedMessage(), e1);
+			ErrorDialog.openError(HandlerUtil.getActiveShell(event), "Error in Cinco Product Generation", "An error occured during generation: ", mstat);
 			
 			e1.printStackTrace();
 		}
