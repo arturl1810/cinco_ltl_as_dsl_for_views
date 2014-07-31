@@ -182,7 +182,7 @@ public class StylesValidator implements IMetaPluginValidator {
 			value = ((MultiText) main).getValue();
 			int i = 0;
 			for (char s : value.toCharArray()) {
-				if ("%".equals(s))
+				if ('%' == s)
 					i++;
 			}
 			return i;
