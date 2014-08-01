@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>5f357517-18d4-4780-adc3-30879fedbfb1</id>
   <name>GenerateFeatureProvider</name>
-  <changecounter>583</changecounter>
+  <changecounter>591</changecounter>
   <sib>
     <id>23fb1326-f00d-4e42-845a-cdf6492fc417</id>
     <name>PutExpression</name>
@@ -459,10 +459,8 @@ public class $context.graphModelName$FeatureProvider extends DefaultFeatureProvi
 
 	@Override
 	public IReconnectionFeature getReconnectionFeature(IReconnectionContext context) {
-		Object o = getBusinessObjectForPictogramElement(context.getConnection());
-		if (o instanceof Edge) {
-			return new ReconnectEdgeFeature(this);
-		}
+		Object bo = getBusinessObjectForPictogramElement(context.getConnection());
+		$context.getReconnectEdgeFeatureIfBlock$
 		return super.getReconnectionFeature(context);
 	}
 
@@ -1586,9 +1584,10 @@ if (bo instanceof $context.node.name$)
   </sib>
   <edge>
     <source>62faf109-2200-4db0-8b5a-a7bf59e2c36e</source>
-    <target>7ee3c945-ffd4-41eb-b9a0-52c8957dd660</target>
-    <point>1095.0,345.0</point>
-    <point>892.0,164.0</point>
+    <target>f6596603-b7a5-436f-8b42-fa31179480eb</target>
+    <point>1140.0,318.0</point>
+    <point>1140.0,234.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
@@ -1780,6 +1779,43 @@ if (bo instanceof $context.node.name$)
     <point>915.0,345.0</point>
     <point>904.0,159.0</point>
     <branch>false</branch>
+  </edge>
+  <sib>
+    <id>f6596603-b7a5-436f-8b42-fa31179480eb</id>
+    <name>RunStringTemplate_19</name>
+    <label>GetReconnectEdgeFeatureIfBlock</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>1028.5,213.0</position>
+    <parameter name="append">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>getReconnectEdgeFeatureIfBlock</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>if (bo instanceof $context.edge.name$)
+	return new Reconnect$context.edge.name$Feature(this);
+</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>f6596603-b7a5-436f-8b42-fa31179480eb</source>
+    <target>7ee3c945-ffd4-41eb-b9a0-52c8957dd660</target>
+    <point>1140.0,255.0</point>
+    <point>918.0,171.0</point>
+    <branch>default</branch>
   </edge>
   <values/>
   <branch>
@@ -1991,5 +2027,10 @@ if (bo instanceof $context.node.name$)
     <name>error</name>
     <branch>error</branch>
     <sib>3c46a953-efeb-4f8e-9bbe-09644dfe3c3f</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>f6596603-b7a5-436f-8b42-fa31179480eb</sib>
   </branch>
 </model>

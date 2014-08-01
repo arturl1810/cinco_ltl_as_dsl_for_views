@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>67c297f2-05a9-4896-8e73-7a7c57da4ed6</id>
   <name>GenerateEdgeCode</name>
-  <changecounter>234</changecounter>
+  <changecounter>264</changecounter>
   <sib>
     <id>e0fc67d6-ab7c-486f-9b23-5ad4ffd7f80d</id>
     <name>CopyElement</name>
@@ -84,7 +84,7 @@
     <label>IterateElements</label>
     <sib-uid>collection-sibs/IterateElements</sib-uid>
     <taxonomy>de.jabc.sib.common.collection.IterateElements</taxonomy>
-    <position>80.0,288.0</position>
+    <position>80.0,423.0</position>
     <parameter name="collection">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -118,9 +118,10 @@
   </sib>
   <edge>
     <source>f720efb0-bcf9-40ef-aad5-cf1212b9f06f</source>
-    <target>60624706-761a-4f3f-a0c6-8f90c8c1011d</target>
-    <point>135.0,195.0</point>
-    <point>133.0,327.0</point>
+    <target>50c701f4-4295-4c81-b0d8-579d5b2e1135</target>
+    <point>153.0,186.9</point>
+    <point>297.0,186.9</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
@@ -129,7 +130,7 @@
     <label>GenerateEdgeSourceCode</label>
     <sib-uid>ge-util-sibs/GenerateEdgeSourceCode</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.GenerateEdgeSourceCode</taxonomy>
-    <position>182.0,408.0</position>
+    <position>182.0,543.0</position>
     <parameter name="code">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -154,8 +155,9 @@
   <edge>
     <source>60624706-761a-4f3f-a0c6-8f90c8c1011d</source>
     <target>40855f3b-9800-4ee1-84f5-53479303a5a5</target>
-    <point>135.0,315.0</point>
-    <point>132.0,431.0</point>
+    <point>135.0,450.0</point>
+    <point>270.0,570.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>next</branch>
   </edge>
   <sib>
@@ -164,7 +166,7 @@
     <label>EdgeSourceCode</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>211.5,288.0</position>
+    <position>211.5,423.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -190,15 +192,16 @@
   <edge>
     <source>40855f3b-9800-4ee1-84f5-53479303a5a5</source>
     <target>0e63095f-fc0e-4d12-8cb8-c99665b47270</target>
-    <point>135.0,435.0</point>
-    <point>274.0,433.0</point>
+    <point>270.0,570.0</point>
+    <point>270.0,450.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
     <source>0e63095f-fc0e-4d12-8cb8-c99665b47270</source>
     <target>60624706-761a-4f3f-a0c6-8f90c8c1011d</target>
-    <point>282.0,320.3454545454546</point>
-    <point>153.0,308.6181818181818</point>
+    <point>270.0,450.0</point>
+    <point>135.0,450.0</point>
     <labelposition>551.2820512820513,-4.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -208,7 +211,7 @@
     <label>GetEdgeTargetElementConnections</label>
     <sib-uid>ge-util-sibs/GetEdgeTargetElementConnections</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.GetEdgeTargetElementConnections</taxonomy>
-    <position>17.0,498.0</position>
+    <position>17.0,573.0</position>
     <parameter name="edge">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -242,8 +245,9 @@
   <edge>
     <source>60624706-761a-4f3f-a0c6-8f90c8c1011d</source>
     <target>4ce73401-5506-4992-9dbb-b5bf6e9e6d8e</target>
-    <point>135.0,315.0</point>
-    <point>142.0,537.0</point>
+    <point>135.0,450.0</point>
+    <point>135.0,660.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>exit</branch>
   </edge>
   <sib>
@@ -252,7 +256,7 @@
     <label>IterateElements</label>
     <sib-uid>collection-sibs/IterateElements</sib-uid>
     <taxonomy>de.jabc.sib.common.collection.IterateElements</taxonomy>
-    <position>80.0,648.0</position>
+    <position>80.0,783.0</position>
     <parameter name="collection">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -286,9 +290,10 @@
   </sib>
   <edge>
     <source>4ce73401-5506-4992-9dbb-b5bf6e9e6d8e</source>
-    <target>e6ae2408-ab4f-4d38-9d0f-9e954726f1d9</target>
-    <point>135.0,555.0</point>
-    <point>124.0,666.0</point>
+    <target>38f4f32b-355b-4e83-9129-3a0bf5fc45f4</target>
+    <point>153.0,659.28</point>
+    <point>267.0,704.88</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
@@ -297,7 +302,7 @@
     <label>GenerateEdgeTargetCode</label>
     <sib-uid>ge-util-sibs/GenerateEdgeTargetCode</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.GenerateEdgeTargetCode</taxonomy>
-    <position>168.0,783.0</position>
+    <position>168.0,918.0</position>
     <parameter name="code">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -322,17 +327,18 @@
   <edge>
     <source>e6ae2408-ab4f-4d38-9d0f-9e954726f1d9</source>
     <target>8458fbc2-18e7-413e-8482-73a50d5911e1</target>
-    <point>135.0,675.0</point>
-    <point>255.0,728.0</point>
+    <point>135.0,810.0</point>
+    <point>255.0,945.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>next</branch>
   </edge>
   <sib>
     <id>08041982-c177-4498-9dc5-f7491bd855c9</id>
     <name>RunStringTemplate_1</name>
-    <label>EdgeSourceCode</label>
+    <label>EdgeTargetCode</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>196.5,648.0</position>
+    <position>197.5,783.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -358,15 +364,170 @@
   <edge>
     <source>8458fbc2-18e7-413e-8482-73a50d5911e1</source>
     <target>08041982-c177-4498-9dc5-f7491bd855c9</target>
-    <point>285.0,750.0</point>
-    <point>283.0,682.0</point>
+    <point>255.0,945.0</point>
+    <point>255.0,810.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
     <source>08041982-c177-4498-9dc5-f7491bd855c9</source>
     <target>e6ae2408-ab4f-4d38-9d0f-9e954726f1d9</target>
-    <point>285.0,645.0</point>
-    <point>144.0,661.0</point>
+    <point>255.0,810.0</point>
+    <point>135.0,810.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>50c701f4-4295-4c81-b0d8-579d5b2e1135</id>
+    <name>PutExpression</name>
+    <label>clearSourceCode</label>
+    <sib-uid>basic-sibs/PutExpression</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
+    <position>271.5,168.0</position>
+    <parameter name="resolve">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="value">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression></expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>sourceCode</key>
+          <scope>PARENT</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>50c701f4-4295-4c81-b0d8-579d5b2e1135</source>
+    <target>ac9fb748-7e75-4121-bca5-af65434b1550</target>
+    <point>333.0,192.68571428571428</point>
+    <point>402.0,212.4</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>ac9fb748-7e75-4121-bca5-af65434b1550</id>
+    <name>PutExpression_1</name>
+    <label>ClearTargetCode</label>
+    <sib-uid>basic-sibs/PutExpression</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
+    <position>271.5,288.0</position>
+    <parameter name="resolve">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="value">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression></expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>targetCode</key>
+          <scope>PARENT</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>ac9fb748-7e75-4121-bca5-af65434b1550</source>
+    <target>0179451f-7251-4980-b8ed-c3339afd5a37</target>
+    <point>342.0,292.92</point>
+    <point>153.0,305.52</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>0179451f-7251-4980-b8ed-c3339afd5a37</id>
+    <name>PutExpression_2</name>
+    <label>ClearCode</label>
+    <sib-uid>basic-sibs/PutExpression</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
+    <position>97.5,288.0</position>
+    <parameter name="resolve">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="value">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression></expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>code</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>0179451f-7251-4980-b8ed-c3339afd5a37</source>
+    <target>60624706-761a-4f3f-a0c6-8f90c8c1011d</target>
+    <point>135.0,324.0</point>
+    <point>135.0,423.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>38f4f32b-355b-4e83-9129-3a0bf5fc45f4</id>
+    <name>PutExpression_3</name>
+    <label>ClearCode</label>
+    <sib-uid>basic-sibs/PutExpression</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
+    <position>97.5,678.0</position>
+    <parameter name="resolve">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="value">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression></expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>code</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>38f4f32b-355b-4e83-9129-3a0bf5fc45f4</source>
+    <target>e6ae2408-ab4f-4d38-9d0f-9e954726f1d9</target>
+    <point>135.0,735.0</point>
+    <point>129.0,784.0</point>
     <branch>default</branch>
   </edge>
   <parameter>
@@ -435,5 +596,25 @@
     <name>error</name>
     <branch>error</branch>
     <sib>0e63095f-fc0e-4d12-8cb8-c99665b47270</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>50c701f4-4295-4c81-b0d8-579d5b2e1135</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>ac9fb748-7e75-4121-bca5-af65434b1550</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>0179451f-7251-4980-b8ed-c3339afd5a37</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>38f4f32b-355b-4e83-9129-3a0bf5fc45f4</sib>
   </branch>
 </model>
