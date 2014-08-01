@@ -930,7 +930,6 @@ public class ServiceAdapter {
 			Entry<Node, List<IncomingEdgeElementConnection>> entry = (Entry<Node, List<IncomingEdgeElementConnection>>) context.get(mapEntry);
 			Node n = entry.getKey();
 			List<IncomingEdgeElementConnection> oeecs = entry.getValue();
-			System.err.println(context.get(code));
 			StringBuilder sbType = new StringBuilder();
 			StringBuilder sbBound = new StringBuilder();
 			
