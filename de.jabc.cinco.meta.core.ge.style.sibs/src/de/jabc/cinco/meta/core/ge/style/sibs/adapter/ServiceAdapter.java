@@ -730,14 +730,22 @@ public class ServiceAdapter {
 		LightweightExecutionContext context = env.getLocalContext();
 		try {
 			Edge e = (Edge) context.get(edge);
-			System.out.println("Edges connected elementes:");
-			System.err.println(e.getEdgeElementConnections());
 			List<Node> allNodes = (List<Node>) context.get(nodes);
 			boolean in = false, out = false;
 			for (Node n : allNodes) {
+				
+				if (n.getIncomingEdgeConnections().isEmpty()) {
+					/* No incoming elements defined -> allow this edge */
+					in = true;
+				}
+				
+				if (n.getOutgoingEdgeConnections().isEmpty()) {
+					/* No outgoing elements defined -> allow this edge */
+					out = true;
+				}
+				
 				for (IncomingEdgeElementConnection ieec : n.getIncomingEdgeConnections()) {
 					if (in) break;
-					
 					if (ieec.getConnectingEdges().isEmpty())
 						in = true;
 					for (Edge incoming : ieec.getConnectingEdges()) {
