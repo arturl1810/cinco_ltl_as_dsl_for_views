@@ -20,6 +20,7 @@ import mgl.GraphModel;
 import mgl.GraphicalElementContainment;
 import mgl.Import;
 import mgl.IncomingEdgeElementConnection;
+import mgl.MglFactory;
 import mgl.ModelElement;
 import mgl.Node;
 import mgl.NodeContainer;
@@ -729,11 +730,16 @@ public class ServiceAdapter {
 		LightweightExecutionContext context = env.getLocalContext();
 		try {
 			Edge e = (Edge) context.get(edge);
+			System.out.println("Edges connected elementes:");
+			System.err.println(e.getEdgeElementConnections());
 			List<Node> allNodes = (List<Node>) context.get(nodes);
 			boolean in = false, out = false;
 			for (Node n : allNodes) {
 				for (IncomingEdgeElementConnection ieec : n.getIncomingEdgeConnections()) {
 					if (in) break;
+					
+					if (ieec.getConnectingEdges().isEmpty())
+						in = true;
 					for (Edge incoming : ieec.getConnectingEdges()) {
 						if (incoming.equals(e)) {
 							in = true;
@@ -743,6 +749,8 @@ public class ServiceAdapter {
 				}
 				for (OutgoingEdgeElementConnection oeec : n.getOutgoingEdgeConnections()) {
 					if (out) break;
+					if (oeec.getConnectingEdges().isEmpty())
+						out = true;
 					for (Edge outgoing : oeec.getConnectingEdges()) {
 						if (outgoing.equals(e)) {
 							out = true;
@@ -775,10 +783,27 @@ public class ServiceAdapter {
 			HashMap<Node, List<OutgoingEdgeElementConnection>> map = new HashMap<>();
 			for (Node n : allNodes) {
 				ArrayList<OutgoingEdgeElementConnection> oeecs = new ArrayList<>();
+				if (n.getOutgoingEdgeConnections().isEmpty()) {
+					/*There are no IncomingEdgeElementConnections defined for this node
+					 * -> allow this node type as target for all edges*/
+					for (Edge tmp : n.getGraphModel().getEdges()) {
+						OutgoingEdgeElementConnection tmpOEEC = MglFactory.eINSTANCE.createOutgoingEdgeElementConnection();
+						tmpOEEC.setConnectedElement(n);
+						tmpOEEC.setLowerBound(0);
+						tmpOEEC.setUpperBound(-1);
+						oeecs.add(tmpOEEC);
+					}
+					
+				}
 				for (OutgoingEdgeElementConnection oeec : n.getOutgoingEdgeConnections()) {
 					for (Edge out : oeec.getConnectingEdges()) {
 						if (out.equals(e))
 							oeecs.add(oeec);
+					}
+					
+					if (oeec.getConnectingEdges().isEmpty()) {
+						/*IncomingEdgeElementConnection is defined for node but this one is a star.*/
+						oeecs.add(oeec);
 					}
 				}
 				if (!oeecs.isEmpty())
@@ -806,15 +831,33 @@ public class ServiceAdapter {
 			List<Node> allNodes = (List<Node>) context.get(nodes);
 			HashMap<Node, List<IncomingEdgeElementConnection>> map = new HashMap<>();
 			for (Node n : allNodes) {
-				ArrayList<IncomingEdgeElementConnection> oeecs = new ArrayList<>();
-				for (IncomingEdgeElementConnection oeec : n.getIncomingEdgeConnections()) {
-					for (Edge out : oeec.getConnectingEdges()) {
-						if (out.equals(e))
-							oeecs.add(oeec);
+				ArrayList<IncomingEdgeElementConnection> ieecs = new ArrayList<>();
+				if (n.getIncomingEdgeConnections().isEmpty()) {
+					/*There are no IncomingEdgeElementConnections defined for this node
+					 * -> allow this node type as target for all edges*/
+					for (Edge tmp : n.getGraphModel().getEdges()) {
+						IncomingEdgeElementConnection tmpIEEC = MglFactory.eINSTANCE.createIncomingEdgeElementConnection();
+						tmpIEEC.setConnectedElement(n);
+						tmpIEEC.setLowerBound(0);
+						tmpIEEC.setUpperBound(-1);
+						ieecs.add(tmpIEEC);
 					}
+					
 				}
-				if (!oeecs.isEmpty())
-					map.put(n, oeecs);
+				for (IncomingEdgeElementConnection ieec : n.getIncomingEdgeConnections()) {
+					for (Edge out : ieec.getConnectingEdges()) {
+						if (out.equals(e))
+							ieecs.add(ieec);
+					}
+					
+					if (ieec.getConnectingEdges().isEmpty()) {
+						/*IncomingEdgeElementConnection is defined for node but this one is a star.*/
+						ieecs.add(ieec);
+					}
+					
+				}
+				if (!ieecs.isEmpty())
+					map.put(n, ieecs);
 			}
 			
 			context.put(edgeElementConnectionsMap, map);
@@ -842,6 +885,9 @@ public class ServiceAdapter {
 				OutgoingEdgeElementConnection oeec = it.next();
 				int bound = oeec.getUpperBound();
 				if (bound > 0) {
+					if (oeec.getConnectingEdges().isEmpty()) {
+						sbBound.append("(("+n.getName()+") source).getIncoming().size()");
+					}
 					for (Iterator<Edge> edgeIt = oeec.getConnectingEdges().iterator(); edgeIt.hasNext();) {
 						Edge e = edgeIt.next();
 						sbBound.append("(("+n.getName()+") source).getOutgoing("+e.getName()+".class).size()");
@@ -880,10 +926,13 @@ public class ServiceAdapter {
 			StringBuilder sbBound = new StringBuilder();
 			
 			for (Iterator<IncomingEdgeElementConnection> it = oeecs.iterator(); it.hasNext();) {
-				IncomingEdgeElementConnection oeec = it.next();
-				int bound = oeec.getUpperBound();
+				IncomingEdgeElementConnection ieec = it.next();
+				int bound = ieec.getUpperBound();
 				if (bound > 0) {
-					for (Iterator<Edge> edgeIt = oeec.getConnectingEdges().iterator(); edgeIt.hasNext();) {
+					if (ieec.getConnectingEdges().isEmpty()) {
+						sbBound.append("(("+n.getName()+") target).getIncoming().size()");
+					}
+					for (Iterator<Edge> edgeIt = ieec.getConnectingEdges().iterator(); edgeIt.hasNext();) {
 						Edge e = edgeIt.next();
 						sbBound.append("(("+n.getName()+") target).getIncoming("+e.getName()+".class).size()");
 						if (edgeIt.hasNext())
