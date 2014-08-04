@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>1f432a14-22e1-48ce-aa1e-72e571fba979</id>
   <name>InitializeAttributes</name>
-  <changecounter>103</changecounter>
+  <changecounter>118</changecounter>
   <sib>
     <id>b702a793-2c93-4702-84d7-e6a202dbea53</id>
     <name>CopyElement</name>
@@ -253,6 +253,7 @@
     <target>f293c84c-a7d1-48b9-a423-1fd94b0a53de</target>
     <point>300.0,435.0</point>
     <point>104.0,182.0</point>
+    <branch>emptyString</branch>
     <branch>true</branch>
   </edge>
   <sib>
