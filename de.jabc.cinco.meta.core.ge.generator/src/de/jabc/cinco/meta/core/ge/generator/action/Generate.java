@@ -200,7 +200,12 @@ public class Generate extends AbstractHandler {
 		for (EObject o : res.getContents()) {	
 			if (o instanceof GenModel) {
 				GenModel genModel = (GenModel) o;
-				genModel.getUsedGenPackages().addAll(getUsedGenPackages());
+				for (GenPackage gm : genModel.getUsedGenPackages()) {
+					if (!gm.getGenModel().equals(genModel)) {
+						genModel.getUsedGenPackages().add(gm);
+					}
+				}
+//				genModel.getUsedGenPackages().addAll(getUsedGenPackages());
 				System.out.println(genModel.getUsedGenPackages());
 				genModel.setCanGenerate(true);
 				Generator generator = new Generator();

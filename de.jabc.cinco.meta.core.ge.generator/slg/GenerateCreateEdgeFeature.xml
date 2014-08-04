@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <model version="2.1">
-  <id>acbfac10-5547-4af8-9d81-08e1d3c67972</id>
+  <id>27cba91f-55ea-45b8-ae35-72b2d8249258</id>
   <name>GenerateCreateEdgeFeature</name>
-  <changecounter>309</changecounter>
+  <changecounter>305</changecounter>
   <sib>
     <id>f25e916c-be2e-4728-817b-64548b50fdb7</id>
     <name>RunStringTemplate</name>
     <label>RunStringTemplate</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>835.0,258.0</position>
+    <position>925.0,258.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -260,7 +260,7 @@ public class Create$context.edgeName$Feature extends AbstractCreateConnectionFea
     <label>CheckEdgeSource</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>658.5,153.0</position>
+    <position>658.5,123.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -278,7 +278,7 @@ public class Create$context.edgeName$Feature extends AbstractCreateConnectionFea
     </parameter>
     <parameter name="template">
       <string>
-			if (source instanceof $context.n.name$) {
+			if (source instanceof $context.n.connectedElement.name$) {
 				srcOK = true;
 			}</string>
     </parameter>
@@ -317,7 +317,7 @@ public class Create$context.edgeName$Feature extends AbstractCreateConnectionFea
     <label>CheckEdgeTarget</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>494.5,183.0</position>
+    <position>389.5,183.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -335,7 +335,7 @@ public class Create$context.edgeName$Feature extends AbstractCreateConnectionFea
     </parameter>
     <parameter name="template">
       <string>
-			if (target instanceof $context.n.name$) {
+			if (target instanceof $context.n.connectedElement.name$) {
 				$context.maxInContent$
 					trgOK = true;
 			}
@@ -345,15 +345,6 @@ public class Create$context.edgeName$Feature extends AbstractCreateConnectionFea
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
   </sib>
-  <edge>
-    <source>d246d88e-690a-49e5-99dd-1b1f114853a4</source>
-    <target>432f2ebc-1fa9-4b01-bdb6-cea836ff737b</target>
-    <spline/>
-    <point>432.0,265.75384615384615</point>
-    <point>273.0,167.90769230769232</point>
-    <labelposition>515.491132885254,-1.9784677818828738</labelposition>
-    <branch>next</branch>
-  </edge>
   <edge>
     <source>69e51025-fd5f-4331-9c9c-e38c13cc3814</source>
     <target>d246d88e-690a-49e5-99dd-1b1f114853a4</target>
@@ -368,7 +359,7 @@ public class Create$context.edgeName$Feature extends AbstractCreateConnectionFea
     <label>CanStartConnection_I</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>181.5,258.0</position>
+    <position>226.5,258.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -420,7 +411,7 @@ public class Create$context.edgeName$Feature extends AbstractCreateConnectionFea
     <label>CanStartConnection_II</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>179.5,528.0</position>
+    <position>494.5,528.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -438,7 +429,7 @@ public class Create$context.edgeName$Feature extends AbstractCreateConnectionFea
     </parameter>
     <parameter name="template">
       <string>	
-			if (source instanceof $context.n.name$) {
+			if (source instanceof $context.n.connectedElement.name$) {
 				$context.maxOutContent$
 					return true;
 			}
@@ -447,15 +438,6 @@ public class Create$context.edgeName$Feature extends AbstractCreateConnectionFea
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
   </sib>
-  <edge>
-    <source>76f492fc-743c-4644-9799-d14cce0bc421</source>
-    <target>60b8a875-18fa-485c-b036-a3e08e732cbb</target>
-    <spline/>
-    <point>237.0,441.9818181818182</point>
-    <point>108.0,441.9818181818182</point>
-    <labelposition>488.3720930232558,-0.018181818181794596</labelposition>
-    <branch>next</branch>
-  </edge>
   <edge>
     <source>9b5e37fb-9112-4205-8c41-713f973a4f5a</source>
     <target>76f492fc-743c-4644-9799-d14cce0bc421</target>
@@ -478,7 +460,7 @@ public class Create$context.edgeName$Feature extends AbstractCreateConnectionFea
     <label>CreateConnection_I</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>383.0,423.0</position>
+    <position>398.0,423.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -537,8 +519,8 @@ public class Create$context.edgeName$Feature extends AbstractCreateConnectionFea
     </parameter>
     <parameter name="template">
       <string>
-				if (source instanceof $context.n.name$) {
-					$context.meIdentifier$.setSourceElement( ($context.n.name$) source);
+				if (source instanceof $context.n.connectedElement.name$) {
+					$context.meIdentifier$.setSourceElement( ($context.n.connectedElement.name$) source);
 				}</string>
     </parameter>
     <finalbranches>default</finalbranches>
@@ -594,8 +576,8 @@ public class Create$context.edgeName$Feature extends AbstractCreateConnectionFea
     </parameter>
     <parameter name="template">
       <string>
-				if (target instanceof $context.n.name$) {
-					$context.meIdentifier$.setTargetElement( ($context.n.name$) target);
+				if (target instanceof $context.n.connectedElement.name$) {
+					$context.meIdentifier$.setTargetElement( ($context.n.connectedElement.name$) target);
 				}</string>
     </parameter>
     <finalbranches>default</finalbranches>
@@ -736,7 +718,7 @@ public class Create$context.edgeName$Feature extends AbstractCreateConnectionFea
     <label>ToFirstUpper</label>
     <sib-uid>basic-sibs/ToFirstUpper</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.ToFirstUpper</taxonomy>
-    <position>1199.5,33.0</position>
+    <position>1184.5,33.0</position>
     <parameter name="inputString">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -816,78 +798,6 @@ public class Create$context.edgeName$Feature extends AbstractCreateConnectionFea
     <branch>default</branch>
   </edge>
   <sib>
-    <id>17b29a01-b7c2-497f-b3ce-d8557efce82b</id>
-    <name>GetEdgeSourceElements</name>
-    <label>GetEdgeSourceElements</label>
-    <sib-uid>mgl/mgl/GetEdgeSourceElements</sib-uid>
-    <taxonomy>de.jabc.cinco.meta.core.ge.sib.mgl.GetEdgeSourceElements</taxonomy>
-    <position>1164.5,258.0</position>
-    <parameter name="eListKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>edgeSources</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="edgeKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>edge</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-  </sib>
-  <sib>
-    <id>a702e05d-9377-4c8e-b8a2-34373289ccaf</id>
-    <name>GetEdgeTargetElements</name>
-    <label>GetEdgeTargetElements</label>
-    <sib-uid>mgl/mgl/GetEdgeTargetElements</sib-uid>
-    <taxonomy>de.jabc.cinco.meta.core.ge.sib.mgl.GetEdgeTargetElements</taxonomy>
-    <position>1001.0,258.0</position>
-    <parameter name="eListKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>edgeTargets</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="edgeKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>edge</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-  </sib>
-  <edge>
-    <source>17b29a01-b7c2-497f-b3ce-d8557efce82b</source>
-    <target>a702e05d-9377-4c8e-b8a2-34373289ccaf</target>
-    <point>1241.0,283.0</point>
-    <point>1076.0,283.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
-  <edge>
-    <source>a702e05d-9377-4c8e-b8a2-34373289ccaf</source>
-    <target>f25e916c-be2e-4728-817b-64548b50fdb7</target>
-    <point>1076.0,283.0</point>
-    <point>896.0,283.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
-  <sib>
     <id>5bea1df9-758c-43f1-9aff-4db8a0a6ba35</id>
     <name>IterateElements</name>
     <label>IterateEdgeSoureElements</label>
@@ -931,7 +841,7 @@ public class Create$context.edgeName$Feature extends AbstractCreateConnectionFea
     <label>IterateEdgeSoureElements</label>
     <sib-uid>collection-sibs/IterateElements</sib-uid>
     <taxonomy>de.jabc.sib.common.collection.IterateElements</taxonomy>
-    <position>165.5,423.0</position>
+    <position>210.5,423.0</position>
     <parameter name="collection">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1045,7 +955,7 @@ public class Create$context.edgeName$Feature extends AbstractCreateConnectionFea
     <label>IterateEdgeTargetElements</label>
     <sib-uid>collection-sibs/IterateElements</sib-uid>
     <taxonomy>de.jabc.sib.common.collection.IterateElements</taxonomy>
-    <position>358.0,258.0</position>
+    <position>373.0,258.0</position>
     <parameter name="collection">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1110,14 +1020,6 @@ public class Create$context.edgeName$Feature extends AbstractCreateConnectionFea
     <target>5417e80a-33d2-40df-b5ab-6d7be2a7ee52</target>
     <point>1061.0,58.0</point>
     <point>1241.0,58.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
-  <edge>
-    <source>5417e80a-33d2-40df-b5ab-6d7be2a7ee52</source>
-    <target>2642d88b-6328-440b-b375-7de7e44d5995</target>
-    <point>1231.3636363636363,69.0</point>
-    <point>1188.5185185185185,121.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -1227,48 +1129,12 @@ public class Create$context.edgeName$Feature extends AbstractCreateConnectionFea
     <branch>false</branch>
   </edge>
   <sib>
-    <id>60b8a875-18fa-485c-b036-a3e08e732cbb</id>
-    <name>GetNodeMaxOutgoing</name>
-    <label>GetNodeMaxOutgoing</label>
-    <sib-uid>mgl/mgl/GetNodeMaxOutgoing</sib-uid>
-    <taxonomy>de.jabc.cinco.meta.core.ge.sib.mgl.GetNodeMaxOutgoing</taxonomy>
-    <position>16.0,423.0</position>
-    <parameter name="nodeKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>n</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="nodemaxOutgoingKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>nMaxOut</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-  </sib>
-  <edge>
-    <source>60b8a875-18fa-485c-b036-a3e08e732cbb</source>
-    <target>3c1da3fd-35f1-4437-a83b-c2324846f09f</target>
-    <point>90.0,450.0</point>
-    <point>90.0,555.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
-  <sib>
     <id>9a7f9097-d780-4704-b3eb-436580f2d3a0</id>
     <name>RunStringTemplate_10</name>
     <label>createMaxOutCheck</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>21.5,768.0</position>
+    <position>576.5,693.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -1285,7 +1151,7 @@ public class Create$context.edgeName$Feature extends AbstractCreateConnectionFea
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>if ((($context.n.name$) source).getOutgoing().size() &lt; $context.nMaxOut$)</string>
+      <string>if ((($context.n.connectedElement.name$) source).getOutgoing($context.edgeName$.class).size() &lt; $context.nMaxOut$)</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
@@ -1296,14 +1162,6 @@ public class Create$context.edgeName$Feature extends AbstractCreateConnectionFea
     <point>90.0,660.0</point>
     <point>209.0,578.0</point>
     <branch>default</branch>
-  </edge>
-  <edge>
-    <source>88c6dce8-0798-4152-b8f5-43c310813486</source>
-    <target>9a7f9097-d780-4704-b3eb-436580f2d3a0</target>
-    <point>90.0,534.0</point>
-    <point>90.0,633.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>greater</branch>
   </edge>
   <edge>
     <source>88c6dce8-0798-4152-b8f5-43c310813486</source>
@@ -1320,7 +1178,7 @@ public class Create$context.edgeName$Feature extends AbstractCreateConnectionFea
     <label>CompareNumber</label>
     <sib-uid>basic-sibs/CompareNumber</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.CompareNumber</taxonomy>
-    <position>33.0,648.0</position>
+    <position>243.0,768.0</position>
     <parameter name="value">
       <double>-1.0</double>
     </parameter>
@@ -1339,40 +1197,12 @@ public class Create$context.edgeName$Feature extends AbstractCreateConnectionFea
     <finalbranches>less</finalbranches>
   </sib>
   <sib>
-    <id>432f2ebc-1fa9-4b01-bdb6-cea836ff737b</id>
-    <name>GetNodeMaxIncoming</name>
-    <label>GetNodeMaxIncoming</label>
-    <sib-uid>mgl/mgl/GetNodeMaxIncoming</sib-uid>
-    <taxonomy>de.jabc.cinco.meta.core.ge.sib.mgl.GetNodeMaxIncoming</taxonomy>
-    <position>226.5,183.0</position>
-    <parameter name="nodeKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>n</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="nodemaxIncomingKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>nMaxIn</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-  </sib>
-  <sib>
     <id>09c55554-8790-4bbf-bb1c-8cba7e1e4fa3</id>
     <name>CompareNumber_1</name>
     <label>CompareNumber</label>
     <sib-uid>basic-sibs/CompareNumber</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.CompareNumber</taxonomy>
-    <position>363.0,93.0</position>
+    <position>258.0,93.0</position>
     <parameter name="value">
       <double>-1.0</double>
     </parameter>
@@ -1390,21 +1220,13 @@ public class Create$context.edgeName$Feature extends AbstractCreateConnectionFea
     <finalbranches>greater</finalbranches>
     <finalbranches>less</finalbranches>
   </sib>
-  <edge>
-    <source>432f2ebc-1fa9-4b01-bdb6-cea836ff737b</source>
-    <target>34eb95be-5ef6-4c57-a56c-d45cf7c417c0</target>
-    <point>201.8181818181818,168.0</point>
-    <point>186.42857142857142,129.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
   <sib>
     <id>32984137-6439-442b-955a-b3714d3f94d9</id>
     <name>RunStringTemplate_11</name>
     <label>createMaxInCheck</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>507.0,93.0</position>
+    <position>507.0,168.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -1421,18 +1243,11 @@ public class Create$context.edgeName$Feature extends AbstractCreateConnectionFea
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>if ((($context.n.name$) target).getIncoming().size() &lt; $context.nMaxIn$)</string>
+      <string>if ((($context.n.connectedElement.name$) target).getIncoming($context.edgeName$.class).size() &lt; $context.nMaxIn$)</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
   </sib>
-  <edge>
-    <source>09c55554-8790-4bbf-bb1c-8cba7e1e4fa3</source>
-    <target>32984137-6439-442b-955a-b3714d3f94d9</target>
-    <point>345.0,135.0</point>
-    <point>486.0,118.0</point>
-    <branch>greater</branch>
-  </edge>
   <edge>
     <source>09c55554-8790-4bbf-bb1c-8cba7e1e4fa3</source>
     <target>69e51025-fd5f-4331-9c9c-e38c13cc3814</target>
@@ -1454,7 +1269,7 @@ public class Create$context.edgeName$Feature extends AbstractCreateConnectionFea
     <label>ClearMaxInContent</label>
     <sib-uid>basic-sibs/PutExpression</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
-    <position>234.5,93.0</position>
+    <position>114.5,93.0</position>
     <parameter name="resolve">
       <boolean>true</boolean>
     </parameter>
@@ -1492,7 +1307,7 @@ public class Create$context.edgeName$Feature extends AbstractCreateConnectionFea
     <label>ClearMaxOutContent</label>
     <sib-uid>basic-sibs/PutExpression</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
-    <position>19.0,543.0</position>
+    <position>229.0,648.0</position>
     <parameter name="resolve">
       <boolean>true</boolean>
     </parameter>
@@ -1525,13 +1340,41 @@ public class Create$context.edgeName$Feature extends AbstractCreateConnectionFea
     <branch>default</branch>
   </edge>
   <sib>
-    <id>2642d88b-6328-440b-b375-7de7e44d5995</id>
+    <id>4454688e-c80f-4b00-ac7d-78e762f67161</id>
+    <name>RunStringTemplate_12</name>
+    <label>createMaxOutCheck</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>411.5,693.0</position>
+    <parameter name="append">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>maxOutContent</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>if ((($context.n.connectedElement.name$) source).getOutgoing().size() &lt; $context.nMaxOut$)</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>bc4d1dc8-b6a6-4caa-a515-f9a8215b7051</id>
     <name>GraphSIB</name>
-    <label>InitializeAttributes</label>
+    <label>GetEdgeSourceTarget</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>1182.5,136.0</position>
-    <parameter name="modelElement">
+    <position>1156.0,256.0</position>
+    <parameter name="edgeKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
           <key>edge</key>
@@ -1543,38 +1386,239 @@ public class Create$context.edgeName$Feature extends AbstractCreateConnectionFea
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
     <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>1f432a14-22e1-48ce-aa1e-72e571fba979</string>
+      <string>cec5c0c4-86a2-4a4e-a054-7c5b88dc8044</string>
     </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
-      <string>InitializeAttributes</string>
+      <string>GetEdgeSourceTarget</string>
     </userobject>
   </sib>
+  <sib>
+    <id>50eea5ec-dad9-4a91-944d-8e81a7968ce8</id>
+    <name>GetEdgeElementConnectionUpperBound_1</name>
+    <label>GetEdgeElementConnectionUpperBound</label>
+    <sib-uid>mgl/mgl/GetEdgeElementConnectionUpperBound</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetEdgeElementConnectionUpperBound</taxonomy>
+    <position>167.0,526.0</position>
+    <parameter name="edgeElementConnectionKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>n</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="edgeElementConnectionupperBoundKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>nMaxOut</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>d24b4dd3-ad9e-4267-9bc2-7ab17f68dc96</id>
+    <name>EvaluateCondition</name>
+    <label>Star?</label>
+    <sib-uid>basic-sibs/EvaluateCondition</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.EvaluateCondition</taxonomy>
+    <position>548.0,783.0</position>
+    <parameter name="condition">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>${n.connectingEdge == null}</expression>
+          <clazz>java.lang.Boolean</clazz>
+          <classMutable>false</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>false</finalbranches>
+    <finalbranches>true</finalbranches>
+  </sib>
+  <sib>
+    <id>93ab627a-2404-48ec-a6c3-26924da87cdf</id>
+    <name>RunStringTemplate_13</name>
+    <label>createMaxInCheck</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>417.0,123.0</position>
+    <parameter name="append">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>maxInContent</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>if ((($context.n.connectedElement.name$) target).getIncoming().size() &lt; $context.nMaxIn$)</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>c055ca30-563d-4dce-abc7-da7fe8b627f4</id>
+    <name>GetEdgeElementConnectionUpperBound</name>
+    <label>GetEdgeElementConnectionUpperBound</label>
+    <sib-uid>mgl/mgl/GetEdgeElementConnectionUpperBound</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetEdgeElementConnectionUpperBound</taxonomy>
+    <position>47.0,181.0</position>
+    <parameter name="edgeElementConnectionKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>n</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="edgeElementConnectionupperBoundKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>nMaxIn</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>5c204743-d07c-4cab-b1f4-64effdcf52a6</id>
+    <name>EvaluateCondition_1</name>
+    <label>Star?</label>
+    <sib-uid>basic-sibs/EvaluateCondition</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.EvaluateCondition</taxonomy>
+    <position>548.0,93.0</position>
+    <parameter name="condition">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>${n.connectingEdge == null}</expression>
+          <clazz>java.lang.Boolean</clazz>
+          <classMutable>false</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>false</finalbranches>
+    <finalbranches>true</finalbranches>
+  </sib>
   <edge>
-    <source>2642d88b-6328-440b-b375-7de7e44d5995</source>
-    <target>17b29a01-b7c2-497f-b3ce-d8557efce82b</target>
-    <point>1245.0,165.0</point>
-    <point>1246.0,267.0</point>
+    <source>4454688e-c80f-4b00-ac7d-78e762f67161</source>
+    <target>9b5e37fb-9112-4205-8c41-713f973a4f5a</target>
+    <point>511.5,743.0</point>
+    <point>279.5,578.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>bc4d1dc8-b6a6-4caa-a515-f9a8215b7051</source>
+    <target>f25e916c-be2e-4728-817b-64548b50fdb7</target>
+    <point>1258.5,306.0</point>
+    <point>935.0,308.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>50eea5ec-dad9-4a91-944d-8e81a7968ce8</source>
+    <target>3c1da3fd-35f1-4437-a83b-c2324846f09f</target>
+    <point>267.0,578.0</point>
+    <point>119.0,593.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>d24b4dd3-ad9e-4267-9bc2-7ab17f68dc96</source>
+    <target>9a7f9097-d780-4704-b3eb-436580f2d3a0</target>
+    <point>648.0,833.0</point>
+    <point>121.5,818.0</point>
+    <branch>false</branch>
+  </edge>
+  <edge>
+    <source>d24b4dd3-ad9e-4267-9bc2-7ab17f68dc96</source>
+    <target>4454688e-c80f-4b00-ac7d-78e762f67161</target>
+    <point>648.0,833.0</point>
+    <point>511.5,743.0</point>
+    <branch>true</branch>
+  </edge>
+  <edge>
+    <source>93ab627a-2404-48ec-a6c3-26924da87cdf</source>
+    <target>69e51025-fd5f-4331-9c9c-e38c13cc3814</target>
+    <point>517.0,173.0</point>
+    <point>594.5,233.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>c055ca30-563d-4dce-abc7-da7fe8b627f4</source>
+    <target>34eb95be-5ef6-4c57-a56c-d45cf7c417c0</target>
+    <point>147.0,233.0</point>
+    <point>334.5,143.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>5c204743-d07c-4cab-b1f4-64effdcf52a6</source>
+    <target>32984137-6439-442b-955a-b3714d3f94d9</target>
+    <point>648.0,143.0</point>
+    <point>607.0,143.0</point>
+    <branch>false</branch>
+  </edge>
+  <edge>
+    <source>5c204743-d07c-4cab-b1f4-64effdcf52a6</source>
+    <target>93ab627a-2404-48ec-a6c3-26924da87cdf</target>
+    <point>648.0,143.0</point>
+    <point>517.0,173.0</point>
+    <branch>true</branch>
+  </edge>
+  <edge>
+    <source>09c55554-8790-4bbf-bb1c-8cba7e1e4fa3</source>
+    <target>5c204743-d07c-4cab-b1f4-64effdcf52a6</target>
+    <point>463.0,143.0</point>
+    <point>648.0,143.0</point>
+    <branch>greater</branch>
+  </edge>
+  <edge>
+    <source>d246d88e-690a-49e5-99dd-1b1f114853a4</source>
+    <target>c055ca30-563d-4dce-abc7-da7fe8b627f4</target>
+    <point>458.0,308.0</point>
+    <point>147.0,233.0</point>
+    <branch>next</branch>
+  </edge>
+  <edge>
+    <source>76f492fc-743c-4644-9799-d14cce0bc421</source>
+    <target>50eea5ec-dad9-4a91-944d-8e81a7968ce8</target>
+    <point>265.5,473.0</point>
+    <point>267.0,578.0</point>
+    <branch>next</branch>
+  </edge>
+  <edge>
+    <source>88c6dce8-0798-4152-b8f5-43c310813486</source>
+    <target>d24b4dd3-ad9e-4267-9bc2-7ab17f68dc96</target>
+    <point>133.0,698.0</point>
+    <point>648.0,833.0</point>
+    <branch>greater</branch>
+  </edge>
+  <edge>
+    <source>5417e80a-33d2-40df-b5ab-6d7be2a7ee52</source>
+    <target>bc4d1dc8-b6a6-4caa-a515-f9a8215b7051</target>
+    <point>1230.0,60.0</point>
+    <point>1230.0,285.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <parameter>
     <name>edgeKey</name>
     <field>edgeKey</field>
-    <sib>17b29a01-b7c2-497f-b3ce-d8557efce82b</sib>
-  </parameter>
-  <parameter>
-    <name>edgeKey</name>
-    <field>edgeKey</field>
-    <sib>a702e05d-9377-4c8e-b8a2-34373289ccaf</sib>
-  </parameter>
-  <parameter>
-    <name>edgeKey</name>
-    <field>edgeKey</field>
     <sib>45000ccd-3f97-463b-8a1a-2bbc63151cc4</sib>
-  </parameter>
-  <parameter>
-    <name>edgeKey</name>
-    <field>modelElement</field>
-    <sib>2642d88b-6328-440b-b375-7de7e44d5995</sib>
   </parameter>
   <values>
     <entry>
@@ -1671,16 +1715,6 @@ public class Create$context.edgeName$Feature extends AbstractCreateConnectionFea
   <branch>
     <name>error</name>
     <branch>error</branch>
-    <sib>17b29a01-b7c2-497f-b3ce-d8557efce82b</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>a702e05d-9377-4c8e-b8a2-34373289ccaf</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
     <sib>5bea1df9-758c-43f1-9aff-4db8a0a6ba35</sib>
   </branch>
   <branch>
@@ -1741,17 +1775,7 @@ public class Create$context.edgeName$Feature extends AbstractCreateConnectionFea
   <branch>
     <name>error</name>
     <branch>error</branch>
-    <sib>60b8a875-18fa-485c-b036-a3e08e732cbb</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
     <sib>88c6dce8-0798-4152-b8f5-43c310813486</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>432f2ebc-1fa9-4b01-bdb6-cea836ff737b</sib>
   </branch>
   <branch>
     <name>error</name>
@@ -1776,6 +1800,31 @@ public class Create$context.edgeName$Feature extends AbstractCreateConnectionFea
   <branch>
     <name>error</name>
     <branch>error</branch>
-    <sib>2642d88b-6328-440b-b375-7de7e44d5995</sib>
+    <sib>4454688e-c80f-4b00-ac7d-78e762f67161</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>bc4d1dc8-b6a6-4caa-a515-f9a8215b7051</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>50eea5ec-dad9-4a91-944d-8e81a7968ce8</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>d24b4dd3-ad9e-4267-9bc2-7ab17f68dc96</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>93ab627a-2404-48ec-a6c3-26924da87cdf</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>c055ca30-563d-4dce-abc7-da7fe8b627f4</sib>
   </branch>
 </model>

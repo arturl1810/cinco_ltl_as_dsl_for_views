@@ -4,23 +4,28 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
-import java.nio.file.FileSystem;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import mgl.Annotation;
 import mgl.Attribute;
+import mgl.Edge;
 import mgl.GraphModel;
 import mgl.GraphicalElementContainment;
 import mgl.Import;
+import mgl.IncomingEdgeElementConnection;
+import mgl.MglFactory;
 import mgl.ModelElement;
 import mgl.Node;
 import mgl.NodeContainer;
 import mgl.ReferencedAttribute;
+import mgl.OutgoingEdgeElementConnection;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
@@ -29,7 +34,6 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.URI;
@@ -37,7 +41,6 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -746,6 +749,61 @@ public class ServiceAdapter {
 		}
 	}
 
+	public static String isEdgeUsed(LightweightExecutionEnvironment env,
+			ContextKeyFoundation edge,
+			ContextKeyFoundation nodes) {
+
+		LightweightExecutionContext context = env.getLocalContext();
+		try {
+			Edge e = (Edge) context.get(edge);
+			List<Node> allNodes = (List<Node>) context.get(nodes);
+			boolean in = false, out = false;
+			for (Node n : allNodes) {
+				
+				if (n.getIncomingEdgeConnections().isEmpty()) {
+					/* No incoming elements defined -> allow this edge */
+					in = true;
+				}
+				
+				if (n.getOutgoingEdgeConnections().isEmpty()) {
+					/* No outgoing elements defined -> allow this edge */
+					out = true;
+				}
+				
+				for (IncomingEdgeElementConnection ieec : n.getIncomingEdgeConnections()) {
+					if (in) break;
+					if (ieec.getConnectingEdges().isEmpty())
+						in = true;
+					for (Edge incoming : ieec.getConnectingEdges()) {
+						if (incoming.equals(e)) {
+							in = true;
+							break;
+						}
+					}
+				}
+				for (OutgoingEdgeElementConnection oeec : n.getOutgoingEdgeConnections()) {
+					if (out) break;
+					if (oeec.getConnectingEdges().isEmpty())
+						out = true;
+					for (Edge outgoing : oeec.getConnectingEdges()) {
+						if (outgoing.equals(e)) {
+							out = true;
+							break;
+						}
+					}
+				}
+			}
+			
+			if (in && out)
+				return Branches.TRUE;
+			
+			return Branches.FALSE;
+		} catch (Exception e) {
+			context.put("exception", e);
+			return Branches.ERROR;
+		}
+	}
+
 	public static String isMultiLineAttribute(
 			LightweightExecutionEnvironment env,
 			ContextKeyFoundation attribute) {
@@ -757,6 +815,194 @@ public class ServiceAdapter {
 					return Branches.TRUE;
 			
 			return Branches.FALSE;
+		} catch (Exception e) {
+			context.put("exception", e);
+			return Branches.ERROR;
+		}
+	}
+
+	public static String getEdgeSourceElementConnections(
+			LightweightExecutionEnvironment env,
+			ContextKeyFoundation edge,
+			ContextKeyFoundation nodes,
+			ContextKeyFoundation edgeElementConnectionsMap) {
+		
+		LightweightExecutionContext context = env.getLocalContext();
+		try {
+			Edge e = (Edge) context.get(edge);
+			List<Node> allNodes = (List<Node>) context.get(nodes);
+			HashMap<Node, List<OutgoingEdgeElementConnection>> map = new HashMap<>();
+			for (Node n : allNodes) {
+				ArrayList<OutgoingEdgeElementConnection> oeecs = new ArrayList<>();
+				if (n.getOutgoingEdgeConnections().isEmpty()) {
+					/*There are no IncomingEdgeElementConnections defined for this node
+					 * -> allow this node type as target for all edges*/
+					for (Edge tmp : n.getGraphModel().getEdges()) {
+						OutgoingEdgeElementConnection tmpOEEC = MglFactory.eINSTANCE.createOutgoingEdgeElementConnection();
+						tmpOEEC.setConnectedElement(n);
+						tmpOEEC.setLowerBound(0);
+						tmpOEEC.setUpperBound(-1);
+						oeecs.add(tmpOEEC);
+					}
+					
+				}
+				for (OutgoingEdgeElementConnection oeec : n.getOutgoingEdgeConnections()) {
+					for (Edge out : oeec.getConnectingEdges()) {
+						if (out.equals(e))
+							oeecs.add(oeec);
+					}
+					
+					if (oeec.getConnectingEdges().isEmpty()) {
+						/*IncomingEdgeElementConnection is defined for node but this one is a star.*/
+						oeecs.add(oeec);
+					}
+				}
+				if (!oeecs.isEmpty())
+					map.put(n, oeecs);
+			}
+			
+			context.put(edgeElementConnectionsMap, map);
+			
+			return Branches.DEFAULT;
+		} catch (Exception e) {
+			context.put("exception", e);
+			return Branches.ERROR;
+		}
+	}
+	
+	public static String getEdgeTargetElementConnections(
+			LightweightExecutionEnvironment env,
+			ContextKeyFoundation edge,
+			ContextKeyFoundation nodes,
+			ContextKeyFoundation edgeElementConnectionsMap) {
+		
+		LightweightExecutionContext context = env.getLocalContext();
+		try {
+			Edge e = (Edge) context.get(edge);
+			List<Node> allNodes = (List<Node>) context.get(nodes);
+			HashMap<Node, List<IncomingEdgeElementConnection>> map = new HashMap<>();
+			for (Node n : allNodes) {
+				ArrayList<IncomingEdgeElementConnection> ieecs = new ArrayList<>();
+				if (n.getIncomingEdgeConnections().isEmpty()) {
+					/*There are no IncomingEdgeElementConnections defined for this node
+					 * -> allow this node type as target for all edges*/
+					for (Edge tmp : n.getGraphModel().getEdges()) {
+						IncomingEdgeElementConnection tmpIEEC = MglFactory.eINSTANCE.createIncomingEdgeElementConnection();
+						tmpIEEC.setConnectedElement(n);
+						tmpIEEC.setLowerBound(0);
+						tmpIEEC.setUpperBound(-1);
+						ieecs.add(tmpIEEC);
+					}
+					
+				}
+				for (IncomingEdgeElementConnection ieec : n.getIncomingEdgeConnections()) {
+					for (Edge out : ieec.getConnectingEdges()) {
+						if (out.equals(e))
+							ieecs.add(ieec);
+					}
+					
+					if (ieec.getConnectingEdges().isEmpty()) {
+						/*IncomingEdgeElementConnection is defined for node but this one is a star.*/
+						ieecs.add(ieec);
+					}
+					
+				}
+				if (!ieecs.isEmpty())
+					map.put(n, ieecs);
+			}
+			
+			context.put(edgeElementConnectionsMap, map);
+			
+			return Branches.DEFAULT;
+		} catch (Exception e) {
+			context.put("exception", e);
+			return Branches.ERROR;
+		}
+	}
+	
+	public static String generateEdgeSourceCode(LightweightExecutionEnvironment env,
+			ContextKeyFoundation mapEntry,
+			ContextKeyFoundation code){
+		
+		LightweightExecutionContext context = env.getLocalContext();
+		try {
+			Entry<Node, List<OutgoingEdgeElementConnection>> entry = (Entry<Node, List<OutgoingEdgeElementConnection>>) context.get(mapEntry);
+			Node n = entry.getKey();
+			List<OutgoingEdgeElementConnection> oeecs = entry.getValue();
+			StringBuilder sbType = new StringBuilder();
+			StringBuilder sbBound = new StringBuilder();
+			
+			for (Iterator<OutgoingEdgeElementConnection> it = oeecs.iterator(); it.hasNext();) {
+				OutgoingEdgeElementConnection oeec = it.next();
+				int bound = oeec.getUpperBound();
+				if (bound > 0) {
+					if (oeec.getConnectingEdges().isEmpty()) {
+						sbBound.append("(("+n.getName()+") source).getIncoming().size()");
+					}
+					for (Iterator<Edge> edgeIt = oeec.getConnectingEdges().iterator(); edgeIt.hasNext();) {
+						Edge e = edgeIt.next();
+						sbBound.append("(("+n.getName()+") source).getOutgoing("+e.getName()+".class).size()");
+						if (edgeIt.hasNext())
+							sbBound.append(" + ");
+					}
+					sbBound.append( " < " + bound);
+				} else {
+					sbBound.append("true");
+				}
+				if (it.hasNext())
+					sbBound.append(" &&\n\t");
+			}
+			
+			sbType.append("if (source instanceof " + n.getName() +") {\n\t");
+			sbType.append("if ("+sbBound.toString()+")\n\t\treturn true;\n}");
+			
+			context.put(code, sbType.toString());
+			return Branches.DEFAULT;
+		} catch (Exception e) {
+			context.put("exception", e);
+			return Branches.ERROR;
+		}
+	}
+	
+	public static String generateEdgeTargetCode(LightweightExecutionEnvironment env,
+			ContextKeyFoundation mapEntry,
+			ContextKeyFoundation code){
+		
+		LightweightExecutionContext context = env.getLocalContext();
+		try {
+			Entry<Node, List<IncomingEdgeElementConnection>> entry = (Entry<Node, List<IncomingEdgeElementConnection>>) context.get(mapEntry);
+			Node n = entry.getKey();
+			List<IncomingEdgeElementConnection> oeecs = entry.getValue();
+			StringBuilder sbType = new StringBuilder();
+			StringBuilder sbBound = new StringBuilder();
+			
+			for (Iterator<IncomingEdgeElementConnection> it = oeecs.iterator(); it.hasNext();) {
+				IncomingEdgeElementConnection ieec = it.next();
+				int bound = ieec.getUpperBound();
+				if (bound > 0) {
+					if (ieec.getConnectingEdges().isEmpty()) {
+						sbBound.append("(("+n.getName()+") target).getIncoming().size()");
+					}
+					for (Iterator<Edge> edgeIt = ieec.getConnectingEdges().iterator(); edgeIt.hasNext();) {
+						Edge e = edgeIt.next();
+						sbBound.append("(("+n.getName()+") target).getIncoming("+e.getName()+".class).size()");
+						if (edgeIt.hasNext())
+							sbBound.append(" + ");
+					}
+					sbBound.append( " < " + bound);
+				} else {
+					sbBound.append("true");
+				}
+				if (it.hasNext())
+					sbBound.append(" &&\n\t");
+			}
+			
+			sbType.append("if (target instanceof " + n.getName() +") {\n\t");
+			sbType.append("if ("+sbBound.toString()+")\n\t\treturn true;\n}");
+			
+			context.put(code, sbType.toString());
+			return Branches.DEFAULT;
+
 		} catch (Exception e) {
 			context.put("exception", e);
 			return Branches.ERROR;

@@ -80,10 +80,14 @@ Edge returns Edge:
 	name=EString ('extends' extends=[Edge|EString])?
 	'{'
 		(attributes+=Attribute (  attributes+=Attribute)*)?
-		((('sourceNodes' '(' sourceElements+=[GraphicalModelElement|QName] ( "," sourceElements+=[GraphicalModelElement|QName])* ')')
-		('targetNodes' '(' targetElements+=[GraphicalModelElement|QName] ( "," targetElements+=[GraphicalModelElement|QName])* ')'))|
-		(('targetNodes' '(' targetElements+=[GraphicalModelElement|QName] ( "," targetElements+=[GraphicalModelElement|QName])* ')')
-		('sourceNodes' '(' sourceElements+=[GraphicalModelElement|QName] ( "," sourceElements+=[GraphicalModelElement|QName])* ')')))
+		//((('sourceNodes' '(' sourceElements+=[GraphicalModelElement|QName] ( "," sourceElements+=[GraphicalModelElement|QName])* ')')
+		//('targetNodes' '(' targetElements+=[GraphicalModelElement|QName] ( "," targetElements+=[GraphicalModelElement|QName])* ')'))|
+		//(('targetNodes' '(' targetElements+=[GraphicalModelElement|QName] ( "," targetElements+=[GraphicalModelElement|QName])* ')')
+		//('sourceNodes' '(' sourceElements+=[GraphicalModelElement|QName] ( "," sourceElements+=[GraphicalModelElement|QName])* ')')))
+//		((('sourceNodes' '(' sourceElements+=EdgeElementConnection(','sourceElements+=EdgeElementConnection)* ')')
+//		('targetNodes' '(' targetElements+=EdgeElementConnection(','targetElements+=EdgeElementConnection)* ')')))|
+//		((('targetNodes' '(' targetElements+=EdgeElementConnection(','targetElements+=EdgeElementConnection)* ')'))
+//		(('sourceNodes' '(' sourceElements+=EdgeElementConnection(','sourceElements+=EdgeElementConnection)* ')')))
 	//	('incoming cardinality''['minIncoming=EInt','maxIncoming=EInt']')?
 	//('outgoing cardinality''['minOutgoing=EInt','maxOutgoing=EInt']')?
 	'}'
@@ -97,8 +101,8 @@ Node returns Node:
 	'{'
 		(attributes+=Attribute)*
 		(primeReference=ReferencedType)?
-		('incoming cardinality''['minIncoming=EInt','maxIncoming=EInt']')?
-		('outgoing cardinality''['minOutgoing=EInt','maxOutgoing=EInt']')?
+		('incomingEdges' '(' incomingEdgeConnections+=IncomingEdgeElementConnection (',' incomingEdgeConnections+=IncomingEdgeElementConnection)*')')?
+		('outgoingEdges' '(' outgoingEdgeConnections+=OutgoingEdgeElementConnection (',' outgoingEdgeConnections+=OutgoingEdgeElementConnection)*')')?
 	'}'
 ;
 
@@ -115,10 +119,20 @@ NodeContainer returns NodeContainer:
 	'{'
 		(attributes+=Attribute)*
 		('containableElements' '(' containableElements+=GraphicalElementContainment ( "," containableElements+=GraphicalElementContainment)* ')' )?
-		('incoming cardinality''['minIncoming=EInt','maxIncoming=EInt']')?
-		('outgoing cardinality''['minOutgoing=EInt','maxOutgoing=EInt']')?
+		('incomingEdges' '(' incomingEdgeConnections+=IncomingEdgeElementConnection (',' incomingEdgeConnections+=IncomingEdgeElementConnection)*')')?
+		('outgoingEdges' '(' outgoingEdgeConnections+=OutgoingEdgeElementConnection (',' outgoingEdgeConnections+=OutgoingEdgeElementConnection)*')')?
 		
 	'}'
+;
+
+OutgoingEdgeElementConnection returns OutgoingEdgeElementConnection:
+	{OutgoingEdgeElementConnection}
+	(connectingEdges+=[Edge|QName]|'*'|'{'connectingEdges+=[Edge|QName](','connectingEdges+=[Edge|QName])*'}')('['lowerBound=EInt ',' upperBound=EInt']')?
+;
+
+IncomingEdgeElementConnection returns IncomingEdgeElementConnection:
+	{IncomingEdgeElementConnection}
+	(connectingEdges+=[Edge|QName]|'*'|'{'connectingEdges+=[Edge|QName](','connectingEdges+=[Edge|QName])*'}')('['lowerBound=EInt ',' upperBound=EInt']')?
 ;
 
 GraphicalElementContainment returns GraphicalElementContainment:

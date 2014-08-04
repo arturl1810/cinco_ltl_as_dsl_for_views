@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>97cfd22b-887e-4510-8a47-790198806019</id>
   <name>Create Model Element</name>
-  <changecounter>57</changecounter>
+  <changecounter>58</changecounter>
   <sib>
     <id>f2b2a564-ccd0-4b4f-9509-c723edc57a8d</id>
     <name>NewEClassInEPackageEClassifiers</name>
@@ -181,17 +181,17 @@
   </edge>
   <edge>
     <source>99f8a1b4-31d6-4ff3-84ac-e0e7613b51eb</source>
-    <target>f555ffb3-83fc-4ff3-b8e6-8321f40aba40</target>
-    <point>1050.0,283.0</point>
-    <point>1050.0,403.0</point>
+    <target>0339fbec-fcb4-4102-b084-a6cf1060be6b</target>
+    <point>1050.0,294.0</point>
+    <point>1050.0,511.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
     <source>2e6497ed-c6e5-43a6-8a67-8d2bf5b33177</source>
-    <target>9e357d5a-c5ec-4e57-bf5e-c20dd15d2857</target>
-    <point>615.0,285.0</point>
-    <point>615.0,405.0</point>
+    <target>0339fbec-fcb4-4102-b084-a6cf1060be6b</target>
+    <point>882.2727272727273,294.0</point>
+    <point>1035.3658536585365,511.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -230,7 +230,7 @@
     <parameter name="modelElement">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>nodeKey</key>
+          <key>modelElement</key>
           <scope>GLOBAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
@@ -263,113 +263,6 @@
     <point>930.0,675.0</point>
     <point>1032.0,718.35</point>
     <labelposition>516.2164988724668,-42.35391298954703</labelposition>
-    <branch>default</branch>
-  </edge>
-  <sib>
-    <id>9e357d5a-c5ec-4e57-bf5e-c20dd15d2857</id>
-    <name>MacroSIB_1</name>
-    <label>Add Edge Constraints</label>
-    <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
-    <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
-    <position>797.0,376.0</position>
-    <parameter name="modelElementClassKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>modelElementClass</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="modelElementKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>modelElement</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>1f6ccd29-a2c2-4c04-9b2f-355bf3939310</string>
-    </userobject>
-    <userobject key="ABC$GRAPHSIB$MODELNAME">
-      <string>Add Edge Constraints</string>
-    </userobject>
-  </sib>
-  <sib>
-    <id>f555ffb3-83fc-4ff3-b8e6-8321f40aba40</id>
-    <name>MacroSIB_2</name>
-    <label>Add Node Constraints</label>
-    <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
-    <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
-    <position>984.0,376.0</position>
-    <finalbranches>default</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>53b15962-0c61-4381-a53e-f0ecbf4682ef</string>
-    </userobject>
-    <userobject key="ABC$GRAPHSIB$MODELNAME">
-      <string>Add Node Constraints</string>
-    </userobject>
-  </sib>
-  <sib>
-    <id>0c1015a7-10f1-4e7d-8664-a766f188f43a</id>
-    <name>MacroSIB_3</name>
-    <label>Add Swimlane Constraints</label>
-    <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
-    <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
-    <position>1143.5,376.0</position>
-    <parameter name="nodeContainerKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>modelElement</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="swimlaneClassKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>modelElementClass</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>39073575-d6e0-4a85-a100-26d04a15879b</string>
-    </userobject>
-    <userobject key="ABC$GRAPHSIB$MODELNAME">
-      <string>Add Swimlane Constraints</string>
-    </userobject>
-  </sib>
-  <edge>
-    <source>9e357d5a-c5ec-4e57-bf5e-c20dd15d2857</source>
-    <target>0339fbec-fcb4-4102-b084-a6cf1060be6b</target>
-    <point>615.0,405.0</point>
-    <point>1050.0,538.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
-  <edge>
-    <source>f555ffb3-83fc-4ff3-b8e6-8321f40aba40</source>
-    <target>0339fbec-fcb4-4102-b084-a6cf1060be6b</target>
-    <point>1050.0,403.0</point>
-    <point>1050.0,538.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
-  <edge>
-    <source>0c1015a7-10f1-4e7d-8664-a766f188f43a</source>
-    <target>0339fbec-fcb4-4102-b084-a6cf1060be6b</target>
-    <point>1230.0,403.0</point>
-    <point>1050.0,538.0</point>
-    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
@@ -765,9 +658,9 @@
   </edge>
   <edge>
     <source>22f458a4-e3b5-4a53-8ad1-94eab1877c9d</source>
-    <target>0c1015a7-10f1-4e7d-8664-a766f188f43a</target>
-    <point>1230.0,283.0</point>
-    <point>1230.0,403.0</point>
+    <target>0339fbec-fcb4-4102-b084-a6cf1060be6b</target>
+    <point>1217.7272727272727,294.0</point>
+    <point>1064.6341463414635,511.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -1103,16 +996,6 @@
   </parameter>
   <parameter>
     <name>modelElementClassKey</name>
-    <field>swimlaneClassKey</field>
-    <sib>0c1015a7-10f1-4e7d-8664-a766f188f43a</sib>
-  </parameter>
-  <parameter>
-    <name>modelElementKey</name>
-    <field>nodeContainerKey</field>
-    <sib>0c1015a7-10f1-4e7d-8664-a766f188f43a</sib>
-  </parameter>
-  <parameter>
-    <name>modelElementClassKey</name>
     <field>eClassKey</field>
     <sib>12027b37-f1df-42ef-819f-89c91b3a57e2</sib>
   </parameter>
@@ -1222,16 +1105,6 @@
     <name>error</name>
     <branch>error</branch>
     <sib>3e525a44-ce0c-43b1-b806-c23a970f4f1e</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>9e357d5a-c5ec-4e57-bf5e-c20dd15d2857</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>0c1015a7-10f1-4e7d-8664-a766f188f43a</sib>
   </branch>
   <branch>
     <name>error</name>

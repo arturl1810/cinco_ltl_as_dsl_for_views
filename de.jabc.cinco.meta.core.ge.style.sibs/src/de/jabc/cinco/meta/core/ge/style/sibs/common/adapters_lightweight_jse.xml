@@ -14,6 +14,48 @@
 			<argument name="width" />
 		</arguments>
 	</serviceAdapter>
+
+	<serviceAdapter uid="ge-util-sibs/GenerateEdgeTargetCode">
+		<service>generateEdgeTargetCode</service>
+		<arguments>
+			<argument name="mapEntry" />
+			<argument name="code" />
+		</arguments>
+	</serviceAdapter>
+	
+	<serviceAdapter uid="ge-util-sibs/GenerateEdgeSourceCode">
+		<service>generateEdgeSourceCode</service>
+		<arguments>
+			<argument name="mapEntry" />
+			<argument name="code" />
+		</arguments>
+	</serviceAdapter>
+	
+	<serviceAdapter uid="ge-util-sibs/GetEdgeTargetElementConnections">
+		<service>getEdgeTargetElementConnections</service>
+		<arguments>
+			<argument name="edge" />
+			<argument name="nodes" />
+			<argument name="edgeTargetElementConnectionMap" />
+		</arguments>
+	</serviceAdapter>
+	
+	<serviceAdapter uid="ge-util-sibs/GetEdgeSourceElementConnections">
+		<service>getEdgeSourceElementConnections</service>
+		<arguments>
+			<argument name="edge" />
+			<argument name="nodes" />
+			<argument name="edgeSourceElementConnectionMap" />
+		</arguments>
+	</serviceAdapter>
+	
+	<serviceAdapter uid="ge-util-sibs/IsEdgeUsed">
+		<service>isEdgeUsed</service>
+		<arguments>
+			<argument name="edge" />
+			<argument name="nodes" />
+		</arguments>
+	</serviceAdapter>
 	
 	<serviceAdapter uid="ge-util-sibs/CollectInlineAppearances">
 		<service>collectInlineAppearances</service>

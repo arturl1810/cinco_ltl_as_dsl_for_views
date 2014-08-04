@@ -3,17 +3,21 @@
  */
 package de.jabc.cinco.meta.core.mgl.validation
 
+import java.util.HashSet
+import java.util.List
 import mgl.Attribute
 import mgl.ContainingElement
 import mgl.Edge
+import mgl.EdgeElementConnection
 import mgl.GraphModel
 import mgl.GraphicalElementContainment
 import mgl.GraphicalModelElement
+import mgl.IncomingEdgeElementConnection
 import mgl.MglPackage
 import mgl.ModelElement
 import mgl.Node
 import mgl.NodeContainer
-import mgl.ReferencedAttribute
+import mgl.OutgoingEdgeElementConnection
 import mgl.ReferencedType
 import mgl.Type
 import mgl.UserDefinedType
@@ -53,31 +57,113 @@ class MGLValidator extends AbstractMGLValidator {
 		}
 			
 	}
+	
 	@Check
-	def checkNodeCanConnectToEdge(Edge edge){
+	def checkEdgeElementConnectionCardinalities( EdgeElementConnection eec){
 		
-		for(node : edge.sourceElements){
-			if(node.outgoingEdges==null||node.outgoingEdges.size==0||!node.outgoingEdges.contains(edge))
-				error('Node: '+node.name+' cannot have an outgoing edge.',MglPackage.Literals::EDGE__SOURCE_ELEMENTS)
+		if(eec.lowerBound<0)
+			error("Lower Bound cannot be less than 0", MglPackage.Literals::EDGE_ELEMENT_CONNECTION__LOWER_BOUND)
+		if(eec.lowerBound>eec.upperBound&&eec.upperBound!=-1)
+			error("Lower Bound cannot be bigger than upper bound.", MglPackage.Literals::EDGE_ELEMENT_CONNECTION__LOWER_BOUND)
+		if(eec.upperBound<-1)
+			error("Lower Bound cannot be less than -1", MglPackage.Literals::EDGE_ELEMENT_CONNECTION__LOWER_BOUND)
+		
+	}
+	
+	@Check
+	def checkNodeIncomingConnections(GraphicalModelElement elem){
+		if(elem.incomingEdgeConnections.length<2){
+			return;
+			
 		}
-		for(node : edge.targetElements){
-			if(node.incomingEdges==null||node.incomingEdges.size==0||!node.incomingEdges.contains(edge))
-				error('Node: '+node.name+' cannot have an incoming edge.',MglPackage.Literals::EDGE__TARGET_ELEMENTS)
+		for(connection: elem.incomingEdgeConnections){
+			if(connection.connectingEdges==null)
+				error("Incoming Edges cannot have a don't care and other edges.",MglPackage.Literals::GRAPHICAL_MODEL_ELEMENT__INCOMING_EDGE_CONNECTIONS)
+			
+		}
+			
+		
+	}
+	
+	@Check
+	def checkNodeOutgoingConnections(GraphicalModelElement elem){
+		
+		if(elem.outgoingEdgeConnections.length<2){
+			return;
+			
+		}
+		for(connection: elem.outgoingEdgeConnections){
+			if(connection.connectingEdges==null)
+				error("Incoming Edges cannot have a don't care and other edges.",MglPackage.Literals::GRAPHICAL_MODEL_ELEMENT__OUTGOING_EDGE_CONNECTIONS)
+			
+		}
+			
+		
+	}
+	
+	@Check
+	def checkIncomingEdgeConnectionsUnique(GraphicalModelElement elem){
+		var set = new HashSet<List<Edge>>()
+		for(connection: elem.incomingEdgeConnections){
+			if(connection.connectingEdges!=null&&!set.add(connection.connectingEdges)){
+				error("Given Edges should be unique",MglPackage.Literals::GRAPHICAL_MODEL_ELEMENT__INCOMING_EDGE_CONNECTIONS);
+			
+			}
+			
 		}
 		
 	}
 	
 	@Check
-	def checkEdgeCanConnectToNode(Node node){
-		for(edge : node.outgoingEdges){
-			if(edge.sourceElements==null||edge.sourceElements.size==0||!edge.sourceElements.contains(node))
-				error('Node: '+node.name+ 'cannot have Edge: '+edge.name+'as outgoing edge' ,MglPackage.Literals::GRAPHICAL_MODEL_ELEMENT__OUTGOING_EDGES)
+	def checkOutgoingEdgeConnectionsUnique(GraphicalModelElement elem){
+		var set = new HashSet<List<Edge>>()
+		for(connection: elem.outgoingEdgeConnections){
+			if(connection.connectingEdges!=null&&!set.add(connection.connectingEdges)){
+				error("Given Edges should be unique",MglPackage.Literals::GRAPHICAL_MODEL_ELEMENT__OUTGOING_EDGE_CONNECTIONS);
+			
+			}
+			
 		}
-		for(edge : node.incomingEdges){
-			if(edge.targetElements==null||edge.targetElements.size==0||!edge.targetElements.contains(node))
-				error('Node: '+node.name+' cannot have Edge: '+edge.name +'as incoming edge.',MglPackage.Literals::GRAPHICAL_MODEL_ELEMENT__INCOMING_EDGES)
-		}
+		
 	}
+	
+	def GraphicalModelElement connectedElement(EdgeElementConnection connection){
+		if(connection instanceof IncomingEdgeElementConnection){
+			return (connection as IncomingEdgeElementConnection).connectedElement;
+		
+		}
+		else{ 
+			if(connection instanceof OutgoingEdgeElementConnection)
+				return(connection as OutgoingEdgeElementConnection).connectedElement;
+		}
+		return null;
+	}
+	
+//	@Check
+//	def checkNodeCanConnectToEdge(Edge edge){
+//		
+//		for(node : edge.sourceElements){
+//			if(node.connectedElement==null||node..size==0||!node.outgoingEdges.contains(edge))
+//				error('Node: '+node.connectedElement.name+' cannot have '+edge.name+' as outgoing edge.',MglPackage.Literals::EDGE__SOURCE_ELEMENTS)
+//		}
+//		for(node : edge.targetElements){
+//			if(node.==null||node.incomingEdges.size==0||!node.incomingEdges.contains(edge))
+//				error('Node: '+node.name+' cannot have an incoming edge.',MglPackage.Literals::EDGE__TARGET_ELEMENTS)
+//		}
+//		
+//	}
+	
+//	@Check
+//	def checkEdgeCanConnectToNode(Node node){
+//		for(edge : node.outgoingEdges){
+//			if(edge.sourceElements==null||edge.sourceElements.size==0||!edge.sourceElements.contains(node))
+//				error('Node: '+node.name+ 'cannot have Edge: '+edge.name+'as outgoing edge' ,MglPackage.Literals::GRAPHICAL_MODEL_ELEMENT__OUTGOING_EDGES)
+//		}
+//		for(edge : node.incomingEdges){
+//			if(edge.targetElements==null||edge.targetElements.size==0||!edge.targetElements.contains(node))
+//				error('Node: '+node.name+' cannot have Edge: '+edge.name +'as incoming edge.',MglPackage.Literals::GRAPHICAL_MODEL_ELEMENT__INCOMING_EDGES)
+//		}
+//	}
 	
 	@Check
 	def checkUpperBound(Attribute attribute){
@@ -228,17 +314,17 @@ class MGLValidator extends AbstractMGLValidator {
 //		}
 //	}
 	
-	@Check
-	def checkNodeAlreadyInsourceElements(Edge edge){
-		if(!edge.extends.equals(null)){
-			val nodes = edge.sourceElements
-			val superTypeNodes = edge.extends.sourceElements
-			if(nodes.exists(u | superTypeNodes.contains(u))){
-				error("Node already contained in supertype.",MglPackage.Literals::EDGE__SOURCE_ELEMENTS)	
-			}
-		}
-		
-	}
+//	@Check
+//	def checkNodeAlreadyInsourceElements(Edge edge){
+//		if(!edge.extends.equals(null)){
+//			val nodes = edge.sourceElements
+//			val superTypeNodes = edge.extends.sourceElements
+//			if(nodes.exists(u | superTypeNodes.contains(u))){
+//				error("Node already contained in supertype.",MglPackage.Literals::EDGE__SOURCE_ELEMENTS)	
+//			}
+//		}
+//		
+//	}
 	@Check
 	def checkFeatureNameUnique(Attribute attr){
 		for(a: attr.modelElement.attributes)
@@ -313,25 +399,25 @@ class MGLValidator extends AbstractMGLValidator {
 	
 	
 	
-	@Check
-	def checkIncomingCardinality(GraphicalModelElement gme){
-		if(gme.minIncoming<0)
-			error("Minimal incoming cardinality cannot be lower than 0",MglPackage.Literals::GRAPHICAL_MODEL_ELEMENT__MIN_INCOMING);
-		if(gme.minIncoming>gme.maxIncoming&&gme.maxIncoming!=-1)
-			error("Minimal incoming cardinality must be equal to or lower than maximal incoming cardinality",MglPackage.Literals::GRAPHICAL_MODEL_ELEMENT__MIN_INCOMING)
-		if(gme.maxIncoming<0&&gme.maxIncoming!=-1)
-			error("Maximal incoming cardinality must equal to or higher than 0",MglPackage.Literals::GRAPHICAL_MODEL_ELEMENT__MAX_INCOMING)
-	}
+//	@Check
+//	def checkIncomingCardinality(GraphicalModelElement gme){
+//		if(gme.minIncoming<0)
+//			error("Minimal incoming cardinality cannot be lower than 0",MglPackage.Literals::GRAPHICAL_MODEL_ELEMENT__MIN_INCOMING);
+//		if(gme.minIncoming>gme.maxIncoming&&gme.maxIncoming!=-1)
+//			error("Minimal incoming cardinality must be equal to or lower than maximal incoming cardinality",MglPackage.Literals::GRAPHICAL_MODEL_ELEMENT__MIN_INCOMING)
+//		if(gme.maxIncoming<0&&gme.maxIncoming!=-1)
+//			error("Maximal incoming cardinality must equal to or higher than 0",MglPackage.Literals::GRAPHICAL_MODEL_ELEMENT__MAX_INCOMING)
+//	}
 	
-	@Check
-	def checkOutgoingCardinality(GraphicalModelElement gme){
-		if(gme.minOutgoing<0)
-			error("Minimal outgoing cardinality cannot be lower than 0",MglPackage.Literals::GRAPHICAL_MODEL_ELEMENT__MIN_OUTGOING);
-		if(gme.minOutgoing>gme.maxOutgoing&&gme.maxOutgoing!=-1)
-			error("Minimal outgoing cardinality must be equal to or lower than maximal outgoing cardinality",MglPackage.Literals::GRAPHICAL_MODEL_ELEMENT__MIN_OUTGOING)
-		if(gme.maxOutgoing<0&&gme.maxOutgoing!=-1)
-			error("Maximal outgoing cardinality must equal to or higher than -1",MglPackage.Literals::GRAPHICAL_MODEL_ELEMENT__MAX_OUTGOING)
-	}
+//	@Check
+//	def checkOutgoingCardinality(GraphicalModelElement gme){
+//		if(gme.minOutgoing<0)
+//			error("Minimal outgoing cardinality cannot be lower than 0",MglPackage.Literals::GRAPHICAL_MODEL_ELEMENT__MIN_OUTGOING);
+//		if(gme.minOutgoing>gme.maxOutgoing&&gme.maxOutgoing!=-1)
+//			error("Minimal outgoing cardinality must be equal to or lower than maximal outgoing cardinality",MglPackage.Literals::GRAPHICAL_MODEL_ELEMENT__MIN_OUTGOING)
+//		if(gme.maxOutgoing<0&&gme.maxOutgoing!=-1)
+//			error("Maximal outgoing cardinality must equal to or higher than -1",MglPackage.Literals::GRAPHICAL_MODEL_ELEMENT__MAX_OUTGOING)
+//	}
 	
 	@Check
 	def checkPrimeReferenceIsPrime(ReferencedType refType){
