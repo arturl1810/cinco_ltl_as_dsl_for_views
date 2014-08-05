@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>d56f9277-94e0-48c2-aff2-e2cc43c9b74b</id>
   <name>Create Connecting Constraints</name>
-  <changecounter>33</changecounter>
+  <changecounter>35</changecounter>
   <sib>
     <id>bfd87f61-6514-4fa7-b65c-deda7e931e26</id>
     <name>CompareElements</name>
@@ -101,7 +101,7 @@
     <parameter name="constraint">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>self.incoming-&gt;size()&gt;=${modelElementminIncoming} and self.incoming-&gt;select(elem: elem.oclIsTypeOf(${connectedEdgeName})-&gt;select(elem: elem.oclIsTypeOf(${connectedEdgeName})-&gt;size()&lt;=${modelElementmaxIncoming}</expression>
+          <expression>self.incoming-&gt;select(elem: elem.oclIsTypeOf(${connectedEdgeName})-&gt;size()&gt;=${modelElementminIncoming} and self.incoming-&gt;select(elem: elem.oclIsTypeOf(${connectedEdgeName})-&gt;size()&lt;=${modelElementmaxIncoming}</expression>
           <clazz>java.lang.String</clazz>
           <classMutable>true</classMutable>
         </ContextExpressionFoundation>
@@ -160,7 +160,7 @@
     <label>Compare Min and Max</label>
     <sib-uid>basic-sibs/CompareElements</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.CompareElements</taxonomy>
-    <position>495.0,1998.0</position>
+    <position>510.0,1998.0</position>
     <parameter name="firstElement">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -424,7 +424,7 @@
     <label>Compare Max to -1</label>
     <sib-uid>basic-sibs/CompareNumber</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.CompareNumber</taxonomy>
-    <position>505.5,2088.0</position>
+    <position>520.5,2103.0</position>
     <parameter name="value">
       <double>-1.0</double>
     </parameter>
@@ -508,7 +508,7 @@
     <label>IterateGraphicalModelElementIncomingEdgeConnections</label>
     <sib-uid>mgl/mgl/IterateGraphicalModelElementIncomingEdgeConnections</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.IterateGraphicalModelElementIncomingEdgeConnections</taxonomy>
-    <position>628.0,153.0</position>
+    <position>628.0,151.0</position>
     <parameter name="elementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -547,7 +547,7 @@
     <label>GetEdgeElementConnectionUpperBound</label>
     <sib-uid>mgl/mgl/GetEdgeElementConnectionUpperBound</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetEdgeElementConnectionUpperBound</taxonomy>
-    <position>677.0,348.0</position>
+    <position>677.0,346.0</position>
     <parameter name="edgeElementConnectionKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -575,7 +575,7 @@
     <label>GetEdgeElementConnectionLowerBound</label>
     <sib-uid>mgl/mgl/GetEdgeElementConnectionLowerBound</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetEdgeElementConnectionLowerBound</taxonomy>
-    <position>676.5,258.0</position>
+    <position>676.5,256.0</position>
     <parameter name="edgeElementConnectionKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -680,10 +680,10 @@
     <source>90b1b139-709e-4bcc-b0a7-1b9c7347caf6</source>
     <target>de391bf8-c25e-4ccb-acb3-a155201b994c</target>
     <spline/>
-    <point>765.0,2120.0</point>
-    <point>778.0,1563.0</point>
-    <point>585.0,1400.0</point>
-    <labelposition>300.03126626582906,86.82538011421336</labelposition>
+    <point>780.0,2025.0</point>
+    <point>763.0,1563.0</point>
+    <point>585.0,1395.0</point>
+    <labelposition>346.3176226704814,95.58495949593079</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
@@ -692,7 +692,7 @@
     <label>GetEdgeElementConnectionUpperBound</label>
     <sib-uid>mgl/mgl/GetEdgeElementConnectionUpperBound</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetEdgeElementConnectionUpperBound</taxonomy>
-    <position>452.0,1548.0</position>
+    <position>452.0,1546.0</position>
     <parameter name="edgeElementConnectionKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -720,7 +720,7 @@
     <label>GetEdgeElementConnectionLowerBound</label>
     <sib-uid>mgl/mgl/GetEdgeElementConnectionLowerBound</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetEdgeElementConnectionLowerBound</taxonomy>
-    <position>451.5,1458.0</position>
+    <position>451.5,1456.0</position>
     <parameter name="edgeElementConnectionKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -808,7 +808,7 @@
     <label>IterateGraphicalModelElementOutgoingEdgeConnections</label>
     <sib-uid>mgl/mgl/IterateGraphicalModelElementOutgoingEdgeConnections</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.IterateGraphicalModelElementOutgoingEdgeConnections</taxonomy>
-    <position>403.5,1368.0</position>
+    <position>403.5,1366.0</position>
     <parameter name="elementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -942,7 +942,7 @@
     <label>GetOutgoingEdgeElementConnectionConnectedElement</label>
     <sib-uid>mgl/mgl/GetIncomingEdgeElementConnectionConnectedElement</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetIncomingEdgeElementConnectionConnectedElement</taxonomy>
-    <position>626.5,393.0</position>
+    <position>626.5,391.0</position>
     <parameter name="incomingEdgeElementConnectionKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1046,7 +1046,7 @@
     <label>GetOutgoingEdgeElementConnectionConnectedElement</label>
     <sib-uid>mgl/mgl/GetOutgoingEdgeElementConnectionConnectedElement</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetOutgoingEdgeElementConnectionConnectedElement</taxonomy>
-    <position>401.5,1608.0</position>
+    <position>401.5,1606.0</position>
     <parameter name="outgoingEdgeElementConnectionKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1117,7 +1117,7 @@
     <label>GetEdgeElementConnectionConnectingEdges</label>
     <sib-uid>mgl/mgl/IterateIncomingEdgeElementConnectionConnectingEdges</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.IterateIncomingEdgeElementConnectionConnectingEdges</taxonomy>
-    <position>600.5,663.0</position>
+    <position>600.5,661.0</position>
     <parameter name="elementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1194,7 +1194,6 @@
     <point>810.0,615.0</point>
     <point>803.0,898.0</point>
     <branch>exit</branch>
-    <branch>noElements</branch>
   </edge>
   <sib>
     <id>61cc647c-4765-4e4b-9ce7-d59bab92dbca</id>
@@ -1202,7 +1201,7 @@
     <label>IterateEdgeElementConnectionConnectingEdges</label>
     <sib-uid>mgl/mgl/IterateOutgoingEdgeElementConnectionConnectingEdges</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.IterateOutgoingEdgeElementConnectionConnectingEdges</taxonomy>
-    <position>425.0,1803.0</position>
+    <position>425.0,1801.0</position>
     <parameter name="elementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1287,7 +1286,6 @@
     <point>585.0,1830.0</point>
     <point>571.0,2012.0</point>
     <branch>exit</branch>
-    <branch>noElements</branch>
   </edge>
   <sib>
     <id>2e7353b5-b920-4564-8c09-db0a388cc90e</id>
@@ -1295,7 +1293,7 @@
     <label>RemoveElement</label>
     <sib-uid>basic-sibs/RemoveElement</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.RemoveElement</taxonomy>
-    <position>800.0,1383.0</position>
+    <position>785.0,1368.0</position>
     <parameter name="variable">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1340,6 +1338,506 @@
     <point>855.0,1410.0</point>
     <point>609.0,1467.0</point>
     <branch>default</branch>
+  </edge>
+  <sib>
+    <id>dfdaabb5-4685-425e-bb90-e9ce7cb8fe25</id>
+    <name>MacroSIB_7</name>
+    <label>Add OCL Constraint</label>
+    <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
+    <position>1253.5,1996.0</position>
+    <parameter name="constraint">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>self.outgoing-&gt;size()==${modelElementmaxOutgoing}</expression>
+          <clazz>java.lang.String</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="constraintName">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>checkOutgoing${outgoingEdgeElementConnectionconnectedElementName}${connectingEdgeName}</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="eClassKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>modelElementClass</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>9c541b3c-113b-469b-9c3e-ec6428219c75</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Add OCL Constraint</string>
+    </userobject>
+  </sib>
+  <sib>
+    <id>5ac4b864-65e9-4feb-8ef9-afc42bc92b8b</id>
+    <name>MacroSIB_8</name>
+    <label>Add OCL Constraint</label>
+    <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
+    <position>1208.5,2206.0</position>
+    <parameter name="constraint">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>self.outgoing-&gt;size()&gt;=${modelElementminOutgoing} and self.outgoing-&gt;size()&lt;=${modelElementmaxOutgoing}</expression>
+          <clazz>java.lang.String</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="constraintName">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>checkOutgoing${outgoingEdgeElementConnectionconnectedElementName}${connectingEdgeName}</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="eClassKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>modelElementClass</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>9c541b3c-113b-469b-9c3e-ec6428219c75</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Add OCL Constraint</string>
+    </userobject>
+  </sib>
+  <sib>
+    <id>f3370c7e-f0a8-494f-9b48-7f32065f9756</id>
+    <name>MacroSIB_9</name>
+    <label>Add OCL Constraint</label>
+    <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
+    <position>953.5,2206.0</position>
+    <parameter name="constraint">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>self.outgoingElements-&gt;size()&gt;=${modelElementminOutgoing}</expression>
+          <clazz>java.lang.String</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="constraintName">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>checkOutgoing${outgoingEdgeElementConnectionconnectedElementName}${connectingEdgeName}</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="eClassKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>modelElementClass</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>9c541b3c-113b-469b-9c3e-ec6428219c75</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Add OCL Constraint</string>
+    </userobject>
+  </sib>
+  <sib>
+    <id>5ea00793-f786-4f07-b9dc-30299d2342e6</id>
+    <name>CompareElements_2</name>
+    <label>Compare Min and Max</label>
+    <sib-uid>basic-sibs/CompareElements</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.CompareElements</taxonomy>
+    <position>1065.0,1998.0</position>
+    <parameter name="firstElement">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>modelElementminOutgoing</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="secondElement">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>modelElementmaxOutgoing</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>equal</finalbranches>
+    <finalbranches>error</finalbranches>
+    <finalbranches>notEqual</finalbranches>
+  </sib>
+  <sib>
+    <id>5901ad08-d8e8-459e-a892-d7da96ac2a50</id>
+    <name>CompareNumber_2</name>
+    <label>Compare Max to -1</label>
+    <sib-uid>basic-sibs/CompareNumber</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.CompareNumber</taxonomy>
+    <position>1075.5,2103.0</position>
+    <parameter name="value">
+      <double>-1.0</double>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>modelElementmaxOutgoing</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>equal</finalbranches>
+    <finalbranches>error</finalbranches>
+    <finalbranches>greater</finalbranches>
+    <finalbranches>less</finalbranches>
+  </sib>
+  <edge>
+    <source>5901ad08-d8e8-459e-a892-d7da96ac2a50</source>
+    <target>f3370c7e-f0a8-494f-9b48-7f32065f9756</target>
+    <point>1140.0,2130.0</point>
+    <point>818.0,2221.0</point>
+    <branch>equal</branch>
+  </edge>
+  <edge>
+    <source>5901ad08-d8e8-459e-a892-d7da96ac2a50</source>
+    <target>5ac4b864-65e9-4feb-8ef9-afc42bc92b8b</target>
+    <point>1140.0,2130.0</point>
+    <point>1300.0,2262.0</point>
+    <branch>greater</branch>
+    <branch>less</branch>
+  </edge>
+  <edge>
+    <source>5ea00793-f786-4f07-b9dc-30299d2342e6</source>
+    <target>dfdaabb5-4685-425e-bb90-e9ce7cb8fe25</target>
+    <point>1155.0,2025.0</point>
+    <point>1369.0,2027.0</point>
+    <branch>equal</branch>
+  </edge>
+  <edge>
+    <source>5ea00793-f786-4f07-b9dc-30299d2342e6</source>
+    <target>5901ad08-d8e8-459e-a892-d7da96ac2a50</target>
+    <point>1155.0,2025.0</point>
+    <point>1127.0,2126.0</point>
+    <branch>notEqual</branch>
+  </edge>
+  <edge>
+    <source>61cc647c-4765-4e4b-9ce7-d59bab92dbca</source>
+    <target>5ea00793-f786-4f07-b9dc-30299d2342e6</target>
+    <point>585.0,1830.0</point>
+    <point>1122.0,2032.0</point>
+    <branch>noElements</branch>
+  </edge>
+  <edge>
+    <source>dfdaabb5-4685-425e-bb90-e9ce7cb8fe25</source>
+    <target>de391bf8-c25e-4ccb-acb3-a155201b994c</target>
+    <spline/>
+    <point>1311.4473684210527,1996.0</point>
+    <point>1125.0,1560.0</point>
+    <point>605.0,1392.4444444444443</point>
+    <labelposition>329.7016990460982,185.46104479562138</labelposition>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>5ac4b864-65e9-4feb-8ef9-afc42bc92b8b</source>
+    <target>de391bf8-c25e-4ccb-acb3-a155201b994c</target>
+    <spline/>
+    <point>1269.2675159235669,2206.0</point>
+    <point>1140.0,1755.0</point>
+    <point>605.0,1399.2972972972973</point>
+    <labelposition>401.0,183.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>f3370c7e-f0a8-494f-9b48-7f32065f9756</source>
+    <target>de391bf8-c25e-4ccb-acb3-a155201b994c</target>
+    <spline/>
+    <point>1024.2735042735044,2206.0</point>
+    <point>1095.0,1875.0</point>
+    <point>605.0,1405.1764705882354</point>
+    <labelposition>292.0,219.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>d2fd6ebb-435b-4379-a92b-104b04d6153b</id>
+    <name>CompareNumber_3</name>
+    <label>Compare Max to -1</label>
+    <sib-uid>basic-sibs/CompareNumber</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.CompareNumber</taxonomy>
+    <position>295.5,1023.0</position>
+    <parameter name="value">
+      <double>-1.0</double>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>modelElementmaxIncoming</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>equal</finalbranches>
+    <finalbranches>error</finalbranches>
+    <finalbranches>greater</finalbranches>
+    <finalbranches>less</finalbranches>
+  </sib>
+  <sib>
+    <id>9ae4c87d-a61a-4497-a912-05fe441411fc</id>
+    <name>MacroSIB_10</name>
+    <label>Add OCL Constraint</label>
+    <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
+    <position>188.5,1126.0</position>
+    <parameter name="constraint">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>self.incoming-&gt;size()&gt;=${modelElementminIncoming} and self.incoming-&gt;size()&lt;=${modelElementmaxIncoming}</expression>
+          <clazz>java.lang.String</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="constraintName">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>checkIncoming${incomingEdgeElementConnectionconnectedElementName}${constraintName}</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="eClassKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>modelElementClass</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>9c541b3c-113b-469b-9c3e-ec6428219c75</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Add OCL Constraint</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>d2fd6ebb-435b-4379-a92b-104b04d6153b</source>
+    <target>9ae4c87d-a61a-4497-a912-05fe441411fc</target>
+    <point>360.0,1050.0</point>
+    <point>255.0,1155.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>greater</branch>
+    <branch>less</branch>
+  </edge>
+  <edge>
+    <source>d2fd6ebb-435b-4379-a92b-104b04d6153b</source>
+    <target>dd236332-4dbc-45fc-a3f9-b5201e972de5</target>
+    <point>370.0,1059.0</point>
+    <point>452.719298245614,1201.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>equal</branch>
+  </edge>
+  <sib>
+    <id>52b6e09e-42a2-496e-9251-fc6c6f604077</id>
+    <name>MacroSIB_11</name>
+    <label>Add OCL Constraint</label>
+    <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
+    <position>503.5,856.0</position>
+    <parameter name="constraint">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>self.incoming-&gt;size()==${modelElementmaxIncoming})</expression>
+          <clazz>java.lang.String</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="constraintName">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>checkIncoming${incomingEdgeElementConnectionconnectedElementName}${constraintName}</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="eClassKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>modelElementClass</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>9c541b3c-113b-469b-9c3e-ec6428219c75</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Add OCL Constraint</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>52b6e09e-42a2-496e-9251-fc6c6f604077</source>
+    <target>57876a07-43d0-44d2-ba9c-d6399871f993</target>
+    <spline/>
+    <point>570.0,856.0</point>
+    <point>570.0,465.0</point>
+    <point>793.6734693877551,191.0</point>
+    <labelposition>150.71338980928442,71.52617725224663</labelposition>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>dd236332-4dbc-45fc-a3f9-b5201e972de5</source>
+    <target>57876a07-43d0-44d2-ba9c-d6399871f993</target>
+    <spline/>
+    <point>473.69565217391306,1201.0</point>
+    <point>735.0,600.0</point>
+    <point>806.5034965034965,191.0</point>
+    <labelposition>355.5954391512019,272.9573345433087</labelposition>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>9ae4c87d-a61a-4497-a912-05fe441411fc</source>
+    <target>57876a07-43d0-44d2-ba9c-d6399871f993</target>
+    <spline/>
+    <point>252.91666666666666,1126.0</point>
+    <point>195.0,570.0</point>
+    <point>790.0,183.97560975609755</point>
+    <labelposition>473.5350096711497,-120.83265979186527</labelposition>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>983db5de-7c4f-4b7e-ab0d-1a207cc69afb</source>
+    <target>d2fd6ebb-435b-4379-a92b-104b04d6153b</target>
+    <point>360.0,960.0</point>
+    <point>360.0,1050.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>notEqual</branch>
+  </edge>
+  <sib>
+    <id>983db5de-7c4f-4b7e-ab0d-1a207cc69afb</id>
+    <name>CompareElements_3</name>
+    <label>Compare Min And Max</label>
+    <sib-uid>basic-sibs/CompareElements</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.CompareElements</taxonomy>
+    <position>300.0,933.0</position>
+    <parameter name="firstElement">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>modelElementminIncoming</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="secondElement">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>modelElementmaxIncoming</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>equal</finalbranches>
+    <finalbranches>error</finalbranches>
+    <finalbranches>notEqual</finalbranches>
+  </sib>
+  <edge>
+    <source>983db5de-7c4f-4b7e-ab0d-1a207cc69afb</source>
+    <target>52b6e09e-42a2-496e-9251-fc6c6f604077</target>
+    <point>378.0,945.3428571428572</point>
+    <point>550.0,884.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>equal</branch>
+  </edge>
+  <sib>
+    <id>dd236332-4dbc-45fc-a3f9-b5201e972de5</id>
+    <name>MacroSIB_12</name>
+    <label>Add OCL Constraint</label>
+    <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
+    <position>383.5,1141.0</position>
+    <parameter name="constraint">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>self.incoming-&gt;size()&gt;=${modelElementminIncoming}</expression>
+          <clazz>java.lang.String</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="constraintName">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>checkIncoming${incomingEdgeElementConnectionconnectedElementName}${constraintName}</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="eClassKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>modelElementClass</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>9c541b3c-113b-469b-9c3e-ec6428219c75</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Add OCL Constraint</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>8167f5fd-1c9d-4dea-85c1-b7fa6c92768e</source>
+    <target>983db5de-7c4f-4b7e-ab0d-1a207cc69afb</target>
+    <point>750.0,690.0</point>
+    <point>344.0,940.0</point>
+    <branch>noElements</branch>
   </edge>
   <parameter>
     <name>modelElementClass</name>
@@ -1587,5 +2085,55 @@
     <name>error</name>
     <branch>error</branch>
     <sib>e90da5bc-f62e-4eac-a52e-9b44c60916da</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>5901ad08-d8e8-459e-a892-d7da96ac2a50</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>5ea00793-f786-4f07-b9dc-30299d2342e6</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>f3370c7e-f0a8-494f-9b48-7f32065f9756</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>5ac4b864-65e9-4feb-8ef9-afc42bc92b8b</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>dfdaabb5-4685-425e-bb90-e9ce7cb8fe25</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>983db5de-7c4f-4b7e-ab0d-1a207cc69afb</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>d2fd6ebb-435b-4379-a92b-104b04d6153b</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>9ae4c87d-a61a-4497-a912-05fe441411fc</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>dd236332-4dbc-45fc-a3f9-b5201e972de5</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>52b6e09e-42a2-496e-9251-fc6c6f604077</sib>
   </branch>
 </model>
