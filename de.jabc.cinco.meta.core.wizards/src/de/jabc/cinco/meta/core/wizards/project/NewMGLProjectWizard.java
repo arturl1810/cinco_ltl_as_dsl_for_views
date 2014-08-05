@@ -164,7 +164,7 @@ public class NewMGLProjectWizard extends Wizard implements IWorkbenchWizard{
 				+ "\tnode End{\n\n\t}\n\n\t");
 		
 		sb.append("@style(EdgeStyle)\n");
-		sb.append("\tedge Succ{\n\t\ttargetNodes(End)\n\t\tsourceNodes(Start)\n\t}\n}");
+		sb.append("\tedge Succ{\n\n\t}\n}");
 		
 		try {
 			createFile(modelFile, sb.toString());

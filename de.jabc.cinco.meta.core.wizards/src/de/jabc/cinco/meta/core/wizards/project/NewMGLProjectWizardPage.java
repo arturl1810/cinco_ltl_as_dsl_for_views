@@ -37,7 +37,7 @@ public class NewMGLProjectWizardPage extends WizardPage {
 		
 		Label lblProjectName = new Label(comp, SWT.NONE);
 		lblProjectName.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1));
-		lblProjectName.setText("Project Name:");
+		lblProjectName.setText("&Project Name:");
 		
 		txtProjectName = new Text(comp, SWT.BORDER);
 		txtProjectName.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
@@ -57,7 +57,7 @@ public class NewMGLProjectWizardPage extends WizardPage {
 		
 		Label modelName = new Label(comp, SWT.NONE);
 		modelName.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1));
-		modelName.setText("Model Name");
+		modelName.setText("Model &Name");
 		
 		txtModelName = new Text(comp, SWT.BORDER);
 		txtModelName.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));

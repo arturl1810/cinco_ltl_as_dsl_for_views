@@ -21,6 +21,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 
 import style.AbstractShape;
+import style.ConnectionDecorator;
 import style.ContainerShape;
 import style.EdgeStyle;
 import style.MultiText;
@@ -140,6 +141,29 @@ public class StylesValidator implements IMetaPluginValidator {
 			return new ErrorPair<String, EStructuralFeature>(
 					"Style: " + styleName +" does not exist",
 					annot.eClass().getEStructuralFeature("value"));
+		}
+		
+		EdgeStyle es = (EdgeStyle) style;
+		for (ConnectionDecorator cd : es.getDecorator()) {
+			if (cd.getDecoratorShape() instanceof Text) {
+				int params = checkFormatStringParameters((AbstractShape) cd.getDecoratorShape());
+				
+				if (params > annot.getValue().size()-1)
+					return new ErrorPair<String, EStructuralFeature>(
+							"Style: " + styleName +" contains text element with " + params + " parameters but you provided: " + (annot.getValue().size()-1),
+							annot.eClass().getEStructuralFeature("value"));
+				else if (params == annot.getValue().size()-1) {
+					List<String> errors = checkParameters(edge, annot.getValue());
+					if (errors != null && !errors.isEmpty()) {
+						String retVal = "";
+						for (String s : errors)
+							retVal += s;
+						return new ErrorPair<String, EStructuralFeature>(
+								retVal,
+								annot.eClass().getEStructuralFeature("value"));
+					}
+				}
+			}
 		}
 		
 		return null;
