@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>d56f9277-94e0-48c2-aff2-e2cc43c9b74b</id>
   <name>Create Connecting Constraints</name>
-  <changecounter>35</changecounter>
+  <changecounter>42</changecounter>
   <sib>
     <id>bfd87f61-6514-4fa7-b65c-deda7e931e26</id>
     <name>CompareElements</name>
@@ -50,7 +50,7 @@
     <parameter name="constraint">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>self.incoming-&gt;select(elem: elem.oclIsTypeOf(${connectedEdgeName})-&gt;size()==${modelElementmaxIncoming})</expression>
+          <expression>self.incoming-&gt;select(elem: elem.oclIsTypeOf(${connectedEdgeName})-&gt;size()==${modelElementmaxIncoming}</expression>
           <clazz>java.lang.String</clazz>
           <classMutable>true</classMutable>
         </ContextExpressionFoundation>
@@ -59,7 +59,7 @@
     <parameter name="constraintName">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>checkIncoming${incomingEdgeElementConnectionconnectedElementName}${constraintName}</expression>
+          <expression>checkIncoming${incomingEdgeElementConnectionconnectedElementName}${constraintName}${constraintIndex}</expression>
           <clazz>java.lang.Object</clazz>
           <classMutable>true</classMutable>
         </ContextExpressionFoundation>
@@ -101,7 +101,7 @@
     <parameter name="constraint">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>self.incoming-&gt;select(elem: elem.oclIsTypeOf(${connectedEdgeName})-&gt;size()&gt;=${modelElementminIncoming} and self.incoming-&gt;select(elem: elem.oclIsTypeOf(${connectedEdgeName})-&gt;size()&lt;=${modelElementmaxIncoming}</expression>
+          <expression>self.incoming-&gt;select(elem: elem.oclIsTypeOf(${connectedEdgeName}))-&gt;size()&gt;=${modelElementminIncoming} and self.incoming-&gt;select(elem: elem.oclIsTypeOf(${connectedEdgeName}))-&gt;size()&lt;=${modelElementmaxIncoming}</expression>
           <clazz>java.lang.String</clazz>
           <classMutable>true</classMutable>
         </ContextExpressionFoundation>
@@ -110,7 +110,7 @@
     <parameter name="constraintName">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>checkIncoming${incomingEdgeElementConnectionconnectedElementName}${constraintName}</expression>
+          <expression>checkIncoming${incomingEdgeElementConnectionconnectedElementName}${constraintName}${constraintIndex}</expression>
           <clazz>java.lang.Object</clazz>
           <classMutable>true</classMutable>
         </ContextExpressionFoundation>
@@ -201,7 +201,7 @@
     <parameter name="constraint">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>self.outgoing-&gt;select(elem: elem.oclIsTypeOf(${connectedEdgeName})-&gt;size()==${modelElementmaxOutgoing}</expression>
+          <expression>self.outgoing-&gt;select(elem: elem.oclIsTypeOf(${connectedEdgeName}))-&gt;size()==${modelElementmaxOutgoing}</expression>
           <clazz>java.lang.String</clazz>
           <classMutable>true</classMutable>
         </ContextExpressionFoundation>
@@ -210,7 +210,7 @@
     <parameter name="constraintName">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>checkOutgoing${outgoingEdgeElementConnectionconnectedElementName}${connectingEdgeName}</expression>
+          <expression>checkOutgoing${outgoingEdgeElementConnectionconnectedElementName}${connectingEdgeName}${constraintIndex}</expression>
           <clazz>java.lang.Object</clazz>
           <classMutable>true</classMutable>
         </ContextExpressionFoundation>
@@ -252,7 +252,7 @@
     <parameter name="constraint">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>self.outgoingElements-&gt;select(elem: elem.oclIsTypeOf(${connectedEdgeName})-&gt;-&gt;size()&gt;=${modelElementminOutgoing} and self.outgoingselect(elem: elem.oclIsTypeOf(${connectedEdgeName})-&gt;size()&lt;=${modelElementmaxOutgoing}</expression>
+          <expression>self.outgoingElements-&gt;select(elem: elem.oclIsTypeOf(${connectedEdgeName}))-&gt;size()&gt;=${modelElementminOutgoing} and self.outgoingselect(elem: elem.oclIsTypeOf(${connectedEdgeName}))-&gt;size()&lt;=${modelElementmaxOutgoing}</expression>
           <clazz>java.lang.String</clazz>
           <classMutable>true</classMutable>
         </ContextExpressionFoundation>
@@ -261,7 +261,7 @@
     <parameter name="constraintName">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>checkOutgoing${outgoingEdgeElementConnectionconnectedElementName}${connectingEdgeName}</expression>
+          <expression>checkOutgoing${outgoingEdgeElementConnectionconnectedElementName}${connectingEdgeName}${constraintIndex}</expression>
           <clazz>java.lang.Object</clazz>
           <classMutable>true</classMutable>
         </ContextExpressionFoundation>
@@ -315,9 +315,9 @@
   </sib>
   <edge>
     <source>09cc24e5-a67e-41bc-93f3-144c6956c3d3</source>
-    <target>57876a07-43d0-44d2-ba9c-d6399871f993</target>
-    <point>810.0,39.0</point>
-    <point>810.0,153.0</point>
+    <target>495ec88b-5b6b-49b5-b093-370632eef749</target>
+    <point>828.0,25.254545454545454</point>
+    <point>957.0,48.70909090909091</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>Edge</branch>
     <branch>GraphicalModelElement</branch>
@@ -367,7 +367,7 @@
     <parameter name="constraint">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>self.incoming-&gt;select(elem: elem.oclIsTypeOf(${connectedEdgeName})-&gt;size()&gt;=${modelElementminIncoming}</expression>
+          <expression>self.incoming-&gt;select(elem: elem.oclIsTypeOf(${connectedEdgeName}))-&gt;size()&gt;=${modelElementminIncoming}</expression>
           <clazz>java.lang.String</clazz>
           <classMutable>true</classMutable>
         </ContextExpressionFoundation>
@@ -376,7 +376,7 @@
     <parameter name="constraintName">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>checkIncoming${incomingEdgeElementConnectionconnectedElementName}${constraintName}</expression>
+          <expression>checkIncoming${incomingEdgeElementConnectionconnectedElementName}${constraintName}${constraintIndex}</expression>
           <clazz>java.lang.Object</clazz>
           <classMutable>true</classMutable>
         </ContextExpressionFoundation>
@@ -469,7 +469,7 @@
     <parameter name="constraint">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>self.outgoingElements-&gt;select(elem: elem.oclIsTypeOf(${connectedEdgeName})-&gt;size()&gt;=${modelElementminOutgoing}</expression>
+          <expression>self.outgoingElements-&gt;select(elem: elem.oclIsTypeOf(${connectedEdgeName}))-&gt;size()&gt;=${modelElementminOutgoing}</expression>
           <clazz>java.lang.String</clazz>
           <classMutable>true</classMutable>
         </ContextExpressionFoundation>
@@ -478,7 +478,7 @@
     <parameter name="constraintName">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>checkOutgoing${outgoingEdgeElementConnectionconnectedElementName}${connectingEdgeName}</expression>
+          <expression>checkOutgoing${outgoingEdgeElementConnectionconnectedElementName}${connectingEdgeName}${constraintIndex}</expression>
           <clazz>java.lang.Object</clazz>
           <classMutable>true</classMutable>
         </ContextExpressionFoundation>
@@ -599,9 +599,9 @@
   </sib>
   <edge>
     <source>57876a07-43d0-44d2-ba9c-d6399871f993</source>
-    <target>e90da5bc-f62e-4eac-a52e-9b44c60916da</target>
-    <point>792.0,173.6</point>
-    <point>558.0,199.6</point>
+    <target>b7a9f6fe-a4a8-454d-bfa8-de5580c43f9c</target>
+    <point>830.0,164.77777777777777</point>
+    <point>1197.0,42.39999999999999</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>next</branch>
   </edge>
@@ -623,11 +623,11 @@
   </edge>
   <edge>
     <source>57876a07-43d0-44d2-ba9c-d6399871f993</source>
-    <target>de391bf8-c25e-4ccb-acb3-a155201b994c</target>
+    <target>fc72cdb4-9248-427a-a237-5e875a8cdc28</target>
     <spline/>
-    <point>810.0,245.0</point>
+    <point>794.4976076555024,191.0</point>
     <point>486.0,589.0</point>
-    <point>585.0,1400.0</point>
+    <point>801.7510608203678,1278.0</point>
     <labelposition>88.39827158060285,122.4656869960484</labelposition>
     <branch>exit</branch>
     <branch>noElements</branch>
@@ -744,9 +744,9 @@
   </sib>
   <edge>
     <source>de391bf8-c25e-4ccb-acb3-a155201b994c</source>
-    <target>2e7353b5-b920-4564-8c09-db0a388cc90e</target>
-    <point>603.0,1387.6</point>
-    <point>837.0,1400.6</point>
+    <target>cac1fc29-db69-43dd-9656-c4361e9b1126</target>
+    <point>605.0,1387.625</point>
+    <point>1047.0,1415.2125</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>next</branch>
   </edge>
@@ -1248,7 +1248,7 @@
     <label>PutExpression</label>
     <sib-uid>basic-sibs/PutExpression</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
-    <position>340.5,1998.0</position>
+    <position>325.5,1998.0</position>
     <parameter name="resolve">
       <boolean>true</boolean>
     </parameter>
@@ -1358,7 +1358,7 @@
     <parameter name="constraintName">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>checkOutgoing${outgoingEdgeElementConnectionconnectedElementName}${connectingEdgeName}</expression>
+          <expression>checkOutgoing${outgoingEdgeElementConnectionconnectedElementName}${connectingEdgeName}${constraintIndex}</expression>
           <clazz>java.lang.Object</clazz>
           <classMutable>true</classMutable>
         </ContextExpressionFoundation>
@@ -1401,7 +1401,7 @@
     <parameter name="constraintName">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>checkOutgoing${outgoingEdgeElementConnectionconnectedElementName}${connectingEdgeName}</expression>
+          <expression>checkOutgoing${outgoingEdgeElementConnectionconnectedElementName}${connectingEdgeName}${constraintIndex}</expression>
           <clazz>java.lang.Object</clazz>
           <classMutable>true</classMutable>
         </ContextExpressionFoundation>
@@ -1435,7 +1435,7 @@
     <parameter name="constraint">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>self.outgoingElements-&gt;size()&gt;=${modelElementminOutgoing}</expression>
+          <expression>self.outgoingElements-&gt;size()&gt;=${modelElementminOutgoing}${constraintIndex}</expression>
           <clazz>java.lang.String</clazz>
           <classMutable>true</classMutable>
         </ContextExpressionFoundation>
@@ -1621,7 +1621,7 @@
     <parameter name="constraint">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>self.incoming-&gt;size()&gt;=${modelElementminIncoming} and self.incoming-&gt;size()&lt;=${modelElementmaxIncoming}</expression>
+          <expression>self.incoming-&gt;size()&gt;=${modelElementminIncoming} and self.incoming-&gt;size()&lt;=${modelElementmaxIncoming})</expression>
           <clazz>java.lang.String</clazz>
           <classMutable>true</classMutable>
         </ContextExpressionFoundation>
@@ -1630,7 +1630,7 @@
     <parameter name="constraintName">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>checkIncoming${incomingEdgeElementConnectionconnectedElementName}${constraintName}</expression>
+          <expression>checkIncoming${incomingEdgeElementConnectionconnectedElementName}${constraintName}${constraintIndex}</expression>
           <clazz>java.lang.Object</clazz>
           <classMutable>true</classMutable>
         </ContextExpressionFoundation>
@@ -1690,7 +1690,7 @@
     <parameter name="constraintName">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>checkIncoming${incomingEdgeElementConnectionconnectedElementName}${constraintName}</expression>
+          <expression>checkIncoming${incomingEdgeElementConnectionconnectedElementName}${constraintName}${constraintIndex}</expression>
           <clazz>java.lang.Object</clazz>
           <classMutable>true</classMutable>
         </ContextExpressionFoundation>
@@ -1799,7 +1799,7 @@
     <parameter name="constraint">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>self.incoming-&gt;size()&gt;=${modelElementminIncoming}</expression>
+          <expression>self.incoming-&gt;size()&gt;=${modelElementminIncoming})</expression>
           <clazz>java.lang.String</clazz>
           <classMutable>true</classMutable>
         </ContextExpressionFoundation>
@@ -1808,7 +1808,7 @@
     <parameter name="constraintName">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>checkIncoming${incomingEdgeElementConnectionconnectedElementName}${constraintName}</expression>
+          <expression>checkIncoming${incomingEdgeElementConnectionconnectedElementName}${constraintName}${constraintIndex}</expression>
           <clazz>java.lang.Object</clazz>
           <classMutable>true</classMutable>
         </ContextExpressionFoundation>
@@ -1838,6 +1838,140 @@
     <point>750.0,690.0</point>
     <point>344.0,940.0</point>
     <branch>noElements</branch>
+  </edge>
+  <sib>
+    <id>fc72cdb4-9248-427a-a237-5e875a8cdc28</id>
+    <name>PutInteger</name>
+    <label>PutInteger</label>
+    <sib-uid>basic-sibs/PutInteger</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.PutInteger</taxonomy>
+    <position>772.5,1278.0</position>
+    <parameter name="value">
+      <int>-1</int>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>constraintIndex</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>fc72cdb4-9248-427a-a237-5e875a8cdc28</source>
+    <target>de391bf8-c25e-4ccb-acb3-a155201b994c</target>
+    <point>810.0,1305.0</point>
+    <point>593.0,1392.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>cac1fc29-db69-43dd-9656-c4361e9b1126</id>
+    <name>PutExpression_2</name>
+    <label>PutExpression</label>
+    <sib-uid>basic-sibs/PutExpression</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
+    <position>1000.5,1263.0</position>
+    <parameter name="resolve">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="value">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>${constraintIndex+1}</expression>
+          <clazz>java.lang.Integer</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>constraintIndex</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>cac1fc29-db69-43dd-9656-c4361e9b1126</source>
+    <target>2e7353b5-b920-4564-8c09-db0a388cc90e</target>
+    <point>1050.0,1260.0</point>
+    <point>822.0,1400.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>b7a9f6fe-a4a8-454d-bfa8-de5580c43f9c</id>
+    <name>PutExpression_3</name>
+    <label>PutExpression</label>
+    <sib-uid>basic-sibs/PutExpression</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
+    <position>1015.5,123.0</position>
+    <parameter name="resolve">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="value">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>${constraintIndex+1}</expression>
+          <clazz>java.lang.Integer</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>constraintIndex</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>495ec88b-5b6b-49b5-b093-370632eef749</id>
+    <name>PutInteger_1</name>
+    <label>PutInteger</label>
+    <sib-uid>basic-sibs/PutInteger</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.PutInteger</taxonomy>
+    <position>937.5,33.0</position>
+    <parameter name="value">
+      <int>-1</int>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>constraintIndex</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>495ec88b-5b6b-49b5-b093-370632eef749</source>
+    <target>57876a07-43d0-44d2-ba9c-d6399871f993</target>
+    <point>975.0,60.0</point>
+    <point>823.0,156.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>b7a9f6fe-a4a8-454d-bfa8-de5580c43f9c</source>
+    <target>e90da5bc-f62e-4eac-a52e-9b44c60916da</target>
+    <point>1215.0,45.0</point>
+    <point>1039.0,249.0</point>
+    <branch>default</branch>
   </edge>
   <parameter>
     <name>modelElementClass</name>
@@ -2135,5 +2269,25 @@
     <name>error</name>
     <branch>error</branch>
     <sib>52b6e09e-42a2-496e-9251-fc6c6f604077</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>cac1fc29-db69-43dd-9656-c4361e9b1126</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>fc72cdb4-9248-427a-a237-5e875a8cdc28</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>495ec88b-5b6b-49b5-b093-370632eef749</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>b7a9f6fe-a4a8-454d-bfa8-de5580c43f9c</sib>
   </branch>
 </model>
