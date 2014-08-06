@@ -14,11 +14,11 @@ public class GetEdgeTargetElementConnections extends AbstractSIB {
 	public static final String[] BRANCHES = {Branches.DEFAULT, Branches.ERROR};
 
 	public ContextKey edge = new ContextKey("edge", Scope.LOCAL, true);
-	public ContextKey nodes = new ContextKey("nodes", Scope.GLOBAL, true);
+	public ContextKey graphicalModelElements = new ContextKey("graphicalModelElements", Scope.GLOBAL, true);
 	public ContextKey edgeTargetElementConnectionMap = new ContextKey("edgeTargetElementConnectionMap", Scope.LOCAL, true);
 	
 	public String execute(LightweightExecutionEnvironment env) {
-		return ServiceAdapter.getEdgeTargetElementConnections(env, edge.asFoundation(), nodes.asFoundation(), edgeTargetElementConnectionMap.asFoundation());
+		return ServiceAdapter.getEdgeTargetElementConnections(env, edge.asFoundation(), graphicalModelElements.asFoundation(), edgeTargetElementConnectionMap.asFoundation());
 	}
 	
 	@Override
@@ -26,7 +26,7 @@ public class GetEdgeTargetElementConnections extends AbstractSIB {
 		return new ServiceAdapterDescriptor(ServiceAdapter.class.getName(), 
 				"getEdgeTargetElementConnections",
 				"edge",
-				"nodes",
+				"graphicalModelElements",
 				"edgeTargetElementConnectionMap");
 	}
 	

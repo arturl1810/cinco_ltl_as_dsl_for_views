@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>5f357517-18d4-4780-adc3-30879fedbfb1</id>
   <name>GenerateFeatureProvider</name>
-  <changecounter>591</changecounter>
+  <changecounter>594</changecounter>
   <sib>
     <id>23fb1326-f00d-4e42-845a-cdf6492fc417</id>
     <name>PutExpression</name>
@@ -1118,7 +1118,7 @@ if (bo instanceof $context.node.name$)
   </edge>
   <edge>
     <source>14214542-9bf7-40c6-829c-7fdfc0ba5725</source>
-    <target>3c46a953-efeb-4f8e-9bbe-09644dfe3c3f</target>
+    <target>5b8b544f-2258-41a4-8933-b609716716d5</target>
     <point>918.0,337.54285714285714</point>
     <point>987.0,337.54285714285714</point>
     <labelposition>500.0,0.0</labelposition>
@@ -1737,44 +1737,15 @@ if (bo instanceof $context.node.name$)
     <point>150.0,415.0</point>
     <branch>default</branch>
   </edge>
-  <sib>
-    <id>3c46a953-efeb-4f8e-9bbe-09644dfe3c3f</id>
-    <name>IsEdgeUsed</name>
-    <label>IsEdgeUsed</label>
-    <sib-uid>ge-util-sibs/IsEdgeUsed</sib-uid>
-    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsEdgeUsed</taxonomy>
-    <position>873.5,318.0</position>
-    <parameter name="edge">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>edge</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="nodes">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>nodes</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>error</finalbranches>
-    <finalbranches>false</finalbranches>
-    <finalbranches>true</finalbranches>
-  </sib>
   <edge>
-    <source>3c46a953-efeb-4f8e-9bbe-09644dfe3c3f</source>
+    <source>5b8b544f-2258-41a4-8933-b609716716d5</source>
     <target>b01471a1-e45e-4457-a925-3514eb0a9a1f</target>
     <point>915.0,345.0</point>
     <point>899.0,486.0</point>
     <branch>true</branch>
   </edge>
   <edge>
-    <source>3c46a953-efeb-4f8e-9bbe-09644dfe3c3f</source>
+    <source>5b8b544f-2258-41a4-8933-b609716716d5</source>
     <target>7ee3c945-ffd4-41eb-b9a0-52c8957dd660</target>
     <point>915.0,345.0</point>
     <point>904.0,159.0</point>
@@ -1817,6 +1788,35 @@ if (bo instanceof $context.node.name$)
     <point>918.0,171.0</point>
     <branch>default</branch>
   </edge>
+  <sib>
+    <id>5b8b544f-2258-41a4-8933-b609716716d5</id>
+    <name>IsEdgeUsed</name>
+    <label>IsEdgeUsed</label>
+    <sib-uid>ge-util-sibs/IsEdgeUsed</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsEdgeUsed</taxonomy>
+    <position>873.5,318.0</position>
+    <parameter name="edge">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>edge</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="graphicalModelElements">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>graphicalModelElements</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>false</finalbranches>
+    <finalbranches>true</finalbranches>
+  </sib>
   <values/>
   <branch>
     <name>default</name>
@@ -2026,11 +2026,11 @@ if (bo instanceof $context.node.name$)
   <branch>
     <name>error</name>
     <branch>error</branch>
-    <sib>3c46a953-efeb-4f8e-9bbe-09644dfe3c3f</sib>
+    <sib>f6596603-b7a5-436f-8b42-fa31179480eb</sib>
   </branch>
   <branch>
     <name>error</name>
     <branch>error</branch>
-    <sib>f6596603-b7a5-436f-8b42-fa31179480eb</sib>
+    <sib>5b8b544f-2258-41a4-8933-b609716716d5</sib>
   </branch>
 </model>

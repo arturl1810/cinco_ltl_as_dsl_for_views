@@ -35,7 +35,7 @@
 		<service>getEdgeTargetElementConnections</service>
 		<arguments>
 			<argument name="edge" />
-			<argument name="nodes" />
+			<argument name="graphicalModelElements" />
 			<argument name="edgeTargetElementConnectionMap" />
 		</arguments>
 	</serviceAdapter>
@@ -44,7 +44,7 @@
 		<service>getEdgeSourceElementConnections</service>
 		<arguments>
 			<argument name="edge" />
-			<argument name="nodes" />
+			<argument name="graphicalModelElements" />
 			<argument name="edgeSourceElementConnectionMap" />
 		</arguments>
 	</serviceAdapter>
@@ -53,7 +53,7 @@
 		<service>isEdgeUsed</service>
 		<arguments>
 			<argument name="edge" />
-			<argument name="nodes" />
+			<argument name="graphicalModelElements" />
 		</arguments>
 	</serviceAdapter>
 	
