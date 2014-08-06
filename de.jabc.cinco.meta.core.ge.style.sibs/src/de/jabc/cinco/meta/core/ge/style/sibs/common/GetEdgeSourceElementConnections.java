@@ -14,11 +14,11 @@ public class GetEdgeSourceElementConnections extends AbstractSIB {
 	public static final String[] BRANCHES = {Branches.DEFAULT, Branches.ERROR};
 
 	public ContextKey edge = new ContextKey("edge", Scope.LOCAL, true);
-	public ContextKey nodes = new ContextKey("nodes", Scope.GLOBAL, true);
+	public ContextKey graphicalModelElements = new ContextKey("graphicalModelElements", Scope.GLOBAL, true);
 	public ContextKey edgeSourceElementConnectionMap = new ContextKey("edgeSourceElementConnectionMap", Scope.LOCAL, true);
 	
 	public String execute(LightweightExecutionEnvironment env) {
-		return ServiceAdapter.getEdgeSourceElementConnections(env, edge.asFoundation(), nodes.asFoundation(), edgeSourceElementConnectionMap.asFoundation());
+		return ServiceAdapter.getEdgeSourceElementConnections(env, edge.asFoundation(), graphicalModelElements.asFoundation(), edgeSourceElementConnectionMap.asFoundation());
 	}
 	
 	@Override
@@ -26,7 +26,7 @@ public class GetEdgeSourceElementConnections extends AbstractSIB {
 		return new ServiceAdapterDescriptor(ServiceAdapter.class.getName(), 
 				"getEdgeSourceElementConnections",
 				"edge",
-				"nodes",
+				"graphicalModelElements",
 				"edgeSourceElementConnectionMap");
 	}
 	

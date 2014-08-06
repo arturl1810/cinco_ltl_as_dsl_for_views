@@ -757,9 +757,9 @@ public class ServiceAdapter {
 		LightweightExecutionContext context = env.getLocalContext();
 		try {
 			Edge e = (Edge) context.get(edge);
-			List<Node> allNodes = (List<Node>) context.get(nodes);
+			List<GraphicalModelElement> graphicalModelElements = (List<GraphicalModelElement>) context.get(nodes);
 			boolean in = false, out = false;
-			for (Node n : allNodes) {
+			for (GraphicalModelElement n : graphicalModelElements) {
 				
 				if (n.getIncomingEdgeConnections().isEmpty()) {
 					/* No incoming elements defined -> allow this edge */
