@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>67c297f2-05a9-4896-8e73-7a7c57da4ed6</id>
   <name>GenerateEdgeCode</name>
-  <changecounter>264</changecounter>
+  <changecounter>268</changecounter>
   <sib>
     <id>e0fc67d6-ab7c-486f-9b23-5ad4ffd7f80d</id>
     <name>CopyElement</name>
@@ -62,7 +62,7 @@
     <parameter name="nodes">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>nodes</key>
+          <key>graphicalModelElements</key>
           <scope>GLOBAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
@@ -233,7 +233,7 @@
     <parameter name="nodes">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>nodes</key>
+          <key>graphicalModelElements</key>
           <scope>GLOBAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>

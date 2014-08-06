@@ -18,6 +18,7 @@ import mgl.Attribute;
 import mgl.Edge;
 import mgl.GraphModel;
 import mgl.GraphicalElementContainment;
+import mgl.GraphicalModelElement;
 import mgl.Import;
 import mgl.IncomingEdgeElementConnection;
 import mgl.MglFactory;
@@ -824,20 +825,21 @@ public class ServiceAdapter {
 	public static String getEdgeSourceElementConnections(
 			LightweightExecutionEnvironment env,
 			ContextKeyFoundation edge,
-			ContextKeyFoundation nodes,
+			ContextKeyFoundation gme,
 			ContextKeyFoundation edgeElementConnectionsMap) {
 		
 		LightweightExecutionContext context = env.getLocalContext();
 		try {
 			Edge e = (Edge) context.get(edge);
-			List<Node> allNodes = (List<Node>) context.get(nodes);
-			HashMap<Node, List<OutgoingEdgeElementConnection>> map = new HashMap<>();
-			for (Node n : allNodes) {
+			List<GraphicalModelElement> graphicalModelElements = (List<GraphicalModelElement>) context.get(gme);
+			HashMap<GraphicalModelElement, List<OutgoingEdgeElementConnection>> map = new HashMap<>();
+			for (GraphicalModelElement n : graphicalModelElements) {
 				ArrayList<OutgoingEdgeElementConnection> oeecs = new ArrayList<>();
 				if (n.getOutgoingEdgeConnections().isEmpty()) {
+					List<Edge> edges = (n instanceof Node) ? ((Node)n).getGraphModel().getEdges() : ((NodeContainer)n).getGraphModel().getEdges();
 					/*There are no IncomingEdgeElementConnections defined for this node
 					 * -> allow this node type as target for all edges*/
-					for (Edge tmp : n.getGraphModel().getEdges()) {
+					for (Edge tmp :edges) {
 						OutgoingEdgeElementConnection tmpOEEC = MglFactory.eINSTANCE.createOutgoingEdgeElementConnection();
 						tmpOEEC.setConnectedElement(n);
 						tmpOEEC.setLowerBound(0);
@@ -873,20 +875,21 @@ public class ServiceAdapter {
 	public static String getEdgeTargetElementConnections(
 			LightweightExecutionEnvironment env,
 			ContextKeyFoundation edge,
-			ContextKeyFoundation nodes,
+			ContextKeyFoundation gme,
 			ContextKeyFoundation edgeElementConnectionsMap) {
 		
 		LightweightExecutionContext context = env.getLocalContext();
 		try {
 			Edge e = (Edge) context.get(edge);
-			List<Node> allNodes = (List<Node>) context.get(nodes);
-			HashMap<Node, List<IncomingEdgeElementConnection>> map = new HashMap<>();
-			for (Node n : allNodes) {
+			List<GraphicalModelElement> graphicalModelElements = (List<GraphicalModelElement>) context.get(gme);
+			HashMap<GraphicalModelElement, List<IncomingEdgeElementConnection>> map = new HashMap<>();
+			for (GraphicalModelElement n : graphicalModelElements) {
 				ArrayList<IncomingEdgeElementConnection> ieecs = new ArrayList<>();
 				if (n.getIncomingEdgeConnections().isEmpty()) {
+					List<Edge> edges = (n instanceof Node) ? ((Node)n).getGraphModel().getEdges() : ((NodeContainer) n).getGraphModel().getEdges();
 					/*There are no IncomingEdgeElementConnections defined for this node
 					 * -> allow this node type as target for all edges*/
-					for (Edge tmp : n.getGraphModel().getEdges()) {
+					for (Edge tmp : edges) {
 						IncomingEdgeElementConnection tmpIEEC = MglFactory.eINSTANCE.createIncomingEdgeElementConnection();
 						tmpIEEC.setConnectedElement(n);
 						tmpIEEC.setLowerBound(0);
@@ -926,8 +929,8 @@ public class ServiceAdapter {
 		
 		LightweightExecutionContext context = env.getLocalContext();
 		try {
-			Entry<Node, List<OutgoingEdgeElementConnection>> entry = (Entry<Node, List<OutgoingEdgeElementConnection>>) context.get(mapEntry);
-			Node n = entry.getKey();
+			Entry<GraphicalModelElement, List<OutgoingEdgeElementConnection>> entry = (Entry<GraphicalModelElement, List<OutgoingEdgeElementConnection>>) context.get(mapEntry);
+			GraphicalModelElement n = entry.getKey();
 			List<OutgoingEdgeElementConnection> oeecs = entry.getValue();
 			StringBuilder sbType = new StringBuilder();
 			StringBuilder sbBound = new StringBuilder();
@@ -970,8 +973,8 @@ public class ServiceAdapter {
 		
 		LightweightExecutionContext context = env.getLocalContext();
 		try {
-			Entry<Node, List<IncomingEdgeElementConnection>> entry = (Entry<Node, List<IncomingEdgeElementConnection>>) context.get(mapEntry);
-			Node n = entry.getKey();
+			Entry<GraphicalModelElement, List<IncomingEdgeElementConnection>> entry = (Entry<GraphicalModelElement, List<IncomingEdgeElementConnection>>) context.get(mapEntry);
+			GraphicalModelElement n = entry.getKey();
 			List<IncomingEdgeElementConnection> oeecs = entry.getValue();
 			StringBuilder sbType = new StringBuilder();
 			StringBuilder sbBound = new StringBuilder();
