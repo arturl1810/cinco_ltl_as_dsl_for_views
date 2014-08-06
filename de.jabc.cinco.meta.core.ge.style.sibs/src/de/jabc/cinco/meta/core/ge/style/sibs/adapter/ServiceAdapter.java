@@ -938,7 +938,7 @@ public class ServiceAdapter {
 			for (Iterator<OutgoingEdgeElementConnection> it = oeecs.iterator(); it.hasNext();) {
 				OutgoingEdgeElementConnection oeec = it.next();
 				int bound = oeec.getUpperBound();
-				if (bound > 0) {
+				if (bound >= 0) {
 					if (oeec.getConnectingEdges().isEmpty()) {
 						sbBound.append("(("+n.getName()+") source).getIncoming().size()");
 					}
@@ -982,7 +982,7 @@ public class ServiceAdapter {
 			for (Iterator<IncomingEdgeElementConnection> it = oeecs.iterator(); it.hasNext();) {
 				IncomingEdgeElementConnection ieec = it.next();
 				int bound = ieec.getUpperBound();
-				if (bound > 0) {
+				if (bound >= 0) {
 					if (ieec.getConnectingEdges().isEmpty()) {
 						sbBound.append("(("+n.getName()+") target).getIncoming().size()");
 					}
