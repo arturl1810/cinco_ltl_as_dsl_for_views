@@ -9,7 +9,7 @@
   </parent>
   <artifactId>de.jabc.cinco.meta.product</artifactId>
   <packaging>eclipse-repository</packaging>
-
+<build>
     <plugins>
       <plugin>
         <groupId>org.eclipse.tycho</groupId>
