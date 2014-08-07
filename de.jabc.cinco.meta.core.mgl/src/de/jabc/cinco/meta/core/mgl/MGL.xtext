@@ -53,7 +53,7 @@ EInt returns ecore::EInt:
 Attribute returns Attribute:
 	{Attribute}
 	(annotations+=Annotation)*
-	(notChangeable?='final')? (unique?='unique')? 'attr' type=(EString|Map) 'as' name=EString ('[' lowerBound=EInt (',' upperBound=EInt)? ']')?  (':=' defaultValue=EString)? 
+	(notChangeable?='final')? (unique?='unique')? 'attr' type=(EString|Map) 'as' name=EString ('[' lowerBound=EInt (',' ((upperBound=EInt)|'*'))? ']')?  (':=' defaultValue=EString)? 
 ;
 //	name=EString
 //	'{'
@@ -127,17 +127,17 @@ NodeContainer returns NodeContainer:
 
 OutgoingEdgeElementConnection returns OutgoingEdgeElementConnection:
 	{OutgoingEdgeElementConnection}
-	(connectingEdges+=[Edge|QName]|'*'|'{'connectingEdges+=[Edge|QName](','connectingEdges+=[Edge|QName])*'}')('['lowerBound=EInt ',' upperBound=EInt']')?
+	(connectingEdges+=[Edge|QName]|'*'|'{'connectingEdges+=[Edge|QName](','connectingEdges+=[Edge|QName])*'}')('['lowerBound=EInt ',' ((upperBound=EInt)|'*')']')?
 ;
 
 IncomingEdgeElementConnection returns IncomingEdgeElementConnection:
 	{IncomingEdgeElementConnection}
-	(connectingEdges+=[Edge|QName]|'*'|'{'connectingEdges+=[Edge|QName](','connectingEdges+=[Edge|QName])*'}')('['lowerBound=EInt ',' upperBound=EInt']')?
+	(connectingEdges+=[Edge|QName]|'*'|'{'connectingEdges+=[Edge|QName](','connectingEdges+=[Edge|QName])*'}')('['lowerBound=EInt ',' ((upperBound=EInt)|'*')']')?
 ;
 
 GraphicalElementContainment returns GraphicalElementContainment:
 	{GraphicalElementContainment}
-	((type=[GraphicalModelElement|QName])|'*')('['lowerBound=EInt ','upperBound=EInt ']')?
+	((type=[GraphicalModelElement|QName])|'*')('['lowerBound=EInt ','((upperBound=EInt)|'*') ']')?
 ;
 
 Import returns Import:
