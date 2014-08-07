@@ -101,8 +101,11 @@ Node returns Node:
 	'{'
 		(attributes+=Attribute)*
 		(primeReference=ReferencedType)?
-		('incomingEdges' '(' incomingEdgeConnections+=IncomingEdgeElementConnection (',' incomingEdgeConnections+=IncomingEdgeElementConnection)*')')?
-		('outgoingEdges' '(' outgoingEdgeConnections+=OutgoingEdgeElementConnection (',' outgoingEdgeConnections+=OutgoingEdgeElementConnection)*')')?
+		(('incomingEdges' '(' incomingEdgeConnections+=IncomingEdgeElementConnection (',' incomingEdgeConnections+=IncomingEdgeElementConnection)*')')?
+		('outgoingEdges' '(' outgoingEdgeConnections+=OutgoingEdgeElementConnection (',' outgoingEdgeConnections+=OutgoingEdgeElementConnection)*')')?)|
+		(('outgoingEdges' '(' outgoingEdgeConnections+=OutgoingEdgeElementConnection (',' outgoingEdgeConnections+=OutgoingEdgeElementConnection)*')')?
+			('incomingEdges' '(' incomingEdgeConnections+=IncomingEdgeElementConnection (',' incomingEdgeConnections+=IncomingEdgeElementConnection)*')')?
+		)
 	'}'
 ;
 
