@@ -752,14 +752,14 @@ public class ServiceAdapter {
 
 	public static String isEdgeUsed(LightweightExecutionEnvironment env,
 			ContextKeyFoundation edge,
-			ContextKeyFoundation nodes) {
+			ContextKeyFoundation graphicalModelElements) {
 
 		LightweightExecutionContext context = env.getLocalContext();
 		try {
 			Edge e = (Edge) context.get(edge);
-			List<GraphicalModelElement> graphicalModelElements = (List<GraphicalModelElement>) context.get(nodes);
+			List<GraphicalModelElement> gme = (List<GraphicalModelElement>) context.get(graphicalModelElements);
 			boolean in = false, out = false;
-			for (GraphicalModelElement n : graphicalModelElements) {
+			for (GraphicalModelElement n : gme) {
 				
 //				if (n.getIncomingEdgeConnections().isEmpty()) {
 //					/* No incoming elements defined -> allow this edge */

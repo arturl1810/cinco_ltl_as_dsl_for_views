@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>fb0af092-c2b0-41ca-88d1-29ad9c540729</id>
   <name>GenerateCreateContainerFeature</name>
-  <changecounter>223</changecounter>
+  <changecounter>243</changecounter>
   <sib>
     <id>9adef199-4664-4d95-b976-c83232fc48df</id>
     <name>RunStringTemplate</name>
@@ -70,7 +70,7 @@ public Create$context.containerName$Feature(IFeatureProvider fp) {
 		}
 
 		//TODO: Add for loop over attributes and initialize them
-
+		$context.attributeInitContent$
 
 		addGraphicalRepresentation(context, $context.meIdentifier$);
 		
@@ -345,7 +345,7 @@ public Create$context.containerName$Feature(IFeatureProvider fp) {
     <label>EvaluateBoolean</label>
     <sib-uid>basic-sibs/EvaluateBoolean</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.EvaluateBoolean</taxonomy>
-    <position>436.5,63.0</position>
+    <position>571.5,63.0</position>
     <parameter name="bool">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -373,11 +373,11 @@ public Create$context.containerName$Feature(IFeatureProvider fp) {
     <label>GetNodeContainerIsAbstract</label>
     <sib-uid>mgl/mgl/GetNodeContainerIsAbstract</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.sib.mgl.GetNodeContainerIsAbstract</taxonomy>
-    <position>87.5,63.0</position>
+    <position>220.0,63.0</position>
     <parameter name="nodeContainerKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>modelElementKey</key>
+          <key>container</key>
           <scope>DECLARED</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
@@ -394,9 +394,6 @@ public Create$context.containerName$Feature(IFeatureProvider fp) {
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$START">
-      <boolean>true</boolean>
-    </userobject>
   </sib>
   <edge>
     <source>d4027830-5f9a-4962-aa7f-7148032c31f0</source>
@@ -412,7 +409,7 @@ public Create$context.containerName$Feature(IFeatureProvider fp) {
     <label>GenerateCheckContainer</label>
     <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
-    <position>700.0,226.0</position>
+    <position>695.5,226.0</position>
     <parameter name="ClearContent">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
@@ -425,7 +422,7 @@ public Create$context.containerName$Feature(IFeatureProvider fp) {
     <parameter name="ModelElementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>modelElementKey</key>
+          <key>container</key>
           <scope>DECLARED</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
@@ -446,11 +443,11 @@ public Create$context.containerName$Feature(IFeatureProvider fp) {
     <label>InitializeAttributes</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>507.5,226.0</position>
+    <position>506.5,226.0</position>
     <parameter name="modelElement">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>containerKey</key>
+          <key>container</key>
           <scope>DECLARED</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
@@ -472,27 +469,55 @@ public Create$context.containerName$Feature(IFeatureProvider fp) {
     <point>353.0,240.0</point>
     <branch>default</branch>
   </edge>
+  <edge>
+    <source>b62f8010-de77-4f38-8490-1bd70d00bc7c</source>
+    <target>ca8e2e0d-9645-4ddb-bc8b-f714ef2c0a5b</target>
+    <point>153.0,95.4</point>
+    <point>297.0,83.39999999999999</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>b62f8010-de77-4f38-8490-1bd70d00bc7c</id>
+    <name>CopyElement</name>
+    <label>CopyElement</label>
+    <sib-uid>basic-sibs/CopyElement</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.CopyElement</taxonomy>
+    <position>90.0,63.0</position>
+    <parameter name="sourceVariable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>containerKey</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="targetVariable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>container</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$START">
+      <boolean>true</boolean>
+    </userobject>
+  </sib>
   <parameter>
-    <name>modelElementKey</name>
-    <field>nodeContainerKey</field>
-    <sib>ca8e2e0d-9645-4ddb-bc8b-f714ef2c0a5b</sib>
-  </parameter>
-  <parameter>
-    <name>modelElementKey</name>
-    <field>ModelElementKey</field>
-    <sib>d4027830-5f9a-4962-aa7f-7148032c31f0</sib>
-  </parameter>
-  <parameter>
-    <name>modelElementKey</name>
-    <field>modelElement</field>
-    <sib>3ecf1580-df3f-4842-b06c-d402911337ff</sib>
+    <name>containerKey</name>
+    <field>sourceVariable</field>
+    <sib>b62f8010-de77-4f38-8490-1bd70d00bc7c</sib>
   </parameter>
   <values>
     <entry>
-      <string>modelElementKey</string>
+      <string>containerKey</string>
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>modelElementKey</key>
+          <key>containerKey</key>
           <scope>DECLARED</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
@@ -558,5 +583,10 @@ public Create$context.containerName$Feature(IFeatureProvider fp) {
     <name>error</name>
     <branch>error</branch>
     <sib>3ecf1580-df3f-4842-b06c-d402911337ff</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>b62f8010-de77-4f38-8490-1bd70d00bc7c</sib>
   </branch>
 </model>
