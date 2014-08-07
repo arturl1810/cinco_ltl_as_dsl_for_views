@@ -169,21 +169,29 @@ public class StylesValidator implements IMetaPluginValidator {
 		return null;
 	}
 	
-	private List<String> checkParameters(ModelElement me,
-			EList<String> value) {
+	private List<String> checkParameters(ModelElement me, EList<String> value) {
 		List<String> errorMessages = new ArrayList<>();
 		for (String s : value) {
 			Pattern p = Pattern.compile("\\$\\{(.*)\\}");
 			Matcher m = p.matcher(s);
 			if (m.matches()){
 				String attrName = m.group(1);
-				boolean isAttr = false;
-				for (Attribute attr : me.getAttributes()) {
-					if (attr.getName().equals(attrName)) {
-						isAttr = true;
-						break;
-					}
+				if ( attrName.split("\\.").length > 1 ) {
+					attrName = attrName.split("\\.")[0];
 				}
+					boolean isAttr = false;
+					for (Attribute attr : me.getAttributes()) {
+						if (attr.getName().equals(attrName)) {
+							isAttr = true;
+							break;
+						}
+					}
+					if (me instanceof Node) {
+						if (((Node) me).getPrimeReference() != null && ((Node)me).getPrimeReference().getName().equals(attrName)) {
+							isAttr = true;
+						}
+					}
+				
 				if (!isAttr)
 					errorMessages.add("Parameter: " + s + " is not an attribute...\n");
 			}
