@@ -20,14 +20,13 @@ GraphModel returns GraphModel:
 		'diagramExtension' fileExtension=EString
 		('containableElements' '(' containableElements+=GraphicalElementContainment ( "," containableElements+=GraphicalElementContainment)* ')' )?
 		(attributes+=Attribute)*
-		('submodels' '(' submodels+=[GraphModel|EString] ( "," submodels+=[GraphModel|EString])* ')' )?
+		//('submodels' '(' submodels+=[GraphModel|EString] ( "," submodels+=[GraphModel|EString])* ')' )?
 		
-		(nodes+=Node)
-		(  (nodes+=Node)
+		 ((nodes+=Node)
 		  |(edges+=Edge)
 		  |(nodeContainers+=NodeContainer)
-		  |(types+=Type) 
-		)*
+		  |(types+=Type))*
+		
 		
 		
 	'}'
@@ -99,13 +98,11 @@ Node returns Node:
 	(isAbstract?='abstract' )?'node'
 	name=EString('extends' extends=[Node|EString])? 
 	'{'
-		(attributes+=Attribute)*
-		(primeReference=ReferencedType)?
-		(('incomingEdges' '(' incomingEdgeConnections+=IncomingEdgeElementConnection (',' incomingEdgeConnections+=IncomingEdgeElementConnection)*')')?
-		('outgoingEdges' '(' outgoingEdgeConnections+=OutgoingEdgeElementConnection (',' outgoingEdgeConnections+=OutgoingEdgeElementConnection)*')')?)|
-		(('outgoingEdges' '(' outgoingEdgeConnections+=OutgoingEdgeElementConnection (',' outgoingEdgeConnections+=OutgoingEdgeElementConnection)*')')?
-			('incomingEdges' '(' incomingEdgeConnections+=IncomingEdgeElementConnection (',' incomingEdgeConnections+=IncomingEdgeElementConnection)*')')?
-		)
+		( (attributes+=Attribute)*
+		& (primeReference=ReferencedType)?
+		& ('incomingEdges' '(' incomingEdgeConnections+=IncomingEdgeElementConnection (',' incomingEdgeConnections+=IncomingEdgeElementConnection)*')')?
+		& ('outgoingEdges' '(' outgoingEdgeConnections+=OutgoingEdgeElementConnection (',' outgoingEdgeConnections+=OutgoingEdgeElementConnection)*')')?)
+		
 	'}'
 ;
 
@@ -120,10 +117,10 @@ NodeContainer returns NodeContainer:
 	(isAbstract?='abstract' )? 'container'
 	name=EString ('extends' extends=[NodeContainer|EString])?
 	'{'
-		(attributes+=Attribute)*
-		('containableElements' '(' containableElements+=GraphicalElementContainment ( "," containableElements+=GraphicalElementContainment)* ')' )?
-		('incomingEdges' '(' incomingEdgeConnections+=IncomingEdgeElementConnection (',' incomingEdgeConnections+=IncomingEdgeElementConnection)*')')?
-		('outgoingEdges' '(' outgoingEdgeConnections+=OutgoingEdgeElementConnection (',' outgoingEdgeConnections+=OutgoingEdgeElementConnection)*')')?
+		((attributes+=Attribute)*
+		&('containableElements' '(' containableElements+=GraphicalElementContainment ( "," containableElements+=GraphicalElementContainment)* ')' )?
+		&('incomingEdges' '(' incomingEdgeConnections+=IncomingEdgeElementConnection (',' incomingEdgeConnections+=IncomingEdgeElementConnection)*')')?
+		&('outgoingEdges' '(' outgoingEdgeConnections+=OutgoingEdgeElementConnection (',' outgoingEdgeConnections+=OutgoingEdgeElementConnection)*')')?)
 		
 	'}'
 ;

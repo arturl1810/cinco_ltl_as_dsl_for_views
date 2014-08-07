@@ -32,6 +32,7 @@ import org.eclipse.ui.IWorkbenchWizard;
 import org.osgi.framework.Bundle;
 
 import de.jabc.cinco.meta.core.utils.projects.ProjectCreator;
+import de.jabc.cinco.meta.core.wizards.templates.MGLTemplate;
 
 public class NewMGLProjectWizard extends Wizard implements IWorkbenchWizard{
 
@@ -155,6 +156,8 @@ public class NewMGLProjectWizard extends Wizard implements IWorkbenchWizard{
 	
 	private void createDummyMGLModel(IFile modelFile, String modelName, String packageName) {		
 		StringBuilder sb = new StringBuilder();
+		CharSequence cs = MGLTemplate.generateMGLFile();
+		
 		sb.append("@style(\"/"+packageName+"/model/"+modelName+".style\")\n");
 		sb.append("graphModel " + modelName + "{\n\tpackage " + packageName + "\n\t" +"nsURI \"http://de/test/project/"+modelName.toLowerCase()+"\"\n\t");
 		sb.append("diagramExtension \"\"\n");
