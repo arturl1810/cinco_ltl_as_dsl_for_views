@@ -8,4 +8,4 @@ Import-Package: de.jabc.cinco.meta.core.mgl.transformation.helper,
  de.jabc.cinco.meta.core.utils.projects,
  mgl,
  org.eclipse.core.resources
-Bundle-Version: 0.4.0.qualifier
+Bundle-Version: 0.4.0
