@@ -60,7 +60,7 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 				Command featureGenerationCommand = commandService.getCommand("de.jabc.cinco.meta.core.generatefeature");
 				featureGenerationCommand.executeWithChecks(event);
 				
-				MessageDialog.openInformation(HandlerUtil.getActiveShell(event), "Cinco Generation Process completed", "Genertion successfully completed!");
+				MessageDialog.openInformation(HandlerUtil.getActiveShell(event), "Cinco Generation Process completed", "Generation successfully completed!");
 				
 			}
 		}catch(Exception e1){
