@@ -497,6 +497,11 @@ class MGLValidator extends AbstractMGLValidator {
 			error("Containment upper bound must not be lower -1",MglPackage.Literals::GRAPHICAL_ELEMENT_CONTAINMENT__UPPER_BOUND)
 	}
 	
-	
+	@Check
+	def checkDiagramExtensionisNotEmpty(GraphModel m){
+		if(m.fileExtension.nullOrEmpty){
+			error("The Diagram must have an extension.",MglPackage.Literals::GRAPH_MODEL__FILE_EXTENSION)
+		}
+	}
 	
 }
