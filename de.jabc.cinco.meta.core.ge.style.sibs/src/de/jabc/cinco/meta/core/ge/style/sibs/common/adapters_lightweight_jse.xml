@@ -1,5 +1,13 @@
 <serviceAdapters defaultAdapter="de.jabc.cinco.meta.core.ge.style.sibs.adapter.ServiceAdapter">
 	
+	<serviceAdapter uid="ge-util-sibs/IsEdgeUsed">
+		<service>isEdgeUsed</service>
+		<arguments>
+			<argument name="edge" />
+			<argument name="graphicalModelElements" />
+		</arguments>
+	</serviceAdapter>
+	
 	<serviceAdapter uid="ge-util-sibs/IsMultiLineAttribute">
 		<service>isMultiLineAttribute</service>
 		<arguments>
@@ -46,14 +54,6 @@
 			<argument name="edge" />
 			<argument name="graphicalModelElements" />
 			<argument name="edgeSourceElementConnectionMap" />
-		</arguments>
-	</serviceAdapter>
-	
-	<serviceAdapter uid="ge-util-sibs/IsEdgeUsed">
-		<service>isEdgeUsed</service>
-		<arguments>
-			<argument name="edge" />
-			<argument name="graphicalModelElements" />
 		</arguments>
 	</serviceAdapter>
 	

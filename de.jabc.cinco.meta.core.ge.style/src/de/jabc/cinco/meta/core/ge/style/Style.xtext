@@ -197,12 +197,12 @@ Image returns Image:
 //	'}'
 //;
 
-Polyline returns Polyline: 
+Polyline returns Polyline:
+	{Polyline}
 	'polyline'
 	(name=ID)?
 	'{'
 		(('appearance' referencedAppearance=[Appearance]) | (inlineAppearance=InlineAppearance) )? 
-		'position' position = AbstractPosition
 		'points' '[' (points+=Point)* ']'		
 	'}'
 ;
