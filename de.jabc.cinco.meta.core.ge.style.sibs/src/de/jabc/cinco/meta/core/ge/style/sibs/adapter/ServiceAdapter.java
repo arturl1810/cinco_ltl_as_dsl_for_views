@@ -741,7 +741,7 @@ public class ServiceAdapter {
 				if (a instanceof ReferencedAttribute)
 					maxWidth = Math.max(((ReferencedAttribute) a).getName().length() * 8 , maxWidth);
 			}
-			maxWidth = Math.max(maxWidth, 90);
+			maxWidth = Math.max(maxWidth, 105);
 			context.put(width, maxWidth);
 			return Branches.DEFAULT;
 		} catch (Exception e) {
