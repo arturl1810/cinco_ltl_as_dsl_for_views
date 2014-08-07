@@ -2,14 +2,14 @@
 <model version="2.1">
   <id>c7542d87-aa25-4707-a286-db91e10d7301</id>
   <name>GenerateAddContainerFeature</name>
-  <changecounter>409</changecounter>
+  <changecounter>411</changecounter>
   <sib>
     <id>3f7b7312-5278-4d0a-b7f8-45424c587ca9</id>
     <name>GetNodeContainerIsAbstract</name>
     <label>GetNodeContainerIsAbstract</label>
     <sib-uid>mgl/mgl/GetNodeContainerIsAbstract</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.sib.mgl.GetNodeContainerIsAbstract</taxonomy>
-    <position>57.5,63.0</position>
+    <position>57.5,61.0</position>
     <parameter name="nodeContainerKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -467,7 +467,7 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
 		for (ModelElement me : $context.meIdentifier$.getModelElements()) {
 			if ((me instanceof Node || me instanceof Container) &amp;&amp; !addedNodes.contains(me) ){
 				AddContext ac = new AddContext();
-				ac.setTargetContainer(Shape0);
+				ac.setTargetContainer($context.rootShapeName$);
 				ac.setNewObject(me);
 				if (me instanceof Node) {
 					ac.setLocation(((Node) me).getX(), ((Node) me).getY());
@@ -489,8 +489,8 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
 				ModelElement source = edge.getSourceElement();
 				ModelElement target = edge.getTargetElement();
 				
-				Anchor sourceAnchor = getAnchor(source, Shape0);
-				Anchor targetAnchor = getAnchor(target, Shape0);
+				Anchor sourceAnchor = getAnchor(source, $context.rootShapeName$);
+				Anchor targetAnchor = getAnchor(target, $context.rootShapeName$);
 				
 				addedNodes.add(source);
 				addedNodes.add(target);
@@ -633,7 +633,7 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
     <label>GetNodeStyleMainShape</label>
     <sib-uid>style/style/GetNodeStyleMainShape</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.sib.style.GetNodeStyleMainShape</taxonomy>
-    <position>607.0,198.0</position>
+    <position>607.0,196.0</position>
     <parameter name="nodeStyleKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
