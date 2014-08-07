@@ -761,15 +761,15 @@ public class ServiceAdapter {
 			boolean in = false, out = false;
 			for (GraphicalModelElement n : graphicalModelElements) {
 				
-				if (n.getIncomingEdgeConnections().isEmpty()) {
-					/* No incoming elements defined -> allow this edge */
-					in = true;
-				}
+//				if (n.getIncomingEdgeConnections().isEmpty()) {
+//					/* No incoming elements defined -> allow this edge */
+//					in = true;
+//				}
 				
-				if (n.getOutgoingEdgeConnections().isEmpty()) {
-					/* No outgoing elements defined -> allow this edge */
-					out = true;
-				}
+//				if (n.getOutgoingEdgeConnections().isEmpty()) {
+//					/* No outgoing elements defined -> allow this edge */
+//					out = true;
+//				}
 				
 				for (IncomingEdgeElementConnection ieec : n.getIncomingEdgeConnections()) {
 					if (in) break;
@@ -838,14 +838,14 @@ public class ServiceAdapter {
 				if (n.getOutgoingEdgeConnections().isEmpty()) {
 					List<Edge> edges = (n instanceof Node) ? ((Node)n).getGraphModel().getEdges() : ((NodeContainer)n).getGraphModel().getEdges();
 					/*There are no IncomingEdgeElementConnections defined for this node
-					 * -> allow this node type as target for all edges*/
-					for (Edge tmp :edges) {
-						OutgoingEdgeElementConnection tmpOEEC = MglFactory.eINSTANCE.createOutgoingEdgeElementConnection();
-						tmpOEEC.setConnectedElement(n);
-						tmpOEEC.setLowerBound(0);
-						tmpOEEC.setUpperBound(-1);
-						oeecs.add(tmpOEEC);
-					}
+					 * -> allow this node type as target for all edges OOOORRRR NOT*/
+//					for (Edge tmp :edges) {
+//						OutgoingEdgeElementConnection tmpOEEC = MglFactory.eINSTANCE.createOutgoingEdgeElementConnection();
+//						tmpOEEC.setConnectedElement(n);
+//						tmpOEEC.setLowerBound(0);
+//						tmpOEEC.setUpperBound(-1);
+//						oeecs.add(tmpOEEC);
+//					}
 					
 				}
 				for (OutgoingEdgeElementConnection oeec : n.getOutgoingEdgeConnections()) {
@@ -888,14 +888,14 @@ public class ServiceAdapter {
 				if (n.getIncomingEdgeConnections().isEmpty()) {
 					List<Edge> edges = (n instanceof Node) ? ((Node)n).getGraphModel().getEdges() : ((NodeContainer) n).getGraphModel().getEdges();
 					/*There are no IncomingEdgeElementConnections defined for this node
-					 * -> allow this node type as target for all edges*/
-					for (Edge tmp : edges) {
-						IncomingEdgeElementConnection tmpIEEC = MglFactory.eINSTANCE.createIncomingEdgeElementConnection();
-						tmpIEEC.setConnectedElement(n);
-						tmpIEEC.setLowerBound(0);
-						tmpIEEC.setUpperBound(-1);
-						ieecs.add(tmpIEEC);
-					}
+					 * -> allow this node type as target for all edges OOORRRR NOT*/
+//					for (Edge tmp : edges) {
+//						IncomingEdgeElementConnection tmpIEEC = MglFactory.eINSTANCE.createIncomingEdgeElementConnection();
+//						tmpIEEC.setConnectedElement(n);
+//						tmpIEEC.setLowerBound(0);
+//						tmpIEEC.setUpperBound(-1);
+//						ieecs.add(tmpIEEC);
+//					}
 					
 				}
 				for (IncomingEdgeElementConnection ieec : n.getIncomingEdgeConnections()) {
