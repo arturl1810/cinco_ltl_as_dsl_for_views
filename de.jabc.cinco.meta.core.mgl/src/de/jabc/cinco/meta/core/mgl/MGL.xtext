@@ -99,13 +99,11 @@ Node returns Node:
 	(isAbstract?='abstract' )?'node'
 	name=EString('extends' extends=[Node|EString])? 
 	'{'
-		(attributes+=Attribute)*
-		(primeReference=ReferencedType)?
-		(('incomingEdges' '(' incomingEdgeConnections+=IncomingEdgeElementConnection (',' incomingEdgeConnections+=IncomingEdgeElementConnection)*')')?
-		('outgoingEdges' '(' outgoingEdgeConnections+=OutgoingEdgeElementConnection (',' outgoingEdgeConnections+=OutgoingEdgeElementConnection)*')')?)|
-		(('outgoingEdges' '(' outgoingEdgeConnections+=OutgoingEdgeElementConnection (',' outgoingEdgeConnections+=OutgoingEdgeElementConnection)*')')?
-			('incomingEdges' '(' incomingEdgeConnections+=IncomingEdgeElementConnection (',' incomingEdgeConnections+=IncomingEdgeElementConnection)*')')?
-		)
+		( (attributes+=Attribute)*
+		& (primeReference=ReferencedType)?
+		& ('incomingEdges' '(' incomingEdgeConnections+=IncomingEdgeElementConnection (',' incomingEdgeConnections+=IncomingEdgeElementConnection)*')')?
+		& ('outgoingEdges' '(' outgoingEdgeConnections+=OutgoingEdgeElementConnection (',' outgoingEdgeConnections+=OutgoingEdgeElementConnection)*')')?)
+		
 	'}'
 ;
 
