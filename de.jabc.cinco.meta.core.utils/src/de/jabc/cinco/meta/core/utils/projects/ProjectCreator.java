@@ -203,7 +203,7 @@ public class ProjectCreator {
 		}
 
 		if (exportedPackages != null && !exportedPackages.isEmpty()) {
-			maniContent.append("Require-Bundle: " + exportedPackages.get(0));
+			maniContent.append("Export-Package: " + exportedPackages.get(0));
 			for (int i = 1, x = exportedPackages.size(); i < x; i++) {
 				maniContent.append(",\n " + exportedPackages.get(i));
 			}
