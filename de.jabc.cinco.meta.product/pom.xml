@@ -9,6 +9,9 @@
   </parent>
   <artifactId>de.jabc.cinco.meta.product</artifactId>
   <packaging>eclipse-repository</packaging>
+<properties>
+	<build.version>${unqualifiedVersion}.${buildQualifier}</build.version>
+</properties>
 <build>
     <plugins>
       <plugin>
@@ -41,7 +44,7 @@
           <products>
             <product>
               <id>de.jabc.cinco.meta.product.product</id>
-              <rootFolder>cinco-${unqualifiedVersion}.${buildQualifier}</rootFolder>
+              <rootFolder>cinco-${build.version}</rootFolder>
             </product>
           </products>
         </configuration>
@@ -59,7 +62,7 @@
               <target>
                 <!-- Rename the products -->
                 <move verbose="true" todir="${project.build.directory}/products">
-                  <mapper type="regexp" from="^(de.jabc.cinco.meta.product.product-)(.*)$$" to="cinco-${unqualifiedVersion}.${buildQualifier}-\2" />
+                  <mapper type="regexp" from="^(de.jabc.cinco.meta.product.product-)(.*)$$" to="cinco-${build.version}-\2" />
                   <fileset dir="${project.build.directory}/products">
                     <include name="*.zip" />
                   </fileset>
@@ -74,4 +77,14 @@
       </plugin>
     </plugins>
   </build>
+
+  <profiles>
+	<profile>
+		<id>release</id>
+		<properties>
+			<build.version>${unqualifiedVersion} </build.version>
+		</properties>
+	</profile>
+</profiles>
+
 </project>
