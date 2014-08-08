@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>696c3b21-1096-4b9a-86bd-7456a6b80d52</id>
   <name>GenerateModelElementPropertyView</name>
-  <changecounter>223</changecounter>
+  <changecounter>230</changecounter>
   <sib>
     <id>c215c747-bca3-4fbb-9807-9cd2ab3f1b32</id>
     <name>PutExpression</name>
@@ -658,11 +658,20 @@ import org.eclipse.graphiti.ui.platform.*;
 import org.eclipse.jface.viewers.*;
 import org.eclipse.jface.dialogs.*;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.CCombo;
-import org.eclipse.swt.events.*;
-import org.eclipse.swt.layout.*;
-import org.eclipse.swt.widgets.*;
-import org.eclipse.swt.widgets.List;
+import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.swt.events.FocusListener;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.events.TraverseEvent;
+import org.eclipse.swt.events.TraverseListener;
+import org.eclipse.swt.events.VerifyEvent;
+import org.eclipse.swt.events.VerifyListener;
+import org.eclipse.swt.layout.FormAttachment;
+import org.eclipse.swt.layout.FormData;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.views.properties.tabbed.*;
 
 import $context.importPath$.*;

@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>2c16b89c-89f5-4733-ac06-d93c4f4ca82e</id>
   <name>GenerateListStringCode</name>
-  <changecounter>56</changecounter>
+  <changecounter>91</changecounter>
   <sib>
     <id>0ba93f26-5176-4eda-b53b-40b4a55312a7</id>
     <name>RunStringTemplate</name>
@@ -94,7 +94,7 @@ if (bo instanceof $context.modelElementName$) {
     </parameter>
     <parameter name="template">
       <string>private ListViewer $context.flAttributeName$ListViewer;
-private List nameList;
+private org.eclipse.swt.widgets.List $context.flAttributeName$List;
 	
 private Button add;
 private Button remove;
@@ -104,22 +104,20 @@ public void createControls(Composite parent, TabbedPropertySheetPage aTabbedProp
 	super.createControls(parent, aTabbedPropertySheetPage);
 	
 	TabbedPropertySheetWidgetFactory factory = aTabbedPropertySheetPage.getWidgetFactory();
-	Composite compostie = factory.createComposite(parent);
+	Composite composite = factory.createFlatFormComposite(parent);
 	
-	GridLayout grid = new GridLayout(3, false);
-	GridData data;
-	compostie.setLayout(grid);
+	FormData data;
 		
-	Label $context.flAttributeName$Label = factory.createLabel(compostie, &quot;$context.fuAttributeName$:&quot;);
-	data = new GridData(SWT.LEFT, SWT.TOP, false, false);
-	$context.flAttributeName$Label.setLayoutData(data);
-		
-	$context.flAttributeName$List = factory.createList(compostie, SWT.BORDER | SWT.SINGLE | SWT.V_SCROLL | SWT.H_SCROLL);
+	$context.flAttributeName$List = factory.createList(composite, SWT.BORDER | SWT.SINGLE | SWT.V_SCROLL | SWT.H_SCROLL);
 	$context.flAttributeName$List.getVerticalBar().setVisible(true);
-	data = new GridData(SWT.FILL, SWT.FILL, true, false);
-	data.heightHint = 100;
+	data = new FormData();
+	data.left = new FormAttachment(0, $context.width$);
+	data.right = new FormAttachment(97, 2);
+	data.top = new FormAttachment(0, ITabbedPropertyConstants.VSPACE);
+	data.bottom = new FormAttachment(0, 80);
+
 	$context.flAttributeName$List.setLayoutData(data);
-	$context.flAttributeName$ListViewer = new ListViewer(nameList);
+	$context.flAttributeName$ListViewer = new ListViewer($context.flAttributeName$List);
 	$context.flAttributeName$ListViewer.setLabelProvider(new LabelProvider() {
 		@Override
 		public String getText(Object element) {
@@ -129,20 +127,33 @@ public void createControls(Composite parent, TabbedPropertySheetPage aTabbedProp
 			return super.getText(element);
 		}
 	});
+	
+	Label $context.flAttributeName$Label = factory.createLabel(composite, &quot;$context.fuAttributeName$:&quot;);
+	data = new FormData();
+	data.left = new FormAttachment(0, 0);
+	data.right = new FormAttachment($context.flAttributeName$List, -ITabbedPropertyConstants.HSPACE);
+	data.top = new FormAttachment($context.flAttributeName$List, 0, SWT.TOP);
+	$context.flAttributeName$Label.setLayoutData(data);
+	
 	$context.flAttributeName$ListViewer.setContentProvider(new ArrayContentProvider());
-	Composite buttonComposite = factory.createComposite(compostie);
-	buttonComposite.setLayout(new GridLayout(1, true));
-	buttonComposite.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, false));
-	add = factory.createButton(buttonComposite, &quot;+&quot;, SWT.PUSH);
-	data = new GridData(SWT.FILL, SWT.TOP, true, false);
+	
+	add = factory.createButton(composite, &quot;+&quot;, SWT.PUSH);
+	data = new FormData();
+	data.left = new FormAttachment($context.flAttributeName$List, 0);
+	data.top = new FormAttachment(0,ITabbedPropertyConstants.VMARGIN);
+	data.right = new FormAttachment(100,0);
 	add.setLayoutData(data);
-	remove = factory.createButton(buttonComposite, &quot;-&quot;, SWT.PUSH);
-	data = new GridData(SWT.FILL, SWT.TOP, true, false);
+	remove = factory.createButton(composite, &quot;-&quot;, SWT.PUSH);
+	data = new FormData();
+	data.left = new FormAttachment($context.flAttributeName$List, 0);
+	data.right = new FormAttachment(100, 0);
+	data.top = new FormAttachment(add, 0);
 	remove.setLayoutData(data);
 	
 	add.addSelectionListener(addListener);
 	remove.addSelectionListener(removeListener);
-}</string>
+}
+</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
