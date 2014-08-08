@@ -32,7 +32,7 @@ import org.eclipse.ui.IWorkbenchWizard;
 import org.osgi.framework.Bundle;
 
 import de.jabc.cinco.meta.core.utils.projects.ProjectCreator;
-import de.jabc.cinco.meta.core.wizards.templates.MGLTemplate;
+import de.jabc.cinco.meta.core.wizards.templates.CincoProductWizardTemplates;
 
 public class NewMGLProjectWizard extends Wizard implements IWorkbenchWizard{
 
@@ -54,30 +54,40 @@ public class NewMGLProjectWizard extends Wizard implements IWorkbenchWizard{
 			mglModelName = (mglModelName.endsWith(".mgl")) ? mglModelName.split("\\.")[0] : mglModelName;
 			String mglModelFileName = mglModelName.concat(".mgl");
 			String styleModelFileName = mglModelName.concat(".style");
+			String appearanceProviderFileName = "SimpleArrowAppearance.java";
 			
 			IProgressMonitor monitor = new NullProgressMonitor();
 			
 			IProject project = ProjectCreator.createProject(
-					projectName, getSrcFolders(), null, getReqBundles(), null, getNatures(), monitor);
-			IFolder modelFolder = project.getFolder("model");
-			IFolder iconsFolder = project.getFolder("icons");
-			
-			
+					projectName, 
+					getSrcFolders(), 
+					null, 
+					getReqBundles(), 
+					getExportedPackages(packageName), 
+					getNatures(), 
+					monitor
+			);
 			
 			try {
-				if (!modelFolder.exists()) {
-					modelFolder.create(true, true, monitor);
-				}
-				if (!iconsFolder.exists()) {
-					iconsFolder.create(true, true, monitor);
-				}
+				IFolder modelFolder = project.getFolder("model");
+				create(modelFolder, monitor);
+				
+				IFolder iconsFolder = project.getFolder("icons");
+				create (iconsFolder, monitor);
+				
+				IFolder appearanceFolder = project.getFolder("src/" + packageName.replaceAll("\\.", "/") + "/appearance");
+				create(appearanceFolder, monitor); 
 				
 //				copyIcons(project, monitor);
 				
 				IFile mglModelFile = modelFolder.getFile(mglModelFileName);
+				createDummyMGLModel(mglModelFile, mglModelName, packageName, projectName);
+				
 				IFile styleModelFile = modelFolder.getFile(styleModelFileName);
-				createDummyMGLModel(mglModelFile, mglModelName, packageName);
-				createDummyStyleModel(styleModelFile, mglModelName, packageName);
+				createDummyStyleModel(styleModelFile, packageName);
+				
+				IFile appearanceProviderFile = appearanceFolder.getFile(appearanceProviderFileName);
+				createAppearanceProvider(appearanceProviderFile, mglModelName, packageName);
 				
 				project.refreshLocal(IResource.DEPTH_INFINITE, monitor);
 			} catch (Exception e) {
@@ -131,6 +141,12 @@ public class NewMGLProjectWizard extends Wizard implements IWorkbenchWizard{
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
 		setWindowTitle("New Meta Graph Language Project");
 	}
+	
+	private List<String> getExportedPackages(String packageName) {
+		List<String> exports = new ArrayList<String>();
+		exports.add(packageName + ".appearance");
+		return exports;
+	}
 
 	private Set<String> getReqBundles() {
 		Set<String> list = new  HashSet<String>();
@@ -138,6 +154,7 @@ public class NewMGLProjectWizard extends Wizard implements IWorkbenchWizard{
 		list.add("org.eclipse.emf.ecore");
 		list.add("de.jabc.cinco.meta.core.mgl.model");
 		list.add("de.jabc.cinco.meta.core.ge.style.model");
+		list.add("de.jabc.cinco.meta.core.ge.style");
 		return list;
 	}
 
@@ -154,23 +171,20 @@ public class NewMGLProjectWizard extends Wizard implements IWorkbenchWizard{
 		return natures;
 	}
 	
-	private void createDummyMGLModel(IFile modelFile, String modelName, String packageName) {		
-		StringBuilder sb = new StringBuilder();
-		CharSequence cs = MGLTemplate.generateMGLFile();
-		
-		sb.append("@style(\"/"+packageName+"/model/"+modelName+".style\")\n");
-		sb.append("graphModel " + modelName + "{\n\tpackage " + packageName + "\n\t" +"nsURI \"http://de/test/project/"+modelName.toLowerCase()+"\"\n\t");
-		sb.append("diagramExtension \"\"\n");
-		sb.append("\n\t@style(NodeStyle)\n");
-		sb.append("\tnode Start{\n\n\t}\n\t"
-				+ "@style(NodeStyle)\n"
-				+ "\tnode End{\n\n\t}\n\n\t");
-		
-		sb.append("@style(EdgeStyle)\n");
-		sb.append("\tedge Succ{\n\n\t}\n}");
-		
+	private void createDummyMGLModel(IFile modelFile, String modelName, String packageName, String projectName) {		
+		CharSequence cs = CincoProductWizardTemplates.generateMGLFile(modelName, packageName, projectName);
 		try {
-			createFile(modelFile, sb.toString());
+			createFile(modelFile, cs.toString());
+		} catch (CoreException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	private void createDummyStyleModel(IFile modelFile, String packageName) {		
+		CharSequence cs = CincoProductWizardTemplates.generateStyleFile(packageName);
+		try {
+			createFile(modelFile, cs.toString());
 		} catch (CoreException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -178,42 +192,47 @@ public class NewMGLProjectWizard extends Wizard implements IWorkbenchWizard{
 
 	}
 	
-	private void createDummyStyleModel(IFile modelFile, String modelName, String packageName) {		
-		StringBuilder sb = new StringBuilder();
-		sb.append("appearance green {\n\tbackground(0,255,0)\n}");
-		sb.append("\n\n");
-		
-		sb.append("nodeStyle NodeStyle {\n\t"
-				+ "\t/*appearanceProvider (\"de.test.project.appearance.provider.MyAppearanceProvider\") */\n"
-				+ "\tellipse outer {"
-				+ "appearance green \n\t"
-				+ "\tsize(50,50)\n"
-				+ "\t\tellipse inner {"
-				+ "appearance green \n\t"
-				+ "\t\tposition relativeTo outer (CENTER, MIDDLE)\n"
-				+ "\t\t\tsize (46,46)\n"
-				+ "\t\t}\n"
-				+ "\t}\n"
-				+ "}\n");
-		
-		sb.append("\nedgeStyle EdgeStyle {\n"
-				+ "\tappearance {\n"
-				+ "\t\tlineStyle SOLID\n"
-				+ "\t}\n"
-				+ "}");
-		
+	private void createAppearanceProvider(IFile modelFile, String modelName, String packageName) {		
+		CharSequence cs = CincoProductWizardTemplates.generateAppearanceProvider(modelName, packageName);
 		try {
-			createFile(modelFile, sb.toString());
+			createFile(modelFile, cs.toString());
 		} catch (CoreException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 	}
-	
 	
 	private void createFile(IFile file, String content) throws CoreException{
 		file.create(new ByteArrayInputStream(content.getBytes()), true, new NullProgressMonitor());
 	}
+	
+	/**
+	 * recursively create resources.
+	 * taken from here: https://www.eclipse.org/forums/index.php/mv/msg/91710/282873/#msg_282873
+	 * 
+	 */
+	private void create(final IResource resource, IProgressMonitor monitor) throws CoreException {
+		if (resource == null || resource.exists())
+			return;
+		if (!resource.getParent().exists())
+			create(resource.getParent(),monitor);
+		
+		switch (resource.getType()) {
+		case IResource.FILE :
+			((IFile) resource).create(new ByteArrayInputStream(new byte[0]),
+					true, monitor);
+			break;
+		case IResource.FOLDER :
+			((IFolder) resource).create(IResource.NONE, true, monitor);
+			break;
+		case IResource.PROJECT :
+			((IProject) resource).create(monitor);
+			((IProject) resource).open(monitor);
+			break;
+		}
+	}
+
+	
 	
 }
