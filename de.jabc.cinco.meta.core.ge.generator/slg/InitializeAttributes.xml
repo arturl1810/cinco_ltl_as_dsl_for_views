@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>1f432a14-22e1-48ce-aa1e-72e571fba979</id>
   <name>InitializeAttributes</name>
-  <changecounter>131</changecounter>
+  <changecounter>147</changecounter>
   <sib>
     <id>b702a793-2c93-4702-84d7-e6a202dbea53</id>
     <name>CopyElement</name>
@@ -542,7 +542,7 @@
     <label>CompareNumbers</label>
     <sib-uid>basic-sibs/CompareNumbers</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.CompareNumbers</taxonomy>
-    <position>434.5,408.0</position>
+    <position>374.5,408.0</position>
     <parameter name="first">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
@@ -555,7 +555,7 @@
     <parameter name="second">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>${1}</expression>
+          <expression>1</expression>
           <clazz>java.lang.Integer</clazz>
           <classMutable>true</classMutable>
         </ContextExpressionFoundation>
@@ -568,18 +568,76 @@
   </sib>
   <edge>
     <source>7e3edd9b-1c00-4d5c-bf65-87038bd6834d</source>
-    <target>f293c84c-a7d1-48b9-a423-1fd94b0a53de</target>
-    <point>495.0,435.0</point>
-    <point>120.0,185.0</point>
+    <target>a7a2c36d-58d0-4fe6-abf4-95ac6c3ab229</target>
+    <point>428.0769230769231,408.0</point>
+    <point>381.2068965517241,279.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>greater</branch>
     <branch>less</branch>
   </edge>
   <edge>
     <source>7e3edd9b-1c00-4d5c-bf65-87038bd6834d</source>
-    <target>3f3ceb57-0f89-40bc-8121-02d4a46184a8</target>
-    <point>495.0,435.0</point>
-    <point>655.0,425.0</point>
+    <target>d884cd96-9393-421e-906c-0c20aba0177e</target>
+    <point>453.0,431.8909090909091</point>
+    <point>582.0,467.07272727272726</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>equal</branch>
+  </edge>
+  <sib>
+    <id>d884cd96-9393-421e-906c-0c20aba0177e</id>
+    <name>PrintConsoleMessage</name>
+    <label>PrintConsoleMessage</label>
+    <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
+    <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
+    <position>519.5,468.0</position>
+    <parameter name="error">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="message">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>Init attribute ${attributeName}!</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>false</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <finalbranches>default</finalbranches>
+  </sib>
+  <edge>
+    <source>d884cd96-9393-421e-906c-0c20aba0177e</source>
+    <target>3f3ceb57-0f89-40bc-8121-02d4a46184a8</target>
+    <point>585.0,495.0</point>
+    <point>668.0,422.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>a7a2c36d-58d0-4fe6-abf4-95ac6c3ab229</id>
+    <name>PrintConsoleMessage_1</name>
+    <label>PrintConsoleMessage</label>
+    <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
+    <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
+    <position>279.5,273.0</position>
+    <parameter name="error">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="message">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>Greater or less for attribute ${attributeName} -&gt; ${upperBound}!</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>false</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <finalbranches>default</finalbranches>
+  </sib>
+  <edge>
+    <source>a7a2c36d-58d0-4fe6-abf4-95ac6c3ab229</source>
+    <target>f293c84c-a7d1-48b9-a423-1fd94b0a53de</target>
+    <point>345.0,300.0</point>
+    <point>94.0,200.0</point>
+    <branch>default</branch>
   </edge>
   <parameter>
     <name>modelElement</name>
