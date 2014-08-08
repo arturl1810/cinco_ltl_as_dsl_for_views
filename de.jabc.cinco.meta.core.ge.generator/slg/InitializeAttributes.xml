@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>1f432a14-22e1-48ce-aa1e-72e571fba979</id>
   <name>InitializeAttributes</name>
-  <changecounter>118</changecounter>
+  <changecounter>131</changecounter>
   <sib>
     <id>b702a793-2c93-4702-84d7-e6a202dbea53</id>
     <name>CopyElement</name>
@@ -182,7 +182,7 @@
     <label>attributeValue!=null</label>
     <sib-uid>basic-sibs/CheckVariable</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.CheckVariable</taxonomy>
-    <position>261.0,408.0</position>
+    <position>216.0,408.0</position>
     <parameter name="variable">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -206,9 +206,9 @@
   </edge>
   <edge>
     <source>4e0a09c9-1a1a-475f-ba6a-1bf0e607ae13</source>
-    <target>3f3ceb57-0f89-40bc-8121-02d4a46184a8</target>
-    <point>348.0,426.45</point>
-    <point>672.0,426.45</point>
+    <target>7e3edd9b-1c00-4d5c-bf65-87038bd6834d</target>
+    <point>303.0,431.9142857142857</point>
+    <point>477.0,481.62857142857143</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>false</branch>
   </edge>
@@ -290,7 +290,7 @@
     <label>FormatAttributeName</label>
     <sib-uid>genesys-sibs/FormatIdentifier</sib-uid>
     <taxonomy>de.jabc.sib.genesys.FormatIdentifier</taxonomy>
-    <position>32.5,693.0</position>
+    <position>212.5,633.0</position>
     <parameter name="identifier">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -323,9 +323,10 @@
   </sib>
   <edge>
     <source>67bcdf30-7e65-4747-8df2-1f32eb67b332</source>
-    <target>b093f931-de82-43d0-b894-2fffca2ab36f</target>
-    <point>105.0,570.0</point>
-    <point>106.0,713.0</point>
+    <target>2793640e-7fbb-4a6f-ad33-0ea05c195138</target>
+    <point>123.0,560.6</point>
+    <point>357.0,547.6</point>
+    <labelposition>498.0,3.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
@@ -500,6 +501,86 @@
     <position>683.0,168.0</position>
     <finalbranches>default</finalbranches>
   </sib>
+  <sib>
+    <id>2793640e-7fbb-4a6f-ad33-0ea05c195138</id>
+    <name>GetAttributeUpperBound</name>
+    <label>GetAttributeUpperBound</label>
+    <sib-uid>mgl/mgl/GetAttributeUpperBound</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetAttributeUpperBound</taxonomy>
+    <position>22.5,633.0</position>
+    <parameter name="attributeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>attribute</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="attributeupperBoundKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>upperBound</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>2793640e-7fbb-4a6f-ad33-0ea05c195138</source>
+    <target>b093f931-de82-43d0-b894-2fffca2ab36f</target>
+    <point>105.0,660.0</point>
+    <point>98.0,837.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>7e3edd9b-1c00-4d5c-bf65-87038bd6834d</id>
+    <name>CompareNumbers</name>
+    <label>CompareNumbers</label>
+    <sib-uid>basic-sibs/CompareNumbers</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.CompareNumbers</taxonomy>
+    <position>434.5,408.0</position>
+    <parameter name="first">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>${upperBound}</expression>
+          <clazz>java.lang.Integer</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="second">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>${1}</expression>
+          <clazz>java.lang.Integer</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <finalbranches>equal</finalbranches>
+    <finalbranches>error</finalbranches>
+    <finalbranches>greater</finalbranches>
+    <finalbranches>less</finalbranches>
+  </sib>
+  <edge>
+    <source>7e3edd9b-1c00-4d5c-bf65-87038bd6834d</source>
+    <target>f293c84c-a7d1-48b9-a423-1fd94b0a53de</target>
+    <point>495.0,435.0</point>
+    <point>120.0,185.0</point>
+    <branch>greater</branch>
+    <branch>less</branch>
+  </edge>
+  <edge>
+    <source>7e3edd9b-1c00-4d5c-bf65-87038bd6834d</source>
+    <target>3f3ceb57-0f89-40bc-8121-02d4a46184a8</target>
+    <point>495.0,435.0</point>
+    <point>655.0,425.0</point>
+    <branch>equal</branch>
+  </edge>
   <parameter>
     <name>modelElement</name>
     <field>sourceVariable</field>
@@ -586,5 +667,15 @@
     <name>error</name>
     <branch>error</branch>
     <sib>10eda154-6a31-4352-af86-a34c041ae75c</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>2793640e-7fbb-4a6f-ad33-0ea05c195138</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>7e3edd9b-1c00-4d5c-bf65-87038bd6834d</sib>
   </branch>
 </model>

@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>9bf333cd-76eb-4707-be7a-f62b921e88c5</id>
   <name>GenerateSingleIntegerCode</name>
-  <changecounter>182</changecounter>
+  <changecounter>193</changecounter>
   <sib>
     <id>761a275f-3772-4618-b07b-2202449515c5</id>
     <name>RunStringTemplate</name>
@@ -373,12 +373,24 @@ VerifyListener verifyListener= new VerifyListener() {
 	@Override
 	public void verifyText(VerifyEvent e) {
 		try {
-			if (e.keyCode == SWT.DEL || e.keyCode == SWT.BS || e.keyCode == SWT.ESC) {
+		if (e.keyCode == SWT.DEL || e.keyCode == SWT.BS) {
 				e.doit = true;
 				return;
 			}
-			Integer.valueOf(e.text);
-			e.doit = true;
+			if (!(e.widget instanceof Text))
+				return;
+			Text t = (Text) e.widget;
+			/**if (e.keyCode == 0) {
+				e.doit = true;
+				return;
+			}**/
+			if ((e.keyCode &gt;= 48 &amp;&amp; e.keyCode &lt;= 57) || e.keyCode == 46 || (e.keyCode &gt;= 16777264 &amp;&amp; e.keyCode &lt;= 16777273)) {
+				Integer.valueOf(t.getText().concat(e.text));
+				e.doit = true;
+			} else if ( e.keyCode == SWT.ESC) {
+				e.doit = true;
+			}
+			else e.doit = false;
 		} catch (NumberFormatException e1) {
 			e.doit = false;
 		}
