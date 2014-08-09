@@ -1,0 +1,22 @@
+Starting Requirements:
+
+- OpenJDK 7 (might work with others, but this is the only one tested)
+- Maven 3 installed
+- Eclipse 4.3 "Kepler" in the "Modeling Tools" variant: 
+  http://eclipse.org/downloads/packages/eclipse-modeling-tools/keplersr2
+
+
+Preparing Eclipse Modeling:
+- Start Eclipse with a fresh workspace
+- Help / Install Modeling Components
+	- mark Xpand, Graphiti and Xtext for installation
+	- finish -> next -> next -> accept -> finish
+	- yes, restart
+
+Import Cinco Projects:
+- Import / General / Existing Projects into Workspace 
+	- select repository root (where this file is)
+	- mark all found projects for import
+	- finish
+- Do as build.txt says
+
