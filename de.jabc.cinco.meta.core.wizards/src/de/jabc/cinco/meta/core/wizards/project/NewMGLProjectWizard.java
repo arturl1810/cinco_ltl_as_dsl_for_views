@@ -139,7 +139,7 @@ public class NewMGLProjectWizard extends Wizard implements IWorkbenchWizard{
 
 	@Override
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
-		setWindowTitle("New Meta Graph Language Project");
+		setWindowTitle("New Cinco Product Project");
 	}
 	
 	private List<String> getExportedPackages(String packageName) {

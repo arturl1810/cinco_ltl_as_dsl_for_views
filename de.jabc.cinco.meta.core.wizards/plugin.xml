@@ -15,16 +15,17 @@
       <wizard
             category="de.jabc.cinco.mgl.wizards.mglCategory"
             class="de.jabc.cinco.meta.core.wizards.project.NewMGLProjectWizard"
+            icon="icons/16.png"
             id="de.jabc.cinco.mgl.wizards.mglProjectWizard"
-            name="MGL Project">
+            name="Cinco Product Project">
       </wizard>
       <category
             id="de.jabc.cinco.mgl.wizards.mglCategory"
-            name="MGL Project">
+            name="Cinco Meta Tooling Suite">
       </category>
       <category
             id="de.jabc.cinco.meta.core.wizards.category.cinco"
-            name="Cinco Modeling Tool">
+            name="Cinco Product">
       </category>
    </extension>
 
