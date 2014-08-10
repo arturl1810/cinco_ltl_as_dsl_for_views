@@ -18,7 +18,12 @@ import org.eclipse.swt.widgets.Text;
 
 public class NewMGLProjectWizardPage extends WizardPage {
 	
-	private Button btnProjectAsPkg; 
+	private Button btnProjectAsPkg;
+	private Button btnGenerateAppearanceProvider;
+	private Button btnGenerateCustomFeature;
+	private Button btnGenerateCodeGenerator;
+	private Button btnGenerateContainers;
+	
 
 	private Text txtProjectName;
 	private Text txtPackageName;
@@ -45,7 +50,7 @@ public class NewMGLProjectWizardPage extends WizardPage {
 		btnProjectAsPkg = new Button(comp, SWT.CHECK);
 		btnProjectAsPkg.setSelection(true);
 		btnProjectAsPkg.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 2, 1));
-		btnProjectAsPkg.setText("Use project name as package name?");
+		btnProjectAsPkg.setText("Use project name as package name");
 		
 		Label lblPackageName = new Label(comp, SWT.NONE);
 		lblPackageName.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1));
@@ -61,6 +66,37 @@ public class NewMGLProjectWizardPage extends WizardPage {
 		
 		txtModelName = new Text(comp, SWT.BORDER);
 		txtModelName.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		
+		Label spacer = new Label(comp, SWT.SEPARATOR | SWT.HORIZONTAL);
+		spacer.setLayoutData(new GridData(SWT.FILL, SWT.LEFT, true, false, 2,1));
+		
+		Label additionalsSection = new Label(comp, SWT.NONE);
+		additionalsSection.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 2, 1));
+		additionalsSection.setText("Include additional example code snippets");
+		
+		btnGenerateContainers = new Button(comp, SWT.CHECK);
+		btnGenerateContainers.setSelection(false);
+		btnGenerateContainers.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 2, 1));
+		btnGenerateContainers.setText("&Container");
+		
+		btnGenerateAppearanceProvider = new Button(comp, SWT.CHECK);
+		btnGenerateAppearanceProvider.setSelection(false);
+		btnGenerateAppearanceProvider.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 2, 1));
+		btnGenerateAppearanceProvider.setText("&Appearance provider");
+		
+		btnGenerateCustomFeature = new Button(comp, SWT.CHECK);
+		btnGenerateCustomFeature.setSelection(false);
+		btnGenerateCustomFeature.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 2, 1));
+		btnGenerateCustomFeature.setText("Custom &feature");
+		
+		btnGenerateCodeGenerator = new Button(comp, SWT.CHECK);
+		btnGenerateCodeGenerator.setSelection(false);
+		btnGenerateCodeGenerator.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 2, 1));
+		btnGenerateCodeGenerator.setText("Code &generator");
+		
+		
+		
+		
 		
 		
 		addListeners();
