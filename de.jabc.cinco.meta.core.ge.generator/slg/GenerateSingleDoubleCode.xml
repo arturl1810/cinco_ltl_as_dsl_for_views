@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>58218bce-14ea-427d-8c72-e67903670e10</id>
   <name>GenerateSingleDoubleCode</name>
-  <changecounter>86</changecounter>
+  <changecounter>93</changecounter>
   <sib>
     <id>04e295fe-943a-4974-80d0-c5dbe081048d</id>
     <name>RunStringTemplate_1</name>
@@ -103,10 +103,17 @@ VerifyListener verifyListener= new VerifyListener() {
 			if (!(e.widget instanceof Text))
 				return;
 			Text t = (Text) e.widget;
-			/**if (e.keyCode == 0) {
+			if (e.keyCode == 0) {
+				if (t.getText().isEmpty()) {
+					Double.valueOf(e.text);
+					e.doit = true;
+					return;
+				}
+				Double.valueOf(t.getText());
+				Double.valueOf(e.text);
 				e.doit = true;
 				return;
-			}**/
+			}
 			if ((e.keyCode &gt;= 48 &amp;&amp; e.keyCode &lt;= 57) || e.keyCode == 46 || (e.keyCode &gt;= 16777264 &amp;&amp; e.keyCode &lt;= 16777273)) {
 				Double.valueOf(t.getText().concat(e.text));
 				e.doit = true;
