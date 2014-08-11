@@ -1,3 +1,24 @@
+2014081x - Cinco Release 0.4
+
+- possible source and target nodes of edges is now defined at the node's end
+  with keywords incomingEdges and outgoingEdges, allowing cardinalities (the
+  keywords sourceNode and targetNode have been removed) 
+- basic copy&paste features are now generated (not yet preserving some minor
+  graphical properties, such as edge bend points and decorator locations)
+- added possibility to define appearances "inline" 
+- appearances can now be defined for edgeStyle and edge decorators
+- adapted annotation syntax to be more like Java: @annotationName(param1, param2, ...)
+- renamed @Style annotation to @style
+- "decorators {}"-syntax for edges changed to multiple "decorator {}"-blocks
+- the .style editor now validates the parameters of the @style annotation
+- new @multiLine annotation for attributes
+- added predefined edge decorator shapes (ARROW, CIRCLE, DIAMOND, TRIANGLE)
+- define CustomFeatures on nodes and containers with @customFeature annotation
+- other node types can now be used as attributes
+- error/success dialog after "Generate Cinco Product"
+- again, many other small features and fixes
+
+
 20140416 - Cinco Release 0.3
 
 - containers can now contain other containers (thus containableNodes is renamed
