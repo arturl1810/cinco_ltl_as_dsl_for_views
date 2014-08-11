@@ -14,6 +14,26 @@
 </properties>
 <build>
     <plugins>
+		<plugin>
+		  <groupId>org.codehaus.mojo</groupId>
+		  <artifactId>build-helper-maven-plugin</artifactId>
+		  <version>1.9</version>
+		  <executions>
+			 <execution>
+				<id>regex-property</id>
+				<goals>
+				  <goal>regex-property</goal>
+				</goals>
+				<configuration>
+				  <name>build.version.clean</name>
+				  <value>${build.version}</value>
+				  <regex>\.0</regex>
+				  <replacement></replacement>
+				  <failIfNoMatch>false</failIfNoMatch>
+				</configuration>
+			 </execution>
+		  </executions>
+		</plugin>
       <plugin>
         <groupId>org.eclipse.tycho</groupId>
         <artifactId>tycho-p2-repository-plugin</artifactId>
@@ -44,7 +64,7 @@
           <products>
             <product>
               <id>de.jabc.cinco.meta.product.product</id>
-              <rootFolder>cinco-${build.version}</rootFolder>
+              <rootFolder>cinco-${build.version.clean}</rootFolder>
             </product>
           </products>
         </configuration>
@@ -62,7 +82,7 @@
               <target>
                 <!-- Rename the products -->
                 <move verbose="true" todir="${project.build.directory}/products">
-                  <mapper type="regexp" from="^(de.jabc.cinco.meta.product.product-)(.*)$$" to="cinco-${build.version}-\2" />
+                  <mapper type="regexp" from="^(de.jabc.cinco.meta.product.product-)(.*)$$" to="cinco-${build.version.clean}-\2" />
                   <fileset dir="${project.build.directory}/products">
                     <include name="*.zip" />
                   </fileset>
@@ -82,7 +102,7 @@
 	<profile>
 		<id>release</id>
 		<properties>
-			<build.version>${unqualifiedVersion} </build.version>
+			<build.version>${unqualifiedVersion}</build.version>
 		</properties>
 	</profile>
 </profiles>
