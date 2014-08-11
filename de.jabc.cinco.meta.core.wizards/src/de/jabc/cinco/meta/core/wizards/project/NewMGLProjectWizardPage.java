@@ -2,6 +2,8 @@ package de.jabc.cinco.meta.core.wizards.project;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.jdt.core.JavaConventions;
 import org.eclipse.jface.wizard.IWizardContainer;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
@@ -26,8 +28,8 @@ public class NewMGLProjectWizardPage extends WizardPage {
 	
 	protected NewMGLProjectWizardPage(String pageName) {
 		super(pageName);
-		setTitle("New MGL Project");
-		setDescription("Create new MGL project with initial dummy model");
+		setTitle("New Cinco Product Project");
+		setDescription("Create new Cinco Product project with initial example models");
 	}
 
 	@Override
@@ -37,7 +39,7 @@ public class NewMGLProjectWizardPage extends WizardPage {
 		
 		Label lblProjectName = new Label(comp, SWT.NONE);
 		lblProjectName.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1));
-		lblProjectName.setText("&Project Name:");
+		lblProjectName.setText("&Project Name");
 		
 		txtProjectName = new Text(comp, SWT.BORDER);
 		txtProjectName.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
@@ -49,7 +51,7 @@ public class NewMGLProjectWizardPage extends WizardPage {
 		
 		Label lblPackageName = new Label(comp, SWT.NONE);
 		lblPackageName.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1));
-		lblPackageName.setText("Package Name:");
+		lblPackageName.setText("Package Name");
 		
 		txtPackageName = new Text(comp, SWT.BORDER);
 		txtPackageName.setEnabled(false);
@@ -137,11 +139,16 @@ public class NewMGLProjectWizardPage extends WizardPage {
 		if (txtModelName.getText() != null) {
 			String modelName = txtModelName.getText();
 			if (!modelName.isEmpty()) {
-				if (modelName.contains(".") && !modelName.endsWith("mgl")) {
-					return "Model name must end with \".mgl\"";
+				IStatus nameStatus = JavaConventions.validateIdentifier(modelName, "1.7", "1.7");
+				if (nameStatus.getCode() != IStatus.OK) {
+					return "Model Name: " + nameStatus.getMessage();
 				}
-			} else {
-				return "Model name required!";
+				else if (!Character.isUpperCase(modelName.charAt(0))) {
+					return "Model Name: must start with capital letter";
+				}
+			}
+			else {
+				return "Model Name: must not be empty";
 			}
 		}
 		return null;
@@ -152,8 +159,14 @@ public class NewMGLProjectWizardPage extends WizardPage {
 	private String validatePackageName() {
 		if (txtPackageName != null) {
 			String packageName = txtPackageName.getText();
-			if (packageName.isEmpty())
-				return "Enter package name";
+			if (!packageName.isEmpty()) {
+				IStatus nameStatus = JavaConventions.validatePackageName(packageName, "1.7", "1.7");
+				if (nameStatus.getCode() != IStatus.OK) {
+					return "Package Name: " + nameStatus.getMessage();
+				}
+			} else {
+				return "Package Name: must not be empty";
+			}
 		}
 		return null;
 	}

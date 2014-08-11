@@ -5,11 +5,14 @@
     <relativePath>../pom.xml</relativePath>
     <groupId>de.jabc.cinco</groupId>
     <artifactId>de.jabc.cinco.meta.parent</artifactId>
-    <version>0.4.0-SNAPSHOT</version>
+    <version>0.4.0</version>
   </parent>
   <artifactId>de.jabc.cinco.meta.product</artifactId>
   <packaging>eclipse-repository</packaging>
-  <build>
+<properties>
+	<build.version>${unqualifiedVersion}.${buildQualifier}</build.version>
+</properties>
+<build>
     <plugins>
       <plugin>
         <groupId>org.eclipse.tycho</groupId>
@@ -41,7 +44,7 @@
           <products>
             <product>
               <id>de.jabc.cinco.meta.product.product</id>
-              <rootFolder>cinco-${unqualifiedVersion}.${buildQualifier}</rootFolder>
+              <rootFolder>cinco-${build.version}</rootFolder>
             </product>
           </products>
         </configuration>
@@ -59,7 +62,7 @@
               <target>
                 <!-- Rename the products -->
                 <move verbose="true" todir="${project.build.directory}/products">
-                  <mapper type="regexp" from="^(de.jabc.cinco.meta.product.product-)(.*)$$" to="cinco-${unqualifiedVersion}.${buildQualifier}-\2" />
+                  <mapper type="regexp" from="^(de.jabc.cinco.meta.product.product-)(.*)$$" to="cinco-${build.version}-\2" />
                   <fileset dir="${project.build.directory}/products">
                     <include name="*.zip" />
                   </fileset>
@@ -74,4 +77,14 @@
       </plugin>
     </plugins>
   </build>
+
+  <profiles>
+	<profile>
+		<id>release</id>
+		<properties>
+			<build.version>${unqualifiedVersion} </build.version>
+		</properties>
+	</profile>
+</profiles>
+
 </project>

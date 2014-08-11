@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>93a0e6ff-3cc2-4d94-8d2f-7da7495af23a</id>
   <name>GenerateCreateFeatures</name>
-  <changecounter>221</changecounter>
+  <changecounter>226</changecounter>
   <sib>
     <id>a1a2eec2-2ffe-49e5-ada4-88f47574b5c0</id>
     <name>IterateElements</name>
@@ -231,7 +231,7 @@
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
     <position>668.5,76.0</position>
-    <parameter name="modelElementKey">
+    <parameter name="containerKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
           <key>container</key>

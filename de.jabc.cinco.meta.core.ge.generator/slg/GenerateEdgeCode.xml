@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>67c297f2-05a9-4896-8e73-7a7c57da4ed6</id>
   <name>GenerateEdgeCode</name>
-  <changecounter>264</changecounter>
+  <changecounter>274</changecounter>
   <sib>
     <id>e0fc67d6-ab7c-486f-9b23-5ad4ffd7f80d</id>
     <name>CopyElement</name>
@@ -34,46 +34,9 @@
       <boolean>true</boolean>
     </userobject>
   </sib>
-  <sib>
-    <id>f720efb0-bcf9-40ef-aad5-cf1212b9f06f</id>
-    <name>GetEdgeSourceElementConnections</name>
-    <label>GetEdgeSourceElementConnections</label>
-    <sib-uid>ge-util-sibs/GetEdgeSourceElementConnections</sib-uid>
-    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.GetEdgeSourceElementConnections</taxonomy>
-    <position>16.0,168.0</position>
-    <parameter name="edge">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>edge</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="edgeSourceElementConnectionMap">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>sourceElementsMap</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="nodes">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>nodes</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-  </sib>
   <edge>
     <source>e0fc67d6-ab7c-486f-9b23-5ad4ffd7f80d</source>
-    <target>f720efb0-bcf9-40ef-aad5-cf1212b9f06f</target>
+    <target>7d7de68f-2706-470d-9f95-f5f39d557090</target>
     <point>135.0,75.0</point>
     <point>135.0,193.0</point>
     <branch>default</branch>
@@ -117,7 +80,7 @@
     <finalbranches>next</finalbranches>
   </sib>
   <edge>
-    <source>f720efb0-bcf9-40ef-aad5-cf1212b9f06f</source>
+    <source>7d7de68f-2706-470d-9f95-f5f39d557090</source>
     <target>50c701f4-4295-4c81-b0d8-579d5b2e1135</target>
     <point>153.0,186.9</point>
     <point>297.0,186.9</point>
@@ -205,46 +168,9 @@
     <labelposition>551.2820512820513,-4.0</labelposition>
     <branch>default</branch>
   </edge>
-  <sib>
-    <id>4ce73401-5506-4992-9dbb-b5bf6e9e6d8e</id>
-    <name>GetEdgeTargetElementConnections</name>
-    <label>GetEdgeTargetElementConnections</label>
-    <sib-uid>ge-util-sibs/GetEdgeTargetElementConnections</sib-uid>
-    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.GetEdgeTargetElementConnections</taxonomy>
-    <position>17.0,573.0</position>
-    <parameter name="edge">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>edge</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="edgeTargetElementConnectionMap">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>targetElementsMap</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="nodes">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>nodes</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-  </sib>
   <edge>
     <source>60624706-761a-4f3f-a0c6-8f90c8c1011d</source>
-    <target>4ce73401-5506-4992-9dbb-b5bf6e9e6d8e</target>
+    <target>9d2d284e-965c-4305-9560-47852585c464</target>
     <point>135.0,450.0</point>
     <point>135.0,660.0</point>
     <labelposition>500.0,0.0</labelposition>
@@ -289,7 +215,7 @@
     <finalbranches>next</finalbranches>
   </sib>
   <edge>
-    <source>4ce73401-5506-4992-9dbb-b5bf6e9e6d8e</source>
+    <source>9d2d284e-965c-4305-9560-47852585c464</source>
     <target>38f4f32b-355b-4e83-9129-3a0bf5fc45f4</target>
     <point>153.0,659.28</point>
     <point>267.0,704.88</point>
@@ -530,6 +456,80 @@
     <point>129.0,784.0</point>
     <branch>default</branch>
   </edge>
+  <sib>
+    <id>7d7de68f-2706-470d-9f95-f5f39d557090</id>
+    <name>GetEdgeSourceElementConnections</name>
+    <label>GetEdgeSourceElementConnections</label>
+    <sib-uid>ge-util-sibs/GetEdgeSourceElementConnections</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.GetEdgeSourceElementConnections</taxonomy>
+    <position>16.0,168.0</position>
+    <parameter name="edge">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>edge</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="edgeSourceElementConnectionMap">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>sourceElementsMap</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="graphicalModelElements">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>graphicalModelElements</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>9d2d284e-965c-4305-9560-47852585c464</id>
+    <name>GetEdgeTargetElementConnections</name>
+    <label>GetEdgeTargetElementConnections</label>
+    <sib-uid>ge-util-sibs/GetEdgeTargetElementConnections</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.GetEdgeTargetElementConnections</taxonomy>
+    <position>17.0,573.0</position>
+    <parameter name="edge">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>edge</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="edgeTargetElementConnectionMap">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>targetElementsMap</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="graphicalModelElements">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>graphicalModelElements</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
   <parameter>
     <name>edgeKey</name>
     <field>sourceVariable</field>
@@ -553,11 +553,6 @@
     <sib>e0fc67d6-ab7c-486f-9b23-5ad4ffd7f80d</sib>
   </branch>
   <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>f720efb0-bcf9-40ef-aad5-cf1212b9f06f</sib>
-  </branch>
-  <branch>
     <name>default</name>
     <branch>exit</branch>
     <sib>e6ae2408-ab4f-4d38-9d0f-9e954726f1d9</sib>
@@ -571,11 +566,6 @@
     <name>error</name>
     <branch>error</branch>
     <sib>60624706-761a-4f3f-a0c6-8f90c8c1011d</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>4ce73401-5506-4992-9dbb-b5bf6e9e6d8e</sib>
   </branch>
   <branch>
     <name>error</name>
@@ -616,5 +606,15 @@
     <name>error</name>
     <branch>error</branch>
     <sib>38f4f32b-355b-4e83-9129-3a0bf5fc45f4</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>7d7de68f-2706-470d-9f95-f5f39d557090</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>9d2d284e-965c-4305-9560-47852585c464</sib>
   </branch>
 </model>

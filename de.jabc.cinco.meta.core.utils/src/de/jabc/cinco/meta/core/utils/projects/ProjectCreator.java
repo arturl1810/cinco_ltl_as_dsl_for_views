@@ -180,13 +180,22 @@ public class ProjectCreator {
 		return project;
 	}
 	
+	/**
+	 * converts a project name that might contain special characters into
+	 * a valid Bundle-SymbolicName by just deleting all invalid characters.
+	 * 
+	 */
+	private static String makeSymbolicName(String projectName) {
+		return projectName.replaceAll("[^a-zA-Z0-9_\\-\\.]", "");
+	}
+	
 	private static void createManifest(final String projectName, final Set<String> requiredBundles,
 			final List<String> exportedPackages, final IProgressMonitor progressMonitor, final IProject project)
 	throws CoreException {
 		final StringBuilder maniContent = new StringBuilder("Manifest-Version: 1.0\n");
 		maniContent.append("Bundle-ManifestVersion: 2\n");
 		maniContent.append("Bundle-Name: " + projectName + "\n");
-		maniContent.append("Bundle-SymbolicName: " + projectName + "; singleton:=true\n");
+		maniContent.append("Bundle-SymbolicName: " + makeSymbolicName(projectName) + "; singleton:=true\n");
 		maniContent.append("Bundle-Version: 1.0.0\n");
 		// maniContent.append("Bundle-Localization: plugin\n");
 		if (requiredBundles != null) {
@@ -203,7 +212,7 @@ public class ProjectCreator {
 		}
 
 		if (exportedPackages != null && !exportedPackages.isEmpty()) {
-			maniContent.append("Require-Bundle: " + exportedPackages.get(0));
+			maniContent.append("Export-Package: " + exportedPackages.get(0));
 			for (int i = 1, x = exportedPackages.size(); i < x; i++) {
 				maniContent.append(",\n " + exportedPackages.get(i));
 			}

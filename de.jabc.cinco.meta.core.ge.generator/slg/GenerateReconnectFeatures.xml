@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>586b7b70-5c30-487f-aa09-ffe8208bf019</id>
   <name>GenerateReconnectFeatures</name>
-  <changecounter>268</changecounter>
+  <changecounter>271</changecounter>
   <sib>
     <id>cb541589-b45f-430c-a56b-1cebe00059bf</id>
     <name>PutExpression</name>
@@ -328,8 +328,10 @@
 import graphmodel.*;
 
 import org.eclipse.graphiti.features.IFeatureProvider;
+import org.eclipse.graphiti.features.IUpdateFeature;
 import org.eclipse.graphiti.features.context.IReconnectionContext;
 import org.eclipse.graphiti.features.context.impl.ReconnectionContext;
+import org.eclipse.graphiti.features.context.impl.UpdateContext;
 import org.eclipse.graphiti.features.impl.DefaultReconnectionFeature;
 import org.eclipse.graphiti.mm.pictograms.Anchor;
 
@@ -375,6 +377,11 @@ public class Reconnect$context.edge.name$Feature extends DefaultReconnectionFeat
 			Edge edge = (Edge) boEdge;
 			edge.setSourceElement((ModelElement) boNode);
 		}
+
+		UpdateContext uc = new UpdateContext(context.getConnection());
+		IUpdateFeature uf = getFeatureProvider().getUpdateFeature(uc);
+		if (uf != null &amp;&amp; uf.canUpdate(uc))
+			uf.update(uc);
 	}
 
 	private boolean checkSource(Object source) {

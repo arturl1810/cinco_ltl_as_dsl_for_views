@@ -15,10 +15,10 @@ public class IsEdgeUsed extends AbstractSIB {
 public static final String[] BRANCHES = {Branches.TRUE, Branches.FALSE, Branches.ERROR};
 	
 	public ContextKey edge = new ContextKey("edge", Scope.LOCAL, true);
-	public ContextKey nodes = new ContextKey("nodes", Scope.GLOBAL, true);
+	public ContextKey graphicalModelElements = new ContextKey("graphicalModelElements", Scope.GLOBAL, true);
 	
 	public String execute(LightweightExecutionEnvironment env) {
-		return ServiceAdapter.isEdgeUsed(env, edge.asFoundation(), nodes.asFoundation());
+		return ServiceAdapter.isEdgeUsed(env, edge.asFoundation(), graphicalModelElements.asFoundation());
 	}
 	
 	@Override
@@ -26,7 +26,7 @@ public static final String[] BRANCHES = {Branches.TRUE, Branches.FALSE, Branches
 		return new ServiceAdapterDescriptor(ServiceAdapter.class.getName(), 
 				"isEdgeUsed",
 				"edge",
-				"nodes");
+				"graphicalModelElements");
 	}
 	
 }

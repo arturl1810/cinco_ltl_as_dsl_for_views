@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>21d264a3-a3d0-485e-b5f9-5f9c29fffccf</id>
   <name>GenerateCreateEdgeFeature_1</name>
-  <changecounter>119</changecounter>
+  <changecounter>135</changecounter>
   <sib>
     <id>11d0666f-5a7a-42b8-b045-2c132c173d82</id>
     <name>PutExpression</name>
@@ -63,7 +63,7 @@
     <parameter name="value">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>${packageName}.graphiti.features.create</expression>
+          <expression>${packageName}.graphiti.features.create.edges</expression>
           <clazz>java.lang.Object</clazz>
           <classMutable>true</classMutable>
         </ContextExpressionFoundation>
@@ -317,7 +317,7 @@
   </edge>
   <edge>
     <source>1d24a1bf-1c2a-48db-adf7-412187ee6dd4</source>
-    <target>c494008a-2efe-49d2-8f49-34071ddefde1</target>
+    <target>b68d650a-5d17-418c-a84d-1eae3d4f8827</target>
     <point>123.0,278.6181818181818</point>
     <point>252.0,290.3454545454546</point>
     <labelposition>500.0,0.0</labelposition>
@@ -446,6 +446,7 @@ public class Create$context.edgeName$Feature extends AbstractCreateConnectionFea
 
 		if (source != null &amp;&amp; target != null) {
 			$context.edgeName$ $context.meIdentifier$ = $context.factoryName$Factory.eINSTANCE.create$context.edgeName$();
+			$context.attributeInitContent$
 				if (source instanceof ModelElement) {
 					$context.meIdentifier$.setSourceElement( (ModelElement) source);
 				}
@@ -620,40 +621,12 @@ public class Create$context.edgeName$Feature extends AbstractCreateConnectionFea
     <point>695.0,690.0</point>
     <branch>default</branch>
   </edge>
-  <sib>
-    <id>c494008a-2efe-49d2-8f49-34071ddefde1</id>
-    <name>IsEdgeUsed</name>
-    <label>IsEdgeUsed</label>
-    <sib-uid>ge-util-sibs/IsEdgeUsed</sib-uid>
-    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsEdgeUsed</taxonomy>
-    <position>198.5,258.0</position>
-    <parameter name="edge">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>edge</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="nodes">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>nodes</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>error</finalbranches>
-    <finalbranches>false</finalbranches>
-    <finalbranches>true</finalbranches>
-  </sib>
   <edge>
-    <source>c494008a-2efe-49d2-8f49-34071ddefde1</source>
-    <target>2f27bd7d-f37f-4e15-81e3-121bf7524848</target>
-    <point>240.0,285.0</point>
-    <point>106.0,372.0</point>
+    <source>b68d650a-5d17-418c-a84d-1eae3d4f8827</source>
+    <target>44eafde2-ab05-4eb2-a2c1-18c412d06af6</target>
+    <point>241.23287671232876,294.0</point>
+    <point>253.50746268656718,466.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>true</branch>
   </edge>
   <sib>
@@ -678,11 +651,72 @@ public class Create$context.edgeName$Feature extends AbstractCreateConnectionFea
     <finalbranches>default</finalbranches>
   </sib>
   <edge>
-    <source>c494008a-2efe-49d2-8f49-34071ddefde1</source>
+    <source>b68d650a-5d17-418c-a84d-1eae3d4f8827</source>
     <target>63ea151b-30f1-4157-b114-6d0451a572b2</target>
     <point>240.0,285.0</point>
     <point>386.0,271.0</point>
     <branch>false</branch>
+  </edge>
+  <sib>
+    <id>b68d650a-5d17-418c-a84d-1eae3d4f8827</id>
+    <name>IsEdgeUsed</name>
+    <label>IsEdgeUsed</label>
+    <sib-uid>ge-util-sibs/IsEdgeUsed</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsEdgeUsed</taxonomy>
+    <position>198.5,258.0</position>
+    <parameter name="edge">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>edge</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="graphicalModelElements">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>graphicalModelElements</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>false</finalbranches>
+    <finalbranches>true</finalbranches>
+  </sib>
+  <sib>
+    <id>44eafde2-ab05-4eb2-a2c1-18c412d06af6</id>
+    <name>GraphSIB_1</name>
+    <label>InitializeAttributes</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>176.5,361.0</position>
+    <parameter name="modelElement">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>edge</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>1f432a14-22e1-48ce-aa1e-72e571fba979</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>InitializeAttributes</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>44eafde2-ab05-4eb2-a2c1-18c412d06af6</source>
+    <target>2f27bd7d-f37f-4e15-81e3-121bf7524848</target>
+    <point>240.0,390.0</point>
+    <point>105.0,379.0</point>
+    <branch>default</branch>
   </edge>
   <parameter>
     <name>edgeKey</name>
@@ -777,13 +811,18 @@ public class Create$context.edgeName$Feature extends AbstractCreateConnectionFea
     <sib>d5ce152e-688c-44d1-8426-2a6c4972b95b</sib>
   </branch>
   <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>c494008a-2efe-49d2-8f49-34071ddefde1</sib>
-  </branch>
-  <branch>
     <name>default</name>
     <branch>default</branch>
     <sib>63ea151b-30f1-4157-b114-6d0451a572b2</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>b68d650a-5d17-418c-a84d-1eae3d4f8827</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>44eafde2-ab05-4eb2-a2c1-18c412d06af6</sib>
   </branch>
 </model>

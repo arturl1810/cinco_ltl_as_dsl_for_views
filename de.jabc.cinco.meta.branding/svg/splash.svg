@@ -14,7 +14,7 @@
    inkscape:export-xdpi="90"
    inkscape:export-filename="/home/naujokat/git/itmc/cinco-meta/de.jabc.cinco.meta.branding/about.png"
    sodipodi:docname="splash.svg"
-   inkscape:version="0.48.3.1 r9886"
+   inkscape:version="0.48.4 r9939"
    version="1.1"
    id="svg4020"
    height="330"
@@ -27,13 +27,13 @@
      inkscape:pageopacity="1"
      inkscape:pageshadow="2"
      inkscape:zoom="2"
-     inkscape:cx="249.67926"
+     inkscape:cx="250.67926"
      inkscape:cy="138.58598"
      inkscape:document-units="px"
-     inkscape:current-layer="g3946"
+     inkscape:current-layer="layer1"
      showgrid="false"
      inkscape:window-width="1920"
-     inkscape:window-height="1137"
+     inkscape:window-height="1135"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="1" />
@@ -1005,7 +1005,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -1192,7 +1192,7 @@
          sodipodi:role="line"
          x="186.47388"
          y="843.15472"
-         id="tspan9709">version 0.3</tspan></text>
+         id="tspan9709">version 0.4</tspan></text>
     <g
        id="g9632"
        transform="matrix(0.98984354,0.14216104,-0.14216104,0.98984354,158.13079,-110.50219)">
