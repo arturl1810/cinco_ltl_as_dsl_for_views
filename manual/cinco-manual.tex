@@ -1,0 +1,68 @@
+\chapter{Basics}
+
+\section{About This Document}
+
+This is the technical manual for the ``\cinco{} SCCE Meta Tooling Suite'' (in
+short just \cinco{}). It is intended to provide a basic usage introduction as
+well as reference for all features and keywords. It only implicitely covers the
+conceptual ideas behind \cinco{}. For a more in-depth and scientific view on those,
+please refer to the following publications:
+%
+\begin{itemize}
+\item S. Naujokat et al.: Full generation of domain-specific graphical modeling tools: a
+meta$^2$modeling approach \cite{NaLSKM2014}
+\item S. Naujokat et al.: Domain-Specific Code Generator Modeling: A Case Study for
+Multi-Faceted Concurrent Systems \cite{NaTISL2014}
+\item D. Kopetzki: Model-based generation of graphical editors on
+the basis of abstract meta-model specifications \cite{Kopetz2014}
+\end{itemize}
+
+This document will constantly be revised and extendend. The latest version will
+always be available for download at \href{http://cinco.scce.info}. 
+
+\begin{description}
+\item[date of build} \today
+\item[covered version} \cinco v. 0.4
+\end{description}
+
+\section{Introduction}
+
+The ``\cinco{} SCCE Meta Tooling Suite'' is an integrated devlopment environment
+(IDE) for the quick and easy development of domain-specific graphical modeling
+tools. \cinco{} makes use of several frameworks from the Eclipse Modeling
+Project, but its main goal is to hide those frameworks' intricacy from the
+tool developer. \cinco{} provides two simple textual specification languages (MGL and
+MSL, see below) for the high-level characterization of the developed tool's
+structural and visual features. Above that, \cinco{} is also a full Java IDE, so
+that the portions of the developed tool that are not described in a declarative
+way can seamlessly be developed in the same environment.
+
+\section{Download \& Installation}
+
+As \cinco{} is a full Eclipse-based IDE including the Eclipse Modeling Tools
+(EMF, Xtext, Graphiti, ...) and the Java Development Tooling (JDT) in addition
+to our own plug-ins the download size is almost 300 MB. We are planning to
+provide the \cinco{}-specific plug-ins via an Eclipse update site in the future,
+but for now you need to download the whole package as one.
+
+Please note: \cinco{} itself is developed under the ``Eclipse Public License v.
+1.0'', but the executable build contains several libraries from the
+jABC project, for which the following license applies:
+
+\todo[inline]{include jABC license}
+
+\cinco{} requires OpenJDK 7 to be installed on your system as main Java
+installation (i.e. JAVA\_HOME pointing there). Apart from that, you just have to
+choose the correct zip file for download (Linux/Window/Mac in 32 or 64 bit
+variant), unzip it and execute the included binary: \code{cinco} for Mac and
+Linux, \code{cinco.exe} for Windows.
+
+\section{First Startup}
+
+When starting \cinco{} it will first query you for the location of the workspace
+directory. Choose some place on your harddisk that is not within the \cinco
+installation folder. This workspace will contain all your \cinco projects
+and the according metadata, as well as sub-projects, specification files, source
+code etc. It is possible to use different workspaces (e.g. for different
+projects). If you don't want to use multiple ones for now, you can check
+\gui{Use this as default and do not ask again} before clicking \gui{OK}.
