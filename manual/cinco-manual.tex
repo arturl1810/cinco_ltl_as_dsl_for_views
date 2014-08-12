@@ -3,7 +3,7 @@
 % rubber: module xr
 \documentclass[a4paper,american,12pt]{scrreprt}
 
-\usepackage[margin=2.5cm]{geometry}
+\usepackage[margin=1.5cm]{geometry}
 
 \usepackage{graphicx}
 \usepackage[headsepline]{scrpage2}
@@ -11,6 +11,8 @@
 \usepackage[T1]{fontenc}
 \usepackage{color}
 \usepackage{caption}
+
+\usepackage{subcaption}
 
 %\usepackage{times}
 %\usepackage{lmodern}
@@ -26,10 +28,12 @@
 
 \usepackage{listings}
 
-\usepackage{hyperref}
+\usepackage[hyperfootnotes=false]{hyperref}
 
 \usepackage{todonotes}
 \usepackage{xspace}
+
+\usepackage{gitinfo}
 
 \automark[section]{chapter}
 
@@ -64,8 +68,9 @@ This document will constantly be revised and extendend. The latest version will
 always be available for download at \url{http://cinco.scce.info}. 
 
 \begin{description}
-\item[date of build] \today
 \item[covered version] \cinco v. 0.4
+\item[git commit id] \gitAbbrevHash
+\item[date of build] \today
 \end{description}
 
 \section{Introduction}
@@ -80,19 +85,43 @@ structural and visual features. Above that, \cinco{} is also a full Java IDE, so
 that the portions of the developed tool that are not described in a declarative
 way can seamlessly be developed in the same environment.
 
+Crucial to \cinco is the concept of code generation. Much of the code of a
+\cinco Product (i.e. a modeling tool that is developed with \cinco) is generated
+automatically from abstract specifications, such as the already mentioned
+MGL and MSL files. It is of utmost importance that you \emph{never} make any
+changes to automatically generated code\footnotemark{}, as all those changes will be
+gone once the code generation is run again.
+
+\footnotetext{Of course, this does apply to automatically generated 'source'
+files (such as examples and templates). Those are generated for convenience to
+have a basic version to start working on.}
+
 \section{Download \& Installation}
 
 As \cinco{} is a full Eclipse-based IDE including the Eclipse Modeling Tools
-(EMF, Xtext, Graphiti, ...) and the Java Development Tooling (JDT) in addition
+(EMF, Xtext, Graphiti, etc.) and the Java Development Tooling (JDT) in addition
 to our own plug-ins the download size is almost 300 MB. We are planning to
 provide the \cinco{}-specific plug-ins via an Eclipse update site in the future,
 but for now you need to download the whole package as one.
 
-Please note: \cinco{} itself is developed under the ``Eclipse Public License v.
-1.0'', but the executable build contains several libraries from the jABC
+Please note: \cinco{} itself is developed under the ``Eclipse Public License v. 1.0'', 
+but the executable build contains several libraries from the jABC
 project, for which the following license applies:
 
-\todo[inline]{include jABC license}
+\begin{verbatim}
+===============================================================================
+This software is free to use.
+
+You are not allowed to redistribute, modify or decompile this software.
+
+Third-party components are included for which these restrictions may not apply.
+Please refer to the documentation for details.
+
+THIS SOFTWARE IS PROVIDED ``AS IS'' AND WITHOUT ANY EXPRESS OR IMPLIED
+WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED WARRANTIES OF
+MERCHANTIBILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+===============================================================================
+\end{verbatim}
 
 \cinco{} requires OpenJDK 7 to be installed on your system as main Java
 installation (i.e. JAVA\_HOME pointing there). Apart from that, you just have to
@@ -100,15 +129,175 @@ choose the correct zip file for download (Linux/Window/Mac in 32 or 64 bit
 variant), unzip it and execute the included binary: \code{cinco} for Mac and
 Linux, \code{cinco.exe} for Windows.
 
-\section{First Startup}
+\section{Getting Started Tutorial}
 
-When starting \cinco{} it will first query you for the location of the workspace
+\subsection{Launching \cinco for the First Time}
+
+When launching \cinco{} it will first query you for the location of a workspace
 directory. Choose some place on your harddisk that is not within the \cinco
 installation folder. This workspace will contain all your \cinco projects
 and the according metadata, as well as sub-projects, specification files, source
 code etc. It is possible to use different workspaces (e.g. for different
 projects). If you don't want to use multiple ones for now, you can check
 \gui{Use this as default and do not ask again} before clicking \gui{OK}.
+
+\begin{figure}
+	\centering
+	\includegraphics[width=.7\textwidth]{screenshots/cinco-gui-firststart.png} 
+	\caption{First startup should look like this}
+	\label{fig:firstStart}
+\end{figure}
+
+After choosing the workspace \cinco should start and look like
+Fig.~\ref{fig:firstStart}. The GUI is partitioned into so-called
+\newnotion{Views}. For now, the \gui{Project Explorer} and the editor area (the
+big empty grey space on the right) are the most important ones. 
+
+\subsection{Creating a \cinco Product Project}
+
+\begin{figure}
+	\centering
+	\includegraphics[width=.5\textwidth]{screenshots/new-cp-wizard.png}
+	\caption{Use the wizard to create new project}
+	\label{fig:cpWizard}
+\end{figure}
+
+To get a new \newnotion{Cinco Product} project initialized, we'll now use the
+built-in wizard that also creates some example files to start working with.
+Right-click somewhere within the \gui{Project Explorer} and choose \gui{New / Cinco Product
+Project}. The wizard as depicted in Fig.~\ref{fig:cpWizard} appears. Fill the
+form fields to your liking and click \gui{Finish}.
+
+\begin{figure}
+	\centering
+	\begin{subfigure}[t]{0.40\textwidth}
+		\includegraphics[width=\textwidth]{screenshots/example-cp-pregen.png}
+		\caption{Project after running the wizard}
+		\label{fig:cpPreGen}
+	\end{subfigure}
+	\qquad
+	\begin{subfigure}[t]{0.40\textwidth}
+		\includegraphics[width=\textwidth]{screenshots/example-cp-postgen.png}
+		\caption{Project after code generation}
+		\label{fig:cpPostGen}
+	\end{subfigure}
+	\caption{Project file system view before and after \cinco{} product generation}
+\end{figure}
+
+After running the wizard, the project explorer contains your freshly created
+project. Depending on the names you've chosen, it should now look somewhat
+similar to Fig.~\ref{fig:cpPreGen}. Please note that the compile error marked at
+\code{SimpleArrowAppearance.java} is not unexpected. The Java class refers to
+other Java entities that have not yet been generated. 
+
+You might want to take a short look into those initialized files (especially the ones in the
+\code{model} folder), but before we delve more deeply
+into their contents (which we will do
+in Sec.~\ref{sec:examplefiles}), let's first generate this example CP and give
+it a try. Just right-click on the \mgl{MyModelType.mgl}\footnotemark{} and
+choose \gui{Generate Cinco Product}. Shortly after, your project explorer should
+look like Fig.~\ref{fig:cpPostGen}. Several new files, directories and a new
+project -- which will be even more than one once you start using advanced
+features of \cinco{}, such as meta plug-ins -- have been generated. Also, the
+compile error we've noticed before is gone. 
+
+Whenever you change the CP's specification files, you need to re-generate the
+code. Sometimes you also need to delete all the generated code, e.g. when
+deleting or renaming a node type. But as you never do any manual changes to the
+generated code, this is no problem.
+
+\footnotetext{Again, depending on the names you've chosen in the wizard,
+the file might be named differently. From now on, we describe everything as if
+you had filled the form according to Fig.~\ref{fig:cpWizard}. Please adapt to
+your chosen names accordingly.}
+
+\subsection{Testing the Cinco Product}
+
+Now, let's test the tool we just generated. Within the project explorer,
+right-click on the root folder of your main project and choose \gui{Run As /
+Eclipse Application}. You should now see the \cinco splash screen again,
+starting a different Eclipse product: your modeling tool. \footnotemark
+
+\footnotetext{Please note: When you use the here presented 'simple way' of
+starting your product (via the \gui{Run As} menu) you will actually start your
+tool including \emph{all} the \cinco plug-ins and libraries. In fact, you start
+a second \cinco enriched with the new features we just generated. This is
+ususally not what is desired, because a tool developer needs to work with different tools
+than the tool user. The advanced topic of own product definitions with a minimal
+required set of plug-ins will be added to this manual later. We even plan
+eventually provide automization for this task. For testing purposes, however,
+this does not impose any problems other than ample unnecessary GUI elements}
+
+Again, you should see an empty tool like Fig.~\ref{fig:firstStart}. To create a
+new model we first need a new project where it can be placed. This time,
+however, we don't need a \cinco product project (as we don't want to develop
+another \cinco product within the just started \cinco product). A plain project
+is enough this time. Right-click somewhere in the project explorer and select
+\gui{New / Project... / General / Project / Next >}, give the project some name
+and click \gui{Finish}. Then, right-click on your newly created project and
+select \gui{New / Other... / Cinco Product / New MyModelType} to create your
+first CP-specific model.
+
+The editor area now shows your empty model with a drawing grid. On the right
+side you see a \gui{Palette}, containing the tools you can now use for modeling.
+But before you can go for it, you need to activate one additional view:
+\gui{Window / Show View / Properties}.
+
+The elements you should start with are the ones in the \gui{Palette / Objects}
+category: \code{Start}, \code{End}, and \code{Inner}. Those are the three node
+types that are were automatically included in the \mgl{MyModelType.mgl} by the
+wizard. Begin modeling by just drag\&dropping a few different nodes into the
+modeling area. To connect nodes, you can either use the tools from the
+\gui{Palette / Connection} category, or hover over a node and drag the small
+appearing arrow icon onto a target node. For the \code{Inner} node type and the
+edges originating from them, you can use the properties view to set a
+\code{Text}, or \code{Label} attribute, respectively. Fig.~\ref{fig:firstModel} shows an example how your tool should look now.
+
+\begin{figure}
+	\centering
+	\includegraphics[width=.9\textwidth]{screenshots/cp-first-model.png} 
+	\caption{The first model that was modeled using the example \cinco product}
+	\label{fig:firstModel}
+\end{figure}
+
+The modeling elements abide by the following syntactic rules:
+
+\begin{itemize}
+\item \code{Start} nodes (green circle) have at most one outgoing edge of type
+	\code{Transition}, but no incoming edges.
+\item \code{End} nodes (double red circle) have arbitrarily many incoming edges,
+	but no outgoing.
+\item \code{Inner} (blue box) nodes have multiple outgoing edges of type
+	\code{LabeledTransition}, and may have multiple incoming edges of both types.
+	The attribute \code{Text} is displayed centered within the box.
+\item \code{LabeledTransition} edges connect \code{Inner} nodes with others and
+	have their attribute \code{Label} displayed as movable text box next to it.
+\item \code{Transition} edges only originate from \code{Start} nodes. If such an
+	edge directly leads to an \code{End} node, it is displayed with a dashed
+	line.
+\end{itemize}
+
+Those rules are defined within the \mgl{MyModelType.mgl} and the
+\msl{MyModelType.style}. The next section will therefore detail on the contents
+of those files.
+
+\section{Discussion on the Example Files}
+\label{sec:examplefiles}
+
+
+\chapter{Advanced Topics}
+
+\section{Containers Types}
+\section{Prime References}
+\section{Custom Features}
+\section{Code Generation}
+
+\chapter{Language Reference}
+
+\section{Meta Graph Language (MGL)}
+\section{Meta Style Language (MSL)}
+\section{Annotations}
+
 
 \bibliographystyle{alpha}
 \bibliography{world}
