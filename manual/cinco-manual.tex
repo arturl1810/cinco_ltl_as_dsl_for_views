@@ -1,11 +1,54 @@
+% rubber: module pdftex
+% rubber: module index
+% rubber: module xr
+\documentclass[a4paper,american,12pt]{scrreprt}
+
+\usepackage[margin=2.5cm]{geometry}
+
+\usepackage{graphicx}
+\usepackage[headsepline]{scrpage2}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{color}
+\usepackage{caption}
+
+%\usepackage{times}
+%\usepackage{lmodern}
+\usepackage{mathptmx}
+% required for mathbb
+\usepackage{amsmath}
+\usepackage{txfonts}
+%\usepackage[scaled=.9]{helvet}
+%\usepackage{courier}
+
+\usepackage{babel}
+\usepackage{microtype}
+
+\usepackage{listings}
+
+\usepackage{hyperref}
+
+\usepackage{todonotes}
+\usepackage{xspace}
+
+\automark[section]{chapter}
+
+\parskip.5em
+\parindent0em
+
+\input{macros}
+
+\begin{document}
+
+
 \chapter{Basics}
 
 \section{About This Document}
 
-This is the technical manual for the ``\cinco{} SCCE Meta Tooling Suite'' (in
-short just \cinco{}). It is intended to provide a basic usage introduction as
+This is the technical manual for the ``\cinco SCCE Meta Tooling Suite'' (in
+short just \cinco). It is intended to provide a basic usage introduction as
 well as reference for all features and keywords. It only implicitely covers the
-conceptual ideas behind \cinco{}. For a more in-depth and scientific view on those,
+conceptual ideas behind \cinco. For a more in-depth and scientific view on those,
 please refer to the following publications:
 %
 \begin{itemize}
@@ -18,11 +61,11 @@ the basis of abstract meta-model specifications \cite{Kopetz2014}
 \end{itemize}
 
 This document will constantly be revised and extendend. The latest version will
-always be available for download at \href{http://cinco.scce.info}. 
+always be available for download at \url{http://cinco.scce.info}. 
 
 \begin{description}
-\item[date of build} \today
-\item[covered version} \cinco v. 0.4
+\item[date of build] \today
+\item[covered version] \cinco v. 0.4
 \end{description}
 
 \section{Introduction}
@@ -46,8 +89,8 @@ provide the \cinco{}-specific plug-ins via an Eclipse update site in the future,
 but for now you need to download the whole package as one.
 
 Please note: \cinco{} itself is developed under the ``Eclipse Public License v.
-1.0'', but the executable build contains several libraries from the
-jABC project, for which the following license applies:
+1.0'', but the executable build contains several libraries from the jABC
+project, for which the following license applies:
 
 \todo[inline]{include jABC license}
 
@@ -66,3 +109,9 @@ and the according metadata, as well as sub-projects, specification files, source
 code etc. It is possible to use different workspaces (e.g. for different
 projects). If you don't want to use multiple ones for now, you can check
 \gui{Use this as default and do not ask again} before clicking \gui{OK}.
+
+\bibliographystyle{alpha}
+\bibliography{world}
+
+
+\end{document}
