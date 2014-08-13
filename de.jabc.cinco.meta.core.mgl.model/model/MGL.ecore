@@ -4,7 +4,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="GraphModel" eSuperTypes="#//ModelElement #//ContainingElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="edges" upperBound="-1"
         eType="#//Edge" containment="true" eOpposite="#//Edge/graphModel"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="nodes" lowerBound="1" upperBound="-1"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="nodes" upperBound="-1"
         eType="#//Node" containment="true" eOpposite="#//Node/graphModel"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="nodeContainers" upperBound="-1"
         eType="#//NodeContainer" containment="true" eOpposite="#//NodeContainer/graphModel"/>
