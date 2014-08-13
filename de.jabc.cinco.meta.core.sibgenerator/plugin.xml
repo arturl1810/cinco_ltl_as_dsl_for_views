@@ -60,31 +60,6 @@
          </command>
       </menuContribution>
       <menuContribution
-            locationURI="menu:org.eclipse.ui.main.menu?after=additions">
-         <menu
-               id="de.jabc.cinco.meta.core.sibgenerator.menus.sampleMenu"
-               label="Sample Menu"
-               mnemonic="M">
-            <command
-                  commandId="de.jabc.cinco.meta.core.sibgenerator.commands.sampleCommand"
-                  id="de.jabc.cinco.meta.core.sibgenerator.menus.sampleCommand"
-                  mnemonic="S">
-            </command>
-         </menu>
-      </menuContribution>
-      <menuContribution
-            locationURI="toolbar:org.eclipse.ui.main.toolbar?after=additions">
-         <toolbar
-               id="de.jabc.cinco.meta.core.sibgenerator.toolbars.sampleToolbar">
-            <command
-                  commandId="de.jabc.cinco.meta.core.sibgenerator.commands.sampleCommand"
-                  icon="icons/sample.gif"
-                  id="de.jabc.cinco.meta.core.sibgenerator.toolbars.sampleCommand"
-                  tooltip="Say hello world">
-            </command>
-         </toolbar>
-      </menuContribution>
-      <menuContribution
             allPopups="false"
             locationURI="popup:org.eclipse.ui.popup.any">
          <command
@@ -108,15 +83,6 @@
             </visibleWhen>
          </command>
       </menuContribution>
-   </extension>
-   <extension
-         point="org.eclipse.ui.bindings">
-      <key
-            commandId="de.jabc.cinco.meta.core.sibgenerator.commands.sampleCommand"
-            contextId="org.eclipse.ui.contexts.window"
-            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
-            sequence="M1+6">
-      </key>
    </extension>
 
 </plugin>
