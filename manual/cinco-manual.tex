@@ -19,9 +19,10 @@
 \usepackage{mathptmx}
 % required for mathbb
 \usepackage{amsmath}
+%\usepackage{courier}
+
 \usepackage{txfonts}
 %\usepackage[scaled=.9]{helvet}
-%\usepackage{courier}
 
 \usepackage{babel}
 \usepackage{microtype}
@@ -35,12 +36,16 @@
 
 \usepackage[grumpy]{gitinfo}
 
+\usepackage{tikz}
+\usetikzlibrary{shadows}
+
 \automark[section]{chapter}
 
 \parskip.5em
 \parindent0em
 
 \input{macros}
+\input{listings}
 
 \begin{document}
 
@@ -69,7 +74,7 @@ always be available for download at \url{http://cinco.scce.info}.
 
 \begin{description}
 \item[covered version] \cinco v. 0.4
-\item[git commit info] \gitAbbrevHash{} / \gitAuthorDate
+\item[git commit id] \gitAbbrevHash{}
 \item[date of build] \today
 \end{description}
 
@@ -212,7 +217,7 @@ the file might be named differently. From now on, we describe everything as if
 you had filled the form according to Fig.~\ref{fig:cpWizard}. Please adapt to
 your chosen names accordingly.}
 
-\subsection{Testing the Cinco Product}
+\subsection{Testing the \cinco Product}
 
 Now, let's test the tool we just generated. Within the project explorer,
 right-click on the root folder of your main project and choose \gui{Run As /
@@ -227,7 +232,7 @@ ususally not what is desired, because a tool developer needs to work with differ
 than the tool user. The advanced topic of own product definitions with a minimal
 required set of plug-ins will be added to this manual later. We even plan
 eventually provide automization for this task. For testing purposes, however,
-this does not impose any problems other than ample unnecessary GUI elements}
+this does not impose any problems other than ample unnecessary GUI elements.}
 
 Again, you should see an empty tool like Fig.~\ref{fig:firstStart}. To create a
 new model we first need a new project where it can be placed. This time,
@@ -278,26 +283,55 @@ The modeling elements abide by the following syntactic rules:
 	line.
 \end{itemize}
 
-Those rules are defined within the \mgl{MyModelType.mgl} and the
-\msl{MyModelType.style}. The next section will therefore detail on the contents
-of those files.
+Those rules are all defined within the example \cinco specification files that
+were created by the wizard. The next section will therefore provide a detailed
+discussion on the contents of those files.
 
 \section{Discussion on the Example Files}
 \label{sec:examplefiles}
 
+We consider our the specification formats MGL and MSL fairly self-explanatory,
+meaning that one usually can understand most of their contents without detailed
+knowledge on available keywords or syntactic structures. This section
+will detail on our two example files nonetheless, but you might want to have a look at
+your \mgl{MyModelType.mgl} and \msl{MyModelType.style} beforehand, to decide for
+yourself. 
 
-\chapter{Advanced Topics}
+However, writing a programming or specification language usually is a totally
+different matter. But here, \cinco heavily benefits from it being implemented
+with libraries from the Eclipse Modeling Project, in this case especially Xtext:
+The so-called \newnotion{Content Assist} that is generated for every Xtext-based
+editor provides a very useful autocompletion when
+\keystroke{Ctrl}+\keystroke{Space} is pressed (if you ever programmed Java using
+Eclipse, you most likely know this shortcut already). With this feature it is
+often not even required to read the documentation, as one can autocomplete
+through the whole specification file, manually inserting an identifier every now and
+then.
 
-\section{Containers Types}
-\section{Prime References}
-\section{Custom Features}
-\section{Code Generation}
 
-\chapter{Language Reference}
+\subsection{MGL File}
 
-\section{Meta Graph Language (MGL)}
-\section{Meta Style Language (MSL)}
-\section{Annotations}
+\includemgl{listings/MyModelType.mgl}{Example MGL file}{lst:myMGL}
+
+
+\subsection{MSL File}
+
+\includestyle{listings/MyModelType.style}{Example MSL file}{lst:myMSL}
+
+
+
+%\chapter{Advanced Topics}
+
+%\section{Containers Types}
+%\section{Prime References}
+%\section{Custom Features}
+%\section{Code Generation}
+%
+%\chapter{Language Reference}
+%
+%\section{Meta Graph Language (MGL)}
+%\section{Meta Style Language (MSL)}
+%\section{Annotations}
 
 
 \bibliographystyle{alpha}
