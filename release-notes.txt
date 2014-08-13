@@ -1,4 +1,4 @@
-2014081x - Cinco Release 0.4
+20140813 - Cinco Release 0.4
 
 - possible source and target nodes of edges is now defined at the node's end
   with keywords incomingEdges and outgoingEdges, allowing cardinalities (the
