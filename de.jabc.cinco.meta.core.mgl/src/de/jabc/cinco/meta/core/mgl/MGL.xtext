@@ -2,10 +2,8 @@
 grammar de.jabc.cinco.meta.core.mgl.MGL with org.eclipse.xtext.common.Terminals
 
 import "http://www.jabc.de/cinco/meta/core/mgl"
-//import "platform:/resource/de.jabc.cinco.meta.core.mgl.model/model/MGL.ecore"
-//generate gdl "http://www.jabc.de/cinco/gdl"
 import "http://www.eclipse.org/emf/2002/Ecore" as ecore
-//import "platform:/resource/org.eclipse.emf.ecore/model/Ecore.ecore" as ecore
+
 
 GraphModel returns GraphModel:
 	('import' imports+=Import)*
@@ -15,7 +13,7 @@ GraphModel returns GraphModel:
 	'{'
 		
 		('package' package=QName)?
-		'nsURI' nsURI=EString
+		'nsURI' nsURI=URI
 		('iconPath' iconPath=EString)?
 		'diagramExtension' fileExtension=EString
 		('containableElements' '(' containableElements+=GraphicalElementContainment ( "," containableElements+=GraphicalElementContainment)* ')' )?
@@ -33,8 +31,9 @@ GraphModel returns GraphModel:
 ;
 
 
-
-
+URI:
+	EString
+;
 
 
 Information returns Information:
@@ -52,15 +51,8 @@ EInt returns ecore::EInt:
 Attribute returns Attribute:
 	{Attribute}
 	(annotations+=Annotation)*
-	(notChangeable?='final')? (unique?='unique')? 'attr' type=(EString|Map) 'as' name=EString ('[' lowerBound=EInt (',' ((upperBound=EInt)|'*'))? ']')?  (':=' defaultValue=EString)? 
+	(notChangeable?='final')? (unique?='unique')? 'attr' type=(EString|Map) 'as' name=EString ('[' lowerBound=EInt (',' ((upperBound=BoundValue)))? ']')?  (':=' defaultValue=EString)? 
 ;
-//	name=EString
-//	'{'
-//		'type' type+=(EString|Map)
-//		('lowerBound' lowerBound=EInt)?
-//		('upperBound' upperBound=EInt)?
-//		
-//	'}';
 
 GraphicalModelElement:
 	Edge|Node|NodeContainer
@@ -79,16 +71,7 @@ Edge returns Edge:
 	name=EString ('extends' extends=[Edge|EString])?
 	'{'
 		(attributes+=Attribute (  attributes+=Attribute)*)?
-		//((('sourceNodes' '(' sourceElements+=[GraphicalModelElement|QName] ( "," sourceElements+=[GraphicalModelElement|QName])* ')')
-		//('targetNodes' '(' targetElements+=[GraphicalModelElement|QName] ( "," targetElements+=[GraphicalModelElement|QName])* ')'))|
-		//(('targetNodes' '(' targetElements+=[GraphicalModelElement|QName] ( "," targetElements+=[GraphicalModelElement|QName])* ')')
-		//('sourceNodes' '(' sourceElements+=[GraphicalModelElement|QName] ( "," sourceElements+=[GraphicalModelElement|QName])* ')')))
-//		((('sourceNodes' '(' sourceElements+=EdgeElementConnection(','sourceElements+=EdgeElementConnection)* ')')
-//		('targetNodes' '(' targetElements+=EdgeElementConnection(','targetElements+=EdgeElementConnection)* ')')))|
-//		((('targetNodes' '(' targetElements+=EdgeElementConnection(','targetElements+=EdgeElementConnection)* ')'))
-//		(('sourceNodes' '(' sourceElements+=EdgeElementConnection(','sourceElements+=EdgeElementConnection)* ')')))
-	//	('incoming cardinality''['minIncoming=EInt','maxIncoming=EInt']')?
-	//('outgoing cardinality''['minOutgoing=EInt','maxOutgoing=EInt']')?
+
 	'}'
 ;
 
@@ -127,17 +110,17 @@ NodeContainer returns NodeContainer:
 
 OutgoingEdgeElementConnection returns OutgoingEdgeElementConnection:
 	{OutgoingEdgeElementConnection}
-	(connectingEdges+=[Edge|QName]|'*'|'{'connectingEdges+=[Edge|QName](','connectingEdges+=[Edge|QName])*'}')('['lowerBound=EInt ',' ((upperBound=EInt)|'*')']')?
+	(connectingEdges+=[Edge|QName]|'{'connectingEdges+=[Edge|QName](','connectingEdges+=[Edge|QName])*'}')('['lowerBound=EInt ',' ((upperBound=BoundValue))']')?
 ;
 
 IncomingEdgeElementConnection returns IncomingEdgeElementConnection:
 	{IncomingEdgeElementConnection}
-	(connectingEdges+=[Edge|QName]|'*'|'{'connectingEdges+=[Edge|QName](','connectingEdges+=[Edge|QName])*'}')('['lowerBound=EInt ',' ((upperBound=EInt)|'*')']')?
+	(connectingEdges+=[Edge|QName]|'{'connectingEdges+=[Edge|QName](','connectingEdges+=[Edge|QName])*'}')('['lowerBound=EInt ',' ((upperBound=BoundValue))']')?
 ;
 
 GraphicalElementContainment returns GraphicalElementContainment:
 	{GraphicalElementContainment}
-	((type=[GraphicalModelElement|QName])|'*')('['lowerBound=EInt ','((upperBound=EInt)|'*') ']')?
+	((type=[GraphicalModelElement|QName]))('['lowerBound=EInt ','(upperBound=BoundValue) ']')?
 ;
 
 Import returns Import:
@@ -145,6 +128,10 @@ Import returns Import:
 importURI=STRING
 ;
 
+BoundValue returns ecore::EInt:
+	'*'|EInt
+
+;
 
 EdgeDirection returns EdgeDirection:
 	//'EdgeDirection' /* TODO: implement this rule and an appropriate IValueConverter */;
