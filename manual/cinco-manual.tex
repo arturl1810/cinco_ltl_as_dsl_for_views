@@ -56,7 +56,7 @@
 
 This is the technical manual for the ``\cinco SCCE Meta Tooling Suite'' (in
 short just \cinco). It is intended to provide a basic usage introduction as
-well as reference for all features and keywords. It only implicitely covers the
+well as (coming soon) reference for all features and keywords. It only implicitely covers the
 conceptual ideas behind \cinco. For a more in-depth and scientific view on those,
 please refer to the following publications:
 %
@@ -138,6 +138,7 @@ Linux, \code{cinco.exe} for Windows.
 \section{Getting Started Tutorial}
 
 \subsection{Launching \cinco for the First Time}
+\label{sec:firstLaunch}
 
 When launching \cinco{} it will first query you for the location of a workspace
 directory. Choose some place on your harddisk that is not within the \cinco
@@ -308,10 +309,31 @@ often not even required to read the documentation, as one can autocomplete
 through the whole specification file, manually inserting an identifier every now and
 then.
 
+Modeling tool development with \cinco centers around two textual specification
+files. On the one hand we have a file in the ``Meta Graph Language'' (MGL) that
+contains the structural information on the tool's model. On the other hand, a
+``Meta Style Language'' (MSL) file\footnotemark{} is required to specify the
+visual characteristics (e.g.  shapes and colors) of this model. The following
+subsections will each provide an introduction to one of this specification
+languages alongside the example files created by the new project wizard.
+
+\footnotetext{Please note that the file extension for MSL is currently
+\code{.style}. We are planning to change this to \code{.msl} in a future
+release.}
+
 
 \subsection{MGL File}
 
 \includemgl{listings/MyModelType.mgl}{Example MGL file}{lst:myMGL}
+
+Listing \ref{lst:myMGL} shows the \mgl{MyModelType.mgl} as it was initialized in
+Sec.~\ref{sec:firstLaunch}. Aside from some general configuration stuff in lines
+1-5, it contains two different kinds of entitiy declaration:
+\begin{enumerate}
+\item Node type declarations
+\item Edge type declarations
+\end{enumearte}
+
 
 
 \subsection{MSL File}
