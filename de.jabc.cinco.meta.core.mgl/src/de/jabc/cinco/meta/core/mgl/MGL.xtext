@@ -110,17 +110,17 @@ NodeContainer returns NodeContainer:
 
 OutgoingEdgeElementConnection returns OutgoingEdgeElementConnection:
 	{OutgoingEdgeElementConnection}
-	(connectingEdges+=[Edge|QName]|'{'connectingEdges+=[Edge|QName](','connectingEdges+=[Edge|QName])*'}')('['lowerBound=EInt ',' ((upperBound=BoundValue))']')?
+	(connectingEdges+=[Edge|QName]|'{'connectingEdges+=[Edge|QName](','connectingEdges+=[Edge|QName])*'}'|'*')('['lowerBound=EInt ',' ((upperBound=BoundValue))']')?
 ;
 
 IncomingEdgeElementConnection returns IncomingEdgeElementConnection:
 	{IncomingEdgeElementConnection}
-	(connectingEdges+=[Edge|QName]|'{'connectingEdges+=[Edge|QName](','connectingEdges+=[Edge|QName])*'}')('['lowerBound=EInt ',' ((upperBound=BoundValue))']')?
+	(connectingEdges+=[Edge|QName]|'{'connectingEdges+=[Edge|QName](','connectingEdges+=[Edge|QName])*'}'|'*')('['lowerBound=EInt ',' ((upperBound=BoundValue))']')?
 ;
 
 GraphicalElementContainment returns GraphicalElementContainment:
 	{GraphicalElementContainment}
-	((type=[GraphicalModelElement|QName]))('['lowerBound=EInt ','(upperBound=BoundValue) ']')?
+	((type=[GraphicalModelElement|QName])|'*')('['lowerBound=EInt ','(upperBound=BoundValue) ']')?
 ;
 
 Import returns Import:
