@@ -28,7 +28,8 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGL.ecore#//GraphModel/fileExtension"/>
     </genClasses>
     <genClasses ecoreClass="MGL.ecore#//Edge">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MGL.ecore#//Edge/edgeElementConnections"/>
+      <genFeatures children="true" createChild="false" propertySortChoices="true"
+          ecoreFeature="ecore:EReference MGL.ecore#//Edge/edgeElementConnections"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MGL.ecore#//Edge/extends"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGL.ecore#//Edge/direction"/>
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference MGL.ecore#//Edge/graphModel"/>
@@ -115,14 +116,15 @@
     <genClasses image="false" ecoreClass="MGL.ecore#//EdgeElementConnection">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGL.ecore#//EdgeElementConnection/upperBound"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGL.ecore#//EdgeElementConnection/lowerBound"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MGL.ecore#//EdgeElementConnection/connectingEdges"/>
+      <genFeatures createChild="false" propertyCategory="" propertyDescription=""
+          propertySortChoices="true" ecoreFeature="ecore:EReference MGL.ecore#//EdgeElementConnection/connectingEdges"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGL.ecore#//EdgeElementConnection/isOutgoing"/>
     </genClasses>
     <genClasses ecoreClass="MGL.ecore#//IncomingEdgeElementConnection">
-      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference MGL.ecore#//IncomingEdgeElementConnection/connectedElement"/>
+      <genFeatures property="None" createChild="false" ecoreFeature="ecore:EReference MGL.ecore#//IncomingEdgeElementConnection/connectedElement"/>
     </genClasses>
     <genClasses ecoreClass="MGL.ecore#//OutgoingEdgeElementConnection">
-      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference MGL.ecore#//OutgoingEdgeElementConnection/connectedElement"/>
+      <genFeatures property="None" createChild="false" ecoreFeature="ecore:EReference MGL.ecore#//OutgoingEdgeElementConnection/connectedElement"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>
