@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>f2a62b98-da75-4b1a-a2d5-4f6a6d4d5fa5</id>
   <name>GetEdgeTargetElements</name>
-  <changecounter>5</changecounter>
+  <changecounter>8</changecounter>
   <sib>
     <id>5ab81ef1-415b-4703-8c3d-c306386f95a6</id>
     <name>IterateEdgeEdgeElementConnections</name>
@@ -52,7 +52,7 @@
     <parameter name="eObjectKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>eObjectKey</key>
+          <key>edgeelementconnectionelementKey</key>
           <scope>GLOBAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
@@ -178,7 +178,7 @@
     <label>GetEdgeElementConnectionConnectedElement</label>
     <sib-uid>mgl/mgl/GetIncomingEdgeElementConnectionConnectedElement</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetIncomingEdgeElementConnectionConnectedElement</taxonomy>
-    <position>296.0,513.0</position>
+    <position>314.5,468.0</position>
     <parameter name="incomingEdgeElementConnectionKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -200,6 +200,16 @@
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
   </sib>
+  <edge>
+    <source>19279c0d-70cb-4507-9c53-e990751cdca8</source>
+    <target>5ab81ef1-415b-4703-8c3d-c306386f95a6</target>
+    <spline/>
+    <point>432.0,475.2</point>
+    <point>240.0,360.0</point>
+    <point>432.0,200.9142857142857</point>
+    <labelposition>456.0,-199.0</labelposition>
+    <branch>error</branch>
+  </edge>
   <parameter>
     <name>collection</name>
     <field>variable</field>
@@ -266,10 +276,5 @@
     <name>default</name>
     <branch>noElements</branch>
     <sib>5ab81ef1-415b-4703-8c3d-c306386f95a6</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>19279c0d-70cb-4507-9c53-e990751cdca8</sib>
   </branch>
 </model>
