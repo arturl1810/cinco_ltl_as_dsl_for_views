@@ -1,12 +1,10 @@
 <serviceAdapters defaultAdapter="de.jabc.cinco.meta.core.ge.style.sibs.adapter.ServiceAdapter">
 	
-	<serviceAdapter uid="ge-util-sibs/CustomFeatureExists">
-		<service>customFeatureExists</service>
+	<serviceAdapter uid="ge-util-sibs/GetCustomFeatureClassName">
+		<service>getCustomFeatureClassName</service>
 		<arguments>
-			<argument name="annotation" />
-			<argument name="className" />
-			<argument name="packageName" />
-			<argument name="baseDir" />
+			<argument name="annotationKey" />
+			<argument name="classNameKey" />
 		</arguments>
 	</serviceAdapter>
 	
