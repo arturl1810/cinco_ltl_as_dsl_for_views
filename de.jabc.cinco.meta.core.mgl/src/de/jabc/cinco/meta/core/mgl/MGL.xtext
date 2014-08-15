@@ -69,10 +69,10 @@ Edge returns Edge:
 	(annotations+=Annotation)*
 	(isAbstract?='abstract' )?'edge'
 	name=EString ('extends' extends=[Edge|EString])?
-	'{'
+	('{'
 		(attributes+=Attribute (  attributes+=Attribute)*)?
 
-	'}'
+	'}')?
 ;
 
 Node returns Node:
