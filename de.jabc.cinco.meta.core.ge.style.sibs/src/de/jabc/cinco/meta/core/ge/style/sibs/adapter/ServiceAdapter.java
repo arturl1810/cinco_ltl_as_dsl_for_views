@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -21,22 +22,24 @@ import mgl.GraphicalElementContainment;
 import mgl.GraphicalModelElement;
 import mgl.Import;
 import mgl.IncomingEdgeElementConnection;
-import mgl.MglFactory;
 import mgl.ModelElement;
 import mgl.Node;
 import mgl.NodeContainer;
-import mgl.ReferencedAttribute;
 import mgl.OutgoingEdgeElementConnection;
+import mgl.ReferencedAttribute;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -45,7 +48,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.ecore.xml.type.internal.RegEx.REUtil;
+import org.osgi.framework.Bundle;
 
 import style.AbsolutPosition;
 import style.AbstractShape;
@@ -1010,5 +1013,53 @@ public class ServiceAdapter {
 			context.put("exception", e);
 			return Branches.ERROR;
 		}
+	}
+
+	public static String customFeatureExists(LightweightExecutionEnvironment env,
+			ContextKeyFoundation annotation,
+			ContextKeyFoundation className,
+			ContextKeyFoundation packageName,
+			ContextKeyFoundation baseDir) {
+
+		LightweightExecutionContext context = env.getLocalContext();
+		
+		try {
+			Annotation annot = (Annotation) context.get(annotation);
+			if (!annot.getName().equals("customFeature"))
+				return Branches.FALSE;
+			String b = null, p = null, f = null;
+			if (annot.getValue().size() == 3) {
+				b = annot.getValue().get(0);
+				p = annot.getValue().get(1);
+				f = annot.getValue().get(2);
+			} else if (annot.getValue().size() == 2) {
+				b = (String) context.get("projectName");
+				p = annot.getValue().get(0);
+				f = annot.getValue().get(1);
+			}
+			
+			Bundle bundle = Platform.getBundle(b);
+			IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(b);
+			if (project.exists()) {
+				IFolder folder = project.getFolder(f);
+				if (!folder.exists())
+					folder.create(true, true, new NullProgressMonitor());
+				String clazz = p.split("\\.")[p.split("\\.").length-1];
+				
+				File file = new File(b + "/" + f + "/" + p);
+				if (file.exists()) {
+					return Branches.FALSE;
+				} else 
+					return Branches.TRUE;
+			}
+			
+			
+			
+		} catch (Exception e) {
+			context.put("exception", e);
+			return Branches.ERROR;
+		}
+		
+		return null;
 	}
 }
