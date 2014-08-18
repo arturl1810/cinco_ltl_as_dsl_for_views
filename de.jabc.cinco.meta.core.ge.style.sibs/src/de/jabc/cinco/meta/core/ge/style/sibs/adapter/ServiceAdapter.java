@@ -3,6 +3,7 @@ package de.jabc.cinco.meta.core.ge.style.sibs.adapter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,6 +11,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.jar.Manifest;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -21,12 +23,11 @@ import mgl.GraphicalElementContainment;
 import mgl.GraphicalModelElement;
 import mgl.Import;
 import mgl.IncomingEdgeElementConnection;
-import mgl.MglFactory;
 import mgl.ModelElement;
 import mgl.Node;
 import mgl.NodeContainer;
-import mgl.ReferencedAttribute;
 import mgl.OutgoingEdgeElementConnection;
+import mgl.ReferencedAttribute;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
@@ -45,7 +46,6 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.ecore.xml.type.internal.RegEx.REUtil;
 
 import style.AbsolutPosition;
 import style.AbstractShape;
@@ -1010,5 +1010,55 @@ public class ServiceAdapter {
 			context.put("exception", e);
 			return Branches.ERROR;
 		}
+	}
+
+	public static String getCustomFeatureClassName(LightweightExecutionEnvironment env,
+			ContextKeyFoundation annotation,
+			ContextKeyFoundation className) {
+
+		LightweightExecutionContext context = env.getLocalContext();
+		
+		try {
+			Annotation annot = (Annotation) context.get(annotation);
+			List<String> values = (List<String>) annot.getValue();
+			if (values.size() == 1) {
+				context.put(className, values.get(0));
+			} else {
+				context.put(className, values.get(1));
+//				exportPackage(values.get(0), values.get(1));
+			}
+				
+			return Branches.DEFAULT;
+		} catch (Exception e) {
+			context.put("exception", e);
+			return Branches.ERROR;
+		}
+	}
+
+	private static void exportPackage(String projectName, String fqcn) throws IOException, CoreException {
+		IProject p = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
+		if (!p.exists()) {
+			return;
+		}
+		IFile iManiFile= p.getFolder("META-INF").getFile("MANIFEST.MF");
+		Manifest manifest = new Manifest(iManiFile.getContents());
+		
+		StringBuilder sb = new StringBuilder(fqcn);
+		int lastDotIndex = sb.lastIndexOf(".");
+		String newPackageName = sb.subSequence(0, lastDotIndex).toString();
+		String exportPackage = manifest.getMainAttributes().getValue("Export-Package");
+		String[] pkgs = exportPackage.split(",");
+		boolean found= false;
+		for (String s : pkgs) {
+			if (s.equals(newPackageName))
+				found = true;
+		}
+		
+		if (!found) {
+			String newVal = manifest.getMainAttributes().getValue("Export-Package").concat(","+newPackageName);
+			manifest.getMainAttributes().putValue("Export-Package", newVal);
+			manifest.write(new FileOutputStream(iManiFile.getLocation().toFile()));
+		}
+		
 	}
 }
