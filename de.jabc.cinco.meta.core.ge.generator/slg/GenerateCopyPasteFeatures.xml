@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>67a73b2a-3824-4776-9686-ae1a8aed5282</id>
   <name>GenerateCopyPasteFeatures</name>
-  <changecounter>184</changecounter>
+  <changecounter>240</changecounter>
   <sib>
     <id>59a427e8-25c5-482c-a32b-a0aa278eb41b</id>
     <name>PutExpression</name>
@@ -102,72 +102,22 @@
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import graphmodel.*;
 
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.transaction.RecordingCommand;
-import org.eclipse.emf.transaction.TransactionalEditingDomain;
-import org.eclipse.emf.transaction.util.TransactionUtil;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICopyContext;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
+import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.ui.features.AbstractCopyFeature;
 
 public class $context.graphModelName$CopyFeature extends AbstractCopyFeature {
 
 	public $context.graphModelName$CopyFeature(IFeatureProvider fp) {
 		super(fp);
-	}
-
-	@Override
-	public void copy(ICopyContext context) {
-		PictogramElement[] pes = context.getPictogramElements();
-		List&lt;Object&gt; bos = new ArrayList&lt;&gt;();
-		List&lt;EObject&gt; subGraphElements = getSubGraph(pes);
-		HashMap&lt;ModelElement, ModelElement&gt; copiedNodes = new HashMap&lt;&gt;();
-		for (EObject bo : subGraphElements) {
-			if (bo instanceof Edge) {
-				Edge e = (Edge) bo;
-				Edge copy = EcoreUtil.copy(e);
-
-				ModelElement s = copiedNodes.get(e.getSourceElement());
-				ModelElement t = copiedNodes.get(e.getTargetElement());
-				
-				if (s == null)
-					s = EcoreUtil.copy(e.getSourceElement());
-
-				
-				if (t == null)
-					t = EcoreUtil.copy(e.getTargetElement());
-				
-				copy.setSourceElement(s);
-				copy.setTargetElement(t);
-				copiedNodes.put(e.getSourceElement(), s);
-				copiedNodes.put(e.getTargetElement(), t);
-				bos.add(copy);
-				bos.add(s);
-				bos.add(t);
-			}
-		}
-		for (EObject bo : subGraphElements) {
-			if (bo instanceof Node &amp;&amp; copiedNodes.get((ModelElement) bo) == null) {
-				ModelElement copy = EcoreUtil.copy((ModelElement) bo);
-				bos.add(copy);
-			}
-			if ( bo instanceof Container &amp;&amp; copiedNodes.get((ModelElement) bo) == null ) {
-				ModelElement copy = EcoreUtil.copy((ModelElement) bo);
-				ArrayList&lt;ModelElement&gt; remove = new ArrayList&lt;&gt;();
-				removeMissingLinks((Container) copy, remove);
-				for (ModelElement me : remove)
-					((Container) copy).getModelElements().remove(me);
-				bos.add(copy);
-			}
-		}
-		
-		putToClipboard(bos.toArray(new Object[bos.size()]));
 	}
 
 	@Override
@@ -179,15 +129,26 @@ public class $context.graphModelName$CopyFeature extends AbstractCopyFeature {
 		
 	}
 
-	private List&lt;EObject&gt; getSubGraph(PictogramElement[] pes) {
-		ArrayList&lt;EObject&gt; list = new ArrayList&lt;&gt;();
+	@Override
+	public void copy(ICopyContext context) {
+		PictogramElement[] pes = context.getPictogramElements();
+		Set&lt;PictogramElement&gt; copiedSubGraph = new HashSet&lt;&gt;();
+		List&lt;PictogramElement&gt; subGraphElements = getSubGraph(pes);
+
+		copiedSubGraph = $context.graphModelName$CopyUtils.copy(subGraphElements, getDiagram());
+		
+		putToClipboard(copiedSubGraph.toArray(new Object[copiedSubGraph.size()]));
+	}
+
+	private List&lt;PictogramElement&gt; getSubGraph(PictogramElement[] pes) {
+		ArrayList&lt;PictogramElement&gt; list = new ArrayList&lt;&gt;();
 		HashMap&lt;ModelElement, Object&gt; map = new HashMap&lt;&gt;();
 		List&lt;Edge&gt; edges = new ArrayList&lt;Edge&gt;();
 		for (PictogramElement pe : pes) {
 			Object bo = getBusinessObjectForPictogramElement(pe);
 			if (bo instanceof Node) {
 				Node node = (Node) bo;
-				list.add(node);
+				list.add(pe);
 				map.put(node, true);
 				for (Edge e : node.getIncoming())
 					edges.add(e);
@@ -197,7 +158,7 @@ public class $context.graphModelName$CopyFeature extends AbstractCopyFeature {
 			
 			if (bo instanceof Container) {
 				Container container = (Container) bo;
-				list.add((EObject) bo);
+				list.add(pe);
 				map.put(container, true);
 				for (Edge e : container.getIncoming())
 					edges.add(e);
@@ -213,8 +174,8 @@ public class $context.graphModelName$CopyFeature extends AbstractCopyFeature {
 			Object e1 = map.get(e.getSourceElement());
 			Object e2 = map.get(e.getTargetElement());
 			if (e1 != null &amp;&amp; e2 != null) {
-				if (!list.contains(e))
-					list.add(e);
+				if (!list.contains(Graphiti.getLinkService().getPictogramElements(getDiagram(), e).get(0)))
+					list.add(Graphiti.getLinkService().getPictogramElements(getDiagram(), e).get(0));
 			}
 		}
 		return list;
@@ -273,82 +234,45 @@ public class $context.graphModelName$CopyFeature extends AbstractCopyFeature {
 
 import graphmodel.*;
 
-import java.util.HashMap;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.graphiti.features.IAddFeature;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IPasteContext;
 import org.eclipse.graphiti.features.context.impl.AddConnectionContext;
 import org.eclipse.graphiti.features.context.impl.AddContext;
+import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
+import org.eclipse.graphiti.mm.algorithms.styles.Point;
 import org.eclipse.graphiti.mm.pictograms.Anchor;
 import org.eclipse.graphiti.mm.pictograms.AnchorContainer;
+import org.eclipse.graphiti.mm.pictograms.Connection;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
+import org.eclipse.graphiti.mm.pictograms.Diagram;
+import org.eclipse.graphiti.mm.pictograms.FreeFormConnection;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
+import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.ui.features.AbstractPasteFeature;
 
+import $context.projectName$.*;
 import $context.importPath$.*;
 
 public class $context.graphModelName$PasteFeature extends AbstractPasteFeature {
 
-	private int xFix, yFix;
-
+	private Integer xMin = null;
+	private Integer yMin = null;
+	
+	private int xContext, yContext;
+	
 	public $context.graphModelName$PasteFeature(IFeatureProvider fp) {
 		super(fp);
 		// TODO Auto-generated constructor stub
 	}
 
-	@Override
-	public void paste(IPasteContext context) {
-		ContainerShape target = (ContainerShape) context.getPictogramElements()[0];
-		ContainingElement tmp = (ContainingElement)getBusinessObjectForPictogramElement(target);
-		Object[] bos = getFromClipboard();
-		HashMap&lt;ModelElement, ModelElement&gt; copiedNodes = new HashMap&lt;&gt;();
-		computeCenter(bos);
-		for (Object bo : bos) {
-			if (bo instanceof Edge) {
-				Edge edge = (Edge) bo;
-				Edge copy = EcoreUtil.copy(edge);
-				
-				ModelElement s = copiedNodes.get(edge.getSourceElement());
-				ModelElement t = copiedNodes.get(edge.getTargetElement());
-				
-				if (s == null)
-					s = EcoreUtil.copy(edge.getSourceElement());
-				
-				if (t == null)
-					t = EcoreUtil.copy(edge.getTargetElement());
-				
-				copy.setSourceElement(s);
-				copy.setTargetElement(t);
-				copiedNodes.put(edge.getSourceElement(), s);
-				copiedNodes.put(edge.getTargetElement(), t);
-				tmp.getModelElements().add(s);
-				tmp.getModelElements().add(t);
-				tmp.getModelElements().add((ModelElement) copy);
-				
-				Anchor sAnchor = addModelElement(context, target, s);
-				Anchor tAnchor = addModelElement(context, target, t);
-				
-				addEdge(context, target, copy, sAnchor, tAnchor);
-			}
-		}
-		for (Object bo : bos) {
-			if (canPaste(bo, getBusinessObjectForPictogramElement(target))) {
-				if ((bo instanceof Node || bo instanceof Container) &amp;&amp; copiedNodes.get(bo) == null) {
-					ModelElement me = (ModelElement) bo;
-					ModelElement copy = EcoreUtil.copy(me);
-					tmp.getModelElements().add(copy);
-					addModelElement(context, target, copy);
-				}
-			}
-		}
-	}
-
-	@Override
+		@Override
 	public boolean canPaste(IPasteContext context) {
 		PictogramElement[] pes = context.getPictogramElements();
 		if (pes == null || pes.length != 1) 
@@ -360,7 +284,8 @@ public class $context.graphModelName$PasteFeature extends AbstractPasteFeature {
 		Object[] bos = getFromClipboard();
 		if (bos == null || bos.length == 0)
 			return false;
-		for (Object o : bos) {
+		for (Object pe : bos) {
+			Object o = ((PictogramElement) pe).getLink().getBusinessObjects().get(0);
 			if (!canPaste(o, bo)) {
 				return false;
 			}
@@ -368,107 +293,67 @@ public class $context.graphModelName$PasteFeature extends AbstractPasteFeature {
 		return true;
 	}
 
-	private Anchor addModelElement(IPasteContext context, ContainerShape target, ModelElement me) {
-		List&lt;PictogramElement&gt; pes = Graphiti.getLinkService().getPictogramElements(getDiagram(), me);
-		PictogramElement pe = null;
-		if (pes != null &amp;&amp; !pes.isEmpty()) {
-			pe = pes.get(0);
-		}
+	@Override
+	public void paste(IPasteContext context) {
+		xContext = context.getX();
+		yContext = context.getY();
+		List&lt;PictogramElement&gt; subGraph = createList(getFromClipboard());
+		Set&lt;PictogramElement&gt; copies = new HashSet&lt;&gt;(); 
+		computeUpperLeft(subGraph.toArray());
+		copies = $context.graphModelName$CopyUtils.copy(subGraph, getDiagram());
 		
-		if (pe instanceof AnchorContainer)
-			return ((AnchorContainer) pe).getAnchors().get(0);
+		List&lt;PictogramElement&gt; graphicalContainer = new ArrayList&lt;&gt;();
+		List&lt;Connection&gt; connections = new ArrayList&lt;&gt;();
 		
-		int xContext = context.getX();
-		int yContext = context.getY();
-		
-		int xTarget = target.getGraphicsAlgorithm().getX();
-		int yTarget = target.getGraphicsAlgorithm().getY();
-
-		AddContext ac = new AddContext();
-		ac.setNewObject(me);
-		ac.setTargetContainer(target);
-		if (me instanceof Node) {
-			int x = ((Node) me).getX();
-			int y = ((Node) me).getY();
+		for (PictogramElement pe : copies) {
+			if (pe instanceof Connection &amp;&amp; !connections.contains(pe)) {
+				translate(pe);
+				connections.add((Connection) pe);
+			}
 			
-			int xNew = xContext + (x - xFix) - xTarget;
-			int yNew = yContext + (y - yFix) - yTarget;
-
-			ac.setWidth(((Node) me).getWidth());
-			ac.setHeight(((Node) me).getHeight());
-
-			ac.setLocation(xNew, yNew);
-		}
-		if (me instanceof Container) {
-			int x = ((Container) me).getX();
-			int y = ((Container) me).getY();
-			
-			int xNew = xContext + (x - xFix) - xTarget;
-			int yNew = yContext + (y - yFix) - yTarget;
-
-			ac.setWidth(((Container) me).getWidth());
-			ac.setHeight(((Container) me).getHeight());
-
-			ac.setLocation(xNew, yNew);
-		}
-		IAddFeature af = getFeatureProvider().getAddFeature(ac);
-		if (af != null &amp;&amp; af.canAdd(ac)) {
-			pe = af.add(ac);
-			if (pe instanceof AnchorContainer) {
-				return ((AnchorContainer) pe).getAnchors().get(0);
+			if (pe instanceof Shape &amp;&amp; !graphicalContainer.contains(pe)) {
+				translate(pe);
+				graphicalContainer.add(pe);
 			}
 		}
-		return null;
+		
+		PictogramElement target = context.getPictogramElements()[0];
+		ContainerShape container = null;
+		
+		if (target instanceof ContainerShape)
+			container = (ContainerShape) target;
+		if (container == null)
+			return;
+		ContainingElement model = (ContainingElement) getBusinessObjectForPictogramElement(container);
+		for (PictogramElement pe : graphicalContainer) {
+			container.getChildren().add((Shape) pe);
+			model.getModelElements().add((ModelElement) pe.getLink().getBusinessObjects().get(0));
+			addLinks(getDiagram(), pe);
+		}
+		for (Connection pe : connections) {
+			getDiagram().getConnections().add((Connection) pe);
+			getDiagram().getPictogramLinks().add(pe.getLink());
+			if (pe.getLink().getBusinessObjects().get(0) instanceof Edge) {
+				Edge e = (Edge) pe.getLink().getBusinessObjects().get(0);
+				ContainingElement common = $context.graphModelName$GraphitiUtils.getInstance().getCommonContainer(model, e);
+				model.getModelElements().remove(e);
+				common.getModelElements().add(e);
+			}
+		}
+
+	}
+
+	private void addLinks(Diagram diagram, PictogramElement pe) {
+		if (pe instanceof ContainerShape) {
+			for (Shape s : ((ContainerShape) pe).getChildren()) {
+				if (s.getLink() != null &amp;&amp; !diagram.getPictogramLinks().contains(s.getLink()))
+					diagram.getPictogramLinks().add(s.getLink());
+				addLinks(diagram, s);
+			}
+		}
+		
 	}
 	
-	private void addEdge(IPasteContext context, ContainerShape target, Edge edge,
-			Anchor sAnchor, Anchor tAnchor) {
-		AddConnectionContext acc = new AddConnectionContext(sAnchor, tAnchor);
-		acc.setNewObject(edge);
-		IAddFeature af = getFeatureProvider().getAddFeature(acc);
-		if (af != null &amp;&amp; af.canAdd(acc)) {
-			af.add(acc);
-		}
-	}
-
-	private void computeCenter(Object[] bos) {
-		ArrayList&lt;ModelElement&gt; marked = new ArrayList&lt;&gt;();
-		for (Object o : bos) {
-			if (o instanceof Edge) {
-				Edge edge = (Edge) o;
-				if (!marked.contains(edge.getSourceElement()))
-						marked.add(edge.getSourceElement());
-				if (!marked.contains(edge.getTargetElement()))
-					marked.add(edge.getTargetElement());
-			}
-			
-			if (o instanceof Node) {
-				Node node = (Node) o;
-				if (!marked.contains(node))
-					marked.add(node);
-			}
-			
-			if (o instanceof Container) {
-				Container container = (Container) o;
-				if (!marked.contains(container));
-					marked.add(container);
-			}
-		}
-		int xSum = 0, ySum = 0;
-		for (ModelElement me : marked) {
-			if (me instanceof Node) {
-				xSum += ((Node) me).getX();
-				ySum += ((Node) me).getY();
-			}
-			if (me instanceof Container) {
-				xSum += ((Container) me).getX();
-				ySum += ((Container) me).getY();
-			}
-		}
-		xFix = xSum / marked.size();
-		yFix = ySum / marked.size();
-	}
-
 	private boolean canPaste(Object bo, Object target) {
 		$context.pasteContent$
 
@@ -477,6 +362,57 @@ public class $context.graphModelName$PasteFeature extends AbstractPasteFeature {
 		return false;
 	}
 
+	private void computeUpperLeft(Object[] bos) {
+		xMin = null;
+		yMin = null;
+		for (Object bo : bos) {
+			if (bo instanceof Shape) {
+				GraphicsAlgorithm ga = ((PictogramElement) bo).getGraphicsAlgorithm();
+
+				if (xMin == null) xMin = ga.getX();
+				if (yMin == null) yMin = ga.getY();
+				
+				xMin = Math.min(xMin, ga.getX());
+				yMin = Math.min(yMin, ga.getY());
+				
+			}
+			
+		}
+		
+		if (xMin == null) xMin = 0;
+		if (yMin == null) yMin = 0;
+		
+	}
+
+	private void translate(PictogramElement pe) {
+		if (pe instanceof Connection) {
+			translateConnection((Connection) pe);
+		} else {
+			GraphicsAlgorithm ga =  pe.getGraphicsAlgorithm();
+			ga.setX(xContext + (ga.getX() - xMin));
+			ga.setY(yContext + (ga.getY() - yMin));
+		}
+	}
+	
+	private void translateConnection(Connection c) {
+		if (c instanceof FreeFormConnection) {
+			FreeFormConnection ffc = (FreeFormConnection) c;
+			for (Point p : ffc.getBendpoints()) {
+				p.setX(xContext + (p.getX() - xMin));
+				p.setY(yContext + (p.getY() - yMin));
+			}
+		}
+	}
+	
+	private List&lt;PictogramElement&gt; createList(Object[] fromClipboard) {
+		List&lt;PictogramElement&gt; pes = new ArrayList&lt;&gt;();
+		for (Object o : fromClipboard) {
+			if (o instanceof PictogramElement)
+				pes.add((PictogramElement) o);
+		}
+		return pes;
+	}
+	
 }
 </string>
     </parameter>
@@ -931,12 +867,364 @@ public class $context.graphModelName$PasteFeature extends AbstractPasteFeature {
     <point>333.0,535.0</point>
     <branch>default</branch>
   </edge>
-  <values/>
-  <branch>
-    <name>default</name>
+  <sib>
+    <id>b53373be-d920-4138-88c9-26741aac0c37</id>
+    <name>RunStringTemplate_4</name>
+    <label>CopyUtils</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>205.5,783.0</position>
+    <parameter name="append">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>copyUtilsContent</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>package $context.localPkgName$;
+
+import graphmodel.Container;
+import graphmodel.Edge;
+import graphmodel.ModelElement;
+import graphmodel.Node;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.graphiti.mm.pictograms.Anchor;
+import org.eclipse.graphiti.mm.pictograms.AnchorContainer;
+import org.eclipse.graphiti.mm.pictograms.Connection;
+import org.eclipse.graphiti.mm.pictograms.ContainerShape;
+import org.eclipse.graphiti.mm.pictograms.Diagram;
+import org.eclipse.graphiti.mm.pictograms.PictogramElement;
+import org.eclipse.graphiti.mm.pictograms.PictogramLink;
+import org.eclipse.graphiti.mm.pictograms.PictogramsFactory;
+import org.eclipse.graphiti.mm.pictograms.Shape;
+
+public class $context.graphModelName$CopyUtils {
+
+	private static HashMap&lt;Anchor, Anchor&gt; copiedAnchors = new HashMap&lt;&gt;();
+	private static HashMap&lt;EObject, EObject&gt; copiedBos = new HashMap&lt;&gt;();
+	
+
+	public static Set&lt;PictogramElement&gt; copy(List&lt;PictogramElement&gt; subGraph, Diagram diagram) {
+		Set&lt;PictogramElement&gt; copyList = new HashSet&lt;&gt;();
+		
+		List&lt;Shape&gt; shapes = new ArrayList&lt;&gt;();
+		Set&lt;Connection&gt; connections = new HashSet&lt;&gt;();
+		
+		copiedAnchors.clear();
+		copiedBos.clear();
+		
+		for (PictogramElement pe : subGraph) {
+			if (pe instanceof Connection) {
+				connections.add((Connection) pe);
+				
+			}
+			else shapes.add((Shape) pe);
+			
+			for (Connection c : diagram.getConnections()) {
+				if (isCopied(c, subGraph))
+					connections.add(c);
+			}
+		}
+		
+		for (Shape s : shapes) {
+			EObject bo = (EObject) s.getLink().getBusinessObjects().get(0);
+			Shape copy = null;
+			if (bo instanceof Container) {
+				copy = copyContainerShape((ContainerShape) s);
+			}
+			
+			if (bo instanceof Node) {
+				copy = copyNodeShape(s);
+			}
+			
+			copyList.add(copy);
+		}
+		
+		for (Connection c : connections) {
+			Connection copy = copyConnection(c);
+			copyList.add(copy);
+		}
+		
+		return copyList;
+	}
+	
+	
+	
+	private static Shape copyContainerShape(ContainerShape cs) {
+		ContainerShape shapeCopy = EcoreUtil.copy(cs);
+		shapeCopy.getChildren().clear();
+		EObject boOrig = cs.getLink().getBusinessObjects().get(0);
+		EObject boCopy = EcoreUtil.copy(boOrig);
+		((Container) boCopy).getModelElements().clear();
+		
+		HashMap&lt;Shape, Shape&gt; replace = new HashMap&lt;&gt;();
+		
+		for (Shape child : cs.getChildren()) {
+			if (child.getLink() == null)
+				continue;
+			
+			EObject boChild = child.getLink().getBusinessObjects().get(0);
+			
+			if (boChild == null) 
+				continue;
+			/** Some Text Element may be linked with the model element ... **/
+			if (boChild.equals(boOrig)) {
+				child.getLink().getBusinessObjects().clear();
+				child.getLink().getBusinessObjects().add(boCopy);
+			} else {
+			/** Found a contained node with different linked model element **/
+				if (boChild instanceof Node) {
+					Shape tmp = copyNodeShape(child);
+					((Container) boCopy).getModelElements().add((ModelElement) tmp.getLink().getBusinessObjects().get(0));
+					for (Shape s : cs.getChildren()) {
+						if (s.getLink() != null &amp;&amp; s.getLink().getBusinessObjects().get(0).equals(boChild)) {
+							copiedAnchors.put(s.getAnchors().get(0), tmp.getAnchors().get(0));
+						}
+					}
+					replace.put(child, tmp);
+				}
+				
+				if (boChild instanceof Container) {
+					Shape tmp = copyContainerShape((ContainerShape) child);
+					((Container) boCopy).getModelElements().add((ModelElement) tmp.getLink().getBusinessObjects().get(0));
+					replace.put(child, tmp);
+				}
+			}
+			
+		}
+		
+		shapeCopy.getChildren().removeAll(replace.keySet());
+		shapeCopy.getChildren().addAll(replace.values());
+		
+		shapeCopy.getLink().setPictogramElement(shapeCopy);
+		shapeCopy.getLink().getBusinessObjects().clear();
+		shapeCopy.getLink().getBusinessObjects().add(boCopy);
+		
+		copiedAnchors.put(cs.getAnchors().get(0), shapeCopy.getAnchors().get(0));
+		copiedBos.put(boOrig, boCopy);
+		
+		return shapeCopy;
+	}
+	
+	private static Shape copyNodeShape(Shape s) {
+		Shape shapeCopy = EcoreUtil.copy(s);
+		EObject boOrig = s.getLink().getBusinessObjects().get(0);
+		EObject boCopy = EcoreUtil.copy(boOrig);
+		
+		shapeCopy.getLink().setPictogramElement(shapeCopy);
+		shapeCopy.getLink().getBusinessObjects().clear();
+		shapeCopy.getLink().getBusinessObjects().add(boCopy);
+		
+		if (shapeCopy instanceof ContainerShape) {
+			for (Shape child : ((ContainerShape) shapeCopy).getChildren()) {
+				if (child.getLink() != null &amp;&amp; boOrig.equals(child.getLink().getBusinessObjects().get(0))) {
+					child.getLink().getBusinessObjects().clear();
+					child.getLink().getBusinessObjects().add(boCopy);
+				}
+			}
+		}
+		
+		copiedAnchors.put(s.getAnchors().get(0), shapeCopy.getAnchors().get(0));
+		copiedBos.put(boOrig, boCopy);
+		
+		return shapeCopy;
+	}
+	
+	/************************************************************** Connection copy methods **************************************************************/
+	private static Connection copyConnection(Connection connection) {
+		Connection copy = EcoreUtil.copy(connection);
+		
+		copy.setStart(copiedAnchors.get(connection.getStart()));
+		copy.setEnd(copiedAnchors.get(connection.getEnd()));
+		
+		/** TODO: Copy bo and pictogramLink **/
+		if (connection.getLink() != null)
+			copyBOForConnection(copy, connection.getLink().getBusinessObjects().get(0), 
+					connection.getStart().getParent().getLink().getBusinessObjects().get(0),
+					connection.getEnd().getParent().getLink().getBusinessObjects().get(0));
+		
+		return copy;
+	}
+	
+	private static void copyBOForConnection(PictogramElement copiedPE, EObject originBO, 
+			EObject source, EObject target) {
+		
+		PictogramLink pl = PictogramsFactory.eINSTANCE.createPictogramLink();
+		pl.setPictogramElement(copiedPE);
+		EObject copy = EcoreUtil.copy(originBO);
+		if (originBO instanceof Edge) {
+			((Edge) copy).setSourceElement((ModelElement) copiedBos.get(source));
+			((Edge) copy).setTargetElement((ModelElement) copiedBos.get(target));
+		}
+		pl.getBusinessObjects().add(copy);
+		copiedPE.setLink(pl);
+	}
+	
+	private static boolean isCopied(Connection c, List&lt;PictogramElement&gt; subGraph) {
+		AnchorContainer source = c.getStart().getParent();
+		AnchorContainer target = c.getEnd().getParent();
+		boolean srcContained = false, trgContained = false;
+		for (PictogramElement pe : subGraph) {
+			if (EcoreUtil.isAncestor(pe, source))
+				srcContained = true;
+			if (EcoreUtil.isAncestor(pe, target))
+				trgContained = true;
+			if (srcContained &amp;&amp; trgContained)
+				break;
+		}
+		
+		return (srcContained &amp;&amp; trgContained);
+	}
+	
+	private static void mapAnchors(ContainerShape cs, ContainerShape copy) {
+		/** Map the anchors in a container shape **/
+		for (Shape originChild : cs.getChildren()) {
+			for (Shape copyChild : copy.getChildren()) {
+				Object oOrigin = originChild.getLink().getBusinessObjects().get(0);
+				Object oCopy = copyChild.getLink().getBusinessObjects().get(0);
+				if (oOrigin.equals(oCopy)) {
+					copiedAnchors.put(originChild.getAnchors().get(0), copyChild.getAnchors().get(0));
+				}
+			}
+		}
+	}
+}
+</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>af959c41-0db9-47da-820e-4cb97cab5b39</source>
+    <target>b53373be-d920-4138-88c9-26741aac0c37</target>
+    <point>90.0,810.0</point>
+    <point>218.0,799.0</point>
     <branch>default</branch>
-    <sib>af959c41-0db9-47da-820e-4cb97cab5b39</sib>
-  </branch>
+  </edge>
+  <sib>
+    <id>0f0a7466-dbe3-4238-929c-f0a9d52dbc33</id>
+    <name>WriteJavaFile_2</name>
+    <label>WriteJavaFile</label>
+    <sib-uid>genesys-sibs/WriteJavaFile</sib-uid>
+    <taxonomy>de.jabc.sib.genesys.WriteJavaFile</taxonomy>
+    <position>478.0,783.0</position>
+    <parameter name="baseDirectory">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>outletPath</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="beautify">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="beautifyMethod">
+      <de.metaframe.common.sib.parameter.ListBox>
+        <ListBoxFoundation>
+          <list>
+            <string>Eclipse</string>
+            <string>Jalopy</string>
+          </list>
+          <selected>0</selected>
+        </ListBoxFoundation>
+      </de.metaframe.common.sib.parameter.ListBox>
+    </parameter>
+    <parameter name="className">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>className</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="fileContent">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>copyUtilsContent</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="packageName">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>localPkgName</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>b53373be-d920-4138-88c9-26741aac0c37</source>
+    <target>e88f1be1-0c98-458d-be7d-f5d075fb5cce</target>
+    <point>258.0,787.8</point>
+    <point>312.0,742.8</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>e88f1be1-0c98-458d-be7d-f5d075fb5cce</id>
+    <name>PutExpression_3</name>
+    <label>ClassName</label>
+    <sib-uid>basic-sibs/PutExpression</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
+    <position>335.5,783.0</position>
+    <parameter name="resolve">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="value">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>${graphModelName}CopyUtils</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>className</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>e88f1be1-0c98-458d-be7d-f5d075fb5cce</source>
+    <target>0f0a7466-dbe3-4238-929c-f0a9d52dbc33</target>
+    <point>375.0,810.0</point>
+    <point>472.0,804.0</point>
+    <branch>default</branch>
+  </edge>
+  <values/>
   <branch>
     <name>error</name>
     <branch>error</branch>
@@ -1001,5 +1289,25 @@ public class $context.graphModelName$PasteFeature extends AbstractPasteFeature {
     <name>error</name>
     <branch>error</branch>
     <sib>089f251a-81b3-4412-ba06-537e8677d433</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>b53373be-d920-4138-88c9-26741aac0c37</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>e88f1be1-0c98-458d-be7d-f5d075fb5cce</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>0f0a7466-dbe3-4238-929c-f0a9d52dbc33</sib>
+  </branch>
+  <branch>
+    <name>default</name>
+    <branch>default</branch>
+    <sib>0f0a7466-dbe3-4238-929c-f0a9d52dbc33</sib>
   </branch>
 </model>

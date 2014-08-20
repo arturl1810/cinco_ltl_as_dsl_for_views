@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>98ab2190-4ec2-4346-85ee-61b8c0d16099</id>
   <name>GenerateMoveNodeFeature</name>
-  <changecounter>184</changecounter>
+  <changecounter>195</changecounter>
   <sib>
     <id>a757414d-68f3-478e-a5f2-cbb249a4880a</id>
     <name>RunStringTemplate_1</name>
@@ -27,13 +27,19 @@
     </parameter>
     <parameter name="template">
       <string>package $context.localPkgName$;
+
+import java.util.HashSet;
+
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IMoveShapeContext;
 import org.eclipse.graphiti.features.impl.DefaultMoveShapeFeature;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 
 import graphmodel.Container;
+import graphmodel.ContainingElement;
+import graphmodel.Edge;
 
+import $context.projectName$.*;
 import $context.importPath$.*;
 
 public class Move$context.node.name$Feature extends DefaultMoveShapeFeature{
@@ -76,6 +82,17 @@ public class Move$context.node.name$Feature extends DefaultMoveShapeFeature{
 			tmp.getModelElements().add(($context.node.name$) o);
 		}
 			
+		HashSet&lt;Edge&gt; all = new HashSet&lt;&gt;();
+		$context.node.name$ tmp = ($context.node.name$) o;
+		all.addAll(tmp.getIncoming());
+		all.addAll(tmp.getOutgoing());
+		for (Edge e : all) {
+			ContainingElement ce = e.getContainer();
+			ContainingElement common = $context.graphModelName$GraphitiUtils.getInstance().getCommonContainer(ce, e);
+			ce.getModelElements().remove(e);
+			common.getModelElements().add(e);
+		}
+
 		(($context.node.name$) o).setX(context.getX());
 		(($context.node.name$) o).setY(context.getY());
 

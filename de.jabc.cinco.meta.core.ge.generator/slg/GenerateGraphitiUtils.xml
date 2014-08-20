@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>b227a7a0-5af9-431e-b485-0ba300749007</id>
   <name>GenerateGraphitiUtils</name>
-  <changecounter>119</changecounter>
+  <changecounter>129</changecounter>
   <sib>
     <id>801054f5-02ab-407f-9a7a-c39fb7a43cb9</id>
     <name>PutExpression</name>
@@ -136,6 +136,8 @@
     <parameter name="template">
       <string>package $context.packageName$.graphiti;
 
+import graphmodel.*;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -149,6 +151,7 @@ import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.graphiti.dt.IDiagramTypeProvider;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
@@ -275,6 +278,23 @@ public class $context.graphModelName$GraphitiUtils {
 			e.printStackTrace();
 		}
 	}
+	
+	public ContainingElement getCommonContainer(ContainingElement ce, Edge e) {
+		ModelElement source = e.getSourceElement();
+		ModelElement target = e.getTargetElement();
+		if (EcoreUtil.isAncestor(ce, source) &amp;&amp; EcoreUtil.isAncestor(ce, target)) {
+			for (Container c : ce.getAllContainers()) {
+				if (EcoreUtil.isAncestor(c, source) &amp;&amp; EcoreUtil.isAncestor(c, target)) {
+					return getCommonContainer(c, e);
+				}
+			}
+		} else if (ce instanceof ModelElement) {
+			return getCommonContainer(((ModelElement) ce).getContainer(), e);
+		}
+		return ce;
+		
+	}
+
 }</string>
     </parameter>
     <finalbranches>default</finalbranches>
