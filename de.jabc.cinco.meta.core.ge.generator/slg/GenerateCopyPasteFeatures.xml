@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>67a73b2a-3824-4776-9686-ae1a8aed5282</id>
   <name>GenerateCopyPasteFeatures</name>
-  <changecounter>240</changecounter>
+  <changecounter>249</changecounter>
   <sib>
     <id>59a427e8-25c5-482c-a32b-a0aa278eb41b</id>
     <name>PutExpression</name>
@@ -350,6 +350,9 @@ public class $context.graphModelName$PasteFeature extends AbstractPasteFeature {
 					diagram.getPictogramLinks().add(s.getLink());
 				addLinks(diagram, s);
 			}
+		}
+		if (pe.getLink() != null &amp;&amp; !diagram.getPictogramLinks().contains(pe.getLink())) {
+			diagram.getPictogramLinks().add(pe.getLink());
 		}
 		
 	}
@@ -977,13 +980,13 @@ public class $context.graphModelName$CopyUtils {
 		HashMap&lt;Shape, Shape&gt; replace = new HashMap&lt;&gt;();
 		
 		for (Shape child : cs.getChildren()) {
-			if (child.getLink() == null)
+			EObject boChild = null;
+			if (child.getLink() != null)
+				boChild = child.getLink().getBusinessObjects().get(0);
+			else {
+				shapeCopy.getChildren().add(EcoreUtil.copy(child));
 				continue;
-			
-			EObject boChild = child.getLink().getBusinessObjects().get(0);
-			
-			if (boChild == null) 
-				continue;
+			}
 			/** Some Text Element may be linked with the model element ... **/
 			if (boChild.equals(boOrig)) {
 				child.getLink().getBusinessObjects().clear();
