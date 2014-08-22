@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>d5531c11-ffc2-41e6-b1fd-4f08e1327b1f</id>
   <name>Generate Helper EOperations</name>
-  <changecounter>65</changecounter>
+  <changecounter>69</changecounter>
   <sib>
     <id>2db6fa19-1315-4022-abef-abc4426dcce8</id>
     <name>IterateGraphModelNodeContainers</name>
@@ -341,88 +341,6 @@
     <point>135.0,165.0</point>
     <point>267.0,51.48</point>
     <labelposition>598.541887223886,-139.22971433432966</labelposition>
-    <branch>exit</branch>
-  </edge>
-  <sib>
-    <id>ff676fe2-5188-4fc1-8809-a01b03c2d51e</id>
-    <name>IterateGraphModelNodes_1</name>
-    <label>IterateGraphModelEdges</label>
-    <sib-uid>mgl/mgl/IterateGraphModelEdges</sib-uid>
-    <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.IterateGraphModelEdges</taxonomy>
-    <position>1554.5,168.0</position>
-    <parameter name="elementKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>edge</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>false</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="graphModelKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>graphModel</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="iteratorKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>graphModelNodedadsiteratorKey</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>false</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>error</finalbranches>
-    <finalbranches>exit</finalbranches>
-    <finalbranches>next</finalbranches>
-    <finalbranches>noElements</finalbranches>
-  </sib>
-  <sib>
-    <id>37970caf-c3d8-4a2f-969e-cee60d256ed2</id>
-    <name>GraphSIB_5</name>
-    <label>Create getIncoming And getOutgoing EOperations</label>
-    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
-    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>1515.5,301.0</position>
-    <parameter name="edgeKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>edge</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>error</finalbranches>
-    <finalbranches>exit</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>67ec4719-815b-41e1-9394-79b210008edc</string>
-    </userobject>
-    <userobject key="ABC$GRAPHSIB$MODELNAME">
-      <string>Create getIncoming And getOutgoing EOperations</string>
-    </userobject>
-  </sib>
-  <edge>
-    <source>ff676fe2-5188-4fc1-8809-a01b03c2d51e</source>
-    <target>f9e89c23-75e7-42fc-aeb4-ecf9d7bac6cb</target>
-    <point>1635.0,195.0</point>
-    <point>1620.0,330.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>next</branch>
-  </edge>
-  <edge>
-    <source>f9e89c23-75e7-42fc-aeb4-ecf9d7bac6cb</source>
-    <target>ff676fe2-5188-4fc1-8809-a01b03c2d51e</target>
-    <spline/>
-    <point>1620.0,330.0</point>
-    <point>1695.0,255.0</point>
-    <point>1635.0,195.0</point>
-    <labelposition>452.63556807110297,41.97745603322647</labelposition>
     <branch>exit</branch>
   </edge>
   <sib>
@@ -1269,31 +1187,6 @@
     <branch>exit</branch>
   </edge>
   <sib>
-    <id>f9e89c23-75e7-42fc-aeb4-ecf9d7bac6cb</id>
-    <name>GraphSIB_8</name>
-    <label>Create GetPredecessors And  GetSuccessors</label>
-    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
-    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>1475.5,301.0</position>
-    <parameter name="edgeKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>edge</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>error</finalbranches>
-    <finalbranches>exit</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>7d165ea9-0672-49c5-9f31-4fc0a0b1533d</string>
-    </userobject>
-    <userobject key="ABC$GRAPHSIB$MODELNAME">
-      <string>Create GetPredecessors And  GetSuccessors</string>
-    </userobject>
-  </sib>
-  <sib>
     <id>6daa86ee-06b7-42f6-8889-426d4e191445</id>
     <name>IterateGraphModelNodes_4</name>
     <label>IterateGraphModelNodes</label>
@@ -1535,11 +1428,6 @@
   <parameter>
     <name>graphModelKey</name>
     <field>graphModelKey</field>
-    <sib>ff676fe2-5188-4fc1-8809-a01b03c2d51e</sib>
-  </parameter>
-  <parameter>
-    <name>graphModelKey</name>
-    <field>graphModelKey</field>
     <sib>1950453b-86df-4810-8d5a-2d53eac2abc0</sib>
   </parameter>
   <parameter>
@@ -1603,16 +1491,6 @@
     <name>error</name>
     <branch>error</branch>
     <sib>2db6fa19-1315-4022-abef-abc4426dcce8</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>ff676fe2-5188-4fc1-8809-a01b03c2d51e</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>37970caf-c3d8-4a2f-969e-cee60d256ed2</sib>
   </branch>
   <branch>
     <name>error</name>
@@ -1718,11 +1596,6 @@
     <name>exit</name>
     <branch>exit</branch>
     <sib>17f6b916-d4b5-4ac1-b540-9c3741b893ba</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>f9e89c23-75e7-42fc-aeb4-ecf9d7bac6cb</sib>
   </branch>
   <branch>
     <name>error</name>
