@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>67a73b2a-3824-4776-9686-ae1a8aed5282</id>
   <name>GenerateCopyPasteFeatures</name>
-  <changecounter>249</changecounter>
+  <changecounter>251</changecounter>
   <sib>
     <id>59a427e8-25c5-482c-a32b-a0aa278eb41b</id>
     <name>PutExpression</name>
@@ -265,7 +265,7 @@ public class $context.graphModelName$PasteFeature extends AbstractPasteFeature {
 	private Integer xMin = null;
 	private Integer yMin = null;
 	
-	private int xContext, yContext;
+	private int xContext, yContext, xContainerShift, yContainerShift;
 	
 	public $context.graphModelName$PasteFeature(IFeatureProvider fp) {
 		super(fp);
@@ -297,6 +297,10 @@ public class $context.graphModelName$PasteFeature extends AbstractPasteFeature {
 	public void paste(IPasteContext context) {
 		xContext = context.getX();
 		yContext = context.getY();
+		
+		xContainerShift = 0;
+		yContainerShift = 0;
+	
 		List&lt;PictogramElement&gt; subGraph = createList(getFromClipboard());
 		Set&lt;PictogramElement&gt; copies = new HashSet&lt;&gt;(); 
 		computeUpperLeft(subGraph.toArray());
@@ -305,6 +309,12 @@ public class $context.graphModelName$PasteFeature extends AbstractPasteFeature {
 		List&lt;PictogramElement&gt; graphicalContainer = new ArrayList&lt;&gt;();
 		List&lt;Connection&gt; connections = new ArrayList&lt;&gt;();
 		
+		Object targetBO = getBusinessObjectForPictogramElement(context.getPictogramElements()[0]);
+		if (! (targetBO instanceof GraphModel)) {
+			xContainerShift = context.getPictogramElements()[0].getGraphicsAlgorithm().getX();
+			yContainerShift = context.getPictogramElements()[0].getGraphicsAlgorithm().getY();
+		}
+
 		for (PictogramElement pe : copies) {
 			if (pe instanceof Connection &amp;&amp; !connections.contains(pe)) {
 				translate(pe);
