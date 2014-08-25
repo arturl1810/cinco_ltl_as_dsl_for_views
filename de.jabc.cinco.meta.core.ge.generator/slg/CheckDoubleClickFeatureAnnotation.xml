@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <model version="2.1">
-  <id>8fd8a2e3-0318-4824-930f-f04d3bde4e69</id>
-  <name>CheckCustomFeatureAnnotation</name>
-  <changecounter>29</changecounter>
+  <id>5cf6b52e-e50f-4ab3-b621-8394db3da10b</id>
+  <name>CheckDoubleClickFeatureAnnotation</name>
+  <changecounter>18</changecounter>
   <sib>
-    <id>4f8df5a8-3436-4d95-bb8e-c45c384c7557</id>
+    <id>fa6294ea-f7dc-4fab-b119-1eea839e668f</id>
     <name>CopyEObject</name>
     <label>CopyEObject</label>
     <sib-uid>utility-sibs/CopyEObject</sib-uid>
     <taxonomy>transem.utility.sib.CopyEObject</taxonomy>
-    <position>76.5,33.0</position>
+    <position>181.5,63.0</position>
     <parameter name="copiedEObjectKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -35,12 +35,12 @@
     </userobject>
   </sib>
   <sib>
-    <id>e64b638e-27b2-418b-a952-746560317cf9</id>
+    <id>89d79a8f-5a5b-4b03-ab6c-30b4e2e77243</id>
     <name>GetAnnotationName</name>
     <label>GetAnnotationName</label>
     <sib-uid>mgl/mgl/GetAnnotationName</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetAnnotationName</taxonomy>
-    <position>52.0,153.0</position>
+    <position>157.0,183.0</position>
     <parameter name="annotationKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -63,16 +63,16 @@
     <finalbranches>error</finalbranches>
   </sib>
   <sib>
-    <id>6b044f14-5acd-45a1-bc51-0e686b356cdc</id>
+    <id>542a49ae-b985-40bf-842e-ee047594009a</id>
     <name>MatchString</name>
     <label>@customFeature?</label>
     <sib-uid>basic-sibs/MatchString</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.MatchString</taxonomy>
-    <position>59.5,258.0</position>
+    <position>164.5,288.0</position>
     <parameter name="pattern">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>contextMenuAction</expression>
+          <expression>doubleClickAction</expression>
           <clazz>java.lang.String</clazz>
           <classMutable>false</classMutable>
         </ContextExpressionFoundation>
@@ -92,12 +92,12 @@
     <finalbranches>true</finalbranches>
   </sib>
   <sib>
-    <id>34b78875-dbc4-4bb6-964e-5503b764aa28</id>
+    <id>1d58a15c-7ef3-4a31-9ef1-b894b37dc772</id>
     <name>GetAnnotationValue</name>
     <label>GetAnnotationValue</label>
     <sib-uid>mgl/mgl/GetAnnotationValue</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetAnnotationValue</taxonomy>
-    <position>52.0,363.0</position>
+    <position>157.0,393.0</position>
     <parameter name="annotationKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -120,34 +120,34 @@
     <finalbranches>error</finalbranches>
   </sib>
   <edge>
-    <source>6b044f14-5acd-45a1-bc51-0e686b356cdc</source>
-    <target>34b78875-dbc4-4bb6-964e-5503b764aa28</target>
-    <point>450.0,345.0</point>
-    <point>240.0,465.0</point>
+    <source>542a49ae-b985-40bf-842e-ee047594009a</source>
+    <target>1d58a15c-7ef3-4a31-9ef1-b894b37dc772</target>
+    <point>555.0,360.0</point>
+    <point>345.0,480.0</point>
     <branch>true</branch>
   </edge>
   <edge>
-    <source>e64b638e-27b2-418b-a952-746560317cf9</source>
-    <target>6b044f14-5acd-45a1-bc51-0e686b356cdc</target>
-    <point>240.0,345.0</point>
-    <point>420.0,345.0</point>
+    <source>89d79a8f-5a5b-4b03-ab6c-30b4e2e77243</source>
+    <target>542a49ae-b985-40bf-842e-ee047594009a</target>
+    <point>345.0,360.0</point>
+    <point>525.0,360.0</point>
     <branch>default</branch>
   </edge>
   <edge>
-    <source>4f8df5a8-3436-4d95-bb8e-c45c384c7557</source>
-    <target>e64b638e-27b2-418b-a952-746560317cf9</target>
-    <point>120.0,60.0</point>
-    <point>115.0,200.0</point>
+    <source>fa6294ea-f7dc-4fab-b119-1eea839e668f</source>
+    <target>89d79a8f-5a5b-4b03-ab6c-30b4e2e77243</target>
+    <point>225.0,75.0</point>
+    <point>210.0,225.0</point>
     <branch>default</branch>
   </edge>
   <parameter>
-    <name>AnnotationKey</name>
+    <name>annotation</name>
     <field>eObjectKey</field>
-    <sib>4f8df5a8-3436-4d95-bb8e-c45c384c7557</sib>
+    <sib>fa6294ea-f7dc-4fab-b119-1eea839e668f</sib>
   </parameter>
   <values>
     <entry>
-      <string>AnnotationKey</string>
+      <string>annotation</string>
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
           <key>annotationKey</key>
@@ -160,31 +160,31 @@
   <branch>
     <name>error</name>
     <branch>error</branch>
-    <sib>34b78875-dbc4-4bb6-964e-5503b764aa28</sib>
+    <sib>fa6294ea-f7dc-4fab-b119-1eea839e668f</sib>
   </branch>
   <branch>
     <name>error</name>
     <branch>error</branch>
-    <sib>6b044f14-5acd-45a1-bc51-0e686b356cdc</sib>
+    <sib>89d79a8f-5a5b-4b03-ab6c-30b4e2e77243</sib>
   </branch>
   <branch>
     <name>error</name>
     <branch>error</branch>
-    <sib>e64b638e-27b2-418b-a952-746560317cf9</sib>
+    <sib>542a49ae-b985-40bf-842e-ee047594009a</sib>
   </branch>
   <branch>
     <name>error</name>
     <branch>error</branch>
-    <sib>4f8df5a8-3436-4d95-bb8e-c45c384c7557</sib>
-  </branch>
-  <branch>
-    <name>false</name>
-    <branch>false</branch>
-    <sib>6b044f14-5acd-45a1-bc51-0e686b356cdc</sib>
+    <sib>1d58a15c-7ef3-4a31-9ef1-b894b37dc772</sib>
   </branch>
   <branch>
     <name>true</name>
     <branch>default</branch>
-    <sib>34b78875-dbc4-4bb6-964e-5503b764aa28</sib>
+    <sib>1d58a15c-7ef3-4a31-9ef1-b894b37dc772</sib>
+  </branch>
+  <branch>
+    <name>false</name>
+    <branch>false</branch>
+    <sib>542a49ae-b985-40bf-842e-ee047594009a</sib>
   </branch>
 </model>

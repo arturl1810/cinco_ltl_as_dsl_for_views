@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>657a94c6-b527-408b-959c-90e7c1d765f1</id>
   <name>Main</name>
-  <changecounter>1860</changecounter>
+  <changecounter>1871</changecounter>
   <sib>
     <id>b1c14399-f7be-4bc0-8225-1aa6db2d05aa</id>
     <name>MacroSIB</name>
@@ -85,7 +85,7 @@
     <label>GenerateFeatureProvider</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>884.5,106.0</position>
+    <position>869.5,211.0</position>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
     <userobject key="ABC$GRAPHSIB$MODELID">
@@ -105,9 +105,10 @@
   </edge>
   <edge>
     <source>20b06f11-3364-456e-996e-bf451a2e35a8</source>
-    <target>e41493da-902e-47e5-b916-2e0b65931ae8</target>
-    <point>750.0,240.0</point>
-    <point>585.0,114.0</point>
+    <target>ba1d8a50-a19d-4b52-8c5a-47e89d03427e</target>
+    <point>970.0,236.28</point>
+    <point>633.0,317.112</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>error</branch>
   </edge>
   <sib>
@@ -116,7 +117,7 @@
     <label>GeneratePluginXML</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>901.5,211.0</position>
+    <position>631.5,211.0</position>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
     <userobject key="ABC$GRAPHSIB$MODELID">
@@ -148,7 +149,7 @@
     <label>GenerateImageProvider</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>693.5,211.0</position>
+    <position>408.5,211.0</position>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
     <userobject key="ABC$GRAPHSIB$MODELID">
@@ -197,7 +198,7 @@
     <label>GenerateGraphitiUtils</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>474.5,211.0</position>
+    <position>189.5,211.0</position>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
     <userobject key="ABC$GRAPHSIB$MODELID">
@@ -229,7 +230,7 @@
     <label>GenerateCreateFeatures</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>195.5,211.0</position>
+    <position>180.5,391.0</position>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
     <userobject key="ABC$GRAPHSIB$MODELID">
@@ -261,7 +262,7 @@
     <label>GenerateAddFeatures</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>204.0,391.0</position>
+    <position>474.0,391.0</position>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
     <userobject key="ABC$GRAPHSIB$MODELID">
@@ -292,7 +293,7 @@
     <label>GeneratePropertyView</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>652.5,391.0</position>
+    <position>892.5,391.0</position>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
     <userobject key="ABC$GRAPHSIB$MODELID">
@@ -324,7 +325,7 @@
     <label>GenerateUpdateFeatures</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>419.5,391.0</position>
+    <position>689.5,391.0</position>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
     <userobject key="ABC$GRAPHSIB$MODELID">
@@ -356,7 +357,7 @@
     <label>GenerateEL</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>938.0,391.0</position>
+    <position>923.0,496.0</position>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
     <userobject key="ABC$GRAPHSIB$MODELID">
@@ -376,9 +377,9 @@
   </edge>
   <edge>
     <source>0a0c8657-7aea-4d04-bf35-ea836573cef0</source>
-    <target>ba1d8a50-a19d-4b52-8c5a-47e89d03427e</target>
-    <point>735.0,480.0</point>
-    <point>615.0,330.0</point>
+    <target>32c308fb-3b46-4520-b57f-7cf264a1f692</target>
+    <point>940.0,521.7391304347826</point>
+    <point>633.0,601.7739130434783</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>error</branch>
   </edge>
@@ -388,7 +389,7 @@
     <label>GenerateNewDiagramWizard</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>890.5,496.0</position>
+    <position>635.5,496.0</position>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
     <userobject key="ABC$GRAPHSIB$MODELID">
@@ -420,7 +421,7 @@
     <label>GenerateToolBehaviourProvider</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>655.5,496.0</position>
+    <position>415.5,496.0</position>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
     <userobject key="ABC$GRAPHSIB$MODELID">
@@ -470,7 +471,7 @@
     <label>PrintConsoleMessage</label>
     <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
     <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
-    <position>339.5,858.0</position>
+    <position>9.5,858.0</position>
     <parameter name="error">
       <boolean>false</boolean>
     </parameter>
@@ -499,7 +500,7 @@
     <label>GenerateGraphModelDiagramCreator</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>400.0,496.0</position>
+    <position>145.0,496.0</position>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
     <userobject key="ABC$GRAPHSIB$MODELID">
@@ -531,7 +532,7 @@
     <label>GenerateDeleteFeature</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>185.0,496.0</position>
+    <position>185.0,676.0</position>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
     <userobject key="ABC$GRAPHSIB$MODELID">
@@ -563,7 +564,7 @@
     <label>GenerateReconnectFeatures</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>170.5,676.0</position>
+    <position>440.5,676.0</position>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
     <userobject key="ABC$GRAPHSIB$MODELID">
@@ -595,7 +596,7 @@
     <label>GenerateMoveFeature</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>428.5,676.0</position>
+    <position>698.5,676.0</position>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
     <userobject key="ABC$GRAPHSIB$MODELID">
@@ -619,7 +620,7 @@
     <label>GenerateLayoutFeatures</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>661.0,676.0</position>
+    <position>901.0,676.0</position>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
     <userobject key="ABC$GRAPHSIB$MODELID">
@@ -640,8 +641,8 @@
   <edge>
     <source>87a034ea-4153-42c6-99a6-216d4bba06b0</source>
     <target>38100d82-6597-4920-8ddb-1b8d093a8e18</target>
-    <point>705.0,705.0</point>
-    <point>990.0,705.0</point>
+    <point>975.0,705.0</point>
+    <point>975.0,885.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -659,7 +660,7 @@
     <label>GenerateDiagramEditor</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>919.0,676.0</position>
+    <position>904.0,856.0</position>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
     <userobject key="ABC$GRAPHSIB$MODELID">
@@ -671,9 +672,9 @@
   </sib>
   <edge>
     <source>38100d82-6597-4920-8ddb-1b8d093a8e18</source>
-    <target>32c308fb-3b46-4520-b57f-7cf264a1f692</target>
-    <point>765.0,1215.0</point>
-    <point>610.0,1008.0</point>
+    <target>a8d9f0da-3d4f-4800-a816-63d8705e91d5</target>
+    <point>985.0,871.8461538461538</point>
+    <point>633.0,790.5692307692308</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>error</branch>
   </edge>
@@ -691,7 +692,7 @@
     <label>GenerateResizeFeatures</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>916.5,856.0</position>
+    <position>676.5,856.0</position>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
     <userobject key="ABC$GRAPHSIB$MODELID">
@@ -723,7 +724,7 @@
     <label>GenerateEContentAdapter</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>702.0,856.0</position>
+    <position>432.0,856.0</position>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
     <userobject key="ABC$GRAPHSIB$MODELID">
@@ -772,7 +773,7 @@
     <label>GenerateCopyPasteFeatures</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>514.5,856.0</position>
+    <position>169.5,856.0</position>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
     <userobject key="ABC$GRAPHSIB$MODELID">
@@ -815,9 +816,10 @@
   </sib>
   <edge>
     <source>55be6609-107c-4a76-88e9-ea7fe36204e2</source>
-    <target>20b06f11-3364-456e-996e-bf451a2e35a8</target>
-    <point>615.0,180.0</point>
-    <point>702.0,135.0</point>
+    <target>6aaace92-7bcb-415e-a744-e27c5ad8192a</target>
+    <point>755.0,125.52941176470588</point>
+    <point>970.0,112.88235294117646</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
@@ -825,6 +827,36 @@
     <target>e41493da-902e-47e5-b916-2e0b65931ae8</target>
     <point>735.0,135.0</point>
     <point>597.0,51.0</point>
+    <branch>error</branch>
+  </edge>
+  <sib>
+    <id>6aaace92-7bcb-415e-a744-e27c5ad8192a</id>
+    <name>GraphSIB_22</name>
+    <label>GenerateDoubleClickFeatures</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>857.0,106.0</position>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>42922f24-6e9e-417f-b29a-e92e2e2f62dc</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>GenerateDoubleClickFeatures</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>6aaace92-7bcb-415e-a744-e27c5ad8192a</source>
+    <target>20b06f11-3364-456e-996e-bf451a2e35a8</target>
+    <point>945.0,135.0</point>
+    <point>956.0,233.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>6aaace92-7bcb-415e-a744-e27c5ad8192a</source>
+    <target>e41493da-902e-47e5-b916-2e0b65931ae8</target>
+    <point>945.0,135.0</point>
+    <point>605.0,28.0</point>
     <branch>error</branch>
   </edge>
   <values/>
