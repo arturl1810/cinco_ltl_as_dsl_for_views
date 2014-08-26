@@ -11,7 +11,6 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import mgl.Annotation;
@@ -34,34 +33,26 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.codegen.ecore.generator.Generator;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
-import org.eclipse.emf.codegen.ecore.genmodel.GenModelFactory;
-import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.generator.GenBaseGeneratorAdapter;
-import org.eclipse.emf.codegen.ecore.genmodel.generator.GenPackageGeneratorAdapter;
-import org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl;
-import org.eclipse.emf.codegen.ecore.genmodel.util.GenModelUtil;
 import org.eclipse.emf.common.util.BasicMonitor;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.ui.IActionDelegate;
+import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.eclipse.xtend.typesystem.emf.EcoreUtil2;
 import org.osgi.framework.Bundle;
 
 import style.Styles;
 import de.jabc.cinco.meta.core.ge.generator.Main;
-import de.jabc.cinco.meta.core.mgl.transformation.helper.ServiceException;
 import de.jabc.cinco.meta.core.utils.projects.ProjectCreator;
 import de.metaframe.jabc.framework.execution.DefaultLightweightExecutionEnvironment;
 import de.metaframe.jabc.framework.execution.LightweightExecutionEnvironment;
@@ -97,6 +88,10 @@ public class Generate extends AbstractHandler {
 					String stylePath = a.getValue().get(0);
 					styles = loadStyles(stylePath);
 				}
+			}
+			
+			if (styles == null) {
+				return null;
 			}
 			
 			String mglProjectName = file.getProject().getName();
