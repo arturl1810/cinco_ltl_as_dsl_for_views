@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>7def08b0-45b0-4f5d-9629-657ab3028508</id>
   <name>GenerateAddNodeFeature</name>
-  <changecounter>1441</changecounter>
+  <changecounter>1457</changecounter>
   <sib>
     <id>b89523ed-9916-4f61-a5e9-9e1d8838a845</id>
     <name>PutExpression_1</name>
@@ -492,7 +492,7 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
 		EClass eClass = bo.eClass();
 		Object target = getBusinessObjectForPictogramElement(context.getTargetContainer());
 		if (eClass.getName().equals(&quot;$context.primeRefType.name$&quot;) &amp;&amp; eClass.getEPackage().getNsURI().equals(&quot;$context.nsURI$&quot;)){
-			return true;
+			return canAddToTarget(target);
 		}
 		return false;
 	}
@@ -538,6 +538,11 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
 
 		return $context.rootShapeName$;
 
+	}
+
+	private boolean canAddToTarget(Object target) {
+		$context.containerCheck$
+		return false;
 	}
 }</string>
     </parameter>
@@ -738,7 +743,7 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
     <label>FormatIdentifier</label>
     <sib-uid>genesys-sibs/FormatIdentifier</sib-uid>
     <taxonomy>de.jabc.sib.genesys.FormatIdentifier</taxonomy>
-    <position>874.0,963.0</position>
+    <position>1009.0,738.0</position>
     <parameter name="identifier">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -791,7 +796,7 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
     <label>FormatIdentifier</label>
     <sib-uid>genesys-sibs/FormatIdentifier</sib-uid>
     <taxonomy>de.jabc.sib.genesys.FormatIdentifier</taxonomy>
-    <position>724.0,963.0</position>
+    <position>1009.0,963.0</position>
     <parameter name="identifier">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -824,9 +829,9 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
   </sib>
   <edge>
     <source>133d9178-21cb-4caf-adc1-01eaed0b66e7</source>
-    <target>01a08f28-05d8-4f4f-9acd-7ccfca84f693</target>
-    <point>582.0,975.4363636363636</point>
-    <point>455.0,929.3636363636364</point>
+    <target>6f03332a-4534-4880-a00a-4652a040c19c</target>
+    <point>1047.0,978.7263157894737</point>
+    <point>800.0,939.7894736842105</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -1233,6 +1238,47 @@ Leaving Generate ${nodeName} AddFeature </expression>
     <point>299.0,976.0</point>
     <branch>default</branch>
   </edge>
+  <sib>
+    <id>6f03332a-4534-4880-a00a-4652a040c19c</id>
+    <name>MacroSIB_1</name>
+    <label>GenerateCheckContainer</label>
+    <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
+    <position>730.0,961.0</position>
+    <parameter name="ClearContent">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>${false}</expression>
+          <clazz>java.lang.Boolean</clazz>
+          <classMutable>false</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="ModelElementKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>modelElementKey</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>4ac25e32-ae6b-469a-b78c-1764aa97ce4d</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>GenerateCheckContainer</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>6f03332a-4534-4880-a00a-4652a040c19c</source>
+    <target>01a08f28-05d8-4f4f-9acd-7ccfca84f693</target>
+    <point>840.0,990.0</point>
+    <point>551.0,978.0</point>
+    <branch>default</branch>
+  </edge>
   <parameter>
     <name>modelElementKey</name>
     <field>modelElementKey</field>
@@ -1252,6 +1298,11 @@ Leaving Generate ${nodeName} AddFeature </expression>
     <name>modelElementKey</name>
     <field>modelElementKey</field>
     <sib>296012e1-d2e0-4228-9d8c-ede42d53b69c</sib>
+  </parameter>
+  <parameter>
+    <name>modelElementKey</name>
+    <field>ModelElementKey</field>
+    <sib>6f03332a-4534-4880-a00a-4652a040c19c</sib>
   </parameter>
   <values>
     <entry>
@@ -1414,5 +1465,10 @@ Leaving Generate ${nodeName} AddFeature </expression>
     <name>error</name>
     <branch>error</branch>
     <sib>01a08f28-05d8-4f4f-9acd-7ccfca84f693</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>6f03332a-4534-4880-a00a-4652a040c19c</sib>
   </branch>
 </model>
