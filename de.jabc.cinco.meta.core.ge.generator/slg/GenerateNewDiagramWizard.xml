@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>4b8f0479-9813-462d-b7d3-1e7c977bb9c6</id>
   <name>GenerateNewDiagramWizard</name>
-  <changecounter>163</changecounter>
+  <changecounter>171</changecounter>
   <sib>
     <id>4db12997-4cd3-4e00-94ed-f5405dd7aa9b</id>
     <name>PutExpression</name>
@@ -135,8 +135,10 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.WorkbenchException;
 import org.eclipse.ui.ide.IDE;
 
 import $context.importPath$.*;
@@ -181,7 +183,14 @@ public class New$context.fuGraphModelName$DiagramWizard extends Wizard implement
 			
 			try {
 				getContainer().run(false, false, operation);
+	
+				IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow(); 
+				PlatformUI.getWorkbench().showPerspective($context.graphModelName$PerspectiveFactory.ID_PERSPECTIVE, window);
+
 			} catch (InvocationTargetException | InterruptedException e) {
+				e.printStackTrace();
+				return false;
+			} catch (WorkbenchException e) {
 				e.printStackTrace();
 				return false;
 			}

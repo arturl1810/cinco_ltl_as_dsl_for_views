@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>657a94c6-b527-408b-959c-90e7c1d765f1</id>
   <name>Main</name>
-  <changecounter>1871</changecounter>
+  <changecounter>1878</changecounter>
   <sib>
     <id>b1c14399-f7be-4bc0-8225-1aa6db2d05aa</id>
     <name>MacroSIB</name>
@@ -471,7 +471,7 @@
     <label>PrintConsoleMessage</label>
     <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
     <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
-    <position>9.5,858.0</position>
+    <position>909.5,978.0</position>
     <parameter name="error">
       <boolean>false</boolean>
     </parameter>
@@ -748,7 +748,7 @@
     <label>PrintException</label>
     <sib-uid>io-sibs/PrintException</sib-uid>
     <taxonomy>de.jabc.sib.common.io.PrintException</taxonomy>
-    <position>564.5,768.0</position>
+    <position>579.5,768.0</position>
     <parameter name="exception">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -785,9 +785,9 @@
   </sib>
   <edge>
     <source>9cfbfe43-49da-43bc-ab84-a2d94d5253bc</source>
-    <target>42081068-da16-47b9-a333-a51171461174</target>
-    <point>600.0,885.0</point>
-    <point>405.0,885.0</point>
+    <target>5b78039b-f10f-4938-b695-5306f6d3f1e3</target>
+    <point>255.0,896.0</point>
+    <point>255.0,976.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -859,6 +859,54 @@
     <point>605.0,28.0</point>
     <branch>error</branch>
   </edge>
+  <sib>
+    <id>5b78039b-f10f-4938-b695-5306f6d3f1e3</id>
+    <name>GraphSIB_23</name>
+    <label>GeneratePerspectiveView</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>178.5,976.0</position>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>515e192a-491c-479e-8a33-09039d8d3703</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>GeneratePerspectiveView</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>5b78039b-f10f-4938-b695-5306f6d3f1e3</source>
+    <target>42081068-da16-47b9-a333-a51171461174</target>
+    <point>255.0,1005.0</point>
+    <point>500.0,995.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>3c9d4404-49da-4b19-b30e-bc8fcb2a7914</id>
+    <name>PrintException_4</name>
+    <label>PrintException</label>
+    <sib-uid>io-sibs/PrintException</sib-uid>
+    <taxonomy>de.jabc.sib.common.io.PrintException</taxonomy>
+    <position>579.5,1098.0</position>
+    <parameter name="exception">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>exception</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+  </sib>
+  <edge>
+    <source>5b78039b-f10f-4938-b695-5306f6d3f1e3</source>
+    <target>3c9d4404-49da-4b19-b30e-bc8fcb2a7914</target>
+    <point>255.0,1005.0</point>
+    <point>641.0,1113.0</point>
+    <branch>error</branch>
+  </edge>
   <values/>
   <branch>
     <name>error</name>
@@ -879,5 +927,10 @@
     <name>error</name>
     <branch>default</branch>
     <sib>a8d9f0da-3d4f-4800-a816-63d8705e91d5</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>default</branch>
+    <sib>3c9d4404-49da-4b19-b30e-bc8fcb2a7914</sib>
   </branch>
 </model>
