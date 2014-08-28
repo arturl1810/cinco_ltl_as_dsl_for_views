@@ -80,33 +80,13 @@ public class StylesValidator implements IMetaPluginValidator {
 			return new ErrorPair<String, EStructuralFeature>(
 					"Please specify an icon by relative or platform path", annotation.eClass()
 					.getEStructuralFeature("value"));
+		
 		String path = annotation.getValue().get(0);
-		URI iconURI = URI.createURI(path, true);
-		URI resURI = annotation.eResource().getURI();
-		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-		
-		/** Not an platform URI, following check if iconURI is a valid project-relative path **/
-		if (!iconURI.isPlatformResource()) {
-			/** Get the current project **/
-			IProject p = root.getFile(new Path(resURI.toPlatformString(true))).getProject();
-			IFile file = p.getFile(path);
-			if (!file.exists()) {
-				return new ErrorPair<String, EStructuralFeature>(
-						"The specified icon file: \""+path+"\" does not exists.", annotation.eClass()
-						.getEStructuralFeature("value"));
-			}
-		/** iconURI is platform URI. Search the IResource **/
-		} else {
-			IResource res = root.findMember(iconURI.toPlatformString(true));
-			if (res == null) {
-				return new ErrorPair<String, EStructuralFeature>(
-						"The specified icon file: \""+path+"\" does not exists.", annotation.eClass()
-						.getEStructuralFeature("value"));
-			}
-			
-		}
-		
-		return null;
+		String retval = de.jabc.cinco.meta.core.ge.style.model.validator.StylesValidator.checkImagePath(annotation, path);
+		ErrorPair<String, EStructuralFeature> ep = new ErrorPair<String, EStructuralFeature>(
+				retval ,annotation.eClass()
+				.getEStructuralFeature("value"));
+		return (retval.isEmpty()) ? null : ep;
 	}
 
 	private ErrorPair<String, EStructuralFeature> checkNodeContainerStyleAnnotation(ModelElement me, Annotation annot) {

@@ -184,7 +184,7 @@ Image returns Image:
 	'{'
 		'position' position = AbstractPosition
 		'size' size = Size
-		'path('path=STRING')'
+		'path' '('path=STRING')'
 	'}'
 ;
 
@@ -240,7 +240,7 @@ Size returns Size:
 ;
 
 ConnectionDecorator returns ConnectionDecorator:
-	'decorator ' '{'
+	'decorator' '{'
 		('location' '(' location=EDouble ')' &
 		(movable?='movable')? &
 		(decoratorShape=GraphicsAlgorithm | predefinedDecorator=PredefinedDecorator))

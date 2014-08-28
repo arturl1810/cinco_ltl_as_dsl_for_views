@@ -24,6 +24,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
@@ -51,6 +52,11 @@ import org.eclipse.ui.handlers.HandlerUtil;
 import org.eclipse.xtend.typesystem.emf.EcoreUtil2;
 import org.osgi.framework.Bundle;
 
+import style.AbstractShape;
+import style.ContainerShape;
+import style.Image;
+import style.NodeStyle;
+import style.Style;
 import style.Styles;
 import de.jabc.cinco.meta.core.ge.generator.Main;
 import de.jabc.cinco.meta.core.utils.projects.ProjectCreator;
@@ -62,6 +68,7 @@ import de.metaframe.jabc.framework.execution.context.LightweightExecutionContext
 public class Generate extends AbstractHandler {
 
 	private GraphModel gModel;
+	private IProject sourceProject;
 	
 	public Generate() {
 		// TODO Auto-generated constructor stub
@@ -73,80 +80,121 @@ public class Generate extends AbstractHandler {
 		ISelection sel = HandlerUtil.getActiveMenuSelection(event);
 		
 		if (sel instanceof IStructuredSelection && !sel.isEmpty()) {
-		IStructuredSelection ssel = (IStructuredSelection) sel;
-		IFile file = (IFile) ssel.getFirstElement();
-		NullProgressMonitor monitor = new NullProgressMonitor();
-		
-		Resource resource = new ResourceSetImpl().getResource(URI.createPlatformResourceURI(file.getFullPath().toOSString(), true), true);
-	    Styles styles = null;
-	    try {
-	    	gModel = loadGraphModel(resource);
-			generateGenModelCode(file);
+			IStructuredSelection ssel = (IStructuredSelection) sel;
+			IFile file = (IFile) ssel.getFirstElement();
+			sourceProject = file.getProject();
+			NullProgressMonitor monitor = new NullProgressMonitor();
 			
-			for (Annotation a : gModel.getAnnotations()) {
-				if ("style".equals(a.getName())) {
-					String stylePath = a.getValue().get(0);
-					styles = loadStyles(stylePath);
-				}
-			}
-			
-			if (styles == null) {
-				return null;
-			}
-			
-			String mglProjectName = file.getProject().getName();
-			String projectName = gModel.getPackage().concat(".graphiti");
-			String path = ResourcesPlugin.getWorkspace().getRoot().getLocation().append(projectName).toOSString();
-			
-			List<String> srcFolders = getSrcFolders();
-			List<String> cleanDirs = getCleanDirectory();
-		    Set<String> reqBundles = getReqBundles();
-		    reqBundles.add(file.getProject().getName());
-		    IProject p = ProjectCreator.createProject(projectName, srcFolders, null, reqBundles, null, null, monitor, cleanDirs, false);
-		    copyIcons(file.getProject(), p, monitor);
-		    copyIcons("de.jabc.cinco.meta.core.ge.generator", p, monitor);
-		    
+			Resource resource = new ResourceSetImpl().getResource(URI.createPlatformResourceURI(file.getFullPath().toOSString(), true), true);
+		    Styles styles = null;
 		    try {
+		    	gModel = loadGraphModel(resource);
+				generateGenModelCode(file);
+				
+				for (Annotation a : gModel.getAnnotations()) {
+					if ("style".equals(a.getName())) {
+						String stylePath = a.getValue().get(0);
+						styles = loadStyles(stylePath);
+					}
+				}
+				
+				if (styles == null) {
+					return null;
+				}
+				
+				String mglProjectName = file.getProject().getName();
+				String projectName = gModel.getPackage().concat(".graphiti");
+				String path = ResourcesPlugin.getWorkspace().getRoot().getLocation().append(projectName).toOSString();
+				
+				List<String> srcFolders = getSrcFolders();
+				List<String> cleanDirs = getCleanDirectory();
+			    Set<String> reqBundles = getReqBundles();
+			    reqBundles.add(file.getProject().getName());
+			    IProject p = ProjectCreator.createProject(projectName, srcFolders, null, reqBundles, null, null, monitor, cleanDirs, false);
+			    copyIcons(styles, p, monitor);
+	//		    copyIcons(gModel, p, monitor);
+	//		    copyIcons(file.getProject(), p, monitor);
+			    copyIcons("de.jabc.cinco.meta.core.ge.generator", p, monitor);
+			    
+			    try {
+					p.refreshLocal(IResource.DEPTH_INFINITE, monitor);
+				} catch (CoreException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			    String outletPath = p.getFolder("src-gen").getLocation().makeAbsolute().toString();
+			    String customFeatureOutletPath = p.getFolder("src").getLocation().makeAbsolute().toOSString();
+				
+				LightweightExecutionContext context = new DefaultLightweightExecutionContext(null);
+				context.put("graphModel", gModel);
+				context.put("styles", styles);
+				context.put("mglProjectName", mglProjectName);
+				context.put("projectName", projectName);
+				context.put("fullPath", path);
+				context.put("outletPath", outletPath);
+				context.put("customFeatureOutletPath", customFeatureOutletPath);
+				LightweightExecutionEnvironment env = new DefaultLightweightExecutionEnvironment(context);
+				
+				Main tmp = new Main();
+				String result = tmp.execute(env);
+				if (result.equals("error")) {
+					Exception e = (Exception) context.get("exception");
+					throw new ExecutionException(e.getMessage());
+				}
+				
 				p.refreshLocal(IResource.DEPTH_INFINITE, monitor);
+			} catch (IOException e) {
+				e.printStackTrace();
 			} catch (CoreException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		    String outletPath = p.getFolder("src-gen").getLocation().makeAbsolute().toString();
-		    String customFeatureOutletPath = p.getFolder("src").getLocation().makeAbsolute().toOSString();
-			
-			LightweightExecutionContext context = new DefaultLightweightExecutionContext(null);
-			context.put("graphModel", gModel);
-			context.put("styles", styles);
-			context.put("mglProjectName", mglProjectName);
-			context.put("projectName", projectName);
-			context.put("fullPath", path);
-			context.put("outletPath", outletPath);
-			context.put("customFeatureOutletPath", customFeatureOutletPath);
-			LightweightExecutionEnvironment env = new DefaultLightweightExecutionEnvironment(context);
-			
-			Main tmp = new Main();
-			String result = tmp.execute(env);
-			if (result.equals("error")) {
-				Exception e = (Exception) context.get("exception");
-				throw new ExecutionException(e.getMessage());
-			}
-			
-			p.refreshLocal(IResource.DEPTH_INFINITE, monitor);
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (CoreException e) {
-			e.printStackTrace();
 		}
-	}
 		return null;
 	}
 	
 
-	private void copyIcons(IProject source, IProject target, NullProgressMonitor monitor) {
-		IFolder srcIcons = source.getFolder("icons");
+	private void copyIcons(Styles styles, IProject p, NullProgressMonitor monitor) {
+		for (Style s : styles.getStyles()) {
+			if (s instanceof NodeStyle) {
+				copyAbstractShapeImages(((NodeStyle) s).getMainShape(), p, monitor);
+			}
+		}
+		
+	}
+
+	
+	private void copyAbstractShapeImages(AbstractShape s, IProject p, NullProgressMonitor monitor) {
+		if (s instanceof ContainerShape) {
+			for (AbstractShape as : ((ContainerShape) s).getChildren()) {
+				copyAbstractShapeImages(as, p, monitor);
+			}
+		} 
+		if (s instanceof Image) {
+			Image img = (Image) s;
+			copyIcon(img.getPath(), p, monitor);
+		}
+		
+	}
+
+	private void copyIcon(String path, IProject target, NullProgressMonitor monitor) {
+		if (path == null || path.isEmpty())
+			return;
+		IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
+		URI iconURI = URI.createURI(path);
+		IFile iconFile = null;
+		if (!iconURI.isPlatformResource()) {
+			iconFile = sourceProject.getFile(path);
+		} else {
+			IResource res = workspaceRoot.findMember(iconURI.toPlatformString(true));
+			if (res instanceof IFile) {
+				iconFile = (IFile) res;
+			}
+		}
 		try {
-			srcIcons.copy(target.getFolder("icons").getFullPath(), true, monitor);
+			IFolder icons = target.getFolder("icons");
+			if (!icons.exists())
+				icons.create(true, true, monitor);
+			iconFile.copy(target.getFolder("icons").getFullPath().append(iconFile.getName()), true, monitor);
 		} catch (CoreException e) {
 			e.printStackTrace();
 		}

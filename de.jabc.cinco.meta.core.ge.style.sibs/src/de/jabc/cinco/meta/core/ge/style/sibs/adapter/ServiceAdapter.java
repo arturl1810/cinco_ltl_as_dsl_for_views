@@ -205,46 +205,19 @@ public class ServiceAdapter {
 		}
 	}
 
-	public static String loadGraphitiImage(LightweightExecutionEnvironment env,
-			ContextKeyFoundation imagePath, ContextKeyFoundation imageId, ContextKeyFoundation relativePath) {
+	public static String getImageRelativePath(LightweightExecutionEnvironment env,
+			ContextKeyFoundation imagePath, ContextKeyFoundation relativePath) {
 
 		LightweightExecutionContext context = env.getLocalContext();
 		try {
 			String p = (String) context.get(imagePath);
-			String projectName = (String) context.get("projectName");
-			String mglProjectName = (String) context.get("mglProjectName");
-			File file = new File(p);
-			if (file.exists()) {
-				FileInputStream fis = new FileInputStream(file);
-				File trgFile = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName).getFolder("icons").getFile(file.getName()).getLocation().toFile();
-				trgFile.createNewFile();
-				OutputStream os = new FileOutputStream(trgFile);
-				int bt;
-				while ((bt = fis.read()) != -1) {
-					os.write(bt);
-				}
-				fis.close();
-				os.flush();
-				os.close();
-				String id = (file.getName().contains(".") ? file.getName().split("\\.")[0] : file.getName());
-				String relPath = "icons/" + file.getName();
-				context.put(relativePath, relPath);
-				context.put(imageId, id);
-				return Branches.DEFAULT;
-			} else {
-				IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(mglProjectName);
-				IFile iFile = project.getFile(p);
-				if (iFile.exists()) {
-					String id = (iFile.getName().contains(".") ? iFile.getName().split("\\.")[0] : iFile.getName());
-					context.put(imageId, id);
-					context.put(relativePath, p);
-					return Branches.DEFAULT;
-				}
-			}
-			System.out.println("Throwing exception");
-			context.put("exception", new Exception("No file found at given path: " + p));
-			return Branches.ERROR;
-			
+			URI uri = URI.createURI(p);
+			String relPath = null;
+			if (uri.isPlatformResource())
+				relPath = "icons/" + uri.lastSegment();
+			else relPath = p;
+			context.put(relativePath, relPath);
+			return Branches.DEFAULT;
 		} catch (Exception e) {
 			context.put("exception", e);
 			return Branches.ERROR;
