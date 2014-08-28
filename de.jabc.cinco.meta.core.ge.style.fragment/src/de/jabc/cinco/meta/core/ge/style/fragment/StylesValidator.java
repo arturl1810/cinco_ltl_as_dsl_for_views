@@ -13,7 +13,10 @@ import mgl.ModelElement;
 import mgl.Node;
 import mgl.NodeContainer;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.EList;
@@ -77,12 +80,32 @@ public class StylesValidator implements IMetaPluginValidator {
 			return new ErrorPair<String, EStructuralFeature>(
 					"Please specify an icon by relative or platform path", annotation.eClass()
 					.getEStructuralFeature("value"));
-		URI iconURI = URI.createURI(annotation.getValue().get(0), true);
-		if (iconURI.isPlatformResource()) {
-			System.out.println("True");
-		} else System.out.println("false");
+		String path = annotation.getValue().get(0);
+		URI iconURI = URI.createURI(path, true);
 		URI resURI = annotation.eResource().getURI();
-		IProject p = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(resURI.toPlatformString(true))).getProject(); 
+		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+		
+		/** Not an platform URI, following check if iconURI is a valid project-relative path **/
+		if (!iconURI.isPlatformResource()) {
+			/** Get the current project **/
+			IProject p = root.getFile(new Path(resURI.toPlatformString(true))).getProject();
+			IFile file = p.getFile(path);
+			if (!file.exists()) {
+				return new ErrorPair<String, EStructuralFeature>(
+						"The specified icon file: \""+path+"\" does not exists.", annotation.eClass()
+						.getEStructuralFeature("value"));
+			}
+		/** iconURI is platform URI. Search the IResource **/
+		} else {
+			IResource res = root.findMember(iconURI.toPlatformString(true));
+			if (res == null) {
+				return new ErrorPair<String, EStructuralFeature>(
+						"The specified icon file: \""+path+"\" does not exists.", annotation.eClass()
+						.getEStructuralFeature("value"));
+			}
+			
+		}
+		
 		return null;
 	}
 
