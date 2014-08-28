@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>36d9fec6-e1a2-4c6b-8680-956d60534097</id>
   <name>GenerateShape</name>
-  <changecounter>983</changecounter>
+  <changecounter>991</changecounter>
   <sib>
     <id>f901026e-1a69-421b-912a-54b756b8a46b</id>
     <name>GetShapeName</name>
@@ -439,7 +439,7 @@ gaService.setSize($context.peName$, 80, 20);
     <label>GetImagePath</label>
     <sib-uid>style/style/GetImagePath</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.sib.style.GetImagePath</taxonomy>
-    <position>446.0,483.0</position>
+    <position>446.0,468.0</position>
     <parameter name="imageKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -472,9 +472,9 @@ gaService.setSize($context.peName$, 80, 20);
   </edge>
   <edge>
     <source>e108948d-eb49-413c-84f0-49a6a1e5c209</source>
-    <target>d608ddf5-adea-4765-8d73-8e20935dbf84</target>
-    <point>495.0,510.0</point>
-    <point>495.0,600.0</point>
+    <target>8515e10d-f6ca-4658-9d40-47c87b8c7f74</target>
+    <point>477.0,498.6</point>
+    <point>393.0,551.1</point>
     <labelposition>510.0,-2.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -501,9 +501,9 @@ gaService.setSize($context.peName$, 80, 20);
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>$context.fuGraphModelName$GraphitiUtils.getInstance().addImage(&quot;$context.imageId$&quot;, &quot;$context.relativePath$&quot;);
+      <string>$context.fuGraphModelName$GraphitiUtils.getInstance().addImage(&quot;$context.imagePath$&quot;, &quot;$context.relativePath$&quot;);
 Shape $context.meShapeName$ = peService.createShape($context.parentName$, $context.diagramIsParent$);
-Image $context.peName$ = gaService.createImage($context.meShapeName$, &quot;$context.imageId$&quot;);
+Image $context.peName$ = gaService.createImage($context.meShapeName$, &quot;$context.imagePath$&quot;);
 
 $context.peName$.setStretchH(true);
 $context.peName$.setStretchV(true);</string>
@@ -631,51 +631,6 @@ $context.peName$.setStretchV(true);</string>
     <target>ba35a0f2-66e4-4c90-ae60-b67dbc3c8197</target>
     <point>657.0,838.6</point>
     <point>423.0,929.6</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
-  <sib>
-    <id>d608ddf5-adea-4765-8d73-8e20935dbf84</id>
-    <name>LoadGraphitiImage</name>
-    <label>LoadGraphitiImage</label>
-    <sib-uid>ge-util-sibs/LoadGraphitiImage</sib-uid>
-    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.LoadGraphitiImage</taxonomy>
-    <position>430.5,573.0</position>
-    <parameter name="imageId">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>imageId</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="imagePath">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>imagePath</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="relativePath">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>relativePath</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-  </sib>
-  <edge>
-    <source>d608ddf5-adea-4765-8d73-8e20935dbf84</source>
-    <target>f7956a8a-c977-4e0c-80e4-740f7ad542f3</target>
-    <point>495.0,600.0</point>
-    <point>495.0,705.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -1789,6 +1744,41 @@ peService.setPropertyValue($context.peName$, $context.graphModelName$GraphitiUti
     <point>677.0,1203.0</point>
     <branch>default</branch>
   </edge>
+  <sib>
+    <id>8515e10d-f6ca-4658-9d40-47c87b8c7f74</id>
+    <name>GetImageRelativePath</name>
+    <label>GetImageRelativePath</label>
+    <sib-uid>ge-util-sibs/GetImageRelativePath</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.GetImageRelativePath</taxonomy>
+    <position>420.0,558.0</position>
+    <parameter name="imagePath">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>imagePath</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="relativePath">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>relativePath</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>8515e10d-f6ca-4658-9d40-47c87b8c7f74</source>
+    <target>f7956a8a-c977-4e0c-80e4-740f7ad542f3</target>
+    <point>495.0,600.0</point>
+    <point>498.0,703.0</point>
+    <branch>default</branch>
+  </edge>
   <parameter>
     <name>modelElementKey</name>
     <field>nodeKey</field>
@@ -1924,11 +1914,6 @@ peService.setPropertyValue($context.peName$, $context.graphModelName$GraphitiUti
   <branch>
     <name>error</name>
     <branch>error</branch>
-    <sib>d608ddf5-adea-4765-8d73-8e20935dbf84</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
     <sib>d8603f72-3d21-46cb-9c35-79fcc1b83323</sib>
   </branch>
   <branch>
@@ -2060,5 +2045,10 @@ peService.setPropertyValue($context.peName$, $context.graphModelName$GraphitiUti
     <name>error</name>
     <branch>error</branch>
     <sib>2cd7f43f-46f3-4f88-b5c8-e671d90e7aec</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>8515e10d-f6ca-4658-9d40-47c87b8c7f74</sib>
   </branch>
 </model>

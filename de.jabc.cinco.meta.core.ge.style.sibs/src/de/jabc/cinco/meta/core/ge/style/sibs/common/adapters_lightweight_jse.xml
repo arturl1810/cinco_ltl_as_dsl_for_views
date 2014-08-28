@@ -155,7 +155,7 @@
 	</serviceAdapter>
 	
 	<serviceAdapter uid="ge-util-sibs/GetImageRelativePath">
-		<service>loadGraphitiImage</service>
+		<service>getImageRelativePath</service>
 		<arguments>
 			<argument name="imagePath" />
 			<argument name="relativePath" />
