@@ -2,16 +2,20 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: de.jabc.cinco.meta.core.ge.style.model;singleton:=true
-Bundle-Version: 0.4.0
+Bundle-Version: 0.5.0.qualifier
 Bundle-ClassPath: .
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
-Export-Package: de.jabc.cinco.meta.core.ge.style.model.appearance;uses:=style,
- de.jabc.cinco.meta.core.ge.style.model.customfeature;uses:="org.eclipse.graphiti.features.context,org.eclipse.graphiti.features.custom",
- style;uses:="org.eclipse.emf.ecore,org.eclipse.emf.common.util",
- style.impl;uses:="org.eclipse.emf.ecore,  style,  org.eclipse.emf.common.util,  org.eclipse.emf.ecore.impl,  org.eclipse.emf.common.notify",
- style.util;uses:="org.eclipse.emf.ecore.util,  org.eclipse.emf.ecore,  style,  org.eclipse.emf.common.notify.impl,  org.eclipse.emf.common.notify"
+Export-Package: de.jabc.cinco.meta.core.ge.style.model.appearance;uses
+ :=style,de.jabc.cinco.meta.core.ge.style.model.customfeature;uses:="o
+ rg.eclipse.graphiti.features.context,org.eclipse.graphiti.features.cu
+ stom",style;uses:="org.eclipse.emf.ecore,org.eclipse.emf.common.util"
+ ,style.impl;uses:="org.eclipse.emf.ecore,  style,  org.eclipse.emf.co
+ mmon.util,  org.eclipse.emf.ecore.impl,  org.eclipse.emf.common.notif
+ y",style.util;uses:="org.eclipse.emf.ecore.util,  org.eclipse.emf.eco
+ re,  style,  org.eclipse.emf.common.notify.impl,  org.eclipse.emf.com
+ mon.notify"
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport,
  org.eclipse.graphiti;visibility:=reexport;bundle-version="0.10.1",
