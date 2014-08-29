@@ -53,7 +53,12 @@ import org.eclipse.xtend.typesystem.emf.EcoreUtil2;
 import org.osgi.framework.Bundle;
 
 import style.AbstractShape;
+import style.Appearance;
+import style.ConnectionDecorator;
 import style.ContainerShape;
+import style.DecoratorShapes;
+import style.EdgeStyle;
+import style.GraphicsAlgorithm;
 import style.Image;
 import style.NodeStyle;
 import style.Style;
@@ -111,9 +116,9 @@ public class Generate extends AbstractHandler {
 			    Set<String> reqBundles = getReqBundles();
 			    reqBundles.add(file.getProject().getName());
 			    IProject p = ProjectCreator.createProject(projectName, srcFolders, null, reqBundles, null, null, monitor, cleanDirs, false);
+			    createIconsFolder(p, monitor);
 			    copyIcons(styles, p, monitor);
-	//		    copyIcons(gModel, p, monitor);
-	//		    copyIcons(file.getProject(), p, monitor);
+//			    copyIcons(gModel, p, monitor);
 			    copyIcons("de.jabc.cinco.meta.core.ge.generator", p, monitor);
 			    
 			    try {
@@ -152,17 +157,52 @@ public class Generate extends AbstractHandler {
 		return null;
 	}
 	
+	private void createIconsFolder(IProject p, NullProgressMonitor monitor) {
+		IFolder icons = p.getFolder("icons");
+		if (!icons.exists()) {
+			try {
+				icons.create(true, true, monitor);
+			} catch (CoreException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
 
+	/**
+	 * This method copies all images that are defined in the {@link styles}
+	 * @param styles The processed Styles object
+	 * @param p The target project. Usually the Graphiti project
+	 * @param monitor Progress monitor
+	 */
 	private void copyIcons(Styles styles, IProject p, NullProgressMonitor monitor) {
 		for (Style s : styles.getStyles()) {
 			if (s instanceof NodeStyle) {
 				copyAbstractShapeImages(((NodeStyle) s).getMainShape(), p, monitor);
 			}
+			
+			if (s instanceof EdgeStyle) {
+				copyEdgeDecoratorImages(((EdgeStyle) s).getDecorator(), p, monitor);
+			}
+		}
+		
+		for (Appearance ap : styles.getAppearances()) {
+			copyImage(ap.getImagePath(), p, monitor);
 		}
 		
 	}
 
 	
+	private void copyEdgeDecoratorImages(List<ConnectionDecorator> decorators, IProject p, NullProgressMonitor monitor) {
+		for (ConnectionDecorator cd : decorators) {
+			GraphicsAlgorithm shape = cd.getDecoratorShape();
+			if (shape instanceof Image) {
+				Image img = (Image) shape;
+				copyImage(img.getPath(), p, monitor);
+			}
+		}
+	}
+
 	private void copyAbstractShapeImages(AbstractShape s, IProject p, NullProgressMonitor monitor) {
 		if (s instanceof ContainerShape) {
 			for (AbstractShape as : ((ContainerShape) s).getChildren()) {
@@ -171,12 +211,12 @@ public class Generate extends AbstractHandler {
 		} 
 		if (s instanceof Image) {
 			Image img = (Image) s;
-			copyIcon(img.getPath(), p, monitor);
+			copyImage(img.getPath(), p, monitor);
 		}
 		
 	}
 
-	private void copyIcon(String path, IProject target, NullProgressMonitor monitor) {
+	private void copyImage(String path, IProject target, NullProgressMonitor monitor) {
 		if (path == null || path.isEmpty())
 			return;
 		IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();

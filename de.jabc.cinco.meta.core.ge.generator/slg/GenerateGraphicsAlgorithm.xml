@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>51140446-1347-4939-8c10-4439f751b7c3</id>
   <name>GenerateGraphicsAlgorithm</name>
-  <changecounter>249</changecounter>
+  <changecounter>300</changecounter>
   <sib>
     <id>dc5161c1-5eca-4932-ba1b-f2c5daa50852</id>
     <name>SwitchGraphicsAlgorithm</name>
@@ -128,7 +128,7 @@ peService.setPropertyValue($context.peName$, $context.graphModelName$GraphitiUti
     <label>MovableDecorator?</label>
     <sib-uid>basic-sibs/EvaluateBoolean</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.EvaluateBoolean</taxonomy>
-    <position>594.5,978.0</position>
+    <position>684.5,963.0</position>
     <parameter name="bool">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -184,7 +184,7 @@ peService.setPropertyValue($context.peName$, $context.graphModelName$GraphitiUti
     <label>CheckVariable</label>
     <sib-uid>basic-sibs/CheckVariable</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.CheckVariable</taxonomy>
-    <position>610.0,1113.0</position>
+    <position>700.0,1098.0</position>
     <parameter name="variable">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -202,10 +202,11 @@ peService.setPropertyValue($context.peName$, $context.graphModelName$GraphitiUti
   <edge>
     <source>dbba3b03-cc78-4b34-825f-5ac7e0929931</source>
     <target>b8c1a711-3ada-49ef-9ee0-a8f822b7bb18</target>
-    <point>660.0,975.0</point>
-    <point>660.0,1110.0</point>
+    <point>750.0,990.0</point>
+    <point>750.0,1125.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>false</branch>
+    <branch>true</branch>
   </edge>
   <edge>
     <source>5ac12e21-be6e-4a33-9e3a-fe9d2107b68f</source>
@@ -221,7 +222,7 @@ peService.setPropertyValue($context.peName$, $context.graphModelName$GraphitiUti
     <label>SetSize</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>632.0,1233.0</position>
+    <position>722.0,1218.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -247,8 +248,8 @@ peService.setPropertyValue($context.peName$, $context.graphModelName$GraphitiUti
   <edge>
     <source>b8c1a711-3ada-49ef-9ee0-a8f822b7bb18</source>
     <target>d53498ca-3372-431e-b84f-5c9e3c6a7637</target>
-    <point>660.0,1110.0</point>
-    <point>660.0,1245.0</point>
+    <point>750.0,1125.0</point>
+    <point>750.0,1245.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>true</branch>
   </edge>
@@ -531,7 +532,7 @@ peService.setPropertyValue($context.peName$, $context.graphModelName$GraphitiUti
     <label>appearance?</label>
     <sib-uid>basic-sibs/CheckVariable</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.CheckVariable</taxonomy>
-    <position>615.0,813.0</position>
+    <position>705.0,798.0</position>
     <parameter name="variable">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -549,8 +550,8 @@ peService.setPropertyValue($context.peName$, $context.graphModelName$GraphitiUti
   <edge>
     <source>c6620719-1b3d-4e14-ab71-27594fdf58ab</source>
     <target>dbba3b03-cc78-4b34-825f-5ac7e0929931</target>
-    <point>660.0,840.0</point>
-    <point>660.0,975.0</point>
+    <point>750.0,825.0</point>
+    <point>750.0,990.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>false</branch>
   </edge>
@@ -560,7 +561,7 @@ peService.setPropertyValue($context.peName$, $context.graphModelName$GraphitiUti
     <label>appearanceContent</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>757.5,813.0</position>
+    <position>847.5,798.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -585,15 +586,17 @@ peService.setPropertyValue($context.peName$, $context.graphModelName$GraphitiUti
   <edge>
     <source>c6620719-1b3d-4e14-ab71-27594fdf58ab</source>
     <target>eef849e7-3113-46ef-8e3e-07c412fef42a</target>
-    <point>660.0,840.0</point>
-    <point>832.0,826.0</point>
+    <point>750.0,825.0</point>
+    <point>915.0,825.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>true</branch>
   </edge>
   <edge>
     <source>eef849e7-3113-46ef-8e3e-07c412fef42a</source>
     <target>dbba3b03-cc78-4b34-825f-5ac7e0929931</target>
-    <point>825.0,840.0</point>
-    <point>656.0,964.0</point>
+    <point>915.0,825.0</point>
+    <point>750.0,990.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
@@ -1241,6 +1244,158 @@ $context.setStyleContent$</string>
     <point>659.0,822.0</point>
     <branch>default</branch>
   </edge>
+  <sib>
+    <id>287b8160-3078-4ae5-b5ff-bed7b6eb0de0</id>
+    <name>GetImagePath</name>
+    <label>GetImagePath</label>
+    <sib-uid>style/style/GetImagePath</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.ge.sib.style.GetImagePath</taxonomy>
+    <position>626.0,273.0</position>
+    <parameter name="imageKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>currentShape</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="imagepathKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>imagePath</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>5fb09f37-f34c-42e8-8dc0-a59e178987f7</id>
+    <name>GetImageRelativePath</name>
+    <label>GetImageRelativePath</label>
+    <sib-uid>ge-util-sibs/GetImageRelativePath</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.GetImageRelativePath</taxonomy>
+    <position>600.0,393.0</position>
+    <parameter name="imagePath">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>imagePath</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="relativePath">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>relativePath</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>8d160488-21b6-4e93-99b4-505a5d0df081</id>
+    <name>RunStringTemplate_6</name>
+    <label>GenImage</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>639.0,513.0</position>
+    <parameter name="append">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>gaRepContent</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>$context.fuGraphModelName$GraphitiUtils.getInstance().addImage(&quot;$context.imagePath$&quot;, &quot;$context.relativePath$&quot;);
+Image $context.peName$ = gaService.createImage(gaContainer, &quot;$context.imagePath$&quot;);
+
+$context.setStyleContent$
+</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>8383dc27-3703-4b2a-8281-641044ba3fe4</source>
+    <target>287b8160-3078-4ae5-b5ff-bed7b6eb0de0</target>
+    <point>675.0,150.0</point>
+    <point>666.0,295.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>287b8160-3078-4ae5-b5ff-bed7b6eb0de0</source>
+    <target>5fb09f37-f34c-42e8-8dc0-a59e178987f7</target>
+    <point>675.0,300.0</point>
+    <point>679.0,364.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>5fb09f37-f34c-42e8-8dc0-a59e178987f7</source>
+    <target>8d160488-21b6-4e93-99b4-505a5d0df081</target>
+    <point>675.0,390.0</point>
+    <point>666.0,496.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>8d160488-21b6-4e93-99b4-505a5d0df081</source>
+    <target>b5db32e0-99b2-436f-bd28-1266421a4378</target>
+    <point>658.6363636363636,579.0</point>
+    <point>603.0,634.8</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>b5db32e0-99b2-436f-bd28-1266421a4378</id>
+    <name>GetImageSize</name>
+    <label>GetImageSize</label>
+    <sib-uid>style/style/GetImageSize</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.sibs.style.sib.style.GetImageSize</taxonomy>
+    <position>628.5,663.0</position>
+    <parameter name="imageKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>graphicsAlgorithm</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="imagesizeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>size</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>b5db32e0-99b2-436f-bd28-1266421a4378</source>
+    <target>c6620719-1b3d-4e14-ab71-27594fdf58ab</target>
+    <point>690.0,675.0</point>
+    <point>746.0,809.0</point>
+    <branch>default</branch>
+  </edge>
   <parameter>
     <name>graphicsAlgorithmKey</name>
     <field>eObjectKey</field>
@@ -1270,6 +1425,11 @@ $context.setStyleContent$</string>
     <name>graphicsAlgorithmKey</name>
     <field>rectangleKey</field>
     <sib>25654319-910f-44b4-a97e-7d2b084c4ba9</sib>
+  </parameter>
+  <parameter>
+    <name>graphicsAlgorithmKey</name>
+    <field>imageKey</field>
+    <sib>b5db32e0-99b2-436f-bd28-1266421a4378</sib>
   </parameter>
   <values>
     <entry>
@@ -1301,11 +1461,6 @@ $context.setStyleContent$</string>
   <branch>
     <name>error</name>
     <branch>error</branch>
-    <sib>dbba3b03-cc78-4b34-825f-5ac7e0929931</sib>
-  </branch>
-  <branch>
-    <name>default</name>
-    <branch>true</branch>
     <sib>dbba3b03-cc78-4b34-825f-5ac7e0929931</sib>
   </branch>
   <branch>
@@ -1357,11 +1512,6 @@ $context.setStyleContent$</string>
     <name>error</name>
     <branch>error</branch>
     <sib>53fd594c-1014-43c6-991e-07058b360619</sib>
-  </branch>
-  <branch>
-    <name>default</name>
-    <branch>false</branch>
-    <sib>b8c1a711-3ada-49ef-9ee0-a8f822b7bb18</sib>
   </branch>
   <branch>
     <name>error</name>
@@ -1452,5 +1602,30 @@ $context.setStyleContent$</string>
     <name>error</name>
     <branch>error</branch>
     <sib>cf6eea45-d447-413d-83ed-fcbf5ac5070a</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>287b8160-3078-4ae5-b5ff-bed7b6eb0de0</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>5fb09f37-f34c-42e8-8dc0-a59e178987f7</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>8d160488-21b6-4e93-99b4-505a5d0df081</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>b5db32e0-99b2-436f-bd28-1266421a4378</sib>
+  </branch>
+  <branch>
+    <name>default</name>
+    <branch>false</branch>
+    <sib>b8c1a711-3ada-49ef-9ee0-a8f822b7bb18</sib>
   </branch>
 </model>
