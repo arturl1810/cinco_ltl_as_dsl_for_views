@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>36d9fec6-e1a2-4c6b-8680-956d60534097</id>
   <name>GenerateShape</name>
-  <changecounter>991</changecounter>
+  <changecounter>996</changecounter>
   <sib>
     <id>f901026e-1a69-421b-912a-54b756b8a46b</id>
     <name>GetShapeName</name>
@@ -501,9 +501,9 @@ gaService.setSize($context.peName$, 80, 20);
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>$context.fuGraphModelName$GraphitiUtils.getInstance().addImage(&quot;$context.imagePath$&quot;, &quot;$context.relativePath$&quot;);
+      <string>//$context.fuGraphModelName$GraphitiUtils.getInstance().addImage(&quot;$context.imagePath$&quot;, &quot;$context.relativePath$&quot;);
 Shape $context.meShapeName$ = peService.createShape($context.parentName$, $context.diagramIsParent$);
-Image $context.peName$ = gaService.createImage($context.meShapeName$, &quot;$context.imagePath$&quot;);
+Image $context.peName$ = gaService.createImage($context.meShapeName$, $context.graphModelName$GraphitiUtils.getInstance().getImageId(&quot;$context.relativePath$&quot;));
 
 $context.peName$.setStretchH(true);
 $context.peName$.setStretchV(true);</string>
