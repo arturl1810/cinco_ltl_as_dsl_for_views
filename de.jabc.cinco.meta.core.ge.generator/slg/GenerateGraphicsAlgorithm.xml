@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>51140446-1347-4939-8c10-4439f751b7c3</id>
   <name>GenerateGraphicsAlgorithm</name>
-  <changecounter>300</changecounter>
+  <changecounter>303</changecounter>
   <sib>
     <id>dc5161c1-5eca-4932-ba1b-f2c5daa50852</id>
     <name>SwitchGraphicsAlgorithm</name>
@@ -1323,8 +1323,8 @@ $context.setStyleContent$</string>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>$context.fuGraphModelName$GraphitiUtils.getInstance().addImage(&quot;$context.imagePath$&quot;, &quot;$context.relativePath$&quot;);
-Image $context.peName$ = gaService.createImage(gaContainer, &quot;$context.imagePath$&quot;);
+      <string>String imageId = $context.fuGraphModelName$GraphitiUtils.getInstance().getImageId(&quot;$context.relativePath$&quot;);
+Image $context.peName$ = gaService.createImage(gaContainer, imageId);
 
 $context.setStyleContent$
 </string>
