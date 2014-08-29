@@ -62,6 +62,16 @@
 			<version>4.4</version>
 			<scope>test</scope>
 		</dependency>
+    <dependency>
+         <groupId>de.jabc.cinco</groupId>
+         <artifactId>de.jabc.cinco.meta.core.mgl.model</artifactId>
+         <version>0.4.0</version>
+    </dependency>
+    <dependency>
+    	<groupId>de.jabc.cinco</groupId>
+	  	<artifactId>de.jabc.cinco.meta.core.adapters</artifactId>
+  		<version>0.4.0</version>
+    </dependency>
 	</dependencies>
 
 	<build>
@@ -81,6 +91,7 @@
    						<configuration>
      						<sources>
        							<source>src-gen</source>
+       							<source>src</source>
      						</sources>
    						</configuration>
  					</execution>
@@ -94,6 +105,9 @@
      						<resources>
        							<resource>
          							<directory>${basedir}/src-gen/resources</directory>
+       							</resource>
+       							<resource>
+         							<directory>${basedir}/src/resources</directory>
        							</resource>
      						</resources>
    						</configuration>
@@ -187,6 +201,7 @@
             		<configuration>
                 		<sources>
                     	<source>src-gen</source>
+                    	<source>src</source>
                 	</sources>
             		</configuration>
 				</configuration>

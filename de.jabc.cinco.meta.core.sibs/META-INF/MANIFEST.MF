@@ -7,13 +7,17 @@ Export-Package: de.jabc.cinco.meta.core.sibs.graphmodel.adapter,
  de.jabc.cinco.meta.core.sibs.graphmodel.adapter.graphmodel,
  de.jabc.cinco.meta.core.sibs.graphmodel.sib,
  de.jabc.cinco.meta.core.sibs.graphmodel.sib.graphmodel,
- de.jabc.cinco.meta.core.sibs.mgl.adapter,
  de.jabc.cinco.meta.core.sibs.mgl.adapter.mgl,
  de.jabc.cinco.meta.core.sibs.mgl.sib,
- de.jabc.cinco.meta.core.sibs.mgl.sib.mgl
+ de.jabc.cinco.meta.core.sibs.mgl.sib.mgl,
+ de.jabc.cinco.meta.core.sibs.style.adapter,
+ de.jabc.cinco.meta.core.sibs.style.adapter.style,
+ de.jabc.cinco.meta.core.sibs.style.sib,
+ de.jabc.cinco.meta.core.sibs.style.sib.style
 Require-Bundle: de.jabc.cinco.meta.core.ge.style.model,
  org.eclipse.core.resources,
  de.jabc.cinco.meta.core.mgl.model,
  de.jabc.cinco.meta.libraries,
  org.eclipse.emf.ecore.xmi,
- org.eclipse.xtend.typesystem.emf
+ org.eclipse.xtend.typesystem.emf,
+ de.jabc.cinco.meta.core.adapters
