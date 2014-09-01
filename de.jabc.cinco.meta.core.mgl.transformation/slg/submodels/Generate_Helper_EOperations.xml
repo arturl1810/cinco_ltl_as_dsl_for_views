@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>d5531c11-ffc2-41e6-b1fd-4f08e1327b1f</id>
   <name>Generate Helper EOperations</name>
-  <changecounter>57</changecounter>
+  <changecounter>69</changecounter>
   <sib>
     <id>2db6fa19-1315-4022-abef-abc4426dcce8</id>
     <name>IterateGraphModelNodeContainers</name>
@@ -344,88 +344,6 @@
     <branch>exit</branch>
   </edge>
   <sib>
-    <id>ff676fe2-5188-4fc1-8809-a01b03c2d51e</id>
-    <name>IterateGraphModelNodes_1</name>
-    <label>IterateGraphModelEdges</label>
-    <sib-uid>mgl/mgl/IterateGraphModelEdges</sib-uid>
-    <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.IterateGraphModelEdges</taxonomy>
-    <position>864.5,18.0</position>
-    <parameter name="elementKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>edge</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>false</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="graphModelKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>graphModel</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="iteratorKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>graphModelNodedadsiteratorKey</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>false</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>error</finalbranches>
-    <finalbranches>exit</finalbranches>
-    <finalbranches>next</finalbranches>
-    <finalbranches>noElements</finalbranches>
-  </sib>
-  <sib>
-    <id>37970caf-c3d8-4a2f-969e-cee60d256ed2</id>
-    <name>GraphSIB_5</name>
-    <label>Create getIncoming And getOutgoing EOperations</label>
-    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
-    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>780.5,196.0</position>
-    <parameter name="edgeKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>edge</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>error</finalbranches>
-    <finalbranches>exit</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>67ec4719-815b-41e1-9394-79b210008edc</string>
-    </userobject>
-    <userobject key="ABC$GRAPHSIB$MODELNAME">
-      <string>Create getIncoming And getOutgoing EOperations</string>
-    </userobject>
-  </sib>
-  <edge>
-    <source>ff676fe2-5188-4fc1-8809-a01b03c2d51e</source>
-    <target>37970caf-c3d8-4a2f-969e-cee60d256ed2</target>
-    <point>945.0,45.0</point>
-    <point>945.0,225.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>next</branch>
-  </edge>
-  <edge>
-    <source>37970caf-c3d8-4a2f-969e-cee60d256ed2</source>
-    <target>ff676fe2-5188-4fc1-8809-a01b03c2d51e</target>
-    <spline/>
-    <point>945.0,225.0</point>
-    <point>1005.0,105.0</point>
-    <point>945.0,45.0</point>
-    <labelposition>452.63556807110297,41.97745603322647</labelposition>
-    <branch>exit</branch>
-  </edge>
-  <sib>
     <id>13e914c0-ea14-456b-b47f-833b913b2632</id>
     <name>GetGraphicalElementContainmentType</name>
     <label>GetGraphicalElementContainmentType</label>
@@ -526,16 +444,17 @@
   </edge>
   <edge>
     <source>2abff8b4-6d9b-434b-9358-6c0ce5d85bed</source>
-    <target>ff676fe2-5188-4fc1-8809-a01b03c2d51e</target>
-    <point>750.0,45.0</point>
-    <point>909.0,41.0</point>
+    <target>6daa86ee-06b7-42f6-8889-426d4e191445</target>
+    <point>768.0,40.8</point>
+    <point>1272.0,166.8</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
-    <source>ff676fe2-5188-4fc1-8809-a01b03c2d51e</source>
-    <target>1950453b-86df-4810-8d5a-2d53eac2abc0</target>
-    <point>963.0,36.469565217391306</point>
-    <point>1270.0,36.52173913043478</point>
+    <source>6daa86ee-06b7-42f6-8889-426d4e191445</source>
+    <target>234442d1-ace5-4234-aa8e-4c837892e44f</target>
+    <point>978.0,44.7</point>
+    <point>1302.0,193.2</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>exit</branch>
     <branch>noElements</branch>
@@ -546,7 +465,7 @@
     <label>Specialize GetContainer Methods</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>1108.0,16.0</position>
+    <position>1408.0,16.0</position>
     <parameter name="graphModelKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1240,7 +1159,7 @@
     <label>Specialize GetTargetElement GetSourceElementMethods</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>1425.0,16.0</position>
+    <position>1680.0,16.0</position>
     <parameter name="graphModelKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1262,19 +1181,249 @@
   <edge>
     <source>1950453b-86df-4810-8d5a-2d53eac2abc0</source>
     <target>17f6b916-d4b5-4ac1-b540-9c3741b893ba</target>
+    <point>1470.0,45.0</point>
+    <point>1860.0,45.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>exit</branch>
+  </edge>
+  <sib>
+    <id>6daa86ee-06b7-42f6-8889-426d4e191445</id>
+    <name>IterateGraphModelNodes_4</name>
+    <label>IterateGraphModelNodes</label>
+    <sib-uid>mgl/mgl/IterateGraphModelNodes</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.IterateGraphModelNodes</taxonomy>
+    <position>876.0,18.0</position>
+    <parameter name="elementKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>graphicalModelElement</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>false</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="graphModelKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>graphModel</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="iteratorKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>iteratorKeygraphicalModelElementsd</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>false</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>exit</finalbranches>
+    <finalbranches>next</finalbranches>
+    <finalbranches>noElements</finalbranches>
+  </sib>
+  <sib>
+    <id>258616dd-ca3e-41fa-9656-f76702d3d686</id>
+    <name>GraphSIB_7</name>
+    <label>Create GetPredecessor Methods</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>852.5,151.0</position>
+    <parameter name="graphicalModelElementKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>graphicalModelElement</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>exit</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>f555a538-7d72-4511-9276-f914744a55db</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Create GetPredecessor Methods</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>6daa86ee-06b7-42f6-8889-426d4e191445</source>
+    <target>258616dd-ca3e-41fa-9656-f76702d3d686</target>
+    <point>960.0,45.0</point>
+    <point>949.0,139.0</point>
+    <branch>next</branch>
+  </edge>
+  <sib>
+    <id>234442d1-ace5-4234-aa8e-4c837892e44f</id>
+    <name>IterateGraphModelNodeContainers_1</name>
+    <label>IterateGraphModelNodeContainers</label>
+    <sib-uid>mgl/mgl/IterateGraphModelNodeContainers</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.IterateGraphModelNodeContainers</taxonomy>
+    <position>1099.5,18.0</position>
+    <parameter name="elementKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>graphicalModelElement</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>false</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="graphModelKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>graphModel</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="iteratorKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>iteratorKeygraphicalModelElementfd</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>false</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>exit</finalbranches>
+    <finalbranches>next</finalbranches>
+    <finalbranches>noElements</finalbranches>
+  </sib>
+  <sib>
+    <id>ff2d394e-e6f4-4746-8864-0a8b7679d4d3</id>
+    <name>GraphSIB_9</name>
+    <label>Create GetPredecessor Methods</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>1107.5,151.0</position>
+    <parameter name="graphicalModelElementKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>graphicalModelElement</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>exit</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>f555a538-7d72-4511-9276-f914744a55db</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Create GetPredecessor Methods</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>234442d1-ace5-4234-aa8e-4c837892e44f</source>
+    <target>ff2d394e-e6f4-4746-8864-0a8b7679d4d3</target>
     <point>1215.0,45.0</point>
-    <point>1604.0,24.0</point>
+    <point>1215.0,175.0</point>
+    <branch>next</branch>
+  </edge>
+  <edge>
+    <source>234442d1-ace5-4234-aa8e-4c837892e44f</source>
+    <target>1950453b-86df-4810-8d5a-2d53eac2abc0</target>
+    <point>1215.0,45.0</point>
+    <point>1467.0,70.0</point>
+    <branch>exit</branch>
+    <branch>noElements</branch>
+  </edge>
+  <sib>
+    <id>eb8417eb-db8d-40a8-865d-18435726db34</id>
+    <name>GraphSIB_10</name>
+    <label>Create GetSuccessors Methods</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>856.0,256.0</position>
+    <parameter name="graphicalModelElementKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>graphicalModelElement</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>exit</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>e26f46a3-7467-4773-8abb-108a610034dd</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Create GetSuccessors Methods</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>258616dd-ca3e-41fa-9656-f76702d3d686</source>
+    <target>eb8417eb-db8d-40a8-865d-18435726db34</target>
+    <point>960.0,180.0</point>
+    <point>949.0,283.0</point>
+    <branch>exit</branch>
+  </edge>
+  <edge>
+    <source>eb8417eb-db8d-40a8-865d-18435726db34</source>
+    <target>6daa86ee-06b7-42f6-8889-426d4e191445</target>
+    <spline/>
+    <point>940.0,259.2</point>
+    <point>810.0,150.0</point>
+    <point>942.0,49.68000000000001</point>
+    <labelposition>538.9923971389197,-133.08404762367533</labelposition>
+    <branch>exit</branch>
+  </edge>
+  <sib>
+    <id>72d56316-c65a-4018-8e1e-320ed609614a</id>
+    <name>GraphSIB_11</name>
+    <label>Create GetSuccessors Methods</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>1111.0,271.0</position>
+    <parameter name="graphicalModelElementKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>graphicalModelElement</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>exit</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>e26f46a3-7467-4773-8abb-108a610034dd</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Create GetSuccessors Methods</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>ff2d394e-e6f4-4746-8864-0a8b7679d4d3</source>
+    <target>72d56316-c65a-4018-8e1e-320ed609614a</target>
+    <point>1215.0,180.0</point>
+    <point>1209.0,288.0</point>
+    <branch>exit</branch>
+  </edge>
+  <edge>
+    <source>72d56316-c65a-4018-8e1e-320ed609614a</source>
+    <target>234442d1-ace5-4234-aa8e-4c837892e44f</target>
+    <spline/>
+    <point>1195.952380952381,271.0</point>
+    <point>1095.0,165.0</point>
+    <point>1198.2558139534883,54.0</point>
+    <labelposition>539.0,-104.0</labelposition>
     <branch>exit</branch>
   </edge>
   <parameter>
     <name>graphModelKey</name>
     <field>graphModelKey</field>
     <sib>2db6fa19-1315-4022-abef-abc4426dcce8</sib>
-  </parameter>
-  <parameter>
-    <name>graphModelKey</name>
-    <field>graphModelKey</field>
-    <sib>ff676fe2-5188-4fc1-8809-a01b03c2d51e</sib>
   </parameter>
   <parameter>
     <name>graphModelKey</name>
@@ -1342,16 +1491,6 @@
     <name>error</name>
     <branch>error</branch>
     <sib>2db6fa19-1315-4022-abef-abc4426dcce8</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>ff676fe2-5188-4fc1-8809-a01b03c2d51e</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>37970caf-c3d8-4a2f-969e-cee60d256ed2</sib>
   </branch>
   <branch>
     <name>error</name>
@@ -1457,5 +1596,35 @@
     <name>exit</name>
     <branch>exit</branch>
     <sib>17f6b916-d4b5-4ac1-b540-9c3741b893ba</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>6daa86ee-06b7-42f6-8889-426d4e191445</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>258616dd-ca3e-41fa-9656-f76702d3d686</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>234442d1-ace5-4234-aa8e-4c837892e44f</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>ff2d394e-e6f4-4746-8864-0a8b7679d4d3</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>eb8417eb-db8d-40a8-865d-18435726db34</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>72d56316-c65a-4018-8e1e-320ed609614a</sib>
   </branch>
 </model>

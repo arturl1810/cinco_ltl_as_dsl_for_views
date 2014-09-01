@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>afcc5a05-5bd1-4a78-8e95-bc92ce74d9ca</id>
   <name>Evaluate Annotation</name>
-  <changecounter>39</changecounter>
+  <changecounter>41</changecounter>
   <sib>
     <id>e87f585d-2c81-4b1e-a2da-b3ee435377a3</id>
     <name>GetElement_1</name>
@@ -512,8 +512,9 @@
   <edge>
     <source>ef6c78e9-82c3-4189-b1ed-ee49cd9ee9f2</source>
     <target>25538cf3-8675-41be-96e3-41c79ed9afd0</target>
-    <point>495.0,420.0</point>
-    <point>589.0,160.0</point>
+    <point>630.0,408.0</point>
+    <point>630.0,159.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>true</branch>
   </edge>
   <sib>

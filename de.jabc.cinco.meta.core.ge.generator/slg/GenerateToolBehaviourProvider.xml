@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>6830c0f3-7532-49ad-ad67-7fb466c9d0a9</id>
   <name>GenerateToolBehaviourProvider</name>
-  <changecounter>92</changecounter>
+  <changecounter>108</changecounter>
   <sib>
     <id>c8e21300-66b5-43fa-a031-ae9d0f22cbf2</id>
     <name>PutExpression</name>
@@ -102,8 +102,10 @@
 
 import org.eclipse.graphiti.dt.IDiagramTypeProvider;
 import org.eclipse.graphiti.features.ICreateConnectionFeature;
+import org.eclipse.graphiti.features.context.IDoubleClickContext;
 import org.eclipse.graphiti.features.context.IPictogramElementContext;
 import org.eclipse.graphiti.features.context.impl.CreateConnectionContext;
+import org.eclipse.graphiti.features.custom.ICustomFeature;
 import org.eclipse.graphiti.mm.pictograms.Anchor;
 import org.eclipse.graphiti.mm.pictograms.AnchorContainer;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
@@ -113,6 +115,8 @@ import org.eclipse.graphiti.tb.DefaultToolBehaviorProvider;
 import org.eclipse.graphiti.tb.IContextButtonPadData;
 
 $context.getImportsContent$
+
+import $context.importPath$.*;
 
 public class $context.fuGraphModelName$ToolBehaviourProvider extends DefaultToolBehaviorProvider {
 
@@ -168,6 +172,17 @@ public class $context.fuGraphModelName$ToolBehaviourProvider extends DefaultTool
 		else return o2 == null;
 	}
 	
+	@Override
+	public ICustomFeature getDoubleClickFeature(IDoubleClickContext context) {
+		PictogramElement[] pes = context.getPictogramElements();
+		if (! (pes != null &amp;&amp; pes.length == 1 &amp;&amp; pes[0].getLink() != null) ) {
+			return super.getDoubleClickFeature(context);
+		}
+		Object bo = pes[0].getLink().getBusinessObjects().get(0);
+		$context.toolBehaviorDoubleClickFeatureContent$
+		return super.getDoubleClickFeature(context);
+	}
+
 }
 </string>
     </parameter>

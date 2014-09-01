@@ -1,0 +1,27 @@
+\newcommand{\cinco}{\textsc{Cinco}\xspace}
+\newcommand{\code}[1]{\texttt{#1}}
+\newcommand{\key}[1]{\mbox{[#1]}}
+\newcommand{\newnotion}[1]{\emph{#1}}
+\newcommand{\gui}[1]{\flqq{}\textsf{#1}\frqq{}}
+\newcommand{\mgl}[1]{\raisebox{-0.05em}{\mbox{\includegraphics[height=0.7em]{icons/mgl_icon.pdf}}\kern 0.2em \code{#1}}}
+\newcommand{\msl}[1]{\raisebox{-0.05em}{\mbox{\includegraphics[height=0.7em]{icons/msl_icon.pdf}}\kern 0.2em \code{#1}}}
+
+% Thanks to Thorsten Donig for the nice keystroke visualization
+% https://tex.stackexchange.com/questions/5226/keyboard-font-for-latex#5227
+\newcommand{\keystroke}[1]{%
+  \raisebox{0.15em}{
+  \tikz[baseline=(key.base)]
+    \node[%
+      draw,
+      fill=white,
+      drop shadow={shadow xshift=0.25ex,shadow yshift=-0.25ex,fill=black,opacity=0.75},
+      rectangle,
+      rounded corners=2pt,
+      inner sep=1pt,
+      line width=0.5pt,
+      font=\scriptsize\sffamily
+    ](key) {\ #1\ \strut}
+  ;
+  }
+  \kern -0.25em
+}

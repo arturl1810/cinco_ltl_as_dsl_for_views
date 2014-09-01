@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>fcd44878-83e6-41e6-95f6-9299e05bb180</id>
   <name>GenerateSingleNodePropertyView</name>
-  <changecounter>42</changecounter>
+  <changecounter>69</changecounter>
   <sib>
     <id>5cc865b0-eb14-4bed-aff6-116e6551e93a</id>
     <name>RunStringTemplate</name>
@@ -73,7 +73,7 @@ if (tmp instanceof $context.modelElementName$) {
     <label>GenControl</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>515.0,153.0</position>
+    <position>560.0,153.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -98,18 +98,22 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
 	super.createControls(parent, tabbedPropertySheetPage);
 	TabbedPropertySheetWidgetFactory factory = getWidgetFactory();
 	Composite composite = factory.createFlatFormComposite(parent);
-	GridLayout grid = new GridLayout(2, false);
-	composite.setLayout(grid);
 
-	GridData data;
-
-	Label nameLabel = factory.createLabel(composite, &quot;$context.fuAttributeName$&quot;);
-	data = new GridData(SWT.LEFT, SWT.CENTER, false, false);
-	nameLabel.setLayoutData(data);
+	FormData data;
 
 	$context.flAttributeName$Combo = factory.createCCombo(composite, SWT.BORDER);
-	data = new GridData(SWT.FILL, SWT.CENTER, true, false);
+	data = new FormData();
+	data.left = new FormAttachment(0, $context.width$);
+	data.right = new FormAttachment(100, 0);
+	data.top = new FormAttachment(0, ITabbedPropertyConstants.VSPACE);
 	$context.flAttributeName$Combo.setLayoutData(data);
+
+	Label nameLabel = factory.createLabel(composite, &quot;$context.fuAttributeName$&quot;);
+	data = new FormData();
+	data.left = new FormAttachment(0, 0);
+	data.right = new FormAttachment($context.flAttributeName$Combo, -ITabbedPropertyConstants.HSPACE);
+	data.top = new FormAttachment($context.flAttributeName$Combo, 0, SWT.CENTER);
+	nameLabel.setLayoutData(data);
 
 	$context.flAttributeName$Combo.setEditable(false);
 	Diagram d = $context.graphModelName$GraphitiUtils.getInstance().getDTP().getDiagram();
@@ -117,9 +121,11 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
 	if (!(bo instanceof $context.graphModelName$))
 		return;
 	$context.graphModelName$ $context.lcGraphModelName$= ($context.graphModelName$) bo;
-	for ($context.node.name$ $context.flAttributeName$ : $context.lcGraphModelName$.getModelElements($context.node.name$.class)) {
+	List&lt;$context.node.name$&gt; elements = new ArrayList&lt;&gt;();
+	getModelElements($context.lcGraphModelName$, $context.node.name$.class, elements);
+	for ($context.node.name$ $context.flAttributeName$ : elements) {
 		String key;
-		if ($context.flAttributeName$.getName() != null)
+		if (!$context.flAttributeName$.getName().isEmpty())
 			key = $context.flAttributeName$.getName();
 		else key = $context.flAttributeName$.toString();
 		$context.flAttributeName$Map.put(key, $context.flAttributeName$);
@@ -127,6 +133,14 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
 	$context.flAttributeName$Combo.setItems($context.flAttributeName$Map.keySet().toArray(new String[0]));
 		
 	$context.flAttributeName$Combo.addSelectionListener(selectionListener);
+
+}
+
+private void getModelElements(ContainingElement ce, Class modelElementClass, List&lt;$context.node.name$&gt; elements) {
+	for (Container c : ce.getAllContainers()) {
+		getModelElements(c, $context.node.name$.class, elements);
+	}
+	elements.addAll(ce.getModelElements($context.node.name$.class));
 
 }</string>
     </parameter>
@@ -247,7 +261,7 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
     <label>GenRefreshCode</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>1052.5,378.0</position>
+    <position>1007.5,378.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -289,7 +303,7 @@ if (value != null)
     <label>GenControl</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>620.0,378.0</position>
+    <position>575.0,378.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -316,15 +330,22 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
 	GridLayout grid = new GridLayout(2, false);
 	composite.setLayout(grid);
 
-	GridData data;
-
-	Label $context.attribute.name$Label = factory.createLabel(composite, &quot;$context.fuAttributeName$:&quot;);
-	data = new GridData(SWT.LEFT, SWT.CENTER, false, false);
-	$context.attribute.name$Label.setLayoutData(data);
+	FormData data;
 
 	$context.flAttributeName$Combo = factory.createCCombo(composite, SWT.BORDER);
-	data = new GridData(SWT.FILL, SWT.CENTER, true, false);
-	$context.attributeName$Combo.setLayoutData(data);
+	data = new FormData();
+	data.left = new FormAttachment(0, $context.width$);
+	data.right = new FormAttachment(100, 0);
+	data.top = new FormAttachment(0, ITabbedPropertyConstants.VSPACE);
+	$context.flAttributeName$Combo.setLayoutData(data);
+
+	Label nameLabel = factory.createLabel(composite, &quot;$context.fuAttributeName$&quot;);
+	data = new FormData();
+	data.left = new FormAttachment(0, 0);
+	data.right = new FormAttachment($context.flAttributeName$Combo, -ITabbedPropertyConstants.HSPACE);
+	data.top = new FormAttachment($context.flAttributeName$Combo, 0, SWT.CENTER);
+	nameLabel.setLayoutData(data);
+
 
 	$context.flAttributeName$Combo.setItems(new String[] {$context.literalsContent$});
 	
@@ -350,7 +371,7 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
     <label>isPrimeRefParam</label>
     <sib-uid>basic-sibs/EvaluateBoolean</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.EvaluateBoolean</taxonomy>
-    <position>482.0,378.0</position>
+    <position>362.0,378.0</position>
     <parameter name="bool">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -405,15 +426,22 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
 	GridLayout grid = new GridLayout(2, false);
 	composite.setLayout(grid);
 
-	GridData data;
-
-	Label $context.attribute.name$Label = factory.createLabel(composite, &quot;$context.fuAttributeName$:&quot;);
-	data = new GridData(SWT.LEFT, SWT.CENTER, false, false);
-	$context.attribute.name$Label.setLayoutData(data);
+	FormData data;
 
 	$context.flAttributeName$Combo = factory.createCCombo(composite, SWT.BORDER);
-	data = new GridData(SWT.FILL, SWT.CENTER, true, false);
-	$context.attributeName$Combo.setLayoutData(data);
+	data = new FormData();
+	data.left = new FormAttachment(0, $context.width$);
+	data.right = new FormAttachment(100, 0);
+	data.top = new FormAttachment(0, ITabbedPropertyConstants.VSPACE);
+	$context.flAttributeName$Combo.setLayoutData(data);
+
+	Label nameLabel = factory.createLabel(composite, &quot;$context.fuAttributeName$&quot;);
+	data = new FormData();
+	data.left = new FormAttachment(0, 0);
+	data.right = new FormAttachment($context.flAttributeName$Combo, -ITabbedPropertyConstants.HSPACE);
+	data.top = new FormAttachment($context.flAttributeName$Combo, 0, SWT.CENTER);
+	nameLabel.setLayoutData(data);
+
 	
 	$context.attributeName$Combo.setEditable(false);
 	$context.attributeName$Combo.setEnabled(false);
@@ -447,7 +475,7 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
     <label>GenListenerCode</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>931.0,378.0</position>
+    <position>841.0,378.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -495,7 +523,7 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
     <label>GenChangeValue</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>766.0,378.0</position>
+    <position>691.0,378.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -548,7 +576,7 @@ if (bo instanceof $context.modelElementName$) {
     <label>GenRefreshCode</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>1052.5,513.0</position>
+    <position>1022.5,513.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>

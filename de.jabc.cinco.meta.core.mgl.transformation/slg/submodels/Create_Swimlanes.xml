@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>bbe15f4c-aa62-4a79-93be-b5b01df883f7</id>
   <name>Create Swimlanes</name>
-  <changecounter>20</changecounter>
+  <changecounter>21</changecounter>
   <sib>
     <id>16bf1154-7de3-4eea-84a6-7a6ea202a8a3</id>
     <name>MacroSIB</name>
@@ -149,76 +149,6 @@
     <labelposition>500.0,0.0</labelposition>
     <branch>false</branch>
   </edge>
-  <sib>
-    <id>36015ab3-aa1f-487a-9795-5f6269f9e5e9</id>
-    <name>MacroSIB_3</name>
-    <label>Add NodeContainer Reference To GraphModel</label>
-    <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
-    <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
-    <position>1214.0,556.0</position>
-    <parameter name="bidirectiveReference">
-      <boolean>true</boolean>
-    </parameter>
-    <parameter name="containedClassKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>modelElementClass</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>false</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="containedReferenceName">
-      <de.metaframe.common.sib.parameter.ContextExpression>
-        <ContextExpressionFoundation>
-          <expression>${modelElementNameLower}s</expression>
-          <clazz>java.lang.String</clazz>
-          <classMutable>true</classMutable>
-        </ContextExpressionFoundation>
-      </de.metaframe.common.sib.parameter.ContextExpression>
-    </parameter>
-    <parameter name="containerReferenceName">
-      <de.metaframe.common.sib.parameter.ContextExpression>
-        <ContextExpressionFoundation>
-          <expression>graphModel</expression>
-          <clazz>java.lang.String</clazz>
-          <classMutable>true</classMutable>
-        </ContextExpressionFoundation>
-      </de.metaframe.common.sib.parameter.ContextExpression>
-    </parameter>
-    <parameter name="containingClassKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>graphModelClass</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="containment">
-      <boolean>true</boolean>
-    </parameter>
-    <parameter name="lowerBound">
-      <int>0</int>
-    </parameter>
-    <parameter name="lowerOppositeBound">
-      <int>0</int>
-    </parameter>
-    <parameter name="upperBound">
-      <int>-1</int>
-    </parameter>
-    <parameter name="upperOppositeBound">
-      <int>1</int>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>95ba8afa-8ca1-4186-b10e-c69cc1da7332</string>
-    </userobject>
-    <userobject key="ABC$GRAPHSIB$MODELNAME">
-      <string>Create Reference With Opposite</string>
-    </userobject>
-  </sib>
   <edge>
     <source>b1e5f535-3afd-4e92-afb4-8c6cdc698e86</source>
     <target>a156e726-d8c9-44cf-a0ac-466eeae7ac8c</target>
@@ -551,11 +481,6 @@
     <name>error</name>
     <branch>error</branch>
     <sib>fbe73c9b-36ec-4e7d-98b1-d8cc2446212c</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>36015ab3-aa1f-487a-9795-5f6269f9e5e9</sib>
   </branch>
   <branch>
     <name>error</name>

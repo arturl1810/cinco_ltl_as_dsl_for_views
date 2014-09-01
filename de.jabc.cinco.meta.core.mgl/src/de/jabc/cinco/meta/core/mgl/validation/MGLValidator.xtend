@@ -3,6 +3,8 @@
  */
 package de.jabc.cinco.meta.core.mgl.validation
 
+import java.net.URI
+import java.net.URISyntaxException
 import java.util.HashSet
 import java.util.List
 import mgl.Attribute
@@ -34,6 +36,16 @@ import org.eclipse.xtext.validation.Check
  * see http://www.eclipse.org/Xtext/documentation.html#validation
  */
 class MGLValidator extends AbstractMGLValidator {
+	
+	@Check
+	def checkNsURIWellFormed(GraphModel model){
+		try{
+			
+			var uri = new URI(model.nsURI)
+		}catch(URISyntaxException e){
+			error('NsUri not well formed.',MglPackage.Literals::GRAPH_MODEL__NS_URI);
+		}
+	}
 
 	@Check
 	def checkPackageNameExists(GraphModel model){
@@ -454,7 +466,7 @@ class MGLValidator extends AbstractMGLValidator {
 	@Check
 	def checkGraphModelHasStyleDocument(GraphModel graphModel){
 		if(!graphModel.annotations.exists[x|x.name.equals("style")])
-			warning("GraphModel has no Style document.",MglPackage.Literals::TYPE__NAME);
+			warning("GraphModel has no Style document. The graphical editor will not be generated.",MglPackage.Literals::TYPE__NAME);
 	}
 	
 	@Check

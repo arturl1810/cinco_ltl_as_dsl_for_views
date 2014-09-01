@@ -240,10 +240,10 @@ Size returns Size:
 ;
 
 ConnectionDecorator returns ConnectionDecorator:
-	'decorator ' '{'
-		'location' '(' location=EDouble ')' &
+	'decorator' '{'
+		('location' '(' location=EDouble ')' &
 		(movable?='movable')? &
-		(decoratorShape=GraphicsAlgorithm | predefinedDecorator=PredefinedDecorator) &
+		(decoratorShape=GraphicsAlgorithm | predefinedDecorator=PredefinedDecorator))
 	'}'
 ;
 

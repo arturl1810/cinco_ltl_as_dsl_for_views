@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>8fd8a2e3-0318-4824-930f-f04d3bde4e69</id>
   <name>CheckCustomFeatureAnnotation</name>
-  <changecounter>26</changecounter>
+  <changecounter>29</changecounter>
   <sib>
     <id>4f8df5a8-3436-4d95-bb8e-c45c384c7557</id>
     <name>CopyEObject</name>
@@ -40,7 +40,7 @@
     <label>GetAnnotationName</label>
     <sib-uid>mgl/mgl/GetAnnotationName</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetAnnotationName</taxonomy>
-    <position>52.0,168.0</position>
+    <position>52.0,153.0</position>
     <parameter name="annotationKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -72,7 +72,7 @@
     <parameter name="pattern">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>customFeature</expression>
+          <expression>contextMenuAction</expression>
           <clazz>java.lang.String</clazz>
           <classMutable>false</classMutable>
         </ContextExpressionFoundation>

@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>46877367-76bb-4ab8-9334-646bce70dbc1</id>
   <name>GetEdgeSourceElements</name>
-  <changecounter>6</changecounter>
+  <changecounter>9</changecounter>
   <sib>
     <id>5ab81ef1-415b-4703-8c3d-c306386f95a6</id>
     <name>IterateEdgeEdgeElementConnections</name>
@@ -48,11 +48,11 @@
     <label>SwitchEdgeElementConnection</label>
     <sib-uid>mgl/mgl/SwitchEdgeElementConnection</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.SwitchEdgeElementConnection</taxonomy>
-    <position>346.0,303.0</position>
+    <position>346.0,333.0</position>
     <parameter name="eObjectKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>eObjectKey</key>
+          <key>edgeelementconnectionelementKey</key>
           <scope>GLOBAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
@@ -178,11 +178,11 @@
     <label>GetEdgeElementConnectionConnectedElement</label>
     <sib-uid>mgl/mgl/GetOutgoingEdgeElementConnectionConnectedElement</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetOutgoingEdgeElementConnectionConnectedElement</taxonomy>
-    <position>296.0,513.0</position>
+    <position>314.5,483.0</position>
     <parameter name="outgoingEdgeElementConnectionKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>edgeelementconnectionelementkey</key>
+          <key>edgeelementconnectionelementKey</key>
           <scope>GLOBAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
@@ -200,6 +200,16 @@
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
   </sib>
+  <edge>
+    <source>0f4aca1c-3972-4891-9e09-28456c2bee91</source>
+    <target>5ab81ef1-415b-4703-8c3d-c306386f95a6</target>
+    <spline/>
+    <point>432.0,487.25454545454545</point>
+    <point>285.0,375.0</point>
+    <point>434.2857142857143,204.0</point>
+    <labelposition>469.8954200292464,-143.07870482902516</labelposition>
+    <branch>error</branch>
+  </edge>
   <parameter>
     <name>collection</name>
     <field>variable</field>
@@ -266,10 +276,5 @@
     <name>default</name>
     <branch>noElements</branch>
     <sib>5ab81ef1-415b-4703-8c3d-c306386f95a6</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>0f4aca1c-3972-4891-9e09-28456c2bee91</sib>
   </branch>
 </model>

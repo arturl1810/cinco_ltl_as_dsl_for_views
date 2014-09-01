@@ -1,0 +1,118 @@
+\definecolor{numbergray}{gray}{0.5}
+
+\lstdefinestyle{mgl}{
+   %language=XML,
+   columns=fixed,
+	breaklines=true,
+	numbers=left,
+	numberstyle=\tiny,
+	stepnumber=1,
+	numbersep=5pt,
+   showspaces=false,
+   showstringspaces=false,
+   frame=tblr,
+   tabsize=2,
+   frame=shadowbox,
+   columns=fixed,
+   basicstyle=\ttfamily\scriptsize,
+   %basicstyle=\scriptsize,
+   rulesepcolor=\color[rgb]{0.6, 0.6, 0.6},
+   %keywordstyle=\color[rgb]{0.5,0,0.4}\textbf, 
+    keywordstyle=\color[rgb]{0.5,0,0.34}\textbf,
+   %keywordstyle=\color[rgb]{0.5,0,0.4}\bfseries, 
+   %keywordstyle=\color[rgb]{0.5,0,0.4},
+   stringstyle=\color{blue},
+   commentstyle=\color[rgb]{0.4,0.7,0.4},
+   backgroundcolor=\color[rgb]{0.97,0.97,0.97},
+   morekeywords={node, edge, attr, container, as, package, nsURI, iconPath, diagramExtension, graphModel, incomingEdges, outgoingEdges},
+	morestring=[b]",
+   showtabs=false,
+	morecomment=[l]{//},
+	morecomment=[s]{/*}{*/},
+   literate={0}{{{\color{numbergray}0}}}{1}%
+		{1}{{{\color{numbergray}1}}}{1}%
+		{2}{{{\color{numbergray}2}}}{1}%
+		{3}{{{\color{numbergray}3}}}{1}%
+		{4}{{{\color{numbergray}4}}}{1}%
+		{5}{{{\color{numbergray}5}}}{1}%
+		{6}{{{\color{numbergray}6}}}{1}%
+		{7}{{{\color{numbergray}7}}}{1}%
+		{8}{{{\color{numbergray}8}}}{1}%
+		{9}{{{\color{numbergray}9}}}{1}
+}
+
+\newcommand{\includemgl}[3]{\lstinputlisting[style=mgl, float=tb, caption=#2, label=#3, captionpos=b]{#1}}
+
+
+\lstdefinestyle{style}{
+   %language=XML,
+   columns=fixed,
+	breaklines=true,
+	numbers=left,
+	numberstyle=\tiny,
+	stepnumber=1,
+	numbersep=5pt,
+   showspaces=false,
+   showstringspaces=false,
+   frame=tblr,
+   tabsize=2,
+   frame=shadowbox,
+   columns=fixed,
+   basicstyle=\ttfamily\scriptsize,
+   %basicstyle=\scriptsize,
+   rulesepcolor=\color[rgb]{0.6, 0.6, 0.6},
+   keywordstyle=\color[rgb]{0.5,0,0.4}\textbf, 
+   %keywordstyle=\color[rgb]{0.5,0,0.4}\bfseries, 
+   %keywordstyle=\color[rgb]{0.5,0,0.4},
+   stringstyle=\color{blue},
+   commentstyle=\color[rgb]{0.4,0.7,0.4},
+   backgroundcolor=\color[rgb]{0.97,0.97,0.97},
+	morekeywords={nodeStyle, edgeStyle, rectangle, ellipse, roundedRectangle,
+	text, polyline, size, corner, position, value, color, lineStyle, lineWidth,
+	SOLID, DASH, DASHDOT, DASHDOTDOT, DOT, decorator, location, relativeToMid,
+	points, appearance, appearanceProvider, background, foreground, relativeTo,
+	ARROW, CIRCLE, TRIANGLE, CENTER, MIDDLE, @},
+	morestring=[b]",
+   showtabs=false,
+	morecomment=[l]{//},
+	morecomment=[s]{/*}{*/},
+   literate={0}{{{\color{numbergray}0}}}{1}%
+		{1}{{{\color{numbergray}1}}}{1}%
+		{2}{{{\color{numbergray}2}}}{1}%
+		{3}{{{\color{numbergray}3}}}{1}%
+		{4}{{{\color{numbergray}4}}}{1}%
+		{5}{{{\color{numbergray}5}}}{1}%
+		{6}{{{\color{numbergray}6}}}{1}%
+		{7}{{{\color{numbergray}7}}}{1}%
+		{8}{{{\color{numbergray}8}}}{1}%
+		{9}{{{\color{numbergray}9}}}{1}
+}
+
+\newcommand{\includestyle}[3]{\lstinputlisting[style=style, float=tb, caption=#2, label=#3, captionpos=b]{#1}}
+
+
+\lstdefinestyle{java}{
+   language=Java,
+   breaklines=true,
+   numbers=left,
+   numberstyle=\tiny,
+   stepnumber=1,
+   numbersep=5pt,
+   showspaces=false,
+   showstringspaces=false,
+   frame=tblr,
+   tabsize=2,
+   frame=shadowbox,
+   columns=fixed,
+   %basicstyle=\ttfamily\small,
+   basicstyle=\ttfamily\scriptsize,
+   rulesepcolor=\color[rgb]{0.6, 0.6, 0.6},
+   %keywordstyle=\color[rgb]{0.5,0,0.4}\bfseries, 
+   keywordstyle=\color[rgb]{0.5,0,0.4},
+   stringstyle=\color{blue},
+   commentstyle=\color[rgb]{0.4,0.7,0.4},
+   backgroundcolor=\color[rgb]{0.97,0.97,0.97},
+   showtabs=false
+}
+
+\newcommand{\includejava}[3]{\lstinputlisting[style=java, float=tb, caption=#2, label=#3, captionpos=b]{#1}}
