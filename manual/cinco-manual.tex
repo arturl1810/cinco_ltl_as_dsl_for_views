@@ -29,7 +29,7 @@
 
 \usepackage{listings}
 
-\usepackage[hyperfootnotes=false]{hyperref}
+\usepackage[hyperfootnotes=false,hidelinks]{hyperref}
 
 \usepackage{todonotes}
 \usepackage{xspace}
@@ -98,7 +98,7 @@ that you \emph{never} make any changes to automatically generated
 code\footnotemark{}, as all those changes will be gone once the code generation
 is run again.
 
-\footnotetext{Of course, this does apply to automatically generated 'source'
+\footnotetext{Of course, this does not apply to automatically generated 'source'
 files (such as examples and templates). Those are generated for convenience to
 have a basic version to start working on.}
 
@@ -174,6 +174,7 @@ built-in wizard that also creates some example files to start working with.
 Right-click somewhere within the \gui{Project Explorer} and choose \gui{New / Cinco Product
 Project}. The wizard as depicted in Fig.~\ref{fig:cpWizard} appears. Fill the
 form fields to your liking and click \gui{Finish}.
+%TODO: comment by SW: it is not apparent what those form fields are for, especially the model name
 
 \begin{figure}
 	\centering
@@ -278,7 +279,7 @@ The modeling elements abide by the following syntactic rules:
 	\code{LabeledTransition}, and may have multiple incoming edges of both types.
 	The attribute \code{Text} is displayed centered within the box.
 \item \code{LabeledTransition} edges connect \code{Inner} nodes with others and
-	have their attribute \code{Label} displayed as movable text box next to it.
+	have their attribute \code{Label} displayed as movable caption next to it.
 \item \code{Transition} edges only originate from \code{Start} nodes. If such an
 	edge directly leads to an \code{End} node, it is displayed with a dashed
 	line.
@@ -291,7 +292,7 @@ discussion on the contents of those files.
 \section{Discussion on the Example Files}
 \label{sec:examplefiles}
 
-We consider our the specification formats MGL and MSL fairly self-explanatory,
+We consider our specification formats MGL and MSL fairly self-explanatory,
 meaning that one usually can understand most of their contents without detailed
 knowledge on available keywords or syntactic structures. This section
 will nonetheless detail on our two example files, but you might want to have a look at
