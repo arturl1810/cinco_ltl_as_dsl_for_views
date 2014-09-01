@@ -21,7 +21,8 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.commands.ICommandService;
 import org.eclipse.ui.handlers.HandlerUtil;
-import org.eclipse.ui.progress.IProgressService;
+
+import de.jabc.cinco.meta.core.utils.GeneratorHelper;
 
 
 /**
@@ -51,6 +52,11 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 				System.out.println("Generating Ecore/GenModel from MGL...");
 				Command mglGeneratorCommand = commandService.getCommand("de.jabc.cinco.meta.core.mgl.ui.mglgenerationcommand");
 				mglGeneratorCommand.executeWithChecks(event);
+				
+				System.out.println("Generating Model Code from GenModel...");
+				IFile mglModelFile = (IFile)selection.getFirstElement();
+				GeneratorHelper.generateGenModelCode(mglModelFile);
+				
 				
 				System.out.println("Generating Graphiti Editor...");
 				Command graphitiEditorGeneratorCommand = commandService.getCommand("de.jabc.cinco.meta.core.ge.generator.generateeditorcommand");
