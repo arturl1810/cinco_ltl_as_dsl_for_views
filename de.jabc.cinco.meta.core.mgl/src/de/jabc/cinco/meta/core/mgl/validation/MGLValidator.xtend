@@ -466,7 +466,7 @@ class MGLValidator extends AbstractMGLValidator {
 	@Check
 	def checkGraphModelHasStyleDocument(GraphModel graphModel){
 		if(!graphModel.annotations.exists[x|x.name.equals("style")])
-			warning("GraphModel has no Style document.",MglPackage.Literals::TYPE__NAME);
+			warning("GraphModel has no Style document. The graphical editor will not be generated.",MglPackage.Literals::TYPE__NAME);
 	}
 	
 	@Check

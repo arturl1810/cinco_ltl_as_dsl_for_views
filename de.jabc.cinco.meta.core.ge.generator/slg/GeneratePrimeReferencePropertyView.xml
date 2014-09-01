@@ -2,14 +2,14 @@
 <model version="2.1">
   <id>7ce0cea2-f133-4819-a4df-6d0f1188d2ec</id>
   <name>GeneratePrimeReferencePropertyView</name>
-  <changecounter>286</changecounter>
+  <changecounter>294</changecounter>
   <sib>
     <id>a2cae63c-d9d7-4524-80b8-ad12b33b47d5</id>
     <name>GetReferencedTypeType</name>
     <label>GetReferencedTypeType</label>
     <sib-uid>mgl/mgl/GetReferencedTypeType</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.sib.mgl.GetReferencedTypeType</taxonomy>
-    <position>37.5,123.0</position>
+    <position>37.5,108.0</position>
     <parameter name="referencedTypeKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -312,7 +312,7 @@ import org.eclipse.swt.widgets.*;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.ui.views.properties.tabbed.*;
 
-/*$context.refImportsContent$*/
+$context.refImportsContent$
 import $context.importPath$.*;
 import de.jabc.cinco.meta.core.referenceregistry.ReferenceRegistry;
 
@@ -795,7 +795,7 @@ import org.eclipse.swt.widgets.*;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.ui.views.properties.tabbed.*;
 
-/*$context.refImportsContent$*/
+$context.refImportsContent$
 import $context.importPath$.*;
 import de.jabc.cinco.meta.core.referenceregistry.ReferenceRegistry;
 

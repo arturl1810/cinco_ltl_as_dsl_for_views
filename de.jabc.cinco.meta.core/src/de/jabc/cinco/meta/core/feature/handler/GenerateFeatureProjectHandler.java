@@ -5,6 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+import mgl.Annotation;
 import mgl.GraphModel;
 
 import org.eclipse.core.commands.AbstractHandler;
@@ -85,11 +86,6 @@ public class GenerateFeatureProjectHandler extends AbstractHandler {
 		@Override
 		public void run(IProgressMonitor monitor)
 				throws InvocationTargetException, InterruptedException {
-			
-			
-			
-
-					
 
 					Resource res = rSet.createResource(URI
 							.createPlatformResourceURI(file.getFullPath()
@@ -105,7 +101,8 @@ public class GenerateFeatureProjectHandler extends AbstractHandler {
 						ArrayList<IProject> referencedProjects = new ArrayList<>();
 						HashSet<String> requiredBundles = new HashSet<>();
 						requiredBundles.add(packageName);
-						requiredBundles.add(packageName + ".graphiti");
+						if (hasStyleAnnotation(model))
+							requiredBundles.add(packageName + ".graphiti");
 						ArrayList<String> exportedPackages = new ArrayList<>();
 						ArrayList<String> additionalNatures = new ArrayList<>();
 						additionalNatures.add("org.eclipse.pde.FeatureNature");
@@ -138,7 +135,13 @@ public class GenerateFeatureProjectHandler extends AbstractHandler {
 					}
 				
 			}
-		
-
+	}
+	
+	private boolean hasStyleAnnotation(GraphModel model) {
+		for (Annotation a : model.getAnnotations()) {
+			if ("style".equals(a.getName()))
+				return true;
+		}
+		return false;
 	}
 }

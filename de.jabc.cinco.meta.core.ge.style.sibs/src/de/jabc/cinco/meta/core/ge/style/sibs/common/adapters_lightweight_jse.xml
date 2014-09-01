@@ -1,5 +1,13 @@
 <serviceAdapters defaultAdapter="de.jabc.cinco.meta.core.ge.style.sibs.adapter.ServiceAdapter">
 	
+	<serviceAdapter uid="ge-util-sibs/GetCustomFeatureClassName">
+		<service>getCustomFeatureClassName</service>
+		<arguments>
+			<argument name="annotationKey" />
+			<argument name="classNameKey" />
+		</arguments>
+	</serviceAdapter>
+	
 	<serviceAdapter uid="ge-util-sibs/IsEdgeUsed">
 		<service>isEdgeUsed</service>
 		<arguments>

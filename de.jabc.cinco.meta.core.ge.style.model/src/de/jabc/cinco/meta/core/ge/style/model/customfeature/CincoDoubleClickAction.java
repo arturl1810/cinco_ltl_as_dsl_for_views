@@ -3,22 +3,18 @@ package de.jabc.cinco.meta.core.ge.style.model.customfeature;
 import graphmodel.GraphModel;
 import graphmodel.ModelElement;
 
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICustomContext;
 import org.eclipse.graphiti.features.custom.AbstractCustomFeature;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 
-public abstract class CincoCustomFeature<T extends EObject> extends AbstractCustomFeature {
+public abstract class CincoDoubleClickAction<T> extends AbstractCustomFeature {
 
-	
-	
-	public CincoCustomFeature(IFeatureProvider fp) {
+	public CincoDoubleClickAction(IFeatureProvider fp) {
 		super(fp);
 		// TODO Auto-generated constructor stub
 	}
 
-	
 	@Override
 	public boolean canExecute(ICustomContext context) {
 		PictogramElement[] pes = context.getPictogramElements();
@@ -44,8 +40,8 @@ public abstract class CincoCustomFeature<T extends EObject> extends AbstractCust
 			execute(modelElement);
 		}
 	}
-	
+
 	public abstract boolean canExecute(T modelElement) throws ClassCastException;
 	public abstract void execute(T modelElement);
-
+	
 }

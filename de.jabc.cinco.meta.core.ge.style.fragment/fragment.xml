@@ -21,16 +21,16 @@
             recognized-annotation="style">
       </nodecontainer-annotation>
       <node-annotation
-            recognized-annotation="customFeature">
+            recognized-annotation="contextMenuAction">
       </node-annotation>
       <edge-annotation
-            recognized-annotation="customFeature">
+            recognized-annotation="contextMenuAction">
       </edge-annotation>
       <nodecontainer-annotation
-            recognized-annotation="customFeature">
+            recognized-annotation="contextMenuAction">
       </nodecontainer-annotation>
       <graphmodel-annotation
-            recognized-annotation="customFeature">
+            recognized-annotation="contextMenuAction">
       </graphmodel-annotation>
       <attribute-annotation
             recognized-annotation="multiLine">
@@ -41,6 +41,18 @@
       <validator
             ValidatorClass="de.jabc.cinco.meta.core.ge.style.fragment.StylesValidator">
       </validator>
+      <edge-annotation
+            recognized-annotation="doubleClickAction">
+      </edge-annotation>
+      <nodecontainer-annotation
+            recognized-annotation="doubleClickAction">
+      </nodecontainer-annotation>
+      <graphmodel-annotation
+            recognized-annotation="doubleClickAction">
+      </graphmodel-annotation>
+      <node-annotation
+            recognized-annotation="doubleClickAction">
+      </node-annotation>
    </extension>
 
 </fragment>

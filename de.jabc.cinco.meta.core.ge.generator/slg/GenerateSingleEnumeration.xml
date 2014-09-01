@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>21a09387-7e17-4606-a778-1e7bb342ecbd</id>
   <name>GenerateSingleEnumeration</name>
-  <changecounter>117</changecounter>
+  <changecounter>128</changecounter>
   <sib>
     <id>d1c30f87-0fd9-4945-b421-8e6ce0817cc2</id>
     <name>CopyEObject</name>
@@ -104,7 +104,7 @@ if (tmp instanceof $context.modelElementName$) {
     <label>GenControl</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>425.0,408.0</position>
+    <position>470.0,408.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -128,18 +128,22 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
 	super.createControls(parent, tabbedPropertySheetPage);
 	TabbedPropertySheetWidgetFactory factory = getWidgetFactory();
 	Composite composite = factory.createFlatFormComposite(parent);
-	GridLayout grid = new GridLayout(2, false);
-	composite.setLayout(grid);
 
-	GridData data;
-
-	Label nameLabel = factory.createLabel(composite, &quot;$context.fuAttributeName$&quot;);
-	data = new GridData(SWT.LEFT, SWT.CENTER, false, false);
-	nameLabel.setLayoutData(data);
+	FormData data;
 
 	$context.flAttributeName$Combo = factory.createCCombo(composite, SWT.BORDER);
-	data = new GridData(SWT.FILL, SWT.CENTER, true, false);
+	data = new FormData();
+	data.left = new FormAttachment(0, $context.width$);
+	data.right = new FormAttachment(100, 0);
+	data.top = new FormAttachment(0, ITabbedPropertyConstants.VSPACE);
 	$context.flAttributeName$Combo.setLayoutData(data);
+
+	Label nameLabel = factory.createLabel(composite, &quot;$context.fuAttributeName$&quot;);
+	data = new FormData();
+	data.left = new FormAttachment(0, 0);
+	data.right = new FormAttachment($context.flAttributeName$Combo, -ITabbedPropertyConstants.HSPACE);
+	data.top = new FormAttachment($context.flAttributeName$Combo, 0, SWT.CENTER);
+	nameLabel.setLayoutData(data);
 
 	$context.flAttributeName$Combo.setEditable(false);
 	$context.flAttributeName$Combo.setItems(new String[] {$context.literalsContent$});
@@ -544,18 +548,22 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
 	super.createControls(parent, tabbedPropertySheetPage);
 	TabbedPropertySheetWidgetFactory factory = getWidgetFactory();
 	Composite composite = factory.createFlatFormComposite(parent);
-	GridLayout grid = new GridLayout(2, false);
-	composite.setLayout(grid);
 
-	GridData data;
-
-	Label $context.attribute.name$Label = factory.createLabel(composite, &quot;$context.fuAttributeName$:&quot;);
-	data = new GridData(SWT.LEFT, SWT.CENTER, false, false);
-	$context.attribute.name$Label.setLayoutData(data);
+	FormData data;
 
 	$context.flAttributeName$Combo = factory.createCCombo(composite, SWT.BORDER);
-	data = new GridData(SWT.FILL, SWT.CENTER, true, false);
-	$context.attributeName$Combo.setLayoutData(data);
+	data = new FormData();
+	data.left = new FormAttachment(0, $context.width$);
+	data.right = new FormAttachment(100, 0);
+	data.top = new FormAttachment(0, ITabbedPropertyConstants.VSPACE);
+	$context.flAttributeName$Combo.setLayoutData(data);
+
+	Label nameLabel = factory.createLabel(composite, &quot;$context.fuAttributeName$&quot;);
+	data = new FormData();
+	data.left = new FormAttachment(0, 0);
+	data.right = new FormAttachment($context.flAttributeName$Combo, -ITabbedPropertyConstants.HSPACE);
+	data.top = new FormAttachment($context.flAttributeName$Combo, 0, SWT.CENTER);
+	nameLabel.setLayoutData(data);
 
 	$context.flAttributeName$Combo.setItems(new String[] {$context.literalsContent$});
 	
@@ -633,18 +641,22 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
 	super.createControls(parent, tabbedPropertySheetPage);
 	TabbedPropertySheetWidgetFactory factory = getWidgetFactory();
 	Composite composite = factory.createFlatFormComposite(parent);
-	GridLayout grid = new GridLayout(2, false);
-	composite.setLayout(grid);
-
-	GridData data;
-
-	Label $context.attribute.name$Label = factory.createLabel(composite, &quot;$context.fuAttributeName$:&quot;);
-	data = new GridData(SWT.LEFT, SWT.CENTER, false, false);
-	$context.attribute.name$Label.setLayoutData(data);
+	
+	FormData data;
 
 	$context.flAttributeName$Combo = factory.createCCombo(composite, SWT.BORDER);
-	data = new GridData(SWT.FILL, SWT.CENTER, true, false);
-	$context.attributeName$Combo.setLayoutData(data);
+	data = new FormData();
+	data.left = new FormAttachment(0, $context.width$);
+	data.right = new FormAttachment(100, 0);
+	data.top = new FormAttachment(0, ITabbedPropertyConstants.VSPACE);
+	$context.flAttributeName$Combo.setLayoutData(data);
+
+	Label nameLabel = factory.createLabel(composite, &quot;$context.fuAttributeName$&quot;);
+	data = new FormData();
+	data.left = new FormAttachment(0, 0);
+	data.right = new FormAttachment($context.flAttributeName$Combo, -ITabbedPropertyConstants.HSPACE);
+	data.top = new FormAttachment($context.flAttributeName$Combo, 0, SWT.CENTER);
+	nameLabel.setLayoutData(data);
 	
 	$context.attributeName$Combo.setEditable(false);
 	$context.attributeName$Combo.setEnabled(false);
