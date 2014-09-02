@@ -14,8 +14,11 @@ import java.util.Map;
 import java.util.Set;
 
 import mgl.Annotation;
+import mgl.Edge;
 import mgl.GraphModel;
 import mgl.Import;
+import mgl.Node;
+import mgl.NodeContainer;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
@@ -47,7 +50,6 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.eclipse.xtend.typesystem.emf.EcoreUtil2;
 import org.osgi.framework.Bundle;
@@ -56,7 +58,6 @@ import style.AbstractShape;
 import style.Appearance;
 import style.ConnectionDecorator;
 import style.ContainerShape;
-import style.DecoratorShapes;
 import style.EdgeStyle;
 import style.GraphicsAlgorithm;
 import style.Image;
@@ -72,6 +73,9 @@ import de.metaframe.jabc.framework.execution.context.LightweightExecutionContext
 
 public class Generate extends AbstractHandler {
 
+	private final String ID_ICON = "icon";
+	private final String ID_STYLE = "style";
+	
 	private GraphModel gModel;
 	private IProject sourceProject;
 	
@@ -97,7 +101,7 @@ public class Generate extends AbstractHandler {
 				generateGenModelCode(file);
 				
 				for (Annotation a : gModel.getAnnotations()) {
-					if ("style".equals(a.getName())) {
+					if (ID_STYLE.equals(a.getName())) {
 						String stylePath = a.getValue().get(0);
 						styles = loadStyles(stylePath);
 					}
@@ -117,8 +121,8 @@ public class Generate extends AbstractHandler {
 			    reqBundles.add(file.getProject().getName());
 			    IProject p = ProjectCreator.createProject(projectName, srcFolders, null, reqBundles, null, null, monitor, cleanDirs, false);
 			    createIconsFolder(p, monitor);
-			    copyIcons(styles, p, monitor);
-//			    copyIcons(gModel, p, monitor);
+			    copyImage(styles, p, monitor);
+			    copyImage(gModel, p, monitor);
 			    copyIcons("de.jabc.cinco.meta.core.ge.generator", p, monitor);
 			    
 			    try {
@@ -157,17 +161,7 @@ public class Generate extends AbstractHandler {
 		return null;
 	}
 	
-	private void createIconsFolder(IProject p, NullProgressMonitor monitor) {
-		IFolder icons = p.getFolder("icons");
-		if (!icons.exists()) {
-			try {
-				icons.create(true, true, monitor);
-			} catch (CoreException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-	}
+	
 
 	/**
 	 * This method copies all images that are defined in the {@link styles}
@@ -175,7 +169,7 @@ public class Generate extends AbstractHandler {
 	 * @param p The target project. Usually the Graphiti project
 	 * @param monitor Progress monitor
 	 */
-	private void copyIcons(Styles styles, IProject p, NullProgressMonitor monitor) {
+	private void copyImage(Styles styles, IProject p, NullProgressMonitor monitor) {
 		for (Style s : styles.getStyles()) {
 			if (s instanceof NodeStyle) {
 				copyAbstractShapeImages(((NodeStyle) s).getMainShape(), p, monitor);
@@ -191,7 +185,38 @@ public class Generate extends AbstractHandler {
 		}
 		
 	}
+	
+	private void copyImage(GraphModel gm, IProject p, NullProgressMonitor monitor) {
+		copyImages(gm.getAnnotations(), p, monitor);
+		for (Node n : gm.getNodes()) 
+			copyImages(n.getAnnotations(), p, monitor);
+		
+		for (Edge e : gm.getEdges())
+			copyImages(e.getAnnotations(), p, monitor);
+		
+		for (NodeContainer nc : gm.getNodeContainers())
+			copyImages(nc.getAnnotations(), p, monitor);
+	}
 
+	private void copyImages(List<Annotation> annots, IProject p, NullProgressMonitor monitor) {
+		for (Annotation a : annots) {
+			if (ID_ICON.equals(a.getName()) && a.getValue().size() != 0) {
+				copyImage(a.getValue().get(0), p, monitor);
+			}
+		}
+	}
+	
+	private void createIconsFolder(IProject p, NullProgressMonitor monitor) {
+		IFolder icons = p.getFolder("icons");
+		if (!icons.exists()) {
+			try {
+				icons.create(true, true, monitor);
+			} catch (CoreException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
 	
 	private void copyEdgeDecoratorImages(List<ConnectionDecorator> decorators, IProject p, NullProgressMonitor monitor) {
 		for (ConnectionDecorator cd : decorators) {
@@ -208,7 +233,8 @@ public class Generate extends AbstractHandler {
 			for (AbstractShape as : ((ContainerShape) s).getChildren()) {
 				copyAbstractShapeImages(as, p, monitor);
 			}
-		} 
+		}
+		
 		if (s instanceof Image) {
 			Image img = (Image) s;
 			copyImage(img.getPath(), p, monitor);
