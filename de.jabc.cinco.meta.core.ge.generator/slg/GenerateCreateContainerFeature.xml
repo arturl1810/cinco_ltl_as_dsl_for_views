@@ -2,14 +2,14 @@
 <model version="2.1">
   <id>fb0af092-c2b0-41ca-88d1-29ad9c540729</id>
   <name>GenerateCreateContainerFeature</name>
-  <changecounter>245</changecounter>
+  <changecounter>254</changecounter>
   <sib>
     <id>9adef199-4664-4d95-b976-c83232fc48df</id>
     <name>RunStringTemplate</name>
     <label>RunStringTemplate</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>265.0,228.0</position>
+    <position>190.0,228.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -46,6 +46,8 @@ public class Create$context.containerName$Feature extends AbstractCreateFeature 
 public Create$context.containerName$Feature(IFeatureProvider fp) {
 		super(fp, &quot;$context.containerName$&quot;, &quot;Create $context.containerName$&quot;);
 	}
+
+	$context.createImageContent$
 
 	public boolean canCreate(ICreateContext context) {
 		Object target = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(context.getTargetContainer());
@@ -268,9 +270,9 @@ public Create$context.containerName$Feature(IFeatureProvider fp) {
   </edge>
   <edge>
     <source>dcac4a8a-6170-45c6-a56c-7e780f3c8890</source>
-    <target>d4027830-5f9a-4962-aa7f-7148032c31f0</target>
-    <point>747.0,249.6</point>
-    <point>590.0,273.84615384615387</point>
+    <target>e11dd2c3-61f6-4d63-95a2-ebf1aa141ae9</target>
+    <point>927.0,254.0470588235294</point>
+    <point>710.0,343.47058823529414</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -409,7 +411,7 @@ public Create$context.containerName$Feature(IFeatureProvider fp) {
     <label>GenerateCheckContainer</label>
     <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
-    <position>695.5,226.0</position>
+    <position>470.5,226.0</position>
     <parameter name="ClearContent">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
@@ -443,7 +445,7 @@ public Create$context.containerName$Feature(IFeatureProvider fp) {
     <label>InitializeAttributes</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>506.5,226.0</position>
+    <position>326.5,226.0</position>
     <parameter name="modelElement">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -507,6 +509,38 @@ public Create$context.containerName$Feature(IFeatureProvider fp) {
       <boolean>true</boolean>
     </userobject>
   </sib>
+  <sib>
+    <id>e11dd2c3-61f6-4d63-95a2-ebf1aa141ae9</id>
+    <name>GraphSIB_1</name>
+    <label>GenerateModelElementIcon</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>657.5,226.0</position>
+    <parameter name="modelElementKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>container</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>827994ca-f72f-4fe1-afcb-fa6f30c34d59</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>GenerateModelElementIcon</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>e11dd2c3-61f6-4d63-95a2-ebf1aa141ae9</source>
+    <target>d4027830-5f9a-4962-aa7f-7148032c31f0</target>
+    <point>795.0,255.0</point>
+    <point>605.0,255.0</point>
+    <branch>default</branch>
+  </edge>
   <parameter>
     <name>containerKey</name>
     <field>sourceVariable</field>
@@ -588,5 +622,10 @@ public Create$context.containerName$Feature(IFeatureProvider fp) {
     <name>error</name>
     <branch>error</branch>
     <sib>b62f8010-de77-4f38-8490-1bd70d00bc7c</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>e11dd2c3-61f6-4d63-95a2-ebf1aa141ae9</sib>
   </branch>
 </model>
