@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>9fd83830-7ab7-495e-85a0-e542157f17b0</id>
   <name>Specialize GetTargetElement GetSourceElementMethods</name>
-  <changecounter>6</changecounter>
+  <changecounter>7</changecounter>
   <sib>
     <id>ab684d6f-7f59-4783-88ff-6c7344db7364</id>
     <name>CompareSize</name>
@@ -661,6 +661,7 @@
         </ContextKeyFoundation>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
+    <finalbranches>containsStar</finalbranches>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
     <userobject key="ABC$GRAPHSIB$MODELID">
@@ -695,6 +696,7 @@
         </ContextKeyFoundation>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
+    <finalbranches>containsStar</finalbranches>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
     <userobject key="ABC$GRAPHSIB$MODELID">
@@ -704,6 +706,20 @@
       <string>GetEdgeSourceElements</string>
     </userobject>
   </sib>
+  <edge>
+    <source>a8c6d795-dde8-4625-84b6-10250672f607</source>
+    <target>8fd62f74-fcdf-46db-abd8-6b7b70385c17</target>
+    <point>240.0,180.0</point>
+    <point>455.0,164.0</point>
+    <branch>containsStar</branch>
+  </edge>
+  <edge>
+    <source>8fd62f74-fcdf-46db-abd8-6b7b70385c17</source>
+    <target>6d249567-7934-43d0-9982-d6e40af1a5be</target>
+    <point>480.0,180.0</point>
+    <point>262.0,71.0</point>
+    <branch>containsStar</branch>
+  </edge>
   <parameter>
     <name>graphModelKey</name>
     <field>graphModelKey</field>
