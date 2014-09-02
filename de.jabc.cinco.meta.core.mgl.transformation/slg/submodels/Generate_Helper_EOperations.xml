@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>d5531c11-ffc2-41e6-b1fd-4f08e1327b1f</id>
   <name>Generate Helper EOperations</name>
-  <changecounter>69</changecounter>
+  <changecounter>70</changecounter>
   <sib>
     <id>2db6fa19-1315-4022-abef-abc4426dcce8</id>
     <name>IterateGraphModelNodeContainers</name>
@@ -1159,8 +1159,8 @@
     <label>Specialize GetTargetElement GetSourceElementMethods</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>1680.0,16.0</position>
-    <parameter name="graphModelKey">
+    <position>1674.5,16.0</position>
+    <parameter name="graphModel">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
           <key>graphModel</key>
@@ -1172,10 +1172,10 @@
     <finalbranches>error</finalbranches>
     <finalbranches>exit</finalbranches>
     <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>9fd83830-7ab7-495e-85a0-e542157f17b0</string>
+      <string>637c659a-c23c-43b6-ac21-f5beaa34e0e4</string>
     </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
-      <string>Specialize GetTargetElement GetSourceElementMethods</string>
+      <string>Specialize Source and Target Get Methods</string>
     </userobject>
   </sib>
   <edge>
@@ -1444,11 +1444,6 @@
     <name>graphModelKey</name>
     <field>graphModelKey</field>
     <sib>9506f334-2509-424e-91dd-6413489c8162</sib>
-  </parameter>
-  <parameter>
-    <name>graphModelKey</name>
-    <field>graphModelKey</field>
-    <sib>17f6b916-d4b5-4ac1-b540-9c3741b893ba</sib>
   </parameter>
   <values>
     <entry>

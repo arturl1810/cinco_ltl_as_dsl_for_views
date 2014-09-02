@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>f2a62b98-da75-4b1a-a2d5-4f6a6d4d5fa5</id>
   <name>GetEdgeTargetElements</name>
-  <changecounter>8</changecounter>
+  <changecounter>13</changecounter>
   <sib>
     <id>5ab81ef1-415b-4703-8c3d-c306386f95a6</id>
     <name>IterateEdgeEdgeElementConnections</name>
@@ -97,9 +97,6 @@
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$START">
-      <boolean>true</boolean>
-    </userobject>
   </sib>
   <edge>
     <source>4a77df7a-a366-46f8-9b5e-8e2180fd96b8</source>
@@ -156,9 +153,10 @@
   </sib>
   <edge>
     <source>19279c0d-70cb-4507-9c53-e990751cdca8</source>
-    <target>e0dd5780-9ad9-48e6-9c1b-f863ed32cca5</target>
-    <point>450.0,540.0</point>
-    <point>445.0,655.0</point>
+    <target>00104e4d-4f8c-449e-b774-d79b9996a247</target>
+    <point>432.0,499.68</point>
+    <point>318.0,579.48</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
@@ -209,6 +207,70 @@
     <point>432.0,200.9142857142857</point>
     <labelposition>456.0,-199.0</labelposition>
     <branch>error</branch>
+  </edge>
+  <sib>
+    <id>00104e4d-4f8c-449e-b774-d79b9996a247</id>
+    <name>CheckVariable</name>
+    <label>CheckVariable</label>
+    <sib-uid>basic-sibs/CheckVariable</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.CheckVariable</taxonomy>
+    <position>400.0,543.0</position>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>edgeElementConnectionconnectedElementKey</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>emptyString</finalbranches>
+    <finalbranches>error</finalbranches>
+    <finalbranches>false</finalbranches>
+    <finalbranches>true</finalbranches>
+  </sib>
+  <edge>
+    <source>00104e4d-4f8c-449e-b774-d79b9996a247</source>
+    <target>e0dd5780-9ad9-48e6-9c1b-f863ed32cca5</target>
+    <point>300.0,600.0</point>
+    <point>434.0,647.0</point>
+    <branch>true</branch>
+  </edge>
+  <sib>
+    <id>c5f0b510-7486-4107-9de6-ca44b2cc7ff6</id>
+    <name>RemoveElements</name>
+    <label>RemoveElements</label>
+    <sib-uid>basic-sibs/RemoveElements</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.RemoveElements</taxonomy>
+    <position>61.5,168.0</position>
+    <parameter name="variables">
+      <de.metaframe.jabc.framework.sib.parameter.StrictList>
+        <StrictListFoundation>
+          <delegate class="list">
+            <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+              <ContextKeyFoundation>
+                <key>iteratorKey</key>
+                <scope>GLOBAL</scope>
+                <scopeMutable>true</scopeMutable>
+              </ContextKeyFoundation>
+            </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+          </delegate>
+          <validatorClass>de.metaframe.jabc.framework.sib.parameter.ContextKey</validatorClass>
+        </StrictListFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.StrictList>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$START">
+      <boolean>true</boolean>
+    </userobject>
+  </sib>
+  <edge>
+    <source>c5f0b510-7486-4107-9de6-ca44b2cc7ff6</source>
+    <target>4a77df7a-a366-46f8-9b5e-8e2180fd96b8</target>
+    <point>150.0,195.0</point>
+    <point>235.0,186.0</point>
+    <branch>default</branch>
   </edge>
   <parameter>
     <name>collection</name>
@@ -276,5 +338,25 @@
     <name>default</name>
     <branch>noElements</branch>
     <sib>5ab81ef1-415b-4703-8c3d-c306386f95a6</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>00104e4d-4f8c-449e-b774-d79b9996a247</sib>
+  </branch>
+  <branch>
+    <name>containsStar</name>
+    <branch>false</branch>
+    <sib>00104e4d-4f8c-449e-b774-d79b9996a247</sib>
+  </branch>
+  <branch>
+    <name>containsStar</name>
+    <branch>emptyString</branch>
+    <sib>00104e4d-4f8c-449e-b774-d79b9996a247</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>c5f0b510-7486-4107-9de6-ca44b2cc7ff6</sib>
   </branch>
 </model>
