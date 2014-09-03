@@ -29,6 +29,7 @@ import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.EcorePackage
 import org.eclipse.xtext.EcoreUtil2
 import org.eclipse.xtext.validation.Check
+import de.jabc.cinco.meta.core.utils.PathValidator
 
 /**
  * Custom validation rules. 
@@ -514,6 +515,15 @@ class MGLValidator extends AbstractMGLValidator {
 		if(m.fileExtension.nullOrEmpty){
 			error("The Diagram must have an extension.",MglPackage.Literals::GRAPH_MODEL__FILE_EXTENSION)
 		}
+	}
+	
+	@Check
+	def checkGraphModelIconPath(GraphModel gm) {
+		if (!gm.iconPath.nullOrEmpty) {
+			val retVal = PathValidator.checkPath(gm, gm.iconPath) as String
+ 			if (!retVal.empty)
+ 				error(retVal, MglPackage.Literals.GRAPH_MODEL__ICON_PATH, "The specified path: \"" + gm.iconPath +"\" does not exist")
+ 		}
 	}
 	
 }

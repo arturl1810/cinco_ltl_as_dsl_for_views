@@ -184,7 +184,7 @@ Image returns Image:
 	'{'
 		'position' position = AbstractPosition
 		'size' size = Size
-		'path('path=STRING')'
+		'path' '('path=STRING')'
 	'}'
 ;
 

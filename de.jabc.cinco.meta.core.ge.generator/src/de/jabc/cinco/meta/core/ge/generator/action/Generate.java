@@ -14,8 +14,11 @@ import java.util.Map;
 import java.util.Set;
 
 import mgl.Annotation;
+import mgl.Edge;
 import mgl.GraphModel;
 import mgl.Import;
+import mgl.Node;
+import mgl.NodeContainer;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
@@ -24,6 +27,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
@@ -46,11 +50,19 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.eclipse.xtend.typesystem.emf.EcoreUtil2;
 import org.osgi.framework.Bundle;
 
+import style.AbstractShape;
+import style.Appearance;
+import style.ConnectionDecorator;
+import style.ContainerShape;
+import style.EdgeStyle;
+import style.GraphicsAlgorithm;
+import style.Image;
+import style.NodeStyle;
+import style.Style;
 import style.Styles;
 import de.jabc.cinco.meta.core.ge.generator.Main;
 import de.jabc.cinco.meta.core.utils.projects.ProjectCreator;
@@ -61,7 +73,11 @@ import de.metaframe.jabc.framework.execution.context.LightweightExecutionContext
 
 public class Generate extends AbstractHandler {
 
+	private final String ID_ICON = "icon";
+	private final String ID_STYLE = "style";
+	
 	private GraphModel gModel;
+	private IProject sourceProject;
 	
 	public Generate() {
 		// TODO Auto-generated constructor stub
@@ -73,100 +89,209 @@ public class Generate extends AbstractHandler {
 		ISelection sel = HandlerUtil.getActiveMenuSelection(event);
 		
 		if (sel instanceof IStructuredSelection && !sel.isEmpty()) {
-		IStructuredSelection ssel = (IStructuredSelection) sel;
-		IFile file = (IFile) ssel.getFirstElement();
-		NullProgressMonitor monitor = new NullProgressMonitor();
-		
-		Resource resource = new ResourceSetImpl().getResource(URI.createPlatformResourceURI(file.getFullPath().toOSString(), true), true);
-	    Styles styles = null;
-	    try {
-	    	gModel = loadGraphModel(resource);
-			generateGenModelCode(file);
+			IStructuredSelection ssel = (IStructuredSelection) sel;
+			IFile file = (IFile) ssel.getFirstElement();
+			sourceProject = file.getProject();
+			NullProgressMonitor monitor = new NullProgressMonitor();
 			
-			for (Annotation a : gModel.getAnnotations()) {
-				if ("style".equals(a.getName())) {
-					String stylePath = a.getValue().get(0);
-					styles = loadStyles(stylePath);
-				}
-			}
-			
-			if (styles == null) {
-				return null;
-			}
-			
-			String mglProjectName = file.getProject().getName();
-			String projectName = gModel.getPackage().concat(".graphiti");
-			String path = ResourcesPlugin.getWorkspace().getRoot().getLocation().append(projectName).toOSString();
-			
-			List<String> srcFolders = getSrcFolders();
-			List<String> cleanDirs = getCleanDirectory();
-		    Set<String> reqBundles = getReqBundles();
-		    reqBundles.add(file.getProject().getName());
-		    IProject p = ProjectCreator.createProject(projectName, srcFolders, null, reqBundles, null, null, monitor, cleanDirs, false);
-		    copyIcons(file.getProject(), p, monitor);
-		    copyIcons("de.jabc.cinco.meta.core.ge.generator", p, monitor);
-		    
+			Resource resource = new ResourceSetImpl().getResource(URI.createPlatformResourceURI(file.getFullPath().toOSString(), true), true);
+		    Styles styles = null;
 		    try {
+		    	gModel = loadGraphModel(resource);
+				generateGenModelCode(file);
+				
+				for (Annotation a : gModel.getAnnotations()) {
+					if (ID_STYLE.equals(a.getName())) {
+						String stylePath = a.getValue().get(0);
+						styles = loadStyles(stylePath, gModel);
+					}
+				}
+				
+				if (styles == null) {
+					return null;
+				}
+				
+				String mglProjectName = file.getProject().getName();
+				String projectName = gModel.getPackage().concat(".graphiti");
+				String path = ResourcesPlugin.getWorkspace().getRoot().getLocation().append(projectName).toOSString();
+				
+				List<String> srcFolders = getSrcFolders();
+				List<String> cleanDirs = getCleanDirectory();
+			    Set<String> reqBundles = getReqBundles();
+			    reqBundles.add(file.getProject().getName());
+			    IProject p = ProjectCreator.createProject(projectName, srcFolders, null, reqBundles, null, null, monitor, cleanDirs, false);
+			    createIconsFolder(p, monitor);
+			    copyImage(styles, p, monitor);
+			    copyImage(gModel, p, monitor);
+			    copyIcons("de.jabc.cinco.meta.core.ge.generator", p, monitor);
+			    
+			    try {
+					p.refreshLocal(IResource.DEPTH_INFINITE, monitor);
+				} catch (CoreException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			    String outletPath = p.getFolder("src-gen").getLocation().makeAbsolute().toString();
+			    String customFeatureOutletPath = p.getFolder("src").getLocation().makeAbsolute().toOSString();
+				
+				LightweightExecutionContext context = new DefaultLightweightExecutionContext(null);
+				context.put("graphModel", gModel);
+				context.put("styles", styles);
+				context.put("mglProjectName", mglProjectName);
+				context.put("projectName", projectName);
+				context.put("fullPath", path);
+				context.put("outletPath", outletPath);
+				context.put("customFeatureOutletPath", customFeatureOutletPath);
+				LightweightExecutionEnvironment env = new DefaultLightweightExecutionEnvironment(context);
+				
+				Main tmp = new Main();
+				String result = tmp.execute(env);
+				if (result.equals("error")) {
+					Exception e = (Exception) context.get("exception");
+					throw new ExecutionException(e.getMessage());
+				}
+				
 				p.refreshLocal(IResource.DEPTH_INFINITE, monitor);
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (CoreException e) {
+				e.printStackTrace();
+			}
+		}
+		return null;
+	}
+	
+	
+
+	/**
+	 * This method copies all images that are defined in the {@link styles}
+	 * @param styles The processed Styles object
+	 * @param p The target project. Usually the Graphiti project
+	 * @param monitor Progress monitor
+	 */
+	private void copyImage(Styles styles, IProject p, NullProgressMonitor monitor) {
+		for (Style s : styles.getStyles()) {
+			if (s instanceof NodeStyle) {
+				copyAbstractShapeImages(((NodeStyle) s).getMainShape(), p, monitor);
+			}
+			
+			if (s instanceof EdgeStyle) {
+				copyEdgeDecoratorImages(((EdgeStyle) s).getDecorator(), p, monitor);
+			}
+		}
+		
+		for (Appearance ap : styles.getAppearances()) {
+			copyImage(ap.getImagePath(), p, monitor);
+		}
+		
+	}
+	
+	private void copyImage(GraphModel gm, IProject p, NullProgressMonitor monitor) {
+		copyImages(gm.getAnnotations(), p, monitor);
+		copyImage(gm.getIconPath(), p, monitor);
+		for (Node n : gm.getNodes()) 
+			copyImages(n.getAnnotations(), p, monitor);
+		
+		for (Edge e : gm.getEdges())
+			copyImages(e.getAnnotations(), p, monitor);
+		
+		for (NodeContainer nc : gm.getNodeContainers())
+			copyImages(nc.getAnnotations(), p, monitor);
+	}
+
+	private void copyImages(List<Annotation> annots, IProject p, NullProgressMonitor monitor) {
+		for (Annotation a : annots) {
+			if (ID_ICON.equals(a.getName()) && a.getValue().size() != 0) {
+				copyImage(a.getValue().get(0), p, monitor);
+			}
+		}
+	}
+	
+	private void createIconsFolder(IProject p, NullProgressMonitor monitor) {
+		IFolder icons = p.getFolder("icons");
+		if (!icons.exists()) {
+			try {
+				icons.create(true, true, monitor);
 			} catch (CoreException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		    String outletPath = p.getFolder("src-gen").getLocation().makeAbsolute().toString();
-		    String customFeatureOutletPath = p.getFolder("src").getLocation().makeAbsolute().toOSString();
-			
-			LightweightExecutionContext context = new DefaultLightweightExecutionContext(null);
-			context.put("graphModel", gModel);
-			context.put("styles", styles);
-			context.put("mglProjectName", mglProjectName);
-			context.put("projectName", projectName);
-			context.put("fullPath", path);
-			context.put("outletPath", outletPath);
-			context.put("customFeatureOutletPath", customFeatureOutletPath);
-			LightweightExecutionEnvironment env = new DefaultLightweightExecutionEnvironment(context);
-			
-			Main tmp = new Main();
-			String result = tmp.execute(env);
-			if (result.equals("error")) {
-				Exception e = (Exception) context.get("exception");
-				throw new ExecutionException(e.getMessage());
-			}
-			
-			p.refreshLocal(IResource.DEPTH_INFINITE, monitor);
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (CoreException e) {
-			e.printStackTrace();
 		}
 	}
-		return null;
-	}
 	
+	private void copyEdgeDecoratorImages(List<ConnectionDecorator> decorators, IProject p, NullProgressMonitor monitor) {
+		for (ConnectionDecorator cd : decorators) {
+			GraphicsAlgorithm shape = cd.getDecoratorShape();
+			if (shape instanceof Image) {
+				Image img = (Image) shape;
+				copyImage(img.getPath(), p, monitor);
+			}
+		}
+	}
 
-	private void copyIcons(IProject source, IProject target, NullProgressMonitor monitor) {
-		IFolder srcIcons = source.getFolder("icons");
+	private void copyAbstractShapeImages(AbstractShape s, IProject p, NullProgressMonitor monitor) {
+		if (s instanceof ContainerShape) {
+			for (AbstractShape as : ((ContainerShape) s).getChildren()) {
+				copyAbstractShapeImages(as, p, monitor);
+			}
+		}
+		
+		if (s instanceof Image) {
+			Image img = (Image) s;
+			copyImage(img.getPath(), p, monitor);
+		}
+		
+	}
+
+	private void copyImage(String path, IProject target, NullProgressMonitor monitor) {
+		if (path == null || path.isEmpty())
+			return;
+		IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
+		URI iconURI = URI.createURI(path);
+		IFile iconFile = null;
+		if (!iconURI.isPlatformResource()) {
+			iconFile = sourceProject.getFile(path);
+		} else {
+			IResource res = workspaceRoot.findMember(iconURI.toPlatformString(true));
+			if (res instanceof IFile) {
+				iconFile = (IFile) res;
+			}
+		}
 		try {
-			srcIcons.copy(target.getFolder("icons").getFullPath(), true, monitor);
+			IFolder icons = target.getFolder("icons");
+			if (!icons.exists())
+				icons.create(true, true, monitor);
+			iconFile.copy(target.getFolder("icons").getFullPath().append(iconFile.getName()), true, monitor);
 		} catch (CoreException e) {
 			e.printStackTrace();
 		}
 		
 	}
 
-	private Styles loadStyles(String path) throws IOException {
-		Styles s = null;
-		Resource res = new ResourceSetImpl().getResource(
-				URI.createPlatformResourceURI(path, true), true);
-
-		if (res != null && res.getContents().get(0) instanceof Styles) {
-			res.load(null);
-			EcoreUtil.resolveAll(res.getResourceSet());
-			s = (Styles) res.getContents().get(0);
-		} else {
-			throw new IOException("Couldn't load resource from: \""
-					+ path + "\"");
+	private Styles loadStyles(String path, GraphModel gm) throws IOException {
+		Resource res = null;
+		
+		URI uri = URI.createURI(path, true);
+		try {
+			res = null;
+			if (uri.isPlatformResource())
+				res = new ResourceSetImpl().getResource(uri, true);
+			else {
+				IProject p = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(gm.eResource().getURI().toPlatformString(true))).getProject();
+				IFile file = p.getFile(path);
+				URI fileURI = URI.createPlatformResourceURI(file.getFullPath().toOSString(), true);
+				res = new ResourceSetImpl().getResource(fileURI, true);
+			}
+			
+			for (Object o : res.getContents()) {
+				if (o instanceof Styles)
+					return (Styles) o;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
 		}
-		return s;
+		return null;
 	}
 	
 	private GraphModel loadGraphModel(Resource res) throws IOException{

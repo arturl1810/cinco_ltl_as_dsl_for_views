@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>21d264a3-a3d0-485e-b5f9-5f9c29fffccf</id>
   <name>GenerateCreateEdgeFeature_1</name>
-  <changecounter>141</changecounter>
+  <changecounter>149</changecounter>
   <sib>
     <id>11d0666f-5a7a-42b8-b045-2c132c173d82</id>
     <name>PutExpression</name>
@@ -44,9 +44,9 @@
   </edge>
   <edge>
     <source>457a2770-747e-47f9-b009-dc53d2f75718</source>
-    <target>703289e2-f3b7-4d70-975e-60c450763bcc</target>
-    <point>105.0,855.0</point>
-    <point>105.0,975.0</point>
+    <target>54606aea-0d74-4fde-9284-38f779af5467</target>
+    <point>123.0,862.8</point>
+    <point>175.0,906.3333333333334</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -134,7 +134,7 @@
     <label>ToFirstUpper</label>
     <sib-uid>basic-sibs/ToFirstUpper</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.ToFirstUpper</taxonomy>
-    <position>254.5,708.0</position>
+    <position>254.5,753.0</position>
     <parameter name="inputString">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -190,7 +190,7 @@
     <label>ToLowerCase</label>
     <sib-uid>utility-sibs/ToLowerCase</sib-uid>
     <taxonomy>transem.utility.sib.ToLowerCase</taxonomy>
-    <position>252.5,828.0</position>
+    <position>252.5,933.0</position>
     <parameter name="lowerStringKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -412,6 +412,8 @@ public class Create$context.edgeName$Feature extends AbstractCreateConnectionFea
 	public Create$context.edgeName$Feature(IFeatureProvider fp) {
 		super(fp, &quot;$context.edgeName$&quot;, &quot;Create a new edge: $context.edgeName$&quot;);
 	}
+
+	$context.createImageContent$
 
 	@Override
 	public boolean canCreate(ICreateConnectionContext context) {
@@ -714,10 +716,47 @@ public class Create$context.edgeName$Feature extends AbstractCreateConnectionFea
     <point>105.0,379.0</point>
     <branch>default</branch>
   </edge>
+  <sib>
+    <id>54606aea-0d74-4fde-9284-38f779af5467</id>
+    <name>GraphSIB_2</name>
+    <label>GenerateModelElementIcon</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>15.5,931.0</position>
+    <parameter name="modelElementKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>modelElementKey</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>827994ca-f72f-4fe1-afcb-fa6f30c34d59</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>GenerateModelElementIcon</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>54606aea-0d74-4fde-9284-38f779af5467</source>
+    <target>703289e2-f3b7-4d70-975e-60c450763bcc</target>
+    <point>195.0,930.0</point>
+    <point>285.0,851.0</point>
+    <branch>default</branch>
+  </edge>
   <parameter>
     <name>edgeKey</name>
     <field>sourceVariable</field>
     <sib>8ca03193-0f64-4635-a771-91c8441de941</sib>
+  </parameter>
+  <parameter>
+    <name>edgeKey</name>
+    <field>modelElementKey</field>
+    <sib>54606aea-0d74-4fde-9284-38f779af5467</sib>
   </parameter>
   <values>
     <entry>
@@ -820,5 +859,10 @@ public class Create$context.edgeName$Feature extends AbstractCreateConnectionFea
     <name>error</name>
     <branch>error</branch>
     <sib>44eafde2-ab05-4eb2-a2c1-18c412d06af6</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>54606aea-0d74-4fde-9284-38f779af5467</sib>
   </branch>
 </model>

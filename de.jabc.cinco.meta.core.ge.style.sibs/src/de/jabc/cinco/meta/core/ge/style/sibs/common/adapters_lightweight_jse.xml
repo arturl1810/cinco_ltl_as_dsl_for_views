@@ -154,11 +154,10 @@
 		</arguments>
 	</serviceAdapter>
 	
-	<serviceAdapter uid="ge-util-sibs/LoadGraphitiImage">
-		<service>loadGraphitiImage</service>
+	<serviceAdapter uid="ge-util-sibs/GetImageRelativePath">
+		<service>getImageRelativePath</service>
 		<arguments>
 			<argument name="imagePath" />
-			<argument name="imageId" />
 			<argument name="relativePath" />
 		</arguments>
 	</serviceAdapter>

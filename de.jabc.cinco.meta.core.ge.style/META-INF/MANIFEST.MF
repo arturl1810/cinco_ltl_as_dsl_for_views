@@ -15,7 +15,9 @@ Require-Bundle: org.eclipse.xtext;visibility:=reexport,
  de.jabc.cinco.meta.core.ge.style.model,
  org.eclipse.xtext.util,
  org.antlr.runtime,
- org.eclipse.xtext.common.types
+ org.eclipse.xtext.common.types,
+ org.eclipse.core.resources,
+ de.jabc.cinco.meta.core.utils;bundle-version="0.5.0"
 Import-Package: org.apache.log4j,
  org.eclipse.xtext.xbase.lib
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
