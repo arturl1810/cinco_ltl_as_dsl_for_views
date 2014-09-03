@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>67a73b2a-3824-4776-9686-ae1a8aed5282</id>
   <name>GenerateCopyPasteFeatures</name>
-  <changecounter>253</changecounter>
+  <changecounter>286</changecounter>
   <sib>
     <id>59a427e8-25c5-482c-a32b-a0aa278eb41b</id>
     <name>PutExpression</name>
@@ -135,7 +135,7 @@ public class $context.graphModelName$CopyFeature extends AbstractCopyFeature {
 		Set&lt;PictogramElement&gt; copiedSubGraph = new HashSet&lt;&gt;();
 		List&lt;PictogramElement&gt; subGraphElements = getSubGraph(pes);
 
-		copiedSubGraph = $context.graphModelName$CopyUtils.copy(subGraphElements, getDiagram());
+		copiedSubGraph = $context.graphModelName$CopyUtils.sourceCopy(subGraphElements, getDiagram());
 		
 		putToClipboard(copiedSubGraph.toArray(new Object[copiedSubGraph.size()]));
 	}
@@ -239,22 +239,16 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.eclipse.graphiti.features.IAddFeature;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IPasteContext;
-import org.eclipse.graphiti.features.context.impl.AddConnectionContext;
-import org.eclipse.graphiti.features.context.impl.AddContext;
 import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
 import org.eclipse.graphiti.mm.algorithms.styles.Point;
-import org.eclipse.graphiti.mm.pictograms.Anchor;
-import org.eclipse.graphiti.mm.pictograms.AnchorContainer;
 import org.eclipse.graphiti.mm.pictograms.Connection;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.FreeFormConnection;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
-import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.ui.features.AbstractPasteFeature;
 
 import $context.projectName$.*;
@@ -264,6 +258,9 @@ public class $context.graphModelName$PasteFeature extends AbstractPasteFeature {
 
 	private Integer xMin = null;
 	private Integer yMin = null;
+
+	private Integer xMinAbs = null;
+	private Integer yMinAbs = null;
 	
 	private int xContext, yContext, xContainerShift, yContainerShift;
 	
@@ -298,22 +295,23 @@ public class $context.graphModelName$PasteFeature extends AbstractPasteFeature {
 		xContext = context.getX();
 		yContext = context.getY();
 		
+		xMin = SomeGraphCopyUtils.getUpperLeft().x;
+		yMin = SomeGraphCopyUtils.getUpperLeft().y;
+		
+		xMinAbs = SomeGraphCopyUtils.getAbsoluteUpperLeft().x;
+		yMinAbs = SomeGraphCopyUtils.getAbsoluteUpperLeft().y;
+		
 		xContainerShift = 0;
 		yContainerShift = 0;
 	
 		List&lt;PictogramElement&gt; subGraph = createList(getFromClipboard());
 		Set&lt;PictogramElement&gt; copies = new HashSet&lt;&gt;(); 
-		computeUpperLeft(subGraph.toArray());
-		copies = $context.graphModelName$CopyUtils.copy(subGraph, getDiagram());
+		copies = $context.graphModelName$CopyUtils.targetCopy(subGraph, getDiagram());
 		
 		List&lt;PictogramElement&gt; graphicalContainer = new ArrayList&lt;&gt;();
 		List&lt;Connection&gt; connections = new ArrayList&lt;&gt;();
 		
-		Object targetBO = getBusinessObjectForPictogramElement(context.getPictogramElements()[0]);
-		if (! (targetBO instanceof GraphModel)) {
-			xContainerShift = context.getPictogramElements()[0].getGraphicsAlgorithm().getX();
-			yContainerShift = context.getPictogramElements()[0].getGraphicsAlgorithm().getY();
-		}
+		computeContainerShift(context.getPictogramElements()[0]);
 
 		for (PictogramElement pe : copies) {
 			if (pe instanceof Connection &amp;&amp; !connections.contains(pe)) {
@@ -353,6 +351,17 @@ public class $context.graphModelName$PasteFeature extends AbstractPasteFeature {
 
 	}
 
+	private void computeContainerShift(PictogramElement pe) {
+		xContainerShift = 0;
+		yContainerShift = 0;
+		
+		while (pe instanceof Shape &amp;&amp;  !(pe instanceof Diagram)) {
+			xContainerShift += pe.getGraphicsAlgorithm().getX();
+			yContainerShift += pe.getGraphicsAlgorithm().getY();
+			pe = ((Shape) pe).getContainer();
+		}
+	}
+
 	private void addLinks(Diagram diagram, PictogramElement pe) {
 		if (pe instanceof ContainerShape) {
 			for (Shape s : ((ContainerShape) pe).getChildren()) {
@@ -375,28 +384,6 @@ public class $context.graphModelName$PasteFeature extends AbstractPasteFeature {
 		return false;
 	}
 
-	private void computeUpperLeft(Object[] bos) {
-		xMin = null;
-		yMin = null;
-		for (Object bo : bos) {
-			if (bo instanceof Shape) {
-				GraphicsAlgorithm ga = ((PictogramElement) bo).getGraphicsAlgorithm();
-
-				if (xMin == null) xMin = ga.getX();
-				if (yMin == null) yMin = ga.getY();
-				
-				xMin = Math.min(xMin, ga.getX());
-				yMin = Math.min(yMin, ga.getY());
-				
-			}
-			
-		}
-		
-		if (xMin == null) xMin = 0;
-		if (yMin == null) yMin = 0;
-		
-	}
-
 	private void translate(PictogramElement pe) {
 		if (pe instanceof Connection) {
 			translateConnection((Connection) pe);
@@ -411,8 +398,8 @@ public class $context.graphModelName$PasteFeature extends AbstractPasteFeature {
 		if (c instanceof FreeFormConnection) {
 			FreeFormConnection ffc = (FreeFormConnection) c;
 			for (Point p : ffc.getBendpoints()) {
-				p.setX(xContext + (p.getX() - xMin));
-				p.setY(yContext + (p.getY() - yMin));
+				p.setX(xContext + (p.getX() - xMinAbs));
+				p.setY(yContext + (p.getY() - yMinAbs));
 			}
 		}
 	}
@@ -918,6 +905,8 @@ import java.util.Set;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.graphiti.datatypes.ILocation;
+import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
 import org.eclipse.graphiti.mm.pictograms.Anchor;
 import org.eclipse.graphiti.mm.pictograms.AnchorContainer;
 import org.eclipse.graphiti.mm.pictograms.Connection;
@@ -927,14 +916,43 @@ import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.PictogramLink;
 import org.eclipse.graphiti.mm.pictograms.PictogramsFactory;
 import org.eclipse.graphiti.mm.pictograms.Shape;
+import org.eclipse.graphiti.ui.services.GraphitiUi;
+import org.eclipse.swt.graphics.Point;
 
 public class $context.graphModelName$CopyUtils {
 
 	private static HashMap&lt;Anchor, Anchor&gt; copiedAnchors = new HashMap&lt;&gt;();
 	private static HashMap&lt;EObject, EObject&gt; copiedBos = new HashMap&lt;&gt;();
 	
+	private static Integer xMin = null;
+	private static Integer yMin = null;
+	private static Integer xMinAbs = null;
+	private static Integer yMinAbs = null;
 
-	public static Set&lt;PictogramElement&gt; copy(List&lt;PictogramElement&gt; subGraph, Diagram diagram) {
+	/**
+	 * This method copies the subgraph given in @param subGraph and triggers the computation of 
+	 * the upper left corner of the subgraph relative to a container and to the diagram 
+	 * @param subGraph List containing nodes, containers and edges which should be copied
+	 * @param diagram The Graphiti diagram
+	 * @return Set containing the copied elements
+	 */
+	public static Set&lt;PictogramElement&gt; sourceCopy(List&lt;PictogramElement&gt; subGraph, Diagram diagram) {
+		 return copy(subGraph, diagram, true);
+	}
+	
+	/**
+	 * This method copies the subgraph given in @param subGraph and does not trigger the computation of 
+	 * the upper left corner of the subgraph relative to a container and to the diagram.
+	 * Use this method to copy the subgraph in the paste method. 
+	 * @param subGraph List containing nodes, containers and edges which should be copied
+	 * @param diagram The Graphiti diagram
+	 * @return Set containing the copied elements
+	 */
+	public static Set&lt;PictogramElement&gt; targetCopy(List&lt;PictogramElement&gt; subGraph, Diagram diagram) {
+		 return copy(subGraph, diagram, false);
+	}
+
+	public static Set&lt;PictogramElement&gt; copy(List&lt;PictogramElement&gt; subGraph, Diagram diagram, boolean computeUpperLeft) {
 		Set&lt;PictogramElement&gt; copyList = new HashSet&lt;&gt;();
 		
 		List&lt;Shape&gt; shapes = new ArrayList&lt;&gt;();
@@ -943,6 +961,9 @@ public class $context.graphModelName$CopyUtils {
 		copiedAnchors.clear();
 		copiedBos.clear();
 		
+		if (computeUpperLeft)
+			computeUpperLeft(subGraph);
+
 		for (PictogramElement pe : subGraph) {
 			if (pe instanceof Connection) {
 				connections.add((Connection) pe);
@@ -1105,7 +1126,49 @@ public class $context.graphModelName$CopyUtils {
 		
 		return (srcContained &amp;&amp; trgContained);
 	}
+
+	public static Point getUpperLeft() {
+		return new Point(xMin, yMin);
+	}
 	
+	public static Point getAbsoluteUpperLeft() {
+		return new Point(xMinAbs, yMinAbs);
+	}
+	
+	private static void computeUpperLeft(List&lt;PictogramElement&gt; subGraph) {
+		xMin = null;
+		yMin = null;
+		
+		xMinAbs = null;
+		yMinAbs = null;
+		
+		for (Object bo : subGraph) {
+			if (bo instanceof Shape) {
+				GraphicsAlgorithm ga = ((PictogramElement) bo).getGraphicsAlgorithm();
+
+				if (xMin == null) xMin = ga.getX();
+				if (yMin == null) yMin = ga.getY();
+				
+				ILocation absoluteLocation = GraphitiUi.getUiLayoutService().getLocationRelativeToDiagram((Shape) bo);
+				if (xMinAbs == null) xMinAbs = absoluteLocation.getX();
+				if (yMinAbs == null) yMinAbs = absoluteLocation.getY();
+				
+				xMin = Math.min(xMin, ga.getX());
+				yMin = Math.min(yMin, ga.getY());
+				
+				xMinAbs = Math.min(xMinAbs, absoluteLocation.getX());
+				yMinAbs = Math.min(yMinAbs, absoluteLocation.getY());	
+			}
+		}
+		
+		if (xMin == null) xMin = 0;
+		if (yMin == null) yMin = 0;
+
+		if (xMinAbs == null) xMinAbs = 0;
+		if (yMinAbs == null) yMinAbs = 0;
+		
+	}
+
 	private static void mapAnchors(ContainerShape cs, ContainerShape copy) {
 		/** Map the anchors in a container shape **/
 		for (Shape originChild : cs.getChildren()) {
