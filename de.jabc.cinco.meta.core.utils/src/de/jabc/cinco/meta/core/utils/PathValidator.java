@@ -1,4 +1,4 @@
-package de.jabc.cinco.meta.core.ge.style.model.validator;
+package de.jabc.cinco.meta.core.utils;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -9,9 +9,9 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 
-public class StylesValidator {
+public class PathValidator {
 
-	public static String checkImagePath(EObject o, String path) {
+	public static String checkPath(EObject o, String path) {
 		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 		URI iconURI = URI.createURI(path, true);
 		URI resURI = o.eResource().getURI();
@@ -35,5 +35,4 @@ public class StylesValidator {
 		
 		return "";
 	}
-	
 }
