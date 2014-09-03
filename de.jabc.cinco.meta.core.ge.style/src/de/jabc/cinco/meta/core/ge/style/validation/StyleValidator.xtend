@@ -3,7 +3,7 @@
  */
 package de.jabc.cinco.meta.core.ge.style.validation
 
-import de.jabc.cinco.meta.core.ge.style.model.validator.StylesValidator
+import de.jabc.cinco.meta.core.utils.PathValidator
 import org.eclipse.xtext.validation.Check
 import style.Image
 import style.StylePackage
@@ -36,7 +36,7 @@ class StyleValidator extends AbstractStyleValidator {
  		if (image.path.nullOrEmpty)
  			warning('No Path specified', StylePackage.Literals.IMAGE__PATH, NO_PATH)
  		
- 		val retVal = StylesValidator.checkImagePath(image, image.path) as String
+ 		val retVal = PathValidator.checkPath(image, image.path) as String
  		if (!retVal.empty)
  			error(retVal, StylePackage.Literals.IMAGE__PATH, INVALID_PATH)
  	}

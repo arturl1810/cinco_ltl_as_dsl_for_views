@@ -15,8 +15,6 @@ import mgl.NodeContainer;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.EList;
@@ -37,6 +35,7 @@ import style.Styles;
 import style.Text;
 import de.jabc.cinco.meta.core.pluginregistry.validation.ErrorPair;
 import de.jabc.cinco.meta.core.pluginregistry.validation.IMetaPluginValidator;
+import de.jabc.cinco.meta.core.utils.PathValidator;
 
 public class StylesValidator implements IMetaPluginValidator {
 
@@ -82,7 +81,7 @@ public class StylesValidator implements IMetaPluginValidator {
 					.getEStructuralFeature("value"));
 		
 		String path = annotation.getValue().get(0);
-		String retval = de.jabc.cinco.meta.core.ge.style.model.validator.StylesValidator.checkImagePath(annotation, path);
+		String retval = PathValidator.checkPath(annotation, path);
 		ErrorPair<String, EStructuralFeature> ep = new ErrorPair<String, EStructuralFeature>(
 				retval ,annotation.eClass()
 				.getEStructuralFeature("value"));
@@ -261,6 +260,7 @@ public class StylesValidator implements IMetaPluginValidator {
 			return new ErrorPair<String, EStructuralFeature>("Missing path to style file", 
 					annot.eClass().getEStructuralFeature("value"));
 		} else {
+			PathValidator.checkPath(annot, annot.getValue().get(0));
 			Styles styles = getStyles(gm);
 			if (styles == null)
 				return new ErrorPair<String, EStructuralFeature>("Style file " + annot.getValue().get(0)+" does not exist", 
@@ -301,14 +301,24 @@ public class StylesValidator implements IMetaPluginValidator {
 		for (Annotation a : gm.getAnnotations()) {
 			if (ID_STYLE.equals(a.getName())) {
 				String path = a.getValue().get(0);
-				URI uri = URI.createPlatformResourceURI(path, true);
+				URI uri = URI.createURI(path, true);
 				try {
-					Resource res = new ResourceSetImpl().getResource(uri, true);
+					Resource res = null;
+					if (uri.isPlatformResource())
+						res = new ResourceSetImpl().getResource(uri, true);
+					else {
+						IProject p = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(gm.eResource().getURI().toPlatformString(true))).getProject();
+						IFile file = p.getFile(path);
+						URI fileURI = URI.createPlatformResourceURI(file.getFullPath().toOSString(), true);
+						res = new ResourceSetImpl().getResource(fileURI, true);
+					}
+					
 					for (Object o : res.getContents()) {
 						if (o instanceof Styles)
 							return (Styles) o;
 					}
 				} catch (Exception e) {
+					e.printStackTrace();
 					return null;
 				}
 			}

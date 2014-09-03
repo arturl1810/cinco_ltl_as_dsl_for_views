@@ -103,7 +103,7 @@ public class Generate extends AbstractHandler {
 				for (Annotation a : gModel.getAnnotations()) {
 					if (ID_STYLE.equals(a.getName())) {
 						String stylePath = a.getValue().get(0);
-						styles = loadStyles(stylePath);
+						styles = loadStyles(stylePath, gModel);
 					}
 				}
 				
@@ -188,6 +188,7 @@ public class Generate extends AbstractHandler {
 	
 	private void copyImage(GraphModel gm, IProject p, NullProgressMonitor monitor) {
 		copyImages(gm.getAnnotations(), p, monitor);
+		copyImage(gm.getIconPath(), p, monitor);
 		for (Node n : gm.getNodes()) 
 			copyImages(n.getAnnotations(), p, monitor);
 		
@@ -267,20 +268,30 @@ public class Generate extends AbstractHandler {
 		
 	}
 
-	private Styles loadStyles(String path) throws IOException {
-		Styles s = null;
-		Resource res = new ResourceSetImpl().getResource(
-				URI.createPlatformResourceURI(path, true), true);
-
-		if (res != null && res.getContents().get(0) instanceof Styles) {
-			res.load(null);
-			EcoreUtil.resolveAll(res.getResourceSet());
-			s = (Styles) res.getContents().get(0);
-		} else {
-			throw new IOException("Couldn't load resource from: \""
-					+ path + "\"");
+	private Styles loadStyles(String path, GraphModel gm) throws IOException {
+		Resource res = null;
+		
+		URI uri = URI.createURI(path, true);
+		try {
+			res = null;
+			if (uri.isPlatformResource())
+				res = new ResourceSetImpl().getResource(uri, true);
+			else {
+				IProject p = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(gm.eResource().getURI().toPlatformString(true))).getProject();
+				IFile file = p.getFile(path);
+				URI fileURI = URI.createPlatformResourceURI(file.getFullPath().toOSString(), true);
+				res = new ResourceSetImpl().getResource(fileURI, true);
+			}
+			
+			for (Object o : res.getContents()) {
+				if (o instanceof Styles)
+					return (Styles) o;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
 		}
-		return s;
+		return null;
 	}
 	
 	private GraphModel loadGraphModel(Resource res) throws IOException{

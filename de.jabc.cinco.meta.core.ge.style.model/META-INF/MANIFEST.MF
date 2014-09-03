@@ -10,7 +10,6 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Export-Package: de.jabc.cinco.meta.core.ge.style.model.appearance;uses:="style",
  de.jabc.cinco.meta.core.ge.style.model.customfeature;uses:="org.eclipse.graphiti.features.context,org.eclipse.graphiti.features.custom",
  de.jabc.cinco.meta.core.ge.style.model.movefeature,
- de.jabc.cinco.meta.core.ge.style.model.validator,
  style;uses:="org.eclipse.emf.ecore,org.eclipse.emf.common.util",
  style.impl;
   uses:="org.eclipse.emf.ecore,

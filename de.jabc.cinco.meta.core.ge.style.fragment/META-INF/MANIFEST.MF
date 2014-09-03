@@ -5,4 +5,6 @@ Bundle-SymbolicName: de.jabc.cinco.meta.core.ge.style.fragment;singleton:=true
 Bundle-Version: 0.5.0.qualifier
 Fragment-Host: de.jabc.cinco.meta.core.pluginregistry
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
-Require-Bundle: de.jabc.cinco.meta.core.ge.style.model
+Require-Bundle: de.jabc.cinco.meta.core.ge.style.model,
+ de.jabc.cinco.meta.core.utils,
+ org.eclipse.core.resources
