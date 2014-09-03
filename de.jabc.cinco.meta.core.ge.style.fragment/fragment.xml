@@ -53,6 +53,15 @@
       <node-annotation
             recognized-annotation="doubleClickAction">
       </node-annotation>
+      <nodecontainer-annotation
+            recognized-annotation="icon">
+      </nodecontainer-annotation>
+      <edge-annotation
+            recognized-annotation="icon">
+      </edge-annotation>
+      <node-annotation
+            recognized-annotation="icon">
+      </node-annotation>
    </extension>
 
 </fragment>

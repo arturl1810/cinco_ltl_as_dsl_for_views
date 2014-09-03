@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>86742e86-2110-423a-afde-6fd521759a73</id>
   <name>GraphInformation</name>
-  <changecounter>697</changecounter>
+  <changecounter>703</changecounter>
   <sib>
     <id>9e28dbf6-7ef4-4eef-9ad3-1d0d32bf6020</id>
     <name>GetGraphModelName</name>
@@ -894,43 +894,6 @@
     <branch>emptyString</branch>
     <branch>false</branch>
   </edge>
-  <sib>
-    <id>445cc898-1d5e-4fad-89e9-426ce922a764</id>
-    <name>LoadGraphitiImage</name>
-    <label>ConvertIconPath</label>
-    <sib-uid>ge-util-sibs/LoadGraphitiImage</sib-uid>
-    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.LoadGraphitiImage</taxonomy>
-    <position>948.0,993.0</position>
-    <parameter name="imageId">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>imageId</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="imagePath">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>iconPath</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="relativePath">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>iconPath</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-  </sib>
   <edge>
     <source>07be42a3-0642-41b4-9d58-693887815d34</source>
     <target>4c8d67e0-4d36-4c88-9ff2-1829b388c2ea</target>
@@ -960,14 +923,6 @@
     <finalbranches>false</finalbranches>
     <finalbranches>true</finalbranches>
   </sib>
-  <edge>
-    <source>4c8d67e0-4d36-4c88-9ff2-1829b388c2ea</source>
-    <target>445cc898-1d5e-4fad-89e9-426ce922a764</target>
-    <point>840.0,930.0</point>
-    <point>1005.0,1020.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>true</branch>
-  </edge>
   <sib>
     <id>7395081d-def7-4a26-b2d2-5edf3f52b3c2</id>
     <name>GetGraphModelNodeContainers</name>
@@ -1026,14 +981,6 @@
     <point>120.0,720.0</point>
     <point>122.0,849.0</point>
     <branch>exit</branch>
-  </edge>
-  <edge>
-    <source>445cc898-1d5e-4fad-89e9-426ce922a764</source>
-    <target>50ec1dcb-ff60-4984-8144-78ffa5542897</target>
-    <point>1005.0,1020.0</point>
-    <point>1185.0,930.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
   </edge>
   <edge>
     <source>4c8d67e0-4d36-4c88-9ff2-1829b388c2ea</source>
@@ -2657,6 +2604,48 @@ ${inlineAppearances}</expression>
     <branch>false</branch>
     <branch>true</branch>
   </edge>
+  <sib>
+    <id>ada6666a-c229-4570-a416-c8bd524f4831</id>
+    <name>GetImageRelativePath</name>
+    <label>GetImageRelativePath</label>
+    <sib-uid>ge-util-sibs/GetImageRelativePath</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.GetImageRelativePath</taxonomy>
+    <position>960.0,993.0</position>
+    <parameter name="imagePath">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>iconPath</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="relativePath">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>relativePath</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>4c8d67e0-4d36-4c88-9ff2-1829b388c2ea</source>
+    <target>ada6666a-c229-4570-a416-c8bd524f4831</target>
+    <point>840.0,930.0</point>
+    <point>1012.0,1012.0</point>
+    <branch>true</branch>
+  </edge>
+  <edge>
+    <source>ada6666a-c229-4570-a416-c8bd524f4831</source>
+    <target>50ec1dcb-ff60-4984-8144-78ffa5542897</target>
+    <point>1020.0,1020.0</point>
+    <point>1176.0,912.0</point>
+    <branch>default</branch>
+  </edge>
   <values/>
   <branch>
     <name>error</name>
@@ -2772,11 +2761,6 @@ ${inlineAppearances}</expression>
     <name>error</name>
     <branch>error</branch>
     <sib>a2a18972-cdfe-4acb-a48d-d64cefc5ca92</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>445cc898-1d5e-4fad-89e9-426ce922a764</sib>
   </branch>
   <branch>
     <name>error</name>
@@ -3002,5 +2986,10 @@ ${inlineAppearances}</expression>
     <name>error</name>
     <branch>error</branch>
     <sib>7014efbf-f0bf-4055-bb09-5ced750b935f</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>ada6666a-c229-4570-a416-c8bd524f4831</sib>
   </branch>
 </model>

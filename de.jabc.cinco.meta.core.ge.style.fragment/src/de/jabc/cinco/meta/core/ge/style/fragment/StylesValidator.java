@@ -13,6 +13,12 @@ import mgl.ModelElement;
 import mgl.Node;
 import mgl.NodeContainer;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -34,6 +40,9 @@ import de.jabc.cinco.meta.core.pluginregistry.validation.IMetaPluginValidator;
 
 public class StylesValidator implements IMetaPluginValidator {
 
+	private static final String ID_STYLE = "style";
+	private static final String ID_ICON = "icon";
+	
 	public StylesValidator() {
 		// TODO Auto-generated constructor stub
 	}
@@ -45,22 +54,41 @@ public class StylesValidator implements IMetaPluginValidator {
 			return null;
 		Annotation annotation = (Annotation) eObject;
 		ModelElement me = getModelElement((Annotation) eObject);
-		if (me instanceof GraphModel && annotation.getName().equals("style"))
+		if (me instanceof GraphModel && annotation.getName().equals(ID_STYLE))
 			ep = checkGraphModelStyleAnnotation((GraphModel) me, annotation);
 		
-		if (me instanceof Node && annotation.getName().equals("style")) {
+		if (me instanceof Node && annotation.getName().equals(ID_STYLE)) {
 			ep = checkNodeContainerStyleAnnotation((Node) me, annotation);
 		}
-		if (me instanceof NodeContainer && annotation.getName().equals("style")) {
+		if (me instanceof NodeContainer && annotation.getName().equals(ID_STYLE)) {
 			ep = checkNodeContainerStyleAnnotation((NodeContainer) me, annotation);
 		}
-		if (me instanceof Edge && annotation.getName().equals("style")) {
+		if (me instanceof Edge && annotation.getName().equals(ID_STYLE)) {
 			ep = checkEdgeStyleAnnotation((Edge) me, annotation);
 		}
+		if (annotation.getName().equals(ID_ICON)) {
+			ep = checkIcon(annotation);
+		}
+		
 		
 		return ep;
 	}
 	
+	private ErrorPair<String, EStructuralFeature> checkIcon(
+			Annotation annotation) {
+		if (annotation.getValue().size() == 0)
+			return new ErrorPair<String, EStructuralFeature>(
+					"Please specify an icon by relative or platform path", annotation.eClass()
+					.getEStructuralFeature("value"));
+		
+		String path = annotation.getValue().get(0);
+		String retval = de.jabc.cinco.meta.core.ge.style.model.validator.StylesValidator.checkImagePath(annotation, path);
+		ErrorPair<String, EStructuralFeature> ep = new ErrorPair<String, EStructuralFeature>(
+				retval ,annotation.eClass()
+				.getEStructuralFeature("value"));
+		return (retval.isEmpty()) ? null : ep;
+	}
+
 	private ErrorPair<String, EStructuralFeature> checkNodeContainerStyleAnnotation(ModelElement me, Annotation annot) {
 		Styles styles = getStyles(getGraphModel(me));
 		if (annot.getValue().size() == 0) {
@@ -262,7 +290,7 @@ public class StylesValidator implements IMetaPluginValidator {
 	
 	private Annotation getStyleAnnotation(ModelElement me) {
 		for (Annotation a : me.getAnnotations()) {
-			if ("style".equals(a.getName())) {
+			if (ID_STYLE.equals(a.getName())) {
 				return a;
 			}
 		}
@@ -271,7 +299,7 @@ public class StylesValidator implements IMetaPluginValidator {
 	
 	private Styles getStyles(GraphModel gm) {
 		for (Annotation a : gm.getAnnotations()) {
-			if ("style".equals(a.getName())) {
+			if (ID_STYLE.equals(a.getName())) {
 				String path = a.getValue().get(0);
 				URI uri = URI.createPlatformResourceURI(path, true);
 				try {

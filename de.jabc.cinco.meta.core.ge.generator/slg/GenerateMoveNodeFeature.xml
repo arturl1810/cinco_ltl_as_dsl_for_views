@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>98ab2190-4ec2-4346-85ee-61b8c0d16099</id>
   <name>GenerateMoveNodeFeature</name>
-  <changecounter>195</changecounter>
+  <changecounter>199</changecounter>
   <sib>
     <id>a757414d-68f3-478e-a5f2-cbb249a4880a</id>
     <name>RunStringTemplate_1</name>
@@ -39,10 +39,12 @@ import graphmodel.Container;
 import graphmodel.ContainingElement;
 import graphmodel.Edge;
 
+import de.jabc.cinco.meta.core.ge.style.model.movefeature.CincoMoveShapeFeature;
+
 import $context.projectName$.*;
 import $context.importPath$.*;
 
-public class Move$context.node.name$Feature extends DefaultMoveShapeFeature{
+public class Move$context.node.name$Feature extends CincoMoveShapeFeature{
 
 	public Move$context.node.name$Feature(IFeatureProvider fp) {
 		super(fp);

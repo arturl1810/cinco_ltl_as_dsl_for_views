@@ -2,14 +2,14 @@
 <model version="2.1">
   <id>9b2878c2-af27-4fb3-878a-6613ed7a16c6</id>
   <name>GenerateCreateNodeFeature</name>
-  <changecounter>513</changecounter>
+  <changecounter>533</changecounter>
   <sib>
     <id>cc5a8f52-a2dd-434a-825b-350e398066fe</id>
     <name>RunStringTemplate</name>
     <label>CreateNodeFeatureContent</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>252.5,243.0</position>
+    <position>177.5,243.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -46,6 +46,8 @@ public class Create$context.modelElementName$Feature extends AbstractCreateFeatu
 public Create$context.node.name$Feature(IFeatureProvider fp) {
 		super(fp, &quot;$context.modelElementName$&quot;, &quot;Create $context.modelElementName$&quot;);
 	}
+
+	$context.createImageContent$
 
 	public boolean canCreate(ICreateContext context) {
 		Object target = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(context.getTargetContainer());
@@ -332,9 +334,9 @@ public Create$context.node.name$Feature(IFeatureProvider fp) {
   </edge>
   <edge>
     <source>3e13317d-fd2a-4690-9842-caaba99b46ec</source>
-    <target>a2faa48d-948a-4e96-809f-cd6600031d9e</target>
-    <point>1077.0,251.9142857142857</point>
-    <point>905.0,301.14285714285717</point>
+    <target>41c8e9e1-35bd-4c9f-86a9-1c50e4892394</target>
+    <point>1077.0,266.9294117647059</point>
+    <point>860.0,330.8235294117647</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>emptyString</branch>
     <branch>false</branch>
@@ -502,7 +504,7 @@ public Create$context.node.name$Feature(IFeatureProvider fp) {
     <label>GenerateCheckContainer</label>
     <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
-    <position>785.5,241.0</position>
+    <position>590.5,241.0</position>
     <parameter name="ClearContent">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
@@ -574,7 +576,7 @@ public Create$context.node.name$Feature(IFeatureProvider fp) {
     <label>InitializeAttributes</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>566.5,241.0</position>
+    <position>416.5,241.0</position>
     <parameter name="modelElement">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -598,6 +600,38 @@ public Create$context.node.name$Feature(IFeatureProvider fp) {
     <target>cc5a8f52-a2dd-434a-825b-350e398066fe</target>
     <point>615.0,270.0</point>
     <point>355.0,261.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>41c8e9e1-35bd-4c9f-86a9-1c50e4892394</id>
+    <name>GraphSIB_1</name>
+    <label>GenerateModelElementIcon</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>792.5,241.0</position>
+    <parameter name="modelElementKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>currentNode</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>827994ca-f72f-4fe1-afcb-fa6f30c34d59</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>GenerateModelElementIcon</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>41c8e9e1-35bd-4c9f-86a9-1c50e4892394</source>
+    <target>a2faa48d-948a-4e96-809f-cd6600031d9e</target>
+    <point>840.0,270.0</point>
+    <point>611.0,264.0</point>
     <branch>default</branch>
   </edge>
   <parameter>
@@ -691,5 +725,10 @@ public Create$context.node.name$Feature(IFeatureProvider fp) {
     <name>error</name>
     <branch>error</branch>
     <sib>f87cbe01-deba-431a-9bcf-72868f10e5c7</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>41c8e9e1-35bd-4c9f-86a9-1c50e4892394</sib>
   </branch>
 </model>
