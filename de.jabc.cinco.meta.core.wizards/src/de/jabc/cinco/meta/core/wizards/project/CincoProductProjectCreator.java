@@ -127,7 +127,7 @@ public class CincoProductProjectCreator {
 	}
 
 	private void createFlowGraphMGLModel(IFile modelFile) {		
-		CharSequence cs = CincoProductWizardTemplates.generateMGLFile(mglModelName, packageName, projectName);
+		CharSequence cs = CincoProductWizardTemplates.generateMGLFile(mglModelName, packageName, projectName, features);
 		try {
 			createFile(modelFile, cs.toString());
 		} catch (CoreException e) {

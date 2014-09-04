@@ -7,15 +7,31 @@ import static de.jabc.cinco.meta.core.wizards.project.ExampleFeature.*
 
 class CincoProductWizardTemplates {
 	
-	def static generateMGLFile(String modelName, String packageName, String projectName) '''
+	def static generateMGLFile(String modelName, String packageName, String projectName, Set<ExampleFeature> features) '''
 	
-@style("/«projectName»/model/«modelName».style")
+«IF features.contains(PRIME_REFERENCES)»
+import "platform:/resource/«packageName»/model/ExternalLibrary.ecore"
+«ENDIF»
+	
+@style("model/«modelName».style")
+«IF features.contains(PRIME_REFERENCES)»
+@primeviewer
+«ENDIF»
+«IF features.contains(CODE_GENERATOR)»
+@generatable("«packageName»", "«packageName».codegen.Generate","/src-gen/")
+«ENDIF»
 graphModel «modelName» {
 	package «packageName»
-	nsURI "http://cinco.scce.info/products/«modelName»"
+	nsURI "http://cinco.scce.info/product/«modelName.toLowerCase»"
 	diagramExtension "«modelName.toLowerCase»"
-
+	
+	attr EString as modelName
+	
 	@style(greenCircle)
+	«IF features.contains(CUSTOM_ACTION)»
+	@contextMenuAction("«packageName».action.ShortestPathToEnd")
+	@doubleClickAction("«packageName».action.ShortestPathToEnd")
+	«ENDIF»
 	node Start {
 		// allow exactly one outgoing Transition
 		outgoingEdges (Transition[1,1]) 
@@ -31,12 +47,32 @@ graphModel «modelName» {
 	}
 	
 	// use the "blueTextRectangle" as style and pass the attribute "text" as parameter
-	@style(blueTextRectangle, "${text}")
-	node Inner {		
-		attr EString as text
+	@style(blueTextRectangle, "${name}")
+	node Activity {		
+		attr EString as name
+		attr EString as description
 		incomingEdges (*[1,-1])
 		outgoingEdges (LabeledTransition[1,-1])
 	}	
+	
+	«IF features.contains(PRIME_REFERENCES)»
+	@style(greenTextRectangle, "${activity.name}")
+	node ExternalActivity {
+		@pvLabel(name)
+		@pvFileExtension("externallibrary")
+		prime externalLibrary.ExternalActivity as activity
+		incomingEdges (*[1,-1])
+		outgoingEdges (LabeledTransition[1,-1])			
+	}
+	«ENDIF»
+	
+	«IF features.contains(CONTAINERS)»
+	@style(swimlane, "${actor}")
+	container Swimlane {
+		containableElements (*)
+		attr EString as actor	
+	}
+	«ENDIF»
 	
 	@style(simpleArrow)
 	edge Transition { 
@@ -97,6 +133,37 @@ nodeStyle blueTextRectangle {
 	}
 }
 
+«IF features.contains(PRIME_REFERENCES)»
+nodeStyle greenTextRectangle {
+	roundedRectangle rec {
+		appearance extends default {
+			background (101,175,95)
+		}
+		position (0,0)
+		size (96,32)
+		corner (8,8)
+		text {
+			position relativeTo rec ( CENTER, MIDDLE )
+			value "%s" 
+		}
+	}
+}
+«ENDIF»
+
+«IF features.contains(CONTAINERS)»
+nodeStyle swimlane {
+	rectangle {
+		appearance {
+			background (255,236,202)
+		}
+		size (400,100)
+		text {
+			position (10,10)
+			value "%s"
+		}	
+	}
+}
+«ENDIF»
 
 edgeStyle simpleArrow {	
 	«IF features.contains(APPEARANCE_PROVIDER)»
