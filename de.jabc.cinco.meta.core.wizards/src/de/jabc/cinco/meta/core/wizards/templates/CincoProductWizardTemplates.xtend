@@ -1,5 +1,10 @@
 package de.jabc.cinco.meta.core.wizards.templates
 
+import de.jabc.cinco.meta.core.wizards.project.ExampleFeature
+import java.util.Set
+
+import static de.jabc.cinco.meta.core.wizards.project.ExampleFeature.*
+
 class CincoProductWizardTemplates {
 	
 	def static generateMGLFile(String modelName, String packageName, String projectName) '''
@@ -46,7 +51,7 @@ graphModel «modelName» {
 	'''
 	
 
-	def static generateStyleFile(String packageName) '''
+	def static generateStyleFile(String packageName, Set<ExampleFeature> features) '''
 appearance default {
 	lineWidth 2
 	background (144,207,238)
@@ -94,7 +99,12 @@ nodeStyle blueTextRectangle {
 
 
 edgeStyle simpleArrow {	
+	«IF features.contains(APPEARANCE_PROVIDER)»
 	appearanceProvider ( "«packageName».appearance.SimpleArrowAppearance" ) 
+	«ELSE»
+	appearance default
+	«ENDIF»
+	
 	decorator {
 		location (1.0) // at the end of the edge
 		ARROW

@@ -1,10 +1,5 @@
 package de.jabc.cinco.meta.core.wizards.project;
 
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.jdt.core.JavaConventions;
-import org.eclipse.jface.wizard.IWizardContainer;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
@@ -18,23 +13,20 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
-public class NewMGLProjectWizardPage extends WizardPage {
+import de.jabc.cinco.meta.core.wizards.CincoWizardUtils;
+
+public class CreateNewProjectPage extends WizardPage {
 	
 	private Button btnProjectAsPkg;
-	private Button btnGenerateAppearanceProvider;
-	private Button btnGenerateCustomFeature;
-	private Button btnGenerateCodeGenerator;
-	private Button btnGenerateContainers;
-	
 
 	private Text txtProjectName;
 	private Text txtPackageName;
 	private Text txtModelName;
 	
-	protected NewMGLProjectWizardPage(String pageName) {
+	protected CreateNewProjectPage(String pageName) {
 		super(pageName);
-		setTitle("New Cinco Product Project");
-		setDescription("Create new Cinco Product project with initial example models");
+		setTitle("Start New Cinco Product Project");
+		setDescription("Create new Cinco Product project with minimal required files");
 	}
 
 	@Override
@@ -69,38 +61,6 @@ public class NewMGLProjectWizardPage extends WizardPage {
 		txtModelName = new Text(comp, SWT.BORDER);
 		txtModelName.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		
-		Label spacer = new Label(comp, SWT.SEPARATOR | SWT.HORIZONTAL);
-		spacer.setLayoutData(new GridData(SWT.FILL, SWT.LEFT, true, false, 2,1));
-		
-		Label additionalsSection = new Label(comp, SWT.NONE);
-		additionalsSection.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 2, 1));
-		additionalsSection.setText("Include additional example code snippets");
-		
-		btnGenerateContainers = new Button(comp, SWT.CHECK);
-		btnGenerateContainers.setSelection(false);
-		btnGenerateContainers.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 2, 1));
-		btnGenerateContainers.setText("&Container");
-		
-		btnGenerateAppearanceProvider = new Button(comp, SWT.CHECK);
-		btnGenerateAppearanceProvider.setSelection(false);
-		btnGenerateAppearanceProvider.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 2, 1));
-		btnGenerateAppearanceProvider.setText("&Appearance provider");
-		
-		btnGenerateCustomFeature = new Button(comp, SWT.CHECK);
-		btnGenerateCustomFeature.setSelection(false);
-		btnGenerateCustomFeature.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 2, 1));
-		btnGenerateCustomFeature.setText("Custom &feature");
-		
-		btnGenerateCodeGenerator = new Button(comp, SWT.CHECK);
-		btnGenerateCodeGenerator.setSelection(false);
-		btnGenerateCodeGenerator.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 2, 1));
-		btnGenerateCodeGenerator.setText("Code &generator");
-		
-		
-		
-		
-		
-		
 		addListeners();
 		initContents();
 		setControl(comp);
@@ -109,8 +69,8 @@ public class NewMGLProjectWizardPage extends WizardPage {
 
 	private void initContents() {
 		txtModelName.setText("SomeGraph");
-		txtProjectName.setText("de.test.project");
-		txtPackageName.setText("de.test.project");
+		txtProjectName.setText("info.scce.cinco.product.somegraph");
+		txtPackageName.setText("info.scce.cinco.product.somegraph");
 		dialogChanged();
 	}
 	
@@ -171,60 +131,6 @@ public class NewMGLProjectWizardPage extends WizardPage {
 	}
 	
 
-	private String validateModelName() {
-		if (txtModelName.getText() != null) {
-			String modelName = txtModelName.getText();
-			if (!modelName.isEmpty()) {
-				IStatus nameStatus = JavaConventions.validateIdentifier(modelName, "1.7", "1.7");
-				if (nameStatus.getCode() != IStatus.OK) {
-					return "Model Name: " + nameStatus.getMessage();
-				}
-				else if (!Character.isUpperCase(modelName.charAt(0))) {
-					return "Model Name: must start with capital letter";
-				}
-			}
-			else {
-				return "Model Name: must not be empty";
-			}
-		}
-		return null;
-	}
-
-
-
-	private String validatePackageName() {
-		if (txtPackageName != null) {
-			String packageName = txtPackageName.getText();
-			if (!packageName.isEmpty()) {
-				IStatus nameStatus = JavaConventions.validatePackageName(packageName, "1.7", "1.7");
-				if (nameStatus.getCode() != IStatus.OK) {
-					return "Package Name: " + nameStatus.getMessage();
-				}
-			} else {
-				return "Package Name: must not be empty";
-			}
-		}
-		return null;
-	}
-
-
-
-	private String validateProjectName() {
-		if (txtProjectName != null) {
-			String projectName = txtProjectName.getText();
-			if (projectName.isEmpty())
-				return "Enter project name";
-			IProject[] projects = ResourcesPlugin.getWorkspace().getRoot()
-					.getProjects();
-			for (IProject p : projects) {
-				if (p.getName().equals(projectName))
-					return "Project: " + projectName + " already exists";
-			}
-			return null;
-		}
-		return null;
-	}
-	
 	private void updateStatus(String msg) {
 		setErrorMessage(msg);
 		if (getContainer().getCurrentPage() != null) {
@@ -235,9 +141,9 @@ public class NewMGLProjectWizardPage extends WizardPage {
 	}
 	
 	private void dialogChanged() {
-		String projectNameError = validateProjectName();
-		String packageNameError = validatePackageName();
-		String modelNameError = validateModelName();
+		String projectNameError = CincoWizardUtils.validateProjectName(txtProjectName.getText());
+		String packageNameError = CincoWizardUtils.validatePackageName(txtPackageName.getText());
+		String modelNameError = CincoWizardUtils.validateModelName(txtModelName.getText());
 		if (projectNameError != null)
 			updateStatus(projectNameError);
 		else if (packageNameError != null)
