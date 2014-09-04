@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>2c16b89c-89f5-4733-ac06-d93c4f4ca82e</id>
   <name>GenerateListStringCode</name>
-  <changecounter>91</changecounter>
+  <changecounter>118</changecounter>
   <sib>
     <id>0ba93f26-5176-4eda-b53b-40b4a55312a7</id>
     <name>RunStringTemplate</name>
@@ -207,14 +207,17 @@ public void createControls(Composite parent, TabbedPropertySheetPage aTabbedProp
 		InputDialog d = new InputDialog(null, &quot;Add&quot;, &quot;Add a name&quot;, &quot;&lt;&gt;&quot;, null);
 		int retVal = d.open();
 		if (retVal == InputDialog.OK) {
-			String s = d.getValue();
-			$context.flAttributeName$List.add(s);
+			final String s = d.getValue();
+			final $context.modelElementName$ tmp = getBusinessObjectForSelection(getSelectedPictogramElement());
+			if (tmp == null)
+				return;
 			TransactionalEditingDomain dom = getDiagramContainer().getDiagramBehavior().getEditingDomain();
 			dom.getCommandStack().execute(new RecordingCommand(dom, &quot;Add $context.flAttributeName$: &quot; + s) {
 				
 				@Override
 				protected void doExecute() {
-					changeValue();
+					tmp.get$context.fuAttributeName$().add(s);
+					refresh();
 				}
 			});
 		}
@@ -229,15 +232,23 @@ SelectionListener removeListener = new SelectionListener() {
 	
 	@Override
 	public void widgetSelected(SelectionEvent e) {
-		if ($context.flAttributeName$List.getSelection().length &gt; 0) {
-			String remove = $context.flAttributeName$List.getSelection()[0];
-			$context.flAttributeName$List.remove($context.flAttributeName$List.getSelection()[0]);
+		if ($context.flAttributeName$ListViewer.getSelection() != null &amp;&amp; !$context.flAttributeName$ListViewer.getSelection().isEmpty()) {
+			ISelection sel = $context.flAttributeName$ListViewer.getSelection();
+			if (!(sel instanceof IStructuredSelection))
+				return;
+			IStructuredSelection ssel = (IStructuredSelection) sel;
+			final Object selection = ssel.getFirstElement();
+			final $context.modelElementName$ tmp = getBusinessObjectForSelection(getSelectedPictogramElement());
+			if (tmp == null) {
+				return;
+			}
 			TransactionalEditingDomain dom = getDiagramContainer().getDiagramBehavior().getEditingDomain();
 			dom.getCommandStack().execute(new RecordingCommand(dom, &quot;Remove: &quot; + remove) {
-				
+			
 				@Override
 				protected void doExecute() {
-					changeValue();
+					tmp.get$context.fuAttributeName$().remove(selection);
+					refresh();
 				}
 			});
 		}
