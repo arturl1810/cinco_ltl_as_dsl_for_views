@@ -2,6 +2,299 @@
 <model version="2.1">
   <id>f1d5af47-45ba-4222-907e-288031bbbeec</id>
   <name>GenerateListBooleanCode</name>
-  <changecounter>3</changecounter>
+  <changecounter>46</changecounter>
+  <sib>
+    <id>61c4f117-d93e-4219-8c5f-3fc73bc0ff6e</id>
+    <name>RunStringTemplate_2</name>
+    <label>GenControl</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>110.0,123.0</position>
+    <parameter name="append">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>controlCode</key>
+          <scope>PARENT</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>private Text $context.flAttributeName$Text;
+private Object oldVal;
+	
+@Override
+public void createControls(Composite parent, TabbedPropertySheetPage tabbedPropertySheetPage) {
+	super.createControls(parent, tabbedPropertySheetPage);
+	TabbedPropertySheetWidgetFactory factory = getWidgetFactory();
+	Composite composite = factory.createFlatFormComposite(parent);
+
+	FormData data;
+
+	$context.flAttributeName$Text = factory.createText(composite, &quot;&quot;);
+	data = new FormData();
+	data.left = new FormAttachment(0, $context.width$);
+	data.right = new FormAttachment(100, 0);
+	data.top = new FormAttachment(0, ITabbedPropertyConstants.VSPACE);
+	$context.attributeName$Text.setLayoutData(data);
+
+	Label $context.attribute.name$Label = factory.createLabel(composite, &quot;$context.fuAttributeName$:&quot;);
+	data = new FormData();
+	data.left = new FormAttachment(0, 0);
+	data.right = new FormAttachment($context.flAttributeName$Text, -ITabbedPropertyConstants.HSPACE);
+	data.top = new FormAttachment($context.flAttributeName$Text, 0, SWT.CENTER);
+	$context.attributeName$Label.setLayoutData(data);
+
+	$context.attributeName$Text.addTraverseListener(traverseListener);
+	$context.attributeName$Text.addFocusListener(focusListener);
+	$context.attributeName$Text.addVerifyListener(verifyListener);
+}
+</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$START">
+      <boolean>true</boolean>
+    </userobject>
+  </sib>
+  <sib>
+    <id>9239cd79-930a-40d7-9f09-03cfebdcc597</id>
+    <name>RunStringTemplate_3</name>
+    <label>GenListenerCode</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>436.0,123.0</position>
+    <parameter name="append">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>listenerCode</key>
+          <scope>PARENT</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>TraverseListener traverseListener = new TraverseListener() {
+		
+	@Override
+	public void keyTraversed(TraverseEvent e) {
+		if (oldVal.equals($context.flAttributeName$Text.getText()))
+			return;
+		if (e.detail == SWT.TRAVERSE_RETURN) {
+			TransactionalEditingDomain dom = getDiagramContainer().getDiagramBehavior().getEditingDomain();
+			dom.getCommandStack().execute(new RecordingCommand(dom, &quot;Set $context.flAttributeName$&quot;) {
+				
+				@Override
+				protected void doExecute() {
+					changeValue();
+				}
+			});
+		}
+		if (e.detail == SWT.TRAVERSE_ESCAPE) {
+			refresh();
+		}
+	}
+};
+
+FocusListener focusListener = new FocusListener() {
+		
+	@Override
+	public void focusLost(FocusEvent e) {
+		if (oldVal.equals($context.flAttributeName$Text.getText()))
+			return;
+		
+		TransactionalEditingDomain dom = getDiagramContainer().getDiagramBehavior().getEditingDomain();
+		dom.getCommandStack().execute(new RecordingCommand(dom, &quot;Set char&quot;) {
+			
+			@Override
+			protected void doExecute() {
+					changeValue();
+			}
+		});
+	}
+		
+	
+	@Override
+	public void focusGained(FocusEvent e) {
+		oldVal = $context.flAttributeName$Text.getText();
+	}
+};
+
+VerifyListener verifyListener= new VerifyListener() {
+
+	@Override
+	public void verifyText(VerifyEvent e) {
+		try {
+		if (e.keyCode == SWT.DEL || e.keyCode == SWT.BS) {
+				e.doit = true;
+				return;
+			}
+			if (!(e.widget instanceof Text))
+				return;
+			Text t = (Text) e.widget;
+			if (e.keyCode == 0) {
+				Integer.valueOf(t.getText().concat(e.text));
+				e.doit = true;
+				return;
+			}
+			if ((e.keyCode == SWT.KEYPAD_0) || e.keyCode == SWT.KEYPAD_1 || e.keyCode == 48 || e.keyCode == 49 ) {
+				e.doit = true;
+			} else if ( e.keyCode == SWT.ESC) {
+				e.doit = true;
+			}
+			else e.doit = false;
+		} catch (NumberFormatException e1) {
+			e.doit = false;
+		}
+	}
+};
+
+private List&lt;Boolean&gt; toBooleansList(String bools) {
+	ArrayList&lt;Boolean&gt; ret = new ArrayList&lt;&gt;();
+	for (char c : bools.toCharArray()) {
+		ret.add( (c == &apos;0&apos;) ? false : true );
+	}
+	return ret;
+}
+	
+private String parseBooleans(List&lt;Boolean&gt; booleans) {
+	String ret = &quot;&quot;;
+	for (boolean b : booleans) 
+		ret += (b) ? &quot;1&quot; : &quot;0&quot;;
+	return ret;
+}</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>2208e76b-f7b7-40a3-9274-586047c94d09</id>
+    <name>RunStringTemplate_1</name>
+    <label>GenChangeValue</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>271.0,123.0</position>
+    <parameter name="append">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>changeValueCode</key>
+          <scope>PARENT</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>PictogramElement pe = getSelectedPictogramElement();
+if (pe == null)
+	return;
+
+EObject tmp = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
+if (tmp instanceof $context.modelElementName$) {
+	(($context.modelElementName$) tmp).getBools().clear();
+	(($context.modelElementName$) tmp).getBools().addAll(toBooleansList($context.flAttributeName$Text.getText()));
+}
+</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>836c7a77-25b7-46bd-b45b-c617d7f970f4</id>
+    <name>RunStringTemplate</name>
+    <label>GenRefreshCode</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>617.5,123.0</position>
+    <parameter name="append">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>refreshCode</key>
+          <scope>PARENT</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>if (tmp.get$context.fuAttributeName$() != null)
+	$context.flAttributeName$Text.setText(parseBooleans(tmp.get$context.fuAttributeName$()));
+else $context.flAttributeName$Text.setText(&quot;&quot;);
+$context.flAttributeName$Text.setSelection($context.flAttributeName$Text.getText().length());</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>61c4f117-d93e-4219-8c5f-3fc73bc0ff6e</source>
+    <target>2208e76b-f7b7-40a3-9274-586047c94d09</target>
+    <point>168.0,141.4695652173913</point>
+    <point>477.0,141.4695652173913</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>9239cd79-930a-40d7-9f09-03cfebdcc597</source>
+    <target>836c7a77-25b7-46bd-b45b-c617d7f970f4</target>
+    <point>612.1621621621622,243.0</point>
+    <point>664.5348837209302,159.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>2208e76b-f7b7-40a3-9274-586047c94d09</source>
+    <target>9239cd79-930a-40d7-9f09-03cfebdcc597</target>
+    <point>408.0,152.05714285714285</point>
+    <point>582.0,251.4857142857143</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
   <values/>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>61c4f117-d93e-4219-8c5f-3fc73bc0ff6e</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>9239cd79-930a-40d7-9f09-03cfebdcc597</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>2208e76b-f7b7-40a3-9274-586047c94d09</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>836c7a77-25b7-46bd-b45b-c617d7f970f4</sib>
+  </branch>
+  <branch>
+    <name>default</name>
+    <branch>default</branch>
+    <sib>836c7a77-25b7-46bd-b45b-c617d7f970f4</sib>
+  </branch>
 </model>

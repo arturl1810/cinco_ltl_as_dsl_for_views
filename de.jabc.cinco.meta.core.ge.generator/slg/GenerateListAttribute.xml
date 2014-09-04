@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>76ccd186-a5e5-4177-9388-d605baba87ee</id>
   <name>GenerateListAttribute</name>
-  <changecounter>60</changecounter>
+  <changecounter>62</changecounter>
   <sib>
     <id>011ad06a-a303-4d66-8b28-ca363e433e70</id>
     <name>GetAttributeType</name>
@@ -227,10 +227,18 @@
   <sib>
     <id>bb3f3f37-f142-4e83-8d62-ea5b54831cde</id>
     <name>MacroSIB_3</name>
-    <label>MacroSIB</label>
+    <label>GenerateListBooleanCode</label>
     <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
-    <position>584.5,256.0</position>
+    <position>587.0,256.0</position>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>f1d5af47-45ba-4222-907e-288031bbbeec</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>GenerateListBooleanCode</string>
+    </userobject>
   </sib>
   <edge>
     <source>69a9366f-b42f-4afa-bbef-ecdfd76019df</source>
@@ -305,5 +313,15 @@
     <name>default</name>
     <branch>default</branch>
     <sib>c0b07030-e1e0-4a9d-9665-f82f28b4ff90</sib>
+  </branch>
+  <branch>
+    <name>default</name>
+    <branch>default</branch>
+    <sib>bb3f3f37-f142-4e83-8d62-ea5b54831cde</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>bb3f3f37-f142-4e83-8d62-ea5b54831cde</sib>
   </branch>
 </model>
