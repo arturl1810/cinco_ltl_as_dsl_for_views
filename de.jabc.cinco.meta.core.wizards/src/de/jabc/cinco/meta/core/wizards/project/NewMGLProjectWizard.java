@@ -70,22 +70,7 @@ public class NewMGLProjectWizard extends Wizard implements IWorkbenchWizard{
 			projectName = examplesPage.getProjectName();
 			packageName = examplesPage.getPackageName();
 			mglModelName = examplesPage.getModelName();
-			if (examplesPage.isGenerateAppearanceProvider()) {
-				features.add(ExampleFeature.APPEARANCE_PROVIDER);
-			}
-			if (examplesPage.isGenerateCodeGenerator()) {
-				features.add(ExampleFeature.CODE_GENERATOR);
-			}
-			if (examplesPage.isGenerateContainers()) {
-				features.add(ExampleFeature.CONTAINERS);
-			}
-			if (examplesPage.isGenerateCustomAction()) {
-				features.add(ExampleFeature.CUSTOM_ACTION);
-			}
-			if (examplesPage.isGeneratePrimeRefs()) {
-				features.add(ExampleFeature.PRIME_REFERENCES);
-			}
-			
+			features.addAll(examplesPage.getSelectedFeatures());
 		}
 		else {
 			projectName = newProjectPage.getProjectName();

@@ -1,5 +1,14 @@
 package de.jabc.cinco.meta.core.wizards.project;
 
+import static de.jabc.cinco.meta.core.wizards.project.ExampleFeature.*;
+
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
@@ -18,13 +27,8 @@ import de.jabc.cinco.meta.core.wizards.CincoWizardUtils;
 public class CreateExampleProjectPage extends WizardPage {
 	
 	private Button btnProjectAsPkg;
-	private Button btnGenerateAppearanceProvider;
-	private Button btnGenerateCustomAction;
-	private Button btnGenerateCodeGenerator;
-	private Button btnGenerateContainers;
-	private Button btnGeneratePrimeRefs;
+	private Map<ExampleFeature, Button> featureButtons;
 	
-
 	private Text txtProjectName;
 	private Text txtPackageName;
 	private Text txtModelName;
@@ -74,30 +78,16 @@ public class CreateExampleProjectPage extends WizardPage {
 		additionalsSection.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 2, 1));
 		additionalsSection.setText("Include additional features");
 		
-		btnGenerateContainers = new Button(comp, SWT.CHECK);
-		btnGenerateContainers.setSelection(false);
-		btnGenerateContainers.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 2, 1));
-		btnGenerateContainers.setText("Container");
+		featureButtons = new HashMap<ExampleFeature, Button>();
 		
-		btnGenerateAppearanceProvider = new Button(comp, SWT.CHECK);
-		btnGenerateAppearanceProvider.setSelection(false);
-		btnGenerateAppearanceProvider.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 2, 1));
-		btnGenerateAppearanceProvider.setText("Appearance provider");
-		
-		btnGenerateCustomAction = new Button(comp, SWT.CHECK);
-		btnGenerateCustomAction.setSelection(false);
-		btnGenerateCustomAction.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 2, 1));
-		btnGenerateCustomAction.setText("Custom action");
-		
-		btnGenerateCodeGenerator = new Button(comp, SWT.CHECK);
-		btnGenerateCodeGenerator.setSelection(false);
-		btnGenerateCodeGenerator.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 2, 1));
-		btnGenerateCodeGenerator.setText("Code generator");
-		
-		btnGeneratePrimeRefs = new Button(comp, SWT.CHECK);
-		btnGeneratePrimeRefs.setSelection(false);
-		btnGeneratePrimeRefs.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 2, 1));
-		btnGeneratePrimeRefs.setText("Prime references");
+		Button featureButton;
+		for (ExampleFeature feature : ExampleFeature.values()) {
+			featureButton = new Button(comp, SWT.CHECK);
+			featureButton.setSelection(false);
+			featureButton.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 2, 1));
+			featureButton.setText(feature.getLabel());
+			featureButtons.put(feature, featureButton);
+		}
 		
 		addListeners();
 		initContents();
@@ -203,24 +193,25 @@ public class CreateExampleProjectPage extends WizardPage {
 		return txtModelName.getText();
 	}
 	
-	public boolean isGenerateContainers() {
-		return btnGenerateContainers.getSelection();
+	public boolean isFeatureSelected(ExampleFeature feature) {
+		if (featureButtons.containsKey(feature)) {
+			return featureButtons.get(feature).getSelection();
+		}
+		else {
+			throw new IllegalArgumentException("no button for feature " + feature.toString() + " defined");
+		}
 	}
 	
-	public boolean isGenerateAppearanceProvider() {
-		return btnGenerateAppearanceProvider.getSelection();
-	}
-	
-	public boolean isGenerateCustomAction() {
-		return btnGenerateCustomAction.getSelection();
-	}
-	
-	public boolean isGenerateCodeGenerator() {
-		return btnGenerateCodeGenerator.getSelection();
-	}
-	
-	public boolean isGeneratePrimeRefs() {
-		return btnGeneratePrimeRefs.getSelection();
+	public Set<ExampleFeature> getSelectedFeatures() {
+		Set<ExampleFeature> selectedFeatures = EnumSet.noneOf(ExampleFeature.class);
+		for (Entry<ExampleFeature, Button> buttonEntry : featureButtons.entrySet()) {
+			ExampleFeature feature = buttonEntry.getKey();
+			Button button = buttonEntry.getValue();
+			if (button.getSelection()) {
+				selectedFeatures.add(feature);
+			}
+		}
+		return selectedFeatures;
 	}
 	
 }
