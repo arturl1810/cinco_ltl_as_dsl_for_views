@@ -182,11 +182,12 @@ public class ProjectCreator {
 	
 	/**
 	 * converts a project name that might contain special characters into
-	 * a valid Bundle-SymbolicName by just deleting all invalid characters.
+	 * a valid Bundle-SymbolicName by replacing all invalid characters
+	 * by the underscore
 	 * 
 	 */
 	private static String makeSymbolicName(String projectName) {
-		return projectName.replaceAll("[^a-zA-Z0-9_\\-\\.]", "");
+		return projectName.replaceAll("[^a-zA-Z0-9_\\-\\.]", "_");
 	}
 	
 	private static void createManifest(final String projectName, final Set<String> requiredBundles,
