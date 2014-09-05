@@ -3,6 +3,7 @@ package de.jabc.cinco.meta.core.mgl.generator
 import com.google.inject.Inject
 import de.jabc.cinco.meta.core.mgl.transformation.MGL2Ecore
 import de.jabc.cinco.meta.core.pluginregistry.PluginRegistry
+import de.jabc.cinco.meta.core.utils.URIHandler
 import de.metaframe.jabc.framework.execution.DefaultLightweightExecutionEnvironment
 import de.metaframe.jabc.framework.execution.context.DefaultLightweightExecutionContext
 import de.metaframe.jabc.framework.execution.context.LightweightExecutionContext
@@ -11,6 +12,7 @@ import java.util.ArrayList
 import java.util.HashMap
 import java.util.Set
 import mgl.GraphModel
+import org.eclipse.core.internal.runtime.InternalPlatform
 import org.eclipse.core.resources.ResourcesPlugin
 import org.eclipse.core.runtime.Path
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage
@@ -21,11 +23,11 @@ import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.xmi.XMIResource
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl
+import org.eclipse.pde.core.project.IBundleProjectService
 import org.eclipse.xtext.generator.IFileSystemAccess
 import org.eclipse.xtext.generator.IGenerator
 import org.eclipse.xtext.naming.IQualifiedNameProvider
 import org.eclipse.xtext.xbase.lib.Pair
-import de.jabc.cinco.meta.core.utils.URIHandler
 
 class MGLGenerator implements IGenerator {
 	@Inject extension IQualifiedNameProvider
@@ -38,13 +40,21 @@ class MGLGenerator implements IGenerator {
 		var filePath = input.URI.toPlatformString(true)
 		var iFile = ResourcesPlugin.workspace.root.getFile(new Path(filePath))
 		var projectName = iFile.project.name
+
+		var bc = InternalPlatform::getDefault().getBundleContext();
+		var ref = bc.getServiceReference(IBundleProjectService.name);
+		var service = bc.getService(ref) as IBundleProjectService
+		var bpd = service.getDescription(iFile.project);
+		var projectID = bpd.symbolicName
+		bc.ungetService(ref);
+
 		for(graphModel : input.allContents.toIterable.filter(typeof(GraphModel))){
 			
-			doGenerateEcoreByTransformation(projectName,graphModel,fsa,resourceUri)	
+			doGenerateEcoreByTransformation(projectName,projectID,graphModel,fsa,resourceUri)
 		}
 	}
 	
-	def doGenerateEcoreByTransformation(String projectName, GraphModel model, IFileSystemAccess access,URI resourceURI) {
+	def doGenerateEcoreByTransformation(String projectName, String projectID, GraphModel model, IFileSystemAccess access,URI resourceURI) {
 		var interfaceGraphModel = PluginRegistry::getInstance().getRegisteredEcoreModels().get("abstractGraphModel");
 //		var mcGraphModel = PluginRegistry::getInstance().getRegisteredEcoreModels().get("mc");
 //		var generatable = PluginRegistry::getInstance().getRegisteredEcoreModels().get("generatable")
@@ -74,7 +84,7 @@ class MGLGenerator implements IGenerator {
 		if(x.equals("default")){
 			
 			var ePackage = context.get("ePackage") as EPackage
-			EPackage$Registry.INSTANCE.put(ePackage.nsURI,ePackage)
+			EPackage.Registry.INSTANCE.put(ePackage.nsURI,ePackage)
 			var bops = new ByteArrayOutputStream()
 			xmiResource.contents.add(ePackage)
 			var optionMap = new HashMap<String,Object>
@@ -89,7 +99,7 @@ class MGLGenerator implements IGenerator {
 			var ecorePath = "/model/"+model.fullyQualifiedName.toString("/")+".ecore".toFirstUpper
 			access.generateFile(ecorePath,output)
 			var projectPath = new Path(projectName)
-			var genModel = GenModelCreator::createGenModel(new Path(ecorePath),ePackage,projectName,projectPath)
+			var genModel = GenModelCreator::createGenModel(new Path(ecorePath),ePackage,projectName, projectID, projectPath)
 			if(model.package!=null && model.package.length>0){
 				for(genPackage: genModel.genPackages){
 					genPackage.basePackage = model.package
