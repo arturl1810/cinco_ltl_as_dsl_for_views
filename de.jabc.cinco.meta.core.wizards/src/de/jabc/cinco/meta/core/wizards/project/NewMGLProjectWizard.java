@@ -88,44 +88,6 @@ public class NewMGLProjectWizard extends Wizard implements IWorkbenchWizard{
 		
 	}
 	
-	private void copyIcons(IProject p, IProgressMonitor monitor) {
-		Bundle b = Platform.getBundle("de.jabc.cinco.meta.core.ge.generator");
-		String location = b.getLocation();
-		InputStream fis=null;
-		try {
-			
-			fis = FileLocator.openStream(b, new Path("/icons/Connection.gif"), false);
-			File trgFile = p.getFolder("icons").getFile("Connection.gif").getLocation().toFile();
-			trgFile.createNewFile();
-			OutputStream os = new FileOutputStream(trgFile);
-			int bt;
-			while ((bt = fis.read()) != -1) {
-				os.write(bt);
-			}
-			fis.close();
-			os.flush();
-			os.close();
-			
-			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			
-			e.printStackTrace();
-		}
-//		if (resProject.exists()) {
-//			IFolder srcIcons = resProject.getFolder("icons");
-//			if (srcIcons.exists()) {
-//				try {
-//					srcIcons.copy((IPath) p.getFolder("icons"), true, monitor);
-//				} catch (CoreException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
-//			}
-//		}
-		
-	}
-
 	@Override
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
 		setWindowTitle("New Cinco Product Project");
