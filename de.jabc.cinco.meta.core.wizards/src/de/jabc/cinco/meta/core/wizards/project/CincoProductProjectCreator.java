@@ -2,9 +2,16 @@ package de.jabc.cinco.meta.core.wizards.project;
 
 import static de.jabc.cinco.meta.core.wizards.project.ExampleFeature.APPEARANCE_PROVIDER;
 import static de.jabc.cinco.meta.core.wizards.project.ExampleFeature.CODE_GENERATOR;
+import static de.jabc.cinco.meta.core.wizards.project.ExampleFeature.CONTAINERS;
 import static de.jabc.cinco.meta.core.wizards.project.ExampleFeature.CUSTOM_ACTION;
+import static de.jabc.cinco.meta.core.wizards.project.ExampleFeature.ICONS;
+import static de.jabc.cinco.meta.core.wizards.project.ExampleFeature.PRIME_REFERENCES;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumSet;
@@ -17,8 +24,12 @@ import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
+import org.osgi.framework.Bundle;
 
 import de.jabc.cinco.meta.core.utils.projects.ProjectCreator;
 import de.jabc.cinco.meta.core.wizards.templates.CincoProductWizardTemplates;
@@ -79,7 +90,34 @@ public class CincoProductProjectCreator {
 				IFolder appearanceFolder = project.getFolder("src/" + packageName.replaceAll("\\.", "/") + "/appearance");
 				createResource(appearanceFolder, monitor); 
 				IFile appearanceProviderFile = appearanceFolder.getFile("SimpleArrowAppearance.java");
-				createAppearanceProvider(appearanceProviderFile, mglModelName, packageName);
+				CharSequence appearanceProviderCode = CincoProductWizardTemplates.generateAppearanceProvider(mglModelName, packageName);
+				writeToFile(appearanceProviderFile, appearanceProviderCode);
+			}
+			if (features.contains(CODE_GENERATOR)) {
+				IFolder codegenFolder = project.getFolder("src/" + packageName.replaceAll("\\.", "/") + "/codegen");
+				createResource(codegenFolder, monitor);
+				IFile codegenFile = codegenFolder.getFile("Generate.java");
+				CharSequence codegenCode = CincoProductWizardTemplates.generateCodeGenerator(mglModelName, packageName);
+				writeToFile(codegenFile, codegenCode);
+			}
+			if (features.contains(CUSTOM_ACTION)) {
+				IFolder customActionFolder = project.getFolder("src/" + packageName.replaceAll("\\.", "/") + "/action");
+				createResource(customActionFolder, monitor);
+				IFile customActionFile = customActionFolder.getFile("ShortestPathToEnd.java");
+				CharSequence customActionCode = CincoProductWizardTemplates.generateCustomAction(mglModelName, packageName);
+				writeToFile(customActionFile, customActionCode);
+			}
+			if (features.contains(ICONS)){
+				copyIcons(project);
+			}
+			if (features.contains(PRIME_REFERENCES)) {
+				IFile externalLibraryEcoreFile = modelFolder.getFile("ExternalLibrary.ecore");
+				CharSequence externalLibraryEcoreCode = CincoProductWizardTemplates.generatePrimeRefEcore(mglModelName, packageName);
+				writeToFile(externalLibraryEcoreFile, externalLibraryEcoreCode);
+				
+				IFile externalLibraryGenmodelFile = modelFolder.getFile("ExternalLibrary.genmodel");
+				CharSequence externalLibraryGenmodelCode = CincoProductWizardTemplates.generatePrimeRefGenmodel(mglModelName, packageName, projectName);
+				writeToFile(externalLibraryGenmodelFile, externalLibraryGenmodelCode);
 			}
 
 			project.refreshLocal(IResource.DEPTH_INFINITE, monitor);
@@ -98,13 +136,16 @@ public class CincoProductProjectCreator {
 	}
 
 	private Set<String> getReqBundles() {
-		Set<String> list = new  HashSet<String>();
-		list.add("org.eclipse.core.runtime");
-		list.add("org.eclipse.emf.ecore");
-		list.add("de.jabc.cinco.meta.core.mgl.model");
-		list.add("de.jabc.cinco.meta.core.ge.style.model");
-		list.add("de.jabc.cinco.meta.core.ge.style");
-		return list;
+		Set<String> bundles = new  HashSet<String>();
+		bundles.add("org.eclipse.core.runtime");
+		bundles.add("org.eclipse.emf.ecore");
+		bundles.add("de.jabc.cinco.meta.core.mgl.model");
+		bundles.add("de.jabc.cinco.meta.core.ge.style.model");
+		bundles.add("de.jabc.cinco.meta.core.ge.style");
+		if (features.contains(CUSTOM_ACTION)) {
+			bundles.add("org.eclipse.jface");
+		}
+		return bundles;
 	}
 
 	private List<String> getSrcFolders() {
@@ -147,10 +188,9 @@ public class CincoProductProjectCreator {
 	
 	}
 
-	private void createAppearanceProvider(IFile modelFile, String modelName, String packageName) {		
-		CharSequence cs = CincoProductWizardTemplates.generateAppearanceProvider(modelName, packageName);
+	private void writeToFile(IFile file, CharSequence code) {		
 		try {
-			createFile(modelFile, cs.toString());
+			createFile(file, code.toString());
 		} catch (CoreException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -187,6 +227,46 @@ public class CincoProductProjectCreator {
 			break;
 		}
 	}
+
+	private void copyIcons(IProject p) {
+			Bundle sourceBundle = Platform.getBundle("de.jabc.cinco.meta.core.wizards");
+			File iconsFolder = p.getFolder("icons").getLocation().toFile();
+			iconsFolder.mkdir();
+
+			List<String> fileNames = new ArrayList<String>();
+			fileNames.add("Activity.png");
+			fileNames.add("End.png");
+			fileNames.add("Start.png");
+			fileNames.add("FlowGraph.png");
+			if (features.contains(CONTAINERS)) {
+				fileNames.add("Swimlane.png");
+			}
+
+			for (String fileName : fileNames) {
+
+				File trgFile = p.getFolder("icons").getFile(fileName).getLocation().toFile();
+				try {
+					trgFile.createNewFile();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+				try (
+						InputStream is= FileLocator.openStream(sourceBundle, new Path("/example-icons/".concat(fileName)), false);
+						FileOutputStream os = new FileOutputStream(trgFile);
+						)
+						{
+					byte[] buffer = new byte[1024 * 16];
+					int readLength;
+					while ((readLength = is.read(buffer)) != -1) {
+						os.write(buffer, 0, readLength);
+					}
+
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+			}
+			
+		}
 	
 
 }
