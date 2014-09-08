@@ -1,10 +1,7 @@
 package de.jabc.cinco.meta.core.wizards.project;
 
-import static de.jabc.cinco.meta.core.wizards.project.ExampleFeature.*;
-
 import java.util.EnumSet;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -37,6 +34,7 @@ public class CreateExampleProjectPage extends WizardPage {
 		super(pageName);
 		setTitle("Initialize Showcase Project with Examples");
 		setDescription("Create FlowGraph feature showcase project.");
+		setPageComplete(false);
 	}
 
 	@Override

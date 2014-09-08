@@ -27,6 +27,7 @@ public class CreateNewProjectPage extends WizardPage {
 		super(pageName);
 		setTitle("Start New Cinco Product Project");
 		setDescription("Create new Cinco Product project with minimal required files");
+		setPageComplete(false);
 	}
 
 	@Override
