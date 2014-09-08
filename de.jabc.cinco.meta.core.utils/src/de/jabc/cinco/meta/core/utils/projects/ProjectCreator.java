@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.core.internal.runtime.InternalPlatform;
 import org.eclipse.core.resources.ICommand;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
@@ -24,7 +25,11 @@ import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.pde.core.project.IBundleProjectDescription;
+import org.eclipse.pde.core.project.IBundleProjectService;
 import org.eclipse.ui.PlatformUI;
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceReference;
 
 public class ProjectCreator {
 
@@ -262,6 +267,19 @@ public class ProjectCreator {
 		return file;
 	}
 	
-	
+	public static String getProjectSymbolicName(IProject project) {
+		BundleContext bc = InternalPlatform.getDefault().getBundleContext();
+		ServiceReference ref = bc.getServiceReference(IBundleProjectService.class.getName());
+		IBundleProjectService service = (IBundleProjectService)bc.getService(ref);
+		try {
+			IBundleProjectDescription bpd = service.getDescription(project);
+			return bpd.getSymbolicName();
+		} catch (CoreException e) {
+			e.printStackTrace();
+		} finally {
+			bc.ungetService(ref);
+		}
+		return "";
+	}
 	
 }

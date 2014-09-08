@@ -14,8 +14,10 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -100,7 +102,12 @@ public class GenerateFeatureProjectHandler extends AbstractHandler {
 						srcFolders.add("src");
 						ArrayList<IProject> referencedProjects = new ArrayList<>();
 						HashSet<String> requiredBundles = new HashSet<>();
-						requiredBundles.add(packageName);
+						IResource iRes = ResourcesPlugin.getWorkspace().getRoot().findMember(new Path(model.eResource().getURI().toPlatformString(true)));
+						String symbolicName;
+						if (iRes != null)
+							symbolicName = ProjectCreator.getProjectSymbolicName(iRes.getProject());
+						else symbolicName = model.getPackage();
+						requiredBundles.add(symbolicName);		
 						if (hasStyleAnnotation(model))
 							requiredBundles.add(packageName + ".graphiti");
 						ArrayList<String> exportedPackages = new ArrayList<>();
