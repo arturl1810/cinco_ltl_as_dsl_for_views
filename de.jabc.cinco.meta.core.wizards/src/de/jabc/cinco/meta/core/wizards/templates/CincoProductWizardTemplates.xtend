@@ -70,7 +70,7 @@ graphModel «modelName» {
 	@style(greenTextRectangle, "${activity.name}")
 	node ExternalActivity {
 		@pvLabel(name)
-		@pvFileExtension("externallibrary")
+		@pvFileExtension("elib")
 		prime externalLibrary.ExternalActivity as activity
 		incomingEdges (*[1,-1])
 		outgoingEdges (LabeledTransition[1,-1])			
