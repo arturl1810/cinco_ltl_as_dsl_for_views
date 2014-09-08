@@ -23,6 +23,7 @@ import mgl.NodeContainer;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.core.internal.runtime.InternalPlatform;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
@@ -47,12 +48,15 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.pde.core.project.IBundleProjectDescription;
+import org.eclipse.pde.core.project.IBundleProjectService;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.eclipse.xtend.typesystem.emf.EcoreUtil2;
 import org.osgi.framework.Bundle;
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceReference;
 
 import style.AbstractShape;
 import style.Appearance;
@@ -118,7 +122,8 @@ public class Generate extends AbstractHandler {
 				List<String> srcFolders = getSrcFolders();
 				List<String> cleanDirs = getCleanDirectory();
 			    Set<String> reqBundles = getReqBundles();
-			    reqBundles.add(file.getProject().getName());
+			    String bundleName = ProjectCreator.getProjectSymbolicName(file.getProject());
+			    reqBundles.add(bundleName);
 			    IProject p = ProjectCreator.createProject(projectName, srcFolders, null, reqBundles, null, null, monitor, cleanDirs, false);
 			    createIconsFolder(p, monitor);
 			    copyImage(styles, p, monitor);
@@ -161,8 +166,6 @@ public class Generate extends AbstractHandler {
 		return null;
 	}
 	
-	
-
 	/**
 	 * This method copies all images that are defined in the {@link styles}
 	 * @param styles The processed Styles object

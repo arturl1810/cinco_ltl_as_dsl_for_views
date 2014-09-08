@@ -14,6 +14,7 @@ import mgl.GraphModel;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -87,9 +88,17 @@ public class CreateCodeGeneratorPlugin extends AbstractService {
 			List<String> srcFolders = new ArrayList<>();
 			srcFolders.add("src");
 			Set<String> requiredBundles = new HashSet<>();
+			
+			IResource res = ResourcesPlugin.getWorkspace().getRoot().findMember(new Path(graphModel.eResource().getURI().toPlatformString(true)));
+			String symbolicName;
+			if (res != null)
+				symbolicName = ProjectCreator.getProjectSymbolicName(res.getProject());
+			else symbolicName = graphModel.getPackage();
+			
+			requiredBundles.add(symbolicName);
+			
 			requiredBundles.add("org.eclipse.ui");
 			requiredBundles.add("org.eclipse.core.runtime");
-			requiredBundles.add(graphModel.getPackage());
 			requiredBundles.add("org.eclipse.core.resources");
 			requiredBundles.add("org.eclipse.ui.navigator");
 			requiredBundles.add("org.eclipse.emf.common");
@@ -98,7 +107,7 @@ public class CreateCodeGeneratorPlugin extends AbstractService {
 			requiredBundles.add("org.eclipse.ui.workbench");
 			requiredBundles.add("de.jabc.cinco.meta.core.mgl.model");
 			
-			requiredBundles.add(bundleName);
+//			requiredBundles.add(bundleName);
 			if(new Path("/"+projectName).toFile().exists())
 				new Path("/"+projectName).toFile().delete();
 			IProgressMonitor progressMonitor = new NullProgressMonitor();
