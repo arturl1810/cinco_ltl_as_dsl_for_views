@@ -7,7 +7,7 @@ import static de.jabc.cinco.meta.core.wizards.project.ExampleFeature.*
 
 class CincoProductWizardTemplates {
 	
-	def static generateMGLFile(String modelName, String packageName, String projectName, Set<ExampleFeature> features) '''
+	def static generateFlowGraphMGL(String modelName, String packageName, String projectName, Set<ExampleFeature> features) '''
 «IF features.contains(PRIME_REFERENCES)»
 import "platform:/resource/«projectName»/model/ExternalLibrary.ecore"
 «ENDIF»
@@ -101,7 +101,7 @@ graphModel «modelName» {
 	'''
 	
 
-	def static generateStyleFile(String packageName, Set<ExampleFeature> features) '''
+	def static generateFlowGraphStyle(String packageName, Set<ExampleFeature> features) '''
 appearance default {
 	lineWidth 2
 	background (144,207,238)
