@@ -6,8 +6,71 @@ import java.util.Set
 import static de.jabc.cinco.meta.core.wizards.project.ExampleFeature.*
 
 class CincoProductWizardTemplates {
+
+	def static generateSomeGraphMGL(String modelName, String packageName) '''
+@style("model/«modelName».style")
+graphModel «modelName» {
+	package «packageName»
+	nsURI "http://cinco.scce.info/product/«modelName.toLowerCase»"
+	diagramExtension "«modelName.toLowerCase»"
 	
-	def static generateMGLFile(String modelName, String packageName, String projectName, Set<ExampleFeature> features) '''
+	@style(labeledCircle, "${label}")
+	node SomeNode {
+		incomingEdges (*)
+		outgoingEdges (*)
+		attr EString as label
+	}	
+	
+	@style(simpleArrow)
+	edge Transition { 
+	}
+}
+
+	'''
+	
+	def static generateSomeGraphStyle() '''
+appearance default {
+	lineWidth 2
+	background (229,229,229)
+}
+
+nodeStyle labeledCircle {
+	ellipse e {
+		appearance default
+		size(40,40)
+		text {
+			position relativeTo e ( CENTER, MIDDLE )
+			value "%s"
+		}
+	}
+}
+
+edgeStyle simpleArrow {	
+	appearance default
+	
+	decorator {
+		location (1.0) // at the end of the edge
+		ARROW
+		appearance default 
+	}
+}
+
+	'''
+	
+	
+	
+	
+/*
+ * 
+ * 
+ * 
+ * HERE BEGINS PART OF THE FEATURE SHOWCASE EXAMPLES
+ *  
+ * 
+ * 
+ */
+	
+	def static generateFlowGraphMGL(String modelName, String packageName, String projectName, Set<ExampleFeature> features) '''
 «IF features.contains(PRIME_REFERENCES)»
 import "platform:/resource/«projectName»/model/ExternalLibrary.ecore"
 «ENDIF»
@@ -70,7 +133,7 @@ graphModel «modelName» {
 	@style(greenTextRectangle, "${activity.name}")
 	node ExternalActivity {
 		@pvLabel(name)
-		@pvFileExtension("externallibrary")
+		@pvFileExtension("elib")
 		prime externalLibrary.ExternalActivity as activity
 		incomingEdges (*[1,-1])
 		outgoingEdges (LabeledTransition[1,-1])			
@@ -101,7 +164,7 @@ graphModel «modelName» {
 	'''
 	
 
-	def static generateStyleFile(String packageName, Set<ExampleFeature> features) '''
+	def static generateFlowGraphStyle(String packageName, Set<ExampleFeature> features) '''
 appearance default {
 	lineWidth 2
 	background (144,207,238)
