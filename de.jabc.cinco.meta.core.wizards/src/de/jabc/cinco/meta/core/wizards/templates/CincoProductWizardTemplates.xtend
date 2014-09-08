@@ -6,6 +6,69 @@ import java.util.Set
 import static de.jabc.cinco.meta.core.wizards.project.ExampleFeature.*
 
 class CincoProductWizardTemplates {
+
+	def static generateSomeGraphMGL(String modelName, String packageName) '''
+@style("model/«modelName».style")
+graphModel «modelName» {
+	package «packageName»
+	nsURI "http://cinco.scce.info/product/«modelName.toLowerCase»"
+	diagramExtension "«modelName.toLowerCase»"
+	
+	@style(labeledCircle, "${label}")
+	node SomeNode {
+		incomingEdges (*)
+		outgoingEdges (*)
+		attr EString as label
+	}	
+	
+	@style(simpleArrow)
+	edge Transition { 
+	}
+}
+
+	'''
+	
+	def static generateSomeGraphStyle() '''
+appearance default {
+	lineWidth 2
+	background (229,229,229)
+}
+
+nodeStyle labeledCircle {
+	ellipse e {
+		appearance default
+		size(40,40)
+		text {
+			position relativeTo e ( CENTER, MIDDLE )
+			value "%s"
+		}
+	}
+}
+
+edgeStyle simpleArrow {	
+	appearance default
+	
+	decorator {
+		location (1.0) // at the end of the edge
+		ARROW
+		appearance default 
+	}
+}
+
+	'''
+	
+	
+	
+	
+/*
+ * 
+ * 
+ * 
+ * HERE BEGINS PART OF THE FEATURE SHOWCASE EXAMPLES
+ *  
+ * 
+ * 
+ */
 	
 	def static generateFlowGraphMGL(String modelName, String packageName, String projectName, Set<ExampleFeature> features) '''
 «IF features.contains(PRIME_REFERENCES)»

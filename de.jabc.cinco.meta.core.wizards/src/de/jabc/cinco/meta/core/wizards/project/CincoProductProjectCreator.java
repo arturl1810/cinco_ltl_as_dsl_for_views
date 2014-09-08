@@ -73,7 +73,11 @@ public class CincoProductProjectCreator {
 			IFile mglModelFile = modelFolder.getFile(mglModelName.concat(".mgl"));
 			IFile styleModelFile = modelFolder.getFile(mglModelName.concat(".style"));
 			if (!createExample) {
-				//TODO: create SomeGraph code
+				CharSequence mglCode = CincoProductWizardTemplates.generateSomeGraphMGL(mglModelName, packageName);
+				writeToFile(mglModelFile, mglCode);
+				
+				CharSequence styleCode = CincoProductWizardTemplates.generateSomeGraphStyle();
+				writeToFile(styleModelFile, styleCode);
 			}
 			else {
 				CharSequence mglCode = CincoProductWizardTemplates.generateFlowGraphMGL(mglModelName, packageName, projectName, features);
