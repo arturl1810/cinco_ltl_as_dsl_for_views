@@ -132,6 +132,12 @@ public class CincoProductProjectCreator {
 		if (features.contains(APPEARANCE_PROVIDER)) {
 			exports.add(packageName + ".appearance");
 		}
+		if (features.contains(CUSTOM_ACTION)) {
+			exports.add(packageName + ".action");
+		}
+		if (features.contains(CODE_GENERATOR)) {
+			exports.add(packageName + ".codegen");
+		}
 		return exports;
 	}
 
