@@ -192,7 +192,12 @@ public class ProjectCreator {
 	 * 
 	 */
 	private static String makeSymbolicName(String projectName) {
-		return projectName.replaceAll("[^a-zA-Z0-9_\\-\\.]", "_");
+		String symbolicName = projectName.replaceAll("[^a-zA-Z0-9_\\-\\.]", "_");
+		// . is allowed in general, but not at the end
+		if (symbolicName.endsWith(".")) {
+			symbolicName = symbolicName.substring(0, symbolicName.lastIndexOf('.')) + "_";
+		}
+		return symbolicName;
 	}
 	
 	private static void createManifest(final String projectName, final Set<String> requiredBundles,
