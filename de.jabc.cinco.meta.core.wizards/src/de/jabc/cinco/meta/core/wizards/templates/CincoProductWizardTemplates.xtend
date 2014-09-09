@@ -113,8 +113,8 @@ graphModel «modelName» {
 		// allow an arbitrary number (>0) of incoming edges
 		//
 		// the following would have been valid as well, meaning the same:
-		// incomingEdges (*[1,-1])
-		incomingEdges ({Transition,LabeledTransition}[1,-1])
+		// incomingEdges (*[1,*])
+		incomingEdges ({Transition,LabeledTransition}[1,*])
 	}
 	
 	// use the "blueTextRectangle" as style and pass the attribute "text" as parameter
@@ -125,8 +125,8 @@ graphModel «modelName» {
 	node Activity {		
 		attr EString as name
 		attr EString as description
-		incomingEdges (*[1,-1])
-		outgoingEdges (LabeledTransition[1,-1])
+		incomingEdges (*[1,*])
+		outgoingEdges (LabeledTransition[1,*])
 	}
 	
 	«IF features.contains(PRIME_REFERENCES)»
@@ -135,8 +135,8 @@ graphModel «modelName» {
 		@pvLabel(name)
 		@pvFileExtension("elib")
 		prime externalLibrary.ExternalActivity as activity
-		incomingEdges (*[1,-1])
-		outgoingEdges (LabeledTransition[1,-1])			
+		incomingEdges (*[1,*])
+		outgoingEdges (LabeledTransition[1,*])			
 	}
 	«ENDIF»
 	
