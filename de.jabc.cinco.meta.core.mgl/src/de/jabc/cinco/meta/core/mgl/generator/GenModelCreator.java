@@ -20,7 +20,7 @@ public class GenModelCreator {
                 Resource.Factory.Registry.INSTANCE.getFactory(genModelURI).createResource(genModelURI); 
 		GenModel genModel = GenModelFactory.eINSTANCE.createGenModel(); 
 		genModelResource.getContents().add(genModel);
-        genModel.setModelDirectory("/"+projectPath.append("src-gen").toPortableString());
+        genModel.setModelDirectory("/"+projectPath.append("src-gen").toOSString());
         
         ArrayList<EPackage> ePackageList = new ArrayList<>();
         ePackageList.add(ePackage);

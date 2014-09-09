@@ -75,7 +75,7 @@ RoundedRectangle returns RoundedRectangle:
 	(name=ID)?
 	'{'
 		(('appearance' referencedAppearance=[Appearance]) | (inlineAppearance=InlineAppearance) )? 
-		'position' position = AbstractPosition
+		('position' position = AbstractPosition)?
 		'size' size = Size
 		'corner' '('cornerWidth=INT','cornerHeight=INT')'
 		(children+=AbstractShape)*
