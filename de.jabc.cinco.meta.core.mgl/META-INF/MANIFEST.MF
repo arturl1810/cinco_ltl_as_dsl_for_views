@@ -12,7 +12,9 @@ Require-Bundle: org.eclipse.xtext.generator,
  org.eclipse.xtext,
  org.eclipse.xtext.util,
  org.antlr.runtime,
- de.jabc.cinco.meta.libraries
+ de.jabc.cinco.meta.libraries,
+ org.eclipse.core.runtime,
+ org.eclipse.pde.core
 Import-Package: de.jabc.cinco.meta.core.utils,
  org.apache.commons.logging,
  org.apache.log4j,

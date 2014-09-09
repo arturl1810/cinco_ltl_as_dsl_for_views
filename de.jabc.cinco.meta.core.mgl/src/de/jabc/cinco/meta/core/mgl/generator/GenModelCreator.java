@@ -13,7 +13,7 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 
 public class GenModelCreator {	
-	public static GenModel createGenModel(IPath ecorePath,EPackage ePackage,String projectName,IPath projectPath){
+	public static GenModel createGenModel(IPath ecorePath,EPackage ePackage,String projectName, String projectID, IPath projectPath){
 		IPath genModelPath = ecorePath.removeFileExtension().addFileExtension("genmodel");
 		URI genModelURI = URI.createURI(genModelPath.toString());
 		Resource genModelResource =
@@ -32,13 +32,11 @@ public class GenModelCreator {
         genPackage.setPrefix(s);
         genModel.setRuntimeVersion(GenRuntimeVersion.EMF28);
         genModel.setComplianceLevel(GenJDKLevel.JDK70_LITERAL);
-        genModel.setModelPluginID(projectName);
-        genModel.setEditPluginID(projectName+".edit");
-        genModel.setEditorPluginID(projectName+".editor");
-        genModel.setTestsPluginID(projectName+".tests");
+        genModel.setModelPluginID(projectID);
+        genModel.setEditPluginID(projectID+".edit");
+        genModel.setEditorPluginID(projectID+".editor");
+        genModel.setTestsPluginID(projectID+".tests");
         genModel.setCanGenerate(true);
-
-
         
 		return genModel;
 	}

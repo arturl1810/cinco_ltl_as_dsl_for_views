@@ -12,9 +12,11 @@ import mgl.GraphModel;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.Path;
 
 import de.jabc.cinco.meta.core.mgl.transformation.helper.AbstractService;
 import de.jabc.cinco.meta.core.mgl.transformation.helper.ServiceException;
@@ -44,7 +46,12 @@ public class CreatePrimeView extends AbstractService {
 			Set<String> requiredBundles = new HashSet<>();
 			requiredBundles.add("org.eclipse.ui");
 			requiredBundles.add("org.eclipse.core.runtime");
-			requiredBundles.add(graphModel.getPackage());
+			IResource res = ResourcesPlugin.getWorkspace().getRoot().findMember(new Path(graphModel.eResource().getURI().toPlatformString(true)));
+			String symbolicName;
+			if (res != null)
+				symbolicName = ProjectCreator.getProjectSymbolicName(res.getProject());
+			else symbolicName = graphModel.getPackage();
+			requiredBundles.add(symbolicName);
 			requiredBundles.add("org.eclipse.core.resources");
 			requiredBundles.add("org.eclipse.ui.navigator");
 			requiredBundles.add("org.eclipse.emf.common");
