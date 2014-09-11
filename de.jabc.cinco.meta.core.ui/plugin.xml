@@ -33,30 +33,6 @@
            allPopups="false"
            locationURI="popup:org.eclipse.ui.popup.any">
         <command
-              commandId="de.jabc.cinco.meta.core.ui.togglenature"
-              disabledIcon="platform:/plugin/de.jabc.cinco.meta.core.ui/16-deact.png"
-              icon="platform:/plugin/de.jabc.cinco.meta.core.ui/16.png"
-              label="Toggle Cinco Product Nature"
-              style="push">
-           <visibleWhen
-                 checkEnabled="false">
-              <with
-                    variable="activeMenuSelection">
-                 <iterate
-                       ifEmpty="false"
-                       operator="and">
-                    <adapt
-                          type="org.eclipse.core.resources.IProject">
-                    </adapt>
-                 </iterate>
-              </with>
-           </visibleWhen>
-        </command>
-     </menuContribution>
-     <menuContribution
-           allPopups="false"
-           locationURI="popup:org.eclipse.ui.popup.any">
-        <command
               commandId="de.jabc.cinco.meta.core.ui.cincoproductgenerationcommand"
               disabledIcon="platform:/plugin/de.jabc.cinco.meta.core.ui/16-deact.png"
               icon="platform:/plugin/de.jabc.cinco.meta.core.ui/16.png"
