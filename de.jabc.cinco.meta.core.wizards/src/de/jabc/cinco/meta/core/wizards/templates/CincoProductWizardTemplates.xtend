@@ -456,15 +456,15 @@ public class ShortestPathToEnd extends CincoCustomAction<Start> {
 </ecore:EPackage>
 	'''
 	
-	def static generatePrimeRefGenmodel(String modelName, String packageName, String projectName) '''
+	def static generatePrimeRefGenmodel(String modelName, String packageName, String projectName, String projectID) '''
 <?xml version="1.0" encoding="UTF-8"?>
 <genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
     xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/«projectName»/src-gen" editDirectory="/«projectName».edit/src-gen"
-    editorDirectory="/«projectName».editor/src-gen" modelPluginID="«projectName»"
+    editorDirectory="/«projectName».editor/src-gen" modelPluginID="«projectID»"
     modelName="ExternalLibrary" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
     testsDirectory="/«projectName».tests/src-gen" importerID="org.eclipse.emf.importer.ecore"
-    complianceLevel="7.0" copyrightFields="false" editPluginID="«projectName».edit"
-    editorPluginID="«projectName».editor" language="" operationReflection="true"
+    complianceLevel="7.0" copyrightFields="false" editPluginID="«projectID».edit"
+    editorPluginID="«projectID».editor" language="" operationReflection="true"
     importOrganizing="true">
   <foreignModel>ExternalLibrary.ecore</foreignModel>
   <genPackages prefix="ExternalLibrary" basePackage="«packageName»"
