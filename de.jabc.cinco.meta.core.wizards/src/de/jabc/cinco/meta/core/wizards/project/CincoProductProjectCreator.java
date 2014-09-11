@@ -116,7 +116,8 @@ public class CincoProductProjectCreator {
 					writeToFile(externalLibraryEcoreFile, externalLibraryEcoreCode);
 
 					IFile externalLibraryGenmodelFile = modelFolder.getFile("ExternalLibrary.genmodel");
-					CharSequence externalLibraryGenmodelCode = CincoProductWizardTemplates.generatePrimeRefGenmodel(mglModelName, packageName, projectName);
+					CharSequence externalLibraryGenmodelCode = CincoProductWizardTemplates.generatePrimeRefGenmodel(
+							mglModelName, packageName, projectName, ProjectCreator.makeSymbolicName(projectName));
 					writeToFile(externalLibraryGenmodelFile, externalLibraryGenmodelCode);
 				}
 			}

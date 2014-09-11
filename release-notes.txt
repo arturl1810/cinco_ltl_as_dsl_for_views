@@ -1,3 +1,10 @@
+201409xx - Cinco Release 0.5
+- advanced copy&paste feature that fully preserves layout
+- enhanced cinco wizard that allows for the initialization of various example features
+- cinco custom actions (formerly custom features) now possible for context
+  menu and doubleclick
+
+
 20140813 - Cinco Release 0.4
 
 - possible source and target nodes of edges is now defined at the node's end

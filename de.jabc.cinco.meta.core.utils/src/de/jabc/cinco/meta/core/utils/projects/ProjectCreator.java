@@ -191,11 +191,15 @@ public class ProjectCreator {
 	 * by the underscore
 	 * 
 	 */
-	private static String makeSymbolicName(String projectName) {
+	public static String makeSymbolicName(String projectName) {
 		String symbolicName = projectName.replaceAll("[^a-zA-Z0-9_\\-\\.]", "_");
 		// . is allowed in general, but not at the end
 		if (symbolicName.endsWith(".")) {
 			symbolicName = symbolicName.substring(0, symbolicName.lastIndexOf('.')) + "_";
+		}
+		// also not at the beginning
+		if (symbolicName.startsWith(".")) {
+			symbolicName = "_" + symbolicName.substring(1);
 		}
 		return symbolicName;
 	}
