@@ -44,8 +44,8 @@ public class CincoWizardUtils {
 			if (p.getName().equals(projectName))
 				return "Project: " + projectName + " already exists";
 		}
-		if (projectName.matches(".*[:/\\\\\"&<>\\?#].*")) {
-			return "The project name contains illegal characters (:/\"&<>?#)";
+		if (projectName.matches(".*[:/\\\\\"&<>\\?#,;].*")) {
+			return "The project name contains illegal characters (:/\"&<>?#,;)";
 		}
 
 		return null;
