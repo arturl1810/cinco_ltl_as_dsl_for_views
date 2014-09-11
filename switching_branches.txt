@@ -5,3 +5,4 @@
 - do as built.txt says
 - refresh all projects in eclipse
 - "clean all projects" in eclipse
+- If de.jabc.cinco.meta.core.mgl shows erros, close and reopen it
