@@ -20,9 +20,6 @@ public class PathValidator {
 	private static Resource res;
 	
 	public static synchronized String checkPath(EObject o, String path) {
-		System.err.println("Checking object: " + o);
-		System.err.println("Path: " + path);
-		System.out.println();
 		root = ResourcesPlugin.getWorkspace().getRoot();
 		res = o.eResource();
 		URI iconURI = URI.createURI(path, true);
@@ -52,13 +49,11 @@ public class PathValidator {
 	
 	private static String checkPlatformPluginURI(URI uri) {
 		System.out.println(root.findMember(uri.toPlatformString(true)));
-		System.err.println("HIER");
+		System.err.println("PlatformPlugin uri, check not implemented yet.");
 		return "";
 	}
 	
 	private static String checkRelativePath(URI resUri, String path) {
-		System.out.println("The relative URI of object's resource: " + resUri);
-		System.out.println();
 		IProject p = root.getFile(new Path(res.getURI().toPlatformString(true))).getProject();
 		IFile file = p.getFile(path);
 		if (!file.exists()) {

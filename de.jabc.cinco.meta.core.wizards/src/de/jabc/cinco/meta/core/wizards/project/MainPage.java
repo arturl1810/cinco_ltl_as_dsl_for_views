@@ -29,11 +29,11 @@ public class MainPage extends WizardPage {
 
 	    radios[0] = new Button(comp, SWT.RADIO);
 	    radios[0].setSelection(true);
-	    radios[0].setText("Start New Cinco Product Project");
+	    radios[0].setText("Start New &Cinco Product Project");
 		radios[0].setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
 
 	    radios[1] = new Button(comp, SWT.RADIO);
-	    radios[1].setText("Initialize Example Project (Feature Showcase)");
+	    radios[1].setText("&Initialize Example Project (Feature Showcase)");
 		radios[1].setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
 		
 		//addListeners();
