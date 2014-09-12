@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>696c3b21-1096-4b9a-86bd-7456a6b80d52</id>
   <name>GenerateModelElementPropertyView</name>
-  <changecounter>240</changecounter>
+  <changecounter>244</changecounter>
   <sib>
     <id>c215c747-bca3-4fbb-9807-9cd2ab3f1b32</id>
     <name>PutExpression</name>
@@ -631,7 +631,7 @@ public class $context.modelElementName$Filter extends AbstractPropertySectionFil
     <label>GenerateSectionCode</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>421.0,903.0</position>
+    <position>361.0,903.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -696,6 +696,8 @@ public class $context.modelElementName$_$context.attributeName$_Section extends 
 	public void refresh() {
 		PictogramElement pe = getSelectedPictogramElement();
 		if (pe != null) {
+		if (pe instanceof ConnectionDecorator)
+			pe = ((ConnectionDecorator) pe).getConnection();
 			Object bo = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
 			if (bo == null)
 				return;
@@ -742,7 +744,7 @@ public class $context.modelElementName$_$context.attributeName$_Section extends 
     <label>GenerateSingleAttribute</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>263.5,946.0</position>
+    <position>203.5,946.0</position>
     <parameter name="attributeKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -767,7 +769,7 @@ public class $context.modelElementName$_$context.attributeName$_Section extends 
     <label>GenerateListAttribute</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>272.0,841.0</position>
+    <position>212.0,841.0</position>
     <parameter name="attributeKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
