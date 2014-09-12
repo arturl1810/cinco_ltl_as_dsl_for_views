@@ -9,4 +9,9 @@
   </parent>
   <artifactId>de.jabc.cinco.meta.core.utils</artifactId>
   <packaging>eclipse-plugin</packaging>
+  
+  
+  
+  
+  
 </project> 
