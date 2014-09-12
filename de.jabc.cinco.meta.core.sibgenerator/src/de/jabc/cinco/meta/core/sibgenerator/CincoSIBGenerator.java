@@ -25,7 +25,7 @@ import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.osgi.framework.Bundle;
 
-import transem.mtsg.WritingSIBGenerator;
+// import transem.mtsg.WritingSIBGenerator;
 import de.metaframe.jabc.framework.sib.parameter.StrictList;
 import de.metaframe.jabc.framework.sib.parameter.foundation.StrictListFoundation;
 public class CincoSIBGenerator implements IRunnableWithProgress{
@@ -113,23 +113,23 @@ public class CincoSIBGenerator implements IRunnableWithProgress{
 		 StrictList<File> strictList = new StrictList<>(list, File.class);
 		 StrictListFoundation<File> additionalEcoreFiles =strictList.asFoundation();
 		 boolean sameFolderForResources = true;
-		WritingSIBGenerator sibGenerator = new WritingSIBGenerator(additionalEcoreFiles , artifactId, beautify, createMavenProject, genModelPath, generateCodeForEOperations, generateSIBs, groupId, iconFile, identifierPrefix, modelPath, outlet, packageName, sameFolderForResources, version);
+	//	WritingSIBGenerator sibGenerator = new WritingSIBGenerator(additionalEcoreFiles , artifactId, beautify, createMavenProject, genModelPath, generateCodeForEOperations, generateSIBs, groupId, iconFile, identifierPrefix, modelPath, outlet, packageName, sameFolderForResources, version);
 		 
 		
 		
 		
 		
-		try{
-		String result = sibGenerator.execute(new HashMap<String,Object>());
-		if(result.equals("error")){
-			System.out.println("CINCO SIB Generation exited with ERROR");
-		}
-			
-		System.out.println("FINISHED CINCO SIB Generation");
-		}catch(Exception e){
-			e.printStackTrace();
-			
-		}
+//		try{
+//		String result = sibGenerator.execute(new HashMap<String,Object>());
+//		if(result.equals("error")){
+//			System.out.println("CINCO SIB Generation exited with ERROR");
+//		}
+//			
+//		System.out.println("FINISHED CINCO SIB Generation");
+//		}catch(Exception e){
+//			e.printStackTrace();
+//			
+//		}
 	}
 
 	@Override
@@ -167,7 +167,7 @@ public class CincoSIBGenerator implements IRunnableWithProgress{
 
 
 	private void generateGraphModelSIBs() {
-		WritingSIBGenerator sibGenerator = new WritingSIBGenerator();
+	//	WritingSIBGenerator sibGenerator = new WritingSIBGenerator();
 		HashMap<String,Object> context = new HashMap<>();
 		context.put("modelPath", graphModelFile);
 		context.put("outlet",this.outlet.toFile());
@@ -177,18 +177,18 @@ public class CincoSIBGenerator implements IRunnableWithProgress{
          context.put("artifactId", "cinco-sibs");
          context.put("version", "1.0.0");
          context.put("createMavenProject",false);
-		try{
-		String result = sibGenerator.execute(context);
-		if(result.equals("error")){
-			Exception e = (Exception)context.get("exception");
-					if(e!=null)
-						throw(e);
-		}
-		}catch(Exception e){
-			
-			e.printStackTrace();
-			
-		}
+//		try{
+//		String result = sibGenerator.execute(context);
+//		if(result.equals("error")){
+//			Exception e = (Exception)context.get("exception");
+//					if(e!=null)
+//						throw(e);
+//		}
+//		}catch(Exception e){
+//			
+//			e.printStackTrace();
+//			
+//		}
 		System.out.println("FINISHED GraphModel SIB Generation");
 	}
 
