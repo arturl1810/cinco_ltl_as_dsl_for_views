@@ -530,7 +530,7 @@ class MGLValidator extends AbstractMGLValidator {
 	def checkGraphModelNameFileName(GraphModel gm) {
 		val gmName = gm.name
 		if (!gm.eResource.URI.trimFileExtension.lastSegment.equals(gmName)) {
-			error("The graph model \" " + gmName + "\" must be defined in its own file", MglPackage.Literals.TYPE__NAME)
+			error("The graph model \"" + gmName + "\" must match the file name", MglPackage.Literals.TYPE__NAME)
 		}
 	}
 	
