@@ -1,7 +1,10 @@
 package de.jabc.cinco.meta.core.ui;
 
+import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
+
+import de.jabc.cinco.meta.core.ui.listener.MGLSelectionListener;
 
 /**
  * The activator class controls the plug-in life cycle
@@ -25,8 +28,15 @@ public class Activator extends AbstractUIPlugin {
 	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext)
 	 */
 	public void start(BundleContext context) throws Exception {
+		
+		
 		super.start(context);
 		plugin = this;
+		MGLSelectionListener selectionListener = MGLSelectionListener.INSTANCE;
+		
+		for(IWorkbenchWindow window : Activator.plugin.getWorkbench().getWorkbenchWindows()){
+			window.getSelectionService().addSelectionListener(selectionListener);
+		}
 	}
 
 	/*

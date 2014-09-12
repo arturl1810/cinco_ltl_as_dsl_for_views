@@ -9,7 +9,7 @@
 	<classpathentry exported="true" kind="lib" path="lib/gui-sibs-1.4.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/gui-sibs-adapters-1.4.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/io-sibs-1.5.2.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/jabc-editor-3.8.5.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jabc-editor-3.8.5.jar" sourcepath="/home/lybecait/svn/jabc-core/trunk/jabc-editor"/>
 	<classpathentry exported="true" kind="lib" path="lib/jabc-goodies-lib-0.14.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jabc-svg-3.8.3.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/layouter-plugin-0.4.6.jar"/>

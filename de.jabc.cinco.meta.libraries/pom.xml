@@ -233,6 +233,11 @@
 					<version>0.9.5</version>
 					<type>jar</type>
                 </artifactItem>
+		<artifactItem>
+			<groupId>de.jabc.plugin.transem</groupId>
+			 <artifactId>transem</artifactId>
+  			<version>4.0-SNAPSHOT</version>
+		</artifactItem>
               </artifactItems>
               <outputDirectory>${basedir}/lib</outputDirectory>
               <overWriteReleases>false</overWriteReleases>

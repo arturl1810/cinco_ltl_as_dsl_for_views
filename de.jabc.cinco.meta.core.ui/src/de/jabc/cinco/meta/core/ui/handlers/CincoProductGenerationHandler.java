@@ -5,6 +5,7 @@ package de.jabc.cinco.meta.core.ui.handlers;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.eclipse.core.commands.AbstractHandler;
@@ -48,7 +49,6 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 			commandService = (ICommandService)PlatformUI.getWorkbench().getService(ICommandService.class);
 			StructuredSelection selection = (StructuredSelection)HandlerUtil.getActiveMenuSelection(event);
 			if(selection.getFirstElement() instanceof IFile){
-				
 				System.out.println("Generating Ecore/GenModel from MGL...");
 				Command mglGeneratorCommand = commandService.getCommand("de.jabc.cinco.meta.core.mgl.ui.mglgenerationcommand");
 				mglGeneratorCommand.executeWithChecks(event);
@@ -65,6 +65,10 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 				System.out.println("Generating Feature Project");
 				Command featureGenerationCommand = commandService.getCommand("de.jabc.cinco.meta.core.generatefeature");
 				featureGenerationCommand.executeWithChecks(event);
+				
+				System.out.println("Generating TransEM4 SIBs");
+				Command sibGenerationCommand = commandService.getCommand("de.jabc.cinco.meta.core.sibgenerator.commands.generateCincoSIBsCommand");
+				sibGenerationCommand.executeWithChecks(event);
 				
 				MessageDialog.openInformation(HandlerUtil.getActiveShell(event), "Cinco Product Generation", "Cinco Product generation completed successfully");
 				
