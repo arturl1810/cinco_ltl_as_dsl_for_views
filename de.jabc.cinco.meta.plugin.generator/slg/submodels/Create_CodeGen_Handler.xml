@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>149d1ca1-a6c8-418b-820e-fb6403963115</id>
   <name>Create CodeGen Handler</name>
-  <changecounter>31</changecounter>
+  <changecounter>52</changecounter>
   <sib>
     <id>6ec4d4e6-7c89-44fe-8552-f555aa651230</id>
     <name>RunStringTemplate</name>
@@ -40,6 +40,8 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -51,6 +53,10 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.eclipse.ui.progress.IProgressService;
+import org.eclipse.jface.dialogs.ErrorDialog;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.operation.IRunnableWithProgress;
+import org.eclipse.swt.widgets.Display;
 
 /**
  * Our sample handler extends AbstractHandler, an IHandler base class.
@@ -69,7 +75,7 @@ public class $graphModelName$CodeGenerationHandler extends AbstractHandler {
 	 * the command has been executed, so extract extract the needed information
 	 * from the application context.
 	 */
-	public Object execute(ExecutionEvent event) throws ExecutionException {
+	public Object execute(final ExecutionEvent event) throws ExecutionException {
 				IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindowChecked(event);
 		
 		try {
@@ -79,41 +85,61 @@ public class $graphModelName$CodeGenerationHandler extends AbstractHandler {
     			IProgressService ps = window.getWorkbench().getProgressService();
 			ps.run(true, true, new IRunnableWithProgress() {
 				
-				@Override
-				public void run(IProgressMonitor monitor) throws InvocationTargetException,
-						InterruptedException {try{
-			ResourceSet set = new ResourceSetImpl();
-			Resource res = set.createResource(uri);
-			$graphModelName$ graphModel =null;
-			res.load(null);
-			for(EObject obj: res.getContents()){
-				if(obj instanceof $graphModelName$){
-					graphModel = ($graphModelName$)obj;
-					break;
-				}
+			@Override
+			public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
+			
+			try{
+				ResourceSet set = new ResourceSetImpl();
+				Resource res = set.createResource(uri);
+				$graphModelName$ graphModel =null;
+				res.load(null);
+				for(EObject obj: res.getContents()){
+					if(obj instanceof $graphModelName$){
+						graphModel = ($graphModelName$)obj;
+						break;
+					}
 				
-			}
-			if(graphModel!=null){
-			
-				$implementingClassName$ generator = new $implementingClassName$();
-				IProject project = null;
-				if (uri.isPlatformResource()) {
-					String platformString = uri.toPlatformString(true);
-					IResource s = ResourcesPlugin.getWorkspace().getRoot().findMember(platformString);
-					project = s.getProject();
 				}
-				org.eclipse.core.runtime.IPath outlet = project.getLocation().append(&quot;$outlet$&quot;);
-        if(!outlet.toFile().exists()){
-           outlet.toFile().mkdirs();
-        }else if (!outlet.toFile().isDirectory()){
-					throw new RuntimeException(&quot;Outlet $outlet$ already exists, but is no directory.&quot;);
-				}
-				generator.generate(graphModel,outlet,monitor);
-				project.refreshLocal(IProject.DEPTH_INFINITE, monitor);
-			}
+				if(graphModel!=null){
 			
-		}catch(Exception e){
-			e.printStackTrace();
+					$implementingClassName$ generator = new $implementingClassName$();
+					IProject project = null;
+					if (uri.isPlatformResource()) {
+						String platformString = uri.toPlatformString(true);
+						IResource s = ResourcesPlugin.getWorkspace().getRoot().findMember(platformString);
+						project = s.getProject();
+					}
+					final org.eclipse.core.runtime.IPath outlet = project.getLocation().append(&quot;$outlet$&quot;);
+					if(!outlet.toFile().exists()){
+						outlet.toFile().mkdirs();
+					}
+					else if (!outlet.toFile().isDirectory()){
+						throw new RuntimeException(&quot;Outlet $outlet$ already exists, but is no directory.&quot;);
+					}
+					generator.generate(graphModel,outlet,monitor);
+					project.refreshLocal(IProject.DEPTH_INFINITE, monitor);
+					new Thread(new Runnable() {
+						public void run() {
+							Display.getDefault().asyncExec(new Runnable() {
+								public void run() {
+									MessageDialog.openInformation(HandlerUtil.getActiveShell(event), &quot;Code generation succeeded&quot;,
+											&quot;The code for model\n\&quot;&quot; + uri.lastSegment() + &quot;\&quot;\nwas succesfully generated into:\n\&quot;&quot; +
+									outlet.toOSString()+ &quot;\&quot;&quot;);					               }
+								});
+						}
+						}).start();
+				}
+			
+			}catch(Exception e){
+				final Status status = new Status(IStatus.ERROR, uri.toString(), e.getMessage(), e);
+				new Thread(new Runnable() {
+				public void run() {
+					Display.getDefault().asyncExec(new Runnable() {
+						public void run() {
+							ErrorDialog.openError(HandlerUtil.getActiveShell(event), &quot;Error during code generation&quot;, &quot;An error occured during generation&quot;, status);						               }
+						});
+				}
+			}).start();e.printStackTrace();
 		}
 		}	
 				
