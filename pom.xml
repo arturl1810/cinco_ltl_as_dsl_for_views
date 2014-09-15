@@ -39,7 +39,7 @@
 <module>de.jabc.cinco.meta.core.ge.style.sibs</module>
 <module>de.jabc.cinco.meta.core.adapters</module>
 <module>de.jabc.cinco.meta.core.sibs</module>
-<module>de.jabc.cinco.meta.core.sibgenerator</module>
+<module>de.jabc.cinco.meta.core.jabcprojectgenerator</module>
 <module>de.jabc.cinco.meta.libraries</module>
 </modules>
   <properties>

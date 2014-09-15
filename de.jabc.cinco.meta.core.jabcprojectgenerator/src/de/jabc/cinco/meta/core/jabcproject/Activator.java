@@ -1,11 +1,10 @@
-package de.jabc.cinco.meta.core.sibgenerator;
+package de.jabc.cinco.meta.core.jabcproject;
 
 
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
 import de.jabc.cinco.meta.core.ui.listener.MGLSelectionListener;
-import de.jabc.plugin.jabc4.util.IOSIBUtil;
 
 /**
  * The activator class controls the plug-in life cycle

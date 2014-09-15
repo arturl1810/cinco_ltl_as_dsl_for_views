@@ -1,4 +1,4 @@
-package de.jabc.cinco.meta.core.sibgenerator.handlers;
+package de.jabc.cinco.meta.core.jabcproject.handlers;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -17,15 +17,12 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.eclipse.ui.progress.IProgressService;
 
-import de.jabc.cinco.meta.core.sibgenerator.Activator;
-import de.jabc.cinco.meta.core.sibgenerator.TransEM4SIBGenerator;
+import de.jabc.cinco.meta.core.jabcproject.Activator;
+import de.jabc.cinco.meta.core.jabcproject.TransEM4SIBGenerator;
 
 /**
  * Our sample handler extends AbstractHandler, an IHandler base class.
@@ -96,6 +93,10 @@ public class CincoSIBGenerationHandler extends AbstractHandler {
 			}
 			if (!oldValue.contains("org.eclipse.emf.ecore.xmi")) {
 				oldValue = oldValue.concat(",org.eclipse.emf.ecore.xmi");
+				mani.getMainAttributes().putValue("Require-Bundle", oldValue);
+			}
+			if(!oldValue.contains("de.jabc.cinco.meta.core.sibgenerator")){
+				oldValue.concat("de.jabc.cinco.meta.core.sibgenerator");
 				mani.getMainAttributes().putValue("Require-Bundle", oldValue);
 			}
 			mani.write(new FileOutputStream(project.getLocation()

@@ -66,8 +66,8 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 				Command featureGenerationCommand = commandService.getCommand("de.jabc.cinco.meta.core.generatefeature");
 				featureGenerationCommand.executeWithChecks(event);
 				
-				System.out.println("Generating TransEM4 SIBs");
-				Command sibGenerationCommand = commandService.getCommand("de.jabc.cinco.meta.core.sibgenerator.commands.generateCincoSIBsCommand");
+				System.out.println("Generating jABC4 Project Information");
+				Command sibGenerationCommand = commandService.getCommand("de.jabc.cinco.meta.core.jabcproject.commands.generateCincoSIBsCommand");
 				sibGenerationCommand.executeWithChecks(event);
 				
 				MessageDialog.openInformation(HandlerUtil.getActiveShell(event), "Cinco Product Generation", "Cinco Product generation completed successfully");
