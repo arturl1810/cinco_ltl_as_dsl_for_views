@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>50093a2f-f127-4315-978c-59bea9c2a6a3</id>
   <name>GenerateSingleBooleanCode</name>
-  <changecounter>154</changecounter>
+  <changecounter>160</changecounter>
   <sib>
     <id>a9db252a-8d07-44cf-8977-ce56b1572780</id>
     <name>RunStringTemplate</name>
@@ -54,11 +54,7 @@
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>PictogramElement pe = getSelectedPictogramElement();
-if (pe == null)
-	return;
-
-EObject tmp = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
+      <string>EObject tmp = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
 if (tmp instanceof $context.modelElementName$) {
 	(($context.modelElementName$) tmp).set$context.fuAttributeName$($context.flAttributeName$Button.getSelection());
 }
@@ -456,11 +452,7 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>PictogramElement pe = getSelectedPictogramElement();
-if (pe == null)
-	return;
-
-EObject bo = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
+      <string>EObject bo = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
 if (bo instanceof $context.modelElementName$) {
 	$context.fuModelElementName$ tmp = ($context.fuModelElementName$) bo;
 	Object value = $context.flAttributeName$Button.getSelection();
