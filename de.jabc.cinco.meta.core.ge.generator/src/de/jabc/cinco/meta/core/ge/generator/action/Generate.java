@@ -103,7 +103,7 @@ public class Generate extends AbstractHandler {
 		    Styles styles = null;
 		    try {
 		    	gModel = loadGraphModel(resource);
-				generateGenModelCode(file);
+				
 				
 				for (Annotation a : gModel.getAnnotations()) {
 					if (ID_STYLE.equals(a.getName())) {
