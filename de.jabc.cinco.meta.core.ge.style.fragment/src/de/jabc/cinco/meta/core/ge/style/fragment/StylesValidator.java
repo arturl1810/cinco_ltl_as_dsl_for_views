@@ -126,6 +126,11 @@ public class StylesValidator implements IMetaPluginValidator {
 			return new ErrorPair<String, EStructuralFeature>(
 					"Style: " + styleName +" contains text element with " + params + " parameters but you provided: " + (annot.getValue().size()-1),
 					annot.eClass().getEStructuralFeature("value"));
+		if (params < annot.getValue().size()-1) {
+			return new ErrorPair<String, EStructuralFeature>(
+					"Style: " + styleName +" contains text element with " + params + " parameters but you provided: " + (annot.getValue().size()-1),
+					annot.eClass().getEStructuralFeature("value"));
+		}
 		else if (params == annot.getValue().size()-1) {
 			List<String> errors = checkParameters(me, annot.getValue());
 			if (errors != null && !errors.isEmpty()) {
