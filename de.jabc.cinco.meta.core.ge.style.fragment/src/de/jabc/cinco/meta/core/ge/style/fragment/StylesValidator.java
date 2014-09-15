@@ -69,7 +69,6 @@ public class StylesValidator implements IMetaPluginValidator {
 			ep = checkIcon(annotation);
 		}
 		
-		
 		return ep;
 	}
 	
@@ -248,9 +247,11 @@ public class StylesValidator implements IMetaPluginValidator {
 		}
 		
 		if (main instanceof ContainerShape) {
+			int retval = 0;
 			for (AbstractShape as : ((ContainerShape) main).getChildren()) {
-				return checkFormatStringParameters(as);
+				retval += checkFormatStringParameters(as);
 			}
+			return retval;
 		}
 		return 0;
 	}
