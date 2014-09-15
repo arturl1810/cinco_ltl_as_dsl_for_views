@@ -1,28 +1,19 @@
-package de.jabc.cinco.meta.core.sibgenerator;
+package de.jabc.cinco.meta.core.jabcproject;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.util.Enumeration;
 import java.util.Properties;
 import java.util.UUID;
 
 import mgl.GraphModel;
-import mgl.MglFactory;
-import mgl.MglPackage;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.Platform;
-import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.jface.operation.IRunnableWithProgress;
-import org.osgi.framework.Bundle;
 
-import de.jabc.plugin.transem.Main;
-import de.jabc.plugin.transem.utilities.Utilities;
-import de.metaframe.jabc.editor.project.ABCProject;
 
 public class TransEM4SIBGenerator implements IRunnableWithProgress {
 
@@ -68,15 +59,17 @@ public class TransEM4SIBGenerator implements IRunnableWithProgress {
 	private void generateJABC4Project(File projectPath) throws FileNotFoundException, IOException {
 		File projectFile = new File(projectPath +File.separator+"jabc.project");
 		if(!projectFile.exists()){
-			ABCProject jABC4Project = new ABCProject(projectPath);
+			
+			Properties jABC4Project = new Properties();
 		
 			jABC4Project.setProperty("ID", UUID.randomUUID().toString());
-			jABC4Project.setId(UUID.randomUUID().toString());
 			jABC4Project.setProperty("jabc.project.sibpath.0","<classpath>");
 			jABC4Project.setProperty("jabc.project.classpath.0", File.separator+"bin"+ File.separator);
 			jABC4Project.setProperty("jabc.project.name",mglModel.getName());
 			jABC4Project.setProperty("jabc.project.definition","1.0");
 			jABC4Project.setProperty("transem.qualified.package",getEPackageName(mglModel));
+			jABC4Project.setProperty("transem.codegenerator.targetDir","src-gen/");
+			jABC4Project.setProperty("transem.codegenerator.sourceDir","slg/");
 			jABC4Project.store(new FileOutputStream(projectFile), "Saving jABC Project");
 			
 		}
@@ -85,7 +78,7 @@ public class TransEM4SIBGenerator implements IRunnableWithProgress {
 	}
 
 	private String getEPackageName(GraphModel mglModel2) {
-		String mglName = Utilities.firstUpper(mglModel2.getName().toLowerCase());
+		String mglName = firstUpper(mglModel2.getName().toLowerCase());
 		String mglPackage = mglModel2.getPackage();
 		String mglNameLower = mglModel2.getName().toLowerCase();
 		return mglPackage.concat(".").concat(mglNameLower).concat(".").concat(mglName).concat("Package");
@@ -97,6 +90,22 @@ public class TransEM4SIBGenerator implements IRunnableWithProgress {
 
 	private boolean isJABC4Project(File projectPath){
 		return new File(projectPath.getAbsolutePath()+File.separator+"jabc.project").exists();
+	}
+	
+	private static String firstUpper(String string) {
+		String fuString = "";
+		if (string == null)
+			return null;
+		switch (string.length()) {
+		case 0:
+			return fuString;
+		case 1:
+			return string.toUpperCase();
+		default:
+			return string.substring(0, 1).toUpperCase()
+					.concat(string.substring(1, string.length()));
+		}
+
 	}
 	
 
