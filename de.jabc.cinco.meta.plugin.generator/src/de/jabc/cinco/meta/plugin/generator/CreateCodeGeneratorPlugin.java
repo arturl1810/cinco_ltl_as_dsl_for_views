@@ -73,10 +73,15 @@ public class CreateCodeGeneratorPlugin extends AbstractService {
 			String outlet = "";
 			for(mgl.Annotation anno: graphModel.getAnnotations()){
 				if(anno.getName().equals("generatable")){
-					bundleName = anno.getValue().get(0);
-					implementingClassName = anno.getValue().get(1);
-					outlet = anno.getValue().get(2);
-					break;
+					if (anno.getValue().size() == 3) {
+						bundleName = anno.getValue().get(0);
+						implementingClassName = anno.getValue().get(1);
+						outlet = anno.getValue().get(2);
+						break;
+					} else if (anno.getValue().size() == 2) {
+						implementingClassName = anno.getValue().get(0);
+						outlet = anno.getValue().get(1);
+					}
 				}
 			}
 			context.put("implementingClassName",implementingClassName);
@@ -94,6 +99,10 @@ public class CreateCodeGeneratorPlugin extends AbstractService {
 			if (res != null)
 				symbolicName = ProjectCreator.getProjectSymbolicName(res.getProject());
 			else symbolicName = graphModel.getPackage();
+			
+			if (bundleName.isEmpty()) {
+				bundleName = res.getProject().getName();
+			}
 			
 			requiredBundles.add(symbolicName);
 			
