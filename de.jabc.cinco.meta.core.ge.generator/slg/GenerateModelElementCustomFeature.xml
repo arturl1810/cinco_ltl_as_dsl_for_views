@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>20ee1083-42c9-4128-8db1-42f1826d8d49</id>
   <name>GenerateModelElementCustomFeature</name>
-  <changecounter>140</changecounter>
+  <changecounter>150</changecounter>
   <sib>
     <id>c89925ae-3820-4a21-8425-767fe1505ce3</id>
     <name>CopyEObject</name>
@@ -154,7 +154,7 @@
     <point>147.85714285714286,264.0</point>
     <point>195.0,330.0</point>
     <point>149.8148148148148,391.0</point>
-    <labelposition>500.0,0.0</labelposition>
+    <labelposition>532.4262945521244,-40.10530506258238</labelposition>
     <branch>next</branch>
   </edge>
   <sib>
@@ -163,7 +163,7 @@
     <label>FeatureProviderCustomFeatureContent</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>275.0,498.0</position>
+    <position>275.0,513.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -173,8 +173,8 @@
     <parameter name="result">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>featureProviderCustomFeatureContent</key>
-          <scope>GLOBAL</scope>
+          <key>customFeatureClass</key>
+          <scope>LOCAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
@@ -206,7 +206,7 @@
     <label>GetCustomFeatureClassName</label>
     <sib-uid>ge-util-sibs/GetCustomFeatureClassName</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.GetCustomFeatureClassName</taxonomy>
-    <position>50.5,498.0</position>
+    <position>35.5,513.0</position>
     <parameter name="annotationKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -234,6 +234,43 @@
     <point>390.0,525.0</point>
     <point>633.0,507.0</point>
     <branch>default</branch>
+  </edge>
+  <sib>
+    <id>2ae2ac48-f64e-49d6-b882-7618d202b76e</id>
+    <name>RunStringTemplate_2</name>
+    <label>FeatureProviderCustomFeatureContent</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>290.0,228.0</position>
+    <parameter name="append">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>featureProviderCustomFeatureContent</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>if (bo instanceof $context.modelElement.name$) {
+	return new ICustomFeature[] {$context.customFeatureClass$};
+}</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>5a680614-c452-4d7a-ad8e-4f70084c6c60</source>
+    <target>2ae2ac48-f64e-49d6-b882-7618d202b76e</target>
+    <point>135.0,255.0</point>
+    <point>379.0,242.0</point>
+    <branch>exit</branch>
   </edge>
   <parameter>
     <name>ModelElementKey</name>
@@ -268,11 +305,6 @@
     <sib>5a680614-c452-4d7a-ad8e-4f70084c6c60</sib>
   </branch>
   <branch>
-    <name>default</name>
-    <branch>exit</branch>
-    <sib>5a680614-c452-4d7a-ad8e-4f70084c6c60</sib>
-  </branch>
-  <branch>
     <name>error</name>
     <branch>error</branch>
     <sib>9963bd9a-9921-46e1-ab65-bd764a66e13e</sib>
@@ -286,5 +318,15 @@
     <name>error</name>
     <branch>error</branch>
     <sib>b9e77c99-181a-427d-b176-44f5a9aa17c3</sib>
+  </branch>
+  <branch>
+    <name>default</name>
+    <branch>default</branch>
+    <sib>2ae2ac48-f64e-49d6-b882-7618d202b76e</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>2ae2ac48-f64e-49d6-b882-7618d202b76e</sib>
   </branch>
 </model>
