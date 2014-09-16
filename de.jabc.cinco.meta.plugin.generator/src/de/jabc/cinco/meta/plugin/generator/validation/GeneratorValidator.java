@@ -16,11 +16,11 @@ public class GeneratorValidator implements IMetaPluginValidator {
 
 	@Override
 	public ErrorPair<String, EStructuralFeature> checkAll(EObject eObject) {
-		if(eObject.eClass().equals("Annotation")){
+		if(eObject.eClass().getName().equals("Annotation")){
 			Annotation anno = (Annotation)eObject;
 			
-			if(anno.getName().equals("generatable")&&anno.getValue().size()!=3)
-				return new ErrorPair<String,EStructuralFeature>("Generatable Annotation values must consist of bundle name, qualified implementing Class name and outlet folder (relative to project).",eObject.eClass().getEStructuralFeature("value"));
+			if(anno.getName().equals("generatable") && anno.getValue().size() < 2)
+				return new ErrorPair<String,EStructuralFeature>("Generatable Annotation values must consist of qualified implementing Class name and outlet folder (relative to project).",eObject.eClass().getEStructuralFeature("value"));
 		}
 		return null;
 	}

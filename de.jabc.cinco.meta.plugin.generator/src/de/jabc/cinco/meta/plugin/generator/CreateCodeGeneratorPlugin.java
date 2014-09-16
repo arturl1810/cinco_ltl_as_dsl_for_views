@@ -62,11 +62,8 @@ public class CreateCodeGeneratorPlugin extends AbstractService {
 	
 	public IProject createCodeGeneratorEclipseProject(
 			LightweightExecutionEnvironment environment) {
-		LightweightExecutionContext context = environment.getLocalContext()
-				.getGlobalContext();
+		LightweightExecutionContext context = environment.getLocalContext().getGlobalContext();
 		try {
-			
-			
 			GraphModel graphModel = (GraphModel) context.get("graphModel");
 			String implementingClassName = "";
 			String bundleName = "";
