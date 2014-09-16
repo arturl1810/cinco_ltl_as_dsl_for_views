@@ -77,7 +77,7 @@ class MGLProposalProvider extends AbstractMGLProposalProvider {
 		var proposal = createCompletionProposal("Choose File...", context);
 		if (proposal instanceof ConfigurableCompletionProposal) {
 			var configProp = proposal as ConfigurableCompletionProposal
-			configProp.setTextApplier(new ChooseFileTextApplier())
+			configProp.setTextApplier(new ChooseFileTextApplier(model))
 		}
 		acceptor.accept(proposal)
 		
