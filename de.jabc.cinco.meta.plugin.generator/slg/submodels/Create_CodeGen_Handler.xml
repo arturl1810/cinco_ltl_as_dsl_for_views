@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>149d1ca1-a6c8-418b-820e-fb6403963115</id>
   <name>Create CodeGen Handler</name>
-  <changecounter>52</changecounter>
+  <changecounter>55</changecounter>
   <sib>
     <id>6ec4d4e6-7c89-44fe-8552-f555aa651230</id>
     <name>RunStringTemplate</name>
@@ -124,7 +124,7 @@ public class $graphModelName$CodeGenerationHandler extends AbstractHandler {
 								public void run() {
 									MessageDialog.openInformation(HandlerUtil.getActiveShell(event), &quot;Code generation succeeded&quot;,
 											&quot;The code for model\n\&quot;&quot; + uri.lastSegment() + &quot;\&quot;\nwas succesfully generated into:\n\&quot;&quot; +
-									outlet.toOSString()+ &quot;\&quot;&quot;);					               }
+									outlet.lastSegment()+ &quot;\&quot;&quot;);					               }
 								});
 						}
 						}).start();
