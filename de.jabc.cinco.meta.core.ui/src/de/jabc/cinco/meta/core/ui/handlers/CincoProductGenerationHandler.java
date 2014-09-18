@@ -23,6 +23,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.commands.ICommandService;
 import org.eclipse.ui.handlers.HandlerUtil;
 
+import de.jabc.cinco.meta.core.ui.listener.MGLSelectionListener;
 import de.jabc.cinco.meta.core.utils.GeneratorHelper;
 
 
@@ -54,7 +55,7 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 				mglGeneratorCommand.executeWithChecks(event);
 				
 				System.out.println("Generating Model Code from GenModel...");
-				IFile mglModelFile = (IFile)selection.getFirstElement();
+				IFile mglModelFile = MGLSelectionListener.INSTANCE.getSelectedFile();
 				GeneratorHelper.generateGenModelCode(mglModelFile);
 				
 				
