@@ -19,3 +19,4 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ActivationPolicy: lazy
 Export-Package: de.jabc.cinco.meta.core,de.jabc.cinco.meta.core.featur
  e.handler,de.jabc.cinco.meta.core.featuregenerator
+Import-Package: de.jabc.cinco.meta.core.ui.listener

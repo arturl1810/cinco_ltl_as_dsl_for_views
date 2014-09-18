@@ -35,6 +35,7 @@ import com.google.inject.Inject;
 
 import de.jabc.cinco.meta.core.featuregenerator.Generate_Feature_XML;
 import de.jabc.cinco.meta.core.pluginregistry.PluginRegistry;
+import de.jabc.cinco.meta.core.ui.listener.MGLSelectionListener;
 import de.jabc.cinco.meta.core.utils.projects.ProjectCreator;
 import de.metaframe.jabc.framework.execution.DefaultLightweightExecutionEnvironment;
 import de.metaframe.jabc.framework.execution.LightweightExecutionEnvironment;
@@ -55,17 +56,11 @@ public class GenerateFeatureProjectHandler extends AbstractHandler {
 				.getActiveWorkbenchWindowChecked(event).getWorkbench()
 				.getProgressService();
 		try {
-			ISelection selection = HandlerUtil.getActiveMenuSelection(event);
-			if (selection instanceof StructuredSelection) {
-				StructuredSelection structuredSelection = (StructuredSelection) selection;
-				IFile file = null;
-				if (structuredSelection.getFirstElement() instanceof IFile) {
-					file = (IFile) structuredSelection.getFirstElement();
-					ResourceSet rSet = new ResourceSetImpl();
-					
-			//ps.run(true, true, new FeatureGenerator(file,rSet));
-			ps.busyCursorWhile(new FeatureGenerator(file,rSet));
-				}
+			IFile file = MGLSelectionListener.INSTANCE.getSelectedFile();
+			if(file!=null){
+				ResourceSet rSet = new ResourceSetImpl();
+				ps.busyCursorWhile(new FeatureGenerator(file,rSet));
+				
 			}
 		} catch (InvocationTargetException | InterruptedException e) {
 			// TODO Auto-generated catch block
