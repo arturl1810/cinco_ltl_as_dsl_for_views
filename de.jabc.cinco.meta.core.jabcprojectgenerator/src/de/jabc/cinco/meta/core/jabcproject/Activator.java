@@ -12,7 +12,7 @@ import de.jabc.cinco.meta.core.ui.listener.MGLSelectionListener;
 public class Activator extends AbstractUIPlugin {
 
 	// The plug-in ID
-	public static final String PLUGIN_ID = "de.jabc.cinco.meta.core.sibgenerator"; //$NON-NLS-1$
+	public static final String PLUGIN_ID = "de.jabc.cinco.meta.core.jabcprojectgenerator"; //$NON-NLS-1$
 
 	// The shared instance
 	private static Activator plugin;
