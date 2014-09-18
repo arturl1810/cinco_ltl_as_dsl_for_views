@@ -80,7 +80,7 @@ import "platform:/resource/«projectName»/model/ExternalLibrary.ecore"
 @primeviewer
 «ENDIF»
 «IF features.contains(CODE_GENERATOR)»
-@generatable("«packageName»", "«packageName».codegen.Generate","/src-gen/")
+@generatable("«packageName».codegen.Generate","/src-gen/")
 «ENDIF»
 graphModel «modelName» {
 	package «packageName»
