@@ -88,16 +88,17 @@ public class Generate extends AbstractHandler {
 		ISelection sel = HandlerUtil.getActiveMenuSelection(event);
 		
 		if (sel instanceof IStructuredSelection && !sel.isEmpty()) {
-			IStructuredSelection ssel = (IStructuredSelection) sel;
-			IFile file = (IFile) ssel.getFirstElement();
-			sourceProject = file.getProject();
-			NullProgressMonitor monitor = new NullProgressMonitor();
+		IStructuredSelection ssel = (IStructuredSelection) sel;
+		IFile file = (IFile) ssel.getFirstElement();
+		sourceProject = file.getProject();
+		NullProgressMonitor monitor = new NullProgressMonitor();
+		
 			
 			Resource resource = new ResourceSetImpl().getResource(URI.createPlatformResourceURI(file.getFullPath().toOSString(), true), true);
 		    Styles styles = null;
 		    try {
 		    	gModel = loadGraphModel(resource);
-				generateGenModelCode(file);
+				
 				
 				for (Annotation a : gModel.getAnnotations()) {
 					if (ID_STYLE.equals(a.getName())) {
@@ -302,36 +303,7 @@ public class Generate extends AbstractHandler {
 		}
 	}
 	
-	private void generateGenModelCode(IFile mglModelFile) throws IOException {
-		String modelName = (mglModelFile.getName().endsWith(".mgl")) 
-				? mglModelFile.getName().split("\\.")[0] 
-				: mglModelFile.getName();
-				
-		IProject project = mglModelFile.getProject();
-		IFile genModelFile = project.getFile("src-gen/model/" + modelName +".genmodel");
-		
-		if (!genModelFile.exists())
-			throw new IOException("The file: " + modelName+".genmodel does not exist");
-		
-		Resource res = new ResourceSetImpl().getResource(
-				URI.createPlatformResourceURI(genModelFile.getFullPath().toOSString(), true),true);
-		for (EObject o : res.getContents()) {	
-			if (o instanceof GenModel) {
-				GenModel genModel = (GenModel) o;
-				for (GenPackage gm : genModel.getUsedGenPackages()) {
-					if (!gm.getGenModel().equals(genModel)) {
-						genModel.getUsedGenPackages().add(gm);
-					}
-				}
-//				genModel.getUsedGenPackages().addAll(getUsedGenPackages());
-				System.out.println(genModel.getUsedGenPackages());
-				genModel.setCanGenerate(true);
-				Generator generator = new Generator();
-				generator.setInput(genModel);
-				generator.generate(genModel, GenBaseGeneratorAdapter.MODEL_PROJECT_TYPE, new BasicMonitor());
-			}
-		}
-	}
+
 	
 	private Collection<? extends GenPackage> getUsedGenPackages() {
 		if (gModel == null)

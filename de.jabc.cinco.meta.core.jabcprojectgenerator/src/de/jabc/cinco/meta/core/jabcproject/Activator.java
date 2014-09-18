@@ -1,8 +1,10 @@
-package de.jabc.cinco.meta.core.sibgenerator;
+package de.jabc.cinco.meta.core.jabcproject;
 
 
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
+
+import de.jabc.cinco.meta.core.ui.listener.MGLSelectionListener;
 
 /**
  * The activator class controls the plug-in life cycle
@@ -14,6 +16,8 @@ public class Activator extends AbstractUIPlugin {
 
 	// The shared instance
 	private static Activator plugin;
+	
+	protected MGLSelectionListener selectionListener = null;
 	
 	/**
 	 * The constructor
@@ -28,6 +32,11 @@ public class Activator extends AbstractUIPlugin {
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
+		
+		this.selectionListener = MGLSelectionListener.INSTANCE;
+		
+		
+		
 	}
 
 	/*
@@ -37,6 +46,7 @@ public class Activator extends AbstractUIPlugin {
 	public void stop(BundleContext context) throws Exception {
 		plugin = null;
 		super.stop(context);
+		
 	}
 
 	/**
@@ -46,6 +56,12 @@ public class Activator extends AbstractUIPlugin {
 	 */
 	public static Activator getDefault() {
 		return plugin;
+	}
+	
+	
+
+	public MGLSelectionListener getSelectionListener() {
+		return selectionListener;
 	}
 
 }

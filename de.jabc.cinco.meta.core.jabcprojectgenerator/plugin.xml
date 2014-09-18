@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.commands">
+      <category
+            id="de.jabc.cinco.meta.core.sibgenerator.commands.category"
+            name="SIB Generation">
+      </category>
+      <command
+            categoryId="de.jabc.cinco.meta.core.sibgenerator.commands.category"
+            defaultHandler="de.jabc.cinco.meta.core.jabcproject.handlers.CincoSIBGenerationHandler"
+            id="de.jabc.cinco.meta.core.jabcproject.commands.generateCincoSIBsCommand"
+            name="Generate Cinco SIBs">
+      </command>
+   </extension>
+
+</plugin>

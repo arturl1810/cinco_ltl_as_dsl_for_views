@@ -16,8 +16,10 @@ Require-Bundle: org.eclipse.ui,
  com.google.inject;bundle-version="3.0.0",
  javax.inject;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
-Bundle-ActivationPolicy: lazy
 Import-Package: de.jabc.cinco.meta.core.ui.handlers,
+ de.jabc.cinco.meta.core.utils,
  org.eclipse.xtext.resource,
  org.eclipse.xtext.ui.resource
-Export-Package: de.jabc.cinco.meta.core.ui.handlers
+Export-Package: de.jabc.cinco.meta.core.ui.handlers,
+ de.jabc.cinco.meta.core.ui.listener
+Bundle-ActivationPolicy: lazy

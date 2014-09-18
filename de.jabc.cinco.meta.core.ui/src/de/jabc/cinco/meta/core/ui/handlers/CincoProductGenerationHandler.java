@@ -5,6 +5,7 @@ package de.jabc.cinco.meta.core.ui.handlers;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.eclipse.core.commands.AbstractHandler;
@@ -21,7 +22,8 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.commands.ICommandService;
 import org.eclipse.ui.handlers.HandlerUtil;
-import org.eclipse.ui.progress.IProgressService;
+
+import de.jabc.cinco.meta.core.utils.GeneratorHelper;
 
 
 /**
@@ -47,10 +49,14 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 			commandService = (ICommandService)PlatformUI.getWorkbench().getService(ICommandService.class);
 			StructuredSelection selection = (StructuredSelection)HandlerUtil.getActiveMenuSelection(event);
 			if(selection.getFirstElement() instanceof IFile){
-				
 				System.out.println("Generating Ecore/GenModel from MGL...");
 				Command mglGeneratorCommand = commandService.getCommand("de.jabc.cinco.meta.core.mgl.ui.mglgenerationcommand");
 				mglGeneratorCommand.executeWithChecks(event);
+				
+				System.out.println("Generating Model Code from GenModel...");
+				IFile mglModelFile = (IFile)selection.getFirstElement();
+				GeneratorHelper.generateGenModelCode(mglModelFile);
+				
 				
 				System.out.println("Generating Graphiti Editor...");
 				Command graphitiEditorGeneratorCommand = commandService.getCommand("de.jabc.cinco.meta.core.ge.generator.generateeditorcommand");
@@ -59,6 +65,10 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 				System.out.println("Generating Feature Project");
 				Command featureGenerationCommand = commandService.getCommand("de.jabc.cinco.meta.core.generatefeature");
 				featureGenerationCommand.executeWithChecks(event);
+				
+				System.out.println("Generating jABC4 Project Information");
+				Command sibGenerationCommand = commandService.getCommand("de.jabc.cinco.meta.core.jabcproject.commands.generateCincoSIBsCommand");
+				sibGenerationCommand.executeWithChecks(event);
 				
 				MessageDialog.openInformation(HandlerUtil.getActiveShell(event), "Cinco Product Generation", "Cinco Product generation completed successfully");
 				
