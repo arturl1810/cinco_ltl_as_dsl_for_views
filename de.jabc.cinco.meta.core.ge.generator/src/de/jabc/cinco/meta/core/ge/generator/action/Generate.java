@@ -64,6 +64,7 @@ import style.NodeStyle;
 import style.Style;
 import style.Styles;
 import de.jabc.cinco.meta.core.ge.generator.Main;
+import de.jabc.cinco.meta.core.ui.listener.MGLSelectionListener;
 import de.jabc.cinco.meta.core.utils.projects.ProjectCreator;
 import de.metaframe.jabc.framework.execution.DefaultLightweightExecutionEnvironment;
 import de.metaframe.jabc.framework.execution.LightweightExecutionEnvironment;
@@ -85,11 +86,11 @@ public class Generate extends AbstractHandler {
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		
-		ISelection sel = HandlerUtil.getActiveMenuSelection(event);
+		IFile file = MGLSelectionListener.INSTANCE.getSelectedFile();
 		
-		if (sel instanceof IStructuredSelection && !sel.isEmpty()) {
-		IStructuredSelection ssel = (IStructuredSelection) sel;
-		IFile file = (IFile) ssel.getFirstElement();
+		if (file!=null) {
+		
+		
 		sourceProject = file.getProject();
 		NullProgressMonitor monitor = new NullProgressMonitor();
 		
