@@ -205,7 +205,12 @@ class MGLProposalProvider extends AbstractMGLProposalProvider {
 					if(myAcceptor!=null){
 						for(acc: myAcceptor.getAcceptedStrings(annot)){
 							
-							acceptor.accept(createCompletionProposal(acc,context))
+							var proposal = createCompletionProposal(acc, context);
+							if (proposal instanceof ConfigurableCompletionProposal) {
+								var configProp = proposal as ConfigurableCompletionProposal
+								configProp.setTextApplier(myAcceptor.getTextApplier(annot))
+							}			
+							acceptor.accept(proposal)
 						}
 					}
 				}

@@ -1,16 +1,22 @@
 package de.jabc.cinco.meta.core.ge.style.fragment;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.xtext.ui.editor.contentassist.ConfigurableCompletionProposal.IReplacementTextApplier;
 
+import style.EdgeStyle;
+import style.NodeStyle;
 import style.Style;
 import style.Styles;
 import mgl.Annotation;
@@ -20,9 +26,13 @@ import mgl.Node;
 import mgl.NodeContainer;
 import mgl.Type;
 import de.jabc.cinco.meta.core.pluginregistry.proposalprovider.IMetaPluginAcceptor;
+import de.jabc.cinco.meta.core.utils.xtext.ChooseFileTextApplier;
 
 public class StyleValueProposalProvider implements IMetaPluginAcceptor {
 
+	private final String STYLE_ID = "style";
+	private final String ICON_ID = "icon";
+	
 	public StyleValueProposalProvider() {
 		// TODO Auto-generated constructor stub
 	}
@@ -30,47 +40,102 @@ public class StyleValueProposalProvider implements IMetaPluginAcceptor {
 	@Override
 	public List<String> getAcceptedStrings(Annotation annotation) {
 		String annotName = annotation.getName();
-		if ("style".equals(annotName)) {
+		Styles styles;
+		if (STYLE_ID.equals(annotName)) {
 			if(annotation.getParent() instanceof Type){
 				Type type = (Type) annotation.getParent();
 				GraphModel gModel = null;
-				if (type instanceof Node)
-					gModel = ((Node) type).getGraphModel();
-				if (type instanceof Edge)
-					gModel = ((Edge) type).getGraphModel();
-				if (type instanceof NodeContainer)
-					gModel = ((NodeContainer) type).getGraphModel();
-				if (type instanceof GraphModel)
-					gModel = (GraphModel) type;
-				
-				for (Annotation annot : gModel.getAnnotations()) {
-					if ("style".equals(annot.getName())) {
-						IPath filePath = new Path(annot.getValue().get(0)); 
-						IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(filePath);
-						
-						if (file == null) 
-							return new ArrayList<String>();
-						URI fileURI = URI.createPlatformResourceURI(filePath.toOSString(), true);
-						Resource res = new ResourceSetImpl().getResource(fileURI, true);
-						if (res == null) {
-							return new ArrayList<String>();
-						}
-						
-						Object o = res.getContents().get(0);
-						if (o instanceof Styles) {
-							ArrayList<String> styleNames = new ArrayList<String>();
-							Styles styles = (Styles) o;
-							for (Style s : styles.getStyles()) {
-								styleNames.add(s.getName());
-							}
-							return styleNames;
-						}
+				try {
+					if (type instanceof Node) {
+						gModel = ((Node) type).getGraphModel();
+						styles = getStyles(gModel);
+						return getNodeStyles(styles);
+					}
+					if (type instanceof Edge) {
+						gModel = ((Edge) type).getGraphModel();
+						styles = getStyles(gModel);
+						return getEdgeStyles(styles);
+					}
+					if (type instanceof NodeContainer) {
+						gModel = ((NodeContainer) type).getGraphModel();
+						styles = getStyles(gModel);
+						return getNodeStyles(styles);
 						
 					}
+					if (type instanceof GraphModel) {
+						gModel = (GraphModel) type;
+						return Collections.emptyList();
+					}
+				} catch (FileNotFoundException fnfe) {
+					return Collections.emptyList();
 				}
 			}
 		}
-		return new ArrayList<String>();
+		
+		if (ICON_ID.equals(annotName)) {
+			List<String> ret = new ArrayList<>();
+			ret.add("Choose file...");
+			return ret;
+		}
+			
+		
+		return Collections.emptyList();
+				
+	}
+	
+	private List<String> getNodeStyles(Styles styles) {
+		List<String> nodeStyles = new ArrayList<>();
+		for (Style s : styles.getStyles()) {
+			if (s instanceof NodeStyle) {
+				nodeStyles.add(s.getName());
+			}
+		}
+		return nodeStyles;
+	}
+	
+	private List<String> getEdgeStyles(Styles styles) {
+		List<String> edgeStyles = new ArrayList<>();
+		for (Style s : styles.getStyles()) {
+			if (s instanceof EdgeStyle) {
+				edgeStyles.add(s.getName());
+			}
+		}
+		return edgeStyles;
+	}
+
+	private Styles getStyles(GraphModel gModel) throws FileNotFoundException {
+		for (Annotation annot : gModel.getAnnotations()) {
+			if (STYLE_ID.equals(annot.getName())) {
+				String path = annot.getValue().get(0);
+				URI uri = URI.createURI(annot.getValue().get(0), true);
+				Resource res = null;
+				if (uri.isPlatformResource())
+					res = new ResourceSetImpl().getResource(uri, true);
+				else {
+					IProject p = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(gModel.eResource().getURI().toPlatformString(true))).getProject();
+					IFile file = p.getFile(path);
+					URI fileURI = URI.createPlatformResourceURI(file.getFullPath().toOSString(), true);
+					res = new ResourceSetImpl().getResource(fileURI, true);
+				}
+				if (res == null) {
+					throw new FileNotFoundException(annot.getValue().get(0));
+				}
+				
+				Object o = res.getContents().get(0);
+				if (o instanceof Styles) 
+					return (Styles) o;
+				else throw new FileNotFoundException(annot.getValue().get(0));
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public IReplacementTextApplier getTextApplier(Annotation annotation) {
+		if (ICON_ID.equals(annotation.getName())) {
+			return new ChooseFileTextApplier(annotation);
+		}
+		return null;
 	}
 
 }
