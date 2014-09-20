@@ -245,7 +245,7 @@
 								<artifactItem>
 									<groupId>de.jabc.plugin.transem</groupId>
 									<artifactId>transem4_runtime</artifactId>
-									<version>0.5</version>
+									<version>0.5.1</version>
 								</artifactItem>
 
 

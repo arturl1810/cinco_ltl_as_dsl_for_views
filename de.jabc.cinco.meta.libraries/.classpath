@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
+	<classpathentry exported="true" kind="lib" path="lib/transem4_runtime-0.5.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jabc4-codegenerator-core-4.4.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jabc4-basic-5.8.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/cal10n-api-0.7.7.jar"/>
@@ -18,7 +19,6 @@
 	<classpathentry exported="true" kind="lib" path="lib/weld-spi-2.0.SP1.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jabc4-codegenerator-api-5.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/javax.inject-1.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/transem4_runtime-0.5.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/weld-se-core-2.0.2.Final.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jgraph-5.9.2.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/basic-sibs-1.6.3.jar"/>
