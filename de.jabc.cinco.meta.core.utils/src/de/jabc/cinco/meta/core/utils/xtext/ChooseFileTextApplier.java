@@ -41,6 +41,8 @@ public class ChooseFileTextApplier extends ReplacementTextApplier {
 			dialog.setFilterPath(p.getLocation().toOSString());
 		}
 		String filePath = dialog.open();
+		if (filePath == null)
+			return "";
 		IPath iFilePath = new Path(filePath);
 		if (!ResourcesPlugin.getWorkspace().getRoot().getLocation().isPrefixOf(iFilePath)) {
 			ErrorDialog.openError(Display.getCurrent().getActiveShell(), "Invalid file", "Unable to process the selected file", 

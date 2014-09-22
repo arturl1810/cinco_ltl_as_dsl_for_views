@@ -54,6 +54,8 @@ public class PathValidator {
 	}
 	
 	private static String checkRelativePath(URI resUri, String path) {
+		if (path != null && path.isEmpty())
+			return "No path specified";
 		IProject p = root.getFile(new Path(res.getURI().toPlatformString(true))).getProject();
 		IFile file = p.getFile(path);
 		if (!file.exists()) {
