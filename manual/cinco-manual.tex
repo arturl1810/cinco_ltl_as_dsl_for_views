@@ -461,12 +461,12 @@ the target node.
 
 \subsubsection{GraphModel Type}
 
-Prior to the definition of node and edge types some global things can be
-specified for your \cinco product's model type using a \kw{graphModel}
-\code{\{...\}} block\footnote{Actually, the \kw{node} and \kw{edge} blocks are located
-\emph{in} this \kw{graphModel} block. See Listing \ref{lst:myMGL}.}.
-This time, the \code{@style} annotation points to your \msl{FlowGraph.style},
-but attributes are defined identically as for nodes and edges.
+Prior to the definition of node and edge types\footnote{Actually, the \kw{node}
+and \kw{edge} blocks are located \emph{in} this \kw{graphModel} block. See
+Listing \ref{lst:myMGL}.} some global things can be specified for your \cinco
+product's model type using a \kw{graphModel} \code{\{...\}} block.  This time,
+the \code{@style} annotation points to your \msl{FlowGraph.style}, but
+attributes are defined identically as for nodes and edges.
 
 The \kw{package} declaration defines the Java package name that should be used
 as base package for all generated classes and packages. If you browse the
@@ -482,11 +482,17 @@ be defined using the \kw{iconPath} keyword. It will be used on several occasions
 in the final product, but most importantly to highlight your created models in
 the \gui{Project Explorer} (cf. Fig. \ref{fig:firstModel}) 
 
-
 \subsection{MSL File} \label{sec:msl}
 
 \includestyle{listings/FlowGraph.style}{FlowGraph MSL file}{lst:myMSL}
 
+Listing \ref{lst:myMSL} shows the \msl{FlowGraph.style} as it was initialized
+in Sec.~\ref{sec:firstLaunch}. It solely consists of \kw{appearance}
+\code{\{...\}} blocks, \kw{nodeStyle} \code{\{...\}} blocks, and \kw{edgeStyle}
+\code{\{...\}} blocks.
+
+
+\subsection{Appearance Provider} \label{sec:ap}
 
 %\chapter{Advanced Topics}
 
