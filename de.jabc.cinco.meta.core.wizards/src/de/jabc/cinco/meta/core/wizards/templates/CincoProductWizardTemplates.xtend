@@ -110,10 +110,14 @@ graphModel «modelName» {
 	@icon("icons/End.png")
 	«ENDIF»
 	node End{
-		// allow an arbitrary number (>0) of incoming edges
-		//
-		// the following would have been valid as well, meaning the same:
-		// incomingEdges (*[1,*])
+		/*
+		
+		allow an arbitrary number (>0) of incoming edges
+		
+		the following would have been valid as well, meaning the same:		  
+		  incomingEdges (*[1,*])
+		
+		*/
 		incomingEdges ({Transition,LabeledTransition}[1,*])
 	}
 	
