@@ -299,7 +299,6 @@ public class SimpleArrowAppearance implements StyleAppearanceProvider<Transition
 	public Appearance getAppearance(Transition transition, String element) {
 		// element can be ignored here, as there are no named inner elements in the simpleArrow style
 		Appearance appearance = StyleFactory.eINSTANCE.createAppearance();
-		appearance.setLineWidth(2);
 		if (transition.getTargetElement() instanceof End)
 			appearance.setLineStyle(LineStyle.DASH);
 		else
