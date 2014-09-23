@@ -36,6 +36,8 @@
 
 \usepackage{gitinfo}
 
+\usepackage{placeins}
+
 \usepackage{tikz}
 \usetikzlibrary{shadows}
 
@@ -310,7 +312,7 @@ We consider our specification formats MGL and MSL fairly self-explanatory,
 meaning that one usually can understand most of their contents without detailed
 knowledge on available keywords or syntactic structures. This section
 will nonetheless detail on our two example files, but you might want to have a look at
-your \mgl{MyModelType.mgl} and \msl{MyModelType.style} beforehand, to decide for
+your \mgl{FlowGraph.mgl} and \msl{FlowGraph.style} beforehand, to decide for
 yourself. 
 
 However, writing a programming or specification language usually is a totally
@@ -359,7 +361,7 @@ the syntax of Java, everything from \code{//} to the end of the line is ignored
 Each node type defines one kind of component that can be inserted into the
 graphModel by drag\&dropping it from the \gui{Palette} into the modeling area.
 Doing so will create a dedicated instance of this node type, so that attributes
-(like name or description in the Activity node, cf. lines 32 and 33) can be set
+(like name or description in the Activity node, cf. lines 36 and 37) can be set
 seperately for each occurance in the model.
 
 Node types can declare an arbitrary amount of such attributes. An attribute's
@@ -379,31 +381,109 @@ defining \kw{targetNodes} and \kw{sourceNodes} in the edge type. However, this d
 not allow for the declaration of cardinalities.}
 %
 Enclosed in parantheses you can express a comma-seperated list of constraints,
-each suffixed by an upper/lower bound range in brackets. Line 35 shows a 
+each suffixed by an upper/lower bound range in brackets. Line 39 shows a 
 declaration of outgoing edges using one such contraint. It states that at least
 one LabeledTransition has to originate from every Activity node. The \code{*}
 that is used as upper bound means "infinity" (i.e. arbitrarily many). If a set
 of multiple edge types shall be defined per constraint -- meaning that any
 element from the set can be used -- they can be explicitely enumerated
-in curly brackets. Line 25 shows one such set constraint. It expresses that each
+in curly brackets. Line 29 shows one such set constraint. It expresses that each
 End node needs at least one incoming edge of the type Transition or of the type
 LabeledTransition. As there are only those two edge types in our example, this
 is equivalent to the wildcard expression \code{(*[1 ,*])}
 
+Node types can have an \code{@icon} annotation to specify an image that will be
+displayed in the tool palette next to the type name (cf. Fig.
+\ref{fig:firstModel}). The parameter can either be a path relative to the MGL
+project, as used within our example (lines 12, 19 and 34), or a so-called
+platform URI which for instance allows to reference files in other bundles. The
+relative path from line 12 would look like this in absolute notation:
 
+\code{@icon("platform:/resource/info.scce.cinco.product.flowgraph/icons/Start.png")}
 
+\FloatBarrier
 
+Finally, the \code{@style} annotation is used to assign a node style from the
+MSL definition to this node. The first parameter must equal the style identifier
+(following after the \kw{nodeStyle} keyword, see Sect.~\ref{sec:msl}). After
+that, a list of further parameters may follow, which can be used to pass the
+runtime value of attributes to the style. For example, for the Activity node
+(cf. line 33) the current value of the attribute "name" is passed and displayed
+as text in the center of the style "blueTextRectangle". If the description
+attribute needed to be passed as well, the line would look like this:
 
+\code{@style (blueTextRectangle, "\$\{name\}", "\$\{description\}")}
 
-
+It is not mandatory to establish a one-to-one relation between nodes and styles
+like it is done in the generated example. Multiple nodes can use the same style 
+and, for instance, pass different attributes. However, depending on the domain
+the \cinco product is developed for, it might be a good idea to be able to
+visually distinguish the different node types.
 
 
 \subsubsection{Edge Types}
+
+Edge type declarations are similar to node type declarations. Or more precisely,
+they allow a subset of the nodes' features: multiple attributes can be defined
+and a style is given with the \code{@style} annotation (though this time of
+course an edge style, not a node style, is referenced).
+
+\begin{figure}[h]
+	\centering
+	\begin{subfigure}[t]{0.30\textwidth}
+		\includegraphics[width=\textwidth]{screenshots/connect1.png}
+		\caption{Hover over node}
+		\label{fig:connect1}
+	\end{subfigure}
+	\quad
+	\begin{subfigure}[t]{0.30\textwidth}
+		\includegraphics[width=\textwidth]{screenshots/connect2.png}
+		\caption{Drag connect icon to target}
+		\label{fig:connect2}
+	\end{subfigure}
+	\quad
+	\begin{subfigure}[t]{0.30\textwidth}
+		\includegraphics[width=\textwidth]{screenshots/connect3.png}
+		\caption{Done}
+		\label{fig:connect3}
+	\end{subfigure}
+	\caption{Creating a new edge using the connect tool that appears when
+	hovering a node}
+	\label{fig:connect}
+\end{figure}
+
+The major difference is that in the running \cinco product the edge types are
+not inserted by selecting the corresponding tool from the palette, but by
+drag\&dropping a connect icon that appears when hovering over a node onto a
+target node. In case multiple edge types are possible (not in the generated
+example), you will be queried to choose one after releasing the mouse button on
+the target node.
+
 \subsubsection{GraphModel Type}
 
+Prior to the definition of node and edge types some global things can be
+specified for your \cinco product's model type using a \kw{graphModel}
+\code{\{...\}} block\footnote{Actually, the \kw{node} and \kw{edge} blocks are located
+\emph{in} this \kw{graphModel} block. See Listing \ref{lst:myMGL}.}.
+This time, the \code{@style} annotation points to your \msl{FlowGraph.style},
+but attributes are defined identically as for nodes and edges.
+
+The \kw{package} declaration defines the Java package name that should be used
+as base package for all generated classes and packages. If you browse the
+generated source files in your main project and the other generated ones, you'll
+notice that every package is prefixed with the one defined here. While this is
+intended to provide "unique" fully qualified names in the Java world, the
+\kw{nsURI} keyword defines the unique identifier for the generated Ecore
+metamodel.
+
+The \kw{diagramExtension} keyword determines the file extension that will be
+used for your models and, last but not least, an icon file for those model can
+be defined using the \kw{iconPath} keyword. It will be used on several occasions
+in the final product, but most importantly to highlight your created models in
+the \gui{Project Explorer} (cf. Fig. \ref{fig:firstModel}) 
 
 
-\subsection{MSL File}
+\subsection{MSL File} \label{sec:msl}
 
 \includestyle{listings/FlowGraph.style}{FlowGraph MSL file}{lst:myMSL}
 
