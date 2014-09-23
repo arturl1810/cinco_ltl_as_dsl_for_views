@@ -71,6 +71,8 @@ public class TransEM4SIBGenerator implements IRunnableWithProgress {
 			jABC4Project.setProperty("transem.codegenerator.targetDir","src-gen/");
 			jABC4Project.setProperty("transem.codegenerator.sourceDir","slg/");
 			jABC4Project.setProperty("transem.SIBDir","slg-gen/");
+			jABC4Project.setProperty("transem.other.ePackage.0","org.eclipse.graphiti.mm.algorithms.impl.AlgorithmsPackageImpl");
+			jABC4Project.setProperty("transem.other.ePackage.1","org.eclipse.graphiti.mm.pictograms.impl.PictogramsPackageImpl");
 			jABC4Project.store(new FileOutputStream(projectFile), "Saving jABC Project");
 			
 		}
