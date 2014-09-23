@@ -3,7 +3,13 @@
 - enhanced cinco wizard that allows for the initialization of various example features
 - cinco custom actions (formerly custom features) now possible for context
   menu and doubleclick
-
+- unified file referencing (e.g. for style file, icons): relative path or platform URI
+- unified Java class referencing (e.g. for custom action or generatable annotations):
+  bundleName + FQ class name (bundle may be omitted when referring to "this bundle")
+- added support for generating jABC4 Service Graphs for Cinco Product models
+- extended MGL/Style validators and content assist (more errors, more help)
+- @icon annotation (node, container, edge) for the create tools in the tool palette
+- as usual, lots polishing and bugfixing 
 
 20140813 - Cinco Release 0.4
 
