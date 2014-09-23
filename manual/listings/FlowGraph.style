@@ -44,8 +44,10 @@ nodeStyle blueTextRectangle {
 }
 
 
+
 edgeStyle simpleArrow {	
-	appearanceProvider ( "de.jabc.cinco.project.firstTest.appearance.SimpleArrowAppearance" ) 
+	appearanceProvider ( "info.scce.cinco.product.flowgraph.appearance.SimpleArrowAppearance" ) 
+	
 	decorator {
 		location (1.0) // at the end of the edge
 		ARROW

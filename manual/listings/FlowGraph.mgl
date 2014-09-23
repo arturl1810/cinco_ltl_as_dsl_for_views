@@ -1,0 +1,49 @@
+	
+@style("model/FlowGraph.style")
+graphModel FlowGraph {
+	package info.scce.cinco.product.flowgraph
+	nsURI "http://cinco.scce.info/product/flowgraph"
+	iconPath "icons/FlowGraph.png"
+	diagramExtension "flowgraph"
+	
+	attr EString as modelName
+	
+	@style(greenCircle)
+	@icon("icons/Start.png")
+	node Start {
+		// allow exactly one outgoing Transition
+		outgoingEdges (Transition[1,1]) 
+	}	
+	
+	@style(redCircle) 
+	@icon("icons/End.png")
+	node End{
+		// allow an arbitrary number (>0) of incoming edges
+		//
+		// the following would have been valid as well, meaning the same:
+		// incomingEdges (*[1,*])
+		incomingEdges ({Transition,LabeledTransition}[1,*])
+	}
+	
+	// use the "blueTextRectangle" as style and pass the attribute "text" as parameter
+	@style(blueTextRectangle, "${name}")
+	@icon("icons/Activity.png")
+	node Activity {		
+		attr EString as name
+		attr EString as description
+		incomingEdges (*[1,*])
+		outgoingEdges (LabeledTransition[1,*])
+	}
+	
+	
+	
+	@style(simpleArrow)
+	edge Transition { 
+	}
+	
+	@style(labeledArrow, "${label}")
+	edge LabeledTransition {
+		attr EString as label
+	}
+}
+

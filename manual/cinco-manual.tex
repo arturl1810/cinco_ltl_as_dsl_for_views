@@ -61,8 +61,8 @@ conceptual ideas behind \cinco. For a more in-depth and scientific view on those
 please refer to the following publications:
 %
 \begin{itemize}
-\item S. Naujokat et al.: Full generation of domain-specific graphical modeling tools: a
-meta$^2$modeling approach \cite{NaLSKM2014}
+%\item S. Naujokat et al.: Full generation of domain-specific graphical modeling tools: a
+%meta$^2$modeling approach \cite{NaLSKM2014}
 \item S. Naujokat et al.: Domain-Specific Code Generator Modeling: A Case Study for
 Multi-Faceted Concurrent Systems \cite{NaTISL2014}
 \item D. Kopetzki: Model-based generation of graphical editors on
@@ -174,7 +174,7 @@ built-in wizard to create some example files to start working with.
 Right-click somewhere within the \gui{Project Explorer} and choose \gui{New / Cinco Product
 Project}. The wizard as depicted in Fig.~\ref{fig:cpWizard} appears. The wizard
 has two modes. You can either start a completely new project from scratch or
-generate an example project showing off some of the Cinco features. We'll go for
+generate an example project showing off some of the \cinco{} features. We'll go for
 the latter one for now. Select \gui{Initialize Example Project (Feature
 Showcase)} and hit \gui{Next}. 
 
@@ -192,7 +192,7 @@ the project/package name as suggested; if you create additional examples with
 the wizard later, you can choose different names here to distinguish them. Each
 feature you select at the bottom will generate additional parts in the example.
 We suggest to use \gui{Icons} and \gui{Appearance provider} to keep the files
-manageable small for your first attempt in using \cinco{}. Confirm your
+manageable small for your first attempt using \cinco{}. Confirm your
 selection with \gui{Finish}
 
 \begin{figure}
@@ -243,12 +243,12 @@ starting a different Eclipse product: your modeling tool. \footnotemark
 \footnotetext{Please note: When you use the here presented 'simple way' of
 starting your product (via the \gui{Run As} menu) you will actually start your
 tool including \emph{all} the \cinco plug-ins and libraries. In fact, you start
-a second \cinco enriched with the new features we just generated. This is
-ususally not what is desired, because a tool developer needs to work with different tools
+a second \cinco enriched with the new features we just generated. In the long run, this 
+not what is desired, because a tool developer needs to work with different tools
 than the tool user. The advanced topic of own product definitions with a minimal
 required set of plug-ins will be added to this manual later. We even plan
-eventually provide automization for this task. For testing purposes, however,
-this does not impose any problems other than ample unnecessary GUI elements.}
+to eventually provide automization for this task. For testing purposes, however,
+this does not impose any obstacles other than ample unnecessary GUI elements.}
 
 Again, you should see an empty tool like Fig.~\ref{fig:firstStart}. To create a
 new model we first need a new project where it can be placed. This time,
@@ -266,8 +266,8 @@ The elements you see there are in the \gui{Palette / Objects}
 category: \code{Start}, \code{End}, and \code{Activity}. Those are the three node
 types that are were automatically included in the \mgl{FlowGraph.mgl} by the
 wizard. Begin modeling by just drag\&dropping a few different nodes into the
-modeling area. To connect nodes, you can just hover over a node and drag the small
-appearing arrow icon onto a target node. For the \code{Activity} node type and
+modeling area. To connect nodes, you can just hover over one and drag the small
+appearing arrow icon onto another one. For the \code{Activity} node type and
 the edges originating from them, you can use the \gui{Properties} view (bottom
 of your window) to set attributes; \code{Name} and \code{Description} for the
 node as well as \code{Label} for the edge. An activity's name is displayed
@@ -289,9 +289,9 @@ The modeling elements abide by the following syntactic rules:
 	\code{Transition}, but no incoming edges.
 \item \code{End} nodes (double red circle) have arbitrarily many incoming edges,
 	but no outgoing.
-\item \code{Inner} (blue box) nodes have multiple outgoing edges of type
+\item \code{Activity} (blue box) nodes have multiple outgoing edges of type
 	\code{LabeledTransition}, and may have multiple incoming edges of both types.
-	The attribute \code{Text} is displayed centered within the box.
+	The attribute \code{Name} is displayed centered within the box.
 \item \code{LabeledTransition} edges connect \code{Inner} nodes with others and
 	have their attribute \code{Label} displayed as movable caption next to it.
 \item \code{Transition} edges only originate from \code{Start} nodes. If such an
@@ -336,22 +336,76 @@ languages alongside the example files created by the new project wizard.
 \code{.style}. We are planning to change this to \code{.msl} in a future
 release.}
 
-
 \subsection{MGL File}
 
-\includemgl{listings/MyModelType.mgl}{Example MGL file}{lst:myMGL}
+\includemgl{listings/FlowGraph.mgl}{FlowGraph MGL file}{lst:myMGL}
 
-Listing \ref{lst:myMGL} shows the \mgl{MyModelType.mgl} as it was initialized in
+Listing \ref{lst:myMGL} shows the \mgl{FlowGraph.mgl} as it was initialized in
 Sec.~\ref{sec:firstLaunch}. Aside from some general configuration stuff in lines
-1-5, it contains two different kinds of entitiy declaration:
-\begin{enumerate}
-\item Node type declarations
-\item Edge type declarations
-\end{enumerate}
+1-7 and an attribute declaration in line 9, it contains three two different kinds of modeling component declaration:
+\begin{itemize}
+\item Node type definitions (3x)
+\item Edge type definitions (2x)
+\end{itemize}
+
+Each of those \kw{node} \code{\{...\}} or \kw{edge} \code{\{...\}} blocks can be preceeded
+by a varying number of annotations (starting with the @-symbol). Also following
+the syntax of Java, everything from \code{//} to the end of the line is ignored
+(single line comment), as well as everything from \code{/*} to \code{*/}
+(multi-line comment).
+
+\subsubsection{Node Types}
+
+Each node type defines one kind of component that can be inserted into the
+graphModel by drag\&dropping it from the \gui{Palette} into the modeling area.
+Doing so will create a dedicated instance of this node type, so that attributes
+(like name or description in the Activity node, cf. lines 32 and 33) can be set
+seperately for each occurance in the model.
+
+Node types can declare an arbitrary amount of such attributes. An attribute's
+name (written after the keyword \kw{as}) is displayed as a label next to the
+editing field in the \gui{Properties View}. Possible data types for attributes
+(written directly after the keyword \kw{attr}) are currently \code{EString},
+\code{EInt}, \code{EDouble} and enumerations defined within the MGL (not in this
+example). There is also basic support to reference instances of the other node
+types from the same MGL. However, this node type currently needs a \code{name} attribute
+that will be displayed in a dropdown box when choosing the referenced node.
+
+The definition how the different node types can be connected using edges is
+done with the \kw{incomingEdges} and \kw{outgoingEdges} keywords\footnotemark{}.
+%
+\footnotetext{Earlier versions of \cinco{} used the dual representation of
+defining \kw{targetNodes} and \kw{sourceNodes} in the edge type. However, this did
+not allow for the declaration of cardinalities.}
+%
+Enclosed in parantheses you can express a comma-seperated list of constraints,
+each suffixed by an upper/lower bound range in brackets. Line 35 shows a 
+declaration of outgoing edges using one such contraint. It states that at least
+one LabeledTransition has to originate from every Activity node. The \code{*}
+that is used as upper bound means "infinity" (i.e. arbitrarily many). If a set
+of multiple edge types shall be defined per constraint -- meaning that any
+element from the set can be used -- they can be explicitely enumerated
+in curly brackets. Line 25 shows one such set constraint. It expresses that each
+End node needs at least one incoming edge of the type Transition or of the type
+LabeledTransition. As there are only those two edge types in our example, this
+is equivalent to the wildcard expression \code{(*[1 ,*])}
+
+
+
+
+
+
+
+
+
+\subsubsection{Edge Types}
+\subsubsection{GraphModel Type}
+
+
 
 \subsection{MSL File}
 
-\includestyle{listings/MyModelType.style}{Example MSL file}{lst:myMSL}
+\includestyle{listings/FlowGraph.style}{FlowGraph MSL file}{lst:myMSL}
 
 
 %\chapter{Advanced Topics}
