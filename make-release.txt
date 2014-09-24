@@ -1,0 +1,2 @@
+mvn tycho-versions:set-version -DnewVersion=x.y.z
+mvn -Prelease clean package
