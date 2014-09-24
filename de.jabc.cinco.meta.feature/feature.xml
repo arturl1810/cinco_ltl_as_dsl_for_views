@@ -2,7 +2,7 @@
 <feature
       id="de.jabc.cinco.meta.feature"
       label="Cinco Feature"
-      version="0.5.0.qualifier"
+      version="0.5.0"
       plugin="de.jabc.cinco.meta.branding">
 
    <description url="http://www.example.com/description">
