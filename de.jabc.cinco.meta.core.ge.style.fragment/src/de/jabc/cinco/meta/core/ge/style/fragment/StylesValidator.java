@@ -316,8 +316,13 @@ public class StylesValidator implements IMetaPluginValidator {
 					else {
 						IProject p = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(gm.eResource().getURI().toPlatformString(true))).getProject();
 						IFile file = p.getFile(path);
-						URI fileURI = URI.createPlatformResourceURI(file.getFullPath().toOSString(), true);
-						res = new ResourceSetImpl().getResource(fileURI, true);
+						if (file.exists()) {
+							URI fileURI = URI.createPlatformResourceURI(file.getFullPath().toOSString(), true);
+							res = new ResourceSetImpl().getResource(fileURI, true);
+						}
+						else {
+							return null;
+						}
 					}
 					
 					for (Object o : res.getContents()) {
