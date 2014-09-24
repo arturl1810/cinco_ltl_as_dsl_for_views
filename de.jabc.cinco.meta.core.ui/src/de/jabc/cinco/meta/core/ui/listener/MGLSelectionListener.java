@@ -31,7 +31,6 @@ public class MGLSelectionListener implements ISelectionListener{
 			this.selection = null;
 			this.selectedFile = null;
 		}
-			
 		
 	}
 	
