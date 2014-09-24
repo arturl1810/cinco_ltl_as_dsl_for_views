@@ -248,6 +248,18 @@
 									<version>0.5.1</version>
 								</artifactItem>
 
+								<artifactItem>
+									<groupId>de.jabc</groupId>
+									<artifactId>jabc4-basic-java</artifactId>
+									<version>5.9.1</version>
+								</artifactItem>
+
+								<artifactItem>
+									<groupId>de.jabc</groupId>
+									<artifactId>jabc4-basic-api</artifactId>
+									<version>5.9.1</version>
+								</artifactItem>
+
 
 
 								<artifactItem>
@@ -324,11 +336,6 @@
 									<groupId>org.jboss.spec.javax.annotation</groupId>
 									<artifactId>jboss-annotations-api_1.2_spec</artifactId>
 									<version>1.0.0.Alpha1</version>
-								</artifactItem>
-								<artifactItem>
-									<groupId>de.jabc</groupId>
-									<artifactId>jabc4-basic</artifactId>
-									<version>5.8</version>
 								</artifactItem>
 
 
