@@ -586,13 +586,21 @@ complete documentation of possibilities.}
 
 
 \subsubsection{Edge Styles}
-Edge styles are defined using \kw{edgeStyle} \code{\{...\}} blocks.
+
+Edge styles are defined using \kw{edgeStyle} \code{\{...\}} blocks. Each edge
+style consists of two things: an appearance (either inline, referenced or as
+appearance provider as introduced above) as well as an (optional) list of \kw{decorator}
+\code{\{...\}} blocks. While the appearance simply sets the edge's color, width
+and style, decorators are used to add arrow tips, labels, or other markers to
+the edges. Such a decorator mainly consists of a single shape as introduced in
+the node style section (simple or container, but not hierarchical). The keyword
+\kw{movable}
 
 
 
 \chapter{Language Reference}
 
-... will be included in this document eventually.
+... will eventually be included in this manual.
 
 %\chapter{Advanced Topics}
 
