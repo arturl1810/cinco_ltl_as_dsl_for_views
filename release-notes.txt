@@ -1,4 +1,4 @@
-20140924 - Cinco Release 0.5
+20140925 - Cinco Release 0.5
 - advanced copy&paste feature that fully preserves layout
 - enhanced cinco wizard that allows for the initialization of various example
   features (containers, prime references, icons, appearance provider, code
