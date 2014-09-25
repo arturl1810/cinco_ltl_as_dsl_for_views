@@ -26,5 +26,8 @@ public class Startup implements IStartup {
 			@Override
 			public void windowActivated(IWorkbenchWindow window) { }
 		});
+		for (IWorkbenchWindow window : workbench.getWorkbenchWindows()) {
+			window.getSelectionService().addSelectionListener(selectionListener);
+		}
 	}
 }
