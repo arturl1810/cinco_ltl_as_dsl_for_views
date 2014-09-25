@@ -496,13 +496,14 @@ edge styles, which will individually be discussed in the following paragraphs.
 
 \subsubsection{Appearances}
 
-Appearances are used to group some basic visual attribues (such as colors, fonts,
-or line width and style) under one name, so that it can be referenced by the other
-graphical elements. They are primarily defined using an \kw{appearance}
-\code{\{...\}} block. For instance, lines 1-4 define an appearance named
-"default" that sets the background color to some light blue and the line width
-to 2 pixels. Colors are RGB values, but \keystroke{Ctrl}+\keystroke{Space} opens
-a special color chooser window.
+Appearances are used to group some basic visual attribues (such as colors,
+fonts, or line width and style) under one name, so that it can be referenced by
+the other graphical elements. They are primarily defined using an
+\kw{appearance} \code{\{...\}} block. For instance, lines 1-4 define an
+appearance named "default" that sets the background color to some light blue and
+the line width to 2 pixels. Colors are RGB values, but for convenience
+\keystroke{Ctrl}+\keystroke{Space} can be used to open a special color chooser
+window.
 
 The keyword \kw{extends} allows to inherit the values from another appearance
 and add/overwrite selected ones (cf. line 6). Also, \newnotion{inline
@@ -593,9 +594,21 @@ appearance provider as introduced above) as well as an (optional) list of \kw{de
 \code{\{...\}} blocks. While the appearance simply sets the edge's color, width
 and style, decorators are used to add arrow tips, labels, or other markers to
 the edges. Such a decorator mainly consists of a single shape as introduced in
-the node style section (simple or container, but not hierarchical). The keyword
-\kw{movable}
+the node style section (simple or container, but not hierarchical). With the
+keyword \kw{location} an initial position of the decorator can be given by means
+of a floating point value between 0.0 (start of the edge) to 1.0 (end of the
+edge). The real position will be calculated according to actual the length of
+the edge, so that the location of the text decorator of the labeled Arrow (cf.
+line 66). The keyword \kw{movable} allows the decorator to be freely moved away
+from its initial position (this makes more sense for caption labels than it does
+for arrow tips ;)). 
 
+As the manual specification of arrow shapes using a \kw{polyline} can become
+quite annoying, \cinco{} provides some \newnotion{decorator templates} that
+should cover most use cases: \kw{ARROW}, \kw{CIRCLE}, \kw{DIAMOND}, and
+\kw{TRIANGLE}. In combination with an appropriate appearance to simulate filled
+and unfilled versions, e.g. UML's most prominent arrow types can simply be
+defined.
 
 
 \chapter{Language Reference}
