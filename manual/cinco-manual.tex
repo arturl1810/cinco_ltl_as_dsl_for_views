@@ -51,6 +51,10 @@
 
 \begin{document}
 
+\title{\cinco User's Manual}
+\author{Stefan Naujokat}
+\date{(version id: \gitAbbrevHash{})}
+\maketitle
 
 \chapter{Basics}
 
@@ -235,7 +239,7 @@ code. Sometimes you also need to delete all the generated code, e.g. when
 deleting or renaming a node type. But as you never do any manual changes to the
 generated code, this is no problem. 
 
-\subsection{Testing the \cinco Product}
+\subsection{Testing the \cinco Product} \label{sec:testing}
 
 Now, let's test the tool we just generated. Within the project explorer,
 right-click on the root folder of your main project and choose \gui{Run As /
@@ -338,7 +342,7 @@ languages alongside the example files created by the new project wizard.
 \code{.style}. We are planning to change this to \code{.msl} in a future
 release.}
 
-\subsection{MGL File}
+\subsection{MGL File} \label{sec:mgl} 
 
 \includemgl{listings/FlowGraph.mgl}{FlowGraph MGL file}{lst:myMGL}
 
@@ -487,12 +491,108 @@ the \gui{Project Explorer} (cf. Fig. \ref{fig:firstModel})
 \includestyle{listings/FlowGraph.style}{FlowGraph MSL file}{lst:myMSL}
 
 Listing \ref{lst:myMSL} shows the \msl{FlowGraph.style} as it was initialized
-in Sec.~\ref{sec:firstLaunch}. It solely consists of \kw{appearance}
-\code{\{...\}} blocks, \kw{nodeStyle} \code{\{...\}} blocks, and \kw{edgeStyle}
-\code{\{...\}} blocks.
+in Sec.~\ref{sec:firstLaunch}. It consists of appearances, node styles, and
+edge styles, which will individually be discussed in the following paragraphs.
+
+\subsubsection{Appearances}
+
+Appearances are used to group some basic visual attribues (such as colors, fonts,
+or line width and style) under one name, so that it can be referenced by the other
+graphical elements. They are primarily defined using an \kw{appearance}
+\code{\{...\}} block. For instance, lines 1-4 define an appearance named
+"default" that sets the background color to some light blue and the line width
+to 2 pixels. Colors are RGB values, but \keystroke{Ctrl}+\keystroke{Space} opens
+a special color chooser window.
+
+The keyword \kw{extends} allows to inherit the values from another appearance
+and add/overwrite selected ones (cf. line 6). Also, \newnotion{inline
+appearances} are supported: Wherever an appearance can be set (cf.
+node/edge styles below), an unnamed \kw{appearance} block can be inserted to
+directly specify those values. Such an inline appearance can also inherit from
+a named one using the keyword \kw{extends} (cf. line 25).
+
+Furthermore, it is sometimes necessary to change the appearance of a graphical
+element subject to some information that is only available at runtime. This
+could, for instance, be a second cirlce to identify accepting states in a state
+diagram. Also, the different appearances of the \code{Transition} edge, depending
+on whether it is connected to an \code{End} node or an \code{Activity} node (as
+discussed in Sec.~\ref{sec:testing}), requires the appearance not to be static. 
+
+For such cases, \cinco{} supports \newnotion{dynamic appearance providers},
+which are special Java classes implementing the \code{StyleAppearanceProvider}
+interface and whose \code{getAppearance} method is called at runtime to
+determine the current appearance of the element. They are referenced in MSL using
+the \kw{appearanceProvider} keyword (cf. line 49).
 
 
-\subsection{Appearance Provider} \label{sec:ap}
+\subsubsection{Node Styles}
+
+Each node style is defined using a \kw{nodeStyle} \code{\{...\}} block and
+consists of at least one primary \newnotion{shape} declaration. For example, the
+"greenCircle" style (lines 23-31) consists of a single \kw{ellipse} shape with
+width and height of 36 pixels (making it a circle) and an
+inline appearance that extends the appearance "default". If the primary shape is
+a \newnotion{container shape}, additional child shapes can be included, which is
+done for the style "redCircle" (cf. lines 15-19). To allow relative positioning
+of child shapes, shapes can be given an identifier that need to be placed after
+the respective keyword. In the "redCircle" style the primary shape is named
+"outer" (cf. line 12), so that the (unnamed) inner ellipse can be aligned
+horizontally and vertically to it (cf. line 17). If no position is given, the
+upper left corner of the bounding box is placed at (0,0) of the parent shape.
+The position of the primary shape determines the placement relative to the mouse
+position where the create tool was dropped.
+
+The following container shapes are currently supported:
+\begin{description}
+\item[\kw{rectangle}] defines a rectangle of given width and height using the
+\kw{size} keyword
+\item[\kw{roundedRectangle}] is similar to the normal rectangle, but
+additionally provides the \kw{corner} keyword that allows to set the width and
+height of the rounded corners. Setting this to (0,0) results in a normal
+rectangle.
+\item[\kw{ellipse}] defines an ellipse whose bounding box is determined by the
+\kw{size} keyword
+\item[\kw{polygon}] can be used, if the other predefined keywords are not enough to
+express the desired shape of the node. With the \kw{points} keyword a list of
+coordinates can be given that are connected. The last point is
+automatically connected to the first one, closing the polygon.
+\end{description}
+%
+\FloatBarrier
+
+
+Additionally, the following simple shapes exist:
+
+\begin{description}
+\item[\kw{polyline}] works similar to the polygon container shape, except that
+it is not closed from last to first point and therefore no background color is
+set.
+\item[\kw{text}] creates a text label that shows the text given with the keyword
+\kw{value}.
+\item[\kw{multiText}] is the same as text, except that it 
+automatically breaks lines in case they do not fit in the box' width.
+\end{description}
+
+As introduced in Sect.~\ref{sec:mgl}, the runtime values of a nodes' parameters
+can be passed on to the style. They can be used within the \kw{value}
+declarations of \kw{text} and \kw{multiText} with the Java String format
+syntax\footnotemark{}. The simplest way typically is to use \code{\%s} that
+causes the \code{toString} method to be called.
+%
+\footnotetext{See
+\url{http://docs.oracle.com/javase/7/docs/api/java/util/Formatter.html} for the
+complete documentation of possibilities.}
+%
+
+
+\subsubsection{Edge Styles}
+Edge styles are defined using \kw{edgeStyle} \code{\{...\}} blocks.
+
+
+
+\chapter{Language Reference}
+
+... will be included in this document eventually.
 
 %\chapter{Advanced Topics}
 
