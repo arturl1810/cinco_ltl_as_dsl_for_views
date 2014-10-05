@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
+	<classpathentry exported="true" kind="lib" path="lib/jabc4-basic-java-5.11-NOCDI-20141005.171157-1.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/transem4_runtime-0.5.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/cal10n-api-0.7.7.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/cdi-api-1.1.jar"/>
@@ -54,6 +55,5 @@
 	<classpathentry kind="lib" path="lib/basic-sibs-adapters-1.6.3.jar"/>
 	<classpathentry kind="lib" path="lib/utility-sibs-1.0-adapters.jar"/>
 	<classpathentry kind="lib" path="lib/jabc4-basic-api-5.9.1.jar"/>
-	<classpathentry kind="lib" path="lib/jabc4-basic-java-5.9.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

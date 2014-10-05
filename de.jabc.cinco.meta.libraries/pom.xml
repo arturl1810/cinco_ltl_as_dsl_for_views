@@ -252,7 +252,7 @@
 									<groupId>de.jabc</groupId>
 									<artifactId>jabc4-basic-java</artifactId>
 									<!-- <version>5.9.1</version> -->
-									<version>5.10-NOCDI-SNAPSHOT</version>
+									<version>5.11-NOCDI-SNAPSHOT</version>
 								</artifactItem>
 
 								<artifactItem>

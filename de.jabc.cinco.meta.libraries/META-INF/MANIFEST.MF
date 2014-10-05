@@ -57,7 +57,7 @@ Bundle-ClassPath: .,
  lib/weld-spi-2.0.SP1.jar,
  lib/transem4_runtime-0.5.1.jar,
  lib/jabc4-basic-api-5.9.1.jar,
- lib/jabc4-basic-java-5.9.1.jar
+ lib/jabc4-basic-java-5.11-NOCDI-20141005.171157-1.jar
 Export-Package: antlr,antlr.ASdebug,antlr.actions.cpp,antlr.actions.cs
  harp,antlr.actions.java,antlr.actions.python,antlr.build,antlr.collec
  tions,antlr.collections.impl,antlr.debug,antlr.debug.misc,antlr.prepr
