@@ -5,10 +5,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import mgl.Annotation;
+import mgl.Edge;
+import mgl.GraphModel;
+import mgl.Node;
+import mgl.NodeContainer;
+import mgl.Type;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -19,12 +25,6 @@ import style.EdgeStyle;
 import style.NodeStyle;
 import style.Style;
 import style.Styles;
-import mgl.Annotation;
-import mgl.Edge;
-import mgl.GraphModel;
-import mgl.Node;
-import mgl.NodeContainer;
-import mgl.Type;
 import de.jabc.cinco.meta.core.pluginregistry.proposalprovider.IMetaPluginAcceptor;
 import de.jabc.cinco.meta.core.utils.xtext.ChooseFileTextApplier;
 

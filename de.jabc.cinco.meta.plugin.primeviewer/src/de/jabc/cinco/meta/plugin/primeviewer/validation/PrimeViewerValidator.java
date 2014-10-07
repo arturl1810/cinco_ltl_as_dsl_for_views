@@ -1,12 +1,12 @@
 package de.jabc.cinco.meta.plugin.primeviewer.validation;
-import de.jabc.cinco.meta.core.pluginregistry.validation.IMetaPluginValidator;
 import mgl.Annotation;
 import mgl.ReferencedType;
 
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 
 import de.jabc.cinco.meta.core.pluginregistry.validation.ErrorPair;
+import de.jabc.cinco.meta.core.pluginregistry.validation.IMetaPluginValidator;
 
 public class PrimeViewerValidator implements IMetaPluginValidator{
 

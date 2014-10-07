@@ -5,7 +5,6 @@ package de.jabc.cinco.meta.core.ui.handlers;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import org.eclipse.core.commands.AbstractHandler;

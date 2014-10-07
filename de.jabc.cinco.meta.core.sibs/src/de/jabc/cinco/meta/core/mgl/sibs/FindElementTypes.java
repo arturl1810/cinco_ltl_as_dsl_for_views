@@ -1,6 +1,7 @@
 package de.jabc.cinco.meta.core.mgl.sibs;
 
 
+import de.jabc.cinco.meta.core.mgl.adapters.LightweightServiceAdapter;
 import de.metaframe.jabc.framework.execution.ExecutionEnvironment;
 import de.metaframe.jabc.framework.execution.LightweightExecutionEnvironmentAdapter;
 import de.metaframe.jabc.framework.sib.annotation.SIBClass;
@@ -8,7 +9,6 @@ import de.metaframe.jabc.framework.sib.parameter.ContextKey;
 import de.metaframe.jabc.framework.sib.parameter.ContextKey.Scope;
 import de.metaframe.jabc.framework.sib.parameter.ListBox;
 import de.metaframe.jabc.sib.ServiceAdapterDescriptor;
-import de.jabc.cinco.meta.core.mgl.adapters.LightweightServiceAdapter;
 
 @SIBClass("de/jabc/cinco/meta/core/mgl/sibs/FindElementTypes")
 public class FindElementTypes extends AbstractSIB {

@@ -1,9 +1,7 @@
 package de.jabc.cinco.meta.core.referenceregistry;
 
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
-import org.osgi.resource.Resource;
 
 /**
  * The activator class controls the plug-in life cycle

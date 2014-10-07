@@ -6,13 +6,9 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.xtext.EcoreUtil2;
-import org.eclipse.xtext.common.services.Ecore2XtextTerminalConverters;
 
 public class PathValidator {
 

@@ -6,7 +6,6 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EStructuralFeature;
 
 
 public class URIHandler extends org.eclipse.emf.ecore.xmi.impl.URIHandlerImpl.PlatformSchemeAware{

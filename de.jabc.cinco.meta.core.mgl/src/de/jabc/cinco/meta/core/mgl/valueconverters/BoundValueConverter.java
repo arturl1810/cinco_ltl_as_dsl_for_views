@@ -1,10 +1,10 @@
 package de.jabc.cinco.meta.core.mgl.valueconverters;
 
+import org.eclipse.xtext.common.services.Ecore2XtextTerminalConverters;
 import org.eclipse.xtext.conversion.IValueConverter;
 import org.eclipse.xtext.conversion.ValueConverter;
 import org.eclipse.xtext.conversion.ValueConverterException;
 import org.eclipse.xtext.nodemodel.INode;
-import org.eclipse.xtext.common.services.Ecore2XtextTerminalConverters;
 public class BoundValueConverter extends Ecore2XtextTerminalConverters {
 	@ValueConverter(rule = "BoundValue")
 	public IValueConverter<Integer> BoundValue(){

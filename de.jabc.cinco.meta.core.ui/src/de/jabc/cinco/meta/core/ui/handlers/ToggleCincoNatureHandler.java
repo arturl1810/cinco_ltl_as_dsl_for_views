@@ -7,6 +7,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.ui.handlers.HandlerUtil;
+
 import de.jabc.cinco.meta.core.ui.CincoNature;
 
 public class ToggleCincoNatureHandler extends AbstractHandler{
