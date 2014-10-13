@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>586b7b70-5c30-487f-aa09-ffe8208bf019</id>
   <name>GenerateReconnectFeatures</name>
-  <changecounter>271</changecounter>
+  <changecounter>273</changecounter>
   <sib>
     <id>cb541589-b45f-430c-a56b-1cebe00059bf</id>
     <name>PutExpression</name>
@@ -369,13 +369,13 @@ public class Reconnect$context.edge.name$Feature extends DefaultReconnectionFeat
 				boEdge instanceof Edge) {
 			
 			Edge edge = (Edge) boEdge;
-			edge.setTargetElement((ModelElement) boNode);
+			edge.setTargetElement((Node) boNode);
 		}
 
 		if (ReconnectionContext.RECONNECT_SOURCE.equals(context.getReconnectType()) &amp;&amp; 
 			boEdge instanceof Edge) {
 			Edge edge = (Edge) boEdge;
-			edge.setSourceElement((ModelElement) boNode);
+			edge.setSourceElement((Node) boNode);
 		}
 
 		UpdateContext uc = new UpdateContext(context.getConnection());

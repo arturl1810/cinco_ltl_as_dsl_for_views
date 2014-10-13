@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>21d264a3-a3d0-485e-b5f9-5f9c29fffccf</id>
   <name>GenerateCreateEdgeFeature_1</name>
-  <changecounter>149</changecounter>
+  <changecounter>151</changecounter>
   <sib>
     <id>11d0666f-5a7a-42b8-b045-2c132c173d82</id>
     <name>PutExpression</name>
@@ -396,6 +396,7 @@
 
 import graphmodel.ContainingElement;
 import graphmodel.ModelElement;
+import graphmodel.Node;
 
 import $context.packageName$.graphiti.*;
 import $context.packageName$.graphiti.content.adapter.*;
@@ -450,10 +451,10 @@ public class Create$context.edgeName$Feature extends AbstractCreateConnectionFea
 			$context.edgeName$ $context.meIdentifier$ = $context.factoryName$Factory.eINSTANCE.create$context.edgeName$();
 			$context.attributeInitContent$
 				if (source instanceof ModelElement) {
-					$context.meIdentifier$.setSourceElement( (ModelElement) source);
+					$context.meIdentifier$.setSourceElement( (Node) source);
 				}
 				if (target instanceof ModelElement) {
-					$context.meIdentifier$.setTargetElement( (ModelElement) target);
+					$context.meIdentifier$.setTargetElement( (Node) target);
 				}
 			
 			$context.graphModelName$ $context.lcGraphModelName$ = $context.graphModelName$GraphitiUtils.addToResource(getDiagram(), this.getFeatureProvider());
@@ -726,7 +727,7 @@ public class Create$context.edgeName$Feature extends AbstractCreateConnectionFea
     <parameter name="modelElementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>modelElementKey</key>
+          <key>edgeKey</key>
           <scope>DECLARED</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
