@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>e26f46a3-7467-4773-8abb-108a610034dd</id>
   <name>Create GetSuccessors Methods</name>
-  <changecounter>9</changecounter>
+  <changecounter>10</changecounter>
   <sib>
     <id>8eb577c8-a2ae-41ba-bed3-7629463ec4a3</id>
     <name>GetEdgeElementConnectionUpperBound</name>
@@ -654,7 +654,7 @@
     <parameter name="template">
       <string>
 
-return super.getSuccessors($connectedElementName$.class);</string>
+return getSuccessors($connectedElementName$.class);</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
