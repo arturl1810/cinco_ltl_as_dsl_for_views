@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>d7acaa56-746e-494b-8c88-ef782b860683</id>
   <name>GenerateListIntegerCode</name>
-  <changecounter>60</changecounter>
+  <changecounter>62</changecounter>
   <sib>
     <id>e1a3465d-3a17-4391-9cee-a86cfb6b5e39</id>
     <name>RunStringTemplate</name>
@@ -55,10 +55,7 @@
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>PictogramElement pe = getSelectedPictogramElement();
-if (pe == null)
-	return;
-
+      <string>
 EObject bo = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
 if (bo instanceof $context.modelElementName$) {
 	$context.modelElementName$ tmp = ($context.modelElementName$) bo;
