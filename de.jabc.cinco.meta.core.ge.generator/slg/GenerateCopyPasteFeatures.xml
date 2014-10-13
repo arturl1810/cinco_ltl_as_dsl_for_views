@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>67a73b2a-3824-4776-9686-ae1a8aed5282</id>
   <name>GenerateCopyPasteFeatures</name>
-  <changecounter>289</changecounter>
+  <changecounter>290</changecounter>
   <sib>
     <id>59a427e8-25c5-482c-a32b-a0aa278eb41b</id>
     <name>PutExpression</name>
@@ -1104,8 +1104,8 @@ public class $context.graphModelName$CopyUtils {
 		pl.setPictogramElement(copiedPE);
 		EObject copy = EcoreUtil.copy(originBO);
 		if (originBO instanceof Edge) {
-			((Edge) copy).setSourceElement((ModelElement) copiedBos.get(source));
-			((Edge) copy).setTargetElement((ModelElement) copiedBos.get(target));
+			((Edge) copy).setSourceElement((Node) copiedBos.get(source));
+			((Edge) copy).setTargetElement((Node) copiedBos.get(target));
 		}
 		pl.getBusinessObjects().add(copy);
 		copiedPE.setLink(pl);
