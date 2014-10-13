@@ -11,39 +11,34 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute GraphModel.ecore#//Node/y"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute GraphModel.ecore#//Node/width"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute GraphModel.ecore#//Node/height"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference GraphModel.ecore#//Node/incoming"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference GraphModel.ecore#//Node/outgoing"/>
+      <genOperations ecoreOperation="GraphModel.ecore#//Node/getSuccessors"/>
+      <genOperations ecoreOperation="GraphModel.ecore#//Node/getSuccessors.1">
+        <genParameters ecoreParameter="GraphModel.ecore#//Node/getSuccessors.1/clazz"/>
+        <genTypeParameters ecoreTypeParameter="GraphModel.ecore#//Node/getSuccessors.1/T"/>
+      </genOperations>
+      <genOperations ecoreOperation="GraphModel.ecore#//Node/getPredecessors"/>
+      <genOperations ecoreOperation="GraphModel.ecore#//Node/getPredecessors.1">
+        <genParameters ecoreParameter="GraphModel.ecore#//Node/getPredecessors.1/clazz"/>
+        <genTypeParameters ecoreTypeParameter="GraphModel.ecore#//Node/getPredecessors.1/T"/>
+      </genOperations>
+      <genOperations ecoreOperation="GraphModel.ecore#//Node/getIncoming">
+        <genParameters ecoreParameter="GraphModel.ecore#//Node/getIncoming/clazz"/>
+        <genTypeParameters ecoreTypeParameter="GraphModel.ecore#//Node/getIncoming/T"/>
+      </genOperations>
+      <genOperations ecoreOperation="GraphModel.ecore#//Node/getOutgoing">
+        <genParameters ecoreParameter="GraphModel.ecore#//Node/getOutgoing/clazz"/>
+        <genTypeParameters ecoreTypeParameter="GraphModel.ecore#//Node/getOutgoing/T"/>
+      </genOperations>
     </genClasses>
     <genClasses image="false" ecoreClass="GraphModel.ecore#//Edge">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference GraphModel.ecore#//Edge/sourceElement"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference GraphModel.ecore#//Edge/targetElement"/>
     </genClasses>
-    <genClasses ecoreClass="GraphModel.ecore#//Container">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute GraphModel.ecore#//Container/x"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute GraphModel.ecore#//Container/y"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute GraphModel.ecore#//Container/width"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute GraphModel.ecore#//Container/height"/>
-    </genClasses>
+    <genClasses ecoreClass="GraphModel.ecore#//Container"/>
     <genClasses image="false" ecoreClass="GraphModel.ecore#//ModelElement">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference GraphModel.ecore#//ModelElement/incoming"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference GraphModel.ecore#//ModelElement/outgoing"/>
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference GraphModel.ecore#//ModelElement/container"/>
-      <genOperations ecoreOperation="GraphModel.ecore#//ModelElement/getSuccessors"/>
-      <genOperations ecoreOperation="GraphModel.ecore#//ModelElement/getSuccessors.1">
-        <genParameters ecoreParameter="GraphModel.ecore#//ModelElement/getSuccessors.1/clazz"/>
-        <genTypeParameters ecoreTypeParameter="GraphModel.ecore#//ModelElement/getSuccessors.1/T"/>
-      </genOperations>
-      <genOperations ecoreOperation="GraphModel.ecore#//ModelElement/getPredecessors"/>
-      <genOperations ecoreOperation="GraphModel.ecore#//ModelElement/getPredecessors.1">
-        <genParameters ecoreParameter="GraphModel.ecore#//ModelElement/getPredecessors.1/clazz"/>
-        <genTypeParameters ecoreTypeParameter="GraphModel.ecore#//ModelElement/getPredecessors.1/T"/>
-      </genOperations>
-      <genOperations ecoreOperation="GraphModel.ecore#//ModelElement/getIncoming">
-        <genParameters ecoreParameter="GraphModel.ecore#//ModelElement/getIncoming/clazz"/>
-        <genTypeParameters ecoreTypeParameter="GraphModel.ecore#//ModelElement/getIncoming/T"/>
-      </genOperations>
-      <genOperations ecoreOperation="GraphModel.ecore#//ModelElement/getOutgoing">
-        <genParameters ecoreParameter="GraphModel.ecore#//ModelElement/getOutgoing/clazz"/>
-        <genTypeParameters ecoreTypeParameter="GraphModel.ecore#//ModelElement/getOutgoing/T"/>
-      </genOperations>
     </genClasses>
     <genClasses image="false" ecoreClass="GraphModel.ecore#//ContainingElement">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference GraphModel.ecore#//ContainingElement/modelElements"/>
