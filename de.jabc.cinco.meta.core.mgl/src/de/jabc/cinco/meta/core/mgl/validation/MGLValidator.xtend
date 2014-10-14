@@ -30,6 +30,7 @@ import org.eclipse.emf.ecore.EcorePackage
 import org.eclipse.xtext.EcoreUtil2
 import org.eclipse.xtext.validation.Check
 import de.jabc.cinco.meta.core.utils.PathValidator
+import java.util.ArrayList
 
 /**
  * Custom validation rules. 
@@ -531,6 +532,25 @@ class MGLValidator extends AbstractMGLValidator {
 		val gmName = gm.name
 		if (!gm.eResource.URI.trimFileExtension.lastSegment.equals(gmName)) {
 			error("The graph model \"" + gmName + "\" must match the file name", MglPackage.Literals.TYPE__NAME)
+		}
+	}
+	
+	@Check
+	def checkIngeritanceCircles(Node node) {
+			var retvalList = checkInheritance(node)
+			if (!retvalList.nullOrEmpty)
+				error("Circle in inheritance of node: " + node.name +" caused by: " + retvalList, MglPackage.Literals.NODE__GRAPH_MODEL)
+	}
+	
+	def checkInheritance(Node node) {
+		var current = node as Node
+		var nodes = new ArrayList<String>;
+		
+		while (current != null) {
+			if (nodes.contains(current.name))
+				return nodes
+			nodes.add(current.name)
+			current = current.extends
 		}
 	}
 	
