@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>ea6aca34-ec03-4ba1-99b7-4fc762288fa2</id>
   <name>GenerateSingleStringCode</name>
-  <changecounter>294</changecounter>
+  <changecounter>299</changecounter>
   <sib>
     <id>21749b0f-12f8-4797-81b9-3f0453fbf22c</id>
     <name>RunStringTemplate</name>
@@ -27,7 +27,7 @@
     </parameter>
     <parameter name="template">
       <string>if (tmp.get$context.fuAttributeName$() != null)
-	$context.flAttributeName$Text.setText(tmp.get$context.fuAttributeName$());
+	$context.flAttributeName$Text.setText(tmp.get$context.fuAttributeName$().trim());
 else $context.flAttributeName$Text.setText(&quot;&quot;);
 $context.flAttributeName$Text.setSelection($context.flAttributeName$Text.getText().length());</string>
     </parameter>
@@ -59,7 +59,7 @@ $context.flAttributeName$Text.setSelection($context.flAttributeName$Text.getText
     <parameter name="template">
       <string>EObject tmp = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
 if (tmp instanceof $context.modelElementName$) {
-	(($context.modelElementName$) tmp).set$context.fuAttributeName$($context.flAttributeName$Text.getText());
+	(($context.modelElementName$) tmp).set$context.fuAttributeName$($context.flAttributeName$Text.getText().trim());
 }
 </string>
     </parameter>
@@ -266,7 +266,7 @@ $context.fuModelElementName$ tmp = ($context.fuModelElementName$) bo;
 if( tmp.get$context.fuAttributeName$Parameter().get(0) != null )
 	value = tmp.get$context.fuAttributeName$Parameter().get(0).getInstance();
 if (value != null)
-	$context.flAttributeName$Text.setText( (String) value);
+	$context.flAttributeName$Text.setText( ((String) value).trim());
 else $context.flAttributeName$Text.setText(&quot;&quot;);
 $context.flAttributeName$Text.setSelection($context.flAttributeName$Text.getText().length());</string>
     </parameter>
@@ -409,7 +409,7 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
 if (bo instanceof $context.modelElementName$) {
 	$context.modelElementName$ tmp = ($context.modelElementName$) bo;
 	if (tmp.get$context.fuAttributeName$Parameter().get(0) != null)
-		tmp.get$context.fuAttributeName$Parameter().get(0).setInstance($context.flAttributeName$Text.getText());
+		tmp.get$context.fuAttributeName$Parameter().get(0).setInstance($context.flAttributeName$Text.getText().trim());
 	
 }
 </string>
@@ -461,7 +461,7 @@ EObject referenced = ReferenceRegistry.getInstance().getEObject(Integer.valueOf(
 EStructuralFeature feature = referenced.eClass().getEStructuralFeature(&quot;$context.attribute.feature.name$&quot;);
 Object value = referenced.eGet(feature, true);
 if (value != null)
-	$context.flAttributeName$Text.setText( (String) value);</string>
+	$context.flAttributeName$Text.setText( ((String) value).trim());</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
