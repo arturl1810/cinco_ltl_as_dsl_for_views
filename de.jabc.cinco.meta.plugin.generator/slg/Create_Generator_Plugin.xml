@@ -2,14 +2,14 @@
 <model version="2.1">
   <id>2433c1ce-3450-434d-bca0-daf015c49c9c</id>
   <name>Create Generator Plugin</name>
-  <changecounter>8</changecounter>
+  <changecounter>9</changecounter>
   <sib>
     <id>77fb0219-4a80-4436-b80d-a248ab35bc0c</id>
     <name>MacroSIB</name>
     <label>Initialize</label>
     <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
-    <position>43.0,136.0</position>
+    <position>48.5,136.0</position>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
     <userobject key="ABC$START">
@@ -28,7 +28,7 @@
     <label>Create Activator</label>
     <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
-    <position>364.0,136.0</position>
+    <position>370.5,136.0</position>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
     <userobject key="ABC$GRAPHSIB$MODELID">
@@ -74,7 +74,7 @@
     <label>Generate Generator Stub</label>
     <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
-    <position>171.0,136.0</position>
+    <position>178.5,136.0</position>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
     <userobject key="ABC$GRAPHSIB$MODELID">
@@ -91,17 +91,54 @@
     <point>320.0,157.0</point>
     <branch>default</branch>
   </edge>
+  <sib>
+    <id>95da8ab9-bdd9-4942-9a9f-eb00d8421b06</id>
+    <name>ThrowException</name>
+    <label>ThrowException</label>
+    <sib-uid>basic-sibs/ThrowException</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.ThrowException</taxonomy>
+    <position>274.5,363.0</position>
+    <parameter name="message">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>${exception.message}</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>07ef7259-690d-4c6d-b079-5e826d54c2c7</source>
+    <target>95da8ab9-bdd9-4942-9a9f-eb00d8421b06</target>
+    <point>600.0,165.0</point>
+    <point>300.0,386.0</point>
+    <branch>error</branch>
+  </edge>
+  <edge>
+    <source>1017d62b-b02a-4e51-9cb4-b2b8c803963d</source>
+    <target>95da8ab9-bdd9-4942-9a9f-eb00d8421b06</target>
+    <point>420.0,165.0</point>
+    <point>322.0,386.0</point>
+    <branch>error</branch>
+  </edge>
+  <edge>
+    <source>5f18d07a-932b-48a5-9b46-dd1385783e6c</source>
+    <target>95da8ab9-bdd9-4942-9a9f-eb00d8421b06</target>
+    <point>255.0,165.0</point>
+    <point>328.0,381.0</point>
+    <branch>error</branch>
+  </edge>
+  <edge>
+    <source>77fb0219-4a80-4436-b80d-a248ab35bc0c</source>
+    <target>95da8ab9-bdd9-4942-9a9f-eb00d8421b06</target>
+    <point>75.0,165.0</point>
+    <point>343.0,390.0</point>
+    <branch>error</branch>
+  </edge>
   <values/>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>5f18d07a-932b-48a5-9b46-dd1385783e6c</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>1017d62b-b02a-4e51-9cb4-b2b8c803963d</sib>
-  </branch>
   <branch>
     <name>default</name>
     <branch>default</branch>
@@ -110,11 +147,11 @@
   <branch>
     <name>error</name>
     <branch>error</branch>
-    <sib>07ef7259-690d-4c6d-b079-5e826d54c2c7</sib>
+    <sib>95da8ab9-bdd9-4942-9a9f-eb00d8421b06</sib>
   </branch>
   <branch>
     <name>error</name>
-    <branch>error</branch>
-    <sib>77fb0219-4a80-4436-b80d-a248ab35bc0c</sib>
+    <branch>default</branch>
+    <sib>95da8ab9-bdd9-4942-9a9f-eb00d8421b06</sib>
   </branch>
 </model>
