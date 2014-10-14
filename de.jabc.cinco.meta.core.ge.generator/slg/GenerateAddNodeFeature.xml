@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>7def08b0-45b0-4f5d-9629-657ab3028508</id>
   <name>GenerateAddNodeFeature</name>
-  <changecounter>1457</changecounter>
+  <changecounter>1462</changecounter>
   <sib>
     <id>b89523ed-9916-4f61-a5e9-9e1d8838a845</id>
     <name>PutExpression_1</name>
@@ -448,7 +448,7 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
     <parameter name="template">
       <string>package $context.localPkgName$;
 
-import graphmodel.ContainingElement;
+import graphmodel.ModelElementContainer;
 
 import $context.importPath$.*;
 import $context.packageName$.graphiti.*;
@@ -521,7 +521,7 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
 		
 		ReferenceRegistry.getInstance().addElement(id, objectUri);
 
-		ContainingElement container = (ContainingElement) getBusinessObjectForPictogramElement(context.getTargetContainer());
+		ModelElementContainer container = (ModelElementContainer) getBusinessObjectForPictogramElement(context.getTargetContainer());
 		container.getModelElements().add($context.meIdentifier$);
 
 		$context.graphicalRep$
@@ -1257,7 +1257,7 @@ Leaving Generate ${nodeName} AddFeature </expression>
     <parameter name="ModelElementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>modelElementKey</key>
+          <key>node</key>
           <scope>DECLARED</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
