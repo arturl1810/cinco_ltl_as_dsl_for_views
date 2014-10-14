@@ -534,4 +534,11 @@ class MGLValidator extends AbstractMGLValidator {
 		}
 	}
 	
+	@Check
+	def checkHasFinalDefaultValue(Attribute attr){
+		if(attr.notChangeable)
+			if(attr.defaultValue==null||attr.defaultValue=="")
+				error("Final Attribute must have a default value",MglPackage.Literals.ATTRIBUTE__NOT_CHANGEABLE)
+	}
+	
 }
