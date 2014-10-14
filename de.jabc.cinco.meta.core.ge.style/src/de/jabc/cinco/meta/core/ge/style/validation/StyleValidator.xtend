@@ -7,6 +7,8 @@ import de.jabc.cinco.meta.core.utils.PathValidator
 import org.eclipse.xtext.validation.Check
 import style.Image
 import style.StylePackage
+import style.Appearance
+import java.util.ArrayList
 
 //import org.eclipse.xtext.validation.Check
 
@@ -40,5 +42,23 @@ class StyleValidator extends AbstractStyleValidator {
  		if (!retVal.empty)
  			error(retVal, StylePackage.Literals.IMAGE__PATH, INVALID_PATH)
  	}
+	
+	@Check
+	def checkAppearanceInheritance(Appearance app) {
+		var retvalList = checkInheritance(app)
+		if (!retvalList.nullOrEmpty)
+			error("Circle in appearance inheritances caused by: " + retvalList, StylePackage.Literals.APPEARANCE__PARENT)
+	}
+	
+	def checkInheritance(Appearance app) {
+		var current = app
+		var apps = new ArrayList
+		while (current != null) {
+			if (apps.contains(current.name))
+				return apps
+			apps.add(current.name)
+			current = current.parent
+		}
+	}
 	
 }
