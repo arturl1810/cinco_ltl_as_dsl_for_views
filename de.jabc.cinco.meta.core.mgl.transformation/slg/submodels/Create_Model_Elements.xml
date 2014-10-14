@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>97cfd22b-887e-4510-8a47-790198806019</id>
   <name>Create Model Element</name>
-  <changecounter>58</changecounter>
+  <changecounter>59</changecounter>
   <sib>
     <id>f2b2a564-ccd0-4b4f-9509-c723edc57a8d</id>
     <name>NewEClassInEPackageEClassifiers</name>
@@ -343,9 +343,9 @@
   </sib>
   <edge>
     <source>0443b085-0f15-412d-9ac5-11bbd7959249</source>
-    <target>12027b37-f1df-42ef-819f-89c91b3a57e2</target>
-    <point>1050.0,718.0</point>
-    <point>1290.0,793.0</point>
+    <target>b838f60a-0190-4cc6-bdf0-8e7a29087839</target>
+    <point>1060.6451612903227,744.0</point>
+    <point>1202.3563218390805,976.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>exit</branch>
   </edge>
@@ -383,215 +383,6 @@
     </userobject>
   </sib>
   <sib>
-    <id>12027b37-f1df-42ef-819f-89c91b3a57e2</id>
-    <name>NewEAttributeInEClassEStructuralFeatures</name>
-    <label>NewEAttributeInEClassEStructuralFeatures</label>
-    <sib-uid>ecore/ecore/NewEAttributeInEClassEStructuralFeatures</sib-uid>
-    <taxonomy>transem.ecore.sib.ecore.NewEAttributeInEClassEStructuralFeatures</taxonomy>
-    <position>912.5,933.0</position>
-    <parameter name="eClassKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>modelElementClass</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="eObjectKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>fixAttributesString</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-  </sib>
-  <sib>
-    <id>b15ebaf7-9421-4fba-b7ee-51466cf36deb</id>
-    <name>SetEAttributeEType</name>
-    <label>SetEAttributeEType</label>
-    <sib-uid>ecore/ecore/SetEAttributeEType</sib-uid>
-    <taxonomy>transem.ecore.sib.ecore.SetEAttributeEType</taxonomy>
-    <position>984.0,1173.0</position>
-    <parameter name="eAttributeKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>fixAttributesString</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="eAttributeeTypeKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>eString</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>false</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-  </sib>
-  <edge>
-    <source>12027b37-f1df-42ef-819f-89c91b3a57e2</source>
-    <target>31c046ec-1f20-40c3-a67b-fc1b1aea6692</target>
-    <point>1050.0,960.0</point>
-    <point>1050.0,1095.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
-  <sib>
-    <id>31c046ec-1f20-40c3-a67b-fc1b1aea6692</id>
-    <name>GetEClassifierByName</name>
-    <label>GetEClassifierByName</label>
-    <sib-uid>utility-sibs/GetEClassifierByName</sib-uid>
-    <taxonomy>transem.utility.sib.GetEClassifierByName</taxonomy>
-    <position>974.5,1068.0</position>
-    <parameter name="eClassifierKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>eString</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="eClassifierName">
-      <de.metaframe.common.sib.parameter.ContextExpression>
-        <ContextExpressionFoundation>
-          <expression>EString</expression>
-          <clazz>java.lang.String</clazz>
-          <classMutable>true</classMutable>
-        </ContextExpressionFoundation>
-      </de.metaframe.common.sib.parameter.ContextExpression>
-    </parameter>
-    <parameter name="ePackageKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>ecorePackage</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-    <finalbranches>null</finalbranches>
-  </sib>
-  <edge>
-    <source>31c046ec-1f20-40c3-a67b-fc1b1aea6692</source>
-    <target>b15ebaf7-9421-4fba-b7ee-51466cf36deb</target>
-    <point>1050.0,1095.0</point>
-    <point>1050.0,1200.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
-  <sib>
-    <id>8f51a93e-3db3-48af-b233-9d033c7fa80c</id>
-    <name>ThrowException_1</name>
-    <label>ThrowException</label>
-    <sib-uid>basic-sibs/ThrowException</sib-uid>
-    <taxonomy>de.jabc.sib.common.basic.ThrowException</taxonomy>
-    <position>1249.5,1068.0</position>
-    <parameter name="message">
-      <de.metaframe.common.sib.parameter.ContextExpression>
-        <ContextExpressionFoundation>
-          <expression>This should never happen</expression>
-          <clazz>java.lang.Object</clazz>
-          <classMutable>true</classMutable>
-        </ContextExpressionFoundation>
-      </de.metaframe.common.sib.parameter.ContextExpression>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-  </sib>
-  <edge>
-    <source>31c046ec-1f20-40c3-a67b-fc1b1aea6692</source>
-    <target>8f51a93e-3db3-48af-b233-9d033c7fa80c</target>
-    <point>1050.0,1095.0</point>
-    <point>1305.0,1095.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>null</branch>
-  </edge>
-  <sib>
-    <id>245ce9f6-0957-485a-a42d-e16d47746cf0</id>
-    <name>SetEAttributeChangeable</name>
-    <label>SetEAttributeChangeable</label>
-    <sib-uid>ecore/ecore/SetEAttributeChangeable</sib-uid>
-    <taxonomy>transem.ecore.sib.ecore.SetEAttributeChangeable</taxonomy>
-    <position>965.0,1533.0</position>
-    <parameter name="eAttributeKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>fixAttributesString</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="eAttributechangeableKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>changeable</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>false</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-  </sib>
-  <sib>
-    <id>52312623-706f-4c15-a550-b04169565011</id>
-    <name>SetEAttributeDefaultValueLiteral</name>
-    <label>SetEAttributeDefaultValueLiteral</label>
-    <sib-uid>ecore/ecore/SetEAttributeDefaultValueLiteral</sib-uid>
-    <taxonomy>transem.ecore.sib.ecore.SetEAttributeDefaultValueLiteral</taxonomy>
-    <position>941.5,1398.0</position>
-    <parameter name="eAttributeKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>fixAttributesString</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="eAttributedefaultValueLiteralKey">
-      <de.metaframe.common.sib.parameter.ContextExpression>
-        <ContextExpressionFoundation>
-          <expression>${fixAttributeNames}</expression>
-          <clazz>java.lang.String</clazz>
-          <classMutable>true</classMutable>
-        </ContextExpressionFoundation>
-      </de.metaframe.common.sib.parameter.ContextExpression>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-  </sib>
-  <edge>
-    <source>b15ebaf7-9421-4fba-b7ee-51466cf36deb</source>
-    <target>290ddb6d-e544-4f28-964c-f3ff605682df</target>
-    <point>1050.0,1200.0</point>
-    <point>1050.0,1320.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
-  <edge>
-    <source>52312623-706f-4c15-a550-b04169565011</source>
-    <target>245ce9f6-0957-485a-a42d-e16d47746cf0</target>
-    <point>1050.0,1425.0</point>
-    <point>1050.0,1560.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
-  <sib>
     <id>53aa56b5-91ce-436f-9518-9219db2e6f0b</id>
     <name>PutBoolean</name>
     <label>PutBoolean</label>
@@ -618,42 +409,6 @@
     <target>5085710a-a334-466f-be1b-817815f8112f</target>
     <point>75.0,270.0</point>
     <point>85.0,181.0</point>
-    <branch>default</branch>
-  </edge>
-  <sib>
-    <id>290ddb6d-e544-4f28-964c-f3ff605682df</id>
-    <name>SetEReferenceName</name>
-    <label>SetEReferenceName</label>
-    <sib-uid>ecore/ecore/SetEReferenceName</sib-uid>
-    <taxonomy>transem.ecore.sib.ecore.SetEReferenceName</taxonomy>
-    <position>981.0,1293.0</position>
-    <parameter name="eReferenceKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>fixAttributesString</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="eReferencenameKey">
-      <de.metaframe.common.sib.parameter.ContextExpression>
-        <ContextExpressionFoundation>
-          <expression>fixAttributes</expression>
-          <clazz>java.lang.String</clazz>
-          <classMutable>true</classMutable>
-        </ContextExpressionFoundation>
-      </de.metaframe.common.sib.parameter.ContextExpression>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-  </sib>
-  <edge>
-    <source>290ddb6d-e544-4f28-964c-f3ff605682df</source>
-    <target>52312623-706f-4c15-a550-b04169565011</target>
-    <point>1050.0,1320.0</point>
-    <point>1050.0,1425.0</point>
-    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
@@ -928,7 +683,7 @@
     <label>Create Connecting Constraints</label>
     <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
-    <position>951.0,1651.0</position>
+    <position>1116.0,976.0</position>
     <parameter name="modelElement">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -956,14 +711,44 @@
       <string>Create Connecting Constraints</string>
     </userobject>
   </sib>
-  <edge>
-    <source>245ce9f6-0957-485a-a42d-e16d47746cf0</source>
-    <target>b838f60a-0190-4cc6-bdf0-8e7a29087839</target>
-    <point>1050.0,1560.0</point>
-    <point>1050.0,1680.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
+  <sib>
+    <id>31c046ec-1f20-40c3-a67b-fc1b1aea6692</id>
+    <name>GetEClassifierByName</name>
+    <label>GetEClassifierByName</label>
+    <sib-uid>utility-sibs/GetEClassifierByName</sib-uid>
+    <taxonomy>transem.utility.sib.GetEClassifierByName</taxonomy>
+    <position>914.5,1053.0</position>
+    <parameter name="eClassifierKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>eString</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="eClassifierName">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>EString</expression>
+          <clazz>java.lang.String</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="ePackageKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>ecorePackage</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <finalbranches>null</finalbranches>
+  </sib>
   <parameter>
     <name>modelElementClassKey</name>
     <field>eObjectKey</field>
@@ -993,11 +778,6 @@
     <name>modelElementKey</name>
     <field>modelElementKey</field>
     <sib>0339fbec-fcb4-4102-b084-a6cf1060be6b</sib>
-  </parameter>
-  <parameter>
-    <name>modelElementClassKey</name>
-    <field>eClassKey</field>
-    <sib>12027b37-f1df-42ef-819f-89c91b3a57e2</sib>
   </parameter>
   <parameter>
     <name>modelElementClassKey</name>
@@ -1124,47 +904,7 @@
   <branch>
     <name>error</name>
     <branch>error</branch>
-    <sib>12027b37-f1df-42ef-819f-89c91b3a57e2</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>31c046ec-1f20-40c3-a67b-fc1b1aea6692</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>default</branch>
-    <sib>8f51a93e-3db3-48af-b233-9d033c7fa80c</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>8f51a93e-3db3-48af-b233-9d033c7fa80c</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>b15ebaf7-9421-4fba-b7ee-51466cf36deb</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>52312623-706f-4c15-a550-b04169565011</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
     <sib>53aa56b5-91ce-436f-9518-9219db2e6f0b</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>245ce9f6-0957-485a-a42d-e16d47746cf0</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>290ddb6d-e544-4f28-964c-f3ff605682df</sib>
   </branch>
   <branch>
     <name>error</name>
@@ -1220,5 +960,10 @@
     <name>exit</name>
     <branch>default</branch>
     <sib>b838f60a-0190-4cc6-bdf0-8e7a29087839</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>31c046ec-1f20-40c3-a67b-fc1b1aea6692</sib>
   </branch>
 </model>
