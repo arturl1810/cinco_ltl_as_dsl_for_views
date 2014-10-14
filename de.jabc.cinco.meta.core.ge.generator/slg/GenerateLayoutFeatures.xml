@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>e96e3211-9e15-4d4a-94a9-7b4b8375d7a3</id>
   <name>GenerateLayoutFeatures</name>
-  <changecounter>564</changecounter>
+  <changecounter>578</changecounter>
   <sib>
     <id>ff7817b7-c328-4684-827e-afc4ea81c9f3</id>
     <name>PutExpression</name>
@@ -170,17 +170,29 @@ public class $context.graphModelName$LayoutUtils {
 
 		if (ga instanceof MultiText) {
 			MultiText mt = (MultiText) ga;
-			IDimension dim = getTextDimension(mt);
-			if (dim.getWidth() &gt; parent.getWidth()) {
-				int lines = dim.getWidth() / ga.getWidth() + 1;
-				gaHeight = lines * (dim.getHeight() + 15);
-				gaWidth = parent.getWidth();
-			} else {
-				gaWidth = dim.getWidth()+4;
-				gaHeight = dim.getHeight();
+			String content = mt.getValue().trim();
+			String[] lines = content.split(&quot;\n&quot;);
+			int linesCount = lines.length + 1;
+			int maxLineWidth = -1;
+			int lineHeight = -1;
+			
+			IDimension dim = null;
+			for (String s : lines) {
+				dim = getTextDimension(s, (mt.getFont() != null) ? mt.getFont() : mt.getStyle().getFont());
+				maxLineWidth = Math.max(maxLineWidth, dim.getWidth());
 			}
-			mt.setHeight(gaHeight);
+			if (dim != null)
+				lineHeight = dim.getHeight();
+			
+			gaWidth = maxLineWidth + 5;
+			gaHeight = lineHeight * linesCount;
 			mt.setWidth(gaWidth);
+			mt.setHeight(gaHeight);
+			
+			if (parent.getWidth() &lt; gaWidth)
+				parent.setWidth(gaWidth);
+			if (parent.getHeight() &lt; gaHeight)
+				parent.setHeight(gaHeight);
 			
 			parentWidth = parent.getWidth();
 			parentHeight = parent.getHeight();
@@ -225,6 +237,11 @@ public class $context.graphModelName$LayoutUtils {
 	public static IDimension getTextDimension(AbstractText t) {
 		String value = t.getValue();
 		Font font = (t.getFont() != null) ? t.getFont() : t.getStyle().getFont();
+		IDimension dim = GraphitiUi.getUiLayoutService().calculateTextSize(value, font);
+		return dim;
+	}
+
+	private static IDimension getTextDimension(String value, Font font) {
 		IDimension dim = GraphitiUi.getUiLayoutService().calculateTextSize(value, font);
 		return dim;
 	}
