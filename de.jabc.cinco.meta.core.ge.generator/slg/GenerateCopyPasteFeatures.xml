@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>67a73b2a-3824-4776-9686-ae1a8aed5282</id>
   <name>GenerateCopyPasteFeatures</name>
-  <changecounter>290</changecounter>
+  <changecounter>292</changecounter>
   <sib>
     <id>59a427e8-25c5-482c-a32b-a0aa278eb41b</id>
     <name>PutExpression</name>
@@ -332,7 +332,7 @@ public class $context.graphModelName$PasteFeature extends AbstractPasteFeature {
 			container = (ContainerShape) target;
 		if (container == null)
 			return;
-		ContainingElement model = (ContainingElement) getBusinessObjectForPictogramElement(container);
+		ModelElementContainer model = (ModelElementContainer) getBusinessObjectForPictogramElement(container);
 		for (PictogramElement pe : graphicalContainer) {
 			container.getChildren().add((Shape) pe);
 			model.getModelElements().add((ModelElement) pe.getLink().getBusinessObjects().get(0));
@@ -343,7 +343,7 @@ public class $context.graphModelName$PasteFeature extends AbstractPasteFeature {
 			getDiagram().getPictogramLinks().add(pe.getLink());
 			if (pe.getLink().getBusinessObjects().get(0) instanceof Edge) {
 				Edge e = (Edge) pe.getLink().getBusinessObjects().get(0);
-				ContainingElement common = $context.graphModelName$GraphitiUtils.getInstance().getCommonContainer(model, e);
+				ModelElementContainer common = $context.graphModelName$GraphitiUtils.getInstance().getCommonContainer(model, e);
 				model.getModelElements().remove(e);
 				common.getModelElements().add(e);
 			}
