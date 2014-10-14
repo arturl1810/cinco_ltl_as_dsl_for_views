@@ -40,15 +40,15 @@
     <genClasses image="false" ecoreClass="GraphModel.ecore#//ModelElement">
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference GraphModel.ecore#//ModelElement/container"/>
     </genClasses>
-    <genClasses image="false" ecoreClass="GraphModel.ecore#//ContainingElement">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference GraphModel.ecore#//ContainingElement/modelElements"/>
-      <genOperations ecoreOperation="GraphModel.ecore#//ContainingElement/getModelElements">
-        <genParameters ecoreParameter="GraphModel.ecore#//ContainingElement/getModelElements/clazz"/>
-        <genTypeParameters ecoreTypeParameter="GraphModel.ecore#//ContainingElement/getModelElements/T"/>
+    <genClasses image="false" ecoreClass="GraphModel.ecore#//ModelElementContainer">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference GraphModel.ecore#//ModelElementContainer/modelElements"/>
+      <genOperations ecoreOperation="GraphModel.ecore#//ModelElementContainer/getModelElements">
+        <genParameters ecoreParameter="GraphModel.ecore#//ModelElementContainer/getModelElements/clazz"/>
+        <genTypeParameters ecoreTypeParameter="GraphModel.ecore#//ModelElementContainer/getModelElements/T"/>
       </genOperations>
-      <genOperations ecoreOperation="GraphModel.ecore#//ContainingElement/getAllNodes"/>
-      <genOperations ecoreOperation="GraphModel.ecore#//ContainingElement/getAllEdges"/>
-      <genOperations ecoreOperation="GraphModel.ecore#//ContainingElement/getAllContainers"/>
+      <genOperations ecoreOperation="GraphModel.ecore#//ModelElementContainer/getAllNodes"/>
+      <genOperations ecoreOperation="GraphModel.ecore#//ModelElementContainer/getAllEdges"/>
+      <genOperations ecoreOperation="GraphModel.ecore#//ModelElementContainer/getAllContainers"/>
     </genClasses>
     <genClasses image="false" ecoreClass="GraphModel.ecore#//Parameter">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute GraphModel.ecore#//Parameter/name"/>
