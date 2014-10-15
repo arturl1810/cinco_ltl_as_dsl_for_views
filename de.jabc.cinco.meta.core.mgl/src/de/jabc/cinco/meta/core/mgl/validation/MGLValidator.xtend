@@ -31,6 +31,7 @@ import org.eclipse.xtext.EcoreUtil2
 import org.eclipse.xtext.validation.Check
 import de.jabc.cinco.meta.core.utils.PathValidator
 import java.util.ArrayList
+import de.jabc.cinco.meta.core.utils.InheritanceUtil
 
 /**
  * Custom validation rules. 
@@ -341,6 +342,7 @@ class MGLValidator extends AbstractMGLValidator {
 //	}
 	@Check
 	def checkFeatureNameUnique(Attribute attr){
+		
 		for(a: attr.modelElement.attributes)
 			if(a!=attr&&a.name==attr.name)
 				error("Attribute Names must be unique",MglPackage.Literals::ATTRIBUTE__NAME)
@@ -348,7 +350,7 @@ class MGLValidator extends AbstractMGLValidator {
 			var element = attr.modelElement as Edge
 			
 			var superType = element.extends
-			while(superType!=null){
+			while(superType!=null && InheritanceUtil.checkMGLInheritance(element).nullOrEmpty){
 				
 					for(a: superType.attributes){
 						if(a.name==attr.name)
@@ -358,7 +360,7 @@ class MGLValidator extends AbstractMGLValidator {
 				
 				
 				
-				superType=superType.extends				
+				superType=superType.extends
 			}
 			
 		}else if(attr.modelElement instanceof Node){
@@ -366,20 +368,19 @@ class MGLValidator extends AbstractMGLValidator {
 			var element = attr.modelElement as Node
 			
 			var superType = element.extends
-			while(superType!=null){
+			println("Checking attributes of node and its super types")
+                while(superType!=null && InheritanceUtil.checkMGLInheritance(element).nullOrEmpty){
 				for(a: superType.attributes){
 						if(a.name==attr.name)
 							error("Attribute Names must be unique",MglPackage.Literals::ATTRIBUTE__NAME)
 						
-					}
-				
-				
+				}
 				superType=superType.extends				
 			}
 		}else if(attr.modelElement instanceof GraphModel){
 			var element = attr.modelElement as GraphModel
 			var superType = element.extends
-			while(superType!=null){
+			while(superType!=null&& InheritanceUtil.checkMGLInheritance(element).nullOrEmpty){
 				
 					for(a: superType.attributes){
 						if(a.name==attr.name)
@@ -536,24 +537,18 @@ class MGLValidator extends AbstractMGLValidator {
 	}
 	
 	@Check
-	def checkIngeritanceCircles(Node node) {
-			var retvalList = checkInheritance(node)
-			if (!retvalList.nullOrEmpty)
-				error("Circle in inheritance of node: " + node.name +" caused by: " + retvalList, MglPackage.Literals.NODE__GRAPH_MODEL)
+	def checkIngeritanceCircles(ModelElement me) {
+			var retvalList = InheritanceUtil.checkMGLInheritance(me)
+			if (!retvalList.nullOrEmpty) {
+				if (me instanceof Node)
+					error("Circle in inheritance caused by: " + retvalList, MglPackage.Literals.NODE__EXTENDS)
+				if (me instanceof Edge)
+					error("Circle in inheritance caused by: " + retvalList, MglPackage.Literals.EDGE__EXTENDS)
+				if (me instanceof NodeContainer)
+					error("Circle in inheritance caused by: " + retvalList, MglPackage.Literals.NODE_CONTAINER__EXTENDS)
+			}
 	}
 	
-	def checkInheritance(Node node) {
-		var current = node as Node
-		var nodes = new ArrayList<String>;
-		
-		while (current != null) {
-			if (nodes.contains(current.name))
-				return nodes
-			nodes.add(current.name)
-			current = current.extends
-		}
-	}
-
 	@Check
 	def checkHasFinalDefaultValue(Attribute attr){
 		if(attr.notChangeable)
