@@ -29,7 +29,6 @@ public class InheritanceUtil {
 		Node curr = node;
 		List<String> ancestors = new ArrayList<>();
 		while (curr != null) {
-			System.err.println("In loop with: " + curr.getName());
 			if (ancestors.contains(curr.getName())) {
 				return ancestors;
 			}

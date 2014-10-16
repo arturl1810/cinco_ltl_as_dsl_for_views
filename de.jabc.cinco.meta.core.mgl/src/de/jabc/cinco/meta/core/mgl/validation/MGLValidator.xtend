@@ -537,7 +537,7 @@ class MGLValidator extends AbstractMGLValidator {
 	}
 	
 	@Check
-	def checkIngeritanceCircles(ModelElement me) {
+	def checkMGLInheritanceCircles(ModelElement me) {
 			var retvalList = InheritanceUtil.checkMGLInheritance(me)
 			if (!retvalList.nullOrEmpty) {
 				if (me instanceof Node)

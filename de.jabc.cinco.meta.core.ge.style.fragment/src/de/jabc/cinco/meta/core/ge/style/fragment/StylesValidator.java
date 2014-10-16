@@ -35,6 +35,7 @@ import style.Styles;
 import style.Text;
 import de.jabc.cinco.meta.core.pluginregistry.validation.ErrorPair;
 import de.jabc.cinco.meta.core.pluginregistry.validation.IMetaPluginValidator;
+import de.jabc.cinco.meta.core.utils.InheritanceUtil;
 import de.jabc.cinco.meta.core.utils.PathValidator;
 
 public class StylesValidator implements IMetaPluginValidator {
@@ -210,8 +211,11 @@ public class StylesValidator implements IMetaPluginValidator {
 				if ( attrName.split("\\.").length > 1 ) {
 					attrName = attrName.split("\\.")[0];
 				}
+					if (InheritanceUtil.checkMGLInheritance(me) != null && !InheritanceUtil.checkMGLInheritance(me).isEmpty())
+						return errorMessages;
 					boolean isAttr = false;
-					for (Attribute attr : me.getAttributes()) {
+					List<Attribute> attributes = getAllAttributes(me);
+					for (Attribute attr : attributes) {
 						if (attr.getName().equals(attrName)) {
 							isAttr = true;
 							break;
@@ -230,6 +234,20 @@ public class StylesValidator implements IMetaPluginValidator {
 		return errorMessages;
 	}
 	
+	private List<Attribute> getAllAttributes(ModelElement me) {
+		List<Attribute> attributes = new ArrayList<>();
+		while (me != null) {
+			attributes.addAll(me.getAttributes());
+			if (me instanceof Node)
+				me = ((Node) me).getExtends();
+			if (me instanceof Edge)
+				me = ((Edge) me).getExtends();
+			if (me instanceof NodeContainer)
+				me = ((NodeContainer) me).getExtends();
+		}
+		return attributes;
+	}
+
 	private int checkFormatStringParameters(AbstractShape main) {
 		String value = "";
 		if (main instanceof Text) {
