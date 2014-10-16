@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>5f357517-18d4-4780-adc3-30879fedbfb1</id>
   <name>GenerateFeatureProvider</name>
-  <changecounter>620</changecounter>
+  <changecounter>675</changecounter>
   <sib>
     <id>23fb1326-f00d-4e42-845a-cdf6492fc417</id>
     <name>PutExpression</name>
@@ -152,7 +152,7 @@
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>if (bo instanceof $context.node.name$)
+      <string>if (bo.eClass().getName().equals(&quot;$context.node.name$&quot;))
 	return new Add$context.node.name$Feature(this);
 </string>
     </parameter>
@@ -251,7 +251,7 @@
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>if (bo instanceof $context.edge.name$)
+      <string>if (bo.eClass().getName().equals(&quot;$context.edge.name$&quot;))
 	return new Add$context.edge.name$Feature(this);
 </string>
     </parameter>
@@ -451,45 +451,59 @@ public class $context.graphModelName$FeatureProvider extends DefaultFeatureProvi
 	@Override
 	public IUpdateFeature getUpdateFeature(IUpdateContext context) {
 		PictogramElement pe = context.getPictogramElement();
-		EObject bo = getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
-		$context.getUpdateNodeFeatureIfBlock$
-		$context.getUpdateEdgeFeatureIfBlock$
-		$context.getUpdateContainerFeatureIfBlock$
+		Object o = getBusinessObjectForPictogramElement(pe);
+		if (o instanceof EObject) {
+			EObject bo = (EObject) o;
+			$context.getUpdateNodeFeatureIfBlock$
+			$context.getUpdateEdgeFeatureIfBlock$
+			$context.getUpdateContainerFeatureIfBlock$
+		}
 		return super.getUpdateFeature(context);
 	}
 
 	@Override
 	public IReconnectionFeature getReconnectionFeature(IReconnectionContext context) {
-		Object bo = getBusinessObjectForPictogramElement(context.getConnection());
-		$context.getReconnectEdgeFeatureIfBlock$
+		Object o = getBusinessObjectForPictogramElement(context.getConnection());
+		if (o instanceof EObject) {
+			EObject bo = (EObject) o;
+			$context.getReconnectEdgeFeatureIfBlock$
+		}
 		return super.getReconnectionFeature(context);
 	}
 
 	@Override
 	public IMoveShapeFeature getMoveShapeFeature(IMoveShapeContext context) {
-		Object bo = getBusinessObjectForPictogramElement(context.getShape());
-		$context.getMoveNodeFeatureIfBlock$
-		$context.getMoveContainerFeatureIfBlock$
+		Object o = getBusinessObjectForPictogramElement(context.getShape());
+		if (o instanceof EObject) {
+			EObject bo = (EObject) o;
+			$context.getMoveNodeFeatureIfBlock$
+			$context.getMoveContainerFeatureIfBlock$
+		}
 		return super.getMoveShapeFeature(context);
 	}
 
 	@Override
 	public ILayoutFeature getLayoutFeature(ILayoutContext context) {
-		Object bo = getBusinessObjectForPictogramElement(context.getPictogramElement());
-		$context.getLayoutNodeFeatureIfBlock$
-		$context.getLayoutContainerFeatureIfBlock$
-		$context.getLayoutEdgeFeatureIfBlock$
-		
+		Object o = getBusinessObjectForPictogramElement(context.getPictogramElement());
+		if (o instanceof EObject) {
+			EObject bo = (EObject) o;
+			$context.getLayoutNodeFeatureIfBlock$
+			$context.getLayoutContainerFeatureIfBlock$
+			$context.getLayoutEdgeFeatureIfBlock$
+		}
 		return super.getLayoutFeature(context);
 	}
 
 	@Override
 	public IResizeShapeFeature getResizeShapeFeature(IResizeShapeContext context) {
-		Object bo = getBusinessObjectForPictogramElement(context.getPictogramElement());
-		$context.getResizeNodeFeatureIfBlock$
-		$context.getResizeContainerFeatureIfBlock$
-		if (bo instanceof $context.graphModelName$)
-			return new Resize$context.graphModelName$Feature(this);
+		Object o = getBusinessObjectForPictogramElement(context.getPictogramElement());
+		if (o instanceof EObject) {
+			EObject bo = (EObject) o;
+			$context.getResizeNodeFeatureIfBlock$
+			$context.getResizeContainerFeatureIfBlock$
+			if (bo.eClass().getName().equals(&quot;$context.graphModelName$&quot;))
+				return new Resize$context.graphModelName$Feature(this);
+		}
 		return super.getResizeShapeFeature(context);
 	}
 
@@ -506,8 +520,11 @@ public class $context.graphModelName$FeatureProvider extends DefaultFeatureProvi
 	@Override
 	public ICustomFeature[] getCustomFeatures(ICustomContext context) {
 		PictogramElement pe = context.getPictogramElements()[0];
-		Object bo = getBusinessObjectForPictogramElement(pe);
-		$context.featureProviderCustomFeatureContent$
+		Object o = getBusinessObjectForPictogramElement(pe);
+		if (o instanceof EObject) {
+			EObject bo = (EObject) o;
+			$context.featureProviderCustomFeatureContent$
+		}
 		return new ICustomFeature[] {};
 	}
 }</string>
@@ -693,7 +710,7 @@ public class $context.graphModelName$FeatureProvider extends DefaultFeatureProvi
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>if (bo instanceof $context.node.name$)
+      <string>if (bo.eClass().getName().equals(&quot;$context.node.name$&quot;))
 	return new Update$context.node.name$Feature(this);
 </string>
     </parameter>
@@ -1268,7 +1285,7 @@ if (bo instanceof $context.node.name$)
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>if (bo instanceof $context.container.name$)
+      <string>if (bo.eClass().getName().equals(&quot;$context.container.name$&quot;))
 	return new Add$context.container.name$Feature(this);
 </string>
     </parameter>
@@ -1389,7 +1406,7 @@ if (bo instanceof $context.node.name$)
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>if (bo instanceof $context.edge.name$)
+      <string>if (bo.eClass().getName().equals(&quot;$context.edge.name$&quot;))
 	return new Update$context.edge.name$Feature(this);
 </string>
     </parameter>
@@ -1427,7 +1444,7 @@ if (bo instanceof $context.node.name$)
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>if (bo instanceof $context.node.name$)
+      <string>if (bo.eClass().getName().equals(&quot;$context.node.name$&quot;))
 	return new Move$context.node.name$Feature(this);
 </string>
     </parameter>
@@ -1465,7 +1482,7 @@ if (bo instanceof $context.node.name$)
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>if (bo instanceof $context.container.name$)
+      <string>if (bo.eClass().getName().equals(&quot;$context.container.name$&quot;))
 	return new Update$context.container.name$Feature(this);
 </string>
     </parameter>
@@ -1503,7 +1520,7 @@ if (bo instanceof $context.node.name$)
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>if (bo instanceof $context.node.name$)
+      <string>if (bo.eClass().getName().equals(&quot;$context.node.name$&quot;))
 	return new Layout$context.node.name$Feature(this);
 </string>
     </parameter>
@@ -1541,7 +1558,7 @@ if (bo instanceof $context.node.name$)
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>if (bo instanceof $context.container.name$)
+      <string>if (bo.eClass().getName().equals(&quot;$context.container.name$&quot;))
 	return new Layout$context.container.name$Feature(this);
 </string>
     </parameter>
@@ -1579,7 +1596,7 @@ if (bo instanceof $context.node.name$)
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>if (bo instanceof $context.edge.name$)
+      <string>if (bo.eClass().getName().equals(&quot;$context.edge.name$&quot;))
 	return new Layout$context.edge.name$Feature(this);
 </string>
     </parameter>
@@ -1617,7 +1634,7 @@ if (bo instanceof $context.node.name$)
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>if (bo instanceof $context.container.name$)
+      <string>if (bo.eClass().getName().equals(&quot;$context.container.name$&quot;))
 	return new Move$context.container.name$Feature(this);
 </string>
     </parameter>
@@ -1655,7 +1672,7 @@ if (bo instanceof $context.node.name$)
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>if (bo instanceof $context.container.name$)
+      <string>if (bo.eClass().getName().equals(&quot;$context.container.name$&quot;))
 	return new Resize$context.container.name$Feature(this);
 </string>
     </parameter>
@@ -1693,7 +1710,7 @@ if (bo instanceof $context.node.name$)
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>if (bo instanceof $context.node.name$)
+      <string>if (bo.eClass().getName().equals(&quot;$context.node.name$&quot;))
 	return new Resize$context.node.name$Feature(this);
 </string>
     </parameter>
@@ -1779,7 +1796,7 @@ if (bo instanceof $context.node.name$)
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>if (bo instanceof $context.edge.name$)
+      <string>if (bo.eClass().getName().equals(&quot;$context.edge.name$&quot;))
 	return new Reconnect$context.edge.name$Feature(this);
 </string>
     </parameter>

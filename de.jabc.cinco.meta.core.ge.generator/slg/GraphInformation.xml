@@ -2,14 +2,14 @@
 <model version="2.1">
   <id>86742e86-2110-423a-afde-6fd521759a73</id>
   <name>GraphInformation</name>
-  <changecounter>714</changecounter>
+  <changecounter>722</changecounter>
   <sib>
     <id>9e28dbf6-7ef4-4eef-9ad3-1d0d32bf6020</id>
     <name>GetGraphModelName</name>
     <label>GetGraphModelName</label>
     <sib-uid>mgl/mgl/GetGraphModelName</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.sib.mgl.GetGraphModelName</taxonomy>
-    <position>33.5,258.0</position>
+    <position>33.5,18.0</position>
     <parameter name="graphModelKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -64,9 +64,9 @@
   </sib>
   <edge>
     <source>9e28dbf6-7ef4-4eef-9ad3-1d0d32bf6020</source>
-    <target>3b14acc7-ed46-4088-8032-d05cd51b76aa</target>
-    <point>123.0,263.8909090909091</point>
-    <point>252.0,170.07272727272726</point>
+    <target>86191f64-4c4d-4e74-be11-4d43bc7b5fbc</target>
+    <point>123.0,35.55</point>
+    <point>327.0,22.8</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -572,8 +572,8 @@
   <edge>
     <source>df25e096-dc75-49ca-8ec0-d6f35ebdc44c</source>
     <target>2dcacb38-e1a1-466c-80c2-775a1b700808</target>
-    <point>228.0,141.9</point>
-    <point>372.0,141.9</point>
+    <point>210.0,375.0</point>
+    <point>375.0,375.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -583,7 +583,7 @@
     <label>ToFirstUpper</label>
     <sib-uid>basic-sibs/ToFirstUpper</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.ToFirstUpper</taxonomy>
-    <position>59.5,123.0</position>
+    <position>59.5,348.0</position>
     <parameter name="inputString">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -611,7 +611,7 @@
     <label>ToFirstLower</label>
     <sib-uid>basic-sibs/ToFirstLower</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.ToFirstLower</taxonomy>
-    <position>164.0,123.0</position>
+    <position>164.0,348.0</position>
     <parameter name="inputString">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -636,8 +636,9 @@
   <edge>
     <source>3b14acc7-ed46-4088-8032-d05cd51b76aa</source>
     <target>df25e096-dc75-49ca-8ec0-d6f35ebdc44c</target>
-    <point>225.0,180.0</point>
-    <point>372.0,160.0</point>
+    <point>105.0,375.0</point>
+    <point>210.0,375.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
@@ -646,7 +647,7 @@
     <label>PrintConsoleMessage</label>
     <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
     <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
-    <position>309.5,123.0</position>
+    <position>309.5,348.0</position>
     <parameter name="error">
       <boolean>false</boolean>
     </parameter>
@@ -2646,6 +2647,32 @@ ${inlineAppearances}</expression>
     <point>1176.0,912.0</point>
     <branch>default</branch>
   </edge>
+  <sib>
+    <id>86191f64-4c4d-4e74-be11-4d43bc7b5fbc</id>
+    <name>ResolveMGLInheritance</name>
+    <label>ResolveMGLInheritance</label>
+    <sib-uid>ge-util-sibs/ResolveMGLInheritance</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.ResolveMGLInheritance</taxonomy>
+    <position>26.0,183.0</position>
+    <parameter name="graphModel">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>graphModel</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>86191f64-4c4d-4e74-be11-4d43bc7b5fbc</source>
+    <target>3b14acc7-ed46-4088-8032-d05cd51b76aa</target>
+    <point>105.0,120.0</point>
+    <point>103.0,198.0</point>
+    <branch>default</branch>
+  </edge>
   <values/>
   <branch>
     <name>error</name>
@@ -2991,5 +3018,10 @@ ${inlineAppearances}</expression>
     <name>error</name>
     <branch>error</branch>
     <sib>ada6666a-c229-4570-a416-c8bd524f4831</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>86191f64-4c4d-4e74-be11-4d43bc7b5fbc</sib>
   </branch>
 </model>

@@ -1,5 +1,12 @@
 <serviceAdapters defaultAdapter="de.jabc.cinco.meta.core.ge.style.sibs.adapter.ServiceAdapter">
 	
+	<serviceAdapter uid="ge-util-sibs/ResolveMGLInheritance">
+		<service>resolveMGLInheritance</service>
+		<arguments>
+			<argument name="graphModel" />
+		</arguments>
+	</serviceAdapter>
+	
 	<serviceAdapter uid="ge-util-sibs/GetCustomFeatureClassName">
 		<service>getCustomFeatureClassName</service>
 		<arguments>

@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>20ee1083-42c9-4128-8db1-42f1826d8d49</id>
   <name>GenerateModelElementCustomFeature</name>
-  <changecounter>150</changecounter>
+  <changecounter>158</changecounter>
   <sib>
     <id>c89925ae-3820-4a21-8425-767fe1505ce3</id>
     <name>CopyEObject</name>
@@ -258,7 +258,7 @@
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>if (bo instanceof $context.modelElement.name$) {
+      <string>if (bo.eClass().getName().equals(&quot;$context.modelElement.name$&quot;)) {
 	return new ICustomFeature[] {$context.customFeatureClass$};
 }</string>
     </parameter>

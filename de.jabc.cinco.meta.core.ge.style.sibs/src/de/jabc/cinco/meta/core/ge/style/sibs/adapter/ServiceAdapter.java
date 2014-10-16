@@ -63,6 +63,7 @@ import style.StyleFactory;
 import style.Styles;
 import style.VAlignment;
 import de.jabc.adapter.common.collection.Branches;
+import de.jabc.cinco.meta.core.utils.InheritanceUtil;
 import de.metaframe.jabc.framework.execution.LightweightExecutionEnvironment;
 import de.metaframe.jabc.framework.execution.context.LightweightExecutionContext;
 import de.metaframe.jabc.framework.sib.parameter.foundation.ContextExpressionFoundation;
@@ -1032,4 +1033,31 @@ public class ServiceAdapter {
 		}
 		
 	}
+
+	public static String resolveMGLInheritance(LightweightExecutionEnvironment env,	ContextKeyFoundation graphModel) {
+		LightweightExecutionContext context = env.getLocalContext();
+		
+		try {
+			GraphModel gm = (GraphModel) context.get(graphModel);
+			List<ModelElement> modelElements = new ArrayList<>();
+			Map<ModelElement, List<Attribute>> attributesMap = new HashMap<>();
+			modelElements.addAll(gm.getNodes());
+			modelElements.addAll(gm.getNodeContainers());
+			modelElements.addAll(gm.getEdges());
+			for (ModelElement me : modelElements) {
+				attributesMap.put(me, InheritanceUtil.getInheritedAttributes(me));
+			}
+			
+			for (ModelElement me : modelElements) {
+				me.getAttributes().clear();
+				me.getAttributes().addAll(EcoreUtil.copyAll(attributesMap.get(me)));
+			}
+
+			return Branches.DEFAULT;
+		} catch (Exception e) {
+			context.put("exception", e);
+			return Branches.ERROR;
+		}
+	}
+
 }
