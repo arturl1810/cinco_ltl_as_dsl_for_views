@@ -1,5 +1,7 @@
 package de.jabc.cinco.meta.core.ge.style.sibs.adapter;
 
+import graphmodel.ModelElementContainer;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -15,12 +17,14 @@ import java.util.regex.Pattern;
 
 import mgl.Annotation;
 import mgl.Attribute;
+import mgl.ContainingElement;
 import mgl.Edge;
 import mgl.GraphModel;
 import mgl.GraphicalElementContainment;
 import mgl.GraphicalModelElement;
 import mgl.Import;
 import mgl.IncomingEdgeElementConnection;
+import mgl.MglFactory;
 import mgl.ModelElement;
 import mgl.Node;
 import mgl.NodeContainer;
@@ -370,6 +374,9 @@ public class ServiceAdapter {
 			NodeContainer nc = (NodeContainer) context.get(nodeContainer);
 			ModelElement n = (ModelElement) context.get(node);
 			
+			if (nc.getContainableElements().isEmpty())
+				return Branches.TRUE;
+			
 			for (GraphicalElementContainment containedNode : nc.getContainableElements() ) {
 				if (containedNode.getType() == null)
 					return Branches.TRUE;
@@ -377,6 +384,7 @@ public class ServiceAdapter {
 					return Branches.TRUE;
 				}
 			}
+			
 			return Branches.FALSE;
 			
 		} catch (Exception e) {
@@ -1053,6 +1061,38 @@ public class ServiceAdapter {
 				me.getAttributes().addAll(EcoreUtil.copyAll(attributesMap.get(me)));
 			}
 
+			return Branches.DEFAULT;
+		} catch (Exception e) {
+			context.put("exception", e);
+			return Branches.ERROR;
+		}
+	}
+
+	public static String initializeContainer(LightweightExecutionEnvironment env, ContextKeyFoundation graphModel) {
+		
+		LightweightExecutionContext context = env.getLocalContext();
+		
+		try {
+			GraphModel gm = (GraphModel) context.get(graphModel);
+			for (NodeContainer nc : gm.getNodeContainers()) {
+				if (nc.getContainableElements().isEmpty()) {
+					for (Node node : gm.getNodes()) {
+						GraphicalElementContainment gec = MglFactory.eINSTANCE.createGraphicalElementContainment();
+						gec.setContainingElement(nc);
+						gec.setType(node);
+						gec.setLowerBound(0);
+						gec.setUpperBound(-1);
+						nc.getContainableElements().add(gec);
+					}
+					
+					for (NodeContainer container : gm.getNodeContainers()) {
+						GraphicalElementContainment gec = MglFactory.eINSTANCE.createGraphicalElementContainment();
+						gec.setContainingElement(nc);
+						gec.setType(container);
+						nc.getContainableElements().add(gec);
+					}
+				}
+			}
 			return Branches.DEFAULT;
 		} catch (Exception e) {
 			context.put("exception", e);

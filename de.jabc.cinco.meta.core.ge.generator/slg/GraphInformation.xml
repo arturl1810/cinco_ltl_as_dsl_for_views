@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>86742e86-2110-423a-afde-6fd521759a73</id>
   <name>GraphInformation</name>
-  <changecounter>722</changecounter>
+  <changecounter>739</changecounter>
   <sib>
     <id>9e28dbf6-7ef4-4eef-9ad3-1d0d32bf6020</id>
     <name>GetGraphModelName</name>
@@ -2653,7 +2653,7 @@ ${inlineAppearances}</expression>
     <label>ResolveMGLInheritance</label>
     <sib-uid>ge-util-sibs/ResolveMGLInheritance</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.ResolveMGLInheritance</taxonomy>
-    <position>26.0,183.0</position>
+    <position>26.0,123.0</position>
     <parameter name="graphModel">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -2668,9 +2668,36 @@ ${inlineAppearances}</expression>
   </sib>
   <edge>
     <source>86191f64-4c4d-4e74-be11-4d43bc7b5fbc</source>
+    <target>0e35a4c8-b1a0-4310-8b9b-a701717b798d</target>
+    <point>121.875,159.0</point>
+    <point>222.0,259.2</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>0e35a4c8-b1a0-4310-8b9b-a701717b798d</id>
+    <name>InitializeContainer</name>
+    <label>InitializeContainer</label>
+    <sib-uid>ge-util-sibs/InitializeContainer</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.InitializeContainer</taxonomy>
+    <position>41.5,228.0</position>
+    <parameter name="graphModel">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>graphModel</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>0e35a4c8-b1a0-4310-8b9b-a701717b798d</source>
     <target>3b14acc7-ed46-4088-8032-d05cd51b76aa</target>
-    <point>105.0,120.0</point>
-    <point>103.0,198.0</point>
+    <point>105.0,270.0</point>
+    <point>106.0,366.0</point>
     <branch>default</branch>
   </edge>
   <values/>
@@ -3023,5 +3050,10 @@ ${inlineAppearances}</expression>
     <name>error</name>
     <branch>error</branch>
     <sib>86191f64-4c4d-4e74-be11-4d43bc7b5fbc</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>0e35a4c8-b1a0-4310-8b9b-a701717b798d</sib>
   </branch>
 </model>
