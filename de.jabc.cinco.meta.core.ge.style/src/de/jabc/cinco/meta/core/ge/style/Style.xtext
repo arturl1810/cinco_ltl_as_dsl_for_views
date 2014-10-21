@@ -163,7 +163,7 @@ MultiText returns MultiText:
 	(name=ID)?
 	'{'
 		(('appearance' referencedAppearance=[Appearance]) | (inlineAppearance=InlineAppearance) )? 
-		'position' position = AbstractPosition
+		('position' position = AbstractPosition)?
 		'value' value = STRING
 	'}'
 ;
