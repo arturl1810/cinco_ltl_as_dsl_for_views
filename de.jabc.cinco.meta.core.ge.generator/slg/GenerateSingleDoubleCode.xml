@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>58218bce-14ea-427d-8c72-e67903670e10</id>
   <name>GenerateSingleDoubleCode</name>
-  <changecounter>99</changecounter>
+  <changecounter>112</changecounter>
   <sib>
     <id>04e295fe-943a-4974-80d0-c5dbe081048d</id>
     <name>RunStringTemplate_1</name>
@@ -315,6 +315,7 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
 	data.right = new FormAttachment(100, 0);
 	data.top = new FormAttachment(0, ITabbedPropertyConstants.VSPACE);
 	$context.attributeName$Text.setLayoutData(data);
+	$context.attributeName$Text.setEnabled(!$context.attribute.notChangeable$);
 
 	Label $context.attribute.name$Label = factory.createLabel(composite, &quot;$context.fuAttributeName$:&quot;);
 	data = new FormData();
@@ -350,9 +351,9 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
   </edge>
   <edge>
     <source>d09ca11c-b3d2-412e-9e6b-5aa702e9d79c</source>
-    <target>04e295fe-943a-4974-80d0-c5dbe081048d</target>
-    <point>499.0,217.0</point>
-    <point>799.0,112.0</point>
+    <target>11101e31-2ff5-4cc3-84f1-dce46c897eb0</target>
+    <point>513.0,184.2</point>
+    <point>613.125,84.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>false</branch>
   </edge>
@@ -602,6 +603,7 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
 	data.top = new FormAttachment(0, ITabbedPropertyConstants.VSPACE);
 	data.bottom = new FormAttachment(0, 80);
 	$context.attributeName$Text.setLayoutData(data);
+	$context.attributeName$Text.setEnabled(!$context.attribute.notChangeable$);
 
 	Label $context.attribute.name$Label = factory.createLabel(composite, &quot;$context.fuAttributeName$:&quot;);
 	data = new FormData();
@@ -625,6 +627,83 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
     <point>244.0,142.0</point>
     <point>364.0,217.0</point>
     <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>11101e31-2ff5-4cc3-84f1-dce46c897eb0</id>
+    <name>EvaluateCondition</name>
+    <label>final?</label>
+    <sib-uid>basic-sibs/EvaluateCondition</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.EvaluateCondition</taxonomy>
+    <position>623.0,78.0</position>
+    <parameter name="condition">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>${attribute.notChangeable}</expression>
+          <clazz>java.lang.Boolean</clazz>
+          <classMutable>false</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>false</finalbranches>
+    <finalbranches>true</finalbranches>
+  </sib>
+  <edge>
+    <source>11101e31-2ff5-4cc3-84f1-dce46c897eb0</source>
+    <target>04e295fe-943a-4974-80d0-c5dbe081048d</target>
+    <point>645.0,105.0</point>
+    <point>816.0,91.0</point>
+    <branch>false</branch>
+  </edge>
+  <sib>
+    <id>7e8feba9-d8e6-42be-8b2f-d5cc45911818</id>
+    <name>RunStringTemplate_2</name>
+    <label>GenChangeValue</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>736.0,3.0</position>
+    <parameter name="append">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>changeValueCode</key>
+          <scope>PARENT</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>/*EObject tmp = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
+if (tmp instanceof $context.modelElementName$) {
+	try {
+		(($context.modelElementName$) tmp).set$context.fuAttributeName$(Double.valueOf($context.flAttributeName$Text.getText()));
+	} catch (NumberFormatException e) {
+		(($context.modelElementName$) tmp).set$context.fuAttributeName$(0.0);
+	}
+}*/
+</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>11101e31-2ff5-4cc3-84f1-dce46c897eb0</source>
+    <target>7e8feba9-d8e6-42be-8b2f-d5cc45911818</target>
+    <point>645.0,105.0</point>
+    <point>772.0,39.0</point>
+    <branch>true</branch>
+  </edge>
+  <edge>
+    <source>7e8feba9-d8e6-42be-8b2f-d5cc45911818</source>
+    <target>9ae8b1c2-00f1-46bf-a54c-b198ed51fdc7</target>
+    <point>795.0,30.0</point>
+    <point>979.0,86.0</point>
     <branch>default</branch>
   </edge>
   <values/>
@@ -702,5 +781,15 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
     <name>error</name>
     <branch>error</branch>
     <sib>1e83bce9-50b7-41b4-ba9a-7d7f8860d78c</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>11101e31-2ff5-4cc3-84f1-dce46c897eb0</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>7e8feba9-d8e6-42be-8b2f-d5cc45911818</sib>
   </branch>
 </model>
