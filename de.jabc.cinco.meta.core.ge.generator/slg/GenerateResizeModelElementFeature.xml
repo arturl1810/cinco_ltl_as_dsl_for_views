@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>bd602dcf-2ea3-4585-953e-853c0406cc4e</id>
   <name>GenerateResizeModelElementFeature</name>
-  <changecounter>173</changecounter>
+  <changecounter>179</changecounter>
   <sib>
     <id>6cad6f22-f2a9-4f5c-a9dc-5eaeb99341c0</id>
     <name>PutExpression_1</name>
@@ -345,6 +345,10 @@ public class Resize$context.container.name$Feature extends DefaultResizeShapeFea
     <parameter name="template">
       <string>package $context.localPkgName$;
 
+import org.eclipse.emf.transaction.RecordingCommand;
+import org.eclipse.emf.transaction.TransactionalEditingDomain;
+import org.eclipse.emf.transaction.util.TransactionUtil;
+
 import org.eclipse.draw2d.FigureCanvas;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.graphiti.features.IFeatureProvider;
@@ -352,6 +356,7 @@ import org.eclipse.graphiti.features.context.IResizeShapeContext;
 import org.eclipse.graphiti.features.impl.DefaultResizeShapeFeature;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.algorithms.Polygon;
+import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.ui.editor.IDiagramContainerUI;
 import org.eclipse.graphiti.ui.services.GraphitiUi;
 
@@ -371,13 +376,24 @@ public class Resize$context.modelElement.name$Feature extends DefaultResizeShape
 	}
 	
 	@Override
-	public void resizeShape(IResizeShapeContext context) {
-		Object bo = getBusinessObjectForPictogramElement(context.getPictogramElement());
-		if (bo instanceof $context.modelElement.name$) {
-			(($context.modelElement.name$) bo).setWidth(context.getWidth());
-			(($context.modelElement.name$) bo).setHeight(context.getHeight());
-		}
-		super.resizeShape(context);
+	public void resizeShape(final IResizeShapeContext context) {
+		TransactionalEditingDomain dom = TransactionUtil.getEditingDomain(getDiagram());
+		dom.getCommandStack().execute(new RecordingCommand(dom, &quot;Resize&quot;) {
+			
+			@Override
+			protected void doExecute() {
+				Object bo = getBusinessObjectForPictogramElement(context.getPictogramElement());
+				
+				if (bo instanceof $context.modelElement.name$) {
+					(($context.modelElement.name$) bo).setWidth(context.getWidth());
+					(($context.modelElement.name$) bo).setHeight(context.getHeight());
+					Graphiti.getGaService().setLocationAndSize(context.getPictogramElement().getGraphicsAlgorithm(),
+							context.getX(), context.getY(), context.getWidth(), context.getHeight());
+				}
+				layoutPictogramElement(context.getPictogramElement());
+			}
+		});
+
 	}
 
 }
