@@ -28,19 +28,19 @@ public class ChooseFontStyle extends ReplacementTextApplier{
 		String style = "";
 		switch (fData.getStyle()) {
 		case SWT.BOLD:
-			style = "BOLD";
+			style = "BOLD,";
 			break;
 		case SWT.ITALIC:
-			style = "ITALIC";
+			style = "ITALIC,";
 			break;
 		case (SWT.BOLD | SWT.ITALIC):
-			style = "BOLD, ITALIC";
+			style = "BOLD, ITALIC,";
 			break;
 		default:
 			break;
 		}
 		
-		String retVal = prefix+"\""+fData.name + "\"," +style+ "," + fData.getHeight() +")";
+		String retVal = prefix+"\""+fData.name + "\"," +style+ fData.getHeight() +")";
 		if (fData != null)
 			return retVal;
 		else return "";
