@@ -60,36 +60,17 @@ public class MGLGenerationHandler extends AbstractHandler {
 	 * the command has been executed, so extract extract the needed information
 	 * from the application context.
 	 */
-	public Object execute(ExecutionEvent event) throws ExecutionException {
+	public Object execute(ExecutionEvent event) throws ExecutionException{
 		this.event = event;
-		try {
+		
 			
 			 IProgressService ps = HandlerUtil.getActiveWorkbenchWindowChecked(event).getWorkbench().getProgressService();
-			 ps.run(false, true, new MGLGenerator());
-		} catch (Exception e1) {
-			
-			StringBuilder builder = new StringBuilder();
-			Throwable e = e1.getCause();
-			StackTraceElement[] trace = e.getStackTrace();
-			
-			builder.append(e.getLocalizedMessage()+":\n");
-			for(int i=0;i<Math.min(5, trace.length);i++){
-				builder.append(trace[i].toString());
+			 try {
+				ps.run(false, true, new MGLGenerator());
+			} catch (Exception e) {
+				throw new ExecutionException("Exception in MGL 2 Ecore Transformation", e);
 			}
-			Object trigger = event.getTrigger();
-			String canonicalName = "";
-			if(trigger!=null)
-				canonicalName = trigger.getClass().getCanonicalName();
-			else
-				canonicalName = this.getClass().getCanonicalName();
-			
-			IStatus status = new Status(Status.ERROR,canonicalName,builder.toString());
-			ErrorDialog.openError(HandlerUtil.getActiveShell(event), "Error in Cinco Product Generation", "An error occured: "+e.getMessage(), status);
-			
-			e1.printStackTrace();
-			
-			
-		}
+		
 		
 		return null;
 	}
@@ -154,6 +135,7 @@ public class MGLGenerationHandler extends AbstractHandler {
 				} catch (CoreException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
+					
 				}
 			}
 			}
