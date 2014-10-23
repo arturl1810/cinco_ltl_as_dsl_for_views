@@ -67,6 +67,17 @@ class StyleProposalProvider extends AbstractStyleProposalProvider {
 		super.completeAppearance_Font(model, assignment, context, acceptor)
 	}
 
+	override completeInlineAppearance_Font(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
+		var proposal = createCompletionProposal("Choose Font", context);
+		if (proposal instanceof ConfigurableCompletionProposal){
+			var configProp = proposal as ConfigurableCompletionProposal
+			configProp.setTextApplier(new ChooseFontStyle("("))
+		}
+		
+		acceptor.accept(proposal)
+		super.completeAppearance_Font(model, assignment, context, acceptor)
+	}
+
 	override completeFont_FontName(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
 		/**
 		 * Generates the Choose Font dialog
