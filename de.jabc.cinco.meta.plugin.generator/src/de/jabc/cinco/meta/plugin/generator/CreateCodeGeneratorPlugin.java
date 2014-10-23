@@ -175,27 +175,23 @@ public class CreateCodeGeneratorPlugin extends AbstractService {
 
 	private void exportPackage(String bundleName, String packageName) {
 		IProject pr = ResourcesPlugin.getWorkspace().getRoot().getProject(bundleName);
-		 
-		System.out.println(bundleName);
 		if(pr!=null){
-			
-			System.out.println("HHHAKAAKAK");
 			Manifest manni;
 			try {
 				File manniFile = pr.getFile("/META-INF/MANIFEST.MF").getLocation().makeAbsolute().toFile();
 				manni = new Manifest(new FileInputStream(manniFile));
 				Attributes mainAttr = manni.getMainAttributes();
 				String oldValues = mainAttr.getValue("Export-Package");
-				System.out.println(mainAttr.putValue("Export-Package", oldValues.concat(",").concat(packageName)));
-				manni.write(new FileOutputStream(manniFile));
+				if(!oldValues.contains(packageName)){
+					mainAttr.putValue("Export-Package", oldValues.concat(",").concat(packageName));
+					manni.write(new FileOutputStream(manniFile));
+				}
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
 			
 		}
-		System.out.println("HHFDLDDLKLLJlj");
 	}
 
 }
