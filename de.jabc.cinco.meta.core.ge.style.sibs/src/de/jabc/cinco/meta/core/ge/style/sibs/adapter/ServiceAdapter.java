@@ -699,6 +699,7 @@ public class ServiceAdapter {
 			String name = "_Appearance" + appearanceCount++;
 			app.setName(name);
 			list.add(app);
+			app.getParent();
 		}
 		if (as instanceof ContainerShape) {
 			for (AbstractShape abstractShape : ((ContainerShape) as).getChildren())
