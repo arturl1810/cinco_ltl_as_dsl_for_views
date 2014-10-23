@@ -556,4 +556,23 @@ class MGLValidator extends AbstractMGLValidator {
 				error("Final Attribute must have a default value",MglPackage.Literals.ATTRIBUTE__NOT_CHANGEABLE)
 	}
 	
+	@Check
+	def checkIsPackageNameValidJavaPackageName(GraphModel gm){
+		var splitPN = gm.package.split("\\.")
+		for(part:splitPN){
+			var ca = part.toCharArray
+			var i=0;
+			while(i<ca.length){
+				if(i==0)
+					if(!Character.isJavaIdentifierStart(ca.get(i)))
+						error("Character "+ca.get(i)+" is no valid Java identifier start.",MglPackage.Literals.GRAPH_MODEL__PACKAGE);
+						
+				if(!Character.isJavaIdentifierPart(ca.get(i)))
+						error("Character "+ca.get(i)+" is no valid Java identifier part.",MglPackage.Literals.GRAPH_MODEL__PACKAGE);
+							
+				i = i+1
+			}
+				
+		}
+	}
 }

@@ -40,7 +40,7 @@ Information returns Information:
 	ModelCheckInformation | DataFlowInformation;
 
 QName:
-	EString('.'EString)*
+	(ID | ANY_OTHER)+(=>'.'(ID|ANY_OTHER)+)*
 ;
 
 EString returns ecore::EString:
