@@ -2,13 +2,19 @@ package de.jabc.cinco.meta.plugin.generator;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.jar.Attributes;
+import java.util.jar.Manifest;
 
 import mgl.GraphModel;
 
@@ -22,6 +28,8 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.osgi.framework.Bundle;
+
+import com.google.common.collect.Maps;
 
 import de.jabc.cinco.meta.core.mgl.transformation.helper.AbstractService;
 import de.jabc.cinco.meta.core.mgl.transformation.helper.ServiceException;
@@ -83,6 +91,7 @@ public class CreateCodeGeneratorPlugin extends AbstractService {
 			}
 			context.put("implementingClassName",implementingClassName);
 			context.put("outlet",outlet);
+			String packageName = implementingClassName.substring(0, implementingClassName.lastIndexOf('.'));
 			List<String> exportedPackages = new ArrayList<>();
 			List<String> additionalNature = new ArrayList<>();
 			String projectName = graphModel.getPackage() + ".codegen";
@@ -102,7 +111,6 @@ public class CreateCodeGeneratorPlugin extends AbstractService {
 			}
 			
 			requiredBundles.add(symbolicName);
-			
 			requiredBundles.add("org.eclipse.ui");
 			requiredBundles.add("org.eclipse.core.runtime");
 			requiredBundles.add("org.eclipse.core.resources");
@@ -113,6 +121,7 @@ public class CreateCodeGeneratorPlugin extends AbstractService {
 			requiredBundles.add("org.eclipse.ui.workbench");
 			requiredBundles.add("de.jabc.cinco.meta.core.mgl.model");
 			
+			exportPackage(bundleName,packageName);
 //			requiredBundles.add(bundleName);
 			if(new Path("/"+projectName).toFile().exists())
 				new Path("/"+projectName).toFile().delete();
@@ -162,6 +171,31 @@ public class CreateCodeGeneratorPlugin extends AbstractService {
 		} finally {
 		}
 
+	}
+
+	private void exportPackage(String bundleName, String packageName) {
+		IProject pr = ResourcesPlugin.getWorkspace().getRoot().getProject(bundleName);
+		 
+		System.out.println(bundleName);
+		if(pr!=null){
+			
+			System.out.println("HHHAKAAKAK");
+			Manifest manni;
+			try {
+				File manniFile = pr.getFile("/META-INF/MANIFEST.MF").getLocation().makeAbsolute().toFile();
+				manni = new Manifest(new FileInputStream(manniFile));
+				Attributes mainAttr = manni.getMainAttributes();
+				String oldValues = mainAttr.getValue("Export-Package");
+				System.out.println(mainAttr.putValue("Export-Package", oldValues.concat(",").concat(packageName)));
+				manni.write(new FileOutputStream(manniFile));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			
+		}
+		System.out.println("HHFDLDDLKLLJlj");
 	}
 
 }
