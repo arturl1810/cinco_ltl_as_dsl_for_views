@@ -32,6 +32,7 @@ import org.eclipse.xtext.validation.Check
 import de.jabc.cinco.meta.core.utils.PathValidator
 import java.util.ArrayList
 import de.jabc.cinco.meta.core.utils.InheritanceUtil
+import mgl.Import
 
 /**
  * Custom validation rules. 
@@ -368,7 +369,6 @@ class MGLValidator extends AbstractMGLValidator {
 			var element = attr.modelElement as Node
 			
 			var superType = element.extends
-			println("Checking attributes of node and its super types")
                 while(superType!=null && InheritanceUtil.checkMGLInheritance(element).nullOrEmpty){
 				for(a: superType.attributes){
 						if(a.name==attr.name)
@@ -529,6 +529,13 @@ class MGLValidator extends AbstractMGLValidator {
 	}
 	
 	@Check
+	def checkGraphModelImportUris(Import imp) {
+		val retVal = PathValidator.checkPath(imp, imp.importURI)
+		if (!retVal.nullOrEmpty)
+			error(retVal, MglPackage.Literals.IMPORT__IMPORT_URI, "Could not load resource")
+	}
+	
+	@Check
 	def checkGraphModelNameFileName(GraphModel gm) {
 		val gmName = gm.name
 		if (!gm.eResource.URI.trimFileExtension.lastSegment.equals(gmName)) {
@@ -575,4 +582,5 @@ class MGLValidator extends AbstractMGLValidator {
 				
 		}
 	}
+	
 }

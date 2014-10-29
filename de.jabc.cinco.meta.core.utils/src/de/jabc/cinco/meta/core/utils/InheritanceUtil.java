@@ -16,7 +16,6 @@ public class InheritanceUtil {
 
 	public static List<String> checkMGLInheritance(ModelElement me) {
 		if (me instanceof Node) {
-			System.out.println("Checking node inheritence structure");
 			return checkNodeInheritance((Node) me);
 		}
 		if (me instanceof Edge) {

@@ -64,16 +64,17 @@ Workflow {
 
 			// Xtend-based API for validation 
 			fragment = validation.ValidatorFragment auto-inject {
-			 composedCheck = "org.eclipse.xtext.validation.ImportUriValidator"
+//			 composedCheck = "org.eclipse.xtext.validation.ImportUriValidator"
 			// composedCheck = "org.eclipse.xtext.validation.NamesAreUniqueValidator"
 			}
 
 			// old scoping and exporting API 
-			 //fragment = scoping.ImportNamespacesScopingFragment auto-inject {}
-			 //fragment = exporting.QualifiedNamesFragment auto-inject {}
+//			 fragment = scoping.ImportNamespacesScopingFragment auto-inject {}
+//			 fragment = exporting.QualifiedNamesFragment auto-inject {}
 
 			// scoping and exporting API
 			fragment = scoping.ImportURIScopingFragment auto-inject {}
+//			fragment = scoping.MGLScopingFragment auto-inject {}
 			fragment = exporting.SimpleNamesFragment auto-inject {}
 			
 			//fragment = builder.BuilderIntegrationFragment auto-inject {}		

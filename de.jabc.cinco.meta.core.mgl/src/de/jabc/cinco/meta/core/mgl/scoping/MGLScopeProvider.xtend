@@ -3,9 +3,12 @@
  */
 package de.jabc.cinco.meta.core.mgl.scoping
 
-import org.eclipse.xtext.scoping.IScope
 import mgl.ReferencedAttribute
 import org.eclipse.emf.ecore.EReference
+import org.eclipse.xtext.scoping.IScope
+import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider
+import org.eclipse.emf.ecore.EObject
+import mgl.Import
 
 /**
  * This class contains custom scoping description.
@@ -14,12 +17,12 @@ import org.eclipse.emf.ecore.EReference
  * on how and when to use it 
  *
  */
-class MGLScopeProvider extends org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider {
+class MGLScopeProvider extends AbstractDeclarativeScopeProvider {
 	
 	def IScope scope_ReferencedAttribute_feature(ReferencedAttribute attr, EReference ref){
 		
-		return getScope(attr.referencedType.type,ref)
+		val scope = getScope(attr.referencedType.type,ref)
+		return scope
 	}
-		
 	
 }
