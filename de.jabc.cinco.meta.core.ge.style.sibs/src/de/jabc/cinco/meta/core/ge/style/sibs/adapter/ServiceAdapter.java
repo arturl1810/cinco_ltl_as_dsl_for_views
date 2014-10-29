@@ -669,6 +669,9 @@ public class ServiceAdapter {
 			if (es.getInlineAppearance() != null) {
 				String name = "_Appearance" + appearanceCount++;
 				es.getInlineAppearance().setName(name);
+				
+				/** The subsequent parent call resolves an object that is possibly a proxy **/
+				es.getInlineAppearance().getParent();
 				list.add(es.getInlineAppearance());
 			}
 		
@@ -696,6 +699,7 @@ public class ServiceAdapter {
 			String name = "_Appearance" + appearanceCount++;
 			app.setName(name);
 			list.add(app);
+			/** The subsequent parent call resolves an object that is possibly a proxy **/
 			app.getParent();
 		}
 		if (as instanceof ContainerShape) {
