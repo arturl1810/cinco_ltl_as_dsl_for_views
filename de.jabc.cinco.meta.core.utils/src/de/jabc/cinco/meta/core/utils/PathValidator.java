@@ -70,8 +70,10 @@ public class PathValidator {
 	}
 	
 	private static String checkPlatformPluginURI(URI uri) {
-		System.out.println(root.findMember(uri.toPlatformString(true)));
-		System.err.println("PlatformPlugin uri, check not implemented yet.");
+		IResource res = root.findMember(uri.toPlatformString(true));
+		if (res == null || !(res instanceof IFile) ) {
+			return "The specified file does not exists.";
+		}
 		return "";
 	}
 	

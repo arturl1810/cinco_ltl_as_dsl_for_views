@@ -1,7 +1,5 @@
 package de.jabc.cinco.meta.core.ge.style.sibs.adapter;
 
-import graphmodel.ModelElementContainer;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -17,7 +15,6 @@ import java.util.regex.Pattern;
 
 import mgl.Annotation;
 import mgl.Attribute;
-import mgl.ContainingElement;
 import mgl.Edge;
 import mgl.GraphModel;
 import mgl.GraphicalElementContainment;
@@ -68,6 +65,7 @@ import style.Styles;
 import style.VAlignment;
 import de.jabc.adapter.common.collection.Branches;
 import de.jabc.cinco.meta.core.utils.InheritanceUtil;
+import de.jabc.cinco.meta.core.utils.PathValidator;
 import de.metaframe.jabc.framework.execution.LightweightExecutionEnvironment;
 import de.metaframe.jabc.framework.execution.context.LightweightExecutionContext;
 import de.metaframe.jabc.framework.sib.parameter.foundation.ContextExpressionFoundation;
@@ -571,9 +569,8 @@ public class ServiceAdapter {
 			List<String> imps = new ArrayList<>();
 			
 			for (Import i : gmImports){
-				String importUri = i.getImportURI();
-				importUri = importUri.replace("platform:/resource", "");
-				IPath path = new Path(importUri);
+				URI importUri = PathValidator.getURIForString(i, i.getImportURI());
+				IPath path = new Path(importUri.toPlatformString(true));
 				IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 				IFile file = root.getFile(path);
 				IProject p = file.getProject();
