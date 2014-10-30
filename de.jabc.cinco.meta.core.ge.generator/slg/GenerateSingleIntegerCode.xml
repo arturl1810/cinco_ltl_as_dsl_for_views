@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>9bf333cd-76eb-4707-be7a-f62b921e88c5</id>
   <name>GenerateSingleIntegerCode</name>
-  <changecounter>215</changecounter>
+  <changecounter>219</changecounter>
   <sib>
     <id>761a275f-3772-4618-b07b-2202449515c5</id>
     <name>RunStringTemplate</name>
@@ -59,6 +59,7 @@ $context.flAttributeName$Text.setSelection($context.flAttributeName$Text.getText
 if (tmp instanceof $context.modelElementName$) {
 	try {
 		(($context.modelElementName$) tmp).set$context.fuAttributeName$(Integer.valueOf($context.flAttributeName$Text.getText()));
+		oldVal = Integer.valueOf($context.flAttributeName$Text.getText());
 	} catch (NumberFormatException e) {
 		(($context.modelElementName$) tmp).set$context.fuAttributeName$(Integer.valueOf(0));
 	}

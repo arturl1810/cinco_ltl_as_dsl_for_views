@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>ea6aca34-ec03-4ba1-99b7-4fc762288fa2</id>
   <name>GenerateSingleStringCode</name>
-  <changecounter>323</changecounter>
+  <changecounter>330</changecounter>
   <sib>
     <id>21749b0f-12f8-4797-81b9-3f0453fbf22c</id>
     <name>RunStringTemplate</name>
@@ -60,6 +60,7 @@ $context.flAttributeName$Text.setSelection($context.flAttributeName$Text.getText
       <string>EObject tmp = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
 if (tmp instanceof $context.modelElementName$) {
 	(($context.modelElementName$) tmp).set$context.fuAttributeName$($context.flAttributeName$Text.getText().trim());
+	oldVal = $context.flAttributeName$Text.getText().trim();
 }
 </string>
     </parameter>

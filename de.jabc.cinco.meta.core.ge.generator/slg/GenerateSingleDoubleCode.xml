@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>58218bce-14ea-427d-8c72-e67903670e10</id>
   <name>GenerateSingleDoubleCode</name>
-  <changecounter>112</changecounter>
+  <changecounter>121</changecounter>
   <sib>
     <id>04e295fe-943a-4974-80d0-c5dbe081048d</id>
     <name>RunStringTemplate_1</name>
@@ -30,6 +30,7 @@
 if (tmp instanceof $context.modelElementName$) {
 	try {
 		(($context.modelElementName$) tmp).set$context.fuAttributeName$(Double.valueOf($context.flAttributeName$Text.getText()));
+		oldVal = Double.valueOf($context.flAttributeName$Text.getText());
 	} catch (NumberFormatException e) {
 		(($context.modelElementName$) tmp).set$context.fuAttributeName$(0.0);
 	}
