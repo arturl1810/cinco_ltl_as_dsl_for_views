@@ -39,6 +39,7 @@
     <genClasses ecoreClass="GraphModel.ecore#//Container"/>
     <genClasses image="false" ecoreClass="GraphModel.ecore#//ModelElement">
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference GraphModel.ecore#//ModelElement/container"/>
+      <genFeatures createChild="false" propertyDescription="" ecoreFeature="ecore:EAttribute GraphModel.ecore#//ModelElement/id"/>
     </genClasses>
     <genClasses image="false" ecoreClass="GraphModel.ecore#//ModelElementContainer">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference GraphModel.ecore#//ModelElementContainer/modelElements"/>
