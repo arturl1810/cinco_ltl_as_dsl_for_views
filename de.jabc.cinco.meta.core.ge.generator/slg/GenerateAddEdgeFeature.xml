@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>730ef53f-e135-46d5-9e4b-96fc4843c423</id>
   <name>GenerateAddEdgeFeature</name>
-  <changecounter>566</changecounter>
+  <changecounter>567</changecounter>
   <sib>
     <id>4966ae71-56db-49f8-b6d7-c3a51fbd1021</id>
     <name>PutExpression</name>
@@ -230,6 +230,7 @@ import $context.packageName$.graphiti.*;
 import $context.packageName$.graphiti.expression.*;
 import $context.packageName$.graphiti.features.layout.*;
 import $context.importPath$.*;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 
 public class Add$context.edgeName$Feature extends AbstractAddFeature {
 
@@ -240,6 +241,7 @@ public class Add$context.edgeName$Feature extends AbstractAddFeature {
 	public PictogramElement add(IAddContext context) {
 		IAddConnectionContext addConContext = (IAddConnectionContext) context;
 		$context.edgeName$ $context.meIdentifier$ = ($context.edgeName$) context.getNewObject();
+		$context.meIdentifier$.setId(EcoreUtil.generateUUID());
 		IPeCreateService peCreateService = Graphiti.getPeCreateService();
        
 		Connection connection = peCreateService
@@ -292,7 +294,7 @@ public class Add$context.edgeName$Feature extends AbstractAddFeature {
     <label>WriteJavaFile</label>
     <sib-uid>genesys-sibs/WriteJavaFile</sib-uid>
     <taxonomy>de.jabc.sib.genesys.WriteJavaFile</taxonomy>
-    <position>28.0,588.0</position>
+    <position>28.0,586.0</position>
     <parameter name="baseDirectory">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>

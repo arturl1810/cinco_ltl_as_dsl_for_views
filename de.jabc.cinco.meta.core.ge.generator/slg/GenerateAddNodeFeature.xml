@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>7def08b0-45b0-4f5d-9629-657ab3028508</id>
   <name>GenerateAddNodeFeature</name>
-  <changecounter>1465</changecounter>
+  <changecounter>1466</changecounter>
   <sib>
     <id>b89523ed-9916-4f61-a5e9-9e1d8838a845</id>
     <name>PutExpression_1</name>
@@ -119,7 +119,7 @@ import org.eclipse.graphiti.mm.algorithms.styles.*;
 import org.eclipse.graphiti.mm.pictograms.*;
 import org.eclipse.graphiti.services.*;
 import org.eclipse.graphiti.util.*;
-
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import com.sun.el.ExpressionFactoryImpl;
 
 public class Add$context.modelElementName$Feature extends AbstractAddShapeFeature {
@@ -139,6 +139,7 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
 
 	public PictogramElement add(IAddContext context) {
 		$context.modelElementName$ $context.meIdentifier$ = ($context.modelElementName$) context.getNewObject();
+		$context.meIdentifier$.setId(EcoreUtil.generateUUID());
 		ContainerShape d = (ContainerShape) context.getTargetContainer();
 
 		IPeService peService = Graphiti.getPeService();
@@ -185,7 +186,7 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
     <label>WriteJavaFile</label>
     <sib-uid>genesys-sibs/WriteJavaFile</sib-uid>
     <taxonomy>de.jabc.sib.genesys.WriteJavaFile</taxonomy>
-    <position>73.0,963.0</position>
+    <position>73.0,961.0</position>
     <parameter name="baseDirectory">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -471,7 +472,7 @@ import org.eclipse.graphiti.services.*;
 import org.eclipse.graphiti.util.*;
 
 import com.sun.el.ExpressionFactoryImpl;
-
+import org.eclipse.emf.ecore.util.EcoreUtil;
 
 public class Add$context.modelElementName$Feature extends AbstractAddShapeFeature {
 	
@@ -509,6 +510,7 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
 			$context.meIdentifier$ = $context.factoryName$Factory.eINSTANCE.create$context.modelElementName$();
 			$context.primeParamContent$
 		}
+		$context.meIdentifier$.setId(EcoreUtil.generateUUID());
 		ContainerShape d = (ContainerShape) context.getTargetContainer();
 
 		IPeService peService = Graphiti.getPeService();
@@ -743,7 +745,7 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
     <label>FormatIdentifier</label>
     <sib-uid>genesys-sibs/FormatIdentifier</sib-uid>
     <taxonomy>de.jabc.sib.genesys.FormatIdentifier</taxonomy>
-    <position>1009.0,738.0</position>
+    <position>1009.0,736.0</position>
     <parameter name="identifier">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -796,7 +798,7 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
     <label>FormatIdentifier</label>
     <sib-uid>genesys-sibs/FormatIdentifier</sib-uid>
     <taxonomy>de.jabc.sib.genesys.FormatIdentifier</taxonomy>
-    <position>1009.0,963.0</position>
+    <position>1009.0,961.0</position>
     <parameter name="identifier">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1048,7 +1050,7 @@ Leaving Generate ${nodeName} AddFeature </expression>
     <label>GenerateUniqueGaName</label>
     <sib-uid>ge-util-sibs/GenerateUniqueGaName</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.GenerateUniqueGaName</taxonomy>
-    <position>667.5,228.0</position>
+    <position>667.5,226.0</position>
     <parameter name="clearCache">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
@@ -1085,7 +1087,7 @@ Leaving Generate ${nodeName} AddFeature </expression>
     <label>GenerateUniqueShapeName</label>
     <sib-uid>ge-util-sibs/GenerateUniqueShapeName</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.GenerateUniqueShapeName</taxonomy>
-    <position>476.0,228.0</position>
+    <position>476.0,226.0</position>
     <parameter name="clearCache">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>

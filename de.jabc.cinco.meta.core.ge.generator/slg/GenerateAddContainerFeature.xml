@@ -2,14 +2,14 @@
 <model version="2.1">
   <id>c7542d87-aa25-4707-a286-db91e10d7301</id>
   <name>GenerateAddContainerFeature</name>
-  <changecounter>411</changecounter>
+  <changecounter>418</changecounter>
   <sib>
     <id>3f7b7312-5278-4d0a-b7f8-45424c587ca9</id>
     <name>GetNodeContainerIsAbstract</name>
     <label>GetNodeContainerIsAbstract</label>
     <sib-uid>mgl/mgl/GetNodeContainerIsAbstract</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.sib.mgl.GetNodeContainerIsAbstract</taxonomy>
-    <position>57.5,61.0</position>
+    <position>57.5,63.0</position>
     <parameter name="nodeContainerKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -219,7 +219,7 @@
     <label>FormatIdentifier</label>
     <sib-uid>genesys-sibs/FormatIdentifier</sib-uid>
     <taxonomy>de.jabc.sib.genesys.FormatIdentifier</taxonomy>
-    <position>979.0,198.0</position>
+    <position>979.0,196.0</position>
     <parameter name="identifier">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -420,6 +420,7 @@ import org.eclipse.graphiti.services.IGaService;
 import org.eclipse.graphiti.services.IPeService;
 
 import com.sun.el.ExpressionFactoryImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 
 public class Add$context.modelElementName$Feature extends AbstractAddShapeFeature {
 	
@@ -438,6 +439,7 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
 
 	public PictogramElement add(IAddContext context) {
 		$context.modelElementName$ $context.meIdentifier$ = ($context.modelElementName$) context.getNewObject();
+		$context.meIdentifier$.setId(EcoreUtil.generateUUID());
 		ContainerShape d = (ContainerShape) context.getTargetContainer();
 
 		IPeService peService = Graphiti.getPeService();
@@ -548,7 +550,7 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
     <label>WriteJavaFile</label>
     <sib-uid>genesys-sibs/WriteJavaFile</sib-uid>
     <taxonomy>de.jabc.sib.genesys.WriteJavaFile</taxonomy>
-    <position>1003.0,423.0</position>
+    <position>1003.0,421.0</position>
     <parameter name="baseDirectory">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -633,7 +635,7 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
     <label>GetNodeStyleMainShape</label>
     <sib-uid>style/style/GetNodeStyleMainShape</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.sib.style.GetNodeStyleMainShape</taxonomy>
-    <position>607.0,196.0</position>
+    <position>607.0,198.0</position>
     <parameter name="nodeStyleKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -706,7 +708,7 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
     <label>GenerateUniqueShapeName</label>
     <sib-uid>ge-util-sibs/GenerateUniqueShapeName</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.GenerateUniqueShapeName</taxonomy>
-    <position>56.0,198.0</position>
+    <position>56.0,196.0</position>
     <parameter name="clearCache">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
