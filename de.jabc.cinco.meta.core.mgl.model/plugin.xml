@@ -26,4 +26,11 @@
             genModel="model/GraphModel.genmodel"/>
    </extension>
 
+   <extension point="org.eclipse.emf.ecore.extension_parser">
+      <!-- @generated GraphModel -->
+      <parser
+            type="graphmodel"
+            class="graphmodel.util.GraphmodelResourceFactoryImpl"/>
+   </extension>
+
 </plugin>
