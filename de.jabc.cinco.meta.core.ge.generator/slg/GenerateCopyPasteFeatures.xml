@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>67a73b2a-3824-4776-9686-ae1a8aed5282</id>
   <name>GenerateCopyPasteFeatures</name>
-  <changecounter>292</changecounter>
+  <changecounter>295</changecounter>
   <sib>
     <id>59a427e8-25c5-482c-a32b-a0aa278eb41b</id>
     <name>PutExpression</name>
@@ -147,23 +147,23 @@ public class $context.graphModelName$CopyFeature extends AbstractCopyFeature {
 		for (PictogramElement pe : pes) {
 			Object bo = getBusinessObjectForPictogramElement(pe);
 			if (bo instanceof Node) {
-				Node node = (Node) bo;
-				list.add(pe);
-				map.put(node, true);
-				for (Edge e : node.getIncoming())
-					edges.add(e);
-				for (Edge e : node.getOutgoing())
-					edges.add(e);
-			}
-			
-			if (bo instanceof Container) {
-				Container container = (Container) bo;
-				list.add(pe);
-				map.put(container, true);
-				for (Edge e : container.getIncoming())
-					edges.add(e);
-				for (Edge e : container.getOutgoing())
-					edges.add(e);
+				if (bo instanceof Container) {
+					Container container = (Container) bo;
+					list.add(pe);
+					map.put(container, true);
+					for (Edge e : container.getIncoming())
+						edges.add(e);
+					for (Edge e : container.getOutgoing())
+						edges.add(e);
+				} else {
+					Node node = (Node) bo;
+					list.add(pe);
+					map.put(node, true);
+					for (Edge e : node.getIncoming())
+						edges.add(e);
+					for (Edge e : node.getOutgoing())
+						edges.add(e);
+				}
 			}
 			
 			if (bo instanceof Edge)
@@ -980,12 +980,11 @@ public class $context.graphModelName$CopyUtils {
 		for (Shape s : shapes) {
 			EObject bo = (EObject) s.getLink().getBusinessObjects().get(0);
 			Shape copy = null;
-			if (bo instanceof Container) {
-				copy = copyContainerShape((ContainerShape) s);
-			}
-			
 			if (bo instanceof Node) {
-				copy = copyNodeShape(s);
+				if (bo instanceof Container) {
+					copy = copyContainerShape((ContainerShape) s);
+				} else 
+					copy = copyNodeShape(s);
 			}
 			
 			copyList.add(copy);
@@ -1025,20 +1024,20 @@ public class $context.graphModelName$CopyUtils {
 			} else {
 			/** Found a contained node with different linked model element **/
 				if (boChild instanceof Node) {
-					Shape tmp = copyNodeShape(child);
-					((Container) boCopy).getModelElements().add((ModelElement) tmp.getLink().getBusinessObjects().get(0));
-					for (Shape s : cs.getChildren()) {
-						if (s.getLink() != null &amp;&amp; s.getLink().getBusinessObjects().get(0).equals(boChild)) {
-							copiedAnchors.put(s.getAnchors().get(0), tmp.getAnchors().get(0));
+					if (boChild instanceof Container) {
+						Shape tmp = copyContainerShape((ContainerShape) child);
+						((Container) boCopy).getModelElements().add((ModelElement) tmp.getLink().getBusinessObjects().get(0));
+						replace.put(child, tmp);
+					} else {
+						Shape tmp = copyNodeShape(child);
+						((Container) boCopy).getModelElements().add((ModelElement) tmp.getLink().getBusinessObjects().get(0));
+						for (Shape s : cs.getChildren()) {
+							if (s.getLink() != null &amp;&amp; s.getLink().getBusinessObjects().get(0).equals(boChild)) {
+								copiedAnchors.put(s.getAnchors().get(0), tmp.getAnchors().get(0));
+							}
 						}
+						replace.put(child, tmp);
 					}
-					replace.put(child, tmp);
-				}
-				
-				if (boChild instanceof Container) {
-					Shape tmp = copyContainerShape((ContainerShape) child);
-					((Container) boCopy).getModelElements().add((ModelElement) tmp.getLink().getBusinessObjects().get(0));
-					replace.put(child, tmp);
 				}
 			}
 			
