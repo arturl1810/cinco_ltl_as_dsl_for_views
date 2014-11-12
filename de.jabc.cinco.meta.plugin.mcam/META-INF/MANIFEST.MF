@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Model-CaM Implementation for Cinco-Products
+Bundle-SymbolicName: de.jabc.cinco.meta.plugin.mcam;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Fragment-Host: de.jabc.cinco.meta.core.pluginregistry;bundle-version="0.6.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Import-Package: de.jabc.cinco.meta.core.utils.projects

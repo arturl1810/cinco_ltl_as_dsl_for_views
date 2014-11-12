@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<model version="2.1">
+  <id>a82e2f7f-9d16-4222-a5da-f9b89e41b7d4</id>
+  <name>Main</name>
+  <changecounter>3</changecounter>
+  <sib>
+    <id>03f03555-fd6d-4b74-9821-3020cf9857b3</id>
+    <name>GetGraphModelName</name>
+    <label>GetGraphModelName</label>
+    <sib-uid>mgl/mgl/GetGraphModelName</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.ge.sib.mgl.GetGraphModelName</taxonomy>
+    <position>130.5,48.0</position>
+    <parameter name="graphModelKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>graphModel</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="graphModelnameKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>graphModelName</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$START">
+      <boolean>true</boolean>
+    </userobject>
+  </sib>
+  <sib>
+    <id>59b94217-3aea-4fd4-ae52-92bd32a98604</id>
+    <name>PrintConsoleMessage</name>
+    <label>PrintConsoleMessage</label>
+    <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
+    <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
+    <position>129.5,168.0</position>
+    <parameter name="error">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="message">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>Hello model with name ${graphModelName}!</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>false</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <finalbranches>default</finalbranches>
+  </sib>
+  <edge>
+    <source>03f03555-fd6d-4b74-9821-3020cf9857b3</source>
+    <target>59b94217-3aea-4fd4-ae52-92bd32a98604</target>
+    <point>195.0,75.0</point>
+    <point>200.0,194.0</point>
+    <branch>default</branch>
+  </edge>
+  <values/>
+</model>
