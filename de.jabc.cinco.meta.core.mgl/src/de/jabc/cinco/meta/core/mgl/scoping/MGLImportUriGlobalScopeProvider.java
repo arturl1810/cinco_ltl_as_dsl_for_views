@@ -23,7 +23,6 @@ public class MGLImportUriGlobalScopeProvider extends ImportUriGlobalScopeProvide
 	protected IScope getScope(Resource resource, boolean ignoreCase,
 			EClass type, Predicate<IEObjectDescription> filter) {
 		IScope scope = super.getScope(resource, ignoreCase, type, filter);
-		System.out.println(scope);
 		return scope;
 	}
 	
