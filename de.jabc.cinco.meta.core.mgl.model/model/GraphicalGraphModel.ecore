@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="graphicalgraphmodel" nsURI="http://graphicalgraphmodel/1.0"
+    nsPrefix="graphicalgraphmodel">
+  <eClassifiers xsi:type="ecore:EClass" name="GModelElementContainer" abstract="true"
+      interface="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="modelElements" upperBound="-1"
+        eType="#//GModelElement" containment="true" eOpposite="#//GModelElement/container"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GContainer" eSuperTypes="#//GModelElementContainer #//GNode">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containerBO" lowerBound="1"
+        eType="ecore:EClass GraphModel.ecore#//Container"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GGraphModel" eSuperTypes="#//GModelElementContainer">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="graphModel" lowerBound="1"
+        eType="ecore:EClass GraphModel.ecore#//GraphModel"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containerShape" lowerBound="1"
+        eType="ecore:EClass ../../org.eclipse.graphiti.mm/model/graphiti.ecore#//pictograms/ContainerShape"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GEdge" eSuperTypes="#//GModelElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
+        eType="#//GNode" eOpposite="#//GNode/outgoing"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" lowerBound="1"
+        eType="#//GNode" eOpposite="#//GNode/incoming"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="edge" lowerBound="1" eType="ecore:EClass GraphModel.ecore#//Edge"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="connection" lowerBound="1"
+        eType="ecore:EClass ../../org.eclipse.graphiti.mm/model/graphiti.ecore#//pictograms/Connection"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GNode" eSuperTypes="#//GModelElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="incoming" upperBound="-1"
+        eType="#//GEdge" eOpposite="#//GEdge/target"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="outgoing" upperBound="-1"
+        eType="#//GEdge" eOpposite="#//GEdge/source"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="node" lowerBound="1" eType="ecore:EClass GraphModel.ecore#//Node"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="shape" eType="ecore:EClass ../../org.eclipse.graphiti.mm/model/graphiti.ecore#//pictograms/ContainerShape"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GModelElement" abstract="true" interface="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="container" eType="#//GModelElementContainer"
+        eOpposite="#//GModelElementContainer/modelElements"/>
+  </eClassifiers>
+</ecore:EPackage>
