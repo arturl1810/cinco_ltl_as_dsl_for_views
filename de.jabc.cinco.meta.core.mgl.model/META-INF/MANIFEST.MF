@@ -7,9 +7,14 @@ Bundle-ClassPath: .
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
-Export-Package: graphmodel,graphmodel.impl,graphmodel.util,mgl,mgl.imp
- l,mgl.util
+Export-Package: graphmodel,
+ graphmodel.impl,
+ graphmodel.util,
+ mgl,
+ mgl.impl,
+ mgl.util
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport,
+ org.eclipse.emf.ecore.xmi;visibility:=reexport,
  de.jabc.cinco.meta.core.mgl.model;visibility:=reexport
 Bundle-ActivationPolicy: lazy
