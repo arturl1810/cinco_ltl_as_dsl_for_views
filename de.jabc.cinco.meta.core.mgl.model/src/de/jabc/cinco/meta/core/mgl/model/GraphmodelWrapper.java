@@ -6,6 +6,7 @@ import graphicalgraphmodel.GGraphModel;
 import graphicalgraphmodel.GModelElementContainer;
 import graphicalgraphmodel.GNode;
 import graphicalgraphmodel.GraphicalgraphmodelFactory;
+import graphicalgraphmodel.impl.GGraphModelImpl;
 import graphmodel.Container;
 import graphmodel.Edge;
 import graphmodel.GraphModel;
@@ -22,7 +23,7 @@ import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.services.Graphiti;
 
-public class GraphmodelWrapper {
+public class GraphmodelWrapper<T extends GGraphModel> {
 
 	/**
 	 *  This map is used to store information about created GraphicalModelElements
@@ -33,6 +34,7 @@ public class GraphmodelWrapper {
 	private HashMap<EObject, EObject> map;
 	
 	private Diagram diagram;
+	private GGraphModel ggm;
 	
 	public GraphmodelWrapper(Diagram diagram) {
 		map = new HashMap<>();
@@ -40,7 +42,7 @@ public class GraphmodelWrapper {
 	}
 	
 
-	private GModelElementContainer wrap(ModelElementContainer mec) {
+	private <T extends GModelElementContainer> T wrap(ModelElementContainer mec) {
 		if (mec instanceof GraphModel)
 			return wrap((GraphModel) mec);
 		if (mec instanceof Container) 
@@ -48,11 +50,14 @@ public class GraphmodelWrapper {
 		return null;
 	}
 	
-	public GGraphModel wrap(GraphModel gm) {
+	@SuppressWarnings("unchecked")
+	public <T extends GGraphModel> T wrap(GraphModel gm) {
 		if ((map.get(gm) instanceof GGraphModel))
-			return (GGraphModel) map.get(gm);
+			return (T) map.get(gm);
 		
-		GGraphModel ggm = GraphicalgraphmodelFactory.eINSTANCE.createGGraphModel();
+//		GGraphModel ggm = GraphicalgraphmodelFactory.eINSTANCE.createGGraphModel();
+		
+		ggm = GraphicalgraphmodelFactory.eINSTANCE.createGGraphModel();
 		
 		ggm.setGraphModel(gm);
 		ggm.setContainerShape(diagram);
@@ -74,13 +79,13 @@ public class GraphmodelWrapper {
 			ggm.getModelElements().add(wrap(e));
 		}
 		
-		return ggm;
+		return (T) ggm;
 	}
 	
 	
-	private GNode wrap(Node n) {
+	private <T extends GNode> T wrap(Node n) {
 		if ( (map.get(n) instanceof GNode)) 
-			return (GNode) map.get(n);
+			return (T) map.get(n);
 		
 		GNode gNode = GraphicalgraphmodelFactory.eINSTANCE.createGNode();
 		
@@ -88,12 +93,12 @@ public class GraphmodelWrapper {
 		gNode.setShape(getContainerShape(n));
 		map.put(n, gNode);
 		
-		return gNode;
+		return (T) gNode;
 	}
 
-	private GContainer wrap(Container c) {
+	private <T extends GContainer> T wrap(Container c) {
 		if ((map.get(c) instanceof GContainer))
-			return (GContainer) map.get(c);
+			return (T) map.get(c);
 		
 		GContainer gContainer = GraphicalgraphmodelFactory.eINSTANCE.createGContainer();
 		gContainer.setContainerBO(c);
@@ -115,7 +120,7 @@ public class GraphmodelWrapper {
 			gContainer.getModelElements().add(wrap(e));
 		}
 		
-		return gContainer;
+		return (T) gContainer;
 		
 	}
 	

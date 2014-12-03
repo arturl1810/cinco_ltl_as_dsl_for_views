@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/de.jabc.cinco.meta.core.ge.style.model/src-gen"
+    editDirectory="/de.jabc.cinco.meta.core.ge.style.model.edit/src-gen" editorDirectory="/de.jabc.cinco.meta.core.ge.style.model.editor/src-gen"
+    modelPluginID="de.jabc.cinco.meta.core.ge.style.model" modelName="GraphicalGraphModel"
+    rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container" testsDirectory="/de.jabc.cinco.meta.core.ge.style.model.tests/src-gen"
+    importerID="org.eclipse.emf.importer.ecore" complianceLevel="7.0" copyrightFields="false"
+    usedGenPackages="../../org.eclipse.graphiti.mm/model/graphiti.genmodel#//mm ../../de.jabc.cinco.meta.core.mgl.model/model/GraphModel.genmodel#//graphmodel"
+    operationReflection="true" importOrganizing="true">
+  <foreignModel>GraphicalGraphModel.ecore</foreignModel>
+  <genPackages prefix="Graphicalgraphmodel" disposableProviderFactory="true" ecorePackage="GraphicalGraphModel.ecore#/">
+    <genClasses image="false" ecoreClass="GraphicalGraphModel.ecore#//GModelElementContainer">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference GraphicalGraphModel.ecore#//GModelElementContainer/modelElements"/>
+      <genOperations ecoreOperation="GraphicalGraphModel.ecore#//GModelElementContainer/getModelElements">
+        <genParameters ecoreParameter="GraphicalGraphModel.ecore#//GModelElementContainer/getModelElements/clazz"/>
+        <genTypeParameters ecoreTypeParameter="GraphicalGraphModel.ecore#//GModelElementContainer/getModelElements/T"/>
+      </genOperations>
+      <genOperations ecoreOperation="GraphicalGraphModel.ecore#//GModelElementContainer/getAllNodes"/>
+      <genOperations ecoreOperation="GraphicalGraphModel.ecore#//GModelElementContainer/getAllEdges"/>
+      <genOperations ecoreOperation="GraphicalGraphModel.ecore#//GModelElementContainer/getAllContainers"/>
+    </genClasses>
+    <genClasses ecoreClass="GraphicalGraphModel.ecore#//GContainer">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference GraphicalGraphModel.ecore#//GContainer/containerBO"/>
+    </genClasses>
+    <genClasses ecoreClass="GraphicalGraphModel.ecore#//GGraphModel">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference GraphicalGraphModel.ecore#//GGraphModel/graphModel"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference GraphicalGraphModel.ecore#//GGraphModel/containerShape"/>
+    </genClasses>
+    <genClasses ecoreClass="GraphicalGraphModel.ecore#//GEdge">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference GraphicalGraphModel.ecore#//GEdge/sourceElement"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference GraphicalGraphModel.ecore#//GEdge/targetElement"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference GraphicalGraphModel.ecore#//GEdge/edge"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference GraphicalGraphModel.ecore#//GEdge/connection"/>
+    </genClasses>
+    <genClasses ecoreClass="GraphicalGraphModel.ecore#//GNode">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference GraphicalGraphModel.ecore#//GNode/incoming"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference GraphicalGraphModel.ecore#//GNode/outgoing"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference GraphicalGraphModel.ecore#//GNode/node"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference GraphicalGraphModel.ecore#//GNode/shape"/>
+      <genOperations ecoreOperation="GraphicalGraphModel.ecore#//GNode/getSuccessors"/>
+      <genOperations ecoreOperation="GraphicalGraphModel.ecore#//GNode/getSuccessors.1">
+        <genParameters ecoreParameter="GraphicalGraphModel.ecore#//GNode/getSuccessors.1/clazz"/>
+        <genTypeParameters ecoreTypeParameter="GraphicalGraphModel.ecore#//GNode/getSuccessors.1/T"/>
+      </genOperations>
+      <genOperations ecoreOperation="GraphicalGraphModel.ecore#//GNode/getPredeccessors"/>
+      <genOperations ecoreOperation="GraphicalGraphModel.ecore#//GNode/getPredeccessors.1">
+        <genParameters ecoreParameter="GraphicalGraphModel.ecore#//GNode/getPredeccessors.1/clazz"/>
+        <genTypeParameters ecoreTypeParameter="GraphicalGraphModel.ecore#//GNode/getPredeccessors.1/T"/>
+      </genOperations>
+      <genOperations ecoreOperation="GraphicalGraphModel.ecore#//GNode/getIncoming">
+        <genParameters ecoreParameter="GraphicalGraphModel.ecore#//GNode/getIncoming/clazz"/>
+        <genTypeParameters ecoreTypeParameter="GraphicalGraphModel.ecore#//GNode/getIncoming/T"/>
+      </genOperations>
+      <genOperations ecoreOperation="GraphicalGraphModel.ecore#//GNode/getOutgoing">
+        <genParameters ecoreParameter="GraphicalGraphModel.ecore#//GNode/getOutgoing/clazz"/>
+        <genTypeParameters ecoreTypeParameter="GraphicalGraphModel.ecore#//GNode/getOutgoing/T"/>
+      </genOperations>
+    </genClasses>
+    <genClasses image="false" ecoreClass="GraphicalGraphModel.ecore#//GModelElement">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference GraphicalGraphModel.ecore#//GModelElement/container"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>
