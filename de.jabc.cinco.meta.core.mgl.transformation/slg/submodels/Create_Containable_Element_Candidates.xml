@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>2895e48a-a0d3-413a-b36a-d295aea6fb53</id>
   <name>Create Containable Element Candidates</name>
-  <changecounter>8</changecounter>
+  <changecounter>9</changecounter>
   <sib>
     <id>00717b6d-22eb-4a91-9454-7c6a12c005b8</id>
     <name>GetGraphicalElementContainmentType</name>
@@ -104,7 +104,7 @@
     <parameter name="value">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>graphModelKey</key>
+          <key>containingElementKey</key>
           <scope>GLOBAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
@@ -496,7 +496,7 @@
     <parameter name="value">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>graphModelKey</key>
+          <key>containingElementKey</key>
           <scope>GLOBAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
@@ -658,7 +658,7 @@
     <parameter name="value">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>graphModelKey</key>
+          <key>containingElementKey</key>
           <scope>GLOBAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
@@ -767,9 +767,10 @@
   </edge>
   <edge>
     <source>20fe5696-1669-4e49-978a-236fe500481e</source>
-    <target>11f0f2ba-a46d-4613-a6f5-85b912b9d4c9</target>
-    <point>870.0,60.0</point>
-    <point>1233.0,65.0</point>
+    <target>0e6d233e-4e64-4b5b-9fb3-ebf6d0d93bd7</target>
+    <point>888.0,51.196363636363635</point>
+    <point>1677.0,51.19636363636364</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>exit</branch>
     <branch>noElements</branch>
   </edge>
@@ -779,7 +780,7 @@
     <label>IterateGraphModelEdges</label>
     <sib-uid>mgl/mgl/IterateGraphModelEdges</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.IterateGraphModelEdges</taxonomy>
-    <position>1194.5,33.0</position>
+    <position>1164.5,138.0</position>
     <parameter name="elementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -869,7 +870,7 @@
     <parameter name="value">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>graphModelKey</key>
+          <key>containingElementKey</key>
           <scope>GLOBAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
