@@ -129,8 +129,8 @@ public class GraphmodelWrapper {
 		
 		map.put(e, gEdge);
 		
-		gEdge.setSource(wrap(e.getSourceElement()));
-		gEdge.setTarget(wrap(e.getTargetElement()));
+		gEdge.setSourceElement(wrap(e.getSourceElement()));
+		gEdge.setTargetElement(wrap(e.getTargetElement()));
 		
 		return gEdge;
 	}
