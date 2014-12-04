@@ -65,7 +65,7 @@ import de.metaframe.jabc.framework.execution.LightweightExecutionEnvironment;
 import de.metaframe.jabc.framework.execution.context.DefaultLightweightExecutionContext;
 import de.metaframe.jabc.framework.execution.context.LightweightExecutionContext;
 
-public class Generate extends AbstractHandler {
+public class GraphitiCodeGenerator extends AbstractHandler {
 
 	private final String ID_ICON = "icon";
 	private final String ID_STYLE = "style";
@@ -73,7 +73,7 @@ public class Generate extends AbstractHandler {
 	private GraphModel gModel;
 	private IProject sourceProject;
 	
-	public Generate() {
+	public GraphitiCodeGenerator() {
 		// TODO Auto-generated constructor stub
 	}
 
