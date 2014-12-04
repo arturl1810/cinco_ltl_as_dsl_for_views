@@ -44,6 +44,8 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.xmi.XMIResource;
+import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.xtend.typesystem.emf.EcoreUtil2;
 import org.osgi.framework.Bundle;
 
@@ -57,7 +59,11 @@ import style.Image;
 import style.NodeStyle;
 import style.Style;
 import style.Styles;
+import sun.font.GlyphDisposedListener;
 import de.jabc.cinco.meta.core.ge.generator.Main;
+import de.jabc.cinco.meta.core.mgl.transformation.MGL2Ecore;
+import de.jabc.cinco.meta.core.pluginregistry.PluginRegistry;
+import de.jabc.cinco.meta.core.pluginregistry.PluginRegistryEntry;
 import de.jabc.cinco.meta.core.ui.listener.MGLSelectionListener;
 import de.jabc.cinco.meta.core.utils.projects.ProjectCreator;
 import de.metaframe.jabc.framework.execution.DefaultLightweightExecutionEnvironment;
@@ -69,6 +75,7 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 
 	private final String ID_ICON = "icon";
 	private final String ID_STYLE = "style";
+	private final String API_MODEL_PREFIX = "G";
 	
 	private GraphModel gModel;
 	private IProject sourceProject;
@@ -130,7 +137,19 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 			    String outletPath = p.getFolder("src-gen").getLocation().makeAbsolute().toString();
 			    String customFeatureOutletPath = p.getFolder("src").getLocation().makeAbsolute().toOSString();
 				
-				LightweightExecutionContext context = new DefaultLightweightExecutionContext(null);
+			    /**
+			     *	Get required information for Wrapper API meta model generation 
+			     */
+			    EPackage graphicalGraphModel = EcoreUtil2.getEPackage("platform:/plugin/de.jabc.cinco.meta.core.ge.style.model/model/GraphicalGraphModel.ecore");
+			    EPackage graphitiModel = EcoreUtil2.getEPackage("platform:/plugin/org.eclipse.graphiti.mm/model/graphiti.ecore");
+			    PluginRegistry.getInstance().getRegisteredEcoreModels().put("graphicalGraphModel", graphicalGraphModel);
+			    PluginRegistry.getInstance().getGenModelMap().put(graphicalGraphModel, "platform:/plugin/de.jabc.cinco.meta.core.ge.style.model/model/GraphicalGraphModel.genmodel");
+			    PluginRegistry.getInstance().getRegisteredEcoreModels().put("graphitiModel", graphitiModel);
+			    PluginRegistry.getInstance().getGenModelMap().put(graphitiModel, "platform:/plugin/org.eclipse.graphiti.mm/model/graphiti.genmodel");
+			    URI uri = URI.createFileURI(API_MODEL_PREFIX + gModel.getName()+ ".ecore");
+			    XMIResource graphicalGraphModelRes = (XMIResource) new XMIResourceFactoryImpl().createResource(uri);
+			    
+			    LightweightExecutionContext context = new DefaultLightweightExecutionContext(null);
 				context.put("graphModel", gModel);
 				context.put("styles", styles);
 				context.put("mglProjectName", mglProjectName);
@@ -138,10 +157,23 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 				context.put("fullPath", path);
 				context.put("outletPath", outletPath);
 				context.put("customFeatureOutletPath", customFeatureOutletPath);
+				
+				context.put("graphicalGraphModel", graphicalGraphModel);
+				context.put("genmodelMap", PluginRegistry.getInstance().getGenModelMap());
+				context.put("registeredGeneratorPlugins", PluginRegistry.getInstance().getPluginGenerators());
+				context.put("registeredPackageMap", PluginRegistry.getInstance().getRegisteredEcoreModels());
+				context.put("resource", graphicalGraphModelRes);
+				
 				LightweightExecutionEnvironment env = new DefaultLightweightExecutionEnvironment(context);
+				context.put("ExecutionEnvironment", env);
 				
 				Main tmp = new Main();
 				String result = tmp.execute(env);
+				
+				if (result.equals("default")) {
+					//TODO: Generate the Generator model...
+				}
+				
 				if (result.equals("error")) {
 					Exception e = (Exception) context.get("exception");
 					throw new ExecutionException(e.getMessage());
