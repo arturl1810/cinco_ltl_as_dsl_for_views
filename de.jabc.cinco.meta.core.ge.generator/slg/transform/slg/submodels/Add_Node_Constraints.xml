@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<model version="2.1">
+  <id>53b15962-0c61-4381-a53e-f0ecbf4682ef</id>
+  <name>Add Node Constraints</name>
+  <changecounter>18</changecounter>
+  <sib>
+    <id>32b93fd0-e2f6-4b93-8fd7-94372f6cb0be</id>
+    <name>Noop</name>
+    <label>Noop</label>
+    <sib-uid>basic-sibs/Noop</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.Noop</taxonomy>
+    <position>68.0,183.0</position>
+    <finalbranches>default</finalbranches>
+    <userobject key="ABC$START">
+      <boolean>true</boolean>
+    </userobject>
+  </sib>
+  <values/>
+  <branch>
+    <name>default</name>
+    <branch>default</branch>
+    <sib>32b93fd0-e2f6-4b93-8fd7-94372f6cb0be</sib>
+  </branch>
+</model>

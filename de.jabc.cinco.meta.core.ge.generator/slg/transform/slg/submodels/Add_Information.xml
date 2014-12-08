@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<model version="2.1">
+  <id>f9e0609d-a0b8-4768-a2dd-e8ba14984cc9</id>
+  <name>Add Information</name>
+  <changecounter>4</changecounter>
+  <sib>
+    <id>c3720009-ce20-4038-a9f2-d8088a2785f9</id>
+    <name>Noop</name>
+    <label>Noop</label>
+    <sib-uid>basic-sibs/Noop</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.Noop</taxonomy>
+    <position>368.0,213.0</position>
+    <finalbranches>default</finalbranches>
+    <userobject key="ABC$START">
+      <boolean>true</boolean>
+    </userobject>
+  </sib>
+  <values/>
+  <branch>
+    <name>default</name>
+    <branch>default</branch>
+    <sib>c3720009-ce20-4038-a9f2-d8088a2785f9</sib>
+  </branch>
+</model>

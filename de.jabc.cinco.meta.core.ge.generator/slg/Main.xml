@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>657a94c6-b527-408b-959c-90e7c1d765f1</id>
   <name>Main</name>
-  <changecounter>1878</changecounter>
+  <changecounter>1892</changecounter>
   <sib>
     <id>b1c14399-f7be-4bc0-8225-1aa6db2d05aa</id>
     <name>MacroSIB</name>
@@ -877,9 +877,10 @@
   </sib>
   <edge>
     <source>5b78039b-f10f-4938-b695-5306f6d3f1e3</source>
-    <target>42081068-da16-47b9-a333-a51171461174</target>
-    <point>255.0,1005.0</point>
-    <point>500.0,995.0</point>
+    <target>cd852bb6-45f2-41ec-a6e2-90cd047892fc</target>
+    <point>275.0,996.5</point>
+    <point>595.0,996.5</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
@@ -905,6 +906,36 @@
     <target>3c9d4404-49da-4b19-b30e-bc8fcb2a7914</target>
     <point>255.0,1005.0</point>
     <point>641.0,1113.0</point>
+    <branch>error</branch>
+  </edge>
+  <sib>
+    <id>cd852bb6-45f2-41ec-a6e2-90cd047892fc</id>
+    <name>GraphSIB_24</name>
+    <label>GenerateConvenientAPI</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>439.5,976.0</position>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>ca5a39ee-2606-4461-8c2d-1e6ebdbd9d0e</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>MGL2GraphicalGraphModel</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>cd852bb6-45f2-41ec-a6e2-90cd047892fc</source>
+    <target>42081068-da16-47b9-a333-a51171461174</target>
+    <point>510.0,1005.0</point>
+    <point>936.0,995.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>cd852bb6-45f2-41ec-a6e2-90cd047892fc</source>
+    <target>3c9d4404-49da-4b19-b30e-bc8fcb2a7914</target>
+    <point>510.0,1005.0</point>
+    <point>661.0,1126.0</point>
     <branch>error</branch>
   </edge>
   <values/>

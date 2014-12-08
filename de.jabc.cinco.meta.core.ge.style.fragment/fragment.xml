@@ -62,10 +62,6 @@
       <node-annotation
             recognized-annotation="icon">
       </node-annotation>
-      <used_ecore_model
-            Used_Ecore-Model="model/GraphicalGraphModel.ecore"
-            Used_GenModel="model/GraphicalGraphModel.genmodel">
-      </used_ecore_model>
    </extension>
 
 </fragment>
