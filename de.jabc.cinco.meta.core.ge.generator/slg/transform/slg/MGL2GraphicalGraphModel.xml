@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>ca5a39ee-2606-4461-8c2d-1e6ebdbd9d0e</id>
   <name>MGL2GraphicalGraphModel</name>
-  <changecounter>88</changecounter>
+  <changecounter>100</changecounter>
   <sib>
     <id>e763e08f-ee7b-48f6-8187-dac38f44f435</id>
     <name>MacroSIB</name>
@@ -360,9 +360,9 @@
   </sib>
   <edge>
     <source>1492f046-e702-4e6c-b095-6671cb654f98</source>
-    <target>80f735d2-83d2-4185-92cb-edd8c1671316</target>
-    <point>2115.0,75.0</point>
-    <point>2310.0,75.0</point>
+    <target>7f459840-de66-4182-9b27-a06e8f1e3682</target>
+    <point>2131.9811320754716,86.0</point>
+    <point>2230.851063829787,196.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -412,6 +412,15 @@
           <key>abstractNodeClass</key>
           <scope>GLOBAL</scope>
           <scopeMutable>false</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="parameterMap">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key></key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
@@ -487,6 +496,15 @@ return list;</string>
         </ContextKeyFoundation>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
+    <parameter name="parameterMap">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key></key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
     <parameter name="template">
       <string>EList&lt;Edge&gt; list =new org.eclipse.emf.common.util.BasicEList&lt;Edge&gt;();
 $allEdges: 
@@ -559,6 +577,15 @@ return list;</string>
         </ContextKeyFoundation>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
+    <parameter name="parameterMap">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key></key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
     <parameter name="template">
       <string>EList&lt;NodeContainer&gt; list =new org.eclipse.emf.common.util.BasicEList&lt;NodeContainer&gt;();
 $allNodeContainers: 
@@ -628,6 +655,36 @@ return list;</string>
     <target>3966d27a-78d5-4870-aba6-8c1ee8089b98</target>
     <point>1755.0,330.0</point>
     <point>2123.0,207.0</point>
+    <branch>error</branch>
+  </edge>
+  <sib>
+    <id>7f459840-de66-4182-9b27-a06e8f1e3682</id>
+    <name>GraphSIB_2</name>
+    <label>GenerateApiEOperations</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>2221.0,196.0</position>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>ec0a5ab9-778e-4f7b-a992-cd928603a684</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>GenerateApiEOperations</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>7f459840-de66-4182-9b27-a06e8f1e3682</source>
+    <target>80f735d2-83d2-4185-92cb-edd8c1671316</target>
+    <point>2250.0,225.0</point>
+    <point>2284.0,70.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>7f459840-de66-4182-9b27-a06e8f1e3682</source>
+    <target>3966d27a-78d5-4870-aba6-8c1ee8089b98</target>
+    <point>2295.0,225.0</point>
+    <point>2126.0,213.0</point>
     <branch>error</branch>
   </edge>
   <userobject key="ABC$ANNOTATION">

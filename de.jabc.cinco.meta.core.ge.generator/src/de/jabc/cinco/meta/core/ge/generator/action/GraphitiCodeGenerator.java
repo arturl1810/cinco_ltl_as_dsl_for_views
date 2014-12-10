@@ -45,12 +45,18 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EcoreFactory;
+import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.ecore.impl.EcorePackageImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.XMIResource;
+import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 import org.eclipse.pde.core.project.IBundleProjectDescription;
@@ -78,6 +84,7 @@ import com.google.inject.Provider;
 
 import de.jabc.cinco.meta.core.ge.generator.Main;
 import de.jabc.cinco.meta.core.mgl.generator.GenModelCreator;
+import de.jabc.cinco.meta.core.mgl.services.MGLGrammarAccess.EIntElements;
 import de.jabc.cinco.meta.core.pluginregistry.PluginRegistry;
 import de.jabc.cinco.meta.core.ui.listener.MGLSelectionListener;
 import de.jabc.cinco.meta.core.utils.URIHandler;
@@ -167,6 +174,8 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 			    URI uri = URI.createFileURI(API_MODEL_PREFIX + gModel.getName()+ ".ecore");
 			    XMIResource graphicalGraphModelRes = (XMIResource) new XMIResourceFactoryImpl().createResource(uri);
 			    
+			    EDataType integerType = EcorePackage.eINSTANCE.getEInt();
+			    
 			    LightweightExecutionContext context = new DefaultLightweightExecutionContext(null);
 				context.put("graphModel", gModel);
 				context.put("styles", styles);
@@ -182,11 +191,16 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 				context.put("registeredPackageMap", PluginRegistry.getInstance().getRegisteredEcoreModels());
 				context.put("resource", graphicalGraphModelRes);
 				
+				context.put("integerType", integerType);
+				
 				LightweightExecutionEnvironment env = new DefaultLightweightExecutionEnvironment(context);
 				context.put("ExecutionEnvironment", env);
+
 				
 				Main tmp = new Main();
 				String result = tmp.execute(env);
+				
+				
 				
 				if (result.equals("default")) {
 					EPackage ePackage = (EPackage) context.get("ePackage");
