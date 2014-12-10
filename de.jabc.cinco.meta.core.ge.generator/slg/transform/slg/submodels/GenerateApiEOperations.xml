@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>ec0a5ab9-778e-4f7b-a992-cd928603a684</id>
   <name>GenerateApiEOperations</name>
-  <changecounter>95</changecounter>
+  <changecounter>118</changecounter>
   <sib>
     <id>c8aaacca-d8c8-47fc-a424-2ecf4c27bc0e</id>
     <name>IterateGraphModelNodes</name>
@@ -279,9 +279,28 @@
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>// This code is for testing the annotation generation...
-
-return null;</string>
+      <string>G$nodeName$ retval = G$flGraphModelName$Factory.eINSTANCE.createG$nodeName$();
+   
+Diagram d = (Diagram) this.getContainerShape();
+$graphModelName$FeatureProvider provider = ($graphModelName$FeatureProvider) GraphitiUi.getExtensionManager().createFeatureProvider(d);
+    
+Create$nodeName$Feature cf = new Create$nodeName$Feature(provider);
+CreateContext cc = new CreateContext();
+cc.setTargetContainer(d);
+	if (cf.canCreate(cc)) {
+		Object[] newObject = cf.create(cc);
+		if (newObject.length == 1 &amp;&amp; newObject[0] instanceof $nodeName$)
+			retval.setNode((Node) newObject[0]);
+	}
+AddContext ac = new AddContext();
+ac.setX(xPos);
+ac.setY(yPos);
+ac.setNewObject(retval.getNode());
+    
+PictogramElement pe = provider.addIfPossible(ac);
+retval.setShape((ContainerShape) pe);
+    
+return retval; </string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
