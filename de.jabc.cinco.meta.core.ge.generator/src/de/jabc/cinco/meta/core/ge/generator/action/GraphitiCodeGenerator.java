@@ -8,18 +8,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
+import java.util.jar.Manifest;
 
 import mgl.Annotation;
 import mgl.Edge;
 import mgl.GraphModel;
-import mgl.Import;
 import mgl.Node;
 import mgl.NodeContainer;
 
@@ -42,27 +39,31 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
+import org.eclipse.emf.codegen.ecore.templates.model.ManifestMF;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
-import org.eclipse.emf.ecore.impl.EcorePackageImpl;
-import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.XMIResource;
-import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
+import org.eclipse.graphiti.features.context.impl.AddContext;
+import org.eclipse.graphiti.features.context.impl.CreateContext;
+import org.eclipse.graphiti.mm.pictograms.Diagram;
+import org.eclipse.graphiti.mm.pictograms.PictogramElement;
+import org.eclipse.graphiti.ui.services.GraphitiUi;
+import org.eclipse.jdt.core.IJavaElement;
+import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.IPackageFragment;
+import org.eclipse.jdt.core.IPackageFragmentRoot;
+import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.pde.core.project.IBundleProjectDescription;
 import org.eclipse.pde.core.project.IBundleProjectService;
 import org.eclipse.xtend.typesystem.emf.EcoreUtil2;
-import org.eclipse.xtext.builder.EclipseResourceFileSystemAccess2;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
@@ -77,14 +78,8 @@ import style.Image;
 import style.NodeStyle;
 import style.Style;
 import style.Styles;
-
-import com.google.common.collect.Multiset.Entry;
-import com.google.inject.Inject;
-import com.google.inject.Provider;
-
 import de.jabc.cinco.meta.core.ge.generator.Main;
 import de.jabc.cinco.meta.core.mgl.generator.GenModelCreator;
-import de.jabc.cinco.meta.core.mgl.services.MGLGrammarAccess.EIntElements;
 import de.jabc.cinco.meta.core.pluginregistry.PluginRegistry;
 import de.jabc.cinco.meta.core.ui.listener.MGLSelectionListener;
 import de.jabc.cinco.meta.core.utils.URIHandler;
@@ -100,11 +95,12 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 	private final String ID_STYLE = "style";
 	private final String API_MODEL_PREFIX = "G";
 	
+	private String GMODEL_NAME_LOWER = "";
+	
+	
 	private GraphModel gModel;
 	private IProject sourceProject;
 	
-	@Inject
-    private Provider<EclipseResourceFileSystemAccess2> fileAccessProvider;
 	
 	public GraphitiCodeGenerator() {
 		// TODO Auto-generated constructor stub
@@ -138,8 +134,11 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 					return null;
 				}
 				
+				GMODEL_NAME_LOWER = gModel.getName().toLowerCase();
+				
 				String mglProjectName = file.getProject().getName();
 				String projectName = gModel.getPackage().concat(".graphiti");
+				String apiProjectName = projectName.concat(".api");
 				String path = ResourcesPlugin.getWorkspace().getRoot().getLocation().append(projectName).toOSString();
 				
 				List<String> srcFolders = getSrcFolders();
@@ -147,7 +146,11 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 			    Set<String> reqBundles = getReqBundles();
 			    String bundleName = ProjectCreator.getProjectSymbolicName(file.getProject());
 			    reqBundles.add(bundleName);
+			    
 			    IProject p = ProjectCreator.createProject(projectName, srcFolders, null, reqBundles, null, null, monitor, cleanDirs, false);
+			    reqBundles.add(p.getName());
+			    IProject apiProject = ProjectCreator.createProject(apiProjectName, srcFolders, null, reqBundles, null, null, monitor, cleanDirs, false);
+			    
 			    createIconsFolder(p, monitor);
 			    copyImage(styles, p, monitor);
 			    copyImage(gModel, p, monitor);
@@ -155,6 +158,7 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 			    
 			    try {
 					p.refreshLocal(IResource.DEPTH_INFINITE, monitor);
+					apiProject.refreshLocal(IResource.DEPTH_INFINITE, monitor);
 				} catch (CoreException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -193,6 +197,8 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 				
 				context.put("integerType", integerType);
 				
+				fqnToContext(context);
+				
 				LightweightExecutionEnvironment env = new DefaultLightweightExecutionEnvironment(context);
 				context.put("ExecutionEnvironment", env);
 
@@ -200,7 +206,7 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 				Main tmp = new Main();
 				String result = tmp.execute(env);
 				
-				
+				exportPackages(p, gModel, monitor);
 				
 				if (result.equals("default")) {
 					EPackage ePackage = (EPackage) context.get("ePackage");
@@ -217,12 +223,12 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 					
 					String output = bops.toString(graphicalGraphModelRes.getEncoding());
 					String fqn = gModel.getName();
-					IFolder folder = p.getFolder("/src-gen/model");
+					IFolder folder = apiProject.getFolder("/src-gen/model");
 					folder.create(true, true, monitor);
 					String ecorePath = "/src-gen/model/"+API_MODEL_PREFIX + fqn.substring(0, 1).toUpperCase() + fqn.substring(1) + ".ecore";
-					IFile iEcoreFile = p.getFile(ecorePath);
+					IFile iEcoreFile = apiProject.getFile(ecorePath);
 					iEcoreFile.create(new ByteArrayInputStream(output.getBytes()), true, monitor);
-					IPath projectPath = new Path(projectName);
+					IPath projectPath = new Path(apiProjectName);
 					
 					/**
 					 * Get project ID
@@ -231,16 +237,15 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 					BundleContext bc = InternalPlatform.getDefault().getBundleContext();
 					ServiceReference<?> ref = bc.getServiceReference(IBundleProjectService.class);
 					IBundleProjectService service = (IBundleProjectService) bc.getService(ref);  
-					IBundleProjectDescription bpd =service.getDescription(p);
+					IBundleProjectDescription bpd =service.getDescription(apiProject);
 					String projectID = bpd.getSymbolicName();
 					bc.ungetService(ref);
 					
-					GenModel genModel = GenModelCreator.createGenModel(new Path(ecorePath),ePackage,projectName, projectID, projectPath);
+					GenModel genModel = GenModelCreator.createGenModel(new Path(ecorePath),ePackage,apiProjectName, projectID, projectPath);
 					if(gModel.getPackage() !=null && gModel.getPackage().length()>0){
 						for(GenPackage genPackage : genModel.getGenPackages()){
 							genPackage.setBasePackage(gModel.getPackage() +".api");
 						}
-					
 					}
 					
 					Set<EPackage> usedEcoreModels = (Set<EPackage>) context.get("usedEcoreModels");
@@ -270,11 +275,10 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 					xmiResource.save(bops,null);
 					output = bops.toString(xmiResource.getEncoding());
 					String genModelPath = "/src-gen/model/"+ API_MODEL_PREFIX + fqn.substring(0, 1).toUpperCase() + fqn.substring(1) +".genmodel";
-					IFile genModelFile = p.getFile(genModelPath);
+					IFile genModelFile = apiProject.getFile(genModelPath);
 					genModelFile.create(new ByteArrayInputStream(output.getBytes()), true, monitor);
 				
-					System.err.println(genModel);
-					
+					apiProject.refreshLocal(IResource.DEPTH_INFINITE, monitor);
 				}
 				
 				if (result.equals("error")) {
@@ -293,6 +297,21 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 		return null;
 	}
 	
+	private void fqnToContext(LightweightExecutionContext context) {
+		context.put("fqnDiagram", Diagram.class.getName());
+		context.put("fqnPictogramElement", PictogramElement.class.getName());
+		context.put("fqnAddContext", AddContext.class.getName());
+		context.put("fqnCreateContext", CreateContext.class.getName());
+		context.put("fqnContainerShape", org.eclipse.graphiti.mm.pictograms.ContainerShape.class.getName());
+		context.put("fqnGraphitiUi", GraphitiUi.class.getName());
+		context.put("fqnFeatureProvider", gModel.getPackage() + ".graphiti." + gModel.getName() + "FeatureProvider");
+		context.put("fqnAPIFactory", gModel.getPackage() +".api.g" + GMODEL_NAME_LOWER + ".G" + GMODEL_NAME_LOWER + "Factory");
+		context.put("fqnNode", graphmodel.Node.class.getName());
+		
+		context.put("fqnCreateNodeFeaturePrefix", gModel.getPackage().concat(".graphiti.features.create.nodes."));
+		context.put("fqnGenNodePrefix", gModel.getPackage() + "." + GMODEL_NAME_LOWER +".");
+	}
+
 	/**
 	 * This method copies all images that are defined in the {@link styles}
 	 * @param styles The processed Styles object
@@ -434,38 +453,6 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 		}
 	}
 	
-
-	
-	private Collection<? extends GenPackage> getUsedGenPackages() {
-		if (gModel == null)
-			return Collections.emptyList();
-		List<GenPackage> genPackages = new ArrayList<>();
-		for (Import _import : gModel.getImports()) {
-			String impString = _import.getImportURI();
-			EPackage ePackage = EcoreUtil2.getEPackage(impString);
-			Map<String, URI> map = EcorePlugin.getEPackageNsURIToGenModelLocationMap(true);
-			URI genModelUri = map.get(ePackage.getNsURI());
-			
-			if (genModelUri.isRelative())
-				genModelUri = URI.createPlatformResourceURI(genModelUri.toPlatformString(true), true);
-			
-			Resource res = new ResourceSetImpl().getResource(genModelUri, true);
-			TreeIterator<EObject> it = res.getAllContents();
-			while (it.hasNext()) {
-				EObject object = it.next();
-				if (object instanceof GenPackage) {
-					if (((GenPackage) object).getNSURI().equals(ePackage.getNsURI())) {
-						genPackages.add((GenPackage) object);
-					} else if (object instanceof GenModel) {
-						it.prune();
-					}
-					System.out.println(genModelUri);
-				}
-			}
-		
-		}
-		return genPackages;
-	}
 	private Set<String> getReqBundles() {
 		HashSet<String> reqBundles = new HashSet<String>();
 		List<Bundle> bundles = new ArrayList<Bundle>();
@@ -535,6 +522,38 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			
+			e.printStackTrace();
+		}
+	}
+	
+	
+	private void exportPackages(IProject p, GraphModel gm, NullProgressMonitor monitor ) {
+		IFile iManiFile= p.getFolder("META-INF").getFile("MANIFEST.MF");
+		try {
+			Manifest manifest = new Manifest(iManiFile.getContents());
+			String prefix = gm.getPackage();
+			
+			String[] exports = new String[] {
+					".features.create.nodes",
+					".features.create.edges",
+					".features.create.containers"};
+			
+			String val = manifest.getMainAttributes().getValue("Export-Package");
+			String newVal;
+			if (val == null){
+				val = new String();
+				newVal = val.concat(prefix+".graphiti");
+			} else {
+				newVal = val.concat(","+prefix+".graphiti");
+			}
+			for (String s : exports) {
+				newVal += ","+prefix+".graphiti" + s;
+			}
+			manifest.getMainAttributes().putValue("Export-Package", newVal);
+			
+			manifest.write(new FileOutputStream(iManiFile.getLocation().toFile()));
+			p.refreshLocal(IResource.DEPTH_INFINITE, monitor);
+		} catch (IOException | CoreException e) {
 			e.printStackTrace();
 		}
 	}

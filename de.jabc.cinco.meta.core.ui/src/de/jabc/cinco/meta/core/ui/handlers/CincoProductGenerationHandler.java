@@ -63,9 +63,9 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 				System.out.println("Generating Graphiti Editor...");
 				Command graphitiEditorGeneratorCommand = commandService.getCommand("de.jabc.cinco.meta.core.ge.generator.generateeditorcommand");
 				graphitiEditorGeneratorCommand.executeWithChecks(event);
-				IProject graphitiProject = ResourcesPlugin.getWorkspace().getRoot().getProject(mglModelFile.getProject().getName().concat(".graphiti"));
-				if (graphitiProject.exists())
-					GeneratorHelper.generateGenModelCode(graphitiProject, "G"+mglModelFile.getName().split("\\.")[0]);
+				IProject apiProject = ResourcesPlugin.getWorkspace().getRoot().getProject(mglModelFile.getProject().getName().concat(".graphiti.api"));
+				if (apiProject.exists())
+					GeneratorHelper.generateGenModelCode(apiProject, "G"+mglModelFile.getName().split("\\.")[0]);
 				
 				System.out.println("Generating Feature Project");
 				Command featureGenerationCommand = commandService.getCommand("de.jabc.cinco.meta.core.generatefeature");
