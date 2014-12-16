@@ -39,7 +39,6 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
-import org.eclipse.emf.codegen.ecore.templates.model.ManifestMF;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EDataType;
@@ -56,13 +55,13 @@ import org.eclipse.graphiti.features.context.impl.CreateContext;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.ui.services.GraphitiUi;
-import org.eclipse.jdt.core.IJavaElement;
-import org.eclipse.jdt.core.IJavaProject;
-import org.eclipse.jdt.core.IPackageFragment;
-import org.eclipse.jdt.core.IPackageFragmentRoot;
-import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.pde.core.plugin.IExtensions;
+import org.eclipse.pde.core.plugin.IPluginBase;
+import org.eclipse.pde.core.plugin.IPluginExtensionPoint;
+import org.eclipse.pde.core.plugin.IPluginModelBase;
 import org.eclipse.pde.core.project.IBundleProjectDescription;
 import org.eclipse.pde.core.project.IBundleProjectService;
+import org.eclipse.pde.internal.core.plugin.PluginExtension;
 import org.eclipse.xtend.typesystem.emf.EcoreUtil2;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
@@ -137,9 +136,12 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 				GMODEL_NAME_LOWER = gModel.getName().toLowerCase();
 				
 				String mglProjectName = file.getProject().getName();
-				String projectName = gModel.getPackage().concat(".graphiti");
-				String apiProjectName = projectName.concat(".api");
+//				String projectName = gModel.getPackage().concat(".graphiti");
+				String projectName = gModel.getPackage();
+//				String apiProjectName = projectName.concat(".api");
+				String apiProjectName = mglProjectName;
 				String path = ResourcesPlugin.getWorkspace().getRoot().getLocation().append(projectName).toOSString();
+				
 				
 				List<String> srcFolders = getSrcFolders();
 				List<String> cleanDirs = getCleanDirectory();
@@ -149,7 +151,8 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 			    
 			    IProject p = ProjectCreator.createProject(projectName, srcFolders, null, reqBundles, null, null, monitor, cleanDirs, false);
 			    reqBundles.add(p.getName());
-			    IProject apiProject = ProjectCreator.createProject(apiProjectName, srcFolders, null, reqBundles, null, null, monitor, cleanDirs, false);
+//			    IProject apiProject = ProjectCreator.createProject(apiProjectName, srcFolders, null, reqBundles, null, null, monitor, cleanDirs, false);
+			    IProject apiProject = sourceProject; 
 			    
 			    createIconsFolder(p, monitor);
 			    copyImage(styles, p, monitor);
@@ -208,6 +211,16 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 				
 				exportPackages(p, gModel, monitor);
 				
+//				IPluginModelBase model = org.eclipse.pde.core.plugin.PluginRegistry.findModel(mglProjectName);
+//				IExtensions ext = model.getExtensions();
+//				IPluginBase base = model.getPluginBase();
+//				PluginExtension pluginExtension = new PluginExtension();
+//				pluginExtension.setPoint("this.is.some.point");
+//				base.add(pluginExtension);
+//				for (IPluginExtensionPoint exp : ext.getExtensionPoints()) {
+//					System.out.println(exp);
+//				}
+				
 				if (result.equals("default")) {
 					EPackage ePackage = (EPackage) context.get("ePackage");
 					String nsUri = ePackage.getNsURI();
@@ -224,10 +237,13 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 					String output = bops.toString(graphicalGraphModelRes.getEncoding());
 					String fqn = gModel.getName();
 					IFolder folder = apiProject.getFolder("/src-gen/model");
-					folder.create(true, true, monitor);
+					if (!folder.exists())
+						folder.create(true, true, monitor);
 					String ecorePath = "/src-gen/model/"+API_MODEL_PREFIX + fqn.substring(0, 1).toUpperCase() + fqn.substring(1) + ".ecore";
 					IFile iEcoreFile = apiProject.getFile(ecorePath);
-					iEcoreFile.create(new ByteArrayInputStream(output.getBytes()), true, monitor);
+					if (!iEcoreFile.exists())
+						iEcoreFile.create(new ByteArrayInputStream(output.getBytes()), true, monitor);
+					else iEcoreFile.setContents(new ByteArrayInputStream(output.getBytes()), true, true, monitor);
 					IPath projectPath = new Path(apiProjectName);
 					
 					/**
@@ -276,8 +292,9 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 					output = bops.toString(xmiResource.getEncoding());
 					String genModelPath = "/src-gen/model/"+ API_MODEL_PREFIX + fqn.substring(0, 1).toUpperCase() + fqn.substring(1) +".genmodel";
 					IFile genModelFile = apiProject.getFile(genModelPath);
-					genModelFile.create(new ByteArrayInputStream(output.getBytes()), true, monitor);
-				
+					if (!genModelFile.exists())
+						genModelFile.create(new ByteArrayInputStream(output.getBytes()), true, monitor);
+					else genModelFile.setContents(new ByteArrayInputStream(output.getBytes()), true, true, monitor);
 					apiProject.refreshLocal(IResource.DEPTH_INFINITE, monitor);
 				}
 				
@@ -458,30 +475,29 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 		List<Bundle> bundles = new ArrayList<Bundle>();
 
 		bundles.add(Platform.getBundle("org.eclipse.emf.transaction"));
-		bundles.add(Platform.getBundle("org.eclipse.graphiti"));
+//		bundles.add(Platform.getBundle("org.eclipse.graphiti"));
 		bundles.add(Platform.getBundle("org.eclipse.graphiti.ui"));
-		bundles.add(Platform.getBundle("org.eclipse.core.runtime"));
+		bundles.add(Platform.getBundle("org.eclipse.core.resources"));
+//		bundles.add(Platform.getBundle("org.eclipse.core.runtime"));
 		bundles.add(Platform.getBundle("org.eclipse.ui"));
 		bundles.add(Platform.getBundle("org.eclipse.ui.ide"));
-		bundles.add(Platform.getBundle("org.eclipse.ui.navigator"));
-		bundles.add(Platform
-				.getBundle("org.eclipse.ui.views.properties.tabbed"));
+//		bundles.add(Platform.getBundle("org.eclipse.ui.navigator"));
+		bundles.add(Platform.getBundle("org.eclipse.ui.views.properties.tabbed"));
 		bundles.add(Platform.getBundle("org.eclipse.gef"));
-		bundles.add(Platform.getBundle("org.eclipse.emf.transaction"));
-		bundles.add(Platform.getBundle("de.jabc.cinco.meta.core.mgl.model"));
-		bundles.add(Platform.getBundle("de.jabc.cinco.meta.core.ge.style.model"));
+//		bundles.add(Platform.getBundle("de.jabc.cinco.meta.core.mgl.model"));
+//		bundles.add(Platform.getBundle("de.jabc.cinco.meta.core.ge.style.model"));
 		bundles.add(Platform.getBundle("de.jabc.cinco.meta.core.referenceregistry"));
-		
+//		
 		bundles.add(Platform.getBundle("javax.el"));
 		bundles.add(Platform.getBundle("com.sun.el"));
 
 		for (Bundle b : bundles) {
 			StringBuilder s = new StringBuilder();
 			s.append(b.getSymbolicName());
-			s.append(";bundle-version=");
-			s.append("\"" + b.getVersion().getMajor() + "."
-					+ b.getVersion().getMinor() + "."
-					+ b.getVersion().getMicro() + "\"");
+//			s.append(";bundle-version=");
+//			s.append("\"" + b.getVersion().getMajor() + "."
+//					+ b.getVersion().getMinor() + "."
+//					+ b.getVersion().getMicro() + "\"");
 			reqBundles.add(s.toString());
 		}
 		return reqBundles;
@@ -496,8 +512,8 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 
 	private List<String> getCleanDirectory() {
 		ArrayList<String> cleanDirs = new ArrayList<String>();
-		cleanDirs.add("src-gen");
-		cleanDirs.add("icons");
+//		cleanDirs.add("src-gen");
+//		cleanDirs.add("icons");
 		return cleanDirs;
 	}
 
@@ -520,8 +536,6 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 			
 			
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			
 			e.printStackTrace();
 		}
 	}
@@ -533,10 +547,15 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 			Manifest manifest = new Manifest(iManiFile.getContents());
 			String prefix = gm.getPackage();
 			
-			String[] exports = new String[] {
+			String[] exports;
+			if (gm.getNodeContainers().size() != 0)
+				exports = new String[] {
 					".features.create.nodes",
 					".features.create.edges",
 					".features.create.containers"};
+			else exports = new String[] {
+					".features.create.nodes",
+					".features.create.edges"};
 			
 			String val = manifest.getMainAttributes().getValue("Export-Package");
 			String newVal;
