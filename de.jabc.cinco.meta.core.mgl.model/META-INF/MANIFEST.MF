@@ -7,11 +7,7 @@ Bundle-ClassPath: .
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
-Export-Package: de.jabc.cinco.meta.core.mgl.model,
- graphicalgraphmodel,
- graphicalgraphmodel.impl,
- graphicalgraphmodel.util,
- graphmodel,
+Export-Package: graphmodel,
  graphmodel.impl,
  graphmodel.util,
  mgl,
