@@ -62,6 +62,7 @@ import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 import org.eclipse.graphiti.features.context.impl.AddContext;
+import org.eclipse.graphiti.features.context.impl.CreateConnectionContext;
 import org.eclipse.graphiti.features.context.impl.CreateContext;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
@@ -334,6 +335,7 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 		context.put("fqnPictogramElement", PictogramElement.class.getName());
 		context.put("fqnAddContext", AddContext.class.getName());
 		context.put("fqnCreateContext", CreateContext.class.getName());
+		context.put("fqnCreateConnectionContext", CreateConnectionContext.class.getName());
 		context.put("fqnContainerShape", org.eclipse.graphiti.mm.pictograms.ContainerShape.class.getName());
 		context.put("fqnGraphitiUi", GraphitiUi.class.getName());
 		context.put("fqnFeatureProvider", gModel.getPackage() + ".graphiti." + gModel.getName() + "FeatureProvider");
@@ -343,6 +345,8 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 		context.put("fqnContainer", graphmodel.Container.class.getName());
 		
 		context.put("fqnCreateNodeFeaturePrefix", gModel.getPackage().concat(".graphiti.features.create.nodes."));
+		context.put("fqnCreateEdgeFeaturePrefix", gModel.getPackage().concat(".graphiti.features.create.edges."));
+		context.put("fqnCreateContainerFeaturePrefix", gModel.getPackage().concat(".graphiti.features.create.containers."));
 		context.put("fqnGenNodePrefix", gModel.getPackage() + "." + GMODEL_NAME_LOWER +".");
 	}
 

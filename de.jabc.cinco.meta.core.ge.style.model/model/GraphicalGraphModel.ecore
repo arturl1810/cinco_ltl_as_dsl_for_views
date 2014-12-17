@@ -75,22 +75,22 @@
         </eGenericType>
       </eParameters>
     </eOperations>
-    <eOperations name="getPredeccessors" upperBound="-1" eType="#//GNode">
+    <eOperations name="getPredecessors" upperBound="-1" eType="#//GNode">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="body" value="EList&lt;GNode> list = new org.eclipse.emf.common.util.BasicEList&lt;GNode>();&#xA;&#x9;&#x9;for(GEdge e: this.getIncoming()){&#xA;&#x9;&#x9;&#x9;list.add(e.getSourceElement());&#xA;&#x9;&#x9;}&#xA;&#x9;&#x9;return org.eclipse.emf.common.util.ECollections.unmodifiableEList(list);"/>
       </eAnnotations>
     </eOperations>
-    <eOperations name="getPredeccessors" upperBound="-1">
+    <eOperations name="getPredecessors" upperBound="-1">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="body" value="EList&lt;T> list = new org.eclipse.emf.common.util.BasicEList&lt;T>();&#xA;&#x9;&#x9;if(clazz!=null){&#xA;&#x9;&#x9;&#x9;for(GEdge e: this.getIncoming()){&#xA;&#x9;&#x9;&#x9;&#x9;if(clazz.isInstance(e.getSourceElement())){&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;list.add(clazz.cast(e.getSourceElement()));&#xA;&#x9;&#x9;&#x9;&#x9;}&#xA;&#x9;&#x9;&#x9;}&#xA;&#x9;&#x9;}else{&#xA;&#x9;&#x9;&#x9;throw new NullPointerException(&quot;Class must not be null.&quot;);&#xA;&#x9;&#x9;}&#xA;&#x9;&#x9;&#xA;&#x9;&#x9;return org.eclipse.emf.common.util.ECollections.unmodifiableEList(list);"/>
       </eAnnotations>
-      <eGenericType eTypeParameter="#//GNode/getPredeccessors.1/T"/>
+      <eGenericType eTypeParameter="#//GNode/getPredecessors.1/T"/>
       <eTypeParameters name="T">
         <eBounds eClassifier="#//GNode"/>
       </eTypeParameters>
       <eParameters name="clazz">
         <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaClass">
-          <eTypeArguments eTypeParameter="#//GNode/getPredeccessors.1/T"/>
+          <eTypeArguments eTypeParameter="#//GNode/getPredecessors.1/T"/>
         </eGenericType>
       </eParameters>
     </eOperations>

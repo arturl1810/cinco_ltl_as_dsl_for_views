@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>e26f46a3-7467-4773-8abb-108a610034dd</id>
   <name>Create GetSuccessors Methods</name>
-  <changecounter>15</changecounter>
+  <changecounter>58</changecounter>
   <sib>
     <id>8eb577c8-a2ae-41ba-bed3-7629463ec4a3</id>
     <name>GetEdgeElementConnectionUpperBound</name>
@@ -412,7 +412,7 @@
     <parameter name="eClassifierName">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>${connectedElementName}</expression>
+          <expression>G${connectedElementName}</expression>
           <clazz>java.lang.String</clazz>
           <classMutable>true</classMutable>
         </ContextExpressionFoundation>
@@ -535,13 +535,6 @@
     <finalbranches>true</finalbranches>
   </sib>
   <edge>
-    <source>fdeb1555-5700-426a-9249-ef8f4b3da7b1</source>
-    <target>0cfd4a7d-b8a4-46a8-b486-cafeee16bb07</target>
-    <point>795.0,1185.0</point>
-    <point>795.0,1320.0</point>
-    <branch>default</branch>
-  </edge>
-  <edge>
     <source>0cfd4a7d-b8a4-46a8-b486-cafeee16bb07</source>
     <target>67e87b68-2423-4785-b252-83257559aae3</target>
     <point>795.0,1305.0</point>
@@ -569,7 +562,7 @@
     <parameter name="message">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>Could Not Find EClass for ${connectedElementName}</expression>
+          <expression>Could Not Find EClass for connected  Element: ${connectedElementName}</expression>
           <clazz>java.lang.Object</clazz>
           <classMutable>true</classMutable>
         </ContextExpressionFoundation>
@@ -595,7 +588,7 @@
     <parameter name="message">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>Could Not Find EClass for ${nodeName}</expression>
+          <expression>Could Not Find EClass for G${nodeName}</expression>
           <clazz>java.lang.Object</clazz>
           <classMutable>true</classMutable>
         </ContextExpressionFoundation>
@@ -757,6 +750,13 @@ return getSuccessors(G$connectedElementName$.class);</string>
     <finalbranches>next</finalbranches>
     <finalbranches>noElements</finalbranches>
   </sib>
+  <edge>
+    <source>fdeb1555-5700-426a-9249-ef8f4b3da7b1</source>
+    <target>0cfd4a7d-b8a4-46a8-b486-cafeee16bb07</target>
+    <point>780.0,1200.0</point>
+    <point>789.0,1306.0</point>
+    <branch>default</branch>
+  </edge>
   <parameter>
     <name>graphicalModelElementKey</name>
     <field>graphicalModelElementKey</field>

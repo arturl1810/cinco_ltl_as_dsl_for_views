@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>ca5a39ee-2606-4461-8c2d-1e6ebdbd9d0e</id>
   <name>MGL2GraphicalGraphModel</name>
-  <changecounter>128</changecounter>
+  <changecounter>193</changecounter>
   <sib>
     <id>e763e08f-ee7b-48f6-8187-dac38f44f435</id>
     <name>MacroSIB</name>
@@ -121,7 +121,7 @@
     <label>PrintException</label>
     <sib-uid>io-sibs/PrintException</sib-uid>
     <taxonomy>de.jabc.sib.common.io.PrintException</taxonomy>
-    <position>2064.5,198.0</position>
+    <position>519.5,258.0</position>
     <parameter name="exception">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -278,7 +278,7 @@
     <label>PrintConsoleMessage</label>
     <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
     <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
-    <position>2236.5,48.0</position>
+    <position>826.5,423.0</position>
     <parameter name="error">
       <boolean>false</boolean>
     </parameter>
@@ -296,9 +296,9 @@
   <edge>
     <source>6bbe603e-79c9-4547-bc18-f9bb41a277b7</source>
     <target>c8c9f94e-73b9-47f8-935e-8ca1543b4dc2</target>
-    <point>1515.0,104.0</point>
-    <point>1515.0,420.0</point>
-    <point>1862.0,420.0</point>
+    <point>1500.0,104.0</point>
+    <point>1500.0,210.0</point>
+    <point>838.0,286.0</point>
     <labelposition>21.947641382730335,14.43731542276192</labelposition>
     <branch>exit</branch>
   </edge>
@@ -348,7 +348,7 @@
     <label>Annotate Model</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>2067.5,46.0</position>
+    <position>522.5,421.0</position>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
     <userobject key="ABC$GRAPHSIB$MODELID">
@@ -361,17 +361,17 @@
   <edge>
     <source>1492f046-e702-4e6c-b095-6671cb654f98</source>
     <target>7f459840-de66-4182-9b27-a06e8f1e3682</target>
-    <point>2131.9811320754716,86.0</point>
-    <point>2230.851063829787,196.0</point>
+    <point>565.0,443.0</point>
+    <point>745.0,593.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
     <source>1492f046-e702-4e6c-b095-6671cb654f98</source>
     <target>3966d27a-78d5-4870-aba6-8c1ee8089b98</target>
-    <point>2115.0,104.0</point>
-    <point>2115.0,165.0</point>
-    <point>2115.0,183.0</point>
+    <point>555.0,421.0</point>
+    <point>555.0,360.0</point>
+    <point>555.0,312.0</point>
     <labelposition>233.0,35.0</labelposition>
     <branch>error</branch>
   </edge>
@@ -381,7 +381,7 @@
     <label>Create getAllNodes</label>
     <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
-    <position>1591.5,46.0</position>
+    <position>46.5,421.0</position>
     <parameter name="eClassKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -442,17 +442,17 @@ return list;</string>
   <edge>
     <source>82e2bac5-902c-4f3c-b416-e0ba58dddaf9</source>
     <target>7350074f-2d55-426c-94d2-e94a8935f463</target>
-    <point>1654.109589041096,86.0</point>
-    <point>1690.5223880597016,256.0</point>
+    <point>100.0,443.0</point>
+    <point>235.0,443.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
     <source>82e2bac5-902c-4f3c-b416-e0ba58dddaf9</source>
     <target>3966d27a-78d5-4870-aba6-8c1ee8089b98</target>
-    <point>1650.0,104.0</point>
-    <point>1650.0,195.0</point>
-    <point>1884.5,195.0</point>
+    <point>105.0,421.0</point>
+    <point>105.0,330.0</point>
+    <point>519.5,312.0</point>
     <labelposition>83.0,51.0</labelposition>
     <branch>error</branch>
   </edge>
@@ -462,7 +462,7 @@ return list;</string>
     <label>Create getAllEdges</label>
     <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
-    <position>1727.0,46.0</position>
+    <position>182.0,421.0</position>
     <parameter name="eClassKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -523,17 +523,17 @@ return list;</string>
   <edge>
     <source>7350074f-2d55-426c-94d2-e94a8935f463</source>
     <target>30784d83-e93e-4202-a52e-6f990e0531a4</target>
-    <point>1805.0,67.2</point>
-    <point>1915.0,67.2</point>
+    <point>235.0,443.0</point>
+    <point>385.0,443.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
     <source>7350074f-2d55-426c-94d2-e94a8935f463</source>
     <target>3966d27a-78d5-4870-aba6-8c1ee8089b98</target>
-    <point>1785.0,104.0</point>
-    <point>1785.0,195.0</point>
-    <point>2004.5,195.0</point>
+    <point>240.0,421.0</point>
+    <point>240.0,330.0</point>
+    <point>519.5,312.0</point>
     <labelposition>84.09307268259204,53.42027789990477</labelposition>
     <branch>error</branch>
   </edge>
@@ -543,7 +543,7 @@ return list;</string>
     <label>Create getAllNodeContainers</label>
     <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
-    <position>1849.0,46.0</position>
+    <position>304.0,421.0</position>
     <parameter name="eClassKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -604,17 +604,17 @@ return list;</string>
   <edge>
     <source>30784d83-e93e-4202-a52e-6f990e0531a4</source>
     <target>1492f046-e702-4e6c-b095-6671cb654f98</target>
-    <point>1955.0,67.0</point>
-    <point>2095.0,67.0</point>
+    <point>385.0,443.0</point>
+    <point>565.0,443.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
     <source>30784d83-e93e-4202-a52e-6f990e0531a4</source>
     <target>3966d27a-78d5-4870-aba6-8c1ee8089b98</target>
-    <point>1935.0,104.0</point>
-    <point>1935.0,195.0</point>
-    <point>2064.5,195.0</point>
+    <point>390.0,421.0</point>
+    <point>390.0,345.0</point>
+    <point>519.5,312.0</point>
     <labelposition>151.03038770520433,35.757188481721535</labelposition>
     <branch>error</branch>
   </edge>
@@ -624,7 +624,7 @@ return list;</string>
     <label>Generate Helper EOperations</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>1862.0,376.0</position>
+    <position>662.0,286.0</position>
     <parameter name="graphModelKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -646,15 +646,17 @@ return list;</string>
   <edge>
     <source>c8c9f94e-73b9-47f8-935e-8ca1543b4dc2</source>
     <target>1492f046-e702-4e6c-b095-6671cb654f98</target>
-    <point>1695.0,330.0</point>
-    <point>2092.0,73.0</point>
+    <point>400.0,773.0</point>
+    <point>565.0,443.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>exit</branch>
   </edge>
   <edge>
     <source>c8c9f94e-73b9-47f8-935e-8ca1543b4dc2</source>
-    <target>3966d27a-78d5-4870-aba6-8c1ee8089b98</target>
-    <point>1755.0,330.0</point>
-    <point>2123.0,207.0</point>
+    <target>3ac8e818-b0fe-4650-b347-4020f9488f3a</target>
+    <point>760.0,466.8571428571429</point>
+    <point>588.0,552.7714285714286</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>error</branch>
   </edge>
   <sib>
@@ -663,7 +665,7 @@ return list;</string>
     <label>GenerateApiEOperations</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>2221.0,196.0</position>
+    <position>646.0,421.0</position>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
     <userobject key="ABC$GRAPHSIB$MODELID">
@@ -676,17 +678,37 @@ return list;</string>
   <edge>
     <source>7f459840-de66-4182-9b27-a06e8f1e3682</source>
     <target>80f735d2-83d2-4185-92cb-edd8c1671316</target>
-    <point>2250.0,225.0</point>
-    <point>2284.0,70.0</point>
+    <point>745.0,593.0</point>
+    <point>760.0,443.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
     <source>7f459840-de66-4182-9b27-a06e8f1e3682</source>
     <target>3966d27a-78d5-4870-aba6-8c1ee8089b98</target>
-    <point>2295.0,225.0</point>
-    <point>2126.0,213.0</point>
+    <point>745.0,593.0</point>
+    <point>565.0,593.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>error</branch>
   </edge>
+  <sib>
+    <id>3ac8e818-b0fe-4650-b347-4020f9488f3a</id>
+    <name>PrintException_1</name>
+    <label>PrintException</label>
+    <sib-uid>io-sibs/PrintException</sib-uid>
+    <taxonomy>de.jabc.sib.common.io.PrintException</taxonomy>
+    <position>931.0,273.0</position>
+    <parameter name="exception">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>exception</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+  </sib>
   <userobject key="ABC$ANNOTATION">
     <Content Version="1.0" Grammar="ModelDocGrammar">
       <factory>

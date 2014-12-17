@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>f555a538-7d72-4511-9276-f914744a55db</id>
   <name>Create GetPredecessor Methods</name>
-  <changecounter>31</changecounter>
+  <changecounter>55</changecounter>
   <sib>
     <id>440acf67-c1d6-4264-8b6d-3967f9f9de7a</id>
     <name>GetEdgeElementConnectionUpperBound</name>
@@ -412,7 +412,7 @@
     <parameter name="eClassifierName">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>${connectedElementName}</expression>
+          <expression>G${connectedElementName}</expression>
           <clazz>java.lang.String</clazz>
           <classMutable>true</classMutable>
         </ContextExpressionFoundation>
@@ -534,13 +534,6 @@
     <finalbranches>false</finalbranches>
     <finalbranches>true</finalbranches>
   </sib>
-  <edge>
-    <source>cf9c0584-ece8-41d7-a53a-e838f7b854a2</source>
-    <target>1c493ec4-c80e-427a-8406-12ec4cd82bf3</target>
-    <point>690.0,1170.0</point>
-    <point>696.0,1297.0</point>
-    <branch>default</branch>
-  </edge>
   <edge>
     <source>1c493ec4-c80e-427a-8406-12ec4cd82bf3</source>
     <target>08385faa-b4f6-4971-9d94-08f7d4a18c69</target>
@@ -754,6 +747,14 @@ return getPredecessors(G$connectedElementName$.class);</string>
     <target>8c470b26-5764-4ffb-be92-52e2b740d501</target>
     <point>213.0,51.83076923076923</point>
     <point>372.0,51.830769230769235</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>cf9c0584-ece8-41d7-a53a-e838f7b854a2</source>
+    <target>1c493ec4-c80e-427a-8406-12ec4cd82bf3</target>
+    <point>690.0,1179.0</point>
+    <point>690.0,1248.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>

@@ -42,10 +42,10 @@
         <genParameters ecoreParameter="GraphicalGraphModel.ecore#//GNode/getSuccessors.1/clazz"/>
         <genTypeParameters ecoreTypeParameter="GraphicalGraphModel.ecore#//GNode/getSuccessors.1/T"/>
       </genOperations>
-      <genOperations ecoreOperation="GraphicalGraphModel.ecore#//GNode/getPredeccessors"/>
-      <genOperations ecoreOperation="GraphicalGraphModel.ecore#//GNode/getPredeccessors.1">
-        <genParameters ecoreParameter="GraphicalGraphModel.ecore#//GNode/getPredeccessors.1/clazz"/>
-        <genTypeParameters ecoreTypeParameter="GraphicalGraphModel.ecore#//GNode/getPredeccessors.1/T"/>
+      <genOperations ecoreOperation="GraphicalGraphModel.ecore#//GNode/getPredecessors"/>
+      <genOperations ecoreOperation="GraphicalGraphModel.ecore#//GNode/getPredecessors.1">
+        <genParameters ecoreParameter="GraphicalGraphModel.ecore#//GNode/getPredecessors.1/clazz"/>
+        <genTypeParameters ecoreTypeParameter="GraphicalGraphModel.ecore#//GNode/getPredecessors.1/T"/>
       </genOperations>
       <genOperations ecoreOperation="GraphicalGraphModel.ecore#//GNode/getIncoming">
         <genParameters ecoreParameter="GraphicalGraphModel.ecore#//GNode/getIncoming/clazz"/>

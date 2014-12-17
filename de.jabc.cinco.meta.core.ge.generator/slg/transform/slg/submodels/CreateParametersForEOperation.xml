@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>936efe23-2d5b-4fd2-8ad4-3c339ecbfe4a</id>
   <name>CreateParametersForEOperation</name>
-  <changecounter>77</changecounter>
+  <changecounter>83</changecounter>
   <sib>
     <id>4383aa87-a214-4b9f-ba1f-12c3c2c1e055</id>
     <name>NewEParameterInEOperationEParameters</name>
@@ -140,9 +140,6 @@
     <finalbranches>error</finalbranches>
     <finalbranches>exit</finalbranches>
     <finalbranches>next</finalbranches>
-    <userobject key="ABC$START">
-      <boolean>true</boolean>
-    </userobject>
   </sib>
   <edge>
     <source>6ce2674d-19da-4b12-be35-34c320046926</source>
@@ -157,6 +154,47 @@
     <target>6ce2674d-19da-4b12-be35-34c320046926</target>
     <point>375.0,465.0</point>
     <point>168.0,181.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>2c4c550e-7ccf-4e3b-9327-a19de5a43378</id>
+    <name>PutExpression</name>
+    <label>PutExpression</label>
+    <sib-uid>basic-sibs/PutExpression</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
+    <position>105.5,48.0</position>
+    <parameter name="resolve">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="value">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression></expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>parameterNameIterator</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$START">
+      <boolean>true</boolean>
+    </userobject>
+  </sib>
+  <edge>
+    <source>2c4c550e-7ccf-4e3b-9327-a19de5a43378</source>
+    <target>6ce2674d-19da-4b12-be35-34c320046926</target>
+    <point>150.0,75.0</point>
+    <point>153.0,160.0</point>
     <branch>default</branch>
   </edge>
   <parameter>
