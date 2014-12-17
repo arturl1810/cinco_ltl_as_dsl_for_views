@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>936efe23-2d5b-4fd2-8ad4-3c339ecbfe4a</id>
   <name>CreateParametersForEOperation</name>
-  <changecounter>62</changecounter>
+  <changecounter>77</changecounter>
   <sib>
     <id>4383aa87-a214-4b9f-ba1f-12c3c2c1e055</id>
     <name>NewEParameterInEOperationEParameters</name>
@@ -73,7 +73,7 @@
     <label>SetEParameterEType</label>
     <sib-uid>ecore/ecore/SetEParameterEType</sib-uid>
     <taxonomy>transem.ecore.sib.ecore.SetEParameterEType</taxonomy>
-    <position>559.0,333.0</position>
+    <position>561.5,333.0</position>
     <parameter name="eParameterKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -169,6 +169,11 @@
     <field>collection</field>
     <sib>6ce2674d-19da-4b12-be35-34c320046926</sib>
   </parameter>
+  <parameter>
+    <name>eParametereTypeKey</name>
+    <field>eParametereTypeKey</field>
+    <sib>371d294d-69d7-4c84-8bed-25e38a59c2a1</sib>
+  </parameter>
   <values>
     <entry>
       <string>parameterNames</string>
@@ -187,6 +192,16 @@
           <key>eOperation</key>
           <scope>GLOBAL</scope>
           <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </entry>
+    <entry>
+      <string>eParametereTypeKey</string>
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>integerType</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>false</scopeMutable>
         </ContextKeyFoundation>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </entry>
