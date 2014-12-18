@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>97cfd22b-887e-4510-8a47-790198806019</id>
   <name>Create Model Element</name>
-  <changecounter>64</changecounter>
+  <changecounter>97</changecounter>
   <sib>
     <id>f2b2a564-ccd0-4b4f-9509-c723edc57a8d</id>
     <name>NewEClassInEPackageEClassifiers</name>
@@ -208,7 +208,7 @@
     <label>Add Attributes</label>
     <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
-    <position>775.0,706.0</position>
+    <position>745.0,571.0</position>
     <parameter name="attributeKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -245,26 +245,6 @@
       <string>Add Attribute</string>
     </userobject>
   </sib>
-  <edge>
-    <source>0443b085-0f15-412d-9ac5-11bbd7959249</source>
-    <target>3e525a44-ce0c-43b1-b806-c23a970f4f1e</target>
-    <spline/>
-    <point>1032.0,735.2571428571429</point>
-    <point>945.0,780.0</point>
-    <point>845.0,735.0</point>
-    <labelposition>491.63395865257604,-46.86932161590048</labelposition>
-    <branch>next</branch>
-  </edge>
-  <edge>
-    <source>3e525a44-ce0c-43b1-b806-c23a970f4f1e</source>
-    <target>0443b085-0f15-412d-9ac5-11bbd7959249</target>
-    <spline/>
-    <point>845.0,716.2857142857143</point>
-    <point>930.0,675.0</point>
-    <point>1032.0,718.35</point>
-    <labelposition>516.2164988724668,-42.35391298954703</labelposition>
-    <branch>default</branch>
-  </edge>
   <sib>
     <id>0339fbec-fcb4-4102-b084-a6cf1060be6b</id>
     <name>MacroSIB_4</name>
@@ -749,6 +729,67 @@
     <finalbranches>error</finalbranches>
     <finalbranches>null</finalbranches>
   </sib>
+  <edge>
+    <source>0443b085-0f15-412d-9ac5-11bbd7959249</source>
+    <target>40fb462f-feeb-4b24-9889-a1e3928f3806</target>
+    <spline/>
+    <point>1032.0,717.2571428571429</point>
+    <point>945.0,675.0</point>
+    <point>815.0,719.2</point>
+    <labelposition>477.39838733266214,45.1864707078478</labelposition>
+    <branch>next</branch>
+  </edge>
+  <edge>
+    <source>40fb462f-feeb-4b24-9889-a1e3928f3806</source>
+    <target>0443b085-0f15-412d-9ac5-11bbd7959249</target>
+    <point>710.0,726.5</point>
+    <point>1032.0,726.45</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>40fb462f-feeb-4b24-9889-a1e3928f3806</id>
+    <name>GraphSIB</name>
+    <label>Create_GetSetAttribute</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>660.0,706.0</position>
+    <parameter name="attributeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>modelElementAttribute</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="eClassKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>modelElementClass</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="modelElementKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>modelElementKey</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>4b3bed73-f07c-47e8-a3c6-83cd1b38c908</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Create_GetSetAttribute</string>
+    </userobject>
+  </sib>
   <parameter>
     <name>modelElementClassKey</name>
     <field>eObjectKey</field>
@@ -833,6 +874,16 @@
     <name>modelElementKey</name>
     <field>modelElement</field>
     <sib>3e525a44-ce0c-43b1-b806-c23a970f4f1e</sib>
+  </parameter>
+  <parameter>
+    <name>modelElementClassKey</name>
+    <field>eClassKey</field>
+    <sib>40fb462f-feeb-4b24-9889-a1e3928f3806</sib>
+  </parameter>
+  <parameter>
+    <name>modelElementKey</name>
+    <field>modelElementKey</field>
+    <sib>40fb462f-feeb-4b24-9889-a1e3928f3806</sib>
   </parameter>
   <values>
     <entry>
@@ -965,5 +1016,10 @@
     <name>error</name>
     <branch>error</branch>
     <sib>31c046ec-1f20-40c3-a67b-fc1b1aea6692</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>40fb462f-feeb-4b24-9889-a1e3928f3806</sib>
   </branch>
 </model>

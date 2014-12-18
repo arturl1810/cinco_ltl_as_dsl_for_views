@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>ec0a5ab9-778e-4f7b-a992-cd928603a684</id>
   <name>GenerateApiEOperations</name>
-  <changecounter>425</changecounter>
+  <changecounter>440</changecounter>
   <sib>
     <id>c8aaacca-d8c8-47fc-a424-2ecf4c27bc0e</id>
     <name>IterateGraphModelNodes</name>
@@ -1286,13 +1286,12 @@ cc.setTargetContainer(d);
 	if (cf.canCreate(cc)) {
 		retval = $fqnAPIFactory$.eINSTANCE.createG$containerName$();
 		Object[] newObject = cf.create(cc);
-		if (newObject.length == 1 &amp;&amp; newObject[0] instanceof $fqnGenNodePrefix$$nodeName$) {
+		if (newObject.length == 1 &amp;&amp; newObject[0] instanceof $fqnGenNodePrefix$$containerName$) {
 			retval.setNode(($fqnContainer$) newObject[0]);
 			retval.setShape(($fqnContainerShape$) 
 				$fqnGraphiti$.getLinkService().getPictogramElements(d, retval.getNode()).get(0));
 		}
 	} else return null;
-$fqnAddContext$ ac = new $fqnAddContext$();
     
 return retval; </string>
     </parameter>
