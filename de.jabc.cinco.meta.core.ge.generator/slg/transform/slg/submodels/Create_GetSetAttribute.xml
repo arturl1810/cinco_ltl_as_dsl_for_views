@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>4b3bed73-f07c-47e8-a3c6-83cd1b38c908</id>
   <name>Create_GetSetAttribute</name>
-  <changecounter>148</changecounter>
+  <changecounter>163</changecounter>
   <sib>
     <id>ba6b8d58-e1c8-4fc5-8bdd-695e69dcc9f9</id>
     <name>GetAttributeName</name>
@@ -533,7 +533,8 @@ ${attributeClass}</expression>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>(($fqnGenNodePrefix$$modelElement.name$) this.getNode()).set$fuAttributeName$(arg);</string>
+      <string>(($fqnGenNodePrefix$$modelElement.name$) this.getNode()).set$fuAttributeName$(arg);
+update();</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
@@ -593,7 +594,8 @@ ${attributeClass}</expression>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>(($fqnGenNodePrefix$$modelElement.name$) this.getGraphModel()).set$fuAttributeName$(arg);</string>
+      <string>(($fqnGenNodePrefix$$modelElement.name$) this.getGraphModel()).set$fuAttributeName$(arg);
+update();</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
@@ -645,7 +647,8 @@ ${attributeClass}</expression>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>(($fqnGenNodePrefix$$modelElement.name$) this.getEdge()).set$fuAttributeName$(arg);</string>
+      <string>(($fqnGenNodePrefix$$modelElement.name$) this.getEdge()).set$fuAttributeName$(arg);
+update();</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
@@ -697,7 +700,8 @@ ${attributeClass}</expression>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>(($fqnGenNodePrefix$$modelElement.name$) this.getNode()).set$fuAttributeName$(arg);</string>
+      <string>(($fqnGenNodePrefix$$modelElement.name$) this.getNode()).set$fuAttributeName$(arg);
+update();</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
@@ -908,20 +912,20 @@ ${attributeClass}</expression>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </entry>
     <entry>
-      <string>eClassKey</string>
+      <string>attributeKey</string>
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>eClassKey</key>
+          <key>attributeKey</key>
           <scope>DECLARED</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </entry>
     <entry>
-      <string>attributeKey</string>
+      <string>eClassKey</string>
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>attributeKey</key>
+          <key>eClassKey</key>
           <scope>DECLARED</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
