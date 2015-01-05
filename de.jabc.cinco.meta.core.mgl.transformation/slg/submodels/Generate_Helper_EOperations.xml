@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>d5531c11-ffc2-41e6-b1fd-4f08e1327b1f</id>
   <name>Generate Helper EOperations</name>
-  <changecounter>70</changecounter>
+  <changecounter>72</changecounter>
   <sib>
     <id>2db6fa19-1315-4022-abef-abc4426dcce8</id>
     <name>IterateGraphModelNodeContainers</name>
@@ -1342,7 +1342,7 @@
     <label>Create GetSuccessors Methods</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>856.0,256.0</position>
+    <position>856.0,271.0</position>
     <parameter name="graphicalModelElementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1366,16 +1366,6 @@
     <target>eb8417eb-db8d-40a8-865d-18435726db34</target>
     <point>960.0,180.0</point>
     <point>949.0,283.0</point>
-    <branch>exit</branch>
-  </edge>
-  <edge>
-    <source>eb8417eb-db8d-40a8-865d-18435726db34</source>
-    <target>6daa86ee-06b7-42f6-8889-426d4e191445</target>
-    <spline/>
-    <point>940.0,259.2</point>
-    <point>810.0,150.0</point>
-    <point>942.0,49.68000000000001</point>
-    <labelposition>538.9923971389197,-133.08404762367533</labelposition>
     <branch>exit</branch>
   </edge>
   <sib>
@@ -1410,15 +1400,102 @@
     <point>1209.0,288.0</point>
     <branch>exit</branch>
   </edge>
+  <sib>
+    <id>566f8545-62c6-4fc0-a317-0683159da87f</id>
+    <name>GraphSIB_5</name>
+    <label>Specialize GetRootElement Method</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>1443.5,271.0</position>
+    <parameter name="graphModelKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>graphModel</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="modelElementKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>graphicalModelElement</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>14a939bf-8a8f-43e0-8133-c70d3913f6c5</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Specialize GetRootElement Method</string>
+    </userobject>
+  </sib>
   <edge>
     <source>72d56316-c65a-4018-8e1e-320ed609614a</source>
-    <target>234442d1-ace5-4234-aa8e-4c837892e44f</target>
-    <spline/>
-    <point>1195.952380952381,271.0</point>
-    <point>1095.0,165.0</point>
-    <point>1198.2558139534883,54.0</point>
-    <labelposition>539.0,-104.0</labelposition>
+    <target>566f8545-62c6-4fc0-a317-0683159da87f</target>
+    <point>1215.0,300.0</point>
+    <point>1471.0,304.0</point>
     <branch>exit</branch>
+  </edge>
+  <edge>
+    <source>566f8545-62c6-4fc0-a317-0683159da87f</source>
+    <target>234442d1-ace5-4234-aa8e-4c837892e44f</target>
+    <point>1525.0,276.09090909090907</point>
+    <point>1233.0,50.400000000000006</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>27850799-42c5-4ca9-b1fe-9a4e9a3c9ef7</id>
+    <name>GraphSIB_8</name>
+    <label>Specialize GetRootElement Method</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>573.5,271.0</position>
+    <parameter name="graphModelKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>graphModel</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="modelElementKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>graphicalModelElement</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>14a939bf-8a8f-43e0-8133-c70d3913f6c5</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Specialize GetRootElement Method</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>eb8417eb-db8d-40a8-865d-18435726db34</source>
+    <target>27850799-42c5-4ca9-b1fe-9a4e9a3c9ef7</target>
+    <point>960.0,300.0</point>
+    <point>783.0,302.0</point>
+    <branch>exit</branch>
+  </edge>
+  <edge>
+    <source>27850799-42c5-4ca9-b1fe-9a4e9a3c9ef7</source>
+    <target>6daa86ee-06b7-42f6-8889-426d4e191445</target>
+    <point>753.2926829268292,271.0</point>
+    <point>944.6590909090909,54.0</point>
+    <branch>default</branch>
   </edge>
   <parameter>
     <name>graphModelKey</name>
@@ -1621,5 +1698,15 @@
     <name>error</name>
     <branch>error</branch>
     <sib>72d56316-c65a-4018-8e1e-320ed609614a</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>566f8545-62c6-4fc0-a317-0683159da87f</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>27850799-42c5-4ca9-b1fe-9a4e9a3c9ef7</sib>
   </branch>
 </model>
