@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>afcc5a05-5bd1-4a78-8e95-bc92ce74d9ca</id>
   <name>Evaluate Annotation</name>
-  <changecounter>41</changecounter>
+  <changecounter>45</changecounter>
   <sib>
     <id>e87f585d-2c81-4b1e-a2da-b3ee435377a3</id>
     <name>GetElement_1</name>
@@ -523,11 +523,11 @@
     <label>ThrowException</label>
     <sib-uid>basic-sibs/ThrowException</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.ThrowException</taxonomy>
-    <position>739.5,243.0</position>
+    <position>919.5,423.0</position>
     <parameter name="message">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>Execution of Meta Plugin ${annotationName} returned ${pluginServiceResult}.</expression>
+          <expression>Execution of Meta Plugin ${annotationName} returned ${pluginServiceResult}: ${exception} -&gt; ${exception.message}</expression>
           <clazz>java.lang.Object</clazz>
           <classMutable>true</classMutable>
         </ContextExpressionFoundation>
@@ -538,10 +538,77 @@
   </sib>
   <edge>
     <source>d7400c83-49ed-4b1f-9951-0e1b523bc5bf</source>
-    <target>54678a78-7d54-40e7-96e0-5c156ab569b2</target>
-    <point>795.0,150.0</point>
-    <point>790.0,282.0</point>
+    <target>1d42c986-616a-4dc2-a428-4bd02744dc8e</target>
+    <point>813.0,153.43636363636364</point>
+    <point>942.0,235.52727272727273</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>false</branch>
+  </edge>
+  <sib>
+    <id>3f970463-d13e-4098-b086-1885b5f446ab</id>
+    <name>GetElement</name>
+    <label>GetElement</label>
+    <sib-uid>collection-sibs/GetElement</sib-uid>
+    <taxonomy>de.jabc.sib.common.collection.GetElement</taxonomy>
+    <position>934.0,243.0</position>
+    <parameter name="element">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>exception</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="index">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>exceptionString</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="list">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>metaPluginMap</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>1d42c986-616a-4dc2-a428-4bd02744dc8e</id>
+    <name>PutString_3</name>
+    <label>PutString</label>
+    <sib-uid>basic-sibs/PutString</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.PutString</taxonomy>
+    <position>941.5,123.0</position>
+    <parameter name="value">
+      <string>exception</string>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>exceptionString</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>1d42c986-616a-4dc2-a428-4bd02744dc8e</source>
+    <target>3f970463-d13e-4098-b086-1885b5f446ab</target>
+    <point>975.0,150.0</point>
+    <point>981.0,270.0</point>
+    <branch>default</branch>
   </edge>
   <values/>
   <branch>
@@ -638,5 +705,20 @@
     <name>error</name>
     <branch>error</branch>
     <sib>54678a78-7d54-40e7-96e0-5c156ab569b2</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>3f970463-d13e-4098-b086-1885b5f446ab</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>1d42c986-616a-4dc2-a428-4bd02744dc8e</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>default</branch>
+    <sib>3f970463-d13e-4098-b086-1885b5f446ab</sib>
   </branch>
 </model>
