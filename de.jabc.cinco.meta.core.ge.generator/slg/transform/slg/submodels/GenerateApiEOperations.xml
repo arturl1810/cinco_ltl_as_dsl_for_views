@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>ec0a5ab9-778e-4f7b-a992-cd928603a684</id>
   <name>GenerateApiEOperations</name>
-  <changecounter>460</changecounter>
+  <changecounter>497</changecounter>
   <sib>
     <id>c8aaacca-d8c8-47fc-a424-2ecf4c27bc0e</id>
     <name>IterateGraphModelNodes</name>
@@ -263,9 +263,9 @@ cc.setTargetContainer(d);
 	if (cf.canCreate(cc)) {
 		Object[] newObject = cf.create(cc);
 		if (newObject.length == 1 &amp;&amp; newObject[0] instanceof $fqnGenNodePrefix$$nodeName$) {
-			retval.setNode(($fqnNode$) newObject[0]);
+			retval.setModelElement(($fqnNode$) newObject[0]);
 			retval.setShape(($fqnContainerShape$) 
-				$fqnGraphiti$.getLinkService().getPictogramElements(d, retval.getNode()).get(0));
+				$fqnGraphiti$.getLinkService().getPictogramElements(d, retval.getModelElement()).get(0));
 		}
 	} else return null;
     
@@ -378,7 +378,7 @@ return retval; </string>
     <label>Create CreateAndAdd</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>62.0,1171.0</position>
+    <position>272.0,616.0</position>
     <parameter name="eClassKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -430,7 +430,7 @@ return retval; </string>
     <label>PutList</label>
     <sib-uid>collection-sibs/PutList</sib-uid>
     <taxonomy>de.jabc.sib.common.collection.PutList</taxonomy>
-    <position>109.0,1068.0</position>
+    <position>319.0,738.0</position>
     <parameter name="elements">
       <list>
         <string>xPos</string>
@@ -477,7 +477,7 @@ return retval; </string>
     <label>CreateParametersForEOperation</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>221.5,1171.0</position>
+    <position>236.5,511.0</position>
     <parameter name="eOperationKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -536,7 +536,7 @@ return retval; </string>
     <label>Generate_Documentation</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>50.0,961.0</position>
+    <position>260.0,856.0</position>
     <parameter name="eOperationKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -570,7 +570,7 @@ return retval; </string>
     <label>Generate_Documentation</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>245.0,1036.0</position>
+    <position>260.0,376.0</position>
     <parameter name="eOperationKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -596,14 +596,6 @@ return retval; </string>
       <string>Generate_Documentation</string>
     </userobject>
   </sib>
-  <edge>
-    <source>bf12134f-b9df-4a38-b942-e4f7940c7ba8</source>
-    <target>0b904c7a-0f85-4417-87b5-d7f5c5c31e25</target>
-    <point>332.1276595744681,916.0</point>
-    <point>343.3018867924528,804.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
   <edge>
     <source>1766f43d-68e4-45cf-9243-c1400303760b</source>
     <target>6eec86f4-edfb-4934-847b-23764f5d6b9e</target>
@@ -835,7 +827,7 @@ if (cf.canCreate(ccc)) {
 	org.eclipse.graphiti.mm.pictograms.Connection conn = cf.create(ccc);
 	retval = $fqnAPIFactory$.eINSTANCE.createG$edgeName$();
 	retval.setConnection(conn);
-	retval.setEdge(($fqnEdge$) conn.getLink().getBusinessObjects().get(0));
+	retval.setModelElement(($fqnEdge$) conn.getLink().getBusinessObjects().get(0));
 }
 return retval;</string>
     </parameter>
@@ -1287,9 +1279,9 @@ cc.setTargetContainer(d);
 		retval = $fqnAPIFactory$.eINSTANCE.createG$containerName$();
 		Object[] newObject = cf.create(cc);
 		if (newObject.length == 1 &amp;&amp; newObject[0] instanceof $fqnGenNodePrefix$$containerName$) {
-			retval.setNode(($fqnContainer$) newObject[0]);
+			retval.setModelElement(($fqnContainer$) newObject[0]);
 			retval.setShape(($fqnContainerShape$) 
-				$fqnGraphiti$.getLinkService().getPictogramElements(d, retval.getNode()).get(0));
+				$fqnGraphiti$.getLinkService().getPictogramElements(d, retval.getModelElement()).get(0));
 		}
 	} else return null;
     
@@ -1682,13 +1674,29 @@ return retval; </string>
     <point>117.0,66.60000000000001</point>
     <branch>Container</branch>
   </edge>
+  <edge>
+    <source>901102bd-9ce2-441d-968b-f75af33e1f7a</source>
+    <target>c8aaacca-d8c8-47fc-a424-2ecf4c27bc0e</target>
+    <point>325.9627329192547,1036.0</point>
+    <point>138.5670731707317,99.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>86b161f1-40a0-4f3e-ba33-4a8ed30871af</source>
+    <target>17fc8aec-d09a-4cc8-965c-b0d62cb43714</target>
+    <point>1395.0,480.0</point>
+    <point>1395.0,345.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
   <sib>
-    <id>bf12134f-b9df-4a38-b942-e4f7940c7ba8</id>
+    <id>86b161f1-40a0-4f3e-ba33-4a8ed30871af</id>
     <name>GraphSIB_15</name>
     <label>Create Delete</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>281.5,916.0</position>
+    <position>1211.5,61.0</position>
     <parameter name="eClassKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1707,7 +1715,7 @@ return retval; </string>
     <parameter name="eOperationNameKey">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>delete${nodeName}</expression>
+          <expression>deleteModelElement</expression>
           <clazz>java.lang.String</clazz>
           <classMutable>true</classMutable>
         </ContextExpressionFoundation>
@@ -1726,7 +1734,10 @@ return retval; </string>
       <string>$fqnDiagram$ d = ($fqnDiagram$) this.getContainerShape();
 $fqnFeatureProvider$ provider = ($fqnFeatureProvider$) $fqnGraphitiUi$.getExtensionManager().createFeatureProvider(d);
 
-$fqnDeleteContext$ dc = new $fqnDeleteContext$(n.getShape());
+java.util.List&lt;$fqnPictogramElement$&gt; pes = $fqnGraphitiUi$.getLinkService().getPictogramElements(d, me.getModelElement());
+    if (pes == null || pes.isEmpty())
+    	return false;
+$fqnDeleteContext$ dc = new $fqnDeleteContext$(pes.get(0));
 $fqnDeleteFeature$ df = provider.getDeleteFeature(dc);
 
 if (df.canDelete(dc)) {
@@ -1745,23 +1756,16 @@ return false;
       <string>Create EOperation</string>
     </userobject>
   </sib>
-  <edge>
-    <source>901102bd-9ce2-441d-968b-f75af33e1f7a</source>
-    <target>bf12134f-b9df-4a38-b942-e4f7940c7ba8</target>
-    <point>332.3809523809524,1036.0</point>
-    <point>342.9166666666667,941.0</point>
-    <branch>default</branch>
-  </edge>
   <sib>
-    <id>0b904c7a-0f85-4417-87b5-d7f5c5c31e25</id>
+    <id>17fc8aec-d09a-4cc8-965c-b0d62cb43714</id>
     <name>PutList_5</name>
     <label>PutList</label>
     <sib-uid>collection-sibs/PutList</sib-uid>
     <taxonomy>de.jabc.sib.common.collection.PutList</taxonomy>
-    <position>304.0,783.0</position>
+    <position>1384.0,63.0</position>
     <parameter name="elements">
       <list>
-        <string>n</string>
+        <string>me</string>
       </list>
     </parameter>
     <parameter name="initialCapacity">
@@ -1783,12 +1787,12 @@ return false;
     <finalbranches>error</finalbranches>
   </sib>
   <sib>
-    <id>5722a33a-e742-4583-bc42-44dec823bc68</id>
+    <id>4ff8e449-eda7-445d-9e54-dd4ea113a22e</id>
     <name>GraphSIB_16</name>
     <label>CreateParametersForEOperation</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>221.5,646.0</position>
+    <position>1301.5,181.0</position>
     <parameter name="eOperationKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1801,7 +1805,7 @@ return false;
     <parameter name="eParametereTypeKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>nodeClass</key>
+          <key>abstractModelElementClass</key>
           <scope>GLOBAL</scope>
           <scopeMutable>false</scopeMutable>
         </ContextKeyFoundation>
@@ -1826,19 +1830,20 @@ return false;
     </userobject>
   </sib>
   <edge>
-    <source>0b904c7a-0f85-4417-87b5-d7f5c5c31e25</source>
-    <target>5722a33a-e742-4583-bc42-44dec823bc68</target>
-    <point>330.0,783.0</point>
-    <point>330.0,686.0</point>
+    <source>17fc8aec-d09a-4cc8-965c-b0d62cb43714</source>
+    <target>4ff8e449-eda7-445d-9e54-dd4ea113a22e</target>
+    <point>1395.0,345.0</point>
+    <point>1380.0,195.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
-    <id>d4401c97-aaa3-4ef1-bf22-9069b8eaa9be</id>
+    <id>15485330-3251-4501-b057-04c44b6b5481</id>
     <name>GraphSIB_17</name>
     <label>Generate_Documentation</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>245.0,526.0</position>
+    <position>1325.0,316.0</position>
     <parameter name="eOperationKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1849,11 +1854,11 @@ return false;
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>Deletes the given node from the $graphModelName$ and the diagram
+      <string>Deletes the given modelElement from the $graphModelName$ and the diagram
 
-@param n The node to delete
+@param me The modelElement to delete
 
-@return true, if the node was successfully removed, false otherwise</string>
+@return true, if the modelElement was successfully removed, false otherwise</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
@@ -1865,18 +1870,20 @@ return false;
     </userobject>
   </sib>
   <edge>
-    <source>5722a33a-e742-4583-bc42-44dec823bc68</source>
-    <target>d4401c97-aaa3-4ef1-bf22-9069b8eaa9be</target>
-    <point>330.0,675.0</point>
-    <point>333.0,572.0</point>
+    <source>4ff8e449-eda7-445d-9e54-dd4ea113a22e</source>
+    <target>15485330-3251-4501-b057-04c44b6b5481</target>
+    <point>1380.0,195.0</point>
+    <point>1380.0,90.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
-    <source>d4401c97-aaa3-4ef1-bf22-9069b8eaa9be</source>
-    <target>c8aaacca-d8c8-47fc-a424-2ecf4c27bc0e</target>
-    <point>330.0,570.0</point>
-    <point>145.0,81.0</point>
-    <branch>default</branch>
+    <source>134e742d-1e54-4c7c-9d38-0dba79455f41</source>
+    <target>86b161f1-40a0-4f3e-ba33-4a8ed30871af</target>
+    <point>888.0,94.68</point>
+    <point>1375.0,456.48571428571427</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>exit</branch>
   </edge>
   <values/>
   <branch>
@@ -2006,11 +2013,6 @@ return false;
   </branch>
   <branch>
     <name>default</name>
-    <branch>exit</branch>
-    <sib>134e742d-1e54-4c7c-9d38-0dba79455f41</sib>
-  </branch>
-  <branch>
-    <name>default</name>
     <branch>noElements</branch>
     <sib>134e742d-1e54-4c7c-9d38-0dba79455f41</sib>
   </branch>
@@ -2077,21 +2079,26 @@ return false;
   <branch>
     <name>error</name>
     <branch>error</branch>
-    <sib>5722a33a-e742-4583-bc42-44dec823bc68</sib>
+    <sib>86b161f1-40a0-4f3e-ba33-4a8ed30871af</sib>
+  </branch>
+  <branch>
+    <name>default</name>
+    <branch>default</branch>
+    <sib>15485330-3251-4501-b057-04c44b6b5481</sib>
   </branch>
   <branch>
     <name>error</name>
     <branch>error</branch>
-    <sib>0b904c7a-0f85-4417-87b5-d7f5c5c31e25</sib>
+    <sib>15485330-3251-4501-b057-04c44b6b5481</sib>
   </branch>
   <branch>
     <name>error</name>
     <branch>error</branch>
-    <sib>d4401c97-aaa3-4ef1-bf22-9069b8eaa9be</sib>
+    <sib>4ff8e449-eda7-445d-9e54-dd4ea113a22e</sib>
   </branch>
   <branch>
     <name>error</name>
     <branch>error</branch>
-    <sib>bf12134f-b9df-4a38-b942-e4f7940c7ba8</sib>
+    <sib>17fc8aec-d09a-4cc8-965c-b0d62cb43714</sib>
   </branch>
 </model>

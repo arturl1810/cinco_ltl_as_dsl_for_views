@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>4b3bed73-f07c-47e8-a3c6-83cd1b38c908</id>
   <name>Create_GetSetAttribute</name>
-  <changecounter>163</changecounter>
+  <changecounter>172</changecounter>
   <sib>
     <id>ba6b8d58-e1c8-4fc5-8bdd-695e69dcc9f9</id>
     <name>GetAttributeName</name>
@@ -185,7 +185,7 @@
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>return (($fqnGenNodePrefix$$modelElement.name$) this.getNode()).get$fuAttributeName$();</string>
+      <string>return (($fqnGenNodePrefix$$modelElement.name$) this.getModelElement()).get$fuAttributeName$();</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
@@ -353,7 +353,7 @@ ${attributeClass}</expression>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>return (($fqnGenNodePrefix$$modelElement.name$) this.getEdge()).get$fuAttributeName$();</string>
+      <string>return (($fqnGenNodePrefix$$modelElement.name$) this.getModelElement()).get$fuAttributeName$();</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
@@ -405,7 +405,7 @@ ${attributeClass}</expression>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>return (($fqnGenNodePrefix$$modelElement.name$) this.getNode()).get$fuAttributeName$();</string>
+      <string>return (($fqnGenNodePrefix$$modelElement.name$) this.getModelElement()).get$fuAttributeName$();</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
@@ -473,7 +473,7 @@ ${attributeClass}</expression>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>return (($fqnGenNodePrefix$$modelElement.name$) this.getGraphModel()).get$fuAttributeName$();</string>
+      <string>return (($fqnGenNodePrefix$$graphModelName$) this.getGraphModel()).get$fuAttributeName$();</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
@@ -533,7 +533,7 @@ ${attributeClass}</expression>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>(($fqnGenNodePrefix$$modelElement.name$) this.getNode()).set$fuAttributeName$(arg);
+      <string>(($fqnGenNodePrefix$$modelElement.name$) this.getModelElement()).set$fuAttributeName$(arg);
 update();</string>
     </parameter>
     <finalbranches>default</finalbranches>
@@ -594,7 +594,7 @@ update();</string>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>(($fqnGenNodePrefix$$modelElement.name$) this.getGraphModel()).set$fuAttributeName$(arg);
+      <string>(($fqnGenNodePrefix$$graphModelName$) this.getGraphModel()).set$fuAttributeName$(arg);
 update();</string>
     </parameter>
     <finalbranches>default</finalbranches>
@@ -647,7 +647,7 @@ update();</string>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>(($fqnGenNodePrefix$$modelElement.name$) this.getEdge()).set$fuAttributeName$(arg);
+      <string>(($fqnGenNodePrefix$$modelElement.name$) this.getModelElement()).set$fuAttributeName$(arg);
 update();</string>
     </parameter>
     <finalbranches>default</finalbranches>
@@ -700,7 +700,7 @@ update();</string>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>(($fqnGenNodePrefix$$modelElement.name$) this.getNode()).set$fuAttributeName$(arg);
+      <string>(($fqnGenNodePrefix$$modelElement.name$) this.getModelElement()).set$fuAttributeName$(arg);
 update();</string>
     </parameter>
     <finalbranches>default</finalbranches>

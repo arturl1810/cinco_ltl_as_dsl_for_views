@@ -36,10 +36,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="modelElements" upperBound="-1"
         eType="#//GModelElement" containment="true" eOpposite="#//GModelElement/container"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="GContainer" eSuperTypes="#//GModelElementContainer #//GNode">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="containerBO" lowerBound="1"
-        eType="ecore:EClass ../../de.jabc.cinco.meta.core.mgl.model/model/GraphModel.ecore#//Container"/>
-  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GContainer" eSuperTypes="#//GModelElementContainer #//GNode"/>
   <eClassifiers xsi:type="ecore:EClass" name="GGraphModel" abstract="true" eSuperTypes="#//GModelElementContainer">
     <eStructuralFeatures xsi:type="ecore:EReference" name="graphModel" lowerBound="1"
         eType="ecore:EClass ../../de.jabc.cinco.meta.core.mgl.model/model/GraphModel.ecore#//GraphModel"/>
@@ -51,7 +48,6 @@
         eType="#//GNode" eOpposite="#//GNode/outgoing"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="targetElement" lowerBound="1"
         eType="#//GNode" eOpposite="#//GNode/incoming"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="edge" lowerBound="1" eType="ecore:EClass ../../de.jabc.cinco.meta.core.mgl.model/model/GraphModel.ecore#//Edge"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="connection" lowerBound="1"
         eType="ecore:EClass ../../org.eclipse.graphiti.mm/model/graphiti.ecore#//pictograms/Connection"/>
   </eClassifiers>
@@ -126,11 +122,11 @@
         eType="#//GEdge" eOpposite="#//GEdge/targetElement"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="outgoing" upperBound="-1"
         eType="#//GEdge" eOpposite="#//GEdge/sourceElement"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="node" lowerBound="1" eType="ecore:EClass ../../de.jabc.cinco.meta.core.mgl.model/model/GraphModel.ecore#//Node"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="shape" eType="ecore:EClass ../../org.eclipse.graphiti.mm/model/graphiti.ecore#//pictograms/ContainerShape"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="GModelElement" abstract="true" interface="true">
     <eStructuralFeatures xsi:type="ecore:EReference" name="container" eType="#//GModelElementContainer"
         eOpposite="#//GModelElementContainer/modelElements"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="modelElement" eType="ecore:EClass ../../de.jabc.cinco.meta.core.mgl.model/model/GraphModel.ecore#//ModelElement"/>
   </eClassifiers>
 </ecore:EPackage>

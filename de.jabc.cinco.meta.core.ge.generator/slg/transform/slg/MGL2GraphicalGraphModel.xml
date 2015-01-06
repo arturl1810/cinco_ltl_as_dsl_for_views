@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>ca5a39ee-2606-4461-8c2d-1e6ebdbd9d0e</id>
   <name>MGL2GraphicalGraphModel</name>
-  <changecounter>197</changecounter>
+  <changecounter>213</changecounter>
   <sib>
     <id>e763e08f-ee7b-48f6-8187-dac38f44f435</id>
     <name>MacroSIB</name>
@@ -268,8 +268,8 @@
     <target>3966d27a-78d5-4870-aba6-8c1ee8089b98</target>
     <point>1485.0,104.0</point>
     <point>1485.0,195.0</point>
-    <point>2064.5,195.0</point>
-    <labelposition>2.547215390818836,15.961433698447872</labelposition>
+    <point>620.5,258.0</point>
+    <labelposition>84.20049249344666,-84.34028115238279</labelposition>
     <branch>error</branch>
   </edge>
   <sib>
@@ -299,7 +299,7 @@
     <point>1500.0,104.0</point>
     <point>1500.0,210.0</point>
     <point>838.0,286.0</point>
-    <labelposition>21.947641382730335,14.43731542276192</labelposition>
+    <labelposition>39.663277948439436,-106.59481861458359</labelposition>
     <branch>exit</branch>
   </edge>
   <edge>
