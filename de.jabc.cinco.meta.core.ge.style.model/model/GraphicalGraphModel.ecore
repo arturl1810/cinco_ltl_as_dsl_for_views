@@ -34,14 +34,14 @@
       </eAnnotations>
     </eOperations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="modelElements" upperBound="-1"
-        eType="#//GModelElement" containment="true" eOpposite="#//GModelElement/container"/>
+        eType="#//GModelElement" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="GContainer" eSuperTypes="#//GModelElementContainer #//GNode"/>
   <eClassifiers xsi:type="ecore:EClass" name="GGraphModel" abstract="true" eSuperTypes="#//GModelElementContainer">
     <eStructuralFeatures xsi:type="ecore:EReference" name="graphModel" lowerBound="1"
         eType="ecore:EClass ../../de.jabc.cinco.meta.core.mgl.model/model/GraphModel.ecore#//GraphModel"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="containerShape" lowerBound="1"
-        eType="ecore:EClass ../../org.eclipse.graphiti.mm/model/graphiti.ecore#//pictograms/ContainerShape"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="diagram" lowerBound="1"
+        eType="ecore:EClass ../../org.eclipse.graphiti.mm/model/graphiti.ecore#//pictograms/Diagram"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="GEdge" eSuperTypes="#//GModelElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="sourceElement" lowerBound="1"
@@ -125,8 +125,9 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="shape" eType="ecore:EClass ../../org.eclipse.graphiti.mm/model/graphiti.ecore#//pictograms/ContainerShape"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="GModelElement" abstract="true" interface="true">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="container" eType="#//GModelElementContainer"
-        eOpposite="#//GModelElementContainer/modelElements"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="container" eType="#//GModelElementContainer"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="modelElement" eType="ecore:EClass ../../de.jabc.cinco.meta.core.mgl.model/model/GraphModel.ecore#//ModelElement"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="diagram" lowerBound="1"
+        eType="ecore:EClass ../../org.eclipse.graphiti.mm/model/graphiti.ecore#//pictograms/Diagram"/>
   </eClassifiers>
 </ecore:EPackage>

@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>97cfd22b-887e-4510-8a47-790198806019</id>
   <name>Create Model Element</name>
-  <changecounter>124</changecounter>
+  <changecounter>137</changecounter>
   <sib>
     <id>f2b2a564-ccd0-4b4f-9509-c723edc57a8d</id>
     <name>NewEClassInEPackageEClassifiers</name>
@@ -1026,10 +1026,10 @@ if (uf.canUpdate(uc))
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>$fqnDiagramTypeProvider$ dtp = $fqnGraphitiUi$.getExtensionManager().createDiagramTypeProvider(&quot;de.test.graph.SomeGraphDiagramTypeProvider&quot;);
+      <string>$fqnDiagramTypeProvider$ dtp = $fqnGraphitiUi$.getExtensionManager().createDiagramTypeProvider(&quot;$packageName$.$graphModelName$DiagramTypeProvider&quot;);
 $fqnFeatureProvider$ fp = ($fqnFeatureProvider$) dtp.getFeatureProvider();
 
-$fqnUpdateContext$ uc = new $fqnUpdateContext$(getContainerShape());
+$fqnUpdateContext$ uc = new $fqnUpdateContext$(getDiagram());
 $fqnUpdateFeature$ uf = fp.getUpdateFeature(uc);
 if (uf.canUpdate(uc))
 	uf.update(uc);</string>
