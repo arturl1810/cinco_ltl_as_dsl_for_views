@@ -15,15 +15,19 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.pde.core.project.IBundleProjectDescription;
 import org.eclipse.pde.core.project.IBundleProjectService;
@@ -289,6 +293,26 @@ public class ProjectCreator {
 			bc.ungetService(ref);
 		}
 		return "";
+	}
+	/**
+	 * Creates a Java Compilation Unit in a given IProject
+	 * 
+	 * @param project - The Project where class is to be created
+	 * @param packageName - The package name of the class, may or may not exist
+	 * @param className - the name of the java Class
+	 * @param sourceFolder - the source folder where the package is located
+	 * @param classContents - Contents of the class File
+	 * @param progressMonitor
+	 * @throws CoreException 
+	 */
+	public static void createJavaClass(IProject project,String packageName, String className, IFolder sourceFolder, String classContents,IProgressMonitor progressMonitor) throws CoreException{
+			IJavaProject javaProject = JavaCore.create(project); 
+
+			IPackageFragment pack = javaProject.getPackageFragmentRoot(sourceFolder).createPackageFragment(packageName, true, progressMonitor);
+			pack.createCompilationUnit(className+".java", classContents, false, progressMonitor);
+			
+			project.refreshLocal(IResource.DEPTH_INFINITE, progressMonitor);
+		
 	}
 	
 }
