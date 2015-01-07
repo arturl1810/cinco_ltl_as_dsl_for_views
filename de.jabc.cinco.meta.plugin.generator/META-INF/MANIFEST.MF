@@ -5,9 +5,11 @@ Bundle-SymbolicName: de.jabc.cinco.meta.plugin.generator;singleton:=true
 Bundle-Version: 0.6.0.qualifier
 Fragment-Host: de.jabc.cinco.meta.core.pluginregistry
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
-Import-Package: de.jabc.cinco.meta.core.mgl.transformation.helper,
+Import-Package: de.jabc.cinco.meta.core.feature.handler,
+ de.jabc.cinco.meta.core.mgl.transformation.helper,
  de.jabc.cinco.meta.core.utils.projects,
  mgl,
  org.eclipse.core.resources
-Require-Bundle: org.eclipse.osgi
+Require-Bundle: org.eclipse.osgi,
+ de.jabc.cinco.meta.core
 

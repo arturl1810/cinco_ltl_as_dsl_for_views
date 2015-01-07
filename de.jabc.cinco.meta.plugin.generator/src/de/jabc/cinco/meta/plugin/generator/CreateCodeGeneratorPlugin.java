@@ -19,17 +19,14 @@ import mgl.GraphModel;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.jdt.core.IJavaProject;
-import org.eclipse.jdt.core.IPackageFragment;
-import org.eclipse.jdt.core.JavaCore;
 import org.osgi.framework.Bundle;
 
+import de.jabc.cinco.meta.core.BundleRegistry;
 import de.jabc.cinco.meta.core.mgl.transformation.helper.AbstractService;
 import de.jabc.cinco.meta.core.mgl.transformation.helper.ServiceException;
 import de.jabc.cinco.meta.core.utils.projects.ProjectCreator;
@@ -131,7 +128,7 @@ public class CreateCodeGeneratorPlugin extends AbstractService {
 				localBundle = true;
 				bundleName = res.getProject().getName();
 			}
-			
+			BundleRegistry.INSTANCE.addBundle(bundleName,false);
 			requiredBundles.add(symbolicName);
 			requiredBundles.add("org.eclipse.ui");
 			requiredBundles.add("org.eclipse.core.runtime");
@@ -262,12 +259,12 @@ public class CreateCodeGeneratorPlugin extends AbstractService {
 		String contents = "package %s;\n"+
 				"\n"+
 				"import org.eclipse.core.runtime.IPath;\n"+
-				"\n"+
 				"import graphmodel.GraphModel;\n"+
+				"import org.eclipse.core.runtime.IProgressMonitor;\n"+
 				"\n"+
 				"\n"+
 				"public class %s{\n"+
-				"\tpublic void generate(GraphModel model,IPath outlet){\n"+
+				"\tpublic void generate(GraphModel model,IPath outlet, IProgressMonitor monitor){\n"+
 				"\n"+
 				"\t}\n"+
 				"\n"+
