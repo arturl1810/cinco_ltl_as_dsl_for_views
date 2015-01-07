@@ -42,6 +42,7 @@
         eType="ecore:EClass ../../de.jabc.cinco.meta.core.mgl.model/model/GraphModel.ecore#//GraphModel"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="diagram" lowerBound="1"
         eType="ecore:EClass ../../org.eclipse.graphiti.mm/model/graphiti.ecore#//pictograms/Diagram"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="shape" eType="ecore:EClass ../../org.eclipse.graphiti.mm/model/graphiti.ecore#//pictograms/ContainerShape"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="GEdge" eSuperTypes="#//GModelElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="sourceElement" lowerBound="1"

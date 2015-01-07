@@ -23,6 +23,7 @@
     <genClasses ecoreClass="GraphicalGraphModel.ecore#//GGraphModel">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference GraphicalGraphModel.ecore#//GGraphModel/graphModel"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference GraphicalGraphModel.ecore#//GGraphModel/diagram"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference GraphicalGraphModel.ecore#//GGraphModel/shape"/>
     </genClasses>
     <genClasses ecoreClass="GraphicalGraphModel.ecore#//GEdge">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference GraphicalGraphModel.ecore#//GEdge/sourceElement"/>
