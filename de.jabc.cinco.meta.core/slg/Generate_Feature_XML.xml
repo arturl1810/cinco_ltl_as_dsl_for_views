@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>cdd03cd4-edfa-43b9-9631-37bc827cc85e</id>
   <name>Generate Feature XML</name>
-  <changecounter>45</changecounter>
+  <changecounter>46</changecounter>
   <sib>
     <id>17c1dcbb-74f9-456f-bf8f-44eee7fd4f25</id>
     <name>IterateGraphModelAnnotations</name>
@@ -236,7 +236,7 @@
     <label>IterateElements</label>
     <sib-uid>collection-sibs/IterateElements</sib-uid>
     <taxonomy>de.jabc.sib.common.collection.IterateElements</taxonomy>
-    <position>926.0,123.0</position>
+    <position>1136.0,123.0</position>
     <parameter name="collection">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -270,9 +270,9 @@
   </sib>
   <edge>
     <source>17c1dcbb-74f9-456f-bf8f-44eee7fd4f25</source>
-    <target>b530268c-3156-4a3c-a57c-9cab5fbe974a</target>
-    <point>768.0,141.72</point>
-    <point>957.0,141.72</point>
+    <target>6ac9d33a-6f98-4be6-9dba-dde0a3547c83</target>
+    <point>768.0,137.6769230769231</point>
+    <point>927.0,100.98461538461538</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>exit</branch>
     <branch>noElements</branch>
@@ -373,17 +373,17 @@
     <source>b530268c-3156-4a3c-a57c-9cab5fbe974a</source>
     <target>831439bd-644b-4841-b64e-eb1521cf37b6</target>
     <spline/>
-    <point>977.0,143.0</point>
-    <point>1069.0,310.0</point>
-    <point>977.0,503.0</point>
+    <point>1179.0,143.0</point>
+    <point>1273.0,303.0</point>
+    <point>1179.0,503.0</point>
     <labelposition>487.19666628712207,-79.98243578026478</labelposition>
     <branch>next</branch>
   </edge>
   <edge>
     <source>831439bd-644b-4841-b64e-eb1521cf37b6</source>
     <target>b530268c-3156-4a3c-a57c-9cab5fbe974a</target>
-    <point>977.0,503.0</point>
-    <point>977.0,143.0</point>
+    <point>1179.0,503.0</point>
+    <point>1179.0,143.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -393,7 +393,7 @@
     <label>RunStringTemplate</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>1172.0,123.0</position>
+    <position>1382.0,123.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -424,8 +424,8 @@
   <edge>
     <source>b530268c-3156-4a3c-a57c-9cab5fbe974a</source>
     <target>a1d9ab29-52a5-4d68-a7ba-aa141f113a3e</target>
-    <point>993.0,148.2</point>
-    <point>1092.0,181.2</point>
+    <point>1179.0,143.0</point>
+    <point>1314.0,143.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>exit</branch>
   </edge>
@@ -435,7 +435,7 @@
     <label>RunStringTemplate</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>917.0,483.0</position>
+    <position>1127.0,483.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -471,7 +471,7 @@
     <label>WriteTextFile</label>
     <sib-uid>io-sibs/WriteTextFile</sib-uid>
     <taxonomy>de.jabc.sib.common.io.WriteTextFile</taxonomy>
-    <position>1385.5,123.0</position>
+    <position>1595.5,123.0</position>
     <parameter name="encoding">
       <string>ISO-8859-1</string>
     </parameter>
@@ -499,32 +499,32 @@
   <edge>
     <source>0463563c-96b5-41ae-b810-96d7ee1c5918</source>
     <target>d578fed0-2b21-4159-b432-d6ae97a5875a</target>
-    <point>1217.0,143.0</point>
-    <point>1427.0,143.0</point>
+    <point>1434.0,143.0</point>
+    <point>1629.0,143.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
     <source>d578fed0-2b21-4159-b432-d6ae97a5875a</source>
     <target>58c36d72-ef1c-4da9-8c36-8cf31b471819</target>
-    <point>1427.0,143.0</point>
-    <point>1427.0,503.0</point>
+    <point>1629.0,143.0</point>
+    <point>1629.0,503.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>error</branch>
   </edge>
   <edge>
     <source>0463563c-96b5-41ae-b810-96d7ee1c5918</source>
     <target>58c36d72-ef1c-4da9-8c36-8cf31b471819</target>
-    <point>1217.0,143.0</point>
-    <point>1427.0,503.0</point>
+    <point>1434.0,143.0</point>
+    <point>1629.0,503.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>error</branch>
   </edge>
   <edge>
     <source>831439bd-644b-4841-b64e-eb1521cf37b6</source>
     <target>58c36d72-ef1c-4da9-8c36-8cf31b471819</target>
-    <point>993.0,501.36</point>
-    <point>1407.0,501.36</point>
+    <point>1179.0,503.0</point>
+    <point>1629.0,503.0</point>
     <labelposition>666.6666666666666,-0.3600000000000197</labelposition>
     <branch>error</branch>
   </edge>
@@ -586,8 +586,8 @@
   <edge>
     <source>b530268c-3156-4a3c-a57c-9cab5fbe974a</source>
     <target>58c36d72-ef1c-4da9-8c36-8cf31b471819</target>
-    <point>977.0,143.0</point>
-    <point>1427.0,503.0</point>
+    <point>1179.0,143.0</point>
+    <point>1629.0,503.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>error</branch>
   </edge>
@@ -834,7 +834,7 @@
     <label>ThrowException</label>
     <sib-uid>io-sibs/PrintException</sib-uid>
     <taxonomy>de.jabc.sib.common.io.PrintException</taxonomy>
-    <position>1369.5,483.0</position>
+    <position>1579.5,483.0</position>
     <parameter name="exception">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1273,7 +1273,7 @@
     <label>IterateElements</label>
     <sib-uid>collection-sibs/IterateElements</sib-uid>
     <taxonomy>de.jabc.sib.common.collection.IterateElements</taxonomy>
-    <position>1061.0,123.0</position>
+    <position>1271.0,123.0</position>
     <parameter name="collection">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1309,17 +1309,17 @@
     <source>a1d9ab29-52a5-4d68-a7ba-aa141f113a3e</source>
     <target>c9b4c315-beb3-4b89-b977-8cfed24f0108</target>
     <spline/>
-    <point>1110.0,195.0</point>
-    <point>1215.0,345.0</point>
-    <point>1125.0,555.0</point>
+    <point>1314.0,143.0</point>
+    <point>1419.0,338.0</point>
+    <point>1314.0,503.0</point>
     <labelposition>487.19666628712207,-79.98243578026478</labelposition>
     <branch>next</branch>
   </edge>
   <edge>
     <source>c9b4c315-beb3-4b89-b977-8cfed24f0108</source>
     <target>a1d9ab29-52a5-4d68-a7ba-aa141f113a3e</target>
-    <point>1125.0,555.0</point>
-    <point>1110.0,195.0</point>
+    <point>1314.0,503.0</point>
+    <point>1314.0,143.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -1329,7 +1329,7 @@
     <label>RunStringTemplate</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>1052.0,483.0</position>
+    <position>1262.0,483.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -1363,22 +1363,119 @@
   <edge>
     <source>a1d9ab29-52a5-4d68-a7ba-aa141f113a3e</source>
     <target>0463563c-96b5-41ae-b810-96d7ee1c5918</target>
-    <point>1110.0,195.0</point>
-    <point>1182.0,147.0</point>
+    <point>1314.0,143.0</point>
+    <point>1434.0,143.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>exit</branch>
   </edge>
   <edge>
     <source>c9b4c315-beb3-4b89-b977-8cfed24f0108</source>
     <target>58c36d72-ef1c-4da9-8c36-8cf31b471819</target>
-    <point>1110.0,510.0</point>
-    <point>1425.0,507.0</point>
+    <point>1314.0,503.0</point>
+    <point>1629.0,503.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>error</branch>
   </edge>
   <edge>
     <source>a1d9ab29-52a5-4d68-a7ba-aa141f113a3e</source>
     <target>58c36d72-ef1c-4da9-8c36-8cf31b471819</target>
-    <point>1110.0,150.0</point>
-    <point>1410.0,512.0</point>
+    <point>1314.0,143.0</point>
+    <point>1629.0,503.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>error</branch>
+  </edge>
+  <sib>
+    <id>6ac9d33a-6f98-4be6-9dba-dde0a3547c83</id>
+    <name>AddElements_2</name>
+    <label>AddElements</label>
+    <sib-uid>collection-sibs/AddElements</sib-uid>
+    <taxonomy>de.jabc.sib.common.collection.AddElements</taxonomy>
+    <position>904.0,123.0</position>
+    <parameter name="collection">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>featurePackages</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="elements">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>otherPluginIDs</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>false</finalbranches>
+    <finalbranches>true</finalbranches>
+  </sib>
+  <sib>
+    <id>7b828765-72d0-4fad-90b7-eec7ab1ba256</id>
+    <name>AddElements_3</name>
+    <label>AddElements</label>
+    <sib-uid>collection-sibs/AddElements</sib-uid>
+    <taxonomy>de.jabc.sib.common.collection.AddElements</taxonomy>
+    <position>1024.0,123.0</position>
+    <parameter name="collection">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>featureFragments</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="elements">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>otherFragmentIDs</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>false</finalbranches>
+    <finalbranches>true</finalbranches>
+  </sib>
+  <edge>
+    <source>6ac9d33a-6f98-4be6-9dba-dde0a3547c83</source>
+    <target>7b828765-72d0-4fad-90b7-eec7ab1ba256</target>
+    <point>945.0,150.0</point>
+    <point>1051.0,143.0</point>
+    <branch>false</branch>
+    <branch>true</branch>
+  </edge>
+  <edge>
+    <source>7b828765-72d0-4fad-90b7-eec7ab1ba256</source>
+    <target>b530268c-3156-4a3c-a57c-9cab5fbe974a</target>
+    <point>1065.0,150.0</point>
+    <point>1159.0,150.0</point>
+    <branch>false</branch>
+    <branch>true</branch>
+  </edge>
+  <edge>
+    <source>7b828765-72d0-4fad-90b7-eec7ab1ba256</source>
+    <target>58c36d72-ef1c-4da9-8c36-8cf31b471819</target>
+    <point>1065.0,177.0</point>
+    <point>1065.0,570.0</point>
+    <point>1635.0,570.0</point>
+    <point>1635.0,537.0</point>
+    <labelposition>52.0,47.0</labelposition>
+    <branch>error</branch>
+  </edge>
+  <edge>
+    <source>6ac9d33a-6f98-4be6-9dba-dde0a3547c83</source>
+    <target>58c36d72-ef1c-4da9-8c36-8cf31b471819</target>
+    <point>975.0,177.0</point>
+    <point>975.0,600.0</point>
+    <point>1635.0,600.0</point>
+    <point>1635.0,537.0</point>
+    <labelposition>35.0,53.0</labelposition>
     <branch>error</branch>
   </edge>
   <values/>

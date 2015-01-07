@@ -121,6 +121,8 @@ public class GenerateFeatureProjectHandler extends AbstractHandler {
 						context.put("annotationToPackageMap", PluginRegistry.getInstance().getUsedPlugins());
 						context.put("featureProjectPath",featureProjectPath);
 						context.put("graphModel",model);
+						context.put("otherPluginIDs", BundleRegistry.INSTANCE.getPluginIDs());
+						context.put("otherFragmentIDs", BundleRegistry.INSTANCE.getFragmentIDs());
 						LightweightExecutionEnvironment env = new DefaultLightweightExecutionEnvironment(context);
 						if(new Generate_Feature_XML().execute(env).equals("error"))
 							throw new Exception("Could not create feature.xml",(Throwable)context.get("exception"));
