@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>cdd03cd4-edfa-43b9-9631-37bc827cc85e</id>
   <name>Generate Feature XML</name>
-  <changecounter>46</changecounter>
+  <changecounter>47</changecounter>
   <sib>
     <id>17c1dcbb-74f9-456f-bf8f-44eee7fd4f25</id>
     <name>IterateGraphModelAnnotations</name>
@@ -41,34 +41,6 @@
     <finalbranches>exit</finalbranches>
     <finalbranches>next</finalbranches>
     <finalbranches>noElements</finalbranches>
-  </sib>
-  <sib>
-    <id>94daf3c2-7cdb-4bd5-8d23-ae610f4a59f8</id>
-    <name>PutList</name>
-    <label>PutList</label>
-    <sib-uid>collection-sibs/PutList</sib-uid>
-    <taxonomy>de.jabc.sib.common.collection.PutList</taxonomy>
-    <position>247.0,123.0</position>
-    <parameter name="elements">
-      <list/>
-    </parameter>
-    <parameter name="initialCapacity">
-      <int>10</int>
-    </parameter>
-    <parameter name="synchronization">
-      <boolean>false</boolean>
-    </parameter>
-    <parameter name="variable">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>featurePackages</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
   </sib>
   <sib>
     <id>42e47134-e2f2-4dcd-b459-f8cfe0c64783</id>
@@ -181,8 +153,8 @@
     <branch>default</branch>
   </edge>
   <edge>
-    <source>94daf3c2-7cdb-4bd5-8d23-ae610f4a59f8</source>
-    <target>5057542a-44f3-45c1-b001-4945e426f2f7</target>
+    <source>8a14e2e8-a716-4baf-9c6e-99d734c90af4</source>
+    <target>5bbf2ddc-719e-45c3-9776-01409a981130</target>
     <point>288.0,147.68571428571428</point>
     <point>357.0,167.4</point>
     <labelposition>500.0,0.0</labelposition>
@@ -277,35 +249,6 @@
     <branch>exit</branch>
     <branch>noElements</branch>
   </edge>
-  <sib>
-    <id>6090fb91-6a00-445b-88bd-b20abeb8e538</id>
-    <name>AddElement</name>
-    <label>AddElement</label>
-    <sib-uid>collection-sibs/AddElement</sib-uid>
-    <taxonomy>de.jabc.sib.common.collection.AddElement</taxonomy>
-    <position>427.5,123.0</position>
-    <parameter name="collection">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>featurePackages</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="element">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>packageName</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>error</finalbranches>
-    <finalbranches>false</finalbranches>
-    <finalbranches>true</finalbranches>
-  </sib>
   <sib>
     <id>025e410f-71ab-4f9a-a5f5-fd4e21993500</id>
     <name>AddElement_1</name>
@@ -529,7 +472,7 @@
     <branch>error</branch>
   </edge>
   <edge>
-    <source>94daf3c2-7cdb-4bd5-8d23-ae610f4a59f8</source>
+    <source>8a14e2e8-a716-4baf-9c6e-99d734c90af4</source>
     <target>d25fc657-4a9d-4b86-af32-53c163519b4b</target>
     <point>272.0,143.0</point>
     <point>152.0,908.0</point>
@@ -763,7 +706,7 @@
   </sib>
   <edge>
     <source>644bb009-35fd-4fdd-8ddd-22648826dabf</source>
-    <target>94daf3c2-7cdb-4bd5-8d23-ae610f4a59f8</target>
+    <target>8a14e2e8-a716-4baf-9c6e-99d734c90af4</target>
     <point>137.0,143.0</point>
     <point>272.0,143.0</point>
     <labelposition>500.0,0.0</labelposition>
@@ -1225,43 +1168,15 @@
     <point>140.0,967.0</point>
     <branch>error</branch>
   </edge>
-  <sib>
-    <id>5057542a-44f3-45c1-b001-4945e426f2f7</id>
-    <name>PutList_1</name>
-    <label>PutList</label>
-    <sib-uid>collection-sibs/PutList</sib-uid>
-    <taxonomy>de.jabc.sib.common.collection.PutList</taxonomy>
-    <position>337.0,123.0</position>
-    <parameter name="elements">
-      <list/>
-    </parameter>
-    <parameter name="initialCapacity">
-      <int>10</int>
-    </parameter>
-    <parameter name="synchronization">
-      <boolean>false</boolean>
-    </parameter>
-    <parameter name="variable">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>featureFragments</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-  </sib>
   <edge>
-    <source>5057542a-44f3-45c1-b001-4945e426f2f7</source>
+    <source>5bbf2ddc-719e-45c3-9776-01409a981130</source>
     <target>6090fb91-6a00-445b-88bd-b20abeb8e538</target>
     <point>375.0,180.0</point>
     <point>442.0,145.0</point>
     <branch>default</branch>
   </edge>
   <edge>
-    <source>5057542a-44f3-45c1-b001-4945e426f2f7</source>
+    <source>5bbf2ddc-719e-45c3-9776-01409a981130</source>
     <target>d25fc657-4a9d-4b86-af32-53c163519b4b</target>
     <point>360.0,150.0</point>
     <point>140.0,949.0</point>
@@ -1478,6 +1393,91 @@
     <labelposition>35.0,53.0</labelposition>
     <branch>error</branch>
   </edge>
+  <sib>
+    <id>8a14e2e8-a716-4baf-9c6e-99d734c90af4</id>
+    <name>PutList</name>
+    <label>PutSet</label>
+    <sib-uid>collection-sibs/PutSet</sib-uid>
+    <taxonomy>de.jabc.sib.common.collection.PutSet</taxonomy>
+    <position>247.5,123.0</position>
+    <parameter name="elements">
+      <set/>
+    </parameter>
+    <parameter name="initialCapacity">
+      <int>10</int>
+    </parameter>
+    <parameter name="synchronization">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>featurePackages</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>6090fb91-6a00-445b-88bd-b20abeb8e538</id>
+    <name>AddElement</name>
+    <label>AddElement</label>
+    <sib-uid>collection-sibs/AddElement</sib-uid>
+    <taxonomy>de.jabc.sib.common.collection.AddElement</taxonomy>
+    <position>427.5,123.0</position>
+    <parameter name="collection">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>featurePackages</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="element">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>packageName</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>false</finalbranches>
+    <finalbranches>true</finalbranches>
+  </sib>
+  <sib>
+    <id>5bbf2ddc-719e-45c3-9776-01409a981130</id>
+    <name>PutList_1</name>
+    <label>PutSet</label>
+    <sib-uid>collection-sibs/PutSet</sib-uid>
+    <taxonomy>de.jabc.sib.common.collection.PutSet</taxonomy>
+    <position>337.5,123.0</position>
+    <parameter name="elements">
+      <set/>
+    </parameter>
+    <parameter name="initialCapacity">
+      <int>10</int>
+    </parameter>
+    <parameter name="synchronization">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>featureFragments</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
   <values/>
   <branch>
     <name>error</name>
