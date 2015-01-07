@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>ede0f2a5-2d64-419a-a377-4de364aed9a1</id>
   <name>GenerateGraphmodelWrapper</name>
-  <changecounter>129</changecounter>
+  <changecounter>131</changecounter>
   <sib>
     <id>961ec5c2-d49b-4f47-b506-1d2f2c25fd26</id>
     <name>RunStringTemplate</name>
@@ -53,7 +53,6 @@ public class $graphModelName$Wrapper {
 		map = new HashMap&lt;&gt;();
 		for (Node n : sg.getAllNodes()) {
 			GNode gNode = wrap(n);
-			System.err.println(gNode.getClass().getName());
 			gsg.getModelElements().add(gNode);
 		}
 		

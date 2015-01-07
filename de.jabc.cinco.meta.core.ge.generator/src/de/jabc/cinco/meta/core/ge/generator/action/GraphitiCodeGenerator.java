@@ -1,13 +1,6 @@
 package de.jabc.cinco.meta.core.ge.generator.action;
 
-import graphicalgraphmodel.GContainer;
-import graphicalgraphmodel.GEdge;
-import graphicalgraphmodel.GNode;
-import graphicalgraphmodel.GraphicalgraphmodelFactory;
 import graphicalgraphmodel.GraphicalgraphmodelPackage;
-import graphicalgraphmodel.impl.GContainerImpl;
-import graphicalgraphmodel.impl.GEdgeImpl;
-import graphicalgraphmodel.impl.GNodeImpl;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -53,35 +46,27 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 import org.eclipse.graphiti.dt.IDiagramTypeProvider;
 import org.eclipse.graphiti.features.IDeleteFeature;
+import org.eclipse.graphiti.features.IMoveShapeFeature;
 import org.eclipse.graphiti.features.IUpdateFeature;
-import org.eclipse.graphiti.features.context.IUpdateContext;
-import org.eclipse.graphiti.features.context.impl.AddContext;
 import org.eclipse.graphiti.features.context.impl.CreateConnectionContext;
 import org.eclipse.graphiti.features.context.impl.CreateContext;
 import org.eclipse.graphiti.features.context.impl.DeleteContext;
+import org.eclipse.graphiti.features.context.impl.MoveShapeContext;
 import org.eclipse.graphiti.features.context.impl.UpdateContext;
-import org.eclipse.graphiti.features.impl.AbstractUpdateFeature;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.ui.services.GraphitiUi;
-import org.eclipse.pde.core.plugin.IExtensions;
-import org.eclipse.pde.core.plugin.IPluginBase;
-import org.eclipse.pde.core.plugin.IPluginExtensionPoint;
-import org.eclipse.pde.core.plugin.IPluginModelBase;
 import org.eclipse.pde.core.project.IBundleProjectDescription;
 import org.eclipse.pde.core.project.IBundleProjectService;
-import org.eclipse.pde.internal.core.plugin.PluginExtension;
 import org.eclipse.xtend.typesystem.emf.EcoreUtil2;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
@@ -345,15 +330,15 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 		context.put("fqnGraphiti", Graphiti.class.getName());
 		context.put("fqnGraphitiUi", GraphitiUi.class.getName());
 		context.put("fqnFeatureProvider", gModel.getPackage() + ".graphiti." + gModel.getName() + "FeatureProvider");
+		context.put("fqnShape", org.eclipse.graphiti.mm.pictograms.Shape.class.getName());
 		context.put("fqnContainerShape", org.eclipse.graphiti.mm.pictograms.ContainerShape.class.getName());
 		context.put("fqnPictogramElement", PictogramElement.class.getName());
 		
 		
 		context.put("fqnCreateContext", CreateContext.class.getName());
 		context.put("fqnCreateConnectionContext", CreateConnectionContext.class.getName());
-		
 		context.put("fqnDeleteContext", DeleteContext.class.getName());
-		
+		context.put("fqnMoveShapeContext", MoveShapeContext.class.getName());
 		context.put("fqnUpdateContext", UpdateContext.class.getName());
 		
 		
@@ -366,8 +351,9 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 		context.put("fqnCreateEdgeFeaturePrefix", gModel.getPackage().concat(".graphiti.features.create.edges."));
 		context.put("fqnCreateContainerFeaturePrefix", gModel.getPackage().concat(".graphiti.features.create.containers."));
 		
-		context.put("fqnUpdateFeature", IUpdateFeature.class.getName());
 		context.put("fqnDeleteFeature", IDeleteFeature.class.getName());
+		context.put("fqnMoveShapeFeature", IMoveShapeFeature.class.getName());
+		context.put("fqnUpdateFeature", IUpdateFeature.class.getName());
 		
 		context.put("fqnGenNodePrefix", gModel.getPackage() + "." + GMODEL_NAME_LOWER +".");
 	}
