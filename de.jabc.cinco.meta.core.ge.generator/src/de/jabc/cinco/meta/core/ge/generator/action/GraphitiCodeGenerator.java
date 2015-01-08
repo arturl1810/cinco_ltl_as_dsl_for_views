@@ -46,6 +46,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
@@ -56,6 +57,7 @@ import org.eclipse.graphiti.dt.IDiagramTypeProvider;
 import org.eclipse.graphiti.features.IDeleteFeature;
 import org.eclipse.graphiti.features.IMoveShapeFeature;
 import org.eclipse.graphiti.features.IUpdateFeature;
+import org.eclipse.graphiti.features.context.impl.AddContext;
 import org.eclipse.graphiti.features.context.impl.CreateConnectionContext;
 import org.eclipse.graphiti.features.context.impl.CreateContext;
 import org.eclipse.graphiti.features.context.impl.DeleteContext;
@@ -209,6 +211,7 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 				
 				context.put("integerType", integerType);
 				context.put("booleanType", booleanType);
+				context.put("eObjectType", EcorePackage.eINSTANCE.getEObject());
 				fqnToContext(context);
 				
 				LightweightExecutionEnvironment env = new DefaultLightweightExecutionEnvironment(context);
@@ -334,7 +337,7 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 		context.put("fqnContainerShape", org.eclipse.graphiti.mm.pictograms.ContainerShape.class.getName());
 		context.put("fqnPictogramElement", PictogramElement.class.getName());
 		
-		
+		context.put("fqnAddContext", AddContext.class.getName());
 		context.put("fqnCreateContext", CreateContext.class.getName());
 		context.put("fqnCreateConnectionContext", CreateConnectionContext.class.getName());
 		context.put("fqnDeleteContext", DeleteContext.class.getName());
@@ -350,6 +353,7 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 		context.put("fqnCreateNodeFeaturePrefix", gModel.getPackage().concat(".graphiti.features.create.nodes."));
 		context.put("fqnCreateEdgeFeaturePrefix", gModel.getPackage().concat(".graphiti.features.create.edges."));
 		context.put("fqnCreateContainerFeaturePrefix", gModel.getPackage().concat(".graphiti.features.create.containers."));
+		context.put("fqnAddFeaturePrefix", gModel.getPackage().concat(".graphiti.features.add."));
 		
 		context.put("fqnDeleteFeature", IDeleteFeature.class.getName());
 		context.put("fqnMoveShapeFeature", IMoveShapeFeature.class.getName());

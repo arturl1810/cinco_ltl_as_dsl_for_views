@@ -55,7 +55,6 @@ public class ReferenceRegistry implements Serializable{
 	
 	public String generateURI(EObject bo) {
 		Resource res = bo.eResource();
-		String base = res.getURI().toPlatformString(true);
 		String fragment = res.getURIFragment(bo);
 		URI baseURI = res.getURI();
 		URI full = baseURI.appendFragment(fragment);
