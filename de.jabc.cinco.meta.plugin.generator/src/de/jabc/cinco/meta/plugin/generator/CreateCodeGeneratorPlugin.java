@@ -24,6 +24,8 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.jdt.core.IJavaModelStatusConstants;
+import org.eclipse.jdt.core.JavaModelException;
 import org.osgi.framework.Bundle;
 
 import de.jabc.cinco.meta.core.BundleRegistry;
@@ -129,6 +131,7 @@ public class CreateCodeGeneratorPlugin extends AbstractService {
 				bundleName = res.getProject().getName();
 			}
 			BundleRegistry.INSTANCE.addBundle(bundleName,false);
+			BundleRegistry.INSTANCE.addBundle("de.jabc.cinco.meta.plugin.generator.runtime", false);
 			requiredBundles.add(symbolicName);
 			requiredBundles.add("org.eclipse.ui");
 			requiredBundles.add("org.eclipse.core.runtime");
@@ -235,6 +238,7 @@ public class CreateCodeGeneratorPlugin extends AbstractService {
 		Set<String> requiredBundles = new HashSet<>();
 		requiredBundles.add("de.jabc.cinco.meta.core.mgl.model");
 		requiredBundles.add("org.eclipse.equinox.registry");
+		requiredBundles.add("de.jabc.cinco.meta.plugin.generator.runtime");
 		List<IProject> referencedProjects = new ArrayList<>();
 		List<String> srcFolders = new ArrayList<>();
 		srcFolders.add("src");
@@ -246,8 +250,12 @@ public class CreateCodeGeneratorPlugin extends AbstractService {
 				srcFolders, referencedProjects, requiredBundles,
 				exportedPackages, additionalNature, progressMonitor,false);
 		tvProject.refreshLocal(IResource.DEPTH_INFINITE, progressMonitor);
-		
-		ProjectCreator.createJavaClass(pr, packageName, className,tvProject.getFolder("/src/"),stubContents(packageName,className), progressMonitor);
+		try{
+			ProjectCreator.createJavaClass(pr, packageName, className,tvProject.getFolder("/src/"),stubContents(packageName,className), progressMonitor);
+		}catch(JavaModelException e){
+			if(e.getJavaModelStatus().getCode() != IJavaModelStatusConstants.NAME_COLLISION)
+				throw e;
+		}
 		
 		
 		}catch(Exception e){
@@ -261,9 +269,10 @@ public class CreateCodeGeneratorPlugin extends AbstractService {
 				"import org.eclipse.core.runtime.IPath;\n"+
 				"import graphmodel.GraphModel;\n"+
 				"import org.eclipse.core.runtime.IProgressMonitor;\n"+
+				"import de.jabc.cinco.meta.plugin.generator.runtime.IGenerator;\n"+
 				"\n"+
 				"\n"+
-				"public class %s{\n"+
+				"public class %s implements IGenerator{\n"+
 				"\tpublic void generate(GraphModel model,IPath outlet, IProgressMonitor monitor){\n"+
 				"\n"+
 				"\t}\n"+
