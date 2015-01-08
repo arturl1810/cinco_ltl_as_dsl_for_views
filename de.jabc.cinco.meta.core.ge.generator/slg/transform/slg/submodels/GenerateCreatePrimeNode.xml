@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>7c46cc02-d874-4f7b-8dc5-2f624fce088b</id>
   <name>GenerateCreatePrimeNode</name>
-  <changecounter>27</changecounter>
+  <changecounter>32</changecounter>
   <sib>
     <id>d449a017-7ca7-429b-bbe0-4897b9941e3f</id>
     <name>GraphSIB_22</name>
@@ -51,6 +51,7 @@ $fqnFeatureProvider$ provider = ($fqnFeatureProvider$) $fqnGraphitiUi$.getExtens
     
 $fqnAddFeaturePrefix$Add$nodeName$Feature af = new $fqnAddFeaturePrefix$Add$nodeName$Feature(provider);
 $fqnAddContext$ ac = new $fqnAddContext$();
+ac.setNewObject(prime);
 ac.setX(xPos);
 ac.setY(yPos);
 if (width &gt; -1 &amp;&amp; height &gt; -1) {
@@ -432,8 +433,8 @@ return retval; </string>
     </parameter>
     <parameter name="template">
       <string>Creates and adds an $nodeName$ for a prime referenced EObject.
-@param prime The referenced object. ATTENTION: The resource containings the referenced object should by loaded by a platformURI (relative to the workspace root). 
-Otherwise added referenced object by the graphical editor will have other UIDs as objects added by code.
+@param prime The referenced object. $!ATTENTION: The resource containings the referenced object should by loaded by a platformURI (relative to the workspace root). 
+Otherwise added referenced object by the graphical editor will have other UIDs as objects added by code.!$
 @param xPos The x position of $nodeName$&apos;s graphical representation in the diagram
 @param yPos The y position of $nodeName$&apos;s graphical representation in the diagram
 @param width The width position of $nodeName$&apos;s graphical representation in the diagram
@@ -468,8 +469,8 @@ Otherwise added referenced object by the graphical editor will have other UIDs a
     </parameter>
     <parameter name="template">
       <string>Creates and adds a new instance of $nodeName$ if possible.
-@param prime The referenced object. ATTENTION: The resource containings the referenced object should by loaded by a platformURI (relative to the workspace root). 
-Otherwise added referenced object by the graphical editor will have other UIDs as objects added by code.
+@param prime The referenced object. $!ATTENTION: The resource containings the referenced object should by loaded by a platformURI (relative to the workspace root). 
+Otherwise added referenced object by the graphical editor will have other UIDs as objects added by code.!$
 @param xPos The x position of $nodeName$&apos;s graphical representation in the diagram.
 @param yPos The y position of $nodeName$&apos;s graphical representation in the diagram.
 

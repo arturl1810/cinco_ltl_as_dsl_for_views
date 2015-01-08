@@ -119,6 +119,26 @@
         </eGenericType>
       </eParameters>
     </eOperations>
+    <eOperations name="getX" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return getShape().getGraphicsAlgorithm().getX();"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="getY" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return getShape().getGraphicsAlgorithm().getY();"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="getWidth" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return getShape().getGraphicsAlgorithm().getWidth();"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="getHeight" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return getShape().getGraphicsAlgorithm().getHeight();"/>
+      </eAnnotations>
+    </eOperations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="incoming" upperBound="-1"
         eType="#//GEdge" eOpposite="#//GEdge/targetElement"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="outgoing" upperBound="-1"

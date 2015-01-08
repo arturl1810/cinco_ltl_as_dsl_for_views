@@ -52,6 +52,10 @@
         <genParameters ecoreParameter="GraphicalGraphModel.ecore#//GNode/getOutgoing/clazz"/>
         <genTypeParameters ecoreTypeParameter="GraphicalGraphModel.ecore#//GNode/getOutgoing/T"/>
       </genOperations>
+      <genOperations ecoreOperation="GraphicalGraphModel.ecore#//GNode/getX"/>
+      <genOperations ecoreOperation="GraphicalGraphModel.ecore#//GNode/getY"/>
+      <genOperations ecoreOperation="GraphicalGraphModel.ecore#//GNode/getWidth"/>
+      <genOperations ecoreOperation="GraphicalGraphModel.ecore#//GNode/getHeight"/>
     </genClasses>
     <genClasses image="false" ecoreClass="GraphicalGraphModel.ecore#//GModelElement">
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference GraphicalGraphModel.ecore#//GModelElement/container"/>
