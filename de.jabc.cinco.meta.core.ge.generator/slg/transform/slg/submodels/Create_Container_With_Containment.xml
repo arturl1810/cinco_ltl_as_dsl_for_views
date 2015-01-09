@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>11c68a63-29d0-471a-aa97-6467c06fc009</id>
   <name>Create Reference</name>
-  <changecounter>8</changecounter>
+  <changecounter>23</changecounter>
   <sib>
     <id>55e1e71b-4f98-491b-9a01-0bf73127aefb</id>
     <name>NewEReferenceInEClassEStructuralFeatures_7</name>
@@ -673,16 +673,6 @@
   </parameter>
   <values>
     <entry>
-      <string>containerReferenceName</string>
-      <de.metaframe.common.sib.parameter.ContextExpression>
-        <ContextExpressionFoundation>
-          <expression>container</expression>
-          <clazz>java.lang.String</clazz>
-          <classMutable>true</classMutable>
-        </ContextExpressionFoundation>
-      </de.metaframe.common.sib.parameter.ContextExpression>
-    </entry>
-    <entry>
       <string>containedClassKey</string>
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -693,8 +683,14 @@
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </entry>
     <entry>
-      <string>lowerBound</string>
-      <int>0</int>
+      <string>containerReferenceName</string>
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>container</expression>
+          <clazz>java.lang.String</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
     </entry>
     <entry>
       <string>containedReferenceName</string>
@@ -705,6 +701,10 @@
           <classMutable>true</classMutable>
         </ContextExpressionFoundation>
       </de.metaframe.common.sib.parameter.ContextExpression>
+    </entry>
+    <entry>
+      <string>lowerBound</string>
+      <int>0</int>
     </entry>
     <entry>
       <string>containingClassKey</string>

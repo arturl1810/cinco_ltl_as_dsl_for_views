@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>0e442a3b-428c-42da-ba0f-50231419be44</id>
   <name>Initialize</name>
-  <changecounter>66</changecounter>
+  <changecounter>73</changecounter>
   <sib>
     <id>fc2d926f-8748-458a-a729-faa7ad31bb7f</id>
     <name>PutString</name>
@@ -226,7 +226,7 @@
     <parameter name="eClassifierName">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>GNode</expression>
+          <expression>CNode</expression>
           <clazz>java.lang.String</clazz>
           <classMutable>true</classMutable>
         </ContextExpressionFoundation>
@@ -264,7 +264,7 @@
     <parameter name="eClassifierName">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>GEdge</expression>
+          <expression>CEdge</expression>
           <clazz>java.lang.String</clazz>
           <classMutable>true</classMutable>
         </ContextExpressionFoundation>
@@ -302,7 +302,7 @@
     <parameter name="eClassifierName">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>GGraphModel</expression>
+          <expression>CGraphModel</expression>
           <clazz>java.lang.String</clazz>
           <classMutable>true</classMutable>
         </ContextExpressionFoundation>
@@ -399,7 +399,7 @@
     <parameter name="eClassifierName">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>GContainer</expression>
+          <expression>CContainer</expression>
           <clazz>java.lang.String</clazz>
           <classMutable>true</classMutable>
         </ContextExpressionFoundation>
@@ -660,7 +660,7 @@
     <parameter name="eClassifierName">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>GModelElement</expression>
+          <expression>CModelElement</expression>
           <clazz>java.lang.String</clazz>
           <classMutable>true</classMutable>
         </ContextExpressionFoundation>

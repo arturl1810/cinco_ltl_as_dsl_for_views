@@ -2,120 +2,120 @@
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="graphicalgraphmodel" nsURI="http://cinco.scce.info/graphicalgraphmodel"
     nsPrefix="graphicalgraphmodel">
-  <eClassifiers xsi:type="ecore:EClass" name="GModelElementContainer" abstract="true"
+  <eClassifiers xsi:type="ecore:EClass" name="CModelElementContainer" abstract="true"
       interface="true">
     <eOperations name="getModelElements" upperBound="-1">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="EList&lt;T> list = new org.eclipse.emf.common.util.BasicEList&lt;T>();&#xA;&#x9;&#x9;if(clazz!=null){&#xA;&#x9;&#x9;&#x9;for(GModelElement e: this.getModelElements()){&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;if(clazz.isInstance(e)){&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;list.add(clazz.cast(e));&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;}&#xA;&#x9;&#x9;&#x9;&#x9;}&#xA;&#x9;&#x9;}else{&#xA;&#x9;&#x9;&#x9;throw new NullPointerException(&quot;Class must not be null.&quot;);&#xA;&#x9;&#x9;}&#xA;&#x9;&#x9;&#xA;&#x9;&#x9;return org.eclipse.emf.common.util.ECollections.unmodifiableEList(list);"/>
+        <details key="body" value="EList&lt;T> list = new org.eclipse.emf.common.util.BasicEList&lt;T>();&#xA;&#x9;&#x9;if(clazz!=null){&#xA;&#x9;&#x9;&#x9;for(CModelElement e: this.getModelElements()){&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;if(clazz.isInstance(e)){&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;list.add(clazz.cast(e));&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;}&#xA;&#x9;&#x9;&#x9;&#x9;}&#xA;&#x9;&#x9;}else{&#xA;&#x9;&#x9;&#x9;throw new NullPointerException(&quot;Class must not be null.&quot;);&#xA;&#x9;&#x9;}&#xA;&#x9;&#x9;&#xA;&#x9;&#x9;return org.eclipse.emf.common.util.ECollections.unmodifiableEList(list);"/>
       </eAnnotations>
-      <eGenericType eTypeParameter="#//GModelElementContainer/getModelElements/T"/>
+      <eGenericType eTypeParameter="#//CModelElementContainer/getModelElements/T"/>
       <eTypeParameters name="T">
-        <eBounds eClassifier="#//GModelElement"/>
+        <eBounds eClassifier="#//CModelElement"/>
       </eTypeParameters>
       <eParameters name="clazz">
         <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaClass">
-          <eTypeArguments eTypeParameter="#//GModelElementContainer/getModelElements/T"/>
+          <eTypeArguments eTypeParameter="#//CModelElementContainer/getModelElements/T"/>
         </eGenericType>
       </eParameters>
     </eOperations>
-    <eOperations name="getAllNodes" upperBound="-1" eType="#//GNode">
+    <eOperations name="getAllNodes" upperBound="-1" eType="#//CNode">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="return getModelElements(GNode.class);"/>
+        <details key="body" value="return getModelElements(CNode.class);"/>
       </eAnnotations>
     </eOperations>
-    <eOperations name="getAllEdges" upperBound="-1" eType="#//GEdge">
+    <eOperations name="getAllEdges" upperBound="-1" eType="#//CEdge">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="return getModelElements(GEdge.class);"/>
+        <details key="body" value="return getModelElements(CEdge.class);"/>
       </eAnnotations>
     </eOperations>
-    <eOperations name="getAllContainers" upperBound="-1" eType="#//GContainer">
+    <eOperations name="getAllContainers" upperBound="-1" eType="#//CContainer">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="return getModelElements(GContainer.class);"/>
+        <details key="body" value="return getModelElements(CContainer.class);"/>
       </eAnnotations>
     </eOperations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="modelElements" upperBound="-1"
-        eType="#//GModelElement" containment="true" eOpposite="#//GModelElement/container"/>
+        eType="#//CModelElement" containment="true" eOpposite="#//CModelElement/container"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="GContainer" eSuperTypes="#//GModelElementContainer #//GNode"/>
-  <eClassifiers xsi:type="ecore:EClass" name="GGraphModel" abstract="true" eSuperTypes="#//GModelElementContainer">
+  <eClassifiers xsi:type="ecore:EClass" name="CContainer" eSuperTypes="#//CModelElementContainer #//CNode"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CGraphModel" abstract="true" eSuperTypes="#//CModelElementContainer">
     <eStructuralFeatures xsi:type="ecore:EReference" name="graphModel" lowerBound="1"
         eType="ecore:EClass ../../de.jabc.cinco.meta.core.mgl.model/model/GraphModel.ecore#//GraphModel"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="diagram" lowerBound="1"
         eType="ecore:EClass ../../org.eclipse.graphiti.mm/model/graphiti.ecore#//pictograms/Diagram"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="shape" eType="ecore:EClass ../../org.eclipse.graphiti.mm/model/graphiti.ecore#//pictograms/ContainerShape"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="GEdge" eSuperTypes="#//GModelElement">
+  <eClassifiers xsi:type="ecore:EClass" name="CEdge" eSuperTypes="#//CModelElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="sourceElement" lowerBound="1"
-        eType="#//GNode" eOpposite="#//GNode/outgoing"/>
+        eType="#//CNode" eOpposite="#//CNode/outgoing"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="targetElement" lowerBound="1"
-        eType="#//GNode" eOpposite="#//GNode/incoming"/>
+        eType="#//CNode" eOpposite="#//CNode/incoming"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="connection" lowerBound="1"
         eType="ecore:EClass ../../org.eclipse.graphiti.mm/model/graphiti.ecore#//pictograms/Connection"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="GNode" eSuperTypes="#//GModelElement">
-    <eOperations name="getSuccessors" upperBound="-1" eType="#//GNode">
+  <eClassifiers xsi:type="ecore:EClass" name="CNode" eSuperTypes="#//CModelElement">
+    <eOperations name="getSuccessors" upperBound="-1" eType="#//CNode">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="EList&lt;GNode> list = new org.eclipse.emf.common.util.BasicEList&lt;GNode>();&#xA;&#x9;&#x9;for(GEdge e: this.getOutgoing()){&#xA;&#x9;&#x9;&#x9;list.add(e.getTargetElement());&#xA;&#x9;&#x9;}&#xA;&#x9;&#x9;return org.eclipse.emf.common.util.ECollections.unmodifiableEList(list);"/>
+        <details key="body" value="EList&lt;CNode> list = new org.eclipse.emf.common.util.BasicEList&lt;CNode>();&#xA;&#x9;&#x9;for(CEdge e: this.getOutgoing()){&#xA;&#x9;&#x9;&#x9;list.add(e.getTargetElement());&#xA;&#x9;&#x9;}&#xA;&#x9;&#x9;return org.eclipse.emf.common.util.ECollections.unmodifiableEList(list);"/>
       </eAnnotations>
     </eOperations>
     <eOperations name="getSuccessors" upperBound="-1">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="EList&lt;T> list = new org.eclipse.emf.common.util.BasicEList&lt;T>();&#xA;&#x9;&#x9;if(clazz!=null){&#xA;&#x9;&#x9;&#x9;for(GEdge e: this.getOutgoing()){&#xA;&#x9;&#x9;&#x9;&#x9;if(clazz.isInstance(e.getTargetElement())){&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;list.add(clazz.cast(e.getTargetElement()));&#xA;&#x9;&#x9;&#x9;&#x9;}&#xA;&#x9;&#x9;&#x9;}&#xA;&#x9;&#x9;}else{&#xA;&#x9;&#x9;&#x9;throw new NullPointerException(&quot;Class must not be null.&quot;);&#xA;&#x9;&#x9;}&#xA;&#x9;&#x9;&#xA;&#x9;&#x9;return org.eclipse.emf.common.util.ECollections.unmodifiableEList(list);"/>
+        <details key="body" value="EList&lt;T> list = new org.eclipse.emf.common.util.BasicEList&lt;T>();&#xA;&#x9;&#x9;if(clazz!=null){&#xA;&#x9;&#x9;&#x9;for(CEdge e: this.getOutgoing()){&#xA;&#x9;&#x9;&#x9;&#x9;if(clazz.isInstance(e.getTargetElement())){&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;list.add(clazz.cast(e.getTargetElement()));&#xA;&#x9;&#x9;&#x9;&#x9;}&#xA;&#x9;&#x9;&#x9;}&#xA;&#x9;&#x9;}else{&#xA;&#x9;&#x9;&#x9;throw new NullPointerException(&quot;Class must not be null.&quot;);&#xA;&#x9;&#x9;}&#xA;&#x9;&#x9;&#xA;&#x9;&#x9;return org.eclipse.emf.common.util.ECollections.unmodifiableEList(list);"/>
       </eAnnotations>
-      <eGenericType eTypeParameter="#//GNode/getSuccessors.1/T"/>
+      <eGenericType eTypeParameter="#//CNode/getSuccessors.1/T"/>
       <eTypeParameters name="T">
-        <eBounds eClassifier="#//GNode"/>
+        <eBounds eClassifier="#//CNode"/>
       </eTypeParameters>
       <eParameters name="clazz">
         <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaClass">
-          <eTypeArguments eTypeParameter="#//GNode/getSuccessors.1/T"/>
+          <eTypeArguments eTypeParameter="#//CNode/getSuccessors.1/T"/>
         </eGenericType>
       </eParameters>
     </eOperations>
-    <eOperations name="getPredecessors" upperBound="-1" eType="#//GNode">
+    <eOperations name="getPredecessors" upperBound="-1" eType="#//CNode">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="EList&lt;GNode> list = new org.eclipse.emf.common.util.BasicEList&lt;GNode>();&#xA;&#x9;&#x9;for(GEdge e: this.getIncoming()){&#xA;&#x9;&#x9;&#x9;list.add(e.getSourceElement());&#xA;&#x9;&#x9;}&#xA;&#x9;&#x9;return org.eclipse.emf.common.util.ECollections.unmodifiableEList(list);"/>
+        <details key="body" value="EList&lt;CNode> list = new org.eclipse.emf.common.util.BasicEList&lt;CNode>();&#xA;&#x9;&#x9;for(CEdge e: this.getIncoming()){&#xA;&#x9;&#x9;&#x9;list.add(e.getSourceElement());&#xA;&#x9;&#x9;}&#xA;&#x9;&#x9;return org.eclipse.emf.common.util.ECollections.unmodifiableEList(list);"/>
       </eAnnotations>
     </eOperations>
     <eOperations name="getPredecessors" upperBound="-1">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="EList&lt;T> list = new org.eclipse.emf.common.util.BasicEList&lt;T>();&#xA;&#x9;&#x9;if(clazz!=null){&#xA;&#x9;&#x9;&#x9;for(GEdge e: this.getIncoming()){&#xA;&#x9;&#x9;&#x9;&#x9;if(clazz.isInstance(e.getSourceElement())){&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;list.add(clazz.cast(e.getSourceElement()));&#xA;&#x9;&#x9;&#x9;&#x9;}&#xA;&#x9;&#x9;&#x9;}&#xA;&#x9;&#x9;}else{&#xA;&#x9;&#x9;&#x9;throw new NullPointerException(&quot;Class must not be null.&quot;);&#xA;&#x9;&#x9;}&#xA;&#x9;&#x9;&#xA;&#x9;&#x9;return org.eclipse.emf.common.util.ECollections.unmodifiableEList(list);"/>
+        <details key="body" value="EList&lt;T> list = new org.eclipse.emf.common.util.BasicEList&lt;T>();&#xA;&#x9;&#x9;if(clazz!=null){&#xA;&#x9;&#x9;&#x9;for(CEdge e: this.getIncoming()){&#xA;&#x9;&#x9;&#x9;&#x9;if(clazz.isInstance(e.getSourceElement())){&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;list.add(clazz.cast(e.getSourceElement()));&#xA;&#x9;&#x9;&#x9;&#x9;}&#xA;&#x9;&#x9;&#x9;}&#xA;&#x9;&#x9;}else{&#xA;&#x9;&#x9;&#x9;throw new NullPointerException(&quot;Class must not be null.&quot;);&#xA;&#x9;&#x9;}&#xA;&#x9;&#x9;&#xA;&#x9;&#x9;return org.eclipse.emf.common.util.ECollections.unmodifiableEList(list);"/>
       </eAnnotations>
-      <eGenericType eTypeParameter="#//GNode/getPredecessors.1/T"/>
+      <eGenericType eTypeParameter="#//CNode/getPredecessors.1/T"/>
       <eTypeParameters name="T">
-        <eBounds eClassifier="#//GNode"/>
+        <eBounds eClassifier="#//CNode"/>
       </eTypeParameters>
       <eParameters name="clazz">
         <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaClass">
-          <eTypeArguments eTypeParameter="#//GNode/getPredecessors.1/T"/>
+          <eTypeArguments eTypeParameter="#//CNode/getPredecessors.1/T"/>
         </eGenericType>
       </eParameters>
     </eOperations>
     <eOperations name="getIncoming" upperBound="-1">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="EList&lt;T> list = new org.eclipse.emf.common.util.BasicEList&lt;T>();&#xA;&#x9;&#x9;if(clazz!=null){&#xA;&#x9;&#x9;&#x9;for(GEdge e: this.getIncoming()){&#xA;&#x9;&#x9;&#x9;&#x9;if(clazz.isInstance(e)){&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;list.add(clazz.cast(e));&#xA;&#x9;&#x9;&#x9;&#x9;}&#xA;&#x9;&#x9;&#x9;}&#xA;&#x9;&#x9;}else{&#xA;&#x9;&#x9;&#x9;throw new NullPointerException(&quot;Class must not be null.&quot;);&#xA;&#x9;&#x9;}&#xA;&#x9;&#x9;&#xA;&#x9;&#x9;return org.eclipse.emf.common.util.ECollections.unmodifiableEList(list);"/>
+        <details key="body" value="EList&lt;T> list = new org.eclipse.emf.common.util.BasicEList&lt;T>();&#xA;&#x9;&#x9;if(clazz!=null){&#xA;&#x9;&#x9;&#x9;for(CEdge e: this.getIncoming()){&#xA;&#x9;&#x9;&#x9;&#x9;if(clazz.isInstance(e)){&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;list.add(clazz.cast(e));&#xA;&#x9;&#x9;&#x9;&#x9;}&#xA;&#x9;&#x9;&#x9;}&#xA;&#x9;&#x9;}else{&#xA;&#x9;&#x9;&#x9;throw new NullPointerException(&quot;Class must not be null.&quot;);&#xA;&#x9;&#x9;}&#xA;&#x9;&#x9;&#xA;&#x9;&#x9;return org.eclipse.emf.common.util.ECollections.unmodifiableEList(list);"/>
       </eAnnotations>
-      <eGenericType eTypeParameter="#//GNode/getIncoming/T"/>
+      <eGenericType eTypeParameter="#//CNode/getIncoming/T"/>
       <eTypeParameters name="T">
-        <eBounds eClassifier="#//GEdge"/>
+        <eBounds eClassifier="#//CEdge"/>
       </eTypeParameters>
       <eParameters name="clazz">
         <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaClass">
-          <eTypeArguments eTypeParameter="#//GNode/getIncoming/T"/>
+          <eTypeArguments eTypeParameter="#//CNode/getIncoming/T"/>
         </eGenericType>
       </eParameters>
     </eOperations>
     <eOperations name="getOutgoing" upperBound="-1">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="EList&lt;T> list = new org.eclipse.emf.common.util.BasicEList&lt;T>();&#xA;&#x9;&#x9;if(clazz!=null){&#xA;&#x9;&#x9;&#x9;for(GEdge e: this.getOutgoing()){&#xA;&#x9;&#x9;&#x9;&#x9;if(clazz.isInstance(e)){&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;list.add(clazz.cast(e));&#xA;&#x9;&#x9;&#x9;&#x9;}&#xA;&#x9;&#x9;&#x9;}&#xA;&#x9;&#x9;}else{&#xA;&#x9;&#x9;&#x9;throw new NullPointerException(&quot;Class must not be null.&quot;);&#xA;&#x9;&#x9;}&#xA;&#x9;&#x9;&#xA;&#x9;&#x9;return org.eclipse.emf.common.util.ECollections.unmodifiableEList(list);"/>
+        <details key="body" value="EList&lt;T> list = new org.eclipse.emf.common.util.BasicEList&lt;T>();&#xA;&#x9;&#x9;if(clazz!=null){&#xA;&#x9;&#x9;&#x9;for(CEdge e: this.getOutgoing()){&#xA;&#x9;&#x9;&#x9;&#x9;if(clazz.isInstance(e)){&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;list.add(clazz.cast(e));&#xA;&#x9;&#x9;&#x9;&#x9;}&#xA;&#x9;&#x9;&#x9;}&#xA;&#x9;&#x9;}else{&#xA;&#x9;&#x9;&#x9;throw new NullPointerException(&quot;Class must not be null.&quot;);&#xA;&#x9;&#x9;}&#xA;&#x9;&#x9;&#xA;&#x9;&#x9;return org.eclipse.emf.common.util.ECollections.unmodifiableEList(list);"/>
       </eAnnotations>
-      <eGenericType eTypeParameter="#//GNode/getOutgoing/T"/>
+      <eGenericType eTypeParameter="#//CNode/getOutgoing/T"/>
       <eTypeParameters name="T">
-        <eBounds eClassifier="#//GEdge"/>
+        <eBounds eClassifier="#//CEdge"/>
       </eTypeParameters>
       <eParameters name="clazz">
         <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaClass">
-          <eTypeArguments eTypeParameter="#//GNode/getOutgoing/T"/>
+          <eTypeArguments eTypeParameter="#//CNode/getOutgoing/T"/>
         </eGenericType>
       </eParameters>
     </eOperations>
@@ -140,14 +140,14 @@
       </eAnnotations>
     </eOperations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="incoming" upperBound="-1"
-        eType="#//GEdge" eOpposite="#//GEdge/targetElement"/>
+        eType="#//CEdge" eOpposite="#//CEdge/targetElement"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="outgoing" upperBound="-1"
-        eType="#//GEdge" eOpposite="#//GEdge/sourceElement"/>
+        eType="#//CEdge" eOpposite="#//CEdge/sourceElement"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="shape" eType="ecore:EClass ../../org.eclipse.graphiti.mm/model/graphiti.ecore#//pictograms/ContainerShape"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="GModelElement" abstract="true" interface="true">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="container" eType="#//GModelElementContainer"
-        eOpposite="#//GModelElementContainer/modelElements"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CModelElement" abstract="true" interface="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="container" eType="#//CModelElementContainer"
+        eOpposite="#//CModelElementContainer/modelElements"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="modelElement" eType="ecore:EClass ../../de.jabc.cinco.meta.core.mgl.model/model/GraphModel.ecore#//ModelElement"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="diagram" lowerBound="1"
         eType="ecore:EClass ../../org.eclipse.graphiti.mm/model/graphiti.ecore#//pictograms/Diagram"/>
