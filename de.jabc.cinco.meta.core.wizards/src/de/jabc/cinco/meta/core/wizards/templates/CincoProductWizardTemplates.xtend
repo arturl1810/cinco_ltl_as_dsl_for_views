@@ -57,6 +57,17 @@ edgeStyle simpleArrow {
 
 	'''
 	
+	def static generateSomeGraphCPD(String modelName, String packageName)'''
+cincoProduct «modelName»{
+	id «packageName».product
+	version "1.0.0.qualifier"
+	mgls(«modelName»)
+	about {
+		text "This is an example for an about text."
+	}
+	
+}		
+	'''
 	
 	
 	

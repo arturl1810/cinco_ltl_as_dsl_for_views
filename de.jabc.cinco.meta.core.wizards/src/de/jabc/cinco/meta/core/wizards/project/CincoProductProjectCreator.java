@@ -72,12 +72,16 @@ public class CincoProductProjectCreator {
 			createResource(modelFolder, monitor);
 			IFile mglModelFile = modelFolder.getFile(mglModelName.concat(".mgl"));
 			IFile styleModelFile = modelFolder.getFile(mglModelName.concat(".style"));
+			IFile cpdModelFile = modelFolder.getFile(mglModelName.concat(".cpd"));
 			if (!createExample) {
 				CharSequence mglCode = CincoProductWizardTemplates.generateSomeGraphMGL(mglModelName, packageName);
 				writeToFile(mglModelFile, mglCode);
 				
 				CharSequence styleCode = CincoProductWizardTemplates.generateSomeGraphStyle();
 				writeToFile(styleModelFile, styleCode);
+				
+				CharSequence cpdCode = CincoProductWizardTemplates.generateSomeGraphCPD(mglModelName, packageName);
+				writeToFile(cpdModelFile, cpdCode);
 			}
 			else {
 				CharSequence mglCode = CincoProductWizardTemplates.generateFlowGraphMGL(mglModelName, packageName, projectName, features);
