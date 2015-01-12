@@ -280,7 +280,7 @@ private Double calculateSheet(String resultNodeId, String sheetName)
 							
 							@Override
 							protected void doExecute() {
-								node.setResult(result);	
+								node.set«node.resultAttrName.toFirstUpper»(result);	
 							}
 						});
 				resulting=result;
