@@ -160,11 +160,12 @@ public class CreateSpreadSheetPlugin {
 			//Class names
 			String genHandlerClass = "GenerationHandler";
 			String calcHandlerClass = "CalculatingHandler";
+			String openingHandlerClass = "OpeningHandler";
 			
 			
 			//Generate pluginxml
 			PluginXMLTemplate plugintemplate= new PluginXMLTemplate();
-			String template = plugintemplate.createPlugin(projectName,genHandlerClass,calcHandlerClass).toString();
+			String template = plugintemplate.createPlugin(projectName,genHandlerClass,calcHandlerClass,openingHandlerClass).toString();
 			//Creates the Project
 			IProject tvProject = ProjectCreator.createProject(projectName,
 					srcFolders, referencedProjects, requiredBundles,
@@ -182,7 +183,7 @@ public class CreateSpreadSheetPlugin {
 					new CalculationHandlerTemplate().create(packagePath,projectName,calcHandlerClass,sheetName,fileName,resultNodes).toString(),
 					progressMonitor);
 			
-			ProjectCreator.createFile("OpeningHandler.java", tvProject.getFolder("src/"+projectName.replace(".","/")),
+			ProjectCreator.createFile(openingHandlerClass+".java", tvProject.getFolder("src/"+projectName.replace(".","/")),
 					new OpeningHandlerTemplate().create(packagePath,projectName,calcHandlerClass,sheetName,fileName,resultNodes).toString(),
 					progressMonitor);
 			
