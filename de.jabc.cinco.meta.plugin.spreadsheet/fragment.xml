@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<fragment>
+   <extension
+         id="id1"
+         name="name"
+         point="de.jabc.cinco.meta.core.pluginregistry.metaplugin">
+      <metaplugin_description
+            metapluginService="de.jabc.cinco.meta.plugin.spreadsheet.SpreadSheetMetaPLugin">
+      </metaplugin_description>
+      <graphmodel-annotation
+            recognized-annotation="spreadsheet">
+      </graphmodel-annotation>
+      <validator
+            ValidatorClass="de.jabc.cinco.meta.plugin.spreadsheet.SpreadSheetAnnotationValidator">
+      </validator>
+      <edge-annotation
+            recognized-annotation="calculating">
+      </edge-annotation>
+      <attribute-annotation
+            recognized-annotation="result">
+      </attribute-annotation>
+      <annotation
+            recognized-annotation="resulting">
+      </annotation>
+   </extension>
+
+</fragment>
