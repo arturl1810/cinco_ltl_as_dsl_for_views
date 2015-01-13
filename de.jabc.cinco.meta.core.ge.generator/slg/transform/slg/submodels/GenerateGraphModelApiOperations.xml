@@ -231,7 +231,7 @@
     <parameter name="eOperationNameKey">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>createAndAdd${fuNodeName}</expression>
+          <expression>new${fuNodeName}</expression>
           <clazz>java.lang.String</clazz>
           <classMutable>true</classMutable>
         </ContextExpressionFoundation>
@@ -400,7 +400,7 @@ return retval; </string>
     <parameter name="eOperationNameKey">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>createAndAdd${fuNodeName}</expression>
+          <expression>new${fuNodeName}</expression>
           <clazz>java.lang.String</clazz>
           <classMutable>true</classMutable>
         </ContextExpressionFoundation>
@@ -416,7 +416,7 @@ return retval; </string>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>return createAndAdd$nodeName$(xPos, yPos, -1, -1);</string>
+      <string>return new$nodeName$(xPos, yPos, -1, -1);</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
@@ -796,7 +796,7 @@ return retval; </string>
     <parameter name="eOperationNameKey">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>createAndAdd${fuEdgeName}</expression>
+          <expression>new${fuEdgeName}</expression>
           <clazz>java.lang.String</clazz>
           <classMutable>true</classMutable>
         </ContextExpressionFoundation>
@@ -1252,7 +1252,7 @@ return retval;</string>
     <parameter name="eOperationNameKey">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>createAndAdd${fuContainerName}</expression>
+          <expression>new${fuContainerName}</expression>
           <clazz>java.lang.String</clazz>
           <classMutable>true</classMutable>
         </ContextExpressionFoundation>
@@ -1438,7 +1438,7 @@ return retval; </string>
     <parameter name="eOperationNameKey">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>createAndAdd${fuContainerName}</expression>
+          <expression>new${fuContainerName}</expression>
           <clazz>java.lang.String</clazz>
           <classMutable>true</classMutable>
         </ContextExpressionFoundation>
@@ -1454,7 +1454,7 @@ return retval; </string>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>return createAndAdd$containerName$(xPos, yPos, -1, -1);</string>
+      <string>return new$containerName$(xPos, yPos, -1, -1);</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>

@@ -28,7 +28,7 @@
     <parameter name="eOperationNameKey">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>createAndAdd${fuNodeName}</expression>
+          <expression>new${fuNodeName}</expression>
           <clazz>java.lang.String</clazz>
           <classMutable>true</classMutable>
         </ContextExpressionFoundation>
@@ -290,7 +290,7 @@ return retval; </string>
     <parameter name="eOperationNameKey">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>createAndAdd${fuNodeName}</expression>
+          <expression>new${fuNodeName}</expression>
           <clazz>java.lang.String</clazz>
           <classMutable>true</classMutable>
         </ContextExpressionFoundation>
@@ -306,7 +306,7 @@ return retval; </string>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>return createAndAdd$nodeName$(prime, xPos, yPos, -1, -1);</string>
+      <string>return new$nodeName$(prime, xPos, yPos, -1, -1);</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
