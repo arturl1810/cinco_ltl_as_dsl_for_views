@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>95a30cb5-13ac-431b-ac50-d456a18e2ff9</id>
   <name>Initialize EPackage</name>
-  <changecounter>74</changecounter>
+  <changecounter>62</changecounter>
   <sib>
     <id>6ef7f224-8a3b-47b3-8a89-f7a1eb4616b9</id>
     <name>GetEcoreFactory</name>
@@ -790,17 +790,17 @@
   <sib>
     <id>da448077-30e6-402b-acaa-bc43e94c7c46</id>
     <name>PutExpression</name>
-    <label>Prepend_APIPrefix</label>
+    <label>Prepend_G</label>
     <sib-uid>basic-sibs/PutExpression</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
-    <position>373.0,318.0</position>
+    <position>367.0,318.0</position>
     <parameter name="resolve">
       <boolean>true</boolean>
     </parameter>
     <parameter name="value">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>${apiPrefix}${graphModelname}</expression>
+          <expression>G${graphModelname}</expression>
           <clazz>java.lang.Object</clazz>
           <classMutable>true</classMutable>
         </ContextExpressionFoundation>
@@ -821,17 +821,17 @@
   <sib>
     <id>435aa026-4e8b-4404-b31d-1fe42e7b74bf</id>
     <name>PutExpression_1</name>
-    <label>Prepend_APIPrefix</label>
+    <label>Prepend_G</label>
     <sib-uid>basic-sibs/PutExpression</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
-    <position>373.0,513.0</position>
+    <position>367.0,513.0</position>
     <parameter name="resolve">
       <boolean>true</boolean>
     </parameter>
     <parameter name="value">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>${apiPrefix}${graphModelPackage}</expression>
+          <expression>G${graphModelPackage}</expression>
           <clazz>java.lang.Object</clazz>
           <classMutable>true</classMutable>
         </ContextExpressionFoundation>

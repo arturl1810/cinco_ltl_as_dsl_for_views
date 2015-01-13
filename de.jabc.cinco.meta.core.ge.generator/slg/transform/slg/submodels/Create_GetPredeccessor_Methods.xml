@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>f555a538-7d72-4511-9276-f914744a55db</id>
   <name>Create GetPredecessor Methods</name>
-  <changecounter>62</changecounter>
+  <changecounter>55</changecounter>
   <sib>
     <id>440acf67-c1d6-4264-8b6d-3967f9f9de7a</id>
     <name>GetEdgeElementConnectionUpperBound</name>
@@ -367,7 +367,7 @@
     <parameter name="eClassifierName">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>${apiPrefix}${graphicalModelElementName}</expression>
+          <expression>G${graphicalModelElementName}</expression>
           <clazz>java.lang.String</clazz>
           <classMutable>true</classMutable>
         </ContextExpressionFoundation>
@@ -412,7 +412,7 @@
     <parameter name="eClassifierName">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>${apiPrefix}${connectedElementName}</expression>
+          <expression>G${connectedElementName}</expression>
           <clazz>java.lang.String</clazz>
           <classMutable>true</classMutable>
         </ContextExpressionFoundation>
@@ -646,7 +646,8 @@
     </parameter>
     <parameter name="template">
       <string>
-return getPredecessors($apiPrefix$$connectedElementName$.class);</string>
+
+return getPredecessors(G$connectedElementName$.class);</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>

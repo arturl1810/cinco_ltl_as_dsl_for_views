@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>11c68a63-29d0-471a-aa97-6467c06fc009</id>
   <name>Create Reference</name>
-  <changecounter>23</changecounter>
+  <changecounter>8</changecounter>
   <sib>
     <id>55e1e71b-4f98-491b-9a01-0bf73127aefb</id>
     <name>NewEReferenceInEClassEStructuralFeatures_7</name>
@@ -673,16 +673,6 @@
   </parameter>
   <values>
     <entry>
-      <string>containedClassKey</string>
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>abstractNodeClass</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>false</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </entry>
-    <entry>
       <string>containerReferenceName</string>
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
@@ -693,6 +683,20 @@
       </de.metaframe.common.sib.parameter.ContextExpression>
     </entry>
     <entry>
+      <string>containedClassKey</string>
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>abstractNodeClass</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>false</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </entry>
+    <entry>
+      <string>lowerBound</string>
+      <int>0</int>
+    </entry>
+    <entry>
       <string>containedReferenceName</string>
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
@@ -701,10 +705,6 @@
           <classMutable>true</classMutable>
         </ContextExpressionFoundation>
       </de.metaframe.common.sib.parameter.ContextExpression>
-    </entry>
-    <entry>
-      <string>lowerBound</string>
-      <int>0</int>
     </entry>
     <entry>
       <string>containingClassKey</string>

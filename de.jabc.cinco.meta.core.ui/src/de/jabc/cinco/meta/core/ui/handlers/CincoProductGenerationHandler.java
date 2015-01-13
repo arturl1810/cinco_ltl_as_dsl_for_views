@@ -67,7 +67,7 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 				GeneratorHelper.generateGenModelCode(mglModelFile);
 				IProject apiProject = mglModelFile.getProject();
 				if (apiProject.exists())
-					GeneratorHelper.generateGenModelCode(apiProject, "C"+mglModelFile.getName().split("\\.")[0]);
+					GeneratorHelper.generateGenModelCode(apiProject, "G"+mglModelFile.getName().split("\\.")[0]);
 				
 				System.out.println("Generating Feature Project");
 				Command featureGenerationCommand = commandService.getCommand("de.jabc.cinco.meta.core.generatefeature");

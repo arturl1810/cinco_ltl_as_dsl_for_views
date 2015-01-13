@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>637c659a-c23c-43b6-ac21-f5beaa34e0e4</id>
   <name>Specialize Source and Target Get Methods</name>
-  <changecounter>30</changecounter>
+  <changecounter>7</changecounter>
   <sib>
     <id>3bc7224f-97f3-4b30-b2b4-7ca0d22193e3</id>
     <name>IterateGraphModelEdges</name>
@@ -172,7 +172,7 @@
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>return ($apiPrefix$$connectableElementName$)this.targetElement;</string>
+      <string>return (G$connectableElementName$)this.targetElement;</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
@@ -644,7 +644,7 @@
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>return ($apiPrefix$$connectableElementName$)this.sourceElement;</string>
+      <string>return (G$connectableElementName$)this.sourceElement;</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>

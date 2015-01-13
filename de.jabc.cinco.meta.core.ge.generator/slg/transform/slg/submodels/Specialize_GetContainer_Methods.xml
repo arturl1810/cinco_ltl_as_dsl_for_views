@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>a47a783e-1113-40a1-bc70-e2f0930d3bfc</id>
   <name>Specialize GetContainer Methods</name>
-  <changecounter>31</changecounter>
+  <changecounter>23</changecounter>
   <sib>
     <id>7ca60ad1-df59-494f-a5e7-543f532f87c0</id>
     <name>PutMap</name>
@@ -415,7 +415,7 @@
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>return ($apiPrefix$$containerName$)super.getContainer();</string>
+      <string>return (G$containerName$)super.getContainer();</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
