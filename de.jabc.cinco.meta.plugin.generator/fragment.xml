@@ -15,7 +15,7 @@
             ValidatorClass="de.jabc.cinco.meta.plugin.generator.validation.GeneratorValidator">
       </validator>
       <used_plugin
-            is_fragment="true"
+            is_fragment="false"
             mgl_dependent="true"
             plugin_name="codegen">
       </used_plugin>

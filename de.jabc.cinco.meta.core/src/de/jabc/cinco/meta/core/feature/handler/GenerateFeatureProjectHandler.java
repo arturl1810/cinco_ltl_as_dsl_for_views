@@ -31,6 +31,7 @@ import com.google.inject.Inject;
 import de.jabc.cinco.meta.core.featuregenerator.Generate_Feature_XML;
 import de.jabc.cinco.meta.core.pluginregistry.PluginRegistry;
 import de.jabc.cinco.meta.core.ui.listener.MGLSelectionListener;
+import de.jabc.cinco.meta.core.BundleRegistry;
 import de.jabc.cinco.meta.core.utils.projects.ProjectCreator;
 import de.metaframe.jabc.framework.execution.DefaultLightweightExecutionEnvironment;
 import de.metaframe.jabc.framework.execution.LightweightExecutionEnvironment;
@@ -125,6 +126,8 @@ public class GenerateFeatureProjectHandler extends AbstractHandler {
 						context.put("annotationToPackageMap", PluginRegistry.getInstance().getUsedPlugins());
 						context.put("featureProjectPath",featureProjectPath);
 						context.put("graphModel",model);
+						context.put("otherPluginIDs", BundleRegistry.INSTANCE.getPluginIDs());
+						context.put("otherFragmentIDs", BundleRegistry.INSTANCE.getFragmentIDs());
 						LightweightExecutionEnvironment env = new DefaultLightweightExecutionEnvironment(context);
 						if(new Generate_Feature_XML().execute(env).equals("error"))
 							throw new Exception("Could not create feature.xml",(Throwable)context.get("exception"));

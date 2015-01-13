@@ -21,7 +21,12 @@ public class GeneratorMetaPlugin implements IMetaPlugin {
 		}
 		CreateCodeGeneratorPlugin cpv = new CreateCodeGeneratorPlugin();
 		try {
-			return cpv.execute(env);
+			String result = cpv.execute(env);
+			if(result.equals("error")){
+				map.put("exception", context.get("exception"));
+			}
+			
+			return result;
 		} catch (ServiceException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

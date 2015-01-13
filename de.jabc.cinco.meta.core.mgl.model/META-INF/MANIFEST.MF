@@ -15,8 +15,6 @@ Export-Package: graphmodel,
  mgl.util
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport,
- org.eclipse.graphiti.mm;visibility:=reexport,
  org.eclipse.emf.ecore.xmi;visibility:=reexport,
- de.jabc.cinco.meta.core.mgl.model;visibility:=reexport,
- org.eclipse.graphiti
+ de.jabc.cinco.meta.core.mgl.model;visibility:=reexport
 Bundle-ActivationPolicy: lazy

@@ -345,7 +345,7 @@ class MGLValidator extends AbstractMGLValidator {
 	def checkFeatureNameUnique(Attribute attr){
 		
 		for(a: attr.modelElement.attributes)
-			if(a!=attr&&a.name==attr.name)
+			if(a!=attr&&a.name.equalsIgnoreCase(attr.name))
 				error("Attribute Names must be unique",MglPackage.Literals::ATTRIBUTE__NAME)
 		if(attr.modelElement instanceof Edge){
 			var element = attr.modelElement as Edge
@@ -354,7 +354,7 @@ class MGLValidator extends AbstractMGLValidator {
 			while(superType!=null && InheritanceUtil.checkMGLInheritance(element).nullOrEmpty){
 				
 					for(a: superType.attributes){
-						if(a.name==attr.name)
+						if(a.name.equalsIgnoreCase(attr.name))
 							error("Attribute Names must be unique",MglPackage.Literals::ATTRIBUTE__NAME)
 						
 					}
@@ -371,7 +371,7 @@ class MGLValidator extends AbstractMGLValidator {
 			var superType = element.extends
                 while(superType!=null && InheritanceUtil.checkMGLInheritance(element).nullOrEmpty){
 				for(a: superType.attributes){
-						if(a.name==attr.name)
+						if(a.name.equalsIgnoreCase(attr.name))
 							error("Attribute Names must be unique",MglPackage.Literals::ATTRIBUTE__NAME)
 						
 				}
@@ -383,7 +383,7 @@ class MGLValidator extends AbstractMGLValidator {
 			while(superType!=null&& InheritanceUtil.checkMGLInheritance(element).nullOrEmpty){
 				
 					for(a: superType.attributes){
-						if(a.name==attr.name)
+						if(a.name.equalsIgnoreCase(attr.name))
 							error("Attribute Names must be unique",MglPackage.Literals::ATTRIBUTE__NAME)
 						
 					}

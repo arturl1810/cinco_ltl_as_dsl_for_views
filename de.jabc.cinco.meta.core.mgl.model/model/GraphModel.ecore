@@ -90,6 +90,12 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Container" eSuperTypes="#//ModelElementContainer #//Node"/>
   <eClassifiers xsi:type="ecore:EClass" name="ModelElement" abstract="true" eSuperTypes="#//IdentifiableElement">
+    <eOperations name="getRootElement" eType="#//GraphModel">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="ModelElementContainer container = this.getContainer();&#xA;&#x9;&#x9;if(container!=null){&#xA;&#x9;&#x9;&#x9;while(container!=null &amp;&amp; !(container instanceof graphmodel.GraphModel))&#xA;&#x9;&#x9;&#x9;&#x9;container= ((ModelElement)container).getContainer();&#xA;&#x9;&#x9;&#x9;&#xA;&#x9;&#x9;&#x9;if(container!=null)&#xA;&#x9;&#x9;&#x9;&#x9;return (graphmodel.GraphModel)container;&#xA;&#x9;&#x9;}&#xA;&#x9;&#x9;&#xA;&#x9;&#x9;&#xA;&#x9;&#x9;return null;"/>
+        <details key="documentation" value="Returns the Root GraphModel of the containment hierarchie.&#xA;null if no containment root can be found"/>
+      </eAnnotations>
+    </eOperations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="container" eType="#//ModelElementContainer"
         eOpposite="#//ModelElementContainer/modelElements"/>
   </eClassifiers>
