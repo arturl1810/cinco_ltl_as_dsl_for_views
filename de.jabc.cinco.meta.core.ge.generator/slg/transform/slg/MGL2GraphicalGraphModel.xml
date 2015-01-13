@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>ca5a39ee-2606-4461-8c2d-1e6ebdbd9d0e</id>
   <name>MGL2GraphicalGraphModel</name>
-  <changecounter>213</changecounter>
+  <changecounter>239</changecounter>
   <sib>
     <id>e763e08f-ee7b-48f6-8187-dac38f44f435</id>
     <name>MacroSIB</name>
@@ -427,7 +427,7 @@
     <parameter name="template">
       <string>EList&lt;Node&gt; list =new org.eclipse.emf.common.util.BasicEList&lt;Node&gt;();
 $allNodes: 
-{node|list.addAll(this.get$node$s());}$
+{node|list.addAll(this.get$apiPrefix$$node$s());}$
 return list;</string>
     </parameter>
     <finalbranches>default</finalbranches>

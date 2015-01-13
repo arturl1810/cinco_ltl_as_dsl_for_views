@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>7c46cc02-d874-4f7b-8dc5-2f624fce088b</id>
   <name>GenerateCreatePrimeNode</name>
-  <changecounter>32</changecounter>
+  <changecounter>47</changecounter>
   <sib>
     <id>d449a017-7ca7-429b-bbe0-4897b9941e3f</id>
     <name>GraphSIB_22</name>
@@ -44,7 +44,7 @@
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>G$nodeName$ retval = $fqnAPIFactory$.eINSTANCE.createG$nodeName$();
+      <string>$apiPrefix$$nodeName$ retval = $fqnAPIFactory$.eINSTANCE.create$apiPrefix$$nodeName$();
    
 $fqnDiagram$ d = ($fqnDiagram$) this.getDiagram();
 $fqnFeatureProvider$ provider = ($fqnFeatureProvider$) $fqnGraphitiUi$.getExtensionManager().createFeatureProvider(d);
