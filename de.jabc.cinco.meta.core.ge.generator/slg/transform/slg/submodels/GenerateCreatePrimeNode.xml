@@ -44,7 +44,7 @@
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>G$nodeName$ retval = $fqnAPIFactory$.eINSTANCE.createG$nodeName$();
+      <string>$apiPrefix$$nodeName$ retval = $fqnAPIFactory$.eINSTANCE.create$apiPrefix$$nodeName$();
    
 $fqnDiagram$ d = ($fqnDiagram$) this.getDiagram();
 $fqnFeatureProvider$ provider = ($fqnFeatureProvider$) $fqnGraphitiUi$.getExtensionManager().createFeatureProvider(d);

@@ -99,7 +99,7 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 
 	private final String ID_ICON = "icon";
 	private final String ID_STYLE = "style";
-	private final String API_MODEL_PREFIX = "G";
+	private final String API_MODEL_PREFIX = "C";
 	
 	private String GMODEL_NAME_LOWER = "";
 	
@@ -205,9 +205,10 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 				context.put("registeredGeneratorPlugins", PluginRegistry.getInstance().getPluginGenerators());
 				context.put("registeredPackageMap", PluginRegistry.getInstance().getRegisteredEcoreModels());
 				context.put("resource", graphicalGraphModelRes);
-				context.put("gNodeType", GraphicalgraphmodelPackage.eINSTANCE.getEClassifier("GNode"));
-				context.put("gEdgeType", GraphicalgraphmodelPackage.eINSTANCE.getEClassifier("GEdge"));
-				context.put("gContainerType", GraphicalgraphmodelPackage.eINSTANCE.getEClassifier("GContainer"));
+				context.put("gNodeType", GraphicalgraphmodelPackage.eINSTANCE.getEClassifier("CNode"));
+				context.put("gEdgeType", GraphicalgraphmodelPackage.eINSTANCE.getEClassifier("CEdge"));
+				context.put("gContainerType", GraphicalgraphmodelPackage.eINSTANCE.getEClassifier("CContainer"));
+				context.put("apiPrefix", API_MODEL_PREFIX);
 				
 				context.put("integerType", integerType);
 				context.put("booleanType", booleanType);
@@ -345,7 +346,7 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 		context.put("fqnUpdateContext", UpdateContext.class.getName());
 		
 		
-		context.put("fqnAPIFactory", gModel.getPackage() +".api.g" + GMODEL_NAME_LOWER + ".G" + GMODEL_NAME_LOWER + "Factory");
+		context.put("fqnAPIFactory", gModel.getPackage() +".api." + API_MODEL_PREFIX.toLowerCase() + GMODEL_NAME_LOWER + "." + API_MODEL_PREFIX + GMODEL_NAME_LOWER + "Factory");
 		context.put("fqnNode", graphmodel.Node.class.getName());
 		context.put("fqnEdge", graphmodel.Edge.class.getName());
 		context.put("fqnContainer", graphmodel.Container.class.getName());

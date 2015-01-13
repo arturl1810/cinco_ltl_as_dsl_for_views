@@ -800,7 +800,7 @@
     <parameter name="value">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>G${graphModelname}</expression>
+          <expression>${apiPrefix}${graphModelname}</expression>
           <clazz>java.lang.Object</clazz>
           <classMutable>true</classMutable>
         </ContextExpressionFoundation>
@@ -831,7 +831,7 @@
     <parameter name="value">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>G${graphModelPackage}</expression>
+          <expression>${apiPrefix}${graphModelPackage}</expression>
           <clazz>java.lang.Object</clazz>
           <classMutable>true</classMutable>
         </ContextExpressionFoundation>

@@ -50,7 +50,7 @@
     <parameter name="eClassnameKey">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>G${modelElementName}</expression>
+          <expression>${apiPrefix}${modelElementName}</expression>
           <clazz>java.lang.String</clazz>
           <classMutable>true</classMutable>
         </ContextExpressionFoundation>

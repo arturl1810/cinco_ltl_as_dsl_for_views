@@ -367,7 +367,7 @@
     <parameter name="eClassifierName">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>G${graphicalModelElementName}</expression>
+          <expression>${apiPrefix}${graphicalModelElementName}</expression>
           <clazz>java.lang.String</clazz>
           <classMutable>true</classMutable>
         </ContextExpressionFoundation>
@@ -412,7 +412,7 @@
     <parameter name="eClassifierName">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>G${connectedElementName}</expression>
+          <expression>${apiPrefix}${connectedElementName}</expression>
           <clazz>java.lang.String</clazz>
           <classMutable>true</classMutable>
         </ContextExpressionFoundation>
@@ -647,7 +647,7 @@
     <parameter name="template">
       <string>
 
-return getPredecessors(G$connectedElementName$.class);</string>
+return getPredecessors($apiPrefix$$connectedElementName$.class);</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>

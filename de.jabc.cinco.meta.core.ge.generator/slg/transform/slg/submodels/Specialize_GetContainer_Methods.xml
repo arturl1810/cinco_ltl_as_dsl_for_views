@@ -415,7 +415,7 @@
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>return (G$containerName$)super.getContainer();</string>
+      <string>return ($apiPrefix$$containerName$)super.getContainer();</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>

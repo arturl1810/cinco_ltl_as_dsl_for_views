@@ -614,7 +614,7 @@
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>return getModelElements(G$modelElementNameFirstUpper$.class);</string>
+      <string>return getModelElements($apiPrefix$$modelElementNameFirstUpper$.class);</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>

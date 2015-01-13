@@ -178,7 +178,7 @@
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>return this.getModelElements(G$containableElementName$.class);</string>
+      <string>return this.getModelElements($apiPrefix$$containableElementName$.class);</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
@@ -637,7 +637,7 @@
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>return this.getModelElements(G$containableElementName$.class);</string>
+      <string>return this.getModelElements($apiPrefix$$containableElementName$.class);</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
@@ -796,7 +796,7 @@
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>return this.getModelElements(G$containableElementName$.class);</string>
+      <string>return this.getModelElements($apiPrefix$$containableElementName$.class);</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
@@ -986,7 +986,7 @@
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>return this.getModelElements(G$containableElementName$.class);</string>
+      <string>return this.getModelElements($apiPrefix$$containableElementName$.class);</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>

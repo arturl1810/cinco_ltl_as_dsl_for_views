@@ -247,7 +247,7 @@
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>G$nodeName$ retval = $fqnAPIFactory$.eINSTANCE.createG$nodeName$();
+      <string>$apiPrefix$$nodeName$ retval = $fqnAPIFactory$.eINSTANCE.create$apiPrefix$$nodeName$();
    
 $fqnDiagram$ d = ($fqnDiagram$) this.getDiagram();
 $fqnFeatureProvider$ provider = ($fqnFeatureProvider$) $fqnGraphitiUi$.getExtensionManager().createFeatureProvider(d);
@@ -812,7 +812,7 @@ return retval; </string>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>G$edgeName$ retval = null;
+      <string>$apiPrefix$$edgeName$ retval = null;
 	  
 $fqnDiagram$ d = ($fqnDiagram$) this.getDiagram();
 $fqnFeatureProvider$ provider = ($fqnFeatureProvider$) $fqnGraphitiUi$.getExtensionManager().createFeatureProvider(d);
@@ -828,7 +828,7 @@ ccc.setTargetAnchor(target.getShape().getAnchors().get(0));
 
 if (cf.canCreate(ccc)) {
 	org.eclipse.graphiti.mm.pictograms.Connection conn = cf.create(ccc);
-	retval = $fqnAPIFactory$.eINSTANCE.createG$edgeName$();
+	retval = $fqnAPIFactory$.eINSTANCE.create$apiPrefix$$edgeName$();
 	retval.setConnection(conn);
 	retval.setModelElement(($fqnEdge$) conn.getLink().getBusinessObjects().get(0));
 	retval.setDiagram(d);
@@ -1268,7 +1268,7 @@ return retval;</string>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>G$containerName$ retval = null;
+      <string>$apiPrefix$$containerName$ retval = null;
 
 $fqnDiagram$ d = ($fqnDiagram$) this.getDiagram();
 $fqnFeatureProvider$ provider = ($fqnFeatureProvider$) $fqnGraphitiUi$.getExtensionManager().createFeatureProvider(d);
@@ -1283,7 +1283,7 @@ if (width &gt; -1 &amp;&amp; height &gt; -1) {
 }
 cc.setTargetContainer(getShape());
 	if (cf.canCreate(cc)) {
-		retval = $fqnAPIFactory$.eINSTANCE.createG$containerName$();
+		retval = $fqnAPIFactory$.eINSTANCE.create$apiPrefix$$containerName$();
 		Object[] newObject = cf.create(cc);
 		if (newObject.length == 1 &amp;&amp; newObject[0] instanceof $fqnGenNodePrefix$$containerName$) {
 			retval.setModelElement(($fqnContainer$) newObject[0]);

@@ -172,7 +172,7 @@
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>return (G$connectableElementName$)this.targetElement;</string>
+      <string>return ($apiPrefix$$connectableElementName$)this.targetElement;</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
@@ -644,7 +644,7 @@
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>return (G$connectableElementName$)this.sourceElement;</string>
+      <string>return ($apiPrefix$$connectableElementName$)this.sourceElement;</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>

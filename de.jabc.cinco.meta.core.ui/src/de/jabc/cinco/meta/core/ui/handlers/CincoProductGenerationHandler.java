@@ -46,7 +46,7 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 	 * the command has been executed, so extract extract the needed information
 	 * from the application context.
 	 */
-	public Object execute(ExecutionEvent event) throws ExecutionException {
+	synchronized public Object execute(ExecutionEvent event) throws ExecutionException {
 		try{
 			commandService = (ICommandService)PlatformUI.getWorkbench().getService(ICommandService.class);
 			StructuredSelection selection = (StructuredSelection)HandlerUtil.getActiveMenuSelection(event);
@@ -55,19 +55,19 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 				System.out.println("Generating Model Code from GenModel...");
 				IFile mglModelFile = MGLSelectionListener.INSTANCE.getSelectedFile();
 				
+				System.out.println("Generating Ecore/GenModel from MGL...");
+				Command mglGeneratorCommand = commandService.getCommand("de.jabc.cinco.meta.core.mgl.ui.mglgenerationcommand");
+				mglGeneratorCommand.executeWithChecks(event);
+				
 				System.out.println("Generating Graphiti Editor...");
 				Command graphitiEditorGeneratorCommand = commandService.getCommand("de.jabc.cinco.meta.core.ge.generator.generateeditorcommand");
 				graphitiEditorGeneratorCommand.executeWithChecks(event);
 //				IProject apiProject = ResourcesPlugin.getWorkspace().getRoot().getProject(mglModelFile.getProject().getName().concat(".graphiti.api"));
 				
-				System.out.println("Generating Ecore/GenModel from MGL...");
-				Command mglGeneratorCommand = commandService.getCommand("de.jabc.cinco.meta.core.mgl.ui.mglgenerationcommand");
-				mglGeneratorCommand.executeWithChecks(event);
-				
 				GeneratorHelper.generateGenModelCode(mglModelFile);
 				IProject apiProject = mglModelFile.getProject();
 				if (apiProject.exists())
-					GeneratorHelper.generateGenModelCode(apiProject, "G"+mglModelFile.getName().split("\\.")[0]);
+					GeneratorHelper.generateGenModelCode(apiProject, "C"+mglModelFile.getName().split("\\.")[0]);
 				
 				System.out.println("Generating Feature Project");
 				Command featureGenerationCommand = commandService.getCommand("de.jabc.cinco.meta.core.generatefeature");
