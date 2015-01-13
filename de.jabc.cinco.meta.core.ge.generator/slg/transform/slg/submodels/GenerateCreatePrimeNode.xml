@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>7c46cc02-d874-4f7b-8dc5-2f624fce088b</id>
   <name>GenerateCreatePrimeNode</name>
-  <changecounter>32</changecounter>
+  <changecounter>35</changecounter>
   <sib>
     <id>d449a017-7ca7-429b-bbe0-4897b9941e3f</id>
     <name>GraphSIB_22</name>
@@ -432,7 +432,8 @@ return retval; </string>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>Creates and adds an $nodeName$ for a prime referenced EObject.
+      <string>&lt;p&gt;&lt;b&gt;&lt;em&gt;Cinco API&lt;/em&gt;&lt;/b&gt;&lt;/p&gt;
+Creates and adds an $nodeName$ for a prime referenced EObject.
 @param prime The referenced object. $!ATTENTION: The resource containings the referenced object should by loaded by a platformURI (relative to the workspace root). 
 Otherwise added referenced object by the graphical editor will have other UIDs as objects added by code.!$
 @param xPos The x position of $nodeName$&apos;s graphical representation in the diagram
@@ -468,7 +469,8 @@ Otherwise added referenced object by the graphical editor will have other UIDs a
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>Creates and adds a new instance of $nodeName$ if possible.
+      <string>&lt;p&gt;&lt;b&gt;&lt;em&gt;Cinco API&lt;/em&gt;&lt;/b&gt;&lt;/p&gt;
+Creates and adds a new instance of $nodeName$ if possible.
 @param prime The referenced object. $!ATTENTION: The resource containings the referenced object should by loaded by a platformURI (relative to the workspace root). 
 Otherwise added referenced object by the graphical editor will have other UIDs as objects added by code.!$
 @param xPos The x position of $nodeName$&apos;s graphical representation in the diagram.

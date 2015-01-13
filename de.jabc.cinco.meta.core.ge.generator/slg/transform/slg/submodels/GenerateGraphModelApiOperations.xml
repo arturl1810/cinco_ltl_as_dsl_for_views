@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>9bb85745-8351-4055-af1b-c6d172d4e88d</id>
   <name>GenerateGraphModelApiOperations</name>
-  <changecounter>91</changecounter>
+  <changecounter>119</changecounter>
   <sib>
     <id>305bdb71-32f2-4c78-9c2b-f9a7d5fc3711</id>
     <name>IterateGraphModelNodes</name>
@@ -550,7 +550,8 @@ return retval; </string>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>Creates and adds an $nodeName$.
+      <string>&lt;p&gt;&lt;b&gt;&lt;em&gt;Cinco API&lt;/em&gt;&lt;/b&gt;&lt;/p&gt;
+Creates and adds an $nodeName$.
 @param xPos The x position of $nodeName$&apos;s graphical representation in the diagram
 @param yPos The y position of $nodeName$&apos;s graphical representation in the diagram
 @param width The width position of $nodeName$&apos;s graphical representation in the diagram
@@ -584,7 +585,8 @@ return retval; </string>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>Creates and adds a new instance of $nodeName$ if possible.
+      <string>&lt;p&gt;&lt;b&gt;&lt;em&gt;Cinco API&lt;/em&gt;&lt;/b&gt;&lt;/p&gt;
+Creates and adds a new instance of $nodeName$ if possible.
 @param xPos The x position of $nodeName$&apos;s graphical representation in the diagram.
 @param yPos The y position of $nodeName$&apos;s graphical representation in the diagram.
 
@@ -960,7 +962,8 @@ return retval;</string>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>Creates and adds an $edgeName$.
+      <string>&lt;p&gt;&lt;b&gt;&lt;em&gt;Cinco API&lt;/em&gt;&lt;/b&gt;&lt;/p&gt;
+Creates and adds an $edgeName$.
 @param source The source node of $edgeName$
 @param target The target node of $edgeName$
 
@@ -1580,7 +1583,8 @@ return retval; </string>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>Creates and adds an $containerName$.
+      <string>&lt;p&gt;&lt;b&gt;&lt;em&gt;Cinco API&lt;/em&gt;&lt;/b&gt;&lt;/p&gt;
+Creates and adds an $containerName$.
 @param xPos The x position of $containerName$&apos;s graphical representation in the diagram
 @param yPos The y position of $containerName$&apos;s graphical representation in the diagram
 @param width The width position of $containerName$&apos;s graphical representation in the diagram
@@ -1614,7 +1618,8 @@ return retval; </string>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>Creates and adds a new instance of $containerName$ if possible.
+      <string>&lt;p&gt;&lt;b&gt;&lt;em&gt;Cinco API&lt;/em&gt;&lt;/b&gt;&lt;/p&gt;
+Creates and adds a new instance of $containerName$ if possible.
 @param xPos The x position of $containerName$&apos;s graphical representation in the diagram.
 @param yPos The y position of $containerName$&apos;s graphical representation in the diagram.
 
@@ -1863,10 +1868,9 @@ return false;
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>Deletes the given modelElement from the $graphModelName$ and the diagram
-
+      <string>&lt;p&gt;&lt;b&gt;&lt;em&gt;Cinco API&lt;/em&gt;&lt;/b&gt;&lt;/p&gt;
+Deletes the given modelElement from the $graphModelName$ and the diagram
 @param me The modelElement to delete
-
 @return true, if the modelElement was successfully removed, false otherwise</string>
     </parameter>
     <finalbranches>default</finalbranches>
@@ -1943,11 +1947,8 @@ java.util.List&lt;$fqnPictogramElement$&gt; pes = $fqnGraphitiUi$.getLinkService
     	return false;
 $fqnMoveShapeContext$ mc = new $fqnMoveShapeContext$(($fqnShape$)pes.get(0));
 mc.setLocation(x, y);
-if (insertInContainer) {
-	mc.setTargetContainer(($fqnContainerShape$) $fqnGraphitiUi$.getPeService().getLocationInfo(d, x, y).getShape());
-} else {
-	mc.setTargetContainer(($fqnContainerShape$) getShape());
-}
+mc.setTargetContainer(($fqnContainerShape$) getShape());
+
 $fqnMoveShapeFeature$ mf = provider.getMoveShapeFeature(mc);
 
 if (mf.canMoveShape(mc)) {
@@ -2007,36 +2008,6 @@ return false;
       <list>
         <string>x</string>
         <string>y</string>
-      </list>
-    </parameter>
-    <parameter name="initialCapacity">
-      <int>10</int>
-    </parameter>
-    <parameter name="synchronization">
-      <boolean>false</boolean>
-    </parameter>
-    <parameter name="variable">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>parameters</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-  </sib>
-  <sib>
-    <id>697baa71-c8d5-43f5-9486-d537e6e8d7ed</id>
-    <name>PutList_8</name>
-    <label>putBoolean</label>
-    <sib-uid>collection-sibs/PutList</sib-uid>
-    <taxonomy>de.jabc.sib.common.collection.PutList</taxonomy>
-    <position>1359.0,498.0</position>
-    <parameter name="elements">
-      <list>
-        <string>insertInContainer</string>
       </list>
     </parameter>
     <parameter name="initialCapacity">
@@ -2175,70 +2146,11 @@ return false;
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
-  <sib>
-    <id>52bba22c-65ed-41ce-bd07-f6834051bc53</id>
-    <name>GraphSIB_21</name>
-    <label>CreateParametersForEOperation</label>
-    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
-    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>1298.0,616.0</position>
-    <parameter name="eOperationKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>eOperation</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="eParametereTypeKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>booleanType</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>false</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="parameterNames">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>parameters</key>
-          <scope>DECLARED</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>936efe23-2d5b-4fd2-8ad4-3c339ecbfe4a</string>
-    </userobject>
-    <userobject key="ABC$GRAPHSIB$MODELNAME">
-      <string>CreateParametersForEOperation</string>
-    </userobject>
-  </sib>
   <edge>
     <source>86fcd53e-4341-4681-9cde-7fe9bd9cab6c</source>
-    <target>697baa71-c8d5-43f5-9486-d537e6e8d7ed</target>
-    <point>1392.0,406.0</point>
-    <point>1392.0,526.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
-  <edge>
-    <source>697baa71-c8d5-43f5-9486-d537e6e8d7ed</source>
-    <target>52bba22c-65ed-41ce-bd07-f6834051bc53</target>
-    <point>1392.0,526.0</point>
-    <point>1392.0,646.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
-  <edge>
-    <source>52bba22c-65ed-41ce-bd07-f6834051bc53</source>
-    <target>fa93f497-b15a-4389-bcea-de3d4f3043eb</target>
-    <point>1392.0,646.0</point>
-    <point>1392.0,766.0</point>
+    <target>b4c1d665-45dc-4ea0-ba0e-3c9a8cf98d74</target>
+    <point>1405.4166666666667,416.0</point>
+    <point>1458.095238095238,511.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -2297,6 +2209,45 @@ return false;
     <target>305bdb71-32f2-4c78-9c2b-f9a7d5fc3711</target>
     <point>105.0,465.0</point>
     <point>234.0,96.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>b4c1d665-45dc-4ea0-ba0e-3c9a8cf98d74</id>
+    <name>GraphSIB_21</name>
+    <label>Generate_Documentation</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>1319.0,526.0</position>
+    <parameter name="eOperationKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>eOperation</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>&lt;p&gt;&lt;b&gt;&lt;em&gt;Cinco API&lt;/em&gt;&lt;/b&gt;&lt;/p&gt;
+Moves a node to the specified position in this container
+@param n The node to move
+@param x The new x position
+@param y The new y position</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>9445cb7d-1ca9-47f0-bda0-ffb7822ef982</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Generate_Documentation</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>b4c1d665-45dc-4ea0-ba0e-3c9a8cf98d74</source>
+    <target>fa93f497-b15a-4389-bcea-de3d4f3043eb</target>
+    <point>1395.0,555.0</point>
+    <point>1406.0,753.0</point>
     <branch>default</branch>
   </edge>
   <parameter>
