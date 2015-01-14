@@ -73,6 +73,11 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 				Command sibGenerationCommand = commandService.getCommand("de.jabc.cinco.meta.core.jabcproject.commands.generateCincoSIBsCommand");
 				sibGenerationCommand.executeWithChecks(event);
 				
+				// TODO: Product definition should be made central file
+				System.out.println("Generating Product project");
+				Command cpdGenerationCommand = commandService.getCommand("cpd.handler.ui.generate");
+				cpdGenerationCommand.executeWithChecks(event);
+				
 				MessageDialog.openInformation(HandlerUtil.getActiveShell(event), "Cinco Product Generation", "Cinco Product generation completed successfully");
 				
 			}
