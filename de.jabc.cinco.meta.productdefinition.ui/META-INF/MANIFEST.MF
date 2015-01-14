@@ -1,0 +1,27 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: de.jabc.cinco.meta.productdefinition.ui
+Bundle-Vendor: My Company
+Bundle-Version: 0.6.0.qualifier
+Bundle-SymbolicName: de.jabc.cinco.meta.productdefinition.ui; singleton:=true
+Bundle-ActivationPolicy: lazy
+Require-Bundle: de.jabc.cinco.meta.productdefinition;visibility:=reexport,
+ org.eclipse.xtext.ui,
+ org.eclipse.ui.editors,
+ org.eclipse.ui.ide,
+ org.eclipse.xtext.ui.shared,
+ org.eclipse.ui,
+ org.eclipse.xtext.builder,
+ org.antlr.runtime,
+ org.eclipse.xtext.common.types.ui,
+ org.eclipse.xtext.ui.codetemplates.ui,
+ org.eclipse.compare
+Import-Package: de.jabc.cinco.meta.core.ui.listener,
+ org.apache.log4j,
+ org.eclipse.xtext.xbase.lib
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Export-Package: de.jabc.cinco.meta.productdefinition.ui.quickfix,
+ de.jabc.cinco.meta.productdefinition.ui.contentassist,
+ de.jabc.cinco.meta.productdefinition.ui.contentassist.antlr,
+ de.jabc.cinco.meta.productdefinition.ui.internal
+Bundle-Activator: de.jabc.cinco.meta.productdefinition.ui.internal.CPDActivator
