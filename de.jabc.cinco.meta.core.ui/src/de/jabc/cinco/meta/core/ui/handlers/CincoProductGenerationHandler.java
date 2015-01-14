@@ -12,6 +12,8 @@ import org.eclipse.core.commands.Command;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.Status;
@@ -45,11 +47,12 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 	 * the command has been executed, so extract extract the needed information
 	 * from the application context.
 	 */
-	public Object execute(ExecutionEvent event) throws ExecutionException {
+	synchronized public Object execute(ExecutionEvent event) throws ExecutionException {
 		try{
 			commandService = (ICommandService)PlatformUI.getWorkbench().getService(ICommandService.class);
 			StructuredSelection selection = (StructuredSelection)HandlerUtil.getActiveMenuSelection(event);
 			if(selection.getFirstElement() instanceof IFile){
+
 				BundleRegistry.resetRegistry();
 				
 				System.out.println("Generating Ecore/GenModel from MGL...");
@@ -58,12 +61,16 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 				
 				System.out.println("Generating Model Code from GenModel...");
 				IFile mglModelFile = MGLSelectionListener.INSTANCE.getSelectedFile();
-				GeneratorHelper.generateGenModelCode(mglModelFile);
-				
 				
 				System.out.println("Generating Graphiti Editor...");
 				Command graphitiEditorGeneratorCommand = commandService.getCommand("de.jabc.cinco.meta.core.ge.generator.generateeditorcommand");
 				graphitiEditorGeneratorCommand.executeWithChecks(event);
+//				IProject apiProject = ResourcesPlugin.getWorkspace().getRoot().getProject(mglModelFile.getProject().getName().concat(".graphiti.api"));
+				
+				GeneratorHelper.generateGenModelCode(mglModelFile);
+				IProject apiProject = mglModelFile.getProject();
+				if (apiProject.exists())
+					GeneratorHelper.generateGenModelCode(apiProject, "C"+mglModelFile.getName().split("\\.")[0]);
 				
 				System.out.println("Generating Feature Project");
 				Command featureGenerationCommand = commandService.getCommand("de.jabc.cinco.meta.core.generatefeature");

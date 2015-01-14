@@ -13,4 +13,12 @@
             genModel="model/Style.genmodel"/>
    </extension>
 
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated GraphicalGraphModel -->
+      <package
+            uri="http://cinco.scce.info/graphicalgraphmodel"
+            class="graphicalgraphmodel.GraphicalgraphmodelPackage"
+            genModel="model/GraphicalGraphModel.genmodel"/>
+   </extension>
+
 </plugin>

@@ -4,7 +4,7 @@
    <extension
          point="org.eclipse.ui.commands">
       <command
-            defaultHandler="de.jabc.cinco.meta.core.ge.generator.action.Generate"
+            defaultHandler="de.jabc.cinco.meta.core.ge.generator.action.GraphitiCodeGenerator"
             description="Generates graphiti editor from meta graph language model (.mgl)"
             id="de.jabc.cinco.meta.core.ge.generator.generateeditorcommand"
             name="Generate Graphiti Editor">

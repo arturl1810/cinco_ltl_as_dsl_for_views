@@ -18,7 +18,12 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.ui.workbench,
  de.jabc.cinco.meta.libraries,
  org.eclipse.xtend.typesystem.emf,
- org.eclipse.pde.core
+ org.eclipse.pde.core,
+ de.jabc.cinco.meta.core.pluginregistry,
+ de.jabc.cinco.meta.core.mgl,
+ com.google.inject,
+ org.eclipse.xtext.builder,
+ org.eclipse.graphiti.ui
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ActivationPolicy: lazy
 Import-Package: de.jabc.cinco.meta.core.ui.listener,

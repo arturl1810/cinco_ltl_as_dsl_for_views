@@ -15,6 +15,35 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 
 public class GeneratorHelper {
+	
+	public static void generateGenModelCode(IProject project, String modelName) throws IOException{
+		IFile genModelFile = project.getFile("src-gen/model/" + modelName +".genmodel");
+		
+		if (!genModelFile.exists())
+			throw new IOException("The file: " + modelName+".genmodel does not exist");
+		
+		Resource res = new ResourceSetImpl().getResource(
+				URI.createPlatformResourceURI(genModelFile.getFullPath().toOSString(), true),true);
+		res.load(null);
+		for (EObject o : res.getContents()) {	
+			if (o instanceof GenModel) {
+				GenModel genModel = (GenModel) o;
+				for (GenPackage gm : genModel.getUsedGenPackages()) {
+					if (!gm.getGenModel().equals(genModel)) {
+						System.err.println("ADDING USED GENMODEL:\n"+ gm);
+						genModel.getUsedGenPackages().add(gm);
+					}
+				}
+				System.out.println(genModel.getUsedGenPackages());
+				genModel.setCanGenerate(true);
+				genModel.reconcile();
+				Generator generator = new Generator();
+				generator.setInput(genModel);
+				generator.generate(genModel, GenBaseGeneratorAdapter.MODEL_PROJECT_TYPE, new BasicMonitor());
+			}
+		}
+	}
+	
 	public static void generateGenModelCode(IFile mglModelFile) throws IOException {
 		String modelName = (mglModelFile.getName().endsWith(".mgl")) 
 				? mglModelFile.getName().split("\\.")[0] 

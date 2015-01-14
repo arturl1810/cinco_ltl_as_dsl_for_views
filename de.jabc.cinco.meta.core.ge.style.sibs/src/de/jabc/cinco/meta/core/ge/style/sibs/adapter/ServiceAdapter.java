@@ -1102,4 +1102,22 @@ public class ServiceAdapter {
 		}
 	}
 
+	public static String isPrimeNode(LightweightExecutionEnvironment env,
+			ContextKeyFoundation node) {
+		
+		LightweightExecutionContext context = env.getLocalContext();
+		
+		try {
+			Node n = (Node) context.get(node);
+			if (n.getPrimeReference() == null) {
+				return Branches.FALSE;
+			} else return Branches.TRUE;
+			
+		} catch (Exception e) {
+			context.put("exception", e);
+			return Branches.ERROR;
+		}
+		
+	}
+
 }

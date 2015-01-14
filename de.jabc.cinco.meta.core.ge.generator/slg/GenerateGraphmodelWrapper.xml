@@ -1,0 +1,752 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<model version="2.1">
+  <id>ede0f2a5-2d64-419a-a377-4de364aed9a1</id>
+  <name>GenerateGraphmodelWrapper</name>
+  <changecounter>131</changecounter>
+  <sib>
+    <id>961ec5c2-d49b-4f47-b506-1d2f2c25fd26</id>
+    <name>RunStringTemplate</name>
+    <label>GenerateClass</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>358.5,723.0</position>
+    <parameter name="append">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>graphModelWrapperContent</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>package $localPkgName$;
+
+import java.util.HashMap;
+import java.util.List;
+
+import org.eclipse.graphiti.features.IFeatureProvider;
+import org.eclipse.graphiti.mm.pictograms.Connection;
+import org.eclipse.graphiti.mm.pictograms.ContainerShape;
+import org.eclipse.graphiti.mm.pictograms.PictogramElement;
+import org.eclipse.graphiti.ui.services.GraphitiUi;
+
+import graphicalgraphmodel.*;
+import graphmodel.*;
+import $importPath$.*;
+import $apiPkgName$.*;
+
+public class $graphModelName$Wrapper {
+	
+	private static HashMap&lt;ModelElement, CModelElement&gt; map;
+	private static IFeatureProvider fp;
+	
+	public static $apiPrefix$$graphModelName$ wrapGraphModel(GraphModel sg, IFeatureProvider featureProvider) throws Exception {
+		$apiPrefix$$graphModelName$ gsg = $gFactoryName$.eINSTANCE.create$apiPrefix$$graphModelName$();
+		fp = featureProvider;
+		map = new HashMap&lt;&gt;();
+		for (Node n : sg.getAllNodes()) {
+			CNode gNode = wrap(n);
+			gsg.getModelElements().add(gNode);
+		}
+		
+		for (Edge e : sg.getAllEdges()) {
+			CEdge gEdge = wrap(e);
+			gsg.getModelElements().add(gEdge);
+		}
+		
+		gsg.setGraphModel(sg);
+		gsg.setDiagram(fp.getDiagramTypeProvider().getDiagram());
+		gsg.setShape(fp.getDiagramTypeProvider().getDiagram());
+		
+		return gsg;
+	}
+	
+	private static CNode wrap(Node n) throws Exception {
+		CNode gNode = null;
+		
+		if (map.get(n) != null)
+			return (CNode) map.get(n);
+		
+		if (n instanceof Container) {
+			gNode = wrap((Container) n);
+		} else {
+
+			$nodeTypeCheck$
+				
+			gNode.setModelElement(n);
+			gNode.setShape((ContainerShape) getPictogramElement(n));
+			gNode.setDiagram(fp.getDiagramTypeProvider().getDiagram());
+
+			map.put(n, gNode);
+			
+			for (Edge e : n.getIncoming()) {
+				gNode.getIncoming().add(wrap(e));
+			}
+			
+			for (Edge e : n.getOutgoing()) {
+				gNode.getOutgoing().add(wrap(e));
+			}
+		}
+		
+		return gNode;
+	}
+	
+	private static CNode wrap(Container c) throws Exception {
+		CContainer gCont = null;
+		
+		if (map.get(c) != null)
+			return (CNode) map.get(c);
+		
+		$containerTypeCheck$
+
+		gCont.setModelElement(c);
+		gCont.setShape((ContainerShape) getPictogramElement(c));
+		gCont.setDiagram(fp.getDiagramTypeProvider().getDiagram());
+
+		map.put(c, gCont);
+		
+		for (ModelElement me : c.getModelElements()) {
+			CModelElement gme = null;
+			if (me instanceof Node)
+				gme = wrap((Node) me);
+			if (me instanceof Edge)
+				gme = wrap((Edge) me);
+			
+			gCont.getModelElements().add(gme);
+		}
+		
+		return gCont;
+	}
+	
+	private static CEdge wrap(Edge e) throws Exception {
+		CEdge gEdge = null;
+		if (map.get(e) != null)
+			return (CEdge) map.get(e);
+		
+		$edgeTypeCheck$
+
+		gEdge.setModelElement(e);
+		gEdge.setConnection((Connection) getPictogramElement(e));
+		gEdge.setDiagram(fp.getDiagramTypeProvider().getDiagram());
+
+		map.put(e, gEdge);
+		
+		gEdge.setSourceElement(wrap(e.getSourceElement()));
+		gEdge.setTargetElement(wrap(e.getTargetElement()));
+
+		return gEdge;
+	}
+	
+	private static PictogramElement getPictogramElement(ModelElement me) throws Exception {
+		List&lt;PictogramElement&gt; pes = 
+				GraphitiUi.getLinkService().getPictogramElements(fp.getDiagramTypeProvider().getDiagram(), me);
+		if (pes == null || pes.isEmpty()) {
+			throw new Exception(&quot;No pictogram element for: &quot; + me);
+		}
+		else return pes.get(0);
+	}
+	
+}
+</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>77754c48-0b34-4c77-bfa2-5043832558ca</id>
+    <name>IterateGraphModelNodes</name>
+    <label>IterateGraphModelNodes</label>
+    <sib-uid>mgl/mgl/IterateGraphModelNodes</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.IterateGraphModelNodes</taxonomy>
+    <position>75.5,243.0</position>
+    <parameter name="elementKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>node</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>false</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="graphModelKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>graphModel</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="iteratorKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>glNodeKey</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>false</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>exit</finalbranches>
+    <finalbranches>next</finalbranches>
+    <finalbranches>noElements</finalbranches>
+  </sib>
+  <sib>
+    <id>d50f809f-df6c-4eaa-9ae3-282db75427cd</id>
+    <name>IterateGraphModelNodeContainers</name>
+    <label>IterateGraphModelNodeContainers</label>
+    <sib-uid>mgl/mgl/IterateGraphModelNodeContainers</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.IterateGraphModelNodeContainers</taxonomy>
+    <position>48.0,393.0</position>
+    <parameter name="elementKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>container</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>false</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="graphModelKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>graphModel</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="iteratorKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>glContit</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>false</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>exit</finalbranches>
+    <finalbranches>next</finalbranches>
+    <finalbranches>noElements</finalbranches>
+  </sib>
+  <sib>
+    <id>0f89de2f-ec49-4466-8e72-64296dc4b09e</id>
+    <name>IterateGraphModelEdges</name>
+    <label>IterateGraphModelEdges</label>
+    <sib-uid>mgl/mgl/IterateGraphModelEdges</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.IterateGraphModelEdges</taxonomy>
+    <position>76.0,558.0</position>
+    <parameter name="elementKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>edge</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>false</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="graphModelKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>graphModel</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="iteratorKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>glEdgeIt</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>false</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>exit</finalbranches>
+    <finalbranches>next</finalbranches>
+    <finalbranches>noElements</finalbranches>
+  </sib>
+  <sib>
+    <id>d39e8be8-6780-4bf6-b84e-a83ffa0048a9</id>
+    <name>RunStringTemplate_1</name>
+    <label>RunStringTemplate</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>452.0,243.0</position>
+    <parameter name="append">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>nodeTypeCheck</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>if (n instanceof $nodeName$)
+	gNode = $gFactoryName$.eINSTANCE.create$apiPrefix$$nodeName$();
+</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>77754c48-0b34-4c77-bfa2-5043832558ca</source>
+    <target>e725fcec-97cf-455e-b8c2-19b6ddcba522</target>
+    <point>145.0,265.0</point>
+    <point>325.0,265.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>next</branch>
+  </edge>
+  <edge>
+    <source>e725fcec-97cf-455e-b8c2-19b6ddcba522</source>
+    <target>d39e8be8-6780-4bf6-b84e-a83ffa0048a9</target>
+    <point>325.0,265.0</point>
+    <point>490.0,265.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>ad603ea1-5724-4acb-ab41-a272fe8980e9</id>
+    <name>RunStringTemplate_2</name>
+    <label>RunStringTemplate</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>452.0,558.0</position>
+    <parameter name="append">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>edgeTypeCheck</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>if (e instanceof $edgeName$)
+	gEdge = $gFactoryName$.eINSTANCE.create$apiPrefix$$edgeName$();
+</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>f0aabe9d-36b1-45f9-b6d4-5a8efc137fdc</id>
+    <name>RunStringTemplate_3</name>
+    <label>RunStringTemplate</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>452.0,393.0</position>
+    <parameter name="append">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>containerTypeCheck</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>if (c instanceof $containerName$)
+	gCont = $gFactoryName$.eINSTANCE.create$apiPrefix$$containerName$();
+</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>e725fcec-97cf-455e-b8c2-19b6ddcba522</id>
+    <name>GetModelElementName</name>
+    <label>GetModelElementName</label>
+    <sib-uid>mgl/mgl/GetModelElementName</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetModelElementName</taxonomy>
+    <position>260.0,243.0</position>
+    <parameter name="modelElementKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>node</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="modelElementnameKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>nodeName</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>758ab1d1-e19a-438d-a003-40e760b509d2</id>
+    <name>GetModelElementName_1</name>
+    <label>GetModelElementName</label>
+    <sib-uid>mgl/mgl/GetModelElementName</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetModelElementName</taxonomy>
+    <position>260.0,558.0</position>
+    <parameter name="modelElementKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>edge</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="modelElementnameKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>edgeName</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>20fcdb53-ffe1-47ab-8a42-0b7226f73fcd</id>
+    <name>GetModelElementName_2</name>
+    <label>GetModelElementName</label>
+    <sib-uid>mgl/mgl/GetModelElementName</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetModelElementName</taxonomy>
+    <position>260.0,393.0</position>
+    <parameter name="modelElementKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>container</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="modelElementnameKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>containerName</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>d50f809f-df6c-4eaa-9ae3-282db75427cd</source>
+    <target>20fcdb53-ffe1-47ab-8a42-0b7226f73fcd</target>
+    <point>145.0,415.0</point>
+    <point>340.0,415.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>next</branch>
+  </edge>
+  <edge>
+    <source>20fcdb53-ffe1-47ab-8a42-0b7226f73fcd</source>
+    <target>f0aabe9d-36b1-45f9-b6d4-5a8efc137fdc</target>
+    <point>340.0,415.0</point>
+    <point>505.0,415.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>0f89de2f-ec49-4466-8e72-64296dc4b09e</source>
+    <target>758ab1d1-e19a-438d-a003-40e760b509d2</target>
+    <point>145.0,580.0</point>
+    <point>340.0,580.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>next</branch>
+  </edge>
+  <edge>
+    <source>758ab1d1-e19a-438d-a003-40e760b509d2</source>
+    <target>ad603ea1-5724-4acb-ab41-a272fe8980e9</target>
+    <point>340.0,580.0</point>
+    <point>505.0,580.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>77754c48-0b34-4c77-bfa2-5043832558ca</source>
+    <target>d50f809f-df6c-4eaa-9ae3-282db75427cd</target>
+    <point>145.0,265.0</point>
+    <point>145.0,415.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>exit</branch>
+  </edge>
+  <edge>
+    <source>d50f809f-df6c-4eaa-9ae3-282db75427cd</source>
+    <target>0f89de2f-ec49-4466-8e72-64296dc4b09e</target>
+    <point>145.0,415.0</point>
+    <point>145.0,580.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>exit</branch>
+  </edge>
+  <edge>
+    <source>d39e8be8-6780-4bf6-b84e-a83ffa0048a9</source>
+    <target>77754c48-0b34-4c77-bfa2-5043832558ca</target>
+    <spline/>
+    <point>477.0,270.1636363636364</point>
+    <point>330.0,345.0</point>
+    <point>168.0,269.4</point>
+    <labelposition>496.2121212121212,-74.92</labelposition>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>ad603ea1-5724-4acb-ab41-a272fe8980e9</source>
+    <target>0f89de2f-ec49-4466-8e72-64296dc4b09e</target>
+    <spline/>
+    <point>492.0,584.4</point>
+    <point>330.0,660.0</point>
+    <point>168.0,584.4</point>
+    <labelposition>487.65432098765433,-75.59999999999998</labelposition>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>f0aabe9d-36b1-45f9-b6d4-5a8efc137fdc</source>
+    <target>d50f809f-df6c-4eaa-9ae3-282db75427cd</target>
+    <spline/>
+    <point>492.0,419.4</point>
+    <point>330.0,495.0</point>
+    <point>168.0,419.4</point>
+    <labelposition>500.0,-77.59999999999998</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>76ec3ecb-4995-4e18-a10f-8b920e1e5805</id>
+    <name>WriteJavaFile</name>
+    <label>WriteJavaFile</label>
+    <sib-uid>genesys-sibs/WriteJavaFile</sib-uid>
+    <taxonomy>de.jabc.sib.genesys.WriteJavaFile</taxonomy>
+    <position>478.0,723.0</position>
+    <parameter name="baseDirectory">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>outletPath</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="beautify">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="beautifyMethod">
+      <de.metaframe.common.sib.parameter.ListBox>
+        <ListBoxFoundation>
+          <list>
+            <string>Eclipse</string>
+            <string>Jalopy</string>
+          </list>
+          <selected>0</selected>
+        </ListBoxFoundation>
+      </de.metaframe.common.sib.parameter.ListBox>
+    </parameter>
+    <parameter name="className">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>className</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="fileContent">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>graphModelWrapperContent</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="packageName">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>localPkgName</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>9544cdee-7755-41fd-b1ae-c4ff2e3c9da8</id>
+    <name>PutExpression_1</name>
+    <label>PkgName</label>
+    <sib-uid>basic-sibs/PutExpression</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
+    <position>239.5,723.0</position>
+    <parameter name="resolve">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="value">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>${packageName}.graphiti</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>localPkgName</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>92a7abec-9e26-4ebf-97ee-dae2b89ed729</id>
+    <name>PutExpression_2</name>
+    <label>ClassName</label>
+    <sib-uid>basic-sibs/PutExpression</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
+    <position>113.5,723.0</position>
+    <parameter name="resolve">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="value">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>${fuGraphModelName}Wrapper</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>className</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>0f89de2f-ec49-4466-8e72-64296dc4b09e</source>
+    <target>92a7abec-9e26-4ebf-97ee-dae2b89ed729</target>
+    <point>162.85714285714286,594.0</point>
+    <point>270.7894736842105,738.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>exit</branch>
+  </edge>
+  <edge>
+    <source>92a7abec-9e26-4ebf-97ee-dae2b89ed729</source>
+    <target>9544cdee-7755-41fd-b1ae-c4ff2e3c9da8</target>
+    <point>285.0,765.0</point>
+    <point>390.0,765.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>9544cdee-7755-41fd-b1ae-c4ff2e3c9da8</source>
+    <target>961ec5c2-d49b-4f47-b506-1d2f2c25fd26</target>
+    <point>372.0,763.2</point>
+    <point>198.0,825.3428571428572</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>dc0f4313-3ae4-44e9-8cdd-6e396a906af5</id>
+    <name>PutExpression</name>
+    <label>GFactoryName</label>
+    <sib-uid>basic-sibs/PutExpression</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
+    <position>104.5,78.0</position>
+    <parameter name="resolve">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="value">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>${apiPrefix}${lcGraphModelName}Factory</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>gFactoryName</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$START">
+      <boolean>true</boolean>
+    </userobject>
+  </sib>
+  <edge>
+    <source>dc0f4313-3ae4-44e9-8cdd-6e396a906af5</source>
+    <target>77754c48-0b34-4c77-bfa2-5043832558ca</target>
+    <point>150.0,105.0</point>
+    <point>151.0,248.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>961ec5c2-d49b-4f47-b506-1d2f2c25fd26</source>
+    <target>76ec3ecb-4995-4e18-a10f-8b920e1e5805</target>
+    <point>375.0,750.0</point>
+    <point>514.0,764.0</point>
+    <branch>default</branch>
+  </edge>
+  <values/>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>76ec3ecb-4995-4e18-a10f-8b920e1e5805</sib>
+  </branch>
+  <branch>
+    <name>default</name>
+    <branch>default</branch>
+    <sib>76ec3ecb-4995-4e18-a10f-8b920e1e5805</sib>
+  </branch>
+</model>

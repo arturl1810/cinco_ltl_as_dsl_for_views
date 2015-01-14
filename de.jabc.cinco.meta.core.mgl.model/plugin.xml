@@ -33,4 +33,12 @@
             class="graphmodel.util.GraphmodelResourceFactoryImpl"/>
    </extension>
 
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated GraphicalGraphModel -->
+      <package
+            uri="http://graphicalgraphmodel/1.0"
+            class="graphicalgraphmodel.GraphicalgraphmodelPackage"
+            genModel="model/GraphicalGraphModel.genmodel"/>
+   </extension>
+
 </plugin>

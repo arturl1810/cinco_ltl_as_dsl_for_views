@@ -1,0 +1,70 @@
+<Content Version="1.0" Grammar="ModelDocGrammar">
+  <factory>
+    <TextSIB>
+      <lines>
+        <ListBoxFoundation>
+          <list>
+            <string>single</string>
+            <string>multiple</string>
+          </list>
+          <selected>0</selected>
+        </ListBoxFoundation>
+      </lines>
+      <sortChildren>
+        <boolean>false</boolean>
+      </sortChildren>
+      <nodeName>
+        <string>Section</string>
+      </nodeName>
+      <nodeIcon>
+        <string>default</string>
+      </nodeIcon>
+      <sortPrefix>
+        <string></string>
+      </sortPrefix>
+      <preview>
+        <ListBoxFoundation>
+          <list>
+            <string>Nodename &amp; Value</string>
+            <string>Nodename</string>
+            <string>Value</string>
+          </list>
+          <selected>0</selected>
+        </ListBoxFoundation>
+      </preview>
+      <sortID>
+        <int>100</int>
+      </sortID>
+    </TextSIB>
+    <RichTextSIB>
+      <nodeName>
+        <string>Paragraph</string>
+      </nodeName>
+      <nodeIcon>
+        <string>default</string>
+      </nodeIcon>
+      <sortPrefix>
+        <string></string>
+      </sortPrefix>
+      <preview>
+        <ListBoxFoundation>
+          <list>
+            <string>Nodename &amp; Value</string>
+            <string>Nodename</string>
+            <string>Value</string>
+          </list>
+          <selected>0</selected>
+        </ListBoxFoundation>
+      </preview>
+      <sortID>
+        <int>200</int>
+      </sortID>
+    </RichTextSIB>
+  </factory>
+  <ContentEditorNode NodeName="Section">
+    <string>Model Annotation &quot;GDL2Ecore&quot;</string>
+    <ContentEditorNode NodeName="Paragraph">
+      <string> &lt;p style=&quot;margin-top: 0&quot;&gt; The &lt;i&gt;GDL2Ecore&lt;/i&gt;-Model is the main model for the GDL To Ecore Transformation. It takes a graphmodel description from the Execution-Context and creates a corresponding EPackage-Object which is stored in the context. &lt;/p&gt; &lt;p style=&quot;margin-top: 0&quot;&gt; &lt;/p&gt; &lt;p style=&quot;margin-top: 0&quot;&gt; GDL2Ecore consists of 8 sequentially called submodels: &lt;/p&gt; &lt;ul&gt; &lt;li&gt; &lt;b&gt;&lt;i&gt;Initialize: &lt;/i&gt;&lt;/b&gt;Adds certain values to the context which are used later &lt;/li&gt; &lt;li&gt; &lt;b&gt;&lt;i&gt;Initialize EPackage:&lt;/i&gt;&lt;/b&gt;&lt;i&gt; &lt;/i&gt;Creates the EPackage-Object and fills it with information that is essential for a valid model &lt;/li&gt; &lt;li&gt; &lt;b&gt;&lt;i&gt;Create Substantial Classes:&lt;/i&gt;&lt;/b&gt; Creates the main class for model instances and the abstract classes for the model elements &lt;/li&gt; &lt;li&gt; &lt;b&gt;&lt;i&gt;Create Nodes, Create Edges, Create Swimlanes:&lt;/i&gt;&lt;/b&gt;&lt;i&gt; &lt;/i&gt;Create specific classes for the described model elements &lt;/li&gt; &lt;li&gt; &lt;b&gt;&lt;i&gt;Reference Attributes, Inherit Classes:&lt;/i&gt;&lt;/b&gt;&lt;i&gt; Solve reference and inheritance relationships between created classes&lt;/i&gt; &lt;/li&gt; &lt;/ul&gt; &lt;p&gt; &amp;#160; &lt;/p&gt; &lt;p style=&quot;margin-top: 0&quot;&gt; &lt;/p&gt; &lt;ul&gt; &lt;/ul&gt; &lt;p&gt; &amp;#160; &lt;/p&gt; </string>
+    </ContentEditorNode>
+  </ContentEditorNode>
+</Content>

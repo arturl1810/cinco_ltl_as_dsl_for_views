@@ -1,0 +1,795 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<model version="2.1">
+  <id>ca5a39ee-2606-4461-8c2d-1e6ebdbd9d0e</id>
+  <name>MGL2GraphicalGraphModel</name>
+  <changecounter>213</changecounter>
+  <sib>
+    <id>e763e08f-ee7b-48f6-8187-dac38f44f435</id>
+    <name>MacroSIB</name>
+    <label>Create Substantial Classes</label>
+    <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
+    <position>323.0,46.0</position>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>1d08000e-412c-4f78-a4e1-f5c3f09eef6a</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Create Substantial Classes</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>7282a348-e473-4137-b369-3511064aa5eb</source>
+    <target>e763e08f-ee7b-48f6-8187-dac38f44f435</target>
+    <point>210.0,75.0</point>
+    <point>405.0,75.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>bd057e68-0ca4-49eb-8b0f-0da65754197d</id>
+    <name>MacroSIB_1</name>
+    <label>Create Nodes</label>
+    <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
+    <position>692.0,46.0</position>
+    <finalbranches>error</finalbranches>
+    <finalbranches>exit</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>d136ee11-0a5e-458f-8813-648c7e29c207</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Create Nodes</string>
+    </userobject>
+  </sib>
+  <sib>
+    <id>d49312d0-317f-4dcc-ac26-b05b90b06472</id>
+    <name>MacroSIB_2</name>
+    <label>Create NodeContainers</label>
+    <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
+    <position>1054.5,46.0</position>
+    <finalbranches>error</finalbranches>
+    <finalbranches>exit</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>bbe15f4c-aa62-4a79-93be-b5b01df883f7</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Create Swimlanes</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>e763e08f-ee7b-48f6-8187-dac38f44f435</source>
+    <target>52557838-032e-4f74-a0a1-ea024baacec4</target>
+    <point>405.0,75.0</point>
+    <point>570.0,75.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>7282a348-e473-4137-b369-3511064aa5eb</id>
+    <name>MacroSIB_3</name>
+    <label>Initialize EPackage</label>
+    <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
+    <position>154.5,46.0</position>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>95a30cb5-13ac-431b-ac50-d456a18e2ff9</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Initialize EPackage</string>
+    </userobject>
+  </sib>
+  <sib>
+    <id>3221de49-39c9-401f-9821-aabdf4f60dce</id>
+    <name>MacroSIB_4</name>
+    <label>Create Edges</label>
+    <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
+    <position>872.5,46.0</position>
+    <finalbranches>error</finalbranches>
+    <finalbranches>exit</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>841d944d-b804-4029-a8af-6d0a9e581856</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Create Edges</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>bd057e68-0ca4-49eb-8b0f-0da65754197d</source>
+    <target>3221de49-39c9-401f-9821-aabdf4f60dce</target>
+    <point>735.0,75.0</point>
+    <point>915.0,75.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>exit</branch>
+  </edge>
+  <edge>
+    <source>3221de49-39c9-401f-9821-aabdf4f60dce</source>
+    <target>d49312d0-317f-4dcc-ac26-b05b90b06472</target>
+    <point>915.0,75.0</point>
+    <point>1125.0,75.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>exit</branch>
+  </edge>
+  <sib>
+    <id>3966d27a-78d5-4870-aba6-8c1ee8089b98</id>
+    <name>PrintException</name>
+    <label>PrintException</label>
+    <sib-uid>io-sibs/PrintException</sib-uid>
+    <taxonomy>de.jabc.sib.common.io.PrintException</taxonomy>
+    <position>519.5,258.0</position>
+    <parameter name="exception">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>exception</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+  </sib>
+  <edge>
+    <source>d49312d0-317f-4dcc-ac26-b05b90b06472</source>
+    <target>3966d27a-78d5-4870-aba6-8c1ee8089b98</target>
+    <point>1125.0,75.0</point>
+    <point>1125.0,195.0</point>
+    <point>1770.0,210.0</point>
+    <labelposition>20.0,37.0</labelposition>
+    <branch>error</branch>
+  </edge>
+  <edge>
+    <source>3221de49-39c9-401f-9821-aabdf4f60dce</source>
+    <target>3966d27a-78d5-4870-aba6-8c1ee8089b98</target>
+    <point>915.0,75.0</point>
+    <point>915.0,195.0</point>
+    <point>1770.0,210.0</point>
+    <labelposition>3.141319619330382,42.04507760429907</labelposition>
+    <branch>error</branch>
+  </edge>
+  <edge>
+    <source>bd057e68-0ca4-49eb-8b0f-0da65754197d</source>
+    <target>3966d27a-78d5-4870-aba6-8c1ee8089b98</target>
+    <point>735.0,75.0</point>
+    <point>735.0,195.0</point>
+    <point>1770.0,210.0</point>
+    <labelposition>5.0,39.0</labelposition>
+    <branch>error</branch>
+  </edge>
+  <edge>
+    <source>e763e08f-ee7b-48f6-8187-dac38f44f435</source>
+    <target>3966d27a-78d5-4870-aba6-8c1ee8089b98</target>
+    <point>405.0,75.0</point>
+    <point>405.0,195.0</point>
+    <point>1125.0,195.0</point>
+    <labelposition>0.769123072419392,37.211216869921984</labelposition>
+    <branch>error</branch>
+  </edge>
+  <edge>
+    <source>7282a348-e473-4137-b369-3511064aa5eb</source>
+    <target>3966d27a-78d5-4870-aba6-8c1ee8089b98</target>
+    <point>210.0,75.0</point>
+    <point>210.0,195.0</point>
+    <point>1125.0,195.0</point>
+    <labelposition>3.8478153048653665,36.82450822303698</labelposition>
+    <branch>error</branch>
+  </edge>
+  <sib>
+    <id>dfb256a3-59cd-4dfa-86de-3cf6a01debc9</id>
+    <name>MacroSIB_5</name>
+    <label>Reference Attributes</label>
+    <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
+    <position>1273.0,46.0</position>
+    <finalbranches>error</finalbranches>
+    <finalbranches>exit</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>a8a13ead-991d-4a0c-b376-516f4a369f43</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Reference Attributes</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>d49312d0-317f-4dcc-ac26-b05b90b06472</source>
+    <target>dfb256a3-59cd-4dfa-86de-3cf6a01debc9</target>
+    <point>1125.0,75.0</point>
+    <point>1335.0,75.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>exit</branch>
+  </edge>
+  <edge>
+    <source>dfb256a3-59cd-4dfa-86de-3cf6a01debc9</source>
+    <target>3966d27a-78d5-4870-aba6-8c1ee8089b98</target>
+    <point>1335.0,75.0</point>
+    <point>1335.0,195.0</point>
+    <point>1770.0,210.0</point>
+    <labelposition>16.706781820756053,38.11037124500509</labelposition>
+    <branch>error</branch>
+  </edge>
+  <sib>
+    <id>ed076622-2421-4d4d-970b-b58bc81a2499</id>
+    <name>MacroSIB_6</name>
+    <label>Initialize</label>
+    <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
+    <position>3.5,46.0</position>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$START">
+      <boolean>true</boolean>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>0e442a3b-428c-42da-ba0f-50231419be44</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Initialize</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>ed076622-2421-4d4d-970b-b58bc81a2499</source>
+    <target>3966d27a-78d5-4870-aba6-8c1ee8089b98</target>
+    <point>30.0,104.0</point>
+    <point>30.0,195.0</point>
+    <point>1494.5,195.0</point>
+    <labelposition>0.16116737196744374,36.054737205004386</labelposition>
+    <branch>error</branch>
+  </edge>
+  <sib>
+    <id>6bbe603e-79c9-4547-bc18-f9bb41a277b7</id>
+    <name>MacroSIB_7</name>
+    <label>Inherit Classes</label>
+    <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
+    <position>1438.0,46.0</position>
+    <finalbranches>error</finalbranches>
+    <finalbranches>exit</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>30419526-916d-419b-91ef-1bcf24abdf58</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Inherit Classes</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>dfb256a3-59cd-4dfa-86de-3cf6a01debc9</source>
+    <target>6bbe603e-79c9-4547-bc18-f9bb41a277b7</target>
+    <point>1335.0,75.0</point>
+    <point>1485.0,75.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>exit</branch>
+  </edge>
+  <edge>
+    <source>6bbe603e-79c9-4547-bc18-f9bb41a277b7</source>
+    <target>3966d27a-78d5-4870-aba6-8c1ee8089b98</target>
+    <point>1485.0,104.0</point>
+    <point>1485.0,195.0</point>
+    <point>620.5,258.0</point>
+    <labelposition>84.20049249344666,-84.34028115238279</labelposition>
+    <branch>error</branch>
+  </edge>
+  <sib>
+    <id>80f735d2-83d2-4185-92cb-edd8c1671316</id>
+    <name>PrintConsoleMessage</name>
+    <label>PrintConsoleMessage</label>
+    <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
+    <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
+    <position>826.5,423.0</position>
+    <parameter name="error">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="message">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>Transformation successfull</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>false</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <finalbranches>default</finalbranches>
+  </sib>
+  <edge>
+    <source>6bbe603e-79c9-4547-bc18-f9bb41a277b7</source>
+    <target>c8c9f94e-73b9-47f8-935e-8ca1543b4dc2</target>
+    <point>1500.0,104.0</point>
+    <point>1500.0,210.0</point>
+    <point>838.0,286.0</point>
+    <labelposition>39.663277948439436,-106.59481861458359</labelposition>
+    <branch>exit</branch>
+  </edge>
+  <edge>
+    <source>ed076622-2421-4d4d-970b-b58bc81a2499</source>
+    <target>7282a348-e473-4137-b369-3511064aa5eb</target>
+    <point>30.0,75.0</point>
+    <point>195.0,77.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>52557838-032e-4f74-a0a1-ea024baacec4</id>
+    <name>MacroSIB_8</name>
+    <label>Create Types</label>
+    <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
+    <position>528.0,46.0</position>
+    <finalbranches>error</finalbranches>
+    <finalbranches>exit</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>4a1b5ac8-21c7-45dc-92d0-46fde6dc5d52</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Create Types</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>52557838-032e-4f74-a0a1-ea024baacec4</source>
+    <target>bd057e68-0ca4-49eb-8b0f-0da65754197d</target>
+    <point>570.0,75.0</point>
+    <point>735.0,75.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>exit</branch>
+  </edge>
+  <edge>
+    <source>52557838-032e-4f74-a0a1-ea024baacec4</source>
+    <target>3966d27a-78d5-4870-aba6-8c1ee8089b98</target>
+    <point>570.0,104.0</point>
+    <point>570.0,195.0</point>
+    <point>1719.5,195.0</point>
+    <labelposition>1.0,47.0</labelposition>
+    <branch>error</branch>
+  </edge>
+  <sib>
+    <id>1492f046-e702-4e6c-b095-6671cb654f98</id>
+    <name>GraphSIB</name>
+    <label>Annotate Model</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>522.5,421.0</position>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>5ce182a4-e761-41ad-ac50-efff7319b333</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Annotate Model</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>1492f046-e702-4e6c-b095-6671cb654f98</source>
+    <target>7f459840-de66-4182-9b27-a06e8f1e3682</target>
+    <point>565.0,443.0</point>
+    <point>745.0,593.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>1492f046-e702-4e6c-b095-6671cb654f98</source>
+    <target>3966d27a-78d5-4870-aba6-8c1ee8089b98</target>
+    <point>555.0,421.0</point>
+    <point>555.0,360.0</point>
+    <point>555.0,312.0</point>
+    <labelposition>233.0,35.0</labelposition>
+    <branch>error</branch>
+  </edge>
+  <sib>
+    <id>82e2bac5-902c-4f3c-b416-e0ba58dddaf9</id>
+    <name>MacroSIB_9</name>
+    <label>Create getAllNodes</label>
+    <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
+    <position>46.5,421.0</position>
+    <parameter name="eClassKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>graphModelClass</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="eOperatiobUpperBound">
+      <int>-1</int>
+    </parameter>
+    <parameter name="eOperationLowerBound">
+      <int>0</int>
+    </parameter>
+    <parameter name="eOperationNameKey">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>getAllNodes</expression>
+          <clazz>java.lang.String</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="eOperationeTypeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>abstractNodeClass</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>false</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="parameterMap">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key></key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>EList&lt;Node&gt; list =new org.eclipse.emf.common.util.BasicEList&lt;Node&gt;();
+$allNodes: 
+{node|list.addAll(this.get$node$s());}$
+return list;</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Create EOperation</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>82e2bac5-902c-4f3c-b416-e0ba58dddaf9</source>
+    <target>7350074f-2d55-426c-94d2-e94a8935f463</target>
+    <point>100.0,443.0</point>
+    <point>235.0,443.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>82e2bac5-902c-4f3c-b416-e0ba58dddaf9</source>
+    <target>3966d27a-78d5-4870-aba6-8c1ee8089b98</target>
+    <point>105.0,421.0</point>
+    <point>105.0,330.0</point>
+    <point>519.5,312.0</point>
+    <labelposition>83.0,51.0</labelposition>
+    <branch>error</branch>
+  </edge>
+  <sib>
+    <id>7350074f-2d55-426c-94d2-e94a8935f463</id>
+    <name>MacroSIB_10</name>
+    <label>Create getAllEdges</label>
+    <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
+    <position>182.0,421.0</position>
+    <parameter name="eClassKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>graphModelClass</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="eOperatiobUpperBound">
+      <int>-1</int>
+    </parameter>
+    <parameter name="eOperationLowerBound">
+      <int>0</int>
+    </parameter>
+    <parameter name="eOperationNameKey">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>getAllEdges</expression>
+          <clazz>java.lang.String</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="eOperationeTypeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>abstractEdgeClass</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>false</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="parameterMap">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key></key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>EList&lt;Edge&gt; list =new org.eclipse.emf.common.util.BasicEList&lt;Edge&gt;();
+$allEdges: 
+{edge|list.addAll(this.get$edge$s());}$
+return list;</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Create EOperation</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>7350074f-2d55-426c-94d2-e94a8935f463</source>
+    <target>30784d83-e93e-4202-a52e-6f990e0531a4</target>
+    <point>235.0,443.0</point>
+    <point>385.0,443.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>7350074f-2d55-426c-94d2-e94a8935f463</source>
+    <target>3966d27a-78d5-4870-aba6-8c1ee8089b98</target>
+    <point>240.0,421.0</point>
+    <point>240.0,330.0</point>
+    <point>519.5,312.0</point>
+    <labelposition>84.09307268259204,53.42027789990477</labelposition>
+    <branch>error</branch>
+  </edge>
+  <sib>
+    <id>30784d83-e93e-4202-a52e-6f990e0531a4</id>
+    <name>MacroSIB_11</name>
+    <label>Create getAllNodeContainers</label>
+    <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
+    <position>304.0,421.0</position>
+    <parameter name="eClassKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>graphModelClass</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="eOperatiobUpperBound">
+      <int>-1</int>
+    </parameter>
+    <parameter name="eOperationLowerBound">
+      <int>0</int>
+    </parameter>
+    <parameter name="eOperationNameKey">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>getAllNodeContainers</expression>
+          <clazz>java.lang.String</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="eOperationeTypeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>abstractSwimlaneClass</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>false</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="parameterMap">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key></key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>EList&lt;NodeContainer&gt; list =new org.eclipse.emf.common.util.BasicEList&lt;NodeContainer&gt;();
+$allNodeContainers: 
+{node|list.addAll(this.get$node$s());}$
+return list;</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Create EOperation</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>30784d83-e93e-4202-a52e-6f990e0531a4</source>
+    <target>1492f046-e702-4e6c-b095-6671cb654f98</target>
+    <point>385.0,443.0</point>
+    <point>565.0,443.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>30784d83-e93e-4202-a52e-6f990e0531a4</source>
+    <target>3966d27a-78d5-4870-aba6-8c1ee8089b98</target>
+    <point>390.0,421.0</point>
+    <point>390.0,345.0</point>
+    <point>519.5,312.0</point>
+    <labelposition>151.03038770520433,35.757188481721535</labelposition>
+    <branch>error</branch>
+  </edge>
+  <sib>
+    <id>c8c9f94e-73b9-47f8-935e-8ca1543b4dc2</id>
+    <name>GraphSIB_1</name>
+    <label>Generate Helper EOperations</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>662.0,286.0</position>
+    <parameter name="graphModelKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>graphModel</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>exit</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>d5531c11-ffc2-41e6-b1fd-4f08e1327b1f</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Generate Helper EOperations</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>c8c9f94e-73b9-47f8-935e-8ca1543b4dc2</source>
+    <target>1492f046-e702-4e6c-b095-6671cb654f98</target>
+    <point>400.0,773.0</point>
+    <point>565.0,443.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>exit</branch>
+  </edge>
+  <edge>
+    <source>c8c9f94e-73b9-47f8-935e-8ca1543b4dc2</source>
+    <target>3ac8e818-b0fe-4650-b347-4020f9488f3a</target>
+    <point>760.0,466.8571428571429</point>
+    <point>588.0,552.7714285714286</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>error</branch>
+  </edge>
+  <sib>
+    <id>7f459840-de66-4182-9b27-a06e8f1e3682</id>
+    <name>GraphSIB_2</name>
+    <label>GenerateApiEOperations</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>646.0,421.0</position>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>ec0a5ab9-778e-4f7b-a992-cd928603a684</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>GenerateApiEOperations</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>7f459840-de66-4182-9b27-a06e8f1e3682</source>
+    <target>80f735d2-83d2-4185-92cb-edd8c1671316</target>
+    <point>745.0,593.0</point>
+    <point>760.0,443.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>7f459840-de66-4182-9b27-a06e8f1e3682</source>
+    <target>3966d27a-78d5-4870-aba6-8c1ee8089b98</target>
+    <point>745.0,593.0</point>
+    <point>565.0,593.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>error</branch>
+  </edge>
+  <sib>
+    <id>3ac8e818-b0fe-4650-b347-4020f9488f3a</id>
+    <name>PrintException_1</name>
+    <label>PrintException</label>
+    <sib-uid>io-sibs/PrintException</sib-uid>
+    <taxonomy>de.jabc.sib.common.io.PrintException</taxonomy>
+    <position>931.0,273.0</position>
+    <parameter name="exception">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>exception</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+  </sib>
+  <userobject key="ABC$ANNOTATION">
+    <Content Version="1.0" Grammar="ModelDocGrammar">
+      <factory>
+        <TextSIB>
+          <lines>
+            <ListBoxFoundation>
+              <list>
+                <string>single</string>
+                <string>multiple</string>
+              </list>
+              <selected>0</selected>
+            </ListBoxFoundation>
+          </lines>
+          <sortChildren>
+            <boolean>false</boolean>
+          </sortChildren>
+          <nodeName>
+            <string>Section</string>
+          </nodeName>
+          <nodeIcon>
+            <string>default</string>
+          </nodeIcon>
+          <sortPrefix>
+            <string></string>
+          </sortPrefix>
+          <preview>
+            <ListBoxFoundation>
+              <list>
+                <string>Nodename &amp; Value</string>
+                <string>Nodename</string>
+                <string>Value</string>
+              </list>
+              <selected>0</selected>
+            </ListBoxFoundation>
+          </preview>
+          <sortID>
+            <int>100</int>
+          </sortID>
+        </TextSIB>
+        <RichTextSIB>
+          <nodeName>
+            <string>Paragraph</string>
+          </nodeName>
+          <nodeIcon>
+            <string>default</string>
+          </nodeIcon>
+          <sortPrefix>
+            <string></string>
+          </sortPrefix>
+          <preview>
+            <ListBoxFoundation>
+              <list>
+                <string>Nodename &amp; Value</string>
+                <string>Nodename</string>
+                <string>Value</string>
+              </list>
+              <selected>0</selected>
+            </ListBoxFoundation>
+          </preview>
+          <sortID>
+            <int>200</int>
+          </sortID>
+        </RichTextSIB>
+      </factory>
+      <ContentEditorNode NodeName="Section">
+        <string>Model Annotation &quot;GDL2Ecore&quot;</string>
+        <ContentEditorNode NodeName="Paragraph">
+          <string> &lt;p style=&quot;margin-top: 0&quot;&gt; The &lt;i&gt;GDL2Ecore&lt;/i&gt;-Model is the main model for the GDL To Ecore Transformation. It takes a graphmodel description from the Execution-Context and creates a corresponding EPackage-Object which is stored in the context. &lt;/p&gt; &lt;p style=&quot;margin-top: 0&quot;&gt; &lt;/p&gt; &lt;p style=&quot;margin-top: 0&quot;&gt; GDL2Ecore consists of 8 sequentially called submodels: &lt;/p&gt; &lt;ul&gt; &lt;li&gt; &lt;b&gt;&lt;i&gt;Initialize: &lt;/i&gt;&lt;/b&gt;Adds certain values to the context which are used later &lt;/li&gt; &lt;li&gt; &lt;b&gt;&lt;i&gt;Initialize EPackage:&lt;/i&gt;&lt;/b&gt;&lt;i&gt; &lt;/i&gt;Creates the EPackage-Object and fills it with information that is essential for a valid model &lt;/li&gt; &lt;li&gt; &lt;b&gt;&lt;i&gt;Create Substantial Classes:&lt;/i&gt;&lt;/b&gt; Creates the main class for model instances and the abstract classes for the model elements &lt;/li&gt; &lt;li&gt; &lt;b&gt;&lt;i&gt;Create Nodes, Create Edges, Create Swimlanes:&lt;/i&gt;&lt;/b&gt;&lt;i&gt; &lt;/i&gt;Create specific classes for the described model elements &lt;/li&gt; &lt;li&gt; &lt;b&gt;&lt;i&gt;Reference Attributes, Inherit Classes:&lt;/i&gt;&lt;/b&gt;&lt;i&gt; Solve reference and inheritance relationships between created classes&lt;/i&gt; &lt;/li&gt; &lt;/ul&gt; &lt;p&gt; &amp;#160; &lt;/p&gt; &lt;p style=&quot;margin-top: 0&quot;&gt; &lt;/p&gt; &lt;ul&gt; &lt;/ul&gt; &lt;p&gt; &amp;#160; &lt;/p&gt; </string>
+        </ContentEditorNode>
+      </ContentEditorNode>
+    </Content>
+  </userobject>
+  <values/>
+  <branch>
+    <name>default</name>
+    <branch>default</branch>
+    <sib>80f735d2-83d2-4185-92cb-edd8c1671316</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>default</branch>
+    <sib>3966d27a-78d5-4870-aba6-8c1ee8089b98</sib>
+  </branch>
+</model>

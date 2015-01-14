@@ -98,9 +98,13 @@ public class GenerateFeatureProjectHandler extends AbstractHandler {
 						if (iRes != null)
 							symbolicName = ProjectCreator.getProjectSymbolicName(iRes.getProject());
 						else symbolicName = model.getPackage();
-						requiredBundles.add(symbolicName);		
-						if (hasStyleAnnotation(model))
-							requiredBundles.add(packageName + ".graphiti");
+						requiredBundles.add(symbolicName);
+						/**
+						 * Since the graphiti code is generated into the main project, this dependency is 
+						 * not necessary anymore.
+						 */
+//						if (hasStyleAnnotation(model))
+//							requiredBundles.add(packageName + ".graphiti");
 						ArrayList<String> exportedPackages = new ArrayList<>();
 						ArrayList<String> additionalNatures = new ArrayList<>();
 						additionalNatures.add("org.eclipse.pde.FeatureNature");

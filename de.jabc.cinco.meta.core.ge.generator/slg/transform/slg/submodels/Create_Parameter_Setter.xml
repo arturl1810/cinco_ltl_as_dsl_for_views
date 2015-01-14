@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<model version="2.1">
+  <id>3687e7f8-e39c-4f13-be77-cf8831ef249f</id>
+  <name>Create Parameter Setter</name>
+  <changecounter>5</changecounter>
+  <sib>
+    <id>7ac7059a-9984-4185-89a3-58f0ae1729bf</id>
+    <name>NewEParameterInEOperationEParameters</name>
+    <label>NewEParameterInEOperationEParameters</label>
+    <sib-uid>ecore/ecore/NewEParameterInEOperationEParameters</sib-uid>
+    <taxonomy>transem.ecore.sib.ecore.NewEParameterInEOperationEParameters</taxonomy>
+    <position>162.5,288.0</position>
+    <parameter name="eObjectKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>setterParameter</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="eOperationKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>eOperation</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>2a869b10-b3a3-470b-b313-1de1054e9855</id>
+    <name>GraphSIB</name>
+    <label>Create EOperation</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>236.5,61.0</position>
+    <parameter name="eClassKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>modelElementClass</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="eOperatiobUpperBound">
+      <int>1</int>
+    </parameter>
+    <parameter name="eOperationLowerBound">
+      <int>0</int>
+    </parameter>
+    <parameter name="eOperationNameKey">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>set${nodeReferencedParameterName}</expression>
+          <clazz>java.lang.String</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="eOperationeTypeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>thisshouldbeanullkey</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>false</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>$nodeReferencedParameterReferencedTypeNameLowerCase$Parameter.get(0).setInstance($nodeReferencedParameterName$);
+return;
+</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$START">
+      <boolean>true</boolean>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Create EOperation</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>2a869b10-b3a3-470b-b313-1de1054e9855</source>
+    <target>7ac7059a-9984-4185-89a3-58f0ae1729bf</target>
+    <point>300.0,90.0</point>
+    <point>301.0,295.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>982f8cd0-3e4f-4dd9-a022-c7a560c06c5d</id>
+    <name>SetEParameterEType</name>
+    <label>SetEParameterEType</label>
+    <sib-uid>ecore/ecore/SetEParameterEType</sib-uid>
+    <taxonomy>transem.ecore.sib.ecore.SetEParameterEType</taxonomy>
+    <position>229.0,423.0</position>
+    <parameter name="eParameterKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>setterParameter</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="eParametereTypeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>nodeReferencedParameterNameFeatureType</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>false</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>2bfa02e3-032d-4fb7-a674-21e9d7f36a67</id>
+    <name>SetEParameterName</name>
+    <label>SetEParameterName</label>
+    <sib-uid>ecore/ecore/SetEParameterName</sib-uid>
+    <taxonomy>transem.ecore.sib.ecore.SetEParameterName</taxonomy>
+    <position>230.5,573.0</position>
+    <parameter name="eParameterKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>setterParameter</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="eParameternameKey">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>${nodeReferencedParameterName}</expression>
+          <clazz>java.lang.String</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>7ac7059a-9984-4185-89a3-58f0ae1729bf</source>
+    <target>982f8cd0-3e4f-4dd9-a022-c7a560c06c5d</target>
+    <point>300.0,315.0</point>
+    <point>304.0,430.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>982f8cd0-3e4f-4dd9-a022-c7a560c06c5d</source>
+    <target>2bfa02e3-032d-4fb7-a674-21e9d7f36a67</target>
+    <point>300.0,459.0</point>
+    <point>300.0,528.0</point>
+    <branch>default</branch>
+  </edge>
+  <values/>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>7ac7059a-9984-4185-89a3-58f0ae1729bf</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>982f8cd0-3e4f-4dd9-a022-c7a560c06c5d</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>2a869b10-b3a3-470b-b313-1de1054e9855</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>2bfa02e3-032d-4fb7-a674-21e9d7f36a67</sib>
+  </branch>
+  <branch>
+    <name>default</name>
+    <branch>default</branch>
+    <sib>2bfa02e3-032d-4fb7-a674-21e9d7f36a67</sib>
+  </branch>
+</model>
