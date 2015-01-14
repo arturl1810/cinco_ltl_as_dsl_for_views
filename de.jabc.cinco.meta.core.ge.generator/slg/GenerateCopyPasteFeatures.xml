@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>67a73b2a-3824-4776-9686-ae1a8aed5282</id>
   <name>GenerateCopyPasteFeatures</name>
-  <changecounter>296</changecounter>
+  <changecounter>299</changecounter>
   <sib>
     <id>59a427e8-25c5-482c-a32b-a0aa278eb41b</id>
     <name>PutExpression</name>
@@ -252,7 +252,7 @@ import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.graphiti.ui.features.AbstractPasteFeature;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
-import $context.projectName$.*;
+import $context.packageName$.graphiti.*;
 import $context.importPath$.*;
 
 public class $context.graphModelName$PasteFeature extends AbstractPasteFeature {
@@ -428,7 +428,7 @@ public class $context.graphModelName$PasteFeature extends AbstractPasteFeature {
     <label>WriteCopyFeature</label>
     <sib-uid>genesys-sibs/WriteJavaFile</sib-uid>
     <taxonomy>de.jabc.sib.genesys.WriteJavaFile</taxonomy>
-    <position>27.5,406.0</position>
+    <position>27.5,408.0</position>
     <parameter name="baseDirectory">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -526,7 +526,7 @@ public class $context.graphModelName$PasteFeature extends AbstractPasteFeature {
     <label>WriteJavaFile</label>
     <sib-uid>genesys-sibs/WriteJavaFile</sib-uid>
     <taxonomy>de.jabc.sib.genesys.WriteJavaFile</taxonomy>
-    <position>43.0,781.0</position>
+    <position>43.0,783.0</position>
     <parameter name="baseDirectory">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1202,7 +1202,7 @@ public class $context.graphModelName$CopyUtils {
     <label>WriteJavaFile</label>
     <sib-uid>genesys-sibs/WriteJavaFile</sib-uid>
     <taxonomy>de.jabc.sib.genesys.WriteJavaFile</taxonomy>
-    <position>478.0,781.0</position>
+    <position>478.0,783.0</position>
     <parameter name="baseDirectory">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>

@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>bc163f1e-0219-4ee4-b1a8-2864de76b1af</id>
   <name>GenerateGraphModelDiagramCreator</name>
-  <changecounter>57</changecounter>
+  <changecounter>71</changecounter>
   <sib>
     <id>ad9b9c21-91db-4af5-9d2c-291ad1a050ef</id>
     <name>PutExpression</name>
@@ -341,7 +341,7 @@ public class $context.graphModelName$Creator extends RecordingCommand{
 	@Override
 	protected void doExecute() {
 		IDiagramTypeProvider dtp = GraphitiUi.getExtensionManager().createDiagramTypeProvider(d,
-				&quot;de.test.project.$context.graphModelName$DiagramTypeProvider&quot;);
+				&quot;$context.packageName$.$context.graphModelName$DiagramTypeProvider&quot;);
 		IFeatureProvider fp = dtp.getFeatureProvider();
 		
 		fp.link(d, gm);

@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>4b8f0479-9813-462d-b7d3-1e7c977bb9c6</id>
   <name>GenerateNewDiagramWizard</name>
-  <changecounter>172</changecounter>
+  <changecounter>175</changecounter>
   <sib>
     <id>4db12997-4cd3-4e00-94ed-f5405dd7aa9b</id>
     <name>PutExpression</name>
@@ -143,6 +143,7 @@ import org.eclipse.ui.ide.IDE;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import $context.importPath$.*;
+import $context.packageName$.*;
 import $context.packageName$.graphiti.*;
 
 public class New$context.fuGraphModelName$DiagramWizard extends Wizard implements INewWizard {
@@ -266,7 +267,7 @@ public class New$context.fuGraphModelName$DiagramWizard extends Wizard implement
     <label>WriteJavaFile</label>
     <sib-uid>genesys-sibs/WriteJavaFile</sib-uid>
     <taxonomy>de.jabc.sib.genesys.WriteJavaFile</taxonomy>
-    <position>688.0,76.0</position>
+    <position>688.0,78.0</position>
     <parameter name="baseDirectory">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -591,7 +592,7 @@ public class Create$context.fuGraphModelName$WizardPage extends WizardPage {
     <label>WriteJavaFile</label>
     <sib-uid>genesys-sibs/WriteJavaFile</sib-uid>
     <taxonomy>de.jabc.sib.genesys.WriteJavaFile</taxonomy>
-    <position>298.0,226.0</position>
+    <position>298.0,228.0</position>
     <parameter name="baseDirectory">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>

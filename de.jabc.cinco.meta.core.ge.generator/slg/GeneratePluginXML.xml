@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>c6d3a171-4a7c-4363-ab9c-c7be2786983b</id>
   <name>GeneratePluginXML</name>
-  <changecounter>311</changecounter>
+  <changecounter>335</changecounter>
   <sib>
     <id>b9acf74f-0e4c-4f93-80c7-e3f218bfc27e</id>
     <name>RunStringTemplate</name>
@@ -612,7 +612,7 @@
 		point=&quot;org.eclipse.ui.newWizards&quot;&gt;
 		&lt;wizard
 			category=&quot;de.jabc.cinco.meta.core.wizards.category.cinco&quot;
-			class=&quot;$context.projectName$.wizard.New$context.fuGraphModelName$DiagramWizard&quot;
+			class=&quot;$context.packageName$.graphiti.wizard.New$context.fuGraphModelName$DiagramWizard&quot;
 			$context.iconPathContent$
 			id=&quot;$context.projectName$.wizard.$context.lcGraphModelName$&quot;
 			name=&quot;New $context.fuGraphModelName$&quot;&gt;
@@ -621,7 +621,7 @@
 	&lt;extension
 		point=&quot;org.eclipse.ui.editors&quot;&gt;
 		&lt;editor
-			class=&quot;$context.projectName$.$context.fuGraphModelName$DiagramEditor&quot;
+			class=&quot;$context.packageName$.graphiti.$context.fuGraphModelName$DiagramEditor&quot;
 			contributorClass=&quot;org.eclipse.graphiti.ui.editor.DiagramEditorActionBarContributor&quot;
 			default=&quot;false&quot;
 			$context.iconPathContent$
@@ -653,7 +653,7 @@
 			nameFilter=&quot;*$context.extension$&quot;
 			objectClass=&quot;org.eclipse.core.resources.IResource&quot;&gt;
 			&lt;action
-				class=&quot;$context.projectName$.Create$context.graphModelName$Diagram&quot;
+				class=&quot;$context.packageName$.graphiti.Create$context.graphModelName$Diagram&quot;
 				id=&quot;$context.projectName$.Create$context.graphModelName$DiagramAction&quot;
 				label=&quot;Create $context.graphModelName$ Diagram&quot;&gt;
 			&lt;/action&gt;
