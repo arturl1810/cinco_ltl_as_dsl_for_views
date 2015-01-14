@@ -40,6 +40,10 @@
 <module>de.jabc.cinco.meta.core.ge.style.sibs</module>
 <module>de.jabc.cinco.meta.core.adapters</module>
 <module>de.jabc.cinco.meta.core.sibs</module>
+<module>de.jabc.cinco.meta.productdefinition</module>
+<module>de.jabc.cinco.meta.productdefinition.model</module>
+<module>de.jabc.cinco.meta.productdefinition.ui</module>
+<module>de.jabc.cinco.meta.productdefinition.sdk</module>
 <module>de.jabc.cinco.meta.core.jabcprojectgenerator</module>
 <module>de.jabc.cinco.meta.libraries</module>
 </modules>
