@@ -4,6 +4,7 @@ import java.util.List;
 
 import mgl.Annotation;
 import mgl.Attribute;
+import mgl.Node;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -44,6 +45,46 @@ public class SpreadSheetAnnotationValidator implements IMetaPluginValidator {
 			
 		}
 		if(eObject instanceof Annotation&&((Annotation)eObject).getName().equals("calculating")){
+			if(!(((Annotation) eObject).getParent() instanceof mgl.Edge)){
+				return new ErrorPair<String,EStructuralFeature>(
+						"Annotation is only capable for Edges.",
+						eObject.eClass().getEStructuralFeature("value")
+						);
+			}
+			
+			List<String> args = ((Annotation)eObject).getValue();
+			//Amount of arguments validation
+			if(args.size() != 0){
+				return new ErrorPair<String,EStructuralFeature>(
+						"No arguments allowed.",
+						eObject.eClass().getEStructuralFeature("value")
+						);
+			}
+			
+		}
+		if(eObject instanceof Annotation&&((Annotation)eObject).getName().equals("resulting")){
+			if(!(((Annotation) eObject).getParent() instanceof mgl.Node)){
+				return new ErrorPair<String,EStructuralFeature>(
+						"Annotation is only capable for Nodes.",
+						eObject.eClass().getEStructuralFeature("value")
+						);
+			}
+			else {
+				mgl.Node node = (Node) ((Annotation) eObject).getParent();
+				boolean foundResult = false;
+				for (Attribute attr : node.getAttributes()) {
+					for (Annotation anno : attr.getAnnotations()) {
+						if(anno.getName().equals("result"))foundResult=true;
+					}
+				}
+				if(!foundResult) {
+					return new ErrorPair<String,EStructuralFeature>(
+							"A resulting node needs a @result annotation.",
+							eObject.eClass().getEStructuralFeature("value")
+							);
+				}
+			}
+			
 			List<String> args = ((Annotation)eObject).getValue();
 			//Amount of arguments validation
 			if(args.size() != 0){
