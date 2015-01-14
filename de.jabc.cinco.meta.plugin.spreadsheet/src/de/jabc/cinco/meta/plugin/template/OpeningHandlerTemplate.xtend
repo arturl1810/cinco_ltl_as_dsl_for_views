@@ -118,7 +118,7 @@ private ArrayList<VersionNode> refreshSheet(Node node,String sheetname) throws I
 	}
 	//Get selected Nodes
 	ArrayList<Node> nodes = NodeUtil.getTransitionedNodes(node);
-	return NodeUtil.getVersionNodes(sheet, nodes);
+	return NodeUtil.getVersionNodes(sheet, nodes,node);
 }
 
 private String importFormular(String sheetName, String resultNodeId)

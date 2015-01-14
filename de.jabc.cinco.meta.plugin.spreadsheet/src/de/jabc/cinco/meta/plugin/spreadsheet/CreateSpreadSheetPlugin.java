@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Set;
 
 import mgl.GraphModel;
+import mgl.Node;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -48,8 +49,9 @@ public class CreateSpreadSheetPlugin {
 		String packagePath = "";
 		
 		
-		ArrayList<ResultNode> resultNodes = new ArrayList<>();
-		ArrayList<CalculatingEdge> calculatingEdges = new ArrayList<>();
+		ArrayList<ResultNode> resultNodes = new ArrayList<ResultNode>();
+		ArrayList<Node> allNodes = new ArrayList<Node>();
+		ArrayList<CalculatingEdge> calculatingEdges = new ArrayList<CalculatingEdge>();
 		
 		try {
 			GraphModel graphModel = (GraphModel) context.get("graphModel");
@@ -61,6 +63,10 @@ public class CreateSpreadSheetPlugin {
 					fileName = anno.getValue().get(0);
 					sheetName = anno.getValue().get(1);
 				}
+			}
+			//All Nodes
+			for(Node node: graphModel.getNodes()) {
+				allNodes.add(node);
 			}
 			
 			//Search for result nodes
@@ -81,13 +87,6 @@ public class CreateSpreadSheetPlugin {
 									break;
 								}
 							}
-//							for(mgl.Annotation attranno: attr.getAnnotations()){
-//								if(attranno.getName().equals("fileName")){
-//									foundFile=true;
-//									resultNode.fileAttrName = attr.getName();
-//									break;
-//								}
-//							}
 							
 						}
 						if(foundresult){
@@ -198,7 +197,7 @@ public class CreateSpreadSheetPlugin {
 					progressMonitor);
 			//Utils
 			ProjectCreator.createFile("NodeUtil.java", tvProject.getFolder("src/"+projectName.replace(".","/")),
-					new NodeUtilTemplate().create(packagePath,projectName,resultNodes,calculatingEdges).toString(),
+					new NodeUtilTemplate().create(packagePath,projectName,resultNodes,calculatingEdges,allNodes,graphModel.getName()).toString(),
 					progressMonitor);
 			
 			ProjectCreator.createFile("VersionNode.java", tvProject.getFolder("src/"+projectName.replace(".","/")),

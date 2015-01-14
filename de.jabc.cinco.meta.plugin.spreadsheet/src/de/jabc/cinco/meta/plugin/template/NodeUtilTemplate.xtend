@@ -1,20 +1,22 @@
 package de.jabc.cinco.meta.plugin.template
 
+import de.jabc.cinco.meta.plugin.spreadsheet.CalculatingEdge
 import de.jabc.cinco.meta.plugin.spreadsheet.ResultNode
 import java.util.ArrayList
-import de.jabc.cinco.meta.plugin.spreadsheet.CalculatingEdge
+import mgl.Node
 
 class NodeUtilTemplate {
-	def create(String projectPath,String packageName,ArrayList<ResultNode> nodes, ArrayList<CalculatingEdge> edges)'''
+	def create(String projectPath,String packageName,ArrayList<ResultNode> nodes, ArrayList<CalculatingEdge> edges,ArrayList<Node> allNodes,String graphName)'''
 	package «packageName»;
 
 import graphmodel.Node;
-«FOR n :nodes»
-import «projectPath».«n.nodeName»;
+«FOR n :allNodes»
+import «projectPath».«n.name»;
 «ENDFOR»
 «FOR e :edges»
 import «projectPath».«e.name»;
 «ENDFOR»
+import «projectPath».impl.«graphName.toLowerCase.toFirstUpper»FactoryImpl;
 
 import java.util.HashMap;
 import java.util.ArrayList;
@@ -39,7 +41,7 @@ public class NodeUtil {
 	
 	public static String getNodeId(Node node)
 	{
-		return node.getX()+""+node.getY();//TODO ID-Change
+		return node.getId().hashCode()+"";
 	}
 	public static String getSheetMapFileName(String resultNodeId)
 	{
@@ -51,7 +53,7 @@ public class NodeUtil {
 	}
 	
 	
-	public static ArrayList<VersionNode> getVersionNodes(HSSFSheet sheet, ArrayList<Node> newNodes) {
+	public static ArrayList<VersionNode> getVersionNodes(HSSFSheet sheet, ArrayList<Node> newNodes, Node resultNode) {
 		ArrayList<VersionNode> vns = new ArrayList<>();
 		if(newNodes.isEmpty())return vns;
 		
@@ -63,6 +65,9 @@ public class NodeUtil {
 
 		//Search for old, removed and updated Nodes
 		Iterator<Row> rows = sheet.rowIterator();
+		
+		String nodeName = null;
+		
 		while(rows.hasNext()){
 			VersionNode vn = new VersionNode();
 			Row row = rows.next();
@@ -70,11 +75,15 @@ public class NodeUtil {
 				continue;
 			}
 			Cell idCell = row.getCell(0);
+			if(idCell.getCellType()==Cell.CELL_TYPE_STRING) {
+				nodeName=idCell.getStringCellValue();
+			}
+			
 			if(idCell.getCellType()==Cell.CELL_TYPE_NUMERIC){
 				
 				String id = new Double(idCell.getNumericCellValue()).intValue()+"";
 				
-				if(hashedNodes.containsKey(id)){ //TODO ID-Change
+				if(hashedNodes.containsKey(id)){
 					//Node is Found in XLS
 					vn.node = hashedNodes.get(id);
 					//remove Node from the new Nodes list
@@ -126,15 +135,19 @@ public class NodeUtil {
 				}
 				else
 				{
-					Node missingNode = getNode(((graphmodel.GraphModel)newNodes.get(0).getContainer()), id);
+					Node missingNode = getNode(((graphmodel.GraphModel)resultNode.getContainer()), id);
 					System.out.println(missingNode);
+					//Note is not in the Canvas and has to be read from the sheet
+					if(missingNode==null) {
+						missingNode=createNodeFromSheetRow(nodeName, row);
+					}
 					//If the node is still in the Graphmodel and has not been found yet
 					if(missingNode!=null && !vns.contains(missingNode)) {
 						vn.node = missingNode;
 						vn.status = NodeStatus.REMOVED;
 						vns.add(vn);
+						
 					}
-					
 				}
 			}
 		}
@@ -209,9 +222,48 @@ public class NodeUtil {
 		return refreshedFormular;
 		
 	}
+	/**
+	 * Returns a new Node for the given row in the sheet
+	 * @param nodeName
+	 * @param row
+	 * @return
+	 */
+	public static Node createNodeFromSheetRow(String nodeName,Row row) {
+		«printNodes(allNodes,graphName)»
+		return null;
+	}
 }
 	
 	'''
+	def printNodes(ArrayList<Node> nodes,String graphName)'''
+	«FOR n : nodes»
+	if(nodeName.equals("«n.name.toFirstUpper»"))
+		{
+			«n.name.toFirstUpper» node = new «graphName.toLowerCase.toFirstUpper»FactoryImpl().create«n.name.toFirstUpper»();
+			node.setId(row.getCell(0).getNumericCellValue()+"");
+			«var i = 1»
+			«FOR attr: n.attributes»
+			«IF !attr.getName().equals("fixAttributes")»
+			«IF attr.type.equals("EInt") »
+			node.set«attr.getName().toFirstUpper»(new Double(row.getCell(«i»).getNumericCellValue()).intValue());
+			«ENDIF»
+			«IF attr.type.equals("EDouble")»
+			node.set«attr.getName().toFirstUpper»(row.getCell(«i»).getNumericCellValue());
+			«ENDIF»
+			«IF attr.type.equals("EBoolean")»
+			node.set«attr.getName().toFirstUpper»(row.getCell(«i»).getBooleanCellValue());
+			«ENDIF»
+			«IF attr.type.equals("EString")»
+			node.set«attr.getName().toFirstUpper»(row.getCell(«i»).getStringCellValue());
+			«ENDIF»
+			«ENDIF»
+			«{i = i +1 ''}»
+			«ENDFOR»
+			return node;
+		}
+	«ENDFOR»
+	'''
+	
 	def printResultNode(ResultNode node, ArrayList<CalculatingEdge> edges)'''
 			if(eobject instanceof «node.nodeName»){
 				«node.nodeName» node = («node.nodeName») eobject;
