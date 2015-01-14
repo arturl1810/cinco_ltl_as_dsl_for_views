@@ -65,7 +65,7 @@ public class UserInteraction {
 	}
 	public static String getSheetNameForGeneration(Node resultNode)
 	{
-		String resultNodeId = NodeUtil.getNodeId(resultNode);
+		String resultNodeId = NodeUtil.getId(resultNode);
 		ArrayList<String> sheetNames = SheetHandler.getSheetNames(resultNodeId); 
 		//User Interaction
 		if(sheetNames == null)
@@ -80,7 +80,7 @@ public class UserInteraction {
 	}
 	public static String getSheetNameForCalculation(Node resultNode)
 	{
-		String resultNodeId = NodeUtil.getNodeId(resultNode);
+		String resultNodeId = NodeUtil.getId(resultNode);
 		ArrayList<String> sheetNames = SheetHandler.getSheetNames(resultNodeId); 
 		//User Interaction
 		if(sheetNames == null)

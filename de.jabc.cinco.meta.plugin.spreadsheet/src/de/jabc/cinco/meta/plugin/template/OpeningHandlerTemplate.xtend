@@ -5,7 +5,7 @@ import de.jabc.cinco.meta.plugin.spreadsheet.ResultNode
 
 class OpeningHandlerTemplate {
 		def  create(String projectPath,String packageName,String className,String sheetName,String fileName,ArrayList<ResultNode> nodes)'''
-	package «packageName»;
+package «packageName»;
 	
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.eclipse.core.commands.ExecutionEvent;
@@ -110,14 +110,14 @@ private ArrayList<VersionNode> refreshSheet(Node node,String sheetname) throws I
 	//Get Sheet
 	HSSFSheet sheet = null;
 	try {
-		sheet = Spreadsheetimporter.importSheet(sheetname,NodeUtil.getNodeId(node));
+		sheet = Spreadsheetimporter.importSheet(sheetname,NodeUtil.getId(node));
 	} catch (ClassNotFoundException | ClassCastException e) {
 		MessageDialog.openError(Display.getCurrent().getActiveShell(), 
 				"Error", 
 				"Sheet error.\nSheet could not been importet for refreshing.");
 	}
 	//Get selected Nodes
-	ArrayList<Node> nodes = NodeUtil.getTransitionedNodes(node);
+	ArrayList<VersionNode> nodes = NodeUtil.getTransitionedNodes(node);
 	return NodeUtil.getVersionNodes(sheet, nodes,node);
 }
 
@@ -200,7 +200,7 @@ private boolean exportFormular(String formular,String resultNodeId, String sheet
 	def printNodeCalculator(ResultNode node)'''
 	if(eobject instanceof «node.nodeName»){
 		final «node.nodeName» node = («node.nodeName») eobject;
-		resultNodeId = NodeUtil.getNodeId(node);
+		resultNodeId = NodeUtil.getId(node);
 				sheetName = UserInteraction.getSheetNameForCalculation(node);
 				if(sheetName==null) {
 					MessageDialog.openError(Display.getCurrent().getActiveShell(), 

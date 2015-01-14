@@ -7,9 +7,10 @@ import mgl.Node
 
 class NodeUtilTemplate {
 	def create(String projectPath,String packageName,ArrayList<ResultNode> nodes, ArrayList<CalculatingEdge> edges,ArrayList<Node> allNodes,String graphName)'''
-	package «packageName»;
+package «packageName»;
 
 import graphmodel.Node;
+import graphmodel.ModelElement;
 «FOR n :allNodes»
 import «projectPath».«n.name»;
 «ENDFOR»
@@ -31,17 +32,17 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 
 
 public class NodeUtil {
-	public static ArrayList<Node> getTransitionedNodes(Node eobject){
-		ArrayList<Node> nodes = new ArrayList<>();
+	public static ArrayList<VersionNode> getTransitionedNodes(Node eobject){
+		ArrayList<VersionNode> nodes = new ArrayList<VersionNode>();
 		«FOR n :  nodes»
 		«printResultNode(n,edges)»
 		«ENDFOR»
 		return nodes;
 	}
 	
-	public static String getNodeId(Node node)
+	public static String getId(ModelElement element)
 	{
-		return node.getId().hashCode()+"";
+		return element.getId().hashCode()+"";
 	}
 	public static String getSheetMapFileName(String resultNodeId)
 	{
@@ -53,14 +54,13 @@ public class NodeUtil {
 	}
 	
 	
-	public static ArrayList<VersionNode> getVersionNodes(HSSFSheet sheet, ArrayList<Node> newNodes, Node resultNode) {
+	public static ArrayList<VersionNode> getVersionNodes(HSSFSheet sheet, ArrayList<VersionNode> newNodes, Node resultNode) {
 		ArrayList<VersionNode> vns = new ArrayList<>();
-		if(newNodes.isEmpty())return vns;
 		
 		//Put the new Nodes in a Hashmap based on their id
-		HashMap<String, Node> hashedNodes = new HashMap<String,Node>();
-		for (Node node : newNodes) {
-			hashedNodes.put(NodeUtil.getNodeId(node), node);
+		HashMap<String, VersionNode> hashedNodes = new HashMap<String,VersionNode>();
+		for (VersionNode vnode : newNodes) {
+			hashedNodes.put(NodeUtil.getId(vnode.node), vnode);
 		}
 
 		//Search for old, removed and updated Nodes
@@ -85,7 +85,8 @@ public class NodeUtil {
 				
 				if(hashedNodes.containsKey(id)){
 					//Node is Found in XLS
-					vn.node = hashedNodes.get(id);
+					vn.node = hashedNodes.get(id).node;
+					vn.edge = hashedNodes.get(id).edge;
 					//remove Node from the new Nodes list
 					hashedNodes.remove(id);
 					
@@ -114,8 +115,12 @@ public class NodeUtil {
 								if(attrDouble != attrCell.getNumericCellValue())updated=true;
 							}catch(NumberFormatException ex)
 							{
-								int attrInt = Integer.parseInt(attrValue);
-								if(attrInt != new Double(attrCell.getNumericCellValue()).intValue())updated=true;
+								try{
+									int attrInt = Integer.parseInt(attrValue);
+									if(attrInt != new Double(attrCell.getNumericCellValue()).intValue())updated=true;
+								}catch(NumberFormatException ex2){
+									continue;
+								}
 							}
 						}
 						if(attrCell.getCellType()==Cell.CELL_TYPE_STRING) {
@@ -129,7 +134,52 @@ public class NodeUtil {
 						vn.status = NodeStatus.UPDATED;
 					}
 					else{
-						vn.status = NodeStatus.OLD;
+						//Check wheter Edge-Attributes has changed
+						boolean edgeUpdated = false;
+						attrCounter++;
+						//Loop over all attributes of the Edge
+						for(EStructuralFeature eEdge : vn.edge.eClass().getEStructuralFeatures()){
+							
+							if(eEdge.getName().equals("fixAttributes"))continue;
+							if(vn.edge.eGet(eEdge)==null)continue;
+							String attrValue = vn.edge.eGet(eEdge).toString();
+							Cell attrCell = row.getCell(attrCounter);
+							//Check whether node attribute value has been updated
+							if(attrCell.getCellType()==Cell.CELL_TYPE_BLANK) {
+								if(!attrValue.isEmpty())edgeUpdated=true;
+							}
+							if(attrCell.getCellType()==Cell.CELL_TYPE_BOOLEAN)
+							{
+								if(attrCell.getBooleanCellValue()!=Boolean.valueOf(attrValue))edgeUpdated=true;
+							}
+							if(attrCell.getCellType()==Cell.CELL_TYPE_FORMULA)continue;
+							if(attrCell.getCellType()==Cell.CELL_TYPE_ERROR)continue;
+							if(attrCell.getCellType()==Cell.CELL_TYPE_NUMERIC) {
+								try{
+									double attrDouble = Double.parseDouble(attrValue);
+									if(attrDouble != attrCell.getNumericCellValue())edgeUpdated=true;
+								}catch(NumberFormatException ex)
+								{
+									try{
+									int attrInt = Integer.parseInt(attrValue);
+									if(attrInt != new Double(attrCell.getNumericCellValue()).intValue())edgeUpdated=true;
+									}catch(NumberFormatException ex2){
+										continue;
+									}
+								}
+							}
+							if(attrCell.getCellType()==Cell.CELL_TYPE_STRING) {
+								if(!(attrValue.equals(attrCell.getStringCellValue())))edgeUpdated=true;
+							}
+							
+							attrCounter++;
+						}
+						if(edgeUpdated) {
+							vn.status = NodeStatus.UPDATED;
+						}
+						else{
+							vn.status = NodeStatus.OLD;
+						}
 					}
 					vns.add(vn);
 				}
@@ -152,10 +202,11 @@ public class NodeUtil {
 			}
 		}
 		//Take the left, new nodes
-		for(Node node: hashedNodes.values()){
+		for(VersionNode vnode: hashedNodes.values()){
 			VersionNode vn = new VersionNode();
-			vn.node = node;
+			vn.node = vnode.node;
 			vn.status = NodeStatus.NEW;
+			vn.edge = vnode.edge;
 			vns.add(vn);
 		}
 		return vns;
@@ -163,7 +214,7 @@ public class NodeUtil {
 	
 	public static Node getNode(graphmodel.GraphModel graph,String id) {
 		for(Node node : graph.getAllNodes()) {
-			if(id.equals(NodeUtil.getNodeId(node))){
+			if(id.equals(NodeUtil.getId(node))){
 				return node;
 			}
 		}
@@ -275,7 +326,11 @@ public class NodeUtil {
 					false
 					)
 					{
-						nodes.add((Node) e.getTargetElement());
+						VersionNode vn = new VersionNode();
+						vn.edge = e;
+						vn.status = NodeStatus.OLD;
+						vn.node = (Node) e.getTargetElement();
+						nodes.add(vn);
 					}
 					
 				}

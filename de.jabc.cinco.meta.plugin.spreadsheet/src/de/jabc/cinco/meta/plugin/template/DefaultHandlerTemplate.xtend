@@ -23,9 +23,9 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.handlers.HandlerUtil;
 
-«FOR e :edges»
-import «projectPath».«e.name»;
-«ENDFOR»
+««««FOR e :edges»
+«««import «projectPath».«e.name»;
+««««ENDFOR»
 «FOR n :nodes»
 import «projectPath».«n.nodeName»;
 «ENDFOR»
@@ -132,7 +132,7 @@ public void removeHandlerListener(IHandlerListener handlerListener) {
 	def printResultNode(ResultNode node, ArrayList<CalculatingEdge> edges)'''
 	if(eobject instanceof «node.nodeName»){
 		final «node.nodeName» node = («node.nodeName») eobject;
-		resultNodeId = NodeUtil.getNodeId(node);
+		resultNodeId = NodeUtil.getId(node);
 		sheetName = UserInteraction.getSheetNameForGeneration(node);
 		if(sheetName == null || sheetName.isEmpty()){
 			MessageDialog.openError(Display.getCurrent().getActiveShell(), 
@@ -140,25 +140,7 @@ public void removeHandlerListener(IHandlerListener handlerListener) {
 					"Please select a Sheetname.");
 			return null;
 		}
-		for(graphmodel.Edge e:node.getOutgoing()){
-			if(
-			«FOR e : edges »
-				e instanceof «e.name» ||
-			«ENDFOR»
-			false
-			)
-			{
-				VersionNode vn = new VersionNode();
-				vn.status = NodeStatus.OLD;
-				vn.node = (Node) e.getTargetElement();
-				nodes.add(vn);
-			}
-			
-		}
-			
+		nodes = NodeUtil.getTransitionedNodes((Node) eobject);
 	}'''
 	
-	def printEdgeCondition(String edgeName)'''
-	e instanceof «edgeName»
-	'''
 }

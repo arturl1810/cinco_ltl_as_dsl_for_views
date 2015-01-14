@@ -5,6 +5,8 @@ class ExporterTemplate {
 	'''
 package «packageName»;
 
+import graphmodel.ModelElement;
+
 import java.awt.Desktop;
 import java.io.File;
 import java.io.FileInputStream;
@@ -139,6 +141,12 @@ public static HSSFWorkbook export(ArrayList<VersionNode> nodes,String formular) 
 			col++;
 		}
 		
+		//Edge header
+		Cell edgeHeader = r.createCell(colOffset+col);
+		edgeHeader.setCellStyle(headerStyle);
+		edgeHeader.setCellType(HSSFCell.CELL_TYPE_STRING);
+		edgeHeader.setCellValue("Edge");
+		
 		rowCounter++;
 		//Print Values for NodeType
 		for(VersionNode vnode : list.getValue()){
@@ -160,7 +168,7 @@ public static HSSFWorkbook export(ArrayList<VersionNode> nodes,String formular) 
 			
 			//Print ID for Node
 			Cell idCell = rowValues.createCell(0);
-			idCell.setCellValue(Integer.parseInt(NodeUtil.getNodeId(vnode.node)));
+			idCell.setCellValue(Integer.parseInt(NodeUtil.getId(vnode.node)));
 			idCell.setCellType(Cell.CELL_TYPE_NUMERIC);
 			idCell.setCellStyle(rowStyle);
 			
@@ -171,30 +179,26 @@ public static HSSFWorkbook export(ArrayList<VersionNode> nodes,String formular) 
 				
 				Cell attr = rowValues.createCell(colOffset+colValues);
 				attr.setCellStyle(rowStyle);
-				String attrValue = vnode.node.eGet(eNode).toString();
-				
-				//Typsensitiveness
-				if(vnode.node.eGet(eNode) instanceof Integer){
-					attr.setCellType(HSSFCell.CELL_TYPE_NUMERIC);
-					attr.setCellValue(Integer.parseInt(attrValue));
-				}
-				else if(vnode.node.eGet(eNode) instanceof Boolean) {
-					attr.setCellType(HSSFCell.CELL_TYPE_BOOLEAN);
-					attr.setCellValue(Boolean.getBoolean(attrValue));
-				}
-				else if(vnode.node.eGet(eNode) instanceof Double){
-					attr.setCellType(HSSFCell.CELL_TYPE_NUMERIC);
-					attr.setCellValue(Double.parseDouble(attrValue));
-				}
-				else if(attrValue.isEmpty()) {
-					attr.setCellType(HSSFCell.CELL_TYPE_BLANK);
-					attr.setCellValue(attrValue);
-				}
-				else{
-					attr.setCellType(HSSFCell.CELL_TYPE_STRING);
-					attr.setCellValue(attrValue);
-				}
+				writeAttribute(eNode, attr, vnode.node);
 				colValues++;
+			}
+			//Print ID for Edge
+			if(vnode.edge!=null){
+				Cell edgeidCell = rowValues.createCell(colValues);
+				edgeidCell.setCellValue(Integer.parseInt(NodeUtil.getId(vnode.edge)));
+				edgeidCell.setCellType(Cell.CELL_TYPE_NUMERIC);
+				edgeidCell.setCellStyle(rowStyle);
+				colValues++;
+				//Print Edge-Attributes
+				for(EStructuralFeature eNode : vnode.edge.eClass().getEStructuralFeatures()){
+					
+					if(eNode.getName().equals("fixAttributes"))continue;
+					
+					Cell attr = rowValues.createCell(colOffset+colValues);
+					attr.setCellStyle(rowStyle);
+					writeAttribute(eNode, attr, vnode.edge);
+					colValues++;
+				}
 			}
 			rowCounter++;
 		}
@@ -210,6 +214,33 @@ public static HSSFWorkbook export(ArrayList<VersionNode> nodes,String formular) 
 	return workbook;
 	//return "succsessfully";
 }
+
+private static void writeAttribute(EStructuralFeature eNode,Cell attr, ModelElement element) {
+	if(element.eGet(eNode)==null)return;;
+	String attrValue = element.eGet(eNode).toString();
+	
+	if(element.eGet(eNode) instanceof Integer){
+		attr.setCellType(HSSFCell.CELL_TYPE_NUMERIC);
+		attr.setCellValue(Integer.parseInt(attrValue));
+	}
+	else if(element.eGet(eNode) instanceof Boolean) {
+		attr.setCellType(HSSFCell.CELL_TYPE_BOOLEAN);
+		attr.setCellValue(Boolean.getBoolean(attrValue));
+	}
+	else if(element.eGet(eNode) instanceof Double){
+		attr.setCellType(HSSFCell.CELL_TYPE_NUMERIC);
+		attr.setCellValue(Double.parseDouble(attrValue));
+	}
+	else if(attrValue.isEmpty()) {
+		attr.setCellType(HSSFCell.CELL_TYPE_BLANK);
+		attr.setCellValue(attrValue);
+	}
+	else{
+		attr.setCellType(HSSFCell.CELL_TYPE_STRING);
+		attr.setCellValue(attrValue);
+	}
+}
+
 /**
  * 
  * @param resultNodeId
