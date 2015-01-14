@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>9bb85745-8351-4055-af1b-c6d172d4e88d</id>
   <name>GenerateGraphModelApiOperations</name>
-  <changecounter>119</changecounter>
+  <changecounter>132</changecounter>
   <sib>
     <id>305bdb71-32f2-4c78-9c2b-f9a7d5fc3711</id>
     <name>IterateGraphModelNodes</name>
@@ -834,6 +834,8 @@ if (cf.canCreate(ccc)) {
 	retval.setConnection(conn);
 	retval.setModelElement(($fqnEdge$) conn.getLink().getBusinessObjects().get(0));
 	retval.setDiagram(d);
+	retval.setSourceElement(source);
+	retval.setTargetElement(target);
 	this.getModelElements().add(retval);
 }
 return retval;</string>
