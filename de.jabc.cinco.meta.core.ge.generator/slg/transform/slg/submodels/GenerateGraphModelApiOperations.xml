@@ -2,14 +2,14 @@
 <model version="2.1">
   <id>9bb85745-8351-4055-af1b-c6d172d4e88d</id>
   <name>GenerateGraphModelApiOperations</name>
-  <changecounter>132</changecounter>
+  <changecounter>134</changecounter>
   <sib>
     <id>305bdb71-32f2-4c78-9c2b-f9a7d5fc3711</id>
     <name>IterateGraphModelNodes</name>
     <label>IterateGraphModelNodes</label>
     <sib-uid>mgl/mgl/IterateGraphModelNodes</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.IterateGraphModelNodes</taxonomy>
-    <position>165.5,63.0</position>
+    <position>171.0,63.0</position>
     <parameter name="elementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -615,7 +615,7 @@ Creates and adds a new instance of $nodeName$ if possible.
     <label>IterateGraphModelEdges</label>
     <sib-uid>mgl/mgl/IterateGraphModelEdges</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.IterateGraphModelEdges</taxonomy>
-    <position>586.0,63.0</position>
+    <position>576.5,63.0</position>
     <parameter name="elementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1031,6 +1031,7 @@ Creates and adds an $edgeName$.
     <point>657.0,91.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>exit</branch>
+    <branch>noElements</branch>
   </edge>
   <sib>
     <id>c60d3b31-1217-4ecc-a856-14cec73bcf5a</id>
@@ -1038,7 +1039,7 @@ Creates and adds an $edgeName$.
     <label>IterateGraphModelNodeContainers</label>
     <sib-uid>mgl/mgl/IterateGraphModelNodeContainers</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.IterateGraphModelNodeContainers</taxonomy>
-    <position>873.0,63.0</position>
+    <position>859.5,63.0</position>
     <parameter name="elementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1078,6 +1079,7 @@ Creates and adds an $edgeName$.
     <point>972.0,91.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>exit</branch>
+    <branch>noElements</branch>
   </edge>
   <sib>
     <id>bf409102-0638-4b93-a03c-a9db947242d4</id>
@@ -1899,6 +1901,7 @@ Deletes the given modelElement from the $graphModelName$ and the diagram
     <point>1257.0,91.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>exit</branch>
+    <branch>noElements</branch>
   </edge>
   <sib>
     <id>34dfa5e5-68e8-48dd-a355-40647f53d449</id>
@@ -2338,5 +2341,20 @@ Moves a node to the specified position in this container
     <name>error</name>
     <branch>error</branch>
     <sib>29a34c31-6f43-4ddf-978f-2f3c2fb07eef</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>305bdb71-32f2-4c78-9c2b-f9a7d5fc3711</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>fbc9749e-be67-4969-8234-ecff90bf60ea</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>c60d3b31-1217-4ecc-a856-14cec73bcf5a</sib>
   </branch>
 </model>
