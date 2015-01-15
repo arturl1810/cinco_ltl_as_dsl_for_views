@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>ca5a39ee-2606-4461-8c2d-1e6ebdbd9d0e</id>
   <name>MGL2GraphicalGraphModel</name>
-  <changecounter>225</changecounter>
+  <changecounter>246</changecounter>
   <sib>
     <id>e763e08f-ee7b-48f6-8187-dac38f44f435</id>
     <name>MacroSIB</name>
@@ -278,14 +278,14 @@
     <label>PrintConsoleMessage</label>
     <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
     <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
-    <position>826.5,423.0</position>
+    <position>946.5,423.0</position>
     <parameter name="error">
       <boolean>false</boolean>
     </parameter>
     <parameter name="message">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>Transformation successfull</expression>
+          <expression>CGraphModel transformation successfull</expression>
           <clazz>java.lang.Object</clazz>
           <classMutable>false</classMutable>
         </ContextExpressionFoundation>
@@ -372,7 +372,7 @@
     <point>555.0,421.0</point>
     <point>555.0,360.0</point>
     <point>555.0,312.0</point>
-    <labelposition>233.0,35.0</labelposition>
+    <labelposition>385.3211009174312,-3.0</labelposition>
     <branch>error</branch>
   </edge>
   <sib>
@@ -453,7 +453,7 @@ return list;</string>
     <point>105.0,421.0</point>
     <point>105.0,330.0</point>
     <point>519.5,312.0</point>
-    <labelposition>83.0,51.0</labelposition>
+    <labelposition>13.756779378440726,-46.01343954227591</labelposition>
     <branch>error</branch>
   </edge>
   <sib>
@@ -534,7 +534,7 @@ return list;</string>
     <point>240.0,421.0</point>
     <point>240.0,330.0</point>
     <point>519.5,312.0</point>
-    <labelposition>84.09307268259204,53.42027789990477</labelposition>
+    <labelposition>45.71047624338551,-46.17301268852523</labelposition>
     <branch>error</branch>
   </edge>
   <sib>
@@ -615,7 +615,7 @@ return list;</string>
     <point>390.0,421.0</point>
     <point>390.0,345.0</point>
     <point>519.5,312.0</point>
-    <labelposition>151.03038770520433,35.757188481721535</labelposition>
+    <labelposition>159.0681034858863,-33.541722054227826</labelposition>
     <branch>error</branch>
   </edge>
   <sib>
@@ -665,7 +665,7 @@ return list;</string>
     <label>GenerateApiEOperations</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>646.0,421.0</position>
+    <position>676.0,421.0</position>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
     <userobject key="ABC$GRAPHSIB$MODELID">

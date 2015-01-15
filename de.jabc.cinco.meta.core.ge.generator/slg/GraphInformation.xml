@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>86742e86-2110-423a-afde-6fd521759a73</id>
   <name>GraphInformation</name>
-  <changecounter>756</changecounter>
+  <changecounter>759</changecounter>
   <sib>
     <id>9e28dbf6-7ef4-4eef-9ad3-1d0d32bf6020</id>
     <name>GetGraphModelName</name>
@@ -2772,6 +2772,13 @@ ${inlineAppearances}</expression>
     <target>8ed0fee1-01cb-4db9-b60c-367f4c74cf35</target>
     <point>1020.0,1905.0</point>
     <point>1137.0,1889.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>b1a0df51-db65-4a61-816b-7addd4ae94a0</source>
+    <target>f74f3537-8d05-4d53-8871-efb2d861fd67</target>
+    <point>765.0,1800.0</point>
+    <point>1011.0,1886.0</point>
     <branch>default</branch>
   </edge>
   <values/>
