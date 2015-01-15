@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>ede0f2a5-2d64-419a-a377-4de364aed9a1</id>
   <name>GenerateGraphmodelWrapper</name>
-  <changecounter>131</changecounter>
+  <changecounter>134</changecounter>
   <sib>
     <id>961ec5c2-d49b-4f47-b506-1d2f2c25fd26</id>
     <name>RunStringTemplate</name>
@@ -505,6 +505,7 @@ public class $graphModelName$Wrapper {
     <point>145.0,415.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>exit</branch>
+    <branch>noElements</branch>
   </edge>
   <edge>
     <source>d50f809f-df6c-4eaa-9ae3-282db75427cd</source>
@@ -513,6 +514,7 @@ public class $graphModelName$Wrapper {
     <point>145.0,580.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>exit</branch>
+    <branch>noElements</branch>
   </edge>
   <edge>
     <source>d39e8be8-6780-4bf6-b84e-a83ffa0048a9</source>
@@ -673,6 +675,7 @@ public class $graphModelName$Wrapper {
     <point>270.7894736842105,738.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>exit</branch>
+    <branch>noElements</branch>
   </edge>
   <edge>
     <source>92a7abec-9e26-4ebf-97ee-dae2b89ed729</source>
