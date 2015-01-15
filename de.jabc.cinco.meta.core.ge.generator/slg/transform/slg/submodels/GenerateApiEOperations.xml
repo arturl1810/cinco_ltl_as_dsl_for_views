@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>ec0a5ab9-778e-4f7b-a992-cd928603a684</id>
   <name>GenerateApiEOperations</name>
-  <changecounter>625</changecounter>
+  <changecounter>637</changecounter>
   <sib>
     <id>bf6954c3-3f4f-48dc-ac07-f159712d806e</id>
     <name>GraphSIB_18</name>
@@ -109,7 +109,7 @@
     <label>GetElement</label>
     <sib-uid>collection-sibs/GetElement</sib-uid>
     <taxonomy>de.jabc.sib.common.collection.GetElement</taxonomy>
-    <position>443.0,303.0</position>
+    <position>439.0,303.0</position>
     <parameter name="element">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -146,7 +146,7 @@
     <label>GetModelElementName</label>
     <sib-uid>mgl/mgl/GetModelElementName</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetModelElementName</taxonomy>
-    <position>410.0,183.0</position>
+    <position>401.5,183.0</position>
     <parameter name="modelElementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -365,6 +365,7 @@
     <point>480.0,90.0</point>
     <point>779.0,88.0</point>
     <branch>exit</branch>
+    <branch>noElements</branch>
   </edge>
   <values/>
   <branch>
@@ -405,6 +406,21 @@
   <branch>
     <name>default</name>
     <branch>exit</branch>
+    <sib>15d995ad-bb5e-4483-86a1-545fc0dd637a</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>5d5e853b-bd53-4596-b2cc-b7c103d2d1f9</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>0eaec583-f835-49df-b06b-d82d6ed8d0f2</sib>
+  </branch>
+  <branch>
+    <name>default</name>
+    <branch>noElements</branch>
     <sib>15d995ad-bb5e-4483-86a1-545fc0dd637a</sib>
   </branch>
 </model>
