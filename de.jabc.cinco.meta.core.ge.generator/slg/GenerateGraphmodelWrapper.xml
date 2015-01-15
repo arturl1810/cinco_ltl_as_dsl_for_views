@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>ede0f2a5-2d64-419a-a377-4de364aed9a1</id>
   <name>GenerateGraphmodelWrapper</name>
-  <changecounter>134</changecounter>
+  <changecounter>164</changecounter>
   <sib>
     <id>961ec5c2-d49b-4f47-b506-1d2f2c25fd26</id>
     <name>RunStringTemplate</name>
@@ -32,8 +32,10 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.eclipse.graphiti.features.IFeatureProvider;
+import org.eclipse.graphiti.dt.IDiagramTypeProvider;
 import org.eclipse.graphiti.mm.pictograms.Connection;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
+import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.ui.services.GraphitiUi;
 
@@ -45,11 +47,13 @@ import $apiPkgName$.*;
 public class $graphModelName$Wrapper {
 	
 	private static HashMap&lt;ModelElement, CModelElement&gt; map;
-	private static IFeatureProvider fp;
+	private static IDiagramTypeProvider dtp;
 	
-	public static $apiPrefix$$graphModelName$ wrapGraphModel(GraphModel sg, IFeatureProvider featureProvider) throws Exception {
+	public static final String DTP_ID = &quot;$packageName$.$graphModelName$DiagramTypeProvider&quot;;
+
+	public static $apiPrefix$$graphModelName$ wrapGraphModel(GraphModel sg, Diagram d) throws Exception {
 		$apiPrefix$$graphModelName$ gsg = $gFactoryName$.eINSTANCE.create$apiPrefix$$graphModelName$();
-		fp = featureProvider;
+		dtp = $fqnGraphitiUi$.getExtensionManager().createDiagramTypeProvider(d, DTP_ID);
 		map = new HashMap&lt;&gt;();
 		for (Node n : sg.getAllNodes()) {
 			CNode gNode = wrap(n);
@@ -62,8 +66,8 @@ public class $graphModelName$Wrapper {
 		}
 		
 		gsg.setGraphModel(sg);
-		gsg.setDiagram(fp.getDiagramTypeProvider().getDiagram());
-		gsg.setShape(fp.getDiagramTypeProvider().getDiagram());
+		gsg.setDiagram(dtp.getDiagram());
+		gsg.setShape(dtp.getDiagram());
 		
 		return gsg;
 	}
@@ -82,7 +86,7 @@ public class $graphModelName$Wrapper {
 				
 			gNode.setModelElement(n);
 			gNode.setShape((ContainerShape) getPictogramElement(n));
-			gNode.setDiagram(fp.getDiagramTypeProvider().getDiagram());
+			gNode.setDiagram(dtp.getDiagram());
 
 			map.put(n, gNode);
 			
@@ -108,7 +112,7 @@ public class $graphModelName$Wrapper {
 
 		gCont.setModelElement(c);
 		gCont.setShape((ContainerShape) getPictogramElement(c));
-		gCont.setDiagram(fp.getDiagramTypeProvider().getDiagram());
+		gCont.setDiagram(dtp.getDiagram());
 
 		map.put(c, gCont);
 		
@@ -134,7 +138,7 @@ public class $graphModelName$Wrapper {
 
 		gEdge.setModelElement(e);
 		gEdge.setConnection((Connection) getPictogramElement(e));
-		gEdge.setDiagram(fp.getDiagramTypeProvider().getDiagram());
+		gEdge.setDiagram(dtp.getDiagram());
 
 		map.put(e, gEdge);
 		
@@ -146,7 +150,7 @@ public class $graphModelName$Wrapper {
 	
 	private static PictogramElement getPictogramElement(ModelElement me) throws Exception {
 		List&lt;PictogramElement&gt; pes = 
-				GraphitiUi.getLinkService().getPictogramElements(fp.getDiagramTypeProvider().getDiagram(), me);
+				GraphitiUi.getLinkService().getPictogramElements(dtp.getDiagram(), me);
 		if (pes == null || pes.isEmpty()) {
 			throw new Exception(&quot;No pictogram element for: &quot; + me);
 		}
