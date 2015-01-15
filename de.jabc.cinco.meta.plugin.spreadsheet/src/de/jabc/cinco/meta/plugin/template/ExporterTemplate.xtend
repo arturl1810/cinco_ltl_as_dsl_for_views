@@ -30,6 +30,7 @@ import org.apache.poi.ss.usermodel.ClientAnchor;
 import org.apache.poi.ss.usermodel.Comment;
 import org.apache.poi.ss.usermodel.CreationHelper;
 import org.apache.poi.ss.usermodel.Drawing;
+import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.Row;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
@@ -41,28 +42,55 @@ public static HSSFWorkbook export(ArrayList<VersionNode> nodes,String formular) 
 	HSSFWorkbook workbook = new HSSFWorkbook();
 	HSSFSheet sheet = workbook.createSheet("Sample sheet");
 	
-	//define Styles
-	HSSFFont font = workbook.createFont();
-	font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
-	HSSFCellStyle headerStyle = workbook.createCellStyle();
-	headerStyle.setBorderBottom(CellStyle.BORDER_THIN);
-	headerStyle.setFont(font);
-	headerStyle.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
-	headerStyle.setFillPattern(CellStyle.SOLID_FOREGROUND);
+	//define Styles and fonts
+	
+	//Default FONT
+	HSSFFont defaultfont = workbook.createFont();
+	//NODE-HEADER FONT
+	HSSFFont nodeHeaderfont = workbook.createFont();
+	nodeHeaderfont.setColor(HSSFColor.GREY_80_PERCENT.index);
+	nodeHeaderfont.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
+	//EDGE-HEADER FONT
+	HSSFFont edgeHeaderFont = workbook.createFont();
+	edgeHeaderFont.setColor(HSSFColor.GREY_25_PERCENT.index);
+	edgeHeaderFont.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
+	//ID FONT
+	Font idFont = workbook.createFont();
+	idFont.setColor(HSSFColor.GREY_25_PERCENT.index);
+	
+	
 	//OLD Style
 	HSSFCellStyle oldNodeStyle = workbook.createCellStyle();
+	oldNodeStyle.setFont(defaultfont);
 	//NEW Style
 	HSSFCellStyle newNodeStyle = workbook.createCellStyle();
 	newNodeStyle.setFillForegroundColor(HSSFColor.BRIGHT_GREEN.index);
 	newNodeStyle.setFillPattern(CellStyle.SOLID_FOREGROUND);
+	newNodeStyle.setFont(defaultfont);
 	//UPDATED Style
 	HSSFCellStyle updatedNodeStyle = workbook.createCellStyle();
 	updatedNodeStyle.setFillForegroundColor(HSSFColor.BLUE.index);
 	updatedNodeStyle.setFillPattern(CellStyle.SOLID_FOREGROUND);
+	updatedNodeStyle.setFont(defaultfont);
 	//REMOVED Style
 	HSSFCellStyle removedNodeStyle = workbook.createCellStyle();
 	removedNodeStyle.setFillForegroundColor(HSSFColor.RED.index);
 	removedNodeStyle.setFillPattern(CellStyle.SOLID_FOREGROUND);
+	removedNodeStyle.setFont(defaultfont);
+	//NODE HERADER Style
+	HSSFCellStyle headerStyle = workbook.createCellStyle();
+	headerStyle.setBorderBottom(CellStyle.BORDER_THIN);
+	headerStyle.setFont(nodeHeaderfont);
+	headerStyle.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
+	headerStyle.setFillPattern(CellStyle.SOLID_FOREGROUND);
+	//EDGE-HEADER Style
+	HSSFCellStyle edgeHeaderStyle = workbook.createCellStyle();
+	edgeHeaderStyle.setFont(edgeHeaderFont);
+	edgeHeaderStyle.setFillForegroundColor(HSSFColor.GREY_80_PERCENT.index);
+	edgeHeaderStyle.setFillPattern(CellStyle.SOLID_FOREGROUND);
+	//ID Style
+	HSSFCellStyle idStyle = workbook.createCellStyle();
+    idStyle.setFont(idFont);
 	
 	//Create the Cells for the result
 	Row row0 = sheet.createRow(0);
@@ -95,18 +123,47 @@ public static HSSFWorkbook export(ArrayList<VersionNode> nodes,String formular) 
 	cellA2.setCellComment(comment);
 	
 	//Put all nodes in a HashMap depending on its type
-	Map<String,ArrayList<VersionNode>> orderedNodes = new HashMap<String,ArrayList<VersionNode>>();
+	Map<String, HashMap<String, ArrayList<VersionNode>>> orderedNodes = new HashMap<String,HashMap<String,ArrayList<VersionNode>>>();
 	
 	for(VersionNode vnode : nodes){
 		
 		String nodeTypeName = vnode.node.eClass().getName();
+		//If the Node-type is known
 		if(orderedNodes.containsKey(nodeTypeName)){
-			orderedNodes.get(nodeTypeName).add(vnode);
+			//If the node is not missing and has no edge
+			if(vnode.edge != null) {
+				String edgeTypeName = vnode.edge.eClass().getName();
+				//If the edge-type for this node is known
+				if(orderedNodes.get(nodeTypeName).containsKey(edgeTypeName))
+				{
+					orderedNodes.get(nodeTypeName).get(edgeTypeName).add(vnode);
+				}
+				else
+				{
+					ArrayList<VersionNode> list = new ArrayList<VersionNode>();
+					list.add(vnode);
+					orderedNodes.get(nodeTypeName).put(edgeTypeName, list);
+				}
+			}
+			//Node got no edge
+			else {
+				ArrayList<VersionNode> list = new ArrayList<VersionNode>();
+				list.add(vnode);
+				orderedNodes.get(nodeTypeName).put(" ", list);
+			}
 		}
+		//Node is not known
 		else{
 			ArrayList<VersionNode> list = new ArrayList<VersionNode>();
 			list.add(vnode);
-			orderedNodes.put(nodeTypeName, list);
+			HashMap<String, ArrayList<VersionNode>> map= new HashMap<String,ArrayList<VersionNode>>();
+			if(vnode.edge != null) {
+				map.put(vnode.edge.eClass().getName(), list);
+			}
+			else {
+				map.put(" ", list);
+			}
+			orderedNodes.put(nodeTypeName, map);
 		}
 	}
 	
@@ -114,95 +171,112 @@ public static HSSFWorkbook export(ArrayList<VersionNode> nodes,String formular) 
 	int rowOffset = 3, colOffset = 0, rowCounter = 0, stepOffset = 1, colCount = 2;
 	
 	/**
-	 * CREATE NODE-TYPE TABLES
+	 * CREATE NODE-TYPE AND EDGE-TYPE TABLES
 	 */
-	for(Entry<String, ArrayList<VersionNode>> list : orderedNodes.entrySet()){
+	//For every node type
+	for(Entry<String, HashMap<String, ArrayList<VersionNode>>> nodeList : orderedNodes.entrySet()){
 		
-		//Print tableheader
-		Row r = sheet.createRow(rowOffset+rowCounter);
-		//Type Cell
-		Cell type = r.createCell(colOffset);
-		type.setCellValue(list.getKey());
-		type.setCellStyle(headerStyle);
-		//Attr Names Cells
-		int col=1;
-		
-		//Correct the amount of cols in use
-		if(list.getValue().size()>colCount)colCount=list.getValue().size();
-		
-		for(EStructuralFeature eNode : list.getValue().get(0).node.eClass().getEStructuralFeatures()){
+		for(Entry<String,ArrayList<VersionNode>> edgeNodeList: nodeList.getValue().entrySet()) {
+			//Print tableheader
+			Row r = sheet.createRow(rowOffset+rowCounter);
+			//Type Cell
+			Cell type = r.createCell(colOffset);
+			type.setCellValue(nodeList.getKey());
+			type.setCellStyle(headerStyle);
+			//Attr Names Cells
+			int col=1;
 			
-			String attrname = eNode.getName();
-			if(attrname.equals("fixAttributes"))continue;
-			Cell attr = r.createCell(colOffset+col);
-			attr.setCellStyle(headerStyle);
-			attr.setCellType(HSSFCell.CELL_TYPE_STRING);
-			attr.setCellValue(attrname);
+			//Correct the amount of cols in use
+			if(edgeNodeList.getValue().size()>colCount)colCount=edgeNodeList.getValue().size();
+			//Node Header
+			for(EStructuralFeature eNode : edgeNodeList.getValue().get(0).node.eClass().getEStructuralFeatures()){
+				
+				String attrname = eNode.getName();
+				if(attrname.equals("fixAttributes"))continue;
+				Cell attr = r.createCell(colOffset+col);
+				attr.setCellStyle(headerStyle);
+				attr.setCellType(HSSFCell.CELL_TYPE_STRING);
+				attr.setCellValue(attrname);
+				col++;
+			}
+			//Edge name
+			Cell edgeType = r.createCell(colOffset+col);
+			edgeType.setCellValue(edgeNodeList.getKey());
+			edgeType.setCellStyle(edgeHeaderStyle);
 			col++;
-		}
-		
-		//Edge header
-		Cell edgeHeader = r.createCell(colOffset+col);
-		edgeHeader.setCellStyle(headerStyle);
-		edgeHeader.setCellType(HSSFCell.CELL_TYPE_STRING);
-		edgeHeader.setCellValue("Edge");
-		
-		rowCounter++;
-		//Print Values for NodeType
-		for(VersionNode vnode : list.getValue()){
-			//Print Attrvalues for Node
-			Row rowValues = sheet.createRow(rowOffset+rowCounter);
-			
-			//Set Style for the Node
-			HSSFCellStyle rowStyle = oldNodeStyle;
-			//Set Style for Nodestatus
-			if(vnode.status == NodeStatus.NEW){
-				rowStyle = newNodeStyle;
-			}
-			else if(vnode.status == NodeStatus.UPDATED){
-				rowStyle = updatedNodeStyle;
-			}
-			else if(vnode.status == NodeStatus.REMOVED) {
-				rowStyle = removedNodeStyle;
+			//Edge header
+			if(edgeNodeList.getValue().get(0).edge!=null) {
+				for(EStructuralFeature eEdge : edgeNodeList.getValue().get(0).edge.eClass().getEStructuralFeatures()){
+					
+					String attrname = eEdge.getName();
+					if(attrname.equals("fixAttributes"))continue;
+					Cell attr = r.createCell(colOffset+col);
+					attr.setCellStyle(edgeHeaderStyle);
+					attr.setCellType(HSSFCell.CELL_TYPE_STRING);
+					attr.setCellValue(attrname);
+					col++;
+				}
 			}
 			
-			//Print ID for Node
-			Cell idCell = rowValues.createCell(0);
-			idCell.setCellValue(Integer.parseInt(NodeUtil.getId(vnode.node)));
-			idCell.setCellType(Cell.CELL_TYPE_NUMERIC);
-			idCell.setCellStyle(rowStyle);
 			
-			int colValues = 1;
-			for(EStructuralFeature eNode : vnode.node.eClass().getEStructuralFeatures()){
+			rowCounter++;
+			//Print Values for NodeType
+			for(VersionNode vnode : edgeNodeList.getValue()){
+				//Print Attrvalues for Node
+				Row rowValues = sheet.createRow(rowOffset+rowCounter);
 				
-				if(eNode.getName().equals("fixAttributes"))continue;
+				//Set Style for the Node
+				HSSFCellStyle rowStyle = oldNodeStyle;
+				//Set Style for Nodestatus
+				if(vnode.status == NodeStatus.NEW){
+					rowStyle = newNodeStyle;
+				}
+				else if(vnode.status == NodeStatus.UPDATED){
+					rowStyle = updatedNodeStyle;
+				}
+				else if(vnode.status == NodeStatus.REMOVED) {
+					rowStyle = removedNodeStyle;
+				}
 				
-				Cell attr = rowValues.createCell(colOffset+colValues);
-				attr.setCellStyle(rowStyle);
-				writeAttribute(eNode, attr, vnode.node);
-				colValues++;
-			}
-			//Print ID for Edge
-			if(vnode.edge!=null){
-				Cell edgeidCell = rowValues.createCell(colValues);
-				edgeidCell.setCellValue(Integer.parseInt(NodeUtil.getId(vnode.edge)));
-				edgeidCell.setCellType(Cell.CELL_TYPE_NUMERIC);
-				edgeidCell.setCellStyle(rowStyle);
-				colValues++;
-				//Print Edge-Attributes
-				for(EStructuralFeature eNode : vnode.edge.eClass().getEStructuralFeatures()){
+				//Print ID for Node
+				Cell idCell = rowValues.createCell(0);
+				idCell.setCellValue(Integer.parseInt(NodeUtil.getId(vnode.node)));
+				idCell.setCellType(Cell.CELL_TYPE_NUMERIC);
+				idCell.setCellStyle(idStyle);
+				
+				int colValues = 1;
+				for(EStructuralFeature eNode : vnode.node.eClass().getEStructuralFeatures()){
 					
 					if(eNode.getName().equals("fixAttributes"))continue;
 					
 					Cell attr = rowValues.createCell(colOffset+colValues);
 					attr.setCellStyle(rowStyle);
-					writeAttribute(eNode, attr, vnode.edge);
+					writeAttribute(eNode, attr, vnode.node);
 					colValues++;
 				}
+				//Print ID for Edge
+				if(vnode.edge!=null){
+					Cell edgeidCell = rowValues.createCell(colValues);
+					edgeidCell.setCellValue(Integer.parseInt(NodeUtil.getId(vnode.edge)));
+					edgeidCell.setCellType(Cell.CELL_TYPE_NUMERIC);
+					edgeidCell.setCellStyle(idStyle);
+					colValues++;
+					//Print Edge-Attributes
+					for(EStructuralFeature eNode : vnode.edge.eClass().getEStructuralFeatures()){
+						
+						if(eNode.getName().equals("fixAttributes"))continue;
+						
+						Cell attr = rowValues.createCell(colOffset+colValues);
+						attr.setCellStyle(rowStyle);
+						writeAttribute(eNode, attr, vnode.edge);
+						colValues++;
+					}
+				}
+				rowCounter++;
 			}
-			rowCounter++;
 		}
-		rowCounter+=stepOffset;	
+		rowCounter+=stepOffset;
+		
 	}
 	
 	//Adjust autosize of all used columns
