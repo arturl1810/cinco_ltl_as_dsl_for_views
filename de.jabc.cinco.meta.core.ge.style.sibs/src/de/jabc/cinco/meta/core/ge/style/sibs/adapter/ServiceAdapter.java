@@ -45,6 +45,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.osgi.util.ManifestElement;
 
 import style.AbsolutPosition;
 import style.AbstractShape;
@@ -1003,11 +1004,12 @@ public class ServiceAdapter {
 		try {
 			Annotation annot = (Annotation) context.get(annotation);
 			List<String> values = (List<String>) annot.getValue();
+			IProject project = (IProject) context.get("project");
 			if (values.size() == 1) {
 				context.put(className, values.get(0));
 			} else {
 				context.put(className, values.get(1));
-//				exportPackage(values.get(0), values.get(1));
+				importPackage(project.getName(), values.get(1));
 			}
 				
 			return Branches.DEFAULT;
@@ -1044,6 +1046,38 @@ public class ServiceAdapter {
 		
 	}
 
+	private static void importPackage(String projectName, String fqcn) throws IOException, CoreException {
+		IProject p = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
+		if (!p.exists()) {
+			return;
+		}
+		IFile iManiFile= p.getFolder("META-INF").getFile("MANIFEST.MF");
+		Manifest manifest = new Manifest(iManiFile.getContents());
+		
+		StringBuilder sb = new StringBuilder(fqcn);
+		int lastDotIndex = sb.lastIndexOf(".");
+		String newPackageName = sb.subSequence(0, lastDotIndex).toString();
+		String importPackage = manifest.getMainAttributes().getValue("Import-Package");
+		boolean found= false;
+		if (importPackage != null) { 
+			String[] pkgs = importPackage.split(",");
+			for (String s : pkgs) {
+				if (s.equals(newPackageName))
+					found = true;
+			}
+		} else {
+			importPackage = new String();
+		}
+		if (!found) {
+			String newVal = new String();
+			if (manifest.getMainAttributes().getValue("Import-Package") == null)
+				newVal = newVal.concat(newPackageName);
+			else newVal = manifest.getMainAttributes().getValue("Import-Package").concat(","+newPackageName);
+			manifest.getMainAttributes().putValue("Import-Package", newVal);
+			manifest.write(new FileOutputStream(iManiFile.getLocation().toFile()));
+		}
+	}
+	
 	public static String resolveMGLInheritance(LightweightExecutionEnvironment env,	ContextKeyFoundation graphModel) {
 		LightweightExecutionContext context = env.getLocalContext();
 		

@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>ce55a491-fce9-4baf-a588-64df3bb6d566</id>
   <name>GenerateModelElementDoubleClickFeature</name>
-  <changecounter>38</changecounter>
+  <changecounter>42</changecounter>
   <sib>
     <id>dacdb6c4-9fc8-4db1-8e5c-44378b7dd02e</id>
     <name>CopyEObject</name>
@@ -220,7 +220,7 @@
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
     <position>118.5,406.0</position>
-    <parameter name="annotation">
+    <parameter name="annotationKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
           <key>annotation</key>
@@ -229,14 +229,23 @@
         </ContextKeyFoundation>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
+    <parameter name="annotationName">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>doubleClickAction</expression>
+          <clazz>java.lang.String</clazz>
+          <classMutable>false</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
     <finalbranches>error</finalbranches>
     <finalbranches>false</finalbranches>
     <finalbranches>true</finalbranches>
     <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>5cf6b52e-e50f-4ab3-b621-8394db3da10b</string>
+      <string>8fd8a2e3-0318-4824-930f-f04d3bde4e69</string>
     </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
-      <string>CheckDoubleClickFeatureAnnotation</string>
+      <string>CheckAnnotationName</string>
     </userobject>
   </sib>
   <sib>

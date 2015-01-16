@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <model version="2.1">
   <id>8fd8a2e3-0318-4824-930f-f04d3bde4e69</id>
-  <name>CheckCustomFeatureAnnotation</name>
-  <changecounter>29</changecounter>
+  <name>CheckAnnotationName</name>
+  <changecounter>35</changecounter>
   <sib>
     <id>4f8df5a8-3436-4d95-bb8e-c45c384c7557</id>
     <name>CopyEObject</name>
@@ -68,7 +68,7 @@
     <label>@customFeature?</label>
     <sib-uid>basic-sibs/MatchString</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.MatchString</taxonomy>
-    <position>59.5,258.0</position>
+    <position>60.5,258.0</position>
     <parameter name="pattern">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
@@ -141,13 +141,28 @@
     <branch>default</branch>
   </edge>
   <parameter>
-    <name>AnnotationKey</name>
+    <name>annotationKey</name>
     <field>eObjectKey</field>
     <sib>4f8df5a8-3436-4d95-bb8e-c45c384c7557</sib>
   </parameter>
+  <parameter>
+    <name>annotationName</name>
+    <field>pattern</field>
+    <sib>6b044f14-5acd-45a1-bc51-0e686b356cdc</sib>
+  </parameter>
   <values>
     <entry>
-      <string>AnnotationKey</string>
+      <string>annotationName</string>
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>contextMenuAction</expression>
+          <clazz>java.lang.String</clazz>
+          <classMutable>false</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </entry>
+    <entry>
+      <string>annotationKey</string>
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
           <key>annotationKey</key>
