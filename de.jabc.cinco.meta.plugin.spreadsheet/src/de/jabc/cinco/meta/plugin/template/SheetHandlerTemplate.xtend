@@ -14,8 +14,35 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.graphiti.ui.internal.parts.ContainerShapeEditPart;
+import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.ui.PlatformUI;
 
+@SuppressWarnings("restriction")
 public class SheetHandler {
+	public static String getSheetFolderPath()
+	{
+		IProject project = null;
+		Object element = null;
+		String projectName= "";
+		StructuredSelection sel = (StructuredSelection) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getSelectionService().getSelection();
+		if(sel.getFirstElement() instanceof ContainerShapeEditPart) {
+			ContainerShapeEditPart csed = (ContainerShapeEditPart) sel.getFirstElement();
+			element = ResourcesPlugin.getWorkspace().getRoot().findMember(
+					csed.getPictogramElement().eResource().getURI().toPlatformString(true));
+		}
+		
+		if(element instanceof IResource) {
+			project = ((IResource) element).getProject(); 
+			projectName = project.getName();
+		}
+		
+		return ResourcesPlugin.getWorkspace().getRoot().getLocation().toString()+"/"+projectName+"/sheets/";
+	}
+	
 	/**
 	 * Loads all known sheets for a result-node.
 	 * The returned hash-map contains the name of the sheet and the hashed id of the file
@@ -28,7 +55,7 @@ public class SheetHandler {
 	public static HashMap<String,String> loadSheetMap(String resultNodeId) throws IOException, ClassNotFoundException, ClassCastException
 	{
 		HashMap<String,String> map = null;
-		FileInputStream fin = new FileInputStream(NodeUtil.getSheetMapFileName(resultNodeId));
+		FileInputStream fin = new FileInputStream(getSheetFolderPath()+NodeUtil.getSheetMapFileName(resultNodeId));
 		ObjectInputStream ois = new ObjectInputStream(fin);
 		Object obj = ois.readObject();
 		if(obj instanceof HashMap<?,?>)
@@ -74,7 +101,7 @@ public class SheetHandler {
 		map.put(sheetName, NodeUtil.getSheetFileName(sheetName, resultNodeId));
 		writeSheetMap(map, resultNodeId);
 		//Write the XLS
-		File file = new File(NodeUtil.getSheetFileName(sheetName, resultNodeId));
+		File file = new File(getSheetFolderPath()+NodeUtil.getSheetFileName(sheetName, resultNodeId));
 		FileOutputStream out = new FileOutputStream(file);
 		try {
 			workbook.write(out);
@@ -103,7 +130,6 @@ public class SheetHandler {
 				System.err.println("I Could not create a new SheetMap for resultnode: "+resultNodeId);
 				return null;
 			}
-			e.printStackTrace();
 		}
 		return sheetNames;
 	}
@@ -111,7 +137,9 @@ public class SheetHandler {
 	
 	private static void writeSheetMap(HashMap<String,String> map,String resultNodeId) throws IOException
 	{
-		FileOutputStream fout = new FileOutputStream(NodeUtil.getSheetMapFileName(resultNodeId));
+		File sheetMap = new File(getSheetFolderPath());
+		sheetMap.mkdirs();
+		FileOutputStream fout = new FileOutputStream(getSheetFolderPath()+NodeUtil.getSheetMapFileName(resultNodeId));
 		ObjectOutputStream oos = new ObjectOutputStream(fout);
 		oos.writeObject(map);
 		oos.close();

@@ -20,7 +20,7 @@ public static double calculate(String sheetName,String resultNodeId) throws IOEx
 	double result = 0.0;
 	HashMap<String, String> map = SheetHandler.loadSheetMap(resultNodeId);
 	
-	FileInputStream file = new FileInputStream(new File(map.get(sheetName)));
+	FileInputStream file = new FileInputStream(new File(SheetHandler.getSheetFolderPath()+map.get(sheetName)));
      
     //Get the workbook instance for XLS file 
     HSSFWorkbook workbook = new HSSFWorkbook(file);
@@ -58,7 +58,7 @@ public static double calculate(String sheetName,String resultNodeId) throws IOEx
 public static HSSFSheet importSheet(String sheetName, String resultNodeId) throws IOException, ClassNotFoundException, ClassCastException{
 HashMap<String, String> map = SheetHandler.loadSheetMap(resultNodeId);
 	
-	FileInputStream file = new FileInputStream(new File(map.get(sheetName)));
+	FileInputStream file = new FileInputStream(new File(SheetHandler.getSheetFolderPath()+map.get(sheetName)));
     
     //Get the workbook instance for XLS file 
     HSSFWorkbook workbook = new HSSFWorkbook(file);
@@ -70,7 +70,7 @@ HashMap<String, String> map = SheetHandler.loadSheetMap(resultNodeId);
 public static HSSFSheet importSheet(String sheetName, int sheetNumber, String resultNodeId) throws IOException, ClassNotFoundException, ClassCastException{
 	HashMap<String, String> map = SheetHandler.loadSheetMap(resultNodeId);
 	
-	FileInputStream file = new FileInputStream(new File(map.get(sheetName)));
+	FileInputStream file = new FileInputStream(new File(SheetHandler.getSheetFolderPath()+map.get(sheetName)));
     
     //Get the workbook instance for XLS file 
     HSSFWorkbook workbook = new HSSFWorkbook(file);
@@ -82,7 +82,7 @@ public static HSSFSheet importSheet(String sheetName, int sheetNumber, String re
 public static String importFormular(String sheetName, String resultNodeId) throws IOException, CalculationException, ClassNotFoundException, ClassCastException{
 HashMap<String, String> map = SheetHandler.loadSheetMap(resultNodeId);
 	
-	FileInputStream file = new FileInputStream(new File(map.get(sheetName)));
+	FileInputStream file = new FileInputStream(new File(SheetHandler.getSheetFolderPath()+map.get(sheetName)));
     
     //Get the workbook instance for XLS file 
     HSSFWorkbook workbook = new HSSFWorkbook(file);

@@ -328,7 +328,7 @@ public static void writeFormular(String resultNodeId,String sheetName, String Fo
 {
 	HashMap<String, String> map = SheetHandler.loadSheetMap(resultNodeId);
 	
-	FileInputStream file = new FileInputStream(new File(map.get(sheetName)));
+	FileInputStream file = new FileInputStream(new File(SheetHandler.getSheetFolderPath()+map.get(sheetName)));
     
     //Get the workbook instance for XLS file 
     HSSFWorkbook workbook = new HSSFWorkbook(file);
@@ -357,7 +357,7 @@ public static void openFile(String resultNodeId,String sheetName) throws ClassNo
 {
 	HashMap<String, String> map = SheetHandler.loadSheetMap(resultNodeId);
 	
-	File file = new File(map.get(sheetName));
+	File file = new File(SheetHandler.getSheetFolderPath()+map.get(sheetName));
 	Desktop dt = Desktop.getDesktop();
 	try {
 		dt.open(file);
