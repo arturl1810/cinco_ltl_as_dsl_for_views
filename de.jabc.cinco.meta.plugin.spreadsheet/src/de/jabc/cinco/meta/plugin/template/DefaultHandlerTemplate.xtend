@@ -5,7 +5,7 @@ import de.jabc.cinco.meta.plugin.spreadsheet.CalculatingEdge
 import de.jabc.cinco.meta.plugin.spreadsheet.ResultNode
 
 class GenerationHandlerTemplate {
-	def create(String projectPath,String packageName,String className,String sheetName,String fileName,ArrayList<ResultNode> nodes, ArrayList<CalculatingEdge> edges)
+	def create(String projectPath,String packageName,String className,String sheetName,String fileName,ArrayList<ResultNode> nodes, ArrayList<CalculatingEdge> edges,boolean multiple)
 	'''
 package «packageName»;
 
@@ -79,7 +79,7 @@ public Object execute(ExecutionEvent event) throws ExecutionException {
 	
 	«FOR node : nodes»
 	
-	«printResultNode(node,edges)»
+	«printResultNode(node,edges,multiple)»
 	
 	«ENDFOR»
 	
@@ -129,11 +129,11 @@ public void removeHandlerListener(IHandlerListener handlerListener) {
 }
 }
 	'''
-	def printResultNode(ResultNode node, ArrayList<CalculatingEdge> edges)'''
+	def printResultNode(ResultNode node, ArrayList<CalculatingEdge> edges, boolean multiple)'''
 	if(eobject instanceof «node.nodeName»){
 		final «node.nodeName» node = («node.nodeName») eobject;
 		resultNodeId = NodeUtil.getId(node);
-		sheetName = UserInteraction.getSheetNameForGeneration(node);
+		sheetName = UserInteraction.getSheetNameForGeneration(node,«multiple»);
 		if(sheetName == null || sheetName.isEmpty()){
 			MessageDialog.openError(Display.getCurrent().getActiveShell(), 
 					"Error", 

@@ -63,7 +63,7 @@ public class UserInteraction {
 	    return null;
 	    
 	}
-	public static String getSheetNameForGeneration(Node resultNode)
+	public static String getSheetNameForGeneration(Node resultNode,boolean multiple)
 	{
 		String resultNodeId = NodeUtil.getId(resultNode);
 		ArrayList<String> sheetNames = SheetHandler.getSheetNames(resultNodeId); 
@@ -75,6 +75,10 @@ public class UserInteraction {
 		if(sheetNames.isEmpty())
 		{
 			return UserInteraction.getNewSheetName(resultNodeId);
+		}
+		if(sheetNames.size()==1 && !multiple)
+		{
+			return sheetNames.get(0);
 		}
 		return UserInteraction.pickSheetName(sheetNames,resultNodeId,true);
 	}
@@ -90,6 +94,10 @@ public class UserInteraction {
 		if(sheetNames.isEmpty())
 		{
 			return null;
+		}
+		if(sheetNames.size()==1)
+		{
+			return sheetNames.get(0);
 		}
 		return UserInteraction.pickSheetName(sheetNames,resultNodeId,false);
 	}

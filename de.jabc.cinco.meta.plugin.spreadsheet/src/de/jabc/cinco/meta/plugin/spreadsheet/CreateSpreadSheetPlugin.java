@@ -47,6 +47,7 @@ public class CreateSpreadSheetPlugin {
 		String fileName = "export.xls";
 		String sheetName = "firstSheet";
 		String packagePath = "";
+		boolean multiple = false;
 		
 		
 		ArrayList<ResultNode> resultNodes = new ArrayList<ResultNode>();
@@ -58,10 +59,17 @@ public class CreateSpreadSheetPlugin {
 			String graphName = graphModel.getName();
 			//Search for Graphmodel Annotation "spreadsheetexport" with one argument
 			for(mgl.Annotation anno: graphModel.getAnnotations()){
-				if(anno.getName().equals("spreadsheetexport") && anno.getValue().size() == 2){
+				if(anno.getName().equals("spreadsheet")){
 					System.out.println("EXPORT GRAPH AS XLS - Here we go!");
-					fileName = anno.getValue().get(0);
-					sheetName = anno.getValue().get(1);
+					
+					if(anno.getValue().size()==1)
+					{
+						System.out.println("XLS Argument: "+anno.getValue().get(0));
+						if(anno.getValue().get(0).equals("multiple")){
+							multiple=true;
+						}
+						
+					}
 				}
 			}
 			//All Nodes
@@ -175,7 +183,7 @@ public class CreateSpreadSheetPlugin {
 			//Generate Classes
 			//Handler
 			ProjectCreator.createFile(genHandlerClass+".java", tvProject.getFolder("src/"+projectName.replace(".","/")),
-					new GenerationHandlerTemplate().create(packagePath,projectName,genHandlerClass,sheetName,fileName,resultNodes,calculatingEdges).toString(),
+					new GenerationHandlerTemplate().create(packagePath,projectName,genHandlerClass,sheetName,fileName,resultNodes,calculatingEdges,multiple).toString(),
 					progressMonitor);
 			
 			ProjectCreator.createFile(calcHandlerClass+".java", tvProject.getFolder("src/"+projectName.replace(".","/")),

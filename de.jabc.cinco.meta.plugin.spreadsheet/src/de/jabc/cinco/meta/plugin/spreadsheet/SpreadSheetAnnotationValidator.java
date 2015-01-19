@@ -19,11 +19,19 @@ public class SpreadSheetAnnotationValidator implements IMetaPluginValidator {
 		if(eObject instanceof Annotation&&((Annotation)eObject).getName().equals("spreadsheet")){
 			List<String> args = ((Annotation)eObject).getValue();
 			//Amount of arguments validation
-			if(args.size() != 0){
+			if(args.size() > 1){
 				return new ErrorPair<String,EStructuralFeature>(
-						"No Arguments allowed.",
+						"Only one argument is allowed.",
 						eObject.eClass().getEStructuralFeature("value")
 						);
+			}
+			if(args.size()==1) {
+				if(!(args.get(0).equals("multiple") || args.get(0).equals("single"))){
+					return new ErrorPair<String,EStructuralFeature>(
+							"Supported Arguments are: multiple or single",
+							eObject.eClass().getEStructuralFeature("value")
+							);
+				}
 			}
 			
 		}
