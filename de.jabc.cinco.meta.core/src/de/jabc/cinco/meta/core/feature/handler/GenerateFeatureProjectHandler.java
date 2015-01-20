@@ -118,7 +118,6 @@ public class GenerateFeatureProjectHandler extends AbstractHandler {
 						// Generating feature.xml
 						LightweightExecutionContext context = new DefaultLightweightExecutionContext(null);
 						context.put("packageName", packageName);
-						context.put("graphitiPackageName", packageName.concat(".graphiti"));
 						context.put("annotationToMGLPackageMap", PluginRegistry.getInstance().getMGLDependentPlugins());
 						context.put("annotationToPackageMap", PluginRegistry.getInstance().getUsedPlugins());
 						context.put("annotationToFragmentMap", PluginRegistry.getInstance().getUsedFragments());
