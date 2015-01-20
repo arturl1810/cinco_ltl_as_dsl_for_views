@@ -108,7 +108,9 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 	
 	private GraphModel gModel;
 	private IProject sourceProject;
-	private final String GRAPHICAL_GRAPH_MODEL_PATH = "/de.jabc.cinco.meta.core.ge.style.model/model/GraphicalGraphModel.genmodel";
+	private final String GRAPHICAL_GRAPH_MODEL_PATH = "/de.jabc.cinco.meta.core.ge.style.model/"
+			+ "model/"
+			+ "GraphicalGraphModel.genmodel";
 	
 	
 	public GraphitiCodeGenerator() {
@@ -152,13 +154,12 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 				
 				List<String> srcFolders = getSrcFolders();
 				List<String> cleanDirs = getCleanDirectory();
-			    Set<String> reqBundles = getReqBundles();
-			    String bundleName = ProjectCreator.getProjectSymbolicName(file.getProject());
-			    reqBundles.add(bundleName);
 			    
-			    IProject p = ProjectCreator.createProject(projectName, srcFolders, null, reqBundles, null, null, monitor, cleanDirs, false);
-			    reqBundles.add(p.getName());
+			    IProject p = sourceProject;
+			    ProjectCreator.addRequiredBundle(p, Platform.getBundle("org.eclipse.graphiti.ui"));
 			    IProject apiProject = sourceProject; 
+			    
+			    addReqBundles(p, monitor);
 			    
 			    createIconsFolder(p, monitor);
 			    copyImage(styles, p, monitor);
@@ -513,37 +514,28 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 		}
 	}
 	
-	private Set<String> getReqBundles() {
-		HashSet<String> reqBundles = new HashSet<String>();
-		List<Bundle> bundles = new ArrayList<Bundle>();
+	private void addReqBundles(IProject p, IProgressMonitor monitor) {
+		Set<Bundle> bundles = new HashSet<Bundle>();
 
 		bundles.add(Platform.getBundle("org.eclipse.emf.transaction"));
-//		bundles.add(Platform.getBundle("org.eclipse.graphiti"));
 		bundles.add(Platform.getBundle("org.eclipse.graphiti.ui"));
 		bundles.add(Platform.getBundle("org.eclipse.core.resources"));
-//		bundles.add(Platform.getBundle("org.eclipse.core.runtime"));
 		bundles.add(Platform.getBundle("org.eclipse.ui"));
 		bundles.add(Platform.getBundle("org.eclipse.ui.ide"));
-//		bundles.add(Platform.getBundle("org.eclipse.ui.navigator"));
 		bundles.add(Platform.getBundle("org.eclipse.ui.views.properties.tabbed"));
 		bundles.add(Platform.getBundle("org.eclipse.gef"));
-//		bundles.add(Platform.getBundle("de.jabc.cinco.meta.core.mgl.model"));
-//		bundles.add(Platform.getBundle("de.jabc.cinco.meta.core.ge.style.model"));
 		bundles.add(Platform.getBundle("de.jabc.cinco.meta.core.referenceregistry"));
-//		
 		bundles.add(Platform.getBundle("javax.el"));
 		bundles.add(Platform.getBundle("com.sun.el"));
-
-		for (Bundle b : bundles) {
-			StringBuilder s = new StringBuilder();
-			s.append(b.getSymbolicName());
-//			s.append(";bundle-version=");
-//			s.append("\"" + b.getVersion().getMajor() + "."
-//					+ b.getVersion().getMinor() + "."
-//					+ b.getVersion().getMicro() + "\"");
-			reqBundles.add(s.toString());
+		try {
+			p.refreshLocal(IResource.DEPTH_INFINITE, monitor);
+			ProjectCreator.addRequiredBundle(p, bundles);
+			p.refreshLocal(IResource.DEPTH_INFINITE, monitor);
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (CoreException e) {
+			e.printStackTrace();
 		}
-		return reqBundles;
 	}
 	
 	private List<String> getSrcFolders() {
