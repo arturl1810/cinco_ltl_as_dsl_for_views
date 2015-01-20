@@ -47,7 +47,7 @@ public class NodeUtil {
 	}
 	public static String getSheetMapFileName(String resultNodeId)
 	{
-		return "rn"+resultNodeId+".rsltnd";
+		return "rsltn"+resultNodeId+".properties";
 	}
 	public static String getSheetFileName(String sheetName,String resultNodeId)
 	{
