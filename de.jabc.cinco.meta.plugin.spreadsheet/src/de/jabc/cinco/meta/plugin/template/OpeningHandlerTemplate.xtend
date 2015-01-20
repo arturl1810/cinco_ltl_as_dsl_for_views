@@ -209,7 +209,9 @@ private boolean exportFormula(HashMap<String,String> formulas,String resultNodeI
 			return null;
 		}
 		ArrayList<String> resultAttrs = new ArrayList<String>();
-		resultAttrs.add("cost");
+		«FOR retAttr : node.resultAttrNames»
+		resultAttrs.add("«retAttr.toFirstLower»");
+		«ENDFOR»
 		
 		//Save the Formula and the Cell References from the sheet
 		formulas = importFormula(sheetName,resultNodeId,resultAttrs);
