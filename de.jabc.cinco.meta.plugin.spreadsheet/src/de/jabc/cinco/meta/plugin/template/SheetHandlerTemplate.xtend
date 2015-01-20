@@ -4,14 +4,15 @@ class SheetHandlerTemplate {
 	def create(String packageName)'''
 package «packageName»;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map.Entry;
+import java.util.Properties;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.eclipse.core.resources.IProject;
@@ -51,18 +52,18 @@ public class SheetHandler {
 	 * @throws IOException 
 	 * @throws ClassNotFoundException 
 	 */
-	@SuppressWarnings("unchecked")
 	public static HashMap<String,String> loadSheetMap(String resultNodeId) throws IOException, ClassNotFoundException, ClassCastException
 	{
-		HashMap<String,String> map = null;
-		FileInputStream fin = new FileInputStream(getSheetFolderPath()+NodeUtil.getSheetMapFileName(resultNodeId));
-		ObjectInputStream ois = new ObjectInputStream(fin);
-		Object obj = ois.readObject();
-		if(obj instanceof HashMap<?,?>)
-		{
-			map = (HashMap<String,String>) obj;
+		HashMap<String,String> map = new HashMap<String,String>();
+		BufferedInputStream fin = new BufferedInputStream(new FileInputStream(getSheetFolderPath()+NodeUtil.getSheetMapFileName(resultNodeId)));
+		Properties properties = new Properties();
+		properties.load(fin);
+		fin.close();
+		
+		for (Entry<Object, Object> entry : properties.entrySet()) {
+			map.put((String)entry.getKey(), (String)entry.getValue());
 		}
-		ois.close();
+		
 		return map;
 	}
 	/**
@@ -107,7 +108,6 @@ public class SheetHandler {
 			workbook.write(out);
 			out.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		System.out.println("XLS and Sheetmap written");
@@ -137,16 +137,22 @@ public class SheetHandler {
 	
 	private static void writeSheetMap(HashMap<String,String> map,String resultNodeId) throws IOException
 	{
+		Properties properties = new Properties();
+		for(Entry<String,String> entry : map.entrySet()){
+			properties.setProperty(entry.getKey(), entry.getValue());
+		}
 		File sheetMap = new File(getSheetFolderPath());
 		sheetMap.mkdirs();
+		
 		FileOutputStream fout = new FileOutputStream(getSheetFolderPath()+NodeUtil.getSheetMapFileName(resultNodeId));
-		ObjectOutputStream oos = new ObjectOutputStream(fout);
-		oos.writeObject(map);
-		oos.close();
+		properties.store(fout, "Result node ID: "+resultNodeId);
+		fout.close();
 	}
 	
 	
 }
+
+
 
 
 
