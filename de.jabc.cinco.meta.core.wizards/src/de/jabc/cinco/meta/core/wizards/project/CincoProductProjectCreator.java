@@ -80,8 +80,7 @@ public class CincoProductProjectCreator {
 				CharSequence styleCode = CincoProductWizardTemplates.generateSomeGraphStyle();
 				writeToFile(styleModelFile, styleCode);
 				
-				CharSequence cpdCode = CincoProductWizardTemplates.generateSomeGraphCPD(mglModelName, packageName);
-				writeToFile(cpdModelFile, cpdCode);
+				
 			}
 			else {
 				CharSequence mglCode = CincoProductWizardTemplates.generateFlowGraphMGL(mglModelName, packageName, projectName, features);
@@ -125,6 +124,8 @@ public class CincoProductProjectCreator {
 					writeToFile(externalLibraryGenmodelFile, externalLibraryGenmodelCode);
 				}
 			}
+			CharSequence cpdCode = CincoProductWizardTemplates.generateSomeGraphCPD(mglModelName, packageName,projectName);
+			writeToFile(cpdModelFile, cpdCode);
 
 			project.refreshLocal(IResource.DEPTH_INFINITE, monitor);
 		} catch (Exception e) {
