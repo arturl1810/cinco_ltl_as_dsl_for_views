@@ -45,11 +45,11 @@ public static HSSFWorkbook export(ArrayList<VersionNode> nodes,HashMap<String,St
 	HSSFFont defaultfont = workbook.createFont();
 	//NODE-HEADER FONT
 	HSSFFont nodeHeaderfont = workbook.createFont();
-	nodeHeaderfont.setColor(HSSFColor.GREY_80_PERCENT.index);
+	nodeHeaderfont.setColor(HSSFColor.GREY_25_PERCENT.index);
 	nodeHeaderfont.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
 	//EDGE-HEADER FONT
 	HSSFFont edgeHeaderFont = workbook.createFont();
-	edgeHeaderFont.setColor(HSSFColor.GREY_25_PERCENT.index);
+	edgeHeaderFont.setColor(HSSFColor.GREY_80_PERCENT.index);
 	edgeHeaderFont.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
 	//ID FONT
 	Font idFont = workbook.createFont();
@@ -78,12 +78,12 @@ public static HSSFWorkbook export(ArrayList<VersionNode> nodes,HashMap<String,St
 	HSSFCellStyle headerStyle = workbook.createCellStyle();
 	headerStyle.setBorderBottom(CellStyle.BORDER_THIN);
 	headerStyle.setFont(nodeHeaderfont);
-	headerStyle.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
+	headerStyle.setFillForegroundColor(HSSFColor.GREY_80_PERCENT.index);
 	headerStyle.setFillPattern(CellStyle.SOLID_FOREGROUND);
 	//EDGE-HEADER Style
 	HSSFCellStyle edgeHeaderStyle = workbook.createCellStyle();
 	edgeHeaderStyle.setFont(edgeHeaderFont);
-	edgeHeaderStyle.setFillForegroundColor(HSSFColor.GREY_80_PERCENT.index);
+	edgeHeaderStyle.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
 	edgeHeaderStyle.setFillPattern(CellStyle.SOLID_FOREGROUND);
 	//ID Style
 	HSSFCellStyle idStyle = workbook.createCellStyle();
@@ -135,7 +135,7 @@ public static HSSFWorkbook export(ArrayList<VersionNode> nodes,HashMap<String,St
 	}
 	
 	//Create Sheet
-	int rowOffset = 3, colOffset = 0, rowCounter = 0, stepOffset = 1, colCount = 2;
+	int rowOffset = 0, colOffset = 0, rowCounter = 0, stepOffset = 1, colCount = 2;
 	
 	/**
 	 * CREATE NODE-TYPE AND EDGE-TYPE TABLES
