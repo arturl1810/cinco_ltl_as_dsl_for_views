@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>4b3bed73-f07c-47e8-a3c6-83cd1b38c908</id>
   <name>Create_GetSetAttribute</name>
-  <changecounter>203</changecounter>
+  <changecounter>255</changecounter>
   <sib>
     <id>ba6b8d58-e1c8-4fc5-8bdd-695e69dcc9f9</id>
     <name>GetAttributeName</name>
@@ -106,7 +106,7 @@
     <label>SwitchEClassifier</label>
     <sib-uid>ecore/ecore/SwitchEClassifier</sib-uid>
     <taxonomy>transem.ecore.sib.ecore.SwitchEClassifier</taxonomy>
-    <position>45.0,393.0</position>
+    <position>300.0,273.0</position>
     <parameter name="eObjectKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -199,8 +199,8 @@
   <edge>
     <source>9846427a-330c-47f1-a36d-ab9ecd4a5139</source>
     <target>5e8f9e84-5e58-4161-b964-8fa3dacb49fd</target>
-    <point>123.0,415.3578947368421</point>
-    <point>372.0,467.77894736842103</point>
+    <point>123.0,409.34594594594597</point>
+    <point>642.0,353.23783783783784</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>EClass</branch>
     <branch>EDataType</branch>
@@ -212,7 +212,7 @@
     <label>ThrowException</label>
     <sib-uid>basic-sibs/ThrowException</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.ThrowException</taxonomy>
-    <position>214.5,273.0</position>
+    <position>304.5,378.0</position>
     <parameter name="message">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
@@ -233,16 +233,10 @@ ${attributeClass}</expression>
   <edge>
     <source>9846427a-330c-47f1-a36d-ab9ecd4a5139</source>
     <target>737c98ff-c12e-46ee-9466-87452463bf16</target>
-    <point>105.0,420.0</point>
-    <point>272.0,410.0</point>
+    <point>123.0,403.6</point>
+    <point>357.0,299.6</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>other</branch>
-  </edge>
-  <edge>
-    <source>0902a609-0ef5-458c-bcbf-ed772bab3853</source>
-    <target>737c98ff-c12e-46ee-9466-87452463bf16</target>
-    <point>105.0,300.0</point>
-    <point>306.0,405.0</point>
-    <branch>null</branch>
   </edge>
   <sib>
     <id>a90d152e-875f-42a1-9654-777e5d433806</id>
@@ -1039,6 +1033,67 @@ Get the value of attribute $attributeName$
     <point>915.0,735.0</point>
     <point>913.0,847.0</point>
     <branch>default</branch>
+  </edge>
+  <edge>
+    <source>0902a609-0ef5-458c-bcbf-ed772bab3853</source>
+    <target>e4f6b6a6-d350-4104-a54a-07a7452149da</target>
+    <point>123.0,288.9</point>
+    <point>267.0,264.9</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>null</branch>
+  </edge>
+  <edge>
+    <source>e4f6b6a6-d350-4104-a54a-07a7452149da</source>
+    <target>9846427a-330c-47f1-a36d-ab9ecd4a5139</target>
+    <point>223.125,294.0</point>
+    <point>123.0,394.2</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>e4f6b6a6-d350-4104-a54a-07a7452149da</id>
+    <name>GetEClassifierByName_1</name>
+    <label>GetEClassifierByName</label>
+    <sib-uid>utility-sibs/GetEClassifierByName</sib-uid>
+    <taxonomy>transem.utility.sib.GetEClassifierByName</taxonomy>
+    <position>37.0,378.0</position>
+    <parameter name="eClassifierKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>attributeClass</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="eClassifierName">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>${attributeType}</expression>
+          <clazz>java.lang.String</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="ePackageKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>graphmodel</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <finalbranches>null</finalbranches>
+  </sib>
+  <edge>
+    <source>e4f6b6a6-d350-4104-a54a-07a7452149da</source>
+    <target>737c98ff-c12e-46ee-9466-87452463bf16</target>
+    <point>105.0,405.0</point>
+    <point>332.0,405.0</point>
+    <branch>null</branch>
   </edge>
   <parameter>
     <name>attributeKey</name>

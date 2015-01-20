@@ -41,12 +41,10 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
-import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
@@ -59,7 +57,6 @@ import org.eclipse.graphiti.features.IDeleteFeature;
 import org.eclipse.graphiti.features.IMoveShapeFeature;
 import org.eclipse.graphiti.features.IReconnectionFeature;
 import org.eclipse.graphiti.features.IUpdateFeature;
-import org.eclipse.graphiti.features.context.IReconnectionContext;
 import org.eclipse.graphiti.features.context.impl.AddContext;
 import org.eclipse.graphiti.features.context.impl.CreateConnectionContext;
 import org.eclipse.graphiti.features.context.impl.CreateContext;
@@ -111,6 +108,7 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 	
 	private GraphModel gModel;
 	private IProject sourceProject;
+	private final String GRAPHICAL_GRAPH_MODEL_PATH = "/de.jabc.cinco.meta.core.ge.style.model/model/GraphicalGraphModel.genmodel";
 	
 	
 	public GraphitiCodeGenerator() {
@@ -148,12 +146,9 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 				GMODEL_NAME_LOWER = gModel.getName().toLowerCase();
 				
 				String mglProjectName = file.getProject().getName();
-//				String projectName = gModel.getPackage().concat(".graphiti");
 				String projectName = gModel.getPackage();
-//				String apiProjectName = projectName.concat(".api");
 				String apiProjectName = mglProjectName;
 				String path = ResourcesPlugin.getWorkspace().getRoot().getLocation().append(projectName).toOSString();
-				
 				
 				List<String> srcFolders = getSrcFolders();
 				List<String> cleanDirs = getCleanDirectory();
@@ -163,7 +158,6 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 			    
 			    IProject p = ProjectCreator.createProject(projectName, srcFolders, null, reqBundles, null, null, monitor, cleanDirs, false);
 			    reqBundles.add(p.getName());
-//			    IProject apiProject = ProjectCreator.createProject(apiProjectName, srcFolders, null, reqBundles, null, null, monitor, cleanDirs, false);
 			    IProject apiProject = sourceProject; 
 			    
 			    createIconsFolder(p, monitor);
@@ -184,12 +178,15 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 			    /**
 			     *	Get required information for Wrapper API meta model generation 
 			     */
+			    EPackage graphmodel = EPackage.Registry.INSTANCE.getEPackage(gModel.getNsURI());
 			    EPackage graphicalGraphModel = EcoreUtil2.getEPackage("platform:/plugin/de.jabc.cinco.meta.core.ge.style.model/model/GraphicalGraphModel.ecore");
 			    EPackage graphitiModel = EcoreUtil2.getEPackage("platform:/plugin/org.eclipse.graphiti.mm/model/graphiti.ecore");
 			    PluginRegistry.getInstance().getRegisteredEcoreModels().put("graphicalGraphModel", graphicalGraphModel);
 			    PluginRegistry.getInstance().getGenModelMap().put(graphicalGraphModel, "platform:/plugin/de.jabc.cinco.meta.core.ge.style.model/model/GraphicalGraphModel.genmodel");
 			    PluginRegistry.getInstance().getRegisteredEcoreModels().put("graphitiModel", graphitiModel);
 			    PluginRegistry.getInstance().getGenModelMap().put(graphitiModel, "platform:/plugin/org.eclipse.graphiti.mm/model/graphiti.genmodel");
+			    
+			    
 			    URI uri = URI.createFileURI(API_MODEL_PREFIX + gModel.getName()+ ".ecore");
 			    XMIResource graphicalGraphModelRes = (XMIResource) new XMIResourceFactoryImpl().createResource(uri);
 			    
@@ -205,11 +202,13 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 				context.put("outletPath", outletPath);
 				context.put("customFeatureOutletPath", customFeatureOutletPath);
 				
+				context.put("graphmodel", graphmodel);
 				context.put("graphicalGraphModel", graphicalGraphModel);
 				context.put("genmodelMap", PluginRegistry.getInstance().getGenModelMap());
 				context.put("registeredGeneratorPlugins", PluginRegistry.getInstance().getPluginGenerators());
 				context.put("registeredPackageMap", PluginRegistry.getInstance().getRegisteredEcoreModels());
 				context.put("resource", graphicalGraphModelRes);
+				
 				context.put("gNodeType", GraphicalgraphmodelPackage.eINSTANCE.getEClassifier("CNode"));
 				context.put("gEdgeType", GraphicalgraphmodelPackage.eINSTANCE.getEClassifier("CEdge"));
 				context.put("gContainerType", GraphicalgraphmodelPackage.eINSTANCE.getEClassifier("CContainer"));
@@ -282,24 +281,25 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 						}
 					}
 					
-					Set<EPackage> usedEcoreModels = (Set<EPackage>) context.get("usedEcoreModels");
-					HashMap<EPackage, String> genModelMap = PluginRegistry.getInstance().getGenModelMap();
-					for(Object key : usedEcoreModels){
-						if (key == null) 
-							continue;
-						String genuri = genModelMap.get(key);
-						XMIResource res = new XMIResourceImpl(URI.createURI(genuri)); 
-						res.load(null);
-						
-						TreeIterator<EObject> it = res.getAllContents();
-						
-						while (it.hasNext()){
-							EObject o = it.next();
-							if (o instanceof GenPackage) {
-								System.out.println("Adding GenPackage: " + ((GenPackage) o));
-								genModel.getUsedGenPackages().add((GenPackage) o);
-							}
+					IResource iRes = sourceProject.getFile("/src-gen/model/" + gModel.getName() + ".genmodel");
+					if (iRes.exists()) {
+						Resource generatedGenModel = new ResourceSetImpl().getResource(
+									URI.createFileURI(iRes.getLocation().toString()),
+									true );
+						for (EObject o : generatedGenModel.getContents()) {
+							if (o instanceof GenModel)
+								genModel.getUsedGenPackages().addAll(((GenModel) o).getGenPackages());
 						}
+					}
+					
+					
+					Resource generatedGenModel = new ResourceSetImpl().getResource(
+								URI.createPlatformPluginURI(
+										GRAPHICAL_GRAPH_MODEL_PATH , true),
+								true );
+					for (EObject o : generatedGenModel.getContents()) {
+						if (o instanceof GenModel)
+							genModel.getUsedGenPackages().addAll(((GenModel) o).getGenPackages());
 					}
 					
 					bops = new ByteArrayOutputStream();

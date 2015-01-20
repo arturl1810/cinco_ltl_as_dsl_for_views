@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>ca5a39ee-2606-4461-8c2d-1e6ebdbd9d0e</id>
   <name>MGL2GraphicalGraphModel</name>
-  <changecounter>246</changecounter>
+  <changecounter>249</changecounter>
   <sib>
     <id>e763e08f-ee7b-48f6-8187-dac38f44f435</id>
     <name>MacroSIB</name>
@@ -61,9 +61,9 @@
   </sib>
   <edge>
     <source>e763e08f-ee7b-48f6-8187-dac38f44f435</source>
-    <target>52557838-032e-4f74-a0a1-ea024baacec4</target>
-    <point>405.0,75.0</point>
-    <point>570.0,75.0</point>
+    <target>bd057e68-0ca4-49eb-8b0f-0da65754197d</target>
+    <point>425.0,66.54545454545455</point>
+    <point>715.0,66.54545454545455</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -315,7 +315,7 @@
     <label>Create Types</label>
     <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
-    <position>528.0,46.0</position>
+    <position>528.0,1.0</position>
     <finalbranches>error</finalbranches>
     <finalbranches>exit</finalbranches>
     <userobject key="ABC$GRAPHSIB$MODELID">

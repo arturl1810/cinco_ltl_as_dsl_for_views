@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>97cfd22b-887e-4510-8a47-790198806019</id>
   <name>Create Model Element</name>
-  <changecounter>155</changecounter>
+  <changecounter>165</changecounter>
   <sib>
     <id>f2b2a564-ccd0-4b4f-9509-c723edc57a8d</id>
     <name>NewEClassInEPackageEClassifiers</name>
@@ -731,11 +731,11 @@
   </sib>
   <edge>
     <source>0443b085-0f15-412d-9ac5-11bbd7959249</source>
-    <target>40fb462f-feeb-4b24-9889-a1e3928f3806</target>
+    <target>13913d95-1aa0-45a1-ba28-4f43dfdf4a4e</target>
     <spline/>
     <point>1032.0,717.2571428571429</point>
     <point>945.0,675.0</point>
-    <point>815.0,719.2</point>
+    <point>909.6428571428571,609.0</point>
     <labelposition>477.39838733266214,45.1864707078478</labelposition>
     <branch>next</branch>
   </edge>
@@ -1048,6 +1048,34 @@ if (uf.canUpdate(uc))
     <target>0339fbec-fcb4-4102-b084-a6cf1060be6b</target>
     <point>1335.0,510.0</point>
     <point>1040.0,522.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>13913d95-1aa0-45a1-ba28-4f43dfdf4a4e</id>
+    <name>PrintConsoleMessage</name>
+    <label>PrintConsoleMessage</label>
+    <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
+    <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
+    <position>834.5,573.0</position>
+    <parameter name="error">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="message">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>Generating Getter/Setter for attribute ${modelElementAttribute}</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>false</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <finalbranches>default</finalbranches>
+  </sib>
+  <edge>
+    <source>13913d95-1aa0-45a1-ba28-4f43dfdf4a4e</source>
+    <target>40fb462f-feeb-4b24-9889-a1e3928f3806</target>
+    <point>900.0,600.0</point>
+    <point>747.0,727.0</point>
     <branch>default</branch>
   </edge>
   <parameter>
