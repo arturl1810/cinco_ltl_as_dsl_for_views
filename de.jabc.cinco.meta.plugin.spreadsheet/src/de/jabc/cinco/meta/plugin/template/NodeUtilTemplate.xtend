@@ -22,6 +22,7 @@ import «projectPath».impl.«graphName.toLowerCase.toFirstUpper»FactoryImpl;
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -87,8 +88,17 @@ public class NodeUtil {
 					//Node is Found in XLS
 					vn.node = hashedNodes.get(id).node;
 					vn.edge = hashedNodes.get(id).edge;
+					
+					//Resultnodes 
+					if(hashedNodes.get(id).status==NodeStatus.RESULT) {
+						vn.status = NodeStatus.RESULT;
+						vns.add(vn);
+						hashedNodes.remove(id);
+						continue;
+					}
 					//remove Node from the new Nodes list
 					hashedNodes.remove(id);
+					
 					
 					boolean updated = false;
 					int attrCounter = 1;
@@ -245,32 +255,38 @@ public class NodeUtil {
 		}
 		return cellRefs;
 	}
-	public static String rereferenceFormular(String formular,HashMap<Integer, Integer> oldRefs ,HashMap<Integer, Integer> newRefs)
+	public static HashMap<String, String> rereferenceFormular(HashMap<String, String> formulas,HashMap<Integer, Integer> oldRefs ,HashMap<Integer, Integer> newRefs)
 	{
 		HashMap<Integer, Integer> rowRearange = new HashMap<Integer, Integer>();
+		HashMap<String, String> rereferencedFormulas = new HashMap<String,String>();
 		//Clone the formular
-		String refreshedFormular = new String(formular);
-		//Join the old and new CellReferences depending on the node-ids
-		for(int id : oldRefs.keySet())
-		{
-			if(newRefs.get(id)!=null) {
-				rowRearange.put(oldRefs.get(id), newRefs.get(id));
+		for(Entry<String,String> formula: formulas.entrySet()) {
+			String refreshedFormula = new String(formula.getValue());
+			//Join the old and new CellReferences depending on the node-ids
+			for(int id : oldRefs.keySet())
+			{
+				if(newRefs.get(id)!=null) {
+					rowRearange.put(oldRefs.get(id), newRefs.get(id));
+				}
 			}
-		}
-		//replace the Cell references in the formular with the new Cell References
-		Pattern pattern = Pattern.compile("[a-zA-Z]+[0-9]+");
-		//Sreach for the given cellRow in the Formular
-		Matcher matcher = pattern.matcher(formular);
-		while(matcher.find()) {
-			String cellRef = matcher.group().toUpperCase();
-			String cellCol = cellRef.replaceAll("\\d", "");
-			String cellRow = cellRef.replaceAll("\\D+","");
-			if(rowRearange.get(Integer.parseInt(cellRow))!=null) {
-				System.out.println("Replacing: "+cellRef+" with "+cellCol+" "+rowRearange.get(Integer.parseInt(cellRow)));
-				refreshedFormular = refreshedFormular.replaceAll(cellRef, cellCol+rowRearange.get(Integer.parseInt(cellRow)));
+			//replace the Cell references in the formular with the new Cell References
+			Pattern pattern = Pattern.compile("[a-zA-Z]+[0-9]+");
+			//Sreach for the given cellRow in the Formular
+			Matcher matcher = pattern.matcher(formula.getValue());
+			while(matcher.find()) {
+				String cellRef = matcher.group().toUpperCase();
+				String cellCol = cellRef.replaceAll("\\d", "");
+				String cellRow = cellRef.replaceAll("\\D+","");
+				if(rowRearange.get(Integer.parseInt(cellRow))!=null) {
+					System.out.println("Replacing: "+cellRef+" with "+cellCol+" "+rowRearange.get(Integer.parseInt(cellRow)));
+					refreshedFormula = refreshedFormula.replaceAll(cellRef, cellCol+rowRearange.get(Integer.parseInt(cellRow)));
+				}
 			}
+			rereferencedFormulas.put(formula.getKey(), refreshedFormula);
+			
 		}
-		return refreshedFormular;
+		
+		return rereferencedFormulas;
 		
 	}
 	/**
@@ -318,6 +334,12 @@ public class NodeUtil {
 	def printResultNode(ResultNode node, ArrayList<CalculatingEdge> edges)'''
 			if(eobject instanceof «node.nodeName»){
 				«node.nodeName» node = («node.nodeName») eobject;
+				VersionNode resVn = new VersionNode();
+				resVn.edge=null;
+				resVn.node=node;
+				resVn.formulars = new HashMap<String,String>();
+				resVn.status = NodeStatus.RESULT;
+				nodes.add(resVn);
 				for(graphmodel.Edge e:node.getOutgoing()){
 					if(
 					«FOR e : edges »

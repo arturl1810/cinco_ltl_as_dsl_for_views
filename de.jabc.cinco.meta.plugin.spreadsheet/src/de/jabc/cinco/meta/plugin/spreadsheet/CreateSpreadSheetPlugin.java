@@ -83,6 +83,8 @@ public class CreateSpreadSheetPlugin {
 				for(mgl.Annotation anno : node.getAnnotations()){
 					if(anno.getName().equals("resulting")){
 						resultNode.nodeName = node.getName();
+						resultNode.resultAttrNames = new ArrayList<String>();
+						resultNode.otherAttrNames = new ArrayList<String>();
 						System.out.println("NodeFound "+ node.getName());
 						boolean foundresult = false;
 						for(mgl.Attribute attr : node.getAttributes())
@@ -91,8 +93,11 @@ public class CreateSpreadSheetPlugin {
 							for(mgl.Annotation attranno: attr.getAnnotations()){
 								if(attranno.getName().equals("result")){
 									foundresult=true;
-									resultNode.resultAttrName = attr.getName();
-									break;
+									resultNode.resultAttrNames.add(attr.getName());
+								}
+								else
+								{
+									resultNode.otherAttrNames.add(attr.getName());
 								}
 							}
 							

@@ -15,6 +15,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -26,17 +27,13 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.ClientAnchor;
-import org.apache.poi.ss.usermodel.Comment;
-import org.apache.poi.ss.usermodel.CreationHelper;
-import org.apache.poi.ss.usermodel.Drawing;
 import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.Row;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
 public class Spreadsheetexporter {
 
-public static HSSFWorkbook export(ArrayList<VersionNode> nodes,String formular) throws FileNotFoundException{
+public static HSSFWorkbook export(ArrayList<VersionNode> nodes,HashMap<String,String> formulars) throws FileNotFoundException{
 	// create a new file
 	// create a new workbook
 	HSSFWorkbook workbook = new HSSFWorkbook();
@@ -91,36 +88,6 @@ public static HSSFWorkbook export(ArrayList<VersionNode> nodes,String formular) 
 	//ID Style
 	HSSFCellStyle idStyle = workbook.createCellStyle();
     idStyle.setFont(idFont);
-	
-	//Create the Cells for the result
-	Row row0 = sheet.createRow(0);
-	Cell cellA1 = row0.createCell(0);
-	cellA1.setCellValue("Result:");
-	cellA1.setCellType(Cell.CELL_TYPE_STRING);
-	cellA1.setCellStyle(headerStyle);
-	Row row1 = sheet.createRow(1);
-	Cell cellA2 = row1.createCell(0);
-	if(formular!=null){
-		cellA2.setCellFormula(formular);
-		cellA2.setCellType(Cell.CELL_TYPE_FORMULA);
-	}
-	else{
-		cellA2.setCellValue("Put your math here");
-		cellA2.setCellType(Cell.CELL_TYPE_STRING);
-	}
-	
-	
-	//Create Drawing Patriarch
-	Drawing drawing = sheet.createDrawingPatriarch();
-	CreationHelper factory = sheet.getWorkbook().getCreationHelper();
-	ClientAnchor anchor = factory.createClientAnchor();
-	Comment comment = drawing.createCellComment(anchor);
-	comment.setString(factory.createRichTextString("Metaaa"));
-	comment.setVisible(true);
-	comment.setAuthor("zweihoff");
-	
-	//Set Meta Info for Result cell
-	cellA2.setCellComment(comment);
 	
 	//Put all nodes in a HashMap depending on its type
 	Map<String, HashMap<String, ArrayList<VersionNode>>> orderedNodes = new HashMap<String,HashMap<String,ArrayList<VersionNode>>>();
@@ -251,7 +218,21 @@ public static HSSFWorkbook export(ArrayList<VersionNode> nodes,String formular) 
 					
 					Cell attr = rowValues.createCell(colOffset+colValues);
 					attr.setCellStyle(rowStyle);
-					writeAttribute(eNode, attr, vnode.node);
+					//Print Resultnodes
+					if(!(vnode.formulars.isEmpty()) || vnode.status==NodeStatus.RESULT) {
+						
+						if(formulars!=null && formulars.containsKey(eNode.getName())){
+							attr.setCellFormula(formulars.get(eNode.getName()));
+						}
+						else{
+							attr.setCellFormula(vnode.formulars.get(eNode.getName()));
+						}
+						attr.setCellType(Cell.CELL_TYPE_FORMULA);
+					}
+					else{
+						writeAttribute(eNode, attr, vnode.node);
+					}
+					
 					colValues++;
 				}
 				//Print ID for Edge
@@ -324,7 +305,7 @@ private static void writeAttribute(EStructuralFeature eNode,Cell attr, ModelElem
  * @throws ClassNotFoundException
  * @throws ClassCastException
  */
-public static void writeFormular(String resultNodeId,String sheetName, String Formular) throws IOException, ClassNotFoundException, ClassCastException 
+public static void writeFormular(String resultNodeId,String sheetName, HashMap<String,String> formulas) throws IOException, ClassNotFoundException, ClassCastException 
 {
 	HashMap<String, String> map = SheetHandler.loadSheetMap(resultNodeId);
 	
@@ -336,8 +317,29 @@ public static void writeFormular(String resultNodeId,String sheetName, String Fo
     //Get first sheet from the workbook
     HSSFSheet sheet = workbook.getSheetAt(0);
     
-    Cell formularCell = sheet.getRow(1).getCell(0);
-    formularCell.setCellFormula(Formular);
+    Iterator<Row> rowIterator = sheet.iterator();
+    while(rowIterator.hasNext()) {
+        Row row = rowIterator.next();
+         //Check ID Cell
+        Cell idCell = row.getCell(0);
+        if(idCell!=null) {
+        	if(idCell.getCellType()==Cell.CELL_TYPE_NUMERIC) {
+        		if(idCell.getNumericCellValue() == Integer.parseInt(resultNodeId)) {
+        			
+        			//Node is Found
+        			Iterator<Cell> cellIterator = row.cellIterator();
+        	        while(cellIterator.hasNext()) {
+        	        	Cell cell = cellIterator.next();
+        	        	String attrName = sheet.getRow(row.getRowNum()-1).getCell(cell.getColumnIndex()).getStringCellValue();
+        	        	if(formulas.containsKey(attrName)){
+        	        			cell.setCellType(Cell.CELL_TYPE_FORMULA);
+        	        			cell.setCellFormula(formulas.get(attrName));
+	        	        }
+	        		}
+	        	}
+	        }
+        }
+   }
     
     file.close();
     

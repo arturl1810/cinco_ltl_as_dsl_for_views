@@ -5,7 +5,7 @@ class NodeStatusTemplate {
 package «packageName»;
 
 public enum NodeStatus {
-	NEW,UPDATED,REMOVED,OLD
+	NEW,UPDATED,REMOVED,OLD,RESULT
 }
 	'''
 }

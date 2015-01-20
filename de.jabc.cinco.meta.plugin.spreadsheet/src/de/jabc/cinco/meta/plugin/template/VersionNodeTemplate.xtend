@@ -7,10 +7,18 @@ package «packageName»;
 import graphmodel.Edge;
 import graphmodel.Node;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class VersionNode {
 	public Node node;
 	public Edge edge;
+	public Map<String,String> formulars;
 	public NodeStatus status;
+	public VersionNode()
+	{
+		formulars = new HashMap<String,String>();
+	}
 	public String toString(){
 		return node.toString() + " " + status.name();
 	}

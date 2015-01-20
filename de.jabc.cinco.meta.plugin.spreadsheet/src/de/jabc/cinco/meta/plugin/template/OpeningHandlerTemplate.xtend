@@ -69,7 +69,7 @@ IStructuredSelection selection = (IStructuredSelection) HandlerUtil.getActiveSit
 			HashMap<Integer, Integer> newCellReferences;
 			
 			ArrayList<VersionNode> nodes;
-			String formular;
+			HashMap<String,String> formulas;
 			
 			«FOR n : nodes»
 			«printNodeCalculator(n)»
@@ -118,21 +118,21 @@ private ArrayList<VersionNode> refreshSheet(Node node,String sheetname) throws I
 	}
 	//Get selected Nodes
 	ArrayList<VersionNode> nodes = NodeUtil.getTransitionedNodes(node);
-	return NodeUtil.getVersionNodes(sheet, nodes,node);
+	return NodeUtil.getVersionNodes(sheet, nodes, node);
 }
 
-private String importFormular(String sheetName, String resultNodeId)
+private HashMap<String,String> importFormular(String sheetName, String resultNodeId,ArrayList<String> resultNodeAttributes)
 {
-	String formular = null;
+	HashMap<String,String> formulars = new HashMap<String,String>();
 	try {
-		formular = Spreadsheetimporter.importFormular(sheetName,resultNodeId);
+		formulars = Spreadsheetimporter.importFormular(sheetName,resultNodeId,resultNodeAttributes);
 	} catch (IOException | CalculationException | ClassNotFoundException | ClassCastException e1) {
 		MessageDialog.openError(Display.getCurrent().getActiveShell(), 
 				"Error", 
 				"Formular error.\nFormular could not be read.");
 		return null;
 	}
-	return formular;
+	return formulars;
 }
 
 private HashMap<Integer, Integer> importCellReferences(String sheetName, String resultNodeId)
@@ -165,11 +165,10 @@ private ArrayList<VersionNode> getVersionNodes(Node node, String sheetName)
 	return nodes;
 }
 
-private boolean exportSheet(ArrayList<VersionNode> nodes, String sheetName,String resultNodeId, String formular)
+private boolean exportSheet(ArrayList<VersionNode> nodes, String sheetName,String resultNodeId, HashMap<String,String> formulars)
 {
 	try {
-		SheetHandler.writeSheet(Spreadsheetexporter.export(nodes,formular), resultNodeId, sheetName);
-		Spreadsheetexporter.export(nodes,formular);
+		SheetHandler.writeSheet(Spreadsheetexporter.export(nodes,formulars), resultNodeId, sheetName);
 	} catch (IOException | ClassCastException | ClassNotFoundException e) {
 		MessageDialog.openError(Display.getCurrent().getActiveShell(), 
 				"Error", 
@@ -180,10 +179,10 @@ private boolean exportSheet(ArrayList<VersionNode> nodes, String sheetName,Strin
 	return true;
 }
 
-private boolean exportFormular(String formular,String resultNodeId, String sheetName)
+private boolean exportFormular(HashMap<String,String> formulas,String resultNodeId, String sheetName)
 {
 	try {
-		Spreadsheetexporter.writeFormular(resultNodeId,sheetName, formular);
+		Spreadsheetexporter.writeFormular(resultNodeId,sheetName, formulas);
 	} catch (IOException | ClassNotFoundException | ClassCastException e) {
 		MessageDialog.openError(Display.getCurrent().getActiveShell(), 
 				"Error", 
@@ -201,42 +200,45 @@ private boolean exportFormular(String formular,String resultNodeId, String sheet
 	if(eobject instanceof «node.nodeName»){
 		final «node.nodeName» node = («node.nodeName») eobject;
 		resultNodeId = NodeUtil.getId(node);
-				sheetName = UserInteraction.getSheetNameForCalculation(node);
-				if(sheetName==null) {
-					MessageDialog.openError(Display.getCurrent().getActiveShell(), 
-							"Error", 
-							"No Sheets for this resultnode.\n Please generate a sheet first.");
-					return null;
-				}
-				//Save the Formular and the Cell References from the sheet
-				formular = importFormular(sheetName,resultNodeId);
-				if(formular==null)
-				{
-					openSheet(resultNodeId, sheetName);
-					return null;
-				}
-				
-				oldCellReferences = importCellReferences(sheetName,resultNodeId);
-				
-				//Refresh the sheet and write it
-				nodes = getVersionNodes(node, sheetName);
-				if(!exportSheet(nodes, sheetName, resultNodeId, formular))
-				{
-					return null;
-				}
-				//Import the new Cell References in the refreshed sheet
-				newCellReferences = importCellReferences(sheetName,resultNodeId);
-				
-				//Re-reference the formular
-				formular = NodeUtil.rereferenceFormular(formular, oldCellReferences, newCellReferences);
-				
-				//Export the re-referenced Formular to the sheet
-				if(!exportFormular(formular,resultNodeId, sheetName))
-				{
-					return null;
-				}
-				openSheet(resultNodeId, sheetName);
-				
-			}
+		sheetName = UserInteraction.getSheetNameForCalculation(node);
+		
+		if(sheetName==null) {
+			MessageDialog.openError(Display.getCurrent().getActiveShell(), 
+					"Error", 
+					"No Sheets for this resultnode.\n Please generate a sheet first.");
+			return null;
+		}
+		ArrayList<String> resultAttrs = new ArrayList<String>();
+		resultAttrs.add("cost");
+		
+		//Save the Formular and the Cell References from the sheet
+		formulas = importFormular(sheetName,resultNodeId,resultAttrs);
+		if(formulas.isEmpty())
+		{
+			openSheet(resultNodeId, sheetName);
+			return null;
+		}
+		
+		oldCellReferences = importCellReferences(sheetName,resultNodeId);
+		
+		//Refresh the sheet and write it
+		nodes = getVersionNodes(node, sheetName);
+		if(!exportSheet(nodes, sheetName, resultNodeId, formulas))
+		{
+			return null;
+		}
+		//Import the new Cell References in the refreshed sheet
+		newCellReferences = importCellReferences(sheetName,resultNodeId);
+		
+		//Re-reference the formular
+		formulas = NodeUtil.rereferenceFormular(formulas, oldCellReferences, newCellReferences);
+		
+		//Export the re-referenced Formular to the sheet
+		if(!exportFormular(formulas,resultNodeId, sheetName))
+		{
+			return null;
+		}
+		openSheet(resultNodeId, sheetName);
+	}
 	'''
 }

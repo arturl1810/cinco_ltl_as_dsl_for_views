@@ -141,6 +141,14 @@ public void removeHandlerListener(IHandlerListener handlerListener) {
 			return null;
 		}
 		nodes = NodeUtil.getTransitionedNodes((Node) eobject);
+		VersionNode resultVersionNode = new VersionNode();
+		resultVersionNode.edge=null;
+		resultVersionNode.node=node;
+		resultVersionNode.status=NodeStatus.RESULT;
+		«FOR resultAttr : node.resultAttrNames»
+		resultVersionNode.formulars.put("«resultAttr.toFirstLower»", "0.0");
+		«ENDFOR»
+		nodes.add(resultVersionNode);
 	}'''
 	
 }

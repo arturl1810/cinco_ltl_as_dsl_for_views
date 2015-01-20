@@ -65,7 +65,7 @@ IStructuredSelection selection = (IStructuredSelection) HandlerUtil.getActiveSit
 	String sheetName="";
 	String resultNodeId = null;
 	
-	double resulting=0.0;
+	HashMap<String,Double> resulting=null;
 	if(selection.getFirstElement() instanceof ContainerShapeEditPart){
 			ContainerShapeEditPart cs = (ContainerShapeEditPart) selection.getFirstElement();
 			EObject eobject=Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(cs.getPictogramElement());
@@ -74,20 +74,19 @@ IStructuredSelection selection = (IStructuredSelection) HandlerUtil.getActiveSit
 			HashMap<Integer, Integer> newCellReferences;
 			
 			ArrayList<VersionNode> nodes;
-			String formular;
+			HashMap<String,String> formulas;
 			
 			«FOR n : nodes»
 			«printNodeCalculator(n)»
 			«ENDFOR»
 	}
-	
+	if(resulting==null)return null;
 	MessageDialog.openInformation(Display.getCurrent().getActiveShell(), 
 			"Info", 
-			"Spreadsheet: \""+sheetName+".xls\" was succsessfully calculated\nResult is "+resulting);
+			"Spreadsheet: \""+sheetName+".xls\" was succsessfully calculated\nResults are:\n"+resulting.toString());
 	
 	return null;
 }
-
 @Override
 public boolean isEnabled() {
 	return true;
@@ -130,18 +129,18 @@ private ArrayList<VersionNode> refreshSheet(Node node,String sheetname) throws I
 	return NodeUtil.getVersionNodes(sheet, nodes, node);
 }
 
-private String importFormular(String sheetName, String resultNodeId)
+private HashMap<String,String> importFormular(String sheetName, String resultNodeId,ArrayList<String> resultNodeAttributes)
 {
-	String formular = null;
+	HashMap<String,String> formulars = new HashMap<String,String>();
 	try {
-		formular = Spreadsheetimporter.importFormular(sheetName,resultNodeId);
+		formulars = Spreadsheetimporter.importFormular(sheetName,resultNodeId,resultNodeAttributes);
 	} catch (IOException | CalculationException | ClassNotFoundException | ClassCastException e1) {
 		MessageDialog.openError(Display.getCurrent().getActiveShell(), 
 				"Error", 
 				"Formular error.\nFormular could not be read.");
 		return null;
 	}
-	return formular;
+	return formulars;
 }
 
 private HashMap<Integer, Integer> importCellReferences(String sheetName, String resultNodeId)
@@ -174,11 +173,10 @@ private ArrayList<VersionNode> getVersionNodes(Node node, String sheetName)
 	return nodes;
 }
 
-private boolean exportSheet(ArrayList<VersionNode> nodes, String sheetName,String resultNodeId, String formular)
+private boolean exportSheet(ArrayList<VersionNode> nodes, String sheetName,String resultNodeId, HashMap<String,String> formulars)
 {
 	try {
-		SheetHandler.writeSheet(Spreadsheetexporter.export(nodes,formular), resultNodeId, sheetName);
-		Spreadsheetexporter.export(nodes,formular);
+		SheetHandler.writeSheet(Spreadsheetexporter.export(nodes,formulars), resultNodeId, sheetName);
 	} catch (IOException | ClassCastException | ClassNotFoundException e) {
 		MessageDialog.openError(Display.getCurrent().getActiveShell(), 
 				"Error", 
@@ -189,10 +187,10 @@ private boolean exportSheet(ArrayList<VersionNode> nodes, String sheetName,Strin
 	return true;
 }
 
-private boolean exportFormular(String formular,String resultNodeId, String sheetName)
+private boolean exportFormular(HashMap<String,String> formulas,String resultNodeId, String sheetName)
 {
 	try {
-		Spreadsheetexporter.writeFormular(resultNodeId,sheetName, formular);
+		Spreadsheetexporter.writeFormular(resultNodeId,sheetName, formulas);
 	} catch (IOException | ClassNotFoundException | ClassCastException e) {
 		MessageDialog.openError(Display.getCurrent().getActiveShell(), 
 				"Error", 
@@ -203,10 +201,10 @@ private boolean exportFormular(String formular,String resultNodeId, String sheet
 	return true;
 }
 
-private Double calculateSheet(String resultNodeId, String sheetName)
+private HashMap<String,Double> calculateSheet(String resultNodeId, String sheetName,ArrayList<String> resultAttrNames)
 {
 	try{
-		return Spreadsheetimporter.calculate(sheetName,resultNodeId);
+		return Spreadsheetimporter.calculate(sheetName,resultNodeId,resultAttrNames);
 
 	}catch(IOException | ClassNotFoundException | ClassCastException e){
 		MessageDialog.openError(Display.getCurrent().getActiveShell(), 
@@ -228,7 +226,6 @@ private Double calculateSheet(String resultNodeId, String sheetName)
 		return null;
 	}
 }
-
 }
 	'''
 	
@@ -237,6 +234,12 @@ private Double calculateSheet(String resultNodeId, String sheetName)
 		final «node.nodeName» node = («node.nodeName») eobject;
 		resultNodeId = NodeUtil.getId(node);
 				sheetName = UserInteraction.getSheetNameForCalculation(node);
+				
+				ArrayList<String> resultAttrs = new ArrayList<String>();
+				«FOR resAttr : node.resultAttrNames»
+				resultAttrs.add("«resAttr.toFirstLower»"); //For every Node
+				«ENDFOR»
+				
 				if(sheetName==null) {
 					MessageDialog.openError(Display.getCurrent().getActiveShell(), 
 							"Error", 
@@ -244,8 +247,8 @@ private Double calculateSheet(String resultNodeId, String sheetName)
 					return null;
 				}
 				//Save the Formular and the Cell References from the sheet
-				formular = importFormular(sheetName,resultNodeId);
-				if(formular==null)
+				formulas = importFormular(sheetName,resultNodeId,resultAttrs);
+				if(formulas.isEmpty())
 				{
 					openSheet(resultNodeId, sheetName);
 					return null;
@@ -255,7 +258,7 @@ private Double calculateSheet(String resultNodeId, String sheetName)
 				
 				//Refresh the sheet and write it
 				nodes = getVersionNodes(node, sheetName);
-				if(!exportSheet(nodes, sheetName, resultNodeId, formular))
+				if(!exportSheet(nodes, sheetName, resultNodeId, formulas))
 				{
 					return null;
 				}
@@ -263,27 +266,29 @@ private Double calculateSheet(String resultNodeId, String sheetName)
 				newCellReferences = importCellReferences(sheetName,resultNodeId);
 				
 				//Re-reference the formular
-				formular = NodeUtil.rereferenceFormular(formular, oldCellReferences, newCellReferences);
+				formulas = NodeUtil.rereferenceFormular(formulas, oldCellReferences, newCellReferences);
 				
 				//Export the re-referenced Formular to the sheet
-				if(!exportFormular(formular,resultNodeId, sheetName))
+				if(!exportFormular(formulas,resultNodeId, sheetName))
 				{
 					return null;
 				}
 				
 				//Try to calculate the spreadsheet if it exists
-				final Double result = calculateSheet(resultNodeId,sheetName);
-				if(result==null)return null;
+				final HashMap<String,Double> results = calculateSheet(resultNodeId,sheetName,resultAttrs);
+				if(results.isEmpty())return null;
 				
 				TransactionalEditingDomain domain = TransactionUtil.getEditingDomain(node);
 						domain.getCommandStack().execute(new RecordingCommand(domain) {
 							
 							@Override
 							protected void doExecute() {
-								node.set«node.resultAttrName.toFirstUpper»(result);	
+								«FOR attr : node.resultAttrNames»
+								node.set«attr.toFirstUpper»(results.get("«attr.toFirstLower»"));
+								«ENDFOR»
 							}
 						});
-				resulting=result;
+				resulting=results;
 			}
 	'''
 }
