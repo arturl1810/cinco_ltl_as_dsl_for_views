@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>e0c76532-9e6d-432c-8bdd-c39fb6516795</id>
   <name>GenerateSetPosition</name>
-  <changecounter>317</changecounter>
+  <changecounter>331</changecounter>
   <sib>
     <id>da0a527b-9125-4bcc-8691-6c1f8c7c1079</id>
     <name>SwitchAbstractPosition</name>
@@ -59,7 +59,7 @@
     <label>SetPosition</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>259.5,273.0</position>
+    <position>154.5,183.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -116,9 +116,9 @@ peService.setPropertyValue($context.peName$, $context.graphModelName$LayoutUtils
   </sib>
   <edge>
     <source>17bdbab8-2fbe-44a7-b8d4-75ba9fa6748f</source>
-    <target>87f7c7df-23d2-41d5-b983-fec2e6585504</target>
-    <point>495.0,300.0</point>
-    <point>300.0,300.0</point>
+    <target>b519c2e7-0dc6-4e55-8ec6-3d699c973004</target>
+    <point>477.0,297.48</point>
+    <point>363.0,331.68</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>true</branch>
   </edge>
@@ -542,6 +542,103 @@ $context.containerPos$
     <branch>Shape</branch>
     <branch>Text</branch>
   </edge>
+  <sib>
+    <id>b519c2e7-0dc6-4e55-8ec6-3d699c973004</id>
+    <name>CheckVariable</name>
+    <label>CheckVariable</label>
+    <sib-uid>basic-sibs/CheckVariable</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.CheckVariable</taxonomy>
+    <position>301.0,273.0</position>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>position</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>emptyString</finalbranches>
+    <finalbranches>error</finalbranches>
+    <finalbranches>false</finalbranches>
+    <finalbranches>true</finalbranches>
+  </sib>
+  <edge>
+    <source>b519c2e7-0dc6-4e55-8ec6-3d699c973004</source>
+    <target>87f7c7df-23d2-41d5-b983-fec2e6585504</target>
+    <point>345.0,300.0</point>
+    <point>234.0,225.0</point>
+    <branch>false</branch>
+  </edge>
+  <sib>
+    <id>47b8739b-6c00-4e40-8fec-dbf420659269</id>
+    <name>SwitchAbstractPosition_1</name>
+    <label>SwitchAbstractPosition</label>
+    <sib-uid>style/style/SwitchAbstractPosition</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.ge.sib.style.SwitchAbstractPosition</taxonomy>
+    <position>126.5,348.0</position>
+    <parameter name="eObjectKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>position</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>AbsolutPosition</finalbranches>
+    <finalbranches>Alignment</finalbranches>
+    <finalbranches>error</finalbranches>
+    <finalbranches>other</finalbranches>
+  </sib>
+  <edge>
+    <source>b519c2e7-0dc6-4e55-8ec6-3d699c973004</source>
+    <target>47b8739b-6c00-4e40-8fec-dbf420659269</target>
+    <point>345.0,300.0</point>
+    <point>200.0,360.0</point>
+    <branch>true</branch>
+  </edge>
+  <sib>
+    <id>3229d242-7beb-422a-bf50-036e71968d38</id>
+    <name>RunStringTemplate_8</name>
+    <label>SetPosition</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>154.5,468.0</position>
+    <parameter name="append">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>graphicalRep</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>if (context.getWidth() &lt; 0 &amp;&amp; context.getHeight() &lt; 0) {
+	gaService.setLocation($context.peName$, context.getX() + $context.position.xPos$, context.getY() + $context.position.yPos$);
+} else {
+	gaService.setLocation($context.peName$, context.getX(), context.getY());
+}
+peService.setPropertyValue($context.peName$, $context.graphModelName$LayoutUtils.KEY_HORIZONTAL, $context.graphModelName$LayoutUtils.KEY_HORIZONTAL_UNDEFINED);
+peService.setPropertyValue($context.peName$, $context.graphModelName$LayoutUtils.KEY_VERTICAL, $context.graphModelName$LayoutUtils.KEY_VERTICAL_UNDEFINED);</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>47b8739b-6c00-4e40-8fec-dbf420659269</source>
+    <target>3229d242-7beb-422a-bf50-036e71968d38</target>
+    <point>195.0,375.0</point>
+    <point>199.0,505.0</point>
+    <branch>AbsolutPosition</branch>
+  </edge>
   <parameter>
     <name>modelElementKey</name>
     <field>eObjectKey</field>
@@ -648,5 +745,10 @@ $context.containerPos$
     <name>default</name>
     <branch>default</branch>
     <sib>d6c1e263-959c-4a08-9d17-a886c496686b</sib>
+  </branch>
+  <branch>
+    <name>default</name>
+    <branch>default</branch>
+    <sib>3229d242-7beb-422a-bf50-036e71968d38</sib>
   </branch>
 </model>
