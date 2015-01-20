@@ -146,7 +146,7 @@ public void removeHandlerListener(IHandlerListener handlerListener) {
 		resultVersionNode.node=node;
 		resultVersionNode.status=NodeStatus.RESULT;
 		«FOR resultAttr : node.resultAttrNames»
-		resultVersionNode.formulars.put("«resultAttr.toFirstLower»", "0.0");
+		resultVersionNode.formulas.put("«resultAttr.toFirstLower»", "0.0");
 		«ENDFOR»
 		nodes.add(resultVersionNode);
 	}'''

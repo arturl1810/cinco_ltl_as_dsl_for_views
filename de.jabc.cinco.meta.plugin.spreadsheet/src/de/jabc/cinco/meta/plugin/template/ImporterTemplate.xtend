@@ -110,9 +110,9 @@ public static HSSFSheet importSheet(String sheetName, int sheetNumber, String re
     return workbook.getSheetAt(sheetNumber);
 }
 
-public static HashMap<String,String> importFormular(String sheetName, String resultNodeId,ArrayList<String> resultNodeAttrs) throws IOException, CalculationException, ClassNotFoundException, ClassCastException{
+public static HashMap<String,String> importFormula(String sheetName, String resultNodeId,ArrayList<String> resultNodeAttrs) throws IOException, CalculationException, ClassNotFoundException, ClassCastException{
 	HashMap<String, String> map = SheetHandler.loadSheetMap(resultNodeId);
-	HashMap<String,String> formulars = new HashMap<String,String>();
+	HashMap<String,String> formulas = new HashMap<String,String>();
 	
 	FileInputStream file = new FileInputStream(new File(SheetHandler.getSheetFolderPath()+map.get(sheetName)));
     
@@ -140,19 +140,19 @@ public static HashMap<String,String> importFormular(String sheetName, String res
         	        	Cell cell = cellIterator.next();
         	        	String attrName = sheet.getRow(row.getRowNum()-1).getCell(cell.getColumnIndex()).getStringCellValue();
         	        	if(resultNodeAttrs.contains(attrName) && cell.getCellType()==Cell.CELL_TYPE_FORMULA) {
-        	        		formulars.put(attrName, cell.getCellFormula());
+        	        		formulas.put(attrName, cell.getCellFormula());
         	        		switch (evaluator.evaluateFormulaCell(cell)) {
     	        	        case Cell.CELL_TYPE_BOOLEAN:
     	        	            System.out.println(cell.getBooleanCellValue());
-    	        	            formulars.put(attrName, cell.getCellFormula());
+    	        	            formulas.put(attrName, cell.getCellFormula());
     	        	            break;
     	        	        case Cell.CELL_TYPE_NUMERIC:
     	        	            System.out.println(cell.getNumericCellValue()+" "+cell.getCellFormula());
-    	        	            formulars.put(attrName, cell.getCellFormula());
+    	        	            formulas.put(attrName, cell.getCellFormula());
     	        	            break;
     	        	        case Cell.CELL_TYPE_STRING:
     	        	            System.out.println(cell.getStringCellValue());
-    	        	            formulars.put(attrName, cell.getCellFormula());
+    	        	            formulas.put(attrName, cell.getCellFormula());
     	        	            break;
     	        	        case Cell.CELL_TYPE_BLANK:
     	        	            break;
@@ -171,7 +171,7 @@ public static HashMap<String,String> importFormular(String sheetName, String res
 	        }
         }
    }
-   return formulars;
+   return formulas;
 }
 
 }'''

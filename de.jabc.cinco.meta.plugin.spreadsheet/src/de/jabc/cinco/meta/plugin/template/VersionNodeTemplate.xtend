@@ -13,11 +13,11 @@ import java.util.Map;
 public class VersionNode {
 	public Node node;
 	public Edge edge;
-	public Map<String,String> formulars;
+	public Map<String,String> formulas;
 	public NodeStatus status;
 	public VersionNode()
 	{
-		formulars = new HashMap<String,String>();
+		formulas = new HashMap<String,String>();
 	}
 	public String toString(){
 		return node.toString() + " " + status.name();

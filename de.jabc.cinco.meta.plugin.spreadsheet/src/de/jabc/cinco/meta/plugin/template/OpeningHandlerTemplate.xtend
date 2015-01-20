@@ -121,18 +121,18 @@ private ArrayList<VersionNode> refreshSheet(Node node,String sheetname) throws I
 	return NodeUtil.getVersionNodes(sheet, nodes, node);
 }
 
-private HashMap<String,String> importFormular(String sheetName, String resultNodeId,ArrayList<String> resultNodeAttributes)
+private HashMap<String,String> importFormula(String sheetName, String resultNodeId,ArrayList<String> resultNodeAttributes)
 {
-	HashMap<String,String> formulars = new HashMap<String,String>();
+	HashMap<String,String> formulas = new HashMap<String,String>();
 	try {
-		formulars = Spreadsheetimporter.importFormular(sheetName,resultNodeId,resultNodeAttributes);
+		formulas = Spreadsheetimporter.importFormula(sheetName,resultNodeId,resultNodeAttributes);
 	} catch (IOException | CalculationException | ClassNotFoundException | ClassCastException e1) {
 		MessageDialog.openError(Display.getCurrent().getActiveShell(), 
 				"Error", 
-				"Formular error.\nFormular could not be read.");
+				"Formula error.\nFormula could not be read.");
 		return null;
 	}
-	return formulars;
+	return formulas;
 }
 
 private HashMap<Integer, Integer> importCellReferences(String sheetName, String resultNodeId)
@@ -143,7 +143,7 @@ private HashMap<Integer, Integer> importCellReferences(String sheetName, String 
 	} catch (IOException | ClassNotFoundException | ClassCastException e1) {
 		MessageDialog.openError(Display.getCurrent().getActiveShell(), 
 				"Error", 
-				"Formular error.\nFormular cell references could not be read.");
+				"Formula error.\nFormula cell references could not be read.");
 		e1.printStackTrace();
 		return null;
 	}
@@ -165,10 +165,10 @@ private ArrayList<VersionNode> getVersionNodes(Node node, String sheetName)
 	return nodes;
 }
 
-private boolean exportSheet(ArrayList<VersionNode> nodes, String sheetName,String resultNodeId, HashMap<String,String> formulars)
+private boolean exportSheet(ArrayList<VersionNode> nodes, String sheetName,String resultNodeId, HashMap<String,String> formulas)
 {
 	try {
-		SheetHandler.writeSheet(Spreadsheetexporter.export(nodes,formulars), resultNodeId, sheetName);
+		SheetHandler.writeSheet(Spreadsheetexporter.export(nodes,formulas), resultNodeId, sheetName);
 	} catch (IOException | ClassCastException | ClassNotFoundException e) {
 		MessageDialog.openError(Display.getCurrent().getActiveShell(), 
 				"Error", 
@@ -179,14 +179,14 @@ private boolean exportSheet(ArrayList<VersionNode> nodes, String sheetName,Strin
 	return true;
 }
 
-private boolean exportFormular(HashMap<String,String> formulas,String resultNodeId, String sheetName)
+private boolean exportFormula(HashMap<String,String> formulas,String resultNodeId, String sheetName)
 {
 	try {
-		Spreadsheetexporter.writeFormular(resultNodeId,sheetName, formulas);
+		Spreadsheetexporter.writeFormula(resultNodeId,sheetName, formulas);
 	} catch (IOException | ClassNotFoundException | ClassCastException e) {
 		MessageDialog.openError(Display.getCurrent().getActiveShell(), 
 				"Error", 
-				"Formular Error.\nRe-Referenced Formular could not be written.\nFormular re-referencing failed.");
+				"Formula Error.\nRe-Referenced Formula could not be written.\nFormula re-referencing failed.");
 		e.printStackTrace();
 		return false;
 	}
@@ -211,8 +211,8 @@ private boolean exportFormular(HashMap<String,String> formulas,String resultNode
 		ArrayList<String> resultAttrs = new ArrayList<String>();
 		resultAttrs.add("cost");
 		
-		//Save the Formular and the Cell References from the sheet
-		formulas = importFormular(sheetName,resultNodeId,resultAttrs);
+		//Save the Formula and the Cell References from the sheet
+		formulas = importFormula(sheetName,resultNodeId,resultAttrs);
 		if(formulas.isEmpty())
 		{
 			openSheet(resultNodeId, sheetName);
@@ -230,11 +230,11 @@ private boolean exportFormular(HashMap<String,String> formulas,String resultNode
 		//Import the new Cell References in the refreshed sheet
 		newCellReferences = importCellReferences(sheetName,resultNodeId);
 		
-		//Re-reference the formular
-		formulas = NodeUtil.rereferenceFormular(formulas, oldCellReferences, newCellReferences);
+		//Re-reference the formula
+		formulas = NodeUtil.rereferenceFormula(formulas, oldCellReferences, newCellReferences);
 		
-		//Export the re-referenced Formular to the sheet
-		if(!exportFormular(formulas,resultNodeId, sheetName))
+		//Export the re-referenced Formula to the sheet
+		if(!exportFormula(formulas,resultNodeId, sheetName))
 		{
 			return null;
 		}

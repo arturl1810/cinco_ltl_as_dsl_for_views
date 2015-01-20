@@ -245,7 +245,7 @@ public class NodeUtil {
 			if(idCell.getCellType()==Cell.CELL_TYPE_NUMERIC){
 				try{
 					int id = new Double(idCell.getNumericCellValue()).intValue();
-					int rowIndex = idCell.getRowIndex() + 1; //Because Formular-Cell-Refs beginn at 1
+					int rowIndex = idCell.getRowIndex() + 1; //Because Formula-Cell-Refs beginn at 1
 					cellRefs.put(id, rowIndex);
 				}catch(NumberFormatException ex){
 					
@@ -255,11 +255,11 @@ public class NodeUtil {
 		}
 		return cellRefs;
 	}
-	public static HashMap<String, String> rereferenceFormular(HashMap<String, String> formulas,HashMap<Integer, Integer> oldRefs ,HashMap<Integer, Integer> newRefs)
+	public static HashMap<String, String> rereferenceFormula(HashMap<String, String> formulas,HashMap<Integer, Integer> oldRefs ,HashMap<Integer, Integer> newRefs)
 	{
 		HashMap<Integer, Integer> rowRearange = new HashMap<Integer, Integer>();
 		HashMap<String, String> rereferencedFormulas = new HashMap<String,String>();
-		//Clone the formular
+		//Clone the formula
 		for(Entry<String,String> formula: formulas.entrySet()) {
 			String refreshedFormula = new String(formula.getValue());
 			//Join the old and new CellReferences depending on the node-ids
@@ -269,9 +269,9 @@ public class NodeUtil {
 					rowRearange.put(oldRefs.get(id), newRefs.get(id));
 				}
 			}
-			//replace the Cell references in the formular with the new Cell References
+			//replace the Cell references in the formula with the new Cell References
 			Pattern pattern = Pattern.compile("[a-zA-Z]+[0-9]+");
-			//Sreach for the given cellRow in the Formular
+			//Sreach for the given cellRow in the Formula
 			Matcher matcher = pattern.matcher(formula.getValue());
 			while(matcher.find()) {
 				String cellRef = matcher.group().toUpperCase();
@@ -337,7 +337,7 @@ public class NodeUtil {
 				VersionNode resVn = new VersionNode();
 				resVn.edge=null;
 				resVn.node=node;
-				resVn.formulars = new HashMap<String,String>();
+				resVn.formulas = new HashMap<String,String>();
 				resVn.status = NodeStatus.RESULT;
 				nodes.add(resVn);
 				for(graphmodel.Edge e:node.getOutgoing()){

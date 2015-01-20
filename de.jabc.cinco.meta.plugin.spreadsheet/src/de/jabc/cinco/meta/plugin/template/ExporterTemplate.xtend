@@ -33,7 +33,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 
 public class Spreadsheetexporter {
 
-public static HSSFWorkbook export(ArrayList<VersionNode> nodes,HashMap<String,String> formulars) throws FileNotFoundException{
+public static HSSFWorkbook export(ArrayList<VersionNode> nodes,HashMap<String,String> formulas) throws FileNotFoundException{
 	// create a new file
 	// create a new workbook
 	HSSFWorkbook workbook = new HSSFWorkbook();
@@ -219,13 +219,13 @@ public static HSSFWorkbook export(ArrayList<VersionNode> nodes,HashMap<String,St
 					Cell attr = rowValues.createCell(colOffset+colValues);
 					attr.setCellStyle(rowStyle);
 					//Print Resultnodes
-					if(!(vnode.formulars.isEmpty()) || vnode.status==NodeStatus.RESULT) {
+					if(!(vnode.formulas.isEmpty()) || vnode.status==NodeStatus.RESULT) {
 						
-						if(formulars!=null && formulars.containsKey(eNode.getName())){
-							attr.setCellFormula(formulars.get(eNode.getName()));
+						if(formulas!=null && formulas.containsKey(eNode.getName())){
+							attr.setCellFormula(formulas.get(eNode.getName()));
 						}
 						else{
-							attr.setCellFormula(vnode.formulars.get(eNode.getName()));
+							attr.setCellFormula(vnode.formulas.get(eNode.getName()));
 						}
 						attr.setCellType(Cell.CELL_TYPE_FORMULA);
 					}
@@ -300,12 +300,12 @@ private static void writeAttribute(EStructuralFeature eNode,Cell attr, ModelElem
  * 
  * @param resultNodeId
  * @param sheetName
- * @param Formular
+ * @param Formula
  * @throws IOException
  * @throws ClassNotFoundException
  * @throws ClassCastException
  */
-public static void writeFormular(String resultNodeId,String sheetName, HashMap<String,String> formulas) throws IOException, ClassNotFoundException, ClassCastException 
+public static void writeFormula(String resultNodeId,String sheetName, HashMap<String,String> formulas) throws IOException, ClassNotFoundException, ClassCastException 
 {
 	HashMap<String, String> map = SheetHandler.loadSheetMap(resultNodeId);
 	
