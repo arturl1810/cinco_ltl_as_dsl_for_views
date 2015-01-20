@@ -225,8 +225,10 @@ public class ProjectCreator {
 				reqBundle = new String();
 			}
 			
-			for (Bundle b : bundles)
-				reqBundle += "," + b.getSymbolicName();
+			for (Bundle b : bundles) {
+				if (!reqBundle.contains(b.getSymbolicName())) 
+					reqBundle += "," + b.getSymbolicName();
+			}
 			manifest.getMainAttributes().putValue("Require-Bundle", reqBundle);
 			manifest.write(new FileOutputStream(file.getLocation().toFile()));
 		}
