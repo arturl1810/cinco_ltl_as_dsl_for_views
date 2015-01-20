@@ -1,12 +1,16 @@
 package de.jabc.cinco.meta.core.utils.projects;
 
 import java.io.ByteArrayInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.jar.Attributes;
+import java.util.jar.Manifest;
 
 import org.eclipse.core.internal.runtime.InternalPlatform;
 import org.eclipse.core.resources.ICommand;
@@ -32,6 +36,8 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.pde.core.project.IBundleProjectDescription;
 import org.eclipse.pde.core.project.IBundleProjectService;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.xtext.ui.util.JavaProjectFactory;
+import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 
@@ -206,6 +212,41 @@ public class ProjectCreator {
 			symbolicName = "_" + symbolicName.substring(1);
 		}
 		return symbolicName;
+	}
+	
+	public static void addRequiredBundle(IProject p, Set<Bundle> bundles) throws IOException, CoreException {
+		IFile file = p.getFolder("META-INF").getFile("MANIFEST.MF");
+		Manifest manifest;
+		if (file.exists()) {
+			manifest = new Manifest(file.getContents());
+			String reqBundle = manifest.getMainAttributes().getValue("Require-Bundle");
+			
+			if (reqBundle == null) {
+				reqBundle = new String();
+			}
+			
+			for (Bundle b : bundles)
+				reqBundle += "," + b.getSymbolicName();
+			manifest.getMainAttributes().putValue("Require-Bundle", reqBundle);
+			manifest.write(new FileOutputStream(file.getLocation().toFile()));
+		}
+	}
+	
+	public static void addRequiredBundle(IProject p, Bundle b) throws IOException, CoreException {
+		IFile file = p.getFolder("META-INF").getFile("MANIFEST.MF");
+		Manifest manifest;
+		if (file.exists()) {
+			manifest = new Manifest(file.getContents());
+			String reqBundle = manifest.getMainAttributes().getValue("Require-Bundle");
+			
+			if (reqBundle == null) {
+				reqBundle = new String();
+			}
+			
+			reqBundle += "," + b.getSymbolicName();
+			manifest.getMainAttributes().putValue("Require-Bundle", reqBundle);
+			manifest.write(new FileOutputStream(file.getLocation().toFile()));
+		}
 	}
 	
 	private static void createManifest(final String projectName, final Set<String> requiredBundles,

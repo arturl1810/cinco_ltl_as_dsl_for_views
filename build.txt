@@ -10,6 +10,7 @@ de.jabc.cinco.meta.core.mgl.model
 
 de.jabc.cinco.meta.core.ge.style.model
  model/Style.genmodel -> Generate Model Code 
+ model/GraphicalGraphModel.genmodel -> Generate Model Code
 
 === Building Xtext Editors ===
 
