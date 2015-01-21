@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.EmptyStackException;
 
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -33,7 +34,14 @@ public static HashMap<String,Double> calculate(String sheetName, String resultNo
     HSSFSheet sheet = workbook.getSheetAt(0);
 	
     FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator();
-    evaluator.evaluateAll();
+    try{
+    	evaluator.evaluateAll();
+    }
+    catch(EmptyStackException ex){
+    	CalculationException cex = new CalculationException();
+    	cex.setMessage("Formula error\nIn the sheet: "+sheetName+" The formulas could not be read.");
+    	throw cex;
+    }
     //Search for result node
     Iterator<Row> rowIterator = sheet.iterator();
     while(rowIterator.hasNext()) {

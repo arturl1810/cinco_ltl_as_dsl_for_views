@@ -18,6 +18,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.graphiti.ui.internal.parts.ContainerShapeEditPart;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.ui.PlatformUI;
@@ -39,6 +40,11 @@ public class SheetHandler {
 		if(element instanceof IResource) {
 			project = ((IResource) element).getProject(); 
 			projectName = project.getName();
+			try {
+				((IResource) element).refreshLocal(IResource.DEPTH_ZERO, null);
+			} catch (CoreException e) {
+				System.err.println("Could not refresh Project.");
+			}
 		}
 		
 		return ResourcesPlugin.getWorkspace().getRoot().getLocation().toString()+"/"+projectName+"/sheets/";

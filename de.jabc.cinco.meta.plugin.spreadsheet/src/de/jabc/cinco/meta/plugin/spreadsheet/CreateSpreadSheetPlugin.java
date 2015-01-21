@@ -30,6 +30,7 @@ import de.jabc.cinco.meta.plugin.template.NodeUtilTemplate;
 import de.jabc.cinco.meta.plugin.template.OpeningHandlerTemplate;
 import de.jabc.cinco.meta.plugin.template.PluginXMLTemplate;
 import de.jabc.cinco.meta.plugin.template.SelectSheetDialogTemplate;
+import de.jabc.cinco.meta.plugin.template.SheetCalculatorTemplate;
 import de.jabc.cinco.meta.plugin.template.SheetHandlerTemplate;
 import de.jabc.cinco.meta.plugin.template.UserInteractionTemplate;
 import de.jabc.cinco.meta.plugin.template.VersionNodeTemplate;
@@ -192,7 +193,7 @@ public class CreateSpreadSheetPlugin {
 					progressMonitor);
 			
 			ProjectCreator.createFile(calcHandlerClass+".java", tvProject.getFolder("src/"+projectName.replace(".","/")),
-					new CalculationHandlerTemplate().create(packagePath,projectName,calcHandlerClass,sheetName,fileName,resultNodes).toString(),
+					new CalculationHandlerTemplate().create(packagePath,projectName,calcHandlerClass,sheetName,fileName,resultNodes,multiple).toString(),
 					progressMonitor);
 			
 			ProjectCreator.createFile(openingHandlerClass+".java", tvProject.getFolder("src/"+projectName.replace(".","/")),
@@ -211,6 +212,10 @@ public class CreateSpreadSheetPlugin {
 			//Utils
 			ProjectCreator.createFile("NodeUtil.java", tvProject.getFolder("src/"+projectName.replace(".","/")),
 					new NodeUtilTemplate().create(packagePath,projectName,resultNodes,calculatingEdges,allNodes,graphModel.getName()).toString(),
+					progressMonitor);
+			
+			ProjectCreator.createFile("SheetCalculator.java", tvProject.getFolder("src/"+projectName.replace(".","/")),
+					new SheetCalculatorTemplate().create(packagePath,projectName,resultNodes,calculatingEdges,allNodes,graphModel.getName()).toString(),
 					progressMonitor);
 			
 			ProjectCreator.createFile("VersionNode.java", tvProject.getFolder("src/"+projectName.replace(".","/")),
