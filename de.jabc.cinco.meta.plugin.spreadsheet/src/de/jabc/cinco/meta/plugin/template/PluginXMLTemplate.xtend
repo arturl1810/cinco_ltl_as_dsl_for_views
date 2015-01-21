@@ -12,6 +12,19 @@ locationURI="popup:org.eclipse.ui.popup.any">
 commandId="xlsgen"
 label="Create XLS"
 style="push">
+<visibleWhen
+ checkEnabled="false">
+<with
+variable="activeMenuSelection">
+<iterate
+ifEmpty="false"
+operator="and">
+<adapt
+type="org.eclipse.graphiti.ui.internal.parts.ContainerShapeEditPart">
+</adapt>
+</iterate>
+</with>
+</visibleWhen>
 </command>
 </menuContribution>
 <menuContribution
@@ -21,6 +34,19 @@ locationURI="popup:org.eclipse.ui.popup.any">
 commandId="xlsopen"
 label="Edit XLS"
 style="push">
+<visibleWhen
+ checkEnabled="false">
+<with
+variable="activeMenuSelection">
+<iterate
+ifEmpty="false"
+operator="and">
+<adapt
+type="org.eclipse.graphiti.ui.internal.parts.ContainerShapeEditPart">
+</adapt>
+</iterate>
+</with>
+</visibleWhen>
 </command>
 </menuContribution>
 <menuContribution
@@ -30,6 +56,19 @@ locationURI="popup:org.eclipse.ui.popup.any">
 commandId="xlsclac"
 label="Calculate XLS"
 style="push">
+<visibleWhen
+ checkEnabled="false">
+<with
+variable="activeMenuSelection">
+<iterate
+ifEmpty="false"
+operator="and">
+<adapt
+type="org.eclipse.graphiti.ui.internal.parts.ContainerShapeEditPart">
+</adapt>
+</iterate>
+</with>
+</visibleWhen>
 </command>
 </menuContribution>
 </extension>
