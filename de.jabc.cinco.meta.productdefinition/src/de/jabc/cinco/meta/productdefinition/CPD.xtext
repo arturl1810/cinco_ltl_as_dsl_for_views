@@ -15,7 +15,7 @@ CincoProduct returns CincoProduct:
 		'id' id=QName
 		'version' version=EString
 		//('mgls' '(' mgls+=[mgl::GraphModel|EString](',' mgls+=[mgl::GraphModel|EString] )* ')')+
-		('mgls' '(' mgls+=EString(',' mgls+=EString )* ')')+
+		('mgl'  mgls+=EString)+
 		
 		('splashPlugin' splashPlugin=QName)?
 		('image16' image16=Path)?
