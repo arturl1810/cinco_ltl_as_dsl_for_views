@@ -9,8 +9,11 @@ import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.util.ArrayList
+import mgl.GraphModel
 import org.eclipse.core.resources.IProject
+import org.eclipse.core.resources.ResourcesPlugin
 import org.eclipse.core.runtime.NullProgressMonitor
+import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.pde.internal.core.iproduct.IProductFeature
 import org.eclipse.pde.internal.core.iproduct.IWindowImages
@@ -21,8 +24,6 @@ import org.eclipse.pde.internal.core.product.WindowImages
 import org.eclipse.pde.internal.core.product.WorkspaceProductModel
 import org.eclipse.xtext.generator.IFileSystemAccess
 import org.eclipse.xtext.generator.IGenerator
-import mgl.GraphModel
-import org.eclipse.emf.common.util.URI
 
 /**
  * Generates code from your model files on save.
@@ -65,7 +66,15 @@ class CPDGenerator implements IGenerator {
 			var feat = null as IProductFeature
 			for(mgl:productDefinition.mgls){
 				println(mgl)
-				var fileURI = URI.createURI(mgl)
+				val root = ResourcesPlugin.workspace.root
+				val path = resource.URI.toPlatformString(true)
+				println(path)
+				val findMember = root.findMember(path)
+				println(findMember)
+				var cpdProject = findMember.project
+				
+				
+				var fileURI = URI.createURI(cpdProject.findMember(mgl).fullPath.toPortableString)
 				var res = Resource.Factory.Registry.INSTANCE.getFactory(fileURI, "mgl").createResource(fileURI)
 				res.load(null)
 				var mglModel = res.contents.get(0) as GraphModel
