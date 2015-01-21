@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>7def08b0-45b0-4f5d-9629-657ab3028508</id>
   <name>GenerateAddNodeFeature</name>
-  <changecounter>1466</changecounter>
+  <changecounter>1524</changecounter>
   <sib>
     <id>b89523ed-9916-4f61-a5e9-9e1d8838a845</id>
     <name>PutExpression_1</name>
@@ -156,6 +156,9 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
 
 		peService.createChopboxAnchor($context.rootShapeName$);
 		layoutPictogramElement($context.rootShapeName$);
+		
+		$context.postCreateHookContent$
+
 		return $context.rootShapeName$;
 
 	}
@@ -186,7 +189,7 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
     <label>WriteJavaFile</label>
     <sib-uid>genesys-sibs/WriteJavaFile</sib-uid>
     <taxonomy>de.jabc.sib.genesys.WriteJavaFile</taxonomy>
-    <position>73.0,961.0</position>
+    <position>73.0,963.0</position>
     <parameter name="baseDirectory">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -365,7 +368,7 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
     <label>GetNodePrimeReference</label>
     <sib-uid>mgl/mgl/GetNodePrimeReference</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.sib.mgl.GetNodePrimeReference</taxonomy>
-    <position>41.0,528.0</position>
+    <position>41.0,333.0</position>
     <parameter name="nodeKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -410,9 +413,9 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
   </sib>
   <edge>
     <source>fe24d92a-f68f-432e-8322-e04657863492</source>
-    <target>34bac75f-5a18-400f-9ae2-f09f6cc9ecaa</target>
-    <point>120.0,654.0</point>
-    <point>120.0,738.0</point>
+    <target>7fb47318-a83d-4813-b386-01e79a68e99a</target>
+    <point>138.0,368.1</point>
+    <point>220.0,440.0</point>
     <labelposition>500.0,-7.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -537,6 +540,8 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
 		
 		peService.createChopboxAnchor($context.rootShapeName$);
 		layoutPictogramElement($context.rootShapeName$);
+
+		$context.postCreateHookContent$
 
 		return $context.rootShapeName$;
 
@@ -745,7 +750,7 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
     <label>FormatIdentifier</label>
     <sib-uid>genesys-sibs/FormatIdentifier</sib-uid>
     <taxonomy>de.jabc.sib.genesys.FormatIdentifier</taxonomy>
-    <position>1009.0,736.0</position>
+    <position>1009.0,738.0</position>
     <parameter name="identifier">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -798,7 +803,7 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
     <label>FormatIdentifier</label>
     <sib-uid>genesys-sibs/FormatIdentifier</sib-uid>
     <taxonomy>de.jabc.sib.genesys.FormatIdentifier</taxonomy>
-    <position>1009.0,961.0</position>
+    <position>1009.0,963.0</position>
     <parameter name="identifier">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1050,7 +1055,7 @@ Leaving Generate ${nodeName} AddFeature </expression>
     <label>GenerateUniqueGaName</label>
     <sib-uid>ge-util-sibs/GenerateUniqueGaName</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.GenerateUniqueGaName</taxonomy>
-    <position>667.5,226.0</position>
+    <position>667.5,228.0</position>
     <parameter name="clearCache">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
@@ -1087,7 +1092,7 @@ Leaving Generate ${nodeName} AddFeature </expression>
     <label>GenerateUniqueShapeName</label>
     <sib-uid>ge-util-sibs/GenerateUniqueShapeName</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.GenerateUniqueShapeName</taxonomy>
-    <position>476.0,226.0</position>
+    <position>476.0,228.0</position>
     <parameter name="clearCache">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
@@ -1281,6 +1286,37 @@ Leaving Generate ${nodeName} AddFeature </expression>
     <point>551.0,978.0</point>
     <branch>default</branch>
   </edge>
+  <sib>
+    <id>7fb47318-a83d-4813-b386-01e79a68e99a</id>
+    <name>GraphSIB_2</name>
+    <label>GenerateModelElementPostCreationHook</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>0.0,511.0</position>
+    <parameter name="modelElementKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>node</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>3bb8a1c5-18ed-4580-8582-3c735f199d9e</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>GenerateModelElementPostCreationHook</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>7fb47318-a83d-4813-b386-01e79a68e99a</source>
+    <target>34bac75f-5a18-400f-9ae2-f09f6cc9ecaa</target>
+    <point>120.0,480.0</point>
+    <point>129.0,762.0</point>
+    <branch>default</branch>
+  </edge>
   <parameter>
     <name>modelElementKey</name>
     <field>modelElementKey</field>
@@ -1305,6 +1341,11 @@ Leaving Generate ${nodeName} AddFeature </expression>
     <name>modelElementKey</name>
     <field>ModelElementKey</field>
     <sib>6f03332a-4534-4880-a00a-4652a040c19c</sib>
+  </parameter>
+  <parameter>
+    <name>modelElementKey</name>
+    <field>modelElementKey</field>
+    <sib>7fb47318-a83d-4813-b386-01e79a68e99a</sib>
   </parameter>
   <values>
     <entry>

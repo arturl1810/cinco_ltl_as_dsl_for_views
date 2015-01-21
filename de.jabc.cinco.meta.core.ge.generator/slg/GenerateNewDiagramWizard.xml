@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>4b8f0479-9813-462d-b7d3-1e7c977bb9c6</id>
   <name>GenerateNewDiagramWizard</name>
-  <changecounter>175</changecounter>
+  <changecounter>208</changecounter>
   <sib>
     <id>4db12997-4cd3-4e00-94ed-f5405dd7aa9b</id>
     <name>PutExpression</name>
@@ -43,7 +43,7 @@
     <label>ClassName</label>
     <sib-uid>basic-sibs/PutExpression</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
-    <position>305.5,78.0</position>
+    <position>140.5,198.0</position>
     <parameter name="resolve">
       <boolean>true</boolean>
     </parameter>
@@ -78,9 +78,9 @@
   </edge>
   <edge>
     <source>22ed90d0-18fe-4da1-873c-3a2443a05db2</source>
-    <target>55d921a7-c306-4e43-ad07-1c0510a2445f</target>
-    <point>363.0,96.54</point>
-    <point>627.0,96.54</point>
+    <target>fa5ada2c-d357-4eb0-bfbf-0aadbb08d6d8</target>
+    <point>363.0,112.56</point>
+    <point>400.0,142.4</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -90,7 +90,7 @@
     <label>Wizard</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>483.5,78.0</position>
+    <position>153.5,438.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -214,17 +214,19 @@ public class New$context.fuGraphModelName$DiagramWizard extends Wizard implement
 			URI resUri = URI.createPlatformResourceURI(filePath.toOSString() ,true);
 			Resource res = new ResourceSetImpl().createResource(resUri);
 			Diagram diagram = Graphiti.getPeService().createDiagram(&quot;$context.fuGraphModelName$&quot;, dName, true);
-			$context.graphModelName$ model = $context.factoryName$Factory.eINSTANCE.create$context.graphModelName$();
-			model.setId(EcoreUtil.generateUUID());
+			$context.graphModelName$ $context.meIdentifier$ = $context.factoryName$Factory.eINSTANCE.create$context.graphModelName$();
+			$context.meIdentifier$.setId(EcoreUtil.generateUUID());
 			try {
 				res.unload();
 				res.getContents().add(diagram);
-				res.getContents().add(model);
+				res.getContents().add($context.meIdentifier$);
 				res.save(null);
 				
 				IDiagramTypeProvider dtp = GraphitiUi.getExtensionManager().createDiagramTypeProvider(diagram, &quot;$context.packageName$.$context.graphModelName$DiagramTypeProvider&quot;);
 				$context.graphModelName$GraphitiUtils.addToResource(diagram, dtp.getFeatureProvider());
-				dtp.getFeatureProvider().link(diagram, model);				
+				dtp.getFeatureProvider().link(diagram, $context.meIdentifier$);
+
+				$context.postCreateHookContent$
 
 				res.save(null);
 
@@ -267,7 +269,7 @@ public class New$context.fuGraphModelName$DiagramWizard extends Wizard implement
     <label>WriteJavaFile</label>
     <sib-uid>genesys-sibs/WriteJavaFile</sib-uid>
     <taxonomy>de.jabc.sib.genesys.WriteJavaFile</taxonomy>
-    <position>688.0,78.0</position>
+    <position>133.0,558.0</position>
     <parameter name="baseDirectory">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -335,7 +337,7 @@ public class New$context.fuGraphModelName$DiagramWizard extends Wizard implement
     <label>ClassName</label>
     <sib-uid>basic-sibs/PutExpression</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
-    <position>695.5,228.0</position>
+    <position>335.5,558.0</position>
     <parameter name="resolve">
       <boolean>true</boolean>
     </parameter>
@@ -374,7 +376,7 @@ public class New$context.fuGraphModelName$DiagramWizard extends Wizard implement
     <label>WizardPage</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>497.5,228.0</position>
+    <position>332.5,438.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -581,8 +583,8 @@ public class Create$context.fuGraphModelName$WizardPage extends WizardPage {
   <edge>
     <source>8c5850e9-44c6-4a46-b968-15fbe0929af3</source>
     <target>38a89a08-7a72-4122-9151-9b02ea0a7f3a</target>
-    <point>390.0,285.0</point>
-    <point>270.0,285.0</point>
+    <point>375.0,585.0</point>
+    <point>375.0,465.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -592,7 +594,7 @@ public class Create$context.fuGraphModelName$WizardPage extends WizardPage {
     <label>WriteJavaFile</label>
     <sib-uid>genesys-sibs/WriteJavaFile</sib-uid>
     <taxonomy>de.jabc.sib.genesys.WriteJavaFile</taxonomy>
-    <position>298.0,228.0</position>
+    <position>328.0,318.0</position>
     <parameter name="baseDirectory">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -652,6 +654,37 @@ public class Create$context.fuGraphModelName$WizardPage extends WizardPage {
     <point>270.0,285.0</point>
     <point>120.0,285.0</point>
     <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>fa5ada2c-d357-4eb0-bfbf-0aadbb08d6d8</id>
+    <name>GraphSIB_4</name>
+    <label>GenerateModelElementPostCreationHook</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>59.5,316.0</position>
+    <parameter name="modelElementKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>graphModel</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>3bb8a1c5-18ed-4580-8582-3c735f199d9e</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>GenerateModelElementPostCreationHook</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>fa5ada2c-d357-4eb0-bfbf-0aadbb08d6d8</source>
+    <target>55d921a7-c306-4e43-ad07-1c0510a2445f</target>
+    <point>420.0,165.0</point>
+    <point>620.0,107.0</point>
     <branch>default</branch>
   </edge>
   <values/>

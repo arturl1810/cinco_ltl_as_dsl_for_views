@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>c7542d87-aa25-4707-a286-db91e10d7301</id>
   <name>GenerateAddContainerFeature</name>
-  <changecounter>418</changecounter>
+  <changecounter>428</changecounter>
   <sib>
     <id>3f7b7312-5278-4d0a-b7f8-45424c587ca9</id>
     <name>GetNodeContainerIsAbstract</name>
@@ -219,7 +219,7 @@
     <label>FormatIdentifier</label>
     <sib-uid>genesys-sibs/FormatIdentifier</sib-uid>
     <taxonomy>de.jabc.sib.genesys.FormatIdentifier</taxonomy>
-    <position>979.0,196.0</position>
+    <position>979.0,198.0</position>
     <parameter name="identifier">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -314,9 +314,9 @@
   </edge>
   <edge>
     <source>0cae7192-66cb-4b93-baa7-a392c5c9a0e5</source>
-    <target>ab6fad9e-02ad-487e-9159-db0774193b6a</target>
-    <point>335.0,441.375</point>
-    <point>777.0,441.3375</point>
+    <target>19ab79a6-1509-4a71-86af-05095404dcab</target>
+    <point>380.0,450.6</point>
+    <point>640.0,567.6</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -504,6 +504,8 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
 					af.add(acc);
 			}
 		}
+		
+		$context.postCreateHookContent$
 
 		return $context.rootShapeName$;
 
@@ -550,7 +552,7 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
     <label>WriteJavaFile</label>
     <sib-uid>genesys-sibs/WriteJavaFile</sib-uid>
     <taxonomy>de.jabc.sib.genesys.WriteJavaFile</taxonomy>
-    <position>1003.0,421.0</position>
+    <position>1003.0,423.0</position>
     <parameter name="baseDirectory">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -708,7 +710,7 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
     <label>GenerateUniqueShapeName</label>
     <sib-uid>ge-util-sibs/GenerateUniqueShapeName</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.GenerateUniqueShapeName</taxonomy>
-    <position>56.0,196.0</position>
+    <position>56.0,198.0</position>
     <parameter name="clearCache">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
@@ -784,7 +786,7 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
     <label>GenerateAbstractShape</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>403.0,421.0</position>
+    <position>283.0,421.0</position>
     <parameter name="currentShapeKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -830,6 +832,37 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
       <string>GenerateAbstractShape</string>
     </userobject>
   </sib>
+  <sib>
+    <id>19ab79a6-1509-4a71-86af-05095404dcab</id>
+    <name>GraphSIB_4</name>
+    <label>GenerateModelElementPostCreationHook</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>450.0,421.0</position>
+    <parameter name="modelElementKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>containerKey</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>3bb8a1c5-18ed-4580-8582-3c735f199d9e</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>GenerateModelElementPostCreationHook</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>19ab79a6-1509-4a71-86af-05095404dcab</source>
+    <target>ab6fad9e-02ad-487e-9159-db0774193b6a</target>
+    <point>660.0,585.0</point>
+    <point>795.0,431.0</point>
+    <branch>default</branch>
+  </edge>
   <parameter>
     <name>containerKey</name>
     <field>nodeContainerKey</field>
@@ -844,6 +877,11 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
     <name>containerKey</name>
     <field>modelElementKey</field>
     <sib>0cae7192-66cb-4b93-baa7-a392c5c9a0e5</sib>
+  </parameter>
+  <parameter>
+    <name>containerKey</name>
+    <field>modelElementKey</field>
+    <sib>19ab79a6-1509-4a71-86af-05095404dcab</sib>
   </parameter>
   <values>
     <entry>

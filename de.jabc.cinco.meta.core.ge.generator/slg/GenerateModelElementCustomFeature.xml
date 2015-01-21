@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>20ee1083-42c9-4128-8db1-42f1826d8d49</id>
   <name>GenerateModelElementCustomFeature</name>
-  <changecounter>158</changecounter>
+  <changecounter>163</changecounter>
   <sib>
     <id>c89925ae-3820-4a21-8425-767fe1505ce3</id>
     <name>CopyEObject</name>
@@ -121,7 +121,7 @@
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
     <position>27.5,391.0</position>
-    <parameter name="AnnotationKey">
+    <parameter name="annotationKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
           <key>annotation</key>
@@ -129,6 +129,15 @@
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="annotationName">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>contextMenuAction</expression>
+          <clazz>java.lang.String</clazz>
+          <classMutable>false</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
     </parameter>
     <finalbranches>error</finalbranches>
     <finalbranches>false</finalbranches>
