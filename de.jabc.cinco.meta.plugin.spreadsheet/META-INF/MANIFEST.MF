@@ -5,9 +5,9 @@ Bundle-SymbolicName: de.jabc.cinco.meta.plugin.spreadsheet;singleton:=true
 Bundle-Version: 0.6.0.qualifier
 Fragment-Host: de.jabc.cinco.meta.core.pluginregistry;bundle-version="0.5.1"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
-Require-Bundle: org.eclipse.jdt;bundle-version="3.9.1",
- org.eclipse.jdt.core;bundle-version="3.9.2",
- org.eclipse.pde.core;bundle-version="3.9.1",
+Require-Bundle: org.eclipse.jdt,
+ org.eclipse.jdt.core,
+ org.eclipse.pde.core,
  org.apache.commons.io,
  org.eclipse.core.resources,
  de.jabc.cinco.meta.libraries;bundle-version="0.6.0"
