@@ -124,7 +124,7 @@ public class CincoProductProjectCreator {
 					writeToFile(externalLibraryGenmodelFile, externalLibraryGenmodelCode);
 				}
 			}
-			CharSequence cpdCode = CincoProductWizardTemplates.generateSomeGraphCPD(mglModelName, packageName,projectName);
+			CharSequence cpdCode = CincoProductWizardTemplates.generateDefaultCPD(mglModelName, packageName);
 			writeToFile(cpdModelFile, cpdCode);
 
 			project.refreshLocal(IResource.DEPTH_INFINITE, monitor);
