@@ -1,4 +1,4 @@
-package ${Package};
+package ${AdapterPackage};
 
 import java.io.File;
 import java.io.IOException;
@@ -19,16 +19,20 @@ import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramsPackage;
 
 import graphmodel.ModelElement;
-import ${GraphPackage}.${GraphModelName};
-import ${GraphPackage}.${GraphModelName?lower_case?capitalize}Package;
+import ${GraphModelPackage}.${GraphModelName};
+import ${GraphModelPackage}.${GraphModelName?lower_case?capitalize}Package;
 import info.scce.mcam.framework.adapter.ModelAdapter;
+
+<#list ModelLabels as modelLabel>
+import ${GraphModelPackage}.${modelLabel.type};
+</#list>
 
 public class ${GraphModelName}Adapter implements ModelAdapter<${GraphModelName}Id> {
 
-	${GraphModelName} model = null;
-	Diagram diagram = null;
+	private ${GraphModelName} model = null;
+	private Diagram diagram = null;
 
-	String modelName = "";
+	private String modelName = "";
 
 	@Override
 	public List<${GraphModelName}Id> getEntityIds() {
@@ -38,7 +42,11 @@ public class ${GraphModelName}Adapter implements ModelAdapter<${GraphModelName}I
 		TreeIterator<EObject> it = model.eAllContents();
 		while (it.hasNext()) {
 			ModelElement obj = (ModelElement) it.next();
-			ids.add(new ${GraphModelName}Id(obj.getId(), obj.eClass()));
+			${GraphModelName}Id id = new ${GraphModelName}Id(obj.getId(), obj.eClass());
+			String label = getLabel(obj);
+			if (label != null)
+				id.setLabel(label);
+			ids.add(id);
 		}
 		return ids;
 	}
@@ -76,6 +84,18 @@ public class ${GraphModelName}Adapter implements ModelAdapter<${GraphModelName}I
 		return modelName;
 	}
 
+	public String getLabel(ModelElement element) {
+		<#list ModelLabels as modelLabel>
+		if (element instanceof ${modelLabel.type})
+		<#if modelLabel.primitive == true>
+			return String.valueOf(((${modelLabel.type}) element).get${modelLabel.attribute?cap_first}());
+		<#else>
+			return getLabel(((${modelLabel.type}) element).get${modelLabel.attribute?cap_first}());
+		</#if>
+		</#list>
+		return null;
+	}
+
 	@Override
 	public void readModel(File arg0) {
 		modelName = arg0.getName();
@@ -94,7 +114,7 @@ public class ${GraphModelName}Adapter implements ModelAdapter<${GraphModelName}I
 
 		// Get the resource
 		Resource resource = resSet.getResource(
-				URI.createURI(arg0.getAbsolutePath()), true);
+				URI.createFileURI(arg0.getAbsolutePath()), true);
 		// Get the first model element and cast it to the right type, in my
 		// example everything is hierarchical included in this first node
 		for (EObject obj : resource.getContents()) {

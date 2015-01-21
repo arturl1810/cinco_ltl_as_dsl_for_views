@@ -1,4 +1,4 @@
-package ${Package};
+package ${AdapterPackage};
 
 import org.eclipse.emf.ecore.EClass;
 
@@ -6,8 +6,9 @@ import info.scce.mcam.framework.adapter.EntityId;
 
 public class ${GraphModelName}Id implements EntityId {
 	
-	String id = "";
-	EClass eClass = null;
+	private String id = "";
+	private EClass eClass = null;
+	private String label = null;
 	
 	public ${GraphModelName}Id(String id, EClass eClass) {
 		super();
@@ -21,6 +22,10 @@ public class ${GraphModelName}Id implements EntityId {
 
 	public EClass geteClass() {
 		return eClass;
+	}
+
+	public void setLabel(String label) {
+		this.label = label;
 	}
 
 	@Override
@@ -50,7 +55,9 @@ public class ${GraphModelName}Id implements EntityId {
 
 	@Override
 	public String toString() {
-		return eClass.getName() + " [id=" + id + "]";
+		if (label == null)
+			return eClass.getName() + " [id=" + id + "]";
+		return label + " [" + eClass.getName() + "]";
 	}
 	
 }

@@ -1,4 +1,4 @@
-package ${Package};
+package ${CliPackage};
 
 import info.scce.mcam.framework.processes.CheckProcess;
 import info.scce.mcam.framework.processes.CompareProcess;

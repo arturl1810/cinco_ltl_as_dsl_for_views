@@ -1,4 +1,4 @@
-package ${Package};
+package ${CliPackage};
 
 import info.scce.mcam.framework.processes.CheckProcess;
 import info.scce.mcam.framework.processes.CompareProcess;
@@ -13,6 +13,8 @@ import ${AdapterPackage}.${GraphModelName}Adapter;
 <#list ChangeModules as module>
 import ${ChangeModulePackage}.${module};
 </#list>
+
+import ${StrategyPackage}.${MergeStrategyClass};
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -74,6 +76,7 @@ public class FrameworkExecution {
 
 		MergeProcess<${GraphModelName}Id, ${GraphModelName}Adapter> mergeProcess = new MergeProcess<>(
 				mergeModel, localCompare, remoteCompare);
+		mergeProcess.setMergeStrategy(new ${MergeStrategyClass}());
 		mergeProcess.createMergeModel();
 		return mergeProcess;
 	}

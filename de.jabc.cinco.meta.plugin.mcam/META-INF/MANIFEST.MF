@@ -8,10 +8,8 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Import-Package: de.jabc.cinco.meta.core.utils.projects,
  org.eclipse.jdt.core,
  org.eclipse.pde.core.project
-Bundle-ClassPath: lib/commons-cli-1.1.jar,
- lib/freemarker.jar,
- lib/mcam-framework.jar,
- .
 Require-Bundle: de.jabc.cinco.meta.core.sibs,
  de.jabc.cinco.meta.libraries,
- org.eclipse.graphiti.mm
+ org.eclipse.graphiti.mm,
+ de.jabc.cinco.meta.plugin.mcam.libs,
+ org.eclipse.emf.ecore

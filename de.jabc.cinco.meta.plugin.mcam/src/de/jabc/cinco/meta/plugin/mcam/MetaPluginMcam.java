@@ -1,5 +1,6 @@
 package de.jabc.cinco.meta.plugin.mcam;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -7,6 +8,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.jar.Manifest;
 
 import mgl.GraphModel;
 
@@ -20,7 +22,6 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jdt.core.IClasspathEntry;
-import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.osgi.framework.Bundle;
 
@@ -32,7 +33,7 @@ public class MetaPluginMcam implements IMetaPlugin {
 	private GraphModel gModel;
 
 	private String basePackage = null;
-	private String mcamPackageSuffix = ".mcam";
+	private String mcamPackageSuffix = McamImplementationGenerator.mcamPackageSuffix;
 
 	private IProject p = null;
 	private NullProgressMonitor monitor = new NullProgressMonitor();
@@ -50,48 +51,77 @@ public class MetaPluginMcam implements IMetaPlugin {
 		this.basePackage = gModel.getPackage();
 
 		System.out.println("Creating Eclipse-Project...");
-		createEclipseProject();
+		p = createEclipseProject();
+		
+		McamImplementationGenerator gen = new McamImplementationGenerator(
+				gModel, p, basePackage);
+		String result = gen.generate();
+		
+		System.out.println("Editing Manifest...");
 		try {
-			copyAndIncludeJar("mcam-framework.jar");
-			copyAndIncludeJar("commons-cli-1.1.jar");
-
-			IJavaProject javaProject = JavaCore.create(p);
-			IClasspathEntry[] oldClassPath = javaProject.getRawClasspath();
-			for (IClasspathEntry iClasspathEntry : oldClassPath) {
-				classpathEntries.add(iClasspathEntry);
-			}
-			IClasspathEntry[] arrayClassPath = new IClasspathEntry[classpathEntries.size()];
-			arrayClassPath = classpathEntries.toArray(arrayClassPath);
+			IFile iManiFile = p.getFolder("META-INF").getFile("MANIFEST.MF");
+			Manifest manifest = new Manifest(iManiFile.getContents());
 			
-			javaProject.setRawClasspath(arrayClassPath, monitor);
+			String exportPackage = (String) gen.data.get("AdapterPackage");
+			exportPackage = exportPackage + "," + (String) gen.data.get("CliPackage");
+			exportPackage = exportPackage + "," + (String) gen.data.get("ChangeModulePackage");
+			exportPackage = exportPackage + "," + (String) gen.data.get("StrategyPackage");
+			
+			manifest.getMainAttributes().putValue("Export-Package", exportPackage);
+			
+//			exportPackage(manifest, (String) gen.data.get("AdapterPackage"));
+//			exportPackage(manifest, (String) gen.data.get("CliPackage"));
+//			exportPackage(manifest, (String) gen.data.get("ChangeModulePackage"));
+//			exportPackage(manifest, (String) gen.data.get("StrategyPackage"));
+
+			manifest.write(new FileOutputStream(iManiFile.getLocation().toFile()));
+			
+			p.refreshLocal(IResource.DEPTH_INFINITE, monitor);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "error";
 		}
 
-		// String result = executeWithJabc();
-		McamImplementationGenerator gen = new McamImplementationGenerator(
-				gModel, p, basePackage, mcamPackageSuffix);
-		String result = gen.generate();
-
 		System.out.println("----------------------------------");
 		return result;
 	}
 
-	private void createEclipseProject() {
-		String projectName = basePackage + mcamPackageSuffix;
+	private IProject createEclipseProject() {
+		String projectName = basePackage + "." + mcamPackageSuffix;
 		List<String> srcFolders = getSrcFolders();
 		List<String> cleanDirs = getCleanDirectory();
 		Set<String> reqBundles = getReqBundles();
-		this.p = ProjectCreator.createProject(projectName, srcFolders, null,
+		return ProjectCreator.createProject(projectName, srcFolders, null,
 				reqBundles, null, null, monitor, cleanDirs, false);
+	}
+
+	private void exportPackage(Manifest manifest, String pkgName) throws IOException,
+			CoreException {
+		String exportPackage = manifest.getMainAttributes().getValue(
+				"Export-Package");
+
+		String newVal = pkgName;
+
+		if (exportPackage != null) {
+			String[] pkgs = exportPackage.split(", \n");
+			boolean found = false;
+			for (String s : pkgs) {
+				if (s.equals(pkgName))
+					found = true;
+			}
+			if (!found) {
+				newVal = exportPackage + ", \n" + pkgName;
+			}
+		}
+		manifest.getMainAttributes().putValue("Export-Package", newVal);
+		
 	}
 
 	private void copyAndIncludeJar(String name) throws CoreException,
 			IOException {
 		IFolder folder = p.getFolder("lib");
 		IFile file = folder.getFile(name);
-		
+
 		if (!folder.exists())
 			folder.create(IResource.NONE, true, null);
 		if (!file.exists()) {
@@ -102,8 +132,8 @@ public class MetaPluginMcam implements IMetaPlugin {
 			file.create(in, IResource.NONE, null);
 		}
 
-		classpathEntries.add(JavaCore.newLibraryEntry(
-				new Path(file.getLocation().toString()), // library location
+		classpathEntries.add(JavaCore.newLibraryEntry(new Path(file
+				.getLocation().toString()), // library location
 				null, // source archive location
 				null, // source archive root path
 				true) // exported
@@ -147,6 +177,7 @@ public class MetaPluginMcam implements IMetaPlugin {
 		reqBundles.add("de.jabc.cinco.meta.core.mgl.model");
 		reqBundles.add("org.eclipse.graphiti.mm");
 		reqBundles.add(basePackage);
+		reqBundles.add("de.jabc.cinco.meta.plugin.mcam.libs");
 
 		return reqBundles;
 	}
@@ -163,4 +194,5 @@ public class MetaPluginMcam implements IMetaPlugin {
 		cleanDirs.add("src-gen");
 		return cleanDirs;
 	}
+	
 }

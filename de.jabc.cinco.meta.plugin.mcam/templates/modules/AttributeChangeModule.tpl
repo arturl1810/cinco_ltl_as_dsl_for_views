@@ -1,10 +1,10 @@
-package ${Package};
+package ${ChangeModulePackage};
 
 import info.scce.mcam.framework.modules.ChangeModule;
 import ${AdapterPackage}.${GraphModelName}Id;
 import ${AdapterPackage}.${GraphModelName}Adapter;
 
-import ${GraphPackage}.${ModelElementName};
+import ${GraphModelPackage}.${ModelElementName};
 
 import java.util.ArrayList;
 import java.util.List;

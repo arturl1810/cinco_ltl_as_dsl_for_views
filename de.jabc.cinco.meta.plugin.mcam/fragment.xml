@@ -11,6 +11,9 @@
       <graphmodel-annotation
             recognized-annotation="mcam">
       </graphmodel-annotation>
+      <annotation
+            recognized-annotation="mcam_label">
+      </annotation>
    </extension>
 
 </fragment>

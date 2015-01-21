@@ -1,4 +1,4 @@
-package ${Package};
+package ${CliPackage};
 
 public class CliMain {
 	public static void main(String[] args) {

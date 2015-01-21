@@ -1,4 +1,4 @@
-package ${Package};
+package ${ChangeModulePackage};
 
 import info.scce.mcam.framework.modules.ChangeModule;
 import ${AdapterPackage}.${GraphModelName}Id;
