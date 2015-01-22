@@ -223,7 +223,7 @@ AbstractPosition returns AbstractPosition:
 
 
 AbsolutPosition returns AbsolutPosition:
-	'('xPos=INT','yPos=INT')'
+	'('xPos=EInt','yPos=EInt')'
 ;
 
 Alignment returns Alignment:

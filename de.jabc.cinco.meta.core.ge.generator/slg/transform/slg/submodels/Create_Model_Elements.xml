@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>97cfd22b-887e-4510-8a47-790198806019</id>
   <name>Create Model Element</name>
-  <changecounter>165</changecounter>
+  <changecounter>170</changecounter>
   <sib>
     <id>f2b2a564-ccd0-4b4f-9509-c723edc57a8d</id>
     <name>NewEClassInEPackageEClassifiers</name>
@@ -730,21 +730,13 @@
     <finalbranches>null</finalbranches>
   </sib>
   <edge>
-    <source>0443b085-0f15-412d-9ac5-11bbd7959249</source>
-    <target>13913d95-1aa0-45a1-ba28-4f43dfdf4a4e</target>
-    <spline/>
-    <point>1032.0,717.2571428571429</point>
-    <point>945.0,675.0</point>
-    <point>909.6428571428571,609.0</point>
-    <labelposition>477.39838733266214,45.1864707078478</labelposition>
-    <branch>next</branch>
-  </edge>
-  <edge>
     <source>40fb462f-feeb-4b24-9889-a1e3928f3806</source>
     <target>0443b085-0f15-412d-9ac5-11bbd7959249</target>
-    <point>710.0,726.5</point>
-    <point>1032.0,726.45</point>
-    <labelposition>500.0,0.0</labelposition>
+    <spline/>
+    <point>770.0,735.2</point>
+    <point>900.0,795.0</point>
+    <point>1032.0,734.28</point>
+    <labelposition>461.0115057377421,61.22450803956741</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
@@ -1050,33 +1042,14 @@ if (uf.canUpdate(uc))
     <point>1040.0,522.0</point>
     <branch>default</branch>
   </edge>
-  <sib>
-    <id>13913d95-1aa0-45a1-ba28-4f43dfdf4a4e</id>
-    <name>PrintConsoleMessage</name>
-    <label>PrintConsoleMessage</label>
-    <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
-    <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
-    <position>834.5,573.0</position>
-    <parameter name="error">
-      <boolean>true</boolean>
-    </parameter>
-    <parameter name="message">
-      <de.metaframe.common.sib.parameter.ContextExpression>
-        <ContextExpressionFoundation>
-          <expression>Generating Getter/Setter for attribute ${modelElementAttribute}</expression>
-          <clazz>java.lang.Object</clazz>
-          <classMutable>false</classMutable>
-        </ContextExpressionFoundation>
-      </de.metaframe.common.sib.parameter.ContextExpression>
-    </parameter>
-    <finalbranches>default</finalbranches>
-  </sib>
   <edge>
-    <source>13913d95-1aa0-45a1-ba28-4f43dfdf4a4e</source>
+    <source>0443b085-0f15-412d-9ac5-11bbd7959249</source>
     <target>40fb462f-feeb-4b24-9889-a1e3928f3806</target>
-    <point>900.0,600.0</point>
-    <point>747.0,727.0</point>
-    <branch>default</branch>
+    <spline/>
+    <point>1032.0,726.54</point>
+    <point>770.0,726.6</point>
+    <labelposition>507.6339632381237,-0.42954197346930945</labelposition>
+    <branch>next</branch>
   </edge>
   <parameter>
     <name>modelElementClassKey</name>

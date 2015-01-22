@@ -201,6 +201,7 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 				context.put("projectName", projectName);
 				context.put("fullPath", path);
 				context.put("outletPath", outletPath);
+				context.put("project", sourceProject);
 				context.put("customFeatureOutletPath", customFeatureOutletPath);
 				
 				context.put("graphmodel", graphmodel);

@@ -62,6 +62,18 @@
       <node-annotation
             recognized-annotation="icon">
       </node-annotation>
+      <graphmodel-annotation
+            recognized-annotation="postCreate">
+      </graphmodel-annotation>
+      <node-annotation
+            recognized-annotation="postCreate">
+      </node-annotation>
+      <nodecontainer-annotation
+            recognized-annotation="postCreate">
+      </nodecontainer-annotation>
+      <edge-annotation
+            recognized-annotation="postCreate">
+      </edge-annotation>
    </extension>
 
 </fragment>

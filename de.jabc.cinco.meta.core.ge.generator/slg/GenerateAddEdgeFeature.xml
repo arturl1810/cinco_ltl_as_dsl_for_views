@@ -2,14 +2,14 @@
 <model version="2.1">
   <id>730ef53f-e135-46d5-9e4b-96fc4843c423</id>
   <name>GenerateAddEdgeFeature</name>
-  <changecounter>567</changecounter>
+  <changecounter>599</changecounter>
   <sib>
     <id>4966ae71-56db-49f8-b6d7-c3a51fbd1021</id>
     <name>PutExpression</name>
     <label>LocalPkgName</label>
     <sib-uid>basic-sibs/PutExpression</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
-    <position>324.5,93.0</position>
+    <position>474.5,108.0</position>
     <parameter name="resolve">
       <boolean>true</boolean>
     </parameter>
@@ -40,7 +40,7 @@
     <label>EdgeName</label>
     <sib-uid>basic-sibs/PutExpression</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
-    <position>457.0,93.0</position>
+    <position>607.0,108.0</position>
     <parameter name="resolve">
       <boolean>true</boolean>
     </parameter>
@@ -71,7 +71,7 @@
     <label>ClassName</label>
     <sib-uid>basic-sibs/PutExpression</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
-    <position>590.5,93.0</position>
+    <position>740.5,108.0</position>
     <parameter name="resolve">
       <boolean>true</boolean>
     </parameter>
@@ -102,7 +102,7 @@
     <label>ToFirstLower</label>
     <sib-uid>basic-sibs/ToFirstLower</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.ToFirstLower</taxonomy>
-    <position>719.0,93.0</position>
+    <position>869.0,108.0</position>
     <parameter name="inputString">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -127,24 +127,24 @@
   <edge>
     <source>4966ae71-56db-49f8-b6d7-c3a51fbd1021</source>
     <target>431a6454-5189-413c-881b-84c0470d07c2</target>
-    <point>285.0,120.0</point>
-    <point>450.0,120.0</point>
+    <point>520.0,135.0</point>
+    <point>640.0,135.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
     <source>431a6454-5189-413c-881b-84c0470d07c2</source>
     <target>067464aa-27e8-4217-896c-dc36aace3a72</target>
-    <point>450.0,120.0</point>
-    <point>600.0,120.0</point>
+    <point>640.0,135.0</point>
+    <point>775.0,135.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
     <source>067464aa-27e8-4217-896c-dc36aace3a72</source>
     <target>e76a43cc-455f-4b77-98a7-8ac41ea316e5</target>
-    <point>600.0,120.0</point>
-    <point>765.0,120.0</point>
+    <point>775.0,135.0</point>
+    <point>910.0,135.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -154,7 +154,7 @@
     <label>CheckStyleAnnotation</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>842.0,91.0</position>
+    <position>992.0,106.0</position>
     <parameter name="modelElementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -176,16 +176,16 @@
   <edge>
     <source>e76a43cc-455f-4b77-98a7-8ac41ea316e5</source>
     <target>8bf94a1e-91d7-4898-af76-f91f75ef8202</target>
-    <point>765.0,120.0</point>
-    <point>765.0,255.0</point>
+    <point>910.0,135.0</point>
+    <point>1060.0,135.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
     <source>8bf94a1e-91d7-4898-af76-f91f75ef8202</source>
     <target>e5be7819-cc37-4390-9e22-c905b73e8064</target>
-    <point>915.0,131.0</point>
-    <point>915.0,228.0</point>
+    <point>1060.0,135.0</point>
+    <point>1210.0,135.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -195,7 +195,7 @@
     <label>RunStringTemplate</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>10.0,408.0</position>
+    <position>115.0,618.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -272,6 +272,8 @@ public class Add$context.edgeName$Feature extends AbstractAddFeature {
 		// create link and wire it
 		link(connection, $context.meIdentifier$);
 
+		$context.postCreateHookContent$
+
 		return connection;
 	}
 
@@ -294,7 +296,7 @@ public class Add$context.edgeName$Feature extends AbstractAddFeature {
     <label>WriteJavaFile</label>
     <sib-uid>genesys-sibs/WriteJavaFile</sib-uid>
     <taxonomy>de.jabc.sib.genesys.WriteJavaFile</taxonomy>
-    <position>28.0,586.0</position>
+    <position>133.0,723.0</position>
     <parameter name="baseDirectory">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -351,16 +353,16 @@ public class Add$context.edgeName$Feature extends AbstractAddFeature {
   <edge>
     <source>8d784d5d-6bf3-43ce-9361-aac226b3fee9</source>
     <target>bb377f6c-c42b-4af4-80e7-07f32e23a14f</target>
-    <point>582.0,235.8</point>
-    <point>528.0,199.8</point>
+    <point>865.0,270.0</point>
+    <point>730.0,270.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
     <source>ceb38ee8-0c4c-4d33-ba57-1ecf7bb6c485</source>
     <target>9a94109f-6096-4ec5-87fa-73fb6cc890fc</target>
-    <point>105.0,255.0</point>
-    <point>105.0,360.0</point>
+    <point>220.0,645.0</point>
+    <point>220.0,750.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -370,7 +372,7 @@ public class Add$context.edgeName$Feature extends AbstractAddFeature {
     <label>GetEdgeIsAbstract</label>
     <sib-uid>mgl/mgl/GetEdgeIsAbstract</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.sib.mgl.GetEdgeIsAbstract</taxonomy>
-    <position>-2.0,93.0</position>
+    <position>148.0,108.0</position>
     <parameter name="edgeKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -398,8 +400,8 @@ public class Add$context.edgeName$Feature extends AbstractAddFeature {
   <edge>
     <source>b288fc76-ea5b-4492-9018-3be7897e51d0</source>
     <target>f6c1240d-2e0f-4cff-b8f1-c247d265b22a</target>
-    <point>60.0,120.0</point>
-    <point>210.0,120.0</point>
+    <point>205.0,135.0</point>
+    <point>370.0,135.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -409,7 +411,7 @@ public class Add$context.edgeName$Feature extends AbstractAddFeature {
     <label>EvaluateBoolean</label>
     <sib-uid>basic-sibs/EvaluateBoolean</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.EvaluateBoolean</taxonomy>
-    <position>166.5,93.0</position>
+    <position>316.5,108.0</position>
     <parameter name="bool">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -426,8 +428,9 @@ public class Add$context.edgeName$Feature extends AbstractAddFeature {
   <edge>
     <source>f6c1240d-2e0f-4cff-b8f1-c247d265b22a</source>
     <target>4966ae71-56db-49f8-b6d7-c3a51fbd1021</target>
-    <point>210.0,120.0</point>
-    <point>335.0,110.0</point>
+    <point>370.0,135.0</point>
+    <point>520.0,135.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>false</branch>
   </edge>
   <sib>
@@ -436,7 +439,7 @@ public class Add$context.edgeName$Feature extends AbstractAddFeature {
     <label>SwitchStyle</label>
     <sib-uid>style/style/SwitchStyle</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.sib.style.SwitchStyle</taxonomy>
-    <position>1023.5,93.0</position>
+    <position>1173.5,108.0</position>
     <parameter name="eObjectKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -454,8 +457,8 @@ public class Add$context.edgeName$Feature extends AbstractAddFeature {
   <edge>
     <source>e5be7819-cc37-4390-9e22-c905b73e8064</source>
     <target>ebbbcd5a-3f7c-48b6-aa93-23bb2bf21210</target>
-    <point>897.0,243.70909090909092</point>
-    <point>770.0,220.72727272727272</point>
+    <point>1210.0,135.0</point>
+    <point>1210.0,270.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>EdgeStyle</branch>
   </edge>
@@ -465,7 +468,7 @@ public class Add$context.edgeName$Feature extends AbstractAddFeature {
     <label>PrintConsoleMessage</label>
     <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
     <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
-    <position>1111.5,93.0</position>
+    <position>1261.5,108.0</position>
     <parameter name="error">
       <boolean>false</boolean>
     </parameter>
@@ -484,8 +487,9 @@ Leaving Generate ${edgeName} AddFeature</expression>
   <edge>
     <source>e5be7819-cc37-4390-9e22-c905b73e8064</source>
     <target>53567041-0ada-45ca-a28f-dd9427e9b533</target>
-    <point>915.0,255.0</point>
-    <point>909.0,377.0</point>
+    <point>1210.0,135.0</point>
+    <point>1330.0,135.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>NodeStyle</branch>
   </edge>
   <sib>
@@ -494,7 +498,7 @@ Leaving Generate ${edgeName} AddFeature</expression>
     <label>GetEdgeStyleDecorator</label>
     <sib-uid>style/style/GetEdgeStyleDecorator</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.sib.style.GetEdgeStyleDecorator</taxonomy>
-    <position>641.5,228.0</position>
+    <position>791.5,243.0</position>
     <parameter name="eListKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -519,8 +523,8 @@ Leaving Generate ${edgeName} AddFeature</expression>
   <edge>
     <source>ebbbcd5a-3f7c-48b6-aa93-23bb2bf21210</source>
     <target>a3d75c72-5433-411a-9ade-f3811e76702e</target>
-    <point>760.0,232.4</point>
-    <point>723.0,202.56</point>
+    <point>1210.0,270.0</point>
+    <point>1060.0,270.0</point>
     <labelposition>436.0,1.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -530,7 +534,7 @@ Leaving Generate ${edgeName} AddFeature</expression>
     <label>IterateDecorators</label>
     <sib-uid>collection-sibs/IterateElements</sib-uid>
     <taxonomy>de.jabc.sib.common.collection.IterateElements</taxonomy>
-    <position>239.5,213.0</position>
+    <position>389.5,228.0</position>
     <parameter name="collection">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -568,7 +572,7 @@ Leaving Generate ${edgeName} AddFeature</expression>
     <label>GetConnectionDecoratorLocation</label>
     <sib-uid>style/style/GetConnectionDecoratorLocation</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.sib.style.GetConnectionDecoratorLocation</taxonomy>
-    <position>219.5,348.0</position>
+    <position>339.5,378.0</position>
     <parameter name="connectionDecoratorKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -596,7 +600,7 @@ Leaving Generate ${edgeName} AddFeature</expression>
     <label>GetConnectionDecoratorMovable</label>
     <sib-uid>style/style/GetConnectionDecoratorMovable</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.sib.style.GetConnectionDecoratorMovable</taxonomy>
-    <position>220.0,483.0</position>
+    <position>340.0,498.0</position>
     <parameter name="connectionDecoratorKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -624,7 +628,7 @@ Leaving Generate ${edgeName} AddFeature</expression>
     <label>GetConnectionDecoratorDecoratorShape</label>
     <sib-uid>style/style/GetConnectionDecoratorDecoratorShape</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.sib.style.GetConnectionDecoratorDecoratorShape</taxonomy>
-    <position>165.5,588.0</position>
+    <position>315.5,603.0</position>
     <parameter name="connectionDecoratorKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -649,23 +653,24 @@ Leaving Generate ${edgeName} AddFeature</expression>
   <edge>
     <source>1391038e-15b7-411a-8728-536619bcdbdc</source>
     <target>6ff59e7f-aec2-46b1-9ae3-e69d443b79ad</target>
-    <point>420.0,255.0</point>
-    <point>426.0,372.0</point>
+    <point>445.0,255.0</point>
+    <point>475.0,390.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>next</branch>
   </edge>
   <edge>
     <source>6ff59e7f-aec2-46b1-9ae3-e69d443b79ad</source>
     <target>d80c2ec2-3963-43f5-826b-3bf4deeaa921</target>
-    <point>360.0,390.0</point>
-    <point>360.0,510.0</point>
+    <point>475.0,390.0</point>
+    <point>475.0,525.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
     <source>d80c2ec2-3963-43f5-826b-3bf4deeaa921</source>
     <target>fc6f3835-0d89-4d33-a01b-726c32ad489f</target>
-    <point>360.0,519.0</point>
-    <point>360.0,723.0</point>
+    <point>475.0,525.0</point>
+    <point>445.0,630.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -675,7 +680,7 @@ Leaving Generate ${edgeName} AddFeature</expression>
     <label>GenerateGraphicsAlgorithm</label>
     <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
-    <position>794.5,826.0</position>
+    <position>944.5,841.0</position>
     <parameter name="connectionDecoratorKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -715,8 +720,8 @@ Leaving Generate ${edgeName} AddFeature</expression>
   <edge>
     <source>fc6f3835-0d89-4d33-a01b-726c32ad489f</source>
     <target>689b1acd-5e30-4b93-a89e-1d38e82bf284</target>
-    <point>360.0,750.0</point>
-    <point>360.0,885.0</point>
+    <point>445.0,630.0</point>
+    <point>445.0,1035.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -726,7 +731,7 @@ Leaving Generate ${edgeName} AddFeature</expression>
     <label>SetCurrentShape</label>
     <sib-uid>basic-sibs/PutExpression</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
-    <position>331.5,918.0</position>
+    <position>481.5,933.0</position>
     <parameter name="resolve">
       <boolean>true</boolean>
     </parameter>
@@ -754,8 +759,8 @@ Leaving Generate ${edgeName} AddFeature</expression>
   <edge>
     <source>28174053-25b0-4dab-9b83-0d4522ed7593</source>
     <target>0e80aad4-0ac2-40d4-a2d4-c5e5c1b158e3</target>
-    <point>498.0,788.2</point>
-    <point>597.0,711.2</point>
+    <point>535.0,960.0</point>
+    <point>685.0,960.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -765,7 +770,7 @@ Leaving Generate ${edgeName} AddFeature</expression>
     <label>decoratorShapeContent</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>804.5,588.0</position>
+    <position>954.5,618.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -798,7 +803,7 @@ Leaving Generate ${edgeName} AddFeature</expression>
     <label>initContent</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>845.0,513.0</position>
+    <position>995.0,528.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -826,24 +831,24 @@ create$context.decoratorShapeName$(cd, $context.meIdentifier$);
   <edge>
     <source>044181f9-8159-43f2-8bab-347d7ba62f14</source>
     <target>22204560-dfec-4bf6-90e1-fa3987535d98</target>
-    <point>885.0,588.0</point>
-    <point>885.0,474.0</point>
+    <point>1030.0,630.0</point>
+    <point>1030.0,555.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
     <source>22204560-dfec-4bf6-90e1-fa3987535d98</source>
     <target>e0ac7dc6-1251-4ef5-8c9e-5085c8a05811</target>
-    <point>867.0,532.2</point>
-    <point>768.0,532.2</point>
+    <point>1030.0,555.0</point>
+    <point>1000.0,465.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
     <source>1391038e-15b7-411a-8728-536619bcdbdc</source>
     <target>31aae776-73c6-4181-b740-5d6845699322</target>
-    <point>222.0,251.85</point>
-    <point>138.0,272.85</point>
+    <point>450.0,255.0</point>
+    <point>180.0,255.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>exit</branch>
   </edge>
@@ -853,7 +858,7 @@ create$context.decoratorShapeName$(cd, $context.meIdentifier$);
     <label>SetParentName</label>
     <sib-uid>basic-sibs/PutExpression</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
-    <position>681.5,828.0</position>
+    <position>831.5,843.0</position>
     <parameter name="resolve">
       <boolean>true</boolean>
     </parameter>
@@ -881,8 +886,9 @@ create$context.decoratorShapeName$(cd, $context.meIdentifier$);
   <edge>
     <source>1c379dd5-2573-4992-87fc-e9b9b5a977f6</source>
     <target>d2bf9261-df38-40e9-b2c2-0e3f9da7f0ce</target>
-    <point>900.0,510.0</point>
-    <point>775.0,504.0</point>
+    <point>880.0,870.0</point>
+    <point>1030.0,870.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
@@ -891,7 +897,7 @@ create$context.decoratorShapeName$(cd, $context.meIdentifier$);
     <label>clearElCode</label>
     <sib-uid>basic-sibs/PutExpression</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
-    <position>707.5,333.0</position>
+    <position>737.5,348.0</position>
     <parameter name="resolve">
       <boolean>true</boolean>
     </parameter>
@@ -922,7 +928,7 @@ create$context.decoratorShapeName$(cd, $context.meIdentifier$);
     <label>clearFormatParameter</label>
     <sib-uid>basic-sibs/PutExpression</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
-    <position>539.5,333.0</position>
+    <position>524.5,348.0</position>
     <parameter name="resolve">
       <boolean>true</boolean>
     </parameter>
@@ -950,15 +956,17 @@ create$context.decoratorShapeName$(cd, $context.meIdentifier$);
   <edge>
     <source>621a1067-e312-4e18-b238-81d87fd969d8</source>
     <target>948de782-7e45-46cc-a92e-08a9eedf61c2</target>
-    <point>750.0,450.0</point>
-    <point>757.0,528.0</point>
+    <point>895.0,375.0</point>
+    <point>760.0,375.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
     <source>948de782-7e45-46cc-a92e-08a9eedf61c2</source>
     <target>1391038e-15b7-411a-8728-536619bcdbdc</target>
-    <point>750.0,555.0</point>
-    <point>440.0,258.0</point>
+    <point>760.0,375.0</point>
+    <point>445.0,255.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
@@ -967,7 +975,7 @@ create$context.decoratorShapeName$(cd, $context.meIdentifier$);
     <label>decoratorShape?</label>
     <sib-uid>basic-sibs/CheckVariable</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.CheckVariable</taxonomy>
-    <position>242.0,993.0</position>
+    <position>392.0,1008.0</position>
     <parameter name="variable">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -988,7 +996,7 @@ create$context.decoratorShapeName$(cd, $context.meIdentifier$);
     <label>GetConnectionDecoratorPredefinedDecorator</label>
     <sib-uid>style/style/GetConnectionDecoratorPredefinedDecorator</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.style.sib.style.GetConnectionDecoratorPredefinedDecorator</taxonomy>
-    <position>390.5,993.0</position>
+    <position>540.5,1008.0</position>
     <parameter name="connectionDecoratorKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1013,32 +1021,32 @@ create$context.decoratorShapeName$(cd, $context.meIdentifier$);
   <edge>
     <source>689b1acd-5e30-4b93-a89e-1d38e82bf284</source>
     <target>28174053-25b0-4dab-9b83-0d4522ed7593</target>
-    <point>360.0,885.0</point>
-    <point>525.0,810.0</point>
+    <point>445.0,1035.0</point>
+    <point>535.0,960.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>true</branch>
   </edge>
   <edge>
     <source>689b1acd-5e30-4b93-a89e-1d38e82bf284</source>
     <target>5f643f92-9eeb-46aa-a8be-54b19c997135</target>
-    <point>360.0,885.0</point>
-    <point>660.0,885.0</point>
+    <point>445.0,1035.0</point>
+    <point>685.0,1035.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>false</branch>
   </edge>
   <edge>
     <source>5f643f92-9eeb-46aa-a8be-54b19c997135</source>
     <target>ac691d8c-ff50-411a-ae7f-0fa376449db4</target>
-    <point>678.0,874.8</point>
-    <point>955.0,848.4761904761905</point>
+    <point>685.0,1035.0</point>
+    <point>1210.0,1020.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
     <source>ac691d8c-ff50-411a-ae7f-0fa376449db4</source>
     <target>1d833221-46db-4d06-b915-a9ed3ac0535b</target>
-    <point>982.4626865671642,826.0</point>
-    <point>1043.835616438356,654.0</point>
+    <point>1210.0,1020.0</point>
+    <point>1210.0,660.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -1048,7 +1056,7 @@ create$context.decoratorShapeName$(cd, $context.meIdentifier$);
     <label>initContent</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>1025.0,483.0</position>
+    <position>1175.0,408.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -1077,8 +1085,9 @@ $context.graphModelName$LayoutUtils.set$context.appearance.name$Style(cd.getGrap
   <edge>
     <source>0b6b88b3-e43d-4f28-9fa7-63ea597c3f5f</source>
     <target>621a1067-e312-4e18-b238-81d87fd969d8</target>
-    <point>1035.0,465.0</point>
-    <point>759.0,346.0</point>
+    <point>1210.0,525.0</point>
+    <point>895.0,375.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
@@ -1087,7 +1096,7 @@ $context.graphModelName$LayoutUtils.set$context.appearance.name$Style(cd.getGrap
     <label>EvaluateCondition</label>
     <sib-uid>basic-sibs/EvaluateCondition</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.EvaluateCondition</taxonomy>
-    <position>822.0,723.0</position>
+    <position>972.0,738.0</position>
     <parameter name="condition">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
@@ -1104,15 +1113,17 @@ $context.graphModelName$LayoutUtils.set$context.appearance.name$Style(cd.getGrap
   <edge>
     <source>d2bf9261-df38-40e9-b2c2-0e3f9da7f0ce</source>
     <target>67923be9-b766-49c0-abb3-ca4f95d8a310</target>
-    <point>870.0,705.0</point>
-    <point>658.0,700.0</point>
+    <point>1030.0,870.0</point>
+    <point>1030.0,765.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
     <source>67923be9-b766-49c0-abb3-ca4f95d8a310</source>
     <target>044181f9-8159-43f2-8bab-347d7ba62f14</target>
-    <point>705.0,705.0</point>
-    <point>863.0,564.0</point>
+    <point>1030.0,765.0</point>
+    <point>1030.0,630.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>false</branch>
   </edge>
   <sib>
@@ -1121,7 +1132,7 @@ $context.graphModelName$LayoutUtils.set$context.appearance.name$Style(cd.getGrap
     <label>SetDecoratorShapeName</label>
     <sib-uid>basic-sibs/PutExpression</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
-    <position>636.0,723.0</position>
+    <position>786.0,738.0</position>
     <parameter name="resolve">
       <boolean>true</boolean>
     </parameter>
@@ -1152,7 +1163,7 @@ $context.graphModelName$LayoutUtils.set$context.appearance.name$Style(cd.getGrap
     <label>InitCounter</label>
     <sib-uid>basic-sibs/PutInteger</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutInteger</taxonomy>
-    <position>545.0,228.0</position>
+    <position>695.0,243.0</position>
     <parameter name="value">
       <int>0</int>
     </parameter>
@@ -1171,24 +1182,24 @@ $context.graphModelName$LayoutUtils.set$context.appearance.name$Style(cd.getGrap
   <edge>
     <source>bb377f6c-c42b-4af4-80e7-07f32e23a14f</source>
     <target>42c922e3-ce68-4a61-aca1-553180e84dcf</target>
-    <point>567.0,240.9</point>
-    <point>423.0,192.9</point>
+    <point>730.0,270.0</point>
+    <point>595.0,255.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
     <source>67923be9-b766-49c0-abb3-ca4f95d8a310</source>
     <target>3a572ee6-4fd0-4b68-9c7f-63eee8f69b5d</target>
-    <point>852.0,613.5230769230769</point>
-    <point>693.0,540.1384615384616</point>
+    <point>1030.0,765.0</point>
+    <point>865.0,765.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>true</branch>
   </edge>
   <edge>
     <source>3a572ee6-4fd0-4b68-9c7f-63eee8f69b5d</source>
     <target>f772b5e8-dada-42ab-b7b4-ba727ac1ff22</target>
-    <point>671.6666666666666,513.0</point>
-    <point>662.7272727272727,459.0</point>
+    <point>865.0,765.0</point>
+    <point>865.0,630.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -1198,7 +1209,7 @@ $context.graphModelName$LayoutUtils.set$context.appearance.name$Style(cd.getGrap
     <label>GetAbstractShapeName</label>
     <sib-uid>style/style/GetAbstractShapeName</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.style.sib.style.GetAbstractShapeName</taxonomy>
-    <position>460.5,918.0</position>
+    <position>610.5,933.0</position>
     <parameter name="abstractShapeKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1223,8 +1234,8 @@ $context.graphModelName$LayoutUtils.set$context.appearance.name$Style(cd.getGrap
   <edge>
     <source>0e80aad4-0ac2-40d4-a2d4-c5e5c1b158e3</source>
     <target>60914bc3-e219-413e-8659-1889b5554bb5</target>
-    <point>498.0,781.68</point>
-    <point>610.0,748.2</point>
+    <point>685.0,960.0</point>
+    <point>880.0,960.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -1234,7 +1245,7 @@ $context.graphModelName$LayoutUtils.set$context.appearance.name$Style(cd.getGrap
     <label>increaseVar</label>
     <sib-uid>basic-sibs/PutExpression</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
-    <position>678.0,588.0</position>
+    <position>828.0,618.0</position>
     <parameter name="resolve">
       <boolean>true</boolean>
     </parameter>
@@ -1262,8 +1273,9 @@ $context.graphModelName$LayoutUtils.set$context.appearance.name$Style(cd.getGrap
   <edge>
     <source>f772b5e8-dada-42ab-b7b4-ba727ac1ff22</source>
     <target>044181f9-8159-43f2-8bab-347d7ba62f14</target>
-    <point>675.0,450.0</point>
-    <point>895.0,528.0</point>
+    <point>865.0,630.0</point>
+    <point>1030.0,630.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
@@ -1272,7 +1284,7 @@ $context.graphModelName$LayoutUtils.set$context.appearance.name$Style(cd.getGrap
     <label>initContent</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>1115.0,483.0</position>
+    <position>1280.0,348.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -1301,24 +1313,25 @@ $context.graphModelName$LayoutUtils.set_$context.graphModelName$DefaultAppearanc
   <edge>
     <source>1d833221-46db-4d06-b915-a9ed3ac0535b</source>
     <target>0b6b88b3-e43d-4f28-9fa7-63ea597c3f5f</target>
-    <point>1131.2903225806451,663.0</point>
-    <point>1057.9411764705883,504.0</point>
+    <point>1210.0,660.0</point>
+    <point>1210.0,525.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>true</branch>
   </edge>
   <edge>
     <source>1d833221-46db-4d06-b915-a9ed3ac0535b</source>
     <target>02ff8712-5f61-4c78-8bfb-40a1cd8c5ebf</target>
-    <point>1141.4516129032259,663.0</point>
-    <point>1153.6764705882354,504.0</point>
+    <point>1210.0,660.0</point>
+    <point>1300.0,525.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>false</branch>
   </edge>
   <edge>
     <source>02ff8712-5f61-4c78-8bfb-40a1cd8c5ebf</source>
     <target>621a1067-e312-4e18-b238-81d87fd969d8</target>
-    <point>1140.0,465.0</point>
-    <point>766.0,341.0</point>
+    <point>1300.0,525.0</point>
+    <point>895.0,375.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
@@ -1327,7 +1340,7 @@ $context.graphModelName$LayoutUtils.set_$context.graphModelName$DefaultAppearanc
     <label>appearance?</label>
     <sib-uid>basic-sibs/CheckVariable</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.CheckVariable</taxonomy>
-    <position>1020.0,618.0</position>
+    <position>1170.0,633.0</position>
     <parameter name="variable">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1348,7 +1361,7 @@ $context.graphModelName$LayoutUtils.set_$context.graphModelName$DefaultAppearanc
     <label>GetEdgeStyleAppearance</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>980.0,226.0</position>
+    <position>1130.0,241.0</position>
     <parameter name="EdgeStyleKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1373,7 +1386,7 @@ $context.graphModelName$LayoutUtils.set_$context.graphModelName$DefaultAppearanc
     <label>GetAbstractShapeAppearance</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>635.5,916.0</position>
+    <position>785.5,931.0</position>
     <parameter name="abstractShapeKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1395,8 +1408,9 @@ $context.graphModelName$LayoutUtils.set_$context.graphModelName$DefaultAppearanc
   <edge>
     <source>60914bc3-e219-413e-8659-1889b5554bb5</source>
     <target>1c379dd5-2573-4992-87fc-e9b9b5a977f6</target>
-    <point>630.0,750.0</point>
-    <point>763.0,727.0</point>
+    <point>880.0,960.0</point>
+    <point>880.0,870.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
@@ -1405,7 +1419,7 @@ $context.graphModelName$LayoutUtils.set_$context.graphModelName$DefaultAppearanc
     <label>GetPredefinedDecoratorAppearance</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>945.5,976.0</position>
+    <position>1095.5,1006.0</position>
     <parameter name="sourceVariable">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1430,7 +1444,7 @@ $context.graphModelName$LayoutUtils.set_$context.graphModelName$DefaultAppearanc
     <label>appearance?</label>
     <sib-uid>basic-sibs/CheckVariable</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.CheckVariable</taxonomy>
-    <position>870.0,228.0</position>
+    <position>1020.0,243.0</position>
     <parameter name="variable">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1448,8 +1462,8 @@ $context.graphModelName$LayoutUtils.set_$context.graphModelName$DefaultAppearanc
   <edge>
     <source>a3d75c72-5433-411a-9ade-f3811e76702e</source>
     <target>1a6d7197-10c9-459f-b4d9-3267283a6404</target>
-    <point>897.0,249.9</point>
-    <point>753.0,273.9</point>
+    <point>1060.0,270.0</point>
+    <point>970.0,300.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>false</branch>
   </edge>
@@ -1459,7 +1473,7 @@ $context.graphModelName$LayoutUtils.set_$context.graphModelName$DefaultAppearanc
     <label>RunStringTemplate</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>760.0,168.0</position>
+    <position>910.0,183.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -1484,15 +1498,17 @@ $context.graphModelName$LayoutUtils.set_$context.graphModelName$DefaultAppearanc
   <edge>
     <source>a3d75c72-5433-411a-9ade-f3811e76702e</source>
     <target>0b90b0db-aa5c-404c-8a43-019b8113a60c</target>
-    <point>915.0,255.0</point>
-    <point>790.0,208.0</point>
+    <point>1060.0,270.0</point>
+    <point>970.0,210.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>true</branch>
   </edge>
   <edge>
     <source>0b90b0db-aa5c-404c-8a43-019b8113a60c</source>
     <target>8d784d5d-6bf3-43ce-9361-aac226b3fee9</target>
-    <point>720.0,180.0</point>
-    <point>558.0,242.0</point>
+    <point>970.0,210.0</point>
+    <point>865.0,270.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
@@ -1501,7 +1517,7 @@ $context.graphModelName$LayoutUtils.set_$context.graphModelName$DefaultAppearanc
     <label>RunStringTemplate</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>760.0,258.0</position>
+    <position>910.0,273.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -1526,8 +1542,9 @@ $context.graphModelName$LayoutUtils.set_$context.graphModelName$DefaultAppearanc
   <edge>
     <source>1a6d7197-10c9-459f-b4d9-3267283a6404</source>
     <target>8d784d5d-6bf3-43ce-9361-aac226b3fee9</target>
-    <point>720.0,255.0</point>
-    <point>565.0,247.0</point>
+    <point>970.0,300.0</point>
+    <point>865.0,270.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
@@ -1536,7 +1553,7 @@ $context.graphModelName$LayoutUtils.set_$context.graphModelName$DefaultAppearanc
     <label>GetEdgeStyleAppearanceProvider</label>
     <sib-uid>style/style/GetEdgeStyleAppearanceProvider</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.style.sib.style.GetEdgeStyleAppearanceProvider</taxonomy>
-    <position>338.5,213.0</position>
+    <position>488.5,228.0</position>
     <parameter name="edgeStyleKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1561,8 +1578,9 @@ $context.graphModelName$LayoutUtils.set_$context.graphModelName$DefaultAppearanc
   <edge>
     <source>42c922e3-ce68-4a61-aca1-553180e84dcf</source>
     <target>1391038e-15b7-411a-8728-536619bcdbdc</target>
-    <point>435.0,240.0</point>
-    <point>272.0,235.0</point>
+    <point>595.0,255.0</point>
+    <point>445.0,255.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
@@ -1571,7 +1589,7 @@ $context.graphModelName$LayoutUtils.set_$context.graphModelName$DefaultAppearanc
     <label>appearanceProvider?</label>
     <sib-uid>basic-sibs/CheckVariable</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.CheckVariable</taxonomy>
-    <position>3.5,213.0</position>
+    <position>108.5,228.0</position>
     <parameter name="variable">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1588,9 +1606,10 @@ $context.graphModelName$LayoutUtils.set_$context.graphModelName$DefaultAppearanc
   </sib>
   <edge>
     <source>31aae776-73c6-4181-b740-5d6845699322</source>
-    <target>ceb38ee8-0c4c-4d33-ba57-1ecf7bb6c485</target>
-    <point>75.0,255.0</point>
-    <point>69.0,429.0</point>
+    <target>796ba5cb-fb65-46ff-bbbf-a8024ecec0e4</target>
+    <point>180.0,255.0</point>
+    <point>180.0,540.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>false</branch>
   </edge>
   <sib>
@@ -1599,7 +1618,7 @@ $context.graphModelName$LayoutUtils.set_$context.graphModelName$DefaultAppearanc
     <label>RunStringTemplate</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>145.0,408.0</position>
+    <position>235.0,453.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -1626,16 +1645,17 @@ Graphiti.getPeService().setPropertyValue(polyline, $context.graphModelName$Layou
   <edge>
     <source>31aae776-73c6-4181-b740-5d6845699322</source>
     <target>efda6d59-9b48-41d8-95cd-5f4bbae5aa5a</target>
-    <point>93.0,236.4</point>
-    <point>237.0,272.4</point>
+    <point>180.0,255.0</point>
+    <point>300.0,330.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>true</branch>
   </edge>
   <edge>
     <source>db23a721-21cd-489b-8850-c34aa82dd793</source>
-    <target>ceb38ee8-0c4c-4d33-ba57-1ecf7bb6c485</target>
-    <point>150.0,330.0</point>
-    <point>82.0,422.0</point>
+    <target>796ba5cb-fb65-46ff-bbbf-a8024ecec0e4</target>
+    <point>300.0,480.0</point>
+    <point>180.0,540.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
@@ -1644,7 +1664,7 @@ Graphiti.getPeService().setPropertyValue(polyline, $context.graphModelName$Layou
     <label>appearanceProvider?</label>
     <sib-uid>basic-sibs/CheckVariable</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.CheckVariable</taxonomy>
-    <position>783.5,423.0</position>
+    <position>963.5,438.0</position>
     <parameter name="variable">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1662,8 +1682,8 @@ Graphiti.getPeService().setPropertyValue(polyline, $context.graphModelName$Layou
   <edge>
     <source>e0ac7dc6-1251-4ef5-8c9e-5085c8a05811</source>
     <target>f3525fd8-b196-4de6-b756-60b335292bd7</target>
-    <point>690.0,480.0</point>
-    <point>510.0,480.0</point>
+    <point>1000.0,465.0</point>
+    <point>865.0,525.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>true</branch>
   </edge>
@@ -1673,7 +1693,7 @@ Graphiti.getPeService().setPropertyValue(polyline, $context.graphModelName$Layou
     <label>ReplaceString</label>
     <sib-uid>basic-sibs/ReplaceString</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.ReplaceString</taxonomy>
-    <position>671.5,483.0</position>
+    <position>896.5,513.0</position>
     <parameter name="find">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
@@ -1719,8 +1739,8 @@ Graphiti.getPeService().setPropertyValue(polyline, $context.graphModelName$Layou
   <edge>
     <source>f3525fd8-b196-4de6-b756-60b335292bd7</source>
     <target>844c9890-32b8-4773-ace9-c9f3a926b1d7</target>
-    <point>510.0,480.0</point>
-    <point>510.0,720.0</point>
+    <point>865.0,525.0</point>
+    <point>715.0,525.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -1730,7 +1750,7 @@ Graphiti.getPeService().setPropertyValue(polyline, $context.graphModelName$Layou
     <label>GenerateAppearanceProvider</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>472.0,483.0</position>
+    <position>667.0,513.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -1757,16 +1777,16 @@ Graphiti.getPeService().setPropertyValue(cd.getGraphicsAlgorithm(), $context.gra
   <edge>
     <source>844c9890-32b8-4773-ace9-c9f3a926b1d7</source>
     <target>621a1067-e312-4e18-b238-81d87fd969d8</target>
-    <point>725.625,438.0</point>
-    <point>745.2631578947369,369.0</point>
+    <point>715.0,525.0</point>
+    <point>895.0,375.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
     <source>e0ac7dc6-1251-4ef5-8c9e-5085c8a05811</source>
     <target>621a1067-e312-4e18-b238-81d87fd969d8</target>
-    <point>750.0,513.0</point>
-    <point>750.0,369.0</point>
+    <point>1000.0,465.0</point>
+    <point>895.0,375.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>false</branch>
   </edge>
@@ -1776,7 +1796,7 @@ Graphiti.getPeService().setPropertyValue(cd.getGraphicsAlgorithm(), $context.gra
     <label>ReplaceString</label>
     <sib-uid>basic-sibs/ReplaceString</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.ReplaceString</taxonomy>
-    <position>146.5,288.0</position>
+    <position>251.5,303.0</position>
     <parameter name="find">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
@@ -1822,8 +1842,41 @@ Graphiti.getPeService().setPropertyValue(cd.getGraphicsAlgorithm(), $context.gra
   <edge>
     <source>efda6d59-9b48-41d8-95cd-5f4bbae5aa5a</source>
     <target>db23a721-21cd-489b-8850-c34aa82dd793</target>
-    <point>195.0,270.0</point>
-    <point>193.0,324.0</point>
+    <point>300.0,330.0</point>
+    <point>300.0,480.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>796ba5cb-fb65-46ff-bbbf-a8024ecec0e4</id>
+    <name>GraphSIB_4</name>
+    <label>GenerateModelElementPostCreationHook</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>60.0,526.0</position>
+    <parameter name="modelElementKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>edgeKey</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>3bb8a1c5-18ed-4580-8582-3c735f199d9e</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>GenerateModelElementPostCreationHook</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>796ba5cb-fb65-46ff-bbbf-a8024ecec0e4</source>
+    <target>ceb38ee8-0c4c-4d33-ba57-1ecf7bb6c485</target>
+    <point>265.0,570.0</point>
+    <point>220.0,645.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <parameter>
@@ -1840,6 +1893,11 @@ Graphiti.getPeService().setPropertyValue(cd.getGraphicsAlgorithm(), $context.gra
     <name>modelElementKey</name>
     <field>modelElementKey</field>
     <sib>d2bf9261-df38-40e9-b2c2-0e3f9da7f0ce</sib>
+  </parameter>
+  <parameter>
+    <name>modelElementKey</name>
+    <field>modelElementKey</field>
+    <sib>796ba5cb-fb65-46ff-bbbf-a8024ecec0e4</sib>
   </parameter>
   <values>
     <entry>
