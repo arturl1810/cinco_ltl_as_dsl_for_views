@@ -24,6 +24,7 @@ import org.eclipse.pde.internal.core.product.WindowImages
 import org.eclipse.pde.internal.core.product.WorkspaceProductModel
 import org.eclipse.xtext.generator.IFileSystemAccess
 import org.eclipse.xtext.generator.IGenerator
+import org.eclipse.pde.internal.core.product.LauncherInfo
 
 /**
  * Generates code from your model files on save.
@@ -60,7 +61,8 @@ class CPDGenerator implements IGenerator {
 			var product = productModel.product
 			product.name = productDefinition.name
 			product.id = productDefinition.id
-			
+			product.launcherInfo = new LauncherInfo(productModel)
+			product.launcherInfo.launcherName = productDefinition.name.toLowerCase
 			// adding features
 			var features =new ArrayList<IProductFeature>
 			var feat = null as IProductFeature
