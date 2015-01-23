@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>67a73b2a-3824-4776-9686-ae1a8aed5282</id>
   <name>GenerateCopyPasteFeatures</name>
-  <changecounter>299</changecounter>
+  <changecounter>316</changecounter>
   <sib>
     <id>59a427e8-25c5-482c-a32b-a0aa278eb41b</id>
     <name>PutExpression</name>
@@ -242,6 +242,9 @@ import java.util.Set;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IPasteContext;
 import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
+import org.eclipse.graphiti.mm.algorithms.Text;
+import org.eclipse.graphiti.mm.algorithms.styles.Font;
+import org.eclipse.graphiti.mm.algorithms.styles.Color;
 import org.eclipse.graphiti.mm.algorithms.styles.Point;
 import org.eclipse.graphiti.mm.pictograms.Connection;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
@@ -351,7 +354,7 @@ public class $context.graphModelName$PasteFeature extends AbstractPasteFeature {
 				common.getModelElements().add(e);
 			}
 		}
-
+		resovleExternalRefs(copies.toArray(new PictogramElement[] {}));
 	}
 
 	private void computeContainerShift(PictogramElement pe) {
@@ -414,6 +417,45 @@ public class $context.graphModelName$PasteFeature extends AbstractPasteFeature {
 				pes.add((PictogramElement) o);
 		}
 		return pes;
+	}
+
+	private void resovleExternalRefs(PictogramElement[] pictogramElements) {
+		for (PictogramElement pe : pictogramElements) {
+			resolveExternalRefs(pe);
+			if (pe instanceof ContainerShape) {
+				PictogramElement[] array = ((ContainerShape) pe).getChildren().toArray(new PictogramElement[] {});
+				resovleExternalRefs(array);
+			}
+		}
+	}
+	
+	private void resolveExternalRefs(PictogramElement pe) {
+		GraphicsAlgorithm ga = pe.getGraphicsAlgorithm();
+		ga.setBackground(addColor(getDiagram(), ga.getBackground()));
+		ga.setForeground(addColor(getDiagram(), ga.getForeground()));
+		if (ga instanceof Text) {
+			((Text) ga).setFont(addFont(getDiagram(), ((Text) ga).getFont()));
+		}
+	}
+	
+	private Color addColor(Diagram d, Color c) {
+		for (Color color : getDiagram().getColors()) {
+			if (color.getBlue() == c.getBlue() &amp;&amp; color.getGreen() == c.getGreen() &amp;&amp; color.getRed() == c.getRed())
+				return color;
+		}
+		Color cc = EcoreUtil.copy(c);
+		getDiagram().getColors().add(cc);
+		return cc;
+	}
+	
+	private Font addFont(Diagram d, Font f) {
+		for (Font font : getDiagram().getFonts()) {
+			if (font.getName().equals(f.getName()) &amp;&amp; font.getSize() == f.getSize()) 
+				return font;
+		}
+		Font cf = EcoreUtil.copy(f);
+		getDiagram().getFonts().add(cf);
+		return cf;
 	}
 	
 }
