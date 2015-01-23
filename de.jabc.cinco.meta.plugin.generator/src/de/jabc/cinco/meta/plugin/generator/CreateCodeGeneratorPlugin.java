@@ -16,6 +16,7 @@ import java.util.jar.Manifest;
 
 import mgl.GraphModel;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -31,6 +32,7 @@ import org.osgi.framework.Bundle;
 import de.jabc.cinco.meta.core.BundleRegistry;
 import de.jabc.cinco.meta.core.mgl.transformation.helper.AbstractService;
 import de.jabc.cinco.meta.core.mgl.transformation.helper.ServiceException;
+import de.jabc.cinco.meta.core.utils.BuildProperties;
 import de.jabc.cinco.meta.core.utils.projects.ProjectCreator;
 import de.metaframe.jabc.framework.execution.LightweightExecutionEnvironment;
 import de.metaframe.jabc.framework.execution.context.LightweightExecutionContext;
@@ -199,6 +201,12 @@ public class CreateCodeGeneratorPlugin extends AbstractService {
 			out.flush();
 			out.close();
 			
+			IFile bpf = (IFile) tvProject.findMember("build.properties");
+			BuildProperties buildProperties = BuildProperties.loadBuildProperties(bpf);
+			buildProperties.appendBinIncludes("plugin.xml");
+			buildProperties.appendBinIncludes("icons/");
+			buildProperties.appendSource("src-gen/");
+			buildProperties.store(bpf, progressMonitor);
 			
 			return tvProject;
 		} catch (Exception e) {
@@ -256,6 +264,7 @@ public class CreateCodeGeneratorPlugin extends AbstractService {
 			if(e.getJavaModelStatus().getCode() != IJavaModelStatusConstants.NAME_COLLISION)
 				throw e;
 		}
+		
 		
 		
 		}catch(Exception e){
