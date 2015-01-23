@@ -205,7 +205,6 @@ public class CreateCodeGeneratorPlugin extends AbstractService {
 			BuildProperties buildProperties = BuildProperties.loadBuildProperties(bpf);
 			buildProperties.appendBinIncludes("plugin.xml");
 			buildProperties.appendBinIncludes("icons/");
-			buildProperties.appendSource("src-gen/");
 			buildProperties.store(bpf, progressMonitor);
 			
 			return tvProject;
