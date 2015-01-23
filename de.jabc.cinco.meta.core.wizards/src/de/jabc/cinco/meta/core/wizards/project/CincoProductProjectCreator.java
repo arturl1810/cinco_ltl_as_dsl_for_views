@@ -15,10 +15,13 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumSet;
+import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Properties;
 import java.util.Set;
 
+import org.eclipse.core.resources.IBuildConfiguration;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
@@ -29,8 +32,10 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.pde.internal.core.build.Build;
 import org.osgi.framework.Bundle;
 
+import de.jabc.cinco.meta.core.utils.BuildProperties;
 import de.jabc.cinco.meta.core.utils.projects.ProjectCreator;
 import de.jabc.cinco.meta.core.wizards.templates.CincoProductWizardTemplates;
 
@@ -66,6 +71,8 @@ public class CincoProductProjectCreator {
 				getNatures(), 
 				monitor
 				);
+		
+				modifyBuildProperties(project,monitor);
 
 		try {
 			IFolder modelFolder = project.getFolder("model");
@@ -133,6 +140,23 @@ public class CincoProductProjectCreator {
 		}
 	}
 
+
+	private void modifyBuildProperties(IProject project,IProgressMonitor monitor) {
+		IFile buildPropertiesFile = (IFile)project.findMember("build.properties");
+		
+		try {
+			BuildProperties buildProperties = BuildProperties.loadBuildProperties(buildPropertiesFile);	
+			buildProperties.appendBinIncludes("icons/");
+			buildProperties.appendBinIncludes("plugin.xml");
+			buildProperties.appendBinIncludes("plugin.properties");
+			buildProperties.appendSource("src-gen/");
+			buildProperties.appendSource("src/");
+			buildProperties.store(buildPropertiesFile, monitor);
+		} catch (IOException | CoreException e) {
+			e.printStackTrace();
+		}
+		 
+	}
 
 	private List<String> getExportedPackages() {
 		List<String> exports = new ArrayList<String>();
