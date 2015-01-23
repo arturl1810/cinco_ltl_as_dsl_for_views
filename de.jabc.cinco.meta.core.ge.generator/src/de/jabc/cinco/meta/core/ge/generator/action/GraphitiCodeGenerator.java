@@ -156,7 +156,6 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 				List<String> cleanDirs = getCleanDirectory();
 			    
 			    IProject p = sourceProject;
-			    ProjectCreator.addRequiredBundle(p, Platform.getBundle("org.eclipse.graphiti.ui"));
 			    IProject apiProject = sourceProject; 
 			    
 			    addReqBundles(p, monitor);
@@ -599,7 +598,9 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 			} 
 			
 			if (!val.contains(prefix+".graphiti"))
-					val = val.concat(","+prefix+".graphiti");
+				if (val.isEmpty())
+					val = val.concat(prefix+".graphiti");
+				else val = val.concat(","+prefix+".graphiti");
 			
 			for (String s : exports) {
 				if (!val.contains(","+prefix+".graphiti" + s))
