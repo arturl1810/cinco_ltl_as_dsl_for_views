@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>36d9fec6-e1a2-4c6b-8680-956d60534097</id>
   <name>GenerateShape</name>
-  <changecounter>996</changecounter>
+  <changecounter>1028</changecounter>
   <sib>
     <id>f901026e-1a69-421b-912a-54b756b8a46b</id>
     <name>GetShapeName</name>
@@ -89,9 +89,6 @@
 Text $context.peName$ = gaService.createPlainText($context.meShapeName$);
 
 $context.peName$.setFilled(false);
-
-ExpressionFactoryImpl factory = new ExpressionFactoryImpl();
-ExpressionLanguageContext elContext = null;
 
 $context.elCode$
 $context.peName$.setValue(String.format(&quot;$context.textValue$&quot; $context.formatParameter$));
@@ -958,7 +955,7 @@ Polyline $context.peName$ = gaService.createPolyline($context.meShapeName$, new 
     <parameter name="graphicsAlgorithmName">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>Text</expression>
+          <expression>text</expression>
           <clazz>java.lang.String</clazz>
           <classMutable>true</classMutable>
         </ContextExpressionFoundation>
@@ -1003,7 +1000,7 @@ Polyline $context.peName$ = gaService.createPolyline($context.meShapeName$, new 
     <parameter name="graphicsAlgorithmName">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>Image</expression>
+          <expression>image</expression>
           <clazz>java.lang.String</clazz>
           <classMutable>true</classMutable>
         </ContextExpressionFoundation>
@@ -1040,7 +1037,7 @@ Polyline $context.peName$ = gaService.createPolyline($context.meShapeName$, new 
     <parameter name="graphicsAlgorithmName">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>Polyline</expression>
+          <expression>polyline</expression>
           <clazz>java.lang.String</clazz>
           <classMutable>true</classMutable>
         </ContextExpressionFoundation>
@@ -1077,7 +1074,7 @@ Polyline $context.peName$ = gaService.createPolyline($context.meShapeName$, new 
     <parameter name="graphicsAlgorithmName">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>Multitext</expression>
+          <expression>multitext</expression>
           <clazz>java.lang.String</clazz>
           <classMutable>true</classMutable>
         </ContextExpressionFoundation>
@@ -1514,9 +1511,6 @@ peService.setPropertyValue($context.peName$, $context.graphModelName$LayoutUtils
 MultiText $context.peName$ = gaService.createDefaultMultiText(getDiagram(), $context.meShapeName$);
 
 $context.peName$.setFilled(false);
-
-ExpressionFactoryImpl factory = new ExpressionFactoryImpl();
-ExpressionLanguageContext elContext = null;
 
 $context.elCode$
 $context.peName$.setValue(String.format(&quot;$context.textValue$&quot; $context.formatParameter$));

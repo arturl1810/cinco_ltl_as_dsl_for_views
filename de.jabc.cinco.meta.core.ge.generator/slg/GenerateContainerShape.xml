@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>c1206c24-81a8-4ae2-b093-4d794fac9742</id>
   <name>GenerateContainerShape</name>
-  <changecounter>1062</changecounter>
+  <changecounter>1064</changecounter>
   <sib>
     <id>299dd76d-8397-43af-aff5-bc29e4d4a5d6</id>
     <name>SwitchContainerShape</name>
@@ -396,7 +396,7 @@ $context.setStyleContent$</string>
     <parameter name="graphicsAlgorithmName">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>Ellipse</expression>
+          <expression>ellipse</expression>
           <clazz>java.lang.String</clazz>
           <classMutable>true</classMutable>
         </ContextExpressionFoundation>
@@ -433,7 +433,7 @@ $context.setStyleContent$</string>
     <parameter name="graphicsAlgorithmName">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>Rectangle</expression>
+          <expression>rectangle</expression>
           <clazz>java.lang.String</clazz>
           <classMutable>true</classMutable>
         </ContextExpressionFoundation>
@@ -753,7 +753,7 @@ peService.setPropertyValue($context.peName$, $context.graphModelName$LayoutUtils
     <parameter name="graphicsAlgorithmName">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>Polygon</expression>
+          <expression>polygon</expression>
           <clazz>java.lang.String</clazz>
           <classMutable>true</classMutable>
         </ContextExpressionFoundation>
@@ -790,7 +790,7 @@ peService.setPropertyValue($context.peName$, $context.graphModelName$LayoutUtils
     <parameter name="graphicsAlgorithmName">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>RRectangle</expression>
+          <expression>rrectangle</expression>
           <clazz>java.lang.String</clazz>
           <classMutable>true</classMutable>
         </ContextExpressionFoundation>

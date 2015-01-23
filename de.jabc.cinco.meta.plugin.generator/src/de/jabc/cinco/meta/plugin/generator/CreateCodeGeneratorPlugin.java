@@ -218,13 +218,13 @@ public class CreateCodeGeneratorPlugin extends AbstractService {
 				manni = new Manifest(new FileInputStream(manniFile));
 				Attributes mainAttr = manni.getMainAttributes();
 				String oldValues = mainAttr.getValue("Export-Package");
+				if (oldValues == null)
+					oldValues = new String();
 				if(!oldValues.contains(packageName)){
 					mainAttr.putValue("Export-Package", oldValues.concat(",").concat(packageName));
 					manni.write(new FileOutputStream(manniFile));
 				}
 			} catch (IOException e) {
-				
-				
 				throw new RuntimeException("IOException while exporting Package",e);
 			}
 			

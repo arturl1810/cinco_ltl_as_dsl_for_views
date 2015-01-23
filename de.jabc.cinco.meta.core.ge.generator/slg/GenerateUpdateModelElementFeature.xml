@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>ef7786c5-d04b-45de-89fd-b00e68b99149</id>
   <name>GenerateUpdateModelElementFeature</name>
-  <changecounter>368</changecounter>
+  <changecounter>374</changecounter>
   <sib>
     <id>b31345f6-8607-4397-986e-94a14e803be6</id>
     <name>PutExpression_1</name>
@@ -51,7 +51,7 @@
     <label>RunStringTemplate</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>40.0,828.0</position>
+    <position>40.0,963.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -205,7 +205,7 @@ public class $context.className$ extends AbstractUpdateFeature {
     <label>WriteJavaFile</label>
     <sib-uid>genesys-sibs/WriteJavaFile</sib-uid>
     <taxonomy>de.jabc.sib.genesys.WriteJavaFile</taxonomy>
-    <position>58.0,963.0</position>
+    <position>358.0,963.0</position>
     <parameter name="baseDirectory">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -273,7 +273,7 @@ public class $context.className$ extends AbstractUpdateFeature {
     <label>GenerateGetTextValues</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>28.5,706.0</position>
+    <position>28.5,826.0</position>
     <parameter name="modelElementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -358,9 +358,9 @@ public class $context.className$ extends AbstractUpdateFeature {
   </sib>
   <edge>
     <source>bcee566b-931c-475a-b37b-40e81d64623f</source>
-    <target>1ac648f9-a87e-4bb7-b05b-c181161fa01e</target>
-    <point>105.0,465.0</point>
-    <point>105.0,570.0</point>
+    <target>b2300736-918c-480d-945b-c54d4e2f3854</target>
+    <point>105.0,645.0</point>
+    <point>240.0,720.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -745,6 +745,35 @@ if (pe instanceof ConnectionDecorator) {
     <target>bcee566b-931c-475a-b37b-40e81d64623f</target>
     <point>330.0,540.0</point>
     <point>111.0,637.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>b2300736-918c-480d-945b-c54d4e2f3854</id>
+    <name>PutString</name>
+    <label>PutFLAttributeNameTMP</label>
+    <sib-uid>basic-sibs/PutString</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.PutString</taxonomy>
+    <position>34.0,723.0</position>
+    <parameter name="value">
+      <string>tmp</string>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>flAttributeName</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>b2300736-918c-480d-945b-c54d4e2f3854</source>
+    <target>1ac648f9-a87e-4bb7-b05b-c181161fa01e</target>
+    <point>240.0,720.0</point>
+    <point>118.0,755.0</point>
     <branch>default</branch>
   </edge>
   <parameter>
