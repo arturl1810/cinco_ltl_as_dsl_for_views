@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>b227a7a0-5af9-431e-b485-0ba300749007</id>
   <name>GenerateGraphitiUtils</name>
-  <changecounter>149</changecounter>
+  <changecounter>152</changecounter>
   <sib>
     <id>801054f5-02ab-407f-9a7a-c39fb7a43cb9</id>
     <name>PutExpression</name>
@@ -264,6 +264,9 @@ public class $context.graphModelName$GraphitiUtils {
 	}
 	
 	public IDiagramTypeProvider getDTP() {
+		if (PlatformUI.getWorkbench().getActiveWorkbenchWindow() == null ||
+				PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage() == null) 
+			return null;
 		IEditorPart part = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
 		if (part instanceof $context.graphModelName$DiagramEditor)
 			return (($context.graphModelName$DiagramEditor) part).getDiagramTypeProvider();

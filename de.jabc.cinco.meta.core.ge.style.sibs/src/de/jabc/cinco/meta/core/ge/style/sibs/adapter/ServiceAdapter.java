@@ -218,8 +218,8 @@ public class ServiceAdapter {
 			URI uri = URI.createURI(p);
 			String relPath = null;
 			if (uri.isPlatformResource())
-				relPath = "icons/" + uri.lastSegment();
-			else relPath = p;
+				relPath = "/icons/" + uri.lastSegment();
+			else relPath = p.charAt(0) == '/' ? p : "/" + p;
 			context.put(relativePath, relPath);
 			return Branches.DEFAULT;
 		} catch (Exception e) {
