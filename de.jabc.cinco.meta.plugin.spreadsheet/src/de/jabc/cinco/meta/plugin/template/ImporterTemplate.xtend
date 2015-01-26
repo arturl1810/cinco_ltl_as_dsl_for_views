@@ -49,9 +49,8 @@ public static HashMap<String,Double> calculate(String sheetName, String resultNo
          //Check ID Cell
         Cell idCell = row.getCell(0);
         if(idCell!=null) {
-        	if(idCell.getCellType()==Cell.CELL_TYPE_NUMERIC) {
-        		if(idCell.getNumericCellValue() == Integer.parseInt(resultNodeId)) {
-        			
+        	if(idCell.getCellComment() != null){
+        		if(idCell.getCellComment().getString().toString().equals(resultNodeId)&&idCell.getCellComment().getAuthor().equals(Spreadsheetexporter.NodeId)){
         			//Node is Found
         			Iterator<Cell> cellIterator = row.cellIterator();
         	        while(cellIterator.hasNext()) {
@@ -139,8 +138,8 @@ public static HashMap<String,String> importFormula(String sheetName, String resu
          //Check ID Cell
         Cell idCell = row.getCell(0);
         if(idCell!=null) {
-        	if(idCell.getCellType()==Cell.CELL_TYPE_NUMERIC) {
-        		if(idCell.getNumericCellValue() == Integer.parseInt(resultNodeId)) {
+        	if(idCell.getCellComment() != null){
+        		if(idCell.getCellComment().getString().toString().equals(resultNodeId)&&idCell.getCellComment().getAuthor().equals(Spreadsheetexporter.NodeId)){
         			
         			//Node is Found
         			Iterator<Cell> cellIterator = row.cellIterator();

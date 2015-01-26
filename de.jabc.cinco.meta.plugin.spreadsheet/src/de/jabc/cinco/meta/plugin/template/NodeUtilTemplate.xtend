@@ -80,9 +80,10 @@ public class NodeUtil {
 				nodeName=idCell.getStringCellValue();
 			}
 			
-			if(idCell.getCellType()==Cell.CELL_TYPE_NUMERIC){
-				
-				String id = new Double(idCell.getNumericCellValue()).intValue()+"";
+			//if(idCell.getCellType()==Cell.CELL_TYPE_NUMERIC){
+			if(idCell.getCellComment()!=null){	
+				if(!idCell.getCellComment().getAuthor().equals(Spreadsheetexporter.NodeId))continue;
+				String id = idCell.getCellComment().getString().toString();
 				
 				if(hashedNodes.containsKey(id)){
 					//Node is Found in XLS
@@ -205,6 +206,7 @@ public class NodeUtil {
 					if(missingNode!=null && !vns.contains(missingNode)) {
 						vn.node = missingNode;
 						vn.status = NodeStatus.REMOVED;
+						vn.edge = null;
 						vns.add(vn);
 						
 					}
@@ -242,9 +244,10 @@ public class NodeUtil {
 				continue;
 			}
 			Cell idCell = row.getCell(0);
-			if(idCell.getCellType()==Cell.CELL_TYPE_NUMERIC){
+			if(idCell.getCellComment()!=null){
+				if(idCell.getCellComment().getAuthor().equals(Spreadsheetexporter.NodeId))
 				try{
-					int id = new Double(idCell.getNumericCellValue()).intValue();
+					int id = Integer.parseInt(idCell.getCellComment().getString().toString());
 					int rowIndex = idCell.getRowIndex() + 1; //Because Formula-Cell-Refs beginn at 1
 					cellRefs.put(id, rowIndex);
 				}catch(NumberFormatException ex){
@@ -307,7 +310,7 @@ public class NodeUtil {
 	if(nodeName.equals("«n.name.toFirstUpper»"))
 		{
 			«n.name.toFirstUpper» node = new «graphName.toLowerCase.toFirstUpper»FactoryImpl().create«n.name.toFirstUpper»();
-			node.setId(row.getCell(0).getNumericCellValue()+"");
+			node.setId(row.getCell(0).getCellComment().getString().toString());
 			«var i = 1»
 			«FOR attr: n.attributes»
 			«IF !attr.getName().equals("fixAttributes")»

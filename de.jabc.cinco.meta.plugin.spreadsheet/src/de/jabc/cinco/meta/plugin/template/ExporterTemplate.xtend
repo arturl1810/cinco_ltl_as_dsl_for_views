@@ -27,11 +27,19 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.ClientAnchor;
+import org.apache.poi.ss.usermodel.Comment;
+import org.apache.poi.ss.usermodel.CreationHelper;
+import org.apache.poi.ss.usermodel.Drawing;
 import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.RichTextString;
 import org.apache.poi.ss.usermodel.Row;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
 public class Spreadsheetexporter {
+	public static String NodeId = "NodeId";
+	public static String EdgeId = "EdgeId";
+	public static String Default = "Exported";
 
 public static HSSFWorkbook export(ArrayList<VersionNode> nodes,HashMap<String,String> formulas) throws FileNotFoundException{
 	// create a new file
@@ -89,6 +97,10 @@ public static HSSFWorkbook export(ArrayList<VersionNode> nodes,HashMap<String,St
 	HSSFCellStyle idStyle = workbook.createCellStyle();
     idStyle.setFont(idFont);
 	
+    //Create Drawing Patriarch
+    Drawing drawing = sheet.createDrawingPatriarch();
+    CreationHelper factory = workbook.getCreationHelper();
+    
 	//Put all nodes in a HashMap depending on its type
 	TreeMap<String, HashMap<String, ArrayList<VersionNode>>> orderedNodes = new TreeMap<String,HashMap<String,ArrayList<VersionNode>>>(new ResultNodeComparator());
 	
@@ -149,6 +161,8 @@ public static HSSFWorkbook export(ArrayList<VersionNode> nodes,HashMap<String,St
 			Row r = sheet.createRow(rowOffset+rowCounter);
 			//Type Cell
 			Cell type = r.createCell(colOffset);
+			
+			setCellComment(type,Default,"Header",factory,drawing);
 			type.setCellValue(nodeList.getKey());
 			type.setCellStyle(headerStyle);
 			//Attr Names Cells
@@ -165,14 +179,20 @@ public static HSSFWorkbook export(ArrayList<VersionNode> nodes,HashMap<String,St
 				String attrname = eNode.getName();
 				if(attrname.equals("fixAttributes"))continue;
 				Cell attr = r.createCell(colOffset+col);
+				
+				setCellComment(attr,Default,"Header",factory,drawing);
+				
 				attr.setCellStyle(headerStyle);
 				attr.setCellType(HSSFCell.CELL_TYPE_STRING);
 				attr.setCellValue(attrname);
 				col++;
 			}
 			//Edge name
-			if(edgeNodeList.getValue().get(0).status != NodeStatus.RESULT) {
+			if((!edgeNodeList.getKey().equals(" ")) && edgeNodeList.getValue().get(0).status != NodeStatus.RESULT) {
 				Cell edgeType = r.createCell(colOffset+col);
+				
+				setCellComment(edgeType,Default,"Header",factory,drawing);
+				
 				edgeType.setCellValue(edgeNodeList.getKey());
 				edgeType.setCellStyle(edgeHeaderStyle);
 				col++;
@@ -183,6 +203,9 @@ public static HSSFWorkbook export(ArrayList<VersionNode> nodes,HashMap<String,St
 						String attrname = eEdge.getName();
 						if(attrname.equals("fixAttributes"))continue;
 						Cell attr = r.createCell(colOffset+col);
+						
+						setCellComment(attr,Default,"Header",factory,drawing);
+						
 						attr.setCellStyle(edgeHeaderStyle);
 						attr.setCellType(HSSFCell.CELL_TYPE_STRING);
 						attr.setCellValue(attrname);
@@ -214,9 +237,9 @@ public static HSSFWorkbook export(ArrayList<VersionNode> nodes,HashMap<String,St
 				
 				//Print ID for Node
 				Cell idCell = rowValues.createCell(0);
-				idCell.setCellValue(Integer.parseInt(NodeUtil.getId(vnode.node)));
-				idCell.setCellType(Cell.CELL_TYPE_NUMERIC);
-				idCell.setCellStyle(idStyle);
+				
+				setCellComment(idCell,NodeId,NodeUtil.getId(vnode.node),factory,drawing);
+				idCell.setCellStyle(rowStyle);
 				
 				int colValues = 1;
 				for(EStructuralFeature eNode : vnode.node.eClass().getEStructuralFeatures()){
@@ -228,6 +251,8 @@ public static HSSFWorkbook export(ArrayList<VersionNode> nodes,HashMap<String,St
 					//Print Resultnodes
 					if(!(vnode.formulas.isEmpty()) || vnode.status==NodeStatus.RESULT) {
 						
+						setCellComment(attr,Default,"Formula",factory,drawing);
+						
 						if(formulas!=null && formulas.containsKey(eNode.getName())){
 							attr.setCellFormula(formulas.get(eNode.getName()));
 						}
@@ -237,7 +262,7 @@ public static HSSFWorkbook export(ArrayList<VersionNode> nodes,HashMap<String,St
 						attr.setCellType(Cell.CELL_TYPE_FORMULA);
 					}
 					else{
-						writeAttribute(eNode, attr, vnode.node);
+						writeAttribute(eNode, attr, vnode.node,factory,drawing);
 					}
 					
 					colValues++;
@@ -245,9 +270,10 @@ public static HSSFWorkbook export(ArrayList<VersionNode> nodes,HashMap<String,St
 				//Print ID for Edge
 				if(vnode.edge!=null){
 					Cell edgeidCell = rowValues.createCell(colValues);
-					edgeidCell.setCellValue(Integer.parseInt(NodeUtil.getId(vnode.edge)));
-					edgeidCell.setCellType(Cell.CELL_TYPE_NUMERIC);
-					edgeidCell.setCellStyle(idStyle);
+					
+					setCellComment(edgeidCell,EdgeId,NodeUtil.getId(vnode.edge),factory,drawing);
+
+					edgeidCell.setCellStyle(rowStyle);
 					colValues++;
 					//Print Edge-Attributes
 					for(EStructuralFeature eNode : vnode.edge.eClass().getEStructuralFeatures()){
@@ -256,7 +282,7 @@ public static HSSFWorkbook export(ArrayList<VersionNode> nodes,HashMap<String,St
 						
 						Cell attr = rowValues.createCell(colOffset+colValues);
 						attr.setCellStyle(rowStyle);
-						writeAttribute(eNode, attr, vnode.edge);
+						writeAttribute(eNode, attr, vnode.edge,factory,drawing);
 						colValues++;
 					}
 				}
@@ -277,8 +303,11 @@ public static HSSFWorkbook export(ArrayList<VersionNode> nodes,HashMap<String,St
 	//return "succsessfully";
 }
 
-private static void writeAttribute(EStructuralFeature eNode,Cell attr, ModelElement element) {
-	if(element.eGet(eNode)==null)return;;
+private static void writeAttribute(EStructuralFeature eNode,Cell attr, ModelElement element, CreationHelper factory, Drawing drawing) {
+	if(element.eGet(eNode)==null)return;
+	
+	setCellComment(attr,Default,"Value",factory,drawing);
+	
 	String attrValue = element.eGet(eNode).toString();
 	
 	if(element.eGet(eNode) instanceof Integer){
@@ -330,8 +359,8 @@ public static void writeFormula(String resultNodeId,String sheetName, HashMap<St
          //Check ID Cell
         Cell idCell = row.getCell(0);
         if(idCell!=null) {
-        	if(idCell.getCellType()==Cell.CELL_TYPE_NUMERIC) {
-        		if(idCell.getNumericCellValue() == Integer.parseInt(resultNodeId)) {
+        	if(idCell.getCellComment()!=null) {
+        		if(idCell.getCellComment().getString().toString().equals(resultNodeId)&&idCell.getCellComment().getAuthor().equals(NodeId)) {
         			
         			//Node is Found
         			Iterator<Cell> cellIterator = row.cellIterator();
@@ -373,6 +402,28 @@ public static void openFile(String resultNodeId,String sheetName) throws ClassNo
 	} catch (IOException e) {
 		e.printStackTrace();
 	}
+}
+/**
+ * 
+ * @param cell
+ * @param author
+ * @param content
+ * @param factory
+ * @param drawing
+ */
+private static void setCellComment(Cell cell, String author,String content,CreationHelper factory, Drawing drawing)
+{
+	ClientAnchor anchor = factory.createClientAnchor();
+	anchor.setCol1(cell.getColumnIndex());
+	anchor.setCol2(cell.getColumnIndex()+1);
+	anchor.setRow1(cell.getRowIndex());
+	anchor.setRow2(cell.getRowIndex()+1);
+
+    Comment comment = drawing.createCellComment(anchor);
+    RichTextString str = factory.createRichTextString(content);
+    comment.setAuthor(author);
+    comment.setString(str);
+	cell.setCellComment(comment);
 }
 
 }''' 
