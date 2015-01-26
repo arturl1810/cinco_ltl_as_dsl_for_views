@@ -45,6 +45,7 @@
     <genClasses image="false" ecoreClass="Style.ecore#//Style">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Style.ecore#//Style/name"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Style.ecore#//Style/appearanceProvider"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Style.ecore#//Style/parameterCount"/>
     </genClasses>
     <genClasses ecoreClass="Style.ecore#//NodeStyle">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Style.ecore#//NodeStyle/mainShape"/>

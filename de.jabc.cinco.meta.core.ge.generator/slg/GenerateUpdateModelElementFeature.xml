@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>ef7786c5-d04b-45de-89fd-b00e68b99149</id>
   <name>GenerateUpdateModelElementFeature</name>
-  <changecounter>374</changecounter>
+  <changecounter>381</changecounter>
   <sib>
     <id>b31345f6-8607-4397-986e-94a14e803be6</id>
     <name>PutExpression_1</name>
@@ -151,7 +151,11 @@ public class $context.className$ extends AbstractUpdateFeature {
 				AbstractText t = (AbstractText) pe.getGraphicsAlgorithm();
 				$context.elCode$
 				String formatString = Graphiti.getPeService().getPropertyValue(t, $context.graphModelName$GraphitiUtils.KEY_FORMAT_STRING);
-				t.setValue(String.format(formatString $context.formatParameter$));
+				try {
+					t.setValue(String.format(formatString $context.formatParameter$));
+				} catch (java.util.IllegalFormatException ife) {
+					t.setValue(&quot;STRING FORMAT ERROR&quot;);
+				}
 			}
 		}
 	}

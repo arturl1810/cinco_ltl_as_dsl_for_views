@@ -16,7 +16,7 @@ Style returns Style:
 ;
 
 NodeStyle returns NodeStyle:
-	'nodeStyle' name=ID '{'
+	'nodeStyle' name=ID ('(' parameterCount=INT ')')? '{'
 		('appearanceProvider' '('appearanceProvider=QName')')? 
 		(fixed?='fixed')?
 		mainShape=AbstractShape
@@ -24,7 +24,7 @@ NodeStyle returns NodeStyle:
 ;
 
 EdgeStyle returns EdgeStyle:
-	'edgeStyle' name=ID '{'
+	'edgeStyle' name=ID ('(' parameterCount=INT ')')? '{'
 		('appearanceProvider' '('appearanceProvider=QName')')? 
 		(('appearance' referencedAppearance=[Appearance]) | (inlineAppearance=InlineAppearance) )?
 		(decorator+=ConnectionDecorator)*
