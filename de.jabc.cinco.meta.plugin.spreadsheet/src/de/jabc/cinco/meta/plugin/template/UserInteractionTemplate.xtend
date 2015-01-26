@@ -72,13 +72,9 @@ public class UserInteraction {
 		{
 			return UserInteraction.getNewSheetName(resultNodeId);
 		}
-		if(sheetNames.isEmpty())
+		if(sheetNames.isEmpty() || !multiple)
 		{
 			return UserInteraction.getNewSheetName(resultNodeId);
-		}
-		if(sheetNames.size()==1 && !multiple)
-		{
-			return sheetNames.get(0);
 		}
 		return UserInteraction.pickSheetName(sheetNames,resultNodeId,true);
 	}
@@ -104,6 +100,7 @@ public class UserInteraction {
 	
 
 }
+
 
 '''
 }

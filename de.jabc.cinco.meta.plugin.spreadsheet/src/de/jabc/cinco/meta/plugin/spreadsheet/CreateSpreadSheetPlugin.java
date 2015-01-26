@@ -29,6 +29,7 @@ import de.jabc.cinco.meta.plugin.template.NodeStatusTemplate;
 import de.jabc.cinco.meta.plugin.template.NodeUtilTemplate;
 import de.jabc.cinco.meta.plugin.template.OpeningHandlerTemplate;
 import de.jabc.cinco.meta.plugin.template.PluginXMLTemplate;
+import de.jabc.cinco.meta.plugin.template.ResultNodeComparatorTemplate;
 import de.jabc.cinco.meta.plugin.template.SelectSheetDialogTemplate;
 import de.jabc.cinco.meta.plugin.template.SheetCalculatorTemplate;
 import de.jabc.cinco.meta.plugin.template.SheetHandlerTemplate;
@@ -246,6 +247,10 @@ public class CreateSpreadSheetPlugin {
 			
 			ProjectCreator.createFile("SelectSheetDialog.java", tvProject.getFolder("src/"+projectName.replace(".","/")),
 					new SelectSheetDialogTemplate().create(projectName).toString(),
+					progressMonitor);
+			
+			ProjectCreator.createFile("ResultNodeComparator.java", tvProject.getFolder("src/"+projectName.replace(".","/")),
+					new ResultNodeComparatorTemplate().create(projectName,resultNodes).toString(),
 					progressMonitor);
 			
 			

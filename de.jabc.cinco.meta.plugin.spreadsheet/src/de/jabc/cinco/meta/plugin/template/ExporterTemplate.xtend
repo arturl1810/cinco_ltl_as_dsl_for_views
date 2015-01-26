@@ -16,8 +16,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Map.Entry;
+import java.util.TreeMap;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
@@ -90,7 +90,7 @@ public static HSSFWorkbook export(ArrayList<VersionNode> nodes,HashMap<String,St
     idStyle.setFont(idFont);
 	
 	//Put all nodes in a HashMap depending on its type
-	Map<String, HashMap<String, ArrayList<VersionNode>>> orderedNodes = new HashMap<String,HashMap<String,ArrayList<VersionNode>>>();
+	TreeMap<String, HashMap<String, ArrayList<VersionNode>>> orderedNodes = new TreeMap<String,HashMap<String,ArrayList<VersionNode>>>(new ResultNodeComparator());
 	
 	for(VersionNode vnode : nodes){
 		
@@ -133,9 +133,10 @@ public static HSSFWorkbook export(ArrayList<VersionNode> nodes,HashMap<String,St
 			orderedNodes.put(nodeTypeName, map);
 		}
 	}
+	//Sort the Map
 	
 	//Create Sheet
-	int rowOffset = 0, colOffset = 0, rowCounter = 0, stepOffset = 1, colCount = 2;
+	int rowOffset = 0, colOffset = 0, rowCounter = 0, stepOffset = 0, colCount = 2;
 	
 	/**
 	 * CREATE NODE-TYPE AND EDGE-TYPE TABLES
@@ -154,7 +155,10 @@ public static HSSFWorkbook export(ArrayList<VersionNode> nodes,HashMap<String,St
 			int col=1;
 			
 			//Correct the amount of cols in use
-			if(edgeNodeList.getValue().size()>colCount)colCount=edgeNodeList.getValue().size();
+			int colsInUse = edgeNodeList.getValue().get(0).node.eClass().getEStructuralFeatures().size();
+			if(edgeNodeList.getValue().get(0).edge != null)colsInUse += edgeNodeList.getValue().get(0).edge.eClass().getEStructuralFeatures().size();
+			if(colsInUse>colCount)colCount=colsInUse;
+			
 			//Node Header
 			for(EStructuralFeature eNode : edgeNodeList.getValue().get(0).node.eClass().getEStructuralFeatures()){
 				
@@ -167,24 +171,27 @@ public static HSSFWorkbook export(ArrayList<VersionNode> nodes,HashMap<String,St
 				col++;
 			}
 			//Edge name
-			Cell edgeType = r.createCell(colOffset+col);
-			edgeType.setCellValue(edgeNodeList.getKey());
-			edgeType.setCellStyle(edgeHeaderStyle);
-			col++;
-			//Edge header
-			if(edgeNodeList.getValue().get(0).edge!=null) {
-				for(EStructuralFeature eEdge : edgeNodeList.getValue().get(0).edge.eClass().getEStructuralFeatures()){
-					
-					String attrname = eEdge.getName();
-					if(attrname.equals("fixAttributes"))continue;
-					Cell attr = r.createCell(colOffset+col);
-					attr.setCellStyle(edgeHeaderStyle);
-					attr.setCellType(HSSFCell.CELL_TYPE_STRING);
-					attr.setCellValue(attrname);
-					col++;
+			if(edgeNodeList.getValue().get(0).status != NodeStatus.RESULT) {
+				Cell edgeType = r.createCell(colOffset+col);
+				edgeType.setCellValue(edgeNodeList.getKey());
+				edgeType.setCellStyle(edgeHeaderStyle);
+				col++;
+				//Edge header
+				if(edgeNodeList.getValue().get(0).edge!=null) {
+					for(EStructuralFeature eEdge : edgeNodeList.getValue().get(0).edge.eClass().getEStructuralFeatures()){
+						
+						String attrname = eEdge.getName();
+						if(attrname.equals("fixAttributes"))continue;
+						Cell attr = r.createCell(colOffset+col);
+						attr.setCellStyle(edgeHeaderStyle);
+						attr.setCellType(HSSFCell.CELL_TYPE_STRING);
+						attr.setCellValue(attrname);
+						col++;
+					}
 				}
+			}else {
+				col++;
 			}
-			
 			
 			rowCounter++;
 			//Print Values for NodeType

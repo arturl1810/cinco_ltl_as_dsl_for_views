@@ -11,8 +11,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map.Entry;
 import java.util.Properties;
+import java.util.Set;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.eclipse.core.resources.IProject;
@@ -25,6 +27,9 @@ import org.eclipse.ui.PlatformUI;
 
 @SuppressWarnings("restriction")
 public class SheetHandler {
+	
+	private static String splitter = ">>>";
+	
 	public static String getSheetFolderPath()
 	{
 		IProject project = null;
@@ -67,7 +72,15 @@ public class SheetHandler {
 		fin.close();
 		
 		for (Entry<Object, Object> entry : properties.entrySet()) {
-			map.put((String)entry.getKey(), (String)entry.getValue());
+			if(((String)entry.getKey()).equals(resultNodeId))
+			{
+				String[] sheets = ((String)entry.getValue()).split(splitter);
+				if(sheets.length == 2) {
+					map.put(sheets[0],sheets[1]);
+				}
+				
+			}
+			
 		}
 		
 		return map;
@@ -140,27 +153,44 @@ public class SheetHandler {
 		return sheetNames;
 	}
 
-	
 	private static void writeSheetMap(HashMap<String,String> map,String resultNodeId) throws IOException
 	{
+		Set<Entry<Object,Object>> output = new HashSet<Entry<Object,Object>>();
+		try{
+			BufferedInputStream fin = new BufferedInputStream(new FileInputStream(getSheetFolderPath()+NodeUtil.getSheetMapFileName(resultNodeId)));
+			Properties preProperties = new Properties();
+			preProperties.load(fin);
+			fin.close();
+			//Save all not relevant entrys
+			
+			for (Entry<Object, Object> entry : preProperties.entrySet()) {
+				if(!((String)entry.getKey()).equals(resultNodeId))
+				{
+					output.add(entry);
+				}
+				
+			}
+		}catch(IOException ex) {
+			
+		}
+		
+		//write new and old entries
 		Properties properties = new Properties();
 		for(Entry<String,String> entry : map.entrySet()){
-			properties.setProperty(entry.getKey(), entry.getValue());
+			properties.put(resultNodeId, entry.getKey()+splitter+entry.getValue());
+		}
+		for(Entry<Object, Object> entry : output){
+			properties.put(entry.getKey(),entry.getValue());
 		}
 		File sheetMap = new File(getSheetFolderPath());
 		sheetMap.mkdirs();
 		
 		FileOutputStream fout = new FileOutputStream(getSheetFolderPath()+NodeUtil.getSheetMapFileName(resultNodeId));
-		properties.store(fout, "Result node ID: "+resultNodeId);
+		properties.store(fout, "Sheetmap");
 		fout.close();
 	}
 	
 	
 }
-
-
-
-
-
 '''
 }
