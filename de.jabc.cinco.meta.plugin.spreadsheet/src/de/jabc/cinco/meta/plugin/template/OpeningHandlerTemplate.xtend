@@ -8,6 +8,7 @@ class OpeningHandlerTemplate {
 package «packageName»;
 	
 import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.ss.usermodel.Cell;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.IHandler;
@@ -79,6 +80,7 @@ IStructuredSelection selection = (IStructuredSelection) HandlerUtil.getActiveSit
 	return null;
 }
 
+
 @Override
 public boolean isEnabled() {
 	return true;
@@ -103,6 +105,17 @@ private void openSheet(String resultNodeId,String sheetName)
 				"Sheet Error.\nSheet could not been opend");
 		e.printStackTrace();
 	}
+}
+private HashMap<Integer,ArrayList<Cell>> getUserCells(String sheetName, String resultNodeId)
+{
+	try {
+		return Spreadsheetimporter.importUserCells(sheetName, resultNodeId);
+	} catch (ClassNotFoundException | ClassCastException | IOException e) {
+		MessageDialog.openError(Display.getCurrent().getActiveShell(), 
+				"Error", 
+				"Sheet error.\nUser written cells could not be importet.");
+	}
+	return new HashMap<Integer,ArrayList<Cell>>();
 }
 
 
@@ -165,10 +178,10 @@ private ArrayList<VersionNode> getVersionNodes(Node node, String sheetName)
 	return nodes;
 }
 
-private boolean exportSheet(ArrayList<VersionNode> nodes, String sheetName,String resultNodeId, HashMap<String,String> formulas)
+private boolean exportSheet(ArrayList<VersionNode> nodes, String sheetName,String resultNodeId, HashMap<String,String> formulas, HashMap<Integer, ArrayList<Cell>> userCells)
 {
 	try {
-		SheetHandler.writeSheet(Spreadsheetexporter.export(nodes,formulas), resultNodeId, sheetName);
+		SheetHandler.writeSheet(Spreadsheetexporter.export(nodes,formulas,userCells), resultNodeId, sheetName);
 	} catch (IOException | ClassCastException | ClassNotFoundException e) {
 		MessageDialog.openError(Display.getCurrent().getActiveShell(), 
 				"Error", 
@@ -225,7 +238,8 @@ private boolean exportFormula(HashMap<String,String> formulas,String resultNodeI
 		
 		//Refresh the sheet and write it
 		nodes = getVersionNodes(node, sheetName);
-		if(!exportSheet(nodes, sheetName, resultNodeId, formulas))
+		HashMap<Integer, ArrayList<Cell>> userCells = this.getUserCells(sheetName, resultNodeId);
+		if(!exportSheet(nodes, sheetName, resultNodeId, formulas,userCells))
 		{
 			return null;
 		}

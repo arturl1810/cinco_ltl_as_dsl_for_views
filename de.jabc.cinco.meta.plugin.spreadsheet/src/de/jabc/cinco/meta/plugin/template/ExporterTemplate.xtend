@@ -41,7 +41,7 @@ public class Spreadsheetexporter {
 	public static String EdgeId = "EdgeId";
 	public static String Default = "Exported";
 
-public static HSSFWorkbook export(ArrayList<VersionNode> nodes,HashMap<String,String> formulas) throws FileNotFoundException{
+public static HSSFWorkbook export(ArrayList<VersionNode> nodes,HashMap<String,String> formulas,HashMap<Integer, ArrayList<Cell>> userCells) throws FileNotFoundException{
 	// create a new file
 	// create a new workbook
 	HSSFWorkbook workbook = new HSSFWorkbook();
@@ -215,7 +215,7 @@ public static HSSFWorkbook export(ArrayList<VersionNode> nodes,HashMap<String,St
 			}else {
 				col++;
 			}
-			
+			writeUserCells(r, col, userCells);
 			rowCounter++;
 			//Print Values for NodeType
 			for(VersionNode vnode : edgeNodeList.getValue()){
@@ -249,7 +249,7 @@ public static HSSFWorkbook export(ArrayList<VersionNode> nodes,HashMap<String,St
 					Cell attr = rowValues.createCell(colOffset+colValues);
 					attr.setCellStyle(rowStyle);
 					//Print Resultnodes
-					if(!(vnode.formulas.isEmpty()) || vnode.status==NodeStatus.RESULT) {
+					if((!vnode.formulas.isEmpty()) || vnode.status==NodeStatus.RESULT) {
 						
 						setCellComment(attr,Default,"Formula",factory,drawing);
 						
@@ -287,6 +287,7 @@ public static HSSFWorkbook export(ArrayList<VersionNode> nodes,HashMap<String,St
 					}
 				}
 				rowCounter++;
+				writeUserCells(rowValues, colValues, userCells);
 			}
 		}
 		rowCounter+=stepOffset;
@@ -360,27 +361,39 @@ public static void writeFormula(String resultNodeId,String sheetName, HashMap<St
         Cell idCell = row.getCell(0);
         if(idCell!=null) {
         	if(idCell.getCellComment()!=null) {
-        		if(idCell.getCellComment().getString().toString().equals(resultNodeId)&&idCell.getCellComment().getAuthor().equals(NodeId)) {
+        		String [] comment = idCell.getCellComment().getString().toString().split(":");
+        		if(comment[1].equals(resultNodeId) && comment[0].equals(NodeId)) {
         			
         			//Node is Found
         			Iterator<Cell> cellIterator = row.cellIterator();
         	        while(cellIterator.hasNext()) {
         	        	Cell cell = cellIterator.next();
-        	        	String attrName = sheet.getRow(row.getRowNum()-1).getCell(cell.getColumnIndex()).getStringCellValue();
-        	        	if(formulas.containsKey(attrName)){
-        	        			cell.setCellType(Cell.CELL_TYPE_FORMULA);
-        	        			cell.setCellFormula(formulas.get(attrName));
-	        	        }
+        	        	
+        	        	if(cell.getCellComment()!=null) {
+        	        		String attrName = sheet.getRow(row.getRowNum()-1).getCell(cell.getColumnIndex()).getStringCellValue();
+            	        	if(formulas.containsKey(attrName)){
+            	        			
+            	        			
+            	        			cell.setCellValue("");
+            	        			
+            	        			cell.setCellFormula(formulas.get(attrName));
+            	        			
+            	        			cell.setCellType(Cell.CELL_TYPE_FORMULA);
+            	        			
+            	        			
+    	        	        }
+        	        	}
 	        		}
 	        	}
 	        }
         }
    }
     
-    file.close();
     
-    FileOutputStream outFile =new FileOutputStream(new File(map.get(sheetName)));
+    
+    FileOutputStream outFile =new FileOutputStream(new File(SheetHandler.getSheetFolderPath()+map.get(sheetName)));
     workbook.write(outFile);
+    file.close();
     outFile.close();
 }
 /**
@@ -420,10 +433,40 @@ private static void setCellComment(Cell cell, String author,String content,Creat
 	anchor.setRow2(cell.getRowIndex()+1);
 
     Comment comment = drawing.createCellComment(anchor);
-    RichTextString str = factory.createRichTextString(content);
-    comment.setAuthor(author);
+    RichTextString str = factory.createRichTextString(author+":"+content);
+    //comment.setAuthor(author);
     comment.setString(str);
 	cell.setCellComment(comment);
+}
+
+private static void writeUserCells(Row row,int colCount,HashMap<Integer,ArrayList<Cell>> userCells)
+{
+	if(userCells.containsKey(row.getRowNum())) {
+		for(Cell c : userCells.get(row.getRowNum())) {
+			Cell cell = row.createCell(colCount);
+			cell.setCellType(c.getCellType());
+			switch (c.getCellType()) {
+	        case Cell.CELL_TYPE_BOOLEAN:
+	            cell.setCellValue(c.getBooleanCellValue());
+	            break;
+	        case Cell.CELL_TYPE_NUMERIC:
+	            cell.setCellValue(c.getNumericCellValue());
+	            break;
+	        case Cell.CELL_TYPE_STRING:
+	        	cell.setCellValue(c.getStringCellValue());
+	            break;
+	        case Cell.CELL_TYPE_BLANK:
+	            break;
+	        case Cell.CELL_TYPE_ERROR:
+	            break;
+	        case Cell.CELL_TYPE_FORMULA:
+	        	//TODO Validate the user formula
+	        	//cell.setCellValue(c.getCellFormula());
+	            break;
+    		}
+			colCount++;
+		}
+	}
 }
 
 }''' 

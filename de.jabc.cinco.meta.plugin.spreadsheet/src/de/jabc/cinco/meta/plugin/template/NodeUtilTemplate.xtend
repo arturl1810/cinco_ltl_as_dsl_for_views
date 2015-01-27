@@ -54,8 +54,7 @@ public class NodeUtil {
 		return sheetName+resultNodeId+".xls";
 	}
 	
-	
-	public static ArrayList<VersionNode> getVersionNodes(HSSFSheet sheet, ArrayList<VersionNode> newNodes, Node resultNode) {
+		public static ArrayList<VersionNode> getVersionNodes(HSSFSheet sheet, ArrayList<VersionNode> newNodes, Node resultNode) {
 		ArrayList<VersionNode> vns = new ArrayList<>();
 		
 		//Put the new Nodes in a Hashmap based on their id
@@ -80,10 +79,14 @@ public class NodeUtil {
 				nodeName=idCell.getStringCellValue();
 			}
 			
-			//if(idCell.getCellType()==Cell.CELL_TYPE_NUMERIC){
 			if(idCell.getCellComment()!=null){	
-				if(!idCell.getCellComment().getAuthor().equals(Spreadsheetexporter.NodeId))continue;
-				String id = idCell.getCellComment().getString().toString();
+				
+				String [] comment = idCell.getCellComment().getString().toString().split(":");
+        		if(!comment[0].equals(Spreadsheetexporter.NodeId)) {
+        			continue;
+        		}
+				
+				String id = comment[1];
 				
 				if(hashedNodes.containsKey(id)){
 					//Node is Found in XLS
@@ -245,19 +248,22 @@ public class NodeUtil {
 			}
 			Cell idCell = row.getCell(0);
 			if(idCell.getCellComment()!=null){
-				if(idCell.getCellComment().getAuthor().equals(Spreadsheetexporter.NodeId))
-				try{
-					int id = Integer.parseInt(idCell.getCellComment().getString().toString());
-					int rowIndex = idCell.getRowIndex() + 1; //Because Formula-Cell-Refs beginn at 1
-					cellRefs.put(id, rowIndex);
-				}catch(NumberFormatException ex){
-					
-				}
+				String [] comment = idCell.getCellComment().getString().toString().split(":");
+        		if(comment[0].equals(Spreadsheetexporter.NodeId)) {
+					try{
+						int id = Integer.parseInt(comment[1]);
+						int rowIndex = idCell.getRowIndex() + 1; //Because Formula-Cell-Refs beginn at 1
+						cellRefs.put(id, rowIndex);
+					}catch(NumberFormatException ex){
+						
+					}
+        		}
 				
 			}
 		}
 		return cellRefs;
 	}
+	
 	public static HashMap<String, String> rereferenceFormula(HashMap<String, String> formulas,HashMap<Integer, Integer> oldRefs ,HashMap<Integer, Integer> newRefs)
 	{
 		HashMap<Integer, Integer> rowRearange = new HashMap<Integer, Integer>();

@@ -20,6 +20,17 @@ import org.apache.poi.ss.usermodel.Row;
 
 public class Spreadsheetimporter {
 
+/**
+ * 
+ * @param sheetName
+ * @param resultNodeId
+ * @param resultAttrNames
+ * @return
+ * @throws IOException
+ * @throws CalculationException
+ * @throws ClassNotFoundException
+ * @throws ClassCastException
+ */
 public static HashMap<String,Double> calculate(String sheetName, String resultNodeId, ArrayList<String> resultAttrNames) throws IOException, CalculationException, ClassNotFoundException, ClassCastException {
 	HashMap<String, String> map = SheetHandler.loadSheetMap(resultNodeId);
 	
@@ -50,7 +61,8 @@ public static HashMap<String,Double> calculate(String sheetName, String resultNo
         Cell idCell = row.getCell(0);
         if(idCell!=null) {
         	if(idCell.getCellComment() != null){
-        		if(idCell.getCellComment().getString().toString().equals(resultNodeId)&&idCell.getCellComment().getAuthor().equals(Spreadsheetexporter.NodeId)){
+        		String [] comment = idCell.getCellComment().getString().toString().split(":");
+        		if(comment[1].equals(resultNodeId)&&comment[0].equals(Spreadsheetexporter.NodeId)) {
         			//Node is Found
         			Iterator<Cell> cellIterator = row.cellIterator();
         	        while(cellIterator.hasNext()) {
@@ -93,6 +105,51 @@ public static HashMap<String,Double> calculate(String sheetName, String resultNo
 	return results;
 }
 
+/**
+ * 
+ * @param sheetName
+ * @param resultNodeId
+ * @return
+ * @throws ClassNotFoundException
+ * @throws ClassCastException
+ * @throws IOException
+ */
+public static HashMap<Integer, ArrayList<Cell>> importUserCells(String sheetName, String resultNodeId) throws ClassNotFoundException, ClassCastException, IOException
+{
+	HashMap<Integer, ArrayList<Cell>> usercells = new HashMap<Integer, ArrayList<Cell>>();
+	HSSFSheet sheet = importSheet(sheetName, resultNodeId);
+	Iterator<Row> rowIterator = sheet.iterator();
+	while(rowIterator.hasNext()) {
+		Row row = rowIterator.next();
+    	Iterator<Cell> cellIterator = row.cellIterator();
+    	while(cellIterator.hasNext()) {
+    		Cell cell = cellIterator.next();
+    		
+    		if(cell.getCellComment() == null) {
+    			if(usercells.containsKey(cell.getRowIndex())){
+    				usercells.get(cell.getRowIndex()).add(cell);
+    			}
+    			else {
+    				ArrayList<Cell> cells = new  ArrayList<Cell>();
+    				cells.add(cell);
+    				usercells.put(cell.getRowIndex(), cells);
+    			}
+    			
+    		}
+    	}
+    }
+	return usercells;
+}
+
+/**
+ * 
+ * @param sheetName
+ * @param resultNodeId
+ * @return
+ * @throws IOException
+ * @throws ClassNotFoundException
+ * @throws ClassCastException
+ */
 public static HSSFSheet importSheet(String sheetName, String resultNodeId) throws IOException, ClassNotFoundException, ClassCastException{
 HashMap<String, String> map = SheetHandler.loadSheetMap(resultNodeId);
 	
@@ -105,6 +162,16 @@ HashMap<String, String> map = SheetHandler.loadSheetMap(resultNodeId);
     return workbook.getSheetAt(0);
 }
 
+/**
+ * 
+ * @param sheetName
+ * @param sheetNumber
+ * @param resultNodeId
+ * @return
+ * @throws IOException
+ * @throws ClassNotFoundException
+ * @throws ClassCastException
+ */
 public static HSSFSheet importSheet(String sheetName, int sheetNumber, String resultNodeId) throws IOException, ClassNotFoundException, ClassCastException{
 	HashMap<String, String> map = SheetHandler.loadSheetMap(resultNodeId);
 	
@@ -117,6 +184,17 @@ public static HSSFSheet importSheet(String sheetName, int sheetNumber, String re
     return workbook.getSheetAt(sheetNumber);
 }
 
+/**
+ * 
+ * @param sheetName
+ * @param resultNodeId
+ * @param resultNodeAttrs
+ * @return
+ * @throws IOException
+ * @throws CalculationException
+ * @throws ClassNotFoundException
+ * @throws ClassCastException
+ */
 public static HashMap<String,String> importFormula(String sheetName, String resultNodeId,ArrayList<String> resultNodeAttrs) throws IOException, CalculationException, ClassNotFoundException, ClassCastException{
 	HashMap<String, String> map = SheetHandler.loadSheetMap(resultNodeId);
 	HashMap<String,String> formulas = new HashMap<String,String>();
@@ -139,15 +217,17 @@ public static HashMap<String,String> importFormula(String sheetName, String resu
         Cell idCell = row.getCell(0);
         if(idCell!=null) {
         	if(idCell.getCellComment() != null){
-        		if(idCell.getCellComment().getString().toString().equals(resultNodeId)&&idCell.getCellComment().getAuthor().equals(Spreadsheetexporter.NodeId)){
+        		String [] comment = idCell.getCellComment().getString().toString().split(":");
+        		if(comment[1].equals(resultNodeId)&&comment[0].equals(Spreadsheetexporter.NodeId)) {
         			
         			//Node is Found
         			Iterator<Cell> cellIterator = row.cellIterator();
         	        while(cellIterator.hasNext()) {
         	        	Cell cell = cellIterator.next();
+        	        	if(cell.getCellComment()==null)continue;
         	        	String attrName = sheet.getRow(row.getRowNum()-1).getCell(cell.getColumnIndex()).getStringCellValue();
         	        	if(resultNodeAttrs.contains(attrName) && cell.getCellType()==Cell.CELL_TYPE_FORMULA) {
-        	        		formulas.put(attrName, cell.getCellFormula());
+        	        		//formulas.put(attrName, cell.getCellFormula());
         	        		switch (evaluator.evaluateFormulaCell(cell)) {
     	        	        case Cell.CELL_TYPE_BOOLEAN:
     	        	            System.out.println(cell.getBooleanCellValue());

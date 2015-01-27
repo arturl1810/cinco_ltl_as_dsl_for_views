@@ -11,6 +11,7 @@ package «packageName»;
 
 import graphmodel.Node;
 
+import org.apache.poi.ss.usermodel.Cell;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.IHandler;
@@ -32,6 +33,7 @@ import «projectPath».«n.nodeName»;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Auto-generated Class
@@ -92,7 +94,7 @@ public Object execute(ExecutionEvent event) throws ExecutionException {
 	}
 	
 	try {
-		SheetHandler.writeSheet(Spreadsheetexporter.export(nodes,null), resultNodeId, sheetName);
+		SheetHandler.writeSheet(Spreadsheetexporter.export(nodes,null, new HashMap<Integer,ArrayList<Cell>>()), resultNodeId, sheetName);
 	} catch (ClassNotFoundException | ClassCastException
 			| IOException e1) {
 		MessageDialog.openError(Display.getCurrent().getActiveShell(), 
