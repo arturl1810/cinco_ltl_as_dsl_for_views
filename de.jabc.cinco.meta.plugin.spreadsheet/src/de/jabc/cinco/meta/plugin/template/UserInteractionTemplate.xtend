@@ -29,16 +29,16 @@ public class UserInteraction {
 		    	sheetName = dialog.getSheetName();
 		    	if(sheetName==null)return null;
 		    	sheetName = sheetName.replaceAll("[^a-zA-Z0-9.-]", "_");
-		    	System.out.println("User selected new Sheetname: "+sheetName);
+		    	//System.out.println("User selected new Sheetname: "+sheetName);
 		    }
 		    else
 		    {
-		    	System.out.println("User canceld creation");
+		    	//System.out.println("User canceld creation");
 		    	return null;
 		    }
 		    errorMessage = "Your sheetname is already in use.";
 	    }while(SheetHandler.containsSheet(resultNodeId, sheetName)==true || sheetName.isEmpty());
-	    System.out.println("User Sheetname is OK");
+	    //System.out.println("User Sheetname is OK");
 	    //Write new sheetname to the sheetmap
 	    
 	    //SheetHandler.addSheet(resultNodeId,sheetName);
@@ -56,10 +56,10 @@ public class UserInteraction {
     	dialog.create();
 	    if(dialog.open()==Window.OK)
 	    {
-	    	System.out.println("User chose a Sheet");
+	    	//System.out.println("User chose a Sheet");
 	    	return dialog.getSheetName();
 	    }
-	    System.out.println("User canceld selection.");
+	    //System.out.println("User canceld selection.");
 	    return null;
 	    
 	}

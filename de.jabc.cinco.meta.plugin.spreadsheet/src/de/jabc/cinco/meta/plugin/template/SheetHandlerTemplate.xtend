@@ -133,7 +133,7 @@ public class SheetHandler {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		System.out.println("XLS and Sheetmap written");
+		//System.out.println("XLS and Sheetmap written");
 	}
 	/**
 	 * Returns all known sheets.
@@ -146,7 +146,7 @@ public class SheetHandler {
 		try {
 				sheetNames.addAll(loadSheetMap(resultNodeId).keySet());
 		} catch (ClassNotFoundException | ClassCastException | IOException e) {
-			System.out.println("No Sheet known for this Resultnode. I create a new one.");
+			//System.out.println("No Sheet known for this Resultnode. I create a new one.");
 			try {
 				writeSheetMap(new HashMap<String,String>(),resultNodeId);
 			} catch (IOException e1) {

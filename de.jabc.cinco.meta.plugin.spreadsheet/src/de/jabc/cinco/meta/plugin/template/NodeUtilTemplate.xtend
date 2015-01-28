@@ -200,7 +200,7 @@ public class NodeUtil {
 				else
 				{
 					Node missingNode = getNode(((graphmodel.GraphModel)resultNode.getContainer()), id);
-					System.out.println(missingNode);
+					//System.out.println(missingNode);
 					//Note is not in the Canvas and has to be read from the sheet
 					if(missingNode==null) {
 						missingNode=createNodeFromSheetRow(nodeName, row);
@@ -287,7 +287,7 @@ public class NodeUtil {
 				String cellCol = cellRef.replaceAll("\\d", "");
 				String cellRow = cellRef.replaceAll("\\D+","");
 				if(rowRearange.get(Integer.parseInt(cellRow))!=null) {
-					System.out.println("Replacing: "+cellRef+" with "+cellCol+" "+rowRearange.get(Integer.parseInt(cellRow)));
+					//System.out.println("Replacing: "+cellRef+" with "+cellCol+" "+rowRearange.get(Integer.parseInt(cellRow)));
 					refreshedFormula = refreshedFormula.replaceAll(cellRef, cellCol+rowRearange.get(Integer.parseInt(cellRow)));
 				}
 			}

@@ -72,21 +72,21 @@ public static HashMap<String,Double> calculate(String sheetName, String resultNo
         	        		if(resultAttrNames.contains(attrName)) {
         	        			switch (evaluator.evaluateFormulaCell(cell)) {
         	        	        case Cell.CELL_TYPE_BOOLEAN:
-        	        	            System.out.println(cell.getBooleanCellValue());
+        	        	            //System.out.println(cell.getBooleanCellValue());
         	        	            results.put(attrName,(cell.getBooleanCellValue()) ? 1.0 : 0.0);
         	        	            break;
         	        	        case Cell.CELL_TYPE_NUMERIC:
-        	        	            System.out.println(cell.getNumericCellValue()+" "+cell.getCellFormula());
+        	        	            //System.out.println(cell.getNumericCellValue()+" "+cell.getCellFormula());
         	        	            results.put(attrName, cell.getNumericCellValue());
         	        	            break;
         	        	        case Cell.CELL_TYPE_STRING:
-        	        	            System.out.println(cell.getStringCellValue());
+        	        	            //System.out.println(cell.getStringCellValue());
         	        	            results.put(attrName, Double.parseDouble(cell.getStringCellValue()));
         	        	            break;
         	        	        case Cell.CELL_TYPE_BLANK:
         	        	            break;
         	        	        case Cell.CELL_TYPE_ERROR:
-        	        	            System.out.println(cell.getErrorCellValue());
+        	        	            //System.out.println(cell.getErrorCellValue());
         	        	            break;
 
         	        	        // CELL_TYPE_FORMULA will never occur
@@ -230,21 +230,21 @@ public static HashMap<String,String> importFormula(String sheetName, String resu
         	        		//formulas.put(attrName, cell.getCellFormula());
         	        		switch (evaluator.evaluateFormulaCell(cell)) {
     	        	        case Cell.CELL_TYPE_BOOLEAN:
-    	        	            System.out.println(cell.getBooleanCellValue());
+    	        	            //System.out.println(cell.getBooleanCellValue());
     	        	            formulas.put(attrName, cell.getCellFormula());
     	        	            break;
     	        	        case Cell.CELL_TYPE_NUMERIC:
-    	        	            System.out.println(cell.getNumericCellValue()+" "+cell.getCellFormula());
+    	        	            //System.out.println(cell.getNumericCellValue()+" "+cell.getCellFormula());
     	        	            formulas.put(attrName, cell.getCellFormula());
     	        	            break;
     	        	        case Cell.CELL_TYPE_STRING:
-    	        	            System.out.println(cell.getStringCellValue());
+    	        	            //System.out.println(cell.getStringCellValue());
     	        	            formulas.put(attrName, cell.getCellFormula());
     	        	            break;
     	        	        case Cell.CELL_TYPE_BLANK:
     	        	            break;
     	        	        case Cell.CELL_TYPE_ERROR:
-    	        	            System.out.println(cell.getErrorCellValue());
+    	        	            //System.out.println(cell.getErrorCellValue());
     	        	            break;
 
     	        	        // CELL_TYPE_FORMULA will never occur

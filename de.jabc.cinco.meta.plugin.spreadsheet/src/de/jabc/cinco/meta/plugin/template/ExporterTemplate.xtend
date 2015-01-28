@@ -299,7 +299,7 @@ public static HSSFWorkbook export(ArrayList<VersionNode> nodes,HashMap<String,St
 		sheet.autoSizeColumn((short)i);
 	}
 	
-	System.out.println("XLS successfully created");
+	//System.out.println("XLS successfully created");
 	return workbook;
 	//return "succsessfully";
 }
