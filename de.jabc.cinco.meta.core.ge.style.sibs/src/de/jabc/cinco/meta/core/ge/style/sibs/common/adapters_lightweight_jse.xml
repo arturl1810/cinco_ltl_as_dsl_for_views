@@ -1,5 +1,13 @@
 <serviceAdapters defaultAdapter="de.jabc.cinco.meta.core.ge.style.sibs.adapter.ServiceAdapter">
 	
+	<serviceAdapter uid="ge-util-sibs/GetPaletteGroups">
+		<service>getPaletteGroups</service>
+		<arguments>
+			<argument name="graphModel" />
+			<argument name="nameToMEMap" />
+		</arguments>
+	</serviceAdapter>
+	
 	<serviceAdapter uid="ge-util-sibs/IsPrimeNode">
 		<service>isPrimeNode</service>
 		<arguments>
