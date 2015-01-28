@@ -25,7 +25,9 @@ import «projectPath».«n.nodeName»;
 «ENDFOR»
 
 import java.io.IOException;
+«IF multiple == false»
 import java.util.ArrayList;
+«ENDIF»
 import java.util.HashMap;
 
 /**

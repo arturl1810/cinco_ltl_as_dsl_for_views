@@ -1,7 +1,7 @@
 package de.jabc.cinco.meta.plugin.template
 
 class SheetHandlerTemplate {
-	def create(String packageName)'''
+	def create(String packageName, boolean multiple)'''
 package «packageName»;
 
 import java.io.BufferedInputStream;
@@ -11,10 +11,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map.Entry;
 import java.util.Properties;
-import java.util.Set;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.eclipse.core.resources.IProject;
@@ -59,7 +57,7 @@ public class SheetHandler {
 	 * Loads all known sheets for a result-node.
 	 * The returned hash-map contains the name of the sheet and the hashed id of the file
 	 * @param resultNodeId
-	 * @return
+	 * @return HashMap<sheetname,filename>
 	 * @throws IOException 
 	 * @throws ClassNotFoundException 
 	 */
@@ -72,7 +70,7 @@ public class SheetHandler {
 		fin.close();
 		
 		for (Entry<Object, Object> entry : properties.entrySet()) {
-			if(((String)entry.getKey()).equals(resultNodeId))
+			if(((String)entry.getKey()).split(splitter)[1].equals(resultNodeId))
 			{
 				String[] sheets = ((String)entry.getValue()).split(splitter);
 				if(sheets.length == 2) {
@@ -117,7 +115,13 @@ public class SheetHandler {
 	public static void writeSheet(HSSFWorkbook workbook,String resultNodeId,String sheetName) throws ClassNotFoundException, ClassCastException, IOException
 	{
 		//Write the sheetmap
+		«IF multiple == true»
+		//MULTIPLEMODE
 		HashMap<String,String> map = loadSheetMap(resultNodeId);
+		«ELSE»
+		//SINGLEMODE
+		HashMap<String,String> map = new HashMap<String,String>();
+		«ENDIF»
 		map.put(sheetName, NodeUtil.getSheetFileName(sheetName, resultNodeId));
 		writeSheetMap(map, resultNodeId);
 		//Write the XLS
@@ -153,35 +157,48 @@ public class SheetHandler {
 		return sheetNames;
 	}
 
+	/**
+	 *
+	 * @param map
+	 * @param resultNodeId
+	 * @throws IOException
+	 */
 	private static void writeSheetMap(HashMap<String,String> map,String resultNodeId) throws IOException
 	{
-		Set<Entry<Object,Object>> output = new HashSet<Entry<Object,Object>>();
+		HashMap<String, String> output = new HashMap<String,String>();
+		int i = 0;
 		try{
 			BufferedInputStream fin = new BufferedInputStream(new FileInputStream(getSheetFolderPath()+NodeUtil.getSheetMapFileName(resultNodeId)));
 			Properties preProperties = new Properties();
 			preProperties.load(fin);
 			fin.close();
 			//Save all not relevant entrys
-			
 			for (Entry<Object, Object> entry : preProperties.entrySet()) {
-				if(!((String)entry.getKey()).equals(resultNodeId))
+				if(!((String)entry.getKey()).split(splitter)[1].equals(resultNodeId) || «multiple»)
 				{
-					output.add(entry);
+						output.put(((String)entry.getKey()),(String) entry.getValue());
+						i++;
+					
 				}
 				
 			}
+			
 		}catch(IOException ex) {
 			
 		}
 		
 		//write new and old entries
 		Properties properties = new Properties();
+		
+		for(Entry<String, String> entry : output.entrySet()){
+			properties.setProperty(entry.getKey(),entry.getValue());
+		}
+		
 		for(Entry<String,String> entry : map.entrySet()){
-			properties.put(resultNodeId, entry.getKey()+splitter+entry.getValue());
+			properties.put(i+splitter+resultNodeId, entry.getKey()+splitter+entry.getValue());
+			i++;
 		}
-		for(Entry<Object, Object> entry : output){
-			properties.put(entry.getKey(),entry.getValue());
-		}
+		
 		File sheetMap = new File(getSheetFolderPath());
 		sheetMap.mkdirs();
 		

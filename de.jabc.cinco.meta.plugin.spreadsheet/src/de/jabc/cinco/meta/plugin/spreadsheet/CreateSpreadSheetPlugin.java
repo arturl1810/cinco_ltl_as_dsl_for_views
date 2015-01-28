@@ -228,7 +228,7 @@ public class CreateSpreadSheetPlugin {
 					progressMonitor);
 			
 			ProjectCreator.createFile("SheetHandler.java", tvProject.getFolder("src/"+projectName.replace(".","/")),
-					new SheetHandlerTemplate().create(projectName).toString(),
+					new SheetHandlerTemplate().create(projectName,multiple).toString(),
 					progressMonitor);
 			
 			//Exceptions
