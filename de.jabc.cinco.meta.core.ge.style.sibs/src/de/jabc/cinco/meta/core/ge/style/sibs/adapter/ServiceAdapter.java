@@ -1157,4 +1157,56 @@ public class ServiceAdapter {
 		
 	}
 
+	public static String getPaletteGroups(LightweightExecutionEnvironment env,
+			ContextKeyFoundation graphmodel, ContextKeyFoundation gn2men) {
+		
+		LightweightExecutionContext context = env.getLocalContext();
+		try {
+			GraphModel gm = (GraphModel) context.get(graphmodel);
+			HashMap<String, List<GraphicalModelElement>> map = new HashMap<>();
+			
+			for (Node n : gm.getNodes()){
+				for (Annotation a : n.getAnnotations()) {
+					if ("palette".equals(a.getName())) {
+						for (String v : a.getValue()) {
+							if (map.get(v) == null)
+								map.put(v, new ArrayList<GraphicalModelElement>());
+							map.get(v).add(n);
+						}
+					}
+				}
+			}
+			
+			for (Edge e : gm.getEdges()){
+				for (Annotation a : e.getAnnotations()) {
+					if ("palette".equals(a.getName())) {
+						for (String v : a.getValue()) {
+							if (map.get(v) == null)
+								map.put(v, new ArrayList<GraphicalModelElement>());
+							map.get(v).add(e);
+						}
+					}
+				}
+			}
+			
+			for (NodeContainer nc : gm.getNodeContainers()){
+				for (Annotation a : nc.getAnnotations()) {
+					if ("palette".equals(a.getName())) {
+						for (String v : a.getValue()) {
+							if (map.get(v) == null)
+								map.put(v, new ArrayList<GraphicalModelElement>());
+							map.get(v).add(nc);
+						}
+					}
+				}
+			}
+			
+			context.put(gn2men, map);
+			return Branches.DEFAULT;
+		} catch (Exception e) {
+			context.put("exception", e);
+			return Branches.ERROR;
+		}
+	}
+
 }
