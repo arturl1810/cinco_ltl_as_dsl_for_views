@@ -4,27 +4,32 @@
 package de.jabc.cinco.meta.productdefinition.generator
 
 import ProductDefinition.CincoProduct
+import de.jabc.cinco.meta.core.utils.BuildProperties
 import de.jabc.cinco.meta.core.utils.projects.ProjectCreator
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.util.ArrayList
 import mgl.GraphModel
+import org.eclipse.core.resources.IFile
 import org.eclipse.core.resources.IProject
 import org.eclipse.core.resources.ResourcesPlugin
+import org.eclipse.core.runtime.IPath
 import org.eclipse.core.runtime.NullProgressMonitor
+import org.eclipse.core.runtime.Path
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.pde.internal.core.iproduct.IProductFeature
 import org.eclipse.pde.internal.core.iproduct.IWindowImages
 import org.eclipse.pde.internal.core.product.AboutInfo
+import org.eclipse.pde.internal.core.product.LauncherInfo
 import org.eclipse.pde.internal.core.product.ProductFeature
 import org.eclipse.pde.internal.core.product.SplashInfo
 import org.eclipse.pde.internal.core.product.WindowImages
 import org.eclipse.pde.internal.core.product.WorkspaceProductModel
 import org.eclipse.xtext.generator.IFileSystemAccess
 import org.eclipse.xtext.generator.IGenerator
-import org.eclipse.pde.internal.core.product.LauncherInfo
+import org.eclipse.pde.internal.core.natures.PluginProject
 
 /**
  * Generates code from your model files on save.
@@ -102,12 +107,17 @@ class CPDGenerator implements IGenerator {
 			
 			
 			//Copy Image Files to product folder
-			var file = project.location.toFile
-			var iconPath = project.location.append("icons/")
+			//var iconPath = project.location.append("icons/")
+			var mglProject = ProjectCreator.getProject(resource)
+			
+			var iconPath = mglProject.location.append("icons/branding")
+			
+			val bpFile = mglProject.findMember("build.properties")as IFile
+				var bp = BuildProperties.loadBuildProperties(bpFile)
+			
 			if(!iconPath.toFile.exists)
 				iconPath.toFile.mkdirs
 			 var imgFile = null as File
-			println(file)
 			var windowImages = new WindowImages(productModel)
 			if(!productDefinition.image16.nullOrEmpty && !productDefinition.image16.equals('""')){
 				var s = productDefinition.image16 as String
@@ -116,7 +126,6 @@ class CPDGenerator implements IGenerator {
 				var targetPath = iconPath.append(imgFile.name)
 				var targetFile = targetPath.toFile
 				copyFile(imgFile,targetFile)
-				println(targetPath.makeRelativeTo(project.workspace.root.location).makeAbsolute)
 				windowImages.setImagePath(targetPath.makeRelativeTo(project.workspace.root.location).makeAbsolute.toString,0)
 			}
 			if(!productDefinition.image32.nullOrEmpty){
@@ -126,7 +135,6 @@ class CPDGenerator implements IGenerator {
 				var targetPath = iconPath.append(imgFile.name)
 				var targetFile = targetPath.toFile
 				copyFile(imgFile,targetFile)
-				println(targetPath.makeRelativeTo(project.workspace.root.location).makeAbsolute)
 				windowImages.setImagePath(targetPath.makeRelativeTo(project.workspace.root.location).makeAbsolute.toString,1)
 			}
 			
@@ -137,7 +145,6 @@ class CPDGenerator implements IGenerator {
 				var targetPath = iconPath.append(imgFile.name)
 				var targetFile = targetPath.toFile
 				copyFile(imgFile,targetFile)
-				println(targetPath.makeRelativeTo(project.workspace.root.location).makeAbsolute)
 				windowImages.setImagePath(targetPath.makeRelativeTo(project.workspace.root.location).makeAbsolute.toString,2)
 			}
 			if(!productDefinition.image64.nullOrEmpty){
@@ -147,7 +154,6 @@ class CPDGenerator implements IGenerator {
 				var targetPath = iconPath.append(imgFile.name)
 				var targetFile = targetPath.toFile
 				copyFile(imgFile,targetFile)
-				println(targetPath.makeRelativeTo(project.workspace.root.location).makeAbsolute)
 				windowImages.setImagePath(targetPath.makeRelativeTo(project.workspace.root.location).makeAbsolute.toString,3)
 			}
 			if(!productDefinition.image128.nullOrEmpty){
@@ -157,16 +163,27 @@ class CPDGenerator implements IGenerator {
 				var targetPath = iconPath.append(imgFile.name)
 				var targetFile = targetPath.toFile
 				copyFile(imgFile,targetFile)
-				println(targetPath.makeRelativeTo(project.workspace.root.location).makeAbsolute)
 				windowImages.setImagePath(targetPath.makeRelativeTo(project.workspace.root.location).makeAbsolute.toString,4)
 			}
 			if(!productDefinition.splashPlugin.nullOrEmpty&&!productDefinition.splashPlugin.equals("\"\"")){
 				var s = productDefinition.splashPlugin.replaceAll("\"","")
 				product.setSplashInfo(new SplashInfo(productModel))
-				product.splashInfo.setLocation(s,true)
+				product.splashInfo.setLocation((mglProject.name),true)
 				
+				imgFile = new File(s)
+				var targetPath = new Path(mglProject.location.makeAbsolute.toOSString) as IPath
+				 
+				var targetFile = targetPath.append("splash.bmp").toFile
+				copyFile(imgFile,targetFile)
+				
+				bp.appendBinIncludes("splash.bmp")
+				
+				
+							
 
 			}
+			
+			bp.store(bpFile,progressMonitor)
 			
 			if(productDefinition.about!=null){
 				
@@ -175,7 +192,7 @@ class CPDGenerator implements IGenerator {
 				if(!productDefinition.about.imagePath.nullOrEmpty && !productDefinition.about.imagePath.equals("\"\"")){
 				
 					var imageFile = new File(productDefinition.about.imagePath.replaceAll("\"",""))
-					var targetPath = project.location.makeAbsolute.append("icons").append(imageFile.name)
+					var targetPath = iconPath.append(imageFile.name)
 					var targetFile = targetPath.toFile
 					copyFile(imageFile,targetFile)
 					aboutInfo.setImagePath(targetPath.makeRelativeTo(project.workspace.root.location).makeAbsolute.toString)
@@ -198,6 +215,7 @@ class CPDGenerator implements IGenerator {
 			product.version = productDefinition.version
 			productModel.save
 			project.refreshLocal(IProject.DEPTH_INFINITE,progressMonitor)
+			mglProject.refreshLocal(IProject.DEPTH_INFINITE,progressMonitor)
 			
 		}
 	}

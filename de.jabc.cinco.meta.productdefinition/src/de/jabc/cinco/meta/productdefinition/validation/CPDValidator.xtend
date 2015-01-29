@@ -94,17 +94,23 @@ class CPDValidator extends AbstractCPDValidator {
 	}
 	@Check
 	def checkBundleContainsSplashImage(CincoProduct cpd){
-		if(!cpd.splashPlugin.nullOrEmpty&& !cpd.splashPlugin.equals("\"\"")){
-			var splashBundle = Platform.getBundle(cpd.splashPlugin.replaceAll("\"\"",""))
-			if(splashBundle == null){
-				error("Bundle does not exist",ProductDefinitionPackage.Literals.CINCO_PRODUCT__SPLASH_PLUGIN)
-			}else{
-				if(splashBundle.getResource("splash.bmp")==null){
-					error("splash.bmp does not exist",ProductDefinitionPackage.Literals.CINCO_PRODUCT__SPLASH_PLUGIN)
+		var splashScreen = cpd.splashPlugin.replaceAll("\"","")
+		if(!splashScreen.nullOrEmpty){
+			if(!splashScreen.endsWith("splash.bmp"))
+				error("Please enter the path to the splash.bmp",ProductDefinitionPackage.Literals.CINCO_PRODUCT__SPLASH_PLUGIN)
+			var splashScreenFile = new File(splashScreen)
+			if(!splashScreenFile.exists){
+				println(splashScreen)
+				error("splash.bmp does not exist",ProductDefinitionPackage.Literals.CINCO_PRODUCT__SPLASH_PLUGIN)
+				
 				}
-			}
+		}else{
+			error("Please enter the path to the splash.bmp",ProductDefinitionPackage.Literals.CINCO_PRODUCT__SPLASH_PLUGIN)
 		}
 	}
+	
+	
+	
 	def printFileDoesNotExistError(String fileName, EStructuralFeature feature) {
 		error(String.format("File %s does not exist",fileName),feature)
 	}
