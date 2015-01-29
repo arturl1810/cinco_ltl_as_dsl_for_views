@@ -8,7 +8,7 @@ import "http://www.eclipse.org/emf/2002/Ecore" as ecore
 
 CincoProduct returns CincoProduct:
 	{CincoProduct}
-	(imports+=Import)*
+	//(imports+=Import)*
 	'cincoProduct'
 	name=ID
 	'{'
@@ -48,10 +48,10 @@ QName returns ecore::EString:
 	EString('.'EString)*
 ;
 
-Import returns Import:
-	{Import}
-	'import' importURI=EString
-;
+//Import returns Import:
+//	{Import}
+//	'import' importURI=EString
+//;
 
 PlatformPath returns ecore::EString:
 	('platform:/'('plugin'|'resource'))'/'QName('/'QName)*
