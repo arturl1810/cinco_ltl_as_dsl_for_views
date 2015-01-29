@@ -32,8 +32,9 @@ CincoProduct returns CincoProduct:
 
 
 About returns About:
-	('imagePath'imagePath=Path)? 
-	'text' aboutText=EString
+	{About}
+	('text' aboutText=EString
+	('imagePath'imagePath=Path)?)
 ;
 
 
