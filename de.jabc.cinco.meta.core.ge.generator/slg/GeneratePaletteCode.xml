@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>f99467c8-1334-49f9-a0cb-9e2f6cc9db0d</id>
   <name>GeneratePaletteCode</name>
-  <changecounter>145</changecounter>
+  <changecounter>153</changecounter>
   <sib>
     <id>7f9d75e6-251a-4c32-a1b9-97eb143670cc</id>
     <name>GetPaletteGroups</name>
@@ -322,6 +322,7 @@ objectCreationToolEntry = new ObjectCreationToolEntry(
 	cf.getCreateLargeImageId(), 
 	cf);
 
+compartmentEntry$groupName$.addToolEntry(objectCreationToolEntry);
 </string>
     </parameter>
     <finalbranches>default</finalbranches>
@@ -477,6 +478,7 @@ connectionCreationToolEntry = new ConnectionCreationToolEntry(
 	ccf.getCreateImageId(),
 	ccf.getCreateLargeImageId());
 
+compartmentEntry$groupName$.addToolEntry(connectionCreationToolEntry);
 </string>
     </parameter>
     <finalbranches>default</finalbranches>
