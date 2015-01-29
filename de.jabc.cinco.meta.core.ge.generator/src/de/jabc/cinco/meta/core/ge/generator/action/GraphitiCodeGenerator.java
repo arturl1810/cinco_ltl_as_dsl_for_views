@@ -471,7 +471,8 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 			IFolder icons = target.getFolder("icons");
 			if (!icons.exists())
 				icons.create(true, true, monitor);
-			iconFile.copy(target.getFolder("icons").getFullPath().append(iconFile.getName()), true, monitor);
+			if (icons.getFile(iconFile.getLocation()) == null)
+				iconFile.copy(target.getFolder("icons").getFullPath().append(iconFile.getName()), true, monitor);
 		} catch (CoreException e) {
 			e.printStackTrace();
 		}

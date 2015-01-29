@@ -2,18 +2,18 @@
 <model version="2.1">
   <id>7c46cc02-d874-4f7b-8dc5-2f624fce088b</id>
   <name>GenerateCreatePrimeNode</name>
-  <changecounter>35</changecounter>
+  <changecounter>46</changecounter>
   <sib>
     <id>d449a017-7ca7-429b-bbe0-4897b9941e3f</id>
     <name>GraphSIB_22</name>
     <label>Create CreateAndAdd</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>130.0,91.0</position>
+    <position>129.0,91.0</position>
     <parameter name="eClassKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>graphModelClass</key>
+          <key>eClassKey</key>
           <scope>DECLARED</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
@@ -271,11 +271,11 @@ return retval; </string>
     <label>Create CreateAndAdd</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>355.0,856.0</position>
+    <position>354.0,856.0</position>
     <parameter name="eClassKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>graphModelClass</key>
+          <key>eClassKey</key>
           <scope>DECLARED</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
@@ -629,7 +629,28 @@ Otherwise added referenced object by the graphical editor will have other UIDs a
     <point>420.0,360.0</point>
     <branch>default</branch>
   </edge>
-  <values/>
+  <parameter>
+    <name>eClassKey</name>
+    <field>eClassKey</field>
+    <sib>d449a017-7ca7-429b-bbe0-4897b9941e3f</sib>
+  </parameter>
+  <parameter>
+    <name>eClassKey</name>
+    <field>eClassKey</field>
+    <sib>0e44cc35-227e-4eac-b0b5-4bb35f95dfdd</sib>
+  </parameter>
+  <values>
+    <entry>
+      <string>eClassKey</string>
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>eClassKey</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </entry>
+  </values>
   <branch>
     <name>default</name>
     <branch>default</branch>
