@@ -4,9 +4,42 @@
 package de.jabc.cinco.meta.productdefinition.ui.contentassist
 
 import de.jabc.cinco.meta.productdefinition.ui.contentassist.AbstractCPDProposalProvider
+import org.eclipse.xtext.RuleCall
+import org.eclipse.emf.ecore.EObject
+import org.eclipse.xtext.ui.editor.contentassist.ContentAssistContext
+import org.eclipse.xtext.ui.editor.contentassist.ICompletionProposalAcceptor
+import org.eclipse.xtext.ui.editor.contentassist.ConfigurableCompletionProposal
+import org.eclipse.xtext.Assignment
+import de.jabc.cinco.meta.core.utils.xtext.PickColorApplier
 
 /**
  * see http://www.eclipse.org/Xtext/documentation.html#contentAssist on how to customize content assistant
  */
 class CPDProposalProvider extends AbstractCPDProposalProvider {
+	
+	override complete_Color(EObject model, RuleCall ruleCall, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
+		var proposal = createCompletionProposal("Pick color...", context);
+		if (proposal instanceof ConfigurableCompletionProposal) {
+			var configProp = proposal as ConfigurableCompletionProposal
+			configProp.setTextApplier(new PickColorApplier("("))
+		}
+		
+		acceptor.accept(proposal)
+		super.complete_Color(model, ruleCall, context, acceptor)
+	}
+	
+	override completeColor_R(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
+		var proposal = createCompletionProposal("Pick color...", context);
+		if (proposal instanceof ConfigurableCompletionProposal) {
+			var configProp = proposal as ConfigurableCompletionProposal
+			configProp.setTextApplier(new PickColorApplier(""))
+		}
+		
+		acceptor.accept(proposal)
+		
+		super.completeColor_R(model, assignment, context, acceptor)
+		
+	}
+	
+	
 }

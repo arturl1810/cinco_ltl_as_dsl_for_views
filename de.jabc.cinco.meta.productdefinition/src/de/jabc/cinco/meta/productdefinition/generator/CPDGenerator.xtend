@@ -15,21 +15,25 @@ import org.eclipse.core.resources.IFile
 import org.eclipse.core.resources.IProject
 import org.eclipse.core.resources.ResourcesPlugin
 import org.eclipse.core.runtime.IPath
+import org.eclipse.core.runtime.IProgressMonitor
 import org.eclipse.core.runtime.NullProgressMonitor
 import org.eclipse.core.runtime.Path
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.resource.Resource
+import org.eclipse.pde.internal.core.iproduct.IProduct
 import org.eclipse.pde.internal.core.iproduct.IProductFeature
 import org.eclipse.pde.internal.core.iproduct.IWindowImages
+import org.eclipse.pde.internal.core.natures.PluginProject
 import org.eclipse.pde.internal.core.product.AboutInfo
 import org.eclipse.pde.internal.core.product.LauncherInfo
 import org.eclipse.pde.internal.core.product.ProductFeature
+import org.eclipse.pde.internal.core.product.ProductModel
 import org.eclipse.pde.internal.core.product.SplashInfo
 import org.eclipse.pde.internal.core.product.WindowImages
 import org.eclipse.pde.internal.core.product.WorkspaceProductModel
 import org.eclipse.xtext.generator.IFileSystemAccess
 import org.eclipse.xtext.generator.IGenerator
-import org.eclipse.pde.internal.core.natures.PluginProject
+import ProductDefinition.Color
 
 /**
  * Generates code from your model files on save.
@@ -110,78 +114,34 @@ class CPDGenerator implements IGenerator {
 			//var iconPath = project.location.append("icons/")
 			var mglProject = ProjectCreator.getProject(resource)
 			
-			var iconPath = mglProject.location.append("icons/branding")
 			
-			val bpFile = mglProject.findMember("build.properties")as IFile
-				var bp = BuildProperties.loadBuildProperties(bpFile)
-			
-			if(!iconPath.toFile.exists)
-				iconPath.toFile.mkdirs
 			 var imgFile = null as File
 			var windowImages = new WindowImages(productModel)
-			if(!productDefinition.image16.nullOrEmpty && !productDefinition.image16.equals('""')){
-				var s = productDefinition.image16 as String
-				s = s.replaceAll('\"','')
-				imgFile = new File(s)
-				var targetPath = iconPath.append(imgFile.name)
-				var targetFile = targetPath.toFile
-				copyFile(imgFile,targetFile)
-				windowImages.setImagePath(targetPath.makeRelativeTo(project.workspace.root.location).makeAbsolute.toString,0)
-			}
-			if(!productDefinition.image32.nullOrEmpty){
-				var s = productDefinition.image32 as String
-				s = s.replaceAll('\"','')
-				imgFile = new File(s)
-				var targetPath = iconPath.append(imgFile.name)
-				var targetFile = targetPath.toFile
-				copyFile(imgFile,targetFile)
-				windowImages.setImagePath(targetPath.makeRelativeTo(project.workspace.root.location).makeAbsolute.toString,1)
-			}
+			val bpFile = mglProject.findMember("build.properties")as IFile
+				var bp = BuildProperties.loadBuildProperties(bpFile)
+			setWindowImage(productDefinition.image16,0,mglProject,windowImages,progressMonitor,bp)
+			setWindowImage(productDefinition.image32,1,mglProject,windowImages,progressMonitor,bp)
+			setWindowImage(productDefinition.image48,2,mglProject,windowImages,progressMonitor,bp)
+			setWindowImage(productDefinition.image64,3,mglProject,windowImages,progressMonitor,bp)
+			setWindowImage(productDefinition.image128,4,mglProject,windowImages,progressMonitor,bp)
 			
-			if(!productDefinition.image48.nullOrEmpty){
-				var s = productDefinition.image48 as String
+			if(!productDefinition.linuxIcon.nullOrEmpty){
+				var s = productDefinition.linuxIcon as String
 				s = s.replaceAll('\"','')
 				imgFile = new File(s)
-				var targetPath = iconPath.append(imgFile.name)
-				var targetFile = targetPath.toFile
-				copyFile(imgFile,targetFile)
-				windowImages.setImagePath(targetPath.makeRelativeTo(project.workspace.root.location).makeAbsolute.toString,2)
-			}
-			if(!productDefinition.image64.nullOrEmpty){
-				var s = productDefinition.image64 as String
-				s = s.replaceAll('\"','')
-				imgFile = new File(s)
-				var targetPath = iconPath.append(imgFile.name)
-				var targetFile = targetPath.toFile
-				copyFile(imgFile,targetFile)
-				windowImages.setImagePath(targetPath.makeRelativeTo(project.workspace.root.location).makeAbsolute.toString,3)
-			}
-			if(!productDefinition.image128.nullOrEmpty){
-				var s = productDefinition.image128 as String
-				s = s.replaceAll('\"','')
-				imgFile = new File(s)
-				var targetPath = iconPath.append(imgFile.name)
-				var targetFile = targetPath.toFile
-				copyFile(imgFile,targetFile)
-				windowImages.setImagePath(targetPath.makeRelativeTo(project.workspace.root.location).makeAbsolute.toString,4)
-			}
-			if(!productDefinition.splashPlugin.nullOrEmpty&&!productDefinition.splashPlugin.equals("\"\"")){
-				var s = productDefinition.splashPlugin.replaceAll("\"","")
-				product.setSplashInfo(new SplashInfo(productModel))
-				product.splashInfo.setLocation((mglProject.name),true)
 				
-				imgFile = new File(s)
-				var targetPath = new Path(mglProject.location.makeAbsolute.toOSString) as IPath
-				 
-				var targetFile = targetPath.append("splash.bmp").toFile
+				var targetPath = new Path(project.location.makeAbsolute.toOSString) as IPath
+				var targetFile = targetPath.append("icon.xpm").toFile
 				copyFile(imgFile,targetFile)
-				
-				bp.appendBinIncludes("splash.bmp")
-				
-				
-							
-
+				//windowImages.setImagePath(targetPath.makeRelativeTo(project.workspace.root.location).makeAbsolute.toString,4)
+				product.launcherInfo.setUseWinIcoFile(false)
+				product.launcherInfo.setIconPath(LauncherInfo.LINUX_ICON,project.fullPath.append("icon.xpm").toString)
+				val productBPFile = project.findMember("build.properties") as IFile
+				var productBP = BuildProperties.loadBuildProperties(productBPFile)
+				productBP.appendBinIncludes(imgFile.name);
+				productBP.store(productBPFile,progressMonitor)
 			}
+			generateSplashScreen(productDefinition,mglProject,product,bp,productModel)
 			
 			bp.store(bpFile,progressMonitor)
 			
@@ -192,10 +152,13 @@ class CPDGenerator implements IGenerator {
 				if(!productDefinition.about.imagePath.nullOrEmpty && !productDefinition.about.imagePath.equals("\"\"")){
 				
 					var imageFile = new File(productDefinition.about.imagePath.replaceAll("\"",""))
+					var iconPath = mglProject.location.append("icons/branding")
+					if(!iconPath.toFile.exists)
+						iconPath.toFile.mkdirs
 					var targetPath = iconPath.append(imageFile.name)
 					var targetFile = targetPath.toFile
 					copyFile(imageFile,targetFile)
-					aboutInfo.setImagePath(targetPath.makeRelativeTo(project.workspace.root.location).makeAbsolute.toString)
+					aboutInfo.setImagePath(targetPath.makeRelativeTo(mglProject.workspace.root.location).makeAbsolute.toString)
 					
 				}
 				
@@ -218,6 +181,73 @@ class CPDGenerator implements IGenerator {
 			mglProject.refreshLocal(IProject.DEPTH_INFINITE,progressMonitor)
 			
 		}
+	}
+	
+	def generateSplashScreen(CincoProduct productDefinition,IProject mglProject,IProduct product,BuildProperties bp, ProductModel productModel) {
+		val splashScreen = productDefinition.splashScreen
+		if(splashScreen != null&&!splashScreen.path.equals("\"\"")){
+				var s = productDefinition.splashScreen.path.replaceAll("\"","")
+				product.setSplashInfo(new SplashInfo(productModel))
+				val splashInfo = product.splashInfo
+				splashInfo.setLocation((mglProject.name),true)
+				if(splashScreen.addProgressBar){
+					splashInfo.addProgressBar(true,true)
+					val geo = #[splashScreen.pbXOffset,splashScreen.pbYOffset, splashScreen.pbWidth,splashScreen.pbHeight]
+					splashInfo.setProgressGeometry(geo,true)
+				}
+				if(splashScreen.addProgressMessage){
+					splashInfo.addProgressMessage(true,true)
+					val geo = #[splashScreen.pmXOffset,splashScreen.pmYOffset, splashScreen.pmWidth,splashScreen.pmHeight]
+					splashInfo.setMessageGeometry(geo,true)
+					if(splashScreen.textColor!=null){
+						splashInfo.setForegroundColor(colorString(splashScreen.textColor),true)
+					}
+				}
+				var imgFile = new File(s)
+				var targetPath = new Path(mglProject.location.makeAbsolute.toOSString) as IPath
+				 
+				var targetFile = targetPath.append("splash.bmp").toFile
+				copyFile(imgFile,targetFile)
+				
+				bp.appendBinIncludes("splash.bmp")
+
+			}		
+
+	}
+	
+	def colorString(Color color) {
+		
+						var r = color.r
+						var g = color.g
+						var b = color.b
+						var rString = Integer.toHexString(r).toUpperCase
+						if(rString.length==1)
+							rString= "0"+rString
+						var gString = Integer.toHexString(g).toUpperCase
+						if(gString.length==1)
+							gString= "0"+gString
+						var bString = Integer.toHexString(b).toUpperCase
+						if(bString.length==1)
+							bString= "0"+bString
+						return rString+gString+bString
+	}
+	
+	def setWindowImage(String image, int index,IProject project,IWindowImages windowImages,IProgressMonitor progressMonitor,BuildProperties bp) {
+			
+			if(!image.nullOrEmpty){
+				var iconPath = project.location.append("icons/branding")
+				if(!iconPath.toFile.exists)
+					iconPath.toFile.mkdirs
+				var s = image as String
+				s = s.replaceAll('\"','')
+				var imgFile = new File(s)
+				var targetPath = iconPath.append(imgFile.name)
+				var targetFile = targetPath.toFile
+				copyFile(imgFile,targetFile)
+				
+				windowImages.setImagePath(targetPath.makeRelativeTo(project.workspace.root.location).makeAbsolute.toString,index)
+				bp.store(bp.getFile(),progressMonitor)
+			}
 	}
 	
 	def getUsedFeatures(CincoProduct productModel) {

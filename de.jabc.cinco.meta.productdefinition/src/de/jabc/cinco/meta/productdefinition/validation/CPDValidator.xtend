@@ -5,10 +5,9 @@ package de.jabc.cinco.meta.productdefinition.validation
 
 import ProductDefinition.About
 import ProductDefinition.CincoProduct
+import ProductDefinition.Color
 import ProductDefinition.ProductDefinitionPackage
 import java.io.File
-import org.eclipse.core.resources.ResourcesPlugin
-import org.eclipse.core.runtime.Platform
 import org.eclipse.emf.ecore.EStructuralFeature
 import org.eclipse.xtext.validation.Check
 
@@ -94,21 +93,45 @@ class CPDValidator extends AbstractCPDValidator {
 	}
 	@Check
 	def checkBundleContainsSplashImage(CincoProduct cpd){
-		var splashScreen = cpd.splashPlugin.replaceAll("\"","")
+		var splashScreen = cpd.splashScreen.path.replaceAll("\"","")
 		if(!splashScreen.nullOrEmpty){
 			if(!splashScreen.endsWith("splash.bmp"))
-				error("Please enter the path to the splash.bmp",ProductDefinitionPackage.Literals.CINCO_PRODUCT__SPLASH_PLUGIN)
+				error("Please enter the path to the splash.bmp",ProductDefinitionPackage.Literals.SPLASH_SCREEN__PATH)
 			var splashScreenFile = new File(splashScreen)
 			if(!splashScreenFile.exists){
-				println(splashScreen)
-				error("splash.bmp does not exist",ProductDefinitionPackage.Literals.CINCO_PRODUCT__SPLASH_PLUGIN)
+				error("splash.bmp does not exist",ProductDefinitionPackage.Literals.SPLASH_SCREEN__PATH)
 				
 				}
 		}else{
-			error("Please enter the path to the splash.bmp",ProductDefinitionPackage.Literals.CINCO_PRODUCT__SPLASH_PLUGIN)
+			error("Please enter the path to the splash.bmp",ProductDefinitionPackage.Literals.SPLASH_SCREEN__PATH)
 		}
 	}
-	
+	@Check
+	def checkColor(Color color){
+		if(color.r <0 ||color.r >255)
+			error("Value for red must be bigger or equal 0 or smaller 256",ProductDefinitionPackage.Literals.COLOR__R)
+			
+		if(color.g <0 ||color.g >255)
+			error("Value for green must be bigger or equal 0 or smaller 256",ProductDefinitionPackage.Literals.COLOR__G)
+			
+		if(color.b <0 ||color.b >255)
+			error("Value for blue must be bigger or equal 0 or smaller 256",ProductDefinitionPackage.Literals.COLOR__B)
+	}
+	@Check
+	def checkLinuxIcon(CincoProduct cpd){
+		var linuxIcon = cpd.linuxIcon.replaceAll("\"","")
+		if(!linuxIcon.nullOrEmpty){
+			if(!linuxIcon.endsWith("icon.xpm"))
+				error("Please enter the path to the icon.xpm",ProductDefinitionPackage.Literals.CINCO_PRODUCT__LINUX_ICON)
+			var splashScreenFile = new File(linuxIcon)
+			if(!splashScreenFile.exists){
+				printFileDoesNotExistError(linuxIcon,ProductDefinitionPackage.Literals.CINCO_PRODUCT__LINUX_ICON)
+				
+				}
+		}else{
+			error("Please enter the path to the icon.xpm",ProductDefinitionPackage.Literals.CINCO_PRODUCT__LINUX_ICON)
+		}
+	}
 	
 	
 	def printFileDoesNotExistError(String fileName, EStructuralFeature feature) {

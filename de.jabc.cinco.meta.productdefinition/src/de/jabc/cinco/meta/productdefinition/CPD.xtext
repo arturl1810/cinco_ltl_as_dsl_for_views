@@ -17,17 +17,36 @@ CincoProduct returns CincoProduct:
 		//('mgls' '(' mgls+=[mgl::GraphModel|EString](',' mgls+=[mgl::GraphModel|EString] )* ')')+
 		('mgl'  mgls+=EString)+
 		
-		('splashScreen' splashPlugin=Path)?
+		('splashScreen' splashScreen=SplashScreen)?
 		('image16' image16=Path)?
 		('image32' image32=Path)?
 		('image48' image48=Path)?
 		('image64' image64=Path)?
 		('image128' image128=Path)?
-		
+		('linuxIcon' linuxIcon=Path)?
 		('about' '{' about=About '}')?
 		('features' '{'features+=EString (','features+=EString)*'}')?
 	'}'
 	;
+
+SplashScreen returns SplashScreen:
+	{SplashScreen}
+	path=Path
+	('{' 
+		('progressBar' '('pbXOffset=EInt ',' pbYOffset=EInt ',' pbWidth=EInt ',' pbHeight=EInt ')')?	
+		('progressMessage' '('pmXOffset=EInt ',' pmYOffset=EInt ',' pmWidth=EInt ',' pmHeight=EInt ')'
+		 (textColor=Color)?
+		)?
+	'}')?
+;
+
+Color returns Color:
+	'textColor' '(' r=EInt ',' g=EInt ',' b=EInt ')'
+;
+
+EInt returns ecore::EInt:
+	INT
+;
 
 
 
