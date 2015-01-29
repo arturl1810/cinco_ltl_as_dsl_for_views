@@ -13,6 +13,8 @@ public class BuildProperties {
 	
 	
 	private Properties buildProperties;
+
+	private IFile file;
 	
 	private static final String BIN_INCLUDES= "bin.includes";
 	private static final String BIN_EXCLUDES= "bin.excludes";
@@ -28,10 +30,18 @@ public class BuildProperties {
 	public static BuildProperties loadBuildProperties(IFile buildPropertiesFile) throws IOException, CoreException{
 		Properties buildProperties = new Properties();
 		buildProperties.load(buildPropertiesFile.getContents());
-		return new BuildProperties(buildProperties);
+		BuildProperties bp = new BuildProperties(buildProperties);
+		bp.setFile(buildPropertiesFile);
+		return bp;
 	}
 	
 	
+	private void setFile(IFile buildPropertiesFile) {
+		this.file = buildPropertiesFile;
+		
+	}
+
+
 	public String getProperty(String key){
 		return buildProperties.getProperty(key, "");
 	}
@@ -57,11 +67,13 @@ public class BuildProperties {
 	}
 	
 	private void appendProperty(String value,String property){
-		String oldValue = this.buildProperties.getProperty(property, "");
-		if(!oldValue.equals(""))
-			this.buildProperties.setProperty(property,String.format("%s,\\\n%s",oldValue,value));
-		else
-			this.buildProperties.setProperty(property, value);
+		if(!this.hasValue(property,value)){
+			String oldValue = this.buildProperties.getProperty(property, "");
+			if(!oldValue.equals(""))
+				this.buildProperties.setProperty(property,String.format("%s,\\\n%s",oldValue,value));
+			else
+				this.buildProperties.setProperty(property, value);
+		}
 	}
 	
 	public void setBinExcludes(String value){
@@ -73,12 +85,14 @@ public class BuildProperties {
 	}
 	
 	public void appendBinExcludes(String value){
-		appendProperty(value, BIN_EXCLUDES);
+		
+			appendProperty(value, BIN_EXCLUDES);
 	}
 
 	
 	public void appendSrcIncludes(String value){
-		appendProperty(value, SRC_INCLUDES);
+		
+			appendProperty(value, SRC_INCLUDES);
 	}
 	
 	public void setSrcIncludes(String value){
@@ -91,7 +105,7 @@ public class BuildProperties {
 	
 	
 	public void setSrcExcludes(String value){
-		this.buildProperties.setProperty(SRC_EXCLUDES,value);
+			this.buildProperties.setProperty(SRC_EXCLUDES,value);
 	}
 	
 	public String getSrcExcludes(){
@@ -99,9 +113,34 @@ public class BuildProperties {
 	}
 	
 	public void appendSrcExcludes(String value){
-		appendProperty(value, SRC_EXCLUDES);
+		
+			appendProperty(value, SRC_EXCLUDES);
 	}
 	
+	private boolean hasValue(String key,String value){
+		String[] properties = this.buildProperties.getProperty(key, "").split(",");
+		for(String property:properties){
+			if(property.contains(value))
+				return true;
+		}
+		return false;
+	}
+	
+	public boolean hasBinExcludesValue(String value){
+		return this.hasValue(BIN_EXCLUDES, value);
+	}
+	
+	public boolean hasBinIncludesValue(String value){
+		return this.hasValue(BIN_INCLUDES, value);
+	}
+	
+	public boolean hasSrcExcludesValue(String value){
+		return this.hasValue(SRC_EXCLUDES, value);
+	}
+	
+	public boolean hasSrcIncludesValue(String value){
+		return this.hasValue(SRC_INCLUDES, value);
+	}
 	
 
 
@@ -141,6 +180,10 @@ public class BuildProperties {
 	public void appendSource(String string) {
 		appendProperty(string, SOURCE);
 		
+	}
+	
+	public IFile getFile(){
+		return this.file;
 	}
 
 }
