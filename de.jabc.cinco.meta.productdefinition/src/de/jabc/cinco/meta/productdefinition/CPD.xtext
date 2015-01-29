@@ -17,7 +17,7 @@ CincoProduct returns CincoProduct:
 		//('mgls' '(' mgls+=[mgl::GraphModel|EString](',' mgls+=[mgl::GraphModel|EString] )* ')')+
 		('mgl'  mgls+=EString)+
 		
-		('splashPlugin' splashPlugin=QName)?
+		('splashScreen' splashPlugin=Path)?
 		('image16' image16=Path)?
 		('image32' image32=Path)?
 		('image48' image48=Path)?
