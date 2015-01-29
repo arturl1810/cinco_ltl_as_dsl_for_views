@@ -34,7 +34,7 @@ appearance default {
 	background (229,229,229)
 }
 
-nodeStyle labeledCircle {
+nodeStyle labeledCircle (1){
 	ellipse e {
 		appearance default
 		size(40,40)
@@ -201,7 +201,7 @@ nodeStyle greenCircle {
 	}
 }
 
-nodeStyle blueTextRectangle {
+nodeStyle blueTextRectangle(1) {
 	roundedRectangle rec {
 		appearance default
 		position (0,0)
@@ -215,7 +215,7 @@ nodeStyle blueTextRectangle {
 }
 
 «IF features.contains(PRIME_REFERENCES)»
-nodeStyle greenTextRectangle {
+nodeStyle greenTextRectangle(1) {
 	roundedRectangle rec {
 		appearance extends default {
 			background (101,175,95)
@@ -232,7 +232,7 @@ nodeStyle greenTextRectangle {
 «ENDIF»
 
 «IF features.contains(CONTAINERS)»
-nodeStyle swimlane {
+nodeStyle swimlane(1) {
 	rectangle {
 		appearance {
 			background (255,236,202)
@@ -260,7 +260,7 @@ edgeStyle simpleArrow {
 	}
 }
 
-edgeStyle labeledArrow {	
+edgeStyle labeledArrow(1) {	
 	appearance default
 	decorator {
 		location (1.0)
