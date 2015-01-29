@@ -146,7 +146,9 @@ public class CincoProductProjectCreator {
 			buildProperties.appendBinIncludes("plugin.xml");
 			buildProperties.appendBinIncludes("plugin.properties");
 			buildProperties.appendSource("src-gen/");
-			buildProperties.appendSource("src/");
+			IResource srcFolder = project.findMember("src/");
+			if(srcFolder!=null && srcFolder.exists())
+				buildProperties.appendSource("src/");
 			buildProperties.store(buildPropertiesFile, monitor);
 		} catch (IOException | CoreException e) {
 			e.printStackTrace();
