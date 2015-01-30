@@ -4,12 +4,15 @@
 package de.jabc.cinco.meta.productdefinition.generator
 
 import ProductDefinition.CincoProduct
+import ProductDefinition.Color
+import de.jabc.cinco.meta.core.BundleRegistry
 import de.jabc.cinco.meta.core.utils.BuildProperties
 import de.jabc.cinco.meta.core.utils.projects.ProjectCreator
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.util.ArrayList
+import java.util.Scanner
 import mgl.GraphModel
 import org.eclipse.core.resources.IFile
 import org.eclipse.core.resources.IProject
@@ -23,7 +26,6 @@ import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.pde.internal.core.iproduct.IProduct
 import org.eclipse.pde.internal.core.iproduct.IProductFeature
 import org.eclipse.pde.internal.core.iproduct.IWindowImages
-import org.eclipse.pde.internal.core.natures.PluginProject
 import org.eclipse.pde.internal.core.product.AboutInfo
 import org.eclipse.pde.internal.core.product.LauncherInfo
 import org.eclipse.pde.internal.core.product.ProductFeature
@@ -33,7 +35,7 @@ import org.eclipse.pde.internal.core.product.WindowImages
 import org.eclipse.pde.internal.core.product.WorkspaceProductModel
 import org.eclipse.xtext.generator.IFileSystemAccess
 import org.eclipse.xtext.generator.IGenerator
-import ProductDefinition.Color
+import org.eclipse.xtext.util.StringInputStream
 
 /**
  * Generates code from your model files on save.
@@ -69,7 +71,7 @@ class CPDGenerator implements IGenerator {
 			// Setting Name etc.
 			var product = productModel.product
 			product.name = productDefinition.name
-			product.id = productDefinition.id
+			product.id = productDefinition.id+".id"
 			product.launcherInfo = new LauncherInfo(productModel)
 			product.launcherInfo.launcherName = productDefinition.name.toLowerCase
 			// adding features
@@ -92,6 +94,7 @@ class CPDGenerator implements IGenerator {
 				feat = new ProductFeature(productModel)
 				feat.id = mglModel.package+".feature"
 				features.add(feat)
+				BundleRegistry.INSTANCE.addBundle(id,false)
 			}
 			
 			// adding other features
@@ -118,7 +121,13 @@ class CPDGenerator implements IGenerator {
 			 var imgFile = null as File
 			var windowImages = new WindowImages(productModel)
 			val bpFile = mglProject.findMember("build.properties")as IFile
-				var bp = BuildProperties.loadBuildProperties(bpFile)
+			var bp = BuildProperties.loadBuildProperties(bpFile)
+			
+			val productBPFile = project.findMember("build.properties") as IFile
+			var productBP = BuildProperties.loadBuildProperties(productBPFile)
+			productBP.appendBinIncludes("plugin.xml")
+			productBP.deleteEntry("source..")
+			
 			setWindowImage(productDefinition.image16,0,mglProject,windowImages,progressMonitor,bp)
 			setWindowImage(productDefinition.image32,1,mglProject,windowImages,progressMonitor,bp)
 			setWindowImage(productDefinition.image48,2,mglProject,windowImages,progressMonitor,bp)
@@ -136,12 +145,11 @@ class CPDGenerator implements IGenerator {
 				//windowImages.setImagePath(targetPath.makeRelativeTo(project.workspace.root.location).makeAbsolute.toString,4)
 				product.launcherInfo.setUseWinIcoFile(false)
 				product.launcherInfo.setIconPath(LauncherInfo.LINUX_ICON,project.fullPath.append("icon.xpm").toString)
-				val productBPFile = project.findMember("build.properties") as IFile
-				var productBP = BuildProperties.loadBuildProperties(productBPFile)
+				
 				productBP.appendBinIncludes(imgFile.name);
 				productBP.store(productBPFile,progressMonitor)
 			}
-			generateSplashScreen(productDefinition,mglProject,product,bp,productModel)
+			generateSplashScreen(productDefinition,mglProject,product,bp,productModel,progressMonitor)
 			
 			bp.store(bpFile,progressMonitor)
 			
@@ -183,24 +191,25 @@ class CPDGenerator implements IGenerator {
 		}
 	}
 	
-	def generateSplashScreen(CincoProduct productDefinition,IProject mglProject,IProduct product,BuildProperties bp, ProductModel productModel) {
+	def generateSplashScreen(CincoProduct productDefinition,IProject mglProject,IProduct product,BuildProperties bp, ProductModel productModel,IProgressMonitor monitor) {
 		val splashScreen = productDefinition.splashScreen
 		if(splashScreen != null&&!splashScreen.path.equals("\"\"")){
-				var s = productDefinition.splashScreen.path.replaceAll("\"","")
-				product.setSplashInfo(new SplashInfo(productModel))
-				val splashInfo = product.splashInfo
-				splashInfo.setLocation((mglProject.name),true)
-				if(splashScreen.addProgressBar){
-					splashInfo.addProgressBar(true,true)
-					val geo = #[splashScreen.pbXOffset,splashScreen.pbYOffset, splashScreen.pbWidth,splashScreen.pbHeight]
-					splashInfo.setProgressGeometry(geo,true)
-				}
+			var s = productDefinition.splashScreen.path.replaceAll("\"","")
+			product.setSplashInfo(new SplashInfo(productModel))
+			val splashInfo = product.splashInfo
+			splashInfo.setLocation((mglProject.name),true)
+			if(splashScreen.addProgressBar){
+				splashInfo.addProgressBar(true,true)
+				val geo = #[splashScreen.pbXOffset,splashScreen.pbYOffset, splashScreen.pbWidth,splashScreen.pbHeight]
+				splashInfo.setProgressGeometry(geo,true)
+			}
 				if(splashScreen.addProgressMessage){
 					splashInfo.addProgressMessage(true,true)
 					val geo = #[splashScreen.pmXOffset,splashScreen.pmYOffset, splashScreen.pmWidth,splashScreen.pmHeight]
 					splashInfo.setMessageGeometry(geo,true)
 					if(splashScreen.textColor!=null){
-						splashInfo.setForegroundColor(colorString(splashScreen.textColor),true)
+						var color =colorString(splashScreen.textColor)
+						splashInfo.setForegroundColor(color,true)
 					}
 				}
 				var imgFile = new File(s)
@@ -210,7 +219,7 @@ class CPDGenerator implements IGenerator {
 				copyFile(imgFile,targetFile)
 				
 				bp.appendBinIncludes("splash.bmp")
-
+				
 			}		
 
 	}
@@ -233,7 +242,7 @@ class CPDGenerator implements IGenerator {
 	}
 	
 	def setWindowImage(String image, int index,IProject project,IWindowImages windowImages,IProgressMonitor progressMonitor,BuildProperties bp) {
-			
+			var targetPathString = ""
 			if(!image.nullOrEmpty){
 				var iconPath = project.location.append("icons/branding")
 				if(!iconPath.toFile.exists)
@@ -242,11 +251,13 @@ class CPDGenerator implements IGenerator {
 				s = s.replaceAll('\"','')
 				var imgFile = new File(s)
 				var targetPath = iconPath.append(imgFile.name)
+				targetPathString = targetPath.makeRelativeTo(project.workspace.root.location).toPortableString
 				var targetFile = targetPath.toFile
 				copyFile(imgFile,targetFile)
 				
 				windowImages.setImagePath(targetPath.makeRelativeTo(project.workspace.root.location).makeAbsolute.toString,index)
 				bp.store(bp.getFile(),progressMonitor)
+				return targetPathString
 			}
 	}
 	
@@ -389,4 +400,69 @@ class CPDGenerator implements IGenerator {
 		var targetChannel = new FileOutputStream(target).channel
 		targetChannel.transferFrom(sourceChannel,0,sourceChannel.size)
 	}
+	
+	
+	def modifiyMGLPluginXML(IProject mglProject, IProgressMonitor monitor,String pbValues,String pmValues, String color, String windowImages){
+		var pluginXML = mglProject.getFile("plugin.xml")
+		var inStream = null as StringInputStream
+		if(!pluginXML.exists){
+			inStream = new StringInputStream(fullContents(pbValues,pmValues,color,windowImages).toString)
+			pluginXML.create(inStream,true,monitor)
+		}else{
+			var contents = new Scanner(pluginXML.getContents,"UTF-8").useDelimiter("\\A").next
+			contents = contents.replace("</plugin>",getExtension(pbValues,pmValues,color,windowImages)+"\n</plugin>")
+			inStream = new StringInputStream(contents)
+			pluginXML.setContents(inStream,true,true,monitor) 
+			
+		} 
+	}
+	
+	def getExtension(String pbValues,String pmValues, String color, String windowImages) '''
+	<extension
+		id="product"
+		point="org.eclipse.core.runtime.products">
+			<product
+				application="org.eclipse.ui.ide.workbench"
+				name="Cinco">
+				<property
+					name="windowImages"
+					value="«windowImages»">
+				</property>
+				<property
+					name="aboutImage"
+					value="about.png">
+				</property>
+				<property
+				name="startupForegroundColor"
+				value="«color»">
+			</property>
+			<property
+				name="startupProgressRect"
+				value="«pbValues»">
+			</property>
+			<property
+				name="startupMessageRect"
+				value="«pmValues»">
+			</property>
+			<property
+					name="preferenceCustomization"
+					value="plugin_customization.ini">
+			</property>
+			<property
+				name="appName"
+				value="Cinco">
+			</property>
+		</product>
+	</extension>
+	'''
+def fullContents(String pbValues,String pmValues, String color, String windowImages)'''
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+«getExtension(pbValues,pmValues,color,windowImages)»
+</plugin>	
+'''
 }
+
+
+
