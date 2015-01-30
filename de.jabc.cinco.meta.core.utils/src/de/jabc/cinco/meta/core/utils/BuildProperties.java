@@ -186,4 +186,9 @@ public class BuildProperties {
 		return this.file;
 	}
 
+
+	public void deleteEntry(String key) {
+	  this.buildProperties.remove(key);
+	}
+
 }
