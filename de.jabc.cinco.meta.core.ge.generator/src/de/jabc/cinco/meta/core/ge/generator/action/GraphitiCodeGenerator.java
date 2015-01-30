@@ -90,6 +90,7 @@ import de.jabc.cinco.meta.core.ge.generator.Main;
 import de.jabc.cinco.meta.core.mgl.generator.GenModelCreator;
 import de.jabc.cinco.meta.core.pluginregistry.PluginRegistry;
 import de.jabc.cinco.meta.core.ui.listener.MGLSelectionListener;
+import de.jabc.cinco.meta.core.utils.CincoUtils;
 import de.jabc.cinco.meta.core.utils.URIHandler;
 import de.jabc.cinco.meta.core.utils.projects.ProjectCreator;
 import de.metaframe.jabc.framework.execution.DefaultLightweightExecutionEnvironment;
@@ -112,7 +113,7 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 			+ "model/"
 			+ "GraphicalGraphModel.genmodel";
 	
-	
+	 
 	public GraphitiCodeGenerator() {
 		// TODO Auto-generated constructor stub
 	}
@@ -480,6 +481,15 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 	}
 
 	private Styles loadStyles(String path, GraphModel gm) throws IOException {
+		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(gm.eResource().getURI().toPlatformString(true));
+		Resource stylesResource = CincoUtils.getStylesResource(path, project);
+		for (EObject o : stylesResource.getContents()) {
+			if (o instanceof Styles)
+				return (Styles) o;
+		}
+		return null;
+		
+		/**			This code part was swapped to CincoUtils class...
 		Resource res = null;
 		
 		URI uri = URI.createURI(path, true);
@@ -502,7 +512,7 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 			e.printStackTrace();
 			return null;
 		}
-		return null;
+		return null;**/
 	}
 	
 	private GraphModel loadGraphModel(Resource res) throws IOException{

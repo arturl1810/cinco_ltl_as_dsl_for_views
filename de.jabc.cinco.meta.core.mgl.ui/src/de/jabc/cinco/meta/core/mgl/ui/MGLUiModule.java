@@ -3,6 +3,7 @@
  */
 package de.jabc.cinco.meta.core.mgl.ui;
 
+import org.eclipse.jface.text.hyperlink.IHyperlinkDetector;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 /**
@@ -12,4 +13,10 @@ public class MGLUiModule extends de.jabc.cinco.meta.core.mgl.ui.AbstractMGLUiMod
 	public MGLUiModule(AbstractUIPlugin plugin) {
 		super(plugin);
 	}
+	
+//	@Override
+//	public Class<? extends IHyperlinkDetector> bindIHyperlinkDetector() {
+//		return MGLHyperLinkDetector.class;
+//	}
+	
 }
