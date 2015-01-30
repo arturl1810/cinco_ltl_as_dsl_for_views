@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>2a28c6a3-7550-4d5b-a8c5-c31758cd1dd2</id>
   <name>GenerateGetTextValues2</name>
-  <changecounter>357</changecounter>
+  <changecounter>429</changecounter>
   <sib>
     <id>b20307c1-400f-471e-b59a-f2361f53f9aa</id>
     <name>GetModelElementAnnotations</name>
@@ -140,7 +140,7 @@
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>, $context.flAttributeName$Value</string>
+      <string>, $context.attributeID$Value</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
@@ -251,7 +251,7 @@
     </parameter>
     <parameter name="template">
       <string>elContext = new ExpressionLanguageContext($context.meIdentifier$);
-Object $context.flAttributeName$Value = factory.createValueExpression(elContext, &quot;$context.value$&quot;, Object.class).getValue(elContext);
+Object $context.attributeID$Value = factory.createValueExpression(elContext, &quot;$context.value$&quot;, Object.class).getValue(elContext);
 </string>
     </parameter>
     <finalbranches>default</finalbranches>
@@ -296,7 +296,7 @@ Object $context.flAttributeName$Value = factory.createValueExpression(elContext,
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>, $context.flAttributeName$Value</string>
+      <string>, $context.attributeID$Value</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
@@ -307,7 +307,7 @@ Object $context.flAttributeName$Value = factory.createValueExpression(elContext,
     <label>FormatIdentifier</label>
     <sib-uid>genesys-sibs/FormatIdentifier</sib-uid>
     <taxonomy>de.jabc.sib.genesys.FormatIdentifier</taxonomy>
-    <position>709.0,723.0</position>
+    <position>694.0,618.0</position>
     <parameter name="identifier">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -340,9 +340,9 @@ Object $context.flAttributeName$Value = factory.createValueExpression(elContext,
   </sib>
   <edge>
     <source>99a8e436-ae1a-4cd3-892d-1ad5e7cc050e</source>
-    <target>3fe626a3-07ec-48f9-9f95-f5c97fe52faa</target>
-    <point>765.0,759.0</point>
-    <point>765.0,843.0</point>
+    <target>f317a90e-8fea-43c4-ad12-2fb8ed852feb</target>
+    <point>768.0,650.85</point>
+    <point>852.0,713.85</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -360,7 +360,7 @@ Object $context.flAttributeName$Value = factory.createValueExpression(elContext,
     <label>FormatIdentifier</label>
     <sib-uid>genesys-sibs/FormatIdentifier</sib-uid>
     <taxonomy>de.jabc.sib.genesys.FormatIdentifier</taxonomy>
-    <position>514.0,723.0</position>
+    <position>514.0,618.0</position>
     <parameter name="identifier">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -393,9 +393,9 @@ Object $context.flAttributeName$Value = factory.createValueExpression(elContext,
   </sib>
   <edge>
     <source>8827b292-0baa-4ae5-a1ad-78b81567f7fc</source>
-    <target>f81ac228-ab92-4ac6-8593-8dc99131971d</target>
-    <point>570.0,750.0</point>
-    <point>570.0,870.0</point>
+    <target>1a535982-80e8-4e9d-a53a-3ac4a5f6aeb1</target>
+    <point>582.5581395348837,654.0</point>
+    <point>645.4054054054054,738.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -425,7 +425,7 @@ Object $context.flAttributeName$Value = factory.createValueExpression(elContext,
       <string>Object $context.flAttributeName$ = ReferenceRegistry.getInstance().getEObject(Integer.valueOf($context.meIdentifier$.get$context.fuAttributeName$UID()));
 
 elContext = new ExpressionLanguageContext($context.flAttributeName$);
-Object $context.flAttributeName$Value = factory.createValueExpression(elContext, &quot;$context.value$&quot;, Object.class).getValue(elContext);</string>
+Object $context.attributeID$Value = factory.createValueExpression(elContext, &quot;$context.value$&quot;, Object.class).getValue(elContext);</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
@@ -621,6 +621,94 @@ Object $context.flAttributeName$Value = factory.createValueExpression(elContext,
     <point>297.0,464.4</point>
     <point>153.0,524.4</point>
     <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>f317a90e-8fea-43c4-ad12-2fb8ed852feb</id>
+    <name>GenerateUniqueGaName</name>
+    <label>GenerateUniqueGaName</label>
+    <sib-uid>ge-util-sibs/GenerateUniqueGaName</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.GenerateUniqueGaName</taxonomy>
+    <position>690.5,723.0</position>
+    <parameter name="clearCache">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>false</expression>
+          <clazz>java.lang.Boolean</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="graphicsAlgorithmName">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>tmp</expression>
+          <clazz>java.lang.String</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="uniqueGaName">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>attributeID</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>f317a90e-8fea-43c4-ad12-2fb8ed852feb</source>
+    <target>3fe626a3-07ec-48f9-9f95-f5c97fe52faa</target>
+    <point>870.0,735.0</point>
+    <point>751.0,853.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>1a535982-80e8-4e9d-a53a-3ac4a5f6aeb1</id>
+    <name>GenerateUniqueGaName_1</name>
+    <label>GenerateUniqueGaName</label>
+    <sib-uid>ge-util-sibs/GenerateUniqueGaName</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.GenerateUniqueGaName</taxonomy>
+    <position>495.5,723.0</position>
+    <parameter name="clearCache">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>false</expression>
+          <clazz>java.lang.Boolean</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="graphicsAlgorithmName">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>tmp</expression>
+          <clazz>java.lang.String</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="uniqueGaName">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>attributeID</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>1a535982-80e8-4e9d-a53a-3ac4a5f6aeb1</source>
+    <target>f81ac228-ab92-4ac6-8593-8dc99131971d</target>
+    <point>570.0,765.0</point>
+    <point>557.0,872.0</point>
     <branch>default</branch>
   </edge>
   <parameter>

@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>fcd44878-83e6-41e6-95f6-9299e05bb180</id>
   <name>GenerateSingleNodePropertyView</name>
-  <changecounter>76</changecounter>
+  <changecounter>78</changecounter>
   <sib>
     <id>5cc865b0-eb14-4bed-aff6-116e6551e93a</id>
     <name>RunStringTemplate</name>
@@ -132,7 +132,7 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
 
 }
 
-private void getModelElements(ContainingElement ce, Class modelElementClass, List&lt;$context.node.name$&gt; elements) {
+private void getModelElements(ModelElementContainer ce, Class modelElementClass, List&lt;$context.node.name$&gt; elements) {
 	for (Container c : ce.getAllContainers()) {
 		getModelElements(c, $context.node.name$.class, elements);
 	}

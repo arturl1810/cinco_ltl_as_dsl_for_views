@@ -74,6 +74,15 @@
       <edge-annotation
             recognized-annotation="postCreate">
       </edge-annotation>
+      <node-annotation
+            recognized-annotation="palette">
+      </node-annotation>
+      <nodecontainer-annotation
+            recognized-annotation="palette">
+      </nodecontainer-annotation>
+      <edge-annotation
+            recognized-annotation="palette">
+      </edge-annotation>
    </extension>
 
 </fragment>

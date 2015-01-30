@@ -156,7 +156,6 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 				List<String> cleanDirs = getCleanDirectory();
 			    
 			    IProject p = sourceProject;
-			    ProjectCreator.addRequiredBundle(p, Platform.getBundle("org.eclipse.graphiti.ui"));
 			    IProject apiProject = sourceProject; 
 			    
 			    addReqBundles(p, monitor);
@@ -472,7 +471,8 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 			IFolder icons = target.getFolder("icons");
 			if (!icons.exists())
 				icons.create(true, true, monitor);
-			iconFile.copy(target.getFolder("icons").getFullPath().append(iconFile.getName()), true, monitor);
+			if (icons.getFile(iconFile.getLocation()) == null)
+				iconFile.copy(target.getFolder("icons").getFullPath().append(iconFile.getName()), true, monitor);
 		} catch (CoreException e) {
 			e.printStackTrace();
 		}
@@ -594,17 +594,20 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 					".features.create.edges"};
 			
 			String val = manifest.getMainAttributes().getValue("Export-Package");
-			String newVal;
 			if (val == null){
-				val = new String();
-				newVal = val.concat(prefix+".graphiti");
-			} else {
-				newVal = val.concat(","+prefix+".graphiti");
-			}
+				val = new String("");
+			} 
+			
+			if (!val.contains(prefix+".graphiti"))
+				if (val.isEmpty())
+					val = val.concat(prefix+".graphiti");
+				else val = val.concat(","+prefix+".graphiti");
+			
 			for (String s : exports) {
-				newVal += ","+prefix+".graphiti" + s;
+				if (!val.contains(","+prefix+".graphiti" + s))
+					val += ","+prefix+".graphiti" + s;
 			}
-			manifest.getMainAttributes().putValue("Export-Package", newVal);
+			manifest.getMainAttributes().putValue("Export-Package", val);
 			
 			manifest.write(new FileOutputStream(iManiFile.getLocation().toFile()));
 			p.refreshLocal(IResource.DEPTH_INFINITE, monitor);

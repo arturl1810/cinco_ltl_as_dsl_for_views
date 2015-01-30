@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>67a73b2a-3824-4776-9686-ae1a8aed5282</id>
   <name>GenerateCopyPasteFeatures</name>
-  <changecounter>316</changecounter>
+  <changecounter>318</changecounter>
   <sib>
     <id>59a427e8-25c5-482c-a32b-a0aa278eb41b</id>
     <name>PutExpression</name>
@@ -439,6 +439,8 @@ public class $context.graphModelName$PasteFeature extends AbstractPasteFeature {
 	}
 	
 	private Color addColor(Diagram d, Color c) {
+		if (c == null)
+			return null;
 		for (Color color : getDiagram().getColors()) {
 			if (color.getBlue() == c.getBlue() &amp;&amp; color.getGreen() == c.getGreen() &amp;&amp; color.getRed() == c.getRed())
 				return color;
