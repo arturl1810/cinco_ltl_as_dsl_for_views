@@ -31,6 +31,7 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.osgi.framework.Bundle;
 
+import de.jabc.cinco.meta.core.utils.BuildProperties;
 import de.jabc.cinco.meta.core.utils.projects.ProjectCreator;
 import de.jabc.cinco.meta.core.wizards.templates.CincoProductWizardTemplates;
 
@@ -66,18 +67,23 @@ public class CincoProductProjectCreator {
 				getNatures(), 
 				monitor
 				);
+		
+				modifyBuildProperties(project,monitor);
 
 		try {
 			IFolder modelFolder = project.getFolder("model");
 			createResource(modelFolder, monitor);
 			IFile mglModelFile = modelFolder.getFile(mglModelName.concat(".mgl"));
 			IFile styleModelFile = modelFolder.getFile(mglModelName.concat(".style"));
+			IFile cpdModelFile = modelFolder.getFile(mglModelName.concat(".cpd"));
 			if (!createExample) {
 				CharSequence mglCode = CincoProductWizardTemplates.generateSomeGraphMGL(mglModelName, packageName);
 				writeToFile(mglModelFile, mglCode);
 				
 				CharSequence styleCode = CincoProductWizardTemplates.generateSomeGraphStyle();
 				writeToFile(styleModelFile, styleCode);
+				
+				
 			}
 			else {
 				CharSequence mglCode = CincoProductWizardTemplates.generateFlowGraphMGL(mglModelName, packageName, projectName, features);
@@ -121,6 +127,8 @@ public class CincoProductProjectCreator {
 					writeToFile(externalLibraryGenmodelFile, externalLibraryGenmodelCode);
 				}
 			}
+			CharSequence cpdCode = CincoProductWizardTemplates.generateDefaultCPD(mglModelName, packageName);
+			writeToFile(cpdModelFile, cpdCode);
 
 			project.refreshLocal(IResource.DEPTH_INFINITE, monitor);
 		} catch (Exception e) {
@@ -128,6 +136,25 @@ public class CincoProductProjectCreator {
 		}
 	}
 
+
+	private void modifyBuildProperties(IProject project,IProgressMonitor monitor) {
+		IFile buildPropertiesFile = (IFile)project.findMember("build.properties");
+		
+		try {
+			BuildProperties buildProperties = BuildProperties.loadBuildProperties(buildPropertiesFile);	
+			buildProperties.appendBinIncludes("icons/");
+			buildProperties.appendBinIncludes("plugin.xml");
+			buildProperties.appendBinIncludes("plugin.properties");
+			buildProperties.appendSource("src-gen/");
+			IResource srcFolder = project.findMember("src/");
+			if(srcFolder!=null && srcFolder.exists())
+				buildProperties.appendSource("src/");
+			buildProperties.store(buildPropertiesFile, monitor);
+		} catch (IOException | CoreException e) {
+			e.printStackTrace();
+		}
+		 
+	}
 
 	private List<String> getExportedPackages() {
 		List<String> exports = new ArrayList<String>();

@@ -10,6 +10,7 @@ import java.util.Set;
 
 import mgl.GraphModel;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -17,9 +18,10 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
-
+import de.jabc.cinco.meta.core.BundleRegistry;
 import de.jabc.cinco.meta.core.mgl.transformation.helper.AbstractService;
 import de.jabc.cinco.meta.core.mgl.transformation.helper.ServiceException;
+import de.jabc.cinco.meta.core.utils.BuildProperties;
 import de.jabc.cinco.meta.core.utils.projects.ProjectCreator;
 import de.metaframe.jabc.framework.execution.LightweightExecutionEnvironment;
 import de.metaframe.jabc.framework.execution.context.LightweightExecutionContext;
@@ -69,6 +71,13 @@ public class CreatePrimeView extends AbstractService {
 			bufwr.append("Bundle-ActivationPolicy: lazy\n");
 			bufwr.flush();
 			bufwr.close();
+			
+			IFile bpf = (IFile) tvProject.findMember("build.properties");
+			BuildProperties buildProperties = BuildProperties.loadBuildProperties(bpf);
+			buildProperties.appendBinIncludes("plugin.xml");
+			buildProperties.store(bpf, progressMonitor);
+			
+			BundleRegistry.INSTANCE.addBundle(projectName, false);
 			
 			return tvProject;
 		} catch (Exception e) {
