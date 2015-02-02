@@ -1,7 +1,7 @@
 package de.jabc.cinco.meta.plugin.template
 
 class SheetHandlerTemplate {
-	def create(String packageName, boolean multiple)'''
+	def create(String packageName, boolean multiple,String sheetFolderName)'''
 package «packageName»;
 
 import java.io.BufferedInputStream;
@@ -50,7 +50,7 @@ public class SheetHandler {
 			}
 		}
 		
-		return ResourcesPlugin.getWorkspace().getRoot().getLocation().toString()+"/"+projectName+"/sheets/";
+		return ResourcesPlugin.getWorkspace().getRoot().getLocation().toString()+"/"+projectName+"/«sheetFolderName»/";
 	}
 	
 	/**

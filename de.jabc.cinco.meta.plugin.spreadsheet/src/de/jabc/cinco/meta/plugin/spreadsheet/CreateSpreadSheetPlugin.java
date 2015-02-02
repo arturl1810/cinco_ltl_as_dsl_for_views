@@ -49,6 +49,7 @@ public class CreateSpreadSheetPlugin {
 		String fileName = "export.xls";
 		String sheetName = "firstSheet";
 		String packagePath = "";
+		String sheetFolderName = "sheets";
 		boolean multiple = false;
 		
 		
@@ -64,13 +65,16 @@ public class CreateSpreadSheetPlugin {
 				if(anno.getName().equals("spreadsheet")){
 					System.out.println("EXPORT GRAPH AS XLS - Here we go!");
 					
-					if(anno.getValue().size()==1)
+					if(anno.getValue().size()>=1)
 					{
 						System.out.println("XLS Argument: "+anno.getValue().get(0));
 						if(anno.getValue().get(0).equals("multiple")){
 							multiple=true;
 						}
-						
+					}
+					if(anno.getValue().size() == 2) {
+						System.out.println("Sheet Folder: "+anno.getValue().get(1));
+						sheetFolderName = anno.getValue().get(1);
 					}
 				}
 			}
@@ -228,7 +232,7 @@ public class CreateSpreadSheetPlugin {
 					progressMonitor);
 			
 			ProjectCreator.createFile("SheetHandler.java", tvProject.getFolder("src/"+projectName.replace(".","/")),
-					new SheetHandlerTemplate().create(projectName,multiple).toString(),
+					new SheetHandlerTemplate().create(projectName,multiple,sheetFolderName).toString(),
 					progressMonitor);
 			
 			//Exceptions
