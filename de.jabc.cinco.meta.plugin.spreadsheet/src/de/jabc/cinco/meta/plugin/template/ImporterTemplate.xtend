@@ -114,27 +114,18 @@ public static HashMap<String,Double> calculate(String sheetName, String resultNo
  * @throws ClassCastException
  * @throws IOException
  */
-public static HashMap<Integer, ArrayList<Cell>> importUserCells(String sheetName, String resultNodeId) throws ClassNotFoundException, ClassCastException, IOException
+public static ArrayList<Cell> importUserCells(String sheetName, String resultNodeId) throws ClassNotFoundException, ClassCastException, IOException
 {
-	HashMap<Integer, ArrayList<Cell>> usercells = new HashMap<Integer, ArrayList<Cell>>();
+	ArrayList<Cell> usercells = new ArrayList<Cell>();
 	HSSFSheet sheet = importSheet(sheetName, resultNodeId);
 	Iterator<Row> rowIterator = sheet.iterator();
 	while(rowIterator.hasNext()) {
 		Row row = rowIterator.next();
-    	Iterator<Cell> cellIterator = row.cellIterator();
+		Iterator<Cell> cellIterator = row.cellIterator();
     	while(cellIterator.hasNext()) {
     		Cell cell = cellIterator.next();
-    		
-    		if(cell.getCellComment() == null) {
-    			if(usercells.containsKey(cell.getRowIndex())){
-    				usercells.get(cell.getRowIndex()).add(cell);
-    			}
-    			else {
-    				ArrayList<Cell> cells = new  ArrayList<Cell>();
-    				cells.add(cell);
-    				usercells.put(cell.getRowIndex(), cells);
-    			}
-    			
+    		if(cell.getCellComment()==null) {
+    			usercells.add(cell);
     		}
     	}
     }

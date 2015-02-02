@@ -106,7 +106,7 @@ private void openSheet(String resultNodeId,String sheetName)
 		e.printStackTrace();
 	}
 }
-private HashMap<Integer,ArrayList<Cell>> getUserCells(String sheetName, String resultNodeId)
+private ArrayList<Cell> getUserCells(String sheetName, String resultNodeId)
 {
 	try {
 		return Spreadsheetimporter.importUserCells(sheetName, resultNodeId);
@@ -115,7 +115,7 @@ private HashMap<Integer,ArrayList<Cell>> getUserCells(String sheetName, String r
 				"Error", 
 				"Sheet error.\nUser written cells could not be importet.");
 	}
-	return new HashMap<Integer,ArrayList<Cell>>();
+	return new ArrayList<Cell>();
 }
 
 
@@ -178,7 +178,7 @@ private ArrayList<VersionNode> getVersionNodes(Node node, String sheetName)
 	return nodes;
 }
 
-private boolean exportSheet(ArrayList<VersionNode> nodes, String sheetName,String resultNodeId, HashMap<String,String> formulas, HashMap<Integer, ArrayList<Cell>> userCells)
+private boolean exportSheet(ArrayList<VersionNode> nodes, String sheetName,String resultNodeId, HashMap<String,String> formulas, ArrayList<Cell> userCells)
 {
 	try {
 		SheetHandler.writeSheet(Spreadsheetexporter.export(nodes,formulas,userCells), resultNodeId, sheetName);
@@ -238,7 +238,7 @@ private boolean exportFormula(HashMap<String,String> formulas,String resultNodeI
 		
 		//Refresh the sheet and write it
 		nodes = getVersionNodes(node, sheetName);
-		HashMap<Integer, ArrayList<Cell>> userCells = this.getUserCells(sheetName, resultNodeId);
+		ArrayList<Cell> userCells = this.getUserCells(sheetName, resultNodeId);
 		if(!exportSheet(nodes, sheetName, resultNodeId, formulas,userCells))
 		{
 			return null;

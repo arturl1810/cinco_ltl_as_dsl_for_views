@@ -33,7 +33,6 @@ import «projectPath».«n.nodeName»;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Auto-generated Class
@@ -94,7 +93,7 @@ public Object execute(ExecutionEvent event) throws ExecutionException {
 	}
 	
 	try {
-		SheetHandler.writeSheet(Spreadsheetexporter.export(nodes,null, new HashMap<Integer,ArrayList<Cell>>()), resultNodeId, sheetName);
+		SheetHandler.writeSheet(Spreadsheetexporter.export(nodes,null, new ArrayList<Cell>()), resultNodeId, sheetName);
 	} catch (ClassNotFoundException | ClassCastException
 			| IOException e1) {
 		MessageDialog.openError(Display.getCurrent().getActiveShell(), 
