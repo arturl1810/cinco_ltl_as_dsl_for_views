@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>f99467c8-1334-49f9-a0cb-9e2f6cc9db0d</id>
   <name>GeneratePaletteCode</name>
-  <changecounter>153</changecounter>
+  <changecounter>171</changecounter>
   <sib>
     <id>7f9d75e6-251a-4c32-a1b9-97eb143670cc</id>
     <name>GetPaletteGroups</name>
@@ -266,8 +266,8 @@
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>PaletteCompartmentEntry compartmentEntry$groupName$ = new PaletteCompartmentEntry(&quot;$groupName$&quot;, null);
-palette.add(compartmentEntry$groupName$);
+      <string>compartmentEntry = new PaletteCompartmentEntry(&quot;$groupName$&quot;, null);
+palette.add(compartmentEntry);
 
 </string>
     </parameter>
@@ -322,7 +322,7 @@ objectCreationToolEntry = new ObjectCreationToolEntry(
 	cf.getCreateLargeImageId(), 
 	cf);
 
-compartmentEntry$groupName$.addToolEntry(objectCreationToolEntry);
+compartmentEntry.addToolEntry(objectCreationToolEntry);
 </string>
     </parameter>
     <finalbranches>default</finalbranches>
@@ -401,7 +401,7 @@ compartmentEntry$groupName$.addToolEntry(objectCreationToolEntry);
 ICreateConnectionFeature ccf = null;
 ObjectCreationToolEntry objectCreationToolEntry = null;
 ConnectionCreationToolEntry connectionCreationToolEntry = null;
-
+PaletteCompartmentEntry compartmentEntry = null;
 </string>
     </parameter>
     <finalbranches>default</finalbranches>
@@ -478,7 +478,7 @@ connectionCreationToolEntry = new ConnectionCreationToolEntry(
 	ccf.getCreateImageId(),
 	ccf.getCreateLargeImageId());
 
-compartmentEntry$groupName$.addToolEntry(connectionCreationToolEntry);
+compartmentEntry.addToolEntry(connectionCreationToolEntry);
 </string>
     </parameter>
     <finalbranches>default</finalbranches>
