@@ -7,7 +7,9 @@ import ProductDefinition.About
 import ProductDefinition.CincoProduct
 import ProductDefinition.Color
 import ProductDefinition.ProductDefinitionPackage
+import de.jabc.cinco.meta.core.utils.projects.ProjectCreator
 import java.io.File
+import org.eclipse.core.resources.IProject
 import org.eclipse.emf.ecore.EStructuralFeature
 import org.eclipse.xtext.validation.Check
 
@@ -33,63 +35,28 @@ class CPDValidator extends AbstractCPDValidator {
 
 	@Check
 	def checkImage16Exists(CincoProduct cpd){
-		if(!cpd.image16.nullOrEmpty &&!cpd.image16.equals("\"\"")){
-			if(!(new File(cpd.image16.replaceAll("\"",""))).exists){
-				printFileDoesNotExistError(cpd.image16.replaceAll("\"",""),ProductDefinitionPackage.Literals.CINCO_PRODUCT__IMAGE16)
-			}
-		}if(!cpd.image16.nullOrEmpty &&cpd.image16.equals("\"\"")){
-			error("Please enter the Path to the Image",ProductDefinitionPackage.Literals.CINCO_PRODUCT__IMAGE16)
-		}		
+		checkPathExists(cpd.image16, ProductDefinitionPackage.Literals.CINCO_PRODUCT__IMAGE16,"Please enter the Path to the Image",ProjectCreator.getProject(cpd.eResource))
 	}
 	@Check
 	def checkImage32Exists(CincoProduct cpd){
-		if(!cpd.image32.nullOrEmpty &&!cpd.image32.equals("\"\"")){
-			if(!(new File(cpd.image32.replaceAll("\"",""))).exists){
-				printFileDoesNotExistError(cpd.image32.replaceAll("\"",""),ProductDefinitionPackage.Literals.CINCO_PRODUCT__IMAGE32)
-			}
-		}if(!cpd.image32.nullOrEmpty &&cpd.image32.equals("\"\"")){
-			error("Please enter the Path to the Image",ProductDefinitionPackage.Literals.CINCO_PRODUCT__IMAGE32)
-		}		
+		checkPathExists(cpd.image32, ProductDefinitionPackage.Literals.CINCO_PRODUCT__IMAGE32,"Please enter the Path to the Image", ProjectCreator.getProject(cpd.eResource))		
 	}
+	
 	@Check
 	def checkImage48Exists(CincoProduct cpd){
-		if(!cpd.image48.nullOrEmpty &&!cpd.image48.equals("\"\"")){
-			if(!(new File(cpd.image48.replaceAll("\"",""))).exists){
-				printFileDoesNotExistError(cpd.image48.replaceAll("\"",""),ProductDefinitionPackage.Literals.CINCO_PRODUCT__IMAGE48)
-			}
-		}if(!cpd.image48.nullOrEmpty &&cpd.image48.equals("\"\"")){
-			error("Please enter the Path to the Image",ProductDefinitionPackage.Literals.CINCO_PRODUCT__IMAGE48)
-		}		
+		checkPathExists(cpd.image48, ProductDefinitionPackage.Literals.CINCO_PRODUCT__IMAGE48,"Please enter the Path to the Image",ProjectCreator.getProject(cpd.eResource))		
 	}
 	@Check
 	def checkImage64Exists(CincoProduct cpd){
-		if(!cpd.image64.nullOrEmpty &&!cpd.image64.equals("\"\"")){
-			if(!(new File(cpd.image64.replaceAll("\"",""))).exists){
-				printFileDoesNotExistError(cpd.image64.replaceAll("\"",""),ProductDefinitionPackage.Literals.CINCO_PRODUCT__IMAGE64)
-			}
-		}if(!cpd.image64.nullOrEmpty &&cpd.image64.equals("\"\"")){
-			error("Please enter the Path to the Image",ProductDefinitionPackage.Literals.CINCO_PRODUCT__IMAGE64)
-		}		
+		checkPathExists(cpd.image64, ProductDefinitionPackage.Literals.CINCO_PRODUCT__IMAGE64,"Please enter the Path to the Image",ProjectCreator.getProject(cpd.eResource))		
 	}
 	@Check
 	def checkImage128Exists(CincoProduct cpd){
-		if(!cpd.image128.nullOrEmpty &&!cpd.image128.equals("\"\"")){
-			if(!(new File(cpd.image128.replaceAll("\"",""))).exists){
-				printFileDoesNotExistError(cpd.image128.replaceAll("\"",""),ProductDefinitionPackage.Literals.CINCO_PRODUCT__IMAGE128)
-			}
-		}if(!cpd.image128.nullOrEmpty &&cpd.image128.equals("\"\"")){
-			error("Please enter the Path to the Image",ProductDefinitionPackage.Literals.CINCO_PRODUCT__IMAGE128)
-		}		
+		checkPathExists(cpd.image128, ProductDefinitionPackage.Literals.CINCO_PRODUCT__IMAGE128,"Please enter the Path to the Image",ProjectCreator.getProject(cpd.eResource))		
 	}
 	@Check
 	def checkAboutImageExists(About about){
-		if(!about.imagePath.nullOrEmpty &&!about.imagePath.equals("\"\"")){
-			if(!(new File(about.imagePath.replaceAll("\"",""))).exists){
-				printFileDoesNotExistError(about.imagePath.replaceAll("\"",""),ProductDefinitionPackage.Literals.ABOUT__IMAGE_PATH)
-			}
-		}if(!about.imagePath.nullOrEmpty &&about.imagePath.equals("\"\"")){
-			error("Please enter the Path to the Image",ProductDefinitionPackage.Literals.ABOUT__IMAGE_PATH)
-		}
+		checkPathExists(about.imagePath,ProductDefinitionPackage.Literals.ABOUT__IMAGE_PATH,"Please enter the Path to the Image",ProjectCreator.getProject(about.eResource))
 	}
 	@Check
 	def checkBundleContainsSplashImage(CincoProduct cpd){
@@ -130,6 +97,18 @@ class CPDValidator extends AbstractCPDValidator {
 				}
 		}else{
 			error("Please enter the path to the icon.xpm",ProductDefinitionPackage.Literals.CINCO_PRODUCT__LINUX_ICON)
+		}
+	}
+	
+	
+	def checkPathExists(String path, EStructuralFeature eStructuralFeature, String msg,IProject project) {
+		if(!path.nullOrEmpty &&!path.equals("\"\"")){
+			if(!(new File(path.replaceAll("\"",""))).exists && !project.getFile(path.replaceAll("\"","")).exists){
+				
+				printFileDoesNotExistError(path.replaceAll("\"",""),eStructuralFeature)
+			}
+		}if(!path.nullOrEmpty &&path.equals("\"\"")){
+			error(msg,eStructuralFeature)
 		}
 	}
 	
