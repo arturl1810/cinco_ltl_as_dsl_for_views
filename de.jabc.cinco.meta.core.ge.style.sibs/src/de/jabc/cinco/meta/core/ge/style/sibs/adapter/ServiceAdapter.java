@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -47,6 +48,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.xml.type.internal.RegEx.REUtil;
 import org.eclipse.osgi.util.ManifestElement;
 
 import style.AbsolutPosition;
@@ -1207,6 +1209,25 @@ public class ServiceAdapter {
 			context.put("exception", e);
 			return Branches.ERROR;
 		}
+	}
+
+	public static String isEmpty(LightweightExecutionEnvironment env,
+			ContextKeyFoundation collection) {
+		
+		LightweightExecutionContext context = env.getLocalContext();
+		
+		try {
+			@SuppressWarnings("unchecked")
+			Collection<Object> coll = (Collection<Object>) context.get(collection);
+			if (coll.isEmpty())
+				return Branches.TRUE;
+			else return Branches.FALSE;
+		} catch (Exception e) {
+			context.put("exception", e);
+			return Branches.ERROR;
+		
+		}
+		
 	}
 
 }
