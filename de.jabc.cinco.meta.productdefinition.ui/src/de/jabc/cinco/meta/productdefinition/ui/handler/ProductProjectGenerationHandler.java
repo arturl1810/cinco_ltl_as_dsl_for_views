@@ -52,9 +52,8 @@ public class ProductProjectGenerationHandler extends AbstractHandler {
 				throws InvocationTargetException, InterruptedException {
 			monitor.subTask("Generating Cinco Product.");
 			if(!monitor.isCanceled()){
-				IFile selectedFile = MGLSelectionListener.INSTANCE.getSelectedFile();
-				if(selectedFile.getFileExtension().equals("mgl")){
-					selectedFile = selectedFile.getProject().getFile(selectedFile.getProjectRelativePath().removeFileExtension().toOSString().concat(".cpd"));
+				IFile selectedFile = MGLSelectionListener.INSTANCE.getSelectedCPDFile();
+				if(selectedFile.getFileExtension().equals("cpd")){
 					IProject project = selectedFile.getProject();
 					//ResourceSet rSet =   resourceSetProvider.get(project);
 					URI createPlatformResourceURI = URI.createPlatformResourceURI(selectedFile.getFullPath().toOSString(), true);

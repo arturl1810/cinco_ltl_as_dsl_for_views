@@ -52,7 +52,7 @@ public class GenerateFeatureProjectHandler extends AbstractHandler {
 				.getActiveWorkbenchWindowChecked(event).getWorkbench()
 				.getProgressService();
 		try {
-			IFile file = MGLSelectionListener.INSTANCE.getSelectedFile();
+			IFile file = MGLSelectionListener.INSTANCE.getCurrentMGLFile();
 			if(file!=null){
 				ResourceSet rSet = new ResourceSetImpl();
 				ps.busyCursorWhile(new FeatureGenerator(file,rSet));

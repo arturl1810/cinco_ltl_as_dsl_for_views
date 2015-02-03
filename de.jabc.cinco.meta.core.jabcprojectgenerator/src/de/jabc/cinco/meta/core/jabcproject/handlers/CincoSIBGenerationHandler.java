@@ -47,7 +47,7 @@ public class CincoSIBGenerationHandler extends AbstractHandler {
 		IWorkbenchWindow window = HandlerUtil
 				.getActiveWorkbenchWindowChecked(event);
 		
-		IFile file = Activator.getDefault().getSelectionListener().getSelectedFile();
+		IFile file = Activator.getDefault().getSelectionListener().getCurrentMGLFile();
 		
 		
 		if (file != null && file.getFileExtension().equals("mgl")) {

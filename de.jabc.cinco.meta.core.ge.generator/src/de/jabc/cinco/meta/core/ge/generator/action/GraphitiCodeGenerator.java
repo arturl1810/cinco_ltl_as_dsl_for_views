@@ -120,7 +120,7 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		
-		IFile file = MGLSelectionListener.INSTANCE.getSelectedFile();
+		IFile file = MGLSelectionListener.INSTANCE.getCurrentMGLFile();
 		
 		if (file!=null) {
 		
