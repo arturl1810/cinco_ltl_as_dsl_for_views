@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>ede0f2a5-2d64-419a-a377-4de364aed9a1</id>
   <name>GenerateGraphmodelWrapper</name>
-  <changecounter>164</changecounter>
+  <changecounter>177</changecounter>
   <sib>
     <id>961ec5c2-d49b-4f47-b506-1d2f2c25fd26</id>
     <name>RunStringTemplate</name>
@@ -286,7 +286,7 @@ public class $graphModelName$Wrapper {
     <label>RunStringTemplate</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>452.0,243.0</position>
+    <position>572.0,243.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -312,17 +312,17 @@ public class $graphModelName$Wrapper {
   </sib>
   <edge>
     <source>77754c48-0b34-4c77-bfa2-5043832558ca</source>
-    <target>e725fcec-97cf-455e-b8c2-19b6ddcba522</target>
-    <point>145.0,265.0</point>
-    <point>325.0,265.0</point>
+    <target>812ef8bc-1c7e-4d9d-997e-a58a0a983bef</target>
+    <point>168.0,254.88</point>
+    <point>282.0,209.28</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>next</branch>
   </edge>
   <edge>
     <source>e725fcec-97cf-455e-b8c2-19b6ddcba522</source>
     <target>d39e8be8-6780-4bf6-b84e-a83ffa0048a9</target>
-    <point>325.0,265.0</point>
-    <point>490.0,265.0</point>
+    <point>450.0,270.0</point>
+    <point>630.0,270.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -332,7 +332,7 @@ public class $graphModelName$Wrapper {
     <label>RunStringTemplate</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>452.0,558.0</position>
+    <position>572.0,558.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -362,7 +362,7 @@ public class $graphModelName$Wrapper {
     <label>RunStringTemplate</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>452.0,393.0</position>
+    <position>572.0,393.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -392,7 +392,7 @@ public class $graphModelName$Wrapper {
     <label>GetModelElementName</label>
     <sib-uid>mgl/mgl/GetModelElementName</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetModelElementName</taxonomy>
-    <position>260.0,243.0</position>
+    <position>380.0,243.0</position>
     <parameter name="modelElementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -420,7 +420,7 @@ public class $graphModelName$Wrapper {
     <label>GetModelElementName</label>
     <sib-uid>mgl/mgl/GetModelElementName</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetModelElementName</taxonomy>
-    <position>260.0,558.0</position>
+    <position>380.0,558.0</position>
     <parameter name="modelElementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -448,7 +448,7 @@ public class $graphModelName$Wrapper {
     <label>GetModelElementName</label>
     <sib-uid>mgl/mgl/GetModelElementName</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetModelElementName</taxonomy>
-    <position>260.0,393.0</position>
+    <position>380.0,393.0</position>
     <parameter name="modelElementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -472,33 +472,33 @@ public class $graphModelName$Wrapper {
   </sib>
   <edge>
     <source>d50f809f-df6c-4eaa-9ae3-282db75427cd</source>
-    <target>20fcdb53-ffe1-47ab-8a42-0b7226f73fcd</target>
-    <point>145.0,415.0</point>
-    <point>340.0,415.0</point>
+    <target>a4fa982e-ba82-40b2-93d7-89242f6f803a</target>
+    <point>168.0,408.48</point>
+    <point>282.0,385.68</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>next</branch>
   </edge>
   <edge>
     <source>20fcdb53-ffe1-47ab-8a42-0b7226f73fcd</source>
     <target>f0aabe9d-36b1-45f9-b6d4-5a8efc137fdc</target>
-    <point>340.0,415.0</point>
-    <point>505.0,415.0</point>
+    <point>450.0,420.0</point>
+    <point>630.0,420.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
     <source>0f89de2f-ec49-4466-8e72-64296dc4b09e</source>
-    <target>758ab1d1-e19a-438d-a003-40e760b509d2</target>
-    <point>145.0,580.0</point>
-    <point>340.0,580.0</point>
+    <target>cd57a899-6f49-4495-bee6-27624d423424</target>
+    <point>168.0,573.48</point>
+    <point>282.0,550.68</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>next</branch>
   </edge>
   <edge>
     <source>758ab1d1-e19a-438d-a003-40e760b509d2</source>
     <target>ad603ea1-5724-4acb-ab41-a272fe8980e9</target>
-    <point>340.0,580.0</point>
-    <point>505.0,580.0</point>
+    <point>450.0,585.0</point>
+    <point>630.0,585.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -744,6 +744,117 @@ public class $graphModelName$Wrapper {
     <point>375.0,750.0</point>
     <point>514.0,764.0</point>
     <branch>default</branch>
+  </edge>
+  <sib>
+    <id>812ef8bc-1c7e-4d9d-997e-a58a0a983bef</id>
+    <name>IsAbstract</name>
+    <label>IsAbstract</label>
+    <sib-uid>ge-util-sibs/IsAbstract</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsAbstract</taxonomy>
+    <position>282.5,243.0</position>
+    <parameter name="modelElement">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>node</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>false</finalbranches>
+    <finalbranches>true</finalbranches>
+  </sib>
+  <sib>
+    <id>a4fa982e-ba82-40b2-93d7-89242f6f803a</id>
+    <name>IsAbstract_1</name>
+    <label>IsAbstract</label>
+    <sib-uid>ge-util-sibs/IsAbstract</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsAbstract</taxonomy>
+    <position>297.5,393.0</position>
+    <parameter name="modelElement">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>container</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>false</finalbranches>
+    <finalbranches>true</finalbranches>
+  </sib>
+  <sib>
+    <id>cd57a899-6f49-4495-bee6-27624d423424</id>
+    <name>IsAbstract_2</name>
+    <label>IsAbstract</label>
+    <sib-uid>ge-util-sibs/IsAbstract</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsAbstract</taxonomy>
+    <position>282.5,558.0</position>
+    <parameter name="modelElement">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>edge</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>false</finalbranches>
+    <finalbranches>true</finalbranches>
+  </sib>
+  <edge>
+    <source>812ef8bc-1c7e-4d9d-997e-a58a0a983bef</source>
+    <target>e725fcec-97cf-455e-b8c2-19b6ddcba522</target>
+    <point>315.0,270.0</point>
+    <point>433.0,259.0</point>
+    <branch>false</branch>
+  </edge>
+  <edge>
+    <source>a4fa982e-ba82-40b2-93d7-89242f6f803a</source>
+    <target>20fcdb53-ffe1-47ab-8a42-0b7226f73fcd</target>
+    <point>330.0,420.0</point>
+    <point>450.0,414.0</point>
+    <branch>false</branch>
+  </edge>
+  <edge>
+    <source>cd57a899-6f49-4495-bee6-27624d423424</source>
+    <target>758ab1d1-e19a-438d-a003-40e760b509d2</target>
+    <point>315.0,585.0</point>
+    <point>433.0,577.0</point>
+    <branch>false</branch>
+  </edge>
+  <edge>
+    <source>cd57a899-6f49-4495-bee6-27624d423424</source>
+    <target>0f89de2f-ec49-4466-8e72-64296dc4b09e</target>
+    <spline/>
+    <point>297.0,560.16</point>
+    <point>240.0,510.0</point>
+    <point>168.0,562.8</point>
+    <labelposition>450.0,47.0</labelposition>
+    <branch>true</branch>
+  </edge>
+  <edge>
+    <source>a4fa982e-ba82-40b2-93d7-89242f6f803a</source>
+    <target>d50f809f-df6c-4eaa-9ae3-282db75427cd</target>
+    <spline/>
+    <point>312.0,400.8</point>
+    <point>240.0,360.0</point>
+    <point>168.0,400.8</point>
+    <labelposition>500.0,39.0</labelposition>
+    <branch>true</branch>
+  </edge>
+  <edge>
+    <source>812ef8bc-1c7e-4d9d-997e-a58a0a983bef</source>
+    <target>77754c48-0b34-4c77-bfa2-5043832558ca</target>
+    <spline/>
+    <point>297.0,248.76</point>
+    <point>240.0,210.0</point>
+    <point>168.0,250.8</point>
+    <labelposition>437.0,42.0</labelposition>
+    <branch>true</branch>
   </edge>
   <values/>
   <branch>

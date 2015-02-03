@@ -72,13 +72,20 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 				if (apiProject.exists())
 					GeneratorHelper.generateGenModelCode(apiProject, "C"+mglModelFile.getName().split("\\.")[0]);
 				
-				System.out.println("Generating Feature Project");
-				Command featureGenerationCommand = commandService.getCommand("de.jabc.cinco.meta.core.generatefeature");
-				featureGenerationCommand.executeWithChecks(event);
 				
 				System.out.println("Generating jABC4 Project Information");
 				Command sibGenerationCommand = commandService.getCommand("de.jabc.cinco.meta.core.jabcproject.commands.generateCincoSIBsCommand");
 				sibGenerationCommand.executeWithChecks(event);
+				
+				// TODO: Product definition should be made central file
+				System.out.println("Generating Product project");
+				Command cpdGenerationCommand = commandService.getCommand("cpd.handler.ui.generate");
+				cpdGenerationCommand.executeWithChecks(event);
+				
+				System.out.println("Generating Feature Project");
+				Command featureGenerationCommand = commandService.getCommand("de.jabc.cinco.meta.core.generatefeature");
+				featureGenerationCommand.executeWithChecks(event);
+				
 				
 				MessageDialog.openInformation(HandlerUtil.getActiveShell(event), "Cinco Product Generation", "Cinco Product generation completed successfully");
 				

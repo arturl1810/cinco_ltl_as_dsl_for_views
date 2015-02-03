@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>cdd03cd4-edfa-43b9-9631-37bc827cc85e</id>
   <name>Generate Feature XML</name>
-  <changecounter>47</changecounter>
+  <changecounter>48</changecounter>
   <sib>
     <id>17c1dcbb-74f9-456f-bf8f-44eee7fd4f25</id>
     <name>IterateGraphModelAnnotations</name>
@@ -249,59 +249,13 @@
     <branch>exit</branch>
     <branch>noElements</branch>
   </edge>
-  <sib>
-    <id>025e410f-71ab-4f9a-a5f5-fd4e21993500</id>
-    <name>AddElement_1</name>
-    <label>AddElement</label>
-    <sib-uid>collection-sibs/AddElement</sib-uid>
-    <taxonomy>de.jabc.sib.common.collection.AddElement</taxonomy>
-    <position>562.5,123.0</position>
-    <parameter name="collection">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>featurePackages</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="element">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>graphitiPackageName</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>error</finalbranches>
-    <finalbranches>false</finalbranches>
-    <finalbranches>true</finalbranches>
-  </sib>
   <edge>
     <source>6090fb91-6a00-445b-88bd-b20abeb8e538</source>
-    <target>025e410f-71ab-4f9a-a5f5-fd4e21993500</target>
-    <point>467.0,143.0</point>
-    <point>602.0,143.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>true</branch>
-  </edge>
-  <edge>
-    <source>025e410f-71ab-4f9a-a5f5-fd4e21993500</source>
     <target>17c1dcbb-74f9-456f-bf8f-44eee7fd4f25</target>
-    <point>602.0,143.0</point>
-    <point>752.0,143.0</point>
+    <point>483.0,141.56842105263158</point>
+    <point>732.0,141.56842105263158</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>true</branch>
-  </edge>
-  <edge>
-    <source>025e410f-71ab-4f9a-a5f5-fd4e21993500</source>
-    <target>d25fc657-4a9d-4b86-af32-53c163519b4b</target>
-    <point>602.0,143.0</point>
-    <point>152.0,908.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>error</branch>
-    <branch>false</branch>
   </edge>
   <edge>
     <source>6090fb91-6a00-445b-88bd-b20abeb8e538</source>

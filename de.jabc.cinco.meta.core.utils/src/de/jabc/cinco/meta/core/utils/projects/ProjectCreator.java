@@ -27,6 +27,7 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.SubProgressMonitor;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragment;
@@ -40,6 +41,7 @@ import org.eclipse.xtext.ui.util.JavaProjectFactory;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
+import org.eclipse.emf.ecore.resource.Resource;
 
 public class ProjectCreator {
 
@@ -357,5 +359,18 @@ public class ProjectCreator {
 			project.refreshLocal(IResource.DEPTH_INFINITE, progressMonitor);
 		
 	}
-	
+	/**
+	 * Retrieves IProject for given EMF Resource
+	 * @param res - Resource
+	 * @return IProject where Resource res is located, @null if res is not located in a platform resource
+	 */
+	public static IProject getProject(Resource res){
+		IWorkspace workspace = ResourcesPlugin.getWorkspace();
+		URI uri = res.getURI();
+		if(uri.isPlatformResource()){
+			IFile iFile = workspace.getRoot().getFile(new Path(uri.toPlatformString(true)));
+			return iFile.getProject();
+		}
+		return null;
+	}
 }

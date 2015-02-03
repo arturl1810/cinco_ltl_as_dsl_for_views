@@ -14,6 +14,7 @@ import java.util.Set;
 
 import mgl.GraphModel;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -25,6 +26,7 @@ import org.eclipse.core.runtime.Platform;
 import org.osgi.framework.Bundle;
 
 import de.jabc.cinco.meta.core.pluginregistry.IMetaPlugin;
+import de.jabc.cinco.meta.core.utils.BuildProperties;
 import de.jabc.cinco.meta.core.utils.projects.ProjectCreator;
 import de.metaframe.jabc.framework.execution.DefaultLightweightExecutionEnvironment;
 import de.metaframe.jabc.framework.execution.LightweightExecutionEnvironment;
@@ -50,7 +52,12 @@ public class ExecutableMetaPlugin implements IMetaPlugin {
 			IProgressMonitor progressMonitor = new NullProgressMonitor();
 			
 			if(!ResourcesPlugin.getWorkspace().getRoot().exists(new Path("/de.jabc.cinco.plugin.executor/")))
-				wasCreated = createExecutorPlugin(progressMonitor,context);
+				try {
+					wasCreated = createExecutorPlugin(progressMonitor,context);
+				} catch (CoreException e1) {
+					
+					e1.printStackTrace();
+				}
 			
 			String projectName = graphModel.getPackage()+".executor";
 			if(!ResourcesPlugin.getWorkspace().getRoot().exists(new Path("/"+projectName))){
@@ -115,7 +122,7 @@ public class ExecutableMetaPlugin implements IMetaPlugin {
 		
 	}
 
-	private boolean createExecutorPlugin(IProgressMonitor progressMonitor,LightweightExecutionContext context) {
+	private boolean createExecutorPlugin(IProgressMonitor progressMonitor,LightweightExecutionContext context) throws CoreException {
 		if(!ResourcesPlugin.getWorkspace().getRoot().exists(new Path("/de.jabc.cinco.plugin.executor/"))){
 			String projectName = "de.jabc.cinco.plugin.executor";
 			List<String> srcFolders = new ArrayList<>();
@@ -175,6 +182,13 @@ public class ExecutableMetaPlugin implements IMetaPlugin {
 				System.out.println(schemaDirectory.isDirectory());
 				context.put("schemaDirectory",schemaDirectory);
 				context.put("executorPath", projectPath);
+				
+				IFile bpf = (IFile) tvProject.findMember("build.properties");
+				BuildProperties buildProperties = BuildProperties.loadBuildProperties(bpf);
+				buildProperties.appendBinIncludes("plugin.xml");
+				buildProperties.appendBinIncludes("icons/");
+				buildProperties.appendBinIncludes("schema/");
+				buildProperties.store(bpf, progressMonitor);
 			
 			} catch (IOException e) {
 				// TODO Auto-generated catch block

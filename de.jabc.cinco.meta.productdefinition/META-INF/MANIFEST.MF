@@ -1,0 +1,36 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: de.jabc.cinco.meta.productdefinition
+Bundle-Vendor: My Company
+Bundle-Version: 0.6.0.qualifier
+Bundle-SymbolicName: de.jabc.cinco.meta.productdefinition; singleton:=true
+Bundle-ActivationPolicy: lazy
+Require-Bundle: org.eclipse.xtext;visibility:=reexport,
+ org.eclipse.xtext.xbase;resolution:=optional;visibility:=reexport,
+ org.eclipse.xtext.generator;resolution:=optional,
+ org.apache.commons.logging;resolution:=optional,
+ org.eclipse.emf.codegen.ecore;resolution:=optional,
+ org.eclipse.emf.mwe.utils;resolution:=optional,
+ org.eclipse.emf.mwe2.launch;resolution:=optional,
+ org.eclipse.xtext.util,
+ org.antlr.runtime,
+ org.eclipse.xtext.common.types,
+ de.jabc.cinco.meta.core.utils,
+ org.eclipse.core.runtime,
+ org.eclipse.core.resources,
+ org.eclipse.pde.core,
+ de.jabc.cinco.meta.productdefinition.model,
+ de.jabc.cinco.meta.productdefinition,
+ de.jabc.cinco.meta.core
+Import-Package: org.apache.log4j,
+ org.eclipse.xtext.xbase.lib
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Export-Package: de.jabc.cinco.meta.productdefinition,
+ de.jabc.cinco.meta.productdefinition.formatting,
+ de.jabc.cinco.meta.productdefinition.generator,
+ de.jabc.cinco.meta.productdefinition.parser.antlr,
+ de.jabc.cinco.meta.productdefinition.parser.antlr.internal,
+ de.jabc.cinco.meta.productdefinition.scoping,
+ de.jabc.cinco.meta.productdefinition.serializer,
+ de.jabc.cinco.meta.productdefinition.services,
+ de.jabc.cinco.meta.productdefinition.validation
