@@ -2,6 +2,7 @@ package de.jabc.cinco.meta.core.ui.handlers;
 
 
 
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
@@ -14,9 +15,14 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -24,6 +30,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.commands.ICommandService;
 import org.eclipse.ui.handlers.HandlerUtil;
 
+import ProductDefinition.CincoProduct;
 import de.jabc.cinco.meta.core.BundleRegistry;
 import de.jabc.cinco.meta.core.ui.listener.MGLSelectionListener;
 import de.jabc.cinco.meta.core.utils.GeneratorHelper;
@@ -52,40 +59,45 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 			commandService = (ICommandService)PlatformUI.getWorkbench().getService(ICommandService.class);
 			StructuredSelection selection = (StructuredSelection)HandlerUtil.getActiveMenuSelection(event);
 			if(selection.getFirstElement() instanceof IFile){
-
+				IFile mglModelFile = null;
+				IFile cpdFile = MGLSelectionListener.INSTANCE.getSelectedCPDFile();
+				CincoProduct cpd = loadCPD(cpdFile);
 				BundleRegistry.resetRegistry();
-				
-				System.out.println("Generating Ecore/GenModel from MGL...");
-				Command mglGeneratorCommand = commandService.getCommand("de.jabc.cinco.meta.core.mgl.ui.mglgenerationcommand");
-				mglGeneratorCommand.executeWithChecks(event);
-				
-				System.out.println("Generating Model Code from GenModel...");
-				IFile mglModelFile = MGLSelectionListener.INSTANCE.getSelectedFile();
-				
-				System.out.println("Generating Graphiti Editor...");
-				Command graphitiEditorGeneratorCommand = commandService.getCommand("de.jabc.cinco.meta.core.ge.generator.generateeditorcommand");
-				graphitiEditorGeneratorCommand.executeWithChecks(event);
-//				IProject apiProject = ResourcesPlugin.getWorkspace().getRoot().getProject(mglModelFile.getProject().getName().concat(".graphiti.api"));
-				
-				GeneratorHelper.generateGenModelCode(mglModelFile);
-				IProject apiProject = mglModelFile.getProject();
-				if (apiProject.exists())
-					GeneratorHelper.generateGenModelCode(apiProject, "C"+mglModelFile.getName().split("\\.")[0]);
-				
-				
-				System.out.println("Generating jABC4 Project Information");
-				Command sibGenerationCommand = commandService.getCommand("de.jabc.cinco.meta.core.jabcproject.commands.generateCincoSIBsCommand");
-				sibGenerationCommand.executeWithChecks(event);
-				
-				// TODO: Product definition should be made central file
-				System.out.println("Generating Product project");
-				Command cpdGenerationCommand = commandService.getCommand("cpd.handler.ui.generate");
-				cpdGenerationCommand.executeWithChecks(event);
-				
-				System.out.println("Generating Feature Project");
-				Command featureGenerationCommand = commandService.getCommand("de.jabc.cinco.meta.core.generatefeature");
-				featureGenerationCommand.executeWithChecks(event);
-				
+				for(String mglPath: cpd.getMgls()){
+					mglModelFile = cpdFile.getProject().getFile(mglPath);
+					MGLSelectionListener.INSTANCE.putMGLFile(mglModelFile);
+					
+					System.out.println("Generating Ecore/GenModel from MGL...");
+					Command mglGeneratorCommand = commandService.getCommand("de.jabc.cinco.meta.core.mgl.ui.mglgenerationcommand");
+					mglGeneratorCommand.executeWithChecks(event);
+					
+					System.out.println("Generating Model Code from GenModel...");
+					
+					
+					System.out.println("Generating Graphiti Editor...");
+					Command graphitiEditorGeneratorCommand = commandService.getCommand("de.jabc.cinco.meta.core.ge.generator.generateeditorcommand");
+					graphitiEditorGeneratorCommand.executeWithChecks(event);
+	//				IProject apiProject = ResourcesPlugin.getWorkspace().getRoot().getProject(mglModelFile.getProject().getName().concat(".graphiti.api"));
+					
+					GeneratorHelper.generateGenModelCode(mglModelFile);
+					IProject apiProject = mglModelFile.getProject();
+					if (apiProject.exists())
+						GeneratorHelper.generateGenModelCode(apiProject, "C"+mglModelFile.getName().split("\\.")[0]);
+					
+					
+					System.out.println("Generating jABC4 Project Information");
+					Command sibGenerationCommand = commandService.getCommand("de.jabc.cinco.meta.core.jabcproject.commands.generateCincoSIBsCommand");
+					sibGenerationCommand.executeWithChecks(event);
+					
+					// TODO: Product definition should be made central file
+					System.out.println("Generating Product project");
+					Command cpdGenerationCommand = commandService.getCommand("cpd.handler.ui.generate");
+					cpdGenerationCommand.executeWithChecks(event);
+					
+					System.out.println("Generating Feature Project");
+					Command featureGenerationCommand = commandService.getCommand("de.jabc.cinco.meta.core.generatefeature");
+					featureGenerationCommand.executeWithChecks(event);
+				}
 				
 				MessageDialog.openInformation(HandlerUtil.getActiveShell(event), "Cinco Product Generation", "Cinco Product generation completed successfully");
 				
@@ -112,5 +124,15 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 		
 		
 		return null;
+	}
+
+	private CincoProduct loadCPD(IFile cpdFile) throws IOException, CoreException {
+		System.out.println(cpdFile);
+		URI createPlatformResourceURI = URI.createPlatformResourceURI(cpdFile.getFullPath().toPortableString(), true);
+		Resource res = Resource.Factory.Registry.INSTANCE.getFactory(createPlatformResourceURI, "cpd").createResource(createPlatformResourceURI);
+		ResourceSet set = ProductDefinition.ProductDefinitionPackage.eINSTANCE.eResource().getResourceSet();
+		res.load(cpdFile.getContents(),null);
+		return (CincoProduct) res.getContents().get(0);
+		
 	}
 }
