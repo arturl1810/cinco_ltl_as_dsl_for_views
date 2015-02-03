@@ -179,7 +179,7 @@ class CPDGenerator implements IGenerator {
 
 			var pluginXML = generatePluginXML(project, productDefinition, windowImages)
 			ProjectCreator.createFile("plugin.xml", project, pluginXML.toString, progressMonitor)
-			product.productId = productDefinition.id + ".product"
+			product.productId = id + ".product"
 			product.application = "org.eclipse.ui.ide.workbench"
 			var v = productDefinition.version
 			if(v.nullOrEmpty)
