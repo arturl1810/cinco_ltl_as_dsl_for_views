@@ -6,6 +6,7 @@ package de.jabc.cinco.meta.productdefinition.validation
 import ProductDefinition.About
 import ProductDefinition.CincoProduct
 import ProductDefinition.Color
+import ProductDefinition.SplashScreen
 import ProductDefinition.ProductDefinitionPackage
 import de.jabc.cinco.meta.core.utils.projects.ProjectCreator
 import java.io.File
@@ -59,8 +60,8 @@ class CPDValidator extends AbstractCPDValidator {
 		checkPathExists(about.imagePath,ProductDefinitionPackage.Literals.ABOUT__IMAGE_PATH,"Please enter the Path to the Image",ProjectCreator.getProject(about.eResource))
 	}
 	@Check
-	def checkBundleContainsSplashImage(CincoProduct cpd){
-		var splashScreen = cpd.splashScreen.path.replaceAll("\"","")
+	def checkBundleContainsSplashImage(SplashScreen splashscreen){
+		var splashScreen = splashscreen.path.replaceAll("\"","")
 		if(!splashScreen.nullOrEmpty){
 			if(!splashScreen.endsWith("splash.bmp"))
 				error("Please enter the path to the splash.bmp",ProductDefinitionPackage.Literals.SPLASH_SCREEN__PATH)
