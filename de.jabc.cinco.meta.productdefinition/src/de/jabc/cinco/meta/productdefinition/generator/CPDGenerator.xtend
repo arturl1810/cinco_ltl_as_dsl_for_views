@@ -47,8 +47,11 @@ class CPDGenerator implements IGenerator {
 	override void doGenerate(Resource resource, IFileSystemAccess fsa) {
 
 		for (productDefinition : resource.contents.filter(CincoProduct)) {
+			var mglProject = ProjectCreator.getProject(resource)
 			var usedFeatures = getUsedFeatures(productDefinition)
 			var id = productDefinition.id
+			if(id.nullOrEmpty)
+				id=mglProject.name.concat(".product")
 			var srcFolders = new ArrayList<String>
 			var referencedProjects = new ArrayList<IProject>
 			var exportedPackages = new ArrayList<String>
@@ -69,7 +72,7 @@ class CPDGenerator implements IGenerator {
 			// Setting Name etc.
 			var product = productModel.product
 			product.name = productDefinition.name
-			product.id = productDefinition.id + ".id"
+			product.id = id + ".id"
 			product.launcherInfo = new LauncherInfo(productModel)
 			product.launcherInfo.launcherName = productDefinition.name.toLowerCase
 
@@ -110,7 +113,7 @@ class CPDGenerator implements IGenerator {
 
 			//Copy Image Files to product folder
 			//var iconPath = project.location.append("icons/")
-			var mglProject = ProjectCreator.getProject(resource)
+			
 
 			var imgFile = null as File
 			var windowImages = new WindowImages(productModel)
@@ -178,8 +181,10 @@ class CPDGenerator implements IGenerator {
 			ProjectCreator.createFile("plugin.xml", project, pluginXML.toString, progressMonitor)
 			product.productId = productDefinition.id + ".product"
 			product.application = "org.eclipse.ui.ide.workbench"
-
-			product.version = productDefinition.version
+			var v = productDefinition.version
+			if(v.nullOrEmpty)
+				v="1.0.0.qualifier"
+			product.version = v
 			productModel.save
 			project.refreshLocal(IProject.DEPTH_INFINITE, progressMonitor)
 			mglProject.refreshLocal(IProject.DEPTH_INFINITE, progressMonitor)
