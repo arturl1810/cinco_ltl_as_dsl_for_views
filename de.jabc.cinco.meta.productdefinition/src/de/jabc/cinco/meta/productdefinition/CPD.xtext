@@ -12,8 +12,8 @@ CincoProduct returns CincoProduct:
 	'cincoProduct'
 	name=ID
 	'{'
-		'id' id=QName
-		'version' version=EString
+		('id' id=QName)?
+		('version' version=EString)?
 		//('mgls' '(' mgls+=[mgl::GraphModel|EString](',' mgls+=[mgl::GraphModel|EString] )* ')')+
 		('mgl'  mgls+=EString)+
 		
