@@ -11,6 +11,7 @@ public class MGLSelectionListener implements ISelectionListener{
 	ISelection selection = null;
 	IWorkbenchPart part = null;
 	IFile selectedFile = null;
+	private IFile selectedMGLFile = null;
 	
 	public static MGLSelectionListener INSTANCE = new MGLSelectionListener(); 
 		
@@ -19,7 +20,7 @@ public class MGLSelectionListener implements ISelectionListener{
 	@Override
 	public void selectionChanged(IWorkbenchPart part, ISelection selection) {
 		if(selection instanceof IStructuredSelection && ((IStructuredSelection)selection).getFirstElement() instanceof IFile){
-			if(((IFile)((IStructuredSelection)selection).getFirstElement()).getFileExtension().equals("mgl")){
+			if(((IFile)((IStructuredSelection)selection).getFirstElement()).getFileExtension().equals("cpd")){
 				this.part = part;
 				this.selection = (IStructuredSelection)selection;
 				this.selectedFile = (IFile)((IStructuredSelection)selection).getFirstElement();
@@ -34,7 +35,16 @@ public class MGLSelectionListener implements ISelectionListener{
 		
 	}
 	
-	public IFile getSelectedFile(){
+	public IFile getCurrentMGLFile(){
+		return this.selectedMGLFile;
+	}
+	
+	public void putMGLFile(IFile iFile){
+		if(iFile.getFileExtension().equals("mgl"))
+			this.selectedMGLFile = iFile;
+	}
+	
+	public IFile getSelectedCPDFile(){
 		return this.selectedFile;
 	}
 	
