@@ -49,7 +49,7 @@
                           type="org.eclipse.core.resources.IFile">
                        <test
                              property="org.eclipse.core.resources.name"
-                             value="*.mgl">
+                             value="*.cpd">
                        </test>
                     </adapt>
                  </iterate>

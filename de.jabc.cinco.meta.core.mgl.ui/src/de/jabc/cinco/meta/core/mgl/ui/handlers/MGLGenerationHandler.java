@@ -31,6 +31,8 @@ import org.eclipse.xtext.ui.resource.IResourceSetProvider;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
+import de.jabc.cinco.meta.core.ui.listener.MGLSelectionListener;
+
 /**
  * Our sample handler extends AbstractHandler, an IHandler base class.
  * @see org.eclipse.core.commands.IHandler
@@ -80,13 +82,7 @@ public class MGLGenerationHandler extends AbstractHandler {
 		@Override
 		public void run(IProgressMonitor monitor)
 				throws InvocationTargetException, InterruptedException {
-			ISelection selection = HandlerUtil.getActiveMenuSelection(event);
-			if(selection instanceof StructuredSelection){
-				StructuredSelection structuredSelection = (StructuredSelection)selection;
-				IFile file = null;
-				if(structuredSelection.getFirstElement() instanceof IFile){
-					file = (IFile)structuredSelection.getFirstElement();
-				
+				IFile file = MGLSelectionListener.INSTANCE.getCurrentMGLFile();
 				ResourceSet rSet = resourceSetProvider.get(file.getProject());
 				
 				Resource res = rSet.createResource(URI.createPlatformResourceURI(file.getFullPath().toOSString(), true));
@@ -137,8 +133,8 @@ public class MGLGenerationHandler extends AbstractHandler {
 					e.printStackTrace();
 					
 				}
-			}
-			}
+			
+			
 			
 		}
 		
