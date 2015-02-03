@@ -84,6 +84,9 @@ public class ServiceAdapter {
 	private static Map<String, String> keywords = new HashMap<String, String>();
 	private static int appearanceCount = 0;
 	
+	private final static String ID_CONTAINER = "Container";
+	private final static String ID_NODES = "Nodes";
+	
 	public ServiceAdapter() {
 		
 	}
@@ -1167,7 +1170,15 @@ public class ServiceAdapter {
 			GraphModel gm = (GraphModel) context.get(graphmodel);
 			HashMap<String, List<GraphicalModelElement>> map = new HashMap<>();
 			
+			map.put(ID_NODES, new ArrayList<GraphicalModelElement>());
+			map.put(ID_CONTAINER, new ArrayList<GraphicalModelElement>());
+			
 			for (Node n : gm.getNodes()){
+				if (n.isIsAbstract() || n.getPrimeReference() != null)
+					continue;
+				if (!hasPaletteCategory(n))
+					map.get(ID_NODES).add(n);
+				
 				for (Annotation a : n.getAnnotations()) {
 					if ("palette".equals(a.getName())) {
 						for (String v : a.getValue()) {
@@ -1180,6 +1191,8 @@ public class ServiceAdapter {
 			}
 			
 			for (Edge e : gm.getEdges()){
+				if (e.isIsAbstract())
+					continue;
 				for (Annotation a : e.getAnnotations()) {
 					if ("palette".equals(a.getName())) {
 						for (String v : a.getValue()) {
@@ -1192,6 +1205,10 @@ public class ServiceAdapter {
 			}
 			
 			for (NodeContainer nc : gm.getNodeContainers()){
+				if (nc.isIsAbstract())
+					continue;
+				if (!hasPaletteCategory(nc))
+					map.get(ID_CONTAINER).add(nc);
 				for (Annotation a : nc.getAnnotations()) {
 					if ("palette".equals(a.getName())) {
 						for (String v : a.getValue()) {
@@ -1202,6 +1219,10 @@ public class ServiceAdapter {
 					}
 				}
 			}
+			
+			map.remove("none");
+			map.remove("None");
+			map.remove("NONE");
 			
 			context.put(gn2men, map);
 			return Branches.DEFAULT;
@@ -1228,6 +1249,15 @@ public class ServiceAdapter {
 		
 		}
 		
+	}
+
+
+	private static boolean hasPaletteCategory(ModelElement me) {
+		for (Annotation a : me.getAnnotations())
+			if (a.getName().equals("palette")) {
+				return true;
+			}
+		return false;
 	}
 
 }

@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>6830c0f3-7532-49ad-ad67-7fb466c9d0a9</id>
   <name>GenerateToolBehaviourProvider</name>
-  <changecounter>205</changecounter>
+  <changecounter>212</changecounter>
   <sib>
     <id>c8e21300-66b5-43fa-a031-ae9d0f22cbf2</id>
     <name>PutExpression</name>
@@ -81,7 +81,7 @@
     <label>RunStringTemplate</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>25.0,558.0</position>
+    <position>25.0,738.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -179,11 +179,11 @@ public class $context.fuGraphModelName$ToolBehaviourProvider extends DefaultTool
 	public IPaletteCompartmentEntry[] getPalette() {
 		List&lt;IPaletteCompartmentEntry&gt; palette = new ArrayList&lt;&gt;();
 		IPaletteCompartmentEntry[] p = super.getPalette();
-		for (IPaletteCompartmentEntry compartment : p) {
+		/**for (IPaletteCompartmentEntry compartment : p) {
 			if (!compartment.getLabel().equals(&quot;Connections&quot;)) {
 				palette.add(compartment);
 			}
-		}	
+		}**/	
 
 		$context.paletteGroupsContent$		
 	
@@ -228,7 +228,7 @@ public class $context.fuGraphModelName$ToolBehaviourProvider extends DefaultTool
     <label>WriteJavaFile</label>
     <sib-uid>genesys-sibs/WriteJavaFile</sib-uid>
     <taxonomy>de.jabc.sib.genesys.WriteJavaFile</taxonomy>
-    <position>43.0,663.0</position>
+    <position>43.0,843.0</position>
     <parameter name="baseDirectory">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -285,8 +285,9 @@ public class $context.fuGraphModelName$ToolBehaviourProvider extends DefaultTool
   <edge>
     <source>5a2da4db-bfc2-47b9-9a74-720f1e2052f2</source>
     <target>91532a33-667f-4770-8444-371c05656291</target>
-    <point>555.0,165.0</point>
-    <point>720.0,150.0</point>
+    <point>135.0,690.0</point>
+    <point>135.0,795.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
@@ -295,7 +296,7 @@ public class $context.fuGraphModelName$ToolBehaviourProvider extends DefaultTool
     <label>PrintConsoleMessage</label>
     <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
     <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
-    <position>16.5,798.0</position>
+    <position>16.5,948.0</position>
     <parameter name="error">
       <boolean>false</boolean>
     </parameter>
@@ -313,7 +314,7 @@ public class $context.fuGraphModelName$ToolBehaviourProvider extends DefaultTool
   <edge>
     <source>91532a33-667f-4770-8444-371c05656291</source>
     <target>9cb1d2a5-7080-4d7a-b48f-2ac05e57e5b3</target>
-    <point>90.0,690.0</point>
+    <point>135.0,795.0</point>
     <point>90.0,825.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
@@ -589,9 +590,9 @@ public class $context.fuGraphModelName$ToolBehaviourProvider extends DefaultTool
   </edge>
   <edge>
     <source>0df2b061-4a2f-4dc2-bb05-f83df6d13601</source>
-    <target>5a2da4db-bfc2-47b9-9a74-720f1e2052f2</target>
-    <point>63.75,459.0</point>
-    <point>85.71428571428571,558.0</point>
+    <target>df47ac67-aea6-4e3b-bc22-a06f4c5226bc</target>
+    <point>108.0,458.1</point>
+    <point>192.0,531.6</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>true</branch>
   </edge>
@@ -621,7 +622,7 @@ public class $context.fuGraphModelName$ToolBehaviourProvider extends DefaultTool
     <label>noEdges</label>
     <sib-uid>ge-util-sibs/IsEmpty</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsEmpty</taxonomy>
-    <position>301.5,423.0</position>
+    <position>61.5,528.0</position>
     <parameter name="collection">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -648,7 +649,7 @@ public class $context.fuGraphModelName$ToolBehaviourProvider extends DefaultTool
     <label>RunStringTemplate</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>272.0,558.0</position>
+    <position>152.0,528.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -681,8 +682,9 @@ public class $context.fuGraphModelName$ToolBehaviourProvider extends DefaultTool
   <edge>
     <source>dd77d2be-4e68-44df-9336-4e6085ba06e0</source>
     <target>5a2da4db-bfc2-47b9-9a74-720f1e2052f2</target>
-    <point>330.0,570.0</point>
-    <point>91.0,563.0</point>
+    <point>375.0,690.0</point>
+    <point>135.0,690.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <values/>
