@@ -10,13 +10,13 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
  * Use this class to register components to be used within the IDE.
  */
 public class MGLUiModule extends de.jabc.cinco.meta.core.mgl.ui.AbstractMGLUiModule {
+	
 	public MGLUiModule(AbstractUIPlugin plugin) {
 		super(plugin);
 	}
 	
-//	@Override
-//	public Class<? extends IHyperlinkDetector> bindIHyperlinkDetector() {
-//		return MGLHyperLinkDetector.class;
-//	}
-	
+	@Override
+	public Class<? extends IHyperlinkDetector> bindIHyperlinkDetector() {
+		return MGLHyperLinkDetector.class;
+	}
 }

@@ -14,7 +14,9 @@ Require-Bundle: de.jabc.cinco.meta.core.mgl,
  de.jabc.cinco.meta.core.utils,
  org.eclipse.ui.editors,
  org.eclipse.ui,
- org.antlr.runtime
+ org.antlr.runtime,
+ de.jabc.cinco.meta.core.ge.style.model,
+ org.eclipse.ui.ide
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Export-Package: de.jabc.cinco.meta.core.mgl.ui.contentassist,de.jabc.c
  inco.meta.core.mgl.ui.contentassist.antlr,de.jabc.cinco.meta.core.mgl
