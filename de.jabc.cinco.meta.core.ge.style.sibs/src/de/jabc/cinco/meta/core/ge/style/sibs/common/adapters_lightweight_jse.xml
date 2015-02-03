@@ -1,5 +1,12 @@
 <serviceAdapters defaultAdapter="de.jabc.cinco.meta.core.ge.style.sibs.adapter.ServiceAdapter">
 	
+	<serviceAdapter uid="ge-util-sibs/IsAbstract">
+		<service>isAbstract</service>
+		<arguments>
+			<argument name="modelElement" />
+		</arguments>
+	</serviceAdapter>
+	
 	<serviceAdapter uid="ge-util-sibs/IsEmpty">
 		<service>isEmpty</service>
 		<arguments>

@@ -1260,4 +1260,20 @@ public class ServiceAdapter {
 		return false;
 	}
 
+	public static String isAbstract(LightweightExecutionEnvironment env,
+			ContextKeyFoundation modelElement) {
+		
+		LightweightExecutionContext context = env.getLocalContext();
+		try {
+			ModelElement me = (ModelElement) context.get(modelElement);
+			if (me.isIsAbstract())
+				return Branches.TRUE;
+			else return Branches.FALSE;
+		} catch (Exception e) {
+			context.put("exception", e);
+			return Branches.ERROR;
+		}
+		
+	}
+
 }
