@@ -9,25 +9,36 @@ import org.eclipse.emf.ecore.resource.URIConverter;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.text.Region;
 import org.eclipse.jface.text.hyperlink.IHyperlink;
+import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.xtext.nodemodel.ICompositeNode;
 import org.eclipse.xtext.nodemodel.util.NodeModelUtils;
 import org.eclipse.xtext.resource.EObjectAtOffsetHelper;
+import org.eclipse.xtext.resource.IResourceServiceProvider;
 import org.eclipse.xtext.resource.XtextResource;
+import org.eclipse.xtext.ui.editor.GlobalURIEditorOpener;
 import org.eclipse.xtext.ui.editor.hyperlinking.HyperlinkHelper;
-import org.eclipse.xtext.ui.editor.hyperlinking.HyperlinkLabelProvider;
 import org.eclipse.xtext.ui.editor.hyperlinking.IHyperlinkAcceptor;
 import org.eclipse.xtext.ui.editor.hyperlinking.XtextHyperlink;
+
+import style.Style;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-import style.Style;
+import de.jabc.cinco.meta.core.mgl.ui.internal.MGLActivator;
 import de.jabc.cinco.meta.core.utils.CincoUtils;
 
 public class MGLHyperLinkHelper extends HyperlinkHelper {
 
-	@Inject@HyperlinkLabelProvider
+	@Inject
 	Provider<XtextHyperlink> provider;
+	
+	@Inject
+	IResourceServiceProvider.Registry reg;
+	
+	public MGLHyperLinkHelper() {
+		MGLActivator.getInstance().getInjector("de.jabc.cinco.meta.core.mgl.MGL").injectMembers(this);
+	}
 	
 	@Override
 	public void createHyperlinksByOffset(XtextResource resource, int offset, IHyperlinkAcceptor acceptor) {
@@ -44,7 +55,6 @@ public class MGLHyperLinkHelper extends HyperlinkHelper {
 			return;
 		
 		ICompositeNode annotNode = NodeModelUtils.getNode(annot);
-		ICompositeNode styleNode = NodeModelUtils.getNode(style);
 		
 		Region region = new Region(annotNode.getOffset(), annotNode.getLength());
 		
@@ -52,12 +62,12 @@ public class MGLHyperLinkHelper extends HyperlinkHelper {
 		URI uri = EcoreUtil.getURI(style);
 		URI normUri = uri.isPlatformResource() ? uri : uriConverter.normalize(uri);
 		
-		XtextHyperlink xtextHyperlink = provider.get();
+		XtextHyperlink xtextHyperlink = getHyperlinkProvider().get();
 		xtextHyperlink.setHyperlinkRegion(region);
-		xtextHyperlink.setHyperlinkText(NodeModelUtils.getTokenText(styleNode));
+		xtextHyperlink.setHyperlinkText(getLabelProvider().getText(style));
 		xtextHyperlink.setURI(normUri);
 		
-		
+		acceptor.accept(xtextHyperlink);
 	}
 	
 }
