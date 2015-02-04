@@ -20,7 +20,7 @@ import com.google.inject.Inject;
 public class MGLHyperLinkDetector implements IHyperlinkDetector {
 
 	@Inject
-	IHyperlinkHelper helper;
+	private IHyperlinkHelper helper;
 	
 	@Override
 	public IHyperlink[] detectHyperlinks(ITextViewer textViewer,
