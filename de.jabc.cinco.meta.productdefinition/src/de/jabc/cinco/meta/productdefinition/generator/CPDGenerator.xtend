@@ -133,20 +133,30 @@ class CPDGenerator implements IGenerator {
 			setWindowImage(productDefinition.image128, 4, mglProject, windowImages, progressMonitor, bp)
 
 			if (!productDefinition.linuxIcon.nullOrEmpty) {
-				var s = productDefinition.linuxIcon as String
-				s = s.replaceAll('\"', '')
-				imgFile = new File(s)
-
-				var targetPath = new Path(project.location.makeAbsolute.toOSString) as IPath
-				var targetFile = targetPath.append("icon.xpm").toFile
-				copyFile(imgFile, targetFile)
+					var s = productDefinition.linuxIcon as String
+					s = s.replaceAll('\"', '')
+					if(mglProject.getFile(s).exists){
+						var iconFile = mglProject.getFile(s)
+						product.launcherInfo.setUseWinIcoFile(false)
+						product.launcherInfo.setIconPath(LauncherInfo.LINUX_ICON, iconFile.fullPath.toString)
+						bp.appendBinIncludes(iconFile.parent.fullPath.toString);
+						bp.store(bpFile, progressMonitor)
+								
+					}else{
+						imgFile = new File(s)
+						var targetPath = new Path(project.location.makeAbsolute.toOSString) as IPath
+						var targetFile = targetPath.append("icon.xpm").toFile
+						copyFile(imgFile, targetFile)
+						product.launcherInfo.setUseWinIcoFile(false)
+						product.launcherInfo.setIconPath(LauncherInfo.LINUX_ICON, project.fullPath.append("icon.xpm").toString)
+						productBP.appendBinIncludes(imgFile.name);
+						productBP.store(productBPFile, progressMonitor)
+					}
 
 				//windowImages.setImagePath(targetPath.makeRelativeTo(project.workspace.root.location).makeAbsolute.toString,4)
-				product.launcherInfo.setUseWinIcoFile(false)
-				product.launcherInfo.setIconPath(LauncherInfo.LINUX_ICON, project.fullPath.append("icon.xpm").toString)
+				
 
-				productBP.appendBinIncludes(imgFile.name);
-				productBP.store(productBPFile, progressMonitor)
+				
 			}
 			generateSplashScreen(productDefinition, mglProject, product, bp, productModel, progressMonitor)
 
@@ -214,7 +224,14 @@ class CPDGenerator implements IGenerator {
 					splashInfo.setForegroundColor(color, true)
 				}
 			}
-			var imgFile = new File(s)
+			var splashFile = mglProject.getFile(s)
+			var imgFile = null as File
+			if(splashFile.exists){
+				imgFile = splashFile.location.toFile
+			}else{
+				imgFile = new File(s)
+			}
+			
 			var targetPath = new Path(mglProject.location.makeAbsolute.toOSString) as IPath
 
 			var targetFile = targetPath.append("splash.bmp").toFile

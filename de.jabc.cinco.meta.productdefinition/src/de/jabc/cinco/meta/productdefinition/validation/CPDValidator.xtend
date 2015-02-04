@@ -63,10 +63,11 @@ class CPDValidator extends AbstractCPDValidator {
 	def checkBundleContainsSplashImage(SplashScreen splashscreen){
 		var splashScreen = splashscreen.path.replaceAll("\"","")
 		if(!splashScreen.nullOrEmpty){
+			var project = ProjectCreator.getProject(splashscreen.eResource)
 			if(!splashScreen.endsWith("splash.bmp"))
 				error("Please enter the path to the splash.bmp",ProductDefinitionPackage.Literals.SPLASH_SCREEN__PATH)
 			var splashScreenFile = new File(splashScreen)
-			if(!splashScreenFile.exists){
+			if(!splashScreenFile.exists && !project.getFile(splashScreen).exists){
 				error("splash.bmp does not exist",ProductDefinitionPackage.Literals.SPLASH_SCREEN__PATH)
 				
 				}
@@ -88,16 +89,17 @@ class CPDValidator extends AbstractCPDValidator {
 	@Check
 	def checkLinuxIcon(CincoProduct cpd){
 		var linuxIcon = cpd.linuxIcon.replaceAll("\"","")
-		if(!linuxIcon.nullOrEmpty){
-			if(!linuxIcon.endsWith("icon.xpm"))
-				error("Please enter the path to the icon.xpm",ProductDefinitionPackage.Literals.CINCO_PRODUCT__LINUX_ICON)
+		if(!linuxIcon.nullOrEmpty){			
+			if(!linuxIcon.endsWith(".xpm"))
+				error("Please enter the path to the xpm file",ProductDefinitionPackage.Literals.CINCO_PRODUCT__LINUX_ICON)
 			var splashScreenFile = new File(linuxIcon)
-			if(!splashScreenFile.exists){
+			var project = ProjectCreator.getProject(cpd.eResource)
+			if(!splashScreenFile.exists && !project.getFile(linuxIcon).exists){
 				printFileDoesNotExistError(linuxIcon,ProductDefinitionPackage.Literals.CINCO_PRODUCT__LINUX_ICON)
 				
 				}
 		}else{
-			error("Please enter the path to the icon.xpm",ProductDefinitionPackage.Literals.CINCO_PRODUCT__LINUX_ICON)
+			error("Please enter the path to the xpm file",ProductDefinitionPackage.Literals.CINCO_PRODUCT__LINUX_ICON)
 		}
 	}
 	
