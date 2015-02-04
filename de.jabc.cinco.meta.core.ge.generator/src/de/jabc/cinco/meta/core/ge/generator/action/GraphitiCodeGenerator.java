@@ -151,7 +151,10 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 				String mglProjectName = file.getProject().getName();
 				String projectName = gModel.getPackage();
 				String apiProjectName = mglProjectName;
-				String path = ResourcesPlugin.getWorkspace().getRoot().getLocation().append(projectName).toOSString();
+				String path = ResourcesPlugin.getWorkspace().getRoot().getLocation().append(projectName).toOSString() + "/plugin.xml";
+				IFile pluginXMLFile = file.getProject().getFile("plugin.xml");
+				if (pluginXMLFile.exists())
+					path = pluginXMLFile.getLocation().toOSString();
 				
 				List<String> srcFolders = getSrcFolders();
 				List<String> cleanDirs = getCleanDirectory();
@@ -199,7 +202,7 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 				context.put("styles", styles);
 				context.put("mglProjectName", mglProjectName);
 				context.put("projectName", projectName);
-				context.put("fullPath", path);
+				context.put("pluginXMLPath", path);
 				context.put("outletPath", outletPath);
 				context.put("project", sourceProject);
 				context.put("customFeatureOutletPath", customFeatureOutletPath);
