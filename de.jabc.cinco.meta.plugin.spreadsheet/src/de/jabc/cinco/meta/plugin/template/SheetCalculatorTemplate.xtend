@@ -133,7 +133,7 @@ public class SheetCalculator {
 		HashMap<Integer,Integer> newCellReferences = importCellReferences(sheetName,resultNodeId);
 		
 		//Re-reference the formula
-		formulas = NodeUtil.rereferenceFormula(formulas, oldCellReferences, newCellReferences);
+		formulas = NodeUtil.rereferenceFormula(formulas, oldCellReferences, newCellReferences,0,0);
 		
 		//Export the re-referenced Formula to the sheet
 		exportFormula(formulas,resultNodeId, sheetName);

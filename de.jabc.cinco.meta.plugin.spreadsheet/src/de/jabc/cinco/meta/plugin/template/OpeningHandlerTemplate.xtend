@@ -206,6 +206,18 @@ private boolean exportFormula(HashMap<String,String> formulas,String resultNodeI
 	return true;
 }
 
+private int getGenratedColIndex(String sheetName, String resultNodeId)
+{
+	try {
+		return Spreadsheetimporter.getGeneratedColIndex(sheetName, resultNodeId);
+	} catch (ClassNotFoundException | ClassCastException | IOException e) {
+		MessageDialog.openError(Display.getCurrent().getActiveShell(), 
+			"Error", 
+			"Import Error.\nColumn index could not be read.");
+		return -1;
+	}
+}
+
 }
 	'''
 	
@@ -228,6 +240,12 @@ private boolean exportFormula(HashMap<String,String> formulas,String resultNodeI
 		
 		//Save the Formula and the Cell References from the sheet
 		formulas = importFormula(sheetName,resultNodeId,resultAttrs);
+		
+		int preOffset = getGenratedColIndex(sheetName, resultNodeId);
+		if(preOffset<0) {
+			return null;
+		}
+		
 		if(formulas.isEmpty())
 		{
 			openSheet(resultNodeId, sheetName);
@@ -243,11 +261,17 @@ private boolean exportFormula(HashMap<String,String> formulas,String resultNodeI
 		{
 			return null;
 		}
+		
+		int postOffset = getGenratedColIndex(sheetName, resultNodeId);
+		if(postOffset<0) {
+			return null;
+		}
+		
 		//Import the new Cell References in the refreshed sheet
 		newCellReferences = importCellReferences(sheetName,resultNodeId);
 		
 		//Re-reference the formula
-		formulas = NodeUtil.rereferenceFormula(formulas, oldCellReferences, newCellReferences);
+		formulas = NodeUtil.rereferenceFormula(formulas, oldCellReferences, newCellReferences,preOffset,postOffset);
 		
 		//Export the re-referenced Formula to the sheet
 		if(!exportFormula(formulas,resultNodeId, sheetName))

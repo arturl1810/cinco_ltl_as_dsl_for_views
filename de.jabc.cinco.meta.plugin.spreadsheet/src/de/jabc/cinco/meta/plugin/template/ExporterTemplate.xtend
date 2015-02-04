@@ -41,12 +41,15 @@ public class Spreadsheetexporter {
 	public static String NodeId = "NodeId";
 	public static String EdgeId = "EdgeId";
 	public static String Default = "Exported";
+	public static int UserCellCols = 20;
+	public static int UserCellRows = 20;
 
 public static HSSFWorkbook export(ArrayList<VersionNode> nodes,HashMap<String,String> formulas,ArrayList<Cell> userCells) throws FileNotFoundException{
 	// create a new file
 	// create a new workbook
 	HSSFWorkbook workbook = new HSSFWorkbook();
 	HSSFSheet sheet = workbook.createSheet("Sample sheet");
+	sheet.protectSheet("password");
 	
 	//define Styles and fonts
 	
@@ -64,7 +67,10 @@ public static HSSFWorkbook export(ArrayList<VersionNode> nodes,HashMap<String,St
 	Font idFont = workbook.createFont();
 	idFont.setColor(HSSFColor.GREY_25_PERCENT.index);
 	
-	
+	//Formula Style
+	HSSFCellStyle formulaStyle = workbook.createCellStyle();
+	formulaStyle.setLocked(false);
+	formulaStyle.setFont(defaultfont);
 	//OLD Style
 	HSSFCellStyle oldNodeStyle = workbook.createCellStyle();
 	oldNodeStyle.setFont(defaultfont);
@@ -260,6 +266,7 @@ public static HSSFWorkbook export(ArrayList<VersionNode> nodes,HashMap<String,St
 						else{
 							attr.setCellFormula(vnode.formulas.get(eNode.getName()));
 						}
+						attr.setCellStyle(formulaStyle);
 						attr.setCellType(Cell.CELL_TYPE_FORMULA);
 					}
 					else{
@@ -306,7 +313,7 @@ public static HSSFWorkbook export(ArrayList<VersionNode> nodes,HashMap<String,St
     }
     rowCounter++;
 	//Write the usercells
-	writeUserCells(rowCounter, userCells, sheet);
+	writeUserCells(rowCounter, userCells, sheet, formulaStyle);
 	
 	
 	//Adjust autosize of all used columns
@@ -453,47 +460,62 @@ private static void setCellComment(Cell cell, String author,String content,Creat
     comment.setString(str);
 	cell.setCellComment(comment);
 }
-
-private static void writeUserCells(int row,ArrayList<Cell> userCells, HSSFSheet sheet)
+/**
+ * 
+ * @param row
+ * @param userCells
+ * @param sheet
+ */
+private static void writeUserCells(int row,ArrayList<Cell> userCells, HSSFSheet sheet, HSSFCellStyle userCellStyle)
 {
-	//Sort by row
+	//Sort by row and calculate offset
+	int rowOffset = NodeUtil.getUserCellOffset(userCells, row);
 	HashMap<Integer,ArrayList<Cell>> rowSorteteCellMap = new HashMap<Integer,ArrayList<Cell>>();
 	for(Cell c : userCells) {
+		
 		if(!rowSorteteCellMap.containsKey(c.getRowIndex())) {
 			rowSorteteCellMap.put(c.getRowIndex(), new ArrayList<Cell>());
 		}
 		rowSorteteCellMap.get(c.getRowIndex()).add(c);
 	}
-	for(Entry<Integer,ArrayList<Cell>> entry : rowSorteteCellMap.entrySet()) {
-		if(entry.getKey() >= row) {
-			Row userRow = sheet.createRow(entry.getKey());
-			for(Cell c : entry.getValue()) {
-				Cell cell = userRow.createCell(c.getColumnIndex());
-				cell.setCellType(c.getCellType());
-				switch (c.getCellType()) {
-		        case Cell.CELL_TYPE_BOOLEAN:
-		            cell.setCellValue(c.getBooleanCellValue());
-		            break;
-		        case Cell.CELL_TYPE_NUMERIC:
-		            cell.setCellValue(c.getNumericCellValue());
-		            break;
-		        case Cell.CELL_TYPE_STRING:
-		        	cell.setCellValue(c.getStringCellValue());
-		            break;
-		        case Cell.CELL_TYPE_BLANK:
-		            break;
-		        case Cell.CELL_TYPE_ERROR:
-		            break;
-		        case Cell.CELL_TYPE_FORMULA:
-		        	//TODO Validate the user formula
-		        	cell.setCellFormula(c.getCellFormula());
-		        	//cell.setCellValue(c.getCellFormula());
-		            break;
-	    		}
-			}
+	//Write editable usercells
+	for(int y=0; y< UserCellRows; y++) {
+		Row userRow = sheet.createRow(row+y);
+		for(int x=0; x<UserCellCols; x++) {
+			Cell userCell = userRow.createCell(x);
+			userCell.setCellStyle(userCellStyle);
 		}
 	}
 	
+	//Print Usercells
+	for(Entry<Integer,ArrayList<Cell>> entry : rowSorteteCellMap.entrySet()) {
+		Row userRow = sheet.createRow(entry.getKey() + rowOffset);
+		for(Cell c : entry.getValue()) {
+			Cell cell = userRow.createCell(c.getColumnIndex());
+			cell.setCellType(c.getCellType());
+			cell.setCellStyle(userCellStyle);
+			switch (c.getCellType()) {
+	        case Cell.CELL_TYPE_BOOLEAN:
+	            cell.setCellValue(c.getBooleanCellValue());
+	            break;
+	        case Cell.CELL_TYPE_NUMERIC:
+	            cell.setCellValue(c.getNumericCellValue());
+	            break;
+	        case Cell.CELL_TYPE_STRING:
+	        	cell.setCellValue(c.getStringCellValue());
+	            break;
+	        case Cell.CELL_TYPE_BLANK:
+	            break;
+	        case Cell.CELL_TYPE_ERROR:
+	            break;
+	        case Cell.CELL_TYPE_FORMULA:
+	        	cell.setCellFormula(NodeUtil.offsetFormula(c.getCellFormula(),rowOffset));
+	            break;
+    		}
+		}
+	}
 }
-}''' 
+
+}
+''' 
 }

@@ -119,13 +119,31 @@ public static ArrayList<Cell> importUserCells(String sheetName, String resultNod
 	ArrayList<Cell> usercells = new ArrayList<Cell>();
 	HSSFSheet sheet = importSheet(sheetName, resultNodeId);
 	Iterator<Row> rowIterator = sheet.iterator();
+	//Calculate the rowoffset
+	int rowOffset = 0;
+	while(rowIterator.hasNext()) {
+		Row row = rowIterator.next();
+		if(row.getCell(0)==null) {
+			break;
+		}
+		else {
+			if(row.getCell(0).getCellComment() == null) {
+				break;
+			}
+		}
+		rowOffset++;
+	}
+	
+	rowIterator = sheet.iterator();
 	while(rowIterator.hasNext()) {
 		Row row = rowIterator.next();
 		Iterator<Cell> cellIterator = row.cellIterator();
     	while(cellIterator.hasNext()) {
     		Cell cell = cellIterator.next();
-    		if(cell.getCellComment()==null) {
-    			usercells.add(cell);
+			if(cell.getCellComment()==null) {
+				if(cell.getRowIndex() >= rowOffset) {
+				usercells.add(cell);
+				}    			
     		}
     	}
     }
@@ -250,6 +268,38 @@ public static HashMap<String,String> importFormula(String sheetName, String resu
         }
    }
    return formulas;
+}
+
+/**
+ * 
+ * @param sheetName
+ * @param resultNodeId
+ * @return
+ * @throws IOException 
+ * @throws ClassCastException 
+ * @throws ClassNotFoundException 
+ */
+public static int getGeneratedColIndex(String sheetName, String resultNodeId) throws ClassNotFoundException, ClassCastException, IOException
+{
+	int offset = 0;
+	
+	HSSFSheet sheet = importSheet(sheetName, resultNodeId);
+	Iterator<Row> rows = sheet.iterator();
+	while(rows.hasNext()) {
+		Row row = rows.next();
+		if(row.getCell(0)== null)
+		{
+			return offset;
+		}
+		else{
+			if(row.getCell(0).getCellComment() == null) {
+				return offset;
+			}
+		}
+		offset++;
+	}
+	
+	return offset;
 }
 
 }'''
