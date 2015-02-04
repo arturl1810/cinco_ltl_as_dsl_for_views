@@ -192,10 +192,10 @@ private boolean exportSheet(ArrayList<VersionNode> nodes, String sheetName,Strin
 	return true;
 }
 
-private boolean exportFormula(HashMap<String,String> formulas,String resultNodeId, String sheetName)
+private boolean exportFormula(HashMap<String,String> formulas,String resultNodeId, String sheetName, HashMap<Integer, Integer> rowRefs)
 {
 	try {
-		Spreadsheetexporter.writeFormula(resultNodeId,sheetName, formulas);
+		Spreadsheetexporter.writeFormula(resultNodeId,sheetName, formulas, rowRefs);
 	} catch (IOException | ClassNotFoundException | ClassCastException e) {
 		MessageDialog.openError(Display.getCurrent().getActiveShell(), 
 				"Error", 
@@ -270,11 +270,12 @@ private int getGenratedColIndex(String sheetName, String resultNodeId)
 		//Import the new Cell References in the refreshed sheet
 		newCellReferences = importCellReferences(sheetName,resultNodeId);
 		
+		HashMap<Integer, Integer> rowRefs = NodeUtil.getRowRereferences(oldCellReferences,newCellReferences);
 		//Re-reference the formula
 		formulas = NodeUtil.rereferenceFormula(formulas, oldCellReferences, newCellReferences,preOffset,postOffset);
 		
 		//Export the re-referenced Formula to the sheet
-		if(!exportFormula(formulas,resultNodeId, sheetName))
+		if(!exportFormula(formulas,resultNodeId, sheetName,rowRefs))
 		{
 			return null;
 		}

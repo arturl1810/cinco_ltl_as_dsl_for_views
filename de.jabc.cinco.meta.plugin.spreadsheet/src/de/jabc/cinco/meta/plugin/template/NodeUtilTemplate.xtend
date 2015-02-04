@@ -331,40 +331,6 @@ public class NodeUtil {
 		
 	}
 	
-	public static HashMap<String, String> rereferenceFormula(HashMap<String, String> formulas,HashMap<Integer, Integer> oldRefs ,HashMap<Integer, Integer> newRefs)
-	{
-		HashMap<Integer, Integer> rowRearange = new HashMap<Integer, Integer>();
-		HashMap<String, String> rereferencedFormulas = new HashMap<String,String>();
-		//Clone the formula
-		for(Entry<String,String> formula: formulas.entrySet()) {
-			String refreshedFormula = new String(formula.getValue());
-			//Join the old and new CellReferences depending on the node-ids
-			for(int id : oldRefs.keySet())
-			{
-				if(newRefs.get(id)!=null) {
-					rowRearange.put(oldRefs.get(id), newRefs.get(id));
-				}
-			}
-			//replace the Cell references in the formula with the new Cell References
-			Pattern pattern = Pattern.compile("[a-zA-Z]+[0-9]+");
-			//Sreach for the given cellRow in the Formula
-			Matcher matcher = pattern.matcher(formula.getValue());
-			while(matcher.find()) {
-				String cellRef = matcher.group().toUpperCase();
-				String cellCol = cellRef.replaceAll("\\d", "");
-				String cellRow = cellRef.replaceAll("\\D+","");
-				if(rowRearange.get(Integer.parseInt(cellRow))!=null) {
-					//System.out.println("Replacing: "+cellRef+" with "+cellCol+" "+rowRearange.get(Integer.parseInt(cellRow)));
-					refreshedFormula = refreshedFormula.replaceAll(cellRef, cellCol+rowRearange.get(Integer.parseInt(cellRow)));
-				}
-			}
-			rereferencedFormulas.put(formula.getKey(), refreshedFormula);
-			
-		}
-		
-		return rereferencedFormulas;
-		
-	}
 	/**
 	 * Returns a new Node for the given row in the sheet
 	 * @param nodeName
@@ -380,9 +346,10 @@ public class NodeUtil {
 	 * 
 	 * @param formula
 	 * @param offset
+	 * @param rowIndex 
 	 * @return
 	 */
-	public static String offsetFormula(String formula,int offset)
+	public static String offsetFormula(String formula,int offset, int rowIndex)
 	{
 		StringBuffer offsetFormula = new StringBuffer(formula);
 		Pattern pattern = Pattern.compile("[a-zA-Z]+[0-9]+");
@@ -396,11 +363,14 @@ public class NodeUtil {
 			String cellCol = cellRef.replaceAll("\\d", "");
 			String cellRow = cellRef.replaceAll("\\D+","");
 			int row = Integer.parseInt(cellRow);
-			row += offset;
-			offsetFormula = offsetFormula.replace(start+colOffset,end+colOffset,cellCol+row);
-			if(cellRow.length() < new String(row+"").length()) {
-				colOffset = new String(row+"").length() - cellRow.length();
+			if(row >= rowIndex) {
+				row += offset;
+				offsetFormula = offsetFormula.replace(start+colOffset,end+colOffset,cellCol+row);
+				if(cellRow.length() < new String(row+"").length()) {
+					colOffset = new String(row+"").length() - cellRow.length();
+				}
 			}
+
 		}
 		System.out.println("Pre: "+formula);
 		
@@ -424,6 +394,19 @@ public class NodeUtil {
 			}
 		}
 		return rowOffset;
+	}
+	
+	public static HashMap<Integer,Integer> getRowRereferences(HashMap<Integer, Integer> oldCellReferences, HashMap<Integer, Integer> newCellReferences)
+	{
+		HashMap<Integer,Integer> refs = new HashMap<Integer,Integer>();
+		
+		for(Entry<Integer, Integer> oldEntry : oldCellReferences.entrySet()) {
+			if(newCellReferences.containsKey(oldEntry.getKey())) {
+				refs.put(oldEntry.getValue(), newCellReferences.get(oldEntry.getKey()));
+			}
+		}
+		
+		return refs;
 	}
 }
 	

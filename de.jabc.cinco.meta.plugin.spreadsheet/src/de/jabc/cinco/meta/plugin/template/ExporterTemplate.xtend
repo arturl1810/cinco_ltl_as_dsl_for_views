@@ -17,6 +17,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.TreeMap;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
@@ -359,12 +361,13 @@ private static void writeAttribute(EStructuralFeature eNode,Cell attr, ModelElem
  * 
  * @param resultNodeId
  * @param sheetName
+ * @param rowRefs 
  * @param Formula
  * @throws IOException
  * @throws ClassNotFoundException
  * @throws ClassCastException
  */
-public static void writeFormula(String resultNodeId,String sheetName, HashMap<String,String> formulas) throws IOException, ClassNotFoundException, ClassCastException 
+public static void writeFormula(String resultNodeId,String sheetName, HashMap<String,String> formulas, HashMap<Integer, Integer> rowRefs) throws IOException, ClassNotFoundException, ClassCastException 
 {
 	HashMap<String, String> map = SheetHandler.loadSheetMap(resultNodeId);
 	
@@ -379,37 +382,53 @@ public static void writeFormula(String resultNodeId,String sheetName, HashMap<St
     Iterator<Row> rowIterator = sheet.iterator();
     while(rowIterator.hasNext()) {
         Row row = rowIterator.next();
-         //Check ID Cell
-        Cell idCell = row.getCell(0);
-        if(idCell!=null) {
-        	if(idCell.getCellComment()!=null) {
-        		String [] comment = idCell.getCellComment().getString().toString().split(":");
+		Iterator<Cell> cellIterator = row.cellIterator();
+        while(cellIterator.hasNext()) {
+        	Cell cell = cellIterator.next();
+        	
+        	if(cell.getCellComment()!=null) {
+        		String [] comment = cell.getCellComment().getString().toString().split(":");
         		if(comment[1].equals(resultNodeId) && comment[0].equals(NodeId)) {
-        			
-        			//Node is Found
-        			Iterator<Cell> cellIterator = row.cellIterator();
-        	        while(cellIterator.hasNext()) {
-        	        	Cell cell = cellIterator.next();
-        	        	
-        	        	if(cell.getCellComment()!=null) {
-        	        		String attrName = sheet.getRow(row.getRowNum()-1).getCell(cell.getColumnIndex()).getStringCellValue();
-            	        	if(formulas.containsKey(attrName)){
-            	        			
-            	        			
-            	        			cell.setCellValue("");
-            	        			
-            	        			cell.setCellFormula(formulas.get(attrName));
-            	        			
-            	        			cell.setCellType(Cell.CELL_TYPE_FORMULA);
-            	        			
-            	        			
-    	        	        }
-        	        	}
-	        		}
-	        	}
-	        }
-        }
-   }
+        			while(cellIterator.hasNext()) {
+        				Cell resultCell = cellIterator.next();
+        				String attrName = sheet.getRow(row.getRowNum()-1).getCell(resultCell.getColumnIndex()).getStringCellValue();
+    		        	if(formulas.containsKey(attrName)){
+    		        		resultCell.setCellValue("");
+    		        		resultCell.setCellFormula(formulas.get(attrName));
+    		        		resultCell.setCellType(Cell.CELL_TYPE_FORMULA);		
+            	        }
+        			}
+        			break;
+	    		}
+    		}
+        	else {
+        		if(cell.getCellType() == Cell.CELL_TYPE_FORMULA) {
+        			//Found User Cell Formula
+        			StringBuffer formula = new StringBuffer(cell.getCellFormula());
+        			//replace the Cell references in the formula with the new Cell References
+        			Pattern pattern = Pattern.compile("[a-zA-Z]+[0-9]+");
+        			//Sreach for the given cellRow in the Formula
+        			Matcher matcher = pattern.matcher(formula);
+        			int colOffset = 0;
+        			while(matcher.find()) {
+        				int start = matcher.start();
+        				int end = matcher.end();
+        				String cellRef = matcher.group().toUpperCase();
+        				String cellCol = cellRef.replaceAll("\\d", "");
+        				String cellRow = cellRef.replaceAll("\\D+","");
+        				if(rowRefs.containsKey(Integer.parseInt(cellRow))) {
+        					formula = formula.replace(start+colOffset,end+colOffset,cellCol+rowRefs.get(Integer.parseInt(cellRow)));
+	        				if(cellRow.length() < new String(rowRefs.get(Integer.parseInt(cellRow))+"").length()) {
+	        					colOffset = new String(rowRefs.get(Integer.parseInt(cellRow))+"").length() - cellRow.length();
+	        				}
+        				}
+        			}
+        			cell.setCellFormula(formula.toString());
+        		}
+        	}
+    	}
+    }
+   
     
     
     
@@ -509,7 +528,7 @@ private static void writeUserCells(int row,ArrayList<Cell> userCells, HSSFSheet 
 	        case Cell.CELL_TYPE_ERROR:
 	            break;
 	        case Cell.CELL_TYPE_FORMULA:
-	        	cell.setCellFormula(NodeUtil.offsetFormula(c.getCellFormula(),rowOffset));
+	        	cell.setCellFormula(NodeUtil.offsetFormula(c.getCellFormula(),rowOffset,row));
 	            break;
     		}
 		}
@@ -517,5 +536,6 @@ private static void writeUserCells(int row,ArrayList<Cell> userCells, HSSFSheet 
 }
 
 }
+
 ''' 
 }
