@@ -51,6 +51,8 @@ public class CreateSpreadSheetPlugin {
 		String packagePath = "";
 		String sheetFolderName = "sheets";
 		boolean multiple = false;
+		int userCellx =20;
+		int userCellY = 20;
 		
 		
 		ArrayList<ResultNode> resultNodes = new ArrayList<ResultNode>();
@@ -72,10 +74,19 @@ public class CreateSpreadSheetPlugin {
 							multiple=true;
 						}
 					}
-					if(anno.getValue().size() == 2) {
+					if(anno.getValue().size() >= 2) {
 						System.out.println("Sheet Folder: "+anno.getValue().get(1));
 						sheetFolderName = anno.getValue().get(1);
 					}
+					if(anno.getValue().size() >= 3) {
+						System.out.println("Max User Cell Cols: "+anno.getValue().get(2));
+						userCellx=Integer.parseInt(anno.getValue().get(2));
+					}
+					if(anno.getValue().size() >= 4) {
+						System.out.println("Max User Cell Rows: "+anno.getValue().get(3));
+						userCellY=Integer.parseInt(anno.getValue().get(3));
+					}
+					
 				}
 			}
 			//All Nodes
@@ -207,7 +218,7 @@ public class CreateSpreadSheetPlugin {
 			
 			//Exporter
 			ProjectCreator.createFile("Spreadsheetexporter.java", tvProject.getFolder("src/"+projectName.replace(".","/")),
-					new ExporterTemplate().create(projectName,genHandlerClass,graphName,graphModel.getPackage(),fileName,sheetName).toString(),
+					new ExporterTemplate().create(projectName,genHandlerClass,graphName,graphModel.getPackage(),fileName,sheetName,userCellx,userCellY).toString(),
 					progressMonitor);
 			
 			//Importer

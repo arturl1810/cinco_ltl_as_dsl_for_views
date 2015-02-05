@@ -21,9 +21,9 @@ public class SpreadSheetAnnotationValidator implements IMetaPluginValidator {
 		if(eObject instanceof Annotation&&((Annotation)eObject).getName().equals("spreadsheet")){
 			List<String> args = ((Annotation)eObject).getValue();
 			//Amount of arguments validation
-			if(args.size() > 2){
+			if(args.size() > 4){
 				return new ErrorPair<String,EStructuralFeature>(
-						"At most two arguments are allowed.",
+						"At most four arguments are allowed.",
 						eObject.eClass().getEStructuralFeature("value")
 						);
 			}
@@ -35,12 +35,32 @@ public class SpreadSheetAnnotationValidator implements IMetaPluginValidator {
 							);
 				}
 			}
-			if(args.size()==2) {
+			if(args.size()>=2) {
 				Pattern pattern = Pattern.compile("^[^/./\\:*?\"<>|]+$");
 			    Matcher matcher = pattern.matcher(args.get(1));
 			    if(!matcher.matches()) {
 			    	return new ErrorPair<String,EStructuralFeature>(
 			    			args.get(1)+" is not a valid filename.",
+							eObject.eClass().getEStructuralFeature("value")
+							);
+			    }
+			}
+			if(args.size()>=3) {
+				Pattern pattern = Pattern.compile("\\d+");
+			    Matcher matcher = pattern.matcher(args.get(2));
+			    if(!matcher.matches()) {
+			    	return new ErrorPair<String,EStructuralFeature>(
+			    			args.get(2)+" is not a valid number.",
+							eObject.eClass().getEStructuralFeature("value")
+							);
+			    }
+			}
+			if(args.size()==4) {
+				Pattern pattern = Pattern.compile("\\d+");
+			    Matcher matcher = pattern.matcher(args.get(3));
+			    if(!matcher.matches()) {
+			    	return new ErrorPair<String,EStructuralFeature>(
+			    			args.get(3)+" is not a valid number.",
 							eObject.eClass().getEStructuralFeature("value")
 							);
 			    }
