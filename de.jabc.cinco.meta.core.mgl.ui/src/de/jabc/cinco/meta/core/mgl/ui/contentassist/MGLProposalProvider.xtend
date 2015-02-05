@@ -132,6 +132,37 @@ class MGLProposalProvider extends AbstractMGLProposalProvider {
 //			annots.forEach[a | acceptor.accept(createCompletionProposal(a, context))]
 //		}
 //	}
+
+	override completeNodeContainer_ContainableElements(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
+		
+		
+	}
+	
+	override completeGraphModel_ContainableElements(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
+		
+		
+	}
+	
+	override completeGraphicalElementContainment_Type(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
+		if(model instanceof GraphModel){
+			
+			val graphModel =model as GraphModel 
+			for(node:graphModel.nodes){
+				acceptor.accept(createCompletionProposal(node.name,context))
+			}
+			for(container:graphModel.nodeContainers){
+				acceptor.accept(createCompletionProposal(container.name,context))
+			}
+		}else if(model instanceof NodeContainer){
+			var parentModel = model.eContainer() as GraphModel
+			for(node:parentModel.nodes){
+				acceptor.accept(createCompletionProposal(node.name,context))
+			}
+			for(container:parentModel.nodeContainers){
+				acceptor.accept(createCompletionProposal(container.name,context))
+			}
+		}
+	}
 	
 	override completeAnnotation_Value(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
 		var annot = null as Annotation
