@@ -14,15 +14,16 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -63,6 +64,7 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 				IFile cpdFile = MGLSelectionListener.INSTANCE.getSelectedCPDFile();
 				CincoProduct cpd = loadCPD(cpdFile);
 				BundleRegistry.resetRegistry();
+				deleteGeneratedResources(cpdFile.getProject());
 				for(String mglPath: cpd.getMgls()){
 					mglModelFile = cpdFile.getProject().getFile(mglPath);
 					MGLSelectionListener.INSTANCE.putMGLFile(mglModelFile);
@@ -133,6 +135,23 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 		ResourceSet set = ProductDefinition.ProductDefinitionPackage.eINSTANCE.eResource().getResourceSet();
 		res.load(cpdFile.getContents(),null);
 		return (CincoProduct) res.getContents().get(0);
+		
+	}
+	private void deleteGeneratedResources(IProject project){
+		IResource toDelete = project.findMember("src-gen/");
+		IProgressMonitor monitor = new NullProgressMonitor();
+		
+			try {
+				if(toDelete!=null){
+					toDelete.delete(org.eclipse.core.resources.IResource.FORCE,monitor);
+				}
+				toDelete = project.findMember("resources-gen/");
+				if(toDelete!=null){
+					toDelete.delete(org.eclipse.core.resources.IResource.FORCE,monitor);
+				}
+			} catch (CoreException e) {
+				e.printStackTrace();
+			}
 		
 	}
 }
