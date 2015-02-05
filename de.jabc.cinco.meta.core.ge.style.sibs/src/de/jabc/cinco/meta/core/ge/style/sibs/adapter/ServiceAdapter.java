@@ -222,8 +222,9 @@ public class ServiceAdapter {
 			String p = (String) context.get(imagePath);
 			URI uri = URI.createURI(p);
 			String relPath = null;
-			if (uri.isPlatformResource())
-				relPath = "/icons/" + uri.lastSegment();
+			if (uri.isPlatformResource()) {
+				relPath = "/resources-gen/icons/" + uri.path().replaceAll("/", "_");
+			}
 			else relPath = p.charAt(0) == '/' ? p : "/" + p;
 			context.put(relativePath, relPath);
 			return Branches.DEFAULT;

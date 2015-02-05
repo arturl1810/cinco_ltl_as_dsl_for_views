@@ -233,16 +233,6 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 				
 				exportPackages(p, gModel, monitor);
 				
-//				IPluginModelBase model = org.eclipse.pde.core.plugin.PluginRegistry.findModel(mglProjectName);
-//				IExtensions ext = model.getExtensions();
-//				IPluginBase base = model.getPluginBase();
-//				PluginExtension pluginExtension = new PluginExtension();
-//				pluginExtension.setPoint("this.is.some.point");
-//				base.add(pluginExtension);
-//				for (IPluginExtensionPoint exp : ext.getExtensionPoints()) {
-//					System.out.println(exp);
-//				}
-				
 				if (result.equals("default")) {
 					EPackage ePackage = (EPackage) context.get("ePackage");
 					String nsUri = ePackage.getNsURI();
@@ -465,27 +455,38 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 	private void copyImage(String path, IProject target, NullProgressMonitor monitor) {
 		if (path == null || path.isEmpty())
 			return;
-		IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
+//		IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
 		URI iconURI = URI.createURI(path);
 		IFile iconFile = null;
-		if (!iconURI.isPlatformResource()) {
-			iconFile = sourceProject.getFile(path);
-		} else {
-			IResource res = workspaceRoot.findMember(iconURI.toPlatformString(true));
-			if (res instanceof IFile) {
-				iconFile = (IFile) res;
-			}
-		}
 		try {
-			IFolder icons = target.getFolder("resources-gen/icons");
-			if (!icons.exists())
-				icons.create(true, true, monitor);
-			IFile file = icons.getFile(iconFile.getLocation());
-			if (file == null || !file.exists())
-				iconFile.copy(target.getFolder("resources-gen/icons").getFullPath().append(iconFile.getName()), true, monitor);
-		} catch (CoreException e) {
+			if (iconURI.isPlatformResource()) {
+				iconFile = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(iconURI.toPlatformString(true)));
+				IFolder iconsGen = target.getFolder("resources-gen/icons");
+				String newFileName = iconURI.path().replaceAll("/", "_");
+				if (!iconsGen.getFile(newFileName).exists()) 
+					iconFile.copy(iconsGen.getFullPath().append(newFileName), true, monitor);
+			}
+		} catch (CoreException e ) {
 			e.printStackTrace();
 		}
+//		} else {
+//			IResource res = workspaceRoot.findMember(iconURI.toPlatformString(true));
+//			if (res instanceof IFile) {
+//				iconFile = (IFile) res;
+//			}
+//		}
+//		try {
+//			IFolder icons = target.getFolder("icons");
+//			IFolder iconsGen = target.getFolder("resources-gen/icons");
+//			if (!icons.exists())
+//				icons.create(true, true, monitor);
+//			IFile file = icons.getFile(iconFile.getLocation());
+//			IFile fileGen = iconsGen.getFile(iconFile.getLocation());
+//			if ( (file == null || !file.exists()) && (fileGen == null || !fileGen.exists()) )
+//				iconFile.copy(iconsGen.getFullPath().append(iconFile.getName()), true, monitor);
+//		} catch (CoreException e) {
+//			e.printStackTrace();
+//		}
 		
 	}
 

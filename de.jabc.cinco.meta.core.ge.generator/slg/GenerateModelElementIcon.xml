@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>827994ca-f72f-4fe1-afcb-fa6f30c34d59</id>
   <name>GenerateModelElementIcon</name>
-  <changecounter>76</changecounter>
+  <changecounter>84</changecounter>
   <sib>
     <id>c59ee988-babd-422a-b281-25f187e612ca</id>
     <name>CopyElement</name>
@@ -250,7 +250,7 @@
     <parameter name="template">
       <string>@Override
 public String getCreateImageId() {
-	return $context.graphModelName$GraphitiUtils.getInstance().getImageId(&quot;/resources-gen$context.relativePath$&quot;);
+	return $context.graphModelName$GraphitiUtils.getInstance().getImageId(&quot;$context.relativePath$&quot;);
 }</string>
     </parameter>
     <finalbranches>default</finalbranches>
