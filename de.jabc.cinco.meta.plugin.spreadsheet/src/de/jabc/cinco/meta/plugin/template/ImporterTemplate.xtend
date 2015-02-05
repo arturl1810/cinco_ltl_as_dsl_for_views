@@ -72,21 +72,21 @@ public static HashMap<String,Double> calculate(String sheetName, String resultNo
         	        		if(resultAttrNames.contains(attrName)) {
         	        			switch (evaluator.evaluateFormulaCell(cell)) {
         	        	        case Cell.CELL_TYPE_BOOLEAN:
-        	        	            System.out.println(cell.getBooleanCellValue());
+        	        	            //System.out.println(cell.getBooleanCellValue());
         	        	            results.put(attrName,(cell.getBooleanCellValue()) ? 1.0 : 0.0);
         	        	            break;
         	        	        case Cell.CELL_TYPE_NUMERIC:
-        	        	            System.out.println(cell.getNumericCellValue()+" "+cell.getCellFormula());
+        	        	            //System.out.println(cell.getNumericCellValue()+" "+cell.getCellFormula());
         	        	            results.put(attrName, cell.getNumericCellValue());
         	        	            break;
         	        	        case Cell.CELL_TYPE_STRING:
-        	        	            System.out.println(cell.getStringCellValue());
+        	        	            //System.out.println(cell.getStringCellValue());
         	        	            results.put(attrName, Double.parseDouble(cell.getStringCellValue()));
         	        	            break;
         	        	        case Cell.CELL_TYPE_BLANK:
         	        	            break;
         	        	        case Cell.CELL_TYPE_ERROR:
-        	        	            System.out.println(cell.getErrorCellValue());
+        	        	            //System.out.println(cell.getErrorCellValue());
         	        	            break;
 
         	        	        // CELL_TYPE_FORMULA will never occur
@@ -114,27 +114,36 @@ public static HashMap<String,Double> calculate(String sheetName, String resultNo
  * @throws ClassCastException
  * @throws IOException
  */
-public static HashMap<Integer, ArrayList<Cell>> importUserCells(String sheetName, String resultNodeId) throws ClassNotFoundException, ClassCastException, IOException
+public static ArrayList<Cell> importUserCells(String sheetName, String resultNodeId) throws ClassNotFoundException, ClassCastException, IOException
 {
-	HashMap<Integer, ArrayList<Cell>> usercells = new HashMap<Integer, ArrayList<Cell>>();
+	ArrayList<Cell> usercells = new ArrayList<Cell>();
 	HSSFSheet sheet = importSheet(sheetName, resultNodeId);
 	Iterator<Row> rowIterator = sheet.iterator();
+	//Calculate the rowoffset
+	int rowOffset = 0;
 	while(rowIterator.hasNext()) {
 		Row row = rowIterator.next();
-    	Iterator<Cell> cellIterator = row.cellIterator();
+		if(row.getCell(0)==null) {
+			break;
+		}
+		else {
+			if(row.getCell(0).getCellComment() == null) {
+				break;
+			}
+		}
+		rowOffset++;
+	}
+	
+	rowIterator = sheet.iterator();
+	while(rowIterator.hasNext()) {
+		Row row = rowIterator.next();
+		Iterator<Cell> cellIterator = row.cellIterator();
     	while(cellIterator.hasNext()) {
     		Cell cell = cellIterator.next();
-    		
-    		if(cell.getCellComment() == null) {
-    			if(usercells.containsKey(cell.getRowIndex())){
-    				usercells.get(cell.getRowIndex()).add(cell);
-    			}
-    			else {
-    				ArrayList<Cell> cells = new  ArrayList<Cell>();
-    				cells.add(cell);
-    				usercells.put(cell.getRowIndex(), cells);
-    			}
-    			
+			if(cell.getCellComment()==null) {
+				if(cell.getRowIndex() >= rowOffset) {
+				usercells.add(cell);
+				}    			
     		}
     	}
     }
@@ -230,21 +239,21 @@ public static HashMap<String,String> importFormula(String sheetName, String resu
         	        		//formulas.put(attrName, cell.getCellFormula());
         	        		switch (evaluator.evaluateFormulaCell(cell)) {
     	        	        case Cell.CELL_TYPE_BOOLEAN:
-    	        	            System.out.println(cell.getBooleanCellValue());
+    	        	            //System.out.println(cell.getBooleanCellValue());
     	        	            formulas.put(attrName, cell.getCellFormula());
     	        	            break;
     	        	        case Cell.CELL_TYPE_NUMERIC:
-    	        	            System.out.println(cell.getNumericCellValue()+" "+cell.getCellFormula());
+    	        	            //System.out.println(cell.getNumericCellValue()+" "+cell.getCellFormula());
     	        	            formulas.put(attrName, cell.getCellFormula());
     	        	            break;
     	        	        case Cell.CELL_TYPE_STRING:
-    	        	            System.out.println(cell.getStringCellValue());
+    	        	            //System.out.println(cell.getStringCellValue());
     	        	            formulas.put(attrName, cell.getCellFormula());
     	        	            break;
     	        	        case Cell.CELL_TYPE_BLANK:
     	        	            break;
     	        	        case Cell.CELL_TYPE_ERROR:
-    	        	            System.out.println(cell.getErrorCellValue());
+    	        	            //System.out.println(cell.getErrorCellValue());
     	        	            break;
 
     	        	        // CELL_TYPE_FORMULA will never occur
@@ -259,6 +268,38 @@ public static HashMap<String,String> importFormula(String sheetName, String resu
         }
    }
    return formulas;
+}
+
+/**
+ * 
+ * @param sheetName
+ * @param resultNodeId
+ * @return
+ * @throws IOException 
+ * @throws ClassCastException 
+ * @throws ClassNotFoundException 
+ */
+public static int getGeneratedColIndex(String sheetName, String resultNodeId) throws ClassNotFoundException, ClassCastException, IOException
+{
+	int offset = 0;
+	
+	HSSFSheet sheet = importSheet(sheetName, resultNodeId);
+	Iterator<Row> rows = sheet.iterator();
+	while(rows.hasNext()) {
+		Row row = rows.next();
+		if(row.getCell(0)== null)
+		{
+			return offset;
+		}
+		else{
+			if(row.getCell(0).getCellComment() == null) {
+				return offset;
+			}
+		}
+		offset++;
+	}
+	
+	return offset;
 }
 
 }'''

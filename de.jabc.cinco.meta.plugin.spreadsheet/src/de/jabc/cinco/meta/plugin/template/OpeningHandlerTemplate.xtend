@@ -106,7 +106,7 @@ private void openSheet(String resultNodeId,String sheetName)
 		e.printStackTrace();
 	}
 }
-private HashMap<Integer,ArrayList<Cell>> getUserCells(String sheetName, String resultNodeId)
+private ArrayList<Cell> getUserCells(String sheetName, String resultNodeId)
 {
 	try {
 		return Spreadsheetimporter.importUserCells(sheetName, resultNodeId);
@@ -115,7 +115,7 @@ private HashMap<Integer,ArrayList<Cell>> getUserCells(String sheetName, String r
 				"Error", 
 				"Sheet error.\nUser written cells could not be importet.");
 	}
-	return new HashMap<Integer,ArrayList<Cell>>();
+	return new ArrayList<Cell>();
 }
 
 
@@ -178,7 +178,7 @@ private ArrayList<VersionNode> getVersionNodes(Node node, String sheetName)
 	return nodes;
 }
 
-private boolean exportSheet(ArrayList<VersionNode> nodes, String sheetName,String resultNodeId, HashMap<String,String> formulas, HashMap<Integer, ArrayList<Cell>> userCells)
+private boolean exportSheet(ArrayList<VersionNode> nodes, String sheetName,String resultNodeId, HashMap<String,String> formulas, ArrayList<Cell> userCells)
 {
 	try {
 		SheetHandler.writeSheet(Spreadsheetexporter.export(nodes,formulas,userCells), resultNodeId, sheetName);
@@ -192,10 +192,10 @@ private boolean exportSheet(ArrayList<VersionNode> nodes, String sheetName,Strin
 	return true;
 }
 
-private boolean exportFormula(HashMap<String,String> formulas,String resultNodeId, String sheetName)
+private boolean exportFormula(HashMap<String,String> formulas,String resultNodeId, String sheetName, HashMap<Integer, Integer> rowRefs)
 {
 	try {
-		Spreadsheetexporter.writeFormula(resultNodeId,sheetName, formulas);
+		Spreadsheetexporter.writeFormula(resultNodeId,sheetName, formulas, rowRefs);
 	} catch (IOException | ClassNotFoundException | ClassCastException e) {
 		MessageDialog.openError(Display.getCurrent().getActiveShell(), 
 				"Error", 
@@ -204,6 +204,18 @@ private boolean exportFormula(HashMap<String,String> formulas,String resultNodeI
 		return false;
 	}
 	return true;
+}
+
+private int getGenratedColIndex(String sheetName, String resultNodeId)
+{
+	try {
+		return Spreadsheetimporter.getGeneratedColIndex(sheetName, resultNodeId);
+	} catch (ClassNotFoundException | ClassCastException | IOException e) {
+		MessageDialog.openError(Display.getCurrent().getActiveShell(), 
+			"Error", 
+			"Import Error.\nColumn index could not be read.");
+		return -1;
+	}
 }
 
 }
@@ -228,6 +240,12 @@ private boolean exportFormula(HashMap<String,String> formulas,String resultNodeI
 		
 		//Save the Formula and the Cell References from the sheet
 		formulas = importFormula(sheetName,resultNodeId,resultAttrs);
+		
+		int preOffset = getGenratedColIndex(sheetName, resultNodeId);
+		if(preOffset<0) {
+			return null;
+		}
+		
 		if(formulas.isEmpty())
 		{
 			openSheet(resultNodeId, sheetName);
@@ -238,19 +256,26 @@ private boolean exportFormula(HashMap<String,String> formulas,String resultNodeI
 		
 		//Refresh the sheet and write it
 		nodes = getVersionNodes(node, sheetName);
-		HashMap<Integer, ArrayList<Cell>> userCells = this.getUserCells(sheetName, resultNodeId);
+		ArrayList<Cell> userCells = this.getUserCells(sheetName, resultNodeId);
 		if(!exportSheet(nodes, sheetName, resultNodeId, formulas,userCells))
 		{
 			return null;
 		}
+		
+		int postOffset = getGenratedColIndex(sheetName, resultNodeId);
+		if(postOffset<0) {
+			return null;
+		}
+		
 		//Import the new Cell References in the refreshed sheet
 		newCellReferences = importCellReferences(sheetName,resultNodeId);
 		
+		HashMap<Integer, Integer> rowRefs = NodeUtil.getRowRereferences(oldCellReferences,newCellReferences);
 		//Re-reference the formula
-		formulas = NodeUtil.rereferenceFormula(formulas, oldCellReferences, newCellReferences);
+		formulas = NodeUtil.rereferenceFormula(formulas, oldCellReferences, newCellReferences,preOffset,postOffset);
 		
 		//Export the re-referenced Formula to the sheet
-		if(!exportFormula(formulas,resultNodeId, sheetName))
+		if(!exportFormula(formulas,resultNodeId, sheetName,rowRefs))
 		{
 			return null;
 		}

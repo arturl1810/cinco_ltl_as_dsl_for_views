@@ -1,6 +1,8 @@
 package de.jabc.cinco.meta.plugin.spreadsheet;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import mgl.Annotation;
 import mgl.Attribute;
@@ -19,19 +21,49 @@ public class SpreadSheetAnnotationValidator implements IMetaPluginValidator {
 		if(eObject instanceof Annotation&&((Annotation)eObject).getName().equals("spreadsheet")){
 			List<String> args = ((Annotation)eObject).getValue();
 			//Amount of arguments validation
-			if(args.size() > 1){
+			if(args.size() > 4){
 				return new ErrorPair<String,EStructuralFeature>(
-						"Only one argument is allowed.",
+						"At most four arguments are allowed.",
 						eObject.eClass().getEStructuralFeature("value")
 						);
 			}
-			if(args.size()==1) {
+			if(args.size()>=1) {
 				if(!(args.get(0).equals("multiple") || args.get(0).equals("single"))){
 					return new ErrorPair<String,EStructuralFeature>(
-							"Supported Arguments are: multiple or single",
+							"Supported options for the first argument are: multiple or single",
 							eObject.eClass().getEStructuralFeature("value")
 							);
 				}
+			}
+			if(args.size()>=2) {
+				Pattern pattern = Pattern.compile("^[^/./\\:*?\"<>|]+$");
+			    Matcher matcher = pattern.matcher(args.get(1));
+			    if(!matcher.matches()) {
+			    	return new ErrorPair<String,EStructuralFeature>(
+			    			args.get(1)+" is not a valid filename.",
+							eObject.eClass().getEStructuralFeature("value")
+							);
+			    }
+			}
+			if(args.size()>=3) {
+				Pattern pattern = Pattern.compile("\\d+");
+			    Matcher matcher = pattern.matcher(args.get(2));
+			    if(!matcher.matches()) {
+			    	return new ErrorPair<String,EStructuralFeature>(
+			    			args.get(2)+" is not a valid number.",
+							eObject.eClass().getEStructuralFeature("value")
+							);
+			    }
+			}
+			if(args.size()==4) {
+				Pattern pattern = Pattern.compile("\\d+");
+			    Matcher matcher = pattern.matcher(args.get(3));
+			    if(!matcher.matches()) {
+			    	return new ErrorPair<String,EStructuralFeature>(
+			    			args.get(3)+" is not a valid number.",
+							eObject.eClass().getEStructuralFeature("value")
+							);
+			    }
 			}
 			
 		}

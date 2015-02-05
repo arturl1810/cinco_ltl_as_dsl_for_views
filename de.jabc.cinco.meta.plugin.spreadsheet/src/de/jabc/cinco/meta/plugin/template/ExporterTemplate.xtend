@@ -1,7 +1,7 @@
 package de.jabc.cinco.meta.plugin.template
 
 class ExporterTemplate {
-	def create(String packageName,String className,String graphName,String projectName,String fileName,String sheetName)
+	def create(String packageName,String className,String graphName,String projectName,String fileName,String sheetName,int userCellsX, int userCellsY)
 	'''
 package «packageName»;
 
@@ -17,6 +17,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.TreeMap;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
@@ -32,6 +34,7 @@ import org.apache.poi.ss.usermodel.Comment;
 import org.apache.poi.ss.usermodel.CreationHelper;
 import org.apache.poi.ss.usermodel.Drawing;
 import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.RichTextString;
 import org.apache.poi.ss.usermodel.Row;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -40,12 +43,15 @@ public class Spreadsheetexporter {
 	public static String NodeId = "NodeId";
 	public static String EdgeId = "EdgeId";
 	public static String Default = "Exported";
+	public static int UserCellCols = «userCellsX»;
+	public static int UserCellRows = «userCellsY»;
 
-public static HSSFWorkbook export(ArrayList<VersionNode> nodes,HashMap<String,String> formulas,HashMap<Integer, ArrayList<Cell>> userCells) throws FileNotFoundException{
+public static HSSFWorkbook export(ArrayList<VersionNode> nodes,HashMap<String,String> formulas,ArrayList<Cell> userCells) throws FileNotFoundException{
 	// create a new file
 	// create a new workbook
 	HSSFWorkbook workbook = new HSSFWorkbook();
 	HSSFSheet sheet = workbook.createSheet("Sample sheet");
+	sheet.protectSheet("password");
 	
 	//define Styles and fonts
 	
@@ -63,7 +69,10 @@ public static HSSFWorkbook export(ArrayList<VersionNode> nodes,HashMap<String,St
 	Font idFont = workbook.createFont();
 	idFont.setColor(HSSFColor.GREY_25_PERCENT.index);
 	
-	
+	//Formula Style
+	HSSFCellStyle formulaStyle = workbook.createCellStyle();
+	formulaStyle.setLocked(false);
+	formulaStyle.setFont(defaultfont);
 	//OLD Style
 	HSSFCellStyle oldNodeStyle = workbook.createCellStyle();
 	oldNodeStyle.setFont(defaultfont);
@@ -215,7 +224,7 @@ public static HSSFWorkbook export(ArrayList<VersionNode> nodes,HashMap<String,St
 			}else {
 				col++;
 			}
-			writeUserCells(r, col, userCells);
+			//writeUserCells(r, col, userCells);
 			rowCounter++;
 			//Print Values for NodeType
 			for(VersionNode vnode : edgeNodeList.getValue()){
@@ -259,6 +268,7 @@ public static HSSFWorkbook export(ArrayList<VersionNode> nodes,HashMap<String,St
 						else{
 							attr.setCellFormula(vnode.formulas.get(eNode.getName()));
 						}
+						attr.setCellStyle(formulaStyle);
 						attr.setCellType(Cell.CELL_TYPE_FORMULA);
 					}
 					else{
@@ -287,19 +297,33 @@ public static HSSFWorkbook export(ArrayList<VersionNode> nodes,HashMap<String,St
 					}
 				}
 				rowCounter++;
-				writeUserCells(rowValues, colValues, userCells);
+				//writeUserCells(rowValues, colValues, userCells);
 			}
 		}
 		rowCounter+=stepOffset;
 		
 	}
+	//Write divider for the user cells
+	CellStyle borderStyle = workbook.createCellStyle();
+	borderStyle.setBorderBottom(CellStyle.BORDER_DOUBLE);
+	borderStyle.setBottomBorderColor(IndexedColors.BLACK.getIndex());
+    Row divider = sheet.createRow(rowCounter);
+    for(int i = 0; i <= colCount+2; i++) {
+    	Cell dividerCell = divider.createCell(i);
+    	dividerCell.setCellStyle(borderStyle);
+    	setCellComment(dividerCell, "Divider", "EOF", factory, drawing);
+    }
+    rowCounter++;
+	//Write the usercells
+	writeUserCells(rowCounter, userCells, sheet, formulaStyle);
+	
 	
 	//Adjust autosize of all used columns
-	for(int i=0;i<=colCount+1;i++){
+	for(int i=0;i<=colCount+2;i++){
 		sheet.autoSizeColumn((short)i);
 	}
 	
-	System.out.println("XLS successfully created");
+	//System.out.println("XLS successfully created");
 	return workbook;
 	//return "succsessfully";
 }
@@ -337,12 +361,13 @@ private static void writeAttribute(EStructuralFeature eNode,Cell attr, ModelElem
  * 
  * @param resultNodeId
  * @param sheetName
+ * @param rowRefs 
  * @param Formula
  * @throws IOException
  * @throws ClassNotFoundException
  * @throws ClassCastException
  */
-public static void writeFormula(String resultNodeId,String sheetName, HashMap<String,String> formulas) throws IOException, ClassNotFoundException, ClassCastException 
+public static void writeFormula(String resultNodeId,String sheetName, HashMap<String,String> formulas, HashMap<Integer, Integer> rowRefs) throws IOException, ClassNotFoundException, ClassCastException 
 {
 	HashMap<String, String> map = SheetHandler.loadSheetMap(resultNodeId);
 	
@@ -357,37 +382,53 @@ public static void writeFormula(String resultNodeId,String sheetName, HashMap<St
     Iterator<Row> rowIterator = sheet.iterator();
     while(rowIterator.hasNext()) {
         Row row = rowIterator.next();
-         //Check ID Cell
-        Cell idCell = row.getCell(0);
-        if(idCell!=null) {
-        	if(idCell.getCellComment()!=null) {
-        		String [] comment = idCell.getCellComment().getString().toString().split(":");
+		Iterator<Cell> cellIterator = row.cellIterator();
+        while(cellIterator.hasNext()) {
+        	Cell cell = cellIterator.next();
+        	
+        	if(cell.getCellComment()!=null) {
+        		String [] comment = cell.getCellComment().getString().toString().split(":");
         		if(comment[1].equals(resultNodeId) && comment[0].equals(NodeId)) {
-        			
-        			//Node is Found
-        			Iterator<Cell> cellIterator = row.cellIterator();
-        	        while(cellIterator.hasNext()) {
-        	        	Cell cell = cellIterator.next();
-        	        	
-        	        	if(cell.getCellComment()!=null) {
-        	        		String attrName = sheet.getRow(row.getRowNum()-1).getCell(cell.getColumnIndex()).getStringCellValue();
-            	        	if(formulas.containsKey(attrName)){
-            	        			
-            	        			
-            	        			cell.setCellValue("");
-            	        			
-            	        			cell.setCellFormula(formulas.get(attrName));
-            	        			
-            	        			cell.setCellType(Cell.CELL_TYPE_FORMULA);
-            	        			
-            	        			
-    	        	        }
-        	        	}
-	        		}
-	        	}
-	        }
-        }
-   }
+        			while(cellIterator.hasNext()) {
+        				Cell resultCell = cellIterator.next();
+        				String attrName = sheet.getRow(row.getRowNum()-1).getCell(resultCell.getColumnIndex()).getStringCellValue();
+    		        	if(formulas.containsKey(attrName)){
+    		        		resultCell.setCellValue("");
+    		        		resultCell.setCellFormula(formulas.get(attrName));
+    		        		resultCell.setCellType(Cell.CELL_TYPE_FORMULA);		
+            	        }
+        			}
+        			break;
+	    		}
+    		}
+        	else {
+        		if(cell.getCellType() == Cell.CELL_TYPE_FORMULA) {
+        			//Found User Cell Formula
+        			StringBuffer formula = new StringBuffer(cell.getCellFormula());
+        			//replace the Cell references in the formula with the new Cell References
+        			Pattern pattern = Pattern.compile("[a-zA-Z]+[0-9]+");
+        			//Sreach for the given cellRow in the Formula
+        			Matcher matcher = pattern.matcher(formula);
+        			int colOffset = 0;
+        			while(matcher.find()) {
+        				int start = matcher.start();
+        				int end = matcher.end();
+        				String cellRef = matcher.group().toUpperCase();
+        				String cellCol = cellRef.replaceAll("\\d", "");
+        				String cellRow = cellRef.replaceAll("\\D+","");
+        				if(rowRefs.containsKey(Integer.parseInt(cellRow))) {
+        					formula = formula.replace(start+colOffset,end+colOffset,cellCol+rowRefs.get(Integer.parseInt(cellRow)));
+	        				if(cellRow.length() < new String(rowRefs.get(Integer.parseInt(cellRow))+"").length()) {
+	        					colOffset = new String(rowRefs.get(Integer.parseInt(cellRow))+"").length() - cellRow.length();
+	        				}
+        				}
+        			}
+        			cell.setCellFormula(formula.toString());
+        		}
+        	}
+    	}
+    }
+   
     
     
     
@@ -438,13 +479,40 @@ private static void setCellComment(Cell cell, String author,String content,Creat
     comment.setString(str);
 	cell.setCellComment(comment);
 }
-
-private static void writeUserCells(Row row,int colCount,HashMap<Integer,ArrayList<Cell>> userCells)
+/**
+ * 
+ * @param row
+ * @param userCells
+ * @param sheet
+ */
+private static void writeUserCells(int row,ArrayList<Cell> userCells, HSSFSheet sheet, HSSFCellStyle userCellStyle)
 {
-	if(userCells.containsKey(row.getRowNum())) {
-		for(Cell c : userCells.get(row.getRowNum())) {
-			Cell cell = row.createCell(colCount);
+	//Sort by row and calculate offset
+	int rowOffset = NodeUtil.getUserCellOffset(userCells, row);
+	HashMap<Integer,ArrayList<Cell>> rowSorteteCellMap = new HashMap<Integer,ArrayList<Cell>>();
+	for(Cell c : userCells) {
+		
+		if(!rowSorteteCellMap.containsKey(c.getRowIndex())) {
+			rowSorteteCellMap.put(c.getRowIndex(), new ArrayList<Cell>());
+		}
+		rowSorteteCellMap.get(c.getRowIndex()).add(c);
+	}
+	//Write editable usercells
+	for(int y=0; y< UserCellRows; y++) {
+		Row userRow = sheet.createRow(row+y);
+		for(int x=0; x<UserCellCols; x++) {
+			Cell userCell = userRow.createCell(x);
+			userCell.setCellStyle(userCellStyle);
+		}
+	}
+	
+	//Print Usercells
+	for(Entry<Integer,ArrayList<Cell>> entry : rowSorteteCellMap.entrySet()) {
+		Row userRow = sheet.createRow(entry.getKey() + rowOffset);
+		for(Cell c : entry.getValue()) {
+			Cell cell = userRow.createCell(c.getColumnIndex());
 			cell.setCellType(c.getCellType());
+			cell.setCellStyle(userCellStyle);
 			switch (c.getCellType()) {
 	        case Cell.CELL_TYPE_BOOLEAN:
 	            cell.setCellValue(c.getBooleanCellValue());
@@ -460,14 +528,14 @@ private static void writeUserCells(Row row,int colCount,HashMap<Integer,ArrayLis
 	        case Cell.CELL_TYPE_ERROR:
 	            break;
 	        case Cell.CELL_TYPE_FORMULA:
-	        	//TODO Validate the user formula
-	        	//cell.setCellValue(c.getCellFormula());
+	        	cell.setCellFormula(NodeUtil.offsetFormula(c.getCellFormula(),rowOffset,row));
 	            break;
     		}
-			colCount++;
 		}
 	}
 }
 
-}''' 
+}
+
+''' 
 }

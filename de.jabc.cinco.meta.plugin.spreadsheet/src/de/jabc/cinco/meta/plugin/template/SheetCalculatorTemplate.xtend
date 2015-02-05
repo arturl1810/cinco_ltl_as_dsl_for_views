@@ -133,10 +133,12 @@ public class SheetCalculator {
 		HashMap<Integer,Integer> newCellReferences = importCellReferences(sheetName,resultNodeId);
 		
 		//Re-reference the formula
-		formulas = NodeUtil.rereferenceFormula(formulas, oldCellReferences, newCellReferences);
+		formulas = NodeUtil.rereferenceFormula(formulas, oldCellReferences, newCellReferences,0,0);
+		
+		HashMap<Integer, Integer> rowRefs = NodeUtil.getRowRereferences(oldCellReferences,newCellReferences);
 		
 		//Export the re-referenced Formula to the sheet
-		exportFormula(formulas,resultNodeId, sheetName);
+		exportFormula(formulas,resultNodeId, sheetName,rowRefs);
 		
 		//Try to calculate the spreadsheet if it exists
 		final HashMap<String,Double> results = calculateSheet(resultNodeId,sheetName,resultAttrs);
@@ -221,10 +223,10 @@ public class SheetCalculator {
 		}
 	}
 
-	private void exportFormula(HashMap<String,String> formulas,String resultNodeId, String sheetName) throws CalculationException
+	private void exportFormula(HashMap<String,String> formulas,String resultNodeId, String sheetName, HashMap<Integer, Integer> rowRefs) throws CalculationException
 	{
 		try {
-			Spreadsheetexporter.writeFormula(resultNodeId,sheetName, formulas);
+			Spreadsheetexporter.writeFormula(resultNodeId,sheetName, formulas, rowRefs);
 		} catch (IOException | ClassNotFoundException | ClassCastException e) {
 			CalculationException ex =  (CalculationException) new CalculationException();
 			ex.setMessage("Formula Error.\nRe-Referenced Formula could not be written.\nFormula re-referencing failed.");
