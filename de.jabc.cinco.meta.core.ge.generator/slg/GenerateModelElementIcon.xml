@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>827994ca-f72f-4fe1-afcb-fa6f30c34d59</id>
   <name>GenerateModelElementIcon</name>
-  <changecounter>68</changecounter>
+  <changecounter>76</changecounter>
   <sib>
     <id>c59ee988-babd-422a-b281-25f187e612ca</id>
     <name>CopyElement</name>
@@ -150,6 +150,7 @@
     <point>105.0,294.0</point>
     <point>75.0,330.0</point>
     <point>104.11764705882354,363.0</point>
+    <labelposition>542.0,32.0</labelposition>
     <branch>next</branch>
   </edge>
   <edge>
@@ -249,7 +250,7 @@
     <parameter name="template">
       <string>@Override
 public String getCreateImageId() {
-	return $context.graphModelName$GraphitiUtils.getInstance().getImageId(&quot;$context.relativePath$&quot;);
+	return $context.graphModelName$GraphitiUtils.getInstance().getImageId(&quot;/resources-gen$context.relativePath$&quot;);
 }</string>
     </parameter>
     <finalbranches>default</finalbranches>

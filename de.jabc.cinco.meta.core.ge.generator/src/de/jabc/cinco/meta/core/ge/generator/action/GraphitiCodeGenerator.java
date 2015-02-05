@@ -423,13 +423,18 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 	
 	private void createIconsFolder(IProject p, NullProgressMonitor monitor) {
 		IFolder icons = p.getFolder("icons");
-		if (!icons.exists()) {
-			try {
-				icons.create(true, true, monitor);
-			} catch (CoreException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		IFolder resGen = p.getFolder(new Path("resources-gen"));
+		IFolder icoGen = p.getFolder(new Path("resources-gen/icons"));
+		try {
+		if (!resGen.exists())
+			resGen.create(true, true, monitor);
+		if (!icoGen.exists())
+			icoGen.create(true, true, monitor);
+		if (!icons.exists()) 
+			icons.create(true, true, monitor);
+		} catch (CoreException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 	
@@ -472,11 +477,12 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 			}
 		}
 		try {
-			IFolder icons = target.getFolder("icons");
+			IFolder icons = target.getFolder("resources-gen/icons");
 			if (!icons.exists())
 				icons.create(true, true, monitor);
-			if (icons.getFile(iconFile.getLocation()) == null)
-				iconFile.copy(target.getFolder("icons").getFullPath().append(iconFile.getName()), true, monitor);
+			IFile file = icons.getFile(iconFile.getLocation());
+			if (file == null || !file.exists())
+				iconFile.copy(target.getFolder("resources-gen/icons").getFullPath().append(iconFile.getName()), true, monitor);
 		} catch (CoreException e) {
 			e.printStackTrace();
 		}
@@ -572,9 +578,8 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 		Bundle b = Platform.getBundle(bundleId);
 		InputStream fis=null;
 		try {
-			
 			fis = FileLocator.openStream(b, new Path("/icons/_Connection.gif"), false);
-			File trgFile = p.getFolder("icons").getFile("_Connection.gif").getLocation().toFile();
+			File trgFile = p.getFolder("resources-gen/icons").getFile("_Connection.gif").getLocation().toFile();
 			trgFile.createNewFile();
 			OutputStream os = new FileOutputStream(trgFile);
 			int bt;

@@ -73,8 +73,7 @@ public class StylesValidator implements IMetaPluginValidator {
 		return ep;
 	}
 	
-	private ErrorPair<String, EStructuralFeature> checkIcon(
-			Annotation annotation) {
+	private ErrorPair<String, EStructuralFeature> checkIcon(Annotation annotation) {
 		if (annotation.getValue().size() == 0)
 			return new ErrorPair<String, EStructuralFeature>(
 					"Please specify an icon by relative or platform path", annotation.eClass()

@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>b2a34056-d5cd-4de8-9af8-7b51a4f248b2</id>
   <name>GenerateImageProvider</name>
-  <changecounter>88</changecounter>
+  <changecounter>93</changecounter>
   <sib>
     <id>64a32e2e-03eb-437a-8d64-183fed477869</id>
     <name>PutExpression</name>
@@ -160,15 +160,15 @@ public class $context.graphModelName$ImageProvider extends AbstractImageProvider
 		File file;
 		try {
 			file = FileLocator.getBundleFile(b);
-			File iconsFile = file.toPath().resolve(&quot;icons&quot;).toFile();
+			File iconsFile = file.toPath().resolve(&quot;resources-gen/icons&quot;).toFile();
 			if (iconsFile.exists()) {
 				for (File f : iconsFile.listFiles()){
 					String fileName = f.getName();
 					String id = fileName.contains(&quot;.&quot;) ? fileName.split(&quot;\\\.&quot;)[0] : fileName;
-					addImage(id, &quot;/icons/&quot;+fileName);
+					addImage(id, &quot;/resources-gen/icons/&quot;+fileName);
 				}
 			} else {
-				Enumeration&lt;URL&gt; entries = b.findEntries(&quot;icons/&quot;, &quot;*&quot;, true);
+				Enumeration&lt;URL&gt; entries = b.findEntries(&quot;resources-gen/icons/&quot;, &quot;*&quot;, true);
 				while(entries.hasMoreElements()){
 					URL entry = entries.nextElement();
 					IPath path = new Path(entry.getPath());
