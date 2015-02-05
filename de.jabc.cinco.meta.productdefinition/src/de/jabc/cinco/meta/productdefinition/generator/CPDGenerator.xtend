@@ -119,6 +119,9 @@ class CPDGenerator implements IGenerator {
 			var windowImages = new WindowImages(productModel)
 			val bpFile = mglProject.findMember("build.properties")as IFile
 			var bp = BuildProperties.loadBuildProperties(bpFile)
+			var srcFolder = mglProject.findMember("src/");
+			if(srcFolder!=null && srcFolder.exists())
+				bp.appendSource("src/");
 
 			val productBPFile = project.findMember("build.properties") as IFile
 			var productBP = BuildProperties.loadBuildProperties(productBPFile)
