@@ -28,6 +28,9 @@ import org.eclipse.xtext.generator.IFileSystemAccess
 import org.eclipse.xtext.generator.IGenerator
 import org.eclipse.xtext.naming.IQualifiedNameProvider
 import org.eclipse.xtext.xbase.lib.Pair
+import org.eclipse.emf.common.util.BasicEList
+import mgl.GraphicalModelElement
+import mgl.Node
 
 class MGLGenerator implements IGenerator {
 	@Inject extension IQualifiedNameProvider
@@ -62,6 +65,7 @@ class MGLGenerator implements IGenerator {
 		var LightweightExecutionContext context = new DefaultLightweightExecutionContext(null)
 		var ecoreMap = PluginRegistry::getInstance().getRegisteredEcoreModels() 
 		var genModelMap = PluginRegistry::getInstance().getGenModelMap() //new HashMap<EPackage,String>
+		prepareGraphModel(model)
 		context.put("graphModel",model)
 //		context.put("mcGraphModel",mcGraphModel)
 		context.put("abstractGraphModel",interfaceGraphModel)
@@ -141,5 +145,28 @@ class MGLGenerator implements IGenerator {
 		
 	}
 	
-	
+	def GraphModel prepareGraphModel(GraphModel graphModel){
+		var connectableElements = new BasicEList<GraphicalModelElement>()
+		
+		connectableElements.addAll(graphModel.nodes)
+		connectableElements.addAll(graphModel.nodeContainers)
+		for(elem:connectableElements){
+			for(connect:elem.incomingEdgeConnections){
+				if(connect.connectingEdges.nullOrEmpty){
+					println("Incoming: "+connect)
+					connect.connectingEdges += graphModel.edges
+				}
+			}
+			for(connect:elem.outgoingEdgeConnections){
+				if(connect.connectingEdges.nullOrEmpty){
+					println("Outgoing: "+connect)
+					connect.connectingEdges += graphModel.edges
+				}
+			}
+		}
+		
+		return graphModel
+		
+		
+	}
 }
