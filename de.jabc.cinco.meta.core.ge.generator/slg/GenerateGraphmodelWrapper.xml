@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>ede0f2a5-2d64-419a-a377-4de364aed9a1</id>
   <name>GenerateGraphmodelWrapper</name>
-  <changecounter>177</changecounter>
+  <changecounter>207</changecounter>
   <sib>
     <id>961ec5c2-d49b-4f47-b506-1d2f2c25fd26</id>
     <name>RunStringTemplate</name>
@@ -39,6 +39,19 @@ import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.ui.services.GraphitiUi;
 
+import $fqnStringInputStream$;
+import $fqnIPath$;
+import $fqnIFile$;
+import $fqnResource$;
+import $fqnResourceSetImpl$;
+import $fqnResourcesPlugin$;
+import $fqnURI$;
+import $fqnDiagram$;
+import $fqnIOException$;
+import $fqnCoreException$;
+import $fqnGraphiti$;
+import $fqnNullProgressMonitor$;
+
 import graphicalgraphmodel.*;
 import graphmodel.*;
 import $importPath$.*;
@@ -50,6 +63,30 @@ public class $graphModelName$Wrapper {
 	private static IDiagramTypeProvider dtp;
 	
 	public static final String DTP_ID = &quot;$packageName$.$graphModelName$DiagramTypeProvider&quot;;
+
+	public static CFlowGraph newFlowGraph(IPath path, String fileName) throws IOException, CoreException {
+		IPath filePath = path.append(fileName).addFileExtension(&quot;$lcGraphModelName$&quot;);
+		URI uri = URI.createPlatformResourceURI(filePath.toOSString(), true);
+		Resource res = new ResourceSetImpl().createResource(uri);
+		Diagram d = Graphiti.getPeCreateService().createDiagram(&quot;$graphModelName$&quot;, fileName, true);
+		$graphModelName$ graph = $factoryName$Factory.eINSTANCE.createFlowGraph();
+		
+		C$graphModelName$ retval = C$lcGraphModelName$Factory.eINSTANCE.createC$graphModelName$();
+		retval.setDiagram(d);
+		retval.setGraphModel(graph);
+		
+		res.getContents().add(d);
+		res.getContents().add(graph);
+		
+		IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(filePath);
+		if (!file.exists()) {
+			file.create(new StringInputStream(&quot;&quot;), true, new NullProgressMonitor());
+		}
+
+		res.save(null);
+		
+		return retval;
+	}
 
 	public static $apiPrefix$$graphModelName$ wrapGraphModel(GraphModel sg, Diagram d) throws Exception {
 		$apiPrefix$$graphModelName$ gsg = $gFactoryName$.eINSTANCE.create$apiPrefix$$graphModelName$();

@@ -72,6 +72,7 @@ import org.eclipse.graphiti.ui.services.GraphitiUi;
 import org.eclipse.pde.core.project.IBundleProjectDescription;
 import org.eclipse.pde.core.project.IBundleProjectService;
 import org.eclipse.xtend.typesystem.emf.EcoreUtil2;
+import org.eclipse.xtext.util.StringInputStream;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
@@ -328,6 +329,17 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 	}
 	
 	private void fqnToContext(LightweightExecutionContext context) {
+		context.put("fqnIPath", IPath.class.getName());
+		context.put("fqnIFile", IFile.class.getName());
+		context.put("fqnURI", URI.class.getName());
+		context.put("fqnResource", Resource.class.getName());
+		context.put("fqnResourceSetImpl", ResourceSetImpl.class.getName());
+		context.put("fqnResourcesPlugin", ResourcesPlugin.class.getName());
+		context.put("fqnNullProgressMonitor", NullProgressMonitor.class.getName());
+		context.put("fqnStringInputStream", StringInputStream.class.getName());
+		context.put("fqnIOException", IOException.class.getName());
+		context.put("fqnCoreException", CoreException.class.getName());
+		
 		context.put("fqnDiagram", Diagram.class.getName());
 		context.put("fqnDiagramTypeProvider", IDiagramTypeProvider.class.getName());
 		
