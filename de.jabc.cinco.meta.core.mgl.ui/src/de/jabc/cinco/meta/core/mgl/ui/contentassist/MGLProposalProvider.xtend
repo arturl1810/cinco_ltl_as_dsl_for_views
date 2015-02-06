@@ -6,24 +6,25 @@ package de.jabc.cinco.meta.core.mgl.ui.contentassist
 import de.jabc.cinco.meta.core.pluginregistry.PluginRegistry
 import de.jabc.cinco.meta.core.pluginregistry.PluginRegistryEntry
 import de.jabc.cinco.meta.core.pluginregistry.impl.PluginRegistryEntryImpl
+import de.jabc.cinco.meta.core.utils.xtext.ChooseFileTextApplier
+import java.util.ArrayList
 import java.util.Set
+import mgl.Annotatable
 import mgl.Annotation
+import mgl.Attribute
 import mgl.Edge
 import mgl.GraphModel
 import mgl.Node
 import mgl.NodeContainer
 import mgl.ReferencedType
-import mgl.Type
+import mgl.UserDefinedType
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.xtext.Assignment
+import org.eclipse.xtext.Group
+import org.eclipse.xtext.RuleCall
+import org.eclipse.xtext.ui.editor.contentassist.ConfigurableCompletionProposal
 import org.eclipse.xtext.ui.editor.contentassist.ContentAssistContext
 import org.eclipse.xtext.ui.editor.contentassist.ICompletionProposalAcceptor
-import mgl.UserDefinedType
-import mgl.Attribute
-import org.eclipse.xtext.nodemodel.impl.LeafNode
-import org.eclipse.xtext.ui.editor.contentassist.ConfigurableCompletionProposal
-import de.jabc.cinco.meta.core.utils.xtext.ChooseFileTextApplier
-import mgl.Annotatable
 
 /**
  * see http://www.eclipse.org/Xtext/documentation/latest/xtext.html#contentAssist on how to customize content assistant
@@ -31,6 +32,8 @@ import mgl.Annotatable
 class MGLProposalProvider extends AbstractMGLProposalProvider {
 	
 	val registry = PluginRegistry::instance
+	
+	
 	
 //	override completeGraphModel_Annotations(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
 //		val annots = registry.getAnnotations(PluginRegistryEntryImpl::GRAPH_MODEL_ANNOTATION)
@@ -49,30 +52,40 @@ class MGLProposalProvider extends AbstractMGLProposalProvider {
 //			annots.forEach[a | acceptor.accept(createCompletionProposal(a, context))]
 //		}
 //	}
+
+	
 	
 	override completeAnnotation_Name(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor){
-		var parent  = null as Annotatable 
-		if(model instanceof Annotation)
-			parent = (model as Annotation).parent
-		if(parent!=null){
-			if(parent instanceof GraphModel)
-				(registry.getAnnotations(PluginRegistryEntryImpl::GRAPH_MODEL_ANNOTATION)).forEach[a|acceptor.accept(createCompletionProposal(a,context))]
-			if(parent instanceof Node)
-				(registry.getAnnotations(PluginRegistryEntryImpl::NODE_ANNOTATION)).forEach[a|acceptor.accept(createCompletionProposal(a,context))]
-			if(parent instanceof Edge)
-				(registry.getAnnotations(PluginRegistryEntryImpl::EDGE_ANNOTATION)).forEach[a|acceptor.accept(createCompletionProposal(a,context))]
-			if(parent instanceof ReferencedType)
-				(registry.getAnnotations(PluginRegistryEntryImpl::PRIME_ANNOTATION)).forEach[a|acceptor.accept(createCompletionProposal(a,context))]
-			if(parent instanceof Attribute)
-				(registry.getAnnotations(PluginRegistryEntryImpl::ATTRIBUTE_ANNOTATION)).forEach[a|acceptor.accept(createCompletionProposal(a,context))]
-			if(parent instanceof NodeContainer)
-				(registry.getAnnotations(PluginRegistryEntryImpl::NODE_CONTAINER_ANNOTATION)).forEach[a|acceptor.accept(createCompletionProposal(a,context))]	
-			if(parent instanceof UserDefinedType)
-				(registry.getAnnotations(PluginRegistryEntryImpl::TYPE_ANNOTATION)).forEach[a|acceptor.accept(createCompletionProposal(a,context))]
-		}else{
-			(registry.getAnnotations(PluginRegistryEntryImpl::GENERAL_ANNOTATION)).forEach[a|acceptor.accept(createCompletionProposal(a,context))]
-		}
+		
+		
 	}
+	
+	
+	override complete_Annotation(EObject model, RuleCall ruleCall, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
+			val semanticElement = context.currentNode.semanticElement
+			if(semanticElement!=model && !(semanticElement instanceof Annotation)){
+				
+				(registry.getAnnotations(PluginRegistryEntryImpl::GENERAL_ANNOTATION)).forEach[a|acceptor.accept(createCompletionProposal("@"+a,context))]
+				if(semanticElement instanceof GraphModel){
+					(registry.getAnnotations(PluginRegistryEntryImpl::GRAPH_MODEL_ANNOTATION)).forEach[a|acceptor.accept(createCompletionProposal("@"+a,context))]
+				}else if(semanticElement instanceof Node){
+					registry.getAnnotations(PluginRegistryEntryImpl::NODE_ANNOTATION).forEach[a|acceptor.accept(createCompletionProposal("@"+a,context))]
+				}else if(semanticElement instanceof NodeContainer){
+					registry.getAnnotations(PluginRegistryEntryImpl::NODE_CONTAINER_ANNOTATION).forEach[a|acceptor.accept(createCompletionProposal("@"+a,context))]
+				}else if(semanticElement instanceof Edge){
+					registry.getAnnotations(PluginRegistryEntryImpl::EDGE_ANNOTATION).forEach[a|acceptor.accept(createCompletionProposal("@"+a,context))]
+				}else if(semanticElement instanceof Attribute){
+					registry.getAnnotations(PluginRegistryEntryImpl::ATTRIBUTE_ANNOTATION).forEach[a|acceptor.accept(createCompletionProposal("@"+a,context))]
+				}else if(semanticElement instanceof ReferencedType){
+					registry.getAnnotations(PluginRegistryEntryImpl::PRIME_ANNOTATION).forEach[a|acceptor.accept(createCompletionProposal("@"+a,context))]
+				}else if(semanticElement instanceof UserDefinedType){
+					registry.getAnnotations(PluginRegistryEntryImpl::TYPE_ANNOTATION).forEach[a|acceptor.accept(createCompletionProposal("@"+a,context))]
+				}
+			
+			}
+	}
+	
+	
 	override completeGraphModel_IconPath(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor){
 		var proposal = createCompletionProposal("Choose File...", context);
 		if (proposal instanceof ConfigurableCompletionProposal) {
