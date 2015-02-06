@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>6830c0f3-7532-49ad-ad67-7fb466c9d0a9</id>
   <name>GenerateToolBehaviourProvider</name>
-  <changecounter>212</changecounter>
+  <changecounter>214</changecounter>
   <sib>
     <id>c8e21300-66b5-43fa-a031-ae9d0f22cbf2</id>
     <name>PutExpression</name>
@@ -159,7 +159,7 @@ public class $context.fuGraphModelName$ToolBehaviourProvider extends DefaultTool
 		
 		ContextButtonEntry contextButtonEntry = new ContextButtonEntry(null, context);
 		contextButtonEntry.setText(&quot;Create connection&quot;);
-		contextButtonEntry.setIconId(&quot;_Connection&quot;);
+		contextButtonEntry.setIconId(&quot;_Connection.gif&quot;);
 		
 		ICreateConnectionFeature[] ccf = getFeatureProvider().getCreateConnectionFeatures();
 		for (ICreateConnectionFeature f : ccf) {
