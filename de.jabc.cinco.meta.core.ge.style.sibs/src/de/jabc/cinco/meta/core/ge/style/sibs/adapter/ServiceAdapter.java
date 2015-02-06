@@ -84,7 +84,7 @@ public class ServiceAdapter {
 	private static Map<String, String> keywords = new HashMap<String, String>();
 	private static int appearanceCount = 0;
 	
-	private final static String ID_CONTAINER = "Container";
+	private final static String ID_CONTAINER = "Containers";
 	private final static String ID_NODES = "Nodes";
 	
 	public ServiceAdapter() {
