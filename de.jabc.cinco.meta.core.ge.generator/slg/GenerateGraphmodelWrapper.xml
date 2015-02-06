@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>ede0f2a5-2d64-419a-a377-4de364aed9a1</id>
   <name>GenerateGraphmodelWrapper</name>
-  <changecounter>207</changecounter>
+  <changecounter>217</changecounter>
   <sib>
     <id>961ec5c2-d49b-4f47-b506-1d2f2c25fd26</id>
     <name>RunStringTemplate</name>
@@ -51,6 +51,7 @@ import $fqnIOException$;
 import $fqnCoreException$;
 import $fqnGraphiti$;
 import $fqnNullProgressMonitor$;
+import java.lang.Exception;
 
 import graphicalgraphmodel.*;
 import graphmodel.*;
@@ -63,28 +64,40 @@ public class $graphModelName$Wrapper {
 	private static IDiagramTypeProvider dtp;
 	
 	public static final String DTP_ID = &quot;$packageName$.$graphModelName$DiagramTypeProvider&quot;;
-
-	public static CFlowGraph newFlowGraph(IPath path, String fileName) throws IOException, CoreException {
+/**
+	public static CFlowGraph newFlowGraph(String graphModelName) throws IOException, CoreException, Exception {
+		String fileName = &quot;&quot;;
+		IPath path = null;
+		FileDialog dialog = new FileDialog(Display.getCurrent().getActiveShell());
+		dialog.setText(&quot;Choose a file...&quot;);
+		String ret = dialog.open();
+		if (ret == null || ret.isEmpty()) {
+			return null;
+		}
+		
+		else path = new Path(ret);
+		
+		return newFlowGraph(path, fileName);
+	}
+**/
+	public static CFlowGraph newFlowGraph(IPath path, String fileName) throws IOException, CoreException, Exception {
 		IPath filePath = path.append(fileName).addFileExtension(&quot;$lcGraphModelName$&quot;);
 		URI uri = URI.createPlatformResourceURI(filePath.toOSString(), true);
+		IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(filePath);
 		Resource res = new ResourceSetImpl().createResource(uri);
 		Diagram d = Graphiti.getPeCreateService().createDiagram(&quot;$graphModelName$&quot;, fileName, true);
 		$graphModelName$ graph = $factoryName$Factory.eINSTANCE.createFlowGraph();
 		
-		C$graphModelName$ retval = C$lcGraphModelName$Factory.eINSTANCE.createC$graphModelName$();
-		retval.setDiagram(d);
-		retval.setGraphModel(graph);
-		
 		res.getContents().add(d);
 		res.getContents().add(graph);
-		
-		IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(filePath);
-		if (!file.exists()) {
-			file.create(new StringInputStream(&quot;&quot;), true, new NullProgressMonitor());
-		}
-
 		res.save(null);
 		
+		IDiagramTypeProvider dtp = GraphitiUi.getExtensionManager().createDiagramTypeProvider(d, DTP_ID);
+		$graphModelName$GraphitiUtils.addToResource(d, dtp.getFeatureProvider());
+		dtp.getFeatureProvider().link(d, graph);
+
+		C$graphModelName$ retval = wrapGraphModel(graph, d);
+
 		return retval;
 	}
 
