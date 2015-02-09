@@ -57,10 +57,8 @@ edgeStyle simpleArrow {
 
 	'''
 	
-	def static generateDefaultCPD(String modelName, String packageName)'''
+	def static generateSomeGraphCPD(String modelName, String packageName)'''
 cincoProduct «modelName»{
-	id «packageName».product
-	version "1.0.0.qualifier"
 	mgl "/model/«modelName».mgl"
 	about {
 		text "This is an example for an about text."
@@ -80,6 +78,29 @@ cincoProduct «modelName»{
  * 
  * 
  */
+
+	def static generateFlowGraphCPD(String modelName, String packageName, Set<ExampleFeature> features)'''
+cincoProduct «modelName»Tool {
+	mgl "/model/«modelName».mgl"
+	«IF features.contains(PRODUCT_BRANDING)»
+	splashScreen "branding/splash.bmp" {
+		progressBar (40,260,180,10)
+		progressMessage (40,280,180,10)
+	}
+	
+	image16 "branding/Icon16.png"
+	image32 "branding/Icon32.png"
+	image48 "branding/Icon48.png"
+	image64 "branding/Icon64.png"
+	image128 "branding/Icon128.png"
+	
+	about {
+		text "This is the example project for the Cinco SCCE Meta Tooling Suite (http://cinco.scce.info) that serves as a feature showcase. It is generated using the 'New CincoProduct' wizard"
+	}
+	«ENDIF»
+	
+}		
+	'''
 	
 	def static generateFlowGraphMGL(String modelName, String packageName, String projectName, Set<ExampleFeature> features) '''
 «IF features.contains(PRIME_REFERENCES)»
@@ -92,6 +113,9 @@ import "platform:/resource/«projectName»/model/ExternalLibrary.ecore"
 «ENDIF»
 «IF features.contains(CODE_GENERATOR)»
 @generatable("«packageName».codegen.Generate","/src-gen/")
+«ENDIF»
+«IF features.contains(TRANSFORMATION_API)»
+@postCreate("«packageName».hooks.InitializeFlowGraphModel")
 «ENDIF»
 graphModel «modelName» {
 	package «packageName»
@@ -111,6 +135,9 @@ graphModel «modelName» {
 	«IF features.contains(ICONS)»
 	@icon("icons/Start.png")
 	«ENDIF»
+	«IF features.contains(PALETTE_GROUPS)»
+	@palette("Round Elements")
+	«ENDIF»
 	node Start {
 		// allow exactly one outgoing Transition
 		outgoingEdges (Transition[1,1]) 
@@ -119,6 +146,9 @@ graphModel «modelName» {
 	@style(redCircle) 
 	«IF features.contains(ICONS)»
 	@icon("icons/End.png")
+	«ENDIF»
+	«IF features.contains(PALETTE_GROUPS)»
+	@palette("Round Elements")
 	«ENDIF»
 	node End{
 		/*
@@ -136,6 +166,12 @@ graphModel «modelName» {
 	@style(blueTextRectangle, "${name}")
 	«IF features.contains(ICONS)»
 	@icon("icons/Activity.png")
+	«ENDIF»
+	«IF features.contains(PALETTE_GROUPS)»
+	@palette("Rectangular Elements")
+	«ENDIF»
+	«IF features.contains(POST_CREATE_HOOKS)»
+	@postCreate("«packageName».hooks.RandomActivityName")
 	«ENDIF»
 	node Activity {		
 		attr EString as name
@@ -159,6 +195,9 @@ graphModel «modelName» {
 	@style(swimlane, "${actor}")
 	«IF features.contains(ICONS)»
 	@icon("icons/Swimlane.png")
+	«ENDIF»
+	«IF features.contains(PALETTE_GROUPS)»
+	@palette("Rectangular Elements")
 	«ENDIF»
 	container Swimlane {
 		containableElements (*)
@@ -494,6 +533,106 @@ public class ShortestPathToEnd extends CincoCustomAction<Start> {
   </genPackages>
 </genmodel:GenModel>
 	'''
+	
+	def static generateRandomActivityNameHook(String modelName, String packageName) '''
+package «packageName».hooks;
+
+import «packageName».«modelName.toLowerCase».Activity;
+
+import java.util.Random;
+
+import de.jabc.cinco.meta.core.ge.style.model.customfeature.CincoPostCreateHook;
+
+/**
+ * Example post-create hook that randomly sets the name of the activity. Possible
+ * names are inspired by the action verbs of old-school point&click adventure games :)
+ */
+public class RandomActivityName extends CincoPostCreateHook<Activity>{
+
+	@Override
+	public void postCreate(Activity activity) {
+		
+		String[] names = new String[] {
+	            "Close",
+	            "Fix",
+	            "Give",
+	            "Look at",
+	            "Open",
+	            "Pick up",
+	            "Pull",
+	            "Push",
+	            "Put on",
+	            "Read",
+	            "Take off",
+	            "Talk to",
+	            "Turn off",
+	            "Turn on",
+	            "Unlock",
+	            "Use",
+	            "Walk to"
+		};
+		
+		int randomIndex = new Random().nextInt(names.length);
+
+		activity.setName(names[randomIndex]);
+
+	}
+	
+}
+
+	'''
+	
+	def static generateInitFlowGraphHook(String modelName, String packageName) '''
+package «packageName».hooks;
+
+import «packageName».api.cflowgraph.CActivity;
+import «packageName».api.cflowgraph.CEnd;
+import «packageName».api.cflowgraph.CFlowGraph;
+import «packageName».api.cflowgraph.CLabeledTransition;
+import «packageName».api.cflowgraph.CStart;
+import «packageName».«modelName.toLowerCase».FlowGraph;
+import «packageName».graphiti.FlowGraphWrapper;
+import de.jabc.cinco.meta.core.ge.style.model.customfeature.CincoPostCreateHook;
+
+/**
+ *  This post-create hook is part of the transformation API feature showcase. As it is defined
+ *  for the root model FlowGraph, it will be called by the "New FlowGraph" wizard after creating
+ *  the empty model.
+ *  
+ *  It will just insert a Start node, an Activity, and an End node to every newly created model.
+ *
+ */
+public class InitializeFlowGraphModel extends CincoPostCreateHook<FlowGraph>{
+
+	@Override
+	public void postCreate(FlowGraph flowGraph) {
+		try {
+			// Initialize the API by wrapping the given FlowGraph model and the Diagram into one CFlowGraph
+			CFlowGraph cFlowGraph = FlowGraphWrapper.wrapGraphModel(flowGraph, getDiagram());
+			
+			// Create the three nodes
+			CStart start = cFlowGraph.newStart(50, 50);
+			CActivity activity = cFlowGraph.newActivity(150, 50);
+			CEnd end = cFlowGraph.newEnd(310, 50);
+			
+			// Connect the nodes with edges
+			cFlowGraph.newTransition(start, activity);
+			CLabeledTransition labeledTransition = cFlowGraph.newLabeledTransition(activity, end);
+			labeledTransition.setLabel("success");
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+}
+
+	'''
+	
+	
+	
+	
 	
 	
 }

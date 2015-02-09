@@ -1,11 +1,6 @@
 package de.jabc.cinco.meta.core.wizards.project;
 
-import static de.jabc.cinco.meta.core.wizards.project.ExampleFeature.APPEARANCE_PROVIDER;
-import static de.jabc.cinco.meta.core.wizards.project.ExampleFeature.CODE_GENERATOR;
-import static de.jabc.cinco.meta.core.wizards.project.ExampleFeature.CONTAINERS;
-import static de.jabc.cinco.meta.core.wizards.project.ExampleFeature.CUSTOM_ACTION;
-import static de.jabc.cinco.meta.core.wizards.project.ExampleFeature.ICONS;
-import static de.jabc.cinco.meta.core.wizards.project.ExampleFeature.PRIME_REFERENCES;
+import static de.jabc.cinco.meta.core.wizards.project.ExampleFeature.*;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -82,6 +77,9 @@ public class CincoProductProjectCreator {
 				
 				CharSequence styleCode = CincoProductWizardTemplates.generateSomeGraphStyle();
 				writeToFile(styleModelFile, styleCode);
+
+				CharSequence cpdCode = CincoProductWizardTemplates.generateSomeGraphCPD(mglModelName, packageName);
+				writeToFile(cpdModelFile, cpdCode);
 				
 				
 			}
@@ -91,6 +89,9 @@ public class CincoProductProjectCreator {
 				
 				CharSequence styleCode = CincoProductWizardTemplates.generateFlowGraphStyle(packageName, features);
 				writeToFile(styleModelFile, styleCode);
+
+				CharSequence cpdCode = CincoProductWizardTemplates.generateFlowGraphCPD(mglModelName, packageName, features);
+				writeToFile(cpdModelFile, cpdCode);
 
 				if (features.contains(APPEARANCE_PROVIDER)) {
 					IFolder appearanceFolder = project.getFolder("src/" + packageName.replaceAll("\\.", "/") + "/appearance");
@@ -116,6 +117,9 @@ public class CincoProductProjectCreator {
 				if (features.contains(ICONS)){
 					copyIcons(project);
 				}
+				if (features.contains(PRODUCT_BRANDING)){
+					copyBranding(project);
+				}
 				if (features.contains(PRIME_REFERENCES)) {
 					IFile externalLibraryEcoreFile = modelFolder.getFile("ExternalLibrary.ecore");
 					CharSequence externalLibraryEcoreCode = CincoProductWizardTemplates.generatePrimeRefEcore(mglModelName, packageName);
@@ -126,9 +130,22 @@ public class CincoProductProjectCreator {
 							mglModelName, packageName, projectName, ProjectCreator.makeSymbolicName(projectName));
 					writeToFile(externalLibraryGenmodelFile, externalLibraryGenmodelCode);
 				}
+				if (features.contains(POST_CREATE_HOOKS) || features.contains(TRANSFORMATION_API)) {
+					IFolder hooksFolder = project.getFolder("src/" + packageName.replaceAll("\\.", "/") + "/hooks");
+					createResource(hooksFolder, monitor); 
+					if (features.contains(POST_CREATE_HOOKS)) {
+						IFile appearanceProviderFile = hooksFolder.getFile("RandomActivityName.java");
+						CharSequence randomNameHookCode = CincoProductWizardTemplates.generateRandomActivityNameHook(mglModelName, packageName);
+						writeToFile(appearanceProviderFile, randomNameHookCode);
+					}
+					if (features.contains(TRANSFORMATION_API)) {
+						IFile appearanceProviderFile = hooksFolder.getFile("InitializeFlowGraphModel.java");
+						CharSequence initFlowGraphHookCode = CincoProductWizardTemplates.generateInitFlowGraphHook(mglModelName, packageName);
+						writeToFile(appearanceProviderFile, initFlowGraphHookCode);
+						
+					}
+				}
 			}
-			CharSequence cpdCode = CincoProductWizardTemplates.generateDefaultCPD(mglModelName, packageName);
-			writeToFile(cpdModelFile, cpdCode);
 
 			project.refreshLocal(IResource.DEPTH_INFINITE, monitor);
 		} catch (Exception e) {
@@ -188,7 +205,7 @@ public class CincoProductProjectCreator {
 	private List<String> getSrcFolders() {
 		List<String> folders = new ArrayList<String>();
 		
-		Set<ExampleFeature> codeFeatures = EnumSet.of(APPEARANCE_PROVIDER, CODE_GENERATOR, CUSTOM_ACTION);
+		Set<ExampleFeature> codeFeatures = EnumSet.of(APPEARANCE_PROVIDER, CODE_GENERATOR, CUSTOM_ACTION, POST_CREATE_HOOKS, TRANSFORMATION_API);
 		
 		if (!Collections.disjoint(features,codeFeatures)) {
 			folders.add("src");
@@ -243,12 +260,40 @@ public class CincoProductProjectCreator {
 			break;
 		}
 	}
+	
+	private void copyFiles(IProject p, String sourceFolderName, String targetFolderName, List<String> fileNames) {
+			Bundle sourceBundle = Platform.getBundle("de.jabc.cinco.meta.core.wizards");
+			File targetFolder = p.getFolder(targetFolderName).getLocation().toFile();
+			targetFolder.mkdir();
+
+			for (String fileName : fileNames) {
+
+				File trgFile = p.getFolder(targetFolderName).getFile(fileName).getLocation().toFile();
+				try {
+					trgFile.createNewFile();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+				try (
+					InputStream is= FileLocator.openStream(sourceBundle, new Path(sourceFolderName.concat("/").concat(fileName)), false);
+					FileOutputStream os = new FileOutputStream(trgFile);
+				)
+				{
+					byte[] buffer = new byte[1024 * 16];
+					int readLength;
+					while ((readLength = is.read(buffer)) != -1) {
+						os.write(buffer, 0, readLength);
+					}
+
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			
+		
+	}
 
 	private void copyIcons(IProject p) {
-			Bundle sourceBundle = Platform.getBundle("de.jabc.cinco.meta.core.wizards");
-			File iconsFolder = p.getFolder("icons").getLocation().toFile();
-			iconsFolder.mkdir();
-
 			List<String> fileNames = new ArrayList<String>();
 			fileNames.add("Activity.png");
 			fileNames.add("End.png");
@@ -257,31 +302,20 @@ public class CincoProductProjectCreator {
 			if (features.contains(CONTAINERS)) {
 				fileNames.add("Swimlane.png");
 			}
-
-			for (String fileName : fileNames) {
-
-				File trgFile = p.getFolder("icons").getFile(fileName).getLocation().toFile();
-				try {
-					trgFile.createNewFile();
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
-				try (
-						InputStream is= FileLocator.openStream(sourceBundle, new Path("/example-icons/".concat(fileName)), false);
-						FileOutputStream os = new FileOutputStream(trgFile);
-						)
-						{
-					byte[] buffer = new byte[1024 * 16];
-					int readLength;
-					while ((readLength = is.read(buffer)) != -1) {
-						os.write(buffer, 0, readLength);
-					}
-
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-			}
 			
+			copyFiles(p, "example-icons", "icons", fileNames);
+		}
+
+	private void copyBranding(IProject p) {
+			List<String> fileNames = new ArrayList<String>();
+			fileNames.add("Icon16.png");
+			fileNames.add("Icon32.png");
+			fileNames.add("Icon48.png");
+			fileNames.add("Icon64.png");
+			fileNames.add("Icon128.png");
+			fileNames.add("splash.bmp");
+			
+			copyFiles(p, "example-branding", "branding", fileNames);
 		}
 	
 
