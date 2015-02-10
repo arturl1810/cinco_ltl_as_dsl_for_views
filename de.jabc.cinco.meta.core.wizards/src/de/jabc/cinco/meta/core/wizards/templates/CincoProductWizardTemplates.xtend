@@ -59,7 +59,7 @@ edgeStyle simpleArrow {
 	
 	def static generateSomeGraphCPD(String modelName, String packageName)'''
 cincoProduct «modelName»{
-	mgl "/model/«modelName».mgl"
+	mgl "model/«modelName».mgl"
 	about {
 		text "This is an example for an about text."
 	}
@@ -81,21 +81,23 @@ cincoProduct «modelName»{
 
 	def static generateFlowGraphCPD(String modelName, String packageName, Set<ExampleFeature> features)'''
 cincoProduct «modelName»Tool {
-	mgl "/model/«modelName».mgl"
+
+	mgl "model/«modelName».mgl"
+
 	«IF features.contains(PRODUCT_BRANDING)»
 	splashScreen "branding/splash.bmp" {
 		progressBar (40,260,180,10)
 		progressMessage (40,280,180,10)
 	}
-	
+
 	image16 "branding/Icon16.png"
 	image32 "branding/Icon32.png"
 	image48 "branding/Icon48.png"
 	image64 "branding/Icon64.png"
 	image128 "branding/Icon128.png"
-	
+
 	about {
-		text "This is the example project for the Cinco SCCE Meta Tooling Suite (http://cinco.scce.info) that serves as a feature showcase. It is generated using the 'New CincoProduct' wizard"
+		text "This is the example project for the Cinco SCCE Meta Tooling Suite ( http://cinco.scce.info ) that serves as a feature showcase. It is generated using the 'New CincoProduct' wizard"
 	}
 	«ENDIF»
 	
