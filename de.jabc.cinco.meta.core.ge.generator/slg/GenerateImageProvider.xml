@@ -2,14 +2,14 @@
 <model version="2.1">
   <id>b2a34056-d5cd-4de8-9af8-7b51a4f248b2</id>
   <name>GenerateImageProvider</name>
-  <changecounter>105</changecounter>
+  <changecounter>157</changecounter>
   <sib>
     <id>64a32e2e-03eb-437a-8d64-183fed477869</id>
     <name>PutExpression</name>
     <label>LocalPkgName</label>
     <sib-uid>basic-sibs/PutExpression</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
-    <position>39.5,123.0</position>
+    <position>69.5,48.0</position>
     <parameter name="resolve">
       <boolean>true</boolean>
     </parameter>
@@ -43,7 +43,7 @@
     <label>ClassName</label>
     <sib-uid>basic-sibs/PutExpression</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
-    <position>230.5,123.0</position>
+    <position>80.5,168.0</position>
     <parameter name="resolve">
       <boolean>true</boolean>
     </parameter>
@@ -71,8 +71,9 @@
   <edge>
     <source>64a32e2e-03eb-437a-8d64-183fed477869</source>
     <target>e85879da-fd9d-4260-9075-d16d63373a69</target>
-    <point>90.0,150.0</point>
-    <point>222.0,149.0</point>
+    <point>120.0,75.0</point>
+    <point>120.0,195.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
@@ -81,7 +82,7 @@
     <label>RunStringTemplate</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>400.0,123.0</position>
+    <position>55.0,498.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -159,17 +160,11 @@ public class $context.graphModelName$ImageProvider extends AbstractImageProvider
 		Bundle b = Platform.getBundle(&quot;$context.projectName$&quot;);
 		File file;
 		try {
-			file = FileLocator.getBundleFile(b);
-			File iconsFile = file.toPath().resolve(&quot;icons&quot;).toFile();
-			File genIconsFile = file.toPath().resolve(&quot;resources-gen/icons&quot;).toFile();
-			if (iconsFile.exists()) {
-				for (File f : iconsFile.listFiles()){
-					String fileName = f.getName();
-					String id = fileName.contains(&quot;.&quot;) ? fileName.split(&quot;\\\.&quot;)[0] : fileName;
-					addImage(id, &quot;/icons/&quot;+fileName);
-				}
-			}
+			URL url = null;
+			$context.iconsContent$
 
+			file = FileLocator.getBundleFile(b);
+			File genIconsFile = file.toPath().resolve(&quot;resources-gen/icons&quot;).toFile();
 			if (genIconsFile.exists()) {
 				for (File f : genIconsFile.listFiles()){
 					String fileName = f.getName();
@@ -177,7 +172,7 @@ public class $context.graphModelName$ImageProvider extends AbstractImageProvider
 					addImage(id, &quot;/resources-gen/icons/&quot;+fileName);
 				}
 			}
-			if (!genIconsFile.exists() &amp;&amp; !iconsFile.exists()) {
+			if (!genIconsFile.exists() ) {
 				Enumeration&lt;URL&gt; entries = b.findEntries(&quot;resources-gen/icons/&quot;, &quot;*&quot;, true);
 				while(entries.hasMoreElements()){
 					URL entry = entries.nextElement();
@@ -185,15 +180,6 @@ public class $context.graphModelName$ImageProvider extends AbstractImageProvider
 					File i = path.toFile();
 					String fileName = i.getName();
 					String id = fileName;
-					addImage(id, path.toString());
-				}
-				entries = b.findEntries(&quot;icons/&quot;, &quot;*&quot;, true);
-				while(entries.hasMoreElements()){
-					URL entry = entries.nextElement();
-					IPath path = new Path(entry.getPath());
-					File i = path.toFile();
-					String fileName = i.getName();
-					String id = fileName.contains(&quot;.&quot;) ? fileName.split(&quot;\\\.&quot;)[0] : fileName;
 					addImage(id, path.toString());
 				}
 			}
@@ -209,9 +195,10 @@ public class $context.graphModelName$ImageProvider extends AbstractImageProvider
   </sib>
   <edge>
     <source>e85879da-fd9d-4260-9075-d16d63373a69</source>
-    <target>7de3828e-6b35-41ca-9519-879cdc30e3f2</target>
-    <point>255.0,150.0</point>
-    <point>426.0,149.0</point>
+    <target>d45629de-0804-4fa8-af2f-92e7e45a8513</target>
+    <point>138.0,193.52727272727273</point>
+    <point>267.0,240.43636363636364</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
@@ -220,7 +207,7 @@ public class $context.graphModelName$ImageProvider extends AbstractImageProvider
     <label>WriteJavaFile</label>
     <sib-uid>genesys-sibs/WriteJavaFile</sib-uid>
     <taxonomy>de.jabc.sib.genesys.WriteJavaFile</taxonomy>
-    <position>613.0,123.0</position>
+    <position>73.0,603.0</position>
     <parameter name="baseDirectory">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -277,8 +264,9 @@ public class $context.graphModelName$ImageProvider extends AbstractImageProvider
   <edge>
     <source>7de3828e-6b35-41ca-9519-879cdc30e3f2</source>
     <target>a7bdee39-2ac1-4edc-bfcf-bb08373ffac6</target>
-    <point>450.0,150.0</point>
-    <point>619.0,135.0</point>
+    <point>120.0,525.0</point>
+    <point>120.0,630.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
@@ -287,7 +275,7 @@ public class $context.graphModelName$ImageProvider extends AbstractImageProvider
     <label>PrintConsoleMessage</label>
     <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
     <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
-    <position>796.5,123.0</position>
+    <position>46.5,738.0</position>
     <parameter name="error">
       <boolean>false</boolean>
     </parameter>
@@ -305,8 +293,219 @@ public class $context.graphModelName$ImageProvider extends AbstractImageProvider
   <edge>
     <source>a7bdee39-2ac1-4edc-bfcf-bb08373ffac6</source>
     <target>7af3ef94-1c10-45e6-9397-4d1700858284</target>
-    <point>645.0,150.0</point>
-    <point>825.0,133.0</point>
+    <point>120.0,630.0</point>
+    <point>120.0,765.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>d45629de-0804-4fa8-af2f-92e7e45a8513</id>
+    <name>GetAllIcons</name>
+    <label>GetAllIcons</label>
+    <sib-uid>ge-util-sibs/GetAllIcons</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.GetAllIcons</taxonomy>
+    <position>84.5,273.0</position>
+    <parameter name="graphModelKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>graphModel</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="iconsListKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>icons</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>074ca43a-108b-4bb2-9e7a-659207ddb9c1</id>
+    <name>IterateElements</name>
+    <label>IterateElements</label>
+    <sib-uid>collection-sibs/IterateElements</sib-uid>
+    <taxonomy>de.jabc.sib.common.collection.IterateElements</taxonomy>
+    <position>71.0,393.0</position>
+    <parameter name="collection">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>iconKeys</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="element">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>iconKey</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="iterator">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>iconPathIterator</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>exit</finalbranches>
+    <finalbranches>next</finalbranches>
+  </sib>
+  <edge>
+    <source>d45629de-0804-4fa8-af2f-92e7e45a8513</source>
+    <target>a776cbd4-aa4d-4e1e-a356-78602b918cd1</target>
+    <point>138.0,299.28</point>
+    <point>252.0,344.88</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>074ca43a-108b-4bb2-9e7a-659207ddb9c1</source>
+    <target>5e381fc0-c2f4-46f9-9d28-a9f19fcd24c8</target>
+    <point>138.0,402.675</point>
+    <point>342.0,300.675</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>next</branch>
+  </edge>
+  <sib>
+    <id>f4c8f617-3985-4c3d-9dbb-9821a7b4696b</id>
+    <name>RunStringTemplate_1</name>
+    <label>RunStringTemplate</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>317.0,393.0</position>
+    <parameter name="append">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>iconsContent</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>/*addImage(&quot;$iconID$&quot;, &quot;$iconKey$&quot;);*/
+
+url = FileLocator.find(b, new Path(&quot;$iconKey$&quot;), null);
+addImage(&quot;$iconKey$&quot;, url.getPath());
+</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>f4c8f617-3985-4c3d-9dbb-9821a7b4696b</source>
+    <target>074ca43a-108b-4bb2-9e7a-659207ddb9c1</target>
+    <spline/>
+    <point>357.0,419.1</point>
+    <point>255.0,465.0</point>
+    <point>138.0,418.2</point>
+    <labelposition>477.0,-55.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>074ca43a-108b-4bb2-9e7a-659207ddb9c1</source>
+    <target>7de3828e-6b35-41ca-9519-879cdc30e3f2</target>
+    <point>120.0,405.0</point>
+    <point>127.0,529.0</point>
+    <branch>exit</branch>
+  </edge>
+  <sib>
+    <id>a776cbd4-aa4d-4e1e-a356-78602b918cd1</id>
+    <name>GetMapKeys</name>
+    <label>GetMapKeys</label>
+    <sib-uid>collection-sibs/GetMapKeys</sib-uid>
+    <taxonomy>de.jabc.sib.common.collection.GetMapKeys</taxonomy>
+    <position>186.0,273.0</position>
+    <parameter name="keys">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>iconKeys</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="map">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>icons</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>5e381fc0-c2f4-46f9-9d28-a9f19fcd24c8</id>
+    <name>GetElement</name>
+    <label>GetElement</label>
+    <sib-uid>collection-sibs/GetElement</sib-uid>
+    <taxonomy>de.jabc.sib.common.collection.GetElement</taxonomy>
+    <position>218.0,393.0</position>
+    <parameter name="element">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>iconID</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="index">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>iconKey</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="list">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>icons</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>a776cbd4-aa4d-4e1e-a356-78602b918cd1</source>
+    <target>074ca43a-108b-4bb2-9e7a-659207ddb9c1</target>
+    <point>210.34883720930233,309.0</point>
+    <point>137.02702702702703,393.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>5e381fc0-c2f4-46f9-9d28-a9f19fcd24c8</source>
+    <target>f4c8f617-3985-4c3d-9dbb-9821a7b4696b</target>
+    <point>255.0,420.0</point>
+    <point>388.0,407.0</point>
     <branch>default</branch>
   </edge>
   <values/>

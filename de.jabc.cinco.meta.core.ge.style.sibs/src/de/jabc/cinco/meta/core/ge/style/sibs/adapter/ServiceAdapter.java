@@ -40,6 +40,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -223,9 +224,9 @@ public class ServiceAdapter {
 			URI uri = URI.createURI(p);
 			String relPath = null;
 			if (uri.isPlatformResource()) {
-				relPath = "/resources-gen/icons/" + uri.path().replaceAll("/", "_");
+				relPath = uri.path().replaceAll("/", "_");
 			}
-			else relPath = p.charAt(0) == '/' ? p : "/" + p;
+			else relPath = p;
 			context.put(relativePath, relPath);
 			return Branches.DEFAULT;
 		} catch (Exception e) {
@@ -1270,6 +1271,43 @@ public class ServiceAdapter {
 			if (me.isIsAbstract())
 				return Branches.TRUE;
 			else return Branches.FALSE;
+		} catch (Exception e) {
+			context.put("exception", e);
+			return Branches.ERROR;
+		}
+		
+	}
+
+	public static String getAllIcons(LightweightExecutionEnvironment env,
+			ContextKeyFoundation graphModel,
+			ContextKeyFoundation iconsList) {
+
+		LightweightExecutionContext context = env.getLocalContext();
+		
+		try {
+			GraphModel gm = (GraphModel) context.get(graphModel);
+			HashMap<String, String> paths = new HashMap<>();
+			URI uri = null;
+			for (TreeIterator<EObject> it = gm.eResource().getAllContents(); it.hasNext(); ){
+				EObject o = it.next();
+				if (o instanceof Annotation) {
+					Annotation a  = (Annotation) o;
+					if ("icon".equals(a.getName())) {
+						if (a.getValue().size() == 1 && PathValidator.isRelativePath(o,a.getValue().get(0))) {
+							uri = PathValidator.getURIForString(o, a.getValue().get(0));
+							paths.put(a.getValue().get(0), uri.toPlatformString(true));
+						}
+						else if (a.getValue().size() > 1 && PathValidator.isRelativePath(o,a.getValue().get(1))){
+								uri = PathValidator.getURIForString(o, a.getValue().get(1));
+								paths.put(a.getValue().get(1), uri.toPlatformString(true));
+						}
+						
+					}
+				}
+			}
+			
+			context.put(iconsList, paths);
+			return Branches.DEFAULT;
 		} catch (Exception e) {
 			context.put("exception", e);
 			return Branches.ERROR;

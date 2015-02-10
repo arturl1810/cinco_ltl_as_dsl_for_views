@@ -15,6 +15,16 @@ public class PathValidator {
 	private static IWorkspaceRoot root;
 	private static Resource res;
 	
+	public static synchronized boolean isRelativePath(EObject o, String path) {
+		root = ResourcesPlugin.getWorkspace().getRoot();
+		res = o.eResource();
+		URI uri = URI.createURI(path, true);
+		
+		if (uri.isPlatformResource() || uri.isPlatformPlugin()) {
+			return false;
+		} else return true;
+	}
+	
 	public static synchronized String checkPath(EObject o, String path) {
 		root = ResourcesPlugin.getWorkspace().getRoot();
 		res = o.eResource();

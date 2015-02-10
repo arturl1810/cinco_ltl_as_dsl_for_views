@@ -1,5 +1,13 @@
 <serviceAdapters defaultAdapter="de.jabc.cinco.meta.core.ge.style.sibs.adapter.ServiceAdapter">
 	
+	<serviceAdapter uid="ge-util-sibs/GetAllIcons">
+		<service>getAllIcons</service>
+		<arguments>
+			<argument name="graphModelKey" />
+			<argument name="iconsListKey" />
+		</arguments>
+	</serviceAdapter>
+	
 	<serviceAdapter uid="ge-util-sibs/IsAbstract">
 		<service>isAbstract</service>
 		<arguments>
