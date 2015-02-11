@@ -144,6 +144,7 @@ public class CreateCodeGeneratorPlugin extends AbstractService {
 			requiredBundles.add("org.eclipse.graphiti.ui");
 			requiredBundles.add("org.eclipse.ui.workbench");
 			requiredBundles.add("de.jabc.cinco.meta.core.mgl.model");
+			requiredBundles.add("de.jabc.cinco.meta.plugin.generator.runtime");
 			
 			
 			IProject pr = ResourcesPlugin.getWorkspace().getRoot().getProject(bundleName);

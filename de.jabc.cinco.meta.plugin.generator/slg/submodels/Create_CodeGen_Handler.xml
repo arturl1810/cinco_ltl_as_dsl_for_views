@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>149d1ca1-a6c8-418b-820e-fb6403963115</id>
   <name>Create CodeGen Handler</name>
-  <changecounter>55</changecounter>
+  <changecounter>57</changecounter>
   <sib>
     <id>6ec4d4e6-7c89-44fe-8552-f555aa651230</id>
     <name>RunStringTemplate</name>
@@ -57,7 +57,7 @@ import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.swt.widgets.Display;
-
+import de.jabc.cinco.meta.plugin.generator.runtime.IGenerator;
 /**
  * Our sample handler extends AbstractHandler, an IHandler base class.
  * @see org.eclipse.core.commands.IHandler
@@ -102,7 +102,7 @@ public class $graphModelName$CodeGenerationHandler extends AbstractHandler {
 				}
 				if(graphModel!=null){
 			
-					$implementingClassName$ generator = new $implementingClassName$();
+					IGenerator&lt;$graphModelName$&gt; generator = new $implementingClassName$();
 					IProject project = null;
 					if (uri.isPlatformResource()) {
 						String platformString = uri.toPlatformString(true);
