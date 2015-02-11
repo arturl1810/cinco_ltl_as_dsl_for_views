@@ -151,7 +151,9 @@ public class CreateCodeGeneratorPlugin extends AbstractService {
 				exportPackage(pr,bundleName,packageName,className);
 			}else{
 				try {
-					createGeneratorStubProject(pr,packageName,className);
+					String modelClassName = graphModel.getName();
+					String modelPackage = graphModel.getPackage().concat(".").concat(modelClassName.toLowerCase());
+					createGeneratorStubProject(pr,packageName,className,modelPackage,modelClassName,graphModel);
 				} catch (Exception e) {
 					throw new RuntimeException(e);
 				}
@@ -239,13 +241,15 @@ public class CreateCodeGeneratorPlugin extends AbstractService {
 		
 	}
 
-	private void createGeneratorStubProject(IProject pr,String packageName,String className) throws RuntimeException{
+	private void createGeneratorStubProject(IProject pr,String packageName,String className, String modelPackage,String modelClassName,GraphModel graphModel) throws RuntimeException{
 		try{
+		String graphModelProjectName = ProjectCreator.getProject(graphModel.eResource()).getName(); 
 		String projectName = pr.getName();
 		Set<String> requiredBundles = new HashSet<>();
 		requiredBundles.add("de.jabc.cinco.meta.core.mgl.model");
 		requiredBundles.add("org.eclipse.equinox.registry");
 		requiredBundles.add("de.jabc.cinco.meta.plugin.generator.runtime");
+		requiredBundles.add(graphModelProjectName);
 		List<IProject> referencedProjects = new ArrayList<>();
 		List<String> srcFolders = new ArrayList<>();
 		srcFolders.add("src");
@@ -258,7 +262,8 @@ public class CreateCodeGeneratorPlugin extends AbstractService {
 				exportedPackages, additionalNature, progressMonitor,false);
 		tvProject.refreshLocal(IResource.DEPTH_INFINITE, progressMonitor);
 		try{
-			ProjectCreator.createJavaClass(pr, packageName, className,tvProject.getFolder("/src/"),stubContents(packageName,className), progressMonitor);
+			
+			ProjectCreator.createJavaClass(pr, packageName, className,tvProject.getFolder("/src/"),stubContents(packageName,className,modelPackage,modelClassName), progressMonitor);
 		}catch(JavaModelException e){
 			if(e.getJavaModelStatus().getCode() != IJavaModelStatusConstants.NAME_COLLISION)
 				throw e;
@@ -271,22 +276,22 @@ public class CreateCodeGeneratorPlugin extends AbstractService {
 		}
 	}
 
-	private String stubContents(String packageName, String className) {
+	private String stubContents(String packageName, String className, String modelPackage, String modelClassName) {
 		String contents = "package %s;\n"+
 				"\n"+
 				"import org.eclipse.core.runtime.IPath;\n"+
-				"import graphmodel.GraphModel;\n"+
+				"import %s.%s;\n"+
 				"import org.eclipse.core.runtime.IProgressMonitor;\n"+
 				"import de.jabc.cinco.meta.plugin.generator.runtime.IGenerator;\n"+
 				"\n"+
 				"\n"+
-				"public class %s implements IGenerator{\n"+
-				"\tpublic void generate(GraphModel model,IPath outlet, IProgressMonitor monitor){\n"+
+				"public class %s implements IGenerator<%s>{\n"+
+				"\tpublic void generate(%s model,IPath outlet, IProgressMonitor monitor){\n"+
 				"\n"+
 				"\t}\n"+
 				"\n"+
 				"}\n";
-		return String.format(contents, packageName,className);
+		return String.format(contents, packageName,modelPackage,modelClassName,className,modelClassName,modelClassName);
 	}
 	
 	
