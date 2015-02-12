@@ -22,6 +22,10 @@ operator="and">
 <adapt
 type="org.eclipse.graphiti.ui.internal.parts.ContainerShapeEditPart">
 </adapt>
+<test
+      forcePluginActivation="true"
+      property="«packageName».canGenerate">
+</test>
 </iterate>
 </with>
 </visibleWhen>
@@ -44,6 +48,10 @@ operator="and">
 <adapt
 type="org.eclipse.graphiti.ui.internal.parts.ContainerShapeEditPart">
 </adapt>
+<test
+      forcePluginActivation="true"
+      property="«packageName».canEdit">
+</test>
 </iterate>
 </with>
 </visibleWhen>
@@ -66,6 +74,10 @@ operator="and">
 <adapt
 type="org.eclipse.graphiti.ui.internal.parts.ContainerShapeEditPart">
 </adapt>
+<test
+      forcePluginActivation="true"
+      property="«packageName».canCalculate">
+</test>
 </iterate>
 </with>
 </visibleWhen>
@@ -89,6 +101,16 @@ defaultHandler="«packageName».«xlsCalcHandlerName.toFirstUpper»"
 id="xlsclac"
 name="CommandName3">
 </command>
+</extension>
+<extension
+      point="org.eclipse.core.expressions.propertyTesters">
+   <propertyTester
+         class="«packageName».MenuPropertyTester"
+         id="«packageName».menutester"
+         namespace="«packageName»"
+         properties="canGenerate,canEdit,canCalculate"
+         type="org.eclipse.graphiti.ui.internal.parts.ContainerShapeEditPart">
+   </propertyTester>
 </extension>
 
 	'''

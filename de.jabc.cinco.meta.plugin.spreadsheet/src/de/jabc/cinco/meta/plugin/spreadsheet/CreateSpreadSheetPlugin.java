@@ -24,6 +24,7 @@ import de.jabc.cinco.meta.plugin.template.CalculationHandlerTemplate;
 import de.jabc.cinco.meta.plugin.template.ExporterTemplate;
 import de.jabc.cinco.meta.plugin.template.GenerationHandlerTemplate;
 import de.jabc.cinco.meta.plugin.template.ImporterTemplate;
+import de.jabc.cinco.meta.plugin.template.MenuPropertyTester;
 import de.jabc.cinco.meta.plugin.template.NewSheetDialogTemplate;
 import de.jabc.cinco.meta.plugin.template.NodeStatusTemplate;
 import de.jabc.cinco.meta.plugin.template.NodeUtilTemplate;
@@ -176,6 +177,7 @@ public class CreateSpreadSheetPlugin {
 			requiredBundles.add("org.eclipse.graphiti");
 			requiredBundles.add("org.eclipse.emf.transaction;bundle-version=\"1.4.0\"");
 			requiredBundles.add("org.eclipse.jface");
+			requiredBundles.add("org.eclipse.core.expressions;bundle-version=\"3.4.501\"");
 			
 			//Overwrites the old generated code
 			if(new Path("/"+projectName).toFile().exists())
@@ -244,6 +246,10 @@ public class CreateSpreadSheetPlugin {
 			
 			ProjectCreator.createFile("SheetHandler.java", tvProject.getFolder("src/"+projectName.replace(".","/")),
 					new SheetHandlerTemplate().create(projectName,multiple,sheetFolderName).toString(),
+					progressMonitor);
+			
+			ProjectCreator.createFile("MenuPropertyTester.java", tvProject.getFolder("src/"+projectName.replace(".","/")),
+					new MenuPropertyTester().create(packagePath,projectName,resultNodes).toString(),
 					progressMonitor);
 			
 			//Exceptions
