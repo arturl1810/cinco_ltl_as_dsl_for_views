@@ -234,8 +234,9 @@ public static HashMap<String,String> importFormula(String sheetName, String resu
         	        while(cellIterator.hasNext()) {
         	        	Cell cell = cellIterator.next();
         	        	if(cell.getCellComment()==null)continue;
-        	        	String attrName = sheet.getRow(row.getRowNum()-1).getCell(cell.getColumnIndex()).getStringCellValue();
-        	        	if(resultNodeAttrs.contains(attrName) && cell.getCellType()==Cell.CELL_TYPE_FORMULA) {
+        	        	if(cell.getCellType()==Cell.CELL_TYPE_FORMULA) {
+        	        		String attrName = sheet.getRow(row.getRowNum()-1).getCell(cell.getColumnIndex()).getStringCellValue();
+        	        		if(!resultNodeAttrs.contains(attrName))continue;
         	        		//formulas.put(attrName, cell.getCellFormula());
         	        		switch (evaluator.evaluateFormulaCell(cell)) {
     	        	        case Cell.CELL_TYPE_BOOLEAN:

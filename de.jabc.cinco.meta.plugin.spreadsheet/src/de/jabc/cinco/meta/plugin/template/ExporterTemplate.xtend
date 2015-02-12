@@ -14,6 +14,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
@@ -43,8 +44,8 @@ public class Spreadsheetexporter {
 	public static String NodeId = "NodeId";
 	public static String EdgeId = "EdgeId";
 	public static String Default = "Exported";
-	public static int UserCellCols = «userCellsX»;
-	public static int UserCellRows = «userCellsY»;
+	public static int UserCellCols = 20;
+	public static int UserCellRows = 20;
 
 public static HSSFWorkbook export(ArrayList<VersionNode> nodes,HashMap<String,String> formulas,ArrayList<Cell> userCells) throws FileNotFoundException{
 	// create a new file
@@ -111,7 +112,7 @@ public static HSSFWorkbook export(ArrayList<VersionNode> nodes,HashMap<String,St
     CreationHelper factory = workbook.getCreationHelper();
     
 	//Put all nodes in a HashMap depending on its type
-	TreeMap<String, HashMap<String, ArrayList<VersionNode>>> orderedNodes = new TreeMap<String,HashMap<String,ArrayList<VersionNode>>>(new ResultNodeComparator());
+	TreeMap<String, HashMap<String, ArrayList<VersionNode>>> orderedNodes = new TreeMap<String,HashMap<String,ArrayList<VersionNode>>>(new ResultNodeComparator(nodes.get(0).node.eClass().getName()));
 	
 	for(VersionNode vnode : nodes){
 		
@@ -171,6 +172,9 @@ public static HSSFWorkbook export(ArrayList<VersionNode> nodes,HashMap<String,St
 	for(Entry<String, HashMap<String, ArrayList<VersionNode>>> nodeList : orderedNodes.entrySet()){
 		
 		for(Entry<String,ArrayList<VersionNode>> edgeNodeList: nodeList.getValue().entrySet()) {
+			
+			//Sort the versionodes by id
+			Collections.sort(edgeNodeList.getValue(), new VersionNodeComparator<VersionNode>(nodes.get(0).node.getId()));
 			//Print tableheader
 			Row r = sheet.createRow(rowOffset+rowCounter);
 			//Type Cell
@@ -263,24 +267,30 @@ public static HSSFWorkbook export(ArrayList<VersionNode> nodes,HashMap<String,St
 					Cell attr = rowValues.createCell(colOffset+colValues);
 					attr.setCellStyle(rowStyle);
 					//Print Resultnodes
-					if(((!vnode.formulas.isEmpty())&&vnode.formulas.containsKey(eNode.getName())) || (formulas!=null&&formulas.containsKey(eNode.getName()))) {
+					if(vnode.status==NodeStatus.RESULT) {
 						
-						setCellComment(attr,Default,"Formula",factory,drawing);
+						if( ( !vnode.formulas.isEmpty() && vnode.formulas.containsKey(eNode.getName()) ) || ( formulas!=null && formulas.containsKey(eNode.getName()) ) ){
 						
-						if(formulas!=null && formulas.containsKey(eNode.getName())){
-							attr.setCellFormula(formulas.get(eNode.getName()));
+							setCellComment(attr,Default,"Formula",factory,drawing);
+							
+							if(formulas!=null && formulas.containsKey(eNode.getName())){
+								attr.setCellFormula(formulas.get(eNode.getName()));
+							}
+							else{
+								attr.setCellFormula(vnode.formulas.get(eNode.getName()));
+							}
+							attr.setCellStyle(formulaStyle);
+							attr.setCellType(Cell.CELL_TYPE_FORMULA);
 						}
-						else{
-							attr.setCellFormula(vnode.formulas.get(eNode.getName()));
+						else {
+							writeAttribute(eNode, attr, vnode.node,factory,drawing);
 						}
-						attr.setCellStyle(formulaStyle);
-						attr.setCellType(Cell.CELL_TYPE_FORMULA);
 					}
-					else{
-						writeAttribute(eNode, attr, vnode.node,factory,drawing);
+					else {
+						writeAttribute(eNode, attr, vnode.node,factory,drawing);						
 					}
-					
 					colValues++;
+					
 				}
 				//Print ID for Edge
 				if(vnode.edge!=null){
@@ -541,6 +551,8 @@ private static void writeUserCells(int row,ArrayList<Cell> userCells, HSSFSheet 
 }
 
 }
+
+
 
 ''' 
 }

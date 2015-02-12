@@ -142,14 +142,9 @@ public void removeHandlerListener(IHandlerListener handlerListener) {
 			return null;
 		}
 		nodes = NodeUtil.getTransitionedNodes((Node) eobject);
-		VersionNode resultVersionNode = new VersionNode();
-		resultVersionNode.edge=null;
-		resultVersionNode.node=node;
-		resultVersionNode.status=NodeStatus.RESULT;
 		«FOR resultAttr : node.resultAttrNames»
-		resultVersionNode.formulas.put("«resultAttr.toFirstLower»", "0.0");
+		nodes.get(0).formulas.put("«resultAttr.toFirstLower»", "0.0");
 		«ENDFOR»
-		nodes.add(resultVersionNode);
 	}'''
 	
 }
