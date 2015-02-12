@@ -135,9 +135,14 @@ public static HSSFWorkbook export(ArrayList<VersionNode> nodes,HashMap<String,St
 			}
 			//Node got no edge
 			else {
-				ArrayList<VersionNode> list = new ArrayList<VersionNode>();
-				list.add(vnode);
-				orderedNodes.get(nodeTypeName).put(" ", list);
+				if(!orderedNodes.get(nodeTypeName).containsKey(" ")) {
+					ArrayList<VersionNode> list = new ArrayList<VersionNode>();
+					list.add(vnode);
+					orderedNodes.get(nodeTypeName).put(" ", list);
+				}
+				else {
+					orderedNodes.get(nodeTypeName).get(" ").add(vnode);
+				}
 			}
 		}
 		//Node is not known
