@@ -19,6 +19,8 @@ Require-Bundle: de.jabc.cinco.meta.productdefinition;visibility:=reexport,
 Import-Package: de.jabc.cinco.meta.core.ui.listener,
  de.jabc.cinco.meta.core.utils.xtext,
  org.apache.log4j,
+ org.eclipse.pde.core.plugin,
+ org.eclipse.pde.internal.core.bundle,
  org.eclipse.xtext.xbase.lib
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Export-Package: de.jabc.cinco.meta.productdefinition.ui.quickfix,

@@ -243,7 +243,9 @@ class CPDGenerator implements IGenerator {
 			bp.appendBinIncludes("splash.bmp")
 
 		}
-
+		for(plugin: productDefinition.plugins){
+			BundleRegistry.INSTANCE.addBundle(plugin,false)
+		}
 	}
 
 	def colorString(Color color) {

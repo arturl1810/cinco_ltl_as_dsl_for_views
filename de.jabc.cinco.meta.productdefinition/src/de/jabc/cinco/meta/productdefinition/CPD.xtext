@@ -25,9 +25,12 @@ CincoProduct returns CincoProduct:
 		('image128' image128=Path)?
 		('linuxIcon' linuxIcon=Path)?
 		('about' '{' about=About '}')?
-		('features' '{'features+=EString (','features+=EString)*'}')?
+		('plugins' '{'plugins+=QName (','plugins+=QName)*'}')?
+		('features' '{'features+=QName (','features+=QName)*'}')?
 	'}'
 	;
+
+
 
 SplashScreen returns SplashScreen:
 	{SplashScreen}

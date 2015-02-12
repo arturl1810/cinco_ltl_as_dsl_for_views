@@ -3,14 +3,20 @@
  */
 package de.jabc.cinco.meta.productdefinition.ui.contentassist
 
+import de.jabc.cinco.meta.core.utils.xtext.PickColorApplier
 import de.jabc.cinco.meta.productdefinition.ui.contentassist.AbstractCPDProposalProvider
-import org.eclipse.xtext.RuleCall
+import org.eclipse.core.internal.resources.Workspace
+import org.eclipse.core.resources.ResourcesPlugin
+import org.eclipse.core.runtime.Platform
 import org.eclipse.emf.ecore.EObject
+import org.eclipse.pde.core.plugin.PluginRegistry
+import org.eclipse.pde.internal.core.bundle.BundlePluginModel
+import org.eclipse.xtext.Assignment
+import org.eclipse.xtext.RuleCall
+import org.eclipse.xtext.ui.editor.contentassist.ConfigurableCompletionProposal
 import org.eclipse.xtext.ui.editor.contentassist.ContentAssistContext
 import org.eclipse.xtext.ui.editor.contentassist.ICompletionProposalAcceptor
-import org.eclipse.xtext.ui.editor.contentassist.ConfigurableCompletionProposal
-import org.eclipse.xtext.Assignment
-import de.jabc.cinco.meta.core.utils.xtext.PickColorApplier
+import org.osgi.framework.BundleContext
 
 /**
  * see http://www.eclipse.org/Xtext/documentation.html#contentAssist on how to customize content assistant
@@ -41,5 +47,32 @@ class CPDProposalProvider extends AbstractCPDProposalProvider {
 		
 	}
 	
+	override completeCincoProduct_Features(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
+		for(bgp:Platform.bundleGroupProviders){
+		  			for(feature: bgp.bundleGroups){
+		  				acceptor.accept(createCompletionProposal(feature.identifier,context))	
+		  			}
+		  		
+		}
+		var workspace = ResourcesPlugin.getWorkspace();
+		for (project: workspace.root.projects){
+			if(project.description.hasNature("org.eclipse.pde.FeatureNature"))
+				acceptor.accept(createCompletionProposal(project.description.name,context))
+		}
+		
+		
+	}
 	
+	override completeCincoProduct_Plugins(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor){
+		  var pluginModels = PluginRegistry.allModels
+		  
+		  for(pluginModel: pluginModels){
+		  		
+		  	val bundleDesription = pluginModel.bundleDescription
+		  	if(bundleDesription!=null){
+		  		acceptor.accept(createCompletionProposal(bundleDesription.symbolicName,context))
+		  	}
+		  		
+		  }
+	}
 }
