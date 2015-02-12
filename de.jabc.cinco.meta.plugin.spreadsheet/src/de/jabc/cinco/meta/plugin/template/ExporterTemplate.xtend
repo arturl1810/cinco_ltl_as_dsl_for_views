@@ -258,7 +258,7 @@ public static HSSFWorkbook export(ArrayList<VersionNode> nodes,HashMap<String,St
 					Cell attr = rowValues.createCell(colOffset+colValues);
 					attr.setCellStyle(rowStyle);
 					//Print Resultnodes
-					if((!vnode.formulas.isEmpty()) || vnode.status==NodeStatus.RESULT) {
+					if((!vnode.formulas.isEmpty())&&vnode.formulas.containsKey(eNode.getName())) {
 						
 						setCellComment(attr,Default,"Formula",factory,drawing);
 						
