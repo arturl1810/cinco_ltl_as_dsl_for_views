@@ -175,9 +175,9 @@ public class CreateSpreadSheetPlugin {
 			requiredBundles.add("de.jabc.cinco.meta.core.mgl.model");
 			requiredBundles.add("org.eclipse.graphiti.mm");
 			requiredBundles.add("org.eclipse.graphiti");
-			requiredBundles.add("org.eclipse.emf.transaction;bundle-version=\"1.4.0\"");
+			requiredBundles.add("org.eclipse.emf.transaction");
 			requiredBundles.add("org.eclipse.jface");
-			requiredBundles.add("org.eclipse.core.expressions;bundle-version=\"3.4.501\"");
+			requiredBundles.add("org.eclipse.core.expressions");
 			
 			//Overwrites the old generated code
 			if(new Path("/"+projectName).toFile().exists())
