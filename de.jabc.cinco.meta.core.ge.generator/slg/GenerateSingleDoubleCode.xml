@@ -2,14 +2,14 @@
 <model version="2.1">
   <id>58218bce-14ea-427d-8c72-e67903670e10</id>
   <name>GenerateSingleDoubleCode</name>
-  <changecounter>121</changecounter>
+  <changecounter>132</changecounter>
   <sib>
     <id>04e295fe-943a-4974-80d0-c5dbe081048d</id>
     <name>RunStringTemplate_1</name>
     <label>GenChangeValue</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>736.0,78.0</position>
+    <position>886.0,183.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -46,7 +46,7 @@ if (tmp instanceof $context.modelElementName$) {
     <label>GenListenerCode</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>301.0,183.0</position>
+    <position>421.0,288.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -157,7 +157,7 @@ FocusListener focusListener = new FocusListener() {
     <label>GenRefreshCode</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>932.5,303.0</position>
+    <position>1052.5,408.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -197,7 +197,7 @@ $context.flAttributeName$Text.setText(value + &quot;&quot;);</string>
     <label>GenControl</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>755.0,303.0</position>
+    <position>875.0,408.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -253,7 +253,7 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
     <label>GenRefreshCode</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>932.5,78.0</position>
+    <position>1052.5,183.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -282,7 +282,7 @@ $context.flAttributeName$Text.setSelection($context.flAttributeName$Text.getText
     <label>GenControl</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>200.0,273.0</position>
+    <position>320.0,378.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -316,7 +316,7 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
 	data.right = new FormAttachment(100, 0);
 	data.top = new FormAttachment(0, ITabbedPropertyConstants.VSPACE);
 	$context.attributeName$Text.setLayoutData(data);
-	$context.attributeName$Text.setEnabled(!$context.attribute.notChangeable$);
+	$context.notChangeableContent$
 
 	Label $context.attribute.name$Label = factory.createLabel(composite, &quot;$context.fuAttributeName$:&quot;);
 	data = new FormData();
@@ -337,24 +337,24 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
   <edge>
     <source>7c4bc52e-5fa5-4422-a68e-c4620031c738</source>
     <target>c05042d1-48b7-4546-b768-c37cc024b65f</target>
-    <point>244.0,307.0</point>
-    <point>364.0,217.0</point>
+    <point>355.0,401.0</point>
+    <point>475.0,311.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
     <source>04e295fe-943a-4974-80d0-c5dbe081048d</source>
     <target>9ae8b1c2-00f1-46bf-a54c-b198ed51fdc7</target>
-    <point>799.0,112.0</point>
-    <point>994.0,112.0</point>
+    <point>910.0,206.0</point>
+    <point>1105.0,206.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
     <source>d09ca11c-b3d2-412e-9e6b-5aa702e9d79c</source>
     <target>11101e31-2ff5-4cc3-84f1-dce46c897eb0</target>
-    <point>513.0,184.2</point>
-    <point>613.125,84.0</point>
+    <point>610.0,311.0</point>
+    <point>760.0,206.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>false</branch>
   </edge>
@@ -364,7 +364,7 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
     <label>isPrimeRef</label>
     <sib-uid>basic-sibs/EvaluateBoolean</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.EvaluateBoolean</taxonomy>
-    <position>457.0,183.0</position>
+    <position>577.0,288.0</position>
     <parameter name="bool">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -384,7 +384,7 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
     <label>isPrimeRefParam</label>
     <sib-uid>basic-sibs/EvaluateBoolean</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.EvaluateBoolean</taxonomy>
-    <position>587.0,183.0</position>
+    <position>707.0,288.0</position>
     <parameter name="bool">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -401,32 +401,32 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
   <edge>
     <source>d09ca11c-b3d2-412e-9e6b-5aa702e9d79c</source>
     <target>16eaf465-c14e-445e-8150-f6355121fa62</target>
-    <point>499.0,217.0</point>
-    <point>649.0,217.0</point>
+    <point>610.0,311.0</point>
+    <point>760.0,311.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>true</branch>
   </edge>
   <edge>
     <source>16eaf465-c14e-445e-8150-f6355121fa62</source>
     <target>1e83bce9-50b7-41b4-ba9a-7d7f8860d78c</target>
-    <point>649.0,217.0</point>
-    <point>799.0,217.0</point>
+    <point>760.0,311.0</point>
+    <point>910.0,311.0</point>
     <labelposition>589.2775765252923,0.7330727315719573</labelposition>
     <branch>true</branch>
   </edge>
   <edge>
     <source>16eaf465-c14e-445e-8150-f6355121fa62</source>
     <target>b4f6df94-e7cb-4a21-bb77-82d8536fd5a9</target>
-    <point>649.0,217.0</point>
-    <point>799.0,337.0</point>
+    <point>760.0,311.0</point>
+    <point>910.0,431.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>false</branch>
   </edge>
   <edge>
     <source>b4f6df94-e7cb-4a21-bb77-82d8536fd5a9</source>
     <target>6c60203e-599d-4714-8604-4fa507925954</target>
-    <point>799.0,337.0</point>
-    <point>994.0,337.0</point>
+    <point>910.0,431.0</point>
+    <point>1105.0,431.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -436,7 +436,7 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
     <label>GenChangeValue</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>736.0,183.0</position>
+    <position>856.0,288.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -472,16 +472,16 @@ if (bo instanceof $context.modelElementName$) {
   <edge>
     <source>1e83bce9-50b7-41b4-ba9a-7d7f8860d78c</source>
     <target>463342ce-9115-4b19-962c-9a58bf8e2bee</target>
-    <point>799.0,217.0</point>
-    <point>994.0,217.0</point>
+    <point>910.0,311.0</point>
+    <point>1105.0,311.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
     <source>c05042d1-48b7-4546-b768-c37cc024b65f</source>
     <target>d09ca11c-b3d2-412e-9e6b-5aa702e9d79c</target>
-    <point>364.0,217.0</point>
-    <point>499.0,217.0</point>
+    <point>475.0,311.0</point>
+    <point>610.0,311.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -491,7 +491,7 @@ if (bo instanceof $context.modelElementName$) {
     <label>GenRefreshCode</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>932.5,183.0</position>
+    <position>1052.5,288.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -530,7 +530,7 @@ $context.flAttributeName$Text.setSelection($context.flAttributeName$Text.getText
     <label>IsMultiTextAttribute</label>
     <sib-uid>basic-sibs/EvaluateBoolean</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.EvaluateBoolean</taxonomy>
-    <position>82.5,183.0</position>
+    <position>22.5,288.0</position>
     <parameter name="bool">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -549,17 +549,17 @@ $context.flAttributeName$Text.setSelection($context.flAttributeName$Text.getText
   </sib>
   <edge>
     <source>e7139e20-f1cb-4b6d-bdd5-39c9f4b18557</source>
-    <target>f6cf0c75-5064-47fb-8808-82227dc782f0</target>
-    <point>154.0,217.0</point>
-    <point>244.0,142.0</point>
+    <target>ca7d9adc-04d0-4716-97c5-96919d74cb41</target>
+    <point>106.66666666666666,288.0</point>
+    <point>151.36363636363637,234.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>true</branch>
   </edge>
   <edge>
     <source>e7139e20-f1cb-4b6d-bdd5-39c9f4b18557</source>
-    <target>7c4bc52e-5fa5-4422-a68e-c4620031c738</target>
-    <point>154.0,217.0</point>
-    <point>244.0,307.0</point>
+    <target>1f6acaf2-c301-4b8e-822b-8d838378d8e9</target>
+    <point>101.84210526315789,324.0</point>
+    <point>150.9375,393.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>false</branch>
   </edge>
@@ -569,7 +569,7 @@ $context.flAttributeName$Text.setSelection($context.flAttributeName$Text.getText
     <label>GenControl</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>200.0,108.0</position>
+    <position>335.0,198.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -604,7 +604,7 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
 	data.top = new FormAttachment(0, ITabbedPropertyConstants.VSPACE);
 	data.bottom = new FormAttachment(0, 80);
 	$context.attributeName$Text.setLayoutData(data);
-	$context.attributeName$Text.setEnabled(!$context.attribute.notChangeable$);
+	$context.notChangeableContent$
 
 	Label $context.attribute.name$Label = factory.createLabel(composite, &quot;$context.fuAttributeName$:&quot;);
 	data = new FormData();
@@ -625,8 +625,8 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
   <edge>
     <source>f6cf0c75-5064-47fb-8808-82227dc782f0</source>
     <target>c05042d1-48b7-4546-b768-c37cc024b65f</target>
-    <point>244.0,142.0</point>
-    <point>364.0,217.0</point>
+    <point>355.0,236.0</point>
+    <point>475.0,311.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -636,7 +636,7 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
     <label>final?</label>
     <sib-uid>basic-sibs/EvaluateCondition</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.EvaluateCondition</taxonomy>
-    <position>623.0,78.0</position>
+    <position>743.0,183.0</position>
     <parameter name="condition">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
@@ -653,8 +653,9 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
   <edge>
     <source>11101e31-2ff5-4cc3-84f1-dce46c897eb0</source>
     <target>04e295fe-943a-4974-80d0-c5dbe081048d</target>
-    <point>645.0,105.0</point>
-    <point>816.0,91.0</point>
+    <point>760.0,206.0</point>
+    <point>910.0,206.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>false</branch>
   </edge>
   <sib>
@@ -663,7 +664,7 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
     <label>GenChangeValue</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>736.0,3.0</position>
+    <position>886.0,78.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -696,15 +697,155 @@ if (tmp instanceof $context.modelElementName$) {
   <edge>
     <source>11101e31-2ff5-4cc3-84f1-dce46c897eb0</source>
     <target>7e8feba9-d8e6-42be-8b2f-d5cc45911818</target>
-    <point>645.0,105.0</point>
-    <point>772.0,39.0</point>
+    <point>760.0,206.0</point>
+    <point>795.0,30.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>true</branch>
   </edge>
   <edge>
     <source>7e8feba9-d8e6-42be-8b2f-d5cc45911818</source>
     <target>9ae8b1c2-00f1-46bf-a54c-b198ed51fdc7</target>
     <point>795.0,30.0</point>
-    <point>979.0,86.0</point>
+    <point>1105.0,206.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>ca7d9adc-04d0-4716-97c5-96919d74cb41</id>
+    <name>EvaluateBoolean_4</name>
+    <label>isPrimeRef</label>
+    <sib-uid>basic-sibs/EvaluateBoolean</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.EvaluateBoolean</taxonomy>
+    <position>130.5,198.0</position>
+    <parameter name="bool">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>isPrimeRef</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>false</finalbranches>
+    <finalbranches>true</finalbranches>
+  </sib>
+  <sib>
+    <id>849f0a90-4918-43cd-a444-f726469e3579</id>
+    <name>RunStringTemplate_11</name>
+    <label>RunStringTemplate</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>212.0,108.0</position>
+    <parameter name="append">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>notChangeableContent</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>$context.attributeName$Text.setEnabled(!$context.attribute.notChangeable$);</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>1f6acaf2-c301-4b8e-822b-8d838378d8e9</id>
+    <name>EvaluateBoolean_5</name>
+    <label>isPrimeRef</label>
+    <sib-uid>basic-sibs/EvaluateBoolean</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.EvaluateBoolean</taxonomy>
+    <position>130.5,378.0</position>
+    <parameter name="bool">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>isPrimeRef</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>false</finalbranches>
+    <finalbranches>true</finalbranches>
+  </sib>
+  <sib>
+    <id>4ac74982-6ad1-4fc1-9992-97ef1b6cbc31</id>
+    <name>RunStringTemplate_12</name>
+    <label>RunStringTemplate</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>197.0,468.0</position>
+    <parameter name="append">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>notChangeableContent</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>$context.attributeName$Text.setEnabled(!$context.attribute.notChangeable$);</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>ca7d9adc-04d0-4716-97c5-96919d74cb41</source>
+    <target>849f0a90-4918-43cd-a444-f726469e3579</target>
+    <point>165.0,225.0</point>
+    <point>280.0,146.0</point>
+    <branch>false</branch>
+  </edge>
+  <edge>
+    <source>849f0a90-4918-43cd-a444-f726469e3579</source>
+    <target>f6cf0c75-5064-47fb-8808-82227dc782f0</target>
+    <point>285.0,150.0</point>
+    <point>362.0,263.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>ca7d9adc-04d0-4716-97c5-96919d74cb41</source>
+    <target>f6cf0c75-5064-47fb-8808-82227dc782f0</target>
+    <point>165.0,225.0</point>
+    <point>359.0,232.0</point>
+    <branch>true</branch>
+  </edge>
+  <edge>
+    <source>1f6acaf2-c301-4b8e-822b-8d838378d8e9</source>
+    <target>4ac74982-6ad1-4fc1-9992-97ef1b6cbc31</target>
+    <point>165.0,420.0</point>
+    <point>258.0,510.0</point>
+    <branch>false</branch>
+  </edge>
+  <edge>
+    <source>1f6acaf2-c301-4b8e-822b-8d838378d8e9</source>
+    <target>7c4bc52e-5fa5-4422-a68e-c4620031c738</target>
+    <point>165.0,420.0</point>
+    <point>350.0,410.0</point>
+    <branch>true</branch>
+  </edge>
+  <edge>
+    <source>4ac74982-6ad1-4fc1-9992-97ef1b6cbc31</source>
+    <target>7c4bc52e-5fa5-4422-a68e-c4620031c738</target>
+    <point>273.0,472.1142857142857</point>
+    <point>342.0,412.9714285714286</point>
     <branch>default</branch>
   </edge>
   <values/>
