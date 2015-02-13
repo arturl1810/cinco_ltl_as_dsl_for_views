@@ -8,7 +8,8 @@ Require-Bundle: org.eclipse.core.runtime,
  de.jabc.cinco.meta.core.mgl.model,
  org.eclipse.core.resources,
  de.jabc.cinco.meta.core.ge.style.model,
- de.jabc.cinco.meta.libraries
+ de.jabc.cinco.meta.libraries,
+ org.eclipse.xtext.util
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ActivationPolicy: lazy
 Export-Package: de.jabc.cinco.meta.core.ge.style.sibs,de.jabc.cinco.me
