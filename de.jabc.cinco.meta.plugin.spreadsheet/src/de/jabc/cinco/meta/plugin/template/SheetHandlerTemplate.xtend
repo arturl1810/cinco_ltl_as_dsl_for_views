@@ -115,17 +115,23 @@ public class SheetHandler {
 	public static void writeSheet(HSSFWorkbook workbook,String resultNodeId,String sheetName) throws ClassNotFoundException, ClassCastException, IOException
 	{
 		//Write the sheetmap
-		«IF multiple == true»
-		//MULTIPLEMODE
-		HashMap<String,String> map = loadSheetMap(resultNodeId);
-		«ELSE»
 		//SINGLEMODE
 		HashMap<String,String> map = new HashMap<String,String>();
-		«ENDIF»
-		map.put(sheetName, NodeUtil.getSheetFileName(sheetName, resultNodeId));
+		
+		//Check wheter filename is in use
+		int counter = 0;
+		File f = new File(getSheetFolderPath()+NodeUtil.getSheetFileName(sheetName, resultNodeId, counter));
+		if(f.exists()|| f.isDirectory()) {			
+			do {
+				counter++;
+				f = new File(NodeUtil.getSheetFileName(sheetName, resultNodeId, counter));
+			}while(f.exists() || f.isDirectory());
+		}
+		
+		map.put(sheetName, NodeUtil.getSheetFileName(sheetName, resultNodeId,counter));
 		writeSheetMap(map, resultNodeId);
 		//Write the XLS
-		File file = new File(getSheetFolderPath()+NodeUtil.getSheetFileName(sheetName, resultNodeId));
+		File file = new File(getSheetFolderPath()+NodeUtil.getSheetFileName(sheetName, resultNodeId,counter));
 		FileOutputStream out = new FileOutputStream(file);
 		try {
 			workbook.write(out);
