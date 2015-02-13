@@ -150,7 +150,7 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 				GMODEL_NAME_LOWER = gModel.getName().toLowerCase();
 				
 				String mglProjectName = file.getProject().getName();
-				String projectName = gModel.getPackage();
+				String projectName = file.getProject().getName();
 				String apiProjectName = mglProjectName;
 				String path = ResourcesPlugin.getWorkspace().getRoot().getLocation().append(projectName).toOSString() + "/plugin.xml";
 				IFile pluginXMLFile = file.getProject().getFile("plugin.xml");
@@ -280,7 +280,7 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 					IResource iRes = sourceProject.getFile("/src-gen/model/" + gModel.getName() + ".genmodel");
 					if (iRes.exists()) {
 						Resource generatedGenModel = new ResourceSetImpl().getResource(
-									URI.createFileURI(iRes.getLocation().toString()),
+									URI.createFileURI(iRes.getLocation().toOSString()),
 									true );
 						for (EObject o : generatedGenModel.getContents()) {
 							if (o instanceof GenModel)

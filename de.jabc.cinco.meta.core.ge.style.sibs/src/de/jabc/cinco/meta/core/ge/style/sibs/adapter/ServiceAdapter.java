@@ -1,8 +1,11 @@
 package de.jabc.cinco.meta.core.ge.style.sibs.adapter;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -13,8 +16,6 @@ import java.util.Map.Entry;
 import java.util.jar.Manifest;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import javax.swing.text.html.InlineView;
 
 import mgl.Annotation;
 import mgl.Attribute;
@@ -39,6 +40,7 @@ import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
@@ -49,8 +51,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.ecore.xml.type.internal.RegEx.REUtil;
-import org.eclipse.osgi.util.ManifestElement;
+import org.eclipse.xtext.util.StringInputStream;
 
 import style.AbsolutPosition;
 import style.AbstractShape;
@@ -1314,5 +1315,107 @@ public class ServiceAdapter {
 		}
 		
 	}
+
+	/**
+	 * @param env
+	 * @param path
+	 * @param content
+	 * @param projectName 
+	 * @return
+	 */
+	public static String writePluginXMLContent(
+			LightweightExecutionEnvironment env, ContextKeyFoundation path,
+			ContextKeyFoundation content, ContextKeyFoundation projectName) {
+		
+		LightweightExecutionContext context = env.getLocalContext();
+		try {
+			NullProgressMonitor monitor = new NullProgressMonitor();
+		
+			String p = (String) context.get(path);
+			String c = (String) context.get(content);
+			String pName = (String) context.get(projectName);
+			
+			ResourcesPlugin.getWorkspace().getRoot().getProject(pName).refreshLocal(IResource.DEPTH_INFINITE, monitor);
+			
+			File f = new File(p);
+			if (f.exists()) {
+						FileInputStream fis = new FileInputStream(f);
+						BufferedReader reader = new BufferedReader(new InputStreamReader(fis));
+						String line = null;
+						String originalText = new String();
+						while ((line = reader.readLine()) != null) {
+							originalText += line.concat("\n");
+						}
+						fis.close();
+						fis = new FileInputStream(f);
+						reader = new BufferedReader(new InputStreamReader(fis));
+						
+						String[] extensions = getExtensions(c);
+						StringBuilder sb = new StringBuilder(originalText);
+						String trimedOriginal = trimText(originalText);
+						for (String s : extensions) {
+							String trimedExtension = trimText(s);
+							if (!trimedOriginal.contains(trimedExtension)) {
+								int offset = originalText.indexOf("</plugin>");
+								sb.insert(offset, s);
+							}
+						}
+						
+						originalText = sb.toString();
+						FileOutputStream fos = new FileOutputStream(f);
+						fos.write(originalText.getBytes());
+						fos.close();
+						fis.close();
+			} else {
+				StringBuilder sb = new StringBuilder();
+				sb.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+						+ "<?eclipse version=\"3.0\"?>"
+						+ "<plugin>"
+						+ "</plugin>");
+				int offset = sb.indexOf("</plugin>");
+				sb.insert(offset, c);
+				IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(pName);
+				IFile file = project.getFile("plugin.xml");
+				if (!file.exists()) {
+					file.create(new StringInputStream(sb.toString()), true, monitor);
+				}
+				else {
+					file.setContents(new StringInputStream(sb.toString()), IFile.DEPTH_INFINITE, monitor);
+				}
+				file.getProject().refreshLocal(IFile.DEPTH_INFINITE, monitor);
+				System.out.println(file.getFullPath());
+			}
+			return Branches.DEFAULT;
+		} catch (Exception e) {
+			context.put("exception", e);
+			return Branches.ERROR;
+		}
+	}
+
+	private static String trimText(String originalText) {
+		String retval = new String();
+		for (String s : originalText.split("\n")) {
+			retval += s.trim();
+		}
+		return retval;
+	}
+
+	private static String[] getExtensions(String c) {
+		ArrayList<String> extensions = new ArrayList<>();
+		String[] lines = c.split("\n");
+		StringBuilder sb = new StringBuilder();
+		for (String s : lines) {
+			if (s.contains("<extension")) 
+				sb = new StringBuilder();
+			
+			sb.append(s.concat("\n"));
+			
+			if (s.contains("</extension>")) 
+				extensions.add(sb.toString());
+			
+		}
+		return extensions.toArray(new String[extensions.size()]);
+	}
+	
 
 }

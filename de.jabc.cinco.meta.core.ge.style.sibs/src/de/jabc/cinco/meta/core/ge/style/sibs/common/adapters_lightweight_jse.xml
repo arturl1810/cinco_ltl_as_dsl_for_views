@@ -1,5 +1,14 @@
 <serviceAdapters defaultAdapter="de.jabc.cinco.meta.core.ge.style.sibs.adapter.ServiceAdapter">
 	
+	<serviceAdapter uid="ge-util-sibs/WritePluginXMLContent">
+		<service>writePluginXMLContent</service>
+		<arguments>
+			<argument name="pluginXMLPath" />
+			<argument name="pluginXMLContent" />
+			<argument name="projectName" />
+		</arguments>
+	</serviceAdapter>
+	
 	<serviceAdapter uid="ge-util-sibs/GetAllIcons">
 		<service>getAllIcons</service>
 		<arguments>

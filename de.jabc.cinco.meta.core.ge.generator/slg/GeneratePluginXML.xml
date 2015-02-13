@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>c6d3a171-4a7c-4363-ab9c-c7be2786983b</id>
   <name>GeneratePluginXML</name>
-  <changecounter>342</changecounter>
+  <changecounter>377</changecounter>
   <sib>
     <id>b9acf74f-0e4c-4f93-80c7-e3f218bfc27e</id>
     <name>RunStringTemplate</name>
@@ -37,7 +37,7 @@
     <label>WriteTextFile</label>
     <sib-uid>io-sibs/WriteTextFile</sib-uid>
     <taxonomy>de.jabc.sib.common.io.WriteTextFile</taxonomy>
-    <position>612.5,723.0</position>
+    <position>732.5,783.0</position>
     <parameter name="encoding">
       <string>ISO-8859-1</string>
     </parameter>
@@ -76,7 +76,7 @@
     <label>PrintConsoleMessage</label>
     <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
     <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
-    <position>406.5,723.0</position>
+    <position>331.5,723.0</position>
     <parameter name="error">
       <boolean>false</boolean>
     </parameter>
@@ -92,10 +92,10 @@
     <finalbranches>default</finalbranches>
   </sib>
   <edge>
-    <source>304b7e41-12e0-4536-8c49-5557561608e6</source>
-    <target>524dcd1c-6963-4a38-8b36-00bb95ac062c</target>
-    <point>660.0,750.0</point>
-    <point>480.0,750.0</point>
+    <source>111011d2-0b5f-4dbe-97a6-0f5fd43c7db6</source>
+    <target>5bcd0097-9953-43cc-88dd-f57569ee54bf</target>
+    <point>912.0,742.3090909090909</point>
+    <point>618.0,755.6727272727272</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -535,7 +535,7 @@
     <label>RunStringTemplate</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>880.0,723.0</position>
+    <position>865.0,723.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -552,9 +552,7 @@
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
-&lt;?eclipse version=&quot;3.0&quot;?&gt;
-&lt;plugin&gt;
+      <string>	
 	&lt;extension
 		point=&quot;org.eclipse.graphiti.ui.diagramTypes&quot;&gt;
 		&lt;diagramType
@@ -614,7 +612,7 @@
 			category=&quot;de.jabc.cinco.meta.core.wizards.category.cinco&quot;
 			class=&quot;$context.packageName$.graphiti.wizard.New$context.fuGraphModelName$DiagramWizard&quot;
 			$context.iconPathContent$
-			id=&quot;$context.projectName$.wizard.$context.lcGraphModelName$&quot;
+			id=&quot;$context.packageName$.wizard.$context.lcGraphModelName$&quot;
 			name=&quot;New $context.fuGraphModelName$&quot;&gt;
 		&lt;/wizard&gt;
 	&lt;/extension&gt;
@@ -625,11 +623,11 @@
 			contributorClass=&quot;org.eclipse.graphiti.ui.editor.DiagramEditorActionBarContributor&quot;
 			default=&quot;false&quot;
 			$context.iconPathContent$
-			id=&quot;$context.projectName$.$context.fuGraphModelName$Editor&quot;
+			id=&quot;$context.packageName$.$context.fuGraphModelName$Editor&quot;
 			matchingStrategy=&quot;org.eclipse.graphiti.ui.editor.DiagramEditorMatchingStrategy&quot;
 			name=&quot;$context.graphModelName$ Editor&quot;&gt;
 			&lt;contentTypeBinding
-				contentTypeId=&quot;$context.projectName$.$context.fuGraphModelName$ContentType&quot;&gt;
+				contentTypeId=&quot;$context.packageName$.$context.fuGraphModelName$ContentType&quot;&gt;
 			&lt;/contentTypeBinding&gt;
 			&lt;contentTypeBinding
 				contentTypeId=&quot;org.eclipse.graphiti.content.diagram&quot;&gt;
@@ -640,7 +638,7 @@
 		point=&quot;org.eclipse.core.contenttype.contentTypes&quot;&gt;
 		&lt;content-type
 			file-extensions=&quot;$context.extension$&quot;
-			id=&quot;$context.projectName$.$context.fuGraphModelName$ContentType&quot;
+			id=&quot;$context.packageName$.$context.fuGraphModelName$ContentType&quot;
 			name=&quot;$context.fuGraphModelName$ Content Type&quot;
 			priority=&quot;normal&quot;&gt;
 		&lt;/content-type&gt;
@@ -649,12 +647,12 @@
 		point=&quot;org.eclipse.ui.popupMenus&quot;&gt;
 		&lt;objectContribution
 			adaptable=&quot;false&quot;
-			id=&quot;$context.projectName$.$context.graphModelName$ObjectContributor&quot;
+			id=&quot;$context.packageName$.$context.graphModelName$ObjectContributor&quot;
 			nameFilter=&quot;*$context.extension$&quot;
 			objectClass=&quot;org.eclipse.core.resources.IResource&quot;&gt;
 			&lt;action
 				class=&quot;$context.packageName$.graphiti.Create$context.graphModelName$Diagram&quot;
-				id=&quot;$context.projectName$.Create$context.graphModelName$DiagramAction&quot;
+				id=&quot;$context.packageName$.Create$context.graphModelName$DiagramAction&quot;
 				label=&quot;Create $context.graphModelName$ Diagram&quot;&gt;
 			&lt;/action&gt;
 		&lt;/objectContribution&gt;
@@ -662,14 +660,14 @@
 	&lt;extension
 		point=&quot;org.eclipse.ui.perspectives&quot;&gt;
 		&lt;perspective
-			class=&quot;$context.projectName$.$context.graphModelName$PerspectiveFactory&quot;
+			class=&quot;$context.packageName$.$context.graphModelName$PerspectiveFactory&quot;
 			fixed=&quot;false&quot;
-			id=&quot;$context.projectName$.$context.lcGraphModelName$perspective&quot;
+			id=&quot;$context.packageName$.$context.lcGraphModelName$perspective&quot;
 			$context.iconPathContent$
 			name=&quot;$context.graphModelName$ Perspective&quot;&gt;
 		&lt;/perspective&gt;
 	&lt;/extension&gt;
-&lt;/plugin&gt;</string>
+</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
@@ -682,14 +680,6 @@
     <labelposition>500.0,0.0</labelposition>
     <branch>emptyString</branch>
     <branch>false</branch>
-  </edge>
-  <edge>
-    <source>111011d2-0b5f-4dbe-97a6-0f5fd43c7db6</source>
-    <target>304b7e41-12e0-4536-8c49-5557561608e6</target>
-    <point>945.0,750.0</point>
-    <point>660.0,750.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
   </edge>
   <sib>
     <id>9c358c8a-953d-4c5f-a3ce-197fd2eac675</id>
@@ -1377,6 +1367,50 @@
     <target>2ad932fc-c0fe-43bb-a951-adaedfa1ba84</target>
     <point>1215.0,645.0</point>
     <point>1042.0,637.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>5bcd0097-9953-43cc-88dd-f57569ee54bf</id>
+    <name>WritePluginXMLContent</name>
+    <label>WritePluginXMLContent</label>
+    <sib-uid>ge-util-sibs/WritePluginXMLContent</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.WritePluginXMLContent</taxonomy>
+    <position>547.0,723.0</position>
+    <parameter name="pluginXMLContent">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>pluginXMLContent</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="pluginXMLPath">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>pluginXMLPath</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="projectName">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>projectName</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>5bcd0097-9953-43cc-88dd-f57569ee54bf</source>
+    <target>524dcd1c-6963-4a38-8b36-00bb95ac062c</target>
+    <point>555.0,645.0</point>
+    <point>404.0,734.0</point>
     <branch>default</branch>
   </edge>
   <values/>
