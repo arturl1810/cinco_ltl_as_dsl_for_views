@@ -119,7 +119,7 @@ public class SheetCalculator {
 		if(formulas.isEmpty())
 		{
 			CalculationException ex =  (CalculationException) new CalculationException();
-			ex.setMessage("For the Node: "+source+"\nFormular can not be read.");
+			ex.setMessage("For the Node: "+source+"\nFormula can not be read.");
 			throw ex;
 		}
 		
@@ -144,7 +144,7 @@ public class SheetCalculator {
 		final HashMap<String,Double> results = calculateSheet(resultNodeId,sheetName,resultAttrs);
 		if(results.isEmpty()) {
 			CalculationException ex =  (CalculationException) new CalculationException();
-			ex.setMessage("For the Node: "+source+"\nRereferenced Formular could not be exported");
+			ex.setMessage("For the Node: "+source+"\nRereferenced Formula could not be exported");
 			throw ex;
 		}
 		

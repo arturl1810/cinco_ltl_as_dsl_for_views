@@ -372,9 +372,9 @@ public class NodeUtil {
 			}
 
 		}
-		System.out.println("Pre: "+formula);
+		//System.out.println("Pre: "+formula);
 		
-		System.out.println("Post: "+offsetFormula);
+		//System.out.println("Post: "+offsetFormula);
 		return offsetFormula.toString();
 	}
 	

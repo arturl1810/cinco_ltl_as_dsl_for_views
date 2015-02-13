@@ -27,19 +27,19 @@ public class ResultNodeComparator implements Comparator<String> {
 		}
 		//Resultnode first
 		if(o1.equals(resultNode)) {
-			return 1;
-		}
-		if(o1.equals(resultNode)) {
 			return -1;
+		}
+		if(o2.equals(resultNode)) {
+			return 1;
 		}
 		
 		
 		//Generated Conditions for o1
-		if( o1.equals("CalculationNode") || false) {
+		if(«FOR n:nodes» o1.equals("«n.nodeName.toFirstUpper»") || «ENDFOR»false) {
 			return -1;
 		}
 		//Generated Conditions for o2
-		if( o2.equals("CalculationNode") || false) {
+		if(«FOR n:nodes» o2.equals("«n.nodeName.toFirstUpper»") || «ENDFOR»false) {
 			return 1;
 		}
 		//Alphabetic order for the other nodes
