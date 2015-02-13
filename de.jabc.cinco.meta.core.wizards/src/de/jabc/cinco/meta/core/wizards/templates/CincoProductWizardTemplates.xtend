@@ -369,6 +369,7 @@ package «packageName».codegen;
 
 import graphmodel.ModelElement;
 import «packageName».«modelName.toLowerCase».«modelName»;
+import de.jabc.cinco.meta.plugin.generator.runtime.IGenerator;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -385,7 +386,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
  *  model elements that are directly contained in the root model.
  *
  */
-public class Generate {
+public class Generate implements IGenerator<«modelName»>{
 	
 	public void generate(«modelName» model, IPath targetDir, IProgressMonitor monitor) {
 		String modelName = model.getModelName();
