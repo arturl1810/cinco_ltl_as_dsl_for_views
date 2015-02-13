@@ -613,6 +613,7 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 	private void exportPackages(IProject p, GraphModel gm, NullProgressMonitor monitor ) {
 		IFile iManiFile= p.getFolder("META-INF").getFile("MANIFEST.MF");
 		try {
+			iManiFile.refreshLocal(IFile.DEPTH_INFINITE, monitor);
 			Manifest manifest = new Manifest(iManiFile.getContents());
 			String prefix = gm.getPackage();
 			
