@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>e26f46a3-7467-4773-8abb-108a610034dd</id>
   <name>Create GetSuccessors Methods</name>
-  <changecounter>14</changecounter>
+  <changecounter>15</changecounter>
   <sib>
     <id>8eb577c8-a2ae-41ba-bed3-7629463ec4a3</id>
     <name>GetEdgeElementConnectionUpperBound</name>
@@ -947,7 +947,7 @@ return getSuccessors($connectedElementName$.class);</string>
     <label>Copy Node to Connected Element</label>
     <sib-uid>basic-sibs/CopyElement</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.CopyElement</taxonomy>
-    <position>1296.0,183.0</position>
+    <position>1298.5,183.0</position>
     <parameter name="sourceVariable">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -978,9 +978,39 @@ return getSuccessors($connectedElementName$.class);</string>
   </edge>
   <edge>
     <source>be32fa3c-cee6-4bda-86b4-8394b30ccc76</source>
+    <target>f794b3f7-f5fa-43a2-97d3-e5b2414b24a9</target>
+    <point>1413.0,201.675</point>
+    <point>1617.0,201.675</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>f794b3f7-f5fa-43a2-97d3-e5b2414b24a9</id>
+    <name>PutString</name>
+    <label>PutString</label>
+    <sib-uid>basic-sibs/PutString</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.PutString</taxonomy>
+    <position>1601.5,183.0</position>
+    <parameter name="value">
+      <string>Node</string>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>connectedElementName</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>f794b3f7-f5fa-43a2-97d3-e5b2414b24a9</source>
     <target>603fe99f-0ec6-4731-8e13-50beae1fc055</target>
-    <point>1395.0,210.0</point>
-    <point>1665.0,92.0</point>
+    <point>1635.0,210.0</point>
+    <point>1677.0,97.0</point>
     <branch>default</branch>
   </edge>
   <parameter>
@@ -1149,5 +1179,15 @@ return getSuccessors($connectedElementName$.class);</string>
     <name>exit</name>
     <branch>less</branch>
     <sib>365691a7-48d3-43ea-853b-fbeaa208b9bc</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>be32fa3c-cee6-4bda-86b4-8394b30ccc76</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>f794b3f7-f5fa-43a2-97d3-e5b2414b24a9</sib>
   </branch>
 </model>

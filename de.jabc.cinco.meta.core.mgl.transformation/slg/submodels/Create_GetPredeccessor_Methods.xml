@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>f555a538-7d72-4511-9276-f914744a55db</id>
   <name>Create GetPredecessor Methods</name>
-  <changecounter>34</changecounter>
+  <changecounter>39</changecounter>
   <sib>
     <id>440acf67-c1d6-4264-8b6d-3967f9f9de7a</id>
     <name>GetEdgeElementConnectionUpperBound</name>
@@ -802,7 +802,7 @@ return getPredecessors($connectedElementName$.class);</string>
     <label>Create EOperation</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>1466.5,31.0</position>
+    <position>1481.5,31.0</position>
     <parameter name="eClassKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -943,9 +943,9 @@ return getPredecessors($connectedElementName$.class);</string>
   </sib>
   <edge>
     <source>c1946da0-1c0f-42ff-bd0a-cbe6759f0afc</source>
-    <target>3715c890-c255-4baf-89cb-8f4a8db9a895</target>
-    <point>1308.0,259.8</point>
-    <point>1510.0,70.5</point>
+    <target>9f99e228-7a64-4e02-bf14-47d14c0dd4a9</target>
+    <point>1323.0,174.9</point>
+    <point>1467.0,198.9</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -985,6 +985,35 @@ return getPredecessors($connectedElementName$.class);</string>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
   </sib>
+  <sib>
+    <id>9f99e228-7a64-4e02-bf14-47d14c0dd4a9</id>
+    <name>PutString</name>
+    <label>PutString</label>
+    <sib-uid>basic-sibs/PutString</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.PutString</taxonomy>
+    <position>1496.5,153.0</position>
+    <parameter name="value">
+      <string>Node</string>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>connectedElementName</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>9f99e228-7a64-4e02-bf14-47d14c0dd4a9</source>
+    <target>3715c890-c255-4baf-89cb-8f4a8db9a895</target>
+    <point>1530.0,180.0</point>
+    <point>1551.0,61.0</point>
+    <branch>default</branch>
+  </edge>
   <parameter>
     <name>graphicalModelElementKey</name>
     <field>graphicalModelElementKey</field>
@@ -1109,11 +1138,6 @@ return getPredecessors($connectedElementName$.class);</string>
   </branch>
   <branch>
     <name>exit</name>
-    <branch>noElements</branch>
-    <sib>9669a965-6103-44f5-a203-55000e9c272c</sib>
-  </branch>
-  <branch>
-    <name>exit</name>
     <branch>default</branch>
     <sib>3715c890-c255-4baf-89cb-8f4a8db9a895</sib>
   </branch>
@@ -1148,13 +1172,18 @@ return getPredecessors($connectedElementName$.class);</string>
     <sib>cd603ee3-bb01-4a16-b821-b86e625d6eb2</sib>
   </branch>
   <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>c1946da0-1c0f-42ff-bd0a-cbe6759f0afc</sib>
+  </branch>
+  <branch>
     <name>exit</name>
-    <branch>less</branch>
-    <sib>821fbbfe-0f60-4d23-9607-4471d453f1fb</sib>
+    <branch>noElements</branch>
+    <sib>9669a965-6103-44f5-a203-55000e9c272c</sib>
   </branch>
   <branch>
     <name>error</name>
     <branch>error</branch>
-    <sib>c1946da0-1c0f-42ff-bd0a-cbe6759f0afc</sib>
+    <sib>9f99e228-7a64-4e02-bf14-47d14c0dd4a9</sib>
   </branch>
 </model>
