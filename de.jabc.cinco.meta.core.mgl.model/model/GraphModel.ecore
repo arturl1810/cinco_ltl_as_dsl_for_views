@@ -7,9 +7,6 @@
   <eClassifiers xsi:type="ecore:EClass" name="Node" abstract="true" interface="true"
       eSuperTypes="#//ModelElement">
     <eOperations name="getSuccessors" upperBound="-1">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="EList&lt;M> list = new org.eclipse.emf.common.util.BasicEList&lt;M>();&#xA;&#x9;&#x9;for(Edge e: this.getOutgoing()){&#xA;&#x9;&#x9;&#x9;list.add((M)e.getTargetElement());&#xA;&#x9;&#x9;}&#xA;&#x9;&#x9;return org.eclipse.emf.common.util.ECollections.unmodifiableEList(list);"/>
-      </eAnnotations>
       <eGenericType eTypeParameter="#//Node/getSuccessors/M"/>
       <eTypeParameters name="M">
         <eBounds eClassifier="#//Node"/>
@@ -30,9 +27,6 @@
       </eParameters>
     </eOperations>
     <eOperations name="getPredecessors" upperBound="-1">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="EList&lt;M> list = new org.eclipse.emf.common.util.BasicEList&lt;M>();&#xA;&#x9;&#x9;for(Edge e: this.getIncoming()){&#xA;&#x9;&#x9;&#x9;list.add((M)e.getSourceElement());&#xA;&#x9;&#x9;}&#xA;&#x9;&#x9;return org.eclipse.emf.common.util.ECollections.unmodifiableEList(list);"/>
-      </eAnnotations>
       <eGenericType eTypeParameter="#//Node/getPredecessors/M"/>
       <eTypeParameters name="M">
         <eBounds eClassifier="#//Node"/>
