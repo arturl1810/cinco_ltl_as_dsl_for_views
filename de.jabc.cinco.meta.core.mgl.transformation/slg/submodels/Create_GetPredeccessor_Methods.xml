@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>f555a538-7d72-4511-9276-f914744a55db</id>
   <name>Create GetPredecessor Methods</name>
-  <changecounter>27</changecounter>
+  <changecounter>34</changecounter>
   <sib>
     <id>440acf67-c1d6-4264-8b6d-3967f9f9de7a</id>
     <name>GetEdgeElementConnectionUpperBound</name>
@@ -757,6 +757,234 @@ return getPredecessors($connectedElementName$.class);</string>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
+  <sib>
+    <id>821fbbfe-0f60-4d23-9607-4471d453f1fb</id>
+    <name>CompareSize</name>
+    <label>CompareSize</label>
+    <sib-uid>collection-sibs/CompareSize</sib-uid>
+    <taxonomy>de.jabc.sib.common.collection.CompareSize</taxonomy>
+    <position>974.0,33.0</position>
+    <parameter name="collection">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>nameSet</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="value">
+      <int>1</int>
+    </parameter>
+    <finalbranches>equal</finalbranches>
+    <finalbranches>error</finalbranches>
+    <finalbranches>greater</finalbranches>
+    <finalbranches>less</finalbranches>
+  </sib>
+  <edge>
+    <source>9669a965-6103-44f5-a203-55000e9c272c</source>
+    <target>821fbbfe-0f60-4d23-9607-4471d453f1fb</target>
+    <point>690.0,60.0</point>
+    <point>1015.0,63.0</point>
+    <branch>exit</branch>
+  </edge>
+  <edge>
+    <source>821fbbfe-0f60-4d23-9607-4471d453f1fb</source>
+    <target>cd603ee3-bb01-4a16-b821-b86e625d6eb2</target>
+    <point>1038.0,60.9</point>
+    <point>1182.0,132.9</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>equal</branch>
+  </edge>
+  <sib>
+    <id>3715c890-c255-4baf-89cb-8f4a8db9a895</id>
+    <name>GraphSIB_1</name>
+    <label>Create EOperation</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>1466.5,31.0</position>
+    <parameter name="eClassKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>graphicalModelElementEClass</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="eOperatiobUpperBound">
+      <int>-1</int>
+    </parameter>
+    <parameter name="eOperationLowerBound">
+      <int>0</int>
+    </parameter>
+    <parameter name="eOperationNameKey">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>getPredecessors</expression>
+          <clazz>java.lang.String</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="eOperationeTypeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>connectedElementEClass</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>false</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>
+
+return getPredecessors($connectedElementName$.class);</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Create EOperation</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>cd603ee3-bb01-4a16-b821-b86e625d6eb2</source>
+    <target>02ad585d-cdcd-4f4d-97a5-20feba2a5fb8</target>
+    <point>1218.0,132.9</point>
+    <point>1362.0,60.900000000000006</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>next</branch>
+  </edge>
+  <sib>
+    <id>02ad585d-cdcd-4f4d-97a5-20feba2a5fb8</id>
+    <name>GetEClassifierByName_2</name>
+    <label>GetEClassifierByName</label>
+    <sib-uid>utility-sibs/GetEClassifierByName</sib-uid>
+    <taxonomy>transem.utility.sib.GetEClassifierByName</taxonomy>
+    <position>1304.5,33.0</position>
+    <parameter name="eClassifierKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>connectedElementEClass</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="eClassifierName">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>${connectedElementName}</expression>
+          <clazz>java.lang.String</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="ePackageKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>ePackage</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <finalbranches>null</finalbranches>
+  </sib>
+  <edge>
+    <source>02ad585d-cdcd-4f4d-97a5-20feba2a5fb8</source>
+    <target>3715c890-c255-4baf-89cb-8f4a8db9a895</target>
+    <point>1365.0,60.0</point>
+    <point>1524.0,56.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>cd603ee3-bb01-4a16-b821-b86e625d6eb2</id>
+    <name>IterateElements_1</name>
+    <label>IterateElements</label>
+    <sib-uid>collection-sibs/IterateElements</sib-uid>
+    <taxonomy>de.jabc.sib.common.collection.IterateElements</taxonomy>
+    <position>1145.0,33.0</position>
+    <parameter name="collection">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>nameSet</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="element">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>connectedElementName</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="iterator">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>oneItemiterator</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>exit</finalbranches>
+    <finalbranches>next</finalbranches>
+  </sib>
+  <edge>
+    <source>c1946da0-1c0f-42ff-bd0a-cbe6759f0afc</source>
+    <target>3715c890-c255-4baf-89cb-8f4a8db9a895</target>
+    <point>1308.0,259.8</point>
+    <point>1510.0,70.5</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>821fbbfe-0f60-4d23-9607-4471d453f1fb</source>
+    <target>c1946da0-1c0f-42ff-bd0a-cbe6759f0afc</target>
+    <point>1038.0,66.6</point>
+    <point>1272.0,261.6</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>greater</branch>
+  </edge>
+  <sib>
+    <id>c1946da0-1c0f-42ff-bd0a-cbe6759f0afc</id>
+    <name>CopyElement</name>
+    <label>Copy Node to Connected Element</label>
+    <sib-uid>basic-sibs/CopyElement</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.CopyElement</taxonomy>
+    <position>1193.5,153.0</position>
+    <parameter name="sourceVariable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>abstractNodeClass</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="targetVariable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>connectedElementEClass</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
   <parameter>
     <name>graphicalModelElementKey</name>
     <field>graphicalModelElementKey</field>
@@ -875,11 +1103,6 @@ return getPredecessors($connectedElementName$.class);</string>
     <sib>9669a965-6103-44f5-a203-55000e9c272c</sib>
   </branch>
   <branch>
-    <name>exit</name>
-    <branch>exit</branch>
-    <sib>9669a965-6103-44f5-a203-55000e9c272c</sib>
-  </branch>
-  <branch>
     <name>error</name>
     <branch>error</branch>
     <sib>80a62853-ad9e-453e-bee0-c18d51e30623</sib>
@@ -888,5 +1111,50 @@ return getPredecessors($connectedElementName$.class);</string>
     <name>exit</name>
     <branch>noElements</branch>
     <sib>9669a965-6103-44f5-a203-55000e9c272c</sib>
+  </branch>
+  <branch>
+    <name>exit</name>
+    <branch>default</branch>
+    <sib>3715c890-c255-4baf-89cb-8f4a8db9a895</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>3715c890-c255-4baf-89cb-8f4a8db9a895</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>null</branch>
+    <sib>02ad585d-cdcd-4f4d-97a5-20feba2a5fb8</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>02ad585d-cdcd-4f4d-97a5-20feba2a5fb8</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>821fbbfe-0f60-4d23-9607-4471d453f1fb</sib>
+  </branch>
+  <branch>
+    <name>exit</name>
+    <branch>exit</branch>
+    <sib>cd603ee3-bb01-4a16-b821-b86e625d6eb2</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>cd603ee3-bb01-4a16-b821-b86e625d6eb2</sib>
+  </branch>
+  <branch>
+    <name>exit</name>
+    <branch>less</branch>
+    <sib>821fbbfe-0f60-4d23-9607-4471d453f1fb</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>c1946da0-1c0f-42ff-bd0a-cbe6759f0afc</sib>
   </branch>
 </model>

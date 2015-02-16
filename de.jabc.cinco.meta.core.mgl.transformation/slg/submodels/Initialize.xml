@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>0e442a3b-428c-42da-ba0f-50231419be44</id>
   <name>Initialize</name>
-  <changecounter>37</changecounter>
+  <changecounter>39</changecounter>
   <sib>
     <id>fc2d926f-8748-458a-a729-faa7ad31bb7f</id>
     <name>PutString</name>
@@ -462,9 +462,9 @@
   </sib>
   <edge>
     <source>f7a1eeb9-d895-4a4b-86f8-1cae63f6d5b0</source>
-    <target>b6f75cd6-fb66-409f-a100-f526a2a4678c</target>
-    <point>93.0,98.82857142857142</point>
-    <point>687.0,183.68571428571428</point>
+    <target>56d02962-52cd-4bfb-ad8f-b734ea515d3c</target>
+    <point>93.0,104.14736842105263</point>
+    <point>342.0,208.9894736842105</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -693,6 +693,35 @@
     <point>915.0,370.0</point>
     <branch>null</branch>
   </edge>
+  <sib>
+    <id>56d02962-52cd-4bfb-ad8f-b734ea515d3c</id>
+    <name>PutInteger</name>
+    <label>PutInteger</label>
+    <sib-uid>basic-sibs/PutInteger</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.PutInteger</taxonomy>
+    <position>37.5,183.0</position>
+    <parameter name="value">
+      <int>0</int>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>zeroIndex</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>56d02962-52cd-4bfb-ad8f-b734ea515d3c</source>
+    <target>b6f75cd6-fb66-409f-a100-f526a2a4678c</target>
+    <point>360.0,225.0</point>
+    <point>697.0,195.0</point>
+    <branch>default</branch>
+  </edge>
   <values/>
   <branch>
     <name>error</name>
@@ -798,5 +827,10 @@
     <name>error</name>
     <branch>error</branch>
     <sib>59ea55c4-3d79-452a-ab77-c7722abb1323</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>56d02962-52cd-4bfb-ad8f-b734ea515d3c</sib>
   </branch>
 </model>

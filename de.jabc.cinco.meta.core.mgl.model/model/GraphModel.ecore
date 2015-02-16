@@ -6,10 +6,14 @@
       eSuperTypes="#//ModelElementContainer #//IdentifiableElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="Node" abstract="true" interface="true"
       eSuperTypes="#//ModelElement">
-    <eOperations name="getSuccessors" upperBound="-1" eType="#//Node">
+    <eOperations name="getSuccessors" upperBound="-1">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="EList&lt;Node> list = new org.eclipse.emf.common.util.BasicEList&lt;Node>();&#xA;&#x9;&#x9;for(Edge e: this.getOutgoing()){&#xA;&#x9;&#x9;&#x9;list.add(e.getTargetElement());&#xA;&#x9;&#x9;}&#xA;&#x9;&#x9;return org.eclipse.emf.common.util.ECollections.unmodifiableEList(list);"/>
+        <details key="body" value="EList&lt;M> list = new org.eclipse.emf.common.util.BasicEList&lt;M>();&#xA;&#x9;&#x9;for(Edge e: this.getOutgoing()){&#xA;&#x9;&#x9;&#x9;list.add((M)e.getTargetElement());&#xA;&#x9;&#x9;}&#xA;&#x9;&#x9;return org.eclipse.emf.common.util.ECollections.unmodifiableEList(list);"/>
       </eAnnotations>
+      <eGenericType eTypeParameter="#//Node/getSuccessors/M"/>
+      <eTypeParameters name="M">
+        <eBounds eClassifier="#//Node"/>
+      </eTypeParameters>
     </eOperations>
     <eOperations name="getSuccessors" upperBound="-1">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
@@ -25,10 +29,14 @@
         </eGenericType>
       </eParameters>
     </eOperations>
-    <eOperations name="getPredecessors" upperBound="-1" eType="#//Node">
+    <eOperations name="getPredecessors" upperBound="-1">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="EList&lt;Node> list = new org.eclipse.emf.common.util.BasicEList&lt;Node>();&#xA;&#x9;&#x9;for(Edge e: this.getIncoming()){&#xA;&#x9;&#x9;&#x9;list.add(e.getSourceElement());&#xA;&#x9;&#x9;}&#xA;&#x9;&#x9;return org.eclipse.emf.common.util.ECollections.unmodifiableEList(list);"/>
+        <details key="body" value="EList&lt;M> list = new org.eclipse.emf.common.util.BasicEList&lt;M>();&#xA;&#x9;&#x9;for(Edge e: this.getIncoming()){&#xA;&#x9;&#x9;&#x9;list.add((M)e.getSourceElement());&#xA;&#x9;&#x9;}&#xA;&#x9;&#x9;return org.eclipse.emf.common.util.ECollections.unmodifiableEList(list);"/>
       </eAnnotations>
+      <eGenericType eTypeParameter="#//Node/getPredecessors/M"/>
+      <eTypeParameters name="M">
+        <eBounds eClassifier="#//Node"/>
+      </eTypeParameters>
     </eOperations>
     <eOperations name="getPredecessors" upperBound="-1">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
@@ -88,7 +96,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="targetElement" eType="#//Node"
         eOpposite="#//Node/incoming"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Container" eSuperTypes="#//ModelElementContainer #//Node"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Container" abstract="true" eSuperTypes="#//ModelElementContainer #//Node"/>
   <eClassifiers xsi:type="ecore:EClass" name="ModelElement" abstract="true" eSuperTypes="#//IdentifiableElement">
     <eOperations name="getRootElement" eType="#//GraphModel">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
