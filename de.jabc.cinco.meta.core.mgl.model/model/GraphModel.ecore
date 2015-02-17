@@ -7,6 +7,9 @@
   <eClassifiers xsi:type="ecore:EClass" name="Node" abstract="true" interface="true"
       eSuperTypes="#//ModelElement">
     <eOperations name="getSuccessors" upperBound="-1">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return new org.eclipse.emf.common.util.BasicEList&lt;M>();&#xA;&#x9;&#x9;"/>
+      </eAnnotations>
       <eGenericType eTypeParameter="#//Node/getSuccessors/M"/>
       <eTypeParameters name="M">
         <eBounds eClassifier="#//Node"/>
@@ -27,6 +30,9 @@
       </eParameters>
     </eOperations>
     <eOperations name="getPredecessors" upperBound="-1">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return new org.eclipse.emf.common.util.BasicEList&lt;M>();&#xA;&#x9;&#x9;"/>
+      </eAnnotations>
       <eGenericType eTypeParameter="#//Node/getPredecessors/M"/>
       <eTypeParameters name="M">
         <eBounds eClassifier="#//Node"/>
