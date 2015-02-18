@@ -27,6 +27,7 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jdt.core.IJavaModelStatusConstants;
 import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.pde.core.plugin.PluginRegistry;
 import org.osgi.framework.Bundle;
 
 import de.jabc.cinco.meta.core.BundleRegistry;
@@ -39,6 +40,8 @@ import de.metaframe.jabc.framework.execution.context.LightweightExecutionContext
 
 public class CreateCodeGeneratorPlugin extends AbstractService {
 
+
+	private static final String GENERATOR_RUNTIME_BUNDLE_NAME = "de.jabc.cinco.meta.plugin.generator.runtime";
 
 	public CreateCodeGeneratorPlugin() {
 	}
@@ -101,6 +104,7 @@ public class CreateCodeGeneratorPlugin extends AbstractService {
 					} else if (anno.getValue().size() == 2) {
 						implementingClassName = anno.getValue().get(0);
 						outlet = anno.getValue().get(1);
+						
 					}
 				}
 			}
@@ -130,10 +134,10 @@ public class CreateCodeGeneratorPlugin extends AbstractService {
 			
 			if (bundleName.isEmpty()) {
 				localBundle = true;
-				bundleName = res.getProject().getName();
+				bundleName = symbolicName;//res.getProject().getName();
 			}
 			BundleRegistry.INSTANCE.addBundle(bundleName,false);
-			BundleRegistry.INSTANCE.addBundle("de.jabc.cinco.meta.plugin.generator.runtime", false);
+			BundleRegistry.INSTANCE.addBundle(GENERATOR_RUNTIME_BUNDLE_NAME, false);
 			requiredBundles.add(symbolicName);
 			requiredBundles.add("org.eclipse.ui");
 			requiredBundles.add("org.eclipse.core.runtime");
@@ -144,7 +148,7 @@ public class CreateCodeGeneratorPlugin extends AbstractService {
 			requiredBundles.add("org.eclipse.graphiti.ui");
 			requiredBundles.add("org.eclipse.ui.workbench");
 			requiredBundles.add("de.jabc.cinco.meta.core.mgl.model");
-			requiredBundles.add("de.jabc.cinco.meta.plugin.generator.runtime");
+			requiredBundles.add(GENERATOR_RUNTIME_BUNDLE_NAME);
 			
 			
 			IProject pr = ResourcesPlugin.getWorkspace().getRoot().getProject(bundleName);
@@ -163,6 +167,13 @@ public class CreateCodeGeneratorPlugin extends AbstractService {
 			
 			if(!localBundle)
 				requiredBundles.add(bundleName);
+			else{
+				Bundle b = Platform.getBundle(GENERATOR_RUNTIME_BUNDLE_NAME);
+				ProjectCreator.addRequiredBundle(pr, b);
+			}
+			
+				
+			
 			
 			if(new Path("/"+projectName).toFile().exists())
 				new Path("/"+projectName).toFile().delete();
@@ -249,7 +260,7 @@ public class CreateCodeGeneratorPlugin extends AbstractService {
 		Set<String> requiredBundles = new HashSet<>();
 		requiredBundles.add("de.jabc.cinco.meta.core.mgl.model");
 		requiredBundles.add("org.eclipse.equinox.registry");
-		requiredBundles.add("de.jabc.cinco.meta.plugin.generator.runtime");
+		requiredBundles.add(GENERATOR_RUNTIME_BUNDLE_NAME);
 		requiredBundles.add(graphModelProjectName);
 		List<IProject> referencedProjects = new ArrayList<>();
 		List<String> srcFolders = new ArrayList<>();
