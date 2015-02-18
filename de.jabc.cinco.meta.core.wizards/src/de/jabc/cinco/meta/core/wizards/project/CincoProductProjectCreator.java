@@ -24,6 +24,11 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.ui.IPageLayout;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.part.ISetSelectionTarget;
 import org.osgi.framework.Bundle;
 
 import de.jabc.cinco.meta.core.utils.BuildProperties;
@@ -148,6 +153,12 @@ public class CincoProductProjectCreator {
 			}
 
 			project.refreshLocal(IResource.DEPTH_INFINITE, monitor);
+
+			IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+			ISetSelectionTarget projectExplorerView = (ISetSelectionTarget)page.findView(IPageLayout.ID_PROJECT_EXPLORER);
+			projectExplorerView.selectReveal(new StructuredSelection(cpdModelFile));
+
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
