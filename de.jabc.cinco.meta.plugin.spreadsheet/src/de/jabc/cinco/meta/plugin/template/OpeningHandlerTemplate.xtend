@@ -181,7 +181,7 @@ private ArrayList<VersionNode> getVersionNodes(Node node, String sheetName)
 private boolean exportSheet(ArrayList<VersionNode> nodes, String sheetName,String resultNodeId, HashMap<String,String> formulas, ArrayList<Cell> userCells)
 {
 	try {
-		SheetHandler.writeSheet(Spreadsheetexporter.export(nodes,formulas,userCells), resultNodeId, sheetName);
+		SheetHandler.writeSheet(Spreadsheetexporter.export(nodes,formulas,userCells), resultNodeId, sheetName,true);
 	} catch (IOException | ClassCastException | ClassNotFoundException e) {
 		MessageDialog.openError(Display.getCurrent().getActiveShell(), 
 				"Error", 

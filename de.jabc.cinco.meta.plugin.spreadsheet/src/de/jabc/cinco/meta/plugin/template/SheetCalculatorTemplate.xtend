@@ -215,7 +215,7 @@ public class SheetCalculator {
 	private void exportSheet(ArrayList<VersionNode> nodes, String sheetName,String resultNodeId, HashMap<String,String> formulas) throws CalculationException
 	{
 		try {
-			SheetHandler.writeSheet(Spreadsheetexporter.export(nodes,formulas,Spreadsheetimporter.importUserCells(sheetName, resultNodeId)), resultNodeId, sheetName);
+			SheetHandler.writeSheet(Spreadsheetexporter.export(nodes,formulas,Spreadsheetimporter.importUserCells(sheetName, resultNodeId)), resultNodeId, sheetName,true);
 		} catch (IOException | ClassCastException | ClassNotFoundException e) {
 			CalculationException ex =  (CalculationException) new CalculationException();
 			ex.setMessage("Sheet Error.\n Sheet could not been exportet.");
