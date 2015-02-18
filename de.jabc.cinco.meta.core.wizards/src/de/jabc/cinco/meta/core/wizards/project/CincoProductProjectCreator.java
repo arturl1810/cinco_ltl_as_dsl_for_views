@@ -199,6 +199,9 @@ public class CincoProductProjectCreator {
 		if (features.contains(CUSTOM_ACTION)) {
 			bundles.add("org.eclipse.jface");
 		}
+		if (features.contains(CODE_GENERATOR)) {
+			bundles.add("de.jabc.cinco.meta.plugin.generator.runtime");
+		}
 		return bundles;
 	}
 
