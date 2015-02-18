@@ -60,13 +60,8 @@ edgeStyle simpleArrow {
 	def static generateSomeGraphCPD(String modelName, String packageName)'''
 cincoProduct «modelName»{
 	mgl "model/«modelName».mgl"
-	about {
-		text "This is an example for an about text."
-	}
-	
 }		
 	'''
-	
 	
 	
 /*
@@ -86,8 +81,8 @@ cincoProduct «modelName»Tool {
 
 	«IF features.contains(PRODUCT_BRANDING)»
 	splashScreen "branding/splash.bmp" {
-		progressBar (40,260,180,10)
-		progressMessage (40,280,180,10)
+		progressBar (37,268,190,10)
+		progressMessage (37,280,190,18)
 	}
 
 	image16 "branding/Icon16.png"
@@ -98,6 +93,13 @@ cincoProduct «modelName»Tool {
 
 	about {
 		text "This is the example project for the Cinco SCCE Meta Tooling Suite ( http://cinco.scce.info ) that serves as a feature showcase. It is generated using the 'New CincoProduct' wizard"
+	}
+	«ENDIF»
+	
+	«IF features.contains(PRIME_REFERENCES)»
+	plugins {
+		info.scce.cinco.product.flowgraph.edit,
+		info.scce.cinco.product.flowgraph.editor
 	}
 	«ENDIF»
 	
@@ -386,7 +388,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
  *  model elements that are directly contained in the root model.
  *
  */
-public class Generate implements IGenerator<«modelName»>{
+public class Generate implements IGenerator<«modelName»> {
 	
 	public void generate(«modelName» model, IPath targetDir, IProgressMonitor monitor) {
 		String modelName = model.getModelName();
@@ -550,7 +552,7 @@ import de.jabc.cinco.meta.core.ge.style.model.customfeature.CincoPostCreateHook;
  * Example post-create hook that randomly sets the name of the activity. Possible
  * names are inspired by the action verbs of old-school point&click adventure games :)
  */
-public class RandomActivityName extends CincoPostCreateHook<Activity>{
+public class RandomActivityName extends CincoPostCreateHook<Activity> {
 
 	@Override
 	public void postCreate(Activity activity) {
@@ -605,7 +607,7 @@ import de.jabc.cinco.meta.core.ge.style.model.customfeature.CincoPostCreateHook;
  *  It will just insert a Start node, an Activity, and an End node to every newly created model.
  *
  */
-public class InitializeFlowGraphModel extends CincoPostCreateHook<FlowGraph>{
+public class InitializeFlowGraphModel extends CincoPostCreateHook<FlowGraph> {
 
 	@Override
 	public void postCreate(FlowGraph flowGraph) {
