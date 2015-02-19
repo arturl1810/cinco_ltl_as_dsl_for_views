@@ -63,6 +63,7 @@ import style.ContainerShape;
 import style.EdgeStyle;
 import style.Font;
 import style.HAlignment;
+import style.Image;
 import style.LineStyle;
 import style.NodeStyle;
 import style.Size;
@@ -71,6 +72,7 @@ import style.StyleFactory;
 import style.Styles;
 import style.VAlignment;
 import de.jabc.adapter.common.collection.Branches;
+import de.jabc.cinco.meta.core.utils.CincoUtils;
 import de.jabc.cinco.meta.core.utils.InheritanceUtil;
 import de.jabc.cinco.meta.core.utils.PathValidator;
 import de.metaframe.jabc.framework.execution.LightweightExecutionEnvironment;
@@ -1310,6 +1312,19 @@ public class ServiceAdapter {
 								paths.put(a.getValue().get(1), uri.toPlatformString(true));
 						}
 						
+					}
+				}
+			}
+			
+			Styles styles = CincoUtils.getStyles(gm);
+			for (TreeIterator<EObject> it = styles.eResource().getAllContents(); it.hasNext();){
+				EObject o = it.next();
+				if (o instanceof Image) {
+					Image img  = (Image) o;
+					String path = img.getPath();
+					if (PathValidator.isRelativePath(img, path)) {
+						uri = PathValidator.getURIForString(img, path);
+						paths.put(path, uri.toPlatformString(true));
 					}
 				}
 			}
