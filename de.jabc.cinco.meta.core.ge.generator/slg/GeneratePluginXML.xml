@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>c6d3a171-4a7c-4363-ab9c-c7be2786983b</id>
   <name>GeneratePluginXML</name>
-  <changecounter>377</changecounter>
+  <changecounter>402</changecounter>
   <sib>
     <id>b9acf74f-0e4c-4f93-80c7-e3f218bfc27e</id>
     <name>RunStringTemplate</name>
@@ -553,8 +553,9 @@
     </parameter>
     <parameter name="template">
       <string>	
-	&lt;extension
+	&lt;extension 
 		point=&quot;org.eclipse.graphiti.ui.diagramTypes&quot;&gt;
+	&lt;!--@CincoGen $context.graphModelName$--&gt;
 		&lt;diagramType
 			description=&quot;This is the generated diagram Type for $context.graphModelName$&quot;
 			id=&quot;$context.packageName$.$context.graphModelName$DiagramType&quot;
@@ -564,6 +565,7 @@
 	&lt;/extension&gt;
 	&lt;extension
 		point=&quot;org.eclipse.graphiti.ui.diagramTypeProviders&quot;&gt;
+	&lt;!--@CincoGen $context.graphModelName$--&gt;
 		&lt;diagramTypeProvider
 			class=&quot;$context.packageName$.graphiti.$context.graphModelName$DiagramTypeProvider&quot;
 			description=&quot;This is the generated editor for the $context.graphModelName$&quot;
@@ -579,6 +581,7 @@
 	&lt;/extension&gt;
 	&lt;extension
 		point=&quot;org.eclipse.graphiti.ui.imageProviders&quot;&gt;
+	&lt;!--@CincoGen $context.graphModelName$--&gt;
 		&lt;imageProvider
 			class=&quot;$context.packageName$.graphiti.$context.graphModelName$ImageProvider&quot;
 			id=&quot;$context.packageName$.$context.graphModelName$ImageProvider&quot;&gt;
@@ -586,6 +589,7 @@
 	&lt;/extension&gt;
 	&lt;extension
 		point=&quot;org.eclipse.ui.views.properties.tabbed.propertyContributor&quot;&gt;
+	&lt;!--@CincoGen $context.graphModelName$--&gt;
 		&lt;propertyContributor
 			contributorId=&quot;$context.graphModelName$.PropertyContributor&quot;&gt;
 			&lt;propertyCategory
@@ -594,6 +598,7 @@
 	&lt;/extension&gt;
 	&lt;extension
 		point=&quot;org.eclipse.ui.views.properties.tabbed.propertyTabs&quot;&gt;
+	&lt;!--@CincoGen $context.graphModelName$--&gt;
 		&lt;propertyTabs
 		contributorId=&quot;$context.graphModelName$.PropertyContributor&quot;&gt;
 			$context.propertyTabContent$
@@ -601,6 +606,7 @@
 	&lt;/extension&gt;
 	&lt;extension
 		point=&quot;org.eclipse.ui.views.properties.tabbed.propertySections&quot;&gt;
+	&lt;!--@CincoGen $context.graphModelName$--&gt;
 		&lt;propertySections
 			contributorId=&quot;$context.graphModelName$.PropertyContributor&quot;&gt;
 			$context.propertySectionCode$
@@ -608,6 +614,7 @@
 	&lt;/extension&gt;
 	&lt;extension
 		point=&quot;org.eclipse.ui.newWizards&quot;&gt;
+	&lt;!--@CincoGen $context.graphModelName$--&gt;
 		&lt;wizard
 			category=&quot;de.jabc.cinco.meta.core.wizards.category.cinco&quot;
 			class=&quot;$context.packageName$.graphiti.wizard.New$context.fuGraphModelName$DiagramWizard&quot;
@@ -618,6 +625,7 @@
 	&lt;/extension&gt;
 	&lt;extension
 		point=&quot;org.eclipse.ui.editors&quot;&gt;
+	&lt;!--@CincoGen $context.graphModelName$--&gt;
 		&lt;editor
 			class=&quot;$context.packageName$.graphiti.$context.fuGraphModelName$DiagramEditor&quot;
 			contributorClass=&quot;org.eclipse.graphiti.ui.editor.DiagramEditorActionBarContributor&quot;
@@ -636,6 +644,7 @@
 	&lt;/extension&gt;
 	&lt;extension
 		point=&quot;org.eclipse.core.contenttype.contentTypes&quot;&gt;
+	&lt;!--@CincoGen $context.graphModelName$--&gt;
 		&lt;content-type
 			file-extensions=&quot;$context.extension$&quot;
 			id=&quot;$context.packageName$.$context.fuGraphModelName$ContentType&quot;
@@ -645,6 +654,7 @@
 	&lt;/extension&gt;
 	&lt;extension
 		point=&quot;org.eclipse.ui.popupMenus&quot;&gt;
+	&lt;!--@CincoGen $context.graphModelName$--&gt;
 		&lt;objectContribution
 			adaptable=&quot;false&quot;
 			id=&quot;$context.packageName$.$context.graphModelName$ObjectContributor&quot;
@@ -659,6 +669,7 @@
 	&lt;/extension&gt;
 	&lt;extension
 		point=&quot;org.eclipse.ui.perspectives&quot;&gt;
+	&lt;!--@CincoGen $context.graphModelName$--&gt;
 		&lt;perspective
 			class=&quot;$context.packageName$.$context.graphModelName$PerspectiveFactory&quot;
 			fixed=&quot;false&quot;

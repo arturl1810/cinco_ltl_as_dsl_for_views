@@ -147,6 +147,8 @@ public class StylesValidator implements IMetaPluginValidator {
 
 	private ErrorPair<String, EStructuralFeature> checkEdgeStyleAnnotation(Edge edge, Annotation annot) {
 		Styles styles = getStyles(getGraphModel(edge));
+		if (annot.getValue() == null || annot.getValue().isEmpty())
+			return null;
 		String styleName = annot.getValue().get(0);
 		if (styleName == null || styleName.isEmpty())
 			return new ErrorPair<String, EStructuralFeature>(

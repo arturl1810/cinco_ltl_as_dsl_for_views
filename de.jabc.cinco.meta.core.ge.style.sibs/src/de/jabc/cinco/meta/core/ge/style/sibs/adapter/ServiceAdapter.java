@@ -75,6 +75,8 @@ import de.jabc.cinco.meta.core.utils.InheritanceUtil;
 import de.jabc.cinco.meta.core.utils.PathValidator;
 import de.metaframe.jabc.framework.execution.LightweightExecutionEnvironment;
 import de.metaframe.jabc.framework.execution.context.LightweightExecutionContext;
+import de.metaframe.jabc.framework.sib.parameter.ContextKey;
+import de.metaframe.jabc.framework.sib.parameter.ContextKey.Scope;
 import de.metaframe.jabc.framework.sib.parameter.foundation.ContextExpressionFoundation;
 import de.metaframe.jabc.framework.sib.parameter.foundation.ContextKeyFoundation;
 
@@ -88,6 +90,11 @@ public class ServiceAdapter {
 	
 	private final static String ID_CONTAINER = "Containers";
 	private final static String ID_NODES = "Nodes";
+	
+	private final static String PLUGIN_FRAME = "<?xml version=\"1.0\" encoding=\""+System.getProperty("file.encoding")+"\"?>\n"
+			+ "<?eclipse version=\"3.0\"?>\n"
+			+ "<plugin>\n"
+			+ "</plugin>";
 	
 	public ServiceAdapter() {
 		
@@ -1333,6 +1340,7 @@ public class ServiceAdapter {
 		
 			String p = (String) context.get(path);
 			String c = (String) context.get(content);
+			String gName = (String) context.get(new ContextKey("graphModelName", Scope.GLOBAL, true).asFoundation());
 			String pName = (String) context.get(projectName);
 			
 			ResourcesPlugin.getWorkspace().getRoot().getProject(pName).refreshLocal(IResource.DEPTH_INFINITE, monitor);
@@ -1349,18 +1357,23 @@ public class ServiceAdapter {
 						fis.close();
 						fis = new FileInputStream(f);
 						reader = new BufferedReader(new InputStreamReader(fis));
-						
-						String[] extensions = getExtensions(c);
-						StringBuilder sb = new StringBuilder(originalText);
-						String trimedOriginal = trimText(originalText);
-						for (String s : extensions) {
-							String trimedExtension = trimText(s);
-							if (!trimedOriginal.contains(trimedExtension)) {
-								int offset = originalText.indexOf("</plugin>");
-								sb.insert(offset, s);
-							}
+						String CINCO_GEN = new String("<!--@CincoGen "+gName+"-->");
+						String regex = new String("(?s)<extension.*"+CINCO_GEN+".*</extension>");
+						Pattern pattern = Pattern.compile(regex, Pattern.DOTALL);
+						ArrayList<String> extensions = getExtensions(originalText);
+						ArrayList<String> remove = new ArrayList<>();
+						for (String ext : extensions) {
+							if (ext.contains(CINCO_GEN))
+								remove.add(ext);
 						}
 						
+						extensions.removeAll(remove);
+						
+						StringBuilder sb = new StringBuilder(PLUGIN_FRAME);
+						int offset = sb.indexOf("</plugin>");
+						sb.insert(offset, c);
+						for (String ext : extensions)
+							sb.insert(offset, ext);
 						originalText = sb.toString();
 						FileOutputStream fos = new FileOutputStream(f);
 						fos.write(originalText.getBytes());
@@ -1368,10 +1381,7 @@ public class ServiceAdapter {
 						fis.close();
 			} else {
 				StringBuilder sb = new StringBuilder();
-				sb.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
-						+ "<?eclipse version=\"3.0\"?>"
-						+ "<plugin>"
-						+ "</plugin>");
+				sb.append(PLUGIN_FRAME);
 				int offset = sb.indexOf("</plugin>");
 				sb.insert(offset, c);
 				IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(pName);
@@ -1400,7 +1410,7 @@ public class ServiceAdapter {
 		return retval;
 	}
 
-	private static String[] getExtensions(String c) {
+	private static ArrayList<String> getExtensions(String c) {
 		ArrayList<String> extensions = new ArrayList<>();
 		String[] lines = c.split("\n");
 		StringBuilder sb = new StringBuilder();
@@ -1414,7 +1424,7 @@ public class ServiceAdapter {
 				extensions.add(sb.toString());
 			
 		}
-		return extensions.toArray(new String[extensions.size()]);
+		return extensions;
 	}
 	
 
