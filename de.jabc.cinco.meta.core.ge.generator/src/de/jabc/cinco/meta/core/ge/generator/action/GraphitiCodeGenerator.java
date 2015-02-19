@@ -51,6 +51,9 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
+import org.eclipse.emf.transaction.RecordingCommand;
+import org.eclipse.emf.transaction.TransactionalEditingDomain;
+import org.eclipse.emf.transaction.util.TransactionUtil;
 import org.eclipse.graphiti.datatypes.ILocation;
 import org.eclipse.graphiti.dt.IDiagramTypeProvider;
 import org.eclipse.graphiti.features.IDeleteFeature;
@@ -339,6 +342,9 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 		context.put("fqnStringInputStream", StringInputStream.class.getName());
 		context.put("fqnIOException", IOException.class.getName());
 		context.put("fqnCoreException", CoreException.class.getName());
+		context.put("fqnTransactionalEditingDomain", TransactionalEditingDomain.class.getName());
+		context.put("fqnTransactionUtil", TransactionUtil.class.getName());
+		context.put("fqnRecordingCommand", RecordingCommand.class.getName());
 		
 		context.put("fqnDiagram", Diagram.class.getName());
 		context.put("fqnDiagramTypeProvider", IDiagramTypeProvider.class.getName());

@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>bd602dcf-2ea3-4585-953e-853c0406cc4e</id>
   <name>GenerateResizeModelElementFeature</name>
-  <changecounter>209</changecounter>
+  <changecounter>212</changecounter>
   <sib>
     <id>6cad6f22-f2a9-4f5c-a9dc-5eaeb99341c0</id>
     <name>PutExpression_1</name>
@@ -385,6 +385,8 @@ public class Resize$context.modelElement.name$Feature extends DefaultResizeShape
 	@Override
 	public void resizeShape(final IResizeShapeContext context) {
 		TransactionalEditingDomain dom = TransactionUtil.getEditingDomain(getDiagram());
+		if (dom == null) 
+			dom = TransactionalEditingDomain.Factory.INSTANCE.createEditingDomain(getDiagram().eResource().getResourceSet());
 		dom.getCommandStack().execute(new RecordingCommand(dom, &quot;Resize&quot;) {
 			
 			@Override

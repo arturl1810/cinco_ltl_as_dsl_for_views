@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>e96e3211-9e15-4d4a-94a9-7b4b8375d7a3</id>
   <name>GenerateLayoutFeatures</name>
-  <changecounter>578</changecounter>
+  <changecounter>581</changecounter>
   <sib>
     <id>ff7817b7-c328-4684-827e-afc4ea81c9f3</id>
     <name>PutExpression</name>
@@ -107,6 +107,9 @@ import $context.importPath$.*;
 import $context.packageName$.graphiti.*;
 
 $context.appearanceContentImports$
+import org.eclipse.emf.transaction.RecordingCommand;
+import org.eclipse.emf.transaction.TransactionalEditingDomain;
+import org.eclipse.emf.transaction.util.TransactionUtil;
 import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
 import org.eclipse.graphiti.mm.algorithms.AbstractText;
 import org.eclipse.graphiti.mm.algorithms.styles.LineStyle;
@@ -149,89 +152,99 @@ public class $context.graphModelName$LayoutUtils {
 
 	private static IGaService gaService = Graphiti.getGaService();
 
-	public static void layout(GraphicsAlgorithm parent, GraphicsAlgorithm ga) {
-		IPeService peService = Graphiti.getPeService();
-		IGaService gaService = Graphiti.getGaService();
-		String horizontal = peService.getPropertyValue(ga, KEY_HORIZONTAL);
-		String vertical = peService.getPropertyValue(ga, KEY_VERTICAL);
-		
-		if (parent == null)
-			return;
-		
-		int parentWidth = parent.getWidth(), parentHeight = parent.getHeight();
-		int gaWidth = ga.getWidth(), gaHeight = ga.getHeight();
-		if (ga instanceof Text) {
-			IDimension dim = getTextDimension((Text) ga);
-			gaService.setWidth(ga, dim.getWidth());
-			gaService.setHeight(ga, dim.getHeight());
-			gaWidth = dim.getWidth();
-			gaHeight = dim.getHeight();
-		}
-
-		if (ga instanceof MultiText) {
-			MultiText mt = (MultiText) ga;
-			String content = mt.getValue().trim();
-			String[] lines = content.split(&quot;\n&quot;);
-			int linesCount = lines.length + 1;
-			int maxLineWidth = -1;
-			int lineHeight = -1;
+	public static void layout(final GraphicsAlgorithm parent, final GraphicsAlgorithm ga) {
+		TransactionalEditingDomain dom = TransactionUtil.getEditingDomain(ga);
+		if (dom == null)
+			dom = TransactionalEditingDomain.Factory.INSTANCE.createEditingDomain();
+		dom.getCommandStack().execute(new RecordingCommand(dom) {
 			
-			IDimension dim = null;
-			for (String s : lines) {
-				dim = getTextDimension(s, (mt.getFont() != null) ? mt.getFont() : mt.getStyle().getFont());
-				maxLineWidth = Math.max(maxLineWidth, dim.getWidth());
+			@Override
+			protected void doExecute() {
+
+				IPeService peService = Graphiti.getPeService();
+				IGaService gaService = Graphiti.getGaService();
+				String horizontal = peService.getPropertyValue(ga, KEY_HORIZONTAL);
+				String vertical = peService.getPropertyValue(ga, KEY_VERTICAL);
+			
+				if (parent == null)
+					return;
+				
+				int parentWidth = parent.getWidth(), parentHeight = parent.getHeight();
+				int gaWidth = ga.getWidth(), gaHeight = ga.getHeight();
+				if (ga instanceof Text) {
+					IDimension dim = getTextDimension((Text) ga);
+					gaService.setWidth(ga, dim.getWidth());
+					gaService.setHeight(ga, dim.getHeight());
+					gaWidth = dim.getWidth();
+					gaHeight = dim.getHeight();
+				}
+
+				if (ga instanceof MultiText) {
+					MultiText mt = (MultiText) ga;
+					String content = mt.getValue().trim();
+					String[] lines = content.split(&quot;\n&quot;);
+					int linesCount = lines.length + 1;
+					int maxLineWidth = -1;
+					int lineHeight = -1;
+				
+					IDimension dim = null;
+					for (String s : lines) {
+						dim = getTextDimension(s, (mt.getFont() != null) ? mt.getFont() : mt.getStyle().getFont());
+						maxLineWidth = Math.max(maxLineWidth, dim.getWidth());
+					}
+					if (dim != null)
+						lineHeight = dim.getHeight();
+			
+					gaWidth = maxLineWidth + 5;
+					gaHeight = lineHeight * linesCount;
+					mt.setWidth(gaWidth);
+					mt.setHeight(gaHeight);
+			
+					if (parent.getWidth() &lt; gaWidth)
+						parent.setWidth(gaWidth);
+					if (parent.getHeight() &lt; gaHeight)
+						parent.setHeight(gaHeight);
+			
+					parentWidth = parent.getWidth();
+					parentHeight = parent.getHeight();
+				}
+		
+				if (KEY_HORIZONTAL_UNDEFINED.equals(horizontal) || KEY_VERTICAL_UNDEFINED.equals(vertical))
+					return;
+		
+				int x = 0, y = 0;
+		
+				switch (horizontal) {
+				case KEY_HORIZONTAL_LEFT:
+					x = 0;
+					break;
+				case KEY_HORIZONTAL_CENTER:
+					x = parentWidth / 2 - gaWidth / 2;
+					break;
+				case KEY_HORIZONTAL_RIGHT:
+					x = parentWidth - gaWidth;
+					break;
+				default:
+					break;
+				}
+			
+				switch (vertical) {
+				case KEY_VERTICAL_TOP:
+					y = 0;
+					break;
+				case KEY_VERTICAL_MIDDLE:
+					y = parentHeight / 2 - gaHeight / 2;
+					break;
+				case KEY_VERTICAL_BOTTOM:
+					y = parentHeight - gaHeight;
+					break;
+				default:
+					break;
+				}
+		
+				gaService.setLocation(ga, x, y);
 			}
-			if (dim != null)
-				lineHeight = dim.getHeight();
-			
-			gaWidth = maxLineWidth + 5;
-			gaHeight = lineHeight * linesCount;
-			mt.setWidth(gaWidth);
-			mt.setHeight(gaHeight);
-			
-			if (parent.getWidth() &lt; gaWidth)
-				parent.setWidth(gaWidth);
-			if (parent.getHeight() &lt; gaHeight)
-				parent.setHeight(gaHeight);
-			
-			parentWidth = parent.getWidth();
-			parentHeight = parent.getHeight();
-		}
-		
-		if (KEY_HORIZONTAL_UNDEFINED.equals(horizontal) || KEY_VERTICAL_UNDEFINED.equals(vertical))
-			return;
-
-		int x = 0, y = 0;
-		
-		switch (horizontal) {
-		case KEY_HORIZONTAL_LEFT:
-			x = 0;
-			break;
-		case KEY_HORIZONTAL_CENTER:
-			x = parentWidth / 2 - gaWidth / 2;
-			break;
-		case KEY_HORIZONTAL_RIGHT:
-			x = parentWidth - gaWidth;
-			break;
-		default:
-			break;
-		}
-		
-		switch (vertical) {
-		case KEY_VERTICAL_TOP:
-			y = 0;
-			break;
-		case KEY_VERTICAL_MIDDLE:
-			y = parentHeight / 2 - gaHeight / 2;
-			break;
-		case KEY_VERTICAL_BOTTOM:
-			y = parentHeight - gaHeight;
-			break;
-		default:
-			break;
-		}
-		
-		gaService.setLocation(ga, x, y);
+		});
 	}
 
 	public static IDimension getTextDimension(AbstractText t) {
