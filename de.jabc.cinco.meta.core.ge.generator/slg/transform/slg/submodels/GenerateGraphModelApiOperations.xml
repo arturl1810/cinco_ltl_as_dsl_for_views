@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>9bb85745-8351-4055-af1b-c6d172d4e88d</id>
   <name>GenerateGraphModelApiOperations</name>
-  <changecounter>230</changecounter>
+  <changecounter>243</changecounter>
   <sib>
     <id>305bdb71-32f2-4c78-9c2b-f9a7d5fc3711</id>
     <name>IterateGraphModelNodes</name>
@@ -269,6 +269,7 @@ cc.setTargetContainer(getShape());
 				$fqnGraphiti$.getLinkService().getPictogramElements(d, retval.getModelElement()).get(0));
 			retval.setDiagram(d);
 			this.getModelElements().add(retval);
+			this.getMap().put(retval.getModelElement() ,retval);
 		}
 	} else return null;
     
@@ -837,6 +838,7 @@ if (cf.canCreate(ccc)) {
 	retval.setSourceElement(source);
 	retval.setTargetElement(target);
 	this.getModelElements().add(retval);
+	this.getMap().put(retval.getModelElement() ,retval);
 }
 return retval;</string>
     </parameter>
@@ -1298,6 +1300,7 @@ cc.setTargetContainer(getShape());
 				$fqnGraphiti$.getLinkService().getPictogramElements(d, retval.getModelElement()).get(0));
 			retval.setDiagram(d);
 			this.getModelElements().add(retval);
+			this.getMap().put(retval.getModelElement() ,retval);
 		}
 	} else return null;
     
@@ -1757,6 +1760,10 @@ java.util.List&lt;$fqnPictogramElement$&gt; pes = $fqnGraphitiUi$.getLinkService
     	return false;
 $fqnDeleteContext$ dc = new $fqnDeleteContext$(pes.get(0));
 $fqnDeleteFeature$ df = provider.getDeleteFeature(dc);
+
+if (this.getMap().get(me.getModelElement()) != null) {
+	this.getMap().remove(me.getModelElement());
+}
 
 if (df.canDelete(dc)) {
 	df.delete(dc);

@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>7c46cc02-d874-4f7b-8dc5-2f624fce088b</id>
   <name>GenerateCreatePrimeNode</name>
-  <changecounter>46</changecounter>
+  <changecounter>48</changecounter>
   <sib>
     <id>d449a017-7ca7-429b-bbe0-4897b9941e3f</id>
     <name>GraphSIB_22</name>
@@ -67,6 +67,7 @@ ac.setTargetContainer(getShape());
 				$fqnGraphiti$.getLinkService().getPictogramElements(d, retval.getModelElement()).get(0));
 			retval.setDiagram(d);
 			this.getModelElements().add(retval);
+			this.getMap().put(retval.getModelElement() ,retval);
 		}
 	} else return null;
     
