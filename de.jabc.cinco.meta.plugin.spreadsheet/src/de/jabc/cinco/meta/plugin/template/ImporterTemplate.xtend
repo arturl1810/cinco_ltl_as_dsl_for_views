@@ -140,7 +140,7 @@ public static ArrayList<Cell> importUserCells(String sheetName, String resultNod
 		Iterator<Cell> cellIterator = row.cellIterator();
     	while(cellIterator.hasNext()) {
     		Cell cell = cellIterator.next();
-			if(cell.getCellComment()==null) {
+			if(cell.getCellComment()==null&&cell.getCellType()!=Cell.CELL_TYPE_BLANK) {
 				if(cell.getRowIndex() >= rowOffset) {
 				usercells.add(cell);
 				}    			

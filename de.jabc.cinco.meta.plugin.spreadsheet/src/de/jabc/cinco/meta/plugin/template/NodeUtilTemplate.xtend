@@ -57,7 +57,7 @@ public class NodeUtil {
 		return sheetName+"_"+counter+".xls";
 	}
 	
-	public static ArrayList<VersionNode> getVersionNodes(HSSFSheet sheet, ArrayList<VersionNode> newNodes, Node resultNode) {
+	public static ArrayList<VersionNode> getVersionNodes(HSSFSheet sheet, ArrayList<VersionNode> newNodes, Node resultNode, ArrayList<Integer> referencedRows) {
 	ArrayList<VersionNode> vns = new ArrayList<>();
 	
 	//Put the new Nodes in a Hashmap based on their id
@@ -202,19 +202,22 @@ public class NodeUtil {
 			}
 			else
 			{
-				Node missingNode = getNode(((graphmodel.GraphModel)resultNode.getContainer()), id);
-				//System.out.println(missingNode);
-				//Note is not in the Canvas and has to be read from the sheet
-				if(missingNode==null) {
-					missingNode=createNodeFromSheetRow(nodeName, row);
-				}
-				//If the node is still in the Graphmodel and has not been found yet
-				if(missingNode!=null && !vns.contains(missingNode)) {
-					vn.node = missingNode;
-					vn.status = NodeStatus.REMOVED;
-					vn.edge = null;
-					vns.add(vn);
-					
+				//Check wheter a missing node is no longer referenced by another cell formula
+				if(referencedRows.contains(idCell.getRowIndex()+1)) {					
+					Node missingNode = getNode(((graphmodel.GraphModel)resultNode.getContainer()), id);
+					//System.out.println(missingNode);
+					//Note is not in the Canvas and has to be read from the sheet
+					if(missingNode==null) {
+						missingNode=createNodeFromSheetRow(nodeName, row);
+					}
+					//If the node is still in the Graphmodel and has not been found yet
+					if(missingNode!=null && !vns.contains(missingNode)) {
+						vn.node = missingNode;
+						vn.status = NodeStatus.REMOVED;
+						vn.edge = null;
+						vns.add(vn);
+						
+					}
 				}
 			}
 		}
@@ -399,6 +402,12 @@ public static int getUserCellOffset(ArrayList<Cell> userCells,int row)
 	return rowOffset;
 }
 
+/**
+ * 
+ * @param oldCellReferences
+ * @param newCellReferences
+ * @return
+ */
 public static HashMap<Integer,Integer> getRowRereferences(HashMap<Integer, Integer> oldCellReferences, HashMap<Integer, Integer> newCellReferences)
 {
 	HashMap<Integer,Integer> refs = new HashMap<Integer,Integer>();
@@ -410,6 +419,39 @@ public static HashMap<Integer,Integer> getRowRereferences(HashMap<Integer, Integ
 	}
 	
 	return refs;
+}
+
+/**
+ * 
+ * @param formulas
+ * @param userCells
+ * @return
+ */
+public static ArrayList<Integer> getFormulaReferencedRows(ArrayList<String> formulas,ArrayList<Cell> userCells)
+{
+	//Add user Cell formulas to the List of formulas
+	for(Cell cell : userCells) {
+		if(cell.getCellType() == Cell.CELL_TYPE_FORMULA) {
+			formulas.add(cell.getCellFormula());
+		}
+	}
+	
+	ArrayList<Integer> rows = new ArrayList<Integer>();
+	
+	Pattern pattern = Pattern.compile("[a-zA-Z]+[0-9]+");
+	//Sreach for the given cellRow in the Formula
+	for(String formula : formulas) {		
+		Matcher matcher = pattern.matcher(formula);
+		while(matcher.find()) {
+			String cellRef = matcher.group().toUpperCase();
+			String cellRow = cellRef.replaceAll("\\D+","");
+			int row = Integer.parseInt(cellRow);
+			if(!rows.contains(row)) {
+				rows.add(row);
+			}
+		}
+	}
+	return rows;
 }
 }
 	

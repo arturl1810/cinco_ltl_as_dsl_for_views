@@ -119,7 +119,7 @@ private ArrayList<Cell> getUserCells(String sheetName, String resultNodeId)
 }
 
 
-private ArrayList<VersionNode> refreshSheet(Node node,String sheetname) throws IOException{
+private ArrayList<VersionNode> refreshSheet(Node node,String sheetname, ArrayList<Integer> referencedRows) throws IOException{
 	//Get Sheet
 	HSSFSheet sheet = null;
 	try {
@@ -131,7 +131,7 @@ private ArrayList<VersionNode> refreshSheet(Node node,String sheetname) throws I
 	}
 	//Get selected Nodes
 	ArrayList<VersionNode> nodes = NodeUtil.getTransitionedNodes(node);
-	return NodeUtil.getVersionNodes(sheet, nodes, node);
+	return NodeUtil.getVersionNodes(sheet, nodes, node, referencedRows);
 }
 
 private HashMap<String,String> importFormula(String sheetName, String resultNodeId,ArrayList<String> resultNodeAttributes)
@@ -163,11 +163,11 @@ private HashMap<Integer, Integer> importCellReferences(String sheetName, String 
 	return cellReferences;
 }
 
-private ArrayList<VersionNode> getVersionNodes(Node node, String sheetName)
+private ArrayList<VersionNode> getVersionNodes(Node node, String sheetName, ArrayList<Integer> referencedRows)
 {
 	ArrayList<VersionNode> nodes = null;
 	try {
-		nodes = refreshSheet(node, sheetName);
+		nodes = refreshSheet(node, sheetName, referencedRows);
 	} catch (IOException e) {
 		MessageDialog.openError(Display.getCurrent().getActiveShell(), 
 				"Error", 
@@ -253,10 +253,10 @@ private int getGenratedColIndex(String sheetName, String resultNodeId)
 		}
 		
 		oldCellReferences = importCellReferences(sheetName,resultNodeId);
+		ArrayList<Cell> userCells = this.getUserCells(sheetName, resultNodeId);
 		
 		//Refresh the sheet and write it
-		nodes = getVersionNodes(node, sheetName);
-		ArrayList<Cell> userCells = this.getUserCells(sheetName, resultNodeId);
+		nodes = getVersionNodes(node, sheetName,NodeUtil.getFormulaReferencedRows(new ArrayList<String>(formulas.values()),userCells));
 		if(!exportSheet(nodes, sheetName, resultNodeId, formulas,userCells))
 		{
 			return null;

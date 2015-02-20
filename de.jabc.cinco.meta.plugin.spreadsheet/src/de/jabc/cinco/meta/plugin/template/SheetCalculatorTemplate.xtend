@@ -26,9 +26,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.ss.usermodel.Cell;
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.util.TransactionUtil;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.swt.widgets.Display;
 
 public class SheetCalculator {
 	/**
@@ -126,7 +129,7 @@ public class SheetCalculator {
 		HashMap<Integer,Integer> oldCellReferences = importCellReferences(sheetName,resultNodeId);
 		
 		//Refresh the sheet and write it
-		ArrayList<VersionNode> nodes = refreshSheet(source, sheetName);
+		ArrayList<VersionNode> nodes = refreshSheet(source, sheetName,NodeUtil.getFormulaReferencedRows(new ArrayList<String>(formulas.values()),this.getUserCells(sheetName, resultNodeId)));
 		
 		exportSheet(nodes, sheetName, resultNodeId, formulas);
 		//Import the new Cell References in the refreshed sheet
@@ -171,7 +174,7 @@ public class SheetCalculator {
 		return results;
 	}
 	
-	private ArrayList<VersionNode> refreshSheet(Node node,String sheetname) throws CalculationException{
+	private ArrayList<VersionNode> refreshSheet(Node node,String sheetname, ArrayList<Integer> cellReferencedRows) throws CalculationException{
 		//Get Sheet
 		HSSFSheet sheet = null;
 		try {
@@ -183,7 +186,7 @@ public class SheetCalculator {
 		}
 		//Get selected Nodes
 		ArrayList<VersionNode> nodes = NodeUtil.getTransitionedNodes(node);
-		return NodeUtil.getVersionNodes(sheet, nodes, node);
+		return NodeUtil.getVersionNodes(sheet, nodes, node, cellReferencedRows);
 	}
 
 	private HashMap<String,String> importFormula(String sheetName, String resultNodeId,ArrayList<String> resultNodeAttributes) throws CalculationException
@@ -248,6 +251,18 @@ public class SheetCalculator {
 			ex.setMessage("Calculation Error.\nCalculation failed.\nPlease check your Formula.");
 			throw ex;
 		}
+	}
+	
+	private ArrayList<Cell> getUserCells(String sheetName, String resultNodeId)
+	{
+		try {
+			return Spreadsheetimporter.importUserCells(sheetName, resultNodeId);
+		} catch (ClassNotFoundException | ClassCastException | IOException e) {
+			MessageDialog.openError(Display.getCurrent().getActiveShell(), 
+					"Error", 
+					"Sheet error.\nUser written cells could not be importet.");
+		}
+		return new ArrayList<Cell>();
 	}
 }
 '''
