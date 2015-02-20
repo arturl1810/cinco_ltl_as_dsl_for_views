@@ -25,7 +25,9 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.osgi.framework.Bundle;
 
+import de.jabc.cinco.meta.core.BundleRegistry;
 import de.jabc.cinco.meta.core.pluginregistry.IMetaPlugin;
+import de.jabc.cinco.meta.core.pluginregistry.PluginRegistry;
 import de.jabc.cinco.meta.core.utils.BuildProperties;
 import de.jabc.cinco.meta.core.utils.projects.ProjectCreator;
 import de.metaframe.jabc.framework.execution.DefaultLightweightExecutionEnvironment;
@@ -67,7 +69,6 @@ public class ExecutableMetaPlugin implements IMetaPlugin {
 			Set<String> requiredBundles = new HashSet<>();
 			requiredBundles.add("de.jabc.cinco.meta.core.mgl");
 			requiredBundles.add("de.jabc.cinco.plugin.executor");
-			requiredBundles.add(graphModel.getPackage());
 			List<String> exportedPackages = new ArrayList<>();
 			List<String> additionalNature = new ArrayList<>();
 			IProject tvProject = ProjectCreator.createProject(projectName,
@@ -76,7 +77,8 @@ public class ExecutableMetaPlugin implements IMetaPlugin {
 			executorCreated = true;
 			projectPath = tvProject.getLocation().makeAbsolute()
 					.toPortableString();
-			
+			BundleRegistry.INSTANCE.addBundle("de.jabc.cinco.plugin.executor",false);
+			BundleRegistry.INSTANCE.addBundle(projectName,true);
 			File maniFile = tvProject.getLocation().append("META-INF/MANIFEST.MF").toFile();
 			BufferedWriter bufwr;
 			try {
