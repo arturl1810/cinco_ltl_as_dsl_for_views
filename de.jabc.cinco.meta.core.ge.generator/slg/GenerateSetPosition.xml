@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>e0c76532-9e6d-432c-8bdd-c39fb6516795</id>
   <name>GenerateSetPosition</name>
-  <changecounter>331</changecounter>
+  <changecounter>337</changecounter>
   <sib>
     <id>da0a527b-9125-4bcc-8691-6c1f8c7c1079</id>
     <name>SwitchAbstractPosition</name>
@@ -627,7 +627,9 @@ $context.containerPos$
 	gaService.setLocation($context.peName$, context.getX(), context.getY());
 }
 peService.setPropertyValue($context.peName$, $context.graphModelName$LayoutUtils.KEY_HORIZONTAL, $context.graphModelName$LayoutUtils.KEY_HORIZONTAL_UNDEFINED);
-peService.setPropertyValue($context.peName$, $context.graphModelName$LayoutUtils.KEY_VERTICAL, $context.graphModelName$LayoutUtils.KEY_VERTICAL_UNDEFINED);</string>
+peService.setPropertyValue($context.peName$, $context.graphModelName$LayoutUtils.KEY_VERTICAL, $context.graphModelName$LayoutUtils.KEY_VERTICAL_UNDEFINED);
+
+</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>

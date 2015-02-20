@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>9bb85745-8351-4055-af1b-c6d172d4e88d</id>
   <name>GenerateGraphModelApiOperations</name>
-  <changecounter>176</changecounter>
+  <changecounter>230</changecounter>
   <sib>
     <id>305bdb71-32f2-4c78-9c2b-f9a7d5fc3711</id>
     <name>IterateGraphModelNodes</name>
@@ -87,7 +87,7 @@
     <label>ToFirstLower</label>
     <sib-uid>basic-sibs/ToFirstLower</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.ToFirstLower</taxonomy>
-    <position>29.0,303.0</position>
+    <position>29.0,273.0</position>
     <parameter name="inputString">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -131,7 +131,7 @@
     <label>ToFirstUpper</label>
     <sib-uid>basic-sibs/ToFirstUpper</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.ToFirstUpper</taxonomy>
-    <position>29.5,423.0</position>
+    <position>29.5,363.0</position>
     <parameter name="inputString">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -167,7 +167,7 @@
     <label>GetNodeClass</label>
     <sib-uid>collection-sibs/GetElement</sib-uid>
     <taxonomy>de.jabc.sib.common.collection.GetElement</taxonomy>
-    <position>26.0,558.0</position>
+    <position>26.0,468.0</position>
     <parameter name="element">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -212,7 +212,7 @@
     <label>Create CreateAndAdd</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>185.0,646.0</position>
+    <position>185.0,586.0</position>
     <parameter name="eClassKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -297,7 +297,7 @@ return retval; </string>
     <label>PutList</label>
     <sib-uid>collection-sibs/PutList</sib-uid>
     <taxonomy>de.jabc.sib.common.collection.PutList</taxonomy>
-    <position>232.0,753.0</position>
+    <position>232.0,708.0</position>
     <parameter name="elements">
       <list>
         <string>xPos</string>
@@ -381,7 +381,7 @@ return retval; </string>
     <label>Create CreateAndAdd</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>384.0,616.0</position>
+    <position>384.0,316.0</position>
     <parameter name="eClassKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -433,7 +433,7 @@ return retval; </string>
     <label>PutList</label>
     <sib-uid>collection-sibs/PutList</sib-uid>
     <taxonomy>de.jabc.sib.common.collection.PutList</taxonomy>
-    <position>427.0,738.0</position>
+    <position>427.0,423.0</position>
     <parameter name="elements">
       <list>
         <string>xPos</string>
@@ -469,8 +469,8 @@ return retval; </string>
   <edge>
     <source>c708906c-7efc-473b-8f19-715c3e30e2b3</source>
     <target>26a595c0-e5d5-4b01-8fad-6bbda48ba1a7</target>
-    <point>447.0,766.0</point>
-    <point>447.0,646.0</point>
+    <point>450.0,540.0</point>
+    <point>450.0,420.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -480,7 +480,7 @@ return retval; </string>
     <label>CreateParametersForEOperation</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>353.0,511.0</position>
+    <position>353.0,211.0</position>
     <parameter name="eOperationKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -520,16 +520,16 @@ return retval; </string>
   <edge>
     <source>26a595c0-e5d5-4b01-8fad-6bbda48ba1a7</source>
     <target>bd099a6c-f8b0-4a11-a6e9-f91294adbfbd</target>
-    <point>447.0,646.0</point>
-    <point>447.0,541.0</point>
+    <point>450.0,420.0</point>
+    <point>450.0,315.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
     <source>bd099a6c-f8b0-4a11-a6e9-f91294adbfbd</source>
     <target>3081e7a1-4795-43ed-902a-efdfcfc987be</target>
-    <point>447.0,541.0</point>
-    <point>447.0,406.0</point>
+    <point>450.0,315.0</point>
+    <point>450.0,180.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -574,7 +574,7 @@ Creates and adds an $nodeName$.
     <label>Generate_Documentation</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>374.0,376.0</position>
+    <position>374.0,121.0</position>
     <parameter name="eOperationKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -603,9 +603,9 @@ Creates and adds a new instance of $nodeName$ if possible.
   </sib>
   <edge>
     <source>6cf96a7a-6150-4bff-96fd-0fab0cfa35e9</source>
-    <target>c708906c-7efc-473b-8f19-715c3e30e2b3</target>
-    <point>447.0,886.0</point>
-    <point>447.0,766.0</point>
+    <target>b1f1d896-c2d2-403b-aa49-be7c4198d0ed</target>
+    <point>434.375,856.0</point>
+    <point>388.1578947368421,791.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -1018,9 +1018,9 @@ Creates and adds an $edgeName$.
   </edge>
   <edge>
     <source>b56f6298-9656-4429-9893-6ee57bce2762</source>
-    <target>fbc9749e-be67-4969-8234-ecff90bf60ea</target>
-    <point>807.0,661.0</point>
-    <point>657.0,91.0</point>
+    <target>632053a2-4638-47fd-a189-9b3920eb587f</target>
+    <point>819.5238095238095,631.0</point>
+    <point>861.6666666666666,536.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -1334,7 +1334,7 @@ return retval; </string>
     <label>CreateParametersForEOperation</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>1058.0,751.0</position>
+    <position>878.0,856.0</position>
     <parameter name="eOperationKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1576,7 +1576,7 @@ return retval; </string>
     <label>Generate_Documentation</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>1079.0,616.0</position>
+    <position>899.0,991.0</position>
     <parameter name="eOperationKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1640,9 +1640,9 @@ Creates and adds a new instance of $containerName$ if possible.
   </sib>
   <edge>
     <source>677b1b42-230a-49c6-b9bf-cb074886a13e</source>
-    <target>6e97c76a-f243-4d98-97fa-5941b4924d59</target>
-    <point>1152.0,646.0</point>
-    <point>1152.0,541.0</point>
+    <target>25384750-fd9d-47ce-a543-5154a05a2785</target>
+    <point>995.0,991.6</point>
+    <point>1255.5825242718447,731.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -2165,7 +2165,7 @@ return false;
     <label>IsPrimeNode</label>
     <sib-uid>ge-util-sibs/IsPrimeNode</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsPrimeNode</taxonomy>
-    <position>211.0,543.0</position>
+    <position>211.0,468.0</position>
     <parameter name="node">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -2188,9 +2188,9 @@ return false;
   </edge>
   <edge>
     <source>f5068024-a51c-4a57-b2a3-22641ce907f2</source>
-    <target>7eadb614-8560-4ea9-a219-76fe934b1d65</target>
-    <point>105.0,579.0</point>
-    <point>105.0,751.0</point>
+    <target>0df44593-31ec-4bc9-95cc-b27ec1bbaf7d</target>
+    <point>273.0,487.8</point>
+    <point>325.0,488.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>true</branch>
   </edge>
@@ -2200,7 +2200,7 @@ return false;
     <label>GenerateCreatePrimeNode</label>
     <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
-    <position>174.5,316.0</position>
+    <position>204.5,151.0</position>
     <parameter name="eClassKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -2366,6 +2366,600 @@ Moves a node to the specified position in this container
     <point>940.0,90.0</point>
     <branch>true</branch>
   </edge>
+  <sib>
+    <id>b1f1d896-c2d2-403b-aa49-be7c4198d0ed</id>
+    <name>GraphSIB_22</name>
+    <label>Create GetNode</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>400.5,736.0</position>
+    <parameter name="eClassKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>graphModelClass</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="eOperatiobUpperBound">
+      <int>1</int>
+    </parameter>
+    <parameter name="eOperationLowerBound">
+      <int>1</int>
+    </parameter>
+    <parameter name="eOperationNameKey">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>getC${fuNodeName}</expression>
+          <clazz>java.lang.String</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="eOperationeTypeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>nodeClass</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>false</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>$apiPrefix$$nodeName$ retval = ($apiPrefix$$nodeName$) this.getMap().get(me);
+return retval;</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Create EOperation</string>
+    </userobject>
+  </sib>
+  <sib>
+    <id>f805e88e-ed55-40d0-a6db-caba8ba09df0</id>
+    <name>PutList_8</name>
+    <label>PutList</label>
+    <sib-uid>collection-sibs/PutList</sib-uid>
+    <taxonomy>de.jabc.sib.common.collection.PutList</taxonomy>
+    <position>427.0,633.0</position>
+    <parameter name="elements">
+      <list>
+        <string>me</string>
+      </list>
+    </parameter>
+    <parameter name="initialCapacity">
+      <int>10</int>
+    </parameter>
+    <parameter name="synchronization">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>parameters</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>b1f1d896-c2d2-403b-aa49-be7c4198d0ed</source>
+    <target>f805e88e-ed55-40d0-a6db-caba8ba09df0</target>
+    <point>450.0,780.0</point>
+    <point>450.0,699.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>df37d0b5-654b-41e9-864f-e94447182158</id>
+    <name>GraphSIB_23</name>
+    <label>CreateParametersForEOperation</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>353.0,526.0</position>
+    <parameter name="eOperationKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>eOperation</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="eParametereTypeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>nodeType</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>false</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="parameterNames">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>parameters</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>936efe23-2d5b-4fd2-8ad4-3c339ecbfe4a</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>CreateParametersForEOperation</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>f805e88e-ed55-40d0-a6db-caba8ba09df0</source>
+    <target>df37d0b5-654b-41e9-864f-e94447182158</target>
+    <point>450.0,690.0</point>
+    <point>455.0,599.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>df37d0b5-654b-41e9-864f-e94447182158</source>
+    <target>c708906c-7efc-473b-8f19-715c3e30e2b3</target>
+    <point>450.0,600.0</point>
+    <point>453.0,526.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>632053a2-4638-47fd-a189-9b3920eb587f</id>
+    <name>GraphSIB_24</name>
+    <label>Create GetEdge</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>761.0,511.0</position>
+    <parameter name="eClassKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>graphModelClass</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="eOperatiobUpperBound">
+      <int>1</int>
+    </parameter>
+    <parameter name="eOperationLowerBound">
+      <int>1</int>
+    </parameter>
+    <parameter name="eOperationNameKey">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>getC${fuEdgeName}</expression>
+          <clazz>java.lang.String</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="eOperationeTypeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>edgeClass</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>false</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>$apiPrefix$$edgeName$ retval = ($apiPrefix$$edgeName$) this.getMap().get(me);
+return retval;</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Create EOperation</string>
+    </userobject>
+  </sib>
+  <sib>
+    <id>5d7f249c-ee49-4a70-b4e8-5b597a5678f4</id>
+    <name>PutList_9</name>
+    <label>PutList</label>
+    <sib-uid>collection-sibs/PutList</sib-uid>
+    <taxonomy>de.jabc.sib.common.collection.PutList</taxonomy>
+    <position>787.0,408.0</position>
+    <parameter name="elements">
+      <list>
+        <string>me</string>
+      </list>
+    </parameter>
+    <parameter name="initialCapacity">
+      <int>10</int>
+    </parameter>
+    <parameter name="synchronization">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>parameters</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>632053a2-4638-47fd-a189-9b3920eb587f</source>
+    <target>5d7f249c-ee49-4a70-b4e8-5b597a5678f4</target>
+    <point>870.0,525.0</point>
+    <point>885.0,435.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>007c6e99-a694-48c5-aa81-6bef7a817453</id>
+    <name>GraphSIB_25</name>
+    <label>CreateParametersForEOperation</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>713.0,286.0</position>
+    <parameter name="eOperationKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>eOperation</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="eParametereTypeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>edgeType</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>false</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="parameterNames">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>parameters</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>936efe23-2d5b-4fd2-8ad4-3c339ecbfe4a</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>CreateParametersForEOperation</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>5d7f249c-ee49-4a70-b4e8-5b597a5678f4</source>
+    <target>007c6e99-a694-48c5-aa81-6bef7a817453</target>
+    <point>885.0,435.0</point>
+    <point>870.0,315.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>007c6e99-a694-48c5-aa81-6bef7a817453</source>
+    <target>fbc9749e-be67-4969-8234-ecff90bf60ea</target>
+    <point>810.0,315.0</point>
+    <point>672.0,95.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>25384750-fd9d-47ce-a543-5154a05a2785</id>
+    <name>GraphSIB_26</name>
+    <label>Create GetNodeContainer</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>1078.0,991.0</position>
+    <parameter name="eClassKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>graphModelClass</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="eOperatiobUpperBound">
+      <int>1</int>
+    </parameter>
+    <parameter name="eOperationLowerBound">
+      <int>1</int>
+    </parameter>
+    <parameter name="eOperationNameKey">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>getC${fuContainerName}</expression>
+          <clazz>java.lang.String</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="eOperationeTypeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>containerClass</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>false</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>$apiPrefix$$containerName$ retval = ($apiPrefix$$containerName$) this.getMap().get(me);
+return retval;</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Create EOperation</string>
+    </userobject>
+  </sib>
+  <sib>
+    <id>581d53d3-80bc-444c-a28a-858772259fae</id>
+    <name>PutList_10</name>
+    <label>PutList</label>
+    <sib-uid>collection-sibs/PutList</sib-uid>
+    <taxonomy>de.jabc.sib.common.collection.PutList</taxonomy>
+    <position>1132.0,783.0</position>
+    <parameter name="elements">
+      <list>
+        <string>me</string>
+      </list>
+    </parameter>
+    <parameter name="initialCapacity">
+      <int>10</int>
+    </parameter>
+    <parameter name="synchronization">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>parameters</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>25384750-fd9d-47ce-a543-5154a05a2785</source>
+    <target>581d53d3-80bc-444c-a28a-858772259fae</target>
+    <point>1275.0,720.0</point>
+    <point>1290.0,615.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>53200d4f-58b5-44d7-9514-f5212324d0c1</id>
+    <name>GraphSIB_27</name>
+    <label>CreateParametersForEOperation</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>1058.0,631.0</position>
+    <parameter name="eOperationKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>eOperation</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="eParametereTypeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>containerType</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>false</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="parameterNames">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>parameters</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>936efe23-2d5b-4fd2-8ad4-3c339ecbfe4a</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>CreateParametersForEOperation</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>581d53d3-80bc-444c-a28a-858772259fae</source>
+    <target>53200d4f-58b5-44d7-9514-f5212324d0c1</target>
+    <point>1290.0,615.0</point>
+    <point>1275.0,510.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>53200d4f-58b5-44d7-9514-f5212324d0c1</source>
+    <target>6e97c76a-f243-4d98-97fa-5941b4924d59</target>
+    <point>1170.0,765.0</point>
+    <point>1151.0,536.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>0df44593-31ec-4bc9-95cc-b27ec1bbaf7d</id>
+    <name>GraphSIB_28</name>
+    <label>Create GetNode</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>205.5,376.0</position>
+    <parameter name="eClassKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>graphModelClass</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="eOperatiobUpperBound">
+      <int>1</int>
+    </parameter>
+    <parameter name="eOperationLowerBound">
+      <int>1</int>
+    </parameter>
+    <parameter name="eOperationNameKey">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>getC${fuNodeName}</expression>
+          <clazz>java.lang.String</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="eOperationeTypeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>nodeClass</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>false</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>$apiPrefix$$nodeName$ retval = ($apiPrefix$$nodeName$) this.getMap().get(me);
+return retval;</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Create EOperation</string>
+    </userobject>
+  </sib>
+  <sib>
+    <id>9873f5d3-ee7f-4fea-ae35-df73240a830e</id>
+    <name>PutList_11</name>
+    <label>PutList</label>
+    <sib-uid>collection-sibs/PutList</sib-uid>
+    <taxonomy>de.jabc.sib.common.collection.PutList</taxonomy>
+    <position>337.0,378.0</position>
+    <parameter name="elements">
+      <list>
+        <string>me</string>
+      </list>
+    </parameter>
+    <parameter name="initialCapacity">
+      <int>10</int>
+    </parameter>
+    <parameter name="synchronization">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>parameters</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>351ad852-1181-4629-9ed2-0c59cd0186cb</id>
+    <name>GraphSIB_29</name>
+    <label>CreateParametersForEOperation</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>188.0,256.0</position>
+    <parameter name="eOperationKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>eOperation</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="eParametereTypeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>nodeType</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>false</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="parameterNames">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>parameters</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>936efe23-2d5b-4fd2-8ad4-3c339ecbfe4a</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>CreateParametersForEOperation</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>9873f5d3-ee7f-4fea-ae35-df73240a830e</source>
+    <target>351ad852-1181-4629-9ed2-0c59cd0186cb</target>
+    <point>360.0,405.0</point>
+    <point>345.0,285.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>0df44593-31ec-4bc9-95cc-b27ec1bbaf7d</source>
+    <target>9873f5d3-ee7f-4fea-ae35-df73240a830e</target>
+    <point>345.0,495.0</point>
+    <point>360.0,405.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>351ad852-1181-4629-9ed2-0c59cd0186cb</source>
+    <target>7eadb614-8560-4ea9-a219-76fe934b1d65</target>
+    <point>345.0,285.0</point>
+    <point>267.0,243.0</point>
+    <branch>default</branch>
+  </edge>
   <parameter>
     <name>eClassKey</name>
     <field>eClassKey</field>
@@ -2405,6 +2999,26 @@ Moves a node to the specified position in this container
     <name>eClassKey</name>
     <field>eClassKey</field>
     <sib>7eadb614-8560-4ea9-a219-76fe934b1d65</sib>
+  </parameter>
+  <parameter>
+    <name>eClassKey</name>
+    <field>eClassKey</field>
+    <sib>b1f1d896-c2d2-403b-aa49-be7c4198d0ed</sib>
+  </parameter>
+  <parameter>
+    <name>eClassKey</name>
+    <field>eClassKey</field>
+    <sib>632053a2-4638-47fd-a189-9b3920eb587f</sib>
+  </parameter>
+  <parameter>
+    <name>eClassKey</name>
+    <field>eClassKey</field>
+    <sib>25384750-fd9d-47ce-a543-5154a05a2785</sib>
+  </parameter>
+  <parameter>
+    <name>eClassKey</name>
+    <field>eClassKey</field>
+    <sib>0df44593-31ec-4bc9-95cc-b27ec1bbaf7d</sib>
   </parameter>
   <values>
     <entry>

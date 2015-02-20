@@ -1,6 +1,7 @@
 package de.jabc.cinco.meta.core.ge.generator.action;
 
 import graphicalgraphmodel.GraphicalgraphmodelPackage;
+import graphmodel.GraphmodelPackage;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -221,6 +222,9 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 				context.put("gNodeType", GraphicalgraphmodelPackage.eINSTANCE.getEClassifier("CNode"));
 				context.put("gEdgeType", GraphicalgraphmodelPackage.eINSTANCE.getEClassifier("CEdge"));
 				context.put("gContainerType", GraphicalgraphmodelPackage.eINSTANCE.getEClassifier("CContainer"));
+				context.put("nodeType", GraphmodelPackage.eINSTANCE.getEClassifier("Node"));
+				context.put("edgeType", GraphmodelPackage.eINSTANCE.getEClassifier("Edge"));
+				context.put("containerType", GraphmodelPackage.eINSTANCE.getEClassifier("Container"));
 				context.put("apiPrefix", API_MODEL_PREFIX);
 				
 				context.put("integerType", integerType);

@@ -11,6 +11,7 @@
   <genPackages prefix="Graphicalgraphmodel" disposableProviderFactory="true" ecorePackage="GraphicalGraphModel.ecore#/">
     <genClasses image="false" ecoreClass="GraphicalGraphModel.ecore#//CModelElementContainer">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference GraphicalGraphModel.ecore#//CModelElementContainer/modelElements"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference GraphicalGraphModel.ecore#//CModelElementContainer/map"/>
       <genOperations ecoreOperation="GraphicalGraphModel.ecore#//CModelElementContainer/getModelElements">
         <genParameters ecoreParameter="GraphicalGraphModel.ecore#//CModelElementContainer/getModelElements/clazz"/>
         <genTypeParameters ecoreTypeParameter="GraphicalGraphModel.ecore#//CModelElementContainer/getModelElements/T"/>
@@ -61,6 +62,10 @@
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference GraphicalGraphModel.ecore#//CModelElement/container"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference GraphicalGraphModel.ecore#//CModelElement/modelElement"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference GraphicalGraphModel.ecore#//CModelElement/diagram"/>
+    </genClasses>
+    <genClasses ecoreClass="GraphicalGraphModel.ecore#//ModelElementToCModelElementMap">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference GraphicalGraphModel.ecore#//ModelElementToCModelElementMap/key"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference GraphicalGraphModel.ecore#//ModelElementToCModelElementMap/value"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

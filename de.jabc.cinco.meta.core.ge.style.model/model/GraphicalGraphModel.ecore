@@ -35,6 +35,8 @@
     </eOperations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="modelElements" upperBound="-1"
         eType="#//CModelElement" containment="true" eOpposite="#//CModelElement/container"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="map" upperBound="-1" eType="#//ModelElementToCModelElementMap"
+        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CContainer" eSuperTypes="#//CModelElementContainer #//CNode"/>
   <eClassifiers xsi:type="ecore:EClass" name="CGraphModel" abstract="true" eSuperTypes="#//CModelElementContainer">
@@ -151,5 +153,9 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="modelElement" eType="ecore:EClass ../../de.jabc.cinco.meta.core.mgl.model/model/GraphModel.ecore#//ModelElement"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="diagram" lowerBound="1"
         eType="ecore:EClass ../../org.eclipse.graphiti.mm/model/graphiti.ecore#//pictograms/Diagram"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ModelElementToCModelElementMap" instanceClassName="java.util.Map$Entry">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="key" eType="ecore:EClass ../../de.jabc.cinco.meta.core.mgl.model/model/GraphModel.ecore#//ModelElement"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="value" eType="#//CModelElement"/>
   </eClassifiers>
 </ecore:EPackage>
