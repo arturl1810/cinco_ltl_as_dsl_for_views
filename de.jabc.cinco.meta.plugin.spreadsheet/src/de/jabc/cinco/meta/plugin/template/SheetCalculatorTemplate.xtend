@@ -127,21 +127,24 @@ public class SheetCalculator {
 		}
 		
 		HashMap<Integer,Integer> oldCellReferences = importCellReferences(sheetName,resultNodeId);
+		int preOffset = getGenratedColIndex(sheetName, resultNodeId);
 		
 		//Refresh the sheet and write it
 		ArrayList<VersionNode> nodes = refreshSheet(source, sheetName,NodeUtil.getFormulaReferencedRows(new ArrayList<String>(formulas.values()),this.getUserCells(sheetName, resultNodeId)));
 		
-		exportSheet(nodes, sheetName, resultNodeId, formulas,0);
+		exportSheet(nodes, sheetName, resultNodeId, formulas,preOffset);
+		
+		int postOffset = getGenratedColIndex(sheetName, resultNodeId);
 		//Import the new Cell References in the refreshed sheet
 		HashMap<Integer,Integer> newCellReferences = importCellReferences(sheetName,resultNodeId);
 		
 		//Re-reference the formula
-		formulas = NodeUtil.rereferenceFormula(formulas, oldCellReferences, newCellReferences,0,0);
+		formulas = NodeUtil.rereferenceFormula(formulas, oldCellReferences, newCellReferences,preOffset,postOffset);
 		
 		HashMap<Integer, Integer> rowRefs = NodeUtil.getRowRereferences(oldCellReferences,newCellReferences);
 		
 		//Export the re-referenced Formula to the sheet
-		exportFormula(formulas,resultNodeId, sheetName,rowRefs,0);
+		exportFormula(formulas,resultNodeId, sheetName,rowRefs,postOffset);
 		
 		//Try to calculate the spreadsheet if it exists
 		final HashMap<String,Double> results = calculateSheet(resultNodeId,sheetName,resultAttrs);
@@ -263,6 +266,18 @@ public class SheetCalculator {
 					"Sheet error.\nUser written cells could not be importet.");
 		}
 		return new ArrayList<Cell>();
+	}
+	
+	private int getGenratedColIndex(String sheetName, String resultNodeId)
+	{
+		try {
+			return Spreadsheetimporter.getGeneratedColIndex(sheetName, resultNodeId);
+		} catch (ClassNotFoundException | ClassCastException | IOException e) {
+			MessageDialog.openError(Display.getCurrent().getActiveShell(), 
+				"Error", 
+				"Import Error.\nColumn index could not be read.");
+			return -1;
+		}
 	}
 }
 '''
