@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>d136ee11-0a5e-458f-8813-648c7e29c207</id>
   <name>Create Nodes</name>
-  <changecounter>56</changecounter>
+  <changecounter>59</changecounter>
   <edge>
     <source>bcbab676-0b89-45b1-87a8-6b31f8136bf1</source>
     <target>55e2fb55-9ab4-4b8a-a441-888598100881</target>
@@ -118,8 +118,8 @@
   <edge>
     <source>6ef738a3-fdc7-4a29-9d6a-457adb5ae030</source>
     <target>aa695ed3-b625-4893-9f50-a200a9a21ae0</target>
-    <point>1360.7627118644068,176.0</point>
-    <point>1294.017857142857,483.0</point>
+    <point>1425.0,450.0</point>
+    <point>1425.0,630.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -144,7 +144,7 @@
     <label>AddElement</label>
     <sib-uid>collection-sibs/AddElement</sib-uid>
     <taxonomy>de.jabc.sib.common.collection.AddElement</taxonomy>
-    <position>1083.0,273.0</position>
+    <position>1173.0,273.0</position>
     <parameter name="collection">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -178,45 +178,16 @@
   <edge>
     <source>acf74f85-5f2a-44e4-b2f7-d150e519e51d</source>
     <target>242fb8b0-b3c8-41dc-8d6a-4c4ba7c83bc3</target>
-    <point>1395.0,705.0</point>
-    <point>1395.0,810.0</point>
+    <point>1425.0,825.0</point>
+    <point>1425.0,930.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
     <source>242fb8b0-b3c8-41dc-8d6a-4c4ba7c83bc3</source>
-    <target>2b3f749c-60da-43d0-8d1d-99d7033eebce</target>
-    <point>945.0,705.0</point>
-    <point>1065.0,750.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
-  <sib>
-    <id>2b3f749c-60da-43d0-8d1d-99d7033eebce</id>
-    <name>PrintConsoleMessage</name>
-    <label>PrintConsoleMessage</label>
-    <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
-    <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
-    <position>954.5,783.0</position>
-    <parameter name="error">
-      <boolean>false</boolean>
-    </parameter>
-    <parameter name="message">
-      <de.metaframe.common.sib.parameter.ContextExpression>
-        <ContextExpressionFoundation>
-          <expression>Adding ${dataTypeName} ${dataTypeType} to modelElements!</expression>
-          <clazz>java.lang.Object</clazz>
-          <classMutable>false</classMutable>
-        </ContextExpressionFoundation>
-      </de.metaframe.common.sib.parameter.ContextExpression>
-    </parameter>
-    <finalbranches>default</finalbranches>
-  </sib>
-  <edge>
-    <source>2b3f749c-60da-43d0-8d1d-99d7033eebce</source>
     <target>8b6f9ba0-e7ee-4197-95de-13807eebe452</target>
-    <point>1002.0,808.2</point>
-    <point>753.0,899.9368421052632</point>
+    <point>1407.0,921.2511627906977</point>
+    <point>798.0,921.2511627906977</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -226,7 +197,7 @@
     <label>CheckVariable</label>
     <sib-uid>basic-sibs/CheckVariable</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.CheckVariable</taxonomy>
-    <position>1345.0,588.0</position>
+    <position>1375.0,708.0</position>
     <parameter name="variable">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -244,16 +215,16 @@
   <edge>
     <source>aa695ed3-b625-4893-9f50-a200a9a21ae0</source>
     <target>8f08fcda-4e89-42c7-a09c-497da77c7deb</target>
-    <point>1395.0,510.0</point>
-    <point>1395.0,615.0</point>
+    <point>1425.0,630.0</point>
+    <point>1425.0,735.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
     <source>8f08fcda-4e89-42c7-a09c-497da77c7deb</source>
     <target>acf74f85-5f2a-44e4-b2f7-d150e519e51d</target>
-    <point>1395.0,615.0</point>
-    <point>1395.0,705.0</point>
+    <point>1425.0,735.0</point>
+    <point>1425.0,825.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>true</branch>
   </edge>
@@ -377,7 +348,7 @@
     <label>GetNodePrimeReference</label>
     <sib-uid>mgl/mgl/GetNodePrimeReference</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.mgl.sib.mgl.GetNodePrimeReference</taxonomy>
-    <position>1313.0,483.0</position>
+    <position>1343.0,603.0</position>
     <parameter name="nodeKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -405,7 +376,7 @@
     <label>GetReferencedTypeType</label>
     <sib-uid>mgl/mgl/GetReferencedTypeType</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.mgl.sib.mgl.GetReferencedTypeType</taxonomy>
-    <position>1312.5,678.0</position>
+    <position>1342.5,798.0</position>
     <parameter name="referencedTypeKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -433,7 +404,7 @@
     <label>GetTypeName</label>
     <sib-uid>mgl/mgl/GetTypeName</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.mgl.sib.mgl.GetTypeName</taxonomy>
-    <position>1346.5,783.0</position>
+    <position>1376.5,903.0</position>
     <parameter name="typeKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -461,7 +432,7 @@
     <label>NewEAttributeInEClassEStructuralFeatures</label>
     <sib-uid>ecore/ecore/NewEAttributeInEClassEStructuralFeatures</sib-uid>
     <taxonomy>transem.ecore.sib.ecore.NewEAttributeInEClassEStructuralFeatures</taxonomy>
-    <position>638.5,783.0</position>
+    <position>638.5,903.0</position>
     <parameter name="eClassKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -489,7 +460,7 @@
     <label>SetEAttributeEType</label>
     <sib-uid>ecore/ecore/SetEAttributeEType</sib-uid>
     <taxonomy>transem.ecore.sib.ecore.SetEAttributeEType</taxonomy>
-    <position>114.0,783.0</position>
+    <position>114.0,903.0</position>
     <parameter name="eAttributeKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -517,7 +488,7 @@
     <label>SetEAttributeName</label>
     <sib-uid>ecore/ecore/SetEAttributeName</sib-uid>
     <taxonomy>transem.ecore.sib.ecore.SetEAttributeName</taxonomy>
-    <position>475.5,783.0</position>
+    <position>475.5,903.0</position>
     <parameter name="eAttributeKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -542,8 +513,9 @@
   <edge>
     <source>8b6f9ba0-e7ee-4197-95de-13807eebe452</source>
     <target>15c5b07b-d0ee-4130-8aba-6eeeae04b0ab</target>
-    <point>735.0,915.0</point>
-    <point>494.0,906.0</point>
+    <point>780.0,930.0</point>
+    <point>540.0,930.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
@@ -552,7 +524,7 @@
     <label>GetEClassifierByName</label>
     <sib-uid>utility-sibs/GetEClassifierByName</sib-uid>
     <taxonomy>transem.utility.sib.GetEClassifierByName</taxonomy>
-    <position>269.5,783.0</position>
+    <position>269.5,903.0</position>
     <parameter name="eClassifierKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -587,22 +559,25 @@
   <edge>
     <source>56aab9bb-c342-48bb-ac9f-1b4b643040c3</source>
     <target>8cc8ad73-fef7-4301-b70b-0ac15c731455</target>
-    <point>330.0,915.0</point>
-    <point>184.0,891.0</point>
+    <point>345.0,930.0</point>
+    <point>180.0,930.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
     <source>15c5b07b-d0ee-4130-8aba-6eeeae04b0ab</source>
     <target>56aab9bb-c342-48bb-ac9f-1b4b643040c3</target>
-    <point>480.0,915.0</point>
-    <point>350.0,901.0</point>
+    <point>540.0,930.0</point>
+    <point>345.0,930.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
-    <source>8cc8ad73-fef7-4301-b70b-0ac15c731455</source>
+    <source>9b2f292f-e766-498b-907f-3ecb691c0608</source>
     <target>bcbab676-0b89-45b1-87a8-6b31f8136bf1</target>
-    <point>165.0,900.0</point>
-    <point>281.0,81.0</point>
+    <point>354.05940594059405,661.0</point>
+    <point>185.19230769230768,84.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
@@ -647,7 +622,7 @@
     <label>Create Getter</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>1347.5,271.0</position>
+    <position>1377.5,421.0</position>
     <parameter name="eClassKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -740,7 +715,7 @@
     <label>Can Element Be Contained</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>1140.0,196.0</position>
+    <position>1335.0,271.0</position>
     <parameter name="container">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -771,74 +746,162 @@
   </sib>
   <edge>
     <source>210474c7-9086-471a-a602-af88e2c16042</source>
-    <target>7dfc7477-7ea2-420e-bcad-010599aafb84</target>
-    <point>1280.0,273.4</point>
-    <point>1318.9285714285713,234.0</point>
+    <target>6ef738a3-fdc7-4a29-9d6a-457adb5ae030</target>
+    <point>1425.0,300.0</point>
+    <point>1425.0,450.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>true</branch>
   </edge>
   <edge>
     <source>210474c7-9086-471a-a602-af88e2c16042</source>
-    <target>749c270a-5606-4290-a207-26f681cc7f4c</target>
-    <point>1280.0,286.6363636363636</point>
-    <point>1407.0,251.8909090909091</point>
-    <labelposition>500.0,0.0</labelposition>
+    <target>aa695ed3-b625-4893-9f50-a200a9a21ae0</target>
+    <spline/>
+    <point>1425.0,300.0</point>
+    <point>1320.0,480.0</point>
+    <point>1425.0,630.0</point>
+    <labelposition>444.17095734826444,88.87308125102443</labelposition>
     <branch>false</branch>
   </edge>
   <sib>
-    <id>7dfc7477-7ea2-420e-bcad-010599aafb84</id>
-    <name>PrintConsoleMessage_1</name>
-    <label>PrintConsoleMessage</label>
-    <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
-    <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
-    <position>1344.5,183.0</position>
-    <parameter name="error">
-      <boolean>false</boolean>
+    <id>9b2f292f-e766-498b-907f-3ecb691c0608</id>
+    <name>MacroSIB_1</name>
+    <label>Create Getter For PrimeReference</label>
+    <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
+    <position>67.5,286.0</position>
+    <parameter name="eClassKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>modelElementClass</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
-    <parameter name="message">
+    <parameter name="eOperatiobUpperBound">
+      <int>1</int>
+    </parameter>
+    <parameter name="eOperationLowerBound">
+      <int>0</int>
+    </parameter>
+    <parameter name="eOperationNameKey">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>TRUEE</expression>
-          <clazz>java.lang.Object</clazz>
-          <classMutable>false</classMutable>
+          <expression>get${dataTypeNameUpper}</expression>
+          <clazz>java.lang.String</clazz>
+          <classMutable>true</classMutable>
         </ContextExpressionFoundation>
       </de.metaframe.common.sib.parameter.ContextExpression>
     </parameter>
+    <parameter name="eOperationeTypeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>eObjectClass</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>false</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>Integer uid = Integer.parseInt(this.get$dataTypeNameUpper$UID());
+return de.jabc.cinco.meta.core.referenceregistry.ReferenceRegistry.getInstance().getEObject(uid);
+</string>
+    </parameter>
     <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Create EOperation</string>
+    </userobject>
+  </sib>
+  <sib>
+    <id>c5e65669-48ec-46a6-afa3-ac262ecaeac8</id>
+    <name>GetEClassifierByName_1</name>
+    <label>GetEClassifierByName</label>
+    <sib-uid>utility-sibs/GetEClassifierByName</sib-uid>
+    <taxonomy>transem.utility.sib.GetEClassifierByName</taxonomy>
+    <position>104.5,693.0</position>
+    <parameter name="eClassifierKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>eObjectClass</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="eClassifierName">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>EObject</expression>
+          <clazz>java.lang.String</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="ePackageKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>ecorePackage</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <finalbranches>null</finalbranches>
   </sib>
   <edge>
-    <source>7dfc7477-7ea2-420e-bcad-010599aafb84</source>
-    <target>6ef738a3-fdc7-4a29-9d6a-457adb5ae030</target>
-    <point>1335.0,225.0</point>
-    <point>1389.0,304.0</point>
+    <source>8cc8ad73-fef7-4301-b70b-0ac15c731455</source>
+    <target>c5e65669-48ec-46a6-afa3-ac262ecaeac8</target>
+    <point>180.0,930.0</point>
+    <point>172.0,736.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>513e208b-04f5-42f1-8734-0f8e313c0623</source>
+    <target>9b2f292f-e766-498b-907f-3ecb691c0608</target>
+    <point>331.25,513.0</point>
+    <point>194.1025641025641,326.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
-    <id>749c270a-5606-4290-a207-26f681cc7f4c</id>
-    <name>PrintConsoleMessage_2</name>
-    <label>PrintConsoleMessage</label>
-    <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
-    <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
-    <position>1179.5,333.0</position>
-    <parameter name="error">
-      <boolean>false</boolean>
+    <id>513e208b-04f5-42f1-8734-0f8e313c0623</id>
+    <name>ToFirstUpper</name>
+    <label>ToFirstUpper</label>
+    <sib-uid>basic-sibs/ToFirstUpper</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.ToFirstUpper</taxonomy>
+    <position>139.5,498.0</position>
+    <parameter name="inputString">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>dataTypeName</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
-    <parameter name="message">
-      <de.metaframe.common.sib.parameter.ContextExpression>
-        <ContextExpressionFoundation>
-          <expression>FALSEE</expression>
-          <clazz>java.lang.Object</clazz>
-          <classMutable>false</classMutable>
-        </ContextExpressionFoundation>
-      </de.metaframe.common.sib.parameter.ContextExpression>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>dataTypeNameUpper</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
   </sib>
   <edge>
-    <source>749c270a-5606-4290-a207-26f681cc7f4c</source>
-    <target>aa695ed3-b625-4893-9f50-a200a9a21ae0</target>
-    <point>1245.0,360.0</point>
-    <point>1300.0,516.0</point>
+    <source>c5e65669-48ec-46a6-afa3-ac262ecaeac8</source>
+    <target>513e208b-04f5-42f1-8734-0f8e313c0623</target>
+    <point>180.0,720.0</point>
+    <point>182.0,519.0</point>
     <branch>default</branch>
   </edge>
   <values/>
@@ -951,5 +1014,20 @@
     <name>error</name>
     <branch>error</branch>
     <sib>210474c7-9086-471a-a602-af88e2c16042</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>c5e65669-48ec-46a6-afa3-ac262ecaeac8</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>null</branch>
+    <sib>c5e65669-48ec-46a6-afa3-ac262ecaeac8</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>9b2f292f-e766-498b-907f-3ecb691c0608</sib>
   </branch>
 </model>

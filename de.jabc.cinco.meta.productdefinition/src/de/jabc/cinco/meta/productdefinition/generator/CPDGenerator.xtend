@@ -128,13 +128,14 @@ class CPDGenerator implements IGenerator {
 			productBP.appendBinIncludes("plugin.xml")
 			productBP.deleteEntry("source..")
 			productBP.store(productBPFile, progressMonitor)
-
+			
+			// setting window images
 			setWindowImage(productDefinition.image16, 0, mglProject, windowImages, progressMonitor, bp)
 			setWindowImage(productDefinition.image32, 1, mglProject, windowImages, progressMonitor, bp)
 			setWindowImage(productDefinition.image48, 2, mglProject, windowImages, progressMonitor, bp)
 			setWindowImage(productDefinition.image64, 3, mglProject, windowImages, progressMonitor, bp)
 			setWindowImage(productDefinition.image128, 4, mglProject, windowImages, progressMonitor, bp)
-
+			// setting window item			
 			if (!productDefinition.linuxIcon.nullOrEmpty) {
 					var s = productDefinition.linuxIcon as String
 					s = s.replaceAll('\"', '')
@@ -156,15 +157,11 @@ class CPDGenerator implements IGenerator {
 						productBP.store(productBPFile, progressMonitor)
 					}
 
-				//windowImages.setImagePath(targetPath.makeRelativeTo(project.workspace.root.location).makeAbsolute.toString,4)
-				
-
-				
 			}
 			generateSplashScreen(productDefinition, mglProject, product, bp, productModel, progressMonitor)
 
 			bp.store(bpFile, progressMonitor)
-
+			// adding about info
 			if (productDefinition.about != null) {
 
 				var aboutInfo = new AboutInfo(productModel)
@@ -189,7 +186,6 @@ class CPDGenerator implements IGenerator {
 			}
 
 			product.setWindowImages(windowImages)
-
 			var pluginXML = generatePluginXML(project, productDefinition, windowImages)
 			ProjectCreator.createFile("plugin.xml", project, pluginXML.toString, progressMonitor)
 			product.productId = id + ".product"
@@ -199,6 +195,11 @@ class CPDGenerator implements IGenerator {
 				v="1.0.0.qualifier"
 			product.version = v
 			productModel.save
+			
+			for(plugin: productDefinition.plugins){
+				BundleRegistry.INSTANCE.addBundle(plugin.replaceAll("\"",""),false)
+			}
+			
 			project.refreshLocal(IProject.DEPTH_INFINITE, progressMonitor)
 			mglProject.refreshLocal(IProject.DEPTH_INFINITE, progressMonitor)
 
@@ -243,9 +244,7 @@ class CPDGenerator implements IGenerator {
 			bp.appendBinIncludes("splash.bmp")
 
 		}
-		for(plugin: productDefinition.plugins){
-			BundleRegistry.INSTANCE.addBundle(plugin,false)
-		}
+		
 	}
 
 	def colorString(Color color) {
@@ -340,7 +339,7 @@ class CPDGenerator implements IGenerator {
 			"org.eclipse.emf.transaction"]
 		var d = new ArrayList<String>(x)
 		for (feature : productModel.features)
-			d += feature
+			d += feature.replaceAll("\"","")
 
 		return d
 	}
