@@ -138,7 +138,7 @@ class CPDGenerator implements IGenerator {
 			// setting window item			
 			if (!productDefinition.linuxIcon.nullOrEmpty) {
 					var s = productDefinition.linuxIcon as String
-					s = s.replaceAll('\"', '')
+					s = stripOffQuotes(s)
 					if(mglProject.getFile(s).exists){
 						var iconFile = mglProject.getFile(s)
 						product.launcherInfo.setUseWinIcoFile(false)
@@ -168,7 +168,7 @@ class CPDGenerator implements IGenerator {
 
 				if (!productDefinition.about.imagePath.nullOrEmpty && !productDefinition.about.imagePath.equals("\"\"")) {
 
-					var imageFile = new File(productDefinition.about.imagePath.replaceAll("\"", ""))
+					var imageFile = new File(stripOffQuotes(productDefinition.about.imagePath))
 					var iconPath = mglProject.location.append("icons/branding")
 					if (!iconPath.toFile.exists)
 						iconPath.toFile.mkdirs
@@ -197,7 +197,7 @@ class CPDGenerator implements IGenerator {
 			productModel.save
 			
 			for(plugin: productDefinition.plugins){
-				BundleRegistry.INSTANCE.addBundle(plugin.replaceAll("\"",""),false)
+				BundleRegistry.INSTANCE.addBundle(stripOffQuotes(plugin),false)
 			}
 			
 			project.refreshLocal(IProject.DEPTH_INFINITE, progressMonitor)
@@ -210,7 +210,7 @@ class CPDGenerator implements IGenerator {
 		ProductModel productModel, IProgressMonitor monitor) {
 		val splashScreen = productDefinition.splashScreen
 		if (splashScreen != null && !splashScreen.path.equals("\"\"")) {
-			var s = productDefinition.splashScreen.path.replaceAll("\"", "")
+			var s = stripOffQuotes(productDefinition.splashScreen.path)
 			product.setSplashInfo(new SplashInfo(productModel))
 			val splashInfo = product.splashInfo
 			splashInfo.setLocation((mglProject.name), true)
@@ -269,7 +269,7 @@ class CPDGenerator implements IGenerator {
 		var targetPathString = ""
 		if (!image.nullOrEmpty) {
 			var s = image as String
-				s = s.replaceAll('\"', '')
+				s = stripOffQuotes(s)
 				if(new File(s).exists){
 					var iconPath = project.location.append("icons/branding")
 					if (!iconPath.toFile.exists)
@@ -285,7 +285,7 @@ class CPDGenerator implements IGenerator {
 						index)
 					bp.store(bp.getFile(), progressMonitor)
 				}else{
-					var imageFile = project.getFile(image.replaceAll("\"",""))
+					var imageFile = project.getFile(stripOffQuotes(image))
 					if(imageFile.exists){
 						targetPathString = imageFile.fullPath.toPortableString
 						windowImages.setImagePath(targetPathString,index)
@@ -339,7 +339,7 @@ class CPDGenerator implements IGenerator {
 			"org.eclipse.emf.transaction"]
 		var d = new ArrayList<String>(x)
 		for (feature : productModel.features)
-			d += feature.replaceAll("\"","")
+			d += stripOffQuotes(feature)
 
 		return d
 	}
@@ -431,7 +431,13 @@ class CPDGenerator implements IGenerator {
 			</product>
 		</extension>
 	'''
-
+	
+	def stripOffQuotes(String string){
+		return string.replaceAll("\"","").replaceAll("'","")
+	}
+	
+	
+	
 	def fullContents(String pbValues, String pmValues, String color, String windowImages) '''
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
