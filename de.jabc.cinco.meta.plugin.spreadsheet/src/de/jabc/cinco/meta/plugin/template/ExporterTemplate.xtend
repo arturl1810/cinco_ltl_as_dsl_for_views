@@ -103,12 +103,12 @@ public static HSSFWorkbook export(ArrayList<VersionNode> nodes,HashMap<String,St
 	edgeHeaderStyle.setFont(edgeHeaderFont);
 	edgeHeaderStyle.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
 	edgeHeaderStyle.setFillPattern(CellStyle.SOLID_FOREGROUND);
-	//User Cell Right Border Style
-	HSSFCellStyle userRightBorder = workbook.createCellStyle();
-	userRightBorder.setLocked(false);
-	userRightBorder.setFont(defaultfont);
-	userRightBorder.setRightBorderColor(IndexedColors.BLACK.getIndex());
-	userRightBorder.setBorderRight(CellStyle.BORDER_DOUBLE);
+	//User Cell Left Border Style
+	HSSFCellStyle userLeftBorder = workbook.createCellStyle();
+	userLeftBorder.setLocked(true);
+	userLeftBorder.setFont(defaultfont);
+	userLeftBorder.setLeftBorderColor(IndexedColors.BLACK.getIndex());
+	userLeftBorder.setBorderLeft(CellStyle.BORDER_DOUBLE);
 	//User Cell Top Border Style
 	HSSFCellStyle userTopBorder = workbook.createCellStyle();
 	userTopBorder.setLocked(true);
@@ -343,11 +343,11 @@ public static HSSFWorkbook export(ArrayList<VersionNode> nodes,HashMap<String,St
     }
     rowCounter++;
 	//Write the usercells
-	writeUserCells(rowCounter, userCells, sheet, formulaStyle, userRightBorder,userTopBorder,pre);
+	writeUserCells(rowCounter, userCells, sheet, formulaStyle, userLeftBorder,userTopBorder,pre);
 	
 	
 	//Adjust autosize of all used columns
-	for(int i=0;i<=colCount+2;i++){
+	for(int i=0;i<=colCount+2||i<UserCellCols;i++){
 		sheet.autoSizeColumn((short)i);
 	}
 	
@@ -515,7 +515,7 @@ private static void setCellComment(Cell cell, String author,String content,Creat
  * @param userCells
  * @param sheet
  */
-private static void writeUserCells(int row,ArrayList<Cell> userCells, HSSFSheet sheet, HSSFCellStyle userCellStyle, HSSFCellStyle userRightBorderStyle, HSSFCellStyle userTopBorderStyle,int pre)
+private static void writeUserCells(int row,ArrayList<Cell> userCells, HSSFSheet sheet, HSSFCellStyle userCellStyle, HSSFCellStyle userLeftBorderStyle, HSSFCellStyle userTopBorderStyle,int pre)
 {
 	//Sort by row and calculate offset
 	int rowOffset = row - pre;
@@ -531,10 +531,10 @@ private static void writeUserCells(int row,ArrayList<Cell> userCells, HSSFSheet 
 	int y=0;
 	for(; y< UserCellRows; y++) {
 		Row userRow = sheet.createRow(row+y);
-		for(int x=0; x<UserCellCols; x++) {
+		for(int x=0; x<=UserCellCols; x++) {
 			Cell userCell = userRow.createCell(x);
-			if(x == UserCellCols-1) {
-				userCell.setCellStyle(userRightBorderStyle);
+			if(x == UserCellCols) {
+				userCell.setCellStyle(userLeftBorderStyle);
 			}
 			else {
 				userCell.setCellStyle(userCellStyle);
@@ -549,9 +549,9 @@ private static void writeUserCells(int row,ArrayList<Cell> userCells, HSSFSheet 
 	
 	//Print Usercells
 	for(Entry<Integer,ArrayList<Cell>> entry : rowSorteteCellMap.entrySet()) {
-		Row userRow = sheet.createRow(entry.getKey() + rowOffset);
+		Row userRow = sheet.getRow(entry.getKey() + rowOffset);
 		for(Cell c : entry.getValue()) {
-			Cell cell = userRow.createCell(c.getColumnIndex());
+			Cell cell = userRow.getCell(c.getColumnIndex());
 			cell.setCellType(c.getCellType());
 			cell.setCellStyle(userCellStyle);
 			switch (c.getCellType()) {
@@ -577,5 +577,6 @@ private static void writeUserCells(int row,ArrayList<Cell> userCells, HSSFSheet 
 }
 
 }
+
 ''' 
 }
