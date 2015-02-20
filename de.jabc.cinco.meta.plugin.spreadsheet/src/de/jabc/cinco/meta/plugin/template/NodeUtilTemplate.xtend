@@ -310,22 +310,26 @@ public static HashMap<String, String> rereferenceFormula(HashMap<String, String>
 			int row = Integer.parseInt(cellRow);
 			
 			//For usercell references
-			if(Integer.parseInt(cellRow) >= pre)
+			if(row >= pre)
 			{
 				
 				row += offset;
 				refreshedFormula = refreshedFormula.replace(start+colOffset,end+colOffset,cellCol+row);
+				if(cellRow.length() != new String(row+"").length()) {
+					colOffset += new String(row+"").length() - cellRow.length();
+				}
+				
 			}
 			else
 			{
 				if(rowRearange.get(Integer.parseInt(cellRow))!=null) {
 					refreshedFormula = refreshedFormula.replace(start+colOffset,end+colOffset,cellCol+rowRearange.get(Integer.parseInt(cellRow)));
 				}
+				if(cellRow.length() != new String(rowRearange.get(Integer.parseInt(cellRow))+"").length()) {
+					colOffset += new String(rowRearange.get(Integer.parseInt(cellRow))+"").length() - cellRow.length();
+				}
 			}
 			
-			if(cellRow.length() < new String(row+"").length()) {
-				colOffset = new String(row+"").length() - cellRow.length();
-			}
 			
 		}
 		
@@ -355,7 +359,7 @@ public static Node createNodeFromSheetRow(String nodeName,Row row) {
  * @param rowIndex 
  * @return
  */
-public static String offsetFormula(String formula,int offset, int rowIndex)
+public static String offsetFormula(String formula,int offset, int rowIndex,int preOffset)
 {
 	StringBuffer offsetFormula = new StringBuffer(formula);
 	Pattern pattern = Pattern.compile("[a-zA-Z]+[0-9]+");
@@ -369,11 +373,11 @@ public static String offsetFormula(String formula,int offset, int rowIndex)
 		String cellCol = cellRef.replaceAll("\\d", "");
 		String cellRow = cellRef.replaceAll("\\D+","");
 		int row = Integer.parseInt(cellRow);
-		if(row >= rowIndex) {
+		if(row >= preOffset) {
 			row += offset;
 			offsetFormula = offsetFormula.replace(start+colOffset,end+colOffset,cellCol+row);
-			if(cellRow.length() < new String(row+"").length()) {
-				colOffset = new String(row+"").length() - cellRow.length();
+			if(cellRow.length() != new String(row+"").length()) {
+				colOffset += new String(row+"").length() - cellRow.length();
 			}
 		}
 
@@ -384,23 +388,6 @@ public static String offsetFormula(String formula,int offset, int rowIndex)
 	return offsetFormula.toString();
 }
 
-/**
- * 
- * @param userCells
- * @param row
- * @return
- */
-public static int getUserCellOffset(ArrayList<Cell> userCells,int row)
-{
-	int rowOffset =0;
-	for(Cell c : userCells) {
-		//Correct the RowOffset
-		if(c.getRowIndex() < row && row - c.getRowIndex() > rowOffset) {
-			rowOffset = row - c.getRowIndex();
-		}
-	}
-	return rowOffset;
-}
 
 /**
  * 

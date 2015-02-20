@@ -178,10 +178,10 @@ private ArrayList<VersionNode> getVersionNodes(Node node, String sheetName, Arra
 	return nodes;
 }
 
-private boolean exportSheet(ArrayList<VersionNode> nodes, String sheetName,String resultNodeId, HashMap<String,String> formulas, ArrayList<Cell> userCells)
+private boolean exportSheet(ArrayList<VersionNode> nodes, String sheetName,String resultNodeId, HashMap<String,String> formulas, ArrayList<Cell> userCells,int pre)
 {
 	try {
-		SheetHandler.writeSheet(Spreadsheetexporter.export(nodes,formulas,userCells), resultNodeId, sheetName,true);
+		SheetHandler.writeSheet(Spreadsheetexporter.export(nodes,formulas,userCells,pre), resultNodeId, sheetName,true);
 	} catch (IOException | ClassCastException | ClassNotFoundException e) {
 		MessageDialog.openError(Display.getCurrent().getActiveShell(), 
 				"Error", 
@@ -192,10 +192,10 @@ private boolean exportSheet(ArrayList<VersionNode> nodes, String sheetName,Strin
 	return true;
 }
 
-private boolean exportFormula(HashMap<String,String> formulas,String resultNodeId, String sheetName, HashMap<Integer, Integer> rowRefs)
+private boolean exportFormula(HashMap<String,String> formulas,String resultNodeId, String sheetName, HashMap<Integer, Integer> rowRefs, int postOffset)
 {
 	try {
-		Spreadsheetexporter.writeFormula(resultNodeId,sheetName, formulas, rowRefs);
+		Spreadsheetexporter.writeFormula(resultNodeId,sheetName, formulas, rowRefs,postOffset);
 	} catch (IOException | ClassNotFoundException | ClassCastException e) {
 		MessageDialog.openError(Display.getCurrent().getActiveShell(), 
 				"Error", 
@@ -257,7 +257,7 @@ private int getGenratedColIndex(String sheetName, String resultNodeId)
 		
 		//Refresh the sheet and write it
 		nodes = getVersionNodes(node, sheetName,NodeUtil.getFormulaReferencedRows(new ArrayList<String>(formulas.values()),userCells));
-		if(!exportSheet(nodes, sheetName, resultNodeId, formulas,userCells))
+		if(!exportSheet(nodes, sheetName, resultNodeId, formulas,userCells,preOffset))
 		{
 			return null;
 		}
@@ -275,7 +275,7 @@ private int getGenratedColIndex(String sheetName, String resultNodeId)
 		formulas = NodeUtil.rereferenceFormula(formulas, oldCellReferences, newCellReferences,preOffset,postOffset);
 		
 		//Export the re-referenced Formula to the sheet
-		if(!exportFormula(formulas,resultNodeId, sheetName,rowRefs))
+		if(!exportFormula(formulas,resultNodeId, sheetName,rowRefs,postOffset))
 		{
 			return null;
 		}

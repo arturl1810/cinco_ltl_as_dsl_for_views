@@ -47,7 +47,7 @@ public class Spreadsheetexporter {
 	public static int UserCellCols = 20;
 	public static int UserCellRows = 20;
 
-public static HSSFWorkbook export(ArrayList<VersionNode> nodes,HashMap<String,String> formulas,ArrayList<Cell> userCells) throws FileNotFoundException{
+public static HSSFWorkbook export(ArrayList<VersionNode> nodes,HashMap<String,String> formulas,ArrayList<Cell> userCells,int pre) throws FileNotFoundException{
 	// create a new file
 	// create a new workbook
 	HSSFWorkbook workbook = new HSSFWorkbook();
@@ -343,7 +343,7 @@ public static HSSFWorkbook export(ArrayList<VersionNode> nodes,HashMap<String,St
     }
     rowCounter++;
 	//Write the usercells
-	writeUserCells(rowCounter, userCells, sheet, formulaStyle, userRightBorder,userTopBorder);
+	writeUserCells(rowCounter, userCells, sheet, formulaStyle, userRightBorder,userTopBorder,pre);
 	
 	
 	//Adjust autosize of all used columns
@@ -395,7 +395,7 @@ private static void writeAttribute(EStructuralFeature eNode,Cell attr, ModelElem
  * @throws ClassNotFoundException
  * @throws ClassCastException
  */
-public static void writeFormula(String resultNodeId,String sheetName, HashMap<String,String> formulas, HashMap<Integer, Integer> rowRefs) throws IOException, ClassNotFoundException, ClassCastException 
+public static void writeFormula(String resultNodeId,String sheetName, HashMap<String,String> formulas, HashMap<Integer, Integer> rowRefs, int post) throws IOException, ClassNotFoundException, ClassCastException 
 {
 	HashMap<String, String> map = SheetHandler.loadSheetMap(resultNodeId);
 	
@@ -436,7 +436,7 @@ public static void writeFormula(String resultNodeId,String sheetName, HashMap<St
         			//replace the Cell references in the formula with the new Cell References
         			Pattern pattern = Pattern.compile("[a-zA-Z]+[0-9]+");
         			//Sreach for the given cellRow in the Formula
-        			Matcher matcher = pattern.matcher(formula);
+        			Matcher matcher = pattern.matcher(cell.getCellFormula());
         			int colOffset = 0;
         			while(matcher.find()) {
         				int start = matcher.start();
@@ -445,10 +445,12 @@ public static void writeFormula(String resultNodeId,String sheetName, HashMap<St
         				String cellCol = cellRef.replaceAll("\\d", "");
         				String cellRow = cellRef.replaceAll("\\D+","");
         				if(rowRefs.containsKey(Integer.parseInt(cellRow))) {
-        					formula = formula.replace(start+colOffset,end+colOffset,cellCol+rowRefs.get(Integer.parseInt(cellRow)));
-	        				if(cellRow.length() < new String(rowRefs.get(Integer.parseInt(cellRow))+"").length()) {
-	        					colOffset = new String(rowRefs.get(Integer.parseInt(cellRow))+"").length() - cellRow.length();
-	        				}
+        					if(rowRefs.get(Integer.parseInt(cellRow)) < post) {
+        						formula = formula.replace(start+colOffset,end+colOffset,cellCol+rowRefs.get(Integer.parseInt(cellRow)));
+        						if(cellRow.length() != new String(rowRefs.get(Integer.parseInt(cellRow))+"").length()) {
+        							colOffset += new String(rowRefs.get(Integer.parseInt(cellRow))+"").length() - cellRow.length();
+        						}        						
+        					}
         				}
         			}
         			cell.setCellFormula(formula.toString());
@@ -513,10 +515,10 @@ private static void setCellComment(Cell cell, String author,String content,Creat
  * @param userCells
  * @param sheet
  */
-private static void writeUserCells(int row,ArrayList<Cell> userCells, HSSFSheet sheet, HSSFCellStyle userCellStyle, HSSFCellStyle userRightBorderStyle, HSSFCellStyle userTopBorderStyle)
+private static void writeUserCells(int row,ArrayList<Cell> userCells, HSSFSheet sheet, HSSFCellStyle userCellStyle, HSSFCellStyle userRightBorderStyle, HSSFCellStyle userTopBorderStyle,int pre)
 {
 	//Sort by row and calculate offset
-	int rowOffset = NodeUtil.getUserCellOffset(userCells, row);
+	int rowOffset = row - pre;
 	HashMap<Integer,ArrayList<Cell>> rowSorteteCellMap = new HashMap<Integer,ArrayList<Cell>>();
 	for(Cell c : userCells) {
 		
@@ -567,7 +569,7 @@ private static void writeUserCells(int row,ArrayList<Cell> userCells, HSSFSheet 
 	        case Cell.CELL_TYPE_ERROR:
 	            break;
 	        case Cell.CELL_TYPE_FORMULA:
-	        	cell.setCellFormula(NodeUtil.offsetFormula(c.getCellFormula(),rowOffset,row));
+	        	cell.setCellFormula(NodeUtil.offsetFormula(c.getCellFormula(),rowOffset,row,pre));
 	            break;
     		}
 		}

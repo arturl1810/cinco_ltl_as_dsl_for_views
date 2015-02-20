@@ -131,7 +131,7 @@ public class SheetCalculator {
 		//Refresh the sheet and write it
 		ArrayList<VersionNode> nodes = refreshSheet(source, sheetName,NodeUtil.getFormulaReferencedRows(new ArrayList<String>(formulas.values()),this.getUserCells(sheetName, resultNodeId)));
 		
-		exportSheet(nodes, sheetName, resultNodeId, formulas);
+		exportSheet(nodes, sheetName, resultNodeId, formulas,0);
 		//Import the new Cell References in the refreshed sheet
 		HashMap<Integer,Integer> newCellReferences = importCellReferences(sheetName,resultNodeId);
 		
@@ -141,7 +141,7 @@ public class SheetCalculator {
 		HashMap<Integer, Integer> rowRefs = NodeUtil.getRowRereferences(oldCellReferences,newCellReferences);
 		
 		//Export the re-referenced Formula to the sheet
-		exportFormula(formulas,resultNodeId, sheetName,rowRefs);
+		exportFormula(formulas,resultNodeId, sheetName,rowRefs,0);
 		
 		//Try to calculate the spreadsheet if it exists
 		final HashMap<String,Double> results = calculateSheet(resultNodeId,sheetName,resultAttrs);
@@ -215,10 +215,10 @@ public class SheetCalculator {
 		return cellReferences;
 	}
 
-	private void exportSheet(ArrayList<VersionNode> nodes, String sheetName,String resultNodeId, HashMap<String,String> formulas) throws CalculationException
+	private void exportSheet(ArrayList<VersionNode> nodes, String sheetName,String resultNodeId, HashMap<String,String> formulas,int pre) throws CalculationException
 	{
 		try {
-			SheetHandler.writeSheet(Spreadsheetexporter.export(nodes,formulas,Spreadsheetimporter.importUserCells(sheetName, resultNodeId)), resultNodeId, sheetName,true);
+			SheetHandler.writeSheet(Spreadsheetexporter.export(nodes,formulas,Spreadsheetimporter.importUserCells(sheetName, resultNodeId),pre), resultNodeId, sheetName,true);
 		} catch (IOException | ClassCastException | ClassNotFoundException e) {
 			CalculationException ex =  (CalculationException) new CalculationException();
 			ex.setMessage("Sheet Error.\n Sheet could not been exportet.");
@@ -226,10 +226,10 @@ public class SheetCalculator {
 		}
 	}
 
-	private void exportFormula(HashMap<String,String> formulas,String resultNodeId, String sheetName, HashMap<Integer, Integer> rowRefs) throws CalculationException
+	private void exportFormula(HashMap<String,String> formulas,String resultNodeId, String sheetName, HashMap<Integer, Integer> rowRefs, int post) throws CalculationException
 	{
 		try {
-			Spreadsheetexporter.writeFormula(resultNodeId,sheetName, formulas, rowRefs);
+			Spreadsheetexporter.writeFormula(resultNodeId,sheetName, formulas, rowRefs,post);
 		} catch (IOException | ClassNotFoundException | ClassCastException e) {
 			CalculationException ex =  (CalculationException) new CalculationException();
 			ex.setMessage("Formula Error.\nRe-Referenced Formula could not be written.\nFormula re-referencing failed.");
