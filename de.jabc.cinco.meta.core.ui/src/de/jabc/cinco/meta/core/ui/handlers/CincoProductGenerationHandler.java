@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.core.commands.AbstractHandler;
@@ -13,6 +14,7 @@ import org.eclipse.core.commands.Command;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
@@ -137,21 +139,29 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 		return (CincoProduct) res.getContents().get(0);
 		
 	}
-	private void deleteGeneratedResources(IProject project){
-		IResource toDelete = project.findMember("src-gen/");
-		IProgressMonitor monitor = new NullProgressMonitor();
-		
-			try {
-				if(toDelete!=null){
-					toDelete.delete(org.eclipse.core.resources.IResource.FORCE,monitor);
+
+	private void deleteGeneratedResources(IProject project) {
+		try {
+			Collection<IResource> toDelete = new ArrayList<>();
+			toDelete.add(project.findMember("resources-gen/"));
+			for (IResource member : project.getFolder("src-gen/").members()) {
+				if (member instanceof IFolder
+						&& !member.getName().equals("model")) {
+					toDelete.add(member);
 				}
-				toDelete = project.findMember("resources-gen/");
-				if(toDelete!=null){
-					toDelete.delete(org.eclipse.core.resources.IResource.FORCE,monitor);
-				}
-			} catch (CoreException e) {
-				e.printStackTrace();
 			}
-		
+			IProgressMonitor monitor = new NullProgressMonitor();
+
+			for (IResource resource : toDelete) {
+				if (resource != null) {
+					resource.delete(org.eclipse.core.resources.IResource.FORCE,
+							monitor);
+				}
+			}
+
+		} catch (CoreException e) {
+			e.printStackTrace();
+		}
+
 	}
 }
