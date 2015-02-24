@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>c7542d87-aa25-4707-a286-db91e10d7301</id>
   <name>GenerateAddContainerFeature</name>
-  <changecounter>437</changecounter>
+  <changecounter>438</changecounter>
   <sib>
     <id>3f7b7312-5278-4d0a-b7f8-45424c587ca9</id>
     <name>GetNodeContainerIsAbstract</name>
@@ -459,12 +459,14 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
 		
 		peService.createChopboxAnchor($context.rootShapeName$);
 		
+		/* This part causes an concurrent modification exception while adding more than one container by the Cinco api
 		ResizeShapeContext rssContext = new ResizeShapeContext($context.rootShapeName$);
 		IResizeShapeFeature rsf = getFeatureProvider().getResizeShapeFeature(rssContext);
 		rssContext.setSize($context.rootShapeName$.getGraphicsAlgorithm().getWidth(), $context.rootShapeName$.getGraphicsAlgorithm().getHeight());
 		rssContext.setLocation($context.rootShapeName$.getGraphicsAlgorithm().getX(), $context.rootShapeName$.getGraphicsAlgorithm().getY());
 		if (rsf != null &amp;&amp; rsf.canResizeShape(rssContext))
 			rsf.resizeShape(rssContext);
+		*/
 
 		layoutPictogramElement($context.rootShapeName$);
 		
