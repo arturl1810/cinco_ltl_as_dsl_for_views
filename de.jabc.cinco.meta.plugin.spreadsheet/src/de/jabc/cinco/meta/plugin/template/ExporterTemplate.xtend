@@ -44,8 +44,8 @@ public class Spreadsheetexporter {
 	public static String NodeId = "NodeId";
 	public static String EdgeId = "EdgeId";
 	public static String Default = "Exported";
-	public static int UserCellCols = 20;
-	public static int UserCellRows = 20;
+	public static int UserCellCols = «userCellsX»;
+	public static int UserCellRows = «userCellsY»;
 
 public static HSSFWorkbook export(ArrayList<VersionNode> nodes,HashMap<String,String> formulas,ArrayList<Cell> userCells,int pre) throws FileNotFoundException{
 	// create a new file
