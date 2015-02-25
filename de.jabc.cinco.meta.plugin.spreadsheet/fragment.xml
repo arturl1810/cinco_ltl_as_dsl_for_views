@@ -23,6 +23,9 @@
       <annotation
             recognized-annotation="resulting">
       </annotation>
+      <proposalprovider
+            MetaPluginAcceptor="de.jabc.cinco.meta.plugin.spreadsheet.SpreadsheetAcceptor">
+      </proposalprovider>
    </extension>
 
 </fragment>

@@ -127,9 +127,9 @@ public class SpreadSheetAnnotationValidator implements IMetaPluginValidator {
 			
 			List<String> args = ((Annotation)eObject).getValue();
 			//Amount of arguments validation
-			if(args.size() != 0){
+			if(args.size() > 1){
 				return new ErrorPair<String,EStructuralFeature>(
-						"No arguments allowed.",
+						"Only one argument is allowed.",
 						eObject.eClass().getEStructuralFeature("value")
 						);
 			}

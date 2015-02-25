@@ -21,16 +21,29 @@ import org.eclipse.xtext.ui.editor.contentassist.ReplacementTextApplier;
 public class ChooseFileTextApplier extends ReplacementTextApplier {
 
 	private EObject eObject;
+	private String[] fileExtensions;
+	private String[] fileNames;
 	
 	public ChooseFileTextApplier(EObject eo) {
 		this.eObject = eo;
+		this.fileExtensions = null;
+		this.fileNames = null;
+	}
+	
+	public ChooseFileTextApplier(EObject eo,String[] fileExtensions, String[] fileNames) {
+		this.eObject = eo;
+		this.fileExtensions = fileExtensions;
+		this.fileNames = fileNames;
 	}
 	
 	@Override
 	public String getActualReplacementString(
 			ConfigurableCompletionProposal proposal) {
-		
 		FileDialog dialog = new FileDialog(new Shell());
+		if(fileExtensions!=null&&fileNames!=null) {
+			dialog.setFilterExtensions(fileExtensions);
+			dialog.setFilterNames(fileNames);
+		}
 		IPath projectPath = null;
 		dialog.setText("Choose an image file...");
 		if (eObject != null) {

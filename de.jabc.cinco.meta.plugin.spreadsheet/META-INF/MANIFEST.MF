@@ -10,8 +10,10 @@ Require-Bundle: org.eclipse.jdt,
  org.eclipse.pde.core,
  org.apache.commons.io,
  org.eclipse.core.resources,
- de.jabc.cinco.meta.libraries;bundle-version="0.6.0"
-Import-Package: org.apache.poi,
+ de.jabc.cinco.meta.libraries;bundle-version="0.6.0",
+ de.jabc.cinco.meta.core.utils
+Import-Package: de.jabc.cinco.meta.core.utils.xtext,
+ org.apache.poi,
  org.apache.poi.common.usermodel,
  org.apache.poi.ddf,
  org.apache.poi.dev,
@@ -89,4 +91,6 @@ Import-Package: org.apache.poi,
  org.apache.poi.openxml4j.exceptions,
  org.apache.poi.openxml4j.opc,
  org.apache.poi.openxml4j.opc.internal,
- org.apache.poi.openxml4j.opc.internal.marshallers
+ org.apache.poi.openxml4j.opc.internal.marshallers,
+ org.eclipse.jface.text.contentassist,
+ org.eclipse.swt.widgets
