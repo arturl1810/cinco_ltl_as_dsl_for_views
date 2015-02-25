@@ -101,7 +101,7 @@
 					<dependency>
 						<groupId>de.jabc.plugin.transem</groupId>
 						<artifactId>ecore-sibs</artifactId>
-						<version>1.2</version>
+						<version>${ecore-sibs.version}</version>
 					</dependency>
 					<dependency>
 						<groupId>de.jabc.plugin.transem</groupId>

@@ -9,6 +9,12 @@
 	<description>
 		A SIB library for all Cinco core SIBs
 	</description>
+
+    <properties>
+        <ecore-sibs.version>1.3.2.1</ecore-sibs.version>
+        <mtsg.version>1.0.8.1</mtsg.version>
+     </properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>log4j</groupId>
@@ -217,7 +223,7 @@
 					<dependency>
 						<groupId>de.jabc.plugin.transem</groupId>
 						<artifactId>mtsg</artifactId>
-						<version>1.0.8</version>
+						<version>${mtsg.version}</version>
 					</dependency>
 					<dependency>
 						<groupId>de.jabc.sib</groupId>
@@ -242,7 +248,7 @@
 					<dependency>
 						<groupId>de.jabc.plugin.transem</groupId>
 						<artifactId>ecore-sibs</artifactId>
-						<version>1.2</version>
+						<version>${ecore-sibs.version}</version>
 					</dependency>
 					<dependency>
 						<groupId>de.jabc.plugin.transem</groupId>

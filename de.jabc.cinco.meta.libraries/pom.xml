@@ -182,7 +182,7 @@
 									<groupId>de.jabc.plugin.transem</groupId>
 									<artifactId>ecore-sibs</artifactId>
 									<classifier>adapters</classifier>
-									<version>1.3.2</version>
+									<version>${ecore-sibs.version}</version>
 									<type>jar</type>
 								</artifactItem>
 								<artifactItem>
@@ -218,7 +218,7 @@
 								<artifactItem>
 									<groupId>de.jabc.plugin.transem</groupId>
 									<artifactId>mtsg</artifactId>
-									<version>1.1.1</version>
+									<version>${mtsg.version}</version>
 									<type>jar</type>
 								</artifactItem>
 								<artifactItem>
