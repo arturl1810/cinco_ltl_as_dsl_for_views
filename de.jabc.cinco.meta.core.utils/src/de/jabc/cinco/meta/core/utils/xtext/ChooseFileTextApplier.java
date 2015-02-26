@@ -73,7 +73,7 @@ public class ChooseFileTextApplier extends ReplacementTextApplier {
 			
 		}
 		
-		
+		//
 		return "\""+filePath+"\"";
 	}
 
