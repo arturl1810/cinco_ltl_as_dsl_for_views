@@ -105,6 +105,11 @@ public class CreateSpreadSheetPlugin {
 						resultNode.resultAttrNames = new ArrayList<String>();
 						resultNode.otherAttrNames = new ArrayList<String>();
 						System.out.println("NodeFound "+ node.getName());
+						
+						if(anno.getValue().size() == 1) {
+							resultNode.additionalSheet = anno.getValue().get(0);
+						}
+						
 						boolean foundresult = false;
 						for(mgl.Attribute attr : node.getAttributes())
 						{
@@ -238,7 +243,7 @@ public class CreateSpreadSheetPlugin {
 					progressMonitor);
 			
 			ProjectCreator.createFile("VersionNode.java", tvProject.getFolder("src/"+projectName.replace(".","/")),
-					new VersionNodeTemplate().create(projectName).toString(),
+					new VersionNodeTemplate().create(projectName,resultNodes).toString(),
 					progressMonitor);
 			
 			ProjectCreator.createFile("NodeStatus.java", tvProject.getFolder("src/"+projectName.replace(".","/")),

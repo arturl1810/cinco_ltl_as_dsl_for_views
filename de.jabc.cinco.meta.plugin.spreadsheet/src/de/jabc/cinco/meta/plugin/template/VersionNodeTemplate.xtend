@@ -1,7 +1,10 @@
 package de.jabc.cinco.meta.plugin.template
 
+import de.jabc.cinco.meta.plugin.spreadsheet.ResultNode
+import java.util.ArrayList
+
 class VersionNodeTemplate {
-	def create(String packageName)'''
+	def create(String packageName, ArrayList<ResultNode> nodes)'''
 package «packageName»;
 
 import graphmodel.Edge;
@@ -33,6 +36,18 @@ public class VersionNode {
                 return true;
         }
         return false;
+	}
+	
+	public String getAdditionalSheetPath()
+	{
+		«FOR n : nodes»
+		«IF n.additionalSheet != null»
+		if(node.eClass().getName().equals("«n.nodeName»")) {
+			return "«n.additionalSheet»";
+		}
+		«ENDIF»
+		«ENDFOR»
+		return null;
 	}
 }
 
