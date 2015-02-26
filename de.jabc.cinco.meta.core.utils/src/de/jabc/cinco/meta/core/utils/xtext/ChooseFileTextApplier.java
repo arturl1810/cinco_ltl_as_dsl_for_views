@@ -23,17 +23,20 @@ public class ChooseFileTextApplier extends ReplacementTextApplier {
 	private EObject eObject;
 	private String[] fileExtensions;
 	private String[] fileNames;
+	private boolean onlyWorkspaceFiles;
 	
 	public ChooseFileTextApplier(EObject eo) {
 		this.eObject = eo;
 		this.fileExtensions = null;
 		this.fileNames = null;
+		this.onlyWorkspaceFiles=true;
 	}
 	
-	public ChooseFileTextApplier(EObject eo,String[] fileExtensions, String[] fileNames) {
+	public ChooseFileTextApplier(EObject eo,String[] fileExtensions, String[] fileNames,boolean onlyWorkspaceFiles) {
 		this.eObject = eo;
 		this.fileExtensions = fileExtensions;
 		this.fileNames = fileNames;
+		this.onlyWorkspaceFiles = onlyWorkspaceFiles;
 	}
 	
 	@Override
@@ -57,6 +60,9 @@ public class ChooseFileTextApplier extends ReplacementTextApplier {
 		if (filePath == null)
 			return "";
 		IPath iFilePath = new Path(filePath);
+		if(!onlyWorkspaceFiles) {
+			return "\""+filePath+"\"";
+		}
 		if (!ResourcesPlugin.getWorkspace().getRoot().getLocation().isPrefixOf(iFilePath)) {
 			ErrorDialog.openError(Display.getCurrent().getActiveShell(), "Invalid file", "Unable to process the selected file", 
 					new Status(IStatus.ERROR, filePath, "The file you selected is not contained in your workspace. Please choose another file..."));
