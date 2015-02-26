@@ -54,6 +54,15 @@ public static HSSFWorkbook export(ArrayList<VersionNode> nodes,HashMap<String,St
 	HSSFSheet sheet = workbook.createSheet("Sample sheet");
 	sheet.protectSheet("password");
 	
+	//Append additional sheets
+	HSSFWorkbook additionalWorkbook = SheetHandler.loadWorkbook(nodes.get(0).getAdditionalSheetPath());
+	if(additionalWorkbook!=null) {
+		for(int i=0;i<additionalWorkbook.getNumberOfSheets();i++) {
+			HSSFSheet tmp_sheet = workbook.createSheet();
+			tmp_sheet = additionalWorkbook.getSheetAt(i);
+		}
+	}
+	
 	//define Styles and fonts
 	
 	//Default FONT

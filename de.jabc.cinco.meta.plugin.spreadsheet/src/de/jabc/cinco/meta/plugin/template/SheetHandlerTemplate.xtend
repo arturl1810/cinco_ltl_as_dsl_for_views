@@ -221,6 +221,17 @@ public class SheetHandler {
 		fout.close();
 	}
 	
+	public static HSSFWorkbook loadWorkbook(String path)
+	{
+	    try {
+	    	FileInputStream file = new FileInputStream(new File(path));
+			return new HSSFWorkbook(file);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	    return null;
+	}
+	
 	
 }
 '''

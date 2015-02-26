@@ -37,7 +37,9 @@ public class SpreadsheetAcceptor implements IMetaPluginAcceptor {
 	@Override
 	public IReplacementTextApplier getTextApplier(Annotation annotation) {
 		if(annotation.getName().equals("resulting") && annotation.getValue().size()==1) {
-			return new ChooseFileTextApplier(annotation);
+			String[] fileExt = {"*.xls"};
+			String[] fileNames = {"Microsoft Excel Spreadsheet (xls)"};
+			return new ChooseFileTextApplier(annotation,fileExt,fileNames,false);
 
 		}
 		return null;
