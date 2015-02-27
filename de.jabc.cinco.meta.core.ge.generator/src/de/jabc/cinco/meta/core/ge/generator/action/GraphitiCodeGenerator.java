@@ -42,7 +42,9 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
+import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
@@ -71,6 +73,8 @@ import org.eclipse.graphiti.features.context.impl.UpdateContext;
 import org.eclipse.graphiti.mm.pictograms.Anchor;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
+import org.eclipse.graphiti.mm.pictograms.PictogramLink;
+import org.eclipse.graphiti.mm.pictograms.PictogramsFactory;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.ui.services.GraphitiUi;
 import org.eclipse.pde.core.project.IBundleProjectDescription;
@@ -153,6 +157,8 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 				
 				GMODEL_NAME_LOWER = gModel.getName().toLowerCase();
 				
+				EPackage generatedGraphmodelPackage = getPackage(sourceProject, gModel.getName());
+				
 				String mglProjectName = file.getProject().getName();
 				String projectName = file.getProject().getName();
 				String apiProjectName = mglProjectName;
@@ -225,11 +231,14 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 				context.put("nodeType", GraphmodelPackage.eINSTANCE.getEClassifier("Node"));
 				context.put("edgeType", GraphmodelPackage.eINSTANCE.getEClassifier("Edge"));
 				context.put("containerType", GraphmodelPackage.eINSTANCE.getEClassifier("Container"));
+				context.put("modelElementType", GraphmodelPackage.eINSTANCE.getEClassifier("ModelElement"));
 				context.put("apiPrefix", API_MODEL_PREFIX);
 				
 				context.put("integerType", integerType);
 				context.put("booleanType", booleanType);
 				context.put("eObjectType", EcorePackage.eINSTANCE.getEObject());
+				context.put("genGraphModelPackage", generatedGraphmodelPackage);
+				
 				fqnToContext(context);
 				
 				LightweightExecutionEnvironment env = new DefaultLightweightExecutionEnvironment(context);
@@ -349,6 +358,8 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 		context.put("fqnTransactionalEditingDomain", TransactionalEditingDomain.class.getName());
 		context.put("fqnTransactionUtil", TransactionUtil.class.getName());
 		context.put("fqnRecordingCommand", RecordingCommand.class.getName());
+		context.put("fqnArrayList", ArrayList.class.getName());
+		context.put("fqnSet", Set.class.getName());
 		
 		context.put("fqnDiagram", Diagram.class.getName());
 		context.put("fqnDiagramTypeProvider", IDiagramTypeProvider.class.getName());
@@ -358,7 +369,10 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 		context.put("fqnFeatureProvider", gModel.getPackage() + ".graphiti." + gModel.getName() + "FeatureProvider");
 		context.put("fqnShape", org.eclipse.graphiti.mm.pictograms.Shape.class.getName());
 		context.put("fqnContainerShape", org.eclipse.graphiti.mm.pictograms.ContainerShape.class.getName());
+		context.put("fqnConnection", org.eclipse.graphiti.mm.pictograms.Connection.class.getName());
 		context.put("fqnPictogramElement", PictogramElement.class.getName());
+		context.put("fqnPictogramLink", PictogramLink.class.getName());
+		context.put("fqnPictogramsFactory", PictogramsFactory.class.getName());
 		context.put("fqnILocation", ILocation.class.getName());
 		context.put("fqnAnchor", Anchor.class.getName());
 		
@@ -375,11 +389,13 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 		context.put("fqnNode", graphmodel.Node.class.getName());
 		context.put("fqnEdge", graphmodel.Edge.class.getName());
 		context.put("fqnContainer", graphmodel.Container.class.getName());
+		context.put("fqnModelElement", graphmodel.ModelElement.class.getName());
 		
 		context.put("fqnCreateNodeFeaturePrefix", gModel.getPackage().concat(".graphiti.features.create.nodes."));
 		context.put("fqnCreateEdgeFeaturePrefix", gModel.getPackage().concat(".graphiti.features.create.edges."));
 		context.put("fqnCreateContainerFeaturePrefix", gModel.getPackage().concat(".graphiti.features.create.containers."));
 		context.put("fqnAddFeaturePrefix", gModel.getPackage().concat(".graphiti.features.add."));
+		context.put("fqnFeaturePrefix", gModel.getPackage().concat(".graphiti.features."));
 		
 		context.put("fqnDeleteFeature", IDeleteFeature.class.getName());
 		context.put("fqnMoveShapeFeature", IMoveShapeFeature.class.getName());
@@ -619,6 +635,18 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 		}
 	}
 	
+	private EPackage getPackage(IProject p, String gName) {
+		IFile ecoreFile= p.getFolder(new Path("src-gen").append(new Path("model"))).getFile(gName.concat(".ecore"));
+		if (ecoreFile != null && ecoreFile.exists()) {
+			Resource res = new ResourceSetImpl().getResource(URI.createFileURI(ecoreFile.getLocation().toOSString()), true);
+			for (TreeIterator<EObject> it = res.getAllContents(); it.hasNext();) {
+				EObject next = it.next();
+				if (next instanceof EPackage)
+					return (EPackage) next;
+			}
+		}
+		return null;
+	}
 	
 	private void exportPackages(IProject p, GraphModel gm, NullProgressMonitor monitor ) {
 		IFile iManiFile= p.getFolder("META-INF").getFile("MANIFEST.MF");

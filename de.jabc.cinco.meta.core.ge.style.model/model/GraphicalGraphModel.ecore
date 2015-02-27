@@ -40,7 +40,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CContainer" eSuperTypes="#//CModelElementContainer #//CNode"/>
   <eClassifiers xsi:type="ecore:EClass" name="CGraphModel" abstract="true" eSuperTypes="#//CModelElementContainer">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="graphModel" lowerBound="1"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="modelElement" lowerBound="1"
         eType="ecore:EClass ../../de.jabc.cinco.meta.core.mgl.model/model/GraphModel.ecore#//GraphModel"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="diagram" lowerBound="1"
         eType="ecore:EClass ../../org.eclipse.graphiti.mm/model/graphiti.ecore#//pictograms/Diagram"/>

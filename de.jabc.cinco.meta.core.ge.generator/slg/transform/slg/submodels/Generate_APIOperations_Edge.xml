@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>709bf2c6-2af3-4468-aef4-71df8b66f1b5</id>
   <name>Generate_APIOperations_Edge</name>
-  <changecounter>105</changecounter>
+  <changecounter>137</changecounter>
   <sib>
     <id>1d192934-9718-489b-8cd8-c840255c8617</id>
     <name>GraphSIB</name>
@@ -358,6 +358,111 @@ Reconnects the edge&apos;s target.
     <point>207.0,845.0</point>
     <branch>default</branch>
   </edge>
+  <sib>
+    <id>c5ef726c-1f33-41a5-b99d-d662aafa7197</id>
+    <name>GraphSIB_6</name>
+    <label>CreateClone</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>426.0,796.0</position>
+    <parameter name="eClassKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>eClassKey</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="eOperatiobUpperBound">
+      <int>1</int>
+    </parameter>
+    <parameter name="eOperationLowerBound">
+      <int>0</int>
+    </parameter>
+    <parameter name="eOperationNameKey">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>clone</expression>
+          <clazz>java.lang.String</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="eOperationeTypeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>edgeClass</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>false</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>$apiPrefix$$modelElementName$ clone = $fqnAPIFactory$.eINSTANCE.create$apiPrefix$$modelElementName$();
+$fqnArrayList$&lt;$fqnPictogramElement$&gt; pe = new $fqnArrayList$&lt;&gt;();
+pe.add(this.getConnection());
+$fqnSet$&lt;$fqnPictogramElement$&gt; set = $fqnFeaturePrefix$$graphModelName$CopyUtils.targetCopy(pe, this.diagram);
+if (set != null &amp;&amp; !set.isEmpty()) {
+	$fqnPictogramElement$ copy = set.iterator().next();
+	clone.setModelElement(($fqnModelElement$) copy.getLink().getBusinessObjects().get(0));
+	clone.setConnection(($fqnConnection$) copy);
+}
+return clone;</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Create EOperation</string>
+    </userobject>
+  </sib>
+  <sib>
+    <id>bdb9eec8-571c-46d0-afe6-c578662ac8a6</id>
+    <name>GraphSIB_7</name>
+    <label>Generate_Documentation</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>380.0,661.0</position>
+    <parameter name="eOperationKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>eOperation</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>&lt;p&gt;&lt;b&gt;&lt;em&gt;Cinco API&lt;/em&gt;&lt;/b&gt;&lt;/p&gt;
+Creates an clone (persisting the modelElement&apos;s id) of this modelElement</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>9445cb7d-1ca9-47f0-bda0-ffb7822ef982</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Generate_Documentation</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>c5ef726c-1f33-41a5-b99d-d662aafa7197</source>
+    <target>bdb9eec8-571c-46d0-afe6-c578662ac8a6</target>
+    <point>450.0,660.0</point>
+    <point>450.0,825.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>34c52448-6e32-4d1e-8416-16a8fb8d668f</source>
+    <target>c5ef726c-1f33-41a5-b99d-d662aafa7197</target>
+    <point>230.0,816.7058823529412</point>
+    <point>445.0,816.7058823529412</point>
+    <branch>default</branch>
+  </edge>
   <parameter>
     <name>eClassKey</name>
     <field>eClassKey</field>
@@ -367,6 +472,11 @@ Reconnects the edge&apos;s target.
     <name>eClassKey</name>
     <field>eClassKey</field>
     <sib>372f2ea3-5032-406c-9072-63ca8bcacf4c</sib>
+  </parameter>
+  <parameter>
+    <name>eClassKey</name>
+    <field>eClassKey</field>
+    <sib>c5ef726c-1f33-41a5-b99d-d662aafa7197</sib>
   </parameter>
   <values>
     <entry>
@@ -380,11 +490,6 @@ Reconnects the edge&apos;s target.
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </entry>
   </values>
-  <branch>
-    <name>default</name>
-    <branch>default</branch>
-    <sib>34c52448-6e32-4d1e-8416-16a8fb8d668f</sib>
-  </branch>
   <branch>
     <name>error</name>
     <branch>error</branch>
@@ -419,5 +524,10 @@ Reconnects the edge&apos;s target.
     <name>error</name>
     <branch>error</branch>
     <sib>1d192934-9718-489b-8cd8-c840255c8617</sib>
+  </branch>
+  <branch>
+    <name>default</name>
+    <branch>default</branch>
+    <sib>bdb9eec8-571c-46d0-afe6-c578662ac8a6</sib>
   </branch>
 </model>
