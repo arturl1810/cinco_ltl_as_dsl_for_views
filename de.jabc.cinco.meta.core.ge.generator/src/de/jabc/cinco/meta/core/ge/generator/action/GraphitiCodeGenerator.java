@@ -654,21 +654,25 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 			iManiFile.refreshLocal(IFile.DEPTH_INFINITE, monitor);
 			Manifest manifest = new Manifest(iManiFile.getContents());
 			String prefix = gm.getPackage();
+			boolean primeOnly = true, noEdges = true;
+			for (Node n : gm.getNodes())
+				if (!n.isIsAbstract() && n.getPrimeReference() == null)
+					primeOnly = false;
 			
-			String[] exports;
+			ArrayList<String> exports = new ArrayList<>();
 			if (gm.getNodeContainers().size() != 0)
-				exports = new String[] {
-					".features.create.nodes",
-					".features.create.edges",
-					".features.create.containers"};
-			else exports = new String[] {
-					".features.create.nodes",
-					".features.create.edges"};
+				exports.add(".features.create.containers");
+			if (!primeOnly)
+				exports.add(".features.create.nodes");
+			if (!noEdges)
+				exports.add("features.create.edges");
 			
 			String val = manifest.getMainAttributes().getValue("Export-Package");
 			if (val == null){
 				val = new String("");
 			} 
+			
+			val = removeExports(val, prefix);
 			
 			if (!val.contains(prefix+".graphiti"))
 				if (val.isEmpty())
@@ -686,6 +690,25 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 		} catch (IOException | CoreException e) {
 			e.printStackTrace();
 		}
+	}
+
+	private String removeExports(String val, String prefix) {
+		StringBuilder sb = new StringBuilder(val);
+		int offset, end;
+		if ((offset = sb.indexOf(","+prefix+".graphiti.features.create.nodes")) != -1) {
+			end = new String(","+prefix+".graphiti.features.create.nodes").length();
+			sb.delete(offset, offset+end);
+		}
+		if ((offset = sb.indexOf(","+prefix+".graphiti.features.create.edges")) != -1) {
+			end = new String(","+prefix+".graphiti.features.create.edges").length();
+			sb.delete(offset, offset+end);
+		}
+		if ((offset = sb.indexOf(","+prefix+".graphiti.features.create.containers")) != -1) {
+			end = new String(","+prefix+".graphiti.features.create.containers").length();
+			sb.delete(offset, offset+end);
+		}
+		
+		return sb.toString();
 	}
 	
 }
