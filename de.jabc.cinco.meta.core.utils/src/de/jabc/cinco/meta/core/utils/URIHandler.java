@@ -30,7 +30,6 @@ public class URIHandler extends org.eclipse.emf.ecore.xmi.impl.URIHandlerImpl.Pl
 
 	@Override
 	public URI deresolve(URI uri) {
-		System.out.println("**** Deresolving: "+uri+" ****");
 		URI nURI = null;
 		if(uri.isPlatform()){
 			String uri2 = uriMap.get(uri.toString());
@@ -41,7 +40,6 @@ public class URIHandler extends org.eclipse.emf.ecore.xmi.impl.URIHandlerImpl.Pl
 		}
 		if(nURI==null)
 			 nURI = super.deresolve(uri);
-		System.out.println("**** To: "+nURI+" ****");
 		return nURI;
 	}
 
