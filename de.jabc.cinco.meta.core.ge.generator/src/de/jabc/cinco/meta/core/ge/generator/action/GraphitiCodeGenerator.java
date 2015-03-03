@@ -1,5 +1,8 @@
 package de.jabc.cinco.meta.core.ge.generator.action;
 
+import graphicalgraphmodel.CGraphModel;
+import graphicalgraphmodel.CModelElement;
+import graphicalgraphmodel.CModelElementContainer;
 import graphicalgraphmodel.GraphicalgraphmodelPackage;
 import graphmodel.GraphmodelPackage;
 
@@ -386,6 +389,9 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 		
 		
 		context.put("fqnAPIFactory", gModel.getPackage() +".api." + API_MODEL_PREFIX.toLowerCase() + GMODEL_NAME_LOWER + "." + API_MODEL_PREFIX + GMODEL_NAME_LOWER + "Factory");
+		context.put("fqnCModelElementContainer", CModelElementContainer.class.getName());
+		context.put("fqnCModelElement", CModelElement.class.getName());
+		context.put("fqnCGraphModel", CGraphModel.class.getName());
 		context.put("fqnNode", graphmodel.Node.class.getName());
 		context.put("fqnEdge", graphmodel.Edge.class.getName());
 		context.put("fqnContainer", graphmodel.Container.class.getName());

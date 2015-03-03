@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>9bb85745-8351-4055-af1b-c6d172d4e88d</id>
   <name>GenerateGraphModelApiOperations</name>
-  <changecounter>304</changecounter>
+  <changecounter>365</changecounter>
   <sib>
     <id>305bdb71-32f2-4c78-9c2b-f9a7d5fc3711</id>
     <name>IterateGraphModelNodes</name>
@@ -269,6 +269,7 @@ cc.setTargetContainer(getShape());
 				$fqnGraphiti$.getLinkService().getPictogramElements(d, retval.getModelElement()).get(0));
 			retval.setDiagram(d);
 			this.getModelElements().add(retval);
+			this.getCRootElement().getMap().put(retval.getModelElement() ,retval);
 			this.getMap().put(retval.getModelElement() ,retval);
 		}
 	} else return null;
@@ -838,6 +839,7 @@ if (cf.canCreate(ccc)) {
 	retval.setSourceElement(source);
 	retval.setTargetElement(target);
 	this.getModelElements().add(retval);
+	this.getCRootElement().getMap().put(retval.getModelElement() ,retval);
 	this.getMap().put(retval.getModelElement() ,retval);
 }
 return retval;</string>
@@ -1300,6 +1302,7 @@ cc.setTargetContainer(getShape());
 				$fqnGraphiti$.getLinkService().getPictogramElements(d, retval.getModelElement()).get(0));
 			retval.setDiagram(d);
 			this.getModelElements().add(retval);
+			this.getCRootElement().getMap().put(retval.getModelElement() ,retval);
 			this.getMap().put(retval.getModelElement() ,retval);
 		}
 	} else return null;
@@ -2238,7 +2241,7 @@ return false;
     <label>Generate_Documentation</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>1319.0,526.0</position>
+    <position>1319.0,496.0</position>
     <parameter name="eOperationKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -2266,9 +2269,10 @@ Moves a node to the specified position in this container
   </sib>
   <edge>
     <source>b4c1d665-45dc-4ea0-ba0e-3c9a8cf98d74</source>
-    <target>fa93f497-b15a-4389-bcea-de3d4f3043eb</target>
-    <point>1395.0,555.0</point>
-    <point>1406.0,753.0</point>
+    <target>0c6e5227-6db0-4632-82e8-72a305752e10</target>
+    <point>1381.842105263158,566.0</point>
+    <point>1335.625,631.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
@@ -2717,6 +2721,7 @@ pl.setPictogramElement(node.getShape());
 pl.getBusinessObjects().add(node.getModelElement());
 diagram.getPictogramLinks().add(pl);
 this.getShape().getChildren().add(node.getShape());
+this.getCRootElement().getMap().put(node.getModelElement() ,node);
 (($fqnGenNodePrefix$$modelElementName$) getModelElement()).getModelElements().add(node.getModelElement());
 </string>
     </parameter>
@@ -2869,6 +2874,7 @@ pl.setPictogramElement(edge.getConnection());
 pl.getBusinessObjects().add(edge.getModelElement());
 diagram.getPictogramLinks().add(pl);
 diagram.getConnections().add(edge.getConnection());
+this.getCRootElement().getMap().put(edge.getModelElement(), edge);
 (($fqnGenNodePrefix$$modelElementName$) getModelElement()).getModelElements().add(edge.getModelElement());
 </string>
     </parameter>
@@ -3024,6 +3030,7 @@ pl.setPictogramElement(node.getShape());
 pl.getBusinessObjects().add(node.getModelElement());
 diagram.getPictogramLinks().add(pl);
 this.getShape().getChildren().add(node.getShape());
+this.getCRootElement().getMap().put(node.getModelElement() ,node);
 (($fqnGenNodePrefix$$modelElementName$) getModelElement()).getModelElements().add(node.getModelElement());
 </string>
     </parameter>
@@ -3132,6 +3139,74 @@ this.getShape().getChildren().add(node.getShape());
     <point>1150.0,831.0</point>
     <branch>default</branch>
   </edge>
+  <sib>
+    <id>0c6e5227-6db0-4632-82e8-72a305752e10</id>
+    <name>GraphSIB_29</name>
+    <label>CreateGetRoot</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>1349.0,616.0</position>
+    <parameter name="eClassKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>eClassKey</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="eOperatiobUpperBound">
+      <int>1</int>
+    </parameter>
+    <parameter name="eOperationLowerBound">
+      <int>0</int>
+    </parameter>
+    <parameter name="eOperationNameKey">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>getCRootElement</expression>
+          <clazz>java.lang.String</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="eOperationeTypeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>graphModelClass</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>false</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>$fqnCModelElementContainer$ container = this.getContainer();
+if(container!=null){
+	while(container!=null &amp;&amp; !(container instanceof graphmodel.GraphModel))
+		container= (($fqnCModelElement$)container).getContainer();
+		if(container!=null)
+			return ($apiPrefix$$graphModelName$) container;
+		}
+		
+		return null;
+</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Create EOperation</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>0c6e5227-6db0-4632-82e8-72a305752e10</source>
+    <target>fa93f497-b15a-4389-bcea-de3d4f3043eb</target>
+    <point>1320.0,660.0</point>
+    <point>1397.0,747.0</point>
+    <branch>default</branch>
+  </edge>
   <parameter>
     <name>eClassKey</name>
     <field>eClassKey</field>
@@ -3196,6 +3271,11 @@ this.getShape().getChildren().add(node.getShape());
     <name>eClassKey</name>
     <field>eClassKey</field>
     <sib>75bf008b-ef39-4c4b-a664-f441a0c4c008</sib>
+  </parameter>
+  <parameter>
+    <name>eClassKey</name>
+    <field>eClassKey</field>
+    <sib>0c6e5227-6db0-4632-82e8-72a305752e10</sib>
   </parameter>
   <values>
     <entry>

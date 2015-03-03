@@ -2,14 +2,14 @@
 <model version="2.1">
   <id>f14f4b16-0177-4ded-8256-3098679e41b5</id>
   <name>Generate_APIOperations_ModelElement</name>
-  <changecounter>58</changecounter>
+  <changecounter>120</changecounter>
   <sib>
     <id>79986b69-e6ad-482c-ab66-99f036b46335</id>
     <name>GraphSIB</name>
     <label>CreateClone</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>201.0,181.0</position>
+    <position>171.0,76.0</position>
     <parameter name="eClassKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -73,7 +73,7 @@ return clone;</string>
     <label>Generate_Documentation</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>155.0,361.0</position>
+    <position>134.0,226.0</position>
     <parameter name="eOperationKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -99,15 +99,88 @@ Creates an clone (persisting the modelElement&apos;s id) of this modelElement</s
   <edge>
     <source>79986b69-e6ad-482c-ab66-99f036b46335</source>
     <target>a81e458c-d142-4d5d-9699-2704fea0d30e</target>
-    <point>240.0,210.0</point>
-    <point>240.0,390.0</point>
+    <point>210.0,105.0</point>
+    <point>210.0,285.0</point>
     <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>7e7c2def-a44f-44f5-843a-c9c61ca824ef</id>
+    <name>GraphSIB_1</name>
+    <label>CreateGetRoot</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>161.5,376.0</position>
+    <parameter name="eClassKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>eClassKey</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="eOperatiobUpperBound">
+      <int>1</int>
+    </parameter>
+    <parameter name="eOperationLowerBound">
+      <int>0</int>
+    </parameter>
+    <parameter name="eOperationNameKey">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>getCRootElement</expression>
+          <clazz>java.lang.String</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="eOperationeTypeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>graphModelClass</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>false</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>$fqnCModelElementContainer$ container = this.getContainer();
+if(container!=null){
+	while(container!=null &amp;&amp; !(container instanceof graphmodel.GraphModel))
+		container= (($fqnCModelElement$)container).getContainer();
+		if(container!=null)
+			return ($apiPrefix$$graphModelName$) container;
+		}
+		
+		return null;
+</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Create EOperation</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>a81e458c-d142-4d5d-9699-2704fea0d30e</source>
+    <target>7e7c2def-a44f-44f5-843a-c9c61ca824ef</target>
+    <point>210.0,285.0</point>
+    <point>207.0,398.0</point>
     <branch>default</branch>
   </edge>
   <parameter>
     <name>eClassKey</name>
     <field>eClassKey</field>
     <sib>79986b69-e6ad-482c-ab66-99f036b46335</sib>
+  </parameter>
+  <parameter>
+    <name>eClassKey</name>
+    <field>eClassKey</field>
+    <sib>7e7c2def-a44f-44f5-843a-c9c61ca824ef</sib>
   </parameter>
   <values>
     <entry>
@@ -124,6 +197,6 @@ Creates an clone (persisting the modelElement&apos;s id) of this modelElement</s
   <branch>
     <name>default</name>
     <branch>default</branch>
-    <sib>a81e458c-d142-4d5d-9699-2704fea0d30e</sib>
+    <sib>7e7c2def-a44f-44f5-843a-c9c61ca824ef</sib>
   </branch>
 </model>
