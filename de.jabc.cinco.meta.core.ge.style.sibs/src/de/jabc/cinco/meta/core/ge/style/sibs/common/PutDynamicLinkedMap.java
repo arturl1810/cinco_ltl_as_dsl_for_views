@@ -11,23 +11,23 @@ import de.metaframe.jabc.framework.sib.parameter.ContextKey;
 import de.metaframe.jabc.framework.sib.parameter.ContextKey.Scope;
 import de.metaframe.jabc.sib.ServiceAdapterDescriptor;
 
-@SIBClass("ge-util-sibs/PutLinkedMap")
-public class PutLinkedMap extends AbstractSIB {
+@SIBClass("ge-util-sibs/PutDynamicLinkedMap")
+public class PutDynamicLinkedMap extends AbstractSIB {
 
 	public static final String[] BRANCHES = {Branches.DEFAULT, Branches.ERROR};
 	
-    public Map<Object, Object> elements = new LinkedHashMap<Object, Object>();
+    public Map<Object, String> elements = new LinkedHashMap<Object, String>();
     public ContextKey variable = new ContextKey("variable", Scope.LOCAL, true);
     
     
 	public String execute(LightweightExecutionEnvironment env) {
-		return ServiceAdapter.putLinkedMap(env, variable.asFoundation(), this.elements);
+		return ServiceAdapter.putDynamicLinkedMap(env, variable.asFoundation(), this.elements);
 	}
 
 	@Override
 	public ServiceAdapterDescriptor generate() {
 		return new ServiceAdapterDescriptor(ServiceAdapter.class.getName(), 
-				"putLinkedMap",
+				"putDynamicLinkedMap",
 				"variable",
 				"elements");
 	}

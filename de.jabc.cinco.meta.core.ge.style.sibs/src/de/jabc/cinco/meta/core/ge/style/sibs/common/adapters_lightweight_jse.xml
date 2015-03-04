@@ -1,7 +1,7 @@
 <serviceAdapters defaultAdapter="de.jabc.cinco.meta.core.ge.style.sibs.adapter.ServiceAdapter">
 	
-	<serviceAdapter uid="ge-util-sibs/PutLinkedMap">
-		<service>putLinkedMap</service>
+	<serviceAdapter uid="ge-util-sibs/PutDynamicLinkedMap">
+		<service>putDynamicLinkedMap</service>
 		<arguments>
 			<argument name="variable" />
 			<argument name="elements" />

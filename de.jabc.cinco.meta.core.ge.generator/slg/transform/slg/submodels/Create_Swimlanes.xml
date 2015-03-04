@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>bbe15f4c-aa62-4a79-93be-b5b01df883f7</id>
   <name>Create Swimlanes</name>
-  <changecounter>23</changecounter>
+  <changecounter>29</changecounter>
   <sib>
     <id>16bf1154-7de3-4eea-84a6-7a6ea202a8a3</id>
     <name>MacroSIB</name>
@@ -366,7 +366,7 @@
     <parameter name="eOperationNameKey">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>get${modelElementNameFirstUpper}s</expression>
+          <expression>get${apiPrefix}${modelElementNameFirstUpper}s</expression>
           <clazz>java.lang.String</clazz>
           <classMutable>true</classMutable>
         </ContextExpressionFoundation>
@@ -382,7 +382,7 @@
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>return getModelElements($apiPrefix$$modelElementName$.class);</string>
+      <string>return get$apiPrefix$ModelElements($apiPrefix$$modelElementName$.class);</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>

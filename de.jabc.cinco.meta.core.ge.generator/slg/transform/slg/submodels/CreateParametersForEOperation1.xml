@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>682624bb-37b0-43b6-8bd5-4da09ee871bd</id>
   <name>CreateParametersForEOperation1</name>
-  <changecounter>40</changecounter>
+  <changecounter>149</changecounter>
   <sib>
     <id>e956fc5f-6187-472e-99d5-dda07a471f4f</id>
     <name>PutExpression</name>
@@ -43,7 +43,7 @@
     <label>NewEParameterInEOperationEParameters</label>
     <sib-uid>ecore/ecore/NewEParameterInEOperationEParameters</sib-uid>
     <taxonomy>transem.ecore.sib.ecore.NewEParameterInEOperationEParameters</taxonomy>
-    <position>27.0,513.0</position>
+    <position>27.0,543.0</position>
     <parameter name="eObjectKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -71,7 +71,7 @@
     <label>SetEParameterName</label>
     <sib-uid>ecore/ecore/SetEParameterName</sib-uid>
     <taxonomy>transem.ecore.sib.ecore.SetEParameterName</taxonomy>
-    <position>86.5,648.0</position>
+    <position>86.5,693.0</position>
     <parameter name="eParameterKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -97,7 +97,7 @@
     <source>a5239dc8-598d-4770-98b0-0f537419b3fb</source>
     <target>8e025c43-ffee-44fd-a845-9e581c539ef8</target>
     <point>150.0,540.0</point>
-    <point>150.0,675.0</point>
+    <point>150.0,720.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -107,7 +107,7 @@
     <label>SetEParameterEType</label>
     <sib-uid>ecore/ecore/SetEParameterEType</sib-uid>
     <taxonomy>transem.ecore.sib.ecore.SetEParameterEType</taxonomy>
-    <position>281.0,648.0</position>
+    <position>281.0,693.0</position>
     <parameter name="eParameterKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -132,23 +132,23 @@
   <edge>
     <source>8e025c43-ffee-44fd-a845-9e581c539ef8</source>
     <target>b007dc47-3387-4376-85a5-7972c64ddc7d</target>
-    <point>150.0,675.0</point>
-    <point>345.0,675.0</point>
+    <point>150.0,720.0</point>
+    <point>345.0,720.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
     <id>c30b2e29-1cc4-442d-b3b8-80bc574726fc</id>
     <name>IterateElements</name>
-    <label>IterateParameters</label>
+    <label>IterateKeys</label>
     <sib-uid>collection-sibs/IterateElements</sib-uid>
     <taxonomy>de.jabc.sib.common.collection.IterateElements</taxonomy>
-    <position>91.0,198.0</position>
+    <position>109.0,273.0</position>
     <parameter name="collection">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>parameters</key>
-          <scope>DECLARED</scope>
+          <key>keys</key>
+          <scope>LOCAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
@@ -156,7 +156,7 @@
     <parameter name="element">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>paramEntry</key>
+          <key>parameterName</key>
           <scope>LOCAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
@@ -177,9 +177,9 @@
   </sib>
   <edge>
     <source>c30b2e29-1cc4-442d-b3b8-80bc574726fc</source>
-    <target>a2a27127-a2aa-450a-a7c6-cd10c81b1b1b</target>
-    <point>143.72093023255815,234.0</point>
-    <point>112.2972972972973,318.0</point>
+    <target>abbefd04-296b-42c9-af03-9867f5a2f732</target>
+    <point>168.0,216.2</point>
+    <point>267.0,293.2</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>next</branch>
   </edge>
@@ -193,31 +193,55 @@
   </edge>
   <edge>
     <source>e956fc5f-6187-472e-99d5-dda07a471f4f</source>
-    <target>c30b2e29-1cc4-442d-b3b8-80bc574726fc</target>
-    <point>150.0,90.0</point>
-    <point>161.0,211.0</point>
+    <target>6b58bb20-b1f1-477d-8996-4a3bef363608</target>
+    <point>168.0,96.2</point>
+    <point>267.0,173.2</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
-    <id>61608606-fa70-4a44-b1c2-865e2943ecb8</id>
-    <name>PutExpression_1</name>
-    <label>PutParameterType</label>
-    <sib-uid>basic-sibs/PutExpression</sib-uid>
-    <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
-    <position>93.5,408.0</position>
-    <parameter name="resolve">
-      <boolean>true</boolean>
+    <id>6b58bb20-b1f1-477d-8996-4a3bef363608</id>
+    <name>GetMapKeys</name>
+    <label>GetMapKeys</label>
+    <sib-uid>collection-sibs/GetMapKeys</sib-uid>
+    <taxonomy>de.jabc.sib.common.collection.GetMapKeys</taxonomy>
+    <position>111.0,153.0</position>
+    <parameter name="keys">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>keys</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
-    <parameter name="value">
-      <de.metaframe.common.sib.parameter.ContextExpression>
-        <ContextExpressionFoundation>
-          <expression>${paramEntry.value}</expression>
-          <clazz>java.lang.Object</clazz>
-          <classMutable>true</classMutable>
-        </ContextExpressionFoundation>
-      </de.metaframe.common.sib.parameter.ContextExpression>
+    <parameter name="map">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key></key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
-    <parameter name="variable">
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>6b58bb20-b1f1-477d-8996-4a3bef363608</source>
+    <target>c30b2e29-1cc4-442d-b3b8-80bc574726fc</target>
+    <point>300.0,150.0</point>
+    <point>130.0,206.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>abbefd04-296b-42c9-af03-9867f5a2f732</id>
+    <name>GetElement</name>
+    <label>GetElement</label>
+    <sib-uid>collection-sibs/GetElement</sib-uid>
+    <taxonomy>de.jabc.sib.common.collection.GetElement</taxonomy>
+    <position>113.0,408.0</position>
+    <parameter name="element">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
           <key>parameterType</key>
@@ -226,33 +250,20 @@
         </ContextKeyFoundation>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-  </sib>
-  <sib>
-    <id>a2a27127-a2aa-450a-a7c6-cd10c81b1b1b</id>
-    <name>PutExpression_2</name>
-    <label>PutParameterName</label>
-    <sib-uid>basic-sibs/PutExpression</sib-uid>
-    <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
-    <position>90.5,303.0</position>
-    <parameter name="resolve">
-      <boolean>true</boolean>
-    </parameter>
-    <parameter name="value">
-      <de.metaframe.common.sib.parameter.ContextExpression>
-        <ContextExpressionFoundation>
-          <expression>${paramEntry.key}</expression>
-          <clazz>java.lang.Object</clazz>
-          <classMutable>true</classMutable>
-        </ContextExpressionFoundation>
-      </de.metaframe.common.sib.parameter.ContextExpression>
-    </parameter>
-    <parameter name="variable">
+    <parameter name="index">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
           <key>parameterName</key>
-          <scope>GLOBAL</scope>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="list">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key></key>
+          <scope>DECLARED</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
@@ -261,30 +272,58 @@
     <finalbranches>error</finalbranches>
   </sib>
   <edge>
-    <source>a2a27127-a2aa-450a-a7c6-cd10c81b1b1b</source>
-    <target>61608606-fa70-4a44-b1c2-865e2943ecb8</target>
-    <point>150.0,345.0</point>
-    <point>148.0,411.0</point>
+    <source>abbefd04-296b-42c9-af03-9867f5a2f732</source>
+    <target>96806189-4946-476d-865a-df4b461185a5</target>
+    <point>168.0,426.51428571428573</point>
+    <point>447.0,426.51428571428573</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
+  <sib>
+    <id>96806189-4946-476d-865a-df4b461185a5</id>
+    <name>PrintConsoleMessage</name>
+    <label>PrintConsoleMessage</label>
+    <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
+    <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
+    <position>399.5,408.0</position>
+    <parameter name="error">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="message">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>MAP: ${parameters}
+TYPE: ${parameterType.key}</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>false</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <finalbranches>default</finalbranches>
+  </sib>
   <edge>
-    <source>61608606-fa70-4a44-b1c2-865e2943ecb8</source>
+    <source>96806189-4946-476d-865a-df4b461185a5</source>
     <target>a5239dc8-598d-4770-98b0-0f537419b3fb</target>
-    <point>150.0,435.0</point>
-    <point>154.0,535.0</point>
+    <point>465.0,435.0</point>
+    <point>130.0,558.0</point>
     <branch>default</branch>
   </edge>
   <parameter>
-    <name>collection</name>
-    <field>collection</field>
-    <sib>c30b2e29-1cc4-442d-b3b8-80bc574726fc</sib>
+    <name>map</name>
+    <field>map</field>
+    <sib>6b58bb20-b1f1-477d-8996-4a3bef363608</sib>
+  </parameter>
+  <parameter>
+    <name>map</name>
+    <field>list</field>
+    <sib>abbefd04-296b-42c9-af03-9867f5a2f732</sib>
   </parameter>
   <values>
     <entry>
-      <string>collection</string>
+      <string>map</string>
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>parameters</key>
+          <key></key>
           <scope>DECLARED</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>

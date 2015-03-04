@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>ec0a5ab9-778e-4f7b-a992-cd928603a684</id>
   <name>GenerateApiEOperations</name>
-  <changecounter>929</changecounter>
+  <changecounter>1036</changecounter>
   <sib>
     <id>f72556e4-d283-40ee-a704-42281069c330</id>
     <name>GraphSIB</name>
@@ -698,9 +698,9 @@
   </edge>
   <edge>
     <source>b92d7aed-8a1b-4e4c-a8ee-5ea6759147d6</source>
-    <target>e1b40e23-1181-42b7-8731-597242145888</target>
-    <point>237.0,252.9</point>
-    <point>93.0,300.9</point>
+    <target>5d5e853b-bd53-4596-b2cc-b7c103d2d1f9</target>
+    <point>225.0,219.0</point>
+    <point>225.0,288.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>NodeContainer</branch>
   </edge>
@@ -713,35 +713,6 @@
     <point>207.0,97.19999999999999</point>
     <labelposition>546.5204768259151,-46.75055748925201</labelposition>
     <branch>GraphModel</branch>
-  </edge>
-  <sib>
-    <id>e1b40e23-1181-42b7-8731-597242145888</id>
-    <name>PrintConsoleMessage</name>
-    <label>PrintConsoleMessage</label>
-    <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
-    <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
-    <position>9.5,288.0</position>
-    <parameter name="error">
-      <boolean>true</boolean>
-    </parameter>
-    <parameter name="message">
-      <de.metaframe.common.sib.parameter.ContextExpression>
-        <ContextExpressionFoundation>
-          <expression>THE MODELELEMENT: ${modelElement}</expression>
-          <clazz>java.lang.Object</clazz>
-          <classMutable>false</classMutable>
-        </ContextExpressionFoundation>
-      </de.metaframe.common.sib.parameter.ContextExpression>
-    </parameter>
-    <finalbranches>default</finalbranches>
-  </sib>
-  <edge>
-    <source>e1b40e23-1181-42b7-8731-597242145888</source>
-    <target>5d5e853b-bd53-4596-b2cc-b7c103d2d1f9</target>
-    <point>93.0,307.08</point>
-    <point>207.0,307.08</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
   </edge>
   <sib>
     <id>b92d7aed-8a1b-4e4c-a8ee-5ea6759147d6</id>

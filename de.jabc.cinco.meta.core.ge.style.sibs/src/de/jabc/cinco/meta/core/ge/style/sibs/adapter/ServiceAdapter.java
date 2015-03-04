@@ -1437,13 +1437,17 @@ public class ServiceAdapter {
 		return extensions;
 	}
 
-	public static String putLinkedMap(LightweightExecutionEnvironment env,
-			ContextKeyFoundation variable, Map<Object, Object> elements) {
+	public static String putDynamicLinkedMap(LightweightExecutionEnvironment env,
+			ContextKeyFoundation variable, Map<Object, String> elements) {
 		
 		 LightweightExecutionContext context = env.getLocalContext();
 		try {
 			LinkedHashMap<Object, Object> map = new LinkedHashMap<>();
-			map.putAll(elements);
+			for (Entry<Object, String> e : elements.entrySet()) {
+				Object key = e.getKey();
+				Object type = context.get(e.getValue());
+				map.put(key, type);
+			}
 			context.put(variable, map);
 			return Branches.DEFAULT;
 		} catch (Exception e) {

@@ -109,6 +109,8 @@ import de.metaframe.jabc.framework.execution.DefaultLightweightExecutionEnvironm
 import de.metaframe.jabc.framework.execution.LightweightExecutionEnvironment;
 import de.metaframe.jabc.framework.execution.context.DefaultLightweightExecutionContext;
 import de.metaframe.jabc.framework.execution.context.LightweightExecutionContext;
+import de.metaframe.jabc.framework.sib.parameter.ContextKey;
+import de.metaframe.jabc.framework.sib.parameter.ContextKey.Scope;
 
 public class GraphitiCodeGenerator extends AbstractHandler {
 
