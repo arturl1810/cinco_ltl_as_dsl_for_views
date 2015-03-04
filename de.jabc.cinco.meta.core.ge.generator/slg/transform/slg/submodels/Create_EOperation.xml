@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>54940845-a071-43d3-98e5-4b0a7418569d</id>
   <name>Create EOperation</name>
-  <changecounter>16</changecounter>
+  <changecounter>17</changecounter>
   <sib>
     <id>03b99a39-7cd8-4ffd-be19-a5aca3a73089</id>
     <name>SetEOperationName</name>
@@ -480,11 +480,6 @@ $context.someKey$</string>
   </parameter>
   <values>
     <entry>
-      <string>template</string>
-      <string>$! Output value of context variable &apos;someKey&apos; !$
-$context.someKey$</string>
-    </entry>
-    <entry>
       <string>eOperationeTypeKey</string>
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -493,6 +488,11 @@ $context.someKey$</string>
           <scopeMutable>false</scopeMutable>
         </ContextKeyFoundation>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </entry>
+    <entry>
+      <string>template</string>
+      <string>$! Output value of context variable &apos;someKey&apos; !$
+$context.someKey$</string>
     </entry>
     <entry>
       <string>eOperationNameKey</string>
@@ -515,12 +515,12 @@ $context.someKey$</string>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </entry>
     <entry>
-      <string>eOperationLowerBound</string>
-      <int>0</int>
-    </entry>
-    <entry>
       <string>eOperatiobUpperBound</string>
       <int>1</int>
+    </entry>
+    <entry>
+      <string>eOperationLowerBound</string>
+      <int>0</int>
     </entry>
   </values>
   <branch>

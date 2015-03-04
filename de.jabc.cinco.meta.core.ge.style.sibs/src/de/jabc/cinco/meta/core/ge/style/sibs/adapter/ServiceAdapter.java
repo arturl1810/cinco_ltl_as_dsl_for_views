@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -19,6 +20,7 @@ import java.util.regex.Pattern;
 
 import mgl.Annotation;
 import mgl.Attribute;
+import mgl.ContainingElement;
 import mgl.Edge;
 import mgl.GraphModel;
 import mgl.GraphicalElementContainment;
@@ -389,8 +391,11 @@ public class ServiceAdapter {
 		
 		LightweightExecutionContext context = env.getLocalContext();
 		try {
-			NodeContainer nc = (NodeContainer) context.get(nodeContainer);
+			ContainingElement nc = (ContainingElement) context.get(nodeContainer);
 			ModelElement n = (ModelElement) context.get(node);
+			
+			System.err.println(nc);
+			System.err.println(n);
 			
 			if (nc.getContainableElements().isEmpty())
 				return Branches.TRUE;
@@ -1373,8 +1378,6 @@ public class ServiceAdapter {
 						fis = new FileInputStream(f);
 						reader = new BufferedReader(new InputStreamReader(fis));
 						String CINCO_GEN = new String("<!--@CincoGen "+gName+"-->");
-						String regex = new String("(?s)<extension.*"+CINCO_GEN+".*</extension>");
-						Pattern pattern = Pattern.compile(regex, Pattern.DOTALL);
 						ArrayList<String> extensions = getExtensions(originalText);
 						ArrayList<String> remove = new ArrayList<>();
 						for (String ext : extensions) {
@@ -1417,14 +1420,6 @@ public class ServiceAdapter {
 		}
 	}
 
-	private static String trimText(String originalText) {
-		String retval = new String();
-		for (String s : originalText.split("\n")) {
-			retval += s.trim();
-		}
-		return retval;
-	}
-
 	private static ArrayList<String> getExtensions(String c) {
 		ArrayList<String> extensions = new ArrayList<>();
 		String[] lines = c.split("\n");
@@ -1440,6 +1435,22 @@ public class ServiceAdapter {
 			
 		}
 		return extensions;
+	}
+
+	public static String putLinkedMap(LightweightExecutionEnvironment env,
+			ContextKeyFoundation variable, Map<Object, Object> elements) {
+		
+		 LightweightExecutionContext context = env.getLocalContext();
+		try {
+			LinkedHashMap<Object, Object> map = new LinkedHashMap<>();
+			map.putAll(elements);
+			context.put(variable, map);
+			return Branches.DEFAULT;
+		} catch (Exception e) {
+			context.put("exception", e);
+			return Branches.ERROR;
+		}
+		
 	}
 	
 

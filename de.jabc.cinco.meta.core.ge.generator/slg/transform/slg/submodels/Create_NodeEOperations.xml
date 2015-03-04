@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<model version="2.1">
+  <id>079a4d5e-bab9-4273-8a05-29b4b4909c15</id>
+  <name>Create_NodeEOperations</name>
+  <changecounter>98</changecounter>
+  <sib>
+    <id>1c733983-6c25-45cd-bded-1a4832127f58</id>
+    <name>IsPrimeNode</name>
+    <label>IsPrimeNode</label>
+    <sib-uid>ge-util-sibs/IsPrimeNode</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsPrimeNode</taxonomy>
+    <position>125.5,48.0</position>
+    <parameter name="node">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>modelElementKey</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>false</finalbranches>
+    <finalbranches>true</finalbranches>
+    <userobject key="ABC$START">
+      <boolean>true</boolean>
+    </userobject>
+  </sib>
+  <sib>
+    <id>c205171c-c592-4f64-ba0a-0ee14bf11228</id>
+    <name>MacroSIB</name>
+    <label>GenerateCreatePrimeNode</label>
+    <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
+    <position>285.5,46.0</position>
+    <parameter name="eClassKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>graphModelClass</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>7c46cc02-d874-4f7b-8dc5-2f624fce088b</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>GenerateCreatePrimeNode</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>1c733983-6c25-45cd-bded-1a4832127f58</source>
+    <target>c205171c-c592-4f64-ba0a-0ee14bf11228</target>
+    <point>165.0,75.0</point>
+    <point>371.0,66.0</point>
+    <branch>true</branch>
+  </edge>
+  <sib>
+    <id>1f4a0cdf-7ebd-49b6-8922-6293e9353fea</id>
+    <name>GraphSIB_1</name>
+    <label>Create CreateAndAdd</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>100.0,166.0</position>
+    <parameter name="eClassKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>graphModelClass</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="eOperatiobUpperBound">
+      <int>1</int>
+    </parameter>
+    <parameter name="eOperationLowerBound">
+      <int>1</int>
+    </parameter>
+    <parameter name="eOperationNameKey">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>newC${modelElementName}</expression>
+          <clazz>java.lang.String</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="eOperationeTypeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>modelElementClass</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>false</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>$apiPrefix$$modelElementName$ retval = $fqnAPIFactory$.eINSTANCE.create$apiPrefix$$modelElementName$();
+   
+$fqnDiagram$ d = ($fqnDiagram$) this.getDiagram();
+$fqnFeatureProvider$ provider = ($fqnFeatureProvider$) $fqnGraphitiUi$.getExtensionManager().createFeatureProvider(d);
+    
+$fqnCreateNodeFeaturePrefix$Create$nodeName$Feature cf = new $fqnCreateNodeFeaturePrefix$Create$nodeName$Feature(provider);
+$fqnCreateContext$ cc = new $fqnCreateContext$();
+cc.setX(xPos);
+cc.setY(yPos);
+if (width &gt; -1 &amp;&amp; height &gt; -1) {
+	cc.setWidth(width);
+	cc.setHeight(height);
+}
+cc.setTargetContainer(getShape());
+	if (cf.canCreate(cc)) {
+		Object[] newObject = cf.create(cc);
+		if (newObject.length == 1 &amp;&amp; newObject[0] instanceof $fqnGenNodePrefix$$nodeName$) {
+			retval.setModelElement(($fqnNode$) newObject[0]);
+			retval.setShape(($fqnContainerShape$) 
+				$fqnGraphiti$.getLinkService().getPictogramElements(d, retval.getModelElement()).get(0));
+			retval.setDiagram(d);
+			this.getModelElements().add(retval);
+			this.getCRootElement().getMap().put(retval.getModelElement() ,retval);
+			this.getMap().put(retval.getModelElement() ,retval);
+		}
+	} else return null;
+    
+return retval; </string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Create EOperation</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>1c733983-6c25-45cd-bded-1a4832127f58</source>
+    <target>1f4a0cdf-7ebd-49b6-8922-6293e9353fea</target>
+    <point>165.0,75.0</point>
+    <point>158.0,194.0</point>
+    <branch>false</branch>
+  </edge>
+  <sib>
+    <id>8ce61018-545c-4a7f-b58c-1d99c4ee2b89</id>
+    <name>MacroSIB_1</name>
+    <label>CreateParametersForEOperation1</label>
+    <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
+    <position>52.5,391.0</position>
+    <parameter name="collection">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>parameters</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>682624bb-37b0-43b6-8bd5-4da09ee871bd</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>CreateParametersForEOperation1</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>1f4a0cdf-7ebd-49b6-8922-6293e9353fea</source>
+    <target>8fec12ff-6ce3-4613-a353-418274785cd5</target>
+    <point>176.62790697674419,206.0</point>
+    <point>227.83783783783784,288.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>8fec12ff-6ce3-4613-a353-418274785cd5</source>
+    <target>8ce61018-545c-4a7f-b58c-1d99c4ee2b89</target>
+    <point>165.0,300.0</point>
+    <point>167.0,396.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>8fec12ff-6ce3-4613-a353-418274785cd5</id>
+    <name>PutLinkedMap</name>
+    <label>PutLinkedMap</label>
+    <sib-uid>ge-util-sibs/PutLinkedMap</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.PutLinkedMap</taxonomy>
+    <position>122.5,273.0</position>
+    <parameter name="elements">
+      <linked-hash-map>
+        <entry>
+          <string>x</string>
+          <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+            <ContextKeyFoundation>
+              <key>integerType</key>
+              <scope>GLOBAL</scope>
+              <scopeMutable>true</scopeMutable>
+            </ContextKeyFoundation>
+          </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        </entry>
+        <entry>
+          <string>y</string>
+          <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+            <ContextKeyFoundation>
+              <key>integerType</key>
+              <scope>GLOBAL</scope>
+              <scopeMutable>true</scopeMutable>
+            </ContextKeyFoundation>
+          </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        </entry>
+        <entry>
+          <string>width</string>
+          <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+            <ContextKeyFoundation>
+              <key>integerType</key>
+              <scope>GLOBAL</scope>
+              <scopeMutable>true</scopeMutable>
+            </ContextKeyFoundation>
+          </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        </entry>
+        <entry>
+          <string>height</string>
+          <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+            <ContextKeyFoundation>
+              <key>integerType</key>
+              <scope>GLOBAL</scope>
+              <scopeMutable>true</scopeMutable>
+            </ContextKeyFoundation>
+          </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        </entry>
+      </linked-hash-map>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>parameters</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <parameter>
+    <name>node</name>
+    <field>node</field>
+    <sib>1c733983-6c25-45cd-bded-1a4832127f58</sib>
+  </parameter>
+  <values>
+    <entry>
+      <string>node</string>
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>modelElementKey</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </entry>
+  </values>
+  <branch>
+    <name>default</name>
+    <branch>default</branch>
+    <sib>8ce61018-545c-4a7f-b58c-1d99c4ee2b89</sib>
+  </branch>
+  <branch>
+    <name>default</name>
+    <branch>default</branch>
+    <sib>c205171c-c592-4f64-ba0a-0ee14bf11228</sib>
+  </branch>
+</model>

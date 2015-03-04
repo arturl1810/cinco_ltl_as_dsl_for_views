@@ -1,5 +1,13 @@
 <serviceAdapters defaultAdapter="de.jabc.cinco.meta.core.ge.style.sibs.adapter.ServiceAdapter">
 	
+	<serviceAdapter uid="ge-util-sibs/PutLinkedMap">
+		<service>putLinkedMap</service>
+		<arguments>
+			<argument name="variable" />
+			<argument name="elements" />
+		</arguments>
+	</serviceAdapter>
+	
 	<serviceAdapter uid="ge-util-sibs/WritePluginXMLContent">
 		<service>writePluginXMLContent</service>
 		<arguments>

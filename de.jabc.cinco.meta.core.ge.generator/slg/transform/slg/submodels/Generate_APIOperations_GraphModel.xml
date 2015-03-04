@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>2e132e87-b76b-4a5d-ba3f-d98f185c9394</id>
   <name>Generate_APIOperations_GraphModel</name>
-  <changecounter>205</changecounter>
+  <changecounter>208</changecounter>
   <sib>
     <id>4b20df8a-ef6a-4e9d-865c-41981500d5b1</id>
     <name>GraphSIB_22</name>
@@ -768,7 +768,7 @@ return retval;</string>
     <label>Create CreateAndAdd</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>699.0,556.0</position>
+    <position>714.0,571.0</position>
     <parameter name="eClassKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -855,7 +855,7 @@ return retval; </string>
     <label>PutList</label>
     <sib-uid>collection-sibs/PutList</sib-uid>
     <taxonomy>de.jabc.sib.common.collection.PutList</taxonomy>
-    <position>742.0,663.0</position>
+    <position>757.0,693.0</position>
     <parameter name="elements">
       <list>
         <string>xPos</string>
@@ -896,7 +896,7 @@ return retval; </string>
     <label>CreateParametersForEOperation</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>698.0,781.0</position>
+    <position>683.0,811.0</position>
     <parameter name="eOperationKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -939,7 +939,7 @@ return retval; </string>
     <label>Create CreateAndAdd</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>894.0,496.0</position>
+    <position>939.0,571.0</position>
     <parameter name="eClassKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -991,7 +991,7 @@ return retval; </string>
     <label>PutList</label>
     <sib-uid>collection-sibs/PutList</sib-uid>
     <taxonomy>de.jabc.sib.common.collection.PutList</taxonomy>
-    <position>952.0,648.0</position>
+    <position>982.0,693.0</position>
     <parameter name="elements">
       <list>
         <string>xPos</string>
@@ -1097,7 +1097,7 @@ return retval; </string>
     <label>Generate_Documentation</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>899.0,736.0</position>
+    <position>929.0,811.0</position>
     <parameter name="eOperationKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -3251,7 +3251,7 @@ return retval;</string>
     <label>Create Add</label>
     <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
-    <position>729.0,931.0</position>
+    <position>744.0,946.0</position>
     <parameter name="eClassKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -3309,7 +3309,7 @@ this.getShape().getChildren().add(node.getShape());
     <label>CreateParametersForEOperation</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>908.0,931.0</position>
+    <position>938.0,946.0</position>
     <parameter name="eOperationKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -3352,7 +3352,7 @@ this.getShape().getChildren().add(node.getShape());
     <label>PutList</label>
     <sib-uid>collection-sibs/PutList</sib-uid>
     <taxonomy>de.jabc.sib.common.collection.PutList</taxonomy>
-    <position>847.0,948.0</position>
+    <position>877.0,948.0</position>
     <parameter name="elements">
       <list>
         <string>node</string>
@@ -3720,8 +3720,8 @@ this.getShape().getChildren().add(node.getShape());
     <parameter name="eClassKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>eClassKey</key>
-          <scope>GLOBAL</scope>
+          <key>graphModelClass</key>
+          <scope>DECLARED</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
