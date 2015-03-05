@@ -22,6 +22,7 @@ import mgl.Annotation;
 import mgl.Attribute;
 import mgl.ContainingElement;
 import mgl.Edge;
+import mgl.EdgeElementConnection;
 import mgl.GraphModel;
 import mgl.GraphicalElementContainment;
 import mgl.GraphicalModelElement;
@@ -1452,6 +1453,39 @@ public class ServiceAdapter {
 			return Branches.ERROR;
 		}
 		
+	}
+
+	public static String getEdgeConnectionsMap(LightweightExecutionEnvironment env,
+			ContextKeyFoundation edge,
+			ContextKeyFoundation map) {
+		
+		LightweightExecutionContext context = env.getLocalContext();
+		List<GraphicalModelElement> sources = new ArrayList<>();
+		List<GraphicalModelElement> targets = new ArrayList<>();
+		HashMap<GraphicalModelElement, List<GraphicalModelElement>> m = new HashMap<>();
+		try {
+			Edge e = (Edge) context.get(edge);
+			for (EdgeElementConnection eec : e.getEdgeElementConnections()) {
+				if (eec instanceof IncomingEdgeElementConnection) {
+					IncomingEdgeElementConnection ieec = (IncomingEdgeElementConnection) eec;
+					targets.add((GraphicalModelElement) ieec.eContainer());
+				}
+				
+				if (eec instanceof OutgoingEdgeElementConnection) {
+					OutgoingEdgeElementConnection oeec = (OutgoingEdgeElementConnection) eec;
+					sources.add((GraphicalModelElement) oeec.eContainer());
+				}
+			}
+			
+			for (GraphicalModelElement s : sources) {
+				m.put(s, targets);
+			}
+			context.put(map, m);
+			return Branches.DEFAULT;
+		} catch (Exception e) {
+			context.put("exception", e);
+			return Branches.ERROR;
+		}
 	}
 	
 

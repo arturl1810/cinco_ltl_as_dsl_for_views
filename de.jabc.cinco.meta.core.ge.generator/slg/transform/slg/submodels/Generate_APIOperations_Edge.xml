@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>709bf2c6-2af3-4468-aef4-71df8b66f1b5</id>
   <name>Generate_APIOperations_Edge</name>
-  <changecounter>137</changecounter>
+  <changecounter>147</changecounter>
   <sib>
     <id>1d192934-9718-489b-8cd8-c840255c8617</id>
     <name>GraphSIB</name>
@@ -364,7 +364,7 @@ Reconnects the edge&apos;s target.
     <label>CreateClone</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>426.0,796.0</position>
+    <position>561.0,241.0</position>
     <parameter name="eClassKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -425,7 +425,7 @@ return clone;</string>
     <label>Generate_Documentation</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>380.0,661.0</position>
+    <position>515.0,106.0</position>
     <parameter name="eOperationKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -451,16 +451,39 @@ Creates an clone (persisting the modelElement&apos;s id) of this modelElement</s
   <edge>
     <source>c5ef726c-1f33-41a5-b99d-d662aafa7197</source>
     <target>bdb9eec8-571c-46d0-afe6-c578662ac8a6</target>
-    <point>450.0,660.0</point>
-    <point>450.0,825.0</point>
+    <point>600.0,270.0</point>
+    <point>600.0,135.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
     <source>34c52448-6e32-4d1e-8416-16a8fb8d668f</source>
+    <target>186f9a9f-a661-420d-9f2f-923ae82a91b7</target>
+    <point>230.0,829.2</point>
+    <point>340.0,895.2</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>186f9a9f-a661-420d-9f2f-923ae82a91b7</id>
+    <name>GraphSIB_8</name>
+    <label>Generate_NodeConnectEOperations</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>494.0,796.0</position>
+    <finalbranches>default</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>5114f8bf-bf5e-4a42-bcb3-454199a39dd9</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Generate_NodeConnectEOperations</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>186f9a9f-a661-420d-9f2f-923ae82a91b7</source>
     <target>c5ef726c-1f33-41a5-b99d-d662aafa7197</target>
-    <point>230.0,816.7058823529412</point>
-    <point>445.0,816.7058823529412</point>
+    <point>360.0,915.0</point>
+    <point>463.0,806.0</point>
     <branch>default</branch>
   </edge>
   <parameter>

@@ -23,8 +23,11 @@ import java.util.jar.Manifest;
 import mgl.Annotation;
 import mgl.Edge;
 import mgl.GraphModel;
+import mgl.GraphicalModelElement;
+import mgl.IncomingEdgeElementConnection;
 import mgl.Node;
 import mgl.NodeContainer;
+import mgl.OutgoingEdgeElementConnection;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
@@ -160,6 +163,8 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 				if (styles == null) {
 					return null;
 				}
+				
+				gModel = prepareGraphModel(gModel);
 				
 				GMODEL_NAME_LOWER = gModel.getName().toLowerCase();
 				
@@ -720,6 +725,27 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 		}
 		
 		return sb.toString();
+	}
+	
+	private GraphModel prepareGraphModel(GraphModel graphModel){
+		List<GraphicalModelElement> connectableElements = new ArrayList<>();
+		
+		connectableElements.addAll(graphModel.getNodes());
+		connectableElements.addAll(graphModel.getNodeContainers());
+		for(GraphicalModelElement elem : connectableElements) {
+			for(IncomingEdgeElementConnection connect : elem.getIncomingEdgeConnections()){
+				if(connect.getConnectingEdges() == null || connect.getConnectingEdges().isEmpty()){
+					connect.getConnectingEdges().addAll(graphModel.getEdges());
+				}
+			}
+			for(OutgoingEdgeElementConnection connect : elem.getOutgoingEdgeConnections()){
+				if(connect.getConnectingEdges() == null || connect.getConnectingEdges().isEmpty()){
+					connect.getConnectingEdges().addAll(graphModel.getEdges());
+				}
+			}
+		}
+		
+		return graphModel;
 	}
 	
 }
