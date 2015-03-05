@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>21d264a3-a3d0-485e-b5f9-5f9c29fffccf</id>
   <name>GenerateCreateEdgeFeature_1</name>
-  <changecounter>153</changecounter>
+  <changecounter>156</changecounter>
   <sib>
     <id>11d0666f-5a7a-42b8-b045-2c132c173d82</id>
     <name>PutExpression</name>
@@ -456,10 +456,6 @@ public class Create$context.edgeName$Feature extends AbstractCreateConnectionFea
 				if (target instanceof ModelElement) {
 					$context.meIdentifier$.setTargetElement( (Node) target);
 				}
-			
-			$context.graphModelName$ $context.lcGraphModelName$ = $context.graphModelName$GraphitiUtils.addToResource(getDiagram(), this.getFeatureProvider());
-			ModelElementContainer container = $context.graphModelName$GraphitiUtils.getInstance().getCommonContainer($context.lcGraphModelName$, $context.meIdentifier$);
-			container.getModelElements().add($context.meIdentifier$);
 
 			AddConnectionContext addContext = 
 				new AddConnectionContext(context.getSourceAnchor(), context.getTargetAnchor());

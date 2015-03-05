@@ -66,6 +66,7 @@ import org.eclipse.graphiti.features.IDeleteFeature;
 import org.eclipse.graphiti.features.IMoveShapeFeature;
 import org.eclipse.graphiti.features.IReconnectionFeature;
 import org.eclipse.graphiti.features.IUpdateFeature;
+import org.eclipse.graphiti.features.context.impl.AddConnectionContext;
 import org.eclipse.graphiti.features.context.impl.AddContext;
 import org.eclipse.graphiti.features.context.impl.CreateConnectionContext;
 import org.eclipse.graphiti.features.context.impl.CreateContext;
@@ -382,6 +383,7 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 		context.put("fqnAnchor", Anchor.class.getName());
 		
 		context.put("fqnAddContext", AddContext.class.getName());
+		context.put("fqnAddConnectionContext", AddConnectionContext.class.getName());
 		context.put("fqnCreateContext", CreateContext.class.getName());
 		context.put("fqnCreateConnectionContext", CreateConnectionContext.class.getName());
 		context.put("fqnDeleteContext", DeleteContext.class.getName());
@@ -411,6 +413,7 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 		context.put("fqnUpdateFeature", IUpdateFeature.class.getName());
 		
 		context.put("fqnGenNodePrefix", gModel.getPackage() + "." + GMODEL_NAME_LOWER +".");
+		context.put("fqnGenEdgePrefix", gModel.getPackage() + "." + GMODEL_NAME_LOWER +".");
 	}
 
 	/**

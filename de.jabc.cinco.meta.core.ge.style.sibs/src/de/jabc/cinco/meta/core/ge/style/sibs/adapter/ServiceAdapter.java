@@ -394,9 +394,6 @@ public class ServiceAdapter {
 			ContainingElement nc = (ContainingElement) context.get(nodeContainer);
 			ModelElement n = (ModelElement) context.get(node);
 			
-			System.err.println(nc);
-			System.err.println(n);
-			
 			if (nc.getContainableElements().isEmpty())
 				return Branches.TRUE;
 			

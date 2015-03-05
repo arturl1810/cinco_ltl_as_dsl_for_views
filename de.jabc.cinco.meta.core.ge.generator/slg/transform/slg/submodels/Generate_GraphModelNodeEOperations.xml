@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>079a4d5e-bab9-4273-8a05-29b4b4909c15</id>
   <name>Generate_GraphModelNodeEOperations</name>
-  <changecounter>262</changecounter>
+  <changecounter>305</changecounter>
   <sib>
     <id>1c733983-6c25-45cd-bded-1a4832127f58</id>
     <name>IsPrimeNode</name>
@@ -32,16 +32,7 @@
     <label>GenerateCreatePrimeNode</label>
     <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
-    <position>285.5,46.0</position>
-    <parameter name="eClassKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>graphModelClass</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
+    <position>495.5,46.0</position>
     <finalbranches>default</finalbranches>
     <userobject key="ABC$GRAPHSIB$MODELID">
       <string>7c46cc02-d874-4f7b-8dc5-2f624fce088b</string>
@@ -53,8 +44,9 @@
   <edge>
     <source>1c733983-6c25-45cd-bded-1a4832127f58</source>
     <target>c205171c-c592-4f64-ba0a-0ee14bf11228</target>
-    <point>165.0,75.0</point>
-    <point>371.0,66.0</point>
+    <point>183.0,66.38571428571429</point>
+    <point>565.0,66.42857142857143</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>true</branch>
   </edge>
   <sib>
@@ -82,7 +74,7 @@
     <parameter name="eOperationNameKey">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>newC${modelElementName}</expression>
+          <expression>new${apiPrefix}${modelElementName}</expression>
           <clazz>java.lang.String</clazz>
           <classMutable>true</classMutable>
         </ContextExpressionFoundation>
@@ -288,7 +280,7 @@ Creates and adds an $modelElementName$.
     <parameter name="eOperationNameKey">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>addC${modelElementName}</expression>
+          <expression>add${apiPrefix}${modelElementName}</expression>
           <clazz>java.lang.String</clazz>
           <classMutable>true</classMutable>
         </ContextExpressionFoundation>
@@ -426,7 +418,7 @@ this.getMap().put(node.getModelElement(), node);</string>
     <parameter name="eOperationNameKey">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>newC${modelElementName}</expression>
+          <expression>new${apiPrefix}${modelElementName}</expression>
           <clazz>java.lang.String</clazz>
           <classMutable>true</classMutable>
         </ContextExpressionFoundation>
