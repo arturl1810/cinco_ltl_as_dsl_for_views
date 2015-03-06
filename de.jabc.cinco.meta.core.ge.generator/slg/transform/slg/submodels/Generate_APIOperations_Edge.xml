@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>709bf2c6-2af3-4468-aef4-71df8b66f1b5</id>
   <name>Generate_APIOperations_Edge</name>
-  <changecounter>150</changecounter>
+  <changecounter>194</changecounter>
   <sib>
     <id>1d192934-9718-489b-8cd8-c840255c8617</id>
     <name>GraphSIB</name>
@@ -47,11 +47,11 @@
       <string>$fqnDiagram$ d = ($fqnDiagram$) this.getDiagram();
 $fqnFeatureProvider$ provider = ($fqnFeatureProvider$) $fqnGraphitiUi$.getExtensionManager().createFeatureProvider(d);
 
-$fqnAnchor$ oldAnchor = getSourceElement().getShape().getAnchors().get(0);
-$fqnAnchor$ newAnchor = node.getShape().getAnchors().get(0);
+$fqnAnchor$ oldAnchor = (($fqnShape$) getSourceElement().getPictogramElement()).getAnchors().get(0);
+$fqnAnchor$ newAnchor =(($fqnShape$) node.getPictogramElement()).getAnchors().get(0);
 $fqnILocation$ targetLocation = $fqnGraphitiUi$.getPeService().getLocationRelativeToDiagram(newAnchor);
 
-$fqnReconnectionContext$ rc = new $fqnReconnectionContext$(getConnection(), oldAnchor, newAnchor, targetLocation);
+$fqnReconnectionContext$ rc = new $fqnReconnectionContext$(($fqnConnection$) getPictogramElement(), oldAnchor, newAnchor, targetLocation);
 rc.setReconnectType($fqnReconnectionContext$.RECONNECT_SOURCE);
 $fqnReconnectionFeature$ rf = provider.getReconnectionFeature(rc);
 
@@ -117,11 +117,11 @@ if (rf.canReconnect(rc)) {
       <string>$fqnDiagram$ d = ($fqnDiagram$) this.getDiagram();
 $fqnFeatureProvider$ provider = ($fqnFeatureProvider$) $fqnGraphitiUi$.getExtensionManager().createFeatureProvider(d);
 
-$fqnAnchor$ oldAnchor = getSourceElement().getShape().getAnchors().get(0);
-$fqnAnchor$ newAnchor = node.getShape().getAnchors().get(0);
+$fqnAnchor$ oldAnchor = (($fqnShape$) getSourceElement().getPictogramElement()).getAnchors().get(0);
+$fqnAnchor$ newAnchor = (($fqnShape$) node.getPictogramElement()).getAnchors().get(0);
 $fqnILocation$ targetLocation = $fqnGraphitiUi$.getPeService().getLocationRelativeToDiagram(newAnchor);
 
-$fqnReconnectionContext$ rc = new $fqnReconnectionContext$(getConnection(), oldAnchor, newAnchor, targetLocation);
+$fqnReconnectionContext$ rc = new $fqnReconnectionContext$(($fqnConnection$) getPictogramElement(), oldAnchor, newAnchor, targetLocation);
 rc.setReconnectType($fqnReconnectionContext$.RECONNECT_TARGET);
 $fqnReconnectionFeature$ rf = provider.getReconnectionFeature(rc);
 
@@ -359,73 +359,12 @@ Reconnects the edge&apos;s target.
     <branch>default</branch>
   </edge>
   <sib>
-    <id>c5ef726c-1f33-41a5-b99d-d662aafa7197</id>
-    <name>GraphSIB_6</name>
-    <label>CreateClone</label>
-    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
-    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>561.0,241.0</position>
-    <parameter name="eClassKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>eClassKey</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="eOperatiobUpperBound">
-      <int>1</int>
-    </parameter>
-    <parameter name="eOperationLowerBound">
-      <int>0</int>
-    </parameter>
-    <parameter name="eOperationNameKey">
-      <de.metaframe.common.sib.parameter.ContextExpression>
-        <ContextExpressionFoundation>
-          <expression>clone</expression>
-          <clazz>java.lang.String</clazz>
-          <classMutable>true</classMutable>
-        </ContextExpressionFoundation>
-      </de.metaframe.common.sib.parameter.ContextExpression>
-    </parameter>
-    <parameter name="eOperationeTypeKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>edgeClass</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>false</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="template">
-      <string>$apiPrefix$$modelElementName$ clone = $fqnAPIFactory$.eINSTANCE.create$apiPrefix$$modelElementName$();
-$fqnArrayList$&lt;$fqnPictogramElement$&gt; pe = new $fqnArrayList$&lt;&gt;();
-pe.add(this.getConnection());
-$fqnSet$&lt;$fqnPictogramElement$&gt; set = $fqnFeaturePrefix$$graphModelName$CopyUtils.targetCopy(pe, this.diagram);
-if (set != null &amp;&amp; !set.isEmpty()) {
-	$fqnPictogramElement$ copy = set.iterator().next();
-	clone.setModelElement(($fqnModelElement$) copy.getLink().getBusinessObjects().get(0));
-	clone.setConnection(($fqnConnection$) copy);
-}
-return clone;</string>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
-    </userobject>
-    <userobject key="ABC$GRAPHSIB$MODELNAME">
-      <string>Create EOperation</string>
-    </userobject>
-  </sib>
-  <sib>
     <id>bdb9eec8-571c-46d0-afe6-c578662ac8a6</id>
     <name>GraphSIB_7</name>
     <label>Generate_Documentation</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>515.0,106.0</position>
+    <position>515.0,421.0</position>
     <parameter name="eOperationKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -449,10 +388,10 @@ Creates an clone (persisting the modelElement&apos;s id) of this modelElement</s
     </userobject>
   </sib>
   <edge>
-    <source>c5ef726c-1f33-41a5-b99d-d662aafa7197</source>
+    <source>14f45040-12be-4170-9ec4-2e5f4eea88df</source>
     <target>bdb9eec8-571c-46d0-afe6-c578662ac8a6</target>
-    <point>600.0,270.0</point>
-    <point>600.0,135.0</point>
+    <point>742.7007299270073,526.0</point>
+    <point>606.993006993007,146.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -481,11 +420,45 @@ Creates an clone (persisting the modelElement&apos;s id) of this modelElement</s
   </sib>
   <edge>
     <source>186f9a9f-a661-420d-9f2f-923ae82a91b7</source>
-    <target>c5ef726c-1f33-41a5-b99d-d662aafa7197</target>
-    <point>360.0,915.0</point>
-    <point>463.0,806.0</point>
+    <target>14f45040-12be-4170-9ec4-2e5f4eea88df</target>
+    <point>611.4942528735633,796.0</point>
+    <point>739.247311827957,566.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
+  <sib>
+    <id>14f45040-12be-4170-9ec4-2e5f4eea88df</id>
+    <name>GraphSIB_6</name>
+    <label>Generate_APIOperations_ModelElement</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>484.0,586.0</position>
+    <parameter name="eClassKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>edgeClass</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="eOperationeTypeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>edgeClass</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>false</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>f14f4b16-0177-4ded-8256-3098679e41b5</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Generate_APIOperations_ModelElement</string>
+    </userobject>
+  </sib>
   <parameter>
     <name>eClassKey</name>
     <field>eClassKey</field>
@@ -495,11 +468,6 @@ Creates an clone (persisting the modelElement&apos;s id) of this modelElement</s
     <name>eClassKey</name>
     <field>eClassKey</field>
     <sib>372f2ea3-5032-406c-9072-63ca8bcacf4c</sib>
-  </parameter>
-  <parameter>
-    <name>eClassKey</name>
-    <field>eClassKey</field>
-    <sib>c5ef726c-1f33-41a5-b99d-d662aafa7197</sib>
   </parameter>
   <values>
     <entry>

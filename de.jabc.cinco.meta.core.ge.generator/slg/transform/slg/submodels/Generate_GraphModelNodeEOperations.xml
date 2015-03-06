@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>079a4d5e-bab9-4273-8a05-29b4b4909c15</id>
   <name>Generate_GraphModelNodeEOperations</name>
-  <changecounter>362</changecounter>
+  <changecounter>401</changecounter>
   <sib>
     <id>1c733983-6c25-45cd-bded-1a4832127f58</id>
     <name>IsPrimeNode</name>
@@ -112,12 +112,12 @@ if (width &gt; -1 &amp;&amp; height &gt; -1) {
 	cc.setWidth(width);
 	cc.setHeight(height);
 }
-cc.setTargetContainer(getShape());
+cc.setTargetContainer(($fqnContainerShape$) getPictogramElement());
 	if (cf.canCreate(cc)) {
 		Object[] newObject = cf.create(cc);
 		if (newObject.length == 1 &amp;&amp; newObject[0] instanceof $fqnGenNodePrefix$$modelElementName$) {
 			retval.setModelElement(($fqnNode$) newObject[0]);
-			retval.setShape(($fqnContainerShape$) 
+			retval.setPictogramElement(($fqnContainerShape$) 
 				$fqnGraphiti$.getLinkService().getPictogramElements(d, retval.getModelElement()).get(0));
 			retval.setDiagram(d);
 			this.getModelElements().add(retval);
@@ -306,10 +306,10 @@ Creates and adds an $modelElementName$.
     </parameter>
     <parameter name="template">
       <string>$fqnPictogramLink$ pl = $fqnPictogramsFactory$.eINSTANCE.createPictogramLink();
-pl.setPictogramElement(node.getShape());
+pl.setPictogramElement(node.getPictogramElement());
 pl.getBusinessObjects().add(node.getModelElement());
 diagram.getPictogramLinks().add(pl);
-this.getShape().getChildren().add(node.getShape());
+(($fqnContainerShape$) this.getPictogramElement()).getChildren().add(($fqnShape$) node.getPictogramElement());
 (($fqnModelElementContainer$) this.getModelElement()).getModelElements().add(node.getModelElement());
 this.getModelElements().add(node);
 this.getMap().put(node.getModelElement(), node);</string>

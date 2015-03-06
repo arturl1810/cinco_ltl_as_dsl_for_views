@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>5114f8bf-bf5e-4a42-bcb3-454199a39dd9</id>
   <name>Generate_NodeConnectEOperations</name>
-  <changecounter>274</changecounter>
+  <changecounter>293</changecounter>
   <sib>
     <id>68cd1709-17de-4261-8a68-3a7aa8ed4add</id>
     <name>GraphSIB_6</name>
@@ -55,13 +55,13 @@ $fqnCreateEdgeFeaturePrefix$Create$edgeName$Feature cf =
 $fqnCreateConnectionContext$ ccc = 
 	new $fqnCreateConnectionContext$();
 
-ccc.setSourceAnchor(this.getShape().getAnchors().get(0));
-ccc.setTargetAnchor(target.getShape().getAnchors().get(0));
+ccc.setSourceAnchor((($fqnShape$) this.getPictogramElement()).getAnchors().get(0));
+ccc.setTargetAnchor((($fqnShape$) target.getPictogramElement()).getAnchors().get(0));
 
 if (cf.canCreate(ccc)) {
 	org.eclipse.graphiti.mm.pictograms.Connection conn = cf.create(ccc);
 	retval = $fqnAPIFactory$.eINSTANCE.create$apiPrefix$$edgeName$();
-	retval.setConnection(conn);
+	retval.setPictogramElement(conn);
 	retval.setModelElement(($fqnEdge$) conn.getLink().getBusinessObjects().get(0));
 	retval.setDiagram(d);
 	retval.setSourceElement(this);

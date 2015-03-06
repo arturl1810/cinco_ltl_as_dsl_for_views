@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>f14f4b16-0177-4ded-8256-3098679e41b5</id>
   <name>Generate_APIOperations_ModelElement</name>
-  <changecounter>197</changecounter>
+  <changecounter>205</changecounter>
   <sib>
     <id>79986b69-e6ad-482c-ab66-99f036b46335</id>
     <name>GraphSIB</name>
@@ -46,12 +46,12 @@
     <parameter name="template">
       <string>$apiPrefix$$modelElementName$ clone = $fqnAPIFactory$.eINSTANCE.create$apiPrefix$$modelElementName$();
 $fqnArrayList$&lt;$fqnPictogramElement$&gt; pe = new $fqnArrayList$&lt;&gt;();
-pe.add(this.getShape());
+pe.add(this.getPictogramElement());
 $fqnSet$&lt;$fqnPictogramElement$&gt; set = $fqnFeaturePrefix$$graphModelName$CopyUtils.targetCopy(pe, this.diagram);
 if (set != null &amp;&amp; !set.isEmpty()) {
 	$fqnPictogramElement$ copy = set.iterator().next();
 	clone.setModelElement(($fqnModelElement$) copy.getLink().getBusinessObjects().get(0));
-	clone.setShape(($fqnContainerShape$) copy);
+	clone.setPictogramElement(($fqnContainerShape$) copy);
 }
 return clone;</string>
     </parameter>

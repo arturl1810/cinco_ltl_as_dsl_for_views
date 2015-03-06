@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>53c0c093-ef7e-452a-ae07-8946504ff744</id>
   <name>Generate_NodeMoveEOperation</name>
-  <changecounter>126</changecounter>
+  <changecounter>129</changecounter>
   <edge>
     <source>45937ff9-8a61-426a-ad52-785723db3d9e</source>
     <target>33b4498b-317c-424c-a417-153e95dd0cd4</target>
@@ -166,7 +166,7 @@ java.util.List&lt;$fqnPictogramElement$&gt; pes = $fqnGraphitiUi$.getLinkService
 if (pes != null &amp;&amp; !pes.isEmpty()) {
 $fqnMoveShapeContext$ mc = new $fqnMoveShapeContext$(($fqnShape$)pes.get(0));
 	mc.setLocation(x, y);
-	mc.setTargetContainer(($fqnContainerShape$) container.getShape());
+	mc.setTargetContainer(($fqnContainerShape$) container.getPictogramElement());
 
 	$fqnMoveShapeFeature$ mf = provider.getMoveShapeFeature(mc);
 
@@ -532,7 +532,7 @@ java.util.List&lt;$fqnPictogramElement$&gt; pes = $fqnGraphitiUi$.getLinkService
 if (pes != null &amp;&amp; !pes.isEmpty()) {
 $fqnMoveShapeContext$ mc = new $fqnMoveShapeContext$(($fqnShape$)pes.get(0));
 	mc.setLocation(x, y);
-	mc.setTargetContainer(($fqnContainerShape$) container.getShape());
+	mc.setTargetContainer(($fqnContainerShape$) container.getPictogramElement());
 
 	$fqnMoveShapeFeature$ mf = provider.getMoveShapeFeature(mc);
 

@@ -25,16 +25,15 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference GraphicalGraphModel.ecore#//CGraphModel/modelElement"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference GraphicalGraphModel.ecore#//CGraphModel/diagram"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference GraphicalGraphModel.ecore#//CGraphModel/shape"/>
+      <genOperations ecoreOperation="GraphicalGraphModel.ecore#//CGraphModel/getPictogramElement"/>
     </genClasses>
     <genClasses ecoreClass="GraphicalGraphModel.ecore#//CEdge">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference GraphicalGraphModel.ecore#//CEdge/sourceElement"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference GraphicalGraphModel.ecore#//CEdge/targetElement"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference GraphicalGraphModel.ecore#//CEdge/connection"/>
     </genClasses>
     <genClasses ecoreClass="GraphicalGraphModel.ecore#//CNode">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference GraphicalGraphModel.ecore#//CNode/incoming"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference GraphicalGraphModel.ecore#//CNode/outgoing"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference GraphicalGraphModel.ecore#//CNode/shape"/>
       <genOperations ecoreOperation="GraphicalGraphModel.ecore#//CNode/getSuccessors"/>
       <genOperations ecoreOperation="GraphicalGraphModel.ecore#//CNode/getSuccessors.1">
         <genParameters ecoreParameter="GraphicalGraphModel.ecore#//CNode/getSuccessors.1/clazz"/>
@@ -57,11 +56,24 @@
       <genOperations ecoreOperation="GraphicalGraphModel.ecore#//CNode/getY"/>
       <genOperations ecoreOperation="GraphicalGraphModel.ecore#//CNode/getWidth"/>
       <genOperations ecoreOperation="GraphicalGraphModel.ecore#//CNode/getHeight"/>
+      <genOperations ecoreOperation="GraphicalGraphModel.ecore#//CNode/setX">
+        <genParameters ecoreParameter="GraphicalGraphModel.ecore#//CNode/setX/x"/>
+      </genOperations>
+      <genOperations ecoreOperation="GraphicalGraphModel.ecore#//CNode/setY">
+        <genParameters ecoreParameter="GraphicalGraphModel.ecore#//CNode/setY/y"/>
+      </genOperations>
+      <genOperations ecoreOperation="GraphicalGraphModel.ecore#//CNode/setWidth">
+        <genParameters ecoreParameter="GraphicalGraphModel.ecore#//CNode/setWidth/width"/>
+      </genOperations>
+      <genOperations ecoreOperation="GraphicalGraphModel.ecore#//CNode/setHeight">
+        <genParameters ecoreParameter="GraphicalGraphModel.ecore#//CNode/setHeight/height"/>
+      </genOperations>
     </genClasses>
     <genClasses image="false" ecoreClass="GraphicalGraphModel.ecore#//CModelElement">
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference GraphicalGraphModel.ecore#//CModelElement/container"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference GraphicalGraphModel.ecore#//CModelElement/modelElement"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference GraphicalGraphModel.ecore#//CModelElement/diagram"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference GraphicalGraphModel.ecore#//CModelElement/pictogramElement"/>
     </genClasses>
     <genClasses ecoreClass="GraphicalGraphModel.ecore#//ModelElementToCModelElementMap">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference GraphicalGraphModel.ecore#//ModelElementToCModelElementMap/key"/>

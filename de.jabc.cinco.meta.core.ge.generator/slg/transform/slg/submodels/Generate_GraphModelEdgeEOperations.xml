@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>13968d39-5af4-4872-b4c7-04609eeafd68</id>
   <name>Generate_GraphModelEdgeEOperations</name>
-  <changecounter>54</changecounter>
+  <changecounter>61</changecounter>
   <sib>
     <id>68ea706d-31e4-4a0b-a83f-4411b7a539c2</id>
     <name>MacroSIB_2</name>
@@ -47,8 +47,8 @@
       <string>$fqnDiagram$ d = ($fqnDiagram$) this.getDiagram();
 $fqnFeatureProvider$ provider = ($fqnFeatureProvider$) org.eclipse.graphiti.ui.services.GraphitiUi.getExtensionManager().createFeatureProvider(d);
 	  
-$fqnAnchor$ source = edge.getSourceElement().getShape().getAnchors().get(0);
-$fqnAnchor$ target = edge.getTargetElement().getShape().getAnchors().get(0);
+$fqnAnchor$ source = (($fqnShape$) edge.getSourceElement().getPictogramElement()).getAnchors().get(0);
+$fqnAnchor$ target = (($fqnShape$) edge.getTargetElement().getPictogramElement()).getAnchors().get(0);
 	  
 (($fqnGenEdgePrefix$$modelElementName$) edge.getModelElement()).setSourceElement(($fqnNode$) edge.getSourceElement().getModelElement());
 (($fqnGenEdgePrefix$$modelElementName$) edge.getModelElement()).setTargetElement(($fqnNode$) edge.getTargetElement().getModelElement());
