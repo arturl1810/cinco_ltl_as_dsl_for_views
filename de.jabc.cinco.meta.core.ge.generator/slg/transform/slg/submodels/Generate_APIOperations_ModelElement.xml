@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>f14f4b16-0177-4ded-8256-3098679e41b5</id>
   <name>Generate_APIOperations_ModelElement</name>
-  <changecounter>205</changecounter>
+  <changecounter>209</changecounter>
   <sib>
     <id>79986b69-e6ad-482c-ab66-99f036b46335</id>
     <name>GraphSIB</name>
@@ -51,7 +51,7 @@ $fqnSet$&lt;$fqnPictogramElement$&gt; set = $fqnFeaturePrefix$$graphModelName$Co
 if (set != null &amp;&amp; !set.isEmpty()) {
 	$fqnPictogramElement$ copy = set.iterator().next();
 	clone.setModelElement(($fqnModelElement$) copy.getLink().getBusinessObjects().get(0));
-	clone.setPictogramElement(($fqnContainerShape$) copy);
+	clone.setPictogramElement(copy);
 }
 return clone;</string>
     </parameter>
