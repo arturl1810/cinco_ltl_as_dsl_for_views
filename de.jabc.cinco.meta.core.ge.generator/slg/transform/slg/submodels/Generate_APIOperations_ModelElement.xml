@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>f14f4b16-0177-4ded-8256-3098679e41b5</id>
   <name>Generate_APIOperations_ModelElement</name>
-  <changecounter>171</changecounter>
+  <changecounter>197</changecounter>
   <sib>
     <id>79986b69-e6ad-482c-ab66-99f036b46335</id>
     <name>GraphSIB</name>
@@ -37,7 +37,7 @@
     <parameter name="eOperationeTypeKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>nodeClass</key>
+          <key>eOperationTypeKey</key>
           <scope>GLOBAL</scope>
           <scopeMutable>false</scopeMutable>
         </ContextKeyFoundation>
@@ -309,7 +309,22 @@ Deletes this modelElement.
     <field>eClassKey</field>
     <sib>7e7c2def-a44f-44f5-843a-c9c61ca824ef</sib>
   </parameter>
+  <parameter>
+    <name>eOperationeTypeKey</name>
+    <field>eOperationeTypeKey</field>
+    <sib>79986b69-e6ad-482c-ab66-99f036b46335</sib>
+  </parameter>
   <values>
+    <entry>
+      <string>eOperationeTypeKey</string>
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>eOperationTypeKey</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>false</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </entry>
     <entry>
       <string>eClassKey</string>
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>

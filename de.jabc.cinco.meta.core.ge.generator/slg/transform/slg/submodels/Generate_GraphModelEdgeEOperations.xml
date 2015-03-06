@@ -2,19 +2,19 @@
 <model version="2.1">
   <id>13968d39-5af4-4872-b4c7-04609eeafd68</id>
   <name>Generate_GraphModelEdgeEOperations</name>
-  <changecounter>49</changecounter>
+  <changecounter>54</changecounter>
   <sib>
     <id>68ea706d-31e4-4a0b-a83f-4411b7a539c2</id>
     <name>MacroSIB_2</name>
     <label>Create Add</label>
     <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
-    <position>129.5,76.0</position>
+    <position>129.0,76.0</position>
     <parameter name="eClassKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>graphModelClass</key>
-          <scope>GLOBAL</scope>
+          <key>eClassKey</key>
+          <scope>DECLARED</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
@@ -187,7 +187,23 @@ Adds an existing node of $modelElementName$ if possible.
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
-  <values/>
+  <parameter>
+    <name>eClassKey</name>
+    <field>eClassKey</field>
+    <sib>68ea706d-31e4-4a0b-a83f-4411b7a539c2</sib>
+  </parameter>
+  <values>
+    <entry>
+      <string>eClassKey</string>
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>eClassKey</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </entry>
+  </values>
   <branch>
     <name>default</name>
     <branch>default</branch>

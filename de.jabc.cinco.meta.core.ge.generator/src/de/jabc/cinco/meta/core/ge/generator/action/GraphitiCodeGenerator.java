@@ -405,6 +405,7 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 		context.put("fqnEdge", graphmodel.Edge.class.getName());
 		context.put("fqnContainer", graphmodel.Container.class.getName());
 		context.put("fqnModelElement", graphmodel.ModelElement.class.getName());
+		context.put("fqnModelElementContainer", graphmodel.ModelElementContainer.class.getName());
 		
 		context.put("fqnCreateNodeFeaturePrefix", gModel.getPackage().concat(".graphiti.features.create.nodes."));
 		context.put("fqnCreateEdgeFeaturePrefix", gModel.getPackage().concat(".graphiti.features.create.edges."));

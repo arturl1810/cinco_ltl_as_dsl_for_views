@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>53c0c093-ef7e-452a-ae07-8946504ff744</id>
   <name>Generate_NodeMoveEOperation</name>
-  <changecounter>70</changecounter>
+  <changecounter>126</changecounter>
   <edge>
     <source>45937ff9-8a61-426a-ad52-785723db3d9e</source>
     <target>33b4498b-317c-424c-a417-153e95dd0cd4</target>
@@ -94,7 +94,7 @@ Moves this node to the specified container. The node is placed at (x,y). ATTENTI
       <linked-hash-map>
         <entry>
           <string>container</string>
-          <string>containerClass</string>
+          <string>modelElementContainerClass</string>
         </entry>
         <entry>
           <string>x</string>
@@ -124,12 +124,12 @@ Moves this node to the specified container. The node is placed at (x,y). ATTENTI
     <label>Create Move</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>380.5,481.0</position>
+    <position>380.0,481.0</position>
     <parameter name="eClassKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>nodeClass</key>
-          <scope>GLOBAL</scope>
+          <key>eClassKey</key>
+          <scope>DECLARED</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
@@ -204,7 +204,7 @@ $fqnMoveShapeContext$ mc = new $fqnMoveShapeContext$(($fqnShape$)pes.get(0));
     <parameter name="element">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>container</key>
+          <key>modelElementContainer</key>
           <scope>LOCAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
@@ -229,12 +229,12 @@ $fqnMoveShapeContext$ mc = new $fqnMoveShapeContext$(($fqnShape$)pes.get(0));
     <label>IsNodeContained</label>
     <sib-uid>ge-util-sibs/IsNodeContained</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsNodeContained</taxonomy>
-    <position>368.0,153.0</position>
+    <position>368.5,153.0</position>
     <parameter name="node">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>modelElement</key>
-          <scope>GLOBAL</scope>
+          <key>modelElementKey</key>
+          <scope>DECLARED</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
@@ -242,7 +242,7 @@ $fqnMoveShapeContext$ mc = new $fqnMoveShapeContext$(($fqnShape$)pes.get(0));
     <parameter name="nodeContainer">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>container</key>
+          <key>modelElementContainer</key>
           <scope>LOCAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
@@ -288,7 +288,7 @@ $fqnMoveShapeContext$ mc = new $fqnMoveShapeContext$(($fqnShape$)pes.get(0));
     <parameter name="nodeContainerKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>container</key>
+          <key>modelElementContainer</key>
           <scope>LOCAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
@@ -297,7 +297,7 @@ $fqnMoveShapeContext$ mc = new $fqnMoveShapeContext$(($fqnShape$)pes.get(0));
     <parameter name="nodeContainernameKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>containerName</key>
+          <key>modelElementContainerName</key>
           <scope>LOCAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
@@ -316,7 +316,7 @@ $fqnMoveShapeContext$ mc = new $fqnMoveShapeContext$(($fqnShape$)pes.get(0));
     <parameter name="element">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>containerClass</key>
+          <key>modelElementContainerClass</key>
           <scope>LOCAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
@@ -325,7 +325,7 @@ $fqnMoveShapeContext$ mc = new $fqnMoveShapeContext$(($fqnShape$)pes.get(0));
     <parameter name="index">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>containerName</key>
+          <key>modelElementContainerName</key>
           <scope>LOCAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
@@ -490,12 +490,12 @@ Moves this node to the specified container. The node is placed at (x,y). ATTENTI
     <label>Create Move</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>110.5,151.0</position>
+    <position>110.0,151.0</position>
     <parameter name="eClassKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>nodeClass</key>
-          <scope>GLOBAL</scope>
+          <key>eClassKey</key>
+          <scope>DECLARED</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
@@ -557,12 +557,12 @@ $fqnMoveShapeContext$ mc = new $fqnMoveShapeContext$(($fqnShape$)pes.get(0));
     <label>IsNodeContained</label>
     <sib-uid>ge-util-sibs/IsNodeContained</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsNodeContained</taxonomy>
-    <position>98.0,48.0</position>
+    <position>98.5,48.0</position>
     <parameter name="node">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>modelElement</key>
-          <scope>GLOBAL</scope>
+          <key>modelElementKey</key>
+          <scope>DECLARED</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
@@ -605,7 +605,48 @@ $fqnMoveShapeContext$ mc = new $fqnMoveShapeContext$(($fqnShape$)pes.get(0));
     <point>384.0,65.0</point>
     <branch>false</branch>
   </edge>
-  <values/>
+  <parameter>
+    <name>eClassKey</name>
+    <field>eClassKey</field>
+    <sib>45937ff9-8a61-426a-ad52-785723db3d9e</sib>
+  </parameter>
+  <parameter>
+    <name>eClassKey</name>
+    <field>eClassKey</field>
+    <sib>dcf4e637-c1ac-47d2-99cc-92f0833915ef</sib>
+  </parameter>
+  <parameter>
+    <name>modelElementKey</name>
+    <field>node</field>
+    <sib>f516d647-a3a1-41e0-8cc7-2a7532a19d58</sib>
+  </parameter>
+  <parameter>
+    <name>modelElementKey</name>
+    <field>node</field>
+    <sib>10481ba4-efe6-4176-bf9e-f854f864464b</sib>
+  </parameter>
+  <values>
+    <entry>
+      <string>modelElementKey</string>
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>modelElementKey</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </entry>
+    <entry>
+      <string>eClassKey</string>
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>eClassKey</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </entry>
+  </values>
   <branch>
     <name>default</name>
     <branch>exit</branch>
