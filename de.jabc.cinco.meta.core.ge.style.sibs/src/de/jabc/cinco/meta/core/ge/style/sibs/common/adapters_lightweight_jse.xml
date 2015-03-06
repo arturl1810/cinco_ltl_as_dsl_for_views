@@ -1,13 +1,5 @@
 <serviceAdapters defaultAdapter="de.jabc.cinco.meta.core.ge.style.sibs.adapter.ServiceAdapter">
 	
-	<serviceAdapter uid="ge-util-sibs/GetEdgeConnectionsMap">
-		<service>getEdgeConnectionsMap</service>
-		<arguments>
-			<argument name="edgeKey" />
-			<argument name="mapKey" />
-		</arguments>
-	</serviceAdapter>
-	
 	<serviceAdapter uid="ge-util-sibs/PutDynamicLinkedMap">
 		<service>putDynamicLinkedMap</service>
 		<arguments>

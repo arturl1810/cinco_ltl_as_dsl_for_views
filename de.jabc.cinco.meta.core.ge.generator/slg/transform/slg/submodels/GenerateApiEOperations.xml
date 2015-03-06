@@ -2,32 +2,7 @@
 <model version="2.1">
   <id>ec0a5ab9-778e-4f7b-a992-cd928603a684</id>
   <name>GenerateApiEOperations</name>
-  <changecounter>1385</changecounter>
-  <sib>
-    <id>f72556e4-d283-40ee-a704-42281069c330</id>
-    <name>GraphSIB</name>
-    <label>GenerateGraphModelApiOperations</label>
-    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
-    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>482.5,751.0</position>
-    <parameter name="eClassKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>containerClass</key>
-          <scope>DECLARED</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>9bb85745-8351-4055-af1b-c6d172d4e88d</string>
-    </userobject>
-    <userobject key="ABC$GRAPHSIB$MODELNAME">
-      <string>GenerateGraphModelApiOperations</string>
-    </userobject>
-  </sib>
+  <changecounter>1450</changecounter>
   <sib>
     <id>da2df710-d489-4f50-882a-022b0c827180</id>
     <name>IterateGraphModelNodeContainers</name>
@@ -706,11 +681,6 @@
     <branch>noElements</branch>
   </edge>
   <values/>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>f72556e4-d283-40ee-a704-42281069c330</sib>
-  </branch>
   <branch>
     <name>error</name>
     <branch>error</branch>
