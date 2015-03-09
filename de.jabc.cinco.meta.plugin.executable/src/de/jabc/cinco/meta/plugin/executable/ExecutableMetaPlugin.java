@@ -69,6 +69,7 @@ public class ExecutableMetaPlugin implements IMetaPlugin {
 			Set<String> requiredBundles = new HashSet<>();
 			requiredBundles.add("de.jabc.cinco.meta.core.mgl");
 			requiredBundles.add("de.jabc.cinco.plugin.executor");
+			requiredBundles.add(graphModel.getPackage());
 			List<String> exportedPackages = new ArrayList<>();
 			List<String> additionalNature = new ArrayList<>();
 			IProject tvProject = ProjectCreator.createProject(projectName,
