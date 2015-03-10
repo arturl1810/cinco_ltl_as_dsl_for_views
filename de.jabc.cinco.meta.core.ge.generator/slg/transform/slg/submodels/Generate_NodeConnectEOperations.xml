@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>5114f8bf-bf5e-4a42-bcb3-454199a39dd9</id>
   <name>Generate_NodeConnectEOperations</name>
-  <changecounter>421</changecounter>
+  <changecounter>435</changecounter>
   <sib>
     <id>68cd1709-17de-4261-8a68-3a7aa8ed4add</id>
     <name>GraphSIB_6</name>
@@ -636,7 +636,28 @@ if (set != null &amp;&amp; !set.isEmpty()) {
 }
 clone.setSourceElement(source);
 clone.setTargetElement(target);
-(($fqnAPIPrefix$$apiPrefix$$graphModelName$)source.getCRootElement()).add$apiPrefix$$modelElementName$(clone);
+$fqnAPIPrefix$$apiPrefix$$graphModelName$ container = ($fqnAPIPrefix$$apiPrefix$$graphModelName$)source.getCRootElement();
+
+$fqnDiagram$ d = ($fqnDiagram$) container.getDiagram();
+$fqnFeatureProvider$ provider = ($fqnFeatureProvider$) org.eclipse.graphiti.ui.services.GraphitiUi.getExtensionManager().createFeatureProvider(d);
+	  
+$fqnAnchor$ sourceAnchor = (($fqnShape$) clone.getSourceElement().getPictogramElement()).getAnchors().get(0);
+$fqnAnchor$ targetAnchor = (($fqnShape$) clone.getTargetElement().getPictogramElement()).getAnchors().get(0);
+	  
+(($fqnGenEdgePrefix$$modelElementName$) clone.getModelElement()).setSourceElement(($fqnNode$) clone.getSourceElement().getModelElement());
+(($fqnGenEdgePrefix$$modelElementName$) clone.getModelElement()).setTargetElement(($fqnNode$) clone.getTargetElement().getModelElement());
+	  
+$fqnAddConnectionContext$ acc = new $fqnAddConnectionContext$(sourceAnchor, targetAnchor);
+acc.setNewObject(clone.getModelElement());
+	  
+$fqnAddFeaturePrefix$Add$modelElementName$Feature af = ($fqnAddFeaturePrefix$Add$modelElementName$Feature) provider.getAddFeature(acc);
+if (af != null &amp;&amp; af.canAdd(acc)) {
+	clone.setPictogramElement(af.add(acc));
+	container.getModelElements().add(clone);
+	container.getCRootElement().getMap().put(clone.getModelElement(), clone);
+	container.getMap().put(clone.getModelElement(), clone);
+}
+
 return clone;</string>
     </parameter>
     <finalbranches>default</finalbranches>

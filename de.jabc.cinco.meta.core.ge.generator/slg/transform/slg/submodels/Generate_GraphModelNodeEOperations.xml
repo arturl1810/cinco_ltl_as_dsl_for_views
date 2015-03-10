@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>079a4d5e-bab9-4273-8a05-29b4b4909c15</id>
   <name>Generate_GraphModelNodeEOperations</name>
-  <changecounter>440</changecounter>
+  <changecounter>459</changecounter>
   <sib>
     <id>1c733983-6c25-45cd-bded-1a4832127f58</id>
     <name>IsPrimeNode</name>
@@ -592,7 +592,9 @@ Adds an existing node of $modelElementName$ if possible.
     </parameter>
     <parameter name="template">
       <string>$apiPrefix$$modelElementName$ retval = ($apiPrefix$$modelElementName$) this.getMap().get(me);
-return retval;</string>
+if (retval != null &amp;&amp; retval.getContainer().equals(this))
+	return retval;
+return null;</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
@@ -676,7 +678,7 @@ return retval;</string>
     <label>Generate_Documentation</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>374.0,406.0</position>
+    <position>365.0,406.0</position>
     <parameter name="eOperationKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -707,14 +709,6 @@ Returns the wrapped $modelElementName$ for the specified model element
     <target>8bdaf58d-db44-4f3a-9225-2171bd027b1d</target>
     <point>450.0,555.0</point>
     <point>450.0,435.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
-  <edge>
-    <source>8bdaf58d-db44-4f3a-9225-2171bd027b1d</source>
-    <target>5604cdab-0af1-4c58-ad78-2059b6ba6f7e</target>
-    <point>450.0,435.0</point>
-    <point>450.0,315.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -849,5 +843,10 @@ if (af != null &amp;&amp; af.canAdd(ac)) {
     <name>default</name>
     <branch>default</branch>
     <sib>7c8ab4fe-e78e-4481-9772-b054adb1ae3e</sib>
+  </branch>
+  <branch>
+    <name>default</name>
+    <branch>default</branch>
+    <sib>8bdaf58d-db44-4f3a-9225-2171bd027b1d</sib>
   </branch>
 </model>
