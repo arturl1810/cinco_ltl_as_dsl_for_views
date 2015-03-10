@@ -396,7 +396,7 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 		context.put("fqnReconnectionContext", ReconnectionContext.class.getName());
 		context.put("fqnUpdateContext", UpdateContext.class.getName());
 		
-		
+		context.put("fqnAPIPrefix", gModel.getPackage() +".api." + API_MODEL_PREFIX.toLowerCase() + GMODEL_NAME_LOWER + ".");
 		context.put("fqnAPIFactory", gModel.getPackage() +".api." + API_MODEL_PREFIX.toLowerCase() + GMODEL_NAME_LOWER + "." + API_MODEL_PREFIX + GMODEL_NAME_LOWER + "Factory");
 		context.put("fqnCModelElementContainer", CModelElementContainer.class.getName());
 		context.put("fqnCModelElement", CModelElement.class.getName());
@@ -420,6 +420,7 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 		
 		context.put("fqnGenNodePrefix", gModel.getPackage() + "." + GMODEL_NAME_LOWER +".");
 		context.put("fqnGenEdgePrefix", gModel.getPackage() + "." + GMODEL_NAME_LOWER +".");
+		context.put("fqnGenModelPrefix", gModel.getPackage() + "." + GMODEL_NAME_LOWER +".");
 	}
 
 	/**

@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>7c46cc02-d874-4f7b-8dc5-2f624fce088b</id>
   <name>GenerateCreatePrimeNode</name>
-  <changecounter>176</changecounter>
+  <changecounter>180</changecounter>
   <sib>
     <id>d449a017-7ca7-429b-bbe0-4897b9941e3f</id>
     <name>GraphSIB_22</name>
@@ -65,7 +65,6 @@ ac.setTargetContainer(($fqnContainerShape$) getPictogramElement());
 			retval.setModelElement(($fqnNode$) $fqnGraphitiUi$.getLinkService().getBusinessObjectForLinkedPictogramElement(pe));
 			retval.setPictogramElement(($fqnContainerShape$) 
 				$fqnGraphiti$.getLinkService().getPictogramElements(d, retval.getModelElement()).get(0));
-			retval.setDiagram(d);
 			this.getModelElements().add(retval);
 			this.getCRootElement().getMap().put(retval.getModelElement() ,retval);
 			this.getMap().put(retval.getModelElement() ,retval);

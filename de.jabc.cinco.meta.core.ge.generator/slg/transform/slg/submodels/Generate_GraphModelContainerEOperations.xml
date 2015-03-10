@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>68703e35-7ca0-4d4e-8241-4cd302c23c07</id>
   <name>Generate_GraphModelContainerEOperations</name>
-  <changecounter>197</changecounter>
+  <changecounter>234</changecounter>
   <sib>
     <id>17cbc50b-0955-4e1d-bc4b-30010287ec07</id>
     <name>GraphSIB_8</name>
@@ -65,7 +65,6 @@ cc.setTargetContainer(($fqnContainerShape$) getPictogramElement());
 			retval.setModelElement(($fqnContainer$) newObject[0]);
 			retval.setPictogramElement(($fqnContainerShape$) 
 				$fqnGraphiti$.getLinkService().getPictogramElements(d, retval.getModelElement()).get(0));
-			retval.setDiagram(d);
 			this.getModelElements().add(retval);
 			this.getCRootElement().getMap().put(retval.getModelElement() ,retval);
 			this.getMap().put(retval.getModelElement() ,retval);
@@ -218,12 +217,24 @@ Creates and adds an $modelElementName$.
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>$fqnPictogramLink$ pl = $fqnPictogramsFactory$.eINSTANCE.createPictogramLink();
-pl.setPictogramElement(node.getPictogramElement());
-pl.getBusinessObjects().add(node.getModelElement());
-diagram.getPictogramLinks().add(pl);
-(($fqnContainerShape$) this.getPictogramElement()).getChildren().add((($fqnShape$) node.getPictogramElement()));
-(($fqnGenNodePrefix$$modelElementName$) getModelElement()).getModelElements().add(node.getModelElement());
+      <string>$fqnDiagram$ d = ($fqnDiagram$) this.getDiagram();
+$fqnFeatureProvider$ provider = ($fqnFeatureProvider$) $fqnGraphitiUi$.getExtensionManager().createFeatureProvider(d);
+	    
+$fqnAddContext$ ac = new $fqnAddContext$();
+ac.setNewObject(node.getModelElement());
+ac.setLocation(node.getX(), node.getY());
+ac.setWidth(node.getWidth());
+ac.setHeight(node.getHeight());
+ac.setTargetContainer(($fqnContainerShape$) getPictogramElement());
+	  	
+$fqnAddFeaturePrefix$Add$modelElementName$Feature af = ($fqnAddFeaturePrefix$Add$modelElementName$Feature) provider.getAddFeature(ac);
+if (af != null &amp;&amp; af.canAdd(ac)) {
+	node.setPictogramElement(af.add(ac));
+	node.setContainer(this);
+	getCRootElement().getMap().put(node.getModelElement(), node);
+	getCRootElement().getModelElement().getModelElements().add(node.getModelElement());
+	this.getMap().put(node.getModelElement(), node);
+}
 </string>
     </parameter>
     <finalbranches>default</finalbranches>

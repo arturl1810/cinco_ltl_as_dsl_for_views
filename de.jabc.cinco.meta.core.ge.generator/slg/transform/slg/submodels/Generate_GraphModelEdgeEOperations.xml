@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>13968d39-5af4-4872-b4c7-04609eeafd68</id>
   <name>Generate_GraphModelEdgeEOperations</name>
-  <changecounter>61</changecounter>
+  <changecounter>77</changecounter>
   <sib>
     <id>68ea706d-31e4-4a0b-a83f-4411b7a539c2</id>
     <name>MacroSIB_2</name>
@@ -58,7 +58,7 @@ acc.setNewObject(edge.getModelElement());
 	  
 $fqnAddFeaturePrefix$Add$modelElementName$Feature af = ($fqnAddFeaturePrefix$Add$modelElementName$Feature) provider.getAddFeature(acc);
 if (af != null &amp;&amp; af.canAdd(acc)) {
-	af.add(acc);
+	edge.setPictogramElement(af.add(acc));
 	this.getModelElements().add(edge);
 	this.getCRootElement().getMap().put(edge.getModelElement(), edge);
 	this.getMap().put(edge.getModelElement(), edge);

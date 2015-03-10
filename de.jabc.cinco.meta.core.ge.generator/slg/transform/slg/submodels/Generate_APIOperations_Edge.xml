@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>709bf2c6-2af3-4468-aef4-71df8b66f1b5</id>
   <name>Generate_APIOperations_Edge</name>
-  <changecounter>363</changecounter>
+  <changecounter>405</changecounter>
   <sib>
     <id>1d192934-9718-489b-8cd8-c840255c8617</id>
     <name>GraphSIB</name>
@@ -295,43 +295,6 @@ Reconnects the edge&apos;s target.
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
-  <sib>
-    <id>bdb9eec8-571c-46d0-afe6-c578662ac8a6</id>
-    <name>GraphSIB_7</name>
-    <label>Generate_Documentation</label>
-    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
-    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>590.0,391.0</position>
-    <parameter name="eOperationKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>eOperation</key>
-          <scope>DECLARED</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="template">
-      <string>&lt;p&gt;&lt;b&gt;&lt;em&gt;Cinco API&lt;/em&gt;&lt;/b&gt;&lt;/p&gt;
-Creates an clone (persisting the modelElement&apos;s id) of this modelElement</string>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>9445cb7d-1ca9-47f0-bda0-ffb7822ef982</string>
-    </userobject>
-    <userobject key="ABC$GRAPHSIB$MODELNAME">
-      <string>Generate_Documentation</string>
-    </userobject>
-  </sib>
-  <edge>
-    <source>14f45040-12be-4170-9ec4-2e5f4eea88df</source>
-    <target>bdb9eec8-571c-46d0-afe6-c578662ac8a6</target>
-    <point>600.0,750.0</point>
-    <point>600.0,585.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
   <edge>
     <source>34c52448-6e32-4d1e-8416-16a8fb8d668f</source>
     <target>ad1af382-6469-4094-b5be-6313a3e6986d</target>
@@ -348,7 +311,7 @@ Creates an clone (persisting the modelElement&apos;s id) of this modelElement</s
     <label>Generate_NodeConnectEOperations</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>569.0,121.0</position>
+    <position>584.0,121.0</position>
     <finalbranches>default</finalbranches>
     <userobject key="ABC$GRAPHSIB$MODELID">
       <string>5114f8bf-bf5e-4a42-bcb3-454199a39dd9</string>
@@ -371,7 +334,7 @@ Creates an clone (persisting the modelElement&apos;s id) of this modelElement</s
     <label>Generate_APIOperations_ModelElement</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>559.0,271.0</position>
+    <position>559.5,271.0</position>
     <parameter name="eClassKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -862,6 +825,6 @@ Creates an clone (persisting the modelElement&apos;s id) of this modelElement</s
   <branch>
     <name>default</name>
     <branch>default</branch>
-    <sib>bdb9eec8-571c-46d0-afe6-c578662ac8a6</sib>
+    <sib>14f45040-12be-4170-9ec4-2e5f4eea88df</sib>
   </branch>
 </model>

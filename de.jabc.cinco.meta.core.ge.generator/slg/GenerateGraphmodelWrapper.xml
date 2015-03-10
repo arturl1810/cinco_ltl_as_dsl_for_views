@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>ede0f2a5-2d64-419a-a377-4de364aed9a1</id>
   <name>GenerateGraphmodelWrapper</name>
-  <changecounter>242</changecounter>
+  <changecounter>250</changecounter>
   <sib>
     <id>961ec5c2-d49b-4f47-b506-1d2f2c25fd26</id>
     <name>RunStringTemplate</name>
@@ -119,8 +119,8 @@ public class $graphModelName$Wrapper {
 		
 		gsg.getMap().putAll(map);
 		gsg.setModelElement(sg);
-		gsg.setDiagram(dtp.getDiagram());
 		gsg.setShape(dtp.getDiagram());
+		gsg.setDiagram(d);
 		
 		return gsg;
 	}
@@ -139,7 +139,6 @@ public class $graphModelName$Wrapper {
 				
 			gNode.setModelElement(n);
 			gNode.setPictogramElement((ContainerShape) getPictogramElement(n));
-			gNode.setDiagram(dtp.getDiagram());
 
 			map.put(n, gNode);
 			
@@ -165,7 +164,6 @@ public class $graphModelName$Wrapper {
 
 		gCont.setModelElement(c);
 		gCont.setPictogramElement((ContainerShape) getPictogramElement(c));
-		gCont.setDiagram(dtp.getDiagram());
 
 		map.put(c, gCont);
 		
@@ -191,7 +189,6 @@ public class $graphModelName$Wrapper {
 
 		gEdge.setModelElement(e);
 		gEdge.setPictogramElement((Connection) getPictogramElement(e));
-		gEdge.setDiagram(dtp.getDiagram());
 
 		map.put(e, gEdge);
 		

@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>079a4d5e-bab9-4273-8a05-29b4b4909c15</id>
   <name>Generate_GraphModelNodeEOperations</name>
-  <changecounter>407</changecounter>
+  <changecounter>440</changecounter>
   <sib>
     <id>1c733983-6c25-45cd-bded-1a4832127f58</id>
     <name>IsPrimeNode</name>
@@ -119,7 +119,6 @@ cc.setTargetContainer(($fqnContainerShape$) getPictogramElement());
 			retval.setModelElement(($fqnNode$) newObject[0]);
 			retval.setPictogramElement(($fqnContainerShape$) 
 				$fqnGraphiti$.getLinkService().getPictogramElements(d, retval.getModelElement()).get(0));
-			retval.setDiagram(d);
 			this.getModelElements().add(retval);
 			this.getCRootElement().getMap().put(retval.getModelElement() ,retval);
 			this.getMap().put(retval.getModelElement() ,retval);
@@ -264,65 +263,6 @@ Creates and adds an $modelElementName$.
     <point>168.0,546.0</point>
     <branch>default</branch>
   </edge>
-  <sib>
-    <id>5604cdab-0af1-4c58-ad78-2059b6ba6f7e</id>
-    <name>MacroSIB_2</name>
-    <label>Create Add</label>
-    <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
-    <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
-    <position>414.0,286.0</position>
-    <parameter name="eClassKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>eClassKey</key>
-          <scope>DECLARED</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="eOperatiobUpperBound">
-      <int>1</int>
-    </parameter>
-    <parameter name="eOperationLowerBound">
-      <int>0</int>
-    </parameter>
-    <parameter name="eOperationNameKey">
-      <de.metaframe.common.sib.parameter.ContextExpression>
-        <ContextExpressionFoundation>
-          <expression>add${apiPrefix}${modelElementName}</expression>
-          <clazz>java.lang.String</clazz>
-          <classMutable>true</classMutable>
-        </ContextExpressionFoundation>
-      </de.metaframe.common.sib.parameter.ContextExpression>
-    </parameter>
-    <parameter name="eOperationeTypeKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key></key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>false</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="template">
-      <string>$fqnPictogramLink$ pl = $fqnPictogramsFactory$.eINSTANCE.createPictogramLink();
-pl.setPictogramElement(node.getPictogramElement());
-pl.getBusinessObjects().add(node.getModelElement());
-diagram.getPictogramLinks().add(pl);
-(($fqnContainerShape$) this.getPictogramElement()).getChildren().add(($fqnShape$) node.getPictogramElement());
-(($fqnModelElementContainer$) this.getModelElement()).getModelElements().add(node.getModelElement());
-this.getModelElements().add(node);
-this.getMap().put(node.getModelElement(), node);</string>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
-    </userobject>
-    <userobject key="ABC$GRAPHSIB$MODELNAME">
-      <string>Create EOperation</string>
-    </userobject>
-  </sib>
   <edge>
     <source>5604cdab-0af1-4c58-ad78-2059b6ba6f7e</source>
     <target>d0297bdb-012c-4dd2-bf33-ec94da137034</target>
@@ -778,6 +718,76 @@ Returns the wrapped $modelElementName$ for the specified model element
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
+  <sib>
+    <id>5604cdab-0af1-4c58-ad78-2059b6ba6f7e</id>
+    <name>MacroSIB_2</name>
+    <label>Create Add</label>
+    <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
+    <position>414.0,286.0</position>
+    <parameter name="eClassKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>eClassKey</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="eOperatiobUpperBound">
+      <int>1</int>
+    </parameter>
+    <parameter name="eOperationLowerBound">
+      <int>0</int>
+    </parameter>
+    <parameter name="eOperationNameKey">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>add${apiPrefix}${modelElementName}</expression>
+          <clazz>java.lang.String</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="eOperationeTypeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key></key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>false</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>$fqnDiagram$ d = ($fqnDiagram$) this.getDiagram();
+$fqnFeatureProvider$ provider = ($fqnFeatureProvider$) $fqnGraphitiUi$.getExtensionManager().createFeatureProvider(d);
+	    
+$fqnAddContext$ ac = new $fqnAddContext$();
+ac.setNewObject(node.getModelElement());
+ac.setLocation(node.getX(), node.getY());
+ac.setWidth(node.getWidth());
+ac.setHeight(node.getHeight());
+ac.setTargetContainer(($fqnContainerShape$) getPictogramElement());
+	  	
+$fqnAddFeaturePrefix$Add$modelElementName$Feature af = ($fqnAddFeaturePrefix$Add$modelElementName$Feature) provider.getAddFeature(ac);
+if (af != null &amp;&amp; af.canAdd(ac)) {
+	node.setPictogramElement(af.add(ac));
+	node.setContainer(this);
+	getCRootElement().getMap().put(node.getModelElement(), node);
+	getCRootElement().getModelElement().getModelElements().add(node.getModelElement());
+	this.getMap().put(node.getModelElement(), node);
+}
+</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Create EOperation</string>
+    </userobject>
+  </sib>
   <parameter>
     <name>node</name>
     <field>node</field>
@@ -801,12 +811,12 @@ Returns the wrapped $modelElementName$ for the specified model element
   <parameter>
     <name>eClassKey</name>
     <field>eClassKey</field>
-    <sib>5604cdab-0af1-4c58-ad78-2059b6ba6f7e</sib>
+    <sib>c205171c-c592-4f64-ba0a-0ee14bf11228</sib>
   </parameter>
   <parameter>
     <name>eClassKey</name>
     <field>eClassKey</field>
-    <sib>c205171c-c592-4f64-ba0a-0ee14bf11228</sib>
+    <sib>5604cdab-0af1-4c58-ad78-2059b6ba6f7e</sib>
   </parameter>
   <values>
     <entry>

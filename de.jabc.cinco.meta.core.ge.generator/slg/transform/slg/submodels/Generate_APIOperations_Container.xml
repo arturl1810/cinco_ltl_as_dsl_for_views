@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>5f5db73a-2f0c-4b4a-9206-54d4b69c1f26</id>
   <name>Generate_APIOperations_Container</name>
-  <changecounter>296</changecounter>
+  <changecounter>335</changecounter>
   <sib>
     <id>1f43675d-4efd-4a70-a389-1e18244ad4f7</id>
     <name>IterateElements</name>
@@ -775,7 +775,7 @@
     <label>Generate_APIOperations_ModelElement</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>1084.5,211.0</position>
+    <position>1219.5,211.0</position>
     <parameter name="eClassKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -836,8 +836,8 @@
   <edge>
     <source>436a2178-3582-4572-bab6-673cea4d8ea4</source>
     <target>eca839d3-8468-46d9-88ae-f3d922c22461</target>
-    <point>1038.0,106.08</point>
-    <point>1150.0,162.2</point>
+    <point>1038.0,96.49090909090908</point>
+    <point>1330.0,96.54545454545455</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -944,13 +944,22 @@
     <label>Generate_NodeMoveEOperation</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>1121.0,76.0</position>
+    <position>1256.0,76.0</position>
     <parameter name="eClassKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
           <key>containerClass</key>
           <scope>DECLARED</scope>
           <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="eOperationeTypeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>containerClass</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>false</scopeMutable>
         </ContextKeyFoundation>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
@@ -974,8 +983,9 @@
   <edge>
     <source>eca839d3-8468-46d9-88ae-f3d922c22461</source>
     <target>9cd06a95-4528-43d4-965b-1d604c9018d4</target>
-    <point>1170.0,180.0</point>
-    <point>1268.0,99.0</point>
+    <point>1350.0,105.0</point>
+    <point>1350.0,240.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <values/>
