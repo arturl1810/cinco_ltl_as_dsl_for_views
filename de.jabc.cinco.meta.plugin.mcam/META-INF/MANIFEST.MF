@@ -1,0 +1,18 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Model-CaM Implementation for Cinco-Products
+Bundle-SymbolicName: de.jabc.cinco.meta.plugin.mcam;singleton:=true
+Bundle-Version: 1.0.0
+Fragment-Host: de.jabc.cinco.meta.core.pluginregistry
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Import-Package: de.jabc.cinco.meta.core.utils.projects,
+ org.eclipse.jdt.core,
+ org.eclipse.jface.contentassist,
+ org.eclipse.jface.text,
+ org.eclipse.pde.core.project,
+ org.eclipse.ui.dialogs
+Require-Bundle: de.jabc.cinco.meta.core.sibs,
+ de.jabc.cinco.meta.libraries,
+ org.eclipse.graphiti.mm,
+ de.jabc.cinco.meta.plugin.mcam.libs,
+ org.eclipse.emf.ecore

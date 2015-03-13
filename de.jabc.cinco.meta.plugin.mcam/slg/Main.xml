@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<model version="2.1">
+  <id>a82e2f7f-9d16-4222-a5da-f9b89e41b7d4</id>
+  <name>Main</name>
+  <changecounter>12</changecounter>
+  <sib>
+    <id>3b0a0036-61b8-4eb7-b4fc-1c4067109130</id>
+    <name>PrintConsoleMessage</name>
+    <label>PrintConsoleMessage</label>
+    <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
+    <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
+    <position>99.5,78.0</position>
+    <parameter name="error">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="message">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>Generating Model-CaM Implementation...</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>false</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <userobject key="ABC$START">
+      <boolean>true</boolean>
+    </userobject>
+  </sib>
+  <sib>
+    <id>86248cd6-4e26-4149-8261-af01ff75275c</id>
+    <name>GraphSIB</name>
+    <label>getGraphInformation</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>289.5,76.0</position>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>402dc9b4-8cb1-4ba3-85d2-d5726e77515a</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>getGraphInformation</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>3b0a0036-61b8-4eb7-b4fc-1c4067109130</source>
+    <target>86248cd6-4e26-4149-8261-af01ff75275c</target>
+    <point>165.0,105.0</point>
+    <point>278.0,96.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>da5dd58d-2da0-49ef-83e0-71235962dcc4</id>
+    <name>PrintConsoleMessage_1</name>
+    <label>PrintConsoleMessage</label>
+    <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
+    <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
+    <position>481.5,78.0</position>
+    <parameter name="error">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="message">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>Model-CaM Implementation generated!</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>false</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <finalbranches>default</finalbranches>
+  </sib>
+  <edge>
+    <source>86248cd6-4e26-4149-8261-af01ff75275c</source>
+    <target>da5dd58d-2da0-49ef-83e0-71235962dcc4</target>
+    <point>330.0,105.0</point>
+    <point>255.0,310.0</point>
+    <branch>default</branch>
+  </edge>
+  <values/>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>86248cd6-4e26-4149-8261-af01ff75275c</sib>
+  </branch>
+  <branch>
+    <name>default</name>
+    <branch>default</branch>
+    <sib>da5dd58d-2da0-49ef-83e0-71235962dcc4</sib>
+  </branch>
+</model>

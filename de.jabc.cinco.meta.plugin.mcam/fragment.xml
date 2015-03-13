@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<fragment>
+   <extension
+         id="id1"
+         name="name"
+         point="de.jabc.cinco.meta.core.pluginregistry.metaplugin">
+      <metaplugin_description
+            metapluginService="de.jabc.cinco.meta.plugin.mcam.MetaPluginMcam">
+      </metaplugin_description>
+      <graphmodel-annotation
+            recognized-annotation="mcam">
+      </graphmodel-annotation>
+      <annotation
+            recognized-annotation="mcam_label">
+      </annotation>
+      <annotation
+            recognized-annotation="mcam_mergestrategy">
+      </annotation>
+      <annotation
+            recognized-annotation="mcam_changemodule">
+      </annotation>
+      <annotation
+            recognized-annotation="mcam_checkmodule">
+      </annotation>
+      <proposalprovider
+            MetaPluginAcceptor="de.jabc.cinco.meta.plugin.mcam.util.McamProposalProvider">
+      </proposalprovider>
+   </extension>
+   <extension
+         id="mcam_marker"
+         name="Model-CaM Marker"
+         point="org.eclipse.core.resources.markers">
+      <persistent
+            value="true">
+      </persistent>
+      <super
+            type="org.eclipse.core.resources.problemmarker">
+      </super>
+      <super
+            type="de.jabc.cinco.meta.plugin.mcam.super2">
+      </super>
+      <attribute
+            name="de.jabc.cinco.meta.plugin.mcam.attributeFile">
+      </attribute>
+   </extension>
+
+</fragment>
