@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>9bf333cd-76eb-4707-be7a-f62b921e88c5</id>
   <name>GenerateSingleIntegerCode</name>
-  <changecounter>223</changecounter>
+  <changecounter>227</changecounter>
   <sib>
     <id>761a275f-3772-4618-b07b-2202449515c5</id>
     <name>RunStringTemplate</name>
@@ -387,6 +387,11 @@ VerifyListener verifyListener= new VerifyListener() {
 				Integer.valueOf(t.getText().concat(e.text));
 				e.doit = true;
 			} else if ( e.keyCode == SWT.ESC) {
+				e.doit = true;
+			} else if (e.character == &apos;-&apos; &amp;&amp; (t.getText().length() == 0 || t.getSelectionCount() == t.getText().length())) {
+			          e.doit = true;
+			} else if (e.character == &apos;-&apos; &amp;&amp; t.getCaretPosition() == 0) {
+				Integer.valueOf(e.text.concat(t.getText()));
 				e.doit = true;
 			}
 			else e.doit = false;
