@@ -172,8 +172,8 @@ changeItem.setImage(boxUnCheckedImg);
 					change.preExecute(mp.getMergeModelAdapter());
 					change.execute(mp.getMergeModelAdapter());
 					change.postExecute(mp.getMergeModelAdapter());
-					MessageDialog.openInformation(shell, "Change executed",
-							change.toString());
+					//MessageDialog.openInformation(shell, "Change executed",
+					//		change.toString());
 				} else {
 					MessageDialog.openInformation(shell, "Change could not be executed!",
 							change.toString());
@@ -185,8 +185,8 @@ changeItem.setImage(boxUnCheckedImg);
 					change.undoPostExecute(mp.getMergeModelAdapter());
 					change.undoExecute(mp.getMergeModelAdapter());
 					change.undoPreExecute(mp.getMergeModelAdapter());
-					MessageDialog.openInformation(shell, "Change reverted",
-							change.toString());
+					//MessageDialog.openInformation(shell, "Change reverted",
+					//		change.toString());
 				} else {
 					MessageDialog.openInformation(shell, "Change could not be reverted!",
 							change.toString());

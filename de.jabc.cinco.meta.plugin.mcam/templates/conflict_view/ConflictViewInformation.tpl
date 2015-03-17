@@ -11,6 +11,7 @@ import info.scce.mcam.framework.processes.MergeProcess;
 import java.io.File;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Tree;
@@ -22,6 +23,8 @@ public class ConflictViewInformation {
 	private File origFile = null;
 	private File remoteFile = null;
 	private File localFile = null;
+
+	private Resource resource = null;
 	
 	private MergeProcess<${GraphModelName}Id, ${GraphModelName}Adapter> mp = null;
 	private CheckProcess<${GraphModelName}Id, ${GraphModelName}Adapter> cp = null;
@@ -29,12 +32,13 @@ public class ConflictViewInformation {
 	private Tree tree = null;
 
 	public ConflictViewInformation(File origFile, File remoteFile,
-			File localFile, IFile iFile) {
+			File localFile, IFile iFile, Resource resource) {
 		super();
 		this.origFile = origFile;
 		this.remoteFile = remoteFile;
 		this.localFile = localFile;
 		this.iFile = iFile;
+		this.resource = resource;
 		
 		createMergeCheckProcess();
 	}
@@ -45,7 +49,7 @@ public class ConflictViewInformation {
 		${GraphModelName}Adapter remote = FrameworkExecution.initApiAdapter(remoteFile);
 
 		${GraphModelName}Adapter mergeModel = FrameworkExecution
-				.initApiAdapter(origFile);
+				.initApiAdapterFromResource(resource, origFile);
 
 		CompareProcess<${GraphModelName}Id, ${GraphModelName}Adapter> localCompare = FrameworkExecution
 				.executeComparePhase(orig, local);

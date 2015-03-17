@@ -13,6 +13,10 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.transaction.TransactionalEditingDomain;
+import org.eclipse.graphiti.ui.editor.DiagramEditor;
 import org.eclipse.jface.action.*;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.*;
@@ -227,11 +231,20 @@ public class ConflictView extends ViewPart implements IPartListener2 {
 			IFile file = (IFile) ((EditorReference) partRef).getEditor(false)
 					.getEditorInput().getAdapter(IFile.class);
 
+			Resource res = null;
+			IEditorPart editor = ((EditorReference) partRef).getEditor(false);
+			if (editor instanceof DiagramEditor) {
+				DiagramEditor deditor = (DiagramEditor) editor;
+				TransactionalEditingDomain ed = deditor.getEditingDomain();	
+				ResourceSet rs = ed.getResourceSet();
+				res = rs.getResources().get(0);
+			}
+
 			for (Control child : parent.getChildren()) {
 				child.setVisible(false);
 			}
 
-			if (file != null) {
+			if (file != null && res != null) {
 				String path = file.getRawLocation().toOSString();
 				
 				File origFile = FrameworkExecution.getFile(path);
@@ -242,7 +255,7 @@ public class ConflictView extends ViewPart implements IPartListener2 {
 
 					if (!conflictInfoMap.keySet().contains(origFile)) {
 						ConflictViewInformation conflictInfo = new ConflictViewInformation(
-								origFile, remoteFile, localFile, file);
+								origFile, remoteFile, localFile, file, res);
 						conflictInfo.createMergeCheckProcess();
 						conflictInfo.createConflictViewTree(parent);
 						conflictInfoMap.put(origFile, conflictInfo);

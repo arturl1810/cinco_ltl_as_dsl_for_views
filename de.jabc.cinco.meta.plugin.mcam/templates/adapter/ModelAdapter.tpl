@@ -110,6 +110,24 @@ public class ${GraphModelName}Adapter implements ModelAdapter<${GraphModelName}I
 		return null;
 	}
 
+	public void setModel(Resource resource, File file) {
+		modelName = file.getName();
+		this.path = file.getPath();
+		
+		for (EObject obj : resource.getContents()) {
+			if ("Diagram".equals(obj.eClass().getName()))
+				diagram = (Diagram) obj;
+			if ("${GraphModelName}".equals(obj.eClass().getName()))
+				model = (${GraphModelName}) obj;
+		}
+		try {
+			modelWrapper = ${GraphModelName}Wrapper.wrapGraphModel(model, diagram);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 	@Override
 	public void readModel(File arg0) {
 		modelName = arg0.getName();

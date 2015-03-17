@@ -20,6 +20,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 
+import org.eclipse.emf.ecore.resource.Resource;
+
+
 public class FrameworkExecution {
 	public static File getFile(String filepath) {
 		File file = new File(filepath);
@@ -57,6 +60,12 @@ public class FrameworkExecution {
 	public static ${GraphModelName}Adapter initApiAdapter(File file) {
 		${GraphModelName}Adapter model = new ${GraphModelName}Adapter();
 		model.readModel(file);
+		return model;
+	}
+
+	public static ${GraphModelName}Adapter initApiAdapterFromResource(Resource resource, File file) {
+		${GraphModelName}Adapter model = new ${GraphModelName}Adapter();
+		model.setModel(resource, file);
 		return model;
 	}
 
