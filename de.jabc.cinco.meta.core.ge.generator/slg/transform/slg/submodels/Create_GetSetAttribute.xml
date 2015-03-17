@@ -420,7 +420,7 @@ dom.getCommandStack().execute(new $fqnRecordingCommand$(dom) {
 		update();
 	}
 });
-</string>
+      </string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
@@ -491,7 +491,7 @@ dom.getCommandStack().execute(new $fqnRecordingCommand$(dom) {
 		update();
 	}
 });
-</string>
+      </string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
