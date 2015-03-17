@@ -49,6 +49,7 @@ public class McamConflictViewGenerator {
 			generateManifest();
 			generateBuildProperties();
 			generateContextsXml();
+			generateResourceChangeListener();
 			return "default";
 		} catch (IOException | TemplateException e) {
 			e.printStackTrace();
@@ -146,5 +147,22 @@ public class McamConflictViewGenerator {
 		templateGen.setBasePath("");
 		templateGen.setData(data);
 		templateGen.generateFile();
+	}
+	
+	private void generateResourceChangeListener() throws IOException, TemplateException {
+		data.put("ClassName", "ResourceChangeListener");
+		TemplateGenerator templateGen = new TemplateGenerator(
+				"templates/conflict_view/ResourceChangeListener.tpl", project);
+		templateGen.setFilename((String) data.get("ClassName") + ".java");
+		templateGen.setPkg((String) data.get("ConflictViewPackage") + ".util");
+		templateGen.setData(data);
+		templateGen.generateFile();
+		
+		TemplateGenerator templateGen2 = new TemplateGenerator(
+				"templates/conflict_view/DeltaPrinter.tpl", project);
+		templateGen2.setFilename("DeltaPrinter.java");
+		templateGen2.setPkg((String) data.get("ConflictViewPackage") + ".util");
+		templateGen2.setData(data);
+		templateGen2.generateFile();
 	}
 }

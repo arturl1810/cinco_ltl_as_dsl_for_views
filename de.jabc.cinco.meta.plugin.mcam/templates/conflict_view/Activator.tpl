@@ -1,5 +1,11 @@
 package ${ConflictViewPackage};
 
+import info.scce.cinco.product.${GraphModelName?lower_case}.mcam.conflictview.util.ResourceChangeListener;
+
+import org.eclipse.core.resources.IResourceChangeEvent;
+import org.eclipse.core.resources.IResourceChangeListener;
+import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
@@ -14,6 +20,8 @@ public class ${ClassName} extends AbstractUIPlugin {
 
 	// The shared instance
 	private static Activator plugin;
+
+	private IResourceChangeListener listener = new ResourceChangeListener();
 	
 	/**
 	 * The constructor
@@ -28,6 +36,9 @@ public class ${ClassName} extends AbstractUIPlugin {
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
+
+		IWorkspace workspace = ResourcesPlugin.getWorkspace();
+		workspace.addResourceChangeListener(listener, IResourceChangeEvent.POST_CHANGE);
 	}
 
 	/*
@@ -37,6 +48,9 @@ public class ${ClassName} extends AbstractUIPlugin {
 	public void stop(BundleContext context) throws Exception {
 		plugin = null;
 		super.stop(context);
+
+		IWorkspace workspace = ResourcesPlugin.getWorkspace();
+		workspace.removeResourceChangeListener(listener);
 	}
 
 	/**

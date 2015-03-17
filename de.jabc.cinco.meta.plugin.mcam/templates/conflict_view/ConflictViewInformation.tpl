@@ -2,7 +2,7 @@ package ${ConflictViewPackage}.views;
 
 import ${AdapterPackage}.${GraphModelName}Adapter;
 import ${AdapterPackage}.${GraphModelName}Id;
-import info.scce.cinco.product.flowgraph.mcam.cli.FrameworkExecution;
+import info.scce.cinco.product.${GraphModelName?lower_case}.mcam.cli.FrameworkExecution;
 import ${ConflictViewPackage}.util.MergeProcessTreeRenderer;
 import info.scce.mcam.framework.processes.CheckProcess;
 import info.scce.mcam.framework.processes.CompareProcess;
