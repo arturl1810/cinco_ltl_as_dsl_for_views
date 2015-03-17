@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>4b3bed73-f07c-47e8-a3c6-83cd1b38c908</id>
   <name>Create_GetSetAttribute</name>
-  <changecounter>317</changecounter>
+  <changecounter>334</changecounter>
   <sib>
     <id>ba6b8d58-e1c8-4fc5-8bdd-695e69dcc9f9</id>
     <name>GetAttributeName</name>
@@ -409,7 +409,17 @@ ${attributeClass}</expression>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>(($fqnGenNodePrefix$$modelElement.name$) this.getModelElement()).set$fuAttributeName$(arg);
+      <string>$fqnTransactionalEditingDomain$ dom = $fqnTransactionalEditingDomain$.Factory.INSTANCE.getEditingDomain(modelElement.eResource().getResourceSet());
+if (dom == null)
+	dom = $fqnTransactionalEditingDomain$.Factory.INSTANCE.createEditingDomain(modelElement.eResource().getResourceSet());
+dom.getCommandStack().execute(new $fqnRecordingCommand$(dom) {
+
+	@Override
+	protected void doExecute() {
+		(($fqnGenNodePrefix$$modelElement.name$) modelElement).set$fuAttributeName$(arg);
+	}
+});
+
 update();</string>
     </parameter>
     <finalbranches>default</finalbranches>
@@ -470,7 +480,17 @@ update();</string>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>(($fqnGenNodePrefix$$graphModelName$) this.getModelElement()).set$fuAttributeName$(arg);
+      <string>$fqnTransactionalEditingDomain$ dom = $fqnTransactionalEditingDomain$.Factory.INSTANCE.getEditingDomain(modelElement.eResource().getResourceSet());
+if (dom == null)
+	dom = $fqnTransactionalEditingDomain$.Factory.INSTANCE.createEditingDomain(modelElement.eResource().getResourceSet());
+dom.getCommandStack().execute(new $fqnRecordingCommand$(dom) {
+
+	@Override
+	protected void doExecute() {
+		(($fqnGenNodePrefix$$graphModelName$) modelElement).set$fuAttributeName$(arg);
+	}
+});
+
 update();</string>
     </parameter>
     <finalbranches>default</finalbranches>
@@ -1072,7 +1092,17 @@ Get the value of attribute $attributeName$
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>(($fqnGenNodePrefix$$modelElement.name$) this.getModelElement()).set$fuAttributeName$(arg);
+      <string>$fqnTransactionalEditingDomain$ dom = $fqnTransactionalEditingDomain$.Factory.INSTANCE.getEditingDomain(modelElement.eResource().getResourceSet());
+if (dom == null)
+	dom = $fqnTransactionalEditingDomain$.Factory.INSTANCE.createEditingDomain(modelElement.eResource().getResourceSet());
+dom.getCommandStack().execute(new $fqnRecordingCommand$(dom) {
+
+	@Override
+	protected void doExecute() {
+		(($fqnGenNodePrefix$$modelElement.name$) modelElement).set$fuAttributeName$(arg);
+	}
+});
+
 update();</string>
     </parameter>
     <finalbranches>default</finalbranches>
@@ -1133,8 +1163,19 @@ update();</string>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>(($fqnGenNodePrefix$$graphModelName$) this.getModelElementl()).set$fuAttributeName$(arg);
-update();</string>
+      <string>$fqnTransactionalEditingDomain$ dom = $fqnTransactionalEditingDomain$.Factory.INSTANCE.getEditingDomain(modelElement.eResource().getResourceSet());
+if (dom == null)
+	dom = $fqnTransactionalEditingDomain$.Factory.INSTANCE.createEditingDomain(modelElement.eResource().getResourceSet());
+dom.getCommandStack().execute(new $fqnRecordingCommand$(dom) {
+
+	@Override
+	protected void doExecute() {
+		(($fqnGenNodePrefix$$graphModelName$) modelElement).set$fuAttributeName$(arg);
+	}
+});
+
+update();
+</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
@@ -1159,7 +1200,7 @@ update();</string>
     <label>CreateParametersForEOperation</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>1001.5,1126.0</position>
+    <position>1016.5,1126.0</position>
     <parameter name="eOperationKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1469,20 +1510,20 @@ Get the value of attribute $attributeName$
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </entry>
     <entry>
-      <string>attributeKey</string>
+      <string>eClassKey</string>
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>attributeKey</key>
+          <key>eClassKey</key>
           <scope>DECLARED</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </entry>
     <entry>
-      <string>eClassKey</string>
+      <string>attributeKey</string>
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>eClassKey</key>
+          <key>attributeKey</key>
           <scope>DECLARED</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
