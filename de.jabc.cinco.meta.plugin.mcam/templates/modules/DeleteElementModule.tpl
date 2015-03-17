@@ -20,6 +20,8 @@ import org.eclipse.emf.common.util.EList;
 
 public class ${ClassName} extends ChangeModule<${GraphModelName}Id, ${GraphModelName}Adapter> {
 
+	C${ModelElementName} deleteElement = null;
+
 	@Override
 	public String toString() {
 		return "${ModelElementName?capitalize} deleted!";
@@ -27,10 +29,16 @@ public class ${ClassName} extends ChangeModule<${GraphModelName}Id, ${GraphModel
 
 	@Override
 	public void execute(${GraphModelName}Adapter model) {
-		//${ModelElementName} element = (${ModelElementName}) model.getElementById(id);
-		//C${GraphModelName} cModel = model.getModelWrapper();
-		//C${ModelElementName} cElement = cModel.findC${ModelElementName}(element);
-		//cModel.deleteModelElement(cElement);
+		${ModelElementName} element = (${ModelElementName}) model.getElementById(id);
+		C${GraphModelName} cModel = model.getModelWrapper();
+		C${ModelElementName} cElement = cModel.findC${ModelElementName}(element);
+		cElement.delete();
+	}
+
+	@Override
+	public void undoExecute(${GraphModelName}Adapter model) {
+		C${GraphModelName} cModel = model.getModelWrapper();
+		deleteElement.clone(cModel);
 	}
 
 	@Override
@@ -68,8 +76,11 @@ public class ${ClassName} extends ChangeModule<${GraphModelName}Id, ${GraphModel
 				continue;
 			
 			if (true) {
+				C${GraphModelName} sourceWrapper = sourceModel.getModelWrapper();
+
 				${ClassName} change = new ${ClassName}();
 				change.id = id;
+				change.deleteElement = sourceWrapper.findC${ModelElementName}((${ModelElementName}) sourceModel.getElementById(id));
 				changes.add(change);
 			}
 		}

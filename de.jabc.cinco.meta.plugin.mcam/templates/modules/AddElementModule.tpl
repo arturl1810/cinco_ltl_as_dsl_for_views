@@ -30,6 +30,8 @@ public class ${ClassName} extends ChangeModule<${GraphModelName}Id, ${GraphModel
 
 	@Override
 	public void execute(${GraphModelName}Adapter model) {
+		C${GraphModelName} cModel = model.getModelWrapper();
+		cElement.clone(cModel);
 	}
 
 	@Override
@@ -59,7 +61,7 @@ public class ${ClassName} extends ChangeModule<${GraphModelName}Id, ${GraphModel
 		${ModelElementName} element = (${ModelElementName}) model.getElementById(id);
 		C${GraphModelName} cModel = model.getModelWrapper();
 		C${ModelElementName} cElement = cModel.findC${ModelElementName}(element);
-		cModel.deleteModelElement(cElement);
+		cElement.delete();
 	}
 
 	@Override
