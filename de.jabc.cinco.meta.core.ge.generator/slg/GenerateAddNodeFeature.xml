@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>7def08b0-45b0-4f5d-9629-657ab3028508</id>
   <name>GenerateAddNodeFeature</name>
-  <changecounter>1529</changecounter>
+  <changecounter>1539</changecounter>
   <sib>
     <id>b89523ed-9916-4f61-a5e9-9e1d8838a845</id>
     <name>PutExpression_1</name>
@@ -142,7 +142,8 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
 
 	public PictogramElement add(IAddContext context) {
 		$context.modelElementName$ $context.meIdentifier$ = ($context.modelElementName$) context.getNewObject();
-		$context.meIdentifier$.setId(EcoreUtil.generateUUID());
+		if ($context.meIdentifier$.getId() == null || $context.meIdentifier$.getId().isEmpty())
+			$context.meIdentifier$.setId(EcoreUtil.generateUUID());
 		ContainerShape d = (ContainerShape) context.getTargetContainer();
 
 		IPeService peService = Graphiti.getPeService();
@@ -519,7 +520,8 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
 			$context.meIdentifier$ = $context.factoryName$Factory.eINSTANCE.create$context.modelElementName$();
 			$context.primeParamContent$
 		}
-		$context.meIdentifier$.setId(EcoreUtil.generateUUID());
+		if ($context.meIdentifier$.getId() == null || $context.meIdentifier$.getId().isEmpty())
+			$context.meIdentifier$.setId(EcoreUtil.generateUUID());
 		ContainerShape d = (ContainerShape) context.getTargetContainer();
 
 		IPeService peService = Graphiti.getPeService();

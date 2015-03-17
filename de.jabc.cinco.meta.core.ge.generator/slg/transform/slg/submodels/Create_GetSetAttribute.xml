@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>4b3bed73-f07c-47e8-a3c6-83cd1b38c908</id>
   <name>Create_GetSetAttribute</name>
-  <changecounter>334</changecounter>
+  <changecounter>343</changecounter>
   <sib>
     <id>ba6b8d58-e1c8-4fc5-8bdd-695e69dcc9f9</id>
     <name>GetAttributeName</name>
@@ -417,10 +417,11 @@ dom.getCommandStack().execute(new $fqnRecordingCommand$(dom) {
 	@Override
 	protected void doExecute() {
 		(($fqnGenNodePrefix$$modelElement.name$) modelElement).set$fuAttributeName$(arg);
+		update();
 	}
 });
 
-update();</string>
+</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
@@ -488,10 +489,10 @@ dom.getCommandStack().execute(new $fqnRecordingCommand$(dom) {
 	@Override
 	protected void doExecute() {
 		(($fqnGenNodePrefix$$graphModelName$) modelElement).set$fuAttributeName$(arg);
+		update();
 	}
 });
-
-update();</string>
+</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
@@ -1100,10 +1101,10 @@ dom.getCommandStack().execute(new $fqnRecordingCommand$(dom) {
 	@Override
 	protected void doExecute() {
 		(($fqnGenNodePrefix$$modelElement.name$) modelElement).set$fuAttributeName$(arg);
+		update();
 	}
 });
-
-update();</string>
+</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
@@ -1171,10 +1172,10 @@ dom.getCommandStack().execute(new $fqnRecordingCommand$(dom) {
 	@Override
 	protected void doExecute() {
 		(($fqnGenNodePrefix$$graphModelName$) modelElement).set$fuAttributeName$(arg);
+		update();
 	}
 });
 
-update();
 </string>
     </parameter>
     <finalbranches>default</finalbranches>
@@ -1510,20 +1511,20 @@ Get the value of attribute $attributeName$
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </entry>
     <entry>
-      <string>eClassKey</string>
+      <string>attributeKey</string>
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>eClassKey</key>
+          <key>attributeKey</key>
           <scope>DECLARED</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </entry>
     <entry>
-      <string>attributeKey</string>
+      <string>eClassKey</string>
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>attributeKey</key>
+          <key>eClassKey</key>
           <scope>DECLARED</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>

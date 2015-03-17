@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>53c0c093-ef7e-452a-ae07-8946504ff744</id>
   <name>Generate_NodeMoveEOperation</name>
-  <changecounter>205</changecounter>
+  <changecounter>233</changecounter>
   <edge>
     <source>45937ff9-8a61-426a-ad52-785723db3d9e</source>
     <target>33b4498b-317c-424c-a417-153e95dd0cd4</target>
@@ -646,7 +646,7 @@ $fqnMoveShapeContext$ mc = new $fqnMoveShapeContext$(($fqnShape$)pes.get(0));
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>$apiPrefix$$modelElementName$ clone = $fqnAPIFactory$.eINSTANCE.create$apiPrefix$$modelElementName$();
+      <string>final $apiPrefix$$modelElementName$ clone = $fqnAPIFactory$.eINSTANCE.create$apiPrefix$$modelElementName$();
 $fqnArrayList$&lt;$fqnPictogramElement$&gt; pe = new $fqnArrayList$&lt;&gt;();
 pe.add(this.getPictogramElement());
 $fqnSet$&lt;$fqnPictogramElement$&gt; set = $fqnFeaturePrefix$$graphModelName$CopyUtils.targetCopy(pe, getDiagram());
@@ -659,20 +659,30 @@ if (set != null &amp;&amp; !set.isEmpty()) {
 $fqnDiagram$ d = ($fqnDiagram$) target.getDiagram();
 $fqnFeatureProvider$ provider = ($fqnFeatureProvider$) $fqnGraphitiUi$.getExtensionManager().createFeatureProvider(d);
 	    
-$fqnAddContext$ ac = new $fqnAddContext$();
+final $fqnAddContext$ ac = new $fqnAddContext$();
 ac.setNewObject(clone.getModelElement());
 ac.setLocation(clone.getX(), clone.getY());
 ac.setWidth(clone.getWidth());
 ac.setHeight(clone.getHeight());
 ac.setTargetContainer(($fqnContainerShape$) target.getPictogramElement());
 	  	
-$fqnAddFeaturePrefix$Add$modelElementName$Feature af = ($fqnAddFeaturePrefix$Add$modelElementName$Feature) provider.getAddFeature(ac);
+final $fqnAddFeaturePrefix$Add$modelElementName$Feature af = ($fqnAddFeaturePrefix$Add$modelElementName$Feature) provider.getAddFeature(ac);
 if (af != null &amp;&amp; af.canAdd(ac)) {
-	clone.setPictogramElement(af.add(ac));
-	clone.setContainer(target);
-	target.getCRootElement().getMap().put(clone.getModelElement(), clone);
-	target.getCRootElement().getModelElement().getModelElements().add(clone.getModelElement());
-	target.getMap().put(clone.getModelElement(), clone);
+	$fqnTransactionalEditingDomain$ dom = $fqnTransactionalEditingDomain$.Factory.INSTANCE.getEditingDomain(target.getModelElement().eResource().getResourceSet());
+      	if (dom == null)
+		dom = $fqnTransactionalEditingDomain$.Factory.INSTANCE.createEditingDomain(target.getModelElement().eResource().getResourceSet());
+	dom.getCommandStack().execute(new $fqnRecordingCommand$(dom) {
+        
+	@Override
+	protected void doExecute() {
+		clone.setPictogramElement(af.add(ac));
+		clone.setContainer(target);
+		target.getCRootElement().getMap().put(clone.getModelElement(), clone);
+		target.getCRootElement().getModelElement().getModelElements().add(clone.getModelElement());
+		target.getMap().put(clone.getModelElement(), clone);
+	}
+	});
+	
 }
 
 return clone;</string>
@@ -839,7 +849,7 @@ Creates an clone (persisting the modelElement&apos;s id) of this modelElement</s
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>$apiPrefix$$modelElementName$ clone = $fqnAPIFactory$.eINSTANCE.create$apiPrefix$$modelElementName$();
+      <string>final $apiPrefix$$modelElementName$ clone = $fqnAPIFactory$.eINSTANCE.create$apiPrefix$$modelElementName$();
 $fqnArrayList$&lt;$fqnPictogramElement$&gt; pe = new $fqnArrayList$&lt;&gt;();
 pe.add(this.getPictogramElement());
 $fqnSet$&lt;$fqnPictogramElement$&gt; set = $fqnFeaturePrefix$$graphModelName$CopyUtils.targetCopy(pe, getDiagram());
@@ -852,20 +862,29 @@ if (set != null &amp;&amp; !set.isEmpty()) {
 $fqnDiagram$ d = ($fqnDiagram$) target.getDiagram();
 $fqnFeatureProvider$ provider = ($fqnFeatureProvider$) $fqnGraphitiUi$.getExtensionManager().createFeatureProvider(d);
 	    
-$fqnAddContext$ ac = new $fqnAddContext$();
+final $fqnAddContext$ ac = new $fqnAddContext$();
 ac.setNewObject(clone.getModelElement());
 ac.setLocation(clone.getX(), clone.getY());
 ac.setWidth(clone.getWidth());
 ac.setHeight(clone.getHeight());
 ac.setTargetContainer(($fqnContainerShape$) target.getPictogramElement());
 	  	
-$fqnAddFeaturePrefix$Add$modelElementName$Feature af = ($fqnAddFeaturePrefix$Add$modelElementName$Feature) provider.getAddFeature(ac);
+final $fqnAddFeaturePrefix$Add$modelElementName$Feature af = ($fqnAddFeaturePrefix$Add$modelElementName$Feature) provider.getAddFeature(ac);
 if (af != null &amp;&amp; af.canAdd(ac)) {
-	clone.setPictogramElement(af.add(ac));
-	clone.setContainer(target);
-	target.getCRootElement().getMap().put(clone.getModelElement(), clone);
-	target.getCRootElement().getModelElement().getModelElements().add(clone.getModelElement());
-	target.getMap().put(clone.getModelElement(), clone);
+	$fqnTransactionalEditingDomain$ dom = $fqnTransactionalEditingDomain$.Factory.INSTANCE.getEditingDomain(target.getModelElement().eResource().getResourceSet());
+      	if (dom == null)
+		dom = $fqnTransactionalEditingDomain$.Factory.INSTANCE.createEditingDomain(target.getModelElement().eResource().getResourceSet());
+	dom.getCommandStack().execute(new $fqnRecordingCommand$(dom) {
+        
+	@Override
+	protected void doExecute() {
+		clone.setPictogramElement(af.add(ac));
+		clone.setContainer(target);
+		target.getCRootElement().getMap().put(clone.getModelElement(), clone);
+		target.getCRootElement().getModelElement().getModelElements().add(clone.getModelElement());
+		target.getMap().put(clone.getModelElement(), clone);
+	}
+	});
 }
 
 return clone;</string>
