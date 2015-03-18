@@ -139,6 +139,7 @@ public class McamImplementationGenerator {
 			generateModelAdapter();
 
 			generateMergeStrategy();
+			generateChangeDeadlockException();
 			generateCliExecution();
 			return "default";
 		} catch (IOException | TemplateException e) {
@@ -227,6 +228,15 @@ public class McamImplementationGenerator {
 				"templates/strategies/MergeStrategy.tpl", project);
 		templateGen.setFilename((String) data.get("MergeStrategyClass")
 				+ ".java");
+		templateGen.setPkg((String) data.get("StrategyPackage"));
+		templateGen.setData(data);
+		templateGen.generateFile();
+	}
+	
+	private void generateChangeDeadlockException() throws IOException, TemplateException {
+		TemplateGenerator templateGen = new TemplateGenerator(
+				"templates/strategies/ChangeDeadlockException.tpl", project);
+		templateGen.setFilename("ChangeDeadlockException.java");
 		templateGen.setPkg((String) data.get("StrategyPackage"));
 		templateGen.setData(data);
 		templateGen.generateFile();
