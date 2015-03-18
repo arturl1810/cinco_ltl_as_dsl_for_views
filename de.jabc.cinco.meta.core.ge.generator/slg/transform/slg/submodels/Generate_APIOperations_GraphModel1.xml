@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>2190f1aa-18e0-42fc-8098-06e689be2e65</id>
   <name>Generate_APIOperations_GraphModel1</name>
-  <changecounter>562</changecounter>
+  <changecounter>579</changecounter>
   <sib>
     <id>6169ccf6-ff91-4039-981b-559fdf62b024</id>
     <name>IterateElements</name>
@@ -457,7 +457,7 @@
     <label>IterateAllElements</label>
     <sib-uid>collection-sibs/IterateElements</sib-uid>
     <taxonomy>de.jabc.sib.common.collection.IterateElements</taxonomy>
-    <position>1009.5,63.0</position>
+    <position>949.5,63.0</position>
     <parameter name="collection">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -495,7 +495,7 @@
     <label>GetModelElementName</label>
     <sib-uid>mgl/mgl/GetModelElementName</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetModelElementName</taxonomy>
-    <position>995.0,273.0</position>
+    <position>935.0,273.0</position>
     <parameter name="modelElementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -523,7 +523,7 @@
     <label>GetElement</label>
     <sib-uid>collection-sibs/GetElement</sib-uid>
     <taxonomy>de.jabc.sib.common.collection.GetElement</taxonomy>
-    <position>1028.0,498.0</position>
+    <position>968.0,498.0</position>
     <parameter name="element">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -557,24 +557,24 @@
   <edge>
     <source>0866fe4b-041c-4197-bab4-c68d0e4ce4f5</source>
     <target>2fcec5c7-6513-49f0-ac43-cd37c265560a</target>
-    <point>1068.0,298.0</point>
-    <point>1068.0,403.0</point>
+    <point>1005.0,300.0</point>
+    <point>1005.0,405.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
     <source>b81efadd-db52-44d0-aa6f-45358642943a</source>
     <target>f9a7eaba-1df7-420e-86fc-010262e30801</target>
-    <point>1068.0,88.0</point>
-    <point>1068.0,193.0</point>
+    <point>1005.0,90.0</point>
+    <point>1005.0,195.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>next</branch>
   </edge>
   <edge>
     <source>424304a0-4e8f-41ee-8808-bfa67b57b5e9</source>
     <target>e9256038-6ed6-45b5-b0ed-54937182e809</target>
-    <point>1068.0,523.0</point>
-    <point>1068.0,658.0</point>
+    <point>1005.0,525.0</point>
+    <point>1005.0,660.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -582,9 +582,9 @@
     <source>e9256038-6ed6-45b5-b0ed-54937182e809</source>
     <target>b81efadd-db52-44d0-aa6f-45358642943a</target>
     <spline/>
-    <point>1068.0,658.0</point>
-    <point>1185.0,344.0</point>
-    <point>1068.0,88.0</point>
+    <point>1005.0,660.0</point>
+    <point>1125.0,344.0</point>
+    <point>1005.0,90.0</point>
     <labelposition>510.22514293795035,115.79115507679673</labelposition>
     <branch>default</branch>
   </edge>
@@ -594,12 +594,12 @@
     <label>GetEClassifierByName</label>
     <sib-uid>utility-sibs/GetEClassifierByName</sib-uid>
     <taxonomy>transem.utility.sib.GetEClassifierByName</taxonomy>
-    <position>997.0,378.0</position>
+    <position>937.0,378.0</position>
     <parameter name="eClassifierKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
           <key>modelElementType</key>
-          <scope>GLOBAL</scope>
+          <scope>DECLARED</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
@@ -629,8 +629,8 @@
   <edge>
     <source>2fcec5c7-6513-49f0-ac43-cd37c265560a</source>
     <target>424304a0-4e8f-41ee-8808-bfa67b57b5e9</target>
-    <point>1068.0,403.0</point>
-    <point>1068.0,523.0</point>
+    <point>1005.0,405.0</point>
+    <point>1005.0,525.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -648,7 +648,7 @@
     <label>IsAbstract</label>
     <sib-uid>ge-util-sibs/IsAbstract</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsAbstract</taxonomy>
-    <position>1032.5,168.0</position>
+    <position>972.5,168.0</position>
     <parameter name="modelElement">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -665,8 +665,8 @@
   <edge>
     <source>f9a7eaba-1df7-420e-86fc-010262e30801</source>
     <target>0866fe4b-041c-4197-bab4-c68d0e4ce4f5</target>
-    <point>1068.0,193.0</point>
-    <point>1068.0,298.0</point>
+    <point>1005.0,195.0</point>
+    <point>1005.0,300.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>false</branch>
   </edge>
@@ -674,9 +674,9 @@
     <source>f9a7eaba-1df7-420e-86fc-010262e30801</source>
     <target>b81efadd-db52-44d0-aa6f-45358642943a</target>
     <spline/>
-    <point>1068.0,193.0</point>
-    <point>1005.0,134.0</point>
-    <point>1068.0,88.0</point>
+    <point>1005.0,195.0</point>
+    <point>945.0,134.0</point>
+    <point>1005.0,90.0</point>
     <labelposition>513.0,-45.0</labelposition>
     <branch>true</branch>
   </edge>
@@ -686,7 +686,7 @@
     <label>CreateGetRoot</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>1304.5,61.0</position>
+    <position>1109.5,61.0</position>
     <parameter name="eClassKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -734,9 +734,9 @@
   </sib>
   <edge>
     <source>89fa3d52-325c-4ab4-ab18-9c8b9b10aacb</source>
-    <target>f098e016-a8f8-41f2-b77d-13fa1061bab5</target>
-    <point>1350.0,90.0</point>
-    <point>1350.0,240.0</point>
+    <target>74b0a14c-a277-4c13-89a1-7d857466ca9d</target>
+    <point>1250.0,85.0</point>
+    <point>1405.0,108.84615384615384</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -1165,7 +1165,7 @@ return retval;</string>
     <label>Generate_GraphModelFindEOperations</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>951.0,631.0</position>
+    <position>891.0,631.0</position>
     <parameter name="modelElementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1196,7 +1196,7 @@ return retval;</string>
     <label>IterateEdges</label>
     <sib-uid>collection-sibs/IterateElements</sib-uid>
     <taxonomy>de.jabc.sib.common.collection.IterateElements</taxonomy>
-    <position>755.0,183.0</position>
+    <position>695.0,123.0</position>
     <parameter name="collection">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1234,7 +1234,7 @@ return retval;</string>
     <label>GetModelElementName</label>
     <sib-uid>mgl/mgl/GetModelElementName</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetModelElementName</taxonomy>
-    <position>725.0,393.0</position>
+    <position>665.0,333.0</position>
     <parameter name="modelElementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1262,7 +1262,7 @@ return retval;</string>
     <label>GetElement</label>
     <sib-uid>collection-sibs/GetElement</sib-uid>
     <taxonomy>de.jabc.sib.common.collection.GetElement</taxonomy>
-    <position>758.0,618.0</position>
+    <position>698.0,558.0</position>
     <parameter name="element">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1296,24 +1296,24 @@ return retval;</string>
   <edge>
     <source>ef4fc818-118e-4bab-ba4d-2d50d31fd5fd</source>
     <target>17e9ae66-e5d0-4d7d-b038-d3b11d558e93</target>
-    <point>795.0,420.0</point>
-    <point>795.0,525.0</point>
+    <point>735.0,360.0</point>
+    <point>735.0,465.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
     <source>0ed9bb9e-46e0-4bb9-94f9-cc7534322d4f</source>
     <target>b5b13a36-dc9f-460e-8cf9-a737aee27175</target>
-    <point>795.0,210.0</point>
-    <point>795.0,315.0</point>
+    <point>735.0,150.0</point>
+    <point>735.0,255.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>next</branch>
   </edge>
   <edge>
     <source>8c5d2d34-2fc3-4bf9-a98c-6ec73197c9db</source>
     <target>eb85562b-f554-4eec-adf2-f41e163267a7</target>
-    <point>795.0,645.0</point>
-    <point>795.0,780.0</point>
+    <point>735.0,585.0</point>
+    <point>735.0,720.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -1321,9 +1321,9 @@ return retval;</string>
     <source>eb85562b-f554-4eec-adf2-f41e163267a7</source>
     <target>0ed9bb9e-46e0-4bb9-94f9-cc7534322d4f</target>
     <spline/>
-    <point>774.8214285714286,661.0</point>
-    <point>930.0,345.0</point>
-    <point>790.2272727272727,99.0</point>
+    <point>744.8039215686274,691.0</point>
+    <point>885.0,405.0</point>
+    <point>745.2272727272727,159.0</point>
     <labelposition>525.1814705848159,140.86826294457734</labelposition>
     <branch>default</branch>
   </edge>
@@ -1333,7 +1333,7 @@ return retval;</string>
     <label>GetEClassifierByName</label>
     <sib-uid>utility-sibs/GetEClassifierByName</sib-uid>
     <taxonomy>transem.utility.sib.GetEClassifierByName</taxonomy>
-    <position>727.0,498.0</position>
+    <position>667.0,438.0</position>
     <parameter name="eClassifierKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1368,8 +1368,8 @@ return retval;</string>
   <edge>
     <source>17e9ae66-e5d0-4d7d-b038-d3b11d558e93</source>
     <target>8c5d2d34-2fc3-4bf9-a98c-6ec73197c9db</target>
-    <point>795.0,525.0</point>
-    <point>795.0,645.0</point>
+    <point>735.0,465.0</point>
+    <point>735.0,585.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -1379,7 +1379,7 @@ return retval;</string>
     <label>IsAbstract</label>
     <sib-uid>ge-util-sibs/IsAbstract</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsAbstract</taxonomy>
-    <position>762.5,288.0</position>
+    <position>702.5,228.0</position>
     <parameter name="modelElement">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1396,8 +1396,8 @@ return retval;</string>
   <edge>
     <source>b5b13a36-dc9f-460e-8cf9-a737aee27175</source>
     <target>ef4fc818-118e-4bab-ba4d-2d50d31fd5fd</target>
-    <point>795.0,315.0</point>
-    <point>795.0,420.0</point>
+    <point>735.0,255.0</point>
+    <point>735.0,360.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>false</branch>
   </edge>
@@ -1405,9 +1405,9 @@ return retval;</string>
     <source>b5b13a36-dc9f-460e-8cf9-a737aee27175</source>
     <target>0ed9bb9e-46e0-4bb9-94f9-cc7534322d4f</target>
     <spline/>
-    <point>795.0,315.0</point>
-    <point>750.0,255.0</point>
-    <point>795.0,210.0</point>
+    <point>735.0,255.0</point>
+    <point>690.0,195.0</point>
+    <point>735.0,150.0</point>
     <labelposition>567.8806785033038,-26.690999228554922</labelposition>
     <branch>true</branch>
   </edge>
@@ -1425,7 +1425,7 @@ return retval;</string>
     <label>Generate_GraphModelEdgeEOperations</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>678.5,751.0</position>
+    <position>618.5,691.0</position>
     <parameter name="eClassKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1531,6 +1531,28 @@ return retval;</string>
     <target>5ed53b16-390b-412f-bfb0-c4babfa050eb</target>
     <point>90.0,420.0</point>
     <point>206.0,518.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>74b0a14c-a277-4c13-89a1-7d857466ca9d</id>
+    <name>GraphSIB_1</name>
+    <label>Generate_GraphModelFindGenericEOperations</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>1214.0,61.0</position>
+    <finalbranches>default</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>6ea56bc2-0f7f-4c7e-8ab2-7eecdb861309</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Generate_GraphModelFindGenericEOperations</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>74b0a14c-a277-4c13-89a1-7d857466ca9d</source>
+    <target>f098e016-a8f8-41f2-b77d-13fa1061bab5</target>
+    <point>1350.0,90.0</point>
+    <point>1358.0,215.0</point>
     <branch>default</branch>
   </edge>
   <values/>

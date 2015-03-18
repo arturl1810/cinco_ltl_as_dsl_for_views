@@ -236,13 +236,16 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 				context.put("registeredPackageMap", PluginRegistry.getInstance().getRegisteredEcoreModels());
 				context.put("resource", graphicalGraphModelRes);
 				
+				context.put("gModelElementType", GraphicalgraphmodelPackage.eINSTANCE.getEClassifier("CModelElement"));
 				context.put("gNodeType", GraphicalgraphmodelPackage.eINSTANCE.getEClassifier("CNode"));
 				context.put("gEdgeType", GraphicalgraphmodelPackage.eINSTANCE.getEClassifier("CEdge"));
 				context.put("gContainerType", GraphicalgraphmodelPackage.eINSTANCE.getEClassifier("CContainer"));
+				context.put("gModelElementContainerType", GraphicalgraphmodelPackage.eINSTANCE.getEClassifier("CModelElementContainer"));
 				context.put("nodeType", GraphmodelPackage.eINSTANCE.getEClassifier("Node"));
 				context.put("edgeType", GraphmodelPackage.eINSTANCE.getEClassifier("Edge"));
 				context.put("containerType", GraphmodelPackage.eINSTANCE.getEClassifier("Container"));
-				context.put("modelElementType", GraphmodelPackage.eINSTANCE.getEClassifier("ModelElement"));
+				context.put("modelElementContainerType", GraphmodelPackage.eINSTANCE.getEClassifier("ModelElementContainer"));
+				context.put("globmodelElementType", GraphmodelPackage.eINSTANCE.getEClassifier("ModelElement"));
 				context.put("apiPrefix", API_MODEL_PREFIX);
 				
 				context.put("integerType", integerType);
