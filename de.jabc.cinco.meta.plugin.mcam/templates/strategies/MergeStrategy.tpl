@@ -68,12 +68,14 @@ public class ${GraphModelName}MergeStrategy implements
 					somethingDone = true;
 				}
 			}
+			changesToDo.removeAll(changesDone);
+			
 			if (!somethingDone)
 				throw new ChangeDeadlockException(type
 								+ ": All canPreExecute-Methods fail. Couldn't do anything!", changesToDo);
-			changesToDo.removeAll(changesDone);
 		}
 		changesToDo.addAll(changesDone);
+		changesDone.clear();
 
 		while (!changesToDo.isEmpty()) {
 			boolean somethingDone = false;
@@ -84,12 +86,14 @@ public class ${GraphModelName}MergeStrategy implements
 					somethingDone = true;
 				}
 			}
+			changesToDo.removeAll(changesDone);
+			
 			if (!somethingDone)
 				throw new ChangeDeadlockException(type
-						+ ": All canExecute-Methods fail. Couldn't do anything!", changesToDo);
-			changesToDo.removeAll(changesDone);
+								+ ": All canPreExecute-Methods fail. Couldn't do anything!", changesToDo);
 		}
 		changesToDo.addAll(changesDone);
+		changesDone.clear();
 
 		while (!changesToDo.isEmpty()) {
 			boolean somethingDone = false;
@@ -100,11 +104,13 @@ public class ${GraphModelName}MergeStrategy implements
 					somethingDone = true;
 				}
 			}
+			changesToDo.removeAll(changesDone);
+			
 			if (!somethingDone)
 				throw new ChangeDeadlockException(type
-						+ ": All canPostExecute-Methods fail. Couldn't do anything!", changesToDo);
-			changesToDo.removeAll(changesDone);
+								+ ": All canPreExecute-Methods fail. Couldn't do anything!", changesToDo);
 		}
 		changesToDo.addAll(changesDone);
+		changesDone.clear();
 	}
 }

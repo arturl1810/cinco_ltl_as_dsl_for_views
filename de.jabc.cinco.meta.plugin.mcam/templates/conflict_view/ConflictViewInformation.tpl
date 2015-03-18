@@ -39,8 +39,6 @@ public class ConflictViewInformation {
 		this.localFile = localFile;
 		this.iFile = iFile;
 		this.resource = resource;
-		
-		createMergeCheckProcess();
 	}
 	
 	public void createMergeCheckProcess() {

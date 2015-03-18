@@ -70,7 +70,7 @@ public class ConflictView extends ViewPart implements IPartListener2 {
 		this.parent = parent;
 		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
 				.addPartListener(this);
-		System.out.println("View created");
+		// System.out.println("View created");
 
 		// hookContextMenu();
 		// hookDoubleClickAction();
@@ -169,17 +169,17 @@ public class ConflictView extends ViewPart implements IPartListener2 {
 	 */
 	@Override
 	public void partActivated(IWorkbenchPartReference partRef) {
-		System.out.println("Part active: " + partRef.getTitle());
+		// System.out.println("Part active: " + partRef.getTitle());
 	}
 
 	@Override
 	public void partBroughtToTop(IWorkbenchPartReference partRef) {
-		System.out.println("Part to top: " + partRef.getTitle());
+		// System.out.println("Part to top: " + partRef.getTitle());
 	}
 
 	@Override
 	public void partClosed(IWorkbenchPartReference partRef) {
-		System.out.println("Part closed: " + partRef.getTitle());
+		// System.out.println("Part closed: " + partRef.getTitle());
 
 		if (partRef instanceof EditorReference) {
 			IFile file = (IFile) ((EditorReference) partRef).getEditor(false)
@@ -189,7 +189,7 @@ public class ConflictView extends ViewPart implements IPartListener2 {
 				String path = file.getRawLocation().toOSString();
 				File origFile = FrameworkExecution.getFile(path);
 
-				System.out.println("Closed File: " + origFile.getName());
+				// System.out.println("Closed File: " + origFile.getName());
 
 				if (conflictInfoMap.keySet().contains(origFile)) {
 					ConflictViewInformation activeConflictView = conflictInfoMap
@@ -210,22 +210,22 @@ public class ConflictView extends ViewPart implements IPartListener2 {
 
 	@Override
 	public void partDeactivated(IWorkbenchPartReference partRef) {
-		System.out.println("Part deactivated: " + partRef.getTitle());
+		// System.out.println("Part deactivated: " + partRef.getTitle());
 	}
 
 	@Override
 	public void partOpened(IWorkbenchPartReference partRef) {
-		System.out.println("Part opened: " + partRef.getTitle());
+		// System.out.println("Part opened: " + partRef.getTitle());
 	}
 
 	@Override
 	public void partHidden(IWorkbenchPartReference partRef) {
-		System.out.println("Part hidden: " + partRef.getTitle());
+		// System.out.println("Part hidden: " + partRef.getTitle());
 	}
 
 	@Override
 	public void partVisible(IWorkbenchPartReference partRef) {
-		System.out.println("Part visible: " + partRef.getTitle());
+		// System.out.println("Part visible: " + partRef.getTitle());
 
 		if (partRef instanceof EditorReference) {
 			IFile file = (IFile) ((EditorReference) partRef).getEditor(false)
@@ -278,6 +278,6 @@ public class ConflictView extends ViewPart implements IPartListener2 {
 
 	@Override
 	public void partInputChanged(IWorkbenchPartReference partRef) {
-		System.out.println("Part input changed: " + partRef.getTitle());
+		// System.out.println("Part input changed: " + partRef.getTitle());
 	}
 }

@@ -8,6 +8,7 @@ import info.scce.mcam.framework.adapter.EntityId;
 import info.scce.mcam.framework.adapter.ModelAdapter;
 import info.scce.mcam.framework.modules.ChangeModule;
 import info.scce.mcam.framework.processes.MergeInformation;
+import info.scce.mcam.framework.processes.MergeInformation.MergeType;
 import info.scce.mcam.framework.processes.MergeProcess;
 
 import org.eclipse.core.runtime.FileLocator;
@@ -57,6 +58,9 @@ public class MergeProcessTreeRenderer<E extends EntityId, M extends ModelAdapter
 			MergeInformation<E, M> mergeInformation = mp
 					.getMergeInformationMap().get(id);
 
+			if (mergeInformation.getType().equals(MergeType.UNCHANGED))
+				continue;
+
 			TreeItem idItem = new TreeItem(tree, SWT.NONE);
 			
 			idItem.setImage(entityOkImg);
@@ -96,9 +100,9 @@ public class MergeProcessTreeRenderer<E extends EntityId, M extends ModelAdapter
 changeItem.setImage(boxUnCheckedImg);
 				
 				if (changeModule.canPreExecute(mp.getMergeModelAdapter()) && changeModule.canExecute(mp.getMergeModelAdapter()) && changeModule.canPostExecute(mp.getMergeModelAdapter())) {
-					changeModule.canPreExecute(mp.getMergeModelAdapter());
-					changeModule.canExecute(mp.getMergeModelAdapter());
-					changeModule.canPostExecute(mp.getMergeModelAdapter());
+					changeModule.preExecute(mp.getMergeModelAdapter());
+					changeModule.execute(mp.getMergeModelAdapter());
+					changeModule.postExecute(mp.getMergeModelAdapter());
 					changeItem.setImage(boxCheckedImg);
 				}
 				changeItem.setText(changeModule.toString());
@@ -116,9 +120,9 @@ changeItem.setImage(boxUnCheckedImg);
 changeItem.setImage(boxUnCheckedImg);
 				
 				if (changeModule.canPreExecute(mp.getMergeModelAdapter()) && changeModule.canExecute(mp.getMergeModelAdapter()) && changeModule.canPostExecute(mp.getMergeModelAdapter())) {
-					changeModule.canPreExecute(mp.getMergeModelAdapter());
-					changeModule.canExecute(mp.getMergeModelAdapter());
-					changeModule.canPostExecute(mp.getMergeModelAdapter());
+					changeModule.preExecute(mp.getMergeModelAdapter());
+					changeModule.execute(mp.getMergeModelAdapter());
+					changeModule.postExecute(mp.getMergeModelAdapter());
 					changeItem.setImage(boxCheckedImg);
 				}
 				changeItem.setText(changeModule.toString());
