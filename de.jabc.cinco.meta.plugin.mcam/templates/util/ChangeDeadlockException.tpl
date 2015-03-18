@@ -1,4 +1,4 @@
-package ${StrategyPackage};
+package ${UtilPackage};
 
 import ${AdapterPackage}.${GraphModelName}Adapter;
 import ${AdapterPackage}.${GraphModelName}Id;

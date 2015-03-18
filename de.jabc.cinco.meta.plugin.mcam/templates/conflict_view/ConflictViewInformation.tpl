@@ -54,7 +54,8 @@ public class ConflictViewInformation {
 		CompareProcess<${GraphModelName}Id, ${GraphModelName}Adapter> remoteCompare = FrameworkExecution
 				.executeComparePhase(orig, remote);
 		mp = FrameworkExecution
-				.executeMergePhase(localCompare, remoteCompare, mergeModel);
+				.createMergePhase(localCompare, remoteCompare, mergeModel);
+		mp.analyzeGraphCompares();
 		cp = FrameworkExecution
 				.executeCheckPhase(mergeModel);
 	}

@@ -1,5 +1,10 @@
 package ${ChangeModulePackage};
 
+import graphmodel.Edge;
+import graphmodel.ModelElement;
+import graphicalgraphmodel.CNode;
+import graphicalgraphmodel.CEdge;
+
 import info.scce.mcam.framework.modules.ChangeModule;
 import ${AdapterPackage}.${GraphModelName}Id;
 import ${AdapterPackage}.${GraphModelName}Adapter;
@@ -10,6 +15,12 @@ import ${GraphModelPackage}.${GraphModelName};
 <#list ContainerTypes as container>
 <#if container != ModelElementName>
 import ${GraphModelPackage}.${container};
+</#if>
+</#list>
+
+<#list NodeTypes as node>
+<#if node != ModelElementName>
+import ${GraphModelPackage}.${node};
 </#if>
 </#list>
 
@@ -33,13 +44,25 @@ public class ${ClassName} extends ChangeModule<${GraphModelName}Id, ${GraphModel
 	@Override
 	public void execute(${GraphModelName}Adapter model) {
 		C${GraphModelName} cModel = model.getModelWrapper();
-		Object containerNode = model.getElementById(containerId);
-		<#list ContainerTypes as container>
-		if (containerNode instanceof ${container})
-			cElement.clone(cModel.findC${container}((${container}) containerNode));
-		</#list>
-		if (containerNode instanceof ${GraphModelName})
-			cElement.clone(cModel);
+		ModelElement source = cElement.getSourceElement().getModelElement();
+		ModelElement target = cElement.getTargetElement().getModelElement();
+
+		ModelElement source = cElement.getSourceElement().getModelElement();
+		ModelElement target = cElement.getTargetElement().getModelElement();
+		
+		String pkg = "info.scce.cinco.product.flowgraph.flowgraph";
+		
+		    String sourceType = pkg + "." + source.getClass().getSimpleName().substring(0, source.getClass().getSimpleName().length()-4);
+		    String targetType = pkg + "." + target.getClass().getSimpleName().substring(0, target.getClass().getSimpleName().length()-4);
+		    try {
+				Class<?> sourceClass = Class.forName(sourceType);
+				Class<?> targetClass = Class.forName(targetType);
+			
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	//	    Object obj = theClass.cast(something);
 	}
 
 	@Override
@@ -47,6 +70,16 @@ public class ${ClassName} extends ChangeModule<${GraphModelName}Id, ${GraphModel
 		boolean allPreconditionsOk = true;
 		Object containerNode = model.getElementById(containerId);
 		if (containerNode == null)
+			allPreconditionsOk = false;
+		
+		CNode cSource = ((CEdge) cElement).getSourceElement();
+		${GraphModelName}Id sourceId = model.getIdByString(cSource.getModelElement().getId());
+		if (sourceId == null)
+			allPreconditionsOk = false;
+		
+		CNode cTarget = ((CEdge) cElement).getTargetElement();
+		${GraphModelName}Id targetId = model.getIdByString(cTarget.getModelElement().getId());
+		if (targetId == null)
 			allPreconditionsOk = false;
 		
 		return allPreconditionsOk;

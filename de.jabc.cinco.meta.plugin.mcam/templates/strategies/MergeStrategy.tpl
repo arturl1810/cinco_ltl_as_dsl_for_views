@@ -6,6 +6,8 @@ import info.scce.mcam.framework.processes.MergeInformation.MergeType;
 import info.scce.mcam.framework.strategies.merge.DefaultMergeStrategy;
 import info.scce.mcam.framework.strategies.merge.MergeStrategy;
 
+import ${UtilPackage}.ChangeDeadlockException;
+
 import ${AdapterPackage}.${GraphModelName}Id;
 import ${AdapterPackage}.${GraphModelName}Adapter;
 

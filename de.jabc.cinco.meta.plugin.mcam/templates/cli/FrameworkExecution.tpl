@@ -92,13 +92,37 @@ public class FrameworkExecution {
 	public static CompareProcess<${GraphModelName}Id, ${GraphModelName}Adapter> executeComparePhase(
 			${GraphModelName}Adapter model1, ${GraphModelName}Adapter model2) {
 
-		CompareProcess<${GraphModelName}Id, ${GraphModelName}Adapter> compareProcess = new CompareProcess<>(
-				getChangeModuleRegistry(), model1, model2);
+		CompareProcess<${GraphModelName}Id, ${GraphModelName}Adapter> compareProcess = FrameworkExecution.createComparePhase(model1, model2);
 		compareProcess.compare();
 		return compareProcess;
 	}
 
 	public static MergeProcess<${GraphModelName}Id, ${GraphModelName}Adapter> executeMergePhase(
+			CompareProcess<${GraphModelName}Id, ${GraphModelName}Adapter> localCompare,
+			CompareProcess<${GraphModelName}Id, ${GraphModelName}Adapter> remoteCompare,
+			${GraphModelName}Adapter mergeModel) {
+
+		MergeProcess<${GraphModelName}Id, ${GraphModelName}Adapter> mergeProcess = FrameworkExecution.createMergePhase(localCompare, remoteCompare, mergeModel);
+		mergeProcess.createMergeModel();
+		return mergeProcess;
+	}
+
+	public static CheckProcess<${GraphModelName}Id, ${GraphModelName}Adapter> executeCheckPhase(
+			${GraphModelName}Adapter model) {
+		CheckProcess<${GraphModelName}Id, ${GraphModelName}Adapter> checkProcess = FrameworkExecution.createCheckPhase(model);
+		checkProcess.checkModel();
+		return checkProcess;
+	}
+
+	public static CompareProcess<${GraphModelName}Id, ${GraphModelName}Adapter> createComparePhase(
+			${GraphModelName}Adapter model1, ${GraphModelName}Adapter model2) {
+
+		CompareProcess<${GraphModelName}Id, ${GraphModelName}Adapter> compareProcess = new CompareProcess<>(
+				getChangeModuleRegistry(), model1, model2);
+		return compareProcess;
+	}
+
+	public static MergeProcess<${GraphModelName}Id, ${GraphModelName}Adapter> createMergePhase(
 			CompareProcess<${GraphModelName}Id, ${GraphModelName}Adapter> localCompare,
 			CompareProcess<${GraphModelName}Id, ${GraphModelName}Adapter> remoteCompare,
 			${GraphModelName}Adapter mergeModel) {
@@ -110,15 +134,13 @@ public class FrameworkExecution {
 		<#else>
 		mergeProcess.setMergeStrategy(new ${CustomMergeStrategy}());
 		</#if>
-		mergeProcess.createMergeModel();
 		return mergeProcess;
 	}
 
-	public static CheckProcess<${GraphModelName}Id, ${GraphModelName}Adapter> executeCheckPhase(
+	public static CheckProcess<${GraphModelName}Id, ${GraphModelName}Adapter> createCheckPhase(
 			${GraphModelName}Adapter model) {
 		CheckProcess<${GraphModelName}Id, ${GraphModelName}Adapter> checkProcess = new CheckProcess<>(
 				getCheckModuleRegistry(), model);
-		checkProcess.checkModel();
 		return checkProcess;
 	}
 }
