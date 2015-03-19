@@ -1,6 +1,6 @@
 package ${ConflictViewPackage}.views;
 
-import info.scce.cinco.product.flowgraph.mcam.cli.FrameworkExecution;
+import info.scce.cinco.product.${GraphModelName?lower_case}.mcam.cli.FrameworkExecution;
 
 import java.io.File;
 import java.util.HashMap;
@@ -42,7 +42,7 @@ public class ConflictView extends ViewPart implements IPartListener2 {
 	/**
 	 * The ID of the view as specified by the extension.
 	 */
-	public static final String ID = "info.scce.cinco.product.flowgraph.mcam.conflictview.views.ConflictView";
+	public static final String ID = "info.scce.cinco.product.${GraphModelName?lower_case}.mcam.conflictview.views.ConflictView";
 
 	private Action saveAction;
 	

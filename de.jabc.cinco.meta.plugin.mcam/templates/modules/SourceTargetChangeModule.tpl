@@ -2,7 +2,6 @@ package ${ChangeModulePackage};
 
 import graphmodel.Node;
 
-import graphicalgraphmodel.CNode;
 import info.scce.mcam.framework.modules.ChangeModule;
 
 import ${AdapterPackage}.${GraphModelName}Id;
@@ -17,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import org.eclipse.emf.common.util.EList;
 
 public class ${ClassName} extends
 		ChangeModule<${GraphModelName}Id, ${GraphModelName}Adapter> {
@@ -39,44 +37,25 @@ public class ${ClassName} extends
 		C${GraphModelName} cModel = model.getModelWrapper();
 		C${ModelElementName} cEdge = cModel.findC${ModelElementName}(edge);
 
-		CNode cSource = null;
-		CNode cTarget = null;
-
-		EList<CNode> cNodes = cModel.getAllCNodes();
-		for (CNode cNode : cNodes) {
-			${GraphModelName}Id tempId = model.create${GraphModelName}Id(cNode
-					.getModelElement());
-			if (tempId.equals(newSource))
-				cSource = cNode;
-			if (tempId.equals(newTarget))
-				cTarget = cNode;
-		}
-
-		if (cSource != null)
-			cEdge.setSourceElement(cSource);
-		if (cTarget != null)
-			cEdge.setTargetElement(cTarget);
+		cEdge.setSourceElement(cModel.findCNode((Node) model.getElementById(newSource)));
+		cEdge.setTargetElement(cModel.findCNode((Node) model.getElementById(newTarget)));
 	}
 
 	@Override
 	public boolean canExecute(${GraphModelName}Adapter model) {
-		boolean allPreconditionsOk = true;
-		
-		${ModelElementName} element = (${ModelElementName}) model.getElementById(id);
+		Object element = model.getElementById(id);
 		if (element == null)
-			allPreconditionsOk = false;
+			return false;
 		
-			Node sourceNode = element.getSourceElement();
-			${GraphModelName}Id sourceId = model.getIdByString(sourceNode.getId());
-			if (sourceId == null)
-				allPreconditionsOk = false;
-			
-			Node targetNode = element.getTargetElement();
-			${GraphModelName}Id targetId = model.getIdByString(targetNode.getId());
-			if (targetId == null)
-				allPreconditionsOk = false;
+		Object source = model.getElementById(oldSource);
+		if (source == null)
+			return false;
+
+		Object target = model.getElementById(oldTarget);
+		if (target == null)
+			return false;
 		
-		return allPreconditionsOk;
+		return true;
 	}
 	
 	@Override
@@ -85,23 +64,25 @@ public class ${ClassName} extends
 		C${GraphModelName} cModel = model.getModelWrapper();
 		C${ModelElementName} cEdge = cModel.findC${ModelElementName}(edge);
 
-		CNode cSource = null;
-		CNode cTarget = null;
+		cEdge.setSourceElement(cModel.findCNode((Node) model.getElementById(oldSource)));
+		cEdge.setTargetElement(cModel.findCNode((Node) model.getElementById(oldTarget)));
+	}
 
-		EList<CNode> cNodes = cModel.getAllCNodes();
-		for (CNode cNode : cNodes) {
-			${GraphModelName}Id tempId = model.create${GraphModelName}Id(cNode
-					.getModelElement());
-			if (tempId.equals(oldSource))
-				cSource = cNode;
-			if (tempId.equals(oldTarget))
-				cTarget = cNode;
-		}
+	@Override
+	public boolean canUndoExecute(${GraphModelName}Adapter model) {
+		Object element = model.getElementById(id);
+		if (element == null)
+			return false;
+		
+		Object source = model.getElementById(oldSource);
+		if (source == null)
+			return false;
 
-		if (cSource != null)
-			cEdge.setSourceElement(cSource);
-		if (cTarget != null)
-			cEdge.setTargetElement(cTarget);
+		Object target = model.getElementById(oldTarget);
+		if (target == null)
+			return false;
+		
+		return true;
 	}
 
 	@Override

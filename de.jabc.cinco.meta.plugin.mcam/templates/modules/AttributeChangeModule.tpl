@@ -41,12 +41,11 @@ public class ${ClassName} extends ChangeModule<${GraphModelName}Id, ${GraphModel
 
 	@Override
 	public boolean canExecute(${GraphModelName}Adapter model) {
-		boolean allPreconditionsOk = true;
 		${ModelElementName} element = (${ModelElementName}) model.getElementById(id);
 		if (element == null)
-			allPreconditionsOk = false;
+			return false;
 		
-		return allPreconditionsOk;
+		return true;
 	}
 
 	@Override
@@ -59,6 +58,15 @@ public class ${ClassName} extends ChangeModule<${GraphModelName}Id, ${GraphModel
 		C${ModelElementName} cElement = cModel.findC${ModelElementName}(element);
 		cElement.set${AttributeName?cap_first}(oldValue);
 		</#if>
+	}
+
+	@Override
+	public boolean canUndoExecute(${GraphModelName}Adapter model) {
+		${ModelElementName} element = (${ModelElementName}) model.getElementById(id);
+		if (element == null)
+			return false;
+		
+		return true;
 	}
 
 	@Override

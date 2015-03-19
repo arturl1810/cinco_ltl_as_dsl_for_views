@@ -7,14 +7,18 @@ import ${AdapterPackage}.${GraphModelName}Adapter;
 import ${GraphModelPackage}.${ModelElementName};
 import ${GraphModelPackage}.${GraphModelName};
 
-<#list ContainerTypes as container>
-<#if container != ModelElementName>
-import ${GraphModelPackage}.${container};
+<#list PossibleContainer as container>
+<#if container.getName() != ModelElementName>
+import ${GraphModelPackage}.${container.getName()};
 </#if>
 </#list>
 
 import ${BasePackage}.api.c${GraphModelName?lower_case}.C${ModelElementName};
 import ${BasePackage}.api.c${GraphModelName?lower_case}.C${GraphModelName};
+
+import graphmodel.Edge;
+
+import org.eclipse.emf.common.util.EList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,23 +37,43 @@ public class ${ClassName} extends ChangeModule<${GraphModelName}Id, ${GraphModel
 	@Override
 	public void execute(${GraphModelName}Adapter model) {
 		C${GraphModelName} cModel = model.getModelWrapper();
-		Object containerNode = model.getElementById(containerId);
-		<#list ContainerTypes as container>
-		if (containerNode instanceof ${container})
-			cElement.clone(cModel.findC${container}((${container}) containerNode));
+		Object container = model.getElementById(containerId);
+		<#list PossibleContainer as container>
+		if (container instanceof ${container.getName()})
+			cElement.clone(cModel.findC${container.getName()}((${container.getName()}) container));
 		</#list>
-		if (containerNode instanceof ${GraphModelName})
+		if (container instanceof ${GraphModelName})
 			cElement.clone(cModel);
 	}
 
 	@Override
 	public boolean canExecute(${GraphModelName}Adapter model) {
-		boolean allPreconditionsOk = true;
-		Object containerNode = model.getElementById(containerId);
-		if (containerNode == null)
-			allPreconditionsOk = false;
+		Object container = model.getElementById(containerId);
+		if (container == null)
+			return false;
+
+		Object element = model.getElementById(id);
+		if (element != null)
+			return false;
 		
-		return allPreconditionsOk;
+		return true;
+	}
+
+	@Override
+	public boolean canUndoExecute(${GraphModelName}Adapter model) {
+		${ModelElementName} element = (${ModelElementName}) model.getElementById(id);
+		if (element == null)
+			return false;
+		
+		EList<Edge> incEdges = element.getIncoming();
+		if (incEdges.size() > 0)
+			return false;
+		
+		EList<Edge> outEdges = element.getOutgoing();
+		if (outEdges.size() > 0)
+			return false;
+
+		return true;
 	}
 
 	@Override

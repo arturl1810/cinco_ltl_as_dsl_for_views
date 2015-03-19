@@ -1,30 +1,54 @@
 package ${ChangeModulePackage};
 
-import graphmodel.Edge;
-import graphmodel.Node;
-
 import info.scce.mcam.framework.modules.ChangeModule;
 import ${AdapterPackage}.${GraphModelName}Id;
 import ${AdapterPackage}.${GraphModelName}Adapter;
 
 import ${GraphModelPackage}.${ModelElementName};
+import ${GraphModelPackage}.${GraphModelName};
+
+<#list PossibleContainer as container>
+<#if container.getName() != ModelElementName>
+import ${GraphModelPackage}.${container.getName()};
+</#if>
+</#list>
 
 import ${BasePackage}.api.c${GraphModelName?lower_case}.C${ModelElementName};
 import ${BasePackage}.api.c${GraphModelName?lower_case}.C${GraphModelName};
+
+import graphmodel.Edge;
+
+import org.eclipse.emf.common.util.EList;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import org.eclipse.emf.common.util.EList;
-
 public class ${ClassName} extends ChangeModule<${GraphModelName}Id, ${GraphModelName}Adapter> {
 
-	C${ModelElementName} deleteElement = null;
+	C${ModelElementName} cElement = null;
+	${GraphModelName}Id containerId = null;
 
 	@Override
 	public String toString() {
 		return "${ModelElementName?capitalize} deleted!";
+	}
+
+	@Override
+	public boolean canExecute(${GraphModelName}Adapter model) {
+		${ModelElementName} element = (${ModelElementName}) model.getElementById(id);
+		if (element == null)
+			return false;
+		
+		EList<Edge> incEdges = element.getIncoming();
+		if (incEdges.size() > 0)
+			return false;
+		
+		EList<Edge> outEdges = element.getOutgoing();
+		if (outEdges.size() > 0)
+			return false;
+
+		return true;
 	}
 
 	@Override
@@ -38,26 +62,26 @@ public class ${ClassName} extends ChangeModule<${GraphModelName}Id, ${GraphModel
 	@Override
 	public void undoExecute(${GraphModelName}Adapter model) {
 		C${GraphModelName} cModel = model.getModelWrapper();
-		deleteElement.clone(cModel);
+		Object container = model.getElementById(containerId);
+		<#list PossibleContainer as container>
+		if (container instanceof ${container.getName()})
+			cElement.clone(cModel.findC${container.getName()}((${container.getName()}) container));
+		</#list>
+		if (container instanceof ${GraphModelName})
+			cElement.clone(cModel);
 	}
 
 	@Override
-	public boolean canExecute(${GraphModelName}Adapter model) {
-		boolean allPreconditionsOk = true;
-		${ModelElementName} element = (${ModelElementName}) model.getElementById(id);
-		if (element == null)
-			allPreconditionsOk = false;
+	public boolean canUndoExecute(${GraphModelName}Adapter model) {
+		Object container = model.getElementById(containerId);
+		if (container == null)
+			return false;
+
+		Object element = model.getElementById(id);
+		if (element != null)
+			return false;
 		
-		if (element instanceof Node) {
-			EList<Edge> incEdges = ((Node) element).getIncoming();
-			if (incEdges.size() > 0)
-				allPreconditionsOk = false;
-			
-			EList<Edge> outEdges = ((Node) element).getOutgoing();
-			if (outEdges.size() > 0)
-				allPreconditionsOk = false;
-		}
-		return allPreconditionsOk;
+		return true;
 	}
 
 	@Override
@@ -74,14 +98,13 @@ public class ${ClassName} extends ChangeModule<${GraphModelName}Id, ${GraphModel
 			if (!"${ModelElementName}".equals(id.geteClass().getName()))
 				continue;
 			
-			if (true) {
-				C${GraphModelName} sourceWrapper = sourceModel.getModelWrapper();
-
-				${ClassName} change = new ${ClassName}();
-				change.id = id;
-				change.deleteElement = sourceWrapper.findC${ModelElementName}((${ModelElementName}) sourceModel.getElementById(id));
-				changes.add(change);
-			}
+			C${GraphModelName} sourceWrapper = sourceModel.getModelWrapper();
+			
+			${ClassName} change = new ${ClassName}();
+			change.id = id;
+			change.cElement = sourceWrapper.findC${ModelElementName}((${ModelElementName}) sourceModel.getElementById(id));
+			change.containerId = sourceModel.getIdByString(change.cElement.getModelElement().getContainer().getId());
+			changes.add(change);
 		}
 		for (ChangeModule<${GraphModelName}Id, ${GraphModelName}Adapter> change : changes) {
 			ids.remove(change.id);

@@ -6,7 +6,7 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: ${ConflictViewPackage}.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
- info.scce.cinco.product.flowgraph.mcam,
+ info.scce.cinco.product.${GraphModelName?lower_case}.mcam,
  org.eclipse.ui.workbench,
  org.eclipse.core.resources
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7

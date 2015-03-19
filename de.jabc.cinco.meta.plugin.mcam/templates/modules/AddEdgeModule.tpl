@@ -1,10 +1,5 @@
 package ${ChangeModulePackage};
 
-import graphmodel.Edge;
-import graphmodel.ModelElement;
-import graphicalgraphmodel.CNode;
-import graphicalgraphmodel.CEdge;
-
 import info.scce.mcam.framework.modules.ChangeModule;
 import ${AdapterPackage}.${GraphModelName}Id;
 import ${AdapterPackage}.${GraphModelName}Adapter;
@@ -12,15 +7,15 @@ import ${AdapterPackage}.${GraphModelName}Adapter;
 import ${GraphModelPackage}.${ModelElementName};
 import ${GraphModelPackage}.${GraphModelName};
 
-<#list ContainerTypes as container>
-<#if container != ModelElementName>
-import ${GraphModelPackage}.${container};
+<#list PossibleEdgeSources as source>
+<#if source.getName() != ModelElementName>
+import ${GraphModelPackage}.${source.getName()};
 </#if>
 </#list>
 
-<#list NodeTypes as node>
-<#if node != ModelElementName>
-import ${GraphModelPackage}.${node};
+<#list PossibleEdgeTargets as target>
+<#if target.getName() != ModelElementName>
+import ${GraphModelPackage}.${target.getName()};
 </#if>
 </#list>
 
@@ -34,7 +29,9 @@ import java.util.Set;
 public class ${ClassName} extends ChangeModule<${GraphModelName}Id, ${GraphModelName}Adapter> {
 
 	C${ModelElementName} cElement = null;
-	${GraphModelName}Id containerId = null;
+	FlowGraphId sourceId = null;
+	FlowGraphId targetId = null;
+	FlowGraphId containerId = null;
 
 	@Override
 	public String toString() {
@@ -44,45 +41,46 @@ public class ${ClassName} extends ChangeModule<${GraphModelName}Id, ${GraphModel
 	@Override
 	public void execute(${GraphModelName}Adapter model) {
 		C${GraphModelName} cModel = model.getModelWrapper();
-		ModelElement source = cElement.getSourceElement().getModelElement();
-		ModelElement target = cElement.getTargetElement().getModelElement();
 
-		ModelElement source = cElement.getSourceElement().getModelElement();
-		ModelElement target = cElement.getTargetElement().getModelElement();
-		
-		String pkg = "info.scce.cinco.product.flowgraph.flowgraph";
-		
-		    String sourceType = pkg + "." + source.getClass().getSimpleName().substring(0, source.getClass().getSimpleName().length()-4);
-		    String targetType = pkg + "." + target.getClass().getSimpleName().substring(0, target.getClass().getSimpleName().length()-4);
-		    try {
-				Class<?> sourceClass = Class.forName(sourceType);
-				Class<?> targetClass = Class.forName(targetType);
-			
-			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-	//	    Object obj = theClass.cast(something);
+		Object source = model.getElementById(sourceId);		
+		Object target = model.getElementById(targetId);
+
+		<#list PossibleEdgeSources as source>
+		<#list PossibleEdgeTargets as target>
+		if (source instanceof ${source.getName()} && target instanceof ${target.getName()})
+			cElement.clone(cModel.findC${source.getName()}((${source.getName()}) source), cModel.findC${target.getName()}((${target.getName()}) target));
+		</#list>
+		</#list>
 	}
 
 	@Override
 	public boolean canExecute(${GraphModelName}Adapter model) {
-		boolean allPreconditionsOk = true;
-		Object containerNode = model.getElementById(containerId);
-		if (containerNode == null)
-			allPreconditionsOk = false;
+		Object element = model.getElementById(id);
+		if (element != null)
+			return false;
+
+		Object container = model.getElementById(containerId);
+		if (container == null)
+			return false;
+
+		Object source = model.getElementById(sourceId);
+		if (source == null)
+			return false;
 		
-		CNode cSource = ((CEdge) cElement).getSourceElement();
-		${GraphModelName}Id sourceId = model.getIdByString(cSource.getModelElement().getId());
-		if (sourceId == null)
-			allPreconditionsOk = false;
+		Object target = model.getElementById(sourceId);
+		if (target == null)
+			return false;
 		
-		CNode cTarget = ((CEdge) cElement).getTargetElement();
-		${GraphModelName}Id targetId = model.getIdByString(cTarget.getModelElement().getId());
-		if (targetId == null)
-			allPreconditionsOk = false;
-		
-		return allPreconditionsOk;
+		return true;
+	}
+
+	@Override
+	public boolean canUndoExecute(${GraphModelName}Adapter model) {
+		${ModelElementName} element = (${ModelElementName}) model.getElementById(id);
+		if (element == null)
+			return false;
+
+		return true;
 	}
 
 	@Override
@@ -108,11 +106,14 @@ public class ${ClassName} extends ChangeModule<${GraphModelName}Id, ${GraphModel
 				continue;
 			
 			C${GraphModelName} targetWrapper = targetModel.getModelWrapper();
+			${ModelElementName} element = (${ModelElementName}) targetModel.getElementById(id);
 			
 			${ClassName} change = new ${ClassName}();
 			change.id = id;
-			change.cElement = targetWrapper.findC${ModelElementName}((${ModelElementName}) targetModel.getElementById(id));
-			change.containerId = targetModel.getIdByString(change.cElement.getModelElement().getContainer().getId());
+			change.cElement = targetWrapper.findC${ModelElementName}(element);
+			change.sourceId = targetModel.getIdByString(element.getSourceElement().getId());
+			change.targetId = targetModel.getIdByString(element.getTargetElement().getId());
+			change.containerId = targetModel.getIdByString(element.getContainer().getId());
 			changes.add(change);
 		}
 		for (ChangeModule<${GraphModelName}Id, ${GraphModelName}Adapter> change : changes) {
