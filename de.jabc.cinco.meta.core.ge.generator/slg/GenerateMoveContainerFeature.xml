@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>b68091c8-07fa-4991-a66b-090c41737165</id>
   <name>GenerateMoveContainerFeature</name>
-  <changecounter>141</changecounter>
+  <changecounter>149</changecounter>
   <sib>
     <id>5d019596-ff11-4edc-9603-2477370f8043</id>
     <name>PutExpression</name>
@@ -108,8 +108,11 @@ import org.eclipse.graphiti.mm.pictograms.Diagram;
 import graphmodel.Container;
 
 import $context.importPath$.*;
+$context.cincoErrorImport$
 
 public class Move$context.container.name$Feature extends DefaultMoveShapeFeature{
+
+	$context.cincoErrorField$
 
 	public Move$context.container.name$Feature(IFeatureProvider fp) {
 		super(fp);
@@ -153,6 +156,8 @@ public class Move$context.container.name$Feature extends DefaultMoveShapeFeature
 
 		super.moveShape(context);
 	}
+
+	$context.cincoErrorGetSet$
 
 }
 </string>
@@ -328,6 +333,7 @@ public class Move$context.container.name$Feature extends DefaultMoveShapeFeature
 	if (context.getTargetContainer() instanceof Diagram)
 		return true;
 }
+$context.cincoErrorInvalidContainer$
 return false;</string>
     </parameter>
     <finalbranches>default</finalbranches>

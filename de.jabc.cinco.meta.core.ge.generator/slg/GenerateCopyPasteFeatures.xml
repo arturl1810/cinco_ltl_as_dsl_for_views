@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>67a73b2a-3824-4776-9686-ae1a8aed5282</id>
   <name>GenerateCopyPasteFeatures</name>
-  <changecounter>318</changecounter>
+  <changecounter>325</changecounter>
   <sib>
     <id>59a427e8-25c5-482c-a32b-a0aa278eb41b</id>
     <name>PutExpression</name>
@@ -257,6 +257,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import $context.packageName$.graphiti.*;
 import $context.importPath$.*;
+$context.cincoErrorImport$
 
 public class $context.graphModelName$PasteFeature extends AbstractPasteFeature {
 
@@ -267,6 +268,7 @@ public class $context.graphModelName$PasteFeature extends AbstractPasteFeature {
 	private Integer yMinAbs = null;
 	
 	private int xContext, yContext, xContainerShift, yContainerShift;
+	$context.cincoErrorField$
 	
 	public $context.graphModelName$PasteFeature(IFeatureProvider fp) {
 		super(fp);
@@ -459,6 +461,8 @@ public class $context.graphModelName$PasteFeature extends AbstractPasteFeature {
 		getDiagram().getFonts().add(cf);
 		return cf;
 	}
+
+	$context.cincoErrorGetSet$
 	
 }
 </string>

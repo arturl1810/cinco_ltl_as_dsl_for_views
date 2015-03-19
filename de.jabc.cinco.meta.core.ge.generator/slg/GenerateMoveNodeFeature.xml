@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>98ab2190-4ec2-4346-85ee-61b8c0d16099</id>
   <name>GenerateMoveNodeFeature</name>
-  <changecounter>206</changecounter>
+  <changecounter>213</changecounter>
   <sib>
     <id>a757414d-68f3-478e-a5f2-cbb249a4880a</id>
     <name>RunStringTemplate_1</name>
@@ -44,7 +44,11 @@ import de.jabc.cinco.meta.core.ge.style.model.movefeature.CincoMoveShapeFeature;
 import $context.packageName$.graphiti.*;
 import $context.importPath$.*;
 
+$context.cincoErrorImport$
+
 public class Move$context.node.name$Feature extends CincoMoveShapeFeature{
+
+	$context.cincoErrorField$
 
 	public Move$context.node.name$Feature(IFeatureProvider fp) {
 		super(fp);
@@ -54,12 +58,15 @@ public class Move$context.node.name$Feature extends CincoMoveShapeFeature{
 	@Override
 	public boolean canMoveShape(IMoveShapeContext context) {
 		Object o = getBusinessObjectForPictogramElement(context.getShape());
+		Object source = getBusinessObjectForPictogramElement(context.getSourceContainer());
 		Object target = getBusinessObjectForPictogramElement(context.getTargetContainer());
 		if ($context.isFixed$)
 			return false;
+		if (source != null &amp;&amp; source.equals(target))
+			return true;
 		$context.containerCheck$
-		
-		return super.canMoveShape(context);
+		$context.cincoErrorInvalidContainer$
+		return false;
 	}
 	
 	@Override
@@ -100,6 +107,8 @@ public class Move$context.node.name$Feature extends CincoMoveShapeFeature{
 
 		super.moveShape(context);
 	}
+
+	$context.cincoErrorGetSet$
 
 }
 </string>

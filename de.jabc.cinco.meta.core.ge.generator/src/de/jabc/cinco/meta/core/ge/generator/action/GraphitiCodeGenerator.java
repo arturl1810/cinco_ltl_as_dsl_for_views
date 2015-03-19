@@ -37,7 +37,6 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
@@ -50,7 +49,6 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
@@ -103,18 +101,23 @@ import style.NodeStyle;
 import style.Style;
 import style.Styles;
 import de.jabc.cinco.meta.core.ge.generator.Main;
+import de.jabc.cinco.meta.core.ge.style.model.errorhandling.CincoContainerCardinalityException;
+import de.jabc.cinco.meta.core.ge.style.model.errorhandling.CincoEdgeCardinalityInException;
+import de.jabc.cinco.meta.core.ge.style.model.errorhandling.CincoEdgeCardinalityOutException;
+import de.jabc.cinco.meta.core.ge.style.model.errorhandling.CincoInvalidCloneTargetException;
+import de.jabc.cinco.meta.core.ge.style.model.errorhandling.CincoInvalidContainerException;
+import de.jabc.cinco.meta.core.ge.style.model.errorhandling.CincoInvalidSourceException;
+import de.jabc.cinco.meta.core.ge.style.model.errorhandling.CincoInvalidTargetException;
+import de.jabc.cinco.meta.core.ge.style.model.errorhandling.ECincoError;
 import de.jabc.cinco.meta.core.mgl.generator.GenModelCreator;
 import de.jabc.cinco.meta.core.pluginregistry.PluginRegistry;
 import de.jabc.cinco.meta.core.ui.listener.MGLSelectionListener;
-import de.jabc.cinco.meta.core.utils.CincoUtils;
 import de.jabc.cinco.meta.core.utils.URIHandler;
 import de.jabc.cinco.meta.core.utils.projects.ProjectCreator;
 import de.metaframe.jabc.framework.execution.DefaultLightweightExecutionEnvironment;
 import de.metaframe.jabc.framework.execution.LightweightExecutionEnvironment;
 import de.metaframe.jabc.framework.execution.context.DefaultLightweightExecutionContext;
 import de.metaframe.jabc.framework.execution.context.LightweightExecutionContext;
-import de.metaframe.jabc.framework.sib.parameter.ContextKey;
-import de.metaframe.jabc.framework.sib.parameter.ContextKey.Scope;
 
 public class GraphitiCodeGenerator extends AbstractHandler {
 
@@ -253,6 +256,7 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 				context.put("eObjectType", EcorePackage.eINSTANCE.getEObject());
 				context.put("genGraphModelPackage", generatedGraphmodelPackage);
 				
+				
 				fqnToContext(context);
 				
 				LightweightExecutionEnvironment env = new DefaultLightweightExecutionEnvironment(context);
@@ -369,6 +373,14 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 		context.put("fqnStringInputStream", StringInputStream.class.getName());
 		context.put("fqnIOException", IOException.class.getName());
 		context.put("fqnCoreException", CoreException.class.getName());
+		context.put("fqnCincoContainerCardinalityException", CincoContainerCardinalityException.class.getName());
+		context.put("fqnCincoEdgeCardinalityInException", CincoEdgeCardinalityInException.class.getName());
+		context.put("fqnCincoEdgeCardinalityOutException", CincoEdgeCardinalityOutException.class.getName());
+		context.put("fqnCincoInvalidCloneTargetException", CincoInvalidCloneTargetException.class.getName());
+		context.put("fqnCincoInvalidContainerException", CincoInvalidContainerException.class.getName());
+		context.put("fqnCincoInvalidSourceException", CincoInvalidSourceException.class.getName());
+		context.put("fqnCincoInvalidTargetException", CincoInvalidTargetException.class.getName());
+		context.put("fqnECincoError", ECincoError.class.getName());
 		context.put("fqnTransactionalEditingDomain", TransactionalEditingDomain.class.getName());
 		context.put("fqnTransactionUtil", TransactionUtil.class.getName());
 		context.put("fqnRecordingCommand", RecordingCommand.class.getName());
@@ -414,6 +426,7 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 		context.put("fqnCreateEdgeFeaturePrefix", gModel.getPackage().concat(".graphiti.features.create.edges."));
 		context.put("fqnCreateContainerFeaturePrefix", gModel.getPackage().concat(".graphiti.features.create.containers."));
 		context.put("fqnAddFeaturePrefix", gModel.getPackage().concat(".graphiti.features.add."));
+		context.put("fqnMoveFeaturePrefix", gModel.getPackage().concat(".graphiti.features.move."));
 		context.put("fqnFeaturePrefix", gModel.getPackage().concat(".graphiti.features."));
 		
 		context.put("fqnDeleteFeature", IDeleteFeature.class.getName());

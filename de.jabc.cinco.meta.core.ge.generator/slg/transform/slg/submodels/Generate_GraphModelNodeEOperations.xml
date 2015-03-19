@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>079a4d5e-bab9-4273-8a05-29b4b4909c15</id>
   <name>Generate_GraphModelNodeEOperations</name>
-  <changecounter>459</changecounter>
+  <changecounter>515</changecounter>
   <sib>
     <id>1c733983-6c25-45cd-bded-1a4832127f58</id>
     <name>IsPrimeNode</name>
@@ -123,7 +123,13 @@ cc.setTargetContainer(($fqnContainerShape$) getPictogramElement());
 			this.getCRootElement().getMap().put(retval.getModelElement() ,retval);
 			this.getMap().put(retval.getModelElement() ,retval);
 		}
-	} else return null;
+	} else {
+		if (cf.getError().equals($fqnECincoError$.MAX_CARDINALITY))
+			throw new $fqnCincoContainerCardinalityException$(&quot;Cardinality of &apos;&quot; + this.getModelElement()+&quot;&apos; exceeded. Can not create $modelElementName$ in the specified container&quot;);
+		if (cf.getError().equals($fqnECincoError$.INVALID_CONTAINER))
+			throw new $fqnCincoContainerCardinalityException$(&quot;Invalid container&apos;&quot; + this.getModelElement()+&quot;&apos;. Can not create $modelElementName$ in the specified container&quot;);
+			
+	}
     
 return retval; </string>
     </parameter>
@@ -244,6 +250,8 @@ Creates and adds an $modelElementName$.
 @param yPos The y position of $modelElementName$&apos;s graphical representation in the diagram
 @param width The width position of $modelElementName$&apos;s graphical representation in the diagram
 @param height The height position of $modelElementName$&apos;s graphical representation in the diagram
+
+@exception $fqnCincoContainerCardinalityException$ if the maximum number of contained nodes is reached
 
 @return New $modelElementName$ instance if create and add is possible, null otherwise.</string>
     </parameter>
@@ -415,6 +423,8 @@ Creates and adds an $modelElementName$.
 Creates and adds a new instance of $modelElementName$ if possible.
 @param xPos The x position of $modelElementName$&apos;s graphical representation in the diagram.
 @param yPos The y position of $modelElementName$&apos;s graphical representation in the diagram.
+
+@exception $fqnCincoContainerCardinalityException$ if the maximum number of contained nodes is reached
 
 @return New $modelElementName$ instance if create and add is possible, null otherwise.</string>
     </parameter>

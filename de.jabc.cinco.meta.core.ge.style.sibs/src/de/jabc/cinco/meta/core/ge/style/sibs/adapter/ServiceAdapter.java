@@ -963,7 +963,8 @@ public class ServiceAdapter {
 			}
 			
 			sbType.append("if (source instanceof " + n.getName() +") {\n\t");
-			sbType.append("if ("+sbBound.toString()+")\n\t\treturn true;\n}");
+			sbType.append("if ("+sbBound.toString()+")\n\t\treturn true;\n\t"
+					+ "else setError(ECincoError.MAX_OUT);\n} ");
 			
 			context.put(code, sbType.toString());
 			return Branches.DEFAULT;
@@ -1007,8 +1008,9 @@ public class ServiceAdapter {
 			}
 			
 			sbType.append("if (target instanceof " + n.getName() +") {\n\t");
-			sbType.append("if ("+sbBound.toString()+")\n\t\treturn true;\n}");
-			
+			sbType.append("if ("+sbBound.toString()+")\n\t\treturn true;\n\t"
+					+ "else setError(ECincoError.MAX_IN);\n}");
+
 			context.put(code, sbType.toString());
 			return Branches.DEFAULT;
 
