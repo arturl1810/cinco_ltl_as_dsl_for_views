@@ -21,6 +21,9 @@
             mgl_dependent="true"
             plugin_name="executor">
       </used_plugin>
+      <node-annotation
+            recognized-annotation="executableNode">
+      </node-annotation>
    </extension>
 
 </fragment>

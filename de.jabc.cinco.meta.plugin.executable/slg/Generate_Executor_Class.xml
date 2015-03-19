@@ -2,14 +2,14 @@
 <model version="2.1">
   <id>27030019-1698-4dc3-8a57-7a954a335761</id>
   <name>Generate Executor Class</name>
-  <changecounter>10</changecounter>
+  <changecounter>13</changecounter>
   <sib>
     <id>396f5357-eafa-40e0-9c61-6dbce6bf90ef</id>
     <name>RunStringTemplate</name>
     <label>RunStringTemplate</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>280.0,303.0</position>
+    <position>445.0,303.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -31,11 +31,14 @@
 import graphmodel.GraphModel;
 import graphmodel.Node;
 import de.jabc.cinco.plugin.executor.IExecutor;
-
+$executableNodeImports$
 public class $graphModelName$Executor implements IExecutor {
 
 	public void startExecution(GraphModel graphModel) throws Exception {
-		// TODO Auto-generated method stub
+		Node node = getStartNode();
+		while(node!=null){
+			execute(node);
+		}
 		
 	}
 
@@ -45,9 +48,11 @@ public class $graphModelName$Executor implements IExecutor {
 	}
 
 	public Node execute(Node node) {
-		// TODO Auto-generated method stub
+		$nodeExecution$
 		return null;
 	}
+
+	$executeMethods$
 
 }
 </string>
@@ -91,9 +96,10 @@ public class $graphModelName$Executor implements IExecutor {
   </sib>
   <edge>
     <source>f2d77425-8493-44d1-91aa-ec1774aa53b8</source>
-    <target>396f5357-eafa-40e0-9c61-6dbce6bf90ef</target>
-    <point>90.0,330.0</point>
-    <point>340.0,327.0</point>
+    <target>57b3c88f-cc48-40ac-8859-bc754a5c0d88</target>
+    <point>108.0,331.32</point>
+    <point>295.0,431.1333333333333</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
@@ -102,7 +108,7 @@ public class $graphModelName$Executor implements IExecutor {
     <label>WriteJavaFile</label>
     <sib-uid>genesys-sibs/WriteJavaFile</sib-uid>
     <taxonomy>de.jabc.sib.genesys.WriteJavaFile</taxonomy>
-    <position>628.0,303.0</position>
+    <position>748.0,303.0</position>
     <parameter name="baseDirectory">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -159,9 +165,33 @@ public class $graphModelName$Executor implements IExecutor {
   <edge>
     <source>396f5357-eafa-40e0-9c61-6dbce6bf90ef</source>
     <target>f5963364-f482-46cf-a1e6-226b1a8fac8e</target>
-    <point>345.0,330.0</point>
-    <point>549.0,336.0</point>
+    <point>465.0,330.0</point>
+    <point>795.0,330.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
+  </edge>
+  <sib>
+    <id>57b3c88f-cc48-40ac-8859-bc754a5c0d88</id>
+    <name>GraphSIB</name>
+    <label>Generate Execute Methods</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>209.5,301.0</position>
+    <finalbranches>error</finalbranches>
+    <finalbranches>exit</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>bab4396b-bfc9-4667-97d4-f3b034b87129</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Generate Execute Methods</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>57b3c88f-cc48-40ac-8859-bc754a5c0d88</source>
+    <target>396f5357-eafa-40e0-9c61-6dbce6bf90ef</target>
+    <point>270.0,330.0</point>
+    <point>483.0,335.0</point>
+    <branch>exit</branch>
   </edge>
   <values/>
   <branch>
@@ -183,5 +213,10 @@ public class $graphModelName$Executor implements IExecutor {
     <name>error</name>
     <branch>error</branch>
     <sib>f5963364-f482-46cf-a1e6-226b1a8fac8e</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>57b3c88f-cc48-40ac-8859-bc754a5c0d88</sib>
   </branch>
 </model>
