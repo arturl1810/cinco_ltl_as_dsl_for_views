@@ -6,6 +6,8 @@ import org.eclipse.graphiti.features.context.IMoveShapeContext;
 import org.eclipse.graphiti.features.context.impl.MoveShapeContext;
 import org.eclipse.graphiti.features.impl.DefaultMoveShapeFeature;
 import org.eclipse.graphiti.internal.datatypes.impl.LocationImpl;
+import org.eclipse.graphiti.mm.MmFactory;
+import org.eclipse.graphiti.mm.pictograms.PictogramsFactory;
 import org.eclipse.graphiti.ui.services.GraphitiUi;
 
 public class CincoMoveShapeFeature extends DefaultMoveShapeFeature {

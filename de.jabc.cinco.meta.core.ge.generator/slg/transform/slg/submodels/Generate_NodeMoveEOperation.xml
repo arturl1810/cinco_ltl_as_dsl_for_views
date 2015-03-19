@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>53c0c093-ef7e-452a-ae07-8946504ff744</id>
   <name>Generate_NodeMoveEOperation</name>
-  <changecounter>233</changecounter>
+  <changecounter>321</changecounter>
   <edge>
     <source>45937ff9-8a61-426a-ad52-785723db3d9e</source>
     <target>33b4498b-317c-424c-a417-153e95dd0cd4</target>
@@ -72,7 +72,9 @@
 Moves this node to the specified container. The node is placed at (x,y). ATTENTION: Each container element has an own coordinate system!
 @param container The target container
 @param x The new x position
-@param y The new y position</string>
+@param y The new y position
+
+@exception $fqnCincoContainerCardinalityException$ if the maximum number of contained nodes is reached</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
@@ -168,10 +170,13 @@ $fqnMoveShapeContext$ mc = new $fqnMoveShapeContext$(($fqnShape$)pes.get(0));
 	mc.setLocation(x, y);
 	mc.setTargetContainer(($fqnContainerShape$) container.getPictogramElement());
 
-	$fqnMoveShapeFeature$ mf = provider.getMoveShapeFeature(mc);
+	$fqnMoveFeaturePrefix$Move$modelElementName$Feature mf = ($fqnMoveFeaturePrefix$Move$modelElementName$Feature) provider.getMoveShapeFeature(mc);
 
 	if (mf.canMoveShape(mc)) {
 		mf.moveShape(mc);
+	} else {
+		if (mf.getError().equals($fqnECincoError$.MAX_CARDINALITY))
+			throw new $fqnCincoContainerCardinalityException$(&quot;Cardinality of &apos;&quot; + container.getModelElement()+&quot;&apos; exceeded. Can not create $modelElementName$ in the specified container&quot;);
 	}
 }
 </string>
@@ -361,10 +366,10 @@ $fqnMoveShapeContext$ mc = new $fqnMoveShapeContext$(($fqnShape$)pes.get(0));
   </edge>
   <edge>
     <source>acba7bb4-87d5-4ece-b699-d14be453cad5</source>
-    <target>8c7d4b5a-b393-4dac-b03e-db89edf3401a</target>
+    <target>bf43902a-6b9c-47b1-8922-5f33c2c4267b</target>
     <spline/>
-    <point>612.0,843.0</point>
-    <point>852.0,843.0</point>
+    <point>635.0,850.0</point>
+    <point>717.0,921.6</point>
     <labelposition>560.9499762226635,-4.380757600699532</labelposition>
     <branch>default</branch>
   </edge>
@@ -437,7 +442,9 @@ $fqnMoveShapeContext$ mc = new $fqnMoveShapeContext$(($fqnShape$)pes.get(0));
 Moves this node to the specified container. The node is placed at (x,y). ATTENTION: Each container element has an own coordinate system!
 @param container The target container
 @param x The new x position
-@param y The new y position</string>
+@param y The new y position
+
+@exception $fqnCincoContainerCardinalityException$ if the maximum number of contained nodes is reached</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
@@ -533,10 +540,13 @@ $fqnMoveShapeContext$ mc = new $fqnMoveShapeContext$(($fqnShape$)pes.get(0));
 	mc.setLocation(x, y);
 	mc.setTargetContainer(($fqnContainerShape$) container.getPictogramElement());
 
-	$fqnMoveShapeFeature$ mf = provider.getMoveShapeFeature(mc);
+	$fqnMoveFeaturePrefix$Move$modelElementName$Feature mf = ($fqnMoveFeaturePrefix$Move$modelElementName$Feature) provider.getMoveShapeFeature(mc);
 
 	if (mf.canMoveShape(mc)) {
 		mf.moveShape(mc);
+	} else {
+		if (mf.getError().equals($fqnECincoError$.MAX_CARDINALITY))
+			throw new $fqnCincoContainerCardinalityException$(&quot;Cardinality of &apos;&quot; + container.getModelElement() +&quot;&apos; exceeded. Can not create $modelElementName$ in the specified container&quot;);
 	}
 }
 </string>
@@ -592,9 +602,9 @@ $fqnMoveShapeContext$ mc = new $fqnMoveShapeContext$(($fqnShape$)pes.get(0));
   </edge>
   <edge>
     <source>5f3a2fcd-9de2-4995-99c9-0cce96734b96</source>
-    <target>3ac2d309-fec9-4dce-8dff-32108b1a86ef</target>
-    <point>150.0,566.0</point>
-    <point>150.0,646.0</point>
+    <target>e2605b87-ec6e-41c3-bb99-d8ad1077d708</target>
+    <point>170.0,559.1428571428571</point>
+    <point>237.0,597.2571428571429</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -665,9 +675,13 @@ ac.setLocation(clone.getX(), clone.getY());
 ac.setWidth(clone.getWidth());
 ac.setHeight(clone.getHeight());
 ac.setTargetContainer(($fqnContainerShape$) target.getPictogramElement());
+
+$fqnCreateNodeFeaturePrefix$Create$modelElementName$Feature cf = new $fqnCreateNodeFeaturePrefix$Create$modelElementName$Feature(provider);
+$fqnCreateContext$ cc = new $fqnCreateContext$();
+cc.setTargetContainer(($fqnContainerShape$)target.getPictogramElement());
 	  	
 final $fqnAddFeaturePrefix$Add$modelElementName$Feature af = ($fqnAddFeaturePrefix$Add$modelElementName$Feature) provider.getAddFeature(ac);
-if (af != null &amp;&amp; af.canAdd(ac)) {
+if (af != null &amp;&amp; af.canAdd(ac) &amp;&amp; cf.canCreate(cc)) {
 	$fqnTransactionalEditingDomain$ dom = $fqnTransactionalEditingDomain$.Factory.INSTANCE.getEditingDomain(target.getModelElement().eResource().getResourceSet());
       	if (dom == null)
 		dom = $fqnTransactionalEditingDomain$.Factory.INSTANCE.createEditingDomain(target.getModelElement().eResource().getResourceSet());
@@ -683,6 +697,9 @@ if (af != null &amp;&amp; af.canAdd(ac)) {
 	}
 	});
 	
+} else {
+	if (cf.getError().equals($fqnECincoError$.MAX_CARDINALITY))
+			throw new $fqnCincoContainerCardinalityException$(&quot;Cardinality of &apos;&quot; + target.getModelElement()+&quot;&apos; exceeded. Can not create &apos;&quot; + this.getModelElement()+&quot;&apos;&apos; in the specified container&quot;);
 }
 
 return clone;</string>
@@ -814,7 +831,7 @@ Creates an clone (persisting the modelElement&apos;s id) of this modelElement</s
     <label>CreateClone</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>351.0,526.0</position>
+    <position>291.0,466.0</position>
     <parameter name="eClassKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -868,9 +885,13 @@ ac.setLocation(clone.getX(), clone.getY());
 ac.setWidth(clone.getWidth());
 ac.setHeight(clone.getHeight());
 ac.setTargetContainer(($fqnContainerShape$) target.getPictogramElement());
-	  	
+
+$fqnCreateNodeFeaturePrefix$Create$modelElementName$Feature cf = new $fqnCreateNodeFeaturePrefix$Create$modelElementName$Feature(provider);
+$fqnCreateContext$ cc = new $fqnCreateContext$();
+cc.setTargetContainer(target.getPictogramElement());
+
 final $fqnAddFeaturePrefix$Add$modelElementName$Feature af = ($fqnAddFeaturePrefix$Add$modelElementName$Feature) provider.getAddFeature(ac);
-if (af != null &amp;&amp; af.canAdd(ac)) {
+if (af != null &amp;&amp; af.canAdd(ac) &amp;&amp; cf.canCreate(cc)) {
 	$fqnTransactionalEditingDomain$ dom = $fqnTransactionalEditingDomain$.Factory.INSTANCE.getEditingDomain(target.getModelElement().eResource().getResourceSet());
       	if (dom == null)
 		dom = $fqnTransactionalEditingDomain$.Factory.INSTANCE.createEditingDomain(target.getModelElement().eResource().getResourceSet());
@@ -885,6 +906,9 @@ if (af != null &amp;&amp; af.canAdd(ac)) {
 		target.getMap().put(clone.getModelElement(), clone);
 	}
 	});
+}  else {
+	if (cf.getError().equals($fqnECincoError$.MAX_CARDINALITY))
+			throw new $fqnCincoContainerCardinalityException$(&quot;Cardinality of &apos;&quot; + target.getModelElement()+&quot;&apos; exceeded. Can not create &apos;&quot; + this.getModelElement()+&quot;&apos;&apos; in the specified container&quot;);
 }
 
 return clone;</string>
@@ -1009,6 +1033,295 @@ Creates an clone (persisting the modelElement&apos;s id) of this modelElement</s
     <point>619.0,69.0</point>
     <branch>default</branch>
   </edge>
+  <edge>
+    <source>bf43902a-6b9c-47b1-8922-5f33c2c4267b</source>
+    <target>8c7d4b5a-b393-4dac-b03e-db89edf3401a</target>
+    <point>753.0,921.6</point>
+    <point>835.0,850.0</point>
+    <branch>Node</branch>
+  </edge>
+  <sib>
+    <id>bf43902a-6b9c-47b1-8922-5f33c2c4267b</id>
+    <name>SwitchModelElement</name>
+    <label>SwitchModelElement</label>
+    <sib-uid>mgl/mgl/SwitchModelElement</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.SwitchModelElement</taxonomy>
+    <position>793.5,918.0</position>
+    <parameter name="eObjectKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>eObjectKey</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>Edge</finalbranches>
+    <finalbranches>GraphModel</finalbranches>
+    <finalbranches>GraphicalModelElement</finalbranches>
+    <finalbranches>Node</finalbranches>
+    <finalbranches>NodeContainer</finalbranches>
+    <finalbranches>UserDefinedType</finalbranches>
+    <finalbranches>error</finalbranches>
+    <finalbranches>other</finalbranches>
+  </sib>
+  <sib>
+    <id>c438ef0b-15a9-4825-ba23-eea6454a0672</id>
+    <name>GraphSIB_6</name>
+    <label>CreateClone</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>951.0,811.0</position>
+    <parameter name="eClassKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>eClassKey</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="eOperatiobUpperBound">
+      <int>1</int>
+    </parameter>
+    <parameter name="eOperationLowerBound">
+      <int>0</int>
+    </parameter>
+    <parameter name="eOperationNameKey">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>clone</expression>
+          <clazz>java.lang.String</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="eOperationeTypeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>eOperationTypeKey</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>false</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>final $apiPrefix$$modelElementName$ clone = $fqnAPIFactory$.eINSTANCE.create$apiPrefix$$modelElementName$();
+$fqnArrayList$&lt;$fqnPictogramElement$&gt; pe = new $fqnArrayList$&lt;&gt;();
+pe.add(this.getPictogramElement());
+$fqnSet$&lt;$fqnPictogramElement$&gt; set = $fqnFeaturePrefix$$graphModelName$CopyUtils.targetCopy(pe, getDiagram());
+if (set != null &amp;&amp; !set.isEmpty()) {
+	$fqnPictogramElement$ copy = set.iterator().next();
+	clone.setModelElement(($fqnModelElement$) copy.getLink().getBusinessObjects().get(0));
+	clone.setPictogramElement(copy);
+}
+
+$fqnDiagram$ d = ($fqnDiagram$) target.getDiagram();
+$fqnFeatureProvider$ provider = ($fqnFeatureProvider$) $fqnGraphitiUi$.getExtensionManager().createFeatureProvider(d);
+	    
+final $fqnAddContext$ ac = new $fqnAddContext$();
+ac.setNewObject(clone.getModelElement());
+ac.setLocation(clone.getX(), clone.getY());
+ac.setWidth(clone.getWidth());
+ac.setHeight(clone.getHeight());
+ac.setTargetContainer(($fqnContainerShape$) target.getPictogramElement());
+
+$fqnCreateContainerFeaturePrefix$Create$modelElementName$Feature cf = new $fqnCreateContainerFeaturePrefix$Create$modelElementName$Feature(provider);
+$fqnCreateContext$ cc = new $fqnCreateContext$();
+cc.setTargetContainer(($fqnContainerShape$)target.getPictogramElement());
+	  	
+final $fqnAddFeaturePrefix$Add$modelElementName$Feature af = ($fqnAddFeaturePrefix$Add$modelElementName$Feature) provider.getAddFeature(ac);
+if (af != null &amp;&amp; af.canAdd(ac) &amp;&amp; cf.canCreate(cc)) {
+	$fqnTransactionalEditingDomain$ dom = $fqnTransactionalEditingDomain$.Factory.INSTANCE.getEditingDomain(target.getModelElement().eResource().getResourceSet());
+      	if (dom == null)
+		dom = $fqnTransactionalEditingDomain$.Factory.INSTANCE.createEditingDomain(target.getModelElement().eResource().getResourceSet());
+	dom.getCommandStack().execute(new $fqnRecordingCommand$(dom) {
+        
+	@Override
+	protected void doExecute() {
+		clone.setPictogramElement(af.add(ac));
+		clone.setContainer(target);
+		target.getCRootElement().getMap().put(clone.getModelElement(), clone);
+		target.getCRootElement().getModelElement().getModelElements().add(clone.getModelElement());
+		target.getMap().put(clone.getModelElement(), clone);
+	}
+	});
+	
+} else {
+	if (cf.getError().equals($fqnECincoError$.MAX_CARDINALITY))
+			throw new $fqnCincoContainerCardinalityException$(&quot;Cardinality of &apos;&quot; + target.getModelElement()+&quot;&apos; exceeded. Can not create &apos;&quot; + this.getModelElement()+&quot;&apos;&apos; in the specified container&quot;);
+}
+
+return clone;</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Create EOperation</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>bf43902a-6b9c-47b1-8922-5f33c2c4267b</source>
+    <target>c438ef0b-15a9-4825-ba23-eea6454a0672</target>
+    <point>855.0,945.0</point>
+    <point>990.0,838.0</point>
+    <branch>NodeContainer</branch>
+  </edge>
+  <edge>
+    <source>c438ef0b-15a9-4825-ba23-eea6454a0672</source>
+    <target>81bed549-c906-41cc-ac55-ec6863cda23e</target>
+    <point>990.0,840.0</point>
+    <point>876.0,754.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>e2605b87-ec6e-41c3-bb99-d8ad1077d708</id>
+    <name>SwitchModelElement_1</name>
+    <label>SwitchModelElement</label>
+    <sib-uid>mgl/mgl/SwitchModelElement</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.SwitchModelElement</taxonomy>
+    <position>328.5,588.0</position>
+    <parameter name="eObjectKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>eObjectKey</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>Edge</finalbranches>
+    <finalbranches>GraphModel</finalbranches>
+    <finalbranches>GraphicalModelElement</finalbranches>
+    <finalbranches>Node</finalbranches>
+    <finalbranches>NodeContainer</finalbranches>
+    <finalbranches>UserDefinedType</finalbranches>
+    <finalbranches>error</finalbranches>
+    <finalbranches>other</finalbranches>
+  </sib>
+  <edge>
+    <source>e2605b87-ec6e-41c3-bb99-d8ad1077d708</source>
+    <target>c20fc208-4134-4d5a-8b3c-0ed50152b0be</target>
+    <point>225.0,735.0</point>
+    <point>360.0,615.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>NodeContainer</branch>
+  </edge>
+  <sib>
+    <id>c20fc208-4134-4d5a-8b3c-0ed50152b0be</id>
+    <name>GraphSIB_7</name>
+    <label>CreateClone</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>411.0,466.0</position>
+    <parameter name="eClassKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>eClassKey</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="eOperatiobUpperBound">
+      <int>1</int>
+    </parameter>
+    <parameter name="eOperationLowerBound">
+      <int>0</int>
+    </parameter>
+    <parameter name="eOperationNameKey">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>clone</expression>
+          <clazz>java.lang.String</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="eOperationeTypeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>eOperationTypeKey</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>false</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>final $apiPrefix$$modelElementName$ clone = $fqnAPIFactory$.eINSTANCE.create$apiPrefix$$modelElementName$();
+$fqnArrayList$&lt;$fqnPictogramElement$&gt; pe = new $fqnArrayList$&lt;&gt;();
+pe.add(this.getPictogramElement());
+$fqnSet$&lt;$fqnPictogramElement$&gt; set = $fqnFeaturePrefix$$graphModelName$CopyUtils.targetCopy(pe, getDiagram());
+if (set != null &amp;&amp; !set.isEmpty()) {
+	$fqnPictogramElement$ copy = set.iterator().next();
+	clone.setModelElement(($fqnModelElement$) copy.getLink().getBusinessObjects().get(0));
+	clone.setPictogramElement(copy);
+}
+
+$fqnDiagram$ d = ($fqnDiagram$) target.getDiagram();
+$fqnFeatureProvider$ provider = ($fqnFeatureProvider$) $fqnGraphitiUi$.getExtensionManager().createFeatureProvider(d);
+	    
+final $fqnAddContext$ ac = new $fqnAddContext$();
+ac.setNewObject(clone.getModelElement());
+ac.setLocation(clone.getX(), clone.getY());
+ac.setWidth(clone.getWidth());
+ac.setHeight(clone.getHeight());
+ac.setTargetContainer(($fqnContainerShape$) target.getPictogramElement());
+
+$fqnCreateContainerFeaturePrefix$Create$modelElementName$Feature cf = new $fqnCreateContainerFeaturePrefix$Create$modelElementName$Feature(provider);
+$fqnCreateContext$ cc = new $fqnCreateContext$();
+cc.setTargetContainer(($fqnContainerShape$)target.getPictogramElement());
+	  	
+final $fqnAddFeaturePrefix$Add$modelElementName$Feature af = ($fqnAddFeaturePrefix$Add$modelElementName$Feature) provider.getAddFeature(ac);
+if (af != null &amp;&amp; af.canAdd(ac) &amp;&amp; cf.canCreate(cc)) {
+	$fqnTransactionalEditingDomain$ dom = $fqnTransactionalEditingDomain$.Factory.INSTANCE.getEditingDomain(target.getModelElement().eResource().getResourceSet());
+      	if (dom == null)
+		dom = $fqnTransactionalEditingDomain$.Factory.INSTANCE.createEditingDomain(target.getModelElement().eResource().getResourceSet());
+	dom.getCommandStack().execute(new $fqnRecordingCommand$(dom) {
+        
+	@Override
+	protected void doExecute() {
+		clone.setPictogramElement(af.add(ac));
+		clone.setContainer(target);
+		target.getCRootElement().getMap().put(clone.getModelElement(), clone);
+		target.getCRootElement().getModelElement().getModelElements().add(clone.getModelElement());
+		target.getMap().put(clone.getModelElement(), clone);
+	}
+	});
+	
+} else {
+	if (cf.getError().equals($fqnECincoError$.MAX_CARDINALITY))
+			throw new $fqnCincoContainerCardinalityException$(&quot;Cardinality of &apos;&quot; + target.getModelElement()+&quot;&apos; exceeded. Can not create &apos;&quot; + this.getModelElement()+&quot;&apos;&apos; in the specified container&quot;);
+}
+
+return clone;</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Create EOperation</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>e2605b87-ec6e-41c3-bb99-d8ad1077d708</source>
+    <target>3ac2d309-fec9-4dce-8dff-32108b1a86ef</target>
+    <point>255.0,615.0</point>
+    <point>359.0,551.0</point>
+    <branch>Node</branch>
+  </edge>
+  <edge>
+    <source>c20fc208-4134-4d5a-8b3c-0ed50152b0be</source>
+    <target>5a360343-dfbc-4f45-b10d-bf8bf2dd2201</target>
+    <point>450.0,495.0</point>
+    <point>377.0,396.0</point>
+    <branch>default</branch>
+  </edge>
   <parameter>
     <name>eClassKey</name>
     <field>eClassKey</field>
@@ -1048,6 +1361,36 @@ Creates an clone (persisting the modelElement&apos;s id) of this modelElement</s
     <name>eOperationeTypeKey</name>
     <field>eOperationeTypeKey</field>
     <sib>3ac2d309-fec9-4dce-8dff-32108b1a86ef</sib>
+  </parameter>
+  <parameter>
+    <name>eClassKey</name>
+    <field>eClassKey</field>
+    <sib>c438ef0b-15a9-4825-ba23-eea6454a0672</sib>
+  </parameter>
+  <parameter>
+    <name>eOperationeTypeKey</name>
+    <field>eOperationeTypeKey</field>
+    <sib>c438ef0b-15a9-4825-ba23-eea6454a0672</sib>
+  </parameter>
+  <parameter>
+    <name>modelElementKey</name>
+    <field>eObjectKey</field>
+    <sib>bf43902a-6b9c-47b1-8922-5f33c2c4267b</sib>
+  </parameter>
+  <parameter>
+    <name>modelElementKey</name>
+    <field>eObjectKey</field>
+    <sib>e2605b87-ec6e-41c3-bb99-d8ad1077d708</sib>
+  </parameter>
+  <parameter>
+    <name>eClassKey</name>
+    <field>eClassKey</field>
+    <sib>c20fc208-4134-4d5a-8b3c-0ed50152b0be</sib>
+  </parameter>
+  <parameter>
+    <name>eOperationeTypeKey</name>
+    <field>eOperationeTypeKey</field>
+    <sib>c20fc208-4134-4d5a-8b3c-0ed50152b0be</sib>
   </parameter>
   <values>
     <entry>

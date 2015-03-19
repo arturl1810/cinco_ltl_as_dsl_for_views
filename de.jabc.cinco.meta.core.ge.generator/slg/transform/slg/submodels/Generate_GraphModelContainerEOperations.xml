@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>68703e35-7ca0-4d4e-8241-4cd302c23c07</id>
   <name>Generate_GraphModelContainerEOperations</name>
-  <changecounter>235</changecounter>
+  <changecounter>247</changecounter>
   <sib>
     <id>17cbc50b-0955-4e1d-bc4b-30010287ec07</id>
     <name>GraphSIB_8</name>
@@ -69,8 +69,11 @@ cc.setTargetContainer(($fqnContainerShape$) getPictogramElement());
 			this.getCRootElement().getMap().put(retval.getModelElement() ,retval);
 			this.getMap().put(retval.getModelElement() ,retval);
 		}
-	} else return null;
-    
+	} else {
+		if (cf.getError().equals($fqnECincoError$.MAX_CARDINALITY))
+			throw new $fqnCincoContainerCardinalityException$(&quot;Cardinality of &apos;&quot; + this.getModelElement()+&quot;&apos; exceeded. Can not create $modelElementName$ in the specified container&quot;);
+	}
+
 return retval; </string>
     </parameter>
     <finalbranches>default</finalbranches>
@@ -156,6 +159,8 @@ Creates and adds an $modelElementName$.
 @param x The y position of $modelElementName$&apos;s graphical representation in the diagram
 @param width The width position of $modelElementName$&apos;s graphical representation in the diagram
 @param height The height position of $modelElementName$ graphical representation in the diagram
+
+@exception $fqnCincoContainerCardinalityException$ if the maximum number of contained nodes is reached
 
 @return New $modelElementName$ instance if create and add is possible, null otherwise.</string>
     </parameter>
@@ -500,6 +505,8 @@ return retval;</string>
 Creates and adds a new instance of $modelElementName$ if possible.
 @param x The x position of $modelElementName$&apos;s graphical representation in the diagram.
 @param x The y position of $modelElementName$&apos;s graphical representation in the diagram.
+
+@exception $fqnCincoContainerCardinalityException$ if the maximum number of contained nodes is reached
 
 @return New $modelElementName$ instance if create and add is possible, null otherwise.</string>
     </parameter>

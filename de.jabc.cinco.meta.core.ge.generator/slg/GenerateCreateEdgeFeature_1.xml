@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>21d264a3-a3d0-485e-b5f9-5f9c29fffccf</id>
   <name>GenerateCreateEdgeFeature_1</name>
-  <changecounter>156</changecounter>
+  <changecounter>186</changecounter>
   <sib>
     <id>11d0666f-5a7a-42b8-b045-2c132c173d82</id>
     <name>PutExpression</name>
@@ -408,8 +408,12 @@ import org.eclipse.graphiti.features.context.*;
 import org.eclipse.graphiti.features.context.impl.*;
 import org.eclipse.graphiti.mm.pictograms.*;
 
+$context.cincoErrorImport$
+
 public class Create$context.edgeName$Feature extends AbstractCreateConnectionFeature {
 	
+	$context.cincoErrorField$
+
 	public Create$context.edgeName$Feature(IFeatureProvider fp) {
 		super(fp, &quot;$context.edgeName$&quot;, &quot;Create a new edge: $context.edgeName$&quot;);
 	}
@@ -482,6 +486,8 @@ public class Create$context.edgeName$Feature extends AbstractCreateConnectionFea
 		$context.targetCode$
 		return false;
 	}
+
+	$context.cincoErrorGetSet$
 }</string>
     </parameter>
     <finalbranches>default</finalbranches>

@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>586b7b70-5c30-487f-aa09-ffe8208bf019</id>
   <name>GenerateReconnectFeatures</name>
-  <changecounter>273</changecounter>
+  <changecounter>275</changecounter>
   <sib>
     <id>cb541589-b45f-430c-a56b-1cebe00059bf</id>
     <name>PutExpression</name>
@@ -336,8 +336,11 @@ import org.eclipse.graphiti.features.impl.DefaultReconnectionFeature;
 import org.eclipse.graphiti.mm.pictograms.Anchor;
 
 import $context.importPath$.*;
+$context.cincoErrorImport$
 
 public class Reconnect$context.edge.name$Feature extends DefaultReconnectionFeature{
+
+	$context.cincoErrorField$
 
 	public Reconnect$context.edge.name$Feature(IFeatureProvider fp) {
 		super(fp);
@@ -393,6 +396,8 @@ public class Reconnect$context.edge.name$Feature extends DefaultReconnectionFeat
 		$context.targetCode$
 		return false;
 	}
+
+	$context.cincoErrorGetSet$
 	
 }
 </string>
