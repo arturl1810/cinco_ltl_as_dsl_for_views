@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: ConflictView
-Bundle-SymbolicName: ${ConflictViewPackage};singleton:=true
+Bundle-SymbolicName: ${ViewPackage};singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: ${ConflictViewPackage}.Activator
+Bundle-Activator: ${ViewPackage}.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  info.scce.cinco.product.${GraphModelName?lower_case}.mcam,

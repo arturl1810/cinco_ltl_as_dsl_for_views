@@ -148,21 +148,21 @@ public class McamImplementationGenerator {
 
 					if (element instanceof Edge) {
 						data.put("ModelElementType", "Edge");
-						generateAddEdgeChangeModule((Edge) element);
-						generateDeleteEdgeChangeModule((Edge) element);
-						generateSourceTargetChangeModule((Edge) element);
+//						generateAddEdgeChangeModule((Edge) element);
+//						generateDeleteEdgeChangeModule((Edge) element);
+//						generateSourceTargetChangeModule((Edge) element);
 					}
 					if (element instanceof Node) {
 						data.put("ModelElementType", "Node");
 						generateAddElementChangeModule(element);
 						generateDeleteElementChangeModule(element);
-						generateMoveElementChangeModule(element);
+//						generateMoveElementChangeModule(element);
 					}
 					if (element instanceof NodeContainer) {
 						data.put("ModelElementType", "Container");
-						generateAddElementChangeModule(element);
-						generateDeleteElementChangeModule(element);
-						generateMoveElementChangeModule(element);
+//						generateAddElementChangeModule(element);
+//						generateDeleteElementChangeModule(element);
+//						generateMoveElementChangeModule(element);
 					}
 
 				}
@@ -245,13 +245,10 @@ public class McamImplementationGenerator {
 		HashSet<ModelElement> possibleSources = new HashSet<>();
 
 		for (Node node : gModel.getNodes()) {
-			System.out.println(node.getName());
-			System.out.println(node.getIncomingEdgeConnections());
 			for (IncomingEdgeElementConnection incEdge : node
 					.getIncomingEdgeConnections()) {
 				if (incEdge.eCrossReferences().size() > 0) {
 					for (EObject eObj : incEdge.eCrossReferences()) {
-						System.out.println(((ModelElement) eObj).getName());
 						if (element.getName().equals(
 								((ModelElement) eObj).getName())) {
 							possibleSources.add(node);
@@ -265,13 +262,10 @@ public class McamImplementationGenerator {
 		}
 
 		for (NodeContainer container : gModel.getNodeContainers()) {
-			System.out.println(container.getName());
-			System.out.println(container.getIncomingEdgeConnections());
 			for (IncomingEdgeElementConnection incEdge : container
 					.getIncomingEdgeConnections()) {
 				if (incEdge.eCrossReferences().size() > 0) {
 					for (EObject eObj : incEdge.eCrossReferences()) {
-						System.out.println(((ModelElement) eObj).getName());
 						if (element.getName().equals(
 								((ModelElement) eObj).getName())) {
 							possibleSources.add(container);

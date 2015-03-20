@@ -1,6 +1,6 @@
-package ${ConflictViewPackage};
+package ${ViewPackage};
 
-import info.scce.cinco.product.${GraphModelName?lower_case}.mcam.conflictview.util.ResourceChangeListener;
+import ${ViewPackage}.util.ResourceChangeListener;
 
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
@@ -16,7 +16,7 @@ import org.osgi.framework.BundleContext;
 public class ${ClassName} extends AbstractUIPlugin {
 
 	// The plug-in ID
-	public static final String PLUGIN_ID = "${ConflictViewPackage}"; //$NON-NLS-1$
+	public static final String PLUGIN_ID = "${ViewPackage}"; //$NON-NLS-1$
 
 	// The shared instance
 	private static Activator plugin;

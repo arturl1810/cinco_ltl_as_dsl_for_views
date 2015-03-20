@@ -1,4 +1,4 @@
-package ${ConflictViewPackage}.util;
+package ${ViewPackage}.util;
 
 import java.io.IOException;
 import java.io.InputStream;

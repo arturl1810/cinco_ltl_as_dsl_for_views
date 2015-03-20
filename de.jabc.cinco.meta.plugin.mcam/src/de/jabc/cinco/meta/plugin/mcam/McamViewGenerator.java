@@ -10,8 +10,8 @@ import org.eclipse.core.resources.IProject;
 
 import freemarker.template.TemplateException;
 
-public class McamConflictViewGenerator {
-	public static String conflictViewPackageSuffix = "conflictview";
+public class McamViewGenerator {
+	public static String viewPackageSuffix = "views";
 	
 	private String graphModelName = null;
 
@@ -21,7 +21,7 @@ public class McamConflictViewGenerator {
 
 	public Map<String, Object> data = new HashMap<>();
 
-	public McamConflictViewGenerator(GraphModel gModel, IProject project,
+	public McamViewGenerator(GraphModel gModel, IProject project,
 			String basePackage) {
 		super();
 		this.project = project;
@@ -40,8 +40,8 @@ public class McamConflictViewGenerator {
 		data.put("UtilPackage", this.basePackage + "." + McamImplementationGenerator.mcamPackageSuffix
 				+ "." + McamImplementationGenerator.utilPackageSuffix);
 		
-		data.put("ConflictViewPackage", this.basePackage + "." + McamImplementationGenerator.mcamPackageSuffix
-				+ "." + conflictViewPackageSuffix);
+		data.put("ViewPackage", this.basePackage + "." + McamImplementationGenerator.mcamPackageSuffix
+				+ "." + viewPackageSuffix);
 		
 	}
 
@@ -51,6 +51,8 @@ public class McamConflictViewGenerator {
 			generateMergeProcessTreeRenderer();
 			generateConflictView();
 			generateConflictViewInformation();
+			generateCheckView();
+			generateCheckViewInformation();
 			generatePluginXml();
 			generateManifest();
 			generateBuildProperties();
@@ -68,9 +70,9 @@ public class McamConflictViewGenerator {
 		data.put("ClassName", "Activator");
 
 		TemplateGenerator templateGen = new TemplateGenerator(
-				"templates/conflict_view/Activator.tpl", project);
+				"templates/eclipse_views/Activator.tpl", project);
 		templateGen.setFilename((String) data.get("ClassName") + ".java");
-		templateGen.setPkg((String) data.get("ConflictViewPackage"));
+		templateGen.setPkg((String) data.get("ViewPackage"));
 		templateGen.setData(data);
 		templateGen.generateFile();
 	}
@@ -80,9 +82,33 @@ public class McamConflictViewGenerator {
 		data.put("ClassName", "MergeProcessTreeRenderer");
 
 		TemplateGenerator templateGen = new TemplateGenerator(
-				"templates/conflict_view/MergeProcessTreeRenderer.tpl", project);
+				"templates/eclipse_views/MergeProcessTreeRenderer.tpl", project);
 		templateGen.setFilename((String) data.get("ClassName") + ".java");
-		templateGen.setPkg((String) data.get("ConflictViewPackage") + ".util");
+		templateGen.setPkg((String) data.get("ViewPackage") + ".util");
+		templateGen.setData(data);
+		templateGen.generateFile();
+	}
+	
+	private void generateCheckViewInformation()
+			throws IOException, TemplateException {
+		data.put("ClassName", "CheckViewInformation");
+
+		TemplateGenerator templateGen = new TemplateGenerator(
+				"templates/eclipse_views/CheckViewInformation.tpl", project);
+		templateGen.setFilename((String) data.get("ClassName") + ".java");
+		templateGen.setPkg((String) data.get("ViewPackage") + ".views");
+		templateGen.setData(data);
+		templateGen.generateFile();
+	}
+	
+	private void generateCheckView()
+			throws IOException, TemplateException {
+		data.put("ClassName", "CheckView");
+
+		TemplateGenerator templateGen = new TemplateGenerator(
+				"templates/eclipse_views/CheckView.tpl", project);
+		templateGen.setFilename((String) data.get("ClassName") + ".java");
+		templateGen.setPkg((String) data.get("ViewPackage") + ".views");
 		templateGen.setData(data);
 		templateGen.generateFile();
 	}
@@ -92,9 +118,9 @@ public class McamConflictViewGenerator {
 		data.put("ClassName", "ConflictViewInformation");
 
 		TemplateGenerator templateGen = new TemplateGenerator(
-				"templates/conflict_view/ConflictViewInformation.tpl", project);
+				"templates/eclipse_views/ConflictViewInformation.tpl", project);
 		templateGen.setFilename((String) data.get("ClassName") + ".java");
-		templateGen.setPkg((String) data.get("ConflictViewPackage") + ".views");
+		templateGen.setPkg((String) data.get("ViewPackage") + ".views");
 		templateGen.setData(data);
 		templateGen.generateFile();
 	}
@@ -104,9 +130,9 @@ public class McamConflictViewGenerator {
 		data.put("ClassName", "ConflictView");
 
 		TemplateGenerator templateGen = new TemplateGenerator(
-				"templates/conflict_view/ConflictView.tpl", project);
+				"templates/eclipse_views/ConflictView.tpl", project);
 		templateGen.setFilename((String) data.get("ClassName") + ".java");
-		templateGen.setPkg((String) data.get("ConflictViewPackage") + ".views");
+		templateGen.setPkg((String) data.get("ViewPackage") + ".views");
 		templateGen.setData(data);
 		templateGen.generateFile();
 	}
@@ -114,7 +140,7 @@ public class McamConflictViewGenerator {
 	private void generatePluginXml()
 			throws IOException, TemplateException {
 		TemplateGenerator templateGen = new TemplateGenerator(
-				"templates/conflict_view/plugin.tpl", project);
+				"templates/eclipse_views/plugin.tpl", project);
 		templateGen.setFilename("plugin.xml");
 		templateGen.setPkg("");
 		templateGen.setBasePath("");
@@ -125,7 +151,7 @@ public class McamConflictViewGenerator {
 	private void generateManifest()
 			throws IOException, TemplateException {
 		TemplateGenerator templateGen = new TemplateGenerator(
-				"templates/conflict_view/Manifest.tpl", project);
+				"templates/eclipse_views/Manifest.tpl", project);
 		templateGen.setFilename("MANIFEST.MF");
 		templateGen.setPkg("");
 		templateGen.setBasePath("META-INF");
@@ -136,7 +162,7 @@ public class McamConflictViewGenerator {
 	private void generateBuildProperties()
 			throws IOException, TemplateException {
 		TemplateGenerator templateGen = new TemplateGenerator(
-				"templates/conflict_view/build.properties", project);
+				"templates/eclipse_views/build.properties", project);
 		templateGen.setFilename("build.properties");
 		templateGen.setPkg("");
 		templateGen.setBasePath("");
@@ -147,7 +173,7 @@ public class McamConflictViewGenerator {
 	private void generateContextsXml()
 			throws IOException, TemplateException {
 		TemplateGenerator templateGen = new TemplateGenerator(
-				"templates/conflict_view/contexts.tpl", project);
+				"templates/eclipse_views/contexts.tpl", project);
 		templateGen.setFilename("contexts.xml");
 		templateGen.setPkg("");
 		templateGen.setBasePath("");
@@ -158,16 +184,16 @@ public class McamConflictViewGenerator {
 	private void generateResourceChangeListener() throws IOException, TemplateException {
 		data.put("ClassName", "ResourceChangeListener");
 		TemplateGenerator templateGen = new TemplateGenerator(
-				"templates/conflict_view/ResourceChangeListener.tpl", project);
+				"templates/eclipse_views/ResourceChangeListener.tpl", project);
 		templateGen.setFilename((String) data.get("ClassName") + ".java");
-		templateGen.setPkg((String) data.get("ConflictViewPackage") + ".util");
+		templateGen.setPkg((String) data.get("ViewPackage") + ".util");
 		templateGen.setData(data);
 		templateGen.generateFile();
 		
 		TemplateGenerator templateGen2 = new TemplateGenerator(
-				"templates/conflict_view/DeltaPrinter.tpl", project);
+				"templates/eclipse_views/DeltaPrinter.tpl", project);
 		templateGen2.setFilename("DeltaPrinter.java");
-		templateGen2.setPkg((String) data.get("ConflictViewPackage") + ".util");
+		templateGen2.setPkg((String) data.get("ViewPackage") + ".util");
 		templateGen2.setData(data);
 		templateGen2.generateFile();
 	}

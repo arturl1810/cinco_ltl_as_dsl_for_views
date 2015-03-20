@@ -1,4 +1,4 @@
-package ${ConflictViewPackage}.views;
+package ${ViewPackage}.views;
 
 import info.scce.cinco.product.${GraphModelName?lower_case}.mcam.cli.FrameworkExecution;
 
@@ -42,7 +42,7 @@ public class ConflictView extends ViewPart implements IPartListener2 {
 	/**
 	 * The ID of the view as specified by the extension.
 	 */
-	public static final String ID = "info.scce.cinco.product.${GraphModelName?lower_case}.mcam.conflictview.views.ConflictView";
+	public static final String ID = "${ViewPackage}.views.ConflictView";
 
 	private Action saveAction;
 	
@@ -256,7 +256,7 @@ public class ConflictView extends ViewPart implements IPartListener2 {
 					if (!conflictInfoMap.keySet().contains(origFile)) {
 						ConflictViewInformation conflictInfo = new ConflictViewInformation(
 								origFile, remoteFile, localFile, file, res);
-						conflictInfo.createMergeCheckProcess();
+						conflictInfo.createMergeProcess();
 						conflictInfo.createConflictViewTree(parent);
 						conflictInfoMap.put(origFile, conflictInfo);
 					}

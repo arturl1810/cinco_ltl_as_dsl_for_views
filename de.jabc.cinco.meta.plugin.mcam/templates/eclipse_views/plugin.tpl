@@ -6,13 +6,19 @@
          point="org.eclipse.ui.views">
       <category
             name="Model-CaM Category"
-            id="${ConflictViewPackage}">
+            id="${ViewPackage}">
       </category>
       <view
             name="Conflict View"
-            category="${ConflictViewPackage}"
-            class="${ConflictViewPackage}.views.ConflictView"
-            id="${ConflictViewPackage}.views.ConflictView">
+            category="${ViewPackage}"
+            class="${ViewPackage}.views.ConflictView"
+            id="${ViewPackage}.views.ConflictView">
+      </view>
+      <view
+            name="Check View"
+            category="${ViewPackage}"
+            class="${ViewPackage}.views.CheckView"
+            id="${ViewPackage}.views.CheckView">
       </view>
    </extension>
    <extension
@@ -23,7 +29,7 @@
                ratio="0.5"
                relative="org.eclipse.ui.views.ProblemView"
                relationship="right"
-               id="${ConflictViewPackage}.views.ConflictView">
+               id="${ViewPackage}.views.ConflictView">
          </view>
       </perspectiveExtension>
    </extension>

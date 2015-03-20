@@ -34,10 +34,10 @@ public class MetaPluginMcam implements IMetaPlugin {
 
 	private String basePackage = null;
 	private String mcamPackageSuffix = McamImplementationGenerator.mcamPackageSuffix;
-	private String conflictViewPackageSuffix = McamConflictViewGenerator.conflictViewPackageSuffix;
+	private String mcamViewPackageSuffix = McamViewGenerator.viewPackageSuffix;
 
 	private IProject mcamProject = null;
-	private IProject mcamConflictViewProject = null;
+	private IProject mcamViewProject = null;
 	private NullProgressMonitor monitor = new NullProgressMonitor();
 	private HashSet<IClasspathEntry> classpathEntries = new HashSet<>();
 
@@ -88,17 +88,17 @@ public class MetaPluginMcam implements IMetaPlugin {
 			return "error";
 		}
 		
-		System.out.println("Creating ConflictView-Eclipse-Project...");
-		mcamConflictViewProject = createConflictViewEclipseProject();
+		System.out.println("Creating MCaM-View-Eclipse-Project...");
+		mcamViewProject = createMcamViewEclipseProject();
 		
-		McamConflictViewGenerator genConflictView = new McamConflictViewGenerator(gModel, mcamConflictViewProject, basePackage);
-		genConflictView.generate();
+		McamViewGenerator genView = new McamViewGenerator(gModel, mcamViewProject, basePackage);
+		genView.generate();
 		
 		try {
-			mcamConflictViewProject.refreshLocal(IResource.DEPTH_INFINITE, monitor);
+			mcamViewProject.refreshLocal(IResource.DEPTH_INFINITE, monitor);
 			
-			mcamConflictViewProject.close(monitor);
-			mcamConflictViewProject.open(monitor);
+			mcamViewProject.close(monitor);
+			mcamViewProject.open(monitor);
 		} catch (CoreException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -117,11 +117,11 @@ public class MetaPluginMcam implements IMetaPlugin {
 				reqBundles, null, null, monitor, cleanDirs, false);
 	}
 	
-	private IProject createConflictViewEclipseProject() {
-		String projectName = basePackage + "." + mcamPackageSuffix + "." + conflictViewPackageSuffix;
+	private IProject createMcamViewEclipseProject() {
+		String projectName = basePackage + "." + mcamPackageSuffix + "." + mcamViewPackageSuffix;
 		List<String> srcFolders = getSrcFolders();
 		List<String> cleanDirs = getCleanDirectory();
-		Set<String> reqBundles = getReqBundlesForConflictView();
+		Set<String> reqBundles = getReqBundlesForView();
 		return ProjectCreator.createProject(projectName, srcFolders, null,
 				reqBundles, null, null, monitor, cleanDirs, false);
 	}
@@ -214,7 +214,7 @@ public class MetaPluginMcam implements IMetaPlugin {
 		return reqBundles;
 	}
 
-	private Set<String> getReqBundlesForConflictView() {
+	private Set<String> getReqBundlesForView() {
 		HashSet<String> reqBundles = new HashSet<String>();
 
 		//reqBundles.add("de.jabc.cinco.meta.plugin.mcam.libs");

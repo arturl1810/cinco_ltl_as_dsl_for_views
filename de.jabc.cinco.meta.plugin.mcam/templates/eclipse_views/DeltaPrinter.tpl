@@ -1,4 +1,4 @@
-package info.scce.cinco.product.${GraphModelName?lower_case}.mcam.conflictview.util;
+package ${ViewPackage}.util;
 
 import org.eclipse.core.resources.IMarkerDelta;
 import org.eclipse.core.resources.IResource;

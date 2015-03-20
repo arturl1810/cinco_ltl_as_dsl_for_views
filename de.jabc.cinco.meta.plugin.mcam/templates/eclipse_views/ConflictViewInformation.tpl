@@ -1,10 +1,9 @@
-package ${ConflictViewPackage}.views;
+package ${ViewPackage}.views;
 
 import ${AdapterPackage}.${GraphModelName}Adapter;
 import ${AdapterPackage}.${GraphModelName}Id;
 import info.scce.cinco.product.${GraphModelName?lower_case}.mcam.cli.FrameworkExecution;
-import ${ConflictViewPackage}.util.MergeProcessTreeRenderer;
-import info.scce.mcam.framework.processes.CheckProcess;
+import ${ViewPackage}.util.MergeProcessTreeRenderer;
 import info.scce.mcam.framework.processes.CompareProcess;
 import info.scce.mcam.framework.processes.MergeProcess;
 
@@ -27,7 +26,6 @@ public class ConflictViewInformation {
 	private Resource resource = null;
 	
 	private MergeProcess<${GraphModelName}Id, ${GraphModelName}Adapter> mp = null;
-	private CheckProcess<${GraphModelName}Id, ${GraphModelName}Adapter> cp = null;
 	
 	private Tree tree = null;
 
@@ -41,7 +39,7 @@ public class ConflictViewInformation {
 		this.resource = resource;
 	}
 	
-	public void createMergeCheckProcess() {
+	public void createMergeProcess() {
 		${GraphModelName}Adapter orig = FrameworkExecution.initApiAdapter(origFile);
 		${GraphModelName}Adapter local = FrameworkExecution.initApiAdapter(localFile);
 		${GraphModelName}Adapter remote = FrameworkExecution.initApiAdapter(remoteFile);
@@ -56,8 +54,6 @@ public class ConflictViewInformation {
 		mp = FrameworkExecution
 				.createMergePhase(localCompare, remoteCompare, mergeModel);
 		mp.analyzeGraphCompares();
-		cp = FrameworkExecution
-				.executeCheckPhase(mergeModel);
 	}
 	
 	public void createConflictViewTree(Composite parent) {
@@ -90,10 +86,6 @@ public class ConflictViewInformation {
 
 	public MergeProcess<${GraphModelName}Id, ${GraphModelName}Adapter> getMp() {
 		return mp;
-	}
-
-	public CheckProcess<${GraphModelName}Id, ${GraphModelName}Adapter> getCp() {
-		return cp;
 	}
 
 	public Tree getTree() {
