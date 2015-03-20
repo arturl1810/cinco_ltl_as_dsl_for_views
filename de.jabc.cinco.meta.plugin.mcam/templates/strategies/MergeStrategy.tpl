@@ -24,21 +24,21 @@ public class ${GraphModelName}MergeStrategy implements
 			Collection<MergeInformation<${GraphModelName}Id, ${GraphModelName}Adapter>> mergeInformations) {
 
 		try {
-			executePhase(model, MergeType.ADDED, mergeInformations);
-			executePhase(model, MergeType.CHANGED, mergeInformations);
-			executePhase(model, MergeType.DELETED, mergeInformations);
+			executeChanges(model, mergeInformations, false);
 		} catch (ChangeDeadlockException e) {
 			System.err.println(e.getMessage());
-			for (ChangeModule<${GraphModelName}Id, ${GraphModelName}Adapter> change : e.getChanges()) {
-				System.err.println(" - " + change);
+			for (ChangeModule<${GraphModelName}Id, ${GraphModelName}Adapter> change : e
+					.getChangesToDo()) {
+				System.err.println(" - " + change.id + ": " + change);
 			}
 		}
+
 	}
 
-	private List<MergeInformation<${GraphModelName}Id, ${GraphModelName}Adapter>> getMergeInformationListByType(
+	private ArrayList<MergeInformation<${GraphModelName}Id, ${GraphModelName}Adapter>> getMergeInformationListByType(
 			MergeType type,
 			Collection<MergeInformation<${GraphModelName}Id, ${GraphModelName}Adapter>> mergeInformations) {
-		List<MergeInformation<${GraphModelName}Id, ${GraphModelName}Adapter>> list = new ArrayList<>();
+		ArrayList<MergeInformation<${GraphModelName}Id, ${GraphModelName}Adapter>> list = new ArrayList<>();
 		for (MergeInformation<${GraphModelName}Id, ${GraphModelName}Adapter> mergeInformation : mergeInformations) {
 			if (mergeInformation.getType().equals(type))
 				list.add(mergeInformation);
@@ -46,38 +46,55 @@ public class ${GraphModelName}MergeStrategy implements
 		return list;
 	}
 
-	public void executePhase(
+	private ArrayList<ChangeModule<${GraphModelName}Id, ${GraphModelName}Adapter>> getChangesFromMergeInformationList(
+			Collection<MergeInformation<${GraphModelName}Id, ${GraphModelName}Adapter>> mergeInformations,
+			boolean includeConflicted) {
+		ArrayList<ChangeModule<${GraphModelName}Id, ${GraphModelName}Adapter>> changes = new ArrayList<>();
+		for (MergeInformation<${GraphModelName}Id, ${GraphModelName}Adapter> mergeInformation : mergeInformations) {
+			for (ChangeModule<${GraphModelName}Id, ${GraphModelName}Adapter> changeModule : mergeInformation
+					.getLocalChanges()) {
+				if (!mergeInformation.isConflictedChange(changeModule)
+						|| includeConflicted)
+					changes.add(changeModule);
+			}
+			for (ChangeModule<${GraphModelName}Id, ${GraphModelName}Adapter> changeModule : mergeInformation
+					.getRemoteChanges()) {
+				if (!mergeInformation.isConflictedChange(changeModule)
+						|| includeConflicted)
+					changes.add(changeModule);
+			}
+		}
+		return changes;
+	}
+
+	public List<ChangeModule<${GraphModelName}Id, ${GraphModelName}Adapter>> executeChanges(
 			${GraphModelName}Adapter model,
-			MergeType type,
-			Collection<MergeInformation<${GraphModelName}Id, ${GraphModelName}Adapter>> mergeInformations)
+			Collection<MergeInformation<${GraphModelName}Id, ${GraphModelName}Adapter>> mergeInformations,
+			boolean includeConflicted) throws ChangeDeadlockException {
+
+		ArrayList<ChangeModule<${GraphModelName}Id, ${GraphModelName}Adapter>> changesToDo = getChangesFromMergeInformationList(
+				mergeInformations,
+				includeConflicted);
+
+		runPreExecutePhase(model, 
+				new ArrayList<ChangeModule<${GraphModelName}Id, ${GraphModelName}Adapter>>(
+						changesToDo));
+		runExecutePhase(model, 
+				new ArrayList<ChangeModule<${GraphModelName}Id, ${GraphModelName}Adapter>>(
+						changesToDo));
+
+		runPostExecutePhase(model, 
+				new ArrayList<ChangeModule<${GraphModelName}Id, ${GraphModelName}Adapter>>(
+						changesToDo));
+
+		return changesToDo;
+	}
+
+	public void runExecutePhase(${GraphModelName}Adapter model, 
+			List<ChangeModule<${GraphModelName}Id, ${GraphModelName}Adapter>> changesToDo)
 			throws ChangeDeadlockException {
 
-		List<ChangeModule<${GraphModelName}Id, ${GraphModelName}Adapter>> changesToDo = new ArrayList<>();
 		List<ChangeModule<${GraphModelName}Id, ${GraphModelName}Adapter>> changesDone = new ArrayList<>();
-
-		for (MergeInformation<${GraphModelName}Id, ${GraphModelName}Adapter> mergeInformation : getMergeInformationListByType(
-				type, mergeInformations)) {
-			changesToDo.addAll(mergeInformation.getLocalChanges());
-			changesToDo.addAll(mergeInformation.getRemoteChanges());
-		}
-
-		while (!changesToDo.isEmpty()) {
-			boolean somethingDone = false;
-			for (ChangeModule<${GraphModelName}Id, ${GraphModelName}Adapter> change : changesToDo) {
-				if (change.canPreExecute(model)) {
-					change.preExecute(model);
-					changesDone.add(change);
-					somethingDone = true;
-				}
-			}
-			changesToDo.removeAll(changesDone);
-			
-			if (!somethingDone)
-				throw new ChangeDeadlockException(type
-								+ ": All canPreExecute-Methods fail. Couldn't do anything!", changesToDo);
-		}
-		changesToDo.addAll(changesDone);
-		changesDone.clear();
 
 		while (!changesToDo.isEmpty()) {
 			boolean somethingDone = false;
@@ -89,13 +106,43 @@ public class ${GraphModelName}MergeStrategy implements
 				}
 			}
 			changesToDo.removeAll(changesDone);
-			
+
 			if (!somethingDone)
-				throw new ChangeDeadlockException(type
-								+ ": All canPreExecute-Methods fail. Couldn't do anything!", changesToDo);
+				throw new ChangeDeadlockException(
+						"All canExecute-Methods fail. Couldn't do anything!",
+						changesToDo, changesDone);
 		}
-		changesToDo.addAll(changesDone);
-		changesDone.clear();
+	}
+
+	public void runPreExecutePhase(${GraphModelName}Adapter model,
+			List<ChangeModule<${GraphModelName}Id, ${GraphModelName}Adapter>> changesToDo)
+			throws ChangeDeadlockException {
+
+		List<ChangeModule<${GraphModelName}Id, ${GraphModelName}Adapter>> changesDone = new ArrayList<>();
+
+		while (!changesToDo.isEmpty()) {
+			boolean somethingDone = false;
+			for (ChangeModule<${GraphModelName}Id, ${GraphModelName}Adapter> change : changesToDo) {
+				if (change.canPreExecute(model)) {
+					change.preExecute(model);
+					changesDone.add(change);
+					somethingDone = true;
+				}
+			}
+			changesToDo.removeAll(changesDone);
+
+			if (!somethingDone)
+				throw new ChangeDeadlockException(
+						"All canPreExecute-Methods fail. Couldn't do anything!",
+						changesToDo, changesDone);
+		}
+	}
+
+	public void runPostExecutePhase(${GraphModelName}Adapter model, 
+			List<ChangeModule<${GraphModelName}Id, ${GraphModelName}Adapter>> changesToDo)
+			throws ChangeDeadlockException {
+
+		List<ChangeModule<${GraphModelName}Id, ${GraphModelName}Adapter>> changesDone = new ArrayList<>();
 
 		while (!changesToDo.isEmpty()) {
 			boolean somethingDone = false;
@@ -107,12 +154,11 @@ public class ${GraphModelName}MergeStrategy implements
 				}
 			}
 			changesToDo.removeAll(changesDone);
-			
+
 			if (!somethingDone)
-				throw new ChangeDeadlockException(type
-								+ ": All canPreExecute-Methods fail. Couldn't do anything!", changesToDo);
+				throw new ChangeDeadlockException(
+						"All canPostExecute-Methods fail. Couldn't do anything!",
+						changesToDo, changesDone);
 		}
-		changesToDo.addAll(changesDone);
-		changesDone.clear();
 	}
 }

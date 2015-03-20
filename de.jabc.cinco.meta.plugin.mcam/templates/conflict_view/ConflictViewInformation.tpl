@@ -65,9 +65,11 @@ public class ConflictViewInformation {
 				| SWT.H_SCROLL);
 		// MergeProcessTreeRenderer treeRenderer = new MergeProcessTreeRenderer(
 		// viewer.getTree(), mp, viewer.getControl().getShell());
-		MergeProcessTreeRenderer<${GraphModelName}Id, ${GraphModelName}Adapter> treeRenderer = new MergeProcessTreeRenderer<${GraphModelName}Id, ${GraphModelName}Adapter>(
+		MergeProcessTreeRenderer treeRenderer = new MergeProcessTreeRenderer(
 				tree, mp, tree.getShell());
 		treeRenderer.createTree();
+
+		treeRenderer.runInitialChangeExecution();
 	}
 
 	public File getOrigFile() {

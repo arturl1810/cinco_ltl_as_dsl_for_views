@@ -156,13 +156,13 @@ public class McamImplementationGenerator {
 						data.put("ModelElementType", "Node");
 						generateAddElementChangeModule(element);
 						generateDeleteElementChangeModule(element);
-//						generateMoveElementChangeModule(element);
+						generateMoveElementChangeModule(element);
 					}
 					if (element instanceof NodeContainer) {
 						data.put("ModelElementType", "Container");
 						generateAddElementChangeModule(element);
 						generateDeleteElementChangeModule(element);
-//						generateMoveElementChangeModule(element);
+						generateMoveElementChangeModule(element);
 					}
 
 				}

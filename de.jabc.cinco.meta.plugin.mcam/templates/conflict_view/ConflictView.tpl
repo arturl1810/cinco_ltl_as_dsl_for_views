@@ -120,7 +120,7 @@ public class ConflictView extends ViewPart implements IPartListener2 {
 			public void run() {
 				if (activeConflictViewInformation != null) {
 
-					activeConflictViewInformation.getMp().getMergeModelAdapter().writeModel(activeConflictViewInformation.getOrigFile());
+					//activeConflictViewInformation.getMp().getMergeModelAdapter().writeModel(activeConflictViewInformation.getOrigFile());
 
 					activeConflictViewInformation.getLocalFile().delete();
 					activeConflictViewInformation.getRemoteFile().delete();

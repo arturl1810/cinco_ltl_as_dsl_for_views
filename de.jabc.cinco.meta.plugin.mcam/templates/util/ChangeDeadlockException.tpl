@@ -10,17 +10,23 @@ import java.util.List;
 public class ChangeDeadlockException extends Exception {
 	private static final long serialVersionUID = -1312943541565374222L;
 
-	List<ChangeModule<${GraphModelName}Id, ${GraphModelName}Adapter>> changes = new ArrayList<>();
+	List<ChangeModule<${GraphModelName}Id, ${GraphModelName}Adapter>> changesToDo = new ArrayList<>();
+	List<ChangeModule<${GraphModelName}Id, ${GraphModelName}Adapter>> changesDone = new ArrayList<>();
 	
 	public ChangeDeadlockException(String message,
-			List<ChangeModule<${GraphModelName}Id, ${GraphModelName}Adapter>> changes) {
+			List<ChangeModule<${GraphModelName}Id, ${GraphModelName}Adapter>> changesToDo,
+			List<ChangeModule<${GraphModelName}Id, ${GraphModelName}Adapter>> changesDone) {
 		super(message);
-		this.changes = changes;
+		this.changesToDo = changesToDo;
+		this.changesDone = changesDone;
 	}
 
-	public List<ChangeModule<${GraphModelName}Id, ${GraphModelName}Adapter>> getChanges() {
-		return changes;
+	public List<ChangeModule<${GraphModelName}Id, ${GraphModelName}Adapter>> getChangesToDo() {
+		return changesToDo;
 	}
-	
+
+	public List<ChangeModule<${GraphModelName}Id, ${GraphModelName}Adapter>> getChangesDone() {
+		return changesDone;
+	}
 }
 

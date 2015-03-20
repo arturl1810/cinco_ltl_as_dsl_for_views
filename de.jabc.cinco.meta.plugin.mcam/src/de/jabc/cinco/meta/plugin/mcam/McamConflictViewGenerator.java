@@ -35,8 +35,14 @@ public class McamConflictViewGenerator {
 				basePackage + "." + graphModelName.toLowerCase());
 		data.put("AdapterPackage", this.basePackage + "." + McamImplementationGenerator.mcamPackageSuffix
 				+ "." + McamImplementationGenerator.adapterPackageSuffix);
+		data.put("StrategyPackage", this.basePackage + "." + McamImplementationGenerator.mcamPackageSuffix
+				+ "." + McamImplementationGenerator.strategiesPackageSuffix);
+		data.put("UtilPackage", this.basePackage + "." + McamImplementationGenerator.mcamPackageSuffix
+				+ "." + McamImplementationGenerator.utilPackageSuffix);
+		
 		data.put("ConflictViewPackage", this.basePackage + "." + McamImplementationGenerator.mcamPackageSuffix
 				+ "." + conflictViewPackageSuffix);
+		
 	}
 
 	public String generate() {

@@ -68,6 +68,7 @@ public class MetaPluginMcam implements IMetaPlugin {
 			exportPackage = exportPackage + "," + (String) genMcam.data.get("CliPackage");
 			exportPackage = exportPackage + "," + (String) genMcam.data.get("ChangeModulePackage");
 			exportPackage = exportPackage + "," + (String) genMcam.data.get("StrategyPackage");
+			exportPackage = exportPackage + "," + (String) genMcam.data.get("UtilPackage");
 			
 			manifest.getMainAttributes().putValue("Export-Package", exportPackage);
 			
