@@ -83,6 +83,9 @@
       <edge-annotation
             recognized-annotation="palette">
       </edge-annotation>
+      <attribute-annotation
+            recognized-annotation="propertiesViewHidden">
+      </attribute-annotation>
    </extension>
 
 </fragment>
