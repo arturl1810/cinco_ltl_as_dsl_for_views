@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>709bf2c6-2af3-4468-aef4-71df8b66f1b5</id>
   <name>Generate_APIOperations_Edge</name>
-  <changecounter>413</changecounter>
+  <changecounter>506</changecounter>
   <sib>
     <id>1d192934-9718-489b-8cd8-c840255c8617</id>
     <name>GraphSIB</name>
@@ -51,13 +51,25 @@ $fqnAnchor$ oldAnchor = (($fqnShape$) getSourceElement().getPictogramElement()).
 $fqnAnchor$ newAnchor =(($fqnShape$) source.getPictogramElement()).getAnchors().get(0);
 $fqnILocation$ targetLocation = $fqnGraphitiUi$.getPeService().getLocationRelativeToDiagram(newAnchor);
 
-$fqnReconnectionContext$ rc = new $fqnReconnectionContext$(($fqnConnection$) getPictogramElement(), oldAnchor, newAnchor, targetLocation);
+final $fqnReconnectionContext$ rc = new $fqnReconnectionContext$(($fqnConnection$) getPictogramElement(), oldAnchor, newAnchor, targetLocation);
 rc.setReconnectType($fqnReconnectionContext$.RECONNECT_SOURCE);
-$fqnReconnectionFeature$ rf = provider.getReconnectionFeature(rc);
+final $fqnReconnectPrefix$Reconnect$modelElementName$Feature rf = ($fqnReconnectPrefix$Reconnect$modelElementName$Feature)provider.getReconnectionFeature(rc);
 
 if (rf.canReconnect(rc)) {
-	rf.reconnect(rc);
+	$fqnTransactionalEditingDomain$ dom = $fqnTransactionalEditingDomain$.Factory.INSTANCE.getEditingDomain(getModelElement().eResource().getResourceSet());
+	if (dom == null)
+		dom = $fqnTransactionalEditingDomain$.Factory.INSTANCE.createEditingDomain(getModelElement().eResource().getResourceSet());
+		dom.getCommandStack().execute(new $fqnRecordingCommand$(dom) {
+        
+		@Override
+		protected void doExecute() {
+				rf.reconnect(rc);
+		}
+		});
 	this.setSourceElement(source);
+} else {
+	if (rf.getError().equals($fqnECincoError$.MAX_OUT))
+			throw new $fqnCincoContainerCardinalityException$(&quot;Outgoing edge cardinality of &apos;&quot; + source.getModelElement()+&quot;&apos; exceeded. \nCan not reconnect &apos;&quot; + this.getModelElement()+&quot;&apos;&apos; source from \n&apos;&quot; +getSourceElement().getModelElement()+&quot;&apos; to \n&apos;&quot;+source.getModelElement()+&quot;&apos;&quot;);
 }
 </string>
     </parameter>
@@ -114,17 +126,29 @@ if (rf.canReconnect(rc)) {
       <string>$fqnDiagram$ d = ($fqnDiagram$) this.getDiagram();
 $fqnFeatureProvider$ provider = ($fqnFeatureProvider$) $fqnGraphitiUi$.getExtensionManager().createFeatureProvider(d);
 
-$fqnAnchor$ oldAnchor = (($fqnShape$) getSourceElement().getPictogramElement()).getAnchors().get(0);
+$fqnAnchor$ oldAnchor = (($fqnShape$) getTargetElement().getPictogramElement()).getAnchors().get(0);
 $fqnAnchor$ newAnchor = (($fqnShape$) target.getPictogramElement()).getAnchors().get(0);
 $fqnILocation$ targetLocation = $fqnGraphitiUi$.getPeService().getLocationRelativeToDiagram(newAnchor);
 
-$fqnReconnectionContext$ rc = new $fqnReconnectionContext$(($fqnConnection$) getPictogramElement(), oldAnchor, newAnchor, targetLocation);
+final $fqnReconnectionContext$ rc = new $fqnReconnectionContext$(($fqnConnection$) getPictogramElement(), oldAnchor, newAnchor, targetLocation);
 rc.setReconnectType($fqnReconnectionContext$.RECONNECT_TARGET);
-$fqnReconnectionFeature$ rf = provider.getReconnectionFeature(rc);
+final $fqnReconnectPrefix$Reconnect$modelElementName$Feature rf = ($fqnReconnectPrefix$Reconnect$modelElementName$Feature)provider.getReconnectionFeature(rc);
 
 if (rf.canReconnect(rc)) {
-	rf.reconnect(rc);
+	$fqnTransactionalEditingDomain$ dom = $fqnTransactionalEditingDomain$.Factory.INSTANCE.getEditingDomain(getModelElement().eResource().getResourceSet());
+	if (dom == null)
+		dom = $fqnTransactionalEditingDomain$.Factory.INSTANCE.createEditingDomain(getModelElement().eResource().getResourceSet());
+		dom.getCommandStack().execute(new $fqnRecordingCommand$(dom) {
+        
+			@Override
+			protected void doExecute() {
+				rf.reconnect(rc);
+			}
+		});
 	this.setTargetElement(target);
+} else {
+	if (rf.getError().equals($fqnECincoError$.MAX_IN))
+			throw new $fqnCincoContainerCardinalityException$(&quot;Incoming edge cardinality of &apos;&quot; + target.getModelElement()+&quot;&apos; exceeded. \nCan not reconnect &apos;&quot; + this.getModelElement()+&quot;&apos;&apos; target from \n&apos;&quot; +getSourceElement().getModelElement()+&quot;&apos; to \n&apos;&quot;+target.getModelElement()+&quot;&apos;&quot;);
 }
 </string>
     </parameter>
@@ -180,7 +204,9 @@ if (rf.canReconnect(rc)) {
     <parameter name="template">
       <string>&lt;p&gt;&lt;b&gt;&lt;em&gt;Cinco API&lt;/em&gt;&lt;/b&gt;&lt;/p&gt;
 Reconnects the edge&apos;s source.
-@param node The new source node of this edge.</string>
+@param node The new source node of this edge.
+
+@exception $fqnCincoEdgeCardinalityOutException$ if the maximum number of outgoing edges for the source node is reached</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
@@ -234,7 +260,9 @@ Reconnects the edge&apos;s source.
     <parameter name="template">
       <string>&lt;p&gt;&lt;b&gt;&lt;em&gt;Cinco API&lt;/em&gt;&lt;/b&gt;&lt;/p&gt;
 Reconnects the edge&apos;s target.
-@param node The new target node of this edge.</string>
+@param node The new target node of this edge.
+
+@exception $fqnCincoEdgeCardinalityInException$ if the maximum number of incoming edges for the target node is reached</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
@@ -276,7 +304,7 @@ Reconnects the edge&apos;s target.
     <point>190.0,755.0</point>
     <point>90.0,675.0</point>
     <point>205.83815028901734,174.0</point>
-    <labelposition>27.24357040673124,-64.41926569461589</labelposition>
+    <labelposition>35.16521264384504,-57.57833369928211</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
@@ -302,7 +330,7 @@ Reconnects the edge&apos;s target.
     <point>470.0,759.6666666666666</point>
     <point>540.0,720.0</point>
     <point>452.7979274611399,159.0</point>
-    <labelposition>37.585875988615086,50.69868667598645</labelposition>
+    <labelposition>34.51314878359007,67.62141056982263</labelposition>
     <branch>default</branch>
   </edge>
   <sib>

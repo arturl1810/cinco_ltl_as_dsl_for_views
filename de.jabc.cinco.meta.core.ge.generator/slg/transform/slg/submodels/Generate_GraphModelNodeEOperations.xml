@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>079a4d5e-bab9-4273-8a05-29b4b4909c15</id>
   <name>Generate_GraphModelNodeEOperations</name>
-  <changecounter>515</changecounter>
+  <changecounter>536</changecounter>
   <sib>
     <id>1c733983-6c25-45cd-bded-1a4832127f58</id>
     <name>IsPrimeNode</name>
@@ -246,8 +246,8 @@ return retval; </string>
     <parameter name="template">
       <string>&lt;p&gt;&lt;b&gt;&lt;em&gt;Cinco API&lt;/em&gt;&lt;/b&gt;&lt;/p&gt;
 Creates and adds an $modelElementName$.
-@param xPos The x position of $modelElementName$&apos;s graphical representation in the diagram
-@param yPos The y position of $modelElementName$&apos;s graphical representation in the diagram
+@param x The x position of $modelElementName$&apos;s graphical representation in the diagram
+@param y The y position of $modelElementName$&apos;s graphical representation in the diagram
 @param width The width position of $modelElementName$&apos;s graphical representation in the diagram
 @param height The height position of $modelElementName$&apos;s graphical representation in the diagram
 
@@ -421,8 +421,8 @@ Creates and adds an $modelElementName$.
     <parameter name="template">
       <string>&lt;p&gt;&lt;b&gt;&lt;em&gt;Cinco API&lt;/em&gt;&lt;/b&gt;&lt;/p&gt;
 Creates and adds a new instance of $modelElementName$ if possible.
-@param xPos The x position of $modelElementName$&apos;s graphical representation in the diagram.
-@param yPos The y position of $modelElementName$&apos;s graphical representation in the diagram.
+@param x The x position of $modelElementName$&apos;s graphical representation in the diagram.
+@param y The y position of $modelElementName$&apos;s graphical representation in the diagram.
 
 @exception $fqnCincoContainerCardinalityException$ if the maximum number of contained nodes is reached
 

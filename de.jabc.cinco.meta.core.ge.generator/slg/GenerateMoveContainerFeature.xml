@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>b68091c8-07fa-4991-a66b-090c41737165</id>
   <name>GenerateMoveContainerFeature</name>
-  <changecounter>149</changecounter>
+  <changecounter>164</changecounter>
   <sib>
     <id>5d019596-ff11-4edc-9603-2477370f8043</id>
     <name>PutExpression</name>
@@ -333,7 +333,8 @@ public class Move$context.container.name$Feature extends DefaultMoveShapeFeature
 	if (context.getTargetContainer() instanceof Diagram)
 		return true;
 }
-$context.cincoErrorInvalidContainer$
+if ($context.cincoErrorCheckOk$)
+	$context.cincoErrorInvalidContainer$
 return false;</string>
     </parameter>
     <finalbranches>default</finalbranches>
