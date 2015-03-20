@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>53c0c093-ef7e-452a-ae07-8946504ff744</id>
   <name>Generate_NodeMoveEOperation</name>
-  <changecounter>321</changecounter>
+  <changecounter>392</changecounter>
   <edge>
     <source>45937ff9-8a61-426a-ad52-785723db3d9e</source>
     <target>33b4498b-317c-424c-a417-153e95dd0cd4</target>
@@ -74,7 +74,7 @@ Moves this node to the specified container. The node is placed at (x,y). ATTENTI
 @param x The new x position
 @param y The new y position
 
-@exception $fqnCincoContainerCardinalityException$ if the maximum number of contained nodes is reached</string>
+@exception $fqnCincoContainerCardinalityException$ if the maximum number of contained nodes in the target container is reached</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
@@ -166,17 +166,30 @@ $fqnFeatureProvider$ provider = ($fqnFeatureProvider$) $fqnGraphitiUi$.getExtens
 
 java.util.List&lt;$fqnPictogramElement$&gt; pes = $fqnGraphitiUi$.getLinkService().getPictogramElements(d, this.getModelElement());
 if (pes != null &amp;&amp; !pes.isEmpty()) {
-$fqnMoveShapeContext$ mc = new $fqnMoveShapeContext$(($fqnShape$)pes.get(0));
+final $fqnMoveShapeContext$ mc = new $fqnMoveShapeContext$(($fqnShape$)pes.get(0));
 	mc.setLocation(x, y);
+	if (this.getContainer() instanceof $fqnCGraphModel$)
+		mc.setSourceContainer(($fqnContainerShape$) (($fqnCGraphModel$) this.getContainer()).getPictogramElement());
+	if (this.getContainer() instanceof $fqnCContainer$)
+		mc.setSourceContainer(($fqnContainerShape$) (($fqnCContainer$) this.getContainer()).getPictogramElement());
 	mc.setTargetContainer(($fqnContainerShape$) container.getPictogramElement());
 
-	$fqnMoveFeaturePrefix$Move$modelElementName$Feature mf = ($fqnMoveFeaturePrefix$Move$modelElementName$Feature) provider.getMoveShapeFeature(mc);
+	final $fqnMoveFeaturePrefix$Move$modelElementName$Feature mf = ($fqnMoveFeaturePrefix$Move$modelElementName$Feature) provider.getMoveShapeFeature(mc);
 
 	if (mf.canMoveShape(mc)) {
-		mf.moveShape(mc);
-	} else {
+		$fqnTransactionalEditingDomain$ dom = $fqnTransactionalEditingDomain$.Factory.INSTANCE.getEditingDomain(container.getModelElement().eResource().getResourceSet());
+	      	if (dom == null)
+			dom = $fqnTransactionalEditingDomain$.Factory.INSTANCE.createEditingDomain(container.getModelElement().eResource().getResourceSet());
+		dom.getCommandStack().execute(new $fqnRecordingCommand$(dom) {
+        
+			@Override
+			protected void doExecute() {
+				mf.moveShape(mc);
+			}
+		});
+	 } else {
 		if (mf.getError().equals($fqnECincoError$.MAX_CARDINALITY))
-			throw new $fqnCincoContainerCardinalityException$(&quot;Cardinality of &apos;&quot; + container.getModelElement()+&quot;&apos; exceeded. Can not create $modelElementName$ in the specified container&quot;);
+			throw new $fqnCincoContainerCardinalityException$(&quot;Cardinality of &apos;&quot; + container.getModelElement()+&quot;&apos; exceeded. Can not move $modelElementName$ in the specified container&quot;);
 	}
 }
 </string>
@@ -427,7 +440,7 @@ $fqnMoveShapeContext$ mc = new $fqnMoveShapeContext$(($fqnShape$)pes.get(0));
     <label>Generate_Documentation</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>74.0,526.0</position>
+    <position>74.0,541.0</position>
     <parameter name="eOperationKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -444,7 +457,7 @@ Moves this node to the specified container. The node is placed at (x,y). ATTENTI
 @param x The new x position
 @param y The new y position
 
-@exception $fqnCincoContainerCardinalityException$ if the maximum number of contained nodes is reached</string>
+@exception $fqnCincoContainerCardinalityException$ if the maximum number of contained nodes in the target container is reached</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
@@ -536,17 +549,30 @@ $fqnFeatureProvider$ provider = ($fqnFeatureProvider$) $fqnGraphitiUi$.getExtens
 
 java.util.List&lt;$fqnPictogramElement$&gt; pes = $fqnGraphitiUi$.getLinkService().getPictogramElements(d, this.getModelElement());
 if (pes != null &amp;&amp; !pes.isEmpty()) {
-$fqnMoveShapeContext$ mc = new $fqnMoveShapeContext$(($fqnShape$)pes.get(0));
+final $fqnMoveShapeContext$ mc = new $fqnMoveShapeContext$(($fqnShape$)pes.get(0));
 	mc.setLocation(x, y);
+	if (this.getContainer() instanceof $fqnCGraphModel$)
+		mc.setSourceContainer(($fqnContainerShape$) (($fqnCGraphModel$) this.getContainer()).getPictogramElement());
+	if (this.getContainer() instanceof $fqnCContainer$)
+		mc.setSourceContainer(($fqnContainerShape$) (($fqnCContainer$) this.getContainer()).getPictogramElement());
 	mc.setTargetContainer(($fqnContainerShape$) container.getPictogramElement());
 
-	$fqnMoveFeaturePrefix$Move$modelElementName$Feature mf = ($fqnMoveFeaturePrefix$Move$modelElementName$Feature) provider.getMoveShapeFeature(mc);
+	final $fqnMoveFeaturePrefix$Move$modelElementName$Feature mf = ($fqnMoveFeaturePrefix$Move$modelElementName$Feature) provider.getMoveShapeFeature(mc);
 
 	if (mf.canMoveShape(mc)) {
-		mf.moveShape(mc);
+		$fqnTransactionalEditingDomain$ dom = $fqnTransactionalEditingDomain$.Factory.INSTANCE.getEditingDomain(container.getModelElement().eResource().getResourceSet());
+	      	if (dom == null)
+			dom = $fqnTransactionalEditingDomain$.Factory.INSTANCE.createEditingDomain(container.getModelElement().eResource().getResourceSet());
+		dom.getCommandStack().execute(new $fqnRecordingCommand$(dom) {
+        
+			@Override
+			protected void doExecute() {
+				mf.moveShape(mc);
+			}
+		});
 	} else {
 		if (mf.getError().equals($fqnECincoError$.MAX_CARDINALITY))
-			throw new $fqnCincoContainerCardinalityException$(&quot;Cardinality of &apos;&quot; + container.getModelElement() +&quot;&apos; exceeded. Can not create $modelElementName$ in the specified container&quot;);
+			throw new $fqnCincoContainerCardinalityException$(&quot;Cardinality of &apos;&quot; + container.getModelElement() +&quot;&apos; exceeded. Can not move $modelElementName$ in the specified container&quot;);
 	}
 }
 </string>
@@ -1050,8 +1076,8 @@ Creates an clone (persisting the modelElement&apos;s id) of this modelElement</s
     <parameter name="eObjectKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>eObjectKey</key>
-          <scope>GLOBAL</scope>
+          <key>modelElementKey</key>
+          <scope>DECLARED</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
@@ -1183,12 +1209,12 @@ return clone;</string>
     <label>SwitchModelElement</label>
     <sib-uid>mgl/mgl/SwitchModelElement</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.SwitchModelElement</taxonomy>
-    <position>328.5,588.0</position>
+    <position>328.5,543.0</position>
     <parameter name="eObjectKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>eObjectKey</key>
-          <scope>GLOBAL</scope>
+          <key>modelElementKey</key>
+          <scope>DECLARED</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>

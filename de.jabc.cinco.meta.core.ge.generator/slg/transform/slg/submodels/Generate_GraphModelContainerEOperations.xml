@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>68703e35-7ca0-4d4e-8241-4cd302c23c07</id>
   <name>Generate_GraphModelContainerEOperations</name>
-  <changecounter>247</changecounter>
+  <changecounter>264</changecounter>
   <sib>
     <id>17cbc50b-0955-4e1d-bc4b-30010287ec07</id>
     <name>GraphSIB_8</name>
@@ -52,7 +52,7 @@ $fqnFeatureProvider$ provider = ($fqnFeatureProvider$) $fqnGraphitiUi$.getExtens
 $fqnCreateContainerFeaturePrefix$Create$modelElementName$Feature cf = new $fqnCreateContainerFeaturePrefix$Create$modelElementName$Feature(provider);
 $fqnCreateContext$ cc = new $fqnCreateContext$();
 cc.setX(x);
-cc.setY(x);
+cc.setY(y);
 if (width &gt; -1 &amp;&amp; height &gt; -1) {
 	cc.setWidth(width);
 	cc.setHeight(height);

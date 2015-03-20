@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>5114f8bf-bf5e-4a42-bcb3-454199a39dd9</id>
   <name>Generate_NodeConnectEOperations</name>
-  <changecounter>449</changecounter>
+  <changecounter>503</changecounter>
   <sib>
     <id>68cd1709-17de-4261-8a68-3a7aa8ed4add</id>
     <name>GraphSIB_6</name>
@@ -67,6 +67,12 @@ if (cf.canCreate(ccc)) {
 	retval.setTargetElement(target);
 	this.getContainer().getModelElements().add(retval);
 	this.getCRootElement().getMap().put(retval.getModelElement() ,retval);
+} else {
+	if (cf.getError().equals($fqnECincoError$.MAX_OUT))
+			throw new $fqnCincoContainerCardinalityException$(&quot;Outgoing edge cardinality of &apos;&quot; + getModelElement()+&quot;&apos; exceeded. \nCan not create &apos;$edgeName$&apos; from \n&apos;&quot; +getModelElement()+&quot;&apos; to \n&apos;&quot;+target.getModelElement()+&quot;&apos;&quot;);
+	if (cf.getError().equals($fqnECincoError$.MAX_IN))
+			throw new $fqnCincoContainerCardinalityException$(&quot;Incoming edge cardinality of &apos;&quot; + target.getModelElement()+&quot;&apos; exceeded. \nCan not create &apos;$edgeName$&apos; from \n&apos;&quot; +getModelElement()+&quot;&apos; to \n&apos;&quot;+target.getModelElement()+&quot;&apos;&quot;);
+
 }
 return retval;</string>
     </parameter>
@@ -283,6 +289,10 @@ return retval;</string>
       <string>&lt;p&gt;&lt;b&gt;&lt;em&gt;Cinco API&lt;/em&gt;&lt;/b&gt;&lt;/p&gt;
 Creates a new $apiPrefix$$edgeName$ and connects the current node to the specified target
 @param target The target node of the edge
+
+@exception $fqnCincoEdgeCardinalityOutException$ if the maximum number of outgoing edges for this node is reached
+@exception $fqnCincoEdgeCardinalityInException$ if the maximum number of incoming edges for the target node is reached
+
 @return The new $apiPrefix$$edgeName$</string>
     </parameter>
     <finalbranches>default</finalbranches>
@@ -649,9 +659,16 @@ $fqnAnchor$ targetAnchor = (($fqnShape$) clone.getTargetElement().getPictogramEl
 	  
 final $fqnAddConnectionContext$ acc = new $fqnAddConnectionContext$(sourceAnchor, targetAnchor);
 acc.setNewObject(clone.getModelElement());
+
+$fqnCreateEdgeFeaturePrefix$Create$edgeName$Feature cf = 
+	new $fqnCreateEdgeFeaturePrefix$Create$edgeName$Feature(provider);
 	  
+$fqnCreateConnectionContext$ ccc = new $fqnCreateConnectionContext$();
+ccc.setSourceAnchor(sourceAnchor);
+ccc.setTargetAnchor(targetAnchor);
+
 final $fqnAddFeaturePrefix$Add$modelElementName$Feature af = ($fqnAddFeaturePrefix$Add$modelElementName$Feature) provider.getAddFeature(acc);
-if (af != null &amp;&amp; af.canAdd(acc)) {
+if (af != null &amp;&amp; af.canAdd(acc) &amp;&amp; cf.canCreate(ccc)) {
 	$fqnTransactionalEditingDomain$ dom = $fqnTransactionalEditingDomain$.Factory.INSTANCE.getEditingDomain(target.getModelElement().eResource().getResourceSet());
       	if (dom == null)
 		dom = $fqnTransactionalEditingDomain$.Factory.INSTANCE.createEditingDomain(target.getModelElement().eResource().getResourceSet());
@@ -666,6 +683,11 @@ if (af != null &amp;&amp; af.canAdd(acc)) {
 	}
 	});
 	
+} else {
+	if (cf.getError().equals($fqnECincoError$.MAX_OUT))
+			throw new $fqnCincoContainerCardinalityException$(&quot;Outgoing edge cardinality of &apos;&quot; + clone.getSourceElement().getModelElement()+&quot;&apos; exceeded. \nCan not create &apos;$modelElementName$&apos; from \n&apos;&quot; +clone.getSourceElement().getModelElement()+&quot;&apos; to \n&apos;&quot;+clone.getTargetElement().getModelElement()+&quot;&apos;&quot;);
+	if (cf.getError().equals($fqnECincoError$.MAX_IN))
+			throw new $fqnCincoContainerCardinalityException$(&quot;Incoming edge cardinality of &apos;&quot; + clone.getTargetElement().getModelElement()+&quot;&apos; exceeded. \nCan not create &apos;$modelElementName$&apos; from \n&apos;&quot; +clone.getSourceElement().getModelElement()+&quot;&apos; to \n&apos;&quot;+clone.getTargetElement().getModelElement()+&quot;&apos;&quot;);
 }
 
 return clone;</string>
@@ -700,6 +722,9 @@ return clone;</string>
 Creates a clone (persisting the modelElement&apos;s id) of this modelElement
 @param source The source node of the cloned edge
 @param target The target node of the cloned edge
+
+@exception $fqnCincoEdgeCardinalityOutException$ if the maximum number of outgoing edges for this node is reached
+@exception $fqnCincoEdgeCardinalityInException$ if the maximum number of incoming edges for the target node is reached
 
 @return The cloned edge</string>
     </parameter>

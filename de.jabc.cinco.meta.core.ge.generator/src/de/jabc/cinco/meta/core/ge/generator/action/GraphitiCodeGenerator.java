@@ -1,5 +1,6 @@
 package de.jabc.cinco.meta.core.ge.generator.action;
 
+import graphicalgraphmodel.CContainer;
 import graphicalgraphmodel.CGraphModel;
 import graphicalgraphmodel.CModelElement;
 import graphicalgraphmodel.CModelElementContainer;
@@ -415,6 +416,7 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 		context.put("fqnAPIFactory", gModel.getPackage() +".api." + API_MODEL_PREFIX.toLowerCase() + GMODEL_NAME_LOWER + "." + API_MODEL_PREFIX + GMODEL_NAME_LOWER + "Factory");
 		context.put("fqnCModelElementContainer", CModelElementContainer.class.getName());
 		context.put("fqnCModelElement", CModelElement.class.getName());
+		context.put("fqnCContainer", CContainer.class.getName());
 		context.put("fqnCGraphModel", CGraphModel.class.getName());
 		context.put("fqnNode", graphmodel.Node.class.getName());
 		context.put("fqnEdge", graphmodel.Edge.class.getName());
@@ -422,20 +424,22 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 		context.put("fqnModelElement", graphmodel.ModelElement.class.getName());
 		context.put("fqnModelElementContainer", graphmodel.ModelElementContainer.class.getName());
 		
+		context.put("fqnDeleteFeature", IDeleteFeature.class.getName());
+		context.put("fqnMoveShapeFeature", IMoveShapeFeature.class.getName());
+		context.put("fqnReconnectionFeature", IReconnectionFeature.class.getName());
+		context.put("fqnUpdateFeature", IUpdateFeature.class.getName());
+		
 		context.put("fqnCreateNodeFeaturePrefix", gModel.getPackage().concat(".graphiti.features.create.nodes."));
 		context.put("fqnCreateEdgeFeaturePrefix", gModel.getPackage().concat(".graphiti.features.create.edges."));
 		context.put("fqnCreateContainerFeaturePrefix", gModel.getPackage().concat(".graphiti.features.create.containers."));
 		context.put("fqnAddFeaturePrefix", gModel.getPackage().concat(".graphiti.features.add."));
 		context.put("fqnMoveFeaturePrefix", gModel.getPackage().concat(".graphiti.features.move."));
 		context.put("fqnFeaturePrefix", gModel.getPackage().concat(".graphiti.features."));
-		
-		context.put("fqnDeleteFeature", IDeleteFeature.class.getName());
-		context.put("fqnMoveShapeFeature", IMoveShapeFeature.class.getName());
-		context.put("fqnReconnectionFeature", IReconnectionFeature.class.getName());
-		context.put("fqnUpdateFeature", IUpdateFeature.class.getName());
+		context.put("fqnReconnectPrefix", gModel.getPackage().concat(".graphiti.features.reconnect."));
 		
 		context.put("fqnGenNodePrefix", gModel.getPackage() + "." + GMODEL_NAME_LOWER +".");
 		context.put("fqnGenEdgePrefix", gModel.getPackage() + "." + GMODEL_NAME_LOWER +".");
+		context.put("fqnGenContainerPrefix", gModel.getPackage() + "." + GMODEL_NAME_LOWER +".");
 		context.put("fqnGenModelPrefix", gModel.getPackage() + "." + GMODEL_NAME_LOWER +".");
 	}
 

@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>4b3bed73-f07c-47e8-a3c6-83cd1b38c908</id>
   <name>Create_GetSetAttribute</name>
-  <changecounter>349</changecounter>
+  <changecounter>351</changecounter>
   <sib>
     <id>ba6b8d58-e1c8-4fc5-8bdd-695e69dcc9f9</id>
     <name>GetAttributeName</name>
@@ -627,7 +627,7 @@ dom.getCommandStack().execute(new $fqnRecordingCommand$(dom) {
       <string>&lt;p&gt;&lt;b&gt;&lt;em&gt;Cinco API&lt;/em&gt;&lt;/b&gt;&lt;/p&gt;
 Set the value of attribute $attributeName$
 
-@param New value for $attributeName$</string>
+@param arg New value for $attributeName$</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
@@ -1509,20 +1509,20 @@ Get the value of attribute $attributeName$
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </entry>
     <entry>
-      <string>attributeKey</string>
+      <string>eClassKey</string>
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>attributeKey</key>
+          <key>eClassKey</key>
           <scope>DECLARED</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </entry>
     <entry>
-      <string>eClassKey</string>
+      <string>attributeKey</string>
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>eClassKey</key>
+          <key>attributeKey</key>
           <scope>DECLARED</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
