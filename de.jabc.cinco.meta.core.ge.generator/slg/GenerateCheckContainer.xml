@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>4ac25e32-ae6b-469a-b78c-1764aa97ce4d</id>
   <name>GenerateCheckContainer</name>
-  <changecounter>248</changecounter>
+  <changecounter>291</changecounter>
   <sib>
     <id>6f32ddea-91f6-4b9b-ba62-647156ba870d</id>
     <name>CopyElement</name>
@@ -164,6 +164,9 @@
 	$context.container.name$ tmp = ($context.container.name$) target;
 	if (tmp.getModelElements($context.modelElement.name$.class).size() &lt; $context.upperBound$)
 		return true;
+	else {
+		$context.cincoErrorMaxCardinality$;
+	}
 }
 </string>
     </parameter>
@@ -556,6 +559,9 @@
 	$context.container.name$ tmp = ($context.container.name$) target;
 	if (tmp.getModelElements().size() &lt; $context.upperBound$)
 		return true;
+	else {
+		$context.cincoErrorMaxCardinality$;
+	}
 }
 </string>
     </parameter>
@@ -755,7 +761,9 @@
     <parameter name="template">
       <string>if (target instanceof $context.graphModelName$ &amp;&amp; (($context.graphModelName$) target).getModelElements($context.modelElementName$.class).size() &lt; $context.upperBound$)
 	return true;
-</string>
+else {
+	$context.cincoErrorMaxCardinality$;
+}</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
@@ -1078,6 +1086,9 @@
     <parameter name="template">
       <string>if (target instanceof $context.graphModelName$ &amp;&amp; (($context.graphModelName$) target).getModelElements().size() &lt; $context.upperBound$)
 	return true;
+else {
+	$context.cincoErrorMaxCardinality$;
+}
 </string>
     </parameter>
     <finalbranches>default</finalbranches>

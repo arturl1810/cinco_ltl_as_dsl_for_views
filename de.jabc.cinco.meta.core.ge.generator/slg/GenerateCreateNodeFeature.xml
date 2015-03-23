@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>9b2878c2-af27-4fb3-878a-6613ed7a16c6</id>
   <name>GenerateCreateNodeFeature</name>
-  <changecounter>533</changecounter>
+  <changecounter>582</changecounter>
   <sib>
     <id>cc5a8f52-a2dd-434a-825b-350e398066fe</id>
     <name>RunStringTemplate</name>
@@ -41,9 +41,13 @@ import org.eclipse.graphiti.features.impl.*;
 import org.eclipse.graphiti.mm.pictograms.*;
 import org.eclipse.graphiti.services.*;
 
+$context.cincoErrorImport$
+
 public class Create$context.modelElementName$Feature extends AbstractCreateFeature {
 
-public Create$context.node.name$Feature(IFeatureProvider fp) {
+	$context.cincoErrorField$
+
+	public Create$context.node.name$Feature(IFeatureProvider fp) {
 		super(fp, &quot;$context.modelElementName$&quot;, &quot;Create $context.modelElementName$&quot;);
 	}
 
@@ -52,6 +56,8 @@ public Create$context.node.name$Feature(IFeatureProvider fp) {
 	public boolean canCreate(ICreateContext context) {
 		Object target = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(context.getTargetContainer());
 		$context.containerCheck$
+		if ($context.cincoErrorCheckOk$)
+			$context.cincoErrorInvalidContainer$
 		return false;
 	}
 
@@ -77,6 +83,8 @@ public Create$context.node.name$Feature(IFeatureProvider fp) {
 
 		return new Object[] {$context.meIdentifier$}; 
 	}
+
+	$context.cincoErrorGetSet$
 }</string>
     </parameter>
     <finalbranches>default</finalbranches>

@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>ede0f2a5-2d64-419a-a377-4de364aed9a1</id>
   <name>GenerateGraphmodelWrapper</name>
-  <changecounter>235</changecounter>
+  <changecounter>250</changecounter>
   <sib>
     <id>961ec5c2-d49b-4f47-b506-1d2f2c25fd26</id>
     <name>RunStringTemplate</name>
@@ -117,9 +117,10 @@ public class $graphModelName$Wrapper {
 			gsg.getModelElements().add(gEdge);
 		}
 		
+		gsg.getMap().putAll(map);
 		gsg.setModelElement(sg);
-		gsg.setDiagram(dtp.getDiagram());
 		gsg.setShape(dtp.getDiagram());
+		gsg.setDiagram(d);
 		
 		return gsg;
 	}
@@ -137,8 +138,7 @@ public class $graphModelName$Wrapper {
 			$nodeTypeCheck$
 				
 			gNode.setModelElement(n);
-			gNode.setShape((ContainerShape) getPictogramElement(n));
-			gNode.setDiagram(dtp.getDiagram());
+			gNode.setPictogramElement((ContainerShape) getPictogramElement(n));
 
 			map.put(n, gNode);
 			
@@ -163,8 +163,7 @@ public class $graphModelName$Wrapper {
 		$containerTypeCheck$
 
 		gCont.setModelElement(c);
-		gCont.setShape((ContainerShape) getPictogramElement(c));
-		gCont.setDiagram(dtp.getDiagram());
+		gCont.setPictogramElement((ContainerShape) getPictogramElement(c));
 
 		map.put(c, gCont);
 		
@@ -189,8 +188,7 @@ public class $graphModelName$Wrapper {
 		$edgeTypeCheck$
 
 		gEdge.setModelElement(e);
-		gEdge.setConnection((Connection) getPictogramElement(e));
-		gEdge.setDiagram(dtp.getDiagram());
+		gEdge.setPictogramElement((Connection) getPictogramElement(e));
 
 		map.put(e, gEdge);
 		

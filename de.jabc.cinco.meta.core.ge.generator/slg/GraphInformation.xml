@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>86742e86-2110-423a-afde-6fd521759a73</id>
   <name>GraphInformation</name>
-  <changecounter>803</changecounter>
+  <changecounter>929</changecounter>
   <sib>
     <id>9e28dbf6-7ef4-4eef-9ad3-1d0d32bf6020</id>
     <name>GetGraphModelName</name>
@@ -386,9 +386,10 @@
   </edge>
   <edge>
     <source>5c3c2bf0-6053-4497-8c77-a5c8005ae371</source>
-    <target>16ca085b-9bc0-4238-b04e-35101fe3b7c8</target>
-    <point>1110.0,300.0</point>
-    <point>1110.0,435.0</point>
+    <target>b9905f13-e086-4ed9-8dc2-0d93ff3a1b20</target>
+    <point>1128.0,300.9428571428571</point>
+    <point>1407.0,447.0857142857143</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>exit</branch>
   </edge>
   <sib>
@@ -2965,6 +2966,366 @@ ${modelElements}</expression>
     <point>141.0,689.0</point>
     <branch>false</branch>
     <branch>true</branch>
+  </edge>
+  <sib>
+    <id>b9905f13-e086-4ed9-8dc2-0d93ff3a1b20</id>
+    <name>RunStringTemplate</name>
+    <label>cincoErrorImport</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>1253.5,393.0</position>
+    <parameter name="append">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>cincoErrorImport</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>import de.jabc.cinco.meta.core.ge.style.model.errorhandling.ECincoError;</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>04c03251-f2da-443c-884a-048e0b50baa5</id>
+    <name>RunStringTemplate_1</name>
+    <label>cincoErrorField</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>1424.0,393.0</position>
+    <parameter name="append">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>cincoErrorField</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>private ECincoError error = ECincoError.OK;</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>e74d19f4-d5b0-4d7c-9a26-d3c6145ccb10</id>
+    <name>RunStringTemplate_2</name>
+    <label>cincoErrorGetSet</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>1417.5,513.0</position>
+    <parameter name="append">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>cincoErrorGetSet</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>public ECincoError getError() {
+	return error;
+}
+
+public void setError(ECincoError error) {
+	this.error = error;
+}
+</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>b9905f13-e086-4ed9-8dc2-0d93ff3a1b20</source>
+    <target>04c03251-f2da-443c-884a-048e0b50baa5</target>
+    <point>1425.0,465.0</point>
+    <point>1442.0,597.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>04c03251-f2da-443c-884a-048e0b50baa5</source>
+    <target>e74d19f4-d5b0-4d7c-9a26-d3c6145ccb10</target>
+    <point>1440.0,615.0</point>
+    <point>1308.0,684.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>e74d19f4-d5b0-4d7c-9a26-d3c6145ccb10</source>
+    <target>4257753b-72b2-48aa-b977-908f785b51b3</target>
+    <point>1488.0,519.9</point>
+    <point>1632.0,423.9</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>b659b811-840e-4cb1-b892-5e7a65f8c051</id>
+    <name>RunStringTemplate_3</name>
+    <label>cincoErrorMaxCardinality</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>1201.0,483.0</position>
+    <parameter name="append">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>cincoErrorMaxCardinality</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>setError(ECincoError.MAX_CARDINALITY);</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>6d7df712-43f8-47bd-bb38-1009592ff099</id>
+    <name>RunStringTemplate_4</name>
+    <label>cincoErrorMaxIn</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>1226.0,603.0</position>
+    <parameter name="append">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>cincoErrorMaxIn</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>setError(ECincoError.MAX_IN);</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>ecfd5e58-5ae1-400c-be20-cd4b1d766665</id>
+    <name>RunStringTemplate_5</name>
+    <label>cincoErrorMaxOut</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>1416.0,618.0</position>
+    <parameter name="append">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>cincoErrorMaxOut</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>setError(ECincoError.MAX_OUT);</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>ecfd5e58-5ae1-400c-be20-cd4b1d766665</source>
+    <target>2dd7682e-f04b-4e47-acf4-0748c7438244</target>
+    <point>1472.7272727272727,684.0</point>
+    <point>1481.6666666666667,738.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>6d7df712-43f8-47bd-bb38-1009592ff099</source>
+    <target>b659b811-840e-4cb1-b892-5e7a65f8c051</target>
+    <point>1410.0,615.0</point>
+    <point>1314.0,576.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>b659b811-840e-4cb1-b892-5e7a65f8c051</source>
+    <target>16ca085b-9bc0-4238-b04e-35101fe3b7c8</target>
+    <point>1242.0,545.88</point>
+    <point>1128.0,443.28</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>658d0f64-7c3f-4ff6-ae3b-f519461b7c7b</id>
+    <name>RunStringTemplate_6</name>
+    <label>cincoErrorInvalidSource</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>1204.0,738.0</position>
+    <parameter name="append">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>cincoErrorInvalidSource</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>setError(ECincoError.INVALID_SOURCE);</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>2dd7682e-f04b-4e47-acf4-0748c7438244</id>
+    <name>RunStringTemplate_7</name>
+    <label>cincoErrorInvalidTarget</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>1400.5,738.0</position>
+    <parameter name="append">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>cincoErrorInvalidTarget</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>setError(ECincoError.INVALID_TARGET);</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>2dd7682e-f04b-4e47-acf4-0748c7438244</source>
+    <target>658d0f64-7c3f-4ff6-ae3b-f519461b7c7b</target>
+    <point>1485.0,765.0</point>
+    <point>1285.0,744.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>658d0f64-7c3f-4ff6-ae3b-f519461b7c7b</source>
+    <target>ddc831c2-a3ff-48c9-b7e7-7453fc0ff577</target>
+    <point>1257.0,757.6941176470589</point>
+    <point>1038.0,770.5764705882353</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>ddc831c2-a3ff-48c9-b7e7-7453fc0ff577</id>
+    <name>RunStringTemplate_8</name>
+    <label>cincoErrorInvalidContainer</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>1031.5,738.0</position>
+    <parameter name="append">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>cincoErrorInvalidContainer</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>setError(ECincoError.INVALID_CONTAINER);</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>ddc831c2-a3ff-48c9-b7e7-7453fc0ff577</source>
+    <target>6d7df712-43f8-47bd-bb38-1009592ff099</target>
+    <point>1110.0,765.0</point>
+    <point>1259.0,642.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>4257753b-72b2-48aa-b977-908f785b51b3</id>
+    <name>RunStringTemplate_9</name>
+    <label>cincoErrorCheckOk</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>1577.5,513.0</position>
+    <parameter name="append">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>cincoErrorCheckOk</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>getError().equals(ECincoError.OK)</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>4257753b-72b2-48aa-b977-908f785b51b3</source>
+    <target>ecfd5e58-5ae1-400c-be20-cd4b1d766665</target>
+    <point>1650.0,420.0</point>
+    <point>1472.0,646.0</point>
+    <branch>default</branch>
   </edge>
   <values/>
   <branch>

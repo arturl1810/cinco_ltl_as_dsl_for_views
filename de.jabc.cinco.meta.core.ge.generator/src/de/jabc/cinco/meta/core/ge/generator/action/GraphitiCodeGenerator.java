@@ -1,5 +1,6 @@
 package de.jabc.cinco.meta.core.ge.generator.action;
 
+import graphicalgraphmodel.CContainer;
 import graphicalgraphmodel.CGraphModel;
 import graphicalgraphmodel.CModelElement;
 import graphicalgraphmodel.CModelElementContainer;
@@ -23,8 +24,11 @@ import java.util.jar.Manifest;
 import mgl.Annotation;
 import mgl.Edge;
 import mgl.GraphModel;
+import mgl.GraphicalModelElement;
+import mgl.IncomingEdgeElementConnection;
 import mgl.Node;
 import mgl.NodeContainer;
+import mgl.OutgoingEdgeElementConnection;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
@@ -34,7 +38,6 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
@@ -47,7 +50,6 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
@@ -66,6 +68,7 @@ import org.eclipse.graphiti.features.IDeleteFeature;
 import org.eclipse.graphiti.features.IMoveShapeFeature;
 import org.eclipse.graphiti.features.IReconnectionFeature;
 import org.eclipse.graphiti.features.IUpdateFeature;
+import org.eclipse.graphiti.features.context.impl.AddConnectionContext;
 import org.eclipse.graphiti.features.context.impl.AddContext;
 import org.eclipse.graphiti.features.context.impl.CreateConnectionContext;
 import org.eclipse.graphiti.features.context.impl.CreateContext;
@@ -73,12 +76,14 @@ import org.eclipse.graphiti.features.context.impl.DeleteContext;
 import org.eclipse.graphiti.features.context.impl.MoveShapeContext;
 import org.eclipse.graphiti.features.context.impl.ReconnectionContext;
 import org.eclipse.graphiti.features.context.impl.UpdateContext;
+import org.eclipse.graphiti.mm.algorithms.styles.Point;
 import org.eclipse.graphiti.mm.pictograms.Anchor;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.PictogramLink;
 import org.eclipse.graphiti.mm.pictograms.PictogramsFactory;
 import org.eclipse.graphiti.services.Graphiti;
+import org.eclipse.graphiti.services.IGaService;
 import org.eclipse.graphiti.ui.services.GraphitiUi;
 import org.eclipse.pde.core.project.IBundleProjectDescription;
 import org.eclipse.pde.core.project.IBundleProjectService;
@@ -99,10 +104,17 @@ import style.NodeStyle;
 import style.Style;
 import style.Styles;
 import de.jabc.cinco.meta.core.ge.generator.Main;
+import de.jabc.cinco.meta.core.ge.style.model.errorhandling.CincoContainerCardinalityException;
+import de.jabc.cinco.meta.core.ge.style.model.errorhandling.CincoEdgeCardinalityInException;
+import de.jabc.cinco.meta.core.ge.style.model.errorhandling.CincoEdgeCardinalityOutException;
+import de.jabc.cinco.meta.core.ge.style.model.errorhandling.CincoInvalidCloneTargetException;
+import de.jabc.cinco.meta.core.ge.style.model.errorhandling.CincoInvalidContainerException;
+import de.jabc.cinco.meta.core.ge.style.model.errorhandling.CincoInvalidSourceException;
+import de.jabc.cinco.meta.core.ge.style.model.errorhandling.CincoInvalidTargetException;
+import de.jabc.cinco.meta.core.ge.style.model.errorhandling.ECincoError;
 import de.jabc.cinco.meta.core.mgl.generator.GenModelCreator;
 import de.jabc.cinco.meta.core.pluginregistry.PluginRegistry;
 import de.jabc.cinco.meta.core.ui.listener.MGLSelectionListener;
-import de.jabc.cinco.meta.core.utils.CincoUtils;
 import de.jabc.cinco.meta.core.utils.URIHandler;
 import de.jabc.cinco.meta.core.utils.projects.ProjectCreator;
 import de.metaframe.jabc.framework.execution.DefaultLightweightExecutionEnvironment;
@@ -157,6 +169,8 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 				if (styles == null) {
 					return null;
 				}
+				
+				gModel = prepareGraphModel(gModel);
 				
 				GMODEL_NAME_LOWER = gModel.getName().toLowerCase();
 				
@@ -228,19 +242,23 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 				context.put("registeredPackageMap", PluginRegistry.getInstance().getRegisteredEcoreModels());
 				context.put("resource", graphicalGraphModelRes);
 				
+				context.put("gModelElementType", GraphicalgraphmodelPackage.eINSTANCE.getEClassifier("CModelElement"));
 				context.put("gNodeType", GraphicalgraphmodelPackage.eINSTANCE.getEClassifier("CNode"));
 				context.put("gEdgeType", GraphicalgraphmodelPackage.eINSTANCE.getEClassifier("CEdge"));
 				context.put("gContainerType", GraphicalgraphmodelPackage.eINSTANCE.getEClassifier("CContainer"));
+				context.put("gModelElementContainerType", GraphicalgraphmodelPackage.eINSTANCE.getEClassifier("CModelElementContainer"));
 				context.put("nodeType", GraphmodelPackage.eINSTANCE.getEClassifier("Node"));
 				context.put("edgeType", GraphmodelPackage.eINSTANCE.getEClassifier("Edge"));
 				context.put("containerType", GraphmodelPackage.eINSTANCE.getEClassifier("Container"));
-				context.put("modelElementType", GraphmodelPackage.eINSTANCE.getEClassifier("ModelElement"));
+				context.put("modelElementContainerType", GraphmodelPackage.eINSTANCE.getEClassifier("ModelElementContainer"));
+				context.put("globmodelElementType", GraphmodelPackage.eINSTANCE.getEClassifier("ModelElement"));
 				context.put("apiPrefix", API_MODEL_PREFIX);
 				
 				context.put("integerType", integerType);
 				context.put("booleanType", booleanType);
 				context.put("eObjectType", EcorePackage.eINSTANCE.getEObject());
 				context.put("genGraphModelPackage", generatedGraphmodelPackage);
+				
 				
 				fqnToContext(context);
 				
@@ -358,6 +376,14 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 		context.put("fqnStringInputStream", StringInputStream.class.getName());
 		context.put("fqnIOException", IOException.class.getName());
 		context.put("fqnCoreException", CoreException.class.getName());
+		context.put("fqnCincoContainerCardinalityException", CincoContainerCardinalityException.class.getName());
+		context.put("fqnCincoEdgeCardinalityInException", CincoEdgeCardinalityInException.class.getName());
+		context.put("fqnCincoEdgeCardinalityOutException", CincoEdgeCardinalityOutException.class.getName());
+		context.put("fqnCincoInvalidCloneTargetException", CincoInvalidCloneTargetException.class.getName());
+		context.put("fqnCincoInvalidContainerException", CincoInvalidContainerException.class.getName());
+		context.put("fqnCincoInvalidSourceException", CincoInvalidSourceException.class.getName());
+		context.put("fqnCincoInvalidTargetException", CincoInvalidTargetException.class.getName());
+		context.put("fqnECincoError", ECincoError.class.getName());
 		context.put("fqnTransactionalEditingDomain", TransactionalEditingDomain.class.getName());
 		context.put("fqnTransactionUtil", TransactionUtil.class.getName());
 		context.put("fqnRecordingCommand", RecordingCommand.class.getName());
@@ -368,11 +394,14 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 		context.put("fqnDiagramTypeProvider", IDiagramTypeProvider.class.getName());
 		
 		context.put("fqnGraphiti", Graphiti.class.getName());
+		context.put("fqnGaService", IGaService.class.getName());
 		context.put("fqnGraphitiUi", GraphitiUi.class.getName());
 		context.put("fqnFeatureProvider", gModel.getPackage() + ".graphiti." + gModel.getName() + "FeatureProvider");
 		context.put("fqnShape", org.eclipse.graphiti.mm.pictograms.Shape.class.getName());
 		context.put("fqnContainerShape", org.eclipse.graphiti.mm.pictograms.ContainerShape.class.getName());
 		context.put("fqnConnection", org.eclipse.graphiti.mm.pictograms.Connection.class.getName());
+		context.put("fqnFreeFormConnection", org.eclipse.graphiti.mm.pictograms.FreeFormConnection.class.getName());
+		context.put("fqnPoint", Point.class.getName());
 		context.put("fqnPictogramElement", PictogramElement.class.getName());
 		context.put("fqnPictogramLink", PictogramLink.class.getName());
 		context.put("fqnPictogramsFactory", PictogramsFactory.class.getName());
@@ -380,6 +409,7 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 		context.put("fqnAnchor", Anchor.class.getName());
 		
 		context.put("fqnAddContext", AddContext.class.getName());
+		context.put("fqnAddConnectionContext", AddConnectionContext.class.getName());
 		context.put("fqnCreateContext", CreateContext.class.getName());
 		context.put("fqnCreateConnectionContext", CreateConnectionContext.class.getName());
 		context.put("fqnDeleteContext", DeleteContext.class.getName());
@@ -387,28 +417,35 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 		context.put("fqnReconnectionContext", ReconnectionContext.class.getName());
 		context.put("fqnUpdateContext", UpdateContext.class.getName());
 		
-		
+		context.put("fqnAPIPrefix", gModel.getPackage() +".api." + API_MODEL_PREFIX.toLowerCase() + GMODEL_NAME_LOWER + ".");
 		context.put("fqnAPIFactory", gModel.getPackage() +".api." + API_MODEL_PREFIX.toLowerCase() + GMODEL_NAME_LOWER + "." + API_MODEL_PREFIX + GMODEL_NAME_LOWER + "Factory");
 		context.put("fqnCModelElementContainer", CModelElementContainer.class.getName());
 		context.put("fqnCModelElement", CModelElement.class.getName());
+		context.put("fqnCContainer", CContainer.class.getName());
 		context.put("fqnCGraphModel", CGraphModel.class.getName());
 		context.put("fqnNode", graphmodel.Node.class.getName());
 		context.put("fqnEdge", graphmodel.Edge.class.getName());
 		context.put("fqnContainer", graphmodel.Container.class.getName());
 		context.put("fqnModelElement", graphmodel.ModelElement.class.getName());
-		
-		context.put("fqnCreateNodeFeaturePrefix", gModel.getPackage().concat(".graphiti.features.create.nodes."));
-		context.put("fqnCreateEdgeFeaturePrefix", gModel.getPackage().concat(".graphiti.features.create.edges."));
-		context.put("fqnCreateContainerFeaturePrefix", gModel.getPackage().concat(".graphiti.features.create.containers."));
-		context.put("fqnAddFeaturePrefix", gModel.getPackage().concat(".graphiti.features.add."));
-		context.put("fqnFeaturePrefix", gModel.getPackage().concat(".graphiti.features."));
+		context.put("fqnModelElementContainer", graphmodel.ModelElementContainer.class.getName());
 		
 		context.put("fqnDeleteFeature", IDeleteFeature.class.getName());
 		context.put("fqnMoveShapeFeature", IMoveShapeFeature.class.getName());
 		context.put("fqnReconnectionFeature", IReconnectionFeature.class.getName());
 		context.put("fqnUpdateFeature", IUpdateFeature.class.getName());
 		
+		context.put("fqnCreateNodeFeaturePrefix", gModel.getPackage().concat(".graphiti.features.create.nodes."));
+		context.put("fqnCreateEdgeFeaturePrefix", gModel.getPackage().concat(".graphiti.features.create.edges."));
+		context.put("fqnCreateContainerFeaturePrefix", gModel.getPackage().concat(".graphiti.features.create.containers."));
+		context.put("fqnAddFeaturePrefix", gModel.getPackage().concat(".graphiti.features.add."));
+		context.put("fqnMoveFeaturePrefix", gModel.getPackage().concat(".graphiti.features.move."));
+		context.put("fqnFeaturePrefix", gModel.getPackage().concat(".graphiti.features."));
+		context.put("fqnReconnectPrefix", gModel.getPackage().concat(".graphiti.features.reconnect."));
+		
 		context.put("fqnGenNodePrefix", gModel.getPackage() + "." + GMODEL_NAME_LOWER +".");
+		context.put("fqnGenEdgePrefix", gModel.getPackage() + "." + GMODEL_NAME_LOWER +".");
+		context.put("fqnGenContainerPrefix", gModel.getPackage() + "." + GMODEL_NAME_LOWER +".");
+		context.put("fqnGenModelPrefix", gModel.getPackage() + "." + GMODEL_NAME_LOWER +".");
 	}
 
 	/**
@@ -715,6 +752,27 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 		}
 		
 		return sb.toString();
+	}
+	
+	private GraphModel prepareGraphModel(GraphModel graphModel){
+		List<GraphicalModelElement> connectableElements = new ArrayList<>();
+		
+		connectableElements.addAll(graphModel.getNodes());
+		connectableElements.addAll(graphModel.getNodeContainers());
+		for(GraphicalModelElement elem : connectableElements) {
+			for(IncomingEdgeElementConnection connect : elem.getIncomingEdgeConnections()){
+				if(connect.getConnectingEdges() == null || connect.getConnectingEdges().isEmpty()){
+					connect.getConnectingEdges().addAll(graphModel.getEdges());
+				}
+			}
+			for(OutgoingEdgeElementConnection connect : elem.getOutgoingEdgeConnections()){
+				if(connect.getConnectingEdges() == null || connect.getConnectingEdges().isEmpty()){
+					connect.getConnectingEdges().addAll(graphModel.getEdges());
+				}
+			}
+		}
+		
+		return graphModel;
 	}
 	
 }

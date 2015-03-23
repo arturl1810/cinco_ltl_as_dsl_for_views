@@ -6,6 +6,14 @@
 			<argument name="attributeKey" />
 		</arguments>
 	</serviceAdapter>
+
+	<serviceAdapter uid="ge-util-sibs/PutDynamicLinkedMap">
+		<service>putDynamicLinkedMap</service>
+		<arguments>
+			<argument name="variable" />
+			<argument name="elements" />
+		</arguments>
+	</serviceAdapter>
 	
 	<serviceAdapter uid="ge-util-sibs/WritePluginXMLContent">
 		<service>writePluginXMLContent</service>

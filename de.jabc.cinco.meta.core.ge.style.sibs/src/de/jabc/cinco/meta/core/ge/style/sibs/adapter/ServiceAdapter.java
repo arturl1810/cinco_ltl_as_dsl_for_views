@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -19,7 +20,9 @@ import java.util.regex.Pattern;
 
 import mgl.Annotation;
 import mgl.Attribute;
+import mgl.ContainingElement;
 import mgl.Edge;
+import mgl.EdgeElementConnection;
 import mgl.GraphModel;
 import mgl.GraphicalElementContainment;
 import mgl.GraphicalModelElement;
@@ -389,7 +392,7 @@ public class ServiceAdapter {
 		
 		LightweightExecutionContext context = env.getLocalContext();
 		try {
-			NodeContainer nc = (NodeContainer) context.get(nodeContainer);
+			ContainingElement nc = (ContainingElement) context.get(nodeContainer);
 			ModelElement n = (ModelElement) context.get(node);
 			
 			if (nc.getContainableElements().isEmpty())
@@ -960,7 +963,8 @@ public class ServiceAdapter {
 			}
 			
 			sbType.append("if (source instanceof " + n.getName() +") {\n\t");
-			sbType.append("if ("+sbBound.toString()+")\n\t\treturn true;\n}");
+			sbType.append("if ("+sbBound.toString()+")\n\t\treturn true;\n\t"
+					+ "else setError(ECincoError.MAX_OUT);\n} ");
 			
 			context.put(code, sbType.toString());
 			return Branches.DEFAULT;
@@ -1004,8 +1008,9 @@ public class ServiceAdapter {
 			}
 			
 			sbType.append("if (target instanceof " + n.getName() +") {\n\t");
-			sbType.append("if ("+sbBound.toString()+")\n\t\treturn true;\n}");
-			
+			sbType.append("if ("+sbBound.toString()+")\n\t\treturn true;\n\t"
+					+ "else setError(ECincoError.MAX_IN);\n}");
+
 			context.put(code, sbType.toString());
 			return Branches.DEFAULT;
 
@@ -1373,8 +1378,6 @@ public class ServiceAdapter {
 						fis = new FileInputStream(f);
 						reader = new BufferedReader(new InputStreamReader(fis));
 						String CINCO_GEN = new String("<!--@CincoGen "+gName+"-->");
-						String regex = new String("(?s)<extension.*"+CINCO_GEN+".*</extension>");
-						Pattern pattern = Pattern.compile(regex, Pattern.DOTALL);
 						ArrayList<String> extensions = getExtensions(originalText);
 						ArrayList<String> remove = new ArrayList<>();
 						for (String ext : extensions) {
@@ -1417,14 +1420,6 @@ public class ServiceAdapter {
 		}
 	}
 
-	private static String trimText(String originalText) {
-		String retval = new String();
-		for (String s : originalText.split("\n")) {
-			retval += s.trim();
-		}
-		return retval;
-	}
-
 	private static ArrayList<String> getExtensions(String c) {
 		ArrayList<String> extensions = new ArrayList<>();
 		String[] lines = c.split("\n");
@@ -1457,6 +1452,23 @@ public class ServiceAdapter {
 			return Branches.ERROR;
 		}
 	}
-	
 
+	public static String putDynamicLinkedMap(LightweightExecutionEnvironment env,
+			ContextKeyFoundation variable, Map<Object, String> elements) {
+		
+		 LightweightExecutionContext context = env.getLocalContext();
+		try {
+			LinkedHashMap<Object, Object> map = new LinkedHashMap<>();
+			for (Entry<Object, String> e : elements.entrySet()) {
+				Object key = e.getKey();
+				Object type = context.get(e.getValue());
+				map.put(key, type);
+			}
+			context.put(variable, map);
+			return Branches.DEFAULT;
+		} catch (Exception e) {
+			context.put("exception", e);
+			return Branches.ERROR;
+		}
+	}
 }

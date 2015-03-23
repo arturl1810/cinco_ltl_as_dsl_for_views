@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<model version="2.1">
+  <id>13968d39-5af4-4872-b4c7-04609eeafd68</id>
+  <name>Generate_GraphModelEdgeEOperations</name>
+  <changecounter>84</changecounter>
+  <sib>
+    <id>68ea706d-31e4-4a0b-a83f-4411b7a539c2</id>
+    <name>MacroSIB_2</name>
+    <label>Create Add</label>
+    <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
+    <position>129.0,76.0</position>
+    <parameter name="eClassKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>eClassKey</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="eOperatiobUpperBound">
+      <int>1</int>
+    </parameter>
+    <parameter name="eOperationLowerBound">
+      <int>0</int>
+    </parameter>
+    <parameter name="eOperationNameKey">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>add${apiPrefix}${modelElementName}</expression>
+          <clazz>java.lang.String</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="eOperationeTypeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key></key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>false</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>$fqnDiagram$ d = ($fqnDiagram$) this.getDiagram();
+$fqnFeatureProvider$ provider = ($fqnFeatureProvider$) org.eclipse.graphiti.ui.services.GraphitiUi.getExtensionManager().createFeatureProvider(d);
+	  
+$fqnAnchor$ source = (($fqnShape$) edge.getSourceElement().getPictogramElement()).getAnchors().get(0);
+$fqnAnchor$ target = (($fqnShape$) edge.getTargetElement().getPictogramElement()).getAnchors().get(0);
+	  
+(($fqnGenEdgePrefix$$modelElementName$) edge.getModelElement()).setSourceElement(($fqnNode$) edge.getSourceElement().getModelElement());
+(($fqnGenEdgePrefix$$modelElementName$) edge.getModelElement()).setTargetElement(($fqnNode$) edge.getTargetElement().getModelElement());
+	  
+$fqnAddConnectionContext$ acc = new $fqnAddConnectionContext$(source, target);
+acc.setNewObject(edge.getModelElement());
+	  
+$fqnAddFeaturePrefix$Add$modelElementName$Feature af = ($fqnAddFeaturePrefix$Add$modelElementName$Feature) provider.getAddFeature(acc);
+if (af != null &amp;&amp; af.canAdd(acc)) {
+	edge.setPictogramElement(af.add(acc));
+	this.getModelElements().add(edge);
+	this.getCRootElement().getMap().put(edge.getModelElement(), edge);
+	this.getMap().put(edge.getModelElement(), edge);
+}</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$START">
+      <boolean>true</boolean>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Create EOperation</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>68ea706d-31e4-4a0b-a83f-4411b7a539c2</source>
+    <target>d1a773d6-b97c-4e48-8bab-979a49b3ec1e</target>
+    <spline/>
+    <point>165.0,105.0</point>
+    <point>165.0,210.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>d1a773d6-b97c-4e48-8bab-979a49b3ec1e</id>
+    <name>PutLinkedMap_2</name>
+    <label>PutLinkedMap</label>
+    <sib-uid>ge-util-sibs/PutDynamicLinkedMap</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.PutDynamicLinkedMap</taxonomy>
+    <position>122.5,183.0</position>
+    <parameter name="elements">
+      <linked-hash-map>
+        <entry>
+          <string>edge</string>
+          <string>modelElementClass</string>
+        </entry>
+      </linked-hash-map>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>parameters</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>72ed492a-e42a-4f49-9cf6-ae27d11c3e52</id>
+    <name>MacroSIB_4</name>
+    <label>CreateParametersForEOperation1</label>
+    <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
+    <position>64.5,286.0</position>
+    <parameter name="map">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>parameters</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>682624bb-37b0-43b6-8bd5-4da09ee871bd</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>CreateParametersForEOperation1</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>d1a773d6-b97c-4e48-8bab-979a49b3ec1e</source>
+    <target>72ed492a-e42a-4f49-9cf6-ae27d11c3e52</target>
+    <spline/>
+    <point>165.0,210.0</point>
+    <point>165.0,315.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>810ae9f8-98fe-41e7-816c-5a1ae4585baf</id>
+    <name>GraphSIB_6</name>
+    <label>Generate_Documentation</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>80.0,391.0</position>
+    <parameter name="eOperationKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>eOperation</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>&lt;p&gt;&lt;b&gt;&lt;em&gt;Cinco API&lt;/em&gt;&lt;/b&gt;&lt;/p&gt;
+Adds an existing node of $modelElementName$ if possible.
+@param xPos The x position of $modelElementName$&apos;s graphical representation in the diagram.
+@param yPos The y position of $modelElementName$&apos;s graphical representation in the diagram.
+
+@return</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>9445cb7d-1ca9-47f0-bda0-ffb7822ef982</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Generate_Documentation</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>72ed492a-e42a-4f49-9cf6-ae27d11c3e52</source>
+    <target>810ae9f8-98fe-41e7-816c-5a1ae4585baf</target>
+    <spline/>
+    <point>165.0,315.0</point>
+    <point>165.0,405.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <parameter>
+    <name>eClassKey</name>
+    <field>eClassKey</field>
+    <sib>68ea706d-31e4-4a0b-a83f-4411b7a539c2</sib>
+  </parameter>
+  <values>
+    <entry>
+      <string>eClassKey</string>
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>eClassKey</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </entry>
+  </values>
+  <branch>
+    <name>default</name>
+    <branch>default</branch>
+    <sib>810ae9f8-98fe-41e7-816c-5a1ae4585baf</sib>
+  </branch>
+</model>

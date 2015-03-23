@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>586b7b70-5c30-487f-aa09-ffe8208bf019</id>
   <name>GenerateReconnectFeatures</name>
-  <changecounter>273</changecounter>
+  <changecounter>282</changecounter>
   <sib>
     <id>cb541589-b45f-430c-a56b-1cebe00059bf</id>
     <name>PutExpression</name>
@@ -336,8 +336,11 @@ import org.eclipse.graphiti.features.impl.DefaultReconnectionFeature;
 import org.eclipse.graphiti.mm.pictograms.Anchor;
 
 import $context.importPath$.*;
+$context.cincoErrorImport$
 
 public class Reconnect$context.edge.name$Feature extends DefaultReconnectionFeature{
+
+	$context.cincoErrorField$
 
 	public Reconnect$context.edge.name$Feature(IFeatureProvider fp) {
 		super(fp);
@@ -346,7 +349,9 @@ public class Reconnect$context.edge.name$Feature extends DefaultReconnectionFeat
 	@Override
 	public boolean canReconnect(IReconnectionContext context) {
 		Anchor newAnchor = context.getNewAnchor();
-		Edge edge = (Edge) getBusinessObjectForPictogramElement(context.getConnection());
+		Anchor oldAnchor = context.getOldAnchor();
+		if (newAnchor != null &amp;&amp; newAnchor.equals(oldAnchor))
+				return true;
 		if (newAnchor != null) {
 			Object bo = getBusinessObjectForPictogramElement(context.getNewAnchor().getParent());
 			if (ReconnectionContext.RECONNECT_TARGET.equals(context.getReconnectType())) {
@@ -362,6 +367,9 @@ public class Reconnect$context.edge.name$Feature extends DefaultReconnectionFeat
 	
 	@Override
 	public void postReconnect(IReconnectionContext context) {
+		if (context.getNewAnchor().equals(context.getOldAnchor()))
+			return;		
+
 		Object boNode = getBusinessObjectForPictogramElement(context.getNewAnchor().getParent());
 		Object boEdge = getBusinessObjectForPictogramElement(context.getConnection());
 		
@@ -393,6 +401,8 @@ public class Reconnect$context.edge.name$Feature extends DefaultReconnectionFeat
 		$context.targetCode$
 		return false;
 	}
+
+	$context.cincoErrorGetSet$
 	
 }
 </string>
