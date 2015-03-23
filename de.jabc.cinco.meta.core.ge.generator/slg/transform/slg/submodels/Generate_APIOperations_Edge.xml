@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>709bf2c6-2af3-4468-aef4-71df8b66f1b5</id>
   <name>Generate_APIOperations_Edge</name>
-  <changecounter>508</changecounter>
+  <changecounter>536</changecounter>
   <sib>
     <id>1d192934-9718-489b-8cd8-c840255c8617</id>
     <name>GraphSIB</name>
@@ -350,9 +350,9 @@ Reconnects the edge&apos;s target.
   </sib>
   <edge>
     <source>186f9a9f-a661-420d-9f2f-923ae82a91b7</source>
-    <target>14f45040-12be-4170-9ec4-2e5f4eea88df</target>
-    <point>600.0,960.0</point>
-    <point>600.0,750.0</point>
+    <target>08defe8f-623a-4ee4-850d-b5524ff7a9c7</target>
+    <point>710.0,141.54545454545453</point>
+    <point>1000.0,141.54545454545453</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -362,7 +362,7 @@ Reconnects the edge&apos;s target.
     <label>Generate_APIOperations_ModelElement</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>559.5,271.0</position>
+    <position>784.5,511.0</position>
     <parameter name="eClassKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -808,6 +808,137 @@ Reconnects the edge&apos;s target.
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
+  <sib>
+    <id>08defe8f-623a-4ee4-850d-b5524ff7a9c7</id>
+    <name>GraphSIB_7</name>
+    <label>Create_Add_Bendpoint</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>846.5,121.0</position>
+    <parameter name="eClassKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>eClassKey</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="eOperatiobUpperBound">
+      <int>1</int>
+    </parameter>
+    <parameter name="eOperationLowerBound">
+      <int>0</int>
+    </parameter>
+    <parameter name="eOperationNameKey">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>addBendpoint</expression>
+          <clazz>java.lang.String</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="eOperationeTypeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key></key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>false</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>$fqnPoint$ p = $fqnGraphiti$.getGaService().createPoint(x,y);
+(($fqnFreeFormConnection$) getPictogramElement()).getBendpoints().add(p);
+
+</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Create EOperation</string>
+    </userobject>
+  </sib>
+  <sib>
+    <id>b4315422-ffa1-450a-839f-f1fb6c2560be</id>
+    <name>PutDynamicLinkedMap_2</name>
+    <label>PutDynamicLinkedMap</label>
+    <sib-uid>ge-util-sibs/PutDynamicLinkedMap</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.PutDynamicLinkedMap</taxonomy>
+    <position>848.5,258.0</position>
+    <parameter name="elements">
+      <linked-hash-map>
+        <entry>
+          <string>x</string>
+          <string>integerType</string>
+        </entry>
+        <entry>
+          <string>y</string>
+          <string>integerType</string>
+        </entry>
+      </linked-hash-map>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>parameters</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>08defe8f-623a-4ee4-850d-b5524ff7a9c7</source>
+    <target>b4315422-ffa1-450a-839f-f1fb6c2560be</target>
+    <point>1020.0,150.0</point>
+    <point>1028.0,259.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>1f5153d2-f3fa-4cee-b01b-cb87fa5441f8</id>
+    <name>GraphSIB_11</name>
+    <label>CreateParametersForEOperation1</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>814.5,376.0</position>
+    <parameter name="map">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>parameters</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>682624bb-37b0-43b6-8bd5-4da09ee871bd</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>CreateParametersForEOperation1</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>b4315422-ffa1-450a-839f-f1fb6c2560be</source>
+    <target>1f5153d2-f3fa-4cee-b01b-cb87fa5441f8</target>
+    <point>1020.0,270.0</point>
+    <point>1019.0,405.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>1f5153d2-f3fa-4cee-b01b-cb87fa5441f8</source>
+    <target>14f45040-12be-4170-9ec4-2e5f4eea88df</target>
+    <point>1020.0,390.0</point>
+    <point>735.0,271.0</point>
+    <branch>default</branch>
+  </edge>
   <parameter>
     <name>eClassKey</name>
     <field>eClassKey</field>
@@ -817,6 +948,11 @@ Reconnects the edge&apos;s target.
     <name>eClassKey</name>
     <field>eClassKey</field>
     <sib>372f2ea3-5032-406c-9072-63ca8bcacf4c</sib>
+  </parameter>
+  <parameter>
+    <name>eClassKey</name>
+    <field>eClassKey</field>
+    <sib>08defe8f-623a-4ee4-850d-b5524ff7a9c7</sib>
   </parameter>
   <values>
     <entry>
