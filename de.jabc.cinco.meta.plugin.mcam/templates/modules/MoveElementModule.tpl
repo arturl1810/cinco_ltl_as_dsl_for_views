@@ -24,14 +24,14 @@ import java.util.Set;
 public class ${ModelElementName}MoveChange extends
 		ChangeModule<${GraphModelName}Id, ${GraphModelName}Adapter> {
 	
-	${GraphModelName}Id oldContainerId = null;
-	${GraphModelName}Id newContainerId = null;
+	public ${GraphModelName}Id oldContainerId = null;
+	public ${GraphModelName}Id newContainerId = null;
 
-	int oldX = 0;
-	int newX = 0;
+	public int oldX = 0;
+	public int newX = 0;
 
-	int oldY = 0;
-	int newY = 0;
+	public int oldY = 0;
+	public int newY = 0;
 
 	@Override
 	public String toString() {

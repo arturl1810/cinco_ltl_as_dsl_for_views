@@ -30,11 +30,11 @@ import java.util.Set;
 public class ${ClassName} extends
 		ChangeModule<${GraphModelName}Id, ${GraphModelName}Adapter> {
 
-	${GraphModelName}Id oldSource = null;
-	${GraphModelName}Id newSource = null;
+	public ${GraphModelName}Id oldSource = null;
+	public ${GraphModelName}Id newSource = null;
 
-	${GraphModelName}Id oldTarget = null;
-	${GraphModelName}Id newTarget = null;
+	public ${GraphModelName}Id oldTarget = null;
+	public ${GraphModelName}Id newTarget = null;
 
 	@Override
 	public String toString() {
@@ -138,15 +138,15 @@ public class ${ClassName} extends
 
 			change.id = id;
 
-			change.oldSource = sourceModel.create${GraphModelName}Id(sourceTransition
-					.getSourceElement());
-			change.newSource = targetModel.create${GraphModelName}Id(targetTransition
-					.getSourceElement());
+			change.oldSource = sourceModel.getIdByString(sourceTransition
+					.getSourceElement().getId());
+			change.newSource = targetModel.getIdByString(targetTransition
+					.getSourceElement().getId());
 
-			change.oldTarget = sourceModel.create${GraphModelName}Id(sourceTransition
-					.getTargetElement());
-			change.newTarget = targetModel.create${GraphModelName}Id(targetTransition
-					.getTargetElement());
+			change.oldTarget = sourceModel.getIdByString(sourceTransition
+					.getTargetElement().getId());
+			change.newTarget = targetModel.getIdByString(targetTransition
+					.getTargetElement().getId());
 
 			if (!change.oldSource.equals(change.newSource) || !change.oldTarget.equals(change.newTarget)) {
 				change.id = id;

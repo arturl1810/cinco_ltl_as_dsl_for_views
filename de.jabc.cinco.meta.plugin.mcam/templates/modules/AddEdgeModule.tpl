@@ -5,7 +5,6 @@ import ${AdapterPackage}.${GraphModelName}Id;
 import ${AdapterPackage}.${GraphModelName}Adapter;
 
 import ${GraphModelPackage}.${ModelElementName};
-import ${GraphModelPackage}.${GraphModelName};
 
 <#list PossibleEdgeSources as source>
 <#if source.getName() != ModelElementName>
@@ -28,14 +27,13 @@ import java.util.Set;
 
 public class ${ClassName} extends ChangeModule<${GraphModelName}Id, ${GraphModelName}Adapter> {
 
-	C${ModelElementName} cElement = null;
-	FlowGraphId sourceId = null;
-	FlowGraphId targetId = null;
-	FlowGraphId containerId = null;
+	public C${ModelElementName} cElement = null;
+	public ${GraphModelName}Id sourceId = null;
+	public ${GraphModelName}Id targetId = null;
 
 	@Override
 	public String toString() {
-		return "${ModelElementName?capitalize} added!";
+		return "${ModelElementName} added!";
 	}
 
 	@Override
@@ -57,10 +55,6 @@ public class ${ClassName} extends ChangeModule<${GraphModelName}Id, ${GraphModel
 	public boolean canExecute(${GraphModelName}Adapter model) {
 		Object element = model.getElementById(id);
 		if (element != null)
-			return false;
-
-		Object container = model.getElementById(containerId);
-		if (container == null)
 			return false;
 
 		Object source = model.getElementById(sourceId);
@@ -113,7 +107,6 @@ public class ${ClassName} extends ChangeModule<${GraphModelName}Id, ${GraphModel
 			change.cElement = targetWrapper.findC${ModelElementName}(element);
 			change.sourceId = targetModel.getIdByString(element.getSourceElement().getId());
 			change.targetId = targetModel.getIdByString(element.getTargetElement().getId());
-			change.containerId = targetModel.getIdByString(element.getContainer().getId());
 			changes.add(change);
 		}
 		for (ChangeModule<${GraphModelName}Id, ${GraphModelName}Adapter> change : changes) {

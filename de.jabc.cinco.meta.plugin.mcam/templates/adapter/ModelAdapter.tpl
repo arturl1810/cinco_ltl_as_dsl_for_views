@@ -43,22 +43,18 @@ public class ${GraphModelName}Adapter implements ModelAdapter<${GraphModelName}I
 	@Override
 	public List<${GraphModelName}Id> getEntityIds() {
 		ArrayList<${GraphModelName}Id> ids = new ArrayList<>();
-		ids.add(createFlowGraphId(model));
+		ids.add(create${GraphModelName}Id(model));
 		
 		TreeIterator<EObject> it = model.eAllContents();
 		while (it.hasNext()) {
 			ModelElement obj = (ModelElement) it.next();
-			${GraphModelName}Id id = createFlowGraphId(obj);
+			${GraphModelName}Id id = create${GraphModelName}Id(obj);
 			String label = getLabel(obj);
 			if (label != null)
 				id.setLabel(label);
 			ids.add(id);
 		}
 		return ids;
-	}
-
-	public ${GraphModelName}Id create${GraphModelName}Id(IdentifiableElement obj) {
-		return new ${GraphModelName}Id(obj.getId(), obj.eClass());
 	}
 
 	public ${GraphModelName} getModel() {
@@ -71,6 +67,10 @@ public class ${GraphModelName}Adapter implements ModelAdapter<${GraphModelName}I
 
 	public C${GraphModelName} getModelWrapper() {
 		return modelWrapper;
+	}
+
+	private ${GraphModelName}Id create${GraphModelName}Id(IdentifiableElement obj) {
+		return new ${GraphModelName}Id(obj.getId(), obj.eClass());
 	}
 
 	public Object getElementById(${GraphModelName}Id id) {

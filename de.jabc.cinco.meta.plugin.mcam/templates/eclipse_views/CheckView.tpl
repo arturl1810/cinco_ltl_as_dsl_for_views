@@ -28,7 +28,7 @@ public class CheckView extends ViewPart implements IPartListener2 {
 	/**
 	 * The ID of the view as specified by the extension.
 	 */
-	public static final String ID = "info.scce.cinco.product.flowgraph.mcam.views.views.CheckView";
+	public static final String ID = "${ViewPackage}.views.CheckView";
 
 	private NullProgressMonitor monitor = new NullProgressMonitor();
 

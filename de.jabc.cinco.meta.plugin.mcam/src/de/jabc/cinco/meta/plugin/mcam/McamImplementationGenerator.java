@@ -148,7 +148,7 @@ public class McamImplementationGenerator {
 
 					if (element instanceof Edge) {
 						data.put("ModelElementType", "Edge");
-//						generateAddEdgeChangeModule((Edge) element);
+						generateAddEdgeChangeModule((Edge) element);
 						generateDeleteEdgeChangeModule((Edge) element);
 						generateSourceTargetChangeModule((Edge) element);
 					}

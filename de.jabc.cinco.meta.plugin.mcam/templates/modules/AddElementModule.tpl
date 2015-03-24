@@ -16,9 +16,7 @@ import ${GraphModelPackage}.${container.getName()};
 import ${BasePackage}.api.c${GraphModelName?lower_case}.C${ModelElementName};
 import ${BasePackage}.api.c${GraphModelName?lower_case}.C${GraphModelName};
 
-import graphmodel.Edge;
-
-import org.eclipse.emf.common.util.EList;
+import graphmodel.Container;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,12 +24,12 @@ import java.util.Set;
 
 public class ${ClassName} extends ChangeModule<${GraphModelName}Id, ${GraphModelName}Adapter> {
 
-	C${ModelElementName} cElement = null;
-	${GraphModelName}Id containerId = null;
+	public C${ModelElementName} cElement = null;
+	public ${GraphModelName}Id containerId = null;
 
 	@Override
 	public String toString() {
-		return "${ModelElementName?capitalize} added!";
+		return "${ModelElementName} added!";
 	}
 
 	@Override
@@ -64,13 +62,15 @@ public class ${ClassName} extends ChangeModule<${GraphModelName}Id, ${GraphModel
 		${ModelElementName} element = (${ModelElementName}) model.getElementById(id);
 		if (element == null)
 			return false;
+
+		if (element instanceof Container)
+			if (((Container)element).getModelElements().size() > 0)
+				return false;
 		
-		EList<Edge> incEdges = element.getIncoming();
-		if (incEdges.size() > 0)
+		if (element.getIncoming().size() > 0)
 			return false;
 		
-		EList<Edge> outEdges = element.getOutgoing();
-		if (outEdges.size() > 0)
+		if (element.getOutgoing().size() > 0)
 			return false;
 
 		return true;

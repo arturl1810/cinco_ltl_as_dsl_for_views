@@ -5,87 +5,51 @@ import ${AdapterPackage}.${GraphModelName}Id;
 import ${AdapterPackage}.${GraphModelName}Adapter;
 
 import ${GraphModelPackage}.${ModelElementName};
-import ${GraphModelPackage}.${GraphModelName};
-
-<#list PossibleContainer as container>
-<#if container.getName() != ModelElementName>
-import ${GraphModelPackage}.${container.getName()};
-</#if>
-</#list>
 
 import ${BasePackage}.api.c${GraphModelName?lower_case}.C${ModelElementName};
 import ${BasePackage}.api.c${GraphModelName?lower_case}.C${GraphModelName};
-
-import graphmodel.Edge;
-import graphmodel.Container;
-
-import org.eclipse.emf.common.util.EList;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public class ${ClassName} extends ChangeModule<${GraphModelName}Id, ${GraphModelName}Adapter> {
+public class ${ModelElementName}DeleteChange extends ChangeModule<${GraphModelName}Id, ${GraphModelName}Adapter> {
 
-	C${ModelElementName} cElement = null;
-	${GraphModelName}Id containerId = null;
+	public C${ModelElementName} cElement = null;
+	public ${GraphModelName}Id containerId = null;
 
 	@Override
 	public String toString() {
-		return "${ModelElementName?capitalize} deleted!";
+		return "${ModelElementName} deleted!";
+	}
+	
+	private ${ModelElementName}AddChange getOppositeChange() {
+		${ModelElementName}AddChange addChange = new ${ModelElementName}AddChange();
+		addChange.id = id;
+		addChange.showOutput = showOutput;
+		addChange.cElement = cElement;
+		addChange.containerId = containerId;
+		return addChange;
 	}
 
 	@Override
 	public boolean canExecute(${GraphModelName}Adapter model) {
-		${ModelElementName} element = (${ModelElementName}) model.getElementById(id);
-		if (element == null)
-			return false;
-
-		if (element instanceof Container && element.eContents().size() > 0)
-		 return false;
-		
-		EList<Edge> incEdges = element.getIncoming();
-		if (incEdges.size() > 0)
-			return false;
-		
-		EList<Edge> outEdges = element.getOutgoing();
-		if (outEdges.size() > 0)
-			return false;
-
-		return true;
+		return getOppositeChange().canUndoExecute(model);
 	}
 
 	@Override
 	public void execute(${GraphModelName}Adapter model) {
-		${ModelElementName} element = (${ModelElementName}) model.getElementById(id);
-		C${GraphModelName} cModel = model.getModelWrapper();
-		C${ModelElementName} cElement = cModel.findC${ModelElementName}(element);
-		cElement.delete();
+		getOppositeChange().undoExecute(model);
 	}
 
 	@Override
 	public void undoExecute(${GraphModelName}Adapter model) {
-		C${GraphModelName} cModel = model.getModelWrapper();
-		Object container = model.getElementById(containerId);
-		<#list PossibleContainer as container>
-		if (container instanceof ${container.getName()})
-			cElement.clone(cModel.findC${container.getName()}((${container.getName()}) container));
-		</#list>
-		if (container instanceof ${GraphModelName})
-			cElement.clone(cModel);
+		getOppositeChange().execute(model);
 	}
 
 	@Override
 	public boolean canUndoExecute(${GraphModelName}Adapter model) {
-		Object container = model.getElementById(containerId);
-		if (container == null)
-			return false;
-
-		Object element = model.getElementById(id);
-		if (element != null)
-			return false;
-		
-		return true;
+		return getOppositeChange().canExecute(model);
 	}
 
 	@Override
@@ -104,7 +68,7 @@ public class ${ClassName} extends ChangeModule<${GraphModelName}Id, ${GraphModel
 			
 			C${GraphModelName} sourceWrapper = sourceModel.getModelWrapper();
 			
-			${ClassName} change = new ${ClassName}();
+			${ModelElementName}DeleteChange change = new ${ModelElementName}DeleteChange();
 			change.id = id;
 			change.cElement = sourceWrapper.findC${ModelElementName}((${ModelElementName}) sourceModel.getElementById(id));
 			change.containerId = sourceModel.getIdByString(change.cElement.getModelElement().getContainer().getId());
@@ -119,7 +83,7 @@ public class ${ClassName} extends ChangeModule<${GraphModelName}Id, ${GraphModel
 	@Override
 	public boolean hasConflictWith(ChangeModule<${GraphModelName}Id, ${GraphModelName}Adapter> change) {
 		if (change.id.equals(id)) {
-			if (!(change instanceof ${ClassName})) {
+			if (!(change instanceof ${ModelElementName}DeleteChange)) {
 				return true;
 			}
 		}
@@ -127,3 +91,4 @@ public class ${ClassName} extends ChangeModule<${GraphModelName}Id, ${GraphModel
 	}
 
 }
+

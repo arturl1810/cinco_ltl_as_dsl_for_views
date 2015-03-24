@@ -5,19 +5,6 @@ import ${AdapterPackage}.${GraphModelName}Id;
 import ${AdapterPackage}.${GraphModelName}Adapter;
 
 import ${GraphModelPackage}.${ModelElementName};
-import ${GraphModelPackage}.${GraphModelName};
-
-<#list PossibleEdgeSources as source>
-<#if source.getName() != ModelElementName>
-import ${GraphModelPackage}.${source.getName()};
-</#if>
-</#list>
-
-<#list PossibleEdgeTargets as target>
-<#if target.getName() != ModelElementName>
-import ${GraphModelPackage}.${target.getName()};
-</#if>
-</#list>
 
 import ${BasePackage}.api.c${GraphModelName?lower_case}.C${ModelElementName};
 import ${BasePackage}.api.c${GraphModelName?lower_case}.C${GraphModelName};
@@ -26,69 +13,45 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public class ${ClassName} extends ChangeModule<${GraphModelName}Id, ${GraphModelName}Adapter> {
+public class ${ModelElementName}DeleteChange extends ChangeModule<${GraphModelName}Id, ${GraphModelName}Adapter> {
 
-	C${ModelElementName} cElement = null;
-	FlowGraphId sourceId = null;
-	FlowGraphId targetId = null;
-	FlowGraphId containerId = null;
+	public C${ModelElementName} cElement = null;
+	public ${GraphModelName}Id sourceId = null;
+	public ${GraphModelName}Id targetId = null;
 
 	@Override
 	public String toString() {
-		return "${ModelElementName?capitalize} deleted!";
+		return "${ModelElementName} deleted!";
+	}
+	
+	private ${ModelElementName}AddChange getOppositeChange() {
+		${ModelElementName}AddChange addChange = new ${ModelElementName}AddChange();
+		addChange.id = id;
+		addChange.showOutput = showOutput;
+		addChange.cElement = cElement;
+		addChange.sourceId = sourceId;
+		addChange.targetId = targetId;
+		return addChange;
 	}
 
 	@Override
 	public boolean canExecute(${GraphModelName}Adapter model) {
-		${ModelElementName} element = (${ModelElementName}) model.getElementById(id);
-		if (element == null)
-			return false;
-
-		return true;
+		return getOppositeChange().canUndoExecute(model);
 	}
 
 	@Override
 	public void execute(${GraphModelName}Adapter model) {
-		${ModelElementName} element = (${ModelElementName}) model.getElementById(id);
-		C${GraphModelName} cModel = model.getModelWrapper();
-		C${ModelElementName} cElement = cModel.findC${ModelElementName}(element);
-		cElement.delete();
+		getOppositeChange().undoExecute(model);
 	}
 
 	@Override
 	public void undoExecute(${GraphModelName}Adapter model) {
-		C${GraphModelName} cModel = model.getModelWrapper();
-
-		Object source = model.getElementById(sourceId);		
-		Object target = model.getElementById(targetId);
-
-		<#list PossibleEdgeSources as source>
-		<#list PossibleEdgeTargets as target>
-		if (source instanceof ${source.getName()} && target instanceof ${target.getName()})
-			cElement.clone(cModel.findC${source.getName()}((${source.getName()}) source), cModel.findC${target.getName()}((${target.getName()}) target));
-		</#list>
-		</#list>
+		getOppositeChange().execute(model);
 	}
 
 	@Override
 	public boolean canUndoExecute(${GraphModelName}Adapter model) {
-		Object element = model.getElementById(id);
-		if (element != null)
-			return false;
-
-		Object container = model.getElementById(containerId);
-		if (container == null)
-			return false;
-
-		Object source = model.getElementById(sourceId);
-		if (source == null)
-			return false;
-		
-		Object target = model.getElementById(targetId);
-		if (target == null)
-			return false;
-		
-		return true;
+		return getOppositeChange().canExecute(model);
 	}
 
 	@Override
@@ -113,7 +76,6 @@ public class ${ClassName} extends ChangeModule<${GraphModelName}Id, ${GraphModel
 			change.cElement = sourceWrapper.findC${ModelElementName}(element);
 			change.sourceId = sourceModel.getIdByString(element.getSourceElement().getId());
 			change.targetId = sourceModel.getIdByString(element.getTargetElement().getId());
-			change.containerId = targetModel.getIdByString(element.getContainer().getId());
 			changes.add(change);
 		}
 		for (ChangeModule<${GraphModelName}Id, ${GraphModelName}Adapter> change : changes) {
