@@ -17,6 +17,7 @@ import ${BasePackage}.api.c${GraphModelName?lower_case}.C${ModelElementName};
 import ${BasePackage}.api.c${GraphModelName?lower_case}.C${GraphModelName};
 
 import graphmodel.Edge;
+import graphmodel.Container;
 
 import org.eclipse.emf.common.util.EList;
 
@@ -39,6 +40,9 @@ public class ${ClassName} extends ChangeModule<${GraphModelName}Id, ${GraphModel
 		${ModelElementName} element = (${ModelElementName}) model.getElementById(id);
 		if (element == null)
 			return false;
+
+		if (element instanceof Container && element.eContents().size() > 0)
+		 return false;
 		
 		EList<Edge> incEdges = element.getIncoming();
 		if (incEdges.size() > 0)

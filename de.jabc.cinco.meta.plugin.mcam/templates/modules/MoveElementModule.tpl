@@ -5,6 +5,13 @@ import ${AdapterPackage}.${GraphModelName}Id;
 import ${AdapterPackage}.${GraphModelName}Adapter;
 
 import ${GraphModelPackage}.${ModelElementName};
+import ${GraphModelPackage}.${GraphModelName};
+
+<#list PossibleContainer as container>
+<#if container.getName() != ModelElementName>
+import ${GraphModelPackage}.${container.getName()};
+</#if>
+</#list>
 
 import ${BasePackage}.api.c${GraphModelName?lower_case}.C${ModelElementName};
 import ${BasePackage}.api.c${GraphModelName?lower_case}.C${GraphModelName};
@@ -16,6 +23,9 @@ import java.util.Set;
 
 public class ${ModelElementName}MoveChange extends
 		ChangeModule<${GraphModelName}Id, ${GraphModelName}Adapter> {
+	
+	${GraphModelName}Id oldContainerId = null;
+	${GraphModelName}Id newContainerId = null;
 
 	int oldX = 0;
 	int newX = 0;
@@ -30,17 +40,27 @@ public class ${ModelElementName}MoveChange extends
 
 	@Override
 	public void execute(${GraphModelName}Adapter model) {
-		${ModelElementName} element = (${ModelElementName}) model.getElementById(id);
 		C${GraphModelName} cModel = model.getModelWrapper();
+		Object container = model.getElementById(newContainerId);
+
+		${ModelElementName} element = (${ModelElementName}) model.getElementById(id);
 		C${ModelElementName} cElement = cModel.findC${ModelElementName}(element);
 
-		cElement.setX(newX);
-		cElement.setY(newY);
+		<#list PossibleContainer as container>
+		if (container instanceof ${container.getName()})
+			cElement.moveTo(cModel.findC${container.getName()}((${container.getName()}) container), newX, newY);
+		</#list>
+		if (container instanceof ${GraphModelName})
+			cElement.moveTo(cModel, newX, newY);
 	}
 
 	@Override
 	public boolean canExecute(${GraphModelName}Adapter model) {
-		${ModelElementName} element = (${ModelElementName}) model.getElementById(id);
+		Object container = model.getElementById(newContainerId);
+		if (container == null)
+			return false;
+
+		Object element = model.getElementById(id);
 		if (element == null)
 			return false;
 		
@@ -49,17 +69,27 @@ public class ${ModelElementName}MoveChange extends
 	
 	@Override
 	public void undoExecute(${GraphModelName}Adapter model) {
-		${ModelElementName} element = (${ModelElementName}) model.getElementById(id);
 		C${GraphModelName} cModel = model.getModelWrapper();
+		Object container = model.getElementById(oldContainerId);
+
+		${ModelElementName} element = (${ModelElementName}) model.getElementById(id);
 		C${ModelElementName} cElement = cModel.findC${ModelElementName}(element);
 
-		cElement.setX(oldX);
-		cElement.setY(oldY);
+		<#list PossibleContainer as container>
+		if (container instanceof ${container.getName()})
+			cElement.moveTo(cModel.findC${container.getName()}((${container.getName()}) container), oldX, oldY);
+		</#list>
+		if (container instanceof ${GraphModelName})
+			cElement.moveTo(cModel, oldX, oldY);
 	}
 
 	@Override
 	public boolean canUndoExecute(${GraphModelName}Adapter model) {
-		${ModelElementName} element = (${ModelElementName}) model.getElementById(id);
+		Object container = model.getElementById(oldContainerId);
+		if (container == null)
+			return false;
+
+		Object element = model.getElementById(id);
 		if (element == null)
 			return false;
 		
@@ -95,6 +125,9 @@ public class ${ModelElementName}MoveChange extends
 			
 			change.oldY = sourceModel.getModelWrapper().findC${ModelElementName}(sourceElement).getY();
 			change.newY = targetModel.getModelWrapper().findC${ModelElementName}(targetElement).getY();
+			
+			change.oldContainerId = sourceModel.getIdByString(sourceElement.getContainer().getId());
+			change.newContainerId = targetModel.getIdByString(targetElement.getContainer().getId());
 
 			if (change.oldX != change.newX || change.oldY != change.newY) {
 				change.id = id;

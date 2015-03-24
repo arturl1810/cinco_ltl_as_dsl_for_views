@@ -149,20 +149,20 @@ public class McamImplementationGenerator {
 					if (element instanceof Edge) {
 						data.put("ModelElementType", "Edge");
 //						generateAddEdgeChangeModule((Edge) element);
-//						generateDeleteEdgeChangeModule((Edge) element);
-//						generateSourceTargetChangeModule((Edge) element);
+						generateDeleteEdgeChangeModule((Edge) element);
+						generateSourceTargetChangeModule((Edge) element);
 					}
 					if (element instanceof Node) {
 						data.put("ModelElementType", "Node");
 						generateAddElementChangeModule(element);
 						generateDeleteElementChangeModule(element);
-//						generateMoveElementChangeModule(element);
+						generateMoveElementChangeModule(element);
 					}
 					if (element instanceof NodeContainer) {
 						data.put("ModelElementType", "Container");
 //						generateAddElementChangeModule(element);
-//						generateDeleteElementChangeModule(element);
-//						generateMoveElementChangeModule(element);
+						generateDeleteElementChangeModule(element);
+						generateMoveElementChangeModule(element);
 					}
 
 				}
@@ -498,6 +498,7 @@ public class McamImplementationGenerator {
 			throws IOException, TemplateException {
 		data.put("ClassName", element.getName() + "MoveChange");
 		data.put("ModelElementName", element.getName());
+		data.put("PossibleContainer", getPossibleContainer(element));
 
 		TemplateGenerator templateGen = new TemplateGenerator(
 				"templates/modules/MoveElementModule.tpl", project);

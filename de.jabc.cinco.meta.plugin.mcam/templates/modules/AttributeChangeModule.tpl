@@ -85,7 +85,19 @@ public class ${ClassName} extends ChangeModule<${GraphModelName}Id, ${GraphModel
 			${ModelElementName} sourceElement = (${ModelElementName}) sourceModel.getElementById(id);
 			${ModelElementName} targetElement = (${ModelElementName}) targetModel.getElementById(id);
 
-			if (!sourceElement.get${AttributeName?cap_first}().equals(targetElement.get${AttributeName?cap_first}())) {
+			boolean changed = false;
+
+			if (sourceElement.get${AttributeName?cap_first}() == null && targetElement.get${AttributeName?cap_first}() != null) {
+				changed = true;
+			} else if (sourceElement.get${AttributeName?cap_first}() != null && targetElement.get${AttributeName?cap_first}() == null) {
+				changed = true;
+			} else if (sourceElement.get${AttributeName?cap_first}() != null && targetElement.get${AttributeName?cap_first}() != null) {
+				if (!sourceElement.get${AttributeName?cap_first}().equals(targetElement.get${AttributeName?cap_first}())) {
+					changed = true;				
+				}
+			}
+				
+			if (changed) {			
 				${ClassName} change = new ${ClassName}();
 				change.id = id;
 				change.oldValue = sourceElement.get${AttributeName?cap_first}();

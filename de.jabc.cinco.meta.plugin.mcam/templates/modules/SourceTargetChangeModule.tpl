@@ -1,7 +1,5 @@
 package ${ChangeModulePackage};
 
-import graphmodel.Node;
-
 import info.scce.mcam.framework.modules.ChangeModule;
 
 import ${AdapterPackage}.${GraphModelName}Id;
@@ -11,6 +9,18 @@ import ${BasePackage}.api.c${GraphModelName?lower_case}.C${GraphModelName};
 import ${BasePackage}.api.c${GraphModelName?lower_case}.C${ModelElementName};
 
 import ${GraphModelPackage}.${ModelElementName};
+
+<#list PossibleEdgeSources as source>
+<#if source.getName() != ModelElementName>
+import ${GraphModelPackage}.${source.getName()};
+</#if>
+</#list>
+
+<#list PossibleEdgeTargets as target>
+<#if target.getName() != ModelElementName>
+import ${GraphModelPackage}.${target.getName()};
+</#if>
+</#list>
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,8 +47,18 @@ public class ${ClassName} extends
 		C${GraphModelName} cModel = model.getModelWrapper();
 		C${ModelElementName} cEdge = cModel.findC${ModelElementName}(edge);
 
-		cEdge.setSourceElement(cModel.findCNode((Node) model.getElementById(newSource)));
-		cEdge.setTargetElement(cModel.findCNode((Node) model.getElementById(newTarget)));
+		Object source = model.getElementById(newSource);
+		Object target = model.getElementById(newTarget);
+
+		<#list PossibleEdgeSources as source>
+		if (source instanceof ${source.getName()})
+			cEdge.reconnectSource(cModel.findC${source.getName()}((${source.getName()}) source));
+		</#list>
+
+		<#list PossibleEdgeTargets as target>
+		if (target instanceof ${target.getName()})
+			cEdge.reconnectTarget(cModel.findC${target.getName()}((${target.getName()}) target));
+		</#list>
 	}
 
 	@Override
@@ -47,11 +67,11 @@ public class ${ClassName} extends
 		if (element == null)
 			return false;
 		
-		Object source = model.getElementById(oldSource);
+		Object source = model.getElementById(newSource);
 		if (source == null)
 			return false;
 
-		Object target = model.getElementById(oldTarget);
+		Object target = model.getElementById(newTarget);
 		if (target == null)
 			return false;
 		
@@ -64,8 +84,18 @@ public class ${ClassName} extends
 		C${GraphModelName} cModel = model.getModelWrapper();
 		C${ModelElementName} cEdge = cModel.findC${ModelElementName}(edge);
 
-		cEdge.setSourceElement(cModel.findCNode((Node) model.getElementById(oldSource)));
-		cEdge.setTargetElement(cModel.findCNode((Node) model.getElementById(oldTarget)));
+		Object source = model.getElementById(oldSource);
+		Object target = model.getElementById(oldTarget);
+
+		<#list PossibleEdgeSources as source>
+		if (source instanceof ${source.getName()})
+			cEdge.reconnectSource(cModel.findC${source.getName()}((${source.getName()}) source));
+		</#list>
+
+		<#list PossibleEdgeTargets as target>
+		if (target instanceof ${target.getName()})
+			cEdge.reconnectTarget(cModel.findC${target.getName()}((${target.getName()}) target));
+		</#list>
 	}
 
 	@Override
