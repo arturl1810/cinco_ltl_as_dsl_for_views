@@ -1,6 +1,7 @@
 package de.jabc.cinco.meta.core.mgl.ui;
 
 import mgl.Annotation;
+import mgl.ModelElement;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -37,7 +38,7 @@ public class MGLHyperLinkDetector implements IHyperlinkDetector {
 		EObjectAtOffsetHelper resolver = new EObjectAtOffsetHelper();
 		EObject object = resolver.resolveElementAt((XtextResource) res, region.getOffset());
 		
-		if (object instanceof Annotation) {
+		if (object instanceof Annotation && ((Annotation) object).getParent() instanceof ModelElement) {
 			return new MGLHyperLinkHelper().createHyperlinksByOffset((XtextResource) res, region.getOffset(), canShowMultipleHyperlinks);
 		} else {
 			return helper.createHyperlinksByOffset((XtextResource) res, region.getOffset(), canShowMultipleHyperlinks) ;

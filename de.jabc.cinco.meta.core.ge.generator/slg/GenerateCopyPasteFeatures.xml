@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>67a73b2a-3824-4776-9686-ae1a8aed5282</id>
   <name>GenerateCopyPasteFeatures</name>
-  <changecounter>325</changecounter>
+  <changecounter>340</changecounter>
   <sib>
     <id>59a427e8-25c5-482c-a32b-a0aa278eb41b</id>
     <name>PutExpression</name>
@@ -957,6 +957,7 @@ import java.util.Set;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.graphiti.datatypes.ILocation;
+import org.eclipse.graphiti.mm.algorithms.AbstractText;
 import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
 import org.eclipse.graphiti.mm.pictograms.Anchor;
 import org.eclipse.graphiti.mm.pictograms.AnchorContainer;
@@ -979,6 +980,32 @@ public class $context.graphModelName$CopyUtils {
 	private static Integer yMin = null;
 	private static Integer xMinAbs = null;
 	private static Integer yMinAbs = null;
+
+	public static PictogramElement flatCopy(PictogramElement pElement) {
+		EObject bo = pElement.getLink().getBusinessObjects().get(0);
+		
+		if (bo instanceof Container) {
+			ContainerShape cs = (ContainerShape) copyContainerShape((ContainerShape) pElement);
+			List&lt;PictogramElement&gt; remove = new ArrayList&lt;&gt;();
+			for (Shape s : cs.getChildren()) {
+				if (s.getGraphicsAlgorithm() instanceof AbstractText)
+					continue;
+				remove.add(s);
+			}
+			cs.getChildren().removeAll(remove);
+			return cs;
+		}
+		
+		if (bo instanceof Node) {
+			Shape s = copyNodeShape((Shape) pElement);
+			return s;
+		}
+		
+		else if (bo instanceof Edge)
+			return copyConnection((Connection) pElement);
+			
+		return null;
+	}
 
 	/**
 	 * This method copies the subgraph given in @param subGraph and triggers the computation of 
