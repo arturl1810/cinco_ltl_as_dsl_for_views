@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>67a73b2a-3824-4776-9686-ae1a8aed5282</id>
   <name>GenerateCopyPasteFeatures</name>
-  <changecounter>340</changecounter>
+  <changecounter>346</changecounter>
   <sib>
     <id>59a427e8-25c5-482c-a32b-a0aa278eb41b</id>
     <name>PutExpression</name>
@@ -993,6 +993,8 @@ public class $context.graphModelName$CopyUtils {
 				remove.add(s);
 			}
 			cs.getChildren().removeAll(remove);
+			Container c = (Container) cs.getLink().getBusinessObjects().get(0);
+			c.getModelElements().clear();
 			return cs;
 		}
 		
