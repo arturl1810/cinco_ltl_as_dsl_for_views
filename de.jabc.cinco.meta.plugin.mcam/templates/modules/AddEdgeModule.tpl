@@ -67,7 +67,7 @@ public class ${ClassName} extends ChangeModule<${GraphModelName}Id, ${GraphModel
 		if (source == null)
 			return false;
 		
-		Object target = model.getElementById(sourceId);
+		Object target = model.getElementById(targetId);
 		if (target == null)
 			return false;
 		

@@ -200,8 +200,8 @@ public class MergeProcessTreeRenderer {
 					// MessageDialog.openInformation(shell, "Change executed",
 					// change.toString());
 				} else {
-					MessageDialog.openInformation(shell,
-							"Change could not be executed!", change.toString());
+					MessageDialog.openError(shell,
+							"Change could not be executed!", "Change could not be executed! \n" + change.toString());
 				}
 
 			} else if (item.getImage().equals(boxCheckedImg)) {
@@ -215,8 +215,8 @@ public class MergeProcessTreeRenderer {
 					// MessageDialog.openInformation(shell, "Change reverted",
 					// change.toString());
 				} else {
-					MessageDialog.openInformation(shell,
-							"Change could not be reverted!", change.toString());
+					MessageDialog.openError(shell,
+							"Change could not be reverted!", "Change could not be reverted! \n" + change.toString());
 				}
 			}
 		}
