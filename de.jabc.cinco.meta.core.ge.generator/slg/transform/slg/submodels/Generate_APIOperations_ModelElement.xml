@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>f14f4b16-0177-4ded-8256-3098679e41b5</id>
   <name>Generate_APIOperations_ModelElement</name>
-  <changecounter>256</changecounter>
+  <changecounter>271</changecounter>
   <sib>
     <id>b29cc53a-581e-4648-906d-73296f479494</id>
     <name>GraphSIB_15</name>
@@ -104,7 +104,7 @@ return false;
     <label>Generate_Documentation</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>125.0,211.0</position>
+    <position>119.0,211.0</position>
     <parameter name="eOperationKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -129,10 +129,81 @@ Deletes this modelElement.
       <string>Generate_Documentation</string>
     </userobject>
   </sib>
+  <sib>
+    <id>405bf1db-4651-42ec-96bd-cd00ac8f54b7</id>
+    <name>GraphSIB_16</name>
+    <label>Create_Highlight</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>424.5,76.0</position>
+    <parameter name="eClassKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>modelElementClass</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="eOperatiobUpperBound">
+      <int>1</int>
+    </parameter>
+    <parameter name="eOperationLowerBound">
+      <int>0</int>
+    </parameter>
+    <parameter name="eOperationNameKey">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>highlight</expression>
+          <clazz>java.lang.String</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="eOperationeTypeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key></key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>false</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>$fqnDiagram$ d = ($fqnDiagram$) this.getDiagram();
+$fqnFeatureProvider$ provider = ($fqnFeatureProvider$) $fqnGraphitiUi$.getExtensionManager().createFeatureProvider(d);
+$fqnIDiagramBehavior$ idb = $fqnGraphitiUtils$.getInstance().getDTP().getDiagramBehavior();
+if (idb instanceof $fqnDiagramBehavior$) {
+	$fqnDiagramBehavior$ db = ($fqnDiagramBehavior$) idb;
+	db.setPictogramElementForSelection(getPictogramElement());
+	db.selectBufferedPictogramElements();
+}</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Create EOperation</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>476ae466-f4c8-4ca9-84a7-633053cb8f0e</source>
+    <target>405bf1db-4651-42ec-96bd-cd00ac8f54b7</target>
+    <point>195.0,240.0</point>
+    <point>449.0,109.0</point>
+    <branch>default</branch>
+  </edge>
   <parameter>
     <name>eClassKey</name>
     <field>eClassKey</field>
     <sib>b29cc53a-581e-4648-906d-73296f479494</sib>
+  </parameter>
+  <parameter>
+    <name>eClassKey</name>
+    <field>eClassKey</field>
+    <sib>405bf1db-4651-42ec-96bd-cd00ac8f54b7</sib>
   </parameter>
   <values>
     <entry>
@@ -149,6 +220,6 @@ Deletes this modelElement.
   <branch>
     <name>default</name>
     <branch>default</branch>
-    <sib>476ae466-f4c8-4ca9-84a7-633053cb8f0e</sib>
+    <sib>405bf1db-4651-42ec-96bd-cd00ac8f54b7</sib>
   </branch>
 </model>

@@ -85,8 +85,10 @@ import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.PictogramLink;
 import org.eclipse.graphiti.mm.pictograms.PictogramsFactory;
+import org.eclipse.graphiti.platform.IDiagramBehavior;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.services.IGaService;
+import org.eclipse.graphiti.ui.editor.DiagramBehavior;
 import org.eclipse.graphiti.ui.services.GraphitiUi;
 import org.eclipse.pde.core.project.IBundleProjectDescription;
 import org.eclipse.pde.core.project.IBundleProjectService;
@@ -394,6 +396,8 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 		context.put("fqnSet", Set.class.getName());
 		
 		context.put("fqnDiagram", Diagram.class.getName());
+		context.put("fqnDiagramBehavior", DiagramBehavior.class.getName());
+		context.put("fqnIDiagramBehavior", IDiagramBehavior.class.getName());
 		context.put("fqnDiagramTypeProvider", IDiagramTypeProvider.class.getName());
 		
 		context.put("fqnGraphiti", Graphiti.class.getName());
@@ -423,6 +427,7 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 		
 		context.put("fqnAPIPrefix", gModel.getPackage() +".api." + API_MODEL_PREFIX.toLowerCase() + GMODEL_NAME_LOWER + ".");
 		context.put("fqnAPIFactory", gModel.getPackage() +".api." + API_MODEL_PREFIX.toLowerCase() + GMODEL_NAME_LOWER + "." + API_MODEL_PREFIX + GMODEL_NAME_LOWER + "Factory");
+		context.put("fqnGraphitiUtils", gModel.getPackage() + ".graphiti." + gModel.getName()+"GraphitiUtils");
 		context.put("fqnCModelElementContainer", CModelElementContainer.class.getName());
 		context.put("fqnCModelElement", CModelElement.class.getName());
 		context.put("fqnCContainer", CContainer.class.getName());
