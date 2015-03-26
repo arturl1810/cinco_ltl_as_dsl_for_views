@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>ede0f2a5-2d64-419a-a377-4de364aed9a1</id>
   <name>GenerateGraphmodelWrapper</name>
-  <changecounter>250</changecounter>
+  <changecounter>251</changecounter>
   <sib>
     <id>961ec5c2-d49b-4f47-b506-1d2f2c25fd26</id>
     <name>RunStringTemplate</name>
@@ -65,7 +65,7 @@ public class $graphModelName$Wrapper {
 	
 	public static final String DTP_ID = &quot;$packageName$.$graphModelName$DiagramTypeProvider&quot;;
 /**
-	public static CFlowGraph newFlowGraph(String graphModelName) throws IOException, CoreException, Exception {
+	public static C$context.graphModelName$ new$context.graphModelName$(String graphModelName) throws IOException, CoreException, Exception {
 		String fileName = &quot;&quot;;
 		IPath path = null;
 		FileDialog dialog = new FileDialog(Display.getCurrent().getActiveShell());
