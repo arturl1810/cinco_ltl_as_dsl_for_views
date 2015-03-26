@@ -68,6 +68,7 @@ import org.eclipse.graphiti.features.IDeleteFeature;
 import org.eclipse.graphiti.features.IMoveShapeFeature;
 import org.eclipse.graphiti.features.IReconnectionFeature;
 import org.eclipse.graphiti.features.IUpdateFeature;
+import org.eclipse.graphiti.features.context.IResizeShapeContext;
 import org.eclipse.graphiti.features.context.impl.AddConnectionContext;
 import org.eclipse.graphiti.features.context.impl.AddContext;
 import org.eclipse.graphiti.features.context.impl.CreateConnectionContext;
@@ -75,6 +76,8 @@ import org.eclipse.graphiti.features.context.impl.CreateContext;
 import org.eclipse.graphiti.features.context.impl.DeleteContext;
 import org.eclipse.graphiti.features.context.impl.MoveShapeContext;
 import org.eclipse.graphiti.features.context.impl.ReconnectionContext;
+import org.eclipse.graphiti.features.context.impl.ResizeContext;
+import org.eclipse.graphiti.features.context.impl.ResizeShapeContext;
 import org.eclipse.graphiti.features.context.impl.UpdateContext;
 import org.eclipse.graphiti.mm.algorithms.styles.Point;
 import org.eclipse.graphiti.mm.pictograms.Anchor;
@@ -415,6 +418,7 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 		context.put("fqnDeleteContext", DeleteContext.class.getName());
 		context.put("fqnMoveShapeContext", MoveShapeContext.class.getName());
 		context.put("fqnReconnectionContext", ReconnectionContext.class.getName());
+		context.put("fqnResizeShapeContext", ResizeShapeContext.class.getName());
 		context.put("fqnUpdateContext", UpdateContext.class.getName());
 		
 		context.put("fqnAPIPrefix", gModel.getPackage() +".api." + API_MODEL_PREFIX.toLowerCase() + GMODEL_NAME_LOWER + ".");
@@ -441,6 +445,7 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 		context.put("fqnMoveFeaturePrefix", gModel.getPackage().concat(".graphiti.features.move."));
 		context.put("fqnFeaturePrefix", gModel.getPackage().concat(".graphiti.features."));
 		context.put("fqnReconnectPrefix", gModel.getPackage().concat(".graphiti.features.reconnect."));
+		context.put("fqnResizePrefix", gModel.getPackage().concat(".graphiti.features.resize."));
 		
 		context.put("fqnGenNodePrefix", gModel.getPackage() + "." + GMODEL_NAME_LOWER +".");
 		context.put("fqnGenEdgePrefix", gModel.getPackage() + "." + GMODEL_NAME_LOWER +".");

@@ -616,13 +616,13 @@ public class InitializeFlowGraphModel extends CincoPostCreateHook<FlowGraph> {
 			CFlowGraph cFlowGraph = FlowGraphWrapper.wrapGraphModel(flowGraph, getDiagram());
 			
 			// Create the three nodes
-			CStart start = cFlowGraph.newStart(50, 50);
-			CActivity activity = cFlowGraph.newActivity(150, 50);
-			CEnd end = cFlowGraph.newEnd(310, 50);
+			CStart start = cFlowGraph.newCStart(50, 50);
+			CActivity activity = cFlowGraph.newCActivity(150, 50);
+			CEnd end = cFlowGraph.newCEnd(310, 50);
 			
 			// Connect the nodes with edges
-			cFlowGraph.newTransition(start, activity);
-			CLabeledTransition labeledTransition = cFlowGraph.newLabeledTransition(activity, end);
+			start.newCTransition(activity);
+			CLabeledTransition labeledTransition = activity.newCLabeledTransition(end);
 			labeledTransition.setLabel("success");
 
 		} catch (Exception e) {
