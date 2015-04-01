@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>bd602dcf-2ea3-4585-953e-853c0406cc4e</id>
   <name>GenerateResizeModelElementFeature</name>
-  <changecounter>262</changecounter>
+  <changecounter>264</changecounter>
   <sib>
     <id>6cad6f22-f2a9-4f5c-a9dc-5eaeb99341c0</id>
     <name>PutExpression_1</name>
@@ -436,9 +436,12 @@ public class Resize$context.modelElement.name$Feature extends DefaultResizeShape
 			private boolean isResizable(GraphicsAlgorithm ga) {
 				EObject linkedBO = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(ga.getPictogramElement());
 				if (!(ga instanceof AbstractText))
-					if (!(Graphiti.getPeService().getProperty(ga, $context.graphModelName$LayoutUtils.KEY_HORIZONTAL).equals($context.graphModelName$LayoutUtils.KEY_HORIZONTAL_UNDEFINED)))
+					if (!(Graphiti.getPeService().getProperty(ga, $context.graphModelName$LayoutUtils.KEY_HORIZONTAL).equals($context.graphModelName$LayoutUtils.KEY_HORIZONTAL_UNDEFINED))) {
 						if (bo instanceof Container)
 							return (linkedBO == null || linkedBO.equals(bo));
+						if (bo instanceof Node)
+							return true;
+				}
 				return false;
 			}
 
