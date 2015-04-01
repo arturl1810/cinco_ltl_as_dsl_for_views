@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Set;
 
 
-public class ${ModelElementName}MoveChange extends
+public class ${ClassName} extends
 		ChangeModule<${GraphModelName}Id, ${GraphModelName}Adapter> {
 	
 	public ${GraphModelName}Id oldContainerId = null;
@@ -33,9 +33,15 @@ public class ${ModelElementName}MoveChange extends
 	public int oldY = 0;
 	public int newY = 0;
 
+	public int oldWidth = 0;
+	public int newWidth = 0;
+
+	public int oldHeight = 0;
+	public int newHeight = 0;
+
 	@Override
 	public String toString() {
-		return "${ModelElementName} moved";
+		return "${ModelElementName} moved and resized";
 	}
 
 	@Override
@@ -52,6 +58,8 @@ public class ${ModelElementName}MoveChange extends
 		</#list>
 		if (container instanceof ${GraphModelName})
 			cElement.moveTo(cModel, newX, newY);
+	
+		cElement.resize(newWidth, newHeight);
 	}
 
 	@Override
@@ -81,6 +89,8 @@ public class ${ModelElementName}MoveChange extends
 		</#list>
 		if (container instanceof ${GraphModelName})
 			cElement.moveTo(cModel, oldX, oldY);
+
+		cElement.resize(oldWidth, oldHeight);
 	}
 
 	@Override
@@ -116,40 +126,69 @@ public class ${ModelElementName}MoveChange extends
 			${ModelElementName} targetElement = (${ModelElementName}) targetModel
 					.getElementById(id);
 
-			${ModelElementName}MoveChange change = new ${ModelElementName}MoveChange();
+			C${ModelElementName} sourceCElement = sourceModel.getModelWrapper().findC${ModelElementName}(sourceElement);
+			C${ModelElementName} targetCElement = targetModel.getModelWrapper().findC${ModelElementName}(targetElement);
+
+			${ClassName} change = new ${ClassName}();
 
 			change.id = id;
-
-			change.oldX = sourceModel.getModelWrapper().findC${ModelElementName}(sourceElement).getX();
-			change.newX = targetModel.getModelWrapper().findC${ModelElementName}(targetElement).getX();
-			
-			change.oldY = sourceModel.getModelWrapper().findC${ModelElementName}(sourceElement).getY();
-			change.newY = targetModel.getModelWrapper().findC${ModelElementName}(targetElement).getY();
 			
 			change.oldContainerId = sourceModel.getIdByString(sourceElement.getContainer().getId());
 			change.newContainerId = targetModel.getIdByString(targetElement.getContainer().getId());
 
-			if (change.oldX != change.newX || change.oldY != change.newY) {
+			change.oldX = sourceCElement.getX();
+			change.newX = targetCElement.getX();
+			
+			change.oldY = sourceCElement.getY();
+			change.newY = targetCElement.getY();
+			
+			change.oldWidth = sourceCElement.getWidth();
+			change.newWidth = targetCElement.getWidth();
+			
+			change.oldHeight = sourceCElement.getHeight();
+			change.newHeight = targetCElement.getHeight();
+
+			if (isMoved(sourceCElement, targetCElement) || isResized(sourceCElement, targetCElement)) {
 				change.id = id;
 				changes.add(change);
 			}
 		}
-		for (ChangeModule<${GraphModelName}Id, ${GraphModelName}Adapter> change : changes) {
+		for (ChangeModule<FlowGraphId, FlowGraphAdapter> change : changes) {
 			ids.remove(change.id);
 		}
 		return changes;
 	}
 
+	private boolean isMoved(C${ModelElementName} sourceElement, C${ModelElementName} targetElement) {
+		if (sourceElement.getX() != targetElement.getX())
+			return true;
+		if (sourceElement.getY() != targetElement.getY())
+			return true;
+		return false;
+	}
+	
+	private boolean isResized(C${ModelElementName} sourceElement, C${ModelElementName} targetElement) {
+		if (sourceElement.getHeight() != targetElement.getHeight())
+			return true;
+		if (sourceElement.getWidth() != targetElement.getWidth())
+			return true;
+		return false;
+	}
+
 	@Override
 	public boolean hasConflictWith(
 			ChangeModule<${GraphModelName}Id, ${GraphModelName}Adapter> change) {
-		if (change instanceof ${ModelElementName}MoveChange) {
-			if (((${ModelElementName}MoveChange) change).id.equals(id)) {
-				if (newX != ((${ModelElementName}MoveChange) change).newX)
+		if (change instanceof ${ClassName}) {
+			if (!oldContainerId.equals(((${ClassName}) change).newContainerId))
 					return true;
-				if (newY != ((${ModelElementName}MoveChange) change).newY)
+				if (newX != ((${ClassName}) change).newX)
 					return true;
-			}
+				if (newY != ((${ClassName}) change).newY)
+					return true;
+				if (newHeight != ((${ClassName}) change).newHeight)
+					return true;
+				if (newWidth != ((${ClassName}) change).newWidth)
+					return true;
 		}
 		return false;
 	}

@@ -26,8 +26,14 @@ import info.scce.mcam.framework.adapter.ModelAdapter;
 import ${BasePackage}.graphiti.${GraphModelName}Wrapper;
 import ${BasePackage}.api.c${GraphModelName?lower_case}.C${GraphModelName};
 
-<#list ModelLabels as modelLabel>
-import ${GraphModelPackage}.${modelLabel.type};
+<#list ContainerTypes as type>
+import ${GraphModelPackage}.${type};
+</#list>
+<#list NodeTypes as type>
+import ${GraphModelPackage}.${type};
+</#list>
+<#list EdgeTypes as type>
+import ${GraphModelPackage}.${type};
 </#list>
 
 public class ${GraphModelName}Adapter implements ModelAdapter<${GraphModelName}Id> {
@@ -108,6 +114,24 @@ public class ${GraphModelName}Adapter implements ModelAdapter<${GraphModelName}I
 		</#if>
 		</#list>
 		return null;
+	}
+
+	public void highlightElement(FlowGraphId id) {
+		Object element = getElementById(id);
+		if (element != null)
+			if (!(element instanceof FlowGraph))
+				<#list ContainerTypes as type>
+				if (element instanceof ${type})
+					modelWrapper.findC${type}((${type}) element).highlight();
+				</#list>
+				<#list NodeTypes as type>
+				if (element instanceof ${type})
+					modelWrapper.findC${type}((${type}) element).highlight();
+				</#list>
+				<#list EdgeTypes as type>
+				if (element instanceof ${type})
+					modelWrapper.findC${type}((${type}) element).highlight();
+				</#list>
 	}
 
 	public void setModel(Resource resource, File file) {

@@ -116,7 +116,12 @@ public class MergeProcessTreeRenderer {
 				for (ChangeModule<${GraphModelName}Id, ${GraphModelName}Adapter> changeModule : conflictSet) {
 					TreeItem changeItem = new TreeItem(conflictItem, SWT.NONE);
 					changeItem.setImage(boxUnCheckedImg);
-					changeItem.setText(changeModule.toString());
+
+					if (mergeInformation.getLocalChanges().contains(changeModule))
+						changeItem.setText("(L) " + changeModule.toString());
+					if (mergeInformation.getRemoteChanges().contains(changeModule))
+						changeItem.setText("(R) " + changeModule.toString());
+
 					changeItem.setData("data", changeModule);
 					changeItem.setData("type", "change");
 				}
@@ -130,7 +135,7 @@ public class MergeProcessTreeRenderer {
 
 				TreeItem changeItem = new TreeItem(idItem, SWT.NONE);
 				changeItem.setImage(boxUnCheckedImg);
-				changeItem.setText(changeModule.toString());
+				changeItem.setText("(L) " + changeModule.toString());
 				changeItem.setData("data", changeModule);
 				changeItem.setData("type", "change");
 			}
@@ -143,7 +148,7 @@ public class MergeProcessTreeRenderer {
 
 				TreeItem changeItem = new TreeItem(idItem, SWT.NONE);
 				changeItem.setImage(boxUnCheckedImg);
-				changeItem.setText(changeModule.toString());
+				changeItem.setText("(R) " + changeModule.toString());
 				changeItem.setData("data", changeModule);
 				changeItem.setData("type", "change");
 			}
@@ -172,8 +177,7 @@ public class MergeProcessTreeRenderer {
 					if (item.getData("type").equals("id")) {
 						@SuppressWarnings({ "unused" })
 						${GraphModelName}Id id = (${GraphModelName}Id) item.getData("data");
-						// MessageDialog.openInformation(shell, "Id clicked",
-						// id.toString());
+						mp.getMergeModelAdapter().highlightElement(id);
 					}
 				}
 			}

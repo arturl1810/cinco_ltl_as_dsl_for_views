@@ -50,7 +50,7 @@ public class McamImplementationGenerator {
 
 	private ArrayList<HashMap<String, Object>> modelLabels = new ArrayList<>();
 	private HashMap<ModelElement, ArrayList<Attribute>> entityAttributes = new HashMap<>();
-	private HashMap<String, ArrayList<ModelElement>> typeNames = new HashMap<>();
+	private HashMap<String, ArrayList<String>> typeNames = new HashMap<>();
 
 	public McamImplementationGenerator(GraphModel gModel, IProject project,
 			String basePackage) {
@@ -103,33 +103,33 @@ public class McamImplementationGenerator {
 
 	private void initEntityMaps() {
 		entityAttributes.put(gModel, new ArrayList<Attribute>());
-		typeNames.put("GraphModel", new ArrayList<ModelElement>());
-		typeNames.get("GraphModel").add(gModel);
+		typeNames.put("GraphModel", new ArrayList<String>());
+		typeNames.get("GraphModel").add(gModel.getName());
 		for (Attribute attribute : gModel.getAttributes()) {
 			entityAttributes.get(gModel).add(attribute);
 		}
 
-		typeNames.put("Node", new ArrayList<ModelElement>());
+		typeNames.put("Node", new ArrayList<String>());
 		for (Node node : gModel.getNodes()) {
-			typeNames.get("Node").add(node);
+			typeNames.get("Node").add(node.getName());
 			entityAttributes.put(node, new ArrayList<Attribute>());
 			for (Attribute attribute : node.getAttributes()) {
 				entityAttributes.get(node).add(attribute);
 			}
 		}
 
-		typeNames.put("Edge", new ArrayList<ModelElement>());
+		typeNames.put("Edge", new ArrayList<String>());
 		for (Edge edge : gModel.getEdges()) {
-			typeNames.get("Edge").add(edge);
+			typeNames.get("Edge").add(edge.getName());
 			entityAttributes.put(edge, new ArrayList<Attribute>());
 			for (Attribute attribute : edge.getAttributes()) {
 				entityAttributes.get(edge).add(attribute);
 			}
 		}
 
-		typeNames.put("Container", new ArrayList<ModelElement>());
+		typeNames.put("Container", new ArrayList<String>());
 		for (NodeContainer container : gModel.getNodeContainers()) {
-			typeNames.get("Container").add(container);
+			typeNames.get("Container").add(container.getName());
 			entityAttributes.put(container, new ArrayList<Attribute>());
 			for (Attribute attribute : container.getAttributes()) {
 				entityAttributes.get(container).add(attribute);
@@ -156,13 +156,13 @@ public class McamImplementationGenerator {
 						data.put("ModelElementType", "Node");
 						generateAddElementChangeModule(element);
 						generateDeleteElementChangeModule(element);
-						generateMoveElementChangeModule(element);
+						generateMoveResizeElementChangeModule(element);
 					}
 					if (element instanceof NodeContainer) {
 						data.put("ModelElementType", "Container");
 						generateAddElementChangeModule(element);
 						generateDeleteElementChangeModule(element);
-						generateMoveElementChangeModule(element);
+						generateMoveResizeElementChangeModule(element);
 					}
 
 				}
@@ -494,14 +494,14 @@ public class McamImplementationGenerator {
 				+ (String) data.get("ClassName"));
 	}
 
-	private void generateMoveElementChangeModule(ModelElement element)
+	private void generateMoveResizeElementChangeModule(ModelElement element)
 			throws IOException, TemplateException {
-		data.put("ClassName", element.getName() + "MoveChange");
+		data.put("ClassName", element.getName() + "MoveResizeChange");
 		data.put("ModelElementName", element.getName());
 		data.put("PossibleContainer", getPossibleContainer(element));
 
 		TemplateGenerator templateGen = new TemplateGenerator(
-				"templates/modules/MoveElementModule.tpl", project);
+				"templates/modules/MoveResizeElementModule.tpl", project);
 		templateGen.setFilename((String) data.get("ClassName") + ".java");
 		templateGen.setPkg((String) data.get("ChangeModulePackage"));
 		templateGen.setData(data);
