@@ -2,14 +2,14 @@
 <model version="2.1">
   <id>696c3b21-1096-4b9a-86bd-7456a6b80d52</id>
   <name>GenerateModelElementPropertyView</name>
-  <changecounter>246</changecounter>
+  <changecounter>257</changecounter>
   <sib>
     <id>c215c747-bca3-4fbb-9807-9cd2ab3f1b32</id>
     <name>PutExpression</name>
     <label>FilterPkgName</label>
     <sib-uid>basic-sibs/PutExpression</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
-    <position>1104.5,528.0</position>
+    <position>1359.5,528.0</position>
     <parameter name="resolve">
       <boolean>true</boolean>
     </parameter>
@@ -40,8 +40,8 @@
   <edge>
     <source>c215c747-bca3-4fbb-9807-9cd2ab3f1b32</source>
     <target>ba4cff73-0d56-4af6-853a-d8d1230f413f</target>
-    <point>1155.0,555.0</point>
-    <point>1155.0,435.0</point>
+    <point>1416.0,552.0</point>
+    <point>1416.0,432.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -51,7 +51,7 @@
     <label>FilterClassName</label>
     <sib-uid>basic-sibs/PutExpression</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
-    <position>1098.5,288.0</position>
+    <position>1353.5,288.0</position>
     <parameter name="resolve">
       <boolean>true</boolean>
     </parameter>
@@ -79,8 +79,8 @@
   <edge>
     <source>521b787c-2ee0-4fe9-b797-0cdf4a093ac4</source>
     <target>af5be9d1-09d2-446c-9138-1e278f21c25c</target>
-    <point>913.8461538461538,273.0</point>
-    <point>1007.5862068965517,144.0</point>
+    <point>1416.0,312.0</point>
+    <point>1416.0,177.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -90,7 +90,7 @@
     <label>IterateAttributes</label>
     <sib-uid>collection-sibs/IterateElements</sib-uid>
     <taxonomy>de.jabc.sib.common.collection.IterateElements</taxonomy>
-    <position>378.0,153.0</position>
+    <position>513.0,153.0</position>
     <parameter name="collection">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -125,8 +125,8 @@
   <edge>
     <source>af5be9d1-09d2-446c-9138-1e278f21c25c</source>
     <target>f8bbaebb-cc9c-471c-8e66-570ada2132fe</target>
-    <point>1155.0,153.0</point>
-    <point>1155.0,84.0</point>
+    <point>1416.0,177.0</point>
+    <point>1416.0,72.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -144,7 +144,7 @@
     <label>ViewPkgName</label>
     <sib-uid>basic-sibs/PutExpression</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
-    <position>1106.0,408.0</position>
+    <position>1361.0,408.0</position>
     <parameter name="resolve">
       <boolean>true</boolean>
     </parameter>
@@ -172,8 +172,8 @@
   <edge>
     <source>ba4cff73-0d56-4af6-853a-d8d1230f413f</source>
     <target>521b787c-2ee0-4fe9-b797-0cdf4a093ac4</target>
-    <point>1155.0,435.0</point>
-    <point>1155.0,315.0</point>
+    <point>1416.0,432.0</point>
+    <point>1416.0,312.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -183,7 +183,7 @@
     <label>GenFilterClassContent</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>883.5,153.0</position>
+    <position>1138.5,153.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -263,7 +263,7 @@ public class $context.modelElementName$Filter extends AbstractPropertySectionFil
     <label>WriteJavaFile</label>
     <sib-uid>genesys-sibs/WriteJavaFile</sib-uid>
     <taxonomy>de.jabc.sib.genesys.WriteJavaFile</taxonomy>
-    <position>763.0,153.0</position>
+    <position>1018.0,153.0</position>
     <parameter name="baseDirectory">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -320,16 +320,16 @@ public class $context.modelElementName$Filter extends AbstractPropertySectionFil
   <edge>
     <source>95cbc564-8964-4143-afc4-80949aa4d365</source>
     <target>d3b18975-8808-4d0f-8d7a-57764196f9fa</target>
-    <point>751.0,183.0</point>
-    <point>601.0,183.0</point>
+    <point>1221.0,177.0</point>
+    <point>1071.0,177.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
     <source>d3b18975-8808-4d0f-8d7a-57764196f9fa</source>
     <target>a7726038-79e3-498f-9331-08d9b62422eb</target>
-    <point>642.0,154.8</point>
-    <point>586.3636363636364,99.0</point>
+    <point>1071.0,177.0</point>
+    <point>921.0,177.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -363,9 +363,9 @@ public class $context.modelElementName$Filter extends AbstractPropertySectionFil
   </sib>
   <edge>
     <source>fc305a02-217e-42f8-bc1d-96ce113fe89e</source>
-    <target>6efc0854-274b-42c3-94d3-2cd46148b9ce</target>
-    <point>417.0,166.2</point>
-    <point>318.0,133.2</point>
+    <target>79e875c2-0d1b-46a1-bbde-afed5b764f61</target>
+    <point>552.0,179.28</point>
+    <point>438.0,224.88</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>next</branch>
   </edge>
@@ -424,7 +424,7 @@ public class $context.modelElementName$Filter extends AbstractPropertySectionFil
     <label>WriteJavaFile</label>
     <sib-uid>genesys-sibs/WriteJavaFile</sib-uid>
     <taxonomy>de.jabc.sib.genesys.WriteJavaFile</taxonomy>
-    <position>388.0,348.0</position>
+    <position>523.0,348.0</position>
     <parameter name="baseDirectory">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -497,8 +497,8 @@ public class $context.modelElementName$Filter extends AbstractPropertySectionFil
   <edge>
     <source>dd186b76-5360-4dcb-8a51-32636933573d</source>
     <target>fc305a02-217e-42f8-bc1d-96ce113fe89e</target>
-    <point>436.0,378.0</point>
-    <point>436.0,183.0</point>
+    <point>570.0,375.0</point>
+    <point>570.0,180.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -508,7 +508,7 @@ public class $context.modelElementName$Filter extends AbstractPropertySectionFil
     <label>ViewClassName</label>
     <sib-uid>basic-sibs/PutExpression</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
-    <position>380.0,588.0</position>
+    <position>515.0,588.0</position>
     <parameter name="resolve">
       <boolean>true</boolean>
     </parameter>
@@ -536,8 +536,8 @@ public class $context.modelElementName$Filter extends AbstractPropertySectionFil
   <edge>
     <source>a1e37bf0-7541-4442-a7cf-e81d830024d0</source>
     <target>dd186b76-5360-4dcb-8a51-32636933573d</target>
-    <point>436.0,618.0</point>
-    <point>436.0,378.0</point>
+    <point>570.0,615.0</point>
+    <point>570.0,375.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -631,7 +631,7 @@ public class $context.modelElementName$Filter extends AbstractPropertySectionFil
     <label>GenerateSectionCode</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>361.0,903.0</position>
+    <position>496.0,903.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -739,8 +739,8 @@ public class $context.modelElementName$_$context.attributeName$_Section extends 
   <edge>
     <source>adb883ba-2f5f-4ec3-bb7e-08fc3b2f2cca</source>
     <target>a1e37bf0-7541-4442-a7cf-e81d830024d0</target>
-    <point>496.0,813.0</point>
-    <point>436.0,618.0</point>
+    <point>570.0,930.0</point>
+    <point>570.0,615.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -836,7 +836,7 @@ public class $context.modelElementName$_$context.attributeName$_Section extends 
     <label>GetNodePrimeReference</label>
     <sib-uid>mgl/mgl/GetNodePrimeReference</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.sib.mgl.GetNodePrimeReference</taxonomy>
-    <position>563.0,378.0</position>
+    <position>818.0,378.0</position>
     <parameter name="nodeKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -864,7 +864,7 @@ public class $context.modelElementName$_$context.attributeName$_Section extends 
     <label>CheckVariable</label>
     <sib-uid>basic-sibs/CheckVariable</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.CheckVariable</taxonomy>
-    <position>595.0,483.0</position>
+    <position>850.0,483.0</position>
     <parameter name="variable">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -882,8 +882,8 @@ public class $context.modelElementName$_$context.attributeName$_Section extends 
   <edge>
     <source>bed0693b-2dda-42b0-ba48-e0c0520d6e56</source>
     <target>3cee28a2-fdf1-4a4f-aa0d-4549a71f1471</target>
-    <point>690.0,384.0</point>
-    <point>690.0,453.0</point>
+    <point>906.0,402.0</point>
+    <point>906.0,507.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -893,7 +893,7 @@ public class $context.modelElementName$_$context.attributeName$_Section extends 
     <label>GeneratePrimeReferencePropertyView</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>518.5,601.0</position>
+    <position>773.5,601.0</position>
     <parameter name="referencedTypeKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -915,8 +915,8 @@ public class $context.modelElementName$_$context.attributeName$_Section extends 
   <edge>
     <source>3cee28a2-fdf1-4a4f-aa0d-4549a71f1471</source>
     <target>21887b1e-9612-434f-9fdb-512a6afe0783</target>
-    <point>691.0,408.0</point>
-    <point>691.0,603.0</point>
+    <point>906.0,507.0</point>
+    <point>906.0,627.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>true</branch>
   </edge>
@@ -1060,7 +1060,7 @@ public class $context.modelElementName$_$context.attributeName$_Section extends 
     <label>GetModelElementAttributes</label>
     <sib-uid>mgl/mgl/GetModelElementAttributes</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.sib.mgl.GetModelElementAttributes</taxonomy>
-    <position>1064.5,153.0</position>
+    <position>1319.5,153.0</position>
     <parameter name="eListKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1088,7 +1088,7 @@ public class $context.modelElementName$_$context.attributeName$_Section extends 
     <label>SwitchModelElement</label>
     <sib-uid>mgl/mgl/SwitchModelElement</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.sib.mgl.SwitchModelElement</taxonomy>
-    <position>575.5,273.0</position>
+    <position>830.5,273.0</position>
     <parameter name="eObjectKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1110,8 +1110,9 @@ public class $context.modelElementName$_$context.attributeName$_Section extends 
   <edge>
     <source>3f66e2d3-5545-401f-bcac-dc18037fbad6</source>
     <target>bed0693b-2dda-42b0-ba48-e0c0520d6e56</target>
-    <point>690.0,285.0</point>
-    <point>676.0,372.0</point>
+    <point>906.0,297.0</point>
+    <point>906.0,402.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>Node</branch>
   </edge>
   <sib>
@@ -1120,7 +1121,7 @@ public class $context.modelElementName$_$context.attributeName$_Section extends 
     <label>PrintConsoleMessage</label>
     <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
     <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
-    <position>796.5,273.0</position>
+    <position>1051.5,273.0</position>
     <parameter name="error">
       <boolean>false</boolean>
     </parameter>
@@ -1138,8 +1139,9 @@ public class $context.modelElementName$_$context.attributeName$_Section extends 
   <edge>
     <source>3f66e2d3-5545-401f-bcac-dc18037fbad6</source>
     <target>234cacf7-df89-4891-af9e-e679d2b174a2</target>
-    <point>645.0,300.0</point>
-    <point>826.0,285.0</point>
+    <point>906.0,297.0</point>
+    <point>1131.0,297.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>GraphicalModelElement</branch>
     <branch>UserDefinedType</branch>
     <branch>other</branch>
@@ -1150,7 +1152,7 @@ public class $context.modelElementName$_$context.attributeName$_Section extends 
     <label>GenMETypeSectionCode</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>578.0,153.0</position>
+    <position>833.0,153.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -1210,7 +1212,7 @@ public class $context.modelElementName$TypeClass extends GFPropertySection imple
     <label>WriteJavaFile</label>
     <sib-uid>genesys-sibs/WriteJavaFile</sib-uid>
     <taxonomy>de.jabc.sib.genesys.WriteJavaFile</taxonomy>
-    <position>388.0,48.0</position>
+    <position>523.0,48.0</position>
     <parameter name="baseDirectory">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1267,16 +1269,17 @@ public class $context.modelElementName$TypeClass extends GFPropertySection imple
   <edge>
     <source>a7726038-79e3-498f-9331-08d9b62422eb</source>
     <target>02cde0db-4081-43db-a872-e8458e036b31</target>
-    <point>642.0,79.80000000000001</point>
-    <point>588.0,115.8</point>
+    <point>921.0,177.0</point>
+    <point>921.0,72.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
     <source>fce70437-0fe6-4409-9621-6c5c3dc6eb8d</source>
     <target>fc305a02-217e-42f8-bc1d-96ce113fe89e</target>
-    <point>472.89473684210526,84.0</point>
-    <point>443.4375,153.0</point>
+    <point>570.0,75.0</point>
+    <point>570.0,180.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
@@ -1285,7 +1288,7 @@ public class $context.modelElementName$TypeClass extends GFPropertySection imple
     <label>TypeClassName</label>
     <sib-uid>basic-sibs/PutExpression</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
-    <position>605.0,48.0</position>
+    <position>860.0,48.0</position>
     <parameter name="resolve">
       <boolean>true</boolean>
     </parameter>
@@ -1323,7 +1326,7 @@ public class $context.modelElementName$TypeClass extends GFPropertySection imple
     <label>ComputeAttributeLabelSize</label>
     <sib-uid>ge-util-sibs/ComputeAttributeLabelSize</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.ComputeAttributeLabelSize</taxonomy>
-    <position>1063.5,48.0</position>
+    <position>1318.5,48.0</position>
     <parameter name="attributes">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1348,8 +1351,9 @@ public class $context.modelElementName$TypeClass extends GFPropertySection imple
   <edge>
     <source>f8bbaebb-cc9c-471c-8e66-570ada2132fe</source>
     <target>95cbc564-8964-4143-afc4-80949aa4d365</target>
-    <point>1155.0,75.0</point>
-    <point>973.0,165.0</point>
+    <point>1416.0,72.0</point>
+    <point>1221.0,177.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
@@ -1434,6 +1438,43 @@ public class $context.modelElementName$TypeClass extends GFPropertySection imple
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsMultiLineAttribute</taxonomy>
     <position>232.5,153.0</position>
     <parameter name="attribute">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>attribute</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>false</finalbranches>
+    <finalbranches>true</finalbranches>
+  </sib>
+  <edge>
+    <source>79e875c2-0d1b-46a1-bbde-afed5b764f61</source>
+    <target>6efc0854-274b-42c3-94d3-2cd46148b9ce</target>
+    <point>435.0,180.0</point>
+    <point>307.0,168.0</point>
+    <branch>false</branch>
+  </edge>
+  <edge>
+    <source>79e875c2-0d1b-46a1-bbde-afed5b764f61</source>
+    <target>fc305a02-217e-42f8-bc1d-96ce113fe89e</target>
+    <spline/>
+    <point>453.0,162.36</point>
+    <point>510.0,135.0</point>
+    <point>552.0,160.2</point>
+    <labelposition>551.2218976751542,-26.17558870032472</labelposition>
+    <branch>true</branch>
+  </edge>
+  <sib>
+    <id>79e875c2-0d1b-46a1-bbde-afed5b764f61</id>
+    <name>IsAttributeHidden</name>
+    <label>IsAttributeHidden</label>
+    <sib-uid>ge-util-sibs/IsAttributeHidden</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsAttributeHidden</taxonomy>
+    <position>382.5,153.0</position>
+    <parameter name="attributeKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
           <key>attribute</key>

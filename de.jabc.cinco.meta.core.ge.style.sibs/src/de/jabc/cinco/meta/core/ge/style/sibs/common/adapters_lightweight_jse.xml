@@ -1,5 +1,12 @@
 <serviceAdapters defaultAdapter="de.jabc.cinco.meta.core.ge.style.sibs.adapter.ServiceAdapter">
 	
+	<serviceAdapter uid="ge-util-sibs/IsAttributeHidden">
+		<service>isAttributeHidden</service>
+		<arguments>
+			<argument name="attributeKey" />
+		</arguments>
+	</serviceAdapter>
+
 	<serviceAdapter uid="ge-util-sibs/PutDynamicLinkedMap">
 		<service>putDynamicLinkedMap</service>
 		<arguments>

@@ -1437,6 +1437,22 @@ public class ServiceAdapter {
 		return extensions;
 	}
 
+	public static String isAttributeHidden(LightweightExecutionEnvironment env,
+			ContextKeyFoundation attribute) {
+
+		LightweightExecutionContext context = env.getLocalContext();
+		try {
+			Attribute attr = (Attribute) context.get(attribute);
+			for (Annotation a : attr.getAnnotations())
+				if (a.getName().equals("propertiesViewHidden"))
+					return Branches.TRUE;
+			return Branches.FALSE;
+		} catch (Exception e) {
+			context.put("exception", e);
+			return Branches.ERROR;
+		}
+	}
+
 	public static String putDynamicLinkedMap(LightweightExecutionEnvironment env,
 			ContextKeyFoundation variable, Map<Object, String> elements) {
 		
@@ -1454,7 +1470,5 @@ public class ServiceAdapter {
 			context.put("exception", e);
 			return Branches.ERROR;
 		}
-		
 	}
-
 }

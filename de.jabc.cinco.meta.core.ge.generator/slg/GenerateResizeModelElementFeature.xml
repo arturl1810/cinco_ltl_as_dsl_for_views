@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>bd602dcf-2ea3-4585-953e-853c0406cc4e</id>
   <name>GenerateResizeModelElementFeature</name>
-  <changecounter>212</changecounter>
+  <changecounter>262</changecounter>
   <sib>
     <id>6cad6f22-f2a9-4f5c-a9dc-5eaeb99341c0</id>
     <name>PutExpression_1</name>
@@ -350,6 +350,7 @@ import graphmodel.*;
 
 import java.util.List;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.util.TransactionUtil;
@@ -361,15 +362,22 @@ import org.eclipse.graphiti.features.context.IResizeShapeContext;
 import org.eclipse.graphiti.features.impl.DefaultResizeShapeFeature;
 import org.eclipse.graphiti.mm.pictograms.FreeFormConnection;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
+import org.eclipse.graphiti.mm.pictograms.ContainerShape;
+import org.eclipse.graphiti.mm.pictograms.Shape;
+import org.eclipse.graphiti.mm.algorithms.AbstractText;
+import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
 import org.eclipse.graphiti.mm.algorithms.Polygon;
-import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.mm.algorithms.styles.Point;
+import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.ui.editor.IDiagramContainerUI;
 import org.eclipse.graphiti.ui.services.GraphitiUi;
 
 import $context.importPath$.$context.modelElement.name$;
+import $context.packageName$.graphiti.features.layout.$context.graphModelName$LayoutUtils;
 
 public class Resize$context.modelElement.name$Feature extends DefaultResizeShapeFeature {
+
+	private $context.modelElement.name$ bo;
 
 	public Resize$context.modelElement.name$Feature(IFeatureProvider fp) {
 		super(fp);
@@ -391,21 +399,52 @@ public class Resize$context.modelElement.name$Feature extends DefaultResizeShape
 			
 			@Override
 			protected void doExecute() {
-				Object bo = getBusinessObjectForPictogramElement(context.getPictogramElement());
+				bo = ($context.modelElement.name$) getBusinessObjectForPictogramElement(context.getPictogramElement());
 				
-				int deltaWidth = context.getShape().getGraphicsAlgorithm().getWidth() - context.getWidth(); 
-				int deltaHeight = context.getShape().getGraphicsAlgorithm().getHeight() - context.getHeight();
-
-				if (bo instanceof $context.modelElement.name$) {
-					(($context.modelElement.name$) bo).setWidth(context.getWidth());
-					(($context.modelElement.name$) bo).setHeight(context.getHeight());
-					Graphiti.getGaService().setLocationAndSize(context.getPictogramElement().getGraphicsAlgorithm(),
-							context.getX(), context.getY(), context.getWidth(), context.getHeight());
-
-					$context.moveBendpointsContent$
-
+				int oWidth = context.getWidth();
+				int oHeight = context.getHeight();
+				
+				int deltaWidth = context.getShape().getGraphicsAlgorithm().getWidth() - oWidth; 
+				int deltaHeight = context.getShape().getGraphicsAlgorithm().getHeight() - oHeight;
+				
+				Shape s = context.getShape();
+				resizeByDelta(s.getGraphicsAlgorithm(), context.getWidth(), context.getHeight());
+				if (s instanceof ContainerShape) {
+					for (Shape c : ((ContainerShape) s).getChildren()) {
+						resizeChildren(c, deltaWidth, deltaHeight);
+					}
 				}
+				
 				layoutPictogramElement(context.getPictogramElement());
+			}
+
+			private void resizeChildren(Shape s, int deltaWidth, int deltaHeight) {
+				GraphicsAlgorithm ga = s.getGraphicsAlgorithm();
+				int width = ga.getWidth(); 
+				int height = ga.getHeight();
+				
+				if (s instanceof ContainerShape) {
+					if (isResizable(ga))
+						resizeByDelta(ga, width - deltaWidth, height - deltaHeight);
+					
+					for (Shape c : ((ContainerShape) s).getChildren())
+						resizeChildren(c, deltaWidth, deltaHeight);
+				}
+				
+			}
+
+			private boolean isResizable(GraphicsAlgorithm ga) {
+				EObject linkedBO = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(ga.getPictogramElement());
+				if (!(ga instanceof AbstractText))
+					if (!(Graphiti.getPeService().getProperty(ga, $context.graphModelName$LayoutUtils.KEY_HORIZONTAL).equals($context.graphModelName$LayoutUtils.KEY_HORIZONTAL_UNDEFINED)))
+						if (bo instanceof Container)
+							return (linkedBO == null || linkedBO.equals(bo));
+				return false;
+			}
+
+			private void resizeByDelta(GraphicsAlgorithm ga, int width, int height) {
+				Graphiti.getGaService().setLocationAndSize(ga, context.getX(), context.getY(), width, height);
+
 			}
 		});
 
@@ -430,8 +469,8 @@ public class Resize$context.modelElement.name$Feature extends DefaultResizeShape
     <spline/>
     <point>408.1858407079646,384.0</point>
     <point>465.0,705.0</point>
-    <point>108.0,824.952</point>
-    <labelposition>414.3402768440783,-233.11933378573772</labelposition>
+    <point>108.0,982.032</point>
+    <labelposition>393.9881938407847,-194.7841757558331</labelposition>
     <branch>default</branch>
   </edge>
   <edge>

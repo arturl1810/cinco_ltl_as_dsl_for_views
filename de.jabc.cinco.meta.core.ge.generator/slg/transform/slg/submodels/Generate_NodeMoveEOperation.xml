@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>53c0c093-ef7e-452a-ae07-8946504ff744</id>
   <name>Generate_NodeMoveEOperation</name>
-  <changecounter>445</changecounter>
+  <changecounter>606</changecounter>
   <edge>
     <source>45937ff9-8a61-426a-ad52-785723db3d9e</source>
     <target>33b4498b-317c-424c-a417-153e95dd0cd4</target>
@@ -126,7 +126,7 @@ Moves this node to the specified container. The node is placed at (x,y). ATTENTI
     <label>Create Move</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>575.0,481.0</position>
+    <position>575.0,496.0</position>
     <parameter name="eClassKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -209,7 +209,7 @@ final $fqnMoveShapeContext$ mc = new $fqnMoveShapeContext$(($fqnShape$)pes.get(0
     <label>IterateContainer</label>
     <sib-uid>collection-sibs/IterateElements</sib-uid>
     <taxonomy>de.jabc.sib.common.collection.IterateElements</taxonomy>
-    <position>558.0,48.0</position>
+    <position>565.0,48.0</position>
     <parameter name="collection">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -379,10 +379,10 @@ final $fqnMoveShapeContext$ mc = new $fqnMoveShapeContext$(($fqnShape$)pes.get(0
   </edge>
   <edge>
     <source>acba7bb4-87d5-4ece-b699-d14be453cad5</source>
-    <target>bf43902a-6b9c-47b1-8922-5f33c2c4267b</target>
+    <target>e46944f5-094d-4ff2-bdeb-9ad6bd41d417</target>
     <spline/>
-    <point>635.0,850.0</point>
-    <point>717.0,921.6</point>
+    <point>635.0,840.3333333333334</point>
+    <point>775.0,898.6666666666666</point>
     <labelposition>560.9499762226635,-4.380757600699532</labelposition>
     <branch>default</branch>
   </edge>
@@ -408,7 +408,7 @@ final $fqnMoveShapeContext$ mc = new $fqnMoveShapeContext$(($fqnShape$)pes.get(0
     <label>CreateParametersForEOperation1</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>49.5,391.0</position>
+    <position>49.5,376.0</position>
     <parameter name="map">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -440,7 +440,7 @@ final $fqnMoveShapeContext$ mc = new $fqnMoveShapeContext$(($fqnShape$)pes.get(0
     <label>Generate_Documentation</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>74.0,601.0</position>
+    <position>74.0,496.0</position>
     <parameter name="eOperationKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -549,7 +549,7 @@ $fqnFeatureProvider$ provider = ($fqnFeatureProvider$) $fqnGraphitiUi$.getExtens
 
 java.util.List&lt;$fqnPictogramElement$&gt; pes = $fqnGraphitiUi$.getLinkService().getPictogramElements(d, this.getModelElement());
 if (pes != null &amp;&amp; !pes.isEmpty()) {
-final $fqnMoveShapeContext$ mc = new $fqnMoveShapeContext$(($fqnShape$)pes.get(0));
+	final $fqnMoveShapeContext$ mc = new $fqnMoveShapeContext$(($fqnShape$)pes.get(0));
 	mc.setLocation(x, y);
 	if (this.getContainer() instanceof $fqnCGraphModel$)
 		mc.setSourceContainer(($fqnContainerShape$) (($fqnCGraphModel$) this.getContainer()).getPictogramElement());
@@ -628,9 +628,9 @@ final $fqnMoveShapeContext$ mc = new $fqnMoveShapeContext$(($fqnShape$)pes.get(0
   </edge>
   <edge>
     <source>5f3a2fcd-9de2-4995-99c9-0cce96734b96</source>
-    <target>e2605b87-ec6e-41c3-bb99-d8ad1077d708</target>
-    <point>150.0,630.0</point>
-    <point>390.0,630.0</point>
+    <target>8daf2486-cc30-4aeb-af3f-133f5a1bb65f</target>
+    <point>150.0,536.0</point>
+    <point>150.0,676.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -647,7 +647,7 @@ final $fqnMoveShapeContext$ mc = new $fqnMoveShapeContext$(($fqnShape$)pes.get(0
     <label>CreateClone</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>786.0,511.0</position>
+    <position>951.0,421.0</position>
     <parameter name="eClassKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -745,7 +745,7 @@ return clone;</string>
     <label>Generate_Documentation</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>764.0,181.0</position>
+    <position>884.0,136.0</position>
     <parameter name="eOperationKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -771,8 +771,8 @@ Creates an clone (persisting the modelElement&apos;s id) of this modelElement</s
   <edge>
     <source>8c7d4b5a-b393-4dac-b03e-db89edf3401a</source>
     <target>81bed549-c906-41cc-ac55-ec6863cda23e</target>
-    <point>840.0,540.0</point>
-    <point>840.0,435.0</point>
+    <point>1110.0,540.0</point>
+    <point>1125.0,435.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -782,7 +782,7 @@ Creates an clone (persisting the modelElement&apos;s id) of this modelElement</s
     <label>PutDynamicLinkedMap</label>
     <sib-uid>ge-util-sibs/PutDynamicLinkedMap</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.PutDynamicLinkedMap</taxonomy>
-    <position>773.5,408.0</position>
+    <position>893.5,333.0</position>
     <parameter name="elements">
       <linked-hash-map>
         <entry>
@@ -806,8 +806,8 @@ Creates an clone (persisting the modelElement&apos;s id) of this modelElement</s
   <edge>
     <source>81bed549-c906-41cc-ac55-ec6863cda23e</source>
     <target>35b42949-6328-4628-83b3-e4cde31788cf</target>
-    <point>840.0,435.0</point>
-    <point>840.0,330.0</point>
+    <point>1125.0,435.0</point>
+    <point>1125.0,330.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -817,7 +817,7 @@ Creates an clone (persisting the modelElement&apos;s id) of this modelElement</s
     <label>CreateParametersForEOperation1</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>739.5,301.0</position>
+    <position>859.5,241.0</position>
     <parameter name="map">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -838,8 +838,8 @@ Creates an clone (persisting the modelElement&apos;s id) of this modelElement</s
   <edge>
     <source>35b42949-6328-4628-83b3-e4cde31788cf</source>
     <target>7ab22fc7-0360-4367-be69-d7efbee3844b</target>
-    <point>840.0,330.0</point>
-    <point>840.0,210.0</point>
+    <point>960.0,285.0</point>
+    <point>960.0,165.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -857,7 +857,7 @@ Creates an clone (persisting the modelElement&apos;s id) of this modelElement</s
     <label>CreateClone</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>336.0,466.0</position>
+    <position>351.0,376.0</position>
     <parameter name="eClassKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -949,7 +949,7 @@ return clone;</string>
     <label>Generate_Documentation</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>314.0,151.0</position>
+    <position>314.0,91.0</position>
     <parameter name="eOperationKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -986,7 +986,7 @@ Creates an clone (persisting the modelElement&apos;s id) of this modelElement</s
     <label>PutDynamicLinkedMap</label>
     <sib-uid>ge-util-sibs/PutDynamicLinkedMap</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.PutDynamicLinkedMap</taxonomy>
-    <position>323.5,378.0</position>
+    <position>323.5,288.0</position>
     <parameter name="elements">
       <linked-hash-map>
         <entry>
@@ -1021,7 +1021,7 @@ Creates an clone (persisting the modelElement&apos;s id) of this modelElement</s
     <label>CreateParametersForEOperation1</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>289.5,256.0</position>
+    <position>289.5,196.0</position>
     <parameter name="map">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1042,8 +1042,8 @@ Creates an clone (persisting the modelElement&apos;s id) of this modelElement</s
   <edge>
     <source>66d63d0d-af36-4253-ac68-52f9b18e7d9f</source>
     <target>5aaccbde-e3fc-49f2-a2e0-ef14997f51b0</target>
-    <point>390.0,315.0</point>
-    <point>390.0,180.0</point>
+    <point>390.0,225.0</point>
+    <point>390.0,120.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -1057,8 +1057,8 @@ Creates an clone (persisting the modelElement&apos;s id) of this modelElement</s
   <edge>
     <source>bf43902a-6b9c-47b1-8922-5f33c2c4267b</source>
     <target>5cb7e3e4-42ad-4bd6-aa6c-e668d1fab125</target>
-    <point>849.6268656716418,918.0</point>
-    <point>799.931506849315,744.0</point>
+    <point>1140.0,855.0</point>
+    <point>855.0,855.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>Node</branch>
   </edge>
@@ -1068,7 +1068,7 @@ Creates an clone (persisting the modelElement&apos;s id) of this modelElement</s
     <label>SwitchModelElement</label>
     <sib-uid>mgl/mgl/SwitchModelElement</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.SwitchModelElement</taxonomy>
-    <position>793.5,918.0</position>
+    <position>1138.5,858.0</position>
     <parameter name="eObjectKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1093,7 +1093,7 @@ Creates an clone (persisting the modelElement&apos;s id) of this modelElement</s
     <label>CreateClone</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>936.0,691.0</position>
+    <position>1161.0,421.0</position>
     <parameter name="eClassKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1182,16 +1182,17 @@ return clone;</string>
   </sib>
   <edge>
     <source>bf43902a-6b9c-47b1-8922-5f33c2c4267b</source>
-    <target>c438ef0b-15a9-4825-ba23-eea6454a0672</target>
-    <point>855.0,945.0</point>
-    <point>990.0,838.0</point>
+    <target>083f65d0-edca-47e0-a7b3-57dfdb431b2d</target>
+    <point>1153.0645161290322,783.0</point>
+    <point>1261.764705882353,626.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>NodeContainer</branch>
   </edge>
   <edge>
     <source>c438ef0b-15a9-4825-ba23-eea6454a0672</source>
     <target>81bed549-c906-41cc-ac55-ec6863cda23e</target>
-    <point>975.0,540.0</point>
-    <point>840.0,435.0</point>
+    <point>1260.0,720.0</point>
+    <point>1125.0,435.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -1201,7 +1202,7 @@ return clone;</string>
     <label>SwitchModelElement</label>
     <sib-uid>mgl/mgl/SwitchModelElement</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.SwitchModelElement</taxonomy>
-    <position>328.5,678.0</position>
+    <position>328.5,843.0</position>
     <parameter name="eObjectKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1222,9 +1223,9 @@ return clone;</string>
   </sib>
   <edge>
     <source>e2605b87-ec6e-41c3-bb99-d8ad1077d708</source>
-    <target>c20fc208-4134-4d5a-8b3c-0ed50152b0be</target>
-    <point>225.0,735.0</point>
-    <point>360.0,615.0</point>
+    <target>54fa0de5-7b31-49d4-afe1-874eef435cc4</target>
+    <point>399.8780487804878,843.0</point>
+    <point>514.7727272727273,626.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>NodeContainer</branch>
   </edge>
@@ -1234,7 +1235,7 @@ return clone;</string>
     <label>CreateClone</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>486.0,466.0</position>
+    <position>471.0,376.0</position>
     <parameter name="eClassKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1342,7 +1343,7 @@ return clone;</string>
     <label>IsPrimeNode</label>
     <sib-uid>ge-util-sibs/IsPrimeNode</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsPrimeNode</taxonomy>
-    <position>275.5,558.0</position>
+    <position>275.5,768.0</position>
     <parameter name="node">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1358,9 +1359,10 @@ return clone;</string>
   </sib>
   <edge>
     <source>a4850587-9901-481d-b29a-f3c9a28e4753</source>
-    <target>3ac2d309-fec9-4dce-8dff-32108b1a86ef</target>
-    <point>285.0,600.0</point>
-    <point>302.0,518.0</point>
+    <target>3b9b8db6-50ab-451b-85ed-85eea0a297ff</target>
+    <point>326.05263157894734,723.0</point>
+    <point>408.8888888888889,581.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>false</branch>
   </edge>
   <sib>
@@ -1369,7 +1371,7 @@ return clone;</string>
     <label>CreateClone</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>231.0,466.0</position>
+    <position>246.0,376.0</position>
     <parameter name="eClassKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1420,7 +1422,7 @@ ac.setHeight(clone.getHeight());
 ac.setTargetContainer(($fqnContainerShape$) target.getPictogramElement());
 
 final $fqnAddFeaturePrefix$Add$modelElementName$Feature af = ($fqnAddFeaturePrefix$Add$modelElementName$Feature) provider.getAddFeature(ac);
-if (af != null &amp;&amp; af.canAdd(ac) &amp;&amp; af.canAdd(ac)) {
+if (af != null &amp;&amp; af.canAdd(ac)) {
 	$fqnTransactionalEditingDomain$ dom = $fqnTransactionalEditingDomain$.Factory.INSTANCE.getEditingDomain(target.getModelElement().eResource().getResourceSet());
       	if (dom == null)
 		dom = $fqnTransactionalEditingDomain$.Factory.INSTANCE.createEditingDomain(target.getModelElement().eResource().getResourceSet());
@@ -1453,9 +1455,10 @@ return clone;</string>
   </sib>
   <edge>
     <source>a4850587-9901-481d-b29a-f3c9a28e4753</source>
-    <target>4d76c317-d9c6-4501-9162-becc0e86c299</target>
-    <point>360.0,585.0</point>
-    <point>274.0,502.0</point>
+    <target>e1eea1e7-219b-4862-b808-7562584118e9</target>
+    <point>304.2857142857143,723.0</point>
+    <point>250.41666666666666,626.0</point>
+    <labelposition>485.0,7.0</labelposition>
     <branch>true</branch>
   </edge>
   <edge>
@@ -1471,7 +1474,7 @@ return clone;</string>
     <label>IsPrimeNode</label>
     <sib-uid>ge-util-sibs/IsPrimeNode</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsPrimeNode</taxonomy>
-    <position>785.5,693.0</position>
+    <position>845.5,858.0</position>
     <parameter name="node">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1487,9 +1490,10 @@ return clone;</string>
   </sib>
   <edge>
     <source>5cb7e3e4-42ad-4bd6-aa6c-e668d1fab125</source>
-    <target>8c7d4b5a-b393-4dac-b03e-db89edf3401a</target>
-    <point>795.0,735.0</point>
-    <point>825.0,550.0</point>
+    <target>2efc9455-b673-494a-9fbe-7f5542e19870</target>
+    <point>865.1612903225806,783.0</point>
+    <point>949.7058823529412,626.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>false</branch>
   </edge>
   <sib>
@@ -1498,7 +1502,7 @@ return clone;</string>
     <label>CreateClone</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>696.0,511.0</position>
+    <position>771.0,436.0</position>
     <parameter name="eClassKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1587,17 +1591,1346 @@ return clone;</string>
   </sib>
   <edge>
     <source>5cb7e3e4-42ad-4bd6-aa6c-e668d1fab125</source>
-    <target>61bdc499-3684-44c1-9625-28ddb6be168e</target>
-    <point>812.8378378378378,693.0</point>
-    <point>761.6279069767442,611.0</point>
+    <target>c0925c2e-9ab3-468d-8194-98edb7f124bb</target>
+    <point>802.3404255319149,723.0</point>
+    <point>757.5471698113207,611.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>true</branch>
   </edge>
   <edge>
     <source>61bdc499-3684-44c1-9625-28ddb6be168e</source>
     <target>81bed549-c906-41cc-ac55-ec6863cda23e</target>
-    <point>755.0,512.7142857142857</point>
-    <point>823.421052631579,444.0</point>
+    <point>1020.0,540.0</point>
+    <point>1125.0,435.0</point>
     <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>2d834614-1dcd-48f1-a288-5064044566be</id>
+    <name>GraphSIB_10</name>
+    <label>Create_Resize</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>795.5,46.0</position>
+    <parameter name="eClassKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>eClassKey</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="eOperatiobUpperBound">
+      <int>1</int>
+    </parameter>
+    <parameter name="eOperationLowerBound">
+      <int>0</int>
+    </parameter>
+    <parameter name="eOperationNameKey">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>resize</expression>
+          <clazz>java.lang.String</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="eOperationeTypeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key></key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>false</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>$fqnDiagram$ d = ($fqnDiagram$) getCRootElement().getDiagram();
+$fqnFeatureProvider$ provider = ($fqnFeatureProvider$) $fqnGraphitiUi$.getExtensionManager().createFeatureProvider(d);
+
+final $fqnResizeShapeContext$ rc = new $fqnResizeShapeContext$(($fqnShape$) getPictogramElement());
+rc.setSize(width, height);
+rc.setX(getX());
+rc.setY(getY());
+final $fqnResizePrefix$Resize$modelElementName$Feature rf = ($fqnResizePrefix$Resize$modelElementName$Feature) provider.getResizeShapeFeature(($fqnResizeShapeContext$) rc);
+if (rf != null &amp;&amp; rf.canResizeShape(($fqnResizeShapeContext$) rc)) {
+	$fqnTransactionalEditingDomain$ dom = $fqnTransactionalEditingDomain$.Factory.INSTANCE.getEditingDomain(getModelElement().eResource().getResourceSet());
+      	if (dom == null)
+		dom = $fqnTransactionalEditingDomain$.Factory.INSTANCE.createEditingDomain(getModelElement().eResource().getResourceSet());
+	dom.getCommandStack().execute(new $fqnRecordingCommand$(dom) {
+        
+	@Override
+	protected void doExecute() {
+		rf.resizeShape(($fqnResizeShapeContext$) rc);
+	}
+	});
+}</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Create EOperation</string>
+    </userobject>
+  </sib>
+  <sib>
+    <id>b851947b-b9f0-490d-b309-49503f13b221</id>
+    <name>PutDynamicLinkedMap_4</name>
+    <label>PutDynamicLinkedMap</label>
+    <sib-uid>ge-util-sibs/PutDynamicLinkedMap</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.PutDynamicLinkedMap</taxonomy>
+    <position>953.5,48.0</position>
+    <parameter name="elements">
+      <linked-hash-map>
+        <entry>
+          <string>width</string>
+          <string>integerType</string>
+        </entry>
+        <entry>
+          <string>height</string>
+          <string>integerType</string>
+        </entry>
+      </linked-hash-map>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>parameters</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>24ae3575-64dd-4099-98fa-ddb88348c7d2</id>
+    <name>GraphSIB_11</name>
+    <label>CreateParametersForEOperation1</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>1144.5,46.0</position>
+    <parameter name="map">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>parameters</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>682624bb-37b0-43b6-8bd5-4da09ee871bd</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>CreateParametersForEOperation1</string>
+    </userobject>
+  </sib>
+  <sib>
+    <id>8fe4ec39-a422-4c06-9bde-686f1ec3d410</id>
+    <name>GraphSIB_12</name>
+    <label>Generate_Documentation</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>1385.0,46.0</position>
+    <parameter name="eOperationKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>eOperation</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>&lt;p&gt;&lt;b&gt;&lt;em&gt;Cinco API&lt;/em&gt;&lt;/b&gt;&lt;/p&gt;
+Creates an clone (persisting the modelElement&apos;s id) of this modelElement</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>9445cb7d-1ca9-47f0-bda0-ffb7822ef982</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Generate_Documentation</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>c06628e4-4850-4496-93f4-1757bc4c3079</source>
+    <target>2d834614-1dcd-48f1-a288-5064044566be</target>
+    <point>615.0,75.0</point>
+    <point>804.0,69.0</point>
+    <branch>exit</branch>
+  </edge>
+  <edge>
+    <source>24ae3575-64dd-4099-98fa-ddb88348c7d2</source>
+    <target>8fe4ec39-a422-4c06-9bde-686f1ec3d410</target>
+    <point>1220.0,94.3529411764706</point>
+    <point>1435.0,69.05882352941177</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>2d834614-1dcd-48f1-a288-5064044566be</source>
+    <target>b851947b-b9f0-490d-b309-49503f13b221</target>
+    <point>860.0,66.44444444444444</point>
+    <point>1227.0,66.39999999999999</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>b851947b-b9f0-490d-b309-49503f13b221</source>
+    <target>24ae3575-64dd-4099-98fa-ddb88348c7d2</target>
+    <point>1053.0,150.43636363636364</point>
+    <point>1180.0,104.36363636363637</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>8daf2486-cc30-4aeb-af3f-133f5a1bb65f</id>
+    <name>GraphSIB_24</name>
+    <label>CreateCanMove</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>101.0,616.0</position>
+    <parameter name="eClassKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>eClassKey</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="eOperatiobUpperBound">
+      <int>1</int>
+    </parameter>
+    <parameter name="eOperationLowerBound">
+      <int>0</int>
+    </parameter>
+    <parameter name="eOperationNameKey">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>canMoveTo</expression>
+          <clazz>java.lang.String</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="eOperationeTypeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>booleanType</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>false</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>$fqnDiagram$ d = ($fqnDiagram$) this.getDiagram();
+$fqnFeatureProvider$ provider = ($fqnFeatureProvider$) $fqnGraphitiUi$.getExtensionManager().createFeatureProvider(d);
+
+java.util.List&lt;$fqnPictogramElement$&gt; pes = $fqnGraphitiUi$.getLinkService().getPictogramElements(d, this.getModelElement());
+if (pes != null &amp;&amp; !pes.isEmpty()) {
+	final $fqnMoveShapeContext$ mc = new $fqnMoveShapeContext$(($fqnShape$)pes.get(0));
+	if (this.getContainer() instanceof $fqnCGraphModel$)
+		mc.setSourceContainer(($fqnContainerShape$) (($fqnCGraphModel$) this.getContainer()).getPictogramElement());
+	if (this.getContainer() instanceof $fqnCContainer$)
+		mc.setSourceContainer(($fqnContainerShape$) (($fqnCContainer$) this.getContainer()).getPictogramElement());
+	mc.setTargetContainer(($fqnContainerShape$) container.getPictogramElement());
+	final $fqnMoveFeaturePrefix$Move$modelElementName$Feature mf = ($fqnMoveFeaturePrefix$Move$modelElementName$Feature) provider.getMoveShapeFeature(mc);
+
+	return mf.canMoveShape(mc);
+}
+return false;</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Create EOperation</string>
+    </userobject>
+  </sib>
+  <sib>
+    <id>3c754744-96cd-41f3-8e22-cf5c126504c3</id>
+    <name>PutDynamicLinkedMap_5</name>
+    <label>PutDynamicLinkedMap</label>
+    <sib-uid>ge-util-sibs/PutDynamicLinkedMap</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.PutDynamicLinkedMap</taxonomy>
+    <position>83.5,738.0</position>
+    <parameter name="elements">
+      <linked-hash-map>
+        <entry>
+          <string>container</string>
+          <string>graphModelClass</string>
+        </entry>
+      </linked-hash-map>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>parameters</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>40b09b14-bafb-47a8-9b32-6a1be53355e1</id>
+    <name>GraphSIB_25</name>
+    <label>CreateParametersForEOperation1</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>49.5,841.0</position>
+    <parameter name="map">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>parameters</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>682624bb-37b0-43b6-8bd5-4da09ee871bd</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>CreateParametersForEOperation1</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>8daf2486-cc30-4aeb-af3f-133f5a1bb65f</source>
+    <target>3c754744-96cd-41f3-8e22-cf5c126504c3</target>
+    <point>150.0,645.0</point>
+    <point>150.0,765.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>3c754744-96cd-41f3-8e22-cf5c126504c3</source>
+    <target>40b09b14-bafb-47a8-9b32-6a1be53355e1</target>
+    <point>150.0,765.0</point>
+    <point>150.0,870.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>40b09b14-bafb-47a8-9b32-6a1be53355e1</source>
+    <target>e2605b87-ec6e-41c3-bb99-d8ad1077d708</target>
+    <point>150.0,870.0</point>
+    <point>346.0,695.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>e1eea1e7-219b-4862-b808-7562584118e9</id>
+    <name>GraphSIB_13</name>
+    <label>CreateCanClone</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>220.0,676.0</position>
+    <parameter name="eClassKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>eClassKey</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="eOperatiobUpperBound">
+      <int>1</int>
+    </parameter>
+    <parameter name="eOperationLowerBound">
+      <int>0</int>
+    </parameter>
+    <parameter name="eOperationNameKey">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>canClone</expression>
+          <clazz>java.lang.String</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="eOperationeTypeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>booleanType</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>false</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>final $apiPrefix$$modelElementName$ clone = $fqnAPIFactory$.eINSTANCE.create$apiPrefix$$modelElementName$();
+$fqnPictogramElement$ copy = $fqnFeaturePrefix$$graphModelName$CopyUtils.flatCopy(getPictogramElement());
+clone.setPictogramElement(copy);
+clone.setModelElement(($fqnModelElement$) copy.getLink().getBusinessObjects().get(0));
+
+$fqnDiagram$ d = ($fqnDiagram$) target.getDiagram();
+$fqnFeatureProvider$ provider = ($fqnFeatureProvider$) $fqnGraphitiUi$.getExtensionManager().createFeatureProvider(d);
+	    
+final $fqnAddContext$ ac = new $fqnAddContext$();
+ac.setNewObject(clone.getModelElement());
+ac.setTargetContainer(($fqnContainerShape$) target.getPictogramElement());
+
+final $fqnAddFeaturePrefix$Add$modelElementName$Feature af = ($fqnAddFeaturePrefix$Add$modelElementName$Feature) provider.getAddFeature(ac);
+if (af != null)
+	return af.canAdd(ac);
+
+else return false;</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Create EOperation</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>e1eea1e7-219b-4862-b808-7562584118e9</source>
+    <target>ebec30ee-c277-4b45-b5cc-419d787aead1</target>
+    <point>261.8918918918919,676.0</point>
+    <point>231.27906976744185,594.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>3b9b8db6-50ab-451b-85ed-85eea0a297ff</id>
+    <name>GraphSIB_14</name>
+    <label>CreateCanClone</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>340.0,676.0</position>
+    <parameter name="eClassKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>eClassKey</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="eOperatiobUpperBound">
+      <int>1</int>
+    </parameter>
+    <parameter name="eOperationLowerBound">
+      <int>0</int>
+    </parameter>
+    <parameter name="eOperationNameKey">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>canClone</expression>
+          <clazz>java.lang.String</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="eOperationeTypeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>booleanType</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>false</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>final $apiPrefix$$modelElementName$ clone = $fqnAPIFactory$.eINSTANCE.create$apiPrefix$$modelElementName$();
+$fqnPictogramElement$ copy = $fqnFeaturePrefix$$graphModelName$CopyUtils.flatCopy(getPictogramElement());
+clone.setPictogramElement(copy);
+clone.setModelElement(($fqnModelElement$) copy.getLink().getBusinessObjects().get(0));
+
+$fqnDiagram$ d = ($fqnDiagram$) target.getDiagram();
+$fqnFeatureProvider$ provider = ($fqnFeatureProvider$) $fqnGraphitiUi$.getExtensionManager().createFeatureProvider(d);
+	    
+final $fqnAddContext$ ac = new $fqnAddContext$();
+ac.setNewObject(clone.getModelElement());
+ac.setTargetContainer(($fqnContainerShape$) target.getPictogramElement());
+
+$fqnCreateNodeFeaturePrefix$Create$modelElementName$Feature cf = new $fqnCreateNodeFeaturePrefix$Create$modelElementName$Feature(provider);
+$fqnCreateContext$ cc = new $fqnCreateContext$();
+cc.setTargetContainer(target.getPictogramElement());
+
+final $fqnAddFeaturePrefix$Add$modelElementName$Feature af = ($fqnAddFeaturePrefix$Add$modelElementName$Feature) provider.getAddFeature(ac);
+
+return cf.canCreate(cc);</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Create EOperation</string>
+    </userobject>
+  </sib>
+  <sib>
+    <id>54fa0de5-7b31-49d4-afe1-874eef435cc4</id>
+    <name>GraphSIB_15</name>
+    <label>CreateClone</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>471.0,676.0</position>
+    <parameter name="eClassKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>eClassKey</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="eOperatiobUpperBound">
+      <int>1</int>
+    </parameter>
+    <parameter name="eOperationLowerBound">
+      <int>0</int>
+    </parameter>
+    <parameter name="eOperationNameKey">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>canClone</expression>
+          <clazz>java.lang.String</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="eOperationeTypeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>booleanType</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>false</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>final $apiPrefix$$modelElementName$ clone = $fqnAPIFactory$.eINSTANCE.create$apiPrefix$$modelElementName$();
+$fqnPictogramElement$ copy = $fqnFeaturePrefix$$graphModelName$CopyUtils.flatCopy(getPictogramElement());
+clone.setPictogramElement(copy);
+clone.setModelElement(($fqnModelElement$) copy.getLink().getBusinessObjects().get(0));
+
+$fqnDiagram$ d = ($fqnDiagram$) target.getDiagram();
+$fqnFeatureProvider$ provider = ($fqnFeatureProvider$) $fqnGraphitiUi$.getExtensionManager().createFeatureProvider(d);
+	    
+final $fqnAddContext$ ac = new $fqnAddContext$();
+ac.setNewObject(clone.getModelElement());
+ac.setTargetContainer(($fqnContainerShape$) target.getPictogramElement());
+
+$fqnCreateContainerFeaturePrefix$Create$modelElementName$Feature cf = new $fqnCreateContainerFeaturePrefix$Create$modelElementName$Feature(provider);
+$fqnCreateContext$ cc = new $fqnCreateContext$();
+cc.setTargetContainer(($fqnContainerShape$)target.getPictogramElement());
+	  	
+final $fqnAddFeaturePrefix$Add$modelElementName$Feature af = ($fqnAddFeaturePrefix$Add$modelElementName$Feature) provider.getAddFeature(ac);
+return cf.canCreate(cc);</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Create EOperation</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>54fa0de5-7b31-49d4-afe1-874eef435cc4</source>
+    <target>62b855ad-5f77-4178-a120-fe18546f1795</target>
+    <point>495.1851851851852,676.0</point>
+    <point>460.9090909090909,624.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>e46944f5-094d-4ff2-bdeb-9ad6bd41d417</id>
+    <name>GraphSIB_26</name>
+    <label>CreateCanMove</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>566.0,916.0</position>
+    <parameter name="eClassKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>eClassKey</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="eOperatiobUpperBound">
+      <int>1</int>
+    </parameter>
+    <parameter name="eOperationLowerBound">
+      <int>0</int>
+    </parameter>
+    <parameter name="eOperationNameKey">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>canMoveTo</expression>
+          <clazz>java.lang.String</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="eOperationeTypeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>booleanType</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>false</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>$fqnDiagram$ d = ($fqnDiagram$) this.getDiagram();
+$fqnFeatureProvider$ provider = ($fqnFeatureProvider$) $fqnGraphitiUi$.getExtensionManager().createFeatureProvider(d);
+
+java.util.List&lt;$fqnPictogramElement$&gt; pes = $fqnGraphitiUi$.getLinkService().getPictogramElements(d, this.getModelElement());
+if (pes != null &amp;&amp; !pes.isEmpty()) {
+	final $fqnMoveShapeContext$ mc = new $fqnMoveShapeContext$(($fqnShape$)pes.get(0));
+	if (this.getContainer() instanceof $fqnCGraphModel$)
+		mc.setSourceContainer(($fqnContainerShape$) (($fqnCGraphModel$) this.getContainer()).getPictogramElement());
+	if (this.getContainer() instanceof $fqnCContainer$)
+		mc.setSourceContainer(($fqnContainerShape$) (($fqnCContainer$) this.getContainer()).getPictogramElement());
+	mc.setTargetContainer(($fqnContainerShape$) container.getPictogramElement());
+
+	final $fqnMoveFeaturePrefix$Move$modelElementName$Feature mf = ($fqnMoveFeaturePrefix$Move$modelElementName$Feature) provider.getMoveShapeFeature(mc);
+
+	return mf.canMoveShape(mc);
+} else return false;
+</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Create EOperation</string>
+    </userobject>
+  </sib>
+  <sib>
+    <id>16746eac-4336-49ae-ab4f-a5cdc79353f3</id>
+    <name>PutDynamicLinkedMap_6</name>
+    <label>PutDynamicLinkedMap</label>
+    <sib-uid>ge-util-sibs/PutDynamicLinkedMap</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.PutDynamicLinkedMap</taxonomy>
+    <position>698.5,918.0</position>
+    <parameter name="elements">
+      <linked-hash-map>
+        <entry>
+          <string>container</string>
+          <string>modelElementContainerClass</string>
+        </entry>
+      </linked-hash-map>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>parameters</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>db4ecf49-65d3-4636-a75e-8b0e812e86aa</id>
+    <name>GraphSIB_27</name>
+    <label>CreateParametersForEOperation1</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>874.5,916.0</position>
+    <parameter name="map">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>parameters</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>682624bb-37b0-43b6-8bd5-4da09ee871bd</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>CreateParametersForEOperation1</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>e46944f5-094d-4ff2-bdeb-9ad6bd41d417</source>
+    <target>16746eac-4336-49ae-ab4f-a5cdc79353f3</target>
+    <point>1530.0,720.0</point>
+    <point>1530.0,840.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>16746eac-4336-49ae-ab4f-a5cdc79353f3</source>
+    <target>db4ecf49-65d3-4636-a75e-8b0e812e86aa</target>
+    <point>1530.0,840.0</point>
+    <point>1530.0,960.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>db4ecf49-65d3-4636-a75e-8b0e812e86aa</source>
+    <target>bf43902a-6b9c-47b1-8922-5f33c2c4267b</target>
+    <point>975.0,945.0</point>
+    <point>1109.0,850.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>c0925c2e-9ab3-468d-8194-98edb7f124bb</id>
+    <name>GraphSIB_16</name>
+    <label>CreateCanClone</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>760.0,751.0</position>
+    <parameter name="eClassKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>eClassKey</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="eOperatiobUpperBound">
+      <int>1</int>
+    </parameter>
+    <parameter name="eOperationLowerBound">
+      <int>0</int>
+    </parameter>
+    <parameter name="eOperationNameKey">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>canClone</expression>
+          <clazz>java.lang.String</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="eOperationeTypeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>booleanType</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>false</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>final $apiPrefix$$modelElementName$ clone = $fqnAPIFactory$.eINSTANCE.create$apiPrefix$$modelElementName$();
+$fqnArrayList$&lt;$fqnPictogramElement$&gt; pe = new $fqnArrayList$&lt;&gt;();
+pe.add(this.getPictogramElement());
+$fqnSet$&lt;$fqnPictogramElement$&gt; set = $fqnFeaturePrefix$$graphModelName$CopyUtils.targetCopy(pe, getDiagram());
+if (set != null &amp;&amp; !set.isEmpty()) {
+	$fqnPictogramElement$ copy = set.iterator().next();
+	clone.setModelElement(($fqnModelElement$) copy.getLink().getBusinessObjects().get(0));
+	clone.setPictogramElement(copy);
+}
+
+$fqnDiagram$ d = ($fqnDiagram$) target.getDiagram();
+$fqnFeatureProvider$ provider = ($fqnFeatureProvider$) $fqnGraphitiUi$.getExtensionManager().createFeatureProvider(d);
+	    
+final $fqnAddContext$ ac = new $fqnAddContext$();
+ac.setNewObject(clone.getModelElement());
+ac.setTargetContainer(($fqnContainerShape$) target.getPictogramElement());
+
+final $fqnAddFeaturePrefix$Add$modelElementName$Feature af = ($fqnAddFeaturePrefix$Add$modelElementName$Feature) provider.getAddFeature(ac);
+if (af != null) {
+	return af.canAdd(ac);
+}  else return false;</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Create EOperation</string>
+    </userobject>
+  </sib>
+  <sib>
+    <id>2efc9455-b673-494a-9fbe-7f5542e19870</id>
+    <name>GraphSIB_17</name>
+    <label>CreateCanClone</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>940.0,751.0</position>
+    <parameter name="eClassKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>eClassKey</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="eOperatiobUpperBound">
+      <int>1</int>
+    </parameter>
+    <parameter name="eOperationLowerBound">
+      <int>0</int>
+    </parameter>
+    <parameter name="eOperationNameKey">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>canClone</expression>
+          <clazz>java.lang.String</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="eOperationeTypeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>booleanType</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>false</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>final $apiPrefix$$modelElementName$ clone = $fqnAPIFactory$.eINSTANCE.create$apiPrefix$$modelElementName$();
+$fqnArrayList$&lt;$fqnPictogramElement$&gt; pe = new $fqnArrayList$&lt;&gt;();
+pe.add(this.getPictogramElement());
+$fqnSet$&lt;$fqnPictogramElement$&gt; set = $fqnFeaturePrefix$$graphModelName$CopyUtils.targetCopy(pe, getDiagram());
+if (set != null &amp;&amp; !set.isEmpty()) {
+	$fqnPictogramElement$ copy = set.iterator().next();
+	clone.setModelElement(($fqnModelElement$) copy.getLink().getBusinessObjects().get(0));
+	clone.setPictogramElement(copy);
+}
+
+$fqnDiagram$ d = ($fqnDiagram$) target.getDiagram();
+$fqnFeatureProvider$ provider = ($fqnFeatureProvider$) $fqnGraphitiUi$.getExtensionManager().createFeatureProvider(d);
+	    
+final $fqnAddContext$ ac = new $fqnAddContext$();
+ac.setNewObject(clone.getModelElement());
+ac.setTargetContainer(($fqnContainerShape$) target.getPictogramElement());
+
+$fqnCreateNodeFeaturePrefix$Create$modelElementName$Feature cf = new $fqnCreateNodeFeaturePrefix$Create$modelElementName$Feature(provider);
+$fqnCreateContext$ cc = new $fqnCreateContext$();
+cc.setTargetContainer(($fqnContainerShape$)target.getPictogramElement());
+	  	
+final $fqnAddFeaturePrefix$Add$modelElementName$Feature af = ($fqnAddFeaturePrefix$Add$modelElementName$Feature) provider.getAddFeature(ac);
+return cf.canCreate(cc);</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Create EOperation</string>
+    </userobject>
+  </sib>
+  <sib>
+    <id>083f65d0-edca-47e0-a7b3-57dfdb431b2d</id>
+    <name>GraphSIB_28</name>
+    <label>CreateCanClone</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>1150.0,751.0</position>
+    <parameter name="eClassKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>eClassKey</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="eOperatiobUpperBound">
+      <int>1</int>
+    </parameter>
+    <parameter name="eOperationLowerBound">
+      <int>0</int>
+    </parameter>
+    <parameter name="eOperationNameKey">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>canClone</expression>
+          <clazz>java.lang.String</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="eOperationeTypeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>booleanType</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>false</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>final $apiPrefix$$modelElementName$ clone = $fqnAPIFactory$.eINSTANCE.create$apiPrefix$$modelElementName$();
+$fqnPictogramElement$ copy = $fqnFeaturePrefix$$graphModelName$CopyUtils.flatCopy(getPictogramElement());
+clone.setPictogramElement(copy);
+clone.setModelElement(($fqnModelElement$) copy.getLink().getBusinessObjects().get(0));
+
+$fqnDiagram$ d = ($fqnDiagram$) target.getDiagram();
+$fqnFeatureProvider$ provider = ($fqnFeatureProvider$) $fqnGraphitiUi$.getExtensionManager().createFeatureProvider(d);
+	    
+final $fqnAddContext$ ac = new $fqnAddContext$();
+ac.setNewObject(clone.getModelElement());
+ac.setTargetContainer(($fqnContainerShape$) target.getPictogramElement());
+
+$fqnCreateContainerFeaturePrefix$Create$modelElementName$Feature cf = new $fqnCreateContainerFeaturePrefix$Create$modelElementName$Feature(provider);
+$fqnCreateContext$ cc = new $fqnCreateContext$();
+cc.setTargetContainer(($fqnContainerShape$)target.getPictogramElement());
+	  	
+final $fqnAddFeaturePrefix$Add$modelElementName$Feature af = ($fqnAddFeaturePrefix$Add$modelElementName$Feature) provider.getAddFeature(ac);
+return cf.canCreate(cc);</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Create EOperation</string>
+    </userobject>
+  </sib>
+  <sib>
+    <id>62b855ad-5f77-4178-a120-fe18546f1795</id>
+    <name>PutDynamicLinkedMap_7</name>
+    <label>PutDynamicLinkedMap</label>
+    <sib-uid>ge-util-sibs/PutDynamicLinkedMap</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.PutDynamicLinkedMap</taxonomy>
+    <position>443.5,558.0</position>
+    <parameter name="elements">
+      <linked-hash-map>
+        <entry>
+          <string>target</string>
+          <string>graphModelClass</string>
+        </entry>
+      </linked-hash-map>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>parameters</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>53c49671-c0a9-4822-abdd-40790f6d7c37</id>
+    <name>GraphSIB_29</name>
+    <label>CreateParametersForEOperation1</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>409.5,466.0</position>
+    <parameter name="map">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>parameters</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>682624bb-37b0-43b6-8bd5-4da09ee871bd</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>CreateParametersForEOperation1</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>62b855ad-5f77-4178-a120-fe18546f1795</source>
+    <target>53c49671-c0a9-4822-abdd-40790f6d7c37</target>
+    <point>450.0,615.0</point>
+    <point>465.0,505.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>53c49671-c0a9-4822-abdd-40790f6d7c37</source>
+    <target>c20fc208-4134-4d5a-8b3c-0ed50152b0be</target>
+    <point>510.0,495.0</point>
+    <point>507.0,399.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>03fba4dd-4ffa-43e7-847e-287e7328c575</id>
+    <name>PutDynamicLinkedMap_8</name>
+    <label>PutDynamicLinkedMap</label>
+    <sib-uid>ge-util-sibs/PutDynamicLinkedMap</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.PutDynamicLinkedMap</taxonomy>
+    <position>323.5,573.0</position>
+    <parameter name="elements">
+      <linked-hash-map>
+        <entry>
+          <string>target</string>
+          <string>graphModelClass</string>
+        </entry>
+      </linked-hash-map>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>parameters</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>9d067593-f534-4211-864f-36b32069d2cb</id>
+    <name>GraphSIB_30</name>
+    <label>CreateParametersForEOperation1</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>289.5,451.0</position>
+    <parameter name="map">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>parameters</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>682624bb-37b0-43b6-8bd5-4da09ee871bd</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>CreateParametersForEOperation1</string>
+    </userobject>
+  </sib>
+  <sib>
+    <id>ebec30ee-c277-4b45-b5cc-419d787aead1</id>
+    <name>PutDynamicLinkedMap_9</name>
+    <label>PutDynamicLinkedMap</label>
+    <sib-uid>ge-util-sibs/PutDynamicLinkedMap</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.PutDynamicLinkedMap</taxonomy>
+    <position>203.5,588.0</position>
+    <parameter name="elements">
+      <linked-hash-map>
+        <entry>
+          <string>target</string>
+          <string>graphModelClass</string>
+        </entry>
+      </linked-hash-map>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>parameters</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>f9edd058-02ec-4b71-a4af-26bd22292d61</id>
+    <name>GraphSIB_31</name>
+    <label>CreateParametersForEOperation1</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>169.5,481.0</position>
+    <parameter name="map">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>parameters</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>682624bb-37b0-43b6-8bd5-4da09ee871bd</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>CreateParametersForEOperation1</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>ebec30ee-c277-4b45-b5cc-419d787aead1</source>
+    <target>f9edd058-02ec-4b71-a4af-26bd22292d61</target>
+    <point>225.0,585.0</point>
+    <point>217.0,480.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>f9edd058-02ec-4b71-a4af-26bd22292d61</source>
+    <target>4d76c317-d9c6-4501-9162-becc0e86c299</target>
+    <point>225.0,495.0</point>
+    <point>277.0,401.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>03fba4dd-4ffa-43e7-847e-287e7328c575</source>
+    <target>9d067593-f534-4211-864f-36b32069d2cb</target>
+    <point>330.0,600.0</point>
+    <point>344.0,515.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>3b9b8db6-50ab-451b-85ed-85eea0a297ff</source>
+    <target>03fba4dd-4ffa-43e7-847e-287e7328c575</target>
+    <point>390.0,705.0</point>
+    <point>340.0,593.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>9d067593-f534-4211-864f-36b32069d2cb</source>
+    <target>3ac2d309-fec9-4dce-8dff-32108b1a86ef</target>
+    <point>345.0,510.0</point>
+    <point>401.0,399.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>44f17e74-abe2-4e13-8470-9455a9caf4a6</id>
+    <name>PutDynamicLinkedMap_10</name>
+    <label>PutDynamicLinkedMap</label>
+    <sib-uid>ge-util-sibs/PutDynamicLinkedMap</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.PutDynamicLinkedMap</taxonomy>
+    <position>743.5,648.0</position>
+    <parameter name="elements">
+      <linked-hash-map>
+        <entry>
+          <string>target</string>
+          <string>modelElementContainerClass</string>
+        </entry>
+      </linked-hash-map>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>parameters</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>c87fa87b-c715-4907-bd17-afff04caa741</id>
+    <name>GraphSIB_32</name>
+    <label>CreateParametersForEOperation1</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>709.5,526.0</position>
+    <parameter name="map">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>parameters</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>682624bb-37b0-43b6-8bd5-4da09ee871bd</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>CreateParametersForEOperation1</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>44f17e74-abe2-4e13-8470-9455a9caf4a6</source>
+    <target>c87fa87b-c715-4907-bd17-afff04caa741</target>
+    <point>810.0,675.0</point>
+    <point>810.0,555.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>48e1b6cf-8a41-479b-9a76-31e841efd2f4</id>
+    <name>PutDynamicLinkedMap_11</name>
+    <label>PutDynamicLinkedMap</label>
+    <sib-uid>ge-util-sibs/PutDynamicLinkedMap</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.PutDynamicLinkedMap</taxonomy>
+    <position>923.5,648.0</position>
+    <parameter name="elements">
+      <linked-hash-map>
+        <entry>
+          <string>target</string>
+          <string>modelElementContainerClass</string>
+        </entry>
+      </linked-hash-map>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>parameters</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>5e0fe310-bffe-46cc-833c-570c722ad994</id>
+    <name>GraphSIB_33</name>
+    <label>CreateParametersForEOperation1</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>889.5,541.0</position>
+    <parameter name="map">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>parameters</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>682624bb-37b0-43b6-8bd5-4da09ee871bd</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>CreateParametersForEOperation1</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>48e1b6cf-8a41-479b-9a76-31e841efd2f4</source>
+    <target>5e0fe310-bffe-46cc-833c-570c722ad994</target>
+    <point>975.0,675.0</point>
+    <point>975.0,570.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>c5296c53-c83c-476d-94f3-953f10c0f3ab</id>
+    <name>PutDynamicLinkedMap_12</name>
+    <label>PutDynamicLinkedMap</label>
+    <sib-uid>ge-util-sibs/PutDynamicLinkedMap</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.PutDynamicLinkedMap</taxonomy>
+    <position>1133.5,648.0</position>
+    <parameter name="elements">
+      <linked-hash-map>
+        <entry>
+          <string>target</string>
+          <string>modelElementContainerClass</string>
+        </entry>
+      </linked-hash-map>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>parameters</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>3b3968c8-74ec-4942-9a9d-4160a9f14d93</id>
+    <name>GraphSIB_34</name>
+    <label>CreateParametersForEOperation1</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>1099.5,526.0</position>
+    <parameter name="map">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>parameters</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>682624bb-37b0-43b6-8bd5-4da09ee871bd</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>CreateParametersForEOperation1</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>c5296c53-c83c-476d-94f3-953f10c0f3ab</source>
+    <target>3b3968c8-74ec-4942-9a9d-4160a9f14d93</target>
+    <point>1200.0,675.0</point>
+    <point>1200.0,555.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>3b3968c8-74ec-4942-9a9d-4160a9f14d93</source>
+    <target>c438ef0b-15a9-4825-ba23-eea6454a0672</target>
+    <point>1200.0,555.0</point>
+    <point>1155.0,456.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>083f65d0-edca-47e0-a7b3-57dfdb431b2d</source>
+    <target>c5296c53-c83c-476d-94f3-953f10c0f3ab</target>
+    <point>1140.0,765.0</point>
+    <point>1195.0,679.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>2efc9455-b673-494a-9fbe-7f5542e19870</source>
+    <target>48e1b6cf-8a41-479b-9a76-31e841efd2f4</target>
+    <point>960.0,780.0</point>
+    <point>983.0,667.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>5e0fe310-bffe-46cc-833c-570c722ad994</source>
+    <target>8c7d4b5a-b393-4dac-b03e-db89edf3401a</target>
+    <point>975.0,570.0</point>
+    <point>966.0,460.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>c87fa87b-c715-4907-bd17-afff04caa741</source>
+    <target>61bdc499-3684-44c1-9625-28ddb6be168e</target>
+    <point>810.0,555.0</point>
+    <point>821.0,459.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>c0925c2e-9ab3-468d-8194-98edb7f124bb</source>
+    <target>44f17e74-abe2-4e13-8470-9455a9caf4a6</target>
+    <point>810.0,780.0</point>
+    <point>805.0,681.0</point>
     <branch>default</branch>
   </edge>
   <parameter>
@@ -1700,6 +3033,51 @@ return clone;</string>
     <field>eOperationeTypeKey</field>
     <sib>61bdc499-3684-44c1-9625-28ddb6be168e</sib>
   </parameter>
+  <parameter>
+    <name>eClassKey</name>
+    <field>eClassKey</field>
+    <sib>2d834614-1dcd-48f1-a288-5064044566be</sib>
+  </parameter>
+  <parameter>
+    <name>eClassKey</name>
+    <field>eClassKey</field>
+    <sib>8daf2486-cc30-4aeb-af3f-133f5a1bb65f</sib>
+  </parameter>
+  <parameter>
+    <name>eClassKey</name>
+    <field>eClassKey</field>
+    <sib>e1eea1e7-219b-4862-b808-7562584118e9</sib>
+  </parameter>
+  <parameter>
+    <name>eClassKey</name>
+    <field>eClassKey</field>
+    <sib>3b9b8db6-50ab-451b-85ed-85eea0a297ff</sib>
+  </parameter>
+  <parameter>
+    <name>eClassKey</name>
+    <field>eClassKey</field>
+    <sib>e46944f5-094d-4ff2-bdeb-9ad6bd41d417</sib>
+  </parameter>
+  <parameter>
+    <name>eClassKey</name>
+    <field>eClassKey</field>
+    <sib>c0925c2e-9ab3-468d-8194-98edb7f124bb</sib>
+  </parameter>
+  <parameter>
+    <name>eClassKey</name>
+    <field>eClassKey</field>
+    <sib>2efc9455-b673-494a-9fbe-7f5542e19870</sib>
+  </parameter>
+  <parameter>
+    <name>eClassKey</name>
+    <field>eClassKey</field>
+    <sib>083f65d0-edca-47e0-a7b3-57dfdb431b2d</sib>
+  </parameter>
+  <parameter>
+    <name>eClassKey</name>
+    <field>eClassKey</field>
+    <sib>54fa0de5-7b31-49d4-afe1-874eef435cc4</sib>
+  </parameter>
   <values>
     <entry>
       <string>eOperationeTypeKey</string>
@@ -1734,7 +3112,7 @@ return clone;</string>
   </values>
   <branch>
     <name>default</name>
-    <branch>exit</branch>
-    <sib>c06628e4-4850-4496-93f4-1757bc4c3079</sib>
+    <branch>default</branch>
+    <sib>8fe4ec39-a422-4c06-9bde-686f1ec3d410</sib>
   </branch>
 </model>

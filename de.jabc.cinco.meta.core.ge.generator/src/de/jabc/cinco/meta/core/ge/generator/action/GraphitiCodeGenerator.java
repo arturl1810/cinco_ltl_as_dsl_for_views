@@ -68,6 +68,7 @@ import org.eclipse.graphiti.features.IDeleteFeature;
 import org.eclipse.graphiti.features.IMoveShapeFeature;
 import org.eclipse.graphiti.features.IReconnectionFeature;
 import org.eclipse.graphiti.features.IUpdateFeature;
+import org.eclipse.graphiti.features.context.IResizeShapeContext;
 import org.eclipse.graphiti.features.context.impl.AddConnectionContext;
 import org.eclipse.graphiti.features.context.impl.AddContext;
 import org.eclipse.graphiti.features.context.impl.CreateConnectionContext;
@@ -75,6 +76,8 @@ import org.eclipse.graphiti.features.context.impl.CreateContext;
 import org.eclipse.graphiti.features.context.impl.DeleteContext;
 import org.eclipse.graphiti.features.context.impl.MoveShapeContext;
 import org.eclipse.graphiti.features.context.impl.ReconnectionContext;
+import org.eclipse.graphiti.features.context.impl.ResizeContext;
+import org.eclipse.graphiti.features.context.impl.ResizeShapeContext;
 import org.eclipse.graphiti.features.context.impl.UpdateContext;
 import org.eclipse.graphiti.mm.algorithms.styles.Point;
 import org.eclipse.graphiti.mm.pictograms.Anchor;
@@ -82,8 +85,10 @@ import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.PictogramLink;
 import org.eclipse.graphiti.mm.pictograms.PictogramsFactory;
+import org.eclipse.graphiti.platform.IDiagramBehavior;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.services.IGaService;
+import org.eclipse.graphiti.ui.editor.DiagramBehavior;
 import org.eclipse.graphiti.ui.services.GraphitiUi;
 import org.eclipse.pde.core.project.IBundleProjectDescription;
 import org.eclipse.pde.core.project.IBundleProjectService;
@@ -391,6 +396,8 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 		context.put("fqnSet", Set.class.getName());
 		
 		context.put("fqnDiagram", Diagram.class.getName());
+		context.put("fqnDiagramBehavior", DiagramBehavior.class.getName());
+		context.put("fqnIDiagramBehavior", IDiagramBehavior.class.getName());
 		context.put("fqnDiagramTypeProvider", IDiagramTypeProvider.class.getName());
 		
 		context.put("fqnGraphiti", Graphiti.class.getName());
@@ -415,10 +422,12 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 		context.put("fqnDeleteContext", DeleteContext.class.getName());
 		context.put("fqnMoveShapeContext", MoveShapeContext.class.getName());
 		context.put("fqnReconnectionContext", ReconnectionContext.class.getName());
+		context.put("fqnResizeShapeContext", ResizeShapeContext.class.getName());
 		context.put("fqnUpdateContext", UpdateContext.class.getName());
 		
 		context.put("fqnAPIPrefix", gModel.getPackage() +".api." + API_MODEL_PREFIX.toLowerCase() + GMODEL_NAME_LOWER + ".");
 		context.put("fqnAPIFactory", gModel.getPackage() +".api." + API_MODEL_PREFIX.toLowerCase() + GMODEL_NAME_LOWER + "." + API_MODEL_PREFIX + GMODEL_NAME_LOWER + "Factory");
+		context.put("fqnGraphitiUtils", gModel.getPackage() + ".graphiti." + gModel.getName()+"GraphitiUtils");
 		context.put("fqnCModelElementContainer", CModelElementContainer.class.getName());
 		context.put("fqnCModelElement", CModelElement.class.getName());
 		context.put("fqnCContainer", CContainer.class.getName());
@@ -441,6 +450,7 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 		context.put("fqnMoveFeaturePrefix", gModel.getPackage().concat(".graphiti.features.move."));
 		context.put("fqnFeaturePrefix", gModel.getPackage().concat(".graphiti.features."));
 		context.put("fqnReconnectPrefix", gModel.getPackage().concat(".graphiti.features.reconnect."));
+		context.put("fqnResizePrefix", gModel.getPackage().concat(".graphiti.features.resize."));
 		
 		context.put("fqnGenNodePrefix", gModel.getPackage() + "." + GMODEL_NAME_LOWER +".");
 		context.put("fqnGenEdgePrefix", gModel.getPackage() + "." + GMODEL_NAME_LOWER +".");
