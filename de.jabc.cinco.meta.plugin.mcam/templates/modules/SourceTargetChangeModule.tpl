@@ -63,7 +63,7 @@ public class ${ClassName} extends
 
 	@Override
 	public boolean canExecute(${GraphModelName}Adapter model) {
-		Object element = model.getElementById(id);
+		${ModelElementName} element = (${ModelElementName}) model.getElementById(id);
 		if (element == null)
 			return false;
 		
@@ -74,6 +74,23 @@ public class ${ClassName} extends
 		Object target = model.getElementById(newTarget);
 		if (target == null)
 			return false;
+
+		C${GraphModelName} cModel = model.getModelWrapper();
+		C${ModelElementName} cEdge = cModel.findC${ModelElementName}(element);
+		if (cEdge == null)
+			return false;
+
+		<#list PossibleEdgeSources as source>
+		if (source instanceof ${source.getName()})
+			if(!cEdge.canReconnectSource(cModel.findC${source.getName()}((${source.getName()}) source)))
+				return false;
+		</#list>
+
+		<#list PossibleEdgeTargets as target>
+		if (target instanceof ${target.getName()})
+			if (!cEdge.canReconnectTarget(cModel.findC${target.getName()}((${target.getName()}) target)))
+				return false;
+		</#list>
 		
 		return true;
 	}
@@ -100,7 +117,7 @@ public class ${ClassName} extends
 
 	@Override
 	public boolean canUndoExecute(${GraphModelName}Adapter model) {
-		Object element = model.getElementById(id);
+		${ModelElementName} element = (${ModelElementName}) model.getElementById(id);
 		if (element == null)
 			return false;
 		
@@ -111,6 +128,23 @@ public class ${ClassName} extends
 		Object target = model.getElementById(oldTarget);
 		if (target == null)
 			return false;
+
+		C${GraphModelName} cModel = model.getModelWrapper();
+		C${ModelElementName} cEdge = cModel.findC${ModelElementName}(element);
+		if (cEdge == null)
+			return false;
+
+		<#list PossibleEdgeSources as source>
+		if (source instanceof ${source.getName()})
+			if(!cEdge.canReconnectSource(cModel.findC${source.getName()}((${source.getName()}) source)))
+				return false;
+		</#list>
+
+		<#list PossibleEdgeTargets as target>
+		if (target instanceof ${target.getName()})
+			if (!cEdge.canReconnectTarget(cModel.findC${target.getName()}((${target.getName()}) target)))
+				return false;
+		</#list>
 		
 		return true;
 	}

@@ -53,6 +53,8 @@ public class ${ClassName} extends ChangeModule<${GraphModelName}Id, ${GraphModel
 
 	@Override
 	public boolean canExecute(${GraphModelName}Adapter model) {
+		CFlowGraph cModel = model.getModelWrapper();
+
 		Object element = model.getElementById(id);
 		if (element != null)
 			return false;
@@ -64,6 +66,14 @@ public class ${ClassName} extends ChangeModule<${GraphModelName}Id, ${GraphModel
 		Object target = model.getElementById(targetId);
 		if (target == null)
 			return false;
+
+		<#list PossibleEdgeSources as source>
+		<#list PossibleEdgeTargets as target>
+		if (source instanceof ${source.getName()} && target instanceof ${target.getName()})
+			if(!cElement.canClone(cModel.findC${source.getName()}((${source.getName()}) source), cModel.findC${target.getName()}((${target.getName()}) target)))
+				return false;
+		</#list>
+		</#list>
 		
 		return true;
 	}
@@ -72,6 +82,14 @@ public class ${ClassName} extends ChangeModule<${GraphModelName}Id, ${GraphModel
 	public boolean canUndoExecute(${GraphModelName}Adapter model) {
 		${ModelElementName} element = (${ModelElementName}) model.getElementById(id);
 		if (element == null)
+			return false;
+
+		C${GraphModelName} cModel = model.getModelWrapper();
+		C${ModelElementName} cElement = cModel.findC${ModelElementName}(element);
+		if (cElement == null)
+			return false;
+
+		if (!cElement.canDelete())
 			return false;
 
 		return true;

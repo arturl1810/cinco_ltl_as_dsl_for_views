@@ -46,6 +46,7 @@ public class ${ClassName} extends ChangeModule<${GraphModelName}Id, ${GraphModel
 
 	@Override
 	public boolean canExecute(${GraphModelName}Adapter model) {
+		C${GraphModelName} cModel = model.getModelWrapper();
 		Object container = model.getElementById(containerId);
 		if (container == null)
 			return false;
@@ -53,7 +54,16 @@ public class ${ClassName} extends ChangeModule<${GraphModelName}Id, ${GraphModel
 		Object element = model.getElementById(id);
 		if (element != null)
 			return false;
-		
+
+		<#list PossibleContainer as container>
+		if (container instanceof ${container.getName()})
+			if (!cElement.canClone(cModel.findC${container.getName()}((${container.getName()}) container)))
+				return false;
+		</#list>
+		if (container instanceof ${GraphModelName})
+			if (!cElement.canClone(cModel))
+				return false;
+
 		return true;
 	}
 
@@ -61,6 +71,14 @@ public class ${ClassName} extends ChangeModule<${GraphModelName}Id, ${GraphModel
 	public boolean canUndoExecute(${GraphModelName}Adapter model) {
 		${ModelElementName} element = (${ModelElementName}) model.getElementById(id);
 		if (element == null)
+			return false;
+
+		C${GraphModelName} cModel = model.getModelWrapper();
+		C${ModelElementName} cElement = cModel.findC${ModelElementName}(element);
+		if (cElement == null)
+			return false;
+		
+		if (!cElement.canDelete())
 			return false;
 
 		if (element instanceof Container)

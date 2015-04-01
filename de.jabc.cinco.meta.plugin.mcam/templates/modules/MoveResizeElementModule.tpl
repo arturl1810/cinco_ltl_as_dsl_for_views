@@ -64,14 +64,29 @@ public class ${ClassName} extends
 
 	@Override
 	public boolean canExecute(${GraphModelName}Adapter model) {
+		C${GraphModelName} cModel = model.getModelWrapper();
+
 		Object container = model.getElementById(newContainerId);
 		if (container == null)
 			return false;
 
-		Object element = model.getElementById(id);
+		${ModelElementName} element = (${ModelElementName}) model.getElementById(id);
 		if (element == null)
 			return false;
-		
+
+		C${ModelElementName} cElement = cModel.findC${ModelElementName}(element);
+		if (cElement == null)
+			return false;
+
+		<#list PossibleContainer as container>
+		if (container instanceof ${container.getName()})
+			if (!cElement.canMoveTo(cModel.findC${container.getName()}((${container.getName()}) container)))
+				return false;
+		</#list>
+		if (container instanceof ${GraphModelName})
+			if (!cElement.canMoveTo(cModel))
+				return false;
+
 		return true;
 	}
 	
@@ -95,14 +110,29 @@ public class ${ClassName} extends
 
 	@Override
 	public boolean canUndoExecute(${GraphModelName}Adapter model) {
+		C${GraphModelName} cModel = model.getModelWrapper();
+
 		Object container = model.getElementById(oldContainerId);
 		if (container == null)
 			return false;
 
-		Object element = model.getElementById(id);
+		${ModelElementName} element = (${ModelElementName}) model.getElementById(id);
 		if (element == null)
 			return false;
 		
+		C${ModelElementName} cElement = cModel.findC${ModelElementName}(element);
+		if (cElement == null)
+			return false;
+
+		<#list PossibleContainer as container>
+		if (container instanceof ${container.getName()})
+			if (!cElement.canMoveTo(cModel.findC${container.getName()}((${container.getName()}) container)))
+				return false;
+		</#list>
+		if (container instanceof ${GraphModelName})
+			if (!cElement.canMoveTo(cModel))
+				return false;
+
 		return true;
 	}
 
