@@ -107,10 +107,10 @@ public class ${GraphModelName}Adapter implements ModelAdapter<${GraphModelName}I
 	public String getLabel(ModelElement element) {
 		<#list ModelLabels as modelLabel>
 		if (element instanceof ${modelLabel.type})
-		<#if modelLabel.primitive == true>
-			return String.valueOf(((${modelLabel.type}) element).get${modelLabel.attribute?cap_first}());
+		<#if modelLabel.isModelElement == true>
+			return getLabel(((${modelLabel.type}) element).get${modelLabel.attribute?cap_first}());			
 		<#else>
-			return getLabel(((${modelLabel.type}) element).get${modelLabel.attribute?cap_first}());
+			return String.valueOf(((${modelLabel.type}) element).get${modelLabel.attribute?cap_first}());
 		</#if>
 		</#list>
 		return null;

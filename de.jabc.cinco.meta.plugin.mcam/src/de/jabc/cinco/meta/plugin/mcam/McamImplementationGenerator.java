@@ -22,6 +22,7 @@ import mgl.ModelElement;
 import mgl.Node;
 import mgl.NodeContainer;
 import mgl.OutgoingEdgeElementConnection;
+import mgl.Type;
 
 public class McamImplementationGenerator {
 
@@ -203,20 +204,29 @@ public class McamImplementationGenerator {
 					HashMap<String, Object> labelEntry = new HashMap<>();
 					labelEntry.put("type", element.getName());
 					labelEntry.put("attribute", attribute.getName());
-					labelEntry.put("primitive",
-							isPrimitiveDataType(attribute.getType()));
+					labelEntry.put("isModelElement",
+							(getModelElementType(attribute) != null));
 					modelLabels.add(labelEntry);
 				}
 			}
 		}
 	}
 
-	private boolean isPrimitiveDataType(String type) {
+	private ModelElement getModelElementType(Attribute attribute) {
 		for (ModelElement element : entityAttributes.keySet()) {
-			if (type.equals(element.getName()))
-				return false;
+			if (attribute.getType().equals(element.getName()))
+				return element;
 		}
-		return true;
+		return null;
+	}
+	
+	private Type getEnumType(Attribute attribute) {
+		for (Type type : gModel.getTypes()) {
+			if (attribute.getType().equals(type.getName()))
+				return type;
+		}
+		
+		return null;
 	}
 
 	private Set<ModelElement> getPossibleContainer(ModelElement element) {
@@ -388,12 +398,15 @@ public class McamImplementationGenerator {
 				+ attribute.getName().substring(1) + "Change");
 		data.put("ModelElementName", element.getName());
 		data.put("AttributeName", attribute.getName());
-		if (isPrimitiveDataType(attribute.getType()))
+		
+		if (getModelElementType(attribute) != null)
+			data.put("AttributeType", attribute.getType().toString());
+		else if (getEnumType(attribute) != null)
+			data.put("AttributeType", data.get("GraphModelPackage") + "." + getEnumType(attribute).getName());
+		else
 			data.put("AttributeType",
 					EcorePackage.eINSTANCE.getEClassifier(attribute.getType())
-							.getInstanceClass().getSimpleName());
-		else
-			data.put("AttributeType", attribute.getType().toString());
+							.getInstanceClass().getName());
 
 		TemplateGenerator templateGen = new TemplateGenerator(
 				"templates/modules/AttributeChangeModule.tpl", project);
