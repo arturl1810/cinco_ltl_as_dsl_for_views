@@ -137,9 +137,11 @@ public class ConflictView extends ViewPart implements IPartListener2 {
 					activeConflictViewInformation = null;
 					saveAction.setEnabled(false);
 					
-					parent.redraw();
-					parent.layout();
-					parent.update();
+					if (!parent.isDisposed()) {
+						parent.layout(true);
+						parent.redraw();
+						parent.update();
+					}
 
 					MessageDialog
 							.openInformation(parent.getShell(),
@@ -194,18 +196,20 @@ public class ConflictView extends ViewPart implements IPartListener2 {
 				if (conflictInfoMap.keySet().contains(origFile)) {
 					ConflictViewInformation activeConflictView = conflictInfoMap
 							.get(origFile);
-					activeConflictView.getTree().dispose();
+					activeConflictView.closeView();
 					conflictInfoMap.remove(origFile);
 
 					activeConflictViewInformation = null;
 					saveAction.setEnabled(false);
+
+					if (!parent.isDisposed()) {
+						parent.layout(true);
+						parent.redraw();
+						parent.update();
+					}
 				}
 			}
 		}
-
-		parent.redraw();
-		parent.layout();
-		parent.update();
 	}
 
 	@Override
@@ -240,6 +244,9 @@ public class ConflictView extends ViewPart implements IPartListener2 {
 				res = rs.getResources().get(0);
 			}
 
+			if (parent.isDisposed())
+				return;
+
 			for (Control child : parent.getChildren()) {
 				child.setVisible(false);
 			}
@@ -271,9 +278,11 @@ public class ConflictView extends ViewPart implements IPartListener2 {
 			}
 		}
 
-		parent.redraw();
-		parent.layout();
-		parent.update();
+		if (!parent.isDisposed()) {
+			parent.layout(true);
+			parent.redraw();
+			parent.update();
+		}
 	}
 
 	@Override

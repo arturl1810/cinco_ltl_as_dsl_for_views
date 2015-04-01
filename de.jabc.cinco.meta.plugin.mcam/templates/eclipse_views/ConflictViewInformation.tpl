@@ -12,6 +12,7 @@ import java.io.File;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Tree;
 
@@ -92,7 +93,21 @@ public class ConflictViewInformation {
 		return tree;
 	}
 	
-	
+	public void closeView() {
+		if (tree.isDisposed())
+			return;
+
+		for (Listener listener : tree.getListeners(SWT.MouseDoubleClick)) {
+			tree.removeListener(SWT.MouseDoubleClick, listener);
+		}
+		for (Listener listener : tree.getListeners(SWT.MouseUp)) {
+			tree.removeListener(SWT.MouseUp, listener);
+		}
+		for (Listener listener : tree.getListeners(SWT.MouseDown)) {
+			tree.removeListener(SWT.MouseDown, listener);
+		}
+		tree.dispose();
+	}
 	
 	
 }
