@@ -183,6 +183,16 @@ public class CliExecution {
 		if (cmdCall.hasOption("gm")) {
 			String[] args = cmdCall.getOptionValues("gm");
 
+			/*
+			 *  Workaround while this is not running outside of eclipse
+			 */
+			File origFile = FrameworkExecution.getFile(args[0], true);
+			File localFile = FrameworkExecution.getFile(args[1], true);
+			File remoteFile = FrameworkExecution.getFile(args[2], true);
+			exitStatus += 1;
+			FrameworkExecution.createTmpFiles(origFile, localFile, remoteFile);
+
+			/*
 			File origFile = FrameworkExecution.getFile(args[0], true);
 			${GraphModelName}Adapter orig = FrameworkExecution.initApiAdapter(origFile);
 
@@ -222,6 +232,7 @@ public class CliExecution {
 			} else {
 				mergeModel.writeModel(mergeFile);
 			}
+			*/
 		}
 		
 		/*
