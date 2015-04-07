@@ -12,6 +12,8 @@ import java.io.File;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Tree;
@@ -60,6 +62,9 @@ public class ConflictViewInformation {
 	public void createConflictViewTree(Composite parent) {
 		tree = new Tree(parent, SWT.BORDER | SWT.V_SCROLL
 				| SWT.H_SCROLL);
+		tree.setLayout(new GridLayout(1, false));
+		tree.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+
 		// MergeProcessTreeRenderer treeRenderer = new MergeProcessTreeRenderer(
 		// viewer.getTree(), mp, viewer.getControl().getShell());
 		MergeProcessTreeRenderer treeRenderer = new MergeProcessTreeRenderer(

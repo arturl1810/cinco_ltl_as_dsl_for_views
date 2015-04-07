@@ -5,6 +5,9 @@ import info.scce.cinco.product.${GraphModelName?lower_case}.mcam.cli.FrameworkEx
 import java.io.File;
 import java.util.HashMap;
 
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.internal.EditorReference;
@@ -68,6 +71,9 @@ public class ConflictView extends ViewPart implements IPartListener2 {
 	public void createPartControl(Composite parent) {
 
 		this.parent = parent;
+		this.parent.setLayout(new GridLayout(1, true));
+		this.parent.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+
 		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
 				.addPartListener(this);
 		// System.out.println("View created");
@@ -249,6 +255,7 @@ public class ConflictView extends ViewPart implements IPartListener2 {
 
 			for (Control child : parent.getChildren()) {
 				child.setVisible(false);
+				((GridData) child.getLayoutData()).exclude = true;
 			}
 
 			if (file != null && res != null) {
@@ -271,6 +278,8 @@ public class ConflictView extends ViewPart implements IPartListener2 {
 					activeConflictViewInformation = conflictInfoMap
 							.get(origFile);
 					activeConflictViewInformation.getTree().setVisible(true);
+					((GridData) activeConflictViewInformation.getTree().getLayoutData()).exclude = false;
+					parent.layout();
 					saveAction.setEnabled(true);
 				} else {
 					saveAction.setEnabled(false);
