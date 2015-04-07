@@ -5,24 +5,30 @@ import info.scce.cinco.product.${GraphModelName?lower_case}.mcam.cli.FrameworkEx
 import java.io.File;
 import java.util.HashMap;
 
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.graphiti.ui.editor.DiagramEditor;
+import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IPartListener2;
+import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchPartReference;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.internal.EditorReference;
 import org.eclipse.ui.part.ViewPart;
 
+@SuppressWarnings("restriction")
 public class CheckView extends ViewPart implements IPartListener2 {
 
 	/**
@@ -30,9 +36,9 @@ public class CheckView extends ViewPart implements IPartListener2 {
 	 */
 	public static final String ID = "${ViewPackage}.views.CheckView";
 
-	private NullProgressMonitor monitor = new NullProgressMonitor();
-
 	private Composite parent = null;
+
+	private Action reloadAction;
 
 	private CheckViewInformation activeCheckViewInformation = null;
 
@@ -52,37 +58,15 @@ public class CheckView extends ViewPart implements IPartListener2 {
 	public void createPartControl(Composite parent) {
 
 		this.parent = parent;
+		this.parent.setLayout(new GridLayout(1, true));
+		this.parent.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+
 		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
 				.addPartListener(this);
-		// System.out.println("View created");
 
-		// hookContextMenu();
-		// hookDoubleClickAction();
-		
 		makeActions();
 		contributeToActionBars();
 	}
-
-	/*
-	private void hookContextMenu() {
-		MenuManager menuMgr = new MenuManager("#PopupMenu");
-		menuMgr.setRemoveAllWhenShown(true);
-		menuMgr.addMenuListener(new IMenuListener() {
-			public void menuAboutToShow(IMenuManager manager) {
-				ConflictView.this.fillContextMenu(manager);
-			}
-		});
-		Menu menu = menuMgr.createContextMenu(viewer.getControl());
-		viewer.getControl().setMenu(menu);
-		getSite().registerContextMenu(menuMgr, viewer);
-	}
-	
-	private void fillContextMenu(IMenuManager manager) {
-		manager.add(saveAction);
-		// Other plug-ins can contribute there actions here
-		// manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
-	}
-	*/
 
 	private void contributeToActionBars() {
 		IActionBars bars = getViewSite().getActionBars();
@@ -91,56 +75,41 @@ public class CheckView extends ViewPart implements IPartListener2 {
 	}
 
 	private void fillLocalPullDown(IMenuManager manager) {
-		// manager.add(saveAction);
+		manager.add(reloadAction);
 		// manager.add(new Separator());
 	}
 
 	private void fillLocalToolBar(IToolBarManager manager) {
-		// manager.add(saveAction);
+		manager.add(reloadAction);
 	}
 
 	private void makeActions() {
-//		saveAction = new Action() {
-//			public void run() {
-//				if (activeCheckViewInformation != null) {
-//
-//					//activeConflictViewInformation.getMp().getMergeModelAdapter().writeModel(activeConflictViewInformation.getOrigFile());
-//
-//					activeCheckViewInformation.getLocalFile().delete();
-//					activeCheckViewInformation.getRemoteFile().delete();
-//
-//					activeCheckViewInformation.getTree().dispose();
-//					try {
-//						activeCheckViewInformation.getIFile().getProject().refreshLocal(IResource.DEPTH_INFINITE, monitor);
-//					} catch (CoreException e) {
-//						// TODO Auto-generated catch block
-//						e.printStackTrace();
-//					}
-//					conflictInfoMap.remove(activeCheckViewInformation.getOrigFile());
-//
-//					activeCheckViewInformation = null;
-//					saveAction.setEnabled(false);
-//					
-//					parent.redraw();
-//					parent.layout();
-//					parent.update();
-//
-//					MessageDialog
-//							.openInformation(parent.getShell(),
-//									"Conflict View",
-//									"Conflict resolution saved. Temporary files removed");
-//				}
-//			}
-//		};
-//		saveAction.setText("save");
-//		saveAction.setToolTipText("save conflict resolution");
-//		saveAction.setImageDescriptor(PlatformUI.getWorkbench()
-//				.getSharedImages()
-//				.getImageDescriptor(ISharedImages.IMG_ETOOL_SAVE_EDIT));
-//		saveAction.setEnabled(false);
+		reloadAction = new Action() {
+			public void run() {
+				if (activeCheckViewInformation != null) {
+					activeCheckViewInformation.getTree().dispose();
+					activeCheckViewInformation.createCheckProcess();
+					activeCheckViewInformation.createCheckViewTree(parent);
 
+					if (!parent.isDisposed()) {
+						parent.layout(true);
+						parent.redraw();
+						parent.update();
+					}
+
+					MessageDialog.openInformation(parent.getShell(),
+							"Check View", "Checks executed!");
+				}
+			}
+		};
+		reloadAction.setText("check again");
+		reloadAction.setToolTipText("redo checks");
+		reloadAction.setImageDescriptor(PlatformUI.getWorkbench()
+				.getSharedImages()
+				.getImageDescriptor(ISharedImages.IMG_ELCL_SYNCED));
+		reloadAction.setEnabled(true);
 	}
-
+	
 	/**
 	 * Passing the focus request to the viewer's control.
 	 */
@@ -183,13 +152,15 @@ public class CheckView extends ViewPart implements IPartListener2 {
 
 					activeCheckViewInformation = null;
 //					saveAction.setEnabled(false);
+
+					if (!parent.isDisposed()) {
+						parent.layout(true);
+						parent.redraw();
+						parent.update();
+					}
 				}
 			}
 		}
-
-		parent.redraw();
-		parent.layout();
-		parent.update();
 	}
 
 	@Override
@@ -224,8 +195,12 @@ public class CheckView extends ViewPart implements IPartListener2 {
 				res = rs.getResources().get(0);
 			}
 
+			if (parent.isDisposed())
+				return;
+
 			for (Control child : parent.getChildren()) {
 				child.setVisible(false);
+				((GridData) child.getLayoutData()).exclude = true;
 			}
 
 			if (file != null && res != null) {
@@ -245,16 +220,17 @@ public class CheckView extends ViewPart implements IPartListener2 {
 					activeCheckViewInformation = checkInfoMap
 							.get(origFile);
 					activeCheckViewInformation.getTree().setVisible(true);
-//					saveAction.setEnabled(true);
-				} else {
-//					saveAction.setEnabled(false);
-				}
+					((GridData) activeCheckViewInformation.getTree().getLayoutData()).exclude = false;
+					parent.layout();
+				} 
 			}
 		}
 
-		parent.redraw();
-		parent.layout();
-		parent.update();
+		if (!parent.isDisposed()) {
+			parent.layout(true);
+			parent.redraw();
+			parent.update();
+		}
 	}
 
 	@Override

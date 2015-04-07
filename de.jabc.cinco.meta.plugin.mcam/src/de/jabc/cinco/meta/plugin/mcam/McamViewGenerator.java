@@ -49,6 +49,7 @@ public class McamViewGenerator {
 		try {
 			generateActivator();
 			generateMergeProcessTreeRenderer();
+			generateCheckProcessTreeRenderer();
 			generateConflictView();
 			generateConflictViewInformation();
 			generateCheckView();
@@ -83,6 +84,18 @@ public class McamViewGenerator {
 
 		TemplateGenerator templateGen = new TemplateGenerator(
 				"templates/eclipse_views/MergeProcessTreeRenderer.tpl", project);
+		templateGen.setFilename((String) data.get("ClassName") + ".java");
+		templateGen.setPkg((String) data.get("ViewPackage") + ".util");
+		templateGen.setData(data);
+		templateGen.generateFile();
+	}
+	
+	private void generateCheckProcessTreeRenderer()
+			throws IOException, TemplateException {
+		data.put("ClassName", "CheckProcessTreeRenderer");
+
+		TemplateGenerator templateGen = new TemplateGenerator(
+				"templates/eclipse_views/CheckProcessTreeRenderer.tpl", project);
 		templateGen.setFilename((String) data.get("ClassName") + ".java");
 		templateGen.setPkg((String) data.get("ViewPackage") + ".util");
 		templateGen.setData(data);

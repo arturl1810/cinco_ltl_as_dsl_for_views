@@ -65,8 +65,6 @@ public class ConflictViewInformation {
 		tree.setLayout(new GridLayout(1, false));
 		tree.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
-		// MergeProcessTreeRenderer treeRenderer = new MergeProcessTreeRenderer(
-		// viewer.getTree(), mp, viewer.getControl().getShell());
 		MergeProcessTreeRenderer treeRenderer = new MergeProcessTreeRenderer(
 				tree, mp, tree.getShell());
 		treeRenderer.createTree();

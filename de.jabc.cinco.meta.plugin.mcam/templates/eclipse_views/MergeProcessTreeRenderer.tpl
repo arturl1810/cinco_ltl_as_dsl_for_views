@@ -175,7 +175,6 @@ public class MergeProcessTreeRenderer {
 						}
 					}
 					if (item.getData("type").equals("id")) {
-						@SuppressWarnings({ "unused" })
 						${GraphModelName}Id id = (${GraphModelName}Id) item.getData("data");
 						mp.getMergeModelAdapter().highlightElement(id);
 					}

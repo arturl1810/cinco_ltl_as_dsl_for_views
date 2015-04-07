@@ -53,7 +53,7 @@ public class ${ClassName} extends ChangeModule<${GraphModelName}Id, ${GraphModel
 
 	@Override
 	public boolean canExecute(${GraphModelName}Adapter model) {
-		CFlowGraph cModel = model.getModelWrapper();
+		C${GraphModelName} cModel = model.getModelWrapper();
 
 		Object element = model.getElementById(id);
 		if (element != null)

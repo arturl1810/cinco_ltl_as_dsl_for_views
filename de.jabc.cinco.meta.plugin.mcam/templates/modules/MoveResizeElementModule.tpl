@@ -183,7 +183,7 @@ public class ${ClassName} extends
 				changes.add(change);
 			}
 		}
-		for (ChangeModule<FlowGraphId, FlowGraphAdapter> change : changes) {
+		for (ChangeModule<${GraphModelName}Id, ${GraphModelName}Adapter> change : changes) {
 			ids.remove(change.id);
 		}
 		return changes;

@@ -116,10 +116,10 @@ public class ${GraphModelName}Adapter implements ModelAdapter<${GraphModelName}I
 		return null;
 	}
 
-	public void highlightElement(FlowGraphId id) {
+	public void highlightElement(${GraphModelName}Id id) {
 		Object element = getElementById(id);
 		if (element != null)
-			if (!(element instanceof FlowGraph))
+			if (!(element instanceof ${GraphModelName}))
 				<#list ContainerTypes as type>
 				if (element instanceof ${type})
 					modelWrapper.findC${type}((${type}) element).highlight();
