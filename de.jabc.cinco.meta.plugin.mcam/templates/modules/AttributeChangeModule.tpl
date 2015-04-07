@@ -92,9 +92,15 @@ public class ${ClassName} extends ChangeModule<${GraphModelName}Id, ${GraphModel
 			} else if (sourceElement.get${AttributeName?cap_first}() != null && targetElement.get${AttributeName?cap_first}() == null) {
 				changed = true;
 			} else if (sourceElement.get${AttributeName?cap_first}() != null && targetElement.get${AttributeName?cap_first}() != null) {
+				<#if AttributeCategory == "ModelElement">
+				if (!sourceElement.get${AttributeName?cap_first}().getId().equals(targetElement.get${AttributeName?cap_first}().getId())) {
+					changed = true;				
+				}
+				<#else>
 				if (!sourceElement.get${AttributeName?cap_first}().equals(targetElement.get${AttributeName?cap_first}())) {
 					changed = true;				
 				}
+				</#if>
 			}
 				
 			if (changed) {			

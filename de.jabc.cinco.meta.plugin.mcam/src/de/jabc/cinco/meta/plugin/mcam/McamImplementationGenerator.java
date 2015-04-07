@@ -399,14 +399,18 @@ public class McamImplementationGenerator {
 		data.put("ModelElementName", element.getName());
 		data.put("AttributeName", attribute.getName());
 		
-		if (getModelElementType(attribute) != null)
-			data.put("AttributeType", attribute.getType().toString());
-		else if (getEnumType(attribute) != null)
+		if (getModelElementType(attribute) != null) {
+			data.put("AttributeCategory", "ModelElement");
+			data.put("AttributeType", data.get("GraphModelPackage") + "." + attribute.getType().toString());
+		} else if (getEnumType(attribute) != null) {
+			data.put("AttributeCategory", "Enum");
 			data.put("AttributeType", data.get("GraphModelPackage") + "." + getEnumType(attribute).getName());
-		else
+		} else {
+			data.put("AttributeCategory", "Normal");
 			data.put("AttributeType",
 					EcorePackage.eINSTANCE.getEClassifier(attribute.getType())
 							.getInstanceClass().getName());
+		}
 
 		TemplateGenerator templateGen = new TemplateGenerator(
 				"templates/modules/AttributeChangeModule.tpl", project);
