@@ -17,6 +17,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Tree;
+import org.eclipse.swt.widgets.TreeItem;
 
 public class ConflictViewInformation {
 	
@@ -41,6 +42,30 @@ public class ConflictViewInformation {
 		this.iFile = iFile;
 		this.resource = resource;
 	}
+
+	public File getOrigFile() {
+		return origFile;
+	}
+
+	public File getRemoteFile() {
+		return remoteFile;
+	}
+
+	public File getLocalFile() {
+		return localFile;
+	}
+
+	public IFile getIFile() {
+		return iFile;
+	}
+
+	public MergeProcess<${GraphModelName}Id, ${GraphModelName}Adapter> getMp() {
+		return mp;
+	}
+
+	public Tree getTree() {
+		return tree;
+	}	
 	
 	public void createMergeProcess() {
 		${GraphModelName}Adapter orig = FrameworkExecution.initApiAdapter(origFile);
@@ -72,30 +97,18 @@ public class ConflictViewInformation {
 		treeRenderer.runInitialChangeExecution();
 	}
 
-	public File getOrigFile() {
-		return origFile;
+	public void sortByState() {
+		System.out.println("Sorting Tree by state...");
+		System.out.println(tree.getClass());
+		System.out.println("Items (before): " + tree.getItemCount());
+		
+		Tree dummyTree = new Tree(tree.getParent(), SWT.BORDER);
+		
+		for (TreeItem treeItem : tree.getItems()) {
+			System.out.println(treeItem.getClass());
+		}
 	}
 
-	public File getRemoteFile() {
-		return remoteFile;
-	}
-
-	public File getLocalFile() {
-		return localFile;
-	}
-
-	public IFile getIFile() {
-		return iFile;
-	}
-
-	public MergeProcess<${GraphModelName}Id, ${GraphModelName}Adapter> getMp() {
-		return mp;
-	}
-
-	public Tree getTree() {
-		return tree;
-	}
-	
 	public void closeView() {
 		if (tree.isDisposed())
 			return;

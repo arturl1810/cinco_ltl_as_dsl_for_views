@@ -48,6 +48,8 @@ public class ConflictView extends ViewPart implements IPartListener2 {
 	public static final String ID = "${ViewPackage}.views.ConflictView";
 
 	private Action saveAction;
+
+	private Action sortByStateAction;
 	
 	private NullProgressMonitor monitor = new NullProgressMonitor();
 
@@ -114,7 +116,8 @@ public class ConflictView extends ViewPart implements IPartListener2 {
 
 	private void fillLocalPullDown(IMenuManager manager) {
 		manager.add(saveAction);
-		// manager.add(new Separator());
+		manager.add(new Separator());
+		manager.add(sortByStateAction);
 	}
 
 	private void fillLocalToolBar(IToolBarManager manager) {
@@ -162,6 +165,22 @@ public class ConflictView extends ViewPart implements IPartListener2 {
 				.getSharedImages()
 				.getImageDescriptor(ISharedImages.IMG_ETOOL_SAVE_EDIT));
 		saveAction.setEnabled(false);
+
+		sortByStateAction = new Action() {
+			public void run() {
+				if (activeConflictViewInformation != null) {
+					activeConflictViewInformation.sortByState();
+					if (!parent.isDisposed()) {
+						parent.layout(true);
+						parent.redraw();
+						parent.update();
+					}
+				}
+			}
+		};
+		sortByStateAction.setText("sortBy state");
+		sortByStateAction.setToolTipText("sort Ids by state");
+		sortByStateAction.setEnabled(true);
 
 	}
 
