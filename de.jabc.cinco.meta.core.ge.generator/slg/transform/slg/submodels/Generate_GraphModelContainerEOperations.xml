@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>68703e35-7ca0-4d4e-8241-4cd302c23c07</id>
   <name>Generate_GraphModelContainerEOperations</name>
-  <changecounter>264</changecounter>
+  <changecounter>273</changecounter>
   <sib>
     <id>17cbc50b-0955-4e1d-bc4b-30010287ec07</id>
     <name>GraphSIB_8</name>
@@ -44,13 +44,13 @@
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>$apiPrefix$$modelElementName$ retval = null;
+      <string>final $apiPrefix$$modelElementName$ retval = $fqnAPIFactory$.eINSTANCE.create$apiPrefix$$modelElementName$();
 
 $fqnDiagram$ d = ($fqnDiagram$) this.getDiagram();
 $fqnFeatureProvider$ provider = ($fqnFeatureProvider$) $fqnGraphitiUi$.getExtensionManager().createFeatureProvider(d);
     
-$fqnCreateContainerFeaturePrefix$Create$modelElementName$Feature cf = new $fqnCreateContainerFeaturePrefix$Create$modelElementName$Feature(provider);
-$fqnCreateContext$ cc = new $fqnCreateContext$();
+final $fqnCreateContainerFeaturePrefix$Create$modelElementName$Feature cf = new $fqnCreateContainerFeaturePrefix$Create$modelElementName$Feature(provider);
+final $fqnCreateContext$ cc = new $fqnCreateContext$();
 cc.setX(x);
 cc.setY(y);
 if (width &gt; -1 &amp;&amp; height &gt; -1) {
@@ -59,16 +59,23 @@ if (width &gt; -1 &amp;&amp; height &gt; -1) {
 }
 cc.setTargetContainer(($fqnContainerShape$) getPictogramElement());
 	if (cf.canCreate(cc)) {
-		retval = $fqnAPIFactory$.eINSTANCE.create$apiPrefix$$modelElementName$();
-		Object[] newObject = cf.create(cc);
-		if (newObject.length == 1 &amp;&amp; newObject[0] instanceof $fqnGenNodePrefix$$modelElementName$) {
-			retval.setModelElement(($fqnContainer$) newObject[0]);
-			retval.setPictogramElement(($fqnContainerShape$) 
-				$fqnGraphiti$.getLinkService().getPictogramElements(d, retval.getModelElement()).get(0));
-			this.getModelElements().add(retval);
-			this.getCRootElement().getMap().put(retval.getModelElement() ,retval);
-			this.getMap().put(retval.getModelElement() ,retval);
+		$fqnTransactionalEditingDomain$ dom = $fqnTransactionalEditingDomain$.Factory.INSTANCE.getEditingDomain(getModelElement().eResource().getResourceSet());
+	      	if (dom == null)
+			dom = $fqnTransactionalEditingDomain$.Factory.INSTANCE.createEditingDomain(getModelElement().eResource().getResourceSet());
+		dom.getCommandStack().execute(new $fqnRecordingCommand$(dom) {
+        
+		@Override
+		protected void doExecute() {
+			Object[] newObject = cf.create(cc);
+			if (newObject.length == 1 &amp;&amp; newObject[0] instanceof $fqnGenNodePrefix$$modelElementName$) {
+				retval.setModelElement(($fqnContainer$) newObject[0]);
+				retval.setPictogramElement(($fqnContainerShape$) $fqnGraphiti$.getLinkService().getPictogramElements(getDiagram(), retval.getModelElement()).get(0));
+				getModelElements().add(retval);
+				getCRootElement().getMap().put(retval.getModelElement() ,retval);
+				getMap().put(retval.getModelElement() ,retval);
+			}
 		}
+		});
 	} else {
 		if (cf.getError().equals($fqnECincoError$.MAX_CARDINALITY))
 			throw new $fqnCincoContainerCardinalityException$(&quot;Cardinality of &apos;&quot; + this.getModelElement()+&quot;&apos; exceeded. Can not create $modelElementName$ in the specified container&quot;);
