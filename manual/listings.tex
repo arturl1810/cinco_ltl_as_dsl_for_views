@@ -90,6 +90,39 @@
 
 \newcommand{\includestyle}[3]{\lstinputlisting[style=style, float=tb, caption=#2, label=#3, captionpos=b]{#1}}
 
+\lstdefinestyle{cpd}{
+   %language=XML,
+   columns=fixed,
+	breaklines=true,
+	numbers=left,
+	numberstyle=\tiny,
+	stepnumber=1,
+	numbersep=5pt,
+   showspaces=false,
+   showstringspaces=false,
+   frame=tblr,
+   tabsize=2,
+   frame=shadowbox,
+   columns=fixed,
+   basicstyle=\ttfamily\scriptsize,
+   %basicstyle=\scriptsize,
+   rulesepcolor=\color[rgb]{0.6, 0.6, 0.6},
+   keywordstyle=\color[rgb]{0.5,0,0.4}\textbf, 
+   %keywordstyle=\color[rgb]{0.5,0,0.4}\bfseries, 
+   %keywordstyle=\color[rgb]{0.5,0,0.4},
+   stringstyle=\color{blue},
+   commentstyle=\color[rgb]{0.4,0.7,0.4},
+   backgroundcolor=\color[rgb]{0.97,0.97,0.97},
+	morekeywords={cincoProduct, mgl, about, features, image16, image32, image48,
+	image64, image128, linuxIcon, plugins, splashScreen, text, imagePath,
+	progressBar, progressMessage},
+	morestring=[b]",
+   showtabs=false,
+	morecomment=[l]{//},
+	morecomment=[s]{/*}{*/}
+}
+
+\newcommand{\includecpd}[3]{\lstinputlisting[style=cpd, float=tb, caption=#2, label=#3, captionpos=b]{#1}}
 
 \lstdefinestyle{java}{
    language=Java,
