@@ -56,7 +56,7 @@ public class ${GraphModelName}Id implements EntityId {
 	@Override
 	public String toString() {
 		if (label == null)
-			return eClass.getName() + " [id=" + id + "]";
+			return " [" + eClass.getName() + "]";
 		return label + " [" + eClass.getName() + "]";
 	}
 	

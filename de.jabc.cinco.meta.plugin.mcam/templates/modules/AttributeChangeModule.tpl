@@ -21,10 +21,16 @@ public class ${ClassName} extends ChangeModule<${GraphModelName}Id, ${GraphModel
 	public String attributeName = "${AttributeName}";
 	public ${AttributeType} oldValue = null;
 	public ${AttributeType} newValue = null;
+	public ${GraphModelName}Id oldValueId = null;
+	public ${GraphModelName}Id newValueId = null;
 
 	@Override
 	public String toString() {
+		<#if AttributeCategory == "ModelElement">
+		return "${AttributeName?cap_first} changed from '" + oldValueId + "' to '" + newValueId + "'";
+		<#else>
 		return "${AttributeName?cap_first} changed from '" + oldValue + "' to '" + newValue + "'";
+		</#if>
 	}
 
 	@Override
@@ -108,6 +114,10 @@ public class ${ClassName} extends ChangeModule<${GraphModelName}Id, ${GraphModel
 				change.id = id;
 				change.oldValue = sourceElement.get${AttributeName?cap_first}();
 				change.newValue = targetElement.get${AttributeName?cap_first}();
+				<#if AttributeCategory == "ModelElement">
+				change.oldValueId = sourceModel.getIdByString(sourceElement.getMyNode().getId());
+				change.newValueId = targetModel.getIdByString(targetElement.getMyNode().getId());
+				</#if>
 				changes.add(change);
 			}
 		}
