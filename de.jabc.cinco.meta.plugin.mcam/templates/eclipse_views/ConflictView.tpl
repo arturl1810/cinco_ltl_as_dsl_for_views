@@ -134,7 +134,7 @@ public class ConflictView extends ViewPart implements IPartListener2 {
 					activeConflictViewInformation.getLocalFile().delete();
 					activeConflictViewInformation.getRemoteFile().delete();
 
-					activeConflictViewInformation.getTree().dispose();
+					activeConflictViewInformation.closeView();
 					try {
 						activeConflictViewInformation.getIFile().getProject().refreshLocal(IResource.DEPTH_INFINITE, monitor);
 					} catch (CoreException e) {
@@ -169,7 +169,6 @@ public class ConflictView extends ViewPart implements IPartListener2 {
 		sortByStateAction = new Action() {
 			public void run() {
 				if (activeConflictViewInformation != null) {
-					activeConflictViewInformation.sortByState();
 					if (!parent.isDisposed()) {
 						parent.layout(true);
 						parent.redraw();
@@ -290,14 +289,15 @@ public class ConflictView extends ViewPart implements IPartListener2 {
 						ConflictViewInformation conflictInfo = new ConflictViewInformation(
 								origFile, remoteFile, localFile, file, res);
 						conflictInfo.createMergeProcess();
+						conflictInfo.runInitialChangeExecution();
 						conflictInfo.createConflictViewTree(parent);
 						conflictInfoMap.put(origFile, conflictInfo);
 					}
 
 					activeConflictViewInformation = conflictInfoMap
 							.get(origFile);
-					activeConflictViewInformation.getTree().setVisible(true);
-					((GridData) activeConflictViewInformation.getTree().getLayoutData()).exclude = false;
+					activeConflictViewInformation.getTreeViewer().getTree().setVisible(true);
+					((GridData) activeConflictViewInformation.getTreeViewer().getTree().getLayoutData()).exclude = false;
 					parent.layout();
 					saveAction.setEnabled(true);
 				} else {

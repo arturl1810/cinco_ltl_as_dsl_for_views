@@ -48,8 +48,8 @@ public class McamViewGenerator {
 	public String generate() {
 		try {
 			generateActivator();
-			generateMergeProcessTreeRenderer();
-			generateCheckProcessTreeRenderer();
+			generateMergeProcessTreeView();
+			generateCheckProcessTreeView();
 			generateConflictView();
 			generateConflictViewInformation();
 			generateCheckView();
@@ -78,28 +78,46 @@ public class McamViewGenerator {
 		templateGen.generateFile();
 	}
 	
-	private void generateMergeProcessTreeRenderer()
+	private void generateMergeProcessTreeView()
 			throws IOException, TemplateException {
-		data.put("ClassName", "MergeProcessTreeRenderer");
+		data.put("ClassName", "MergeProcessContentProvider");
 
 		TemplateGenerator templateGen = new TemplateGenerator(
-				"templates/eclipse_views/MergeProcessTreeRenderer.tpl", project);
+				"templates/eclipse_views/MergeProcessContentProvider.tpl", project);
 		templateGen.setFilename((String) data.get("ClassName") + ".java");
 		templateGen.setPkg((String) data.get("ViewPackage") + ".util");
 		templateGen.setData(data);
 		templateGen.generateFile();
+		
+		data.put("ClassName", "MergeProcessLabelProvider");
+
+		TemplateGenerator templateGen2 = new TemplateGenerator(
+				"templates/eclipse_views/MergeProcessLabelProvider.tpl", project);
+		templateGen2.setFilename((String) data.get("ClassName") + ".java");
+		templateGen2.setPkg((String) data.get("ViewPackage") + ".util");
+		templateGen2.setData(data);
+		templateGen2.generateFile();
 	}
 	
-	private void generateCheckProcessTreeRenderer()
+	private void generateCheckProcessTreeView()
 			throws IOException, TemplateException {
-		data.put("ClassName", "CheckProcessTreeRenderer");
+		data.put("ClassName", "CheckProcessContentProvider");
 
 		TemplateGenerator templateGen = new TemplateGenerator(
-				"templates/eclipse_views/CheckProcessTreeRenderer.tpl", project);
+				"templates/eclipse_views/CheckProcessContentProvider.tpl", project);
 		templateGen.setFilename((String) data.get("ClassName") + ".java");
 		templateGen.setPkg((String) data.get("ViewPackage") + ".util");
 		templateGen.setData(data);
 		templateGen.generateFile();
+		
+		data.put("ClassName", "CheckProcessLabelProvider");
+
+		TemplateGenerator templateGen2 = new TemplateGenerator(
+				"templates/eclipse_views/CheckProcessLabelProvider.tpl", project);
+		templateGen2.setFilename((String) data.get("ClassName") + ".java");
+		templateGen2.setPkg((String) data.get("ViewPackage") + ".util");
+		templateGen2.setData(data);
+		templateGen2.generateFile();
 	}
 	
 	private void generateCheckViewInformation()

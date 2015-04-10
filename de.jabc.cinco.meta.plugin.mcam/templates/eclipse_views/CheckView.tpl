@@ -87,7 +87,7 @@ public class CheckView extends ViewPart implements IPartListener2 {
 		reloadAction = new Action() {
 			public void run() {
 				if (activeCheckViewInformation != null) {
-					activeCheckViewInformation.getTree().dispose();
+					activeCheckViewInformation.closeView();
 					activeCheckViewInformation.createCheckProcess();
 					activeCheckViewInformation.createCheckViewTree(parent);
 
@@ -147,7 +147,7 @@ public class CheckView extends ViewPart implements IPartListener2 {
 				if (checkInfoMap.keySet().contains(origFile)) {
 					CheckViewInformation activeCheckViewInformation = checkInfoMap
 							.get(origFile);
-					activeCheckViewInformation.getTree().dispose();
+					activeCheckViewInformation.closeView();
 					checkInfoMap.remove(origFile);
 
 					activeCheckViewInformation = null;
@@ -219,8 +219,8 @@ public class CheckView extends ViewPart implements IPartListener2 {
 
 					activeCheckViewInformation = checkInfoMap
 							.get(origFile);
-					activeCheckViewInformation.getTree().setVisible(true);
-					((GridData) activeCheckViewInformation.getTree().getLayoutData()).exclude = false;
+					activeCheckViewInformation.getTreeViewer().getTree().setVisible(true);
+					((GridData) activeCheckViewInformation.getTreeViewer().getTree().getLayoutData()).exclude = false;
 					parent.layout();
 				} 
 			}

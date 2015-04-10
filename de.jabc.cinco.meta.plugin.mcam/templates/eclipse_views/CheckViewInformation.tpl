@@ -3,18 +3,22 @@ package ${ViewPackage}.views;
 import ${AdapterPackage}.${GraphModelName}Adapter;
 import ${AdapterPackage}.${GraphModelName}Id;
 import info.scce.cinco.product.${GraphModelName?lower_case}.mcam.cli.FrameworkExecution;
-import ${ViewPackage}.util.CheckProcessTreeRenderer;
+import ${ViewPackage}.util.CheckProcessContentProvider;
+import ${ViewPackage}.util.CheckProcessLabelProvider;
 import info.scce.mcam.framework.processes.CheckProcess;
 
 import java.io.File;
 
+import org.apache.commons.collections.keyvalue.DefaultKeyValue;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Tree;
 
 public class CheckViewInformation {
 	private File file = null;
@@ -22,7 +26,7 @@ public class CheckViewInformation {
 	
 	private CheckProcess<${GraphModelName}Id, ${GraphModelName}Adapter> cp = null;
 	
-	private Tree tree = null;
+	private TreeViewer treeViewer = null;
 
 	public CheckViewInformation(File file, Resource resource) {
 		super();
@@ -40,15 +44,29 @@ public class CheckViewInformation {
 	}
 	
 	public void createCheckViewTree(Composite parent) {
-		tree = new Tree(parent, SWT.BORDER | SWT.V_SCROLL
+		treeViewer = new TreeViewer(parent, SWT.BORDER | SWT.V_SCROLL
 				| SWT.H_SCROLL);
-		tree.setLayout(new GridLayout(1, false));
-		tree.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		treeViewer.setContentProvider(new CheckProcessContentProvider());
+		treeViewer.setLabelProvider(new CheckProcessLabelProvider());
+		treeViewer.setInput(cp);
+		treeViewer.getTree().setLayout(new GridLayout(1, false));
+		treeViewer.getTree().setLayoutData(
+				new GridData(SWT.FILL, SWT.FILL, true, true));
 
-		CheckProcessTreeRenderer treeRenderer = new CheckProcessTreeRenderer(
-				tree, cp, tree.getShell());
-		treeRenderer.createTree();
-		treeRenderer.runInitialChangeExecution();
+		treeViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+			public void selectionChanged(SelectionChangedEvent event) {
+				if (event.getSelection() instanceof IStructuredSelection) {
+					IStructuredSelection selection = (IStructuredSelection) event
+							.getSelection();
+					if (selection.getFirstElement() instanceof DefaultKeyValue) {
+						DefaultKeyValue pair = (DefaultKeyValue) selection.getFirstElement();
+						cp.getModel().highlightElement(
+								(${GraphModelName}Id) pair.getKey());
+					}
+					treeViewer.refresh();
+				}
+			}
+		});
 	}
 
 	public File getFile() {
@@ -59,24 +77,12 @@ public class CheckViewInformation {
 		return cp;
 	}
 
-	public Tree getTree() {
-		return tree;
+	public TreeViewer getTreeViewer() {
+		return treeViewer;
 	}
 	
 	public void closeView() {
-		if (tree.isDisposed())
-			return;
-
-		for (Listener listener : tree.getListeners(SWT.MouseDoubleClick)) {
-			tree.removeListener(SWT.MouseDoubleClick, listener);
-		}
-		for (Listener listener : tree.getListeners(SWT.MouseUp)) {
-			tree.removeListener(SWT.MouseUp, listener);
-		}
-		for (Listener listener : tree.getListeners(SWT.MouseDown)) {
-			tree.removeListener(SWT.MouseDown, listener);
-		}
-		tree.dispose();
+		treeViewer.getControl().dispose();
 	}
 	
 	

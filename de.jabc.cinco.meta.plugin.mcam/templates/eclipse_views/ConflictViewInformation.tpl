@@ -2,22 +2,32 @@ package ${ViewPackage}.views;
 
 import ${AdapterPackage}.${GraphModelName}Adapter;
 import ${AdapterPackage}.${GraphModelName}Id;
+
 import info.scce.cinco.product.${GraphModelName?lower_case}.mcam.cli.FrameworkExecution;
-import ${ViewPackage}.util.MergeProcessTreeRenderer;
+import info.scce.cinco.product.${GraphModelName?lower_case}.mcam.strategies.${GraphModelName}MergeStrategy;
+import info.scce.cinco.product.${GraphModelName?lower_case}.mcam.util.ChangeDeadlockException;
+
+import ${ViewPackage}.util.MergeProcessContentProvider;
+import ${ViewPackage}.util.MergeProcessLabelProvider;
+
+import info.scce.mcam.framework.modules.ChangeModule;
 import info.scce.mcam.framework.processes.CompareProcess;
 import info.scce.mcam.framework.processes.MergeProcess;
 
 import java.io.File;
+import java.util.List;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Tree;
-import org.eclipse.swt.widgets.TreeItem;
 
 public class ConflictViewInformation {
 	
@@ -30,8 +40,10 @@ public class ConflictViewInformation {
 	private Resource resource = null;
 	
 	private MergeProcess<${GraphModelName}Id, ${GraphModelName}Adapter> mp = null;
+
+	private List<ChangeModule<${GraphModelName}Id, ${GraphModelName}Adapter>> changesDone;
 	
-	private Tree tree = null;
+	private TreeViewer treeViewer = null;
 
 	public ConflictViewInformation(File origFile, File remoteFile,
 			File localFile, IFile iFile, Resource resource) {
@@ -63,10 +75,10 @@ public class ConflictViewInformation {
 		return mp;
 	}
 
-	public Tree getTree() {
-		return tree;
-	}	
-	
+	public TreeViewer getTreeViewer() {
+		return treeViewer;
+	}
+
 	public void createMergeProcess() {
 		${GraphModelName}Adapter orig = FrameworkExecution.initApiAdapter(origFile);
 		${GraphModelName}Adapter local = FrameworkExecution.initApiAdapter(localFile);
@@ -81,48 +93,100 @@ public class ConflictViewInformation {
 				.executeComparePhase(orig, remote);
 		mp = FrameworkExecution
 				.createMergePhase(localCompare, remoteCompare, mergeModel);
-		mp.analyzeGraphCompares();
 	}
 	
 	public void createConflictViewTree(Composite parent) {
-		tree = new Tree(parent, SWT.BORDER | SWT.V_SCROLL
+		treeViewer = new TreeViewer(parent, SWT.BORDER | SWT.V_SCROLL
 				| SWT.H_SCROLL);
-		tree.setLayout(new GridLayout(1, false));
-		tree.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		treeViewer.setContentProvider(new MergeProcessContentProvider());
+		treeViewer.setLabelProvider(new MergeProcessLabelProvider(mp,
+				changesDone));
+		treeViewer.setInput(mp);
+		treeViewer.getTree().setLayout(new GridLayout(1, false));
+		treeViewer.getTree().setLayoutData(
+				new GridData(SWT.FILL, SWT.FILL, true, true));
 
-		MergeProcessTreeRenderer treeRenderer = new MergeProcessTreeRenderer(
-				tree, mp, tree.getShell());
-		treeRenderer.createTree();
+		treeViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+			@SuppressWarnings("unchecked")
+			public void selectionChanged(SelectionChangedEvent event) {
+				if (event.getSelection() instanceof IStructuredSelection) {
+					IStructuredSelection selection = (IStructuredSelection) event
+							.getSelection();
+					if (selection.getFirstElement() instanceof ${GraphModelName}Id)
+						mp.getMergeModelAdapter().highlightElement(
+								(${GraphModelName}Id) selection.getFirstElement());
+					if (selection.getFirstElement() instanceof ChangeModule<?, ?>) {
+						ChangeModule<${GraphModelName}Id, ${GraphModelName}Adapter> change = (ChangeModule<${GraphModelName}Id, ${GraphModelName}Adapter>) selection
+								.getFirstElement();
+						if (!changesDone.contains(change)) {
+							if (change.canPreExecute(mp.getMergeModelAdapter())
+									&& change.canExecute(mp
+											.getMergeModelAdapter())
+									&& change.canPostExecute(mp
+											.getMergeModelAdapter())) {
+								change.preExecute(mp.getMergeModelAdapter());
+								change.execute(mp.getMergeModelAdapter());
+								change.postExecute(mp.getMergeModelAdapter());
 
-		treeRenderer.runInitialChangeExecution();
+								changesDone.add(change);
+							} else {
+								MessageDialog.openError(treeViewer.getTree()
+										.getShell(),
+										"Change could not be executed!",
+										"Change could not be executed! \n"
+												+ change.toString());
+							}
+
+						} else if (changesDone.contains(change)) {
+							if (change.canUndoPreExecute(mp
+									.getMergeModelAdapter())
+									&& change.canUndoExecute(mp
+											.getMergeModelAdapter())
+									&& change.canUndoPostExecute(mp
+											.getMergeModelAdapter())) {
+								change.undoPostExecute(mp
+										.getMergeModelAdapter());
+								change.undoExecute(mp.getMergeModelAdapter());
+								change.undoPreExecute(mp.getMergeModelAdapter());
+
+								changesDone.remove(change);
+							} else {
+								MessageDialog.openError(treeViewer.getTree()
+										.getShell(),
+										"Change could not be reverted!",
+										"Change could not be reverted! \n"
+												+ change.toString());
+							}
+						}
+					}
+					treeViewer.refresh();
+				}
+			}
+		});
+
 	}
 
-	public void sortByState() {
-		System.out.println("Sorting Tree by state...");
-		System.out.println(tree.getClass());
-		System.out.println("Items (before): " + tree.getItemCount());
+	public void runInitialChangeExecution() {
+		mp.analyzeGraphCompares();
 		
-		Tree dummyTree = new Tree(tree.getParent(), SWT.BORDER);
-		
-		for (TreeItem treeItem : tree.getItems()) {
-			System.out.println(treeItem.getClass());
+		${GraphModelName}MergeStrategy strategy = new ${GraphModelName}MergeStrategy();
+
+		try {
+			changesDone = strategy.executeChanges((${GraphModelName}Adapter) mp
+					.getMergeModelAdapter(), mp.getMergeInformationMap()
+					.values(), false);
+		} catch (ChangeDeadlockException e) {
+			System.err.println(e.getMessage());
+			for (ChangeModule<${GraphModelName}Id, ${GraphModelName}Adapter> change : e
+					.getChangesToDo()) {
+				System.err.println(" - " + change.id + ": " + change);
+			}
+			changesDone = e.getChangesDone();
 		}
 	}
 
 	public void closeView() {
-		if (tree.isDisposed())
-			return;
-
-		for (Listener listener : tree.getListeners(SWT.MouseDoubleClick)) {
-			tree.removeListener(SWT.MouseDoubleClick, listener);
-		}
-		for (Listener listener : tree.getListeners(SWT.MouseUp)) {
-			tree.removeListener(SWT.MouseUp, listener);
-		}
-		for (Listener listener : tree.getListeners(SWT.MouseDown)) {
-			tree.removeListener(SWT.MouseDown, listener);
-		}
-		tree.dispose();
+		treeViewer.getControl().dispose();
 	}
 	
 	

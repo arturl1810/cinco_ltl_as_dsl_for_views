@@ -21,8 +21,10 @@ public class ${ClassName} extends ChangeModule<${GraphModelName}Id, ${GraphModel
 	public String attributeName = "${AttributeName}";
 	public ${AttributeType} oldValue = null;
 	public ${AttributeType} newValue = null;
+	<#if AttributeCategory == "ModelElement">
 	public ${GraphModelName}Id oldValueId = null;
 	public ${GraphModelName}Id newValueId = null;
+	</#if>
 
 	@Override
 	public String toString() {
