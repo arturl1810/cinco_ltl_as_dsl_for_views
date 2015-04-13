@@ -48,6 +48,7 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EDataType;
@@ -707,13 +708,15 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 				if (!n.isIsAbstract() && n.getPrimeReference() == null)
 					primeOnly = false;
 			
+			noEdges = checkNoEdges(gm);
+			
 			ArrayList<String> exports = new ArrayList<>();
 			if (gm.getNodeContainers().size() != 0)
 				exports.add(".features.create.containers");
 			if (!primeOnly)
 				exports.add(".features.create.nodes");
 			if (!noEdges)
-				exports.add("features.create.edges");
+				exports.add(".features.create.edges");
 			
 			String val = manifest.getMainAttributes().getValue("Export-Package");
 			if (val == null){
@@ -758,6 +761,26 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 		
 		return sb.toString();
 	}
+	
+	private boolean checkNoEdges(GraphModel gm) {
+		for (Edge e : gm.getEdges()) {
+			boolean in = false, out = false;
+			for (Node n : gm.getNodes()) {
+				for (IncomingEdgeElementConnection ieec: n.getIncomingEdgeConnections()) {
+					if (ieec.getConnectingEdges().contains(e))
+						in = true;
+				}
+				for (OutgoingEdgeElementConnection oeec : n.getOutgoingEdgeConnections()) {
+					if (oeec.getConnectingEdges().contains(e))
+						out = true;
+				}
+				if (in && out)
+					return false;
+			}
+		}
+		return true;
+	}
+
 	
 	private GraphModel prepareGraphModel(GraphModel graphModel){
 		List<GraphicalModelElement> connectableElements = new ArrayList<>();
