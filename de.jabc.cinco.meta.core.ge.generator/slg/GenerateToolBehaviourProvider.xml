@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>6830c0f3-7532-49ad-ad67-7fb466c9d0a9</id>
   <name>GenerateToolBehaviourProvider</name>
-  <changecounter>231</changecounter>
+  <changecounter>236</changecounter>
   <sib>
     <id>c8e21300-66b5-43fa-a031-ae9d0f22cbf2</id>
     <name>PutExpression</name>
@@ -581,17 +581,17 @@ public class $context.fuGraphModelName$ToolBehaviourProvider extends DefaultTool
   </edge>
   <edge>
     <source>94a6637d-5e8c-4bde-97ce-a274888a6322</source>
-    <target>df47ac67-aea6-4e3b-bc22-a06f4c5226bc</target>
-    <point>217.5,459.0</point>
-    <point>261.42857142857144,558.0</point>
+    <target>0a898517-6a81-4106-8679-fcbcf35b2bc8</target>
+    <point>207.6315789473684,459.0</point>
+    <point>197.8125,528.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
     <source>0df2b061-4a2f-4dc2-bb05-f83df6d13601</source>
-    <target>df47ac67-aea6-4e3b-bc22-a06f4c5226bc</target>
-    <point>108.0,458.1</point>
-    <point>192.0,531.6</point>
+    <target>21f5dfa8-05f3-46d3-8405-67b4152a6018</target>
+    <point>87.63157894736841,459.0</point>
+    <point>77.8125,528.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>true</branch>
   </edge>
@@ -621,7 +621,7 @@ public class $context.fuGraphModelName$ToolBehaviourProvider extends DefaultTool
     <label>noEdges</label>
     <sib-uid>ge-util-sibs/IsEmpty</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsEmpty</taxonomy>
-    <position>61.5,528.0</position>
+    <position>61.5,618.0</position>
     <parameter name="collection">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -637,9 +637,9 @@ public class $context.fuGraphModelName$ToolBehaviourProvider extends DefaultTool
   </sib>
   <edge>
     <source>df47ac67-aea6-4e3b-bc22-a06f4c5226bc</source>
-    <target>21f5dfa8-05f3-46d3-8405-67b4152a6018</target>
-    <point>108.0,557.9076923076923</point>
-    <point>267.0,655.7538461538462</point>
+    <target>5a2da4db-bfc2-47b9-9a74-720f1e2052f2</target>
+    <point>252.0,648.9</point>
+    <point>108.0,744.9</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>true</branch>
   </edge>
@@ -649,7 +649,7 @@ public class $context.fuGraphModelName$ToolBehaviourProvider extends DefaultTool
     <label>RunStringTemplate</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>152.0,528.0</position>
+    <position>272.0,738.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -674,16 +674,17 @@ public class $context.fuGraphModelName$ToolBehaviourProvider extends DefaultTool
   </sib>
   <edge>
     <source>df47ac67-aea6-4e3b-bc22-a06f4c5226bc</source>
-    <target>dd77d2be-4e68-44df-9336-4e6085ba06e0</target>
-    <point>330.0,450.0</point>
-    <point>333.0,531.0</point>
+    <target>2be7b943-7542-4ced-9376-bf4155c231eb</target>
+    <point>288.0,630.4363636363636</point>
+    <point>417.0,583.5272727272727</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>false</branch>
   </edge>
   <edge>
     <source>dd77d2be-4e68-44df-9336-4e6085ba06e0</source>
-    <target>21f5dfa8-05f3-46d3-8405-67b4152a6018</target>
-    <point>220.46511627906978,564.0</point>
-    <point>272.83783783783787,648.0</point>
+    <target>5a2da4db-bfc2-47b9-9a74-720f1e2052f2</target>
+    <point>537.0,741.9290322580645</point>
+    <point>108.0,755.7677419354839</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -693,7 +694,7 @@ public class $context.fuGraphModelName$ToolBehaviourProvider extends DefaultTool
     <label>noNormalNodes</label>
     <sib-uid>ge-util-sibs/IsEmpty</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsEmpty</taxonomy>
-    <position>40.5,633.0</position>
+    <position>40.5,513.0</position>
     <parameter name="collection">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -713,7 +714,7 @@ public class $context.fuGraphModelName$ToolBehaviourProvider extends DefaultTool
     <label>RunStringTemplate</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>152.0,633.0</position>
+    <position>152.0,513.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -739,23 +740,124 @@ public class $context.fuGraphModelName$ToolBehaviourProvider extends DefaultTool
   <edge>
     <source>21f5dfa8-05f3-46d3-8405-67b4152a6018</source>
     <target>0a898517-6a81-4106-8679-fcbcf35b2bc8</target>
-    <point>90.0,660.0</point>
-    <point>199.0,645.0</point>
+    <point>90.0,540.0</point>
+    <point>210.0,540.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>false</branch>
   </edge>
   <edge>
     <source>21f5dfa8-05f3-46d3-8405-67b4152a6018</source>
-    <target>5a2da4db-bfc2-47b9-9a74-720f1e2052f2</target>
-    <point>90.0,660.0</point>
-    <point>92.0,765.0</point>
+    <target>df47ac67-aea6-4e3b-bc22-a06f4c5226bc</target>
+    <point>108.0,540.12</point>
+    <point>297.0,628.32</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>true</branch>
   </edge>
   <edge>
     <source>0a898517-6a81-4106-8679-fcbcf35b2bc8</source>
-    <target>5a2da4db-bfc2-47b9-9a74-720f1e2052f2</target>
-    <point>210.0,660.0</point>
-    <point>103.0,743.0</point>
+    <target>df47ac67-aea6-4e3b-bc22-a06f4c5226bc</target>
+    <point>226.57894736842104,549.0</point>
+    <point>297.0,619.5428571428571</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
+  </edge>
+  <sib>
+    <id>2be7b943-7542-4ced-9376-bf4155c231eb</id>
+    <name>IterateElements_1</name>
+    <label>IterateElements</label>
+    <sib-uid>collection-sibs/IterateElements</sib-uid>
+    <taxonomy>de.jabc.sib.common.collection.IterateElements</taxonomy>
+    <position>176.0,618.0</position>
+    <parameter name="collection">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>edges</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="element">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>edge</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="iterator">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>iteratorfqawegasdfgjgv</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>exit</finalbranches>
+    <finalbranches>next</finalbranches>
+  </sib>
+  <sib>
+    <id>67c80601-ab39-4650-a03b-f1f447d4f426</id>
+    <name>IsEdgeUsed</name>
+    <label>IsEdgeUsed</label>
+    <sib-uid>ge-util-sibs/IsEdgeUsed</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsEdgeUsed</taxonomy>
+    <position>292.5,618.0</position>
+    <parameter name="edge">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>edge</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="graphicalModelElements">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>graphicalModelElements</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>false</finalbranches>
+    <finalbranches>true</finalbranches>
+  </sib>
+  <edge>
+    <source>2be7b943-7542-4ced-9376-bf4155c231eb</source>
+    <target>67c80601-ab39-4650-a03b-f1f447d4f426</target>
+    <point>405.0,645.0</point>
+    <point>526.0,635.0</point>
+    <branch>next</branch>
+  </edge>
+  <edge>
+    <source>67c80601-ab39-4650-a03b-f1f447d4f426</source>
+    <target>dd77d2be-4e68-44df-9336-4e6085ba06e0</target>
+    <point>555.0,645.0</point>
+    <point>543.0,732.0</point>
+    <branch>true</branch>
+  </edge>
+  <edge>
+    <source>67c80601-ab39-4650-a03b-f1f447d4f426</source>
+    <target>2be7b943-7542-4ced-9376-bf4155c231eb</target>
+    <spline/>
+    <point>314.11764705882354,618.0</point>
+    <point>285.0,585.0</point>
+    <point>243.0,620.7</point>
+    <labelposition>405.8227537774017,33.11956428796247</labelposition>
+    <branch>false</branch>
+  </edge>
+  <edge>
+    <source>2be7b943-7542-4ced-9376-bf4155c231eb</source>
+    <target>5a2da4db-bfc2-47b9-9a74-720f1e2052f2</target>
+    <point>225.0,645.0</point>
+    <point>81.0,761.0</point>
+    <branch>exit</branch>
   </edge>
   <values/>
   <branch>
