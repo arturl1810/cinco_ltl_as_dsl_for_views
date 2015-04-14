@@ -17,13 +17,18 @@ Require-Bundle: org.eclipse.xtext;visibility:=reexport,
  org.antlr.runtime,
  org.eclipse.xtext.common.types,
  org.eclipse.core.resources,
- de.jabc.cinco.meta.core.utils;bundle-version="0.5.0"
+ de.jabc.cinco.meta.core.utils;bundle-version="0.5.0",
+ org.eclipse.xtext.xbase.lib,
+ org.objectweb.asm;bundle-version="[5.0.1,6.0.0)";resolution:=optional
 Import-Package: org.apache.log4j,
  org.eclipse.xtext.xbase.lib
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
-Export-Package: de.jabc.cinco.meta.core.ge.style,de.jabc.cinco.meta.co
- re.ge.style.services,de.jabc.cinco.meta.core.ge.style.serializer,de.j
- abc.cinco.meta.core.ge.style.parser.antlr,de.jabc.cinco.meta.core.ge.
- style.parser.antlr.internal,de.jabc.cinco.meta.core.ge.style.validati
- on,de.jabc.cinco.meta.core.ge.style.scoping,de.jabc.cinco.meta.core.g
- e.style.generator,de.jabc.cinco.meta.core.ge.style.formatting
+Export-Package: de.jabc.cinco.meta.core.ge.style,
+ de.jabc.cinco.meta.core.ge.style.services,
+ de.jabc.cinco.meta.core.ge.style.serializer,
+ de.jabc.cinco.meta.core.ge.style.parser.antlr,
+ de.jabc.cinco.meta.core.ge.style.parser.antlr.internal,
+ de.jabc.cinco.meta.core.ge.style.validation,
+ de.jabc.cinco.meta.core.ge.style.scoping,
+ de.jabc.cinco.meta.core.ge.style.generator,
+ de.jabc.cinco.meta.core.ge.style.formatting
