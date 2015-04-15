@@ -6,11 +6,13 @@ import mgl.Node
 import mgl.Edge
 import de.jabc.cinco.meta.plugin.papyrus.StyledModelElement
 import mgl.GraphicalModelElement
+import mgl.Attribute
 
 class EditorModelTemplate implements Templateable{
 	override create(GraphModel graphModel,ArrayList<StyledModelElement> nodes,ArrayList<StyledModelElement> edges) '''
 	/**
- * Created by zweihoff on 07.04.15.
+ * Created by papyrus cinco meta plugin
+ * For Graphmodel «graphModel.name»
  */
 
 
@@ -387,9 +389,30 @@ if (typeof exports === 'object') {
 	def createAttributes(GraphicalModelElement modelElement)
 	'''
 		cinco_attrs: {
-		            name: [' ', 'text'],
-		            value: [0, 'number'],
-		            valid: [true, 'boolean']
+				«FOR Attribute attr : modelElement.attributes  SEPARATOR ', '»
+		            «createAttribute(attr)»
+	            «ENDFOR»
 		        }
+	'''
+	
+	def createAttribute(Attribute attr)
+	'''
+		«IF attr.eClass.name.equals("EString")»
+		«attr.name»: [' ', 'text']
+		«ELSEIF attr.eClass.name.equals("EBoolean")»
+		«attr.name»: [false, 'boolean']
+		«ELSEIF attr.eClass.name.equals("EList")»
+		«attr.name»: [
+			{ 
+			selected: 'one',
+			choices : ['one','two','three']
+			},
+			'map']
+		«ELSEIF attr.eClass.name.equals("EInt")»
+		«attr.name»: [0, 'number']
+		«ELSEIF attr.eClass.name.equals("EDouble")»
+		«attr.name»: [0.00, 'double']
+		«ENDIF»
+		
 	'''
 }

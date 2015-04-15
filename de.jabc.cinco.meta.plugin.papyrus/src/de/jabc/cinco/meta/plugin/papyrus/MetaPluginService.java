@@ -1,8 +1,8 @@
 package de.jabc.cinco.meta.plugin.papyrus;
 
+import java.io.IOException;
 import java.util.Map;
 
-import de.jabc.cinco.meta.core.mgl.transformation.helper.ServiceException;
 import de.jabc.cinco.meta.core.pluginregistry.IMetaPlugin;
 import de.metaframe.jabc.framework.execution.DefaultLightweightExecutionEnvironment;
 import de.metaframe.jabc.framework.execution.LightweightExecutionEnvironment;
@@ -24,7 +24,13 @@ public class MetaPluginService implements IMetaPlugin {
 			context.put(str, map.get(str));
 		}
 		CreatePapyrusPlugin cssp = new CreatePapyrusPlugin();
-		return cssp.execute(env);
+		try {
+			return cssp.execute(env);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }
