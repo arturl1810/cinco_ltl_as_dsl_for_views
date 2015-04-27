@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>6830c0f3-7532-49ad-ad67-7fb466c9d0a9</id>
   <name>GenerateToolBehaviourProvider</name>
-  <changecounter>236</changecounter>
+  <changecounter>239</changecounter>
   <sib>
     <id>c8e21300-66b5-43fa-a031-ae9d0f22cbf2</id>
     <name>PutExpression</name>
@@ -581,9 +581,9 @@ public class $context.fuGraphModelName$ToolBehaviourProvider extends DefaultTool
   </edge>
   <edge>
     <source>94a6637d-5e8c-4bde-97ce-a274888a6322</source>
-    <target>0a898517-6a81-4106-8679-fcbcf35b2bc8</target>
-    <point>207.6315789473684,459.0</point>
-    <point>197.8125,528.0</point>
+    <target>21f5dfa8-05f3-46d3-8405-67b4152a6018</target>
+    <point>192.0,455.85</point>
+    <point>108.0,518.85</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
