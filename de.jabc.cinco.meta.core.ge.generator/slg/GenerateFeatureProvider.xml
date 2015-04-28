@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>5f357517-18d4-4780-adc3-30879fedbfb1</id>
   <name>GenerateFeatureProvider</name>
-  <changecounter>678</changecounter>
+  <changecounter>686</changecounter>
   <sib>
     <id>23fb1326-f00d-4e42-845a-cdf6492fc417</id>
     <name>PutExpression</name>
@@ -152,7 +152,7 @@
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>if (bo.eClass().getName().equals(&quot;$context.node.name$&quot;))
+      <string>if (bo instanceof $context.node.name$)
 	return new Add$context.node.name$Feature(this);
 </string>
     </parameter>
@@ -1731,7 +1731,7 @@ if (bo instanceof $context.node.name$)
     <label>ImportNodeCode</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>272.5,273.0</position>
+    <position>257.5,288.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
