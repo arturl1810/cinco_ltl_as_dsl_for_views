@@ -2,15 +2,18 @@ package de.jabc.cinco.meta.plugin.papyrus.templates
 
 import mgl.GraphModel
 import java.util.ArrayList
-import mgl.Node
-import mgl.Edge
-import de.jabc.cinco.meta.plugin.papyrus.StyledModelElement
 import mgl.GraphicalModelElement
 import mgl.Attribute
+import de.jabc.cinco.meta.plugin.papyrus.utils.Formatter
+import de.jabc.cinco.meta.plugin.papyrus.model.StyledNode
+import de.jabc.cinco.meta.plugin.papyrus.model.StyledEdge
+import de.jabc.cinco.meta.plugin.papyrus.model.StyledConnector
+import java.util.HashMap
+import de.jabc.cinco.meta.plugin.papyrus.model.ConnectionConstraint
 
 class EditorModelTemplate implements Templateable{
 	
-override create(GraphModel graphModel,ArrayList<StyledModelElement> nodes,ArrayList<StyledModelElement> edges)
+override create(GraphModel graphModel, ArrayList<StyledNode> nodes, ArrayList<StyledEdge> edges, HashMap<String, ArrayList<StyledNode>> groupedNodes, ArrayList<ConnectionConstraint> validConnections)
 '''
 		/**
 	 * Created by papyrus cinco meta plugin
@@ -96,12 +99,6 @@ override create(GraphModel graphModel,ArrayList<StyledModelElement> nodes,ArrayL
 	        return attrs;
 	    }
 	}));
-	/*
-	 -------------------------------------------------------
-	 -------------Define Nodes and Containers---------------
-	 -------------------------------------------------------
-	 */
-	
 	
 	/**
 	 * GraphModel Attributes
@@ -113,23 +110,28 @@ override create(GraphModel graphModel,ArrayList<StyledModelElement> nodes,ArrayL
 	    «ENDFOR»
 	};
 	
-	«FOR StyledModelElement modelElement: nodes»
-		«createNode(modelElement)»
+	/*
+	 -------------------------------------------------------
+	 -------------Define Nodes and Containers---------------
+	 -------------------------------------------------------
+	 */
+	 
+	«FOR StyledNode node: nodes»
+		«createNode(node)»
 	«ENDFOR»
-	
 	/*
 	 -------------------------------------------------------
 	 ---------------------Define Edges----------------------
 	 -------------------------------------------------------
 	 */
-	
-	«FOR StyledModelElement modelElement: edges»
-		«createNode(modelElement)»
+	 
+	«FOR StyledEdge edge: edges»
+		«createEdge(edge)»
 	«ENDFOR»
 	
 	joint.shapes.devs.ModelView = joint.dia.ElementView.extend(joint.shapes.basic.PortsViewInterface);
-	«FOR StyledModelElement modelElement: nodes»
-	joint.shapes.devs.«modelElement.modelElement.name» = joint.shapes.devs.ModelView;
+	«FOR StyledNode node: nodes»
+	joint.shapes.devs.«node.modelElement.name» = joint.shapes.devs.ModelView;
 	«ENDFOR»
 	
 	if (typeof exports === 'object') {
@@ -138,7 +140,7 @@ override create(GraphModel graphModel,ArrayList<StyledModelElement> nodes,ArrayL
 	}
 '''
 	
-def createEdge(StyledModelElement styledEdge)
+def createEdge(StyledEdge styledEdge)
 '''
 	/**
 	 * «styledEdge.modelElement.name.toFirstUpper»
@@ -152,9 +154,16 @@ def createEdge(StyledModelElement styledEdge)
 	        cinco_type: 'Edge',
 	        «createAttributes(styledEdge.modelElement)»,
 	        attrs: {
-	            '.connection': { stroke: 'yellow' },
-	            '.marker-source': { fill: 'white',stroke: 'white', d: 'M 0 0 L 0 0 L 0 0 z' },
-	            '.marker-target': { fill: 'white',stroke: 'yellow', d: 'M 10 0 L 0 5 L 10 10 z' }
+	            '.connection': { 
+	            	stroke: '#«Formatter.toHex(styledEdge.foregroundColor)»',
+	            	'stroke-width': «styledEdge.lineWidth»
+	            },
+	            '.marker-source': {
+	            	«createEdgeDecorator(styledEdge.sourceConnector)»
+	            },
+	            '.marker-target': {
+	            	«createEdgeDecorator(styledEdge.targetConnector)»
+	            }
 	        }
 	
 	    },
@@ -163,41 +172,60 @@ def createEdge(StyledModelElement styledEdge)
 	         * Get the needed Attributes for the label
 	         */
 	        var attributes = this.attributes.cinco_attrs;
-	        //EDGE STYLE
-	        //Position: 1(target), 0(source)
-	        //fill: text-color
-	        //font-size
-	        this.set('labels', [{ position: 0.5, attrs: { text: { dy: -10, text: 'L: '+getAttributeLabel(attributes.atom), fill: 'yellow', 'font-size': 16 }}}]);
+	        this.set('labels', [
+	        	{
+	        		position: «styledEdge.labelLocation»,
+	        		attrs: {
+	        			text: {
+	        				dy: -10,
+	        				text: 'L: '+getAttributeLabel(attributes.atom),
+	        				fill: '#«Formatter.toHex(styledEdge.labelColor)»',
+	        				'font-size': «styledEdge.labelFontSize»
+	        			}
+	        		}
+	        	}
+	        ]);
 	    }
 	});
 '''
+
+def createEdgeDecorator(StyledConnector styledConnector)
+'''
+	fill: '#«Formatter.toHex(styledConnector.backgroundColor)»',
+	stroke: '#«Formatter.toHex(styledConnector.backgroundColor)»',
+	 d: 'M «styledConnector.m1» «styledConnector.m2» L «styledConnector.l11» «styledConnector.l12» L «styledConnector.l21» «styledConnector.l22» z'
+'''
 	
-def createNode(StyledModelElement styledModelElement)
+def createNode(StyledNode styledNode)
 '''
 		/**
-	 * «styledModelElement.modelElement.name.toFirstUpper»
+	 * «styledNode.modelElement.name.toFirstUpper»
 	 * @type {void|*}
 	 */
-	joint.shapes.devs.«styledModelElement.modelElement.class.name.toFirstUpper» = joint.shapes.devs.Model.extend({
+	joint.shapes.devs.«styledNode.modelElement.class.name.toFirstUpper» = joint.shapes.devs.Model.extend({
 	    defaults: joint.util.deepSupplement({
-	        type: 'devs.«styledModelElement.modelElement.name.toFirstUpper»',
-	        cinco_name: '«styledModelElement.modelElement.name.toFirstUpper»',
-	        cinco_type: 'Container',
-	        «createAttributes(styledModelElement.modelElement)»,
-	        size: { width: «styledModelElement», height: 300 },
+	        type: 'devs.«styledNode.modelElement.name.toFirstUpper»',
+	        cinco_name: '«styledNode.modelElement.name.toFirstUpper»',
+	        cinco_type: 'Node',
+	        «createAttributes(styledNode.modelElement)»,
+	        size: { 
+	        	width: «styledNode.width»,
+	        	height: «styledNode.height»
+	        },
 	        attrs: {
 	            '.body': {
-	                width: 200,
-	                height: 300,
-	                fill: '#ffffff',
-	                stroke: '#7c68fc',
-	                'stroke-width': 3
+	                width: «styledNode.width»,
+	                height: «styledNode.width»,
+	                fill: '#«Formatter.toHex(styledNode.backgroundColor)»',
+	                stroke: '#«Formatter.toHex(styledNode.foregroundColor)»',
+	                'stroke-width': «styledNode.lineWidth»
 	            },
 	            '.label': {
-	                'font-size': 18
-	            }, //Cinco Label
+	                'font-size': «styledNode.labelFontSize»
+	            },
 	            '.port-body': {
-	                width: (200+ edgeTriggerWidth*2), height: (300 + edgeTriggerWidth*2)
+	                width: («styledNode.width»+ edgeTriggerWidth*2),
+	                height: («styledNode.height» + edgeTriggerWidth*2)
 	            }
 	        }
 	    }, joint.shapes.devs.Model.prototype.defaults),
@@ -206,7 +234,11 @@ def createNode(StyledModelElement styledModelElement)
 	         * Get the needed Attributes for the label
 	         */
 	        var attributes = this.attributes.cinco_attrs;
-	        this.attr('.label',{ text: 'L: '+getAttributeLabel(attributes.name),fill: 'blue'});
+	        this.attr('.label',{
+	        	text: 'L: '+getAttributeLabel(attributes.name),
+	        	fill: '#«Formatter.toHex(styledNode.labelColor)»',
+	        	'font-size': «styledNode.labelFontSize»
+	        });
 	    }
 	});
 '''
@@ -214,9 +246,9 @@ def createNode(StyledModelElement styledModelElement)
 def createAttributes(GraphicalModelElement modelElement)
 '''
 	cinco_attrs: {
-			«FOR Attribute attr : modelElement.attributes  SEPARATOR ', '»
-	            «createAttribute(attr)»
-            «ENDFOR»
+		«FOR Attribute attr : modelElement.attributes  SEPARATOR ', '»
+	        «createAttribute(attr)»
+	    «ENDFOR»
 	        }
 '''
 	
@@ -240,4 +272,6 @@ def createAttribute(Attribute attr)
 	«ENDIF»
 	
 '''
+
+	
 }
