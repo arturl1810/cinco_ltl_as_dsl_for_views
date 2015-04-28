@@ -1442,7 +1442,10 @@ public class ServiceAdapter {
 
 		LightweightExecutionContext context = env.getLocalContext();
 		try {
-			Attribute attr = (Attribute) context.get(attribute);
+			EObject o = (EObject) context.get(attribute);
+			if (!(o instanceof Attribute))
+				return Branches.FALSE;
+			Attribute attr = (Attribute) o;
 			for (Annotation a : attr.getAnnotations())
 				if (a.getName().equals("propertiesViewHidden"))
 					return Branches.TRUE;
