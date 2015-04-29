@@ -1,6 +1,8 @@
 package ${ViewPackage}.views;
 
 import info.scce.cinco.product.${GraphModelName?lower_case}.mcam.cli.FrameworkExecution;
+import ${ViewPackage}.util.MergeProcessSorterAlphabetical;
+import ${ViewPackage}.util.MergeProcessSorterType;
 import ${ViewPackage}.util.MergeProcessTypeFilter;
 import info.scce.mcam.framework.processes.MergeInformation.MergeType;
 
@@ -25,6 +27,7 @@ import org.eclipse.graphiti.ui.editor.DiagramEditor;
 import org.eclipse.jface.action.*;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ViewerFilter;
+import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.ui.*;
 
 /**
@@ -52,23 +55,27 @@ public class ConflictView extends ViewPart implements IPartListener2 {
 
 	private Action saveAction;
 
-	private Action sortByStateAction;
+	private Action sortByMergeTypeAction;
+	private ViewerSorter byTypeSorter = new MergeProcessSorterType();
+	
+	private Action sortByNameAction;
+	private ViewerSorter byNameSorter = new MergeProcessSorterAlphabetical();
 	
 	/*
 	 * Filtering
 	 */
-	private Action filterNothing;
+	private Action filterNothingAction;
 	
-	private Action filterOnlyConflicted;
+	private Action filterOnlyConflictedAction;
 	private ViewerFilter onlyConflictedFilter = new MergeProcessTypeFilter(MergeType.CONFLICTED);
 	
-	private Action filterOnlyAdded;
+	private Action filterOnlyAddedAction;
 	private ViewerFilter onlyAddedFilter = new MergeProcessTypeFilter(MergeType.ADDED);
 	
-	private Action filterOnlyChanged;
+	private Action filterOnlyChangedAction;
 	private ViewerFilter onlyChangedFilter = new MergeProcessTypeFilter(MergeType.CHANGED);
 	
-	private Action filterOnlyDeleted;
+	private Action filterOnlyDeletedAction;
 	private ViewerFilter onlyDeletedFilter = new MergeProcessTypeFilter(MergeType.DELETED);
 	
 	
@@ -140,15 +147,16 @@ public class ConflictView extends ViewPart implements IPartListener2 {
 		manager.add(new Separator());
 		IMenuManager filterSubmenu = new MenuManager("Filters");
 		manager.add(filterSubmenu);
-		filterSubmenu.add(filterNothing);
-		filterSubmenu.add(filterOnlyAdded);
-		filterSubmenu.add(filterOnlyChanged);
-		filterSubmenu.add(filterOnlyConflicted);
-		filterSubmenu.add(filterOnlyDeleted);
+		filterSubmenu.add(filterNothingAction);
+		filterSubmenu.add(filterOnlyAddedAction);
+		filterSubmenu.add(filterOnlyChangedAction);
+		filterSubmenu.add(filterOnlyConflictedAction);
+		filterSubmenu.add(filterOnlyDeletedAction);
 		
 		IMenuManager sortSubmenu = new MenuManager("Sort By");
 		manager.add(sortSubmenu);
-		sortSubmenu.add(sortByStateAction);
+		sortSubmenu.add(sortByNameAction);
+		sortSubmenu.add(sortByMergeTypeAction);
 	}
 
 	private void fillLocalToolBar(IToolBarManager manager) {
@@ -197,113 +205,145 @@ public class ConflictView extends ViewPart implements IPartListener2 {
 				.getImageDescriptor(ISharedImages.IMG_ETOOL_SAVE_EDIT));
 		saveAction.setEnabled(false);
 
-		sortByStateAction = new Action() {
+		sortByMergeTypeAction = new Action() {
 			public void run() {
-				if (activeConflictViewInformation != null) {
-					if (!parent.isDisposed()) {
-						parent.layout(true);
-						parent.redraw();
-						parent.update();
-					}
-				}
+				updateSorter(sortByMergeTypeAction);
 			}
 		};
-		sortByStateAction.setText("sortBy state");
-		sortByStateAction.setToolTipText("sort Ids by state");
-		sortByStateAction.setEnabled(true);
+		sortByMergeTypeAction.setText("sort by merge type");
+		sortByMergeTypeAction.setToolTipText("sort ids by merge type");
+		sortByMergeTypeAction.setEnabled(true);
+		sortByMergeTypeAction.setChecked(false);
+		
+		sortByNameAction = new Action() {
+			public void run() {
+				updateSorter(sortByNameAction);
+			}
+		};
+		sortByNameAction.setText("sort by name");
+		sortByNameAction.setToolTipText("sort ids by name alphabetical");
+		sortByNameAction.setEnabled(true);
+		sortByNameAction.setChecked(false);
 
-		filterNothing = new Action() {
+		filterNothingAction = new Action() {
 			public void run() {
-				updateFilter(filterNothing);
+				updateFilter(filterNothingAction);
 			}
 		};
-		filterNothing.setText("show all");
-		filterNothing.setToolTipText("show all ids");
-		filterNothing.setEnabled(true);
-		filterNothing.setChecked(true);
+		filterNothingAction.setText("show all");
+		filterNothingAction.setToolTipText("show all ids");
+		filterNothingAction.setEnabled(true);
+		filterNothingAction.setChecked(false);
 		
-		filterOnlyAdded = new Action() {
+		filterOnlyAddedAction = new Action() {
 			public void run() {
-				updateFilter(filterOnlyAdded);
+				updateFilter(filterOnlyAddedAction);
 			}
 		};
-		filterOnlyAdded.setText("show added");
-		filterOnlyAdded.setToolTipText("show added ids");
-		filterOnlyAdded.setEnabled(true);
-		filterOnlyAdded.setChecked(false);
+		filterOnlyAddedAction.setText("show added");
+		filterOnlyAddedAction.setToolTipText("show added ids");
+		filterOnlyAddedAction.setEnabled(true);
+		filterOnlyAddedAction.setChecked(false);
 		
-		filterOnlyChanged = new Action() {
+		filterOnlyChangedAction = new Action() {
 			public void run() {
-				updateFilter(filterOnlyChanged);
+				updateFilter(filterOnlyChangedAction);
 			}
 		};
-		filterOnlyChanged.setText("show changed");
-		filterOnlyChanged.setToolTipText("show changed ids");
-		filterOnlyChanged.setEnabled(true);
-		filterOnlyChanged.setChecked(false);
+		filterOnlyChangedAction.setText("show changed");
+		filterOnlyChangedAction.setToolTipText("show changed ids");
+		filterOnlyChangedAction.setEnabled(true);
+		filterOnlyChangedAction.setChecked(false);
 		
-		filterOnlyConflicted = new Action() {
+		filterOnlyConflictedAction = new Action() {
 			public void run() {
-				updateFilter(filterOnlyConflicted);
+				updateFilter(filterOnlyConflictedAction);
 			}
 		};
-		filterOnlyConflicted.setText("show conflicted");
-		filterOnlyConflicted.setToolTipText("show conflicted ids");
-		filterOnlyConflicted.setEnabled(true);
-		filterOnlyConflicted.setChecked(false);
+		filterOnlyConflictedAction.setText("show conflicted");
+		filterOnlyConflictedAction.setToolTipText("show conflicted ids");
+		filterOnlyConflictedAction.setEnabled(true);
+		filterOnlyConflictedAction.setChecked(false);
 		
-		filterOnlyDeleted = new Action() {
+		filterOnlyDeletedAction = new Action() {
 			public void run() {
-				updateFilter(filterOnlyDeleted);
+				updateFilter(filterOnlyDeletedAction);
 			}
 		};
-		filterOnlyDeleted.setText("show deleted");
-		filterOnlyDeleted.setToolTipText("show deleted ids");
-		filterOnlyDeleted.setEnabled(true);
-		filterOnlyDeleted.setChecked(false);
+		filterOnlyDeletedAction.setText("show deleted");
+		filterOnlyDeletedAction.setToolTipText("show deleted ids");
+		filterOnlyDeletedAction.setEnabled(true);
+		filterOnlyDeletedAction.setChecked(false);
 		
 
 	}
 	
-	/* Multiple filters can be enabled at a time. */
-	protected void updateFilter(Action action) {
-		filterNothing.setChecked(false);
+	protected void updateSorter(Action action) {
+		sortByNameAction.setChecked(false);
+		sortByMergeTypeAction.setChecked(false);
 		
-		filterOnlyAdded.setChecked(false);
+		if(action == sortByNameAction) {
+			sortByNameAction.setChecked(true);
+			activeConflictViewInformation.setActiveSort(1);
+			activeConflictViewInformation.getTreeViewer().setSorter(byNameSorter);
+		}
+		if(action == sortByMergeTypeAction) {
+			sortByMergeTypeAction.setChecked(true);
+			activeConflictViewInformation.setActiveSort(0);
+			activeConflictViewInformation.getTreeViewer().setSorter(byTypeSorter);
+		}
+	}
+	
+	private void restoreActiveSorter(int sorter) {
+		switch (sorter) {
+			case 1:
+				sortByNameAction.run();
+				break;
+			case 0:
+			default:
+				sortByMergeTypeAction.run();
+				break;
+		}
+	}
+	
+	protected void updateFilter(Action action) {
+		filterNothingAction.setChecked(false);
+		
+		filterOnlyAddedAction.setChecked(false);
 		activeConflictViewInformation.getTreeViewer().removeFilter(onlyAddedFilter);
 		
-		filterOnlyChanged.setChecked(false);
+		filterOnlyChangedAction.setChecked(false);
 		activeConflictViewInformation.getTreeViewer().removeFilter(onlyChangedFilter);
 		
-		filterOnlyDeleted.setChecked(false);
+		filterOnlyDeletedAction.setChecked(false);
 		activeConflictViewInformation.getTreeViewer().removeFilter(onlyDeletedFilter);
 		
-		filterOnlyConflicted.setChecked(false);
+		filterOnlyConflictedAction.setChecked(false);
 		activeConflictViewInformation.getTreeViewer().removeFilter(onlyConflictedFilter);
 		
-		if(action == filterNothing) {
-			filterNothing.setChecked(true);
+		if(action == filterNothingAction) {
+			filterNothingAction.setChecked(true);
 			activeConflictViewInformation.setActiveFilter(0);
 		}
 		
-		if(action == filterOnlyAdded) {
+		if(action == filterOnlyAddedAction) {
 				activeConflictViewInformation.getTreeViewer().addFilter(onlyAddedFilter);
-				filterOnlyAdded.setChecked(true);
+				filterOnlyAddedAction.setChecked(true);
 				activeConflictViewInformation.setActiveFilter(1);
 		}
-		if(action == filterOnlyChanged) {
+		if(action == filterOnlyChangedAction) {
 				activeConflictViewInformation.getTreeViewer().addFilter(onlyChangedFilter);
-				filterOnlyChanged.setChecked(true);
+				filterOnlyChangedAction.setChecked(true);
 				activeConflictViewInformation.setActiveFilter(2);
 		}
-		if(action == filterOnlyDeleted) {
+		if(action == filterOnlyDeletedAction) {
 				activeConflictViewInformation.getTreeViewer().addFilter(onlyDeletedFilter);
-				filterOnlyDeleted.setChecked(true);
+				filterOnlyDeletedAction.setChecked(true);
 				activeConflictViewInformation.setActiveFilter(3);
 		}
-		if(action == filterOnlyConflicted) {
+		if(action == filterOnlyConflictedAction) {
 				activeConflictViewInformation.getTreeViewer().addFilter(onlyConflictedFilter);
-				filterOnlyConflicted.setChecked(true);
+				filterOnlyConflictedAction.setChecked(true);
 				activeConflictViewInformation.setActiveFilter(4);
 		}
 	}
@@ -311,20 +351,20 @@ public class ConflictView extends ViewPart implements IPartListener2 {
 	private void restoreActiveFilter(int filter) {
 		switch (filter) {
 			case 1:
-				updateFilter(filterOnlyAdded);
+				filterOnlyAddedAction.run();
 				break;
 			case 2:
-				updateFilter(filterOnlyChanged);
+				filterOnlyChangedAction.run();
 				break;
 			case 3:
-				updateFilter(filterOnlyDeleted);
+				filterOnlyDeletedAction.run();
 				break;
 			case 4:
-				updateFilter(filterOnlyConflicted);
+				filterOnlyConflictedAction.run();
 				break;
 			case 0:
 			default:
-				updateFilter(filterNothing);
+				filterNothingAction.run();
 				break;
 		}
 	}
@@ -443,10 +483,11 @@ public class ConflictView extends ViewPart implements IPartListener2 {
 					activeConflictViewInformation = conflictInfoMap
 							.get(origFile);
 					activeConflictViewInformation.getTreeViewer().getTree().setVisible(true);
-					restoreActiveFilter(activeConflictViewInformation.getActiveFilter());
 					((GridData) activeConflictViewInformation.getTreeViewer().getTree().getLayoutData()).exclude = false;
 					parent.layout();
 					saveAction.setEnabled(true);
+					restoreActiveFilter(activeConflictViewInformation.getActiveFilter());
+					restoreActiveSorter(activeConflictViewInformation.getActiveSort());
 				} else {
 					saveAction.setEnabled(false);
 				}

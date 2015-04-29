@@ -103,6 +103,22 @@ public class McamViewGenerator {
 		templateGen3.setPkg((String) data.get("ViewPackage") + ".util");
 		templateGen3.setData(data);
 		templateGen3.generateFile();
+		
+		data.put("ClassName", "MergeProcessSorterAlphabetical");
+		TemplateGenerator templateGen4 = new TemplateGenerator(
+				"templates/eclipse_views/MergeProcessSorterAlphabetical.tpl", project);
+		templateGen4.setFilename((String) data.get("ClassName") + ".java");
+		templateGen4.setPkg((String) data.get("ViewPackage") + ".util");
+		templateGen4.setData(data);
+		templateGen4.generateFile();
+		
+		data.put("ClassName", "MergeProcessSorterType");
+		TemplateGenerator templateGen5 = new TemplateGenerator(
+				"templates/eclipse_views/MergeProcessSorterType.tpl", project);
+		templateGen5.setFilename((String) data.get("ClassName") + ".java");
+		templateGen5.setPkg((String) data.get("ViewPackage") + ".util");
+		templateGen5.setData(data);
+		templateGen5.generateFile();
 	}
 	
 	private void generateCheckProcessTreeView()
