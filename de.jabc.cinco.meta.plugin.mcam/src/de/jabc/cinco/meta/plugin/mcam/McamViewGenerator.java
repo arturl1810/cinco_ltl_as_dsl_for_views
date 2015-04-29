@@ -81,7 +81,6 @@ public class McamViewGenerator {
 	private void generateMergeProcessTreeView()
 			throws IOException, TemplateException {
 		data.put("ClassName", "MergeProcessContentProvider");
-
 		TemplateGenerator templateGen = new TemplateGenerator(
 				"templates/eclipse_views/MergeProcessContentProvider.tpl", project);
 		templateGen.setFilename((String) data.get("ClassName") + ".java");
@@ -90,13 +89,20 @@ public class McamViewGenerator {
 		templateGen.generateFile();
 		
 		data.put("ClassName", "MergeProcessLabelProvider");
-
 		TemplateGenerator templateGen2 = new TemplateGenerator(
 				"templates/eclipse_views/MergeProcessLabelProvider.tpl", project);
 		templateGen2.setFilename((String) data.get("ClassName") + ".java");
 		templateGen2.setPkg((String) data.get("ViewPackage") + ".util");
 		templateGen2.setData(data);
 		templateGen2.generateFile();
+		
+		data.put("ClassName", "MergeProcessTypeFilter");
+		TemplateGenerator templateGen3 = new TemplateGenerator(
+				"templates/eclipse_views/MergeProcessTypeFilter.tpl", project);
+		templateGen3.setFilename((String) data.get("ClassName") + ".java");
+		templateGen3.setPkg((String) data.get("ViewPackage") + ".util");
+		templateGen3.setData(data);
+		templateGen3.generateFile();
 	}
 	
 	private void generateCheckProcessTreeView()

@@ -108,8 +108,13 @@ public class MergeProcessLabelProvider extends LabelProvider {
 	public String getText(Object element) {
 		if (element instanceof ${GraphModelName}Id)
 			return ((${GraphModelName}Id) element).toString();
-		if (element instanceof ChangeModule<?, ?>)
-			return ((ChangeModule<${GraphModelName}Id, ${GraphModelName}Adapter>) element).toString();
+		if (element instanceof ChangeModule<?, ?>) {
+			ChangeModule<${GraphModelName}Id, ${GraphModelName}Adapter> change =(ChangeModule<${GraphModelName}Id, ${GraphModelName}Adapter>) element;
+			if (mp.getMergeInformationMap().get(change.id).getLocalChanges().contains(change))
+				return "(L) " + change.toString();
+			if (mp.getMergeInformationMap().get(change.id).getRemoteChanges().contains(change))
+				return "(R) " + change.toString();
+		}
 		if (element instanceof Set<?>) {
 			for (MergeInformation<${GraphModelName}Id, ${GraphModelName}Adapter> mergeInfo : mp.getMergeInformationMap().values()) {
 				int i = 0;

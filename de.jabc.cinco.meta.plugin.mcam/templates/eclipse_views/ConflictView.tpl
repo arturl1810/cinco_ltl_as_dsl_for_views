@@ -1,6 +1,8 @@
 package ${ViewPackage}.views;
 
 import info.scce.cinco.product.${GraphModelName?lower_case}.mcam.cli.FrameworkExecution;
+import ${ViewPackage}.util.MergeProcessTypeFilter;
+import info.scce.mcam.framework.processes.MergeInformation.MergeType;
 
 import java.io.File;
 import java.util.HashMap;
@@ -22,6 +24,7 @@ import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.graphiti.ui.editor.DiagramEditor;
 import org.eclipse.jface.action.*;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.ui.*;
 
 /**
@@ -50,6 +53,24 @@ public class ConflictView extends ViewPart implements IPartListener2 {
 	private Action saveAction;
 
 	private Action sortByStateAction;
+	
+	/*
+	 * Filtering
+	 */
+	private Action filterNothing;
+	
+	private Action filterOnlyConflicted;
+	private ViewerFilter onlyConflictedFilter = new MergeProcessTypeFilter(MergeType.CONFLICTED);
+	
+	private Action filterOnlyAdded;
+	private ViewerFilter onlyAddedFilter = new MergeProcessTypeFilter(MergeType.ADDED);
+	
+	private Action filterOnlyChanged;
+	private ViewerFilter onlyChangedFilter = new MergeProcessTypeFilter(MergeType.CHANGED);
+	
+	private Action filterOnlyDeleted;
+	private ViewerFilter onlyDeletedFilter = new MergeProcessTypeFilter(MergeType.DELETED);
+	
 	
 	private NullProgressMonitor monitor = new NullProgressMonitor();
 
@@ -117,7 +138,17 @@ public class ConflictView extends ViewPart implements IPartListener2 {
 	private void fillLocalPullDown(IMenuManager manager) {
 		manager.add(saveAction);
 		manager.add(new Separator());
-		manager.add(sortByStateAction);
+		IMenuManager filterSubmenu = new MenuManager("Filters");
+		manager.add(filterSubmenu);
+		filterSubmenu.add(filterNothing);
+		filterSubmenu.add(filterOnlyAdded);
+		filterSubmenu.add(filterOnlyChanged);
+		filterSubmenu.add(filterOnlyConflicted);
+		filterSubmenu.add(filterOnlyDeleted);
+		
+		IMenuManager sortSubmenu = new MenuManager("Sort By");
+		manager.add(sortSubmenu);
+		sortSubmenu.add(sortByStateAction);
 	}
 
 	private void fillLocalToolBar(IToolBarManager manager) {
@@ -181,6 +212,121 @@ public class ConflictView extends ViewPart implements IPartListener2 {
 		sortByStateAction.setToolTipText("sort Ids by state");
 		sortByStateAction.setEnabled(true);
 
+		filterNothing = new Action() {
+			public void run() {
+				updateFilter(filterNothing);
+			}
+		};
+		filterNothing.setText("show all");
+		filterNothing.setToolTipText("show all ids");
+		filterNothing.setEnabled(true);
+		filterNothing.setChecked(true);
+		
+		filterOnlyAdded = new Action() {
+			public void run() {
+				updateFilter(filterOnlyAdded);
+			}
+		};
+		filterOnlyAdded.setText("show added");
+		filterOnlyAdded.setToolTipText("show added ids");
+		filterOnlyAdded.setEnabled(true);
+		filterOnlyAdded.setChecked(false);
+		
+		filterOnlyChanged = new Action() {
+			public void run() {
+				updateFilter(filterOnlyChanged);
+			}
+		};
+		filterOnlyChanged.setText("show changed");
+		filterOnlyChanged.setToolTipText("show changed ids");
+		filterOnlyChanged.setEnabled(true);
+		filterOnlyChanged.setChecked(false);
+		
+		filterOnlyConflicted = new Action() {
+			public void run() {
+				updateFilter(filterOnlyConflicted);
+			}
+		};
+		filterOnlyConflicted.setText("show conflicted");
+		filterOnlyConflicted.setToolTipText("show conflicted ids");
+		filterOnlyConflicted.setEnabled(true);
+		filterOnlyConflicted.setChecked(false);
+		
+		filterOnlyDeleted = new Action() {
+			public void run() {
+				updateFilter(filterOnlyDeleted);
+			}
+		};
+		filterOnlyDeleted.setText("show deleted");
+		filterOnlyDeleted.setToolTipText("show deleted ids");
+		filterOnlyDeleted.setEnabled(true);
+		filterOnlyDeleted.setChecked(false);
+		
+
+	}
+	
+	/* Multiple filters can be enabled at a time. */
+	protected void updateFilter(Action action) {
+		filterNothing.setChecked(false);
+		
+		filterOnlyAdded.setChecked(false);
+		activeConflictViewInformation.getTreeViewer().removeFilter(onlyAddedFilter);
+		
+		filterOnlyChanged.setChecked(false);
+		activeConflictViewInformation.getTreeViewer().removeFilter(onlyChangedFilter);
+		
+		filterOnlyDeleted.setChecked(false);
+		activeConflictViewInformation.getTreeViewer().removeFilter(onlyDeletedFilter);
+		
+		filterOnlyConflicted.setChecked(false);
+		activeConflictViewInformation.getTreeViewer().removeFilter(onlyConflictedFilter);
+		
+		if(action == filterNothing) {
+			filterNothing.setChecked(true);
+			activeConflictViewInformation.setActiveFilter(0);
+		}
+		
+		if(action == filterOnlyAdded) {
+				activeConflictViewInformation.getTreeViewer().addFilter(onlyAddedFilter);
+				filterOnlyAdded.setChecked(true);
+				activeConflictViewInformation.setActiveFilter(1);
+		}
+		if(action == filterOnlyChanged) {
+				activeConflictViewInformation.getTreeViewer().addFilter(onlyChangedFilter);
+				filterOnlyChanged.setChecked(true);
+				activeConflictViewInformation.setActiveFilter(2);
+		}
+		if(action == filterOnlyDeleted) {
+				activeConflictViewInformation.getTreeViewer().addFilter(onlyDeletedFilter);
+				filterOnlyDeleted.setChecked(true);
+				activeConflictViewInformation.setActiveFilter(3);
+		}
+		if(action == filterOnlyConflicted) {
+				activeConflictViewInformation.getTreeViewer().addFilter(onlyConflictedFilter);
+				filterOnlyConflicted.setChecked(true);
+				activeConflictViewInformation.setActiveFilter(4);
+		}
+	}
+
+	private void restoreActiveFilter(int filter) {
+		switch (filter) {
+			case 1:
+				updateFilter(filterOnlyAdded);
+				break;
+			case 2:
+				updateFilter(filterOnlyChanged);
+				break;
+			case 3:
+				updateFilter(filterOnlyDeleted);
+				break;
+			case 4:
+				updateFilter(filterOnlyConflicted);
+				break;
+			case 0:
+			default:
+				updateFilter(filterNothing);
+				break;
+		}
 	}
 
 	/**
@@ -297,6 +443,7 @@ public class ConflictView extends ViewPart implements IPartListener2 {
 					activeConflictViewInformation = conflictInfoMap
 							.get(origFile);
 					activeConflictViewInformation.getTreeViewer().getTree().setVisible(true);
+					restoreActiveFilter(activeConflictViewInformation.getActiveFilter());
 					((GridData) activeConflictViewInformation.getTreeViewer().getTree().getLayoutData()).exclude = false;
 					parent.layout();
 					saveAction.setEnabled(true);

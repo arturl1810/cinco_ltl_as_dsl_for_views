@@ -44,6 +44,8 @@ public class ConflictViewInformation {
 	private List<ChangeModule<${GraphModelName}Id, ${GraphModelName}Adapter>> changesDone;
 	
 	private TreeViewer treeViewer = null;
+	private int activeFilter = 0;
+	private int activeSort = 0;
 
 	public ConflictViewInformation(File origFile, File remoteFile,
 			File localFile, IFile iFile, Resource resource) {
@@ -77,6 +79,19 @@ public class ConflictViewInformation {
 
 	public TreeViewer getTreeViewer() {
 		return treeViewer;
+	}
+
+	public void setActiveFilter(int filter) {
+		activeFilter = filter;
+	}
+	public int getActiveFilter() {
+		return activeFilter;
+	}
+	public void setActiveSort(int sort) {
+		activeSort = sort;
+	}
+	public int getActiveSort() {
+		return activeSort;
 	}
 
 	public void createMergeProcess() {
