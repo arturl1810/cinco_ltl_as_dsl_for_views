@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>ea6aca34-ec03-4ba1-99b7-4fc762288fa2</id>
   <name>GenerateSingleStringCode</name>
-  <changecounter>342</changecounter>
+  <changecounter>345</changecounter>
   <sib>
     <id>21749b0f-12f8-4797-81b9-3f0453fbf22c</id>
     <name>RunStringTemplate</name>
@@ -407,7 +407,7 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>EObject bo = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
+      <string>EObject bo = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(getSelectedPictogramElement());
 if (bo instanceof $context.modelElementName$) {
 	$context.modelElementName$ tmp = ($context.modelElementName$) bo;
 	if (tmp.get$context.fuAttributeName$Parameter().get(0) != null)

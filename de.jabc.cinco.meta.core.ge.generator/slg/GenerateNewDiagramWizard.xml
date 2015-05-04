@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>4b8f0479-9813-462d-b7d3-1e7c977bb9c6</id>
   <name>GenerateNewDiagramWizard</name>
-  <changecounter>211</changecounter>
+  <changecounter>223</changecounter>
   <sib>
     <id>4db12997-4cd3-4e00-94ed-f5405dd7aa9b</id>
     <name>PutExpression</name>
@@ -214,19 +214,19 @@ public class New$context.fuGraphModelName$DiagramWizard extends Wizard implement
 			URI resUri = URI.createPlatformResourceURI(filePath.toOSString() ,true);
 			Resource res = new ResourceSetImpl().createResource(resUri);
 			Diagram diagram = Graphiti.getPeService().createDiagram(&quot;$context.fuGraphModelName$&quot;, dName, true);
-			$context.graphModelName$ $context.meIdentifier$ = $context.factoryName$Factory.eINSTANCE.create$context.graphModelName$();
-			$context.meIdentifier$.setId(EcoreUtil.generateUUID());
+			$context.graphModelName$ graph = $context.factoryName$Factory.eINSTANCE.create$context.graphModelName$();
+			graph.setId(EcoreUtil.generateUUID());
 			try {
 				res.unload();
 				res.getContents().add(diagram);
-				res.getContents().add($context.meIdentifier$);
+				res.getContents().add(graph);
 				res.save(null);
 				
 				IDiagramTypeProvider dtp = GraphitiUi.getExtensionManager().createDiagramTypeProvider(diagram, &quot;$context.packageName$.$context.graphModelName$DiagramTypeProvider&quot;);
 				$context.graphModelName$GraphitiUtils.addToResource(diagram, dtp.getFeatureProvider());
-				dtp.getFeatureProvider().link(diagram, $context.meIdentifier$);
+				dtp.getFeatureProvider().link(diagram, graph);
 
-				$context.postCreateHookContent$
+				$context.gmPostCreateHookContent$
 
 				res.save(null);
 
