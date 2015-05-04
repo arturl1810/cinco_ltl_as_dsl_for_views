@@ -222,6 +222,7 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 			    PluginRegistry.getInstance().getRegisteredEcoreModels().put("graphitiModel", graphitiModel);
 			    PluginRegistry.getInstance().getGenModelMap().put(graphitiModel, "platform:/plugin/org.eclipse.graphiti.mm/model/graphiti.genmodel");
 			    
+			    EPackage interfaceGraphModel = PluginRegistry.getInstance().getRegisteredEcoreModels().get("abstractGraphModel");
 			    
 			    URI uri = URI.createFileURI(API_MODEL_PREFIX + gModel.getName()+ ".ecore");
 			    XMIResource graphicalGraphModelRes = (XMIResource) new XMIResourceFactoryImpl().createResource(uri);
@@ -241,6 +242,7 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 				
 				context.put("graphmodel", graphmodel);
 				context.put("graphicalGraphModel", graphicalGraphModel);
+				context.put("abstractGraphModel", interfaceGraphModel);
 				context.put("genmodelMap", PluginRegistry.getInstance().getGenModelMap());
 				context.put("registeredGeneratorPlugins", PluginRegistry.getInstance().getPluginGenerators());
 				context.put("registeredPackageMap", PluginRegistry.getInstance().getRegisteredEcoreModels());
@@ -262,6 +264,7 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 				context.put("booleanType", booleanType);
 				context.put("eObjectType", EcorePackage.eINSTANCE.getEObject());
 				context.put("genGraphModelPackage", generatedGraphmodelPackage);
+				
 				
 				
 				fqnToContext(context);

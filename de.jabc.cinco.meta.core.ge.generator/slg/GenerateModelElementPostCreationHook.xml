@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>3bb8a1c5-18ed-4580-8582-3c735f199d9e</id>
   <name>GenerateModelElementPostCreationHook</name>
-  <changecounter>106</changecounter>
+  <changecounter>119</changecounter>
   <sib>
     <id>c751516d-45fd-4d63-91fb-316082348803</id>
     <name>CopyEObject</name>
@@ -254,14 +254,14 @@
     <parameter name="result">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>postCreateHookContent</key>
-          <scope>PARENT</scope>
+          <key>gmPostCreateHookContent</key>
+          <scope>GLOBAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>new $context.className$().postCreateAndUpdate($context.meIdentifier$, diagram);</string>
+      <string>new $context.className$().postCreateAndUpdate(graph, diagram);</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>

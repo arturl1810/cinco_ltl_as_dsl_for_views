@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>ede0f2a5-2d64-419a-a377-4de364aed9a1</id>
   <name>GenerateGraphmodelWrapper</name>
-  <changecounter>251</changecounter>
+  <changecounter>266</changecounter>
   <sib>
     <id>961ec5c2-d49b-4f47-b506-1d2f2c25fd26</id>
     <name>RunStringTemplate</name>
@@ -85,18 +85,19 @@ public class $graphModelName$Wrapper {
 		URI uri = URI.createPlatformResourceURI(filePath.toOSString(), true);
 		IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(filePath);
 		Resource res = new ResourceSetImpl().createResource(uri);
-		Diagram d = Graphiti.getPeCreateService().createDiagram(&quot;$graphModelName$&quot;, fileName, true);
+		Diagram diagram = Graphiti.getPeCreateService().createDiagram(&quot;$graphModelName$&quot;, fileName, true);
 		$graphModelName$ graph = $factoryName$Factory.eINSTANCE.create$graphModelName$();
 		
-		res.getContents().add(d);
+		res.getContents().add(diagram);
 		res.getContents().add(graph);
-		res.save(null);
 		
-		IDiagramTypeProvider dtp = GraphitiUi.getExtensionManager().createDiagramTypeProvider(d, DTP_ID);
-		$graphModelName$GraphitiUtils.addToResource(d, dtp.getFeatureProvider());
-		dtp.getFeatureProvider().link(d, graph);
+		IDiagramTypeProvider dtp = GraphitiUi.getExtensionManager().createDiagramTypeProvider(diagram, DTP_ID);
+		$graphModelName$GraphitiUtils.addToResource(diagram, dtp.getFeatureProvider());
+		dtp.getFeatureProvider().link(diagram, graph);
+		$gmPostCreateHookContent$
+		res.save(null);
 
-		C$graphModelName$ retval = wrapGraphModel(graph, d);
+		C$graphModelName$ retval = wrapGraphModel(graph, diagram);
 
 		return retval;
 	}
