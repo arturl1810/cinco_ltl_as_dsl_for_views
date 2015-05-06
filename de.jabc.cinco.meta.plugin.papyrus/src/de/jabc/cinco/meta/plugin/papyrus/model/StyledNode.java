@@ -1,9 +1,13 @@
 package de.jabc.cinco.meta.plugin.papyrus.model;
 
+import java.util.ArrayList;
+
 public class StyledNode extends StyledModelElement{
 	private int angle, width, height;
 	private NodeShape nodeShape;
 	private int cornerWidth,cornerHeight;
+	private ArrayList<PolygonPoint> polygonPoints;
+	
 	public int getAngle() {
 		return angle;
 	}
@@ -39,6 +43,12 @@ public class StyledNode extends StyledModelElement{
 	}
 	public void setNodeShape(NodeShape nodeShape) {
 		this.nodeShape = nodeShape;
+	}
+	public ArrayList<PolygonPoint> getPolygonPoints() {
+		return polygonPoints;
+	}
+	public void setPolygonPoints(ArrayList<PolygonPoint> polygonPoints) {
+		this.polygonPoints = polygonPoints;
 	}
 	
 	

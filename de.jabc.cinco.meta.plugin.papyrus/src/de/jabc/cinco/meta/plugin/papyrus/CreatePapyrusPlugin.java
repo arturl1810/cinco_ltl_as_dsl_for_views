@@ -53,9 +53,7 @@ public class CreatePapyrusPlugin {
 	
 	private void createFile(Templateable template,String path,TemplateContainer tc) throws IOException
 	{
-		//(use relative path for Unix systems)
 		File f = new File(path);
-		//(works for both Windows and Linux)
 		f.getParentFile().mkdirs(); 
 		f.createNewFile();
 		

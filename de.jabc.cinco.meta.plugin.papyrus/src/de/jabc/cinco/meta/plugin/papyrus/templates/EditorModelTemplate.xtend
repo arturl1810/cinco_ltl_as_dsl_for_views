@@ -10,6 +10,8 @@ import de.jabc.cinco.meta.plugin.papyrus.model.StyledEdge
 import de.jabc.cinco.meta.plugin.papyrus.model.StyledConnector
 import java.util.HashMap
 import de.jabc.cinco.meta.plugin.papyrus.model.ConnectionConstraint
+import de.jabc.cinco.meta.plugin.papyrus.model.NodeShape
+import de.jabc.cinco.meta.plugin.papyrus.model.PolygonPoint
 
 class EditorModelTemplate implements Templateable{
 	
@@ -38,67 +40,222 @@ override create(GraphModel graphModel, ArrayList<StyledNode> nodes, ArrayList<St
 	
 	joint.shapes.devs = {};
 	
-	joint.shapes.devs.Model = joint.shapes.basic.Generic.extend(_.extend({}, joint.shapes.basic.PortsModelInterface, {
-	
-	    type_name: 'model',
-	    markup: '<g class="rotatable"><g class="scalable"><g class="inPorts"/><g class="outPorts"/><rect class="body"/></g><text class="label"/></g>',
-	    portMarkup: '<g class="port port<%= id %>"><rect class="port-body"/><text class="port-label"/></g>',
-	
-	    defaults: joint.util.deepSupplement({
-	
-	        type: 'devs.Model',
-	        cinco_attrs: {},
-	        cinco_id: '0',
-	        cinco_name: 'NoName',
-	        cinco_type: 'element',
-	
-	        inPorts: [''],
-	        outPorts: [],
-	
-	        attrs: {
-	            '.': { magnet: false },
-	            '.body': {
-	                stroke: '#ffffff'
-	            },
-	            '.port-body': {
-	                magnet: false,
-	                fill: '#transparent',
-	                stroke: '#ffffff'
-	            },
-	            text: {
-	                'pointer-events': 'none'
-	            },
-	            '.label': { text: 'Model', 'ref-x': .5, 'ref-y': 10, ref: '.body', 'text-anchor': 'middle' },
-	            '.inPorts .port-label': { x:0, dy: 0, 'text-anchor': 'end', fill: '#ffffff'},
-	            '.outPorts .port-label':{ x: 0, dy: 0, fill: '#ffffff' }
-	        }
-	
-	    }, joint.shapes.basic.Generic.prototype.defaults),
-	
-	    setLabel: function() {
-	
-	    },
-	
-	    getPortAttrs: function(portName, index, total, selector, type) {
-	
-	        var attrs = {};
-	
-	        var portClass = 'port' + index;
-	        var portSelector = selector + '>.' + portClass;
-	        var portLabelSelector = portSelector + '>.port-label';
-	        var portBodySelector = portSelector + '>.port-body';
-	
-	        attrs[portLabelSelector] = { text: portName };
-	        attrs[portBodySelector] = { port: { id: portName || _.uniqueId(type) , type: type } };
-	        attrs[portSelector] = { ref: '.body', 'ref-y': (-0.9 * edgeTriggerWidth), 'ref-x' : (-0.9 * edgeTriggerWidth) };
-	
-	        if (selector === '.outPorts') {
-	            attrs[portSelector] = { ref: '.body', 'ref-y': (0), 'ref-x' : (0) };
-	        }
-	
-	        return attrs;
-	    }
-	}));
+	/**
+ * RECTANGLE Rounded
+ * @type {void|*}
+ */
+joint.shapes.devs.ModelRect = joint.shapes.basic.Generic.extend(_.extend({}, joint.shapes.basic.PortsModelInterface, {
+
+    type_name: 'modelRect',
+    markup: '<g class="rotatable"><g class="scalable"><g class="inPorts"/><g class="outPorts"/><rect class="body"/></g><text class="label"/></g>',
+    portMarkup: '<g class="port port<%= id %>"><rect class="port-body"/><text class="port-label"/></g>',
+
+    defaults: joint.util.deepSupplement({
+
+        type: 'devs.ModelRect',
+        cinco_attrs: {},
+        cinco_id: '0',
+        cinco_name: 'NoName',
+        cinco_type: 'element',
+
+        inPorts: [''],
+        outPorts: [],
+
+        attrs: {
+            '.scalable' :{
+                transform : "scale(0.5,0.5)"
+            },
+            '.': { magnet: false },
+            '.body': {
+                stroke: '#ffffff'
+            },
+            '.port-body': {
+                'transform':'translate(-10,-10)',
+                magnet: false,
+                fill: '#transparent',
+                stroke: '#ffffff'
+            },
+            text: {
+                'pointer-events': 'none'
+            },
+            '.label': { text: 'ModelRect', 'ref-x': .5, 'ref-y': 10, ref: '.body', 'text-anchor': 'middle' },
+            '.inPorts .port-label': { x:0, dy: 0, 'text-anchor': 'end', fill: '#ffffff'},
+            '.outPorts .port-label':{ x: 0, dy: 0, fill: '#ffffff' }
+        }
+
+    }, joint.shapes.basic.Generic.prototype.defaults),
+
+    setLabel: function() {
+
+    },
+
+    getPortAttrs: function(portName, index, total, selector, type) {
+
+        var attrs = {};
+
+        var portClass = 'port' + index;
+        var portSelector = selector + '>.' + portClass;
+        var portLabelSelector = portSelector + '>.port-label';
+        var portBodySelector = portSelector + '>.port-body';
+
+        attrs[portLabelSelector] = { text: portName };
+        attrs[portBodySelector] = { port: { id: portName || _.uniqueId(type) , type: type } };
+        attrs[portSelector] = { ref: '.body', 'ref-y': (0), 'ref-x' : (0) };
+
+        if (selector === '.outPorts') {
+            attrs[portSelector] = { ref: '.body', 'ref-y': (0), 'ref-x' : (0) };
+        }
+
+        return attrs;
+    }
+}));
+
+/**
+ * ELLIPSE
+ * @type {void|*}
+ */
+joint.shapes.devs.ModelEllipse = joint.shapes.basic.Generic.extend(_.extend({}, joint.shapes.basic.PortsModelInterface, {
+
+    type_name: 'modelEllipse',
+    markup: '<g class="rotatable"><g class="scalable"><g class="inPorts"/><g class="outPorts"/><ellipse class="body"/></g><text class="label"/></g>',
+    portMarkup: '<g class="port port<%= id %>"><ellipse class="port-body"/><text class="port-label"/></g>',
+
+    defaults: joint.util.deepSupplement({
+
+        type: 'devs.ModelEllipse',
+        cinco_attrs: {},
+        cinco_id: '0',
+        cinco_name: 'NoName',
+        cinco_type: 'element',
+
+        inPorts: [''],
+        outPorts: [],
+
+        attrs: {
+            '.scalable' :{
+                transform : "scale(1,1)"
+            },
+            '.': { magnet: false },
+            '.body': {
+                stroke: '#ffffff',
+                cx: 0,
+                cy: 0,
+                rx: 0,
+                ry: 0
+            },
+            '.port-body': {
+                magnet: false,
+                fill: '#transparent',
+                stroke: '#ffffff',
+                cx: 0,
+                cy: 0,
+                rx: 0,
+                ry: 0
+            },
+            text: {
+                'pointer-events': 'none'
+            },
+            '.label': { text: 'Model', 'ref-x': .5, 'ref-y': 10, ref: '.body', 'text-anchor': 'middle' },
+            '.inPorts .port-label': { x:0, dy: 0, 'text-anchor': 'end', fill: '#ffffff'},
+            '.outPorts .port-label':{ x: 0, dy: 0, fill: '#ffffff' }
+        }
+
+    }, joint.shapes.basic.Generic.prototype.defaults),
+
+    setLabel: function() {
+
+    },
+
+    getPortAttrs: function(portName, index, total, selector, type) {
+
+        var attrs = {};
+
+        var portClass = 'port' + index;
+        var portSelector = selector + '>.' + portClass;
+        var portLabelSelector = portSelector + '>.port-label';
+        var portBodySelector = portSelector + '>.port-body';
+
+        attrs[portLabelSelector] = { text: portName };
+        attrs[portBodySelector] = { port: { id: portName || _.uniqueId(type) , type: type } };
+        attrs[portSelector] = { ref: '.body', 'ref-y': (0), 'ref-x' : (0) };
+
+        if (selector === '.outPorts') {
+            attrs[portSelector] = { ref: '.body', 'ref-y': (0), 'ref-x' : (0) };
+        }
+
+        return attrs;
+    }
+}));
+
+/**
+ * POLYGON
+ * @type {void|*}
+ */
+joint.shapes.devs.ModelPolygon = joint.shapes.basic.Generic.extend(_.extend({}, joint.shapes.basic.PortsModelInterface, {
+
+    type_name: 'modelPolygon',
+    markup: '<g class="rotatable"><g class="scalable"><g class="inPorts"/><g class="outPorts"/><polygon class="body"/></g><text class="label"/></g>',
+    portMarkup: '<g class="port port<%= id %>"><polygon class="port-body"/><text class="port-label"/></g>',
+
+    defaults: joint.util.deepSupplement({
+
+        type: 'devs.ModelPolygon',
+        cinco_attrs: {},
+        cinco_id: '0',
+        cinco_name: 'NoName',
+        cinco_type: 'element',
+
+        inPorts: [''],
+        outPorts: [],
+
+        attrs: {
+            '.scalable' :{
+                transform : "scale(0.5,0.5)"
+            },
+            '.': { magnet: false },
+            '.body': {
+                points: '0,0 50,50 100,0', //Polygon Points
+                stroke: '#ffffff'
+            },
+            '.port-body': {
+                magnet: false,
+                fill: '#transparent',
+                stroke: '#ffffff'
+            },
+            text: {
+                'pointer-events': 'none'
+            },
+            '.label': { text: 'Model', 'ref-x': .5, 'ref-y': 10, ref: '.body', 'text-anchor': 'middle' },
+            '.inPorts .port-label': { x:0, dy: 0, 'text-anchor': 'end', fill: '#ffffff'},
+            '.outPorts .port-label':{ x: 0, dy: 0, fill: '#ffffff' }
+        }
+
+    }, joint.shapes.basic.Generic.prototype.defaults),
+
+    setLabel: function() {
+
+    },
+
+    getPortAttrs: function(portName, index, total, selector, type) {
+
+        var attrs = {};
+
+        var portClass = 'port' + index;
+        var portSelector = selector + '>.' + portClass;
+        var portLabelSelector = portSelector + '>.port-label';
+        var portBodySelector = portSelector + '>.port-body';
+
+        attrs[portLabelSelector] = { text: portName };
+        attrs[portBodySelector] = { port: { id: portName || _.uniqueId(type) , type: type } };
+        attrs[portSelector] = { ref: '.body', 'ref-y':0, 'ref-x' :0 };
+
+        if (selector === '.outPorts') {
+            attrs[portSelector] = { ref: '.body', 'ref-y': (0), 'ref-x' : (0) };
+        }
+
+        return attrs;
+    }
+}));
 	
 	/**
 	 * GraphModel Attributes
@@ -131,7 +288,7 @@ override create(GraphModel graphModel, ArrayList<StyledNode> nodes, ArrayList<St
 	
 	joint.shapes.devs.ModelView = joint.dia.ElementView.extend(joint.shapes.basic.PortsViewInterface);
 	«FOR StyledNode node: nodes»
-	joint.shapes.devs.«node.modelElement.name» = joint.shapes.devs.ModelView;
+	joint.shapes.devs.«node.modelElement.name»View = joint.shapes.devs.ModelView;
 	«ENDFOR»
 	
 	if (typeof exports === 'object') {
@@ -195,6 +352,54 @@ def createEdgeDecorator(StyledConnector styledConnector)
 	stroke: '#«Formatter.toHex(styledConnector.backgroundColor)»',
 	 d: 'M «styledConnector.m1» «styledConnector.m2» L «styledConnector.l11» «styledConnector.l12» L «styledConnector.l21» «styledConnector.l22» z'
 '''
+
+def createNodeShape(StyledNode styledNode)
+'''
+«IF styledNode.nodeShape == NodeShape.ELLIPSE»
+	ModelEllipse
+«ELSEIF styledNode.nodeShape == NodeShape.POLYGON»
+	ModelPolygon
+«ELSE»
+	ModelRect
+«ENDIF»
+'''
+
+def createNodeShapeBody(StyledNode styledNode)
+'''
+«IF styledNode.nodeShape == NodeShape.ELLIPSE»
+	cx: 0,
+	cy: 0,
+	rx: «styledNode.width/2»,
+	ry: «styledNode.height/2»,
+«ELSEIF styledNode.nodeShape == NodeShape.POLYGON»
+	points: '«FOR PolygonPoint p : styledNode.polygonPoints SEPARATOR ' '»«p.toString»«ENDFOR»',
+«ELSE»
+	width: «styledNode.width»,
+	height: «styledNode.width»,
+«ENDIF»
+'''
+
+def createNodeShapePortBody(StyledNode styledNode)
+'''
+«IF styledNode.nodeShape == NodeShape.ELLIPSE»
+	cx: 8,
+	cy: 8,
+	rx: «styledNode.width/2 - 6»,
+	ry: «styledNode.height/2 - 6»,
+	//'x-ref':
+	width: («styledNode.width + 5»),
+	height: («styledNode.height + 5»)
+«ELSEIF styledNode.nodeShape == NodeShape.POLYGON»
+	'transform':'translate(-10,-10)',
+	points: '
+	«FOR PolygonPoint p : styledNode.polygonPoints SEPARATOR ' '»
+		«p.x*1.2»,«p.y*1.2»
+	«ENDFOR»',
+«ELSE»
+	width: «styledNode.width + 20»,
+	height: «styledNode.width + 20»,
+«ENDIF»
+'''
 	
 def createNode(StyledNode styledNode)
 '''
@@ -202,7 +407,7 @@ def createNode(StyledNode styledNode)
 	 * «styledNode.modelElement.name.toFirstUpper»
 	 * @type {void|*}
 	 */
-	joint.shapes.devs.«styledNode.modelElement.class.name.toFirstUpper» = joint.shapes.devs.Model.extend({
+	joint.shapes.devs.«styledNode.modelElement.class.name.toFirstUpper» = joint.shapes.devs.«createNodeShape(styledNode)».extend({
 	    defaults: joint.util.deepSupplement({
 	        type: 'devs.«styledNode.modelElement.name.toFirstUpper»',
 	        cinco_name: '«styledNode.modelElement.name.toFirstUpper»',
@@ -214,21 +419,24 @@ def createNode(StyledNode styledNode)
 	        },
 	        attrs: {
 	            '.body': {
-	                width: «styledNode.width»,
-	                height: «styledNode.width»,
+	            	«createNodeShapeBody(styledNode)»
 	                fill: '#«Formatter.toHex(styledNode.backgroundColor)»',
 	                stroke: '#«Formatter.toHex(styledNode.foregroundColor)»',
 	                'stroke-width': «styledNode.lineWidth»
 	            },
 	            '.label': {
-	                'font-size': «styledNode.labelFontSize»
+	                'font-size': «styledNode.labelFontSize»,
+	            	'font-family': '«styledNode.fontName»',
+	            	'font-weight': '«styledNode.fontType»',
+	            	'text-anchor': 'middle',
+	            	'ref-x': .5,
+	            	'ref-y': «styledNode.lineWidth»
 	            },
 	            '.port-body': {
-	                width: («styledNode.width»+ edgeTriggerWidth*2),
-	                height: («styledNode.height» + edgeTriggerWidth*2)
+	                «createNodeShapePortBody(styledNode)»
 	            }
 	        }
-	    }, joint.shapes.devs.Model.prototype.defaults),
+	    }, joint.shapes.devs.«createNodeShape(styledNode)».prototype.defaults),
 	    setLabel: function() {
 	        /**
 	         * Get the needed Attributes for the label
@@ -237,7 +445,12 @@ def createNode(StyledNode styledNode)
 	        this.attr('.label',{
 	        	text: 'L: '+getAttributeLabel(attributes.name),
 	        	fill: '#«Formatter.toHex(styledNode.labelColor)»',
-	        	'font-size': «styledNode.labelFontSize»
+	        	'font-size': «styledNode.labelFontSize»,
+				'font-family': '«styledNode.fontName»',
+				'font-weight': '«styledNode.fontType»',
+				'text-anchor': 'middle',
+				'ref-x': .5,
+				'ref-y': «styledNode.lineWidth»
 	        });
 	    }
 	});
