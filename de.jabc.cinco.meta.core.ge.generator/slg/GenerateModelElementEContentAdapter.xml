@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>0d0bb94f-e4a8-4614-bd88-5a867e133c4c</id>
   <name>GenerateModelElementEContentAdapter</name>
-  <changecounter>115</changecounter>
+  <changecounter>117</changecounter>
   <sib>
     <id>c516040b-59e6-4c24-89ca-20ac4f67f7ab</id>
     <name>CopyEObject</name>
@@ -168,6 +168,8 @@ public class $context.fuModelElementName$EContentAdapter extends $context.graphM
 		Object o = notification.getNotifier();
 		if (o instanceof $context.fuModelElementName$) {
 			$context.fuModelElementName$ tmp = ($context.fuModelElementName$) o;
+			if (getDiagram() == null)
+				return;
 			List&lt;PictogramElement&gt; pes = Graphiti.getLinkService().getPictogramElements(getDiagram(), tmp);
 			if (pes == null || pes.isEmpty())
 				return;
