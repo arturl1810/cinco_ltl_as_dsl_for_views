@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>3c916ba5-62a2-4951-941d-c4302cc4e008</id>
   <name>GenerateEContentAdapter</name>
-  <changecounter>154</changecounter>
+  <changecounter>156</changecounter>
   <sib>
     <id>ec2d367e-832c-4b37-b128-73a511511d46</id>
     <name>PutExpression_1</name>
@@ -203,6 +203,8 @@ public class $context.graphModelName$EContentAdapter extends EContentAdapter {
 		Object o = notification.getNotifier();
 		if (o instanceof $context.graphModelName$) {
 			$context.graphModelName$ tmp = ($context.graphModelName$) o;
+			if (getDiagram() == null)
+				return;
 			List&lt;PictogramElement&gt; pes = Graphiti.getLinkService().getPictogramElements(getDiagram(), tmp);
 			if (pes == null || pes.isEmpty())
 				return;
