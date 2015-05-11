@@ -9,6 +9,7 @@ Require-Bundle: org.eclipse.pde;bundle-version="3.8.100",
  org.eclipse.jdt;bundle-version="3.9.1",
  de.jabc.cinco.meta.libraries,
  de.jabc.cinco.meta.core.ge.style.model
-Import-Package: org.eclipse.jdt.core,
+Import-Package: de.jabc.cinco.meta.core.utils,
+ org.eclipse.jdt.core,
  org.eclipse.pde.core,
  org.eclipse.pde.core.project

@@ -7,14 +7,11 @@ import mgl.GraphicalModelElement;
 public class StyledModelElement {
 	private GraphicalModelElement modelElement;
 	private LineStyle lineStyle;
-	private Color foregroundColor, backgroundColor, labelColor;
+	private Color foregroundColor, backgroundColor;
 	private int lineWidth;
 	private double transperancy;
 	private Object label;
-	private int labelFontSize;
-	private LableAlignment lableAlignment;
-	private String fontName;
-	private FontType fontType;
+	private StyledLabel styledLabel;
 	public GraphicalModelElement getModelElement() {
 		return modelElement;
 	}
@@ -39,12 +36,6 @@ public class StyledModelElement {
 	public void setBackgroundColor(Color backgroundColor) {
 		this.backgroundColor = backgroundColor;
 	}
-	public Color getLabelColor() {
-		return labelColor;
-	}
-	public void setLabelColor(Color labelColor) {
-		this.labelColor = labelColor;
-	}
 	public int getLineWidth() {
 		return lineWidth;
 	}
@@ -63,30 +54,13 @@ public class StyledModelElement {
 	public void setLabel(Object label) {
 		this.label = label;
 	}
-	public int getLabelFontSize() {
-		return labelFontSize;
+	public StyledLabel getStyledLabel() {
+		return styledLabel;
 	}
-	public void setLabelFontSize(int labelFontSize) {
-		this.labelFontSize = labelFontSize;
+	public void setStyledLabel(StyledLabel styledLabel) {
+		this.styledLabel = styledLabel;
 	}
-	public String getFontName() {
-		return fontName;
-	}
-	public void setFontName(String fontName) {
-		this.fontName = fontName;
-	}
-	public LableAlignment getLableAlignment() {
-		return lableAlignment;
-	}
-	public void setLableAlignment(LableAlignment lableAlignment) {
-		this.lableAlignment = lableAlignment;
-	}
-	public FontType getFontType() {
-		return fontType;
-	}
-	public void setFontType(FontType fontType) {
-		this.fontType = fontType;
-	}
+	
 	
 	
 	

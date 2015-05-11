@@ -7,6 +7,8 @@ import mgl.GraphModel;
 
 import org.apache.commons.io.FileUtils;
 
+import style.Styles;
+import de.jabc.cinco.meta.core.utils.CincoUtils;
 import de.jabc.cinco.meta.plugin.papyrus.model.TemplateContainer;
 import de.jabc.cinco.meta.plugin.papyrus.templates.EditorCSSTemplate;
 import de.jabc.cinco.meta.plugin.papyrus.templates.EditorConstraintTemplate;
@@ -22,7 +24,7 @@ public class CreatePapyrusPlugin {
 	public String execute(LightweightExecutionEnvironment env) throws IOException {
 		LightweightExecutionContext context = env.getLocalContext().getGlobalContext();
 		GraphModel graphModel = (GraphModel) context.get("graphModel");
-				
+		Styles styles = CincoUtils.getStyles(graphModel);
 		String basePath = "~/PapyrusGen/";
 		//Search for Graphmodel Annotation "papyrus"
 		for(mgl.Annotation anno: graphModel.getAnnotations()){
@@ -30,7 +32,7 @@ public class CreatePapyrusPlugin {
 				System.out.println("Papyrus editor creation running");
 				
 				TemplateContainer templateContainer = new TemplateContainer();
-				templateContainer.setEdges(ModelParser.getStyledEdges(graphModel));
+				templateContainer.setEdges(ModelParser.getStyledEdges(graphModel,styles));
 				templateContainer.setNodes(ModelParser.getStyledNodes(graphModel));
 				templateContainer.setGraphModel(graphModel);
 				templateContainer.setGroupedNodes(ModelParser.getGroupedNodes(graphModel));
