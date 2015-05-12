@@ -1,9 +1,9 @@
 Starting Requirements:
 
-- OpenJDK 7 (might work with others, but this is the only one tested)
+- Oracle JDK 8 (Open JDK 8 might be supported when stable)
 - Maven 3 installed
-- Eclipse 4.3 "Kepler" in the "Modeling Tools" variant: 
-  http://eclipse.org/downloads/packages/eclipse-modeling-tools/keplersr2
+- Eclipse 4.4.2 "Luna SR2" in the "Modeling Tools" variant: 
+  http://eclipse.org/downloads/packages/eclipse-modeling-tools/lunasr2
 
 
 Preparing Eclipse Modeling:

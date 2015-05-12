@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Sibs
 Bundle-SymbolicName: de.jabc.cinco.meta.core.adapters;singleton:=true
-Bundle-Version: 0.6.0.qualifier
+Bundle-Version: 0.7.0.qualifier
 Export-Package: de.jabc.cinco.meta.core.mgl.adapters,de.jabc.cinco.met
  a.core.sibs.graphmodel.adapter,de.jabc.cinco.meta.core.sibs.graphmode
  l.adapter.graphmodel,de.jabc.cinco.meta.core.sibs.mgl.adapter,de.jabc

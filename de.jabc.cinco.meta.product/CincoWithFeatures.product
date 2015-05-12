@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="Cinco" uid="de.jabc.cinco.meta.product.product" id="de.jabc.cinco.meta.branding.product" application="org.eclipse.ui.ide.workbench" version="0.6.0.qualifier" useFeatures="true" includeLaunchers="true">
+<product name="Cinco" uid="de.jabc.cinco.meta.product.product" id="de.jabc.cinco.meta.branding.product" application="org.eclipse.ui.ide.workbench" version="0.7.0.qualifier" useFeatures="true" includeLaunchers="true">
 
    <aboutInfo>
       <image path="/de.jabc.cinco.meta.branding/about.png"/>
@@ -15,8 +15,10 @@
 -Xms40m
 -Xmx512m
 -XX:+CMSClassUnloadingEnabled 
--XX:+UseConcMarkSweepGC</vmArgs>
-      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
+-XX:+UseConcMarkSweepGC
+      </vmArgs>
+      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
+      </vmArgsMac>
    </launcherArgs>
 
    <windowImages i16="/de.jabc.cinco.meta.branding/16.png" i32="/de.jabc.cinco.meta.branding/32.png" i48="/de.jabc.cinco.meta.branding/48.png" i64="/de.jabc.cinco.meta.branding/64.png" i128="/de.jabc.cinco.meta.branding/128.png"/>
@@ -35,7 +37,7 @@
    </launcher>
 
    <vm>
-      <linux include="false">org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7</linux>
+      <linux include="false">org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8</linux>
    </vm>
 
    <plugins>
@@ -151,6 +153,21 @@
       <feature id="org.eclipse.mylyn.team_feature"/>
       <feature id="org.eclipse.mylyn.commons.identity"/>
       <feature id="org.eclipse.emf.transaction"/>
+      <feature id="org.eclipse.emf.ecore.source"/>
+      <feature id="org.eclipse.ecf.filetransfer.ssl.source.feature"/>
+      <feature id="org.eclipse.ecf.filetransfer.ssl.feature"/>
+      <feature id="org.eclipse.ecf.filetransfer.feature"/>
+      <feature id="org.eclipse.ecf.filetransfer.httpclient4.ssl.source.feature"/>
+      <feature id="org.eclipse.ecf.core.ssl.feature"/>
+      <feature id="org.eclipse.ecf.filetransfer.httpclient4.source.feature"/>
+      <feature id="org.eclipse.ecf.filetransfer.httpclient4.feature"/>
+      <feature id="org.eclipse.ecf.core.source.feature"/>
+      <feature id="org.eclipse.ecf.core.ssl.source.feature"/>
+      <feature id="de.jabc.cinco.meta.productdefinition.sdk"/>
+      <feature id="org.eclipse.ecf.core.feature"/>
+      <feature id="org.eclipse.emf.common.source"/>
+      <feature id="org.eclipse.ecf.filetransfer.httpclient4.ssl.feature"/>
+      <feature id="org.eclipse.ecf.filetransfer.source.feature"/>
    </features>
 
    <configurations>

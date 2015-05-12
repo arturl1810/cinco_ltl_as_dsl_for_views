@@ -127,6 +127,11 @@ class CPDGenerator implements IGenerator {
 			var productBP = BuildProperties.loadBuildProperties(productBPFile)
 			productBP.appendBinIncludes("plugin.xml")
 			productBP.deleteEntry("source..")
+			
+			var perspectiveId = "org.eclipse.ui.resourcePerspective"
+			ProjectCreator.createFile("plugin_customization.ini",project,PluginCustomization::customizeProject(perspectiveId),progressMonitor);
+			productBP.appendBinIncludes("plugin_customization.ini");
+			
 			productBP.store(productBPFile, progressMonitor)
 			
 			// setting window images
@@ -159,7 +164,6 @@ class CPDGenerator implements IGenerator {
 
 			}
 			generateSplashScreen(productDefinition, mglProject, product, bp, productModel, progressMonitor)
-
 			bp.store(bpFile, progressMonitor)
 			// adding about info
 			if (productDefinition.about != null) {
@@ -199,6 +203,8 @@ class CPDGenerator implements IGenerator {
 			for(plugin: productDefinition.plugins){
 				BundleRegistry.INSTANCE.addBundle(stripOffQuotes(plugin),false)
 			}
+			
+			
 			
 			project.refreshLocal(IProject.DEPTH_INFINITE, progressMonitor)
 			mglProject.refreshLocal(IProject.DEPTH_INFINITE, progressMonitor)
@@ -364,6 +370,10 @@ class CPDGenerator implements IGenerator {
                name="appName"
                value="test">
          </property>
+		 <property
+			name="preferenceCustomization"
+			value="plugin_customization.ini">
+		</property>
       </product>
    </extension>
 

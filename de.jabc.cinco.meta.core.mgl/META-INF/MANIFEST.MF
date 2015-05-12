@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: de.jabc.cinco.meta.core.mgl
 Bundle-Vendor: Chair for Programming Systems - Department of Computer Science - TU Dortmund
-Bundle-Version: 0.6.0.qualifier
+Bundle-Version: 0.7.0.qualifier
 Bundle-SymbolicName: de.jabc.cinco.meta.core.mgl; singleton:=true
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.eclipse.xtext.generator,
@@ -14,17 +14,21 @@ Require-Bundle: org.eclipse.xtext.generator,
  org.antlr.runtime,
  de.jabc.cinco.meta.libraries,
  org.eclipse.core.runtime,
- org.eclipse.pde.core
+ org.eclipse.pde.core,
+ org.eclipse.xtext.xbase.lib
 Import-Package: de.jabc.cinco.meta.core.utils,
  org.apache.commons.logging,
  org.apache.log4j,
- org.eclipse.core.runtime;version="3.4.0",
+ org.eclipse.core.runtime,
  org.eclipse.emf.importer.ecore,
  org.eclipse.xtext.xbase.lib
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
-Export-Package: de.jabc.cinco.meta.core.mgl,de.jabc.cinco.meta.core.mg
- l.services,de.jabc.cinco.meta.core.mgl.serializer,de.jabc.cinco.meta.
- core.mgl.parser.antlr,de.jabc.cinco.meta.core.mgl.parser.antlr.intern
- al,de.jabc.cinco.meta.core.mgl.validation,de.jabc.cinco.meta.core.mgl
- .scoping,de.jabc.cinco.meta.core.mgl.generator,de.jabc.cinco.meta.cor
- e.mgl.formatting
+Export-Package: de.jabc.cinco.meta.core.mgl,
+ de.jabc.cinco.meta.core.mgl.services,
+ de.jabc.cinco.meta.core.mgl.serializer,
+ de.jabc.cinco.meta.core.mgl.parser.antlr,
+ de.jabc.cinco.meta.core.mgl.parser.antlr.internal,
+ de.jabc.cinco.meta.core.mgl.validation,
+ de.jabc.cinco.meta.core.mgl.scoping,
+ de.jabc.cinco.meta.core.mgl.generator,
+ de.jabc.cinco.meta.core.mgl.formatting

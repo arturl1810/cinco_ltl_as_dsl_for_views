@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: de.jabc.cinco.meta.productdefinition.ui
 Bundle-Vendor: My Company
-Bundle-Version: 0.6.0.qualifier
+Bundle-Version: 0.7.0.qualifier
 Bundle-SymbolicName: de.jabc.cinco.meta.productdefinition.ui; singleton:=true
 Bundle-ActivationPolicy: lazy
 Require-Bundle: de.jabc.cinco.meta.productdefinition;visibility:=reexport,
@@ -15,7 +15,8 @@ Require-Bundle: de.jabc.cinco.meta.productdefinition;visibility:=reexport,
  org.antlr.runtime,
  org.eclipse.xtext.common.types.ui,
  org.eclipse.xtext.ui.codetemplates.ui,
- org.eclipse.compare
+ org.eclipse.compare,
+ org.eclipse.xtext.xbase.lib
 Import-Package: de.jabc.cinco.meta.core.ui.listener,
  de.jabc.cinco.meta.core.utils.xtext,
  org.apache.log4j,
