@@ -605,11 +605,15 @@ set.
 automatically breaks lines in case they do not fit in the box' width.
 \end{description}
 
-As introduced in Sect.~\ref{sec:mgl}, the runtime values of a nodes' parameters
-can be passed on to the style. They can be used within the \kw{value}
-declarations of \kw{text} and \kw{multiText} with the Java String format
+As introduced in Sect.~\ref{sec:mgl}, the runtime values of a nodes' attributes
+can be passed on as parameters to the style. In order to do so, the number of parameters
+needs to be declared in parantheses after the style name (cf. line 33 in
+Listing \ref{lst:myMSL}). Then they can be used within the \kw{value} declarations
+of \kw{text} and \kw{multiText} with the Java String format
 syntax\footnotemark{}. The simplest way typically is to use \code{\%s} that
-causes the \code{toString} method to be called.
+causes the \code{toString} method to be called. In case multiple passed
+parameters need to be referenced individually in different \kw{text} elements,
+they can be indexed with a number: \code{\%1\$s} and \code{\%2\$s} etc.
 %
 \footnotetext{See
 \url{http://docs.oracle.com/javase/7/docs/api/java/util/Formatter.html} for the
