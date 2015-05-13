@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Papyrus
+Bundle-SymbolicName: de.jabc.cinco.meta.plugin.papyrus;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Fragment-Host: de.jabc.cinco.meta.core.pluginregistry;bundle-version="0.6.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Require-Bundle: org.eclipse.pde;bundle-version="3.8.100",
+ org.eclipse.jdt;bundle-version="3.9.1",
+ de.jabc.cinco.meta.libraries,
+ de.jabc.cinco.meta.core.ge.style.model
+Import-Package: de.jabc.cinco.meta.core.utils,
+ org.eclipse.jdt.core,
+ org.eclipse.pde.core,
+ org.eclipse.pde.core.project
