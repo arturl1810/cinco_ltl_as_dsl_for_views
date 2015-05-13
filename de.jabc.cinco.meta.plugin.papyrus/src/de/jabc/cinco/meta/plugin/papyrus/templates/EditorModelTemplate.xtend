@@ -12,6 +12,8 @@ import java.util.HashMap
 import de.jabc.cinco.meta.plugin.papyrus.model.ConnectionConstraint
 import de.jabc.cinco.meta.plugin.papyrus.model.NodeShape
 import de.jabc.cinco.meta.plugin.papyrus.model.PolygonPoint
+import de.jabc.cinco.meta.plugin.papyrus.model.StyledLabel
+import mgl.Node
 
 class EditorModelTemplate implements Templateable{
 	
@@ -274,7 +276,11 @@ joint.shapes.devs.ModelPolygon = joint.shapes.basic.Generic.extend(_.extend({}, 
 	 */
 	 
 	«FOR StyledNode node: nodes»
-		«createNode(node)»
+		«IF node.modelElement instanceof Node»
+			«createNode(node)»
+		«ELSE»
+			«createContainer(node)»
+		«ENDIF»
 	«ENDFOR»
 	/*
 	 -------------------------------------------------------
@@ -331,13 +337,18 @@ def createEdge(StyledEdge styledEdge)
 	        var attributes = this.attributes.cinco_attrs;
 	        this.set('labels', [
 	        	{
-	        		position: «styledEdge.labelLocation»,
+	        		«IF styledEdge.styledLabel != null»
+	        		position: «styledEdge.styledLabel.location»,
+	        		«ELSE»
+	        		position: 0.0,
+	        		«ENDIF»
 	        		attrs: {
 	        			text: {
-	        				dy: -10,
-	        				text: 'L: '+getAttributeLabel(attributes.atom),
-	        				fill: '#«Formatter.toHex(styledEdge.labelColor)»',
-	        				'font-size': «styledEdge.labelFontSize»
+	        				text: 'L: ', //TODO
+	        				«IF styledEdge.styledLabel != null»
+				        	«createLabel(styledEdge.styledLabel)»
+				        	«ENDIF»
+				        	dy: -10
 	        			}
 	        		}
 	        	}
@@ -350,7 +361,7 @@ def createEdgeDecorator(StyledConnector styledConnector)
 '''
 	fill: '#«Formatter.toHex(styledConnector.backgroundColor)»',
 	stroke: '#«Formatter.toHex(styledConnector.backgroundColor)»',
-	 d: 'M «styledConnector.m1» «styledConnector.m2» L «styledConnector.l11» «styledConnector.l12» L «styledConnector.l21» «styledConnector.l22» z'
+	«styledConnector.polygonPoints»
 '''
 
 def createNodeShape(StyledNode styledNode)
@@ -375,7 +386,7 @@ def createNodeShapeBody(StyledNode styledNode)
 	points: '«FOR PolygonPoint p : styledNode.polygonPoints SEPARATOR ' '»«p.toString»«ENDFOR»',
 «ELSE»
 	width: «styledNode.width»,
-	height: «styledNode.width»,
+	height: «styledNode.height»,
 «ENDIF»
 '''
 
@@ -397,7 +408,7 @@ def createNodeShapePortBody(StyledNode styledNode)
 	«ENDFOR»',
 «ELSE»
 	width: «styledNode.width + 20»,
-	height: «styledNode.width + 20»,
+	height: «styledNode.height + 20»
 «ENDIF»
 '''
 	
@@ -407,7 +418,7 @@ def createNode(StyledNode styledNode)
 	 * «styledNode.modelElement.name.toFirstUpper»
 	 * @type {void|*}
 	 */
-	joint.shapes.devs.«styledNode.modelElement.class.name.toFirstUpper» = joint.shapes.devs.«createNodeShape(styledNode)».extend({
+	joint.shapes.devs.«styledNode.modelElement.name.toFirstUpper» = joint.shapes.devs.«createNodeShape(styledNode)».extend({
 	    defaults: joint.util.deepSupplement({
 	        type: 'devs.«styledNode.modelElement.name.toFirstUpper»',
 	        cinco_name: '«styledNode.modelElement.name.toFirstUpper»',
@@ -425,12 +436,10 @@ def createNode(StyledNode styledNode)
 	                'stroke-width': «styledNode.lineWidth»
 	            },
 	            '.label': {
-	                'font-size': «styledNode.labelFontSize»,
-	            	'font-family': '«styledNode.fontName»',
-	            	'font-weight': '«styledNode.fontType»',
-	            	'text-anchor': 'middle',
-	            	'ref-x': .5,
-	            	'ref-y': «styledNode.lineWidth»
+	                «IF styledNode.styledLabel != null»
+		        	«createLabel(styledNode.styledLabel)»
+		        	«ENDIF»
+		        	'ref-y': «styledNode.lineWidth»
 	            },
 	            '.port-body': {
 	                «createNodeShapePortBody(styledNode)»
@@ -443,14 +452,63 @@ def createNode(StyledNode styledNode)
 	         */
 	        var attributes = this.attributes.cinco_attrs;
 	        this.attr('.label',{
-	        	text: 'L: '+getAttributeLabel(attributes.name),
-	        	fill: '#«Formatter.toHex(styledNode.labelColor)»',
-	        	'font-size': «styledNode.labelFontSize»,
-				'font-family': '«styledNode.fontName»',
-				'font-weight': '«styledNode.fontType»',
-				'text-anchor': 'middle',
-				'ref-x': .5,
-				'ref-y': «styledNode.lineWidth»
+	        	text: 'L: ',
+	        	«IF styledNode.styledLabel != null»
+	        	«createLabel(styledNode.styledLabel)»
+	        	«ENDIF»
+	        	'ref-y': «styledNode.lineWidth»
+				
+	        });
+	    }
+	});
+'''
+
+def createContainer(StyledNode styledNode)
+'''
+		/**
+	 * «styledNode.modelElement.name.toFirstUpper»
+	 * @type {void|*}
+	 */
+	joint.shapes.devs.«styledNode.modelElement.name.toFirstUpper» = joint.shapes.devs.«createNodeShape(styledNode)».extend({
+	    defaults: joint.util.deepSupplement({
+	        type: 'devs.«styledNode.modelElement.name.toFirstUpper»',
+	        cinco_name: '«styledNode.modelElement.name.toFirstUpper»',
+	        cinco_type: 'Container',
+	        «createAttributes(styledNode.modelElement)»,
+	        size: { 
+	        	width: «styledNode.width»,
+	        	height: «styledNode.height»
+	        },
+	        attrs: {
+	            '.body': {
+	            	«createNodeShapeBody(styledNode)»
+	                fill: '#«Formatter.toHex(styledNode.backgroundColor)»',
+	                stroke: '#«Formatter.toHex(styledNode.foregroundColor)»',
+	                'stroke-width': «styledNode.lineWidth»
+	            },
+	            '.label': {
+	                «IF styledNode.styledLabel != null»
+	 				«createLabel(styledNode.styledLabel)»
+		        	«ENDIF»
+		        	'ref-y': «styledNode.lineWidth»
+	            },
+	            '.port-body': {
+	                «createNodeShapePortBody(styledNode)»
+	            }
+	        }
+	    }, joint.shapes.devs.«createNodeShape(styledNode)».prototype.defaults),
+	    setLabel: function() {
+	        /**
+	         * Get the needed Attributes for the label
+	         */
+	        var attributes = this.attributes.cinco_attrs;
+	        this.attr('.label',{
+	        	text: 'L: ',
+	        	«IF styledNode.styledLabel != null»
+	        	«createLabel(styledNode.styledLabel)»
+	        	«ENDIF»
+	        	'ref-y': «styledNode.lineWidth»
+				
 	        });
 	    }
 	});
@@ -459,31 +517,43 @@ def createNode(StyledNode styledNode)
 def createAttributes(GraphicalModelElement modelElement)
 '''
 	cinco_attrs: {
+		«IF !modelElement.attributes.empty»
 		«FOR Attribute attr : modelElement.attributes  SEPARATOR ', '»
 	        «createAttribute(attr)»
 	    «ENDFOR»
+	    «ENDIF»
 	        }
 '''
-	
+//TODO ERROR
 def createAttribute(Attribute attr)
 '''
-	«IF attr.eClass.name.equals("EString")»
+	«IF attr.type.equals("EString")»
 	«attr.name»: [' ', 'text']
-	«ELSEIF attr.eClass.name.equals("EBoolean")»
+	«ELSEIF attr.type.equals("EBoolean")»
 	«attr.name»: [false, 'boolean']
-	«ELSEIF attr.eClass.name.equals("EList")»
+	«ELSEIF attr.type.equals("EList")»
 	«attr.name»: [
 		{ 
 		selected: 'one',
 		choices : ['one','two','three']
 		},
 		'map']
-	«ELSEIF attr.eClass.name.equals("EInt")»
+	«ELSEIF attr.type.equals("EInt")»
 	«attr.name»: [0, 'number']
-	«ELSEIF attr.eClass.name.equals("EDouble")»
+	«ELSEIF attr.type.equals("EDouble")»
 	«attr.name»: [0.00, 'double']
 	«ENDIF»
 	
+'''
+
+def createLabel(StyledLabel styledLabel)
+'''
+				fill: '#«Formatter.toHex(styledLabel.labelColor)»',
+				'font-size': «styledLabel.labelFontSize»,
+				'font-family': '«styledLabel.fontName»',
+				'font-weight': '«styledLabel.fontType»',
+				'text-anchor': '«styledLabel.lableAlignment»',
+				'ref-x': .5,
 '''
 
 	

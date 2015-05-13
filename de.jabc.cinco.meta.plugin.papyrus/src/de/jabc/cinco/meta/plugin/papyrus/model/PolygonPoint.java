@@ -2,6 +2,11 @@ package de.jabc.cinco.meta.plugin.papyrus.model;
 
 public class PolygonPoint {
 	private int x,y;
+	
+	public PolygonPoint(int x,int y){
+		this.x=x;
+		this.y=y;
+	}
 
 	public int getX() {
 		return x;

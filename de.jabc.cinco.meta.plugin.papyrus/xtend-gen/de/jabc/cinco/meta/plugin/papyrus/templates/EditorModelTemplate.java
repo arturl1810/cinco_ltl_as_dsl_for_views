@@ -2,20 +2,26 @@ package de.jabc.cinco.meta.plugin.papyrus.templates;
 
 import com.google.common.base.Objects;
 import de.jabc.cinco.meta.plugin.papyrus.model.ConnectionConstraint;
+import de.jabc.cinco.meta.plugin.papyrus.model.FontType;
+import de.jabc.cinco.meta.plugin.papyrus.model.LableAlignment;
 import de.jabc.cinco.meta.plugin.papyrus.model.NodeShape;
 import de.jabc.cinco.meta.plugin.papyrus.model.PolygonPoint;
 import de.jabc.cinco.meta.plugin.papyrus.model.StyledConnector;
 import de.jabc.cinco.meta.plugin.papyrus.model.StyledEdge;
+import de.jabc.cinco.meta.plugin.papyrus.model.StyledLabel;
 import de.jabc.cinco.meta.plugin.papyrus.model.StyledNode;
 import de.jabc.cinco.meta.plugin.papyrus.templates.Templateable;
+import de.jabc.cinco.meta.plugin.papyrus.utils.Formatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import mgl.Attribute;
 import mgl.GraphModel;
 import mgl.GraphicalModelElement;
+import mgl.Node;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.xtend2.lib.StringConcatenation;
+import org.eclipse.xtext.xbase.lib.StringExtensions;
+import style.Color;
 
 @SuppressWarnings("all")
 public class EditorModelTemplate implements Templateable {
@@ -695,10 +701,20 @@ public class EditorModelTemplate implements Templateable {
     _builder.newLine();
     {
       for(final StyledNode node : nodes) {
-        _builder.append("\t");
-        CharSequence _createNode = this.createNode(node);
-        _builder.append(_createNode, "	");
-        _builder.newLineIfNotEmpty();
+        {
+          GraphicalModelElement _modelElement = node.getModelElement();
+          if ((_modelElement instanceof Node)) {
+            _builder.append("\t");
+            CharSequence _createNode = this.createNode(node);
+            _builder.append(_createNode, "	");
+            _builder.newLineIfNotEmpty();
+          } else {
+            _builder.append("\t");
+            CharSequence _createContainer = this.createContainer(node);
+            _builder.append(_createContainer, "	");
+            _builder.newLineIfNotEmpty();
+          }
+        }
       }
     }
     _builder.append("\t");
@@ -735,8 +751,8 @@ public class EditorModelTemplate implements Templateable {
       for(final StyledNode node_1 : nodes) {
         _builder.append("\t");
         _builder.append("joint.shapes.devs.");
-        GraphicalModelElement _modelElement = node_1.getModelElement();
-        String _name_1 = _modelElement.getName();
+        GraphicalModelElement _modelElement_1 = node_1.getModelElement();
+        String _name_1 = _modelElement_1.getName();
         _builder.append(_name_1, "	");
         _builder.append("View = joint.shapes.devs.ModelView;");
         _builder.newLineIfNotEmpty();
@@ -759,19 +775,201 @@ public class EditorModelTemplate implements Templateable {
   }
   
   public CharSequence createEdge(final StyledEdge styledEdge) {
-    throw new Error("Unresolved compilation problems:"
-      + "\nThe method labelColor is undefined for the type EditorModelTemplate"
-      + "\nThe method labelFontSize is undefined for the type EditorModelTemplate");
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("/**");
+    _builder.newLine();
+    _builder.append(" ");
+    _builder.append("* ");
+    GraphicalModelElement _modelElement = styledEdge.getModelElement();
+    String _name = _modelElement.getName();
+    String _firstUpper = StringExtensions.toFirstUpper(_name);
+    _builder.append(_firstUpper, " ");
+    _builder.newLineIfNotEmpty();
+    _builder.append(" ");
+    _builder.append("* @type {void|*}");
+    _builder.newLine();
+    _builder.append(" ");
+    _builder.append("*/");
+    _builder.newLine();
+    _builder.append("joint.shapes.devs.");
+    GraphicalModelElement _modelElement_1 = styledEdge.getModelElement();
+    String _name_1 = _modelElement_1.getName();
+    String _firstUpper_1 = StringExtensions.toFirstUpper(_name_1);
+    _builder.append(_firstUpper_1, "");
+    _builder.append(" = joint.dia.Link.extend({");
+    _builder.newLineIfNotEmpty();
+    _builder.newLine();
+    _builder.append("    ");
+    _builder.append("defaults: {");
+    _builder.newLine();
+    _builder.append("        ");
+    _builder.append("type: \'devs.Link\',");
+    _builder.newLine();
+    _builder.append("        ");
+    _builder.append("cinco_name: \'");
+    GraphicalModelElement _modelElement_2 = styledEdge.getModelElement();
+    String _name_2 = _modelElement_2.getName();
+    String _firstUpper_2 = StringExtensions.toFirstUpper(_name_2);
+    _builder.append(_firstUpper_2, "        ");
+    _builder.append("\',");
+    _builder.newLineIfNotEmpty();
+    _builder.append("        ");
+    _builder.append("cinco_type: \'Edge\',");
+    _builder.newLine();
+    _builder.append("        ");
+    GraphicalModelElement _modelElement_3 = styledEdge.getModelElement();
+    CharSequence _createAttributes = this.createAttributes(_modelElement_3);
+    _builder.append(_createAttributes, "        ");
+    _builder.append(",");
+    _builder.newLineIfNotEmpty();
+    _builder.append("        ");
+    _builder.append("attrs: {");
+    _builder.newLine();
+    _builder.append("            ");
+    _builder.append("\'.connection\': { ");
+    _builder.newLine();
+    _builder.append("            \t");
+    _builder.append("stroke: \'#");
+    Color _foregroundColor = styledEdge.getForegroundColor();
+    String _hex = Formatter.toHex(_foregroundColor);
+    _builder.append(_hex, "            	");
+    _builder.append("\',");
+    _builder.newLineIfNotEmpty();
+    _builder.append("            \t");
+    _builder.append("\'stroke-width\': ");
+    int _lineWidth = styledEdge.getLineWidth();
+    _builder.append(_lineWidth, "            	");
+    _builder.newLineIfNotEmpty();
+    _builder.append("            ");
+    _builder.append("},");
+    _builder.newLine();
+    _builder.append("            ");
+    _builder.append("\'.marker-source\': {");
+    _builder.newLine();
+    _builder.append("            \t");
+    StyledConnector _sourceConnector = styledEdge.getSourceConnector();
+    CharSequence _createEdgeDecorator = this.createEdgeDecorator(_sourceConnector);
+    _builder.append(_createEdgeDecorator, "            	");
+    _builder.newLineIfNotEmpty();
+    _builder.append("            ");
+    _builder.append("},");
+    _builder.newLine();
+    _builder.append("            ");
+    _builder.append("\'.marker-target\': {");
+    _builder.newLine();
+    _builder.append("            \t");
+    StyledConnector _targetConnector = styledEdge.getTargetConnector();
+    CharSequence _createEdgeDecorator_1 = this.createEdgeDecorator(_targetConnector);
+    _builder.append(_createEdgeDecorator_1, "            	");
+    _builder.newLineIfNotEmpty();
+    _builder.append("            ");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.append("        ");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("    ");
+    _builder.append("},");
+    _builder.newLine();
+    _builder.append("    ");
+    _builder.append("setLabel: function() {");
+    _builder.newLine();
+    _builder.append("        ");
+    _builder.append("/**");
+    _builder.newLine();
+    _builder.append("         ");
+    _builder.append("* Get the needed Attributes for the label");
+    _builder.newLine();
+    _builder.append("         ");
+    _builder.append("*/");
+    _builder.newLine();
+    _builder.append("        ");
+    _builder.append("var attributes = this.attributes.cinco_attrs;");
+    _builder.newLine();
+    _builder.append("        ");
+    _builder.append("this.set(\'labels\', [");
+    _builder.newLine();
+    _builder.append("        \t");
+    _builder.append("{");
+    _builder.newLine();
+    {
+      StyledLabel _styledLabel = styledEdge.getStyledLabel();
+      boolean _notEquals = (!Objects.equal(_styledLabel, null));
+      if (_notEquals) {
+        _builder.append("        \t\t");
+        _builder.append("position: ");
+        StyledLabel _styledLabel_1 = styledEdge.getStyledLabel();
+        double _location = _styledLabel_1.getLocation();
+        _builder.append(_location, "        		");
+        _builder.append(",");
+        _builder.newLineIfNotEmpty();
+      } else {
+        _builder.append("        \t\t");
+        _builder.append("position: 0.0,");
+        _builder.newLine();
+      }
+    }
+    _builder.append("        \t\t");
+    _builder.append("attrs: {");
+    _builder.newLine();
+    _builder.append("        \t\t\t");
+    _builder.append("text: {");
+    _builder.newLine();
+    _builder.append("        \t\t\t\t");
+    _builder.append("text: \'L: \', //TODO");
+    _builder.newLine();
+    {
+      StyledLabel _styledLabel_2 = styledEdge.getStyledLabel();
+      boolean _notEquals_1 = (!Objects.equal(_styledLabel_2, null));
+      if (_notEquals_1) {
+        StyledLabel _styledLabel_3 = styledEdge.getStyledLabel();
+        CharSequence _createLabel = this.createLabel(_styledLabel_3);
+        _builder.append(_createLabel, "");
+        _builder.newLineIfNotEmpty();
+      }
+    }
+    _builder.append("\t\t\t        \t");
+    _builder.append("dy: -10");
+    _builder.newLine();
+    _builder.append("        \t\t\t");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.append("        \t\t");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.append("        \t");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.append("        ");
+    _builder.append("]);");
+    _builder.newLine();
+    _builder.append("    ");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.append("});");
+    _builder.newLine();
+    return _builder;
   }
   
   public CharSequence createEdgeDecorator(final StyledConnector styledConnector) {
-    throw new Error("Unresolved compilation problems:"
-      + "\nThe method m1 is undefined for the type EditorModelTemplate"
-      + "\nThe method m2 is undefined for the type EditorModelTemplate"
-      + "\nThe method l11 is undefined for the type EditorModelTemplate"
-      + "\nThe method l12 is undefined for the type EditorModelTemplate"
-      + "\nThe method l21 is undefined for the type EditorModelTemplate"
-      + "\nThe method l22 is undefined for the type EditorModelTemplate");
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("fill: \'#");
+    Color _backgroundColor = styledConnector.getBackgroundColor();
+    String _hex = Formatter.toHex(_backgroundColor);
+    _builder.append(_hex, "");
+    _builder.append("\',");
+    _builder.newLineIfNotEmpty();
+    _builder.append("stroke: \'#");
+    Color _backgroundColor_1 = styledConnector.getBackgroundColor();
+    String _hex_1 = Formatter.toHex(_backgroundColor_1);
+    _builder.append(_hex_1, "");
+    _builder.append("\',");
+    _builder.newLineIfNotEmpty();
+    String _polygonPoints = styledConnector.getPolygonPoints();
+    _builder.append(_polygonPoints, "");
+    _builder.newLineIfNotEmpty();
+    return _builder;
   }
   
   public CharSequence createNodeShape(final StyledNode styledNode) {
@@ -846,8 +1044,8 @@ public class EditorModelTemplate implements Templateable {
           _builder.append(",");
           _builder.newLineIfNotEmpty();
           _builder.append("height: ");
-          int _width_2 = styledNode.getWidth();
-          _builder.append(_width_2, "");
+          int _height_1 = styledNode.getHeight();
+          _builder.append(_height_1, "");
           _builder.append(",");
           _builder.newLineIfNotEmpty();
         }
@@ -932,10 +1130,9 @@ public class EditorModelTemplate implements Templateable {
           _builder.append(",");
           _builder.newLineIfNotEmpty();
           _builder.append("height: ");
-          int _width_3 = styledNode.getWidth();
-          int _plus_3 = (_width_3 + 20);
+          int _height_2 = styledNode.getHeight();
+          int _plus_3 = (_height_2 + 20);
           _builder.append(_plus_3, "");
-          _builder.append(",");
           _builder.newLineIfNotEmpty();
         }
       }
@@ -944,14 +1141,393 @@ public class EditorModelTemplate implements Templateable {
   }
   
   public CharSequence createNode(final StyledNode styledNode) {
-    throw new Error("Unresolved compilation problems:"
-      + "\nThe method labelFontSize is undefined for the type EditorModelTemplate"
-      + "\nThe method fontName is undefined for the type EditorModelTemplate"
-      + "\nThe method fontType is undefined for the type EditorModelTemplate"
-      + "\nThe method labelColor is undefined for the type EditorModelTemplate"
-      + "\nThe method labelFontSize is undefined for the type EditorModelTemplate"
-      + "\nThe method fontName is undefined for the type EditorModelTemplate"
-      + "\nThe method fontType is undefined for the type EditorModelTemplate");
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("\t");
+    _builder.append("/**");
+    _builder.newLine();
+    _builder.append(" ");
+    _builder.append("* ");
+    GraphicalModelElement _modelElement = styledNode.getModelElement();
+    String _name = _modelElement.getName();
+    String _firstUpper = StringExtensions.toFirstUpper(_name);
+    _builder.append(_firstUpper, " ");
+    _builder.newLineIfNotEmpty();
+    _builder.append(" ");
+    _builder.append("* @type {void|*}");
+    _builder.newLine();
+    _builder.append(" ");
+    _builder.append("*/");
+    _builder.newLine();
+    _builder.append("joint.shapes.devs.");
+    GraphicalModelElement _modelElement_1 = styledNode.getModelElement();
+    String _name_1 = _modelElement_1.getName();
+    String _firstUpper_1 = StringExtensions.toFirstUpper(_name_1);
+    _builder.append(_firstUpper_1, "");
+    _builder.append(" = joint.shapes.devs.");
+    CharSequence _createNodeShape = this.createNodeShape(styledNode);
+    _builder.append(_createNodeShape, "");
+    _builder.append(".extend({");
+    _builder.newLineIfNotEmpty();
+    _builder.append("    ");
+    _builder.append("defaults: joint.util.deepSupplement({");
+    _builder.newLine();
+    _builder.append("        ");
+    _builder.append("type: \'devs.");
+    GraphicalModelElement _modelElement_2 = styledNode.getModelElement();
+    String _name_2 = _modelElement_2.getName();
+    String _firstUpper_2 = StringExtensions.toFirstUpper(_name_2);
+    _builder.append(_firstUpper_2, "        ");
+    _builder.append("\',");
+    _builder.newLineIfNotEmpty();
+    _builder.append("        ");
+    _builder.append("cinco_name: \'");
+    GraphicalModelElement _modelElement_3 = styledNode.getModelElement();
+    String _name_3 = _modelElement_3.getName();
+    String _firstUpper_3 = StringExtensions.toFirstUpper(_name_3);
+    _builder.append(_firstUpper_3, "        ");
+    _builder.append("\',");
+    _builder.newLineIfNotEmpty();
+    _builder.append("        ");
+    _builder.append("cinco_type: \'Node\',");
+    _builder.newLine();
+    _builder.append("        ");
+    GraphicalModelElement _modelElement_4 = styledNode.getModelElement();
+    CharSequence _createAttributes = this.createAttributes(_modelElement_4);
+    _builder.append(_createAttributes, "        ");
+    _builder.append(",");
+    _builder.newLineIfNotEmpty();
+    _builder.append("        ");
+    _builder.append("size: { ");
+    _builder.newLine();
+    _builder.append("        \t");
+    _builder.append("width: ");
+    int _width = styledNode.getWidth();
+    _builder.append(_width, "        	");
+    _builder.append(",");
+    _builder.newLineIfNotEmpty();
+    _builder.append("        \t");
+    _builder.append("height: ");
+    int _height = styledNode.getHeight();
+    _builder.append(_height, "        	");
+    _builder.newLineIfNotEmpty();
+    _builder.append("        ");
+    _builder.append("},");
+    _builder.newLine();
+    _builder.append("        ");
+    _builder.append("attrs: {");
+    _builder.newLine();
+    _builder.append("            ");
+    _builder.append("\'.body\': {");
+    _builder.newLine();
+    _builder.append("            \t");
+    CharSequence _createNodeShapeBody = this.createNodeShapeBody(styledNode);
+    _builder.append(_createNodeShapeBody, "            	");
+    _builder.newLineIfNotEmpty();
+    _builder.append("                ");
+    _builder.append("fill: \'#");
+    Color _backgroundColor = styledNode.getBackgroundColor();
+    String _hex = Formatter.toHex(_backgroundColor);
+    _builder.append(_hex, "                ");
+    _builder.append("\',");
+    _builder.newLineIfNotEmpty();
+    _builder.append("                ");
+    _builder.append("stroke: \'#");
+    Color _foregroundColor = styledNode.getForegroundColor();
+    String _hex_1 = Formatter.toHex(_foregroundColor);
+    _builder.append(_hex_1, "                ");
+    _builder.append("\',");
+    _builder.newLineIfNotEmpty();
+    _builder.append("                ");
+    _builder.append("\'stroke-width\': ");
+    int _lineWidth = styledNode.getLineWidth();
+    _builder.append(_lineWidth, "                ");
+    _builder.newLineIfNotEmpty();
+    _builder.append("            ");
+    _builder.append("},");
+    _builder.newLine();
+    _builder.append("            ");
+    _builder.append("\'.label\': {");
+    _builder.newLine();
+    {
+      StyledLabel _styledLabel = styledNode.getStyledLabel();
+      boolean _notEquals = (!Objects.equal(_styledLabel, null));
+      if (_notEquals) {
+        StyledLabel _styledLabel_1 = styledNode.getStyledLabel();
+        CharSequence _createLabel = this.createLabel(_styledLabel_1);
+        _builder.append(_createLabel, "");
+        _builder.newLineIfNotEmpty();
+      }
+    }
+    _builder.append("\t        \t");
+    _builder.append("\'ref-y\': ");
+    int _lineWidth_1 = styledNode.getLineWidth();
+    _builder.append(_lineWidth_1, "	        	");
+    _builder.newLineIfNotEmpty();
+    _builder.append("            ");
+    _builder.append("},");
+    _builder.newLine();
+    _builder.append("            ");
+    _builder.append("\'.port-body\': {");
+    _builder.newLine();
+    _builder.append("                ");
+    CharSequence _createNodeShapePortBody = this.createNodeShapePortBody(styledNode);
+    _builder.append(_createNodeShapePortBody, "                ");
+    _builder.newLineIfNotEmpty();
+    _builder.append("            ");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.append("        ");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.append("    ");
+    _builder.append("}, joint.shapes.devs.");
+    CharSequence _createNodeShape_1 = this.createNodeShape(styledNode);
+    _builder.append(_createNodeShape_1, "    ");
+    _builder.append(".prototype.defaults),");
+    _builder.newLineIfNotEmpty();
+    _builder.append("    ");
+    _builder.append("setLabel: function() {");
+    _builder.newLine();
+    _builder.append("        ");
+    _builder.append("/**");
+    _builder.newLine();
+    _builder.append("         ");
+    _builder.append("* Get the needed Attributes for the label");
+    _builder.newLine();
+    _builder.append("         ");
+    _builder.append("*/");
+    _builder.newLine();
+    _builder.append("        ");
+    _builder.append("var attributes = this.attributes.cinco_attrs;");
+    _builder.newLine();
+    _builder.append("        ");
+    _builder.append("this.attr(\'.label\',{");
+    _builder.newLine();
+    _builder.append("        \t");
+    _builder.append("text: \'L: \',");
+    _builder.newLine();
+    {
+      StyledLabel _styledLabel_2 = styledNode.getStyledLabel();
+      boolean _notEquals_1 = (!Objects.equal(_styledLabel_2, null));
+      if (_notEquals_1) {
+        _builder.append("        \t");
+        StyledLabel _styledLabel_3 = styledNode.getStyledLabel();
+        CharSequence _createLabel_1 = this.createLabel(_styledLabel_3);
+        _builder.append(_createLabel_1, "        	");
+        _builder.newLineIfNotEmpty();
+      }
+    }
+    _builder.append("        \t");
+    _builder.append("\'ref-y\': ");
+    int _lineWidth_2 = styledNode.getLineWidth();
+    _builder.append(_lineWidth_2, "        	");
+    _builder.newLineIfNotEmpty();
+    _builder.append("\t\t\t");
+    _builder.newLine();
+    _builder.append("        ");
+    _builder.append("});");
+    _builder.newLine();
+    _builder.append("    ");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.append("});");
+    _builder.newLine();
+    return _builder;
+  }
+  
+  public CharSequence createContainer(final StyledNode styledNode) {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("\t");
+    _builder.append("/**");
+    _builder.newLine();
+    _builder.append(" ");
+    _builder.append("* ");
+    GraphicalModelElement _modelElement = styledNode.getModelElement();
+    String _name = _modelElement.getName();
+    String _firstUpper = StringExtensions.toFirstUpper(_name);
+    _builder.append(_firstUpper, " ");
+    _builder.newLineIfNotEmpty();
+    _builder.append(" ");
+    _builder.append("* @type {void|*}");
+    _builder.newLine();
+    _builder.append(" ");
+    _builder.append("*/");
+    _builder.newLine();
+    _builder.append("joint.shapes.devs.");
+    GraphicalModelElement _modelElement_1 = styledNode.getModelElement();
+    String _name_1 = _modelElement_1.getName();
+    String _firstUpper_1 = StringExtensions.toFirstUpper(_name_1);
+    _builder.append(_firstUpper_1, "");
+    _builder.append(" = joint.shapes.devs.");
+    CharSequence _createNodeShape = this.createNodeShape(styledNode);
+    _builder.append(_createNodeShape, "");
+    _builder.append(".extend({");
+    _builder.newLineIfNotEmpty();
+    _builder.append("    ");
+    _builder.append("defaults: joint.util.deepSupplement({");
+    _builder.newLine();
+    _builder.append("        ");
+    _builder.append("type: \'devs.");
+    GraphicalModelElement _modelElement_2 = styledNode.getModelElement();
+    String _name_2 = _modelElement_2.getName();
+    String _firstUpper_2 = StringExtensions.toFirstUpper(_name_2);
+    _builder.append(_firstUpper_2, "        ");
+    _builder.append("\',");
+    _builder.newLineIfNotEmpty();
+    _builder.append("        ");
+    _builder.append("cinco_name: \'");
+    GraphicalModelElement _modelElement_3 = styledNode.getModelElement();
+    String _name_3 = _modelElement_3.getName();
+    String _firstUpper_3 = StringExtensions.toFirstUpper(_name_3);
+    _builder.append(_firstUpper_3, "        ");
+    _builder.append("\',");
+    _builder.newLineIfNotEmpty();
+    _builder.append("        ");
+    _builder.append("cinco_type: \'Container\',");
+    _builder.newLine();
+    _builder.append("        ");
+    GraphicalModelElement _modelElement_4 = styledNode.getModelElement();
+    CharSequence _createAttributes = this.createAttributes(_modelElement_4);
+    _builder.append(_createAttributes, "        ");
+    _builder.append(",");
+    _builder.newLineIfNotEmpty();
+    _builder.append("        ");
+    _builder.append("size: { ");
+    _builder.newLine();
+    _builder.append("        \t");
+    _builder.append("width: ");
+    int _width = styledNode.getWidth();
+    _builder.append(_width, "        	");
+    _builder.append(",");
+    _builder.newLineIfNotEmpty();
+    _builder.append("        \t");
+    _builder.append("height: ");
+    int _height = styledNode.getHeight();
+    _builder.append(_height, "        	");
+    _builder.newLineIfNotEmpty();
+    _builder.append("        ");
+    _builder.append("},");
+    _builder.newLine();
+    _builder.append("        ");
+    _builder.append("attrs: {");
+    _builder.newLine();
+    _builder.append("            ");
+    _builder.append("\'.body\': {");
+    _builder.newLine();
+    _builder.append("            \t");
+    CharSequence _createNodeShapeBody = this.createNodeShapeBody(styledNode);
+    _builder.append(_createNodeShapeBody, "            	");
+    _builder.newLineIfNotEmpty();
+    _builder.append("                ");
+    _builder.append("fill: \'#");
+    Color _backgroundColor = styledNode.getBackgroundColor();
+    String _hex = Formatter.toHex(_backgroundColor);
+    _builder.append(_hex, "                ");
+    _builder.append("\',");
+    _builder.newLineIfNotEmpty();
+    _builder.append("                ");
+    _builder.append("stroke: \'#");
+    Color _foregroundColor = styledNode.getForegroundColor();
+    String _hex_1 = Formatter.toHex(_foregroundColor);
+    _builder.append(_hex_1, "                ");
+    _builder.append("\',");
+    _builder.newLineIfNotEmpty();
+    _builder.append("                ");
+    _builder.append("\'stroke-width\': ");
+    int _lineWidth = styledNode.getLineWidth();
+    _builder.append(_lineWidth, "                ");
+    _builder.newLineIfNotEmpty();
+    _builder.append("            ");
+    _builder.append("},");
+    _builder.newLine();
+    _builder.append("            ");
+    _builder.append("\'.label\': {");
+    _builder.newLine();
+    {
+      StyledLabel _styledLabel = styledNode.getStyledLabel();
+      boolean _notEquals = (!Objects.equal(_styledLabel, null));
+      if (_notEquals) {
+        StyledLabel _styledLabel_1 = styledNode.getStyledLabel();
+        CharSequence _createLabel = this.createLabel(_styledLabel_1);
+        _builder.append(_createLabel, "");
+        _builder.newLineIfNotEmpty();
+      }
+    }
+    _builder.append("\t        \t");
+    _builder.append("\'ref-y\': ");
+    int _lineWidth_1 = styledNode.getLineWidth();
+    _builder.append(_lineWidth_1, "	        	");
+    _builder.newLineIfNotEmpty();
+    _builder.append("            ");
+    _builder.append("},");
+    _builder.newLine();
+    _builder.append("            ");
+    _builder.append("\'.port-body\': {");
+    _builder.newLine();
+    _builder.append("                ");
+    CharSequence _createNodeShapePortBody = this.createNodeShapePortBody(styledNode);
+    _builder.append(_createNodeShapePortBody, "                ");
+    _builder.newLineIfNotEmpty();
+    _builder.append("            ");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.append("        ");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.append("    ");
+    _builder.append("}, joint.shapes.devs.");
+    CharSequence _createNodeShape_1 = this.createNodeShape(styledNode);
+    _builder.append(_createNodeShape_1, "    ");
+    _builder.append(".prototype.defaults),");
+    _builder.newLineIfNotEmpty();
+    _builder.append("    ");
+    _builder.append("setLabel: function() {");
+    _builder.newLine();
+    _builder.append("        ");
+    _builder.append("/**");
+    _builder.newLine();
+    _builder.append("         ");
+    _builder.append("* Get the needed Attributes for the label");
+    _builder.newLine();
+    _builder.append("         ");
+    _builder.append("*/");
+    _builder.newLine();
+    _builder.append("        ");
+    _builder.append("var attributes = this.attributes.cinco_attrs;");
+    _builder.newLine();
+    _builder.append("        ");
+    _builder.append("this.attr(\'.label\',{");
+    _builder.newLine();
+    _builder.append("        \t");
+    _builder.append("text: \'L: \',");
+    _builder.newLine();
+    {
+      StyledLabel _styledLabel_2 = styledNode.getStyledLabel();
+      boolean _notEquals_1 = (!Objects.equal(_styledLabel_2, null));
+      if (_notEquals_1) {
+        _builder.append("        \t");
+        StyledLabel _styledLabel_3 = styledNode.getStyledLabel();
+        CharSequence _createLabel_1 = this.createLabel(_styledLabel_3);
+        _builder.append(_createLabel_1, "        	");
+        _builder.newLineIfNotEmpty();
+      }
+    }
+    _builder.append("        \t");
+    _builder.append("\'ref-y\': ");
+    int _lineWidth_2 = styledNode.getLineWidth();
+    _builder.append(_lineWidth_2, "        	");
+    _builder.newLineIfNotEmpty();
+    _builder.append("\t\t\t");
+    _builder.newLine();
+    _builder.append("        ");
+    _builder.append("});");
+    _builder.newLine();
+    _builder.append("    ");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.append("});");
+    _builder.newLine();
+    return _builder;
   }
   
   public CharSequence createAttributes(final GraphicalModelElement modelElement) {
@@ -960,16 +1536,23 @@ public class EditorModelTemplate implements Templateable {
     _builder.newLine();
     {
       EList<Attribute> _attributes = modelElement.getAttributes();
-      boolean _hasElements = false;
-      for(final Attribute attr : _attributes) {
-        if (!_hasElements) {
-          _hasElements = true;
-        } else {
-          _builder.appendImmediate(", ", "");
+      boolean _isEmpty = _attributes.isEmpty();
+      boolean _not = (!_isEmpty);
+      if (_not) {
+        {
+          EList<Attribute> _attributes_1 = modelElement.getAttributes();
+          boolean _hasElements = false;
+          for(final Attribute attr : _attributes_1) {
+            if (!_hasElements) {
+              _hasElements = true;
+            } else {
+              _builder.appendImmediate(", ", "");
+            }
+            CharSequence _createAttribute = this.createAttribute(attr);
+            _builder.append(_createAttribute, "");
+            _builder.newLineIfNotEmpty();
+          }
         }
-        CharSequence _createAttribute = this.createAttribute(attr);
-        _builder.append(_createAttribute, "");
-        _builder.newLineIfNotEmpty();
       }
     }
     _builder.append("        ");
@@ -981,30 +1564,27 @@ public class EditorModelTemplate implements Templateable {
   public CharSequence createAttribute(final Attribute attr) {
     StringConcatenation _builder = new StringConcatenation();
     {
-      EClass _eClass = attr.eClass();
-      String _name = _eClass.getName();
-      boolean _equals = _name.equals("EString");
+      String _type = attr.getType();
+      boolean _equals = _type.equals("EString");
       if (_equals) {
-        String _name_1 = attr.getName();
-        _builder.append(_name_1, "");
+        String _name = attr.getName();
+        _builder.append(_name, "");
         _builder.append(": [\' \', \'text\']");
         _builder.newLineIfNotEmpty();
       } else {
-        EClass _eClass_1 = attr.eClass();
-        String _name_2 = _eClass_1.getName();
-        boolean _equals_1 = _name_2.equals("EBoolean");
+        String _type_1 = attr.getType();
+        boolean _equals_1 = _type_1.equals("EBoolean");
         if (_equals_1) {
-          String _name_3 = attr.getName();
-          _builder.append(_name_3, "");
+          String _name_1 = attr.getName();
+          _builder.append(_name_1, "");
           _builder.append(": [false, \'boolean\']");
           _builder.newLineIfNotEmpty();
         } else {
-          EClass _eClass_2 = attr.eClass();
-          String _name_4 = _eClass_2.getName();
-          boolean _equals_2 = _name_4.equals("EList");
+          String _type_2 = attr.getType();
+          boolean _equals_2 = _type_2.equals("EList");
           if (_equals_2) {
-            String _name_5 = attr.getName();
-            _builder.append(_name_5, "");
+            String _name_2 = attr.getName();
+            _builder.append(_name_2, "");
             _builder.append(": [");
             _builder.newLineIfNotEmpty();
             _builder.append("\t");
@@ -1023,21 +1603,19 @@ public class EditorModelTemplate implements Templateable {
             _builder.append("\'map\']");
             _builder.newLine();
           } else {
-            EClass _eClass_3 = attr.eClass();
-            String _name_6 = _eClass_3.getName();
-            boolean _equals_3 = _name_6.equals("EInt");
+            String _type_3 = attr.getType();
+            boolean _equals_3 = _type_3.equals("EInt");
             if (_equals_3) {
-              String _name_7 = attr.getName();
-              _builder.append(_name_7, "");
+              String _name_3 = attr.getName();
+              _builder.append(_name_3, "");
               _builder.append(": [0, \'number\']");
               _builder.newLineIfNotEmpty();
             } else {
-              EClass _eClass_4 = attr.eClass();
-              String _name_8 = _eClass_4.getName();
-              boolean _equals_4 = _name_8.equals("EDouble");
+              String _type_4 = attr.getType();
+              boolean _equals_4 = _type_4.equals("EDouble");
               if (_equals_4) {
-                String _name_9 = attr.getName();
-                _builder.append(_name_9, "");
+                String _name_4 = attr.getName();
+                _builder.append(_name_4, "");
                 _builder.append(": [0.00, \'double\']");
                 _builder.newLineIfNotEmpty();
               }
@@ -1046,6 +1624,39 @@ public class EditorModelTemplate implements Templateable {
         }
       }
     }
+    _builder.newLine();
+    return _builder;
+  }
+  
+  public CharSequence createLabel(final StyledLabel styledLabel) {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("fill: \'#");
+    Color _labelColor = styledLabel.getLabelColor();
+    String _hex = Formatter.toHex(_labelColor);
+    _builder.append(_hex, "");
+    _builder.append("\',");
+    _builder.newLineIfNotEmpty();
+    _builder.append("\'font-size\': ");
+    int _labelFontSize = styledLabel.getLabelFontSize();
+    _builder.append(_labelFontSize, "");
+    _builder.append(",");
+    _builder.newLineIfNotEmpty();
+    _builder.append("\'font-family\': \'");
+    String _fontName = styledLabel.getFontName();
+    _builder.append(_fontName, "");
+    _builder.append("\',");
+    _builder.newLineIfNotEmpty();
+    _builder.append("\'font-weight\': \'");
+    FontType _fontType = styledLabel.getFontType();
+    _builder.append(_fontType, "");
+    _builder.append("\',");
+    _builder.newLineIfNotEmpty();
+    _builder.append("\'text-anchor\': \'");
+    LableAlignment _lableAlignment = styledLabel.getLableAlignment();
+    _builder.append(_lableAlignment, "");
+    _builder.append("\',");
+    _builder.newLineIfNotEmpty();
+    _builder.append("\'ref-x\': .5,");
     _builder.newLine();
     return _builder;
   }

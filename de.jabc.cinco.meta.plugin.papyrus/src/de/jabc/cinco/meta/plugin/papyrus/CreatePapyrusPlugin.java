@@ -2,8 +2,12 @@ package de.jabc.cinco.meta.plugin.papyrus;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
 
 import mgl.GraphModel;
+import mgl.GraphicalModelElement;
+import mgl.Node;
 
 import org.apache.commons.io.FileUtils;
 
@@ -14,7 +18,9 @@ import de.jabc.cinco.meta.plugin.papyrus.templates.EditorCSSTemplate;
 import de.jabc.cinco.meta.plugin.papyrus.templates.EditorConstraintTemplate;
 import de.jabc.cinco.meta.plugin.papyrus.templates.EditorModelTemplate;
 import de.jabc.cinco.meta.plugin.papyrus.templates.Templateable;
+import de.jabc.cinco.meta.plugin.papyrus.utils.EdgeParser;
 import de.jabc.cinco.meta.plugin.papyrus.utils.ModelParser;
+import de.jabc.cinco.meta.plugin.papyrus.utils.NodeParser;
 import de.metaframe.jabc.framework.execution.LightweightExecutionEnvironment;
 import de.metaframe.jabc.framework.execution.context.LightweightExecutionContext;
 
@@ -25,23 +31,31 @@ public class CreatePapyrusPlugin {
 		LightweightExecutionContext context = env.getLocalContext().getGlobalContext();
 		GraphModel graphModel = (GraphModel) context.get("graphModel");
 		Styles styles = CincoUtils.getStyles(graphModel);
-		String basePath = "~/PapyrusGen/";
+		String basePath = "CincoProductsFTW/Papyrus/";
+		String jsPath = "js/papyrus/";
+		String cssPath = "css/papyrus/";
 		//Search for Graphmodel Annotation "papyrus"
 		for(mgl.Annotation anno: graphModel.getAnnotations()){
 			if(anno.getName().equals(PAPYRUS)){
 				System.out.println("Papyrus editor creation running");
 				
 				TemplateContainer templateContainer = new TemplateContainer();
-				templateContainer.setEdges(ModelParser.getStyledEdges(graphModel,styles));
-				templateContainer.setNodes(ModelParser.getStyledNodes(graphModel));
+				templateContainer.setEdges(EdgeParser.getStyledEdges(graphModel,styles));
+				
+				ArrayList<GraphicalModelElement> graphicalModelElements = new ArrayList<GraphicalModelElement>();
+				graphicalModelElements.addAll(graphModel.getNodes());
+				graphicalModelElements.addAll(graphModel.getNodeContainers());
+				
+				templateContainer.setNodes(NodeParser.getStyledNodes(graphModel,graphicalModelElements,styles));
 				templateContainer.setGraphModel(graphModel);
-				templateContainer.setGroupedNodes(ModelParser.getGroupedNodes(graphModel));
+				templateContainer.setGroupedNodes(ModelParser.getGroupedNodes(graphicalModelElements));
 				templateContainer.setValidConnections(ModelParser.getValidConnections(graphModel));
+				templateContainer.setEmbeddingConstraints(ModelParser.getValidEmbeddings(graphModel));
 
 				//createFile(new EditorControllerTemplate(), basePath + "cincoController.java", templateContainer);
-				createFile(new EditorModelTemplate(), basePath + "papyrus.model.java", templateContainer);
-				createFile(new EditorConstraintTemplate(), basePath + "papyrus.constraint.js", templateContainer);
-				createFile(new EditorCSSTemplate(), basePath + "papyrus.nodes.css", templateContainer);
+				createFile(new EditorModelTemplate(), basePath + jsPath +"papyrus.model.js", templateContainer);
+				createFile(new EditorConstraintTemplate(), basePath + jsPath + "papyrus.constraints.js", templateContainer);
+				createFile(new EditorCSSTemplate(), basePath + cssPath + "papyrus.nodes.css", templateContainer);
 				
 				
 				

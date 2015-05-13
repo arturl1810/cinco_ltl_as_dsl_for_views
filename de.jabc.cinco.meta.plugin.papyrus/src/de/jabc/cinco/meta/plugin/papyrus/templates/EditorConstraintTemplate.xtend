@@ -30,6 +30,7 @@ class EditorConstraintTemplate implements Templateable{
 	def createConnectingConstraints(ConnectionConstraint connection)
 	'''
 		if(sourceNodeType == '«connection.sourceNode.modelElement.name.toFirstUpper»' && targetNodeType == '«connection.targetNode.modelElement.name.toFirstUpper»'){
+			//TODO Cardinalities
 		    return true;
 		}
 	'''

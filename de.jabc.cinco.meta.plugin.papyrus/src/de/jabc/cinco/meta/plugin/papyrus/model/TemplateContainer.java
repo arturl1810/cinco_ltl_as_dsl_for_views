@@ -11,6 +11,7 @@ public class TemplateContainer {
 	private ArrayList<StyledEdge> edges;
 	private HashMap<String,ArrayList<StyledNode>> groupedNodes;
 	private ArrayList<ConnectionConstraint> validConnections;
+	ArrayList<EmbeddingConstraint> embeddingConstraints;
 	
 	public GraphModel getGraphModel() {
 		return graphModel;
@@ -43,6 +44,14 @@ public class TemplateContainer {
 	public void setValidConnections(ArrayList<ConnectionConstraint> validConnections) {
 		this.validConnections = validConnections;
 	}
+	public ArrayList<EmbeddingConstraint> getEmbeddingConstraints() {
+		return embeddingConstraints;
+	}
+	public void setEmbeddingConstraints(
+			ArrayList<EmbeddingConstraint> embeddingConstraints) {
+		this.embeddingConstraints = embeddingConstraints;
+	}
+	
 	
 	
 }

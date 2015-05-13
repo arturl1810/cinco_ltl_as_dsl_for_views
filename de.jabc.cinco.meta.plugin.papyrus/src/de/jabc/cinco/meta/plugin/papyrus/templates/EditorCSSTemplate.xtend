@@ -13,8 +13,8 @@ class EditorCSSTemplate implements Templateable{
 	def createNodeCSS(StyledNode styledNode)
 	'''
 		.devs.«styledNode.modelElement.name.toFirstUpper» .label{
-		    font-size: «styledNode.labelFontSize»px;
-		    font-family: «styledNode.fontName», 'Lucida Sans Unicode', sans-serif
+		    font-size: «styledNode.styledLabel.labelFontSize»px;
+		    font-family: «styledNode.styledLabel.fontName», 'Lucida Sans Unicode', sans-serif
 		}
 	'''
 	
@@ -22,7 +22,9 @@ class EditorCSSTemplate implements Templateable{
 	'''
 		/* CSS for Nodes */
 		«FOR StyledNode node : nodes»
+		«IF node.styledLabel != null»
 		«createNodeCSS(node)»
+		«ENDIF»
 		«ENDFOR»
 	'''
 	

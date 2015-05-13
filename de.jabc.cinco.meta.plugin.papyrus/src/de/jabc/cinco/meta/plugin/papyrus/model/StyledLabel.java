@@ -8,6 +8,8 @@ public class StyledLabel {
 	private String fontName;
 	private FontType fontType;
 	private Color labelColor;
+	private String value;
+	private double location;
 	public int getLabelFontSize() {
 		return labelFontSize;
 	}
@@ -38,6 +40,20 @@ public class StyledLabel {
 	public void setLabelColor(Color labelColor) {
 		this.labelColor = labelColor;
 	}
+	public String getValue() {
+		return value;
+	}
+	public void setValue(String value) {
+		this.value = value;
+	}
+	public double getLocation() {
+		return location;
+	}
+	public void setLocation(double location) {
+		this.location = location;
+	}
+	
+	
 	
 	
 }
