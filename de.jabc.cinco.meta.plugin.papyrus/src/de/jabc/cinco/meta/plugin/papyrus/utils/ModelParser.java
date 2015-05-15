@@ -3,6 +3,8 @@ package de.jabc.cinco.meta.plugin.papyrus.utils;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.eclipse.emf.ecore.util.EcoreUtil;
+
 import mgl.Annotation;
 import mgl.Edge;
 import mgl.GraphModel;
@@ -129,10 +131,10 @@ public class ModelParser {
 		}
 		Appearance parentAppearance = getInheritedAppearance(appearance.getParent());
 		//Overriding
-		if(appearance.getBackground() != null)parentAppearance.setBackground(appearance.getBackground());
-		if(appearance.getForeground() != null)parentAppearance.setForeground(appearance.getForeground());
+		if(appearance.getBackground() != null)parentAppearance.setBackground(EcoreUtil.copy(appearance.getBackground()));
+		if(appearance.getForeground() != null)parentAppearance.setForeground(EcoreUtil.copy(appearance.getForeground()));
 		if(appearance.getFont() != null) {
-			parentAppearance.setFont(appearance.getFont());
+			parentAppearance.setFont(EcoreUtil.copy(appearance.getFont()));
 		}
 		if(appearance.getLineStyle() != null && appearance.getLineStyle() != LineStyle.UNSPECIFIED)parentAppearance.setLineStyle(appearance.getLineStyle());
 		if(appearance.getLineWidth() >= 0)parentAppearance.setLineWidth(appearance.getLineWidth());
