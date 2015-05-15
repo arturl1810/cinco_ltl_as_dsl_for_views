@@ -86,6 +86,9 @@
       <attribute-annotation
             recognized-annotation="propertiesViewHidden">
       </attribute-annotation>
+      <annotation
+            recognized-annotation="disable">
+      </annotation>
    </extension>
 
 </fragment>

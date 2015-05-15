@@ -1474,4 +1474,85 @@ public class ServiceAdapter {
 			return Branches.ERROR;
 		}
 	}
+
+	public static String isCreateDisabled(LightweightExecutionEnvironment env, ContextKeyFoundation modelElement) {
+		
+		LightweightExecutionContext context = env.getLocalContext();
+		try {
+			
+			ModelElement me = (ModelElement) context.get(modelElement);
+			if (CincoUtils.isCreateDisabled(me))
+				return Branches.TRUE;
+			
+		} catch (Exception e) {
+			context.put("exception", e);
+		}
+		
+		return Branches.FALSE;
+	}
+	
+	public static String isMoveDisabled(LightweightExecutionEnvironment env, ContextKeyFoundation modelElement) {
+		
+		LightweightExecutionContext context = env.getLocalContext();
+		try {
+			
+			ModelElement me = (ModelElement) context.get(modelElement);
+			if (CincoUtils.isMoveDisabled(me))
+				return Branches.TRUE;
+			
+		} catch (Exception e) {
+			context.put("exception", e);
+		}
+		
+		return Branches.FALSE;
+	}
+	
+	public static String isResizeDisabled(LightweightExecutionEnvironment env, ContextKeyFoundation modelElement) {
+		
+		LightweightExecutionContext context = env.getLocalContext();
+		try {
+			
+			ModelElement me = (ModelElement) context.get(modelElement);
+			if (CincoUtils.isResizeDisabled(me))
+				return Branches.TRUE;
+			
+		} catch (Exception e) {
+			context.put("exception", e);
+		}
+		
+		return Branches.FALSE;
+	}
+
+	public static String isReconnectDisabled(LightweightExecutionEnvironment env, ContextKeyFoundation modelElement) {
+	
+		LightweightExecutionContext context = env.getLocalContext();
+		try {
+			
+			ModelElement me = (ModelElement) context.get(modelElement);
+			if (CincoUtils.isReconnectDisabled(me))
+				return Branches.TRUE;
+			
+		} catch (Exception e) {
+			context.put("exception", e);
+		}
+		
+		return Branches.FALSE;
+	}
+
+	public static String isSelectDisabled(LightweightExecutionEnvironment env, ContextKeyFoundation modelElement) {
+	
+		LightweightExecutionContext context = env.getLocalContext();
+		try {
+			
+			ModelElement me = (ModelElement) context.get(modelElement);
+			if (CincoUtils.isSelectDisabled(me))
+				return Branches.TRUE;
+			
+		} catch (Exception e) {
+			context.put("exception", e);
+		}
+		
+		return Branches.FALSE;
+	}
+	
 }
