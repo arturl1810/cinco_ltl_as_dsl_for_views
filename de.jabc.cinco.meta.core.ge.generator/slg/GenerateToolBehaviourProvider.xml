@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>6830c0f3-7532-49ad-ad67-7fb466c9d0a9</id>
   <name>GenerateToolBehaviourProvider</name>
-  <changecounter>239</changecounter>
+  <changecounter>247</changecounter>
   <sib>
     <id>c8e21300-66b5-43fa-a031-ae9d0f22cbf2</id>
     <name>PutExpression</name>
@@ -81,7 +81,7 @@
     <label>RunStringTemplate</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>25.0,738.0</position>
+    <position>25.0,843.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -103,6 +103,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.graphiti.dt.IDiagramTypeProvider;
 import org.eclipse.graphiti.features.ICreateConnectionFeature;
 import org.eclipse.graphiti.features.ICreateFeature;
@@ -207,6 +208,13 @@ public class $context.fuGraphModelName$ToolBehaviourProvider extends DefaultTool
 		return super.getDoubleClickFeature(context);
 	}
 
+	@Override
+	public PictogramElement getSelection(PictogramElement originalPe, PictogramElement[] oldSelection) {
+		EObject bo = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(originalPe);
+		$context.canSelectContent$
+		return super.getSelection(originalPe, oldSelection);
+	}
+
 }
 </string>
     </parameter>
@@ -227,7 +235,7 @@ public class $context.fuGraphModelName$ToolBehaviourProvider extends DefaultTool
     <label>WriteJavaFile</label>
     <sib-uid>genesys-sibs/WriteJavaFile</sib-uid>
     <taxonomy>de.jabc.sib.genesys.WriteJavaFile</taxonomy>
-    <position>43.0,843.0</position>
+    <position>343.0,843.0</position>
     <parameter name="baseDirectory">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -295,7 +303,7 @@ public class $context.fuGraphModelName$ToolBehaviourProvider extends DefaultTool
     <label>PrintConsoleMessage</label>
     <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
     <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
-    <position>16.5,948.0</position>
+    <position>496.5,843.0</position>
     <parameter name="error">
       <boolean>false</boolean>
     </parameter>
@@ -313,8 +321,8 @@ public class $context.fuGraphModelName$ToolBehaviourProvider extends DefaultTool
   <edge>
     <source>91532a33-667f-4770-8444-371c05656291</source>
     <target>9cb1d2a5-7080-4d7a-b48f-2ac05e57e5b3</target>
-    <point>135.0,795.0</point>
-    <point>90.0,825.0</point>
+    <point>390.0,870.0</point>
+    <point>570.0,870.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -527,11 +535,11 @@ public class $context.fuGraphModelName$ToolBehaviourProvider extends DefaultTool
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
     <position>25.5,316.0</position>
     <finalbranches>default</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>f99467c8-1334-49f9-a0cb-9e2f6cc9db0d</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>GeneratePaletteCode</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>f99467c8-1334-49f9-a0cb-9e2f6cc9db0d</string>
     </userobject>
   </sib>
   <edge>
@@ -637,9 +645,9 @@ public class $context.fuGraphModelName$ToolBehaviourProvider extends DefaultTool
   </sib>
   <edge>
     <source>df47ac67-aea6-4e3b-bc22-a06f4c5226bc</source>
-    <target>5a2da4db-bfc2-47b9-9a74-720f1e2052f2</target>
-    <point>252.0,648.9</point>
-    <point>108.0,744.9</point>
+    <target>bac5c845-ac5c-4e41-82d9-67ef5f8763c0</target>
+    <point>108.0,651.48</point>
+    <point>220.0,741.2</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>true</branch>
   </edge>
@@ -682,9 +690,9 @@ public class $context.fuGraphModelName$ToolBehaviourProvider extends DefaultTool
   </edge>
   <edge>
     <source>dd77d2be-4e68-44df-9336-4e6085ba06e0</source>
-    <target>5a2da4db-bfc2-47b9-9a74-720f1e2052f2</target>
-    <point>537.0,741.9290322580645</point>
-    <point>108.0,755.7677419354839</point>
+    <target>bac5c845-ac5c-4e41-82d9-67ef5f8763c0</target>
+    <point>312.0,757.8</point>
+    <point>260.0,758.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -854,10 +862,33 @@ public class $context.fuGraphModelName$ToolBehaviourProvider extends DefaultTool
   </edge>
   <edge>
     <source>2be7b943-7542-4ced-9376-bf4155c231eb</source>
-    <target>5a2da4db-bfc2-47b9-9a74-720f1e2052f2</target>
-    <point>225.0,645.0</point>
-    <point>81.0,761.0</point>
+    <target>bac5c845-ac5c-4e41-82d9-67ef5f8763c0</target>
+    <point>227.09302325581396,654.0</point>
+    <point>237.2972972972973,736.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>exit</branch>
+  </edge>
+  <sib>
+    <id>bac5c845-ac5c-4e41-82d9-67ef5f8763c0</id>
+    <name>GraphSIB_1</name>
+    <label>GenerateCanSelect</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>31.0,736.0</position>
+    <finalbranches>default</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>GenerateCanSelect</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>a259c89f-adaa-431d-a7f2-ec3a2354fc53</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>bac5c845-ac5c-4e41-82d9-67ef5f8763c0</source>
+    <target>5a2da4db-bfc2-47b9-9a74-720f1e2052f2</target>
+    <point>90.0,780.0</point>
+    <point>86.0,941.0</point>
+    <branch>default</branch>
   </edge>
   <values/>
   <branch>

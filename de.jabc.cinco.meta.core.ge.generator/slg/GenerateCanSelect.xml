@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<model version="2.1">
+  <id>a259c89f-adaa-431d-a7f2-ec3a2354fc53</id>
+  <name>GenerateCanSelect</name>
+  <changecounter>19</changecounter>
+  <sib>
+    <id>052fb177-0ed5-4757-beec-d0773585e33b</id>
+    <name>IterateGraphModelModelElements</name>
+    <label>IterateGraphModelModelElements</label>
+    <sib-uid>graphmodel/graphmodel/IterateGraphModelModelElements</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.sibs.graphmodel.sib.graphmodel.IterateGraphModelModelElements</taxonomy>
+    <position>127.0,63.0</position>
+    <parameter name="elementKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>modelElement</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>false</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="graphModelKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>graphModel</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="iteratorKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>iteratorKeyfoiwajefasd</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>false</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>exit</finalbranches>
+    <finalbranches>next</finalbranches>
+    <finalbranches>noElements</finalbranches>
+    <userobject key="ABC$START">
+      <boolean>true</boolean>
+    </userobject>
+  </sib>
+  <sib>
+    <id>ceee187d-7200-4719-9052-45c3083ed3bc</id>
+    <name>IsSelectDisabled</name>
+    <label>IsSelectDisabled</label>
+    <sib-uid>ge-util-sibs/IsSelectDisabled</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsSelectDisabled</taxonomy>
+    <position>189.0,183.0</position>
+    <parameter name="modelElementKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>modelElement</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>false</finalbranches>
+    <finalbranches>true</finalbranches>
+  </sib>
+  <edge>
+    <source>052fb177-0ed5-4757-beec-d0773585e33b</source>
+    <target>ceee187d-7200-4719-9052-45c3083ed3bc</target>
+    <point>225.0,90.0</point>
+    <point>214.0,204.0</point>
+    <branch>next</branch>
+  </edge>
+  <edge>
+    <source>ceee187d-7200-4719-9052-45c3083ed3bc</source>
+    <target>052fb177-0ed5-4757-beec-d0773585e33b</target>
+    <spline/>
+    <point>209.11764705882354,183.0</point>
+    <point>180.0,150.0</point>
+    <point>213.26086956521738,99.0</point>
+    <labelposition>368.9898945241123,-40.69586791876998</labelposition>
+    <branch>false</branch>
+  </edge>
+  <sib>
+    <id>16c6ca7f-ee94-45e9-9d4a-64bedd89c232</id>
+    <name>RunStringTemplate</name>
+    <label>RunStringTemplate</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>332.0,183.0</position>
+    <parameter name="append">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>canSelectContent</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>if (bo instanceof $modelElement.name$)
+	return getDiagramTypeProvider().getDiagram();
+</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>ceee187d-7200-4719-9052-45c3083ed3bc</source>
+    <target>16c6ca7f-ee94-45e9-9d4a-64bedd89c232</target>
+    <point>225.0,210.0</point>
+    <point>225.0,316.0</point>
+    <branch>true</branch>
+  </edge>
+  <edge>
+    <source>16c6ca7f-ee94-45e9-9d4a-64bedd89c232</source>
+    <target>052fb177-0ed5-4757-beec-d0773585e33b</target>
+    <spline/>
+    <point>381.5625,183.0</point>
+    <point>345.0,105.0</point>
+    <point>258.0,85.11428571428571</point>
+    <labelposition>251.0,25.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <values/>
+  <branch>
+    <name>default</name>
+    <branch>exit</branch>
+    <sib>052fb177-0ed5-4757-beec-d0773585e33b</sib>
+  </branch>
+  <branch>
+    <name>default</name>
+    <branch>noElements</branch>
+    <sib>052fb177-0ed5-4757-beec-d0773585e33b</sib>
+  </branch>
+</model>
