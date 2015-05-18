@@ -2,49 +2,7 @@
 <model version="2.1">
   <id>a259c89f-adaa-431d-a7f2-ec3a2354fc53</id>
   <name>GenerateCanSelect</name>
-  <changecounter>19</changecounter>
-  <sib>
-    <id>052fb177-0ed5-4757-beec-d0773585e33b</id>
-    <name>IterateGraphModelModelElements</name>
-    <label>IterateGraphModelModelElements</label>
-    <sib-uid>graphmodel/graphmodel/IterateGraphModelModelElements</sib-uid>
-    <taxonomy>de.jabc.cinco.meta.core.sibs.graphmodel.sib.graphmodel.IterateGraphModelModelElements</taxonomy>
-    <position>127.0,63.0</position>
-    <parameter name="elementKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>modelElement</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>false</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="graphModelKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>graphModel</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="iteratorKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>iteratorKeyfoiwajefasd</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>false</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>error</finalbranches>
-    <finalbranches>exit</finalbranches>
-    <finalbranches>next</finalbranches>
-    <finalbranches>noElements</finalbranches>
-    <userobject key="ABC$START">
-      <boolean>true</boolean>
-    </userobject>
-  </sib>
+  <changecounter>29</changecounter>
   <sib>
     <id>ceee187d-7200-4719-9052-45c3083ed3bc</id>
     <name>IsSelectDisabled</name>
@@ -66,7 +24,7 @@
     <finalbranches>true</finalbranches>
   </sib>
   <edge>
-    <source>052fb177-0ed5-4757-beec-d0773585e33b</source>
+    <source>a56a8a28-6fae-468a-b0c3-1f74a12a861b</source>
     <target>ceee187d-7200-4719-9052-45c3083ed3bc</target>
     <point>225.0,90.0</point>
     <point>214.0,204.0</point>
@@ -74,7 +32,7 @@
   </edge>
   <edge>
     <source>ceee187d-7200-4719-9052-45c3083ed3bc</source>
-    <target>052fb177-0ed5-4757-beec-d0773585e33b</target>
+    <target>a56a8a28-6fae-468a-b0c3-1f74a12a861b</target>
     <spline/>
     <point>209.11764705882354,183.0</point>
     <point>180.0,150.0</point>
@@ -121,7 +79,7 @@
   </edge>
   <edge>
     <source>16c6ca7f-ee94-45e9-9d4a-64bedd89c232</source>
-    <target>052fb177-0ed5-4757-beec-d0773585e33b</target>
+    <target>a56a8a28-6fae-468a-b0c3-1f74a12a861b</target>
     <spline/>
     <point>381.5625,183.0</point>
     <point>345.0,105.0</point>
@@ -129,15 +87,51 @@
     <labelposition>251.0,25.0</labelposition>
     <branch>default</branch>
   </edge>
+  <sib>
+    <id>a56a8a28-6fae-468a-b0c3-1f74a12a861b</id>
+    <name>IterateGraphModelModelElements</name>
+    <label>IterateGraphicalModelElements</label>
+    <sib-uid>collection-sibs/IterateElements</sib-uid>
+    <taxonomy>de.jabc.sib.common.collection.IterateElements</taxonomy>
+    <position>135.0,63.0</position>
+    <parameter name="collection">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>graphicalModelElements</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="element">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>modelElement</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="iterator">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>iteratoriuwefklasnv</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>exit</finalbranches>
+    <finalbranches>next</finalbranches>
+    <userobject key="ABC$START">
+      <boolean>true</boolean>
+    </userobject>
+  </sib>
   <values/>
   <branch>
     <name>default</name>
     <branch>exit</branch>
-    <sib>052fb177-0ed5-4757-beec-d0773585e33b</sib>
-  </branch>
-  <branch>
-    <name>default</name>
-    <branch>noElements</branch>
-    <sib>052fb177-0ed5-4757-beec-d0773585e33b</sib>
+    <sib>a56a8a28-6fae-468a-b0c3-1f74a12a861b</sib>
   </branch>
 </model>

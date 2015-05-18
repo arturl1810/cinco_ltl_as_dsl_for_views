@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>ef7786c5-d04b-45de-89fd-b00e68b99149</id>
   <name>GenerateUpdateModelElementFeature</name>
-  <changecounter>394</changecounter>
+  <changecounter>396</changecounter>
   <sib>
     <id>b31345f6-8607-4397-986e-94a14e803be6</id>
     <name>PutExpression_1</name>
@@ -134,7 +134,7 @@ public class $context.className$ extends AbstractUpdateFeature {
 	
 	private void updateText($context.fuModelElementName$ $context.meIdentifier$, PictogramElement pe) {
 		if (pe instanceof ContainerShape) {
-			PictogramElement tmp = pe.getGraphicsAlgorithm().getPictogramElement();
+			PictogramElement tmp = pe;
 			Object o = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(tmp);
 			if ($context.meIdentifier$.equals(o) || o == null)
 			for (Shape s : ((ContainerShape) pe).getChildren()) {
@@ -289,11 +289,11 @@ public class $context.className$ extends AbstractUpdateFeature {
     </parameter>
     <finalbranches>error</finalbranches>
     <finalbranches>exit</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>2a28c6a3-7550-4d5b-a8c5-c31758cd1dd2</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>GenerateGetTextValues2</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>2a28c6a3-7550-4d5b-a8c5-c31758cd1dd2</string>
     </userobject>
   </sib>
   <sib>
@@ -314,11 +314,11 @@ public class $context.className$ extends AbstractUpdateFeature {
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>843b7fe1-9b8e-4b49-94ab-777e60336bda</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>CheckStyleAnnotation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>843b7fe1-9b8e-4b49-94ab-777e60336bda</string>
     </userobject>
   </sib>
   <edge>
