@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>21d264a3-a3d0-485e-b5f9-5f9c29fffccf</id>
   <name>GenerateCreateEdgeFeature_1</name>
-  <changecounter>186</changecounter>
+  <changecounter>200</changecounter>
   <sib>
     <id>11d0666f-5a7a-42b8-b045-2c132c173d82</id>
     <name>PutExpression</name>
@@ -420,20 +420,7 @@ public class Create$context.edgeName$Feature extends AbstractCreateConnectionFea
 
 	$context.createImageContent$
 
-	@Override
-	public boolean canCreate(ICreateConnectionContext context) {
-		Object source = getBusinessObject(context.getSourceAnchor());
-		Object target = getBusinessObject(context.getTargetAnchor());
-		
-		boolean srcOK = false;
-		boolean trgOK = false;
-
-		if (source != null &amp;&amp; target != null) {
-			srcOK=checkSource(source);
-			trgOK=checkTarget(target);
-		}
-		return (srcOK &amp;&amp; trgOK);
-	}
+	$context.canCreateEdgeContent$
 
 
 	@Override
@@ -608,18 +595,19 @@ public class Create$context.edgeName$Feature extends AbstractCreateConnectionFea
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>67c297f2-05a9-4896-8e73-7a7c57da4ed6</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>GenerateEdgeCode</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>67c297f2-05a9-4896-8e73-7a7c57da4ed6</string>
     </userobject>
   </sib>
   <edge>
     <source>008edbcc-6a7f-44c5-bf9a-0c76c121f950</source>
-    <target>f0d06449-3f49-494e-bc12-47dbb0644804</target>
-    <point>300.0,615.0</point>
-    <point>695.0,690.0</point>
+    <target>e5a69a45-001a-4932-a83e-287a70161ee2</target>
+    <point>320.0,590.0</point>
+    <point>400.0,520.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
@@ -705,11 +693,11 @@ public class Create$context.edgeName$Feature extends AbstractCreateConnectionFea
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>1f432a14-22e1-48ce-aa1e-72e571fba979</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>InitializeAttributes</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>1f432a14-22e1-48ce-aa1e-72e571fba979</string>
     </userobject>
   </sib>
   <edge>
@@ -737,11 +725,11 @@ public class Create$context.edgeName$Feature extends AbstractCreateConnectionFea
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>827994ca-f72f-4fe1-afcb-fa6f30c34d59</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>GenerateModelElementIcon</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>827994ca-f72f-4fe1-afcb-fa6f30c34d59</string>
     </userobject>
   </sib>
   <edge>
@@ -749,6 +737,37 @@ public class Create$context.edgeName$Feature extends AbstractCreateConnectionFea
     <target>703289e2-f3b7-4d70-975e-60c450763bcc</target>
     <point>195.0,930.0</point>
     <point>285.0,851.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>e5a69a45-001a-4932-a83e-287a70161ee2</id>
+    <name>GraphSIB_3</name>
+    <label>GenerateCanCreateEdge</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>225.5,481.0</position>
+    <parameter name="modelElement">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>edge</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>GenerateCanCreateEdge</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>8e0c826e-fba3-4a4a-a907-ce930a289b96</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>e5a69a45-001a-4932-a83e-287a70161ee2</source>
+    <target>f0d06449-3f49-494e-bc12-47dbb0644804</target>
+    <point>420.0,510.0</point>
+    <point>488.0,607.0</point>
     <branch>default</branch>
   </edge>
   <parameter>

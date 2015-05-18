@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<model version="2.1">
+  <id>c70b1b9f-e055-4a40-ad29-25b322bed4ec</id>
+  <name>GenerateCanCreateNode</name>
+  <changecounter>63</changecounter>
+  <sib>
+    <id>eb11542e-3f66-4594-861c-65cb03012096</id>
+    <name>RunStringTemplate</name>
+    <label>RunStringTemplate</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>40.0,168.0</position>
+    <parameter name="append">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>canCreateNodeContent</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>public boolean canCreate(ICreateContext context, boolean apiCall) {
+	if (apiCall) {
+		Object target = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(context.getTargetContainer());
+		$context.containerCheck$
+		if ($context.cincoErrorCheckOk$)
+			$context.cincoErrorInvalidContainer$
+		return false;
+	}
+	return false;
+}
+
+@Override
+public boolean canCreate(ICreateContext context) {
+	return canCreate(context, false);
+}</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>dbb6b844-fef7-44bb-bb54-5bf9759d4cc4</source>
+    <target>eb11542e-3f66-4594-861c-65cb03012096</target>
+    <point>210.0,69.0</point>
+    <point>122.14285714285715,168.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>true</branch>
+  </edge>
+  <sib>
+    <id>661ec9b9-b087-41a5-b988-51428dcda426</id>
+    <name>RunStringTemplate_1</name>
+    <label>RunStringTemplate</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>220.0,168.0</position>
+    <parameter name="append">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>canCreateNodeContent</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>public boolean canCreate(ICreateContext context, boolean apiCall) {
+	if (apiCall) {
+		Object target = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(context.getTargetContainer());
+		$context.containerCheck$
+		if ($context.cincoErrorCheckOk$)
+			$context.cincoErrorInvalidContainer$
+		return false;
+	}
+	return false;
+}
+
+@Override
+public boolean canCreate(ICreateContext context) {
+	return canCreate(context, true);
+}</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>dbb6b844-fef7-44bb-bb54-5bf9759d4cc4</source>
+    <target>661ec9b9-b087-41a5-b988-51428dcda426</target>
+    <point>232.5,69.0</point>
+    <point>276.42857142857144,168.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>false</branch>
+  </edge>
+  <sib>
+    <id>dbb6b844-fef7-44bb-bb54-5bf9759d4cc4</id>
+    <name>IsCreateDisabled</name>
+    <label>IsCreateDisabled</label>
+    <sib-uid>ge-util-sibs/IsCreateDisabled</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsCreateDisabled</taxonomy>
+    <position>143.5,48.0</position>
+    <parameter name="modelElement">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>modelElement</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>false</finalbranches>
+    <finalbranches>true</finalbranches>
+    <userobject key="ABC$START">
+      <boolean>true</boolean>
+    </userobject>
+  </sib>
+  <parameter>
+    <name>modelElement</name>
+    <field>modelElement</field>
+    <sib>dbb6b844-fef7-44bb-bb54-5bf9759d4cc4</sib>
+  </parameter>
+  <values>
+    <entry>
+      <string>modelElement</string>
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>modelElement</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </entry>
+  </values>
+  <branch>
+    <name>default</name>
+    <branch>default</branch>
+    <sib>eb11542e-3f66-4594-861c-65cb03012096</sib>
+  </branch>
+  <branch>
+    <name>default</name>
+    <branch>default</branch>
+    <sib>661ec9b9-b087-41a5-b988-51428dcda426</sib>
+  </branch>
+</model>

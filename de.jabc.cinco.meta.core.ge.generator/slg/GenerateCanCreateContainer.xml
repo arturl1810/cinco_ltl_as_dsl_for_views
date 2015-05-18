@@ -1,17 +1,40 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <model version="2.1">
-  <id>c70b1b9f-e055-4a40-ad29-25b322bed4ec</id>
-  <name>GenerateCanCreate</name>
-  <changecounter>50</changecounter>
+  <id>8f33aced-62cb-4016-b26e-cbbd9ddee64d</id>
+  <name>GenerateCanCreateContainer</name>
+  <changecounter>20</changecounter>
   <sib>
-    <id>eb11542e-3f66-4594-861c-65cb03012096</id>
+    <id>97ba7aec-ea8d-44ee-bd50-ae1ba58fa44d</id>
+    <name>IsCreateDisabled</name>
+    <label>IsCreateDisabled</label>
+    <sib-uid>ge-util-sibs/IsCreateDisabled</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsCreateDisabled</taxonomy>
+    <position>188.5,63.0</position>
+    <parameter name="modelElement">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>modelElement</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>false</finalbranches>
+    <finalbranches>true</finalbranches>
+    <userobject key="ABC$START">
+      <boolean>true</boolean>
+    </userobject>
+  </sib>
+  <sib>
+    <id>e277d117-98eb-4ce4-93ec-b15b92f9b9d5</id>
     <name>RunStringTemplate</name>
     <label>RunStringTemplate</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>40.0,168.0</position>
+    <position>70.0,198.0</position>
     <parameter name="append">
-      <boolean>false</boolean>
+      <boolean>true</boolean>
     </parameter>
     <parameter name="individualVariables">
       <boolean>false</boolean>
@@ -19,7 +42,7 @@
     <parameter name="result">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>canCreateContent</key>
+          <key>canCreateContainerContent</key>
           <scope>GLOBAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
@@ -45,23 +68,15 @@ public boolean canCreate(ICreateContext context) {
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
   </sib>
-  <edge>
-    <source>dbb6b844-fef7-44bb-bb54-5bf9759d4cc4</source>
-    <target>eb11542e-3f66-4594-861c-65cb03012096</target>
-    <point>210.0,69.0</point>
-    <point>122.14285714285715,168.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>true</branch>
-  </edge>
   <sib>
-    <id>661ec9b9-b087-41a5-b988-51428dcda426</id>
+    <id>36f4c9a5-28c5-4b40-a30f-e3fe5a191add</id>
     <name>RunStringTemplate_1</name>
     <label>RunStringTemplate</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>220.0,168.0</position>
+    <position>295.0,198.0</position>
     <parameter name="append">
-      <boolean>false</boolean>
+      <boolean>true</boolean>
     </parameter>
     <parameter name="individualVariables">
       <boolean>false</boolean>
@@ -69,59 +84,50 @@ public boolean canCreate(ICreateContext context) {
     <parameter name="result">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>canCreateContent</key>
+          <key>canCreateContainerContent</key>
           <scope>GLOBAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>	public boolean canCreate(ICreateContext context) {
+      <string>public boolean canCreate(ICreateContext context, boolean apiCall) {
+	if (apiCall) {
 		Object target = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(context.getTargetContainer());
 		$context.containerCheck$
 		if ($context.cincoErrorCheckOk$)
 			$context.cincoErrorInvalidContainer$
 		return false;
-	}</string>
+	}
+	return false;
+}
+
+@Override
+public boolean canCreate(ICreateContext context) {
+	return canCreate(context, true);
+}</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
   </sib>
   <edge>
-    <source>dbb6b844-fef7-44bb-bb54-5bf9759d4cc4</source>
-    <target>661ec9b9-b087-41a5-b988-51428dcda426</target>
-    <point>232.5,69.0</point>
-    <point>276.42857142857144,168.0</point>
-    <labelposition>500.0,0.0</labelposition>
+    <source>97ba7aec-ea8d-44ee-bd50-ae1ba58fa44d</source>
+    <target>e277d117-98eb-4ce4-93ec-b15b92f9b9d5</target>
+    <point>240.0,90.0</point>
+    <point>123.0,202.0</point>
+    <branch>true</branch>
+  </edge>
+  <edge>
+    <source>97ba7aec-ea8d-44ee-bd50-ae1ba58fa44d</source>
+    <target>36f4c9a5-28c5-4b40-a30f-e3fe5a191add</target>
+    <point>240.0,90.0</point>
+    <point>357.0,217.0</point>
     <branch>false</branch>
   </edge>
-  <sib>
-    <id>dbb6b844-fef7-44bb-bb54-5bf9759d4cc4</id>
-    <name>IsCreateDisabled</name>
-    <label>IsCreateDisabled</label>
-    <sib-uid>ge-util-sibs/IsCreateDisabled</sib-uid>
-    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsCreateDisabled</taxonomy>
-    <position>143.5,48.0</position>
-    <parameter name="modelElement">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>modelElement</key>
-          <scope>DECLARED</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>error</finalbranches>
-    <finalbranches>false</finalbranches>
-    <finalbranches>true</finalbranches>
-    <userobject key="ABC$START">
-      <boolean>true</boolean>
-    </userobject>
-  </sib>
   <parameter>
     <name>modelElement</name>
     <field>modelElement</field>
-    <sib>dbb6b844-fef7-44bb-bb54-5bf9759d4cc4</sib>
+    <sib>97ba7aec-ea8d-44ee-bd50-ae1ba58fa44d</sib>
   </parameter>
   <values>
     <entry>
@@ -138,11 +144,11 @@ public boolean canCreate(ICreateContext context) {
   <branch>
     <name>default</name>
     <branch>default</branch>
-    <sib>eb11542e-3f66-4594-861c-65cb03012096</sib>
+    <sib>e277d117-98eb-4ce4-93ec-b15b92f9b9d5</sib>
   </branch>
   <branch>
     <name>default</name>
     <branch>default</branch>
-    <sib>661ec9b9-b087-41a5-b988-51428dcda426</sib>
+    <sib>36f4c9a5-28c5-4b40-a30f-e3fe5a191add</sib>
   </branch>
 </model>

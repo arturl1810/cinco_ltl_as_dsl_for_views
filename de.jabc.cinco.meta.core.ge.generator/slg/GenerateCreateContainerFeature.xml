@@ -2,14 +2,14 @@
 <model version="2.1">
   <id>fb0af092-c2b0-41ca-88d1-29ad9c540729</id>
   <name>GenerateCreateContainerFeature</name>
-  <changecounter>271</changecounter>
+  <changecounter>285</changecounter>
   <sib>
     <id>9adef199-4664-4d95-b976-c83232fc48df</id>
     <name>RunStringTemplate</name>
     <label>RunStringTemplate</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>190.0,228.0</position>
+    <position>70.0,393.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -53,13 +53,7 @@ public class Create$context.containerName$Feature extends AbstractCreateFeature 
 
 	$context.createImageContent$
 
-	public boolean canCreate(ICreateContext context) {
-		Object target = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(context.getTargetContainer());
-		$context.containerCheck$
-		if ($context.cincoErrorCheckOk$)
-			$context.cincoErrorInvalidContainer$
-		return false;
-	}
+	$context.canCreateContainerContent$
 
 	public Object[] create(ICreateContext context) {
 		$context.containerName$ $context.meIdentifier$ = $context.factoryName$Factory.eINSTANCE.create$context.containerName$();
@@ -137,7 +131,7 @@ public class Create$context.containerName$Feature extends AbstractCreateFeature 
     <label>WriteJavaFile</label>
     <sib-uid>genesys-sibs/WriteJavaFile</sib-uid>
     <taxonomy>de.jabc.sib.genesys.WriteJavaFile</taxonomy>
-    <position>88.0,228.0</position>
+    <position>253.0,393.0</position>
     <parameter name="baseDirectory">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -194,8 +188,8 @@ public class Create$context.containerName$Feature extends AbstractCreateFeature 
   <edge>
     <source>9adef199-4664-4d95-b976-c83232fc48df</source>
     <target>4e4404ff-51d2-448d-b94c-e95af73dfb99</target>
-    <point>285.0,255.0</point>
-    <point>135.0,255.0</point>
+    <point>120.0,375.0</point>
+    <point>120.0,525.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -319,7 +313,7 @@ public class Create$context.containerName$Feature extends AbstractCreateFeature 
     <label>PrintConsoleMessage</label>
     <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
     <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
-    <position>61.5,498.0</position>
+    <position>406.5,393.0</position>
     <parameter name="error">
       <boolean>false</boolean>
     </parameter>
@@ -337,8 +331,8 @@ public class Create$context.containerName$Feature extends AbstractCreateFeature 
   <edge>
     <source>4e4404ff-51d2-448d-b94c-e95af73dfb99</source>
     <target>6306d0f3-222e-4e9c-83ce-278461f90d0d</target>
-    <point>316.0,284.0</point>
-    <point>151.0,284.0</point>
+    <point>135.0,525.0</point>
+    <point>135.0,645.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -441,11 +435,11 @@ public class Create$context.containerName$Feature extends AbstractCreateFeature 
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>4ac25e32-ae6b-469a-b78c-1764aa97ce4d</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>GenerateCheckContainer</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>4ac25e32-ae6b-469a-b78c-1764aa97ce4d</string>
     </userobject>
   </sib>
   <sib>
@@ -454,7 +448,7 @@ public class Create$context.containerName$Feature extends AbstractCreateFeature 
     <label>InitializeAttributes</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>326.5,226.0</position>
+    <position>266.5,226.0</position>
     <parameter name="modelElement">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -466,18 +460,19 @@ public class Create$context.containerName$Feature extends AbstractCreateFeature 
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>1f432a14-22e1-48ce-aa1e-72e571fba979</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>InitializeAttributes</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>1f432a14-22e1-48ce-aa1e-72e571fba979</string>
     </userobject>
   </sib>
   <edge>
     <source>3ecf1580-df3f-4842-b06c-d402911337ff</source>
-    <target>9adef199-4664-4d95-b976-c83232fc48df</target>
-    <point>555.0,255.0</point>
-    <point>353.0,240.0</point>
+    <target>aee5d4b4-3ca4-46d5-b7f0-586059d69914</target>
+    <point>323.0232558139535,266.0</point>
+    <point>293.1081081081081,346.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
@@ -536,11 +531,11 @@ public class Create$context.containerName$Feature extends AbstractCreateFeature 
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>827994ca-f72f-4fe1-afcb-fa6f30c34d59</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>GenerateModelElementIcon</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>827994ca-f72f-4fe1-afcb-fa6f30c34d59</string>
     </userobject>
   </sib>
   <edge>
@@ -548,6 +543,37 @@ public class Create$context.containerName$Feature extends AbstractCreateFeature 
     <target>d4027830-5f9a-4962-aa7f-7148032c31f0</target>
     <point>795.0,255.0</point>
     <point>605.0,255.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>aee5d4b4-3ca4-46d5-b7f0-586059d69914</id>
+    <name>GraphSIB_2</name>
+    <label>GenerateCanCreateContainer</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>47.0,226.0</position>
+    <parameter name="modelElement">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>container</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>GenerateCanCreateContainer</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>8f33aced-62cb-4016-b26e-cbbd9ddee64d</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>aee5d4b4-3ca4-46d5-b7f0-586059d69914</source>
+    <target>9adef199-4664-4d95-b976-c83232fc48df</target>
+    <point>135.0,255.0</point>
+    <point>118.0,389.0</point>
     <branch>default</branch>
   </edge>
   <parameter>

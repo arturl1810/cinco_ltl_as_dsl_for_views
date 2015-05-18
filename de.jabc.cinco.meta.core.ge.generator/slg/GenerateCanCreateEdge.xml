@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<model version="2.1">
+  <id>8e0c826e-fba3-4a4a-a907-ce930a289b96</id>
+  <name>GenerateCanCreateEdge</name>
+  <changecounter>33</changecounter>
+  <sib>
+    <id>1d266eb0-c100-4b53-b235-84fc0166ff0f</id>
+    <name>IsCreateDisabled</name>
+    <label>IsCreateDisabled</label>
+    <sib-uid>ge-util-sibs/IsCreateDisabled</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsCreateDisabled</taxonomy>
+    <position>173.5,33.0</position>
+    <parameter name="modelElement">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>modelElement</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>false</finalbranches>
+    <finalbranches>true</finalbranches>
+    <userobject key="ABC$START">
+      <boolean>true</boolean>
+    </userobject>
+  </sib>
+  <sib>
+    <id>890c1f80-e3c3-4d4c-abad-45aaed853ee1</id>
+    <name>RunStringTemplate</name>
+    <label>RunStringTemplate</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>55.0,183.0</position>
+    <parameter name="append">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>canCreateEdgeContent</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>public boolean canCreate(ICreateConnectionContext context, boolean apiCall) {
+	if (apiCall) {
+		Object source = getBusinessObject(context.getSourceAnchor());
+		Object target = getBusinessObject(context.getTargetAnchor());
+	
+		boolean srcOK = false;
+		boolean trgOK = false;
+		if (source != null &amp;&amp; target != null) {
+			srcOK=checkSource(source);
+			trgOK=checkTarget(target);
+		}
+		return (srcOK &amp;&amp; trgOK);
+	}
+	return false;
+}
+
+@Override
+public boolean canCreate(ICreateConnectionContext context) {
+	return canCreate(context, false);
+}</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>548f4004-4a71-4484-b16e-f27e1ebb6b6d</id>
+    <name>RunStringTemplate_1</name>
+    <label>RunStringTemplate</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>250.0,183.0</position>
+    <parameter name="append">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>canCreateEdgeContent</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>public boolean canCreate(ICreateConnectionContext context, boolean apiCall) {
+	if (apiCall) {
+		Object source = getBusinessObject(context.getSourceAnchor());
+		Object target = getBusinessObject(context.getTargetAnchor());
+	
+		boolean srcOK = false;
+		boolean trgOK = false;
+		if (source != null &amp;&amp; target != null) {
+			srcOK=checkSource(source);
+			trgOK=checkTarget(target);
+		}
+		return (srcOK &amp;&amp; trgOK);
+	}
+	return false;
+}
+
+@Override
+public boolean canCreate(ICreateConnectionContext context) {
+	return canCreate(context, true);
+}</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>1d266eb0-c100-4b53-b235-84fc0166ff0f</source>
+    <target>890c1f80-e3c3-4d4c-abad-45aaed853ee1</target>
+    <point>225.0,60.0</point>
+    <point>122.0,208.0</point>
+    <branch>true</branch>
+  </edge>
+  <edge>
+    <source>1d266eb0-c100-4b53-b235-84fc0166ff0f</source>
+    <target>548f4004-4a71-4484-b16e-f27e1ebb6b6d</target>
+    <point>225.0,60.0</point>
+    <point>306.0,195.0</point>
+    <branch>false</branch>
+  </edge>
+  <parameter>
+    <name>modelElement</name>
+    <field>modelElement</field>
+    <sib>1d266eb0-c100-4b53-b235-84fc0166ff0f</sib>
+  </parameter>
+  <values>
+    <entry>
+      <string>modelElement</string>
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>modelElement</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </entry>
+  </values>
+  <branch>
+    <name>default</name>
+    <branch>default</branch>
+    <sib>890c1f80-e3c3-4d4c-abad-45aaed853ee1</sib>
+  </branch>
+  <branch>
+    <name>default</name>
+    <branch>default</branch>
+    <sib>548f4004-4a71-4484-b16e-f27e1ebb6b6d</sib>
+  </branch>
+</model>
