@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <model version="2.1">
-  <id>8f33aced-62cb-4016-b26e-cbbd9ddee64d</id>
-  <name>GenerateCanCreateContainer</name>
-  <changecounter>25</changecounter>
+  <id>9b7f0755-2262-4cf2-8b59-055e19f21b37</id>
+  <name>GenerateCanMoveNode</name>
+  <changecounter>20</changecounter>
   <sib>
-    <id>e277d117-98eb-4ce4-93ec-b15b92f9b9d5</id>
+    <id>f8e1257b-7efe-4646-a1ce-efc80cafc6d1</id>
     <name>RunStringTemplate</name>
     <label>RunStringTemplate</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>70.0,198.0</position>
+    <position>205.0,243.0</position>
     <parameter name="append">
-      <boolean>true</boolean>
+      <boolean>false</boolean>
     </parameter>
     <parameter name="individualVariables">
       <boolean>false</boolean>
@@ -19,7 +19,7 @@
     <parameter name="result">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>canCreateContainerContent</key>
+          <key>canMoveNodeContent</key>
           <scope>GLOBAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
@@ -27,22 +27,23 @@
     </parameter>
     <parameter name="template">
       <string>@Override
-public boolean canCreate(ICreateContext context) {
-	return canCreate(context, false);
-}</string>
+public boolean canMoveShape(IMoveShapeContext context) {
+	return canMoveShape(context, false);
+}
+</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
   </sib>
   <sib>
-    <id>36f4c9a5-28c5-4b40-a30f-e3fe5a191add</id>
+    <id>66ce55bc-a97b-4200-ae0a-6927fbc53b41</id>
     <name>RunStringTemplate_1</name>
     <label>RunStringTemplate</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>295.0,198.0</position>
+    <position>385.0,243.0</position>
     <parameter name="append">
-      <boolean>true</boolean>
+      <boolean>false</boolean>
     </parameter>
     <parameter name="individualVariables">
       <boolean>false</boolean>
@@ -50,7 +51,7 @@ public boolean canCreate(ICreateContext context) {
     <parameter name="result">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>canCreateContainerContent</key>
+          <key>canMoveNodeContent</key>
           <scope>GLOBAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
@@ -58,39 +59,41 @@ public boolean canCreate(ICreateContext context) {
     </parameter>
     <parameter name="template">
       <string>@Override
-public boolean canCreate(ICreateContext context) {
-	return canCreate(context, true);
+public boolean canMoveShape(IMoveShapeContext context) {
+	return canMoveShape(context, true);
 }</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
   </sib>
   <edge>
-    <source>3f3004b0-514b-413d-8e49-fc2449806031</source>
-    <target>e277d117-98eb-4ce4-93ec-b15b92f9b9d5</target>
-    <point>240.0,90.0</point>
-    <point>123.0,202.0</point>
+    <source>587a28f6-2440-4a78-a62f-65d4c521c0bb</source>
+    <target>f8e1257b-7efe-4646-a1ce-efc80cafc6d1</target>
+    <point>360.3488372093023,159.0</point>
+    <point>287.02702702702703,243.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>true</branch>
   </edge>
   <edge>
-    <source>3f3004b0-514b-413d-8e49-fc2449806031</source>
-    <target>36f4c9a5-28c5-4b40-a30f-e3fe5a191add</target>
-    <point>240.0,90.0</point>
-    <point>357.0,217.0</point>
+    <source>587a28f6-2440-4a78-a62f-65d4c521c0bb</source>
+    <target>66ce55bc-a97b-4200-ae0a-6927fbc53b41</target>
+    <point>385.4651162790698,159.0</point>
+    <point>437.83783783783787,243.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>false</branch>
   </edge>
   <sib>
-    <id>3f3004b0-514b-413d-8e49-fc2449806031</id>
-    <name>IsCreateDisabled</name>
-    <label>IsCreateDisabled</label>
-    <sib-uid>ge-util-sibs/IsCreateDisabled</sib-uid>
-    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsCreateDisabled</taxonomy>
-    <position>188.5,63.0</position>
+    <id>587a28f6-2440-4a78-a62f-65d4c521c0bb</id>
+    <name>IsMoveDisabled</name>
+    <label>IsMoveDisabled</label>
+    <sib-uid>ge-util-sibs/IsMoveDisabled</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsMoveDisabled</taxonomy>
+    <position>312.5,123.0</position>
     <parameter name="modelElementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
           <key>modelElement</key>
-          <scope>DECLARED</scope>
+          <scope>GLOBAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
@@ -105,7 +108,7 @@ public boolean canCreate(ICreateContext context) {
   <parameter>
     <name>modelElementKey</name>
     <field>modelElementKey</field>
-    <sib>3f3004b0-514b-413d-8e49-fc2449806031</sib>
+    <sib>587a28f6-2440-4a78-a62f-65d4c521c0bb</sib>
   </parameter>
   <values>
     <entry>
@@ -113,7 +116,7 @@ public boolean canCreate(ICreateContext context) {
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
           <key>modelElement</key>
-          <scope>DECLARED</scope>
+          <scope>GLOBAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
@@ -122,11 +125,11 @@ public boolean canCreate(ICreateContext context) {
   <branch>
     <name>default</name>
     <branch>default</branch>
-    <sib>e277d117-98eb-4ce4-93ec-b15b92f9b9d5</sib>
+    <sib>f8e1257b-7efe-4646-a1ce-efc80cafc6d1</sib>
   </branch>
   <branch>
     <name>default</name>
     <branch>default</branch>
-    <sib>36f4c9a5-28c5-4b40-a30f-e3fe5a191add</sib>
+    <sib>66ce55bc-a97b-4200-ae0a-6927fbc53b41</sib>
   </branch>
 </model>

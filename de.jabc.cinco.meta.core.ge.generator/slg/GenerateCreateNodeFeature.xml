@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>9b2878c2-af27-4fb3-878a-6613ed7a16c6</id>
   <name>GenerateCreateNodeFeature</name>
-  <changecounter>620</changecounter>
+  <changecounter>623</changecounter>
   <sib>
     <id>cc5a8f52-a2dd-434a-825b-350e398066fe</id>
     <name>RunStringTemplate</name>
@@ -53,6 +53,18 @@ public class Create$context.modelElementName$Feature extends AbstractCreateFeatu
 
 	$context.createImageContent$
 	
+	public boolean canCreate(ICreateContext context, boolean apiCall) {
+		if (apiCall) {
+			Object target = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(context.getTargetContainer());
+			$context.containerCheck$
+			if ($context.cincoErrorCheckOk$)
+				$context.cincoErrorInvalidContainer$
+			return false;
+		}
+		return false;
+	}
+
+
 	$context.canCreateNodeContent$
 	
 	/*public boolean canCreate(ICreateContext context) {
@@ -653,7 +665,7 @@ public class Create$context.modelElementName$Feature extends AbstractCreateFeatu
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
     <position>225.0,241.0</position>
-    <parameter name="modelElement">
+    <parameter name="modelElementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
           <key>currentNode</key>
@@ -664,7 +676,7 @@ public class Create$context.modelElementName$Feature extends AbstractCreateFeatu
     </parameter>
     <finalbranches>default</finalbranches>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
-      <string>GenerateCanCreate</string>
+      <string>GenerateCanCreateNode</string>
     </userobject>
     <userobject key="ABC$GRAPHSIB$MODELID">
       <string>c70b1b9f-e055-4a40-ad29-25b322bed4ec</string>

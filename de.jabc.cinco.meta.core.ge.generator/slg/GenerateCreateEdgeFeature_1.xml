@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>21d264a3-a3d0-485e-b5f9-5f9c29fffccf</id>
   <name>GenerateCreateEdgeFeature_1</name>
-  <changecounter>200</changecounter>
+  <changecounter>208</changecounter>
   <sib>
     <id>11d0666f-5a7a-42b8-b045-2c132c173d82</id>
     <name>PutExpression</name>
@@ -420,6 +420,23 @@ public class Create$context.edgeName$Feature extends AbstractCreateConnectionFea
 
 	$context.createImageContent$
 
+	public boolean canCreate(ICreateConnectionContext context, boolean apiCall) {
+		if (apiCall) {
+			Object source = getBusinessObject(context.getSourceAnchor());
+			Object target = getBusinessObject(context.getTargetAnchor());
+		
+			boolean srcOK = false;
+			boolean trgOK = false;
+			if (source != null &amp;&amp; target != null) {
+					srcOK=checkSource(source);
+				trgOK=checkTarget(target);
+			}
+			return (srcOK &amp;&amp; trgOK);
+		}
+		return false;
+	}
+
+
 	$context.canCreateEdgeContent$
 
 
@@ -746,7 +763,7 @@ public class Create$context.edgeName$Feature extends AbstractCreateConnectionFea
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
     <position>225.5,481.0</position>
-    <parameter name="modelElement">
+    <parameter name="modelElementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
           <key>edge</key>

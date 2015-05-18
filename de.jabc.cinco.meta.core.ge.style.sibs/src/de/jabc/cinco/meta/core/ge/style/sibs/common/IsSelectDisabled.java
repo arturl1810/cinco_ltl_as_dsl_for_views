@@ -12,15 +12,15 @@ import de.metaframe.jabc.sib.ServiceAdapterDescriptor;
 public class IsSelectDisabled extends AbstractSIB {
 	public static final String[] BRANCHES = {Branches.TRUE, Branches.FALSE, Branches.ERROR};
 		
-		public ContextKey me = new ContextKey("modelElement", Scope.LOCAL, true);
+		public ContextKey modelElementKey = new ContextKey("modelElement", Scope.LOCAL, true);
 		
 		public String execute(LightweightExecutionEnvironment env) {
-			return ServiceAdapter.isSelectDisabled(env, me.asFoundation());
+			return ServiceAdapter.isSelectDisabled(env, modelElementKey.asFoundation());
 		}
 		
 		@Override
 		public ServiceAdapterDescriptor generate() {
 			return new ServiceAdapterDescriptor(ServiceAdapter.class.getName(), 
-					"isSelectDisabled",	"modelElement");
+					"isSelectDisabled",	"modelElementKey");
 		}
 }

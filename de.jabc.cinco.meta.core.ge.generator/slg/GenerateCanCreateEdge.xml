@@ -2,30 +2,7 @@
 <model version="2.1">
   <id>8e0c826e-fba3-4a4a-a907-ce930a289b96</id>
   <name>GenerateCanCreateEdge</name>
-  <changecounter>33</changecounter>
-  <sib>
-    <id>1d266eb0-c100-4b53-b235-84fc0166ff0f</id>
-    <name>IsCreateDisabled</name>
-    <label>IsCreateDisabled</label>
-    <sib-uid>ge-util-sibs/IsCreateDisabled</sib-uid>
-    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsCreateDisabled</taxonomy>
-    <position>173.5,33.0</position>
-    <parameter name="modelElement">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>modelElement</key>
-          <scope>DECLARED</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>error</finalbranches>
-    <finalbranches>false</finalbranches>
-    <finalbranches>true</finalbranches>
-    <userobject key="ABC$START">
-      <boolean>true</boolean>
-    </userobject>
-  </sib>
+  <changecounter>41</changecounter>
   <sib>
     <id>890c1f80-e3c3-4d4c-abad-45aaed853ee1</id>
     <name>RunStringTemplate</name>
@@ -49,23 +26,7 @@
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>public boolean canCreate(ICreateConnectionContext context, boolean apiCall) {
-	if (apiCall) {
-		Object source = getBusinessObject(context.getSourceAnchor());
-		Object target = getBusinessObject(context.getTargetAnchor());
-	
-		boolean srcOK = false;
-		boolean trgOK = false;
-		if (source != null &amp;&amp; target != null) {
-			srcOK=checkSource(source);
-			trgOK=checkTarget(target);
-		}
-		return (srcOK &amp;&amp; trgOK);
-	}
-	return false;
-}
-
-@Override
+      <string>@Override
 public boolean canCreate(ICreateConnectionContext context) {
 	return canCreate(context, false);
 }</string>
@@ -96,23 +57,7 @@ public boolean canCreate(ICreateConnectionContext context) {
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>public boolean canCreate(ICreateConnectionContext context, boolean apiCall) {
-	if (apiCall) {
-		Object source = getBusinessObject(context.getSourceAnchor());
-		Object target = getBusinessObject(context.getTargetAnchor());
-	
-		boolean srcOK = false;
-		boolean trgOK = false;
-		if (source != null &amp;&amp; target != null) {
-			srcOK=checkSource(source);
-			trgOK=checkTarget(target);
-		}
-		return (srcOK &amp;&amp; trgOK);
-	}
-	return false;
-}
-
-@Override
+      <string>@Override
 public boolean canCreate(ICreateConnectionContext context) {
 	return canCreate(context, true);
 }</string>
@@ -121,27 +66,50 @@ public boolean canCreate(ICreateConnectionContext context) {
     <finalbranches>error</finalbranches>
   </sib>
   <edge>
-    <source>1d266eb0-c100-4b53-b235-84fc0166ff0f</source>
+    <source>24e42984-1774-46c2-9e35-2ad7506e35ed</source>
     <target>890c1f80-e3c3-4d4c-abad-45aaed853ee1</target>
     <point>225.0,60.0</point>
     <point>122.0,208.0</point>
     <branch>true</branch>
   </edge>
   <edge>
-    <source>1d266eb0-c100-4b53-b235-84fc0166ff0f</source>
+    <source>24e42984-1774-46c2-9e35-2ad7506e35ed</source>
     <target>548f4004-4a71-4484-b16e-f27e1ebb6b6d</target>
     <point>225.0,60.0</point>
     <point>306.0,195.0</point>
     <branch>false</branch>
   </edge>
+  <sib>
+    <id>24e42984-1774-46c2-9e35-2ad7506e35ed</id>
+    <name>IsCreateDisabled</name>
+    <label>IsCreateDisabled</label>
+    <sib-uid>ge-util-sibs/IsCreateDisabled</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsCreateDisabled</taxonomy>
+    <position>173.5,33.0</position>
+    <parameter name="modelElementKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>modelElement</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>false</finalbranches>
+    <finalbranches>true</finalbranches>
+    <userobject key="ABC$START">
+      <boolean>true</boolean>
+    </userobject>
+  </sib>
   <parameter>
-    <name>modelElement</name>
-    <field>modelElement</field>
-    <sib>1d266eb0-c100-4b53-b235-84fc0166ff0f</sib>
+    <name>modelElementKey</name>
+    <field>modelElementKey</field>
+    <sib>24e42984-1774-46c2-9e35-2ad7506e35ed</sib>
   </parameter>
   <values>
     <entry>
-      <string>modelElement</string>
+      <string>modelElementKey</string>
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
           <key>modelElement</key>

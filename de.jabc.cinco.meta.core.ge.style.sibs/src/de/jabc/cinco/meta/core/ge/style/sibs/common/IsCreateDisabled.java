@@ -12,15 +12,15 @@ import de.metaframe.jabc.sib.ServiceAdapterDescriptor;
 public class IsCreateDisabled extends AbstractSIB {
 	public static final String[] BRANCHES = {Branches.TRUE, Branches.FALSE, Branches.ERROR};
 		
-		public ContextKey modelElement = new ContextKey("modelElement", Scope.LOCAL, true);
+		public ContextKey modelElementKey = new ContextKey("modelElement", Scope.LOCAL, true);
 		
 		public String execute(LightweightExecutionEnvironment env) {
-			return ServiceAdapter.isCreateDisabled(env, modelElement.asFoundation());
+			return ServiceAdapter.isCreateDisabled(env, modelElementKey.asFoundation());
 		}
 		
 		@Override
 		public ServiceAdapterDescriptor generate() {
 			return new ServiceAdapterDescriptor(ServiceAdapter.class.getName(), 
-					"isCreateDisabled",	"modelElement");
+					"isCreateDisabled",	"modelElementKey");
 		}
 }

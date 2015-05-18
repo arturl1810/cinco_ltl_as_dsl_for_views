@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>c70b1b9f-e055-4a40-ad29-25b322bed4ec</id>
   <name>GenerateCanCreateNode</name>
-  <changecounter>63</changecounter>
+  <changecounter>69</changecounter>
   <sib>
     <id>eb11542e-3f66-4594-861c-65cb03012096</id>
     <name>RunStringTemplate</name>
@@ -26,18 +26,7 @@
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>public boolean canCreate(ICreateContext context, boolean apiCall) {
-	if (apiCall) {
-		Object target = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(context.getTargetContainer());
-		$context.containerCheck$
-		if ($context.cincoErrorCheckOk$)
-			$context.cincoErrorInvalidContainer$
-		return false;
-	}
-	return false;
-}
-
-@Override
+      <string>@Override
 public boolean canCreate(ICreateContext context) {
 	return canCreate(context, false);
 }</string>
@@ -46,7 +35,7 @@ public boolean canCreate(ICreateContext context) {
     <finalbranches>error</finalbranches>
   </sib>
   <edge>
-    <source>dbb6b844-fef7-44bb-bb54-5bf9759d4cc4</source>
+    <source>9e92ed91-1580-410a-9619-f83b56a860e9</source>
     <target>eb11542e-3f66-4594-861c-65cb03012096</target>
     <point>210.0,69.0</point>
     <point>122.14285714285715,168.0</point>
@@ -76,18 +65,7 @@ public boolean canCreate(ICreateContext context) {
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>public boolean canCreate(ICreateContext context, boolean apiCall) {
-	if (apiCall) {
-		Object target = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(context.getTargetContainer());
-		$context.containerCheck$
-		if ($context.cincoErrorCheckOk$)
-			$context.cincoErrorInvalidContainer$
-		return false;
-	}
-	return false;
-}
-
-@Override
+      <string>@Override
 public boolean canCreate(ICreateContext context) {
 	return canCreate(context, true);
 }</string>
@@ -96,7 +74,7 @@ public boolean canCreate(ICreateContext context) {
     <finalbranches>error</finalbranches>
   </sib>
   <edge>
-    <source>dbb6b844-fef7-44bb-bb54-5bf9759d4cc4</source>
+    <source>9e92ed91-1580-410a-9619-f83b56a860e9</source>
     <target>661ec9b9-b087-41a5-b988-51428dcda426</target>
     <point>232.5,69.0</point>
     <point>276.42857142857144,168.0</point>
@@ -104,13 +82,13 @@ public boolean canCreate(ICreateContext context) {
     <branch>false</branch>
   </edge>
   <sib>
-    <id>dbb6b844-fef7-44bb-bb54-5bf9759d4cc4</id>
+    <id>9e92ed91-1580-410a-9619-f83b56a860e9</id>
     <name>IsCreateDisabled</name>
     <label>IsCreateDisabled</label>
     <sib-uid>ge-util-sibs/IsCreateDisabled</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsCreateDisabled</taxonomy>
     <position>143.5,48.0</position>
-    <parameter name="modelElement">
+    <parameter name="modelElementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
           <key>modelElement</key>
@@ -127,13 +105,13 @@ public boolean canCreate(ICreateContext context) {
     </userobject>
   </sib>
   <parameter>
-    <name>modelElement</name>
-    <field>modelElement</field>
-    <sib>dbb6b844-fef7-44bb-bb54-5bf9759d4cc4</sib>
+    <name>modelElementKey</name>
+    <field>modelElementKey</field>
+    <sib>9e92ed91-1580-410a-9619-f83b56a860e9</sib>
   </parameter>
   <values>
     <entry>
-      <string>modelElement</string>
+      <string>modelElementKey</string>
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
           <key>modelElement</key>
