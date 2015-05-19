@@ -19,10 +19,10 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 
-import de.jabc.cinco.meta.plugin.ocl.templates.ActivatorTemplate;
 import de.jabc.cinco.meta.plugin.ocl.templates.OCLValidateActionTemplate;
 import de.jabc.cinco.meta.plugin.ocl.templates.PluginXmlTemplate;
 import de.jabc.cinco.meta.plugin.ocl.templates.ServiceLoaderTemplate;
+import de.jabc.cinco.meta.plugin.ocl.templates.StartUpActionTemplate;
 import de.jabc.cinco.meta.plugin.ocl.templates.ValidateActionTemplate;
 import de.metaframe.jabc.framework.execution.context.LightweightExecutionContext;
 
@@ -35,7 +35,6 @@ public class OCLPluginProjectCreater {
 		List<String> exportedPackages = new ArrayList<>();
 		List<String> additionalNature = new ArrayList<>();
 		String projectName = graphModel.getPackage() + pluginPath;
-		String packagePath = graphModel.getPackage()+"."+graphName.toLowerCase();
 		List<IProject> referencedProjects = new ArrayList<>();
 		
 		//Create SRC-Folders
@@ -70,6 +69,7 @@ public class OCLPluginProjectCreater {
 		requiredBundles.add("org.eclipse.ui.ide");
 		requiredBundles.add("org.eclipse.ui.views.properties.tabbed");
 		requiredBundles.add("org.eclipse.gef");
+		requiredBundles.add("org.eclipse.core.commands");
 		
 		//Overwrites the old generated code
 		if(new Path("/"+projectName).toFile().exists())
@@ -89,8 +89,8 @@ public class OCLPluginProjectCreater {
 		
 		//Generate Classes
 		//Handler
-		ProjectCreator.createFile("Activator.java", tvProject.getFolder("src/"+projectName.replace(".","/")),
-				new ActivatorTemplate().create(projectName).toString(),
+		ProjectCreator.createFile("StartUpAction.java", tvProject.getFolder("src/"+projectName.replace(".","/")),
+				new StartUpActionTemplate().create(projectName).toString(),
 				progressMonitor);
 		ProjectCreator.createFile("ValidateAction.java", tvProject.getFolder("src/"+projectName.replace(".","/")),
 				new ValidateActionTemplate().create(projectName).toString(),

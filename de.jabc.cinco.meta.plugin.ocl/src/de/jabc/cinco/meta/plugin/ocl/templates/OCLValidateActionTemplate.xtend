@@ -23,6 +23,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.ui.action.ValidateAction;
+import org.eclipse.gef.EditPart;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.ui.editor.DiagramEditor;
@@ -44,10 +45,18 @@ public class OCLValidateAction extends ValidateAction {
 	
 	private Diagnostic diagnostic;
 	private IFile file;
+	private boolean onSaveTrigger;
 	
+	public boolean isOnSaveTrigger() {
+		return onSaveTrigger;
+	}
+
+	public void setOnSaveTrigger(boolean onSaveTrigger) {
+		this.onSaveTrigger = onSaveTrigger;
+	}
+
 	@Override
 	public boolean updateSelection(IStructuredSelection selection){
-		
 		selectedObjects = new ArrayList<EObject>();
 		
 		if(selection instanceof TreeSelection) {
@@ -71,19 +80,35 @@ public class OCLValidateAction extends ValidateAction {
 			
 			if(selection.getFirstElement() instanceof DiagramEditPart) {
 				DiagramEditPart dep = (DiagramEditPart) selection.getFirstElement();
-				for(PictogramElement pe : dep.getModelChildren()) {
-					this.addLinkedPictogramElement(pe);
-				}
+				addPictogramElements(dep);
 				return true;
 			}
 			else {
 				ContainerShapeEditPart cs = (ContainerShapeEditPart) selection.getFirstElement();
-				this.addLinkedPictogramElement(cs.getPictogramElement());
+				
+				if(!onSaveTrigger){
+					this.addLinkedPictogramElement(cs.getPictogramElement());
+				}
+				else{
+					EditPart ep = cs;
+					while(!(ep instanceof DiagramEditPart) && ep != null){
+						ep = ep.getParent();
+					}
+					if(ep != null && ep instanceof DiagramEditPart) {
+						addPictogramElements((DiagramEditPart)ep);
+					}
+				}
 				return true;
 				
 			}
 		}
 		return false;
+	}
+
+	private void addPictogramElements(DiagramEditPart dep) {
+		for(PictogramElement pe : dep.getModelChildren()) {
+			this.addLinkedPictogramElement(pe);
+		}
 	}
 	
 	private void addLinkedPictogramElement(PictogramElement pe){
@@ -202,7 +227,5 @@ public class OCLValidateAction extends ValidateAction {
 	
 	
 }
-
-	
 	'''
 }

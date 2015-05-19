@@ -39,7 +39,18 @@ public class ValidateAction implements IObjectActionDelegate {
 		
 		if(selection instanceof IStructuredSelection){
 			IStructuredSelection isl = (IStructuredSelection) selection;
-			ServiceLoader.oclValidation(isl);
+			ServiceLoader.oclValidation(isl,false);
+		}
+				
+	}
+	
+	public void run(IAction action,boolean isOnSave) {
+		
+		ISelection selection = targetPart.getSite().getPage().getSelection();
+		
+		if(selection instanceof IStructuredSelection){
+			IStructuredSelection isl = (IStructuredSelection) selection;
+			ServiceLoader.oclValidation(isl,isOnSave);
 		}
 				
 	}
@@ -78,5 +89,6 @@ public class ValidateAction implements IObjectActionDelegate {
 	}
 
 }
+
 	'''
 }
