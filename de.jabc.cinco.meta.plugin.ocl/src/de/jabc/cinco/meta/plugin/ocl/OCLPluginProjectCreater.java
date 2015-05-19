@@ -21,9 +21,9 @@ import org.eclipse.core.runtime.Path;
 
 import de.jabc.cinco.meta.plugin.ocl.templates.ActivatorTemplate;
 import de.jabc.cinco.meta.plugin.ocl.templates.OCLValidateActionTemplate;
+import de.jabc.cinco.meta.plugin.ocl.templates.PluginXmlTemplate;
 import de.jabc.cinco.meta.plugin.ocl.templates.ServiceLoaderTemplate;
 import de.jabc.cinco.meta.plugin.ocl.templates.ValidateActionTemplate;
-import de.jabc.cinco.meta.plugin.ocl.templates.PluginXmlTemplate;
 import de.metaframe.jabc.framework.execution.context.LightweightExecutionContext;
 
 
