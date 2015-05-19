@@ -7,6 +7,13 @@
 		</arguments>
 	</serviceAdapter>
 	
+	<serviceAdapter uid="ge-util-sibs/IsDeleteDisabled">
+		<service>isDeleteDisabled</service>
+		<arguments>
+			<argument name="modelElementKey" />
+		</arguments>
+	</serviceAdapter>
+	
 	<serviceAdapter uid="ge-util-sibs/IsMoveDisabled">
 		<service>isMoveDisabled</service>
 		<arguments>

@@ -1491,6 +1491,23 @@ public class ServiceAdapter {
 		return Branches.FALSE;
 	}
 	
+	public static String isDeleteDisabled(LightweightExecutionEnvironment env,
+			ContextKeyFoundation modelElement) {
+		
+		LightweightExecutionContext context = env.getLocalContext();
+		try {
+			
+			ModelElement me = (ModelElement) context.get(modelElement);
+			if (CincoUtils.isDeleteDisabled(me))
+				return Branches.TRUE;
+			
+		} catch (Exception e) {
+			context.put("exception", e);
+		}
+		
+		return Branches.FALSE;
+	}
+	
 	public static String isMoveDisabled(LightweightExecutionEnvironment env, ContextKeyFoundation modelElement) {
 		
 		LightweightExecutionContext context = env.getLocalContext();
@@ -1554,5 +1571,5 @@ public class ServiceAdapter {
 		
 		return Branches.FALSE;
 	}
-	
+
 }

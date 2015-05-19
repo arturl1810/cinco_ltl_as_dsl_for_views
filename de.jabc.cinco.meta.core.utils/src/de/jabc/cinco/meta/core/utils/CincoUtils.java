@@ -28,6 +28,7 @@ public class CincoUtils {
 	public static final String ID_ICON = "icon";
 	public static final String ID_DISABLE= "disable";
 	public static final String ID_DISABLE_CREATE = "create";
+	public static final String ID_DISABLE_DELETE = "delete";
 	public static final String ID_DISABLE_MOVE = "move";
 	public static final String ID_DISABLE_RESIZE = "resize";
 	public static final String ID_DISABLE_RECONNECT = "reconnect";
@@ -54,6 +55,10 @@ public class CincoUtils {
 	
 	public static boolean isReconnectDisabled(ModelElement me) {
 		return isDisabled(me, ID_DISABLE_RECONNECT);
+	}
+	
+	public static boolean isDeleteDisabled(ModelElement me) {
+		return isDisabled(me, ID_DISABLE_DELETE);
 	}
 	
 	public static boolean isDisabled(ModelElement me, String id) {
