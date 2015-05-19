@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>5f357517-18d4-4780-adc3-30879fedbfb1</id>
   <name>GenerateFeatureProvider</name>
-  <changecounter>686</changecounter>
+  <changecounter>732</changecounter>
   <sib>
     <id>23fb1326-f00d-4e42-845a-cdf6492fc417</id>
     <name>PutExpression</name>
@@ -268,9 +268,9 @@
   </edge>
   <edge>
     <source>77590ad1-fa50-4fc4-bfa5-e0b269cbbf9d</source>
-    <target>2122e094-8391-47e6-8bda-eea898cef39d</target>
-    <point>900.0,420.0</point>
-    <point>1170.0,420.0</point>
+    <target>03f9ab02-ae4b-417c-ab32-6d6840470003</target>
+    <point>915.0,624.0</point>
+    <point>915.0,693.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -436,15 +436,10 @@ public class $context.graphModelName$FeatureProvider extends DefaultFeatureProvi
 	@Override
 	public IDeleteFeature getDeleteFeature(IDeleteContext context) {
 		EObject bo = (EObject) getBusinessObjectForPictogramElement(context.getPictogramElement());
-		if (bo instanceof Node) {
-			if (bo instanceof Container) {
-				return new DeleteNodeContainerFeature(this);
-			}
-			return new DeleteNodeFeature(this);
-		}
-		if (bo instanceof Edge) {
-			return new DeleteEdgeFeature(this);
-		}
+		
+		$context.getDeleteNodeFeatureIfBlock$
+		$context.getDeleteContainerFeatureIfBlock$
+		$context.getDeleteEdgeFeatureIfBlock$
 		
 		return super.getDeleteFeature(context);
 	}
@@ -656,11 +651,11 @@ public class $context.graphModelName$FeatureProvider extends DefaultFeatureProvi
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>843b7fe1-9b8e-4b49-94ab-777e60336bda</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>CheckStyleAnnotation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>843b7fe1-9b8e-4b49-94ab-777e60336bda</string>
     </userobject>
   </sib>
   <sib>
@@ -681,11 +676,11 @@ public class $context.graphModelName$FeatureProvider extends DefaultFeatureProvi
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>843b7fe1-9b8e-4b49-94ab-777e60336bda</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>CheckStyleAnnotation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>843b7fe1-9b8e-4b49-94ab-777e60336bda</string>
     </userobject>
   </sib>
   <sib>
@@ -1311,11 +1306,11 @@ if (bo instanceof $context.node.name$)
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>843b7fe1-9b8e-4b49-94ab-777e60336bda</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>CheckStyleAnnotation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>843b7fe1-9b8e-4b49-94ab-777e60336bda</string>
     </userobject>
   </sib>
   <edge>
@@ -1428,7 +1423,7 @@ if (bo instanceof $context.node.name$)
     <label>GetMoveNodeFeatureIfBlock</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>24.5,258.0</position>
+    <position>24.5,303.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -1454,9 +1449,9 @@ if (bo instanceof $context.node.name$)
   </sib>
   <edge>
     <source>fcfd6d9c-235d-4ed7-a723-aec00ce14336</source>
-    <target>ac4a4954-6474-4dbf-9baa-5712f05a836a</target>
-    <point>120.0,318.0</point>
-    <point>120.0,249.0</point>
+    <target>3d9fa99c-bd34-414d-a612-d1731e229b81</target>
+    <point>138.0,307.8</point>
+    <point>192.0,262.8</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -1618,7 +1613,7 @@ if (bo instanceof $context.node.name$)
     <label>GetMoveContainerFeatureIfBlock</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>1599.5,633.0</position>
+    <position>1599.5,678.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -1644,9 +1639,9 @@ if (bo instanceof $context.node.name$)
   </sib>
   <edge>
     <source>627fb504-218d-4cba-9861-a745ba5618d1</source>
-    <target>87bd772f-f94c-447e-80e9-8be027857bef</target>
-    <point>1718.6538461538462,633.0</point>
-    <point>1777.2413793103449,504.0</point>
+    <target>7d433779-347d-43d2-96fe-9cb4d00cb001</target>
+    <point>1728.0,679.8</point>
+    <point>1783.6363636363637,624.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -1909,6 +1904,117 @@ import $context.localPkgName$.features.reconnect.*;</string>
     <target>cba53d8e-5eac-4408-a249-61492125e0a1</target>
     <point>1710.0,375.0</point>
     <point>1471.0,178.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>03f9ab02-ae4b-417c-ab32-6d6840470003</id>
+    <name>RunStringTemplate_22</name>
+    <label>GetDeleteEdgeFeatureIfBlock</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>829.0,693.0</position>
+    <parameter name="append">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>getDeleteEdgeFeatureIfBlock</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>if (bo instanceof $context.edge.name$)
+	return new Delete$context.edge.name$Feature(this);
+</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>03f9ab02-ae4b-417c-ab32-6d6840470003</source>
+    <target>2122e094-8391-47e6-8bda-eea898cef39d</target>
+    <point>915.0,720.0</point>
+    <point>1132.0,613.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>3d9fa99c-bd34-414d-a612-d1731e229b81</id>
+    <name>RunStringTemplate_23</name>
+    <label>GetDeleteNodeFeatureIfBlock</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>33.5,213.0</position>
+    <parameter name="append">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>getDeleteNodeFeatureIfBlock</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>if (bo instanceof $context.node.name$)
+	return new Delete$context.node.name$Feature(this);
+</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>3d9fa99c-bd34-414d-a612-d1731e229b81</source>
+    <target>ac4a4954-6474-4dbf-9baa-5712f05a836a</target>
+    <point>210.0,255.0</point>
+    <point>122.0,162.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>7d433779-347d-43d2-96fe-9cb4d00cb001</id>
+    <name>RunStringTemplate_24</name>
+    <label>GetDeleteContainerFeatureIfBlock</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>1610.5,573.0</position>
+    <parameter name="append">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>getDeleteContainerFeatureIfBlock</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>if (bo instanceof $context.container.name$)
+	return new Delete$context.container.name$Feature(this);
+</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>7d433779-347d-43d2-96fe-9cb4d00cb001</source>
+    <target>87bd772f-f94c-447e-80e9-8be027857bef</target>
+    <point>1710.0,600.0</point>
+    <point>1697.0,487.0</point>
     <branch>default</branch>
   </edge>
   <values/>
