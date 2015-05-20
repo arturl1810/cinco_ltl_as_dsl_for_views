@@ -32,11 +32,15 @@ import org.eclipse.graphiti.ui.internal.parts.DiagramEditPart;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TreeSelection;
+import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
+import org.eclipse.ui.ide.ResourceUtil;
 
 @SuppressWarnings("restriction")
 public class OCLValidateAction extends ValidateAction {
@@ -58,22 +62,18 @@ public class OCLValidateAction extends ValidateAction {
 	@Override
 	public boolean updateSelection(IStructuredSelection selection){
 		selectedObjects = new ArrayList<EObject>();
-		
-		if(selection instanceof TreeSelection) {
+		if(selection.isEmpty()) {
+			IWorkbenchPage iwp = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+			IEditorPart iep = iwp.getActiveEditor();
+			IFile file = ResourceUtil.getFile(iep.getEditorInput());
+			return loadResourceSet(file);
+			
+		}
+		if(selection instanceof TreeSelection && !selection.isEmpty()) {
+			
 			TreeSelection ts = (TreeSelection) selection;
 			IFile file = (IFile) ts.getFirstElement();
-			URI createPlatformResourceURI = URI.createPlatformResourceURI(file.getFullPath().toOSString(), true);
-			
-			ResourceSet resSet = new ResourceSetImpl();
-			Resource res = resSet.createResource(createPlatformResourceURI);
-			try {
-				res.load(null);
-				selectedObjects.addAll(res.getContents());
-				selectedObjects = EcoreUtil.filterDescendants(selectedObjects);
-			} catch (IOException e) {
-				return false;
-			}
-		return true;
+			return loadResourceSet(file);
 		}
 		
 		if(selection.getFirstElement() instanceof ContainerShapeEditPart) {
@@ -105,6 +105,21 @@ public class OCLValidateAction extends ValidateAction {
 		return false;
 	}
 
+	private boolean loadResourceSet(IFile file) {
+		URI createPlatformResourceURI = URI.createPlatformResourceURI(file.getFullPath().toOSString(), true);
+		
+		ResourceSet resSet = new ResourceSetImpl();
+		Resource res = resSet.createResource(createPlatformResourceURI);
+		try {
+			res.load(null);
+			selectedObjects.addAll(res.getContents());
+			selectedObjects = EcoreUtil.filterDescendants(selectedObjects);
+		} catch (IOException e) {
+			return false;
+		}
+		return true;
+	}
+
 	private void addPictogramElements(DiagramEditPart dep) {
 		for(PictogramElement pe : dep.getModelChildren()) {
 			this.addLinkedPictogramElement(pe);
@@ -122,7 +137,13 @@ public class OCLValidateAction extends ValidateAction {
 		ISelection selection = workbenchPart.getSite().getPage().getSelection();
 		IWorkbench iwb = workbenchPart.getSite().getWorkbenchWindow().getWorkbench();
 		file = null;
-		if(selection instanceof TreeSelection) {
+		if(selection.isEmpty()) {
+			IWorkbenchPage iwp = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+			IEditorPart iep = iwp.getActiveEditor();
+			file = ResourceUtil.getFile(iep.getEditorInput());
+		}
+		
+		else if(selection instanceof TreeSelection) {
 			TreeSelection ts = (TreeSelection) selection;
 			file = (IFile) ts.getFirstElement();
 			
@@ -178,6 +199,7 @@ public class OCLValidateAction extends ValidateAction {
 		setDiagnostic(diagnostic);
 		if(diagnostic == null){
 			//Internal Error
+			return;
 		}
 		if(selectedObjects.size() == 1){
 			String id = ((ModelElement) selectedObjects.get(0)).getId();
@@ -227,5 +249,6 @@ public class OCLValidateAction extends ValidateAction {
 	
 	
 }
+
 	'''
 }

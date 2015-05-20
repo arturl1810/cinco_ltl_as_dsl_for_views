@@ -49,5 +49,11 @@ class PluginXmlTemplate {
          </action>
       </objectContribution>
    </extension>
+   <extension
+      point="org.eclipse.ui.startup">
+   <startup
+         class="«packageName».StartUpAction">
+   </startup>
+</extension>
 	'''
 }
