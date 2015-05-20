@@ -33,8 +33,8 @@ public class CincoUtils {
 	public static final String ID_DISABLE_RESIZE = "resize";
 	public static final String ID_DISABLE_RECONNECT = "reconnect";
 	public static final String ID_DISABLE_SELECT = "select";
-	public static Set<String> DISABLE_NODE_VALUES = new HashSet<String>(Arrays.asList("create", "move", "resize", "select"));
-	public static Set<String> DISABLE_EDGE_VALUES = new HashSet<String>(Arrays.asList("create", "reconnect", "select"));
+	public static Set<String> DISABLE_NODE_VALUES = new HashSet<String>(Arrays.asList("create", "delete", "move", "resize", "select"));
+	public static Set<String> DISABLE_EDGE_VALUES = new HashSet<String>(Arrays.asList("create", "delete", "reconnect", "select"));
 	
 	
 	public static boolean isCreateDisabled(ModelElement me) {
