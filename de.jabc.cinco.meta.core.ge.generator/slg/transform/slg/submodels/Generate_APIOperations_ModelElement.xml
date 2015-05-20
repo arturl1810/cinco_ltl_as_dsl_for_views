@@ -2,14 +2,14 @@
 <model version="2.1">
   <id>f14f4b16-0177-4ded-8256-3098679e41b5</id>
   <name>Generate_APIOperations_ModelElement</name>
-  <changecounter>256</changecounter>
+  <changecounter>271</changecounter>
   <sib>
     <id>b29cc53a-581e-4648-906d-73296f479494</id>
     <name>GraphSIB_15</name>
     <label>Create Delete</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>167.0,76.0</position>
+    <position>167.0,181.0</position>
     <parameter name="eClassKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -51,7 +51,7 @@ java.util.List&lt;$fqnPictogramElement$&gt; pes = $fqnGraphitiUi$.getLinkService
     if (pes == null || pes.isEmpty())
     	return false;
 final $fqnDeleteContext$ dc = new $fqnDeleteContext$(pes.get(0));
-final $fqnDeleteFeature$ df = provider.getDeleteFeature(dc);
+final $fqnDeleteFeaturePrefix$Delete$modelElementName$Feature df = ($fqnDeleteFeaturePrefix$Delete$modelElementName$Feature) provider.getDeleteFeature(dc);
 
 if (this.getContainer().getMap().get(this.getModelElement()) != null) {
 	this.getContainer().getMap().remove(this.getModelElement());
@@ -61,7 +61,7 @@ if ( this.getCRootElement().getMap().get(this.getModelElement()) != null) {
 	this.getCRootElement().getMap().remove(this.getModelElement());
 }
 
-if (df.canDelete(dc)) {
+if (df.canDelete(dc, true)) {
 	$fqnTransactionalEditingDomain$ dom = $fqnTransactionalEditingDomain$.Factory.INSTANCE.getEditingDomain(getModelElement().eResource().getResourceSet());
       	if (dom == null)
 		dom = $fqnTransactionalEditingDomain$.Factory.INSTANCE.createEditingDomain(getModelElement().eResource().getResourceSet());
@@ -80,21 +80,18 @@ return false;
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$START">
-      <boolean>true</boolean>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Create EOperation</string>
     </userobject>
     <userobject key="ABC$GRAPHSIB$MODELID">
       <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
-    </userobject>
-    <userobject key="ABC$GRAPHSIB$MODELNAME">
-      <string>Create EOperation</string>
     </userobject>
   </sib>
   <edge>
     <source>b29cc53a-581e-4648-906d-73296f479494</source>
     <target>476ae466-f4c8-4ca9-84a7-633053cb8f0e</target>
-    <point>210.0,105.0</point>
-    <point>210.0,240.0</point>
+    <point>210.0,210.0</point>
+    <point>210.0,345.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -104,7 +101,7 @@ return false;
     <label>Generate_Documentation</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>125.0,211.0</position>
+    <position>125.0,316.0</position>
     <parameter name="eOperationKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -122,19 +119,75 @@ Deletes this modelElement.
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>9445cb7d-1ca9-47f0-bda0-ffb7822ef982</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Generate_Documentation</string>
     </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>9445cb7d-1ca9-47f0-bda0-ffb7822ef982</string>
+    </userobject>
   </sib>
+  <sib>
+    <id>1de0a361-4446-4bf6-b32c-32cce742c04f</id>
+    <name>PutExpression</name>
+    <label>PutExpression</label>
+    <sib-uid>basic-sibs/PutExpression</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
+    <position>166.0,48.0</position>
+    <parameter name="resolve">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="value">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>${value}</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>modelElementName</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$START">
+      <boolean>true</boolean>
+    </userobject>
+  </sib>
+  <edge>
+    <source>1de0a361-4446-4bf6-b32c-32cce742c04f</source>
+    <target>b29cc53a-581e-4648-906d-73296f479494</target>
+    <point>210.0,75.0</point>
+    <point>208.0,191.0</point>
+    <branch>default</branch>
+  </edge>
   <parameter>
     <name>eClassKey</name>
     <field>eClassKey</field>
     <sib>b29cc53a-581e-4648-906d-73296f479494</sib>
   </parameter>
+  <parameter>
+    <name>modelElementName</name>
+    <field>value</field>
+    <sib>1de0a361-4446-4bf6-b32c-32cce742c04f</sib>
+  </parameter>
   <values>
+    <entry>
+      <string>modelElementName</string>
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>${value}</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </entry>
     <entry>
       <string>eClassKey</string>
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>

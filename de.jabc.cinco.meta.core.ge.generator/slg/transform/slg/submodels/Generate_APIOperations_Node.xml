@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>42f98ca5-34c7-4c22-9f6e-1f6dc8d852d7</id>
   <name>Generate_NodeEOperations</name>
-  <changecounter>172</changecounter>
+  <changecounter>176</changecounter>
   <sib>
     <id>be1971b4-e3aa-44cc-862f-367534c2fc2c</id>
     <name>GraphSIB</name>
@@ -19,24 +19,24 @@
         </ContextKeyFoundation>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
-    <parameter name="eOperationeTypeKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>nodeClass</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>false</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    <parameter name="modelElementName">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>${modelElement.name}</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
     </parameter>
     <finalbranches>default</finalbranches>
     <userobject key="ABC$START">
       <boolean>true</boolean>
     </userobject>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>f14f4b16-0177-4ded-8256-3098679e41b5</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Generate_APIOperations_ModelElement</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>f14f4b16-0177-4ded-8256-3098679e41b5</string>
     </userobject>
   </sib>
   <sib>
@@ -74,11 +74,11 @@
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <finalbranches>default</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>53c0c093-ef7e-452a-ae07-8946504ff744</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Generate_NodeMoveEOperation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>53c0c093-ef7e-452a-ae07-8946504ff744</string>
     </userobject>
   </sib>
   <edge>

@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>3b155a4c-e8a2-4d35-8a22-ca19d32aaa18</id>
   <name>GenerateDeleteNodeFeature</name>
-  <changecounter>43</changecounter>
+  <changecounter>58</changecounter>
   <sib>
     <id>67f5c959-13f5-45e3-abca-ef1e07a712e3</id>
     <name>IterateElements</name>
@@ -209,10 +209,11 @@ import java.util.Map;
 import java.util.HashMap;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.graphiti.features.IDeleteFeature;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.graphiti.features.IFeatureProvider;
+import org.eclipse.graphiti.features.IRemoveFeature;
 import org.eclipse.graphiti.features.context.IDeleteContext;
-import org.eclipse.graphiti.features.context.impl.DeleteContext;
+import org.eclipse.graphiti.features.context.impl.RemoveContext;
 import org.eclipse.graphiti.mm.pictograms.Connection;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.services.Graphiti;
@@ -262,10 +263,11 @@ public class Delete$context.node.name$Feature extends DefaultDeleteFeature {
 			
 			for (Edge e : delEdges) {
 				PictogramElement edgePE = bo2edge.get(e);
-				DeleteContext delContext = new DeleteContext(edgePE);
-				IDeleteFeature df = getFeatureProvider().getDeleteFeature(delContext);
-				if (df != null &amp;&amp; df.canDelete(delContext)) {
-					df.delete(delContext);
+				RemoveContext remContext = new RemoveContext(edgePE);
+				IRemoveFeature rf = getFeatureProvider().getRemoveFeature(remContext);
+				if (rf != null &amp;&amp; rf.canRemove(remContext)) {
+					rf.remove(remContext);
+					EcoreUtil.delete(e, true);
 				}
 			}
 		}

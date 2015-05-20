@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>96bc591f-9274-4d67-9fa7-0331421981cc</id>
   <name>GenerateDeleteContainerFeature</name>
-  <changecounter>47</changecounter>
+  <changecounter>57</changecounter>
   <sib>
     <id>a05fcd6d-1172-4a8a-9f18-500be6a1370d</id>
     <name>IterateElements</name>
@@ -84,10 +84,13 @@ import graphmodel.Node;
 import graphmodel.Container;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.graphiti.features.IDeleteFeature;
 import org.eclipse.graphiti.features.IFeatureProvider;
+import org.eclipse.graphiti.features.IRemoveFeature;
 import org.eclipse.graphiti.features.context.IDeleteContext;
 import org.eclipse.graphiti.features.context.impl.DeleteContext;
+import org.eclipse.graphiti.features.context.impl.RemoveContext;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.ui.features.DefaultDeleteFeature;
@@ -131,10 +134,12 @@ public class Delete$context.container.name$Feature extends DefaultDeleteFeature 
 			edges.addAll(nc.getOutgoing());
 			for (Edge e : edges) {
 				PictogramElement pe = Graphiti.getLinkService().getPictogramElements(getDiagram(), e).get(0);
-				DeleteContext dc = new DeleteContext(pe);
-				IDeleteFeature df = getFeatureProvider().getDeleteFeature(dc);
-				if (df != null &amp;&amp; df.canDelete(dc))
-					df.delete(dc);
+				RemoveContext rc = new RemoveContext(pe);
+				IRemoveFeature rf = getFeatureProvider().getRemoveFeature(rc);
+				if (rf != null &amp;&amp; rf.canRemove(rc)) {
+					rf.remove(rc);
+					EcoreUtil.delete(e, true);
+				}
 			}
 		}
 
