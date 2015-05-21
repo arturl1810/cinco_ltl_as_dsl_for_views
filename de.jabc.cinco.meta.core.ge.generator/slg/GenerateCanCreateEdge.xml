@@ -2,14 +2,14 @@
 <model version="2.1">
   <id>8e0c826e-fba3-4a4a-a907-ce930a289b96</id>
   <name>GenerateCanCreateEdge</name>
-  <changecounter>41</changecounter>
+  <changecounter>56</changecounter>
   <sib>
     <id>890c1f80-e3c3-4d4c-abad-45aaed853ee1</id>
     <name>RunStringTemplate</name>
-    <label>RunStringTemplate</label>
+    <label>GenerateCanCreate</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>55.0,183.0</position>
+    <position>52.5,243.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -27,8 +27,8 @@
     </parameter>
     <parameter name="template">
       <string>@Override
-public boolean canCreate(ICreateConnectionContext context) {
-	return canCreate(context, false);
+public boolean canStartConnection(ICreateConnectionContext context) {
+	return false;
 }</string>
     </parameter>
     <finalbranches>default</finalbranches>
@@ -37,10 +37,10 @@ public boolean canCreate(ICreateConnectionContext context) {
   <sib>
     <id>548f4004-4a71-4484-b16e-f27e1ebb6b6d</id>
     <name>RunStringTemplate_1</name>
-    <label>RunStringTemplate</label>
+    <label>GenerateCanCreate</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>250.0,183.0</position>
+    <position>262.5,243.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -58,8 +58,12 @@ public boolean canCreate(ICreateConnectionContext context) {
     </parameter>
     <parameter name="template">
       <string>@Override
-public boolean canCreate(ICreateConnectionContext context) {
-	return canCreate(context, true);
+public boolean canStartConnection(ICreateConnectionContext context) {
+	Object source = getBusinessObject(context.getSourceAnchor());
+	if (source != null) {	
+		return checkSource(source);
+	}
+	return false;
 }</string>
     </parameter>
     <finalbranches>default</finalbranches>
@@ -67,16 +71,18 @@ public boolean canCreate(ICreateConnectionContext context) {
   </sib>
   <edge>
     <source>24e42984-1774-46c2-9e35-2ad7506e35ed</source>
-    <target>890c1f80-e3c3-4d4c-abad-45aaed853ee1</target>
-    <point>225.0,60.0</point>
-    <point>122.0,208.0</point>
+    <target>4373f786-4c07-48a2-a919-f5a0b11a03ec</target>
+    <point>217.8409090909091,69.0</point>
+    <point>127.6829268292683,288.0</point>
+    <labelposition>472.0,-2.0</labelposition>
     <branch>true</branch>
   </edge>
   <edge>
     <source>24e42984-1774-46c2-9e35-2ad7506e35ed</source>
-    <target>548f4004-4a71-4484-b16e-f27e1ebb6b6d</target>
-    <point>225.0,60.0</point>
-    <point>306.0,195.0</point>
+    <target>ede5c1ee-83e7-435b-821f-9f9df303a439</target>
+    <point>232.1590909090909,69.0</point>
+    <point>322.3170731707317,288.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>false</branch>
   </edge>
   <sib>
@@ -102,6 +108,82 @@ public boolean canCreate(ICreateConnectionContext context) {
       <boolean>true</boolean>
     </userobject>
   </sib>
+  <sib>
+    <id>4373f786-4c07-48a2-a919-f5a0b11a03ec</id>
+    <name>RunStringTemplate_2</name>
+    <label>GenerateCanStartConnection</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>33.0,123.0</position>
+    <parameter name="append">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>canStartConnectionContent</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>@Override
+public boolean canCreate(ICreateConnectionContext context) {
+	return canCreate(context, false);
+}</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>ede5c1ee-83e7-435b-821f-9f9df303a439</id>
+    <name>RunStringTemplate_3</name>
+    <label>GenerateCanStartConnection</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>243.0,123.0</position>
+    <parameter name="append">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>canStartConnectionContent</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>@Override
+public boolean canCreate(ICreateConnectionContext context) {
+	return canCreate(context, false);
+}</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>4373f786-4c07-48a2-a919-f5a0b11a03ec</source>
+    <target>890c1f80-e3c3-4d4c-abad-45aaed853ee1</target>
+    <point>114.0,306.0</point>
+    <point>120.0,210.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>ede5c1ee-83e7-435b-821f-9f9df303a439</source>
+    <target>548f4004-4a71-4484-b16e-f27e1ebb6b6d</target>
+    <point>336.0,307.0</point>
+    <point>330.0,210.0</point>
+    <branch>default</branch>
+  </edge>
   <parameter>
     <name>modelElementKey</name>
     <field>modelElementKey</field>
