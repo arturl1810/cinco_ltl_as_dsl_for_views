@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import mgl.Annotation;
+import mgl.Attribute;
 import mgl.GraphModel;
 import mgl.ModelElement;
 
@@ -66,6 +67,14 @@ public class CincoUtils {
 			if (annot.getName().equals(ID_DISABLE)) {
 				return (annot.getValue().isEmpty() || annot.getValue().contains(id));
 			}
+		}
+		return false;
+	}
+	
+	public static boolean isAttributeReadOnly(Attribute attr) {
+		for (Annotation annot : attr.getAnnotations()) {
+			if (annot.getName().equals("readOnly"))
+				return true;
 		}
 		return false;
 	}
@@ -147,5 +156,4 @@ public class CincoUtils {
 		return null;
 		
 	}
-	
 }

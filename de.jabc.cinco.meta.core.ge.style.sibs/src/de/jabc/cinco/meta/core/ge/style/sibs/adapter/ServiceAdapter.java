@@ -1572,4 +1572,21 @@ public class ServiceAdapter {
 		return Branches.FALSE;
 	}
 
+	public static String isAttributeReadOnly(LightweightExecutionEnvironment env,
+			ContextKeyFoundation attribute) {
+		
+		LightweightExecutionContext context = env.getLocalContext();
+		try {
+			
+			Attribute attr = (Attribute) context.get(attribute);
+			if (CincoUtils.isAttributeReadOnly(attr))
+				return Branches.TRUE;
+			
+		} catch (Exception e) {
+			context.put("exception", e);
+		}
+		
+		return Branches.FALSE;
+	}
+
 }

@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>8e0c826e-fba3-4a4a-a907-ce930a289b96</id>
   <name>GenerateCanCreateEdge</name>
-  <changecounter>56</changecounter>
+  <changecounter>64</changecounter>
   <sib>
     <id>890c1f80-e3c3-4d4c-abad-45aaed853ee1</id>
     <name>RunStringTemplate</name>
@@ -164,7 +164,7 @@ public boolean canCreate(ICreateConnectionContext context) {
     <parameter name="template">
       <string>@Override
 public boolean canCreate(ICreateConnectionContext context) {
-	return canCreate(context, false);
+	return canCreate(context, true);
 }</string>
     </parameter>
     <finalbranches>default</finalbranches>

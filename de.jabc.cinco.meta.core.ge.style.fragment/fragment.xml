@@ -89,6 +89,9 @@
       <annotation
             recognized-annotation="disable">
       </annotation>
+      <attribute-annotation
+            recognized-annotation="readOnly">
+      </attribute-annotation>
    </extension>
 
 </fragment>
