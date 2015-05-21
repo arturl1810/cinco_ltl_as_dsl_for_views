@@ -1191,7 +1191,7 @@ public class ServiceAdapter {
 			map.put(ID_CONTAINER, new ArrayList<GraphicalModelElement>());
 			
 			for (Node n : gm.getNodes()){
-				if (n.isIsAbstract() || n.getPrimeReference() != null)
+				if (n.isIsAbstract() || n.getPrimeReference() != null || CincoUtils.isCreateDisabled(n))
 					continue;
 				if (!hasPaletteCategory(n))
 					map.get(ID_NODES).add(n);
@@ -1208,7 +1208,7 @@ public class ServiceAdapter {
 			}
 			
 			for (Edge e : gm.getEdges()){
-				if (e.isIsAbstract())
+				if (e.isIsAbstract() || CincoUtils.isCreateDisabled(e))
 					continue;
 				for (Annotation a : e.getAnnotations()) {
 					if ("palette".equals(a.getName())) {
@@ -1222,7 +1222,7 @@ public class ServiceAdapter {
 			}
 			
 			for (NodeContainer nc : gm.getNodeContainers()){
-				if (nc.isIsAbstract())
+				if (nc.isIsAbstract() || CincoUtils.isCreateDisabled(nc))
 					continue;
 				if (!hasPaletteCategory(nc))
 					map.get(ID_CONTAINER).add(nc);
