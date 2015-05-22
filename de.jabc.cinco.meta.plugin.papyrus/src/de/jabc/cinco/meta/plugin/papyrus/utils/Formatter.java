@@ -2,10 +2,14 @@ package de.jabc.cinco.meta.plugin.papyrus.utils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import de.jabc.cinco.meta.plugin.papyrus.model.ConnectionConstraint;
 import de.jabc.cinco.meta.plugin.papyrus.model.FontType;
 import de.jabc.cinco.meta.plugin.papyrus.model.PolygonPoint;
+import de.jabc.cinco.meta.plugin.papyrus.model.StyledLabel;
+import de.jabc.cinco.meta.plugin.papyrus.model.StyledModelElement;
 import style.Color;
 import style.DecoratorShapes;
 import style.Font;
@@ -31,19 +35,54 @@ public class Formatter {
 		return "";
 	}
 	
-	public static String getEdgeConnector(DecoratorShapes decorator)
+	public static String getLabelText(StyledModelElement styledModelElement)
+	{
+		ArrayList<String> labels = styledModelElement.getLabel();
+		if(labels.isEmpty()){
+			return "";
+		}
+		Object[] args = new Object[labels.size()];
+		for(int i = 0;i<args.length;i++) {
+			Pattern pattern = Pattern.compile("\\{([^}]*)\\}");
+			Matcher matcher = pattern.matcher(labels.get(i));
+			if (matcher.find())
+			{
+				String attrName = matcher.group(0);
+				attrName = attrName.substring(1, attrName.length()-1);
+				args[i] = "'+ getAttributeLabel(attributes."+attrName+") +'";
+			}
+		}
+		String formatString = styledModelElement.getStyledLabel().getValue();
+		String templateString = String.format(formatString, args);
+		return templateString;
+	}
+	
+	public static String getEdgeConnector(DecoratorShapes decorator,double width)
 	{
 		if(decorator == DecoratorShapes.ARROW) {
-			return "d: 'M 10 0 L 0 5 L 0 0 z'";
+			return "d: 'M 0 0 L "+width+" "+width+" 0 0 L "+width+" -"+width+" 0 0 "+width+" 0 z'";
 		}
 		if(decorator == DecoratorShapes.CIRCLE) {
+			String d = "d: 'M ";
+			int countPoints = (int) Math.round(width);
+			countPoints*=10;
+			double radius = width;
+			double slice = 2 * Math.PI / countPoints;
+			for (int i = 0; i < countPoints ; i++)
+		    {
+		        double angle = slice * i;
+		        double newX = (0 + radius * Math.cos(angle));
+		        double newY = (0 + radius * Math.sin(angle));
+		        d += newX+" "+newY+" ";
+		    }
+			return d + "z'";
 			
 		}
 		if(decorator == DecoratorShapes.DIAMOND) {
-			
+			return "d: 'M 0 0 L "+width+" "+width+" "+(2*width)+" 0 L "+width+" -"+width+" 0 0 z'";
 		}
 		if(decorator == DecoratorShapes.TRIANGLE) {
-			return "d: M 10 0 L 0 5 L 10 10 z";
+			return "d: 'M "+(2*width)+" 0 L 0 "+width+" L "+(2*width)+" "+(2*width)+" z'";
 		}
 		return "d: 'M 0 0 L 0 0 L 0 0 z'";
 	}

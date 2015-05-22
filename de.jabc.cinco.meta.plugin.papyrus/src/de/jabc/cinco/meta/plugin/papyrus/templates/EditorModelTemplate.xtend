@@ -14,6 +14,7 @@ import de.jabc.cinco.meta.plugin.papyrus.model.NodeShape
 import de.jabc.cinco.meta.plugin.papyrus.model.PolygonPoint
 import de.jabc.cinco.meta.plugin.papyrus.model.StyledLabel
 import mgl.Node
+import de.jabc.cinco.meta.plugin.papyrus.model.LabelAlignment
 
 class EditorModelTemplate implements Templateable{
 	
@@ -339,18 +340,18 @@ def createEdge(StyledEdge styledEdge)
 	        	{
 	        		«IF styledEdge.styledLabel != null»
 	        		position: «styledEdge.styledLabel.location»,
+					attrs: {
+						text: {
+							text: '«Formatter.getLabelText(styledEdge)»',
+							«IF styledEdge.styledLabel != null»
+					    	«createLabel(styledEdge.styledLabel)»
+					    	«ENDIF»
+							dy: -10
+						}
+					}
 	        		«ELSE»
-	        		position: 0.0,
+	        		position: 0.0
 	        		«ENDIF»
-	        		attrs: {
-	        			text: {
-	        				text: 'L: ', //TODO
-	        				«IF styledEdge.styledLabel != null»
-				        	«createLabel(styledEdge.styledLabel)»
-				        	«ENDIF»
-				        	dy: -10
-	        			}
-	        		}
 	        	}
 	        ]);
 	    }
@@ -360,7 +361,8 @@ def createEdge(StyledEdge styledEdge)
 def createEdgeDecorator(StyledConnector styledConnector)
 '''
 	fill: '#«Formatter.toHex(styledConnector.backgroundColor)»',
-	stroke: '#«Formatter.toHex(styledConnector.backgroundColor)»',
+	stroke: '#«Formatter.toHex(styledConnector.foregroundColor)»',
+	"stroke-width": «styledConnector.lineWidth», 
 	«styledConnector.polygonPoints»
 '''
 
@@ -452,7 +454,7 @@ def createNode(StyledNode styledNode)
 	         */
 	        var attributes = this.attributes.cinco_attrs;
 	        this.attr('.label',{
-	        	text: 'L: ',
+	        	text: '«Formatter.getLabelText(styledNode)»',
 	        	«IF styledNode.styledLabel != null»
 	        	«createLabel(styledNode.styledLabel)»
 	        	«ENDIF»
@@ -503,7 +505,7 @@ def createContainer(StyledNode styledNode)
 	         */
 	        var attributes = this.attributes.cinco_attrs;
 	        this.attr('.label',{
-	        	text: 'L: ',
+	        	text: '«Formatter.getLabelText(styledNode)»',
 	        	«IF styledNode.styledLabel != null»
 	        	«createLabel(styledNode.styledLabel)»
 	        	«ENDIF»
@@ -524,7 +526,7 @@ def createAttributes(GraphicalModelElement modelElement)
 	    «ENDIF»
 	        }
 '''
-//TODO ERROR
+//TODO EList
 def createAttribute(Attribute attr)
 '''
 	«IF attr.type.equals("EString")»
@@ -552,7 +554,14 @@ def createLabel(StyledLabel styledLabel)
 				'font-size': «styledLabel.labelFontSize»,
 				'font-family': '«styledLabel.fontName»',
 				'font-weight': '«styledLabel.fontType»',
-				'text-anchor': '«styledLabel.lableAlignment»',
+				'text-anchor': 'center',
+				«IF styledLabel.lableAlignment == LabelAlignment.RIGHT»
+				'x-alignment': 'right',
+				«ELSEIF styledLabel.lableAlignment == LabelAlignment.LEFT»
+				'x-alignment': 'left',
+				«ELSE»
+				'x-alignment': 'middle',
+				«ENDIF»
 				'ref-x': .5,
 '''
 

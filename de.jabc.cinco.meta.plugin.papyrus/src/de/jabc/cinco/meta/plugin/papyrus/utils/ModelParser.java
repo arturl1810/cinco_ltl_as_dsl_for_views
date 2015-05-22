@@ -22,7 +22,7 @@ import style.StyleFactory;
 import style.Text;
 import de.jabc.cinco.meta.plugin.papyrus.model.ConnectionConstraint;
 import de.jabc.cinco.meta.plugin.papyrus.model.EmbeddingConstraint;
-import de.jabc.cinco.meta.plugin.papyrus.model.LableAlignment;
+import de.jabc.cinco.meta.plugin.papyrus.model.LabelAlignment;
 import de.jabc.cinco.meta.plugin.papyrus.model.StyledConnector;
 import de.jabc.cinco.meta.plugin.papyrus.model.StyledEdge;
 import de.jabc.cinco.meta.plugin.papyrus.model.StyledLabel;
@@ -159,7 +159,7 @@ public class ModelParser {
 		font.setFontName("Arial");
 		font.setIsBold(false);
 		font.setIsItalic(false);
-		font.setSize(12);
+		font.setSize(6);
 		appearance.setFont(font);
 		
 		//COLORS
@@ -189,8 +189,8 @@ public class ModelParser {
 		styledConnector.setBackgroundColor(getColor(255, 255, 255));
 		styledConnector.setForegroundColor(getColor(0, 0, 0));
 		styledConnector.setLineStyle(LineStyle.SOLID);
-		styledConnector.setLineWidth(1);
-		styledConnector.setPolygonPoints(Formatter.getEdgeConnector(null));
+		styledConnector.setLineWidth(2.0);
+		styledConnector.setPolygonPoints(Formatter.getEdgeConnector(null,2.0));
 		
 		return styledConnector;
 	}
@@ -219,7 +219,7 @@ public class ModelParser {
 		if(text.getColor() != null) {
 			styledLabel.setLabelColor(text.getColor());							
 		}
-		styledLabel.setLableAlignment(LableAlignment.CENTER);
+		styledLabel.setLableAlignment(LabelAlignment.CENTER);
 		
 		return styledLabel;
 	}

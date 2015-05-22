@@ -1,19 +1,18 @@
 package de.jabc.cinco.meta.plugin.papyrus.model;
 
-import java.util.ArrayList;
 
 import style.Color;
 import style.LineStyle;
 
 public class StyledConnector {
-	private int lineWidth;
+	private double lineWidth;
 	private LineStyle lineStyle;
 	private Color foregroundColor, backgroundColor;
 	private String polygonPoints;
-	public int getLineWidth() {
+	public double getLineWidth() {
 		return lineWidth;
 	}
-	public void setLineWidth(int lineWidth) {
+	public void setLineWidth(double lineWidth) {
 		this.lineWidth = lineWidth;
 	}
 	public Color getForegroundColor() {

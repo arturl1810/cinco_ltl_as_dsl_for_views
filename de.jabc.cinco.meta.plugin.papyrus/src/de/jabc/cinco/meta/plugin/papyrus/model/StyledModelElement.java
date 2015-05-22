@@ -1,5 +1,7 @@
 package de.jabc.cinco.meta.plugin.papyrus.model;
 
+import java.util.ArrayList;
+
 import style.LineStyle;
 import style.Color;
 import mgl.GraphicalModelElement;
@@ -10,7 +12,7 @@ public class StyledModelElement {
 	private Color foregroundColor, backgroundColor;
 	private int lineWidth;
 	private double transperancy;
-	private Object label;
+	private ArrayList<String> label;
 	private StyledLabel styledLabel;
 	public GraphicalModelElement getModelElement() {
 		return modelElement;
@@ -48,10 +50,10 @@ public class StyledModelElement {
 	public void setTransperancy(double transperancy) {
 		this.transperancy = transperancy;
 	}
-	public Object getLabel() {
+	public ArrayList<String> getLabel() {
 		return label;
 	}
-	public void setLabel(Object label) {
+	public void setLabel(ArrayList<String> label) {
 		this.label = label;
 	}
 	public StyledLabel getStyledLabel() {
