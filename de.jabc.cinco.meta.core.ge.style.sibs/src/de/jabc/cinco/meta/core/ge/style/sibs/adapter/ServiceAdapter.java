@@ -1486,6 +1486,7 @@ public class ServiceAdapter {
 			
 		} catch (Exception e) {
 			context.put("exception", e);
+			return Branches.ERROR;
 		}
 		
 		return Branches.FALSE;
@@ -1503,6 +1504,7 @@ public class ServiceAdapter {
 			
 		} catch (Exception e) {
 			context.put("exception", e);
+			return Branches.ERROR;
 		}
 		
 		return Branches.FALSE;
@@ -1519,6 +1521,7 @@ public class ServiceAdapter {
 			
 		} catch (Exception e) {
 			context.put("exception", e);
+			return Branches.ERROR;
 		}
 		
 		return Branches.FALSE;
@@ -1535,6 +1538,7 @@ public class ServiceAdapter {
 			
 		} catch (Exception e) {
 			context.put("exception", e);
+			return Branches.ERROR;
 		}
 		
 		return Branches.FALSE;
@@ -1551,6 +1555,7 @@ public class ServiceAdapter {
 			
 		} catch (Exception e) {
 			context.put("exception", e);
+			return Branches.ERROR;
 		}
 		
 		return Branches.FALSE;
@@ -1567,6 +1572,7 @@ public class ServiceAdapter {
 			
 		} catch (Exception e) {
 			context.put("exception", e);
+			return Branches.ERROR;
 		}
 		
 		return Branches.FALSE;
@@ -1584,9 +1590,28 @@ public class ServiceAdapter {
 			
 		} catch (Exception e) {
 			context.put("exception", e);
+			return Branches.ERROR;
 		}
 		
 		return Branches.FALSE;
+	}
+
+	public static String isAttributeMultiValued(
+			LightweightExecutionEnvironment env, ContextKeyFoundation attribute) {
+
+		LightweightExecutionContext context = env.getLocalContext();
+		try {
+			Attribute attr = (Attribute) context.get(attribute);
+			if (CincoUtils.isAttributeMultiValued(attr))
+				return Branches.TRUE;
+			
+		} catch (Exception e) {
+			context.put("exception", e);
+			return Branches.ERROR;
+		}
+		
+		return Branches.FALSE;
+		
 	}
 
 }

@@ -156,4 +156,8 @@ public class CincoUtils {
 		return null;
 		
 	}
+
+	public static boolean isAttributeMultiValued(Attribute attr) {
+		return attr.getUpperBound() != 1;
+	}
 }

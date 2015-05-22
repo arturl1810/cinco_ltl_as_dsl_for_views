@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>f1d5af47-45ba-4222-907e-288031bbbeec</id>
   <name>GenerateListBooleanCode</name>
-  <changecounter>49</changecounter>
+  <changecounter>63</changecounter>
   <sib>
     <id>61c4f117-d93e-4219-8c5f-3fc73bc0ff6e</id>
     <name>RunStringTemplate_2</name>
@@ -43,6 +43,7 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
 	data.right = new FormAttachment(100, 0);
 	data.top = new FormAttachment(0, ITabbedPropertyConstants.VSPACE);
 	$context.attributeName$Text.setLayoutData(data);
+	$context.attributeName$Text.setEnabled(!$context.isReadOnly$);
 
 	Label $context.attribute.name$Label = factory.createLabel(composite, &quot;$context.fuAttributeName$:&quot;);
 	data = new FormData();
@@ -205,8 +206,8 @@ private String parseBooleans(List&lt;Boolean&gt; booleans) {
       <string>
 EObject tmp = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
 if (tmp instanceof $context.modelElementName$) {
-	(($context.modelElementName$) tmp).getBools().clear();
-	(($context.modelElementName$) tmp).getBools().addAll(toBooleansList($context.flAttributeName$Text.getText()));
+	(($context.modelElementName$) tmp).get$context.fuAttributeName$().clear();
+	(($context.modelElementName$) tmp).get$context.fuAttributeName$().addAll(toBooleansList($context.flAttributeName$Text.getText()));
 }
 </string>
     </parameter>
