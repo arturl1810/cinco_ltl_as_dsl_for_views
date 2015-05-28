@@ -706,15 +706,24 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 			iManiFile.refreshLocal(IFile.DEPTH_INFINITE, monitor);
 			Manifest manifest = new Manifest(iManiFile.getContents());
 			String prefix = gm.getPackage();
-			boolean primeOnly = true, noEdges = true;
-			for (Node n : gm.getNodes())
-				if (!n.isIsAbstract() && n.getPrimeReference() == null)
+			boolean primeOnly = true, noEdges = true, noContainers = true;
+			for (Node n : gm.getNodes()) {
+				if (!n.isIsAbstract() && n.getPrimeReference() == null) {
 					primeOnly = false;
+					break;
+				}
+			}
+			for (NodeContainer nc : gm.getNodeContainers()) {
+				if (!nc.isIsAbstract()) {
+					noContainers = false;
+					break;
+				}
+			}
 			
 			noEdges = checkNoEdges(gm);
 			
 			ArrayList<String> exports = new ArrayList<>();
-			if (gm.getNodeContainers().size() != 0)
+			if (!noContainers)
 				exports.add(".features.create.containers");
 			if (!primeOnly)
 				exports.add(".features.create.nodes");
@@ -766,8 +775,11 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 	}
 	
 	private boolean checkNoEdges(GraphModel gm) {
+		if (gm.getEdges().isEmpty())
+			return true;
+		
 		for (Edge e : gm.getEdges()) {
-			boolean in = false, out = false;
+			boolean in = false, out = false, abstractEdge = e.isIsAbstract();
 			for (Node n : gm.getNodes()) {
 				for (IncomingEdgeElementConnection ieec: n.getIncomingEdgeConnections()) {
 					if (ieec.getConnectingEdges().contains(e))
@@ -777,7 +789,7 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 					if (oeec.getConnectingEdges().contains(e))
 						out = true;
 				}
-				if (in && out)
+				if (in && out && !abstractEdge)
 					return false;
 			}
 		}

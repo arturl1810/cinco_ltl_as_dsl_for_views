@@ -2,14 +2,14 @@
 <model version="2.1">
   <id>696c3b21-1096-4b9a-86bd-7456a6b80d52</id>
   <name>GenerateModelElementPropertyView</name>
-  <changecounter>257</changecounter>
+  <changecounter>266</changecounter>
   <sib>
     <id>c215c747-bca3-4fbb-9807-9cd2ab3f1b32</id>
     <name>PutExpression</name>
     <label>FilterPkgName</label>
     <sib-uid>basic-sibs/PutExpression</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
-    <position>1359.5,528.0</position>
+    <position>1359.5,633.0</position>
     <parameter name="resolve">
       <boolean>true</boolean>
     </parameter>
@@ -39,9 +39,9 @@
   </sib>
   <edge>
     <source>c215c747-bca3-4fbb-9807-9cd2ab3f1b32</source>
-    <target>ba4cff73-0d56-4af6-853a-d8d1230f413f</target>
-    <point>1416.0,552.0</point>
-    <point>1416.0,432.0</point>
+    <target>b95f83dc-7830-4c6c-9dda-e77c316a73a6</target>
+    <point>1392.0,640.2</point>
+    <point>1293.0,574.2</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -762,11 +762,11 @@ public class $context.modelElementName$_$context.attributeName$_Section extends 
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>fc94b8b8-21f0-499c-a1bb-5968d40ae550</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>GenerateSingleAttribute</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>fc94b8b8-21f0-499c-a1bb-5968d40ae550</string>
     </userobject>
   </sib>
   <sib>
@@ -787,11 +787,11 @@ public class $context.modelElementName$_$context.attributeName$_Section extends 
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>76ccd186-a5e5-4177-9388-d605baba87ee</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>GenerateListAttribute</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>76ccd186-a5e5-4177-9388-d605baba87ee</string>
     </userobject>
   </sib>
   <sib>
@@ -905,11 +905,11 @@ public class $context.modelElementName$_$context.attributeName$_Section extends 
     </parameter>
     <finalbranches>error</finalbranches>
     <finalbranches>exit</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>7ce0cea2-f133-4819-a4df-6d0f1188d2ec</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>GeneratePrimeReferencePropertyView</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>7ce0cea2-f133-4819-a4df-6d0f1188d2ec</string>
     </userobject>
   </sib>
   <edge>
@@ -1487,6 +1487,33 @@ public class $context.modelElementName$TypeClass extends GFPropertySection imple
     <finalbranches>false</finalbranches>
     <finalbranches>true</finalbranches>
   </sib>
+  <sib>
+    <id>b95f83dc-7830-4c6c-9dda-e77c316a73a6</id>
+    <name>IsAbstract</name>
+    <label>IsAbstract</label>
+    <sib-uid>ge-util-sibs/IsAbstract</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsAbstract</taxonomy>
+    <position>1374.0,528.0</position>
+    <parameter name="modelElement">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>modelElement</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>false</finalbranches>
+    <finalbranches>true</finalbranches>
+  </sib>
+  <edge>
+    <source>b95f83dc-7830-4c6c-9dda-e77c316a73a6</source>
+    <target>ba4cff73-0d56-4af6-853a-d8d1230f413f</target>
+    <point>1305.0,570.0</point>
+    <point>1385.0,455.0</point>
+    <branch>false</branch>
+  </edge>
   <parameter>
     <name>modelElementKey</name>
     <field>modelElementKey</field>
@@ -1496,6 +1523,11 @@ public class $context.modelElementName$TypeClass extends GFPropertySection imple
     <name>modelElementKey</name>
     <field>eObjectKey</field>
     <sib>3f66e2d3-5545-401f-bcac-dc18037fbad6</sib>
+  </parameter>
+  <parameter>
+    <name>modelElementKey</name>
+    <field>modelElement</field>
+    <sib>b95f83dc-7830-4c6c-9dda-e77c316a73a6</sib>
   </parameter>
   <values>
     <entry>
@@ -1698,5 +1730,10 @@ public class $context.modelElementName$TypeClass extends GFPropertySection imple
     <name>error</name>
     <branch>error</branch>
     <sib>f8bbaebb-cc9c-471c-8e66-570ada2132fe</sib>
+  </branch>
+  <branch>
+    <name>default</name>
+    <branch>true</branch>
+    <sib>b95f83dc-7830-4c6c-9dda-e77c316a73a6</sib>
   </branch>
 </model>
