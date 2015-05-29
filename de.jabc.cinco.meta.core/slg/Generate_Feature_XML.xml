@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>cdd03cd4-edfa-43b9-9631-37bc827cc85e</id>
   <name>Generate Feature XML</name>
-  <changecounter>48</changecounter>
+  <changecounter>56</changecounter>
   <sib>
     <id>17c1dcbb-74f9-456f-bf8f-44eee7fd4f25</id>
     <name>IterateGraphModelAnnotations</name>
@@ -370,7 +370,7 @@
     <taxonomy>de.jabc.sib.common.io.WriteTextFile</taxonomy>
     <position>1595.5,123.0</position>
     <parameter name="encoding">
-      <string>ISO-8859-1</string>
+      <string>UTF-8</string>
     </parameter>
     <parameter name="file">
       <de.metaframe.common.sib.parameter.ContextExpression>
