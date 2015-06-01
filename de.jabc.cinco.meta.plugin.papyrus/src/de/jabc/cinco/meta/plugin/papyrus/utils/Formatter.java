@@ -8,7 +8,6 @@ import java.util.regex.Pattern;
 import de.jabc.cinco.meta.plugin.papyrus.model.ConnectionConstraint;
 import de.jabc.cinco.meta.plugin.papyrus.model.FontType;
 import de.jabc.cinco.meta.plugin.papyrus.model.PolygonPoint;
-import de.jabc.cinco.meta.plugin.papyrus.model.StyledLabel;
 import de.jabc.cinco.meta.plugin.papyrus.model.StyledModelElement;
 import style.Color;
 import style.DecoratorShapes;
@@ -49,7 +48,7 @@ public class Formatter {
 			{
 				String attrName = matcher.group(0);
 				attrName = attrName.substring(1, attrName.length()-1);
-				args[i] = "'+ getAttributeLabel(attributes."+attrName+") +'";
+				args[i] = "'+ getAttributeLabel(attributes,'"+attrName+"') +'";
 			}
 		}
 		String formatString = styledModelElement.getStyledLabel().getValue();

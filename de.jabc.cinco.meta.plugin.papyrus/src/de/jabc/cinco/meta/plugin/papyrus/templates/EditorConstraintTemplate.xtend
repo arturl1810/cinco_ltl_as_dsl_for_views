@@ -6,6 +6,10 @@ import java.util.HashMap
 import java.util.Map.Entry
 import mgl.GraphModel
 import de.jabc.cinco.meta.plugin.papyrus.model.StyledEdge
+import de.jabc.cinco.meta.plugin.papyrus.model.EmbeddingConstraint
+import mgl.GraphicalModelElement
+import mgl.Type
+import org.jgraph.graph.ConnectionSet.Connection
 
 class EditorConstraintTemplate implements Templateable{
 
@@ -22,16 +26,62 @@ class EditorConstraintTemplate implements Templateable{
 		}
 	'''
 	
-	def createEmbaddingConstraints()
+	def createEmbaddingConstraints(EmbeddingConstraint embeddingConstraint)
 	'''
-		return true;
+		«FOR GraphicalModelElement gme : embeddingConstraint.validNode»
+		if(embeddingName == '«gme.name.toFirstUpper»' && containerName == '«embeddingConstraint.container.name.toFirstUpper»'){
+			«IF embeddingConstraint.highBound >= 1»
+			var count = 0;
+			for(var i=0;i<embeddedElements.length;i++) {
+				if(embeddedElements[i].attributes.cinco_name === '«gme.name.toFirstUpper»') {
+					count++;
+				}
+			}
+			if(count < «embeddingConstraint.highBound»){
+				return true;
+			}
+			«ELSE»
+			return true;
+			«ENDIF»
+		}
+		«ENDFOR»
+		
 	'''
 	
 	def createConnectingConstraints(ConnectionConstraint connection)
 	'''
 		if(sourceNodeType == '«connection.sourceNode.modelElement.name.toFirstUpper»' && targetNodeType == '«connection.targetNode.modelElement.name.toFirstUpper»'){
-			//TODO Cardinalities
-		    return true;
+			«IF connection.sourceCardinalityHigh >= 1»
+			var countSource = 0;
+			for(var i = 0;i<sourceLinks.length;i++) {
+				if(sourceLinks[i].attributes.cinco_name === '«connection.connectingEdge.modelElement.name.toFirstUpper»'){
+					countSource++;
+				}
+			}
+			«ENDIF»
+			«IF connection.targetCardinalityHigh >= 1»
+			var countTarget = 0;
+			for(var i = 0;i<targetLinks.length;i++) {
+				if(targetLinks[i].attributes.cinco_name === '«connection.connectingEdge.modelElement.name.toFirstUpper»'){
+					countTarget++;
+				}
+			}
+			«ENDIF»
+			«IF connection.sourceCardinalityHigh < 1 && connection.targetCardinalityHigh < 1»
+			return true;
+			«ELSEIF connection.sourceCardinalityHigh >= 1 && connection.targetCardinalityHigh < 1»
+			if(countSource < «connection.sourceCardinalityHigh» ){
+				return true;
+			}
+			«ELSEIF connection.sourceCardinalityHigh < 1 && connection.targetCardinalityHigh >= 1»
+			if(countTarget < «connection.targetCardinalityHigh» ){
+				return true;
+			}
+			«ELSE»
+			if(countSource < «connection.sourceCardinalityHigh» && countTarget < «connection.targetCardinalityHigh» ){
+				return true;
+			}
+			«ENDIF»
 		}
 	'''
 	
@@ -45,7 +95,7 @@ class EditorConstraintTemplate implements Templateable{
 		}
 	'''
 	
-	override create(GraphModel graphModel, ArrayList<StyledNode> nodes, ArrayList<StyledEdge> edges, HashMap<String, ArrayList<StyledNode>> groupedNodes, ArrayList<ConnectionConstraint> validConnections)
+	override create(GraphModel graphModel, ArrayList<StyledNode> nodes, ArrayList<StyledEdge> edges, HashMap<String, ArrayList<StyledNode>> groupedNodes, ArrayList<ConnectionConstraint> validConnections, ArrayList<EmbeddingConstraint> embeddingConstraints,ArrayList<Type> enums)
 	'''
 		/**
 		 * Validates two Nodes, whether they can be embedded
@@ -55,19 +105,34 @@ class EditorConstraintTemplate implements Templateable{
 		 */
 		function validateElementEmbadding(childView, parentView)
 		{
-		    return true;
+			var embeddingName = childView.model.attributes.cinco_name;
+			var containerName = parentView.model.attributes.cinco_name;
+			var containerElement = graph.getCell(parentView.model.id);
+			var embeddedElements = containerElement.getEmbeddedCells();
+		    «FOR EmbeddingConstraint ec : embeddingConstraints»
+		    «createEmbaddingConstraints(ec)»
+		    «ENDFOR»
+		    return false;
 		}
 		
 		/**
 		 * Validates two Nodes, whether they can be connected
-		 * @param sourceType
-		 * @param targetType
 		 * @returns {boolean}
+		 * @param sourceNode
+		 * @param targetNode
 		 */
-		function validateElementConnection(sourceNodeType,targetNodeType)
+		function validateElementConnection(sourceNode,targetNode)
 		{
+			var sourceNodeType = sourceNode.options.model.attributes.cinco_name;
+			var targetNodeType = targetNode.options.model.attributes.cinco_name;
+			var sourceNodeElement = graph.getCell(sourceNode.model.id);
+			var targetNodeElement = graph.getCell(targetNode.model.id);
+			var sourceOpt ={outbound: true};
+			var targetOpt = {inbound:true};
+			var sourceLinks = graph.getConnectedLinks(sourceNodeElement,sourceOpt);
+			var targetLinks = graph.getConnectedLinks(targetNodeElement,targetOpt);
 		    «FOR ConnectionConstraint connection : validConnections»
-			«createConnectingConstraints(connection)»
+	        «createConnectingConstraints(connection)»
 			«ENDFOR»
 		    return false;
 		}
@@ -111,6 +176,15 @@ class EditorConstraintTemplate implements Templateable{
 	        «creatNodeGroup(group)»
 			«ENDFOR»
 		    ];
+		}
+		
+		function styleElements(onInitiate) {
+		/*	_.each(grap.getElements(), function(element){
+				var cinco_name = element.attributes.cinco_name;
+				if(cinco_name === 'Activity') {
+					element.attr({'.body': {'rx':8, }})
+				}
+			});*/
 		}
 		
 		/**

@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import mgl.GraphModel;
+import mgl.Type;
 
 public class TemplateContainer {
 	private GraphModel graphModel;
 	private ArrayList<StyledNode> nodes;
 	private ArrayList<StyledEdge> edges;
+	private ArrayList<Type> enums;
 	private HashMap<String,ArrayList<StyledNode>> groupedNodes;
 	private ArrayList<ConnectionConstraint> validConnections;
 	ArrayList<EmbeddingConstraint> embeddingConstraints;
@@ -51,6 +53,13 @@ public class TemplateContainer {
 			ArrayList<EmbeddingConstraint> embeddingConstraints) {
 		this.embeddingConstraints = embeddingConstraints;
 	}
+	public ArrayList<Type> getEnums() {
+		return enums;
+	}
+	public void setEnums(ArrayList<Type> enums) {
+		this.enums = enums;
+	}
+	
 	
 	
 	

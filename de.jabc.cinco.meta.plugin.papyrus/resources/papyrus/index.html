@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <!-- JS -->
+    <script src="js/joint/joint.js"></script>
+    <script src="js/themes/bootstrap.min.js"></script>
+    <script src="js/plugins/jquery.contextMenu.js"></script>
+    <script src="js/plugins/jquery.ui.position.js"></script>
+    <script src="js/plugins/jquery.numeric.min.js"></script>
+    <script src="js/plugins/FileSaver.min.js"></script>
+    <script src="js/plugins/jquery.event.drop-2.2.js"></script>
+    <script src="js/plugins/jquery.event.drop.live-2.2.js"></script>
+    <script src="js/plugins/jquery.event.drag-2.2.js"></script>
+    <script src="js/plugins/jquery.event.drag.live-2.2.js"></script>
+    <script src="js/plugins/base64.js"></script>
+    <script src="js/themes/bootswatch.js"></script>
+    <!-- THEME -->
+    <link rel="stylesheet" href="css/themes/flatly/bootstrap.flatly.css" id="theme">
+    <link rel="stylesheet" href="css/themes/bootswatch.min.css" id="helperTheme">
+    <!-- CORE -->
+    <link rel="stylesheet" type="text/css" href="css/plugins/jquery.contextMenu.css" />
+    <link rel="stylesheet" type="text/css" href="css/joint/joint.css" />
+    <link rel="stylesheet" type="text/css" href="css/papyrus/papyrus.nodes.css" />
+    <link rel="stylesheet" type="text/css" href="css/papyrus/papyrus.core.css" />
+    <title></title>
+</head>
+<body>
+    <div class="papyrus-container">
+        <!-- Context Menu elements -->
+        <div id="imagecontainer"></div>
+        <div id="edgeContextMenu"></div>
+        <div id="elementChange"></div>
+        <!-- Menu View -->
+        <div class="row">
+            <div class="col-lg-12">
+                <div id="menuPanel" class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="btn-toolbar" role="toolbar">
+                            <!-- Model Menu -->
+                            <div class="btn-group btn-group-sm" role="group" aria-label="rgrrg">
+                                <button type="button" class="btn btn-default dropdown-toggle btn-sm" data-toggle="dropdown" aria-expanded="false"><span class="glyphicon glyphicon-file"></span> File <span class="caret"></span></button>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a data-toggle="modal" data-target="#newFileModal"><span class="glyphicon glyphicon-plus"></span> New ...</a></li>
+                                    <li><a data-toggle="modal" data-target="#openFileModal"><span class="glyphicon glyphicon-folder-open"></span>  Open ...</a></li>
+                                    <li><a data-toggle="modal" data-target="#shareFileModal"><span class="glyphicon glyphicon-share"></span> Share ...</a></li>
+                                    <li><a data-toggle="modal" data-target="#removeFileModal"><span class="glyphicon glyphicon-trash"></span> Delete ...</a></li>
+                                </ul>
+                            </div>
+                            <!-- Action Menu -->
+                            <div class="btn-group btn-group-sm" role="group" aria-label="...">
+                                <button id="moveMode" type="button" class="btn btn-default active"><span class="glyphicon glyphicon-move"></span> Move</button>
+                                <button id="markMode" type="button" class="btn btn-default" disabled="disabled"><span class="glyphicon glyphicon-screenshot"></span> Select</button>
+                            </div>
+                            <!-- Edge Menu Menu -->
+                            <div class="btn-group btn-group-sm" role="group" aria-label="...">
+                                <button class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="glyphicon glyphicon-transfer"></span> Edge Mode <span class="caret"></span></button>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li role="presentation" class="dropdown-header">Simple Modes</li>
+                                    <li id="normal"><a class="edgeType" data-connector="normal">Normal</a></li>
+                                    <li id="smooth"><a class="edgeType" data-connector="smooth">Smooth</a></li>
+                                    <li id="rounded"><a class="edgeType" data-connector="rounded">Rounded</a></li>
+                                    <li role="presentation" class="dropdown-header">Normal Routing Modes</li>
+                                    <li id="orthogonalnormal"><a class="edgeType" data-router="orthogonal" data-connector="normal">Orthogonal Normal</a></li>
+                                    <li id="manhattannormal"><a class="edgeType" data-router="manhattan" data-connector="normal">Manhattan Normal</a></li>
+                                    <li id="metronormal"><a class="edgeType" data-router="metro" data-connector="normal">Metro Normal</a></li>
+                                    <li role="presentation" class="dropdown-header">Rounded Routing Modes</li>
+                                    <li id="orthogonalrounded"><a class="edgeType" data-router="orthogonal" data-connector="rounded">Orthogonal Rounded</a></li>
+                                    <li id="manhattanrounded"><a class="edgeType" data-router="manhattan" data-connector="rounded">Manhattan Rounded</a></li>
+                                    <li id="metronormalrounded"><a class="edgeType" data-router="metro" data-connector="rounded">Metro Rounded</a></li>
+                                </ul>
+                            </div>
+                            <!-- Undo redo Menu -->
+                            <div class="btn-group btn-group-sm" role="group" aria-label="...">
+                                <button id="undoAction" type="button" class="btn btn-default" disabled="disabled"><span class="glyphicon glyphicon-share-alt"></span> Undo</button>
+                                <button id="redoAction" type="button" class="btn btn-default" disabled="disabled"><span class="glyphicon glyphicon-share-alt"></span> Redo</button>
+                            </div>
+                            <!-- Zoom Menu -->
+                            <div class="btn-group btn-group-sm" role="group" aria-label="...">
+                                <button id="zoomInAction" type="button" class="btn btn-default"><span class="glyphicon glyphicon-zoom-in"></span> Zoom In</button>
+                                <button id="zoomOutAction" type="button" class="btn btn-default"><span class="glyphicon glyphicon-zoom-out"></span> Zoom Out</button>
+                            </div>
+                            <!-- Export Menu -->
+                            <div class="btn-group btn-group-sm" role="group" aria-label="...">
+                                <button id="saveAsSVGAction" type="button" class="btn btn-default"><span class="glyphicon glyphicon-picture"></span> Save as SVG</button>
+                            </div>
+                            <!-- Settings -->
+                            <div class="btn-group btn-group-sm" role="group" aria-label="...">
+                                <button id="settingsAction" type="button" class="btn btn-default" data-toggle="modal" data-target="#settingsModal"><span class="glyphicon glyphicon-cog"></span> Settings</button>
+                                <button id="infoMenu" type="button" class="btn btn-default" data-toggle="modal" data-target="#infoModal"><span class="glyphicon glyphicon-info-sign"></span></button>
+                            </div>
+                            <!-- Minimize Menu -->
+                            <div class="btn-group btn-group-xs" role="group" aria-label="...">
+                                <button id="minimizeMenu" type="button" class="btn btn-default btn-xs scaling-btn"><span class="glyphicon glyphicon-minus"></span></button>
+                            </div>
+                        </div>
+                    </div>
+                    <ol class="breadcrumb">
+                        <li><strong>Philip</strong></li>
+                        <li class="dropdown">
+                            <button class="btn btn-link dropdown-toggle" type="button" id="dropdownMenuProject" data-toggle="dropdown" aria-expanded="true">
+                                MyFirstProject
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuProject">
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">MyFirstProject</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">MySecondProject</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <button class="btn btn-link dropdown-toggle" type="button" id="dropdownMenuGraph" data-toggle="dropdown" aria-expanded="true">
+                                FlowGraph
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuGraph">
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">FlowGraph</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">OtherGraph</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">SharedGraph</a></li>
+                            </ul>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <!-- Graph-Model Tabs -->
+        <div class="row">
+            <div id="miniMenu" class="col-sm-2">
+                <button id="maximizeMenu" type="button" class="btn btn-default btn-sm">
+                    <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span> Menu
+                </button>
+            </div>
+            <div class="col-sm-2">
+                <button id="createGraph" type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#newGraphModal">
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> New Graph
+                </button>
+            </div>
+            <div id="graphTabs" class="col-sm-10">
+                <ul class="nav nav-tabs">
+                    <li role="presentation" class="active">
+                        <a href="#">
+                            FlowGraph
+                            <button type="button" class="btn btn-xs btn-link remove-graph" data-toggle="modal" data-target="#removeGraphModal" data-graph-name="FlowGraph">
+                                <span class="glyphicon glyphicon-remove"></span>
+                            </button>
+                        </a>
+                    <li role="presentation">
+                        <a href="#">
+                            OtherGraph
+                            <button type="button" class="btn btn-xs btn-link remove-graph" data-toggle="modal" data-target="#removeGraphModal" data-graph-name="OtherGraph">
+                                <span class="glyphicon glyphicon-remove"></span>
+                            </button>
+                        </a>
+                    </li>
+                    <li role="presentation">
+                        <a href="#">
+                            SharedGraph
+                            <button type="button" class="btn btn-xs btn-link remove-graph" data-toggle="modal" data-target="#removeGraphModal" data-graph-name="SharedGraph">
+                                <span class="glyphicon glyphicon-remove"></span>
+                            </button>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- Center -->
+        <div class="row">
+            <!-- Palette View -->
+            <div id="palette" class="col-md-3"></div>
+            <div id="graphModel" class="col-md-9">
+                <!-- Graph Model View -->
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <strong><span class="glyphicon glyphicon-pencil"></span> Graph View</strong>
+                        <button id="maximizeGraph" type="button" class="btn btn-default btn-xs scaling-btn"><span class="glyphicon glyphicon-fullscreen"></span></button>
+                        <button id="minimizeGraph" type="button" class="btn btn-default btn-xs scaling-btn"><span class="glyphicon glyphicon-minus"></span></button>
+                    </div>
+                    <div id="muiCanvas" class="panel-body">
+                        <div id="paper" class="paper mui-border scroll-auto"></div><br />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- South -->
+        <div class="row">
+            <div id="graphMapCol" class="col-md-3">
+                <!--Map View-->
+                <div id="graphMapPanel" class="panel panel-primary">
+                    <div class="panel-heading">
+                        <strong><span class="glyphicon glyphicon-picture"></span> Map</strong>
+                        <button id="minimizeMap" type="button" class="btn btn-default btn-xs scaling-btn"><span class="glyphicon glyphicon-minus"></span></button>
+                    </div>
+                    <div class="panel-body">
+                        <div id="myholder-small" class="paper mui-border"></div>
+                    </div>
+                </div>
+            </div>
+            <div id="propertiesCol" class="col-md-9">
+                <!--Properties View-->
+                <div id="properties" class="panel panel-primary">
+                    <div class="panel-heading">
+                        <strong><span class="glyphicon glyphicon-info-sign"></span> Properties View</strong> <span id="model-name" class="badge"></span>
+                        <button id="minimizeProperties" type="button" class="btn btn-default btn-xs scaling-btn"><span class="glyphicon glyphicon-minus"></span></button>
+                        <button id="maximizeProperties" type="button" class="btn btn-default btn-xs scaling-btn"><span class="glyphicon glyphicon-fullscreen"></span></button>
+                    </div>
+                    <div class="panel-body properties-panel">
+                        <form class="form-horizontal properties-form">
+                            <div id="paper-link-out"></div>
+                        </form>
+                        <button id="removeModelElement" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-remove"></span> Remove</button>
+                        <div id="resizeProperties" class="btn-group" role="group" aria-label="...">
+                            <button id="resizePlusModelElement" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-plus"></span> Resize</button>
+                            <button id="resizeMinusModelElement" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-minus"></span> Resize</button>
+                        </div>
+                        <div id="rotateProperties" class="btn-group" role="group" aria-label="...">
+                            <button id="rotatePlusModelElement" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-plus"></span> Rotate</button>
+                            <button id="rotateMinusModelElement" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-minus"></span> Rotate</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Modal -->
+        <div class="modal fade" id="settingsModal" tabindex="-1" role="dialog" aria-labelledby="settingsModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="settingsModalLabel">Editor Settings</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div id="settingsSaveMessage" class="alert alert-success" role="alert">Changes successfully saved</div>
+                        <form class="form-horizontal">
+                            <div class="form-group">
+                                <label for="scaleFactor" class="col-sm-6 control-label">Scale Factor</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control positive decimal-2-places" id="scaleFactor" placeholder="1.00" value="1.00">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="edgeTriggerWidth" class="col-sm-6 control-label">Edge creation border width</label>
+                                <div class="col-sm-6">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control positive numeric" id="edgeTriggerWidth" placeholder="10" value="10">
+                                        <div class="input-group-addon">px</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="snapRadius" class="col-sm-6 control-label">Edge snapping circle radius</label>
+                                <div class="col-sm-6">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control positive numeric" id="snapRadius" placeholder="80" value="80">
+                                        <div class="input-group-addon">px</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="gridSize" class="col-sm-6 control-label">Grid size</label>
+                                <div class="col-sm-6">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control positive numeric" id="gridSize" placeholder="1" value="1">
+                                        <div class="input-group-addon">px</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="paperWidth" class="col-sm-3 control-label">Paper width</label>
+                                <div class="col-sm-3">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control positive numeric" id="paperWidth" placeholder="1000" value="1000">
+                                        <div class="input-group-addon">px</div>
+                                    </div>
+                                </div>
+                                <label for="paperHeight" class="col-sm-3 control-label">Paper height</label>
+                                <div class="col-sm-3">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control positive numeric" id="paperHeight" placeholder="1000" value="1000">
+                                        <div class="input-group-addon">px</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="resizeStep" class="col-sm-3 control-label">Resize stepping</label>
+                                <div class="col-sm-3">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control positive numeric" id="resizeStep" placeholder="10" value="10">
+                                        <div class="input-group-addon">px</div>
+                                    </div>
+                                </div>
+                                <label for="rotateStep" class="col-sm-3 control-label">Rotate stepping</label>
+                                <div class="col-sm-3">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control positive numeric" id="rotateStep" placeholder="5" value="5">
+                                        <div class="input-group-addon">px</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="editorTheme" class="col-sm-6 control-label">Editor Theme</label>
+                                <div class="col-sm-6">
+                                    <div class="input-group">
+                                        <select id="editorTheme" class="form-control">
+                                            <option value="slate">Slate</option>
+                                            <option value="simplex">Simplex</option>
+                                            <option value="dark">Dark</option>
+                                            <option value="flatly">Flatly</option>
+                                            <option value="default">Default</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button id="settingsSave" type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- New Project Modal -->
+        <div class="modal fade" id="newFileModal" tabindex="-1" role="dialog" aria-labelledby="newFileModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="newFileModalTitle"><span class="glyphicon glyphicon-plus"></span> New Project Menu</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-horizontal">
+                            <div class="form-group">
+                                <label for="projectName" class="col-sm-4 control-label">Project Name</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" id="projectName" placeholder="Project Name">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-8 col-sm-offset-4">
+                                    <div class="panel panel-primary">
+                                        <div class="panel-heading">
+                                            <a class="sharing-link" data-toggle="collapse" href="#collapseShareMenu" aria-expanded="false" aria-controls="collapseShareMenu">
+                                                Share your project with other users
+                                            </a>
+                                        </div>
+                                        <div class="panel-body collapse" id="collapseShareMenu">
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" value="">
+                                                    User 1
+                                                </label>
+                                            </div>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" value="">
+                                                    User 2
+                                                </label>
+                                            </div>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" value="">
+                                                    User 3
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-success" data-dismiss="modal"><span class="glyphicon glyphicon-plus"></span> New</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- New Graph Modal -->
+        <div class="modal fade" id="newGraphModal" tabindex="-1" role="dialog" aria-labelledby="newFileModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="newGraphModalTitle"><span class="glyphicon glyphicon-plus"></span> New Graph Menu</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-horizontal">
+                            <div class="form-group">
+                                <label for="projectName" class="col-sm-4 control-label">Graph Name</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" id="graphName" placeholder="Graph Name">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-8 col-sm-offset-4">
+                                    <div class="panel panel-primary">
+                                        <div class="panel-heading">
+                                            <a class="sharing-link" data-toggle="collapse" href="#collapseGraphShareMenu" aria-expanded="false" aria-controls="collapseGraphShareMenu">
+                                                Share your graph with other users
+                                            </a>
+                                        </div>
+                                        <div class="panel-body collapse" id="collapseGraphShareMenu">
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" value="">
+                                                    User 1
+                                                </label>
+                                            </div>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" value="">
+                                                    User 2
+                                                </label>
+                                            </div>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" value="">
+                                                    User 3
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-success" data-dismiss="modal"><span class="glyphicon glyphicon-plus"></span> New</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Open File Modal -->
+        <div class="modal fade" id="openFileModal" tabindex="-1" role="dialog" aria-labelledby="newFileModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="openFileModalTitle"><span class="glyphicon glyphicon-folder-open"></span> Open Project</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="table-responsive">
+                            <table class="table table-condensed table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Project Name</th>
+                                        <th>Graphs</th>
+                                        <th>Shared</th>
+                                        <th>Open</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>MyFirstProject</td>
+                                        <td><span class="badge">3</span></td>
+                                        <td><span class="badge">0</span></td>
+                                        <td>
+                                            <a href="#" class="btn btn-primary btn-xs" type="button"><span class="glyphicon glyphicon-folder-open"></span></a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>MySecondProject</td>
+                                        <td><span class="badge">2</span></td>
+                                        <td><span class="badge">4</span></td>
+                                        <td>
+                                            <a href="#" class="btn btn-primary btn-xs" type="button"><span class="glyphicon glyphicon-folder-open"></span></a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Share File Modal -->
+        <div class="modal fade" id="shareFileModal" tabindex="-1" role="dialog" aria-labelledby="newFileModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="shareFileModalTitle"><span class="glyphicon glyphicon-share"></span> Share Project</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                            <div class="panel panel-primary">
+                                <div class="panel-heading" role="tab" id="collapseShareHead0">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseShare0" aria-expanded="true" aria-controls="collapseShare0">
+                                            MyFirstProject
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="collapseShare0" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="collapseShare0">
+                                    <div class="panel-body">
+                                        <div class="checkbox">
+                                            <label>
+                                                <input class="share-input" data-share-user="user1" data-share-type="global" type="checkbox" value="">
+                                                User 1
+                                            </label>
+                                        </div>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input class="share-input" data-share-user="user2" data-share-type="global" type="checkbox" value="">
+                                                User 2
+                                            </label>
+                                        </div>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input class="share-input" data-share-user="user3" data-share-type="global" type="checkbox" value="">
+                                                User 3
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading" role="tab" id="collapseShareHead1">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseShare1" aria-expanded="true" aria-controls="collapseShare1">
+                                            FlowGraph
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="collapseShare1" class="panel-collapse collapse" role="tabpanel" aria-labelledby="collapseShare1">
+                                    <div class="panel-body">
+                                        <div class="checkbox">
+                                            <label>
+                                                <input class="share-input" data-share-user="user1" data-share-type="local" type="checkbox" value="">
+                                                User 1
+                                            </label>
+                                        </div>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input class="share-input" data-share-user="user2" data-share-type="local" type="checkbox" value="">
+                                                User 2
+                                            </label>
+                                        </div>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input class="share-input" data-share-user="user3" data-share-type="local" type="checkbox" value="">
+                                                User 3
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading" role="tab" id="collapseShareHead2">
+                                    <h4 class="panel-title">
+                                        <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseShare2" aria-expanded="false" aria-controls="collapseShare2">
+                                            OtherGraph
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="collapseShare2" class="panel-collapse collapse" role="tabpanel" aria-labelledby="collapseShare2">
+                                    <div class="panel-body">
+                                        <div class="checkbox">
+                                            <label>
+                                                <input class="share-input" data-share-user="user1" data-share-type="local" type="checkbox" value="">
+                                                User 1
+                                            </label>
+                                        </div>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input class="share-input" data-share-user="user2" data-share-type="local" type="checkbox" value="">
+                                                User 2
+                                            </label>
+                                        </div>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input class="share-input" data-share-user="user3" data-share-type="local" type="checkbox" value="">
+                                                User 3
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading" role="tab" id="collapseShareHead3">
+                                    <h4 class="panel-title">
+                                        <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseShare3" aria-expanded="false" aria-controls="collapseShare3">
+                                            SharedGraph
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="collapseShare3" class="panel-collapse collapse" role="tabpanel" aria-labelledby="collapseShare3">
+                                    <div class="panel-body">
+                                        <div class="checkbox">
+                                            <label>
+                                                <input class="share-input" data-share-user="user1" data-share-type="local" type="checkbox" value="">
+                                                User 1
+                                            </label>
+                                        </div>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input class="share-input" data-share-user="user2" data-share-type="local" type="checkbox" value="">
+                                                User 2
+                                            </label>
+                                        </div>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input class="share-input" data-share-user="user3" data-share-type="local" type="checkbox" value="">
+                                                User 3
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-share"></span> Share</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Delete Project Modal -->
+        <div class="modal fade" id="removeFileModal" tabindex="-1" role="dialog" aria-labelledby="newFileModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="removeFileModalTitle"><span class="glyphicon glyphicon-trash"></span> Delete Menu</h4>
+                    </div>
+                    <div class="modal-body">
+                        Are you sure you want to delete <strong>MyFirstProject</strong>?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <a href="#" type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-trash"></span> Delete</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Delete Graph Modal -->
+        <div class="modal fade" id="removeGraphModal" tabindex="-1" role="dialog" aria-labelledby="removeGraphModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="removeGraphModalTitle"><span class="glyphicon glyphicon-trash"></span> Delete Menu</h4>
+                    </div>
+                    <div class="modal-body">
+                        Are you sure you want to delete <strong id="removeGraphName"></strong>?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <a href="#" type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-trash"></span> Delete</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Info Modal -->
+        <div class="modal fade" id="infoModal" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="infoModalTitle"><span class="glyphicon glyphicon-info-sign"></span> Info</h4>
+                    </div>
+                    <div class="modal-body">
+                        Have you tried F5?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="js/papyrus/papyrus.core.js"></script>
+    <script src="js/papyrus/papyrus.constraints.js"></script>
+    <script src="js/papyrus/papyrus.events.js"></script>
+    <script src="js/papyrus/papyrus.model.js"></script>
+    <script src="js/papyrus/papyrus.init.js"></script>
+</body>
+</html>

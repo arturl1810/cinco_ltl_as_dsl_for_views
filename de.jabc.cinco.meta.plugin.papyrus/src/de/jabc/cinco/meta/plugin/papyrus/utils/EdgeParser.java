@@ -22,7 +22,7 @@ public class EdgeParser {
 		ArrayList<StyledEdge> styledEdges = new ArrayList<StyledEdge>();
 		for(Edge edge : graphModel.getEdges()) {
 			StyledEdge styledEdge = new StyledEdge();
-			styledEdge.setModelElement(edge);
+			styledEdge.setModelElement(ModelParser.getInheritedEdge(edge));
 			String styleName = "";
 			ArrayList<String> lables = new ArrayList<String>();
 			for(Annotation annotation : edge.getAnnotations()) {

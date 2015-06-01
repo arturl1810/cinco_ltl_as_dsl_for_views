@@ -26,20 +26,59 @@ import de.jabc.cinco.meta.plugin.papyrus.model.LabelAlignment;
 import de.jabc.cinco.meta.plugin.papyrus.model.StyledConnector;
 import de.jabc.cinco.meta.plugin.papyrus.model.StyledEdge;
 import de.jabc.cinco.meta.plugin.papyrus.model.StyledLabel;
-import de.jabc.cinco.meta.plugin.papyrus.model.StyledModelElement;
 import de.jabc.cinco.meta.plugin.papyrus.model.StyledNode;
 
 public class ModelParser {
 	
 	public static String GROUP_ANNOTATION = "group";
 	
-	public static ArrayList<StyledModelElement> getStyledModelElements(GraphModel graphModel) {
-		return null;
+	public static Node getInheritedNode(Node node){
+		if(node.getExtends() == null){
+			return node;
+		}
+		Node parent = getInheritedNode(node.getExtends());
+		node.getAttributes().addAll(parent.getAttributes());
+		if(node.getIncomingEdgeConnections()== null || node.getIncomingEdgeConnections().isEmpty()){
+			node.getIncomingEdgeConnections().addAll(parent.getIncomingEdgeConnections());
+		}
+		if(node.getOutgoingEdgeConnections() == null || node.getOutgoingEdgeConnections().isEmpty()){
+			node.getOutgoingEdgeConnections().addAll(parent.getOutgoingEdgeConnections());
+		}
+		return node;
 	}
+	
+	public static NodeContainer getInheritedNodeContainer(NodeContainer nodeContainer){
+		if(nodeContainer.getExtends() == null){
+			return nodeContainer;
+		}
+		NodeContainer parent = getInheritedNodeContainer(nodeContainer.getExtends());
+		nodeContainer.getAttributes().addAll(parent.getAttributes());
+		if(nodeContainer.getIncomingEdgeConnections()== null || nodeContainer.getIncomingEdgeConnections().isEmpty()){
+			nodeContainer.getIncomingEdgeConnections().addAll(parent.getIncomingEdgeConnections());
+		}
+		if(nodeContainer.getOutgoingEdgeConnections() == null || nodeContainer.getOutgoingEdgeConnections().isEmpty()){
+			nodeContainer.getOutgoingEdgeConnections().addAll(parent.getOutgoingEdgeConnections());
+		}
+		if(nodeContainer.getContainableElements() == null || nodeContainer.getContainableElements().isEmpty()) {
+			nodeContainer.getContainableElements().addAll(parent.getContainableElements());
+		}
+		return nodeContainer;
+	}
+	
+	public static Edge getInheritedEdge(Edge edge){
+		if(edge.getExtends() == null){
+			return edge;
+		}
+		Edge parent = getInheritedEdge(edge.getExtends());
+		edge.getAttributes().addAll(parent.getAttributes());
+		return edge;
+	}
+	
 	
 	public static HashMap<String,ArrayList<StyledNode>> getGroupedNodes(ArrayList<GraphicalModelElement> graphicalModelElements) {
 		HashMap<String,ArrayList<StyledNode>> groupedNodes = new HashMap<String,ArrayList<StyledNode>>();
 		for(GraphicalModelElement gme : graphicalModelElements) {
+			if(gme.isIsAbstract())continue;
 			StyledNode styledNode = new StyledNode();
 			styledNode.setModelElement(gme);
 			String groupName;
@@ -71,14 +110,14 @@ public class ModelParser {
 	public static ArrayList<ConnectionConstraint> getValidConnections(GraphModel graphModel) {
 		ArrayList<ConnectionConstraint> connectionConstraints = new ArrayList<ConnectionConstraint>();
 		for(Node sourceNode : graphModel.getNodes()) {
-			
+			sourceNode = ModelParser.getInheritedNode(sourceNode);
 			for(OutgoingEdgeElementConnection outgoingConnection : sourceNode.getOutgoingEdgeConnections()) {
 				
 					
 				for(Edge outgoingEdge : outgoingConnection.getConnectingEdges()) {
 					// Get the connectable nodes
 					for(Node targetNode : graphModel.getNodes()) {
-						
+						targetNode = ModelParser.getInheritedNode(targetNode);
 						for(IncomingEdgeElementConnection incommingConnection : targetNode.getIncomingEdgeConnections()) {
 							
 							
@@ -227,6 +266,7 @@ public class ModelParser {
 	public static ArrayList<EmbeddingConstraint> getValidEmbeddings(GraphModel graphModel) {
 		ArrayList<EmbeddingConstraint> ecs = new ArrayList<EmbeddingConstraint>();
 		for(NodeContainer container : graphModel.getNodeContainers()) {
+			container = ModelParser.getInheritedNodeContainer(container);
 			for(GraphicalElementContainment gec : container.getContainableElements()) {
 				EmbeddingConstraint ec = new EmbeddingConstraint();
 				ArrayList<GraphicalModelElement> validNodes = new ArrayList<GraphicalModelElement>();
