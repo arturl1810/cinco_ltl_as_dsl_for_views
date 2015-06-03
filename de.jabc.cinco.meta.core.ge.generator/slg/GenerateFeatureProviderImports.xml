@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>8912dd28-75f9-4a99-b5b2-6e54f3dc15ae</id>
   <name>GenerateFeatureProviderImports</name>
-  <changecounter>50</changecounter>
+  <changecounter>60</changecounter>
   <sib>
     <id>8d3a9722-8455-45fd-ae9f-4a0b3b499728</id>
     <name>IterateElements</name>
@@ -204,6 +204,7 @@
     </parameter>
     <parameter name="template">
       <string>import $context.localPkgName$.features.add.*;
+import $context.localPkgName$.features.delete.*;
 import $context.localPkgName$.features.update.*;
 import $context.localPkgName$.features.move.*;</string>
     </parameter>
@@ -302,6 +303,7 @@ import $context.localPkgName$.features.move.*;</string>
     </parameter>
     <parameter name="template">
       <string>import $context.localPkgName$.features.add.*;
+import $context.localPkgName$.features.delete.*;
 import $context.localPkgName$.features.update.*;
 import $context.localPkgName$.features.move.*;</string>
     </parameter>
@@ -332,6 +334,7 @@ import $context.localPkgName$.features.move.*;</string>
     </parameter>
     <parameter name="template">
       <string>import $context.localPkgName$.features.add.*;
+import $context.localPkgName$.features.delete.*;
 import $context.localPkgName$.features.update.*;</string>
     </parameter>
     <finalbranches>default</finalbranches>

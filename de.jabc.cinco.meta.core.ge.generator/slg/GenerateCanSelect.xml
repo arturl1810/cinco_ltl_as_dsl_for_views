@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>a259c89f-adaa-431d-a7f2-ec3a2354fc53</id>
   <name>GenerateCanSelect</name>
-  <changecounter>66</changecounter>
+  <changecounter>74</changecounter>
   <sib>
     <id>ceee187d-7200-4719-9052-45c3083ed3bc</id>
     <name>IsSelectDisabled</name>
@@ -257,6 +257,7 @@
     <target>81e1ab94-4492-47f4-adf6-6c4f9f306c8d</target>
     <point>255.0,165.0</point>
     <point>257.0,254.0</point>
+    <branch>false</branch>
     <branch>true</branch>
   </edge>
   <edge>
@@ -264,6 +265,7 @@
     <target>a56a8a28-6fae-468a-b0c3-1f74a12a861b</target>
     <point>255.0,270.0</point>
     <point>248.0,433.0</point>
+    <branch>false</branch>
     <branch>true</branch>
   </edge>
   <values/>

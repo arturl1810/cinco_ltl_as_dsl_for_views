@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>6830c0f3-7532-49ad-ad67-7fb466c9d0a9</id>
   <name>GenerateToolBehaviourProvider</name>
-  <changecounter>271</changecounter>
+  <changecounter>285</changecounter>
   <sib>
     <id>c8e21300-66b5-43fa-a031-ae9d0f22cbf2</id>
     <name>PutExpression</name>
@@ -71,8 +71,9 @@
   <edge>
     <source>c8e21300-66b5-43fa-a031-ae9d0f22cbf2</source>
     <target>e9dd2cc9-4a0f-4dcb-bcbe-f05d7919cee6</target>
-    <point>195.0,165.0</point>
-    <point>315.0,165.0</point>
+    <point>90.0,69.0</point>
+    <point>90.0,168.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
@@ -81,7 +82,7 @@
     <label>RunStringTemplate</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>25.0,618.0</position>
+    <position>25.0,603.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -294,37 +295,16 @@ public class $context.fuGraphModelName$ToolBehaviourProvider extends DefaultTool
   <edge>
     <source>5a2da4db-bfc2-47b9-9a74-720f1e2052f2</source>
     <target>91532a33-667f-4770-8444-371c05656291</target>
-    <point>289.0,480.0</point>
-    <point>289.0,585.0</point>
+    <point>90.0,639.0</point>
+    <point>90.0,723.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
-  <sib>
-    <id>9cb1d2a5-7080-4d7a-b48f-2ac05e57e5b3</id>
-    <name>PrintConsoleMessage</name>
-    <label>PrintConsoleMessage</label>
-    <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
-    <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
-    <position>196.5,723.0</position>
-    <parameter name="error">
-      <boolean>false</boolean>
-    </parameter>
-    <parameter name="message">
-      <de.metaframe.common.sib.parameter.ContextExpression>
-        <ContextExpressionFoundation>
-          <expression>Wrote ToolBehaviorProvider</expression>
-          <clazz>java.lang.Object</clazz>
-          <classMutable>false</classMutable>
-        </ContextExpressionFoundation>
-      </de.metaframe.common.sib.parameter.ContextExpression>
-    </parameter>
-    <finalbranches>default</finalbranches>
-  </sib>
   <edge>
     <source>91532a33-667f-4770-8444-371c05656291</source>
     <target>9cb1d2a5-7080-4d7a-b48f-2ac05e57e5b3</target>
     <point>289.0,585.0</point>
-    <point>289.0,690.0</point>
+    <point>270.0,750.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -562,19 +542,40 @@ public class $context.fuGraphModelName$ToolBehaviourProvider extends DefaultTool
   <edge>
     <source>bac5c845-ac5c-4e41-82d9-67ef5f8763c0</source>
     <target>5a2da4db-bfc2-47b9-9a74-720f1e2052f2</target>
-    <point>90.0,765.0</point>
-    <point>289.0,480.0</point>
+    <point>90.0,521.0</point>
+    <point>90.0,603.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
     <source>098e7621-e4e0-4b7d-b4ab-9f96a72d8bd2</source>
     <target>bac5c845-ac5c-4e41-82d9-67ef5f8763c0</target>
-    <point>94.3010752688172,356.0</point>
-    <point>145.4022988505747,586.0</point>
+    <point>90.0,356.0</point>
+    <point>90.0,481.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
+  <sib>
+    <id>9cb1d2a5-7080-4d7a-b48f-2ac05e57e5b3</id>
+    <name>PrintConsoleMessage</name>
+    <label>PrintConsoleMessage</label>
+    <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
+    <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
+    <position>196.5,723.0</position>
+    <parameter name="error">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="message">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>Wrote ToolBehaviorProvider</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>false</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <finalbranches>default</finalbranches>
+  </sib>
   <values/>
   <branch>
     <name>error</name>
@@ -595,11 +596,6 @@ public class $context.fuGraphModelName$ToolBehaviourProvider extends DefaultTool
     <name>error</name>
     <branch>error</branch>
     <sib>91532a33-667f-4770-8444-371c05656291</sib>
-  </branch>
-  <branch>
-    <name>default</name>
-    <branch>default</branch>
-    <sib>9cb1d2a5-7080-4d7a-b48f-2ac05e57e5b3</sib>
   </branch>
   <branch>
     <name>error</name>
@@ -625,5 +621,10 @@ public class $context.fuGraphModelName$ToolBehaviourProvider extends DefaultTool
     <name>error</name>
     <branch>error</branch>
     <sib>96734170-3cc8-45e1-ac1b-cc8043c0f2e2</sib>
+  </branch>
+  <branch>
+    <name>default</name>
+    <branch>default</branch>
+    <sib>9cb1d2a5-7080-4d7a-b48f-2ac05e57e5b3</sib>
   </branch>
 </model>

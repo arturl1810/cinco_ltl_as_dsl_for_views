@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>5f357517-18d4-4780-adc3-30879fedbfb1</id>
   <name>GenerateFeatureProvider</name>
-  <changecounter>761</changecounter>
+  <changecounter>775</changecounter>
   <sib>
     <id>23fb1326-f00d-4e42-845a-cdf6492fc417</id>
     <name>PutExpression</name>
@@ -392,8 +392,8 @@ import $context.localPkgName$.features.*;
 $context.importCreateNodesFeaturesContent$
 $context.importCreateEdgesFeaturesContent$
 $context.importCreateContainersFeaturesContent$
+$context.importDeleteFeaturesContent$
 $context.featureProviderAddUpdateMoveImportsContent$
-import $context.localPkgName$.features.delete.*;
 import $context.localPkgName$.features.resize.*;
 import $context.localPkgName$.features.layout.*;
 
@@ -1321,7 +1321,7 @@ if (bo instanceof $context.node.name$)
     <label>GetLayoutNodeFeatureIfBlock</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>20.0,138.0</position>
+    <position>20.0,123.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -1511,7 +1511,7 @@ if (bo instanceof $context.node.name$)
     <label>GetResizeNodeFeatureIfBlock</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>260.5,138.0</position>
+    <position>245.5,123.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
