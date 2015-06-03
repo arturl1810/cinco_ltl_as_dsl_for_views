@@ -4,7 +4,7 @@ import style.Color;
 
 public class StyledLabel {
 	private int labelFontSize;
-	private LableAlignment lableAlignment;
+	private LabelAlignment labelAlignment;
 	private String fontName;
 	private FontType fontType;
 	private Color labelColor;
@@ -16,11 +16,11 @@ public class StyledLabel {
 	public void setLabelFontSize(int labelFontSize) {
 		this.labelFontSize = labelFontSize;
 	}
-	public LableAlignment getLableAlignment() {
-		return lableAlignment;
+	public LabelAlignment getLableAlignment() {
+		return labelAlignment;
 	}
-	public void setLableAlignment(LableAlignment lableAlignment) {
-		this.lableAlignment = lableAlignment;
+	public void setLableAlignment(LabelAlignment lableAlignment) {
+		this.labelAlignment = lableAlignment;
 	}
 	public String getFontName() {
 		return fontName;

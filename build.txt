@@ -33,7 +33,7 @@ confirm donwload of antlr with 'y'
 5)
 
 de.jabc.cinco.meta.productdefinition
- src/de.jabc.cinco.meta.productdefinition/GenerateStyle.mwe2 -> Run as -> MWE2 Workflow -> Proceed
+ src/de.jabc.cinco.meta.productdefinition/GenerateCPD.mwe2 -> Run as -> MWE2 Workflow -> Proceed
 confirm donwload of antlr with 'y'
 
 === Clean Eclipse projects ===

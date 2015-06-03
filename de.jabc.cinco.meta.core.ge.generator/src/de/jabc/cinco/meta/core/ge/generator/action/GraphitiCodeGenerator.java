@@ -14,6 +14,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -119,6 +120,7 @@ import de.jabc.cinco.meta.core.ge.style.model.errorhandling.ECincoError;
 import de.jabc.cinco.meta.core.mgl.generator.GenModelCreator;
 import de.jabc.cinco.meta.core.pluginregistry.PluginRegistry;
 import de.jabc.cinco.meta.core.ui.listener.MGLSelectionListener;
+import de.jabc.cinco.meta.core.utils.CincoUtils;
 import de.jabc.cinco.meta.core.utils.URIHandler;
 import de.jabc.cinco.meta.core.utils.projects.ProjectCreator;
 import de.metaframe.jabc.framework.execution.DefaultLightweightExecutionEnvironment;
@@ -194,6 +196,17 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 			    IProject p = sourceProject;
 			    IProject apiProject = sourceProject; 
 			    
+			    /**
+				 * Get project ID
+				 */
+				
+				BundleContext bc = InternalPlatform.getDefault().getBundleContext();
+				ServiceReference<?> ref = bc.getServiceReference(IBundleProjectService.class);
+				IBundleProjectService service = (IBundleProjectService) bc.getService(ref);  
+				IBundleProjectDescription bpd =service.getDescription(apiProject);
+				String projectID = bpd.getSymbolicName();
+				bc.ungetService(ref);
+			    
 			    addReqBundles(p, monitor);
 			    
 			    createIconsFolder(p, monitor);
@@ -226,6 +239,7 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 			    
 			    URI uri = URI.createFileURI(API_MODEL_PREFIX + gModel.getName()+ ".ecore");
 			    XMIResource graphicalGraphModelRes = (XMIResource) new XMIResourceFactoryImpl().createResource(uri);
+			    graphicalGraphModelRes.setEncoding(StandardCharsets.UTF_8.name());
 			    
 			    EDataType integerType = EcorePackage.eINSTANCE.getEInt();
 			    EDataType booleanType = EcorePackage.eINSTANCE.getEBoolean();
@@ -238,6 +252,7 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 				context.put("pluginXMLPath", path);
 				context.put("outletPath", outletPath);
 				context.put("project", sourceProject);
+				context.put("projectID", projectID);
 				context.put("customFeatureOutletPath", customFeatureOutletPath);
 				
 				context.put("graphmodel", graphmodel);
@@ -288,7 +303,7 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 					ByteArrayOutputStream bops = new ByteArrayOutputStream();
 					HashMap<String, Object>optionMap = new HashMap<String,Object>();
 					optionMap.put(XMIResource.OPTION_URI_HANDLER,new URIHandler(ePackage));
-								
+					optionMap.put(XMIResource.OPTION_ENCODING, StandardCharsets.UTF_8.name());			
 					graphicalGraphModelRes.save(bops,optionMap);
 					
 					String output = bops.toString(graphicalGraphModelRes.getEncoding());
@@ -302,17 +317,6 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 						iEcoreFile.create(new ByteArrayInputStream(output.getBytes()), true, monitor);
 					else iEcoreFile.setContents(new ByteArrayInputStream(output.getBytes()), true, true, monitor);
 					IPath projectPath = new Path(apiProjectName);
-					
-					/**
-					 * Get project ID
-					 */
-					
-					BundleContext bc = InternalPlatform.getDefault().getBundleContext();
-					ServiceReference<?> ref = bc.getServiceReference(IBundleProjectService.class);
-					IBundleProjectService service = (IBundleProjectService) bc.getService(ref);  
-					IBundleProjectDescription bpd =service.getDescription(apiProject);
-					String projectID = bpd.getSymbolicName();
-					bc.ungetService(ref);
 					
 					GenModel genModel = GenModelCreator.createGenModel(new Path(ecorePath),ePackage,apiProjectName, projectID, projectPath);
 					if(gModel.getPackage() !=null && gModel.getPackage().length()>0){
@@ -345,8 +349,9 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 					bops = new ByteArrayOutputStream();
 					uri = URI.createFileURI(API_MODEL_PREFIX + gModel.getName().toString()+".genmodel");
 					XMIResourceImpl xmiResource = (XMIResourceImpl) new XMIResourceFactoryImpl().createResource(uri);
+					xmiResource.setEncoding(StandardCharsets.UTF_8.name());
 					xmiResource.getContents().add(genModel);
-					xmiResource.save(bops,null);
+					xmiResource.save(bops,optionMap);
 					output = bops.toString(xmiResource.getEncoding());
 					String genModelPath = "/src-gen/model/"+ API_MODEL_PREFIX + fqn.substring(0, 1).toUpperCase() + fqn.substring(1) +".genmodel";
 					IFile genModelFile = apiProject.getFile(genModelPath);
@@ -707,15 +712,24 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 			iManiFile.refreshLocal(IFile.DEPTH_INFINITE, monitor);
 			Manifest manifest = new Manifest(iManiFile.getContents());
 			String prefix = gm.getPackage();
-			boolean primeOnly = true, noEdges = true;
-			for (Node n : gm.getNodes())
-				if (!n.isIsAbstract() && n.getPrimeReference() == null)
+			boolean primeOnly = true, noEdges = true, noContainers = true;
+			for (Node n : gm.getNodes()) {
+				if (!n.isIsAbstract() && n.getPrimeReference() == null) {
 					primeOnly = false;
+					break;
+				}
+			}
+			for (NodeContainer nc : gm.getNodeContainers()) {
+				if (!nc.isIsAbstract()) {
+					noContainers = false;
+					break;
+				}
+			}
 			
 			noEdges = checkNoEdges(gm);
 			
 			ArrayList<String> exports = new ArrayList<>();
-			if (gm.getNodeContainers().size() != 0)
+			if (!noContainers)
 				exports.add(".features.create.containers");
 			if (!primeOnly)
 				exports.add(".features.create.nodes");
@@ -767,8 +781,11 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 	}
 	
 	private boolean checkNoEdges(GraphModel gm) {
+		if (gm.getEdges().isEmpty())
+			return true;
+		
 		for (Edge e : gm.getEdges()) {
-			boolean in = false, out = false;
+			boolean in = false, out = false, abstractEdge = e.isIsAbstract();
 			for (Node n : gm.getNodes()) {
 				for (IncomingEdgeElementConnection ieec: n.getIncomingEdgeConnections()) {
 					if (ieec.getConnectingEdges().contains(e))
@@ -778,7 +795,7 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 					if (oeec.getConnectingEdges().contains(e))
 						out = true;
 				}
-				if (in && out)
+				if (in && out && !abstractEdge)
 					return false;
 			}
 		}

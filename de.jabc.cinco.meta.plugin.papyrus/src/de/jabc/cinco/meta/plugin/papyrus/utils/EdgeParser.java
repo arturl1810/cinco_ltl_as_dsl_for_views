@@ -22,7 +22,7 @@ public class EdgeParser {
 		ArrayList<StyledEdge> styledEdges = new ArrayList<StyledEdge>();
 		for(Edge edge : graphModel.getEdges()) {
 			StyledEdge styledEdge = new StyledEdge();
-			styledEdge.setModelElement(edge);
+			styledEdge.setModelElement(ModelParser.getInheritedEdge(edge));
 			String styleName = "";
 			ArrayList<String> lables = new ArrayList<String>();
 			for(Annotation annotation : edge.getAnnotations()) {
@@ -50,7 +50,7 @@ public class EdgeParser {
 				styledEdge.setBackgroundColor(edgeShapeAppearance.getBackground());
 				styledEdge.setForegroundColor(edgeShapeAppearance.getForeground());
 				styledEdge.setLineStyle(edgeShapeAppearance.getLineStyle());
-				styledEdge.setLineWidth(edgeShapeAppearance.getLineWidth());
+				styledEdge.setLineWidth(edgeShapeAppearance.getLineWidth()/2);
 				styledEdge.setTransperancy(edgeShapeAppearance.getTransparency());
 				
 				//Transform the target and source decorator
@@ -81,10 +81,10 @@ public class EdgeParser {
 						//transform the decorator appearance
 						styledConnector.setBackgroundColor(decoratorAppearance.getBackground());
 						styledConnector.setForegroundColor(decoratorAppearance.getForeground());
-						styledConnector.setLineWidth(decoratorAppearance.getLineWidth());
+						styledConnector.setLineWidth(decoratorAppearance.getLineWidth()/2);
 						styledConnector.setLineStyle(decoratorAppearance.getLineStyle());
 						
-						styledConnector.setPolygonPoints(Formatter.getEdgeConnector(decorator.getPredefinedDecorator().getShape()));
+						styledConnector.setPolygonPoints(Formatter.getEdgeConnector(decorator.getPredefinedDecorator().getShape(),decoratorAppearance.getLineWidth()));
 						if(decorator.getLocation() == 0.0){
 							styledEdge.setSourceConnector(styledConnector);
 						}

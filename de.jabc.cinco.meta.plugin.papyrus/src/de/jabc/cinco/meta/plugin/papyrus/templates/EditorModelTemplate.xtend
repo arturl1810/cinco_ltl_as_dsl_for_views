@@ -14,12 +14,17 @@ import de.jabc.cinco.meta.plugin.papyrus.model.NodeShape
 import de.jabc.cinco.meta.plugin.papyrus.model.PolygonPoint
 import de.jabc.cinco.meta.plugin.papyrus.model.StyledLabel
 import mgl.Node
+import de.jabc.cinco.meta.plugin.papyrus.model.LabelAlignment
+import de.jabc.cinco.meta.plugin.papyrus.model.EmbeddingConstraint
+import mgl.Type
+import mgl.Enumeration
+import de.jabc4.basic.CreateFolder.SuccessReturn
 
 class EditorModelTemplate implements Templateable{
 	
-override create(GraphModel graphModel, ArrayList<StyledNode> nodes, ArrayList<StyledEdge> edges, HashMap<String, ArrayList<StyledNode>> groupedNodes, ArrayList<ConnectionConstraint> validConnections)
+override create(GraphModel graphModel, ArrayList<StyledNode> nodes, ArrayList<StyledEdge> edges, HashMap<String, ArrayList<StyledNode>> groupedNodes, ArrayList<ConnectionConstraint> validConnections, ArrayList<EmbeddingConstraint> embeddingConstraints,ArrayList<Type> enums)
 '''
-		/**
+	/**
 	 * Created by papyrus cinco meta plugin
 	 * For Graphmodel «graphModel.name»
 	 */
@@ -263,11 +268,11 @@ joint.shapes.devs.ModelPolygon = joint.shapes.basic.Generic.extend(_.extend({}, 
 	 * GraphModel Attributes
 	 * @type {{GraphModel: string[]}}
 	 */
-	cinco_graphModelAttr = {
+	cinco_graphModelAttr = [
 	    «FOR Attribute attr : graphModel.attributes  SEPARATOR ', '»
-	    	«createAttribute(attr)»
+	    	«createAttribute(attr,enums)»
 	    «ENDFOR»
-	};
+	];
 	
 	/*
 	 -------------------------------------------------------
@@ -277,9 +282,9 @@ joint.shapes.devs.ModelPolygon = joint.shapes.basic.Generic.extend(_.extend({}, 
 	 
 	«FOR StyledNode node: nodes»
 		«IF node.modelElement instanceof Node»
-			«createNode(node)»
+			«createNode(node,enums)»
 		«ELSE»
-			«createContainer(node)»
+			«createContainer(node,enums)»
 		«ENDIF»
 	«ENDFOR»
 	/*
@@ -289,7 +294,7 @@ joint.shapes.devs.ModelPolygon = joint.shapes.basic.Generic.extend(_.extend({}, 
 	 */
 	 
 	«FOR StyledEdge edge: edges»
-		«createEdge(edge)»
+		«createEdge(edge,enums)»
 	«ENDFOR»
 	
 	joint.shapes.devs.ModelView = joint.dia.ElementView.extend(joint.shapes.basic.PortsViewInterface);
@@ -303,7 +308,7 @@ joint.shapes.devs.ModelPolygon = joint.shapes.basic.Generic.extend(_.extend({}, 
 	}
 '''
 	
-def createEdge(StyledEdge styledEdge)
+def createEdge(StyledEdge styledEdge,ArrayList<Type> enums)
 '''
 	/**
 	 * «styledEdge.modelElement.name.toFirstUpper»
@@ -315,7 +320,7 @@ def createEdge(StyledEdge styledEdge)
 	        type: 'devs.Link',
 	        cinco_name: '«styledEdge.modelElement.name.toFirstUpper»',
 	        cinco_type: 'Edge',
-	        «createAttributes(styledEdge.modelElement)»,
+	        «createAttributes(styledEdge.modelElement,enums)»,
 	        attrs: {
 	            '.connection': { 
 	            	stroke: '#«Formatter.toHex(styledEdge.foregroundColor)»',
@@ -339,18 +344,18 @@ def createEdge(StyledEdge styledEdge)
 	        	{
 	        		«IF styledEdge.styledLabel != null»
 	        		position: «styledEdge.styledLabel.location»,
-	        		«ELSE»
-	        		position: 0.0,
+						attrs: {
+							text: {
+								text: '«Formatter.getLabelText(styledEdge)»',
+								«IF styledEdge.styledLabel != null»
+    							«createLabel(styledEdge.styledLabel)»
+	    						«ENDIF»
+								dy: -10
+								}
+							}
+        			«ELSE»
+	        		position: 0.0
 	        		«ENDIF»
-	        		attrs: {
-	        			text: {
-	        				text: 'L: ', //TODO
-	        				«IF styledEdge.styledLabel != null»
-				        	«createLabel(styledEdge.styledLabel)»
-				        	«ENDIF»
-				        	dy: -10
-	        			}
-	        		}
 	        	}
 	        ]);
 	    }
@@ -360,7 +365,8 @@ def createEdge(StyledEdge styledEdge)
 def createEdgeDecorator(StyledConnector styledConnector)
 '''
 	fill: '#«Formatter.toHex(styledConnector.backgroundColor)»',
-	stroke: '#«Formatter.toHex(styledConnector.backgroundColor)»',
+	stroke: '#«Formatter.toHex(styledConnector.foregroundColor)»',
+	"stroke-width": «styledConnector.lineWidth», 
 	«styledConnector.polygonPoints»
 '''
 
@@ -380,11 +386,15 @@ def createNodeShapeBody(StyledNode styledNode)
 «IF styledNode.nodeShape == NodeShape.ELLIPSE»
 	cx: 0,
 	cy: 0,
-	rx: «styledNode.width/2»,
-	ry: «styledNode.height/2»,
+	rx: «styledNode.width/4»,
+	ry: «styledNode.height/4»,
 «ELSEIF styledNode.nodeShape == NodeShape.POLYGON»
 	points: '«FOR PolygonPoint p : styledNode.polygonPoints SEPARATOR ' '»«p.toString»«ENDFOR»',
 «ELSE»
+	«IF styledNode.nodeShape == NodeShape.ROUNDEDRECTANGLE»
+	rx:«styledNode.cornerWidth»,
+	ry:«styledNode.cornerHeight»,
+	«ENDIF»
 	width: «styledNode.width»,
 	height: «styledNode.height»,
 «ENDIF»
@@ -393,13 +403,13 @@ def createNodeShapeBody(StyledNode styledNode)
 def createNodeShapePortBody(StyledNode styledNode)
 '''
 «IF styledNode.nodeShape == NodeShape.ELLIPSE»
-	cx: 8,
-	cy: 8,
-	rx: «styledNode.width/2 - 6»,
-	ry: «styledNode.height/2 - 6»,
+	cx: «styledNode.width/4»,
+	cy: «styledNode.width/4»,
+	rx: «styledNode.width/4 + 5»,
+	ry: «styledNode.height/4 + 5»,
 	//'x-ref':
-	width: («styledNode.width + 5»),
-	height: («styledNode.height + 5»)
+	width: («styledNode.width/4 + 5»),
+	height: («styledNode.height/4 + 5»)
 «ELSEIF styledNode.nodeShape == NodeShape.POLYGON»
 	'transform':'translate(-10,-10)',
 	points: '
@@ -407,12 +417,16 @@ def createNodeShapePortBody(StyledNode styledNode)
 		«p.x*1.2»,«p.y*1.2»
 	«ENDFOR»',
 «ELSE»
+	«IF styledNode.nodeShape == NodeShape.ROUNDEDRECTANGLE»
+	rx:«styledNode.cornerWidth»,
+	ry:«styledNode.cornerHeight»,
+	«ENDIF»
 	width: «styledNode.width + 20»,
 	height: «styledNode.height + 20»
 «ENDIF»
 '''
 	
-def createNode(StyledNode styledNode)
+def createNode(StyledNode styledNode,ArrayList<Type> enums)
 '''
 		/**
 	 * «styledNode.modelElement.name.toFirstUpper»
@@ -423,7 +437,7 @@ def createNode(StyledNode styledNode)
 	        type: 'devs.«styledNode.modelElement.name.toFirstUpper»',
 	        cinco_name: '«styledNode.modelElement.name.toFirstUpper»',
 	        cinco_type: 'Node',
-	        «createAttributes(styledNode.modelElement)»,
+	        «createAttributes(styledNode.modelElement,enums)»,
 	        size: { 
 	        	width: «styledNode.width»,
 	        	height: «styledNode.height»
@@ -452,7 +466,7 @@ def createNode(StyledNode styledNode)
 	         */
 	        var attributes = this.attributes.cinco_attrs;
 	        this.attr('.label',{
-	        	text: 'L: ',
+	        	text: '«Formatter.getLabelText(styledNode)»',
 	        	«IF styledNode.styledLabel != null»
 	        	«createLabel(styledNode.styledLabel)»
 	        	«ENDIF»
@@ -463,7 +477,7 @@ def createNode(StyledNode styledNode)
 	});
 '''
 
-def createContainer(StyledNode styledNode)
+def createContainer(StyledNode styledNode,ArrayList<Type> enums)
 '''
 		/**
 	 * «styledNode.modelElement.name.toFirstUpper»
@@ -474,7 +488,7 @@ def createContainer(StyledNode styledNode)
 	        type: 'devs.«styledNode.modelElement.name.toFirstUpper»',
 	        cinco_name: '«styledNode.modelElement.name.toFirstUpper»',
 	        cinco_type: 'Container',
-	        «createAttributes(styledNode.modelElement)»,
+	        «createAttributes(styledNode.modelElement,enums)»,
 	        size: { 
 	        	width: «styledNode.width»,
 	        	height: «styledNode.height»
@@ -503,7 +517,7 @@ def createContainer(StyledNode styledNode)
 	         */
 	        var attributes = this.attributes.cinco_attrs;
 	        this.attr('.label',{
-	        	text: 'L: ',
+	        	text: '«Formatter.getLabelText(styledNode)»',
 	        	«IF styledNode.styledLabel != null»
 	        	«createLabel(styledNode.styledLabel)»
 	        	«ENDIF»
@@ -514,36 +528,105 @@ def createContainer(StyledNode styledNode)
 	});
 '''
 	
-def createAttributes(GraphicalModelElement modelElement)
+def createAttributes(GraphicalModelElement modelElement,ArrayList<Type> enums)
 '''
-	cinco_attrs: {
+	cinco_attrs: [
 		«IF !modelElement.attributes.empty»
 		«FOR Attribute attr : modelElement.attributes  SEPARATOR ', '»
-	        «createAttribute(attr)»
+	        «createAttribute(attr,enums)»
 	    «ENDFOR»
 	    «ENDIF»
-	        }
+	        ]
 '''
-//TODO ERROR
-def createAttribute(Attribute attr)
+def createAttribute(Attribute attr,ArrayList<Type> enums)
 '''
-	«IF attr.type.equals("EString")»
-	«attr.name»: [' ', 'text']
-	«ELSEIF attr.type.equals("EBoolean")»
-	«attr.name»: [false, 'boolean']
-	«ELSEIF attr.type.equals("EList")»
-	«attr.name»: [
-		{ 
-		selected: 'one',
-		choices : ['one','two','three']
-		},
-		'map']
-	«ELSEIF attr.type.equals("EInt")»
-	«attr.name»: [0, 'number']
-	«ELSEIF attr.type.equals("EDouble")»
-	«attr.name»: [0.00, 'double']
+	«IF attr.upperBound == 1 && (attr.lowerBound == 0 || attr.lowerBound == 1) »
+	«createPrimativeAttribute(attr,enums)»
+	«ELSE»
+	«createListAttribute(attr,enums)»
 	«ENDIF»
 	
+'''
+
+def createListAttribute(Attribute attr,ArrayList<Type> enums)
+'''
+	{
+		name: '«attr.name»',
+		type: 'list',
+		subtype: «createPrimativeAttribute(attr,enums)»,
+		upper: «attr.upperBound»,
+		lower: «attr.lowerBound»,
+		values:
+		[
+		«IF attr.lowerBound > 0»
+		«FOR Integer i: 1..attr.lowerBound SEPARATOR ','»
+		«createPrimativeAttribute(attr,enums)»
+		«ENDFOR»
+		«ENDIF»
+		]
+	}
+'''
+
+def getAttributeType(String type) {
+	if(type.equals("EString")) return "text";
+	if(type.equals("EInt")) return "number";
+	if(type.equals("EDouble")) return "double";
+	if(type.equals("EBoolean")) return "boolean";
+	//ENUM
+	return "choice";
+}
+
+def public String getAttributeDefault(Attribute attr, ArrayList<Type> enums) {
+	if(attr.type.equals("EString")) return "''";
+	if(attr.type.equals("EInt")) return "0";
+	if(attr.type.equals("EDouble")) return "0.00";
+	if(attr.type.equals("EBoolean")) return "false";
+	//ENUM
+	var type = getEnumByName(attr,enums) as Enumeration;
+	if(type == null) { 
+		return "''";
+	}
+	else {
+		return ""+createEnumAttribute(attr,type);	
+	}
+
+}
+
+def createEnumAttribute(Attribute attr,Enumeration e)
+'''
+{
+	«IF attr.defaultValue != null && !attr.defaultValue.isEmpty»
+	selected: '«attr.defaultValue»',
+	«ELSE»
+	selected: '«e.literals.get(0)»',
+	«ENDIF»
+	choices : [
+«FOR String literal : e.literals SEPARATOR ','»
+			'«literal»'
+«ENDFOR»
+	]
+}
+'''
+
+def getEnumByName(Attribute attr, ArrayList<Type> enums) {
+	var typeName = attr.type;
+	for(Type type : enums) {
+		if(type.name.equals(typeName)){
+			return type;
+		}
+	}
+	return null;
+	
+}
+
+
+def createPrimativeAttribute(Attribute attr,ArrayList<Type> enums)
+'''
+	{
+		name: '«attr.name»',
+		type: '«getAttributeType(attr.type)»',
+		values: «getAttributeDefault(attr,enums)»
+	}
 '''
 
 def createLabel(StyledLabel styledLabel)
@@ -552,7 +635,14 @@ def createLabel(StyledLabel styledLabel)
 				'font-size': «styledLabel.labelFontSize»,
 				'font-family': '«styledLabel.fontName»',
 				'font-weight': '«styledLabel.fontType»',
-				'text-anchor': '«styledLabel.lableAlignment»',
+				'text-anchor': 'center',
+				«IF styledLabel.lableAlignment == LabelAlignment.RIGHT»
+				'x-alignment': 'right',
+				«ELSEIF styledLabel.lableAlignment == LabelAlignment.LEFT»
+				'x-alignment': 'left',
+				«ELSE»
+				'x-alignment': 'middle',
+				«ENDIF»
 				'ref-x': .5,
 '''
 

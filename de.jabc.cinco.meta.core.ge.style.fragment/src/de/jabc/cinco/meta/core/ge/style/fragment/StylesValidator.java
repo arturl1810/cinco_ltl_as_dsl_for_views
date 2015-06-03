@@ -25,6 +25,8 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 
+import style.AbstractShape;
+import style.ContainerShape;
 import style.EdgeStyle;
 import style.NodeStyle;
 import style.Style;
@@ -146,11 +148,11 @@ public class StylesValidator implements IMetaPluginValidator {
 		int params = ns.getParameterCount();//checkFormatStringParameters(ns.getMainShape());
 		if (params > annot.getValue().size()-1)
 			return new ErrorPair<String, EStructuralFeature>(
-					"Style: " + styleName +" contains text element with " + params + " parameters but you provided: " + (annot.getValue().size()-1),
+					"Style: " + styleName +" contains text element with " + params + " parameter(s) but you provided: " + (annot.getValue().size()-1),
 					annot.eClass().getEStructuralFeature("value"));
 		if (params < annot.getValue().size()-1) {
 			return new ErrorPair<String, EStructuralFeature>(
-					"Style: " + styleName +" contains text element with " + params + " parameters but you provided: " + (annot.getValue().size()-1),
+					"Style: " + styleName +" contains text element with " + params + " parameter(s) but you provided: " + (annot.getValue().size()-1),
 					annot.eClass().getEStructuralFeature("value"));
 		}
 		else if (params == annot.getValue().size()-1) {
@@ -199,11 +201,16 @@ public class StylesValidator implements IMetaPluginValidator {
 		}
 		
 		EdgeStyle es = (EdgeStyle) style;
-		int params = es.getParameterCount();//checkFormatStringParameters((AbstractShape) cd.getDecoratorShape());
+		int params = es.getParameterCount();
 		if (params > annot.getValue().size()-1)
 			return new ErrorPair<String, EStructuralFeature>(
 					"Style: " + styleName +" contains text element with " + params + " parameters but you provided: " + (annot.getValue().size()-1),
 					annot.eClass().getEStructuralFeature("value"));
+		if (params < annot.getValue().size()-1) {
+			return new ErrorPair<String, EStructuralFeature>(
+					"Style: " + styleName +" contains text element with " + params + " parameter(s) but you provided: " + (annot.getValue().size()-1),
+					annot.eClass().getEStructuralFeature("value"));
+		}
 		else if (params == annot.getValue().size()-1) {
 			List<String> errors = checkParameters(edge, annot.getValue());
 			if (errors != null && !errors.isEmpty()) {

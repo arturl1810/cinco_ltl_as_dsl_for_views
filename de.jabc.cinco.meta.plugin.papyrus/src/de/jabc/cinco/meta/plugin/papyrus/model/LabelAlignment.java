@@ -1,5 +1,5 @@
 package de.jabc.cinco.meta.plugin.papyrus.model;
 
-public enum LableAlignment {
+public enum LabelAlignment {
 	LEFT,CENTER,RIGHT
 }

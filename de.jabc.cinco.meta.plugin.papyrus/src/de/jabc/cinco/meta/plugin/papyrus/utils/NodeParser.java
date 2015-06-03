@@ -16,6 +16,8 @@ import style.Text;
 import mgl.Annotation;
 import mgl.GraphModel;
 import mgl.GraphicalModelElement;
+import mgl.Node;
+import mgl.NodeContainer;
 import de.jabc.cinco.meta.core.utils.CincoUtils;
 import de.jabc.cinco.meta.plugin.papyrus.model.NodeShape;
 import de.jabc.cinco.meta.plugin.papyrus.model.StyledLabel;
@@ -33,9 +35,14 @@ public class NodeParser {
 		
 		ArrayList<StyledNode> styledNodes = new ArrayList<StyledNode>();
 		for(GraphicalModelElement node : elements) {
-			
+			if(node.isIsAbstract())continue;
 			StyledNode styledNode = new StyledNode();
-			styledNode.setModelElement(node);
+			if(node instanceof Node){
+				styledNode.setModelElement(ModelParser.getInheritedNode((Node)node));				
+			}
+			else if(node instanceof NodeContainer){
+				styledNode.setModelElement(ModelParser.getInheritedNodeContainer((NodeContainer)node));
+			}
 			String styleName = "";
 			ArrayList<String> lables = new ArrayList<String>();
 			for(Annotation annotation : node.getAnnotations()) {

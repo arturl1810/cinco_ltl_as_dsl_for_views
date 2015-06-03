@@ -14,6 +14,9 @@
       <validator
             ValidatorClass="de.jabc.cinco.meta.plugin.papyrus.validator.AnnotationValidator">
       </validator>
+      <proposalprovider
+            MetaPluginAcceptor="de.jabc.cinco.meta.plugin.papyrus.Acceptor">
+      </proposalprovider>
    </extension>
 
 </fragment>

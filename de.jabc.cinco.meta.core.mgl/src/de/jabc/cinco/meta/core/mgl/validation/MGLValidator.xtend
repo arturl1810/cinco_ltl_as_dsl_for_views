@@ -474,8 +474,18 @@ class MGLValidator extends AbstractMGLValidator {
 	
 	@Check
 	def checkGraphicalModelElementHasStyleAnnotation(GraphicalModelElement graphicalModelElement){
-		if(!graphicalModelElement.annotations.exists[x|x.name.equals("style")])
+		if(!graphicalModelElement.annotations.exists[x|x.name.equals("style")] && !graphicalModelElement.isIsAbstract)
 			warning("Graphical Model Element has no Style annotation.",MglPackage.Literals::TYPE__NAME)
+	}
+	
+	@Check
+	def checkAbstractGraphicalModelElementHasUselessAnnotations(GraphicalModelElement graphicalModelElement) {
+		if (graphicalModelElement.isIsAbstract && graphicalModelElement.annotations.exists[x | x.name.equals("style")])
+			warning("@style annotation has no effect on abstract elements", MglPackage.Literals::TYPE__NAME)
+		if (graphicalModelElement.isIsAbstract && graphicalModelElement.annotations.exists[x | x.name.equals("icon")])
+			warning("@icon annotation has no effect on abstract elements", MglPackage.Literals::TYPE__NAME)
+		if (graphicalModelElement.isIsAbstract && graphicalModelElement.annotations.exists[x | x.name.equals("palette")])
+			warning("@palette annotation has no effect on abstract elements", MglPackage.Literals::TYPE__NAME)
 	}
 	
 //	@Check

@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>3c916ba5-62a2-4951-941d-c4302cc4e008</id>
   <name>GenerateEContentAdapter</name>
-  <changecounter>156</changecounter>
+  <changecounter>162</changecounter>
   <sib>
     <id>ec2d367e-832c-4b37-b128-73a511511d46</id>
     <name>PutExpression_1</name>
@@ -287,11 +287,11 @@ public class $context.graphModelName$EContentAdapter extends EContentAdapter {
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>0d0bb94f-e4a8-4614-bd88-5a867e133c4c</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>GenerateModelElementEContentAdapter</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>0d0bb94f-e4a8-4614-bd88-5a867e133c4c</string>
     </userobject>
   </sib>
   <sib>
@@ -472,11 +472,11 @@ public class $context.graphModelName$EContentAdapter extends EContentAdapter {
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>0d0bb94f-e4a8-4614-bd88-5a867e133c4c</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>GenerateModelElementEContentAdapter</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>0d0bb94f-e4a8-4614-bd88-5a867e133c4c</string>
     </userobject>
   </sib>
   <edge>
@@ -514,11 +514,11 @@ public class $context.graphModelName$EContentAdapter extends EContentAdapter {
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>0d0bb94f-e4a8-4614-bd88-5a867e133c4c</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>GenerateModelElementEContentAdapter</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>0d0bb94f-e4a8-4614-bd88-5a867e133c4c</string>
     </userobject>
   </sib>
   <edge>
@@ -606,12 +606,12 @@ public class $context.graphModelName$EContentAdapter extends EContentAdapter {
   </sib>
   <edge>
     <source>0469d54d-b7dc-40a2-bc5d-60f6990a92cd</source>
-    <target>9f4c1579-66ad-4a98-bb62-57a65f5a6746</target>
+    <target>1eb2cbb8-b4fa-44e3-ae38-c9844747d15a</target>
     <spline/>
-    <point>105.0,240.0</point>
-    <point>225.0,195.0</point>
-    <point>330.0,240.0</point>
-    <labelposition>500.0,-29.82857142857141</labelposition>
+    <point>123.0,220.2</point>
+    <point>240.0,150.0</point>
+    <point>387.0,141.98181818181817</point>
+    <labelposition>481.57991164187064,-37.21267534222637</labelposition>
     <branch>next</branch>
   </edge>
   <edge>
@@ -628,7 +628,7 @@ public class $context.graphModelName$EContentAdapter extends EContentAdapter {
     <label>RunStringTemplate</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>280.0,213.0</position>
+    <position>340.0,213.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -662,6 +662,40 @@ public class $context.graphModelName$EContentAdapter extends EContentAdapter {
     <point>105.0,330.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>exit</branch>
+  </edge>
+  <sib>
+    <id>1eb2cbb8-b4fa-44e3-ae38-c9844747d15a</id>
+    <name>IsAbstract</name>
+    <label>IsAbstract</label>
+    <sib-uid>ge-util-sibs/IsAbstract</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsAbstract</taxonomy>
+    <position>372.5,123.0</position>
+    <parameter name="modelElement">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>modelElement</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>false</finalbranches>
+    <finalbranches>true</finalbranches>
+  </sib>
+  <edge>
+    <source>1eb2cbb8-b4fa-44e3-ae38-c9844747d15a</source>
+    <target>9f4c1579-66ad-4a98-bb62-57a65f5a6746</target>
+    <point>285.0,165.0</point>
+    <point>417.0,221.0</point>
+    <branch>false</branch>
+  </edge>
+  <edge>
+    <source>1eb2cbb8-b4fa-44e3-ae38-c9844747d15a</source>
+    <target>0469d54d-b7dc-40a2-bc5d-60f6990a92cd</target>
+    <point>285.0,165.0</point>
+    <point>111.0,216.0</point>
+    <branch>true</branch>
   </edge>
   <values/>
   <branch>

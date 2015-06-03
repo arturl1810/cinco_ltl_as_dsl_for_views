@@ -1,5 +1,9 @@
 package de.jabc.cinco.meta.plugin.papyrus.validator;
 
+import java.util.List;
+
+import mgl.Annotation;
+
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
@@ -13,7 +17,17 @@ public class AnnotationValidator implements IMetaPluginValidator {
 
 	@Override
 	public ErrorPair<String, EStructuralFeature> checkAll(EObject eObject) {
-		// TODO Auto-generated method stub
+		
+		if(eObject instanceof Annotation&&((Annotation)eObject).getName().equals("papyrus")){
+			List<String> args = ((Annotation)eObject).getValue();
+			//Amount of arguments validation
+			if(args.size() != 1){
+				return new ErrorPair<String,EStructuralFeature>(
+						"Only one arguments is allowed.",
+						eObject.eClass().getEStructuralFeature("value")
+						);
+			}
+		}
 		return null;
 	}
 

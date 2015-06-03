@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>ef7786c5-d04b-45de-89fd-b00e68b99149</id>
   <name>GenerateUpdateModelElementFeature</name>
-  <changecounter>396</changecounter>
+  <changecounter>404</changecounter>
   <sib>
     <id>b31345f6-8607-4397-986e-94a14e803be6</id>
     <name>PutExpression_1</name>
@@ -39,9 +39,9 @@
   </sib>
   <edge>
     <source>b31345f6-8607-4397-986e-94a14e803be6</source>
-    <target>cee0f62d-0478-473a-a434-74d5c44e76fe</target>
-    <point>121.875,129.0</point>
-    <point>220.0,227.33333333333331</point>
+    <target>0c35c2eb-0e82-4973-8250-5fe4c660575a</target>
+    <point>123.0,58.753846153846155</point>
+    <point>282.0,119.9076923076923</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -782,6 +782,33 @@ if (pe instanceof ConnectionDecorator) {
     <point>118.0,755.0</point>
     <branch>default</branch>
   </edge>
+  <sib>
+    <id>0c35c2eb-0e82-4973-8250-5fe4c660575a</id>
+    <name>IsAbstract</name>
+    <label>IsAbstract</label>
+    <sib-uid>ge-util-sibs/IsAbstract</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsAbstract</taxonomy>
+    <position>234.0,33.0</position>
+    <parameter name="modelElement">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>modelElement</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>false</finalbranches>
+    <finalbranches>true</finalbranches>
+  </sib>
+  <edge>
+    <source>0c35c2eb-0e82-4973-8250-5fe4c660575a</source>
+    <target>cee0f62d-0478-473a-a434-74d5c44e76fe</target>
+    <point>270.0,60.0</point>
+    <point>88.0,165.0</point>
+    <branch>false</branch>
+  </edge>
   <parameter>
     <name>modelElementKey</name>
     <field>modelElementKey</field>
@@ -791,6 +818,11 @@ if (pe instanceof ConnectionDecorator) {
     <name>modelElementKey</name>
     <field>modelElementKey</field>
     <sib>cee0f62d-0478-473a-a434-74d5c44e76fe</sib>
+  </parameter>
+  <parameter>
+    <name>modelElementKey</name>
+    <field>modelElement</field>
+    <sib>0c35c2eb-0e82-4973-8250-5fe4c660575a</sib>
   </parameter>
   <values>
     <entry>
@@ -883,5 +915,10 @@ if (pe instanceof ConnectionDecorator) {
     <name>error</name>
     <branch>error</branch>
     <sib>055157b2-ddd8-470a-8a6d-8268c833383c</sib>
+  </branch>
+  <branch>
+    <name>default</name>
+    <branch>true</branch>
+    <sib>0c35c2eb-0e82-4973-8250-5fe4c660575a</sib>
   </branch>
 </model>
