@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>c1206c24-81a8-4ae2-b093-4d794fac9742</id>
   <name>GenerateContainerShape</name>
-  <changecounter>1094</changecounter>
+  <changecounter>1160</changecounter>
   <sib>
     <id>299dd76d-8397-43af-aff5-bc29e4d4a5d6</id>
     <name>SwitchContainerShape</name>
@@ -40,7 +40,7 @@
     <label>GenRectangle</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>956.5,258.0</position>
+    <position>1091.5,258.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -72,7 +72,7 @@ $context.setStyleContent$</string>
     <label>GenEllipse</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>787.0,258.0</position>
+    <position>922.0,258.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -198,11 +198,11 @@ $context.setStyleContent$</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>e0c76532-9e6d-432c-8bdd-c39fb6516795</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>GenerateSetPosition</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>e0c76532-9e6d-432c-8bdd-c39fb6516795</string>
     </userobject>
   </sib>
   <sib>
@@ -214,11 +214,11 @@ $context.setStyleContent$</string>
     <position>62.0,196.0</position>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>1afc1c0f-b78d-4e52-ad62-7f417ac49812</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>GetRGB</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>1afc1c0f-b78d-4e52-ad62-7f417ac49812</string>
     </userobject>
   </sib>
   <edge>
@@ -323,15 +323,17 @@ $context.setStyleContent$</string>
   <edge>
     <source>e793015e-391b-44dc-bf57-3b904d64caac</source>
     <target>727cbd63-3adc-4906-ae84-e9757fec3ced</target>
-    <point>750.0,225.0</point>
-    <point>826.0,260.0</point>
+    <point>960.0,165.0</point>
+    <point>960.0,285.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
     <source>32ec6bae-a04d-491c-a0a3-20ac3e22b060</source>
     <target>099df0f6-a03f-4396-9a68-5f1bd73a7eb7</target>
-    <point>1005.0,165.0</point>
-    <point>1006.0,253.0</point>
+    <point>1140.0,165.0</point>
+    <point>1140.0,285.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
@@ -377,7 +379,7 @@ $context.setStyleContent$</string>
     <label>GenerateUniqueGaName</label>
     <sib-uid>ge-util-sibs/GenerateUniqueGaName</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.GenerateUniqueGaName</taxonomy>
-    <position>742.5,138.0</position>
+    <position>877.5,138.0</position>
     <parameter name="clearCache">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
@@ -414,7 +416,7 @@ $context.setStyleContent$</string>
     <label>GenerateUniqueGaName</label>
     <sib-uid>ge-util-sibs/GenerateUniqueGaName</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.GenerateUniqueGaName</taxonomy>
-    <position>922.5,138.0</position>
+    <position>1057.5,138.0</position>
     <parameter name="clearCache">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
@@ -842,6 +844,17 @@ peService.setPropertyValue($context.peName$, $context.graphModelName$LayoutUtils
       <string>$context.appearanceContent$
 ContainerShape $context.meShapeName$ = peService.createContainerShape($context.parentName$, $context.diagramIsParent$);
 Polygon $context.peName$ = gaService.createPolygon($context.meShapeName$, new int[] {$context.pointCode$});
+int xMin = $context.graphModelName$GraphitiUtils.getInstance().min(new int[] {$context.xPoints$});
+int yMin =$context.graphModelName$GraphitiUtils.getInstance().min(new int[] {$context.yPoints$});
+int width = Math.abs(xMin) + $context.graphModelName$GraphitiUtils.getInstance().max(new int[] {$context.xPoints$});
+int height= Math.abs(yMin) +$context.graphModelName$GraphitiUtils.getInstance().max(new int[] {$context.yPoints$});
+
+for (Point _p : $context.peName$.getPoints()) {
+	_p.setX(_p.getX() + Math.abs(xMin));
+	_p.setY(_p.getY() + Math.abs(yMin));
+}
+
+gaService.setSize($context.peName$, width, height);
 
 $context.setStyleContent$</string>
     </parameter>
@@ -898,9 +911,12 @@ $context.setStyleContent$</string>
   </edge>
   <edge>
     <source>db99eefe-a74c-4a7d-bc42-11c536305ccb</source>
-    <target>05d615e5-55f4-4211-bc3f-32551ff920f5</target>
-    <point>645.0,285.0</point>
-    <point>744.0,398.0</point>
+    <target>1548cba6-3d93-4188-9139-51c540c3cd7e</target>
+    <spline/>
+    <point>641.6666666666666,444.0</point>
+    <point>585.0,750.0</point>
+    <point>745.0,768.6666666666666</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
@@ -1059,7 +1075,7 @@ $context.setStyleContent$</string>
     <label>PointCode</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>713.0,303.0</position>
+    <position>728.0,213.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -1084,18 +1100,17 @@ $context.setStyleContent$</string>
   <edge>
     <source>588181c7-22b2-49b8-a08c-266fd75c3faf</source>
     <target>cf75cc0a-edc1-4cd9-9dea-5c6139961104</target>
-    <spline/>
-    <point>663.0,310.2</point>
-    <point>705.0,285.0</point>
-    <point>732.0,306.6</point>
-    <labelposition>562.1999346454483,-15.196721732215138</labelposition>
+    <point>663.0,308.85</point>
+    <point>747.0,245.85</point>
+    <labelposition>503.90476190476613,1.1199999999999863</labelposition>
     <branch>next</branch>
   </edge>
   <edge>
     <source>cf75cc0a-edc1-4cd9-9dea-5c6139961104</source>
-    <target>588181c7-22b2-49b8-a08c-266fd75c3faf</target>
-    <point>750.0,330.0</point>
-    <point>659.0,328.0</point>
+    <target>a6707b2d-3484-47e3-a87f-db62cc7bb5b7</target>
+    <point>765.0,339.0</point>
+    <point>765.0,378.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
@@ -1123,11 +1138,11 @@ $context.setStyleContent$</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>89d840e4-331f-40a5-a378-646d7f13846a</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>GetAbstractShapeAppearance</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>89d840e4-331f-40a5-a378-646d7f13846a</string>
     </userobject>
   </sib>
   <edge>
@@ -1135,6 +1150,76 @@ $context.setStyleContent$</string>
     <target>4782d9e4-924c-4c1d-8f56-7235a1e23813</target>
     <point>570.0,765.0</point>
     <point>759.0,866.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>a6707b2d-3484-47e3-a87f-db62cc7bb5b7</id>
+    <name>RunStringTemplate_10</name>
+    <label>XPoints</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>740.0,303.0</position>
+    <parameter name="append">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>xPoints</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>$context.polygonPoint.x$, </string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>9b5b750a-9542-4980-8d21-17e884a9bcd8</id>
+    <name>RunStringTemplate_11</name>
+    <label>YPoints</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>740.0,393.0</position>
+    <parameter name="append">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>yPoints</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>$context.polygonPoint.y$, </string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>a6707b2d-3484-47e3-a87f-db62cc7bb5b7</source>
+    <target>9b5b750a-9542-4980-8d21-17e884a9bcd8</target>
+    <point>765.0,405.0</point>
+    <point>840.0,246.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>9b5b750a-9542-4980-8d21-17e884a9bcd8</source>
+    <target>588181c7-22b2-49b8-a08c-266fd75c3faf</target>
+    <point>840.0,270.0</point>
+    <point>639.0,329.0</point>
     <branch>default</branch>
   </edge>
   <parameter>

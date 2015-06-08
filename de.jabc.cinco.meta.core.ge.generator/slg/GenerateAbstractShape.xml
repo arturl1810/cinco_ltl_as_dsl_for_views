@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>83d95140-6c37-4d47-b41c-dc01202047a8</id>
   <name>GenerateAbstractShape</name>
-  <changecounter>1075</changecounter>
+  <changecounter>1118</changecounter>
   <sib>
     <id>15d12de3-be92-4199-912c-41f8d0975e20</id>
     <name>SwitchAbstractShape</name>
@@ -72,11 +72,11 @@
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>c1206c24-81a8-4ae2-b093-4d794fac9742</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>GenerateContainerShape</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>c1206c24-81a8-4ae2-b093-4d794fac9742</string>
     </userobject>
   </sib>
   <edge>
@@ -196,11 +196,11 @@
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>36d9fec6-e1a2-4c6b-8680-956d60534097</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>GenerateShape</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>36d9fec6-e1a2-4c6b-8680-956d60534097</string>
     </userobject>
   </sib>
   <edge>
@@ -336,11 +336,11 @@
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>5b88ca67-73f0-4e1c-bf6d-2766f895d72f</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>GenerateSetDefaultPositionAndSize</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>5b88ca67-73f0-4e1c-bf6d-2766f895d72f</string>
     </userobject>
   </sib>
   <edge>
@@ -509,11 +509,11 @@
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>83d95140-6c37-4d47-b41c-dc01202047a8</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>GenerateAbstractShape</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>83d95140-6c37-4d47-b41c-dc01202047a8</string>
     </userobject>
   </sib>
   <sib>
@@ -628,14 +628,14 @@
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </entry>
     <entry>
-      <string>currentShapeKey</string>
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>currentShapeKey</key>
-          <scope>DECLARED</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+      <string>parentName</string>
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>${parentName}</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
     </entry>
     <entry>
       <string>styleKey</string>
@@ -648,14 +648,14 @@
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </entry>
     <entry>
-      <string>parentName</string>
-      <de.metaframe.common.sib.parameter.ContextExpression>
-        <ContextExpressionFoundation>
-          <expression>${parentName}</expression>
-          <clazz>java.lang.Object</clazz>
-          <classMutable>true</classMutable>
-        </ContextExpressionFoundation>
-      </de.metaframe.common.sib.parameter.ContextExpression>
+      <string>currentShapeKey</string>
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>currentShapeKey</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </entry>
   </values>
   <branch>
