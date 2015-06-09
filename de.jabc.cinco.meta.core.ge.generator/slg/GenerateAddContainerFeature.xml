@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>c7542d87-aa25-4707-a286-db91e10d7301</id>
   <name>GenerateAddContainerFeature</name>
-  <changecounter>460</changecounter>
+  <changecounter>468</changecounter>
   <sib>
     <id>3f7b7312-5278-4d0a-b7f8-45424c587ca9</id>
     <name>GetNodeContainerIsAbstract</name>
@@ -414,6 +414,7 @@ import org.eclipse.graphiti.features.context.impl.AddContext;
 import org.eclipse.graphiti.features.context.impl.ResizeShapeContext;
 import org.eclipse.graphiti.features.impl.AbstractAddShapeFeature;
 import org.eclipse.graphiti.mm.algorithms.*;
+import org.eclipse.graphiti.mm.algorithms.styles.Point;
 import org.eclipse.graphiti.mm.pictograms.*;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.services.IGaService;
@@ -628,11 +629,11 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>843b7fe1-9b8e-4b49-94ab-777e60336bda</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>CheckStyleAnnotation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>843b7fe1-9b8e-4b49-94ab-777e60336bda</string>
     </userobject>
   </sib>
   <sib>
@@ -829,11 +830,11 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>83d95140-6c37-4d47-b41c-dc01202047a8</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>GenerateAbstractShape</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>83d95140-6c37-4d47-b41c-dc01202047a8</string>
     </userobject>
   </sib>
   <sib>
@@ -853,11 +854,11 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <finalbranches>default</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>3bb8a1c5-18ed-4580-8582-3c735f199d9e</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>GenerateModelElementPostCreationHook</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>3bb8a1c5-18ed-4580-8582-3c735f199d9e</string>
     </userobject>
   </sib>
   <edge>

@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>7def08b0-45b0-4f5d-9629-657ab3028508</id>
   <name>GenerateAddNodeFeature</name>
-  <changecounter>1579</changecounter>
+  <changecounter>1628</changecounter>
   <sib>
     <id>b89523ed-9916-4f61-a5e9-9e1d8838a845</id>
     <name>PutExpression_1</name>
@@ -116,6 +116,7 @@ import org.eclipse.graphiti.features.context.IAddContext;
 import org.eclipse.graphiti.features.context.impl.ResizeShapeContext;
 import org.eclipse.graphiti.features.impl.*;
 import org.eclipse.graphiti.mm.algorithms.*;
+import org.eclipse.graphiti.mm.algorithms.styles.Point;
 import org.eclipse.graphiti.mm.algorithms.styles.*;
 import org.eclipse.graphiti.mm.pictograms.*;
 import org.eclipse.graphiti.services.*;
@@ -272,11 +273,11 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>843b7fe1-9b8e-4b49-94ab-777e60336bda</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>CheckStyleAnnotation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>843b7fe1-9b8e-4b49-94ab-777e60336bda</string>
     </userobject>
   </sib>
   <edge>
@@ -481,6 +482,7 @@ import org.eclipse.graphiti.features.context.IAddContext;
 import org.eclipse.graphiti.features.context.impl.ResizeShapeContext;
 import org.eclipse.graphiti.features.impl.*;
 import org.eclipse.graphiti.mm.algorithms.*;
+import org.eclipse.graphiti.mm.algorithms.styles.Point;
 import org.eclipse.graphiti.mm.algorithms.styles.*;
 import org.eclipse.graphiti.mm.pictograms.*;
 import org.eclipse.graphiti.services.*;
@@ -1197,11 +1199,11 @@ Leaving Generate ${nodeName} AddFeature </expression>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>83d95140-6c37-4d47-b41c-dc01202047a8</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>GenerateAbstractShape</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>83d95140-6c37-4d47-b41c-dc01202047a8</string>
     </userobject>
   </sib>
   <sib>
@@ -1260,11 +1262,11 @@ Leaving Generate ${nodeName} AddFeature </expression>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>490b2287-36b7-4f06-83f7-fd9ae2c167c6</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>GeneratePrimeParameter</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>490b2287-36b7-4f06-83f7-fd9ae2c167c6</string>
     </userobject>
   </sib>
   <edge>
@@ -1301,11 +1303,11 @@ Leaving Generate ${nodeName} AddFeature </expression>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>4ac25e32-ae6b-469a-b78c-1764aa97ce4d</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>GenerateCheckContainer</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>4ac25e32-ae6b-469a-b78c-1764aa97ce4d</string>
     </userobject>
   </sib>
   <edge>
@@ -1332,11 +1334,11 @@ Leaving Generate ${nodeName} AddFeature </expression>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <finalbranches>default</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>3bb8a1c5-18ed-4580-8582-3c735f199d9e</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>GenerateModelElementPostCreationHook</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>3bb8a1c5-18ed-4580-8582-3c735f199d9e</string>
     </userobject>
   </sib>
   <edge>

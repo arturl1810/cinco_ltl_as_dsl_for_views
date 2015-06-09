@@ -387,7 +387,7 @@ public class Resize$context.modelElement.name$Feature extends DefaultResizeShape
 	public boolean canResizeShape(IResizeShapeContext context, boolean apiCall) {
 		if (apiCall) {
 			Object bo = getBusinessObjectForPictogramElement(context.getPictogramElement());
-			return (bo instanceof $context.modelElement.name$ &amp;&amp; !(context.getPictogramElement().getGraphicsAlgorithm() instanceof Polygon));
+			return (bo instanceof $context.modelElement.name);
 		}
 		return false;
 	}
@@ -404,15 +404,18 @@ public class Resize$context.modelElement.name$Feature extends DefaultResizeShape
 			@Override
 			protected void doExecute() {
 				bo = ($context.modelElement.name$) getBusinessObjectForPictogramElement(context.getPictogramElement());
-				
+				Shape s = context.getShape();
+				GraphicsAlgorithm ga = s.getGraphicsAlgorithm();
+
 				int oWidth = context.getWidth();
 				int oHeight = context.getHeight();
 				
 				int deltaWidth = context.getShape().getGraphicsAlgorithm().getWidth() - oWidth; 
 				int deltaHeight = context.getShape().getGraphicsAlgorithm().getHeight() - oHeight;
-				
-				Shape s = context.getShape();
-				resizeByDelta(s.getGraphicsAlgorithm(), context.getWidth(), context.getHeight());
+
+				if (ga instanceof Polyline)
+					resizePolyline((Polyline) ga, context);
+				else resizeByDelta(s.getGraphicsAlgorithm(), context.getWidth(), context.getHeight());
 				if (s instanceof ContainerShape) {
 					for (Shape c : ((ContainerShape) s).getChildren()) {
 						resizeChildren(c, deltaWidth, deltaHeight);
@@ -461,6 +464,65 @@ public class Resize$context.modelElement.name$Feature extends DefaultResizeShape
 				Graphiti.getGaService().setLocationAndSize(ga, context.getX(), context.getY(), width, height);
 
 			}
+
+			private void resizePolyline(Polyline polyline, IResizeShapeContext context) {
+				int oldWidth = polyline.getWidth();
+				int oldHeight = polyline.getHeight();
+				int newWidth = context.getWidth();
+				int newHeight = context.getHeight();
+				
+				int contextX = context.getX();
+				int contextY = context.getY();
+				int deltaX = contextX - polyline.getX();
+				int deltaY = contextY - polyline.getY();
+				
+				double scaleX = (double) newWidth / (double) oldWidth;
+				double scaleY = (double) newHeight / (double) oldHeight;
+				scalePoints(polyline.getPoints(), scaleX, scaleY);
+				if (polyline.getPictogramElement() instanceof ContainerShape) {
+					for (Shape child : ((ContainerShape) polyline.getPictogramElement()).getChildren()) {
+						moveByDelta(child, - deltaX, - deltaY);
+					}
+				}
+				
+				Graphiti.getGaService().setLocationAndSize(polyline, contextX, contextY, newWidth, newHeight);
+			}
+
+			private void scalePoints(EList&lt;Point&gt; points, double scaleX, double scaleY) {
+				for (Point p : points) {
+					p.setX((int) (scaleX * p.getX()));
+					p.setY((int) (scaleY * p.getY()));
+				}
+			}
+			
+			private boolean isInnerShape(GraphicsAlgorithm ga) {
+				if (ga instanceof AbstractText
+						|| Graphiti.getPeService().getProperty(ga, $context.graphModelName$LayoutUtils.KEY_HORIZONTAL).equals($context.graphModelName$LayoutUtils.KEY_HORIZONTAL_UNDEFINED))
+					return true;
+				if (bo instanceof Node)
+					return false;
+				return !(bo instanceof Container &amp;&amp; sharesBusinessObject(ga));
+			}
+
+			private boolean sharesBusinessObject(GraphicsAlgorithm ga) {
+				EObject linkedBO = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(ga.getPictogramElement());
+				while (linkedBO == null) {
+					linkedBO = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement((PictogramElement) ga.getPictogramElement().eContainer());
+				}
+				return (bo.equals(linkedBO));
+			}
+
+			private void moveByDelta(Shape shape, int deltaX, int deltaY) {
+				GraphicsAlgorithm ga = shape.getGraphicsAlgorithm();
+				if (ga != null &amp;&amp; !isInnerShape(ga)) {
+					Graphiti.getGaService().setLocation(ga, ga.getX() + deltaX, ga.getY() + deltaY);
+					if (ga instanceof ContainerShape) {
+						for (Shape child : ((ContainerShape) ga).getChildren()) {
+							moveByDelta(child, deltaX, deltaY);
+						}
+					}
+				}
+			}
 		});
 
 	}
@@ -482,10 +544,10 @@ public class Resize$context.modelElement.name$Feature extends DefaultResizeShape
     <source>6eaa5495-70b4-4f26-b3f1-2ddf8f10b760</source>
     <target>b666afb6-9cc4-4d2b-aabf-727ef75e9474</target>
     <spline/>
-    <point>408.1858407079646,384.0</point>
-    <point>465.0,705.0</point>
-    <point>108.0,982.032</point>
-    <labelposition>393.9881938407847,-194.7841757558331</labelposition>
+    <point>406.6564417177914,384.0</point>
+    <point>450.0,855.0</point>
+    <point>108.0,988.95</point>
+    <labelposition>598.9082977621217,-250.04622153078984</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
