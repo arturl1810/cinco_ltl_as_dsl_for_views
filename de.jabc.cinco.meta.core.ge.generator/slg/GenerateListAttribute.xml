@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>76ccd186-a5e5-4177-9388-d605baba87ee</id>
   <name>GenerateListAttribute</name>
-  <changecounter>127</changecounter>
+  <changecounter>131</changecounter>
   <sib>
     <id>011ad06a-a303-4d66-8b28-ca363e433e70</id>
     <name>GetAttributeType</name>

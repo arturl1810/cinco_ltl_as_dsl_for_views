@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>21a09387-7e17-4606-a778-1e7bb342ecbd</id>
   <name>GenerateSingleEnumeration</name>
-  <changecounter>150</changecounter>
+  <changecounter>155</changecounter>
   <sib>
     <id>d1c30f87-0fd9-4945-b421-8e6ce0817cc2</id>
     <name>CopyEObject</name>
@@ -647,15 +647,15 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
 	data.top = new FormAttachment(0, ITabbedPropertyConstants.VSPACE);
 	$context.flAttributeName$Combo.setLayoutData(data);
 
-	Label nameLabel = factory.createLabel(composite, &quot;$context.fuAttributeName$&quot;);
+	Label $context.flAttributeName$Label = factory.createLabel(composite, &quot;$context.fuAttributeName$&quot;);
 	data = new FormData();
 	data.left = new FormAttachment(0, 0);
 	data.right = new FormAttachment($context.flAttributeName$Combo, -ITabbedPropertyConstants.HSPACE);
 	data.top = new FormAttachment($context.flAttributeName$Combo, 0, SWT.CENTER);
-	nameLabel.setLayoutData(data);
+	$context.flAttributeName$Label.setLayoutData(data);
 	
-	$context.attributeName$Combo.setEditable(false);
-	$context.attributeName$Combo.setEnabled(false);
+	$context.flAttributeName$Combo.setEditable(false);
+	$context.flAttributeName$Combo.setEnabled(false);
 
 }
 </string>

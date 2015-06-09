@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>b49c55b6-737b-4210-8bcc-74d19bab446b</id>
   <name>GenerateListEnumeration</name>
-  <changecounter>114</changecounter>
+  <changecounter>121</changecounter>
   <sib>
     <id>0d0e9bd4-4a8c-40ec-8c30-eaafbbe0d32d</id>
     <name>CopyEObject</name>
@@ -216,7 +216,7 @@ final class EnumerationEditingSupport extends EditingSupport {
 		if (element instanceof $context.enum.name$ &amp;&amp; value != null) {
 			$context.enum.name$ tmp = ($context.enum.name$) element;
 			if (!tmp.getLiteral().equals(value)){
-				final Start sel = getBusinessObjectForSelection(getSelectedPictogramElement());
+				final $context.modelElementName$ sel = getBusinessObjectForSelection(getSelectedPictogramElement());
 				if (sel == null)
 					return;
 				TransactionalEditingDomain dom = getDiagramContainer().getDiagramBehavior().getEditingDomain();
@@ -224,8 +224,8 @@ final class EnumerationEditingSupport extends EditingSupport {
 					
 					@Override
 					protected void doExecute() {
-						sel.getNumbers().remove(numbersTable.getSelectionIndex());
-						sel.getNumbers().add(numbersTable.getSelectionIndex()+1, ($context.enum.name$) value);
+						sel.get$context.fuAttributeName$().remove($context.flAttributeName$Table.getSelectionIndex());
+						sel.get$context.fuAttributeName$().add($context.flAttributeName$Table.getSelectionIndex()+1, ($context.enum.name$) value);
 					}
 				});
 				
@@ -312,7 +312,7 @@ final class EnumerationTableLabelProvider extends LabelProvider implements ITabl
 				
 				@Override
 				protected void doExecute() {
-					tmp.getNumbers().add($context.enum.name$.get(0));
+					tmp.get$context.fuAttributeName$().add($context.enum.name$.get(0));
 					refresh();
 				}
 			});
