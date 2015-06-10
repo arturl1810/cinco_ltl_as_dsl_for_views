@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>e96e3211-9e15-4d4a-94a9-7b4b8375d7a3</id>
   <name>GenerateLayoutFeatures</name>
-  <changecounter>585</changecounter>
+  <changecounter>608</changecounter>
   <sib>
     <id>ff7817b7-c328-4684-827e-afc4ea81c9f3</id>
     <name>PutExpression</name>
@@ -269,7 +269,7 @@ public class $context.graphModelName$LayoutUtils {
 			}			
 
 			if (appearance.getAngle() != -1 &amp;&amp; ga instanceof AbstractText) {
-				((AbstractText)ga).setAngle(appearance.getAngle());
+				((AbstractText)ga).setRotation((double) appearance.getAngle());
 			}
 			
 			if (appearance.getBackground() != null) {
@@ -1003,11 +1003,11 @@ public class Layout$context.container.name$Feature extends AbstractLayoutFeature
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>f7b62494-1378-4d7a-afe4-57e7c97b4239</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>GenerateAppearance</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>f7b62494-1378-4d7a-afe4-57e7c97b4239</string>
     </userobject>
   </sib>
   <edge>

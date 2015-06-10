@@ -500,7 +500,7 @@ public class ServiceAdapter {
 			Appearance parent = app.getParent();
 			setValues(parent, newApp);
 			
-			if (app.getAngle() != -1) 
+			if (app.getAngle() != -1.0)
 				newApp.setAngle(app.getAngle());
 			
 			if (app.getBackground() != null){
@@ -541,7 +541,7 @@ public class ServiceAdapter {
 			newApp.setFilled(true);
 		if (newApp.getLineInVisible() == null)
 			newApp.setLineInVisible(false);
-		if (newApp.getAngle() == -1)
+		if (newApp.getAngle() == -1.0)
 			newApp.setAngle(0);
 		if (newApp.getBackground() == null) {
 			Color white = StyleFactory.eINSTANCE.createColor();

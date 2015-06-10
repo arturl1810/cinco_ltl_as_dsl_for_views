@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>8c0c4aaa-0b84-496b-b27c-e0bb693c3a1e</id>
   <name>SetAppearanceDefaultValues</name>
-  <changecounter>164</changecounter>
+  <changecounter>174</changecounter>
   <sib>
     <id>0d1da2ca-eb40-4e5d-9608-f689e05aeade</id>
     <name>SetAppearanceAngle</name>
@@ -53,28 +53,6 @@
           <key>appearanceLineWidthDefault</key>
           <scope>GLOBAL</scope>
           <scopeMutable>false</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-  </sib>
-  <sib>
-    <id>06b6e329-900e-4ab6-8270-d6abe628b291</id>
-    <name>PutInteger</name>
-    <label>DefaultAngle</label>
-    <sib-uid>basic-sibs/PutInteger</sib-uid>
-    <taxonomy>de.jabc.sib.common.basic.PutInteger</taxonomy>
-    <position>374.5,123.0</position>
-    <parameter name="value">
-      <int>0</int>
-    </parameter>
-    <parameter name="variable">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>appearanceAngleDefault</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
@@ -255,7 +233,7 @@
   </sib>
   <edge>
     <source>e5ef045f-e0f8-459c-8fea-b692f6f2379b</source>
-    <target>06b6e329-900e-4ab6-8270-d6abe628b291</target>
+    <target>cce8f680-6a66-4dae-bd9f-51868084b1c6</target>
     <spline/>
     <point>419.0,39.0</point>
     <point>419.0,144.0</point>
@@ -263,7 +241,7 @@
     <branch>default</branch>
   </edge>
   <edge>
-    <source>06b6e329-900e-4ab6-8270-d6abe628b291</source>
+    <source>cce8f680-6a66-4dae-bd9f-51868084b1c6</source>
     <target>afb503d6-a8c2-42d2-8551-63bf7ec64851</target>
     <spline/>
     <point>419.0,144.0</point>
@@ -804,16 +782,33 @@
     <point>428.0,531.0</point>
     <branch>default</branch>
   </edge>
+  <sib>
+    <id>cce8f680-6a66-4dae-bd9f-51868084b1c6</id>
+    <name>PutInteger</name>
+    <label>DefaultAngle</label>
+    <sib-uid>basic-sibs/PutFloat</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.PutFloat</taxonomy>
+    <position>374.5,123.0</position>
+    <parameter name="value">
+      <float>0.0</float>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>appearanceAngleDefault</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
   <values/>
   <branch>
     <name>error</name>
     <branch>error</branch>
     <sib>e5ef045f-e0f8-459c-8fea-b692f6f2379b</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>06b6e329-900e-4ab6-8270-d6abe628b291</sib>
   </branch>
   <branch>
     <name>error</name>
@@ -924,5 +919,10 @@
     <name>error</name>
     <branch>error</branch>
     <sib>06525436-de1e-4a99-8d6a-737d930aaaa1</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>cce8f680-6a66-4dae-bd9f-51868084b1c6</sib>
   </branch>
 </model>
