@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>36d9fec6-e1a2-4c6b-8680-956d60534097</id>
   <name>GenerateShape</name>
-  <changecounter>1044</changecounter>
+  <changecounter>1070</changecounter>
   <sib>
     <id>f901026e-1a69-421b-912a-54b756b8a46b</id>
     <name>GetShapeName</name>
@@ -87,7 +87,7 @@
     <parameter name="template">
       <string>Shape $context.meShapeName$ = peService.createShape($context.parentName$, $context.diagramIsParent$);
 Text $context.peName$ = gaService.createPlainText($context.meShapeName$);
-
+linkingList.add($context.meShapeName$);
 try {
 	$context.peName$.setFilled(false);
 
@@ -248,11 +248,11 @@ gaService.setSize($context.peName$, $context.size.width$, $context.size.height$)
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>e0c76532-9e6d-432c-8bdd-c39fb6516795</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>GenerateSetPosition</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>e0c76532-9e6d-432c-8bdd-c39fb6516795</string>
     </userobject>
   </sib>
   <edge>
@@ -353,11 +353,11 @@ gaService.setSize($context.peName$, $context.size.width$, $context.size.height$)
     </parameter>
     <finalbranches>error</finalbranches>
     <finalbranches>exit</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>2a28c6a3-7550-4d5b-a8c5-c31758cd1dd2</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>GenerateGetTextValues2</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>2a28c6a3-7550-4d5b-a8c5-c31758cd1dd2</string>
     </userobject>
   </sib>
   <sib>
@@ -655,11 +655,11 @@ $context.peName$.setStretchV(true);</string>
     <finalbranches>error</finalbranches>
     <finalbranches>false</finalbranches>
     <finalbranches>true</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>90a32e26-bf9e-415a-bbd4-2480bf6e06d0</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>CheckCincoImagePath</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>90a32e26-bf9e-415a-bbd4-2480bf6e06d0</string>
     </userobject>
   </sib>
   <edge>
@@ -1446,11 +1446,11 @@ peService.setPropertyValue($context.peName$, $context.graphModelName$LayoutUtils
     </parameter>
     <finalbranches>error</finalbranches>
     <finalbranches>exit</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>2a28c6a3-7550-4d5b-a8c5-c31758cd1dd2</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>GenerateGetTextValues2</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>2a28c6a3-7550-4d5b-a8c5-c31758cd1dd2</string>
     </userobject>
   </sib>
   <sib>
@@ -1514,6 +1514,7 @@ peService.setPropertyValue($context.peName$, $context.graphModelName$LayoutUtils
     <parameter name="template">
       <string>Shape $context.meShapeName$ = peService.createShape($context.parentName$, $context.diagramIsParent$);
 MultiText $context.peName$ = gaService.createDefaultMultiText(getDiagram(), $context.meShapeName$);
+linkingList.add($context.meShapeName$);
 try {
 	$context.peName$.setFilled(false);
 
@@ -1734,11 +1735,11 @@ try {
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>89d840e4-331f-40a5-a378-646d7f13846a</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>GetAbstractShapeAppearance</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>89d840e4-331f-40a5-a378-646d7f13846a</string>
     </userobject>
   </sib>
   <edge>
