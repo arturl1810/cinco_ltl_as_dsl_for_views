@@ -40,7 +40,7 @@ public class ChooseFontStyle extends ReplacementTextApplier{
 			break;
 		}
 		
-		String retVal = prefix+"\""+fData.name + "\"," +style+ fData.getHeight() +")";
+		String retVal = prefix+"\""+fData.getName() + "\"," +style+ fData.getHeight() +")";
 		if (fData != null)
 			return retVal;
 		else return "";

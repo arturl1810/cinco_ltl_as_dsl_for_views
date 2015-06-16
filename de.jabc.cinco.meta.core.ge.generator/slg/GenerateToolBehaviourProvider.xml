@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>6830c0f3-7532-49ad-ad67-7fb466c9d0a9</id>
   <name>GenerateToolBehaviourProvider</name>
-  <changecounter>268</changecounter>
+  <changecounter>285</changecounter>
   <sib>
     <id>c8e21300-66b5-43fa-a031-ae9d0f22cbf2</id>
     <name>PutExpression</name>
@@ -71,8 +71,9 @@
   <edge>
     <source>c8e21300-66b5-43fa-a031-ae9d0f22cbf2</source>
     <target>e9dd2cc9-4a0f-4dcb-bcbe-f05d7919cee6</target>
-    <point>195.0,165.0</point>
-    <point>315.0,165.0</point>
+    <point>90.0,69.0</point>
+    <point>90.0,168.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
@@ -81,7 +82,7 @@
     <label>RunStringTemplate</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>25.0,468.0</position>
+    <position>25.0,603.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -103,6 +104,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.graphiti.dt.IDiagramTypeProvider;
 import org.eclipse.graphiti.features.ICreateConnectionFeature;
 import org.eclipse.graphiti.features.ICreateFeature;
@@ -209,6 +211,13 @@ public class $context.fuGraphModelName$ToolBehaviourProvider extends DefaultTool
 		return super.getDoubleClickFeature(context);
 	}
 
+	@Override
+	public PictogramElement getSelection(PictogramElement originalPe, PictogramElement[] oldSelection) {
+		EObject bo = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(originalPe);
+		$context.canSelectContent$
+		return super.getSelection(originalPe, oldSelection);
+	}
+
 }
 </string>
     </parameter>
@@ -229,7 +238,7 @@ public class $context.fuGraphModelName$ToolBehaviourProvider extends DefaultTool
     <label>WriteJavaFile</label>
     <sib-uid>genesys-sibs/WriteJavaFile</sib-uid>
     <taxonomy>de.jabc.sib.genesys.WriteJavaFile</taxonomy>
-    <position>43.0,573.0</position>
+    <position>43.0,723.0</position>
     <parameter name="baseDirectory">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -286,37 +295,16 @@ public class $context.fuGraphModelName$ToolBehaviourProvider extends DefaultTool
   <edge>
     <source>5a2da4db-bfc2-47b9-9a74-720f1e2052f2</source>
     <target>91532a33-667f-4770-8444-371c05656291</target>
-    <point>90.0,495.0</point>
-    <point>90.0,600.0</point>
+    <point>90.0,639.0</point>
+    <point>90.0,723.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
-  <sib>
-    <id>9cb1d2a5-7080-4d7a-b48f-2ac05e57e5b3</id>
-    <name>PrintConsoleMessage</name>
-    <label>PrintConsoleMessage</label>
-    <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
-    <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
-    <position>16.5,678.0</position>
-    <parameter name="error">
-      <boolean>false</boolean>
-    </parameter>
-    <parameter name="message">
-      <de.metaframe.common.sib.parameter.ContextExpression>
-        <ContextExpressionFoundation>
-          <expression>Wrote ToolBehaviorProvider</expression>
-          <clazz>java.lang.Object</clazz>
-          <classMutable>false</classMutable>
-        </ContextExpressionFoundation>
-      </de.metaframe.common.sib.parameter.ContextExpression>
-    </parameter>
-    <finalbranches>default</finalbranches>
-  </sib>
   <edge>
     <source>91532a33-667f-4770-8444-371c05656291</source>
     <target>9cb1d2a5-7080-4d7a-b48f-2ac05e57e5b3</target>
-    <point>90.0,600.0</point>
-    <point>90.0,705.0</point>
+    <point>289.0,585.0</point>
+    <point>270.0,750.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -536,14 +524,58 @@ public class $context.fuGraphModelName$ToolBehaviourProvider extends DefaultTool
       <string>f99467c8-1334-49f9-a0cb-9e2f6cc9db0d</string>
     </userobject>
   </sib>
+  <sib>
+    <id>bac5c845-ac5c-4e41-82d9-67ef5f8763c0</id>
+    <name>GraphSIB_1</name>
+    <label>GenerateCanSelect</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>31.0,481.0</position>
+    <finalbranches>default</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>GenerateCanSelect</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>a259c89f-adaa-431d-a7f2-ec3a2354fc53</string>
+    </userobject>
+  </sib>
   <edge>
-    <source>098e7621-e4e0-4b7d-b4ab-9f96a72d8bd2</source>
+    <source>bac5c845-ac5c-4e41-82d9-67ef5f8763c0</source>
     <target>5a2da4db-bfc2-47b9-9a74-720f1e2052f2</target>
-    <point>90.0,356.0</point>
-    <point>90.0,738.0</point>
+    <point>90.0,521.0</point>
+    <point>90.0,603.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
+  <edge>
+    <source>098e7621-e4e0-4b7d-b4ab-9f96a72d8bd2</source>
+    <target>bac5c845-ac5c-4e41-82d9-67ef5f8763c0</target>
+    <point>90.0,356.0</point>
+    <point>90.0,481.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>9cb1d2a5-7080-4d7a-b48f-2ac05e57e5b3</id>
+    <name>PrintConsoleMessage</name>
+    <label>PrintConsoleMessage</label>
+    <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
+    <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
+    <position>196.5,723.0</position>
+    <parameter name="error">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="message">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>Wrote ToolBehaviorProvider</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>false</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <finalbranches>default</finalbranches>
+  </sib>
   <values/>
   <branch>
     <name>error</name>
@@ -564,11 +596,6 @@ public class $context.fuGraphModelName$ToolBehaviourProvider extends DefaultTool
     <name>error</name>
     <branch>error</branch>
     <sib>91532a33-667f-4770-8444-371c05656291</sib>
-  </branch>
-  <branch>
-    <name>default</name>
-    <branch>default</branch>
-    <sib>9cb1d2a5-7080-4d7a-b48f-2ac05e57e5b3</sib>
   </branch>
   <branch>
     <name>error</name>
@@ -594,5 +621,10 @@ public class $context.fuGraphModelName$ToolBehaviourProvider extends DefaultTool
     <name>error</name>
     <branch>error</branch>
     <sib>96734170-3cc8-45e1-ac1b-cc8043c0f2e2</sib>
+  </branch>
+  <branch>
+    <name>default</name>
+    <branch>default</branch>
+    <sib>9cb1d2a5-7080-4d7a-b48f-2ac05e57e5b3</sib>
   </branch>
 </model>

@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>f1d5af47-45ba-4222-907e-288031bbbeec</id>
   <name>GenerateListBooleanCode</name>
-  <changecounter>49</changecounter>
+  <changecounter>69</changecounter>
   <sib>
     <id>61c4f117-d93e-4219-8c5f-3fc73bc0ff6e</id>
     <name>RunStringTemplate_2</name>
@@ -42,18 +42,19 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
 	data.left = new FormAttachment(0, $context.width$);
 	data.right = new FormAttachment(100, 0);
 	data.top = new FormAttachment(0, ITabbedPropertyConstants.VSPACE);
-	$context.attributeName$Text.setLayoutData(data);
+	$context.flAttributeName$Text.setLayoutData(data);
+	$context.flAttributeName$Text.setEnabled(!$context.isReadOnly$);
 
-	Label $context.attribute.name$Label = factory.createLabel(composite, &quot;$context.fuAttributeName$:&quot;);
+	Label $context.flAttributeName$Label = factory.createLabel(composite, &quot;$context.fuAttributeName$:&quot;);
 	data = new FormData();
 	data.left = new FormAttachment(0, 0);
 	data.right = new FormAttachment($context.flAttributeName$Text, -ITabbedPropertyConstants.HSPACE);
 	data.top = new FormAttachment($context.flAttributeName$Text, 0, SWT.CENTER);
-	$context.attributeName$Label.setLayoutData(data);
+	$context.flAttributeName$Label.setLayoutData(data);
 
-	$context.attributeName$Text.addTraverseListener(traverseListener);
-	$context.attributeName$Text.addFocusListener(focusListener);
-	$context.attributeName$Text.addVerifyListener(verifyListener);
+	$context.flAttributeName$Text.addTraverseListener(traverseListener);
+	$context.flAttributeName$Text.addFocusListener(focusListener);
+	$context.flAttributeName$Text.addVerifyListener(verifyListener);
 }
 </string>
     </parameter>
@@ -205,8 +206,8 @@ private String parseBooleans(List&lt;Boolean&gt; booleans) {
       <string>
 EObject tmp = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
 if (tmp instanceof $context.modelElementName$) {
-	(($context.modelElementName$) tmp).getBools().clear();
-	(($context.modelElementName$) tmp).getBools().addAll(toBooleansList($context.flAttributeName$Text.getText()));
+	(($context.modelElementName$) tmp).get$context.fuAttributeName$().clear();
+	(($context.modelElementName$) tmp).get$context.fuAttributeName$().addAll(toBooleansList($context.flAttributeName$Text.getText()));
 }
 </string>
     </parameter>

@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>b68091c8-07fa-4991-a66b-090c41737165</id>
   <name>GenerateMoveContainerFeature</name>
-  <changecounter>173</changecounter>
+  <changecounter>181</changecounter>
   <sib>
     <id>5d019596-ff11-4edc-9603-2477370f8043</id>
     <name>PutExpression</name>
@@ -119,16 +119,20 @@ public class Move$context.container.name$Feature extends DefaultMoveShapeFeature
 		// TODO Auto-generated constructor stub
 	}
 	
-	@Override
-	public boolean canMoveShape(IMoveShapeContext context) {
-		Object bo = getBusinessObjectForPictogramElement(context.getShape());
-		Object source = getBusinessObjectForPictogramElement(context.getSourceContainer());
-		Object target = getBusinessObjectForPictogramElement(context.getTargetContainer());
-		if (source != null &amp;&amp; source.equals(target))
-			return true;
-		$context.movableContainerContent$
+	public boolean canMoveShape(IMoveShapeContext context, boolean apiCall) {
+		if (apiCall) {
+			Object bo = getBusinessObjectForPictogramElement(context.getShape());
+			Object source = getBusinessObjectForPictogramElement(context.getSourceContainer());
+			Object target = getBusinessObjectForPictogramElement(context.getTargetContainer());
+			if (source != null &amp;&amp; source.equals(target))
+				return true;
+			$context.movableContainerContent$
+		}
+		return false;
 	}
 	
+	$context.canMoveNodeContent$
+
 	@Override
 	public void moveShape(IMoveShapeContext context) {
 		Object o = getBusinessObjectForPictogramElement(context.getShape());
@@ -358,9 +362,9 @@ return false;</string>
   </edge>
   <edge>
     <source>78f781da-c5fb-4439-a59e-c241be4701cc</source>
-    <target>c476f425-7879-477f-af5f-865a37aa638a</target>
-    <point>106.72413793103448,371.0</point>
-    <point>118.26923076923077,498.0</point>
+    <target>0dac667a-a573-4ffd-9d99-2d05d89a3d7b</target>
+    <point>140.0,317.6923076923077</point>
+    <point>295.0,401.15384615384613</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -370,7 +374,7 @@ return false;</string>
     <label>GenerateCheckContainer</label>
     <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
-    <position>35.5,331.0</position>
+    <position>35.5,286.0</position>
     <parameter name="ClearContent">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
@@ -399,12 +403,36 @@ return false;</string>
     </userobject>
   </sib>
   <sib>
+    <id>0dac667a-a573-4ffd-9d99-2d05d89a3d7b</id>
+    <name>GraphSIB</name>
+    <label>GenerateCanMoveNode</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>49.5,391.0</position>
+    <parameter name="modelElementKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>modelElement</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>GenerateCanMoveNode</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>9b7f0755-2262-4cf2-8b59-055e19f21b37</string>
+    </userobject>
+  </sib>
+  <sib>
     <id>ccc6c7e9-24e6-4760-934b-18e30c55226e</id>
     <name>IsAbstract</name>
     <label>IsAbstract</label>
     <sib-uid>ge-util-sibs/IsAbstract</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsAbstract</taxonomy>
-    <position>249.0,48.0</position>
+    <position>249.0,46.0</position>
     <parameter name="modelElement">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -418,6 +446,13 @@ return false;</string>
     <finalbranches>false</finalbranches>
     <finalbranches>true</finalbranches>
   </sib>
+  <edge>
+    <source>0dac667a-a573-4ffd-9d99-2d05d89a3d7b</source>
+    <target>c476f425-7879-477f-af5f-865a37aa638a</target>
+    <point>120.0,420.0</point>
+    <point>110.0,521.0</point>
+    <branch>default</branch>
+  </edge>
   <edge>
     <source>ccc6c7e9-24e6-4760-934b-18e30c55226e</source>
     <target>38cc4109-4830-4f7e-8646-a04f06f3b826</target>

@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>5114f8bf-bf5e-4a42-bcb3-454199a39dd9</id>
   <name>Generate_NodeConnectEOperations</name>
-  <changecounter>514</changecounter>
+  <changecounter>516</changecounter>
   <sib>
     <id>68cd1709-17de-4261-8a68-3a7aa8ed4add</id>
     <name>GraphSIB_6</name>
@@ -58,7 +58,7 @@ final $fqnCreateConnectionContext$ ccc =
 ccc.setSourceAnchor((($fqnShape$) this.getPictogramElement()).getAnchors().get(0));
 ccc.setTargetAnchor((($fqnShape$) target.getPictogramElement()).getAnchors().get(0));
 
-if (cf.canCreate(ccc)) {
+if (cf.canCreate(ccc, true)) {
 	$fqnTransactionalEditingDomain$ dom = $fqnTransactionalEditingDomain$.Factory.INSTANCE.getEditingDomain(getModelElement().eResource().getResourceSet());
 	if (dom == null)
 		dom = $fqnTransactionalEditingDomain$.Factory.INSTANCE.createEditingDomain(getModelElement().eResource().getResourceSet());
@@ -86,11 +86,11 @@ return retval;</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Create EOperation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
     </userobject>
   </sib>
   <sib>
@@ -262,11 +262,11 @@ return retval;</string>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <finalbranches>default</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>682624bb-37b0-43b6-8bd5-4da09ee871bd</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>CreateParametersForEOperation1</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>682624bb-37b0-43b6-8bd5-4da09ee871bd</string>
     </userobject>
   </sib>
   <edge>
@@ -305,11 +305,11 @@ Creates a new $apiPrefix$$edgeName$ and connects the current node to the specifi
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>9445cb7d-1ca9-47f0-bda0-ffb7822ef982</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Generate_Documentation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>9445cb7d-1ca9-47f0-bda0-ffb7822ef982</string>
     </userobject>
   </sib>
   <edge>
@@ -560,11 +560,11 @@ Creates a new $apiPrefix$$edgeName$ and connects the current node to the specifi
     <userobject key="ABC$START">
       <boolean>true</boolean>
     </userobject>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>46877367-76bb-4ab8-9334-646bce70dbc1</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>GetEdgeSourceElements</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>46877367-76bb-4ab8-9334-646bce70dbc1</string>
     </userobject>
   </sib>
   <sib>
@@ -595,11 +595,11 @@ Creates a new $apiPrefix$$edgeName$ and connects the current node to the specifi
     <finalbranches>containsStar</finalbranches>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>f2a62b98-da75-4b1a-a2d5-4f6a6d4d5fa5</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>GetEdgeTargetElements</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>f2a62b98-da75-4b1a-a2d5-4f6a6d4d5fa5</string>
     </userobject>
   </sib>
   <sib>
@@ -701,11 +701,11 @@ return clone;</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Create EOperation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
     </userobject>
   </sib>
   <sib>
@@ -737,11 +737,11 @@ Creates a clone (persisting the modelElement&apos;s id) of this modelElement
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>9445cb7d-1ca9-47f0-bda0-ffb7822ef982</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Generate_Documentation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>9445cb7d-1ca9-47f0-bda0-ffb7822ef982</string>
     </userobject>
   </sib>
   <edge>
@@ -808,11 +808,11 @@ Creates a clone (persisting the modelElement&apos;s id) of this modelElement
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <finalbranches>default</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>682624bb-37b0-43b6-8bd5-4da09ee871bd</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>CreateParametersForEOperation1</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>682624bb-37b0-43b6-8bd5-4da09ee871bd</string>
     </userobject>
   </sib>
   <edge>

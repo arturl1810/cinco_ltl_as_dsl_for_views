@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>2c16b89c-89f5-4733-ac06-d93c4f4ca82e</id>
   <name>GenerateListStringCode</name>
-  <changecounter>125</changecounter>
+  <changecounter>164</changecounter>
   <sib>
     <id>0ba93f26-5176-4eda-b53b-40b4a55312a7</id>
     <name>RunStringTemplate</name>
@@ -140,12 +140,14 @@ public void createControls(Composite parent, TabbedPropertySheetPage aTabbedProp
 	data.top = new FormAttachment(0,ITabbedPropertyConstants.VMARGIN);
 	data.right = new FormAttachment(100,0);
 	add.setLayoutData(data);
+	add.setEnabled(!$context.isReadOnly$);
 	remove = factory.createButton(composite, &quot;-&quot;, SWT.PUSH);
 	data = new FormData();
 	data.left = new FormAttachment($context.flAttributeName$List, 0);
 	data.right = new FormAttachment(100, 0);
 	data.top = new FormAttachment(add, 0);
 	remove.setLayoutData(data);
+	remove.setEnabled(!$context.isReadOnly$);
 	
 	add.addSelectionListener(addListener);
 	remove.addSelectionListener(removeListener);

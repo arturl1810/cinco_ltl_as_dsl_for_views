@@ -450,6 +450,7 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 		context.put("fqnCreateNodeFeaturePrefix", gModel.getPackage().concat(".graphiti.features.create.nodes."));
 		context.put("fqnCreateEdgeFeaturePrefix", gModel.getPackage().concat(".graphiti.features.create.edges."));
 		context.put("fqnCreateContainerFeaturePrefix", gModel.getPackage().concat(".graphiti.features.create.containers."));
+		context.put("fqnDeleteFeaturePrefix", gModel.getPackage().concat(".graphiti.features.delete."));
 		context.put("fqnAddFeaturePrefix", gModel.getPackage().concat(".graphiti.features.add."));
 		context.put("fqnMoveFeaturePrefix", gModel.getPackage().concat(".graphiti.features.move."));
 		context.put("fqnFeaturePrefix", gModel.getPackage().concat(".graphiti.features."));

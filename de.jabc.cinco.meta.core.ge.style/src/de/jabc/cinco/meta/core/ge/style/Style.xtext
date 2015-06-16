@@ -279,7 +279,7 @@ Appearance returns Appearance:
 	{Appearance}
 	'appearance' name=ID ('extends' parent=[Appearance])? '{'
 		(
-			('angle' angle=INT)? &
+			('angle' angle=EFloat)? &
 			('background' background=Color)? &
 			('foreground' foreground=Color)? &
 			('font' font=Font)? &
@@ -297,7 +297,7 @@ InlineAppearance returns Appearance:
 	{Appearance}
 	'appearance' ('extends' parent=[Appearance])? '{'
 		(
-			('angle' angle=INT)? &
+			('angle' angle=EFloat)? &
 			('background' background=Color)? &
 			('foreground' foreground=Color)? &
 			('font' font=Font)? &
@@ -316,6 +316,10 @@ Font returns Font:
 ;
 
 EDouble returns ecore::EDouble: 
+	EInt ('.' INT)*
+;
+
+EFloat returns ecore::EFloat: 
 	EInt ('.' INT)*
 ;
 

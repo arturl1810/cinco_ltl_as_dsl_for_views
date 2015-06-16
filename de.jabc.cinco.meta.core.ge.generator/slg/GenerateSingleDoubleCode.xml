@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>58218bce-14ea-427d-8c72-e67903670e10</id>
   <name>GenerateSingleDoubleCode</name>
-  <changecounter>138</changecounter>
+  <changecounter>158</changecounter>
   <sib>
     <id>04e295fe-943a-4974-80d0-c5dbe081048d</id>
     <name>RunStringTemplate_1</name>
@@ -234,17 +234,17 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
 	data.left = new FormAttachment(0, $context.width$);
 	data.right = new FormAttachment(100, 0);
 	data.top = new FormAttachment(0, ITabbedPropertyConstants.VSPACE);
-	$context.attributeName$Text.setLayoutData(data);
+	$context.flAttributeName$Text.setLayoutData(data);
 
 	Label $context.attribute.name$Label = factory.createLabel(composite, &quot;$context.fuAttributeName$:&quot;);
 	data = new FormData();
 	data.left = new FormAttachment(0, 0);
 	data.right = new FormAttachment($context.flAttributeName$Text, -ITabbedPropertyConstants.HSPACE);
 	data.top = new FormAttachment($context.flAttributeName$Text, 0, SWT.CENTER);
-	$context.attributeName$Label.setLayoutData(data);
+	$context.flAttributeName$Label.setLayoutData(data);
 	
-	$context.attributeName$Text.setEditable(false);
-	$context.attributeName$Text.setEnabled(false);
+	$context.flAttributeName$Text.setEditable(false);
+	$context.flAttributeName$Text.setEnabled(false);
 
 }
 </string>
@@ -320,19 +320,19 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
 	data.left = new FormAttachment(0, $context.width$);
 	data.right = new FormAttachment(100, 0);
 	data.top = new FormAttachment(0, ITabbedPropertyConstants.VSPACE);
-	$context.attributeName$Text.setLayoutData(data);
+	$context.flAttributeName$Text.setLayoutData(data);
 	$context.notChangeableContent$
 
-	Label $context.attribute.name$Label = factory.createLabel(composite, &quot;$context.fuAttributeName$:&quot;);
+	Label $context.flAttributeName$Label = factory.createLabel(composite, &quot;$context.fuAttributeName$:&quot;);
 	data = new FormData();
 	data.left = new FormAttachment(0, 0);
 	data.right = new FormAttachment($context.flAttributeName$Text, -ITabbedPropertyConstants.HSPACE);
 	data.top = new FormAttachment($context.flAttributeName$Text, 0, SWT.CENTER);
-	$context.attributeName$Label.setLayoutData(data);
+	$context.flAttributeName$Label.setLayoutData(data);
 
-	$context.attributeName$Text.addTraverseListener(traverseListener);
-	$context.attributeName$Text.addVerifyListener(verifyListener);
-	$context.attributeName$Text.addFocusListener(focusListener);
+	$context.flAttributeName$Text.addTraverseListener(traverseListener);
+	$context.flAttributeName$Text.addVerifyListener(verifyListener);
+	$context.flAttributeName$Text.addFocusListener(focusListener);
 }
 </string>
     </parameter>
@@ -608,19 +608,19 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
 	data.right = new FormAttachment(100, 0);
 	data.top = new FormAttachment(0, ITabbedPropertyConstants.VSPACE);
 	data.bottom = new FormAttachment(0, 80);
-	$context.attributeName$Text.setLayoutData(data);
+	$context.flAttributeName$Text.setLayoutData(data);
 	$context.notChangeableContent$
 
-	Label $context.attribute.name$Label = factory.createLabel(composite, &quot;$context.fuAttributeName$:&quot;);
+	Label $context.flAttributeName$Label = factory.createLabel(composite, &quot;$context.fuAttributeName$:&quot;);
 	data = new FormData();
 	data.left = new FormAttachment(0, 0);
 	data.right = new FormAttachment($context.flAttributeName$Text, -ITabbedPropertyConstants.HSPACE);
 	data.top = new FormAttachment($context.flAttributeName$Text, 0, SWT.TOP);
-	$context.attributeName$Label.setLayoutData(data);
+	$context.flAttributeName$Label.setLayoutData(data);
 
-	$context.attributeName$Text.addTraverseListener(traverseListener);
-	$context.attributeName$Text.addVerifyListener(verifyListener);
-	$context.attributeName$Text.addFocusListener(focusListener);
+	$context.flAttributeName$Text.addTraverseListener(traverseListener);
+	$context.flAttributeName$Text.addVerifyListener(verifyListener);
+	$context.flAttributeName$Text.addFocusListener(focusListener);
 }
 </string>
     </parameter>
@@ -758,7 +758,7 @@ if (tmp instanceof $context.modelElementName$) {
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>$context.attributeName$Text.setEnabled(!$context.attribute.notChangeable$);</string>
+      <string>$context.flAttributeName$Text.setEnabled(!$context.attribute.notChangeable$ &amp;&amp; !$context.isReadOnly$);</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
@@ -806,7 +806,7 @@ if (tmp instanceof $context.modelElementName$) {
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>$context.attributeName$Text.setEnabled(!$context.attribute.notChangeable$);</string>
+      <string>$context.flAttributeName$Text.setEnabled(!$context.attribute.notChangeable$ &amp;&amp; !$context.isReadOnly$);</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>

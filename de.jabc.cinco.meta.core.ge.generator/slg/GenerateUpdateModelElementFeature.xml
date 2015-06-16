@@ -134,7 +134,7 @@ public class $context.className$ extends AbstractUpdateFeature {
 	
 	private void updateText($context.fuModelElementName$ $context.meIdentifier$, PictogramElement pe) {
 		if (pe instanceof ContainerShape) {
-			PictogramElement tmp = pe.getGraphicsAlgorithm().getPictogramElement();
+			PictogramElement tmp = pe;
 			Object o = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(tmp);
 			if ($context.meIdentifier$.equals(o) || o == null)
 			for (Shape s : ((ContainerShape) pe).getChildren()) {

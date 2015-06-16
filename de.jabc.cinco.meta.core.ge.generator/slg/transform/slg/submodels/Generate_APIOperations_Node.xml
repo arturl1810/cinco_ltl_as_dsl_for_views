@@ -19,14 +19,14 @@
         </ContextKeyFoundation>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
-    <parameter name="eOperationeTypeKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>nodeClass</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>false</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    <parameter name="modelElementName">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>${modelElement.name}</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
     </parameter>
     <finalbranches>default</finalbranches>
     <userobject key="ABC$START">

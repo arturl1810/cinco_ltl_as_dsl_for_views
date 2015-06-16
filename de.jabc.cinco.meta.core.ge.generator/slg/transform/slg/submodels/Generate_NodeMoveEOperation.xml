@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>53c0c093-ef7e-452a-ae07-8946504ff744</id>
   <name>Generate_NodeMoveEOperation</name>
-  <changecounter>488</changecounter>
+  <changecounter>496</changecounter>
   <edge>
     <source>45937ff9-8a61-426a-ad52-785723db3d9e</source>
     <target>33b4498b-317c-424c-a417-153e95dd0cd4</target>
@@ -36,11 +36,11 @@
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <finalbranches>default</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>682624bb-37b0-43b6-8bd5-4da09ee871bd</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>CreateParametersForEOperation1</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>682624bb-37b0-43b6-8bd5-4da09ee871bd</string>
     </userobject>
   </sib>
   <edge>
@@ -78,11 +78,11 @@ Moves this node to the specified container. The node is placed at (x,y). ATTENTI
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>9445cb7d-1ca9-47f0-bda0-ffb7822ef982</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Generate_Documentation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>9445cb7d-1ca9-47f0-bda0-ffb7822ef982</string>
     </userobject>
   </sib>
   <sib>
@@ -176,7 +176,7 @@ final $fqnMoveShapeContext$ mc = new $fqnMoveShapeContext$(($fqnShape$)pes.get(0
 
 	final $fqnMoveFeaturePrefix$Move$modelElementName$Feature mf = ($fqnMoveFeaturePrefix$Move$modelElementName$Feature) provider.getMoveShapeFeature(mc);
 
-	if (mf.canMoveShape(mc)) {
+	if (mf.canMoveShape(mc, true)) {
 		$fqnTransactionalEditingDomain$ dom = $fqnTransactionalEditingDomain$.Factory.INSTANCE.getEditingDomain(container.getModelElement().eResource().getResourceSet());
 	      	if (dom == null)
 			dom = $fqnTransactionalEditingDomain$.Factory.INSTANCE.createEditingDomain(container.getModelElement().eResource().getResourceSet());
@@ -196,11 +196,11 @@ final $fqnMoveShapeContext$ mc = new $fqnMoveShapeContext$(($fqnShape$)pes.get(0
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Create EOperation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
     </userobject>
   </sib>
   <sib>
@@ -419,11 +419,11 @@ final $fqnMoveShapeContext$ mc = new $fqnMoveShapeContext$(($fqnShape$)pes.get(0
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <finalbranches>default</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>682624bb-37b0-43b6-8bd5-4da09ee871bd</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>CreateParametersForEOperation1</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>682624bb-37b0-43b6-8bd5-4da09ee871bd</string>
     </userobject>
   </sib>
   <edge>
@@ -461,11 +461,11 @@ Moves this node to the specified container. The node is placed at (x,y). ATTENTI
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>9445cb7d-1ca9-47f0-bda0-ffb7822ef982</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Generate_Documentation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>9445cb7d-1ca9-47f0-bda0-ffb7822ef982</string>
     </userobject>
   </sib>
   <sib>
@@ -559,7 +559,7 @@ final $fqnMoveShapeContext$ mc = new $fqnMoveShapeContext$(($fqnShape$)pes.get(0
 
 	final $fqnMoveFeaturePrefix$Move$modelElementName$Feature mf = ($fqnMoveFeaturePrefix$Move$modelElementName$Feature) provider.getMoveShapeFeature(mc);
 
-	if (mf.canMoveShape(mc)) {
+	if (mf.canMoveShape(mc, true)) {
 		$fqnTransactionalEditingDomain$ dom = $fqnTransactionalEditingDomain$.Factory.INSTANCE.getEditingDomain(container.getModelElement().eResource().getResourceSet());
 	      	if (dom == null)
 			dom = $fqnTransactionalEditingDomain$.Factory.INSTANCE.createEditingDomain(container.getModelElement().eResource().getResourceSet());
@@ -579,11 +579,11 @@ final $fqnMoveShapeContext$ mc = new $fqnMoveShapeContext$(($fqnShape$)pes.get(0
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Create EOperation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
     </userobject>
   </sib>
   <sib>
@@ -732,11 +732,11 @@ return clone;</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Create EOperation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
     </userobject>
   </sib>
   <sib>
@@ -761,11 +761,11 @@ Creates an clone (persisting the modelElement&apos;s id) of this modelElement</s
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>9445cb7d-1ca9-47f0-bda0-ffb7822ef982</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Generate_Documentation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>9445cb7d-1ca9-47f0-bda0-ffb7822ef982</string>
     </userobject>
   </sib>
   <edge>
@@ -828,11 +828,11 @@ Creates an clone (persisting the modelElement&apos;s id) of this modelElement</s
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <finalbranches>default</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>682624bb-37b0-43b6-8bd5-4da09ee871bd</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>CreateParametersForEOperation1</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>682624bb-37b0-43b6-8bd5-4da09ee871bd</string>
     </userobject>
   </sib>
   <edge>
@@ -936,11 +936,11 @@ return clone;</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Create EOperation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
     </userobject>
   </sib>
   <sib>
@@ -965,11 +965,11 @@ Creates an clone (persisting the modelElement&apos;s id) of this modelElement</s
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>9445cb7d-1ca9-47f0-bda0-ffb7822ef982</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Generate_Documentation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>9445cb7d-1ca9-47f0-bda0-ffb7822ef982</string>
     </userobject>
   </sib>
   <edge>
@@ -1032,11 +1032,11 @@ Creates an clone (persisting the modelElement&apos;s id) of this modelElement</s
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <finalbranches>default</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>682624bb-37b0-43b6-8bd5-4da09ee871bd</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>CreateParametersForEOperation1</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>682624bb-37b0-43b6-8bd5-4da09ee871bd</string>
     </userobject>
   </sib>
   <edge>
@@ -1173,11 +1173,11 @@ return clone;</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Create EOperation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
     </userobject>
   </sib>
   <edge>
@@ -1314,11 +1314,11 @@ return clone;</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Create EOperation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
     </userobject>
   </sib>
   <edge>
@@ -1444,11 +1444,11 @@ return clone;</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Create EOperation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
     </userobject>
   </sib>
   <edge>
@@ -1578,11 +1578,11 @@ return clone;</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Create EOperation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
     </userobject>
   </sib>
   <edge>
@@ -1649,7 +1649,7 @@ rc.setSize(width, height);
 rc.setX(getX());
 rc.setY(getY());
 final $fqnResizePrefix$Resize$modelElementName$Feature rf = ($fqnResizePrefix$Resize$modelElementName$Feature) provider.getResizeShapeFeature(($fqnResizeShapeContext$) rc);
-if (rf != null &amp;&amp; rf.canResizeShape(($fqnResizeShapeContext$) rc)) {
+if (rf != null &amp;&amp; rf.canResizeShape(($fqnResizeShapeContext$) rc, true)) {
 	$fqnTransactionalEditingDomain$ dom = $fqnTransactionalEditingDomain$.Factory.INSTANCE.getEditingDomain(getModelElement().eResource().getResourceSet());
       	if (dom == null)
 		dom = $fqnTransactionalEditingDomain$.Factory.INSTANCE.createEditingDomain(getModelElement().eResource().getResourceSet());
@@ -1664,11 +1664,11 @@ if (rf != null &amp;&amp; rf.canResizeShape(($fqnResizeShapeContext$) rc)) {
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Create EOperation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
     </userobject>
   </sib>
   <sib>
@@ -1719,11 +1719,11 @@ if (rf != null &amp;&amp; rf.canResizeShape(($fqnResizeShapeContext$) rc)) {
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <finalbranches>default</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>682624bb-37b0-43b6-8bd5-4da09ee871bd</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>CreateParametersForEOperation1</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>682624bb-37b0-43b6-8bd5-4da09ee871bd</string>
     </userobject>
   </sib>
   <sib>
@@ -1748,11 +1748,11 @@ Creates an clone (persisting the modelElement&apos;s id) of this modelElement</s
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>9445cb7d-1ca9-47f0-bda0-ffb7822ef982</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Generate_Documentation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>9445cb7d-1ca9-47f0-bda0-ffb7822ef982</string>
     </userobject>
   </sib>
   <edge>
@@ -1893,16 +1893,6 @@ Creates an clone (persisting the modelElement&apos;s id) of this modelElement</s
   </parameter>
   <values>
     <entry>
-      <string>eOperationeTypeKey</string>
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>eOperationTypeKey</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>false</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </entry>
-    <entry>
       <string>modelElementKey</string>
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1919,6 +1909,16 @@ Creates an clone (persisting the modelElement&apos;s id) of this modelElement</s
           <key>eClassKey</key>
           <scope>DECLARED</scope>
           <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </entry>
+    <entry>
+      <string>eOperationeTypeKey</string>
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>eOperationTypeKey</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>false</scopeMutable>
         </ContextKeyFoundation>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </entry>

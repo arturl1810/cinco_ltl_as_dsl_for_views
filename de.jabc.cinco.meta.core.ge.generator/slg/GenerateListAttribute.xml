@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>76ccd186-a5e5-4177-9388-d605baba87ee</id>
   <name>GenerateListAttribute</name>
-  <changecounter>63</changecounter>
+  <changecounter>131</changecounter>
   <sib>
     <id>011ad06a-a303-4d66-8b28-ca363e433e70</id>
     <name>GetAttributeType</name>
@@ -171,11 +171,11 @@
     <position>39.5,256.0</position>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>2c16b89c-89f5-4733-ac06-d93c4f4ca82e</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>GenerateListStringCode</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>2c16b89c-89f5-4733-ac06-d93c4f4ca82e</string>
     </userobject>
   </sib>
   <sib>
@@ -187,11 +187,11 @@
     <position>215.5,256.0</position>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>d7acaa56-746e-494b-8c88-ef782b860683</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>GenerateListIntegerCode</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>d7acaa56-746e-494b-8c88-ef782b860683</string>
     </userobject>
   </sib>
   <edge>
@@ -210,11 +210,11 @@
     <position>396.0,256.0</position>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>734f2865-d44d-4e50-bea3-0acb8f666c25</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>GenerateListDoubleCode</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>734f2865-d44d-4e50-bea3-0acb8f666c25</string>
     </userobject>
   </sib>
   <edge>
@@ -230,14 +230,14 @@
     <label>GenerateListBooleanCode</label>
     <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
-    <position>587.0,256.0</position>
+    <position>617.0,256.0</position>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>f1d5af47-45ba-4222-907e-288031bbbeec</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>GenerateListBooleanCode</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>f1d5af47-45ba-4222-907e-288031bbbeec</string>
     </userobject>
   </sib>
   <edge>
@@ -246,6 +246,180 @@
     <point>450.0,195.0</point>
     <point>717.0,267.0</point>
     <branch>EBoolean</branch>
+  </edge>
+  <sib>
+    <id>bd05fd1c-11f6-464d-ac90-e178b34436c6</id>
+    <name>GetElement</name>
+    <label>GetType</label>
+    <sib-uid>collection-sibs/GetElement</sib-uid>
+    <taxonomy>de.jabc.sib.common.collection.GetElement</taxonomy>
+    <position>962.5,168.0</position>
+    <parameter name="element">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>type</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="index">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>attributeType</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="list">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>typesMap</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>bd05fd1c-11f6-464d-ac90-e178b34436c6</source>
+    <target>39fbd325-7233-4276-86dc-bc5f46014222</target>
+    <point>1005.0,225.0</point>
+    <point>990.0,330.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>39fbd325-7233-4276-86dc-bc5f46014222</id>
+    <name>SwitchType</name>
+    <label>SwitchType</label>
+    <sib-uid>mgl/mgl/SwitchType</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.SwitchType</taxonomy>
+    <position>954.0,303.0</position>
+    <parameter name="eObjectKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>type</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>Edge</finalbranches>
+    <finalbranches>Enumeration</finalbranches>
+    <finalbranches>GraphModel</finalbranches>
+    <finalbranches>GraphicalModelElement</finalbranches>
+    <finalbranches>ModelElement</finalbranches>
+    <finalbranches>Node</finalbranches>
+    <finalbranches>NodeContainer</finalbranches>
+    <finalbranches>ReferencedType</finalbranches>
+    <finalbranches>UserDefinedType</finalbranches>
+    <finalbranches>error</finalbranches>
+    <finalbranches>other</finalbranches>
+  </sib>
+  <edge>
+    <source>39fbd325-7233-4276-86dc-bc5f46014222</source>
+    <target>35795996-4508-4dee-9374-cb53a6ae86d4</target>
+    <point>990.0,330.0</point>
+    <point>780.0,465.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>Enumeration</branch>
+  </edge>
+  <sib>
+    <id>cc6a7a40-0a1d-46f2-8d2d-77d4dc0b31fb</id>
+    <name>PrintConsoleMessage</name>
+    <label>PrintConsoleMessage</label>
+    <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
+    <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
+    <position>1149.5,453.0</position>
+    <parameter name="error">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="message">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>Generation of UserDefinedType currently not supported...</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>false</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <finalbranches>default</finalbranches>
+  </sib>
+  <edge>
+    <source>39fbd325-7233-4276-86dc-bc5f46014222</source>
+    <target>cc6a7a40-0a1d-46f2-8d2d-77d4dc0b31fb</target>
+    <point>990.0,330.0</point>
+    <point>1215.0,480.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>UserDefinedType</branch>
+  </edge>
+  <edge>
+    <source>39fbd325-7233-4276-86dc-bc5f46014222</source>
+    <target>4f25886f-9c68-4ef9-92f6-d86b9d4333b2</target>
+    <point>990.0,330.0</point>
+    <point>990.0,465.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>Node</branch>
+  </edge>
+  <sib>
+    <id>4f25886f-9c68-4ef9-92f6-d86b9d4333b2</id>
+    <name>MacroSIB_5</name>
+    <label>GenerateSingleNodePropertyView</label>
+    <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
+    <position>890.5,436.0</position>
+    <parameter name="nodeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>type</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>GenerateSingleNodePropertyView</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>fcd44878-83e6-41e6-95f6-9299e05bb180</string>
+    </userobject>
+  </sib>
+  <sib>
+    <id>35795996-4508-4dee-9374-cb53a6ae86d4</id>
+    <name>MacroSIB_4</name>
+    <label>GenerateListEnumeration</label>
+    <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
+    <position>694.5,436.0</position>
+    <parameter name="eObjectKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>type</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>GenerateListEnumeration</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>b49c55b6-737b-4210-8bcc-74d19bab446b</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>69a9366f-b42f-4afa-bbef-ecdfd76019df</source>
+    <target>bd05fd1c-11f6-464d-ac90-e178b34436c6</target>
+    <point>450.0,195.0</point>
+    <point>996.0,212.0</point>
+    <branch>default</branch>
   </edge>
   <parameter>
     <name>attributeKey</name>
@@ -323,5 +497,10 @@
     <name>error</name>
     <branch>error</branch>
     <sib>bb3f3f37-f142-4e83-8d62-ea5b54831cde</sib>
+  </branch>
+  <branch>
+    <name>default</name>
+    <branch>default</branch>
+    <sib>35795996-4508-4dee-9374-cb53a6ae86d4</sib>
   </branch>
 </model>

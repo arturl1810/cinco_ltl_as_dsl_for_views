@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>709bf2c6-2af3-4468-aef4-71df8b66f1b5</id>
   <name>Generate_APIOperations_Edge</name>
-  <changecounter>536</changecounter>
+  <changecounter>546</changecounter>
   <sib>
     <id>1d192934-9718-489b-8cd8-c840255c8617</id>
     <name>GraphSIB</name>
@@ -55,7 +55,7 @@ final $fqnReconnectionContext$ rc = new $fqnReconnectionContext$(($fqnConnection
 rc.setReconnectType($fqnReconnectionContext$.RECONNECT_SOURCE);
 final $fqnReconnectPrefix$Reconnect$modelElementName$Feature rf = ($fqnReconnectPrefix$Reconnect$modelElementName$Feature)provider.getReconnectionFeature(rc);
 
-if (rf.canReconnect(rc)) {
+if (rf.canReconnect(rc, true)) {
 	$fqnTransactionalEditingDomain$ dom = $fqnTransactionalEditingDomain$.Factory.INSTANCE.getEditingDomain(getModelElement().eResource().getResourceSet());
 	if (dom == null)
 		dom = $fqnTransactionalEditingDomain$.Factory.INSTANCE.createEditingDomain(getModelElement().eResource().getResourceSet());
@@ -75,11 +75,11 @@ if (rf.canReconnect(rc)) {
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Create EOperation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
     </userobject>
   </sib>
   <sib>
@@ -134,7 +134,7 @@ final $fqnReconnectionContext$ rc = new $fqnReconnectionContext$(($fqnConnection
 rc.setReconnectType($fqnReconnectionContext$.RECONNECT_TARGET);
 final $fqnReconnectPrefix$Reconnect$modelElementName$Feature rf = ($fqnReconnectPrefix$Reconnect$modelElementName$Feature)provider.getReconnectionFeature(rc);
 
-if (rf.canReconnect(rc)) {
+if (rf.canReconnect(rc, true)) {
 	$fqnTransactionalEditingDomain$ dom = $fqnTransactionalEditingDomain$.Factory.INSTANCE.getEditingDomain(getModelElement().eResource().getResourceSet());
 	if (dom == null)
 		dom = $fqnTransactionalEditingDomain$.Factory.INSTANCE.createEditingDomain(getModelElement().eResource().getResourceSet());
@@ -154,11 +154,11 @@ if (rf.canReconnect(rc)) {
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Create EOperation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
     </userobject>
   </sib>
   <sib>
@@ -178,11 +178,11 @@ if (rf.canReconnect(rc)) {
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <finalbranches>default</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>682624bb-37b0-43b6-8bd5-4da09ee871bd</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>CreateParametersForEOperation1</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>682624bb-37b0-43b6-8bd5-4da09ee871bd</string>
     </userobject>
   </sib>
   <sib>
@@ -210,11 +210,11 @@ Reconnects the edge&apos;s source.
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>9445cb7d-1ca9-47f0-bda0-ffb7822ef982</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Generate_Documentation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>9445cb7d-1ca9-47f0-bda0-ffb7822ef982</string>
     </userobject>
   </sib>
   <sib>
@@ -234,11 +234,11 @@ Reconnects the edge&apos;s source.
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <finalbranches>default</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>682624bb-37b0-43b6-8bd5-4da09ee871bd</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>CreateParametersForEOperation1</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>682624bb-37b0-43b6-8bd5-4da09ee871bd</string>
     </userobject>
   </sib>
   <sib>
@@ -266,11 +266,11 @@ Reconnects the edge&apos;s target.
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>9445cb7d-1ca9-47f0-bda0-ffb7822ef982</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Generate_Documentation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>9445cb7d-1ca9-47f0-bda0-ffb7822ef982</string>
     </userobject>
   </sib>
   <edge>
@@ -341,11 +341,11 @@ Reconnects the edge&apos;s target.
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
     <position>584.0,121.0</position>
     <finalbranches>default</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>5114f8bf-bf5e-4a42-bcb3-454199a39dd9</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Generate_NodeConnectEOperations</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>5114f8bf-bf5e-4a42-bcb3-454199a39dd9</string>
     </userobject>
   </sib>
   <edge>
@@ -372,21 +372,21 @@ Reconnects the edge&apos;s target.
         </ContextKeyFoundation>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
-    <parameter name="eOperationeTypeKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>edgeClass</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>false</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    <parameter name="modelElementName">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>${modelElement.name}</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
     </parameter>
     <finalbranches>default</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>f14f4b16-0177-4ded-8256-3098679e41b5</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Generate_APIOperations_ModelElement</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>f14f4b16-0177-4ded-8256-3098679e41b5</string>
     </userobject>
   </sib>
   <sib>
@@ -420,11 +420,11 @@ Reconnects the edge&apos;s target.
     <userobject key="ABC$START">
       <boolean>true</boolean>
     </userobject>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>46877367-76bb-4ab8-9334-646bce70dbc1</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>GetEdgeSourceElements</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>46877367-76bb-4ab8-9334-646bce70dbc1</string>
     </userobject>
   </sib>
   <sib>
@@ -536,11 +536,11 @@ Reconnects the edge&apos;s target.
     <finalbranches>containsStar</finalbranches>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>f2a62b98-da75-4b1a-a2d5-4f6a6d4d5fa5</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>GetEdgeTargetElements</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>f2a62b98-da75-4b1a-a2d5-4f6a6d4d5fa5</string>
     </userobject>
   </sib>
   <edge>
@@ -856,11 +856,11 @@ Reconnects the edge&apos;s target.
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Create EOperation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
     </userobject>
   </sib>
   <sib>
@@ -918,11 +918,11 @@ Reconnects the edge&apos;s target.
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <finalbranches>default</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>682624bb-37b0-43b6-8bd5-4da09ee871bd</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>CreateParametersForEOperation1</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>682624bb-37b0-43b6-8bd5-4da09ee871bd</string>
     </userobject>
   </sib>
   <edge>

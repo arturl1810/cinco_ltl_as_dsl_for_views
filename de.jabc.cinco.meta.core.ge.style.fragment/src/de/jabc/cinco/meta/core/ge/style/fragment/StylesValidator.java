@@ -9,6 +9,7 @@ import mgl.Annotation;
 import mgl.Attribute;
 import mgl.Edge;
 import mgl.GraphModel;
+import mgl.MglPackage;
 import mgl.ModelElement;
 import mgl.Node;
 import mgl.NodeContainer;
@@ -27,23 +28,19 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import style.AbstractShape;
 import style.ContainerShape;
 import style.EdgeStyle;
-import style.MultiText;
 import style.NodeStyle;
 import style.Style;
 import style.Styles;
-import style.Text;
 import de.jabc.cinco.meta.core.pluginregistry.validation.ErrorPair;
 import de.jabc.cinco.meta.core.pluginregistry.validation.IMetaPluginValidator;
+import de.jabc.cinco.meta.core.utils.CincoUtils;
 import de.jabc.cinco.meta.core.utils.InheritanceUtil;
 import de.jabc.cinco.meta.core.utils.PathValidator;
 
 public class StylesValidator implements IMetaPluginValidator {
 
-	private static final String ID_STYLE = "style";
-	private static final String ID_ICON = "icon";
-	
 	public StylesValidator() {
-		// TODO Auto-generated constructor stub
+
 	}
 
 	@Override
@@ -53,23 +50,51 @@ public class StylesValidator implements IMetaPluginValidator {
 			return null;
 		Annotation annotation = (Annotation) eObject;
 		ModelElement me = getModelElement((Annotation) eObject);
-		if (me instanceof GraphModel && annotation.getName().equals(ID_STYLE))
+		if (me instanceof GraphModel && annotation.getName().equals(CincoUtils.ID_STYLE))
 			ep = checkGraphModelStyleAnnotation((GraphModel) me, annotation);
 		
-		if (me instanceof Node && annotation.getName().equals(ID_STYLE)) {
+		if (me instanceof Node && annotation.getName().equals(CincoUtils.ID_STYLE)) {
 			ep = checkNodeContainerStyleAnnotation((Node) me, annotation);
 		}
-		if (me instanceof NodeContainer && annotation.getName().equals(ID_STYLE)) {
+		if (me instanceof NodeContainer && annotation.getName().equals(CincoUtils.ID_STYLE)) {
 			ep = checkNodeContainerStyleAnnotation((NodeContainer) me, annotation);
 		}
-		if (me instanceof Edge && annotation.getName().equals(ID_STYLE)) {
+		if (me instanceof Edge && annotation.getName().equals(CincoUtils.ID_STYLE)) {
 			ep = checkEdgeStyleAnnotation((Edge) me, annotation);
 		}
-		if (annotation.getName().equals(ID_ICON)) {
+		if (annotation.getName().equals(CincoUtils.ID_ICON)) {
 			ep = checkIcon(annotation);
+		}
+		if (me instanceof ModelElement && annotation.getName().equals(CincoUtils.ID_DISABLE)) {
+			ep = checkDisable(me, annotation);
 		}
 		
 		return ep;
+	}
+	
+	private ErrorPair<String, EStructuralFeature> checkDisable(ModelElement me,	Annotation annotation) {
+		if (me instanceof Node) {
+			for (String s : annotation.getValue()) {
+				if (!CincoUtils.DISABLE_NODE_VALUES.contains(s))
+					return new ErrorPair<String, EStructuralFeature>(
+							"Invalid value: \"" +s+ "\". Possible values are: " + CincoUtils.DISABLE_NODE_VALUES, 
+							annotation.eClass().getEStructuralFeature(MglPackage.ANNOTATION__NAME)
+							);
+			}
+		}
+		
+		if (me instanceof Edge) {
+			for (String s : annotation.getValue()) {
+				if (!CincoUtils.DISABLE_EDGE_VALUES.contains(s)) {
+					return new ErrorPair<String, EStructuralFeature>(
+							"Invalid value: \"" +s+ "\". Possible values are: " + CincoUtils.DISABLE_EDGE_VALUES, 
+							annotation.eClass().getEStructuralFeature(MglPackage.ANNOTATION__NAME)
+							);
+				}
+			}
+		}
+		
+		return null;
 	}
 	
 	private ErrorPair<String, EStructuralFeature> checkIcon(Annotation annotation) {
@@ -248,36 +273,6 @@ public class StylesValidator implements IMetaPluginValidator {
 		return attributes;
 	}
 
-	private int checkFormatStringParameters(AbstractShape main) {
-		String value = "";
-		if (main instanceof Text) {
-			value = ((Text) main).getValue();
-			int i = 0;
-			for (char s : value.toCharArray()) {
-				if ('%' == s)
-					i++;
-			}
-			return i;
-		}
-		else if (main instanceof MultiText) { 
-			value = ((MultiText) main).getValue();
-			int i = 0;
-			for (char s : value.toCharArray()) {
-				if ('%' == s)
-					i++;
-			}
-			return i;
-		}
-		
-		if (main instanceof ContainerShape) {
-			int retval = 0;
-			for (AbstractShape as : ((ContainerShape) main).getChildren()) {
-				retval += checkFormatStringParameters(as);
-			}
-			return retval;
-		}
-		return 0;
-	}
 	
 	private ErrorPair<String, EStructuralFeature> checkGraphModelStyleAnnotation(GraphModel gm, Annotation annot) {
 		if (annot != null && annot.getValue().size() == 0) {
@@ -311,19 +306,10 @@ public class StylesValidator implements IMetaPluginValidator {
 		}
 		return null;
 	}
-	
-	private Annotation getStyleAnnotation(ModelElement me) {
-		for (Annotation a : me.getAnnotations()) {
-			if (ID_STYLE.equals(a.getName())) {
-				return a;
-			}
-		}
-		return null;
-	}
-	
+		
 	private Styles getStyles(GraphModel gm) {
 		for (Annotation a : gm.getAnnotations()) {
-			if (ID_STYLE.equals(a.getName())) {
+			if (CincoUtils.ID_STYLE.equals(a.getName())) {
 				String path = a.getValue().get(0);
 				URI uri = URI.createURI(path, true);
 				try {

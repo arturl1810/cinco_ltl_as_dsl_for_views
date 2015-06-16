@@ -123,8 +123,8 @@
         defaultValueLiteral="false"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="transparency" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"
         defaultValueLiteral="-1.0"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="angle" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
-        defaultValueLiteral="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="angle" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"
+        defaultValueLiteral="-1.0"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="parent" eType="#//Appearance"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="font" eType="#//Font" containment="true"/>

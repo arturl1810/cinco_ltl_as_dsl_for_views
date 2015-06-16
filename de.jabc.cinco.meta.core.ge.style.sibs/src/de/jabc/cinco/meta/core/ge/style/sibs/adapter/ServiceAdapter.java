@@ -500,7 +500,7 @@ public class ServiceAdapter {
 			Appearance parent = app.getParent();
 			setValues(parent, newApp);
 			
-			if (app.getAngle() != -1) 
+			if (app.getAngle() != -1.0)
 				newApp.setAngle(app.getAngle());
 			
 			if (app.getBackground() != null){
@@ -541,7 +541,7 @@ public class ServiceAdapter {
 			newApp.setFilled(true);
 		if (newApp.getLineInVisible() == null)
 			newApp.setLineInVisible(false);
-		if (newApp.getAngle() == -1)
+		if (newApp.getAngle() == -1.0)
 			newApp.setAngle(0);
 		if (newApp.getBackground() == null) {
 			Color white = StyleFactory.eINSTANCE.createColor();
@@ -1191,7 +1191,7 @@ public class ServiceAdapter {
 			map.put(ID_CONTAINER, new ArrayList<GraphicalModelElement>());
 			
 			for (Node n : gm.getNodes()){
-				if (n.isIsAbstract() || n.getPrimeReference() != null)
+				if (n.isIsAbstract() || n.getPrimeReference() != null || CincoUtils.isCreateDisabled(n))
 					continue;
 				if (!hasPaletteCategory(n))
 					map.get(ID_NODES).add(n);
@@ -1208,7 +1208,7 @@ public class ServiceAdapter {
 			}
 			
 			for (Edge e : gm.getEdges()){
-				if (e.isIsAbstract())
+				if (e.isIsAbstract() || CincoUtils.isCreateDisabled(e))
 					continue;
 				for (Annotation a : e.getAnnotations()) {
 					if ("palette".equals(a.getName())) {
@@ -1222,7 +1222,7 @@ public class ServiceAdapter {
 			}
 			
 			for (NodeContainer nc : gm.getNodeContainers()){
-				if (nc.isIsAbstract())
+				if (nc.isIsAbstract() || CincoUtils.isCreateDisabled(nc))
 					continue;
 				if (!hasPaletteCategory(nc))
 					map.get(ID_CONTAINER).add(nc);
@@ -1474,4 +1474,144 @@ public class ServiceAdapter {
 			return Branches.ERROR;
 		}
 	}
+
+	public static String isCreateDisabled(LightweightExecutionEnvironment env, ContextKeyFoundation modelElement) {
+		
+		LightweightExecutionContext context = env.getLocalContext();
+		try {
+			
+			ModelElement me = (ModelElement) context.get(modelElement);
+			if (CincoUtils.isCreateDisabled(me))
+				return Branches.TRUE;
+			
+		} catch (Exception e) {
+			context.put("exception", e);
+			return Branches.ERROR;
+		}
+		
+		return Branches.FALSE;
+	}
+	
+	public static String isDeleteDisabled(LightweightExecutionEnvironment env,
+			ContextKeyFoundation modelElement) {
+		
+		LightweightExecutionContext context = env.getLocalContext();
+		try {
+			
+			ModelElement me = (ModelElement) context.get(modelElement);
+			if (CincoUtils.isDeleteDisabled(me))
+				return Branches.TRUE;
+			
+		} catch (Exception e) {
+			context.put("exception", e);
+			return Branches.ERROR;
+		}
+		
+		return Branches.FALSE;
+	}
+	
+	public static String isMoveDisabled(LightweightExecutionEnvironment env, ContextKeyFoundation modelElement) {
+		
+		LightweightExecutionContext context = env.getLocalContext();
+		try {
+			
+			ModelElement me = (ModelElement) context.get(modelElement);
+			if (CincoUtils.isMoveDisabled(me))
+				return Branches.TRUE;
+			
+		} catch (Exception e) {
+			context.put("exception", e);
+			return Branches.ERROR;
+		}
+		
+		return Branches.FALSE;
+	}
+	
+	public static String isResizeDisabled(LightweightExecutionEnvironment env, ContextKeyFoundation modelElement) {
+		
+		LightweightExecutionContext context = env.getLocalContext();
+		try {
+			
+			ModelElement me = (ModelElement) context.get(modelElement);
+			if (CincoUtils.isResizeDisabled(me))
+				return Branches.TRUE;
+			
+		} catch (Exception e) {
+			context.put("exception", e);
+			return Branches.ERROR;
+		}
+		
+		return Branches.FALSE;
+	}
+
+	public static String isReconnectDisabled(LightweightExecutionEnvironment env, ContextKeyFoundation modelElement) {
+	
+		LightweightExecutionContext context = env.getLocalContext();
+		try {
+			
+			ModelElement me = (ModelElement) context.get(modelElement);
+			if (CincoUtils.isReconnectDisabled(me))
+				return Branches.TRUE;
+			
+		} catch (Exception e) {
+			context.put("exception", e);
+			return Branches.ERROR;
+		}
+		
+		return Branches.FALSE;
+	}
+
+	public static String isSelectDisabled(LightweightExecutionEnvironment env, ContextKeyFoundation modelElement) {
+	
+		LightweightExecutionContext context = env.getLocalContext();
+		try {
+			
+			ModelElement me = (ModelElement) context.get(modelElement);
+			if (CincoUtils.isSelectDisabled(me))
+				return Branches.TRUE;
+			
+		} catch (Exception e) {
+			context.put("exception", e);
+			return Branches.ERROR;
+		}
+		
+		return Branches.FALSE;
+	}
+
+	public static String isAttributeReadOnly(LightweightExecutionEnvironment env,
+			ContextKeyFoundation attribute) {
+		
+		LightweightExecutionContext context = env.getLocalContext();
+		try {
+			
+			Attribute attr = (Attribute) context.get(attribute);
+			if (CincoUtils.isAttributeReadOnly(attr))
+				return Branches.TRUE;
+			
+		} catch (Exception e) {
+			context.put("exception", e);
+			return Branches.ERROR;
+		}
+		
+		return Branches.FALSE;
+	}
+
+	public static String isAttributeMultiValued(
+			LightweightExecutionEnvironment env, ContextKeyFoundation attribute) {
+
+		LightweightExecutionContext context = env.getLocalContext();
+		try {
+			Attribute attr = (Attribute) context.get(attribute);
+			if (CincoUtils.isAttributeMultiValued(attr))
+				return Branches.TRUE;
+			
+		} catch (Exception e) {
+			context.put("exception", e);
+			return Branches.ERROR;
+		}
+		
+		return Branches.FALSE;
+		
+	}
+
 }

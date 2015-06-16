@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>f7b62494-1378-4d7a-afe4-57e7c97b4239</id>
   <name>GenerateAppearance</name>
-  <changecounter>727</changecounter>
+  <changecounter>754</changecounter>
   <sib>
     <id>9cde0543-77f8-4378-9096-382ac82bf1d6</id>
     <name>GetAppearanceAngle</name>
@@ -187,7 +187,7 @@
     <parameter name="template">
       <string>public static void set$context.appearanceName$Style(GraphicsAlgorithm ga, Diagram diagram) {
 	if (ga instanceof AbstractText) {
-		((AbstractText) ga).setAngle($context.appearanceAngle$);
+		((AbstractText) ga).setRotation($context.appearanceAngle$);
 		$context.fontCodeContent$
 	};
 	$context.backgroundCodeContent$
@@ -196,6 +196,7 @@
 	ga.setLineStyle(LineStyle.$context.appearanceLineStyle$);
 	ga.setLineWidth($context.appearanceLineWidth$);
 	ga.setLineVisible(!$context.appearanceLineInVisible$);
+	ga.setFilled($context.currentAppearance.filled$);
 }
 
 </string>

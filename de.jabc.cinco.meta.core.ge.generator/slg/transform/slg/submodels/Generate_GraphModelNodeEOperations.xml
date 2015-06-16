@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>079a4d5e-bab9-4273-8a05-29b4b4909c15</id>
   <name>Generate_GraphModelNodeEOperations</name>
-  <changecounter>553</changecounter>
+  <changecounter>555</changecounter>
   <sib>
     <id>1c733983-6c25-45cd-bded-1a4832127f58</id>
     <name>IsPrimeNode</name>
@@ -43,11 +43,11 @@
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <finalbranches>default</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>7c46cc02-d874-4f7b-8dc5-2f624fce088b</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>GenerateCreatePrimeNode</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>7c46cc02-d874-4f7b-8dc5-2f624fce088b</string>
     </userobject>
   </sib>
   <edge>
@@ -113,7 +113,7 @@ if (width &gt; -1 &amp;&amp; height &gt; -1) {
 	cc.setHeight(height);
 }
 cc.setTargetContainer(($fqnContainerShape$) getPictogramElement());
-	if (cf.canCreate(cc)) {
+	if (cf.canCreate(cc, true)) {
 		$fqnTransactionalEditingDomain$ dom = $fqnTransactionalEditingDomain$.Factory.INSTANCE.getEditingDomain(getModelElement().eResource().getResourceSet());
 	      	if (dom == null)
 			dom = $fqnTransactionalEditingDomain$.Factory.INSTANCE.createEditingDomain(getModelElement().eResource().getResourceSet());
@@ -141,11 +141,11 @@ return retval; </string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Create EOperation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
     </userobject>
   </sib>
   <edge>
@@ -172,11 +172,11 @@ return retval; </string>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <finalbranches>default</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>682624bb-37b0-43b6-8bd5-4da09ee871bd</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>CreateParametersForEOperation1</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>682624bb-37b0-43b6-8bd5-4da09ee871bd</string>
     </userobject>
   </sib>
   <edge>
@@ -263,11 +263,11 @@ Creates and adds an $modelElementName$.
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>9445cb7d-1ca9-47f0-bda0-ffb7822ef982</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Generate_Documentation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>9445cb7d-1ca9-47f0-bda0-ffb7822ef982</string>
     </userobject>
   </sib>
   <edge>
@@ -341,11 +341,11 @@ Creates and adds an $modelElementName$.
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <finalbranches>default</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>682624bb-37b0-43b6-8bd5-4da09ee871bd</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>CreateParametersForEOperation1</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>682624bb-37b0-43b6-8bd5-4da09ee871bd</string>
     </userobject>
   </sib>
   <edge>
@@ -401,11 +401,11 @@ Creates and adds an $modelElementName$.
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Create EOperation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
     </userobject>
   </sib>
   <sib>
@@ -436,11 +436,11 @@ Creates and adds a new instance of $modelElementName$ if possible.
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>9445cb7d-1ca9-47f0-bda0-ffb7822ef982</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Generate_Documentation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>9445cb7d-1ca9-47f0-bda0-ffb7822ef982</string>
     </userobject>
   </sib>
   <edge>
@@ -510,11 +510,11 @@ Creates and adds a new instance of $modelElementName$ if possible.
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <finalbranches>default</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>682624bb-37b0-43b6-8bd5-4da09ee871bd</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>CreateParametersForEOperation1</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>682624bb-37b0-43b6-8bd5-4da09ee871bd</string>
     </userobject>
   </sib>
   <edge>
@@ -551,11 +551,11 @@ Adds an existing node of $modelElementName$ if possible.
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>9445cb7d-1ca9-47f0-bda0-ffb7822ef982</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Generate_Documentation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>9445cb7d-1ca9-47f0-bda0-ffb7822ef982</string>
     </userobject>
   </sib>
   <edge>
@@ -614,11 +614,11 @@ return null;</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Create EOperation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
     </userobject>
   </sib>
   <edge>
@@ -673,11 +673,11 @@ return null;</string>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <finalbranches>default</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>682624bb-37b0-43b6-8bd5-4da09ee871bd</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>CreateParametersForEOperation1</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>682624bb-37b0-43b6-8bd5-4da09ee871bd</string>
     </userobject>
   </sib>
   <edge>
@@ -713,11 +713,11 @@ Returns the wrapped $modelElementName$ for the specified model element
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>9445cb7d-1ca9-47f0-bda0-ffb7822ef982</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Generate_Documentation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>9445cb7d-1ca9-47f0-bda0-ffb7822ef982</string>
     </userobject>
   </sib>
   <edge>
@@ -791,11 +791,11 @@ if (af != null &amp;&amp; af.canAdd(ac)) {
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Create EOperation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
     </userobject>
   </sib>
   <parameter>
