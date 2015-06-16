@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>8f33aced-62cb-4016-b26e-cbbd9ddee64d</id>
   <name>GenerateCanCreateContainer</name>
-  <changecounter>25</changecounter>
+  <changecounter>26</changecounter>
   <sib>
     <id>e277d117-98eb-4ce4-93ec-b15b92f9b9d5</id>
     <name>RunStringTemplate</name>
@@ -11,7 +11,7 @@
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
     <position>70.0,198.0</position>
     <parameter name="append">
-      <boolean>true</boolean>
+      <boolean>false</boolean>
     </parameter>
     <parameter name="individualVariables">
       <boolean>false</boolean>
@@ -42,7 +42,7 @@ public boolean canCreate(ICreateContext context) {
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
     <position>295.0,198.0</position>
     <parameter name="append">
-      <boolean>true</boolean>
+      <boolean>false</boolean>
     </parameter>
     <parameter name="individualVariables">
       <boolean>false</boolean>
@@ -85,7 +85,7 @@ public boolean canCreate(ICreateContext context) {
     <label>IsCreateDisabled</label>
     <sib-uid>ge-util-sibs/IsCreateDisabled</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsCreateDisabled</taxonomy>
-    <position>188.5,63.0</position>
+    <position>188.5,61.0</position>
     <parameter name="modelElementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>

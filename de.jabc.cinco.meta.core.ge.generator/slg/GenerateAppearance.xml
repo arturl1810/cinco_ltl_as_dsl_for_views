@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>f7b62494-1378-4d7a-afe4-57e7c97b4239</id>
   <name>GenerateAppearance</name>
-  <changecounter>754</changecounter>
+  <changecounter>766</changecounter>
   <sib>
     <id>9cde0543-77f8-4378-9096-382ac82bf1d6</id>
     <name>GetAppearanceAngle</name>
@@ -189,6 +189,7 @@
 	if (ga instanceof AbstractText) {
 		((AbstractText) ga).setRotation($context.appearanceAngle$);
 		$context.fontCodeContent$
+		
 	};
 	$context.backgroundCodeContent$
 	$context.foregroundCodeContent$
@@ -196,9 +197,8 @@
 	ga.setLineStyle(LineStyle.$context.appearanceLineStyle$);
 	ga.setLineWidth($context.appearanceLineWidth$);
 	ga.setLineVisible(!$context.appearanceLineInVisible$);
-	ga.setFilled($context.currentAppearance.filled$);
+	//ga.setFilled($context.currentAppearance.filled$);
 }
-
 </string>
     </parameter>
     <finalbranches>default</finalbranches>
