@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>e96e3211-9e15-4d4a-94a9-7b4b8375d7a3</id>
   <name>GenerateLayoutFeatures</name>
-  <changecounter>628</changecounter>
+  <changecounter>638</changecounter>
   <sib>
     <id>ff7817b7-c328-4684-827e-afc4ea81c9f3</id>
     <name>PutExpression</name>
@@ -168,8 +168,12 @@ public class $context.graphModelName$LayoutUtils {
 				IGaService gaService = Graphiti.getGaService();
 				String horizontal = peService.getPropertyValue(ga, KEY_HORIZONTAL);
 				String vertical = peService.getPropertyValue(ga, KEY_VERTICAL);
-				int xMargin = Integer.parseInt(peService.getPropertyValue(ga, KEY_MARGIN_HORIZONTAL));
-				int yMargin = Integer.parseInt(peService.getPropertyValue(ga, KEY_MARGIN_VERTICAL));
+				int xMargin = 0;
+				int yMargin = 0;
+				if (peService.getPropertyValue(ga, KEY_MARGIN_HORIZONTAL) != null)
+					xMargin = Integer.parseInt(peService.getPropertyValue(ga, KEY_MARGIN_HORIZONTAL));
+				if (peService.getPropertyValue(ga, KEY_MARGIN_VERTICAL) != null)
+					yMargin = Integer.parseInt(peService.getPropertyValue(ga, KEY_MARGIN_VERTICAL));
 			
 				if (parent == null || ga == null)
 					return;
@@ -205,10 +209,10 @@ public class $context.graphModelName$LayoutUtils {
 					mt.setWidth(gaWidth);
 					mt.setHeight(gaHeight);
 			
-					if (parent.getWidth() &lt; gaWidth)
-						parent.setWidth(gaWidth);
-					if (parent.getHeight() &lt; gaHeight)
-						parent.setHeight(gaHeight);
+					if (parent.getWidth() &lt; gaWidth + mt.getX())
+						parent.setWidth(gaWidth + mt.getX());
+					if (parent.getHeight() &lt; gaHeight + mt.getY())
+						parent.setHeight(gaHeight + mt.getY());
 			
 					parentWidth = parent.getWidth();
 					parentHeight = parent.getHeight();
