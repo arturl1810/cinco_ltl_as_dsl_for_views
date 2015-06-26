@@ -15,6 +15,7 @@ import mgl.Node;
 import mgl.NodeContainer;
 import mgl.OutgoingEdgeElementConnection;
 import style.Appearance;
+import style.BooleanEnum;
 import style.Color;
 import style.Font;
 import style.LineStyle;
@@ -189,7 +190,7 @@ public class ModelParser {
 		Appearance appearance = StyleFactory.eINSTANCE.createAppearance();
 		
 		appearance.setAngle(0);
-		appearance.setFilled(true);
+		appearance.setFilled(BooleanEnum.TRUE);
 		appearance.setParent(null);
 		appearance.setName(null);
 		

@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>e0c76532-9e6d-432c-8bdd-c39fb6516795</id>
   <name>GenerateSetPosition</name>
-  <changecounter>337</changecounter>
+  <changecounter>353</changecounter>
   <sib>
     <id>da0a527b-9125-4bcc-8691-6c1f8c7c1079</id>
     <name>SwitchAbstractPosition</name>
@@ -545,10 +545,10 @@ $context.containerPos$
   <sib>
     <id>b519c2e7-0dc6-4e55-8ec6-3d699c973004</id>
     <name>CheckVariable</name>
-    <label>CheckVariable</label>
+    <label>positionSet?</label>
     <sib-uid>basic-sibs/CheckVariable</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.CheckVariable</taxonomy>
-    <position>301.0,273.0</position>
+    <position>306.0,273.0</position>
     <parameter name="variable">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>

@@ -46,11 +46,10 @@ GraphicsAlgorithm:
 Shape returns Shape:
 	Text | MultiText | Image | Polyline
 ;
-
+ 
 Rectangle returns Rectangle:
 	{Rectangle}
-	'rectangle'
-	(name=ID)?
+	'rectangle' (name=EString)?
 	'{'
 		(('appearance' referencedAppearance=[Appearance]) | (inlineAppearance=InlineAppearance) )? 
 		('position' position = AbstractPosition)?
@@ -71,8 +70,7 @@ Rectangle returns Rectangle:
 
 RoundedRectangle returns RoundedRectangle:
 	{RoundedRectangle}
-	'roundedRectangle'
-	(name=ID)?
+	'roundedRectangle' (name=EString)?
 	'{'
 		(('appearance' referencedAppearance=[Appearance]) | (inlineAppearance=InlineAppearance) )? 
 		('position' position = AbstractPosition)?
@@ -95,8 +93,7 @@ RoundedRectangle returns RoundedRectangle:
 
 Ellipse returns Ellipse:
 	{Ellipse}
-	'ellipse'
-	(name=ID)?
+	'ellipse' (name=EString)?
 	'{'
 		(('appearance' referencedAppearance=[Appearance]) | (inlineAppearance=InlineAppearance) )? 
 		('position' position = AbstractPosition)?
@@ -117,8 +114,7 @@ Ellipse returns Ellipse:
 
 Polygon returns Polygon: 
 	{Polygon}
-	'polygon'
-	(name=ID)?
+	'polygon' (name=EString)?
 	'{'
 		(('appearance' referencedAppearance=[Appearance]) | (inlineAppearance=InlineAppearance) )? 
 		('position' position = AbstractPosition)?
@@ -139,8 +135,7 @@ Polygon returns Polygon:
 
 Text returns Text:
 	{Text}
-	'text'
-	(name=ID)?
+	'text' (name=EString)?
 	'{'
 		(('appearance' referencedAppearance=[Appearance]) | (inlineAppearance=InlineAppearance) )? 
 		('position' position = AbstractPosition)?
@@ -159,8 +154,7 @@ Text returns Text:
 //;
 
 MultiText returns MultiText:
-	'multiText'
-	(name=ID)?
+	'multiText' (name=EString)?
 	'{'
 		(('appearance' referencedAppearance=[Appearance]) | (inlineAppearance=InlineAppearance) )? 
 		('position' position = AbstractPosition)?
@@ -179,8 +173,7 @@ MultiText returns MultiText:
 //;
 
 Image returns Image:
-	'image'
-	(name=ID)?
+	'image' (name=EString)?
 	'{'
 		'position' position = AbstractPosition
 		'size' size = Size
@@ -199,8 +192,7 @@ Image returns Image:
 
 Polyline returns Polyline:
 	{Polyline}
-	'polyline'
-	(name=ID)?
+	'polyline' (name=EString)?
 	'{'
 		(('appearance' referencedAppearance=[Appearance]) | (inlineAppearance=InlineAppearance) )? 
 		'points' '[' (points+=Point)* ']'		
@@ -227,7 +219,6 @@ AbsolutPosition returns AbsolutPosition:
 ;
 
 Alignment returns Alignment:
-	'relativeTo' relativeTo = [ContainerShape|ID]
 	'('horizontal=HAlignment','vertical=VAlignment')'
 ;
 
@@ -269,7 +260,11 @@ enum VAlignment returns VAlignment:
 enum LineStyle returns LineStyle:
 	DASH | DASHDOT | DASHDOTDOT | DOT | SOLID
 ;
- 
+
+enum Boolean returns BooleanEnum:
+	true | false
+;
+
 Color returns Color:
 	{Color}
 	"("r=INT","g=INT","b=INT")"
@@ -287,7 +282,7 @@ Appearance returns Appearance:
 			('lineWidth' lineWidth=INT)? &
 			(lineInVisible?='visible NOT')? &
 			('transparency' transparency=EDouble)? &
-			(filled?='filled')? &
+			('filled' filled = Boolean)? &
 			('imagePath' '('imagePath=STRING')')?
 		)
 	'}'
@@ -305,7 +300,7 @@ InlineAppearance returns Appearance:
 			('lineWidth' lineWidth=INT)? &
 			(lineInVisible?='visible NOT')? &
 			('transparency' transparency=EDouble)? &
-			(filled?='filled')? &
+			('filled' filled = Boolean)? &
 			('imagePath' '('imagePath=STRING')')?
 		)
 	'}'

@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>c1206c24-81a8-4ae2-b093-4d794fac9742</id>
   <name>GenerateContainerShape</name>
-  <changecounter>1160</changecounter>
+  <changecounter>1201</changecounter>
   <sib>
     <id>299dd76d-8397-43af-aff5-bc29e4d4a5d6</id>
     <name>SwitchContainerShape</name>
@@ -211,9 +211,12 @@ $context.setStyleContent$</string>
     <label>GetRGB</label>
     <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
-    <position>62.0,196.0</position>
+    <position>62.0,211.0</position>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
+    <userobject key="ABC$START">
+      <boolean>true</boolean>
+    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>GetRGB</string>
     </userobject>
@@ -221,14 +224,6 @@ $context.setStyleContent$</string>
       <string>1afc1c0f-b78d-4e52-ad62-7f417ac49812</string>
     </userobject>
   </sib>
-  <edge>
-    <source>2a1a5502-fe78-46db-a939-3e9e99ebe77b</source>
-    <target>72e77f0a-490a-4def-a705-e300fb443489</target>
-    <point>97.84313725490196,451.0</point>
-    <point>203.33333333333334,174.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
   <sib>
     <id>05d615e5-55f4-4211-bc3f-32551ff920f5</id>
     <name>CheckVariable</name>
@@ -448,44 +443,6 @@ $context.setStyleContent$</string>
     <finalbranches>error</finalbranches>
   </sib>
   <sib>
-    <id>172471b9-98e6-4b72-a96e-f8326f247fac</id>
-    <name>GetContainerShapeName</name>
-    <label>GetContainerShapeName</label>
-    <sib-uid>style/style/GetContainerShapeName</sib-uid>
-    <taxonomy>de.jabc.cinco.meta.core.ge.sib.style.GetContainerShapeName</taxonomy>
-    <position>5.5,348.0</position>
-    <parameter name="containerShapeKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>currentShape</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="containerShapenameKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>shapeName</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-    <userobject key="ABC$START">
-      <boolean>true</boolean>
-    </userobject>
-  </sib>
-  <edge>
-    <source>172471b9-98e6-4b72-a96e-f8326f247fac</source>
-    <target>2a1a5502-fe78-46db-a939-3e9e99ebe77b</target>
-    <point>90.0,360.0</point>
-    <point>97.0,155.0</point>
-    <branch>default</branch>
-  </edge>
-  <sib>
     <id>4782d9e4-924c-4c1d-8f56-7235a1e23813</id>
     <name>CheckVariable_1</name>
     <label>CheckAppearance</label>
@@ -642,8 +599,8 @@ $context.graphModelName$LayoutUtils.set_$context.graphModelName$DefaultAppearanc
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>$context.graphModelName$LayoutUtils.updateStyleFromAppearance($context.peName$, new $context.appearanceProvider$().getAppearance($context.meIdentifier$, &quot;$context.currentShape.name$&quot;), getDiagram());
-peService.setPropertyValue($context.peName$, $context.graphModelName$LayoutUtils.KEY_GA_NAME, &quot;$context.currentShape.name$&quot;);
+      <string>$context.graphModelName$LayoutUtils.updateStyleFromAppearance($context.peName$, new $context.appearanceProvider$().getAppearance($context.meIdentifier$, &quot;$context.meShapeName$&quot;), getDiagram());
+peService.setPropertyValue($context.peName$, $context.graphModelName$LayoutUtils.KEY_GA_NAME, &quot;$context.meShapeName$&quot;);
 </string>
     </parameter>
     <finalbranches>default</finalbranches>
@@ -1222,6 +1179,14 @@ $context.setStyleContent$</string>
     <point>639.0,329.0</point>
     <branch>default</branch>
   </edge>
+  <edge>
+    <source>2a1a5502-fe78-46db-a939-3e9e99ebe77b</source>
+    <target>72e77f0a-490a-4def-a705-e300fb443489</target>
+    <point>90.0,301.0</point>
+    <point>90.0,69.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
   <parameter>
     <name>modelElementKey</name>
     <field>modelElementKey</field>
@@ -1298,11 +1263,6 @@ $context.setStyleContent$</string>
     <name>error</name>
     <branch>error</branch>
     <sib>32ec6bae-a04d-491c-a0a3-20ac3e22b060</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>172471b9-98e6-4b72-a96e-f8326f247fac</sib>
   </branch>
   <branch>
     <name>error</name>

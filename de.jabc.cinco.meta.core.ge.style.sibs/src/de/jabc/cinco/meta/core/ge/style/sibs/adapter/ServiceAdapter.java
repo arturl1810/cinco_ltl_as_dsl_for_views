@@ -60,6 +60,7 @@ import style.AbsolutPosition;
 import style.AbstractShape;
 import style.Alignment;
 import style.Appearance;
+import style.BooleanEnum;
 import style.Color;
 import style.ConnectionDecorator;
 import style.ContainerShape;
@@ -422,7 +423,11 @@ public class ServiceAdapter {
 		LightweightExecutionContext context = env.getLocalContext();
 		try {
 			Alignment relPos = (Alignment) context.get(relativePosition);
-			ContainerShape relTo = relPos.getRelativeTo();
+			
+			AbstractShape shape = relPos.getShape();
+			
+			ContainerShape parentContainerShape = shape.getParentContainerShape();
+			ContainerShape relTo = parentContainerShape;
 			Size relToSize = relTo.getSize();
 			
 			Size shapeSize = (Size) context.get(size);
@@ -538,7 +543,7 @@ public class ServiceAdapter {
 			Appearance newApp = (Appearance) context.get(appearance);
 			
 		if (newApp.getFilled() == null)
-			newApp.setFilled(true);
+			newApp.setFilled(BooleanEnum.UNDEF);
 		if (newApp.getLineInVisible() == null)
 			newApp.setLineInVisible(false);
 		if (newApp.getAngle() == -1.0)

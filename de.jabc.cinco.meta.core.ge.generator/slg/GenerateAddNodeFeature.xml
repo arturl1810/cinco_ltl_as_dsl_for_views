@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>7def08b0-45b0-4f5d-9629-657ab3028508</id>
   <name>GenerateAddNodeFeature</name>
-  <changecounter>1639</changecounter>
+  <changecounter>1705</changecounter>
   <sib>
     <id>b89523ed-9916-4f61-a5e9-9e1d8838a845</id>
     <name>PutExpression_1</name>
@@ -189,8 +189,8 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
   <edge>
     <source>51744bc1-64c3-487b-8560-75f89ca4f78e</source>
     <target>2d0994da-dc0e-48ac-8053-59480260e4b6</target>
-    <point>882.0,302.94</point>
-    <point>618.0,250.14</point>
+    <point>1065.0,105.0</point>
+    <point>1065.0,240.0</point>
     <labelposition>514.8349956844879,-2.9768456393321614</labelposition>
     <branch>default</branch>
   </edge>
@@ -348,7 +348,7 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
     <label>CopyRootShape</label>
     <sib-uid>basic-sibs/PutExpression</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
-    <position>950.5,228.0</position>
+    <position>1025.5,228.0</position>
     <parameter name="resolve">
       <boolean>true</boolean>
     </parameter>
@@ -375,9 +375,9 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
   </sib>
   <edge>
     <source>2d0994da-dc0e-48ac-8053-59480260e4b6</source>
-    <target>a83db7aa-432d-4c43-b9ba-9e995ce52eea</target>
-    <point>777.0,240.6</point>
-    <point>693.0,209.1</point>
+    <target>710f8e6c-9a8f-45ac-85d3-1d054148dfe7</target>
+    <point>1062.0,252.7304347826087</point>
+    <point>753.0,360.2086956521739</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -979,7 +979,7 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
     <source>5127d0fa-c7eb-4024-a7c5-a223d3c0db33</source>
     <target>51744bc1-64c3-487b-8560-75f89ca4f78e</target>
     <point>855.0,120.0</point>
-    <point>1005.0,120.0</point>
+    <point>1065.0,105.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>NodeStyle</branch>
   </edge>
@@ -1008,8 +1008,9 @@ Leaving Generate ${nodeName} AddFeature </expression>
   <edge>
     <source>5127d0fa-c7eb-4024-a7c5-a223d3c0db33</source>
     <target>2c618a13-bf66-4e9e-ad8b-db860cd13f69</target>
-    <point>1095.0,255.0</point>
-    <point>1105.0,368.0</point>
+    <point>855.0,120.0</point>
+    <point>855.0,30.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>EdgeStyle</branch>
   </edge>
   <sib>
@@ -1018,7 +1019,7 @@ Leaving Generate ${nodeName} AddFeature </expression>
     <label>GetNodeStyleMainShape</label>
     <sib-uid>style/style/GetNodeStyleMainShape</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.sib.style.GetNodeStyleMainShape</taxonomy>
-    <position>922.0,93.0</position>
+    <position>997.0,93.0</position>
     <parameter name="nodeStyleKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1041,53 +1042,6 @@ Leaving Generate ${nodeName} AddFeature </expression>
     <finalbranches>error</finalbranches>
   </sib>
   <edge>
-    <source>f09cea6d-7d8a-4daf-8ea4-9e792d3a0197</source>
-    <target>41593b09-8ee0-4638-9e7e-9e90f7405015</target>
-    <point>462.0,246.9</point>
-    <point>318.0,246.9</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
-  <sib>
-    <id>a83db7aa-432d-4c43-b9ba-9e995ce52eea</id>
-    <name>PutExpression_5</name>
-    <label>ShapeName</label>
-    <sib-uid>basic-sibs/PutExpression</sib-uid>
-    <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
-    <position>843.0,228.0</position>
-    <parameter name="resolve">
-      <boolean>true</boolean>
-    </parameter>
-    <parameter name="value">
-      <de.metaframe.common.sib.parameter.ContextExpression>
-        <ContextExpressionFoundation>
-          <expression>${currentShape.name}</expression>
-          <clazz>java.lang.Object</clazz>
-          <classMutable>true</classMutable>
-        </ContextExpressionFoundation>
-      </de.metaframe.common.sib.parameter.ContextExpression>
-    </parameter>
-    <parameter name="variable">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>shapeName</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-  </sib>
-  <edge>
-    <source>a83db7aa-432d-4c43-b9ba-9e995ce52eea</source>
-    <target>d04e9437-6455-480b-a850-660f91b82b09</target>
-    <point>597.0,237.16363636363636</point>
-    <point>468.0,166.8</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
-  <edge>
     <source>d04e9437-6455-480b-a850-660f91b82b09</source>
     <target>f09cea6d-7d8a-4daf-8ea4-9e792d3a0197</target>
     <point>450.0,165.0</point>
@@ -1100,7 +1054,7 @@ Leaving Generate ${nodeName} AddFeature </expression>
     <label>GenerateUniqueGaName</label>
     <sib-uid>ge-util-sibs/GenerateUniqueGaName</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.GenerateUniqueGaName</taxonomy>
-    <position>667.5,228.0</position>
+    <position>712.5,228.0</position>
     <parameter name="clearCache">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
@@ -1137,11 +1091,11 @@ Leaving Generate ${nodeName} AddFeature </expression>
     <label>GenerateUniqueShapeName</label>
     <sib-uid>ge-util-sibs/GenerateUniqueShapeName</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.GenerateUniqueShapeName</taxonomy>
-    <position>476.0,228.0</position>
+    <position>506.0,228.0</position>
     <parameter name="clearCache">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>true</expression>
+          <expression>${true}</expression>
           <clazz>java.lang.Boolean</clazz>
           <classMutable>true</classMutable>
         </ContextExpressionFoundation>
@@ -1362,6 +1316,49 @@ Leaving Generate ${nodeName} AddFeature </expression>
     <point>129.0,762.0</point>
     <branch>default</branch>
   </edge>
+  <edge>
+    <source>f09cea6d-7d8a-4daf-8ea4-9e792d3a0197</source>
+    <target>41593b09-8ee0-4638-9e7e-9e90f7405015</target>
+    <point>687.0,246.54</point>
+    <point>423.0,246.54</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>710f8e6c-9a8f-45ac-85d3-1d054148dfe7</id>
+    <name>GetShapeName</name>
+    <label>GetShapeName</label>
+    <sib-uid>style/style/GetShapeName</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.sibs.style.sib.style.GetShapeName</taxonomy>
+    <position>896.5,228.0</position>
+    <parameter name="shapeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>currentShape</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="shapenameKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>shapeName</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>710f8e6c-9a8f-45ac-85d3-1d054148dfe7</source>
+    <target>d04e9437-6455-480b-a850-660f91b82b09</target>
+    <point>960.0,315.0</point>
+    <point>816.0,231.0</point>
+    <branch>default</branch>
+  </edge>
   <parameter>
     <name>modelElementKey</name>
     <field>modelElementKey</field>
@@ -1523,11 +1520,6 @@ Leaving Generate ${nodeName} AddFeature </expression>
     <name>error</name>
     <branch>error</branch>
     <sib>51744bc1-64c3-487b-8560-75f89ca4f78e</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>a83db7aa-432d-4c43-b9ba-9e995ce52eea</sib>
   </branch>
   <branch>
     <name>error</name>

@@ -2,14 +2,14 @@
 <model version="2.1">
   <id>f7b62494-1378-4d7a-afe4-57e7c97b4239</id>
   <name>GenerateAppearance</name>
-  <changecounter>766</changecounter>
+  <changecounter>802</changecounter>
   <sib>
     <id>9cde0543-77f8-4378-9096-382ac82bf1d6</id>
     <name>GetAppearanceAngle</name>
     <label>GetAppearanceAngle</label>
     <sib-uid>style/style/GetAppearanceAngle</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.sib.style.GetAppearanceAngle</taxonomy>
-    <position>484.0,213.0</position>
+    <position>559.0,453.0</position>
     <parameter name="appearanceKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -65,7 +65,7 @@
     <label>GetAppearanceLineStyle</label>
     <sib-uid>style/style/GetAppearanceLineStyle</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.sib.style.GetAppearanceLineStyle</taxonomy>
-    <position>472.5,393.0</position>
+    <position>547.5,633.0</position>
     <parameter name="appearanceKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -117,17 +117,17 @@
   </sib>
   <edge>
     <source>85deecf3-a52a-4bb8-9d87-d2dd06676c97</source>
-    <target>e5f98031-5463-45a9-adea-31971ef38474</target>
-    <point>348.0,37.92</point>
-    <point>537.0,50.52</point>
+    <target>85a3937d-79ce-487b-b381-abe2f42578ee</target>
+    <point>378.0,64.2923076923077</point>
+    <point>537.0,174.36923076923077</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
     <source>9cde0543-77f8-4378-9096-382ac82bf1d6</source>
     <target>c0add5e8-cf48-4570-aded-7ac02b98c3f0</target>
-    <point>550.0,238.0</point>
-    <point>550.0,418.0</point>
+    <point>630.0,480.0</point>
+    <point>630.0,660.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -168,7 +168,7 @@
     <label>GenerateAppearanceCode</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>632.0,678.0</position>
+    <position>752.0,633.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -193,11 +193,12 @@
 	};
 	$context.backgroundCodeContent$
 	$context.foregroundCodeContent$
+	$context.filledContent$
 	ga.setTransparency($context.appearanceTransparency$);
 	ga.setLineStyle(LineStyle.$context.appearanceLineStyle$);
 	ga.setLineWidth($context.appearanceLineWidth$);
 	ga.setLineVisible(!$context.appearanceLineInVisible$);
-	//ga.setFilled($context.currentAppearance.filled$);
+	
 }
 </string>
     </parameter>
@@ -207,8 +208,8 @@
   <edge>
     <source>c0add5e8-cf48-4570-aded-7ac02b98c3f0</source>
     <target>aa64328d-aa2a-461f-86d0-f0e46b204153</target>
-    <point>550.0,418.0</point>
-    <point>550.0,568.0</point>
+    <point>630.0,660.0</point>
+    <point>630.0,810.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -234,7 +235,7 @@
     <label>GetAppearanceTransparency</label>
     <sib-uid>style/style/GetAppearanceTransparency</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.sib.style.GetAppearanceTransparency</taxonomy>
-    <position>458.5,33.0</position>
+    <position>533.5,348.0</position>
     <parameter name="appearanceKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -270,7 +271,7 @@
     <label>GenerateImports</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>497.5,543.0</position>
+    <position>572.5,783.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -300,8 +301,8 @@ import org.eclipse.graphiti.mm.pictograms.Diagram;
   <edge>
     <source>aa64328d-aa2a-461f-86d0-f0e46b204153</source>
     <target>e9861a9d-4d8a-40d9-9bec-aa689acc60f9</target>
-    <point>550.0,568.0</point>
-    <point>550.0,703.0</point>
+    <point>735.0,795.0</point>
+    <point>735.0,930.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -311,7 +312,7 @@ import org.eclipse.graphiti.mm.pictograms.Diagram;
     <label>GenerateFields</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>502.0,678.0</position>
+    <position>787.0,783.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -337,16 +338,16 @@ import org.eclipse.graphiti.mm.pictograms.Diagram;
   <edge>
     <source>e9861a9d-4d8a-40d9-9bec-aa689acc60f9</source>
     <target>3a203db7-7e34-476b-84cb-737ebfe8177a</target>
-    <point>550.0,703.0</point>
-    <point>715.0,703.0</point>
+    <point>735.0,930.0</point>
+    <point>900.0,930.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
     <source>e5f98031-5463-45a9-adea-31971ef38474</source>
     <target>9cde0543-77f8-4378-9096-382ac82bf1d6</target>
-    <point>550.0,58.0</point>
-    <point>550.0,238.0</point>
+    <point>735.0,285.0</point>
+    <point>735.0,465.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -803,6 +804,113 @@ import org.eclipse.graphiti.mm.pictograms.Diagram;
     <point>390.0,330.0</point>
     <point>349.0,240.0</point>
     <branch>default</branch>
+  </edge>
+  <sib>
+    <id>85a3937d-79ce-487b-b381-abe2f42578ee</id>
+    <name>GetAppearanceFilled</name>
+    <label>GetAppearanceFilled</label>
+    <sib-uid>style/style/GetAppearanceFilled</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.sibs.style.sib.style.GetAppearanceFilled</taxonomy>
+    <position>568.0,33.0</position>
+    <parameter name="appearanceKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>currentAppearance</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="appearancefilledKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>appearanceFilled</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>5b87e770-d210-4a3a-96df-f2d48d37bf4f</id>
+    <name>SwitchBooleanEnum</name>
+    <label>SwitchBooleanEnum</label>
+    <sib-uid>style/style/SwitchBooleanEnum</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.sibs.style.sib.style.SwitchBooleanEnum</taxonomy>
+    <position>568.5,153.0</position>
+    <parameter name="eEnumKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>appearanceFilled</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>false</finalbranches>
+    <finalbranches>other</finalbranches>
+    <finalbranches>true</finalbranches>
+    <finalbranches>undef</finalbranches>
+  </sib>
+  <edge>
+    <source>85a3937d-79ce-487b-b381-abe2f42578ee</source>
+    <target>5b87e770-d210-4a3a-96df-f2d48d37bf4f</target>
+    <point>630.0,60.0</point>
+    <point>628.0,179.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>1fac6cf0-3135-4410-a575-f03b67e18878</id>
+    <name>RunStringTemplate_9</name>
+    <label>GenerateFilledValue</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>479.5,258.0</position>
+    <parameter name="append">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>filledContent</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>ga.setFilled($context.appearanceFilled$);</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>5b87e770-d210-4a3a-96df-f2d48d37bf4f</source>
+    <target>1fac6cf0-3135-4410-a575-f03b67e18878</target>
+    <point>630.0,180.0</point>
+    <point>634.0,266.0</point>
+    <branch>false</branch>
+    <branch>true</branch>
+  </edge>
+  <edge>
+    <source>1fac6cf0-3135-4410-a575-f03b67e18878</source>
+    <target>e5f98031-5463-45a9-adea-31971ef38474</target>
+    <point>570.0,285.0</point>
+    <point>715.0,276.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>5b87e770-d210-4a3a-96df-f2d48d37bf4f</source>
+    <target>e5f98031-5463-45a9-adea-31971ef38474</target>
+    <point>630.0,180.0</point>
+    <point>626.0,370.0</point>
+    <branch>undef</branch>
   </edge>
   <parameter>
     <name>eObjectKey</name>

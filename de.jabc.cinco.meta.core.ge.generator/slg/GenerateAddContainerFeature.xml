@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>c7542d87-aa25-4707-a286-db91e10d7301</id>
   <name>GenerateAddContainerFeature</name>
-  <changecounter>476</changecounter>
+  <changecounter>505</changecounter>
   <sib>
     <id>3f7b7312-5278-4d0a-b7f8-45424c587ca9</id>
     <name>GetNodeContainerIsAbstract</name>
@@ -326,7 +326,7 @@
     <label>CopyRootShape</label>
     <sib-uid>basic-sibs/PutExpression</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
-    <position>455.5,198.0</position>
+    <position>470.5,198.0</position>
     <parameter name="resolve">
       <boolean>true</boolean>
     </parameter>
@@ -353,9 +353,9 @@
   </sib>
   <edge>
     <source>1a6a98d5-2902-4b61-8334-46a479e3fdea</source>
-    <target>65ae1057-eac6-4d76-9eb0-95340470fd64</target>
-    <point>547.8947368421052,234.0</point>
-    <point>518.4375,303.0</point>
+    <target>124a44fa-4757-4878-9d41-b90b2e072ba6</target>
+    <point>507.0,229.68</point>
+    <point>393.0,309.48</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -668,44 +668,6 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
   </sib>
-  <sib>
-    <id>65ae1057-eac6-4d76-9eb0-95340470fd64</id>
-    <name>PutExpression_5</name>
-    <label>PutExpression</label>
-    <sib-uid>basic-sibs/PutExpression</sib-uid>
-    <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
-    <position>295.5,198.0</position>
-    <parameter name="resolve">
-      <boolean>true</boolean>
-    </parameter>
-    <parameter name="value">
-      <de.metaframe.common.sib.parameter.ContextExpression>
-        <ContextExpressionFoundation>
-          <expression>${rootShape.name}</expression>
-          <clazz>java.lang.Object</clazz>
-          <classMutable>true</classMutable>
-        </ContextExpressionFoundation>
-      </de.metaframe.common.sib.parameter.ContextExpression>
-    </parameter>
-    <parameter name="variable">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>shapeName</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-  </sib>
-  <edge>
-    <source>65ae1057-eac6-4d76-9eb0-95340470fd64</source>
-    <target>ba78a7af-d3e9-4adb-abfe-1d08100be1d7</target>
-    <point>435.0,225.0</point>
-    <point>346.0,208.0</point>
-    <branch>default</branch>
-  </edge>
   <edge>
     <source>ba78a7af-d3e9-4adb-abfe-1d08100be1d7</source>
     <target>1278907f-52f1-44a7-a4f5-7f4183c9cf0c</target>
@@ -872,6 +834,41 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
     <point>795.0,431.0</point>
     <branch>default</branch>
   </edge>
+  <sib>
+    <id>124a44fa-4757-4878-9d41-b90b2e072ba6</id>
+    <name>GetShapeName</name>
+    <label>GetShapeName</label>
+    <sib-uid>style/style/GetShapeName</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.sibs.style.sib.style.GetShapeName</taxonomy>
+    <position>311.5,198.0</position>
+    <parameter name="shapeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>rootShape</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="shapenameKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>shapeName</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>124a44fa-4757-4878-9d41-b90b2e072ba6</source>
+    <target>ba78a7af-d3e9-4adb-abfe-1d08100be1d7</target>
+    <point>360.0,225.0</point>
+    <point>162.0,219.0</point>
+    <branch>default</branch>
+  </edge>
   <parameter>
     <name>containerKey</name>
     <field>nodeContainerKey</field>
@@ -978,11 +975,6 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
     <name>error</name>
     <branch>error</branch>
     <sib>04865dd4-e71e-4c08-bf33-26d812f971c2</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>65ae1057-eac6-4d76-9eb0-95340470fd64</sib>
   </branch>
   <branch>
     <name>error</name>

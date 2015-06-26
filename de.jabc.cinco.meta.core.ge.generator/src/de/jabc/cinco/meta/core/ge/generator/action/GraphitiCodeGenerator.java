@@ -49,7 +49,6 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EDataType;
@@ -70,7 +69,6 @@ import org.eclipse.graphiti.features.IDeleteFeature;
 import org.eclipse.graphiti.features.IMoveShapeFeature;
 import org.eclipse.graphiti.features.IReconnectionFeature;
 import org.eclipse.graphiti.features.IUpdateFeature;
-import org.eclipse.graphiti.features.context.IResizeShapeContext;
 import org.eclipse.graphiti.features.context.impl.AddConnectionContext;
 import org.eclipse.graphiti.features.context.impl.AddContext;
 import org.eclipse.graphiti.features.context.impl.CreateConnectionContext;
@@ -78,7 +76,6 @@ import org.eclipse.graphiti.features.context.impl.CreateContext;
 import org.eclipse.graphiti.features.context.impl.DeleteContext;
 import org.eclipse.graphiti.features.context.impl.MoveShapeContext;
 import org.eclipse.graphiti.features.context.impl.ReconnectionContext;
-import org.eclipse.graphiti.features.context.impl.ResizeContext;
 import org.eclipse.graphiti.features.context.impl.ResizeShapeContext;
 import org.eclipse.graphiti.features.context.impl.UpdateContext;
 import org.eclipse.graphiti.mm.algorithms.styles.Point;
@@ -120,7 +117,6 @@ import de.jabc.cinco.meta.core.ge.style.model.errorhandling.ECincoError;
 import de.jabc.cinco.meta.core.mgl.generator.GenModelCreator;
 import de.jabc.cinco.meta.core.pluginregistry.PluginRegistry;
 import de.jabc.cinco.meta.core.ui.listener.MGLSelectionListener;
-import de.jabc.cinco.meta.core.utils.CincoUtils;
 import de.jabc.cinco.meta.core.utils.URIHandler;
 import de.jabc.cinco.meta.core.utils.projects.ProjectCreator;
 import de.metaframe.jabc.framework.execution.DefaultLightweightExecutionEnvironment;
@@ -203,7 +199,7 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 				BundleContext bc = InternalPlatform.getDefault().getBundleContext();
 				ServiceReference<?> ref = bc.getServiceReference(IBundleProjectService.class);
 				IBundleProjectService service = (IBundleProjectService) bc.getService(ref);  
-				IBundleProjectDescription bpd =service.getDescription(apiProject);
+				IBundleProjectDescription bpd = service.getDescription(apiProject);
 				String projectID = bpd.getSymbolicName();
 				bc.ungetService(ref);
 			    
@@ -377,6 +373,7 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 		return null;
 	}
 	
+
 	private void fqnToContext(LightweightExecutionContext context) {
 		context.put("fqnIPath", IPath.class.getName());
 		context.put("fqnIFile", IFile.class.getName());

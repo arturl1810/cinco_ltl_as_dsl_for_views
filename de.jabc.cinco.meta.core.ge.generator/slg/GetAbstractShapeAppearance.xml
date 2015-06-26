@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>89d840e4-331f-40a5-a378-646d7f13846a</id>
   <name>GetAbstractShapeAppearance</name>
-  <changecounter>19</changecounter>
+  <changecounter>20</changecounter>
   <sib>
     <id>ab506195-63f7-4d01-8e7d-886f92fbc6ba</id>
     <name>CopyElement</name>
