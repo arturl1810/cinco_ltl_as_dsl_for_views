@@ -219,7 +219,7 @@ AbsolutPosition returns AbsolutPosition:
 ;
 
 Alignment returns Alignment:
-	'('horizontal=HAlignment','vertical=VAlignment')'
+	'('horizontal=HAlignment(',' xMargin=EInt)? ',' vertical=VAlignment (',' yMargin=EInt)?')'
 ;
 
 Point returns Point:

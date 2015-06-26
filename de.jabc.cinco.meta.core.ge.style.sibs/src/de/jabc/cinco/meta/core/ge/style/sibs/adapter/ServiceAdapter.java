@@ -434,8 +434,6 @@ public class ServiceAdapter {
 			
 			HAlignment ha = relPos.getHorizontal();
 			VAlignment va = relPos.getVertical();
-			int xMargin = relPos.getXMargin();
-			int yMargin = relPos.getYMargin();
 
 			AbsolutPosition absPos = StyleFactory.eINSTANCE.createAbsolutPosition();
 			int x=0, y=0;
@@ -467,8 +465,8 @@ public class ServiceAdapter {
 				break;
 			}
 
-			absPos.setXPos(x+xMargin);
-			absPos.setYPos(y+yMargin);
+			absPos.setXPos(x);
+			absPos.setYPos(y);
 			
 			context.put(position, absPos);
 			return Branches.DEFAULT;

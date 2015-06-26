@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>e96e3211-9e15-4d4a-94a9-7b4b8375d7a3</id>
   <name>GenerateLayoutFeatures</name>
-  <changecounter>608</changecounter>
+  <changecounter>628</changecounter>
   <sib>
     <id>ff7817b7-c328-4684-827e-afc4ea81c9f3</id>
     <name>PutExpression</name>
@@ -147,6 +147,9 @@ public class $context.graphModelName$LayoutUtils {
 	public static final String KEY_VERTICAL_TOP = &quot;v_layout_top&quot;;
 	public static final String KEY_VERTICAL_MIDDLE = &quot;v_layout_middle&quot;;
 	public static final String KEY_VERTICAL_BOTTOM = &quot;v_layout_bottom&quot;;
+
+	public static final String KEY_MARGIN_HORIZONTAL = &quot;margin_horizontal&quot;;
+	public static final String KEY_MARGIN_VERTICAL = &quot;margin_vertical&quot;;
 	
 	public static final String KEY_GA_NAME = &quot;ga_name&quot;;
 
@@ -165,6 +168,8 @@ public class $context.graphModelName$LayoutUtils {
 				IGaService gaService = Graphiti.getGaService();
 				String horizontal = peService.getPropertyValue(ga, KEY_HORIZONTAL);
 				String vertical = peService.getPropertyValue(ga, KEY_VERTICAL);
+				int xMargin = Integer.parseInt(peService.getPropertyValue(ga, KEY_MARGIN_HORIZONTAL));
+				int yMargin = Integer.parseInt(peService.getPropertyValue(ga, KEY_MARGIN_VERTICAL));
 			
 				if (parent == null || ga == null)
 					return;
@@ -242,7 +247,7 @@ public class $context.graphModelName$LayoutUtils {
 					break;
 				}
 		
-				gaService.setLocation(ga, x, y);
+				gaService.setLocation(ga, x+xMargin, y+yMargin);
 		/*	}
 		});*/
 	}
