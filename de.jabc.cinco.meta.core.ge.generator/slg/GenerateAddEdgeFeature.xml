@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>730ef53f-e135-46d5-9e4b-96fc4843c423</id>
   <name>GenerateAddEdgeFeature</name>
-  <changecounter>653</changecounter>
+  <changecounter>659</changecounter>
   <sib>
     <id>4966ae71-56db-49f8-b6d7-c3a51fbd1021</id>
     <name>PutExpression</name>
@@ -216,6 +216,7 @@
 
 import org.eclipse.graphiti.features.*;
 import org.eclipse.graphiti.features.context.*;
+import org.eclipse.graphiti.features.context.impl.UpdateContext;
 import org.eclipse.graphiti.features.impl.*;
 import org.eclipse.graphiti.mm.*;
 import org.eclipse.graphiti.mm.algorithms.*;
@@ -284,6 +285,11 @@ public class Add$context.edgeName$Feature extends AbstractAddFeature {
 		container.getModelElements().add($context.meIdentifier$);
 
 		$context.postCreateHookContent$
+		
+		UpdateContext uc = new UpdateContext(connection);
+		IUpdateFeature uf = getFeatureProvider().getUpdateFeature(uc);
+		if (uf.canUpdate(uc))
+			uf.update(uc);
 
 		return connection;
 	}
