@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <model version="2.1">
-  <id>734f2865-d44d-4e50-bea3-0acb8f666c25</id>
-  <name>GenerateListDoubleCode</name>
-  <changecounter>40</changecounter>
+  <id>c1db2c87-c5de-4128-9bf4-382e4aa041ad</id>
+  <name>GenerateListFloatCode</name>
+  <changecounter>17</changecounter>
   <sib>
-    <id>eeec8fed-20ed-4167-aa29-8c2e3ff2cd43</id>
+    <id>79488cee-c195-4689-bb3d-df77f09f05c7</id>
     <name>RunStringTemplate</name>
     <label>GenRefreshCode</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>437.5,93.0</position>
+    <position>533.0,123.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -33,12 +33,12 @@
     <finalbranches>error</finalbranches>
   </sib>
   <sib>
-    <id>9dc60310-03d4-4e50-b8df-5399e0b622ec</id>
+    <id>4a161b50-9968-472c-aa89-2801cac1f7bb</id>
     <name>RunStringTemplate_1</name>
     <label>GenChangeValue</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>286.0,93.0</position>
+    <position>397.5,123.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -61,7 +61,7 @@ if (bo instanceof $context.modelElementName$) {
 	$context.modelElementName$ tmp = ($context.modelElementName$) bo;
 	tmp.get$context.fuAttributeName$().clear();
 	for (String s : $context.flAttributeName$List.getItems())
-		tmp.get$context.fuAttributeName$().add(Double.valueOf(s));
+		tmp.get$context.fuAttributeName$().add(Float.valueOf(s));
 }
 </string>
     </parameter>
@@ -69,12 +69,12 @@ if (bo instanceof $context.modelElementName$) {
     <finalbranches>error</finalbranches>
   </sib>
   <sib>
-    <id>e70bc5da-733c-4649-9d28-72a305f15436</id>
+    <id>0fbff509-ff05-41bd-a974-a7bc1f47c6bd</id>
     <name>RunStringTemplate_3</name>
     <label>GenControl</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>110.0,93.0</position>
+    <position>204.0,123.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -162,36 +162,36 @@ public void createControls(Composite parent, TabbedPropertySheetPage aTabbedProp
     </userobject>
   </sib>
   <edge>
-    <source>e70bc5da-733c-4649-9d28-72a305f15436</source>
-    <target>9dc60310-03d4-4e50-b8df-5399e0b622ec</target>
-    <point>150.0,120.0</point>
-    <point>345.0,120.0</point>
+    <source>0fbff509-ff05-41bd-a974-a7bc1f47c6bd</source>
+    <target>4a161b50-9968-472c-aa89-2801cac1f7bb</target>
+    <point>255.0,135.0</point>
+    <point>450.0,135.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
-    <source>9dc60310-03d4-4e50-b8df-5399e0b622ec</source>
-    <target>eeec8fed-20ed-4167-aa29-8c2e3ff2cd43</target>
-    <point>345.0,120.0</point>
-    <point>495.0,120.0</point>
+    <source>4a161b50-9968-472c-aa89-2801cac1f7bb</source>
+    <target>79488cee-c195-4689-bb3d-df77f09f05c7</target>
+    <point>450.0,135.0</point>
+    <point>600.0,135.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
-    <source>eeec8fed-20ed-4167-aa29-8c2e3ff2cd43</source>
-    <target>9eb4d3ee-4947-4fda-b0c7-47880d4f98c7</target>
-    <point>513.0,120.13846153846154</point>
-    <point>672.0,193.52307692307693</point>
+    <source>79488cee-c195-4689-bb3d-df77f09f05c7</source>
+    <target>0ad2a1e5-e1c0-443c-8936-508a1cf34c2f</target>
+    <point>615.0,135.0</point>
+    <point>765.0,210.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
-    <id>9eb4d3ee-4947-4fda-b0c7-47880d4f98c7</id>
+    <id>0ad2a1e5-e1c0-443c-8936-508a1cf34c2f</id>
     <name>RunStringTemplate_5</name>
     <label>GenListenerCode</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>616.0,93.0</position>
+    <position>721.0,123.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -217,9 +217,9 @@ public void createControls(Composite parent, TabbedPropertySheetPage aTabbedProp
 			@Override
 			public String isValid(String newText) {
 				try {
-					Double.parseDouble(newText);
+					Float.parseFloat(newText);
 				} catch (Exception e2) {
-					return &quot;\&quot;&quot; + newText +&quot;\&quot; is not a double&quot;;
+					return &quot;\&quot;&quot; + newText +&quot;\&quot; is not a float&quot;;
 				}
 				return null;
 			}
@@ -235,7 +235,7 @@ public void createControls(Composite parent, TabbedPropertySheetPage aTabbedProp
 				
 				@Override
 				protected void doExecute() {
-					tmp.get$context.fuAttributeName$().add(Double.valueOf(s));
+					tmp.get$context.fuAttributeName$().add(Float.valueOf(s));
 					refresh();
 				}
 			});
@@ -284,28 +284,8 @@ SelectionListener removeListener = new SelectionListener() {
   </sib>
   <values/>
   <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>e70bc5da-733c-4649-9d28-72a305f15436</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>9dc60310-03d4-4e50-b8df-5399e0b622ec</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>eeec8fed-20ed-4167-aa29-8c2e3ff2cd43</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>9eb4d3ee-4947-4fda-b0c7-47880d4f98c7</sib>
-  </branch>
-  <branch>
     <name>default</name>
     <branch>default</branch>
-    <sib>9eb4d3ee-4947-4fda-b0c7-47880d4f98c7</sib>
+    <sib>0ad2a1e5-e1c0-443c-8936-508a1cf34c2f</sib>
   </branch>
 </model>

@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>fc94b8b8-21f0-499c-a1bb-5968d40ae550</id>
   <name>GenerateSingleAttribute</name>
-  <changecounter>285</changecounter>
+  <changecounter>306</changecounter>
   <sib>
     <id>68ef8ffb-b956-40b6-a5af-a8ed91dce549</id>
     <name>GetAttributeType</name>
@@ -63,6 +63,7 @@
     </parameter>
     <branch>EBoolean</branch>
     <branch>EDouble</branch>
+    <branch>EFloat</branch>
     <branch>EInt</branch>
     <branch>EString</branch>
     <finalbranches>default</finalbranches>
@@ -166,7 +167,7 @@
     <label>GenerateSingleStringCode</label>
     <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
-    <position>46.0,271.0</position>
+    <position>1.0,271.0</position>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
@@ -182,7 +183,7 @@
     <label>GenerateSingleIntegerCode</label>
     <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
-    <position>237.0,271.0</position>
+    <position>192.0,271.0</position>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
@@ -205,7 +206,7 @@
     <label>GenerateSingleBooleanCode</label>
     <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
-    <position>443.5,271.0</position>
+    <position>383.5,271.0</position>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
@@ -228,7 +229,7 @@
     <label>GenerateSingleDoubleCode</label>
     <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
-    <position>672.5,271.0</position>
+    <position>582.5,271.0</position>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
@@ -419,6 +420,28 @@
       <string>fcd44878-83e6-41e6-95f6-9299e05bb180</string>
     </userobject>
   </sib>
+  <sib>
+    <id>77984a25-3047-4788-ad38-7495f040aa2d</id>
+    <name>MacroSIB_6</name>
+    <label>GenerateSingleFloatCode</label>
+    <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
+    <position>768.5,271.0</position>
+    <finalbranches>default</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>GenerateSingleFloatCode</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>14b0703d-5eeb-4d7e-bf4b-b6e31e24af60</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>51427352-4dce-4953-8acc-2d0acd6f37b6</source>
+    <target>77984a25-3047-4788-ad38-7495f040aa2d</target>
+    <point>465.0,195.0</point>
+    <point>853.0,282.0</point>
+    <branch>EFloat</branch>
+  </edge>
   <parameter>
     <name>attributeKey</name>
     <field>attributeKey</field>
@@ -535,5 +558,10 @@
     <name>error</name>
     <branch>error</branch>
     <sib>40542f71-2b22-491c-9f7b-da1933816b47</sib>
+  </branch>
+  <branch>
+    <name>default</name>
+    <branch>default</branch>
+    <sib>77984a25-3047-4788-ad38-7495f040aa2d</sib>
   </branch>
 </model>

@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>76ccd186-a5e5-4177-9388-d605baba87ee</id>
   <name>GenerateListAttribute</name>
-  <changecounter>131</changecounter>
+  <changecounter>146</changecounter>
   <sib>
     <id>011ad06a-a303-4d66-8b28-ca363e433e70</id>
     <name>GetAttributeType</name>
@@ -65,6 +65,7 @@
     <branch>EClass</branch>
     <branch>EDouble</branch>
     <branch>EEnum</branch>
+    <branch>EFloat</branch>
     <branch>EInt</branch>
     <branch>EString</branch>
     <finalbranches>default</finalbranches>
@@ -207,7 +208,7 @@
     <label>GenerateListDoubleCode</label>
     <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
-    <position>396.0,256.0</position>
+    <position>546.0,256.0</position>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
@@ -230,7 +231,7 @@
     <label>GenerateListBooleanCode</label>
     <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
-    <position>617.0,256.0</position>
+    <position>737.0,256.0</position>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
@@ -421,6 +422,28 @@
     <point>996.0,212.0</point>
     <branch>default</branch>
   </edge>
+  <sib>
+    <id>f9a9b5ab-e0f2-4783-a096-1f06db0c215a</id>
+    <name>MacroSIB_6</name>
+    <label>GenerateListFloatCode</label>
+    <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
+    <position>387.0,256.0</position>
+    <finalbranches>default</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>GenerateListFloatCode</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>c1db2c87-c5de-4128-9bf4-382e4aa041ad</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>69a9366f-b42f-4afa-bbef-ecdfd76019df</source>
+    <target>f9a9b5ab-e0f2-4783-a096-1f06db0c215a</target>
+    <point>450.0,195.0</point>
+    <point>370.0,507.0</point>
+    <branch>EFloat</branch>
+  </edge>
   <parameter>
     <name>attributeKey</name>
     <field>attributeKey</field>
@@ -502,5 +525,10 @@
     <name>default</name>
     <branch>default</branch>
     <sib>35795996-4508-4dee-9374-cb53a6ae86d4</sib>
+  </branch>
+  <branch>
+    <name>default</name>
+    <branch>default</branch>
+    <sib>f9a9b5ab-e0f2-4783-a096-1f06db0c215a</sib>
   </branch>
 </model>
