@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>696c3b21-1096-4b9a-86bd-7456a6b80d52</id>
   <name>GenerateModelElementPropertyView</name>
-  <changecounter>308</changecounter>
+  <changecounter>320</changecounter>
   <sib>
     <id>c215c747-bca3-4fbb-9807-9cd2ab3f1b32</id>
     <name>PutExpression</name>
@@ -213,6 +213,7 @@ import $context.packageName$.graphiti.*;
 import $context.packageName$.graphiti.content.adapter.*;
 
 import $context.importPath$.*;
+import $context.importPath$.impl.*;
 
 public class $context.modelElementName$Filter extends AbstractPropertySectionFilter {
 	
@@ -244,7 +245,7 @@ public class $context.modelElementName$Filter extends AbstractPropertySectionFil
 		if (pe instanceof ConnectionDecorator) {
 			eObject = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(((ConnectionDecorator)pe).getConnection());
 		} else eObject = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
-		if (eObject instanceof $context.modelElementName$) {
+		if (eObject != null &amp;&amp; eObject.getClass().equals($context.modelElementName$Impl.class)) {
 			$context.modelElementName$ tmp = ($context.modelElementName$) eObject;
 			if (!tmp.eAdapters().contains($context.modelElementName$EContentAdapter.getInstance()))
 				tmp.eAdapters().add($context.modelElementName$EContentAdapter.getInstance());
