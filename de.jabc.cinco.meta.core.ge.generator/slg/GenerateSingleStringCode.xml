@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>ea6aca34-ec03-4ba1-99b7-4fc762288fa2</id>
   <name>GenerateSingleStringCode</name>
-  <changecounter>397</changecounter>
+  <changecounter>435</changecounter>
   <sib>
     <id>21749b0f-12f8-4797-81b9-3f0453fbf22c</id>
     <name>RunStringTemplate</name>
@@ -116,7 +116,7 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
 	data.top = new FormAttachment($context.flAttributeName$Text, 0, SWT.CENTER);
 	$context.flAttributeName$Label.setLayoutData(data);
 
-	$context.flAttributeName$Text.addTraverseListener(traverseListener);
+	$context.flAttributeName$Text.addKeyListener(keyListener);
 	$context.flAttributeName$Text.addFocusListener(focusListener);
 }
 </string>
@@ -155,7 +155,38 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>TraverseListener traverseListener = new TraverseListener() {
+      <string>KeyListener keyListener = new KeyListener() {
+		
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public void keyPressed(KeyEvent e) {
+		if (e.keyCode == SWT.CR &amp;&amp; e.stateMask == SWT.CONTROL) {
+			e.doit = false;
+			if (oldVal.equals($context.flAttributeName$Text.getText()))
+				return;
+			TransactionalEditingDomain dom = getDiagramContainer().getDiagramBehavior().getEditingDomain();
+			dom.getCommandStack().execute(new RecordingCommand(dom, &quot;Set documentation&quot;) {
+				
+				@Override
+				protected void doExecute() {
+					int caretPos = $context.flAttributeName$Text.getCaretPosition();
+					changeValue();
+					$context.flAttributeName$Text.setSelection(caretPos);
+				}
+			});
+		}
+		if (e.keyCode == SWT.ESC) {
+			refresh();
+		}
+	}
+};
+
+TraverseListener traverseListener = new TraverseListener() {
 		
 	@Override
 	public void keyTraversed(TraverseEvent e) {
@@ -167,7 +198,9 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
 				
 				@Override
 				protected void doExecute() {
+					int caretPos = $context.flAttributeName$Text.getCaretPosition();
 					changeValue();
+					$context.flAttributeName$Text.setSelection(caretPos);
 				}
 			});
 		}
@@ -189,7 +222,9 @@ FocusListener focusListener = new FocusListener() {
 			
 			@Override
 			protected void doExecute() {
-					changeValue();
+				int caretPos = $context.flAttributeName$Text.getCaretPosition();
+				changeValue();
+				$context.flAttributeName$Text.setSelection(caretPos);
 			}
 		});
 	}
@@ -557,7 +592,7 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
 	data.top = new FormAttachment($context.flAttributeName$Text, 0, SWT.TOP);
 	$context.flAttributeName$Label.setLayoutData(data);
 
-	$context.flAttributeName$Text.addTraverseListener(traverseListener);
+	$context.flAttributeName$Text.addKeyListener(keyListener);
 	$context.flAttributeName$Text.addFocusListener(focusListener);
 }
 </string>
