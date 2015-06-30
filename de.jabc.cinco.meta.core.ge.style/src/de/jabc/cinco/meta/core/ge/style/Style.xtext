@@ -280,7 +280,7 @@ Appearance returns Appearance:
 			('font' font=Font)? &
 			('lineStyle' lineStyle=LineStyle)? & 
 			('lineWidth' lineWidth=INT)? &
-			(lineInVisible?='visible NOT')? &
+			//(lineInVisible?='visible NOT')? &
 			('transparency' transparency=EDouble)? &
 			('filled' filled = Boolean)? &
 			('imagePath' '('imagePath=STRING')')?
@@ -298,7 +298,7 @@ InlineAppearance returns Appearance:
 			('font' font=Font)? &
 			('lineStyle' lineStyle=LineStyle)? & 
 			('lineWidth' lineWidth=INT)? &
-			(lineInVisible?='visible NOT')? &
+			//(lineInVisible?='visible NOT')? &
 			('transparency' transparency=EDouble)? &
 			('filled' filled = Boolean)? &
 			('imagePath' '('imagePath=STRING')')?

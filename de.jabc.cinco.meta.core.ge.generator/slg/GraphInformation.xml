@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>86742e86-2110-423a-afde-6fd521759a73</id>
   <name>GraphInformation</name>
-  <changecounter>929</changecounter>
+  <changecounter>940</changecounter>
   <sib>
     <id>9e28dbf6-7ef4-4eef-9ad3-1d0d32bf6020</id>
     <name>GetGraphModelName</name>
@@ -64,9 +64,9 @@
   </sib>
   <edge>
     <source>9e28dbf6-7ef4-4eef-9ad3-1d0d32bf6020</source>
-    <target>86191f64-4c4d-4e74-be11-4d43bc7b5fbc</target>
-    <point>123.0,35.55</point>
-    <point>327.0,22.8</point>
+    <target>06d2e2de-b2fb-486e-a8a1-916c8679a1f0</target>
+    <point>123.0,48.43636363636364</point>
+    <point>252.0,130.52727272727273</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -970,11 +970,11 @@
     <position>20.0,1006.0</position>
     <finalbranches>error</finalbranches>
     <finalbranches>exit</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>4f0cee1b-e73f-4bba-8472-78fff8bf906e</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>GenerateContainedNodesMap</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>4f0cee1b-e73f-4bba-8472-78fff8bf906e</string>
     </userobject>
   </sib>
   <edge>
@@ -1009,11 +1009,11 @@
     <position>1087.5,1111.0</position>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>8c0c4aaa-0b84-496b-b27c-e0bb693c3a1e</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>SetAppearanceDefaultValues</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>8c0c4aaa-0b84-496b-b27c-e0bb693c3a1e</string>
     </userobject>
   </sib>
   <sib>
@@ -3325,6 +3325,35 @@ public void setError(ECincoError error) {
     <target>ecfd5e58-5ae1-400c-be20-cd4b1d766665</target>
     <point>1650.0,420.0</point>
     <point>1472.0,646.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>06d2e2de-b2fb-486e-a8a1-916c8679a1f0</id>
+    <name>PutBoolean_4</name>
+    <label>PutTrue</label>
+    <sib-uid>basic-sibs/PutBoolean</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.PutBoolean</taxonomy>
+    <position>244.0,18.0</position>
+    <parameter name="value">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>trueValue</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>06d2e2de-b2fb-486e-a8a1-916c8679a1f0</source>
+    <target>86191f64-4c4d-4e74-be11-4d43bc7b5fbc</target>
+    <point>270.0,45.0</point>
+    <point>142.0,140.0</point>
     <branch>default</branch>
   </edge>
   <values/>
