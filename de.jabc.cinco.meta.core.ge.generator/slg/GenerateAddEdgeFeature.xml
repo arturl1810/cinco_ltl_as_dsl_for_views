@@ -230,7 +230,6 @@ import com.sun.el.ExpressionFactoryImpl;
 import $context.packageName$.graphiti.*;
 import $context.packageName$.graphiti.expression.*;
 import $context.packageName$.graphiti.features.layout.*;
-import $context.importPath$.*;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import graphmodel.ModelElementContainer;
@@ -247,7 +246,7 @@ public class Add$context.edgeName$Feature extends AbstractAddFeature {
 
 	public PictogramElement add(IAddContext context) {
 		IAddConnectionContext addConContext = (IAddConnectionContext) context;
-		$context.edgeName$ $context.meIdentifier$ = ($context.edgeName$) context.getNewObject();
+		$context.importPath$.$context.edgeName$ $context.meIdentifier$ = ($context.importPath$.$context.edgeName$) context.getNewObject();
 		if ($context.meIdentifier$.getId() == null || $context.meIdentifier$.getId().isEmpty())
 			$context.meIdentifier$.setId(EcoreUtil.generateUUID());
 		IPeCreateService peCreateService = Graphiti.getPeCreateService();
@@ -280,7 +279,7 @@ public class Add$context.edgeName$Feature extends AbstractAddFeature {
 		// create link and wire it
 		link(connection, $context.meIdentifier$);
 
-		$context.graphModelName$ $context.lcGraphModelName$ = $context.graphModelName$GraphitiUtils.addToResource(getDiagram(), this.getFeatureProvider());
+		$context.importPath$.$context.graphModelName$ $context.lcGraphModelName$ = $context.graphModelName$GraphitiUtils.addToResource(getDiagram(), this.getFeatureProvider());
 		ModelElementContainer container = $context.graphModelName$GraphitiUtils.getInstance().getCommonContainer($context.lcGraphModelName$, $context.meIdentifier$);
 		container.getModelElements().add($context.meIdentifier$);
 
@@ -295,7 +294,7 @@ public class Add$context.edgeName$Feature extends AbstractAddFeature {
 	}
 
 	public boolean canAdd(IAddContext context) {
-		if (context instanceof IAddConnectionContext &amp;&amp; context.getNewObject() instanceof $context.edgeName$) {
+		if (context instanceof IAddConnectionContext &amp;&amp; context.getNewObject() instanceof $context.importPath$.$context.edgeName$) {
 			return true;
 		}
 		return false;
@@ -804,7 +803,7 @@ Leaving Generate ${edgeName} AddFeature</expression>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>private void create$context.decoratorShapeName$(GraphicsAlgorithmContainer gaContainer, $context.edgeName$ $context.meIdentifier$) {
+      <string>private void create$context.decoratorShapeName$(GraphicsAlgorithmContainer gaContainer, $context.importPath$.$context.edgeName$ $context.meIdentifier$) {
 		IGaService gaService = Graphiti.getGaService();
 		IPeService peService = Graphiti.getPeService();
 		$context.gaRepContent$

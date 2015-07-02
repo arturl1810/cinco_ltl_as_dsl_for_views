@@ -85,7 +85,7 @@ import org.eclipse.graphiti.ui.editor.DiagramBehavior;
 $context.appearanceProviderImportsContent$
 
 import $context.packageName$.graphiti.*;
-import $context.importPath$.*;
+
 import $context.packageName$.graphiti.expression.*;
 
 import de.jabc.cinco.meta.core.referenceregistry.ReferenceRegistry;
@@ -105,13 +105,13 @@ public class $context.className$ extends AbstractUpdateFeature {
 	public boolean canUpdate(IUpdateContext context) {
 		PictogramElement pe = context.getPictogramElement();
 		EObject bo = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
-		return (bo instanceof $context.fuModelElementName$);
+		return (bo instanceof $context.importPath$.$context.fuModelElementName$);
 	}
 
 	@Override
 	public IReason updateNeeded(IUpdateContext context) {
 		PictogramElement pe = context.getPictogramElement();
-		$context.fuModelElementName$ bo =($context.fuModelElementName$) Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
+		$context.importPath$.$context.fuModelElementName$ bo =($context.importPath$.$context.fuModelElementName$) Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
 		if (checkUpdateNeeded(bo, pe))
 			return Reason.createTrueReason();
 		return Reason.createFalseReason();
@@ -120,7 +120,7 @@ public class $context.className$ extends AbstractUpdateFeature {
 	@Override
 	public boolean update(IUpdateContext context) {
 		PictogramElement pe = context.getPictogramElement();
-		$context.fuModelElementName$ bo = ($context.fuModelElementName$) Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
+		$context.importPath$.$context.fuModelElementName$ bo = ($context.importPath$.$context.fuModelElementName$) Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
 		updateText(bo, pe);
 		$context.appearanceProviderExtensionContent$
 		LayoutContext lContext = new LayoutContext(context.getPictogramElement());
@@ -132,7 +132,7 @@ public class $context.className$ extends AbstractUpdateFeature {
 		return false;
 	}
 	
-	private void updateText($context.fuModelElementName$ $context.meIdentifier$, PictogramElement pe) {
+	private void updateText($context.importPath$.$context.fuModelElementName$ $context.meIdentifier$, PictogramElement pe) {
 		if (pe instanceof ContainerShape) {
 			PictogramElement tmp = pe;
 			Object o = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(tmp);
@@ -160,7 +160,7 @@ public class $context.className$ extends AbstractUpdateFeature {
 		}
 	}
 
-	public static boolean checkUpdateNeeded($context.fuModelElementName$ $context.meIdentifier$, PictogramElement pe) {
+	public static boolean checkUpdateNeeded($context.importPath$.$context.fuModelElementName$ $context.meIdentifier$, PictogramElement pe) {
 		boolean updateNeeded;
 		if (pe instanceof ContainerShape) {
 			for (Shape s : ((ContainerShape) pe).getChildren()) {
@@ -477,31 +477,31 @@ public class $context.className$ extends AbstractUpdateFeature {
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>private void updateStyle($context.fuModelElementName$ bo, Shape s) {
+      <string>private void updateStyle($context.importPath$.$context.fuModelElementName$ bo, Shape s) {
 	String gaName = Graphiti.getPeService().getPropertyValue(s.getGraphicsAlgorithm(), $context.graphModelName$LayoutUtils.KEY_GA_NAME);
 	if (gaName != null &amp;&amp; !gaName.isEmpty() &amp;&amp; getDiagram() != null) {
 		$context.graphModelName$LayoutUtils.updateStyleFromAppearance(s.getGraphicsAlgorithm(), new $context.appearanceProvider$().getAppearance(bo, gaName), getDiagram());
 	}
 	Object object = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(s);
-	if (object instanceof $context.fuModelElementName$) {
+	if (object instanceof $context.importPath$.$context.fuModelElementName$) {
 		if (s instanceof ContainerShape) {
 			for (Shape g : ((ContainerShape) s).getChildren()) {
-				updateStyle(($context.fuModelElementName$) object, g);
+				updateStyle(($context.importPath$.$context.fuModelElementName$) object, g);
 			}
 		}
 	}
 }
 
-private void updateStyle($context.fuModelElementName$ bo, Connection s) {
+private void updateStyle($context.importPath$.$context.fuModelElementName$ bo, Connection s) {
 	String gaName = Graphiti.getPeService().getPropertyValue(s.getGraphicsAlgorithm(), $context.graphModelName$LayoutUtils.KEY_GA_NAME);
 	if (gaName != null &amp;&amp; !gaName.isEmpty() &amp;&amp; getDiagram() != null) {
 		$context.graphModelName$LayoutUtils.updateStyleFromAppearance(s.getGraphicsAlgorithm(), new $context.appearanceProvider$().getAppearance(bo, gaName), getDiagram());
 	}
 	Object object = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(s);
-	if (object instanceof $context.fuModelElementName$) {
+	if (object instanceof $context.importPath$.$context.fuModelElementName$) {
 		
 		for (Shape g : s.getConnectionDecorators()) {
-			updateStyle(($context.fuModelElementName$) object, g);
+			updateStyle(($context.importPath$.$context.fuModelElementName$) object, g);
 		}
 		
 	}

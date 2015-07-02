@@ -108,7 +108,6 @@
 
 import java.util.ArrayList;
 
-import $context.importPath$.*;
 import $context.packageName$.graphiti.*;
 import $context.packageName$.graphiti.expression.*;
 import $context.packageName$.graphiti.features.layout.*;
@@ -138,14 +137,14 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
 	public boolean canAdd(IAddContext context) {
 		Object bo = context.getNewObject();
 		Object target = getBusinessObjectForPictogramElement(context.getTargetContainer());
-		if (bo instanceof $context.modelElementName$) {
+		if (bo instanceof $context.importPath$.$context.modelElementName$) {
 			return true;
 		}
 		return false;
 	}
 
 	public PictogramElement add(IAddContext context) {
-		$context.modelElementName$ $context.meIdentifier$ = ($context.modelElementName$) context.getNewObject();
+		$context.importPath$.$context.modelElementName$ $context.meIdentifier$ = ($context.importPath$.$context.modelElementName$) context.getNewObject();
 		if ($context.meIdentifier$.getId() == null || $context.meIdentifier$.getId().isEmpty())
 			$context.meIdentifier$.setId(EcoreUtil.generateUUID());
 		ContainerShape d = (ContainerShape) context.getTargetContainer();
@@ -475,7 +474,6 @@ import graphmodel.ModelElementContainer;
 
 import java.util.ArrayList;
 
-import $context.importPath$.*;
 import $context.packageName$.graphiti.*;
 import $context.packageName$.graphiti.expression.*;
 import $context.packageName$.graphiti.features.layout.*;
@@ -517,8 +515,8 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
 		if ( !(context.getNewObject() instanceof EObject))
 			return false;
 		EObject bo;
-		if (context.getNewObject() instanceof $context.modelElementName$) {
-			int uid = Integer.parseInt((($context.modelElementName$) context.getNewObject()).get$context.fuPrimeRefTypeName$UID());
+		if (context.getNewObject() instanceof $context.importPath$.$context.modelElementName$) {
+			int uid = Integer.parseInt((($context.importPath$.$context.modelElementName$) context.getNewObject()).get$context.fuPrimeRefTypeName$UID());
 			bo = ReferenceRegistry.getInstance().getEObject(uid);
 		} else {
 			bo = (EObject) context.getNewObject();
@@ -533,14 +531,14 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
 
 	public PictogramElement add(IAddContext context) {
 		EObject bo;
-		$context.modelElementName$ $context.meIdentifier$ = null;
-		if (context.getNewObject() instanceof $context.modelElementName$) {
-			int uid = Integer.parseInt((($context.modelElementName$) context.getNewObject()).get$context.fuPrimeRefTypeName$UID());
+		$context.importPath$.$context.modelElementName$ $context.meIdentifier$ = null;
+		if (context.getNewObject() instanceof $context.importPath$.$context.modelElementName$) {
+			int uid = Integer.parseInt((($context.importPath$.$context.modelElementName$) context.getNewObject()).get$context.fuPrimeRefTypeName$UID());
 			bo = ReferenceRegistry.getInstance().getEObject(uid);
-			$context.meIdentifier$ = ($context.modelElementName$) context.getNewObject();
+			$context.meIdentifier$ = ($context.importPath$.$context.modelElementName$) context.getNewObject();
 		} else {
 			bo = (EObject) context.getNewObject();
-			$context.meIdentifier$ = $context.factoryName$Factory.eINSTANCE.create$context.modelElementName$();
+			$context.meIdentifier$ = $context.importPath$.$context.factoryName$Factory.eINSTANCE.create$context.modelElementName$();
 			$context.primeParamContent$
 		}
 		if ($context.meIdentifier$.getId() == null || $context.meIdentifier$.getId().isEmpty())

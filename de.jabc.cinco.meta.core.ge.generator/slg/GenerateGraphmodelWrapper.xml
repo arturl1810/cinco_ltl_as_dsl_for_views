@@ -55,8 +55,6 @@ import java.lang.Exception;
 
 import graphicalgraphmodel.*;
 import graphmodel.*;
-import $importPath$.*;
-import $apiPkgName$.*;
 
 public class $graphModelName$Wrapper {
 	
@@ -65,7 +63,7 @@ public class $graphModelName$Wrapper {
 	
 	public static final String DTP_ID = &quot;$packageName$.$graphModelName$DiagramTypeProvider&quot;;
 /**
-	public static C$context.graphModelName$ new$context.graphModelName$(String graphModelName) throws IOException, CoreException, Exception {
+	public static $apiPkgName$.C$context.graphModelName$ new$context.graphModelName$(String graphModelName) throws IOException, CoreException, Exception {
 		String fileName = &quot;&quot;;
 		IPath path = null;
 		FileDialog dialog = new FileDialog(Display.getCurrent().getActiveShell());
@@ -80,13 +78,13 @@ public class $graphModelName$Wrapper {
 		return new$graphModelName$(path, fileName);
 	}
 **/
-	public static C$graphModelName$ new$graphModelName$(IPath path, String fileName) throws IOException, CoreException, Exception {
+	public static $apiPkgName$.C$graphModelName$ new$graphModelName$(IPath path, String fileName) throws IOException, CoreException, Exception {
 		IPath filePath = path.append(fileName).addFileExtension(&quot;$lcGraphModelName$&quot;);
 		URI uri = URI.createPlatformResourceURI(filePath.toOSString(), true);
 		IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(filePath);
 		Resource res = new ResourceSetImpl().createResource(uri);
 		Diagram diagram = Graphiti.getPeCreateService().createDiagram(&quot;$graphModelName$&quot;, fileName, true);
-		$graphModelName$ graph = $factoryName$Factory.eINSTANCE.create$graphModelName$();
+		$importPath$.$graphModelName$ graph = $importPath$.$factoryName$Factory.eINSTANCE.create$graphModelName$();
 		
 		res.getContents().add(diagram);
 		res.getContents().add(graph);
@@ -97,13 +95,13 @@ public class $graphModelName$Wrapper {
 		$gmPostCreateHookContent$
 		res.save(null);
 
-		C$graphModelName$ retval = wrapGraphModel(graph, diagram);
+		$apiPkgName$.C$graphModelName$ retval = wrapGraphModel(graph, diagram);
 
 		return retval;
 	}
 
-	public static $apiPrefix$$graphModelName$ wrapGraphModel(GraphModel sg, Diagram d) throws Exception {
-		$apiPrefix$$graphModelName$ gsg = $gFactoryName$.eINSTANCE.create$apiPrefix$$graphModelName$();
+	public static $apiPkgName$.$apiPrefix$$graphModelName$ wrapGraphModel(GraphModel sg, Diagram d) throws Exception {
+		$apiPkgName$.$apiPrefix$$graphModelName$ gsg = $apiPkgName$.$gFactoryName$.eINSTANCE.create$apiPrefix$$graphModelName$();
 		dtp = $fqnGraphitiUi$.getExtensionManager().createDiagramTypeProvider(d, DTP_ID);
 		map = new HashMap&lt;&gt;();
 		for (Node n : sg.getAllNodes()) {
@@ -355,8 +353,8 @@ public class $graphModelName$Wrapper {
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>if (n instanceof $nodeName$)
-	gNode = $gFactoryName$.eINSTANCE.create$apiPrefix$$nodeName$();
+      <string>if (n instanceof $importPath$.$nodeName$)
+	gNode = $apiPkgName$.$gFactoryName$.eINSTANCE.create$apiPrefix$$nodeName$();
 </string>
     </parameter>
     <finalbranches>default</finalbranches>
@@ -401,8 +399,8 @@ public class $graphModelName$Wrapper {
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>if (e instanceof $edgeName$)
-	gEdge = $gFactoryName$.eINSTANCE.create$apiPrefix$$edgeName$();
+      <string>if (e instanceof $importPath$.$edgeName$)
+	gEdge = $apiPkgName$.$gFactoryName$.eINSTANCE.create$apiPrefix$$edgeName$();
 </string>
     </parameter>
     <finalbranches>default</finalbranches>
@@ -431,8 +429,8 @@ public class $graphModelName$Wrapper {
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>if (c instanceof $containerName$)
-	gCont = $gFactoryName$.eINSTANCE.create$apiPrefix$$containerName$();
+      <string>if (c instanceof $importPath$.$containerName$)
+	gCont = $apiPkgName$.$gFactoryName$.eINSTANCE.create$apiPrefix$$containerName$();
 </string>
     </parameter>
     <finalbranches>default</finalbranches>

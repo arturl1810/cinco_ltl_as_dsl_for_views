@@ -965,7 +965,7 @@ public class ServiceAdapter {
 					sbBound.append(" &&\n\t");
 			}
 			
-			sbType.append("if (source instanceof " + n.getName() +") {\n\t");
+			sbType.append("if (source instanceof " + n.getClass().getName() +") {\n\t");
 			sbType.append("if ("+sbBound.toString()+")\n\t\treturn true;\n\t"
 					+ "else setError(ECincoError.MAX_OUT);\n} ");
 			
@@ -1010,7 +1010,7 @@ public class ServiceAdapter {
 					sbBound.append(" &&\n\t");
 			}
 			
-			sbType.append("if (target instanceof " + n.getName() +") {\n\t");
+			sbType.append("if (target instanceof " + n.getClass().getName() +") {\n\t");
 			sbType.append("if ("+sbBound.toString()+")\n\t\treturn true;\n\t"
 					+ "else setError(ECincoError.MAX_IN);\n}");
 

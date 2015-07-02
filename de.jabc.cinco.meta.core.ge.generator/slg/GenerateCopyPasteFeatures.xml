@@ -256,7 +256,6 @@ import org.eclipse.graphiti.ui.features.AbstractPasteFeature;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import $context.packageName$.graphiti.*;
-import $context.importPath$.*;
 $context.cincoErrorImport$
 
 public class $context.graphModelName$PasteFeature extends AbstractPasteFeature {
@@ -281,7 +280,7 @@ public class $context.graphModelName$PasteFeature extends AbstractPasteFeature {
 		if (pes == null || pes.length != 1) 
 			return false;
 		Object bo = getBusinessObjectForPictogramElement(pes[0]);
-		if (!(bo instanceof $context.graphModelName$) &amp;&amp; !(bo instanceof Container))
+		if (!(bo instanceof $context.importPath$.$context.graphModelName$) &amp;&amp; !(bo instanceof Container))
 			return false;
 		
 		Object[] bos = getFromClipboard();
@@ -848,7 +847,7 @@ public class $context.graphModelName$PasteFeature extends AbstractPasteFeature {
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>if (bo instanceof $context.modelElement.name$) {
+      <string>if (bo instanceof $context.importPath$.$context.modelElement.name$) {
 	$context.containerCheck$
 }
 
@@ -880,7 +879,7 @@ public class $context.graphModelName$PasteFeature extends AbstractPasteFeature {
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>if (bo instanceof $context.modelElement.name$) {
+      <string>if (bo instanceof $context.importPath$.$context.modelElement.name$) {
 	$context.containerCheck$
 }
 

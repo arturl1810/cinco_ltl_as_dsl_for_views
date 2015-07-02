@@ -111,7 +111,7 @@ public class Resize$context.container.name$Feature extends DefaultResizeShapeFea
 	@Override
 	public boolean canResizeShape(IResizeShapeContext context) {
 		Object bo = getBusinessObjectForPictogramElement(context.getPictogramElement());
-		return (bo instanceof $context.modelElement.name$);
+		return (bo instanceof $context.importPath$.$context.modelElement.name$);
 	}
 	
 	@Override
@@ -376,7 +376,7 @@ import $context.packageName$.graphiti.features.layout.$context.graphModelName$La
 
 public class Resize$context.modelElement.name$Feature extends DefaultResizeShapeFeature {
 
-	private $context.modelElement.name$ bo;
+	private $context.importPath$.$context.modelElement.name$ bo;
 
 	public Resize$context.modelElement.name$Feature(IFeatureProvider fp) {
 		super(fp);
@@ -386,7 +386,7 @@ public class Resize$context.modelElement.name$Feature extends DefaultResizeShape
 	public boolean canResizeShape(IResizeShapeContext context, boolean apiCall) {
 		if (apiCall) {
 			Object bo = getBusinessObjectForPictogramElement(context.getPictogramElement());
-			return (bo instanceof $context.modelElement.name$);
+			return (bo instanceof $context.importPath$.$context.modelElement.name$);
 		}
 		return false;
 	}
@@ -402,7 +402,7 @@ public class Resize$context.modelElement.name$Feature extends DefaultResizeShape
 			
 			@Override
 			protected void doExecute() {
-				bo = ($context.modelElement.name$) getBusinessObjectForPictogramElement(context.getPictogramElement());
+				bo = ($context.importPath$.$context.modelElement.name$) getBusinessObjectForPictogramElement(context.getPictogramElement());
 				Shape s = context.getShape();
 				GraphicsAlgorithm ga = s.getGraphicsAlgorithm();
 
@@ -634,7 +634,7 @@ public class Resize$context.container.name$Feature extends DefaultResizeShapeFea
 	@Override
 	public boolean canResizeShape(IResizeShapeContext context) {
 		Object bo = getBusinessObjectForPictogramElement(context.getPictogramElement());
-		return (bo instanceof $context.modelElement.name$);
+		return (bo instanceof $context.importPath$.$context.modelElement.name$);
 	}
 	
 	@Override
@@ -718,7 +718,7 @@ public class Resize$context.container.name$Feature extends DefaultResizeShapeFea
 		break;
 	}
 
-for (ModelElement me : (($context.modelElement.name$) bo).getModelElements()) {
+for (ModelElement me : (($context.importPath$.$context.importPath$.$context.modelElement.name$) bo).getModelElements()) {
 	if (me instanceof Edge) {
 		List&lt;PictogramElement&gt; pictogramElements = Graphiti.getLinkService().getPictogramElements(getDiagram(), me);
 		if (pictogramElements.get(0) instanceof FreeFormConnection) {

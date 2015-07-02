@@ -400,7 +400,6 @@ import graphmodel.Node;
 
 import $context.packageName$.graphiti.*;
 import $context.packageName$.graphiti.content.adapter.*;
-import $context.importPath$.*;
 
 import org.eclipse.graphiti.features.*;
 import org.eclipse.graphiti.features.impl.*;
@@ -449,7 +448,7 @@ public class Create$context.edgeName$Feature extends AbstractCreateConnectionFea
 		Object target = getBusinessObject(context.getTargetAnchor());
 
 		if (source != null &amp;&amp; target != null) {
-			$context.edgeName$ $context.meIdentifier$ = $context.factoryName$Factory.eINSTANCE.create$context.edgeName$();
+			$context.importPath$.$context.edgeName$ $context.meIdentifier$ = $context.importPath$.$context.factoryName$Factory.eINSTANCE.create$context.edgeName$();
 			$context.attributeInitContent$
 				if (source instanceof ModelElement) {
 					$context.meIdentifier$.setSourceElement( (Node) source);

@@ -129,7 +129,7 @@
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>if (target instanceof $context.container.name$) {
+      <string>if (target instanceof $context.importPath$.$context.container.name$) {
 	return true;
 }
 </string>
@@ -160,9 +160,9 @@
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>if (target instanceof $context.container.name$) {
-	$context.container.name$ tmp = ($context.container.name$) target;
-	if (tmp.getModelElements($context.modelElement.name$.class).size() &lt; $context.upperBound$)
+      <string>if (target instanceof $context.importPath$.$context.container.name$) {
+	$context.importPath$.$context.container.name$ tmp = ($context.importPath$.$context.container.name$) target;
+	if (tmp.getModelElements($context.importPath$.$context.modelElement.name$.class).size() &lt; $context.upperBound$)
 		return true;
 	else {
 		$context.cincoErrorMaxCardinality$;
@@ -555,8 +555,8 @@
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>if (target instanceof $context.container.name$) {
-	$context.container.name$ tmp = ($context.container.name$) target;
+      <string>if (target instanceof $context.importPath$.$context.container.name$) {
+	$context.importPath$.$context.container.name$ tmp = ($context.importPath$.$context.container.name$) target;
 	if (tmp.getModelElements().size() &lt; $context.upperBound$)
 		return true;
 	else {
@@ -627,7 +627,7 @@
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>if (target instanceof $context.graphModelName$)
+      <string>if (target instanceof $context.importPath$.$context.graphModelName$)
 	return true;
 </string>
     </parameter>
@@ -759,7 +759,7 @@
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>if (target instanceof $context.graphModelName$ &amp;&amp; (($context.graphModelName$) target).getModelElements($context.modelElementName$.class).size() &lt; $context.upperBound$)
+      <string>if (target instanceof $context.importPath$.$context.graphModelName$ &amp;&amp; (($context.importPath$.$context.graphModelName$) target).getModelElements($context.importPath$.$context.modelElementName$.class).size() &lt; $context.upperBound$)
 	return true;
 else {
 	$context.cincoErrorMaxCardinality$;
@@ -1054,7 +1054,7 @@ else {
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>if (target instanceof $context.graphModelName$)
+      <string>if (target instanceof $context.importPath$.$context.graphModelName$)
 	return true;
 </string>
     </parameter>
@@ -1084,7 +1084,7 @@ else {
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>if (target instanceof $context.graphModelName$ &amp;&amp; (($context.graphModelName$) target).getModelElements().size() &lt; $context.upperBound$)
+      <string>if (target instanceof $context.importPath$.$context.graphModelName$ &amp;&amp; (($context.importPath$.$context.graphModelName$) target).getModelElements().size() &lt; $context.upperBound$)
 	return true;
 else {
 	$context.cincoErrorMaxCardinality$;

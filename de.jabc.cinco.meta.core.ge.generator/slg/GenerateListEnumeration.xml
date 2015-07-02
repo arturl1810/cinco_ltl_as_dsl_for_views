@@ -87,8 +87,8 @@
     </parameter>
     <parameter name="template">
       <string>/*EObject tmp = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
-if (tmp instanceof $context.modelElementName$) {
-	(($context.modelElementName$) tmp).set$context.fuAttributeName$($context.enum.name$.getByName($context.flAttributeName$Combo.getText()));
+if (tmp instanceof $context.importPath$.$context.modelElementName$) {
+	(($context.importPath$.$context.modelElementName$) tmp).set$context.fuAttributeName$($context.enum.name$.getByName($context.flAttributeName$Combo.getText()));
 }*/</string>
     </parameter>
     <finalbranches>default</finalbranches>
@@ -216,7 +216,7 @@ final class EnumerationEditingSupport extends EditingSupport {
 		if (element instanceof $context.enum.name$ &amp;&amp; value != null) {
 			$context.enum.name$ tmp = ($context.enum.name$) element;
 			if (!tmp.getLiteral().equals(value)){
-				final $context.modelElementName$ sel = getBusinessObjectForSelection(getSelectedPictogramElement());
+				final $context.importPath$.$context.modelElementName$ sel = getBusinessObjectForSelection(getSelectedPictogramElement());
 				if (sel == null)
 					return;
 				TransactionalEditingDomain dom = getDiagramContainer().getDiagramBehavior().getEditingDomain();
@@ -304,7 +304,7 @@ final class EnumerationTableLabelProvider extends LabelProvider implements ITabl
 	@Override
 	public void widgetSelected(SelectionEvent e) {
 			
-		final $context.modelElementName$ tmp = getBusinessObjectForSelection(getSelectedPictogramElement());
+		final $context.importPath$.$context.modelElementName$ tmp = getBusinessObjectForSelection(getSelectedPictogramElement());
 			if (tmp == null)
 				return;
 			TransactionalEditingDomain dom = getDiagramContainer().getDiagramBehavior().getEditingDomain();
@@ -333,7 +333,7 @@ SelectionListener removeListener = new SelectionListener() {
 				return;
 			IStructuredSelection ssel = (IStructuredSelection) sel;
 			final Object selection = ssel.getFirstElement();
-			final $context.modelElementName$ tmp = getBusinessObjectForSelection(getSelectedPictogramElement());
+			final $context.importPath$.$context.modelElementName$ tmp = getBusinessObjectForSelection(getSelectedPictogramElement());
 			if (tmp == null) {
 				return;
 			}
@@ -895,7 +895,7 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
     </parameter>
     <parameter name="template">
       <string>EObject bo = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
-if (bo instanceof $context.modelElementName$) {
+if (bo instanceof $context.importPath$.$context.modelElementName$) {
 	$context.fuModelElementName$ tmp = ($context.fuModelElementName$) bo;
 	if (tmp.get$context.fuAttributeName$Parameter().get(0) != null)
 		tmp.get$context.fuAttributeName$Parameter().get(0).setInstance($context.enum.name$.getByName($context.flAttributeName$Combo.getText()));

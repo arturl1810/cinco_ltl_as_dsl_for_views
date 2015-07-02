@@ -152,7 +152,7 @@
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>if (bo instanceof $context.node.name$)
+      <string>if (bo instanceof $context.importPath$.$context.node.name$)
 	return new Add$context.node.name$Feature(this);
 </string>
     </parameter>
@@ -387,7 +387,7 @@ import org.eclipse.graphiti.ui.features.DefaultFeatureProvider;
 import org.eclipse.graphiti.mm.pictograms.*;
 
 $context.featureProviderCustomFeatureImports$
-import $context.importPath$.*;
+
 import $context.localPkgName$.features.*;
 $context.importCreateNodesFeaturesContent$
 $context.importCreateEdgesFeaturesContent$
@@ -925,7 +925,7 @@ public class $context.graphModelName$FeatureProvider extends DefaultFeatureProvi
     <parameter name="template">
       <string>if (bo.eClass().getName().equals(&quot;$context.eClassName$&quot;) &amp;&amp; bo.eClass().getEPackage().getNsURI().equals(&quot;$context.nsURI$&quot;))
 	return new Add$context.node.name$Feature(this);
-if (bo instanceof $context.node.name$)
+if (bo instanceof $context.importPath$.$context.node.name$)
 	return new Add$context.node.name$Feature(this);
 </string>
     </parameter>
@@ -1751,7 +1751,7 @@ import $context.localPkgName$.features.reconnect.*;</string>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>if (bo instanceof $context.edge.name$)
+      <string>if (bo instanceof $context.importPath$.$context.edge.name$)
 	return new Delete$context.edge.name$Feature(this);
 </string>
     </parameter>
@@ -1788,7 +1788,7 @@ import $context.localPkgName$.features.reconnect.*;</string>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>if (bo instanceof $context.node.name$)
+      <string>if (bo instanceof $context.importPath$.$context.node.name$)
 	return new Delete$context.node.name$Feature(this);
 </string>
     </parameter>
@@ -1825,7 +1825,7 @@ import $context.localPkgName$.features.reconnect.*;</string>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>if (bo instanceof $context.container.name$)
+      <string>if (bo instanceof $context.importPath$.$context.container.name$)
 	return new Delete$context.container.name$Feature(this);
 </string>
     </parameter>

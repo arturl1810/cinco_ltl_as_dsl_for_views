@@ -64,7 +64,7 @@
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>if (bo instanceof $context.modelElement.name$)
+      <string>if (bo instanceof $context.importPath$.$context.modelElement.name$)
 	return getDiagramTypeProvider().getDiagram();
 </string>
     </parameter>
