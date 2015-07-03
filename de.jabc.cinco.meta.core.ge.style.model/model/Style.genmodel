@@ -140,6 +140,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Style.ecore#//ConnectionDecorator/location"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Style.ecore#//ConnectionDecorator/decoratorShape"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Style.ecore#//ConnectionDecorator/predefinedDecorator"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Style.ecore#//ConnectionDecorator/name"/>
     </genClasses>
     <genClasses ecoreClass="Style.ecore#//GraphicsAlgorithm"/>
     <genClasses ecoreClass="Style.ecore#//Font">
