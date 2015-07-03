@@ -476,7 +476,15 @@ class MGLValidator extends AbstractMGLValidator {
 		
 	}
 	
-	
+	@Check
+	def checkNodeInheritsFromNonAbstractPrimeReferenceNode(Node node){
+		var currentNode = node
+		while(currentNode.extends!=null){
+			currentNode = currentNode.extends
+			if(!currentNode.isIsAbstract && currentNode.primeReference!=null)
+				error(String::format("Node %s inherits from non abstract prime node %s",node.name,currentNode.name),MglPackage.Literals::NODE__EXTENDS)
+		}
+	}
 	
 	def getEnum(Attribute attr) {
 		var mgl = attr.modelElement.eContainer as GraphModel
