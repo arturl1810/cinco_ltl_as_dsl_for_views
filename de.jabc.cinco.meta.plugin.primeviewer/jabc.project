@@ -1,8 +1,8 @@
-#Thu Jan 16 11:51:50 CET 2014
-ID=018024a6-4d67-49f2-98fe-2d3841487f60
-jabc.project.sibpath.0=<classpath>
+#Fri Jul 03 11:59:38 CEST 2015
 SaveModel.path=/jabc-src/submodels
-SIBCreator.path.link=-1
+jabc.project.sibpath.0=<classpath>
+ID=018024a6-4d67-49f2-98fe-2d3841487f60
 USER$CodeGenerator\#GeneratorConfig=<list>\n  <tree-map>\n    <no-comparator/>\n    <entry>\n      <string>arguments</string>\n      <map>\n        <entry>\n          <string>outlet</string>\n          <file>/home/lybecait/svn/kepler/trunk/jabc-cinco/meta/de.jabc.cinco.meta.plugin.primeviewer/src-gen</file>\n        </entry>\n        <entry>\n          <string>packageName</string>\n          <string>de.jabc.cinco.meta.plugin.primeviewer</string>\n        </entry>\n        <entry>\n          <string>beautify</string>\n          <boolean>false</boolean>\n        </entry>\n        <entry>\n          <string>rootModelPaths</string>\n          <StrictListFoundation>\n            <delegate class\="list">\n              <file>/home/lybecait/svn/kepler/trunk/jabc-cinco/meta/de.jabc.cinco.meta.plugin.primeviewer/jabc-src/Create_PrimeView.xml</file>\n            </delegate>\n            <validatorClass>java.io.File</validatorClass>\n            <validator class\="java-class">java.io.File</validator>\n          </StrictListFoundation>\n        </entry>\n        <entry>\n          <string>helperClassesPackageName</string>\n          <string>de.jabc.cinco.meta.core.mgl.transformation.helper</string>\n        </entry>\n        <entry>\n          <string>generateMainMethod</string>\n          <boolean>false</boolean>\n        </entry>\n        <entry>\n          <string>generateLightweightFramework</string>\n          <boolean>false</boolean>\n        </entry>\n        <entry>\n          <string>generateHelperClasses</string>\n          <boolean>false</boolean>\n        </entry>\n        <entry>\n          <string>additionalModelPaths</string>\n          <StrictListFoundation>\n            <delegate class\="list"/>\n            <validatorClass>java.io.File</validatorClass>\n          </StrictListFoundation>\n        </entry>\n      </map>\n    </entry>\n    <entry>\n      <string>generator</string>\n      <string>de.jabc.genesys.generators.JavaClassGenerator</string>\n    </entry>\n    <entry>\n      <string>name</string>\n      <string>PrimeViewer Configuration</string>\n    </entry>\n  </tree-map>\n</list>
+SIBCreator.path.link=-1
 jabc.project.name=de.jabc.cinco.meta.plugin.primeviewer
 jabc.project.definition=1.0
