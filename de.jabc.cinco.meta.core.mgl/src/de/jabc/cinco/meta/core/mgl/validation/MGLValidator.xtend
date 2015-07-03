@@ -3,6 +3,8 @@
  */
 package de.jabc.cinco.meta.core.mgl.validation
 
+import de.jabc.cinco.meta.core.utils.InheritanceUtil
+import de.jabc.cinco.meta.core.utils.PathValidator
 import java.net.URI
 import java.net.URISyntaxException
 import java.util.HashSet
@@ -11,9 +13,11 @@ import mgl.Attribute
 import mgl.ContainingElement
 import mgl.Edge
 import mgl.EdgeElementConnection
+import mgl.Enumeration
 import mgl.GraphModel
 import mgl.GraphicalElementContainment
 import mgl.GraphicalModelElement
+import mgl.Import
 import mgl.IncomingEdgeElementConnection
 import mgl.MglPackage
 import mgl.ModelElement
@@ -29,10 +33,6 @@ import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.EcorePackage
 import org.eclipse.xtext.EcoreUtil2
 import org.eclipse.xtext.validation.Check
-import de.jabc.cinco.meta.core.utils.PathValidator
-import java.util.ArrayList
-import de.jabc.cinco.meta.core.utils.InheritanceUtil
-import mgl.Import
 
 /**
  * Custom validation rules. 
@@ -456,7 +456,16 @@ class MGLValidator extends AbstractMGLValidator {
 						 error(String::format("DataType %s cannot be instantiated with default value: %s.",attr.type,attr.defaultValue),MglPackage.Literals::ATTRIBUTE__DEFAULT_VALUE)
 				
 			}else{
-				error("Default Value cannot be set, if type of attribute is not an EDataType",MglPackage.Literals::ATTRIBUTE__DEFAULT_VALUE)
+				val e = getEnum(attr)
+				if(e!=null){
+					if(!e.literals.contains(attr.defaultValue)){
+						error(String::format("Default value: '%s' is not valid for Enum: '%s'.",attr.defaultValue,attr.type),MglPackage.Literals::ATTRIBUTE__DEFAULT_VALUE)
+					
+					}
+				}else{
+					error(String::format("DataType %s cannot be instantiated with default value: %s.",attr.type,attr.defaultValue),MglPackage.Literals::ATTRIBUTE__DEFAULT_VALUE)
+				}
+			
 			}
 			}catch(Exception s){
 					error(String::format("DataType %s cannot be instantiated with default value: %s.",attr.type,attr.defaultValue),MglPackage.Literals::ATTRIBUTE__DEFAULT_VALUE)
@@ -466,6 +475,20 @@ class MGLValidator extends AbstractMGLValidator {
 		}
 		
 	}
+	
+	
+	
+	def getEnum(Attribute attr) {
+		var mgl = attr.modelElement.eContainer as GraphModel
+		for(enum :mgl.types.filter(Enumeration))
+			if(enum.name.equals(attr.type)){
+				return enum;
+			}
+				
+				
+		return null;
+	}
+	
 	@Check
 	def checkGraphModelHasStyleDocument(GraphModel graphModel){
 		if(!graphModel.annotations.exists[x|x.name.equals("style")])
