@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>ef7786c5-d04b-45de-89fd-b00e68b99149</id>
   <name>GenerateUpdateModelElementFeature</name>
-  <changecounter>404</changecounter>
+  <changecounter>411</changecounter>
   <sib>
     <id>b31345f6-8607-4397-986e-94a14e803be6</id>
     <name>PutExpression_1</name>
@@ -137,8 +137,8 @@ public class $context.className$ extends AbstractUpdateFeature {
 			PictogramElement tmp = pe;
 			Object o = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(tmp);
 			if ($context.meIdentifier$.equals(o) || o == null)
-			for (Shape s : ((ContainerShape) pe).getChildren()) {
-				updateText($context.meIdentifier$, s);
+			for (Shape _s : ((ContainerShape) pe).getChildren()) {
+				updateText($context.meIdentifier$, _s);
 			}
 		} 
 		if (pe instanceof Connection) {
@@ -163,8 +163,8 @@ public class $context.className$ extends AbstractUpdateFeature {
 	public static boolean checkUpdateNeeded($context.importPath$.$context.fuModelElementName$ $context.meIdentifier$, PictogramElement pe) {
 		boolean updateNeeded;
 		if (pe instanceof ContainerShape) {
-			for (Shape s : ((ContainerShape) pe).getChildren()) {
-				return checkUpdateNeeded($context.meIdentifier$, s);
+			for (Shape _s : ((ContainerShape) pe).getChildren()) {
+				return checkUpdateNeeded($context.meIdentifier$, _s);
 			}
 		} 
 		if (pe instanceof Connection) {
