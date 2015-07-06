@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>4b8f0479-9813-462d-b7d3-1e7c977bb9c6</id>
   <name>GenerateNewDiagramWizard</name>
-  <changecounter>261</changecounter>
+  <changecounter>230</changecounter>
   <sib>
     <id>4db12997-4cd3-4e00-94ed-f5405dd7aa9b</id>
     <name>PutExpression</name>
@@ -142,7 +142,7 @@ import org.eclipse.ui.WorkbenchException;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
-
+import $context.importPath$.*;
 import $context.packageName$.*;
 import $context.packageName$.graphiti.*;
 
@@ -214,7 +214,7 @@ public class New$context.fuGraphModelName$DiagramWizard extends Wizard implement
 			URI resUri = URI.createPlatformResourceURI(filePath.toOSString() ,true);
 			Resource res = new ResourceSetImpl().createResource(resUri);
 			Diagram diagram = Graphiti.getPeService().createDiagram(&quot;$context.fuGraphModelName$&quot;, dName, true);
-			$context.importPath$.$context.graphModelName$ graph = $context.importPath$.$context.factoryName$Factory.eINSTANCE.create$context.graphModelName$();
+			$context.graphModelName$ graph = $context.factoryName$Factory.eINSTANCE.create$context.graphModelName$();
 			graph.setId(EcoreUtil.generateUUID());
 			try {
 				res.unload();
@@ -693,7 +693,7 @@ public class Create$context.fuGraphModelName$WizardPage extends WizardPage {
     <label>PrintConsoleMessage</label>
     <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
     <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
-    <position>481.5,213.0</position>
+    <position>301.5,198.0</position>
     <parameter name="error">
       <boolean>false</boolean>
     </parameter>
@@ -710,174 +710,9 @@ public class Create$context.fuGraphModelName$WizardPage extends WizardPage {
   </sib>
   <edge>
     <source>1876ddcf-fc37-48fd-beab-2d7bd78b20c2</source>
-    <target>74d11b6b-511b-4891-9f45-02bf9a3497e9</target>
-    <point>393.0,343.5272727272727</point>
-    <point>522.0,390.43636363636364</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
-  <sib>
-    <id>74d11b6b-511b-4891-9f45-02bf9a3497e9</id>
-    <name>RunStringTemplate_2</name>
-    <label>NewGraphHandler</label>
-    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
-    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>319.5,213.0</position>
-    <parameter name="append">
-      <boolean>true</boolean>
-    </parameter>
-    <parameter name="individualVariables">
-      <boolean>false</boolean>
-    </parameter>
-    <parameter name="result">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>HandlerContent</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="template">
-      <string>package $context.localPkgName$;
-
-import org.eclipse.core.commands.AbstractHandler;
-import org.eclipse.core.commands.ExecutionEvent;
-import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.jface.wizard.IWizard;
-import org.eclipse.jface.wizard.WizardDialog;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.handlers.HandlerUtil;
-
-public class New$context.graphModelName$Handler extends AbstractHandler {
-
-	@Override
-	public Object execute(ExecutionEvent event) throws ExecutionException {
-		Shell activeShell = HandlerUtil.getActiveShell(event);
-
-		IWizard wizard = new $context.localPkgName$.New$context.graphModelName$DiagramWizard();
-
-		WizardDialog dialog = new WizardDialog(activeShell, wizard);
-
-		dialog.open();
-
-		return null;
-	}
-}</string>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-  </sib>
-  <sib>
-    <id>8f6b3179-38c3-44ae-835a-64156a844627</id>
-    <name>WriteJavaFile_2</name>
-    <label>WriteJavaFile</label>
-    <sib-uid>genesys-sibs/WriteJavaFile</sib-uid>
-    <taxonomy>de.jabc.sib.genesys.WriteJavaFile</taxonomy>
-    <position>516.0,78.0</position>
-    <parameter name="baseDirectory">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>outletPath</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="beautify">
-      <boolean>false</boolean>
-    </parameter>
-    <parameter name="beautifyMethod">
-      <de.metaframe.common.sib.parameter.ListBox>
-        <ListBoxFoundation>
-          <list>
-            <string>Eclipse</string>
-            <string>Jalopy</string>
-          </list>
-          <selected>0</selected>
-        </ListBoxFoundation>
-      </de.metaframe.common.sib.parameter.ListBox>
-    </parameter>
-    <parameter name="className">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>className</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="fileContent">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>HandlerContent</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="packageName">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>localPkgName</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-  </sib>
-  <edge>
-    <source>8f6b3179-38c3-44ae-835a-64156a844627</source>
     <target>7e39779c-24fe-4446-af7c-314eb708129b</target>
-    <point>375.0,105.0</point>
-    <point>541.0,91.0</point>
-    <branch>default</branch>
-  </edge>
-  <sib>
-    <id>445abc69-ae8f-4f57-8231-db96676b7970</id>
-    <name>PutExpression_3</name>
-    <label>ClassName</label>
-    <sib-uid>basic-sibs/PutExpression</sib-uid>
-    <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
-    <position>338.5,78.0</position>
-    <parameter name="resolve">
-      <boolean>true</boolean>
-    </parameter>
-    <parameter name="value">
-      <de.metaframe.common.sib.parameter.ContextExpression>
-        <ContextExpressionFoundation>
-          <expression>New${fuGraphModelName}Handler</expression>
-          <clazz>java.lang.Object</clazz>
-          <classMutable>true</classMutable>
-        </ContextExpressionFoundation>
-      </de.metaframe.common.sib.parameter.ContextExpression>
-    </parameter>
-    <parameter name="variable">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>className</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-  </sib>
-  <edge>
-    <source>74d11b6b-511b-4891-9f45-02bf9a3497e9</source>
-    <target>445abc69-ae8f-4f57-8231-db96676b7970</target>
-    <point>375.0,240.0</point>
-    <point>518.0,227.0</point>
-    <branch>default</branch>
-  </edge>
-  <edge>
-    <source>445abc69-ae8f-4f57-8231-db96676b7970</source>
-    <target>8f6b3179-38c3-44ae-835a-64156a844627</target>
-    <point>525.0,240.0</point>
-    <point>368.0,120.0</point>
+    <point>375.0,345.0</point>
+    <point>374.0,211.0</point>
     <branch>default</branch>
   </edge>
   <values/>

@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>c6d3a171-4a7c-4363-ab9c-c7be2786983b</id>
   <name>GeneratePluginXML</name>
-  <changecounter>460</changecounter>
+  <changecounter>435</changecounter>
   <sib>
     <id>b9acf74f-0e4c-4f93-80c7-e3f218bfc27e</id>
     <name>RunStringTemplate</name>
@@ -678,29 +678,6 @@
 			$context.iconPathContent$
 			name=&quot;$context.graphModelName$ Perspective&quot;&gt;
 		&lt;/perspective&gt;
-	&lt;/extension&gt;
-	&lt;extension
-		point=&quot;org.eclipse.ui.menus&quot;&gt;
-	&lt;!--@CincoGen $context.graphModelName$--&gt;
-		&lt;menuContribution
-			allPopups=&quot;false&quot;
-			locationURI=&quot;menu:new&quot;&gt;
-			&lt;command
-				commandId=&quot;$context.packageName$.graphiti.new$context.flGraphModelName$&quot;
-				$context.iconPathContent$
-				label=&quot;New $context.graphModelName$&quot;
-				style=&quot;push&quot;&gt;
-			&lt;/command&gt;
-		&lt;/menuContribution&gt;
-	&lt;/extension&gt;
-	&lt;extension
-		point=&quot;org.eclipse.ui.commands&quot;&gt;
-	&lt;!--@CincoGen $context.graphModelName$--&gt;
-		&lt;command
-			defaultHandler=&quot;$context.packageName$.graphiti.wizard.New$context.graphModelName$Handler&quot;
-			id=&quot;$context.packageName$.graphiti.new$context.flGraphModelName$&quot;
-			name=&quot;New $context.graphModelName$&quot;&gt;
-		&lt;/command&gt;
 	&lt;/extension&gt;
 </string>
     </parameter>

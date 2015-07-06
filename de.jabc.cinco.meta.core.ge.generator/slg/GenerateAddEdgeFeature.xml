@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>730ef53f-e135-46d5-9e4b-96fc4843c423</id>
   <name>GenerateAddEdgeFeature</name>
-  <changecounter>749</changecounter>
+  <changecounter>700</changecounter>
   <sib>
     <id>4966ae71-56db-49f8-b6d7-c3a51fbd1021</id>
     <name>PutExpression</name>
@@ -230,6 +230,7 @@ import com.sun.el.ExpressionFactoryImpl;
 import $context.packageName$.graphiti.*;
 import $context.packageName$.graphiti.expression.*;
 import $context.packageName$.graphiti.features.layout.*;
+import $context.importPath$.*;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import graphmodel.ModelElementContainer;
@@ -246,7 +247,7 @@ public class Add$context.edgeName$Feature extends AbstractAddFeature {
 
 	public PictogramElement add(IAddContext context) {
 		IAddConnectionContext addConContext = (IAddConnectionContext) context;
-		$context.importPath$.$context.edgeName$ $context.meIdentifier$ = ($context.importPath$.$context.edgeName$) context.getNewObject();
+		$context.edgeName$ $context.meIdentifier$ = ($context.edgeName$) context.getNewObject();
 		if ($context.meIdentifier$.getId() == null || $context.meIdentifier$.getId().isEmpty())
 			$context.meIdentifier$.setId(EcoreUtil.generateUUID());
 		IPeCreateService peCreateService = Graphiti.getPeCreateService();
@@ -279,7 +280,7 @@ public class Add$context.edgeName$Feature extends AbstractAddFeature {
 		// create link and wire it
 		link(connection, $context.meIdentifier$);
 
-		$context.importPath$.$context.graphModelName$ $context.lcGraphModelName$ = $context.graphModelName$GraphitiUtils.addToResource(getDiagram(), this.getFeatureProvider());
+		$context.graphModelName$ $context.lcGraphModelName$ = $context.graphModelName$GraphitiUtils.addToResource(getDiagram(), this.getFeatureProvider());
 		ModelElementContainer container = $context.graphModelName$GraphitiUtils.getInstance().getCommonContainer($context.lcGraphModelName$, $context.meIdentifier$);
 		container.getModelElements().add($context.meIdentifier$);
 
@@ -294,7 +295,7 @@ public class Add$context.edgeName$Feature extends AbstractAddFeature {
 	}
 
 	public boolean canAdd(IAddContext context) {
-		if (context instanceof IAddConnectionContext &amp;&amp; context.getNewObject() instanceof $context.importPath$.$context.edgeName$) {
+		if (context instanceof IAddConnectionContext &amp;&amp; context.getNewObject() instanceof $context.edgeName$) {
 			return true;
 		}
 		return false;
@@ -696,7 +697,7 @@ Leaving Generate ${edgeName} AddFeature</expression>
     <label>GenerateGraphicsAlgorithm</label>
     <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
-    <position>944.5,826.0</position>
+    <position>944.5,841.0</position>
     <parameter name="connectionDecoratorKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -774,9 +775,9 @@ Leaving Generate ${edgeName} AddFeature</expression>
   </sib>
   <edge>
     <source>28174053-25b0-4dab-9b83-0d4522ed7593</source>
-    <target>52dd09b5-27e5-47d1-8ffa-d268235b5a36</target>
-    <point>585.0,849.0</point>
-    <point>585.0,963.0</point>
+    <target>d8e0f24a-8491-4707-b9d1-b7c95c0a24bf</target>
+    <point>556.6666666666666,933.0</point>
+    <point>601.3636363636364,879.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -803,7 +804,7 @@ Leaving Generate ${edgeName} AddFeature</expression>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>private void create$context.decoratorShapeName$(GraphicsAlgorithmContainer gaContainer, $context.importPath$.$context.edgeName$ $context.meIdentifier$) {
+      <string>private void create$context.decoratorShapeName$(GraphicsAlgorithmContainer gaContainer, $context.edgeName$ $context.meIdentifier$) {
 		IGaService gaService = Graphiti.getGaService();
 		IPeService peService = Graphiti.getPeService();
 		$context.gaRepContent$
@@ -819,7 +820,7 @@ Leaving Generate ${edgeName} AddFeature</expression>
     <label>initContent</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>995.0,468.0</position>
+    <position>995.0,528.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -874,7 +875,7 @@ create$context.decoratorShapeName$(cd, $context.meIdentifier$);
     <label>SetParentName</label>
     <sib-uid>basic-sibs/PutExpression</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
-    <position>981.5,918.0</position>
+    <position>981.5,933.0</position>
     <parameter name="resolve">
       <boolean>true</boolean>
     </parameter>
@@ -1052,9 +1053,9 @@ create$context.decoratorShapeName$(cd, $context.meIdentifier$);
   </edge>
   <edge>
     <source>5f643f92-9eeb-46aa-a8be-54b19c997135</source>
-    <target>c57a42aa-29fe-417f-8c35-a1814de0e2d0</target>
-    <point>468.0,1022.175</point>
-    <point>672.0,971.175</point>
+    <target>ac691d8c-ff50-411a-ae7f-0fa376449db4</target>
+    <point>685.0,1035.0</point>
+    <point>1210.0,1020.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -1100,19 +1101,19 @@ $context.graphModelName$LayoutUtils.set$context.appearance.name$Style(cd.getGrap
   </sib>
   <edge>
     <source>0b6b88b3-e43d-4f28-9fa7-63ea597c3f5f</source>
-    <target>e0ac7dc6-1251-4ef5-8c9e-5085c8a05811</target>
-    <point>1197.0,429.9</point>
-    <point>1053.0,453.9</point>
+    <target>621a1067-e312-4e18-b238-81d87fd969d8</target>
+    <point>1210.0,525.0</point>
+    <point>895.0,375.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
     <id>67923be9-b766-49c0-abb3-ca4f95d8a310</id>
     <name>EvaluateCondition</name>
-    <label>decoratorShapeName</label>
+    <label>EvaluateCondition</label>
     <sib-uid>basic-sibs/EvaluateCondition</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.EvaluateCondition</taxonomy>
-    <position>962.0,738.0</position>
+    <position>972.0,738.0</position>
     <parameter name="condition">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
@@ -1316,9 +1317,9 @@ $context.graphModelName$LayoutUtils.set_$context.graphModelName$DefaultAppearanc
   </edge>
   <edge>
     <source>02ff8712-5f61-4c78-8bfb-40a1cd8c5ebf</source>
-    <target>e0ac7dc6-1251-4ef5-8c9e-5085c8a05811</target>
-    <point>1302.0,372.2526315789474</point>
-    <point>1053.0,450.88421052631577</point>
+    <target>621a1067-e312-4e18-b238-81d87fd969d8</target>
+    <point>1300.0,525.0</point>
+    <point>895.0,375.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -1652,7 +1653,7 @@ Graphiti.getPeService().setPropertyValue(polyline, $context.graphModelName$Layou
     <label>appearanceProvider?</label>
     <sib-uid>basic-sibs/CheckVariable</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.CheckVariable</taxonomy>
-    <position>963.5,348.0</position>
+    <position>963.5,438.0</position>
     <parameter name="variable">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1755,7 +1756,7 @@ Graphiti.getPeService().setPropertyValue(polyline, $context.graphModelName$Layou
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>$context.graphModelName$LayoutUtils.updateStyleFromAppearance(cd.getGraphicsAlgorithm(), new $context.appearanceProvider$().getAppearance($context.meIdentifier$, &quot;$context.decoratorShapeName$&quot;), getDiagram());
+      <string>$context.graphModelName$LayoutUtils.updateStyleFromAppearance(cd.getGraphicsAlgorithm(), new $context.appearanceProvider$().getAppearance($context.meIdentifier$, &quot;$context.meShapeName$&quot;), getDiagram());
 Graphiti.getPeService().setPropertyValue(cd.getGraphicsAlgorithm(), $context.graphModelName$LayoutUtils.KEY_GA_NAME, &quot;$context.decoratorShapeName$&quot;);
 </string>
     </parameter>
@@ -1886,7 +1887,7 @@ Graphiti.getPeService().setPropertyValue(cd.getGraphicsAlgorithm(), $context.gra
     <parameter name="shapeName">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>cdName</key>
+          <key>shapeName</key>
           <scope>LOCAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
@@ -1904,12 +1905,39 @@ Graphiti.getPeService().setPropertyValue(cd.getGraphicsAlgorithm(), $context.gra
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
   </sib>
+  <sib>
+    <id>d8e0f24a-8491-4707-b9d1-b7c95c0a24bf</id>
+    <name>GetAbstractShapeName</name>
+    <label>GetAbstractShapeName</label>
+    <sib-uid>style/style/GetAbstractShapeName</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.sibs.style.sib.style.GetAbstractShapeName</taxonomy>
+    <position>513.0,918.0</position>
+    <parameter name="abstractShapeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>currentShape</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="abstractShapenameKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>shapeName</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
   <edge>
-    <source>52dd09b5-27e5-47d1-8ffa-d268235b5a36</source>
+    <source>d8e0f24a-8491-4707-b9d1-b7c95c0a24bf</source>
     <target>6033c2e0-01b6-4cdb-9ca6-d025b915b56e</target>
-    <point>603.0,928.32</point>
-    <point>792.0,840.12</point>
-    <labelposition>500.0,0.0</labelposition>
+    <point>615.0,870.0</point>
+    <point>693.0,933.0</point>
     <branch>default</branch>
   </edge>
   <edge>
@@ -1948,114 +1976,6 @@ Graphiti.getPeService().setPropertyValue(cd.getGraphicsAlgorithm(), $context.gra
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
   </sib>
-  <sib>
-    <id>52dd09b5-27e5-47d1-8ffa-d268235b5a36</id>
-    <name>GetConnectionDecoratorName</name>
-    <label>GetConnectionDecoratorName</label>
-    <sib-uid>style/style/GetConnectionDecoratorName</sib-uid>
-    <taxonomy>de.jabc.cinco.meta.core.sibs.style.sib.style.GetConnectionDecoratorName</taxonomy>
-    <position>495.0,918.0</position>
-    <parameter name="connectionDecoratorKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>decorator</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="connectionDecoratornameKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>cdName</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-  </sib>
-  <sib>
-    <id>c57a42aa-29fe-417f-8c35-a1814de0e2d0</id>
-    <name>GetConnectionDecoratorName_1</name>
-    <label>GetConnectionDecoratorName</label>
-    <sib-uid>style/style/GetConnectionDecoratorName</sib-uid>
-    <taxonomy>de.jabc.cinco.meta.core.sibs.style.sib.style.GetConnectionDecoratorName</taxonomy>
-    <position>630.0,1008.0</position>
-    <parameter name="connectionDecoratorKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>decorator</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="connectionDecoratornameKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>cdName</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-  </sib>
-  <edge>
-    <source>c57a42aa-29fe-417f-8c35-a1814de0e2d0</source>
-    <target>8c25603b-5f2c-4c96-878c-d579bf6cec93</target>
-    <point>738.0,1028.925</point>
-    <point>942.0,1054.425</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
-  <sib>
-    <id>8c25603b-5f2c-4c96-878c-d579bf6cec93</id>
-    <name>GenerateUniqueShapeName_1</name>
-    <label>GenerateUniqueShapeName</label>
-    <sib-uid>ge-util-sibs/GenerateUniqueShapeName</sib-uid>
-    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.GenerateUniqueShapeName</taxonomy>
-    <position>875.5,1008.0</position>
-    <parameter name="clearCache">
-      <de.metaframe.common.sib.parameter.ContextExpression>
-        <ContextExpressionFoundation>
-          <expression>${false}</expression>
-          <clazz>java.lang.Boolean</clazz>
-          <classMutable>true</classMutable>
-        </ContextExpressionFoundation>
-      </de.metaframe.common.sib.parameter.ContextExpression>
-    </parameter>
-    <parameter name="shapeName">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>cdName</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="uniqueShapeName">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>decoratorShapeName</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-  </sib>
-  <edge>
-    <source>8c25603b-5f2c-4c96-878c-d579bf6cec93</source>
-    <target>ac691d8c-ff50-411a-ae7f-0fa376449db4</target>
-    <point>960.0,1035.0</point>
-    <point>1187.0,1026.0</point>
-    <branch>default</branch>
-  </edge>
   <parameter>
     <name>modelElementKey</name>
     <field>modelElementKey</field>
