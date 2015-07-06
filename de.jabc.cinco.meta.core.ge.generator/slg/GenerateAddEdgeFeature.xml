@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>730ef53f-e135-46d5-9e4b-96fc4843c423</id>
   <name>GenerateAddEdgeFeature</name>
-  <changecounter>740</changecounter>
+  <changecounter>744</changecounter>
   <sib>
     <id>4966ae71-56db-49f8-b6d7-c3a51fbd1021</id>
     <name>PutExpression</name>
@@ -1755,8 +1755,8 @@ Graphiti.getPeService().setPropertyValue(polyline, $context.graphModelName$Layou
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>$context.graphModelName$LayoutUtils.updateStyleFromAppearance(cd.getGraphicsAlgorithm(), new $context.appearanceProvider$().getAppearance($context.meIdentifier$, &quot;$context.lcCdName$&quot;), getDiagram());
-Graphiti.getPeService().setPropertyValue(cd.getGraphicsAlgorithm(), $context.graphModelName$LayoutUtils.KEY_GA_NAME, &quot;$context.lcCdName$&quot;);
+      <string>$context.graphModelName$LayoutUtils.updateStyleFromAppearance(cd.getGraphicsAlgorithm(), new $context.appearanceProvider$().getAppearance($context.meIdentifier$, &quot;$context.decoratorShapeName$&quot;), getDiagram());
+Graphiti.getPeService().setPropertyValue(cd.getGraphicsAlgorithm(), $context.graphModelName$LayoutUtils.KEY_GA_NAME, &quot;$context.decoratorShapeName$&quot;);
 </string>
     </parameter>
     <finalbranches>default</finalbranches>
@@ -1906,9 +1906,9 @@ Graphiti.getPeService().setPropertyValue(cd.getGraphicsAlgorithm(), $context.gra
   </sib>
   <edge>
     <source>52dd09b5-27e5-47d1-8ffa-d268235b5a36</source>
-    <target>51b12a86-457d-44ee-a520-b0a15751afc2</target>
-    <point>600.3191489361702,918.0</point>
-    <point>691.4150943396227,804.0</point>
+    <target>6033c2e0-01b6-4cdb-9ca6-d025b915b56e</target>
+    <point>603.0,928.32</point>
+    <point>792.0,840.12</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -2006,20 +2006,29 @@ Graphiti.getPeService().setPropertyValue(cd.getGraphicsAlgorithm(), $context.gra
   </sib>
   <edge>
     <source>c57a42aa-29fe-417f-8c35-a1814de0e2d0</source>
-    <target>583732b1-b6ca-4f2b-a516-794e4ee6304f</target>
-    <point>738.0,1029.8117647058823</point>
-    <point>957.0,1068.4588235294118</point>
+    <target>95fae1f9-db51-493a-878d-f0d5cfbc52c7</target>
+    <point>738.0,1027.44</point>
+    <point>1002.0,1040.64</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
-    <id>583732b1-b6ca-4f2b-a516-794e4ee6304f</id>
-    <name>FormatIdentifier</name>
-    <label>FormatIdentifier</label>
-    <sib-uid>genesys-sibs/FormatIdentifier</sib-uid>
-    <taxonomy>de.jabc.sib.genesys.FormatIdentifier</taxonomy>
-    <position>926.0,1008.0</position>
-    <parameter name="identifier">
+    <id>95fae1f9-db51-493a-878d-f0d5cfbc52c7</id>
+    <name>GenerateUniqueShapeName_1</name>
+    <label>GenerateUniqueShapeName</label>
+    <sib-uid>ge-util-sibs/GenerateUniqueShapeName</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.GenerateUniqueShapeName</taxonomy>
+    <position>860.5,1008.0</position>
+    <parameter name="clearCache">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>${false}</expression>
+          <clazz>java.lang.Boolean</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="shapeName">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
           <key>cdName</key>
@@ -2028,19 +2037,10 @@ Graphiti.getPeService().setPropertyValue(cd.getGraphicsAlgorithm(), $context.gra
         </ContextKeyFoundation>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
-    <parameter name="identifierLC">
+    <parameter name="uniqueShapeName">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>lcCdName</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="identifierUC">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>ucCdName</key>
+          <key>decoratorShapeName</key>
           <scope>LOCAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
@@ -2050,54 +2050,10 @@ Graphiti.getPeService().setPropertyValue(cd.getGraphicsAlgorithm(), $context.gra
     <finalbranches>error</finalbranches>
   </sib>
   <edge>
-    <source>583732b1-b6ca-4f2b-a516-794e4ee6304f</source>
+    <source>95fae1f9-db51-493a-878d-f0d5cfbc52c7</source>
     <target>ac691d8c-ff50-411a-ae7f-0fa376449db4</target>
-    <point>975.0,1035.0</point>
-    <point>1185.0,1027.0</point>
-    <branch>default</branch>
-  </edge>
-  <sib>
-    <id>51b12a86-457d-44ee-a520-b0a15751afc2</id>
-    <name>FormatIdentifier_1</name>
-    <label>FormatIdentifier</label>
-    <sib-uid>genesys-sibs/FormatIdentifier</sib-uid>
-    <taxonomy>de.jabc.sib.genesys.FormatIdentifier</taxonomy>
-    <position>656.0,798.0</position>
-    <parameter name="identifier">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>cdName</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="identifierLC">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>lcCdName</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="identifierUC">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>ucCdName</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-  </sib>
-  <edge>
-    <source>51b12a86-457d-44ee-a520-b0a15751afc2</source>
-    <target>6033c2e0-01b6-4cdb-9ca6-d025b915b56e</target>
-    <point>705.0,825.0</point>
-    <point>823.0,822.0</point>
+    <point>945.0,1035.0</point>
+    <point>1149.0,1022.0</point>
     <branch>default</branch>
   </edge>
   <parameter>

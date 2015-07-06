@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>c6d3a171-4a7c-4363-ab9c-c7be2786983b</id>
   <name>GeneratePluginXML</name>
-  <changecounter>435</changecounter>
+  <changecounter>440</changecounter>
   <sib>
     <id>b9acf74f-0e4c-4f93-80c7-e3f218bfc27e</id>
     <name>RunStringTemplate</name>
@@ -678,6 +678,16 @@
 			$context.iconPathContent$
 			name=&quot;$context.graphModelName$ Perspective&quot;&gt;
 		&lt;/perspective&gt;
+	&lt;/extension&gt;
+	&lt;extension
+		point=&quot;org.eclipse.ui.navigator.navigatorContent&quot;&gt;
+	&lt;!--@CincoGen $context.graphModelName$--&gt;
+		&lt;commonWizard
+			menuGroupId=&quot;mgl&quot;
+			type=&quot;new&quot;
+			wizardId=&quot;$context.packageName$.wizard.$context.lcGraphModelName$&quot;&gt;
+			&lt;enablement&gt;&lt;/enablement&gt;
+		&lt;/commonWizard&gt;
 	&lt;/extension&gt;
 </string>
     </parameter>
