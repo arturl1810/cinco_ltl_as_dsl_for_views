@@ -6,6 +6,6 @@ Bundle-Version: 0.7.0.qualifier
 Bundle-Activator: de.jabc.cinco.meta.plugin.generator.runtime.Activator
 Require-Bundle: org.eclipse.core.runtime,
  de.jabc.cinco.meta.core.mgl.model
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Export-Package: de.jabc.cinco.meta.plugin.generator.runtime

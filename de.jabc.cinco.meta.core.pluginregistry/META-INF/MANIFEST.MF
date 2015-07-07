@@ -17,4 +17,4 @@ Import-Package: org.eclipse.xtend.typesystem.emf,
 Export-Package: de.jabc.cinco.meta.core.pluginregistry,de.jabc.cinco.m
  eta.core.pluginregistry.impl,de.jabc.cinco.meta.core.pluginregistry.p
  roposalprovider,de.jabc.cinco.meta.core.pluginregistry.validation
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8

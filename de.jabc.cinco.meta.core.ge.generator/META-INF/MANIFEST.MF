@@ -26,7 +26,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.graphiti.ui,
  org.eclipse.xtext.util,
  org.eclipse.emf.transaction
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Import-Package: de.jabc.cinco.meta.core.ui.listener,
  org.eclipse.emf.ecore.xmi,
