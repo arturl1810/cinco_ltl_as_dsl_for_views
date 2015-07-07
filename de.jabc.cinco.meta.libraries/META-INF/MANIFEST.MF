@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Used Libraries
 Bundle-SymbolicName: de.jabc.cinco.meta.libraries
 Bundle-Version: 0.7.0.qualifier
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ClassPath: .,
  lib/antlr-2.7.7.jar,
  lib/collection-sibs-adapters-1.4.jar,
