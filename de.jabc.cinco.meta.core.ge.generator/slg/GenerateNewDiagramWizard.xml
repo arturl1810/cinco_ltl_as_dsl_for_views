@@ -142,7 +142,7 @@ import org.eclipse.ui.WorkbenchException;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
-import $context.importPath$.*;
+
 import $context.packageName$.*;
 import $context.packageName$.graphiti.*;
 
@@ -214,7 +214,7 @@ public class New$context.fuGraphModelName$DiagramWizard extends Wizard implement
 			URI resUri = URI.createPlatformResourceURI(filePath.toOSString() ,true);
 			Resource res = new ResourceSetImpl().createResource(resUri);
 			Diagram diagram = Graphiti.getPeService().createDiagram(&quot;$context.fuGraphModelName$&quot;, dName, true);
-			$context.graphModelName$ graph = $context.factoryName$Factory.eINSTANCE.create$context.graphModelName$();
+			$context.importPath$.$context.graphModelName$ graph = $context.importPath$.$context.factoryName$Factory.eINSTANCE.create$context.graphModelName$();
 			graph.setId(EcoreUtil.generateUUID());
 			try {
 				res.unload();

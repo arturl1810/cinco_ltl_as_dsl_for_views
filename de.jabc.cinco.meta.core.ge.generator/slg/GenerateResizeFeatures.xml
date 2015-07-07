@@ -128,7 +128,7 @@ public class Resize$context.graphModelName$Feature extends DefaultResizeShapeFea
 	@Override
 	public boolean canResizeShape(IResizeShapeContext context) {
 			Object bo = getBusinessObjectForPictogramElement(context.getPictogramElement());
-			return (bo instanceof $context.graphModelName$);
+			return (bo instanceof $context.importPath$.$context.graphModelName$);
 	}
 	
 	@Override

@@ -27,12 +27,12 @@
     </parameter>
     <parameter name="template">
       <string>EObject tmp = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
-if (tmp instanceof $context.modelElementName$) {
+if (tmp instanceof $context.importPath$.$context.modelElementName$) {
 	try {
-		(($context.modelElementName$) tmp).set$context.fuAttributeName$(Float.valueOf($context.flAttributeName$Text.getText()));
+		(($context.importPath$.$context.modelElementName$) tmp).set$context.fuAttributeName$(Float.valueOf($context.flAttributeName$Text.getText()));
 		oldVal = Float.valueOf($context.flAttributeName$Text.getText());
 	} catch (NumberFormatException e) {
-		(($context.modelElementName$) tmp).set$context.fuAttributeName$(0.0f);
+		(($context.importPath$.$context.modelElementName$) tmp).set$context.fuAttributeName$(0.0f);
 	}
 }
 </string>
@@ -459,8 +459,8 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
     </parameter>
     <parameter name="template">
       <string>EObject bo = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(getSelectedPictogramElement());
-if (bo instanceof $context.modelElementName$) {
-	$context.modelElementName$ tmp = ($context.modelElementName$) bo;
+if (bo instanceof $context.importPath$.$context.modelElementName$) {
+	$context.importPath$.$context.modelElementName$ tmp = ($context.importPath$.$context.modelElementName$) bo;
 	try {
 		if (tmp.get$context.fuAttributeName$Parameter().get(0) != null)
 			tmp.get$context.fuAttributeName$Parameter().get(0).setInstance(Float.valueOf($context.flAttributeName$Text.getText()));
@@ -687,11 +687,11 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
     </parameter>
     <parameter name="template">
       <string>/*EObject tmp = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
-if (tmp instanceof $context.modelElementName$) {
+if (tmp instanceof $context.importPath$.$context.modelElementName$) {
 	try {
-		(($context.modelElementName$) tmp).set$context.fuAttributeName$(Float.valueOf($context.flAttributeName$Text.getText()));
+		(($context.importPath$.$context.modelElementName$) tmp).set$context.fuAttributeName$(Float.valueOf($context.flAttributeName$Text.getText()));
 	} catch (NumberFormatException e) {
-		(($context.modelElementName$) tmp).set$context.fuAttributeName$(0.0f);
+		(($context.importPath$.$context.modelElementName$) tmp).set$context.fuAttributeName$(0.0f);
 	}
 }*/
 </string>

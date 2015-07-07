@@ -58,8 +58,8 @@ $context.flAttributeName$Text.setSelection($context.flAttributeName$Text.getText
     </parameter>
     <parameter name="template">
       <string>EObject tmp = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
-if (tmp instanceof $context.modelElementName$) {
-	(($context.modelElementName$) tmp).set$context.fuAttributeName$($context.flAttributeName$Text.getText().trim());
+if (tmp instanceof $context.importPath$.$context.modelElementName$) {
+	(($context.importPath$.$context.modelElementName$) tmp).set$context.fuAttributeName$($context.flAttributeName$Text.getText().trim());
 	oldVal = $context.flAttributeName$Text.getText().trim();
 }
 </string>
@@ -443,8 +443,8 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
     </parameter>
     <parameter name="template">
       <string>EObject bo = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(getSelectedPictogramElement());
-if (bo instanceof $context.modelElementName$) {
-	$context.modelElementName$ tmp = ($context.modelElementName$) bo;
+if (bo instanceof $context.importPath$.$context.modelElementName$) {
+	$context.importPath$.$context.modelElementName$ tmp = ($context.importPath$.$context.modelElementName$) bo;
 	if (tmp.get$context.fuAttributeName$Parameter().get(0) != null)
 		tmp.get$context.fuAttributeName$Parameter().get(0).setInstance($context.flAttributeName$Text.getText().trim());
 	
@@ -676,8 +676,8 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
     </parameter>
     <parameter name="template">
       <string>//EObject tmp = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
-//if (tmp instanceof $context.modelElementName$) {
-//	(($context.modelElementName$) tmp).set$context.fuAttributeName$($context.flAttributeName$Text.getText().trim());
+//if (tmp instanceof $context.importPath$.$context.modelElementName$) {
+//	(($context.importPath$.$context.modelElementName$) tmp).set$context.fuAttributeName$($context.flAttributeName$Text.getText().trim());
 //}
 </string>
     </parameter>

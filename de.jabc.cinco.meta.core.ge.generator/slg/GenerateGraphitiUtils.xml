@@ -160,7 +160,6 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PlatformUI;
 import org.osgi.framework.Bundle;
 
-import $context.importPath$.*;
 
 public class $context.graphModelName$GraphitiUtils {
 
@@ -179,16 +178,16 @@ public class $context.graphModelName$GraphitiUtils {
 		return instance;
 	}
 
-	public static $context.graphModelName$ addToResource(Diagram d, IFeatureProvider fp) {
-		$context.graphModelName$ $context.lcGraphModelName$ = null;
+	public static $context.importPath$.$context.graphModelName$ addToResource(Diagram d, IFeatureProvider fp) {
+		$context.importPath$.$context.graphModelName$ $context.lcGraphModelName$ = null;
 		for (Object o : d.eResource().getContents()){
-			if (o instanceof $context.graphModelName$) {
-				$context.lcGraphModelName$ = ($context.graphModelName$) o;
+			if (o instanceof $context.importPath$.$context.graphModelName$) {
+				$context.lcGraphModelName$ = ($context.importPath$.$context.graphModelName$) o;
 				break;
 			}
 		}
 		if ($context.lcGraphModelName$ == null) {
-			$context.lcGraphModelName$ = $context.fuGMN$Factory.eINSTANCE.create$context.graphModelName$();
+			$context.lcGraphModelName$ = $context.importPath$.$context.fuGMN$Factory.eINSTANCE.create$context.graphModelName$();
 			d.eResource().getContents().add($context.lcGraphModelName$);
 			fp.link(d, $context.lcGraphModelName$);
 		}

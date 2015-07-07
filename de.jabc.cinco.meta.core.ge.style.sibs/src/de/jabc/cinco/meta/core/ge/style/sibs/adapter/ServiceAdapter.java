@@ -943,17 +943,19 @@ public class ServiceAdapter {
 			List<OutgoingEdgeElementConnection> oeecs = entry.getValue();
 			StringBuilder sbType = new StringBuilder();
 			StringBuilder sbBound = new StringBuilder();
+			String importPath = (String) context.get(new ContextKey("importPath").asFoundation());
+			String fqNodeName = importPath + "." + n.getName();
 			
 			for (Iterator<OutgoingEdgeElementConnection> it = oeecs.iterator(); it.hasNext();) {
 				OutgoingEdgeElementConnection oeec = it.next();
 				int bound = oeec.getUpperBound();
 				if (bound >= 0) {
 					if (oeec.getConnectingEdges().isEmpty()) {
-						sbBound.append("(("+n.getName()+") source).getIncoming().size()");
+						sbBound.append("((" + fqNodeName+") source).getIncoming().size()");
 					}
 					for (Iterator<Edge> edgeIt = oeec.getConnectingEdges().iterator(); edgeIt.hasNext();) {
 						Edge e = edgeIt.next();
-						sbBound.append("(("+n.getName()+") source).getOutgoing("+e.getName()+".class).size()");
+						sbBound.append("((" + fqNodeName+") source).getOutgoing("+ importPath + "." +e.getName()+".class).size()");
 						if (edgeIt.hasNext())
 							sbBound.append(" + ");
 					}
@@ -965,7 +967,7 @@ public class ServiceAdapter {
 					sbBound.append(" &&\n\t");
 			}
 			
-			sbType.append("if (source instanceof " + n.getName() +") {\n\t");
+			sbType.append("if (source instanceof " + fqNodeName+") {\n\t");
 			sbType.append("if ("+sbBound.toString()+")\n\t\treturn true;\n\t"
 					+ "else setError(ECincoError.MAX_OUT);\n} ");
 			
@@ -988,17 +990,19 @@ public class ServiceAdapter {
 			List<IncomingEdgeElementConnection> oeecs = entry.getValue();
 			StringBuilder sbType = new StringBuilder();
 			StringBuilder sbBound = new StringBuilder();
+			String importPath = (String) context.get(new ContextKey("importPath").asFoundation());
+			String fqNodeName = importPath + "." + n.getName();
 			
 			for (Iterator<IncomingEdgeElementConnection> it = oeecs.iterator(); it.hasNext();) {
 				IncomingEdgeElementConnection ieec = it.next();
 				int bound = ieec.getUpperBound();
 				if (bound >= 0) {
 					if (ieec.getConnectingEdges().isEmpty()) {
-						sbBound.append("(("+n.getName()+") target).getIncoming().size()");
+						sbBound.append("((" + fqNodeName +") target).getIncoming().size()");
 					}
 					for (Iterator<Edge> edgeIt = ieec.getConnectingEdges().iterator(); edgeIt.hasNext();) {
 						Edge e = edgeIt.next();
-						sbBound.append("(("+n.getName()+") target).getIncoming("+e.getName()+".class).size()");
+						sbBound.append("((" + fqNodeName+") target).getIncoming("+ importPath + "." +e.getName()+".class).size()");
 						if (edgeIt.hasNext())
 							sbBound.append(" + ");
 					}
@@ -1010,7 +1014,7 @@ public class ServiceAdapter {
 					sbBound.append(" &&\n\t");
 			}
 			
-			sbType.append("if (target instanceof " + n.getName() +") {\n\t");
+			sbType.append("if (target instanceof " + fqNodeName +") {\n\t");
 			sbType.append("if ("+sbBound.toString()+")\n\t\treturn true;\n\t"
 					+ "else setError(ECincoError.MAX_IN);\n}");
 

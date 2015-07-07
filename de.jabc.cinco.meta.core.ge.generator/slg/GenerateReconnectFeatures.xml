@@ -99,7 +99,7 @@
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>if (bo instanceof $context.edgeTarget.connectedElement.name$ &amp;&amp; edge instanceof $context.edge.name$) {
+      <string>if (bo instanceof $context.edgeTarget.connectedElement.name$ &amp;&amp; edge instanceof $context.importPath$.$context.edge.name$) {
 	return true;
 }
 
@@ -207,9 +207,9 @@
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>if (bo instanceof $context.edgeSource.connectedElement.name$ &amp;&amp; edge instanceof $context.edge.name$) {
+      <string>if (bo instanceof $context.edgeSource.connectedElement.name$ &amp;&amp; edge instanceof $context.importPath$.$context.edge.name$) {
 	$context.edgeSource.connectedElement.name$ tmp = ($context.edgeSource.connectedElement.name$) bo;
-	if (tmp.getOutgoing($context.edge.name$.class).size() &lt; $context.edgeMaxOut$)
+	if (tmp.getOutgoing($context.importPath$.$context.edge.name$.class).size() &lt; $context.edgeMaxOut$)
 		return true;
 }
 
@@ -335,7 +335,7 @@ import org.eclipse.graphiti.features.context.impl.UpdateContext;
 import org.eclipse.graphiti.features.impl.DefaultReconnectionFeature;
 import org.eclipse.graphiti.mm.pictograms.Anchor;
 
-import $context.importPath$.*;
+
 $context.cincoErrorImport$
 
 public class Reconnect$context.edge.name$Feature extends DefaultReconnectionFeature{
@@ -717,7 +717,7 @@ public class Reconnect$context.edge.name$Feature extends DefaultReconnectionFeat
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>if (bo instanceof $context.edgeSource.connectedElement.name$  &amp;&amp; edge instanceof $context.edge.name$) {
+      <string>if (bo instanceof $context.edgeSource.connectedElement.name$  &amp;&amp; edge instanceof $context.importPath$.$context.edge.name$) {
 		return true;
 }
 </string>
@@ -828,9 +828,9 @@ public class Reconnect$context.edge.name$Feature extends DefaultReconnectionFeat
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>if (bo instanceof $context.edgeTarget.connectedElement.name$ &amp;&amp; edge instanceof $context.edge.name$) {
+      <string>if (bo instanceof $context.edgeTarget.connectedElement.name$ &amp;&amp; edge instanceof $context.importPath$.$context.edge.name$) {
 	$context.edgeTarget.connectedElement.name$ tmp = ($context.edgeTarget.connectedElement.name$) bo;
-	if (tmp.getIncoming($context.edge.name$.class).size() &lt; $context.edgeMaxIn$)
+	if (tmp.getIncoming($context.importPath$.$context.edge.name$.class).size() &lt; $context.edgeMaxIn$)
 		return true;
 }
 
@@ -906,7 +906,7 @@ public class Reconnect$context.edge.name$Feature extends DefaultReconnectionFeat
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>if (bo instanceof $context.edgeSource.connectedElement.name$ &amp;&amp; edge instanceof $context.edge.name$) {
+      <string>if (bo instanceof $context.edgeSource.connectedElement.name$ &amp;&amp; edge instanceof $context.importPath$.$context.edge.name$) {
 	$context.edgeSource.connectedElement.name$ tmp = ($context.edgeSource.connectedElement.name$) bo;
 	if (tmp.getOutgoing().size() &lt; $context.edgeMaxOut$)
 		return true;
@@ -976,7 +976,7 @@ public class Reconnect$context.edge.name$Feature extends DefaultReconnectionFeat
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>if (bo instanceof $context.edgeTarget.connectedElement.name$ &amp;&amp; edge instanceof $context.edge.name$) {
+      <string>if (bo instanceof $context.edgeTarget.connectedElement.name$ &amp;&amp; edge instanceof $context.importPath$.$context.edge.name$) {
 	$context.edgeTarget.connectedElement.name$ tmp = ($context.edgeTarget.connectedElement.name$) bo;
 	if (tmp.getIncoming().size() &lt; $context.edgeMaxIn$)
 		return true;

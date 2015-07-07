@@ -95,7 +95,7 @@ import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.ui.features.DefaultDeleteFeature;
 
-import $context.importPath$.*;
+
 
 public class Delete$context.container.name$Feature extends DefaultDeleteFeature {
 
@@ -105,7 +105,7 @@ public class Delete$context.container.name$Feature extends DefaultDeleteFeature 
 
 	public boolean canDelete(IDeleteContext context, boolean apiCall) {
 		if (apiCall) {
-			if (getBusinessObjectForPictogramElement(context.getPictogramElement()) instanceof $context.container.name$)
+			if (getBusinessObjectForPictogramElement(context.getPictogramElement()) instanceof $context.importPath$.$context.container.name$)
 				return true;
 			return super.canDelete(context);
 		}

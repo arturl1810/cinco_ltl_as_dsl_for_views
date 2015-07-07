@@ -235,7 +235,7 @@
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>$context.primeParameterName$ $context.flAttributeName$parameter = $context.factoryName$Factory.eINSTANCE.create$context.primeParameterName$();
+      <string>$context.primeParameterName$ $context.flAttributeName$parameter = $context.importPath$.$context.factoryName$Factory.eINSTANCE.create$context.primeParameterName$();
 $context.flModelElementName$.get$context.fuAttributeName$Parameter().add($context.flAttributeName$parameter);
 </string>
     </parameter>

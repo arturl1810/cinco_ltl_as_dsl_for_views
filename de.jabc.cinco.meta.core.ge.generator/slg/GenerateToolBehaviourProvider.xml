@@ -126,7 +126,7 @@ import org.eclipse.graphiti.tb.IContextButtonPadData;
 
 $context.getImportsContent$
 
-import $context.importPath$.*;
+
 $context.importCreateNodesFeaturesContent$
 $context.importCreateEdgesFeaturesContent$
 $context.importCreateContainersFeaturesContent$
@@ -407,7 +407,7 @@ public class $context.fuGraphModelName$ToolBehaviourProvider extends DefaultTool
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>if (bo instanceof $context.container.name$) {
+      <string>if (bo instanceof $context.importPath$.$context.container.name$) {
 	return null;
 }</string>
     </parameter>

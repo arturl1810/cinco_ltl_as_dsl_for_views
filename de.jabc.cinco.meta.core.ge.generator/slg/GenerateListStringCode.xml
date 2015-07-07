@@ -57,8 +57,8 @@
     <parameter name="template">
       <string>
 EObject bo = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
-if (bo instanceof $context.modelElementName$) {
-	$context.modelElementName$ tmp = ($context.modelElementName$) bo;
+if (bo instanceof $context.importPath$.$context.modelElementName$) {
+	$context.importPath$.$context.modelElementName$ tmp = ($context.importPath$.$context.modelElementName$) bo;
 	tmp.get$context.fuAttributeName$().clear();
 	tmp.get$context.fuAttributeName$().addAll(Arrays.asList($context.flAttributeName$List.getItems()));
 }
@@ -207,7 +207,7 @@ public void createControls(Composite parent, TabbedPropertySheetPage aTabbedProp
 		int retVal = d.open();
 		if (retVal == InputDialog.OK) {
 			final String s = d.getValue();
-			final $context.modelElementName$ tmp = getBusinessObjectForSelection(getSelectedPictogramElement());
+			final $context.importPath$.$context.modelElementName$ tmp = getBusinessObjectForSelection(getSelectedPictogramElement());
 			if (tmp == null)
 				return;
 			TransactionalEditingDomain dom = getDiagramContainer().getDiagramBehavior().getEditingDomain();
@@ -237,7 +237,7 @@ SelectionListener removeListener = new SelectionListener() {
 				return;
 			IStructuredSelection ssel = (IStructuredSelection) sel;
 			final Object selection = ssel.getFirstElement();
-			final $context.modelElementName$ tmp = getBusinessObjectForSelection(getSelectedPictogramElement());
+			final $context.importPath$.$context.modelElementName$ tmp = getBusinessObjectForSelection(getSelectedPictogramElement());
 			if (tmp == null) {
 				return;
 			}

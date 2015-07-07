@@ -74,7 +74,7 @@ import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IDeleteContext;
 import org.eclipse.graphiti.ui.features.DefaultDeleteFeature;
 
-import $context.importPath$.*;
+
 
 public class Delete$context.edge.name$Feature extends DefaultDeleteFeature {
 
@@ -86,7 +86,7 @@ public class Delete$context.edge.name$Feature extends DefaultDeleteFeature {
 	public boolean canDelete(IDeleteContext context, boolean apiCall) {
 		if (apiCall) {
 			EObject bo = (EObject) getBusinessObjectForPictogramElement(context.getPictogramElement());
-			if (bo instanceof $context.edge.name$) {
+			if (bo instanceof $context.importPath$.$context.edge.name$) {
 				return true;
 			}
 			return super.canDelete(context);

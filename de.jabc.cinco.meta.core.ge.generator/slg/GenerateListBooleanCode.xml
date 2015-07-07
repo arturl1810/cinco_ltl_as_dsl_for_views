@@ -205,9 +205,9 @@ private String parseBooleans(List&lt;Boolean&gt; booleans) {
     <parameter name="template">
       <string>
 EObject tmp = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
-if (tmp instanceof $context.modelElementName$) {
-	(($context.modelElementName$) tmp).get$context.fuAttributeName$().clear();
-	(($context.modelElementName$) tmp).get$context.fuAttributeName$().addAll(toBooleansList($context.flAttributeName$Text.getText()));
+if (tmp instanceof $context.importPath$.$context.modelElementName$) {
+	(($context.importPath$.$context.modelElementName$) tmp).get$context.fuAttributeName$().clear();
+	(($context.importPath$.$context.modelElementName$) tmp).get$context.fuAttributeName$().addAll(toBooleansList($context.flAttributeName$Text.getText()));
 }
 </string>
     </parameter>

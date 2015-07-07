@@ -107,7 +107,7 @@ import org.eclipse.graphiti.mm.pictograms.Diagram;
 
 import graphmodel.Container;
 
-import $context.importPath$.*;
+
 $context.cincoErrorImport$
 
 public class Move$context.container.name$Feature extends DefaultMoveShapeFeature{
@@ -140,23 +140,23 @@ public class Move$context.container.name$Feature extends DefaultMoveShapeFeature
 		Object target = getBusinessObjectForPictogramElement(context.getTargetContainer());
 		if (source instanceof Container) {
 			Container nc = (Container) source;
-			nc.getModelElements().remove(($context.container.name$) o);
+			nc.getModelElements().remove(($context.importPath$.$context.container.name$) o);
 		}
-		if (source instanceof $context.graphModelName$) {
-			$context.graphModelName$ tmp = ($context.graphModelName$) source;
-			tmp.getModelElements().remove(($context.container.name$) o);
+		if (source instanceof $context.importPath$.$context.graphModelName$) {
+			$context.importPath$.$context.graphModelName$ tmp = ($context.importPath$.$context.graphModelName$) source;
+			tmp.getModelElements().remove(($context.importPath$.$context.container.name$) o);
 		}
-		if (target instanceof $context.graphModelName$) {
-			$context.graphModelName$ tmp = ($context.graphModelName$) target;
-			tmp.getModelElements().add(($context.container.name$) o);
+		if (target instanceof $context.importPath$.$context.graphModelName$) {
+			$context.importPath$.$context.graphModelName$ tmp = ($context.importPath$.$context.graphModelName$) target;
+			tmp.getModelElements().add(($context.importPath$.$context.container.name$) o);
 		}
 		if (target instanceof Container) {
 			Container nc = (Container) target;
-			nc.getModelElements().add(($context.container.name$) o);
+			nc.getModelElements().add(($context.importPath$.$context.container.name$) o);
 		}
 		
-		(($context.container.name$) o).setX(context.getX());
-		(($context.container.name$) o).setY(context.getY());
+		(($context.importPath$.$context.container.name$) o).setX(context.getX());
+		(($context.importPath$.$context.container.name$) o).setY(context.getY());
 
 		super.moveShape(context);
 	}
@@ -296,7 +296,7 @@ public class Move$context.container.name$Feature extends DefaultMoveShapeFeature
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>return (o instanceof $context.container.name$);</string>
+      <string>return (o instanceof $context.importPath$.$context.container.name$);</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
@@ -332,7 +332,7 @@ public class Move$context.container.name$Feature extends DefaultMoveShapeFeature
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>if  (bo instanceof $context.container.name$) {
+      <string>if  (bo instanceof $context.importPath$.$context.container.name$) {
 	$context.containerCheck$
 	if (context.getTargetContainer() instanceof Diagram)
 		return true;

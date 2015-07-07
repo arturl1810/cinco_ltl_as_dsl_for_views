@@ -103,7 +103,7 @@
 
 import style.Appearance;
 
-import $context.importPath$.*;
+
 import $context.packageName$.graphiti.*;
 
 $context.appearanceContentImports$
@@ -546,7 +546,7 @@ import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 
-import $context.importPath$.*;
+
 
 public class Layout$context.node.name$Feature extends AbstractLayoutFeature {
 
@@ -558,7 +558,7 @@ public class Layout$context.node.name$Feature extends AbstractLayoutFeature {
 	@Override
 	public boolean canLayout(ILayoutContext context) {
 		Object bo = getBusinessObjectForPictogramElement(context.getPictogramElement());
-		if (bo instanceof $context.node.name$)
+		if (bo instanceof $context.importPath$.$context.node.name$)
 			return true;
 		return false;
 	}
@@ -795,7 +795,7 @@ import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 
-import $context.importPath$.*;
+
 
 public class Layout$context.container.name$Feature extends AbstractLayoutFeature {
 
@@ -807,7 +807,7 @@ public class Layout$context.container.name$Feature extends AbstractLayoutFeature
 	@Override
 	public boolean canLayout(ILayoutContext context) {
 		Object bo = getBusinessObjectForPictogramElement(context.getPictogramElement());
-		if (bo instanceof $context.container.name$)
+		if (bo instanceof $context.importPath$.$context.container.name$)
 			return true;
 		return false;
 	}
@@ -816,16 +816,16 @@ public class Layout$context.container.name$Feature extends AbstractLayoutFeature
 	public boolean layout(ILayoutContext context) {
 		PictogramElement pe = context.getPictogramElement();
 		Object bo = getBusinessObjectForPictogramElement(pe);
-		if (bo instanceof $context.container.name$) {
+		if (bo instanceof $context.importPath$.$context.container.name$) {
 			if (pe instanceof ContainerShape) {
-				layout((ContainerShape) pe, ($context.container.name$) bo);
+				layout((ContainerShape) pe, ($context.importPath$.$context.container.name$) bo);
 				return true;
 			}
 		}
 		return false;
 	}
 
-	private boolean layout(ContainerShape cs, $context.container.name$ bo) {
+	private boolean layout(ContainerShape cs, $context.importPath$.$context.container.name$ bo) {
 		for (Shape child : cs.getChildren()) {
 			Object childBo = getBusinessObjectForPictogramElement(child);
 			if (childBo == null || bo.equals(childBo)) {
@@ -1312,7 +1312,7 @@ import org.eclipse.graphiti.mm.pictograms.Connection;
 import org.eclipse.graphiti.mm.pictograms.ConnectionDecorator;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.services.Graphiti;
-import $context.importPath$.*;
+
 
 public class Layout$context.edge.name$Feature extends AbstractLayoutFeature {
 
@@ -1325,7 +1325,7 @@ public class Layout$context.edge.name$Feature extends AbstractLayoutFeature {
 	public boolean canLayout(ILayoutContext context) {
 		PictogramElement pe = context.getPictogramElement();
 		Object bo = getBusinessObjectForPictogramElement(pe);
-		if (bo instanceof $context.edge.name$)
+		if (bo instanceof $context.importPath$.$context.edge.name$)
 			return true;
 		return false;
 	}
@@ -1334,7 +1334,7 @@ public class Layout$context.edge.name$Feature extends AbstractLayoutFeature {
 	public boolean layout(ILayoutContext context) {
 		PictogramElement pe = context.getPictogramElement();
 		Object bo = getBusinessObjectForPictogramElement(pe);
-		if (bo instanceof $context.edge.name$) {
+		if (bo instanceof $context.importPath$.$context.edge.name$) {
 			if (pe instanceof Connection) {
 				Connection conn = (Connection) pe;
 				for (ConnectionDecorator cd : conn.getConnectionDecorators()) {

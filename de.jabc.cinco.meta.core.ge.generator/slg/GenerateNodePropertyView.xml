@@ -212,7 +212,7 @@ import org.eclipse.graphiti.ui.platform.*;
 import $context.packageName$.graphiti.*;
 import $context.packageName$.graphiti.content.adapter.*;
 
-import $context.importPath$.*;
+
 import $context.importPath$.impl.*;
 
 public class $context.modelElementName$Filter extends AbstractPropertySectionFilter {
@@ -246,7 +246,7 @@ public class $context.modelElementName$Filter extends AbstractPropertySectionFil
 			eObject = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(((ConnectionDecorator)pe).getConnection());
 		} else eObject = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
 		if (eObject != null &amp;&amp; eObject.getClass().equals($context.modelElementName$Impl.class)) {
-			$context.modelElementName$ tmp = ($context.modelElementName$) eObject;
+			$context.importPath$.$context.modelElementName$ tmp = ($context.importPath$.$context.modelElementName$) eObject;
 			if (!tmp.eAdapters().contains($context.modelElementName$EContentAdapter.getInstance()))
 				tmp.eAdapters().add($context.modelElementName$EContentAdapter.getInstance());
 			return true;
@@ -684,7 +684,7 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.views.properties.tabbed.*;
 
-import $context.importPath$.*;
+
 import $context.packageName$.graphiti.*;
 import $context.packageName$.graphiti.content.adapter.*;
 
@@ -705,7 +705,7 @@ public class $context.modelElementName$_$context.attributeName$_Section extends 
 			Object bo = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
 			if (bo == null)
 				return;
-			$context.modelElementName$ tmp = (($context.modelElementName$) bo);
+			$context.importPath$.$context.modelElementName$ tmp = (($context.importPath$.$context.modelElementName$) bo);
 			$context.refreshCode$
 		}
 	}
@@ -722,13 +722,13 @@ public class $context.modelElementName$_$context.attributeName$_Section extends 
 
 	$context.listenerCode$
 	
-	private $context.modelElementName$ getBusinessObjectForSelection(PictogramElement pe) {
+	private $context.importPath$.$context.modelElementName$ getBusinessObjectForSelection(PictogramElement pe) {
 		if (pe == null)
 			return null;
 
 		EObject bo = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
-		if (bo instanceof $context.modelElementName$) 
-			return ($context.modelElementName$) bo;
+		if (bo instanceof $context.importPath$.$context.modelElementName$) 
+			return ($context.importPath$.$context.modelElementName$) bo;
 		return null;
 	}
 
