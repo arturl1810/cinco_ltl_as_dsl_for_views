@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>f7eeb39a-54ea-48e4-b8cf-f3970df85f67</id>
   <name>Can Element Be Contained</name>
-  <changecounter>7</changecounter>
+  <changecounter>8</changecounter>
   <sib>
     <id>c838539a-96b7-4cb7-9a3d-4ba06c374e55</id>
     <name>IterateContainingElementContainableElements</name>
@@ -73,47 +73,19 @@
   </edge>
   <edge>
     <source>c838539a-96b7-4cb7-9a3d-4ba06c374e55</source>
-    <target>1acdb849-369b-4ab0-a30f-a319e47b2e5d</target>
-    <point>465.0,114.0</point>
-    <point>465.0,288.0</point>
+    <target>d472e844-8122-4f3e-8a96-1cb5b3c365b4</target>
+    <point>447.0,104.6</point>
+    <point>213.0,208.6</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>next</branch>
   </edge>
-  <sib>
-    <id>1acdb849-369b-4ab0-a30f-a319e47b2e5d</id>
-    <name>GetGraphicalElementContainmentType</name>
-    <label>GetGraphicalElementContainmentType</label>
-    <sib-uid>mgl/mgl/GetGraphicalElementContainmentType</sib-uid>
-    <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetGraphicalElementContainmentType</taxonomy>
-    <position>337.0,198.0</position>
-    <parameter name="graphicalElementContainmentKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>containingElement</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="graphicalElementContainmenttypeKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>containingElementType</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-  </sib>
   <sib>
     <id>dd687089-b8b0-4c3b-8194-84344cc91840</id>
     <name>CompareElements</name>
     <label>CompareElements</label>
     <sib-uid>basic-sibs/CompareElements</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.CompareElements</taxonomy>
-    <position>404.5,423.0</position>
+    <position>404.5,588.0</position>
     <parameter name="firstElement">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -137,21 +109,21 @@
     <finalbranches>notEqual</finalbranches>
   </sib>
   <edge>
-    <source>1acdb849-369b-4ab0-a30f-a319e47b2e5d</source>
+    <source>d472e844-8122-4f3e-8a96-1cb5b3c365b4</source>
     <target>39742dc5-aad7-45fc-b834-6e70dfcbe3f7</target>
-    <point>447.0,225.77142857142857</point>
-    <point>273.0,312.7714285714286</point>
+    <point>213.0,223.6</point>
+    <point>447.0,314.6</point>
     <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
+    <branch>next</branch>
   </edge>
   <edge>
     <source>dd687089-b8b0-4c3b-8194-84344cc91840</source>
-    <target>c838539a-96b7-4cb7-9a3d-4ba06c374e55</target>
+    <target>d472e844-8122-4f3e-8a96-1cb5b3c365b4</target>
     <spline/>
-    <point>483.0,349.2</point>
+    <point>471.6393442622951,588.0</point>
     <point>600.0,240.0</point>
-    <point>481.875,114.0</point>
-    <labelposition>508.76508511697114,112.57364846525783</labelposition>
+    <point>483.0,284.2</point>
+    <labelposition>522.9371389135562,133.0390590840222</labelposition>
     <branch>notEqual</branch>
   </edge>
   <sib>
@@ -160,7 +132,7 @@
     <label>CheckVariable</label>
     <sib-uid>basic-sibs/CheckVariable</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.CheckVariable</taxonomy>
-    <position>415.0,303.0</position>
+    <position>415.0,468.0</position>
     <parameter name="variable">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -178,9 +150,60 @@
   <edge>
     <source>39742dc5-aad7-45fc-b834-6e70dfcbe3f7</source>
     <target>dd687089-b8b0-4c3b-8194-84344cc91840</target>
-    <point>255.0,330.0</point>
-    <point>461.0,369.0</point>
+    <point>465.0,495.0</point>
+    <point>465.0,615.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>true</branch>
+  </edge>
+  <sib>
+    <id>d472e844-8122-4f3e-8a96-1cb5b3c365b4</id>
+    <name>IterateGraphicalElementContainmentTypes</name>
+    <label>IterateGraphicalElementContainmentTypes</label>
+    <sib-uid>mgl/mgl/IterateGraphicalElementContainmentTypes</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.IterateGraphicalElementContainmentTypes</taxonomy>
+    <position>323.0,273.0</position>
+    <parameter name="elementKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>containingElementType</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>false</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="graphicalElementContainmentKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>containingElement</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="iteratorKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>iteratorKey</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>false</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>exit</finalbranches>
+    <finalbranches>next</finalbranches>
+    <finalbranches>noElements</finalbranches>
+  </sib>
+  <edge>
+    <source>d472e844-8122-4f3e-8a96-1cb5b3c365b4</source>
+    <target>c838539a-96b7-4cb7-9a3d-4ba06c374e55</target>
+    <spline/>
+    <point>447.0,274.54285714285714</point>
+    <point>360.0,195.0</point>
+    <point>447.0,112.97142857142858</point>
+    <labelposition>510.8753315649866,-89.00000000000001</labelposition>
+    <branch>exit</branch>
+    <branch>noElements</branch>
   </edge>
   <parameter>
     <name>container</name>
@@ -194,20 +217,20 @@
   </parameter>
   <values>
     <entry>
-      <string>element</string>
+      <string>container</string>
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>secondElement</key>
+          <key>containingElementKey</key>
           <scope>GLOBAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </entry>
     <entry>
-      <string>container</string>
+      <string>element</string>
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>containingElementKey</key>
+          <key>secondElement</key>
           <scope>GLOBAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
@@ -218,11 +241,6 @@
     <name>true</name>
     <branch>equal</branch>
     <sib>dd687089-b8b0-4c3b-8194-84344cc91840</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>1acdb849-369b-4ab0-a30f-a319e47b2e5d</sib>
   </branch>
   <branch>
     <name>error</name>
@@ -263,5 +281,10 @@
     <name>true</name>
     <branch>noElements</branch>
     <sib>c838539a-96b7-4cb7-9a3d-4ba06c374e55</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>d472e844-8122-4f3e-8a96-1cb5b3c365b4</sib>
   </branch>
 </model>
