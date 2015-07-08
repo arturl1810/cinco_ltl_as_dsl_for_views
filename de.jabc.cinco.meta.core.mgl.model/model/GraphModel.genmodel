@@ -9,10 +9,6 @@
       ecorePackage="GraphModel.ecore#/">
     <genClasses image="false" ecoreClass="GraphModel.ecore#//GraphModel"/>
     <genClasses image="false" ecoreClass="GraphModel.ecore#//Node">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute GraphModel.ecore#//Node/x"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute GraphModel.ecore#//Node/y"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute GraphModel.ecore#//Node/width"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute GraphModel.ecore#//Node/height"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference GraphModel.ecore#//Node/incoming"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference GraphModel.ecore#//Node/outgoing"/>
       <genOperations ecoreOperation="GraphModel.ecore#//Node/getSuccessors">
@@ -56,6 +52,9 @@
       <genOperations ecoreOperation="GraphModel.ecore#//ModelElementContainer/getAllNodes"/>
       <genOperations ecoreOperation="GraphModel.ecore#//ModelElementContainer/getAllEdges"/>
       <genOperations ecoreOperation="GraphModel.ecore#//ModelElementContainer/getAllContainers"/>
+      <genOperations ecoreOperation="GraphModel.ecore#//ModelElementContainer/canContain">
+        <genParameters ecoreParameter="GraphModel.ecore#//ModelElementContainer/canContain/nodes"/>
+      </genOperations>
     </genClasses>
     <genClasses image="false" ecoreClass="GraphModel.ecore#//Parameter">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute GraphModel.ecore#//Parameter/name"/>
