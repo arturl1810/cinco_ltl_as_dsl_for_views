@@ -530,12 +530,12 @@ class MGLValidator extends AbstractMGLValidator {
 	def checkGraphModelContainableElements(ContainingElement model){
 		if(model.containableElements.size>1){
 			for(containment:model.containableElements){
-				if(containment.type==null)
+				if(containment.types==null)
 					error("Dont't care type must not be accompanied by other containable elements.",MglPackage.Literals::CONTAINING_ELEMENT__CONTAINABLE_ELEMENTS);
 			}
 		}
 		if(model.containableElements.size==1){
-			if(model.containableElements.get(0).type == null)
+			if(model.containableElements.get(0).types == null)
 				if(model.containableElements.get(0).upperBound==0)
 					warning("Container element cannot contain any model elements by this definition.",MglPackage.Literals::CONTAINING_ELEMENT__CONTAINABLE_ELEMENTS)
 		}
