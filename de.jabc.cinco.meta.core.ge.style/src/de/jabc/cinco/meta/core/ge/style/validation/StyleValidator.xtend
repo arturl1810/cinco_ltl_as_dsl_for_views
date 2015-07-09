@@ -17,7 +17,7 @@ import java.util.ArrayList
  *
  * see http://www.eclipse.org/Xtext/documentation.html#validation
  */
-class StyleValidator extends AbstractStyleValidator {
+class StyleValidator extends JStyleValidator {
 
 //  public static val INVALID_NAME = 'invalidName'
 //
