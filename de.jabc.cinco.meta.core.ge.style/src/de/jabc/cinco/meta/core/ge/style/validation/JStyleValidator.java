@@ -85,10 +85,6 @@ public class JStyleValidator extends AbstractStyleValidator{
 		
 	}
 	
-	public void uniqueShapeNames(Shape shape, String string) {
-		
-	}
-	
 	private List<Style> getStyles(Style s) {
 		return ((Styles) s.eContainer()).getStyles();
 	}
