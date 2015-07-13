@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>ef7786c5-d04b-45de-89fd-b00e68b99149</id>
   <name>GenerateUpdateModelElementFeature</name>
-  <changecounter>411</changecounter>
+  <changecounter>420</changecounter>
   <sib>
     <id>b31345f6-8607-4397-986e-94a14e803be6</id>
     <name>PutExpression_1</name>
@@ -478,9 +478,10 @@ public class $context.className$ extends AbstractUpdateFeature {
     </parameter>
     <parameter name="template">
       <string>private void updateStyle($context.importPath$.$context.fuModelElementName$ bo, Shape s) {
+	Diagram d = (getDiagram() == null) ? $context.graphModelName$GraphitiUtils.getInstance().getDTP().getDiagram() : getDiagram();
 	String gaName = Graphiti.getPeService().getPropertyValue(s.getGraphicsAlgorithm(), $context.graphModelName$LayoutUtils.KEY_GA_NAME);
-	if (gaName != null &amp;&amp; !gaName.isEmpty() &amp;&amp; getDiagram() != null) {
-		$context.graphModelName$LayoutUtils.updateStyleFromAppearance(s.getGraphicsAlgorithm(), new $context.appearanceProvider$().getAppearance(bo, gaName), getDiagram());
+	if (gaName != null &amp;&amp; !gaName.isEmpty() &amp;&amp; d != null) {
+		$context.graphModelName$LayoutUtils.updateStyleFromAppearance(s.getGraphicsAlgorithm(), new $context.appearanceProvider$().getAppearance(bo, gaName), d);
 	}
 	Object object = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(s);
 	if (object instanceof $context.importPath$.$context.fuModelElementName$) {
@@ -493,9 +494,10 @@ public class $context.className$ extends AbstractUpdateFeature {
 }
 
 private void updateStyle($context.importPath$.$context.fuModelElementName$ bo, Connection s) {
+	Diagram d = (getDiagram() == null) ? $context.graphModelName$GraphitiUtils.getInstance().getDTP().getDiagram() : getDiagram();
 	String gaName = Graphiti.getPeService().getPropertyValue(s.getGraphicsAlgorithm(), $context.graphModelName$LayoutUtils.KEY_GA_NAME);
-	if (gaName != null &amp;&amp; !gaName.isEmpty() &amp;&amp; getDiagram() != null) {
-		$context.graphModelName$LayoutUtils.updateStyleFromAppearance(s.getGraphicsAlgorithm(), new $context.appearanceProvider$().getAppearance(bo, gaName), getDiagram());
+	if (gaName != null &amp;&amp; !gaName.isEmpty() &amp;&amp; d != null) {
+		$context.graphModelName$LayoutUtils.updateStyleFromAppearance(s.getGraphicsAlgorithm(), new $context.appearanceProvider$().getAppearance(bo, gaName), d);
 	}
 	Object object = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(s);
 	if (object instanceof $context.importPath$.$context.fuModelElementName$) {
@@ -507,6 +509,8 @@ private void updateStyle($context.importPath$.$context.fuModelElementName$ bo, C
 	}
 
 	DiagramBehavior db = (DiagramBehavior) getDiagramBehavior();
+	if (db == null)
+		return;
 	GraphicalEditPart editPart = db.getEditPartForPictogramElement(s);
 	if (editPart == null)
 		return;

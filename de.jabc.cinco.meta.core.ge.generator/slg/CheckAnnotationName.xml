@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>8fd8a2e3-0318-4824-930f-f04d3bde4e69</id>
   <name>CheckAnnotationName</name>
-  <changecounter>35</changecounter>
+  <changecounter>62</changecounter>
   <sib>
     <id>4f8df5a8-3436-4d95-bb8e-c45c384c7557</id>
     <name>CopyEObject</name>
@@ -128,9 +128,10 @@
   </edge>
   <edge>
     <source>e64b638e-27b2-418b-a952-746560317cf9</source>
-    <target>6b044f14-5acd-45a1-bc51-0e686b356cdc</target>
-    <point>240.0,345.0</point>
-    <point>420.0,345.0</point>
+    <target>cb6e0a6e-8d1b-471f-a6b0-925b9ac50d4e</target>
+    <point>138.0,178.75384615384615</point>
+    <point>297.0,239.90769230769232</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
@@ -138,6 +139,34 @@
     <target>e64b638e-27b2-418b-a952-746560317cf9</target>
     <point>120.0,60.0</point>
     <point>115.0,200.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>cb6e0a6e-8d1b-471f-a6b0-925b9ac50d4e</id>
+    <name>PrintConsoleMessage</name>
+    <label>PrintConsoleMessage</label>
+    <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
+    <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
+    <position>249.5,228.0</position>
+    <parameter name="error">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="message">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>AnnotationName: ${annotationName}!</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>false</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <finalbranches>default</finalbranches>
+  </sib>
+  <edge>
+    <source>cb6e0a6e-8d1b-471f-a6b0-925b9ac50d4e</source>
+    <target>6b044f14-5acd-45a1-bc51-0e686b356cdc</target>
+    <point>315.0,255.0</point>
+    <point>135.0,285.0</point>
     <branch>default</branch>
   </edge>
   <parameter>
@@ -152,16 +181,6 @@
   </parameter>
   <values>
     <entry>
-      <string>annotationName</string>
-      <de.metaframe.common.sib.parameter.ContextExpression>
-        <ContextExpressionFoundation>
-          <expression>contextMenuAction</expression>
-          <clazz>java.lang.String</clazz>
-          <classMutable>false</classMutable>
-        </ContextExpressionFoundation>
-      </de.metaframe.common.sib.parameter.ContextExpression>
-    </entry>
-    <entry>
       <string>annotationKey</string>
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -170,6 +189,16 @@
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </entry>
+    <entry>
+      <string>annotationName</string>
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>contextMenuAction</expression>
+          <clazz>java.lang.String</clazz>
+          <classMutable>false</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
     </entry>
   </values>
   <branch>

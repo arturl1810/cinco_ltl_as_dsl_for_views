@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>0d0bb94f-e4a8-4614-bd88-5a867e133c4c</id>
   <name>GenerateModelElementEContentAdapter</name>
-  <changecounter>123</changecounter>
+  <changecounter>171</changecounter>
   <sib>
     <id>c516040b-59e6-4c24-89ca-20ac4f67f7ab</id>
     <name>CopyEObject</name>
@@ -40,7 +40,7 @@
     <label>PkgName</label>
     <sib-uid>basic-sibs/PutExpression</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
-    <position>296.5,423.0</position>
+    <position>386.5,243.0</position>
     <parameter name="resolve">
       <boolean>true</boolean>
     </parameter>
@@ -68,8 +68,8 @@
   <edge>
     <source>3d1eaaa5-32aa-4f7b-a3a7-4890714b4c46</source>
     <target>2f4903fc-5699-4a7a-9725-1da8cbc15863</target>
-    <point>315.0,525.0</point>
-    <point>315.0,390.0</point>
+    <point>330.0,495.0</point>
+    <point>330.0,375.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -79,7 +79,7 @@
     <label>ClassName</label>
     <sib-uid>basic-sibs/PutExpression</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
-    <position>290.5,303.0</position>
+    <position>380.5,138.0</position>
     <parameter name="resolve">
       <boolean>true</boolean>
     </parameter>
@@ -106,9 +106,9 @@
   </sib>
   <edge>
     <source>2f4903fc-5699-4a7a-9725-1da8cbc15863</source>
-    <target>f8c970a5-5bc4-40d1-8867-c7a51c1f910d</target>
-    <point>315.0,390.0</point>
-    <point>315.0,285.0</point>
+    <target>a18971a2-d827-46e0-a296-5121d677d849</target>
+    <point>438.0,148.35</point>
+    <point>520.0,107.5</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -118,7 +118,7 @@
     <label>ModelElementEContentAdapter</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>226.0,183.0</position>
+    <position>601.0,18.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -187,6 +187,8 @@ public class $context.fuModelElementName$EContentAdapter extends $context.graphM
 			$context.appearanceProviderExtensionContent$
 		}
 		
+		$context.valueChangeListenerContent$
+
 		refreshPropertyView();
 	}
 	
@@ -212,7 +214,7 @@ public class $context.fuModelElementName$EContentAdapter extends $context.graphM
     <label>WriteJavaFile</label>
     <sib-uid>genesys-sibs/WriteJavaFile</sib-uid>
     <taxonomy>de.jabc.sib.genesys.WriteJavaFile</taxonomy>
-    <position>283.0,63.0</position>
+    <position>658.0,138.0</position>
     <parameter name="baseDirectory">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -280,7 +282,7 @@ public class $context.fuModelElementName$EContentAdapter extends $context.graphM
     <label>PutExpression</label>
     <sib-uid>basic-sibs/PutExpression</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
-    <position>280.5,573.0</position>
+    <position>370.5,363.0</position>
     <parameter name="resolve">
       <boolean>true</boolean>
     </parameter>
@@ -493,7 +495,7 @@ public class $context.fuModelElementName$EContentAdapter extends $context.graphM
     <label>ReplaceString</label>
     <sib-uid>basic-sibs/ReplaceString</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.ReplaceString</taxonomy>
-    <position>56.5,978.0</position>
+    <position>371.5,858.0</position>
     <parameter name="find">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
@@ -558,7 +560,7 @@ public class $context.fuModelElementName$EContentAdapter extends $context.graphM
     <label>updateProviderCode</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>260.5,978.0</position>
+    <position>350.5,738.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -611,8 +613,8 @@ private void updateStyle($context.importPath$.$context.fuModelElementName$ bo, C
   <edge>
     <source>2c726e8b-137e-4af6-85f4-e5446f114b0d</source>
     <target>8b57c2a0-8fc8-4edd-9b42-4a29fa2b7938</target>
-    <point>820.0,646.0</point>
-    <point>835.0,766.0</point>
+    <point>420.0,900.0</point>
+    <point>420.0,795.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -622,7 +624,7 @@ private void updateStyle($context.importPath$.$context.fuModelElementName$ bo, C
     <label>updateExtension</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>272.0,873.0</position>
+    <position>362.0,633.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -653,8 +655,8 @@ if (pe instanceof ConnectionDecorator) {
   <edge>
     <source>8b57c2a0-8fc8-4edd-9b42-4a29fa2b7938</source>
     <target>98910124-3d02-410c-8842-42ae0e376db6</target>
-    <point>315.0,1005.0</point>
-    <point>315.0,915.0</point>
+    <point>420.0,795.0</point>
+    <point>420.0,675.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -664,7 +666,7 @@ if (pe instanceof ConnectionDecorator) {
     <label>imports</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>302.0,753.0</position>
+    <position>392.0,498.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -689,8 +691,8 @@ if (pe instanceof ConnectionDecorator) {
   <edge>
     <source>98910124-3d02-410c-8842-42ae0e376db6</source>
     <target>c8fb2891-3c66-4df5-b8a5-1a74fb25fb7c</target>
-    <point>315.0,915.0</point>
-    <point>315.0,795.0</point>
+    <point>420.0,675.0</point>
+    <point>420.0,495.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -843,6 +845,38 @@ if (pe instanceof ConnectionDecorator) {
     <point>119.0,162.0</point>
     <branch>false</branch>
   </edge>
+  <edge>
+    <source>a18971a2-d827-46e0-a296-5121d677d849</source>
+    <target>f8c970a5-5bc4-40d1-8867-c7a51c1f910d</target>
+    <point>560.0,89.81818181818181</point>
+    <point>687.0,43.52727272727273</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>a18971a2-d827-46e0-a296-5121d677d849</id>
+    <name>GraphSIB_1</name>
+    <label>GenerateModelElementValueChangeListener</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>290.0,16.0</position>
+    <parameter name="eObjectKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>modelElement</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>GenerateModelElementValueChangeListener</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>aadeeb9b-d43e-4af2-a6bb-f7ce9e348c34</string>
+    </userobject>
+  </sib>
   <parameter>
     <name>ModelElementKey</name>
     <field>eObjectKey</field>
