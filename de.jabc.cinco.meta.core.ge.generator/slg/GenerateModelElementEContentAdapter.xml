@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>0d0bb94f-e4a8-4614-bd88-5a867e133c4c</id>
   <name>GenerateModelElementEContentAdapter</name>
-  <changecounter>171</changecounter>
+  <changecounter>214</changecounter>
   <sib>
     <id>c516040b-59e6-4c24-89ca-20ac4f67f7ab</id>
     <name>CopyEObject</name>
@@ -141,6 +141,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.IUpdateFeature;
 import org.eclipse.graphiti.features.context.impl.UpdateContext;
@@ -166,6 +167,9 @@ public class $context.fuModelElementName$EContentAdapter extends $context.graphM
 	@Override
 	public void notifyChanged(Notification notification) {
 		Object o = notification.getNotifier();
+		String featureName = ((EStructuralFeature) notification.getFeature()).getName();
+		if (invalidFeature(featureName))
+			return;
 		if (o instanceof $context.importPath$.$context.fuModelElementName$) {
 			$context.importPath$.$context.fuModelElementName$ tmp = ($context.importPath$.$context.fuModelElementName$) o;
 			if (getDiagram() == null)
@@ -185,14 +189,29 @@ public class $context.fuModelElementName$EContentAdapter extends $context.graphM
 				uf.update(uContext);
 			}
 			$context.appearanceProviderExtensionContent$
+			
+			$context.valueChangeListenerContent$
 		}
 		
-		$context.valueChangeListenerContent$
-
 		refreshPropertyView();
 	}
 	
 	$context.updateProviderContent$
+
+	private boolean invalidFeature(String featureName) {
+		switch (featureName) {
+		case &quot;incoming&quot;:
+		case &quot;outgoing&quot;:
+		case &quot;sourceElement&quot;:
+		case &quot;targetElement&quot;:
+		case &quot;modelElements&quot;:
+			return true;
+
+		default:
+			break;
+		}
+		return false;
+	}
 
 }
 </string>
