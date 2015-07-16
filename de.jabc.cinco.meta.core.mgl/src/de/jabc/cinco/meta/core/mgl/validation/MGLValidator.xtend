@@ -33,6 +33,7 @@ import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.EcorePackage
 import org.eclipse.xtext.EcoreUtil2
 import org.eclipse.xtext.validation.Check
+import java.util.ArrayList
 
 /**
  * Custom validation rules. 
@@ -627,14 +628,25 @@ class MGLValidator extends AbstractMGLValidator {
 	@Check
 	def checkReferencedNodeHasNameAttribute(Attribute attribute) {
 		val modelElement = attribute.modelElement as ModelElement
-		if (!(attribute.modelElement instanceof Node))
-			return null
+		val graphModel = getGraphModel(modelElement)
+		val modelElements = new ArrayList
+		modelElements.addAll(graphModel.nodes)
+		modelElements.addAll(graphModel.edges)
+		modelElements.addAll(graphModel.nodeContainers)
 		
-		val node = modelElement as Node
-		val refNodes = node.graphModel.nodes.filter[n | n.name.equals(attribute.type) && !n.attributes.map[name].contains("name")];
+		val refNodes = modelElements.filter[me | me.name.equals(attribute.type) && !me.attributes.map[name].contains("name")];
 		
 		if (!refNodes.nullOrEmpty)
 			error("Add a String attribute \"name\" to the NodeType(s): " + refNodes.map[name], MglPackage.Literals.ATTRIBUTE__TYPE)
 	}
+	
+	def getGraphModel(ModelElement element) {
+		switch element {
+			Node : element.graphModel
+			Edge : element.graphModel
+			NodeContainer : element.graphModel		
+		}
+	}
+	
 	
 }

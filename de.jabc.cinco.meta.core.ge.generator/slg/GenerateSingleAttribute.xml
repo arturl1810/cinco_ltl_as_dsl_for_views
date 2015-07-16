@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>fc94b8b8-21f0-499c-a1bb-5968d40ae550</id>
   <name>GenerateSingleAttribute</name>
-  <changecounter>306</changecounter>
+  <changecounter>320</changecounter>
   <sib>
     <id>68ef8ffb-b956-40b6-a5af-a8ed91dce549</id>
     <name>GetAttributeType</name>
@@ -393,7 +393,10 @@
     <point>1065.0,309.0</point>
     <point>1065.0,466.0</point>
     <labelposition>500.0,0.0</labelposition>
+    <branch>Edge</branch>
+    <branch>ModelElement</branch>
     <branch>Node</branch>
+    <branch>NodeContainer</branch>
   </edge>
   <sib>
     <id>40542f71-2b22-491c-9f7b-da1933816b47</id>
@@ -401,7 +404,7 @@
     <label>GenerateSingleNodePropertyView</label>
     <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
-    <position>952.5,421.0</position>
+    <position>967.5,421.0</position>
     <parameter name="nodeKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
