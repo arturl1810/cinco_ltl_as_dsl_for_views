@@ -624,4 +624,17 @@ class MGLValidator extends AbstractMGLValidator {
 		}
 	}
 	
+	@Check
+	def checkReferencedNodeHasNameAttribute(Attribute attribute) {
+		val modelElement = attribute.modelElement as ModelElement
+		if (!(attribute.modelElement instanceof Node))
+			return null
+		
+		val node = modelElement as Node
+		val refNodes = node.graphModel.nodes.filter[n | n.name.equals(attribute.type) && !n.attributes.map[name].contains("name")];
+		
+		if (!refNodes.nullOrEmpty)
+			error("Add a String attribute \"name\" to the NodeType(s): " + refNodes.map[name], MglPackage.Literals.ATTRIBUTE__TYPE)
+	}
+	
 }
