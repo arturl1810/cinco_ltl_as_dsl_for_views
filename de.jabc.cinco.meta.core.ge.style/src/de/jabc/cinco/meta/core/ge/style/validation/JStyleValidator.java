@@ -14,11 +14,13 @@ import style.ConnectionDecorator;
 import style.ContainerShape;
 import style.EdgeStyle;
 import style.Image;
+import style.MultiText;
 import style.NodeStyle;
 import style.Shape;
 import style.Style;
 import style.StylePackage;
 import style.Styles;
+import style.Text;
 import de.jabc.cinco.meta.core.utils.PathValidator;
 
 public class JStyleValidator extends AbstractStyleValidator{
@@ -84,6 +86,30 @@ public class JStyleValidator extends AbstractStyleValidator{
 			error("Duplicate shape name..." , StylePackage.Literals.ABSTRACT_SHAPE__NAME);
 		
 	}
+
+	@Check 
+	public void checkParameterCount(Style s) {
+		int parameterCount = s.getParameterCount();
+		if (parameterCount < 0)
+			error("Negative parameter count not allowed...", 
+					StylePackage.Literals.STYLE__PARAMETER_COUNT);
+		if (parameterCount > 0) {
+			boolean containsTextElement = false;
+			List<AbstractShape> shapes = new ArrayList<AbstractShape>();
+			if (s instanceof NodeStyle)
+				getAllShapes(((NodeStyle) s).getMainShape(), shapes);
+			else getAllShapes((EdgeStyle) s, shapes);
+			for (AbstractShape as : shapes)
+				if ((as instanceof Text || as instanceof MultiText)) {
+					containsTextElement = true;
+					break;
+				}
+		
+			if (!containsTextElement)
+				warning("Parameter count is greater than 1 but no (multi)text element defined...", 
+						StylePackage.Literals.STYLE__PARAMETER_COUNT);
+		}
+	}
 	
 	private List<Style> getStyles(Style s) {
 		return ((Styles) s.eContainer()).getStyles();
@@ -97,10 +123,18 @@ public class JStyleValidator extends AbstractStyleValidator{
 			}
 	}
 	
+	private void getAllShapes(EdgeStyle es, List<AbstractShape> result) {
+		for (ConnectionDecorator cd : es.getDecorator()) {
+			result.add((AbstractShape) cd.getDecoratorShape());
+		}
+	}
+	
 	private AbstractShape getMainShape(AbstractShape as) {
 		AbstractShape i = as;
 		while (i != null && i.eContainer() instanceof AbstractShape)
 			i = (AbstractShape) i.eContainer();
 		return i;
 	}
+	
+
 }
