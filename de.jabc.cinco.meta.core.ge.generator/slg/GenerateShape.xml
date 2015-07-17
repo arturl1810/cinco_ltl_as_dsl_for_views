@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>36d9fec6-e1a2-4c6b-8680-956d60534097</id>
   <name>GenerateShape</name>
-  <changecounter>1131</changecounter>
+  <changecounter>1140</changecounter>
   <sib>
     <id>7588e245-69f9-4992-b2a2-63a8513339bc</id>
     <name>SwitchShape</name>
@@ -468,7 +468,7 @@ gaService.setSize($context.peName$, 80, 20);
     </parameter>
     <parameter name="template">
       <string>//$context.fuGraphModelName$GraphitiUtils.getInstance().addImage(&quot;$context.imagePath$&quot;, &quot;$context.relativePath$&quot;);
-Shape $context.meShapeName$ = peService.createShape($context.parentName$, $context.diagramIsParent$);
+ContainerShape $context.meShapeName$ = peService.createContainerShape($context.parentName$, $context.diagramIsParent$);
 Image $context.peName$ = gaService.createImage($context.meShapeName$, &quot;$context.relativePath$&quot;);
 
 $context.peName$.setStretchH(true);

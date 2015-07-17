@@ -2,14 +2,14 @@
 <model version="2.1">
   <id>90a32e26-bf9e-415a-bbd4-2480bf6e06d0</id>
   <name>CheckCincoImagePath</name>
-  <changecounter>77</changecounter>
+  <changecounter>91</changecounter>
   <sib>
     <id>be0f178a-3975-4747-a2c8-53608426a7c7</id>
     <name>GetNodePrimeReference</name>
     <label>GetNodePrimeReference</label>
     <sib-uid>mgl/mgl/GetNodePrimeReference</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.sib.mgl.GetNodePrimeReference</taxonomy>
-    <position>326.0,33.0</position>
+    <position>326.0,168.0</position>
     <parameter name="nodeKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -30,15 +30,12 @@
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$START">
-      <boolean>true</boolean>
-    </userobject>
   </sib>
   <edge>
     <source>be0f178a-3975-4747-a2c8-53608426a7c7</source>
     <target>a244cb94-ab9e-4252-8a8f-042388dc85ec</target>
-    <point>394.811320754717,69.0</point>
-    <point>326.48936170212767,183.0</point>
+    <point>405.0,195.0</point>
+    <point>405.0,345.0</point>
     <labelposition>515.0,8.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -48,7 +45,7 @@
     <label>GetReferencedTypeType</label>
     <sib-uid>mgl/mgl/GetReferencedTypeType</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.sib.mgl.GetReferencedTypeType</taxonomy>
-    <position>322.5,318.0</position>
+    <position>322.5,453.0</position>
     <parameter name="referencedTypeKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -73,8 +70,8 @@
   <edge>
     <source>40904634-5962-40c0-bfaa-68f55d785431</source>
     <target>5e439a9c-1c03-4e0d-b2bf-d7075efb4ea9</target>
-    <point>405.0,345.0</point>
     <point>405.0,480.0</point>
+    <point>405.0,615.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -84,7 +81,7 @@
     <label>HasEStructuralFeature</label>
     <sib-uid>ge-util-sibs/HasEStructuralFeature</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.HasEStructuralFeature</taxonomy>
-    <position>328.5,453.0</position>
+    <position>328.5,588.0</position>
     <parameter name="eClass">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -113,7 +110,7 @@
     <label>CheckVariable</label>
     <sib-uid>basic-sibs/CheckVariable</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.CheckVariable</taxonomy>
-    <position>355.0,138.0</position>
+    <position>355.0,318.0</position>
     <parameter name="variable">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -131,15 +128,56 @@
   <edge>
     <source>a244cb94-ab9e-4252-8a8f-042388dc85ec</source>
     <target>40904634-5962-40c0-bfaa-68f55d785431</target>
-    <point>405.0,195.0</point>
-    <point>401.0,319.0</point>
+    <point>405.0,345.0</point>
+    <point>405.0,480.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>emptyString</branch>
     <branch>true</branch>
+  </edge>
+  <sib>
+    <id>69b60f23-b7d9-4349-8417-693731ecfa9c</id>
+    <name>SwitchModelElement</name>
+    <label>SwitchModelElement</label>
+    <sib-uid>mgl/mgl/SwitchModelElement</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.SwitchModelElement</taxonomy>
+    <position>335.5,33.0</position>
+    <parameter name="eObjectKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>modelElementKey</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>Edge</finalbranches>
+    <finalbranches>GraphModel</finalbranches>
+    <finalbranches>GraphicalModelElement</finalbranches>
+    <finalbranches>Node</finalbranches>
+    <finalbranches>NodeContainer</finalbranches>
+    <finalbranches>UserDefinedType</finalbranches>
+    <finalbranches>error</finalbranches>
+    <finalbranches>other</finalbranches>
+    <userobject key="ABC$START">
+      <boolean>true</boolean>
+    </userobject>
+  </sib>
+  <edge>
+    <source>69b60f23-b7d9-4349-8417-693731ecfa9c</source>
+    <target>be0f178a-3975-4747-a2c8-53608426a7c7</target>
+    <point>405.0,60.0</point>
+    <point>405.0,180.0</point>
+    <branch>Node</branch>
   </edge>
   <parameter>
     <name>nodeKey</name>
     <field>nodeKey</field>
     <sib>be0f178a-3975-4747-a2c8-53608426a7c7</sib>
+  </parameter>
+  <parameter>
+    <name>nodeKey</name>
+    <field>eObjectKey</field>
+    <sib>69b60f23-b7d9-4349-8417-693731ecfa9c</sib>
   </parameter>
   <values>
     <entry>
@@ -187,5 +225,25 @@
     <name>error</name>
     <branch>error</branch>
     <sib>a244cb94-ab9e-4252-8a8f-042388dc85ec</sib>
+  </branch>
+  <branch>
+    <name>false</name>
+    <branch>Edge</branch>
+    <sib>69b60f23-b7d9-4349-8417-693731ecfa9c</sib>
+  </branch>
+  <branch>
+    <name>false</name>
+    <branch>GraphModel</branch>
+    <sib>69b60f23-b7d9-4349-8417-693731ecfa9c</sib>
+  </branch>
+  <branch>
+    <name>false</name>
+    <branch>NodeContainer</branch>
+    <sib>69b60f23-b7d9-4349-8417-693731ecfa9c</sib>
+  </branch>
+  <branch>
+    <name>false</name>
+    <branch>UserDefinedType</branch>
+    <sib>69b60f23-b7d9-4349-8417-693731ecfa9c</sib>
   </branch>
 </model>

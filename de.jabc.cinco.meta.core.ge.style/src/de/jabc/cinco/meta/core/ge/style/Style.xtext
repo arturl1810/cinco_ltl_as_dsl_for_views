@@ -175,7 +175,7 @@ MultiText returns MultiText:
 Image returns Image:
 	'image' (name=EString)?
 	'{'
-		'position' position = AbstractPosition
+		('position' position = AbstractPosition)?
 		'size' size = Size
 		'path' '('path=STRING')'
 	'}'
