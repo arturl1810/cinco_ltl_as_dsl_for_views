@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<model version="2.1">
+  <id>ee07de3a-e963-49a5-b926-30f3e649dd63</id>
+  <name>GenerateListCharCode</name>
+  <changecounter>32</changecounter>
+  <sib>
+    <id>fc23a78c-ded5-492b-9e62-dfe53e102acf</id>
+    <name>RunStringTemplate</name>
+    <label>GenRefreshCode</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>473.0,108.0</position>
+    <parameter name="append">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>refreshCode</key>
+          <scope>PARENT</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>if (tmp.get$context.fuAttributeName$() != null)
+	$context.flAttributeName$ListViewer.setInput(tmp.get$context.fuAttributeName$());</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>8b2bb048-bb99-4773-a03e-f13de7c511ca</id>
+    <name>RunStringTemplate_1</name>
+    <label>GenChangeValue</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>307.5,108.0</position>
+    <parameter name="append">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>changeValueCode</key>
+          <scope>PARENT</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>
+EObject bo = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
+if (bo instanceof $context.importPath$.$context.modelElementName$) {
+	$context.importPath$.$context.modelElementName$ tmp = ($context.importPath$.$context.modelElementName$) bo;
+	tmp.get$context.fuAttributeName$().clear();
+	for (String s : charList.getItems()) {
+		tmp.get$context.fuAttributeName$().add(s.isEmpty() ? &apos;\0&apos; : s.charAt(0));
+	}
+}
+</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>17f36851-3df3-41cb-8101-d93bd4516a16</id>
+    <name>RunStringTemplate_3</name>
+    <label>GenControl</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>144.0,108.0</position>
+    <parameter name="append">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>controlCode</key>
+          <scope>PARENT</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>private ListViewer $context.flAttributeName$ListViewer;
+private org.eclipse.swt.widgets.List $context.flAttributeName$List;
+	
+private Button add;
+private Button remove;
+	
+@Override
+public void createControls(Composite parent, TabbedPropertySheetPage aTabbedPropertySheetPage) {
+	super.createControls(parent, aTabbedPropertySheetPage);
+	
+	TabbedPropertySheetWidgetFactory factory = aTabbedPropertySheetPage.getWidgetFactory();
+	Composite composite = factory.createFlatFormComposite(parent);
+	
+	FormData data;
+		
+	$context.flAttributeName$List = factory.createList(composite, SWT.BORDER | SWT.SINGLE | SWT.V_SCROLL | SWT.H_SCROLL);
+	$context.flAttributeName$List.getVerticalBar().setVisible(true);
+	data = new FormData();
+	data.left = new FormAttachment(0, $context.width$);
+	data.right = new FormAttachment(97, 2);
+	data.top = new FormAttachment(0, ITabbedPropertyConstants.VSPACE);
+	data.bottom = new FormAttachment(0, 80);
+
+	$context.flAttributeName$List.setLayoutData(data);
+	$context.flAttributeName$ListViewer = new ListViewer($context.flAttributeName$List);
+	$context.flAttributeName$ListViewer.setLabelProvider(new LabelProvider() {
+		@Override
+		public String getText(Object element) {
+			if (element instanceof String) {
+				return (String) element;
+			}
+			return super.getText(element);
+		}
+	});
+	
+	Label $context.flAttributeName$Label = factory.createLabel(composite, &quot;$context.fuAttributeName$:&quot;);
+	data = new FormData();
+	data.left = new FormAttachment(0, 0);
+	data.right = new FormAttachment($context.flAttributeName$List, -ITabbedPropertyConstants.HSPACE);
+	data.top = new FormAttachment($context.flAttributeName$List, 0, SWT.TOP);
+	$context.flAttributeName$Label.setLayoutData(data);
+	
+	$context.flAttributeName$ListViewer.setContentProvider(new ArrayContentProvider());
+	
+	add = factory.createButton(composite, &quot;+&quot;, SWT.PUSH);
+	data = new FormData();
+	data.left = new FormAttachment($context.flAttributeName$List, 0);
+	data.top = new FormAttachment(0,ITabbedPropertyConstants.VMARGIN);
+	data.right = new FormAttachment(100,0);
+	add.setLayoutData(data);
+	add.setEnabled(!$context.isReadOnly$);
+	remove = factory.createButton(composite, &quot;-&quot;, SWT.PUSH);
+	data = new FormData();
+	data.left = new FormAttachment($context.flAttributeName$List, 0);
+	data.right = new FormAttachment(100, 0);
+	data.top = new FormAttachment(add, 0);
+	remove.setLayoutData(data);
+	remove.setEnabled(!$context.isReadOnly$);
+	
+	add.addSelectionListener(addListener);
+	remove.addSelectionListener(removeListener);
+}
+</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$START">
+      <boolean>true</boolean>
+    </userobject>
+  </sib>
+  <edge>
+    <source>17f36851-3df3-41cb-8101-d93bd4516a16</source>
+    <target>8b2bb048-bb99-4773-a03e-f13de7c511ca</target>
+    <point>195.0,120.0</point>
+    <point>405.0,120.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>8b2bb048-bb99-4773-a03e-f13de7c511ca</source>
+    <target>fc23a78c-ded5-492b-9e62-dfe53e102acf</target>
+    <point>405.0,120.0</point>
+    <point>525.0,120.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>c57b6b4f-f495-4b23-ac9b-bdb3c3b4365b</id>
+    <name>RunStringTemplate_4</name>
+    <label>GenListenerCode</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>631.0,108.0</position>
+    <parameter name="append">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>listenerCode</key>
+          <scope>PARENT</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>SelectionListener addListener = new SelectionListener() {
+		
+	@Override
+	public void widgetSelected(SelectionEvent e) {
+		InputDialog d = new InputDialog(null, &quot;Add&quot;, &quot;Add a $context.flAttributeName$&quot;, &quot;&lt;&gt;&quot;, new IInputValidator() {
+				
+			@Override
+			public String isValid(String newText) {
+				if (newText.length() &lt;= 1)
+					return null;
+				else return &quot;Input text only for one character&quot;;
+			}
+		});
+		int retVal = d.open();
+		if (retVal == InputDialog.OK) {
+			final String s = d.getValue();
+			final $context.importPath$.$context.modelElementName$ tmp = getBusinessObjectForSelection(getSelectedPictogramElement());
+			if (tmp == null)
+				return;
+			TransactionalEditingDomain dom = getDiagramContainer().getDiagramBehavior().getEditingDomain();
+			dom.getCommandStack().execute(new RecordingCommand(dom, &quot;Add $context.flAttributeName$: &quot; + s) {
+				
+				@Override
+				protected void doExecute() {
+					if (!s.isEmpty())
+						tmp.get$context.fuAttributeName$().add(s.charAt(0));
+					refresh();
+				}
+			});
+		}
+	}
+	
+	@Override
+	public void widgetDefaultSelected(SelectionEvent e) {
+	}
+};
+
+SelectionListener removeListener = new SelectionListener() {
+	
+	@Override
+	public void widgetSelected(SelectionEvent e) {
+		if ($context.flAttributeName$ListViewer.getSelection() != null &amp;&amp; !$context.flAttributeName$ListViewer.getSelection().isEmpty()) {
+			ISelection sel = $context.flAttributeName$ListViewer.getSelection();
+			if (!(sel instanceof IStructuredSelection))
+				return;
+			IStructuredSelection ssel = (IStructuredSelection) sel;
+			final Object selection = ssel.getFirstElement();
+			final $context.importPath$.$context.modelElementName$ tmp = getBusinessObjectForSelection(getSelectedPictogramElement());
+			if (tmp == null) {
+				return;
+			}
+			TransactionalEditingDomain dom = getDiagramContainer().getDiagramBehavior().getEditingDomain();
+			dom.getCommandStack().execute(new RecordingCommand(dom, &quot;Remove: &quot; + remove) {
+			
+				@Override
+				protected void doExecute() {
+					tmp.get$context.fuAttributeName$().remove(selection);
+					refresh();
+				}
+			});
+		}
+	}
+
+	@Override
+	public void widgetDefaultSelected(SelectionEvent e) {
+		
+	}
+};</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>fc23a78c-ded5-492b-9e62-dfe53e102acf</source>
+    <target>c57b6b4f-f495-4b23-ac9b-bdb3c3b4365b</target>
+    <point>525.0,120.0</point>
+    <point>690.0,120.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <values/>
+  <branch>
+    <name>default</name>
+    <branch>default</branch>
+    <sib>c57b6b4f-f495-4b23-ac9b-bdb3c3b4365b</sib>
+  </branch>
+</model>

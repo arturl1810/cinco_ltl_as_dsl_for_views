@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>76ccd186-a5e5-4177-9388-d605baba87ee</id>
   <name>GenerateListAttribute</name>
-  <changecounter>146</changecounter>
+  <changecounter>170</changecounter>
   <sib>
     <id>011ad06a-a303-4d66-8b28-ca363e433e70</id>
     <name>GetAttributeType</name>
@@ -62,6 +62,7 @@
       </de.metaframe.common.sib.parameter.ContextExpression>
     </parameter>
     <branch>EBoolean</branch>
+    <branch>EChar</branch>
     <branch>EClass</branch>
     <branch>EDouble</branch>
     <branch>EEnum</branch>
@@ -444,6 +445,28 @@
     <point>370.0,507.0</point>
     <branch>EFloat</branch>
   </edge>
+  <sib>
+    <id>7b7322ba-d76e-444d-86b6-20f840aae60d</id>
+    <name>MacroSIB_7</name>
+    <label>GenerateListCharCode</label>
+    <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
+    <position>298.5,331.0</position>
+    <finalbranches>default</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>GenerateListCharCode</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>ee07de3a-e963-49a5-b926-30f3e649dd63</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>69a9366f-b42f-4afa-bbef-ecdfd76019df</source>
+    <target>7b7322ba-d76e-444d-86b6-20f840aae60d</target>
+    <point>450.0,195.0</point>
+    <point>345.0,473.0</point>
+    <branch>EChar</branch>
+  </edge>
   <parameter>
     <name>attributeKey</name>
     <field>attributeKey</field>
@@ -530,5 +553,10 @@
     <name>default</name>
     <branch>default</branch>
     <sib>f9a9b5ab-e0f2-4783-a096-1f06db0c215a</sib>
+  </branch>
+  <branch>
+    <name>default</name>
+    <branch>default</branch>
+    <sib>7b7322ba-d76e-444d-86b6-20f840aae60d</sib>
   </branch>
 </model>

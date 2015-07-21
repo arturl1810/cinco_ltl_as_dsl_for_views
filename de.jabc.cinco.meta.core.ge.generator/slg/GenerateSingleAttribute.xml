@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>fc94b8b8-21f0-499c-a1bb-5968d40ae550</id>
   <name>GenerateSingleAttribute</name>
-  <changecounter>320</changecounter>
+  <changecounter>334</changecounter>
   <sib>
     <id>68ef8ffb-b956-40b6-a5af-a8ed91dce549</id>
     <name>GetAttributeType</name>
@@ -62,6 +62,7 @@
       </de.metaframe.common.sib.parameter.ContextExpression>
     </parameter>
     <branch>EBoolean</branch>
+    <branch>EChar</branch>
     <branch>EDouble</branch>
     <branch>EFloat</branch>
     <branch>EInt</branch>
@@ -167,7 +168,7 @@
     <label>GenerateSingleStringCode</label>
     <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
-    <position>1.0,271.0</position>
+    <position>61.0,166.0</position>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
@@ -183,7 +184,7 @@
     <label>GenerateSingleIntegerCode</label>
     <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
-    <position>192.0,271.0</position>
+    <position>57.0,271.0</position>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
@@ -206,7 +207,7 @@
     <label>GenerateSingleBooleanCode</label>
     <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
-    <position>383.5,271.0</position>
+    <position>668.5,256.0</position>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
@@ -229,7 +230,7 @@
     <label>GenerateSingleDoubleCode</label>
     <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
-    <position>582.5,271.0</position>
+    <position>672.5,136.0</position>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
@@ -260,7 +261,7 @@
     <label>GetType</label>
     <sib-uid>collection-sibs/GetElement</sib-uid>
     <taxonomy>de.jabc.sib.common.collection.GetElement</taxonomy>
-    <position>1034.5,168.0</position>
+    <position>434.5,618.0</position>
     <parameter name="element">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -294,8 +295,8 @@
   <edge>
     <source>dd7a60b0-7413-42aa-8ad8-99dd737e85ea</source>
     <target>07d299e1-6d10-4018-b9f9-6a8b7e82baa4</target>
-    <point>1066.1538461538462,84.0</point>
-    <point>1078.75,273.0</point>
+    <point>465.0,645.0</point>
+    <point>465.0,765.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -305,7 +306,7 @@
     <label>GenerateSingleEnumeration</label>
     <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
-    <position>761.0,421.0</position>
+    <position>146.0,886.0</position>
     <parameter name="enumKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -330,7 +331,7 @@
     <label>SwitchType</label>
     <sib-uid>mgl/mgl/SwitchType</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.SwitchType</taxonomy>
-    <position>1024.0,273.0</position>
+    <position>424.0,738.0</position>
     <parameter name="eObjectKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -355,8 +356,9 @@
   <edge>
     <source>07d299e1-6d10-4018-b9f9-6a8b7e82baa4</source>
     <target>c21b7fb1-200f-43eb-81e4-f621bf80cc13</target>
-    <point>975.0,300.0</point>
-    <point>980.0,439.0</point>
+    <point>465.0,765.0</point>
+    <point>240.0,915.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>Enumeration</branch>
   </edge>
   <sib>
@@ -365,7 +367,7 @@
     <label>PrintConsoleMessage</label>
     <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
     <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
-    <position>1216.5,423.0</position>
+    <position>601.5,888.0</position>
     <parameter name="error">
       <boolean>true</boolean>
     </parameter>
@@ -383,15 +385,16 @@
   <edge>
     <source>07d299e1-6d10-4018-b9f9-6a8b7e82baa4</source>
     <target>9a635df4-e86d-43d2-b44a-f1cce560ebb0</target>
-    <point>1050.0,165.0</point>
-    <point>1214.0,313.0</point>
+    <point>465.0,765.0</point>
+    <point>675.0,915.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>UserDefinedType</branch>
   </edge>
   <edge>
     <source>07d299e1-6d10-4018-b9f9-6a8b7e82baa4</source>
     <target>40542f71-2b22-491c-9f7b-da1933816b47</target>
-    <point>1065.0,309.0</point>
-    <point>1065.0,466.0</point>
+    <point>465.0,765.0</point>
+    <point>465.0,915.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>Edge</branch>
     <branch>ModelElement</branch>
@@ -404,7 +407,7 @@
     <label>GenerateSingleNodePropertyView</label>
     <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
-    <position>967.5,421.0</position>
+    <position>352.5,886.0</position>
     <parameter name="nodeKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -429,7 +432,7 @@
     <label>GenerateSingleFloatCode</label>
     <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
-    <position>768.5,271.0</position>
+    <position>678.5,46.0</position>
     <finalbranches>default</finalbranches>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>GenerateSingleFloatCode</string>
@@ -444,6 +447,28 @@
     <point>465.0,195.0</point>
     <point>853.0,282.0</point>
     <branch>EFloat</branch>
+  </edge>
+  <sib>
+    <id>880c70a3-4842-43dd-9a8a-d8df9283f723</id>
+    <name>MacroSIB_7</name>
+    <label>GenerateSingleCharCode</label>
+    <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
+    <position>275.0,271.0</position>
+    <finalbranches>default</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>GenerateSingleCharCode</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>efca2def-7289-4e63-8420-9c26566232aa</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>51427352-4dce-4953-8acc-2d0acd6f37b6</source>
+    <target>880c70a3-4842-43dd-9a8a-d8df9283f723</target>
+    <point>465.0,195.0</point>
+    <point>351.0,364.0</point>
+    <branch>EChar</branch>
   </edge>
   <parameter>
     <name>attributeKey</name>
@@ -566,5 +591,10 @@
     <name>default</name>
     <branch>default</branch>
     <sib>77984a25-3047-4788-ad38-7495f040aa2d</sib>
+  </branch>
+  <branch>
+    <name>default</name>
+    <branch>default</branch>
+    <sib>880c70a3-4842-43dd-9a8a-d8df9283f723</sib>
   </branch>
 </model>
