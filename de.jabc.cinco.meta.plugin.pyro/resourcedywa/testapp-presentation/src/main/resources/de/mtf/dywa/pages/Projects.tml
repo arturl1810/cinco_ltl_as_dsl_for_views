@@ -1,0 +1,58 @@
+<t:layout
+        xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd"
+        xmlns:p="tapestry:parameter"
+        t:title="${message:title}"
+        t:menuCategory="menuCategory">
+
+    <t:alerts fwtype="alert"/>
+
+    <div class="row">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-md-10">
+                        <h4>${message:panelTitle}</h4>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="btn-toolbar" role="toolbar" aria-label="...">
+                            <a
+                                    data-toggle="modal"
+                                    href="#newProjectDialog"
+                                    class="${newBtnCss}"><span class="glyphicon glyphicon-plus"></span> ${message:newProjectButtonText}
+                            </a>
+                            <t:modals.project.newProjectDialog t:isExplorerPage="true" t:linkCss="${newBtnCss}"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body">
+                <t:grid source="projects" rowIndex="rowIndex" row="iteratedProject" class="table table-striped" model="model">
+                    <p:counterCell>
+                        ${rowIndex}
+                    </p:counterCell>
+                    <p:nameCell>
+                        <t:pagelink page="pyro" t:context="[iteratedProject.id]">${iteratedProject.name}</t:pagelink>
+                    </p:nameCell>
+                    <p:actionsCell>
+                        <div class="btn-group" role="group" aria-label="...">
+                            <t:pagelink t:context="[iteratedProject.id]" page="pyro" class="btn btn-default">Open</t:pagelink>
+
+                            <a
+                                    data-toggle="modal"
+                                    href="#editProjectDialog${iteratedProject.id}"
+                                    class="${getEditBtnCss()}"><span class="glyphicon glyphicon-folder-open"></span> ${message:editProjectButtonText}
+                            </a>
+                            <t:modals.project.editProjectDialog t:linkCss="${getEditBtnCss()}" t:projectToEdit="iteratedProject"/>
+                            <a
+                                    data-toggle="modal"
+                                    href="#removeProjectDialog${iteratedProject.id}"
+                                    class="${getRemoveBtnCss()}"><span class="glyphicon glyphicon-remove"></span> ${message:removeButtonText}
+                            </a>
+                            <t:modals.project.removeprojectdialog t:linkCss="${getEditBtnCss()}" t:projectToRemove="iteratedProject"/>
+                        </div>
+                    </p:actionsCell>
+                </t:grid>
+            </div>
+        </div>
+    </div>
+</t:layout>

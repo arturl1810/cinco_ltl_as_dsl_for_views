@@ -1,0 +1,52 @@
+<t:container
+        xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd"
+        xmlns:p="tapestry:parameter">
+    <div
+            class="modal fade"
+            id="newProjectDialog"
+            tabindex="-1"
+            role="dialog"
+            aria-labelledby="newProjectDialogLabel"
+            aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <t:form
+                        t:id="newProjectDialogForm"
+                        class="form-horizontal">
+                    <div class="modal-header">
+                        <button
+                                type="button"
+                                class="close"
+                                data-dismiss="modal"
+                                aria-hidden="true">×
+                        </button>
+                        <h4 class="modal-title"><span class="glyphicon glyphicon-plus"></span> ${message:modalTitle}</h4>
+                    </div>
+                    <div class="modal-body">
+
+                        <div class="form-group">
+                            <label
+                                    for="newProjectDialogName"
+                                    class="col-sm-3 control-label">${message:NameLabel}</label>
+                            <div class="col-sm-9">
+                                <t:textfield
+                                        t:id="newProjectDialogName"
+                                        t:value="newProjectDialogName"
+                                        class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button
+                                type="button"
+                                class="btn btn-default"
+                                data-dismiss="modal">${message:cancel}</button>
+                        <t:submit
+                                value="${message:create}"
+                                class="btn btn-success" />
+                    </div>
+                </t:form>
+            </div>
+        </div>
+    </div>
+</t:container>

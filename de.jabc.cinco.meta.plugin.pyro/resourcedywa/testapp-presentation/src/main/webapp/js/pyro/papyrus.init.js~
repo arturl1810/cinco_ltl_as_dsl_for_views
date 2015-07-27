@@ -1,0 +1,8 @@
+$('#normal').addClass('active');
+styleElements(true);
+createPalette();
+persistSettings();
+$('#minimizeProperties').hide();
+$('#miniMenu').hide();
+$('#minimizeGraph').hide();
+onCreationState = false;
