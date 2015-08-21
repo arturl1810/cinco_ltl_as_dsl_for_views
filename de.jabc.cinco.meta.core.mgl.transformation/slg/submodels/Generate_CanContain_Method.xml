@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>2dfcc433-a956-4609-a130-76521a6c3e9e</id>
   <name>Generate CanContain Method</name>
-  <changecounter>29</changecounter>
+  <changecounter>47</changecounter>
   <sib>
     <id>c8b450b2-9c6b-482a-a645-5b046c18b7b6</id>
     <name>IterateContainingElementContainableElements</name>
@@ -241,38 +241,6 @@
     <labelposition>472.1153846153842,123.00000000000001</labelposition>
     <branch>noElements</branch>
   </edge>
-  <sib>
-    <id>68c8aec4-c0d0-46cc-b541-242bbaf7a03b</id>
-    <name>RunStringTemplate</name>
-    <label>RunStringTemplate</label>
-    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
-    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>1450.0,183.0</position>
-    <parameter name="append">
-      <boolean>false</boolean>
-    </parameter>
-    <parameter name="individualVariables">
-      <boolean>true</boolean>
-    </parameter>
-    <parameter name="result">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>canContainMethodBody</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="template">
-      <string>        $constraints$
-        java.util.List&lt;de.jabc.cinco.meta.core.mgl.model.constraints.Constraint&gt;constraints = 
-            java.util.Arrays.asList($constraintVariables$);
-        return constraints.stream().allMatch(constraint -&gt; constraint.checkUpperBound(this));
-</string>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-  </sib>
   <edge>
     <source>c8b450b2-9c6b-482a-a645-5b046c18b7b6</source>
     <target>aaaa388b-2103-4f2c-aef6-8cedbf6cd175</target>
@@ -281,179 +249,11 @@
     <labelposition>500.0,0.0</labelposition>
     <branch>exit</branch>
   </edge>
-  <sib>
-    <id>b4f7208d-9503-441d-86bc-de89510cf038</id>
-    <name>RunStringTemplate_1</name>
-    <label>RunStringTemplate</label>
-    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
-    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>1210.0,93.0</position>
-    <parameter name="append">
-      <boolean>false</boolean>
-    </parameter>
-    <parameter name="individualVariables">
-      <boolean>true</boolean>
-    </parameter>
-    <parameter name="result">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>canContainMethodBody</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="template">
-      <string>return true;
-</string>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-  </sib>
   <edge>
-    <source>c8b450b2-9c6b-482a-a645-5b046c18b7b6</source>
-    <target>b4f7208d-9503-441d-86bc-de89510cf038</target>
-    <point>962.0,122.0</point>
-    <point>1562.0,122.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>noElements</branch>
-  </edge>
-  <sib>
-    <id>a53330de-2cc7-4488-83cf-b801d3beef15</id>
-    <name>GraphSIB</name>
-    <label>Create EOperation</label>
-    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
-    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>1646.5,91.0</position>
-    <parameter name="eClassKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>containerClass</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="eOperatiobUpperBound">
-      <int>1</int>
-    </parameter>
-    <parameter name="eOperationLowerBound">
-      <int>0</int>
-    </parameter>
-    <parameter name="eOperationNameKey">
-      <de.metaframe.common.sib.parameter.ContextExpression>
-        <ContextExpressionFoundation>
-          <expression>canContain</expression>
-          <clazz>java.lang.String</clazz>
-          <classMutable>true</classMutable>
-        </ContextExpressionFoundation>
-      </de.metaframe.common.sib.parameter.ContextExpression>
-    </parameter>
-    <parameter name="eOperationeTypeKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>eBooleanType</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>false</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="eParameterLowerBound">
-      <int>0</int>
-    </parameter>
-    <parameter name="eParameterUpperBound">
-      <int>-1</int>
-    </parameter>
-    <parameter name="eParametereTypeKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>abstractNodeClass</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>false</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="eParameternameKey">
-      <de.metaframe.common.sib.parameter.ContextExpression>
-        <ContextExpressionFoundation>
-          <expression>nodes</expression>
-          <clazz>java.lang.String</clazz>
-          <classMutable>true</classMutable>
-        </ContextExpressionFoundation>
-      </de.metaframe.common.sib.parameter.ContextExpression>
-    </parameter>
-    <parameter name="template">
-      <string>$canContainMethodBody$
-</string>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELNAME">
-      <string>Create EOperation With One Parameter</string>
-    </userobject>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>6c1659aa-3f67-4414-8d14-f0cd9a885457</string>
-    </userobject>
-  </sib>
-  <sib>
-    <id>261e2abd-1d51-480a-bb7f-47b21bdefbf1</id>
-    <name>GetEClassifierByName</name>
-    <label>GetEClassifierByName</label>
-    <sib-uid>utility-sibs/GetEClassifierByName</sib-uid>
-    <taxonomy>transem.utility.sib.GetEClassifierByName</taxonomy>
-    <position>1439.5,93.0</position>
-    <parameter name="eClassifierKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>eBooleanType</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="eClassifierName">
-      <de.metaframe.common.sib.parameter.ContextExpression>
-        <ContextExpressionFoundation>
-          <expression>EBoolean</expression>
-          <clazz>java.lang.String</clazz>
-          <classMutable>true</classMutable>
-        </ContextExpressionFoundation>
-      </de.metaframe.common.sib.parameter.ContextExpression>
-    </parameter>
-    <parameter name="ePackageKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>ecorePackage</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-    <finalbranches>null</finalbranches>
-  </sib>
-  <edge>
-    <source>261e2abd-1d51-480a-bb7f-47b21bdefbf1</source>
-    <target>a53330de-2cc7-4488-83cf-b801d3beef15</target>
-    <point>1787.0,122.0</point>
-    <point>1997.0,122.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
-  <edge>
-    <source>68c8aec4-c0d0-46cc-b541-242bbaf7a03b</source>
-    <target>261e2abd-1d51-480a-bb7f-47b21bdefbf1</target>
-    <point>1907.0,242.0</point>
-    <point>1787.0,122.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
-  <edge>
-    <source>b4f7208d-9503-441d-86bc-de89510cf038</source>
-    <target>261e2abd-1d51-480a-bb7f-47b21bdefbf1</target>
-    <point>1562.0,122.0</point>
-    <point>1787.0,122.0</point>
+    <source>aaaa388b-2103-4f2c-aef6-8cedbf6cd175</source>
+    <target>34fb0d51-c4b0-482f-a846-f4b624f65560</target>
+    <point>1293.0,202.61379310344827</point>
+    <point>1692.0,230.13103448275862</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -510,7 +310,7 @@
             <de.metaframe.jabc.framework.sib.parameter.ContextKey>
               <ContextKeyFoundation>
                 <key>classSuffix</key>
-                <scope>LOCAL</scope>
+                <scope>GLOBAL</scope>
                 <scopeMutable>true</scopeMutable>
               </ContextKeyFoundation>
             </de.metaframe.jabc.framework.sib.parameter.ContextKey>
@@ -533,31 +333,6 @@
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-  </sib>
-  <sib>
-    <id>b6f75eef-2201-4b3c-aa45-80b0ddf5d1be</id>
-    <name>PutString</name>
-    <label>PutString</label>
-    <sib-uid>basic-sibs/PutString</sib-uid>
-    <taxonomy>de.jabc.sib.common.basic.PutString</taxonomy>
-    <position>86.5,93.0</position>
-    <parameter name="value">
-      <string>.class</string>
-    </parameter>
-    <parameter name="variable">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>classSuffix</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-    <userobject key="ABC$START">
-      <boolean>true</boolean>
-    </userobject>
   </sib>
   <edge>
     <source>4c567c63-0536-4e84-a307-45cf34d36002</source>
@@ -711,14 +486,6 @@
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
-  <edge>
-    <source>b6f75eef-2201-4b3c-aa45-80b0ddf5d1be</source>
-    <target>a662cdd6-44a9-4ac5-991f-7e960ad344d8</target>
-    <point>239.0,130.0</point>
-    <point>344.0,130.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
   <sib>
     <id>371fa762-d687-4667-bfd2-aba2d42f097b</id>
     <name>PutExpression</name>
@@ -777,6 +544,9 @@
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
+    <userobject key="ABC$START">
+      <boolean>true</boolean>
+    </userobject>
   </sib>
   <edge>
     <source>a662cdd6-44a9-4ac5-991f-7e960ad344d8</source>
@@ -836,7 +606,7 @@
     <label>GenerateListWithSeparator</label>
     <sib-uid>genesys-sibs/GenerateListWithSeparator</sib-uid>
     <taxonomy>de.jabc.sib.genesys.GenerateListWithSeparator</taxonomy>
-    <position>1183.5,183.0</position>
+    <position>1198.5,93.0</position>
     <parameter name="addQuotes">
       <boolean>false</boolean>
     </parameter>
@@ -864,14 +634,6 @@
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
   </sib>
-  <edge>
-    <source>aaaa388b-2103-4f2c-aef6-8cedbf6cd175</source>
-    <target>68c8aec4-c0d0-46cc-b541-242bbaf7a03b</target>
-    <point>1682.0,242.0</point>
-    <point>1907.0,242.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
   <sib>
     <id>9b391ef2-286c-4a0b-afc9-7aef06788662</id>
     <name>GetElement</name>
@@ -919,7 +681,7 @@
     <parameter name="modelElementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>modelElementKey</key>
+          <key>containingElement</key>
           <scope>GLOBAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
@@ -951,6 +713,108 @@
     <point>840.0,45.0</point>
     <point>962.0,122.0</point>
     <labelposition>616.0,-6.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>597af4a3-31fc-4cf1-a7a5-67d01e61ada3</id>
+    <name>GraphSIB_1</name>
+    <label>Create Get Constraints Operation</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>1658.5,91.0</position>
+    <parameter name="eClassKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>containerClass</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="eOperatiobUpperBound">
+      <int>-1</int>
+    </parameter>
+    <parameter name="eOperationLowerBound">
+      <int>0</int>
+    </parameter>
+    <parameter name="eOperationNameKey">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>getConstraints</expression>
+          <clazz>java.lang.String</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="eOperationeTypeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>constraintTypeKey</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>false</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>$constraints$
+        org.eclipse.emf.common.util.BasicEList&lt;de.jabc.cinco.meta.core.mgl.model.constraints.Constraint&gt;constraints = 
+            new org.eclipse.emf.common.util.BasicEList&lt;de.jabc.cinco.meta.core.mgl.model.constraints.Constraint&gt;(java.util.Arrays.asList($constraintVariables$));
+
+return constraints;</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Create EOperation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
+    </userobject>
+  </sib>
+  <sib>
+    <id>34fb0d51-c4b0-482f-a846-f4b624f65560</id>
+    <name>GetEClassifierByName_1</name>
+    <label>GetEClassifierByName</label>
+    <sib-uid>utility-sibs/GetEClassifierByName</sib-uid>
+    <taxonomy>transem.utility.sib.GetEClassifierByName</taxonomy>
+    <position>1469.5,93.0</position>
+    <parameter name="eClassifierKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>constraintTypeKey</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="eClassifierName">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>Constraint</expression>
+          <clazz>java.lang.String</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="ePackageKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>abstractGraphModel</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <finalbranches>null</finalbranches>
+  </sib>
+  <edge>
+    <source>34fb0d51-c4b0-482f-a846-f4b624f65560</source>
+    <target>597af4a3-31fc-4cf1-a7a5-67d01e61ada3</target>
+    <point>1710.0,240.0</point>
+    <point>1710.0,360.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <parameter>
@@ -989,36 +853,6 @@
     <name>error</name>
     <branch>error</branch>
     <sib>c8b450b2-9c6b-482a-a645-5b046c18b7b6</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>261e2abd-1d51-480a-bb7f-47b21bdefbf1</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>null</branch>
-    <sib>261e2abd-1d51-480a-bb7f-47b21bdefbf1</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>a53330de-2cc7-4488-83cf-b801d3beef15</sib>
-  </branch>
-  <branch>
-    <name>default</name>
-    <branch>default</branch>
-    <sib>a53330de-2cc7-4488-83cf-b801d3beef15</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>68c8aec4-c0d0-46cc-b541-242bbaf7a03b</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>b4f7208d-9503-441d-86bc-de89510cf038</sib>
   </branch>
   <branch>
     <name>error</name>
@@ -1063,11 +897,6 @@
   <branch>
     <name>error</name>
     <branch>error</branch>
-    <sib>b6f75eef-2201-4b3c-aa45-80b0ddf5d1be</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
     <sib>94a50f85-3550-47bc-8002-671ccff79b04</sib>
   </branch>
   <branch>
@@ -1104,5 +933,30 @@
     <name>error</name>
     <branch>error</branch>
     <sib>b8cf0008-d683-4799-a8fb-d0f88fb9b77e</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>34fb0d51-c4b0-482f-a846-f4b624f65560</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>null</branch>
+    <sib>34fb0d51-c4b0-482f-a846-f4b624f65560</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>597af4a3-31fc-4cf1-a7a5-67d01e61ada3</sib>
+  </branch>
+  <branch>
+    <name>default</name>
+    <branch>default</branch>
+    <sib>597af4a3-31fc-4cf1-a7a5-67d01e61ada3</sib>
+  </branch>
+  <branch>
+    <name>default</name>
+    <branch>noElements</branch>
+    <sib>c8b450b2-9c6b-482a-a645-5b046c18b7b6</sib>
   </branch>
 </model>
