@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>9b2878c2-af27-4fb3-878a-6613ed7a16c6</id>
   <name>GenerateCreateNodeFeature</name>
-  <changecounter>623</changecounter>
+  <changecounter>628</changecounter>
   <sib>
     <id>cc5a8f52-a2dd-434a-825b-350e398066fe</id>
     <name>RunStringTemplate</name>
@@ -79,9 +79,6 @@ public class Create$context.modelElementName$Feature extends AbstractCreateFeatu
 		PictogramElement target = context.getTargetContainer();
 		EObject bo = (EObject) getBusinessObjectForPictogramElement(target);
 		$context.importPath$.$context.graphModelName$ $context.lcGraphModelName$ = $context.graphModelName$GraphitiUtils.addToResource(getDiagram(), this.getFeatureProvider());		
-
-		$context.meIdentifier$.setX(context.getX());
-		$context.meIdentifier$.setY(context.getY());
 
 		if (bo instanceof Container) {
 			Container nc = (Container) bo;
