@@ -30,8 +30,8 @@ public class GenModelCreator {
         String s = ePackage.getNsPrefix();
         s = Character.toUpperCase(s.charAt(0)) + s.substring(1); 
         genPackage.setPrefix(s);
-        genModel.setRuntimeVersion(GenRuntimeVersion.EMF28);
-        genModel.setComplianceLevel(GenJDKLevel.JDK70_LITERAL);
+        genModel.setRuntimeVersion(GenRuntimeVersion.EMF210);
+        genModel.setComplianceLevel(GenJDKLevel.JDK80_LITERAL);
         genModel.setModelPluginID(projectID);
         genModel.setEditPluginID(projectID+".edit");
         genModel.setEditorPluginID(projectID+".editor");
