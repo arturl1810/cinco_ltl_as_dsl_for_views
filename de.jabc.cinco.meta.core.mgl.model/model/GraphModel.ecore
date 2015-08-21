@@ -3,7 +3,13 @@
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="graphmodel" nsURI="http://www.jabc.de/cinco/gdl/graphmodel"
     nsPrefix="graphmodel">
   <eClassifiers xsi:type="ecore:EClass" name="GraphModel" abstract="true" interface="true"
-      eSuperTypes="#//ModelElementContainer"/>
+      eSuperTypes="#//ModelElementContainer">
+    <eOperations name="getAllNodeTypes" upperBound="-1">
+      <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaClass">
+        <eTypeArguments/>
+      </eGenericType>
+    </eOperations>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Node" abstract="true" interface="true"
       eSuperTypes="#//ModelElement">
     <eOperations name="getSuccessors" upperBound="-1">
@@ -135,7 +141,29 @@
       </eAnnotations>
     </eOperations>
     <eOperations name="canContain" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value=" if(nodes!=null&amp;&amp;nodes.size()>0&amp;&amp;getConstraints().size()>0){&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;        boolean canContain = true;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;        &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;        for(int i=1;i==nodes.size();i++){&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;        &#x9;final java.util.List&lt;Node> subNodes = nodes.subList(i, nodes.size());&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;        &#x9;Node currentNode = nodes.get(i-1);&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;        &#x9;canContain &amp;= getConstraints().stream().anyMatch((c -> !c.violationAfterInsert(currentNode, subNodes,this)));&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;        }&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;      &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;        &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;        return  canContain;&#xA;&#x9;&#x9;&#x9;&#x9;        }&#xA;&#x9;&#x9;        return true;"/>
+      </eAnnotations>
       <eParameters name="nodes" upperBound="-1" eType="#//Node"/>
+    </eOperations>
+    <eOperations name="canContain" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="EList&lt;Node> list = new org.eclipse.emf.common.util.BasicEList&lt;Node>();&#xA;&#x9;&#x9;list.add(node);&#xA;&#x9;&#x9;return canContain(list);"/>
+      </eAnnotations>
+      <eParameters name="node" eType="#//Node"/>
+    </eOperations>
+    <eOperations name="getConstraints" upperBound="-1" eType="#//Constraint">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value=" org.eclipse.emf.common.util.BasicEList&lt;de.jabc.cinco.meta.core.mgl.model.constraints.Constraint>constraints = &#xA;&#x9;&#x9;            new org.eclipse.emf.common.util.BasicEList&lt;de.jabc.cinco.meta.core.mgl.model.constraints.Constraint>();&#xA;&#x9;&#x9;&#xA;&#x9;&#x9;return constraints;"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="getContainableTypes" upperBound="-1">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="if(getConstraints().size()>0){&#xA;&#x9;&#x9;&#x9;&#x9;&#xA;&#x9;&#x9;&#x9;&#x9;java.util.HashSet&lt;Class&lt;?>> containables = new java.util.HashSet&lt;>();&#xA;&#x9;&#x9;&#x9;&#x9;getConstraints().forEach(c -> containables.addAll(c.getContainables(this)));&#xA;&#x9;&#x9;&#x9;&#x9;return new org.eclipse.emf.common.util.BasicEList&lt;Class&lt;?>>(containables);&#xA;&#x9;&#x9;&#x9;&#xA;&#x9;&#x9;&#x9;}else{&#xA;&#x9;&#x9;&#x9;&#x9;&#xA;&#x9;&#x9;&#x9;&#x9;graphmodel.GraphModel rootGraphModel = null;&#xA;&#x9;&#x9;&#x9;&#x9;if(this instanceof graphmodel.GraphModel){&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;rootGraphModel = (graphmodel.GraphModel) this;&#xA;&#x9;&#x9;&#x9;&#x9;}else if(this instanceof graphmodel.Container){&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;rootGraphModel = ((graphmodel.Container)this).getRootElement();&#xA;&#x9;&#x9;&#x9;&#x9;}&#xA;&#x9;&#x9;&#x9;&#x9;&#xA;&#x9;&#x9;&#x9;&#x9;if(rootGraphModel!=null){&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;return rootGraphModel.getAllNodeTypes();&#xA;&#x9;&#x9;&#x9;&#x9;}&#xA;&#x9;&#x9;&#x9;&#x9;return null;&#xA;&#x9;&#x9;&#x9;}"/>
+      </eAnnotations>
+      <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaClass">
+        <eTypeArguments/>
+      </eGenericType>
     </eOperations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="modelElements" upperBound="-1"
         eType="#//ModelElement" containment="true" eOpposite="#//ModelElement/container"/>
@@ -149,4 +177,6 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
         defaultValueLiteral="" iD="true"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Constraint" instanceClassName="de.jabc.cinco.meta.core.mgl.model.constraints.Constraint"
+      abstract="true" interface="true"/>
 </ecore:EPackage>
