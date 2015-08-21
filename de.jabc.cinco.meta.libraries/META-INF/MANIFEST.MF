@@ -61,8 +61,8 @@ Bundle-ClassPath: .,
  lib/poi-ooxml-3.10.1.jar,
  lib/poi-ooxml-schemas-3.10.1.jar,
  lib/poi-scratchpad-3.10.1.jar,
- lib/ecore-sibs-1.3.2.1-adapters.jar,
- lib/mtsg-1.0.8.1.jar
+ lib/ecore-sibs-1.5-adapters.jar,
+ lib/mtsg-1.1.3.jar
 Export-Package: antlr,
  antlr.ASdebug,
  antlr.actions.cpp,
