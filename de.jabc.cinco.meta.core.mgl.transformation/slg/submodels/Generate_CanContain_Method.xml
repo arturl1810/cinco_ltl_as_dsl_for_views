@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>2dfcc433-a956-4609-a130-76521a6c3e9e</id>
   <name>Generate CanContain Method</name>
-  <changecounter>47</changecounter>
+  <changecounter>49</changecounter>
   <sib>
     <id>c8b450b2-9c6b-482a-a645-5b046c18b7b6</id>
     <name>IterateContainingElementContainableElements</name>
@@ -391,8 +391,8 @@
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>de.jabc.cinco.meta.core.mgl.model.constraints.Constraint $constraintName$ = 
-    new de.jabc.cinco.meta.core.mgl.model.constraints.Constraint($conLowerBound$,$conUpperBound$,$elementClasses$);
+      <string>de.jabc.cinco.meta.core.mgl.model.constraints.ContainmentConstraint $constraintName$ = 
+    new de.jabc.cinco.meta.core.mgl.model.constraints.ContainmentConstraint($conLowerBound$,$conUpperBound$,$elementClasses$);
 </string>
     </parameter>
     <finalbranches>default</finalbranches>
@@ -740,7 +740,7 @@
     <parameter name="eOperationNameKey">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>getConstraints</expression>
+          <expression>getContainmentConstraints</expression>
           <clazz>java.lang.String</clazz>
           <classMutable>true</classMutable>
         </ContextExpressionFoundation>
@@ -757,8 +757,8 @@
     </parameter>
     <parameter name="template">
       <string>$constraints$
-        org.eclipse.emf.common.util.BasicEList&lt;de.jabc.cinco.meta.core.mgl.model.constraints.Constraint&gt;constraints = 
-            new org.eclipse.emf.common.util.BasicEList&lt;de.jabc.cinco.meta.core.mgl.model.constraints.Constraint&gt;(java.util.Arrays.asList($constraintVariables$));
+        org.eclipse.emf.common.util.BasicEList&lt;de.jabc.cinco.meta.core.mgl.model.constraints.ContainmentConstraint&gt;constraints = 
+            new org.eclipse.emf.common.util.BasicEList&lt;de.jabc.cinco.meta.core.mgl.model.constraints.ContainmentConstraint&gt;(java.util.Arrays.asList($constraintVariables$));
 
 return constraints;</string>
     </parameter>
@@ -790,7 +790,7 @@ return constraints;</string>
     <parameter name="eClassifierName">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>Constraint</expression>
+          <expression>ContainmentConstraint</expression>
           <clazz>java.lang.String</clazz>
           <classMutable>true</classMutable>
         </ContextExpressionFoundation>
