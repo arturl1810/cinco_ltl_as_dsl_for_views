@@ -9,7 +9,7 @@ import de.jabc.cinco.meta.plugin.pyro.model.StyledEdge
 import de.jabc.cinco.meta.plugin.pyro.model.EmbeddingConstraint
 import mgl.GraphicalModelElement
 import mgl.Type
-import org.jgraph.graph.ConnectionSet.Connection
+import de.jabc.cinco.meta.plugin.pyro.utils.ModelParser
 
 class EditorConstraintTemplate implements Templateable{
 
@@ -20,7 +20,20 @@ class EditorConstraintTemplate implements Templateable{
 			group:'«entry.key.toFirstUpper»',
 			nodes:[
 			«FOR StyledNode node : entry.value SEPARATOR ','» 
-			'«node.modelElement.name.toFirstUpper»'
+			«IF node.modelElement instanceof mgl.Node»
+			«IF (node.modelElement as mgl.Node).primeReference != null»
+			«ELSE»
+			{
+				name:'«node.modelElement.name.toFirstUpper»',
+				label:'«node.modelElement.name.toFirstUpper»'
+			}
+			«ENDIF»
+			«ELSE»
+			{
+				name:'«node.modelElement.name.toFirstUpper»',
+				label:'«node.modelElement.name.toFirstUpper»'
+			}
+			«ENDIF»
 			«ENDFOR»
 			]
 		}
@@ -172,6 +185,9 @@ class EditorConstraintTemplate implements Templateable{
 		function getAllNodeTypes()
 		{
 			return [
+			«IF ModelParser.isPrimeRefernceAvailable(graphModel)»
+			getPrimeReferences(),
+			«ENDIF»
 			«FOR group : groupedNodes.entrySet SEPARATOR ','»
 	        «creatNodeGroup(group)»
 			«ENDFOR»

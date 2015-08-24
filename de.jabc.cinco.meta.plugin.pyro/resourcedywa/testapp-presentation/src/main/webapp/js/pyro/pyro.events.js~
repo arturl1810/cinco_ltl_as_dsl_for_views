@@ -6,17 +6,17 @@
  * Del Key Hit
  */
 $(document).keypress(function(e) {
-    //Delete Button: Del
+    //Delete
     if(e.which === 127 || e.which === 46) {
         $('#removeModelElement').trigger('click');
     }
-    //Copy Button: C
+    //Copy
     if(e.which === 67 || e.which === 99) {
         if(isSelection) {
             saveElementToReminder();
         }
     }
-    //Cut Button: X
+    //Cut
     if(e.which === 88 || e.which === 120) {
         if(isSelection) {
             saveElementToReminder();
@@ -24,7 +24,7 @@ $(document).keypress(function(e) {
             return;
         }
     }
-    //paste Button: V
+    //paste
     if(e.which === 86 || e.which === 118) {
         if(reminderElement){
             var elementName = reminderElement.attributes.cinco_name;
@@ -173,6 +173,45 @@ $('#rotateMinusModelElement').click(function(){
 $('#moveMode').click(function(){
     modelingMode = 'move';
 });
+
+/**
+ * Event-Listener
+ * Rotate Mode Button
+ */
+/**
+jQuery(function($){
+    $(document).drag("start",function( ev, dd ){
+        return $('<div class="selection" />')
+            .css('opacity', .65 )
+            .appendTo( document.body );
+    })
+        .drag(function( ev, dd ){
+            $( dd.proxy ).css({
+                top: Math.min( ev.pageY, dd.startY ),
+                left: Math.min( ev.pageX, dd.startX ),
+                height: Math.abs( ev.pageY - dd.startY ),
+                width: Math.abs( ev.pageX - dd.startX )
+            });
+        })
+        .drag("end",function( ev, dd ){
+            $( dd.proxy ).remove();
+        });
+    $('.drop')
+        .drop("start",function(){
+            console.log($(this));
+            $( this ).addClass('highlighted-parent');
+        })
+        .drop(function( ev, dd ){
+            console.log($(this));
+            $( this ).toggleClass("dropped");
+        })
+        .drop("end",function(){
+            console.log($(this));
+            $( this ).removeClass("active");
+        });
+    $.drop({ multi: true });
+});
+*/
 
 /**
  * Event-Listener
@@ -412,7 +451,8 @@ paper.on('cell:pointerup', function(cellView, evt, x, y) {
 /**
  * Event-Listener
  * Triggered when a cell is clicked and the cursor is moving
- * Depending on the selected mode the element is resized or rotated
+ * Depending on the selected mode the element is resized or rotatated
+ * TODO Implemntation
  */
 paper.on('cell:pointermove', function(cellView, evt, x, y) {
     //TODO Resize
@@ -557,7 +597,6 @@ $(function() {
        }
     });
 });
-
 
 
 

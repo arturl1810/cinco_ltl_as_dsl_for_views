@@ -2,6 +2,7 @@ package de.jabc.cinco.meta.plugin.pyro;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 import mgl.Annotation;
@@ -44,7 +45,8 @@ import de.jabc.cinco.meta.plugin.pyro.templates.presentation.java.components.mod
 import de.jabc.cinco.meta.plugin.pyro.templates.presentation.java.pages.PyroTemplate;
 import de.jabc.cinco.meta.plugin.pyro.templates.presentation.java.services.AppModule;
 import de.jabc.cinco.meta.plugin.pyro.templates.presentation.resources.components.modals.graph.ModelingCanvasProperties;
-import de.jabc.cinco.meta.plugin.pyro.templates.script.DeployCincoFtwTemplate;
+import de.jabc.cinco.meta.plugin.pyro.templates.script.DeployPyroLinuxTemplate;
+import de.jabc.cinco.meta.plugin.pyro.templates.script.DeployPyroWindowsTemplate;
 import de.jabc.cinco.meta.plugin.pyro.templates.transformation.CContainer;
 import de.jabc.cinco.meta.plugin.pyro.templates.transformation.CContainerImpl;
 import de.jabc.cinco.meta.plugin.pyro.templates.transformation.CEdge;
@@ -64,10 +66,12 @@ import de.metaframe.jabc.framework.execution.context.LightweightExecutionContext
 
 public class CreatePyroPlugin {
 	public static final String PYRO = "pyro";
+	public static final String PRIME = "primeviewer";
+	public static final String PRIME_LABEL = "pvLabel";
 	
 	public String basePath;
 	
-	public String execute(LightweightExecutionEnvironment env) throws IOException {
+	public String execute(LightweightExecutionEnvironment env) throws IOException, URISyntaxException {
 		LightweightExecutionContext context = env.getLocalContext().getGlobalContext();
 		GraphModel graphModel = (GraphModel) context.get("graphModel");
 		Styles styles = CincoUtils.getStyles(graphModel);
@@ -91,7 +95,6 @@ public class CreatePyroPlugin {
 				basePath = anno.getValue().get(0);
 				wildFlyPath = anno.getValue().get(1);
 				
-				
 				TemplateContainer templateContainer = new TemplateContainer();
 				templateContainer.setEdges(EdgeParser.getStyledEdges(graphModel,styles));
 				templateContainer.setEnums(new ArrayList<Type>(graphModel.getTypes()));
@@ -103,9 +106,9 @@ public class CreatePyroPlugin {
 				templateContainer.setGroupedNodes(ModelParser.getGroupedNodes(graphicalModelElements));
 				templateContainer.setValidConnections(ModelParser.getValidConnections(graphModel));
 				templateContainer.setEmbeddingConstraints(ModelParser.getValidEmbeddings(graphModel));
-				
 				//Scripts
-				createFile(new DeployCincoFtwTemplate(),basePath+"/deployment/deployCincoFTW.sh", basePath,wildFlyPath);
+				createFile(new DeployPyroLinuxTemplate(),basePath+"/deployment/deployPyro.sh", basePath,wildFlyPath);
+				createFile(new DeployPyroWindowsTemplate(),basePath+"/deployment/deployPyro.bat", basePath,wildFlyPath);
 				
 				
 				//Testapp-Business
@@ -191,6 +194,8 @@ public class CreatePyroPlugin {
 					createFile(new CEdge(), styledEdge, basePath+businessPath+"transformation/api/C"+ styledEdge.getModelElement().getName()+".java", templateContainer);
 					createFile(new CEdgeImpl(), styledEdge, basePath+businessPath+"transformation/api/C"+ styledEdge.getModelElement().getName()+"Impl.java", templateContainer);
 				}
+				
+				
 				
 				FileHandler.copyResources("de.jabc.cinco.meta.plugin.pyro",basePath);
 				

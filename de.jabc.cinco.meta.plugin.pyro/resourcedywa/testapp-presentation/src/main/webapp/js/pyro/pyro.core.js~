@@ -421,7 +421,7 @@ function bindValidators() {
  * @param value
  * @returns {string}
  */
-function getInputField(type,name,id,value,option) {
+function getInputField(type,name,id,value,option){
 
     var optionalParameter = '';
     if(option !== null){
@@ -661,16 +661,16 @@ function edgeSelection(edges,source,sourcePort,target,targetPort)
 
 /**
  * Returns an instance of the given modelElementClass
- * @param createdTypeLabel
+ * @param modelElement
  * @param x
  * @param y
- * @param cloneElement
+ * @returns {*}
  */
 function createElementInPosition(createdTypeLabel,x,y,cloneElement)
 {
     var type = getNodeTypeByLabel(createdTypeLabel);
     var modelElementClass = joint.shapes.devs[type.name+''];
-    if('dywaId' in type){
+    if(type.dywaId !== null){
         var element = new modelElementClass({
             cinco_id : '5',
             cinco_prime_id: type.dywaId,
@@ -708,8 +708,10 @@ function getContextMenuActions()
     for(var groups in modelElements) {
         var subGroup = {};
         for(var item in modelElements[groups].nodes) {
-            subGroup[modelElements[groups].nodes[item].label] = {
-                name: modelElements[groups].nodes[item].label
+            subGroup[modelElements[groups].nodes[item]] = {
+                name: modelElements[groups].nodes[item].label,
+                type: modelElements[groups].nodes[item].name,
+                prime: modelElements[groups].nodes[item].dywaId
             };
         }
         contextMenu[modelElements[groups].group] = {name : modelElements[groups].group, items: subGroup};
@@ -736,7 +738,6 @@ function getContextMenuActions()
             contextMenu['paste'] = {name: "paste"};
         }
     }
-    console.log(contextMenu);
     return contextMenu;
 }
 

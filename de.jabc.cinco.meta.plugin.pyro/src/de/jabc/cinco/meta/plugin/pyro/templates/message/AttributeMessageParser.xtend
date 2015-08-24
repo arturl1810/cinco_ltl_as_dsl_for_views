@@ -11,6 +11,7 @@ import de.jabc.cinco.meta.plugin.pyro.model.EmbeddingConstraint
 import mgl.Type
 import mgl.Attribute
 import mgl.Enumeration
+import de.jabc.cinco.meta.plugin.pyro.utils.ModelParser
 
 class AttributeMessageParser implements Templateable{
 	
@@ -35,30 +36,30 @@ public class AttributeMessageParser {
         JSONObject receivedMessage = MessageParser.parse(jsonString);
         String muId = (String) receivedMessage.get("muId");
         JSONArray element = (JSONArray) receivedMessage.get("element");
-        if(receivedMessage.get("name").equals("«graphModel.name.toFirstUpper»")) {
-            «FOR int index : 0..<graphModel.attributes.size »
-			JSONObject «graphModel.attributes.get(index).name.toFirstLower» = (JSONObject) element.get(«index»);
-			«this.createAttribute(graphModel.attributes.get(index),graphModel.name,enums)»
+        if(receivedMessage.get("type").equals("GraphModel")) {
+            «FOR int index : 0..< ModelParser.getNoUserDefinedAttributtes(graphModel.attributes,enums).size »
+			JSONObject «ModelParser.getNoUserDefinedAttributtes(graphModel.attributes,enums).get(index).name.toFirstLower» = (JSONObject) element.get(«index»);
+			«this.createAttribute(ModelParser.getNoUserDefinedAttributtes(graphModel.attributes,enums).get(index),graphModel.name,enums)»
 			«ENDFOR»
 			return getAttributeResponse(true,0,muId);
         }
         long dywaId = Long.parseLong(""+receivedMessage.get("dywaId"));
         «FOR StyledEdge sn:edges»
-       if(receivedMessage.get("name").equals("«sn.modelElement.name.toFirstUpper»")) {
-            C«sn.modelElement.name.toFirstUpper» c«sn.modelElement.name.toFirstUpper» = c«graphModel.name.toFirstUpper».getC«sn.modelElement.name.toFirstUpper»(dywaId);
-			«FOR int index : 0..<sn.modelElement.attributes.size »
-			JSONObject «sn.modelElement.attributes.get(index).name.toFirstLower» = (JSONObject) element.get(«index»);
-			«this.createAttribute(sn.modelElement.attributes.get(index),sn.modelElement.name,enums)»
+		if(receivedMessage.get("name").equals("«sn.modelElement.name.toFirstUpper»")) {
+		    C«sn.modelElement.name.toFirstUpper» c«sn.modelElement.name.toFirstUpper» = c«graphModel.name.toFirstUpper».getC«sn.modelElement.name.toFirstUpper»(dywaId);
+			«FOR int index : 0..<ModelParser.getNoUserDefinedAttributtes(sn.modelElement.attributes,enums).size »
+			JSONObject «ModelParser.getNoUserDefinedAttributtes(sn.modelElement.attributes,enums).get(index).name.toFirstLower» = (JSONObject) element.get(«index»);
+			«this.createAttribute(ModelParser.getNoUserDefinedAttributtes(sn.modelElement.attributes,enums).get(index),sn.modelElement.name,enums)»
 			«ENDFOR»
-            return getAttributeResponse(true,dywaId,muId);
-        }
+		    return getAttributeResponse(true,dywaId,muId);
+		}
         «ENDFOR»
 		«FOR StyledNode sn:nodes»
 		if(receivedMessage.get("name").equals("«sn.modelElement.name.toFirstUpper»")) {
 		    C«sn.modelElement.name.toFirstUpper» c«sn.modelElement.name.toFirstUpper» = c«graphModel.name.toFirstUpper».getC«sn.modelElement.name.toFirstUpper»(dywaId);
-			«FOR int index : 0..<sn.modelElement.attributes.size »
-			JSONObject «sn.modelElement.attributes.get(index).name.toFirstLower» = (JSONObject) element.get(«index»);
-			«this.createAttribute(sn.modelElement.attributes.get(index),sn.modelElement.name,enums)»
+			«FOR int index : 0..<ModelParser.getNoUserDefinedAttributtes(sn.modelElement.attributes,enums).size »
+			JSONObject «ModelParser.getNoUserDefinedAttributtes(sn.modelElement.attributes,enums).get(index).name.toFirstLower» = (JSONObject) element.get(«index»);
+			«this.createAttribute(ModelParser.getNoUserDefinedAttributtes(sn.modelElement.attributes,enums).get(index),sn.modelElement.name,enums)»
 			«ENDFOR»
 			return getAttributeResponse(true,dywaId,muId);
 		}
@@ -92,10 +93,12 @@ public class AttributeMessageParser {
 	
 	def createAttribute(mgl.Attribute attribute,String modelName,ArrayList<Type> enums)
 	'''
+	«IF !ModelParser.isUserDefinedType(attribute,enums)»
 	«IF attribute.upperBound == 1 && (attribute.lowerBound == 0 || attribute.lowerBound == 1)»
 	«this.createPrimativeAttribute(attribute,modelName,enums)»
 	«ELSE»
 	«this.createListAttribute(attribute,modelName,enums)»
+	«ENDIF»
 	«ENDIF»
 	'''
 	

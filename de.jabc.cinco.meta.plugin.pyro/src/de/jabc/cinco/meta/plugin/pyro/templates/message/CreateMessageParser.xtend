@@ -17,6 +17,7 @@ class CreateMessageParser implements Templateable{
 package de.ls5.cinco.message;
 
 import de.ls5.cinco.transformation.api.*;
+import de.ls5.dywa.generated.entity.*;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -55,6 +56,16 @@ public class CreateMessageParser {
 		«FOR StyledNode sn:nodes»
 		if(receivedMessage.get("name").equals("«sn.modelElement.name.toFirstUpper»")) {
 		    C«sn.modelElement.name.toFirstUpper» c«sn.modelElement.name.toFirstUpper» = c«graphModel.name.toFirstUpper».newC«sn.modelElement.name.toFirstUpper»((long)x, (long)y);
+		    
+		    «IF sn.modelElement instanceof mgl.Node»
+		    «IF (sn.modelElement as mgl.Node).primeReference != null»
+		    //Prime Attribute
+            long «(sn.modelElement as mgl.Node).primeReference.type.name.toFirstLower»PrimeId = Long.parseLong (""+((JSONObject) receivedMessage.get("element")).get("cinco_prime_id"));
+            «(sn.modelElement as mgl.Node).primeReference.type.name.toFirstUpper»Prime «(sn.modelElement as mgl.Node).primeReference.type.name.toFirstLower»Prime = c«graphModel.name.toFirstUpper».get«(sn.modelElement as mgl.Node).primeReference.type.name.toFirstUpper»PrimeController().read«(sn.modelElement as mgl.Node).primeReference.type.name.toFirstUpper»Prime(«(sn.modelElement as mgl.Node).primeReference.type.name.toFirstLower»PrimeId);
+            ((«sn.modelElement.name.toFirstUpper») c«sn.modelElement.name.toFirstUpper».getModelElement()).set«(sn.modelElement as mgl.Node).primeReference.name.toFirstLower»(«(sn.modelElement as mgl.Node).primeReference.type.name.toFirstLower»Prime);
+		    «ENDIF»
+		    «ENDIF»
+		    
 		    return getCreateResponse(c«sn.modelElement.name.toFirstUpper».getModelElement().getId(),(JSONObject) receivedMessage.get("element"));
 		}
         «ENDFOR»

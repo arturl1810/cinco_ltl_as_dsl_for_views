@@ -35,10 +35,9 @@ import java.util.stream.Collectors;
  */
 public class C«sme.modelElement.name.toFirstUpper»Impl implements C«sme.modelElement.name.toFirstUpper»{
 	
-	protected «sme.modelElement.name.toFirstUpper» modelElementContainer;
+	protected «sme.modelElement.name.toFirstUpper» modelElement;
 	
 	protected C«graphModel.name.toFirstUpper» c«graphModel.name.toFirstUpper»;
-    
     
     public C«graphModel.name.toFirstUpper» getC«graphModel.name.toFirstUpper»() {
         return c«graphModel.name.toFirstUpper»;
@@ -60,22 +59,22 @@ public class C«sme.modelElement.name.toFirstUpper»Impl implements C«sme.model
 		return target.newC«sme.modelElement.name.toFirstUpper»(this.getX(),this.getY(),this.getWidth(),this.getHeight());
 	}
 	   
-	«createEdges("Incoming", validConnections, sme,graphModel.name)»
+	«CNodeImpl.createEdges("Incoming", validConnections, sme,graphModel.name)»
     
-    «createEdges("Outgoing", validConnections, sme,graphModel.name)»
+    «CNodeImpl.createEdges("Outgoing", validConnections, sme,graphModel.name)»
     
     @Override
     public CModelElementContainer getContainer() {
-    	if(modelElementContainer.getcontainer() instanceof «graphModel.name.toFirstUpper»){
+    	if(modelElement.getcontainer() instanceof «graphModel.name.toFirstUpper»){
             return this.c«graphModel.name.toFirstUpper»;
         }
         «FOR EmbeddingConstraint ec : embeddingConstraints»
         «FOR GraphicalModelElement gm : ec.validNode»
         «IF gm.name.equals(sme.modelElement.name)»
-        if(modelElementContainer.getcontainer() instanceof «ec.container.name.toFirstUpper»){
+        if(modelElement.getcontainer() instanceof «ec.container.name.toFirstUpper»){
             C«ec.container.name.toFirstUpper» c«ec.container.name.toFirstUpper» = new C«ec.container.name.toFirstUpper»Impl();
             c«ec.container.name.toFirstUpper».setC«graphModel.name.toFirstUpper»(this.c«graphModel.name.toFirstUpper»);
-            c«ec.container.name.toFirstUpper».setModelElementContainer(modelElementContainer.getcontainer());
+            c«ec.container.name.toFirstUpper».setModelElementContainer(modelElement.getcontainer());
         }
         «ENDIF»
         «ENDFOR»
@@ -86,7 +85,7 @@ public class C«sme.modelElement.name.toFirstUpper»Impl implements C«sme.model
     @Override
     public List<CModelElement> getModelElements() {
         List<CModelElement> cModelElements = new ArrayList<CModelElement>();
-        for(ModelElement me:this.modelElementContainer.getmodelElements_ModelElement()) {
+        for(ModelElement me:this.modelElement.getmodelElements_ModelElement()) {
         	«FOR EmbeddingConstraint ec : embeddingConstraints»
     		«IF ec.container.name.equals(sme.modelElement.name)»
         	«FOR GraphicalModelElement gme : ec.validNode»
@@ -114,15 +113,15 @@ public class C«sme.modelElement.name.toFirstUpper»Impl implements C«sme.model
     @Override
     public void setContainer(CModelElementContainer container) {
         //COMMAND EMBEDD
-        this.modelElementContainer.getcontainer().getmodelElements_ModelElement().remove(this.modelElementContainer);
-        this.modelElementContainer.setcontainer(container.getModelElementContainer());
-        container.getModelElementContainer().getmodelElements_ModelElement().add(this.modelElementContainer);
+        this.modelElement.getcontainer().getmodelElements_ModelElement().remove(this.modelElement);
+        this.modelElement.setcontainer(container.getModelElementContainer());
+        container.getModelElementContainer().getmodelElements_ModelElement().add(this.modelElement);
     }
 
     
     «FOR ConnectionConstraint cc : validConnections»
     «IF cc.sourceNode.modelElement.name.equals(sme.modelElement.name)»
-    «createNewEdge(cc,graphModel.name)»
+    «CNodeImpl.createEdge(cc,graphModel.name)»
     «ENDIF»
     «ENDFOR»
 	«FOR EmbeddingConstraint ec : embeddingConstraints»
@@ -133,9 +132,10 @@ public class C«sme.modelElement.name.toFirstUpper»Impl implements C«sme.model
 	«ENDIF»
 	«ENDFOR»
 	
+	
 	public void addModelElement(CModelElement cModelElement) {
         //EMBEDD COMMAND
-        this.modelElementContainer.getmodelElements_ModelElement().add(cModelElement.getModelElement());
+        this.modelElement.getmodelElements_ModelElement().add(cModelElement.getModelElement());
     }
 
     public <T extends CModelElement> List<T> getCModelElements(Class<T> clazz) {
@@ -166,33 +166,32 @@ public class C«sme.modelElement.name.toFirstUpper»Impl implements C«sme.model
 
     @Override
     public ModelElementContainer getModelElementContainer(){
-        return this.modelElementContainer;
+        return this.modelElement;
     }
-
-    @Override
+    
     public void setModelElementContainer(ModelElementContainer modelElementContainer){
-        this.modelElementContainer = («sme.modelElement.name.toFirstUpper»)modelElementContainer;
+        this.modelElement = («sme.modelElement.name.toFirstUpper»)modelElementContainer;
     }
     
     public void setModelElement(ModelElement modelElement){
-        this.modelElementContainer = («sme.modelElement.name.toFirstUpper»)modelElement;
+        this.modelElement = («sme.modelElement.name.toFirstUpper»)modelElement;
     }
 
     public ModelElement getModelElement(){
-        return this.modelElementContainer;
+        return this.modelElement;
     }
     
     «FOR Attribute attr : sme.modelElement.attributes»
-    «createAttribute(attr, sme)»
+    «CModelElementImpl.createAttribute(attr, sme,enums)»
     «ENDFOR»
     «FOR ConnectionConstraint cc : validConnections»
     «IF cc.targetNode.modelElement.name.equals(sme.modelElement.name)»
-    «createCessor("Prede", cc.sourceNode)»
+    «CNodeImpl.createCessor("Prede", cc.sourceNode)»
     «ENDIF»
     «ENDFOR»
     «FOR ConnectionConstraint cc : validConnections»
     «IF cc.sourceNode.modelElement.name.equals(sme.modelElement.name)»
-    «createCessor("Suc", cc.targetNode)»
+    «CNodeImpl.createCessor("Suc", cc.targetNode)»
     «ENDIF»
     «ENDFOR»
     
@@ -227,19 +226,19 @@ public class C«sme.modelElement.name.toFirstUpper»Impl implements C«sme.model
     }
 
     public long getX(){
-        return modelElementContainer.getposition().getx();
+        return modelElement.getposition().getx();
     }
 
     public long getY(){
-        return modelElementContainer.getposition().gety();
+        return modelElement.getposition().gety();
     }
 
     public long getWidth(){
-        return modelElementContainer.getwidth();
+        return modelElement.getwidth();
     }
 
     public long getHeight(){
-        return modelElementContainer.getheight();
+        return modelElement.getheight();
     }
 
     public void setX(long x){
@@ -260,9 +259,9 @@ public class C«sme.modelElement.name.toFirstUpper»Impl implements C«sme.model
 
     public void moveTo(long x,long y){
         //MOVE COMMAND
-        long relX = x - this.modelElementContainer.getposition().getx();
-		long relY = y - this.modelElementContainer.getposition().gety();
-		for(ModelElement modelElement:this.modelElementContainer.getmodelElements_ModelElement()) {
+        long relX = x - this.modelElement.getposition().getx();
+		long relY = y - this.modelElement.getposition().gety();
+		for(ModelElement modelElement:this.modelElement.getmodelElements_ModelElement()) {
 			if(modelElement instanceof Node) {
 				Node node = (Node) modelElement;
 				node.getposition().setx(node.getposition().getx() + relX);
@@ -276,23 +275,23 @@ public class C«sme.modelElement.name.toFirstUpper»Impl implements C«sme.model
 				}
 			}
 		}
-        this.modelElementContainer.getposition().setx(x);
-        this.modelElementContainer.getposition().sety(y);
+        this.modelElement.getposition().setx(x);
+        this.modelElement.getposition().sety(y);
     }
 
     public void resize(long width,long height) {
         //RESIZE COMMAND
-        this.modelElementContainer.setwidth(width);
-        this.modelElementContainer.setheight(height);
+        this.modelElement.setwidth(width);
+        this.modelElement.setheight(height);
     }
 
     public void setAngle(double angle){
         //ROTATE COMMAND
-        this.modelElementContainer.setangle(angle);
+        this.modelElement.setangle(angle);
     }
 
     public double getAngle(){
-        return this.modelElementContainer.getangle();
+        return this.modelElement.getangle();
     }
 
     public void rotate(double degrees){
@@ -300,11 +299,11 @@ public class C«sme.modelElement.name.toFirstUpper»Impl implements C«sme.model
     }
 
     public void setNode(Node node) {
-        this.modelElementContainer = («sme.modelElement.name.toFirstUpper»)node;
+        this.modelElement = («sme.modelElement.name.toFirstUpper»)node;
     }
 
     public Node getNode(){
-        return this.modelElementContainer;
+        return this.modelElement;
     }
 
 
@@ -314,7 +313,7 @@ public class C«sme.modelElement.name.toFirstUpper»Impl implements C«sme.model
 
     public boolean delete() {
         //REMOVE CONTAINER COMMAND
-        this.modelElementContainer.getcontainer().getmodelElements_ModelElement().remove(this.modelElementContainer);
+        this.modelElement.getcontainer().getmodelElements_ModelElement().remove(this.modelElement);
         //Remove all contained elements
         //getModelElements().forEach(de.ls5.cinco.transformation.api.CModelElement::delete);
         //Remove all outgoing edges
@@ -322,9 +321,9 @@ public class C«sme.modelElement.name.toFirstUpper»Impl implements C«sme.model
         //Remove all incomming edges
         //getIncoming().forEach(de.ls5.cinco.transformation.api.CEdge::delete);
         
-        this.c«graphModel.name.toFirstUpper».getGraphModel().getmodelElements_ModelElement().remove(this.modelElementContainer);
-        this.c«graphModel.name.toFirstUpper».getPointController().deletePoint(this.modelElementContainer.getposition());
-        this.c«graphModel.name.toFirstUpper».get«sme.modelElement.name.toFirstUpper»Controller().delete«sme.modelElement.name.toFirstUpper»(this.modelElementContainer);
+        this.c«graphModel.name.toFirstUpper».getGraphModel().getmodelElements_ModelElement().remove(this.modelElement);
+        this.c«graphModel.name.toFirstUpper».getPointController().deletePoint(this.modelElement.getposition());
+        this.c«graphModel.name.toFirstUpper».get«sme.modelElement.name.toFirstUpper»Controller().delete«sme.modelElement.name.toFirstUpper»(this.modelElement);
         return true;
     }
 
@@ -344,56 +343,29 @@ public class C«sme.modelElement.name.toFirstUpper»Impl implements C«sme.model
 	
 	'''
 
-	def createEdges(String prefix, ArrayList<ConnectionConstraint> validConnections, StyledModelElement sme,String graphModelName) '''
-		   @Override
-		public List<CEdge> get«prefix.toFirstUpper»() {
-			List<CEdge> cEdges = new ArrayList<>();
-			      for(Edge edge:this.modelElementContainer.get«prefix.toFirstLower»_Edge()){
-			      	«FOR ConnectionConstraint cc : ModelParser.filterForEdge(validConnections)»
-			      		if(edge instanceof «cc.connectingEdge.modelElement.name.toFirstUpper»){
-			      		    C«cc.connectingEdge.modelElement.name.toFirstUpper» c«cc.connectingEdge.modelElement.name.toFirstUpper» = new C«cc.connectingEdge.modelElement.name.toFirstUpper»Impl();
-			      		    c«cc.connectingEdge.modelElement.name.toFirstUpper».setModelElement(edge);
-			      		    c«cc.connectingEdge.modelElement.name.toFirstUpper».setC«graphModelName.toFirstUpper»(this.c«graphModelName.toFirstUpper»);
-			      			continue;
-			      		}
-			      	«ENDFOR»
-			      }
-			      return cEdges;
-		}
-	'''
 
-	def createEmbedding(GraphicalModelElement gme) '''
+	static def createEmbedding(GraphicalModelElement gme) '''
 		public void addC«gme.name.toFirstUpper»(C«gme.name.toFirstUpper» node){
 			addModelElement(node);
 		}
 	'''
 
-	def createNewEdge(ConnectionConstraint cc,String graphModelName) '''
-		public C«cc.connectingEdge.modelElement.name.toFirstUpper» newC«cc.connectingEdge.modelElement.name.toFirstUpper»(C«cc.targetNode.modelElement.name.toFirstUpper» target) {
-			//CREATE EDGE COMMAND
-			«cc.connectingEdge.modelElement.name.toFirstUpper» «cc.connectingEdge.modelElement.name.toFirstLower» = this.c«graphModelName.toFirstUpper».get«cc.connectingEdge.modelElement.name.toFirstUpper»Controller().create«cc.connectingEdge.modelElement.name.toFirstUpper»("«cc.connectingEdge.modelElement.name.toFirstLower»" + new Date().getTime());
-			«cc.connectingEdge.modelElement.name.toFirstLower».setsourceElement(this.modelElementContainer);
-			«cc.connectingEdge.modelElement.name.toFirstLower».settargetElement((Node) target.getModelElement());
-			«cc.connectingEdge.modelElement.name.toFirstLower».setcontainer(this.modelElementContainer.getcontainer());
-			this.c«graphModelName.toFirstUpper».getGraphModel().getmodelElements_ModelElement().add(«cc.connectingEdge.modelElement.name.toFirstLower»);
-			
-			this.modelElementContainer.getoutgoing_Edge().add(«cc.connectingEdge.modelElement.name.toFirstLower»);
-		    ((Node) target.getModelElement()).getincoming_Edge().add(«cc.connectingEdge.modelElement.name.toFirstLower»);
-			
-			C«cc.connectingEdge.modelElement.name.toFirstUpper» c«cc.connectingEdge.modelElement.name.toFirstUpper» = new C«cc.connectingEdge.modelElement.name.toFirstUpper»Impl();
-			c«cc.connectingEdge.modelElement.name.toFirstUpper».setModelElement(«cc.connectingEdge.modelElement.name.toFirstLower»);
-			c«cc.connectingEdge.modelElement.name.toFirstUpper».setC«graphModelName.toFirstUpper»(this.c«graphModelName.toFirstUpper»);
-			return c«cc.connectingEdge.modelElement.name.toFirstUpper»;
-		}
-	'''
 
-	def createNewNode(EmbeddingConstraint ec, String graphModelName) '''
+	static def createNewNode(EmbeddingConstraint ec, String graphModelName) '''
 		«FOR GraphicalModelElement gme : ec.validNode»
 			public C«gme.name.toFirstUpper» newC«gme.name.toFirstUpper»(long x,long y) {
 			    C«gme.name.toFirstUpper» c«gme.name.toFirstUpper» = this.c«graphModelName.toFirstUpper».newC«gme.name.toFirstUpper»(x,y);
 				c«gme.name.toFirstUpper».setContainer(this);
 				this.c«graphModelName.toFirstUpper».getGraphModel().getmodelElements_ModelElement().add(c«gme.name.toFirstUpper».getModelElement());
-				this.modelElementContainer.getmodelElements_ModelElement().add(c«gme.name.toFirstUpper».getModelElement());
+				return c«gme.name.toFirstUpper»;
+			}
+			
+			public C«gme.name.toFirstUpper» newC«gme.name.toFirstUpper»(long x,long y,long width,long height) {
+			    C«gme.name.toFirstUpper» c«gme.name.toFirstUpper» = this.c«graphModelName.toFirstUpper».newC«gme.name.toFirstUpper»(x,y);
+				c«gme.name.toFirstUpper».setContainer(this);
+				c«gme.name.toFirstUpper».setWidth(width);
+				c«gme.name.toFirstUpper».setHeight(height);
+				this.c«graphModelName.toFirstUpper».getGraphModel().getmodelElements_ModelElement().add(c«gme.name.toFirstUpper».getModelElement());
 				return c«gme.name.toFirstUpper»;
 			}
 			
@@ -412,52 +384,5 @@ public class C«sme.modelElement.name.toFirstUpper»Impl implements C«sme.model
 			
 		«ENDFOR»
 	'''
-
-	def createCessor(String cessor, StyledNode sn) '''
-		public List<C«sn.modelElement.name.toFirstUpper»> get«sn.modelElement.name.toFirstUpper»«cessor»cessor() {
-		    return getPredecessors(C«sn.modelElement.name.toFirstUpper».class);
-		}
-	'''
-
-	def createAttribute(mgl.Attribute attribute, StyledModelElement sme) '''
-		«IF attribute.upperBound == 1 && (attribute.lowerBound == 0 || attribute.lowerBound == 1)»
-			«createPrimativeAttribute(attribute, sme)»
-		«ELSE»
-			«createListAttribute(attribute, sme)»
-		«ENDIF»
-		
-	'''
-
-	def createPrimativeAttribute(mgl.Attribute attribute, StyledModelElement sme) '''
-		public «getAttributeType(attribute.type)» get«attribute.name.toFirstUpper»(){
-			return ((«sme.modelElement.name.toFirstUpper»)this.modelElementContainer).get«attribute.name.toFirstLower»();
-		}
-		
-		public void set«attribute.name.toFirstUpper»(«getAttributeType(attribute.type)» «attribute.name.toFirstLower») {
-		    ((«sme.modelElement.name.toFirstUpper»)this.modelElementContainer).set«attribute.name.toFirstLower»(«attribute.
-			name.toFirstLower»);
-		}
-	'''
-
-	def createListAttribute(mgl.Attribute attribute, StyledModelElement sme) '''
-		public List<String> get«attribute.name.toFirstUpper»(){
-			return ((«sme.modelElement.name.toFirstUpper»)this.modelElementContainer).get«attribute.name.toFirstLower»();
-		}
-		
-		public void set«attribute.name.toFirstUpper»(List<String> «attribute.name.toFirstLower») {
-		    ((«sme.modelElement.name.toFirstUpper»)this.modelElementContainer).set«attribute.name.toFirstLower»(«attribute.
-			name.toFirstLower»);
-		}
-	'''
-
-	def getAttributeType(String type) {
-		if(type.equals("EString")) return "String";
-		if(type.equals("EInt")) return "long";
-		if(type.equals("EDouble")) return "double";
-		if(type.equals("EBoolean")) return "boolean";
-
-		//ENUM
-		return "String";
-	}
 
 }

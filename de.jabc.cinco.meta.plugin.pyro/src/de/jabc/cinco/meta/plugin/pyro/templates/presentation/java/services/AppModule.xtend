@@ -9,6 +9,9 @@ import java.util.HashMap
 import de.jabc.cinco.meta.plugin.pyro.model.ConnectionConstraint
 import de.jabc.cinco.meta.plugin.pyro.model.EmbeddingConstraint
 import mgl.Type
+import de.jabc.cinco.meta.plugin.pyro.utils.ModelParser
+import org.eclipse.emf.ecore.EClass
+import mgl.ReferencedType
 
 class AppModule implements Templateable {
 	
@@ -227,6 +230,10 @@ public class AppModule
         return buildControllerOrNull(PyroCreateNodeCommandController.class, "pyroCreateNodeCommandControllerImpl");
     }
     @Scope(ScopeConstants.PERTHREAD)
+    public PyroRemoveNodeCommandController buildPyroRemoveNodeCommandController() {
+        return buildControllerOrNull(PyroRemoveNodeCommandController.class, "pyroRemoveNodeCommandControllerImpl");
+    }
+    @Scope(ScopeConstants.PERTHREAD)
     public PyroMoveNodeCommandController buildPyroMoveNodeCommandController() {
         return buildControllerOrNull(PyroMoveNodeCommandController.class, "pyroMoveNodeCommandControllerImpl");
     }
@@ -241,6 +248,10 @@ public class AppModule
     @Scope(ScopeConstants.PERTHREAD)
     public PyroCreateEdgeCommandController buildPyroCreateEdgeCommandController() {
         return buildControllerOrNull(PyroCreateEdgeCommandController.class, "pyroCreateEdgeCommandControllerImpl");
+    }
+    @Scope(ScopeConstants.PERTHREAD)
+    public PyroRemoveEdgeCommandController buildPyroRemoveEdgeCommandController() {
+        return buildControllerOrNull(PyroRemoveEdgeCommandController.class, "pyroRemoveEdgeCommandControllerImpl");
     }
     @Scope(ScopeConstants.PERTHREAD)
     public PyroReconnectEdgeCommandController buildPyroReconnectEdgeCommandController() {
@@ -302,6 +313,13 @@ public class AppModule
     @Scope(ScopeConstants.PERTHREAD)
     public Pyro«sn.modelElement.name.toFirstUpper»AttributeCommandController buildPyro«sn.modelElement.name.toFirstUpper»AttributeCommandController() {
         return buildControllerOrNull(Pyro«sn.modelElement.name.toFirstUpper»AttributeCommandController.class, "pyro«sn.modelElement.name.toFirstUpper»AttributeCommandControllerImpl");
+    }
+    «ENDFOR»
+    
+    «FOR ReferencedType primeRef:ModelParser.getPrimeReferencedModelElements(graphModel)»
+    @Scope(ScopeConstants.PERTHREAD)
+    public «primeRef.type.name.toFirstUpper»PrimeController build«primeRef.type.name.toFirstUpper»PrimeController() {
+        return buildControllerOrNull(«primeRef.type.name.toFirstUpper»PrimeController.class, "«primeRef.type.name.toFirstLower»PrimeControllerImpl");
     }
     «ENDFOR»
 

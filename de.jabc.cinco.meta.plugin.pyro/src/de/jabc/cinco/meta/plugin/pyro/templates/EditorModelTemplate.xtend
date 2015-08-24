@@ -18,7 +18,7 @@ import de.jabc.cinco.meta.plugin.pyro.model.LabelAlignment
 import de.jabc.cinco.meta.plugin.pyro.model.EmbeddingConstraint
 import mgl.Type
 import mgl.Enumeration
-import de.jabc4.basic.CreateFolder.SuccessReturn
+import de.jabc.cinco.meta.plugin.pyro.utils.ModelParser
 
 class EditorModelTemplate implements Templateable{
 	
@@ -532,8 +532,18 @@ def createContainer(StyledNode styledNode,ArrayList<Type> enums)
 def createAttributes(GraphicalModelElement modelElement,ArrayList<Type> enums)
 '''
 	cinco_attrs: [
+		«IF modelElement instanceof mgl.Node»
+		«IF (modelElement as mgl.Node).primeReference != null»
+		{
+			name: 'prime',
+			type: 'text',
+			option: 'disabled',
+			values: ''
+		},
+		«ENDIF»
+		«ENDIF»
 		«IF !modelElement.attributes.empty»
-		«FOR Attribute attr : modelElement.attributes  SEPARATOR ', '»
+		«FOR Attribute attr : ModelParser.getNoUserDefinedAttributtes(modelElement.attributes,enums)  SEPARATOR ', '»
 	        «createAttribute(attr,enums)»
 	    «ENDFOR»
 	    «ENDIF»
@@ -583,13 +593,16 @@ def public String getAttributeDefault(Attribute attr, ArrayList<Type> enums) {
 	if(attr.type.equals("EDouble")) return "0.00";
 	if(attr.type.equals("EBoolean")) return "false";
 	//ENUM
-	var type = getEnumByName(attr,enums) as Enumeration;
-	if(type == null) { 
-		return "''";
+	if(!ModelParser.isUserDefinedType(attr,enums)) {
+		var type = getEnumByName(attr,enums) as Enumeration;
+		if(type == null) { 
+			return "''";
+		}
+		else {
+			return ""+createEnumAttribute(attr,type);	
+		}		
 	}
-	else {
-		return ""+createEnumAttribute(attr,type);	
-	}
+	return "''";
 
 }
 

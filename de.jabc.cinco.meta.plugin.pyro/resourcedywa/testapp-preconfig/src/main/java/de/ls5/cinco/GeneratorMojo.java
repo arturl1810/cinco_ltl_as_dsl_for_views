@@ -39,7 +39,7 @@ public class GeneratorMojo extends AbstractMojo {
 		final CreationalContext<CincoDBController> cctx = bmgr.createCreationalContext(bean);
 		final CincoDBController controller = (CincoDBController) bmgr.getReference(bean, bean.getBeanClass(), cctx);
 
-//		controller.removeGraphModelDBTypes();
+		controller.removeGraphModelDBTypes();
 		controller.createGraphModelDBTypes();
 
 		cdiContainer.getContextControl().stopContexts();

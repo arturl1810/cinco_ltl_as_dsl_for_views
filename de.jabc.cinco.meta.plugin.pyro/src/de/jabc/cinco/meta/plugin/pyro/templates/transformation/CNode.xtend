@@ -44,13 +44,12 @@ public interface C«sme.modelElement.name.toFirstUpper» extends CNode{
     
     public void setContainer(CModelElementContainer container);
     
-    
     «createEdges("Incoming",validConnections,sme)»
     
     «createEdges("Outgoing",validConnections,sme)»
     
     «FOR Attribute attr: sme.modelElement.attributes»
-    «createAttribute(attr,sme)»
+    «CModelElement.createAttribute(attr,sme,enums)»
     «ENDFOR»
     «FOR ConnectionConstraint cc: validConnections»
     «IF cc.targetNode.modelElement.name.equals(sme.modelElement.name)»
@@ -73,53 +72,21 @@ public interface C«sme.modelElement.name.toFirstUpper» extends CNode{
 	
 	'''
 	
-	def createEdges(String prefix,ArrayList<ConnectionConstraint> validConnections,StyledModelElement sme)
+	static def createEdges(String prefix,ArrayList<ConnectionConstraint> validConnections,StyledModelElement sme)
 	'''
 	public List<CEdge> get«prefix.toFirstUpper»();
 	'''
 	
-	def createEdge(ConnectionConstraint cc)
+	static def createEdge(ConnectionConstraint cc)
 	'''
 	public C«cc.connectingEdge.modelElement.name.toFirstUpper» newC«cc.connectingEdge.modelElement.name.toFirstUpper»(C«cc.targetNode.modelElement.name.toFirstUpper» target);
 	'''
 	
-	def createCessor(String cessor,StyledNode sn)
+	static def createCessor(String cessor,StyledNode sn)
 	'''
 	public List<C«sn.modelElement.name.toFirstUpper»> get«sn.modelElement.name.toFirstUpper»«cessor»cessor();
 	'''
 	
-	def createAttribute(mgl.Attribute attribute,StyledModelElement sme)
-	'''
-	«IF attribute.upperBound == 1 && (attribute.lowerBound == 0 || attribute.lowerBound == 1) »
-	«createPrimativeAttribute(attribute,sme)»
-	«ELSE»
-	«createListAttribute(attribute,sme)»
-	«ENDIF»
-	
-	'''
-	
-	def createPrimativeAttribute(mgl.Attribute attribute,StyledModelElement sme)
-	'''
-	public «getAttributeType(attribute.type)» get«attribute.name.toFirstUpper»();
-	
-	public void set«attribute.name.toFirstUpper»(«getAttributeType(attribute.type)» «attribute.name.toFirstLower»);
-	'''
-	
-	def createListAttribute(mgl.Attribute attribute,StyledModelElement sme)
-	'''
-	public List<String> get«attribute.name.toFirstUpper»();
-	
-	public void set«attribute.name.toFirstUpper»(List<String> «attribute.name.toFirstLower»);
-	'''
-	
-	def getAttributeType(String type) {
-	if(type.equals("EString")) return "String";
-	if(type.equals("EInt")) return "long";
-	if(type.equals("EDouble")) return "double";
-	if(type.equals("EBoolean")) return "boolean";
-	//ENUM
-	return "String";
-}
 
 	
 }

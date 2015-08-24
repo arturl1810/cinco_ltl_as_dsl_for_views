@@ -9,9 +9,11 @@ import javax.enterprise.inject.Disposes;
 import javax.enterprise.inject.Produces;
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
- * Created by frohme on 22.06.15.
+ * Created by pyro cinco meta plugin
  */
 @Alternative
 @Priority(1)
@@ -21,7 +23,11 @@ public class BeanProducer {
 	@de.ls5.dywa.core.qualifier.Persistence
 	@RequestScoped
 	public EntityManager produceEntityManager() {
-		EntityManager em = Persistence.createEntityManagerFactory("pu").createEntityManager();
+		final Map<String, String> config = new HashMap<>();
+
+		config.put("hibernate.connection.url", "jdbc:postgresql://localhost:5432/dywa");
+
+		EntityManager em = Persistence.createEntityManagerFactory("pu", config).createEntityManager();
 		em.getTransaction().begin();
 		return em;
 	}

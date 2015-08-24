@@ -79,6 +79,10 @@
         function getAssetRootPath() {
             return "${context:css}";
         }
+        function getPrimeReferences() {
+            return  ${primeReferences};
+
+        }
     </script>
 
     <script src="${context:js/pyro/pyro.core.js}"></script>

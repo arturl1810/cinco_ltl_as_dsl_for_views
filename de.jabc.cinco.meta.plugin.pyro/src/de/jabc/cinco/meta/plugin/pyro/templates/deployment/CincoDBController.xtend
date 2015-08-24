@@ -13,6 +13,11 @@ import mgl.Attribute
 import mgl.GraphicalModelElement
 import java.util.List
 import mgl.Node
+import mgl.UserDefinedType
+import de.jabc.cinco.meta.plugin.pyro.utils.ModelParser
+import org.eclipse.emf.ecore.EClass
+import org.eclipse.emf.ecore.EAttribute
+import org.eclipse.emf.ecore.EStructuralFeature
 
 class CincoDBController implements Templateable{
 
@@ -129,6 +134,18 @@ public class CincoDBControllerImpl implements CincoDBController{
         this.typeController.addSuperType(container,modelElementContainer);
         //System.out.println(container.getName() + " created");
         System.out.println("[ok]");
+        
+        //Create Types
+        «FOR Type type : graphModel.types»
+        «IF type instanceof UserDefinedType»
+        final DBType «type.name.toFirstLower»Type = this.typeController.createType("«type.name.toFirstUpper»Type");
+        «ENDIF»
+        «ENDFOR»
+        «FOR Type type : graphModel.types»
+        «IF type instanceof UserDefinedType»
+        «createUserDefinedTypeAttributes(type as UserDefinedType,enums)»
+        «ENDIF»
+        «ENDFOR»
 
         //Create the CommandStack
         final DBType pyroCommand = this.typeController.createType("PyroCommand");
@@ -141,6 +158,10 @@ public class CincoDBControllerImpl implements CincoDBController{
         this.typeController.addSuperType(pyroCreateNodeCommand,pyroCommand);
         DBField xDbField = this.typeController.addPrimitiveFieldToType(pyroCreateNodeCommand, "x", PropertyType.DOUBLE);
         DBField yDbField = this.typeController.addPrimitiveFieldToType(pyroCreateNodeCommand, "y", PropertyType.DOUBLE);
+        //Remove Node Command
+        final DBType pyroRemoveNodeCommand = this.typeController.createType("PyroRemoveNodeCommand");
+        this.typeController.addSuperType(pyroRemoveNodeCommand,pyroCommand);
+        DBField removedNodeField = this.typeController.addComplexFieldToType(pyroRemoveNodeCommand, "node", PropertyType.OBJECT,node);
         //Move Node Command
         final DBType pyroMoveNodeCommand = this.typeController.createType("PyroMoveNodeCommand");
         this.typeController.addSuperType(pyroMoveNodeCommand,pyroCreateNodeCommand);
@@ -163,6 +184,10 @@ public class CincoDBControllerImpl implements CincoDBController{
         this.typeController.addSuperType(pyroCreateEdgeCommand,pyroCommand);
         DBField sourceDywaIdDbField = this.typeController.addPrimitiveFieldToType(pyroCreateEdgeCommand, "sourceDywaId", PropertyType.LONG);
         DBField targetDywaIdDbField = this.typeController.addPrimitiveFieldToType(pyroCreateEdgeCommand, "targetDywaId", PropertyType.LONG);
+        //Remove Edge Command
+        final DBType pyroRemoveEdgeCommand = this.typeController.createType("PyroRemoveEdgeCommand");
+        this.typeController.addSuperType(pyroRemoveEdgeCommand,pyroCommand);
+        DBField removedEdgeField = this.typeController.addComplexFieldToType(pyroRemoveEdgeCommand, "edge", PropertyType.OBJECT,edge);
         //Reconnect Edge Command
         final DBType pyroReconnectEdgeCommand = this.typeController.createType("PyroReconnectEdgeCommand");
         this.typeController.addSuperType(pyroReconnectEdgeCommand,pyroCreateEdgeCommand);
@@ -174,6 +199,10 @@ public class CincoDBControllerImpl implements CincoDBController{
         DBField vertexesDbField = this.typeController.addComplexFieldToType(pyroVertexEdgeCommand, "vertexes", PropertyType.OBJECT_LIST,point);
         DBField preVertexesDbField = this.typeController.addComplexFieldToType(pyroVertexEdgeCommand, "preVertexes", PropertyType.OBJECT_LIST,point);
         //Graphmodel Attributes Command
+        «IF graphModel.attributes.size > 0»
+        final DBType pyro«graphModel.name.toFirstUpper»AttributeCommand = this.typeController.createType("Pyro«graphModel.name.toFirstUpper»AttributeCommand");
+		pyro«graphModel.name.toFirstUpper»AttributeCommand.setAbstractType(false);
+        «ENDIF»
         «FOR Attribute attr : graphModel.attributes»
 	    	«createCommandAttribute(attr,enums,graphModel.name)»
 	    «ENDFOR»
@@ -194,29 +223,6 @@ public class CincoDBControllerImpl implements CincoDBController{
         DBField pyroCommandStackDbField = this.typeController.addComplexFieldToType(graphModel, "pyroCommandStack", PropertyType.OBJECT_LIST, pyroCommand);
         DBField pyroCommandStackIndexDbField = this.typeController.addPrimitiveFieldToType(graphModel, "pyroCommandStackIndex", PropertyType.LONG);
         
-        createModelEnvironment(graphModel,node,edge,container);
-        createProjectEnvironment(graphModel);
-    }
-
-    private void createProjectEnvironment(DBType graphModel){
-        System.out.print("Creating DBTypes for the Project and User");
-        //Create IdentifiableElement
-        final DBType user = this.typeController.createType("User");
-        final DBType project = this.typeController.createType("Project");
-
-        user.setAbstractType(false);
-        this.typeController.addPrimitiveFieldToType(user,"userName",PropertyType.STRING);
-        this.typeController.addComplexFieldToType(user, "projects", PropertyType.OBJECT_LIST, project);
-        this.typeController.addPrimitiveFieldToType(project,"edited",PropertyType.TIMESTAMP);
-        this.typeController.addPrimitiveFieldToType(project,"created",PropertyType.TIMESTAMP);
-
-        project.setAbstractType(false);
-        this.typeController.addPrimitiveFieldToType(project,"projectName",PropertyType.STRING);
-        this.typeController.addComplexFieldToType(project, "users", PropertyType.OBJECT_LIST, user);
-        this.typeController.addComplexFieldToType(project, "graphModels", PropertyType.OBJECT_LIST, graphModel);
-    }
-
-    private void createModelEnvironment(DBType graphModel,DBType node, DBType edge, DBType container){
         //Create «graphModel.name»
         final DBType «graphModel.name.toFirstLower» = this.typeController.createType("«graphModel.name.toFirstUpper»");
         «graphModel.name.toFirstLower».setAbstractType(false);
@@ -226,6 +232,16 @@ public class CincoDBControllerImpl implements CincoDBController{
 	    	«createAttribute(attr,enums,graphModel.name)»
 	    «ENDFOR»
         System.out.println(«graphModel.name.toFirstLower».getName() + " created");
+
+		//Create PrimeReferences
+		«FOR mgl.ReferencedType prime: ModelParser.getPrimeReferencedModelElements(graphModel)»
+		//Create «prime.type.name.toFirstUpper»Prime
+		final DBType «prime.type.name.toFirstLower»Prime = this.typeController.createType("«prime.type.name.toFirstUpper»Prime");
+		«prime.type.name.toFirstLower»Prime.setAbstractType(false);
+		«createAttributes(prime.type,enums)»
+		System.out.println(«prime.type.name.toFirstLower»Prime.getName() + " created");
+		«ENDFOR»
+		
 
         //Create Node-Types and Container-Types
 
@@ -245,7 +261,25 @@ public class CincoDBControllerImpl implements CincoDBController{
         
         System.out.println("[ok]");
         
-        
+        createProjectEnvironment(graphModel);
+    }
+
+    private void createProjectEnvironment(DBType graphModel){
+        System.out.print("Creating DBTypes for the Project and User");
+        //Create IdentifiableElement
+        final DBType user = this.typeController.createType("User");
+        final DBType project = this.typeController.createType("Project");
+
+        user.setAbstractType(false);
+        this.typeController.addPrimitiveFieldToType(user,"userName",PropertyType.STRING);
+        this.typeController.addComplexFieldToType(user, "projects", PropertyType.OBJECT_LIST, project);
+        this.typeController.addPrimitiveFieldToType(project,"edited",PropertyType.TIMESTAMP);
+        this.typeController.addPrimitiveFieldToType(project,"created",PropertyType.TIMESTAMP);
+
+        project.setAbstractType(false);
+        this.typeController.addPrimitiveFieldToType(project,"projectName",PropertyType.STRING);
+        this.typeController.addComplexFieldToType(project, "users", PropertyType.OBJECT_LIST, user);
+        this.typeController.addComplexFieldToType(project, "graphModels", PropertyType.OBJECT_LIST, graphModel);
     }
 
     @Override
@@ -301,7 +335,17 @@ def createNode(GraphicalModelElement element,ArrayList<Type> enums)
 	«element.name.toFirstLower».setAbstractType(false);
 	this.typeController.addSuperType(«element.name.toFirstLower», node);
 	«createAttributes(element,enums)»
+	«IF element instanceof Node»
+	«createPrimeAttribute(element as Node)»
+	«ENDIF»
 	System.out.println(«element.name.toFirstLower».getName() + " created");
+'''
+
+def createPrimeAttribute(Node node)
+'''
+«IF node.primeReference != null»
+this.typeController.addComplexFieldToType(«node.name.toFirstLower»,"«node.primeReference.name.toFirstLower»",PropertyType.OBJECT,«node.primeReference.type.name.toFirstLower»Prime);
+«ENDIF»
 '''
 
 def createAttributeCommmand(GraphicalModelElement element,ArrayList<Type> enums)
@@ -332,7 +376,7 @@ def createContainer(GraphicalModelElement element,ArrayList<Type> enums)
 	System.out.println(«element.name.toFirstLower».getName() + " created");
 '''
 
-def createAttributes(GraphicalModelElement modelElement,ArrayList<Type> enums)
+def createAttributes(mgl.ModelElement modelElement,ArrayList<Type> enums)
 '''
 	«IF !modelElement.attributes.empty»
 	«FOR Attribute attr : modelElement.attributes»
@@ -340,6 +384,27 @@ def createAttributes(GraphicalModelElement modelElement,ArrayList<Type> enums)
     «ENDFOR»
     «ENDIF»
 '''
+
+def createAttributes(EClass eClass ,ArrayList<Type> enums)
+'''
+	«IF !eClass.EAllStructuralFeatures.empty»
+	«FOR EStructuralFeature attr : eClass.EAllStructuralFeatures»
+	«IF attr instanceof EAttribute»
+        «createAttribute(attr,eClass.name+"Prime")»
+    «ENDIF»
+    «ENDFOR»
+    «ENDIF»
+'''
+
+def createUserDefinedTypeAttributes(UserDefinedType modelElement,ArrayList<Type> enums)
+'''
+	«IF !modelElement.attributes.empty»
+	«FOR Attribute attr : modelElement.attributes»
+        «createAttribute(attr,enums,modelElement.name+"Type")»
+    «ENDFOR»
+    «ENDIF»
+'''
+
 def createCommandAttributes(GraphicalModelElement modelElement,ArrayList<Type> enums)
 '''
 	«IF !modelElement.attributes.empty»
@@ -357,6 +422,15 @@ def createAttribute(Attribute attr,ArrayList<Type> enums,String elementName)
 	«ENDIF»
 	
 '''
+
+def createAttribute(EAttribute attr,String elementName)
+'''
+	«IF attr.upperBound == 1 && (attr.lowerBound == 0 || attr.lowerBound == 1) »
+	«createPrimativeAttribute(attr,elementName)»
+	«ENDIF»
+	
+'''
+
 def createCommandAttribute(Attribute attr,ArrayList<Type> enums,String elementName)
 '''
 	«IF attr.upperBound == 1 && (attr.lowerBound == 0 || attr.lowerBound == 1) »
@@ -369,7 +443,11 @@ def createCommandAttribute(Attribute attr,ArrayList<Type> enums,String elementNa
 
 def createListAttribute(Attribute attr,ArrayList<Type> enums, String elementName)
 '''
+	«IF ModelParser.isUserDefinedType(attr,enums)»
+	this.typeController.addComplexFieldToType(«elementName.toFirstLower»,"«attr.name.toFirstLower»",PropertyType.OBJECT_LIST,«attr.type.toFirstLower»Type);
+	«ELSE»
 	this.typeController.addPrimitiveFieldToType(«elementName.toFirstLower»,"«attr.name.toFirstLower»",PropertyType.STRING_LIST);
+	«ENDIF»
 '''
 def createListCommandAttribute(Attribute attr,ArrayList<Type> enums, String elementName)
 '''
@@ -377,10 +455,22 @@ def createListCommandAttribute(Attribute attr,ArrayList<Type> enums, String elem
 	this.typeController.addPrimitiveFieldToType(pyro«elementName.toFirstUpper»AttributeCommand,"pre«attr.name.toFirstUpper»",PropertyType.STRING_LIST);
 '''
 
-def createPrimativeAttribute(Attribute attribute,String elementName,List<Type> enums)
+def createPrimativeAttribute(Attribute attribute,String elementName,ArrayList<Type> enums)
 '''
+	«IF ModelParser.isUserDefinedType(attribute,enums)»
+	this.typeController.addComplexFieldToType(«elementName.toFirstLower»,"«attribute.name.toFirstLower»",PropertyType.OBJECT,«attribute.type.toFirstLower»Type);
+	«ELSE»
 	this.typeController.addPrimitiveFieldToType(«elementName.toFirstLower»,"«attribute.name.toFirstLower»",«getAttributeType(attribute.type)»);
+	«ENDIF»
 ''' 
+
+def createPrimativeAttribute(EAttribute attribute,String elementName)
+'''
+	«IF !attribute.name.equalsIgnoreCase("id")»
+	this.typeController.addPrimitiveFieldToType(«elementName.toFirstLower»,"«attribute.name.toFirstLower»",«getAttributeType(attribute.getEType().name)»);
+	«ENDIF»
+''' 
+
 def createPrimativeCommandAttribute(Attribute attribute,String elementName,List<Type> enums)
 '''
 	this.typeController.addPrimitiveFieldToType(pyro«elementName.toFirstUpper»AttributeCommand,"«attribute.name.toFirstLower»",«getAttributeType(attribute.type)»);

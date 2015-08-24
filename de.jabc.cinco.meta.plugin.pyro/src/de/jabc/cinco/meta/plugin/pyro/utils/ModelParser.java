@@ -1,13 +1,34 @@
 package de.jabc.cinco.meta.plugin.pyro.utils;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 
 import org.eclipse.core.filebuffers.manipulation.ContainerCreator;
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.URIUtil;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.osgi.framework.Bundle;
 
 import mgl.Annotation;
+import mgl.Attribute;
 import mgl.Edge;
 import mgl.GraphModel;
 import mgl.GraphicalElementContainment;
@@ -16,6 +37,7 @@ import mgl.IncomingEdgeElementConnection;
 import mgl.Node;
 import mgl.NodeContainer;
 import mgl.OutgoingEdgeElementConnection;
+import mgl.UserDefinedType;
 import style.Appearance;
 import style.BooleanEnum;
 import style.Color;
@@ -23,6 +45,8 @@ import style.Font;
 import style.LineStyle;
 import style.StyleFactory;
 import style.Text;
+import de.jabc.cinco.meta.core.utils.PathValidator;
+import de.jabc.cinco.meta.plugin.pyro.CreatePyroPlugin;
 import de.jabc.cinco.meta.plugin.pyro.model.ConnectionConstraint;
 import de.jabc.cinco.meta.plugin.pyro.model.EmbeddingConstraint;
 import de.jabc.cinco.meta.plugin.pyro.model.LabelAlignment;
@@ -30,6 +54,7 @@ import de.jabc.cinco.meta.plugin.pyro.model.StyledConnector;
 import de.jabc.cinco.meta.plugin.pyro.model.StyledEdge;
 import de.jabc.cinco.meta.plugin.pyro.model.StyledLabel;
 import de.jabc.cinco.meta.plugin.pyro.model.StyledNode;
+import de.jabc.cinco.meta.plugin.pyro.templates.presentation.java.pages.PyroTemplate;
 
 public class ModelParser {
 	
@@ -373,6 +398,23 @@ public class ModelParser {
 		return false;
 	}
 	
+	public static boolean isCustomeActionAvailable(mgl.GraphModel modelElement)
+	{
+		if(ModelParser.isCustomeAction(modelElement)) {
+			return true;
+		}
+		List<mgl.ModelElement> modelElements = new ArrayList<mgl.ModelElement>();
+		modelElements.addAll(modelElement.getEdges());
+		modelElements.addAll(modelElement.getNodeContainers());
+		modelElements.addAll(modelElement.getNodes());
+		for (mgl.ModelElement modelElement2 : modelElements) {
+			if(isCustomeAction(modelElement2)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	public static String getCustomeActionName(mgl.ModelElement modelElement)
 	{
 		for(mgl.Annotation annotation:modelElement.getAnnotations()) {
@@ -448,6 +490,79 @@ public class ModelParser {
 			return anno;
 		}
 		return parts[parts.length-1];
+	}
+	
+	public static boolean isUserDefinedType(mgl.Attribute attribute,ArrayList<mgl.Type> types)
+	{
+		for (mgl.Type type : types) {
+			if(type.getName().equals(attribute.getType()) && type instanceof UserDefinedType){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public static List<mgl.Attribute> getNoUserDefinedAttributtes(List<mgl.Attribute> attributes,ArrayList<mgl.Type> types)
+	{
+		List<Attribute> noUseDefinedAttributes = new ArrayList<Attribute>();
+		for (Attribute attribute : attributes) {
+			if(!ModelParser.isUserDefinedType(attribute, types)){
+				noUseDefinedAttributes.add(attribute);
+			}
+		}
+		return noUseDefinedAttributes;
+	}
+	
+	public static boolean isPrimeRefernceAvailable(mgl.GraphModel graphModel)
+	{
+		//Prime Refs
+		for(mgl.Annotation annotation: graphModel.getAnnotations()){
+			if(annotation.getName().equals(CreatePyroPlugin.PRIME)){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public static List<mgl.ReferencedType> getPrimeReferencedModelElements(mgl.GraphModel graphModel)
+	{
+		List<mgl.ReferencedType> elements = new ArrayList<mgl.ReferencedType>();
+		for(mgl.Node node:graphModel.getNodes()) {
+			if(node.getPrimeReference() != null) {
+				elements.add(node.getPrimeReference());
+			}
+		}
+		
+		return elements;
+	}
+	
+	public static String getPrimeAttributeLabel(mgl.ReferencedType referencedType)
+	{
+		for(Annotation annotation:referencedType.getAnnotations())
+		{
+			if(annotation.getName().equals(CreatePyroPlugin.PRIME_LABEL)) {
+				if(annotation.getValue().size() > 0){
+					return annotation.getValue().get(0);
+				}
+			}
+		}
+		return "Name";
+	}
+	
+	public static String getPrimeRefName(mgl.Node node)
+	{
+		if(node.getPrimeReference() != null){
+			return node.getPrimeReference().getType().getName();
+		}
+		return "";
+	}
+	
+	public static String getPrimeAttrName(mgl.Node node)
+	{
+		if(node.getPrimeReference() != null){
+			return node.getPrimeReference().getName();
+		}
+		return "";
 	}
 
 }

@@ -14,6 +14,8 @@ import mgl.Attribute
 import mgl.GraphicalModelElement
 import de.jabc.cinco.meta.plugin.pyro.templates.Templateable
 import de.jabc.cinco.meta.plugin.pyro.utils.ModelParser
+import org.eclipse.emf.ecore.EClass
+import mgl.ReferencedType
 
 class CGraphModelImpl implements Templateable{
 	
@@ -39,13 +41,37 @@ import java.util.stream.Collectors;
 @RequestScoped
 public class C«graphModel.name.toFirstUpper»Impl implements C«graphModel.name.toFirstUpper»{
 	
-	protected «graphModel.name.toFirstUpper» modelElementContainer;
+	protected «graphModel.name.toFirstUpper» modelElement;
 	
 	@Inject
     private «graphModel.name.toFirstUpper»Controller «graphModel.name.toFirstLower»Controller;
 
     @Inject
     private PointController pointController;
+    
+    @Inject
+	private PyroMoveNodeCommandController pyroMoveNodeCommandController;
+	@Inject
+	private PyroResizeNodeCommandController pyroResizeNodeCommandController;
+	@Inject
+	private PyroReconnectEdgeCommandController pyroReconnectEdgeCommandController;
+	@Inject
+	private PyroVertexEdgeCommandController pyroVertexEdgeCommandController;
+	@Inject
+	private PyroRotateNodeCommandController pyroRotateNodeCommandController;
+	@Inject
+	private PyroRemoveNodeCommandController pyroRemoveNodeCommandController;
+	@Inject
+	private PyroCreateNodeCommandController pyroCreateNodeCommandController;
+	@Inject
+	private PyroRemoveEdgeCommandController pyroRemoveEdgeCommandController;
+	@Inject
+	private PyroCreateEdgeCommandController pyroCreateEdgeCommandController;
+	
+	«FOR ReferencedType primeRef : ModelParser.getPrimeReferencedModelElements(graphModel)»
+	@Inject
+   	private «primeRef.type.name.toFirstUpper»PrimeController «primeRef.type.name.toFirstLower»PrimeController;
+    «ENDFOR»
 	
 	«FOR StyledNode sn:nodes»
 	@Inject
@@ -100,9 +126,16 @@ public class C«graphModel.name.toFirstUpper»Impl implements C«graphModel.name
     
     }
     «ENDFOR»
+    
+    «FOR ReferencedType primeRef : ModelParser.getPrimeReferencedModelElements(graphModel)»
+    public «primeRef.type.name.toFirstUpper»PrimeController get«primeRef.type.name.toFirstUpper»PrimeController()
+    {
+    	return «primeRef.type.name.toFirstLower»PrimeController;
+	}
+    «ENDFOR»
 	
 	public void setModelElementContainer(«graphModel.name.toFirstUpper» modelElementContainer) {
-        this.modelElementContainer = modelElementContainer;
+        this.modelElement = modelElementContainer;
     }
 	
     public String getCName(){
@@ -137,7 +170,7 @@ public class C«graphModel.name.toFirstUpper»Impl implements C«graphModel.name
     @Override
     public List<CModelElement> getModelElements() {
         List<CModelElement> cModelElements = new ArrayList<CModelElement>();
-        for(ModelElement me:getRecursiveModelElemements(this.modelElementContainer.getmodelElements_ModelElement())) {
+        for(ModelElement me:getRecursiveModelElemements(this.modelElement.getmodelElements_ModelElement())) {
         	«FOR StyledNode sn:nodes»
 			if(me instanceof «sn.modelElement.name.toFirstUpper»){
 			    C«sn.modelElement.name.toFirstUpper» c«sn.modelElement.name.toFirstUpper» = new C«sn.modelElement.name.toFirstUpper»Impl();
@@ -163,7 +196,7 @@ public class C«graphModel.name.toFirstUpper»Impl implements C«graphModel.name
     «ENDFOR»
 
     «FOR Attribute attr: graphModel.attributes»
-    «createAttribute(attr,graphModel)»
+    «CModelElementImpl.createAttribute(attr,graphModel,enums)»
     «ENDFOR»
     
     public <T extends CModelElement> List<T> getCModelElements(Class<T> clazz) {
@@ -174,7 +207,7 @@ public class C«graphModel.name.toFirstUpper»Impl implements C«graphModel.name
     public void setModelElements(List<CModelElement> cModelElements) {
         //COMMAND EMBED
         for(CModelElement cModelElement:cModelElements){
-            this.modelElementContainer.getmodelElements_ModelElement().add(cModelElement.getModelElement());
+            this.modelElement.getmodelElements_ModelElement().add(cModelElement.getModelElement());
         }
     }
 
@@ -196,20 +229,60 @@ public class C«graphModel.name.toFirstUpper»Impl implements C«graphModel.name
     }
 
     public GraphModel getGraphModel() {
-        return this.modelElementContainer;
+        return this.modelElement;
     }
 
     public void setGraphModel(GraphModel graphModel) {
-        this.modelElementContainer = («graphModel.name.toFirstUpper») graphModel;
+        this.modelElement = («graphModel.name.toFirstUpper») graphModel;
     }
 
     public ModelElementContainer getModelElementContainer(){
-        return this.modelElementContainer;
+        return this.modelElement;
     }
 
     public void setModelElementContainer(ModelElementContainer modelElementContainer){
-        this.modelElementContainer = («graphModel.name.toFirstUpper») modelElementContainer;
+        this.modelElement = («graphModel.name.toFirstUpper») modelElementContainer;
     }
+    
+    public PyroMoveNodeCommandController getPyroMoveNodeCommandController(){
+    	return pyroMoveNodeCommandController;
+	}
+	
+	public PyroResizeNodeCommandController getPyroResizeNodeCommandController(){
+		return pyroResizeNodeCommandController;
+	}
+	
+	public PyroRotateNodeCommandController getPyroRotateNodeCommandController(){
+		return pyroRotateNodeCommandController;
+	}
+	
+	public PyroReconnectEdgeCommandController getPyroReconnectEdgeCommandController(){
+		return pyroReconnectEdgeCommandController;
+	}
+
+	public PyroVertexEdgeCommandController pyroVertexEdgeCommandController(){
+		return pyroVertexEdgeCommandController;
+	}
+	
+	public PyroRotateNodeCommandController pyroRotateNodeCommandController(){
+		return pyroRotateNodeCommandController;
+	}
+	
+	public PyroRemoveNodeCommandController getPyroRemoveNodeCommandController(){
+		return pyroRemoveNodeCommandController;
+	}
+	
+	public PyroCreateNodeCommandController getPyroCreateNodeCommandController(){
+		return pyroCreateNodeCommandController;
+	}
+	
+	public PyroRemoveEdgeCommandController getPyroRemoveEdgeCommandController(){
+		return pyroRemoveEdgeCommandController;
+	}
+	
+	public PyroCreateEdgeCommandController getPyroCreateEdgeCommandController(){
+		return pyroCreateEdgeCommandController;
+	}
 }
 	
 	'''
@@ -261,15 +334,22 @@ public class C«graphModel.name.toFirstUpper»Impl implements C«graphModel.name
 		«sn.modelElement.name.toFirstLower».setheight(height);
 		«sn.modelElement.name.toFirstLower».setwidth(width);
 		«sn.modelElement.name.toFirstLower».setangle(«sn.angle».0);
-		«sn.modelElement.name.toFirstLower».setcontainer(this.modelElementContainer);
+		«sn.modelElement.name.toFirstLower».setcontainer(this.modelElement);
 		Point point = this.pointController.createPoint("point"+new Date().getTime());
 		point.setx(x);
 		point.sety(y);
 		«sn.modelElement.name.toFirstLower».setposition(point);
-		this.modelElementContainer.getmodelElements_ModelElement().add(«sn.modelElement.name.toFirstLower»);
+		this.modelElement.getmodelElements_ModelElement().add(«sn.modelElement.name.toFirstLower»);
 		C«sn.modelElement.name.toFirstUpper» c«sn.modelElement.name.toFirstUpper» = new C«sn.modelElement.name.toFirstUpper»Impl();
 		c«sn.modelElement.name.toFirstUpper».setModelElement(«sn.modelElement.name.toFirstLower»);
 		c«sn.modelElement.name.toFirstUpper».setC«graphModelName.toFirstUpper»(this);
+		PyroCreateNodeCommand pyroCreateNodeCommand = pyroCreateNodeCommandController.createPyroCreateNodeCommand("Create«sn.modelElement.name.toFirstUpper»" + new Date().getTime());
+		pyroCreateNodeCommand.settype("«sn.modelElement.name.toFirstUpper»");
+		pyroCreateNodeCommand.setx((double) x);
+		pyroCreateNodeCommand.sety((double) y);
+		pyroCreateNodeCommand.setdywaId(«sn.modelElement.name.toFirstLower».getId());
+		pyroCreateNodeCommand.settime(new Date());
+		this.modelElement.getpyroCommandStack_PyroCommand().add(pyroCreateNodeCommand);
 		return c«sn.modelElement.name.toFirstUpper»;
 	}
 	
@@ -302,46 +382,6 @@ public class C«graphModel.name.toFirstUpper»Impl implements C«graphModel.name
 	}
 	'''
 	
-	def createAttribute(mgl.Attribute attribute,GraphModel g)
-	'''
-	«IF attribute.upperBound == 1 && (attribute.lowerBound == 0 || attribute.lowerBound == 1) »
-	«createPrimativeAttribute(attribute,g)»
-	«ELSE»
-	«createListAttribute(attribute,g)»
-	«ENDIF»
-	
-	'''
-	
-	def createPrimativeAttribute(mgl.Attribute attribute,GraphModel g)
-	'''
-	public «getAttributeType(attribute.type)» get«attribute.name.toFirstUpper»(){
-		return this.modelElementContainer.get«attribute.name.toFirstLower»();
-	}
-	
-	public void set«attribute.name.toFirstUpper»(«getAttributeType(attribute.type)» «attribute.name.toFirstLower») {
-	    this.modelElementContainer.set«attribute.name.toFirstLower»(«attribute.name.toFirstLower»);
-	}
-	'''
-	
-	def createListAttribute(mgl.Attribute attribute,GraphModel g)
-	'''
-	public List<String> get«attribute.name.toFirstUpper»(){
-		return this.modelElementContainer.get«attribute.name.toFirstLower»();
-	}
-	
-	public void set«attribute.name.toFirstUpper»(List<String> «attribute.name.toFirstLower») {
-	    this.modelElementContainer.set«attribute.name.toFirstLower»(«attribute.name.toFirstLower»);
-	}
-	'''
-	
-	def getAttributeType(String type) {
-	if(type.equals("EString")) return "String";
-	if(type.equals("EInt")) return "long";
-	if(type.equals("EDouble")) return "double";
-	if(type.equals("EBoolean")) return "boolean";
-	//ENUM
-	return "String";
-}
 
 	
 }

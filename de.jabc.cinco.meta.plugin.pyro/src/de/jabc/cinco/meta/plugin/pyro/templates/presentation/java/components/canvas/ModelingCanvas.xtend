@@ -82,6 +82,10 @@ public class ModelingCanvas {
     {
         return this.componentResources.createFormEventLink("editElement",this.openGraph.getId()).toURI();
     }
+    
+    public String getPrimeReferences() {
+        return «graphModel.name.toFirstUpper»Parser.getPrimeReferencesJSON(c«graphModel.name.toFirstUpper»Wrapper.wrap«graphModel.name.toFirstUpper»(this.openGraph));
+    }
 
     Object onEditElement(long graphId) {
         this.openGraph = this.«graphModel.name.toFirstLower»Controller.read«graphModel.name.toFirstUpper»(graphId);

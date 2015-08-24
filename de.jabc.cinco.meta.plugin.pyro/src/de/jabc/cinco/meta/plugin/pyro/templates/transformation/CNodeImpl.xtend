@@ -84,7 +84,7 @@ public class C«sme.modelElement.name.toFirstUpper»Impl implements C«sme.model
     «createEdges("Outgoing",validConnections,sme,graphModel.name)»
     
     «FOR Attribute attr: sme.modelElement.attributes»
-    «createAttribute(attr,sme)»
+    «CModelElementImpl.createAttribute(attr,sme,enums)»
     «ENDFOR»
     «FOR ConnectionConstraint cc: validConnections»
     «IF cc.targetNode.modelElement.name.equals(sme.modelElement.name)»
@@ -240,7 +240,7 @@ public class C«sme.modelElement.name.toFirstUpper»Impl implements C«sme.model
 	
 	'''
 	
-	def createEdges(String prefix,ArrayList<ConnectionConstraint> validConnections,StyledModelElement sme,String graphModelName)
+	static def createEdges(String prefix,ArrayList<ConnectionConstraint> validConnections,StyledModelElement sme,String graphModelName)
 	'''
 	@Override
 	public List<CEdge> get«prefix.toFirstUpper»() {
@@ -259,7 +259,7 @@ public class C«sme.modelElement.name.toFirstUpper»Impl implements C«sme.model
 	}
 	'''
 	
-	def createEdge(ConnectionConstraint cc,String graphModelName)
+	static def createEdge(ConnectionConstraint cc,String graphModelName)
 	'''
 	public C«cc.connectingEdge.modelElement.name.toFirstUpper» newC«cc.connectingEdge.modelElement.name.toFirstUpper»(C«cc.targetNode.modelElement.name.toFirstUpper» target) {
 	    //CREATE EDGE COMMAND
@@ -275,60 +275,27 @@ public class C«sme.modelElement.name.toFirstUpper»Impl implements C«sme.model
 		C«cc.connectingEdge.modelElement.name.toFirstUpper» c«cc.connectingEdge.modelElement.name.toFirstUpper» = new C«cc.connectingEdge.modelElement.name.toFirstUpper»Impl();
 		c«cc.connectingEdge.modelElement.name.toFirstUpper».setModelElement(«cc.connectingEdge.modelElement.name.toFirstLower»);
 		c«cc.connectingEdge.modelElement.name.toFirstUpper».setC«graphModelName.toFirstUpper»(this.c«graphModelName.toFirstUpper»);
+        PyroCreateEdgeCommand pyroCreateEdgeCommand = c«graphModelName.toFirstUpper».getPyroCreateEdgeCommandController().createPyroCreateEdgeCommand("Create«cc.connectingEdge.modelElement.name.toFirstUpper»" + new Date().getTime());
+        pyroCreateEdgeCommand.settime(new Date());
+        pyroCreateEdgeCommand.setdywaId(«cc.connectingEdge.modelElement.name.toFirstLower».getId());
+        pyroCreateEdgeCommand.settype("«cc.connectingEdge.modelElement.name.toFirstUpper»");
+        pyroCreateEdgeCommand.setsourceDywaId(this.modelElement.getId());
+        pyroCreateEdgeCommand.settargetDywaId(target.getModelElement().getId());
+        c«graphModelName.toFirstUpper».getGraphModel().getpyroCommandStack_PyroCommand().add(pyroCreateEdgeCommand);
 		return c«cc.connectingEdge.modelElement.name.toFirstUpper»;
 	}
 	'''
 	
-	def createCessor(String cessor,StyledNode sn)
+	static def createCessor(String cessor,StyledNode sn)
 	'''
 	public List<C«sn.modelElement.name.toFirstUpper»> get«sn.modelElement.name.toFirstUpper»«cessor»cessor() {
 	    return getPredecessors(C«sn.modelElement.name.toFirstUpper».class);
 	}
 	'''
 	
-	def createAttribute(mgl.Attribute attribute,StyledModelElement sme)
-	'''
-	«IF attribute.upperBound == 1 && (attribute.lowerBound == 0 || attribute.lowerBound == 1) »
-	«createPrimativeAttribute(attribute,sme)»
-	«ELSE»
-	«createListAttribute(attribute,sme)»
-	«ENDIF»
 	
-	'''
-	
-	def createPrimativeAttribute(mgl.Attribute attribute,StyledModelElement sme)
-	'''
-	public «getAttributeType(attribute.type)» get«attribute.name.toFirstUpper»(){
-		return ((«sme.modelElement.name.toFirstUpper»)this.modelElement).get«attribute.name.toFirstLower»();
-	}
-	
-	public void set«attribute.name.toFirstUpper»(«getAttributeType(attribute.type)» «attribute.name.toFirstLower») {
-	    ((«sme.modelElement.name.toFirstUpper»)this.modelElement).set«attribute.name.toFirstLower»(«attribute.name.toFirstLower»);
-	}
-	'''
-	
-	def createListAttribute(mgl.Attribute attribute,StyledModelElement sme)
-	'''
-	public List<String> get«attribute.name.toFirstUpper»(){
-		return ((«sme.modelElement.name.toFirstUpper»)this.modelElement).get«attribute.name.toFirstLower»();
-	}
-	
-	public void set«attribute.name.toFirstUpper»(List<String> «attribute.name.toFirstLower») {
-	    ((«sme.modelElement.name.toFirstUpper»)this.modelElement).set«attribute.name.toFirstLower»(«attribute.name.toFirstLower»);
-	}
-	'''
-	
-	def getAttributeType(String type) {
-	if(type.equals("EString")) return "String";
-	if(type.equals("EInt")) return "long";
-	if(type.equals("EDouble")) return "double";
-	if(type.equals("EBoolean")) return "boolean";
-	//ENUM
-	return "String";
-	
-}
 
-def containsEdge(String name,String source, int counter, ArrayList<ConnectionConstraint> ccs){
+	static def containsEdge(String name,String source, int counter, ArrayList<ConnectionConstraint> ccs){
 	for(Integer i: counter+1..ccs.size){
 		if(ccs.get(i).sourceNode.modelElement.name.equals(source) && name.equals(ccs.get(i).connectingEdge.modelElement.name)){
 			return true;

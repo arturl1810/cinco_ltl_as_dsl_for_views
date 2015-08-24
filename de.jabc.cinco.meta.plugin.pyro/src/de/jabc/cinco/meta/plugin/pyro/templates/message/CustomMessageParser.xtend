@@ -16,8 +16,9 @@ class CustomMessageParser implements Templateable{
 	override create(GraphModel graphModel, ArrayList<StyledNode> nodes, ArrayList<StyledEdge> edges, HashMap<String, ArrayList<StyledNode>> groupedNodes, ArrayList<ConnectionConstraint> validConnections, ArrayList<EmbeddingConstraint> embeddingConstraints, ArrayList<Type> enums)
 	'''
 package de.ls5.cinco.message;
-
+«IF ModelParser.isCustomeActionAvailable(graphModel)»
 import de.ls5.cinco.custom.action.*;
+«ENDIF»
 import de.ls5.cinco.transformation.api.*;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;

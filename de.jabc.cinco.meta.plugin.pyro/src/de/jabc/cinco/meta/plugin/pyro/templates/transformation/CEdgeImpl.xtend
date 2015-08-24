@@ -48,7 +48,7 @@ public class C«sme.modelElement.name.toFirstUpper»Impl implements C«sme.model
         return "«sme.modelElement.name.toFirstUpper»";
     }
     «FOR Attribute attr: sme.modelElement.attributes»
-    «createAttribute(attr,sme)»
+    «CModelElementImpl.createAttribute(attr,sme,enums)»
     «ENDFOR»
     
     public CNode getSourceElement() {
@@ -79,6 +79,7 @@ public class C«sme.modelElement.name.toFirstUpper»Impl implements C«sme.model
         «ENDFOR»
         return null;
     }
+    
     public CModelElementContainer getContainer() {
     	if(modelElement.getcontainer() instanceof «graphModel.name.toFirstUpper»){
             return this.c«graphModel.name.toFirstUpper»;
@@ -213,49 +214,6 @@ public class C«sme.modelElement.name.toFirstUpper»Impl implements C«sme.model
 }
 	
 	'''
-
-	
-	
-	def createAttribute(mgl.Attribute attribute,StyledModelElement sme)
-	'''
-	«IF attribute.upperBound == 1 && (attribute.lowerBound == 0 || attribute.lowerBound == 1) »
-	«createPrimativeAttribute(attribute,sme)»
-	«ELSE»
-	«createListAttribute(attribute,sme)»
-	«ENDIF»
-	
-	'''
-	
-	def createPrimativeAttribute(mgl.Attribute attribute,StyledModelElement sme)
-	'''
-	public «getAttributeType(attribute.type)» get«attribute.name.toFirstUpper»(){
-		return ((«sme.modelElement.name.toFirstUpper»)this.modelElement).get«attribute.name.toFirstLower»();
-	}
-	
-	public void set«attribute.name.toFirstUpper»(«getAttributeType(attribute.type)» «attribute.name.toFirstLower») {
-	    ((«sme.modelElement.name.toFirstUpper»)this.modelElement).set«attribute.name.toFirstLower»(«attribute.name.toFirstLower»);
-	}
-	'''
-	
-	def createListAttribute(mgl.Attribute attribute,StyledModelElement sme)
-	'''
-	public List<String> get«attribute.name.toFirstUpper»(){
-		return ((«sme.modelElement.name.toFirstUpper»)this.modelElement).get«attribute.name.toFirstLower»();
-	}
-	
-	public void set«attribute.name.toFirstUpper»(List<String> «attribute.name.toFirstLower») {
-	    ((«sme.modelElement.name.toFirstUpper»)this.modelElement).set«attribute.name.toFirstLower»(«attribute.name.toFirstLower»);
-	}
-	'''
-	
-	def getAttributeType(String type) {
-	if(type.equals("EString")) return "String";
-	if(type.equals("EInt")) return "long";
-	if(type.equals("EDouble")) return "double";
-	if(type.equals("EBoolean")) return "boolean";
-	//ENUM
-	return "String";
-}
 
 	
 }

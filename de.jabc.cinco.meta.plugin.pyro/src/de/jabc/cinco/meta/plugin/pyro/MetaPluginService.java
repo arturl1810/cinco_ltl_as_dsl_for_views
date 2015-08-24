@@ -26,7 +26,7 @@ public class MetaPluginService implements IMetaPlugin {
 		CreatePyroPlugin cssp = new CreatePyroPlugin();
 		try {
 			return cssp.execute(env);
-		} catch (IOException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

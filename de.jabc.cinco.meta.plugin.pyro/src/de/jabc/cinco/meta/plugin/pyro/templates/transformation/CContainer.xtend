@@ -36,14 +36,13 @@ public interface C«sme.modelElement.name.toFirstUpper» extends CContainer{
 
     public void setC«graphModel.name.toFirstUpper»(C«graphModel.name.toFirstUpper» c«graphModel.name.toFirstUpper»);
 	
-	
     public String getCName();
     public void moveTo(final C«graphModel.name.toFirstUpper» container, long x, long y);
 	public C«sme.modelElement.name.toFirstUpper» clone(C«graphModel.name.toFirstUpper» target);
 	   
-	«createEdges("Incoming",validConnections,sme)»
+	«CNode.createEdges("Incoming",validConnections,sme)»
     
-    «createEdges("Outgoing",validConnections,sme)»
+    «CNode.createEdges("Outgoing",validConnections,sme)»
     
     public CModelElementContainer getContainer();
     
@@ -58,7 +57,7 @@ public interface C«sme.modelElement.name.toFirstUpper» extends CContainer{
 
     public void setContainer(CModelElementContainer container);
     «FOR Attribute attr: sme.modelElement.attributes»
-    «createAttribute(attr,sme)»
+    «CModelElement.createAttribute(attr,sme,enums)»
     «ENDFOR»
 
     
@@ -78,71 +77,35 @@ public interface C«sme.modelElement.name.toFirstUpper» extends CContainer{
 	
 	'''
 	
-	def createEdges(String prefix,ArrayList<ConnectionConstraint> validConnections,StyledModelElement sme)
-	'''
-    public List<CEdge> get«prefix.toFirstUpper»();
-	'''
-	
-	def createEmbedding(GraphicalModelElement gme)
+	static def createEmbedding(GraphicalModelElement gme)
 	'''
 	public void addC«gme.name.toFirstUpper»(C«gme.name.toFirstUpper» node);
 	'''
 	
-	def createNewEdge(ConnectionConstraint cc)
+	static def createNewEdge(ConnectionConstraint cc)
 	'''
 	public C«cc.connectingEdge.modelElement.name.toFirstUpper» newC«cc.connectingEdge.modelElement.name.toFirstUpper»(C«cc.targetNode.modelElement.name.toFirstUpper» target);
 	'''
 	
-	def createNewNode(EmbeddingConstraint ec)
+	static def createNewNode(EmbeddingConstraint ec)
 	'''
 	«FOR GraphicalModelElement gme:ec.validNode»
-	public C«gme.name.toFirstUpper» newC«gme.name.toFirstUpper»(long x,long y);
-	
-	public C«gme.name.toFirstUpper» getC«gme.name.toFirstUpper»(«gme.name.toFirstUpper» «gme.name.toFirstLower»);
-	
-	public List<C«gme.name.toFirstUpper»> getC«gme.name.toFirstUpper»s();
+	«createNewNode(gme)»
 	
 	«ENDFOR»
 	'''
 	
-	
-	def createCessor(String cessor,StyledNode sn)
+	static def createNewNode(mgl.ModelElement gme)
 	'''
-	public List<C«sn.modelElement.name.toFirstUpper»> get«sn.modelElement.name.toFirstUpper»«cessor»cessor();
-	'''
+	public C«gme.name.toFirstUpper» newC«gme.name.toFirstUpper»(long x,long y);
 	
-	def createAttribute(mgl.Attribute attribute,StyledModelElement sme)
-	'''
-	«IF attribute.upperBound == 1 && (attribute.lowerBound == 0 || attribute.lowerBound == 1) »
-	«createPrimativeAttribute(attribute,sme)»
-	«ELSE»
-	«createListAttribute(attribute,sme)»
-	«ENDIF»
+	public C«gme.name.toFirstUpper» newC«gme.name.toFirstUpper»(long x,long y,long width,long height);
 	
-	'''
+	public C«gme.name.toFirstUpper» getC«gme.name.toFirstUpper»(«gme.name.toFirstUpper» «gme.name.toFirstLower»);
 	
-	def createPrimativeAttribute(mgl.Attribute attribute,StyledModelElement sme)
-	'''
-	public «getAttributeType(attribute.type)» get«attribute.name.toFirstUpper»();
 	
-	public void set«attribute.name.toFirstUpper»(«getAttributeType(attribute.type)» «attribute.name.toFirstLower»);
+	public List<C«gme.name.toFirstUpper»> getC«gme.name.toFirstUpper»s();
 	'''
-	
-	def createListAttribute(mgl.Attribute attribute,StyledModelElement sme)
-	'''
-	public List<String> get«attribute.name.toFirstUpper»();
-	
-	public void set«attribute.name.toFirstUpper»(List<String> «attribute.name.toFirstLower»);
-	'''
-	
-	def getAttributeType(String type) {
-	if(type.equals("EString")) return "String";
-	if(type.equals("EInt")) return "long";
-	if(type.equals("EDouble")) return "double";
-	if(type.equals("EBoolean")) return "boolean";
-	//ENUM
-	return "String";
-}
 
 	
 }

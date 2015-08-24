@@ -4,14 +4,17 @@ import mgl.Attribute
 import java.util.ArrayList
 import mgl.Type
 import mgl.Enumeration
+import de.jabc.cinco.meta.plugin.pyro.utils.ModelParser
 
 class AttributeParser {
 	static def createAttribute(mgl.Attribute attribute,String modelName,ArrayList<Type> enums)
 	'''
+	«IF !ModelParser.isUserDefinedType(attribute,enums)»
 	«IF attribute.upperBound == 1 && (attribute.lowerBound == 0 || attribute.lowerBound == 1) »
 	«createPrimativeAttribute(attribute,modelName,enums)»
 	«ELSE»
 	«createListAttribute(attribute,modelName,enums)»
+	«ENDIF»
 	«ENDIF»
 	'''
 	
@@ -65,6 +68,7 @@ class AttributeParser {
 	«attrName.toFirstLower».put("values",new Double(«string.toFirstLower».get«attribute.name.toFirstLower»()==null?0.00:«string.toFirstLower».get«attribute.name.toFirstLower»()));
 	«ELSEIF attribute.type.equals("EBoolean")»
 	«attrName.toFirstLower».put("values",new Boolean(«string.toFirstLower».get«attribute.name.toFirstLower»()==null?false:«string.toFirstLower».get«attribute.name.toFirstLower»()));
+	«ELSEIF ModelParser.isUserDefinedType(attribute,enums)»
 	«ELSE»
 	JSONObject «attribute.name.toFirstLower»Values = new JSONObject();
 	«attrName.toFirstLower»Values.put("selected",new String(«string.toFirstLower».get«attribute.name.toFirstLower»()==null?"":«string.toFirstLower».get«attribute.name.toFirstLower»()));
@@ -89,6 +93,8 @@ class AttributeParser {
 	«createPrimativeAttributeValuesListIterated(attrName)»
 	«ELSEIF attribute.type.equals("EBoolean")»
 	«createPrimativeAttributeValuesListIterated(attrName)»
+	«ELSEIF ModelParser.isUserDefinedType(attribute,enums)»
+	
 	«ELSE»
 	JSONObject «attrName.toFirstLower»Values = new JSONObject();
 	«attrName.toFirstLower»Values.put("selected",new String(""+listEntry==null?"":listEntry));
@@ -118,6 +124,8 @@ class AttributeParser {
 	«attrName.toFirstLower».put("values",new Double(0.00));
 	«ELSEIF attribute.type.equals("EBoolean")»
 	«attrName.toFirstLower».put("values",new Boolean(false));
+	«ELSEIF ModelParser.isUserDefinedType(attribute,enums)»
+	
 	«ELSE»
 	JSONObject «attrName.toFirstLower»Values = new JSONObject();
 	«var type = getEnumByName(attribute,enums) as Enumeration»
