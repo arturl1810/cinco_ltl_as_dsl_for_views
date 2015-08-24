@@ -5,13 +5,14 @@ import java.util.ArrayList
 import mgl.Type
 import mgl.Enumeration
 import de.jabc.cinco.meta.plugin.pyro.utils.ModelParser
+import mgl.GraphModel
 
 class AttributeParser {
-	static def createAttribute(mgl.Attribute attribute,String modelName,ArrayList<Type> enums)
+	static def createAttribute(mgl.Attribute attribute,String modelName,ArrayList<Type> enums,GraphModel graphModel)
 	'''
 	«IF !ModelParser.isUserDefinedType(attribute,enums)»
 	«IF attribute.upperBound == 1 && (attribute.lowerBound == 0 || attribute.lowerBound == 1) »
-	«createPrimativeAttribute(attribute,modelName,enums)»
+	«createPrimativeAttribute(attribute,modelName,enums,graphModel)»
 	«ELSE»
 	«createListAttribute(attribute,modelName,enums)»
 	«ENDIF»
@@ -47,18 +48,18 @@ class AttributeParser {
 	«name.toFirstLower»Attributes.add(«attribute.name.toFirstLower»);
 	'''
 	
-	static def createPrimativeAttribute(Attribute attribute, String string, ArrayList<Type> enums)
+	static def createPrimativeAttribute(Attribute attribute, String string, ArrayList<Type> enums,GraphModel graphModel)
 	'''
 	// «attribute.name.toFirstUpper»
 	JSONObject «attribute.name.toFirstLower» = new JSONObject();
 	«attribute.name.toFirstLower».put("name","«attribute.name.toFirstLower»");
 	«attribute.name.toFirstLower».put("type","«getAttributeType(attribute.type)»");
-	«createPrimativeAttributeValues(attribute,attribute.name,string,enums)»
+	«createPrimativeAttributeValues(attribute,attribute.name,string,enums,graphModel)»
 	
 	«string.toFirstLower»Attributes.add(«attribute.name.toFirstLower»);
 	'''
 	
-	static def createPrimativeAttributeValues(Attribute attribute,String attrName, String string, ArrayList<Type> enums)
+	static def createPrimativeAttributeValues(Attribute attribute,String attrName, String string, ArrayList<Type> enums,GraphModel graphModel)
 	'''
 	«IF attribute.type.equals("EString")»
 	«attrName.toFirstLower».put("values",new String(«string.toFirstLower».get«attribute.name.toFirstLower»()==null?"":«string.toFirstLower».get«attribute.name.toFirstLower»()));
@@ -68,7 +69,7 @@ class AttributeParser {
 	«attrName.toFirstLower».put("values",new Double(«string.toFirstLower».get«attribute.name.toFirstLower»()==null?0.00:«string.toFirstLower».get«attribute.name.toFirstLower»()));
 	«ELSEIF attribute.type.equals("EBoolean")»
 	«attrName.toFirstLower».put("values",new Boolean(«string.toFirstLower».get«attribute.name.toFirstLower»()==null?false:«string.toFirstLower».get«attribute.name.toFirstLower»()));
-	«ELSEIF ModelParser.isUserDefinedType(attribute,enums)»
+	«ELSEIF ModelParser.isUserDefinedType(attribute,enums) || ModelParser.isReferencedModelType(graphModel,attribute)»
 	«ELSE»
 	JSONObject «attribute.name.toFirstLower»Values = new JSONObject();
 	«attrName.toFirstLower»Values.put("selected",new String(«string.toFirstLower».get«attribute.name.toFirstLower»()==null?"":«string.toFirstLower».get«attribute.name.toFirstLower»()));

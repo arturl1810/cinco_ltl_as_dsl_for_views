@@ -196,7 +196,7 @@ public class C«graphModel.name.toFirstUpper»Impl implements C«graphModel.name
     «ENDFOR»
 
     «FOR Attribute attr: graphModel.attributes»
-    «CModelElementImpl.createAttribute(attr,graphModel,enums)»
+    «CModelElementImpl.createAttribute(attr,graphModel,enums,graphModel)»
     «ENDFOR»
     
     public <T extends CModelElement> List<T> getCModelElements(Class<T> clazz) {

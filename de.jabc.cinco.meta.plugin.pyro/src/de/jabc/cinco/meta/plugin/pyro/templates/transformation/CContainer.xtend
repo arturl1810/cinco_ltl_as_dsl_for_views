@@ -57,7 +57,7 @@ public interface C«sme.modelElement.name.toFirstUpper» extends CContainer{
 
     public void setContainer(CModelElementContainer container);
     «FOR Attribute attr: sme.modelElement.attributes»
-    «CModelElement.createAttribute(attr,sme,enums)»
+    «CModelElement.createAttribute(attr,sme,enums,graphModel)»
     «ENDFOR»
 
     

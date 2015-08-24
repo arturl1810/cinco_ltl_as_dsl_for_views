@@ -93,7 +93,7 @@ public interface C«graphModel.name.toFirstUpper» extends CGraphModel{
     «ENDFOR»
 
     «FOR Attribute attr: graphModel.attributes»
-    «CModelElement.createAttribute(attr,graphModel,enums)»
+    «CModelElement.createAttribute(attr,graphModel,enums,graphModel)»
     «ENDFOR»
 }
 	

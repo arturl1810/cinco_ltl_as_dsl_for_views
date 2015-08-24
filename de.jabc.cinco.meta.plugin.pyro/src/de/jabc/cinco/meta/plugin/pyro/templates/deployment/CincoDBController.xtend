@@ -143,7 +143,7 @@ public class CincoDBControllerImpl implements CincoDBController{
         «ENDFOR»
         «FOR Type type : graphModel.types»
         «IF type instanceof UserDefinedType»
-        «createUserDefinedTypeAttributes(type as UserDefinedType,enums)»
+        «createUserDefinedTypeAttributes(type as UserDefinedType,enums,graphModel)»
         «ENDIF»
         «ENDFOR»
 
@@ -229,7 +229,7 @@ public class CincoDBControllerImpl implements CincoDBController{
         «graphModel.name.toFirstLower».setShortDescription("«graphModel.name.toFirstLower»");
         this.typeController.addSuperType(«graphModel.name.toFirstLower», graphModel);
         «FOR Attribute attr : graphModel.attributes»
-	    	«createAttribute(attr,enums,graphModel.name)»
+	    	«createAttribute(attr,enums,graphModel.name,graphModel)»
 	    «ENDFOR»
         System.out.println(«graphModel.name.toFirstLower».getName() + " created");
 
@@ -247,16 +247,26 @@ public class CincoDBControllerImpl implements CincoDBController{
 
         «FOR StyledNode node: nodes»
 			«IF node.modelElement instanceof Node»
-				«createNode(node.modelElement,enums)»
+				«createNode(node.modelElement,enums,graphModel)»
 			«ELSE»
-				«createContainer(node.modelElement,enums)»
+				«createContainer(node.modelElement,enums,graphModel)»
 			«ENDIF»
 		«ENDFOR»
 
         //Create Edge-Types
 
         «FOR StyledEdge edge: edges»
-		«createEdge(edge.modelElement,enums)»
+		«createEdge(edge.modelElement,enums,graphModel)»
+		«ENDFOR»
+		
+		//Create Cross-Type References
+
+        «FOR StyledNode node: nodes»
+			«createReferenceAttributes(node.modelElement,enums,graphModel)»
+		«ENDFOR»
+
+        «FOR StyledEdge edge: edges»
+			«createReferenceAttributes(edge.modelElement,enums,graphModel)»
 		«ENDFOR»
         
         System.out.println("[ok]");
@@ -328,13 +338,13 @@ public class CincoDBControllerImpl implements CincoDBController{
 
 '''
 
-def createNode(GraphicalModelElement element,ArrayList<Type> enums)
+def createNode(GraphicalModelElement element,ArrayList<Type> enums,GraphModel graphModel)
 '''
 	//Create «element.name.toFirstUpper»
 	final DBType «element.name.toFirstLower» = this.typeController.createType("«element.name.toFirstUpper»");
 	«element.name.toFirstLower».setAbstractType(false);
 	this.typeController.addSuperType(«element.name.toFirstLower», node);
-	«createAttributes(element,enums)»
+	«createAttributes(element,enums,graphModel)»
 	«IF element instanceof Node»
 	«createPrimeAttribute(element as Node)»
 	«ENDIF»
@@ -356,31 +366,40 @@ def createAttributeCommmand(GraphicalModelElement element,ArrayList<Type> enums)
 	this.typeController.addSuperType(pyro«element.name.toFirstUpper»AttributeCommand, pyroCommand);
 	«createCommandAttributes(element,enums)»
 '''
-def createEdge(GraphicalModelElement element,ArrayList<Type> enums)
+def createEdge(GraphicalModelElement element,ArrayList<Type> enums,GraphModel graphModel)
 '''
 	//Create «element.name.toFirstUpper»
 	final DBType «element.name.toFirstLower» = this.typeController.createType("«element.name.toFirstUpper»");
 	«element.name.toFirstLower».setAbstractType(false);
 	this.typeController.addSuperType(«element.name.toFirstLower», edge);
-	«createAttributes(element,enums)»
+	«createAttributes(element,enums,graphModel)»
 	System.out.println(«element.name.toFirstLower».getName() + " created");
 '''
 
-def createContainer(GraphicalModelElement element,ArrayList<Type> enums)
+def createContainer(GraphicalModelElement element,ArrayList<Type> enums,GraphModel graphModel)
 '''
 	//Create «element.name.toFirstUpper»
 	final DBType «element.name.toFirstLower» = this.typeController.createType("«element.name.toFirstUpper»");
 	«element.name.toFirstLower».setAbstractType(false);
 	this.typeController.addSuperType(«element.name.toFirstLower», container);
-	«createAttributes(element,enums)»
+	«createAttributes(element,enums,graphModel)»
 	System.out.println(«element.name.toFirstLower».getName() + " created");
 '''
 
-def createAttributes(mgl.ModelElement modelElement,ArrayList<Type> enums)
+def createAttributes(mgl.ModelElement modelElement,ArrayList<Type> enums,GraphModel graphModel)
 '''
 	«IF !modelElement.attributes.empty»
 	«FOR Attribute attr : modelElement.attributes»
-        «createAttribute(attr,enums,modelElement.name)»
+        «createAttribute(attr,enums,modelElement.name,graphModel)»
+    «ENDFOR»
+    «ENDIF»
+'''
+
+def createReferenceAttributes(mgl.ModelElement modelElement,ArrayList<Type> enums,GraphModel graphModel)
+'''
+	«IF !modelElement.attributes.empty»
+	«FOR Attribute attr : modelElement.attributes»
+        «createReferenceAttribute(attr,enums,modelElement.name,graphModel)»
     «ENDFOR»
     «ENDIF»
 '''
@@ -396,11 +415,11 @@ def createAttributes(EClass eClass ,ArrayList<Type> enums)
     «ENDIF»
 '''
 
-def createUserDefinedTypeAttributes(UserDefinedType modelElement,ArrayList<Type> enums)
+def createUserDefinedTypeAttributes(UserDefinedType modelElement,ArrayList<Type> enums,GraphModel graphModel)
 '''
 	«IF !modelElement.attributes.empty»
 	«FOR Attribute attr : modelElement.attributes»
-        «createAttribute(attr,enums,modelElement.name+"Type")»
+        «createAttribute(attr,enums,modelElement.name+"Type",graphModel)»
     «ENDFOR»
     «ENDIF»
 '''
@@ -413,12 +432,22 @@ def createCommandAttributes(GraphicalModelElement modelElement,ArrayList<Type> e
     «ENDFOR»
     «ENDIF»
 '''
-def createAttribute(Attribute attr,ArrayList<Type> enums,String elementName)
+def createAttribute(Attribute attr,ArrayList<Type> enums,String elementName,GraphModel graphModel)
 '''
 	«IF attr.upperBound == 1 && (attr.lowerBound == 0 || attr.lowerBound == 1) »
-	«createPrimativeAttribute(attr,elementName,enums)»
+	«createPrimativeAttribute(attr,elementName,enums,graphModel)»
 	«ELSE»
-	«createListAttribute(attr,enums,elementName)»
+	«createListAttribute(attr,enums,elementName,graphModel)»
+	«ENDIF»
+	
+'''
+
+def createReferenceAttribute(Attribute attr,ArrayList<Type> enums,String elementName,GraphModel graphModel)
+'''
+	«IF attr.upperBound == 1 && (attr.lowerBound == 0 || attr.lowerBound == 1) »
+	«createReferencePrimativeAttribute(attr,elementName,enums,graphModel)»
+	«ELSE»
+	«createReferenceListAttribute(attr,enums,elementName,graphModel)»
 	«ENDIF»
 	
 '''
@@ -441,12 +470,20 @@ def createCommandAttribute(Attribute attr,ArrayList<Type> enums,String elementNa
 	
 '''
 
-def createListAttribute(Attribute attr,ArrayList<Type> enums, String elementName)
+def createListAttribute(Attribute attr,ArrayList<Type> enums, String elementName,GraphModel graphModel)
 '''
 	«IF ModelParser.isUserDefinedType(attr,enums)»
 	this.typeController.addComplexFieldToType(«elementName.toFirstLower»,"«attr.name.toFirstLower»",PropertyType.OBJECT_LIST,«attr.type.toFirstLower»Type);
+	«ELSEIF ModelParser.isReferencedModelType(graphModel,attr)»
+	this.typeController.addComplexFieldToType(«elementName.toFirstLower»,"«attr.name.toFirstLower»",PropertyType.OBJECT_LIST,«attr.type.toFirstLower»);
 	«ELSE»
 	this.typeController.addPrimitiveFieldToType(«elementName.toFirstLower»,"«attr.name.toFirstLower»",PropertyType.STRING_LIST);
+	«ENDIF»
+'''
+def createReferenceListAttribute(Attribute attr,ArrayList<Type> enums, String elementName,GraphModel graphModel)
+'''
+	«IF ModelParser.isReferencedModelType(graphModel,attr)»
+	this.typeController.addComplexFieldToType(«elementName.toFirstLower»,"«attr.name.toFirstLower»",PropertyType.OBJECT_LIST,«attr.type.toFirstLower»);
 	«ENDIF»
 '''
 def createListCommandAttribute(Attribute attr,ArrayList<Type> enums, String elementName)
@@ -455,12 +492,19 @@ def createListCommandAttribute(Attribute attr,ArrayList<Type> enums, String elem
 	this.typeController.addPrimitiveFieldToType(pyro«elementName.toFirstUpper»AttributeCommand,"pre«attr.name.toFirstUpper»",PropertyType.STRING_LIST);
 '''
 
-def createPrimativeAttribute(Attribute attribute,String elementName,ArrayList<Type> enums)
+def createPrimativeAttribute(Attribute attribute,String elementName,ArrayList<Type> enums,GraphModel graphModel)
 '''
 	«IF ModelParser.isUserDefinedType(attribute,enums)»
 	this.typeController.addComplexFieldToType(«elementName.toFirstLower»,"«attribute.name.toFirstLower»",PropertyType.OBJECT,«attribute.type.toFirstLower»Type);
-	«ELSE»
+	«ELSEIF !ModelParser.isReferencedModelType(graphModel,attribute)»
 	this.typeController.addPrimitiveFieldToType(«elementName.toFirstLower»,"«attribute.name.toFirstLower»",«getAttributeType(attribute.type)»);
+	«ENDIF»
+''' 
+
+def createReferencePrimativeAttribute(Attribute attribute,String elementName,ArrayList<Type> enums,GraphModel graphModel)
+'''
+	«IF ModelParser.isReferencedModelType(graphModel,attribute)»
+	this.typeController.addComplexFieldToType(«elementName.toFirstLower»,"«attribute.name.toFirstLower»",PropertyType.OBJECT,«attribute.type.toFirstLower»);
 	«ENDIF»
 ''' 
 

@@ -85,41 +85,41 @@ class CModelElementImpl {
 	}
 	'''
 	
-	static def createAttribute(mgl.Attribute attribute,StyledModelElement sme,ArrayList<mgl.Type> enums)
+	static def createAttribute(mgl.Attribute attribute,StyledModelElement sme,ArrayList<mgl.Type> enums,mgl.GraphModel graphModel)
 	'''
 	«IF attribute.upperBound == 1 && (attribute.lowerBound == 0 || attribute.lowerBound == 1) »
-	«createPrimativeAttribute(attribute,sme.modelElement,enums)»
+	«createPrimativeAttribute(attribute,sme.modelElement,enums,graphModel)»
 	«ELSE»
-	«createListAttribute(attribute,sme.modelElement,enums)»
+	«createListAttribute(attribute,sme.modelElement,enums,graphModel)»
 	«ENDIF»
 	
 	'''
 	
-	static def createAttribute(mgl.Attribute attribute,mgl.ModelElement sme,ArrayList<mgl.Type> enums)
+	static def createAttribute(mgl.Attribute attribute,mgl.ModelElement sme,ArrayList<mgl.Type> enums,mgl.GraphModel graphModel)
 	'''
 	«IF attribute.upperBound == 1 && (attribute.lowerBound == 0 || attribute.lowerBound == 1) »
-	«createPrimativeAttribute(attribute,sme,enums)»
+	«createPrimativeAttribute(attribute,sme,enums,graphModel)»
 	«ELSE»
-	«createListAttribute(attribute,sme,enums)»
+	«createListAttribute(attribute,sme,enums,graphModel)»
 	«ENDIF»
 	
 	'''
 	
 	
-	static def createPrimativeAttribute(mgl.Attribute attribute,mgl.ModelElement sme,ArrayList<mgl.Type> enums)
+	static def createPrimativeAttribute(mgl.Attribute attribute,mgl.ModelElement sme,ArrayList<mgl.Type> enums,mgl.GraphModel graphModel)
 	'''
-	public «getAttributeType(attribute,enums)» get«attribute.name.toFirstUpper»(){
+	public «getAttributeType(attribute,enums,graphModel)» get«attribute.name.toFirstUpper»(){
 		return ((«sme.name.toFirstUpper»)this.modelElement).get«attribute.name.toFirstLower»();
 	}
 	
-	public void set«attribute.name.toFirstUpper»(«getAttributeType(attribute,enums)» «attribute.name.toFirstLower») {
+	public void set«attribute.name.toFirstUpper»(«getAttributeType(attribute,enums,graphModel)» «attribute.name.toFirstLower») {
 	    ((«sme.name.toFirstUpper»)this.modelElement).set«attribute.name.toFirstLower»(«attribute.name.toFirstLower»);
 	}
 	'''
 	
-	static def createListAttribute(mgl.Attribute attribute,mgl.ModelElement sme,ArrayList<mgl.Type> enums)
+	static def createListAttribute(mgl.Attribute attribute,mgl.ModelElement sme,ArrayList<mgl.Type> enums,mgl.GraphModel graphModel)
 	'''
-	public List<«getAttributeType(attribute,enums)»> get«attribute.name.toFirstUpper»(){
+	public List<«getAttributeType(attribute,enums,graphModel)»> get«attribute.name.toFirstUpper»(){
 		«IF ModelParser.isUserDefinedType(attribute,enums)»
 		return ((«sme.name.toFirstUpper»)this.modelElement).get«attribute.name.toFirstLower»_«attribute.type.toFirstUpper»Type();
 		«ELSE»
@@ -127,7 +127,7 @@ class CModelElementImpl {
 		«ENDIF»
 	}
 	
-	public void set«attribute.name.toFirstUpper»(List<«getAttributeType(attribute,enums)»> «attribute.name.toFirstLower») {
+	public void set«attribute.name.toFirstUpper»(List<«getAttributeType(attribute,enums,graphModel)»> «attribute.name.toFirstLower») {
 		«IF ModelParser.isUserDefinedType(attribute,enums)»
 		((«sme.name.toFirstUpper»)this.modelElement).get«attribute.name.toFirstLower»_«attribute.type.toFirstUpper»Type().clear();
 		((«sme.name.toFirstUpper»)this.modelElement).get«attribute.name.toFirstLower»_«attribute.type.toFirstUpper»Type().addAll(«attribute.name.toFirstLower»);
@@ -137,13 +137,16 @@ class CModelElementImpl {
 	}
 	'''
 	
-	static def getAttributeType(Attribute attribute,ArrayList<mgl.Type> enums) {
+	static def getAttributeType(Attribute attribute,ArrayList<mgl.Type> enums,mgl.GraphModel graphModel) {
 	if(attribute.type.equals("EString")) return "String";
 	if(attribute.type.equals("EInt")) return "long";
 	if(attribute.type.equals("EDouble")) return "double";
 	if(attribute.type.equals("EBoolean")) return "boolean";
 	if(ModelParser.isUserDefinedType(attribute,enums)){
 		return attribute.type+"Type";
+	}
+	if(ModelParser.isReferencedModelType(graphModel,attribute)) {
+		return attribute.type;
 	}
 	//ENUM
 	return "String";

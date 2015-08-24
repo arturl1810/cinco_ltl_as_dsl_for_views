@@ -84,7 +84,7 @@ public class C«sme.modelElement.name.toFirstUpper»Impl implements C«sme.model
     «createEdges("Outgoing",validConnections,sme,graphModel.name)»
     
     «FOR Attribute attr: sme.modelElement.attributes»
-    «CModelElementImpl.createAttribute(attr,sme,enums)»
+    «CModelElementImpl.createAttribute(attr,sme,enums,graphModel)»
     «ENDFOR»
     «FOR ConnectionConstraint cc: validConnections»
     «IF cc.targetNode.modelElement.name.equals(sme.modelElement.name)»

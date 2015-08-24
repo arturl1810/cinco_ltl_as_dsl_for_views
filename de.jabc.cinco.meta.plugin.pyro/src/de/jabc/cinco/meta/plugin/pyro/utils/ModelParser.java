@@ -34,6 +34,7 @@ import mgl.GraphModel;
 import mgl.GraphicalElementContainment;
 import mgl.GraphicalModelElement;
 import mgl.IncomingEdgeElementConnection;
+import mgl.ModelElement;
 import mgl.Node;
 import mgl.NodeContainer;
 import mgl.OutgoingEdgeElementConnection;
@@ -563,6 +564,25 @@ public class ModelParser {
 			return node.getPrimeReference().getName();
 		}
 		return "";
+	}
+	
+	public static ModelElement getReferencedModelType(mgl.GraphModel graphmodel,mgl.Attribute attribute){
+		List<ModelElement> modelElements = new ArrayList<ModelElement>();
+		modelElements.addAll(graphmodel.getEdges());
+		modelElements.addAll(graphmodel.getNodeContainers());
+		modelElements.addAll(graphmodel.getNodes());
+		
+		for(ModelElement modelElement : modelElements) {
+			if(modelElement.getName().equals(attribute.getType())){
+				return modelElement;
+			}
+		}
+		
+		return null;
+	}
+	
+	public static boolean isReferencedModelType(mgl.GraphModel graphmodel,mgl.Attribute attribute){
+		return getReferencedModelType(graphmodel, attribute)!=null;
 	}
 
 }

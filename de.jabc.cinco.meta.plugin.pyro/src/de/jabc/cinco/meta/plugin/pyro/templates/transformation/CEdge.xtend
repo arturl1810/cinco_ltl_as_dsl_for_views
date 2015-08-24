@@ -36,7 +36,7 @@ public interface C«sme.modelElement.name.toFirstUpper» extends CEdge{
 	
     public String getCName();
     «FOR Attribute attr: sme.modelElement.attributes»
-    «CModelElement.createAttribute(attr,sme,enums)»
+    «CModelElement.createAttribute(attr,sme,enums,graphModel)»
     «ENDFOR»
     
     public CNode getSourceElement();

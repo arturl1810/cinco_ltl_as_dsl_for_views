@@ -104,7 +104,7 @@ public class «graphModel.name.toFirstUpper»Parser {
         
         //Attributes
         «FOR Attribute attribute:graphModel.attributes»
-        «AttributeParser.createAttribute(attribute,graphModel.name,enums)»
+        «AttributeParser.createAttribute(attribute,graphModel.name,enums,graphModel)»
         «ENDFOR»
         return «graphModel.name.toFirstLower»Attributes;
     }

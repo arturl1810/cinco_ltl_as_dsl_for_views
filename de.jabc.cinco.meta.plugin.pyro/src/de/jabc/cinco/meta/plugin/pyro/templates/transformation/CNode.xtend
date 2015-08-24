@@ -49,7 +49,7 @@ public interface C«sme.modelElement.name.toFirstUpper» extends CNode{
     «createEdges("Outgoing",validConnections,sme)»
     
     «FOR Attribute attr: sme.modelElement.attributes»
-    «CModelElement.createAttribute(attr,sme,enums)»
+    «CModelElement.createAttribute(attr,sme,enums,graphModel)»
     «ENDFOR»
     «FOR ConnectionConstraint cc: validConnections»
     «IF cc.targetNode.modelElement.name.equals(sme.modelElement.name)»

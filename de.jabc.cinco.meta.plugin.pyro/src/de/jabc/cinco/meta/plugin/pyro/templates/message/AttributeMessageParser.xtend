@@ -39,7 +39,7 @@ public class AttributeMessageParser {
         if(receivedMessage.get("type").equals("GraphModel")) {
             «FOR int index : 0..< ModelParser.getNoUserDefinedAttributtes(graphModel.attributes,enums).size »
 			JSONObject «ModelParser.getNoUserDefinedAttributtes(graphModel.attributes,enums).get(index).name.toFirstLower» = (JSONObject) element.get(«index»);
-			«this.createAttribute(ModelParser.getNoUserDefinedAttributtes(graphModel.attributes,enums).get(index),graphModel.name,enums)»
+			«this.createAttribute(ModelParser.getNoUserDefinedAttributtes(graphModel.attributes,enums).get(index),graphModel.name,enums,graphModel)»
 			«ENDFOR»
 			return getAttributeResponse(true,0,muId);
         }
@@ -49,7 +49,7 @@ public class AttributeMessageParser {
 		    C«sn.modelElement.name.toFirstUpper» c«sn.modelElement.name.toFirstUpper» = c«graphModel.name.toFirstUpper».getC«sn.modelElement.name.toFirstUpper»(dywaId);
 			«FOR int index : 0..<ModelParser.getNoUserDefinedAttributtes(sn.modelElement.attributes,enums).size »
 			JSONObject «ModelParser.getNoUserDefinedAttributtes(sn.modelElement.attributes,enums).get(index).name.toFirstLower» = (JSONObject) element.get(«index»);
-			«this.createAttribute(ModelParser.getNoUserDefinedAttributtes(sn.modelElement.attributes,enums).get(index),sn.modelElement.name,enums)»
+			«this.createAttribute(ModelParser.getNoUserDefinedAttributtes(sn.modelElement.attributes,enums).get(index),sn.modelElement.name,enums,graphModel)»
 			«ENDFOR»
 		    return getAttributeResponse(true,dywaId,muId);
 		}
@@ -59,7 +59,7 @@ public class AttributeMessageParser {
 		    C«sn.modelElement.name.toFirstUpper» c«sn.modelElement.name.toFirstUpper» = c«graphModel.name.toFirstUpper».getC«sn.modelElement.name.toFirstUpper»(dywaId);
 			«FOR int index : 0..<ModelParser.getNoUserDefinedAttributtes(sn.modelElement.attributes,enums).size »
 			JSONObject «ModelParser.getNoUserDefinedAttributtes(sn.modelElement.attributes,enums).get(index).name.toFirstLower» = (JSONObject) element.get(«index»);
-			«this.createAttribute(ModelParser.getNoUserDefinedAttributtes(sn.modelElement.attributes,enums).get(index),sn.modelElement.name,enums)»
+			«this.createAttribute(ModelParser.getNoUserDefinedAttributtes(sn.modelElement.attributes,enums).get(index),sn.modelElement.name,enums,graphModel)»
 			«ENDFOR»
 			return getAttributeResponse(true,dywaId,muId);
 		}
@@ -91,9 +91,9 @@ public class AttributeMessageParser {
 
 	'''
 	
-	def createAttribute(mgl.Attribute attribute,String modelName,ArrayList<Type> enums)
+	def createAttribute(mgl.Attribute attribute,String modelName,ArrayList<Type> enums,mgl.GraphModel graphModel)
 	'''
-	«IF !ModelParser.isUserDefinedType(attribute,enums)»
+	«IF !ModelParser.isUserDefinedType(attribute,enums) && !ModelParser.isReferencedModelType(graphModel,attribute)»
 	«IF attribute.upperBound == 1 && (attribute.lowerBound == 0 || attribute.lowerBound == 1)»
 	«this.createPrimativeAttribute(attribute,modelName,enums)»
 	«ELSE»

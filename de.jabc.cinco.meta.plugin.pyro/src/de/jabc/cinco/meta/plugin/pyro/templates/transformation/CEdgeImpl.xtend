@@ -48,7 +48,7 @@ public class C«sme.modelElement.name.toFirstUpper»Impl implements C«sme.model
         return "«sme.modelElement.name.toFirstUpper»";
     }
     «FOR Attribute attr: sme.modelElement.attributes»
-    «CModelElementImpl.createAttribute(attr,sme,enums)»
+    «CModelElementImpl.createAttribute(attr,sme,enums,graphModel)»
     «ENDFOR»
     
     public CNode getSourceElement() {

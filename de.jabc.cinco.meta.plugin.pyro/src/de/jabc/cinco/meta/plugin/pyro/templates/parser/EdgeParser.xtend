@@ -40,7 +40,7 @@ public class «sme.modelElement.name.toFirstUpper»Parser {
         
         //Attributes
         «FOR Attribute attribute:sme.modelElement.attributes»
-        «AttributeParser.createAttribute(attribute,sme.modelElement.name,enums)»
+        «AttributeParser.createAttribute(attribute,sme.modelElement.name,enums,graphModel)»
         «ENDFOR»
         return jsonObject;
     }
