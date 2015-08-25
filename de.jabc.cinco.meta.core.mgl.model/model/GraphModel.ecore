@@ -87,15 +87,18 @@
       </eParameters>
     </eOperations>
     <eOperations name="canConnect" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="EList&lt;ConnectionConstraint> oConstraints = getOutgoingConstraints();&#xA;&#x9;&#x9;&#x9;EList&lt;ConnectionConstraint> iConstraints = to.getIncomingConstraints();&#xA;&#x9;&#x9;&#x9;return oConstraints.stream().anyMatch(c -> c.isInEdges(with)) &amp;&amp;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;iConstraints.stream().anyMatch(c -> c.isInEdges(with)) &amp;&amp; &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;oConstraints.stream().allMatch(c -> c.violationAfterConnect(this, with, to)) &amp;&amp; &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;iConstraints.stream().allMatch(c -> c.violationAfterConnect(this, with, to)); "/>
+      </eAnnotations>
       <eParameters name="with" eType="#//Edge"/>
       <eParameters name="to" eType="#//Node"/>
     </eOperations>
-    <eOperations name="getOutgoingConnectionConstraints" upperBound="-1" eType="#//ConnectionConstraint">
+    <eOperations name="getOutgoingConstraints" upperBound="-1" eType="#//ConnectionConstraint">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="body" value="return new org.eclipse.emf.common.util.BasicEList&lt;ConnectionConstraint>();"/>
       </eAnnotations>
     </eOperations>
-    <eOperations name="getIncomingConnectionConstraints" upperBound="-1" eType="#//ConnectionConstraint">
+    <eOperations name="getIncomingConstraints" upperBound="-1" eType="#//ConnectionConstraint">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="body" value="return new org.eclipse.emf.common.util.BasicEList&lt;ConnectionConstraint>();"/>
       </eAnnotations>
