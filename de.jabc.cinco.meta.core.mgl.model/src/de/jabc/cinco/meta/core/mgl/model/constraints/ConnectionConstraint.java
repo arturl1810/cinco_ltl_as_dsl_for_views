@@ -3,6 +3,9 @@ package de.jabc.cinco.meta.core.mgl.model.constraints;
 import graphmodel.Edge;
 import graphmodel.Node;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class ConnectionConstraint {
 	private int upperBound;
 	public int getUpperBound() {
@@ -22,11 +25,12 @@ public class ConnectionConstraint {
 	}
 
 	private int lowerBound;
-	private Class<? extends Edge>[] edgeClasses;
 	private boolean outgoing;
+	private List<Class<? extends Edge>> edgeClasses;
 
+	@SafeVarargs
 	public ConnectionConstraint( boolean outgoing,int lowerBound,int upperBound, Class<? extends Edge> ...edgeClasses){
-		this.edgeClasses = edgeClasses;
+		this.edgeClasses = Arrays.asList(edgeClasses); 
 		this.lowerBound = lowerBound;
 		this.upperBound = upperBound!=-1?upperBound:Integer.MAX_VALUE;
 		this.outgoing = outgoing;
@@ -45,11 +49,11 @@ public class ConnectionConstraint {
 			
 		}
 		
-		return true;
+		return false;
 		
 	}
 	
-	private boolean isInEdges(Edge edge){
+	public boolean isInEdges(Edge edge){
 		for(Class<? extends Edge> clazz: edgeClasses){
 			if(clazz.isInstance(edge))
 				return true;
