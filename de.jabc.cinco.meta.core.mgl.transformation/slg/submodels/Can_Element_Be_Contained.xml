@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>f7eeb39a-54ea-48e4-b8cf-f3970df85f67</id>
   <name>Can Element Be Contained</name>
-  <changecounter>8</changecounter>
+  <changecounter>9</changecounter>
   <sib>
     <id>c838539a-96b7-4cb7-9a3d-4ba06c374e55</id>
     <name>IterateContainingElementContainableElements</name>
