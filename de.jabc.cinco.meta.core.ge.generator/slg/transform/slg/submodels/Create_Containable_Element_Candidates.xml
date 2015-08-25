@@ -2,14 +2,14 @@
 <model version="2.1">
   <id>2895e48a-a0d3-413a-b36a-d295aea6fb53</id>
   <name>Create Containable Element Candidates</name>
-  <changecounter>8</changecounter>
+  <changecounter>10</changecounter>
   <sib>
     <id>00717b6d-22eb-4a91-9454-7c6a12c005b8</id>
     <name>GetGraphicalElementContainmentType</name>
     <label>GetGraphicalElementContainmentType</label>
     <sib-uid>mgl/mgl/GetGraphicalElementContainmentType</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetGraphicalElementContainmentType</taxonomy>
-    <position>277.0,153.0</position>
+    <position>277.0,151.0</position>
     <parameter name="graphicalElementContainmentKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -104,7 +104,7 @@
     <parameter name="value">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>graphModelKey</key>
+          <key>containingElementKey</key>
           <scope>GLOBAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
@@ -496,7 +496,7 @@
     <parameter name="value">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>graphModelKey</key>
+          <key>containingElementKey</key>
           <scope>GLOBAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
@@ -658,7 +658,7 @@
     <parameter name="value">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>graphModelKey</key>
+          <key>containingElementKey</key>
           <scope>GLOBAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
@@ -869,7 +869,7 @@
     <parameter name="value">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>graphModelKey</key>
+          <key>containingElementKey</key>
           <scope>GLOBAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
@@ -1065,20 +1065,20 @@
   </parameter>
   <values>
     <entry>
-      <string>containingElementKey</string>
+      <string>graphModelKey</string>
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>containingElementKey</key>
+          <key>graphModelKey</key>
           <scope>GLOBAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </entry>
     <entry>
-      <string>graphModelKey</string>
+      <string>containingElementKey</string>
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>graphModelKey</key>
+          <key>containingElementKey</key>
           <scope>GLOBAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>

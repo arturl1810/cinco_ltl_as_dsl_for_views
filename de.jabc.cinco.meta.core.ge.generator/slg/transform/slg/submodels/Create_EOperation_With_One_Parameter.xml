@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <model version="2.1">
-  <id>6c1659aa-3f67-4414-8d14-f0cd9a885457</id>
-  <name>Create EOperation With One Parameter</name>
-  <changecounter>16</changecounter>
+  <id>30b4953c-d1c2-4b37-84f1-efe02da6dca8</id>
+  <name>Create_EOperation_With_One_Parameter</name>
+  <changecounter>26</changecounter>
   <sib>
-    <id>03b99a39-7cd8-4ffd-be19-a5aca3a73089</id>
+    <id>4f313838-0c5d-42ac-8e85-6ccf08d05bc4</id>
     <name>SetEOperationName</name>
     <label>Set EOperation Name</label>
     <sib-uid>ecore/ecore/SetEOperationName</sib-uid>
     <taxonomy>transem.ecore.sib.ecore.SetEOperationName</taxonomy>
-    <position>380.0,78.0</position>
+    <position>310.0,48.0</position>
     <parameter name="eOperationKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -32,12 +32,12 @@
     <finalbranches>error</finalbranches>
   </sib>
   <sib>
-    <id>d78175a0-ebbf-418d-a42d-b2bb09418f39</id>
+    <id>97bde14a-43b6-4516-8639-0d66823d6097</id>
     <name>SetEOperationEType</name>
     <label>Set EOperation EType</label>
     <sib-uid>ecore/ecore/SetEOperationEType</sib-uid>
     <taxonomy>transem.ecore.sib.ecore.SetEOperationEType</taxonomy>
-    <position>618.5,78.0</position>
+    <position>549.0,48.0</position>
     <parameter name="eOperationKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -60,12 +60,12 @@
     <finalbranches>error</finalbranches>
   </sib>
   <sib>
-    <id>4513243c-2a6f-4b6c-9c7d-c9d77506c464</id>
+    <id>4c8bf424-1596-4f89-a1c1-7f8c6fa22719</id>
     <name>NewEOperationInEClassEOperations</name>
     <label>New EOperation in EClass</label>
     <sib-uid>ecore/ecore/NewEOperationInEClassEOperations</sib-uid>
     <taxonomy>transem.ecore.sib.ecore.NewEOperationInEClassEOperations</taxonomy>
-    <position>141.0,78.0</position>
+    <position>73.0,48.0</position>
     <parameter name="eClassKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -91,26 +91,28 @@
     </userobject>
   </sib>
   <edge>
-    <source>4513243c-2a6f-4b6c-9c7d-c9d77506c464</source>
-    <target>03b99a39-7cd8-4ffd-be19-a5aca3a73089</target>
-    <point>210.0,105.0</point>
-    <point>426.0,95.0</point>
+    <source>4c8bf424-1596-4f89-a1c1-7f8c6fa22719</source>
+    <target>4f313838-0c5d-42ac-8e85-6ccf08d05bc4</target>
+    <point>157.0,72.0</point>
+    <point>382.0,72.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
-    <source>03b99a39-7cd8-4ffd-be19-a5aca3a73089</source>
-    <target>d78175a0-ebbf-418d-a42d-b2bb09418f39</target>
-    <point>450.0,105.0</point>
-    <point>633.0,96.0</point>
+    <source>4f313838-0c5d-42ac-8e85-6ccf08d05bc4</source>
+    <target>97bde14a-43b6-4516-8639-0d66823d6097</target>
+    <point>382.0,72.0</point>
+    <point>622.0,72.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
-    <id>bfe9d4ee-4ed4-42da-939e-96d2a996a955</id>
+    <id>b3edc83d-422b-46b0-bb20-b655205339e6</id>
     <name>NewEAnnotationInEOperationEAnnotations</name>
     <label>New EAnnotation In EOperation</label>
     <sib-uid>ecore/ecore/NewEAnnotationInEOperationEAnnotations</sib-uid>
     <taxonomy>transem.ecore.sib.ecore.NewEAnnotationInEOperationEAnnotations</taxonomy>
-    <position>825.0,78.0</position>
+    <position>763.0,48.0</position>
     <parameter name="eObjectKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -133,19 +135,20 @@
     <finalbranches>error</finalbranches>
   </sib>
   <edge>
-    <source>d78175a0-ebbf-418d-a42d-b2bb09418f39</source>
-    <target>bfe9d4ee-4ed4-42da-939e-96d2a996a955</target>
-    <point>630.0,105.0</point>
-    <point>872.0,107.0</point>
+    <source>97bde14a-43b6-4516-8639-0d66823d6097</source>
+    <target>b3edc83d-422b-46b0-bb20-b655205339e6</target>
+    <point>622.0,72.0</point>
+    <point>862.0,72.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
-    <id>337bf892-e6f5-41cb-8c03-ebdeaa8f03ed</id>
+    <id>c8914225-2a4f-4906-9850-f73210242d34</id>
     <name>SetEAnnotationSource</name>
     <label>Set EAnnotation Source to GenModel-Source</label>
     <sib-uid>ecore/ecore/SetEAnnotationSource</sib-uid>
     <taxonomy>transem.ecore.sib.ecore.SetEAnnotationSource</taxonomy>
-    <position>78.5,258.0</position>
+    <position>19.5,228.0</position>
     <parameter name="eAnnotationKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -168,20 +171,20 @@
     <finalbranches>error</finalbranches>
   </sib>
   <edge>
-    <source>bfe9d4ee-4ed4-42da-939e-96d2a996a955</source>
-    <target>17321557-2598-47c5-a33c-ada14accb80f</target>
-    <point>867.0,103.45714285714286</point>
-    <point>483.0,254.31428571428572</point>
+    <source>b3edc83d-422b-46b0-bb20-b655205339e6</source>
+    <target>f9ad0c49-0b6c-4442-90fd-650bcecd7aea</target>
+    <point>862.0,72.0</point>
+    <point>172.0,162.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
-    <id>855ffc73-f6b0-498d-af53-8adcda6f0c15</id>
+    <id>f2537e5e-edf3-4caf-b122-d44f3dcdc6ae</id>
     <name>NewEStringToStringMapEntryInEAnnotationDetails</name>
     <label>New EAnnotation Details</label>
     <sib-uid>ecore/ecore/NewEStringToStringMapEntryInEAnnotationDetails</sib-uid>
     <taxonomy>transem.ecore.sib.ecore.NewEStringToStringMapEntryInEAnnotationDetails</taxonomy>
-    <position>141.5,408.0</position>
+    <position>77.0,378.0</position>
     <parameter name="eAnnotationKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -204,19 +207,20 @@
     <finalbranches>error</finalbranches>
   </sib>
   <edge>
-    <source>337bf892-e6f5-41cb-8c03-ebdeaa8f03ed</source>
-    <target>855ffc73-f6b0-498d-af53-8adcda6f0c15</target>
-    <point>225.0,255.0</point>
-    <point>221.0,439.0</point>
+    <source>c8914225-2a4f-4906-9850-f73210242d34</source>
+    <target>f2537e5e-edf3-4caf-b122-d44f3dcdc6ae</target>
+    <point>157.0,252.0</point>
+    <point>157.0,402.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
-    <id>75f9162b-35c8-4169-8d4c-d46eeeff6ad8</id>
+    <id>05349e55-c119-43d5-ae6a-191d6db92a2b</id>
     <name>SetEStringToStringMapEntryKey</name>
     <label>Set Details-Key to &apos;body&apos;</label>
     <sib-uid>ecore/ecore/SetEStringToStringMapEntryKey</sib-uid>
     <taxonomy>transem.ecore.sib.ecore.SetEStringToStringMapEntryKey</taxonomy>
-    <position>457.5,408.0</position>
+    <position>392.0,378.0</position>
     <parameter name="eStringToStringMapEntryKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -239,12 +243,12 @@
     <finalbranches>error</finalbranches>
   </sib>
   <sib>
-    <id>aaa15080-e4ea-4ad0-9e9a-2e9791d06c4d</id>
+    <id>65e05fc4-1c68-43fd-abeb-fe85b905f908</id>
     <name>SetEStringToStringMapEntryValue</name>
     <label>Set Details-Key to EOperation-Body</label>
     <sib-uid>ecore/ecore/SetEStringToStringMapEntryValue</sib-uid>
     <taxonomy>transem.ecore.sib.ecore.SetEStringToStringMapEntryValue</taxonomy>
-    <position>901.5,408.0</position>
+    <position>841.0,378.0</position>
     <parameter name="eStringToStringMapEntryKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -267,12 +271,12 @@
     <finalbranches>error</finalbranches>
   </sib>
   <sib>
-    <id>b786ffc5-1271-42e3-83f9-33e72daab91e</id>
+    <id>557adcd6-112d-40cc-bd11-70a5f14657a9</id>
     <name>RunStringTemplate</name>
     <label>Create EOperation-Body</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>702.0,408.0</position>
+    <position>632.0,378.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -296,34 +300,36 @@ $context.someKey$</string>
     <finalbranches>error</finalbranches>
   </sib>
   <edge>
-    <source>855ffc73-f6b0-498d-af53-8adcda6f0c15</source>
-    <target>75f9162b-35c8-4169-8d4c-d46eeeff6ad8</target>
-    <point>242.20588235294116,444.0</point>
-    <point>402.0,603.8307692307692</point>
+    <source>f2537e5e-edf3-4caf-b122-d44f3dcdc6ae</source>
+    <target>05349e55-c119-43d5-ae6a-191d6db92a2b</target>
+    <point>157.0,402.0</point>
+    <point>472.0,402.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
-    <source>75f9162b-35c8-4169-8d4c-d46eeeff6ad8</source>
-    <target>b786ffc5-1271-42e3-83f9-33e72daab91e</target>
-    <point>420.0,630.0</point>
-    <point>600.0,431.0</point>
+    <source>05349e55-c119-43d5-ae6a-191d6db92a2b</source>
+    <target>557adcd6-112d-40cc-bd11-70a5f14657a9</target>
+    <point>472.0,402.0</point>
+    <point>712.0,402.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
-    <source>b786ffc5-1271-42e3-83f9-33e72daab91e</source>
-    <target>aaa15080-e4ea-4ad0-9e9a-2e9791d06c4d</target>
-    <point>585.0,435.0</point>
-    <point>952.0,582.0</point>
+    <source>557adcd6-112d-40cc-bd11-70a5f14657a9</source>
+    <target>65e05fc4-1c68-43fd-abeb-fe85b905f908</target>
+    <point>712.0,402.0</point>
+    <point>952.0,402.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
-    <id>48a3f132-2ed0-49da-96ec-264728666f3e</id>
+    <id>01fdcfae-2000-4b47-a0f9-8e0f16402651</id>
     <name>SetEOperationLowerBound</name>
     <label>Set lower EOperation bound</label>
     <sib-uid>ecore/ecore/SetEOperationLowerBound</sib-uid>
     <taxonomy>transem.ecore.sib.ecore.SetEOperationLowerBound</taxonomy>
-    <position>595.5,168.0</position>
+    <position>531.0,138.0</position>
     <parameter name="eOperationKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -346,12 +352,12 @@ $context.someKey$</string>
     <finalbranches>error</finalbranches>
   </sib>
   <sib>
-    <id>925a049a-2a7f-44f0-a960-43d44c8014ad</id>
+    <id>37c94ef1-6cb9-4f4d-ba2b-04bb9efec631</id>
     <name>SetEOperationUpperBound</name>
     <label>Set upper EOperation bound</label>
     <sib-uid>ecore/ecore/SetEOperationUpperBound</sib-uid>
     <taxonomy>transem.ecore.sib.ecore.SetEOperationUpperBound</taxonomy>
-    <position>835.0,168.0</position>
+    <position>770.0,138.0</position>
     <parameter name="eOperationKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -374,20 +380,20 @@ $context.someKey$</string>
     <finalbranches>error</finalbranches>
   </sib>
   <edge>
-    <source>48a3f132-2ed0-49da-96ec-264728666f3e</source>
-    <target>925a049a-2a7f-44f0-a960-43d44c8014ad</target>
-    <point>540.0,195.0</point>
-    <point>810.0,195.0</point>
+    <source>01fdcfae-2000-4b47-a0f9-8e0f16402651</source>
+    <target>37c94ef1-6cb9-4f4d-ba2b-04bb9efec631</target>
+    <point>622.0,162.0</point>
+    <point>862.0,162.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
-    <id>17321557-2598-47c5-a33c-ada14accb80f</id>
+    <id>f9ad0c49-0b6c-4442-90fd-650bcecd7aea</id>
     <name>PutInteger</name>
     <label>Put lower EOperation bound</label>
     <sib-uid>basic-sibs/PutInteger</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutInteger</taxonomy>
-    <position>133.0,168.0</position>
+    <position>81.5,138.0</position>
     <parameter name="value">
       <int>0</int>
     </parameter>
@@ -404,12 +410,12 @@ $context.someKey$</string>
     <finalbranches>error</finalbranches>
   </sib>
   <sib>
-    <id>945810a5-5ef0-4385-bf1d-15bace1f821b</id>
+    <id>45305761-63df-490d-a9b6-289050eabbb6</id>
     <name>PutInteger_1</name>
     <label>Put upper EOperation bound</label>
     <sib-uid>basic-sibs/PutInteger</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutInteger</taxonomy>
-    <position>357.0,168.0</position>
+    <position>290.5,138.0</position>
     <parameter name="value">
       <int>1</int>
     </parameter>
@@ -426,35 +432,36 @@ $context.someKey$</string>
     <finalbranches>error</finalbranches>
   </sib>
   <edge>
-    <source>945810a5-5ef0-4385-bf1d-15bace1f821b</source>
-    <target>48a3f132-2ed0-49da-96ec-264728666f3e</target>
-    <point>345.0,195.0</point>
-    <point>540.0,195.0</point>
+    <source>45305761-63df-490d-a9b6-289050eabbb6</source>
+    <target>01fdcfae-2000-4b47-a0f9-8e0f16402651</target>
+    <point>382.0,162.0</point>
+    <point>622.0,162.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
-    <source>17321557-2598-47c5-a33c-ada14accb80f</source>
-    <target>945810a5-5ef0-4385-bf1d-15bace1f821b</target>
-    <point>225.0,195.0</point>
-    <point>345.0,195.0</point>
+    <source>f9ad0c49-0b6c-4442-90fd-650bcecd7aea</source>
+    <target>45305761-63df-490d-a9b6-289050eabbb6</target>
+    <point>172.0,162.0</point>
+    <point>382.0,162.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
-    <source>925a049a-2a7f-44f0-a960-43d44c8014ad</source>
-    <target>337bf892-e6f5-41cb-8c03-ebdeaa8f03ed</target>
-    <point>885.0,195.0</point>
-    <point>249.0,258.0</point>
+    <source>37c94ef1-6cb9-4f4d-ba2b-04bb9efec631</source>
+    <target>c8914225-2a4f-4906-9850-f73210242d34</target>
+    <point>862.0,162.0</point>
+    <point>157.0,252.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
-    <id>aa22f36a-4d85-44f2-9a93-faea34e56da2</id>
+    <id>9a531f68-16d9-450d-b679-be0da833906d</id>
     <name>NewEParameterInEOperationEParameters</name>
     <label>NewEParameterInEOperationEParameters</label>
     <sib-uid>ecore/ecore/NewEParameterInEOperationEParameters</sib-uid>
     <taxonomy>transem.ecore.sib.ecore.NewEParameterInEOperationEParameters</taxonomy>
-    <position>87.5,558.0</position>
+    <position>27.0,528.0</position>
     <parameter name="eObjectKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -477,19 +484,20 @@ $context.someKey$</string>
     <finalbranches>error</finalbranches>
   </sib>
   <edge>
-    <source>aaa15080-e4ea-4ad0-9e9a-2e9791d06c4d</source>
-    <target>aa22f36a-4d85-44f2-9a93-faea34e56da2</target>
-    <point>1020.0,435.0</point>
-    <point>223.0,573.0</point>
+    <source>65e05fc4-1c68-43fd-abeb-fe85b905f908</source>
+    <target>9a531f68-16d9-450d-b679-be0da833906d</target>
+    <point>952.0,402.0</point>
+    <point>157.0,552.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
-    <id>fe094974-bfdd-46bc-8d15-1a6dba064c1c</id>
+    <id>5b606151-2e66-4361-a09d-87f9aac170cd</id>
     <name>SetEParameterName</name>
     <label>SetEParameterName</label>
     <sib-uid>ecore/ecore/SetEParameterName</sib-uid>
     <taxonomy>transem.ecore.sib.ecore.SetEParameterName</taxonomy>
-    <position>458.0,558.0</position>
+    <position>387.0,528.0</position>
     <parameter name="eParameterKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -512,19 +520,20 @@ $context.someKey$</string>
     <finalbranches>error</finalbranches>
   </sib>
   <edge>
-    <source>aa22f36a-4d85-44f2-9a93-faea34e56da2</source>
-    <target>fe094974-bfdd-46bc-8d15-1a6dba064c1c</target>
-    <point>225.0,585.0</point>
-    <point>469.0,600.0</point>
+    <source>9a531f68-16d9-450d-b679-be0da833906d</source>
+    <target>5b606151-2e66-4361-a09d-87f9aac170cd</target>
+    <point>157.0,552.0</point>
+    <point>457.0,552.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
-    <id>c3583243-0be8-4d23-b85a-5b9cca978488</id>
+    <id>5a1152e3-9581-4271-8028-1f460ce3e28f</id>
     <name>SetEParameterUpperBound</name>
     <label>SetEParameterUpperBound</label>
     <sib-uid>ecore/ecore/SetEParameterUpperBound</sib-uid>
     <taxonomy>transem.ecore.sib.ecore.SetEParameterUpperBound</taxonomy>
-    <position>134.0,753.0</position>
+    <position>68.0,723.0</position>
     <parameter name="eParameterKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -547,20 +556,20 @@ $context.someKey$</string>
     <finalbranches>error</finalbranches>
   </sib>
   <edge>
-    <source>fe094974-bfdd-46bc-8d15-1a6dba064c1c</source>
-    <target>6eaa3231-e100-42db-8ed8-607055c0c497</target>
-    <point>510.0,594.0</point>
-    <point>510.0,663.0</point>
+    <source>5b606151-2e66-4361-a09d-87f9aac170cd</source>
+    <target>d1a7f5bf-20bd-4be1-8402-3a9d9a801578</target>
+    <point>457.0,552.0</point>
+    <point>727.0,552.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
-    <id>47ca6a86-0097-4922-804c-e205cfff98f4</id>
+    <id>9478831c-87e6-4483-a831-57600457a5ca</id>
     <name>SetEParameterLowerBound</name>
     <label>SetEParameterLowerBound</label>
     <sib-uid>ecore/ecore/SetEParameterLowerBound</sib-uid>
     <taxonomy>transem.ecore.sib.ecore.SetEParameterLowerBound</taxonomy>
-    <position>433.5,753.0</position>
+    <position>368.0,723.0</position>
     <parameter name="eParameterKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -583,19 +592,20 @@ $context.someKey$</string>
     <finalbranches>error</finalbranches>
   </sib>
   <edge>
-    <source>c3583243-0be8-4d23-b85a-5b9cca978488</source>
-    <target>47ca6a86-0097-4922-804c-e205cfff98f4</target>
-    <point>720.0,585.0</point>
-    <point>926.0,593.0</point>
+    <source>5a1152e3-9581-4271-8028-1f460ce3e28f</source>
+    <target>9478831c-87e6-4483-a831-57600457a5ca</target>
+    <point>157.0,747.0</point>
+    <point>457.0,747.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
-    <id>6eaa3231-e100-42db-8ed8-607055c0c497</id>
+    <id>d1a7f5bf-20bd-4be1-8402-3a9d9a801578</id>
     <name>PutInteger_2</name>
     <label>Put lower EOperation bound</label>
     <sib-uid>basic-sibs/PutInteger</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutInteger</taxonomy>
-    <position>688.0,558.0</position>
+    <position>636.5,528.0</position>
     <parameter name="value">
       <int>0</int>
     </parameter>
@@ -612,12 +622,12 @@ $context.someKey$</string>
     <finalbranches>error</finalbranches>
   </sib>
   <sib>
-    <id>adc2930b-e869-4400-ace4-4319dc467d91</id>
+    <id>18eaefa7-f2f2-4c97-8b60-b8dbb17ae7f8</id>
     <name>PutInteger_3</name>
     <label>Put upper EParameter bound</label>
     <sib-uid>basic-sibs/PutInteger</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutInteger</taxonomy>
-    <position>926.0,558.0</position>
+    <position>858.5,528.0</position>
     <parameter name="value">
       <int>1</int>
     </parameter>
@@ -634,27 +644,28 @@ $context.someKey$</string>
     <finalbranches>error</finalbranches>
   </sib>
   <edge>
-    <source>6eaa3231-e100-42db-8ed8-607055c0c497</source>
-    <target>adc2930b-e869-4400-ace4-4319dc467d91</target>
-    <point>510.0,690.0</point>
-    <point>720.0,690.0</point>
+    <source>d1a7f5bf-20bd-4be1-8402-3a9d9a801578</source>
+    <target>18eaefa7-f2f2-4c97-8b60-b8dbb17ae7f8</target>
+    <point>727.0,552.0</point>
+    <point>952.0,552.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
-    <source>adc2930b-e869-4400-ace4-4319dc467d91</source>
-    <target>c3583243-0be8-4d23-b85a-5b9cca978488</target>
-    <point>720.0,690.0</point>
-    <point>808.0,598.0</point>
+    <source>18eaefa7-f2f2-4c97-8b60-b8dbb17ae7f8</source>
+    <target>5a1152e3-9581-4271-8028-1f460ce3e28f</target>
+    <point>952.0,552.0</point>
+    <point>157.0,747.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
-    <id>5c0b3074-4266-469d-8e35-b51965927482</id>
+    <id>d0f97235-c24a-4628-82e5-84b8f436779b</id>
     <name>SetEParameterEType</name>
     <label>SetEParameterEType</label>
     <sib-uid>ecore/ecore/SetEParameterEType</sib-uid>
     <taxonomy>transem.ecore.sib.ecore.SetEParameterEType</taxonomy>
-    <position>681.5,753.0</position>
+    <position>606.5,723.0</position>
     <parameter name="eParameterKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -677,71 +688,82 @@ $context.someKey$</string>
     <finalbranches>error</finalbranches>
   </sib>
   <edge>
-    <source>47ca6a86-0097-4922-804c-e205cfff98f4</source>
-    <target>5c0b3074-4266-469d-8e35-b51965927482</target>
-    <point>525.0,780.0</point>
-    <point>751.0,767.0</point>
+    <source>9478831c-87e6-4483-a831-57600457a5ca</source>
+    <target>d0f97235-c24a-4628-82e5-84b8f436779b</target>
+    <point>457.0,747.0</point>
+    <point>682.0,747.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <parameter>
     <name>eClassKey</name>
     <field>eClassKey</field>
-    <sib>4513243c-2a6f-4b6c-9c7d-c9d77506c464</sib>
+    <sib>4c8bf424-1596-4f89-a1c1-7f8c6fa22719</sib>
   </parameter>
   <parameter>
-    <name>eOperationNameKey</name>
+    <name>eOperationnameKey</name>
     <field>eOperationnameKey</field>
-    <sib>03b99a39-7cd8-4ffd-be19-a5aca3a73089</sib>
+    <sib>4f313838-0c5d-42ac-8e85-6ccf08d05bc4</sib>
   </parameter>
   <parameter>
     <name>eOperationeTypeKey</name>
     <field>eOperationeTypeKey</field>
-    <sib>d78175a0-ebbf-418d-a42d-b2bb09418f39</sib>
-  </parameter>
-  <parameter>
-    <name>template</name>
-    <field>template</field>
-    <sib>b786ffc5-1271-42e3-83f9-33e72daab91e</sib>
+    <sib>97bde14a-43b6-4516-8639-0d66823d6097</sib>
   </parameter>
   <parameter>
     <name>eOperationLowerBound</name>
     <field>value</field>
-    <sib>17321557-2598-47c5-a33c-ada14accb80f</sib>
+    <sib>f9ad0c49-0b6c-4442-90fd-650bcecd7aea</sib>
   </parameter>
   <parameter>
-    <name>eOperatiobUpperBound</name>
+    <name>eOperationUpperBound</name>
     <field>value</field>
-    <sib>945810a5-5ef0-4385-bf1d-15bace1f821b</sib>
+    <sib>45305761-63df-490d-a9b6-289050eabbb6</sib>
+  </parameter>
+  <parameter>
+    <name>template</name>
+    <field>template</field>
+    <sib>557adcd6-112d-40cc-bd11-70a5f14657a9</sib>
   </parameter>
   <parameter>
     <name>eParameternameKey</name>
     <field>eParameternameKey</field>
-    <sib>fe094974-bfdd-46bc-8d15-1a6dba064c1c</sib>
-  </parameter>
-  <parameter>
-    <name>eParameterUpperBound</name>
-    <field>value</field>
-    <sib>adc2930b-e869-4400-ace4-4319dc467d91</sib>
+    <sib>5b606151-2e66-4361-a09d-87f9aac170cd</sib>
   </parameter>
   <parameter>
     <name>eParameterLowerBound</name>
     <field>value</field>
-    <sib>6eaa3231-e100-42db-8ed8-607055c0c497</sib>
+    <sib>d1a7f5bf-20bd-4be1-8402-3a9d9a801578</sib>
+  </parameter>
+  <parameter>
+    <name>eParameterUpperBound</name>
+    <field>value</field>
+    <sib>18eaefa7-f2f2-4c97-8b60-b8dbb17ae7f8</sib>
   </parameter>
   <parameter>
     <name>eParametereTypeKey</name>
     <field>eParametereTypeKey</field>
-    <sib>5c0b3074-4266-469d-8e35-b51965927482</sib>
+    <sib>d0f97235-c24a-4628-82e5-84b8f436779b</sib>
   </parameter>
   <values>
+    <entry>
+      <string>eOperationLowerBound</string>
+      <int>0</int>
+    </entry>
     <entry>
       <string>template</string>
       <string>$! Output value of context variable &apos;someKey&apos; !$
 $context.someKey$</string>
     </entry>
     <entry>
-      <string>eOperationLowerBound</string>
-      <int>0</int>
+      <string>eOperationnameKey</string>
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>${eOperationnameKey}</expression>
+          <clazz>java.lang.String</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
     </entry>
     <entry>
       <string>eClassKey</string>
@@ -784,131 +806,21 @@ $context.someKey$</string>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </entry>
     <entry>
-      <string>eOperationNameKey</string>
-      <de.metaframe.common.sib.parameter.ContextExpression>
-        <ContextExpressionFoundation>
-          <expression>${eOperationnameKey}</expression>
-          <clazz>java.lang.String</clazz>
-          <classMutable>true</classMutable>
-        </ContextExpressionFoundation>
-      </de.metaframe.common.sib.parameter.ContextExpression>
-    </entry>
-    <entry>
-      <string>eOperatiobUpperBound</string>
-      <int>1</int>
+      <string>eParameterLowerBound</string>
+      <int>0</int>
     </entry>
     <entry>
       <string>eParameterUpperBound</string>
       <int>1</int>
     </entry>
     <entry>
-      <string>eParameterLowerBound</string>
-      <int>0</int>
+      <string>eOperationUpperBound</string>
+      <int>1</int>
     </entry>
   </values>
   <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>d78175a0-ebbf-418d-a42d-b2bb09418f39</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>4513243c-2a6f-4b6c-9c7d-c9d77506c464</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>03b99a39-7cd8-4ffd-be19-a5aca3a73089</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>bfe9d4ee-4ed4-42da-939e-96d2a996a955</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>337bf892-e6f5-41cb-8c03-ebdeaa8f03ed</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>855ffc73-f6b0-498d-af53-8adcda6f0c15</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>b786ffc5-1271-42e3-83f9-33e72daab91e</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>75f9162b-35c8-4169-8d4c-d46eeeff6ad8</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>aaa15080-e4ea-4ad0-9e9a-2e9791d06c4d</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>17321557-2598-47c5-a33c-ada14accb80f</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>945810a5-5ef0-4385-bf1d-15bace1f821b</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>48a3f132-2ed0-49da-96ec-264728666f3e</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>925a049a-2a7f-44f0-a960-43d44c8014ad</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>47ca6a86-0097-4922-804c-e205cfff98f4</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>c3583243-0be8-4d23-b85a-5b9cca978488</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>adc2930b-e869-4400-ace4-4319dc467d91</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>6eaa3231-e100-42db-8ed8-607055c0c497</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>fe094974-bfdd-46bc-8d15-1a6dba064c1c</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>aa22f36a-4d85-44f2-9a93-faea34e56da2</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>5c0b3074-4266-469d-8e35-b51965927482</sib>
-  </branch>
-  <branch>
     <name>default</name>
     <branch>default</branch>
-    <sib>5c0b3074-4266-469d-8e35-b51965927482</sib>
+    <sib>d0f97235-c24a-4628-82e5-84b8f436779b</sib>
   </branch>
 </model>
