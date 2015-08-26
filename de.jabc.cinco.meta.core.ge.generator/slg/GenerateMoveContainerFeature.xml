@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>b68091c8-07fa-4991-a66b-090c41737165</id>
   <name>GenerateMoveContainerFeature</name>
-  <changecounter>181</changecounter>
+  <changecounter>182</changecounter>
   <sib>
     <id>5d019596-ff11-4edc-9603-2477370f8043</id>
     <name>PutExpression</name>
@@ -239,9 +239,9 @@ public class Move$context.container.name$Feature extends DefaultMoveShapeFeature
   </edge>
   <edge>
     <source>38cc4109-4830-4f7e-8646-a04f06f3b826</source>
-    <target>78f781da-c5fb-4439-a59e-c241be4701cc</target>
-    <point>118.30188679245282,219.0</point>
-    <point>107.1276595744681,331.0</point>
+    <target>0dac667a-a573-4ffd-9d99-2d05d89a3d7b</target>
+    <point>120.0,219.0</point>
+    <point>120.0,391.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -374,7 +374,7 @@ return false;</string>
     <label>GenerateCheckContainer</label>
     <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
-    <position>35.5,286.0</position>
+    <position>140.5,301.0</position>
     <parameter name="ClearContent">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
@@ -432,7 +432,7 @@ return false;</string>
     <label>IsAbstract</label>
     <sib-uid>ge-util-sibs/IsAbstract</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsAbstract</taxonomy>
-    <position>249.0,46.0</position>
+    <position>249.0,48.0</position>
     <parameter name="modelElement">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>

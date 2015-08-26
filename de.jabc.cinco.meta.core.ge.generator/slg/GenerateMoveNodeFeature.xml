@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>98ab2190-4ec2-4346-85ee-61b8c0d16099</id>
   <name>GenerateMoveNodeFeature</name>
-  <changecounter>244</changecounter>
+  <changecounter>245</changecounter>
   <sib>
     <id>a757414d-68f3-478e-a5f2-cbb249a4880a</id>
     <name>RunStringTemplate_1</name>
@@ -498,9 +498,10 @@ public class Move$context.node.name$Feature extends DefaultMoveShapeFeature{
   </sib>
   <edge>
     <source>e7f1fd14-654b-450d-8222-bb8ebdf9dd83</source>
-    <target>35e844b0-f099-429d-90d8-86b7d3c5a34e</target>
-    <point>360.0,285.0</point>
-    <point>182.0,294.0</point>
+    <target>8ebda373-c17c-400c-9b5d-e91d438808c0</target>
+    <point>312.0,303.9</point>
+    <point>170.0,398.6666666666667</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
