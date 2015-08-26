@@ -15,7 +15,21 @@
 	<name>testapp-business</name>
 	<url>http://maven.apache.org</url>
 
+
 	<build>
+		<resources>
+			<resource>
+				<filtering>true</filtering>
+				<directory>${basedir}/src/main/resources</directory>
+				<includes>
+					<include>config.properties</include>
+				</includes>
+			</resource>
+			<resource>
+				<filtering>false</filtering>
+				<directory>${basedir}/src/main/resources</directory>
+			</resource>
+		</resources>
 		<plugins>
 			<plugin>
 				<groupId>de.jabc</groupId>
@@ -69,6 +83,7 @@
 						<phase>generate-resources</phase>
 						<configuration>
 							<sourceDirectory>${basedir}/src/main/resources</sourceDirectory>
+							<finalArtifactName>${de.mtf.dywa.finalName}${de.ls5.dywa.instanceId}</finalArtifactName>
 						</configuration>
 					</execution>
 				</executions>

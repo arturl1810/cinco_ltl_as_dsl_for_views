@@ -21,6 +21,7 @@
 		<de.ls5.dywa.generation.processFilter>de.ls5.dywa.generated.process</de.ls5.dywa.generation.processFilter>
 		<de.jabc4.codegenerator.version>5.5</de.jabc4.codegenerator.version>
 		<de.jabc4.basics.version>5.13</de.jabc4.basics.version>
+		<de.mtf.dywa.finalName>testapp</de.mtf.dywa.finalName>
 	</properties>
 
 	<profiles>

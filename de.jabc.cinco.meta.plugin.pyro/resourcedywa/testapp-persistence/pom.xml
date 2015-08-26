@@ -89,6 +89,7 @@
 				</executions>
 				<configuration>
 					<packageName>${de.ls5.dywa.generation.packageName}</packageName>
+					<finalArtifactName>${de.mtf.dywa.finalName}${de.ls5.dywa.instanceId}</finalArtifactName>
 				</configuration>
 				<dependencies>
 					<dependency>
