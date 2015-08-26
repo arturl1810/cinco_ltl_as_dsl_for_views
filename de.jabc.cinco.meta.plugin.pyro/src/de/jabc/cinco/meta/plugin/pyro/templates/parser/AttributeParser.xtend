@@ -22,41 +22,41 @@ class AttributeParser {
 	static def createListAttribute(Attribute attribute, String name,ArrayList<Type> enums)
 	'''
 	// «attribute.name.toFirstUpper»
-	JSONObject «attribute.name.toFirstLower» = new JSONObject();
-	«attribute.name.toFirstLower».put("name","«attribute.name.toFirstLower»");
-	«attribute.name.toFirstLower».put("type","list");
-	«attribute.name.toFirstLower».put("upper",new Integer(«attribute.upperBound»));
-	«attribute.name.toFirstLower».put("lower",new Integer(«attribute.lowerBound»));
+	JSONObject «attribute.name.toFirstLower»Attribute = new JSONObject();
+	«attribute.name.toFirstLower»Attribute.put("name","«attribute.name.toFirstLower»");
+	«attribute.name.toFirstLower»Attribute.put("type","list");
+	«attribute.name.toFirstLower»Attribute.put("upper",new Integer(«attribute.upperBound»));
+	«attribute.name.toFirstLower»Attribute.put("lower",new Integer(«attribute.lowerBound»));
 	
 	JSONObject «attribute.name.toFirstLower»SubType = new JSONObject();
 	«attribute.name.toFirstLower»SubType.put("name","«attribute.name.toFirstLower»");
 	«attribute.name.toFirstLower»SubType.put("type","«getAttributeType(attribute.type)»");
 	«createPrimativeAttributeValuesDefault(attribute,attribute.name+"SubType",name,enums)»
 	
-	«attribute.name.toFirstLower».put("subtype",«attribute.name.toFirstLower»SubType);
+	«attribute.name.toFirstLower»Attribute.put("subtype",«attribute.name.toFirstLower»SubType);
 	
 	JSONArray «attribute.name.toFirstLower»Values = new JSONArray();
 	for(String listEntry:«name.toFirstLower».get«attribute.name.toFirstLower»()){
 	    JSONObject «attribute.name.toFirstLower»Value = new JSONObject();
-	    «attribute.name.toFirstLower»Value.put("name","«attribute.name.toFirstLower»");
+	    «attribute.name.toFirstLower»Value.put("name","«attribute.name.toFirstLower»Attribute");
 	    «attribute.name.toFirstLower»Value.put("type","«getAttributeType(attribute.type)»");
 	    «createPrimativeAttributeValuesList(attribute,attribute.name+"Value",name,enums)»
 	    «attribute.name.toFirstLower»Values.add(«attribute.name.toFirstLower»Value);
 	}
-	«attribute.name.toFirstLower».put("values",«attribute.name.toFirstLower»Values);
+	«attribute.name.toFirstLower»Attribute.put("values",«attribute.name.toFirstLower»Values);
 	
-	«name.toFirstLower»Attributes.add(«attribute.name.toFirstLower»);
+	«name.toFirstLower»Attributes.add(«attribute.name.toFirstLower»Attribute);
 	'''
 	
 	static def createPrimativeAttribute(Attribute attribute, String string, ArrayList<Type> enums,GraphModel graphModel)
 	'''
 	// «attribute.name.toFirstUpper»
-	JSONObject «attribute.name.toFirstLower» = new JSONObject();
-	«attribute.name.toFirstLower».put("name","«attribute.name.toFirstLower»");
-	«attribute.name.toFirstLower».put("type","«getAttributeType(attribute.type)»");
-	«createPrimativeAttributeValues(attribute,attribute.name,string,enums,graphModel)»
+	JSONObject «attribute.name.toFirstLower»Attribute = new JSONObject();
+	«attribute.name.toFirstLower»Attribute.put("name","«attribute.name.toFirstLower»");
+	«attribute.name.toFirstLower»Attribute.put("type","«getAttributeType(attribute.type)»");
+	«createPrimativeAttributeValues(attribute,attribute.name+"Attribute",string,enums,graphModel)»
 	
-	«string.toFirstLower»Attributes.add(«attribute.name.toFirstLower»);
+	«string.toFirstLower»Attributes.add(«attribute.name.toFirstLower»Attribute);
 	'''
 	
 	static def createPrimativeAttributeValues(Attribute attribute,String attrName, String string, ArrayList<Type> enums,GraphModel graphModel)
