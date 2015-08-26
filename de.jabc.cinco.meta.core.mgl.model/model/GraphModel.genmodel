@@ -39,8 +39,8 @@
         <genParameters ecoreParameter="GraphModel.ecore#//Node/canConnect/with"/>
         <genParameters ecoreParameter="GraphModel.ecore#//Node/canConnect/to"/>
       </genOperations>
-      <genOperations ecoreOperation="GraphModel.ecore#//Node/getOutgoingConnectionConstraints"/>
-      <genOperations ecoreOperation="GraphModel.ecore#//Node/getIncomingConnectionConstraints"/>
+      <genOperations ecoreOperation="GraphModel.ecore#//Node/getOutgoingConstraints"/>
+      <genOperations ecoreOperation="GraphModel.ecore#//Node/getIncomingConstraints"/>
     </genClasses>
     <genClasses image="false" ecoreClass="GraphModel.ecore#//Edge">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference GraphModel.ecore#//Edge/sourceElement"/>
