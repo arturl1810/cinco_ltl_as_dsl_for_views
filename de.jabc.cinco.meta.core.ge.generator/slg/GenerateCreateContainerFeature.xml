@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>fb0af092-c2b0-41ca-88d1-29ad9c540729</id>
   <name>GenerateCreateContainerFeature</name>
-  <changecounter>292</changecounter>
+  <changecounter>305</changecounter>
   <sib>
     <id>9adef199-4664-4d95-b976-c83232fc48df</id>
     <name>RunStringTemplate</name>
@@ -425,7 +425,7 @@ public class Create$context.containerName$Feature extends AbstractCreateFeature 
     <label>GenerateCheckContainer</label>
     <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
-    <position>470.5,226.0</position>
+    <position>455.5,286.0</position>
     <parameter name="ClearContent">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
@@ -551,9 +551,10 @@ public class Create$context.containerName$Feature extends AbstractCreateFeature 
   </sib>
   <edge>
     <source>e11dd2c3-61f6-4d63-95a2-ebf1aa141ae9</source>
-    <target>d4027830-5f9a-4962-aa7f-7148032c31f0</target>
-    <point>795.0,255.0</point>
-    <point>605.0,255.0</point>
+    <target>3ecf1580-df3f-4842-b06c-d402911337ff</target>
+    <point>730.0,246.42857142857142</point>
+    <point>350.0,246.42857142857142</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>

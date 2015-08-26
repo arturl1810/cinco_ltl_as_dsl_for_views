@@ -273,19 +273,19 @@ public class ModelParser {
 				ArrayList<GraphicalModelElement> validNodes = new ArrayList<GraphicalModelElement>();
 				
 				ec.setContainer(container);
-				if(gec.getType() == null){
-					for(Node node : graphModel.getNodes()) {
-						validNodes.add(node);
-					}
-					for(NodeContainer nodeContainer : graphModel.getNodeContainers()) {
-						validNodes.add(nodeContainer);
-					}
-				}
-				else{
-					if(gec.getType() instanceof Node || gec.getType() instanceof NodeContainer) {
-						validNodes.add(gec.getType());
-					}					
-				}
+//				if(gec.getTypes() == null){
+//					for(Node node : graphModel.getNodes()) {
+//						validNodes.add(node);
+//					}
+//					for(NodeContainer nodeContainer : graphModel.getNodeContainers()) {
+//						validNodes.add(nodeContainer);
+//					}
+//				}
+//				else{
+//					if(gec.getTypes() instanceof Node || gec.getTypes() instanceof NodeContainer) {
+//						validNodes.add(gec.getTypes());
+//					}					
+//				}
 				ec.setLowBound(gec.getLowerBound());
 				ec.setHighBound(gec.getUpperBound());
 				ec.setValidNode(validNodes);
