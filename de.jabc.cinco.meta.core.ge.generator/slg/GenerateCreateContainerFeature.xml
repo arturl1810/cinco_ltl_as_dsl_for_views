@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>fb0af092-c2b0-41ca-88d1-29ad9c540729</id>
   <name>GenerateCreateContainerFeature</name>
-  <changecounter>301</changecounter>
+  <changecounter>312</changecounter>
   <sib>
     <id>9adef199-4664-4d95-b976-c83232fc48df</id>
     <name>RunStringTemplate</name>
@@ -408,48 +408,6 @@ public class Create$context.containerName$Feature extends AbstractCreateFeature 
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
   </sib>
-  <edge>
-    <source>d4027830-5f9a-4962-aa7f-7148032c31f0</source>
-    <target>3ecf1580-df3f-4842-b06c-d402911337ff</target>
-    <point>760.0,256.15384615384613</point>
-    <point>605.0,327.6923076923077</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
-  <sib>
-    <id>d4027830-5f9a-4962-aa7f-7148032c31f0</id>
-    <name>MacroSIB</name>
-    <label>GenerateCheckContainer</label>
-    <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
-    <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
-    <position>470.5,226.0</position>
-    <parameter name="ClearContent">
-      <de.metaframe.common.sib.parameter.ContextExpression>
-        <ContextExpressionFoundation>
-          <expression>${false}</expression>
-          <clazz>java.lang.Boolean</clazz>
-          <classMutable>false</classMutable>
-        </ContextExpressionFoundation>
-      </de.metaframe.common.sib.parameter.ContextExpression>
-    </parameter>
-    <parameter name="ModelElementKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>container</key>
-          <scope>DECLARED</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELNAME">
-      <string>GenerateCheckContainer</string>
-    </userobject>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>4ac25e32-ae6b-469a-b78c-1764aa97ce4d</string>
-    </userobject>
-  </sib>
   <sib>
     <id>3ecf1580-df3f-4842-b06c-d402911337ff</id>
     <name>GraphSIB</name>
@@ -546,13 +504,6 @@ public class Create$context.containerName$Feature extends AbstractCreateFeature 
       <string>827994ca-f72f-4fe1-afcb-fa6f30c34d59</string>
     </userobject>
   </sib>
-  <edge>
-    <source>e11dd2c3-61f6-4d63-95a2-ebf1aa141ae9</source>
-    <target>d4027830-5f9a-4962-aa7f-7148032c31f0</target>
-    <point>795.0,255.0</point>
-    <point>605.0,255.0</point>
-    <branch>default</branch>
-  </edge>
   <sib>
     <id>aee5d4b4-3ca4-46d5-b7f0-586059d69914</id>
     <name>GraphSIB_2</name>
@@ -582,6 +533,13 @@ public class Create$context.containerName$Feature extends AbstractCreateFeature 
     <target>9adef199-4664-4d95-b976-c83232fc48df</target>
     <point>135.0,255.0</point>
     <point>118.0,389.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>e11dd2c3-61f6-4d63-95a2-ebf1aa141ae9</source>
+    <target>3ecf1580-df3f-4842-b06c-d402911337ff</target>
+    <point>757.5,276.0</point>
+    <point>366.5,276.0</point>
     <branch>default</branch>
   </edge>
   <parameter>
@@ -650,11 +608,6 @@ public class Create$context.containerName$Feature extends AbstractCreateFeature 
     <name>default</name>
     <branch>true</branch>
     <sib>2f91ed4f-9b49-4ad5-b440-6ef48d7a584a</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>d4027830-5f9a-4962-aa7f-7148032c31f0</sib>
   </branch>
   <branch>
     <name>error</name>

@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>2390bf64-3bef-4139-ad37-7a085733f865</id>
   <name>Specialize_GetRootElement_Method</name>
-  <changecounter>8</changecounter>
+  <changecounter>14</changecounter>
   <sib>
     <id>108eb122-b4e7-42f6-91e3-51a8847032c5</id>
     <name>GetGraphModelName</name>
@@ -75,7 +75,7 @@
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>return ($graphModelName$)super.getRootElement();</string>
+      <string>return ($apiPrefix$$graphModelName$)super.get$apiPrefix$RootElement();</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
