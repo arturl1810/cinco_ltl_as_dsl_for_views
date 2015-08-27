@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>67a73b2a-3824-4776-9686-ae1a8aed5282</id>
   <name>GenerateCopyPasteFeatures</name>
-  <changecounter>353</changecounter>
+  <changecounter>358</changecounter>
   <sib>
     <id>59a427e8-25c5-482c-a32b-a0aa278eb41b</id>
     <name>PutExpression</name>
@@ -239,6 +239,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.emf.common.util.BasicEList;
+import org.eclipse.emf.common.util.EList;
+
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IPasteContext;
 import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
@@ -253,7 +257,6 @@ import org.eclipse.graphiti.mm.pictograms.FreeFormConnection;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.graphiti.ui.features.AbstractPasteFeature;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import $context.packageName$.graphiti.*;
 $context.cincoErrorImport$
@@ -286,11 +289,12 @@ public class $context.graphModelName$PasteFeature extends AbstractPasteFeature {
 		Object[] bos = getFromClipboard();
 		if (bos == null || bos.length == 0)
 			return false;
-		for (Object pe : bos) {
-			Object o = ((PictogramElement) pe).getLink().getBusinessObjects().get(0);
-			if (!canPaste(o, bo)) {
-				return false;
-			}
+		EList&lt;Class&lt;? extends graphmodel.Node&gt;&gt; classes = new BasicEList&lt;Class&lt;? extends graphmodel.Node&gt;&gt;();
+		for (Object obj : bos)
+			if (obj instanceof Node)
+				classes.add(((graphmodel.Node) obj).getClass());
+		if (bo instanceof ModelElementContainer) {
+			return ((ModelElementContainer) bo).canContain(classes);
 		}
 		return true;
 	}
