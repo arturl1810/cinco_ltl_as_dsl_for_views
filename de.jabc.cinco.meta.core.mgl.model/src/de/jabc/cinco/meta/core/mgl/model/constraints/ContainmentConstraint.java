@@ -74,16 +74,16 @@ public class ContainmentConstraint {
 	 * @param container
 	 * @return
 	 */
-	public boolean violationAfterInsert(Node toInsert, List<Node> otherInsertedNodes,graphmodel.ModelElementContainer container){
+	public boolean violationAfterInsert(Class<? extends Node> toInsert, List<Class<? extends Node>> otherInsertedNodes,graphmodel.ModelElementContainer container){
 		
-		return !isInstance(toInsert)|| sumMatchingElementsInContainer(container)+sumElementsByType(otherInsertedNodes)>=upperBound;
+		return !isInTypes(toInsert)|| sumMatchingElementsInContainer(container)+sumElementsByType(otherInsertedNodes)>=upperBound;
 	}
 	
 	public boolean violationAfterInsert(Node toInsert,graphmodel.ModelElementContainer container){
 		return !isInstance(toInsert)|| sumMatchingElementsInContainer(container)>=upperBound;
 	}
 	
-	public boolean violationAfterDelete(graphmodel.ModelElementContainer container,List<Node> nodes){
+	public boolean violationAfterDelete(graphmodel.ModelElementContainer container,List<Class<? extends Node>> nodes){
 		int suitableElementsSum = sumElementsByType(nodes);
 		int containedElementsSum = sumMatchingElementsInContainer(container);
 		return !(containedElementsSum-suitableElementsSum>=lowerBound);
@@ -95,7 +95,7 @@ public class ContainmentConstraint {
 	 * @return number of elements in container that are included in constraint 
 	 */
 	public int sumMatchingElementsInContainer(graphmodel.ModelElementContainer container){
-		EList<Node> elements = container.getAllNodes();
+		List<Class<? extends Node>> elements = container.getAllNodes().stream().collect(Collectors.mapping(e -> e.getClass(), Collectors.toList()));
 		return sumElementsByType(elements);
 	}
 	
@@ -104,13 +104,18 @@ public class ContainmentConstraint {
 	 * @param nodes - List of nodes
 	 * @return sum of nodes, that match at least one of this constraints types.
 	 */
-	private int sumElementsByType(List<Node> nodes) {
-		return nodes.stream().filter(e -> isInstance(e)).collect(Collectors.toList()).size();
+	private int sumElementsByType(List<Class<? extends Node>> nodes) {
+		return nodes.stream().filter(e -> isInTypes(e)).collect(Collectors.toList()).size();
 	}
 	
 	
 	private  boolean isInstance(Node e) {
 		return types.stream().anyMatch(nt -> nt.isInstance(e));
+		
+	}
+	
+	private boolean isInTypes(Class<? extends Node> nodeClass){
+		return types.contains(nodeClass);
 		
 	}
 	// Getter
