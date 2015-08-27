@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>2dfcc433-a956-4609-a130-76521a6c3e9e</id>
   <name>Generate CanContain Method</name>
-  <changecounter>55</changecounter>
+  <changecounter>83</changecounter>
   <sib>
     <id>c8b450b2-9c6b-482a-a645-5b046c18b7b6</id>
     <name>IterateContainingElementContainableElements</name>
@@ -412,7 +412,7 @@
     <label>GetGraphicalElementContainmentUpperBound</label>
     <sib-uid>mgl/mgl/GetGraphicalElementContainmentUpperBound</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetGraphicalElementContainmentUpperBound</taxonomy>
-    <position>808.0,393.0</position>
+    <position>808.0,423.0</position>
     <parameter name="graphicalElementContainmentKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -440,7 +440,7 @@
     <label>GetGraphicalElementContainmentLowerBound</label>
     <sib-uid>mgl/mgl/GetGraphicalElementContainmentLowerBound</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetGraphicalElementContainmentLowerBound</taxonomy>
-    <position>807.5,318.0</position>
+    <position>807.5,303.0</position>
     <parameter name="graphicalElementContainmentKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -523,7 +523,7 @@
     <label>PutList</label>
     <sib-uid>collection-sibs/PutList</sib-uid>
     <taxonomy>de.jabc.sib.common.collection.PutList</taxonomy>
-    <position>259.0,93.0</position>
+    <position>109.0,93.0</position>
     <parameter name="elements">
       <list/>
     </parameter>
@@ -550,9 +550,9 @@
   </sib>
   <edge>
     <source>a662cdd6-44a9-4ac5-991f-7e960ad344d8</source>
-    <target>8fe06a42-b37e-4d66-b41c-9494bae03486</target>
-    <point>344.0,130.0</point>
-    <point>464.0,130.0</point>
+    <target>03aa9cc8-ad72-4a33-b838-558f300985fc</target>
+    <point>153.0,119.28</point>
+    <point>267.0,164.88</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -817,6 +817,44 @@ return constraints;</string>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
+  <sib>
+    <id>03aa9cc8-ad72-4a33-b838-558f300985fc</id>
+    <name>PutExpression_1</name>
+    <label>ClearContraintsVariable</label>
+    <sib-uid>basic-sibs/PutExpression</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
+    <position>219.0,93.0</position>
+    <parameter name="resolve">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="value">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression></expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>constraints</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>03aa9cc8-ad72-4a33-b838-558f300985fc</source>
+    <target>8fe06a42-b37e-4d66-b41c-9494bae03486</target>
+    <point>285.0,180.0</point>
+    <point>444.0,107.0</point>
+    <branch>default</branch>
+  </edge>
   <parameter>
     <name>containingElementKey</name>
     <field>containingElementKey</field>
@@ -958,5 +996,10 @@ return constraints;</string>
     <name>default</name>
     <branch>noElements</branch>
     <sib>c8b450b2-9c6b-482a-a645-5b046c18b7b6</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>03aa9cc8-ad72-4a33-b838-558f300985fc</sib>
   </branch>
 </model>
