@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>d5531c11-ffc2-41e6-b1fd-4f08e1327b1f</id>
   <name>Generate Helper EOperations</name>
-  <changecounter>287</changecounter>
+  <changecounter>296</changecounter>
   <sib>
     <id>2db6fa19-1315-4022-abef-abc4426dcce8</id>
     <name>IterateGraphModelNodeContainers</name>
@@ -327,8 +327,8 @@
   <edge>
     <source>2db6fa19-1315-4022-abef-abc4426dcce8</source>
     <target>42a91bce-3bc7-4632-807b-60353ac5be18</target>
-    <point>300.37974683544303,54.0</point>
-    <point>674.0131578947369,483.0</point>
+    <point>303.0,36.72</point>
+    <point>492.0,36.72</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>exit</branch>
     <branch>noElements</branch>
@@ -1391,11 +1391,13 @@
   <edge>
     <source>fbb062c7-f79c-4696-a625-ba63795e7fd6</source>
     <target>bc6448fd-1bc6-476c-8269-413c3a139651</target>
-    <point>315.0,468.0</point>
-    <point>315.0,435.0</point>
-    <point>315.0,417.0</point>
-    <labelposition>568.6274509803922,-1.0</labelposition>
+    <spline/>
+    <point>303.0,475.2</point>
+    <point>345.0,450.0</point>
+    <point>300.6521739130435,399.0</point>
+    <labelposition>326.53938135101043,42.78695291756217</labelposition>
     <branch>exit</branch>
+    <branch>noElements</branch>
   </edge>
   <sib>
     <id>438d5c41-b5c7-4054-9a00-0a2b76725726</id>
