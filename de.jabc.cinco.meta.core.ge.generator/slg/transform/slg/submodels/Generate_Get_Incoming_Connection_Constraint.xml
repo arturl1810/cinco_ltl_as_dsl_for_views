@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>72b06ff2-1688-4c6c-a45c-f2d30eef4e0d</id>
   <name>Generate_Get_Incoming_Connection_Constraint</name>
-  <changecounter>31</changecounter>
+  <changecounter>61</changecounter>
   <edge>
     <source>f5e86b4b-cd35-4c4e-97b0-ae8032b93fb8</source>
     <target>97e09906-ec29-43a5-8039-589a9f55e48d</target>
@@ -231,8 +231,9 @@
   <edge>
     <source>5ee64455-527c-425f-81cf-903c63663d54</source>
     <target>10f33b5c-2415-4c1f-96ef-ef2a9a6d44ec</target>
-    <point>480.0,420.0</point>
-    <point>480.0,570.0</point>
+    <point>465.0,459.0</point>
+    <point>465.0,543.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
@@ -241,7 +242,7 @@
     <label>GetEClassifierByName</label>
     <sib-uid>utility-sibs/GetEClassifierByName</sib-uid>
     <taxonomy>transem.utility.sib.GetEClassifierByName</taxonomy>
-    <position>832.0,48.0</position>
+    <position>839.5,48.0</position>
     <parameter name="eClassifierKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -276,8 +277,8 @@
   <edge>
     <source>f5e86b4b-cd35-4c4e-97b0-ae8032b93fb8</source>
     <target>2becbf2a-8b4a-4052-b4a1-410693963fa2</target>
-    <point>495.0,60.0</point>
-    <point>690.0,90.0</point>
+    <point>483.0,66.72</point>
+    <point>672.0,66.72</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>exit</branch>
   </edge>
@@ -481,9 +482,10 @@ return new org.eclipse.emf.common.util.BasicEList&lt;ConnectionConstraint&gt;(ja
   </sib>
   <edge>
     <source>c91b68a5-5db2-4166-a32f-ec786cd5c7d1</source>
-    <target>d2afa4cc-3a59-49d9-820c-bc7066e9d0ff</target>
-    <point>885.0,60.0</point>
-    <point>1095.0,75.0</point>
+    <target>6b05a356-c068-4397-86c1-9b587decf94f</target>
+    <point>931.578947368421,84.0</point>
+    <point>1002.0,154.54285714285714</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
@@ -562,8 +564,9 @@ return new org.eclipse.emf.common.util.BasicEList&lt;ConnectionConstraint&gt;(ja
   <edge>
     <source>e57f43f9-b435-4a99-9fb7-d08f5d327c34</source>
     <target>184e9c36-dba2-4db1-a0fc-aec23022e533</target>
-    <point>645.0,225.0</point>
-    <point>465.0,315.0</point>
+    <point>465.0,264.0</point>
+    <point>465.0,318.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
@@ -638,7 +641,7 @@ return new org.eclipse.emf.common.util.BasicEList&lt;ConnectionConstraint&gt;(ja
     <parameter name="iteratorKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>iteratorKey</key>
+          <key>iteratorKeysfd</key>
           <scope>GLOBAL</scope>
           <scopeMutable>false</scopeMutable>
         </ContextKeyFoundation>
@@ -753,6 +756,34 @@ return new org.eclipse.emf.common.util.BasicEList&lt;ConnectionConstraint&gt;(ja
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
   </sib>
+  <sib>
+    <id>6b05a356-c068-4397-86c1-9b587decf94f</id>
+    <name>PrintConsoleMessage</name>
+    <label>PrintConsoleMessage</label>
+    <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
+    <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
+    <position>954.5,153.0</position>
+    <parameter name="error">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="message">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>Enter the ninja</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>false</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <finalbranches>default</finalbranches>
+  </sib>
+  <edge>
+    <source>6b05a356-c068-4397-86c1-9b587decf94f</source>
+    <target>d2afa4cc-3a59-49d9-820c-bc7066e9d0ff</target>
+    <point>1020.0,180.0</point>
+    <point>1098.0,77.0</point>
+    <branch>default</branch>
+  </edge>
   <parameter>
     <name>nodeKey</name>
     <field>nodeKey</field>
@@ -784,5 +815,15 @@ return new org.eclipse.emf.common.util.BasicEList&lt;ConnectionConstraint&gt;(ja
     <name>default</name>
     <branch>noElements</branch>
     <sib>f5e86b4b-cd35-4c4e-97b0-ae8032b93fb8</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>c91b68a5-5db2-4166-a32f-ec786cd5c7d1</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>null</branch>
+    <sib>c91b68a5-5db2-4166-a32f-ec786cd5c7d1</sib>
   </branch>
 </model>
