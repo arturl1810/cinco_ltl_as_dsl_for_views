@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>d5531c11-ffc2-41e6-b1fd-4f08e1327b1f</id>
   <name>Generate Helper EOperations</name>
-  <changecounter>283</changecounter>
+  <changecounter>287</changecounter>
   <sib>
     <id>2db6fa19-1315-4022-abef-abc4426dcce8</id>
     <name>IterateGraphModelNodeContainers</name>
@@ -331,24 +331,6 @@
     <point>674.0131578947369,483.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>exit</branch>
-    <branch>noElements</branch>
-  </edge>
-  <edge>
-    <source>bc6448fd-1bc6-476c-8269-413c3a139651</source>
-    <target>2db6fa19-1315-4022-abef-abc4426dcce8</target>
-    <spline/>
-    <point>272.5,363.0</point>
-    <point>135.0,165.0</point>
-    <point>267.0,51.48</point>
-    <labelposition>598.541887223886,-139.22971433432966</labelposition>
-    <branch>exit</branch>
-  </edge>
-  <edge>
-    <source>fbb062c7-f79c-4696-a625-ba63795e7fd6</source>
-    <target>74e25fa4-cac3-443a-b8ff-8c0d16c8fe07</target>
-    <point>303.0,486.3176470588235</point>
-    <point>777.0,486.3176470588235</point>
-    <labelposition>500.0,0.0</labelposition>
     <branch>noElements</branch>
   </edge>
   <sib>
@@ -1018,13 +1000,13 @@
   </sib>
   <edge>
     <source>9506f334-2509-424e-91dd-6413489c8162</source>
-    <target>fbb062c7-f79c-4696-a625-ba63795e7fd6</target>
+    <target>2db6fa19-1315-4022-abef-abc4426dcce8</target>
     <spline/>
     <point>1407.0,476.4</point>
     <point>1245.0,390.0</point>
-    <point>825.0,345.0</point>
-    <point>303.0,481.3</point>
-    <labelposition>498.56817549007116,130.84427282070516</labelposition>
+    <point>675.0,360.0</point>
+    <point>303.0,50.95384615384616</point>
+    <labelposition>577.9186714538179,-147.32802686866614</labelposition>
     <branch>exit</branch>
     <branch>noElements</branch>
   </edge>
@@ -1034,6 +1016,7 @@
     <point>303.0,385.0235294117647</point>
     <point>777.0,482.61176470588236</point>
     <labelposition>500.0,0.0</labelposition>
+    <branch>exit</branch>
     <branch>noElements</branch>
   </edge>
   <sib>
