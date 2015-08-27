@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>b68091c8-07fa-4991-a66b-090c41737165</id>
   <name>GenerateMoveContainerFeature</name>
-  <changecounter>181</changecounter>
+  <changecounter>185</changecounter>
   <sib>
     <id>5d019596-ff11-4edc-9603-2477370f8043</id>
     <name>PutExpression</name>
@@ -155,9 +155,6 @@ public class Move$context.container.name$Feature extends DefaultMoveShapeFeature
 			nc.getModelElements().add(($context.importPath$.$context.container.name$) o);
 		}
 		
-		(($context.importPath$.$context.container.name$) o).setX(context.getX());
-		(($context.importPath$.$context.container.name$) o).setY(context.getY());
-
 		super.moveShape(context);
 	}
 
@@ -432,7 +429,7 @@ return false;</string>
     <label>IsAbstract</label>
     <sib-uid>ge-util-sibs/IsAbstract</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsAbstract</taxonomy>
-    <position>249.0,46.0</position>
+    <position>249.0,48.0</position>
     <parameter name="modelElement">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
