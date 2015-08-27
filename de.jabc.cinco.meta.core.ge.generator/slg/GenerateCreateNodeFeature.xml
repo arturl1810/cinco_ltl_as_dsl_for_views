@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>9b2878c2-af27-4fb3-878a-6613ed7a16c6</id>
   <name>GenerateCreateNodeFeature</name>
-  <changecounter>634</changecounter>
+  <changecounter>649</changecounter>
   <sib>
     <id>cc5a8f52-a2dd-434a-825b-350e398066fe</id>
     <name>RunStringTemplate</name>
@@ -55,7 +55,8 @@ public class Create$context.modelElementName$Feature extends AbstractCreateFeatu
 	public boolean canCreate(ICreateContext context, boolean apiCall) {
 		if (apiCall) {
 			Object target = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(context.getTargetContainer());
-			$context.containerCheck$
+			if (target instanceof graphmodel.ModelElementContainer)
+				return ((graphmodel.ModelElementContainer) target).canContain($context.importPath$.$context.modelElementName$.class);
 			if ($context.cincoErrorCheckOk$)
 				$context.cincoErrorInvalidContainer$
 			return false;
