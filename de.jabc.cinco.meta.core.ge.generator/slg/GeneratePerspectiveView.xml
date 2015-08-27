@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>515e192a-491c-479e-8a33-09039d8d3703</id>
   <name>GeneratePerspectiveView</name>
-  <changecounter>46</changecounter>
+  <changecounter>74</changecounter>
   <sib>
     <id>78f83feb-ac3e-4b72-9248-b8a7e326ab10</id>
     <name>PutExpression</name>
@@ -200,6 +200,34 @@ public class $context.graphModelName$PerspectiveFactory implements IPerspectiveF
     <point>158.0,231.0</point>
     <branch>default</branch>
   </edge>
+  <sib>
+    <id>cd885932-8add-4a69-8049-5108de957602</id>
+    <name>PrintConsoleMessage</name>
+    <label>PrintConsoleMessage</label>
+    <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
+    <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
+    <position>91.5,543.0</position>
+    <parameter name="error">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="message">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>Wrote Perspective</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>false</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <finalbranches>default</finalbranches>
+  </sib>
+  <edge>
+    <source>14438f70-baeb-4db4-9e0c-8f9ba113b564</source>
+    <target>cd885932-8add-4a69-8049-5108de957602</target>
+    <point>165.0,465.0</point>
+    <point>161.0,548.0</point>
+    <branch>default</branch>
+  </edge>
   <values/>
   <branch>
     <name>error</name>
@@ -212,11 +240,6 @@ public class $context.graphModelName$PerspectiveFactory implements IPerspectiveF
     <sib>14438f70-baeb-4db4-9e0c-8f9ba113b564</sib>
   </branch>
   <branch>
-    <name>default</name>
-    <branch>default</branch>
-    <sib>14438f70-baeb-4db4-9e0c-8f9ba113b564</sib>
-  </branch>
-  <branch>
     <name>error</name>
     <branch>error</branch>
     <sib>4f9b8ce3-1dca-44ef-a36d-a9f22dd71369</sib>
@@ -225,5 +248,10 @@ public class $context.graphModelName$PerspectiveFactory implements IPerspectiveF
     <name>error</name>
     <branch>error</branch>
     <sib>ab43fd73-065c-45f6-951b-a917d6889240</sib>
+  </branch>
+  <branch>
+    <name>default</name>
+    <branch>default</branch>
+    <sib>cd885932-8add-4a69-8049-5108de957602</sib>
   </branch>
 </model>

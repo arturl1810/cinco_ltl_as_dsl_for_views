@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>67a73b2a-3824-4776-9686-ae1a8aed5282</id>
   <name>GenerateCopyPasteFeatures</name>
-  <changecounter>347</changecounter>
+  <changecounter>353</changecounter>
   <sib>
     <id>59a427e8-25c5-482c-a32b-a0aa278eb41b</id>
     <name>PutExpression</name>
@@ -1381,6 +1381,34 @@ public class $context.graphModelName$CopyUtils {
     <point>472.0,804.0</point>
     <branch>default</branch>
   </edge>
+  <sib>
+    <id>a6202413-4638-46c2-99f0-c889763f7b8c</id>
+    <name>PrintConsoleMessage</name>
+    <label>PrintConsoleMessage</label>
+    <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
+    <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
+    <position>631.5,783.0</position>
+    <parameter name="error">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="message">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>Wrote CopyPaste Features</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>false</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <finalbranches>default</finalbranches>
+  </sib>
+  <edge>
+    <source>0f0a7466-dbe3-4238-929c-f0a9d52dbc33</source>
+    <target>a6202413-4638-46c2-99f0-c889763f7b8c</target>
+    <point>525.0,810.0</point>
+    <point>675.0,822.0</point>
+    <branch>default</branch>
+  </edge>
   <values/>
   <branch>
     <name>error</name>
@@ -1465,6 +1493,6 @@ public class $context.graphModelName$CopyUtils {
   <branch>
     <name>default</name>
     <branch>default</branch>
-    <sib>0f0a7466-dbe3-4238-929c-f0a9d52dbc33</sib>
+    <sib>a6202413-4638-46c2-99f0-c889763f7b8c</sib>
   </branch>
 </model>

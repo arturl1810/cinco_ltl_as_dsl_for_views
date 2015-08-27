@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>d5531c11-ffc2-41e6-b1fd-4f08e1327b1f</id>
   <name>Generate Helper EOperations</name>
-  <changecounter>248</changecounter>
+  <changecounter>283</changecounter>
   <sib>
     <id>2db6fa19-1315-4022-abef-abc4426dcce8</id>
     <name>IterateGraphModelNodeContainers</name>
@@ -192,9 +192,9 @@
   <edge>
     <source>bc6448fd-1bc6-476c-8269-413c3a139651</source>
     <target>fbb062c7-f79c-4696-a625-ba63795e7fd6</target>
-    <point>283.125,399.0</point>
-    <point>272.14285714285717,498.0</point>
-    <labelposition>250.0,1.0</labelposition>
+    <point>285.0,399.0</point>
+    <point>285.0,468.0</point>
+    <labelposition>492.7536231884058,2.0</labelposition>
     <branch>next</branch>
   </edge>
   <edge>
@@ -321,7 +321,7 @@
     <target>d9b6fd21-f2a9-4061-b535-a0638a20df80</target>
     <point>285.0,189.0</point>
     <point>285.0,258.0</point>
-    <labelposition>507.2463768115942,-34.0</labelposition>
+    <labelposition>536.231884057971,-1.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
@@ -417,8 +417,8 @@
   <edge>
     <source>2abff8b4-6d9b-434b-9358-6c0ce5d85bed</source>
     <target>c6ca4439-e24e-4de2-884b-30dd50f6d044</target>
-    <point>647.3684210526316,54.0</point>
-    <point>657.1875,123.0</point>
+    <point>663.0,37.2</point>
+    <point>762.0,37.2</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -1524,8 +1524,9 @@
   <edge>
     <source>f82056c2-35f4-467c-8b29-0cf231634d14</source>
     <target>234442d1-ace5-4234-aa8e-4c837892e44f</target>
-    <point>1275.0,45.0</point>
-    <point>1567.0,31.0</point>
+    <point>1295.0,36.54545454545455</point>
+    <point>1587.0,36.49090909090909</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
@@ -1746,8 +1747,9 @@
   <edge>
     <source>96646482-e859-4111-bc4a-0e8efcc7272c</source>
     <target>39a042dc-a2f8-41d6-a1a8-990fd1bf6fdf</target>
-    <point>1335.0,105.0</point>
-    <point>1340.0,178.0</point>
+    <point>1335.0,114.0</point>
+    <point>1335.0,166.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>false</branch>
     <branch>true</branch>
   </edge>
@@ -1778,15 +1780,17 @@
   <edge>
     <source>39a042dc-a2f8-41d6-a1a8-990fd1bf6fdf</source>
     <target>966831d0-7fd4-494e-9d09-8da3964b73cd</target>
-    <point>1335.0,195.0</point>
-    <point>1339.0,286.0</point>
+    <point>1335.0,206.0</point>
+    <point>1335.0,256.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
     <source>966831d0-7fd4-494e-9d09-8da3964b73cd</source>
     <target>258616dd-ca3e-41fa-9656-f76702d3d686</target>
-    <point>1335.0,300.0</point>
-    <point>985.0,176.0</point>
+    <point>1315.0,276.6</point>
+    <point>1055.0,276.6</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
@@ -2178,7 +2182,7 @@ return new org.eclipse.emf.common.util.BasicEList&lt;Class&lt;?&gt;&gt;(java.uti
     <target>e1aa0ea5-0556-4567-8067-7d3a5656a53a</target>
     <point>2250.0,225.0</point>
     <point>2248.0,352.0</point>
-    <branch>error</branch>
+    <branch>default</branch>
   </edge>
   <edge>
     <source>e1aa0ea5-0556-4567-8067-7d3a5656a53a</source>
