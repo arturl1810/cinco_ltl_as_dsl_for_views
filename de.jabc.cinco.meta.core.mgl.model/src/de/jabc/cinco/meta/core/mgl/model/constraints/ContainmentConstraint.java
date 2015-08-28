@@ -73,11 +73,16 @@ public class ContainmentConstraint {
 	 * @return
 	 */
 	public boolean violationAfterInsert(Class<? extends Node> toInsert, List<Class<? extends Node>> otherInsertedNodes,graphmodel.ModelElementContainer container){
-		return !isInTypes(toInsert)|| sumMatchingElementsInContainer(container)+sumElementsByType(otherInsertedNodes)>=upperBound;
-	}
+		if(isInTypes(toInsert))
+			return sumMatchingElementsInContainer(container)+sumElementsByType(otherInsertedNodes)>=upperBound;
+		return true;
+	}	
+
 	
 	public boolean violationAfterInsert(Node toInsert,graphmodel.ModelElementContainer container){
-		return !isInstance(toInsert)|| sumMatchingElementsInContainer(container)>=upperBound;
+		if(isInstance(toInsert))
+			return sumMatchingElementsInContainer(container)>=upperBound;
+		return true;
 	}
 	
 	public boolean violationAfterDelete(graphmodel.ModelElementContainer container,List<Class<? extends Node>> nodes){
@@ -126,7 +131,7 @@ public class ContainmentConstraint {
 		
 	}
 	
-	private boolean isInTypes(Class<? extends Node> nodeClass){
+	public boolean isInTypes(Class<? extends Node> nodeClass){
 		return types.contains(nodeClass)||Arrays.asList(nodeClass.getInterfaces()).stream().anyMatch(s -> types.contains(s));
 		
 	}
