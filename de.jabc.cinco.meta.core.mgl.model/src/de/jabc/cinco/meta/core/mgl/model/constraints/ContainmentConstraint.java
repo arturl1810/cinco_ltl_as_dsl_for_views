@@ -2,20 +2,18 @@ package de.jabc.cinco.meta.core.mgl.model.constraints;
 
 import graphmodel.Node;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
-
-import org.eclipse.emf.common.util.EList;
 
 public class ContainmentConstraint {
 	
 	private int lowerBound;
 	
 	private int upperBound;
-	private List<Class<?>> types;
+	private List<Class<? extends Node>> types;
 	
 	/**
 	 * This class represents a constraint for element containments in the MGL.
@@ -27,7 +25,7 @@ public class ContainmentConstraint {
 	 * @param upperBound - upper bound of constraint
 	 * @param types - list of types of containable elements
 	 */
-	public ContainmentConstraint(int lowerBound, int upperBound,Class<?>... types){
+	public ContainmentConstraint(int lowerBound, int upperBound,Class<? extends Node>... types){
 		
 		this.types = Arrays.asList(types);
 		this.lowerBound = lowerBound;
@@ -75,7 +73,6 @@ public class ContainmentConstraint {
 	 * @return
 	 */
 	public boolean violationAfterInsert(Class<? extends Node> toInsert, List<Class<? extends Node>> otherInsertedNodes,graphmodel.ModelElementContainer container){
-		
 		return !isInTypes(toInsert)|| sumMatchingElementsInContainer(container)+sumElementsByType(otherInsertedNodes)>=upperBound;
 	}
 	
@@ -95,8 +92,19 @@ public class ContainmentConstraint {
 	 * @return number of elements in container that are included in constraint 
 	 */
 	public int sumMatchingElementsInContainer(graphmodel.ModelElementContainer container){
-		List<Class<? extends Node>> elements = container.getAllNodes().stream().collect(Collectors.mapping(e -> e.getClass(), Collectors.toList()));
-		return sumElementsByType(elements);
+		int i = 0;
+		for(Node n: container.getAllNodes()){
+			System.out.println(n.getClass().getSimpleName());
+			if(isInstance(n))
+				i++;
+		}
+		for(Node n: container.getAllContainers()){
+			if(isInTypes(n.getClass()))
+				i++;
+		}
+		
+		
+		return i;
 	}
 	
 	/**
@@ -105,7 +113,12 @@ public class ContainmentConstraint {
 	 * @return sum of nodes, that match at least one of this constraints types.
 	 */
 	private int sumElementsByType(List<Class<? extends Node>> nodes) {
-		return nodes.stream().filter(e -> isInTypes(e)).collect(Collectors.toList()).size();
+		int i=0;
+		for(Class<? extends Node> nodeClass:nodes){
+			if(isInTypes(nodeClass))
+				i++;
+		}
+		return i;
 	}
 	
 	
@@ -115,9 +128,11 @@ public class ContainmentConstraint {
 	}
 	
 	private boolean isInTypes(Class<? extends Node> nodeClass){
-		return types.contains(nodeClass);
+		return types.contains(nodeClass)||Arrays.asList(nodeClass.getInterfaces()).stream().anyMatch(s -> types.contains(s));
 		
 	}
+	
+	
 	// Getter
 	
 	public int getLowerBound() {
@@ -126,12 +141,12 @@ public class ContainmentConstraint {
 	public int getUpperBound() {
 		return upperBound;
 	}
-	public List<Class<?>> getTypes() {
+	public List<Class<? extends Node>> getTypes() {
 		return types;
 	}
 	
-	public Set<Class<?>> getContainables(graphmodel.ModelElementContainer container){
-		HashSet<Class<?>> containables = new HashSet<>();
+	public Set<Class<? extends Node>> getContainables(graphmodel.ModelElementContainer container){
+		HashSet<Class<? extends Node>> containables = new HashSet<>();
 		if(sumMatchingElementsInContainer(container) < upperBound)
 			containables.addAll(getTypes());
 		
