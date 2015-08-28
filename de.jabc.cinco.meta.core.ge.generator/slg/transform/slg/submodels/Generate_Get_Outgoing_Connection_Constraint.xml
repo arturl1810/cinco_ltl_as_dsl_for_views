@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>9db9aaa7-a6b8-479b-9fa9-871a3369ee97</id>
   <name>Generate_Get_Outgoing_Connection_Constraint</name>
-  <changecounter>23</changecounter>
+  <changecounter>64</changecounter>
   <sib>
     <id>2fa10ade-b38d-4451-9b9b-1e9a511287f6</id>
     <name>IterateNodeOutgoingEdgeConnections</name>
@@ -148,8 +148,8 @@
   <edge>
     <source>4d8a9415-963a-4f48-80fa-b667265955f4</source>
     <target>76c28c73-aa40-4fda-ab06-feb22caf0175</target>
-    <point>975.0,570.0</point>
-    <point>885.0,330.0</point>
+    <point>755.0,336.9230769230769</point>
+    <point>912.0,336.83076923076925</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -388,7 +388,7 @@
     <parameter name="eClassifierName">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>${nodeName}</expression>
+          <expression>C${nodeName}</expression>
           <clazz>java.lang.String</clazz>
           <classMutable>true</classMutable>
         </ContextExpressionFoundation>
@@ -410,8 +410,8 @@
   <edge>
     <source>2fa10ade-b38d-4451-9b9b-1e9a511287f6</source>
     <target>8d105d05-9984-42fd-ab76-541300a7872a</target>
-    <point>495.0,60.0</point>
-    <point>690.0,90.0</point>
+    <point>468.0,66.675</point>
+    <point>672.0,66.675</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>exit</branch>
   </edge>
@@ -510,7 +510,7 @@ return new org.eclipse.emf.common.util.BasicEList&lt;ConnectionConstraint&gt;(ja
     <label>AddElement</label>
     <sib-uid>collection-sibs/AddElement</sib-uid>
     <taxonomy>de.jabc.sib.common.collection.AddElement</taxonomy>
-    <position>442.5,918.0</position>
+    <position>427.5,918.0</position>
     <parameter name="collection">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -574,8 +574,9 @@ return new org.eclipse.emf.common.util.BasicEList&lt;ConnectionConstraint&gt;(ja
   <edge>
     <source>f9ae8ca6-b1ea-49dc-92c3-6f4a8feaca85</source>
     <target>a078e648-d427-464a-ada7-354e274324cb</target>
-    <point>360.0,945.0</point>
-    <point>450.0,825.0</point>
+    <point>465.0,954.0</point>
+    <point>465.0,1098.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>false</branch>
     <branch>true</branch>
   </edge>
@@ -616,15 +617,17 @@ return new org.eclipse.emf.common.util.BasicEList&lt;ConnectionConstraint&gt;(ja
   <edge>
     <source>86c69fa5-9970-4923-935d-2543a5aa298f</source>
     <target>2a283fc8-4cf7-4a86-b1eb-530946e5b975</target>
-    <point>885.0,60.0</point>
-    <point>1095.0,75.0</point>
+    <point>918.0,66.77142857142857</point>
+    <point>1092.0,66.77142857142857</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
     <source>2a283fc8-4cf7-4a86-b1eb-530946e5b975</source>
     <target>d74e4f94-cb88-4726-9fec-9c8a067d6f74</target>
-    <point>1110.0,60.0</point>
-    <point>1215.0,225.0</point>
+    <point>1128.0,66.83076923076923</point>
+    <point>1285.0,66.92307692307692</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>

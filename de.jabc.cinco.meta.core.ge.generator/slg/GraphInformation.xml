@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>86742e86-2110-423a-afde-6fd521759a73</id>
   <name>GraphInformation</name>
-  <changecounter>942</changecounter>
+  <changecounter>952</changecounter>
   <sib>
     <id>9e28dbf6-7ef4-4eef-9ad3-1d0d32bf6020</id>
     <name>GetGraphModelName</name>
@@ -1501,9 +1501,9 @@
   </sib>
   <edge>
     <source>98d63139-2542-48bb-b247-249a255b1734</source>
-    <target>3503f414-ef79-4b0d-bf9a-3ca587eb3ece</target>
-    <point>348.0,1711.0285714285715</point>
-    <point>732.0,1916.7428571428572</point>
+    <target>10d2aa2d-4c7d-4cd0-859c-392165920c40</target>
+    <point>348.0,1702.6941176470589</point>
+    <point>567.0,1715.5764705882352</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -2903,6 +2903,35 @@ public void setError(ECincoError error) {
     <target>86191f64-4c4d-4e74-be11-4d43bc7b5fbc</target>
     <point>270.0,45.0</point>
     <point>142.0,140.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>10d2aa2d-4c7d-4cd0-859c-392165920c40</id>
+    <name>PutString</name>
+    <label>classSuffix</label>
+    <sib-uid>basic-sibs/PutString</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.PutString</taxonomy>
+    <position>550.0,1683.0</position>
+    <parameter name="value">
+      <string>.class</string>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>classSuffix</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>10d2aa2d-4c7d-4cd0-859c-392165920c40</source>
+    <target>3503f414-ef79-4b0d-bf9a-3ca587eb3ece</target>
+    <point>585.0,1710.0</point>
+    <point>748.0,1932.0</point>
     <branch>default</branch>
   </edge>
   <values/>
