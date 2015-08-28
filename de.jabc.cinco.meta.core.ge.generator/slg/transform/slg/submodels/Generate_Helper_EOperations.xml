@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>d5531c11-ffc2-41e6-b1fd-4f08e1327b1f</id>
   <name>Generate Helper EOperations</name>
-  <changecounter>378</changecounter>
+  <changecounter>383</changecounter>
   <sib>
     <id>2db6fa19-1315-4022-abef-abc4426dcce8</id>
     <name>IterateGraphModelNodeContainers</name>
@@ -677,7 +677,7 @@
     <label>Create GetSuccessors Methods</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>1501.0,271.0</position>
+    <position>1501.0,241.0</position>
     <parameter name="graphicalModelElementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -928,7 +928,7 @@
     <label>Specialize_GetRootElement_Method</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>1501.0,391.0</position>
+    <position>1501.0,376.0</position>
     <parameter name="graphModelKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -961,7 +961,7 @@
     <label>Generate_CanContain_Method For Container</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>1475.0,526.0</position>
+    <position>1340.0,526.0</position>
     <parameter name="containingElementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -981,9 +981,10 @@
   </sib>
   <edge>
     <source>8a280031-46ed-478c-bc80-b9aa78bbe07f</source>
-    <target>23cbf24a-a3a7-41e6-8dfd-61c476b3eaab</target>
-    <point>1860.0,300.0</point>
-    <point>1880.0,177.0</point>
+    <target>269ba97f-dec9-4c4f-9e06-7350a82e31d7</target>
+    <point>1625.0,411.14285714285717</point>
+    <point>1797.0,533.9142857142857</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
@@ -1543,9 +1544,10 @@ return new org.eclipse.emf.common.util.BasicEList&lt;Class&lt;?&gt;&gt;(java.uti
   </edge>
   <edge>
     <source>59893975-26a1-4b16-9007-74aaf2ba1c82</source>
-    <target>f78b7162-8f6d-401e-b370-479a3c7b9e4f</target>
-    <point>2040.0,435.0</point>
-    <point>2026.0,343.0</point>
+    <target>234442d1-ace5-4234-aa8e-4c837892e44f</target>
+    <point>1947.992125984252,408.0</point>
+    <point>1621.2406015037593,54.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>false</branch>
     <branch>true</branch>
   </edge>
