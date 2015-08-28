@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>b68091c8-07fa-4991-a66b-090c41737165</id>
   <name>GenerateMoveContainerFeature</name>
-  <changecounter>187</changecounter>
+  <changecounter>191</changecounter>
   <sib>
     <id>5d019596-ff11-4edc-9603-2477370f8043</id>
     <name>PutExpression</name>
@@ -330,7 +330,8 @@ public class Move$context.container.name$Feature extends DefaultMoveShapeFeature
     </parameter>
     <parameter name="template">
       <string>if  (bo instanceof $context.importPath$.$context.container.name$) {
-	$context.containerCheck$
+	if (target instanceof graphmodel.ModelElementContainer)
+		return ((graphmodel.ModelElementContainer) target).canContain($context.importPath$.$context.container.name$.class);
 	if (context.getTargetContainer() instanceof Diagram)
 		return true;
 }

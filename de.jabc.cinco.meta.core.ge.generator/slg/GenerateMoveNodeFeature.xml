@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>98ab2190-4ec2-4346-85ee-61b8c0d16099</id>
   <name>GenerateMoveNodeFeature</name>
-  <changecounter>251</changecounter>
+  <changecounter>259</changecounter>
   <sib>
     <id>a757414d-68f3-478e-a5f2-cbb249a4880a</id>
     <name>RunStringTemplate_1</name>
@@ -64,7 +64,8 @@ public class Move$context.node.name$Feature extends CincoMoveShapeFeature{
 				return false;
 			if (source != null &amp;&amp; source.equals(target))
 				return true;
-			$context.containerCheck$
+			if (target instanceof graphmodel.ModelElementContainer)
+				return ((graphmodel.ModelElementContainer) target).canContain($context.importPath$.$context.node.name$.class);
 			if ($context.cincoErrorCheckOk$)
 				$context.cincoErrorInvalidContainer$
 			return false;
@@ -223,14 +224,6 @@ public class Move$context.node.name$Feature extends CincoMoveShapeFeature{
     <target>c04a5aea-5b89-4212-8114-dfc11ef98308</target>
     <point>168.0,175.68</point>
     <point>280.0,198.2</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
-  <edge>
-    <source>35e844b0-f099-429d-90d8-86b7d3c5a34e</source>
-    <target>8ebda373-c17c-400c-9b5d-e91d438808c0</target>
-    <point>170.0,297.60869565217394</point>
-    <point>475.0,390.4347826086956</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -399,40 +392,6 @@ public class Move$context.node.name$Feature extends DefaultMoveShapeFeature{
     <branch>default</branch>
   </edge>
   <sib>
-    <id>35e844b0-f099-429d-90d8-86b7d3c5a34e</id>
-    <name>MacroSIB</name>
-    <label>GenerateCheckContainer</label>
-    <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
-    <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
-    <position>65.5,271.0</position>
-    <parameter name="ClearContent">
-      <de.metaframe.common.sib.parameter.ContextExpression>
-        <ContextExpressionFoundation>
-          <expression>${false}</expression>
-          <clazz>java.lang.Boolean</clazz>
-          <classMutable>false</classMutable>
-        </ContextExpressionFoundation>
-      </de.metaframe.common.sib.parameter.ContextExpression>
-    </parameter>
-    <parameter name="ModelElementKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>node</key>
-          <scope>DECLARED</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELNAME">
-      <string>GenerateCheckContainer</string>
-    </userobject>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>4ac25e32-ae6b-469a-b78c-1764aa97ce4d</string>
-    </userobject>
-  </sib>
-  <sib>
     <id>c04a5aea-5b89-4212-8114-dfc11ef98308</id>
     <name>GraphSIB</name>
     <label>CheckStyleAnnotation</label>
@@ -594,11 +553,6 @@ public class Move$context.node.name$Feature extends DefaultMoveShapeFeature{
     <name>error</name>
     <branch>error</branch>
     <sib>022c7d6d-31be-4366-9dec-2785f83c9a5f</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>35e844b0-f099-429d-90d8-86b7d3c5a34e</sib>
   </branch>
   <branch>
     <name>error</name>

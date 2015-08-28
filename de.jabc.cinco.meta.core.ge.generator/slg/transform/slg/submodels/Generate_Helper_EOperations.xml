@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>d5531c11-ffc2-41e6-b1fd-4f08e1327b1f</id>
   <name>Generate Helper EOperations</name>
-  <changecounter>287</changecounter>
+  <changecounter>313</changecounter>
   <sib>
     <id>2db6fa19-1315-4022-abef-abc4426dcce8</id>
     <name>IterateGraphModelNodeContainers</name>
@@ -327,8 +327,8 @@
   <edge>
     <source>2db6fa19-1315-4022-abef-abc4426dcce8</source>
     <target>42a91bce-3bc7-4632-807b-60353ac5be18</target>
-    <point>300.37974683544303,54.0</point>
-    <point>674.0131578947369,483.0</point>
+    <point>303.0,36.72</point>
+    <point>492.0,36.72</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>exit</branch>
     <branch>noElements</branch>
@@ -604,8 +604,8 @@
   <edge>
     <source>74e25fa4-cac3-443a-b8ff-8c0d16c8fe07</source>
     <target>2cfa4f99-cd75-4bf7-a2da-76d3626f81e8</target>
-    <point>813.0,529.992</point>
-    <point>1152.0,502.872</point>
+    <point>813.0,490.2</point>
+    <point>1137.0,557.7</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>exit</branch>
     <branch>noElements</branch>
@@ -616,7 +616,7 @@
     <label>GetGraphicalModelElementName</label>
     <sib-uid>mgl/mgl/GetGraphicalModelElementName</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetGraphicalModelElementName</taxonomy>
-    <position>1046.0,603.0</position>
+    <position>1001.0,603.0</position>
     <parameter name="graphicalModelElementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -641,8 +641,8 @@
   <edge>
     <source>2cfa4f99-cd75-4bf7-a2da-76d3626f81e8</source>
     <target>bcab4e2e-e875-41de-b899-4f5a7111e76c</target>
-    <point>1170.0,510.0</point>
-    <point>1170.0,645.0</point>
+    <point>1110.0,495.0</point>
+    <point>1110.0,630.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>next</branch>
   </edge>
@@ -652,7 +652,7 @@
     <label>Create EOperation</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>1091.5,946.0</position>
+    <position>1046.5,946.0</position>
     <parameter name="eClassKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -704,7 +704,7 @@
     <label>GetElement</label>
     <sib-uid>collection-sibs/GetElement</sib-uid>
     <taxonomy>de.jabc.sib.common.collection.GetElement</taxonomy>
-    <position>1114.0,753.0</position>
+    <position>1069.0,753.0</position>
     <parameter name="element">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -738,16 +738,16 @@
   <edge>
     <source>cf7fe9d4-4f4f-452c-b962-dbee54361104</source>
     <target>da8359f9-c782-4747-baeb-78dab0e46b2d</target>
-    <point>1170.0,795.0</point>
-    <point>1170.0,960.0</point>
+    <point>1110.0,780.0</point>
+    <point>1110.0,975.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
     <source>bcab4e2e-e875-41de-b899-4f5a7111e76c</source>
     <target>cf7fe9d4-4f4f-452c-b962-dbee54361104</target>
-    <point>1170.0,645.0</point>
-    <point>1170.0,795.0</point>
+    <point>1110.0,630.0</point>
+    <point>1110.0,780.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -755,9 +755,9 @@
     <source>da8359f9-c782-4747-baeb-78dab0e46b2d</source>
     <target>2cfa4f99-cd75-4bf7-a2da-76d3626f81e8</target>
     <spline/>
-    <point>1130.2439024390244,931.0</point>
-    <point>1020.0,705.0</point>
-    <point>1130.13698630137,504.0</point>
+    <point>1110.0,975.0</point>
+    <point>975.0,705.0</point>
+    <point>1110.0,495.0</point>
     <labelposition>524.6530179318463,-107.18781192479169</labelposition>
     <branch>default</branch>
   </edge>
@@ -767,7 +767,7 @@
     <label>IterateGraphModelNodeContainers</label>
     <sib-uid>mgl/mgl/IterateGraphModelNodeContainers</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.IterateGraphModelNodeContainers</taxonomy>
-    <position>1044.0,468.0</position>
+    <position>999.0,468.0</position>
     <parameter name="elementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1012,20 +1012,22 @@
   </edge>
   <edge>
     <source>bc6448fd-1bc6-476c-8269-413c3a139651</source>
-    <target>74e25fa4-cac3-443a-b8ff-8c0d16c8fe07</target>
-    <point>303.0,385.0235294117647</point>
-    <point>777.0,482.61176470588236</point>
-    <labelposition>500.0,0.0</labelposition>
+    <target>2db6fa19-1315-4022-abef-abc4426dcce8</target>
+    <spline/>
+    <point>267.0,367.62857142857143</point>
+    <point>75.0,225.0</point>
+    <point>267.0,52.199999999999996</point>
+    <labelposition>458.51449275362324,-195.0</labelposition>
     <branch>exit</branch>
     <branch>noElements</branch>
   </edge>
   <sib>
     <id>0e641d15-e03d-4be7-bc45-dc96d8d0e95a</id>
     <name>RemoveElement</name>
-    <label>RemoveElement</label>
+    <label>ResetIterator</label>
     <sib-uid>basic-sibs/RemoveElement</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.RemoveElement</taxonomy>
-    <position>350.0,258.0</position>
+    <position>419.0,258.0</position>
     <parameter name="variable">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1313,7 +1315,7 @@
     <label>PutSet</label>
     <sib-uid>collection-sibs/PutSet</sib-uid>
     <taxonomy>de.jabc.sib.common.collection.PutSet</taxonomy>
-    <position>487.5,318.0</position>
+    <position>442.5,363.0</position>
     <parameter name="elements">
       <set/>
     </parameter>
@@ -1391,11 +1393,13 @@
   <edge>
     <source>fbb062c7-f79c-4696-a625-ba63795e7fd6</source>
     <target>bc6448fd-1bc6-476c-8269-413c3a139651</target>
-    <point>315.0,468.0</point>
-    <point>315.0,435.0</point>
-    <point>315.0,417.0</point>
-    <labelposition>568.6274509803922,-1.0</labelposition>
+    <spline/>
+    <point>303.0,475.2</point>
+    <point>345.0,450.0</point>
+    <point>300.6521739130435,399.0</point>
+    <labelposition>337.6304685414002,47.81537800652235</labelposition>
     <branch>exit</branch>
+    <branch>noElements</branch>
   </edge>
   <sib>
     <id>438d5c41-b5c7-4054-9a00-0a2b76725726</id>
@@ -1435,9 +1439,10 @@
   </edge>
   <edge>
     <source>438d5c41-b5c7-4054-9a00-0a2b76725726</source>
-    <target>fbb062c7-f79c-4696-a625-ba63795e7fd6</target>
-    <point>495.0,630.0</point>
-    <point>299.0,493.0</point>
+    <target>4299d54c-4c8e-4f61-bd01-20072ab9508f</target>
+    <point>495.0,603.0</point>
+    <point>495.0,549.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>false</branch>
   </edge>
   <sib>
@@ -2214,6 +2219,34 @@ return new org.eclipse.emf.common.util.BasicEList&lt;Class&lt;?&gt;&gt;(java.uti
     <target>6daa86ee-06b7-42f6-8889-426d4e191445</target>
     <point>660.0,150.0</point>
     <point>939.0,40.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>4299d54c-4c8e-4f61-bd01-20072ab9508f</id>
+    <name>PrintConsoleMessage</name>
+    <label>PrintConsoleMessage</label>
+    <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
+    <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
+    <position>429.5,468.0</position>
+    <parameter name="error">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="message">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>Enter the Ninja: Containable Element ${containableElement}</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>false</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <finalbranches>default</finalbranches>
+  </sib>
+  <edge>
+    <source>4299d54c-4c8e-4f61-bd01-20072ab9508f</source>
+    <target>fbb062c7-f79c-4696-a625-ba63795e7fd6</target>
+    <point>495.0,540.0</point>
+    <point>311.0,492.0</point>
     <branch>default</branch>
   </edge>
   <parameter>
