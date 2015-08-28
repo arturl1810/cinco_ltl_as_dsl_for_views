@@ -94,7 +94,6 @@ public class ContainmentConstraint {
 	public int sumMatchingElementsInContainer(graphmodel.ModelElementContainer container){
 		int i = 0;
 		for(Node n: container.getAllNodes()){
-			System.out.println(n.getClass().getSimpleName());
 			if(isInstance(n))
 				i++;
 		}
