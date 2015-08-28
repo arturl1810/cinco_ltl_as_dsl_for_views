@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>d5531c11-ffc2-41e6-b1fd-4f08e1327b1f</id>
   <name>Generate Helper EOperations</name>
-  <changecounter>383</changecounter>
+  <changecounter>398</changecounter>
   <sib>
     <id>2db6fa19-1315-4022-abef-abc4426dcce8</id>
     <name>IterateGraphModelNodeContainers</name>
@@ -406,9 +406,9 @@
   </edge>
   <edge>
     <source>6daa86ee-06b7-42f6-8889-426d4e191445</source>
-    <target>f82056c2-35f4-467c-8b29-0cf231634d14</target>
-    <point>978.0,39.763636363636365</point>
-    <point>1270.0,92.9090909090909</point>
+    <target>234442d1-ace5-4234-aa8e-4c837892e44f</target>
+    <point>978.0,36.25116279069768</point>
+    <point>1587.0,36.25116279069767</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>exit</branch>
     <branch>noElements</branch>
@@ -891,38 +891,6 @@
     <branch>default</branch>
   </edge>
   <sib>
-    <id>f82056c2-35f4-467c-8b29-0cf231634d14</id>
-    <name>GraphSIB_8</name>
-    <label>Generate_CanContain_Method For GraphModel</label>
-    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
-    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>1138.5,16.0</position>
-    <parameter name="containingElementKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>graphModel</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELNAME">
-      <string>Generate_CanContain_Method</string>
-    </userobject>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>16ee72f6-2f42-4f64-9bd3-f9926f7c4392</string>
-    </userobject>
-  </sib>
-  <edge>
-    <source>f82056c2-35f4-467c-8b29-0cf231634d14</source>
-    <target>234442d1-ace5-4234-aa8e-4c837892e44f</target>
-    <point>1295.0,36.54545454545455</point>
-    <point>1587.0,36.49090909090909</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
-  <sib>
     <id>8a280031-46ed-478c-bc80-b9aa78bbe07f</id>
     <name>GraphSIB_12</name>
     <label>Specialize_GetRootElement_Method</label>
@@ -941,7 +909,7 @@
     <parameter name="modelElementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>graphcalModelElement</key>
+          <key>graphicalModelElement</key>
           <scope>GLOBAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
@@ -955,43 +923,11 @@
       <string>2390bf64-3bef-4139-ad37-7a085733f865</string>
     </userobject>
   </sib>
-  <sib>
-    <id>23cbf24a-a3a7-41e6-8dfd-61c476b3eaab</id>
-    <name>GraphSIB_13</name>
-    <label>Generate_CanContain_Method For Container</label>
-    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
-    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>1340.0,526.0</position>
-    <parameter name="containingElementKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>graphicalModelElement</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELNAME">
-      <string>Generate_CanContain_Method</string>
-    </userobject>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>16ee72f6-2f42-4f64-9bd3-f9926f7c4392</string>
-    </userobject>
-  </sib>
   <edge>
     <source>8a280031-46ed-478c-bc80-b9aa78bbe07f</source>
     <target>269ba97f-dec9-4c4f-9e06-7350a82e31d7</target>
     <point>1625.0,411.14285714285717</point>
     <point>1797.0,533.9142857142857</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
-  <edge>
-    <source>23cbf24a-a3a7-41e6-8dfd-61c476b3eaab</source>
-    <target>269ba97f-dec9-4c4f-9e06-7350a82e31d7</target>
-    <point>1745.0,469.8181818181818</point>
-    <point>1872.0,550.5272727272727</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -1001,7 +937,7 @@
     <label>MergeStrings</label>
     <sib-uid>basic-sibs/MergeStrings</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.MergeStrings</taxonomy>
-    <position>1188.0,78.0</position>
+    <position>1173.0,78.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -1056,7 +992,7 @@
     <label>AddElement</label>
     <sib-uid>collection-sibs/AddElement</sib-uid>
     <taxonomy>de.jabc.sib.common.collection.AddElement</taxonomy>
-    <position>1297.5,78.0</position>
+    <position>1177.5,258.0</position>
     <parameter name="collection">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1085,7 +1021,7 @@
     <label>GetNodeName</label>
     <sib-uid>mgl/mgl/GetNodeName</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetNodeName</taxonomy>
-    <position>1050.0,78.0</position>
+    <position>1005.0,78.0</position>
     <parameter name="nodeKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1121,30 +1057,6 @@
     <point>1254.0,308.0</point>
     <branch>default</branch>
   </edge>
-  <sib>
-    <id>39a042dc-a2f8-41d6-a1a8-990fd1bf6fdf</id>
-    <name>GraphSIB_1</name>
-    <label>Generate_Get_Incoming_Connection_Constraint</label>
-    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
-    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>1226.0,226.0</position>
-    <parameter name="nodeKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>graphicalModelElement</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELNAME">
-      <string>Generate_Get_Incoming_Connection_Constraint</string>
-    </userobject>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>72b06ff2-1688-4c6c-a45c-f2d30eef4e0d</string>
-    </userobject>
-  </sib>
   <edge>
     <source>96646482-e859-4111-bc4a-0e8efcc7272c</source>
     <target>258616dd-ca3e-41fa-9656-f76702d3d686</target>
@@ -1155,52 +1067,12 @@
     <branch>true</branch>
   </edge>
   <sib>
-    <id>966831d0-7fd4-494e-9d09-8da3964b73cd</id>
-    <name>GraphSIB_14</name>
-    <label>Generate_Get_Outgoing_Connection_Constraint</label>
-    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
-    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>1226.0,316.0</position>
-    <parameter name="nodeKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>graphicalModelElement</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELNAME">
-      <string>Generate_Get_Outgoing_Connection_Constraint</string>
-    </userobject>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>9db9aaa7-a6b8-479b-9fa9-871a3369ee97</string>
-    </userobject>
-  </sib>
-  <edge>
-    <source>39a042dc-a2f8-41d6-a1a8-990fd1bf6fdf</source>
-    <target>966831d0-7fd4-494e-9d09-8da3964b73cd</target>
-    <point>1365.0,255.0</point>
-    <point>1365.0,345.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
-  <edge>
-    <source>966831d0-7fd4-494e-9d09-8da3964b73cd</source>
-    <target>258616dd-ca3e-41fa-9656-f76702d3d686</target>
-    <point>1315.0,276.6</point>
-    <point>1055.0,276.6</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
-  <sib>
     <id>269ba97f-dec9-4c4f-9e06-7350a82e31d7</id>
     <name>GetNodeName_1</name>
     <label>GetNodeName</label>
     <sib-uid>mgl/mgl/GetNodeName</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetNodeName</taxonomy>
-    <position>1770.0,528.0</position>
+    <position>1755.0,378.0</position>
     <parameter name="nodeKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1228,7 +1100,7 @@
     <label>MergeStrings</label>
     <sib-uid>basic-sibs/MergeStrings</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.MergeStrings</taxonomy>
-    <position>1923.0,528.0</position>
+    <position>1908.0,378.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -1236,6 +1108,13 @@
       <de.metaframe.jabc.framework.sib.parameter.StrictList>
         <StrictListFoundation>
           <delegate class="list">
+            <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+              <ContextKeyFoundation>
+                <key>apiPrefix</key>
+                <scope>GLOBAL</scope>
+                <scopeMutable>true</scopeMutable>
+              </ContextKeyFoundation>
+            </de.metaframe.jabc.framework.sib.parameter.ContextKey>
             <de.metaframe.jabc.framework.sib.parameter.ContextKey>
               <ContextKeyFoundation>
                 <key>nodeName</key>
@@ -1276,7 +1155,7 @@
     <label>AddElement</label>
     <sib-uid>collection-sibs/AddElement</sib-uid>
     <taxonomy>de.jabc.sib.common.collection.AddElement</taxonomy>
-    <position>1927.5,408.0</position>
+    <position>1912.5,153.0</position>
     <parameter name="collection">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1298,54 +1177,6 @@
     <finalbranches>error</finalbranches>
     <finalbranches>false</finalbranches>
     <finalbranches>true</finalbranches>
-  </sib>
-  <sib>
-    <id>f78b7162-8f6d-401e-b370-479a3c7b9e4f</id>
-    <name>GraphSIB_17</name>
-    <label>Generate Get Incoming Connection Constraints</label>
-    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
-    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>1826.5,286.0</position>
-    <parameter name="nodeKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>garphicalModelElement</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELNAME">
-      <string>Generate_Get_Incoming_Connection_Constraint</string>
-    </userobject>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>72b06ff2-1688-4c6c-a45c-f2d30eef4e0d</string>
-    </userobject>
-  </sib>
-  <sib>
-    <id>86a9c29e-9300-494b-8d5d-d91711dee1e0</id>
-    <name>GraphSIB_15</name>
-    <label>Generate Get Outgoing Connection Constraints</label>
-    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
-    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>1826.5,151.0</position>
-    <parameter name="nodeKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>graphicalModelElement</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELNAME">
-      <string>Generate_Get_Outgoing_Connection_Constraint</string>
-    </userobject>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>9db9aaa7-a6b8-479b-9fa9-871a3369ee97</string>
-    </userobject>
   </sib>
   <sib>
     <id>f6be419c-1ca1-4833-9899-2df58480e245</id>
@@ -1552,20 +1383,6 @@ return new org.eclipse.emf.common.util.BasicEList&lt;Class&lt;?&gt;&gt;(java.uti
     <branch>true</branch>
   </edge>
   <edge>
-    <source>f78b7162-8f6d-401e-b370-479a3c7b9e4f</source>
-    <target>86a9c29e-9300-494b-8d5d-d91711dee1e0</target>
-    <point>2010.0,345.0</point>
-    <point>2043.0,190.0</point>
-    <branch>default</branch>
-  </edge>
-  <edge>
-    <source>86a9c29e-9300-494b-8d5d-d91711dee1e0</source>
-    <target>234442d1-ace5-4234-aa8e-4c837892e44f</target>
-    <point>2025.0,210.0</point>
-    <point>1606.0,47.0</point>
-    <branch>default</branch>
-  </edge>
-  <edge>
     <source>17f6b916-d4b5-4ac1-b540-9c3741b893ba</source>
     <target>f6be419c-1ca1-4833-9899-2df58480e245</target>
     <point>1995.0,45.0</point>
@@ -1639,11 +1456,6 @@ return new org.eclipse.emf.common.util.BasicEList&lt;Class&lt;?&gt;&gt;(java.uti
     <name>graphModelKey</name>
     <field>graphModelKey</field>
     <sib>2db6fa19-1315-4022-abef-abc4426dcce8</sib>
-  </parameter>
-  <parameter>
-    <name>graphModelKey</name>
-    <field>containingElementKey</field>
-    <sib>f82056c2-35f4-467c-8b29-0cf231634d14</sib>
   </parameter>
   <values>
     <entry>

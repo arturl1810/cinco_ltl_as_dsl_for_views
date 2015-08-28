@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>2390bf64-3bef-4139-ad37-7a085733f865</id>
   <name>Specialize_GetRootElement_Method</name>
-  <changecounter>14</changecounter>
+  <changecounter>25</changecounter>
   <sib>
     <id>108eb122-b4e7-42f6-91e3-51a8847032c5</id>
     <name>GetGraphModelName</name>
@@ -59,7 +59,7 @@
     <parameter name="eOperationNameKey">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>getRootElement</expression>
+          <expression>getCRootElement</expression>
           <clazz>java.lang.String</clazz>
           <classMutable>true</classMutable>
         </ContextExpressionFoundation>
