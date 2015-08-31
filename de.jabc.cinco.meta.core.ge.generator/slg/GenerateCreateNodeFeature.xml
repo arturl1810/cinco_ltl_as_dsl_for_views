@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>9b2878c2-af27-4fb3-878a-6613ed7a16c6</id>
   <name>GenerateCreateNodeFeature</name>
-  <changecounter>648</changecounter>
+  <changecounter>657</changecounter>
   <sib>
     <id>cc5a8f52-a2dd-434a-825b-350e398066fe</id>
     <name>RunStringTemplate</name>
@@ -56,9 +56,10 @@ public class Create$context.modelElementName$Feature extends AbstractCreateFeatu
 		if (apiCall) {
 			Object target = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(context.getTargetContainer());
 			if (target instanceof graphmodel.ModelElementContainer)
-				return ((graphmodel.ModelElementContainer) target).canContain($context.importPath$.$context.modelElementName$.class);
-			if ($context.cincoErrorCheckOk$)
-				$context.cincoErrorInvalidContainer$
+				if (! ((graphmodel.ModelElementContainer) target).canContain($context.importPath$.$context.modelElementName$.class)) {
+					if ($context.cincoErrorCheckOk$)
+						$context.cincoErrorMaxCardinality$
+				} else return true;
 			return false;
 		}
 		return false;
@@ -67,13 +68,13 @@ public class Create$context.modelElementName$Feature extends AbstractCreateFeatu
 
 	$context.canCreateNodeContent$
 	
-	/*public boolean canCreate(ICreateContext context) {
+	$! /*public boolean canCreate(ICreateContext context) {
 		Object target = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(context.getTargetContainer());
 		$context.containerCheck$
 		if ($context.cincoErrorCheckOk$)
 			$context.cincoErrorInvalidContainer$
 		return false;
-	}*/
+	}*/ !$
 
 	public Object[] create(ICreateContext context) {
 		$context.importPath$.$context.modelElementName$ $context.meIdentifier$ = $context.importPath$.$context.factoryName$Factory.eINSTANCE.create$context.modelElementName$();
