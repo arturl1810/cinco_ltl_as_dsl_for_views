@@ -59,7 +59,7 @@ import de.jabc.cinco.meta.plugin.pyro.templates.presentation.java.pages.PyroTemp
 
 public class ModelParser {
 	
-	public static String GROUP_ANNOTATION = "group";
+	public static String GROUP_ANNOTATION = "palette";
 	
 	public static GraphicalModelElement getInheritedNode(GraphicalModelElement gme){
 		if(gme instanceof Node){
