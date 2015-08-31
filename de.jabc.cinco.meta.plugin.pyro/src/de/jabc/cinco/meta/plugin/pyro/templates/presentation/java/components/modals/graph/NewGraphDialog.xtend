@@ -9,17 +9,17 @@ import java.util.HashMap
 import de.jabc.cinco.meta.plugin.pyro.model.ConnectionConstraint
 import de.jabc.cinco.meta.plugin.pyro.model.EmbeddingConstraint
 import mgl.Type
+import org.eclipse.emf.ecore.EObject
+import org.eclipse.emf.ecore.EPackage
 
 class NewGraphDialog implements Templateable{
 	
-	override create(GraphModel graphModel, ArrayList<StyledNode> nodes, ArrayList<StyledEdge> edges, HashMap<String, ArrayList<StyledNode>> groupedNodes, ArrayList<ConnectionConstraint> validConnections, ArrayList<EmbeddingConstraint> embeddingConstraints, ArrayList<Type> enums)
+	override create(GraphModel graphModel, ArrayList<StyledNode> nodes, ArrayList<StyledEdge> edges, HashMap<String, ArrayList<StyledNode>> groupedNodes, ArrayList<ConnectionConstraint> validConnections, ArrayList<EmbeddingConstraint> embeddingConstraints, ArrayList<Type> enums,ArrayList<GraphModel> graphModels,ArrayList<EPackage> ecores)
 	'''
 package de.mtf.dywa.components.modals.graph;
 
-import de.ls5.dywa.generated.controller.ProjectController;
-import de.ls5.dywa.generated.controller.«graphModel.name.toFirstUpper»Controller;
-import de.ls5.dywa.generated.entity.Project;
-import de.ls5.dywa.generated.entity.«graphModel.name.toFirstUpper»;
+import de.ls5.dywa.generated.controller.*;
+import de.ls5.dywa.generated.entity.*;
 import de.mtf.dywa.pages.Pyro;
 import org.apache.tapestry5.SelectModel;
 import org.apache.tapestry5.ValueEncoder;
@@ -44,10 +44,10 @@ public class NewGraphDialog {
 
     @Inject
     private ProjectController projectController;
-
+	«FOR GraphModel g:graphModels»
     @Inject
-    private «graphModel.name.toFirstUpper»Controller «graphModel.name.toFirstLower»Controller;
-
+    private «g.name.toFirstUpper»Controller «g.name.toFirstLower»Controller;
+	«ENDFOR»
     @InjectPage
     private Pyro pyro;
 
@@ -74,14 +74,14 @@ public class NewGraphDialog {
     private PageRenderLinkSource pageRenderLS;
 
     @Property
-    private Class<«graphModel.name.toFirstUpper»> selectedGraphModel;
+    private Class<? extends GraphModel> selectedGraphModel;
 
     @Property
-    private List<Class<«graphModel.name.toFirstUpper»>> graphModels;
+    private List<Class<? extends GraphModel>> graphModels;
 
     private long newGraphModelId;
 
-    private «graphModel.name.toFirstUpper» newGraphModel;
+    private GraphModel newGraphModel;
 
     @Property
     @Parameter
@@ -89,24 +89,26 @@ public class NewGraphDialog {
 
     public void setupRender() {
 
-        this.graphModels = new ArrayList<Class<«graphModel.name.toFirstUpper»>>();
-        this.graphModels.add(«graphModel.name.toFirstUpper».class);
+        this.graphModels = new ArrayList<Class<? extends GraphModel>>();
+        «FOR GraphModel g:graphModels»
+        this.graphModels.add(«g.name.toFirstUpper».class);
+        «ENDFOR»
     }
 
-    public ValueEncoder<Class<«graphModel.name.toFirstUpper»>> getTypeEncoder() {
-        return new ValueEncoder<Class<«graphModel.name.toFirstUpper»>>() {
+    public ValueEncoder<Class<? extends GraphModel>> getTypeEncoder() {
+        return new ValueEncoder<Class<? extends GraphModel>>() {
 
             @Override
-            public Class<«graphModel.name.toFirstUpper»> toValue(String clientValue) {
+            public Class<? extends GraphModel> toValue(String clientValue) {
                 try {
-                    return (Class<«graphModel.name.toFirstUpper»>) Class.forName(clientValue);
+                    return (Class<? extends GraphModel>) Class.forName(clientValue);
                 } catch (ClassNotFoundException e) {
                     throw new RuntimeException(e);
                 }
             }
 
             @Override
-            public String toClient(Class<«graphModel.name.toFirstUpper»> value) {
+            public String toClient(Class<? extends GraphModel> value) {
                 return value.getName();
             }
         };
@@ -124,7 +126,11 @@ public class NewGraphDialog {
     }
 
     public void onSuccessFromNewGraphDialogForm() {
-        this.newGraphModel = this.«graphModel.name.toFirstLower»Controller.create«graphModel.name.toFirstUpper»(newGraphDialogName);
+    	«FOR GraphModel g:graphModels»
+        if(this.selectedGraphModel.getName().equals(«g.name.toFirstUpper».class.getName()) ) {
+	        this.newGraphModel = this.«g.name.toFirstLower»Controller.create«g.name.toFirstUpper»(newGraphDialogName);
+    	}
+        «ENDFOR»
         this.project.getgraphModels_GraphModel().add(this.newGraphModel);
         this.newGraphModelId = newGraphModel.getId();
         this.newGraphModel.setscaleFactor(2.0);
@@ -139,7 +145,7 @@ public class NewGraphDialog {
         this.newGraphModel.setrotateStep(5.0);
         this.newGraphModel.settheme("default");
         this.newGraphModel.setminimizedMenu(false);
-        this.newGraphModel.setminimizedGraph(false);
+        this.newGraphModel.setminimizedGraph(true);
         this.newGraphModel.setminimizedMap(false);
     }
 

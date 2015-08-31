@@ -9,14 +9,17 @@ import java.util.HashMap
 import de.jabc.cinco.meta.plugin.pyro.model.ConnectionConstraint
 import de.jabc.cinco.meta.plugin.pyro.model.EmbeddingConstraint
 import mgl.Type
+import org.eclipse.emf.ecore.EObject
+import org.eclipse.emf.ecore.EPackage
 
 class RemoveMessageParser implements Templateable{
 	
-	override create(GraphModel graphModel, ArrayList<StyledNode> nodes, ArrayList<StyledEdge> edges, HashMap<String, ArrayList<StyledNode>> groupedNodes, ArrayList<ConnectionConstraint> validConnections, ArrayList<EmbeddingConstraint> embeddingConstraints, ArrayList<Type> enums)
+	override create(GraphModel graphModel, ArrayList<StyledNode> nodes, ArrayList<StyledEdge> edges, HashMap<String, ArrayList<StyledNode>> groupedNodes, ArrayList<ConnectionConstraint> validConnections, ArrayList<EmbeddingConstraint> embeddingConstraints, ArrayList<Type> enums,ArrayList<GraphModel> graphModels,ArrayList<EPackage> ecores)
 	'''
-package de.ls5.cinco.message;
+package de.ls5.cinco.message.«graphModel.name.toFirstLower»;
 
-import de.ls5.cinco.transformation.api.*;
+import de.ls5.cinco.transformation.api.«graphModel.name.toFirstLower».*;
+import de.ls5.cinco.message.MessageParser;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;

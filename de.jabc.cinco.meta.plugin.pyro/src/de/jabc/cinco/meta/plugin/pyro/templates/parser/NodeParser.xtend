@@ -12,17 +12,22 @@ import de.jabc.cinco.meta.plugin.pyro.model.EmbeddingConstraint
 import mgl.Type
 import mgl.Attribute
 import mgl.Node
+import de.jabc.cinco.meta.plugin.pyro.utils.ModelParser
 
 class NodeParser implements ElementTemplateable {
 	
 	override create(StyledModelElement sme, GraphModel graphModel, ArrayList<StyledNode> nodes, ArrayList<StyledEdge> edges, HashMap<String, ArrayList<StyledNode>> groupedNodes, ArrayList<ConnectionConstraint> validConnections, ArrayList<EmbeddingConstraint> embeddingConstraints, ArrayList<Type> enums)
 	'''
-package de.ls5.cinco.parser;
-
+package de.ls5.cinco.parser.«graphModel.name.toFirstLower»;
+import de.ls5.cinco.parser.PointParser;
 import de.ls5.dywa.generated.entity.«sme.modelElement.name.toFirstUpper»;
+import de.ls5.cinco.transformation.api.«graphModel.name.toFirstLower».*;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import de.ls5.dywa.generated.entity.ModelElement;
+«IF ModelParser.isCustomeActionAvailable(graphModel)»
+import de.ls5.cinco.custom.action.«graphModel.name.toFirstLower».*;
+«ENDIF»
 
 import java.text.MessageFormat;
 

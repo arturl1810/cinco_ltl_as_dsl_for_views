@@ -16,15 +16,18 @@ import de.jabc.cinco.meta.plugin.pyro.templates.Templateable
 import org.eclipse.emf.ecore.EClass
 import de.jabc.cinco.meta.plugin.pyro.utils.ModelParser
 import mgl.ReferencedType
+import org.eclipse.emf.ecore.EObject
+import org.eclipse.emf.ecore.EPackage
 
 class CGraphModel implements Templateable{
 	
-	override create(GraphModel graphModel, ArrayList<StyledNode> nodes, ArrayList<StyledEdge> edges, HashMap<String, ArrayList<StyledNode>> groupedNodes, ArrayList<ConnectionConstraint> validConnections, ArrayList<EmbeddingConstraint> embeddingConstraints, ArrayList<Type> enums)
+	override create(GraphModel graphModel, ArrayList<StyledNode> nodes, ArrayList<StyledEdge> edges, HashMap<String, ArrayList<StyledNode>> groupedNodes, ArrayList<ConnectionConstraint> validConnections, ArrayList<EmbeddingConstraint> embeddingConstraints, ArrayList<Type> enums,ArrayList<GraphModel> graphModels,ArrayList<EPackage> ecores)
 	'''
-package de.ls5.cinco.transformation.api;
+package de.ls5.cinco.transformation.api.«graphModel.name.toFirstLower»;
 
 import de.ls5.dywa.generated.entity.*;
 import de.ls5.dywa.generated.controller.*;
+import de.ls5.cinco.transformation.api.*;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -60,8 +63,8 @@ public interface C«graphModel.name.toFirstUpper» extends CGraphModel{
     public C«sn.modelElement.name.toFirstUpper» getC«sn.modelElement.name.toFirstUpper»(long id);
     «ENDFOR»
     
-    «FOR ReferencedType primeRef : ModelParser.getPrimeReferencedModelElements(graphModel)»
-    public «primeRef.type.name.toFirstUpper»PrimeController get«primeRef.type.name.toFirstUpper»PrimeController();
+    «FOR ReferencedType primeRef : ModelParser.getPrimeReferencedModelElements(graphModel,false)»
+    public «primeRef.type.name.toFirstUpper»Controller get«primeRef.type.name.toFirstUpper»Controller();
     «ENDFOR»
     
     public PyroMoveNodeCommandController getPyroMoveNodeCommandController();

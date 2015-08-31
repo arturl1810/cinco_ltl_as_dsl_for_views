@@ -19,10 +19,11 @@ class CNodeImpl implements ElementTemplateable{
 	
 	override create(StyledModelElement sme, GraphModel graphModel, ArrayList<StyledNode> nodes, ArrayList<StyledEdge> edges, HashMap<String, ArrayList<StyledNode>> groupedNodes, ArrayList<ConnectionConstraint> validConnections, ArrayList<EmbeddingConstraint> embeddingConstraints, ArrayList<Type> enums)
 	'''
-package de.ls5.cinco.transformation.api;
+package de.ls5.cinco.transformation.api.«graphModel.name.toFirstLower»;
 
 import de.ls5.dywa.generated.entity.*;
 import de.ls5.dywa.generated.controller.*;
+import de.ls5.cinco.transformation.api.*;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -204,7 +205,7 @@ public class C«sme.modelElement.name.toFirstUpper»Impl implements C«sme.model
     }
 
     public boolean delete() {
-        //REMOVE NODE COMMAND
+        long id = this.modelElement.getId();
         //Remove all outgoing edges
         //getOutgoing().forEach(de.ls5.cinco.transformation.api.CEdge::delete);
         //Remove all incomming edges
@@ -213,6 +214,15 @@ public class C«sme.modelElement.name.toFirstUpper»Impl implements C«sme.model
         this.c«graphModel.name.toFirstUpper».getPointController().deletePoint(this.modelElement.getposition());
         this.modelElement.getcontainer().getmodelElements_ModelElement().remove(this.modelElement);
         this.c«graphModel.name.toFirstUpper».get«sme.modelElement.name.toFirstUpper»Controller().delete«sme.modelElement.name.toFirstUpper»(this.modelElement);
+        
+        PyroRemoveNodeCommand pyroRemoveNodeCommand = c«graphModel.name.toFirstUpper».getPyroRemoveNodeCommandController().createPyroRemoveNodeCommand("Remove«sme.modelElement.name.toFirstUpper»" + new Date().getTime());
+		pyroRemoveNodeCommand.settime(new Date());
+		pyroRemoveNodeCommand.setdywaId(id);
+		pyroRemoveNodeCommand.settype("«sme.modelElement.name.toFirstUpper»");
+		pyroRemoveNodeCommand.setnode(this.modelElement);
+		c«graphModel.name.toFirstUpper».getGraphModel().getpyroCommandStack_PyroCommand().add(pyroRemoveNodeCommand);
+        
+        
         return true;
     }
 

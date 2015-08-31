@@ -12,15 +12,20 @@ import mgl.Type
 import de.jabc.cinco.meta.plugin.pyro.utils.ModelParser
 import org.eclipse.emf.ecore.EClass
 import mgl.ReferencedType
+import org.eclipse.emf.ecore.EObject
+import org.eclipse.emf.ecore.EPackage
+import mgl.NodeContainer
 
 class AppModule implements Templateable {
 	
-	override create(GraphModel graphModel, ArrayList<StyledNode> nodes, ArrayList<StyledEdge> edges, HashMap<String, ArrayList<StyledNode>> groupedNodes, ArrayList<ConnectionConstraint> validConnections, ArrayList<EmbeddingConstraint> embeddingConstraints, ArrayList<Type> enums)
+	override create(GraphModel graphModel, ArrayList<StyledNode> nodes, ArrayList<StyledEdge> edges, HashMap<String, ArrayList<StyledNode>> groupedNodes, ArrayList<ConnectionConstraint> validConnections, ArrayList<EmbeddingConstraint> embeddingConstraints, ArrayList<Type> enums,ArrayList<GraphModel> graphModels,ArrayList<EPackage> ecores)
 	'''
 package de.mtf.dywa.services;
 
 import de.ls5.cinco.deployment.CincoDBController;
-import de.ls5.cinco.transformation.api.*;
+«FOR GraphModel g:graphModels»
+import de.ls5.cinco.transformation.api.«g.name.toFirstLower».*;
+«ENDFOR»
 import de.ls5.dywa.api.security.DyWARealm;
 import de.ls5.dywa.generated.controller.*;
 import de.mtf.dywa.ExampleController;
@@ -261,67 +266,84 @@ public class AppModule
     public PyroVertexEdgeCommandController buildPyroVertexEdgeCommandController() {
         return buildControllerOrNull(PyroVertexEdgeCommandController.class, "pyroVertexEdgeCommandControllerImpl");
     }
-    «IF !graphModel.attributes.isEmpty»
+    «FOR GraphModel g:graphModels»
+    «IF !g.attributes.isEmpty»
     @Scope(ScopeConstants.PERTHREAD)
-    public Pyro«graphModel.name.toFirstUpper»AttributeCommandController buildPyro«graphModel.name.toFirstUpper»AttributeCommandController() {
-        return buildControllerOrNull(Pyro«graphModel.name.toFirstUpper»AttributeCommandController.class, "pyro«graphModel.name.toFirstUpper»AttributeCommandControllerImpl");
+    public Pyro«g.name.toFirstUpper»AttributeCommandController buildPyro«g.name.toFirstUpper»AttributeCommandController() {
+        return buildControllerOrNull(Pyro«g.name.toFirstUpper»AttributeCommandController.class, "pyro«g.name.toFirstUpper»AttributeCommandControllerImpl");
     }
     «ENDIF»
+    
+    «FOR mgl.Node sn:g.nodes»
+    @Scope(ScopeConstants.PERTHREAD)
+    public «sn.name.toFirstUpper»Controller build«sn.name.toFirstUpper»Controller() {
+        return buildControllerOrNull(«sn.name.toFirstUpper»Controller.class, "«sn.name.toFirstLower»ControllerImpl");
+    }
+    
+    @Scope(ScopeConstants.PERTHREAD)
+    public C«sn.name.toFirstUpper» buildC«sn.name.toFirstUpper»() {
+        return buildControllerOrNull(C«sn.name.toFirstUpper».class, "c«sn.name.toFirstUpper»");
+    }
+    
+    @Scope(ScopeConstants.PERTHREAD)
+    public Pyro«sn.name.toFirstUpper»AttributeCommandController buildPyro«sn.name.toFirstUpper»AttributeCommandController() {
+        return buildControllerOrNull(Pyro«sn.name.toFirstUpper»AttributeCommandController.class, "pyro«sn.name.toFirstUpper»AttributeCommandControllerImpl");
+    }
+    «ENDFOR»
+    
+    «FOR NodeContainer sn:g.nodeContainers»
+    @Scope(ScopeConstants.PERTHREAD)
+    public «sn.name.toFirstUpper»Controller build«sn.name.toFirstUpper»Controller() {
+        return buildControllerOrNull(«sn.name.toFirstUpper»Controller.class, "«sn.name.toFirstLower»ControllerImpl");
+    }
+    
+    @Scope(ScopeConstants.PERTHREAD)
+    public C«sn.name.toFirstUpper» buildC«sn.name.toFirstUpper»() {
+        return buildControllerOrNull(C«sn.name.toFirstUpper».class, "c«sn.name.toFirstUpper»");
+    }
+    
+    @Scope(ScopeConstants.PERTHREAD)
+    public Pyro«sn.name.toFirstUpper»AttributeCommandController buildPyro«sn.name.toFirstUpper»AttributeCommandController() {
+        return buildControllerOrNull(Pyro«sn.name.toFirstUpper»AttributeCommandController.class, "pyro«sn.name.toFirstUpper»AttributeCommandControllerImpl");
+    }
+    «ENDFOR»
+    
+    «FOR mgl.Edge sn:g.edges»
+    @Scope(ScopeConstants.PERTHREAD)
+    public «sn.name.toFirstUpper»Controller build«sn.name.toFirstUpper»Controller() {
+        return buildControllerOrNull(«sn.name.toFirstUpper»Controller.class, "«sn.name.toFirstLower»ControllerImpl");
+    }
+    
+    @Scope(ScopeConstants.PERTHREAD)
+    public C«sn.name.toFirstUpper» buildC«sn.name.toFirstUpper»() {
+        return buildControllerOrNull(C«sn.name.toFirstUpper».class, "c«sn.name.toFirstUpper»");
+    }
+    @Scope(ScopeConstants.PERTHREAD)
+    public Pyro«sn.name.toFirstUpper»AttributeCommandController buildPyro«sn.name.toFirstUpper»AttributeCommandController() {
+        return buildControllerOrNull(Pyro«sn.name.toFirstUpper»AttributeCommandController.class, "pyro«sn.name.toFirstUpper»AttributeCommandControllerImpl");
+    }
+    «ENDFOR»
+    
+     @Scope(ScopeConstants.PERTHREAD)
+    public «g.name.toFirstUpper»Controller build«g.name.toFirstUpper»Controller() {
+        return buildControllerOrNull(«g.name.toFirstUpper»Controller.class, "«g.name.toFirstLower»ControllerImpl");
+    }
+    
+    @Scope(ScopeConstants.PERTHREAD)
+    public C«g.name.toFirstUpper»Wrapper buildC«g.name.toFirstUpper»Wrapper() {
+        return buildControllerOrNull(C«g.name.toFirstUpper»Wrapper.class, "c«g.name.toFirstUpper»Wrapper");
+    }
+    
+    @Scope(ScopeConstants.PERTHREAD)
+    public C«g.name.toFirstUpper» buildC«g.name.toFirstUpper»() {
+        return buildControllerOrNull(C«g.name.toFirstUpper».class, "c«g.name.toFirstUpper»");
+    }
+    
+    «ENDFOR»
 
-    @Scope(ScopeConstants.PERTHREAD)
-    public «graphModel.name.toFirstUpper»Controller build«graphModel.name.toFirstUpper»Controller() {
-        return buildControllerOrNull(«graphModel.name.toFirstUpper»Controller.class, "«graphModel.name.toFirstLower»ControllerImpl");
-    }
+   
     
-    @Scope(ScopeConstants.PERTHREAD)
-    public C«graphModel.name.toFirstUpper»Wrapper buildC«graphModel.name.toFirstUpper»Wrapper() {
-        return buildControllerOrNull(C«graphModel.name.toFirstUpper»Wrapper.class, "c«graphModel.name.toFirstUpper»Wrapper");
-    }
     
-    @Scope(ScopeConstants.PERTHREAD)
-    public C«graphModel.name.toFirstUpper» buildC«graphModel.name.toFirstUpper»() {
-        return buildControllerOrNull(C«graphModel.name.toFirstUpper».class, "c«graphModel.name.toFirstUpper»");
-    }
-    
-    «FOR StyledNode sn:nodes»
-    @Scope(ScopeConstants.PERTHREAD)
-    public «sn.modelElement.name.toFirstUpper»Controller build«sn.modelElement.name.toFirstUpper»Controller() {
-        return buildControllerOrNull(«sn.modelElement.name.toFirstUpper»Controller.class, "«sn.modelElement.name.toFirstLower»ControllerImpl");
-    }
-    
-    @Scope(ScopeConstants.PERTHREAD)
-    public C«sn.modelElement.name.toFirstUpper» buildC«sn.modelElement.name.toFirstUpper»() {
-        return buildControllerOrNull(C«sn.modelElement.name.toFirstUpper».class, "c«sn.modelElement.name.toFirstUpper»");
-    }
-    
-    @Scope(ScopeConstants.PERTHREAD)
-    public Pyro«sn.modelElement.name.toFirstUpper»AttributeCommandController buildPyro«sn.modelElement.name.toFirstUpper»AttributeCommandController() {
-        return buildControllerOrNull(Pyro«sn.modelElement.name.toFirstUpper»AttributeCommandController.class, "pyro«sn.modelElement.name.toFirstUpper»AttributeCommandControllerImpl");
-    }
-    «ENDFOR»
-    
-    «FOR StyledEdge sn:edges»
-    @Scope(ScopeConstants.PERTHREAD)
-    public «sn.modelElement.name.toFirstUpper»Controller build«sn.modelElement.name.toFirstUpper»Controller() {
-        return buildControllerOrNull(«sn.modelElement.name.toFirstUpper»Controller.class, "«sn.modelElement.name.toFirstLower»ControllerImpl");
-    }
-    
-    @Scope(ScopeConstants.PERTHREAD)
-    public C«sn.modelElement.name.toFirstUpper» buildC«sn.modelElement.name.toFirstUpper»() {
-        return buildControllerOrNull(C«sn.modelElement.name.toFirstUpper».class, "c«sn.modelElement.name.toFirstUpper»");
-    }
-    @Scope(ScopeConstants.PERTHREAD)
-    public Pyro«sn.modelElement.name.toFirstUpper»AttributeCommandController buildPyro«sn.modelElement.name.toFirstUpper»AttributeCommandController() {
-        return buildControllerOrNull(Pyro«sn.modelElement.name.toFirstUpper»AttributeCommandController.class, "pyro«sn.modelElement.name.toFirstUpper»AttributeCommandControllerImpl");
-    }
-    «ENDFOR»
-    
-    «FOR ReferencedType primeRef:ModelParser.getPrimeReferencedModelElements(graphModel)»
-    @Scope(ScopeConstants.PERTHREAD)
-    public «primeRef.type.name.toFirstUpper»PrimeController build«primeRef.type.name.toFirstUpper»PrimeController() {
-        return buildControllerOrNull(«primeRef.type.name.toFirstUpper»PrimeController.class, "«primeRef.type.name.toFirstLower»PrimeControllerImpl");
-    }
-    «ENDFOR»
 
 
 }

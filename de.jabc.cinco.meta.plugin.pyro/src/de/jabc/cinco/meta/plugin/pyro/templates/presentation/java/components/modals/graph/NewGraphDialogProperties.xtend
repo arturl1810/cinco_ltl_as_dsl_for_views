@@ -9,15 +9,17 @@ import java.util.HashMap
 import de.jabc.cinco.meta.plugin.pyro.model.ConnectionConstraint
 import de.jabc.cinco.meta.plugin.pyro.model.EmbeddingConstraint
 import mgl.Type
+import org.eclipse.emf.ecore.EObject
+import org.eclipse.emf.ecore.EPackage
 
 class NewGraphDialogProperties implements Templateable{
 	
-	override create(GraphModel graphModel, ArrayList<StyledNode> nodes, ArrayList<StyledEdge> edges, HashMap<String, ArrayList<StyledNode>> groupedNodes, ArrayList<ConnectionConstraint> validConnections, ArrayList<EmbeddingConstraint> embeddingConstraints, ArrayList<Type> enums)
+	override create(GraphModel graphModel, ArrayList<StyledNode> nodes, ArrayList<StyledEdge> edges, HashMap<String, ArrayList<StyledNode>> groupedNodes, ArrayList<ConnectionConstraint> validConnections, ArrayList<EmbeddingConstraint> embeddingConstraints, ArrayList<Type> enums,ArrayList<GraphModel> graphModels,ArrayList<EPackage> ecores)
 	'''
-buttonText=Create «graphModel.name.toFirstUpper»
-modalTitle=Create a new «graphModel.name.toFirstUpper»
+buttonText=Create GraphModel
+modalTitle=Create a new GraphModel
 NameLabel=Name
-GraphLabel=«graphModel.name.toFirstUpper»
+GraphLabel=GraphModel
 create=Create
 cancel=Cancel
 	'''

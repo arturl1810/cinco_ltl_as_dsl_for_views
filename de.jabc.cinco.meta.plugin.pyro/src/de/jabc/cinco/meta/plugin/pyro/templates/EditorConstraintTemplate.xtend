@@ -10,6 +10,8 @@ import de.jabc.cinco.meta.plugin.pyro.model.EmbeddingConstraint
 import mgl.GraphicalModelElement
 import mgl.Type
 import de.jabc.cinco.meta.plugin.pyro.utils.ModelParser
+import org.eclipse.emf.ecore.EObject
+import org.eclipse.emf.ecore.EPackage
 
 class EditorConstraintTemplate implements Templateable{
 
@@ -108,7 +110,7 @@ class EditorConstraintTemplate implements Templateable{
 		}
 	'''
 	
-	override create(GraphModel graphModel, ArrayList<StyledNode> nodes, ArrayList<StyledEdge> edges, HashMap<String, ArrayList<StyledNode>> groupedNodes, ArrayList<ConnectionConstraint> validConnections, ArrayList<EmbeddingConstraint> embeddingConstraints,ArrayList<Type> enums)
+	override create(GraphModel graphModel, ArrayList<StyledNode> nodes, ArrayList<StyledEdge> edges, HashMap<String, ArrayList<StyledNode>> groupedNodes, ArrayList<ConnectionConstraint> validConnections, ArrayList<EmbeddingConstraint> embeddingConstraints,ArrayList<Type> enums,ArrayList<GraphModel> graphModels,ArrayList<EPackage> ecores)
 	'''
 		/**
 		 * Validates two Nodes, whether they can be embedded
@@ -185,7 +187,7 @@ class EditorConstraintTemplate implements Templateable{
 		function getAllNodeTypes()
 		{
 			return [
-			«IF ModelParser.isPrimeRefernceAvailable(graphModel)»
+			«IF !ModelParser.getPrimeReferencedModelElements(graphModel,true).empty»
 			getPrimeReferences(),
 			«ENDIF»
 			«FOR group : groupedNodes.entrySet SEPARATOR ','»

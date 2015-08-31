@@ -9,20 +9,22 @@ import java.util.HashMap
 import de.jabc.cinco.meta.plugin.pyro.model.ConnectionConstraint
 import de.jabc.cinco.meta.plugin.pyro.model.EmbeddingConstraint
 import mgl.Type
+import org.eclipse.emf.ecore.EObject
+import org.eclipse.emf.ecore.EPackage
 
 class ModelingCanvas implements Templateable{
 	
-	override create(GraphModel graphModel, ArrayList<StyledNode> nodes, ArrayList<StyledEdge> edges, HashMap<String, ArrayList<StyledNode>> groupedNodes, ArrayList<ConnectionConstraint> validConnections, ArrayList<EmbeddingConstraint> embeddingConstraints, ArrayList<Type> enums)
+	override create(GraphModel graphModel, ArrayList<StyledNode> nodes, ArrayList<StyledEdge> edges, HashMap<String, ArrayList<StyledNode>> groupedNodes, ArrayList<ConnectionConstraint> validConnections, ArrayList<EmbeddingConstraint> embeddingConstraints, ArrayList<Type> enums,ArrayList<GraphModel> graphModels,ArrayList<EPackage> ecores)
 	'''
 package de.mtf.dywa.components.canvas;
 
-import de.ls5.cinco.parser.«graphModel.name.toFirstUpper»Parser;
-import de.ls5.cinco.message.*;
-import de.ls5.cinco.transformation.api.C«graphModel.name.toFirstUpper»Wrapper;
-import de.ls5.dywa.generated.controller.«graphModel.name.toFirstUpper»Controller;
-import de.ls5.dywa.generated.controller.ProjectController;
-import de.ls5.dywa.generated.entity.«graphModel.name.toFirstUpper»;
-import de.ls5.dywa.generated.entity.Project;
+«FOR GraphModel g:graphModels»
+import de.ls5.cinco.message.«g.name.toFirstLower».*;
+import de.ls5.cinco.transformation.api.«g.name.toFirstLower».*;
+import de.ls5.cinco.parser.«g.name.toFirstLower».*;
+«ENDFOR»
+import de.ls5.dywa.generated.controller.*;
+import de.ls5.dywa.generated.entity.*;
 import de.mtf.dywa.pages.Pyro;
 import org.apache.tapestry5.ComponentResources;
 import org.apache.tapestry5.annotations.InjectPage;
@@ -42,13 +44,13 @@ public class ModelingCanvas {
 
     @Inject
     private ProjectController projectController;
-    
+    «FOR GraphModel g:graphModels»
     @Inject
-    private «graphModel.name.toFirstUpper»Controller «graphModel.name.toFirstLower»Controller;
+    private «g.name.toFirstUpper»Controller «g.name.toFirstLower»Controller;
 
     @Inject
-    private C«graphModel.name.toFirstUpper»Wrapper c«graphModel.name.toFirstUpper»Wrapper;
-
+    private C«g.name.toFirstUpper»Wrapper c«g.name.toFirstUpper»Wrapper;
+	«ENDFOR»
 
     @Parameter(required = true, allowNull = false)
     @Property
@@ -56,7 +58,7 @@ public class ModelingCanvas {
 
     @Parameter(required = true, allowNull = false)
     @Property
-    private «graphModel.name.toFirstUpper» openGraph;
+    private GraphModel openGraph;
 
     @Inject
     private Messages messages;
@@ -71,11 +73,21 @@ public class ModelingCanvas {
     private ComponentResources componentResources;
 
     public String getInitialJSModel() {
-        return «graphModel.name.toFirstUpper»Parser.toJSONString(c«graphModel.name.toFirstUpper»Wrapper.wrap«graphModel.name.toFirstUpper»(this.openGraph));
+    	«FOR GraphModel g:graphModels»
+		if(this.openGraph instanceof «g.name.toFirstUpper») {
+        	return «g.name.toFirstUpper»Parser.toJSONString(c«g.name.toFirstUpper»Wrapper.wrap«g.name.toFirstUpper»((«g.name.toFirstUpper»)this.openGraph));
+        }
+    	«ENDFOR»
+    	return null;
     }
     
     public String getCustomActions() {
-        return «graphModel.name.toFirstUpper»Parser.getCustomeActionsJSON();
+    	«FOR GraphModel g:graphModels»
+		if(this.openGraph instanceof «g.name.toFirstUpper») {
+        	return «g.name.toFirstUpper»Parser.getCustomeActionsJSON();
+    	}
+    	«ENDFOR»
+    	return null;
     }
 
     public String getEditElement()
@@ -84,14 +96,25 @@ public class ModelingCanvas {
     }
     
     public String getPrimeReferences() {
-        return «graphModel.name.toFirstUpper»Parser.getPrimeReferencesJSON(c«graphModel.name.toFirstUpper»Wrapper.wrap«graphModel.name.toFirstUpper»(this.openGraph));
+    	«FOR GraphModel g:graphModels»
+    	if(this.openGraph instanceof «g.name.toFirstUpper») {
+        	return «g.name.toFirstUpper»Parser.getPrimeReferencesJSON(c«g.name.toFirstUpper»Wrapper.wrap«g.name.toFirstUpper»((«g.name.toFirstUpper»)this.openGraph));
+        }
+        «ENDFOR»
+        return null;
     }
 
     Object onEditElement(long graphId) {
-        this.openGraph = this.«graphModel.name.toFirstLower»Controller.read«graphModel.name.toFirstUpper»(graphId);
-        List<String> requestAttributes = request.getParameterNames();
-        String jsonString = requestAttributes.toString().substring(1,requestAttributes.toString().length()-1);
-        return new TextStreamResponse("text/html", EditMessageParser.editElement(jsonString, c«graphModel.name.toFirstUpper»Wrapper.wrap«graphModel.name.toFirstUpper»(this.openGraph)).toJSONString());
+    	«FOR GraphModel g:graphModels»
+        this.openGraph = this.«g.name.toFirstLower»Controller.read«g.name.toFirstUpper»(graphId);
+        if(this.openGraph != null) {
+        	List<String> requestAttributes = request.getParameterNames();
+        	String jsonString = requestAttributes.toString().substring(1,requestAttributes.toString().length()-1);
+        	return new TextStreamResponse("text/html", EditMessageParser.editElement(jsonString, c«g.name.toFirstUpper»Wrapper.wrap«g.name.toFirstUpper»((«g.name.toFirstUpper»)this.openGraph)).toJSONString());
+    	}
+        «ENDFOR»
+        
+        return null;
  	
     }
 
@@ -102,10 +125,15 @@ public class ModelingCanvas {
 
     Object onCreateElement(long graphId)
     {
-        this.openGraph = this.«graphModel.name.toFirstLower»Controller.read«graphModel.name.toFirstUpper»(graphId);
-        List<String> requestAttributes = request.getParameterNames();
-        String jsonString = requestAttributes.toString().substring(1,requestAttributes.toString().length()-1);
-        return new TextStreamResponse("text/html", CreateMessageParser.createElement(jsonString, c«graphModel.name.toFirstUpper»Wrapper.wrap«graphModel.name.toFirstUpper»(this.openGraph)).toJSONString());
+    	«FOR GraphModel g:graphModels»
+        this.openGraph = this.«g.name.toFirstLower»Controller.read«g.name.toFirstUpper»(graphId);
+        if(this.openGraph != null) {
+	        List<String> requestAttributes = request.getParameterNames();
+	        String jsonString = requestAttributes.toString().substring(1,requestAttributes.toString().length()-1);
+	        return new TextStreamResponse("text/html", CreateMessageParser.createElement(jsonString, c«g.name.toFirstUpper»Wrapper.wrap«g.name.toFirstUpper»((«g.name.toFirstUpper»)this.openGraph)).toJSONString());
+        }
+        «ENDFOR»
+        return null;
  	}
 
     public String getRemoveElement()
@@ -115,10 +143,15 @@ public class ModelingCanvas {
 
     Object onRemoveElement(long graphId)
     {
-        this.openGraph = this.«graphModel.name.toFirstLower»Controller.read«graphModel.name.toFirstUpper»(graphId);
-        List<String> requestAttributes = request.getParameterNames();
-        String jsonString = requestAttributes.toString().substring(1,requestAttributes.toString().length()-1);
-        return new TextStreamResponse("text/html", RemoveMessageParser.removeElement(jsonString, c«graphModel.name.toFirstUpper»Wrapper.wrap«graphModel.name.toFirstUpper»(this.openGraph)).toJSONString());
+    	«FOR GraphModel g:graphModels»
+        this.openGraph = this.«g.name.toFirstLower»Controller.read«g.name.toFirstUpper»(graphId);
+        if(this.openGraph != null) {
+	        List<String> requestAttributes = request.getParameterNames();
+	        String jsonString = requestAttributes.toString().substring(1,requestAttributes.toString().length()-1);
+	        return new TextStreamResponse("text/html", RemoveMessageParser.removeElement(jsonString, c«g.name.toFirstUpper»Wrapper.wrap«g.name.toFirstUpper»((«g.name.toFirstUpper»)this.openGraph)).toJSONString());
+        }
+        «ENDFOR»
+        return null;
     }
     
     public String getChangeSettings()
@@ -128,10 +161,15 @@ public class ModelingCanvas {
 
     Object onChangeSettings(long graphId)
     {
-        this.openGraph = this.«graphModel.name.toFirstLower»Controller.read«graphModel.name.toFirstUpper»(graphId);
-        List<String> requestAttributes = request.getParameterNames();
-        String jsonString = requestAttributes.toString().substring(1,requestAttributes.toString().length()-1);
-        return new TextStreamResponse("text/html", SettingsMessageParser.changeSettings(jsonString, c«graphModel.name.toFirstUpper»Wrapper.wrap«graphModel.name.toFirstUpper»(this.openGraph)).toJSONString());
+    	«FOR GraphModel g:graphModels»
+        this.openGraph = this.«g.name.toFirstLower»Controller.read«g.name.toFirstUpper»(graphId);
+        if(this.openGraph != null) {
+	        List<String> requestAttributes = request.getParameterNames();
+	        String jsonString = requestAttributes.toString().substring(1,requestAttributes.toString().length()-1);
+	        return new TextStreamResponse("text/html", SettingsMessageParser.changeSettings(jsonString, c«g.name.toFirstUpper»Wrapper.wrap«g.name.toFirstUpper»((«g.name.toFirstUpper»)this.openGraph)).toJSONString());
+        }
+        «ENDFOR»
+        return null;
     }
     
     public String getCustomFeature()
@@ -141,10 +179,15 @@ public class ModelingCanvas {
 
     Object onCustomFeature(long graphId)
     {
-        this.openGraph = this.«graphModel.name.toFirstLower»Controller.read«graphModel.name.toFirstUpper»(graphId);
-        List<String> requestAttributes = request.getParameterNames();
-        String jsonString = requestAttributes.toString().substring(1,requestAttributes.toString().length()-1);
-        return new TextStreamResponse("text/html", CustomFeatureParser.customFeature(jsonString, c«graphModel.name.toFirstUpper»Wrapper.wrap«graphModel.name.toFirstUpper»(this.openGraph)).toJSONString());
+    	«FOR GraphModel g:graphModels»
+        this.openGraph = this.«g.name.toFirstLower»Controller.read«g.name.toFirstUpper»(graphId);
+        if(this.openGraph != null) {
+	        List<String> requestAttributes = request.getParameterNames();
+	        String jsonString = requestAttributes.toString().substring(1,requestAttributes.toString().length()-1);
+	        return new TextStreamResponse("text/html", CustomFeatureParser.customFeature(jsonString, c«g.name.toFirstUpper»Wrapper.wrap«g.name.toFirstUpper»((«g.name.toFirstUpper»)this.openGraph)).toJSONString());
+	     }
+        «ENDFOR»
+        return null;
     }
     
     public String getEdgeStyleModeRouter(){
@@ -173,6 +216,15 @@ public class ModelingCanvas {
             return this.openGraph.getminimizedMap();
         }
         return false;
+    }
+    
+    public String getGraphModelTypeName() {
+    	«FOR GraphModel g:graphModels»
+    	if(this.openGraph instanceof «g.name.toFirstUpper») {
+            return "«g.name.toFirstLower»";
+        }
+        «ENDFOR»
+        return null;
     }
 }
 	

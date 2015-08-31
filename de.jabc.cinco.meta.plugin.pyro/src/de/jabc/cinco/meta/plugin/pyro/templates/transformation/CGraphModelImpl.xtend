@@ -16,15 +16,18 @@ import de.jabc.cinco.meta.plugin.pyro.templates.Templateable
 import de.jabc.cinco.meta.plugin.pyro.utils.ModelParser
 import org.eclipse.emf.ecore.EClass
 import mgl.ReferencedType
+import org.eclipse.emf.ecore.EObject
+import org.eclipse.emf.ecore.EPackage
 
 class CGraphModelImpl implements Templateable{
 	
-	override create(GraphModel graphModel, ArrayList<StyledNode> nodes, ArrayList<StyledEdge> edges, HashMap<String, ArrayList<StyledNode>> groupedNodes, ArrayList<ConnectionConstraint> validConnections, ArrayList<EmbeddingConstraint> embeddingConstraints, ArrayList<Type> enums)
+	override create(GraphModel graphModel, ArrayList<StyledNode> nodes, ArrayList<StyledEdge> edges, HashMap<String, ArrayList<StyledNode>> groupedNodes, ArrayList<ConnectionConstraint> validConnections, ArrayList<EmbeddingConstraint> embeddingConstraints, ArrayList<Type> enums,ArrayList<GraphModel> graphModels,ArrayList<EPackage> ecores)
 	'''
-package de.ls5.cinco.transformation.api;
+package de.ls5.cinco.transformation.api.«graphModel.name.toFirstLower»;
 
 import de.ls5.dywa.generated.entity.*;
 import de.ls5.dywa.generated.controller.*;
+import de.ls5.cinco.transformation.api.*;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -68,9 +71,9 @@ public class C«graphModel.name.toFirstUpper»Impl implements C«graphModel.name
 	@Inject
 	private PyroCreateEdgeCommandController pyroCreateEdgeCommandController;
 	
-	«FOR ReferencedType primeRef : ModelParser.getPrimeReferencedModelElements(graphModel)»
+	«FOR ReferencedType primeRef : ModelParser.getPrimeReferencedModelElements(graphModel,false)»
 	@Inject
-   	private «primeRef.type.name.toFirstUpper»PrimeController «primeRef.type.name.toFirstLower»PrimeController;
+   	private «primeRef.type.name.toFirstUpper»Controller «primeRef.type.name.toFirstLower»Controller;
     «ENDFOR»
 	
 	«FOR StyledNode sn:nodes»
@@ -127,10 +130,10 @@ public class C«graphModel.name.toFirstUpper»Impl implements C«graphModel.name
     }
     «ENDFOR»
     
-    «FOR ReferencedType primeRef : ModelParser.getPrimeReferencedModelElements(graphModel)»
-    public «primeRef.type.name.toFirstUpper»PrimeController get«primeRef.type.name.toFirstUpper»PrimeController()
+    «FOR ReferencedType primeRef : ModelParser.getPrimeReferencedModelElements(graphModel,false)»
+    public «primeRef.type.name.toFirstUpper»Controller get«primeRef.type.name.toFirstUpper»Controller()
     {
-    	return «primeRef.type.name.toFirstLower»PrimeController;
+    	return «primeRef.type.name.toFirstLower»Controller;
 	}
     «ENDFOR»
 	

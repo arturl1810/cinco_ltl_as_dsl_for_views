@@ -525,12 +525,30 @@ public class ModelParser {
 		return false;
 	}
 	
-	public static List<mgl.ReferencedType> getPrimeReferencedModelElements(mgl.GraphModel graphModel)
+	public static List<mgl.ReferencedType> getPrimeReferencedModelElements(mgl.GraphModel graphModel,boolean selfReferencingIncluded)
 	{
 		List<mgl.ReferencedType> elements = new ArrayList<mgl.ReferencedType>();
 		for(mgl.Node node:graphModel.getNodes()) {
 			if(node.getPrimeReference() != null) {
-				elements.add(node.getPrimeReference());
+				if(!selfReferencingIncluded) {
+					ArrayList<ModelElement> modelElements = new ArrayList<ModelElement>();
+					modelElements.addAll(graphModel.getNodeContainers());
+					modelElements.addAll(graphModel.getNodes());
+					modelElements.addAll(graphModel.getEdges());
+					boolean selfReferencing = false;
+					for(ModelElement modelElement:modelElements){
+						if(modelElement.getName().equals(node.getPrimeReference().getType().getName())){
+							selfReferencing = true;
+							break;
+						}
+					}
+					if(!selfReferencing){
+						elements.add(node.getPrimeReference());					
+					}
+				}
+				else {
+					elements.add(node.getPrimeReference());		
+				}
 			}
 		}
 		

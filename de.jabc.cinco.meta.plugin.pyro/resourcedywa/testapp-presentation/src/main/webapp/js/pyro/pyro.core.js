@@ -846,7 +846,7 @@ function getNodeTypeByLabel(label)
     var groups = getAllNodeTypes();
     for(var group in groups) {
         for(var item in groups[group].nodes) {
-            if(groups[group].nodes[item].label === label){
+            if(groups[group].nodes[item].label == label){
                 return groups[group].nodes[item];
             }
         }

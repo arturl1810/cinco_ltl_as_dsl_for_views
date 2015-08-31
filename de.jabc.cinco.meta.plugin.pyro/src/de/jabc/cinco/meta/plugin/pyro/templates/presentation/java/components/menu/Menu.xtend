@@ -9,17 +9,17 @@ import java.util.HashMap
 import de.jabc.cinco.meta.plugin.pyro.model.ConnectionConstraint
 import de.jabc.cinco.meta.plugin.pyro.model.EmbeddingConstraint
 import mgl.Type
+import org.eclipse.emf.ecore.EObject
+import org.eclipse.emf.ecore.EPackage
 
 class Menu implements Templateable{
 	
-	override create(GraphModel graphModel, ArrayList<StyledNode> nodes, ArrayList<StyledEdge> edges, HashMap<String, ArrayList<StyledNode>> groupedNodes, ArrayList<ConnectionConstraint> validConnections, ArrayList<EmbeddingConstraint> embeddingConstraints, ArrayList<Type> enums)
+	override create(GraphModel graphModel, ArrayList<StyledNode> nodes, ArrayList<StyledEdge> edges, HashMap<String, ArrayList<StyledNode>> groupedNodes, ArrayList<ConnectionConstraint> validConnections, ArrayList<EmbeddingConstraint> embeddingConstraints, ArrayList<Type> enums,ArrayList<GraphModel> graphModels,ArrayList<EPackage> ecores)
 	'''
 	package de.mtf.dywa.components.menubar;
 
-import de.ls5.dywa.generated.controller.«graphModel.name.toFirstUpper»Controller;
-import de.ls5.dywa.generated.controller.ProjectController;
-import de.ls5.dywa.generated.entity.«graphModel.name.toFirstUpper»;
-import de.ls5.dywa.generated.entity.Project;
+import de.ls5.dywa.generated.controller.*;
+import de.ls5.dywa.generated.entity.*;
 import org.apache.tapestry5.ComponentResources;
 import org.apache.tapestry5.SymbolConstants;
 import org.apache.tapestry5.annotations.Parameter;
@@ -45,9 +45,18 @@ public class Menu {
     @Inject
     private ProjectController projectController;
 
+	«FOR GraphModel g:graphModels»
     @Inject
-    private «graphModel.name.toFirstUpper»Controller «graphModel.name.toFirstLower»Controller;
+    private «g.name.toFirstUpper»Controller «g.name.toFirstLower»Controller;
+	«ENDFOR»
+	
+	@Property
+    @Parameter
+    private GraphModel openedGraphModel;
 
+    @Property
+    private GraphModel iteratedGraphModel;
+	
     @Property
     @Parameter(allowNull = false)
     private Project openedProject;
@@ -55,12 +64,7 @@ public class Menu {
     @Property
     private Project iteratedProject;
 
-    @Property
-    @Parameter
-    private «graphModel.name.toFirstUpper» openedGraphModel;
-
-    @Property
-    private «graphModel.name.toFirstUpper» iteratedGraphModel;
+    
 
     @Property
     private List<Project> projectList;
@@ -69,7 +73,7 @@ public class Menu {
         if(this.openedProject != null){
             if(this.openedGraphModel == null) {
                 if(isGraphContained()) {
-                    this.openedGraphModel = («graphModel.name.toFirstUpper») this.openedProject.getgraphModels_GraphModel().get(0);
+                    this.openedGraphModel = this.openedProject.getgraphModels_GraphModel().get(0);
                 }
             }
         }

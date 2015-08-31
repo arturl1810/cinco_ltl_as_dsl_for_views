@@ -9,17 +9,17 @@ import java.util.HashMap
 import de.jabc.cinco.meta.plugin.pyro.model.ConnectionConstraint
 import de.jabc.cinco.meta.plugin.pyro.model.EmbeddingConstraint
 import mgl.Type
+import org.eclipse.emf.ecore.EObject
+import org.eclipse.emf.ecore.EPackage
 
 class PyroTemplate implements Templateable {
 	
-	override create(GraphModel graphModel, ArrayList<StyledNode> nodes, ArrayList<StyledEdge> edges, HashMap<String, ArrayList<StyledNode>> groupedNodes, ArrayList<ConnectionConstraint> validConnections, ArrayList<EmbeddingConstraint> embeddingConstraints, ArrayList<Type> enums)
+	override create(GraphModel graphModel, ArrayList<StyledNode> nodes, ArrayList<StyledEdge> edges, HashMap<String, ArrayList<StyledNode>> groupedNodes, ArrayList<ConnectionConstraint> validConnections, ArrayList<EmbeddingConstraint> embeddingConstraints, ArrayList<Type> enums,ArrayList<GraphModel> graphModels,ArrayList<EPackage> ecores)
 	'''
 package de.mtf.dywa.pages;
 
-import de.ls5.dywa.generated.controller.«graphModel.name.toFirstUpper»Controller;
-import de.ls5.dywa.generated.controller.ProjectController;
-import de.ls5.dywa.generated.entity.«graphModel.name.toFirstUpper»;
-import de.ls5.dywa.generated.entity.Project;
+import de.ls5.dywa.generated.controller.*;
+import de.ls5.dywa.generated.entity.*;
 import org.apache.tapestry5.EventContext;
 import org.apache.tapestry5.SymbolConstants;
 import org.apache.tapestry5.annotations.Property;
@@ -43,28 +43,31 @@ public class Pyro {
     private Project openedProject;
 
     @Property
-    private «graphModel.name.toFirstUpper» openedGraphModel;
+    private GraphModel openedGraphModel;
 
     @Property
-    private «graphModel.name.toFirstUpper» iteratedGraph;
+    private GraphModel iteratedGraph;
 
     @Inject
     private ProjectController projectController;
-
+	«FOR GraphModel g:graphModels»
     @Inject
-    private «graphModel.name.toFirstUpper»Controller graphModelController;
-
+    private «g.name.toFirstUpper»Controller graphModelController;
+	«ENDFOR»
      void onActivate(EventContext eventContext) {
      	if(eventContext.getCount()<=0) {
              return;
          }
         this.openedProject = this.projectController.readProject(eventContext.get(Long.class,0));
         if(eventContext.getCount()>1) {
-            this.openedGraphModel = («graphModel.name.toFirstUpper») this.graphModelController.read«graphModel.name.toFirstUpper»(eventContext.get(Long.class,1));
+        	«FOR GraphModel g:graphModels»
+            this.openedGraphModel = this.graphModelController.read«g.name.toFirstUpper»(eventContext.get(Long.class,1));
+            if(this.openedGraphModel != null){ return; }
+            «ENDFOR»
         }
         else {
             if(!this.openedProject.getgraphModels_GraphModel().isEmpty()) {
-                this.openedGraphModel = («graphModel.name.toFirstUpper») this.openedProject.getgraphModels_GraphModel().get(0);
+                this.openedGraphModel = this.openedProject.getgraphModels_GraphModel().get(0);
             }
         }
         System.out.println("Opened Project " + this.openedProject.getName());
@@ -96,13 +99,13 @@ public class Pyro {
         return this.openedProject.getgraphModels_GraphModel().isEmpty();
     }
 
-    public void setContext(Project openedProject,«graphModel.name.toFirstUpper» openedGraphModel) {
+    public void setContext(Project openedProject,GraphModel openedGraphModel) {
         this.openedProject = openedProject;
         this.openedGraphModel = openedGraphModel;
     }
     
-    public List<«graphModel.name.toFirstUpper»> getGraphs() {
-        return this.openedProject.getgraphModels_GraphModel().stream().map(graphModel -> («graphModel.name.toFirstUpper») graphModel).collect(Collectors.toList());
+    public List<GraphModel> getGraphs() {
+        return this.openedProject.getgraphModels_GraphModel();
     }
     
     public Object[] onPassivate() {

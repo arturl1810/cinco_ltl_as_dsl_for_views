@@ -3,11 +3,16 @@ package de.jabc.cinco.meta.plugin.pyro.model;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
+
 import mgl.GraphModel;
 import mgl.Type;
 
 public class TemplateContainer {
 	private GraphModel graphModel;
+	private ArrayList<GraphModel> graphModels;
+	private ArrayList<EPackage> ecores;
 	private ArrayList<StyledNode> nodes;
 	private ArrayList<StyledEdge> edges;
 	private ArrayList<Type> enums;
@@ -58,6 +63,18 @@ public class TemplateContainer {
 	}
 	public void setEnums(ArrayList<Type> enums) {
 		this.enums = enums;
+	}
+	public ArrayList<GraphModel> getGraphModels() {
+		return graphModels;
+	}
+	public void setGraphModels(ArrayList<GraphModel> graphModels) {
+		this.graphModels = graphModels;
+	}
+	public ArrayList<EPackage> getEcores() {
+		return ecores;
+	}
+	public void setEcores(ArrayList<EPackage> ecores) {
+		this.ecores = ecores;
 	}
 	
 	

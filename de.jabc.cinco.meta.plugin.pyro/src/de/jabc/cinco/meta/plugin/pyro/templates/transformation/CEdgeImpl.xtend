@@ -17,10 +17,11 @@ class CEdgeImpl implements ElementTemplateable{
 	
 	override create(StyledModelElement sme, GraphModel graphModel, ArrayList<StyledNode> nodes, ArrayList<StyledEdge> edges, HashMap<String, ArrayList<StyledNode>> groupedNodes, ArrayList<ConnectionConstraint> validConnections, ArrayList<EmbeddingConstraint> embeddingConstraints, ArrayList<Type> enums)
 	'''
-package de.ls5.cinco.transformation.api;
+package de.ls5.cinco.transformation.api.«graphModel.name.toFirstLower»;
 
 import de.ls5.dywa.generated.entity.*;
 import de.ls5.dywa.generated.controller.*;
+import de.ls5.cinco.transformation.api.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -169,13 +170,22 @@ public class C«sme.modelElement.name.toFirstUpper»Impl implements C«sme.model
 
     @Override
     public boolean delete() {
-        //REMOVE COMMAND
+        long id = this.modelElement.getId();
+        
         this.modelElement.getbendingPoints_Point().forEach(this.c«graphModel.name.toFirstUpper».getPointController()::deletePoint);
         this.modelElement.getsourceElement().getoutgoing_Edge().remove(this.modelElement);
         this.modelElement.gettargetElement().getincoming_Edge().remove(this.modelElement);
         this.modelElement.getcontainer().getmodelElements_ModelElement().remove(this.modelElement);
         this.c«graphModel.name.toFirstUpper».getGraphModel().getmodelElements_ModelElement().remove(this.modelElement);
         this.c«graphModel.name.toFirstUpper».get«sme.modelElement.name.toFirstUpper»Controller().delete«sme.modelElement.name.toFirstUpper»(this.modelElement);
+        
+        PyroRemoveEdgeCommand pyroRemoveEdgeCommand = c«graphModel.name.toFirstUpper».getPyroRemoveEdgeCommandController().createPyroRemoveEdgeCommand("Remove«sme.modelElement.name.toFirstUpper»" + new Date().getTime());
+		pyroRemoveEdgeCommand.settime(new Date());
+		pyroRemoveEdgeCommand.setdywaId(id);
+		pyroRemoveEdgeCommand.settype("«sme.modelElement.name.toFirstUpper»");
+		pyroRemoveEdgeCommand.setedge(this.modelElement);
+		c«graphModel.name.toFirstUpper».getGraphModel().getpyroCommandStack_PyroCommand().add(pyroRemoveEdgeCommand);
+        
         return true;
     }
 
