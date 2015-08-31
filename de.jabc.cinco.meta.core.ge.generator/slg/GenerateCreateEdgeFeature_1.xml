@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>21d264a3-a3d0-485e-b5f9-5f9c29fffccf</id>
   <name>GenerateCreateEdgeFeature_1</name>
-  <changecounter>220</changecounter>
+  <changecounter>250</changecounter>
   <sib>
     <id>11d0666f-5a7a-42b8-b045-2c132c173d82</id>
     <name>PutExpression</name>
@@ -427,19 +427,31 @@ public class Create$context.edgeName$Feature extends AbstractCreateConnectionFea
 			boolean srcOK = false;
 			boolean trgOK = false;
 			if (source != null &amp;&amp; target != null) {
-					srcOK=checkSource(source);
-				trgOK=checkTarget(target);
+				srcOK=((graphmodel.Node) source).canStart($context.importPath$.$context.edgeName$.class);
+				trgOK=((graphmodel.Node) target).canEnd($context.importPath$.$context.edgeName$.class);
 			}
+			if (! (srcOK &amp;&amp; trgOK) &amp;&amp; $context.cincoErrorCheckOk$)
+				$context.cincoErrorMaxIn$
 			return (srcOK &amp;&amp; trgOK);
 		}
 		return false;
 	}
 
-
-	$context.canCreateEdgeContent$
-
-
+	$!context.canCreateEdgeContent!$
 	$context.canStartConnectionContent$
+
+	@Override
+	public boolean canStartConnection(ICreateConnectionContext context) {
+		Object source = getBusinessObject(context.getSourceAnchor());
+		if (source instanceof graphmodel.Node) {	
+			if (! ((graphmodel.Node) source).canStart($context.importPath$.$context.edgeName$.class)) {
+				if ($context.cincoErrorCheckOk$)
+					$context.cincoErrorMaxOut$
+			}
+			else return true;
+		}
+		return false;
+	}
 
 	@Override
 	public Connection create(ICreateConnectionContext context) {
