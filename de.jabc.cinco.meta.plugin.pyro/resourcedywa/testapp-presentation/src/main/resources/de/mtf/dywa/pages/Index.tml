@@ -3,16 +3,23 @@
       xmlns:p="tapestry:parameter">
 <div class="row">
     <div class="jumbotron">
-        <h1>Pyro</h1>
-        <p class="lead">Modeling environment</p>
-        <p><t:pagelink page="projects" class="btn btn-lg btn-success">Project Explorer</t:pagelink></p>
-    </div>
-    <div class="row">
-        <div class="col-md-2">
-            <t:actionlink t:id="createCincoSchema" class="btn btn-success">Create Cinco Schema</t:actionlink>
-        </div>
-        <div class="col-md-2">
-            <t:actionlink t:id="deleteCincoSchema" class="btn btn-warning">Delete Cinco Schema</t:actionlink>
+        <div class="row">
+            <div class="col-sm-4">
+                <img src="${context:img/pyro.png}" />
+            </div>
+            <div class="col-sm-6">
+                <h1>Pyro</h1>
+                <p class="lead">Modeling environment</p>
+                <p><t:pagelink page="projects" class="btn btn-lg btn-success">Project Explorer</t:pagelink></p>
+                <div class="row">
+                    <div class="col-md-6">
+                        <t:actionlink t:id="createCincoSchema" class="btn btn-success">Create Cinco Schema</t:actionlink>
+                    </div>
+                    <div class="col-md-6">
+                        <t:actionlink t:id="deleteCincoSchema" class="btn btn-warning">Delete Cinco Schema</t:actionlink>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

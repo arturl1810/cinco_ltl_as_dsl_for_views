@@ -171,7 +171,7 @@ public class CreatePyroPlugin {
 					createFile(new EditorCSSTemplate(), basePath+presentationPath +webappPath+ cssPath +graphModelPath+ "pyro.nodes.css", templateContainer);
 					
 					//CustomActions
-					deleteFolder(basePath+businessPath+"custom/action/"+graphModelPath);
+					//deleteFolder(basePath+businessPath+"custom/action/"+graphModelPath);
 					for(Annotation annotation:iteratorModel.getAnnotations()){
 						if(annotation.getName().equals("contextMenuAction")){
 							createFile(new de.jabc.cinco.meta.plugin.pyro.templates.custom.action.GraphCustomAction(), null,annotation, basePath+businessPath+"custom/action/"+graphModelPath+ ModelParser.getCustomActionName(annotation)+"CustomAction.java", templateContainer);							
@@ -284,6 +284,9 @@ public class CreatePyroPlugin {
 	private void createFile(AnnotationElementTemplateable template,StyledModelElement sme,mgl.Annotation anno,String path,TemplateContainer tc) throws IOException
 	{
 		File f = new File(path);
+		if(f.exists() && !f.isDirectory()) {
+			return;
+		}
 		f.getParentFile().mkdirs(); 
 		f.createNewFile();
 		
