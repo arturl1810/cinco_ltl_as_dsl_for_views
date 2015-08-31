@@ -90,7 +90,7 @@
     </eOperations>
     <eOperations name="canConnect" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="EList&lt;ConnectionConstraint> oConstraints = getOutgoingConstraints();&#xA;&#x9;&#x9;&#x9;EList&lt;ConnectionConstraint> iConstraints = to.getIncomingConstraints();&#xA;&#x9;&#x9;&#x9;return oConstraints.stream().anyMatch(c -> c.isInEdges(with)) &amp;&amp;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;iConstraints.stream().anyMatch(c -> c.isInEdges(with)) &amp;&amp; &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;oConstraints.stream().allMatch(c -> c.violationAfterConnect(this, with, to)) &amp;&amp; &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;iConstraints.stream().allMatch(c -> c.violationAfterConnect(this, with, to)); "/>
+        <details key="body" value="return canStart(with.getClass())&amp;&amp; to.canEnd(with.getClass());"/>
       </eAnnotations>
       <eParameters name="with" eType="#//Edge"/>
       <eParameters name="to" eType="#//Node"/>
@@ -104,6 +104,30 @@
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="body" value="return new org.eclipse.emf.common.util.BasicEList&lt;ConnectionConstraint>();"/>
       </eAnnotations>
+    </eOperations>
+    <eOperations name="canStart" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="EList&lt;ConnectionConstraint> outConstraints = getOutgoingConstraints();&#xA;&#x9;&#x9;long constraintCount = outConstraints.stream().filter(c -> c.isInEdges(edgeType)).count();&#xA;&#x9;&#x9;return constraintCount>0&amp;&amp;outConstraints.stream().filter(c -> c.isInEdges(edgeType)).allMatch(c -> c.canConnect(this,edgeType));"/>
+      </eAnnotations>
+      <eParameters name="edgeType">
+        <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaClass">
+          <eTypeArguments>
+            <eUpperBound eClassifier="#//Edge"/>
+          </eTypeArguments>
+        </eGenericType>
+      </eParameters>
+    </eOperations>
+    <eOperations name="canEnd" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="EList&lt;ConnectionConstraint> inConstraints = getIncomingConstraints();&#xA;&#x9;&#x9;long constraintCount = inConstraints.stream().filter(c -> c.isInEdges(edgeType)).count();&#xA;&#x9;&#x9;return constraintCount>0&amp;&amp;inConstraints.stream().filter(c -> c.isInEdges(edgeType)).allMatch(c -> c.canConnect(this,edgeType));"/>
+      </eAnnotations>
+      <eParameters name="edgeType">
+        <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaClass">
+          <eTypeArguments>
+            <eUpperBound eClassifier="#//Edge"/>
+          </eTypeArguments>
+        </eGenericType>
+      </eParameters>
     </eOperations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="incoming" upperBound="-1"
         eType="#//Edge" eOpposite="#//Edge/targetElement"/>

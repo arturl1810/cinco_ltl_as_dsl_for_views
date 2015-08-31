@@ -41,6 +41,12 @@
       </genOperations>
       <genOperations ecoreOperation="GraphModel.ecore#//Node/getOutgoingConstraints"/>
       <genOperations ecoreOperation="GraphModel.ecore#//Node/getIncomingConstraints"/>
+      <genOperations ecoreOperation="GraphModel.ecore#//Node/canStart">
+        <genParameters ecoreParameter="GraphModel.ecore#//Node/canStart/edgeType"/>
+      </genOperations>
+      <genOperations ecoreOperation="GraphModel.ecore#//Node/canEnd">
+        <genParameters ecoreParameter="GraphModel.ecore#//Node/canEnd/edgeType"/>
+      </genOperations>
     </genClasses>
     <genClasses image="false" ecoreClass="GraphModel.ecore#//Edge">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference GraphModel.ecore#//Edge/sourceElement"/>
