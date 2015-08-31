@@ -2,11 +2,13 @@ package de.jabc.cinco.meta.core.mgl.model.constraints;
 
 import graphmodel.Node;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
+
+import org.eclipse.emf.ecore.EClass;
 
 public class ContainmentConstraint {
 	
@@ -99,9 +101,12 @@ public class ContainmentConstraint {
 	public int sumMatchingElementsInContainer(graphmodel.ModelElementContainer container){
 		int i = 0;
 		for(Node n: container.getAllNodes()){
-			if(isInstance(n))
+			List<Class<?>> superNodes = getSuperNodes(n.eClass());
+			if(isInstance(n)||superNodes.stream().anyMatch(sn -> isInTypes(sn)))
 				i++;
 		}
+		
+		
 		for(Node n: container.getAllContainers()){
 			if(isInTypes(n.getClass()))
 				i++;
@@ -111,6 +116,9 @@ public class ContainmentConstraint {
 		return i;
 	}
 	
+	private List<Class<?>> getSuperNodes(EClass n) {
+		return n.getESuperTypes().stream().map(e -> e.getInstanceClass()).collect(Collectors.toList());
+	}
 	/**
 	 * Sums all Nodes in list that match this constraints types. 
 	 * @param nodes - List of nodes
@@ -131,8 +139,8 @@ public class ContainmentConstraint {
 		
 	}
 	
-	public boolean isInTypes(Class<? extends Node> nodeClass){
-		return types.contains(nodeClass)||Arrays.asList(nodeClass.getInterfaces()).stream().anyMatch(s -> types.contains(s));
+	public boolean isInTypes(Class<?> sn){
+		return types.contains(sn)||Arrays.asList(sn.getInterfaces()).stream().anyMatch(s -> types.contains(s));
 		
 	}
 	

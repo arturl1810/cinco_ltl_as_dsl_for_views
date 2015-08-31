@@ -6,7 +6,9 @@
       eSuperTypes="#//ModelElementContainer">
     <eOperations name="getAllNodeTypes" upperBound="-1">
       <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaClass">
-        <eTypeArguments/>
+        <eTypeArguments>
+          <eUpperBound eClassifier="#//Node"/>
+        </eTypeArguments>
       </eGenericType>
     </eOperations>
   </eClassifiers>
@@ -159,7 +161,7 @@
     </eOperations>
     <eOperations name="canContain" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="if(nodes!=null &amp;&amp; nodes.size()>0 &amp;&amp; getContainmentConstraints().size()>0){&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;        boolean canContain = true;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;        &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;        for(int i=1;i==nodes.size();i++){&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;        &#x9;final java.util.List&lt;Class&lt;? extends Node>> subNodes = nodes.subList(i, nodes.size());&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;        &#x9;Class&lt;? extends Node> currentNode = nodes.get(i-1);&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;        &#x9;canContain &amp;= getContainmentConstraints().stream().filter(c -> c.isInTypes(currentNode)).allMatch((c -> !c.violationAfterInsert(currentNode, subNodes,this)));&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;        }&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;      &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;        &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;        return  canContain;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;        }&#xA;&#x9;&#x9;&#x9;&#x9;        return true;"/>
+        <details key="body" value="if(nodes!=null &amp;&amp; nodes.size()>0 &amp;&amp; getContainmentConstraints().size()>0){&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;        boolean canContain = true;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;        &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;        for(int i=1;i==nodes.size();i++){&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;        &#x9;final java.util.List&lt;Class&lt;? extends Node>> subNodes = nodes.subList(i, nodes.size());&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;        &#x9;Class&lt;? extends Node> currentNode = nodes.get(i-1);&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;        &#x9;long constraintCount = getContainmentConstraints().stream().filter(c -> c.isInTypes(currentNode)).count();&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;canContain &amp;= constraintCount!=0  &amp;&amp; getContainmentConstraints().stream().filter(c -> c.isInTypes(currentNode)).allMatch((c -> !c.violationAfterInsert(currentNode, subNodes,this)));&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;        }&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;      &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;        &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;        return  canContain;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;        }&#xA;&#x9;&#x9;&#x9;&#x9;        return true;"/>
       </eAnnotations>
       <eParameters name="nodes" upperBound="-1">
         <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaClass">
@@ -188,10 +190,12 @@
     </eOperations>
     <eOperations name="getContainableTypes" upperBound="-1">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="if(getContainmentConstraints().size()>0){&#xA;&#x9;&#x9;&#x9;&#x9;&#xA;&#x9;&#x9;&#x9;&#x9;java.util.HashSet&lt;Class&lt;?>> containables = new java.util.HashSet&lt;>();&#xA;&#x9;&#x9;&#x9;&#x9;getContainmentConstraints().forEach(c -> containables.addAll(c.getContainables(this)));&#xA;&#x9;&#x9;&#x9;&#x9;return new org.eclipse.emf.common.util.BasicEList&lt;Class&lt;?>>(containables);&#xA;&#x9;&#x9;&#x9;&#xA;&#x9;&#x9;&#x9;}else{&#xA;&#x9;&#x9;&#x9;&#x9;&#xA;&#x9;&#x9;&#x9;&#x9;graphmodel.GraphModel rootGraphModel = null;&#xA;&#x9;&#x9;&#x9;&#x9;if(this instanceof graphmodel.GraphModel){&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;rootGraphModel = (graphmodel.GraphModel) this;&#xA;&#x9;&#x9;&#x9;&#x9;}else if(this instanceof graphmodel.Container){&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;rootGraphModel = ((graphmodel.Container)this).getRootElement();&#xA;&#x9;&#x9;&#x9;&#x9;}&#xA;&#x9;&#x9;&#x9;&#x9;&#xA;&#x9;&#x9;&#x9;&#x9;if(rootGraphModel!=null){&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;return rootGraphModel.getAllNodeTypes();&#xA;&#x9;&#x9;&#x9;&#x9;}&#xA;&#x9;&#x9;&#x9;&#x9;return null;&#xA;&#x9;&#x9;&#x9;}"/>
+        <details key="body" value="graphmodel.GraphModel rootGraphModel = null;&#xA;&#x9;&#x9;if(this instanceof graphmodel.GraphModel){&#xA;&#x9;&#x9;&#x9;rootGraphModel = (graphmodel.GraphModel) this;&#xA;&#x9;&#x9;}else if(this instanceof graphmodel.Container){&#xA;&#x9;&#x9;&#x9;rootGraphModel = ((graphmodel.Container)this).getRootElement();&#xA;&#x9;&#x9;}&#xA;&#x9;&#x9;if(getContainmentConstraints().size()>0){&#xA;&#x9;&#x9;&#x9;return new org.eclipse.emf.common.util.BasicEList&lt;Class&lt;? extends Node>>(&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;rootGraphModel.getAllNodeTypes().stream().filter(n -> canContain(n)).collect(java.util.stream.Collectors.toList()));&#xA;&#xA;&#x9;&#x9;}else{&#xA;&#x9;&#x9;&#x9;return rootGraphModel.getAllNodeTypes();&#xA;&#x9;&#x9;}"/>
       </eAnnotations>
       <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaClass">
-        <eTypeArguments/>
+        <eTypeArguments>
+          <eUpperBound eClassifier="#//Node"/>
+        </eTypeArguments>
       </eGenericType>
     </eOperations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="modelElements" upperBound="-1"
