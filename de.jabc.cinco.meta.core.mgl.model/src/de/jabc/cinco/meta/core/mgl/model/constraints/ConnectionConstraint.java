@@ -4,7 +4,9 @@ import graphmodel.Edge;
 import graphmodel.Node;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ConnectionConstraint {
 	private int upperBound;
@@ -55,12 +57,24 @@ public class ConnectionConstraint {
 		
 		if(isInEdges(edgeType)){
 			if(this.outgoing)
-				count = node.getOutgoing(edgeType).size();
+				count = countOutgoing(node);
 			else
-				count = node.getIncoming(edgeType).size();
+				count = countIncoming(node);
 		
 			return count < upperBound;
 		}
 		return false;
+	}
+
+	private int countOutgoing(Node node) {
+		List<Edge> edges = node.getOutgoing().stream().filter(e -> isInEdges(e.getClass())).collect(Collectors.toList());
+		HashSet<Edge> edgeSet = new HashSet<>(edges);
+		return edgeSet.size();
+	}
+	
+	private int countIncoming(Node node) {
+		List<Edge> edges = node.getIncoming().stream().filter(e -> isInEdges(e.getClass())).collect(Collectors.toList());
+		HashSet<Edge> edgeSet = new HashSet<>(edges);
+		return edgeSet.size();
 	}
 }
