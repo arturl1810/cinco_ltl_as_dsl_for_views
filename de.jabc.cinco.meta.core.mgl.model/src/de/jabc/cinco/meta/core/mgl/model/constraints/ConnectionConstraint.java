@@ -37,26 +37,29 @@ public class ConnectionConstraint {
 	}
 	
 	public boolean violationAfterConnect(Node from, Edge with, Node to){
-		if(isInEdges(with)){
-			int count = 0;
-			if(this.outgoing){
-				count = from.getOutgoing(with.getClass()).size();
-			}else{
-				count = to.getIncoming(with.getClass()).size();
-			}
-			
-			return count+1>upperBound;
-			
-		}
-		
-		return false;
+		if(this.outgoing)
+			return !canConnect(from,with.getClass());
+		else
+			return !canConnect(to,with.getClass());
 		
 	}
 	
-	public boolean isInEdges(Edge edge){
-		for(Class<? extends Edge> clazz: edgeClasses){
-			if(clazz.isInstance(edge))
-				return true;
+	
+	public boolean isInEdges(Class<? extends Edge> edgeType){
+		return edgeClasses.stream().anyMatch(c -> c.isAssignableFrom(edgeType));
+		
+	}
+
+	public boolean canConnect(Node node, Class<? extends Edge> edgeType) {
+		int count = 0;
+		
+		if(isInEdges(edgeType)){
+			if(this.outgoing)
+				count = node.getOutgoing(edgeType).size();
+			else
+				count = node.getIncoming(edgeType).size();
+		
+			return count < upperBound;
 		}
 		return false;
 	}
