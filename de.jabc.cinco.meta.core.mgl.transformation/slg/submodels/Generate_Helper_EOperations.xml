@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>d5531c11-ffc2-41e6-b1fd-4f08e1327b1f</id>
   <name>Generate Helper EOperations</name>
-  <changecounter>118</changecounter>
+  <changecounter>125</changecounter>
   <sib>
     <id>2db6fa19-1315-4022-abef-abc4426dcce8</id>
     <name>IterateGraphModelNodeContainers</name>
@@ -1408,7 +1408,7 @@
     </parameter>
     <parameter name="template">
       <string>
-return new org.eclipse.emf.common.util.BasicEList&lt;Class&lt;?&gt;&gt;(java.util.Arrays.asList($nodeClassesString$));</string>
+return new org.eclipse.emf.common.util.BasicEList&lt;Class&lt;? extends Node&gt;&gt;(java.util.Arrays.asList($nodeClassesString$));</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
@@ -1634,6 +1634,77 @@ return new org.eclipse.emf.common.util.BasicEList&lt;Class&lt;?&gt;&gt;(java.uti
     <point>2076.0,290.0</point>
     <branch>default</branch>
   </edge>
+  <edge>
+    <source>5d90acdf-1ce8-4d20-8027-04b6e3a6db80</source>
+    <target>60d3d251-5dec-4241-a556-7e85a17ea832</target>
+    <point>2355.9036144578313,669.0</point>
+    <point>2190.194805194805,873.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>60d3d251-5dec-4241-a556-7e85a17ea832</id>
+    <name>NewEGenericTypeInEGenericTypeEUpperBound</name>
+    <label>NewEGenericTypeInEGenericTypeEUpperBound</label>
+    <sib-uid>ecore/ecore/NewEGenericTypeInEGenericTypeEUpperBound</sib-uid>
+    <taxonomy>transem.ecore.sib.ecore.NewEGenericTypeInEGenericTypeEUpperBound</taxonomy>
+    <position>2214.5,798.0</position>
+    <parameter name="eGenericTypeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>eOperationeGenericType</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="eObjectKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>eOperationeGenericType</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>f1aa2ae9-59c4-40cf-a474-4eb71e21ea11</id>
+    <name>SetEGenericTypeEClassifier</name>
+    <label>SetEGenericTypeEClassifier</label>
+    <sib-uid>ecore/ecore/SetEGenericTypeEClassifier</sib-uid>
+    <taxonomy>transem.ecore.sib.ecore.SetEGenericTypeEClassifier</taxonomy>
+    <position>2277.0,948.0</position>
+    <parameter name="eGenericTypeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>eOperationeGenericType</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="eGenericTypeeClassifierKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>abstractNodeClass</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>false</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>60d3d251-5dec-4241-a556-7e85a17ea832</source>
+    <target>f1aa2ae9-59c4-40cf-a474-4eb71e21ea11</target>
+    <point>2175.0,900.0</point>
+    <point>1956.0,1012.0</point>
+    <branch>default</branch>
+  </edge>
   <parameter>
     <name>graphModelKey</name>
     <field>graphModelKey</field>
@@ -1842,11 +1913,6 @@ return new org.eclipse.emf.common.util.BasicEList&lt;Class&lt;?&gt;&gt;(java.uti
     <sib>5d90acdf-1ce8-4d20-8027-04b6e3a6db80</sib>
   </branch>
   <branch>
-    <name>exit</name>
-    <branch>default</branch>
-    <sib>5d90acdf-1ce8-4d20-8027-04b6e3a6db80</sib>
-  </branch>
-  <branch>
     <name>error</name>
     <branch>error</branch>
     <sib>a4e86817-ecaf-473c-8f01-e8caf23a7b11</sib>
@@ -1865,5 +1931,20 @@ return new org.eclipse.emf.common.util.BasicEList&lt;Class&lt;?&gt;&gt;(java.uti
     <name>error</name>
     <branch>error</branch>
     <sib>93bc7e1a-7eed-4a14-899c-813bf6a94797</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>60d3d251-5dec-4241-a556-7e85a17ea832</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>f1aa2ae9-59c4-40cf-a474-4eb71e21ea11</sib>
+  </branch>
+  <branch>
+    <name>exit</name>
+    <branch>default</branch>
+    <sib>f1aa2ae9-59c4-40cf-a474-4eb71e21ea11</sib>
   </branch>
 </model>
