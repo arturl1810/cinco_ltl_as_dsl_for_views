@@ -1,4 +1,22 @@
-<t:container
+package de.jabc.cinco.meta.plugin.pyro.templates.presentation.resources.components.modals.graph
+
+import mgl.GraphModel
+import java.util.ArrayList
+import de.jabc.cinco.meta.plugin.pyro.model.StyledNode
+import de.jabc.cinco.meta.plugin.pyro.model.StyledEdge
+import java.util.HashMap
+import de.jabc.cinco.meta.plugin.pyro.model.ConnectionConstraint
+import de.jabc.cinco.meta.plugin.pyro.model.EmbeddingConstraint
+import mgl.Type
+import de.jabc.cinco.meta.plugin.pyro.templates.Templateable
+import org.eclipse.emf.ecore.EObject
+import org.eclipse.emf.ecore.EPackage
+
+class ModelingCanvas implements Templateable{
+	
+	override create(GraphModel graphModel, ArrayList<StyledNode> nodes, ArrayList<StyledEdge> edges, HashMap<String, ArrayList<StyledNode>> groupedNodes, ArrayList<ConnectionConstraint> validConnections, ArrayList<EmbeddingConstraint> embeddingConstraints, ArrayList<Type> enums,ArrayList<GraphModel> graphModels,ArrayList<EPackage> ecores)
+	'''
+	<t:container
         xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd"
         xmlns:p="tapestry:parameter">
     <!-- Center -->
@@ -98,10 +116,10 @@
             };
         }
     </script>
-    <script src="${context:js/pyro/pyro.constraints.js}"></script>
-    <script src="${context:js/pyro/pyro.model.js}"></script>
+    <script src="${context:js/pyro}/${graphModelTypeName}/pyro.constraints.js"></script>
+    <script src="${context:js/pyro}/${graphModelTypeName}/pyro.model.js"></script>
     <script src="${context:js/pyro/pyro.events.js}"></script>
-    <script src="${context:js/pyro/pyro.communicator.js}"></script>
+    <script src="${context:js/pyro}/${graphModelTypeName}/pyro.communicator.js"></script>
     <script type="text/javascript">
         theme = '${openGraph.theme}';
         projectId  = ${openProject.id};
@@ -139,3 +157,8 @@
     </script>
     <script src="${context:js/pyro/pyro.init.js}"></script>
 </t:container>
+
+
+	'''
+	
+}

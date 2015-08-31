@@ -18,10 +18,16 @@ import de.jabc.cinco.meta.plugin.pyro.utils.ModelParser
 import org.eclipse.emf.ecore.EClass
 import org.eclipse.emf.ecore.EAttribute
 import org.eclipse.emf.ecore.EStructuralFeature
+import mgl.NodeContainer
+import mgl.Edge
+import org.eclipse.emf.ecore.EObject
+import org.eclipse.emf.ecore.EPackage
+import org.eclipse.emf.ecore.EClassifier
+import org.eclipse.emf.ecore.EReference
 
 class CincoDBController implements Templateable{
 
-override create(GraphModel graphModel, ArrayList<StyledNode> nodes, ArrayList<StyledEdge> edges, HashMap<String, ArrayList<StyledNode>> groupedNodes, ArrayList<ConnectionConstraint> validConnections, ArrayList<EmbeddingConstraint> embeddingConstraints, ArrayList<Type> enums)
+override create(GraphModel graphModel, ArrayList<StyledNode> nodes, ArrayList<StyledEdge> edges, HashMap<String, ArrayList<StyledNode>> groupedNodes, ArrayList<ConnectionConstraint> validConnections, ArrayList<EmbeddingConstraint> embeddingConstraints, ArrayList<Type> enums,ArrayList<GraphModel> graphModels,ArrayList<EPackage> ecores)
 '''
 package de.ls5.cinco.deployment;
 
@@ -134,17 +140,14 @@ public class CincoDBControllerImpl implements CincoDBController{
         this.typeController.addSuperType(container,modelElementContainer);
         //System.out.println(container.getName() + " created");
         System.out.println("[ok]");
-        
+        «FOR GraphModel g:graphModels»
         //Create Types
-        «FOR Type type : graphModel.types»
+        «FOR Type type : g.types»
         «IF type instanceof UserDefinedType»
         final DBType «type.name.toFirstLower»Type = this.typeController.createType("«type.name.toFirstUpper»Type");
         «ENDIF»
         «ENDFOR»
-        «FOR Type type : graphModel.types»
-        «IF type instanceof UserDefinedType»
-        «createUserDefinedTypeAttributes(type as UserDefinedType,enums,graphModel)»
-        «ENDIF»
+        
         «ENDFOR»
 
         //Create the CommandStack
@@ -198,77 +201,124 @@ public class CincoDBControllerImpl implements CincoDBController{
         this.typeController.addSuperType(pyroVertexEdgeCommand,pyroCommand);
         DBField vertexesDbField = this.typeController.addComplexFieldToType(pyroVertexEdgeCommand, "vertexes", PropertyType.OBJECT_LIST,point);
         DBField preVertexesDbField = this.typeController.addComplexFieldToType(pyroVertexEdgeCommand, "preVertexes", PropertyType.OBJECT_LIST,point);
-        //Graphmodel Attributes Command
-        «IF graphModel.attributes.size > 0»
-        final DBType pyro«graphModel.name.toFirstUpper»AttributeCommand = this.typeController.createType("Pyro«graphModel.name.toFirstUpper»AttributeCommand");
-		pyro«graphModel.name.toFirstUpper»AttributeCommand.setAbstractType(false);
+        // Referenced ECOREs
+        «FOR EPackage ePack : ecores»
+        «FOR EClassifier eObject: ePack.EClassifiers»
+        «IF eObject instanceof EClass»
+        final DBType «eObject.name.toFirstLower» = this.typeController.createType("«eObject.name.toFirstUpper»");
         «ENDIF»
-        «FOR Attribute attr : graphModel.attributes»
-	    	«createCommandAttribute(attr,enums,graphModel.name)»
-	    «ENDFOR»
-        //Node Attributes Commands
-        «FOR StyledNode node: nodes»
-			«IF node.modelElement instanceof Node»
-				«createAttributeCommmand(node.modelElement,enums)»
-			«ELSE»
-				«createAttributeCommmand(node.modelElement,enums)»
-			«ENDIF»
+        «ENDFOR»
+        «ENDFOR»
+        
+        «FOR GraphModel g:graphModels»
+        //Create «g.name» Node-Types and Container-Types
+
+        «FOR Node node: g.nodes»
+			«createNode(node,new ArrayList<Type>(g.types.toList),g)»
 		«ENDFOR»
-		//Edge Attributes Commands
-		«FOR StyledEdge edge: edges»
-		«createAttributeCommmand(edge.modelElement,enums)»
+		«FOR NodeContainer node:g.nodeContainers»
+			«createContainer(node,new ArrayList<Type>(g.types.toList),g)»
+		«ENDFOR»
+
+        //Create «g.name» Edge-Type
+
+        «FOR Edge edge: g.edges»
+		«createEdge(edge,new ArrayList<Type>(g.types.toList),g)»
+		«ENDFOR»
+        «ENDFOR»
+        
+        «FOR GraphModel g:graphModels»
+        //«g.name.toFirstUpper» Attributes Command
+        «IF g.attributes.size > 0»
+        final DBType pyro«g.name.toFirstUpper»AttributeCommand = this.typeController.createType("Pyro«g.name.toFirstUpper»AttributeCommand");
+		pyro«g.name.toFirstUpper»AttributeCommand.setAbstractType(false);
+        «ENDIF»
+        «FOR Attribute attr : g.attributes»
+	    	«createCommandAttribute(attr,new ArrayList<Type>(g.types.toList),g.name)»
+	    «ENDFOR»
+        // «g.name.toFirstUpper» Node Attributes Commands
+        «FOR Node node: g.nodes»
+				«createAttributeCommmand(node,new ArrayList<Type>(g.types.toList))»
+		«ENDFOR»
+		«FOR NodeContainer node: g.nodeContainers»
+				«createAttributeCommmand(node,new ArrayList<Type>(g.types.toList))»
+		«ENDFOR»
+		// «g.name.toFirstUpper» Edge Attributes Commands
+		«FOR Edge edge: g.edges»
+		«createAttributeCommmand(edge,new ArrayList<Type>(g.types.toList))»
+		«ENDFOR»
 		«ENDFOR»
 
 
         DBField pyroCommandStackDbField = this.typeController.addComplexFieldToType(graphModel, "pyroCommandStack", PropertyType.OBJECT_LIST, pyroCommand);
         DBField pyroCommandStackIndexDbField = this.typeController.addPrimitiveFieldToType(graphModel, "pyroCommandStackIndex", PropertyType.LONG);
-        
-        //Create «graphModel.name»
-        final DBType «graphModel.name.toFirstLower» = this.typeController.createType("«graphModel.name.toFirstUpper»");
-        «graphModel.name.toFirstLower».setAbstractType(false);
-        «graphModel.name.toFirstLower».setShortDescription("«graphModel.name.toFirstLower»");
-        this.typeController.addSuperType(«graphModel.name.toFirstLower», graphModel);
-        «FOR Attribute attr : graphModel.attributes»
-	    	«createAttribute(attr,enums,graphModel.name,graphModel)»
+        «FOR GraphModel g:graphModels»
+        //Create «g.name»
+        final DBType «g.name.toFirstLower» = this.typeController.createType("«g.name.toFirstUpper»");
+        «g.name.toFirstLower».setAbstractType(false);
+        «g.name.toFirstLower».setShortDescription("«g.name.toFirstLower»");
+        this.typeController.addSuperType(«g.name.toFirstLower», graphModel);
+        «FOR Attribute attr : g.attributes»
+	    	«createAttribute(attr,new ArrayList<Type>(g.types.toList),g.name,g)»
 	    «ENDFOR»
-        System.out.println(«graphModel.name.toFirstLower».getName() + " created");
-
-		//Create PrimeReferences
-		«FOR mgl.ReferencedType prime: ModelParser.getPrimeReferencedModelElements(graphModel)»
-		//Create «prime.type.name.toFirstUpper»Prime
-		final DBType «prime.type.name.toFirstLower»Prime = this.typeController.createType("«prime.type.name.toFirstUpper»Prime");
-		«prime.type.name.toFirstLower»Prime.setAbstractType(false);
-		«createAttributes(prime.type,enums)»
-		System.out.println(«prime.type.name.toFirstLower»Prime.getName() + " created");
-		«ENDFOR»
+        System.out.println(«g.name.toFirstLower».getName() + " created");
 		
 
-        //Create Node-Types and Container-Types
+        //Create «g.name» Node-Attributes and Container-Attributes
 
-        «FOR StyledNode node: nodes»
-			«IF node.modelElement instanceof Node»
-				«createNode(node.modelElement,enums,graphModel)»
-			«ELSE»
-				«createContainer(node.modelElement,enums,graphModel)»
-			«ENDIF»
+        «FOR Node node: g.nodes»
+        //«node.name.toFirstUpper» Attribute
+			«createNodeAttribute(node,new ArrayList<Type>(g.types.toList),g)»
+		«ENDFOR»
+		«FOR NodeContainer node:g.nodeContainers»
+		//«node.name.toFirstUpper» Attribute
+			«createContainerAttribute(node,new ArrayList<Type>(g.types.toList),g)»
 		«ENDFOR»
 
-        //Create Edge-Types
+        //Create «g.name» Edge-Attributes
 
-        «FOR StyledEdge edge: edges»
-		«createEdge(edge.modelElement,enums,graphModel)»
+        «FOR Edge edge: g.edges»
+        //«edge.name.toFirstUpper» Attribute
+		«createEdgeAttribute(edge,new ArrayList<Type>(g.types.toList),g)»
 		«ENDFOR»
 		
-		//Create Cross-Type References
+		//Create «g.name» Cross-Type References
 
-        «FOR StyledNode node: nodes»
-			«createReferenceAttributes(node.modelElement,enums,graphModel)»
+        «FOR Node node: g.nodes»
+			«createReferenceAttributes(node,new ArrayList<Type>(g.types.toList),g)»
+		«ENDFOR»
+		
+		«FOR NodeContainer node: g.nodeContainers»
+			«createReferenceAttributes(node,new ArrayList<Type>(g.types.toList),g)»
 		«ENDFOR»
 
-        «FOR StyledEdge edge: edges»
-			«createReferenceAttributes(edge.modelElement,enums,graphModel)»
+        «FOR Edge edge: g.edges»
+			«createReferenceAttributes(edge,new ArrayList<Type>(g.types.toList),g)»
 		«ENDFOR»
+		
+		«FOR Type type : g.types»
+        «IF type instanceof UserDefinedType»
+        «createUserDefinedTypeAttributes(type as UserDefinedType,new ArrayList<Type>(g.types.toList),g)»
+        «ENDIF»
+        «ENDFOR»
+        «ENDFOR»
         
+        «FOR EPackage ePack : ecores»
+        «FOR EClassifier eObject: ePack.EClassifiers»
+        «IF eObject instanceof EClass»
+       	«FOR EAttribute eA:(eObject as EClass).EAllAttributes»
+        DBField «eObject.name.toFirstLower»«eA.name.toFirstUpper» = this.typeController.addPrimitiveFieldToType(«eObject.name.toFirstLower», "«eA.name.toFirstLower»", «getEcoreAttributeType(eA.EAttributeType.name)»);
+       	«ENDFOR»
+       	«FOR EReference eA:(eObject as EClass).EAllReferences»
+       	«IF eA.upperBound > 1 || eA.upperBound <= -1»
+        DBField «eObject.name.toFirstLower»«eA.name.toFirstUpper» = this.typeController.addComplexFieldToType(«eObject.name.toFirstLower», "«eA.name.toFirstLower»", PropertyType.OBJECT_LIST,«eA.EType.name.toFirstLower»);
+       	«ELSE»
+       	DBField «eObject.name.toFirstLower»«eA.name.toFirstUpper» = this.typeController.addComplexFieldToType(«eObject.name.toFirstLower», "«eA.name.toFirstLower»", PropertyType.OBJECT,«eA.EType.name.toFirstLower»);
+       	«ENDIF»
+       	«ENDFOR»
+        «ENDIF»
+        «ENDFOR»
+        «ENDFOR»
         System.out.println("[ok]");
         
         createProjectEnvironment(graphModel);
@@ -344,6 +394,11 @@ def createNode(GraphicalModelElement element,ArrayList<Type> enums,GraphModel gr
 	final DBType «element.name.toFirstLower» = this.typeController.createType("«element.name.toFirstUpper»");
 	«element.name.toFirstLower».setAbstractType(false);
 	this.typeController.addSuperType(«element.name.toFirstLower», node);
+'''
+
+def createNodeAttribute(GraphicalModelElement element,ArrayList<Type> enums,GraphModel graphModel)
+'''
+	//Attribute «element.name.toFirstUpper»
 	«createAttributes(element,enums,graphModel)»
 	«IF element instanceof Node»
 	«createPrimeAttribute(element as Node)»
@@ -354,7 +409,7 @@ def createNode(GraphicalModelElement element,ArrayList<Type> enums,GraphModel gr
 def createPrimeAttribute(Node node)
 '''
 «IF node.primeReference != null»
-this.typeController.addComplexFieldToType(«node.name.toFirstLower»,"«node.primeReference.name.toFirstLower»",PropertyType.OBJECT,«node.primeReference.type.name.toFirstLower»Prime);
+this.typeController.addComplexFieldToType(«node.name.toFirstLower»,"«node.primeReference.name.toFirstLower»",PropertyType.OBJECT,«node.primeReference.type.name.toFirstLower»);
 «ENDIF»
 '''
 
@@ -372,6 +427,12 @@ def createEdge(GraphicalModelElement element,ArrayList<Type> enums,GraphModel gr
 	final DBType «element.name.toFirstLower» = this.typeController.createType("«element.name.toFirstUpper»");
 	«element.name.toFirstLower».setAbstractType(false);
 	this.typeController.addSuperType(«element.name.toFirstLower», edge);
+	System.out.println(«element.name.toFirstLower».getName() + " created");
+'''
+
+def createEdgeAttribute(GraphicalModelElement element,ArrayList<Type> enums,GraphModel graphModel)
+'''
+	//Attribute «element.name.toFirstUpper»
 	«createAttributes(element,enums,graphModel)»
 	System.out.println(«element.name.toFirstLower».getName() + " created");
 '''
@@ -382,6 +443,11 @@ def createContainer(GraphicalModelElement element,ArrayList<Type> enums,GraphMod
 	final DBType «element.name.toFirstLower» = this.typeController.createType("«element.name.toFirstUpper»");
 	«element.name.toFirstLower».setAbstractType(false);
 	this.typeController.addSuperType(«element.name.toFirstLower», container);
+'''
+
+def createContainerAttribute(GraphicalModelElement element,ArrayList<Type> enums,GraphModel graphModel)
+'''
+	//Attribute «element.name.toFirstUpper»
 	«createAttributes(element,enums,graphModel)»
 	System.out.println(«element.name.toFirstLower».getName() + " created");
 '''
@@ -526,6 +592,31 @@ def getAttributeType(String type) {
 	if(type.equals("EInt")) return "PropertyType.LONG";
 	if(type.equals("EDouble")) return "PropertyType.DOUBLE";
 	if(type.equals("EBoolean")) return "PropertyType.BOOLEAN";
+	//ENUM
+	return "PropertyType.STRING";
+}
+
+def getEcoreAttributeType(String type) {
+	if(type.equals("EString")  ) return "PropertyType.STRING";
+	
+	if(type.equals("EInt") || type.equals("EIntegerObject")) return "PropertyType.LONG";
+	if(type.equals("ELong") || type.equals("ELongObject")) return "PropertyType.LONG";
+	if(type.equals("EShort") || type.equals("EShortObject")) return "PropertyType.LONG";
+	if(type.equals("EBigInteger") || type.equals("EBigIntegerObject")) return "PropertyType.LONG";
+	
+	if(type.equals("EDouble") || type.equals("EDoubleObject")) return "PropertyType.DOUBLE";
+	if(type.equals("EFloat") || type.equals("EFloatObject")) return "PropertyType.DOUBLE";
+	if(type.equals("EBigDecimal") || type.equals("EBigDecimalObject")) return "PropertyType.DOUBLE";
+	
+	if(type.equals("EBoolean") || type.equals("EBooleanObject")) return "PropertyType.BOOLEAN";
+	
+	if(type.equals("EDate") || type.equals("EBooleanObject")) return "PropertyType.TIMESTAMP";
+	
+	if(type.equals("EByte") || type.equals("EByteObject")) return "PropertyType.STRING";
+	if(type.equals("EChar") || type.equals("ECharacterObject")) return "PropertyType.STRING";
+	
+	if(type.equals("EByteArray") || type.equals("EByteArrayObject")) return "PropertyType.STRING_LIST";
+
 	//ENUM
 	return "PropertyType.STRING";
 }

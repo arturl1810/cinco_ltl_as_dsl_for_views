@@ -9,14 +9,17 @@ import java.util.HashMap
 import de.jabc.cinco.meta.plugin.pyro.model.ConnectionConstraint
 import de.jabc.cinco.meta.plugin.pyro.model.EmbeddingConstraint
 import mgl.Type
+import org.eclipse.emf.ecore.EObject
+import org.eclipse.emf.ecore.EPackage
 
 class CreateMessageParser implements Templateable{
 	
-	override create(GraphModel graphModel, ArrayList<StyledNode> nodes, ArrayList<StyledEdge> edges, HashMap<String, ArrayList<StyledNode>> groupedNodes, ArrayList<ConnectionConstraint> validConnections, ArrayList<EmbeddingConstraint> embeddingConstraints, ArrayList<Type> enums)
+	override create(GraphModel graphModel, ArrayList<StyledNode> nodes, ArrayList<StyledEdge> edges, HashMap<String, ArrayList<StyledNode>> groupedNodes, ArrayList<ConnectionConstraint> validConnections, ArrayList<EmbeddingConstraint> embeddingConstraints, ArrayList<Type> enums,ArrayList<GraphModel> graphModels,ArrayList<EPackage> ecores)
 	'''
-package de.ls5.cinco.message;
+package de.ls5.cinco.message.«graphModel.name.toFirstLower»;
 
-import de.ls5.cinco.transformation.api.*;
+import de.ls5.cinco.transformation.api.«graphModel.name.toFirstLower».*;
+import de.ls5.cinco.message.MessageParser;
 import de.ls5.dywa.generated.entity.*;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -61,8 +64,8 @@ public class CreateMessageParser {
 		    «IF (sn.modelElement as mgl.Node).primeReference != null»
 		    //Prime Attribute
             long «(sn.modelElement as mgl.Node).primeReference.type.name.toFirstLower»PrimeId = Long.parseLong (""+((JSONObject) receivedMessage.get("element")).get("cinco_prime_id"));
-            «(sn.modelElement as mgl.Node).primeReference.type.name.toFirstUpper»Prime «(sn.modelElement as mgl.Node).primeReference.type.name.toFirstLower»Prime = c«graphModel.name.toFirstUpper».get«(sn.modelElement as mgl.Node).primeReference.type.name.toFirstUpper»PrimeController().read«(sn.modelElement as mgl.Node).primeReference.type.name.toFirstUpper»Prime(«(sn.modelElement as mgl.Node).primeReference.type.name.toFirstLower»PrimeId);
-            ((«sn.modelElement.name.toFirstUpper») c«sn.modelElement.name.toFirstUpper».getModelElement()).set«(sn.modelElement as mgl.Node).primeReference.name.toFirstLower»(«(sn.modelElement as mgl.Node).primeReference.type.name.toFirstLower»Prime);
+            «(sn.modelElement as mgl.Node).primeReference.type.name.toFirstUpper» «(sn.modelElement as mgl.Node).primeReference.type.name.toFirstLower» = c«graphModel.name.toFirstUpper».get«(sn.modelElement as mgl.Node).primeReference.type.name.toFirstUpper»Controller().read«(sn.modelElement as mgl.Node).primeReference.type.name.toFirstUpper»(«(sn.modelElement as mgl.Node).primeReference.type.name.toFirstLower»PrimeId);
+            ((«sn.modelElement.name.toFirstUpper») c«sn.modelElement.name.toFirstUpper».getModelElement()).set«(sn.modelElement as mgl.Node).primeReference.name.toFirstLower»(«(sn.modelElement as mgl.Node).primeReference.type.name.toFirstLower»);
 		    «ENDIF»
 		    «ENDIF»
 		    
