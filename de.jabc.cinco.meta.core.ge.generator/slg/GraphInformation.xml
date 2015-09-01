@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>86742e86-2110-423a-afde-6fd521759a73</id>
   <name>GraphInformation</name>
-  <changecounter>964</changecounter>
+  <changecounter>973</changecounter>
   <sib>
     <id>9e28dbf6-7ef4-4eef-9ad3-1d0d32bf6020</id>
     <name>GetGraphModelName</name>
@@ -1471,12 +1471,6 @@
     <labelposition>500.0,0.0</labelposition>
     <branch>exit</branch>
   </edge>
-  <edge>
-    <point>549.0,1707.0</point>
-    <point>759.0,1707.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
   <sib>
     <id>98d63139-2542-48bb-b247-249a255b1734</id>
     <name>PutMap_2</name>
@@ -1505,99 +1499,6 @@
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
   </sib>
-  <edge>
-    <point>1059.0,1707.0</point>
-    <point>1344.0,1707.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>next</branch>
-  </edge>
-  <edge>
-    <point>1179.0,1812.0</point>
-    <point>1074.0,1932.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
-  <edge>
-    <point>1074.0,1932.0</point>
-    <point>1059.0,1707.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>true</branch>
-  </edge>
-  <edge>
-    <target>3503f414-ef79-4b0d-bf9a-3ca587eb3ece</target>
-    <point>1059.0,1707.0</point>
-    <point>744.0,1932.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>exit</branch>
-  </edge>
-  <edge>
-    <point>1074.0,1932.0</point>
-    <point>909.0,1932.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>false</branch>
-  </edge>
-  <edge>
-    <point>909.0,1932.0</point>
-    <point>1059.0,1707.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
-  <edge>
-    <point>759.0,1707.0</point>
-    <point>909.0,1707.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>greater</branch>
-  </edge>
-  <edge>
-    <point>759.0,1707.0</point>
-    <point>759.0,1827.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>equal</branch>
-    <branch>less</branch>
-  </edge>
-  <edge>
-    <point>1344.0,1707.0</point>
-    <point>1344.0,1812.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
-  <edge>
-    <target>3503f414-ef79-4b0d-bf9a-3ca587eb3ece</target>
-    <point>759.0,1827.0</point>
-    <point>744.0,1932.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
-  <edge>
-    <point>1344.0,1812.0</point>
-    <point>1179.0,1812.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>false</branch>
-  </edge>
-  <edge>
-    <point>1344.0,1812.0</point>
-    <point>1344.0,1932.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>true</branch>
-  </edge>
-  <edge>
-    <point>1344.0,1932.0</point>
-    <point>1224.0,1932.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
-  <edge>
-    <point>909.0,1707.0</point>
-    <point>1059.0,1707.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
-  <edge>
-    <point>1224.0,1932.0</point>
-    <point>1074.0,1932.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
   <sib>
     <id>3503f414-ef79-4b0d-bf9a-3ca587eb3ece</id>
     <name>GetGraphModelImports</name>
@@ -2960,34 +2861,6 @@ public void setError(ECincoError error) {
     <point>142.0,140.0</point>
     <branch>default</branch>
   </edge>
-  <sib>
-    <id>68eeb0ad-2cdf-4070-a9ec-464ac657caa1</id>
-    <name>GetNodeName</name>
-    <label>GetModelElementName</label>
-    <sib-uid>mgl/mgl/GetModelElementName</sib-uid>
-    <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetModelElementName</taxonomy>
-    <position>1136.5,2223.0</position>
-    <parameter name="modelElementKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>modelElement</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="modelElementnameKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>modelElementName</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-  </sib>
   <edge>
     <source>4dd81c41-2839-484c-ad59-e2f5ad5ba352</source>
     <target>8ed0fee1-01cb-4db9-b60c-367f4c74cf35</target>
@@ -3359,11 +3232,6 @@ public void setError(ECincoError error) {
     <name>error</name>
     <branch>error</branch>
     <sib>8ed0fee1-01cb-4db9-b60c-367f4c74cf35</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>68eeb0ad-2cdf-4070-a9ec-464ac657caa1</sib>
   </branch>
   <branch>
     <name>error</name>
