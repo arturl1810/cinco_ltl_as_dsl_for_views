@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>9b2878c2-af27-4fb3-878a-6613ed7a16c6</id>
   <name>GenerateCreateNodeFeature</name>
-  <changecounter>628</changecounter>
+  <changecounter>664</changecounter>
   <sib>
     <id>cc5a8f52-a2dd-434a-825b-350e398066fe</id>
     <name>RunStringTemplate</name>
@@ -55,9 +55,11 @@ public class Create$context.modelElementName$Feature extends AbstractCreateFeatu
 	public boolean canCreate(ICreateContext context, boolean apiCall) {
 		if (apiCall) {
 			Object target = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(context.getTargetContainer());
-			$context.containerCheck$
-			if ($context.cincoErrorCheckOk$)
-				$context.cincoErrorInvalidContainer$
+			if (target instanceof graphmodel.ModelElementContainer)
+				if (! ((graphmodel.ModelElementContainer) target).canContain($context.importPath$.$context.modelElementName$.class)) {
+					if ($context.cincoErrorCheckOk$)
+						$context.cincoErrorMaxCardinality$
+				} else return true;
 			return false;
 		}
 		return false;
@@ -66,13 +68,13 @@ public class Create$context.modelElementName$Feature extends AbstractCreateFeatu
 
 	$context.canCreateNodeContent$
 	
-	/*public boolean canCreate(ICreateContext context) {
+	$! /*public boolean canCreate(ICreateContext context) {
 		Object target = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(context.getTargetContainer());
 		$context.containerCheck$
 		if ($context.cincoErrorCheckOk$)
 			$context.cincoErrorInvalidContainer$
 		return false;
-	}*/
+	}*/ !$
 
 	public Object[] create(ICreateContext context) {
 		$context.importPath$.$context.modelElementName$ $context.meIdentifier$ = $context.importPath$.$context.factoryName$Factory.eINSTANCE.create$context.modelElementName$();
@@ -95,7 +97,8 @@ public class Create$context.modelElementName$Feature extends AbstractCreateFeatu
 	}
 
 	$context.cincoErrorGetSet$
-}</string>
+}
+</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
@@ -509,48 +512,6 @@ public class Create$context.modelElementName$Feature extends AbstractCreateFeatu
     <labelposition>500.0,0.0</labelposition>
     <branch>false</branch>
   </edge>
-  <edge>
-    <source>a2faa48d-948a-4e96-809f-cd6600031d9e</source>
-    <target>f87cbe01-deba-431a-9bcf-72868f10e5c7</target>
-    <point>850.0,266.1111111111111</point>
-    <point>620.0,317.22222222222223</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
-  <sib>
-    <id>a2faa48d-948a-4e96-809f-cd6600031d9e</id>
-    <name>MacroSIB</name>
-    <label>GenerateCheckContainer</label>
-    <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
-    <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
-    <position>590.5,241.0</position>
-    <parameter name="ClearContent">
-      <de.metaframe.common.sib.parameter.ContextExpression>
-        <ContextExpressionFoundation>
-          <expression>${false}</expression>
-          <clazz>java.lang.Boolean</clazz>
-          <classMutable>false</classMutable>
-        </ContextExpressionFoundation>
-      </de.metaframe.common.sib.parameter.ContextExpression>
-    </parameter>
-    <parameter name="ModelElementKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>currentNode</key>
-          <scope>DECLARED</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELNAME">
-      <string>GenerateCheckContainer</string>
-    </userobject>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>4ac25e32-ae6b-469a-b78c-1764aa97ce4d</string>
-    </userobject>
-  </sib>
   <sib>
     <id>c207bb66-7621-4974-b1aa-b0a64ff11ea3</id>
     <name>CopyElement</name>
@@ -647,13 +608,6 @@ public class Create$context.modelElementName$Feature extends AbstractCreateFeatu
       <string>827994ca-f72f-4fe1-afcb-fa6f30c34d59</string>
     </userobject>
   </sib>
-  <edge>
-    <source>41c8e9e1-35bd-4c9f-86a9-1c50e4892394</source>
-    <target>a2faa48d-948a-4e96-809f-cd6600031d9e</target>
-    <point>840.0,270.0</point>
-    <point>611.0,264.0</point>
-    <branch>default</branch>
-  </edge>
   <sib>
     <id>3502eae3-0098-42c7-992b-e9141d2f8f10</id>
     <name>GraphSIB_2</name>
@@ -683,6 +637,13 @@ public class Create$context.modelElementName$Feature extends AbstractCreateFeatu
     <target>cc5a8f52-a2dd-434a-825b-350e398066fe</target>
     <point>300.0,270.0</point>
     <point>118.0,264.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>41c8e9e1-35bd-4c9f-86a9-1c50e4892394</source>
+    <target>f87cbe01-deba-431a-9bcf-72868f10e5c7</target>
+    <point>892.5,291.0</point>
+    <point>516.5,291.0</point>
     <branch>default</branch>
   </edge>
   <parameter>
@@ -761,11 +722,6 @@ public class Create$context.modelElementName$Feature extends AbstractCreateFeatu
     <name>error</name>
     <branch>error</branch>
     <sib>e48a3178-cbde-4617-9485-0c0dc1acb02d</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>a2faa48d-948a-4e96-809f-cd6600031d9e</sib>
   </branch>
   <branch>
     <name>error</name>

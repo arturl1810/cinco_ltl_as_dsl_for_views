@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>b68091c8-07fa-4991-a66b-090c41737165</id>
   <name>GenerateMoveContainerFeature</name>
-  <changecounter>185</changecounter>
+  <changecounter>194</changecounter>
   <sib>
     <id>5d019596-ff11-4edc-9603-2477370f8043</id>
     <name>PutExpression</name>
@@ -234,14 +234,6 @@ public class Move$context.container.name$Feature extends DefaultMoveShapeFeature
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
-  <edge>
-    <source>38cc4109-4830-4f7e-8646-a04f06f3b826</source>
-    <target>78f781da-c5fb-4439-a59e-c241be4701cc</target>
-    <point>118.30188679245282,219.0</point>
-    <point>107.1276595744681,331.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
   <sib>
     <id>1b50eb1a-d59a-4fb7-9a56-263902a14acd</id>
     <name>EvaluateBoolean</name>
@@ -330,7 +322,8 @@ public class Move$context.container.name$Feature extends DefaultMoveShapeFeature
     </parameter>
     <parameter name="template">
       <string>if  (bo instanceof $context.importPath$.$context.container.name$) {
-	$context.containerCheck$
+	if (target instanceof graphmodel.ModelElementContainer)
+		return ((graphmodel.ModelElementContainer) target).canContain($context.importPath$.$context.container.name$.class);
 	if (context.getTargetContainer() instanceof Diagram)
 		return true;
 }
@@ -357,48 +350,6 @@ return false;</string>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
-  <edge>
-    <source>78f781da-c5fb-4439-a59e-c241be4701cc</source>
-    <target>0dac667a-a573-4ffd-9d99-2d05d89a3d7b</target>
-    <point>140.0,317.6923076923077</point>
-    <point>295.0,401.15384615384613</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
-  <sib>
-    <id>78f781da-c5fb-4439-a59e-c241be4701cc</id>
-    <name>MacroSIB</name>
-    <label>GenerateCheckContainer</label>
-    <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
-    <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
-    <position>35.5,286.0</position>
-    <parameter name="ClearContent">
-      <de.metaframe.common.sib.parameter.ContextExpression>
-        <ContextExpressionFoundation>
-          <expression>${false}</expression>
-          <clazz>java.lang.Boolean</clazz>
-          <classMutable>false</classMutable>
-        </ContextExpressionFoundation>
-      </de.metaframe.common.sib.parameter.ContextExpression>
-    </parameter>
-    <parameter name="ModelElementKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>container</key>
-          <scope>DECLARED</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELNAME">
-      <string>GenerateCheckContainer</string>
-    </userobject>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>4ac25e32-ae6b-469a-b78c-1764aa97ce4d</string>
-    </userobject>
-  </sib>
   <sib>
     <id>0dac667a-a573-4ffd-9d99-2d05d89a3d7b</id>
     <name>GraphSIB</name>
@@ -457,6 +408,13 @@ return false;</string>
     <point>135.0,189.0</point>
     <branch>false</branch>
   </edge>
+  <edge>
+    <source>38cc4109-4830-4f7e-8646-a04f06f3b826</source>
+    <target>0dac667a-a573-4ffd-9d99-2d05d89a3d7b</target>
+    <point>180.5,233.0</point>
+    <point>149.5,441.0</point>
+    <branch>default</branch>
+  </edge>
   <values/>
   <branch>
     <name>error</name>
@@ -497,11 +455,6 @@ return false;</string>
     <name>error</name>
     <branch>error</branch>
     <sib>1b50eb1a-d59a-4fb7-9a56-263902a14acd</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>78f781da-c5fb-4439-a59e-c241be4701cc</sib>
   </branch>
   <branch>
     <name>default</name>

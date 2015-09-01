@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>67a73b2a-3824-4776-9686-ae1a8aed5282</id>
   <name>GenerateCopyPasteFeatures</name>
-  <changecounter>346</changecounter>
+  <changecounter>358</changecounter>
   <sib>
     <id>59a427e8-25c5-482c-a32b-a0aa278eb41b</id>
     <name>PutExpression</name>
@@ -239,6 +239,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.emf.common.util.BasicEList;
+import org.eclipse.emf.common.util.EList;
+
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IPasteContext;
 import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
@@ -253,7 +257,6 @@ import org.eclipse.graphiti.mm.pictograms.FreeFormConnection;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.graphiti.ui.features.AbstractPasteFeature;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import $context.packageName$.graphiti.*;
 $context.cincoErrorImport$
@@ -286,11 +289,12 @@ public class $context.graphModelName$PasteFeature extends AbstractPasteFeature {
 		Object[] bos = getFromClipboard();
 		if (bos == null || bos.length == 0)
 			return false;
-		for (Object pe : bos) {
-			Object o = ((PictogramElement) pe).getLink().getBusinessObjects().get(0);
-			if (!canPaste(o, bo)) {
-				return false;
-			}
+		EList&lt;Class&lt;? extends graphmodel.Node&gt;&gt; classes = new BasicEList&lt;Class&lt;? extends graphmodel.Node&gt;&gt;();
+		for (Object obj : bos)
+			if (obj instanceof Node)
+				classes.add(((graphmodel.Node) obj).getClass());
+		if (bo instanceof ModelElementContainer) {
+			return ((ModelElementContainer) bo).canContain(classes);
 		}
 		return true;
 	}
@@ -752,11 +756,11 @@ public class $context.graphModelName$PasteFeature extends AbstractPasteFeature {
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>4ac25e32-ae6b-469a-b78c-1764aa97ce4d</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>GenerateCheckContainer</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>4ac25e32-ae6b-469a-b78c-1764aa97ce4d</string>
     </userobject>
   </sib>
   <sib>
@@ -786,20 +790,21 @@ public class $context.graphModelName$PasteFeature extends AbstractPasteFeature {
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>4ac25e32-ae6b-469a-b78c-1764aa97ce4d</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>GenerateCheckContainer</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>4ac25e32-ae6b-469a-b78c-1764aa97ce4d</string>
     </userobject>
   </sib>
   <edge>
     <source>c7a9f388-11af-49f4-b686-2513289d8601</source>
-    <target>089f251a-81b3-4412-ba06-537e8677d433</target>
+    <target>6303c061-3cd9-4d1b-8541-8220fdec7b36</target>
     <spline/>
-    <point>525.0,528.0</point>
-    <point>525.0,356.0</point>
-    <labelposition>549.4784594408119,1.4085373397061813</labelposition>
+    <point>540.0,528.0</point>
+    <point>540.0,435.0</point>
+    <point>468.0,439.8</point>
+    <labelposition>559.8600349912505,61.07175951327659</labelposition>
     <branch>next</branch>
   </edge>
   <edge>
@@ -897,10 +902,12 @@ public class $context.graphModelName$PasteFeature extends AbstractPasteFeature {
   </edge>
   <edge>
     <source>aa92bfe4-ce39-4f48-9ba1-2db17c3b8f9e</source>
-    <target>b4f20ed1-1e2f-4749-b0ec-28cf10fd36fb</target>
+    <target>64b170ea-ca16-40c7-a22a-a8bb50df1fda</target>
+    <spline/>
     <point>345.0,528.0</point>
-    <point>345.0,356.0</point>
-    <labelposition>500.0,0.0</labelposition>
+    <point>345.0,450.0</point>
+    <point>258.0,442.54285714285714</point>
+    <labelposition>471.0851940371867,59.91330444675392</labelposition>
     <branch>next</branch>
   </edge>
   <edge>
@@ -1378,6 +1385,34 @@ public class $context.graphModelName$CopyUtils {
     <point>472.0,804.0</point>
     <branch>default</branch>
   </edge>
+  <sib>
+    <id>a6202413-4638-46c2-99f0-c889763f7b8c</id>
+    <name>PrintConsoleMessage</name>
+    <label>PrintConsoleMessage</label>
+    <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
+    <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
+    <position>631.5,783.0</position>
+    <parameter name="error">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="message">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>Wrote CopyPaste Features</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>false</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <finalbranches>default</finalbranches>
+  </sib>
+  <edge>
+    <source>0f0a7466-dbe3-4238-929c-f0a9d52dbc33</source>
+    <target>a6202413-4638-46c2-99f0-c889763f7b8c</target>
+    <point>525.0,810.0</point>
+    <point>675.0,822.0</point>
+    <branch>default</branch>
+  </edge>
   <values/>
   <branch>
     <name>error</name>
@@ -1462,6 +1497,6 @@ public class $context.graphModelName$CopyUtils {
   <branch>
     <name>default</name>
     <branch>default</branch>
-    <sib>0f0a7466-dbe3-4238-929c-f0a9d52dbc33</sib>
+    <sib>a6202413-4638-46c2-99f0-c889763f7b8c</sib>
   </branch>
 </model>

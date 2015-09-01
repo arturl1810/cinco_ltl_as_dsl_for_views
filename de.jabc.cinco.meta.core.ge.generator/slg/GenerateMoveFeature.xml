@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>15578aca-5002-4ec8-9aef-62338c135b36</id>
   <name>GenerateMoveFeature</name>
-  <changecounter>220</changecounter>
+  <changecounter>227</changecounter>
   <sib>
     <id>bd3ebe0a-3353-4ac5-8f08-5fd34ae782e0</id>
     <name>IterateElements</name>
@@ -109,11 +109,11 @@
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>98ab2190-4ec2-4346-85ee-61b8c0d16099</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>GenerateMoveNodeFeature</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>98ab2190-4ec2-4346-85ee-61b8c0d16099</string>
     </userobject>
   </sib>
   <sib>
@@ -172,11 +172,11 @@
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>b68091c8-07fa-4991-a66b-090c41737165</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>GenerateMoveContainerFeature</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>b68091c8-07fa-4991-a66b-090c41737165</string>
     </userobject>
   </sib>
   <edge>

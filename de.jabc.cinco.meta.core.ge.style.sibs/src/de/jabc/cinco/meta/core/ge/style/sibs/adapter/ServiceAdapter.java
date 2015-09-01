@@ -400,9 +400,9 @@ public class ServiceAdapter {
 				return Branches.TRUE;
 			
 			for (GraphicalElementContainment containedNode : nc.getContainableElements() ) {
-				if (containedNode.getType() == null)
+				if (containedNode.getTypes() == null)
 					return Branches.TRUE;
-				if (containedNode.getType().equals(n)) {
+				if (containedNode.getTypes().contains(n)) {
 					return Branches.TRUE;
 				}
 			}
@@ -1147,7 +1147,7 @@ public class ServiceAdapter {
 					for (Node node : gm.getNodes()) {
 						GraphicalElementContainment gec = MglFactory.eINSTANCE.createGraphicalElementContainment();
 						gec.setContainingElement(nc);
-						gec.setType(node);
+//						gec.setType(node);
 						gec.setLowerBound(0);
 						gec.setUpperBound(-1);
 						nc.getContainableElements().add(gec);
@@ -1156,7 +1156,7 @@ public class ServiceAdapter {
 					for (NodeContainer container : gm.getNodeContainers()) {
 						GraphicalElementContainment gec = MglFactory.eINSTANCE.createGraphicalElementContainment();
 						gec.setContainingElement(nc);
-						gec.setType(container);
+//						gec.setType(container);
 						nc.getContainableElements().add(gec);
 					}
 				}

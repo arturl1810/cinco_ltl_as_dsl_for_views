@@ -20,7 +20,7 @@ Require-Bundle: de.jabc.cinco.meta.core.ge.style;visibility:=reexport,
  org.eclipse.xtext.xbase.lib
 Import-Package: org.apache.log4j,
  org.eclipse.xtext.xbase.lib
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: de.jabc.cinco.meta.core.ge.style.ui.quickfix,
  de.jabc.cinco.meta.core.ge.style.ui.contentassist,
  de.jabc.cinco.meta.core.ge.style.ui.contentassist.antlr,

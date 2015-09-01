@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>14a939bf-8a8f-43e0-8133-c70d3913f6c5</id>
   <name>Specialize GetRootElement Method</name>
-  <changecounter>5</changecounter>
+  <changecounter>6</changecounter>
   <sib>
     <id>c2114290-ab4f-42a2-824e-969fb8169e56</id>
     <name>GetGraphModelName</name>
@@ -79,11 +79,11 @@
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Create EOperation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
     </userobject>
   </sib>
   <sib>
