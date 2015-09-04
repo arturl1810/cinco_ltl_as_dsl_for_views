@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>7def08b0-45b0-4f5d-9629-657ab3028508</id>
   <name>GenerateAddNodeFeature</name>
-  <changecounter>1723</changecounter>
+  <changecounter>1730</changecounter>
   <sib>
     <id>b89523ed-9916-4f61-a5e9-9e1d8838a845</id>
     <name>PutExpression_1</name>
@@ -589,7 +589,14 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
 	}
 
 	private boolean canAddToTarget(Object target) {
-		$context.containerCheck$
+		$!context.containerCheck!$
+		if (!(target instanceof graphmodel.ModelElementContainer))
+			return false;
+		graphmodel.ModelElementContainer _mContainer = (graphmodel.ModelElementContainer) target;
+		if (_mContainer.canContain($context.importPath$.$context.modelElementName$.class))
+			return true;
+		if ($context.cincoErrorCheckOk$)
+			$context.cincoErrorMaxCardinality$
 		return false;
 	}
 
@@ -879,9 +886,9 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
   </sib>
   <edge>
     <source>133d9178-21cb-4caf-adc1-01eaed0b66e7</source>
-    <target>6f03332a-4534-4880-a00a-4652a040c19c</target>
-    <point>1047.0,978.7263157894737</point>
-    <point>800.0,939.7894736842105</point>
+    <target>01a08f28-05d8-4f4f-9acd-7ccfca84f693</target>
+    <point>1047.0,981.3272727272728</point>
+    <point>590.0,981.3636363636364</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -1248,7 +1255,7 @@ Leaving Generate ${nodeName} AddFeature </expression>
     <label>GenerateCheckContainer</label>
     <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
-    <position>730.0,961.0</position>
+    <position>730.0,1006.0</position>
     <parameter name="ClearContent">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
