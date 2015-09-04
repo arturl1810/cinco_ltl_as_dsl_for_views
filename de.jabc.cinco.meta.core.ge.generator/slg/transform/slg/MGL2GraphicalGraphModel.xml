@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>ca5a39ee-2606-4461-8c2d-1e6ebdbd9d0e</id>
   <name>MGL2GraphicalGraphModel</name>
-  <changecounter>404</changecounter>
+  <changecounter>420</changecounter>
   <sib>
     <id>e763e08f-ee7b-48f6-8187-dac38f44f435</id>
     <name>MacroSIB</name>
@@ -280,7 +280,7 @@
     <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
     <position>946.5,423.0</position>
     <parameter name="error">
-      <boolean>false</boolean>
+      <boolean>true</boolean>
     </parameter>
     <parameter name="message">
       <de.metaframe.common.sib.parameter.ContextExpression>
@@ -634,8 +634,8 @@ return list;</string>
         </ContextKeyFoundation>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
+    <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <finalbranches>exit</finalbranches>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Generate Helper EOperations</string>
     </userobject>
@@ -649,7 +649,7 @@ return list;</string>
     <point>750.0,326.0</point>
     <point>750.0,421.0</point>
     <labelposition>500.0,0.0</labelposition>
-    <branch>exit</branch>
+    <branch>default</branch>
   </edge>
   <edge>
     <source>c8c9f94e-73b9-47f8-935e-8ca1543b4dc2</source>

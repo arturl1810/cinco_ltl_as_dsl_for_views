@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>86742e86-2110-423a-afde-6fd521759a73</id>
   <name>GraphInformation</name>
-  <changecounter>973</changecounter>
+  <changecounter>981</changecounter>
   <sib>
     <id>9e28dbf6-7ef4-4eef-9ad3-1d0d32bf6020</id>
     <name>GetGraphModelName</name>
@@ -1477,7 +1477,7 @@
     <label>PutContainedElemementsMap</label>
     <sib-uid>collection-sibs/PutMap</sib-uid>
     <taxonomy>de.jabc.sib.common.collection.PutMap</taxonomy>
-    <position>230.0,1683.0</position>
+    <position>5.0,1623.0</position>
     <parameter name="elements">
       <map/>
     </parameter>
@@ -2385,7 +2385,7 @@ ${modelElements}</expression>
     <label>NotPrimeNodes</label>
     <sib-uid>collection-sibs/PutList</sib-uid>
     <taxonomy>de.jabc.sib.common.collection.PutList</taxonomy>
-    <position>207.0,528.0</position>
+    <position>207.0,543.0</position>
     <parameter name="elements">
       <list/>
     </parameter>
@@ -2897,12 +2897,12 @@ public void setError(ECincoError error) {
     <finalbranches>error</finalbranches>
   </sib>
   <sib>
-    <id>10d2aa2d-4c7d-4cd0-859c-392165920c40</id>
-    <name>PutString</name>
-    <label>classSuffix</label>
+    <id>2d5033c3-45db-43bb-a8ca-edfcced94c8d</id>
+    <name>PutString_1</name>
+    <label>PutClassSuffix</label>
     <sib-uid>basic-sibs/PutString</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutString</taxonomy>
-    <position>550.0,1683.0</position>
+    <position>420.0,1623.0</position>
     <parameter name="value">
       <string>.class</string>
     </parameter>
@@ -2919,17 +2919,17 @@ public void setError(ECincoError error) {
     <finalbranches>error</finalbranches>
   </sib>
   <edge>
-    <source>10d2aa2d-4c7d-4cd0-859c-392165920c40</source>
+    <source>2d5033c3-45db-43bb-a8ca-edfcced94c8d</source>
     <target>3503f414-ef79-4b0d-bf9a-3ca587eb3ece</target>
-    <point>650.0,1733.0</point>
+    <point>520.0,1673.0</point>
     <point>772.5,1958.0</point>
     <branch>default</branch>
   </edge>
   <edge>
     <source>98d63139-2542-48bb-b247-249a255b1734</source>
-    <target>10d2aa2d-4c7d-4cd0-859c-392165920c40</target>
+    <target>2d5033c3-45db-43bb-a8ca-edfcced94c8d</target>
     <point>330.0,1733.0</point>
-    <point>650.0,1733.0</point>
+    <point>520.0,1673.0</point>
     <branch>default</branch>
   </edge>
   <values/>
