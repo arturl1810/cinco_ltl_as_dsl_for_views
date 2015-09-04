@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>d5531c11-ffc2-41e6-b1fd-4f08e1327b1f</id>
   <name>Generate Helper EOperations</name>
-  <changecounter>408</changecounter>
+  <changecounter>410</changecounter>
   <sib>
     <id>2db6fa19-1315-4022-abef-abc4426dcce8</id>
     <name>IterateGraphModelNodeContainers</name>
@@ -1412,9 +1412,9 @@ return new org.eclipse.emf.common.util.BasicEList&lt;Class&lt;?&gt;&gt;(java.uti
   </edge>
   <edge>
     <source>a8f5b805-b2be-4d17-9805-9a9c00749c3d</source>
-    <target>8308b08d-bb7e-491e-a7ae-cc0e2c51e5a3</target>
-    <point>2262.0,461.52</point>
-    <point>2073.0,511.92</point>
+    <target>1ecb25af-a88b-49cc-ae2e-b980054b1fb2</target>
+    <point>2280.0,474.0</point>
+    <point>2280.0,558.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -1451,35 +1451,6 @@ return new org.eclipse.emf.common.util.BasicEList&lt;Class&lt;?&gt;&gt;(java.uti
     <target>6daa86ee-06b7-42f6-8889-426d4e191445</target>
     <point>660.0,150.0</point>
     <point>939.0,40.0</point>
-    <branch>default</branch>
-  </edge>
-  <sib>
-    <id>8308b08d-bb7e-491e-a7ae-cc0e2c51e5a3</id>
-    <name>PrintConsoleMessage</name>
-    <label>PrintConsoleMessage</label>
-    <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
-    <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
-    <position>1989.5,498.0</position>
-    <parameter name="error">
-      <boolean>true</boolean>
-    </parameter>
-    <parameter name="message">
-      <de.metaframe.common.sib.parameter.ContextExpression>
-        <ContextExpressionFoundation>
-          <expression>Enter the Ninja</expression>
-          <clazz>java.lang.Object</clazz>
-          <classMutable>false</classMutable>
-        </ContextExpressionFoundation>
-      </de.metaframe.common.sib.parameter.ContextExpression>
-    </parameter>
-    <finalbranches>default</finalbranches>
-  </sib>
-  <edge>
-    <source>8308b08d-bb7e-491e-a7ae-cc0e2c51e5a3</source>
-    <target>1ecb25af-a88b-49cc-ae2e-b980054b1fb2</target>
-    <point>2073.0,521.52</point>
-    <point>2262.0,571.92</point>
-    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <parameter>
