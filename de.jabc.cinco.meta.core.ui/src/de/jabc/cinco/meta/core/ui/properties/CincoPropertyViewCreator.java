@@ -1,6 +1,11 @@
 package de.jabc.cinco.meta.core.ui.properties;
 
 
+//import graphmodel.ModelElement;
+//import info.scce.cinco.product.somegraph.somegraph.Inner;
+//import info.scce.cinco.product.somegraph.somegraph.SomeNode;
+//import info.scce.cinco.product.somegraph.somegraph.Type;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -28,7 +33,11 @@ import org.eclipse.jface.databinding.swt.IWidgetValueProperty;
 import org.eclipse.jface.databinding.swt.WidgetProperties;
 import org.eclipse.jface.databinding.viewers.ObservableListTreeContentProvider;
 import org.eclipse.jface.databinding.viewers.TreeStructureAdvisor;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -46,18 +55,23 @@ public class CincoPropertyViewCreator {
 	private Map<Class<? extends EObject>, List<EStructuralFeature>> attributesMap;
 	private Map<Class<? extends EObject>, List<EStructuralFeature>> referencesMap;
 	
+	private Composite simpleViewComposite;
+	
 	private final GridData labelData = new GridData(SWT.LEFT, SWT.CENTER, false, false);
 	private final GridData textData = new GridData(SWT.FILL, SWT.CENTER, true, false);
 
 	private static CincoPropertyViewCreator instance;
 	
 	private TransactionalEditingDomain domain;
+	private EMFDataBindingContext context;
 	
 	private CincoPropertyViewCreator() {
 		compositesMap = new HashMap<EObject, Composite>();
 		emfListPropertiesMap = new HashMap<Class<? extends EObject>, IEMFListProperty>();
 		attributesMap = new HashMap<Class<? extends EObject>, List<EStructuralFeature>>();
 		referencesMap = new HashMap<Class<? extends EObject>, List<EStructuralFeature>>();
+		
+		context = new EMFDataBindingContext();
 	}
 	
 	public static CincoPropertyViewCreator getInstance() {
@@ -122,6 +136,28 @@ public class CincoPropertyViewCreator {
 		List<EStructuralFeature> inputList = referencesMap.get(bo.getClass());
 		IEMFListProperty input = EMFProperties.multiList(inputList.toArray(new EStructuralFeature[] {}));
 		viewer.setInput(input.observe(bo));
+		
+		ISelectionChangedListener listener = createSelectionListener();
+		viewer.addSelectionChangedListener(listener);
+	}
+
+	private ISelectionChangedListener createSelectionListener() {
+		ISelectionChangedListener listener = new ISelectionChangedListener() {
+			
+			@Override
+			public void selectionChanged(SelectionChangedEvent event) {
+				ISelection selection = event.getSelection();
+				if (!(selection instanceof IStructuredSelection))
+					return;
+				
+				Object o = ((IStructuredSelection) selection).getFirstElement();
+				if (o instanceof EObject) {
+					createSimplePropertyView((EObject) o);
+					simpleViewComposite.layout(true);
+				}
+			}
+		};
+		return listener;
 	}
 	
 	public void createSimplePropertyView(EObject bo, Composite parent) {
@@ -130,7 +166,12 @@ public class CincoPropertyViewCreator {
 		comp.setLayoutData(new GridData(SWT.FILL,SWT.FILL, true, true));
 		setTwoColumnGridLayout(comp);
 		
-		EMFDataBindingContext context = new EMFDataBindingContext();
+		createUIAndBindings(bo, comp);
+		
+		simpleViewComposite = comp;
+	}
+
+	private void createUIAndBindings(EObject bo, Composite comp) {
 		domain = TransactionUtil.getEditingDomain(bo);
 		if (domain == null)
 			domain = TransactionalEditingDomain.Factory.INSTANCE.createEditingDomain(bo.eResource().getResourceSet());
@@ -147,6 +188,13 @@ public class CincoPropertyViewCreator {
 				createMultiAttributeProperty(comp, (EAttribute) attr, context);
 			}
 		}
+	}
+	
+	protected void createSimplePropertyView(EObject o) {
+		if (simpleViewComposite == null) 
+			throw new RuntimeException("NPE: Composite for the simple property view is null");
+		clearComposite(simpleViewComposite);
+		createUIAndBindings(o, simpleViewComposite);
 	}
 
 
@@ -195,14 +243,20 @@ public class CincoPropertyViewCreator {
 		return new LabelProvider() {
 			@Override
 			public String getText(Object element) {
-//				if (element instanceof Type)
-//					return "Type: "+ ((Type) element).getAttrOne();
-//				if (element instanceof Inner)
-//					return "Inner: "+((Inner) element).getAnInteger();
+				if (! (element instanceof EObject))
+					return super.getText(element);
 				
-				if (element instanceof EObject)
-					return ((EObject) element).eClass().getName();
-				return super.getText(element);
+//				if (element instanceof ModelElement)
+//					return element.getClass().getSimpleName().replace("Impl", "");
+				
+				EObject eContainer = ((EObject) element).eContainer();
+				for (EReference ref : eContainer.eClass().getEAllReferences()) {
+					if (ref.getEType().isInstance(element)) {
+						return ref.getName();
+					}
+				}
+				
+				return null;
 			}
 		};
 	}
