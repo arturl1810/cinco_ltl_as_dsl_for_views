@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>5f357517-18d4-4780-adc3-30879fedbfb1</id>
   <name>GenerateFeatureProvider</name>
-  <changecounter>784</changecounter>
+  <changecounter>786</changecounter>
   <sib>
     <id>23fb1326-f00d-4e42-845a-cdf6492fc417</id>
     <name>PutExpression</name>
@@ -408,7 +408,7 @@ public class $context.graphModelName$FeatureProvider extends DefaultFeatureProvi
 		Object o =  context.getNewObject();
 		if (o instanceof EObject) {
 			EObject bo = (EObject) o;
-			boolean sameResource = bo.eResource().equals(getDiagramTypeProvider().getDiagram().eResource());
+			boolean sameResource = bo.eResource() != null ? bo.eResource().equals(getDiagramTypeProvider().getDiagram().eResource()) : true ;
 			$context.getAddNodeFeatureIfBlock$
 			$context.getAddEdgeFeatureIfBlock$
 			$context.getAddContainerFeatureIfBlock$	
