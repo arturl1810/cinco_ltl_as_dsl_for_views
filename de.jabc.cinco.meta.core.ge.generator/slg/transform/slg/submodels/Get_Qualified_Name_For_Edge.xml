@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>d24ef612-d55e-4c63-b169-ca636c7bc7dd</id>
   <name>Get_Qualified_Name_For_Edge</name>
-  <changecounter>16</changecounter>
+  <changecounter>47</changecounter>
   <sib>
     <id>e12f989b-25bd-409f-9090-9bdeb3fe564a</id>
     <name>GetGraphModelPackage</name>
@@ -65,7 +65,7 @@
     <label>MergeStrings</label>
     <sib-uid>basic-sibs/MergeStrings</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.MergeStrings</taxonomy>
-    <position>403.5,723.0</position>
+    <position>404.5,723.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -89,8 +89,8 @@
             </de.metaframe.jabc.framework.sib.parameter.ContextKey>
             <de.metaframe.jabc.framework.sib.parameter.ContextKey>
               <ContextKeyFoundation>
-                <key>edgeGraphModelName</key>
-                <scope>GLOBAL</scope>
+                <key>api</key>
+                <scope>LOCAL</scope>
                 <scopeMutable>true</scopeMutable>
               </ContextKeyFoundation>
             </de.metaframe.jabc.framework.sib.parameter.ContextKey>
@@ -103,8 +103,36 @@
             </de.metaframe.jabc.framework.sib.parameter.ContextKey>
             <de.metaframe.jabc.framework.sib.parameter.ContextKey>
               <ContextKeyFoundation>
-                <key>edgeName</key>
+                <key>lcApiPrefix</key>
                 <scope>GLOBAL</scope>
+                <scopeMutable>true</scopeMutable>
+              </ContextKeyFoundation>
+            </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+            <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+              <ContextKeyFoundation>
+                <key>edgeGraphModelName</key>
+                <scope>GLOBAL</scope>
+                <scopeMutable>true</scopeMutable>
+              </ContextKeyFoundation>
+            </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+            <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+              <ContextKeyFoundation>
+                <key>dot</key>
+                <scope>DECLARED</scope>
+                <scopeMutable>true</scopeMutable>
+              </ContextKeyFoundation>
+            </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+            <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+              <ContextKeyFoundation>
+                <key>apiPrefix</key>
+                <scope>DECLARED</scope>
+                <scopeMutable>true</scopeMutable>
+              </ContextKeyFoundation>
+            </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+            <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+              <ContextKeyFoundation>
+                <key>edgeName</key>
+                <scope>DECLARED</scope>
                 <scopeMutable>true</scopeMutable>
               </ContextKeyFoundation>
             </de.metaframe.jabc.framework.sib.parameter.ContextKey>
@@ -116,7 +144,7 @@
     <parameter name="outputBuffer">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>qualifiedEdgeName</key>
+          <key>qualifiedMEName</key>
           <scope>GLOBAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
@@ -216,9 +244,10 @@
   </sib>
   <edge>
     <source>c835067f-fc90-4ac8-8c2a-bb7de09c7bc3</source>
-    <target>29b035db-b945-4384-b1c3-beebc4a56650</target>
-    <point>450.0,180.0</point>
-    <point>450.0,285.0</point>
+    <target>07f543f7-acfc-4106-9dee-ddb5020c1733</target>
+    <point>468.0,192.68571428571428</point>
+    <point>537.0,212.4</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
@@ -280,6 +309,65 @@
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
   </sib>
+  <sib>
+    <id>07f543f7-acfc-4106-9dee-ddb5020c1733</id>
+    <name>PutString_1</name>
+    <label>Put api</label>
+    <sib-uid>basic-sibs/PutString</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.PutString</taxonomy>
+    <position>546.5,168.0</position>
+    <parameter name="value">
+      <string>api</string>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>api</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>07f543f7-acfc-4106-9dee-ddb5020c1733</source>
+    <target>55a92b15-d3df-4f71-9e53-91030214f7ba</target>
+    <point>588.0,184.97142857142856</point>
+    <point>657.0,175.1142857142857</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>55a92b15-d3df-4f71-9e53-91030214f7ba</id>
+    <name>PutString_2</name>
+    <label>Put lcapiprefix</label>
+    <sib-uid>basic-sibs/PutString</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.PutString</taxonomy>
+    <position>646.0,168.0</position>
+    <parameter name="value">
+      <string>c</string>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>lcApiPrefox</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>55a92b15-d3df-4f71-9e53-91030214f7ba</source>
+    <target>29b035db-b945-4384-b1c3-beebc4a56650</target>
+    <point>690.0,195.0</point>
+    <point>442.0,294.0</point>
+    <branch>default</branch>
+  </edge>
   <parameter>
     <name>edgeKey</name>
     <field>edgeKey</field>
@@ -290,7 +378,22 @@
     <field>edgeKey</field>
     <sib>29b035db-b945-4384-b1c3-beebc4a56650</sib>
   </parameter>
+  <parameter>
+    <name>outputBuffer</name>
+    <field>outputBuffer</field>
+    <sib>3458f315-a904-46cd-ad26-9e03b81f6a1e</sib>
+  </parameter>
   <values>
+    <entry>
+      <string>outputBuffer</string>
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>qualifiedMEName</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </entry>
     <entry>
       <string>edgeKey</string>
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
