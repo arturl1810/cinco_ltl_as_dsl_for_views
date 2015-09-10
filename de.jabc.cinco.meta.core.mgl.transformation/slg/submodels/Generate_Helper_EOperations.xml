@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>d5531c11-ffc2-41e6-b1fd-4f08e1327b1f</id>
   <name>Generate Helper EOperations</name>
-  <changecounter>125</changecounter>
+  <changecounter>128</changecounter>
   <sib>
     <id>2db6fa19-1315-4022-abef-abc4426dcce8</id>
     <name>IterateGraphModelNodeContainers</name>
@@ -541,9 +541,9 @@
   </sib>
   <edge>
     <source>6daa86ee-06b7-42f6-8889-426d4e191445</source>
-    <target>de4a28b4-e5c2-45ae-813a-72ec2f4822d6</target>
-    <point>978.0,45.13846153846154</point>
-    <point>1137.0,118.52307692307693</point>
+    <target>d4269432-86c5-44ee-b4c9-46efce9c3fbe</target>
+    <point>978.0,49.68</point>
+    <point>1090.0,128.2</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>next</branch>
   </edge>
@@ -1032,34 +1032,6 @@
     <branch>default</branch>
   </edge>
   <sib>
-    <id>de4a28b4-e5c2-45ae-813a-72ec2f4822d6</id>
-    <name>GetNodeName</name>
-    <label>GetNodeName</label>
-    <sib-uid>mgl/mgl/GetNodeName</sib-uid>
-    <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetNodeName</taxonomy>
-    <position>910.5,123.0</position>
-    <parameter name="nodeKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>graphicalModelElement</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="nodenameKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>nodeName</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-  </sib>
-  <sib>
     <id>adb57c40-d21e-4505-84e3-fbdcf58d3957</id>
     <name>GetEClassifierByName</name>
     <label>GetEClassifierByName</label>
@@ -1145,13 +1117,6 @@
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
   </sib>
-  <edge>
-    <source>de4a28b4-e5c2-45ae-813a-72ec2f4822d6</source>
-    <target>51bce6ee-342e-4867-8011-0a82bf8d1985</target>
-    <point>1155.0,135.0</point>
-    <point>1209.0,198.0</point>
-    <branch>default</branch>
-  </edge>
   <sib>
     <id>2f8f3b69-e7ec-4673-acac-c8e0d0b03909</id>
     <name>AddElement_1</name>
@@ -1198,41 +1163,13 @@
     <branch>true</branch>
   </edge>
   <edge>
-    <source>5969b6dd-db71-4197-b848-10c07fd82c8d</source>
+    <source>de40b1fc-81d3-4774-b09a-45f84d4188bf</source>
     <target>0bf0e437-3688-4c0b-a981-1a1f37660a10</target>
-    <point>2025.0,540.0</point>
-    <point>2175.0,615.0</point>
+    <point>1880.0,602.4666666666667</point>
+    <point>2067.0,702.12</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
-  <sib>
-    <id>5969b6dd-db71-4197-b848-10c07fd82c8d</id>
-    <name>GetNodeName_1</name>
-    <label>GetNodeName</label>
-    <sib-uid>mgl/mgl/GetNodeName</sib-uid>
-    <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetNodeName</taxonomy>
-    <position>1825.5,693.0</position>
-    <parameter name="nodeKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>graphicalModelElement</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="nodenameKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>nodeName</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-  </sib>
   <sib>
     <id>0bf0e437-3688-4c0b-a981-1a1f37660a10</id>
     <name>MergeStrings_1</name>
@@ -1320,9 +1257,10 @@
   </sib>
   <edge>
     <source>234f68d7-82ad-45d9-a6d7-d46d2af2175c</source>
-    <target>5969b6dd-db71-4197-b848-10c07fd82c8d</target>
-    <point>1635.0,720.0</point>
-    <point>1946.0,736.0</point>
+    <target>de40b1fc-81d3-4774-b09a-45f84d4188bf</target>
+    <point>1640.0,701.75</point>
+    <point>1840.0,601.75</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
@@ -1705,6 +1643,81 @@ return new org.eclipse.emf.common.util.BasicEList&lt;Class&lt;? extends Node&gt;
     <point>1956.0,1012.0</point>
     <branch>default</branch>
   </edge>
+  <sib>
+    <id>d4269432-86c5-44ee-b4c9-46efce9c3fbe</id>
+    <name>GraphSIB_2</name>
+    <label>Get Qualified Name For Node</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>862.5,106.0</position>
+    <parameter name="nodeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>graphicalModelElement</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="qualifiedName">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>nodeName</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Get Qualified Name For Node</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>a0356bd8-d2c9-42f7-9cfc-7cd304f53dc4</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>d4269432-86c5-44ee-b4c9-46efce9c3fbe</source>
+    <target>51bce6ee-342e-4867-8011-0a82bf8d1985</target>
+    <point>960.0,135.0</point>
+    <point>962.0,239.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>de40b1fc-81d3-4774-b09a-45f84d4188bf</id>
+    <name>GraphSIB_3</name>
+    <label>Get Qualified Name For Node</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>1792.5,691.0</position>
+    <parameter name="nodeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>graphicalModelElement</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="qualifiedName">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>nodeName</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Get Qualified Name For Node</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>a0356bd8-d2c9-42f7-9cfc-7cd304f53dc4</string>
+    </userobject>
+  </sib>
   <parameter>
     <name>graphModelKey</name>
     <field>graphModelKey</field>
@@ -1855,22 +1868,12 @@ return new org.eclipse.emf.common.util.BasicEList&lt;Class&lt;? extends Node&gt;
   <branch>
     <name>error</name>
     <branch>error</branch>
-    <sib>de4a28b4-e5c2-45ae-813a-72ec2f4822d6</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
     <sib>2f8f3b69-e7ec-4673-acac-c8e0d0b03909</sib>
   </branch>
   <branch>
     <name>error</name>
     <branch>error</branch>
     <sib>51bce6ee-342e-4867-8011-0a82bf8d1985</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>5969b6dd-db71-4197-b848-10c07fd82c8d</sib>
   </branch>
   <branch>
     <name>error</name>
@@ -1946,5 +1949,15 @@ return new org.eclipse.emf.common.util.BasicEList&lt;Class&lt;? extends Node&gt;
     <name>exit</name>
     <branch>default</branch>
     <sib>f1aa2ae9-59c4-40cf-a474-4eb71e21ea11</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>d4269432-86c5-44ee-b4c9-46efce9c3fbe</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>de40b1fc-81d3-4774-b09a-45f84d4188bf</sib>
   </branch>
 </model>
