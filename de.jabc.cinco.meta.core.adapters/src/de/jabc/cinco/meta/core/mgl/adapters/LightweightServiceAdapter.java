@@ -2,6 +2,7 @@
 
 package de.jabc.cinco.meta.core.mgl.adapters;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -15,6 +16,7 @@ import mgl.NodeContainer;
 import org.eclipse.emf.common.util.EList;
 
 import de.metaframe.jabc.framework.execution.LightweightExecutionEnvironment;
+import de.metaframe.jabc.framework.execution.LightweightExecutionEnvironmentAdapter;
 import de.metaframe.jabc.framework.execution.context.LightweightExecutionContext;
 import de.metaframe.jabc.framework.sib.parameter.ContextKey.Scope;
 import de.metaframe.jabc.framework.sib.parameter.foundation.ContextKeyFoundation;
@@ -120,4 +122,93 @@ public class LightweightServiceAdapter {
 		return edges;
 	}
 
+	public static String getAllSubTypes(
+			LightweightExecutionEnvironment env,
+			ContextKeyFoundation modelElementFoundation,
+			ContextKeyFoundation subTypesFoundation) {
+		
+		try{
+			LightweightExecutionContext modelElementContext = switchContext(modelElementFoundation, env);
+			GraphicalModelElement modelElement = (GraphicalModelElement)modelElementContext.get(modelElementFoundation);
+			ArrayList<GraphicalModelElement> subElements= new ArrayList<GraphicalModelElement>();
+			if(modelElement instanceof Node){
+				
+				for(Node node: ((Node) modelElement).getGraphModel().getNodes()){
+					if(node!=modelElement && getAllSuperTypes(node).contains(modelElement))
+						subElements.add(node);
+				}
+				
+				for(NodeContainer node: ((Node) modelElement).getGraphModel().getNodeContainers()){
+					if(node!=modelElement && getAllSuperTypes(node).contains(modelElement))
+						subElements.add(node);
+				}
+			}else if(modelElement instanceof NodeContainer){
+				for(Node node: ((NodeContainer) modelElement).getGraphModel().getNodes()){
+					if(node!=modelElement && getAllSuperTypes(node).contains(modelElement))
+						subElements.add(node);
+				}
+				
+				for(NodeContainer node: ((NodeContainer) modelElement).getGraphModel().getNodeContainers()){
+					if(node!=modelElement && getAllSuperTypes(node).contains(modelElement))
+						subElements.add(node);
+				}
+			}else if(modelElement instanceof Edge){
+				for(Edge edge: ((Edge)modelElement).getGraphModel().getEdges()){
+					if(edge!=modelElement && getAllSuperTypes(edge).contains(modelElement))
+						subElements.add(edge);
+				}
+			}
+			
+			LightweightExecutionContext subElementsContext = switchContext(subTypesFoundation,env);
+			subElementsContext.put(subTypesFoundation,subElements);
+			
+		}catch(Exception e){
+			env.getLocalContext().getGlobalContext().put("exception", e);
+			return "error";
+		}
+		
+		
+		return "default";
+	}
+	
+	
+	private static Collection<GraphicalModelElement> getAllSuperTypes(GraphicalModelElement modelElement) {
+		ArrayList<GraphicalModelElement> superTypes = new ArrayList<GraphicalModelElement>();
+		if(modelElement instanceof Node){
+			Node node = (Node)modelElement;
+			Node superNode = node.getExtends();
+			while(superNode != null){
+				superTypes.add(superNode);
+				superNode = superNode.getExtends();
+			}
+		}
+		if(modelElement instanceof NodeContainer){
+			NodeContainer nodeContainer = (NodeContainer)modelElement;
+			NodeContainer superNodeContainer = nodeContainer.getExtends();
+			while(superNodeContainer != null){
+				superTypes.add(superNodeContainer);
+				superNodeContainer = superNodeContainer.getExtends();
+			}
+		}
+		if(modelElement instanceof Edge){
+			Edge edge = (Edge)modelElement;
+			Edge superEdge = edge.getExtends();
+			while(superEdge != null){
+				superTypes.add(superEdge);
+				superEdge = superEdge.getExtends();
+			}
+		}
+		
+		return superTypes;
+	}
+
+	public static LightweightExecutionContext switchContext(ContextKeyFoundation foundation, LightweightExecutionEnvironment env){
+		LightweightExecutionContext localContext = env.getLocalContext();
+		switch(Scope.valueOf(foundation.getScope())){
+			case GLOBAL: return localContext.getGlobalContext();
+			case PARENT : return localContext.getParent();
+			default: return localContext;
+		}
+
+	}
 }
