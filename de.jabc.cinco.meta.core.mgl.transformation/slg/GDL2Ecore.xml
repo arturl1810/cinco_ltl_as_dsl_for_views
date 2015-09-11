@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>ca5a39ee-2606-4461-8c2d-1e6ebdbd9d0e</id>
   <name>MGL2Ecore</name>
-  <changecounter>77</changecounter>
+  <changecounter>78</changecounter>
   <sib>
     <id>e763e08f-ee7b-48f6-8187-dac38f44f435</id>
     <name>MacroSIB</name>
@@ -12,11 +12,11 @@
     <position>323.0,46.0</position>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>1d08000e-412c-4f78-a4e1-f5c3f09eef6a</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Create Substantial Classes</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>1d08000e-412c-4f78-a4e1-f5c3f09eef6a</string>
     </userobject>
   </sib>
   <edge>
@@ -36,11 +36,11 @@
     <position>692.0,46.0</position>
     <finalbranches>error</finalbranches>
     <finalbranches>exit</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>d136ee11-0a5e-458f-8813-648c7e29c207</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Create Nodes</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>d136ee11-0a5e-458f-8813-648c7e29c207</string>
     </userobject>
   </sib>
   <sib>
@@ -52,11 +52,11 @@
     <position>1054.5,46.0</position>
     <finalbranches>error</finalbranches>
     <finalbranches>exit</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>bbe15f4c-aa62-4a79-93be-b5b01df883f7</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Create Swimlanes</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>bbe15f4c-aa62-4a79-93be-b5b01df883f7</string>
     </userobject>
   </sib>
   <edge>
@@ -76,11 +76,11 @@
     <position>154.5,46.0</position>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>95a30cb5-13ac-431b-ac50-d456a18e2ff9</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Initialize EPackage</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>95a30cb5-13ac-431b-ac50-d456a18e2ff9</string>
     </userobject>
   </sib>
   <sib>
@@ -92,11 +92,11 @@
     <position>872.5,46.0</position>
     <finalbranches>error</finalbranches>
     <finalbranches>exit</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>841d944d-b804-4029-a8af-6d0a9e581856</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Create Edges</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>841d944d-b804-4029-a8af-6d0a9e581856</string>
     </userobject>
   </sib>
   <edge>
@@ -187,11 +187,11 @@
     <position>1273.0,46.0</position>
     <finalbranches>error</finalbranches>
     <finalbranches>exit</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>a8a13ead-991d-4a0c-b376-516f4a369f43</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Reference Attributes</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>a8a13ead-991d-4a0c-b376-516f4a369f43</string>
     </userobject>
   </sib>
   <edge>
@@ -223,11 +223,11 @@
     <userobject key="ABC$START">
       <boolean>true</boolean>
     </userobject>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>0e442a3b-428c-42da-ba0f-50231419be44</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Initialize</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>0e442a3b-428c-42da-ba0f-50231419be44</string>
     </userobject>
   </sib>
   <edge>
@@ -248,11 +248,11 @@
     <position>1438.0,46.0</position>
     <finalbranches>error</finalbranches>
     <finalbranches>exit</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>30419526-916d-419b-91ef-1bcf24abdf58</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Inherit Classes</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>30419526-916d-419b-91ef-1bcf24abdf58</string>
     </userobject>
   </sib>
   <edge>
@@ -318,11 +318,11 @@
     <position>528.0,46.0</position>
     <finalbranches>error</finalbranches>
     <finalbranches>exit</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>4a1b5ac8-21c7-45dc-92d0-46fde6dc5d52</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Create Types</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>4a1b5ac8-21c7-45dc-92d0-46fde6dc5d52</string>
     </userobject>
   </sib>
   <edge>
@@ -351,11 +351,11 @@
     <position>2067.5,46.0</position>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>5ce182a4-e761-41ad-ac50-efff7319b333</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Annotate Model</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>5ce182a4-e761-41ad-ac50-efff7319b333</string>
     </userobject>
   </sib>
   <edge>
@@ -423,11 +423,11 @@ return list;</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Create EOperation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
     </userobject>
   </sib>
   <edge>
@@ -495,11 +495,11 @@ return list;</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Create EOperation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
     </userobject>
   </sib>
   <edge>
@@ -567,11 +567,11 @@ return list;</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Create EOperation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
     </userobject>
   </sib>
   <edge>
@@ -609,11 +609,11 @@ return list;</string>
     </parameter>
     <finalbranches>error</finalbranches>
     <finalbranches>exit</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>d5531c11-ffc2-41e6-b1fd-4f08e1327b1f</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Generate Helper EOperations</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>d5531c11-ffc2-41e6-b1fd-4f08e1327b1f</string>
     </userobject>
   </sib>
   <edge>
