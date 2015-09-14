@@ -28,5 +28,7 @@ Import-Package: ProductDefinition,
  org.eclipse.xtext.ui.resource
 Export-Package: de.jabc.cinco.meta.core,
  de.jabc.cinco.meta.core.ui.handlers,
- de.jabc.cinco.meta.core.ui.listener
+ de.jabc.cinco.meta.core.ui.listener,
+ de.jabc.cinco.meta.core.ui.properties,
+ de.jabc.cinco.meta.core.ui.validator
 Bundle-ActivationPolicy: lazy

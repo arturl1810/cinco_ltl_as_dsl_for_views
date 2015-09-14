@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>86742e86-2110-423a-afde-6fd521759a73</id>
   <name>GraphInformation</name>
-  <changecounter>991</changecounter>
+  <changecounter>1043</changecounter>
   <sib>
     <id>9e28dbf6-7ef4-4eef-9ad3-1d0d32bf6020</id>
     <name>GetGraphModelName</name>
@@ -2909,31 +2909,9 @@ public void setError(ECincoError error) {
     <label>AllElements</label>
     <sib-uid>collection-sibs/PutList</sib-uid>
     <taxonomy>de.jabc.sib.common.collection.PutList</taxonomy>
-    <position>308.0,468.0</position>
+    <position>413.0,453.0</position>
     <parameter name="elements">
-      <list>
-        <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-          <ContextKeyFoundation>
-            <key>nodes</key>
-            <scope>GLOBAL</scope>
-            <scopeMutable>true</scopeMutable>
-          </ContextKeyFoundation>
-        </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-          <ContextKeyFoundation>
-            <key>edges</key>
-            <scope>GLOBAL</scope>
-            <scopeMutable>true</scopeMutable>
-          </ContextKeyFoundation>
-        </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-          <ContextKeyFoundation>
-            <key>containers</key>
-            <scope>GLOBAL</scope>
-            <scopeMutable>true</scopeMutable>
-          </ContextKeyFoundation>
-        </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-      </list>
+      <list/>
     </parameter>
     <parameter name="initialCapacity">
       <int>50</int>
@@ -2955,10 +2933,122 @@ public void setError(ECincoError error) {
   </sib>
   <edge>
     <source>9ce735d6-c594-497f-b0e3-e2e51970b5d0</source>
-    <target>88d1caae-f295-4f99-96a8-cc5c14ee47ce</target>
-    <point>345.0,495.0</point>
-    <point>266.0,577.0</point>
+    <target>d8bacef0-4e19-4f5b-9d3e-0646d8b8bdc3</target>
+    <point>432.0,470.1</point>
+    <point>348.0,459.6</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
+  </edge>
+  <sib>
+    <id>f8e3e0c1-451f-42ae-86b7-377d566ead02</id>
+    <name>AddElements_5</name>
+    <label>AddNodes</label>
+    <sib-uid>collection-sibs/AddElements</sib-uid>
+    <taxonomy>de.jabc.sib.common.collection.AddElements</taxonomy>
+    <position>207.5,453.0</position>
+    <parameter name="collection">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>allElements</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="elements">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>nodes</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>false</finalbranches>
+    <finalbranches>true</finalbranches>
+  </sib>
+  <sib>
+    <id>d8bacef0-4e19-4f5b-9d3e-0646d8b8bdc3</id>
+    <name>AddElements_6</name>
+    <label>AddContainers</label>
+    <sib-uid>collection-sibs/AddElements</sib-uid>
+    <taxonomy>de.jabc.sib.common.collection.AddElements</taxonomy>
+    <position>314.5,453.0</position>
+    <parameter name="collection">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>allElements</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="elements">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>containers</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>false</finalbranches>
+    <finalbranches>true</finalbranches>
+  </sib>
+  <sib>
+    <id>81df9638-3a27-470d-a6c2-d755eaf21f99</id>
+    <name>AddElements_7</name>
+    <label>AddEdges</label>
+    <sib-uid>collection-sibs/AddElements</sib-uid>
+    <taxonomy>de.jabc.sib.common.collection.AddElements</taxonomy>
+    <position>73.0,453.0</position>
+    <parameter name="collection">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>allElements</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="elements">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>edges</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>false</finalbranches>
+    <finalbranches>true</finalbranches>
+  </sib>
+  <edge>
+    <source>d8bacef0-4e19-4f5b-9d3e-0646d8b8bdc3</source>
+    <target>f8e3e0c1-451f-42ae-86b7-377d566ead02</target>
+    <point>330.0,465.0</point>
+    <point>240.0,451.0</point>
+    <branch>false</branch>
+    <branch>true</branch>
+  </edge>
+  <edge>
+    <source>f8e3e0c1-451f-42ae-86b7-377d566ead02</source>
+    <target>81df9638-3a27-470d-a6c2-d755eaf21f99</target>
+    <point>225.0,465.0</point>
+    <point>106.0,467.0</point>
+    <branch>false</branch>
+    <branch>true</branch>
+  </edge>
+  <edge>
+    <source>81df9638-3a27-470d-a6c2-d755eaf21f99</source>
+    <target>88d1caae-f295-4f99-96a8-cc5c14ee47ce</target>
+    <point>105.0,480.0</point>
+    <point>226.0,574.0</point>
+    <branch>false</branch>
+    <branch>true</branch>
   </edge>
   <values/>
   <branch>
