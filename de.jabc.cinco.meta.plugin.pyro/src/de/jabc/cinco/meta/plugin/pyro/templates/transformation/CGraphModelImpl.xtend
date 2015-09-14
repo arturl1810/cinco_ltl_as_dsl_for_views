@@ -18,6 +18,8 @@ import org.eclipse.emf.ecore.EClass
 import mgl.ReferencedType
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.EPackage
+import mgl.GraphicalElementContainment
+import mgl.Node
 
 class CGraphModelImpl implements Templateable{
 	
@@ -28,6 +30,11 @@ package de.ls5.cinco.transformation.api.«graphModel.name.toFirstLower»;
 import de.ls5.dywa.generated.entity.*;
 import de.ls5.dywa.generated.controller.*;
 import de.ls5.cinco.transformation.api.*;
+«FOR StyledNode sn:nodes»
+«IF ModelParser.canContain(graphModel ,sn.modelElement) && ModelParser.isCustomeHook(sn.modelElement)»
+import de.ls5.cinco.custom.hook.«graphModel.name.toFirstLower».«ModelParser.getCustomeHookName(sn.modelElement).toFirstUpper»CustomHook;
+«ENDIF»
+«ENDFOR»
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -195,7 +202,7 @@ public class C«graphModel.name.toFirstUpper»Impl implements C«graphModel.name
     }
     
     «FOR StyledNode sn:nodes»
-    «createNewNode(sn,graphModel.name,validConnections)»
+    «createNewNode(sn,graphModel.name,validConnections,graphModel)»
     «ENDFOR»
 
     «FOR Attribute attr: graphModel.attributes»
@@ -326,7 +333,7 @@ public class C«graphModel.name.toFirstUpper»Impl implements C«graphModel.name
 	}
 	'''
 	
-	def createNewNode(StyledNode sn,String graphModelName,ArrayList<ConnectionConstraint> validConnections)
+	def createNewNode(StyledNode sn,String graphModelName,ArrayList<ConnectionConstraint> validConnections,GraphModel g)
 	'''
 	public C«sn.modelElement.name.toFirstUpper» newC«sn.modelElement.name.toFirstUpper»(long x,long y) {
 	    return newC«sn.modelElement.name.toFirstUpper»(x,y,«sn.width»,«sn.height»);
@@ -353,6 +360,13 @@ public class C«graphModel.name.toFirstUpper»Impl implements C«graphModel.name
 		pyroCreateNodeCommand.setdywaId(«sn.modelElement.name.toFirstLower».getId());
 		pyroCreateNodeCommand.settime(new Date());
 		this.modelElement.getpyroCommandStack_PyroCommand().add(pyroCreateNodeCommand);
+		«IF ModelParser.canContain(g ,sn.modelElement) && ModelParser.isCustomeHook(sn.modelElement)»
+		//Post Create Hook
+		«ModelParser.getCustomeHookName(sn.modelElement).toFirstUpper»CustomHook «ModelParser.getCustomeHookName(sn.modelElement).toFirstLower»CustomHook = new «ModelParser.getCustomeHookName(sn.modelElement).toFirstUpper»CustomHook();
+		if(«ModelParser.getCustomeHookName(sn.modelElement).toFirstLower»CustomHook.canExecute(c«sn.modelElement.name.toFirstUpper»)){
+			«ModelParser.getCustomeHookName(sn.modelElement).toFirstLower»CustomHook.execute(c«sn.modelElement.name.toFirstUpper»);
+		}
+		«ENDIF»
 		return c«sn.modelElement.name.toFirstUpper»;
 	}
 	

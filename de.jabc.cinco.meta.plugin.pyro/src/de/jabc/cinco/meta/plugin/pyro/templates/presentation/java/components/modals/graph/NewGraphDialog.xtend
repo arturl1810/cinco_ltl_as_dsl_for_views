@@ -11,6 +11,8 @@ import de.jabc.cinco.meta.plugin.pyro.model.EmbeddingConstraint
 import mgl.Type
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.EPackage
+import mgl.Annotation
+import de.jabc.cinco.meta.plugin.pyro.utils.ModelParser
 
 class NewGraphDialog implements Templateable{
 	
@@ -32,6 +34,13 @@ import org.apache.tapestry5.ioc.Messages;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.PageRenderLinkSource;
 import org.apache.tapestry5.services.SelectModelFactory;
+«FOR GraphModel g : graphModels»
+import de.ls5.cinco.transformation.api.«g.name.toFirstLower».*;
+«IF ModelParser.isCustomeHookAvailable(g)»
+import de.ls5.cinco.custom.hook.«g.name.toFirstLower».*;
+«ENDIF»
+«ENDFOR»
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +56,9 @@ public class NewGraphDialog {
 	«FOR GraphModel g:graphModels»
     @Inject
     private «g.name.toFirstUpper»Controller «g.name.toFirstLower»Controller;
+    
+    @Inject
+    private C«g.name.toFirstUpper»Wrapper c«g.name.toFirstUpper»Wrapper;
 	«ENDFOR»
     @InjectPage
     private Pyro pyro;
@@ -133,7 +145,7 @@ public class NewGraphDialog {
         «ENDFOR»
         this.project.getgraphModels_GraphModel().add(this.newGraphModel);
         this.newGraphModelId = newGraphModel.getId();
-        this.newGraphModel.setscaleFactor(2.0);
+        this.newGraphModel.setscaleFactor(1.0);
         this.newGraphModel.setedgeTriggerWidth(10.0);
         this.newGraphModel.setedgeStyleModeConnector("normal");
         this.newGraphModel.setedgeStyleModeRouter("");
@@ -147,6 +159,19 @@ public class NewGraphDialog {
         this.newGraphModel.setminimizedMenu(false);
         this.newGraphModel.setminimizedGraph(true);
         this.newGraphModel.setminimizedMap(false);
+        «FOR GraphModel g:graphModels»
+        «FOR Annotation a:g.annotations»
+        «IF a.name.equals("postCreate")»
+        if(this.selectedGraphModel.getName().equals(«g.name.toFirstUpper».class.getName()) ) {
+	        «ModelParser.getCustomHookName(a).toFirstUpper»CustomHook «ModelParser.getCustomHookName(a).toFirstLower»CustomHook = new de.ls5.cinco.custom.hook.«g.name.toFirstLower».«ModelParser.getCustomHookName(a).toFirstUpper»CustomHook();
+            C«g.name.toFirstUpper» c«g.name.toFirstUpper» = c«g.name.toFirstUpper»Wrapper.wrap«g.name.toFirstUpper»((«g.name.toFirstUpper»)this.newGraphModel);
+            if(«ModelParser.getCustomHookName(a).toFirstLower»CustomHook.canExecute(c«g.name.toFirstUpper»)){
+        		«ModelParser.getCustomHookName(a).toFirstLower»CustomHook.execute(c«g.name.toFirstUpper»);
+        	}
+    	}
+        «ENDIF»
+        «ENDFOR»
+        «ENDFOR»
     }
 
     public Object onSubmitFromNewGraphDialogForm() {

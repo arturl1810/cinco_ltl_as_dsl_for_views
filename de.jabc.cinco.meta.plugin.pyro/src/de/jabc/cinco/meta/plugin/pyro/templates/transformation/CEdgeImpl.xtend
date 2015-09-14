@@ -183,7 +183,7 @@ public class C«sme.modelElement.name.toFirstUpper»Impl implements C«sme.model
 		pyroRemoveEdgeCommand.settime(new Date());
 		pyroRemoveEdgeCommand.setdywaId(id);
 		pyroRemoveEdgeCommand.settype("«sme.modelElement.name.toFirstUpper»");
-		pyroRemoveEdgeCommand.setedge(this.modelElement);
+		//pyroRemoveEdgeCommand.setedge(this.modelElement);
 		c«graphModel.name.toFirstUpper».getGraphModel().getpyroCommandStack_PyroCommand().add(pyroRemoveEdgeCommand);
         
         return true;

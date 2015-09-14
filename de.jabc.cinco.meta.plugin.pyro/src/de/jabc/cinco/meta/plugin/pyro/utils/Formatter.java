@@ -53,7 +53,40 @@ public class Formatter {
 		}
 		String formatString = styledModelElement.getStyledLabel().getValue();
 		String templateString = String.format(formatString, args);
-		return templateString;
+		if((templateString == null || templateString.equals("null") ) && formatString != null){
+			String te =  String.format(formatString, labels.toArray());
+			return te;
+		}
+		return templateString==null?"":templateString;
+	}
+	
+	public static String getLabelText(Text text,ArrayList<String> labels)
+	{
+		if(labels.isEmpty()){
+			if(text.getValue() != null){
+				if(!text.getValue().isEmpty())
+				return text.getValue();
+			}
+			return "";
+		}
+		Object[] args = new Object[labels.size()];
+		for(int i = 0;i<args.length;i++) {
+			Pattern pattern = Pattern.compile("\\{([^}]*)\\}");
+			Matcher matcher = pattern.matcher(labels.get(i));
+			if (matcher.find())
+			{
+				String attrName = matcher.group(0);
+				attrName = attrName.substring(1, attrName.length()-1);
+				args[i] = "'+ getAttributeLabel(attributes,'"+attrName+"') +'";
+			}
+		}
+		String formatString = text.getValue();
+		String templateString = String.format(formatString, args);
+		if((templateString == null || templateString.equals("null") ) && formatString != null){
+			String te =  String.format(formatString, labels.toArray());
+			return te;
+		}
+		return templateString==null?"":templateString;
 	}
 	
 	public static String getEdgeConnector(DecoratorShapes decorator,double width)

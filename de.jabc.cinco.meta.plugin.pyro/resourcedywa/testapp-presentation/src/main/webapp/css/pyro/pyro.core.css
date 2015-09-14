@@ -68,7 +68,7 @@
     stroke-width: 2px;
 }
 
-.devs.highlighted-parent .label {
+.devs.highlighted-parent .body-label {
     transition: fill 1s;
     text-decoration: underline;
 }

@@ -531,7 +531,7 @@ def createContainer(StyledNode styledNode,ArrayList<Type> enums)
 	});
 '''
 	
-def createAttributes(GraphicalModelElement modelElement,ArrayList<Type> enums)
+static def createAttributes(GraphicalModelElement modelElement,ArrayList<Type> enums)
 '''
 	cinco_attrs: [
 		«IF modelElement instanceof mgl.Node»
@@ -551,7 +551,7 @@ def createAttributes(GraphicalModelElement modelElement,ArrayList<Type> enums)
 	    «ENDIF»
 	        ]
 '''
-def createAttribute(Attribute attr,ArrayList<Type> enums)
+static def createAttribute(Attribute attr,ArrayList<Type> enums)
 '''
 	«IF attr.upperBound == 1 && (attr.lowerBound == 0 || attr.lowerBound == 1) »
 	«createPrimativeAttribute(attr,enums)»
@@ -561,7 +561,7 @@ def createAttribute(Attribute attr,ArrayList<Type> enums)
 	
 '''
 
-def createListAttribute(Attribute attr,ArrayList<Type> enums)
+static def createListAttribute(Attribute attr,ArrayList<Type> enums)
 '''
 	{
 		name: '«attr.name»',
@@ -580,7 +580,7 @@ def createListAttribute(Attribute attr,ArrayList<Type> enums)
 	}
 '''
 
-def getAttributeType(String type) {
+static def getAttributeType(String type) {
 	if(type.equals("EString")) return "text";
 	if(type.equals("EInt")) return "number";
 	if(type.equals("EDouble")) return "double";
@@ -589,7 +589,7 @@ def getAttributeType(String type) {
 	return "choice";
 }
 
-def public String getAttributeDefault(Attribute attr, ArrayList<Type> enums) {
+static def public String getAttributeDefault(Attribute attr, ArrayList<Type> enums) {
 	if(attr.type.equals("EString")) return "''";
 	if(attr.type.equals("EInt")) return "0";
 	if(attr.type.equals("EDouble")) return "0.00";
@@ -608,7 +608,7 @@ def public String getAttributeDefault(Attribute attr, ArrayList<Type> enums) {
 
 }
 
-def createEnumAttribute(Attribute attr,Enumeration e)
+static def createEnumAttribute(Attribute attr,Enumeration e)
 '''
 {
 	«IF attr.defaultValue != null && !attr.defaultValue.isEmpty»
@@ -624,7 +624,7 @@ def createEnumAttribute(Attribute attr,Enumeration e)
 }
 '''
 
-def getEnumByName(Attribute attr, ArrayList<Type> enums) {
+static def getEnumByName(Attribute attr, ArrayList<Type> enums) {
 	var typeName = attr.type;
 	for(Type type : enums) {
 		if(type.name.equals(typeName)){
@@ -636,7 +636,7 @@ def getEnumByName(Attribute attr, ArrayList<Type> enums) {
 }
 
 
-def createPrimativeAttribute(Attribute attr,ArrayList<Type> enums)
+static def createPrimativeAttribute(Attribute attr,ArrayList<Type> enums)
 '''
 	{
 		name: '«attr.name»',
@@ -645,7 +645,7 @@ def createPrimativeAttribute(Attribute attr,ArrayList<Type> enums)
 	}
 '''
 
-def createLabel(StyledLabel styledLabel)
+static def createLabel(StyledLabel styledLabel)
 '''
 				fill: '#«Formatter.toHex(styledLabel.labelColor)»',
 				'font-size': «styledLabel.labelFontSize»,

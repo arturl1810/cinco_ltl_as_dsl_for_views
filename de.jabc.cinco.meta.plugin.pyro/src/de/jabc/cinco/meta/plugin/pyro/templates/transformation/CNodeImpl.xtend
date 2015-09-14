@@ -14,6 +14,7 @@ import mgl.Attribute
 import mgl.GraphicalModelElement
 import de.jabc.cinco.meta.plugin.pyro.utils.ModelParser
 import mgl.GraphicalElementContainment
+import mgl.NodeContainer
 
 class CNodeImpl implements ElementTemplateable{
 	
@@ -58,16 +59,17 @@ public class C«sme.modelElement.name.toFirstUpper»Impl implements C«sme.model
     	if(modelElement.getcontainer() instanceof «graphModel.name.toFirstUpper»){
             return this.c«graphModel.name.toFirstUpper»;
         }
-        «FOR EmbeddingConstraint ec:embeddingConstraints»
-        «FOR GraphicalModelElement gm : ec.validNode»
-        «IF gm.name.equals(sme.modelElement.name)»
-        if(modelElement.getcontainer() instanceof «ec.container.name.toFirstUpper»){
-            C«ec.container.name.toFirstUpper» c«ec.container.name.toFirstUpper» = new C«ec.container.name.toFirstUpper»Impl();
-            c«ec.container.name.toFirstUpper».setC«graphModel.name.toFirstUpper»(this.c«graphModel.name.toFirstUpper»);
-            c«ec.container.name.toFirstUpper».setModelElementContainer(modelElement.getcontainer());
+        «FOR StyledNode sn:nodes»
+        «IF sn.modelElement instanceof NodeContainer»
+		«IF ModelParser.isContainable(sme.modelElement,sn.modelElement as NodeContainer)»
+        if(modelElement.getcontainer() instanceof «sn.modelElement.name.toFirstUpper»){
+            C«sn.modelElement.name.toFirstUpper» c«sn.modelElement.name.toFirstUpper» = new C«sn.modelElement.name.toFirstUpper»Impl();
+            c«sn.modelElement.name.toFirstUpper».setC«graphModel.name.toFirstUpper»(this.c«graphModel.name.toFirstUpper»);
+            c«sn.modelElement.name.toFirstUpper».setModelElementContainer(modelElement.getcontainer());
+            return c«sn.modelElement.name.toFirstUpper»;
         }
         «ENDIF»
-        «ENDFOR»
+        «ENDIF»
         «ENDFOR»
     	return null;
     }
@@ -219,7 +221,7 @@ public class C«sme.modelElement.name.toFirstUpper»Impl implements C«sme.model
 		pyroRemoveNodeCommand.settime(new Date());
 		pyroRemoveNodeCommand.setdywaId(id);
 		pyroRemoveNodeCommand.settype("«sme.modelElement.name.toFirstUpper»");
-		pyroRemoveNodeCommand.setnode(this.modelElement);
+		//pyroRemoveNodeCommand.setnode(this.modelElement);
 		c«graphModel.name.toFirstUpper».getGraphModel().getpyroCommandStack_PyroCommand().add(pyroRemoveNodeCommand);
         
         
