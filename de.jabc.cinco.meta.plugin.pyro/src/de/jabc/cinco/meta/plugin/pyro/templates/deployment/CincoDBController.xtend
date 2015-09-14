@@ -319,6 +319,20 @@ public class CincoDBControllerImpl implements CincoDBController{
         «ENDIF»
         «ENDFOR»
         «ENDFOR»
+        System.out.println("Create inheritances");
+        «FOR GraphModel g:graphModels»
+        «FOR Node node: g.nodes»
+			«createInheritance(node)»
+		«ENDFOR»
+		
+		«FOR NodeContainer node: g.nodeContainers»
+			«createInheritance(node)»
+		«ENDFOR»
+
+        «FOR Edge edge: g.edges»
+			«createInheritance(edge)»
+		«ENDFOR»
+		«ENDFOR»
         System.out.println("[ok]");
         
         createProjectEnvironment(graphModel);
@@ -620,5 +634,23 @@ def getEcoreAttributeType(String type) {
 	//ENUM
 	return "PropertyType.STRING";
 }
+
+def createInheritance(Node n) '''
+«IF n.extends != null»
+this.typeController.addSuperType(«n.name.toFirstLower»,«n.extends.name.toFirstLower»);
+«ENDIF»
+'''
+
+def createInheritance(Edge n) '''
+«IF n.extends != null»
+this.typeController.addSuperType(«n.name.toFirstLower»,«n.extends.name.toFirstLower»);
+«ENDIF»
+'''
+
+def createInheritance(NodeContainer n) '''
+«IF n.extends != null»
+this.typeController.addSuperType(«n.name.toFirstLower»,«n.extends.name.toFirstLower»);
+«ENDIF»
+'''
 
 }
