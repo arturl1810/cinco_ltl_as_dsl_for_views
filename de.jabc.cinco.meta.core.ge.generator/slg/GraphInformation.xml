@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>86742e86-2110-423a-afde-6fd521759a73</id>
   <name>GraphInformation</name>
-  <changecounter>1043</changecounter>
+  <changecounter>1047</changecounter>
   <sib>
     <id>9e28dbf6-7ef4-4eef-9ad3-1d0d32bf6020</id>
     <name>GetGraphModelName</name>
@@ -2930,13 +2930,6 @@ public void setError(ECincoError error) {
     <target>2d5033c3-45db-43bb-a8ca-edfcced94c8d</target>
     <point>330.0,1733.0</point>
     <point>520.0,1673.0</point>
-    <branch>default</branch>
-  </edge>
-  <edge>
-    <source>98d63139-2542-48bb-b247-249a255b1734</source>
-    <target>3503f414-ef79-4b0d-bf9a-3ca587eb3ece</target>
-    <point>330.0,1733.0</point>
-    <point>772.5,1958.0</point>
     <branch>default</branch>
   </edge>
   <sib>
