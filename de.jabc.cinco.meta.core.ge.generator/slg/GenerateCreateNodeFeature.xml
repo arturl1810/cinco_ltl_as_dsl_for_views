@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>9b2878c2-af27-4fb3-878a-6613ed7a16c6</id>
   <name>GenerateCreateNodeFeature</name>
-  <changecounter>658</changecounter>
+  <changecounter>669</changecounter>
   <sib>
     <id>cc5a8f52-a2dd-434a-825b-350e398066fe</id>
     <name>RunStringTemplate</name>
@@ -67,14 +67,6 @@ public class Create$context.modelElementName$Feature extends AbstractCreateFeatu
 
 
 	$context.canCreateNodeContent$
-	
-	$! /*public boolean canCreate(ICreateContext context) {
-		Object target = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(context.getTargetContainer());
-		$context.containerCheck$
-		if ($context.cincoErrorCheckOk$)
-			$context.cincoErrorInvalidContainer$
-		return false;
-	}*/ !$
 
 	public Object[] create(ICreateContext context) {
 		$context.importPath$.$context.modelElementName$ $context.meIdentifier$ = $context.importPath$.$context.factoryName$Factory.eINSTANCE.create$context.modelElementName$();
@@ -97,7 +89,8 @@ public class Create$context.modelElementName$Feature extends AbstractCreateFeatu
 	}
 
 	$context.cincoErrorGetSet$
-}</string>
+}
+</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
@@ -293,7 +286,7 @@ public class Create$context.modelElementName$Feature extends AbstractCreateFeatu
     <label>GetNodePrimeReference</label>
     <sib-uid>mgl/mgl/GetNodePrimeReference</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.sib.mgl.GetNodePrimeReference</taxonomy>
-    <position>1013.0,48.0</position>
+    <position>1013.0,46.0</position>
     <parameter name="nodeKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -453,7 +446,7 @@ public class Create$context.modelElementName$Feature extends AbstractCreateFeatu
     <label>GetNodeIsAbstract</label>
     <sib-uid>mgl/mgl/GetNodeIsAbstract</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.sib.mgl.GetNodeIsAbstract</taxonomy>
-    <position>206.5,48.0</position>
+    <position>206.5,46.0</position>
     <parameter name="nodeKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>

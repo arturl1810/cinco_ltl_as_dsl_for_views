@@ -267,7 +267,7 @@ $(function(){
                     createElementInPosition(elementName,position.x,position.y);
 
                 },
-                items: getContextMenuActions()
+                items: getContextMenuActions(reminderElement)
             };
         }
 
@@ -444,6 +444,7 @@ graph.on('add', function(cell) {
     }
     cell.setLabel();
     if(!onCreationState){
+	resizeElementOnActivate(cell,cell.attributes.size.width,cell.attributes.size.height);
         styleAllEdges();
     }
     styleElements(false);
@@ -493,7 +494,7 @@ $( "#paper" ).mousemove(function(event) {
 $( "#removeModelElement" ).on( "click", function() {
     var muiId = $('#paper-link-out').attr('muiId');
     var cell = graph.getCell(muiId);
-    if(cell != null)
+    if(cell != null && cell.attributes.cinco_feature.delete === true)
     {
         cell.remove();
         displayPropertiesView(false);
@@ -557,6 +558,8 @@ $(function() {
        }
     });
 });
+
+
 
 
 

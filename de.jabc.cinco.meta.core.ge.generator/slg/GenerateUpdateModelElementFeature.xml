@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>ef7786c5-d04b-45de-89fd-b00e68b99149</id>
   <name>GenerateUpdateModelElementFeature</name>
-  <changecounter>420</changecounter>
+  <changecounter>423</changecounter>
   <sib>
     <id>b31345f6-8607-4397-986e-94a14e803be6</id>
     <name>PutExpression_1</name>
@@ -508,6 +508,8 @@ private void updateStyle($context.importPath$.$context.fuModelElementName$ bo, C
 		
 	}
 
+	if (!(getDiagramBehavior() instanceof DiagramBehavior))
+		return;
 	DiagramBehavior db = (DiagramBehavior) getDiagramBehavior();
 	if (db == null)
 		return;

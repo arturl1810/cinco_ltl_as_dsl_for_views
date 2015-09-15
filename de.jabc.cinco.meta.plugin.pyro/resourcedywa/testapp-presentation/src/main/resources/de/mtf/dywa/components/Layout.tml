@@ -20,7 +20,7 @@
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
-                        <li>${message:signin} Philip</li>
+                        <li>${message:signin} User</li>
                     </ul>
                 </div>
             </div>

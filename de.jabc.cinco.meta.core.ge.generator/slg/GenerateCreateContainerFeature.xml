@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>fb0af092-c2b0-41ca-88d1-29ad9c540729</id>
   <name>GenerateCreateContainerFeature</name>
-  <changecounter>329</changecounter>
+  <changecounter>346</changecounter>
   <sib>
     <id>9adef199-4664-4d95-b976-c83232fc48df</id>
     <name>RunStringTemplate</name>
@@ -285,8 +285,8 @@ public class Create$context.containerName$Feature extends AbstractCreateFeature 
   <edge>
     <source>dcac4a8a-6170-45c6-a56c-7e780f3c8890</source>
     <target>e11dd2c3-61f6-4d63-95a2-ebf1aa141ae9</target>
-    <point>927.0,254.0470588235294</point>
-    <point>710.0,343.47058823529414</point>
+    <point>927.0,246.83076923076922</point>
+    <point>770.0,246.92307692307693</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -389,7 +389,7 @@ public class Create$context.containerName$Feature extends AbstractCreateFeature 
     <label>GetNodeContainerIsAbstract</label>
     <sib-uid>mgl/mgl/GetNodeContainerIsAbstract</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.sib.mgl.GetNodeContainerIsAbstract</taxonomy>
-    <position>220.0,63.0</position>
+    <position>220.0,61.0</position>
     <parameter name="nodeContainerKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>

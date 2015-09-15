@@ -12,16 +12,19 @@ import mgl.Type
 import de.jabc.cinco.meta.plugin.pyro.utils.ModelParser
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.EPackage
+import mgl.NodeContainer
 
 class EditorConstraintTemplate implements Templateable{
 
 	
 	def creatNodeGroup(Entry<String, ArrayList<StyledNode>> entry) 
 	'''
+		«IF !ModelParser.getNotDisbaledCreate(entry.value).isEmpty && !(entry.value.empty)»
 		{
 			group:'«entry.key.toFirstUpper»',
 			nodes:[
-			«FOR StyledNode node : entry.value SEPARATOR ','» 
+			«FOR StyledNode node : ModelParser.getNotDisbaledCreate(entry.value) SEPARATOR ','»
+			«IF !ModelParser.isDisabledCreate(node.modelElement)»
 			«IF node.modelElement instanceof mgl.Node»
 			«IF (node.modelElement as mgl.Node).primeReference != null»
 			«ELSE»
@@ -36,9 +39,11 @@ class EditorConstraintTemplate implements Templateable{
 				label:'«node.modelElement.name.toFirstUpper»'
 			}
 			«ENDIF»
+			«ENDIF»
 			«ENDFOR»
 			]
 		}
+		«ENDIF»
 	'''
 	
 	def createEmbaddingConstraints(EmbeddingConstraint embeddingConstraint)
@@ -120,12 +125,32 @@ class EditorConstraintTemplate implements Templateable{
 		 */
 		function validateElementEmbadding(childView, parentView)
 		{
-			var embeddingName = childView.model.attributes.cinco_name;
-			var containerName = parentView.model.attributes.cinco_name;
-			var containerElement = graph.getCell(parentView.model.id);
+			if(childView.model){
+				var embeddingName = childView.model.attributes.cinco_name;
+			}
+			else{
+				var embeddingName = childView.attributes.cinco_name;
+			}
+			if(parentView.model){
+				var containerName = parentView.model.attributes.cinco_name;
+				var containerElement = graph.getCell(parentView.model.id);
+			}
+			else{
+				var containerName = parentView.attributes.cinco_name;
+				var containerElement = graph.getCell(parentView.id);
+			}
 			var embeddedElements = containerElement.getEmbeddedCells();
-		    «FOR EmbeddingConstraint ec : embeddingConstraints»
-		    «createEmbaddingConstraints(ec)»
+		    «FOR StyledNode containerSN : nodes»
+		    «IF containerSN.modelElement instanceof NodeContainer»
+		    «FOR StyledNode sn:nodes»
+			«IF ModelParser.isContainable(sn.modelElement,containerSN.modelElement as NodeContainer)»
+		    if(embeddingName == '«sn.modelElement.name.toFirstUpper»' && containerName == '«containerSN.modelElement.name.toFirstUpper»'){
+		    	//TODO Bounds
+				return true;
+			}
+		    «ENDIF»
+		    «ENDFOR»
+		    «ENDIF»
 		    «ENDFOR»
 		    return false;
 		}

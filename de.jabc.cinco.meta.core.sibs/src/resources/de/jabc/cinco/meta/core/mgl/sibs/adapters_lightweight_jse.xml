@@ -7,4 +7,11 @@
           <argument name="direction"/>         
        </arguments>
     </serviceAdapter>
+    <serviceAdapter uid="de/jabc/cinco/meta/core/mgl/sibs/GetAllSubTypes">
+       <service>getAllSubTypes</service>
+       <arguments>
+          <argument name="modelElementKey"/>
+          <argument name="subTypesKey"/>         
+       </arguments>
+    </serviceAdapter>
  </serviceAdapters>

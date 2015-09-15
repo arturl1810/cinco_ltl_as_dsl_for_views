@@ -13,6 +13,8 @@ import mgl.Type
 import mgl.Attribute
 import mgl.GraphicalModelElement
 import de.jabc.cinco.meta.plugin.pyro.utils.ModelParser
+import mgl.NodeContainer
+import java.util.prefs.NodeChangeEvent
 
 class CContainer implements ElementTemplateable{
 	
@@ -49,10 +51,9 @@ public interface C«sme.modelElement.name.toFirstUpper» extends CContainer{
     
     public List<CModelElement> getModelElements();
     
-    «FOR EmbeddingConstraint ec:embeddingConstraints»
-    «IF ec.container.name.equals(sme.modelElement.name)»
-    «createNewNode(ec)»
-    
+    «FOR StyledNode sn:nodes»
+    «IF ModelParser.isContainable(sn.modelElement,sme.modelElement as NodeContainer)»
+    «createNewNodes(sn.modelElement)»
     «ENDIF»
     «ENDFOR»
 
@@ -67,11 +68,9 @@ public interface C«sme.modelElement.name.toFirstUpper» extends CContainer{
     «createNewEdge(cc)»
     «ENDIF»
     «ENDFOR»
-	«FOR EmbeddingConstraint ec : embeddingConstraints»
-	«IF ec.container.name.equals(sme.modelElement.name)»
-	«FOR GraphicalModelElement gme:ec.validNode»
-	«createEmbedding(gme)»
-	«ENDFOR»
+	«FOR StyledNode sn:nodes»
+    «IF ModelParser.isContainable(sn.modelElement,sme.modelElement as NodeContainer)»
+	«createEmbedding(sn.modelElement)»
 	«ENDIF»
 	«ENDFOR»
 }
@@ -88,12 +87,9 @@ public interface C«sme.modelElement.name.toFirstUpper» extends CContainer{
 	public C«cc.connectingEdge.modelElement.name.toFirstUpper» newC«cc.connectingEdge.modelElement.name.toFirstUpper»(C«cc.targetNode.modelElement.name.toFirstUpper» target);
 	'''
 	
-	static def createNewNode(EmbeddingConstraint ec)
+	static def createNewNodes(GraphicalModelElement gme)
 	'''
-	«FOR GraphicalModelElement gme:ec.validNode»
 	«createNewNode(gme)»
-	
-	«ENDFOR»
 	'''
 	
 	static def createNewNode(mgl.ModelElement gme)

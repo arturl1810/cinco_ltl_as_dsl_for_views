@@ -13,6 +13,7 @@ import mgl.Type
 import mgl.Attribute
 import mgl.GraphicalModelElement
 import de.jabc.cinco.meta.plugin.pyro.utils.ModelParser
+import mgl.NodeContainer
 
 class CContainerImpl implements ElementTemplateable {
 
@@ -25,6 +26,11 @@ package de.ls5.cinco.transformation.api.«graphModel.name.toFirstLower»;
 import de.ls5.dywa.generated.entity.*;
 import de.ls5.dywa.generated.controller.*;
 import de.ls5.cinco.transformation.api.*;
+«FOR EmbeddingConstraint ec : embeddingConstraints»
+«IF ec.container.name.equals(sme.modelElement.name)»
+«createCustomeHookImports(ec, graphModel.name)»
+«ENDIF»
+«ENDFOR»
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -69,16 +75,17 @@ public class C«sme.modelElement.name.toFirstUpper»Impl implements C«sme.model
     	if(modelElement.getcontainer() instanceof «graphModel.name.toFirstUpper»){
             return this.c«graphModel.name.toFirstUpper»;
         }
-        «FOR EmbeddingConstraint ec : embeddingConstraints»
-        «FOR GraphicalModelElement gm : ec.validNode»
-        «IF gm.name.equals(sme.modelElement.name)»
-        if(modelElement.getcontainer() instanceof «ec.container.name.toFirstUpper»){
-            C«ec.container.name.toFirstUpper» c«ec.container.name.toFirstUpper» = new C«ec.container.name.toFirstUpper»Impl();
-            c«ec.container.name.toFirstUpper».setC«graphModel.name.toFirstUpper»(this.c«graphModel.name.toFirstUpper»);
-            c«ec.container.name.toFirstUpper».setModelElementContainer(modelElement.getcontainer());
+        «FOR StyledNode sn:nodes»
+        «IF sn.modelElement instanceof NodeContainer»
+		«IF ModelParser.isContainable(sme.modelElement,sn.modelElement as NodeContainer)»
+        if(modelElement.getcontainer() instanceof «sn.modelElement.name.toFirstUpper»){
+            C«sn.modelElement.name.toFirstUpper» c«sn.modelElement.name.toFirstUpper» = new C«sn.modelElement.name.toFirstUpper»Impl();
+            c«sn.modelElement.name.toFirstUpper».setC«graphModel.name.toFirstUpper»(this.c«graphModel.name.toFirstUpper»);
+            c«sn.modelElement.name.toFirstUpper».setModelElementContainer(modelElement.getcontainer());
+            return c«sn.modelElement.name.toFirstUpper»;
         }
         «ENDIF»
-        «ENDFOR»
+        «ENDIF»
         «ENDFOR»
     	return null;
     }
@@ -102,14 +109,7 @@ public class C«sme.modelElement.name.toFirstUpper»Impl implements C«sme.model
         }
         return cModelElements;
     }
-    
-    «FOR EmbeddingConstraint ec : embeddingConstraints»
-    «IF ec.container.name.equals(sme.modelElement.name)»
-    «createNewNode(ec, graphModel.name)»
-    
-    
-    «ENDIF»
-    «ENDFOR»
+    «createNewNode(sme.modelElement as NodeContainer, graphModel.name,nodes)»
 
     @Override
     public void setContainer(CModelElementContainer container) {
@@ -125,13 +125,12 @@ public class C«sme.modelElement.name.toFirstUpper»Impl implements C«sme.model
     «CNodeImpl.createEdge(cc,graphModel.name)»
     «ENDIF»
     «ENDFOR»
-	«FOR EmbeddingConstraint ec : embeddingConstraints»
-	«IF ec.container.name.equals(sme.modelElement.name)»
-	«FOR GraphicalModelElement gme : ec.validNode»
-	«createEmbedding(gme)»
-	«ENDFOR»
+	«FOR StyledNode sn:nodes»
+	«IF ModelParser.isContainable(sn.modelElement,sme.modelElement as NodeContainer)»
+	«createEmbedding(sn.modelElement)»
 	«ENDIF»
 	«ENDFOR»
+
 	
 	
 	public void addModelElement(CModelElement cModelElement) {
@@ -331,7 +330,7 @@ public class C«sme.modelElement.name.toFirstUpper»Impl implements C«sme.model
 		pyroRemoveNodeCommand.settime(new Date());
 		pyroRemoveNodeCommand.setdywaId(id);
 		pyroRemoveNodeCommand.settype("«sme.modelElement.name.toFirstUpper»");
-		pyroRemoveNodeCommand.setnode(this.modelElement);
+		//pyroRemoveNodeCommand.setnode(this.modelElement);
 		c«graphModel.name.toFirstUpper».getGraphModel().getpyroCommandStack_PyroCommand().add(pyroRemoveNodeCommand);
         
         return true;
@@ -359,39 +358,68 @@ public class C«sme.modelElement.name.toFirstUpper»Impl implements C«sme.model
 			addModelElement(node);
 		}
 	'''
+	
+	static def createCustomeHookImports(EmbeddingConstraint ec, String graphModelName)
+	'''
+	«FOR GraphicalModelElement gme : ec.validNode»
+	«IF ModelParser.isCustomeHook(gme)»
+	import de.ls5.cinco.custom.hook.«graphModelName.toFirstLower».«ModelParser.getCustomeHookName(gme).toFirstUpper»CustomHook;
+	«ENDIF»
+	«ENDFOR»
+	'''
 
 
-	static def createNewNode(EmbeddingConstraint ec, String graphModelName) '''
-		«FOR GraphicalModelElement gme : ec.validNode»
-			public C«gme.name.toFirstUpper» newC«gme.name.toFirstUpper»(long x,long y) {
-			    C«gme.name.toFirstUpper» c«gme.name.toFirstUpper» = this.c«graphModelName.toFirstUpper».newC«gme.name.toFirstUpper»(x,y);
-				c«gme.name.toFirstUpper».setContainer(this);
-				this.c«graphModelName.toFirstUpper».getGraphModel().getmodelElements_ModelElement().add(c«gme.name.toFirstUpper».getModelElement());
-				return c«gme.name.toFirstUpper»;
+	static def createNewNode(NodeContainer nc, String graphModelName, ArrayList<StyledNode> nodes) '''
+		«FOR StyledNode sn:nodes»
+    	«IF ModelParser.isContainable(sn.modelElement,nc)»
+			public C«sn.modelElement.name.toFirstUpper» newC«sn.modelElement.name.toFirstUpper»(long x,long y) {
+				return this.newC«sn.modelElement.name.toFirstUpper»(x,y,«ModelParser.getStyledNode(nodes,sn.modelElement.name).width»,«ModelParser.getStyledNode(nodes,sn.modelElement.name).height»);
 			}
 			
-			public C«gme.name.toFirstUpper» newC«gme.name.toFirstUpper»(long x,long y,long width,long height) {
-			    C«gme.name.toFirstUpper» c«gme.name.toFirstUpper» = this.c«graphModelName.toFirstUpper».newC«gme.name.toFirstUpper»(x,y);
-				c«gme.name.toFirstUpper».setContainer(this);
-				c«gme.name.toFirstUpper».setWidth(width);
-				c«gme.name.toFirstUpper».setHeight(height);
-				this.c«graphModelName.toFirstUpper».getGraphModel().getmodelElements_ModelElement().add(c«gme.name.toFirstUpper».getModelElement());
-				return c«gme.name.toFirstUpper»;
+			public C«sn.modelElement.name.toFirstUpper» newC«sn.modelElement.name.toFirstUpper»(long x,long y,long width,long height) {
+				«sn.modelElement.name.toFirstUpper» «sn.modelElement.name.toFirstLower» = this.c«graphModelName».get«sn.modelElement.name.toFirstUpper»Controller().create«sn.modelElement.name.toFirstUpper»("«sn.modelElement.name.toFirstLower»"+new Date().getTime());
+				«sn.modelElement.name.toFirstLower».setheight(height);
+				«sn.modelElement.name.toFirstLower».setwidth(width);
+				«sn.modelElement.name.toFirstLower».setangle(«ModelParser.getStyledNode(nodes,sn.modelElement.name).angle».0);
+				«sn.modelElement.name.toFirstLower».setcontainer(this.modelElement);
+				Point point = this.c«graphModelName».getPointController().createPoint("point"+new Date().getTime());
+				point.setx(x);
+				point.sety(y);
+				«sn.modelElement.name.toFirstLower».setposition(point);
+				this.modelElement.getmodelElements_ModelElement().add(«sn.modelElement.name.toFirstLower»);
+				C«sn.modelElement.name.toFirstUpper» c«sn.modelElement.name.toFirstUpper» = new C«sn.modelElement.name.toFirstUpper»Impl();
+				c«sn.modelElement.name.toFirstUpper».setModelElement(«sn.modelElement.name.toFirstLower»);
+				c«sn.modelElement.name.toFirstUpper».setC«graphModelName.toFirstUpper»(this.c«graphModelName.toFirstUpper»);
+				PyroCreateNodeCommand pyroCreateNodeCommand = this.c«graphModelName».getPyroCreateNodeCommandController().createPyroCreateNodeCommand("Create«sn.modelElement.name.toFirstUpper»" + new Date().getTime());
+				pyroCreateNodeCommand.settype("«sn.modelElement.name.toFirstUpper»");
+				pyroCreateNodeCommand.setx((double) x);
+				pyroCreateNodeCommand.sety((double) y);
+				pyroCreateNodeCommand.setdywaId(«sn.modelElement.name.toFirstLower».getId());
+				pyroCreateNodeCommand.settime(new Date());
+				this.c«graphModelName».getGraphModel().getpyroCommandStack_PyroCommand().add(pyroCreateNodeCommand);
+				«IF ModelParser.isCustomeHook(sn.modelElement)»
+				//Post Create Hook
+				«ModelParser.getCustomeHookName(sn.modelElement).toFirstUpper»CustomHook «ModelParser.getCustomeHookName(sn.modelElement).toFirstLower»CustomHook = new «ModelParser.getCustomeHookName(sn.modelElement).toFirstUpper»CustomHook();
+				if(«ModelParser.getCustomeHookName(sn.modelElement).toFirstLower»CustomHook.canExecute(c«sn.modelElement.name.toFirstUpper»)){
+					«ModelParser.getCustomeHookName(sn.modelElement).toFirstLower»CustomHook.execute(c«sn.modelElement.name.toFirstUpper»);
+				}
+				«ENDIF»
+				return c«sn.modelElement.name.toFirstUpper»;
 			}
 			
-			public C«gme.name.toFirstUpper» getC«gme.name.toFirstUpper»(«gme.name.toFirstUpper» «gme.name.toFirstLower») {
+			public C«sn.modelElement.name.toFirstUpper» getC«sn.modelElement.name.toFirstUpper»(«sn.modelElement.name.toFirstUpper» «sn.modelElement.name.toFirstLower») {
 				for(CModelElement cModelElement:getModelElements()){
-				    if(cModelElement instanceof C«gme.name.toFirstUpper» && cModelElement.getModelElement().getId() == «gme.name.toFirstLower».getId()){
-				        return (C«gme.name.toFirstUpper») cModelElement;
+				    if(cModelElement instanceof C«sn.modelElement.name.toFirstUpper» && cModelElement.getModelElement().getId() == «sn.modelElement.name.toFirstLower».getId()){
+				        return (C«sn.modelElement.name.toFirstUpper») cModelElement;
 					}
 				}
 				return null;
 			}
 			
-			public List<C«gme.name.toFirstUpper»> getC«gme.name.toFirstUpper»s() {
-				return this.getCModelElements(C«gme.name.toFirstUpper».class);
+			public List<C«sn.modelElement.name.toFirstUpper»> getC«sn.modelElement.name.toFirstUpper»s() {
+				return this.getCModelElements(C«sn.modelElement.name.toFirstUpper».class);
 			}
-			
+		«ENDIF»
 		«ENDFOR»
 	'''
 

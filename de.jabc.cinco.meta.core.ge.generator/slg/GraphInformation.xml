@@ -1477,7 +1477,7 @@
     <label>PutContainedElemementsMap</label>
     <sib-uid>collection-sibs/PutMap</sib-uid>
     <taxonomy>de.jabc.sib.common.collection.PutMap</taxonomy>
-    <position>230.0,1683.0</position>
+    <position>5.0,1623.0</position>
     <parameter name="elements">
       <map/>
     </parameter>
@@ -2861,9 +2861,16 @@ public void setError(ECincoError error) {
     <point>142.0,140.0</point>
     <branch>default</branch>
   </edge>
+  <edge>
+    <source>4dd81c41-2839-484c-ad59-e2f5ad5ba352</source>
+    <target>8ed0fee1-01cb-4db9-b60c-367f4c74cf35</target>
+    <point>1125.0,2085.0</point>
+    <point>1273.0,2117.0</point>
+    <branch>exit</branch>
+  </edge>
   <sib>
     <id>68eeb0ad-2cdf-4070-a9ec-464ac657caa1</id>
-    <name>GetNodeName</name>
+    <name>GetNodeName_1</name>
     <label>GetModelElementName</label>
     <sib-uid>mgl/mgl/GetModelElementName</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetModelElementName</taxonomy>
@@ -2889,12 +2896,41 @@ public void setError(ECincoError error) {
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
   </sib>
+  <sib>
+    <id>2d5033c3-45db-43bb-a8ca-edfcced94c8d</id>
+    <name>PutString_1</name>
+    <label>PutClassSuffix</label>
+    <sib-uid>basic-sibs/PutString</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.PutString</taxonomy>
+    <position>420.0,1623.0</position>
+    <parameter name="value">
+      <string>.class</string>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>classSuffix</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
   <edge>
-    <source>4dd81c41-2839-484c-ad59-e2f5ad5ba352</source>
-    <target>8ed0fee1-01cb-4db9-b60c-367f4c74cf35</target>
-    <point>1125.0,2085.0</point>
-    <point>1273.0,2117.0</point>
-    <branch>exit</branch>
+    <source>2d5033c3-45db-43bb-a8ca-edfcced94c8d</source>
+    <target>3503f414-ef79-4b0d-bf9a-3ca587eb3ece</target>
+    <point>520.0,1673.0</point>
+    <point>772.5,1958.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>98d63139-2542-48bb-b247-249a255b1734</source>
+    <target>2d5033c3-45db-43bb-a8ca-edfcced94c8d</target>
+    <point>330.0,1733.0</point>
+    <point>520.0,1673.0</point>
+    <branch>default</branch>
   </edge>
   <edge>
     <source>98d63139-2542-48bb-b247-249a255b1734</source>

@@ -71,6 +71,7 @@ public class NodeParser{
 				//appearance.getParent();
 				shapeAppearance = ModelParser.getInheritedAppearance(appearance);
 				
+				styledNode.setStyle(style);
 				styledNode.setBackgroundColor(shapeAppearance.getBackground());
 				styledNode.setForegroundColor(shapeAppearance.getForeground());
 				styledNode.setLineStyle(shapeAppearance.getLineStyle());
@@ -112,4 +113,6 @@ public class NodeParser{
 		}
 		return styledNodes;
 	}
+	
+	
 }

@@ -5,10 +5,13 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.core.filebuffers.manipulation.ContainerCreator;
 import org.eclipse.core.resources.IFile;
@@ -39,11 +42,19 @@ import mgl.Node;
 import mgl.NodeContainer;
 import mgl.OutgoingEdgeElementConnection;
 import mgl.UserDefinedType;
+import style.AbstractShape;
 import style.Appearance;
 import style.BooleanEnum;
 import style.Color;
+import style.ContainerShape;
+import style.Ellipse;
 import style.Font;
 import style.LineStyle;
+import style.NodeStyle;
+import style.Polygon;
+import style.Rectangle;
+import style.RoundedRectangle;
+import style.Style;
 import style.StyleFactory;
 import style.Text;
 import de.jabc.cinco.meta.core.utils.PathValidator;
@@ -51,6 +62,7 @@ import de.jabc.cinco.meta.plugin.pyro.CreatePyroPlugin;
 import de.jabc.cinco.meta.plugin.pyro.model.ConnectionConstraint;
 import de.jabc.cinco.meta.plugin.pyro.model.EmbeddingConstraint;
 import de.jabc.cinco.meta.plugin.pyro.model.LabelAlignment;
+import de.jabc.cinco.meta.plugin.pyro.model.NodeShape;
 import de.jabc.cinco.meta.plugin.pyro.model.StyledConnector;
 import de.jabc.cinco.meta.plugin.pyro.model.StyledEdge;
 import de.jabc.cinco.meta.plugin.pyro.model.StyledLabel;
@@ -60,7 +72,45 @@ import de.jabc.cinco.meta.plugin.pyro.templates.presentation.java.pages.PyroTemp
 public class ModelParser {
 	
 	public static String GROUP_ANNOTATION = "palette";
+	public static String DISABLE_ANNOTATION = "disable";
+	public static String DISABLE_MOVE_ANNOTATION = "move";
+	public static String DISABLE_CREATE_ANNOTATION = "create";
+	public static String DISABLE_DELETE_ANNOTATION = "delete";
 	
+	public static ArrayList<StyledNode> getNotDisbaledCreate(ArrayList<StyledNode> nodes){
+		ArrayList<StyledNode> notDisbaledNodes = new ArrayList<StyledNode>();
+		for(StyledNode n:nodes){
+			if(!isDisabledCreate(n.getModelElement())){
+				notDisbaledNodes.add(n);
+			}
+		}
+		return notDisbaledNodes;
+	}
+	
+	public static boolean isDisabledMove(GraphicalModelElement gme){
+		return containsDisableValue(gme, DISABLE_MOVE_ANNOTATION);
+	}
+	
+	public static boolean isDisabledCreate(GraphicalModelElement gme){
+		return containsDisableValue(gme, DISABLE_CREATE_ANNOTATION);
+	}
+	
+	public static boolean isDisabledDelete(GraphicalModelElement gme){
+		return containsDisableValue(gme, DISABLE_DELETE_ANNOTATION);
+	}
+	
+	private static boolean containsDisableValue(GraphicalModelElement gme,String value){
+		for(Annotation a:gme.getAnnotations()) {
+			if(a.getName().equals(DISABLE_ANNOTATION)){
+				for(String s:a.getValue()){
+					if(s.equals(value)){
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
 	public static GraphicalModelElement getInheritedNode(GraphicalModelElement gme){
 		if(gme instanceof Node){
 			Node node = (Node) gme;
@@ -83,6 +133,56 @@ public class ModelParser {
 		}
 		return null;
 		
+	}
+	
+	public static boolean isContainable(GraphicalModelElement containment, NodeContainer container){
+		for(GraphicalElementContainment gec:container.getContainableElements()){
+			for(GraphicalModelElement gme:gec.getTypes()) {
+				if(isContainable(gme, containment)){
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
+	private static boolean isContainable(GraphicalModelElement conditional,GraphicalModelElement containment)
+	{
+		if(conditional.getName().equals(containment.getName())){
+			return true;
+		}
+		if(containment instanceof Node){
+			if(((Node) containment ).getExtends() != null){
+				return isContainable(conditional, ((Node) containment ).getExtends());				
+			}
+		}
+		else if(containment instanceof NodeContainer){
+			if(((NodeContainer) containment ).getExtends() != null){
+				return isContainable(conditional, ((NodeContainer) containment ).getExtends());				
+			}
+		}
+		return false;
+	}
+	
+	public static boolean canContain(GraphModel c, GraphicalModelElement n) {
+		for(GraphicalElementContainment gec:c.getContainableElements()) {
+			for(GraphicalModelElement gme: gec.getTypes()){
+				if(gme.getName().equals(n.getName()) && gec.getUpperBound() > 0){
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	
+	public static StyledNode getStyledNode(ArrayList<StyledNode> nodes,String name){
+		for(StyledNode sn:nodes){
+			if(sn.getModelElement().getName().equals(name)){
+				return sn;
+			}
+		}
+		return null;
 	}
 		
 	
@@ -316,7 +416,7 @@ public class ModelParser {
 				ArrayList<GraphicalModelElement> validNodes = new ArrayList<GraphicalModelElement>();
 				
 				ec.setContainer(container);
-				if(gec.getType() == null){
+				if(gec.getTypes().isEmpty()){
 					for(Node node : graphModel.getNodes()) {
 						validNodes.add(node);
 					}
@@ -325,9 +425,11 @@ public class ModelParser {
 					}
 				}
 				else{
-					if(gec.getType() instanceof Node || gec.getType() instanceof NodeContainer) {
-						validNodes.add(gec.getType());
-					}					
+					for(GraphicalModelElement gme:gec.getTypes() ){
+						if(gme instanceof Node || gme instanceof NodeContainer) {
+							validNodes.add(gme);
+						}											
+					}
 				}
 				ec.setLowBound(gec.getLowerBound());
 				ec.setHighBound(gec.getUpperBound());
@@ -389,10 +491,40 @@ public class ModelParser {
 		return false;
 	}
 	
+	public static boolean isCustomeHook(mgl.ModelElement modelElement)
+	{
+		for(mgl.Annotation annotation:modelElement.getAnnotations()) {
+			if(annotation.getName().equals("postCreate")){
+				return true;
+			}
+		}
+		if(modelElement instanceof Node){
+			if(((Node)modelElement).getExtends() != null){
+				return isCustomeHook(((Node)modelElement).getExtends());
+			}
+		}
+		if(modelElement instanceof NodeContainer){
+			if(((NodeContainer)modelElement).getExtends() != null){
+				return isCustomeHook(((NodeContainer)modelElement).getExtends());
+			}
+		}
+		return false;
+	}
+	
 	public static boolean isCustomeAction(mgl.GraphModel modelElement)
 	{
 		for(mgl.Annotation annotation:modelElement.getAnnotations()) {
 			if(annotation.getName().equals("contextMenuAction")){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public static boolean isCustomeHook(mgl.GraphModel modelElement)
+	{
+		for(mgl.Annotation annotation:modelElement.getAnnotations()) {
+			if(annotation.getName().equals("postCreate")){
 				return true;
 			}
 		}
@@ -415,6 +547,24 @@ public class ModelParser {
 		}
 		return false;
 	}
+
+	
+	public static boolean isCustomeHookAvailable(mgl.GraphModel modelElement)
+	{
+		if(ModelParser.isCustomeHook(modelElement)) {
+			return true;
+		}
+		List<mgl.ModelElement> modelElements = new ArrayList<mgl.ModelElement>();
+		modelElements.addAll(modelElement.getEdges());
+		modelElements.addAll(modelElement.getNodeContainers());
+		modelElements.addAll(modelElement.getNodes());
+		for (mgl.ModelElement modelElement2 : modelElements) {
+			if(isCustomeHook(modelElement2)) {
+				return true;
+			}
+		}
+		return false;
+	}
 	
 	public static String getCustomeActionName(mgl.ModelElement modelElement)
 	{
@@ -422,12 +572,40 @@ public class ModelParser {
 			if(annotation.getName().equals("contextMenuAction")){
 				if(annotation.getValue().size()>=1){
 					String value = annotation.getValue().get(0);
-					String[] parts = value.split(".");
+					String[] parts = value.split("\\.");
 					if(parts.length == 0){
 						return value;
 					}
 					return parts[parts.length-1];
 				}
+			}
+		}
+		return null;
+	}
+	
+	public static String getCustomeHookName(mgl.ModelElement modelElement)
+	{
+		for(mgl.Annotation annotation:modelElement.getAnnotations()) {
+			if(annotation.getName().equals("postCreate")){
+				String prefix = "postCreate";
+				if(annotation.getValue().size()>=1){
+					String value = annotation.getValue().get(0);
+					String[] parts = value.split("\\.");
+					if(parts.length == 0){
+						return prefix+value;
+					}
+					return prefix+parts[parts.length-1];
+				}
+			}
+		}
+		if(modelElement instanceof Node){
+			if(((Node)modelElement).getExtends() != null){
+				return getCustomeHookName(((Node)modelElement).getExtends());
+			}
+		}
+		if(modelElement instanceof NodeContainer){
+			if(((NodeContainer)modelElement).getExtends() != null){
+				return getCustomeHookName(((NodeContainer)modelElement).getExtends());
 			}
 		}
 		return null;
@@ -439,12 +617,31 @@ public class ModelParser {
 			if(annotation.getName().equals("contextMenuAction")){
 				if(annotation.getValue().size()>=1){
 					String value = annotation.getValue().get(0);
-					String[] parts = value.split(".");
+					String[] parts = value.split("\\.");
 					if(parts.length == 0){
 						customeActionNames.add(value);
 					}
 					else {
 						customeActionNames.add(parts[parts.length-1]);						
+					}
+				}
+			}
+		}
+		return customeActionNames;
+	}
+	
+	public static ArrayList<String> getCustomHookNames(mgl.ModelElement modelElement){
+		ArrayList<String> customeActionNames = new ArrayList<String>();
+		for(mgl.Annotation annotation:modelElement.getAnnotations()) {
+			if(annotation.getName().equals("postCreate")){
+				if(annotation.getValue().size()>=1){
+					String value = annotation.getValue().get(0);
+					String[] parts = value.split("\\.");
+					if(parts.length == 0){
+						customeActionNames.add("PostCreate"+value);
+					}
+					else {
+						customeActionNames.add("PostCreate"+parts[parts.length-1]);						
 					}
 				}
 			}
@@ -458,12 +655,31 @@ public class ModelParser {
 			if(annotation.getName().equals("contextMenuAction")){
 				if(annotation.getValue().size()>=1){
 					String value = annotation.getValue().get(0);
-					String[] parts = value.split(".");
+					String[] parts = value.split("\\.");
 					if(parts.length == 0){
 						customeActionNames.add(value);
 					}
 					else {
 						customeActionNames.add(parts[parts.length-1]);						
+					}
+				}
+			}
+		}
+		return customeActionNames;
+	}
+	
+	public static ArrayList<String> getCustomHookNames(mgl.GraphModel modelElement){
+		ArrayList<String> customeActionNames = new ArrayList<String>();
+		for(mgl.Annotation annotation:modelElement.getAnnotations()) {
+			if(annotation.getName().equals("postCreate")){
+				if(annotation.getValue().size()>=1){
+					String value = annotation.getValue().get(0);
+					String[] parts = value.split("\\.");
+					if(parts.length == 0){
+						customeActionNames.add("PostCreate"+value);
+					}
+					else {
+						customeActionNames.add("PostCreate"+parts[parts.length-1]);						
 					}
 				}
 			}
@@ -485,12 +701,41 @@ public class ModelParser {
 		return null;
 	}
 	
+	public static String getCustomHookName(mgl.Annotation annotation){
+		if(annotation.getName().equals("postCreate")){
+			String prefix = "PostCreate";
+			if(annotation.getValue().size()>=1){
+				String value = annotation.getValue().get(0);
+				String[] parts = value.split("\\.");
+				if(parts.length == 0){
+					return prefix+value;
+				}
+				return prefix+parts[parts.length-1];
+			}
+		}
+		return null;
+	}
+	
+	public static String getFileName(String path){
+		Path p = Paths.get(path);
+		return p.getFileName().toString();
+	}
+	
 	public static String getCustomActionName(String anno){
 		String[] parts = anno.split("\\.");
 		if(parts.length == 0){
 			return anno;
 		}
 		return parts[parts.length-1];
+	}
+	
+	public static String getCustomHookName(String anno){
+		String prefix = "PostCreate";
+		String[] parts = anno.split("\\.");
+		if(parts.length == 0){
+			return anno;
+		}
+		return prefix+parts[parts.length-1];
 	}
 	
 	public static boolean isUserDefinedType(mgl.Attribute attribute,ArrayList<mgl.Type> types)
@@ -602,5 +847,44 @@ public class ModelParser {
 	public static boolean isReferencedModelType(mgl.GraphModel graphmodel,mgl.Attribute attribute){
 		return getReferencedModelType(graphmodel, attribute)!=null;
 	}
+	
+	public static Appearance getShapeAppearnce(AbstractShape shape)
+	{
+		Appearance appearance;
+		//Get the shape appearance
+		appearance = shape.getInlineAppearance();
+		if(appearance == null) {
+			appearance = shape.getReferencedAppearance();
+		}
+		//appearance.getParent();
+		return ModelParser.getInheritedAppearance(appearance);
+		
+	}
+	
+	public static Map<Text,Integer> getTextShapes(AbstractShape shape,int i){
+		Map<Text,Integer> texts = new HashMap<Text,Integer>();
+		if(shape instanceof Text){
+			texts.put((Text)shape,i);
+			return texts;
+		}
+		if(shape instanceof ContainerShape){
+			for(AbstractShape abstractShape:((ContainerShape)shape).getChildren()){
+				texts.putAll(getTextShapes(abstractShape,i+1));
+			}
+		}
+		return texts;
+		
+	}
+	
+	public static ArrayList<String> getStyleAnnotationValues(ModelElement modelElement){
+		ArrayList<String> labels = new ArrayList<String>();
+		for(Annotation annotation:modelElement.getAnnotations()){
+			if(annotation.getName().equals("style")){
+				labels.addAll(annotation.getValue().subList(1,annotation.getValue().size()));
+			}
+		}
+		return labels;
+	}
+	
 
 }

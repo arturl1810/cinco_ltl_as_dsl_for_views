@@ -6,7 +6,7 @@ var graph = new joint.dia.Graph;            // The everything
 var onCreationState = true;                 // The page is loaded
 var isDragging = false;                     // The user is dragging
 var draggedNodeType = '';                   // The dragged cinco_type
-var scaleFactor = 2;                        // The actual scale factor
+var scaleFactor = 1;                        // The actual scale factor
 var edgeTriggerWidth = 10;                  // CONST width of the border for edge creation
 var edgeStyleMode = {connector: 'normal'};  // The actual edge styling mode
 var modelingMode = 'move';                  // The actual modeling mode [move,mark]
@@ -400,7 +400,13 @@ function showPropertiesView(elementName,cincoAttributes,muiId)
         $(removeModelElement).hide();
     }
     else{
-        $(removeModelElement).show();
+	console.log()
+	if(graph.getCell(muiId).attributes.cinco_feature.delete === false){
+            $(removeModelElement).hide();
+        }
+	else{
+            $(removeModelElement).show();
+	}
     }
     bindValidators();
 }
@@ -669,21 +675,28 @@ function edgeSelection(edges,source,sourcePort,target,targetPort)
 function createElementInPosition(createdTypeLabel,x,y,cloneElement)
 {
     var type = getNodeTypeByLabel(createdTypeLabel);
+    var parent = graph.findModelsFromPoint({x:x,y:y});
     var modelElementClass = joint.shapes.devs[type.name+''];
     if('dywaId' in type){
         var element = new modelElementClass({
-            cinco_id : '5',
+            cinco_id : '0',
             cinco_prime_id: type.dywaId,
-            position: {x: (x/2), y: (y/2)}
+            position: {x: (x), y: (y)}
         });
         element.attributes.cinco_attrs[0].values = type.label;
     }
     else{
         var element = new modelElementClass({
-            cinco_id : '5',
-            position: {x: (x/2), y: (y/2)}
+            cinco_id : '0',
+            position: {x: (x), y: (y)}
         });
     }
+    if(parent.length > 0){
+        if(validateElementEmbadding(element,parent[0])){
+            parent[0].embed(element);
+        }
+    }
+
     if(cloneElement) {
         element.attributes.cinco_attrs = cloneElement.attributes.cinco_attrs;
         element.attributes.size = cloneElement.attributes.size;
@@ -718,9 +731,15 @@ function getContextMenuActions()
     if(isSelection === true) {
         if (getSelectedElement().attributes.cinco_type !== 'Edge') {
             contextMenu['step2'] = "---------";
-            contextMenu['remove'] = {name: "remove"};
-            contextMenu['copy'] = {name: "copy"};
-            contextMenu['cut'] = {name: "cut"};
+            if(getSelectedElement().attributes.cinco_feature.delete === false){
+                contextMenu['remove'] = {name: "remove"};
+            }
+            if(getSelectedElement().attributes.cinco_feature.create === false) {
+                contextMenu['copy'] = {name: "copy"};
+            }
+            if(getSelectedElement().attributes.cinco_feature.delete === false) {
+                contextMenu['cut'] = {name: "cut"};
+            }
         }
 
     }
@@ -852,6 +871,8 @@ function getNodeTypeByLabel(label)
         }
     }
 }
+
+
 
 
 

@@ -11,6 +11,9 @@ import de.jabc.cinco.meta.plugin.pyro.model.EmbeddingConstraint
 import mgl.Type
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.EPackage
+import mgl.GraphicalModelElement
+import de.jabc.cinco.meta.plugin.pyro.utils.ModelParser
+import mgl.NodeContainer
 
 class CreateMessageParser implements Templateable{
 	
@@ -58,8 +61,25 @@ public class CreateMessageParser {
         double y = Double.parseDouble(""+getPosition((JSONObject) receivedMessage.get("element")).get("y"));
 		«FOR StyledNode sn:nodes»
 		if(receivedMessage.get("name").equals("«sn.modelElement.name.toFirstUpper»")) {
-		    C«sn.modelElement.name.toFirstUpper» c«sn.modelElement.name.toFirstUpper» = c«graphModel.name.toFirstUpper».newC«sn.modelElement.name.toFirstUpper»((long)x, (long)y);
-		    
+			C«sn.modelElement.name.toFirstUpper» c«sn.modelElement.name.toFirstUpper» = null;
+			JSONObject parentElement = (JSONObject) receivedMessage.get("parent");
+			if(parentElement != null){
+				long parentId = (long) parentElement.get("cinco_id");
+				String parentType = (String) parentElement.get("cinco_name");
+				«FOR StyledNode ssn: nodes»
+				«IF ssn.modelElement instanceof NodeContainer»
+				«IF ModelParser.isContainable(sn.modelElement,ssn.modelElement as NodeContainer)»
+				if(parentType.equals("«ssn.modelElement.name.toFirstUpper»")){
+					C«ssn.modelElement.name.toFirstUpper» c«ssn.modelElement.name.toFirstUpper» = c«graphModel.name.toFirstUpper».getC«ssn.modelElement.name.toFirstUpper»(parentId);
+					c«sn.modelElement.name.toFirstUpper» = c«ssn.modelElement.name.toFirstUpper».newC«sn.modelElement.name.toFirstUpper»((long)x,(long)y);
+				}
+				«ENDIF»
+				«ENDIF»
+				«ENDFOR»
+			}
+			else{
+		    	c«sn.modelElement.name.toFirstUpper» = c«graphModel.name.toFirstUpper».newC«sn.modelElement.name.toFirstUpper»((long)x, (long)y);
+		    }
 		    «IF sn.modelElement instanceof mgl.Node»
 		    «IF (sn.modelElement as mgl.Node).primeReference != null»
 		    //Prime Attribute

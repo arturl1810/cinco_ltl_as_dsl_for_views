@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>98ab2190-4ec2-4346-85ee-61b8c0d16099</id>
   <name>GenerateMoveNodeFeature</name>
-  <changecounter>260</changecounter>
+  <changecounter>264</changecounter>
   <sib>
     <id>a757414d-68f3-478e-a5f2-cbb249a4880a</id>
     <name>RunStringTemplate_1</name>
@@ -430,7 +430,7 @@ public class Move$context.node.name$Feature extends DefaultMoveShapeFeature{
     <label>GetNodeStyleFixed</label>
     <sib-uid>style/style/GetNodeStyleFixed</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.style.sib.style.GetNodeStyleFixed</taxonomy>
-    <position>265.0,273.0</position>
+    <position>265.0,271.0</position>
     <parameter name="nodeStyleKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -489,7 +489,7 @@ public class Move$context.node.name$Feature extends DefaultMoveShapeFeature{
     <label>IsAbstract</label>
     <sib-uid>ge-util-sibs/IsAbstract</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsAbstract</taxonomy>
-    <position>264.0,33.0</position>
+    <position>264.0,31.0</position>
     <parameter name="modelElement">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>

@@ -36,7 +36,7 @@ function getData(data,cincoName,cincoType,muid,id,method,option) {
     var source = null;
     var target = null;
     var parent = null;
-    if(method === 'edit' && option === 'move'){
+    if(method === 'edit' && option === 'move' || method === 'create'){
         if(data.attributes.parent != muid){
             parent = graph.getCell(data.attributes.parent);
         }
@@ -135,6 +135,7 @@ function sendChangeSettingsCommand() {
         data: JSON.stringify(requestData)
     });
 }
+
 '''
 	
 }

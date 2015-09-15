@@ -4,10 +4,12 @@ import java.util.ArrayList;
 
 import style.LineStyle;
 import style.Color;
+import style.Style;
 import mgl.GraphicalModelElement;
 
 public class StyledModelElement {
 	private GraphicalModelElement modelElement;
+	private Style style;
 	private LineStyle lineStyle;
 	private Color foregroundColor, backgroundColor;
 	private int lineWidth;
@@ -62,6 +64,13 @@ public class StyledModelElement {
 	public void setStyledLabel(StyledLabel styledLabel) {
 		this.styledLabel = styledLabel;
 	}
+	public Style getStyle() {
+		return style;
+	}
+	public void setStyle(Style style) {
+		this.style = style;
+	}
+	
 	
 	
 	
