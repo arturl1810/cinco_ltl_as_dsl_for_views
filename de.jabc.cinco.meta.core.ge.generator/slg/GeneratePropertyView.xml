@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>bdb3d94b-23ae-447b-8e05-302a8e6e8657</id>
   <name>GeneratePropertyView</name>
-  <changecounter>907</changecounter>
+  <changecounter>923</changecounter>
   <sib>
     <id>ec5e8e19-376f-48f2-b48b-cc196b583072</id>
     <name>IterateElements_2</name>
@@ -962,7 +962,7 @@
     <label>GetAttributeName</label>
     <sib-uid>mgl/mgl/GetAttributeName</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetAttributeName</taxonomy>
-    <position>215.5,348.0</position>
+    <position>380.5,348.0</position>
     <parameter name="attributeKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -986,10 +986,12 @@
   </sib>
   <edge>
     <source>baf0687c-69fa-428a-8899-c9bb553bcb88</source>
-    <target>830f7778-10a8-42cd-9200-83074fe31c4e</target>
-    <point>123.0,366.9818181818182</point>
-    <point>252.0,366.9818181818182</point>
-    <labelposition>500.0,0.0</labelposition>
+    <target>d2373cbe-9de1-4d2b-b61f-5420363d151c</target>
+    <spline/>
+    <point>123.0,362.4</point>
+    <point>210.0,345.0</point>
+    <point>282.0,361.8</point>
+    <labelposition>592.74471566003,-20.73117694668957</labelposition>
     <branch>next</branch>
   </edge>
   <sib>
@@ -998,7 +1000,7 @@
     <label>FormatIdentifier</label>
     <sib-uid>genesys-sibs/FormatIdentifier</sib-uid>
     <taxonomy>de.jabc.sib.genesys.FormatIdentifier</taxonomy>
-    <position>356.0,348.0</position>
+    <position>386.0,243.0</position>
     <parameter name="identifier">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1185,10 +1187,12 @@
   </sib>
   <edge>
     <source>d7679ac8-578d-4a3f-940f-322093a085bb</source>
-    <target>1ec220ca-5b4d-4ae8-aa28-b1b2267bff18</target>
-    <point>423.0,493.5130434782609</point>
-    <point>732.0,614.4260869565218</point>
-    <labelposition>500.0,0.0</labelposition>
+    <target>7e9aa5fb-167b-471d-8e83-429995352d0f</target>
+    <spline/>
+    <point>414.4736842105263,504.0</point>
+    <point>465.0,600.0</point>
+    <point>567.0,617.85</point>
+    <labelposition>517.5838153230577,47.509892638375895</labelposition>
     <branch>next</branch>
   </edge>
   <sib>
@@ -1197,7 +1201,7 @@
     <label>GetAttributeName</label>
     <sib-uid>mgl/mgl/GetAttributeName</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetAttributeName</taxonomy>
-    <position>545.5,603.0</position>
+    <position>695.5,588.0</position>
     <parameter name="attributeKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1843,10 +1847,12 @@ public class $graphModelName$ViewPart extends ViewPart implements ISelectionList
   </sib>
   <edge>
     <source>203a7dc6-16bc-424e-85c2-015299d50371</source>
-    <target>739cf52d-ef6f-4da5-a760-debc2ab79166</target>
-    <point>450.0,780.0</point>
-    <point>825.0,780.0</point>
-    <labelposition>500.0,0.0</labelposition>
+    <target>5c5e4c4e-b4a4-42bb-9ab4-cf810973550f</target>
+    <spline/>
+    <point>618.0,763.8</point>
+    <point>690.0,735.0</point>
+    <point>712.1739130434783,684.0</point>
+    <labelposition>669.5252945252921,25.76178252119677</labelposition>
     <branch>next</branch>
   </edge>
   <edge>
@@ -1969,6 +1975,108 @@ public class $graphModelName$ViewPart extends ViewPart implements ISelectionList
     <branch>ReferencedType</branch>
     <branch>error</branch>
     <branch>other</branch>
+  </edge>
+  <sib>
+    <id>5c5e4c4e-b4a4-42bb-9ab4-cf810973550f</id>
+    <name>IsAttributeHidden</name>
+    <label>IsAttributeHidden</label>
+    <sib-uid>ge-util-sibs/IsAttributeHidden</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsAttributeHidden</taxonomy>
+    <position>667.5,648.0</position>
+    <parameter name="attributeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>attribute</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>false</finalbranches>
+    <finalbranches>true</finalbranches>
+  </sib>
+  <edge>
+    <source>5c5e4c4e-b4a4-42bb-9ab4-cf810973550f</source>
+    <target>203a7dc6-16bc-424e-85c2-015299d50371</target>
+    <point>705.0,705.0</point>
+    <point>611.0,759.0</point>
+    <branch>true</branch>
+  </edge>
+  <edge>
+    <source>5c5e4c4e-b4a4-42bb-9ab4-cf810973550f</source>
+    <target>739cf52d-ef6f-4da5-a760-debc2ab79166</target>
+    <point>705.0,705.0</point>
+    <point>811.0,762.0</point>
+    <branch>false</branch>
+  </edge>
+  <sib>
+    <id>7e9aa5fb-167b-471d-8e83-429995352d0f</id>
+    <name>IsAttributeHidden_1</name>
+    <label>IsAttributeHidden</label>
+    <sib-uid>ge-util-sibs/IsAttributeHidden</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsAttributeHidden</taxonomy>
+    <position>532.5,603.0</position>
+    <parameter name="attributeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>attribute</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>false</finalbranches>
+    <finalbranches>true</finalbranches>
+  </sib>
+  <edge>
+    <source>7e9aa5fb-167b-471d-8e83-429995352d0f</source>
+    <target>d7679ac8-578d-4a3f-940f-322093a085bb</target>
+    <point>585.0,630.0</point>
+    <point>424.0,497.0</point>
+    <branch>true</branch>
+  </edge>
+  <edge>
+    <source>7e9aa5fb-167b-471d-8e83-429995352d0f</source>
+    <target>1ec220ca-5b4d-4ae8-aa28-b1b2267bff18</target>
+    <point>585.0,630.0</point>
+    <point>750.0,611.0</point>
+    <branch>false</branch>
+  </edge>
+  <sib>
+    <id>d2373cbe-9de1-4d2b-b61f-5420363d151c</id>
+    <name>IsAttributeHidden_2</name>
+    <label>IsAttributeHidden</label>
+    <sib-uid>ge-util-sibs/IsAttributeHidden</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsAttributeHidden</taxonomy>
+    <position>247.5,348.0</position>
+    <parameter name="attributeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>attribute</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>false</finalbranches>
+    <finalbranches>true</finalbranches>
+  </sib>
+  <edge>
+    <source>d2373cbe-9de1-4d2b-b61f-5420363d151c</source>
+    <target>baf0687c-69fa-428a-8899-c9bb553bcb88</target>
+    <point>285.0,420.0</point>
+    <point>110.0,370.0</point>
+    <branch>true</branch>
+  </edge>
+  <edge>
+    <source>d2373cbe-9de1-4d2b-b61f-5420363d151c</source>
+    <target>830f7778-10a8-42cd-9200-83074fe31c4e</target>
+    <point>285.0,420.0</point>
+    <point>403.0,359.0</point>
+    <branch>false</branch>
   </edge>
   <values/>
   <branch>
