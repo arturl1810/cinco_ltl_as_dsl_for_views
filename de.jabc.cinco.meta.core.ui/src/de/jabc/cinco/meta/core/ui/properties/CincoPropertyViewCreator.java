@@ -139,7 +139,9 @@ public class CincoPropertyViewCreator {
 		createTreePropertyView(bo, mainComposite);
 		createSimplePropertyView(bo, mainComposite);
 
+		mainComposite.pack();
 		parent.layout(true);
+		
 		compositesMap.put(bo, mainComposite);
 		
 		lastSelectedObject = bo;
@@ -154,10 +156,9 @@ public class CincoPropertyViewCreator {
 		TreeViewer viewer = new TreeViewer(tree);
 
 		ObservableListTreeContentProvider cp = new ObservableListTreeContentProvider(
-				//TODO: Fix the CincoTreeFactory. Removing single valued attributes 
+				//FIXME: Fix the CincoTreeFactory. Removing single valued attributes 
 				// 		from the tree ends in AssertionFailedException 
 				new CincoTreeFactory(bo, emfListPropertiesMap),
-//				new CincoTreeFactoryTest(bo, referencesMap),
 				new CincoTreeStructureAdvisor(referencesMap));
 
 		viewer.setContentProvider(cp);
@@ -251,6 +252,8 @@ public class CincoPropertyViewCreator {
 			DateTime date = new DateTime(dateComposite, SWT.CALENDAR);
 //			DateTime time = new DateTime(dateComposite, SWT.TIME);
 			
+			date.setEnabled(attr.isChangeable());
+			
 			ISWTObservableValue uiPropDate = WidgetProperties.selection().observe(date);
 //			ISWTObservableValue uiPropTime = WidgetProperties.selection().observe(time);
 			
@@ -262,6 +265,9 @@ public class CincoPropertyViewCreator {
 			Combo combo = new Combo(comp, SWT.BORDER | SWT.DROP_DOWN | SWT.READ_ONLY);
 			combo.setLayoutData(textLayoutData);
 			ComboViewer cv = new ComboViewer(combo);
+			
+			combo.setEnabled(attr.isChangeable());
+			
 			cv.setContentProvider(new ArrayContentProvider());
 			if (attr.getEAttributeType() instanceof EEnum)
 				cv.setInput(((EEnum) attr.getEAttributeType()).getELiterals());
@@ -275,6 +281,8 @@ public class CincoPropertyViewCreator {
 			Text text = new Text(comp, SWT.BORDER);
 			text.setLayoutData(textLayoutData);
 			text.addModifyListener(new TextValidator(attr.getEAttributeType()));
+			
+			text.setEnabled(attr.isChangeable());
 			
 			IWidgetValueProperty uiProp = WidgetProperties.text(new int[] {
 					SWT.DefaultSelection, SWT.FocusOut });
@@ -414,9 +422,7 @@ public class CincoPropertyViewCreator {
 			TransactionalEditingDomain.Factory.INSTANCE.createEditingDomain(bo
 					.eResource().getResourceSet());
 		if (domain == null)
-			throw new RuntimeException(
-					"Could not get/create TransactionalEditingDomain for object: "
-							+ bo);
+			throw new RuntimeException("Could not get/create TransactionalEditingDomain for object: " + bo);
 		return domain;
 	}
 

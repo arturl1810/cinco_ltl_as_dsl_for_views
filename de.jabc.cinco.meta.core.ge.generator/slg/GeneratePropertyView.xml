@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>bdb3d94b-23ae-447b-8e05-302a8e6e8657</id>
   <name>GeneratePropertyView</name>
-  <changecounter>923</changecounter>
+  <changecounter>938</changecounter>
   <sib>
     <id>ec5e8e19-376f-48f2-b48b-cc196b583072</id>
     <name>IterateElements_2</name>
@@ -1201,7 +1201,7 @@
     <label>GetAttributeName</label>
     <sib-uid>mgl/mgl/GetAttributeName</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetAttributeName</taxonomy>
-    <position>695.5,588.0</position>
+    <position>695.5,603.0</position>
     <parameter name="attributeKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1266,7 +1266,7 @@
     <label>GetModelElementName</label>
     <sib-uid>mgl/mgl/GetModelElementName</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetModelElementName</taxonomy>
-    <position>185.0,603.0</position>
+    <position>155.0,603.0</position>
     <parameter name="modelElementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1662,7 +1662,7 @@ public class $graphModelName$ViewPart extends ViewPart implements ISelectionList
     <label>IterateUserDefinedTypeAttributes</label>
     <sib-uid>mgl/mgl/IterateUserDefinedTypeAttributes</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.IterateUserDefinedTypeAttributes</taxonomy>
-    <position>501.5,753.0</position>
+    <position>561.5,753.0</position>
     <parameter name="elementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1740,7 +1740,7 @@ public class $graphModelName$ViewPart extends ViewPart implements ISelectionList
     <label>SwitchType</label>
     <sib-uid>mgl/mgl/SwitchType</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.SwitchType</taxonomy>
-    <position>414.0,753.0</position>
+    <position>309.0,753.0</position>
     <parameter name="eObjectKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1774,9 +1774,9 @@ public class $graphModelName$ViewPart extends ViewPart implements ISelectionList
   </edge>
   <edge>
     <source>c763fa92-197c-4a4d-ab40-068a90bed5b9</source>
-    <target>203a7dc6-16bc-424e-85c2-015299d50371</target>
-    <point>267.0,782.0</point>
-    <point>447.0,782.0</point>
+    <target>272f9b8e-96ab-4c6b-8659-60b93db759b9</target>
+    <point>468.0,759.6857142857143</point>
+    <point>537.0,710.4</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>UserDefinedType</branch>
   </edge>
@@ -1786,7 +1786,7 @@ public class $graphModelName$ViewPart extends ViewPart implements ISelectionList
     <label>GetAttributeName</label>
     <sib-uid>mgl/mgl/GetAttributeName</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetAttributeName</taxonomy>
-    <position>770.5,753.0</position>
+    <position>890.5,753.0</position>
     <parameter name="attributeKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1814,7 +1814,7 @@ public class $graphModelName$ViewPart extends ViewPart implements ISelectionList
     <label>FormatIdentifier</label>
     <sib-uid>genesys-sibs/FormatIdentifier</sib-uid>
     <taxonomy>de.jabc.sib.genesys.FormatIdentifier</taxonomy>
-    <position>776.0,873.0</position>
+    <position>896.0,873.0</position>
     <parameter name="identifier">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1849,17 +1849,17 @@ public class $graphModelName$ViewPart extends ViewPart implements ISelectionList
     <source>203a7dc6-16bc-424e-85c2-015299d50371</source>
     <target>5c5e4c4e-b4a4-42bb-9ab4-cf810973550f</target>
     <spline/>
-    <point>618.0,763.8</point>
-    <point>690.0,735.0</point>
-    <point>712.1739130434783,684.0</point>
-    <labelposition>669.5252945252921,25.76178252119677</labelposition>
+    <point>670.0,753.0</point>
+    <point>705.0,690.0</point>
+    <point>792.0,682.5428571428571</point>
+    <labelposition>443.963771408607,-34.31970257831661</labelposition>
     <branch>next</branch>
   </edge>
   <edge>
     <source>739cf52d-ef6f-4da5-a760-debc2ab79166</source>
     <target>c5c7ec7e-8ae7-4dac-ab79-f3d57bfd8565</target>
-    <point>825.0,780.0</point>
-    <point>825.0,900.0</point>
+    <point>945.0,780.0</point>
+    <point>945.0,900.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -1869,7 +1869,7 @@ public class $graphModelName$ViewPart extends ViewPart implements ISelectionList
     <label>structuralFeatureContent</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>525.0,873.0</position>
+    <position>585.0,873.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -1895,16 +1895,16 @@ public class $graphModelName$ViewPart extends ViewPart implements ISelectionList
   <edge>
     <source>c5c7ec7e-8ae7-4dac-ab79-f3d57bfd8565</source>
     <target>1b73688a-770c-417b-9901-1144d81cc5fa</target>
-    <point>825.0,900.0</point>
-    <point>600.0,900.0</point>
+    <point>885.0,900.0</point>
+    <point>660.0,900.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
     <source>1b73688a-770c-417b-9901-1144d81cc5fa</source>
     <target>203a7dc6-16bc-424e-85c2-015299d50371</target>
-    <point>600.0,900.0</point>
-    <point>450.0,780.0</point>
+    <point>660.0,900.0</point>
+    <point>660.0,780.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -1914,7 +1914,7 @@ public class $graphModelName$ViewPart extends ViewPart implements ISelectionList
     <label>structFeatureInit</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>204.5,873.0</position>
+    <position>174.5,873.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -1982,7 +1982,7 @@ public class $graphModelName$ViewPart extends ViewPart implements ISelectionList
     <label>IsAttributeHidden</label>
     <sib-uid>ge-util-sibs/IsAttributeHidden</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsAttributeHidden</taxonomy>
-    <position>667.5,648.0</position>
+    <position>757.5,663.0</position>
     <parameter name="attributeKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -2077,6 +2077,41 @@ public class $graphModelName$ViewPart extends ViewPart implements ISelectionList
     <point>285.0,420.0</point>
     <point>403.0,359.0</point>
     <branch>false</branch>
+  </edge>
+  <sib>
+    <id>272f9b8e-96ab-4c6b-8659-60b93db759b9</id>
+    <name>RunStringTemplate_8</name>
+    <label>clearStructuralFeatureContent</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>405.5,693.0</position>
+    <parameter name="append">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>eStructuralFeatureContent</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string></string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>272f9b8e-96ab-4c6b-8659-60b93db759b9</source>
+    <target>203a7dc6-16bc-424e-85c2-015299d50371</target>
+    <point>555.0,705.0</point>
+    <point>658.0,772.0</point>
+    <branch>default</branch>
   </edge>
   <values/>
   <branch>

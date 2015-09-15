@@ -115,7 +115,7 @@ public class CincoTreeMenuListener implements IMenuListener2{
 			
 			@Override
 			public boolean isEnabled() {
-				return !(eObject.eContainer() instanceof ModelElementContainer);
+				return !(eObject instanceof ModelElementContainer);
 			}
 			
 			@Override
