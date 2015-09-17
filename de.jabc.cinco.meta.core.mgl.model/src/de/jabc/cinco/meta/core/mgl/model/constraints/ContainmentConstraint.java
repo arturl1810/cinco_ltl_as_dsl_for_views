@@ -135,12 +135,12 @@ public class ContainmentConstraint {
 	
 	
 	private  boolean isInstance(Node e) {
-		return types.stream().anyMatch(nt -> nt.isInstance(e));
+		return types.stream().anyMatch(nt -> nt.isAssignableFrom(e.getClass()));
 		
 	}
 	
 	public boolean isInTypes(Class<?> sn){
-		return types.contains(sn)||Arrays.asList(sn.getInterfaces()).stream().anyMatch(s -> types.contains(s));
+		return types.stream().anyMatch(nt -> nt.isAssignableFrom(sn));
 		
 	}
 	
