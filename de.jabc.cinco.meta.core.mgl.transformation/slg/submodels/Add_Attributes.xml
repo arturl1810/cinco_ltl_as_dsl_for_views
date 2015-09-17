@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>bb74802f-da5c-4c3e-8833-61f0124693de</id>
   <name>Add Attribute</name>
-  <changecounter>110</changecounter>
+  <changecounter>113</changecounter>
   <sib>
     <id>d5922047-b452-471d-b56f-44a40dec91d1</id>
     <name>EvaluateBoolean</name>
@@ -840,11 +840,11 @@
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
     <finalbranches>false</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>f1697c9d-a8e1-41a0-b3b0-f9ed37c4ce1f</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Create Map</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>f1697c9d-a8e1-41a0-b3b0-f9ed37c4ce1f</string>
     </userobject>
   </sib>
   <edge>
@@ -1727,11 +1727,11 @@
     <finalbranches>containment</finalbranches>
     <finalbranches>error</finalbranches>
     <finalbranches>reference</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>bf4066e0-d0d5-4b31-a7fc-dc4d22c5167b</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Create Reference Or Attribute</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>bf4066e0-d0d5-4b31-a7fc-dc4d22c5167b</string>
     </userobject>
   </sib>
   <edge>
@@ -1998,18 +1998,18 @@
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>c581d442-d8f9-46a4-9dfe-58b626e0f187</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Add Attribute Bounds</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>c581d442-d8f9-46a4-9dfe-58b626e0f187</string>
     </userobject>
   </sib>
   <edge>
     <source>c3c92bf9-748d-47b0-aa81-5a2ec46cfa38</source>
-    <target>e017a9b1-656e-44a9-bc3c-73fa09b31d90</target>
-    <point>778.6301369863014,1991.0</point>
-    <point>766.3432835820895,2163.0</point>
+    <target>4eca229a-8ff2-49ee-8a20-fc1eb392d16e</target>
+    <point>760.0,1981.1538461538462</point>
+    <point>603.0,2053.523076923077</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -2040,11 +2040,11 @@
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>c581d442-d8f9-46a4-9dfe-58b626e0f187</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Add Attribute Bounds</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>c581d442-d8f9-46a4-9dfe-58b626e0f187</string>
     </userobject>
   </sib>
   <edge>
@@ -2275,11 +2275,11 @@
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>d6802b2b-5a87-491d-b16d-556c8a7d1d62</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Add Instance Attribute</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>d6802b2b-5a87-491d-b16d-556c8a7d1d62</string>
     </userobject>
   </sib>
   <sib>
@@ -2548,8 +2548,9 @@
   <edge>
     <source>e017a9b1-656e-44a9-bc3c-73fa09b31d90</source>
     <target>5738f920-a176-40c3-806e-7fcac9c685ae</target>
-    <point>555.0,2100.0</point>
-    <point>607.0,2312.0</point>
+    <point>780.0,2139.0</point>
+    <point>780.0,2223.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>true</branch>
   </edge>
   <edge>
@@ -2832,6 +2833,41 @@
     <point>2288.0,1224.0</point>
     <branch>false</branch>
   </edge>
+  <sib>
+    <id>4eca229a-8ff2-49ee-8a20-fc1eb392d16e</id>
+    <name>GetAttributeDefaultValue_1</name>
+    <label>GetAttributeDefaultValue</label>
+    <sib-uid>mgl/mgl/GetAttributeDefaultValue</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.mgl.sib.mgl.GetAttributeDefaultValue</taxonomy>
+    <position>697.5,2028.0</position>
+    <parameter name="attributeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>attributeKey</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="attributedefaultValueKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>attributedefaultValue</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>4eca229a-8ff2-49ee-8a20-fc1eb392d16e</source>
+    <target>e017a9b1-656e-44a9-bc3c-73fa09b31d90</target>
+    <point>585.0,2070.0</point>
+    <point>784.0,2108.0</point>
+    <branch>default</branch>
+  </edge>
   <parameter>
     <name>eClassKey</name>
     <field>eClassKey</field>
@@ -2926,6 +2962,11 @@
     <name>attributeKey</name>
     <field>attributeKey</field>
     <sib>3d7f9dfd-e9c0-4605-b566-fce389d429a6</sib>
+  </parameter>
+  <parameter>
+    <name>attributeKey</name>
+    <field>attributeKey</field>
+    <sib>4eca229a-8ff2-49ee-8a20-fc1eb392d16e</sib>
   </parameter>
   <values>
     <entry>
@@ -3348,5 +3389,10 @@
     <name>error</name>
     <branch>error</branch>
     <sib>f1eee804-7fc9-420a-91a5-c7acacd9aaa4</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>4eca229a-8ff2-49ee-8a20-fc1eb392d16e</sib>
   </branch>
 </model>

@@ -2,16 +2,16 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Cinco Product Definition
 Bundle-SymbolicName: de.jabc.cinco.meta.productdefinition.model;singleton:=true
-Bundle-Version: 0.6.0.qualifier
+Bundle-Version: 0.7.0.qualifier
 Bundle-ClassPath: .
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: ProductDefinition,
  ProductDefinition.impl,
  ProductDefinition.util
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport,
- de.jabc.cinco.meta.core.mgl.model;visibility:=reexport;bundle-version="0.4.0",
+ de.jabc.cinco.meta.core.mgl.model;bundle-version="0.4.0";visibility:=reexport,
  de.jabc.cinco.meta.core.ge.style.model;bundle-version="0.4.0"
 Bundle-ActivationPolicy: lazy

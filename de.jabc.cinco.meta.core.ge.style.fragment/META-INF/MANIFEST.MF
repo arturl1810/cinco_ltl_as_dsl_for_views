@@ -2,9 +2,9 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Fragment
 Bundle-SymbolicName: de.jabc.cinco.meta.core.ge.style.fragment;singleton:=true
-Bundle-Version: 0.6.0.qualifier
+Bundle-Version: 0.7.0.qualifier
 Fragment-Host: de.jabc.cinco.meta.core.pluginregistry
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: de.jabc.cinco.meta.core.ge.style.model,
  org.eclipse.core.resources
 Import-Package: de.jabc.cinco.meta.core.utils,

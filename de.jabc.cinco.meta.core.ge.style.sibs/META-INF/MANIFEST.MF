@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Style SIBs
 Bundle-SymbolicName: de.jabc.cinco.meta.core.ge.style.sibs
-Bundle-Version: 0.6.0.qualifier
+Bundle-Version: 0.7.0.qualifier
 Bundle-Activator: de.jabc.cinco.meta.core.ge.style.sibs.Activator
 Require-Bundle: org.eclipse.core.runtime,
  de.jabc.cinco.meta.core.mgl.model,
@@ -10,7 +10,7 @@ Require-Bundle: org.eclipse.core.runtime,
  de.jabc.cinco.meta.core.ge.style.model,
  de.jabc.cinco.meta.libraries,
  org.eclipse.xtext.util
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Export-Package: de.jabc.cinco.meta.core.ge.style.sibs,de.jabc.cinco.me
  ta.core.ge.style.sibs.adapter,de.jabc.cinco.meta.core.ge.style.sibs.c

@@ -30,7 +30,6 @@ public class GeneratorHelper {
 				GenModel genModel = (GenModel) o;
 				for (GenPackage gm : genModel.getUsedGenPackages()) {
 					if (!gm.getGenModel().equals(genModel)) {
-						System.err.println("ADDING USED GENMODEL:\n"+ gm);
 						genModel.getUsedGenPackages().add(gm);
 					}
 				}

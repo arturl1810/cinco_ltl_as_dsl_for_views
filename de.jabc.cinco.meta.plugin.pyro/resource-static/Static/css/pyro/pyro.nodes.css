@@ -1,0 +1,9 @@
+/* CSS for Nodes */
+.devs.Activity .label{
+    font-size: 6px;
+    font-family: Arial, 'Lucida Sans Unicode', sans-serif
+}
+.devs.Swimlane .label{
+    font-size: 6px;
+    font-family: Arial, 'Lucida Sans Unicode', sans-serif
+}

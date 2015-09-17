@@ -2,14 +2,14 @@
 <model version="2.1">
   <id>0d0bb94f-e4a8-4614-bd88-5a867e133c4c</id>
   <name>GenerateModelElementEContentAdapter</name>
-  <changecounter>115</changecounter>
+  <changecounter>214</changecounter>
   <sib>
     <id>c516040b-59e6-4c24-89ca-20ac4f67f7ab</id>
     <name>CopyEObject</name>
     <label>CopyEObject</label>
     <sib-uid>utility-sibs/CopyEObject</sib-uid>
     <taxonomy>transem.utility.sib.CopyEObject</taxonomy>
-    <position>61.5,48.0</position>
+    <position>61.5,18.0</position>
     <parameter name="copiedEObjectKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -40,7 +40,7 @@
     <label>PkgName</label>
     <sib-uid>basic-sibs/PutExpression</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
-    <position>296.5,423.0</position>
+    <position>386.5,243.0</position>
     <parameter name="resolve">
       <boolean>true</boolean>
     </parameter>
@@ -68,8 +68,8 @@
   <edge>
     <source>3d1eaaa5-32aa-4f7b-a3a7-4890714b4c46</source>
     <target>2f4903fc-5699-4a7a-9725-1da8cbc15863</target>
-    <point>315.0,525.0</point>
-    <point>315.0,390.0</point>
+    <point>330.0,495.0</point>
+    <point>330.0,375.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -79,7 +79,7 @@
     <label>ClassName</label>
     <sib-uid>basic-sibs/PutExpression</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
-    <position>290.5,303.0</position>
+    <position>380.5,138.0</position>
     <parameter name="resolve">
       <boolean>true</boolean>
     </parameter>
@@ -106,9 +106,9 @@
   </sib>
   <edge>
     <source>2f4903fc-5699-4a7a-9725-1da8cbc15863</source>
-    <target>f8c970a5-5bc4-40d1-8867-c7a51c1f910d</target>
-    <point>315.0,390.0</point>
-    <point>315.0,285.0</point>
+    <target>a18971a2-d827-46e0-a296-5121d677d849</target>
+    <point>438.0,148.35</point>
+    <point>520.0,107.5</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -118,7 +118,7 @@
     <label>ModelElementEContentAdapter</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>226.0,183.0</position>
+    <position>601.0,18.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -141,6 +141,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.IUpdateFeature;
 import org.eclipse.graphiti.features.context.impl.UpdateContext;
@@ -150,7 +151,7 @@ import org.eclipse.graphiti.ui.platform.GFPropertySection;
 
 $context.appearanceProviderImportsContent$
 
-import $context.importPath$.*;
+
 
 public class $context.fuModelElementName$EContentAdapter extends $context.graphModelName$EContentAdapter{
 
@@ -166,8 +167,13 @@ public class $context.fuModelElementName$EContentAdapter extends $context.graphM
 	@Override
 	public void notifyChanged(Notification notification) {
 		Object o = notification.getNotifier();
-		if (o instanceof $context.fuModelElementName$) {
-			$context.fuModelElementName$ tmp = ($context.fuModelElementName$) o;
+		String featureName = ((EStructuralFeature) notification.getFeature()).getName();
+		if (invalidFeature(featureName))
+			return;
+		if (o instanceof $context.importPath$.$context.fuModelElementName$) {
+			$context.importPath$.$context.fuModelElementName$ tmp = ($context.importPath$.$context.fuModelElementName$) o;
+			if (getDiagram() == null)
+				return;
 			List&lt;PictogramElement&gt; pes = Graphiti.getLinkService().getPictogramElements(getDiagram(), tmp);
 			if (pes == null || pes.isEmpty())
 				return;
@@ -183,12 +189,29 @@ public class $context.fuModelElementName$EContentAdapter extends $context.graphM
 				uf.update(uContext);
 			}
 			$context.appearanceProviderExtensionContent$
+			
+			$context.valueChangeListenerContent$
 		}
 		
 		refreshPropertyView();
 	}
 	
 	$context.updateProviderContent$
+
+	private boolean invalidFeature(String featureName) {
+		switch (featureName) {
+		case &quot;incoming&quot;:
+		case &quot;outgoing&quot;:
+		case &quot;sourceElement&quot;:
+		case &quot;targetElement&quot;:
+		case &quot;modelElements&quot;:
+			return true;
+
+		default:
+			break;
+		}
+		return false;
+	}
 
 }
 </string>
@@ -210,7 +233,7 @@ public class $context.fuModelElementName$EContentAdapter extends $context.graphM
     <label>WriteJavaFile</label>
     <sib-uid>genesys-sibs/WriteJavaFile</sib-uid>
     <taxonomy>de.jabc.sib.genesys.WriteJavaFile</taxonomy>
-    <position>283.0,63.0</position>
+    <position>658.0,138.0</position>
     <parameter name="baseDirectory">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -266,9 +289,9 @@ public class $context.fuModelElementName$EContentAdapter extends $context.graphM
   </sib>
   <edge>
     <source>c516040b-59e6-4c24-89ca-20ac4f67f7ab</source>
-    <target>62928d36-3708-4c23-8070-bd5fdff81882</target>
-    <point>123.0,79.2</point>
-    <point>222.0,145.2</point>
+    <target>efa0ae38-7d1b-40b2-aa33-1cc90f4ffb06</target>
+    <point>123.0,52.971428571428575</point>
+    <point>192.0,112.1142857142857</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -278,7 +301,7 @@ public class $context.fuModelElementName$EContentAdapter extends $context.graphM
     <label>PutExpression</label>
     <sib-uid>basic-sibs/PutExpression</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
-    <position>280.5,573.0</position>
+    <position>370.5,363.0</position>
     <parameter name="resolve">
       <boolean>true</boolean>
     </parameter>
@@ -491,7 +514,7 @@ public class $context.fuModelElementName$EContentAdapter extends $context.graphM
     <label>ReplaceString</label>
     <sib-uid>basic-sibs/ReplaceString</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.ReplaceString</taxonomy>
-    <position>56.5,978.0</position>
+    <position>371.5,858.0</position>
     <parameter name="find">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
@@ -556,7 +579,7 @@ public class $context.fuModelElementName$EContentAdapter extends $context.graphM
     <label>updateProviderCode</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>260.5,978.0</position>
+    <position>350.5,738.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -573,31 +596,31 @@ public class $context.fuModelElementName$EContentAdapter extends $context.graphM
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>private void updateStyle($context.fuModelElementName$ bo, Shape s) {
+      <string>private void updateStyle($context.importPath$.$context.fuModelElementName$ bo, Shape s) {
 	String gaName = Graphiti.getPeService().getPropertyValue(s.getGraphicsAlgorithm(), $context.graphModelName$LayoutUtils.KEY_GA_NAME);
 	if (gaName != null &amp;&amp; !gaName.isEmpty()) {
 		$context.graphModelName$LayoutUtils.updateStyleFromAppearance(s.getGraphicsAlgorithm(), new $context.appearanceProvider$().getAppearance(bo, gaName), getDiagram());
 	}
 	Object object = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(s);
-	if (object instanceof $context.fuModelElementName$) {
+	if (object instanceof $context.importPath$.$context.fuModelElementName$) {
 		if (s instanceof ContainerShape) {
 			for (Shape g : ((ContainerShape) s).getChildren()) {
-				updateStyle(($context.fuModelElementName$) object, g);
+				updateStyle(($context.importPath$.$context.fuModelElementName$) object, g);
 			}
 		}
 	}
 }
 
-private void updateStyle($context.fuModelElementName$ bo, Connection s) {
+private void updateStyle($context.importPath$.$context.fuModelElementName$ bo, Connection s) {
 	String gaName = Graphiti.getPeService().getPropertyValue(s.getGraphicsAlgorithm(), $context.graphModelName$LayoutUtils.KEY_GA_NAME);
 	if (gaName != null &amp;&amp; !gaName.isEmpty()) {
 		$context.graphModelName$LayoutUtils.updateStyleFromAppearance(s.getGraphicsAlgorithm(), new $context.appearanceProvider$().getAppearance(bo, gaName), getDiagram());
 	}
 	Object object = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(s);
-	if (object instanceof $context.fuModelElementName$) {
+	if (object instanceof $context.importPath$.$context.fuModelElementName$) {
 		
 		for (Shape g : s.getConnectionDecorators()) {
-			updateStyle(($context.fuModelElementName$) object, g);
+			updateStyle(($context.importPath$.$context.fuModelElementName$) object, g);
 		}
 		
 	}
@@ -609,8 +632,8 @@ private void updateStyle($context.fuModelElementName$ bo, Connection s) {
   <edge>
     <source>2c726e8b-137e-4af6-85f4-e5446f114b0d</source>
     <target>8b57c2a0-8fc8-4edd-9b42-4a29fa2b7938</target>
-    <point>820.0,646.0</point>
-    <point>835.0,766.0</point>
+    <point>420.0,900.0</point>
+    <point>420.0,795.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -620,7 +643,7 @@ private void updateStyle($context.fuModelElementName$ bo, Connection s) {
     <label>updateExtension</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>272.0,873.0</position>
+    <position>362.0,633.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -651,8 +674,8 @@ if (pe instanceof ConnectionDecorator) {
   <edge>
     <source>8b57c2a0-8fc8-4edd-9b42-4a29fa2b7938</source>
     <target>98910124-3d02-410c-8842-42ae0e376db6</target>
-    <point>315.0,1005.0</point>
-    <point>315.0,915.0</point>
+    <point>420.0,795.0</point>
+    <point>420.0,675.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -662,7 +685,7 @@ if (pe instanceof ConnectionDecorator) {
     <label>imports</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>302.0,753.0</position>
+    <position>392.0,498.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -687,8 +710,8 @@ if (pe instanceof ConnectionDecorator) {
   <edge>
     <source>98910124-3d02-410c-8842-42ae0e376db6</source>
     <target>c8fb2891-3c66-4df5-b8a5-1a74fb25fb7c</target>
-    <point>315.0,915.0</point>
-    <point>315.0,795.0</point>
+    <point>420.0,675.0</point>
+    <point>420.0,495.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -719,11 +742,11 @@ if (pe instanceof ConnectionDecorator) {
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>843b7fe1-9b8e-4b49-94ab-777e60336bda</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>CheckStyleAnnotation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>843b7fe1-9b8e-4b49-94ab-777e60336bda</string>
     </userobject>
   </sib>
   <edge>
@@ -814,6 +837,65 @@ if (pe instanceof ConnectionDecorator) {
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
+  <sib>
+    <id>efa0ae38-7d1b-40b2-aa33-1cc90f4ffb06</id>
+    <name>IsAbstract</name>
+    <label>IsAbstract</label>
+    <sib-uid>ge-util-sibs/IsAbstract</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsAbstract</taxonomy>
+    <position>189.0,18.0</position>
+    <parameter name="modelElement">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>modelElement</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>false</finalbranches>
+    <finalbranches>true</finalbranches>
+  </sib>
+  <edge>
+    <source>efa0ae38-7d1b-40b2-aa33-1cc90f4ffb06</source>
+    <target>62928d36-3708-4c23-8070-bd5fdff81882</target>
+    <point>210.0,135.0</point>
+    <point>119.0,162.0</point>
+    <branch>false</branch>
+  </edge>
+  <edge>
+    <source>a18971a2-d827-46e0-a296-5121d677d849</source>
+    <target>f8c970a5-5bc4-40d1-8867-c7a51c1f910d</target>
+    <point>560.0,89.81818181818181</point>
+    <point>687.0,43.52727272727273</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>a18971a2-d827-46e0-a296-5121d677d849</id>
+    <name>GraphSIB_1</name>
+    <label>GenerateModelElementValueChangeListener</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>290.0,16.0</position>
+    <parameter name="eObjectKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>modelElement</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>GenerateModelElementValueChangeListener</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>aadeeb9b-d43e-4af2-a6bb-f7ce9e348c34</string>
+    </userobject>
+  </sib>
   <parameter>
     <name>ModelElementKey</name>
     <field>eObjectKey</field>
@@ -925,5 +1007,10 @@ if (pe instanceof ConnectionDecorator) {
     <name>error</name>
     <branch>error</branch>
     <sib>98910124-3d02-410c-8842-42ae0e376db6</sib>
+  </branch>
+  <branch>
+    <name>default</name>
+    <branch>true</branch>
+    <sib>efa0ae38-7d1b-40b2-aa33-1cc90f4ffb06</sib>
   </branch>
 </model>

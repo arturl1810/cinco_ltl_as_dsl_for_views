@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>ea6aca34-ec03-4ba1-99b7-4fc762288fa2</id>
   <name>GenerateSingleStringCode</name>
-  <changecounter>342</changecounter>
+  <changecounter>441</changecounter>
   <sib>
     <id>21749b0f-12f8-4797-81b9-3f0453fbf22c</id>
     <name>RunStringTemplate</name>
@@ -58,8 +58,8 @@ $context.flAttributeName$Text.setSelection($context.flAttributeName$Text.getText
     </parameter>
     <parameter name="template">
       <string>EObject tmp = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
-if (tmp instanceof $context.modelElementName$) {
-	(($context.modelElementName$) tmp).set$context.fuAttributeName$($context.flAttributeName$Text.getText().trim());
+if (tmp instanceof $context.importPath$.$context.modelElementName$) {
+	(($context.importPath$.$context.modelElementName$) tmp).set$context.fuAttributeName$($context.flAttributeName$Text.getText().trim());
 	oldVal = $context.flAttributeName$Text.getText().trim();
 }
 </string>
@@ -106,18 +106,18 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
 	data.left = new FormAttachment(0, $context.width$);
 	data.right = new FormAttachment(100, 0);
 	data.top = new FormAttachment(0, ITabbedPropertyConstants.VSPACE);
-	$context.attributeName$Text.setLayoutData(data);
+	$context.flAttributeName$Text.setLayoutData(data);
 	$context.notChangeableContent$
 
-	Label $context.attribute.name$Label = factory.createLabel(composite, &quot;$context.fuAttributeName$:&quot;);
+	Label $context.flAttributeName$Label = factory.createLabel(composite, &quot;$context.fuAttributeName$:&quot;);
 	data = new FormData();
 	data.left = new FormAttachment(0, 0);
 	data.right = new FormAttachment($context.flAttributeName$Text, -ITabbedPropertyConstants.HSPACE);
 	data.top = new FormAttachment($context.flAttributeName$Text, 0, SWT.CENTER);
-	$context.attributeName$Label.setLayoutData(data);
+	$context.flAttributeName$Label.setLayoutData(data);
 
-	$context.attributeName$Text.addTraverseListener(traverseListener);
-	$context.attributeName$Text.addFocusListener(focusListener);
+	$context.flAttributeName$Text.addTraverseListener(traverseListener);
+	$context.flAttributeName$Text.addFocusListener(focusListener);
 }
 </string>
     </parameter>
@@ -155,7 +155,38 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>TraverseListener traverseListener = new TraverseListener() {
+      <string>KeyListener keyListener = new KeyListener() {
+		
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public void keyPressed(KeyEvent e) {
+		if (e.keyCode == SWT.CR &amp;&amp; e.stateMask == SWT.CONTROL) {
+			e.doit = false;
+			if (oldVal.equals($context.flAttributeName$Text.getText()))
+				return;
+			TransactionalEditingDomain dom = getDiagramContainer().getDiagramBehavior().getEditingDomain();
+			dom.getCommandStack().execute(new RecordingCommand(dom, &quot;Set documentation&quot;) {
+				
+				@Override
+				protected void doExecute() {
+					int caretPos = $context.flAttributeName$Text.getCaretPosition();
+					changeValue();
+					$context.flAttributeName$Text.setSelection(caretPos);
+				}
+			});
+		}
+		if (e.keyCode == SWT.ESC) {
+			refresh();
+		}
+	}
+};
+
+TraverseListener traverseListener = new TraverseListener() {
 		
 	@Override
 	public void keyTraversed(TraverseEvent e) {
@@ -167,7 +198,9 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
 				
 				@Override
 				protected void doExecute() {
+					int caretPos = $context.flAttributeName$Text.getCaretPosition();
 					changeValue();
+					$context.flAttributeName$Text.setSelection(caretPos);
 				}
 			});
 		}
@@ -189,7 +222,9 @@ FocusListener focusListener = new FocusListener() {
 			
 			@Override
 			protected void doExecute() {
-					changeValue();
+				int caretPos = $context.flAttributeName$Text.getCaretPosition();
+				changeValue();
+				$context.flAttributeName$Text.setSelection(caretPos);
 			}
 		});
 	}
@@ -351,15 +386,15 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
 	data.top = new FormAttachment(0, ITabbedPropertyConstants.VSPACE);
 	$context.attributeName$Text.setLayoutData(data);
 
-	Label $context.attribute.name$Label = factory.createLabel(composite, &quot;$context.fuAttributeName$:&quot;);
+	Label $context.flAttributeName$Label = factory.createLabel(composite, &quot;$context.fuAttributeName$:&quot;);
 	data = new FormData();
 	data.left = new FormAttachment(0, 0);
 	data.right = new FormAttachment($context.flAttributeName$Text, -ITabbedPropertyConstants.HSPACE);
 	data.top = new FormAttachment($context.flAttributeName$Text, 0, SWT.CENTER);
-	$context.attributeName$Label.setLayoutData(data);
+	$context.attributeNamecontext.flAttributeNameLabel.setLayoutData(data);
 	
-	$context.attributeName$Text.setEditable(false);
-	$context.attributeName$Text.setEnabled(false);
+	$context.flAttributeName$Text.setEditable(false);
+	$context.flAttributeName$Text.setEnabled(false);
 
 }
 </string>
@@ -407,9 +442,9 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>EObject bo = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
-if (bo instanceof $context.modelElementName$) {
-	$context.modelElementName$ tmp = ($context.modelElementName$) bo;
+      <string>EObject bo = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(getSelectedPictogramElement());
+if (bo instanceof $context.importPath$.$context.modelElementName$) {
+	$context.importPath$.$context.modelElementName$ tmp = ($context.importPath$.$context.modelElementName$) bo;
 	if (tmp.get$context.fuAttributeName$Parameter().get(0) != null)
 		tmp.get$context.fuAttributeName$Parameter().get(0).setInstance($context.flAttributeName$Text.getText().trim());
 	
@@ -547,18 +582,18 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
 	data.right = new FormAttachment(100, 0);
 	data.top = new FormAttachment(0, ITabbedPropertyConstants.VSPACE);
 	data.bottom = new FormAttachment(0, 80);
-	$context.attributeName$Text.setLayoutData(data);
+	$context.flAttributeName$Text.setLayoutData(data);
 	$context.notChangeableContent$
 
-	Label $context.attribute.name$Label = factory.createLabel(composite, &quot;$context.fuAttributeName$:&quot;);
+	Label $context.flAttributeName$Label = factory.createLabel(composite, &quot;$context.fuAttributeName$:&quot;);
 	data = new FormData();
 	data.left = new FormAttachment(0, 0);
 	data.right = new FormAttachment($context.flAttributeName$Text, -ITabbedPropertyConstants.HSPACE);
 	data.top = new FormAttachment($context.flAttributeName$Text, 0, SWT.TOP);
-	$context.attributeName$Label.setLayoutData(data);
+	$context.flAttributeName$Label.setLayoutData(data);
 
-	$context.attributeName$Text.addTraverseListener(traverseListener);
-	$context.attributeName$Text.addFocusListener(focusListener);
+	$context.flAttributeName$Text.addKeyListener(keyListener);
+	$context.flAttributeName$Text.addFocusListener(focusListener);
 }
 </string>
     </parameter>
@@ -641,8 +676,8 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
     </parameter>
     <parameter name="template">
       <string>//EObject tmp = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
-//if (tmp instanceof $context.modelElementName$) {
-//	(($context.modelElementName$) tmp).set$context.fuAttributeName$($context.flAttributeName$Text.getText().trim());
+//if (tmp instanceof $context.importPath$.$context.modelElementName$) {
+//	(($context.importPath$.$context.modelElementName$) tmp).set$context.fuAttributeName$($context.flAttributeName$Text.getText().trim());
 //}
 </string>
     </parameter>
@@ -775,7 +810,7 @@ $context.flAttributeName$Text.setSelection($context.flAttributeName$Text.getText
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>$context.attributeName$Text.setEnabled(!$context.attribute.notChangeable$);</string>
+      <string>$context.flAttributeName$Text.setEnabled(!$context.attribute.notChangeable$ &amp;&amp; !$context.isReadOnly$);</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
@@ -803,7 +838,7 @@ $context.flAttributeName$Text.setSelection($context.flAttributeName$Text.getText
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>$context.attributeName$Text.setEnabled(!$context.attribute.notChangeable$);</string>
+      <string>$context.flAttributeName$Text.setEnabled(!$context.attribute.notChangeable$ &amp;&amp; !$context.isReadOnly$);</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>

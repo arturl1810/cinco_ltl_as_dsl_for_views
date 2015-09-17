@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Pluginregistry
 Bundle-SymbolicName: de.jabc.cinco.meta.core.pluginregistry;singleton:=true
-Bundle-Version: 0.6.0.qualifier
+Bundle-Version: 0.7.0.qualifier
 Bundle-Activator: de.jabc.cinco.meta.core.pluginregistry.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
@@ -17,4 +17,4 @@ Import-Package: org.eclipse.xtend.typesystem.emf,
 Export-Package: de.jabc.cinco.meta.core.pluginregistry,de.jabc.cinco.m
  eta.core.pluginregistry.impl,de.jabc.cinco.meta.core.pluginregistry.p
  roposalprovider,de.jabc.cinco.meta.core.pluginregistry.validation
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8

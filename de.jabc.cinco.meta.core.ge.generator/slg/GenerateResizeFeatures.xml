@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>f159d8f0-e8b9-4834-89e0-bf3575687fe6</id>
   <name>GenerateResizeFeatures</name>
-  <changecounter>123</changecounter>
+  <changecounter>130</changecounter>
   <sib>
     <id>cb2c4b69-1ec8-4d0c-b400-1bb4a320ae7e</id>
     <name>IterateElements</name>
@@ -59,11 +59,11 @@
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>bd602dcf-2ea3-4585-953e-853c0406cc4e</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>GenerateResizeModelElementFeature</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>bd602dcf-2ea3-4585-953e-853c0406cc4e</string>
     </userobject>
   </sib>
   <edge>
@@ -128,7 +128,7 @@ public class Resize$context.graphModelName$Feature extends DefaultResizeShapeFea
 	@Override
 	public boolean canResizeShape(IResizeShapeContext context) {
 			Object bo = getBusinessObjectForPictogramElement(context.getPictogramElement());
-			return (bo instanceof $context.graphModelName$);
+			return (bo instanceof $context.importPath$.$context.graphModelName$);
 	}
 	
 	@Override
@@ -399,11 +399,11 @@ public class Resize$context.graphModelName$Feature extends DefaultResizeShapeFea
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>bd602dcf-2ea3-4585-953e-853c0406cc4e</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>GenerateResizeModelElementFeature</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>bd602dcf-2ea3-4585-953e-853c0406cc4e</string>
     </userobject>
   </sib>
   <edge>

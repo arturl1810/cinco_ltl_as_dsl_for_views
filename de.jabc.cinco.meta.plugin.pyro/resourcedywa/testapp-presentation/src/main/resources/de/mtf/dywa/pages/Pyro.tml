@@ -1,0 +1,50 @@
+<html t:type="pyroLayout" title="testapp-presentation Index"
+      t:sidebarTitle="Framework Version"
+      xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd"
+      xmlns:p="tapestry:parameter">
+      <t:alerts fwtype="alert"/>
+      <!-- Context Menu elements -->
+      <div id="imagecontainer"></div>
+      <div id="edgeContextMenu"></div>
+      <div id="elementChange"></div>
+      <!-- Menu View -->
+      <div class="row">
+            <div class="col-lg-12">
+                  <t:menubar.Menu t:openedProject="openedProject" t:openedGraphModel="openedGraphModel"/>
+            </div>
+      </div>
+      <div class="row">
+            <t:if test="openedGraphModel">
+            <div id="miniMenu" class="col-sm-2">
+                  <button id="maximizeMenu" type="button" class="btn btn-default btn-sm">
+                        <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span> Menu
+                  </button>
+            </div>
+            </t:if>
+            <div class="col-sm-2">
+                  <div class="btn-group" role="group">
+                  <t:modals.graph.newgraphdialog t:linkCss="graphCreateCss" t:project="openedProject"/>
+                  <t:unless test="projectEmpty">
+                        <t:modals.graph.removegraphdialog t:project="openedProject" t:graphToRemove="openedGraphModel"/>
+                  </t:unless>
+                  </div>
+            </div>
+            <div id="graphTabs" class="col-sm-10">
+                  <ul class="nav nav-tabs">
+                        <t:unless test="projectEmpty">
+                              <t:loop source="graphs" t:value="iteratedGraph">
+                                    <li role="presentation" class="${activeGraphLiCss}">
+                                          <t:pagelink t:context="[openedProject.id,iteratedGraph.id]" class="${activeGraphACss}" page="pyro">
+                                                ${iteratedGraph.name}
+                                          </t:pagelink>
+
+                                    </li>
+                              </t:loop>
+                        </t:unless>
+                  </ul>
+            </div>
+      </div>
+      <t:if test="openedGraphModel">
+          <t:canvas.modelingcanvas t:openProject="openedProject" t:openGraph="openedGraphModel"/>
+      </t:if>
+</html>

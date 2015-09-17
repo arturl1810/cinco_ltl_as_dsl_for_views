@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>b2a34056-d5cd-4de8-9af8-7b51a4f248b2</id>
   <name>GenerateImageProvider</name>
-  <changecounter>157</changecounter>
+  <changecounter>162</changecounter>
   <sib>
     <id>64a32e2e-03eb-437a-8d64-183fed477869</id>
     <name>PutExpression</name>
@@ -157,7 +157,7 @@ public class $context.graphModelName$ImageProvider extends AbstractImageProvider
 	}
 
 	public void initImages() {
-		Bundle b = Platform.getBundle(&quot;$context.projectName$&quot;);
+		Bundle b = Platform.getBundle(&quot;$context.projectID$&quot;);
 		File file;
 		try {
 			URL url = null;

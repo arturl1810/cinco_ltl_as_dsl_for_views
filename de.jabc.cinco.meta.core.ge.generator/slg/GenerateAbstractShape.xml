@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>83d95140-6c37-4d47-b41c-dc01202047a8</id>
   <name>GenerateAbstractShape</name>
-  <changecounter>1075</changecounter>
+  <changecounter>1161</changecounter>
   <sib>
     <id>15d12de3-be92-4199-912c-41f8d0975e20</id>
     <name>SwitchAbstractShape</name>
@@ -72,11 +72,11 @@
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>c1206c24-81a8-4ae2-b093-4d794fac9742</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>GenerateContainerShape</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>c1206c24-81a8-4ae2-b093-4d794fac9742</string>
     </userobject>
   </sib>
   <edge>
@@ -196,11 +196,11 @@
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>36d9fec6-e1a2-4c6b-8680-956d60534097</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>GenerateShape</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>36d9fec6-e1a2-4c6b-8680-956d60534097</string>
     </userobject>
   </sib>
   <edge>
@@ -336,11 +336,11 @@
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>5b88ca67-73f0-4e1c-bf6d-2766f895d72f</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>GenerateSetDefaultPositionAndSize</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>5b88ca67-73f0-4e1c-bf6d-2766f895d72f</string>
     </userobject>
   </sib>
   <edge>
@@ -351,42 +351,11 @@
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
-  <sib>
-    <id>2c3868bd-0ce8-41ec-913e-20a5a2872e75</id>
-    <name>CopyEObject</name>
-    <label>copyCurrentShape</label>
-    <sib-uid>utility-sibs/CopyEObject</sib-uid>
-    <taxonomy>transem.utility.sib.CopyEObject</taxonomy>
-    <position>59.0,678.0</position>
-    <parameter name="copiedEObjectKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>currentShape</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="eObjectKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>currentShapeKey</key>
-          <scope>DECLARED</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-    <userobject key="ABC$START">
-      <boolean>true</boolean>
-    </userobject>
-  </sib>
   <edge>
-    <source>2c3868bd-0ce8-41ec-913e-20a5a2872e75</source>
-    <target>c19b8d54-474c-424e-bcd7-9286cb62afbc</target>
-    <point>138.0,697.35</point>
-    <point>222.0,697.35</point>
+    <source>3511d1ee-57ff-4fd5-8ffa-ff3c0658d702</source>
+    <target>748ce67d-fe07-421f-8b67-18bf4e7ba83c</target>
+    <point>137.02702702702703,768.0</point>
+    <point>210.34883720930233,684.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -475,7 +444,7 @@
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
           <key>child</key>
-          <scope>DECLARED</scope>
+          <scope>PARENT</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
@@ -509,11 +478,11 @@
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>83d95140-6c37-4d47-b41c-dc01202047a8</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>GenerateAbstractShape</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>83d95140-6c37-4d47-b41c-dc01202047a8</string>
     </userobject>
   </sib>
   <sib>
@@ -586,15 +555,76 @@
     <point>758.0,128.0</point>
     <branch>default</branch>
   </edge>
+  <sib>
+    <id>3511d1ee-57ff-4fd5-8ffa-ff3c0658d702</id>
+    <name>CopyElement</name>
+    <label>CopyElement</label>
+    <sib-uid>basic-sibs/CopyElement</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.CopyElement</taxonomy>
+    <position>78.5,768.0</position>
+    <parameter name="sourceVariable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>currentShapeKey</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="targetVariable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>currentShape</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$START">
+      <boolean>true</boolean>
+    </userobject>
+  </sib>
+  <sib>
+    <id>748ce67d-fe07-421f-8b67-18bf4e7ba83c</id>
+    <name>GetShapeName</name>
+    <label>GetShapeName</label>
+    <sib-uid>style/style/GetShapeName</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.sibs.style.sib.style.GetShapeName</taxonomy>
+    <position>71.5,663.0</position>
+    <parameter name="shapeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>currentShape</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="shapenameKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>shapeName</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>748ce67d-fe07-421f-8b67-18bf4e7ba83c</source>
+    <target>c19b8d54-474c-424e-bcd7-9286cb62afbc</target>
+    <point>120.0,690.0</point>
+    <point>110.0,582.0</point>
+    <branch>default</branch>
+  </edge>
   <parameter>
     <name>modelElementKey</name>
     <field>modelElementKey</field>
     <sib>6ba5eeb9-9cf1-4ae8-8811-1f6151f3eb3a</sib>
-  </parameter>
-  <parameter>
-    <name>currentShapeKey</name>
-    <field>eObjectKey</field>
-    <sib>2c3868bd-0ce8-41ec-913e-20a5a2872e75</sib>
   </parameter>
   <parameter>
     <name>parentName</name>
@@ -616,32 +646,17 @@
     <field>eObjectKey</field>
     <sib>c19b8d54-474c-424e-bcd7-9286cb62afbc</sib>
   </parameter>
+  <parameter>
+    <name>currentShapeKey</name>
+    <field>sourceVariable</field>
+    <sib>3511d1ee-57ff-4fd5-8ffa-ff3c0658d702</sib>
+  </parameter>
   <values>
     <entry>
       <string>modelElementKey</string>
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
           <key>modelElement</key>
-          <scope>DECLARED</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </entry>
-    <entry>
-      <string>currentShapeKey</string>
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>currentShapeKey</key>
-          <scope>DECLARED</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </entry>
-    <entry>
-      <string>styleKey</string>
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>styleKey</key>
           <scope>DECLARED</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
@@ -656,6 +671,26 @@
           <classMutable>true</classMutable>
         </ContextExpressionFoundation>
       </de.metaframe.common.sib.parameter.ContextExpression>
+    </entry>
+    <entry>
+      <string>styleKey</string>
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>styleKey</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </entry>
+    <entry>
+      <string>currentShapeKey</string>
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>currentShapeKey</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </entry>
   </values>
   <branch>
@@ -712,11 +747,6 @@
     <name>error</name>
     <branch>error</branch>
     <sib>83692398-ebd6-4a3a-8413-84195fc11d5a</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>2c3868bd-0ce8-41ec-913e-20a5a2872e75</sib>
   </branch>
   <branch>
     <name>error</name>

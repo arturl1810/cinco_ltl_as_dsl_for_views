@@ -250,7 +250,9 @@
    <extension
          point="org.eclipse.xtext.builder.participant">
       <participant
-            class="de.jabc.cinco.meta.core.mgl.ui.MGLExecutableExtensionFactory:org.eclipse.xtext.builder.IXtextBuilderParticipant">
+            class="de.jabc.cinco.meta.core.mgl.ui.MGLExecutableExtensionFactory:org.eclipse.xtext.builder.IXtextBuilderParticipant"
+            fileExtensions="mgl"
+            >
       </participant>
    </extension>
    <extension

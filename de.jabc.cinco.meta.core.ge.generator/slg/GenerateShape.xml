@@ -2,35 +2,7 @@
 <model version="2.1">
   <id>36d9fec6-e1a2-4c6b-8680-956d60534097</id>
   <name>GenerateShape</name>
-  <changecounter>1044</changecounter>
-  <sib>
-    <id>f901026e-1a69-421b-912a-54b756b8a46b</id>
-    <name>GetShapeName</name>
-    <label>GetShapeName</label>
-    <sib-uid>style/style/GetShapeName</sib-uid>
-    <taxonomy>de.jabc.cinco.meta.core.ge.sib.style.GetShapeName</taxonomy>
-    <position>7.0,18.0</position>
-    <parameter name="shapeKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>currentShape</key>
-          <scope>DECLARED</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="shapenameKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>shapeName</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-  </sib>
+  <changecounter>1140</changecounter>
   <sib>
     <id>7588e245-69f9-4992-b2a2-63a8513339bc</id>
     <name>SwitchShape</name>
@@ -54,14 +26,6 @@
     <finalbranches>error</finalbranches>
     <finalbranches>other</finalbranches>
   </sib>
-  <edge>
-    <source>f901026e-1a69-421b-912a-54b756b8a46b</source>
-    <target>36796bbe-e37f-4288-a63c-fea36d16e5b1</target>
-    <point>379.0,44.0</point>
-    <point>574.0,44.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
   <sib>
     <id>c2a9de49-c178-41e4-a59e-c5e8ca96fc9c</id>
     <name>RunStringTemplate_1</name>
@@ -87,7 +51,7 @@
     <parameter name="template">
       <string>Shape $context.meShapeName$ = peService.createShape($context.parentName$, $context.diagramIsParent$);
 Text $context.peName$ = gaService.createPlainText($context.meShapeName$);
-
+linkingList.add($context.meShapeName$);
 try {
 	$context.peName$.setFilled(false);
 
@@ -248,11 +212,11 @@ gaService.setSize($context.peName$, $context.size.width$, $context.size.height$)
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>e0c76532-9e6d-432c-8bdd-c39fb6516795</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>GenerateSetPosition</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>e0c76532-9e6d-432c-8bdd-c39fb6516795</string>
     </userobject>
   </sib>
   <edge>
@@ -353,11 +317,11 @@ gaService.setSize($context.peName$, $context.size.width$, $context.size.height$)
     </parameter>
     <finalbranches>error</finalbranches>
     <finalbranches>exit</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>2a28c6a3-7550-4d5b-a8c5-c31758cd1dd2</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>GenerateGetTextValues2</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>2a28c6a3-7550-4d5b-a8c5-c31758cd1dd2</string>
     </userobject>
   </sib>
   <sib>
@@ -504,7 +468,7 @@ gaService.setSize($context.peName$, 80, 20);
     </parameter>
     <parameter name="template">
       <string>//$context.fuGraphModelName$GraphitiUtils.getInstance().addImage(&quot;$context.imagePath$&quot;, &quot;$context.relativePath$&quot;);
-Shape $context.meShapeName$ = peService.createShape($context.parentName$, $context.diagramIsParent$);
+ContainerShape $context.meShapeName$ = peService.createContainerShape($context.parentName$, $context.diagramIsParent$);
 Image $context.peName$ = gaService.createImage($context.meShapeName$, &quot;$context.relativePath$&quot;);
 
 $context.peName$.setStretchH(true);
@@ -655,11 +619,11 @@ $context.peName$.setStretchV(true);</string>
     <finalbranches>error</finalbranches>
     <finalbranches>false</finalbranches>
     <finalbranches>true</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>90a32e26-bf9e-415a-bbd4-2480bf6e06d0</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>CheckCincoImagePath</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>90a32e26-bf9e-415a-bbd4-2480bf6e06d0</string>
     </userobject>
   </sib>
   <edge>
@@ -902,7 +866,7 @@ Polyline $context.peName$ = gaService.createPolyline($context.meShapeName$, new 
     <label>GenerateUniqueShapeName</label>
     <sib-uid>ge-util-sibs/GenerateUniqueShapeName</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.GenerateUniqueShapeName</taxonomy>
-    <position>266.0,18.0</position>
+    <position>311.0,18.0</position>
     <parameter name="clearCache">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
@@ -1260,44 +1224,6 @@ $context.graphModelName$LayoutUtils.set_$context.graphModelName$DefaultAppearanc
     <branch>default</branch>
   </edge>
   <sib>
-    <id>09bd5fde-a60c-4d79-aa20-55436b93254f</id>
-    <name>CopyEObject</name>
-    <label>CopyEObject</label>
-    <sib-uid>utility-sibs/CopyEObject</sib-uid>
-    <taxonomy>transem.utility.sib.CopyEObject</taxonomy>
-    <position>16.5,138.0</position>
-    <parameter name="copiedEObjectKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>currentShape</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="eObjectKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>currentShapeKey</key>
-          <scope>DECLARED</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-    <userobject key="ABC$START">
-      <boolean>true</boolean>
-    </userobject>
-  </sib>
-  <edge>
-    <source>09bd5fde-a60c-4d79-aa20-55436b93254f</source>
-    <target>f901026e-1a69-421b-912a-54b756b8a46b</target>
-    <point>60.0,165.0</point>
-    <point>57.0,47.0</point>
-    <branch>default</branch>
-  </edge>
-  <sib>
     <id>6dcd3cf2-b0fd-462f-898b-4287afaba797</id>
     <name>CheckVariable_3</name>
     <label>appearanceProvider?</label>
@@ -1406,8 +1332,8 @@ $context.graphModelName$LayoutUtils.set_$context.graphModelName$DefaultAppearanc
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>$context.graphModelName$LayoutUtils.updateStyleFromAppearance($context.peName$, new $context.appearanceProvider$().getAppearance($context.meIdentifier$, &quot;$context.currentShape.name$&quot;), getDiagram());
-peService.setPropertyValue($context.peName$, $context.graphModelName$LayoutUtils.KEY_GA_NAME, &quot;$context.currentShape.name$&quot;);
+      <string>$context.graphModelName$LayoutUtils.updateStyleFromAppearance($context.peName$, new $context.appearanceProvider$().getAppearance($context.meIdentifier$, &quot;$context.meShapeName$&quot;), getDiagram());
+peService.setPropertyValue($context.peName$, $context.graphModelName$LayoutUtils.KEY_GA_NAME, &quot;$context.meShapeName$&quot;);
 </string>
     </parameter>
     <finalbranches>default</finalbranches>
@@ -1446,11 +1372,11 @@ peService.setPropertyValue($context.peName$, $context.graphModelName$LayoutUtils
     </parameter>
     <finalbranches>error</finalbranches>
     <finalbranches>exit</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>2a28c6a3-7550-4d5b-a8c5-c31758cd1dd2</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>GenerateGetTextValues2</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>2a28c6a3-7550-4d5b-a8c5-c31758cd1dd2</string>
     </userobject>
   </sib>
   <sib>
@@ -1514,6 +1440,7 @@ peService.setPropertyValue($context.peName$, $context.graphModelName$LayoutUtils
     <parameter name="template">
       <string>Shape $context.meShapeName$ = peService.createShape($context.parentName$, $context.diagramIsParent$);
 MultiText $context.peName$ = gaService.createDefaultMultiText(getDiagram(), $context.meShapeName$);
+linkingList.add($context.meShapeName$);
 try {
 	$context.peName$.setFilled(false);
 
@@ -1734,11 +1661,11 @@ try {
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>89d840e4-331f-40a5-a378-646d7f13846a</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>GetAbstractShapeAppearance</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>89d840e4-331f-40a5-a378-646d7f13846a</string>
     </userobject>
   </sib>
   <edge>
@@ -1783,6 +1710,44 @@ try {
     <point>498.0,703.0</point>
     <branch>default</branch>
   </edge>
+  <sib>
+    <id>7532849a-8ba9-4ce0-8a84-edea14822755</id>
+    <name>CopyElement</name>
+    <label>CopyElement</label>
+    <sib-uid>basic-sibs/CopyElement</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.CopyElement</taxonomy>
+    <position>18.5,18.0</position>
+    <parameter name="sourceVariable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>currentShapeKey</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="targetVariable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>currentShape</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$START">
+      <boolean>true</boolean>
+    </userobject>
+  </sib>
+  <edge>
+    <source>7532849a-8ba9-4ce0-8a84-edea14822755</source>
+    <target>36796bbe-e37f-4288-a63c-fea36d16e5b1</target>
+    <point>60.0,150.0</point>
+    <point>174.0,47.0</point>
+    <branch>default</branch>
+  </edge>
   <parameter>
     <name>modelElementKey</name>
     <field>nodeKey</field>
@@ -1794,11 +1759,6 @@ try {
     <sib>a77eafa8-ab2b-4208-ae66-efc155813322</sib>
   </parameter>
   <parameter>
-    <name>eObjectKey</name>
-    <field>eObjectKey</field>
-    <sib>09bd5fde-a60c-4d79-aa20-55436b93254f</sib>
-  </parameter>
-  <parameter>
     <name>modelElementKey</name>
     <field>modelElementKey</field>
     <sib>1cc4930c-82da-4237-ad38-d8631823e92f</sib>
@@ -1807,6 +1767,11 @@ try {
     <name>modelElementKey</name>
     <field>modelElementKey</field>
     <sib>3cfca6d4-e551-4ecb-9d6e-c14c14f511ac</sib>
+  </parameter>
+  <parameter>
+    <name>eObjectKey</name>
+    <field>sourceVariable</field>
+    <sib>7532849a-8ba9-4ce0-8a84-edea14822755</sib>
   </parameter>
   <values>
     <entry>
@@ -1830,11 +1795,6 @@ try {
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </entry>
   </values>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>f901026e-1a69-421b-912a-54b756b8a46b</sib>
-  </branch>
   <branch>
     <name>error</name>
     <branch>error</branch>
@@ -1989,11 +1949,6 @@ try {
     <name>error</name>
     <branch>error</branch>
     <sib>9371d776-a09e-4ee4-81a2-a90ed91fbb0a</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>09bd5fde-a60c-4d79-aa20-55436b93254f</sib>
   </branch>
   <branch>
     <name>error</name>

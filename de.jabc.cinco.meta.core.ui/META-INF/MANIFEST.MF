@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Cinco Ui
 Bundle-SymbolicName: de.jabc.cinco.meta.core.ui;singleton:=true
-Bundle-Version: 0.6.0.qualifier
+Bundle-Version: 0.7.0.qualifier
 Bundle-Activator: de.jabc.cinco.meta.core.ui.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
@@ -15,7 +15,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.ui.workbench,
  com.google.inject;bundle-version="3.0.0",
  javax.inject;bundle-version="1.0.0"
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: ProductDefinition,
  de.jabc.cinco.meta.core.utils,
  org.eclipse.xtext.resource,

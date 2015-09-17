@@ -1,6 +1,9 @@
 package de.jabc.cinco.meta.plugin.ocl;
 
+import java.io.IOException;
 import java.util.Map;
+
+import org.eclipse.core.runtime.CoreException;
 
 import de.jabc.cinco.meta.core.pluginregistry.IMetaPlugin;
 import de.metaframe.jabc.framework.execution.DefaultLightweightExecutionEnvironment;
@@ -22,10 +25,18 @@ public class OCLMetaPlugin implements IMetaPlugin {
 		String oclSource = "http://www.eclipse.org/emf/2002/Ecore/OCL";
 		context.put("oclSource", oclSource);
 		
+		try {
+			OCLPluginProjectCreater.createPlugin(context);
+		} catch (IOException | CoreException e) {
+			e.printStackTrace();
+			return null;
+		}
 		
 		 Add_OCL_Constraint cpv = new Add_OCL_Constraint();
 		return cpv.execute(env);
 		
 	}
+	
+	
 
 }

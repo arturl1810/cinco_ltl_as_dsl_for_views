@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>7def08b0-45b0-4f5d-9629-657ab3028508</id>
   <name>GenerateAddNodeFeature</name>
-  <changecounter>1579</changecounter>
+  <changecounter>1730</changecounter>
   <sib>
     <id>b89523ed-9916-4f61-a5e9-9e1d8838a845</id>
     <name>PutExpression_1</name>
@@ -106,7 +106,8 @@
     <parameter name="template">
       <string>package $context.localPkgName$;
 
-import $context.importPath$.*;
+import java.util.ArrayList;
+
 import $context.packageName$.graphiti.*;
 import $context.packageName$.graphiti.expression.*;
 import $context.packageName$.graphiti.features.layout.*;
@@ -116,6 +117,7 @@ import org.eclipse.graphiti.features.context.IAddContext;
 import org.eclipse.graphiti.features.context.impl.ResizeShapeContext;
 import org.eclipse.graphiti.features.impl.*;
 import org.eclipse.graphiti.mm.algorithms.*;
+import org.eclipse.graphiti.mm.algorithms.styles.Point;
 import org.eclipse.graphiti.mm.algorithms.styles.*;
 import org.eclipse.graphiti.mm.pictograms.*;
 import org.eclipse.graphiti.services.*;
@@ -135,25 +137,30 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
 	public boolean canAdd(IAddContext context) {
 		Object bo = context.getNewObject();
 		Object target = getBusinessObjectForPictogramElement(context.getTargetContainer());
-		if (bo instanceof $context.modelElementName$) {
+		if (bo instanceof $context.importPath$.$context.modelElementName$) {
 			return true;
 		}
 		return false;
 	}
 
 	public PictogramElement add(IAddContext context) {
-		$context.modelElementName$ $context.meIdentifier$ = ($context.modelElementName$) context.getNewObject();
+		$context.importPath$.$context.modelElementName$ $context.meIdentifier$ = ($context.importPath$.$context.modelElementName$) context.getNewObject();
 		if ($context.meIdentifier$.getId() == null || $context.meIdentifier$.getId().isEmpty())
 			$context.meIdentifier$.setId(EcoreUtil.generateUUID());
 		ContainerShape d = (ContainerShape) context.getTargetContainer();
 
 		IPeService peService = Graphiti.getPeService();
 		IGaService gaService = Graphiti.getGaService();
-
+		
+		ArrayList&lt;Shape&gt; linkingList = new ArrayList&lt;Shape&gt;();
+		
 		$context.graphicalRep$
 
 		link($context.rootShapeName$, $context.meIdentifier$);
 		
+		for (Shape _s : linkingList)
+			link(_s,$context.meIdentifier$);
+
 		if (context.getWidth() != -1 &amp;&amp; context.getHeight() != -1)  {
 			ResizeShapeContext rc = new ResizeShapeContext($context.rootShapeName$);
 			rc.setWidth(context.getWidth());
@@ -181,8 +188,8 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
   <edge>
     <source>51744bc1-64c3-487b-8560-75f89ca4f78e</source>
     <target>2d0994da-dc0e-48ac-8053-59480260e4b6</target>
-    <point>882.0,302.94</point>
-    <point>618.0,250.14</point>
+    <point>1065.0,105.0</point>
+    <point>1065.0,240.0</point>
     <labelposition>514.8349956844879,-2.9768456393321614</labelposition>
     <branch>default</branch>
   </edge>
@@ -272,11 +279,11 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>843b7fe1-9b8e-4b49-94ab-777e60336bda</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>CheckStyleAnnotation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>843b7fe1-9b8e-4b49-94ab-777e60336bda</string>
     </userobject>
   </sib>
   <edge>
@@ -340,7 +347,7 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
     <label>CopyRootShape</label>
     <sib-uid>basic-sibs/PutExpression</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
-    <position>950.5,228.0</position>
+    <position>1025.5,228.0</position>
     <parameter name="resolve">
       <boolean>true</boolean>
     </parameter>
@@ -367,9 +374,9 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
   </sib>
   <edge>
     <source>2d0994da-dc0e-48ac-8053-59480260e4b6</source>
-    <target>a83db7aa-432d-4c43-b9ba-9e995ce52eea</target>
-    <point>777.0,240.6</point>
-    <point>693.0,209.1</point>
+    <target>710f8e6c-9a8f-45ac-85d3-1d054148dfe7</target>
+    <point>1062.0,252.7304347826087</point>
+    <point>753.0,360.2086956521739</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -444,7 +451,7 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
     <label>RunStringTemplate</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>295.0,963.0</position>
+    <position>280.0,963.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -465,7 +472,8 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
 
 import graphmodel.ModelElementContainer;
 
-import $context.importPath$.*;
+import java.util.ArrayList;
+
 import $context.packageName$.graphiti.*;
 import $context.packageName$.graphiti.expression.*;
 import $context.packageName$.graphiti.features.layout.*;
@@ -481,6 +489,7 @@ import org.eclipse.graphiti.features.context.IAddContext;
 import org.eclipse.graphiti.features.context.impl.ResizeShapeContext;
 import org.eclipse.graphiti.features.impl.*;
 import org.eclipse.graphiti.mm.algorithms.*;
+import org.eclipse.graphiti.mm.algorithms.styles.Point;
 import org.eclipse.graphiti.mm.algorithms.styles.*;
 import org.eclipse.graphiti.mm.pictograms.*;
 import org.eclipse.graphiti.services.*;
@@ -506,8 +515,8 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
 		if ( !(context.getNewObject() instanceof EObject))
 			return false;
 		EObject bo;
-		if (context.getNewObject() instanceof $context.modelElementName$) {
-			int uid = Integer.parseInt((($context.modelElementName$) context.getNewObject()).get$context.fuPrimeRefTypeName$UID());
+		if (context.getNewObject() instanceof $context.importPath$.$context.modelElementName$) {
+			int uid = Integer.parseInt((($context.importPath$.$context.modelElementName$) context.getNewObject()).get$context.fuPrimeRefTypeName$UID());
 			bo = ReferenceRegistry.getInstance().getEObject(uid);
 		} else {
 			bo = (EObject) context.getNewObject();
@@ -522,14 +531,14 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
 
 	public PictogramElement add(IAddContext context) {
 		EObject bo;
-		$context.modelElementName$ $context.meIdentifier$ = null;
-		if (context.getNewObject() instanceof $context.modelElementName$) {
-			int uid = Integer.parseInt((($context.modelElementName$) context.getNewObject()).get$context.fuPrimeRefTypeName$UID());
+		$context.importPath$.$context.modelElementName$ $context.meIdentifier$ = null;
+		if (context.getNewObject() instanceof $context.importPath$.$context.modelElementName$) {
+			int uid = Integer.parseInt((($context.importPath$.$context.modelElementName$) context.getNewObject()).get$context.fuPrimeRefTypeName$UID());
 			bo = ReferenceRegistry.getInstance().getEObject(uid);
-			$context.meIdentifier$ = ($context.modelElementName$) context.getNewObject();
+			$context.meIdentifier$ = ($context.importPath$.$context.modelElementName$) context.getNewObject();
 		} else {
 			bo = (EObject) context.getNewObject();
-			$context.meIdentifier$ = $context.factoryName$Factory.eINSTANCE.create$context.modelElementName$();
+			$context.meIdentifier$ = $context.importPath$.$context.factoryName$Factory.eINSTANCE.create$context.modelElementName$();
 			$context.primeParamContent$
 		}
 		if ($context.meIdentifier$.getId() == null || $context.meIdentifier$.getId().isEmpty())
@@ -549,10 +558,15 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
 		ModelElementContainer container = (ModelElementContainer) getBusinessObjectForPictogramElement(context.getTargetContainer());
 		container.getModelElements().add($context.meIdentifier$);
 
+		ArrayList&lt;Shape&gt; linkingList = new ArrayList&lt;Shape&gt;();
+
 		$context.graphicalRep$
 
 		link($context.rootShapeName$, $context.meIdentifier$);
+		for (Shape _s : linkingList)
+			link(_s,$context.meIdentifier$);
 
+		
 		if (context.getWidth() != -1 &amp;&amp; context.getHeight() != -1)  {
 			ResizeShapeContext rc = new ResizeShapeContext($context.rootShapeName$);
 			rc.setWidth(context.getWidth());
@@ -575,7 +589,14 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
 	}
 
 	private boolean canAddToTarget(Object target) {
-		$context.containerCheck$
+		$!context.containerCheck!$
+		if (!(target instanceof graphmodel.ModelElementContainer))
+			return false;
+		graphmodel.ModelElementContainer _mContainer = (graphmodel.ModelElementContainer) target;
+		if (_mContainer.canContain($context.importPath$.$context.modelElementName$.class))
+			return true;
+		if ($context.cincoErrorCheckOk$)
+			$context.cincoErrorMaxCardinality$
 		return false;
 	}
 
@@ -865,9 +886,9 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
   </sib>
   <edge>
     <source>133d9178-21cb-4caf-adc1-01eaed0b66e7</source>
-    <target>6f03332a-4534-4880-a00a-4652a040c19c</target>
-    <point>1047.0,978.7263157894737</point>
-    <point>800.0,939.7894736842105</point>
+    <target>01a08f28-05d8-4f4f-9acd-7ccfca84f693</target>
+    <point>1047.0,981.3272727272728</point>
+    <point>590.0,981.3636363636364</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -963,7 +984,7 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
     <source>5127d0fa-c7eb-4024-a7c5-a223d3c0db33</source>
     <target>51744bc1-64c3-487b-8560-75f89ca4f78e</target>
     <point>855.0,120.0</point>
-    <point>1005.0,120.0</point>
+    <point>1065.0,105.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>NodeStyle</branch>
   </edge>
@@ -992,8 +1013,9 @@ Leaving Generate ${nodeName} AddFeature </expression>
   <edge>
     <source>5127d0fa-c7eb-4024-a7c5-a223d3c0db33</source>
     <target>2c618a13-bf66-4e9e-ad8b-db860cd13f69</target>
-    <point>1095.0,255.0</point>
-    <point>1105.0,368.0</point>
+    <point>855.0,120.0</point>
+    <point>855.0,30.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>EdgeStyle</branch>
   </edge>
   <sib>
@@ -1002,7 +1024,7 @@ Leaving Generate ${nodeName} AddFeature </expression>
     <label>GetNodeStyleMainShape</label>
     <sib-uid>style/style/GetNodeStyleMainShape</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.sib.style.GetNodeStyleMainShape</taxonomy>
-    <position>922.0,93.0</position>
+    <position>997.0,93.0</position>
     <parameter name="nodeStyleKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1025,53 +1047,6 @@ Leaving Generate ${nodeName} AddFeature </expression>
     <finalbranches>error</finalbranches>
   </sib>
   <edge>
-    <source>f09cea6d-7d8a-4daf-8ea4-9e792d3a0197</source>
-    <target>41593b09-8ee0-4638-9e7e-9e90f7405015</target>
-    <point>462.0,246.9</point>
-    <point>318.0,246.9</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
-  <sib>
-    <id>a83db7aa-432d-4c43-b9ba-9e995ce52eea</id>
-    <name>PutExpression_5</name>
-    <label>ShapeName</label>
-    <sib-uid>basic-sibs/PutExpression</sib-uid>
-    <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
-    <position>843.0,228.0</position>
-    <parameter name="resolve">
-      <boolean>true</boolean>
-    </parameter>
-    <parameter name="value">
-      <de.metaframe.common.sib.parameter.ContextExpression>
-        <ContextExpressionFoundation>
-          <expression>${currentShape.name}</expression>
-          <clazz>java.lang.Object</clazz>
-          <classMutable>true</classMutable>
-        </ContextExpressionFoundation>
-      </de.metaframe.common.sib.parameter.ContextExpression>
-    </parameter>
-    <parameter name="variable">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>shapeName</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-  </sib>
-  <edge>
-    <source>a83db7aa-432d-4c43-b9ba-9e995ce52eea</source>
-    <target>d04e9437-6455-480b-a850-660f91b82b09</target>
-    <point>597.0,237.16363636363636</point>
-    <point>468.0,166.8</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
-  <edge>
     <source>d04e9437-6455-480b-a850-660f91b82b09</source>
     <target>f09cea6d-7d8a-4daf-8ea4-9e792d3a0197</target>
     <point>450.0,165.0</point>
@@ -1084,7 +1059,7 @@ Leaving Generate ${nodeName} AddFeature </expression>
     <label>GenerateUniqueGaName</label>
     <sib-uid>ge-util-sibs/GenerateUniqueGaName</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.GenerateUniqueGaName</taxonomy>
-    <position>667.5,228.0</position>
+    <position>712.5,228.0</position>
     <parameter name="clearCache">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
@@ -1121,11 +1096,11 @@ Leaving Generate ${nodeName} AddFeature </expression>
     <label>GenerateUniqueShapeName</label>
     <sib-uid>ge-util-sibs/GenerateUniqueShapeName</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.GenerateUniqueShapeName</taxonomy>
-    <position>476.0,228.0</position>
+    <position>506.0,228.0</position>
     <parameter name="clearCache">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>true</expression>
+          <expression>${true}</expression>
           <clazz>java.lang.Boolean</clazz>
           <classMutable>true</classMutable>
         </ContextExpressionFoundation>
@@ -1197,11 +1172,11 @@ Leaving Generate ${nodeName} AddFeature </expression>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>83d95140-6c37-4d47-b41c-dc01202047a8</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>GenerateAbstractShape</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>83d95140-6c37-4d47-b41c-dc01202047a8</string>
     </userobject>
   </sib>
   <sib>
@@ -1260,11 +1235,11 @@ Leaving Generate ${nodeName} AddFeature </expression>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>490b2287-36b7-4f06-83f7-fd9ae2c167c6</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>GeneratePrimeParameter</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>490b2287-36b7-4f06-83f7-fd9ae2c167c6</string>
     </userobject>
   </sib>
   <edge>
@@ -1280,7 +1255,7 @@ Leaving Generate ${nodeName} AddFeature </expression>
     <label>GenerateCheckContainer</label>
     <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
-    <position>730.0,961.0</position>
+    <position>730.0,1006.0</position>
     <parameter name="ClearContent">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
@@ -1301,11 +1276,11 @@ Leaving Generate ${nodeName} AddFeature </expression>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>4ac25e32-ae6b-469a-b78c-1764aa97ce4d</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>GenerateCheckContainer</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>4ac25e32-ae6b-469a-b78c-1764aa97ce4d</string>
     </userobject>
   </sib>
   <edge>
@@ -1332,11 +1307,11 @@ Leaving Generate ${nodeName} AddFeature </expression>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <finalbranches>default</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>3bb8a1c5-18ed-4580-8582-3c735f199d9e</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>GenerateModelElementPostCreationHook</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>3bb8a1c5-18ed-4580-8582-3c735f199d9e</string>
     </userobject>
   </sib>
   <edge>
@@ -1344,6 +1319,49 @@ Leaving Generate ${nodeName} AddFeature </expression>
     <target>34bac75f-5a18-400f-9ae2-f09f6cc9ecaa</target>
     <point>120.0,480.0</point>
     <point>129.0,762.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>f09cea6d-7d8a-4daf-8ea4-9e792d3a0197</source>
+    <target>41593b09-8ee0-4638-9e7e-9e90f7405015</target>
+    <point>687.0,246.54</point>
+    <point>423.0,246.54</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>710f8e6c-9a8f-45ac-85d3-1d054148dfe7</id>
+    <name>GetShapeName</name>
+    <label>GetShapeName</label>
+    <sib-uid>style/style/GetShapeName</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.sibs.style.sib.style.GetShapeName</taxonomy>
+    <position>896.5,228.0</position>
+    <parameter name="shapeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>currentShape</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="shapenameKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>shapeName</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>710f8e6c-9a8f-45ac-85d3-1d054148dfe7</source>
+    <target>d04e9437-6455-480b-a850-660f91b82b09</target>
+    <point>960.0,315.0</point>
+    <point>816.0,231.0</point>
     <branch>default</branch>
   </edge>
   <parameter>
@@ -1507,11 +1525,6 @@ Leaving Generate ${nodeName} AddFeature </expression>
     <name>error</name>
     <branch>error</branch>
     <sib>51744bc1-64c3-487b-8560-75f89ca4f78e</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>a83db7aa-432d-4c43-b9ba-9e995ce52eea</sib>
   </branch>
   <branch>
     <name>error</name>

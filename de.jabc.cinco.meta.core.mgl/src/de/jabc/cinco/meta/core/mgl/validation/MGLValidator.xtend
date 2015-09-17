@@ -3,6 +3,8 @@
  */
 package de.jabc.cinco.meta.core.mgl.validation
 
+import de.jabc.cinco.meta.core.utils.InheritanceUtil
+import de.jabc.cinco.meta.core.utils.PathValidator
 import java.net.URI
 import java.net.URISyntaxException
 import java.util.HashSet
@@ -11,9 +13,11 @@ import mgl.Attribute
 import mgl.ContainingElement
 import mgl.Edge
 import mgl.EdgeElementConnection
+import mgl.Enumeration
 import mgl.GraphModel
 import mgl.GraphicalElementContainment
 import mgl.GraphicalModelElement
+import mgl.Import
 import mgl.IncomingEdgeElementConnection
 import mgl.MglPackage
 import mgl.ModelElement
@@ -29,10 +33,7 @@ import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.EcorePackage
 import org.eclipse.xtext.EcoreUtil2
 import org.eclipse.xtext.validation.Check
-import de.jabc.cinco.meta.core.utils.PathValidator
 import java.util.ArrayList
-import de.jabc.cinco.meta.core.utils.InheritanceUtil
-import mgl.Import
 
 /**
  * Custom validation rules. 
@@ -456,7 +457,16 @@ class MGLValidator extends AbstractMGLValidator {
 						 error(String::format("DataType %s cannot be instantiated with default value: %s.",attr.type,attr.defaultValue),MglPackage.Literals::ATTRIBUTE__DEFAULT_VALUE)
 				
 			}else{
-				error("Default Value cannot be set, if type of attribute is not an EDataType",MglPackage.Literals::ATTRIBUTE__DEFAULT_VALUE)
+				val e = getEnum(attr)
+				if(e!=null){
+					if(!e.literals.contains(attr.defaultValue)){
+						error(String::format("Default value: '%s' is not valid for Enum: '%s'.",attr.defaultValue,attr.type),MglPackage.Literals::ATTRIBUTE__DEFAULT_VALUE)
+					
+					}
+				}else{
+					error(String::format("DataType %s cannot be instantiated with default value: %s.",attr.type,attr.defaultValue),MglPackage.Literals::ATTRIBUTE__DEFAULT_VALUE)
+				}
+			
 			}
 			}catch(Exception s){
 					error(String::format("DataType %s cannot be instantiated with default value: %s.",attr.type,attr.defaultValue),MglPackage.Literals::ATTRIBUTE__DEFAULT_VALUE)
@@ -466,6 +476,28 @@ class MGLValidator extends AbstractMGLValidator {
 		}
 		
 	}
+	
+	@Check
+	def checkNodeInheritsFromNonAbstractPrimeReferenceNode(Node node){
+		var currentNode = node
+		while(currentNode.extends!=null){
+			currentNode = currentNode.extends
+			if(!currentNode.isIsAbstract && currentNode.primeReference!=null)
+				error(String::format("Node %s inherits from non abstract prime node %s",node.name,currentNode.name),MglPackage.Literals::NODE__EXTENDS)
+		}
+	}
+	
+	def getEnum(Attribute attr) {
+		var mgl = attr.modelElement.eContainer as GraphModel
+		for(enum :mgl.types.filter(Enumeration))
+			if(enum.name.equals(attr.type)){
+				return enum;
+			}
+				
+				
+		return null;
+	}
+	
 	@Check
 	def checkGraphModelHasStyleDocument(GraphModel graphModel){
 		if(!graphModel.annotations.exists[x|x.name.equals("style")])
@@ -474,8 +506,18 @@ class MGLValidator extends AbstractMGLValidator {
 	
 	@Check
 	def checkGraphicalModelElementHasStyleAnnotation(GraphicalModelElement graphicalModelElement){
-		if(!graphicalModelElement.annotations.exists[x|x.name.equals("style")])
+		if(!graphicalModelElement.annotations.exists[x|x.name.equals("style")] && !graphicalModelElement.isIsAbstract)
 			warning("Graphical Model Element has no Style annotation.",MglPackage.Literals::TYPE__NAME)
+	}
+	
+	@Check
+	def checkAbstractGraphicalModelElementHasUselessAnnotations(GraphicalModelElement graphicalModelElement) {
+		if (graphicalModelElement.isIsAbstract && graphicalModelElement.annotations.exists[x | x.name.equals("style")])
+			warning("@style annotation has no effect on abstract elements", MglPackage.Literals::TYPE__NAME)
+		if (graphicalModelElement.isIsAbstract && graphicalModelElement.annotations.exists[x | x.name.equals("icon")])
+			warning("@icon annotation has no effect on abstract elements", MglPackage.Literals::TYPE__NAME)
+		if (graphicalModelElement.isIsAbstract && graphicalModelElement.annotations.exists[x | x.name.equals("palette")])
+			warning("@palette annotation has no effect on abstract elements", MglPackage.Literals::TYPE__NAME)
 	}
 	
 //	@Check
@@ -488,12 +530,12 @@ class MGLValidator extends AbstractMGLValidator {
 	def checkGraphModelContainableElements(ContainingElement model){
 		if(model.containableElements.size>1){
 			for(containment:model.containableElements){
-				if(containment.type==null)
+				if(containment.types==null)
 					error("Dont't care type must not be accompanied by other containable elements.",MglPackage.Literals::CONTAINING_ELEMENT__CONTAINABLE_ELEMENTS);
 			}
 		}
 		if(model.containableElements.size==1){
-			if(model.containableElements.get(0).type == null)
+			if(model.containableElements.get(0).types == null)
 				if(model.containableElements.get(0).upperBound==0)
 					warning("Container element cannot contain any model elements by this definition.",MglPackage.Literals::CONTAINING_ELEMENT__CONTAINABLE_ELEMENTS)
 		}
@@ -582,5 +624,29 @@ class MGLValidator extends AbstractMGLValidator {
 				
 		}
 	}
+	
+	@Check
+	def checkReferencedNodeHasNameAttribute(Attribute attribute) {
+		val modelElement = attribute.modelElement as ModelElement
+		val graphModel = getGraphModel(modelElement)
+		val modelElements = new ArrayList
+		modelElements.addAll(graphModel.nodes)
+		modelElements.addAll(graphModel.edges)
+		modelElements.addAll(graphModel.nodeContainers)
+		
+		val refNodes = modelElements.filter[me | me.name.equals(attribute.type) && !me.attributes.map[name].contains("name")];
+		
+		if (!refNodes.nullOrEmpty)
+			error("Add a String attribute \"name\" to the NodeType(s): " + refNodes.map[name], MglPackage.Literals.ATTRIBUTE__TYPE)
+	}
+	
+	def getGraphModel(ModelElement element) {
+		switch element {
+			Node : element.graphModel
+			Edge : element.graphModel
+			NodeContainer : element.graphModel		
+		}
+	}
+	
 	
 }

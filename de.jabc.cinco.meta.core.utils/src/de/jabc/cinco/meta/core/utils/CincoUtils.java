@@ -1,7 +1,13 @@
 package de.jabc.cinco.meta.core.utils;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 import mgl.Annotation;
+import mgl.Attribute;
 import mgl.GraphModel;
+import mgl.ModelElement;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -19,7 +25,59 @@ import style.Styles;
 
 public class CincoUtils {
 
-	private static final String ID_STYLE = "style";
+	public static final String ID_STYLE = "style";
+	public static final String ID_ICON = "icon";
+	public static final String ID_DISABLE= "disable";
+	public static final String ID_DISABLE_CREATE = "create";
+	public static final String ID_DISABLE_DELETE = "delete";
+	public static final String ID_DISABLE_MOVE = "move";
+	public static final String ID_DISABLE_RESIZE = "resize";
+	public static final String ID_DISABLE_RECONNECT = "reconnect";
+	public static final String ID_DISABLE_SELECT = "select";
+	public static Set<String> DISABLE_NODE_VALUES = new HashSet<String>(Arrays.asList("create", "delete", "move", "resize", "select"));
+	public static Set<String> DISABLE_EDGE_VALUES = new HashSet<String>(Arrays.asList("create", "delete", "reconnect", "select"));
+	
+	
+	public static boolean isCreateDisabled(ModelElement me) {
+		return isDisabled(me, ID_DISABLE_CREATE);
+	}
+	
+	public static boolean isMoveDisabled(ModelElement me) {
+		return isDisabled(me, ID_DISABLE_MOVE);
+	}
+	
+	public static boolean isResizeDisabled(ModelElement me) {
+		return isDisabled(me, ID_DISABLE_RESIZE);
+	}
+	
+	public static boolean isSelectDisabled(ModelElement me) {
+		return isDisabled(me, ID_DISABLE_SELECT);
+	}
+	
+	public static boolean isReconnectDisabled(ModelElement me) {
+		return isDisabled(me, ID_DISABLE_RECONNECT);
+	}
+	
+	public static boolean isDeleteDisabled(ModelElement me) {
+		return isDisabled(me, ID_DISABLE_DELETE);
+	}
+	
+	public static boolean isDisabled(ModelElement me, String id) {
+		for (Annotation annot : me.getAnnotations()) {
+			if (annot.getName().equals(ID_DISABLE)) {
+				return (annot.getValue().isEmpty() || annot.getValue().contains(id));
+			}
+		}
+		return false;
+	}
+	
+	public static boolean isAttributeReadOnly(Attribute attr) {
+		for (Annotation annot : attr.getAnnotations()) {
+			if (annot.getName().equals("readOnly"))
+				return true;
+		}
+		return false;
+	}
 	
 	public static Resource getStylesResource(String pathToStyles, IProject p) {
 		Resource res = null;
@@ -98,5 +156,8 @@ public class CincoUtils {
 		return null;
 		
 	}
-	
+
+	public static boolean isAttributeMultiValued(Attribute attr) {
+		return attr.getUpperBound() != 1;
+	}
 }

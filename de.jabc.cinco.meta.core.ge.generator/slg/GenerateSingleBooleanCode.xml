@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>50093a2f-f127-4315-978c-59bea9c2a6a3</id>
   <name>GenerateSingleBooleanCode</name>
-  <changecounter>175</changecounter>
+  <changecounter>195</changecounter>
   <sib>
     <id>a9db252a-8d07-44cf-8977-ce56b1572780</id>
     <name>RunStringTemplate</name>
@@ -55,8 +55,8 @@
     </parameter>
     <parameter name="template">
       <string>EObject tmp = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
-if (tmp instanceof $context.modelElementName$) {
-	(($context.modelElementName$) tmp).set$context.fuAttributeName$($context.flAttributeName$Button.getSelection());
+if (tmp instanceof $context.importPath$.$context.modelElementName$) {
+	(($context.importPath$.$context.modelElementName$) tmp).set$context.fuAttributeName$($context.flAttributeName$Button.getSelection());
 }
 </string>
     </parameter>
@@ -102,14 +102,14 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
 	data.right = new FormAttachment(100, 0);
 	data.top = new FormAttachment(0, ITabbedPropertyConstants.VSPACE);
 	$context.flAttributeName$Button.setLayoutData(data);
-	$context.attributeName$Button.setEnabled(!$context.attribute.notChangeable$);
+	$context.flAttributeName$Button.setEnabled(!$context.attribute.notChangeable$ &amp;&amp; !$context.isReadOnly$);
 	
-	Label $context.attribute.name$Label = factory.createLabel(composite, &quot;$context.fuAttributeName$:&quot;);
+	Label $context.flAttributeName$Label = factory.createLabel(composite, &quot;$context.fuAttributeName$:&quot;);
 	data = new FormData();
 	data.left = new FormAttachment(0, 0);
 	data.right = new FormAttachment($context.flAttributeName$Button, -ITabbedPropertyConstants.HSPACE);
 	data.top = new FormAttachment($context.flAttributeName$Button, 0, SWT.CENTER);
-	$context.attributeName$Label.setLayoutData(data);
+	$context.flAttributeName$Label.setLayoutData(data);
 
 	$context.flAttributeName$Button.addSelectionListener(selectionListener);
 
@@ -271,12 +271,12 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
 	data.top = new FormAttachment(0, ITabbedPropertyConstants.VSPACE);
 	$context.flAttributeName$Button.setLayoutData(data);
 
-	Label $context.attribute.name$Label = factory.createLabel(composite, &quot;$context.fuAttributeName$:&quot;);
+	Label $context.flAttributeName$Label = factory.createLabel(composite, &quot;$context.fuAttributeName$:&quot;);
 	data = new FormData();
 	data.left = new FormAttachment(0, 0);
 	data.right = new FormAttachment($context.flAttributeName$Button, -ITabbedPropertyConstants.HSPACE);
 	data.top = new FormAttachment($context.flAttributeName$Button, 0, SWT.CENTER);
-	$context.attributeName$Label.setLayoutData(data);
+	$context.flAttributeName$Label.setLayoutData(data);
 
 	$context.flAttributeName$Button.setEnabled(true);
 
@@ -402,12 +402,12 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
 	data.top = new FormAttachment(0, ITabbedPropertyConstants.VSPACE);
 	$context.flAttributeName$Button.setLayoutData(data);
 
-	Label $context.attribute.name$Label = factory.createLabel(composite, &quot;$context.fuAttributeName$:&quot;);
+	Label $context.flAttributeName$Label = factory.createLabel(composite, &quot;$context.fuAttributeName$:&quot;);
 	data = new FormData();
 	data.left = new FormAttachment(0, 0);
 	data.right = new FormAttachment($context.flAttributeName$Button, -ITabbedPropertyConstants.HSPACE);
 	data.top = new FormAttachment($context.flAttributeName$Button, 0, SWT.CENTER);
-	$context.attributeName$Label.setLayoutData(data);
+	$context.flAttributeName$Label.setLayoutData(data);
 
 	$context.flAttributeName$Button.setEnabled(false);
 }</string>
@@ -453,8 +453,8 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>EObject bo = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
-if (bo instanceof $context.modelElementName$) {
+      <string>EObject bo = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(getSelectedPictogramElement());
+if (bo instanceof $context.importPath$.$context.modelElementName$) {
 	$context.fuModelElementName$ tmp = ($context.fuModelElementName$) bo;
 	Object value = $context.flAttributeName$Button.getSelection();
 	if (tmp.get$context.fuAttributeName$Parameter().get(0) != null) 
@@ -620,8 +620,8 @@ if (value != null)
     </parameter>
     <parameter name="template">
       <string>/*EObject tmp = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
-if (tmp instanceof $context.modelElementName$) {
-	(($context.modelElementName$) tmp).set$context.fuAttributeName$($context.flAttributeName$Button.getSelection());
+if (tmp instanceof $context.importPath$.$context.modelElementName$) {
+	(($context.importPath$.$context.modelElementName$) tmp).set$context.fuAttributeName$($context.flAttributeName$Button.getSelection());
 }*/
 </string>
     </parameter>

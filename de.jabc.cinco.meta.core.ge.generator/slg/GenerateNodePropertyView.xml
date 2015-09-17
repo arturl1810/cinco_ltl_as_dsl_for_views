@@ -2,14 +2,14 @@
 <model version="2.1">
   <id>696c3b21-1096-4b9a-86bd-7456a6b80d52</id>
   <name>GenerateModelElementPropertyView</name>
-  <changecounter>257</changecounter>
+  <changecounter>330</changecounter>
   <sib>
     <id>c215c747-bca3-4fbb-9807-9cd2ab3f1b32</id>
     <name>PutExpression</name>
     <label>FilterPkgName</label>
     <sib-uid>basic-sibs/PutExpression</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
-    <position>1359.5,528.0</position>
+    <position>1359.5,633.0</position>
     <parameter name="resolve">
       <boolean>true</boolean>
     </parameter>
@@ -39,9 +39,9 @@
   </sib>
   <edge>
     <source>c215c747-bca3-4fbb-9807-9cd2ab3f1b32</source>
-    <target>ba4cff73-0d56-4af6-853a-d8d1230f413f</target>
-    <point>1416.0,552.0</point>
-    <point>1416.0,432.0</point>
+    <target>b95f83dc-7830-4c6c-9dda-e77c316a73a6</target>
+    <point>1392.0,640.2</point>
+    <point>1293.0,574.2</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -212,7 +212,8 @@ import org.eclipse.graphiti.ui.platform.*;
 import $context.packageName$.graphiti.*;
 import $context.packageName$.graphiti.content.adapter.*;
 
-import $context.importPath$.*;
+
+import $context.importPath$.impl.*;
 
 public class $context.modelElementName$Filter extends AbstractPropertySectionFilter {
 	
@@ -244,8 +245,8 @@ public class $context.modelElementName$Filter extends AbstractPropertySectionFil
 		if (pe instanceof ConnectionDecorator) {
 			eObject = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(((ConnectionDecorator)pe).getConnection());
 		} else eObject = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
-		if (eObject instanceof $context.modelElementName$) {
-			$context.modelElementName$ tmp = ($context.modelElementName$) eObject;
+		if (eObject != null &amp;&amp; eObject.getClass().equals($context.modelElementName$Impl.class)) {
+			$context.importPath$.$context.modelElementName$ tmp = ($context.importPath$.$context.modelElementName$) eObject;
 			if (!tmp.eAdapters().contains($context.modelElementName$EContentAdapter.getInstance()))
 				tmp.eAdapters().add($context.modelElementName$EContentAdapter.getInstance());
 			return true;
@@ -383,7 +384,7 @@ public class $context.modelElementName$Filter extends AbstractPropertySectionFil
     <label>CompareNumber</label>
     <sib-uid>basic-sibs/CompareNumber</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.CompareNumber</taxonomy>
-    <position>33.0,888.0</position>
+    <position>198.0,903.0</position>
     <parameter name="value">
       <double>1.0</double>
     </parameter>
@@ -543,8 +544,8 @@ public class $context.modelElementName$Filter extends AbstractPropertySectionFil
   </edge>
   <edge>
     <source>bc6dbfb9-d463-4a9a-8c2e-9ea824796476</source>
-    <target>7533bc14-e695-4b1c-a31f-76ade25e4a5c</target>
-    <point>90.0,585.0</point>
+    <target>3fec8430-224d-4645-ade7-166d45867b51</target>
+    <point>90.0,600.0</point>
     <point>90.0,705.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
@@ -555,7 +556,7 @@ public class $context.modelElementName$Filter extends AbstractPropertySectionFil
     <label>SetName</label>
     <sib-uid>basic-sibs/PutExpression</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
-    <position>57.5,513.0</position>
+    <position>57.5,453.0</position>
     <parameter name="resolve">
       <boolean>true</boolean>
     </parameter>
@@ -583,8 +584,8 @@ public class $context.modelElementName$Filter extends AbstractPropertySectionFil
   <edge>
     <source>d600b731-2abf-4fc1-9e33-26acc48b40c5</source>
     <target>bc6dbfb9-d463-4a9a-8c2e-9ea824796476</target>
-    <point>90.0,540.0</point>
-    <point>90.0,660.0</point>
+    <point>90.0,480.0</point>
+    <point>90.0,600.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -594,7 +595,7 @@ public class $context.modelElementName$Filter extends AbstractPropertySectionFil
     <label>FormatIdentifier</label>
     <sib-uid>genesys-sibs/FormatIdentifier</sib-uid>
     <taxonomy>de.jabc.sib.genesys.FormatIdentifier</taxonomy>
-    <position>34.0,633.0</position>
+    <position>34.0,573.0</position>
     <parameter name="identifier">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -666,6 +667,8 @@ import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
+import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.events.TraverseEvent;
@@ -677,10 +680,11 @@ import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.views.properties.tabbed.*;
 
-import $context.importPath$.*;
+
 import $context.packageName$.graphiti.*;
 import $context.packageName$.graphiti.content.adapter.*;
 
@@ -701,7 +705,7 @@ public class $context.modelElementName$_$context.attributeName$_Section extends 
 			Object bo = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
 			if (bo == null)
 				return;
-			$context.modelElementName$ tmp = (($context.modelElementName$) bo);
+			$context.importPath$.$context.modelElementName$ tmp = (($context.importPath$.$context.modelElementName$) bo);
 			$context.refreshCode$
 		}
 	}
@@ -718,13 +722,13 @@ public class $context.modelElementName$_$context.attributeName$_Section extends 
 
 	$context.listenerCode$
 	
-	private $context.modelElementName$ getBusinessObjectForSelection(PictogramElement pe) {
+	private $context.importPath$.$context.modelElementName$ getBusinessObjectForSelection(PictogramElement pe) {
 		if (pe == null)
 			return null;
 
 		EObject bo = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
-		if (bo instanceof $context.modelElementName$) 
-			return ($context.modelElementName$) bo;
+		if (bo instanceof $context.importPath$.$context.modelElementName$) 
+			return ($context.importPath$.$context.modelElementName$) bo;
 		return null;
 	}
 
@@ -750,7 +754,7 @@ public class $context.modelElementName$_$context.attributeName$_Section extends 
     <label>GenerateSingleAttribute</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>203.5,946.0</position>
+    <position>353.5,961.0</position>
     <parameter name="attributeKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -762,11 +766,11 @@ public class $context.modelElementName$_$context.attributeName$_Section extends 
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>fc94b8b8-21f0-499c-a1bb-5968d40ae550</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>GenerateSingleAttribute</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>fc94b8b8-21f0-499c-a1bb-5968d40ae550</string>
     </userobject>
   </sib>
   <sib>
@@ -775,7 +779,7 @@ public class $context.modelElementName$_$context.attributeName$_Section extends 
     <label>GenerateListAttribute</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>212.0,841.0</position>
+    <position>362.0,856.0</position>
     <parameter name="attributeKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -787,11 +791,11 @@ public class $context.modelElementName$_$context.attributeName$_Section extends 
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>76ccd186-a5e5-4177-9388-d605baba87ee</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>GenerateListAttribute</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>76ccd186-a5e5-4177-9388-d605baba87ee</string>
     </userobject>
   </sib>
   <sib>
@@ -905,11 +909,11 @@ public class $context.modelElementName$_$context.attributeName$_Section extends 
     </parameter>
     <finalbranches>error</finalbranches>
     <finalbranches>exit</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>7ce0cea2-f133-4819-a4df-6d0f1188d2ec</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>GeneratePrimeReferencePropertyView</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>7ce0cea2-f133-4819-a4df-6d0f1188d2ec</string>
     </userobject>
   </sib>
   <edge>
@@ -923,18 +927,18 @@ public class $context.modelElementName$_$context.attributeName$_Section extends 
   <edge>
     <source>ee15209b-336d-4acb-8fe9-d7ba490ecaf6</source>
     <target>d600b731-2abf-4fc1-9e33-26acc48b40c5</target>
-    <point>315.0,660.0</point>
-    <point>90.0,540.0</point>
+    <point>285.0,600.0</point>
+    <point>90.0,480.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
     <id>7533bc14-e695-4b1c-a31f-76ade25e4a5c</id>
     <name>PutBoolean</name>
-    <label>PutBoolean</label>
+    <label>InitIsPrimeRef</label>
     <sib-uid>basic-sibs/PutBoolean</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutBoolean</taxonomy>
-    <position>49.0,783.0</position>
+    <position>41.5,903.0</position>
     <parameter name="value">
       <boolean>false</boolean>
     </parameter>
@@ -961,16 +965,16 @@ public class $context.modelElementName$_$context.attributeName$_Section extends 
   <edge>
     <source>b11ce13f-d169-4b5c-842d-90eedac24e96</source>
     <target>ee15209b-336d-4acb-8fe9-d7ba490ecaf6</target>
-    <point>285.0,540.0</point>
-    <point>285.0,660.0</point>
+    <point>285.0,480.0</point>
+    <point>285.0,600.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>false</branch>
   </edge>
   <edge>
     <source>b11ce13f-d169-4b5c-842d-90eedac24e96</source>
     <target>d600b731-2abf-4fc1-9e33-26acc48b40c5</target>
-    <point>315.0,540.0</point>
-    <point>90.0,540.0</point>
+    <point>285.0,480.0</point>
+    <point>90.0,480.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>true</branch>
   </edge>
@@ -980,7 +984,7 @@ public class $context.modelElementName$_$context.attributeName$_Section extends 
     <label>CheckVariable</label>
     <sib-uid>basic-sibs/CheckVariable</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.CheckVariable</taxonomy>
-    <position>235.0,513.0</position>
+    <position>235.0,453.0</position>
     <parameter name="variable">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1038,7 +1042,7 @@ public class $context.modelElementName$_$context.attributeName$_Section extends 
     <label>PutInteger</label>
     <sib-uid>basic-sibs/PutInteger</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutInteger</taxonomy>
-    <position>247.5,633.0</position>
+    <position>247.5,573.0</position>
     <parameter name="value">
       <int>1</int>
     </parameter>
@@ -1487,6 +1491,125 @@ public class $context.modelElementName$TypeClass extends GFPropertySection imple
     <finalbranches>false</finalbranches>
     <finalbranches>true</finalbranches>
   </sib>
+  <edge>
+    <source>3e208233-ed5a-4759-b669-54fb02409463</source>
+    <target>7533bc14-e695-4b1c-a31f-76ade25e4a5c</target>
+    <point>255.0,705.0</point>
+    <point>127.0,819.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>08e53be0-6a1c-4110-b7ab-7ff6b9d733d3</source>
+    <target>7533bc14-e695-4b1c-a31f-76ade25e4a5c</target>
+    <point>90.0,810.0</point>
+    <point>92.0,925.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>3fec8430-224d-4645-ade7-166d45867b51</source>
+    <target>08e53be0-6a1c-4110-b7ab-7ff6b9d733d3</target>
+    <point>90.0,705.0</point>
+    <point>90.0,810.0</point>
+    <branch>false</branch>
+  </edge>
+  <sib>
+    <id>08e53be0-6a1c-4110-b7ab-7ff6b9d733d3</id>
+    <name>PutBoolean_4</name>
+    <label>!isReadOnly</label>
+    <sib-uid>basic-sibs/PutBoolean</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.PutBoolean</taxonomy>
+    <position>53.0,783.0</position>
+    <parameter name="value">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>isReadOnly</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>3fec8430-224d-4645-ade7-166d45867b51</id>
+    <name>IsAttributeReadOnly</name>
+    <label>IsAttributeReadOnly</label>
+    <sib-uid>ge-util-sibs/IsAttributeReadOnly</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsAttributeReadOnly</taxonomy>
+    <position>30.5,678.0</position>
+    <parameter name="attributeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>attribute</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>false</finalbranches>
+    <finalbranches>true</finalbranches>
+  </sib>
+  <sib>
+    <id>b95f83dc-7830-4c6c-9dda-e77c316a73a6</id>
+    <name>IsAbstract</name>
+    <label>IsAbstract</label>
+    <sib-uid>ge-util-sibs/IsAbstract</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsAbstract</taxonomy>
+    <position>1374.0,528.0</position>
+    <parameter name="modelElement">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>modelElement</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>false</finalbranches>
+    <finalbranches>true</finalbranches>
+  </sib>
+  <sib>
+    <id>3e208233-ed5a-4759-b669-54fb02409463</id>
+    <name>PutBoolean_3</name>
+    <label>isReadOnly</label>
+    <sib-uid>basic-sibs/PutBoolean</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.PutBoolean</taxonomy>
+    <position>219.5,678.0</position>
+    <parameter name="value">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>isReadOnly</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>3fec8430-224d-4645-ade7-166d45867b51</source>
+    <target>3e208233-ed5a-4759-b669-54fb02409463</target>
+    <point>90.0,705.0</point>
+    <point>255.0,705.0</point>
+    <branch>true</branch>
+  </edge>
+  <edge>
+    <source>b95f83dc-7830-4c6c-9dda-e77c316a73a6</source>
+    <target>ba4cff73-0d56-4af6-853a-d8d1230f413f</target>
+    <point>1305.0,570.0</point>
+    <point>1385.0,455.0</point>
+    <branch>false</branch>
+  </edge>
   <parameter>
     <name>modelElementKey</name>
     <field>modelElementKey</field>
@@ -1496,6 +1619,11 @@ public class $context.modelElementName$TypeClass extends GFPropertySection imple
     <name>modelElementKey</name>
     <field>eObjectKey</field>
     <sib>3f66e2d3-5545-401f-bcac-dc18037fbad6</sib>
+  </parameter>
+  <parameter>
+    <name>modelElementKey</name>
+    <field>modelElement</field>
+    <sib>b95f83dc-7830-4c6c-9dda-e77c316a73a6</sib>
   </parameter>
   <values>
     <entry>
@@ -1698,5 +1826,10 @@ public class $context.modelElementName$TypeClass extends GFPropertySection imple
     <name>error</name>
     <branch>error</branch>
     <sib>f8bbaebb-cc9c-471c-8e66-570ada2132fe</sib>
+  </branch>
+  <branch>
+    <name>default</name>
+    <branch>true</branch>
+    <sib>b95f83dc-7830-4c6c-9dda-e77c316a73a6</sib>
   </branch>
 </model>

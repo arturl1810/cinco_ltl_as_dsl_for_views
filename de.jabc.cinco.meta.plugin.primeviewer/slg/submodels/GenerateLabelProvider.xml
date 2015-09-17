@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>15f253f6-7caa-4260-a5e1-643c9b7adbf0</id>
   <name>GenerateLabelProvider</name>
-  <changecounter>39</changecounter>
+  <changecounter>41</changecounter>
   <sib>
     <id>1589bc35-aab8-4a5c-ba8b-4af14a6986a9</id>
     <name>RunStringTemplate</name>
@@ -30,36 +30,39 @@
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.swt.graphics.Image;
 
+
 public class $primeviewElementName$LabelProvider implements ILabelProvider {
 
 	@Override
 	public void addListener(ILabelProviderListener listener) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public boolean isLabelProperty(Object element, String property) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public void removeListener(ILabelProviderListener listener) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -71,17 +74,34 @@ public class $primeviewElementName$LabelProvider implements ILabelProvider {
 				EStructuralFeature cincoImagePathFeature = eElement.eClass().getEStructuralFeature(&quot;cincoImagePath&quot;);
 				if(cincoImagePathFeature!=null){
 					Object imagePath= eElement.eGet(cincoImagePathFeature);
-					ImageDescriptor imgDescriptor;
+					ImageDescriptor imgDescriptor = null;
 					try {
-
-						imgDescriptor = ImageDescriptor.createFromURL(new URI(&quot;file://&quot;+imagePath.toString()).toURL());
-						Image img= imgDescriptor.createImage();
+                        IProject pr = getProject(eElement.eResource());
+						IFile imageFile = pr.getFile(imagePath.toString());
+						if(imageFile!=null &amp;&amp; imageFile.exists())
+							imgDescriptor = ImageDescriptor.createFromURL(imageFile.getLocationURI().toURL());
+						
+						
+						Image img= null;
+						if(imgDescriptor!=null){
+							img= imgDescriptor.createImage();
+							
+						}
+						if(img!=null){
+							return ImageDescriptor.createFromImageData(img.getImageData().scaledTo(16, 16)).createImage();
+						}else{
+							imgDescriptor = ImageDescriptor.createFromURL(new URI(&quot;file://&quot;+imagePath.toString()).toURL());
+							if(imgDescriptor!=null)
+								img= imgDescriptor.createImage();
+							if(img!=null)
+								return ImageDescriptor.createFromImageData(img.getImageData().scaledTo(16, 16)).createImage();
+						}
+						
+						
 						return ImageDescriptor.createFromImageData(img.getImageData().scaledTo(16, 16)).createImage();
 					} catch (MalformedURLException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					} catch (URISyntaxException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 					
@@ -103,6 +123,17 @@ public class $primeviewElementName$LabelProvider implements ILabelProvider {
 			return null;
 		
 	}
+
+private IProject getProject(Resource res){
+		IWorkspace workspace = ResourcesPlugin.getWorkspace();
+		org.eclipse.emf.common.util.URI uri = res.getURI();
+		if(uri.isPlatformResource()){
+			IFile iFile = workspace.getRoot().getFile(new Path(uri.toPlatformString(true)));
+			return iFile.getProject();
+		}
+		return null;
+	}
+
 
 }
 </string>

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<model version="2.1">
+  <id>7b1b0aba-7aa6-4992-b94f-8e08aa6c082e</id>
+  <name>GenerateCanReconnect</name>
+  <changecounter>28</changecounter>
+  <sib>
+    <id>1821ac0b-fe73-48fa-b089-f09c830e3c61</id>
+    <name>IsReconnectDisabled</name>
+    <label>IsReconnectDisabled</label>
+    <sib-uid>ge-util-sibs/IsReconnectDisabled</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsReconnectDisabled</taxonomy>
+    <position>238.0,48.0</position>
+    <parameter name="modelElementKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>modelElement</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>false</finalbranches>
+    <finalbranches>true</finalbranches>
+    <userobject key="ABC$START">
+      <boolean>true</boolean>
+    </userobject>
+  </sib>
+  <sib>
+    <id>8ffb6c96-1d9e-4306-9f69-cf8bd56e4ad1</id>
+    <name>RunStringTemplate</name>
+    <label>RunStringTemplate</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>325.0,168.0</position>
+    <parameter name="append">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>canReconnectContent</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>@Override
+public boolean canReconnect(IReconnectionContext context) {
+	return canReconnect(context, true);
+}</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>cd3c08c1-2d5d-4edf-9ec2-430f670e7835</id>
+    <name>RunStringTemplate_1</name>
+    <label>RunStringTemplate</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>130.0,168.0</position>
+    <parameter name="append">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>canReconnectContent</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>@Override
+public boolean canReconnect(IReconnectionContext context) {
+	return canReconnect(context, false);
+}</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>1821ac0b-fe73-48fa-b089-f09c830e3c61</source>
+    <target>cd3c08c1-2d5d-4edf-9ec2-430f670e7835</target>
+    <point>300.0,75.0</point>
+    <point>187.0,212.0</point>
+    <branch>true</branch>
+  </edge>
+  <edge>
+    <source>1821ac0b-fe73-48fa-b089-f09c830e3c61</source>
+    <target>8ffb6c96-1d9e-4306-9f69-cf8bd56e4ad1</target>
+    <point>300.0,75.0</point>
+    <point>387.0,204.0</point>
+    <branch>false</branch>
+  </edge>
+  <parameter>
+    <name>modelElementKey</name>
+    <field>modelElementKey</field>
+    <sib>1821ac0b-fe73-48fa-b089-f09c830e3c61</sib>
+  </parameter>
+  <values>
+    <entry>
+      <string>modelElementKey</string>
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>modelElement</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </entry>
+  </values>
+  <branch>
+    <name>default</name>
+    <branch>default</branch>
+    <sib>cd3c08c1-2d5d-4edf-9ec2-430f670e7835</sib>
+  </branch>
+  <branch>
+    <name>default</name>
+    <branch>default</branch>
+    <sib>8ffb6c96-1d9e-4306-9f69-cf8bd56e4ad1</sib>
+  </branch>
+</model>

@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>fcd44878-83e6-41e6-95f6-9299e05bb180</id>
   <name>GenerateSingleNodePropertyView</name>
-  <changecounter>78</changecounter>
+  <changecounter>81</changecounter>
   <sib>
     <id>5cc865b0-eb14-4bed-aff6-116e6551e93a</id>
     <name>RunStringTemplate</name>
@@ -56,8 +56,8 @@
     </parameter>
     <parameter name="template">
       <string>EObject tmp = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
-if (tmp instanceof $context.modelElementName$) {
-	(($context.modelElementName$) tmp).set$context.fuAttributeName$($context.flAttributeName$Map.get($context.flAttributeName$Combo.getText()));
+if (tmp instanceof $context.importPath$.$context.modelElementName$) {
+	(($context.importPath$.$context.modelElementName$) tmp).set$context.fuAttributeName$($context.flAttributeName$Map.get($context.flAttributeName$Combo.getText()));
 }</string>
     </parameter>
     <finalbranches>default</finalbranches>
@@ -87,7 +87,7 @@ if (tmp instanceof $context.modelElementName$) {
     </parameter>
     <parameter name="template">
       <string>private CCombo $context.flAttributeName$Combo;
-private HashMap&lt;String, $context.node.name$&gt; $context.flAttributeName$Map = new HashMap&lt;&gt;();
+private HashMap&lt;String, $context.importPath$.$context.modelElement.name$&gt; $context.flAttributeName$Map = new HashMap&lt;&gt;();
 		
 @Override
 public void createControls(Composite parent, TabbedPropertySheetPage tabbedPropertySheetPage) {
@@ -114,12 +114,12 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
 	$context.flAttributeName$Combo.setEditable(false);
 	Diagram d = $context.graphModelName$GraphitiUtils.getInstance().getDTP().getDiagram();
 	Object bo = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(d);
-	if (!(bo instanceof $context.graphModelName$))
+	if (!(bo instanceof $context.importPath$.$context.graphModelName$))
 		return;
-	$context.graphModelName$ $context.lcGraphModelName$= ($context.graphModelName$) bo;
-	List&lt;$context.node.name$&gt; elements = new ArrayList&lt;&gt;();
-	getModelElements($context.lcGraphModelName$, $context.node.name$.class, elements);
-	for ($context.node.name$ $context.flAttributeName$ : elements) {
+	$context.importPath$.$context.graphModelName$ $context.lcGraphModelName$= ($context.importPath$.$context.graphModelName$) bo;
+	List&lt;$context.importPath$.$context.modelElement.name$&gt; elements = new ArrayList&lt;&gt;();
+	getModelElements($context.lcGraphModelName$, $context.importPath$.$context.modelElement.name$.class, elements);
+	for ($context.importPath$.$context.modelElement.name$ $context.flAttributeName$ : elements) {
 		String key;
 		if (!$context.flAttributeName$.getName().isEmpty())
 			key = $context.flAttributeName$.getName();
@@ -132,11 +132,11 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
 
 }
 
-private void getModelElements(ModelElementContainer ce, Class modelElementClass, List&lt;$context.node.name$&gt; elements) {
+private void getModelElements(ModelElementContainer ce, Class modelElementClass, List&lt;$context.importPath$.$context.modelElement.name$&gt; elements) {
 	for (Container c : ce.getAllContainers()) {
-		getModelElements(c, $context.node.name$.class, elements);
+		getModelElements(c, $context.importPath$.$context.modelElement.name$.class, elements);
 	}
-	elements.addAll(ce.getModelElements($context.node.name$.class));
+	elements.addAll(ce.getModelElements($context.importPath$.$context.modelElement.name$.class));
 
 }</string>
     </parameter>
@@ -537,7 +537,7 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
     </parameter>
     <parameter name="template">
       <string>EObject bo = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
-if (bo instanceof $context.modelElementName$) {
+if (bo instanceof $context.importPath$.$context.modelElementName$) {
 	$context.fuModelElementName$ tmp = ($context.fuModelElementName$) bo;
 	if (tmp.get$context.fuAttributeName$Parameter().get(0) != null)
 		tmp.get$context.fuAttributeName$Parameter().get(0).setInstance($context.enum.name$.getByName($context.flAttributeName$Combo.getText()));
@@ -613,7 +613,7 @@ if (value != null)
     <parameter name="copiedEObjectKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>node</key>
+          <key>modelElement</key>
           <scope>LOCAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>

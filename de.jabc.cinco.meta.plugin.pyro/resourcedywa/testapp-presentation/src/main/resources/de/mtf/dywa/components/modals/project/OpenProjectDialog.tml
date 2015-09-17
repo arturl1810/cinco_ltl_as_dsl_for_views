@@ -1,0 +1,62 @@
+<t:container
+        xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd"
+        xmlns:p="tapestry:parameter">
+    <div
+            class="modal fade"
+            id="openProjectDialog"
+            tabindex="-1"
+            role="dialog"
+            aria-labelledby="openProjectDialogLabel"
+            aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button
+                            type="button"
+                            class="close"
+                            data-dismiss="modal"
+                            aria-hidden="true">×
+                    </button>
+                    <h4 class="modal-title"><span class="glyphicon glyphicon-folder-open"></span> ${message:modalTitle}</h4>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>${message:colNumber}</th>
+                            <th>${message:colName}</th>
+                            <th>${message:colActions}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <t:if test="projects.empty">
+                            <p:else>
+                                <t:loop
+                                        t:source="projects"
+                                        t:value="iteratedProject"
+                                        t:index="index">
+                                    <tr>
+                                        <td>${index}</td>
+                                        <td>${iteratedProject.name}</td>
+                                        <td>
+                                            <div class="btn-group" role="group" aria-label="...">
+                                                <t:pagelink t:context="[iteratedProject.id,0]" page="pyro" class="btn btn-primary">${message:openButtonText}</t:pagelink>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </t:loop>
+                            </p:else>
+                        </t:if>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button
+                            type="button"
+                            class="btn btn-default"
+                            data-dismiss="modal">${message:cancel}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</t:container>

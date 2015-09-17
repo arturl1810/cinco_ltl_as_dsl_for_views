@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>b227a7a0-5af9-431e-b485-0ba300749007</id>
   <name>GenerateGraphitiUtils</name>
-  <changecounter>152</changecounter>
+  <changecounter>189</changecounter>
   <sib>
     <id>801054f5-02ab-407f-9a7a-c39fb7a43cb9</id>
     <name>PutExpression</name>
@@ -143,6 +143,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Arrays;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -159,7 +160,6 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PlatformUI;
 import org.osgi.framework.Bundle;
 
-import $context.importPath$.*;
 
 public class $context.graphModelName$GraphitiUtils {
 
@@ -178,16 +178,16 @@ public class $context.graphModelName$GraphitiUtils {
 		return instance;
 	}
 
-	public static $context.graphModelName$ addToResource(Diagram d, IFeatureProvider fp) {
-		$context.graphModelName$ $context.lcGraphModelName$ = null;
+	public static $context.importPath$.$context.graphModelName$ addToResource(Diagram d, IFeatureProvider fp) {
+		$context.importPath$.$context.graphModelName$ $context.lcGraphModelName$ = null;
 		for (Object o : d.eResource().getContents()){
-			if (o instanceof $context.graphModelName$) {
-				$context.lcGraphModelName$ = ($context.graphModelName$) o;
+			if (o instanceof $context.importPath$.$context.graphModelName$) {
+				$context.lcGraphModelName$ = ($context.importPath$.$context.graphModelName$) o;
 				break;
 			}
 		}
 		if ($context.lcGraphModelName$ == null) {
-			$context.lcGraphModelName$ = $context.fuGMN$Factory.eINSTANCE.create$context.graphModelName$();
+			$context.lcGraphModelName$ = $context.importPath$.$context.fuGMN$Factory.eINSTANCE.create$context.graphModelName$();
 			d.eResource().getContents().add($context.lcGraphModelName$);
 			fp.link(d, $context.lcGraphModelName$);
 		}
@@ -301,6 +301,32 @@ public class $context.graphModelName$GraphitiUtils {
 		}
 		return ce;
 		
+	}
+
+	public int max(int[] values) {
+		if (values.length &gt; 0) {
+			Arrays.sort(values, 0, values.length);
+			return values[values.length-1];
+		}
+		return 0;
+	}
+
+	public int min(int[] values) {
+		if (values.length &gt; 0) {
+			Arrays.sort(values, 0, values.length);
+			return values[0];
+		}
+		return 0;
+	}
+	
+	public int[] transform(int[] values, int deltaX, int deltaY) {
+		if (values.length &gt; 0) {
+			for (int i=0; i&lt;values.length;i+=2){
+				values[i] = values[i] + deltaX;
+				values[i+1] = values[i+1] + deltaY;
+			}
+		}
+		return values;
 	}
 
 }</string>

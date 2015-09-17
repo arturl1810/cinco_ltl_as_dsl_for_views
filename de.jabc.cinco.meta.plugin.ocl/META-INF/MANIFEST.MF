@@ -2,7 +2,17 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: OCL MetaPlugin
 Bundle-SymbolicName: de.jabc.cinco.meta.plugin.ocl;singleton:=true
-Bundle-Version: 0.6.0.qualifier
+Bundle-Version: 0.7.0.qualifier
 Fragment-Host: de.jabc.cinco.meta.core.pluginregistry
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: de.jabc.cinco.meta.core.mgl.transformation.helper
+Require-Bundle: org.eclipse.emf.edit.ui,
+ org.eclipse.graphiti.ui,
+ org.eclipse.graphiti.mm,
+ org.eclipse.graphiti,
+ org.eclipse.gef;bundle-version="3.9.100",
+ org.eclipse.ui.ide;bundle-version="3.10.2",
+ org.eclipse.ui.views.properties.tabbed;bundle-version="3.6.0",
+ org.eclipse.jdt;bundle-version="3.10.1",
+ org.eclipse.jdt.core,
+ org.eclipse.pde.core

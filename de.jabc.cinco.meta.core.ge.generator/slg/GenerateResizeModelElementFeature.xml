@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>bd602dcf-2ea3-4585-953e-853c0406cc4e</id>
   <name>GenerateResizeModelElementFeature</name>
-  <changecounter>269</changecounter>
+  <changecounter>311</changecounter>
   <sib>
     <id>6cad6f22-f2a9-4f5c-a9dc-5eaeb99341c0</id>
     <name>PutExpression_1</name>
@@ -111,7 +111,7 @@ public class Resize$context.container.name$Feature extends DefaultResizeShapeFea
 	@Override
 	public boolean canResizeShape(IResizeShapeContext context) {
 		Object bo = getBusinessObjectForPictogramElement(context.getPictogramElement());
-		return (bo instanceof $context.modelElement.name$);
+		return (bo instanceof $context.importPath$.$context.modelElement.name$);
 	}
 	
 	@Override
@@ -211,7 +211,7 @@ public class Resize$context.container.name$Feature extends DefaultResizeShapeFea
     <label>SwitchModelElement</label>
     <sib-uid>mgl/mgl/SwitchModelElement</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.sib.mgl.SwitchModelElement</taxonomy>
-    <position>19.0,348.0</position>
+    <position>19.0,423.0</position>
     <parameter name="eObjectKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -248,9 +248,9 @@ public class Resize$context.container.name$Feature extends DefaultResizeShapeFea
   </edge>
   <edge>
     <source>b906c082-db60-4d7d-a45a-949fb771bd26</source>
-    <target>63afe438-b4f7-4db5-9208-5a3499b870ed</target>
-    <point>90.0,159.0</point>
-    <point>90.0,348.0</point>
+    <target>bdcf4b39-d468-4590-b8db-81204689a0c0</target>
+    <point>108.0,253.52727272727273</point>
+    <point>235.0,299.8181818181818</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -327,7 +327,7 @@ public class Resize$context.container.name$Feature extends DefaultResizeShapeFea
     <label>ResizeModelElement</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>334.5,348.0</position>
+    <position>349.5,423.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -350,6 +350,7 @@ import graphmodel.*;
 
 import java.util.List;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
@@ -364,9 +365,7 @@ import org.eclipse.graphiti.mm.pictograms.FreeFormConnection;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.Shape;
-import org.eclipse.graphiti.mm.algorithms.AbstractText;
-import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
-import org.eclipse.graphiti.mm.algorithms.Polygon;
+import org.eclipse.graphiti.mm.algorithms.*;
 import org.eclipse.graphiti.mm.algorithms.styles.Point;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.ui.editor.IDiagramContainerUI;
@@ -377,19 +376,23 @@ import $context.packageName$.graphiti.features.layout.$context.graphModelName$La
 
 public class Resize$context.modelElement.name$Feature extends DefaultResizeShapeFeature {
 
-	private $context.modelElement.name$ bo;
+	private $context.importPath$.$context.modelElement.name$ bo;
 
 	public Resize$context.modelElement.name$Feature(IFeatureProvider fp) {
 		super(fp);
 		// TODO Auto-generated constructor stub
 	}
 	
-	@Override
-	public boolean canResizeShape(IResizeShapeContext context) {
-		Object bo = getBusinessObjectForPictogramElement(context.getPictogramElement());
-		return (bo instanceof $context.modelElement.name$ &amp;&amp; !(context.getPictogramElement().getGraphicsAlgorithm() instanceof Polygon));
+	public boolean canResizeShape(IResizeShapeContext context, boolean apiCall) {
+		if (apiCall) {
+			Object bo = getBusinessObjectForPictogramElement(context.getPictogramElement());
+			return (bo instanceof $context.importPath$.$context.modelElement.name$);
+		}
+		return false;
 	}
 	
+	$context.canResizeContent$
+
 	@Override
 	public void resizeShape(final IResizeShapeContext context) {
 		TransactionalEditingDomain dom = TransactionUtil.getEditingDomain(getDiagram());
@@ -399,16 +402,19 @@ public class Resize$context.modelElement.name$Feature extends DefaultResizeShape
 			
 			@Override
 			protected void doExecute() {
-				bo = ($context.modelElement.name$) getBusinessObjectForPictogramElement(context.getPictogramElement());
-				
+				bo = ($context.importPath$.$context.modelElement.name$) getBusinessObjectForPictogramElement(context.getPictogramElement());
+				Shape s = context.getShape();
+				GraphicsAlgorithm ga = s.getGraphicsAlgorithm();
+
 				int oWidth = context.getWidth();
 				int oHeight = context.getHeight();
 				
 				int deltaWidth = context.getShape().getGraphicsAlgorithm().getWidth() - oWidth; 
 				int deltaHeight = context.getShape().getGraphicsAlgorithm().getHeight() - oHeight;
-				
-				Shape s = context.getShape();
-				resizeByDelta(s.getGraphicsAlgorithm(), context.getWidth(), context.getHeight());
+
+				if (ga instanceof Polyline)
+					resizePolyline((Polyline) ga, context);
+				else resizeByDelta(s.getGraphicsAlgorithm(), context.getWidth(), context.getHeight());
 				if (s instanceof ContainerShape) {
 					for (Shape c : ((ContainerShape) s).getChildren()) {
 						resizeChildren(c, deltaWidth, deltaHeight);
@@ -454,8 +460,67 @@ public class Resize$context.modelElement.name$Feature extends DefaultResizeShape
 			}
 
 			private void resizeByDelta(GraphicsAlgorithm ga, int width, int height) {
-				Graphiti.getGaService().setLocationAndSize(ga, context.getX(), context.getY(), width, height);
+				Graphiti.getGaService().setLocationAndSize(ga, ga.getX(), ga.getY(), width, height);
 
+			}
+
+			private void resizePolyline(Polyline polyline, IResizeShapeContext context) {
+				int oldWidth = polyline.getWidth();
+				int oldHeight = polyline.getHeight();
+				int newWidth = context.getWidth();
+				int newHeight = context.getHeight();
+				
+				int contextX = context.getX();
+				int contextY = context.getY();
+				int deltaX = contextX - polyline.getX();
+				int deltaY = contextY - polyline.getY();
+				
+				double scaleX = (double) newWidth / (double) oldWidth;
+				double scaleY = (double) newHeight / (double) oldHeight;
+				scalePoints(polyline.getPoints(), scaleX, scaleY);
+				if (polyline.getPictogramElement() instanceof ContainerShape) {
+					for (Shape child : ((ContainerShape) polyline.getPictogramElement()).getChildren()) {
+						moveByDelta(child, - deltaX, - deltaY);
+					}
+				}
+				
+				Graphiti.getGaService().setLocationAndSize(polyline, contextX, contextY, newWidth, newHeight);
+			}
+
+			private void scalePoints(EList&lt;Point&gt; points, double scaleX, double scaleY) {
+				for (Point p : points) {
+					p.setX((int) (scaleX * p.getX()));
+					p.setY((int) (scaleY * p.getY()));
+				}
+			}
+			
+			private boolean isInnerShape(GraphicsAlgorithm ga) {
+				if (ga instanceof AbstractText
+						|| Graphiti.getPeService().getProperty(ga, $context.graphModelName$LayoutUtils.KEY_HORIZONTAL).equals($context.graphModelName$LayoutUtils.KEY_HORIZONTAL_UNDEFINED))
+					return true;
+				if (bo instanceof Node)
+					return false;
+				return !(bo instanceof Container &amp;&amp; sharesBusinessObject(ga));
+			}
+
+			private boolean sharesBusinessObject(GraphicsAlgorithm ga) {
+				EObject linkedBO = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(ga.getPictogramElement());
+				while (linkedBO == null) {
+					linkedBO = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement((PictogramElement) ga.getPictogramElement().eContainer());
+				}
+				return (bo.equals(linkedBO));
+			}
+
+			private void moveByDelta(Shape shape, int deltaX, int deltaY) {
+				GraphicsAlgorithm ga = shape.getGraphicsAlgorithm();
+				if (ga != null &amp;&amp; !isInnerShape(ga)) {
+					Graphiti.getGaService().setLocation(ga, ga.getX() + deltaX, ga.getY() + deltaY);
+					if (ga instanceof ContainerShape) {
+						for (Shape child : ((ContainerShape) ga).getChildren()) {
+							moveByDelta(child, deltaX, deltaY);
+						}
+					}
+				}
 			}
 		});
 
@@ -478,10 +543,10 @@ public class Resize$context.modelElement.name$Feature extends DefaultResizeShape
     <source>6eaa5495-70b4-4f26-b3f1-2ddf8f10b760</source>
     <target>b666afb6-9cc4-4d2b-aabf-727ef75e9474</target>
     <spline/>
-    <point>408.1858407079646,384.0</point>
-    <point>465.0,705.0</point>
-    <point>108.0,982.032</point>
-    <labelposition>393.9881938407847,-194.7841757558331</labelposition>
+    <point>406.6564417177914,384.0</point>
+    <point>450.0,855.0</point>
+    <point>108.0,988.95</point>
+    <labelposition>598.9082977621217,-250.04622153078984</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
@@ -529,7 +594,7 @@ public class Resize$context.modelElement.name$Feature extends DefaultResizeShape
     <label>ResizeModelElement</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>214.5,858.0</position>
+    <position>169.5,723.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -569,7 +634,7 @@ public class Resize$context.container.name$Feature extends DefaultResizeShapeFea
 	@Override
 	public boolean canResizeShape(IResizeShapeContext context) {
 		Object bo = getBusinessObjectForPictogramElement(context.getPictogramElement());
-		return (bo instanceof $context.modelElement.name$);
+		return (bo instanceof $context.importPath$.$context.modelElement.name$);
 	}
 	
 	@Override
@@ -617,7 +682,7 @@ public class Resize$context.container.name$Feature extends DefaultResizeShapeFea
     <label>MoveBendpointsContent</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>7.0,483.0</position>
+    <position>7.0,513.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -653,7 +718,7 @@ public class Resize$context.container.name$Feature extends DefaultResizeShapeFea
 		break;
 	}
 
-for (ModelElement me : (($context.modelElement.name$) bo).getModelElements()) {
+for (ModelElement me : (($context.importPath$.$context.importPath$.$context.modelElement.name$) bo).getModelElements()) {
 	if (me instanceof Edge) {
 		List&lt;PictogramElement&gt; pictogramElements = Graphiti.getLinkService().getPictogramElements(getDiagram(), me);
 		if (pictogramElements.get(0) instanceof FreeFormConnection) {
@@ -674,6 +739,37 @@ for (ModelElement me : (($context.modelElement.name$) bo).getModelElements()) {
     <target>e6eec0f0-4565-4355-a313-ba0fdae7f14f</target>
     <point>90.0,510.0</point>
     <point>89.0,635.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>bdcf4b39-d468-4590-b8db-81204689a0c0</id>
+    <name>GraphSIB</name>
+    <label>GenerateCanResize</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>30.5,316.0</position>
+    <parameter name="modelElementKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>modelElement</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>GenerateCanResize</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>f22605ad-6bbb-4870-afb4-8e7d840e0f88</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>bdcf4b39-d468-4590-b8db-81204689a0c0</source>
+    <target>63afe438-b4f7-4db5-9208-5a3499b870ed</target>
+    <point>255.0,315.0</point>
+    <point>95.0,363.0</point>
     <branch>default</branch>
   </edge>
   <parameter>

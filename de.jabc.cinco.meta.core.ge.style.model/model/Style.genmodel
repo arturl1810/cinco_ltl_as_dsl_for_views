@@ -37,6 +37,11 @@
       <genEnumLiterals ecoreEnumLiteral="Style.ecore#//DecoratorShapes/CIRCLE"/>
       <genEnumLiterals ecoreEnumLiteral="Style.ecore#//DecoratorShapes/TRIANGLE"/>
     </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="Style.ecore#//BooleanEnum">
+      <genEnumLiterals ecoreEnumLiteral="Style.ecore#//BooleanEnum/true"/>
+      <genEnumLiterals ecoreEnumLiteral="Style.ecore#//BooleanEnum/false"/>
+      <genEnumLiterals ecoreEnumLiteral="Style.ecore#//BooleanEnum/undef"/>
+    </genEnums>
     <genClasses ecoreClass="Style.ecore#//Styles">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Style.ecore#//Styles/styles"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Style.ecore#//Styles/appearances"/>
@@ -59,10 +64,11 @@
     <genClasses image="false" ecoreClass="Style.ecore#//AbstractShape">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Style.ecore#//AbstractShape/position"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Style.ecore#//AbstractShape/size"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Style.ecore#//AbstractShape/name"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Style.ecore#//AbstractShape/color"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Style.ecore#//AbstractShape/referencedAppearance"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Style.ecore#//AbstractShape/inlineAppearance"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Style.ecore#//AbstractShape/parentContainerShape"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Style.ecore#//AbstractShape/name"/>
     </genClasses>
     <genClasses image="false" ecoreClass="Style.ecore#//ContainerShape">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Style.ecore#//ContainerShape/children"/>
@@ -89,11 +95,12 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Style.ecore#//RoundedRectangle/cornerWidth"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Style.ecore#//RoundedRectangle/cornerHeight"/>
     </genClasses>
-    <genClasses image="false" ecoreClass="Style.ecore#//AbstractPosition"/>
+    <genClasses image="false" ecoreClass="Style.ecore#//AbstractPosition">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Style.ecore#//AbstractPosition/shape"/>
+    </genClasses>
     <genClasses ecoreClass="Style.ecore#//Alignment">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Style.ecore#//Alignment/vertical"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Style.ecore#//Alignment/horizontal"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Style.ecore#//Alignment/relativeTo"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Style.ecore#//Alignment/xMargin"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Style.ecore#//Alignment/yMargin"/>
     </genClasses>
@@ -133,6 +140,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Style.ecore#//ConnectionDecorator/location"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Style.ecore#//ConnectionDecorator/decoratorShape"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Style.ecore#//ConnectionDecorator/predefinedDecorator"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Style.ecore#//ConnectionDecorator/name"/>
     </genClasses>
     <genClasses ecoreClass="Style.ecore#//GraphicsAlgorithm"/>
     <genClasses ecoreClass="Style.ecore#//Font">

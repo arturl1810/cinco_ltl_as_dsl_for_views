@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<fragment>
+   <extension
+         id="id1"
+         name="name"
+         point="de.jabc.cinco.meta.core.pluginregistry.metaplugin">
+      <metaplugin_description
+            metapluginService="de.jabc.cinco.meta.plugin.pyro.MetaPluginService">
+      </metaplugin_description>
+      <graphmodel-annotation
+            recognized-annotation="pyro">
+      </graphmodel-annotation>
+      <validator
+            ValidatorClass="de.jabc.cinco.meta.plugin.pyro.validator.AnnotationValidator">
+      </validator>
+      <proposalprovider
+            MetaPluginAcceptor="de.jabc.cinco.meta.plugin.pyro.Acceptor">
+      </proposalprovider>
+   </extension>
+
+</fragment>

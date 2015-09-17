@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>d7acaa56-746e-494b-8c88-ef782b860683</id>
   <name>GenerateListIntegerCode</name>
-  <changecounter>62</changecounter>
+  <changecounter>67</changecounter>
   <sib>
     <id>e1a3465d-3a17-4391-9cee-a86cfb6b5e39</id>
     <name>RunStringTemplate</name>
@@ -57,8 +57,8 @@
     <parameter name="template">
       <string>
 EObject bo = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
-if (bo instanceof $context.modelElementName$) {
-	$context.modelElementName$ tmp = ($context.modelElementName$) bo;
+if (bo instanceof $context.importPath$.$context.modelElementName$) {
+	$context.importPath$.$context.modelElementName$ tmp = ($context.importPath$.$context.modelElementName$) bo;
 	tmp.get$context.fuAttributeName$().clear();
 	for (String s : $context.flAttributeName$List.getItems())
 		tmp.get$context.fuAttributeName$().add(Integer.valueOf(s));
@@ -186,12 +186,14 @@ public void createControls(Composite parent, TabbedPropertySheetPage aTabbedProp
 	data.top = new FormAttachment(0,ITabbedPropertyConstants.VMARGIN);
 	data.right = new FormAttachment(100,0);
 	add.setLayoutData(data);
+	add.setEnabled(!$context.isReadOnly$);
 	remove = factory.createButton(composite, &quot;-&quot;, SWT.PUSH);
 	data = new FormData();
 	data.left = new FormAttachment($context.flAttributeName$List, 0);
 	data.right = new FormAttachment(100, 0);
 	data.top = new FormAttachment(add, 0);
 	remove.setLayoutData(data);
+	remove.setEnabled(!$context.isReadOnly$);
 	
 	add.addSelectionListener(addListener);
 	remove.addSelectionListener(removeListener);
@@ -270,7 +272,7 @@ public void createControls(Composite parent, TabbedPropertySheetPage aTabbedProp
 		int retVal = d.open();
 		if (retVal == InputDialog.OK) {
 			final String s = d.getValue();
-			final $context.modelElementName$ tmp = getBusinessObjectForSelection(getSelectedPictogramElement());
+			final $context.importPath$.$context.modelElementName$ tmp = getBusinessObjectForSelection(getSelectedPictogramElement());
 			if (tmp == null)
 				return;
 			TransactionalEditingDomain dom = getDiagramContainer().getDiagramBehavior().getEditingDomain();
@@ -300,7 +302,7 @@ SelectionListener removeListener = new SelectionListener() {
 				return;
 			IStructuredSelection ssel = (IStructuredSelection) sel;
 			final Object selection = ssel.getFirstElement();
-			final $context.modelElementName$ tmp = getBusinessObjectForSelection(getSelectedPictogramElement());
+			final $context.importPath$.$context.modelElementName$ tmp = getBusinessObjectForSelection(getSelectedPictogramElement());
 			if (tmp == null) {
 				return;
 			}

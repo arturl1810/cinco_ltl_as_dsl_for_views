@@ -120,7 +120,7 @@ IncomingEdgeElementConnection returns IncomingEdgeElementConnection:
 
 GraphicalElementContainment returns GraphicalElementContainment:
 	{GraphicalElementContainment}
-	((type=[GraphicalModelElement|QName])|'*')('['lowerBound=EInt ','(upperBound=BoundValue) ']')?
+	((types+=[GraphicalModelElement|QName])|'{'(types+=[GraphicalModelElement|QName])(','(types+=[GraphicalModelElement|QName]) )*'}'|'*')('['lowerBound=EInt ','(upperBound=BoundValue) ']')?
 ;
 
 Import returns Import:

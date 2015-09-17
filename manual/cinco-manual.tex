@@ -105,7 +105,7 @@ This document will constantly be revised and extendend. The latest version will
 always be available for download at \url{http://cinco.scce.info/resources/}. 
 
 \begin{description}
-\item[covered version] \cinco v. 0.5
+\item[covered version] \cinco v. 0.6
 \item[git commit id] \gitAbbrevHash{}
 \item[date of build] \today
 \end{description}
@@ -116,8 +116,8 @@ The ``\cinco{} SCCE Meta Tooling Suite'' is an integrated devlopment environment
 (IDE) for the quick and easy development of domain-specific graphical modeling
 tools. \cinco{} makes use of several frameworks from the Eclipse Modeling
 Project, but its main goal is to hide those frameworks' intricacy from the
-tool developer. \cinco{} provides two simple textual specification languages (MGL and
-MSL, see below) for the high-level characterization of the developed tool's
+tool developer. \cinco{} provides three simple textual specification languages (MGL,
+MSL, and CPD, see below) for the high-level characterization of the developed tool's
 structural and visual features. Above that, \cinco{} is also a full Java IDE, so
 that the portions of the developed tool that are not described in a declarative
 way can seamlessly be developed in the same environment.
@@ -125,7 +125,7 @@ way can seamlessly be developed in the same environment.
 Crucial to \cinco is the concept of code generation. Much of the code of a
 modeling tool that is developed with \cinco (in the following called \cinco
 Product, or just CP) is generated automatically from abstract specifications,
-such as the already mentioned MGL and MSL files. It is of utmost importance
+such as the already mentioned MGL, MSL and CPD files. It is of utmost importance
 that you \emph{never} make any changes to automatically generated
 code\footnotemark{}, as all those changes will be gone once the code generation
 is run again.
@@ -193,6 +193,7 @@ Fig.~\ref{fig:firstStart}. The GUI is partitioned into so-called
 big empty grey space on the right) are the most important ones. 
 
 \subsection{Creating a \cinco Product Project}
+\label{sec:wizard}
 
 \begin{figure}
 	\centering
@@ -253,17 +254,17 @@ You might want to take a short look into those initialized files (especially the
 \code{model} folder), but before we delve more deeply
 into their contents (which we will do
 in Sec.~\ref{sec:examplefiles}), let's first generate this example CP and give
-it a try. Just right-click on the \mgl{FlowGraph.mgl} and
+it a try. Just right-click on the \cpd{FlowGraph.cpd} and
 choose \gui{Generate Cinco Product}. Shortly after, your project explorer should
-look like Fig.~\ref{fig:cpPostGen}. Several new files, directories and a new
-project -- which will be even more than one once you start using advanced
+look like Fig.~\ref{fig:cpPostGen}. Several new files, directories, and
+projects -- which will be even more once you start using advanced
 features of \cinco{}, such as meta plug-ins -- have been generated. Also, the
 compile error we've noticed before is gone. 
 
 Whenever you change the CP's specification files, you need to re-generate the
-code. Sometimes you also need to delete all the generated code, e.g. when
-deleting or renaming a node type. But as you never do any manual changes to the
-generated code, this is no problem. 
+code. Previously generated code (i.e. everything that is in a *-gen folder and
+all generated projects) will be deleted on re-generation. But as you never do
+any manual changes to the generated code, this is no problem. 
 
 \subsection{Testing the \cinco Product} \label{sec:testing}
 
@@ -277,10 +278,11 @@ starting your product (via the \gui{Run As} menu) you will actually start your
 tool including \emph{all} the \cinco plug-ins and libraries. In fact, you start
 a second \cinco enriched with the new features we just generated. In the long run, this 
 not what is desired, because a tool developer needs to work with different tools
-than the tool user. The advanced topic of own product definitions with a minimal
-required set of plug-ins will be added to this manual later. We even plan
-to eventually provide automization for this task. For testing purposes, however,
-this does not impose any obstacles other than ample unnecessary GUI elements.}
+than the tool user. You might have noticed the new .product project. This
+is a generated Eclipse product definition that provides an easy way of exporting your
+tool with an own branding (splash screen, icons, etc.) into a standalone
+application. For testing purposes, however, the easy way should be favored, as
+it does not impose any obstacles other than ample unnecessary GUI elements.}
 
 Again, you should see an empty tool like Fig.~\ref{fig:firstStart}. To create a
 new model we first need a new project where it can be placed. This time,
@@ -324,7 +326,7 @@ The modeling elements abide by the following syntactic rules:
 \item \code{Activity} (blue box) nodes have multiple outgoing edges of type
 	\code{LabeledTransition}, and may have multiple incoming edges of both types.
 	The attribute \code{Name} is displayed centered within the box.
-\item \code{LabeledTransition} edges connect \code{Inner} nodes with others and
+\item \code{LabeledTransition} edges connect \code{Activity} nodes to arbitrary other nodes and
 	have their attribute \code{Label} displayed as movable caption next to it.
 \item \code{Transition} edges only originate from \code{Start} nodes. If such an
 	edge directly leads to an \code{End} node, it is displayed with a dashed
@@ -338,15 +340,15 @@ discussion on the contents of those files.
 \section{Discussion on the Example Files}
 \label{sec:examplefiles}
 
-We consider our specification formats MGL and MSL fairly self-explanatory,
+We consider our specification formats MGL, MSL, and CPD fairly self-explanatory,
 meaning that one usually can understand most of their contents without detailed
 knowledge on available keywords or syntactic structures. This section
 will nonetheless detail on our two example files, but you might want to have a look at
-your \mgl{FlowGraph.mgl} and \msl{FlowGraph.style} beforehand, to decide for
+your \mgl{FlowGraph.mgl}, \msl{FlowGraph.style}, and \cpd{FlowGraph.cpd} beforehand, to decide for
 yourself. 
 
-However, writing a programming or specification language usually is a totally
-different matter. But here, \cinco heavily benefits from it being implemented
+However, writing (instead of just understanding) a programming or specification language usually is a totally
+different matter. But here, \cinco heavily benefits from being implemented
 with libraries from the Eclipse Modeling Project, in this case especially Xtext:
 The so-called \newnotion{Content Assist} that is generated for every Xtext-based
 editor provides a very useful autocompletion when
@@ -360,7 +362,10 @@ Modeling tool development with \cinco centers around two textual specification
 files. On the one hand we have a file in the ``Meta Graph Language'' (MGL) that
 contains the structural information on the tool's model. On the other hand, a
 ``Meta Style Language'' (MSL) file\footnotemark{} is required to specify the
-visual characteristics (e.g.  shapes and colors) of this model. The following
+visual characteristics (e.g.  shapes and colors) of this model. The third
+specification format is the ``\cinco Product Definition'' (CPD), which is the
+entry point for the generation. In it, (potentially) multiple MGL files can be
+given that are generated in one sweep. The following
 subsections will each provide an introduction to one of this specification
 languages alongside the example files created by the new project wizard.
 
@@ -373,7 +378,7 @@ release.}
 \includemgl{listings/FlowGraph.mgl}{FlowGraph MGL file}{lst:myMGL}
 
 Listing \ref{lst:myMGL} shows the \mgl{FlowGraph.mgl} as it was initialized in
-Sec.~\ref{sec:firstLaunch}. Aside from some general configuration stuff in lines
+Sec.~\ref{sec:wizard}. Aside from some general configuration stuff in lines
 1-7 and an attribute declaration in line 9, it contains three two different kinds of modeling component declaration:
 \begin{itemize}
 \item Node type definitions (3x)
@@ -517,7 +522,7 @@ the \gui{Project Explorer} (cf. Fig. \ref{fig:firstModel})
 \includestyle{listings/FlowGraph.style}{FlowGraph MSL file}{lst:myMSL}
 
 Listing \ref{lst:myMSL} shows the \msl{FlowGraph.style} as it was initialized
-in Sec.~\ref{sec:firstLaunch}. It consists of appearances, node styles, and
+in Sec.~\ref{sec:wizard}. It consists of appearances, node styles, and
 edge styles, which will individually be discussed in the following paragraphs.
 
 \subsubsection{Appearances}
@@ -600,11 +605,15 @@ set.
 automatically breaks lines in case they do not fit in the box' width.
 \end{description}
 
-As introduced in Sect.~\ref{sec:mgl}, the runtime values of a nodes' parameters
-can be passed on to the style. They can be used within the \kw{value}
-declarations of \kw{text} and \kw{multiText} with the Java String format
+As introduced in Sect.~\ref{sec:mgl}, the runtime values of a nodes' attributes
+can be passed on as parameters to the style. In order to do so, the number of parameters
+needs to be declared in parantheses after the style name (cf. line 33 in
+Listing \ref{lst:myMSL}). Then they can be used within the \kw{value} declarations
+of \kw{text} and \kw{multiText} with the Java String format
 syntax\footnotemark{}. The simplest way typically is to use \code{\%s} that
-causes the \code{toString} method to be called.
+causes the \code{toString} method to be called. In case multiple passed
+parameters need to be referenced individually in different \kw{text} elements,
+they can be indexed with a number: \code{\%1\$s} and \code{\%2\$s} etc.
 %
 \footnotetext{See
 \url{http://docs.oracle.com/javase/7/docs/api/java/util/Formatter.html} for the
@@ -635,6 +644,45 @@ should cover most use cases: \kw{ARROW}, \kw{CIRCLE}, \kw{DIAMOND}, and
 \kw{TRIANGLE}. In combination with an appropriate appearance to simulate filled
 and unfilled versions, e.g. UML's most prominent arrow types can simply be
 defined.
+
+\subsection{CPD File}
+Up to \cinco version 0.5.1 a single MGL file was the central artifact of a CP. Thus,
+it was not easily possible to combine multiple MGL files into one
+application\footnotemark{}. As of version 0.6 \cinco therefore provides a new
+%
+\footnotetext{
+It could be done by specifying multiple MGLs in different Eclipse bundles and
+then manually managing the dependencies between them and the additionally
+generated bundles. However, this requires more detailed knowledge on internal
+Eclipse plug-in development structures and is not suitable for the target audience of \cinco.
+}%
+%
+specification language to serve as entry point for the generation of multiple
+MGLs. Listing~\ref{lst:myCPD} shows the \cpd{FlowGraph.cpd} as it was
+initialized in Sec.~\ref{sec:wizard}. For this first example the file is
+quite small, only providing two things:
+
+\begin{enumerate}
+\item the name of the CP, here ``FlowGraphTool'', is given after the
+\kw{cincoProduct} keyword
+\item the only MGL file of our project is given after the \kw{mgl} keyword
+\end{enumerate}
+
+\includecpd{listings/FlowGraph.cpd}{FlowGraph CPD file}{lst:myCPD}
+
+Beyond the possibility to have multiple \cinco{}-based model types, \cinco{}
+also generates the appropriate Eclipse bundles from the CPD that allow for an
+easy export of the CP into a standalone application.  It is even possible to
+define a branding (i.e. dedicated startup splash screen, about text, icons,
+etc.) within the CPD file. For reference, Listing~\ref{lst:brandingCPD} shows
+the product definition, when \gui{Product branding} is selected in the \cinco{}
+product creation wizard (cf. Sect.~\ref{sec:wizard}).
+
+\includecpd{listings/FlowGraphBranding.cpd}{FlowGraph CPD file with product
+branding}{lst:brandingCPD}
+
+
+
 
 
 \chapter{Language Reference}

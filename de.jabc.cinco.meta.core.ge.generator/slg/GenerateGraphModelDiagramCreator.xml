@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>bc163f1e-0219-4ee4-b1a8-2864de76b1af</id>
   <name>GenerateGraphModelDiagramCreator</name>
-  <changecounter>71</changecounter>
+  <changecounter>72</changecounter>
   <sib>
     <id>ad9b9c21-91db-4af5-9d2c-291ad1a050ef</id>
     <name>PutExpression</name>
@@ -119,12 +119,12 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IActionDelegate;
 
-import $context.importPath$.*;
+
 
 public class Create$context.graphModelName$Diagram implements IActionDelegate {
 
 	private ISelection sel;
-	private $context.graphModelName$ gm;
+	private $context.importPath$.$context.graphModelName$ gm;
 	private Diagram diagram;
 	
 	public Create$context.graphModelName$Diagram() {
@@ -141,8 +141,8 @@ public class Create$context.graphModelName$Diagram implements IActionDelegate {
 				Resource res = new ResourceSetImpl().getResource(fileUri, true);
 				if (res != null) {
 					for (Object o : res.getContents()) {
-						if (o instanceof $context.graphModelName$) {
-							gm = ($context.graphModelName$) o;
+						if (o instanceof $context.importPath$.$context.graphModelName$) {
+							gm = ($context.importPath$.$context.graphModelName$) o;
 						}
 						if (o instanceof Diagram) {
 							diagram = (Diagram) o;
@@ -159,7 +159,7 @@ public class Create$context.graphModelName$Diagram implements IActionDelegate {
 				
 				if (diagram != null) {
 					boolean yes = MessageDialog.openQuestion(Display.getCurrent().getActiveShell(), &quot;Warning&quot;,
-							&quot;There already exists a diagram for $context.graphModelName$. Du you want to override it?&quot;);
+							&quot;There already exists a diagram for $context.graphModelName$. Do you want to override it?&quot;);
 					if (!yes)
 						return;
 				}
@@ -319,19 +319,18 @@ import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.ui.services.GraphitiUi;
 
-import $context.importPath$.*;
 
 public class $context.graphModelName$Creator extends RecordingCommand{
 	
 	private Diagram d;
-	private $context.graphModelName$ gm;
+	private $context.importPath$.$context.graphModelName$ gm;
 
 	
 	public $context.graphModelName$Creator(TransactionalEditingDomain domain) {
 		super(domain);
 	}
 
-	public $context.graphModelName$Creator(TransactionalEditingDomain domain, $context.graphModelName$ gm, Diagram diagrm) {
+	public $context.graphModelName$Creator(TransactionalEditingDomain domain, $context.importPath$.$context.graphModelName$ gm, Diagram diagrm) {
 		super(domain);
 		this.d = diagrm;
 		this.gm = gm;
@@ -349,7 +348,7 @@ public class $context.graphModelName$Creator extends RecordingCommand{
 		HashMap&lt;Object, ContainerShape&gt; addedElements = new HashMap&lt;Object, ContainerShape&gt;();
 		int x = 0;
 		for (Node n : gm.getAllNodes()) {
-			if (n.getContainer() != null &amp;&amp; n.getContainer() instanceof $context.graphModelName$) {
+			if (n.getContainer() != null &amp;&amp; n.getContainer() instanceof $context.importPath$.$context.graphModelName$) {
 				AreaContext ac = new AreaContext();
 				ac.setLocation(x, 10);
 				AddContext addContext = new AddContext(ac, n);

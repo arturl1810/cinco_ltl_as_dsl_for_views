@@ -1,0 +1,74 @@
+<t:container
+        xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd"
+        xmlns:p="tapestry:parameter">
+    <a
+            data-toggle="modal"
+            href="#newGraphDialog"
+            class="${linkCss}"><span class="glyphicon glyphicon-plus"></span> ${message:buttonText}</a>
+
+    <div
+            class="modal fade"
+            id="newGraphDialog"
+            tabindex="-1"
+            role="dialog"
+            aria-labelledby="newGraphDialogLabel"
+            aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <t:form
+                        t:id="newGraphDialogForm"
+                        t:context="project.id"
+                        class="form-horizontal">
+                    <div class="modal-header">
+                        <button
+                                type="button"
+                                class="close"
+                                data-dismiss="modal"
+                                aria-hidden="true">×
+                        </button>
+                        <h4 class="modal-title"><span class="glyphicon glyphicon-plus"></span> ${message:modalTitle}</h4>
+                    </div>
+                    <div class="modal-body">
+
+                        <div class="form-group">
+                            <t:label
+                                    t:for="newGraphDialogName"
+                                    class="col-sm-3 control-label">${message:NameLabel}
+                            </t:label>
+                            <div class="col-sm-9">
+                                <t:textfield
+                                        t:id="newGraphDialogName"
+                                        t:value="newGraphDialogName"
+                                        class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <t:label
+                                    t:for="newGraphDialogGraph"
+                                    class="col-sm-3 control-label">${message:GraphLabel}
+                            </t:label>
+                            <div class="col-sm-9">
+                                <t:select
+                                        t:id="newGraphDialogGraph"
+                                        t:value="selectedGraphModel"
+                                        t:encoder="typeEncoder"
+                                        t:model="selectModel"
+                                        t:blankOption="NEVER"
+                                        class="form-control"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button
+                                type="button"
+                                class="btn btn-default"
+                                data-dismiss="modal">${message:cancel}</button>
+                        <t:submit
+                                value="${message:create}"
+                                class="btn btn-success" />
+                    </div>
+                </t:form>
+            </div>
+        </div>
+    </div>
+</t:container>

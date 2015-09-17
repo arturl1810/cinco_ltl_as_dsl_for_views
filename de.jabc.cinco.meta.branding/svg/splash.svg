@@ -27,13 +27,13 @@
      inkscape:pageopacity="1"
      inkscape:pageshadow="2"
      inkscape:zoom="2.8284271"
-     inkscape:cx="236.39631"
+     inkscape:cx="237.10342"
      inkscape:cy="152.61967"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1920"
-     inkscape:window-height="1135"
+     inkscape:window-width="2560"
+     inkscape:window-height="1375"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="1" />
@@ -1183,16 +1183,16 @@
     </g>
     <text
        xml:space="preserve"
-       style="font-size:10px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Akkurat Office;-inkscape-font-specification:Akkurat Office"
-       x="186.47388"
+       style="font-size:10px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:end;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:end;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Akkurat Office;-inkscape-font-specification:Akkurat Office"
+       x="234.83325"
        y="843.15472"
        id="text3930"
        sodipodi:linespacing="125%"><tspan
-         style="font-size:10px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#ffffff;fill-opacity:1;font-family:Arial;-inkscape-font-specification:Arial"
+         style="font-size:10px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:end;text-anchor:end;fill:#ffffff;fill-opacity:1;font-family:Arial;-inkscape-font-specification:Arial"
          sodipodi:role="line"
-         x="186.47388"
+         x="234.83325"
          y="843.15472"
-         id="tspan9709">version 0.5</tspan></text>
+         id="tspan9709">version 0.7 snapshot</tspan></text>
     <g
        id="g9632"
        transform="matrix(0.98984354,0.14216104,-0.14216104,0.98984354,158.13079,-110.50219)">

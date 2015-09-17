@@ -144,10 +144,12 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 		try {
 			Collection<IResource> toDelete = new ArrayList<>();
 			toDelete.add(project.findMember("resources-gen/"));
-			for (IResource member : project.getFolder("src-gen/").members()) {
-				if (member instanceof IFolder
-						&& !member.getName().equals("model")) {
-					toDelete.add(member);
+			if(project.getFolder("src-gen/").exists()){
+				for (IResource member : project.getFolder("src-gen/").members()) {
+					if (member instanceof IFolder
+							&& !member.getName().equals("model")) {
+						toDelete.add(member);
+					}
 				}
 			}
 			IProgressMonitor monitor = new NullProgressMonitor();

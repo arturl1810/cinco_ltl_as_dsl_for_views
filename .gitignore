@@ -1,2 +1,4 @@
 *.xml.*
 */target*
+*/jabc.project
+*3.2.0.jar

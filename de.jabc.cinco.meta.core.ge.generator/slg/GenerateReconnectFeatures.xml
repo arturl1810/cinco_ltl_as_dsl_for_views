@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>586b7b70-5c30-487f-aa09-ffe8208bf019</id>
   <name>GenerateReconnectFeatures</name>
-  <changecounter>282</changecounter>
+  <changecounter>293</changecounter>
   <sib>
     <id>cb541589-b45f-430c-a56b-1cebe00059bf</id>
     <name>PutExpression</name>
@@ -43,7 +43,7 @@
     <label>ClassName</label>
     <sib-uid>basic-sibs/PutExpression</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
-    <position>365.5,168.0</position>
+    <position>515.5,288.0</position>
     <parameter name="resolve">
       <boolean>true</boolean>
     </parameter>
@@ -99,7 +99,7 @@
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>if (bo instanceof $context.edgeTarget.connectedElement.name$ &amp;&amp; edge instanceof $context.edge.name$) {
+      <string>if (bo instanceof $context.edgeTarget.connectedElement.name$ &amp;&amp; edge instanceof $context.importPath$.$context.edge.name$) {
 	return true;
 }
 
@@ -207,9 +207,9 @@
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>if (bo instanceof $context.edgeSource.connectedElement.name$ &amp;&amp; edge instanceof $context.edge.name$) {
+      <string>if (bo instanceof $context.edgeSource.connectedElement.name$ &amp;&amp; edge instanceof $context.importPath$.$context.edge.name$) {
 	$context.edgeSource.connectedElement.name$ tmp = ($context.edgeSource.connectedElement.name$) bo;
-	if (tmp.getOutgoing($context.edge.name$.class).size() &lt; $context.edgeMaxOut$)
+	if (tmp.getOutgoing($context.importPath$.$context.edge.name$.class).size() &lt; $context.edgeMaxOut$)
 		return true;
 }
 
@@ -335,7 +335,7 @@ import org.eclipse.graphiti.features.context.impl.UpdateContext;
 import org.eclipse.graphiti.features.impl.DefaultReconnectionFeature;
 import org.eclipse.graphiti.mm.pictograms.Anchor;
 
-import $context.importPath$.*;
+
 $context.cincoErrorImport$
 
 public class Reconnect$context.edge.name$Feature extends DefaultReconnectionFeature{
@@ -346,25 +346,29 @@ public class Reconnect$context.edge.name$Feature extends DefaultReconnectionFeat
 		super(fp);
 	}
 
-	@Override
-	public boolean canReconnect(IReconnectionContext context) {
-		Anchor newAnchor = context.getNewAnchor();
-		Anchor oldAnchor = context.getOldAnchor();
-		if (newAnchor != null &amp;&amp; newAnchor.equals(oldAnchor))
-				return true;
-		if (newAnchor != null) {
-			Object bo = getBusinessObjectForPictogramElement(context.getNewAnchor().getParent());
-			if (ReconnectionContext.RECONNECT_TARGET.equals(context.getReconnectType())) {
-				return checkTarget(bo);
+	public boolean canReconnect(IReconnectionContext context, boolean apiCall) {
+		if (apiCall) {
+			Anchor newAnchor = context.getNewAnchor();
+			Anchor oldAnchor = context.getOldAnchor();
+				if (newAnchor != null &amp;&amp; newAnchor.equals(oldAnchor))
+					return true;
+			if (newAnchor != null) {
+				Object bo = getBusinessObjectForPictogramElement(context.getNewAnchor().getParent());
+				if (ReconnectionContext.RECONNECT_TARGET.equals(context.getReconnectType())) {
+					return checkTarget(bo);
+				}
+				
+				if (ReconnectionContext.RECONNECT_SOURCE.equals(context.getReconnectType())) {
+					return checkSource(bo);
+				}
 			}
-			
-			if (ReconnectionContext.RECONNECT_SOURCE.equals(context.getReconnectType())) {
-				return checkSource(bo);
-			}
+			return false;
 		}
 		return false;
 	}
 	
+	$context.canReconnectContent$	
+
 	@Override
 	public void postReconnect(IReconnectionContext context) {
 		if (context.getNewAnchor().equals(context.getOldAnchor()))
@@ -502,7 +506,7 @@ public class Reconnect$context.edge.name$Feature extends DefaultReconnectionFeat
     <label>WriteJavaFile</label>
     <sib-uid>genesys-sibs/WriteJavaFile</sib-uid>
     <taxonomy>de.jabc.sib.genesys.WriteJavaFile</taxonomy>
-    <position>208.0,288.0</position>
+    <position>193.0,288.0</position>
     <parameter name="baseDirectory">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -559,8 +563,8 @@ public class Reconnect$context.edge.name$Feature extends DefaultReconnectionFeat
   <edge>
     <source>3c6248fd-1d17-463a-b0d9-59e90d6812b7</source>
     <target>3bd6d7a8-c2fc-4bfd-9ccd-ca40ef82c638</target>
-    <point>394.811320754717,324.0</point>
-    <point>326.48936170212767,438.0</point>
+    <point>540.0,315.0</point>
+    <point>390.0,315.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -611,11 +615,11 @@ public class Reconnect$context.edge.name$Feature extends DefaultReconnectionFeat
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>cec5c0c4-86a2-4a4e-a054-7c5b88dc8044</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>GetEdgeSourceTarget</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>cec5c0c4-86a2-4a4e-a054-7c5b88dc8044</string>
     </userobject>
   </sib>
   <edge>
@@ -713,7 +717,7 @@ public class Reconnect$context.edge.name$Feature extends DefaultReconnectionFeat
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>if (bo instanceof $context.edgeSource.connectedElement.name$  &amp;&amp; edge instanceof $context.edge.name$) {
+      <string>if (bo instanceof $context.edgeSource.connectedElement.name$  &amp;&amp; edge instanceof $context.importPath$.$context.edge.name$) {
 		return true;
 }
 </string>
@@ -824,9 +828,9 @@ public class Reconnect$context.edge.name$Feature extends DefaultReconnectionFeat
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>if (bo instanceof $context.edgeTarget.connectedElement.name$ &amp;&amp; edge instanceof $context.edge.name$) {
+      <string>if (bo instanceof $context.edgeTarget.connectedElement.name$ &amp;&amp; edge instanceof $context.importPath$.$context.edge.name$) {
 	$context.edgeTarget.connectedElement.name$ tmp = ($context.edgeTarget.connectedElement.name$) bo;
-	if (tmp.getIncoming($context.edge.name$.class).size() &lt; $context.edgeMaxIn$)
+	if (tmp.getIncoming($context.importPath$.$context.edge.name$.class).size() &lt; $context.edgeMaxIn$)
 		return true;
 }
 
@@ -902,7 +906,7 @@ public class Reconnect$context.edge.name$Feature extends DefaultReconnectionFeat
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>if (bo instanceof $context.edgeSource.connectedElement.name$ &amp;&amp; edge instanceof $context.edge.name$) {
+      <string>if (bo instanceof $context.edgeSource.connectedElement.name$ &amp;&amp; edge instanceof $context.importPath$.$context.edge.name$) {
 	$context.edgeSource.connectedElement.name$ tmp = ($context.edgeSource.connectedElement.name$) bo;
 	if (tmp.getOutgoing().size() &lt; $context.edgeMaxOut$)
 		return true;
@@ -972,7 +976,7 @@ public class Reconnect$context.edge.name$Feature extends DefaultReconnectionFeat
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>if (bo instanceof $context.edgeTarget.connectedElement.name$ &amp;&amp; edge instanceof $context.edge.name$) {
+      <string>if (bo instanceof $context.edgeTarget.connectedElement.name$ &amp;&amp; edge instanceof $context.importPath$.$context.edge.name$) {
 	$context.edgeTarget.connectedElement.name$ tmp = ($context.edgeTarget.connectedElement.name$) bo;
 	if (tmp.getIncoming().size() &lt; $context.edgeMaxIn$)
 		return true;
@@ -1009,9 +1013,9 @@ public class Reconnect$context.edge.name$Feature extends DefaultReconnectionFeat
   </edge>
   <edge>
     <source>e56f9fc1-dffd-47df-87d2-200e0a21146d</source>
-    <target>603c3649-1668-4812-936a-e135fe1c1dd9</target>
-    <point>120.0,195.0</point>
-    <point>300.0,195.0</point>
+    <target>dc50e978-f903-49db-80c2-b397f34b5c68</target>
+    <point>138.0,177.2</point>
+    <point>235.0,123.44444444444444</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>next</branch>
   </edge>
@@ -1021,7 +1025,7 @@ public class Reconnect$context.edge.name$Feature extends DefaultReconnectionFeat
     <label>GenerateEdgeCode</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>189.0,166.0</position>
+    <position>489.0,166.0</position>
     <parameter name="edgeKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1033,26 +1037,58 @@ public class Reconnect$context.edge.name$Feature extends DefaultReconnectionFeat
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>67c297f2-05a9-4896-8e73-7a7c57da4ed6</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>GenerateEdgeCode</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>67c297f2-05a9-4896-8e73-7a7c57da4ed6</string>
     </userobject>
   </sib>
   <edge>
     <source>603c3649-1668-4812-936a-e135fe1c1dd9</source>
     <target>1860e453-27c3-409f-bb0a-9aa708ceec85</target>
-    <point>275.0,184.35294117647058</point>
-    <point>492.0,158.75294117647059</point>
+    <point>390.0,195.0</point>
+    <point>540.0,195.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
     <source>1860e453-27c3-409f-bb0a-9aa708ceec85</source>
     <target>3c6248fd-1d17-463a-b0d9-59e90d6812b7</target>
+    <point>540.0,195.0</point>
     <point>540.0,315.0</point>
-    <point>416.0,306.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>dc50e978-f903-49db-80c2-b397f34b5c68</id>
+    <name>GraphSIB_2</name>
+    <label>GenerateCanReconnect</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>244.5,166.0</position>
+    <parameter name="modelElementKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>edge</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>GenerateCanReconnect</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>7b1b0aba-7aa6-4992-b94f-8e08aa6c082e</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>dc50e978-f903-49db-80c2-b397f34b5c68</source>
+    <target>603c3649-1668-4812-936a-e135fe1c1dd9</target>
+    <point>270.0,180.0</point>
+    <point>390.0,180.0</point>
     <branch>default</branch>
   </edge>
   <values/>

@@ -30,7 +30,7 @@ nodeStyle greenCircle {
 	}
 }
 
-nodeStyle blueTextRectangle {
+nodeStyle blueTextRectangle(1) {
 	roundedRectangle rec {
 		appearance default
 		position (0,0)
@@ -55,7 +55,7 @@ edgeStyle simpleArrow {
 	}
 }
 
-edgeStyle labeledArrow {	
+edgeStyle labeledArrow(1) {	
 	appearance default
 	decorator {
 		location (1.0)

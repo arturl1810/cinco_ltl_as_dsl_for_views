@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>e0c76532-9e6d-432c-8bdd-c39fb6516795</id>
   <name>GenerateSetPosition</name>
-  <changecounter>337</changecounter>
+  <changecounter>390</changecounter>
   <sib>
     <id>da0a527b-9125-4bcc-8691-6c1f8c7c1079</id>
     <name>SwitchAbstractPosition</name>
@@ -217,6 +217,9 @@ peService.setPropertyValue($context.peName$, $context.graphModelName$LayoutUtils
       <string>gaService.setLocation($context.peName$, $context.newPosition.xPos$, $context.newPosition.yPos$);
 peService.setPropertyValue($context.peName$, $context.graphModelName$LayoutUtils.KEY_HORIZONTAL, $context.graphModelName$LayoutUtils.KEY_HORIZONTAL_$context.position.horizontal$);
 peService.setPropertyValue($context.peName$, $context.graphModelName$LayoutUtils.KEY_VERTICAL, $context.graphModelName$LayoutUtils.KEY_VERTICAL_$context.position.vertical$);
+
+peService.setPropertyValue($context.peName$, $context.graphModelName$LayoutUtils.KEY_MARGIN_HORIZONTAL, &quot;$context.position.xMargin$&quot;);
+peService.setPropertyValue($context.peName$, $context.graphModelName$LayoutUtils.KEY_MARGIN_VERTICAL, &quot;$context.position.yMargin$&quot;);
 </string>
     </parameter>
     <finalbranches>default</finalbranches>
@@ -545,10 +548,10 @@ $context.containerPos$
   <sib>
     <id>b519c2e7-0dc6-4e55-8ec6-3d699c973004</id>
     <name>CheckVariable</name>
-    <label>CheckVariable</label>
+    <label>positionSet?</label>
     <sib-uid>basic-sibs/CheckVariable</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.CheckVariable</taxonomy>
-    <position>301.0,273.0</position>
+    <position>306.0,273.0</position>
     <parameter name="variable">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>

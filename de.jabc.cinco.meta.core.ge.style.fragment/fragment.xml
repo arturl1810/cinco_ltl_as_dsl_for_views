@@ -86,6 +86,24 @@
       <attribute-annotation
             recognized-annotation="propertiesViewHidden">
       </attribute-annotation>
+      <annotation
+            recognized-annotation="disable">
+      </annotation>
+      <attribute-annotation
+            recognized-annotation="readOnly">
+      </attribute-annotation>
+      <graphmodel-annotation
+            recognized-annotation="postAttributeValueChange">
+      </graphmodel-annotation>
+      <nodecontainer-annotation
+            recognized-annotation="postAttributeValueChange">
+      </nodecontainer-annotation>
+      <node-annotation
+            recognized-annotation="postAttributeValueChange">
+      </node-annotation>
+      <edge-annotation
+            recognized-annotation="postAttributeValueChange">
+      </edge-annotation>
    </extension>
 
 </fragment>

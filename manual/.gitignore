@@ -4,5 +4,7 @@ cinco-manual.log
 cinco-manual.out
 cinco-manual.pdf
 cinco-manual.aux
+cinco-manual.fdb_latexmk
+cinco-manual.fls
 world.bib
 gitHeadInfo.gin

@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>e96e3211-9e15-4d4a-94a9-7b4b8375d7a3</id>
   <name>GenerateLayoutFeatures</name>
-  <changecounter>581</changecounter>
+  <changecounter>638</changecounter>
   <sib>
     <id>ff7817b7-c328-4684-827e-afc4ea81c9f3</id>
     <name>PutExpression</name>
@@ -103,7 +103,7 @@
 
 import style.Appearance;
 
-import $context.importPath$.*;
+
 import $context.packageName$.graphiti.*;
 
 $context.appearanceContentImports$
@@ -147,26 +147,35 @@ public class $context.graphModelName$LayoutUtils {
 	public static final String KEY_VERTICAL_TOP = &quot;v_layout_top&quot;;
 	public static final String KEY_VERTICAL_MIDDLE = &quot;v_layout_middle&quot;;
 	public static final String KEY_VERTICAL_BOTTOM = &quot;v_layout_bottom&quot;;
+
+	public static final String KEY_MARGIN_HORIZONTAL = &quot;margin_horizontal&quot;;
+	public static final String KEY_MARGIN_VERTICAL = &quot;margin_vertical&quot;;
 	
 	public static final String KEY_GA_NAME = &quot;ga_name&quot;;
 
 	private static IGaService gaService = Graphiti.getGaService();
 
 	public static void layout(final GraphicsAlgorithm parent, final GraphicsAlgorithm ga) {
-		TransactionalEditingDomain dom = TransactionUtil.getEditingDomain(ga);
+		/*TransactionalEditingDomain dom = TransactionUtil.getEditingDomain(ga);
 		if (dom == null)
 			dom = TransactionalEditingDomain.Factory.INSTANCE.createEditingDomain();
 		dom.getCommandStack().execute(new RecordingCommand(dom) {
 			
 			@Override
-			protected void doExecute() {
+			protected void doExecute() {*/
 
 				IPeService peService = Graphiti.getPeService();
 				IGaService gaService = Graphiti.getGaService();
 				String horizontal = peService.getPropertyValue(ga, KEY_HORIZONTAL);
 				String vertical = peService.getPropertyValue(ga, KEY_VERTICAL);
+				int xMargin = 0;
+				int yMargin = 0;
+				if (peService.getPropertyValue(ga, KEY_MARGIN_HORIZONTAL) != null)
+					xMargin = Integer.parseInt(peService.getPropertyValue(ga, KEY_MARGIN_HORIZONTAL));
+				if (peService.getPropertyValue(ga, KEY_MARGIN_VERTICAL) != null)
+					yMargin = Integer.parseInt(peService.getPropertyValue(ga, KEY_MARGIN_VERTICAL));
 			
-				if (parent == null)
+				if (parent == null || ga == null)
 					return;
 				
 				int parentWidth = parent.getWidth(), parentHeight = parent.getHeight();
@@ -200,10 +209,10 @@ public class $context.graphModelName$LayoutUtils {
 					mt.setWidth(gaWidth);
 					mt.setHeight(gaHeight);
 			
-					if (parent.getWidth() &lt; gaWidth)
-						parent.setWidth(gaWidth);
-					if (parent.getHeight() &lt; gaHeight)
-						parent.setHeight(gaHeight);
+					if (parent.getWidth() &lt; gaWidth + mt.getX())
+						parent.setWidth(gaWidth + mt.getX());
+					if (parent.getHeight() &lt; gaHeight + mt.getY())
+						parent.setHeight(gaHeight + mt.getY());
 			
 					parentWidth = parent.getWidth();
 					parentHeight = parent.getHeight();
@@ -242,9 +251,9 @@ public class $context.graphModelName$LayoutUtils {
 					break;
 				}
 		
-				gaService.setLocation(ga, x, y);
-			}
-		});
+				gaService.setLocation(ga, x+xMargin, y+yMargin);
+		/*	}
+		});*/
 	}
 
 	public static IDimension getTextDimension(AbstractText t) {
@@ -269,7 +278,7 @@ public class $context.graphModelName$LayoutUtils {
 			}			
 
 			if (appearance.getAngle() != -1 &amp;&amp; ga instanceof AbstractText) {
-				((AbstractText)ga).setAngle(appearance.getAngle());
+				((AbstractText)ga).setRotation((double) appearance.getAngle());
 			}
 			
 			if (appearance.getBackground() != null) {
@@ -537,7 +546,7 @@ import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 
-import $context.importPath$.*;
+
 
 public class Layout$context.node.name$Feature extends AbstractLayoutFeature {
 
@@ -549,7 +558,7 @@ public class Layout$context.node.name$Feature extends AbstractLayoutFeature {
 	@Override
 	public boolean canLayout(ILayoutContext context) {
 		Object bo = getBusinessObjectForPictogramElement(context.getPictogramElement());
-		if (bo instanceof $context.node.name$)
+		if (bo instanceof $context.importPath$.$context.node.name$)
 			return true;
 		return false;
 	}
@@ -786,7 +795,7 @@ import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 
-import $context.importPath$.*;
+
 
 public class Layout$context.container.name$Feature extends AbstractLayoutFeature {
 
@@ -798,7 +807,7 @@ public class Layout$context.container.name$Feature extends AbstractLayoutFeature
 	@Override
 	public boolean canLayout(ILayoutContext context) {
 		Object bo = getBusinessObjectForPictogramElement(context.getPictogramElement());
-		if (bo instanceof $context.container.name$)
+		if (bo instanceof $context.importPath$.$context.container.name$)
 			return true;
 		return false;
 	}
@@ -807,16 +816,16 @@ public class Layout$context.container.name$Feature extends AbstractLayoutFeature
 	public boolean layout(ILayoutContext context) {
 		PictogramElement pe = context.getPictogramElement();
 		Object bo = getBusinessObjectForPictogramElement(pe);
-		if (bo instanceof $context.container.name$) {
+		if (bo instanceof $context.importPath$.$context.container.name$) {
 			if (pe instanceof ContainerShape) {
-				layout((ContainerShape) pe, ($context.container.name$) bo);
+				layout((ContainerShape) pe, ($context.importPath$.$context.container.name$) bo);
 				return true;
 			}
 		}
 		return false;
 	}
 
-	private boolean layout(ContainerShape cs, $context.container.name$ bo) {
+	private boolean layout(ContainerShape cs, $context.importPath$.$context.container.name$ bo) {
 		for (Shape child : cs.getChildren()) {
 			Object childBo = getBusinessObjectForPictogramElement(child);
 			if (childBo == null || bo.equals(childBo)) {
@@ -1003,11 +1012,11 @@ public class Layout$context.container.name$Feature extends AbstractLayoutFeature
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>f7b62494-1378-4d7a-afe4-57e7c97b4239</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>GenerateAppearance</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>f7b62494-1378-4d7a-afe4-57e7c97b4239</string>
     </userobject>
   </sib>
   <edge>
@@ -1303,7 +1312,7 @@ import org.eclipse.graphiti.mm.pictograms.Connection;
 import org.eclipse.graphiti.mm.pictograms.ConnectionDecorator;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.services.Graphiti;
-import $context.importPath$.*;
+
 
 public class Layout$context.edge.name$Feature extends AbstractLayoutFeature {
 
@@ -1316,7 +1325,7 @@ public class Layout$context.edge.name$Feature extends AbstractLayoutFeature {
 	public boolean canLayout(ILayoutContext context) {
 		PictogramElement pe = context.getPictogramElement();
 		Object bo = getBusinessObjectForPictogramElement(pe);
-		if (bo instanceof $context.edge.name$)
+		if (bo instanceof $context.importPath$.$context.edge.name$)
 			return true;
 		return false;
 	}
@@ -1325,7 +1334,7 @@ public class Layout$context.edge.name$Feature extends AbstractLayoutFeature {
 	public boolean layout(ILayoutContext context) {
 		PictogramElement pe = context.getPictogramElement();
 		Object bo = getBusinessObjectForPictogramElement(pe);
-		if (bo instanceof $context.edge.name$) {
+		if (bo instanceof $context.importPath$.$context.edge.name$) {
 			if (pe instanceof Connection) {
 				Connection conn = (Connection) pe;
 				for (ConnectionDecorator cd : conn.getConnectionDecorators()) {

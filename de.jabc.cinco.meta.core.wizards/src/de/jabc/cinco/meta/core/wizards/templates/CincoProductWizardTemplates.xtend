@@ -35,11 +35,11 @@ appearance default {
 }
 
 nodeStyle labeledCircle (1){
-	ellipse e {
+	ellipse {
 		appearance default
 		size(40,40)
 		text {
-			position relativeTo e ( CENTER, MIDDLE )
+			position ( CENTER, MIDDLE )
 			value "%s"
 		}
 	}
@@ -234,12 +234,12 @@ appearance redBorder extends default {
 } 
 
 nodeStyle redCircle {
-	ellipse	outer {
+	ellipse {
 		appearance redBorder
 		size(36,36)
 		ellipse { 
 			appearance redBorder
-			position relativeTo outer ( CENTER, MIDDLE )
+			position ( CENTER, MIDDLE )
 			size (24,24)
 		}
 	}
@@ -256,13 +256,13 @@ nodeStyle greenCircle {
 }
 
 nodeStyle blueTextRectangle(1) {
-	roundedRectangle rec {
+	roundedRectangle {
 		appearance default
 		position (0,0)
 		size (96,32)
 		corner (8,8)
 		text {
-			position relativeTo rec ( CENTER, MIDDLE )
+			position ( CENTER, MIDDLE )
 			value "%s" 
 		}
 	}
@@ -270,7 +270,7 @@ nodeStyle blueTextRectangle(1) {
 
 «IF features.contains(PRIME_REFERENCES)»
 nodeStyle greenTextRectangle(1) {
-	roundedRectangle rec {
+	roundedRectangle {
 		appearance extends default {
 			background (101,175,95)
 		}
@@ -278,7 +278,7 @@ nodeStyle greenTextRectangle(1) {
 		size (96,32)
 		corner (8,8)
 		text {
-			position relativeTo rec ( CENTER, MIDDLE )
+			position ( CENTER, MIDDLE )
 			value "%s" 
 		}
 	}

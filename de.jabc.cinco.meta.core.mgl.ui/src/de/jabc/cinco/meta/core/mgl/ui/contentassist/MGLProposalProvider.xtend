@@ -156,7 +156,7 @@ class MGLProposalProvider extends AbstractMGLProposalProvider {
 		
 	}
 	
-	override completeGraphicalElementContainment_Type(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
+	override completeGraphicalElementContainment_Types(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
 		if(model instanceof GraphModel){
 			
 			val graphModel =model as GraphModel 

@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>5f5db73a-2f0c-4b4a-9206-54d4b69c1f26</id>
   <name>Generate_APIOperations_Container</name>
-  <changecounter>367</changecounter>
+  <changecounter>368</changecounter>
   <sib>
     <id>1f43675d-4efd-4a70-a389-1e18244ad4f7</id>
     <name>IterateElements</name>
@@ -476,11 +476,11 @@
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <finalbranches>default</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>079a4d5e-bab9-4273-8a05-29b4b4909c15</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Generate_GraphModelNodeEOperations</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>079a4d5e-bab9-4273-8a05-29b4b4909c15</string>
     </userobject>
   </sib>
   <sib>
@@ -500,11 +500,11 @@
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <finalbranches>default</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>68703e35-7ca0-4d4e-8241-4cd302c23c07</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Generate_GraphModelContainerEOperations</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>68703e35-7ca0-4d4e-8241-4cd302c23c07</string>
     </userobject>
   </sib>
   <edge>
@@ -743,11 +743,11 @@
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <finalbranches>default</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>13968d39-5af4-4872-b4c7-04609eeafd68</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Generate_GraphModelEdgeEOperations</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>13968d39-5af4-4872-b4c7-04609eeafd68</string>
     </userobject>
   </sib>
   <edge>
@@ -794,12 +794,21 @@
         </ContextKeyFoundation>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
+    <parameter name="modelElementName">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>${modelElementName}</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
     <finalbranches>default</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>f14f4b16-0177-4ded-8256-3098679e41b5</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Generate_APIOperations_ModelElement</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>f14f4b16-0177-4ded-8256-3098679e41b5</string>
     </userobject>
   </sib>
   <sib>
@@ -973,11 +982,11 @@
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <finalbranches>default</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>53c0c093-ef7e-452a-ae07-8946504ff744</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Generate_NodeMoveEOperation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>53c0c093-ef7e-452a-ae07-8946504ff744</string>
     </userobject>
   </sib>
   <edge>

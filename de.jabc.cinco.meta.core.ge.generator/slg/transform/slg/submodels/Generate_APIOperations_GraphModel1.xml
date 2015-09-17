@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>2190f1aa-18e0-42fc-8098-06e689be2e65</id>
   <name>Generate_APIOperations_GraphModel1</name>
-  <changecounter>677</changecounter>
+  <changecounter>678</changecounter>
   <sib>
     <id>6169ccf6-ff91-4039-981b-559fdf62b024</id>
     <name>IterateElements</name>
@@ -634,14 +634,6 @@
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
-  <edge>
-    <source>f75b6cfd-32b6-4356-adcd-e9e93e0a90e3</source>
-    <target>b81efadd-db52-44d0-aa6f-45358642943a</target>
-    <point>498.0,81.27692307692308</point>
-    <point>1047.0,81.27692307692307</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>exit</branch>
-  </edge>
   <sib>
     <id>f9a7eaba-1df7-420e-86fc-010262e30801</id>
     <name>IsAbstract_3</name>
@@ -725,11 +717,11 @@
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Create EOperation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
     </userobject>
   </sib>
   <edge>
@@ -807,11 +799,11 @@ return false;
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Create EOperation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
     </userobject>
   </sib>
   <edge>
@@ -847,11 +839,11 @@ return false;
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <finalbranches>default</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>682624bb-37b0-43b6-8bd5-4da09ee871bd</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>CreateParametersForEOperation1</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>682624bb-37b0-43b6-8bd5-4da09ee871bd</string>
     </userobject>
   </sib>
   <edge>
@@ -886,11 +878,11 @@ Deletes the given modelElement from the $graphModelName$ and the diagram
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>9445cb7d-1ca9-47f0-bda0-ffb7822ef982</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Generate_Documentation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>9445cb7d-1ca9-47f0-bda0-ffb7822ef982</string>
     </userobject>
   </sib>
   <edge>
@@ -993,11 +985,11 @@ return retval;</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Create EOperation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
     </userobject>
   </sib>
   <edge>
@@ -1033,11 +1025,11 @@ return retval;</string>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <finalbranches>default</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>682624bb-37b0-43b6-8bd5-4da09ee871bd</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>CreateParametersForEOperation1</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>682624bb-37b0-43b6-8bd5-4da09ee871bd</string>
     </userobject>
   </sib>
   <edge>
@@ -1128,11 +1120,11 @@ return retval;</string>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <finalbranches>default</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>079a4d5e-bab9-4273-8a05-29b4b4909c15</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Generate_GraphModelNodeEOperations</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>079a4d5e-bab9-4273-8a05-29b4b4909c15</string>
     </userobject>
   </sib>
   <sib>
@@ -1152,11 +1144,11 @@ return retval;</string>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <finalbranches>default</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>68703e35-7ca0-4d4e-8241-4cd302c23c07</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Generate_GraphModelContainerEOperations</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>68703e35-7ca0-4d4e-8241-4cd302c23c07</string>
     </userobject>
   </sib>
   <sib>
@@ -1176,11 +1168,11 @@ return retval;</string>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <finalbranches>default</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>73cad925-428c-4632-9b54-44908e82bd6e</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Generate_GraphModelFindEOperations</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>73cad925-428c-4632-9b54-44908e82bd6e</string>
     </userobject>
   </sib>
   <edge>
@@ -1196,7 +1188,7 @@ return retval;</string>
     <label>IterateEdges</label>
     <sib-uid>collection-sibs/IterateElements</sib-uid>
     <taxonomy>de.jabc.sib.common.collection.IterateElements</taxonomy>
-    <position>695.0,123.0</position>
+    <position>695.0,63.0</position>
     <parameter name="collection">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1234,7 +1226,7 @@ return retval;</string>
     <label>GetModelElementName</label>
     <sib-uid>mgl/mgl/GetModelElementName</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetModelElementName</taxonomy>
-    <position>665.0,333.0</position>
+    <position>665.0,273.0</position>
     <parameter name="modelElementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1262,7 +1254,7 @@ return retval;</string>
     <label>GetElement</label>
     <sib-uid>collection-sibs/GetElement</sib-uid>
     <taxonomy>de.jabc.sib.common.collection.GetElement</taxonomy>
-    <position>698.0,558.0</position>
+    <position>698.0,498.0</position>
     <parameter name="element">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1333,7 +1325,7 @@ return retval;</string>
     <label>GetEClassifierByName</label>
     <sib-uid>utility-sibs/GetEClassifierByName</sib-uid>
     <taxonomy>transem.utility.sib.GetEClassifierByName</taxonomy>
-    <position>667.0,438.0</position>
+    <position>667.0,378.0</position>
     <parameter name="eClassifierKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1379,7 +1371,7 @@ return retval;</string>
     <label>IsAbstract</label>
     <sib-uid>ge-util-sibs/IsAbstract</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsAbstract</taxonomy>
-    <position>702.5,228.0</position>
+    <position>702.5,168.0</position>
     <parameter name="modelElement">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1425,7 +1417,7 @@ return retval;</string>
     <label>Generate_GraphModelEdgeEOperations</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>618.5,691.0</position>
+    <position>618.5,631.0</position>
     <parameter name="eClassKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1436,11 +1428,11 @@ return retval;</string>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <finalbranches>default</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>13968d39-5af4-4872-b4c7-04609eeafd68</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Generate_GraphModelEdgeEOperations</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>13968d39-5af4-4872-b4c7-04609eeafd68</string>
     </userobject>
   </sib>
   <sib>
@@ -1541,11 +1533,11 @@ return retval;</string>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
     <position>1214.0,61.0</position>
     <finalbranches>default</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>6ea56bc2-0f7f-4c7e-8ab2-7eecdb861309</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Generate_GraphModelFindGenericEOperations</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>6ea56bc2-0f7f-4c7e-8ab2-7eecdb861309</string>
     </userobject>
   </sib>
   <edge>
@@ -1613,11 +1605,11 @@ $fqnDeleteFeature$ df = provider.getDeleteFeature(dc);
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Create EOperation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
     </userobject>
   </sib>
   <edge>
@@ -1680,11 +1672,11 @@ $fqnDeleteFeature$ df = provider.getDeleteFeature(dc);
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <finalbranches>default</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>682624bb-37b0-43b6-8bd5-4da09ee871bd</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>CreateParametersForEOperation1</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>682624bb-37b0-43b6-8bd5-4da09ee871bd</string>
     </userobject>
   </sib>
   <edge>
@@ -1693,6 +1685,13 @@ $fqnDeleteFeature$ df = provider.getDeleteFeature(dc);
     <point>1350.0,420.0</point>
     <point>1364.0,545.0</point>
     <branch>default</branch>
+  </edge>
+  <edge>
+    <source>f75b6cfd-32b6-4356-adcd-e9e93e0a90e3</source>
+    <target>0ed9bb9e-46e0-4bb9-94f9-cc7534322d4f</target>
+    <point>526.5,113.0</point>
+    <point>795.0,113.0</point>
+    <branch>exit</branch>
   </edge>
   <values/>
   <branch>

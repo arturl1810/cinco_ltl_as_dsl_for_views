@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>21a09387-7e17-4606-a778-1e7bb342ecbd</id>
   <name>GenerateSingleEnumeration</name>
-  <changecounter>134</changecounter>
+  <changecounter>160</changecounter>
   <sib>
     <id>d1c30f87-0fd9-4945-b421-8e6ce0817cc2</id>
     <name>CopyEObject</name>
@@ -87,8 +87,8 @@
     </parameter>
     <parameter name="template">
       <string>EObject tmp = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
-if (tmp instanceof $context.modelElementName$) {
-	(($context.modelElementName$) tmp).set$context.fuAttributeName$($context.enum.name$.getByName($context.flAttributeName$Combo.getText()));
+if (tmp instanceof $context.importPath$.$context.modelElementName$) {
+	(($context.importPath$.$context.modelElementName$) tmp).set$context.fuAttributeName$($context.importPath$.$context.enum.name$.getByName($context.flAttributeName$Combo.getText()));
 }</string>
     </parameter>
     <finalbranches>default</finalbranches>
@@ -647,15 +647,15 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
 	data.top = new FormAttachment(0, ITabbedPropertyConstants.VSPACE);
 	$context.flAttributeName$Combo.setLayoutData(data);
 
-	Label nameLabel = factory.createLabel(composite, &quot;$context.fuAttributeName$&quot;);
+	Label $context.flAttributeName$Label = factory.createLabel(composite, &quot;$context.fuAttributeName$&quot;);
 	data = new FormData();
 	data.left = new FormAttachment(0, 0);
 	data.right = new FormAttachment($context.flAttributeName$Combo, -ITabbedPropertyConstants.HSPACE);
 	data.top = new FormAttachment($context.flAttributeName$Combo, 0, SWT.CENTER);
-	nameLabel.setLayoutData(data);
+	$context.flAttributeName$Label.setLayoutData(data);
 	
-	$context.attributeName$Combo.setEditable(false);
-	$context.attributeName$Combo.setEnabled(false);
+	$context.flAttributeName$Combo.setEditable(false);
+	$context.flAttributeName$Combo.setEnabled(false);
 
 }
 </string>
@@ -752,7 +752,7 @@ public void createControls(Composite parent, TabbedPropertySheetPage tabbedPrope
     </parameter>
     <parameter name="template">
       <string>EObject bo = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
-if (bo instanceof $context.modelElementName$) {
+if (bo instanceof $context.importPath$.$context.modelElementName$) {
 	$context.fuModelElementName$ tmp = ($context.fuModelElementName$) bo;
 	if (tmp.get$context.fuAttributeName$Parameter().get(0) != null)
 		tmp.get$context.fuAttributeName$Parameter().get(0).setInstance($context.enum.name$.getByName($context.flAttributeName$Combo.getText()));
