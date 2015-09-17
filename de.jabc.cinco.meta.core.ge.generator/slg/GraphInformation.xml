@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>86742e86-2110-423a-afde-6fd521759a73</id>
   <name>GraphInformation</name>
-  <changecounter>981</changecounter>
+  <changecounter>1013</changecounter>
   <sib>
     <id>9e28dbf6-7ef4-4eef-9ad3-1d0d32bf6020</id>
     <name>GetGraphModelName</name>
@@ -1832,10 +1832,10 @@ ${modelElements}</expression>
   <sib>
     <id>44915b80-c792-404b-aedf-821e2e0a60e2</id>
     <name>PutList_1</name>
-    <label>PutList</label>
+    <label>PutMglModelElements</label>
     <sib-uid>collection-sibs/PutList</sib-uid>
     <taxonomy>de.jabc.sib.common.collection.PutList</taxonomy>
-    <position>484.0,2088.0</position>
+    <position>450.0,2088.0</position>
     <parameter name="elements">
       <list/>
     </parameter>
@@ -1860,10 +1860,10 @@ ${modelElements}</expression>
   <sib>
     <id>7a843ff5-e391-47d7-8c44-545b547c3420</id>
     <name>AddElements</name>
-    <label>AddElements</label>
+    <label>AddNodes</label>
     <sib-uid>collection-sibs/AddElements</sib-uid>
     <taxonomy>de.jabc.sib.common.collection.AddElements</taxonomy>
-    <position>599.5,2088.0</position>
+    <position>609.0,2088.0</position>
     <parameter name="collection">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1921,7 +1921,7 @@ ${modelElements}</expression>
     <label>AddElements</label>
     <sib-uid>collection-sibs/AddElements</sib-uid>
     <taxonomy>de.jabc.sib.common.collection.AddElements</taxonomy>
-    <position>839.5,2088.0</position>
+    <position>854.5,2088.0</position>
     <parameter name="collection">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1975,51 +1975,6 @@ ${modelElements}</expression>
     <point>1014.0,2112.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>true</branch>
-  </edge>
-  <sib>
-    <id>b1a0df51-db65-4a61-816b-7addd4ae94a0</id>
-    <name>PrintConsoleMessage_4</name>
-    <label>PrintConsoleMessage</label>
-    <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
-    <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
-    <position>699.5,1983.0</position>
-    <parameter name="error">
-      <boolean>true</boolean>
-    </parameter>
-    <parameter name="message">
-      <de.metaframe.common.sib.parameter.ContextExpression>
-        <ContextExpressionFoundation>
-          <expression>Could not add elements to modelElements list...</expression>
-          <clazz>java.lang.Object</clazz>
-          <classMutable>false</classMutable>
-        </ContextExpressionFoundation>
-      </de.metaframe.common.sib.parameter.ContextExpression>
-    </parameter>
-    <finalbranches>default</finalbranches>
-  </sib>
-  <edge>
-    <source>7a843ff5-e391-47d7-8c44-545b547c3420</source>
-    <target>b1a0df51-db65-4a61-816b-7addd4ae94a0</target>
-    <point>639.0,2112.0</point>
-    <point>759.0,2007.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>false</branch>
-  </edge>
-  <edge>
-    <source>37a8dc5a-ce6a-4908-aa80-5d2222027de6</source>
-    <target>b1a0df51-db65-4a61-816b-7addd4ae94a0</target>
-    <point>759.0,2112.0</point>
-    <point>759.0,2007.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>false</branch>
-  </edge>
-  <edge>
-    <source>f44560d3-54db-4b67-b9c7-59ef89937ccd</source>
-    <target>b1a0df51-db65-4a61-816b-7addd4ae94a0</target>
-    <point>879.0,2112.0</point>
-    <point>759.0,2007.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>false</branch>
   </edge>
   <sib>
     <id>3e255dcd-2c20-42c7-a8cb-a1440e6195f5</id>
@@ -2300,14 +2255,6 @@ ${modelElements}</expression>
     <target>4dd81c41-2839-484c-ad59-e2f5ad5ba352</target>
     <point>1015.8139534883721,2124.0</point>
     <point>994.8648648648649,2208.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
-  <edge>
-    <source>b1a0df51-db65-4a61-816b-7addd4ae94a0</source>
-    <target>f74f3537-8d05-4d53-8871-efb2d861fd67</target>
-    <point>759.0,2007.0</point>
-    <point>1014.0,2112.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -2930,6 +2877,115 @@ public void setError(ECincoError error) {
     <target>2d5033c3-45db-43bb-a8ca-edfcced94c8d</target>
     <point>330.0,1733.0</point>
     <point>520.0,1673.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>b1a0df51-db65-4a61-816b-7addd4ae94a0</id>
+    <name>PrintConsoleMessage_4</name>
+    <label>PrintConsoleMessage</label>
+    <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
+    <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
+    <position>579.5,1968.0</position>
+    <parameter name="error">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="message">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>Could not add nodes: ${nodes} to modelElements list...</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>false</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <finalbranches>default</finalbranches>
+  </sib>
+  <edge>
+    <source>b1a0df51-db65-4a61-816b-7addd4ae94a0</source>
+    <target>37a8dc5a-ce6a-4908-aa80-5d2222027de6</target>
+    <point>661.7441860465116,2004.0</point>
+    <point>747.0,2089.35</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>f44560d3-54db-4b67-b9c7-59ef89937ccd</source>
+    <target>bc613f3f-f37c-4e1e-b2a8-b19f108f5c2f</target>
+    <point>877.2972972972973,2088.0</point>
+    <point>908.7209302325581,2004.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>false</branch>
+  </edge>
+  <edge>
+    <source>7a843ff5-e391-47d7-8c44-545b547c3420</source>
+    <target>b1a0df51-db65-4a61-816b-7addd4ae94a0</target>
+    <point>639.0,2112.0</point>
+    <point>759.0,2007.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>false</branch>
+  </edge>
+  <edge>
+    <source>37a8dc5a-ce6a-4908-aa80-5d2222027de6</source>
+    <target>825ebf57-869f-4b14-b3b6-e1c6834a8bee</target>
+    <point>765.0,2088.0</point>
+    <point>765.0,2004.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>false</branch>
+  </edge>
+  <sib>
+    <id>825ebf57-869f-4b14-b3b6-e1c6834a8bee</id>
+    <name>PrintConsoleMessage_5</name>
+    <label>PrintConsoleMessage</label>
+    <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
+    <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
+    <position>699.5,1968.0</position>
+    <parameter name="error">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="message">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>Could not add edges ${edges} to modelElements list...</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>false</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <finalbranches>default</finalbranches>
+  </sib>
+  <sib>
+    <id>bc613f3f-f37c-4e1e-b2a8-b19f108f5c2f</id>
+    <name>PrintConsoleMessage_6</name>
+    <label>PrintConsoleMessage</label>
+    <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
+    <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
+    <position>834.5,1968.0</position>
+    <parameter name="error">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="message">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>Could not add containers ${containers} to modelElements list...</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>false</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <finalbranches>default</finalbranches>
+  </sib>
+  <edge>
+    <source>825ebf57-869f-4b14-b3b6-e1c6834a8bee</source>
+    <target>f44560d3-54db-4b67-b9c7-59ef89937ccd</target>
+    <point>783.0,2003.2</point>
+    <point>882.0,2091.2</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>bc613f3f-f37c-4e1e-b2a8-b19f108f5c2f</source>
+    <target>f74f3537-8d05-4d53-8871-efb2d861fd67</target>
+    <point>900.0,1995.0</point>
+    <point>1015.0,2099.0</point>
     <branch>default</branch>
   </edge>
   <values/>
