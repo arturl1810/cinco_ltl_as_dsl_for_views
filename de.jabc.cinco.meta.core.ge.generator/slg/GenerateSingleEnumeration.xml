@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>21a09387-7e17-4606-a778-1e7bb342ecbd</id>
   <name>GenerateSingleEnumeration</name>
-  <changecounter>155</changecounter>
+  <changecounter>160</changecounter>
   <sib>
     <id>d1c30f87-0fd9-4945-b421-8e6ce0817cc2</id>
     <name>CopyEObject</name>
@@ -88,7 +88,7 @@
     <parameter name="template">
       <string>EObject tmp = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
 if (tmp instanceof $context.importPath$.$context.modelElementName$) {
-	(($context.importPath$.$context.modelElementName$) tmp).set$context.fuAttributeName$($context.enum.name$.getByName($context.flAttributeName$Combo.getText()));
+	(($context.importPath$.$context.modelElementName$) tmp).set$context.fuAttributeName$($context.importPath$.$context.enum.name$.getByName($context.flAttributeName$Combo.getText()));
 }</string>
     </parameter>
     <finalbranches>default</finalbranches>

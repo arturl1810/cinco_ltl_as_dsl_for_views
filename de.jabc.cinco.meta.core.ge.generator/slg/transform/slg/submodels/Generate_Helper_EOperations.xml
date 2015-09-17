@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>d5531c11-ffc2-41e6-b1fd-4f08e1327b1f</id>
   <name>Generate Helper EOperations</name>
-  <changecounter>441</changecounter>
+  <changecounter>445</changecounter>
   <sib>
     <id>2db6fa19-1315-4022-abef-abc4426dcce8</id>
     <name>IterateGraphModelNodeContainers</name>
@@ -923,14 +923,6 @@
       <string>2390bf64-3bef-4139-ad37-7a085733f865</string>
     </userobject>
   </sib>
-  <edge>
-    <source>8a280031-46ed-478c-bc80-b9aa78bbe07f</source>
-    <target>6c827e16-629e-463d-b543-82bbd9d0769c</target>
-    <point>1625.0,388.0</point>
-    <point>1750.0,331.1818181818182</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
   <sib>
     <id>73e34a6e-baa9-43bf-869e-764c738c3aec</id>
     <name>MergeStrings</name>
@@ -945,13 +937,6 @@
       <de.metaframe.jabc.framework.sib.parameter.StrictList>
         <StrictListFoundation>
           <delegate class="list">
-            <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-              <ContextKeyFoundation>
-                <key></key>
-                <scope>GLOBAL</scope>
-                <scopeMutable>true</scopeMutable>
-              </ContextKeyFoundation>
-            </de.metaframe.jabc.framework.sib.parameter.ContextKey>
             <de.metaframe.jabc.framework.sib.parameter.ContextKey>
               <ContextKeyFoundation>
                 <key>nodeName</key>
@@ -1053,13 +1038,6 @@
       <de.metaframe.jabc.framework.sib.parameter.StrictList>
         <StrictListFoundation>
           <delegate class="list">
-            <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-              <ContextKeyFoundation>
-                <key></key>
-                <scope>GLOBAL</scope>
-                <scopeMutable>true</scopeMutable>
-              </ContextKeyFoundation>
-            </de.metaframe.jabc.framework.sib.parameter.ContextKey>
             <de.metaframe.jabc.framework.sib.parameter.ContextKey>
               <ContextKeyFoundation>
                 <key>nodeName</key>
@@ -1460,8 +1438,15 @@ return new org.eclipse.emf.common.util.BasicEList&lt;Class&lt;?&gt;&gt;(java.uti
   <edge>
     <source>6c827e16-629e-463d-b543-82bbd9d0769c</source>
     <target>65b36ef0-ad70-4868-b07f-0f3cbd5c5905</target>
-    <point>1815.0,405.0</point>
-    <point>1930.0,275.0</point>
+    <point>1959.5,426.0</point>
+    <point>2008.0,293.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>8a280031-46ed-478c-bc80-b9aa78bbe07f</source>
+    <target>6c827e16-629e-463d-b543-82bbd9d0769c</target>
+    <point>1601.0,426.0</point>
+    <point>1959.5,426.0</point>
     <branch>default</branch>
   </edge>
   <parameter>

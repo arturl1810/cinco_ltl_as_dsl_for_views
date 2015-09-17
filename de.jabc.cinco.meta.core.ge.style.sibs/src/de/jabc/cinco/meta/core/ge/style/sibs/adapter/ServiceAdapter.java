@@ -400,10 +400,19 @@ public class ServiceAdapter {
 				return Branches.TRUE;
 			
 			for (GraphicalElementContainment containedNode : nc.getContainableElements() ) {
-				if (containedNode.getTypes() == null)
+				if (containedNode.getTypes() == null || containedNode.getTypes().isEmpty())
 					return Branches.TRUE;
-				if (containedNode.getTypes().contains(n)) {
+				
+				if (containedNode.getTypes().contains(n))
 					return Branches.TRUE;
+				
+				if (n instanceof Node) {
+					Node extend = (Node) n;
+					while (extend != null) {
+						extend = extend.getExtends();
+						if (containedNode.getTypes().contains(extend))
+							return Branches.TRUE;
+					}
 				}
 			}
 			
