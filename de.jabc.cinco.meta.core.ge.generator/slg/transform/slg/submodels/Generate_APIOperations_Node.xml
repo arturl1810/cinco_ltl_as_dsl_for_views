@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>42f98ca5-34c7-4c22-9f6e-1f6dc8d852d7</id>
   <name>Generate_NodeEOperations</name>
-  <changecounter>219</changecounter>
+  <changecounter>221</changecounter>
   <sib>
     <id>be1971b4-e3aa-44cc-862f-367534c2fc2c</id>
     <name>GraphSIB</name>
@@ -19,16 +19,7 @@
         </ContextKeyFoundation>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
-    <parameter name="eOperationeTypeKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>nodeClass</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>false</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="modelElementName">
+    <parameter name="value">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
           <expression>${modelElement.name}</expression>
@@ -138,7 +129,7 @@
     <label>IsAbstract</label>
     <sib-uid>ge-util-sibs/IsAbstract</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsAbstract</taxonomy>
-    <position>147.5,198.0</position>
+    <position>147.5,196.0</position>
     <parameter name="modelElement">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>

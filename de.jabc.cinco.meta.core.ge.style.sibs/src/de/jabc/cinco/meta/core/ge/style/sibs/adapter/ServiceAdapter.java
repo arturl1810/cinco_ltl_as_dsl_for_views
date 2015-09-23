@@ -402,13 +402,18 @@ public class ServiceAdapter {
 			for (GraphicalElementContainment containedNode : nc.getContainableElements() ) {
 				if (containedNode.getTypes() == null || containedNode.getTypes().isEmpty())
 					return Branches.TRUE;
-				for (GraphicalModelElement gme : containedNode.getTypes()) {
-					if (n.getClass().isInstance(gme))
-						return Branches.TRUE;
+				
+				if (containedNode.getTypes().contains(n))
+					return Branches.TRUE;
+				
+				if (n instanceof Node) {
+					Node extend = (Node) n;
+					while (extend != null) {
+						extend = extend.getExtends();
+						if (containedNode.getTypes().contains(extend))
+							return Branches.TRUE;
+					}
 				}
-//				if (containedNode.getTypes().contains(n)) {
-//					return Branches.TRUE;
-//				}
 			}
 			
 			return Branches.FALSE;

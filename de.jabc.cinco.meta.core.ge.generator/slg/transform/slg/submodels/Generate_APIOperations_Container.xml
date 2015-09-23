@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>5f5db73a-2f0c-4b4a-9206-54d4b69c1f26</id>
   <name>Generate_APIOperations_Container</name>
-  <changecounter>368</changecounter>
+  <changecounter>372</changecounter>
   <sib>
     <id>1f43675d-4efd-4a70-a389-1e18244ad4f7</id>
     <name>IterateElements</name>
@@ -50,7 +50,7 @@
     <label>IsNodeContained</label>
     <sib-uid>ge-util-sibs/IsNodeContained</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsNodeContained</taxonomy>
-    <position>218.0,198.0</position>
+    <position>218.0,196.0</position>
     <parameter name="node">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -87,7 +87,7 @@
     <label>IsAbstract</label>
     <sib-uid>ge-util-sibs/IsAbstract</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsAbstract</taxonomy>
-    <position>237.5,318.0</position>
+    <position>237.5,316.0</position>
     <parameter name="modelElement">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -272,7 +272,7 @@
     <label>IsAbstract</label>
     <sib-uid>ge-util-sibs/IsAbstract</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsAbstract</taxonomy>
-    <position>507.5,288.0</position>
+    <position>507.5,286.0</position>
     <parameter name="modelElement">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -401,7 +401,7 @@
     <label>IsNodeContained</label>
     <sib-uid>ge-util-sibs/IsNodeContained</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsNodeContained</taxonomy>
-    <position>488.0,183.0</position>
+    <position>488.0,181.0</position>
     <parameter name="node">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -694,7 +694,7 @@
     <label>IsAbstract</label>
     <sib-uid>ge-util-sibs/IsAbstract</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsAbstract</taxonomy>
-    <position>792.5,183.0</position>
+    <position>792.5,181.0</position>
     <parameter name="modelElement">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -785,16 +785,7 @@
         </ContextKeyFoundation>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
-    <parameter name="eOperationeTypeKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>containerClass</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>false</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="modelElementName">
+    <parameter name="value">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
           <expression>${modelElementName}</expression>
