@@ -34,7 +34,6 @@ public class CincoTreeFactory implements IObservableFactory {
 
 		if (target instanceof EObject) {
 			IEMFListProperty iEmfListProperty = EMFProperties.multiList(emfListPropertesMap.get(target.getClass()));
-
 			return iEmfListProperty.listFactory().createObservable(target);
 		}
 			

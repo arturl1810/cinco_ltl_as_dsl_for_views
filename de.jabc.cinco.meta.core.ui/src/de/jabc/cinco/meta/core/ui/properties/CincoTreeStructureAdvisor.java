@@ -33,7 +33,10 @@ public class CincoTreeStructureAdvisor extends TreeStructureAdvisor {
 		EObject obj = (EObject) element;
 		List<EStructuralFeature> refsList = map.get(element.getClass());
 		for (EStructuralFeature f : refsList) {
+			
 			Object featureValue = obj.eGet(f, true);
+			if (featureValue instanceof List)
+				return !((List<?>) featureValue).isEmpty();
 			if (featureValue != null)
 				return true;
 		}

@@ -1630,4 +1630,22 @@ public class ServiceAdapter {
 		
 	}
 
+	public static String isAttributeMultiLine(
+			LightweightExecutionEnvironment env, ContextKeyFoundation attribute) {
+
+		LightweightExecutionContext context = env.getLocalContext();
+		try {
+			Attribute attr = (Attribute) context.get(attribute);
+			if (CincoUtils.isAttributeMultiLine(attr))
+				return Branches.TRUE;
+			
+		} catch (Exception e) {
+			context.put("exception", e);
+			return Branches.ERROR;
+		}
+		
+		return Branches.FALSE;
+		
+	}
+	
 }

@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>730ef53f-e135-46d5-9e4b-96fc4843c423</id>
   <name>GenerateAddEdgeFeature</name>
-  <changecounter>744</changecounter>
+  <changecounter>747</changecounter>
   <sib>
     <id>4966ae71-56db-49f8-b6d7-c3a51fbd1021</id>
     <name>PutExpression</name>
@@ -838,7 +838,7 @@ Leaving Generate ${edgeName} AddFeature</expression>
     <parameter name="template">
       <string>cd = peCreateService.createConnectionDecorator(connection, $context.decoratorIsMovable$, $context.decoratorLocation$, true);
 create$context.decoratorShapeName$(cd, $context.meIdentifier$);
-/*link(cd, $context.meIdentifier$);*/
+link(cd, $context.meIdentifier$);
 </string>
     </parameter>
     <finalbranches>default</finalbranches>

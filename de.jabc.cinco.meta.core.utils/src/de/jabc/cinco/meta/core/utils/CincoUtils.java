@@ -160,4 +160,12 @@ public class CincoUtils {
 	public static boolean isAttributeMultiValued(Attribute attr) {
 		return attr.getUpperBound() != 1;
 	}
+	
+	public static boolean isAttributeMultiLine(Attribute attr) {
+		for (Annotation annot : attr.getAnnotations()) {
+			if (annot.getName().equals("multiLine"))
+				return true;
+		}
+		return false;
+	}
 }

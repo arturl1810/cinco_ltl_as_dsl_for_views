@@ -5,9 +5,11 @@ import graphmodel.ModelElement;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.OptionalInt;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.eclipse.core.databinding.UpdateValueStrategy;
@@ -54,6 +56,7 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
 
+import de.jabc.cinco.meta.core.ui.converter.CharStringConverter;
 import de.jabc.cinco.meta.core.ui.listener.CincoTableMenuListener;
 import de.jabc.cinco.meta.core.ui.listener.CincoTreeMenuListener;
 import de.jabc.cinco.meta.core.ui.validator.TextValidator;
@@ -65,8 +68,13 @@ public class CincoPropertyViewCreator {
 	private Map<Class<? extends EObject>, IEMFListProperty> emfListPropertiesMap;
 	private Map<Class<? extends EObject>, List<EStructuralFeature>> attributesMap;
 	private Map<Class<? extends EObject>, List<EStructuralFeature>> referencesMap;
+	private Map<Object, Object[]> treeExpandState;
 
+	private Set<EStructuralFeature> multiLineAttributes;
+	private Set<EStructuralFeature> readOnlyAttributes;
+	
 	private Composite simpleViewComposite;
+	private TreeViewer treeViewer;
 
 	private final GridData labelLayoutData = new GridData(SWT.LEFT, SWT.CENTER,
 			false, false);
@@ -88,7 +96,11 @@ public class CincoPropertyViewCreator {
 		emfListPropertiesMap = new HashMap<Class<? extends EObject>, IEMFListProperty>();
 		attributesMap = new HashMap<Class<? extends EObject>, List<EStructuralFeature>>();
 		referencesMap = new HashMap<Class<? extends EObject>, List<EStructuralFeature>>();
-
+		treeExpandState = new HashMap<Object, Object[]>();
+		
+		multiLineAttributes = new HashSet<EStructuralFeature>();
+		readOnlyAttributes = new HashSet<EStructuralFeature>();
+		
 		context = new EMFDataBindingContext();
 		
 		tableLayoutData.minimumHeight = 50;
@@ -126,6 +138,16 @@ public class CincoPropertyViewCreator {
 		}
 	}
 
+	public void init_MultiLineAttributes(EStructuralFeature... features) {
+		for (EStructuralFeature f : features)
+			multiLineAttributes.add(f);
+	}
+	
+	public void init_ReadOnlyAttributes(EStructuralFeature... features) {
+		for (EStructuralFeature f : features)
+			readOnlyAttributes.add(f);
+	}
+	
 	public void init_PropertyView(EObject bo, Composite parent) {
 		if (bo == null || bo.equals(lastSelectedObject))
 			return;
@@ -179,6 +201,12 @@ public class CincoPropertyViewCreator {
 
 		viewer.getControl().setMenu(menuManager.createContextMenu(tree));
 		viewer.getTree().setSelection(viewer.getTree().getItem(0));
+		
+		Object[] expandedElements = treeExpandState.get(bo);
+		if (expandedElements != null)
+			viewer.setExpandedElements(expandedElements);
+		
+		this.treeViewer = viewer;
 	}
 
 
@@ -236,8 +264,7 @@ public class CincoPropertyViewCreator {
 		createUIAndBindings(o, simpleViewComposite);
 	}
 
-	private void createSingleAttributeProperty(EObject bo, Composite comp,
-			EAttribute attr) {
+	private void createSingleAttributeProperty(EObject bo, Composite comp, EAttribute attr) {
 
 		Label label = new Label(comp, SWT.NONE);
 		label.setText(attr.getName() + ": ");
@@ -252,8 +279,6 @@ public class CincoPropertyViewCreator {
 			DateTime date = new DateTime(dateComposite, SWT.CALENDAR);
 //			DateTime time = new DateTime(dateComposite, SWT.TIME);
 			
-			date.setEnabled(attr.isChangeable());
-			
 			ISWTObservableValue uiPropDate = WidgetProperties.selection().observe(date);
 //			ISWTObservableValue uiPropTime = WidgetProperties.selection().observe(time);
 			
@@ -261,12 +286,11 @@ public class CincoPropertyViewCreator {
 			context.bindValue(uiPropDate, boProp);
 //			context.bindValue(uiPropTime, boProp);
 			
+			date.setEnabled(!readOnlyAttributes.contains(attr));
 		}  else if (attr.getEAttributeType() instanceof EEnum || attr.getEAttributeType().getName().equals("EBoolean")) {
 			Combo combo = new Combo(comp, SWT.BORDER | SWT.DROP_DOWN | SWT.READ_ONLY);
 			combo.setLayoutData(textLayoutData);
 			ComboViewer cv = new ComboViewer(combo);
-			
-			combo.setEnabled(attr.isChangeable());
 			
 			cv.setContentProvider(new ArrayContentProvider());
 			if (attr.getEAttributeType() instanceof EEnum)
@@ -277,52 +301,34 @@ public class CincoPropertyViewCreator {
 			IObservableValue modelObs = EMFEditProperties.value(domain,attr).observe(bo);
 			
 			context.bindValue(uiProp, modelObs);
+			combo.setEnabled(!readOnlyAttributes.contains(attr));
 		} else {
-			Text text = new Text(comp, SWT.BORDER);
-			text.setLayoutData(textLayoutData);
-			text.addModifyListener(new TextValidator(attr.getEAttributeType()));
+			Text text = null;
 			
-			text.setEnabled(attr.isChangeable());
+			if (multiLineAttributes.contains(attr)) {
+				text = new Text(comp, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL);
+				text.setLayoutData(tableLayoutData);
+				label.setLayoutData(tableLabelLayoutData);
+			} else {
+				text = new Text(comp, SWT.BORDER);
+				text.setLayoutData(textLayoutData);
+			}
+			
+			text.addModifyListener(new TextValidator(attr.getEAttributeType()));
 			
 			IWidgetValueProperty uiProp = WidgetProperties.text(new int[] {
 					SWT.DefaultSelection, SWT.FocusOut });
+			
 			IEMFEditValueProperty boPorp = EMFEditProperties.value(domain, attr);
 			UpdateValueStrategy updateStrategy = new UpdateValueStrategy();
 			
-			updateStrategy.setConverter(new IConverter() {
-				
-				@Override
-				public Object getToType() {
-					// TODO Auto-generated method stub
-					return null;
-				}
-				
-				@Override
-				public Object getFromType() {
-					// TODO Auto-generated method stub
-					return null;
-				}
-				
-				@Override
-				public Object convert(Object fromObject) {
-					if (fromObject instanceof Character) {
-						if ((Character) fromObject == '\0')
-							return new String("a");
-						return String.valueOf(fromObject);
-					}
-					if (fromObject instanceof String) {
-						if ("0".equals(fromObject))
-							return new Character('\0');
-						return ((String) fromObject).charAt(0);
-					}
-					
-					return fromObject;
-				}
-			});
+			updateStrategy.setConverter(new CharStringConverter());
 			
 			if (attr.getEAttributeType().getName().equals("EChar"))
-				context.bindValue(uiProp.observe(text), boPorp.observe(bo),updateStrategy, updateStrategy);
+				context.bindValue(uiProp.observe(text), boPorp.observe(bo), updateStrategy, updateStrategy);
 			else context.bindValue(uiProp.observe(text), boPorp.observe(bo));
+			
+			text.setEnabled(!readOnlyAttributes.contains(attr));
 		}
 		
 	}

@@ -1,5 +1,6 @@
 package de.jabc.cinco.meta.core.ui.listener;
 
+import graphmodel.ModelElement;
 import graphmodel.ModelElementContainer;
 
 import java.util.List;
@@ -115,7 +116,7 @@ public class CincoTreeMenuListener implements IMenuListener2{
 			
 			@Override
 			public boolean isEnabled() {
-				return !(eObject instanceof ModelElementContainer);
+				return !(eObject instanceof ModelElement);
 			}
 			
 			@Override
