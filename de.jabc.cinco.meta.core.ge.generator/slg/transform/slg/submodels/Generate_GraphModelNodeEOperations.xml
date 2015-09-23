@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>079a4d5e-bab9-4273-8a05-29b4b4909c15</id>
   <name>Generate_GraphModelNodeEOperations</name>
-  <changecounter>569</changecounter>
+  <changecounter>629</changecounter>
   <sib>
     <id>1c733983-6c25-45cd-bded-1a4832127f58</id>
     <name>IsPrimeNode</name>
@@ -472,7 +472,7 @@ Creates and adds a new instance of $modelElementName$ if possible.
     <label>PutLinkedMap</label>
     <sib-uid>ge-util-sibs/PutDynamicLinkedMap</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.PutDynamicLinkedMap</taxonomy>
-    <position>407.5,153.0</position>
+    <position>1397.5,48.0</position>
     <parameter name="elements">
       <linked-hash-map>
         <entry>
@@ -499,7 +499,7 @@ Creates and adds a new instance of $modelElementName$ if possible.
     <label>CreateParametersForEOperation1</label>
     <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
-    <position>559.5,151.0</position>
+    <position>1549.5,46.0</position>
     <parameter name="map">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -531,7 +531,7 @@ Creates and adds a new instance of $modelElementName$ if possible.
     <label>Generate_Documentation</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>575.0,256.0</position>
+    <position>1565.0,151.0</position>
     <parameter name="eOperationKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -694,7 +694,7 @@ return null;</string>
     <label>Generate_Documentation</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>365.0,406.0</position>
+    <position>374.0,391.0</position>
     <parameter name="eOperationKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -734,7 +734,7 @@ Returns the wrapped $modelElementName$ for the specified model element
     <label>Create Add</label>
     <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
-    <position>414.0,286.0</position>
+    <position>1404.0,181.0</position>
     <parameter name="eClassKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -798,6 +798,177 @@ if (af != null &amp;&amp; af.canAdd(ac)) {
       <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
     </userobject>
   </sib>
+  <sib>
+    <id>dd9e38f2-3516-49e3-96a7-2080099837da</id>
+    <name>GraphSIB_3</name>
+    <label>CreateCanCreateAndAdd</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>370.5,241.0</position>
+    <parameter name="eClassKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>eClassKey</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="eOperatiobUpperBound">
+      <int>1</int>
+    </parameter>
+    <parameter name="eOperationLowerBound">
+      <int>1</int>
+    </parameter>
+    <parameter name="eOperationNameKey">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>canNew${apiPrefix}${modelElementName}</expression>
+          <clazz>java.lang.String</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="eOperationeTypeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>booleanType</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>false</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>final $apiPrefix$$modelElementName$ retval = $fqnAPIFactory$.eINSTANCE.create$apiPrefix$$modelElementName$();
+   
+$fqnDiagram$ d = ($fqnDiagram$) this.getDiagram();
+$fqnFeatureProvider$ provider = ($fqnFeatureProvider$) $fqnGraphitiUi$.getExtensionManager().createFeatureProvider(d);
+    
+final $fqnCreateNodeFeaturePrefix$Create$modelElementName$Feature cf = new $fqnCreateNodeFeaturePrefix$Create$modelElementName$Feature(provider);
+final $fqnCreateContext$ cc = new $fqnCreateContext$();
+cc.setTargetContainer(($fqnContainerShape$) getPictogramElement());
+return cf.canCreate(cc);</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Create EOperation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>8bdaf58d-db44-4f3a-9225-2171bd027b1d</source>
+    <target>dd9e38f2-3516-49e3-96a7-2080099837da</target>
+    <point>474.0,441.0</point>
+    <point>470.5,291.0</point>
+    <branch>default</branch>
+  </edge>
+  <cell>
+    <form>RECT</form>
+    <bounds>
+      <x>1390.5</x>
+      <y>41.0</y>
+      <width>97.0</width>
+      <height>67.0</height>
+    </bounds>
+    <linewidth>2.0</linewidth>
+    <linecolor>
+      <red>255</red>
+      <green>240</green>
+      <blue>0</blue>
+      <alpha>255</alpha>
+    </linecolor>
+  </cell>
+  <cell>
+    <form>HTML</form>
+    <bounds>
+      <x>1390.5</x>
+      <y>118.0</y>
+      <width>97.0</width>
+      <height>67.0</height>
+    </bounds>
+    <value>&lt;html&gt;&lt;span style=&apos;color:black&apos;&gt;&lt;b&gt;UnreachableSibCheck&lt;/b&gt;&lt;/span&gt;&lt;br&gt;&lt;/html&gt;</value>
+  </cell>
+  <cell>
+    <form>RECT</form>
+    <bounds>
+      <x>1542.5</x>
+      <y>39.0</y>
+      <width>232.0</width>
+      <height>67.0</height>
+    </bounds>
+    <linewidth>2.0</linewidth>
+    <linecolor>
+      <red>255</red>
+      <green>240</green>
+      <blue>0</blue>
+      <alpha>255</alpha>
+    </linecolor>
+  </cell>
+  <cell>
+    <form>HTML</form>
+    <bounds>
+      <x>1542.5</x>
+      <y>116.0</y>
+      <width>232.0</width>
+      <height>67.0</height>
+    </bounds>
+    <value>&lt;html&gt;&lt;span style=&apos;color:black&apos;&gt;&lt;b&gt;UnreachableSibCheck&lt;/b&gt;&lt;/span&gt;&lt;br&gt;&lt;/html&gt;</value>
+  </cell>
+  <cell>
+    <form>RECT</form>
+    <bounds>
+      <x>1558.0</x>
+      <y>144.0</y>
+      <width>172.0</width>
+      <height>67.0</height>
+    </bounds>
+    <linewidth>2.0</linewidth>
+    <linecolor>
+      <red>255</red>
+      <green>240</green>
+      <blue>0</blue>
+      <alpha>255</alpha>
+    </linecolor>
+  </cell>
+  <cell>
+    <form>HTML</form>
+    <bounds>
+      <x>1558.0</x>
+      <y>221.0</y>
+      <width>172.0</width>
+      <height>67.0</height>
+    </bounds>
+    <value>&lt;html&gt;&lt;span style=&apos;color:black&apos;&gt;&lt;b&gt;UnreachableSibCheck&lt;/b&gt;&lt;/span&gt;&lt;br&gt;&lt;/html&gt;</value>
+  </cell>
+  <cell>
+    <form>RECT</form>
+    <bounds>
+      <x>1397.0</x>
+      <y>174.0</y>
+      <width>82.0</width>
+      <height>67.0</height>
+    </bounds>
+    <linewidth>2.0</linewidth>
+    <linecolor>
+      <red>255</red>
+      <green>240</green>
+      <blue>0</blue>
+      <alpha>255</alpha>
+    </linecolor>
+  </cell>
+  <cell>
+    <form>HTML</form>
+    <bounds>
+      <x>1397.0</x>
+      <y>251.0</y>
+      <width>82.0</width>
+      <height>67.0</height>
+    </bounds>
+    <value>&lt;html&gt;&lt;span style=&apos;color:black&apos;&gt;&lt;b&gt;UnreachableSibCheck&lt;/b&gt;&lt;/span&gt;&lt;br&gt;&lt;/html&gt;</value>
+  </cell>
   <parameter>
     <name>node</name>
     <field>node</field>
@@ -827,6 +998,11 @@ if (af != null &amp;&amp; af.canAdd(ac)) {
     <name>eClassKey</name>
     <field>eClassKey</field>
     <sib>5604cdab-0af1-4c58-ad78-2059b6ba6f7e</sib>
+  </parameter>
+  <parameter>
+    <name>eClassKey</name>
+    <field>eClassKey</field>
+    <sib>dd9e38f2-3516-49e3-96a7-2080099837da</sib>
   </parameter>
   <values>
     <entry>
@@ -863,6 +1039,6 @@ if (af != null &amp;&amp; af.canAdd(ac)) {
   <branch>
     <name>default</name>
     <branch>default</branch>
-    <sib>8bdaf58d-db44-4f3a-9225-2171bd027b1d</sib>
+    <sib>dd9e38f2-3516-49e3-96a7-2080099837da</sib>
   </branch>
 </model>
