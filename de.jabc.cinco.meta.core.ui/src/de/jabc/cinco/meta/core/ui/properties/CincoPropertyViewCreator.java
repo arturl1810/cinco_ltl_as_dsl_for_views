@@ -276,7 +276,7 @@ public class CincoPropertyViewCreator {
 			dateComposite.setLayout(new GridLayout(2, false));
 			dateComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 			
-			DateTime date = new DateTime(dateComposite, SWT.CALENDAR);
+			DateTime date = new DateTime(dateComposite, SWT.CALENDAR | SWT.TIME);
 //			DateTime time = new DateTime(dateComposite, SWT.TIME);
 			
 			ISWTObservableValue uiPropDate = WidgetProperties.selection().observe(date);

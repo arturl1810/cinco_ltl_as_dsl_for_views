@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>bdb3d94b-23ae-447b-8e05-302a8e6e8657</id>
   <name>GeneratePropertyView</name>
-  <changecounter>1026</changecounter>
+  <changecounter>1039</changecounter>
   <edge>
     <source>0a7b2d2c-a9c5-4f86-a466-a87bd91f0b67</source>
     <target>70edcd98-92b7-4fcd-9c04-a1b8187883a2</target>
@@ -437,12 +437,16 @@ import de.jabc.cinco.meta.core.ui.properties.CincoPropertyViewCreator;
 
 import $importPath$.*;
 import $importPath$.impl.*;
+import $packageName$.graphiti.*;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.gef.GraphicalEditPart;
+import org.eclipse.graphiti.mm.pictograms.Connection;
+import org.eclipse.graphiti.mm.pictograms.ConnectionDecorator;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.services.Graphiti;
+import org.eclipse.graphiti.ui.editor.DiagramBehavior;
 import org.eclipse.graphiti.ui.platform.GraphitiConnectionEditPart;
 import org.eclipse.graphiti.ui.platform.GraphitiShapeEditPart;
 import org.eclipse.jface.viewers.ISelection;
@@ -497,6 +501,18 @@ public class $graphModelName$ViewPart extends ViewPart implements ISelectionList
 			if (element instanceof GraphicalEditPart)
 				pe = getPictogramElement(element);
 			
+			if (pe instanceof ConnectionDecorator &amp;&amp; !pe.equals(lastSelected)) {
+				Connection connection = ((ConnectionDecorator) pe).getConnection();
+				if ($graphModelName$GraphitiUtils.getInstance().getDTP().getDiagramBehavior() instanceof DiagramBehavior) {
+					DiagramBehavior db = (DiagramBehavior) $graphModelName$GraphitiUtils.getInstance().getDTP().getDiagramBehavior();
+					lastSelected = pe;
+					db.getDiagramContainer().selectPictogramElements(new PictogramElement[] {
+						pe, connection
+					});
+				}
+			}
+			lastSelected = pe;
+
 			EObject bo = getBusinessObject(pe);
 			CincoPropertyViewCreator.getInstance().init_PropertyView(bo, parent);
 		}
