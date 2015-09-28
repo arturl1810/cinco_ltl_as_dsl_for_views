@@ -111,6 +111,8 @@
     <genClasses ecoreClass="Style.ecore#//Size">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Style.ecore#//Size/width"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Style.ecore#//Size/height"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Style.ecore#//Size/widthFixed"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Style.ecore#//Size/heightFixed"/>
     </genClasses>
     <genClasses ecoreClass="Style.ecore#//Point">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Style.ecore#//Point/x"/>
