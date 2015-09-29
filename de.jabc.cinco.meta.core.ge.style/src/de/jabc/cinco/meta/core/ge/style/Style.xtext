@@ -119,6 +119,7 @@ Polygon returns Polygon:
 		(('appearance' referencedAppearance=[Appearance]) | (inlineAppearance=InlineAppearance) )? 
 		('position' position = AbstractPosition)?
 		'points' '['(points+=Point)*']'
+		('size' size = Size)?
 		(children+=AbstractShape)*
 	'}'
 ;
@@ -195,7 +196,8 @@ Polyline returns Polyline:
 	'polyline' (name=EString)?
 	'{'
 		(('appearance' referencedAppearance=[Appearance]) | (inlineAppearance=InlineAppearance) )? 
-		'points' '[' (points+=Point)* ']'		
+		'points' '[' (points+=Point)* ']'	
+		('size' size = Size)?
 	'}'
 ;
 
@@ -227,7 +229,7 @@ Point returns Point:
 ;
 
 Size returns Size:
-	'('width=INT','height=INT')'
+	'(' (widthFixed?='fix')? width=INT','(heightFixed?='fix')? height=INT')'
 ;
 
 ConnectionDecorator returns ConnectionDecorator:

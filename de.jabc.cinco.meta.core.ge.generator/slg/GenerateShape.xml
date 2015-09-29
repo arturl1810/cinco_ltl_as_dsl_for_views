@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>36d9fec6-e1a2-4c6b-8680-956d60534097</id>
   <name>GenerateShape</name>
-  <changecounter>1140</changecounter>
+  <changecounter>1164</changecounter>
   <sib>
     <id>7588e245-69f9-4992-b2a2-63a8513339bc</id>
     <name>SwitchShape</name>
@@ -1670,9 +1670,10 @@ try {
   </sib>
   <edge>
     <source>163478c5-b0d1-4b20-be71-faac0ffc6630</source>
-    <target>dc788d4b-a76c-40e9-8c99-1f65de1a5c51</target>
-    <point>675.0,1095.0</point>
-    <point>677.0,1203.0</point>
+    <target>581c5c12-c674-4230-baa6-2f6f6303154f</target>
+    <point>655.0,1086.857142857143</point>
+    <point>483.0,1086.7714285714285</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
@@ -1747,6 +1748,187 @@ try {
     <point>60.0,150.0</point>
     <point>174.0,47.0</point>
     <branch>default</branch>
+  </edge>
+  <sib>
+    <id>e55feee5-a5a6-46cb-86a3-4bb95cd7b512</id>
+    <name>RunStringTemplate_15</name>
+    <label>SetFixedWitdt</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>183.5,1068.0</position>
+    <parameter name="append">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>graphicalRep</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>peService.setPropertyValue($context.peName$, de.jabc.cinco.meta.core.ui.features.CincoResizeFeature.FIXED_WIDTH, de.jabc.cinco.meta.core.ui.features.CincoResizeFeature.FIXED);
+</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>bdb2b1b7-74db-453c-bfc8-cfbd7d772be1</source>
+    <target>e55feee5-a5a6-46cb-86a3-4bb95cd7b512</target>
+    <point>345.0,1095.0</point>
+    <point>225.0,1095.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>true</branch>
+  </edge>
+  <sib>
+    <id>bdb2b1b7-74db-453c-bfc8-cfbd7d772be1</id>
+    <name>EvaluateCondition</name>
+    <label>FixedWidth?</label>
+    <sib-uid>basic-sibs/EvaluateCondition</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.EvaluateCondition</taxonomy>
+    <position>308.5,1068.0</position>
+    <parameter name="condition">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>${size.widthFixed}</expression>
+          <clazz>java.lang.Boolean</clazz>
+          <classMutable>false</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>false</finalbranches>
+    <finalbranches>true</finalbranches>
+  </sib>
+  <sib>
+    <id>67aa3cbc-0d37-4523-97b9-4e9c71af6ab2</id>
+    <name>EvaluateCondition_1</name>
+    <label>FixedHeight?</label>
+    <sib-uid>basic-sibs/EvaluateCondition</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.EvaluateCondition</taxonomy>
+    <position>305.5,1173.0</position>
+    <parameter name="condition">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>${size.heightFixed}</expression>
+          <clazz>java.lang.Boolean</clazz>
+          <classMutable>false</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>false</finalbranches>
+    <finalbranches>true</finalbranches>
+  </sib>
+  <edge>
+    <source>bdb2b1b7-74db-453c-bfc8-cfbd7d772be1</source>
+    <target>67aa3cbc-0d37-4523-97b9-4e9c71af6ab2</target>
+    <point>345.0,1095.0</point>
+    <point>345.0,1200.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>false</branch>
+  </edge>
+  <sib>
+    <id>ae20baef-e7c0-46c9-a861-b9077bc6d91b</id>
+    <name>RunStringTemplate_16</name>
+    <label>SetFixedHeight</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>299.0,1263.0</position>
+    <parameter name="append">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>graphicalRep</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>peService.setPropertyValue($context.peName$, de.jabc.cinco.meta.core.ui.features.CincoResizeFeature.FIXED_HEIGHT, de.jabc.cinco.meta.core.ui.features.CincoResizeFeature.FIXED);
+
+</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>e55feee5-a5a6-46cb-86a3-4bb95cd7b512</source>
+    <target>67aa3cbc-0d37-4523-97b9-4e9c71af6ab2</target>
+    <point>225.0,1095.0</point>
+    <point>345.0,1200.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>67aa3cbc-0d37-4523-97b9-4e9c71af6ab2</source>
+    <target>ae20baef-e7c0-46c9-a861-b9077bc6d91b</target>
+    <point>345.0,1200.0</point>
+    <point>345.0,1290.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>true</branch>
+  </edge>
+  <edge>
+    <source>ae20baef-e7c0-46c9-a861-b9077bc6d91b</source>
+    <target>dc788d4b-a76c-40e9-8c99-1f65de1a5c51</target>
+    <point>345.0,1185.0</point>
+    <point>672.0,1204.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>581c5c12-c674-4230-baa6-2f6f6303154f</id>
+    <name>CheckVariable_5</name>
+    <label>SizeDef?</label>
+    <sib-uid>basic-sibs/CheckVariable</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.CheckVariable</taxonomy>
+    <position>437.0,1068.0</position>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>size</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>emptyString</finalbranches>
+    <finalbranches>error</finalbranches>
+    <finalbranches>false</finalbranches>
+    <finalbranches>true</finalbranches>
+  </sib>
+  <edge>
+    <source>581c5c12-c674-4230-baa6-2f6f6303154f</source>
+    <target>bdb2b1b7-74db-453c-bfc8-cfbd7d772be1</target>
+    <point>480.0,1095.0</point>
+    <point>345.0,1095.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>true</branch>
+  </edge>
+  <edge>
+    <source>581c5c12-c674-4230-baa6-2f6f6303154f</source>
+    <target>dc788d4b-a76c-40e9-8c99-1f65de1a5c51</target>
+    <point>555.0,1155.0</point>
+    <point>667.0,1182.0</point>
+    <branch>false</branch>
+  </edge>
+  <edge>
+    <source>67aa3cbc-0d37-4523-97b9-4e9c71af6ab2</source>
+    <target>dc788d4b-a76c-40e9-8c99-1f65de1a5c51</target>
+    <point>345.0,1200.0</point>
+    <point>646.0,1196.0</point>
+    <branch>false</branch>
   </edge>
   <parameter>
     <name>modelElementKey</name>

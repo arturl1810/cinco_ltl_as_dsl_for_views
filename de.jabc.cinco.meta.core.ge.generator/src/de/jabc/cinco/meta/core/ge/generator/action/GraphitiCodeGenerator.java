@@ -647,6 +647,7 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 		bundles.add(Platform.getBundle("org.eclipse.ui.views.properties.tabbed"));
 		bundles.add(Platform.getBundle("org.eclipse.gef"));
 		bundles.add(Platform.getBundle("de.jabc.cinco.meta.core.referenceregistry"));
+		bundles.add(Platform.getBundle("de.jabc.cinco.meta.core.ui"));
 		bundles.add(Platform.getBundle("de.jabc.cinco.meta.core.wizards"));
 		bundles.add(Platform.getBundle("javax.el"));
 		bundles.add(Platform.getBundle("com.sun.el"));
