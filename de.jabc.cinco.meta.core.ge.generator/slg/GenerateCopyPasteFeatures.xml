@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>67a73b2a-3824-4776-9686-ae1a8aed5282</id>
   <name>GenerateCopyPasteFeatures</name>
-  <changecounter>358</changecounter>
+  <changecounter>387</changecounter>
   <sib>
     <id>59a427e8-25c5-482c-a32b-a0aa278eb41b</id>
     <name>PutExpression</name>
@@ -135,7 +135,7 @@ public class $context.graphModelName$CopyFeature extends AbstractCopyFeature {
 		Set&lt;PictogramElement&gt; copiedSubGraph = new HashSet&lt;&gt;();
 		List&lt;PictogramElement&gt; subGraphElements = getSubGraph(pes);
 
-		copiedSubGraph = $context.graphModelName$CopyUtils.sourceCopy(subGraphElements, getDiagram());
+		copiedSubGraph = de.jabc.cinco.meta.core.ui.utils.CincoCopyUtils.sourceCopy(subGraphElements, getDiagram());
 		
 		putToClipboard(copiedSubGraph.toArray(new Object[copiedSubGraph.size()]));
 	}
@@ -304,18 +304,18 @@ public class $context.graphModelName$PasteFeature extends AbstractPasteFeature {
 		xContext = context.getX();
 		yContext = context.getY();
 		
-		xMin = $context.graphModelName$CopyUtils.getUpperLeft().x;
-		yMin = $context.graphModelName$CopyUtils.getUpperLeft().y;
+		xMin = de.jabc.cinco.meta.core.ui.utils.CincoCopyUtils.getUpperLeft().x;
+		yMin = de.jabc.cinco.meta.core.ui.utils.CincoCopyUtils.getUpperLeft().y;
 		
-		xMinAbs = $context.graphModelName$CopyUtils.getAbsoluteUpperLeft().x;
-		yMinAbs = $context.graphModelName$CopyUtils.getAbsoluteUpperLeft().y;
+		xMinAbs = de.jabc.cinco.meta.core.ui.utils.CincoCopyUtils.getUpperLeft().x;
+		yMinAbs = de.jabc.cinco.meta.core.ui.utils.CincoCopyUtils.getUpperLeft().y;
 		
 		xContainerShift = 0;
 		yContainerShift = 0;
 	
 		List&lt;PictogramElement&gt; subGraph = createList(getFromClipboard());
 		Set&lt;PictogramElement&gt; copies = new HashSet&lt;&gt;(); 
-		copies = $context.graphModelName$CopyUtils.targetCopy(subGraph, getDiagram());
+		copies = de.jabc.cinco.meta.core.ui.utils.CincoCopyUtils.targetCopy(subGraph, getDiagram());
 		
 		List&lt;PictogramElement&gt; graphicalContainer = new ArrayList&lt;&gt;();
 		List&lt;Connection&gt; connections = new ArrayList&lt;&gt;();
@@ -374,6 +374,9 @@ public class $context.graphModelName$PasteFeature extends AbstractPasteFeature {
 	}
 
 	private void addLinks(Diagram diagram, PictogramElement pe) {
+		if (pe.getLink() != null &amp;&amp; !diagram.getPictogramLinks().contains(pe.getLink())) {
+			diagram.getPictogramLinks().add(pe.getLink());
+		}
 		if (pe instanceof ContainerShape) {
 			for (Shape s : ((ContainerShape) pe).getChildren()) {
 				if (s.getLink() != null &amp;&amp; !diagram.getPictogramLinks().contains(s.getLink()))
@@ -381,10 +384,6 @@ public class $context.graphModelName$PasteFeature extends AbstractPasteFeature {
 				addLinks(diagram, s);
 			}
 		}
-		if (pe.getLink() != null &amp;&amp; !diagram.getPictogramLinks().contains(pe.getLink())) {
-			diagram.getPictogramLinks().add(pe.getLink());
-		}
-		
 	}
 	
 	private boolean canPaste(Object bo, Object target) {
@@ -930,7 +929,7 @@ public class $context.graphModelName$PasteFeature extends AbstractPasteFeature {
     <label>CopyUtils</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>205.5,783.0</position>
+    <position>205.5,843.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -1087,54 +1086,34 @@ public class $context.graphModelName$CopyUtils {
 	
 	
 	private static Shape copyContainerShape(ContainerShape cs) {
+		HashMap&lt;PictogramElement, Shape&gt; replaceMap = new HashMap&lt;PictogramElement, Shape&gt;();
 		ContainerShape shapeCopy = EcoreUtil.copy(cs);
-		shapeCopy.getChildren().clear();
 		EObject boOrig = cs.getLink().getBusinessObjects().get(0);
 		EObject boCopy = EcoreUtil.copy(boOrig);
 		((Container) boCopy).getModelElements().clear();
 		
-		HashMap&lt;Shape, Shape&gt; replace = new HashMap&lt;&gt;();
-		
-		for (Shape child : cs.getChildren()) {
-			EObject boChild = null;
-			if (child.getLink() != null)
-				boChild = child.getLink().getBusinessObjects().get(0);
-			else {
-				shapeCopy.getChildren().add(EcoreUtil.copy(child));
-				continue;
-			}
-			/** Some Text Element may be linked with the model element ... **/
-			if (boChild.equals(boOrig)) {
-				child.getLink().getBusinessObjects().clear();
-				child.getLink().getBusinessObjects().add(boCopy);
-			} else {
-			/** Found a contained node with different linked model element **/
-				if (boChild instanceof Node) {
-					if (boChild instanceof Container) {
-						Shape tmp = copyContainerShape((ContainerShape) child);
-						((Container) boCopy).getModelElements().add((ModelElement) tmp.getLink().getBusinessObjects().get(0));
-						replace.put(child, tmp);
-					} else {
-						Shape tmp = copyNodeShape(child);
-						((Container) boCopy).getModelElements().add((ModelElement) tmp.getLink().getBusinessObjects().get(0));
-						for (Shape s : cs.getChildren()) {
-							if (s.getLink() != null &amp;&amp; s.getLink().getBusinessObjects().get(0).equals(boChild)) {
-								copiedAnchors.put(s.getAnchors().get(0), tmp.getAnchors().get(0));
-							}
-						}
-						replace.put(child, tmp);
-					}
-				}
-			}
-			
-		}
-		
-		shapeCopy.getChildren().removeAll(replace.keySet());
-		shapeCopy.getChildren().addAll(replace.values());
-		
 		shapeCopy.getLink().setPictogramElement(shapeCopy);
 		shapeCopy.getLink().getBusinessObjects().clear();
 		shapeCopy.getLink().getBusinessObjects().add(boCopy);
+		
+		for (Shape child : shapeCopy.getChildren()) {
+			EObject childBo = child.getLink().getBusinessObjects().get(0);
+			if (childBo.equals(boOrig))
+				linkShapeTo(child, boOrig, boCopy);
+			else {
+				Shape copiedChildShape = null;
+				if (childBo instanceof Container) {
+					 copiedChildShape = copyContainerShape((ContainerShape) child);
+				} else copiedChildShape = copyNodeShape(child);
+				replaceMap.put(child, copiedChildShape);
+			}
+		}
+		
+		shapeCopy.getChildren().removeAll(replaceMap.keySet());
+		shapeCopy.getChildren().addAll(replaceMap.values());
+		for (PictogramElement pe : replaceMap.values()) {
+			((Container) boCopy).getModelElements().add((ModelElement) pe.getLink().getBusinessObjects().get(0));
+		}
 		
 		copiedAnchors.put(cs.getAnchors().get(0), shapeCopy.getAnchors().get(0));
 		copiedBos.put(boOrig, boCopy);
@@ -1153,10 +1132,7 @@ public class $context.graphModelName$CopyUtils {
 		
 		if (shapeCopy instanceof ContainerShape) {
 			for (Shape child : ((ContainerShape) shapeCopy).getChildren()) {
-				if (child.getLink() != null &amp;&amp; boOrig.equals(child.getLink().getBusinessObjects().get(0))) {
-					child.getLink().getBusinessObjects().clear();
-					child.getLink().getBusinessObjects().add(boCopy);
-				}
+				linkShapeTo(child, boOrig, boCopy);
 			}
 		}
 		
@@ -1164,6 +1140,18 @@ public class $context.graphModelName$CopyUtils {
 		copiedBos.put(boOrig, boCopy);
 		
 		return shapeCopy;
+	}
+
+	private static void linkShapeTo(Shape s, EObject boOrig, EObject boCopy) {
+		if (s.getLink() != null &amp;&amp; boOrig.equals(s.getLink().getBusinessObjects().get(0))) {
+			s.getLink().getBusinessObjects().clear();
+			s.getLink().getBusinessObjects().add(boCopy);
+			if (s instanceof ContainerShape) {
+				for (Shape child : ((ContainerShape) s).getChildren()) {
+					linkShapeTo(child, boOrig, boCopy);
+				}
+			}
+		}
 	}
 	
 	/************************************************************** Connection copy methods **************************************************************/
@@ -1274,9 +1262,10 @@ public class $context.graphModelName$CopyUtils {
   </sib>
   <edge>
     <source>af959c41-0db9-47da-820e-4cb97cab5b39</source>
-    <target>b53373be-d920-4138-88c9-26741aac0c37</target>
-    <point>90.0,810.0</point>
-    <point>218.0,799.0</point>
+    <target>a6202413-4638-46c2-99f0-c889763f7b8c</target>
+    <point>108.0,801.2634146341463</point>
+    <point>687.0,801.2634146341463</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
@@ -1285,7 +1274,7 @@ public class $context.graphModelName$CopyUtils {
     <label>WriteJavaFile</label>
     <sib-uid>genesys-sibs/WriteJavaFile</sib-uid>
     <taxonomy>de.jabc.sib.genesys.WriteJavaFile</taxonomy>
-    <position>478.0,783.0</position>
+    <position>493.0,843.0</position>
     <parameter name="baseDirectory">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1353,7 +1342,7 @@ public class $context.graphModelName$CopyUtils {
     <label>ClassName</label>
     <sib-uid>basic-sibs/PutExpression</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
-    <position>335.5,783.0</position>
+    <position>335.5,843.0</position>
     <parameter name="resolve">
       <boolean>true</boolean>
     </parameter>

@@ -7,19 +7,15 @@ Bundle-ClassPath: .
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Export-Package: de.jabc.cinco.meta.core.ge.style.model.appearance;
-  uses:="style",
- de.jabc.cinco.meta.core.ge.style.model.customfeature;
-  uses:="org.eclipse.graphiti.features.context,
-   org.eclipse.graphiti.features.custom",
+Export-Package: de.jabc.cinco.meta.core.ge.style.model.appearance;uses:="style",
+ de.jabc.cinco.meta.core.ge.style.model.customfeature,
  de.jabc.cinco.meta.core.ge.style.model.errorhandling,
  de.jabc.cinco.meta.core.ge.style.model.movefeature,
+ de.jabc.cinco.meta.core.ge.style.model.preprocessors,
  graphicalgraphmodel,
  graphicalgraphmodel.impl,
  graphicalgraphmodel.util,
- style;
-  uses:="org.eclipse.emf.ecore,
-   org.eclipse.emf.common.util",
+ style;uses:="org.eclipse.emf.ecore,org.eclipse.emf.common.util",
  style.impl;
   uses:="org.eclipse.emf.ecore,
    style,

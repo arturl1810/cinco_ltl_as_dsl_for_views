@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>53c0c093-ef7e-452a-ae07-8946504ff744</id>
   <name>Generate_NodeMoveEOperation</name>
-  <changecounter>496</changecounter>
+  <changecounter>504</changecounter>
   <edge>
     <source>45937ff9-8a61-426a-ad52-785723db3d9e</source>
     <target>33b4498b-317c-424c-a417-153e95dd0cd4</target>
@@ -685,7 +685,7 @@ final $fqnMoveShapeContext$ mc = new $fqnMoveShapeContext$(($fqnShape$)pes.get(0
       <string>final $apiPrefix$$modelElementName$ clone = $fqnAPIFactory$.eINSTANCE.create$apiPrefix$$modelElementName$();
 $fqnArrayList$&lt;$fqnPictogramElement$&gt; pe = new $fqnArrayList$&lt;&gt;();
 pe.add(this.getPictogramElement());
-$fqnSet$&lt;$fqnPictogramElement$&gt; set = $fqnFeaturePrefix$$graphModelName$CopyUtils.targetCopy(pe, getDiagram());
+$fqnSet$&lt;$fqnPictogramElement$&gt; set = de.jabc.cinco.meta.core.ui.utils.CincoCopyUtils.targetCopy(pe, getDiagram());
 if (set != null &amp;&amp; !set.isEmpty()) {
 	$fqnPictogramElement$ copy = set.iterator().next();
 	clone.setModelElement(($fqnModelElement$) copy.getLink().getBusinessObjects().get(0));
@@ -893,7 +893,7 @@ Creates an clone (persisting the modelElement&apos;s id) of this modelElement</s
     </parameter>
     <parameter name="template">
       <string>final $apiPrefix$$modelElementName$ clone = $fqnAPIFactory$.eINSTANCE.create$apiPrefix$$modelElementName$();
-$fqnPictogramElement$ copy = $fqnFeaturePrefix$$graphModelName$CopyUtils.flatCopy(getPictogramElement());
+$fqnPictogramElement$ copy = de.jabc.cinco.meta.core.ui.utils.CincoCopyUtils.flatCopy(getPictogramElement());
 clone.setPictogramElement(copy);
 clone.setModelElement(($fqnModelElement$) copy.getLink().getBusinessObjects().get(0));
 
@@ -1129,7 +1129,7 @@ Creates an clone (persisting the modelElement&apos;s id) of this modelElement</s
     </parameter>
     <parameter name="template">
       <string>final $apiPrefix$$modelElementName$ clone = $fqnAPIFactory$.eINSTANCE.create$apiPrefix$$modelElementName$();
-$fqnPictogramElement$ copy = $fqnFeaturePrefix$$graphModelName$CopyUtils.flatCopy(getPictogramElement());
+$fqnPictogramElement$ copy = de.jabc.cinco.meta.core.ui.utils.CincoCopyUtils.flatCopy(getPictogramElement());
 clone.setPictogramElement(copy);
 clone.setModelElement(($fqnModelElement$) copy.getLink().getBusinessObjects().get(0));
 
@@ -1270,7 +1270,7 @@ return clone;</string>
     </parameter>
     <parameter name="template">
       <string>final $apiPrefix$$modelElementName$ clone = $fqnAPIFactory$.eINSTANCE.create$apiPrefix$$modelElementName$();
-$fqnPictogramElement$ copy = $fqnFeaturePrefix$$graphModelName$CopyUtils.flatCopy(getPictogramElement());
+$fqnPictogramElement$ copy = de.jabc.cinco.meta.core.ui.utils.CincoCopyUtils.flatCopy(getPictogramElement());
 clone.setPictogramElement(copy);
 clone.setModelElement(($fqnModelElement$) copy.getLink().getBusinessObjects().get(0));
 
@@ -1405,7 +1405,7 @@ return clone;</string>
     </parameter>
     <parameter name="template">
       <string>final $apiPrefix$$modelElementName$ clone = $fqnAPIFactory$.eINSTANCE.create$apiPrefix$$modelElementName$();
-$fqnPictogramElement$ copy = $fqnFeaturePrefix$$graphModelName$CopyUtils.flatCopy(getPictogramElement());
+$fqnPictogramElement$ copy = de.jabc.cinco.meta.core.ui.utils.CincoCopyUtils.flatCopy(getPictogramElement());
 clone.setPictogramElement(copy);
 clone.setModelElement(($fqnModelElement$) copy.getLink().getBusinessObjects().get(0));
 
@@ -1536,7 +1536,7 @@ return clone;</string>
       <string>final $apiPrefix$$modelElementName$ clone = $fqnAPIFactory$.eINSTANCE.create$apiPrefix$$modelElementName$();
 $fqnArrayList$&lt;$fqnPictogramElement$&gt; pe = new $fqnArrayList$&lt;&gt;();
 pe.add(this.getPictogramElement());
-$fqnSet$&lt;$fqnPictogramElement$&gt; set = $fqnFeaturePrefix$$graphModelName$CopyUtils.targetCopy(pe, getDiagram());
+$fqnSet$&lt;$fqnPictogramElement$&gt; set = de.jabc.cinco.meta.core.ui.utils.CincoCopyUtils.targetCopy(pe, getDiagram());
 if (set != null &amp;&amp; !set.isEmpty()) {
 	$fqnPictogramElement$ copy = set.iterator().next();
 	clone.setModelElement(($fqnModelElement$) copy.getLink().getBusinessObjects().get(0));

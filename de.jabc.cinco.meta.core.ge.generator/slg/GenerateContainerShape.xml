@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>c1206c24-81a8-4ae2-b093-4d794fac9742</id>
   <name>GenerateContainerShape</name>
-  <changecounter>1235</changecounter>
+  <changecounter>1250</changecounter>
   <sib>
     <id>299dd76d-8397-43af-aff5-bc29e4d4a5d6</id>
     <name>SwitchContainerShape</name>
@@ -799,7 +799,27 @@ peService.setPropertyValue($context.peName$, $context.graphModelName$LayoutUtils
     </parameter>
     <parameter name="template">
       <string>$context.appearanceContent$
+
+int[] points = new int[] {$context.pointCode$};
+		
+int[] xs = new int[] {$context.xPoints$};
+int[] ys = new int[] {$context.yPoints$};
+		
+int minX = $context.graphModelName$GraphitiUtils.getInstance().min(xs);
+int maxX = $context.graphModelName$GraphitiUtils.getInstance().max(xs);
+
+int minY = $context.graphModelName$GraphitiUtils.getInstance().min(ys);
+int maxY = $context.graphModelName$GraphitiUtils.getInstance().max(ys);
+
+int width = maxX - minX;
+int height = maxY - minY;
+
+$context.graphModelName$GraphitiUtils.getInstance().transform(points, -minX, -minY);
+
 ContainerShape $context.meShapeName$ = peService.createContainerShape($context.parentName$, $context.diagramIsParent$);
+Polygon $context.peName$ = gaService.createPolygon($context.meShapeName$, points);
+
+/*ContainerShape $context.meShapeName$ = peService.createContainerShape($context.parentName$, $context.diagramIsParent$);
 Polygon $context.peName$ = gaService.createPolygon($context.meShapeName$, new int[] {$context.pointCode$});
 int xMin = $context.graphModelName$GraphitiUtils.getInstance().min(new int[] {$context.xPoints$});
 int yMin =$context.graphModelName$GraphitiUtils.getInstance().min(new int[] {$context.yPoints$});
@@ -810,7 +830,7 @@ for (Point _p : $context.peName$.getPoints()) {
 	_p.setX(_p.getX() + Math.abs(xMin));
 	_p.setY(_p.getY() + Math.abs(yMin));
 }
-
+*/
 gaService.setSize($context.peName$, width, height);
 
 $context.setStyleContent$</string>

@@ -19,10 +19,13 @@ Require-Bundle: org.eclipse.ui,
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: ProductDefinition,
  de.jabc.cinco.meta.core.utils,
+ org.eclipse.graphiti.ui.features;version="0.11.2",
+ org.eclipse.graphiti.ui.services;version="0.11.2",
  org.eclipse.xtext.resource,
  org.eclipse.xtext.ui.resource
 Export-Package: de.jabc.cinco.meta.core,
  de.jabc.cinco.meta.core.ui.features,
  de.jabc.cinco.meta.core.ui.handlers,
- de.jabc.cinco.meta.core.ui.listener
+ de.jabc.cinco.meta.core.ui.listener,
+ de.jabc.cinco.meta.core.ui.utils
 Bundle-ActivationPolicy: lazy
