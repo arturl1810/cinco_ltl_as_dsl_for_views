@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>bdb3d94b-23ae-447b-8e05-302a8e6e8657</id>
   <name>GeneratePropertyView</name>
-  <changecounter>1039</changecounter>
+  <changecounter>1043</changecounter>
   <edge>
     <source>0a7b2d2c-a9c5-4f86-a466-a87bd91f0b67</source>
     <target>70edcd98-92b7-4fcd-9c04-a1b8187883a2</target>
@@ -462,7 +462,8 @@ import org.eclipse.ui.part.ViewPart;
 public class $graphModelName$ViewPart extends ViewPart implements ISelectionListener {
 
 	private Composite parent;
-	
+	private PictogramElement lastSelected;
+
 	public $graphModelName$ViewPart() {
 		// TODO Auto-generated constructor stub
 	}

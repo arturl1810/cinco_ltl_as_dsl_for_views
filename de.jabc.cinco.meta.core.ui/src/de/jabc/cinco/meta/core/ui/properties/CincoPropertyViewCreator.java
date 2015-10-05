@@ -152,6 +152,9 @@ public class CincoPropertyViewCreator {
 		if (bo == null || bo.equals(lastSelectedObject))
 			return;
 		
+		if (treeViewer != null && !treeViewer.getTree().isDisposed())
+			treeExpandState.put(lastSelectedObject, treeViewer.getExpandedElements());
+		
 		disposeChildren(parent);
 		context = new EMFDataBindingContext();
 		Composite mainComposite = new Composite(parent, SWT.NONE);
@@ -365,8 +368,7 @@ public class CincoPropertyViewCreator {
 				.mapToInt(a -> a.getName().length()).max();
 		if (!max.isPresent()) {
 			Label l = new Label(comp, SWT.NONE);
-			l.setText("No properties for type: "
-					+ bo.getClass().getSimpleName().replace("Impl", ""));
+			l.setText("No properties available...");
 			return;
 		}
 		labelLayoutData.widthHint = max.getAsInt() * 10;
