@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>bd602dcf-2ea3-4585-953e-853c0406cc4e</id>
   <name>GenerateResizeModelElementFeature</name>
-  <changecounter>311</changecounter>
+  <changecounter>321</changecounter>
   <sib>
     <id>6cad6f22-f2a9-4f5c-a9dc-5eaeb99341c0</id>
     <name>PutExpression_1</name>
@@ -402,7 +402,7 @@ public class Resize$context.modelElement.name$Feature extends DefaultResizeShape
 			
 			@Override
 			protected void doExecute() {
-				bo = ($context.importPath$.$context.modelElement.name$) getBusinessObjectForPictogramElement(context.getPictogramElement());
+				/*bo = ($context.importPath$.$context.modelElement.name$) getBusinessObjectForPictogramElement(context.getPictogramElement());
 				Shape s = context.getShape();
 				GraphicsAlgorithm ga = s.getGraphicsAlgorithm();
 
@@ -421,6 +421,8 @@ public class Resize$context.modelElement.name$Feature extends DefaultResizeShape
 					}
 				}
 				
+				*/
+				de.jabc.cinco.meta.core.ui.features.CincoResizeFeature.resize(context);
 				layoutPictogramElement(context.getPictogramElement());
 			}
 

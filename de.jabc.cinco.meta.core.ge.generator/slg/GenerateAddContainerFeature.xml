@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>c7542d87-aa25-4707-a286-db91e10d7301</id>
   <name>GenerateAddContainerFeature</name>
-  <changecounter>527</changecounter>
+  <changecounter>538</changecounter>
   <sib>
     <id>3f7b7312-5278-4d0a-b7f8-45424c587ca9</id>
     <name>GetNodeContainerIsAbstract</name>
@@ -404,6 +404,8 @@ import graphmodel.Node;
 import java.util.List;
 import java.util.ArrayList;
 
+import org.eclipse.emf.ecore.EObject;
+
 import org.eclipse.graphiti.features.IAddFeature;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.IResizeShapeFeature;
@@ -452,8 +454,9 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
 		ArrayList&lt;Shape&gt; linkingList = new ArrayList&lt;Shape&gt;();
 
 		$context.graphicalRep$
-
-		link($context.rootShapeName$, $context.meIdentifier$);
+		
+		linkAllShapes($context.rootShapeName$, $context.meIdentifier$);
+		//link($context.rootShapeName$, $context.meIdentifier$);
 		for (Shape s : linkingList)
 			link(s,$context.meIdentifier$);
 
@@ -542,6 +545,12 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
 		if (pe instanceof AnchorContainer)
 			anchor = ((AnchorContainer) pe).getAnchors().get(0);
 		return anchor;
+	}
+
+	private void linkAllShapes(Shape s, EObject eObject) {
+		link(s, eObject);
+		if (s instanceof ContainerShape)
+			((ContainerShape) s).getChildren().forEach(c -&gt; linkAllShapes(c, eObject));
 	}
 }
 </string>

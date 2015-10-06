@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>96bc591f-9274-4d67-9fa7-0331421981cc</id>
   <name>GenerateDeleteContainerFeature</name>
-  <changecounter>57</changecounter>
+  <changecounter>145</changecounter>
   <sib>
     <id>a05fcd6d-1172-4a8a-9f18-500be6a1370d</id>
     <name>IterateElements</name>
@@ -57,7 +57,7 @@
     <label>DeleteNodeContainerFeature</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>154.5,378.0</position>
+    <position>154.5,618.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -97,7 +97,7 @@ import org.eclipse.graphiti.ui.features.DefaultDeleteFeature;
 
 
 
-public class Delete$context.container.name$Feature extends DefaultDeleteFeature {
+public class Delete$context.container.name$Feature extends de.jabc.cinco.meta.core.ui.features.CincoDeleteFeature {
 
 	public Delete$context.container.name$Feature(IFeatureProvider fp) {
 		super(fp);
@@ -114,9 +114,12 @@ public class Delete$context.container.name$Feature extends DefaultDeleteFeature 
 	
 	$context.canDeleteContent$
 
+	$context.preDeleteContent$
+
 	@Override
 	public void delete(IDeleteContext context) {
-		EObject bo = (EObject) getBusinessObjectForPictogramElement(context.getPictogramElement());
+		super.delete(context);
+		/*EObject bo = (EObject) getBusinessObjectForPictogramElement(context.getPictogramElement());
 		if (bo instanceof Container) {
 			Container nc = (Container) bo;
 			List&lt;Node&gt; delNodes = new ArrayList&lt;Node&gt;();
@@ -141,9 +144,7 @@ public class Delete$context.container.name$Feature extends DefaultDeleteFeature 
 					EcoreUtil.delete(e, true);
 				}
 			}
-		}
-
-		super.delete(context);
+		}*/
 	}
 	
 	
@@ -159,9 +160,9 @@ public class Delete$context.container.name$Feature extends DefaultDeleteFeature 
   </sib>
   <edge>
     <source>de5eb2c9-8612-48ce-ac53-a51828cc185f</source>
-    <target>f6103fa9-09ae-47ba-afd0-82e27ad9c7a8</target>
-    <point>240.0,266.0</point>
-    <point>240.0,498.0</point>
+    <target>7c80e1e3-548b-42a0-8b74-7abdcd9c3e0c</target>
+    <point>229.58333333333334,266.0</point>
+    <point>175.71428571428572,363.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -171,7 +172,7 @@ public class Delete$context.container.name$Feature extends DefaultDeleteFeature 
     <label>GenerateDeleteCanDelete</label>
     <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
-    <position>162.5,226.0</position>
+    <position>162.5,181.0</position>
     <parameter name="modelElementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -195,7 +196,7 @@ public class Delete$context.container.name$Feature extends DefaultDeleteFeature 
     <label>ClassName</label>
     <sib-uid>basic-sibs/PutExpression</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
-    <position>353.5,378.0</position>
+    <position>413.5,393.0</position>
     <parameter name="resolve">
       <boolean>true</boolean>
     </parameter>
@@ -226,7 +227,7 @@ public class Delete$context.container.name$Feature extends DefaultDeleteFeature 
     <label>WriteJavaFile</label>
     <sib-uid>genesys-sibs/WriteJavaFile</sib-uid>
     <taxonomy>de.jabc.sib.genesys.WriteJavaFile</taxonomy>
-    <position>351.0,258.0</position>
+    <position>411.0,273.0</position>
     <parameter name="baseDirectory">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -283,8 +284,8 @@ public class Delete$context.container.name$Feature extends DefaultDeleteFeature 
   <edge>
     <source>e8b855c4-d78b-4323-8d50-a29446bd7ef1</source>
     <target>00f78921-bdc7-424c-b781-ee99c49830c1</target>
-    <point>390.0,405.0</point>
-    <point>660.0,405.0</point>
+    <point>450.0,420.0</point>
+    <point>450.0,300.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -302,6 +303,172 @@ public class Delete$context.container.name$Feature extends DefaultDeleteFeature 
     <point>245.0,95.0</point>
     <branch>default</branch>
   </edge>
+  <edge>
+    <source>df9b407c-2a8f-42d6-bfdc-9e96766ae592</source>
+    <target>77aa9095-a728-4a02-925a-cf1b03e09910</target>
+    <point>165.0,465.0</point>
+    <point>60.0,585.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>true</branch>
+  </edge>
+  <sib>
+    <id>77aa9095-a728-4a02-925a-cf1b03e09910</id>
+    <name>RunStringTemplate_1</name>
+    <label>preDeleteCode</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>89.0,498.0</position>
+    <parameter name="append">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>preDeleteContent</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>@Override
+public void preDelete(IDeleteContext context) {
+	Object bo = getBusinessObjectForPictogramElement(context.getPictogramElement());
+	if (bo instanceof graphmodel.ModelElement) {
+		graphmodel.ModelElement me = (graphmodel.ModelElement) bo;
+		graphmodel.GraphModel root = me.getRootElement();
+		try {
+			$fqnAPIPrefix$C$graphModelName$ wrapped = $packageName$.graphiti.$graphModelName$Wrapper.wrapGraphModel(root, getDiagram());
+			$fqnAPIPrefix$C$modelElementName$ cMe = wrapped.findC$modelElementName$(($importPath$.$modelElementName$) me);
+			new $annotationValues$().preDelete(cMe);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	super.preDelete(context);
+}</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>df9b407c-2a8f-42d6-bfdc-9e96766ae592</source>
+    <target>95060d19-aa05-45aa-b21e-6414694dae09</target>
+    <point>165.0,465.0</point>
+    <point>165.0,585.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>false</branch>
+  </edge>
+  <sib>
+    <id>95060d19-aa05-45aa-b21e-6414694dae09</id>
+    <name>RunStringTemplate_2</name>
+    <label>preDeleteCode</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>194.0,498.0</position>
+    <parameter name="append">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>preDeleteContent</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string></string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>7c80e1e3-548b-42a0-8b74-7abdcd9c3e0c</id>
+    <name>PutExpression</name>
+    <label>PutModelElementName</label>
+    <sib-uid>basic-sibs/PutExpression</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
+    <position>171.0,288.0</position>
+    <parameter name="resolve">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="value">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>${container.name}</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>modelElementName</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>7c80e1e3-548b-42a0-8b74-7abdcd9c3e0c</source>
+    <target>df9b407c-2a8f-42d6-bfdc-9e96766ae592</target>
+    <point>240.0,360.0</point>
+    <point>240.0,435.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>95060d19-aa05-45aa-b21e-6414694dae09</source>
+    <target>f6103fa9-09ae-47ba-afd0-82e27ad9c7a8</target>
+    <point>165.0,585.0</point>
+    <point>234.0,700.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>77aa9095-a728-4a02-925a-cf1b03e09910</source>
+    <target>f6103fa9-09ae-47ba-afd0-82e27ad9c7a8</target>
+    <point>60.0,585.0</point>
+    <point>244.0,709.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>df9b407c-2a8f-42d6-bfdc-9e96766ae592</id>
+    <name>MacroSIB_1</name>
+    <label>HasPreDeleteHook</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>183.5,391.0</position>
+    <parameter name="modelElementKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>container</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>false</finalbranches>
+    <finalbranches>true</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>HasPreDeleteHook</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>8dba2fda-eda5-42cb-b075-1759542d9757</string>
+    </userobject>
+  </sib>
   <values/>
   <branch>
     <name>default</name>

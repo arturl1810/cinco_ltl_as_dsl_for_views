@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>c1206c24-81a8-4ae2-b093-4d794fac9742</id>
   <name>GenerateContainerShape</name>
-  <changecounter>1207</changecounter>
+  <changecounter>1286</changecounter>
   <sib>
     <id>299dd76d-8397-43af-aff5-bc29e4d4a5d6</id>
     <name>SwitchContainerShape</name>
@@ -253,14 +253,6 @@ $context.setStyleContent$</string>
     <labelposition>500.0,0.0</labelposition>
     <branch>true</branch>
   </edge>
-  <edge>
-    <source>53e7587c-03c3-4e93-b576-bfb6e4dd01ad</source>
-    <target>1548cba6-3d93-4188-9139-51c540c3cd7e</target>
-    <point>672.0,680.85</point>
-    <point>590.0,742.5</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
   <sib>
     <id>75d9b96c-16aa-4622-9568-810ed2fbee0a</id>
     <name>RunStringTemplate_4</name>
@@ -448,7 +440,7 @@ $context.setStyleContent$</string>
     <label>CheckAppearance</label>
     <sib-uid>basic-sibs/CheckVariable</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.CheckVariable</taxonomy>
-    <position>703.5,858.0</position>
+    <position>688.5,1038.0</position>
     <parameter name="variable">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -469,7 +461,7 @@ $context.setStyleContent$</string>
     <label>SetAppearance</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>637.5,993.0</position>
+    <position>637.5,1128.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -507,7 +499,7 @@ $context.graphModelName$LayoutUtils.set$context.appearance.name$Style($context.p
     <label>SetDeafultAppearance</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>779.0,993.0</position>
+    <position>749.0,1128.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -561,7 +553,7 @@ $context.graphModelName$LayoutUtils.set_$context.graphModelName$DefaultAppearanc
     <label>appearanceProvider?</label>
     <sib-uid>basic-sibs/CheckVariable</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.CheckVariable</taxonomy>
-    <position>678.5,1143.0</position>
+    <position>678.5,1233.0</position>
     <parameter name="variable">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -636,7 +628,7 @@ peService.setPropertyValue($context.peName$, $context.graphModelName$LayoutUtils
     <label>ReplaceString</label>
     <sib-uid>basic-sibs/ReplaceString</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.ReplaceString</taxonomy>
-    <position>521.5,1143.0</position>
+    <position>521.5,1233.0</position>
     <parameter name="find">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
@@ -799,7 +791,27 @@ peService.setPropertyValue($context.peName$, $context.graphModelName$LayoutUtils
     </parameter>
     <parameter name="template">
       <string>$context.appearanceContent$
+
+int[] points = new int[] {$context.pointCode$};
+		
+int[] xs = new int[] {$context.xPoints$};
+int[] ys = new int[] {$context.yPoints$};
+		
+int minX = $context.graphModelName$GraphitiUtils.getInstance().min(xs);
+int maxX = $context.graphModelName$GraphitiUtils.getInstance().max(xs);
+
+int minY = $context.graphModelName$GraphitiUtils.getInstance().min(ys);
+int maxY = $context.graphModelName$GraphitiUtils.getInstance().max(ys);
+
+int width = maxX - minX;
+int height = maxY - minY;
+
+$context.graphModelName$GraphitiUtils.getInstance().transform(points, -minX, -minY);
+
 ContainerShape $context.meShapeName$ = peService.createContainerShape($context.parentName$, $context.diagramIsParent$);
+Polygon $context.peName$ = gaService.createPolygon($context.meShapeName$, points);
+
+/*ContainerShape $context.meShapeName$ = peService.createContainerShape($context.parentName$, $context.diagramIsParent$);
 Polygon $context.peName$ = gaService.createPolygon($context.meShapeName$, new int[] {$context.pointCode$});
 int xMin = $context.graphModelName$GraphitiUtils.getInstance().min(new int[] {$context.xPoints$});
 int yMin =$context.graphModelName$GraphitiUtils.getInstance().min(new int[] {$context.yPoints$});
@@ -810,10 +822,21 @@ for (Point _p : $context.peName$.getPoints()) {
 	_p.setX(_p.getX() + Math.abs(xMin));
 	_p.setY(_p.getY() + Math.abs(yMin));
 }
-
+*/
 gaService.setSize($context.peName$, width, height);
 
-$context.setStyleContent$</string>
+String _pointsString = &quot;&quot;;
+for (int i : points) {
+	_pointsString += String.valueOf(i)+&quot;,&quot;;
+}
+
+peService.setPropertyValue($context.peName$, $context.graphModelName$LayoutUtils.KEY_INITIAL_POINTS, _pointsString);
+if (!($context.meShapeName$.getContainer() instanceof $context.fqnDiagram$))
+	peService.setPropertyValue($context.peName$, $context.graphModelName$LayoutUtils.KEY_INITIAL_PARENT_SIZE, &quot;&quot; + $context.meShapeName$.getContainer().getGraphicsAlgorithm().getWidth() + &quot;,&quot; + $context.meShapeName$.getContainer().getGraphicsAlgorithm().getHeight()); 
+else peService.setPropertyValue($context.peName$, $context.graphModelName$LayoutUtils.KEY_INITIAL_PARENT_SIZE, &quot;&quot; + $context.meShapeName$.getGraphicsAlgorithm().getWidth() + &quot;,&quot; + $context.meShapeName$.getGraphicsAlgorithm().getHeight()); 
+
+$context.setStyleContent$
+</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
@@ -863,16 +886,6 @@ $context.setStyleContent$</string>
     <target>35ea8ab9-5634-496d-8421-c461b5755d62</target>
     <point>663.0,172.97142857142856</point>
     <point>732.0,232.1142857142857</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
-  <edge>
-    <source>db99eefe-a74c-4a7d-bc42-11c536305ccb</source>
-    <target>1548cba6-3d93-4188-9139-51c540c3cd7e</target>
-    <spline/>
-    <point>641.6666666666666,444.0</point>
-    <point>585.0,750.0</point>
-    <point>745.0,768.6666666666666</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -1083,7 +1096,7 @@ $context.setStyleContent$</string>
     <label>GetAbstractShapeAppearance</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>665.5,751.0</position>
+    <position>650.5,916.0</position>
     <parameter name="abstractShapeKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1185,6 +1198,161 @@ $context.setStyleContent$</string>
     <point>90.0,301.0</point>
     <point>90.0,69.0</point>
     <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>3d57a7de-4698-46d8-b73e-128347c6d83b</id>
+    <name>EvaluateCondition_1</name>
+    <label>FixedHeight?</label>
+    <sib-uid>basic-sibs/EvaluateCondition</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.EvaluateCondition</taxonomy>
+    <position>710.5,828.0</position>
+    <parameter name="condition">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>${size.heightFixed}</expression>
+          <clazz>java.lang.Boolean</clazz>
+          <classMutable>false</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>false</finalbranches>
+    <finalbranches>true</finalbranches>
+  </sib>
+  <sib>
+    <id>8965129a-314b-4f04-995b-a8ffe5b81b1c</id>
+    <name>RunStringTemplate_13</name>
+    <label>SetFixedHeight</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>569.0,828.0</position>
+    <parameter name="append">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>graphicalRep</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>peService.setPropertyValue($context.peName$, de.jabc.cinco.meta.core.ui.features.CincoResizeFeature.FIXED_HEIGHT, de.jabc.cinco.meta.core.ui.features.CincoResizeFeature.FIXED);
+
+</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>c55c98a6-9232-40f6-b45c-3faf2b048b8a</id>
+    <name>EvaluateCondition</name>
+    <label>FixedWidth?</label>
+    <sib-uid>basic-sibs/EvaluateCondition</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.EvaluateCondition</taxonomy>
+    <position>713.5,738.0</position>
+    <parameter name="condition">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>${size.widthFixed}</expression>
+          <clazz>java.lang.Boolean</clazz>
+          <classMutable>false</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>false</finalbranches>
+    <finalbranches>true</finalbranches>
+  </sib>
+  <sib>
+    <id>b1258c94-1830-4d34-97c5-744c3eadd416</id>
+    <name>RunStringTemplate_12</name>
+    <label>SetFixedWitdt</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>573.5,738.0</position>
+    <parameter name="append">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>graphicalRep</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>peService.setPropertyValue($context.peName$, de.jabc.cinco.meta.core.ui.features.CincoResizeFeature.FIXED_WIDTH, de.jabc.cinco.meta.core.ui.features.CincoResizeFeature.FIXED);
+</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>3d57a7de-4698-46d8-b73e-128347c6d83b</source>
+    <target>1548cba6-3d93-4188-9139-51c540c3cd7e</target>
+    <point>810.5,878.0</point>
+    <point>765.5,801.0</point>
+    <branch>false</branch>
+  </edge>
+  <edge>
+    <source>3d57a7de-4698-46d8-b73e-128347c6d83b</source>
+    <target>8965129a-314b-4f04-995b-a8ffe5b81b1c</target>
+    <point>810.5,878.0</point>
+    <point>669.0,878.0</point>
+    <branch>true</branch>
+  </edge>
+  <edge>
+    <source>8965129a-314b-4f04-995b-a8ffe5b81b1c</source>
+    <target>1548cba6-3d93-4188-9139-51c540c3cd7e</target>
+    <point>669.0,878.0</point>
+    <point>765.5,801.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>c55c98a6-9232-40f6-b45c-3faf2b048b8a</source>
+    <target>3d57a7de-4698-46d8-b73e-128347c6d83b</target>
+    <point>813.5,788.0</point>
+    <point>810.5,878.0</point>
+    <branch>false</branch>
+  </edge>
+  <edge>
+    <source>c55c98a6-9232-40f6-b45c-3faf2b048b8a</source>
+    <target>b1258c94-1830-4d34-97c5-744c3eadd416</target>
+    <point>813.5,788.0</point>
+    <point>673.5,788.0</point>
+    <branch>true</branch>
+  </edge>
+  <edge>
+    <source>b1258c94-1830-4d34-97c5-744c3eadd416</source>
+    <target>3d57a7de-4698-46d8-b73e-128347c6d83b</target>
+    <point>673.5,788.0</point>
+    <point>810.5,878.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>53e7587c-03c3-4e93-b576-bfb6e4dd01ad</source>
+    <target>c55c98a6-9232-40f6-b45c-3faf2b048b8a</target>
+    <point>762.0,698.0</point>
+    <point>813.5,788.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>db99eefe-a74c-4a7d-bc42-11c536305ccb</source>
+    <target>c55c98a6-9232-40f6-b45c-3faf2b048b8a</target>
+    <point>703.0,458.0</point>
+    <point>813.5,788.0</point>
     <branch>default</branch>
   </edge>
   <parameter>

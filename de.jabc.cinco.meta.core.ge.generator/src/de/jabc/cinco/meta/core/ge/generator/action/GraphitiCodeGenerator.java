@@ -114,6 +114,7 @@ import de.jabc.cinco.meta.core.ge.style.model.errorhandling.CincoInvalidContaine
 import de.jabc.cinco.meta.core.ge.style.model.errorhandling.CincoInvalidSourceException;
 import de.jabc.cinco.meta.core.ge.style.model.errorhandling.CincoInvalidTargetException;
 import de.jabc.cinco.meta.core.ge.style.model.errorhandling.ECincoError;
+import de.jabc.cinco.meta.core.ge.style.model.preprocessors.StylesPreprocessor;
 import de.jabc.cinco.meta.core.mgl.generator.GenModelCreator;
 import de.jabc.cinco.meta.core.pluginregistry.PluginRegistry;
 import de.jabc.cinco.meta.core.ui.listener.MGLSelectionListener;
@@ -170,6 +171,8 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 				
 				if (styles == null) {
 					return null;
+				} else {
+					StylesPreprocessor.preprocess(styles);
 				}
 				
 				gModel = prepareGraphModel(gModel);
@@ -372,7 +375,6 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 		}
 		return null;
 	}
-	
 
 	private void fqnToContext(LightweightExecutionContext context) {
 		context.put("fqnIPath", IPath.class.getName());
@@ -642,6 +644,7 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 		bundles.add(Platform.getBundle("org.eclipse.ui.views.properties.tabbed"));
 		bundles.add(Platform.getBundle("org.eclipse.gef"));
 		bundles.add(Platform.getBundle("de.jabc.cinco.meta.core.referenceregistry"));
+		bundles.add(Platform.getBundle("de.jabc.cinco.meta.core.ui"));
 		bundles.add(Platform.getBundle("de.jabc.cinco.meta.core.wizards"));
 		bundles.add(Platform.getBundle("de.jabc.cinco.meta.core.ui"));
 		bundles.add(Platform.getBundle("javax.el"));

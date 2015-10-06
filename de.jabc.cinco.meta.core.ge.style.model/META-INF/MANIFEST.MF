@@ -9,11 +9,10 @@ Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: de.jabc.cinco.meta.core.ge.style.model.appearance;
   uses:="style",
- de.jabc.cinco.meta.core.ge.style.model.customfeature;
-  uses:="org.eclipse.graphiti.features.context,
-   org.eclipse.graphiti.features.custom",
+ de.jabc.cinco.meta.core.ge.style.model.customfeature,
  de.jabc.cinco.meta.core.ge.style.model.errorhandling,
  de.jabc.cinco.meta.core.ge.style.model.movefeature,
+ de.jabc.cinco.meta.core.ge.style.model.preprocessors,
  graphicalgraphmodel,
  graphicalgraphmodel.impl,
  graphicalgraphmodel.util,
