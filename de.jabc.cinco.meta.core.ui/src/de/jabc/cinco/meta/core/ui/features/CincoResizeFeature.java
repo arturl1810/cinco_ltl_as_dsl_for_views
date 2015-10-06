@@ -1,16 +1,7 @@
 package de.jabc.cinco.meta.core.ui.features;
 
-import graphmodel.Container;
-import graphmodel.GraphModel;
-import graphmodel.Node;
-//import info.scce.cinco.product.flowgraph.graphiti.features.layout.FlowGraphLayoutUtils;
-
-
-
-
-
-
 import java.util.List;
+
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.draw2d.geometry.Rectangle;
@@ -28,6 +19,7 @@ import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.services.IPeService;
+//import info.scce.cinco.product.flowgraph.graphiti.features.layout.FlowGraphLayoutUtils;
 
 public class CincoResizeFeature {
 	
@@ -96,7 +88,9 @@ public class CincoResizeFeature {
 	}
 	
 	private static void setNewLocationAndSize(GraphicsAlgorithm ga, Rectangle bounds) {
-		setLocationAndSize(ga, bounds.x, bounds.y, bounds.width, bounds.height);
+		if (((Shape) ga.getPictogramElement()).getContainer() instanceof Diagram)
+			setLocationAndSize(ga, deltaX, deltaY, ga.getWidth() - bounds.width, ga.getHeight() - bounds.height);
+		else setLocationAndSize(ga, bounds.x, bounds.y, ga.getWidth() - bounds.width, ga.getHeight() - bounds.height);
 	}
 
 	private static void setNewLocationAndSize(GraphicsAlgorithm ga) {
@@ -140,10 +134,10 @@ public class CincoResizeFeature {
 			newParent.height = oldParent.height;
 		
 		resizeByScale(points, oldParent, newParent,
-				checkPropertyValue(polyline, KEY_HORIZONTAL, KEY_HORIZONTAL_LEFT), // margin left fix
-				checkPropertyValue(polyline, KEY_HORIZONTAL, KEY_HORIZONTAL_RIGHT),// margin right fix
-				checkPropertyValue(polyline, KEY_VERTICAL, KEY_VERTICAL_TOP),      // margin top fix
-				checkPropertyValue(polyline, KEY_VERTICAL, KEY_VERTICAL_BOTTOM));  // margin bottom fix
+				true, //checkPropertyValue(polyline, KEY_HORIZONTAL, KEY_HORIZONTAL_LEFT), // margin left fix
+				true, //checkPropertyValue(polyline, KEY_HORIZONTAL, KEY_HORIZONTAL_RIGHT),// margin right fix
+				true, //checkPropertyValue(polyline, KEY_VERTICAL, KEY_VERTICAL_TOP),      // margin top fix
+				true); //checkPropertyValue(polyline, KEY_VERTICAL, KEY_VERTICAL_BOTTOM));  // margin bottom fix
 		
 		setNewLocationAndSize(polyline, calcBounds(polyline.getPoints()));
 		resizeChildren(polyline);
@@ -163,7 +157,7 @@ public class CincoResizeFeature {
 		
 		double newWidth = newParent.width
 				- marginLft * (marginLftFix ? 1 : scaleX)
-				- marginRgt * (marginRgtFix ? 1 : scaleY);
+				- marginRgt * (marginRgtFix ? 1 : scaleX);
 		
 		double newHeight = newParent.height
 				- marginTop * (marginTopFix ? 1 : scaleY)

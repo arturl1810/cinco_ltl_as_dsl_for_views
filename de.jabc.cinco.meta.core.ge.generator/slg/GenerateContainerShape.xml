@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>c1206c24-81a8-4ae2-b093-4d794fac9742</id>
   <name>GenerateContainerShape</name>
-  <changecounter>1251</changecounter>
+  <changecounter>1285</changecounter>
   <sib>
     <id>299dd76d-8397-43af-aff5-bc29e4d4a5d6</id>
     <name>SwitchContainerShape</name>
@@ -825,8 +825,15 @@ for (Point _p : $context.peName$.getPoints()) {
 */
 gaService.setSize($context.peName$, width, height);
 
-peService.setPropertyValue($context.peName$, $context.graphModelName$LayoutUtils.KEY_INITIAL_POINTS, &quot;$context.pointCode$&quot;);
-peService.setPropertyValue($context.peName$, $context.graphModelName$LayoutUtils.KEY_INITIAL_PARENT_SIZE, &quot;&quot; + $context.meShapeName$.getGraphicsAlgorithm().getWidth() + &quot;,&quot; + $context.meShapeName$.getGraphicsAlgorithm().getHeight()); 
+String _pointsString = &quot;&quot;;
+for (int i : points) {
+	_pointsString += String.valueOf(i)+&quot;,&quot;;
+}
+
+peService.setPropertyValue($context.peName$, $context.graphModelName$LayoutUtils.KEY_INITIAL_POINTS, _pointsString);
+if (!($context.meShapeName$.getContainer() instanceof $context.fqnDiagram$))
+	peService.setPropertyValue($context.peName$, $context.graphModelName$LayoutUtils.KEY_INITIAL_PARENT_SIZE, &quot;&quot; + $context.meShapeName$.getContainer().getGraphicsAlgorithm().getWidth() + &quot;,&quot; + $context.meShapeName$.getContainer().getGraphicsAlgorithm().getHeight()); 
+else peService.setPropertyValue($context.peName$, $context.graphModelName$LayoutUtils.KEY_INITIAL_PARENT_SIZE, &quot;&quot; + $context.meShapeName$.getGraphicsAlgorithm().getWidth() + &quot;,&quot; + $context.meShapeName$.getGraphicsAlgorithm().getHeight()); 
 
 $context.setStyleContent$
 </string>
@@ -884,19 +891,20 @@ $context.setStyleContent$</string>
   </edge>
   <edge>
     <source>db99eefe-a74c-4a7d-bc42-11c536305ccb</source>
-    <target>1548cba6-3d93-4188-9139-51c540c3cd7e</target>
+    <target>c55c98a6-9232-40f6-b45c-3faf2b048b8a</target>
     <spline/>
-    <point>641.6666666666666,444.0</point>
-    <point>585.0,750.0</point>
-    <point>745.0,768.6666666666666</point>
+    <point>641.7469879518072,444.0</point>
+    <point>600.0,675.0</point>
+    <point>732.0,746.28</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
     <source>5832d6df-f155-4ae0-94f7-2558cacec4fe</source>
     <target>05d615e5-55f4-4211-bc3f-32551ff920f5</target>
-    <point>480.0,285.0</point>
-    <point>748.0,394.0</point>
+    <point>483.0,433.74</point>
+    <point>747.0,539.34</point>
+    <labelposition>580.0,129.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
@@ -1065,7 +1073,7 @@ $context.setStyleContent$</string>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>$context.polygonPoint.x$, $context.polygonPoint.y$, </string>
+      <string>$context.polygonPoint.x$,$context.polygonPoint.y$,</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>

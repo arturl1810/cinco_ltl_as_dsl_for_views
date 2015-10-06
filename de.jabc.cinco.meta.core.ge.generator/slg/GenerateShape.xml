@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>36d9fec6-e1a2-4c6b-8680-956d60534097</id>
   <name>GenerateShape</name>
-  <changecounter>1179</changecounter>
+  <changecounter>1222</changecounter>
   <sib>
     <id>7588e245-69f9-4992-b2a2-63a8513339bc</id>
     <name>SwitchShape</name>
@@ -691,11 +691,39 @@ $context.peName$.setStretchV(true);</string>
     </parameter>
     <parameter name="template">
       <string>Shape $context.meShapeName$ = peService.createShape($context.parentName$, $context.diagramIsParent$);
-Polyline $context.peName$ = gaService.createPolyline($context.meShapeName$, new int[] {$context.polylinePoints$});
+Polyline $context.peName$ = null;
 
-peService.setPropertyValue($context.peName$, $context.graphModelName$LayoutUtils.KEY_INITIAL_POINTS, &quot;$context.polylinePoints$&quot;);
-peService.setPropertyValue($context.peName$, $context.graphModelName$LayoutUtils.KEY_INITIAL_PARENT_SIZE, &quot;&quot; + $context.meShapeName$.getGraphicsAlgorithm().getWidth() + &quot;,&quot; + $context.meShapeName$.getGraphicsAlgorithm().getHeight()); 
-</string>
+int[] points = new int[] {$context.polylinePoints$};
+		
+int[] xs = new int[] {$context.xPoints$};
+int[] ys = new int[] {$context.yPoints$};
+		
+int minX = $context.graphModelName$GraphitiUtils.getInstance().min(xs);
+int maxX = $context.graphModelName$GraphitiUtils.getInstance().max(xs);
+
+int minY = $context.graphModelName$GraphitiUtils.getInstance().min(ys);
+int maxY = $context.graphModelName$GraphitiUtils.getInstance().max(ys);
+
+int width = maxX - minX;
+int height = maxY - minY;
+
+if (minX &lt; 0 || minY &lt; 0)
+	$context.graphModelName$GraphitiUtils.getInstance().transform(points, -minX, -minY);
+
+String _pointsString = &quot;&quot;;
+for (int i : points) {
+	_pointsString += String.valueOf(i)+&quot;,&quot;;
+}
+
+if (!($context.meShapeName$.getContainer() instanceof $context.fqnDiagram$)) {
+	$context.peName$ = gaService.createPolyline($context.meShapeName$, points);
+	peService.setPropertyValue($context.peName$, $context.graphModelName$LayoutUtils.KEY_INITIAL_PARENT_SIZE, &quot;&quot; + $context.meShapeName$.getContainer().getGraphicsAlgorithm().getWidth() + &quot;,&quot; + $context.meShapeName$.getContainer().getGraphicsAlgorithm().getHeight()); 
+} else {
+	$context.peName$ = gaService.createPolyline($context.meShapeName$, new int[] {$context.polylinePoints$});
+	peService.setPropertyValue($context.peName$, $context.graphModelName$LayoutUtils.KEY_INITIAL_PARENT_SIZE, &quot;&quot; + width + &quot;,&quot; + height); 
+}
+
+peService.setPropertyValue($context.peName$, $context.graphModelName$LayoutUtils.KEY_INITIAL_POINTS, _pointsString);</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
@@ -805,7 +833,7 @@ peService.setPropertyValue($context.peName$, $context.graphModelName$LayoutUtils
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>$context.pLinePoint.x$, $context.pLinePoint.y$,  </string>
+      <string>$context.pLinePoint.x$,$context.pLinePoint.y$,</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
@@ -822,9 +850,9 @@ peService.setPropertyValue($context.peName$, $context.graphModelName$LayoutUtils
   </edge>
   <edge>
     <source>48c5e6b2-c040-4644-9a17-529485167604</source>
-    <target>365ae10b-8bfb-406b-b638-e3efbf756f12</target>
-    <point>1020.0,600.0</point>
-    <point>885.0,600.0</point>
+    <target>6f76ea8d-17fe-4373-98db-3aefb30413aa</target>
+    <point>1020.0,609.0</point>
+    <point>1020.0,663.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -1906,6 +1934,76 @@ try {
     <target>581c5c12-c674-4230-baa6-2f6f6303154f</target>
     <point>675.5,1116.0</point>
     <point>537.0,1118.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>6f76ea8d-17fe-4373-98db-3aefb30413aa</id>
+    <name>RunStringTemplate_17</name>
+    <label>XPoints</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>995.0,663.0</position>
+    <parameter name="append">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>xPoints</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>$context.pLinePoint.x$,</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>f1b95894-791e-42a0-ac24-be0c3c7a9ba8</id>
+    <name>RunStringTemplate_18</name>
+    <label>YPoints</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>995.0,768.0</position>
+    <parameter name="append">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>yPoints</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>$context.pLinePoint.y$,</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>6f76ea8d-17fe-4373-98db-3aefb30413aa</source>
+    <target>f1b95894-791e-42a0-ac24-be0c3c7a9ba8</target>
+    <point>870.0,420.0</point>
+    <point>945.0,270.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>f1b95894-791e-42a0-ac24-be0c3c7a9ba8</source>
+    <target>365ae10b-8bfb-406b-b638-e3efbf756f12</target>
+    <point>1020.0,795.0</point>
+    <point>870.0,580.0</point>
     <branch>default</branch>
   </edge>
   <parameter>
