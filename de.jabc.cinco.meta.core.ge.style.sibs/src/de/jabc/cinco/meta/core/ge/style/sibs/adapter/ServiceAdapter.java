@@ -1133,10 +1133,10 @@ public class ServiceAdapter {
 				attributesMap.put(me, InheritanceUtil.getInheritedAttributes(me));
 			}
 			
-			for (ModelElement me : modelElements) {
-				me.getAttributes().clear();
-				me.getAttributes().addAll(EcoreUtil.copyAll(attributesMap.get(me)));
-			}
+//			for (ModelElement me : modelElements) {
+//				me.getAttributes().clear();
+//				me.getAttributes().addAll(EcoreUtil.copyAll(attributesMap.get(me)));
+//			}
 
 			return Branches.DEFAULT;
 		} catch (Exception e) {

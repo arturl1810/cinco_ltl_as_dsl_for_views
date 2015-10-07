@@ -3,6 +3,7 @@ package de.jabc.cinco.meta.core.ui.properties;
 import graphmodel.GraphModel;
 import graphmodel.ModelElement;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -59,8 +60,13 @@ import org.eclipse.swt.widgets.Tree;
 import de.jabc.cinco.meta.core.ui.converter.CharStringConverter;
 import de.jabc.cinco.meta.core.ui.listener.CincoTableMenuListener;
 import de.jabc.cinco.meta.core.ui.listener.CincoTreeMenuListener;
+import de.jabc.cinco.meta.core.ui.utils.CincoPropertyUtils;
 import de.jabc.cinco.meta.core.ui.validator.TextValidator;
 
+/**
+ * @author kopetzki
+ *
+ */
 public class CincoPropertyViewCreator {
 
 	private Map<EObject, Composite> compositesMap;
@@ -246,7 +252,7 @@ public class CincoPropertyViewCreator {
 	private void createUIAndBindings(EObject bo, Composite comp) {
 		domain = getOrCreateEditingDomain(bo);
 
-		List<EStructuralFeature> attributes = attributesMap.get(bo.getClass());
+		List<EStructuralFeature> attributes = CincoPropertyUtils.getAllEStructuralFeatures(bo.getClass(), attributesMap);
 		setLabelWidthHint(bo, comp, attributes);
 
 		for (EStructuralFeature attr : attributes) {

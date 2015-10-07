@@ -10,6 +10,8 @@ import org.eclipse.emf.databinding.EMFProperties;
 import org.eclipse.emf.databinding.IEMFListProperty;
 import org.eclipse.emf.ecore.EObject;
 
+import de.jabc.cinco.meta.core.ui.utils.CincoPropertyUtils;
+
 public class CincoTreeFactory implements IObservableFactory {
 
 	Map<Class<? extends EObject>, IEMFListProperty> emfListPropertesMap;
@@ -33,7 +35,8 @@ public class CincoTreeFactory implements IObservableFactory {
 		}
 
 		if (target instanceof EObject) {
-			IEMFListProperty iEmfListProperty = EMFProperties.multiList(emfListPropertesMap.get(target.getClass()));
+			IEMFListProperty iEmfListProperty = CincoPropertyUtils.getAllListProperties(((EObject)target).getClass(), emfListPropertesMap);
+//			IEMFListProperty iEmfListProperty = EMFProperties.multiList(emfListPropertesMap.get(target.getClass()));
 			return iEmfListProperty.listFactory().createObservable(target);
 		}
 			

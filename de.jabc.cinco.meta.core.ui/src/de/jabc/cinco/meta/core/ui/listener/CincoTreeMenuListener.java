@@ -23,6 +23,8 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredViewer;
 
+import de.jabc.cinco.meta.core.ui.utils.CincoPropertyUtils;
+
 public class CincoTreeMenuListener implements IMenuListener2{
 
 	private StructuredViewer viewer;
@@ -44,7 +46,7 @@ public class CincoTreeMenuListener implements IMenuListener2{
 		if (!(object instanceof EObject))
 			return;
 		
-		List<EStructuralFeature> references = map.get(object.getClass());
+		List<EStructuralFeature> references = CincoPropertyUtils.getAllEStructuralFeatures(object.getClass(), map);//map.get(object.getClass());
 		
 		if (references == null)
 			return;
