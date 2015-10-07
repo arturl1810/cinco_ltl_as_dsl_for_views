@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>7def08b0-45b0-4f5d-9629-657ab3028508</id>
   <name>GenerateAddNodeFeature</name>
-  <changecounter>1747</changecounter>
+  <changecounter>1764</changecounter>
   <sib>
     <id>b89523ed-9916-4f61-a5e9-9e1d8838a845</id>
     <name>PutExpression_1</name>
@@ -155,7 +155,10 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
 		IGaService gaService = Graphiti.getGaService();
 		
 		ArrayList&lt;Shape&gt; linkingList = new ArrayList&lt;Shape&gt;();
-		
+
+		boolean parentIsDiagram = false;
+		int width = 0,  height = 0, minX = 0, minY = 0;
+
 		$context.graphicalRep$
 
 		linkAllShapes($context.rootShapeName$, $context.meIdentifier$);
@@ -165,6 +168,26 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
 			link(_s,$context.meIdentifier$);
 
 		if (context.getWidth() != -1 &amp;&amp; context.getHeight() != -1)  {
+			ResizeShapeContext rc = new ResizeShapeContext(Shape0);
+			rc.setWidth(context.getWidth());
+			rc.setHeight(context.getHeight());
+			rc.setX(context.getX());
+			rc.setY(context.getY());
+			IResizeShapeFeature rf = getFeatureProvider().getResizeShapeFeature(rc);
+			if (rf != null &amp;&amp; rf.canResizeShape(rc))
+			rf.resizeShape(rc);
+		} else if (parentIsDiagram)  {
+			ResizeShapeContext rc = new ResizeShapeContext(Shape0);
+			rc.setWidth(width);
+			rc.setHeight(height);
+			rc.setX(context.getX() + minX);
+			rc.setY(context.getY() + minY);
+			IResizeShapeFeature rf = getFeatureProvider().getResizeShapeFeature(rc);
+			if (rf != null &amp;&amp; rf.canResizeShape(rc))
+				rf.resizeShape(rc);
+		}
+
+		/*if (context.getWidth() != -1 &amp;&amp; context.getHeight() != -1)  {
 			ResizeShapeContext rc = new ResizeShapeContext($context.rootShapeName$);
 			rc.setWidth(context.getWidth());
 			rc.setHeight(context.getHeight());
@@ -173,7 +196,7 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
 			IResizeShapeFeature rf = getFeatureProvider().getResizeShapeFeature(rc);
 			if (rf != null &amp;&amp; rf.canResizeShape(rc))
 				rf.resizeShape(rc);
-		}
+		}*/
 
 		peService.createChopboxAnchor($context.rootShapeName$);
 		layoutPictogramElement($context.rootShapeName$);
@@ -568,14 +591,36 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
 
 		ArrayList&lt;Shape&gt; linkingList = new ArrayList&lt;Shape&gt;();
 
+		boolean parentIsDiagram = false;
+		int width = 0,  height = 0, minX = 0, minY = 0;
+
 		$context.graphicalRep$
 
 		link($context.rootShapeName$, $context.meIdentifier$);
 		for (Shape _s : linkingList)
 			link(_s,$context.meIdentifier$);
 
-		
 		if (context.getWidth() != -1 &amp;&amp; context.getHeight() != -1)  {
+			ResizeShapeContext rc = new ResizeShapeContext(Shape0);
+			rc.setWidth(context.getWidth());
+			rc.setHeight(context.getHeight());
+			rc.setX(context.getX());
+			rc.setY(context.getY());
+			IResizeShapeFeature rf = getFeatureProvider().getResizeShapeFeature(rc);
+			if (rf != null &amp;&amp; rf.canResizeShape(rc))
+			rf.resizeShape(rc);
+		} else if (parentIsDiagram)  {
+			ResizeShapeContext rc = new ResizeShapeContext(Shape0);
+			rc.setWidth(width);
+			rc.setHeight(height);
+			rc.setX(context.getX() + minX);
+			rc.setY(context.getY() + minY);
+			IResizeShapeFeature rf = getFeatureProvider().getResizeShapeFeature(rc);
+			if (rf != null &amp;&amp; rf.canResizeShape(rc))
+				rf.resizeShape(rc);
+		}
+
+		/*if (context.getWidth() != -1 &amp;&amp; context.getHeight() != -1)  {
 			ResizeShapeContext rc = new ResizeShapeContext($context.rootShapeName$);
 			rc.setWidth(context.getWidth());
 			rc.setHeight(context.getHeight());
@@ -584,7 +629,7 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
 			IResizeShapeFeature rf = getFeatureProvider().getResizeShapeFeature(rc);
 			if (rf != null &amp;&amp; rf.canResizeShape(rc))
 				rf.resizeShape(rc);
-		}
+		}*/
 
 		
 		peService.createChopboxAnchor($context.rootShapeName$);

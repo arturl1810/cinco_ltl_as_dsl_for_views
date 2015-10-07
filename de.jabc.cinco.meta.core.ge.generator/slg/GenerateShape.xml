@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>36d9fec6-e1a2-4c6b-8680-956d60534097</id>
   <name>GenerateShape</name>
-  <changecounter>1222</changecounter>
+  <changecounter>1236</changecounter>
   <sib>
     <id>7588e245-69f9-4992-b2a2-63a8513339bc</id>
     <name>SwitchShape</name>
@@ -698,16 +698,18 @@ int[] points = new int[] {$context.polylinePoints$};
 int[] xs = new int[] {$context.xPoints$};
 int[] ys = new int[] {$context.yPoints$};
 		
-int minX = $context.graphModelName$GraphitiUtils.getInstance().min(xs);
+minX = $context.graphModelName$GraphitiUtils.getInstance().min(xs);
 int maxX = $context.graphModelName$GraphitiUtils.getInstance().max(xs);
 
-int minY = $context.graphModelName$GraphitiUtils.getInstance().min(ys);
+minY = $context.graphModelName$GraphitiUtils.getInstance().min(ys);
 int maxY = $context.graphModelName$GraphitiUtils.getInstance().max(ys);
 
-int width = maxX - minX;
-int height = maxY - minY;
+width = maxX - minX;
+height = maxY - minY;
 
-if (minX &lt; 0 || minY &lt; 0)
+parentIsDiagram = ($context.meShapeName$.getContainer() instanceof $context.fqnDiagram$);
+
+if (parentIsDiagram || minX &lt; 0 || minY &lt; 0)
 	$context.graphModelName$GraphitiUtils.getInstance().transform(points, -minX, -minY);
 
 String _pointsString = &quot;&quot;;
@@ -715,7 +717,7 @@ for (int i : points) {
 	_pointsString += String.valueOf(i)+&quot;,&quot;;
 }
 
-if (!($context.meShapeName$.getContainer() instanceof $context.fqnDiagram$)) {
+if (!parentIsDiagram) {
 	$context.peName$ = gaService.createPolyline($context.meShapeName$, points);
 	peService.setPropertyValue($context.peName$, $context.graphModelName$LayoutUtils.KEY_INITIAL_PARENT_SIZE, &quot;&quot; + $context.meShapeName$.getContainer().getGraphicsAlgorithm().getWidth() + &quot;,&quot; + $context.meShapeName$.getContainer().getGraphicsAlgorithm().getHeight()); 
 } else {
