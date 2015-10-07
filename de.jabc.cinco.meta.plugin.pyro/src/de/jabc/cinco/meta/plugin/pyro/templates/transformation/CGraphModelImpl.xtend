@@ -20,6 +20,9 @@ import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.EPackage
 import mgl.GraphicalElementContainment
 import mgl.Node
+import mgl.NodeContainer
+import mgl.Edge
+import org.eclipse.core.internal.dtree.NodeComparison
 
 class CGraphModelImpl implements Templateable{
 	
@@ -182,20 +185,24 @@ public class C«graphModel.name.toFirstUpper»Impl implements C«graphModel.name
         List<CModelElement> cModelElements = new ArrayList<CModelElement>();
         for(ModelElement me:getRecursiveModelElemements(this.modelElement.getmodelElements_ModelElement())) {
         	«FOR StyledNode sn:nodes»
-			if(me instanceof «sn.modelElement.name.toFirstUpper»){
-			    C«sn.modelElement.name.toFirstUpper» c«sn.modelElement.name.toFirstUpper» = new C«sn.modelElement.name.toFirstUpper»Impl();
-			    c«sn.modelElement.name.toFirstUpper».setModelElement(me);
-			    c«sn.modelElement.name.toFirstUpper».setC«graphModel.name.toFirstUpper»(this);
-			    cModelElements.add(c«sn.modelElement.name.toFirstUpper»);
-			}
+        	«IF sn.modelElement instanceof Node»
+        	«IF (sn.modelElement as Node).extends == null»
+        	«createModelElementGetter(sn.modelElement,graphModel)»
+        	«ENDIF»
+        	«ENDIF»
+        	«IF sn.modelElement instanceof NodeContainer»
+        	«IF (sn.modelElement as NodeContainer).extends == null»
+        	«createModelElementGetter(sn.modelElement,graphModel)»
+        	«ENDIF»
+        	«ENDIF»
             «ENDFOR»
+            
             «FOR StyledEdge sn:edges»
-			if(me instanceof «sn.modelElement.name.toFirstUpper»){
-			    C«sn.modelElement.name.toFirstUpper» c«sn.modelElement.name.toFirstUpper» = new C«sn.modelElement.name.toFirstUpper»Impl();
-			    c«sn.modelElement.name.toFirstUpper».setModelElement(me);
-			    c«sn.modelElement.name.toFirstUpper».setC«graphModel.name.toFirstUpper»(this);
-			    cModelElements.add(c«sn.modelElement.name.toFirstUpper»);
-			}
+			«IF sn.modelElement instanceof Edge»
+        	«IF (sn.modelElement as Edge).extends == null»
+        	«createModelElementGetter(sn.modelElement,graphModel)»
+        	«ENDIF»
+        	«ENDIF»
             «ENDFOR»
         }
         return cModelElements;
@@ -398,6 +405,21 @@ public class C«graphModel.name.toFirstUpper»Impl implements C«graphModel.name
 	    return getPredecessors(C«sn.modelElement.name.toFirstUpper».class);
 	}
 	'''
+	
+	def createModelElementGetter(GraphicalModelElement gme,GraphModel graphModel)
+	'''
+	if(me instanceof «gme.name.toFirstUpper»){
+		«FOR GraphicalModelElement ge:ModelParser.getInheritanceChildren(gme,graphModel)»
+		«createModelElementGetter(ge,graphModel)»
+		«ENDFOR»
+	    C«gme.name.toFirstUpper» c«gme.name.toFirstUpper» = new C«gme.name.toFirstUpper»Impl();
+	    c«gme.name.toFirstUpper».setModelElement(me);
+	    c«gme.name.toFirstUpper».setC«graphModel.name.toFirstUpper»(this);
+	    cModelElements.add(c«gme.name.toFirstUpper»);
+	    continue;
+	}
+	'''
+	
 	
 
 	

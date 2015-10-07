@@ -51,8 +51,10 @@ class JointModelTemplate {
 		«ELSE»
 		'<rect class="re«i» body"/>'+
 		«ENDIF»
+		«var counter = i»
 		«FOR AbstractShape shape:(abstractShape as ContainerShape).children»
-		«createAbstractShape(shape,i+1)»
+		«{counter = counter +1;""}»
+		«createAbstractShape(shape,counter)»
 		«ENDFOR»
     «ENDIF»
 	'''
@@ -184,8 +186,10 @@ class JointModelTemplate {
 			
 		},
 		«ENDIF»
+		«var counter = i»
 		«FOR AbstractShape shape:(abstractShape as ContainerShape).children»
-		«createAbstractShapeAppearance(gme,shape,i+1)»
+		«{counter = counter +1;""}»
+		«createAbstractShapeAppearance(gme,shape,counter)»
 		«ENDFOR»
     «ENDIF»
 	'''

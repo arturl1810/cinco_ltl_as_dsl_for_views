@@ -77,6 +77,39 @@ public class ModelParser {
 	public static String DISABLE_CREATE_ANNOTATION = "create";
 	public static String DISABLE_DELETE_ANNOTATION = "delete";
 	
+	public static ArrayList<GraphicalModelElement> getInheritanceChildren(GraphicalModelElement gme, GraphModel graphModel)
+	{
+		ArrayList<GraphicalModelElement> elements = new ArrayList<GraphicalModelElement>();
+		if(gme instanceof Node){
+			for(Node node:graphModel.getNodes()){
+				if(node.getExtends() != null){
+					if(node.getExtends().getName().equals(gme.getName())){
+						elements.add(node);
+					}
+				}
+			}
+		}
+		if(gme instanceof Edge){
+			for(Edge node:graphModel.getEdges()){
+				if(node.getExtends() != null){
+					if(node.getExtends().getName().equals(gme.getName())){
+						elements.add(node);
+					}
+				}
+			}
+		}
+		if(gme instanceof NodeContainer){
+			for(NodeContainer node:graphModel.getNodeContainers()){
+				if(node.getExtends() != null){
+					if(node.getExtends().getName().equals(gme.getName())){
+						elements.add(node);
+					}
+				}
+			}
+		}
+		return elements;
+	}
+	
 	public static ArrayList<StyledNode> getNotDisbaledCreate(ArrayList<StyledNode> nodes){
 		ArrayList<StyledNode> notDisbaledNodes = new ArrayList<StyledNode>();
 		for(StyledNode n:nodes){
@@ -868,8 +901,10 @@ public class ModelParser {
 			return texts;
 		}
 		if(shape instanceof ContainerShape){
+			
 			for(AbstractShape abstractShape:((ContainerShape)shape).getChildren()){
-				texts.putAll(getTextShapes(abstractShape,i+1));
+				i++;
+				texts.putAll(getTextShapes(abstractShape,i));
 			}
 		}
 		return texts;
