@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>5114f8bf-bf5e-4a42-bcb3-454199a39dd9</id>
   <name>Generate_NodeConnectEOperations</name>
-  <changecounter>551</changecounter>
+  <changecounter>555</changecounter>
   <sib>
     <id>68cd1709-17de-4261-8a68-3a7aa8ed4add</id>
     <name>GraphSIB_6</name>
@@ -866,7 +866,7 @@ Creates a clone (persisting the modelElement&apos;s id) of this modelElement
       <string>final $apiPrefix$$modelElementName$ clone = $fqnAPIFactory$.eINSTANCE.create$apiPrefix$$modelElementName$();
 $fqnArrayList$&lt;$fqnPictogramElement$&gt; pe = new $fqnArrayList$&lt;&gt;();
 pe.add(this.getPictogramElement());
-$fqnSet$&lt;$fqnPictogramElement$&gt; set = $fqnFeaturePrefix$$graphModelName$CopyUtils.targetCopy(pe, getDiagram());
+$fqnSet$&lt;$fqnPictogramElement$&gt; set = de.jabc.cinco.meta.core.ui.utils.CincoCopyUtils.targetCopy(pe, getDiagram());
 if (set != null &amp;&amp; !set.isEmpty()) {
 	$fqnPictogramElement$ copy = set.iterator().next();
 	clone.setModelElement(($fqnModelElement$) copy.getLink().getBusinessObjects().get(0));

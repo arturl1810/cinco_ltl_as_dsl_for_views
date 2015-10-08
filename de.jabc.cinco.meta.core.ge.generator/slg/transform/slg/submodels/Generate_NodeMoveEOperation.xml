@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>53c0c093-ef7e-452a-ae07-8946504ff744</id>
   <name>Generate_NodeMoveEOperation</name>
-  <changecounter>610</changecounter>
+  <changecounter>621</changecounter>
   <edge>
     <source>45937ff9-8a61-426a-ad52-785723db3d9e</source>
     <target>33b4498b-317c-424c-a417-153e95dd0cd4</target>
@@ -91,7 +91,7 @@ Moves this node to the specified container. The node is placed at (x,y). ATTENTI
     <label>PutDynamicLinkedMap</label>
     <sib-uid>ge-util-sibs/PutDynamicLinkedMap</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.PutDynamicLinkedMap</taxonomy>
-    <position>548.5,601.0</position>
+    <position>548.5,603.0</position>
     <parameter name="elements">
       <linked-hash-map>
         <entry>
@@ -247,7 +247,7 @@ final $fqnMoveShapeContext$ mc = new $fqnMoveShapeContext$(($fqnShape$)pes.get(0
     <label>IsNodeContained</label>
     <sib-uid>ge-util-sibs/IsNodeContained</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsNodeContained</taxonomy>
-    <position>563.5,151.0</position>
+    <position>563.5,153.0</position>
     <parameter name="node">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -465,7 +465,7 @@ Moves this node to the specified container. The node is placed at (x,y). ATTENTI
     <label>PutDynamicLinkedMap</label>
     <sib-uid>ge-util-sibs/PutDynamicLinkedMap</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.PutDynamicLinkedMap</taxonomy>
-    <position>83.5,271.0</position>
+    <position>83.5,273.0</position>
     <parameter name="elements">
       <linked-hash-map>
         <entry>
@@ -583,7 +583,7 @@ final $fqnMoveShapeContext$ mc = new $fqnMoveShapeContext$(($fqnShape$)pes.get(0
     <label>IsNodeContained</label>
     <sib-uid>ge-util-sibs/IsNodeContained</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsNodeContained</taxonomy>
-    <position>98.5,46.0</position>
+    <position>98.5,48.0</position>
     <parameter name="node">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -765,7 +765,7 @@ Creates an clone (persisting the modelElement&apos;s id) of this modelElement</s
     <label>PutDynamicLinkedMap</label>
     <sib-uid>ge-util-sibs/PutDynamicLinkedMap</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.PutDynamicLinkedMap</taxonomy>
-    <position>893.5,331.0</position>
+    <position>893.5,333.0</position>
     <parameter name="elements">
       <linked-hash-map>
         <entry>
@@ -969,7 +969,7 @@ Creates an clone (persisting the modelElement&apos;s id) of this modelElement</s
     <label>PutDynamicLinkedMap</label>
     <sib-uid>ge-util-sibs/PutDynamicLinkedMap</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.PutDynamicLinkedMap</taxonomy>
-    <position>323.5,286.0</position>
+    <position>323.5,288.0</position>
     <parameter name="elements">
       <linked-hash-map>
         <entry>
@@ -1310,7 +1310,7 @@ return clone;</string>
     <label>IsPrimeNode</label>
     <sib-uid>ge-util-sibs/IsPrimeNode</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsPrimeNode</taxonomy>
-    <position>275.5,766.0</position>
+    <position>275.5,768.0</position>
     <parameter name="node">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1425,7 +1425,7 @@ return clone;</string>
     <label>IsPrimeNode</label>
     <sib-uid>ge-util-sibs/IsPrimeNode</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsPrimeNode</taxonomy>
-    <position>845.5,856.0</position>
+    <position>845.5,858.0</position>
     <parameter name="node">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1617,7 +1617,7 @@ if (rf != null &amp;&amp; rf.canResizeShape(($fqnResizeShapeContext$) rc, true))
     <label>PutDynamicLinkedMap</label>
     <sib-uid>ge-util-sibs/PutDynamicLinkedMap</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.PutDynamicLinkedMap</taxonomy>
-    <position>953.5,46.0</position>
+    <position>953.5,48.0</position>
     <parameter name="elements">
       <linked-hash-map>
         <entry>
@@ -1732,7 +1732,7 @@ Creates an clone (persisting the modelElement&apos;s id) of this modelElement</s
     <label>PutDynamicLinkedMap</label>
     <sib-uid>ge-util-sibs/PutDynamicLinkedMap</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.PutDynamicLinkedMap</taxonomy>
-    <position>1133.5,646.0</position>
+    <position>1133.5,648.0</position>
     <parameter name="elements">
       <linked-hash-map>
         <entry>
@@ -1831,7 +1831,7 @@ Creates an clone (persisting the modelElement&apos;s id) of this modelElement</s
     <label>PutDynamicLinkedMap</label>
     <sib-uid>ge-util-sibs/PutDynamicLinkedMap</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.PutDynamicLinkedMap</taxonomy>
-    <position>698.5,916.0</position>
+    <position>698.5,918.0</position>
     <parameter name="elements">
       <linked-hash-map>
         <entry>
@@ -1882,7 +1882,7 @@ Creates an clone (persisting the modelElement&apos;s id) of this modelElement</s
     <label>PutDynamicLinkedMap</label>
     <sib-uid>ge-util-sibs/PutDynamicLinkedMap</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.PutDynamicLinkedMap</taxonomy>
-    <position>203.5,586.0</position>
+    <position>203.5,588.0</position>
     <parameter name="elements">
       <linked-hash-map>
         <entry>
@@ -1945,7 +1945,7 @@ Creates an clone (persisting the modelElement&apos;s id) of this modelElement</s
     </parameter>
     <parameter name="template">
       <string>final $apiPrefix$$modelElementName$ clone = $fqnAPIFactory$.eINSTANCE.create$apiPrefix$$modelElementName$();
-$fqnPictogramElement$ copy = $fqnFeaturePrefix$$graphModelName$CopyUtils.flatCopy(getPictogramElement());
+$fqnPictogramElement$ copy = de.jabc.cinco.meta.core.ui.utils.CincoCopyUtils.flatCopy(getPictogramElement());
 clone.setPictogramElement(copy);
 clone.setModelElement(($fqnModelElement$) copy.getLink().getBusinessObjects().get(0));
 
@@ -2016,7 +2016,7 @@ return cf.canCreate(cc);</string>
       <string>final $apiPrefix$$modelElementName$ clone = $fqnAPIFactory$.eINSTANCE.create$apiPrefix$$modelElementName$();
 $fqnArrayList$&lt;$fqnPictogramElement$&gt; pe = new $fqnArrayList$&lt;&gt;();
 pe.add(this.getPictogramElement());
-$fqnSet$&lt;$fqnPictogramElement$&gt; set = $fqnFeaturePrefix$$graphModelName$CopyUtils.targetCopy(pe, getDiagram());
+$fqnSet$&lt;$fqnPictogramElement$&gt; set = de.jabc.cinco.meta.core.ui.utils.CincoCopyUtils.targetCopy(pe, getDiagram());
 if (set != null &amp;&amp; !set.isEmpty()) {
 	$fqnPictogramElement$ copy = set.iterator().next();
 	clone.setModelElement(($fqnModelElement$) copy.getLink().getBusinessObjects().get(0));
@@ -2050,7 +2050,7 @@ if (af != null) {
     <label>PutDynamicLinkedMap</label>
     <sib-uid>ge-util-sibs/PutDynamicLinkedMap</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.PutDynamicLinkedMap</taxonomy>
-    <position>443.5,556.0</position>
+    <position>443.5,558.0</position>
     <parameter name="elements">
       <linked-hash-map>
         <entry>
@@ -2185,7 +2185,7 @@ if (af != null) {
     </parameter>
     <parameter name="template">
       <string>final $apiPrefix$$modelElementName$ clone = $fqnAPIFactory$.eINSTANCE.create$apiPrefix$$modelElementName$();
-$fqnPictogramElement$ copy = $fqnFeaturePrefix$$graphModelName$CopyUtils.flatCopy(getPictogramElement());
+$fqnPictogramElement$ copy = de.jabc.cinco.meta.core.ui.utils.CincoCopyUtils.flatCopy(getPictogramElement());
 clone.setPictogramElement(copy);
 clone.setModelElement(($fqnModelElement$) copy.getLink().getBusinessObjects().get(0));
 
@@ -2217,7 +2217,7 @@ else return false;</string>
     <label>PutDynamicLinkedMap</label>
     <sib-uid>ge-util-sibs/PutDynamicLinkedMap</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.PutDynamicLinkedMap</taxonomy>
-    <position>923.5,646.0</position>
+    <position>923.5,648.0</position>
     <parameter name="elements">
       <linked-hash-map>
         <entry>
@@ -2335,7 +2335,7 @@ return false;</string>
     <label>PutDynamicLinkedMap</label>
     <sib-uid>ge-util-sibs/PutDynamicLinkedMap</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.PutDynamicLinkedMap</taxonomy>
-    <position>83.5,736.0</position>
+    <position>83.5,738.0</position>
     <parameter name="elements">
       <linked-hash-map>
         <entry>
@@ -2362,7 +2362,7 @@ return false;</string>
     <label>PutDynamicLinkedMap</label>
     <sib-uid>ge-util-sibs/PutDynamicLinkedMap</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.PutDynamicLinkedMap</taxonomy>
-    <position>323.5,571.0</position>
+    <position>323.5,573.0</position>
     <parameter name="elements">
       <linked-hash-map>
         <entry>
@@ -2427,7 +2427,7 @@ return false;</string>
       <string>final $apiPrefix$$modelElementName$ clone = $fqnAPIFactory$.eINSTANCE.create$apiPrefix$$modelElementName$();
 $fqnArrayList$&lt;$fqnPictogramElement$&gt; pe = new $fqnArrayList$&lt;&gt;();
 pe.add(this.getPictogramElement());
-$fqnSet$&lt;$fqnPictogramElement$&gt; set = $fqnFeaturePrefix$$graphModelName$CopyUtils.targetCopy(pe, getDiagram());
+$fqnSet$&lt;$fqnPictogramElement$&gt; set = de.jabc.cinco.meta.core.ui.utils.CincoCopyUtils.targetCopy(pe, getDiagram());
 if (set != null &amp;&amp; !set.isEmpty()) {
 	$fqnPictogramElement$ copy = set.iterator().next();
 	clone.setModelElement(($fqnModelElement$) copy.getLink().getBusinessObjects().get(0));
@@ -2567,7 +2567,7 @@ if (pes != null &amp;&amp; !pes.isEmpty()) {
     </parameter>
     <parameter name="template">
       <string>final $apiPrefix$$modelElementName$ clone = $fqnAPIFactory$.eINSTANCE.create$apiPrefix$$modelElementName$();
-$fqnPictogramElement$ copy = $fqnFeaturePrefix$$graphModelName$CopyUtils.flatCopy(getPictogramElement());
+$fqnPictogramElement$ copy = de.jabc.cinco.meta.core.ui.utils.CincoCopyUtils.flatCopy(getPictogramElement());
 clone.setPictogramElement(copy);
 clone.setModelElement(($fqnModelElement$) copy.getLink().getBusinessObjects().get(0));
 
@@ -2600,7 +2600,7 @@ return cf.canCreate(cc);</string>
     <label>PutDynamicLinkedMap</label>
     <sib-uid>ge-util-sibs/PutDynamicLinkedMap</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.PutDynamicLinkedMap</taxonomy>
-    <position>743.5,646.0</position>
+    <position>743.5,648.0</position>
     <parameter name="elements">
       <linked-hash-map>
         <entry>
@@ -2663,7 +2663,7 @@ return cf.canCreate(cc);</string>
     </parameter>
     <parameter name="template">
       <string>final $apiPrefix$$modelElementName$ clone = $fqnAPIFactory$.eINSTANCE.create$apiPrefix$$modelElementName$();
-$fqnPictogramElement$ copy = $fqnFeaturePrefix$$graphModelName$CopyUtils.flatCopy(getPictogramElement());
+$fqnPictogramElement$ copy = de.jabc.cinco.meta.core.ui.utils.CincoCopyUtils.flatCopy(getPictogramElement());
 clone.setPictogramElement(copy);
 clone.setModelElement(($fqnModelElement$) copy.getLink().getBusinessObjects().get(0));
 
