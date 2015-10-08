@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>7def08b0-45b0-4f5d-9629-657ab3028508</id>
   <name>GenerateAddNodeFeature</name>
-  <changecounter>1766</changecounter>
+  <changecounter>1767</changecounter>
   <sib>
     <id>b89523ed-9916-4f61-a5e9-9e1d8838a845</id>
     <name>PutExpression_1</name>
@@ -76,8 +76,8 @@
   <edge>
     <source>48c311df-2317-4c6e-a9ef-0243b98a4f6f</source>
     <target>5814d032-c924-4985-aeca-fd4deeba15f3</target>
-    <point>543.0,111.83076923076923</point>
-    <point>700.0,111.92307692307692</point>
+    <point>525.0,120.0</point>
+    <point>720.0,120.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -155,7 +155,10 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
 		IGaService gaService = Graphiti.getGaService();
 		
 		ArrayList&lt;Shape&gt; linkingList = new ArrayList&lt;Shape&gt;();
-		
+
+		boolean parentIsDiagram = false;
+		int width = 0,  height = 0, minX = 0, minY = 0;
+
 		$context.graphicalRep$
 
 		linkAllShapes($context.rootShapeName$, $context.meIdentifier$);
@@ -165,6 +168,26 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
 			link(_s,$context.meIdentifier$);
 
 		if (context.getWidth() != -1 &amp;&amp; context.getHeight() != -1)  {
+			ResizeShapeContext rc = new ResizeShapeContext(Shape0);
+			rc.setWidth(context.getWidth());
+			rc.setHeight(context.getHeight());
+			rc.setX(context.getX());
+			rc.setY(context.getY());
+			IResizeShapeFeature rf = getFeatureProvider().getResizeShapeFeature(rc);
+			if (rf != null &amp;&amp; rf.canResizeShape(rc))
+			rf.resizeShape(rc);
+		} else if (parentIsDiagram)  {
+			ResizeShapeContext rc = new ResizeShapeContext(Shape0);
+			rc.setWidth(width);
+			rc.setHeight(height);
+			rc.setX(context.getX() + minX);
+			rc.setY(context.getY() + minY);
+			IResizeShapeFeature rf = getFeatureProvider().getResizeShapeFeature(rc);
+			if (rf != null &amp;&amp; rf.canResizeShape(rc))
+				rf.resizeShape(rc);
+		}
+
+		/*if (context.getWidth() != -1 &amp;&amp; context.getHeight() != -1)  {
 			ResizeShapeContext rc = new ResizeShapeContext($context.rootShapeName$);
 			rc.setWidth(context.getWidth());
 			rc.setHeight(context.getHeight());
@@ -173,7 +196,7 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
 			IResizeShapeFeature rf = getFeatureProvider().getResizeShapeFeature(rc);
 			if (rf != null &amp;&amp; rf.canResizeShape(rc))
 				rf.resizeShape(rc);
-		}
+		}*/
 
 		peService.createChopboxAnchor($context.rootShapeName$);
 		layoutPictogramElement($context.rootShapeName$);
@@ -568,14 +591,36 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
 
 		ArrayList&lt;Shape&gt; linkingList = new ArrayList&lt;Shape&gt;();
 
+		boolean parentIsDiagram = false;
+		int width = 0,  height = 0, minX = 0, minY = 0;
+
 		$context.graphicalRep$
 
 		link($context.rootShapeName$, $context.meIdentifier$);
 		for (Shape _s : linkingList)
 			link(_s,$context.meIdentifier$);
 
-		
 		if (context.getWidth() != -1 &amp;&amp; context.getHeight() != -1)  {
+			ResizeShapeContext rc = new ResizeShapeContext(Shape0);
+			rc.setWidth(context.getWidth());
+			rc.setHeight(context.getHeight());
+			rc.setX(context.getX());
+			rc.setY(context.getY());
+			IResizeShapeFeature rf = getFeatureProvider().getResizeShapeFeature(rc);
+			if (rf != null &amp;&amp; rf.canResizeShape(rc))
+			rf.resizeShape(rc);
+		} else if (parentIsDiagram)  {
+			ResizeShapeContext rc = new ResizeShapeContext(Shape0);
+			rc.setWidth(width);
+			rc.setHeight(height);
+			rc.setX(context.getX() + minX);
+			rc.setY(context.getY() + minY);
+			IResizeShapeFeature rf = getFeatureProvider().getResizeShapeFeature(rc);
+			if (rf != null &amp;&amp; rf.canResizeShape(rc))
+				rf.resizeShape(rc);
+		}
+
+		/*if (context.getWidth() != -1 &amp;&amp; context.getHeight() != -1)  {
 			ResizeShapeContext rc = new ResizeShapeContext($context.rootShapeName$);
 			rc.setWidth(context.getWidth());
 			rc.setHeight(context.getHeight());
@@ -584,7 +629,7 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
 			IResizeShapeFeature rf = getFeatureProvider().getResizeShapeFeature(rc);
 			if (rf != null &amp;&amp; rf.canResizeShape(rc))
 				rf.resizeShape(rc);
-		}
+		}*/
 
 		
 		peService.createChopboxAnchor($context.rootShapeName$);
@@ -697,8 +742,8 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
   <edge>
     <source>814245de-6dc8-4511-b290-69abaa62e6a8</source>
     <target>14638ad3-47f5-47d9-a057-7e754a7e0b27</target>
-    <point>327.0,981.72</point>
-    <point>138.0,981.72</point>
+    <point>282.0,994.0</point>
+    <point>117.0,994.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -892,6 +937,14 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
   </sib>
+  <edge>
+    <source>133d9178-21cb-4caf-adc1-01eaed0b66e7</source>
+    <target>01a08f28-05d8-4f4f-9acd-7ccfca84f693</target>
+    <point>1047.0,981.3272727272728</point>
+    <point>590.0,981.3636363636364</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
   <sib>
     <id>3dba0534-f2fc-402e-a00f-614a1753c864</id>
     <name>GetNodeIsAbstract</name>
@@ -1245,9 +1298,8 @@ Leaving Generate ${nodeName} AddFeature </expression>
   <edge>
     <source>01a08f28-05d8-4f4f-9acd-7ccfca84f693</source>
     <target>814245de-6dc8-4511-b290-69abaa62e6a8</target>
-    <point>550.0,981.8</point>
-    <point>363.0,981.72</point>
-    <labelposition>500.0,0.0</labelposition>
+    <point>450.0,990.0</point>
+    <point>299.0,976.0</point>
     <branch>default</branch>
   </edge>
   <sib>
@@ -1322,14 +1374,6 @@ Leaving Generate ${nodeName} AddFeature </expression>
     <target>d04e9437-6455-480b-a850-660f91b82b09</target>
     <point>960.0,315.0</point>
     <point>816.0,231.0</point>
-    <branch>default</branch>
-  </edge>
-  <edge>
-    <source>133d9178-21cb-4caf-adc1-01eaed0b66e7</source>
-    <target>01a08f28-05d8-4f4f-9acd-7ccfca84f693</target>
-    <point>1047.0,981.3272727272728</point>
-    <point>590.0,981.3636363636364</point>
-    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <parameter>
