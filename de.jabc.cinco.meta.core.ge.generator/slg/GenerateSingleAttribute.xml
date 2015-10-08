@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>fc94b8b8-21f0-499c-a1bb-5968d40ae550</id>
   <name>GenerateSingleAttribute</name>
-  <changecounter>334</changecounter>
+  <changecounter>340</changecounter>
   <sib>
     <id>68ef8ffb-b956-40b6-a5af-a8ed91dce549</id>
     <name>GetAttributeType</name>
@@ -63,6 +63,7 @@
     </parameter>
     <branch>EBoolean</branch>
     <branch>EChar</branch>
+    <branch>EDate</branch>
     <branch>EDouble</branch>
     <branch>EFloat</branch>
     <branch>EInt</branch>
@@ -596,5 +597,10 @@
     <name>default</name>
     <branch>default</branch>
     <sib>880c70a3-4842-43dd-9a8a-d8df9283f723</sib>
+  </branch>
+  <branch>
+    <name>default</name>
+    <branch>EDate</branch>
+    <sib>51427352-4dce-4953-8acc-2d0acd6f37b6</sib>
   </branch>
 </model>

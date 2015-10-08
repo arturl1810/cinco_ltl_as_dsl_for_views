@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>98ab2190-4ec2-4346-85ee-61b8c0d16099</id>
   <name>GenerateMoveNodeFeature</name>
-  <changecounter>263</changecounter>
+  <changecounter>274</changecounter>
   <sib>
     <id>a757414d-68f3-478e-a5f2-cbb249a4880a</id>
     <name>RunStringTemplate_1</name>
@@ -397,7 +397,7 @@ public class Move$context.node.name$Feature extends DefaultMoveShapeFeature{
     <label>CheckStyleAnnotation</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>255.5,151.0</position>
+    <position>257.0,151.0</position>
     <parameter name="modelElementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -458,7 +458,7 @@ public class Move$context.node.name$Feature extends DefaultMoveShapeFeature{
     <label>GenerateCanMoveNode</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>79.5,391.0</position>
+    <position>79.0,391.0</position>
     <parameter name="modelElementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -517,7 +517,33 @@ public class Move$context.node.name$Feature extends DefaultMoveShapeFeature{
     <point>179.5,441.0</point>
     <branch>default</branch>
   </edge>
-  <values/>
+  <parameter>
+    <name>modelElementKey</name>
+    <field>modelElement</field>
+    <sib>97c26801-3d76-41f1-ab15-fc2f51cf08a6</sib>
+  </parameter>
+  <parameter>
+    <name>modelElementKey</name>
+    <field>modelElementKey</field>
+    <sib>c04a5aea-5b89-4212-8114-dfc11ef98308</sib>
+  </parameter>
+  <parameter>
+    <name>modelElementKey</name>
+    <field>modelElementKey</field>
+    <sib>8ebda373-c17c-400c-9b5d-e91d438808c0</sib>
+  </parameter>
+  <values>
+    <entry>
+      <string>modelElementKey</string>
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>node</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </entry>
+  </values>
   <branch>
     <name>error</name>
     <branch>error</branch>

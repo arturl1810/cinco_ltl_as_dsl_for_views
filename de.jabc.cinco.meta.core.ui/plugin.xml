@@ -97,4 +97,13 @@
            class="de.jabc.cinco.meta.core.ui.Startup">
      </startup>
   </extension>
+  <extension
+        point="org.eclipse.ui.views">
+     <view
+           class="de.jabc.cinco.meta.core.ui.properties.CincoPropertyView"
+           id="de.jabc.cinco.meta.core.ui.propertyview"
+           name="Cinco Properties"
+           restorable="true">
+     </view>
+  </extension>
 </plugin>

@@ -1,5 +1,12 @@
 <serviceAdapters defaultAdapter="de.jabc.cinco.meta.core.ge.style.sibs.adapter.ServiceAdapter">
 	
+	<serviceAdapter uid="ge-util-sibs/IsAttributeMultiLine">
+		<service>isAttributeMultiLine</service>
+		<arguments>
+			<argument name="attributeKey" />
+		</arguments>
+	</serviceAdapter>
+	
 	<serviceAdapter uid="ge-util-sibs/IsAttributeMultiValued">
 		<service>isAttributeMultiValued</service>
 		<arguments>

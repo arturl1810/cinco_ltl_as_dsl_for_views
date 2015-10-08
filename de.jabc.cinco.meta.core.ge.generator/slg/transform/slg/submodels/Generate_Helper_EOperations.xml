@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>d5531c11-ffc2-41e6-b1fd-4f08e1327b1f</id>
   <name>Generate Helper EOperations</name>
-  <changecounter>435</changecounter>
+  <changecounter>445</changecounter>
   <sib>
     <id>2db6fa19-1315-4022-abef-abc4426dcce8</id>
     <name>IterateGraphModelNodeContainers</name>
@@ -1283,14 +1283,6 @@ return new org.eclipse.emf.common.util.BasicEList&lt;Class&lt;?&gt;&gt;(java.uti
     <finalbranches>error</finalbranches>
   </sib>
   <edge>
-    <source>544b3b76-f4c5-4b13-9299-c9b6d82f3651</source>
-    <target>65b36ef0-ad70-4868-b07f-0f3cbd5c5905</target>
-    <point>1847.0212765957447,391.0</point>
-    <point>1936.4150943396226,279.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
-  <edge>
     <source>65b36ef0-ad70-4868-b07f-0f3cbd5c5905</source>
     <target>59893975-26a1-4b16-9007-74aaf2ba1c82</target>
     <point>2040.0,555.0</point>
@@ -1411,7 +1403,7 @@ return new org.eclipse.emf.common.util.BasicEList&lt;Class&lt;?&gt;&gt;(java.uti
     </userobject>
   </sib>
   <sib>
-    <id>544b3b76-f4c5-4b13-9299-c9b6d82f3651</id>
+    <id>6c827e16-629e-463d-b543-82bbd9d0769c</id>
     <name>GraphSIB_2</name>
     <label>Get_Qualified_Name_For_Edge</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
@@ -1444,10 +1436,17 @@ return new org.eclipse.emf.common.util.BasicEList&lt;Class&lt;?&gt;&gt;(java.uti
     </userobject>
   </sib>
   <edge>
+    <source>6c827e16-629e-463d-b543-82bbd9d0769c</source>
+    <target>65b36ef0-ad70-4868-b07f-0f3cbd5c5905</target>
+    <point>1959.5,426.0</point>
+    <point>2008.0,293.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
     <source>8a280031-46ed-478c-bc80-b9aa78bbe07f</source>
-    <target>544b3b76-f4c5-4b13-9299-c9b6d82f3651</target>
-    <point>1605.0,405.0</point>
-    <point>1920.0,403.0</point>
+    <target>6c827e16-629e-463d-b543-82bbd9d0769c</target>
+    <point>1601.0,426.0</point>
+    <point>1959.5,426.0</point>
     <branch>default</branch>
   </edge>
   <parameter>

@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>8abf7fcb-00fe-451e-b4d6-47d4768aa741</id>
   <name>GenerateDiagramTypeProvider</name>
-  <changecounter>67</changecounter>
+  <changecounter>82</changecounter>
   <sib>
     <id>2a9f2b31-2f67-4446-acdc-30c92b7fc236</id>
     <name>PutExpression</name>
@@ -103,6 +103,8 @@
 import org.eclipse.graphiti.dt.AbstractDiagramTypeProvider;
 import org.eclipse.graphiti.tb.IToolBehaviorProvider;
 
+import $context.packageName$.graphiti.property.view.$context.graphModelName$View;
+
 
 public class $context.graphModelName$DiagramTypeProvider extends AbstractDiagramTypeProvider {
 	
@@ -113,6 +115,7 @@ public class $context.graphModelName$DiagramTypeProvider extends AbstractDiagram
 		setFeatureProvider(new $context.graphModelName$FeatureProvider(this));
 		$context.fuGraphModelName$GraphitiUtils.getInstance().loadImages();
 		$context.fuGraphModelName$GraphitiUtils.getInstance().setDTP(this);
+		$context.fuGraphModelName$View.initEStructuralFeatureInformation();
 	}
 
 	@Override

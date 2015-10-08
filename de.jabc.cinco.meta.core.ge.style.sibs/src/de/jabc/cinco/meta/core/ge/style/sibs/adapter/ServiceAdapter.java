@@ -22,7 +22,6 @@ import mgl.Annotation;
 import mgl.Attribute;
 import mgl.ContainingElement;
 import mgl.Edge;
-import mgl.EdgeElementConnection;
 import mgl.GraphModel;
 import mgl.GraphicalElementContainment;
 import mgl.GraphicalModelElement;
@@ -149,7 +148,7 @@ public class ServiceAdapter {
 						context.put(value, s);
 						return "PrimeRef";
 					} else {
-						for (Attribute a : n.getAttributes()) {
+						for (Attribute a : getAllAttributes((ModelElement) n)) {
 							if (a.getName().equals(attrName)) {
 								context.put(attributeName, attrName);
 								return "NodeAttribute";
@@ -157,7 +156,7 @@ public class ServiceAdapter {
 						}
 					}
 				} else {
-					for (Attribute a : me.getAttributes()) {
+					for (Attribute a : getAllAttributes(me)) {
 						if (a.getName().equals(attrName)) {
 							context.put(attributeName, attrName);
 							return "NodeAttribute";
@@ -173,7 +172,25 @@ public class ServiceAdapter {
 		}
 		
 	}
+
+	private static List<Attribute> getAllAttributes(ModelElement me) {
+		ModelElement curr = me;
+		List<Attribute> attributes = new ArrayList<Attribute>();
+		while (curr != null) {
+			attributes.addAll(curr.getAttributes());
+			curr = getSuperType(curr);
+		}
+		return attributes;
+	}
 	
+	private static ModelElement getSuperType(ModelElement me) {
+		if (me instanceof Node)
+			return ((Node) me).getExtends();
+		if (me instanceof Edge)
+			return ((Edge) me).getExtends();
+		return null;
+	}
+
 	public static String getStyleAnnotationValues(LightweightExecutionEnvironment env,
 			ContextKeyFoundation annotation,
 			ContextKeyFoundation values) {
@@ -1133,10 +1150,10 @@ public class ServiceAdapter {
 				attributesMap.put(me, InheritanceUtil.getInheritedAttributes(me));
 			}
 			
-			for (ModelElement me : modelElements) {
-				me.getAttributes().clear();
-				me.getAttributes().addAll(EcoreUtil.copyAll(attributesMap.get(me)));
-			}
+//			for (ModelElement me : modelElements) {
+//				me.getAttributes().clear();
+//				me.getAttributes().addAll(EcoreUtil.copyAll(attributesMap.get(me)));
+//			}
 
 			return Branches.DEFAULT;
 		} catch (Exception e) {
@@ -1630,4 +1647,22 @@ public class ServiceAdapter {
 		
 	}
 
+	public static String isAttributeMultiLine(
+			LightweightExecutionEnvironment env, ContextKeyFoundation attribute) {
+
+		LightweightExecutionContext context = env.getLocalContext();
+		try {
+			Attribute attr = (Attribute) context.get(attribute);
+			if (CincoUtils.isAttributeMultiLine(attr))
+				return Branches.TRUE;
+			
+		} catch (Exception e) {
+			context.put("exception", e);
+			return Branches.ERROR;
+		}
+		
+		return Branches.FALSE;
+		
+	}
+	
 }

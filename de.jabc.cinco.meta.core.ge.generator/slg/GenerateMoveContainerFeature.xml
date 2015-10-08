@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>b68091c8-07fa-4991-a66b-090c41737165</id>
   <name>GenerateMoveContainerFeature</name>
-  <changecounter>194</changecounter>
+  <changecounter>227</changecounter>
   <sib>
     <id>5d019596-ff11-4edc-9603-2477370f8043</id>
     <name>PutExpression</name>
@@ -356,7 +356,7 @@ return false;</string>
     <label>GenerateCanMoveNode</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>49.5,391.0</position>
+    <position>49.0,391.0</position>
     <parameter name="modelElementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -415,7 +415,28 @@ return false;</string>
     <point>149.5,441.0</point>
     <branch>default</branch>
   </edge>
-  <values/>
+  <parameter>
+    <name>modelElementKey</name>
+    <field>modelElement</field>
+    <sib>ccc6c7e9-24e6-4760-934b-18e30c55226e</sib>
+  </parameter>
+  <parameter>
+    <name>modelElementKey</name>
+    <field>modelElementKey</field>
+    <sib>0dac667a-a573-4ffd-9d99-2d05d89a3d7b</sib>
+  </parameter>
+  <values>
+    <entry>
+      <string>modelElementKey</string>
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>modelElement</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </entry>
+  </values>
   <branch>
     <name>error</name>
     <branch>error</branch>

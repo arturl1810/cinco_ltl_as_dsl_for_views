@@ -2,14 +2,14 @@
 <model version="2.1">
   <id>d5531c11-ffc2-41e6-b1fd-4f08e1327b1f</id>
   <name>Generate Helper EOperations</name>
-  <changecounter>142</changecounter>
+  <changecounter>143</changecounter>
   <sib>
     <id>2db6fa19-1315-4022-abef-abc4426dcce8</id>
     <name>IterateGraphModelNodeContainers</name>
     <label>IterateGraphModelNodeContainers</label>
     <sib-uid>mgl/mgl/IterateGraphModelNodeContainers</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.IterateGraphModelNodeContainers</taxonomy>
-    <position>174.0,18.0</position>
+    <position>174.0,16.0</position>
     <parameter name="elementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -51,7 +51,7 @@
     <label>IterateNodeContainerContainableElements</label>
     <sib-uid>mgl/mgl/IterateNodeContainerContainableElements</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.IterateNodeContainerContainableElements</taxonomy>
-    <position>143.0,543.0</position>
+    <position>143.0,541.0</position>
     <parameter name="elementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -213,7 +213,7 @@
     <label>GetGraphicalModelElementName</label>
     <sib-uid>mgl/mgl/GetGraphicalModelElementName</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetGraphicalModelElementName</taxonomy>
-    <position>176.0,783.0</position>
+    <position>176.0,781.0</position>
     <parameter name="graphicalModelElementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -294,7 +294,7 @@
     <label>GetGraphicalModelElementName</label>
     <sib-uid>mgl/mgl/GetGraphicalModelElementName</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetGraphicalModelElementName</taxonomy>
-    <position>176.0,123.0</position>
+    <position>176.0,121.0</position>
     <parameter name="graphicalModelElementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -481,7 +481,7 @@
     <label>IterateGraphModelNodes</label>
     <sib-uid>mgl/mgl/IterateGraphModelNodes</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.IterateGraphModelNodes</taxonomy>
-    <position>1071.0,18.0</position>
+    <position>1071.0,16.0</position>
     <parameter name="elementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -553,7 +553,7 @@
     <label>IterateGraphModelNodeContainers</label>
     <sib-uid>mgl/mgl/IterateGraphModelNodeContainers</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.IterateGraphModelNodeContainers</taxonomy>
-    <position>1504.5,18.0</position>
+    <position>1504.5,16.0</position>
     <parameter name="elementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -801,7 +801,7 @@
     <label>IterateGraphicalElementContainmentTypes</label>
     <sib-uid>mgl/mgl/IterateGraphicalElementContainmentTypes</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.IterateGraphicalElementContainmentTypes</taxonomy>
-    <position>143.0,663.0</position>
+    <position>143.0,661.0</position>
     <parameter name="elementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1811,7 +1811,7 @@ return new org.eclipse.emf.common.util.BasicEList&lt;Class&lt;? extends Node&gt;
     <label>GetGraphicalModelElementName</label>
     <sib-uid>mgl/mgl/GetGraphicalModelElementName</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetGraphicalModelElementName</taxonomy>
-    <position>941.0,858.0</position>
+    <position>941.0,856.0</position>
     <parameter name="graphicalModelElementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1996,7 +1996,7 @@ return new org.eclipse.emf.common.util.BasicEList&lt;Class&lt;? extends Node&gt;
     <label>GetAllSubTypes</label>
     <sib-uid>de/jabc/cinco/meta/core/mgl/sibs/GetAllSubTypes</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.mgl.sibs.GetAllSubTypes</taxonomy>
-    <position>621.0,858.0</position>
+    <position>621.0,856.0</position>
     <parameter name="modelElementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>

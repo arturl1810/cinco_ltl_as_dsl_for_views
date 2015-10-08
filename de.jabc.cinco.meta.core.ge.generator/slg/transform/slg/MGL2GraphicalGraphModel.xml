@@ -636,6 +636,7 @@ return list;</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
+    <finalbranches>exit</finalbranches>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Generate Helper EOperations</string>
     </userobject>

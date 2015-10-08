@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>515e192a-491c-479e-8a33-09039d8d3703</id>
   <name>GeneratePerspectiveView</name>
-  <changecounter>74</changecounter>
+  <changecounter>80</changecounter>
   <sib>
     <id>78f83feb-ac3e-4b72-9248-b8a7e326ab10</id>
     <name>PutExpression</name>
@@ -77,7 +77,10 @@ public class $context.graphModelName$PerspectiveFactory implements IPerspectiveF
 		layout.addView(ThumbNailView.VIEW_ID, IPageLayout.BOTTOM, 0.55f, IPageLayout.ID_PROJECT_EXPLORER);
 		
 		IFolderLayout folderLayout = layout.createFolder(&quot;$context.packageName$.$context.lcGraphModelName$.property&quot;, IPageLayout.BOTTOM, 0.75f, IPageLayout.ID_EDITOR_AREA);
-		folderLayout.addView(IPageLayout.ID_PROP_SHEET);
+		
+		/** This command adds the common property view **/
+		/*folderLayout.addView(IPageLayout.ID_PROP_SHEET);*/
+		folderLayout.addView(&quot;$context.packageName$.graphiti.propertiesview&quot;);
 		folderLayout.addView(IPageLayout.ID_PROBLEM_VIEW);
 	}
 

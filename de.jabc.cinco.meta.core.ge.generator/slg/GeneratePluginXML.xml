@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>c6d3a171-4a7c-4363-ab9c-c7be2786983b</id>
   <name>GeneratePluginXML</name>
-  <changecounter>440</changecounter>
+  <changecounter>488</changecounter>
   <sib>
     <id>b9acf74f-0e4c-4f93-80c7-e3f218bfc27e</id>
     <name>RunStringTemplate</name>
@@ -27,37 +27,6 @@
     </parameter>
     <parameter name="template">
       <string>icon=&quot;$context.mglRelativeIconPath$&quot;</string>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-  </sib>
-  <sib>
-    <id>304b7e41-12e0-4536-8c49-5557561608e6</id>
-    <name>WriteTextFile</name>
-    <label>WriteTextFile</label>
-    <sib-uid>io-sibs/WriteTextFile</sib-uid>
-    <taxonomy>de.jabc.sib.common.io.WriteTextFile</taxonomy>
-    <position>732.5,783.0</position>
-    <parameter name="encoding">
-      <string>ISO-8859-1</string>
-    </parameter>
-    <parameter name="file">
-      <de.metaframe.common.sib.parameter.ContextExpression>
-        <ContextExpressionFoundation>
-          <expression>${pluginXMLPath}</expression>
-          <clazz>java.lang.Object</clazz>
-          <classMutable>false</classMutable>
-        </ContextExpressionFoundation>
-      </de.metaframe.common.sib.parameter.ContextExpression>
-    </parameter>
-    <parameter name="text">
-      <de.metaframe.common.sib.parameter.ContextExpression>
-        <ContextExpressionFoundation>
-          <expression>${pluginXMLContent}</expression>
-          <clazz>java.lang.Object</clazz>
-          <classMutable>false</classMutable>
-        </ContextExpressionFoundation>
-      </de.metaframe.common.sib.parameter.ContextExpression>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
@@ -553,7 +522,16 @@
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>	
+      <string>	$!&lt;extension
+		point=&quot;org.eclipse.ui.views&quot;&gt;
+	&lt;!--@CincoGen $context.graphModelName$--&gt;
+		&lt;view
+			class=&quot;$context.packageName$.graphiti.property.view.$context.fuGraphModelName$ViewPart&quot;
+			id=&quot;$context.packageName$.graphiti.propertiesview&quot;
+			name=&quot;Cinco Properties&quot;
+			restorable=&quot;true&quot;&gt;
+		&lt;/view&gt;
+	&lt;/extension&gt;!$
 	&lt;extension 
 		point=&quot;org.eclipse.graphiti.ui.diagramTypes&quot;&gt;
 	&lt;!--@CincoGen $context.graphModelName$--&gt;
@@ -588,7 +566,7 @@
 			id=&quot;$context.packageName$.$context.graphModelName$ImageProvider&quot;&gt;
 		&lt;/imageProvider&gt;
 	&lt;/extension&gt;
-	&lt;extension
+	$!&lt;extension
 		point=&quot;org.eclipse.ui.views.properties.tabbed.propertyContributor&quot;&gt;
 	&lt;!--@CincoGen $context.graphModelName$--&gt;
 		&lt;propertyContributor
@@ -612,7 +590,7 @@
 			contributorId=&quot;$context.graphModelName$.PropertyContributor&quot;&gt;
 			$context.propertySectionCode$
 		&lt;/propertySections&gt;
-	&lt;/extension&gt;
+	&lt;/extension&gt;!$
 	&lt;extension
 		point=&quot;org.eclipse.ui.newWizards&quot;&gt;
 	&lt;!--@CincoGen $context.graphModelName$--&gt;
@@ -1729,11 +1707,6 @@
     <branch>true</branch>
   </edge>
   <values/>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>304b7e41-12e0-4536-8c49-5557561608e6</sib>
-  </branch>
   <branch>
     <name>error</name>
     <branch>error</branch>

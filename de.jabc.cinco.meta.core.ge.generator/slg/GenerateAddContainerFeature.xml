@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>c7542d87-aa25-4707-a286-db91e10d7301</id>
   <name>GenerateAddContainerFeature</name>
-  <changecounter>544</changecounter>
+  <changecounter>545</changecounter>
   <sib>
     <id>3f7b7312-5278-4d0a-b7f8-45424c587ca9</id>
     <name>GetNodeContainerIsAbstract</name>
@@ -493,6 +493,7 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
 				AddContext ac = new AddContext();
 				ac.setTargetContainer($context.rootShapeName$);
 				ac.setNewObject(me);
+
 				if (me instanceof Node || me instanceof Container) {
 					List&lt;PictogramElement&gt; pes = Graphiti.getLinkService().getPictogramElements(getDiagram(), me);
 					if (pes != null &amp;&amp; pes.size() &gt; 0) {
@@ -543,12 +544,6 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
 		AddContext ac = new AddContext();
 		ac.setNewObject(me);
 		ac.setTargetContainer(target);
-		if (me instanceof Node || me instanceof Container) {
-			if (pes != null &amp;&amp; pes.size() &gt; 0) {
-				GraphicsAlgorithm ga = pe.getGraphicsAlgorithm();
-				ac.setLocation(ga.getX(), ga.getY());
-			}
-		}
 
 		if (me instanceof Node || me instanceof Container) {
 			GraphicsAlgorithm ga = pe.getGraphicsAlgorithm();
