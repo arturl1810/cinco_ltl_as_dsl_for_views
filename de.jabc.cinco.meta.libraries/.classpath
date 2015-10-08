@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
+	<classpathentry exported="true" kind="lib" path="lib_local/mcam_framework.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/commons-cli-1.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/freemarker-2.3.20.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/mtsg-1.1.3.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/ecore-sibs-1.5-adapters.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jabc4-basic-java-5.11-NOCDI-20141005.171157-1.jar"/>

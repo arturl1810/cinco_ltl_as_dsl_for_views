@@ -208,17 +208,15 @@ public class MetaPluginMcam implements IMetaPlugin {
 		reqBundles.add("de.jabc.cinco.meta.core.mgl.model");
 		reqBundles.add("org.eclipse.graphiti.mm");
 		reqBundles.add(basePackage);
-		reqBundles.add("de.jabc.cinco.meta.plugin.mcam.libs");
 		reqBundles.add("de.jabc.cinco.meta.core.ge.style.model");
+		reqBundles.add("de.jabc.cinco.meta.libraries");
+		reqBundles.add("org.apache.commons.cli");
 
 		return reqBundles;
 	}
 
 	private Set<String> getReqBundlesForView() {
 		HashSet<String> reqBundles = new HashSet<String>();
-
-		//reqBundles.add("de.jabc.cinco.meta.plugin.mcam.libs");
-
 		return reqBundles;
 	}
 

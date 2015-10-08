@@ -23,7 +23,7 @@ public class MergeProcessLabelProvider extends LabelProvider {
 
 	private String boxCheckedIconPath = "icons/box_checked.png";
 	private String boxUnCheckedIconPath = "icons/box_unchecked.png";
-	private String conflictIconPath = "icons/lightning.png";
+	private String conflictIconPath = "icons/warning.png";
 	private String entityErrorIconPath = "icons/error.png";
 	private String entityOkIconPath = "icons/info.png";
 
@@ -53,7 +53,7 @@ public class MergeProcessLabelProvider extends LabelProvider {
 	
 	private void loadIcons() {
 		Bundle bundle = Platform
-				.getBundle("de.jabc.cinco.meta.plugin.mcam.libs");
+				.getBundle("de.jabc.cinco.meta.plugin.mcam");
 		try {
 			InputStream entityOkImgStream = FileLocator.openStream(bundle,
 					new Path(entityOkIconPath), true);

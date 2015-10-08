@@ -7,6 +7,13 @@ import ${AdapterPackage}.${GraphModelName}Id;
 import ${AdapterPackage}.${GraphModelName}Adapter;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
+import java.util.Date;
 
 import org.apache.commons.cli.BasicParser;
 import org.apache.commons.cli.CommandLine;
@@ -18,11 +25,14 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
 public class CliExecution {
+
 	private Options cliOptions = new Options();
 	private CommandLine cmdCall = null;
 
 	private int exitStatus = 0;
 	private boolean verboseOutput = false;
+
+	private String logFilePath = null;
 
 	public CliExecution(String[] args) {
 		super();
@@ -32,8 +42,17 @@ public class CliExecution {
 
 	private void initializeOptions() {
 		cliOptions.addOption("h", "help", false, "Shows this help");
-		
-		cliOptions.addOption("v", "verbose", false, "Show detailed output of Merge and Check");
+
+		cliOptions.addOption("v", "verbose", false,
+				"Show detailed output of Merge and Check");
+
+		Option optionLogOutput = new Option("l", "log", false,
+				"Log output to file");
+		optionLogOutput.setArgs(1);
+		optionLogOutput.setArgName("file");
+		optionLogOutput.setValueSeparator(' ');
+		optionLogOutput.setOptionalArg(false);
+		cliOptions.addOption(optionLogOutput);
 
 		OptionGroup groupUsage = new OptionGroup();
 
@@ -85,180 +104,295 @@ public class CliExecution {
 
 		try {
 			cmdCall = parser.parse(cliOptions, args);
-			
+
+			if (cmdCall.hasOption("l")) {
+				String[] logFileArgs = cmdCall.getOptionValues("l");
+				logFilePath = logFileArgs[0];
+			}
+
 			if (cmdCall.hasOption("v"))
 				verboseOutput = true;
-				
+
 		} catch (ParseException pvException) {
-			System.out.println(pvException.getMessage());
+			System.err.println(pvException.getMessage());
 			System.exit(1);
 		}
 	}
 
 	public void executeCall() {
+		Date now = new Date();
+		outputData("\n" + "----------------------------------------\n"
+				+ now.toString() + "\n"
+				+ "----------------------------------------\n" + "\n");
+
 		if (cmdCall.hasOption("h") || cmdCall.getOptions().length == 0) {
 			printHelp();
 		}
 
 		/*
-		 *  Run Manual Diff
+		 * Run Manual Diff
 		 */
 		if (cmdCall.hasOption("md")) {
 			String[] args = cmdCall.getOptionValues("md");
-
-			File file1 = FrameworkExecution.getFile(args[0], true);
-			${GraphModelName}Adapter model1 = FrameworkExecution.initApiAdapter(file1);
-
-			File file2 = FrameworkExecution.getFile(args[1], true);
-			${GraphModelName}Adapter model2 = FrameworkExecution.initApiAdapter(file2);
-
-			CompareProcess<${GraphModelName}Id, ${GraphModelName}Adapter> compare = FrameworkExecution.executeComparePhase(
-					model1, model2);
-			System.out.println(compare.toString());
+			runCompare(args[0], args[1]);
 		}
-		
+
 		/*
-		 *  Run Manual Merge
+		 * Run Manual Merge
 		 */
 		if (cmdCall.hasOption("mm")) {
 			String[] args = cmdCall.getOptionValues("mm");
-
-			File origFile = FrameworkExecution.getFile(args[0], true);
-			${GraphModelName}Adapter orig = FrameworkExecution.initApiAdapter(origFile);
-			
-			File localFile = FrameworkExecution.getFile(args[1], true);
-			${GraphModelName}Adapter local = FrameworkExecution.initApiAdapter(localFile);
-
-			File remoteFile = FrameworkExecution.getFile(args[2], true);
-			${GraphModelName}Adapter remote = FrameworkExecution.initApiAdapter(remoteFile);
-
-			File mergeFile = FrameworkExecution.getFile(args[3]);
-			${GraphModelName}Adapter mergeModel = FrameworkExecution.initApiAdapter(origFile);
-
-			CompareProcess<${GraphModelName}Id, ${GraphModelName}Adapter> localCompare = FrameworkExecution
-					.executeComparePhase(orig, local);
-			CompareProcess<${GraphModelName}Id, ${GraphModelName}Adapter> remoteCompare = FrameworkExecution
-					.executeComparePhase(orig, remote);
-			MergeProcess<${GraphModelName}Id, ${GraphModelName}Adapter> mp = FrameworkExecution.executeMergePhase(
-					localCompare, remoteCompare, mergeModel);
-
-			System.out.println(mp.toString(verboseOutput));
-
-			if (mp.hasConflicts())
-				exitStatus += 1;
-
-			CheckProcess<${GraphModelName}Id, ${GraphModelName}Adapter> cp = FrameworkExecution.executeCheckPhase(mergeModel);
-			System.out.println(cp.toString(verboseOutput));
-
-			if (cp.hasErrors() || cp.hasWarnings())
-				exitStatus += 2;
-				
-			if (exitStatus > 0) {
-				FrameworkExecution.createTmpFiles(origFile, localFile, remoteFile);
-			} else {
-				mergeModel.writeModel(mergeFile);
-			}
+			runMerge(args[0], args[1], args[2], args[3]);
 		}
 
 		/*
-		 *  Run Git Diff
+		 * Run Git Diff
 		 */
 		if (cmdCall.hasOption("gd")) {
 			String[] args = cmdCall.getOptionValues("gd");
-
-			File file1 = FrameworkExecution.getFile(args[1], true);
-			${GraphModelName}Adapter model1 = FrameworkExecution.initApiAdapter(file1);
-
-			File file2 = FrameworkExecution.getFile(args[4], true);
-			${GraphModelName}Adapter model2 = FrameworkExecution.initApiAdapter(file2);
-
-			CompareProcess<${GraphModelName}Id, ${GraphModelName}Adapter> compare = FrameworkExecution.executeComparePhase(
-					model1, model2);
-			System.out.println(compare.toString());
+			runCompare(args[1], args[4]);
 		}
 
 		/*
-		 *  Run Git Merge
+		 * Run Git Merge
 		 */
 		if (cmdCall.hasOption("gm")) {
 			String[] args = cmdCall.getOptionValues("gm");
-
-			/*
-			 *  Workaround while this is not running outside of eclipse
-			 */
-			File origFile = FrameworkExecution.getFile(args[0], true);
-			File localFile = FrameworkExecution.getFile(args[1], true);
-			File remoteFile = FrameworkExecution.getFile(args[2], true);
-			exitStatus += 1;
-			FrameworkExecution.createTmpFiles(origFile, localFile, remoteFile);
-
-			/*
-			File origFile = FrameworkExecution.getFile(args[0], true);
-			${GraphModelName}Adapter orig = FrameworkExecution.initApiAdapter(origFile);
-
-			File localFile = FrameworkExecution.getFile(args[1], true);
-			${GraphModelName}Adapter local = FrameworkExecution.initApiAdapter(localFile);
-
-			File remoteFile = FrameworkExecution.getFile(args[2], true);
-			${GraphModelName}Adapter remote = FrameworkExecution.initApiAdapter(remoteFile);
-
-			File mergeFile = FrameworkExecution.getFile(args[1], true);
-			${GraphModelName}Adapter mergeModel = FrameworkExecution
-					.initApiAdapter(mergeFile);
-
-			CompareProcess<${GraphModelName}Id, ${GraphModelName}Adapter> localCompare = FrameworkExecution
-					.executeComparePhase(orig, local);
-			CompareProcess<${GraphModelName}Id, ${GraphModelName}Adapter> remoteCompare = FrameworkExecution
-					.executeComparePhase(orig, remote);
-			MergeProcess<${GraphModelName}Id, ${GraphModelName}Adapter> mp = FrameworkExecution.executeMergePhase(
-					localCompare, remoteCompare, mergeModel);
-
-			System.out.println(mp.toString(verboseOutput));
-
-			if (mp.hasConflicts())
-				exitStatus += 1;
-
-			CheckProcess<${GraphModelName}Id, ${GraphModelName}Adapter> cp = FrameworkExecution.executeCheckPhase(mergeModel);
-			System.out.println(cp.toString(verboseOutput));
-			System.out.println("----------------------------------------");
-			System.out.println("----------------------------------------");
-			System.out.println();
-
-			if (cp.hasErrors() || cp.hasWarnings())
-				exitStatus += 2;
-
-			if (exitStatus > 0) {
-				FrameworkExecution.createTmpFiles(origFile, localFile, remoteFile);
-			} else {
-				mergeModel.writeModel(mergeFile);
-			}
-			*/
+			runMerge(args[0], args[1], args[2], args[1]);
 		}
-		
+
 		/*
-		 *  Run Manual Check
+		 * Run Manual Check
 		 */
 		if (cmdCall.hasOption("chk")) {
 			String[] args = cmdCall.getOptionValues("chk");
-
-			File file1 = FrameworkExecution.getFile(args[0], true);
-			${GraphModelName}Adapter model1 = FrameworkExecution.initApiAdapter(file1);
-
-			CheckProcess<${GraphModelName}Id, ${GraphModelName}Adapter> check = FrameworkExecution.executeCheckPhase(model1);
-			System.out.println(check.toString(verboseOutput));
-
-			if (check.hasErrors())
-				exitStatus += 1;
-			
-			model1.writeModel(file1);
+			runCheck(args[0]);
 		}
-		
+
 		System.exit(exitStatus);
 	}
 
 	private void printHelp() {
 		HelpFormatter hFormater = new HelpFormatter();
-		hFormater.printHelp("programm <v> <gd|gm|md|mm|chk> <parameters>",
-				cliOptions);
+		hFormater
+				.printHelp("program <v> <l file> <gd|gm|md|mm|chk parameters>",
+						cliOptions);
+	}
+
+	private void printError(Exception e, String customMsg, File file,
+			${GraphModelName}Adapter model) {
+		String errorMsg = "";
+		errorMsg += ("!!! ------------[ Error ]------------ !!! \n");
+		errorMsg += ("Section: " + customMsg + "\n");
+		if (model != null)
+			errorMsg += ("Model: " + model.getModelName() + "\n");
+		if (file != null)
+			errorMsg += ("File: " + file.getAbsolutePath() + "\n");
+		errorMsg += ("Exception-Msg: " + e.getMessage() + "\n");
+		errorMsg += ("!!! --------------------------------- !!! \n");
+
+		outputData(errorMsg);
+		System.err.print(errorMsg);
+	}
+
+	private void backupFiles(File localFile, File remoteFile, File origFile) {
+		String basePath = localFile.getParent() + File.separator;
+		String baseFileName = localFile.getName();
+
+		File newRemoteFile = new File(basePath + baseFileName + ".remote");
+		File newOrigFile = new File(basePath + baseFileName + ".orig");
+
+		try {
+			if (remoteFile != null)
+				Files.copy(remoteFile.toPath(), newRemoteFile.toPath(),
+						StandardCopyOption.REPLACE_EXISTING);
+			if (origFile != null)
+				Files.copy(origFile.toPath(), newOrigFile.toPath(),
+						StandardCopyOption.REPLACE_EXISTING);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		System.err.println("Remote/Origin - Backups created for '" + basePath
+				+ baseFileName + "'");
+		System.err.println("!!! --------------------------------- !!!");
+	}
+
+	private void outputData(String data) {
+		System.out.println(data);
+		if (cmdCall.hasOption("l")) {
+			try {
+				Files.write(Paths.get(logFilePath), data.toString().getBytes(),
+						StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+			} catch (IOException e) {
+				System.err.println("Log file not found?! \n" + e.getMessage());
+				System.exit(1);
+			}
+		}
+
+	}
+
+	private void runMerge(String origPath, String localPath, String remotePath,
+			String mergePath) {
+		File origFile = null;
+		File localFile = null;
+		File mergeFile = null;
+		File remoteFile = null;
+		try {
+			origFile = FrameworkExecution.getFile(origPath, true);
+			remoteFile = FrameworkExecution.getFile(remotePath, true);
+			localFile = FrameworkExecution.getFile(localPath, true);
+			mergeFile = FrameworkExecution.getFile(mergePath);
+		} catch (Exception e) {
+			backupFiles(localFile, remoteFile, origFile);
+			printError(e, "Merge - Load Files", localFile, null);
+		}
+
+		${GraphModelName}Adapter local = null;
+		try {
+			local = FrameworkExecution.initApiAdapter(localFile);
+		} catch (Exception e) {
+			printError(e, "Merge - Load Model 'Local'", localFile, local);
+			backupFiles(localFile, remoteFile, origFile);
+			System.exit(1);
+		}
+
+		${GraphModelName}Adapter orig = null;
+		try {
+			orig = FrameworkExecution.initApiAdapter(origFile);
+		} catch (Exception e) {
+			printError(e, "Merge - Load Model 'Original'", origFile, orig);
+			backupFiles(localFile, remoteFile, origFile);
+			System.exit(1);
+		}
+
+		${GraphModelName}Adapter remote = null;
+		try {
+			remote = FrameworkExecution.initApiAdapter(remoteFile);
+		} catch (Exception e) {
+			printError(e, "Merge - Load Model 'Remote'", remoteFile, remote);
+			backupFiles(localFile, remoteFile, origFile);
+			System.exit(1);
+		}
+
+		${GraphModelName}Adapter mergeModel = null;
+		try {
+			mergeModel = FrameworkExecution.initApiAdapter(origFile);
+		} catch (Exception e) {
+			printError(e, "Merge - Load Model 'Merged'", mergeFile, mergeModel);
+			backupFiles(localFile, remoteFile, origFile);
+			System.exit(1);
+		}
+
+		CompareProcess<${GraphModelName}Id, ${GraphModelName}Adapter> localCompare = null;
+		try {
+			localCompare = FrameworkExecution.executeComparePhase(orig, local);
+		} catch (Exception e) {
+			printError(e, "Merge - Executing localCompare", null, null);
+			backupFiles(localFile, remoteFile, origFile);
+			System.exit(1);
+		}
+
+		CompareProcess<${GraphModelName}Id, ${GraphModelName}Adapter> remoteCompare = null;
+		try {
+			remoteCompare = FrameworkExecution
+					.executeComparePhase(orig, remote);
+		} catch (Exception e) {
+			printError(e, "Merge - Executing remoteCompare", null, null);
+			backupFiles(localFile, remoteFile, origFile);
+			System.exit(1);
+		}
+
+		MergeProcess<${GraphModelName}Id, ${GraphModelName}Adapter> mp = null;
+		try {
+			mp = FrameworkExecution.executeMergePhase(localCompare,
+					remoteCompare, mergeModel);
+		} catch (Exception e) {
+			printError(e, "Merge - Executing Merge", null, null);
+			backupFiles(localFile, remoteFile, origFile);
+			System.exit(1);
+		}
+
+		CheckProcess<${GraphModelName}Id, ${GraphModelName}Adapter> cp = null;
+		try {
+			cp = FrameworkExecution.executeCheckPhase(mergeModel);
+		} catch (Exception e) {
+			printError(e, "Merge - Executing Check", null, null);
+			backupFiles(localFile, remoteFile, origFile);
+			System.exit(1);
+		}
+
+		try {
+			outputData(mp.toString(verboseOutput));
+
+			if (mp.hasConflicts())
+				exitStatus += 1;
+
+			outputData(cp.toString(verboseOutput));
+			outputData("----------------------------------------\n"
+					+ "----------------------------------------\n \n");
+
+			if (cp.hasErrors() || cp.hasWarnings())
+				exitStatus += 2;
+
+			cp.getModel().writeModel(mergeFile);
+		} catch (Exception e) {
+			printError(e, "Merge - Writing File", mergeFile, null);
+			System.exit(1);
+		}
+	}
+
+	private void runCompare(String origPath, String localPath) {
+		${GraphModelName}Adapter model1 = null;
+		File file1 = null;
+		try {
+			file1 = FrameworkExecution.getFile(origPath, true);
+			model1 = FrameworkExecution.initApiAdapter(file1);
+		} catch (Exception e) {
+			printError(e, "Diff - Load Model1", file1, model1);
+			System.exit(1);
+		}
+
+		${GraphModelName}Adapter model2 = null;
+		File file2 = null;
+		try {
+			file2 = FrameworkExecution.getFile(localPath, true);
+			model2 = FrameworkExecution.initApiAdapter(file2);
+		} catch (Exception e) {
+			printError(e, "Diff - Load Model2", file2, model2);
+			System.exit(1);
+		}
+
+		try {
+			CompareProcess<${GraphModelName}Id, ${GraphModelName}Adapter> compare = FrameworkExecution
+					.executeComparePhase(model1, model2);
+			outputData(compare.toString());
+		} catch (Exception e) {
+			printError(e, "Diff - CompareProcess", file1, model1);
+			System.exit(1);
+		}
+	}
+
+	private void runCheck(String filePath) {
+		${GraphModelName}Adapter model1 = null;
+		File file1 = null;
+		try {
+			file1 = FrameworkExecution.getFile(filePath, true);
+			model1 = FrameworkExecution.initApiAdapter(file1);
+
+			CheckProcess<${GraphModelName}Id, ${GraphModelName}Adapter> check = FrameworkExecution
+					.executeCheckPhase(model1);
+			outputData(check.toString(verboseOutput));
+
+			if (check.hasErrors())
+				exitStatus += 1;
+
+			model1.writeModel(file1);
+		} catch (Exception e) {
+			ArrayList<${GraphModelName}Adapter> models = new ArrayList<>();
+			models.add(model1);
+			printError(e, "Manual Check", file1, model1);
+			System.exit(1);
+		}
 	}
 }

@@ -41,7 +41,7 @@ public class CheckProcessLabelProvider extends LabelProvider {
 
 	private void loadIcons() {
 		Bundle bundle = Platform
-				.getBundle("de.jabc.cinco.meta.plugin.mcam.libs");
+				.getBundle("de.jabc.cinco.meta.plugin.mcam");
 		try {
 			InputStream entityOkImgStream = FileLocator.openStream(bundle,
 					new Path(checkOkIconPath), true);
