@@ -590,6 +590,13 @@ static def getAttributeType(String type) {
 }
 
 static def public String getAttributeDefault(Attribute attr, ArrayList<Type> enums) {
+	if(!attr.defaultValue.isNullOrEmpty){
+		if(attr.type.equals("EString")) return "'"+attr.defaultValue+"'";
+		if(attr.type.equals("EInt")) return attr.defaultValue;
+		if(attr.type.equals("EDouble")) return attr.defaultValue;
+		if(attr.type.equals("EBoolean")) return attr.defaultValue;
+		return "'" + attr.defaultValue + "'";
+	} 
 	if(attr.type.equals("EString")) return "''";
 	if(attr.type.equals("EInt")) return "0";
 	if(attr.type.equals("EDouble")) return "0.00";
