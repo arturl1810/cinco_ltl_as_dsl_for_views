@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>bdb3d94b-23ae-447b-8e05-302a8e6e8657</id>
   <name>GeneratePropertyView</name>
-  <changecounter>1043</changecounter>
+  <changecounter>1070</changecounter>
   <edge>
     <source>0a7b2d2c-a9c5-4f86-a466-a87bd91f0b67</source>
     <target>70edcd98-92b7-4fcd-9c04-a1b8187883a2</target>
@@ -24,7 +24,7 @@
     <parameter name="value">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>${graphModelName}ViewPart</expression>
+          <expression>${graphModelName}View</expression>
           <clazz>java.lang.Object</clazz>
           <classMutable>true</classMutable>
         </ContextExpressionFoundation>
@@ -112,7 +112,7 @@
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>CincoPropertyViewCreator.getInstance().init_EStructuralFeatures($graphModelName$Impl.class, 
+      <string>CincoPropertyView.init_EStructuralFeatures($graphModelName$Impl.class, 
 	new EStructuralFeature[] {
 		$eStructuralFeatureContent$
 	}
@@ -304,7 +304,7 @@
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>CincoPropertyViewCreator.getInstance().init_EStructuralFeatures($modelElementName$Impl.class, 
+      <string>CincoPropertyView.init_EStructuralFeatures($modelElementName$Impl.class, 
 	new EStructuralFeature[] {
 		$eStructuralFeatureContent$
 	}
@@ -433,7 +433,7 @@
     <parameter name="template">
       <string>package $localPkgName$;
 
-import de.jabc.cinco.meta.core.ui.properties.CincoPropertyViewCreator;
+import de.jabc.cinco.meta.core.ui.properties.CincoPropertyView;
 
 import $importPath$.*;
 import $importPath$.impl.*;
@@ -451,48 +451,26 @@ import org.eclipse.graphiti.ui.platform.GraphitiConnectionEditPart;
 import org.eclipse.graphiti.ui.platform.GraphitiShapeEditPart;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.ISelectionListener;
-import org.eclipse.ui.IViewSite;
 import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.part.ViewPart;
 
-public class $graphModelName$ViewPart extends ViewPart implements ISelectionListener {
+public class $graphModelName$View implements ISelectionListener {
 
-	private Composite parent;
 	private PictogramElement lastSelected;
 
-	public $graphModelName$ViewPart() {
-		// TODO Auto-generated constructor stub
-	}
-
-	@Override
-	public void init(IViewSite site) throws PartInitException {
-		super.init(site);
-		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().addSelectionListener(this);
+	public static void initEStructuralFeatureInformation(){
 		
 		$structuralFeatureInitContent$
 
-		CincoPropertyViewCreator.getInstance().init_MultiLineAttributes(new EStructuralFeature[] {
+		CincoPropertyView.init_MultiLineAttributes(new EStructuralFeature[] {
 			$initMultiLineAttributeContent$		
 		});
 
-		CincoPropertyViewCreator.getInstance().init_ReadOnlyAttributes(new EStructuralFeature[] {
+		CincoPropertyView.init_ReadOnlyAttributes(new EStructuralFeature[] {
 			$initReadOnlyAttributeContent$		
 		});
 	}
 	
-	@Override
-	public void createPartControl(Composite parent) {
-		this.parent = parent;
-	}
-	
-	@Override
-	public void setFocus() {
-
-	}
 
 	@Override
 	public void selectionChanged(IWorkbenchPart part, ISelection selection) {
@@ -515,7 +493,6 @@ public class $graphModelName$ViewPart extends ViewPart implements ISelectionList
 			lastSelected = pe;
 
 			EObject bo = getBusinessObject(pe);
-			CincoPropertyViewCreator.getInstance().init_PropertyView(bo, parent);
 		}
 		
 	}
@@ -537,13 +514,6 @@ public class $graphModelName$ViewPart extends ViewPart implements ISelectionList
 
 	private boolean isStructuredSelection(ISelection selection) {
 		return selection instanceof IStructuredSelection;
-	}
-
-	
-	@Override
-	public void dispose() {
-		super.dispose();
-		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().removeSelectionListener(this);
 	}
 	
 }
@@ -787,7 +757,7 @@ public class $graphModelName$ViewPart extends ViewPart implements ISelectionList
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>CincoPropertyViewCreator.getInstance().init_EStructuralFeatures($type.name$Impl.class, 
+      <string>CincoPropertyView.init_EStructuralFeatures($type.name$Impl.class, 
 	new EStructuralFeature[] {
 		$eStructuralFeatureContent$
 	}

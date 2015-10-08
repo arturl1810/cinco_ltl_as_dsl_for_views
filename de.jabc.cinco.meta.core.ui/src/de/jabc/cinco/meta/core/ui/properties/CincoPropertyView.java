@@ -3,7 +3,6 @@ package de.jabc.cinco.meta.core.ui.properties;
 import graphmodel.GraphModel;
 import graphmodel.ModelElement;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -14,7 +13,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.eclipse.core.databinding.UpdateValueStrategy;
-import org.eclipse.core.databinding.conversion.IConverter;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.databinding.property.list.IListProperty;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
@@ -30,6 +28,11 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.util.TransactionUtil;
+import org.eclipse.gef.GraphicalEditPart;
+import org.eclipse.graphiti.mm.pictograms.PictogramElement;
+import org.eclipse.graphiti.services.Graphiti;
+import org.eclipse.graphiti.ui.platform.GraphitiConnectionEditPart;
+import org.eclipse.graphiti.ui.platform.GraphitiShapeEditPart;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.databinding.swt.ISWTObservableValue;
 import org.eclipse.jface.databinding.swt.IWidgetValueProperty;
@@ -56,6 +59,12 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
+import org.eclipse.ui.ISelectionListener;
+import org.eclipse.ui.IViewSite;
+import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.part.ViewPart;
 
 import de.jabc.cinco.meta.core.ui.converter.CharStringConverter;
 import de.jabc.cinco.meta.core.ui.listener.CincoTableMenuListener;
@@ -67,18 +76,19 @@ import de.jabc.cinco.meta.core.ui.validator.TextValidator;
  * @author kopetzki
  *
  */
-public class CincoPropertyViewCreator {
+public class CincoPropertyView extends ViewPart implements ISelectionListener{
 
 	private Map<EObject, Composite> compositesMap;
 	
-	private Map<Class<? extends EObject>, IEMFListProperty> emfListPropertiesMap;
-	private Map<Class<? extends EObject>, List<EStructuralFeature>> attributesMap;
-	private Map<Class<? extends EObject>, List<EStructuralFeature>> referencesMap;
+	private static Map<Class<? extends EObject>, IEMFListProperty> emfListPropertiesMap = new HashMap<Class<? extends EObject>, IEMFListProperty>();
+	private static Map<Class<? extends EObject>, List<EStructuralFeature>> attributesMap = new HashMap<Class<? extends EObject>, List<EStructuralFeature>>();
+	private static Map<Class<? extends EObject>, List<EStructuralFeature>> referencesMap = new HashMap<Class<? extends EObject>, List<EStructuralFeature>>();
 	private Map<Object, Object[]> treeExpandState;
 
-	private Set<EStructuralFeature> multiLineAttributes;
-	private Set<EStructuralFeature> readOnlyAttributes;
+	private static Set<EStructuralFeature> multiLineAttributes = new HashSet<EStructuralFeature>();
+	private static Set<EStructuralFeature> readOnlyAttributes = new HashSet<EStructuralFeature>();
 	
+	private Composite parent;
 	private Composite simpleViewComposite;
 	private TreeViewer treeViewer;
 
@@ -91,17 +101,14 @@ public class CincoPropertyViewCreator {
 	private final GridData tableLayoutData = new GridData(SWT.FILL, SWT.FILL,
 			true, true);
 
-	private static CincoPropertyViewCreator instance;
 
 	private TransactionalEditingDomain domain;
 	private EMFDataBindingContext context;
 	private Object lastSelectedObject;
 
-	private CincoPropertyViewCreator() {
+	
+	public CincoPropertyView() {
 		compositesMap = new HashMap<EObject, Composite>();
-		emfListPropertiesMap = new HashMap<Class<? extends EObject>, IEMFListProperty>();
-		attributesMap = new HashMap<Class<? extends EObject>, List<EStructuralFeature>>();
-		referencesMap = new HashMap<Class<? extends EObject>, List<EStructuralFeature>>();
 		treeExpandState = new HashMap<Object, Object[]>();
 		
 		multiLineAttributes = new HashSet<EStructuralFeature>();
@@ -112,13 +119,20 @@ public class CincoPropertyViewCreator {
 		tableLayoutData.minimumHeight = 50;
 	}
 
-	public static CincoPropertyViewCreator getInstance() {
-		if (instance == null)
-			instance = new CincoPropertyViewCreator();
-		return instance;
+	@Override
+	public void selectionChanged(IWorkbenchPart part, ISelection selection) {
+		if (isStructuredSelection(selection)) {
+			Object element = ((IStructuredSelection) selection).getFirstElement();
+			PictogramElement pe = null;
+			if (element instanceof GraphicalEditPart)
+				pe = getPictogramElement(element);
+			
+			EObject bo = getBusinessObject(pe);
+			init_PropertyView(bo, parent);
+		}
 	}
-
-	public void init_EStructuralFeatures(Class<? extends EObject> clazz,
+	
+	public static void init_EStructuralFeatures(Class<? extends EObject> clazz,
 			EStructuralFeature... features) {
 		List<EStructuralFeature> featureList = Arrays.asList(features);
 		List<EStructuralFeature> attributeList = featureList.stream()
@@ -138,24 +152,24 @@ public class CincoPropertyViewCreator {
 			attributesMap.put(clazz, attributeList);
 	}
 
-	public void init_ListPorperties(Class<? extends EObject> clazz,	EStructuralFeature... features) {
+	public static void init_ListPorperties(Class<? extends EObject> clazz,	EStructuralFeature... features) {
 		if (emfListPropertiesMap.get(clazz) == null) {
 			emfListPropertiesMap.put(clazz, EMFProperties.multiList(features));
 		}
 	}
 
-	public void init_MultiLineAttributes(EStructuralFeature... features) {
+	public static void init_MultiLineAttributes(EStructuralFeature... features) {
 		for (EStructuralFeature f : features)
 			multiLineAttributes.add(f);
 	}
 	
-	public void init_ReadOnlyAttributes(EStructuralFeature... features) {
+	public static void init_ReadOnlyAttributes(EStructuralFeature... features) {
 		for (EStructuralFeature f : features)
 			readOnlyAttributes.add(f);
 	}
 	
 	public void init_PropertyView(EObject bo, Composite parent) {
-		if (bo == null || bo.equals(lastSelectedObject))
+		if (bo == null || bo.equals(lastSelectedObject) || referencesMap.get(bo.getClass()) == null)
 			return;
 		
 		if (treeViewer != null && !treeViewer.getTree().isDisposed())
@@ -440,4 +454,44 @@ public class CincoPropertyViewCreator {
 		return domain;
 	}
 
+	@Override
+	public void createPartControl(Composite parent) {
+		this.parent = parent;
+	}
+
+	@Override
+	public void setFocus() {
+		
+	}
+
+	@Override
+	public void init(IViewSite site) throws PartInitException {
+		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().addSelectionListener(this);
+		super.init(site);
+	}
+	
+	@Override
+	public void dispose() {
+		super.dispose();
+		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().removeSelectionListener(this);
+	}
+	
+	public boolean isStructuredSelection(ISelection selection) {
+		return selection instanceof IStructuredSelection;
+	}
+	
+	public PictogramElement getPictogramElement(Object element) {
+		if (element instanceof GraphitiShapeEditPart) 
+			return ((GraphitiShapeEditPart) element).getPictogramElement();
+		
+		if (element instanceof GraphitiConnectionEditPart)
+			return ((GraphitiConnectionEditPart) element).getPictogramElement();
+		
+		return null;
+	}
+	
+	public EObject getBusinessObject(PictogramElement pe) {
+		return Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
+	}
+	
 }

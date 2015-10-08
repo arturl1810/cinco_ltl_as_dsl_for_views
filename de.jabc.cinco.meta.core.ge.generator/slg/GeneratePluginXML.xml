@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>c6d3a171-4a7c-4363-ab9c-c7be2786983b</id>
   <name>GeneratePluginXML</name>
-  <changecounter>477</changecounter>
+  <changecounter>488</changecounter>
   <sib>
     <id>b9acf74f-0e4c-4f93-80c7-e3f218bfc27e</id>
     <name>RunStringTemplate</name>
@@ -522,7 +522,7 @@
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>	&lt;extension
+      <string>	$!&lt;extension
 		point=&quot;org.eclipse.ui.views&quot;&gt;
 	&lt;!--@CincoGen $context.graphModelName$--&gt;
 		&lt;view
@@ -531,7 +531,7 @@
 			name=&quot;Cinco Properties&quot;
 			restorable=&quot;true&quot;&gt;
 		&lt;/view&gt;
-	&lt;/extension&gt;
+	&lt;/extension&gt;!$
 	&lt;extension 
 		point=&quot;org.eclipse.graphiti.ui.diagramTypes&quot;&gt;
 	&lt;!--@CincoGen $context.graphModelName$--&gt;
