@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>c1206c24-81a8-4ae2-b093-4d794fac9742</id>
   <name>GenerateContainerShape</name>
-  <changecounter>1235</changecounter>
+  <changecounter>1285</changecounter>
   <sib>
     <id>299dd76d-8397-43af-aff5-bc29e4d4a5d6</id>
     <name>SwitchContainerShape</name>
@@ -253,14 +253,6 @@ $context.setStyleContent$</string>
     <labelposition>500.0,0.0</labelposition>
     <branch>true</branch>
   </edge>
-  <edge>
-    <source>53e7587c-03c3-4e93-b576-bfb6e4dd01ad</source>
-    <target>c55c98a6-9232-40f6-b45c-3faf2b048b8a</target>
-    <point>699.375,684.0</point>
-    <point>754.2857142857143,783.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
   <sib>
     <id>75d9b96c-16aa-4622-9568-810ed2fbee0a</id>
     <name>RunStringTemplate_4</name>
@@ -294,8 +286,8 @@ $context.setStyleContent$</string>
   <edge>
     <source>75d9b96c-16aa-4622-9568-810ed2fbee0a</source>
     <target>1548cba6-3d93-4188-9139-51c540c3cd7e</target>
-    <point>834.1935483870968,684.0</point>
-    <point>756.8965517241379,916.0</point>
+    <point>822.0,672.6</point>
+    <point>590.0,750.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -496,8 +488,8 @@ $context.graphModelName$LayoutUtils.set$context.appearance.name$Style($context.p
   <edge>
     <source>4782d9e4-924c-4c1d-8f56-7235a1e23813</source>
     <target>eb2f96da-7276-41eb-9ba4-73cb5a19e448</target>
-    <point>750.0,1050.0</point>
-    <point>675.0,1185.0</point>
+    <point>755.625,894.0</point>
+    <point>700.7142857142857,993.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>true</branch>
   </edge>
@@ -534,24 +526,24 @@ $context.graphModelName$LayoutUtils.set_$context.graphModelName$DefaultAppearanc
   <edge>
     <source>4782d9e4-924c-4c1d-8f56-7235a1e23813</source>
     <target>08b0705f-956f-4037-8873-894131d0e8f0</target>
-    <point>750.0,1050.0</point>
-    <point>840.0,1185.0</point>
+    <point>764.0,881.0</point>
+    <point>839.0,1016.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>false</branch>
   </edge>
   <edge>
     <source>eb2f96da-7276-41eb-9ba4-73cb5a19e448</source>
     <target>11e1cbff-759f-44c7-b650-500fc3bf96b4</target>
-    <point>675.0,1185.0</point>
-    <point>765.0,1335.0</point>
+    <point>689.0,1016.0</point>
+    <point>749.0,1166.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
     <source>08b0705f-956f-4037-8873-894131d0e8f0</source>
     <target>11e1cbff-759f-44c7-b650-500fc3bf96b4</target>
-    <point>840.0,1185.0</point>
-    <point>765.0,1335.0</point>
+    <point>839.0,1016.0</point>
+    <point>749.0,1166.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -609,24 +601,24 @@ peService.setPropertyValue($context.peName$, $context.graphModelName$LayoutUtils
   <edge>
     <source>11e1cbff-759f-44c7-b650-500fc3bf96b4</source>
     <target>337bc7ab-0d8f-4f2b-abf2-277f28fa94b0</target>
-    <point>765.0,1335.0</point>
-    <point>570.0,1335.0</point>
+    <point>750.0,1170.0</point>
+    <point>570.0,1170.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>true</branch>
   </edge>
   <edge>
     <source>11e1cbff-759f-44c7-b650-500fc3bf96b4</source>
     <target>f6491c97-ed9a-4b84-84bc-5730e7334cd4</target>
-    <point>765.0,1335.0</point>
-    <point>765.0,1545.0</point>
+    <point>749.0,1166.0</point>
+    <point>749.0,1406.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>false</branch>
   </edge>
   <edge>
     <source>53ecb1b9-7774-4e45-b178-d07956edb3a7</source>
     <target>f6491c97-ed9a-4b84-84bc-5730e7334cd4</target>
-    <point>570.0,1395.0</point>
-    <point>765.0,1395.0</point>
+    <point>570.0,1410.0</point>
+    <point>750.0,1410.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -682,8 +674,8 @@ peService.setPropertyValue($context.peName$, $context.graphModelName$LayoutUtils
   <edge>
     <source>337bc7ab-0d8f-4f2b-abf2-277f28fa94b0</source>
     <target>53ecb1b9-7774-4e45-b178-d07956edb3a7</target>
-    <point>570.0,1335.0</point>
-    <point>570.0,1545.0</point>
+    <point>570.0,1170.0</point>
+    <point>570.0,1410.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -799,7 +791,27 @@ peService.setPropertyValue($context.peName$, $context.graphModelName$LayoutUtils
     </parameter>
     <parameter name="template">
       <string>$context.appearanceContent$
+
+int[] points = new int[] {$context.pointCode$};
+		
+int[] xs = new int[] {$context.xPoints$};
+int[] ys = new int[] {$context.yPoints$};
+		
+int minX = $context.graphModelName$GraphitiUtils.getInstance().min(xs);
+int maxX = $context.graphModelName$GraphitiUtils.getInstance().max(xs);
+
+int minY = $context.graphModelName$GraphitiUtils.getInstance().min(ys);
+int maxY = $context.graphModelName$GraphitiUtils.getInstance().max(ys);
+
+int width = maxX - minX;
+int height = maxY - minY;
+
+$context.graphModelName$GraphitiUtils.getInstance().transform(points, -minX, -minY);
+
 ContainerShape $context.meShapeName$ = peService.createContainerShape($context.parentName$, $context.diagramIsParent$);
+Polygon $context.peName$ = gaService.createPolygon($context.meShapeName$, points);
+
+/*ContainerShape $context.meShapeName$ = peService.createContainerShape($context.parentName$, $context.diagramIsParent$);
 Polygon $context.peName$ = gaService.createPolygon($context.meShapeName$, new int[] {$context.pointCode$});
 int xMin = $context.graphModelName$GraphitiUtils.getInstance().min(new int[] {$context.xPoints$});
 int yMin =$context.graphModelName$GraphitiUtils.getInstance().min(new int[] {$context.yPoints$});
@@ -810,10 +822,21 @@ for (Point _p : $context.peName$.getPoints()) {
 	_p.setX(_p.getX() + Math.abs(xMin));
 	_p.setY(_p.getY() + Math.abs(yMin));
 }
-
+*/
 gaService.setSize($context.peName$, width, height);
 
-$context.setStyleContent$</string>
+String _pointsString = &quot;&quot;;
+for (int i : points) {
+	_pointsString += String.valueOf(i)+&quot;,&quot;;
+}
+
+peService.setPropertyValue($context.peName$, $context.graphModelName$LayoutUtils.KEY_INITIAL_POINTS, _pointsString);
+if (!($context.meShapeName$.getContainer() instanceof $context.fqnDiagram$))
+	peService.setPropertyValue($context.peName$, $context.graphModelName$LayoutUtils.KEY_INITIAL_PARENT_SIZE, &quot;&quot; + $context.meShapeName$.getContainer().getGraphicsAlgorithm().getWidth() + &quot;,&quot; + $context.meShapeName$.getContainer().getGraphicsAlgorithm().getHeight()); 
+else peService.setPropertyValue($context.peName$, $context.graphModelName$LayoutUtils.KEY_INITIAL_PARENT_SIZE, &quot;&quot; + $context.meShapeName$.getGraphicsAlgorithm().getWidth() + &quot;,&quot; + $context.meShapeName$.getGraphicsAlgorithm().getHeight()); 
+
+$context.setStyleContent$
+</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
@@ -868,19 +891,20 @@ $context.setStyleContent$</string>
   </edge>
   <edge>
     <source>db99eefe-a74c-4a7d-bc42-11c536305ccb</source>
-    <target>1548cba6-3d93-4188-9139-51c540c3cd7e</target>
+    <target>c55c98a6-9232-40f6-b45c-3faf2b048b8a</target>
     <spline/>
-    <point>663.0,440.04</point>
-    <point>945.0,660.0</point>
-    <point>764.1304347826087,916.0</point>
-    <labelposition>566.3474910718907,-233.8310906192684</labelposition>
+    <point>641.7469879518072,444.0</point>
+    <point>600.0,675.0</point>
+    <point>732.0,746.28</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
     <source>5832d6df-f155-4ae0-94f7-2558cacec4fe</source>
     <target>05d615e5-55f4-4211-bc3f-32551ff920f5</target>
-    <point>480.0,285.0</point>
-    <point>748.0,394.0</point>
+    <point>483.0,433.74</point>
+    <point>747.0,539.34</point>
+    <labelposition>580.0,129.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
@@ -1049,7 +1073,7 @@ $context.setStyleContent$</string>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>$context.polygonPoint.x$, $context.polygonPoint.y$, </string>
+      <string>$context.polygonPoint.x$,$context.polygonPoint.y$,</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
@@ -1105,9 +1129,8 @@ $context.setStyleContent$</string>
   <edge>
     <source>1548cba6-3d93-4188-9139-51c540c3cd7e</source>
     <target>4782d9e4-924c-4c1d-8f56-7235a1e23813</target>
-    <point>750.0,945.0</point>
-    <point>750.0,1050.0</point>
-    <labelposition>500.0,0.0</labelposition>
+    <point>570.0,765.0</point>
+    <point>759.0,866.0</point>
     <branch>default</branch>
   </edge>
   <sib>
@@ -1189,62 +1212,6 @@ $context.setStyleContent$</string>
     <branch>default</branch>
   </edge>
   <sib>
-    <id>b1258c94-1830-4d34-97c5-744c3eadd416</id>
-    <name>RunStringTemplate_12</name>
-    <label>SetFixedWitdt</label>
-    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
-    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>573.5,738.0</position>
-    <parameter name="append">
-      <boolean>true</boolean>
-    </parameter>
-    <parameter name="individualVariables">
-      <boolean>false</boolean>
-    </parameter>
-    <parameter name="result">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>graphicalRep</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="template">
-      <string>peService.setPropertyValue($context.peName$, de.jabc.cinco.meta.core.ui.features.CincoResizeFeature.FIXED_WIDTH, de.jabc.cinco.meta.core.ui.features.CincoResizeFeature.FIXED);
-</string>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-  </sib>
-  <edge>
-    <source>c55c98a6-9232-40f6-b45c-3faf2b048b8a</source>
-    <target>b1258c94-1830-4d34-97c5-744c3eadd416</target>
-    <point>783.0,796.68</point>
-    <point>897.0,762.48</point>
-    <branch>true</branch>
-  </edge>
-  <sib>
-    <id>c55c98a6-9232-40f6-b45c-3faf2b048b8a</id>
-    <name>EvaluateCondition</name>
-    <label>FixedWidth?</label>
-    <sib-uid>basic-sibs/EvaluateCondition</sib-uid>
-    <taxonomy>de.jabc.sib.common.basic.EvaluateCondition</taxonomy>
-    <position>713.5,738.0</position>
-    <parameter name="condition">
-      <de.metaframe.common.sib.parameter.ContextExpression>
-        <ContextExpressionFoundation>
-          <expression>${size.widthFixed}</expression>
-          <clazz>java.lang.Boolean</clazz>
-          <classMutable>false</classMutable>
-        </ContextExpressionFoundation>
-      </de.metaframe.common.sib.parameter.ContextExpression>
-    </parameter>
-    <finalbranches>error</finalbranches>
-    <finalbranches>false</finalbranches>
-    <finalbranches>true</finalbranches>
-  </sib>
-  <sib>
     <id>3d57a7de-4698-46d8-b73e-128347c6d83b</id>
     <name>EvaluateCondition_1</name>
     <label>FixedHeight?</label>
@@ -1264,13 +1231,6 @@ $context.setStyleContent$</string>
     <finalbranches>false</finalbranches>
     <finalbranches>true</finalbranches>
   </sib>
-  <edge>
-    <source>c55c98a6-9232-40f6-b45c-3faf2b048b8a</source>
-    <target>3d57a7de-4698-46d8-b73e-128347c6d83b</target>
-    <point>765.0,765.0</point>
-    <point>770.0,844.0</point>
-    <branch>false</branch>
-  </edge>
   <sib>
     <id>8965129a-314b-4f04-995b-a8ffe5b81b1c</id>
     <name>RunStringTemplate_13</name>
@@ -1301,33 +1261,103 @@ $context.setStyleContent$</string>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
   </sib>
+  <sib>
+    <id>c55c98a6-9232-40f6-b45c-3faf2b048b8a</id>
+    <name>EvaluateCondition</name>
+    <label>FixedWidth?</label>
+    <sib-uid>basic-sibs/EvaluateCondition</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.EvaluateCondition</taxonomy>
+    <position>713.5,738.0</position>
+    <parameter name="condition">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>${size.widthFixed}</expression>
+          <clazz>java.lang.Boolean</clazz>
+          <classMutable>false</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>false</finalbranches>
+    <finalbranches>true</finalbranches>
+  </sib>
+  <sib>
+    <id>b1258c94-1830-4d34-97c5-744c3eadd416</id>
+    <name>RunStringTemplate_12</name>
+    <label>SetFixedWitdt</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>573.5,738.0</position>
+    <parameter name="append">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>graphicalRep</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>peService.setPropertyValue($context.peName$, de.jabc.cinco.meta.core.ui.features.CincoResizeFeature.FIXED_WIDTH, de.jabc.cinco.meta.core.ui.features.CincoResizeFeature.FIXED);
+</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
   <edge>
-    <source>b1258c94-1830-4d34-97c5-744c3eadd416</source>
-    <target>3d57a7de-4698-46d8-b73e-128347c6d83b</target>
-    <point>897.0,767.88</point>
-    <point>783.0,836.28</point>
-    <branch>default</branch>
+    <source>3d57a7de-4698-46d8-b73e-128347c6d83b</source>
+    <target>1548cba6-3d93-4188-9139-51c540c3cd7e</target>
+    <point>810.5,878.0</point>
+    <point>765.5,801.0</point>
+    <branch>false</branch>
   </edge>
   <edge>
     <source>3d57a7de-4698-46d8-b73e-128347c6d83b</source>
     <target>8965129a-314b-4f04-995b-a8ffe5b81b1c</target>
-    <point>760.0,859.0</point>
-    <point>915.0,855.0</point>
+    <point>810.5,878.0</point>
+    <point>669.0,878.0</point>
     <branch>true</branch>
   </edge>
   <edge>
     <source>8965129a-314b-4f04-995b-a8ffe5b81b1c</source>
     <target>1548cba6-3d93-4188-9139-51c540c3cd7e</target>
-    <point>915.0,855.0</point>
-    <point>766.0,921.0</point>
+    <point>669.0,878.0</point>
+    <point>765.5,801.0</point>
     <branch>default</branch>
   </edge>
   <edge>
-    <source>3d57a7de-4698-46d8-b73e-128347c6d83b</source>
-    <target>1548cba6-3d93-4188-9139-51c540c3cd7e</target>
-    <point>765.0,855.0</point>
-    <point>755.0,923.0</point>
+    <source>c55c98a6-9232-40f6-b45c-3faf2b048b8a</source>
+    <target>3d57a7de-4698-46d8-b73e-128347c6d83b</target>
+    <point>813.5,788.0</point>
+    <point>810.5,878.0</point>
     <branch>false</branch>
+  </edge>
+  <edge>
+    <source>c55c98a6-9232-40f6-b45c-3faf2b048b8a</source>
+    <target>b1258c94-1830-4d34-97c5-744c3eadd416</target>
+    <point>813.5,788.0</point>
+    <point>673.5,788.0</point>
+    <branch>true</branch>
+  </edge>
+  <edge>
+    <source>b1258c94-1830-4d34-97c5-744c3eadd416</source>
+    <target>3d57a7de-4698-46d8-b73e-128347c6d83b</target>
+    <point>673.5,788.0</point>
+    <point>810.5,878.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>53e7587c-03c3-4e93-b576-bfb6e4dd01ad</source>
+    <target>c55c98a6-9232-40f6-b45c-3faf2b048b8a</target>
+    <point>762.0,698.0</point>
+    <point>813.5,788.0</point>
+    <branch>default</branch>
   </edge>
   <parameter>
     <name>modelElementKey</name>

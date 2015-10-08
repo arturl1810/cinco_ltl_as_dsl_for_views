@@ -98,6 +98,7 @@ function executeResponse(method, data) {
         else {
             graph.removeCell(cell);
         }
+        location.reload();
     }
     if(method === 'custom') {
         location.reload();

@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>b227a7a0-5af9-431e-b485-0ba300749007</id>
   <name>GenerateGraphitiUtils</name>
-  <changecounter>189</changecounter>
+  <changecounter>198</changecounter>
   <sib>
     <id>801054f5-02ab-407f-9a7a-c39fb7a43cb9</id>
     <name>PutExpression</name>
@@ -304,19 +304,17 @@ public class $context.graphModelName$GraphitiUtils {
 	}
 
 	public int max(int[] values) {
-		if (values.length &gt; 0) {
-			Arrays.sort(values, 0, values.length);
-			return values[values.length-1];
-		}
-		return 0;
+		java.util.OptionalInt max = Arrays.stream(values).max();
+		if (max.isPresent())
+			return max.getAsInt();
+		else return 0;
 	}
 
 	public int min(int[] values) {
-		if (values.length &gt; 0) {
-			Arrays.sort(values, 0, values.length);
-			return values[0];
-		}
-		return 0;
+		java.util.OptionalInt min = Arrays.stream(values).min();
+		if (min.isPresent())
+			return min.getAsInt();
+		else return 0;
 	}
 	
 	public int[] transform(int[] values, int deltaX, int deltaY) {

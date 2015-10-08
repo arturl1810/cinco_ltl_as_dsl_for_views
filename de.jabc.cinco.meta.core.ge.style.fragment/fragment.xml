@@ -104,6 +104,15 @@
       <edge-annotation
             recognized-annotation="postAttributeValueChange">
       </edge-annotation>
+      <node-annotation
+            recognized-annotation="preDelete">
+      </node-annotation>
+      <nodecontainer-annotation
+            recognized-annotation="preDelete">
+      </nodecontainer-annotation>
+      <edge-annotation
+            recognized-annotation="preDelete">
+      </edge-annotation>
    </extension>
 
 </fragment>

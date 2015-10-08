@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>e96e3211-9e15-4d4a-94a9-7b4b8375d7a3</id>
   <name>GenerateLayoutFeatures</name>
-  <changecounter>638</changecounter>
+  <changecounter>646</changecounter>
   <sib>
     <id>ff7817b7-c328-4684-827e-afc4ea81c9f3</id>
     <name>PutExpression</name>
@@ -151,6 +151,9 @@ public class $context.graphModelName$LayoutUtils {
 	public static final String KEY_MARGIN_HORIZONTAL = &quot;margin_horizontal&quot;;
 	public static final String KEY_MARGIN_VERTICAL = &quot;margin_vertical&quot;;
 	
+	public static final String KEY_INITIAL_POINTS = &quot;initial_points&quot;;
+	public static final String KEY_INITIAL_PARENT_SIZE = &quot;initial_parent_size&quot;;
+
 	public static final String KEY_GA_NAME = &quot;ga_name&quot;;
 
 	private static IGaService gaService = Graphiti.getGaService();
