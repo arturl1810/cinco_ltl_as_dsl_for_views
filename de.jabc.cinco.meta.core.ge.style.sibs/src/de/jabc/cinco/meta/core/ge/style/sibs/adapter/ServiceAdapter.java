@@ -78,7 +78,9 @@ import de.jabc.adapter.common.collection.Branches;
 import de.jabc.cinco.meta.core.utils.CincoUtils;
 import de.jabc.cinco.meta.core.utils.InheritanceUtil;
 import de.jabc.cinco.meta.core.utils.PathValidator;
+import de.jabc.cinco.meta.core.utils.dummycreator.DummyGenerator;
 import de.metaframe.jabc.framework.execution.LightweightExecutionEnvironment;
+import de.metaframe.jabc.framework.execution.LightweightExecutionEnvironmentAdapter;
 import de.metaframe.jabc.framework.execution.context.LightweightExecutionContext;
 import de.metaframe.jabc.framework.sib.parameter.ContextKey;
 import de.metaframe.jabc.framework.sib.parameter.ContextKey.Scope;
@@ -1663,6 +1665,34 @@ public class ServiceAdapter {
 		
 		return Branches.FALSE;
 		
+	}
+
+	public String createDummyGraphModel(LightweightExecutionEnvironmentAdapter env) {
+		LightweightExecutionContext context = env.getLocalContext();
+		try {
+			GraphModel gm = DummyGenerator.createDummyGraphModel();
+			context.putGlobally("graphModel", gm);
+			context.putGlobally("debugRun", true);
+			return Branches.DEFAULT;
+		} catch (Exception e) {
+			context.putGlobally("exception", e);
+			return Branches.ERROR;
+		}
+	}
+
+	public String createDummyStyles(LightweightExecutionEnvironmentAdapter env) {
+		
+		LightweightExecutionContext context = env.getLocalContext();
+		try {
+			Styles stlyes = DummyGenerator.createDummyStyles();
+			context.putGlobally("styles", stlyes);
+			context.putGlobally("debugRun", true);
+			
+			return Branches.DEFAULT;
+		} catch (Exception e) {
+			context.putGlobally("exception", e);
+			return Branches.ERROR;
+		}
 	}
 	
 }
