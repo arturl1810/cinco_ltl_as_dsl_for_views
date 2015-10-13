@@ -1,78 +1,19 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <model version="2.1">
-  <id>a0356bd8-d2c9-42f7-9cfc-7cd304f53dc4</id>
-  <name>Get Qualified Name For Node</name>
-  <changecounter>4</changecounter>
-  <sib>
-    <id>bdf42711-d9f7-43e0-82e6-aa10bd312b10</id>
-    <name>GetNodeGraphModel</name>
-    <label>GetNodeGraphModel</label>
-    <sib-uid>mgl/mgl/GetNodeGraphModel</sib-uid>
-    <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetNodeGraphModel</taxonomy>
-    <position>277.0,243.0</position>
-    <parameter name="nodeKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>nodeKey</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="nodegraphModelKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>nodeGraphModel</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-  </sib>
-  <sib>
-    <id>3159bcce-86cd-4921-a285-40da9db58ea7</id>
-    <name>GetNodeName</name>
-    <label>GetNodeName</label>
-    <sib-uid>mgl/mgl/GetNodeName</sib-uid>
-    <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetNodeName</taxonomy>
-    <position>297.0,18.0</position>
-    <parameter name="nodeKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>nodeKey</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="nodenameKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>nodeName</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-    <userobject key="ABC$START">
-      <boolean>true</boolean>
-    </userobject>
-  </sib>
+  <id>23c24fd4-dfed-4fb4-a4aa-9572e1398f98</id>
+  <name>Get Qualified Name For GraphModel</name>
+  <changecounter>7</changecounter>
   <sib>
     <id>eab65f04-9e79-4fc0-8ffd-759a1df3def6</id>
     <name>GetGraphModelPackage</name>
     <label>GetGraphModelPackage</label>
     <sib-uid>mgl/mgl/GetGraphModelPackage</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetGraphModelPackage</taxonomy>
-    <position>264.5,573.0</position>
+    <position>267.5,498.0</position>
     <parameter name="graphModelKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>nodeGraphModel</key>
+          <key>graphModel</key>
           <scope>GLOBAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
@@ -81,7 +22,7 @@
     <parameter name="graphModelpackageKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>nodeGraphModelPackage</key>
+          <key>graphModelPackage</key>
           <scope>GLOBAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
@@ -96,11 +37,11 @@
     <label>ToLowerCase</label>
     <sib-uid>utility-sibs/ToLowerCase</sib-uid>
     <taxonomy>transem.utility.sib.ToLowerCase</taxonomy>
-    <position>297.5,453.0</position>
+    <position>297.5,378.0</position>
     <parameter name="lowerStringKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>nodeGraphModelName</key>
+          <key>graphModelNameLower</key>
           <scope>GLOBAL</scope>
           <scopeMutable>false</scopeMutable>
         </ContextKeyFoundation>
@@ -109,7 +50,7 @@
     <parameter name="stringKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>nodeGraphModelName</key>
+          <key>graphModelName</key>
           <scope>GLOBAL</scope>
           <scopeMutable>false</scopeMutable>
         </ContextKeyFoundation>
@@ -124,7 +65,7 @@
     <label>MergeStrings</label>
     <sib-uid>basic-sibs/MergeStrings</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.MergeStrings</taxonomy>
-    <position>299.5,693.0</position>
+    <position>299.5,618.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -134,7 +75,7 @@
           <delegate class="list">
             <de.metaframe.jabc.framework.sib.parameter.ContextKey>
               <ContextKeyFoundation>
-                <key>nodeGraphModelPackage</key>
+                <key>graphModelPackage</key>
                 <scope>GLOBAL</scope>
                 <scopeMutable>true</scopeMutable>
               </ContextKeyFoundation>
@@ -148,7 +89,7 @@
             </de.metaframe.jabc.framework.sib.parameter.ContextKey>
             <de.metaframe.jabc.framework.sib.parameter.ContextKey>
               <ContextKeyFoundation>
-                <key>nodeGraphModelName</key>
+                <key>graphModelNameLower</key>
                 <scope>GLOBAL</scope>
                 <scopeMutable>true</scopeMutable>
               </ContextKeyFoundation>
@@ -162,7 +103,7 @@
             </de.metaframe.jabc.framework.sib.parameter.ContextKey>
             <de.metaframe.jabc.framework.sib.parameter.ContextKey>
               <ContextKeyFoundation>
-                <key>nodeName</key>
+                <key>graphModelName</key>
                 <scope>GLOBAL</scope>
                 <scopeMutable>true</scopeMutable>
               </ContextKeyFoundation>
@@ -187,21 +128,13 @@
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
   </sib>
-  <edge>
-    <source>3159bcce-86cd-4921-a285-40da9db58ea7</source>
-    <target>2dbee714-a8d0-4b79-a634-cc7c60ef4c92</target>
-    <point>327.0,149.4</point>
-    <point>183.0,209.4</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
   <sib>
     <id>a168c5e4-247a-4ac0-87e8-eccc406147a7</id>
     <name>GetGraphModelName</name>
     <label>GetGraphModelName</label>
     <sib-uid>mgl/mgl/GetGraphModelName</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetGraphModelName</taxonomy>
-    <position>273.5,348.0</position>
+    <position>275.5,273.0</position>
     <parameter name="graphModelKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -214,7 +147,7 @@
     <parameter name="graphModelnameKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>nodeGraphModelName</key>
+          <key>graphModelName</key>
           <scope>GLOBAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
@@ -224,31 +157,27 @@
     <finalbranches>error</finalbranches>
   </sib>
   <edge>
-    <source>bdf42711-d9f7-43e0-82e6-aa10bd312b10</source>
-    <target>a168c5e4-247a-4ac0-87e8-eccc406147a7</target>
-    <point>345.0,270.0</point>
-    <point>351.0,368.0</point>
-    <branch>default</branch>
-  </edge>
-  <edge>
     <source>a168c5e4-247a-4ac0-87e8-eccc406147a7</source>
     <target>4e07397c-af9f-497f-831f-d4222914c945</target>
-    <point>345.0,375.0</point>
-    <point>338.0,495.0</point>
+    <point>345.0,300.0</point>
+    <point>345.0,405.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
     <source>4e07397c-af9f-497f-831f-d4222914c945</source>
     <target>eab65f04-9e79-4fc0-8ffd-759a1df3def6</target>
-    <point>345.0,480.0</point>
-    <point>350.0,610.0</point>
+    <point>345.0,405.0</point>
+    <point>345.0,525.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
     <source>eab65f04-9e79-4fc0-8ffd-759a1df3def6</source>
     <target>c207b573-1042-4691-92ee-8ffdbf947612</target>
-    <point>345.0,600.0</point>
-    <point>341.0,708.0</point>
+    <point>345.0,525.0</point>
+    <point>345.0,645.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
@@ -272,12 +201,16 @@
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
+    <userobject key="ABC$START">
+      <boolean>true</boolean>
+    </userobject>
   </sib>
   <edge>
     <source>2dbee714-a8d0-4b79-a634-cc7c60ef4c92</source>
-    <target>bdf42711-d9f7-43e0-82e6-aa10bd312b10</target>
-    <point>345.0,165.0</point>
-    <point>345.0,265.0</point>
+    <target>a168c5e4-247a-4ac0-87e8-eccc406147a7</target>
+    <point>345.0,174.0</point>
+    <point>345.0,348.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <parameter>
@@ -286,32 +219,32 @@
     <sib>c207b573-1042-4691-92ee-8ffdbf947612</sib>
   </parameter>
   <parameter>
-    <name>nodeKey</name>
-    <field>nodeKey</field>
-    <sib>3159bcce-86cd-4921-a285-40da9db58ea7</sib>
+    <name>graphModelKey</name>
+    <field>graphModelKey</field>
+    <sib>a168c5e4-247a-4ac0-87e8-eccc406147a7</sib>
   </parameter>
   <parameter>
-    <name>nodeKey</name>
-    <field>nodeKey</field>
-    <sib>bdf42711-d9f7-43e0-82e6-aa10bd312b10</sib>
+    <name>graphModelKey</name>
+    <field>graphModelKey</field>
+    <sib>eab65f04-9e79-4fc0-8ffd-759a1df3def6</sib>
   </parameter>
   <values>
+    <entry>
+      <string>graphModelKey</string>
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>nodeGraphModel</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </entry>
     <entry>
       <string>qualifiedName</string>
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
           <key></key>
           <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </entry>
-    <entry>
-      <string>nodeKey</string>
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>nodeKey</key>
-          <scope>GLOBAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
@@ -341,16 +274,6 @@
     <name>error</name>
     <branch>error</branch>
     <sib>a168c5e4-247a-4ac0-87e8-eccc406147a7</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>bdf42711-d9f7-43e0-82e6-aa10bd312b10</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>3159bcce-86cd-4921-a285-40da9db58ea7</sib>
   </branch>
   <branch>
     <name>error</name>

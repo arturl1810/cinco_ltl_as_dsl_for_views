@@ -2,14 +2,14 @@
 <model version="2.1">
   <id>d5531c11-ffc2-41e6-b1fd-4f08e1327b1f</id>
   <name>Generate Helper EOperations</name>
-  <changecounter>143</changecounter>
+  <changecounter>150</changecounter>
   <sib>
     <id>2db6fa19-1315-4022-abef-abc4426dcce8</id>
     <name>IterateGraphModelNodeContainers</name>
     <label>IterateGraphModelNodeContainers</label>
     <sib-uid>mgl/mgl/IterateGraphModelNodeContainers</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.IterateGraphModelNodeContainers</taxonomy>
-    <position>174.0,16.0</position>
+    <position>174.0,18.0</position>
     <parameter name="elementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -51,7 +51,7 @@
     <label>IterateNodeContainerContainableElements</label>
     <sib-uid>mgl/mgl/IterateNodeContainerContainableElements</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.IterateNodeContainerContainableElements</taxonomy>
-    <position>143.0,541.0</position>
+    <position>143.0,543.0</position>
     <parameter name="elementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -178,7 +178,7 @@
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>return this.getModelElements($containableElementName$.class);</string>
+      <string>return this.getModelElements($qualifiedContainableElementName$.class);</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
@@ -213,7 +213,7 @@
     <label>GetGraphicalModelElementName</label>
     <sib-uid>mgl/mgl/GetGraphicalModelElementName</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetGraphicalModelElementName</taxonomy>
-    <position>176.0,781.0</position>
+    <position>206.0,828.0</position>
     <parameter name="graphicalModelElementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -236,10 +236,10 @@
     <finalbranches>error</finalbranches>
   </sib>
   <edge>
-    <source>e94dd971-4722-4ba8-8faf-82c5516ee678</source>
-    <target>9eca1ac6-c156-4fa6-a0f4-0d82a0a28340</target>
-    <point>289.0,806.0</point>
-    <point>499.0,806.0</point>
+    <source>d7d998f6-74ce-400b-9bc4-a786549285d8</source>
+    <target>e94dd971-4722-4ba8-8faf-82c5516ee678</target>
+    <point>155.0,868.2857142857143</point>
+    <point>327.0,794.4857142857143</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -294,7 +294,7 @@
     <label>GetGraphicalModelElementName</label>
     <sib-uid>mgl/mgl/GetGraphicalModelElementName</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetGraphicalModelElementName</taxonomy>
-    <position>176.0,121.0</position>
+    <position>176.0,123.0</position>
     <parameter name="graphicalModelElementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -481,7 +481,7 @@
     <label>IterateGraphModelNodes</label>
     <sib-uid>mgl/mgl/IterateGraphModelNodes</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.IterateGraphModelNodes</taxonomy>
-    <position>1071.0,16.0</position>
+    <position>1071.0,18.0</position>
     <parameter name="elementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -553,7 +553,7 @@
     <label>IterateGraphModelNodeContainers</label>
     <sib-uid>mgl/mgl/IterateGraphModelNodeContainers</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.IterateGraphModelNodeContainers</taxonomy>
-    <position>1504.5,16.0</position>
+    <position>1504.5,18.0</position>
     <parameter name="elementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -801,7 +801,7 @@
     <label>IterateGraphicalElementContainmentTypes</label>
     <sib-uid>mgl/mgl/IterateGraphicalElementContainmentTypes</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.IterateGraphicalElementContainmentTypes</taxonomy>
-    <position>143.0,661.0</position>
+    <position>143.0,663.0</position>
     <parameter name="elementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -846,9 +846,9 @@
   </edge>
   <edge>
     <source>d0df52c2-9e11-40c1-913c-3574134d38c6</source>
-    <target>e94dd971-4722-4ba8-8faf-82c5516ee678</target>
-    <point>289.0,686.0</point>
-    <point>289.0,806.0</point>
+    <target>d7d998f6-74ce-400b-9bc4-a786549285d8</target>
+    <point>267.9310344827586,699.0</point>
+    <point>140.0,827.0909090909091</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>next</branch>
   </edge>
@@ -858,7 +858,7 @@
     <label>AddElement</label>
     <sib-uid>collection-sibs/AddElement</sib-uid>
     <taxonomy>de.jabc.sib.common.collection.AddElement</taxonomy>
-    <position>453.0,783.0</position>
+    <position>453.0,858.0</position>
     <parameter name="collection">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1798,10 +1798,10 @@ return new org.eclipse.emf.common.util.BasicEList&lt;Class&lt;? extends Node&gt;
     <finalbranches>next</finalbranches>
   </sib>
   <edge>
-    <source>7240510c-7d80-412c-9a85-d541c00be058</source>
-    <target>0b2d74fe-0674-4619-838a-125cb8aaed15</target>
-    <point>480.0,960.0</point>
-    <point>720.0,960.0</point>
+    <source>c6ae7ad0-e2a2-49c4-ab3f-f9cc2a9adb88</source>
+    <target>7240510c-7d80-412c-9a85-d541c00be058</target>
+    <point>1100.0,880.8</point>
+    <point>1287.0,918.12</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -1811,7 +1811,7 @@ return new org.eclipse.emf.common.util.BasicEList&lt;Class&lt;? extends Node&gt;
     <label>GetGraphicalModelElementName</label>
     <sib-uid>mgl/mgl/GetGraphicalModelElementName</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetGraphicalModelElementName</taxonomy>
-    <position>941.0,856.0</position>
+    <position>971.0,948.0</position>
     <parameter name="graphicalModelElementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1839,7 +1839,7 @@ return new org.eclipse.emf.common.util.BasicEList&lt;Class&lt;? extends Node&gt;
     <label>AddElement</label>
     <sib-uid>collection-sibs/AddElement</sib-uid>
     <taxonomy>de.jabc.sib.common.collection.AddElement</taxonomy>
-    <position>1008.0,1068.0</position>
+    <position>1038.0,1068.0</position>
     <parameter name="collection">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1956,7 +1956,7 @@ return new org.eclipse.emf.common.util.BasicEList&lt;Class&lt;? extends Node&gt;
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>return this.getModelElements($containableElementSubTypeName$.class);</string>
+      <string>return this.getModelElements($qualifiedContainableElementSubTypeName$.class);</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
@@ -1969,9 +1969,10 @@ return new org.eclipse.emf.common.util.BasicEList&lt;Class&lt;? extends Node&gt;
   </sib>
   <edge>
     <source>4dbf4d6d-bbe8-4a7d-bcb9-398d8e31501e</source>
-    <target>7240510c-7d80-412c-9a85-d541c00be058</target>
-    <point>870.0,885.0</point>
-    <point>1024.0,888.0</point>
+    <target>c6ae7ad0-e2a2-49c4-ab3f-f9cc2a9adb88</target>
+    <point>888.0,877.2521739130435</point>
+    <point>1195.0,890.6521739130435</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>next</branch>
   </edge>
   <edge>
@@ -1996,7 +1997,7 @@ return new org.eclipse.emf.common.util.BasicEList&lt;Class&lt;? extends Node&gt;
     <label>GetAllSubTypes</label>
     <sib-uid>de/jabc/cinco/meta/core/mgl/sibs/GetAllSubTypes</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.mgl.sibs.GetAllSubTypes</taxonomy>
-    <position>621.0,856.0</position>
+    <position>621.0,858.0</position>
     <parameter name="modelElementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -2031,6 +2032,88 @@ return new org.eclipse.emf.common.util.BasicEList&lt;Class&lt;? extends Node&gt;
     <point>870.0,885.0</point>
     <point>282.0,695.0</point>
     <branch>exit</branch>
+  </edge>
+  <sib>
+    <id>d7d998f6-74ce-400b-9bc4-a786549285d8</id>
+    <name>GraphSIB_4</name>
+    <label>Get Qualified Name For Node</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>37.5,856.0</position>
+    <parameter name="nodeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>containableElement</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="qualifiedName">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>qualifiedContainableElementName</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Get Qualified Name For Node</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>a0356bd8-d2c9-42f7-9cfc-7cd304f53dc4</string>
+    </userobject>
+  </sib>
+  <sib>
+    <id>c6ae7ad0-e2a2-49c4-ab3f-f9cc2a9adb88</id>
+    <name>GraphSIB_19</name>
+    <label>Get Qualified Name For Node</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>982.5,856.0</position>
+    <parameter name="nodeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>qualifiedContainableElementSubTypeName</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="qualifiedName">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>containableElementName</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Get Qualified Name For Node</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>a0356bd8-d2c9-42f7-9cfc-7cd304f53dc4</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>e94dd971-4722-4ba8-8faf-82c5516ee678</source>
+    <target>9eca1ac6-c156-4fa6-a0f4-0d82a0a28340</target>
+    <point>345.0,795.0</point>
+    <point>493.0,889.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>7240510c-7d80-412c-9a85-d541c00be058</source>
+    <target>0b2d74fe-0674-4619-838a-125cb8aaed15</target>
+    <point>1305.0,930.0</point>
+    <point>1074.0,1086.0</point>
+    <branch>default</branch>
   </edge>
   <parameter>
     <name>graphModelKey</name>
@@ -2313,5 +2396,15 @@ return new org.eclipse.emf.common.util.BasicEList&lt;Class&lt;? extends Node&gt;
     <name>error</name>
     <branch>error</branch>
     <sib>c1ce4d68-2c4f-400d-b764-e63ebee505f6</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>d7d998f6-74ce-400b-9bc4-a786549285d8</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>c6ae7ad0-e2a2-49c4-ab3f-f9cc2a9adb88</sib>
   </branch>
 </model>

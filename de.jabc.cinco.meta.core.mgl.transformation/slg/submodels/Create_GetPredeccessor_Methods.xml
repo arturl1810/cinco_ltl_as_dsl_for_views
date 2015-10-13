@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>f555a538-7d72-4511-9276-f914744a55db</id>
   <name>Create GetPredecessor Methods</name>
-  <changecounter>40</changecounter>
+  <changecounter>42</changecounter>
   <sib>
     <id>440acf67-c1d6-4264-8b6d-3967f9f9de7a</id>
     <name>GetEdgeElementConnectionUpperBound</name>
@@ -462,8 +462,9 @@
   <edge>
     <source>c8f8a812-c46b-4ae7-a5f2-9ecf9349ecb8</source>
     <target>cf9c0584-ece8-41d7-a53a-e838f7b854a2</target>
-    <point>690.0,1074.0</point>
+    <point>690.0,1059.0</point>
     <point>690.0,1143.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
@@ -524,7 +525,7 @@
     <parameter name="element">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>connectedElementName</key>
+          <key>qualifiedConnectedElementName</key>
           <scope>GLOBAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
@@ -535,10 +536,11 @@
     <finalbranches>true</finalbranches>
   </sib>
   <edge>
-    <source>cf9c0584-ece8-41d7-a53a-e838f7b854a2</source>
+    <source>216ebdc9-84b7-48f7-b281-8ecd3e904d79</source>
     <target>1c493ec4-c80e-427a-8406-12ec4cd82bf3</target>
-    <point>690.0,1170.0</point>
-    <point>696.0,1297.0</point>
+    <point>410.0,1154.6</point>
+    <point>672.0,1259.34</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
@@ -654,15 +656,15 @@
     <parameter name="template">
       <string>
 
-return getPredecessors($connectedElementName$.class);</string>
+return getPredecessors($qualifiedConnectedElementName$.class);</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Create EOperation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
     </userobject>
   </sib>
   <edge>
@@ -843,11 +845,11 @@ return getPredecessors($connectedElementName$.class);</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Create EOperation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
     </userobject>
   </sib>
   <edge>
@@ -1012,6 +1014,47 @@ return getPredecessors($connectedElementName$.class);</string>
     <target>3715c890-c255-4baf-89cb-8f4a8db9a895</target>
     <point>1530.0,180.0</point>
     <point>1551.0,61.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>216ebdc9-84b7-48f7-b281-8ecd3e904d79</id>
+    <name>GraphSIB_2</name>
+    <label>Get Qualified Name For Node</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>307.5,1126.0</position>
+    <parameter name="nodeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>connectedElement</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="qualifiedName">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>qualifiedConnectedElementName</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Get Qualified Name For Node</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>a0356bd8-d2c9-42f7-9cfc-7cd304f53dc4</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>cf9c0584-ece8-41d7-a53a-e838f7b854a2</source>
+    <target>216ebdc9-84b7-48f7-b281-8ecd3e904d79</target>
+    <point>690.0,1170.0</point>
+    <point>395.0,1141.0</point>
     <branch>default</branch>
   </edge>
   <parameter>
@@ -1190,5 +1233,10 @@ return getPredecessors($connectedElementName$.class);</string>
     <name>exit</name>
     <branch>less</branch>
     <sib>821fbbfe-0f60-4d23-9607-4471d453f1fb</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>216ebdc9-84b7-48f7-b281-8ecd3e904d79</sib>
   </branch>
 </model>

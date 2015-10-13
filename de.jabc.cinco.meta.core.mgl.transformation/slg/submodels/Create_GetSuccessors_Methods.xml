@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>e26f46a3-7467-4773-8abb-108a610034dd</id>
   <name>Create GetSuccessors Methods</name>
-  <changecounter>15</changecounter>
+  <changecounter>18</changecounter>
   <sib>
     <id>8eb577c8-a2ae-41ba-bed3-7629463ec4a3</id>
     <name>GetEdgeElementConnectionUpperBound</name>
@@ -437,7 +437,7 @@
     <label>GetGraphicalModelElementName</label>
     <sib-uid>mgl/mgl/GetGraphicalModelElementName</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetGraphicalModelElementName</taxonomy>
-    <position>671.0,1173.0</position>
+    <position>671.0,1158.0</position>
     <parameter name="graphicalModelElementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -462,8 +462,9 @@
   <edge>
     <source>969c8e03-b51e-4af5-a0d5-145472abcdf0</source>
     <target>fdeb1555-5700-426a-9249-ef8f4b3da7b1</target>
-    <point>795.0,1095.0</point>
-    <point>795.0,1170.0</point>
+    <point>780.0,1089.0</point>
+    <point>780.0,1173.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
@@ -524,7 +525,7 @@
     <parameter name="element">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>connectedElementName</key>
+          <key>qualifiedConnectedElementName</key>
           <scope>GLOBAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
@@ -536,9 +537,10 @@
   </sib>
   <edge>
     <source>fdeb1555-5700-426a-9249-ef8f4b3da7b1</source>
-    <target>0cfd4a7d-b8a4-46a8-b486-cafeee16bb07</target>
-    <point>795.0,1185.0</point>
-    <point>795.0,1320.0</point>
+    <target>d7f172e2-066a-47e3-b471-05c78a58a952</target>
+    <point>762.0,1181.3052631578948</point>
+    <point>515.0,1246.3684210526317</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
@@ -654,15 +656,15 @@
     <parameter name="template">
       <string>
 
-return getSuccessors($connectedElementName$.class);</string>
+return getSuccessors($qualifiedConnectedElementName$.class);</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Create EOperation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
     </userobject>
   </sib>
   <edge>
@@ -927,11 +929,11 @@ return getSuccessors($connectedElementName$.class);</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Create EOperation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
     </userobject>
   </sib>
   <edge>
@@ -1011,6 +1013,47 @@ return getSuccessors($connectedElementName$.class);</string>
     <target>603fe99f-0ec6-4731-8e13-50beae1fc055</target>
     <point>1635.0,210.0</point>
     <point>1677.0,97.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>d7f172e2-066a-47e3-b471-05c78a58a952</id>
+    <name>GraphSIB_2</name>
+    <label>Get Qualified Name For Node</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>397.5,1231.0</position>
+    <parameter name="nodeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>connectedElement</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="qualifiedName">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>qualifiedConnectedElementName</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Get Qualified Name For Node</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>a0356bd8-d2c9-42f7-9cfc-7cd304f53dc4</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>d7f172e2-066a-47e3-b471-05c78a58a952</source>
+    <target>0cfd4a7d-b8a4-46a8-b486-cafeee16bb07</target>
+    <point>495.0,1260.0</point>
+    <point>757.0,1330.0</point>
     <branch>default</branch>
   </edge>
   <parameter>
@@ -1189,5 +1232,10 @@ return getSuccessors($connectedElementName$.class);</string>
     <name>error</name>
     <branch>error</branch>
     <sib>f794b3f7-f5fa-43a2-97d3-e5b2414b24a9</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>d7f172e2-066a-47e3-b471-05c78a58a952</sib>
   </branch>
 </model>
