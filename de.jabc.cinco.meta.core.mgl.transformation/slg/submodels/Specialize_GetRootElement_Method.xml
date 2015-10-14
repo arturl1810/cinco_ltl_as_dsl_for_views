@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>14a939bf-8a8f-43e0-8133-c70d3913f6c5</id>
   <name>Specialize GetRootElement Method</name>
-  <changecounter>10</changecounter>
+  <changecounter>11</changecounter>
   <sib>
     <id>c2114290-ab4f-42a2-824e-969fb8169e56</id>
     <name>GetGraphModelName</name>
@@ -272,7 +272,7 @@
     <sib>c2114290-ab4f-42a2-824e-969fb8169e56</sib>
   </parameter>
   <parameter>
-    <name>graphModelKey_1</name>
+    <name>graphModelKey</name>
     <field>graphModelKey</field>
     <sib>19836185-34c0-4e55-9a1e-486efcf886b0</sib>
   </parameter>
@@ -292,16 +292,6 @@
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
           <key>graphModel</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </entry>
-    <entry>
-      <string>graphModelKey_1</string>
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>nodeGraphModel</key>
           <scope>GLOBAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>

@@ -187,11 +187,11 @@ public class CreateCodeGeneratorPlugin extends AbstractService {
 			addGeneratorEntry(pr,graphModel);	
 			
 			
-			//IProject tvProject = createGenerationHandlerProject(context,
-			//		exportedPackages, additionalNature, projectName,
-			//		referencedProjects, srcFolders, requiredBundles);
+			IProject tvProject = createGenerationHandlerProject(context,
+					exportedPackages, additionalNature, projectName,
+					referencedProjects, srcFolders, requiredBundles);
 			
-			return null;
+			return tvProject;
 		} catch (Exception e) {
 			context.put("exception", e);
 			e.printStackTrace();
@@ -274,15 +274,14 @@ public class CreateCodeGeneratorPlugin extends AbstractService {
 		return fqName;
 	}
 
-	@SuppressWarnings("unused")
 	private IProject createGenerationHandlerProject(
 			LightweightExecutionContext context, List<String> exportedPackages,
 			List<String> additionalNature, String projectName,
 			List<IProject> referencedProjects, List<String> srcFolders,
 			Set<String> requiredBundles) throws IOException,
 			FileNotFoundException, CoreException {
-		if(new Path("/"+projectName).toFile().exists())
-			new Path("/"+projectName).toFile().delete();
+		if(!new Path("/"+projectName).toFile().exists()){
+			
 		IProgressMonitor progressMonitor = new NullProgressMonitor();
 		IProject tvProject = ProjectCreator.createProject(projectName,
 				srcFolders, referencedProjects, requiredBundles,
@@ -299,34 +298,13 @@ public class CreateCodeGeneratorPlugin extends AbstractService {
 		bufwr.flush();
 		bufwr.close();
 		
-		
-		Bundle bundle = Platform.getBundle("de.jabc.cinco.meta.plugin.generator");
-		
-		
-		File iconsPath = new File(projectPath+"/icons/");
-		iconsPath.mkdirs();
-		File xf = new File(projectPath+"/icons/g.gif");
-
-		xf.createNewFile();
-		FileOutputStream out = new FileOutputStream(xf);
-		
-		InputStream in = FileLocator.openStream(bundle, new Path("icons/g.gif"), true);
-		
-		int i= in.read();
-		while(i!=-1){
-			
-			out.write(i);
-			i = in.read();
-		}
-		out.flush();
-		out.close();
-		
 		IFile bpf = (IFile) tvProject.findMember("build.properties");
 		BuildProperties buildProperties = BuildProperties.loadBuildProperties(bpf);
 		buildProperties.appendBinIncludes("plugin.xml");
-		buildProperties.appendBinIncludes("icons/");
 		buildProperties.store(bpf, progressMonitor);
 		return tvProject;
+		}
+		return null;
 	}
 
 	private void exportPackage(IProject pr,String bundleName, String packageName,String className) {
