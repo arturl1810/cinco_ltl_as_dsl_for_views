@@ -76,6 +76,7 @@ public class GraphModelCodeGenerationHandler extends AbstractHandler {
 				if(graphModel!=null){
 					String graphModelClassName = graphModel.getClass().getName().replace("Impl","").replace(".impl", "");
 					List<GeneratorDiscription<GraphModel>> generatorDiscriptions = GraphModelGeneratorRegistry.INSTANCE.getAllGenerators(graphModelClassName);
+					if(generatorDiscriptions!=null){
 					for(GeneratorDiscription<GraphModel> generatorDiscription:generatorDiscriptions){
 					IGenerator<GraphModel> generator = generatorDiscription.getGenerator();
 					IProject project = null;
@@ -105,7 +106,7 @@ public class GraphModelCodeGenerationHandler extends AbstractHandler {
 						}
 						}).start();
 				}
-				
+				}
 			
 			}catch(Exception e){
 				final Status status = new Status(IStatus.ERROR, uri.toString(), e.getMessage(), e);
