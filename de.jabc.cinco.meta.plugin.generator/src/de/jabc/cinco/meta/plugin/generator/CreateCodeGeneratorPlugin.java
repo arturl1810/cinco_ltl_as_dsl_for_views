@@ -3,6 +3,7 @@ package de.jabc.cinco.meta.plugin.generator;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -10,16 +11,19 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Scanner;
 import java.util.Set;
 import java.util.jar.Attributes;
 import java.util.jar.Manifest;
 
+import mgl.Annotation;
 import mgl.GraphModel;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -28,6 +32,7 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.jdt.core.IJavaModelStatusConstants;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.pde.core.plugin.PluginRegistry;
+import org.eclipse.xtext.util.StringInputStream;
 import org.osgi.framework.Bundle;
 
 import de.jabc.cinco.meta.core.BundleRegistry;
@@ -54,15 +59,24 @@ public class CreateCodeGeneratorPlugin extends AbstractService {
 		try{
 			proj = this.createCodeGeneratorEclipseProject(environment);
 		}catch(Exception e){
-			System.out.println("ERROR -1");
 			e.printStackTrace();
 			globalContext.put("exception", e);
 			return "error";
 		}
+		
+		
+		//return callSLG(environment, globalContext, proj);
+		return "default";
+	}
+
+	@SuppressWarnings("unused")
+	private String callSLG(LightweightExecutionEnvironment environment,
+			LightweightExecutionContext globalContext, IProject proj) {
 		if (proj != null) {
 			String s = new Create_Generator_Plugin().execute(environment);
 			if (s.equals("default")) {
 				try {
+					createCodeGeneratorEclipseProject(environment);
 					proj.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
 					return "default";
 				} catch (Exception e) {
@@ -75,12 +89,10 @@ public class CreateCodeGeneratorPlugin extends AbstractService {
 				}
 
 			} else {
-				System.out.println("Error 1");
 				return "error";
 
 			}
 		} else {
-			System.out.println("Error 2");
 			return "error";
 		}
 	}
@@ -172,56 +184,14 @@ public class CreateCodeGeneratorPlugin extends AbstractService {
 				ProjectCreator.addRequiredBundle(pr, b);
 			}
 			
-				
+			addGeneratorEntry(pr,graphModel);	
 			
 			
-			if(new Path("/"+projectName).toFile().exists())
-				new Path("/"+projectName).toFile().delete();
-			IProgressMonitor progressMonitor = new NullProgressMonitor();
-			IProject tvProject = ProjectCreator.createProject(projectName,
-					srcFolders, referencedProjects, requiredBundles,
-					exportedPackages, additionalNature, progressMonitor,false);
-			String projectPath = tvProject.getLocation().makeAbsolute()
-					.toPortableString();
+			//IProject tvProject = createGenerationHandlerProject(context,
+			//		exportedPackages, additionalNature, projectName,
+			//		referencedProjects, srcFolders, requiredBundles);
 			
-			context.put("projectPath", projectPath);
-			
-			File maniFile = tvProject.getLocation().append("META-INF/MANIFEST.MF").toFile();
-			BufferedWriter bufwr = new BufferedWriter(new FileWriter(maniFile,true));
-			bufwr.append("Bundle-Activator: " +projectName+".Activator\n");
-			bufwr.append("Bundle-ActivationPolicy: lazy\n");
-			bufwr.flush();
-			bufwr.close();
-			
-			
-			Bundle bundle = Platform.getBundle("de.jabc.cinco.meta.plugin.generator");
-			
-			
-			File iconsPath = new File(projectPath+"/icons/");
-			iconsPath.mkdirs();
-			File xf = new File(projectPath+"/icons/g.gif");
-
-			xf.createNewFile();
-			FileOutputStream out = new FileOutputStream(xf);
-			
-			InputStream in = FileLocator.openStream(bundle, new Path("icons/g.gif"), true);
-			
-			int i= in.read();
-			while(i!=-1){
-				
-				out.write(i);
-				i = in.read();
-			}
-			out.flush();
-			out.close();
-			
-			IFile bpf = (IFile) tvProject.findMember("build.properties");
-			BuildProperties buildProperties = BuildProperties.loadBuildProperties(bpf);
-			buildProperties.appendBinIncludes("plugin.xml");
-			buildProperties.appendBinIncludes("icons/");
-			buildProperties.store(bpf, progressMonitor);
-			
-			return tvProject;
+			return null;
 		} catch (Exception e) {
 			context.put("exception", e);
 			e.printStackTrace();
@@ -229,6 +199,134 @@ public class CreateCodeGeneratorPlugin extends AbstractService {
 		} finally {
 		}
 
+	}
+
+	private void addGeneratorEntry(IProject pr, GraphModel graphModel) throws CoreException {
+		String bundleName=null;
+		String implementingClassName = null;
+		String outlet = null;
+		ArrayList<String[]> generators  = new ArrayList<String[]>();
+		for(mgl.Annotation anno: graphModel.getAnnotations()){
+			if(anno.getName().equals("generatable")){
+				if (anno.getValue().size() == 3) {
+					bundleName = anno.getValue().get(0);
+					implementingClassName = anno.getValue().get(1);
+					outlet = anno.getValue().get(2);
+					
+				} else if (anno.getValue().size() == 2) {
+					implementingClassName = anno.getValue().get(0);
+					outlet = anno.getValue().get(1);
+					bundleName= ProjectCreator.getProjectSymbolicName(pr);
+				}
+				String[] a = {bundleName,implementingClassName,outlet};
+				generators.add(a);
+			}
+		}
+		
+		String extension = generateExtension(graphModel, generators);
+		
+		IFile plFile = pr.getFile("plugin.xml");
+		
+		addExtension(plFile,extension);
+		
+		
+	}
+
+	@SuppressWarnings("resource")
+	private void addExtension(IFile plFile, String extension) throws CoreException {
+		if(plFile.exists()){
+			
+				InputStream l = plFile.getContents(true);
+				String contents = new Scanner(l, "UTF-8").useDelimiter("\\A").next();
+				contents = contents.replace("</plugin>", extension+"\n</plugin>");
+				plFile.setContents(new StringInputStream(contents), true, true, new NullProgressMonitor());
+			
+		}
+		
+	}
+
+	private String generateExtension(GraphModel graphModel,
+			ArrayList<String[]> generators) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("<extension\n"+
+       "point=\"de.jabc.cinco.meta.plugin.generator.runtime.registry\">\n"+
+    "<graphmodel\n");
+    sb.append(String.format("      class=\"%s\">\n",generateFullyQualifiedName(graphModel)));
+    sb.append("</graphmodel>\n");
+    
+    for(String[]gen: generators){
+    	sb.append("<generator\n");
+        sb.append(String.format("bundle_id=\"%s\"\n",gen[0]));
+        sb.append(String.format("class=\"%s\"\n",gen[1]));
+        sb.append(String.format("outlet=\"%s\">\n</generator>\n",gen[2]));
+    }
+    
+    sb.append("</extension>\n");
+    
+    return sb.toString();
+	}
+
+	private Object generateFullyQualifiedName(GraphModel graphModel) {
+		String name = graphModel.getName();
+		String nameLower = name.toLowerCase();
+		String packageName=graphModel.getPackage();
+		String fqName = String.format("%s.%s.%s",packageName,nameLower,name);
+		return fqName;
+	}
+
+	@SuppressWarnings("unused")
+	private IProject createGenerationHandlerProject(
+			LightweightExecutionContext context, List<String> exportedPackages,
+			List<String> additionalNature, String projectName,
+			List<IProject> referencedProjects, List<String> srcFolders,
+			Set<String> requiredBundles) throws IOException,
+			FileNotFoundException, CoreException {
+		if(new Path("/"+projectName).toFile().exists())
+			new Path("/"+projectName).toFile().delete();
+		IProgressMonitor progressMonitor = new NullProgressMonitor();
+		IProject tvProject = ProjectCreator.createProject(projectName,
+				srcFolders, referencedProjects, requiredBundles,
+				exportedPackages, additionalNature, progressMonitor,false);
+		String projectPath = tvProject.getLocation().makeAbsolute()
+				.toPortableString();
+		
+		context.put("projectPath", projectPath);
+		
+		File maniFile = tvProject.getLocation().append("META-INF/MANIFEST.MF").toFile();
+		BufferedWriter bufwr = new BufferedWriter(new FileWriter(maniFile,true));
+		bufwr.append("Bundle-Activator: " +projectName+".Activator\n");
+		bufwr.append("Bundle-ActivationPolicy: lazy\n");
+		bufwr.flush();
+		bufwr.close();
+		
+		
+		Bundle bundle = Platform.getBundle("de.jabc.cinco.meta.plugin.generator");
+		
+		
+		File iconsPath = new File(projectPath+"/icons/");
+		iconsPath.mkdirs();
+		File xf = new File(projectPath+"/icons/g.gif");
+
+		xf.createNewFile();
+		FileOutputStream out = new FileOutputStream(xf);
+		
+		InputStream in = FileLocator.openStream(bundle, new Path("icons/g.gif"), true);
+		
+		int i= in.read();
+		while(i!=-1){
+			
+			out.write(i);
+			i = in.read();
+		}
+		out.flush();
+		out.close();
+		
+		IFile bpf = (IFile) tvProject.findMember("build.properties");
+		BuildProperties buildProperties = BuildProperties.loadBuildProperties(bpf);
+		buildProperties.appendBinIncludes("plugin.xml");
+		buildProperties.appendBinIncludes("icons/");
+		buildProperties.store(bpf, progressMonitor);
+		return tvProject;
 	}
 
 	private void exportPackage(IProject pr,String bundleName, String packageName,String className) {
