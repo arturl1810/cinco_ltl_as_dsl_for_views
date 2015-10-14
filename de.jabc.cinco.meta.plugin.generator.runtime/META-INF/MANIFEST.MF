@@ -1,11 +1,23 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Generator Runtime
-Bundle-SymbolicName: de.jabc.cinco.meta.plugin.generator.runtime
+Bundle-SymbolicName: de.jabc.cinco.meta.plugin.generator.runtime;singleton:=true
 Bundle-Version: 0.7.0.qualifier
 Bundle-Activator: de.jabc.cinco.meta.plugin.generator.runtime.Activator
 Require-Bundle: org.eclipse.core.runtime,
- de.jabc.cinco.meta.core.mgl.model
+ de.jabc.cinco.meta.core.mgl.model,
+ org.eclipse.graphiti.ui
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
-Export-Package: de.jabc.cinco.meta.plugin.generator.runtime
+Export-Package: de.jabc.cinco.meta.plugin.generator.runtime,
+ de.jabc.cinco.meta.plugin.generator.runtime.handler
+Import-Package: org.eclipse.core.commands,
+ org.eclipse.core.resources,
+ org.eclipse.jface.dialogs,
+ org.eclipse.jface.operation,
+ org.eclipse.swt.widgets,
+ org.eclipse.ui,
+ org.eclipse.ui.commands,
+ org.eclipse.ui.handlers,
+ org.eclipse.ui.plugin,
+ org.eclipse.ui.progress
