@@ -28,7 +28,7 @@ import mgl.MglPackage;
 import mgl.Node;
 import mgl.NodeContainer;
 import mgl.OutgoingEdgeElementConnection;
-import mgl.ReferencedEClass;
+//import mgl.ReferencedEClass;
 
 public class DummyGenerator {
 
@@ -41,22 +41,22 @@ public class DummyGenerator {
 		n1.getAttributes().add(createAttribute("EString", "label", 1, 0));
 		n1.getAnnotations().add(createStyleAnnotation("circle"));
 		
-		ReferencedEClass n2 = createRefEClass("ExtNode");
-		n2.getAnnotations().add(createStyleAnnotation("rrect"));
+//		ReferencedEClass n2 = createRefEClass("ExtNode");
+//		n2.getAnnotations().add(createStyleAnnotation("rrect"));
 		
 		NodeContainer c1 = createContainer("Swimlane");
-		c1.getContainableElements().add(createGEC(-1, 0, n1, n2, c1));
+		c1.getContainableElements().add(createGEC(-1, 0, n1, /*n2,*/ c1));
 		c1.getAnnotations().add(createStyleAnnotation("rect"));
 		
 		Edge e1 = createEdge("Transition");
 		e1.getAnnotations().add(createStyleAnnotation("simpleArrow"));
 		
 		n1.getOutgoingEdgeConnections().add(createOEEC(-1, 0, e1));
-		n2.getIncomingEdgeConnections().add(createIEEC(-1, 0, e1));
-		n2.getOutgoingEdgeConnections().add(createOEEC(-1, 0, e1));
+//		n2.getIncomingEdgeConnections().add(createIEEC(-1, 0, e1));
+//		n2.getOutgoingEdgeConnections().add(createOEEC(-1, 0, e1));
 		
 		gm.getNodes().add(n1);
-		gm.getNodes().add(n2);
+//		gm.getNodes().add(n2);
 		
 		gm.getNodeContainers().add(c1);
 		
@@ -120,13 +120,13 @@ public class DummyGenerator {
 		return c;
 	}
 	
-	private static ReferencedEClass createRefEClass(String name) {
-		ReferencedEClass r = MglFactory.eINSTANCE.createReferencedEClass();
-		r.setName(name);
-		r.setType(MglPackage.Literals.NODE);
-		r.setReferenceName("mgl.Node");
-		return r;
-	}
+//	private static ReferencedEClass createRefEClass(String name) {
+//		ReferencedEClass r = MglFactory.eINSTANCE.createReferencedEClass();
+//		r.setName(name);
+//		r.setType(MglPackage.Literals.NODE);
+//		r.setReferenceName("mgl.Node");
+//		return r;
+//	}
 	
 	private static Edge createEdge(String name) {
 		Edge e = MglFactory.eINSTANCE.createEdge();

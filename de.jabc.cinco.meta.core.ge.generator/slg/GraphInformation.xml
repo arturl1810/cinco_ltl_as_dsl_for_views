@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>86742e86-2110-423a-afde-6fd521759a73</id>
   <name>GraphInformation</name>
-  <changecounter>1052</changecounter>
+  <changecounter>1053</changecounter>
   <sib>
     <id>9e28dbf6-7ef4-4eef-9ad3-1d0d32bf6020</id>
     <name>GetGraphModelName</name>
@@ -30,6 +30,9 @@
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
+    <userobject key="ABC$START">
+      <boolean>true</boolean>
+    </userobject>
   </sib>
   <sib>
     <id>12c67357-3ef2-4e87-ba62-44c76308d713</id>
@@ -3136,9 +3139,6 @@ public void setError(ECincoError error) {
     <position>603.0,18.0</position>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$START">
-      <boolean>true</boolean>
-    </userobject>
   </sib>
   <sib>
     <id>b384617d-855b-4c5f-9fe2-cc08659b2a50</id>
