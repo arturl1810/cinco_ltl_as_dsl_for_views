@@ -187,11 +187,11 @@ public class CreateCodeGeneratorPlugin extends AbstractService {
 			addGeneratorEntry(pr,graphModel);	
 			
 			
-			IProject tvProject = createGenerationHandlerProject(context,
-					exportedPackages, additionalNature, projectName,
-					referencedProjects, srcFolders, requiredBundles);
+//			IProject tvProject = createGenerationHandlerProject(context,
+//					exportedPackages, additionalNature, projectName,
+//					referencedProjects, srcFolders, requiredBundles);
 			
-			return tvProject;
+			return null;
 		} catch (Exception e) {
 			context.put("exception", e);
 			e.printStackTrace();
@@ -227,20 +227,31 @@ public class CreateCodeGeneratorPlugin extends AbstractService {
 		
 		IFile plFile = pr.getFile("plugin.xml");
 		
-		addExtension(plFile,extension);
+		addExtension(plFile,extension,graphModel.getName());
 		
 		
 	}
 
+	public String removeGeneratorEntries(String pluginxml,String graphmodelName){
+		String regex = String.format("<extension.*<!--@MetaPlugin Generatable %s-->.*</extension>",graphmodelName);
+		return pluginxml.replaceAll(regex,"");
+		
+		
+	}
+	
 	@SuppressWarnings("resource")
-	private void addExtension(IFile plFile, String extension) throws CoreException {
+	private void addExtension(IFile plFile, String extension,String graphModelName) throws CoreException {
 		if(plFile.exists()){
 			
 				InputStream l = plFile.getContents(true);
 				String contents = new Scanner(l, "UTF-8").useDelimiter("\\A").next();
+				contents = removeGeneratorEntries(contents, graphModelName);
 				contents = contents.replace("</plugin>", extension+"\n</plugin>");
 				plFile.setContents(new StringInputStream(contents), true, true, new NullProgressMonitor());
 			
+		}else{
+			String pluginXML = String.format("<plugin>\n %s\n </plugin>",extension);
+			plFile.create(new StringInputStream(pluginXML), true,	new NullProgressMonitor());
 		}
 		
 	}
@@ -250,6 +261,7 @@ public class CreateCodeGeneratorPlugin extends AbstractService {
 		StringBuilder sb = new StringBuilder();
 		sb.append("<extension\n"+
        "point=\"de.jabc.cinco.meta.plugin.generator.runtime.registry\">\n"+
+	    String.format("<!--@MetaPlugin Generatable %s-->\n",graphModel.getName())+
     "<graphmodel\n");
     sb.append(String.format("      class=\"%s\">\n",generateFullyQualifiedName(graphModel)));
     sb.append("</graphmodel>\n");
@@ -274,6 +286,7 @@ public class CreateCodeGeneratorPlugin extends AbstractService {
 		return fqName;
 	}
 
+	@SuppressWarnings("unused")
 	private IProject createGenerationHandlerProject(
 			LightweightExecutionContext context, List<String> exportedPackages,
 			List<String> additionalNature, String projectName,
