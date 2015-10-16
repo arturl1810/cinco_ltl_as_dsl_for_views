@@ -1,5 +1,7 @@
 package de.jabc.cinco.meta.core.utils.dummycreator;
 
+import org.eclipse.emf.common.util.BasicEList;
+
 import style.AbsolutPosition;
 import style.AbstractPosition;
 import style.AbstractShape;
@@ -24,7 +26,7 @@ import mgl.GraphicalElementContainment;
 import mgl.GraphicalModelElement;
 import mgl.IncomingEdgeElementConnection;
 import mgl.MglFactory;
-import mgl.MglPackage;
+//import mgl.MglPackage;
 import mgl.Node;
 import mgl.NodeContainer;
 import mgl.OutgoingEdgeElementConnection;
@@ -34,35 +36,68 @@ public class DummyGenerator {
 
 	//*****************************************			GRPAHMODEL		*********************************//
 	public static GraphModel createDummyGraphModel() {
+//		GraphModel gm = MglFactory.eINSTANCE.createGraphModel();
+//		setGraphModelAttributes(gm);
+//
+//		Node n1 = createNode("Start");
+//		n1.getAttributes().add(createAttribute("EString", "label", 1, 0));
+//		n1.getAnnotations().add(createStyleAnnotation("circle"));
+//		
+////		ReferencedEClass n2 = createRefEClass("ExtNode");
+////		n2.getAnnotations().add(createStyleAnnotation("rrect"));
+//		
+//		NodeContainer c1 = createContainer("Swimlane");
+//		c1.getContainableElements().add(createGEC(-1, 0, n1, c1));
+//		c1.getAnnotations().add(createStyleAnnotation("rect"));
+//		
+//		Edge e1 = createEdge("Transition");
+//		e1.getAnnotations().add(createStyleAnnotation("simpleArrow"));
+//		
+//		n1.getOutgoingEdgeConnections().add(createOEEC(-1, 0, e1));
+////		n2.getIncomingEdgeConnections().add(createIEEC(-1, 0, e1));
+////		n2.getOutgoingEdgeConnections().add(createOEEC(-1, 0, e1));
+//		
+//		gm.getNodes().add(n1);
+//		//gm.getNodes().add(n2);
+//		
+//		gm.getNodeContainers().add(c1);
+//		
+//		gm.getEdges().add(e1);
 		GraphModel gm = MglFactory.eINSTANCE.createGraphModel();
-		setGraphModelAttributes(gm);
+		//setGraphModelAttributes(gm);
 
-		Node n1 = createNode("Start");
-		n1.getAttributes().add(createAttribute("EString", "label", 1, 0));
-		n1.getAnnotations().add(createStyleAnnotation("circle"));
+		
 		
 //		ReferencedEClass n2 = createRefEClass("ExtNode");
 //		n2.getAnnotations().add(createStyleAnnotation("rrect"));
 		
-		NodeContainer c1 = createContainer("Swimlane");
-		c1.getContainableElements().add(createGEC(-1, 0, n1, /*n2,*/ c1));
-		c1.getAnnotations().add(createStyleAnnotation("rect"));
+//		NodeContainer c1 = createContainer("Swimlane");
+//		c1.getContainableElements().add(createGEC(-1, 0, n1, /*n2,*/ c1));
+//		c1.getAnnotations().add(createStyleAnnotation("rect"));
 		
-		Edge e1 = createEdge("Transition");
-		e1.getAnnotations().add(createStyleAnnotation("simpleArrow"));
-		
-		n1.getOutgoingEdgeConnections().add(createOEEC(-1, 0, e1));
 //		n2.getIncomingEdgeConnections().add(createIEEC(-1, 0, e1));
 //		n2.getOutgoingEdgeConnections().add(createOEEC(-1, 0, e1));
 		
-		gm.getNodes().add(n1);
 //		gm.getNodes().add(n2);
 		
-		gm.getNodeContainers().add(c1);
+		//gm.getNodeContainers().add(c1);
 		
-		gm.getEdges().add(e1);
 		
-		return gm;
+		gm.setName("SomeGraph");
+		gm.setNsURI("http:/cinco.de/product/somegraph");
+		gm.setFileExtension("somegraph");
+		gm.setPackage("blub.package");
+		Edge transition = createEdge("Transition");
+		Node someNode = createNode("SomeNode");
+		someNode.getAttributes().add(createAttribute("EString", "label", -1,0));
+		someNode.getIncomingEdgeConnections().add(createIEEC(-1, 0, transition));
+		someNode.getOutgoingEdgeConnections().add(createOEEC(-1, 0, transition));
+		//someNode.getAnnotations().add(createStyleAnnotation("ffjfjf"));
+		//transition.getAnnotations().add(createStyleAnnotation("ffjfjf"));
+		//gm.getAnnotations().add(createStyleAnnotation("ffjfjf"));
+		gm.getNodes().add(someNode);
+		gm.getEdges().add(transition);
+		return prepareGraphModel(gm);
 	}
 	
 	
@@ -119,7 +154,7 @@ public class DummyGenerator {
 		c.setName(name);
 		return c;
 	}
-	
+
 //	private static ReferencedEClass createRefEClass(String name) {
 //		ReferencedEClass r = MglFactory.eINSTANCE.createReferencedEClass();
 //		r.setName(name);
@@ -260,5 +295,30 @@ public class DummyGenerator {
 	private static void setPositionAndSize(AbstractShape as, AbstractPosition pos, Size size) {
 		as.setPosition(pos);
 		as.setSize(size);
+	}
+	
+	private static GraphModel prepareGraphModel(GraphModel graphModel){
+		BasicEList<GraphicalModelElement> connectableElements = new BasicEList<GraphicalModelElement>();
+		
+		connectableElements.addAll(graphModel.getNodes());
+		connectableElements.addAll(graphModel.getNodeContainers());
+		for(GraphicalModelElement elem:connectableElements){
+			for(IncomingEdgeElementConnection connect:elem.getIncomingEdgeConnections()){
+				if(connect.getConnectingEdges()==null||connect.getConnectingEdges().isEmpty()){
+					
+					connect.getConnectingEdges().addAll(graphModel.getEdges());
+				}
+			}
+			for(OutgoingEdgeElementConnection connect:elem.getOutgoingEdgeConnections()){
+				if(connect.getConnectingEdges()== null ||connect.getConnectingEdges().isEmpty()){
+					
+					connect.getConnectingEdges().addAll(graphModel.getEdges());
+				}
+			}
+		}
+		
+		return graphModel;
+		
+		
 	}
 }

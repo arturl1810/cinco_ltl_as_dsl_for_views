@@ -15,6 +15,7 @@ import java.util.Scanner;
 import java.util.Set;
 import java.util.jar.Attributes;
 import java.util.jar.Manifest;
+import java.util.regex.Pattern;
 
 import mgl.Annotation;
 import mgl.GraphModel;
@@ -234,9 +235,7 @@ public class CreateCodeGeneratorPlugin extends AbstractService {
 
 	public String removeGeneratorEntries(String pluginxml,String graphmodelName){
 		String regex = String.format("<extension.*<!--@MetaPlugin Generatable %s-->.*</extension>",graphmodelName);
-		return pluginxml.replaceAll(regex,"");
-		
-		
+		return java.util.regex.Pattern.compile(regex,Pattern.DOTALL).matcher(pluginxml).replaceAll("");
 	}
 	
 	@SuppressWarnings("resource")

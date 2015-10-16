@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>f555a538-7d72-4511-9276-f914744a55db</id>
   <name>Create GetPredecessor Methods</name>
-  <changecounter>42</changecounter>
+  <changecounter>44</changecounter>
   <sib>
     <id>440acf67-c1d6-4264-8b6d-3967f9f9de7a</id>
     <name>GetEdgeElementConnectionUpperBound</name>
@@ -525,7 +525,7 @@
     <parameter name="element">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>qualifiedConnectedElementName</key>
+          <key>connectedElementName</key>
           <scope>GLOBAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
@@ -782,6 +782,9 @@ return getPredecessors($qualifiedConnectedElementName$.class);</string>
     <finalbranches>error</finalbranches>
     <finalbranches>greater</finalbranches>
     <finalbranches>less</finalbranches>
+    <userobject key="TRACER$BREAKPOINT">
+      <boolean>true</boolean>
+    </userobject>
   </sib>
   <edge>
     <source>9669a965-6103-44f5-a203-55000e9c272c</source>

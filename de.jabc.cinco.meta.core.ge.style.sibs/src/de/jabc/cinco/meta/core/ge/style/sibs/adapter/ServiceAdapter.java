@@ -1,5 +1,7 @@
 package de.jabc.cinco.meta.core.ge.style.sibs.adapter;
 
+import graphmodel.GraphmodelPackage;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -53,6 +55,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 import org.eclipse.xtext.util.StringInputStream;
 
 import style.AbsolutPosition;
@@ -1667,11 +1670,25 @@ public class ServiceAdapter {
 		
 	}
 
+	@SuppressWarnings("rawtypes")
 	public String createDummyGraphModel(LightweightExecutionEnvironmentAdapter env) {
 		LightweightExecutionContext context = env.getLocalContext();
 		try {
 			GraphModel gm = DummyGenerator.createDummyGraphModel();
 			context.putGlobally("graphModel", gm);
+			EPackage ePkg =GraphmodelPackage.eINSTANCE;
+			
+			context.putGlobally("abstractGraphModel",ePkg);
+			context.put(new ContextKey("resource", Scope.GLOBAL, true).asFoundation(),new XMIResourceImpl(URI.createFileURI("/tmp/"+gm.getName()+".ecore")));
+			HashMap<String, EPackage> ecoreMap = new HashMap<String,EPackage>(); 
+					HashMap<EPackage, String> genModelMap = new HashMap<EPackage, String>();
+					
+					
+					context.put("genmodelMap",genModelMap);
+					context.put("registeredGeneratorPlugins",new HashMap());
+					context.put("registeredPackageMap",ecoreMap);
+			
+			
 			context.putGlobally("debugRun", true);
 			return Branches.DEFAULT;
 		} catch (Exception e) {
