@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>e26f46a3-7467-4773-8abb-108a610034dd</id>
   <name>Create GetSuccessors Methods</name>
-  <changecounter>19</changecounter>
+  <changecounter>23</changecounter>
   <sib>
     <id>8eb577c8-a2ae-41ba-bed3-7629463ec4a3</id>
     <name>GetEdgeElementConnectionUpperBound</name>
@@ -512,7 +512,7 @@
     <label>Add Name To Set</label>
     <sib-uid>collection-sibs/AddElement</sib-uid>
     <taxonomy>de.jabc.sib.common.collection.AddElement</taxonomy>
-    <position>721.5,1293.0</position>
+    <position>721.5,1308.0</position>
     <parameter name="collection">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -525,7 +525,7 @@
     <parameter name="element">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>qualifiedConnectedElementName</key>
+          <key>connectedElementNameTuple</key>
           <scope>GLOBAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
@@ -555,9 +555,9 @@
     <source>0cfd4a7d-b8a4-46a8-b486-cafeee16bb07</source>
     <target>f661c993-7951-4ec1-a36b-74d2508bcf8a</target>
     <spline/>
-    <point>810.0,1275.0</point>
+    <point>795.6521739130435,1308.0</point>
     <point>1020.0,1050.0</point>
-    <point>810.0,855.0</point>
+    <point>798.0,861.3</point>
     <labelposition>507.22019734772164,206.23052175862128</labelposition>
     <branch>false</branch>
   </edge>
@@ -793,9 +793,9 @@ return getSuccessors($qualifiedConnectedElementName$.class);</string>
   </edge>
   <edge>
     <source>ac521467-1053-4f35-b74d-5d221a0b818e</source>
-    <target>aea538a6-b6a8-4dbd-acb6-c691781d87ae</target>
-    <point>1320.0,150.0</point>
-    <point>1455.0,75.0</point>
+    <target>3c85262c-c4a0-4821-9961-01803c0184fb</target>
+    <point>1292.3893805309735,99.0</point>
+    <point>1332.4766355140187,393.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>next</branch>
   </edge>
@@ -805,7 +805,7 @@ return getSuccessors($qualifiedConnectedElementName$.class);</string>
     <label>GetEClassifierByName</label>
     <sib-uid>utility-sibs/GetEClassifierByName</sib-uid>
     <taxonomy>transem.utility.sib.GetEClassifierByName</taxonomy>
-    <position>1424.5,63.0</position>
+    <position>1484.5,63.0</position>
     <parameter name="eClassifierKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -856,7 +856,7 @@ return getSuccessors($qualifiedConnectedElementName$.class);</string>
     <parameter name="element">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>connectedElementName</key>
+          <key>connectedElementNameTuple</key>
           <scope>LOCAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
@@ -888,7 +888,7 @@ return getSuccessors($qualifiedConnectedElementName$.class);</string>
     <label>Create EOperation</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>1616.5,61.0</position>
+    <position>1661.5,61.0</position>
     <parameter name="eClassKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1021,7 +1021,7 @@ return getSuccessors($connectedElementName$.class);</string>
     <label>Get Qualified Name For Node</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>397.5,1231.0</position>
+    <position>307.5,1186.0</position>
     <parameter name="nodeKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1051,9 +1051,89 @@ return getSuccessors($connectedElementName$.class);</string>
   </sib>
   <edge>
     <source>d7f172e2-066a-47e3-b471-05c78a58a952</source>
+    <target>948ea813-8089-4e8f-8ebc-f29b92234b14</target>
+    <point>425.0,1220.5</point>
+    <point>627.0,1359.3</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>948ea813-8089-4e8f-8ebc-f29b92234b14</id>
+    <name>PutTuple</name>
+    <label>PutTuple</label>
+    <sib-uid>utility-sibs/PutTuple</sib-uid>
+    <taxonomy>transem.utility.sib.PutTuple</taxonomy>
+    <position>747.5,1218.0</position>
+    <parameter name="leftElementKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>connectedElementName</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="rightElementKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>qualifiedConnectedElementName</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="tupleKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>connectedElementNameTuple</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>948ea813-8089-4e8f-8ebc-f29b92234b14</source>
     <target>0cfd4a7d-b8a4-46a8-b486-cafeee16bb07</target>
-    <point>495.0,1260.0</point>
-    <point>757.0,1330.0</point>
+    <point>780.0,1245.0</point>
+    <point>766.0,1334.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>3c85262c-c4a0-4821-9961-01803c0184fb</id>
+    <name>GetLeftTupleElement</name>
+    <label>GetLeftTupleElement</label>
+    <sib-uid>utility-sibs/GetLeftTupleElement</sib-uid>
+    <taxonomy>transem.utility.sib.GetLeftTupleElement</taxonomy>
+    <position>1353.5,63.0</position>
+    <parameter name="leftElementKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>connectedElementName</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="tupleKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>connectedElementNameTuple</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>3c85262c-c4a0-4821-9961-01803c0184fb</source>
+    <target>aea538a6-b6a8-4dbd-acb6-c691781d87ae</target>
+    <point>1410.0,90.0</point>
+    <point>1516.0,76.0</point>
     <branch>default</branch>
   </edge>
   <parameter>
@@ -1237,5 +1317,15 @@ return getSuccessors($connectedElementName$.class);</string>
     <name>error</name>
     <branch>error</branch>
     <sib>d7f172e2-066a-47e3-b471-05c78a58a952</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>948ea813-8089-4e8f-8ebc-f29b92234b14</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>3c85262c-c4a0-4821-9961-01803c0184fb</sib>
   </branch>
 </model>
