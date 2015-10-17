@@ -10,8 +10,8 @@
             name="Generate Code">
       </command>
       <category
-            id="de.jabc.cinco.meta.plugin.generator.runtime.category"
-            name="GraphModel Generator">
+            id="de.jabc.cinco.meta.plugin.generator.runtime.handler.commands.category"
+            name="GraphModel">
       </category>
    </extension>
    <extension
