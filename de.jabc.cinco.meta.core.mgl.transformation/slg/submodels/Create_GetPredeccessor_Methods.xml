@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>f555a538-7d72-4511-9276-f914744a55db</id>
   <name>Create GetPredecessor Methods</name>
-  <changecounter>45</changecounter>
+  <changecounter>46</changecounter>
   <sib>
     <id>440acf67-c1d6-4264-8b6d-3967f9f9de7a</id>
     <name>GetEdgeElementConnectionUpperBound</name>
@@ -399,7 +399,7 @@
     <label>GetEClassifierByName</label>
     <sib-uid>utility-sibs/GetEClassifierByName</sib-uid>
     <taxonomy>transem.utility.sib.GetEClassifierByName</taxonomy>
-    <position>614.5,1383.0</position>
+    <position>614.5,1533.0</position>
     <parameter name="eClassifierKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -500,9 +500,9 @@
   </sib>
   <edge>
     <source>84413d21-d75b-49e8-bff9-b408771ccfa6</source>
-    <target>80a62853-ad9e-453e-bee0-c18d51e30623</target>
-    <point>63.0,62.057142857142864</point>
-    <point>237.0,161.4857142857143</point>
+    <target>f321cb6f-ef32-44bd-8c92-53c2c7d12dcc</target>
+    <point>48.0,64.8</point>
+    <point>102.0,100.80000000000001</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -512,7 +512,7 @@
     <label>Add Name To Set</label>
     <sib-uid>collection-sibs/AddElement</sib-uid>
     <taxonomy>de.jabc.sib.common.collection.AddElement</taxonomy>
-    <position>631.5,1308.0</position>
+    <position>631.5,1458.0</position>
     <parameter name="collection">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -537,17 +537,17 @@
   </sib>
   <edge>
     <source>216ebdc9-84b7-48f7-b281-8ecd3e904d79</source>
-    <target>ae10734f-cbfb-4350-9329-4a49548b3be8</target>
-    <point>425.0,1151.375</point>
-    <point>867.0,1261.8375</point>
+    <target>0b82bef0-8f3f-4187-8f00-76c04adab635</target>
+    <point>418.7931034482759,1166.0</point>
+    <point>511.1538461538462,1293.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
     <source>1c493ec4-c80e-427a-8406-12ec4cd82bf3</source>
     <target>08385faa-b4f6-4971-9d94-08f7d4a18c69</target>
-    <point>690.0,1284.0</point>
-    <point>690.0,1383.0</point>
+    <point>690.0,1485.0</point>
+    <point>690.0,1560.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>true</branch>
   </edge>
@@ -567,7 +567,7 @@
     <label>ThrowException</label>
     <sib-uid>basic-sibs/ThrowException</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.ThrowException</taxonomy>
-    <position>334.5,1383.0</position>
+    <position>334.5,1533.0</position>
     <parameter name="message">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
@@ -583,8 +583,9 @@
   <edge>
     <source>08385faa-b4f6-4971-9d94-08f7d4a18c69</source>
     <target>3d0c17f6-3412-450c-8c4b-5139dc55c3d5</target>
-    <point>690.0,1410.0</point>
-    <point>446.0,1419.0</point>
+    <point>690.0,1560.0</point>
+    <point>390.0,1560.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>null</branch>
   </edge>
   <sib>
@@ -619,7 +620,7 @@
     <label>Create EOperation</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>626.5,1516.0</position>
+    <position>626.5,1666.0</position>
     <parameter name="eClassKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -670,8 +671,9 @@ return getPredecessors($qualifiedConnectedElementName$.class);</string>
   <edge>
     <source>08385faa-b4f6-4971-9d94-08f7d4a18c69</source>
     <target>e0fbbe90-db9d-4390-87e1-268235ef8104</target>
-    <point>690.0,1410.0</point>
-    <point>689.0,1502.0</point>
+    <point>690.0,1560.0</point>
+    <point>690.0,1695.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
@@ -729,7 +731,7 @@ return getPredecessors($qualifiedConnectedElementName$.class);</string>
     <label>GetGraphicalModelElementName</label>
     <sib-uid>mgl/mgl/GetGraphicalModelElementName</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetGraphicalModelElementName</taxonomy>
-    <position>89.0,33.0</position>
+    <position>104.0,33.0</position>
     <parameter name="graphicalModelElementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1096,7 +1098,7 @@ return getPredecessors($connectedElementName$.class);</string>
     <label>PutTuple</label>
     <sib-uid>utility-sibs/PutTuple</sib-uid>
     <taxonomy>transem.utility.sib.PutTuple</taxonomy>
-    <position>657.5,1218.0</position>
+    <position>657.5,1368.0</position>
     <parameter name="leftElementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1130,8 +1132,9 @@ return getPredecessors($connectedElementName$.class);</string>
   <edge>
     <source>ae10734f-cbfb-4350-9329-4a49548b3be8</source>
     <target>1c493ec4-c80e-427a-8406-12ec4cd82bf3</target>
-    <point>690.0,1245.0</point>
-    <point>688.0,1339.0</point>
+    <point>690.0,1395.0</point>
+    <point>690.0,1485.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
@@ -1140,6 +1143,88 @@ return getPredecessors($connectedElementName$.class);</string>
     <point>1365.0,60.0</point>
     <point>1542.0,60.0</point>
     <branch>default</branch>
+  </edge>
+  <sib>
+    <id>f321cb6f-ef32-44bd-8c92-53c2c7d12dcc</id>
+    <name>PutSet_1</name>
+    <label>PutSet</label>
+    <sib-uid>collection-sibs/PutSet</sib-uid>
+    <taxonomy>de.jabc.sib.common.collection.PutSet</taxonomy>
+    <position>95.0,93.0</position>
+    <parameter name="elements">
+      <set/>
+    </parameter>
+    <parameter name="initialCapacity">
+      <int>10</int>
+    </parameter>
+    <parameter name="synchronization">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>nameUniqueSet</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>f321cb6f-ef32-44bd-8c92-53c2c7d12dcc</source>
+    <target>80a62853-ad9e-453e-bee0-c18d51e30623</target>
+    <point>120.0,120.0</point>
+    <point>195.0,52.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>0b82bef0-8f3f-4187-8f00-76c04adab635</id>
+    <name>AddElement_1</name>
+    <label>Is Name Unused?</label>
+    <sib-uid>collection-sibs/AddElement</sib-uid>
+    <taxonomy>de.jabc.sib.common.collection.AddElement</taxonomy>
+    <position>631.5,1263.0</position>
+    <parameter name="collection">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>nameUniqueSet</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="element">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>connectedElementName</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>false</finalbranches>
+    <finalbranches>true</finalbranches>
+  </sib>
+  <edge>
+    <source>0b82bef0-8f3f-4187-8f00-76c04adab635</source>
+    <target>ae10734f-cbfb-4350-9329-4a49548b3be8</target>
+    <point>525.0,1470.0</point>
+    <point>690.0,1395.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>true</branch>
+  </edge>
+  <edge>
+    <source>0b82bef0-8f3f-4187-8f00-76c04adab635</source>
+    <target>8dd817f5-b9bc-44eb-995d-505afbf4b725</target>
+    <spline/>
+    <point>703.0645161290323,1263.0</point>
+    <point>825.0,1095.0</point>
+    <point>698.7096774193549,834.0</point>
+    <labelposition>578.0,118.0</labelposition>
+    <branch>false</branch>
   </edge>
   <parameter>
     <name>graphicalModelElementKey</name>
@@ -1332,5 +1417,15 @@ return getPredecessors($connectedElementName$.class);</string>
     <name>error</name>
     <branch>error</branch>
     <sib>da13d82b-57d8-42bd-b7be-7200d01f1681</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>f321cb6f-ef32-44bd-8c92-53c2c7d12dcc</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>0b82bef0-8f3f-4187-8f00-76c04adab635</sib>
   </branch>
 </model>
