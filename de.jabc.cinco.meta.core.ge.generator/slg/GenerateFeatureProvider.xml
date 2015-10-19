@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>5f357517-18d4-4780-adc3-30879fedbfb1</id>
   <name>GenerateFeatureProvider</name>
-  <changecounter>786</changecounter>
+  <changecounter>810</changecounter>
   <sib>
     <id>23fb1326-f00d-4e42-845a-cdf6492fc417</id>
     <name>PutExpression</name>
@@ -354,7 +354,7 @@
     <label>GenerateFeatureProvider</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>1775.0,138.0</position>
+    <position>1925.0,453.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -397,12 +397,21 @@ $context.featureProviderAddUpdateMoveImportsContent$
 import $context.localPkgName$.features.resize.*;
 import $context.localPkgName$.features.layout.*;
 
-public class $context.graphModelName$FeatureProvider extends DefaultFeatureProvider {
+import de.jabc.cinco.meta.core.ge.style.model.featureprovider.CincoFeatureProvider;
+import de.jabc.cinco.meta.core.ge.style.model.addfeature.LibraryComponentAddFeature;
+
+public class $context.graphModelName$FeatureProvider extends DefaultFeatureProvider implements CincoFeatureProvider {
 	
 	public $context.graphModelName$FeatureProvider(IDiagramTypeProvider dtp) {
 		super(dtp);
 	}
 	
+	public IAddFeature[] getAllAddFeatures() {
+		return new IAddFeature[] {
+			$context.allAddFeaturesContent$
+		};
+	}
+
 	@Override
 	public IAddFeature getAddFeature(IAddContext context) {
 		Object o =  context.getNewObject();
@@ -541,7 +550,7 @@ public class $context.graphModelName$FeatureProvider extends DefaultFeatureProvi
     <label>WriteJavaFile</label>
     <sib-uid>genesys-sibs/WriteJavaFile</sib-uid>
     <taxonomy>de.jabc.sib.genesys.WriteJavaFile</taxonomy>
-    <position>1963.0,138.0</position>
+    <position>1963.0,693.0</position>
     <parameter name="baseDirectory">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -927,7 +936,7 @@ public class $context.graphModelName$FeatureProvider extends DefaultFeatureProvi
       <string>if (bo.eClass().getName().equals(&quot;$context.eClassName$&quot;) 
 	&amp;&amp; bo.eClass().getEPackage().getNsURI().equals(&quot;$context.nsURI$&quot;)
 	&amp;&amp; !sameResource)
-	return new Add$context.node.name$Feature(this);
+	return new LibraryComponentAddFeature(this);
 if (bo instanceof $context.importPath$.$context.node.name$)
 	return new Add$context.node.name$Feature(this);
 </string>
@@ -1965,10 +1974,102 @@ import $context.localPkgName$.features.reconnect.*;</string>
   </sib>
   <edge>
     <source>97f7662b-4ffb-4cc1-ab22-93752061db0f</source>
-    <target>d75f0cd8-d473-45e8-8406-8f79337b5958</target>
-    <point>1635.0,165.0</point>
-    <point>1874.0,165.0</point>
+    <target>116682c3-f0ff-4214-b382-a6ae2140f1f2</target>
+    <point>1655.0,156.7058823529412</point>
+    <point>1872.0,156.63529411764705</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
+  </edge>
+  <sib>
+    <id>116682c3-f0ff-4214-b382-a6ae2140f1f2</id>
+    <name>IterateElements_3</name>
+    <label>iterateAllElements</label>
+    <sib-uid>collection-sibs/IterateElements</sib-uid>
+    <taxonomy>de.jabc.sib.common.collection.IterateElements</taxonomy>
+    <position>1767.0,138.0</position>
+    <parameter name="collection">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>mglModelElements</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="element">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>element</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="iterator">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>iterator</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>exit</finalbranches>
+    <finalbranches>next</finalbranches>
+  </sib>
+  <sib>
+    <id>523c383d-4c71-457a-9ac1-a95b491d8088</id>
+    <name>RunStringTemplate_25</name>
+    <label>RunStringTemplate</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>1907.0,138.0</position>
+    <parameter name="append">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>allAddFeaturesContent</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>new Add$context.element.name$Feature(this),
+</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>116682c3-f0ff-4214-b382-a6ae2140f1f2</source>
+    <target>523c383d-4c71-457a-9ac1-a95b491d8088</target>
+    <spline/>
+    <point>1833.0,147.36</point>
+    <point>1890.0,120.0</point>
+    <point>1947.0,147.35999999999999</point>
+    <labelposition>464.9122807017544,-24.359999999999996</labelposition>
+    <branch>next</branch>
+  </edge>
+  <edge>
+    <source>523c383d-4c71-457a-9ac1-a95b491d8088</source>
+    <target>116682c3-f0ff-4214-b382-a6ae2140f1f2</target>
+    <point>1965.0,165.0</point>
+    <point>1822.0,161.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>116682c3-f0ff-4214-b382-a6ae2140f1f2</source>
+    <target>d75f0cd8-d473-45e8-8406-8f79337b5958</target>
+    <point>1815.0,165.0</point>
+    <point>2025.0,602.0</point>
+    <branch>exit</branch>
   </edge>
   <values/>
   <branch>
@@ -2165,5 +2266,10 @@ import $context.localPkgName$.features.reconnect.*;</string>
     <name>error</name>
     <branch>error</branch>
     <sib>ceaf8667-9494-48b7-bb1c-9b336b9e6df7</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>116682c3-f0ff-4214-b382-a6ae2140f1f2</sib>
   </branch>
 </model>
