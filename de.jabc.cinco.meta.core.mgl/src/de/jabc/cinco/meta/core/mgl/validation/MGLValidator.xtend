@@ -435,14 +435,14 @@ class MGLValidator extends AbstractMGLValidator {
 //			error("Maximal outgoing cardinality must equal to or higher than -1",MglPackage.Literals::GRAPHICAL_MODEL_ELEMENT__MAX_OUTGOING)
 //	}
 	
-	@Check
-	def checkPrimeReferenceIsPrime(ReferencedType refType){
-		var containingNode = refType.eContainer as Node
-		for(node: containingNode.graphModel.nodes){
-			if(node!=containingNode&&node.primeReference!=null&&node.primeReference.type==refType.type)
-				error("The Same type cannot be referenced by two different Nodes in the same graph model.",MglPackage.Literals::REFERENCED_TYPE__TYPE)
-		} 
-	}
+//	@Check
+//	def checkPrimeReferenceIsPrime(ReferencedType refType){
+//		var containingNode = refType.eContainer as Node
+//		for(node: containingNode.graphModel.nodes){
+//			if(node!=containingNode&&node.primeReference!=null&&node.primeReference.type==refType.type)
+//				error("The Same type cannot be referenced by two different Nodes in the same graph model.",MglPackage.Literals::REFERENCED_TYPE__TYPE)
+//		} 
+//	}
 	
 	@Check
 	def checkCanAttributeBeInstantiatedWithDefaultValue(Attribute attr){
