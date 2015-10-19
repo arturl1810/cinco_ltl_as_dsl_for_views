@@ -4,8 +4,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.emf.ecore.EObject;
@@ -129,7 +132,10 @@ public class McamImplementationGenerator {
 		}
 
 		typeNames.put("Container", new ArrayList<String>());
-		for (NodeContainer container : gModel.getNodeContainers()) {
+		for (Node n : gModel.getNodes()) {
+			if (!(n instanceof NodeContainer))
+				continue;
+			NodeContainer container = (NodeContainer) n;
 			typeNames.get("Container").add(container.getName());
 			entityAttributes.put(container, new ArrayList<Attribute>());
 			for (Attribute attribute : container.getAttributes()) {
@@ -232,7 +238,10 @@ public class McamImplementationGenerator {
 	private Set<ModelElement> getPossibleContainer(ModelElement element) {
 		HashSet<ModelElement> possibleContainer = new HashSet<>();
 
-		for (NodeContainer container : gModel.getNodeContainers()) {
+		for (Node n : gModel.getNodes()) {
+			if (!(n instanceof NodeContainer))
+				continue;
+			NodeContainer container = (NodeContainer) n;
 			for (GraphicalElementContainment gec : container
 					.getContainableElements()) {
 				if (gec.eCrossReferences().size() > 0) {
@@ -271,7 +280,10 @@ public class McamImplementationGenerator {
 			}
 		}
 
-		for (NodeContainer container : gModel.getNodeContainers()) {
+		for (Node n : gModel.getNodes()) {
+			if (!(n instanceof NodeContainer))
+				continue;
+			NodeContainer container = (NodeContainer) n;
 			for (IncomingEdgeElementConnection incEdge : container
 					.getIncomingEdgeConnections()) {
 				if (incEdge.eCrossReferences().size() > 0) {
@@ -311,7 +323,10 @@ public class McamImplementationGenerator {
 			}
 		}
 
-		for (NodeContainer container : gModel.getNodeContainers()) {
+		for (Node n : gModel.getNodes()) {
+			if (!(n instanceof NodeContainer))
+				continue;
+			NodeContainer container = (NodeContainer) n;
 			for (OutgoingEdgeElementConnection outEdge : container
 					.getOutgoingEdgeConnections()) {
 				if (outEdge.eCrossReferences().size() > 0) {

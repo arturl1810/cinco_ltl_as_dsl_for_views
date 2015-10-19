@@ -291,7 +291,7 @@ public class AppModule
     }
     «ENDFOR»
     
-    «FOR NodeContainer sn:g.nodeContainers»
+    «FOR NodeContainer sn:g.nodes.filter[n | (n instanceof NodeContainer)].map[nc | nc as NodeContainer]»
     @Scope(ScopeConstants.PERTHREAD)
     public «sn.name.toFirstUpper»Controller build«sn.name.toFirstUpper»Controller() {
         return buildControllerOrNull(«sn.name.toFirstUpper»Controller.class, "«sn.name.toFirstLower»ControllerImpl");
