@@ -301,7 +301,6 @@ public class DummyGenerator {
 		BasicEList<GraphicalModelElement> connectableElements = new BasicEList<GraphicalModelElement>();
 		
 		connectableElements.addAll(graphModel.getNodes());
-		connectableElements.addAll(graphModel.getNodeContainers());
 		for(GraphicalModelElement elem:connectableElements){
 			for(IncomingEdgeElementConnection connect:elem.getIncomingEdgeConnections()){
 				if(connect.getConnectingEdges()==null||connect.getConnectingEdges().isEmpty()){

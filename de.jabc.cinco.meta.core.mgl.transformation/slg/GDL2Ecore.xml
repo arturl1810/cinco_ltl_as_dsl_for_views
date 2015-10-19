@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>ca5a39ee-2606-4461-8c2d-1e6ebdbd9d0e</id>
   <name>MGL2Ecore</name>
-  <changecounter>78</changecounter>
+  <changecounter>79</changecounter>
   <sib>
     <id>e763e08f-ee7b-48f6-8187-dac38f44f435</id>
     <name>MacroSIB</name>
@@ -30,10 +30,10 @@
   <sib>
     <id>bd057e68-0ca4-49eb-8b0f-0da65754197d</id>
     <name>MacroSIB_1</name>
-    <label>Create Nodes</label>
+    <label>Create Nodes and Containers</label>
     <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
-    <position>692.0,46.0</position>
+    <position>646.5,46.0</position>
     <finalbranches>error</finalbranches>
     <finalbranches>exit</finalbranches>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
@@ -41,22 +41,6 @@
     </userobject>
     <userobject key="ABC$GRAPHSIB$MODELID">
       <string>d136ee11-0a5e-458f-8813-648c7e29c207</string>
-    </userobject>
-  </sib>
-  <sib>
-    <id>d49312d0-317f-4dcc-ac26-b05b90b06472</id>
-    <name>MacroSIB_2</name>
-    <label>Create NodeContainers</label>
-    <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
-    <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
-    <position>1054.5,46.0</position>
-    <finalbranches>error</finalbranches>
-    <finalbranches>exit</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELNAME">
-      <string>Create Swimlanes</string>
-    </userobject>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>bbe15f4c-aa62-4a79-93be-b5b01df883f7</string>
     </userobject>
   </sib>
   <edge>
@@ -107,14 +91,6 @@
     <labelposition>500.0,0.0</labelposition>
     <branch>exit</branch>
   </edge>
-  <edge>
-    <source>3221de49-39c9-401f-9821-aabdf4f60dce</source>
-    <target>d49312d0-317f-4dcc-ac26-b05b90b06472</target>
-    <point>915.0,75.0</point>
-    <point>1125.0,75.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>exit</branch>
-  </edge>
   <sib>
     <id>3966d27a-78d5-4870-aba6-8c1ee8089b98</id>
     <name>PrintException</name>
@@ -133,15 +109,6 @@
     </parameter>
     <finalbranches>default</finalbranches>
   </sib>
-  <edge>
-    <source>d49312d0-317f-4dcc-ac26-b05b90b06472</source>
-    <target>3966d27a-78d5-4870-aba6-8c1ee8089b98</target>
-    <point>1125.0,75.0</point>
-    <point>1125.0,195.0</point>
-    <point>1770.0,210.0</point>
-    <labelposition>20.0,37.0</labelposition>
-    <branch>error</branch>
-  </edge>
   <edge>
     <source>3221de49-39c9-401f-9821-aabdf4f60dce</source>
     <target>3966d27a-78d5-4870-aba6-8c1ee8089b98</target>
@@ -195,10 +162,10 @@
     </userobject>
   </sib>
   <edge>
-    <source>d49312d0-317f-4dcc-ac26-b05b90b06472</source>
+    <source>3221de49-39c9-401f-9821-aabdf4f60dce</source>
     <target>dfb256a3-59cd-4dfa-86de-3cf6a01debc9</target>
-    <point>1125.0,75.0</point>
-    <point>1335.0,75.0</point>
+    <point>935.0,66.42857142857143</point>
+    <point>1315.0,66.42857142857143</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>exit</branch>
   </edge>

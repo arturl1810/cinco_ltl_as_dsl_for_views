@@ -149,7 +149,7 @@ class MGLGenerator implements IGenerator {
 		var connectableElements = new BasicEList<GraphicalModelElement>()
 		
 		connectableElements.addAll(graphModel.nodes)
-		connectableElements.addAll(graphModel.nodeContainers)
+		//connectableElements.addAll(graphModel.nodeContainers)
 		for(elem:connectableElements){
 			for(connect:elem.incomingEdgeConnections){
 				if(connect.connectingEdges.nullOrEmpty){

@@ -19,6 +19,7 @@ import java.util.Map.Entry;
 import java.util.jar.Manifest;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import mgl.Annotation;
 import mgl.Attribute;
@@ -1149,7 +1150,7 @@ public class ServiceAdapter {
 			List<ModelElement> modelElements = new ArrayList<>();
 			Map<ModelElement, List<Attribute>> attributesMap = new HashMap<>();
 			modelElements.addAll(gm.getNodes());
-			modelElements.addAll(gm.getNodeContainers());
+			//modelElements.addAll(gm.getNodeContainers());
 			modelElements.addAll(gm.getEdges());
 			for (ModelElement me : modelElements) {
 				attributesMap.put(me, InheritanceUtil.getInheritedAttributes(me));
@@ -1173,22 +1174,29 @@ public class ServiceAdapter {
 		
 		try {
 			GraphModel gm = (GraphModel) context.get(graphModel);
-			for (NodeContainer nc : gm.getNodeContainers()) {
-				if (nc.getContainableElements().isEmpty()) {
-					for (Node node : gm.getNodes()) {
-						GraphicalElementContainment gec = MglFactory.eINSTANCE.createGraphicalElementContainment();
-						gec.setContainingElement(nc);
-//						gec.setType(node);
-						gec.setLowerBound(0);
-						gec.setUpperBound(-1);
-						nc.getContainableElements().add(gec);
-					}
-					
-					for (NodeContainer container : gm.getNodeContainers()) {
-						GraphicalElementContainment gec = MglFactory.eINSTANCE.createGraphicalElementContainment();
-						gec.setContainingElement(nc);
-//						gec.setType(container);
-						nc.getContainableElements().add(gec);
+			for (Node noc : gm.getNodes()) {
+				
+				if(noc instanceof NodeContainer){
+					NodeContainer nc = (NodeContainer)noc;
+					if (nc.getContainableElements().isEmpty()) {
+						
+						for (Node node : gm.getNodes()) {
+							GraphicalElementContainment gec = MglFactory.eINSTANCE.createGraphicalElementContainment();
+							gec.setContainingElement(nc);
+	//						gec.setType(node);
+							gec.setLowerBound(0);
+							gec.setUpperBound(-1);
+							nc.getContainableElements().add(gec);
+						}
+						
+						for (Node container : gm.getNodes()) {
+							if(container instanceof NodeContainer){
+								GraphicalElementContainment gec = MglFactory.eINSTANCE.createGraphicalElementContainment();
+								gec.setContainingElement(nc);
+		//						gec.setType(container);
+								nc.getContainableElements().add(gec);
+							}
+						}
 					}
 				}
 			}
@@ -1259,17 +1267,20 @@ public class ServiceAdapter {
 				}
 			}
 			
-			for (NodeContainer nc : gm.getNodeContainers()){
-				if (nc.isIsAbstract() || CincoUtils.isCreateDisabled(nc))
-					continue;
-				if (!hasPaletteCategory(nc))
-					map.get(ID_CONTAINER).add(nc);
-				for (Annotation a : nc.getAnnotations()) {
-					if ("palette".equals(a.getName())) {
-						for (String v : a.getValue()) {
-							if (map.get(v) == null)
-								map.put(v, new ArrayList<GraphicalModelElement>());
-							map.get(v).add(nc);
+			for (Node noc : gm.getNodes()){
+				if(noc instanceof NodeContainer){
+					NodeContainer nc = (NodeContainer)noc;
+					if (nc.isIsAbstract() || CincoUtils.isCreateDisabled(nc))
+						continue;
+					if (!hasPaletteCategory(nc))
+						map.get(ID_CONTAINER).add(nc);
+					for (Annotation a : nc.getAnnotations()) {
+						if ("palette".equals(a.getName())) {
+							for (String v : a.getValue()) {
+								if (map.get(v) == null)
+									map.put(v, new ArrayList<GraphicalModelElement>());
+								map.get(v).add(nc);
+							}
 						}
 					}
 				}

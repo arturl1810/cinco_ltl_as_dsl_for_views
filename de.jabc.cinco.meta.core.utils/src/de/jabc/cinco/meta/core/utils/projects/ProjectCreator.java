@@ -282,7 +282,7 @@ public class ProjectCreator {
 			}
 			maniContent.append("\n");
 		}
-		maniContent.append("Bundle-RequiredExecutionEnvironment: JavaSE-1.7\r\n");
+		maniContent.append("Bundle-RequiredExecutionEnvironment: JavaSE-1.8\r\n");
 
 		final IFolder metaInf = project.getFolder("META-INF");
 		if (!metaInf.exists())

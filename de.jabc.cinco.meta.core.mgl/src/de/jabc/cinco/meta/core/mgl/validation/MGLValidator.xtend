@@ -593,9 +593,20 @@ class MGLValidator extends AbstractMGLValidator {
 					error("Circle in inheritance caused by: " + retvalList, MglPackage.Literals.NODE__EXTENDS)
 				if (me instanceof Edge)
 					error("Circle in inheritance caused by: " + retvalList, MglPackage.Literals.EDGE__EXTENDS)
-				if (me instanceof NodeContainer)
-					error("Circle in inheritance caused by: " + retvalList, MglPackage.Literals.NODE_CONTAINER__EXTENDS)
 			}
+	}
+	@Check
+	def checkContainerInheritsFromContainer(NodeContainer nc){
+		if(nc.extends!=null&&!(nc.extends instanceof NodeContainer)){
+			error("Inheriting from Nodes is not possible for Containers.", MglPackage.Literals.NODE__EXTENDS)
+		}
+	}
+	
+	@Check
+	def checkNodeInheritsFromNode(Node node){
+		if(node.extends!=null&&(node.extends instanceof NodeContainer)){
+			error("Inheriting from Containers is not possible for Nodes.", MglPackage.Literals.NODE__EXTENDS)
+		}
 	}
 	
 	@Check
@@ -632,7 +643,7 @@ class MGLValidator extends AbstractMGLValidator {
 		val modelElements = new ArrayList
 		modelElements.addAll(graphModel.nodes)
 		modelElements.addAll(graphModel.edges)
-		modelElements.addAll(graphModel.nodeContainers)
+		//modelElements.addAll(graphModel.nodeContainers)
 		
 		val refNodes = modelElements.filter[me | me.name.equals(attribute.type) && !me.attributes.map[name].contains("name")];
 		
@@ -644,7 +655,7 @@ class MGLValidator extends AbstractMGLValidator {
 		switch element {
 			Node : element.graphModel
 			Edge : element.graphModel
-			NodeContainer : element.graphModel		
+					
 		}
 	}
 	
