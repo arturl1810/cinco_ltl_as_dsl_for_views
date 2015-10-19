@@ -2,49 +2,7 @@
 <model version="2.1">
   <id>9bb85745-8351-4055-af1b-c6d172d4e88d</id>
   <name>GenerateGraphModelApiOperations</name>
-  <changecounter>390</changecounter>
-  <sib>
-    <id>305bdb71-32f2-4c78-9c2b-f9a7d5fc3711</id>
-    <name>IterateGraphModelNodes</name>
-    <label>IterateGraphModelNodes</label>
-    <sib-uid>mgl/mgl/IterateGraphModelNodes</sib-uid>
-    <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.IterateGraphModelNodes</taxonomy>
-    <position>171.0,63.0</position>
-    <parameter name="elementKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>node</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>false</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="graphModelKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>graphModel</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="iteratorKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>nodeIteratorowreghioesrdjog</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>false</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>error</finalbranches>
-    <finalbranches>exit</finalbranches>
-    <finalbranches>next</finalbranches>
-    <finalbranches>noElements</finalbranches>
-    <userobject key="ABC$START">
-      <boolean>true</boolean>
-    </userobject>
-  </sib>
+  <changecounter>397</changecounter>
   <sib>
     <id>1e5f63e6-98a0-469c-bd35-81451c17c772</id>
     <name>GetNodeName</name>
@@ -74,10 +32,10 @@
     <finalbranches>error</finalbranches>
   </sib>
   <edge>
-    <source>305bdb71-32f2-4c78-9c2b-f9a7d5fc3711</source>
+    <source>315c6240-6e3e-484c-98cf-64fc21b0b896</source>
     <target>29a34c31-6f43-4ddf-978f-2f3c2fb07eef</target>
-    <point>237.0,91.0</point>
-    <point>162.0,196.0</point>
+    <point>327.0,39.599999999999994</point>
+    <point>93.0,78.6</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>next</branch>
   </edge>
@@ -278,11 +236,11 @@ return retval; </string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Create EOperation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
     </userobject>
   </sib>
   <edge>
@@ -370,11 +328,11 @@ return retval; </string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>936efe23-2d5b-4fd2-8ad4-3c339ecbfe4a</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>CreateParametersForEOperation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>936efe23-2d5b-4fd2-8ad4-3c339ecbfe4a</string>
     </userobject>
   </sib>
   <sib>
@@ -422,11 +380,11 @@ return retval; </string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Create EOperation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
     </userobject>
   </sib>
   <sib>
@@ -512,11 +470,11 @@ return retval; </string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>936efe23-2d5b-4fd2-8ad4-3c339ecbfe4a</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>CreateParametersForEOperation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>936efe23-2d5b-4fd2-8ad4-3c339ecbfe4a</string>
     </userobject>
   </sib>
   <edge>
@@ -563,11 +521,11 @@ Creates and adds an $nodeName$.
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>9445cb7d-1ca9-47f0-bda0-ffb7822ef982</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Generate_Documentation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>9445cb7d-1ca9-47f0-bda0-ffb7822ef982</string>
     </userobject>
   </sib>
   <sib>
@@ -596,11 +554,11 @@ Creates and adds a new instance of $nodeName$ if possible.
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>9445cb7d-1ca9-47f0-bda0-ffb7822ef982</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Generate_Documentation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>9445cb7d-1ca9-47f0-bda0-ffb7822ef982</string>
     </userobject>
   </sib>
   <edge>
@@ -846,11 +804,11 @@ return retval;</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Create EOperation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
     </userobject>
   </sib>
   <edge>
@@ -936,11 +894,11 @@ return retval;</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>936efe23-2d5b-4fd2-8ad4-3c339ecbfe4a</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>CreateParametersForEOperation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>936efe23-2d5b-4fd2-8ad4-3c339ecbfe4a</string>
     </userobject>
   </sib>
   <edge>
@@ -977,11 +935,11 @@ Creates and adds an $edgeName$.
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>9445cb7d-1ca9-47f0-bda0-ffb7822ef982</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Generate_Documentation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>9445cb7d-1ca9-47f0-bda0-ffb7822ef982</string>
     </userobject>
   </sib>
   <sib>
@@ -1029,58 +987,18 @@ Creates and adds an $edgeName$.
     <branch>default</branch>
   </edge>
   <edge>
-    <source>305bdb71-32f2-4c78-9c2b-f9a7d5fc3711</source>
+    <source>315c6240-6e3e-484c-98cf-64fc21b0b896</source>
     <target>fbc9749e-be67-4969-8234-ecff90bf60ea</target>
-    <point>237.0,91.0</point>
-    <point>657.0,91.0</point>
+    <point>363.0,39.08571428571429</point>
+    <point>642.0,78.94285714285714</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>exit</branch>
-    <branch>noElements</branch>
   </edge>
-  <sib>
-    <id>c60d3b31-1217-4ecc-a856-14cec73bcf5a</id>
-    <name>IterateGraphModelNodeContainers</name>
-    <label>IterateGraphModelNodeContainers</label>
-    <sib-uid>mgl/mgl/IterateGraphModelNodeContainers</sib-uid>
-    <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.IterateGraphModelNodeContainers</taxonomy>
-    <position>859.5,63.0</position>
-    <parameter name="elementKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>container</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>false</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="graphModelKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>graphModel</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="iteratorKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>containerIterator09lklnmkqoiaedfj</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>false</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>error</finalbranches>
-    <finalbranches>exit</finalbranches>
-    <finalbranches>next</finalbranches>
-    <finalbranches>noElements</finalbranches>
-  </sib>
   <edge>
     <source>fbc9749e-be67-4969-8234-ecff90bf60ea</source>
-    <target>c60d3b31-1217-4ecc-a856-14cec73bcf5a</target>
-    <point>657.0,91.0</point>
-    <point>972.0,91.0</point>
+    <target>bee9677d-ec09-489a-a3a6-3df3bdd1221d</target>
+    <point>678.0,78.08571428571429</point>
+    <point>957.0,24.94285714285714</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>exit</branch>
     <branch>noElements</branch>
@@ -1114,10 +1032,10 @@ Creates and adds an $edgeName$.
     <finalbranches>error</finalbranches>
   </sib>
   <edge>
-    <source>c60d3b31-1217-4ecc-a856-14cec73bcf5a</source>
+    <source>bee9677d-ec09-489a-a3a6-3df3bdd1221d</source>
     <target>bf409102-0638-4b93-a03c-a9db947242d4</target>
-    <point>972.0,91.0</point>
-    <point>972.0,181.0</point>
+    <point>975.0,39.0</point>
+    <point>975.0,168.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>next</branch>
   </edge>
@@ -1311,11 +1229,11 @@ return retval; </string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Create EOperation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
     </userobject>
   </sib>
   <edge>
@@ -1370,11 +1288,11 @@ return retval; </string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>936efe23-2d5b-4fd2-8ad4-3c339ecbfe4a</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>CreateParametersForEOperation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>936efe23-2d5b-4fd2-8ad4-3c339ecbfe4a</string>
     </userobject>
   </sib>
   <edge>
@@ -1471,11 +1389,11 @@ return retval; </string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Create EOperation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
     </userobject>
   </sib>
   <sib>
@@ -1553,11 +1471,11 @@ return retval; </string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>936efe23-2d5b-4fd2-8ad4-3c339ecbfe4a</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>CreateParametersForEOperation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>936efe23-2d5b-4fd2-8ad4-3c339ecbfe4a</string>
     </userobject>
   </sib>
   <edge>
@@ -1604,11 +1522,11 @@ Creates and adds an $containerName$.
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>9445cb7d-1ca9-47f0-bda0-ffb7822ef982</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Generate_Documentation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>9445cb7d-1ca9-47f0-bda0-ffb7822ef982</string>
     </userobject>
   </sib>
   <sib>
@@ -1637,11 +1555,11 @@ Creates and adds a new instance of $containerName$ if possible.
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>9445cb7d-1ca9-47f0-bda0-ffb7822ef982</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Generate_Documentation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>9445cb7d-1ca9-47f0-bda0-ffb7822ef982</string>
     </userobject>
   </sib>
   <edge>
@@ -1654,9 +1572,9 @@ Creates and adds a new instance of $containerName$ if possible.
   </edge>
   <edge>
     <source>f7a618a6-8e53-4a2b-9846-314b6145d5fa</source>
-    <target>c60d3b31-1217-4ecc-a856-14cec73bcf5a</target>
-    <point>1152.0,166.0</point>
-    <point>972.0,91.0</point>
+    <target>bee9677d-ec09-489a-a3a6-3df3bdd1221d</target>
+    <point>1135.0,142.0</point>
+    <point>993.0,35.400000000000006</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -1690,19 +1608,19 @@ Creates and adds a new instance of $containerName$ if possible.
   </edge>
   <edge>
     <source>29a34c31-6f43-4ddf-978f-2f3c2fb07eef</source>
-    <target>305bdb71-32f2-4c78-9c2b-f9a7d5fc3711</target>
+    <target>315c6240-6e3e-484c-98cf-64fc21b0b896</target>
     <spline/>
     <point>93.0,72.36</point>
     <point>150.0,45.0</point>
-    <point>222.0,73.8</point>
+    <point>327.0,36.830769230769235</point>
     <labelposition>628.2477681856773,-23.540354672227185</labelposition>
     <branch>Container</branch>
   </edge>
   <edge>
     <source>3081e7a1-4795-43ed-902a-efdfcfc987be</source>
-    <target>305bdb71-32f2-4c78-9c2b-f9a7d5fc3711</target>
-    <point>447.0,406.0</point>
-    <point>237.0,91.0</point>
+    <target>315c6240-6e3e-484c-98cf-64fc21b0b896</target>
+    <point>438.7096774193548,211.0</point>
+    <point>354.2647058823529,54.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -1777,11 +1695,11 @@ return false;
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Create EOperation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
     </userobject>
   </sib>
   <sib>
@@ -1850,11 +1768,11 @@ return false;
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>936efe23-2d5b-4fd2-8ad4-3c339ecbfe4a</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>CreateParametersForEOperation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>936efe23-2d5b-4fd2-8ad4-3c339ecbfe4a</string>
     </userobject>
   </sib>
   <edge>
@@ -1889,11 +1807,11 @@ Deletes the given modelElement from the $graphModelName$ and the diagram
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>9445cb7d-1ca9-47f0-bda0-ffb7822ef982</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Generate_Documentation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>9445cb7d-1ca9-47f0-bda0-ffb7822ef982</string>
     </userobject>
   </sib>
   <edge>
@@ -1905,13 +1823,12 @@ Deletes the given modelElement from the $graphModelName$ and the diagram
     <branch>default</branch>
   </edge>
   <edge>
-    <source>c60d3b31-1217-4ecc-a856-14cec73bcf5a</source>
+    <source>bee9677d-ec09-489a-a3a6-3df3bdd1221d</source>
     <target>34dfa5e5-68e8-48dd-a355-40647f53d449</target>
-    <point>972.0,91.0</point>
-    <point>1257.0,91.0</point>
+    <point>993.0,25.357894736842105</point>
+    <point>1240.0,77.42105263157895</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>exit</branch>
-    <branch>noElements</branch>
   </edge>
   <sib>
     <id>34dfa5e5-68e8-48dd-a355-40647f53d449</id>
@@ -1975,11 +1892,11 @@ return false;
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Create EOperation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
     </userobject>
   </sib>
   <sib>
@@ -2095,11 +2012,11 @@ return false;
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>936efe23-2d5b-4fd2-8ad4-3c339ecbfe4a</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>CreateParametersForEOperation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>936efe23-2d5b-4fd2-8ad4-3c339ecbfe4a</string>
     </userobject>
   </sib>
   <sib>
@@ -2138,11 +2055,11 @@ return false;
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>936efe23-2d5b-4fd2-8ad4-3c339ecbfe4a</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>CreateParametersForEOperation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>936efe23-2d5b-4fd2-8ad4-3c339ecbfe4a</string>
     </userobject>
   </sib>
   <edge>
@@ -2221,18 +2138,19 @@ return false;
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <finalbranches>default</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>7c46cc02-d874-4f7b-8dc5-2f624fce088b</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>GenerateCreatePrimeNode</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>7c46cc02-d874-4f7b-8dc5-2f624fce088b</string>
     </userobject>
   </sib>
   <edge>
     <source>7eadb614-8560-4ea9-a219-76fe934b1d65</source>
-    <target>305bdb71-32f2-4c78-9c2b-f9a7d5fc3711</target>
-    <point>105.0,465.0</point>
-    <point>234.0,96.0</point>
+    <target>315c6240-6e3e-484c-98cf-64fc21b0b896</target>
+    <point>261.8965517241379,286.0</point>
+    <point>339.19354838709677,54.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
@@ -2260,11 +2178,11 @@ Moves a node to the specified position in this container
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>9445cb7d-1ca9-47f0-bda0-ffb7822ef982</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Generate_Documentation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>9445cb7d-1ca9-47f0-bda0-ffb7822ef982</string>
     </userobject>
   </sib>
   <edge>
@@ -2304,9 +2222,10 @@ Moves a node to the specified position in this container
   </edge>
   <edge>
     <source>7f257744-8939-4872-9ec4-b9256a39072b</source>
-    <target>305bdb71-32f2-4c78-9c2b-f9a7d5fc3711</target>
-    <point>187.89473684210526,243.0</point>
-    <point>247.85714285714286,99.0</point>
+    <target>315c6240-6e3e-484c-98cf-64fc21b0b896</target>
+    <point>198.0,183.98181818181817</point>
+    <point>327.9310344827586,54.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>true</branch>
   </edge>
   <sib>
@@ -2372,9 +2291,10 @@ Moves a node to the specified position in this container
   </edge>
   <edge>
     <source>6ab35ce2-c99e-46ac-b115-cc2c995b5da0</source>
-    <target>c60d3b31-1217-4ecc-a856-14cec73bcf5a</target>
-    <point>825.0,195.0</point>
-    <point>940.0,90.0</point>
+    <target>bee9677d-ec09-489a-a3a6-3df3bdd1221d</target>
+    <point>868.8461538461538,168.0</point>
+    <point>962.5862068965517,39.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>true</branch>
   </edge>
   <sib>
@@ -2423,11 +2343,11 @@ return retval;</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Create EOperation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
     </userobject>
   </sib>
   <sib>
@@ -2504,11 +2424,11 @@ return retval;</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>936efe23-2d5b-4fd2-8ad4-3c339ecbfe4a</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>CreateParametersForEOperation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>936efe23-2d5b-4fd2-8ad4-3c339ecbfe4a</string>
     </userobject>
   </sib>
   <edge>
@@ -2572,11 +2492,11 @@ return retval;</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Create EOperation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
     </userobject>
   </sib>
   <sib>
@@ -2653,11 +2573,11 @@ return retval;</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>936efe23-2d5b-4fd2-8ad4-3c339ecbfe4a</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>CreateParametersForEOperation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>936efe23-2d5b-4fd2-8ad4-3c339ecbfe4a</string>
     </userobject>
   </sib>
   <edge>
@@ -2727,11 +2647,11 @@ this.getCRootElement().getMap().put(node.getModelElement() ,node);
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Create EOperation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
     </userobject>
   </sib>
   <sib>
@@ -2770,11 +2690,11 @@ this.getCRootElement().getMap().put(node.getModelElement() ,node);
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>936efe23-2d5b-4fd2-8ad4-3c339ecbfe4a</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>CreateParametersForEOperation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>936efe23-2d5b-4fd2-8ad4-3c339ecbfe4a</string>
     </userobject>
   </sib>
   <sib>
@@ -2880,11 +2800,11 @@ this.getCRootElement().getMap().put(edge.getModelElement(), edge);
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Create EOperation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
     </userobject>
   </sib>
   <sib>
@@ -2923,11 +2843,11 @@ this.getCRootElement().getMap().put(edge.getModelElement(), edge);
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>936efe23-2d5b-4fd2-8ad4-3c339ecbfe4a</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>CreateParametersForEOperation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>936efe23-2d5b-4fd2-8ad4-3c339ecbfe4a</string>
     </userobject>
   </sib>
   <sib>
@@ -3036,11 +2956,11 @@ this.getCRootElement().getMap().put(node.getModelElement() ,node);
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Create EOperation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
     </userobject>
   </sib>
   <sib>
@@ -3079,11 +2999,11 @@ this.getCRootElement().getMap().put(node.getModelElement() ,node);
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>936efe23-2d5b-4fd2-8ad4-3c339ecbfe4a</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>CreateParametersForEOperation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>936efe23-2d5b-4fd2-8ad4-3c339ecbfe4a</string>
     </userobject>
   </sib>
   <sib>
@@ -3193,11 +3113,11 @@ if(container!=null){
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Create EOperation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
     </userobject>
   </sib>
   <edge>
@@ -3207,6 +3127,85 @@ if(container!=null){
     <point>1397.0,747.0</point>
     <branch>default</branch>
   </edge>
+  <sib>
+    <id>bee9677d-ec09-489a-a3a6-3df3bdd1221d</id>
+    <name>IterateElements</name>
+    <label>IterateGraphModelNodeContainers</label>
+    <sib-uid>collection-sibs/IterateElements</sib-uid>
+    <taxonomy>de.jabc.sib.common.collection.IterateElements</taxonomy>
+    <position>873.0,63.0</position>
+    <parameter name="collection">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>containers</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="element">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>container</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="iterator">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>glContitioawjregae</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>exit</finalbranches>
+    <finalbranches>next</finalbranches>
+  </sib>
+  <sib>
+    <id>315c6240-6e3e-484c-98cf-64fc21b0b896</id>
+    <name>IterateElements_1</name>
+    <label>IterateGraphModelNodeContainers</label>
+    <sib-uid>collection-sibs/IterateElements</sib-uid>
+    <taxonomy>de.jabc.sib.common.collection.IterateElements</taxonomy>
+    <position>153.0,63.0</position>
+    <parameter name="collection">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>nodes</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="element">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>node</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="iterator">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>faoiwfoilwe</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>exit</finalbranches>
+    <finalbranches>next</finalbranches>
+    <userobject key="ABC$START">
+      <boolean>true</boolean>
+    </userobject>
+  </sib>
   <parameter>
     <name>eClassKey</name>
     <field>eClassKey</field>
@@ -3337,16 +3336,6 @@ if(container!=null){
   <branch>
     <name>error</name>
     <branch>error</branch>
-    <sib>305bdb71-32f2-4c78-9c2b-f9a7d5fc3711</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
     <sib>fbc9749e-be67-4969-8234-ecff90bf60ea</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>c60d3b31-1217-4ecc-a856-14cec73bcf5a</sib>
   </branch>
 </model>
