@@ -76,7 +76,7 @@ public class LibraryComponentAddFeature extends AbstractAddShapeFeature {
 	}
 
 	private boolean possibleFeatureExists(IAddContext context) {
-		for (IAddFeature f : ((CincoFeatureProvider) getFeatureProvider()).getAllAddFeatures()) {
+		for (IAddFeature f : ((CincoFeatureProvider) getFeatureProvider()).getAllLibComponentAddFeatures()) {
 			if (f.canAdd(context)) {
 				return true;
 			}
@@ -87,7 +87,7 @@ public class LibraryComponentAddFeature extends AbstractAddShapeFeature {
 	
 	private List<IAddFeature> getPossibleFeatures(IAddContext context) {
 		List<IAddFeature> features = new ArrayList<IAddFeature>();
-		for (IAddFeature f : ((CincoFeatureProvider) getFeatureProvider()).getAllAddFeatures()) {
+		for (IAddFeature f : ((CincoFeatureProvider) getFeatureProvider()).getAllLibComponentAddFeatures()) {
 			if (f.canAdd(context)) {
 				features.add(f);
 			}

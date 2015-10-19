@@ -4,6 +4,6 @@ import org.eclipse.graphiti.features.IAddFeature;
 
 public interface CincoFeatureProvider {
 
-	public IAddFeature[] getAllAddFeatures();
+	public IAddFeature[] getAllLibComponentAddFeatures();
 	
 }
