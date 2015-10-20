@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>ec0a5ab9-778e-4f7b-a992-cd928603a684</id>
   <name>GenerateApiEOperations</name>
-  <changecounter>1643</changecounter>
+  <changecounter>1645</changecounter>
   <sib>
     <id>0eaec583-f835-49df-b06b-d82d6ed8d0f2</id>
     <name>GetElement</name>
@@ -441,10 +441,10 @@
     <source>fab01041-9693-4e04-94cf-bde80852840a</source>
     <target>15d995ad-bb5e-4483-86a1-545fc0dd637a</target>
     <spline/>
-    <point>1121.0,213.0</point>
+    <point>1197.0,194.52941176470588</point>
     <point>1062.0,146.0</point>
-    <point>1121.0,78.0</point>
-    <labelposition>491.2483898692755,-50.98718500131631</labelposition>
+    <point>1197.0,75.41176470588235</point>
+    <labelposition>373.8271604938309,-132.00000000000006</labelposition>
     <branch>true</branch>
   </edge>
   <edge>
@@ -667,10 +667,10 @@
   <sib>
     <id>0f8dc78f-fae5-48ea-ae03-a6cfb2f0e2dc</id>
     <name>IterateElements_1</name>
-    <label>IterateGraphModelNodeContainers</label>
+    <label>IterateGraphModelNodes</label>
     <sib-uid>collection-sibs/IterateElements</sib-uid>
     <taxonomy>de.jabc.sib.common.collection.IterateElements</taxonomy>
-    <position>498.0,48.0</position>
+    <position>525.5,48.0</position>
     <parameter name="collection">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>

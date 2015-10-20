@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>d5531c11-ffc2-41e6-b1fd-4f08e1327b1f</id>
   <name>Generate Helper EOperations</name>
-  <changecounter>456</changecounter>
+  <changecounter>469</changecounter>
   <sib>
     <id>bc6448fd-1bc6-476c-8269-413c3a139651</id>
     <name>IterateNodeContainerContainableElements</name>
@@ -362,13 +362,12 @@
     <branch>default</branch>
   </edge>
   <edge>
-    <source>6daa86ee-06b7-42f6-8889-426d4e191445</source>
+    <source>7cdefbed-ef06-47c4-9603-37dcdf8f40f7</source>
     <target>ac1ec096-bb7c-40e4-8c9e-003027b51669</target>
-    <point>978.0,37.3</point>
-    <point>1482.0,65.3</point>
+    <point>978.0,65.41395348837209</point>
+    <point>1587.0,37.08837209302325</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>exit</branch>
-    <branch>noElements</branch>
   </edge>
   <edge>
     <source>bc6448fd-1bc6-476c-8269-413c3a139651</source>
@@ -434,45 +433,6 @@
     </userobject>
   </sib>
   <sib>
-    <id>6daa86ee-06b7-42f6-8889-426d4e191445</id>
-    <name>IterateGraphModelNodes_4</name>
-    <label>IterateGraphModelNodes</label>
-    <sib-uid>mgl/mgl/IterateGraphModelNodes</sib-uid>
-    <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.IterateGraphModelNodes</taxonomy>
-    <position>876.0,18.0</position>
-    <parameter name="elementKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>graphicalModelElement</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>false</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="graphModelKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>graphModel</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="iteratorKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>iteratorKeygraphicalModelElementsd</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>false</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>error</finalbranches>
-    <finalbranches>exit</finalbranches>
-    <finalbranches>next</finalbranches>
-    <finalbranches>noElements</finalbranches>
-  </sib>
-  <sib>
     <id>258616dd-ca3e-41fa-9656-f76702d3d686</id>
     <name>GraphSIB_7</name>
     <label>Create GetPredecessor Methods</label>
@@ -498,10 +458,10 @@
     </userobject>
   </sib>
   <edge>
-    <source>6daa86ee-06b7-42f6-8889-426d4e191445</source>
+    <source>7cdefbed-ef06-47c4-9603-37dcdf8f40f7</source>
     <target>fb35725f-739d-467f-b206-3284dcc80c51</target>
-    <point>970.188679245283,54.0</point>
-    <point>1037.2340425531916,166.0</point>
+    <point>1065.0,69.0</point>
+    <point>1055.0,80.0</point>
     <labelposition>582.9059829059719,13.479214768273113</labelposition>
     <branch>next</branch>
   </edge>
@@ -801,9 +761,9 @@
   </sib>
   <edge>
     <source>7c84f213-caa4-4c57-89cc-a7f11b52916d</source>
-    <target>6daa86ee-06b7-42f6-8889-426d4e191445</target>
-    <point>830.0,141.2</point>
-    <point>942.0,51.48</point>
+    <target>7cdefbed-ef06-47c4-9603-37dcdf8f40f7</target>
+    <point>830.0,148.88888888888889</point>
+    <point>1062.0,58.6</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -1281,9 +1241,10 @@ return new org.eclipse.emf.common.util.BasicEList&lt;Class&lt;?&gt;&gt;(java.uti
   </sib>
   <edge>
     <source>c6ca4439-e24e-4de2-884b-30dd50f6d044</source>
-    <target>6daa86ee-06b7-42f6-8889-426d4e191445</target>
-    <point>660.0,150.0</point>
-    <point>939.0,40.0</point>
+    <target>7cdefbed-ef06-47c4-9603-37dcdf8f40f7</target>
+    <point>798.0,37.44</point>
+    <point>1062.0,50.64</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
@@ -1445,6 +1406,44 @@ return new org.eclipse.emf.common.util.BasicEList&lt;Class&lt;?&gt;&gt;(java.uti
     <finalbranches>exit</finalbranches>
     <finalbranches>next</finalbranches>
   </sib>
+  <sib>
+    <id>7cdefbed-ef06-47c4-9603-37dcdf8f40f7</id>
+    <name>IterateElements_2</name>
+    <label>IterateGraphModelNodes</label>
+    <sib-uid>collection-sibs/IterateElements</sib-uid>
+    <taxonomy>de.jabc.sib.common.collection.IterateElements</taxonomy>
+    <position>885.5,18.0</position>
+    <parameter name="collection">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>nodes</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="element">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>graphicalModelElement</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="iterator">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>iasdftfdsaraadfator</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>exit</finalbranches>
+    <finalbranches>next</finalbranches>
+  </sib>
   <values/>
   <branch>
     <name>error</name>
@@ -1495,11 +1494,6 @@ return new org.eclipse.emf.common.util.BasicEList&lt;Class&lt;?&gt;&gt;(java.uti
     <name>error</name>
     <branch>error</branch>
     <sib>17f6b916-d4b5-4ac1-b540-9c3741b893ba</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>6daa86ee-06b7-42f6-8889-426d4e191445</sib>
   </branch>
   <branch>
     <name>error</name>
