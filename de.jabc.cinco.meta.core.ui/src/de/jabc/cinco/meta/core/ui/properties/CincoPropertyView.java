@@ -230,9 +230,11 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener{
 		viewer.getControl().setMenu(menuManager.createContextMenu(tree));
 		viewer.getTree().setSelection(viewer.getTree().getItem(0));
 		
-		Object[] expandedElements = treeExpandState.get(bo);
-		if (expandedElements != null)
-			viewer.setExpandedElements(expandedElements);
+		viewer.expandAll();
+		
+//		Object[] expandedElements = treeExpandState.get(bo);
+//		if (expandedElements != null)
+//			viewer.setExpandedElements(expandedElements);
 		
 		this.treeViewer = viewer;
 	}
