@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>079a4d5e-bab9-4273-8a05-29b4b4909c15</id>
   <name>Generate_GraphModelNodeEOperations</name>
-  <changecounter>629</changecounter>
+  <changecounter>675</changecounter>
   <sib>
     <id>1c733983-6c25-45cd-bded-1a4832127f58</id>
     <name>IsPrimeNode</name>
@@ -150,9 +150,10 @@ return retval; </string>
   </sib>
   <edge>
     <source>1c733983-6c25-45cd-bded-1a4832127f58</source>
-    <target>1f4a0cdf-7ebd-49b6-8922-6293e9353fea</target>
-    <point>165.0,75.0</point>
-    <point>158.0,194.0</point>
+    <target>28dbbcc5-4cc6-43cc-a015-675c80471d1a</target>
+    <point>183.0,75.16363636363636</point>
+    <point>312.0,133.8</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>false</branch>
   </edge>
   <sib>
@@ -860,9 +861,10 @@ return cf.canCreate(cc);</string>
   </sib>
   <edge>
     <source>8bdaf58d-db44-4f3a-9225-2171bd027b1d</source>
-    <target>dd9e38f2-3516-49e3-96a7-2080099837da</target>
-    <point>474.0,441.0</point>
-    <point>470.5,291.0</point>
+    <target>075931ae-ff51-4e40-85ff-33098cbce14b</target>
+    <point>470.0,396.53846153846155</point>
+    <point>627.0,275.67692307692306</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <cell>
@@ -884,10 +886,10 @@ return cf.canCreate(cc);</string>
   <cell>
     <form>HTML</form>
     <bounds>
-      <x>1390.5</x>
-      <y>118.0</y>
-      <width>97.0</width>
-      <height>67.0</height>
+      <x>1391.0</x>
+      <y>112.5</y>
+      <width>158.0</width>
+      <height>15.0</height>
     </bounds>
     <value>&lt;html&gt;&lt;span style=&apos;color:black&apos;&gt;&lt;b&gt;UnreachableSibCheck&lt;/b&gt;&lt;/span&gt;&lt;br&gt;&lt;/html&gt;</value>
   </cell>
@@ -910,10 +912,10 @@ return cf.canCreate(cc);</string>
   <cell>
     <form>HTML</form>
     <bounds>
-      <x>1542.5</x>
-      <y>116.0</y>
-      <width>232.0</width>
-      <height>67.0</height>
+      <x>1541.0</x>
+      <y>112.5</y>
+      <width>158.0</width>
+      <height>15.0</height>
     </bounds>
     <value>&lt;html&gt;&lt;span style=&apos;color:black&apos;&gt;&lt;b&gt;UnreachableSibCheck&lt;/b&gt;&lt;/span&gt;&lt;br&gt;&lt;/html&gt;</value>
   </cell>
@@ -936,10 +938,10 @@ return cf.canCreate(cc);</string>
   <cell>
     <form>HTML</form>
     <bounds>
-      <x>1558.0</x>
-      <y>221.0</y>
-      <width>172.0</width>
-      <height>67.0</height>
+      <x>1556.0</x>
+      <y>217.5</y>
+      <width>158.0</width>
+      <height>15.0</height>
     </bounds>
     <value>&lt;html&gt;&lt;span style=&apos;color:black&apos;&gt;&lt;b&gt;UnreachableSibCheck&lt;/b&gt;&lt;/span&gt;&lt;br&gt;&lt;/html&gt;</value>
   </cell>
@@ -962,13 +964,248 @@ return cf.canCreate(cc);</string>
   <cell>
     <form>HTML</form>
     <bounds>
-      <x>1397.0</x>
-      <y>251.0</y>
-      <width>82.0</width>
-      <height>67.0</height>
+      <x>1391.0</x>
+      <y>247.5</y>
+      <width>158.0</width>
+      <height>15.0</height>
     </bounds>
     <value>&lt;html&gt;&lt;span style=&apos;color:black&apos;&gt;&lt;b&gt;UnreachableSibCheck&lt;/b&gt;&lt;/span&gt;&lt;br&gt;&lt;/html&gt;</value>
   </cell>
+  <sib>
+    <id>28dbbcc5-4cc6-43cc-a015-675c80471d1a</id>
+    <name>SwitchModelElement</name>
+    <label>SwitchModelElement</label>
+    <sib-uid>mgl/mgl/SwitchModelElement</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.SwitchModelElement</taxonomy>
+    <position>253.5,168.0</position>
+    <parameter name="eObjectKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>modelElementKey</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>Edge</finalbranches>
+    <finalbranches>GraphModel</finalbranches>
+    <finalbranches>GraphicalModelElement</finalbranches>
+    <finalbranches>Node</finalbranches>
+    <finalbranches>NodeContainer</finalbranches>
+    <finalbranches>UserDefinedType</finalbranches>
+    <finalbranches>error</finalbranches>
+    <finalbranches>other</finalbranches>
+  </sib>
+  <edge>
+    <source>28dbbcc5-4cc6-43cc-a015-675c80471d1a</source>
+    <target>1f4a0cdf-7ebd-49b6-8922-6293e9353fea</target>
+    <point>330.0,150.0</point>
+    <point>180.0,196.0</point>
+    <branch>Node</branch>
+  </edge>
+  <sib>
+    <id>e569e87a-e998-4471-92ee-c82ba893dd7c</id>
+    <name>GraphSIB_8</name>
+    <label>Create CreateAndAdd</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>249.0,286.0</position>
+    <parameter name="eClassKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>eClassKey</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="eOperatiobUpperBound">
+      <int>1</int>
+    </parameter>
+    <parameter name="eOperationLowerBound">
+      <int>1</int>
+    </parameter>
+    <parameter name="eOperationNameKey">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>new${apiPrefix}${modelElementName}</expression>
+          <clazz>java.lang.String</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="eOperationeTypeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>modelElementClass</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>false</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>final $apiPrefix$$modelElementName$ retval = $fqnAPIFactory$.eINSTANCE.create$apiPrefix$$modelElementName$();
+   
+$fqnDiagram$ d = ($fqnDiagram$) this.getDiagram();
+$fqnFeatureProvider$ provider = ($fqnFeatureProvider$) $fqnGraphitiUi$.getExtensionManager().createFeatureProvider(d);
+    
+final $fqnCreateContainerFeaturePrefix$Create$modelElementName$Feature cf = new $fqnCreateContainerFeaturePrefix$Create$modelElementName$Feature(provider);
+final $fqnCreateContext$ cc = new $fqnCreateContext$();
+cc.setX(x);
+cc.setY(y);
+if (width &gt; -1 &amp;&amp; height &gt; -1) {
+	cc.setWidth(width);
+	cc.setHeight(height);
+}
+cc.setTargetContainer(($fqnContainerShape$) getPictogramElement());
+	if (cf.canCreate(cc, true)) {
+		$fqnTransactionalEditingDomain$ dom = $fqnTransactionalEditingDomain$.Factory.INSTANCE.getEditingDomain(getModelElement().eResource().getResourceSet());
+	      	if (dom == null)
+			dom = $fqnTransactionalEditingDomain$.Factory.INSTANCE.createEditingDomain(getModelElement().eResource().getResourceSet());
+		dom.getCommandStack().execute(new $fqnRecordingCommand$(dom) {
+        
+		@Override
+		protected void doExecute() {
+			Object[] newObject = cf.create(cc);
+			if (newObject.length == 1 &amp;&amp; newObject[0] instanceof $fqnGenNodePrefix$$modelElementName$) {
+				retval.setModelElement(($fqnNode$) newObject[0]);
+				retval.setPictogramElement(($fqnContainerShape$) 
+					$fqnGraphiti$.getLinkService().getPictogramElements(getDiagram(), retval.getModelElement()).get(0));
+				getModelElements().add(retval);
+				getCRootElement().getMap().put(retval.getModelElement() ,retval);
+				getMap().put(retval.getModelElement() ,retval);
+			}
+		}
+		});
+	} else {
+		if (cf.getError().equals($fqnECincoError$.MAX_CARDINALITY))
+			throw new $fqnCincoContainerCardinalityException$(&quot;Cardinality of &apos;&quot; + this.getModelElement()+&quot;&apos; exceeded. Can not create $modelElementName$ in the specified container&quot;);
+	}
+    
+return retval; </string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Create EOperation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>28dbbcc5-4cc6-43cc-a015-675c80471d1a</source>
+    <target>e569e87a-e998-4471-92ee-c82ba893dd7c</target>
+    <point>330.0,150.0</point>
+    <point>302.0,232.0</point>
+    <branch>NodeContainer</branch>
+  </edge>
+  <edge>
+    <source>e569e87a-e998-4471-92ee-c82ba893dd7c</source>
+    <target>ce25cd9f-02e6-4b97-9a7c-be31a3cd97ab</target>
+    <point>285.0,255.0</point>
+    <point>185.0,301.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>075931ae-ff51-4e40-85ff-33098cbce14b</id>
+    <name>SwitchModelElement_1</name>
+    <label>SwitchModelElement</label>
+    <sib-uid>mgl/mgl/SwitchModelElement</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.SwitchModelElement</taxonomy>
+    <position>583.5,393.0</position>
+    <parameter name="eObjectKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>modelElementKey</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>Edge</finalbranches>
+    <finalbranches>GraphModel</finalbranches>
+    <finalbranches>GraphicalModelElement</finalbranches>
+    <finalbranches>Node</finalbranches>
+    <finalbranches>NodeContainer</finalbranches>
+    <finalbranches>UserDefinedType</finalbranches>
+    <finalbranches>error</finalbranches>
+    <finalbranches>other</finalbranches>
+  </sib>
+  <edge>
+    <source>075931ae-ff51-4e40-85ff-33098cbce14b</source>
+    <target>dd9e38f2-3516-49e3-96a7-2080099837da</target>
+    <point>645.0,420.0</point>
+    <point>457.0,263.0</point>
+    <branch>Node</branch>
+  </edge>
+  <sib>
+    <id>2914a076-a765-4caa-8ea4-eb5a810762b6</id>
+    <name>GraphSIB_9</name>
+    <label>CreateCanCreateAndAdd</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>565.5,241.0</position>
+    <parameter name="eClassKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>eClassKey</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="eOperatiobUpperBound">
+      <int>1</int>
+    </parameter>
+    <parameter name="eOperationLowerBound">
+      <int>1</int>
+    </parameter>
+    <parameter name="eOperationNameKey">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>canNew${apiPrefix}${modelElementName}</expression>
+          <clazz>java.lang.String</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="eOperationeTypeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>booleanType</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>false</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>final $apiPrefix$$modelElementName$ retval = $fqnAPIFactory$.eINSTANCE.create$apiPrefix$$modelElementName$();
+   
+$fqnDiagram$ d = ($fqnDiagram$) this.getDiagram();
+$fqnFeatureProvider$ provider = ($fqnFeatureProvider$) $fqnGraphitiUi$.getExtensionManager().createFeatureProvider(d);
+    
+final $fqnCreateContainerFeaturePrefix$Create$modelElementName$Feature cf = new $fqnCreateContainerFeaturePrefix$Create$modelElementName$Feature(provider);
+final $fqnCreateContext$ cc = new $fqnCreateContext$();
+cc.setTargetContainer(($fqnContainerShape$) getPictogramElement());
+return cf.canCreate(cc);</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Create EOperation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>075931ae-ff51-4e40-85ff-33098cbce14b</source>
+    <target>2914a076-a765-4caa-8ea4-eb5a810762b6</target>
+    <point>645.0,420.0</point>
+    <point>626.0,271.0</point>
+    <branch>NodeContainer</branch>
+  </edge>
   <parameter>
     <name>node</name>
     <field>node</field>
@@ -1003,6 +1240,26 @@ return cf.canCreate(cc);</string>
     <name>eClassKey</name>
     <field>eClassKey</field>
     <sib>dd9e38f2-3516-49e3-96a7-2080099837da</sib>
+  </parameter>
+  <parameter>
+    <name>node</name>
+    <field>eObjectKey</field>
+    <sib>28dbbcc5-4cc6-43cc-a015-675c80471d1a</sib>
+  </parameter>
+  <parameter>
+    <name>node</name>
+    <field>eObjectKey</field>
+    <sib>075931ae-ff51-4e40-85ff-33098cbce14b</sib>
+  </parameter>
+  <parameter>
+    <name>eClassKey</name>
+    <field>eClassKey</field>
+    <sib>2914a076-a765-4caa-8ea4-eb5a810762b6</sib>
+  </parameter>
+  <parameter>
+    <name>eClassKey</name>
+    <field>eClassKey</field>
+    <sib>e569e87a-e998-4471-92ee-c82ba893dd7c</sib>
   </parameter>
   <values>
     <entry>
@@ -1040,5 +1297,10 @@ return cf.canCreate(cc);</string>
     <name>default</name>
     <branch>default</branch>
     <sib>dd9e38f2-3516-49e3-96a7-2080099837da</sib>
+  </branch>
+  <branch>
+    <name>default</name>
+    <branch>default</branch>
+    <sib>2914a076-a765-4caa-8ea4-eb5a810762b6</sib>
   </branch>
 </model>

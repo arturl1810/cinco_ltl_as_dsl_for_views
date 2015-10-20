@@ -1234,8 +1234,8 @@ public class ServiceAdapter {
 			HashMap<String, List<GraphicalModelElement>> map = new HashMap<>();
 			
 			map.put(ID_NODES, new ArrayList<GraphicalModelElement>());
-			map.put(ID_CONTAINER, new ArrayList<GraphicalModelElement>());
 			
+			/** After libComp changes in MGL.ecore mgl.NodeContainer is subtype of mgl.Node... **/
 			for (Node n : gm.getNodes()){
 				if (n.isIsAbstract() || n.getPrimeReference() != null || CincoUtils.isCreateDisabled(n))
 					continue;
@@ -1262,25 +1262,6 @@ public class ServiceAdapter {
 							if (map.get(v) == null)
 								map.put(v, new ArrayList<GraphicalModelElement>());
 							map.get(v).add(e);
-						}
-					}
-				}
-			}
-			
-			for (Node noc : gm.getNodes()){
-				if(noc instanceof NodeContainer){
-					NodeContainer nc = (NodeContainer)noc;
-					if (nc.isIsAbstract() || CincoUtils.isCreateDisabled(nc))
-						continue;
-					if (!hasPaletteCategory(nc))
-						map.get(ID_CONTAINER).add(nc);
-					for (Annotation a : nc.getAnnotations()) {
-						if ("palette".equals(a.getName())) {
-							for (String v : a.getValue()) {
-								if (map.get(v) == null)
-									map.put(v, new ArrayList<GraphicalModelElement>());
-								map.get(v).add(nc);
-							}
 						}
 					}
 				}

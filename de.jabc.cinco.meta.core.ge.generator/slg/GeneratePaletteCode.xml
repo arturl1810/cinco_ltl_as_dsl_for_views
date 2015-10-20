@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>f99467c8-1334-49f9-a0cb-9e2f6cc9db0d</id>
   <name>GeneratePaletteCode</name>
-  <changecounter>276</changecounter>
+  <changecounter>277</changecounter>
   <sib>
     <id>7f9d75e6-251a-4c32-a1b9-97eb143670cc</id>
     <name>GetPaletteGroups</name>

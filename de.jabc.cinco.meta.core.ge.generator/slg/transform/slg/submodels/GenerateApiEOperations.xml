@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>ec0a5ab9-778e-4f7b-a992-cd928603a684</id>
   <name>GenerateApiEOperations</name>
-  <changecounter>1645</changecounter>
+  <changecounter>1687</changecounter>
   <sib>
     <id>0eaec583-f835-49df-b06b-d82d6ed8d0f2</id>
     <name>GetElement</name>
@@ -260,10 +260,10 @@
     <source>e051549c-979d-4caf-911b-d80ba3d199dd</source>
     <target>15d995ad-bb5e-4483-86a1-545fc0dd637a</target>
     <spline/>
-    <point>1121.0,573.0</point>
-    <point>1252.0,255.0</point>
-    <point>1121.0,78.0</point>
-    <labelposition>476.0,123.0</labelposition>
+    <point>1224.7560975609756,526.0</point>
+    <point>1335.0,300.0</point>
+    <point>1224.2307692307693,84.0</point>
+    <labelposition>486.947383606131,103.97967631276786</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
@@ -386,7 +386,7 @@
     <label>IsAbstract</label>
     <sib-uid>ge-util-sibs/IsAbstract</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsAbstract</taxonomy>
-    <position>567.5,168.0</position>
+    <position>567.5,153.0</position>
     <parameter name="modelElement">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -488,8 +488,9 @@
     <label>Generate_APIOperations_GraphModel1</label>
     <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
-    <position>201.0,46.0</position>
+    <position>202.5,46.0</position>
     <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Generate_APIOperations_GraphModel1</string>
     </userobject>
@@ -540,24 +541,24 @@
   <edge>
     <source>7808ed9e-4609-4c03-baa5-c09fa1177485</source>
     <target>7ee79329-5508-4859-af38-652b8752d237</target>
-    <point>86.0,78.0</point>
-    <point>251.0,78.0</point>
+    <point>93.0,66.675</point>
+    <point>295.0,66.75</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
     <source>7ee79329-5508-4859-af38-652b8752d237</source>
     <target>0f8dc78f-fae5-48ea-ae03-a6cfb2f0e2dc</target>
-    <point>335.0,64.52631578947368</point>
-    <point>582.0,38.463157894736845</point>
+    <point>335.0,66.63157894736842</point>
+    <point>582.0,66.56842105263158</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
     <source>0f8dc78f-fae5-48ea-ae03-a6cfb2f0e2dc</source>
     <target>0e88df22-e439-4cfc-b327-56627915c9fa</target>
-    <point>618.0,38.22857142857143</point>
-    <point>897.0,64.8</point>
+    <point>618.0,66.51428571428572</point>
+    <point>897.0,66.51428571428572</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>exit</branch>
   </edge>
@@ -579,8 +580,8 @@
   <edge>
     <source>0e88df22-e439-4cfc-b327-56627915c9fa</source>
     <target>15d995ad-bb5e-4483-86a1-545fc0dd637a</target>
-    <point>888.0,23.817391304347826</point>
-    <point>1197.0,64.12173913043479</point>
+    <point>933.0,66.54</point>
+    <point>1197.0,66.54</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>exit</branch>
   </edge>
@@ -590,7 +591,7 @@
     <label>IsAbstract</label>
     <sib-uid>ge-util-sibs/IsAbstract</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsAbstract</taxonomy>
-    <position>882.5,243.0</position>
+    <position>882.5,198.0</position>
     <parameter name="modelElement">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -737,5 +738,10 @@
     <name>default</name>
     <branch>noElements</branch>
     <sib>15d995ad-bb5e-4483-86a1-545fc0dd637a</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>7ee79329-5508-4859-af38-652b8752d237</sib>
   </branch>
 </model>

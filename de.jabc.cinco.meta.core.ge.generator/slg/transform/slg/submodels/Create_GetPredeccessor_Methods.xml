@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>f555a538-7d72-4511-9276-f914744a55db</id>
   <name>Create GetPredecessor Methods</name>
-  <changecounter>55</changecounter>
+  <changecounter>56</changecounter>
   <sib>
     <id>440acf67-c1d6-4264-8b6d-3967f9f9de7a</id>
     <name>GetEdgeElementConnectionUpperBound</name>
@@ -651,11 +651,11 @@ return getPredecessors($apiPrefix$$connectedElementName$.class);</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Create EOperation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
     </userobject>
   </sib>
   <edge>

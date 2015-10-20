@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>6337b64c-6817-485e-8307-e4917971ec4c</id>
   <name>GenerateAddFeatures</name>
-  <changecounter>1064</changecounter>
+  <changecounter>1076</changecounter>
   <sib>
     <id>b32a8ef5-975f-40bb-898a-24caf849acbb</id>
     <name>IterateElements</name>
@@ -13,7 +13,7 @@
     <parameter name="collection">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>nodes</key>
+          <key>allNodes</key>
           <scope>GLOBAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
@@ -156,9 +156,11 @@
   </sib>
   <edge>
     <source>23f82caf-b523-439d-b4f9-ade02cf5fa97</source>
-    <target>c02993bb-a7d3-438f-b224-0b5c778cb9c8</target>
-    <point>480.0,735.0</point>
-    <point>720.0,735.0</point>
+    <target>0e0cd1d6-c759-442e-ad93-6a92ebefb3ac</target>
+    <spline/>
+    <point>498.0,731.175</point>
+    <point>720.0,795.0</point>
+    <point>942.0,731.175</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>exit</branch>
   </edge>

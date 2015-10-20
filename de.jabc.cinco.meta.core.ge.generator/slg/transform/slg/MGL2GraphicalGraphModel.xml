@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>ca5a39ee-2606-4461-8c2d-1e6ebdbd9d0e</id>
   <name>MGL2GraphicalGraphModel</name>
-  <changecounter>420</changecounter>
+  <changecounter>454</changecounter>
   <sib>
     <id>e763e08f-ee7b-48f6-8187-dac38f44f435</id>
     <name>MacroSIB</name>
@@ -102,17 +102,19 @@
   <edge>
     <source>bd057e68-0ca4-49eb-8b0f-0da65754197d</source>
     <target>3221de49-39c9-401f-9821-aabdf4f60dce</target>
-    <point>735.0,75.0</point>
-    <point>915.0,75.0</point>
+    <point>755.0,67.0</point>
+    <point>895.0,67.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>exit</branch>
   </edge>
   <edge>
     <source>3221de49-39c9-401f-9821-aabdf4f60dce</source>
-    <target>d49312d0-317f-4dcc-ac26-b05b90b06472</target>
-    <point>915.0,75.0</point>
-    <point>1125.0,75.0</point>
-    <labelposition>500.0,0.0</labelposition>
+    <target>dfb256a3-59cd-4dfa-86de-3cf6a01debc9</target>
+    <spline/>
+    <point>935.0,60.76923076923077</point>
+    <point>1110.0,15.0</point>
+    <point>1315.0,61.46666666666667</point>
+    <labelposition>452.4041648377137,-47.08483297725314</labelposition>
     <branch>exit</branch>
   </edge>
   <sib>
@@ -136,28 +138,28 @@
   <edge>
     <source>d49312d0-317f-4dcc-ac26-b05b90b06472</source>
     <target>3966d27a-78d5-4870-aba6-8c1ee8089b98</target>
-    <point>1125.0,75.0</point>
+    <point>1125.0,104.0</point>
     <point>1125.0,195.0</point>
-    <point>1770.0,210.0</point>
-    <labelposition>20.0,37.0</labelposition>
+    <point>620.5,258.0</point>
+    <labelposition>7.1953241175439935,-12.433622204196045</labelposition>
     <branch>error</branch>
   </edge>
   <edge>
     <source>3221de49-39c9-401f-9821-aabdf4f60dce</source>
     <target>3966d27a-78d5-4870-aba6-8c1ee8089b98</target>
-    <point>915.0,75.0</point>
+    <point>915.0,104.0</point>
     <point>915.0,195.0</point>
-    <point>1770.0,210.0</point>
-    <labelposition>3.141319619330382,42.04507760429907</labelposition>
+    <point>620.5,258.0</point>
+    <labelposition>8.73275462046018,-12.024028366922883</labelposition>
     <branch>error</branch>
   </edge>
   <edge>
     <source>bd057e68-0ca4-49eb-8b0f-0da65754197d</source>
     <target>3966d27a-78d5-4870-aba6-8c1ee8089b98</target>
-    <point>735.0,75.0</point>
+    <point>735.0,104.0</point>
     <point>735.0,195.0</point>
-    <point>1770.0,210.0</point>
-    <labelposition>5.0,39.0</labelposition>
+    <point>620.5,258.0</point>
+    <labelposition>52.218186755371505,-4.958268535428531</labelposition>
     <branch>error</branch>
   </edge>
   <edge>
@@ -205,10 +207,10 @@
   <edge>
     <source>dfb256a3-59cd-4dfa-86de-3cf6a01debc9</source>
     <target>3966d27a-78d5-4870-aba6-8c1ee8089b98</target>
-    <point>1335.0,75.0</point>
+    <point>1335.0,104.0</point>
     <point>1335.0,195.0</point>
-    <point>1770.0,210.0</point>
-    <labelposition>16.706781820756053,38.11037124500509</labelposition>
+    <point>620.5,258.0</point>
+    <labelposition>8.151976807579185,-18.152083654583368</labelposition>
     <branch>error</branch>
   </edge>
   <sib>
@@ -258,8 +260,8 @@
   <edge>
     <source>dfb256a3-59cd-4dfa-86de-3cf6a01debc9</source>
     <target>6bbe603e-79c9-4547-bc18-f9bb41a277b7</target>
-    <point>1335.0,75.0</point>
-    <point>1485.0,75.0</point>
+    <point>1355.0,67.2</point>
+    <point>1465.0,67.2</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>exit</branch>
   </edge>
@@ -646,9 +648,9 @@ return list;</string>
   </sib>
   <edge>
     <source>c8c9f94e-73b9-47f8-935e-8ca1543b4dc2</source>
-    <target>7f459840-de66-4182-9b27-a06e8f1e3682</target>
-    <point>750.0,326.0</point>
-    <point>750.0,421.0</point>
+    <target>24ff3c81-ec75-4281-9f53-bfae41d93939</target>
+    <point>770.0,317.5</point>
+    <point>852.0,358.35</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -698,7 +700,7 @@ return list;</string>
     <label>PrintException</label>
     <sib-uid>io-sibs/PrintException</sib-uid>
     <taxonomy>de.jabc.sib.common.io.PrintException</taxonomy>
-    <position>931.0,273.0</position>
+    <position>931.0,288.0</position>
     <parameter name="exception">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -710,6 +712,34 @@ return list;</string>
     </parameter>
     <finalbranches>default</finalbranches>
   </sib>
+  <sib>
+    <id>24ff3c81-ec75-4281-9f53-bfae41d93939</id>
+    <name>PrintConsoleMessage_3</name>
+    <label>PrintConsoleMessage</label>
+    <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
+    <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
+    <position>804.5,348.0</position>
+    <parameter name="error">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="message">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>Generate Helper EOperation finished</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>false</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <finalbranches>default</finalbranches>
+  </sib>
+  <edge>
+    <source>24ff3c81-ec75-4281-9f53-bfae41d93939</source>
+    <target>7f459840-de66-4182-9b27-a06e8f1e3682</target>
+    <point>870.0,375.0</point>
+    <point>726.0,441.0</point>
+    <branch>default</branch>
+  </edge>
   <userobject key="ABC$ANNOTATION">
     <Content Version="1.0" Grammar="ModelDocGrammar">
       <factory>

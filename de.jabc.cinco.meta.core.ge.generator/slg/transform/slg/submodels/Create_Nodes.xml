@@ -2,12 +2,12 @@
 <model version="2.1">
   <id>d136ee11-0a5e-458f-8813-648c7e29c207</id>
   <name>Create Nodes</name>
-  <changecounter>118</changecounter>
+  <changecounter>138</changecounter>
   <edge>
-    <source>adad6e55-b617-4921-a198-c64ae2915ec2</source>
+    <source>c3388d17-ba63-4d22-8dd3-38d14e68ef9c</source>
     <target>55e2fb55-9ab4-4b8a-a441-888598100881</target>
-    <point>138.0,66.45</point>
-    <point>460.0,66.5</point>
+    <point>93.0,109.4</point>
+    <point>460.0,68.66666666666666</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>next</branch>
   </edge>
@@ -190,9 +190,9 @@
   </edge>
   <edge>
     <source>8f08fcda-4e89-42c7-a09c-497da77c7deb</source>
-    <target>adad6e55-b617-4921-a198-c64ae2915ec2</target>
-    <point>477.0,180.672</point>
-    <point>138.0,72.192</point>
+    <target>c3388d17-ba63-4d22-8dd3-38d14e68ef9c</target>
+    <point>477.0,183.17142857142858</point>
+    <point>93.0,114.6</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>emptyString</branch>
     <branch>false</branch>
@@ -490,10 +490,10 @@
   </edge>
   <edge>
     <source>8cc8ad73-fef7-4301-b70b-0ac15c731455</source>
-    <target>adad6e55-b617-4921-a198-c64ae2915ec2</target>
-    <point>173.0769230769231,213.0</point>
-    <point>126.20689655172414,84.0</point>
-    <labelposition>500.0,0.0</labelposition>
+    <target>c3388d17-ba63-4d22-8dd3-38d14e68ef9c</target>
+    <point>162.97297297297297,213.0</point>
+    <point>89.65116279069767,129.0</point>
+    <labelposition>572.6290666180737,1.4464847010434587</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
@@ -734,42 +734,43 @@
     <branch>default</branch>
   </edge>
   <sib>
-    <id>adad6e55-b617-4921-a198-c64ae2915ec2</id>
-    <name>IterateElements</name>
-    <label>IterateNodes</label>
-    <sib-uid>collection-sibs/IterateElements</sib-uid>
-    <taxonomy>de.jabc.sib.common.collection.IterateElements</taxonomy>
-    <position>134.5,48.0</position>
-    <parameter name="collection">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>nodes</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="element">
+    <id>c3388d17-ba63-4d22-8dd3-38d14e68ef9c</id>
+    <name>IterateGraphModelNodes</name>
+    <label>IterateGraphModelNodes</label>
+    <sib-uid>mgl/mgl/IterateGraphModelNodes</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.IterateGraphModelNodes</taxonomy>
+    <position>96.0,48.0</position>
+    <parameter name="elementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
           <key>modelElement</key>
           <scope>GLOBAL</scope>
+          <scopeMutable>false</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="graphModelKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>graphModel</key>
+          <scope>GLOBAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
-    <parameter name="iterator">
+    <parameter name="iteratorKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
           <key>iteratfawfeoasrdg</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
+          <scope>GLOBAL</scope>
+          <scopeMutable>false</scopeMutable>
         </ContextKeyFoundation>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <finalbranches>error</finalbranches>
     <finalbranches>exit</finalbranches>
     <finalbranches>next</finalbranches>
+    <finalbranches>noElements</finalbranches>
     <userobject key="ABC$START">
       <boolean>true</boolean>
     </userobject>
@@ -868,11 +869,16 @@
   <branch>
     <name>exit</name>
     <branch>exit</branch>
-    <sib>adad6e55-b617-4921-a198-c64ae2915ec2</sib>
+    <sib>c3388d17-ba63-4d22-8dd3-38d14e68ef9c</sib>
   </branch>
   <branch>
     <name>error</name>
     <branch>error</branch>
-    <sib>adad6e55-b617-4921-a198-c64ae2915ec2</sib>
+    <sib>c3388d17-ba63-4d22-8dd3-38d14e68ef9c</sib>
+  </branch>
+  <branch>
+    <name>exit</name>
+    <branch>noElements</branch>
+    <sib>c3388d17-ba63-4d22-8dd3-38d14e68ef9c</sib>
   </branch>
 </model>
