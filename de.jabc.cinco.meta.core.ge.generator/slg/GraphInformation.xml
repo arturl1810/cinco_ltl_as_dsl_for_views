@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>86742e86-2110-423a-afde-6fd521759a73</id>
   <name>GraphInformation</name>
-  <changecounter>1084</changecounter>
+  <changecounter>1089</changecounter>
   <sib>
     <id>9e28dbf6-7ef4-4eef-9ad3-1d0d32bf6020</id>
     <name>GetGraphModelName</name>
@@ -3096,40 +3096,6 @@ public void setError(ECincoError error) {
     <branch>default</branch>
   </edge>
   <sib>
-    <id>f8a500d1-c85c-422a-9334-c5a2b65f528a</id>
-    <name>CreateDummyGraphModel</name>
-    <label>CreateDummyGraphModel</label>
-    <sib-uid>ge-util-sibs/CreateDummyGraphModel</sib-uid>
-    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.CreateDummyGraphModel</taxonomy>
-    <position>603.0,18.0</position>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-  </sib>
-  <sib>
-    <id>b384617d-855b-4c5f-9fe2-cc08659b2a50</id>
-    <name>CreateDummyStyles</name>
-    <label>CreateDummyStyles</label>
-    <sib-uid>ge-util-sibs/CreateDummyStyles</sib-uid>
-    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.CreateDummyStyles</taxonomy>
-    <position>412.0,18.0</position>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-  </sib>
-  <edge>
-    <source>f8a500d1-c85c-422a-9334-c5a2b65f528a</source>
-    <target>b384617d-855b-4c5f-9fe2-cc08659b2a50</target>
-    <point>630.0,45.0</point>
-    <point>480.0,45.0</point>
-    <branch>default</branch>
-  </edge>
-  <edge>
-    <source>b384617d-855b-4c5f-9fe2-cc08659b2a50</source>
-    <target>9e28dbf6-7ef4-4eef-9ad3-1d0d32bf6020</target>
-    <point>480.0,45.0</point>
-    <point>298.0,39.0</point>
-    <branch>default</branch>
-  </edge>
-  <sib>
     <id>28d181ae-a616-4bbc-8e61-ab4e50111d4b</id>
     <name>IterateElements_2</name>
     <label>IterateElements</label>
@@ -3662,16 +3628,6 @@ public void setError(ECincoError error) {
     <name>error</name>
     <branch>error</branch>
     <sib>68eeb0ad-2cdf-4070-a9ec-464ac657caa1</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>b384617d-855b-4c5f-9fe2-cc08659b2a50</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>f8a500d1-c85c-422a-9334-c5a2b65f528a</sib>
   </branch>
   <branch>
     <name>error</name>

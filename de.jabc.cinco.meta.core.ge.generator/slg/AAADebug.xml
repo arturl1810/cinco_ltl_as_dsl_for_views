@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<model version="2.1">
+  <id>dc95313b-c768-45a5-a693-5e4036189499</id>
+  <name>AAADebug</name>
+  <changecounter>3</changecounter>
+  <sib>
+    <id>e8ea1365-ac2c-4fb1-bdc6-1b601a940cb0</id>
+    <name>CreateDummyGraphModel</name>
+    <label>CreateDummyGraphModel</label>
+    <sib-uid>ge-util-sibs/CreateDummyGraphModel</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.CreateDummyGraphModel</taxonomy>
+    <position>116.5,123.0</position>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$START">
+      <boolean>true</boolean>
+    </userobject>
+  </sib>
+  <sib>
+    <id>b812c0d2-16c8-4662-ae07-6b16ce02934c</id>
+    <name>CreateDummyStyles</name>
+    <label>CreateDummyStyles</label>
+    <sib-uid>ge-util-sibs/CreateDummyStyles</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.CreateDummyStyles</taxonomy>
+    <position>328.0,123.0</position>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>02ede04b-d423-4e7e-8088-202a7805d25a</id>
+    <name>MacroSIB</name>
+    <label>Main</label>
+    <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
+    <position>546.0,121.0</position>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Main</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>657a94c6-b527-408b-959c-90e7c1d765f1</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>e8ea1365-ac2c-4fb1-bdc6-1b601a940cb0</source>
+    <target>b812c0d2-16c8-4662-ae07-6b16ce02934c</target>
+    <point>195.0,150.0</point>
+    <point>384.0,135.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>b812c0d2-16c8-4662-ae07-6b16ce02934c</source>
+    <target>02ede04b-d423-4e7e-8088-202a7805d25a</target>
+    <point>390.0,150.0</point>
+    <point>569.0,133.0</point>
+    <branch>default</branch>
+  </edge>
+  <values/>
+</model>

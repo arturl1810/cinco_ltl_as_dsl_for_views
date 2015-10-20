@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>bbe15f4c-aa62-4a79-93be-b5b01df883f7</id>
   <name>Create Swimlanes</name>
-  <changecounter>34</changecounter>
+  <changecounter>46</changecounter>
   <sib>
     <id>16bf1154-7de3-4eea-84a6-7a6ea202a8a3</id>
     <name>MacroSIB</name>
@@ -39,9 +39,9 @@
   </sib>
   <edge>
     <source>9df90b9b-f0ab-4e3b-878d-cadcf7c18cb1</source>
-    <target>16bf1154-7de3-4eea-84a6-7a6ea202a8a3</target>
-    <point>318.0,316.7739130434783</point>
-    <point>625.0,236.73913043478262</point>
+    <target>5db30783-06e7-412d-a456-d17fb80b5a07</target>
+    <point>303.0,244.68</point>
+    <point>417.0,324.48</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>next</branch>
   </edge>
@@ -439,7 +439,7 @@
     <parameter name="iterator">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>glContitioawjregae</key>
+          <key>glContitioawjregaoaiwjeropaofs</key>
           <scope>LOCAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
@@ -452,6 +452,35 @@
       <boolean>true</boolean>
     </userobject>
   </sib>
+  <sib>
+    <id>5db30783-06e7-412d-a456-d17fb80b5a07</id>
+    <name>PrintConsoleMessage</name>
+    <label>PrintConsoleMessage</label>
+    <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
+    <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
+    <position>369.5,318.0</position>
+    <parameter name="error">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="message">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>modelElement: ${modelElement}
+meClass: ${modelElementClass}</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>false</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <finalbranches>default</finalbranches>
+  </sib>
+  <edge>
+    <source>5db30783-06e7-412d-a456-d17fb80b5a07</source>
+    <target>16bf1154-7de3-4eea-84a6-7a6ea202a8a3</target>
+    <point>435.0,345.0</point>
+    <point>615.0,252.0</point>
+    <branch>default</branch>
+  </edge>
   <values/>
   <branch>
     <name>error</name>
