@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>5493c838-f9b5-4019-b333-827236224ae0</id>
   <name>Create Inheritance</name>
-  <changecounter>13</changecounter>
+  <changecounter>14</changecounter>
   <sib>
     <id>d787c5a0-d23c-4e62-9b37-e2e25d08096a</id>
     <name>CheckVariable</name>
@@ -309,12 +309,11 @@
   </sib>
   <edge>
     <source>8c038b24-0eca-42b2-8799-8f2721ba5e10</source>
-    <target>290f08f9-950a-4a4a-97cd-a6f180e38637</target>
+    <target>f1dd65c9-e0e2-40e6-b697-44a91784333a</target>
     <spline/>
-    <point>419.2105263157895,174.0</point>
-    <point>705.1181102362204,528.0</point>
+    <point>399.2857142857143,174.0</point>
+    <point>351.3157894736842,318.0</point>
     <labelposition>500.0,0.0</labelposition>
-    <branch>GraphModel</branch>
     <branch>Node</branch>
   </edge>
   <edge>
@@ -507,40 +506,12 @@
     <point>111.0,331.0</point>
     <branch>default</branch>
   </edge>
-  <sib>
-    <id>290f08f9-950a-4a4a-97cd-a6f180e38637</id>
-    <name>SwitchNode</name>
-    <label>SwitchNode</label>
-    <sib-uid>mgl/mgl/SwitchNode</sib-uid>
-    <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.SwitchNode</taxonomy>
-    <position>368.5,228.0</position>
-    <parameter name="eObjectKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>eObjectKey</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>NodeContainer</finalbranches>
-    <finalbranches>error</finalbranches>
-    <finalbranches>other</finalbranches>
-  </sib>
   <edge>
-    <source>290f08f9-950a-4a4a-97cd-a6f180e38637</source>
+    <source>8c038b24-0eca-42b2-8799-8f2721ba5e10</source>
     <target>3a7813ad-a76e-4f1b-8283-7ac1a25f819b</target>
-    <point>405.0,240.0</point>
-    <point>511.0,350.0</point>
-    <branch>NodeContainer</branch>
-  </edge>
-  <edge>
-    <source>290f08f9-950a-4a4a-97cd-a6f180e38637</source>
-    <target>f1dd65c9-e0e2-40e6-b697-44a91784333a</target>
-    <point>405.0,240.0</point>
-    <point>349.0,334.0</point>
-    <branch>error</branch>
-    <branch>other</branch>
+    <point>405.0,165.0</point>
+    <point>488.0,332.0</point>
+    <branch>GraphModel</branch>
   </edge>
   <parameter>
     <name>modelElementClassKey</name>
@@ -551,11 +522,6 @@
     <name>modelElementKey</name>
     <field>eObjectKey</field>
     <sib>8c038b24-0eca-42b2-8799-8f2721ba5e10</sib>
-  </parameter>
-  <parameter>
-    <name>modelElementKey</name>
-    <field>eObjectKey</field>
-    <sib>290f08f9-950a-4a4a-97cd-a6f180e38637</sib>
   </parameter>
   <values>
     <entry>
