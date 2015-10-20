@@ -31,6 +31,8 @@ import org.eclipse.xtext.xbase.lib.Pair
 import org.eclipse.emf.common.util.BasicEList
 import mgl.GraphicalModelElement
 import mgl.Node
+import mgl.NodeContainer
+import org.eclipse.xtext.EcoreUtil2
 
 class MGLGenerator implements IGenerator {
 	@Inject extension IQualifiedNameProvider
@@ -147,7 +149,7 @@ class MGLGenerator implements IGenerator {
 	
 	def GraphModel prepareGraphModel(GraphModel graphModel){
 		var connectableElements = new BasicEList<GraphicalModelElement>()
-		
+		//inheritContainable(graphModel.nodes.filter(NodeContainer))
 		connectableElements.addAll(graphModel.nodes)
 		//connectableElements.addAll(graphModel.nodeContainers)
 		for(elem:connectableElements){
@@ -169,4 +171,16 @@ class MGLGenerator implements IGenerator {
 		
 		
 	}
+	
+//	def inheritContainable(Iterable<NodeContainer> containers) {
+//		for(container: containers){
+//			var superType = (container.extends as NodeContainer)
+//			while(superType!=null){
+//				container.containableElements.addAll(superType.containableElements.map[ce| EcoreUtil2.copy(ce)])
+//				
+//				superType = (superType.extends as NodeContainer)	
+//			}
+//		}
+//	}
+	
 }

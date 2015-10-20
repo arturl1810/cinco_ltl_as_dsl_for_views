@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>d5531c11-ffc2-41e6-b1fd-4f08e1327b1f</id>
   <name>Generate Helper EOperations</name>
-  <changecounter>157</changecounter>
+  <changecounter>159</changecounter>
   <sib>
     <id>bc6448fd-1bc6-476c-8269-413c3a139651</id>
     <name>IterateNodeContainerContainableElements</name>
@@ -499,9 +499,9 @@
   </sib>
   <edge>
     <source>6daa86ee-06b7-42f6-8889-426d4e191445</source>
-    <target>d4269432-86c5-44ee-b4c9-46efce9c3fbe</target>
-    <point>978.0,49.68</point>
-    <point>1090.0,128.2</point>
+    <target>671d2ea3-6ce1-440f-989e-2d0cd46c6d2d</target>
+    <point>1158.75,54.0</point>
+    <point>1180.7142857142858,153.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>next</branch>
   </edge>
@@ -1760,6 +1760,73 @@ return new org.eclipse.emf.common.util.BasicEList&lt;Class&lt;? extends Node&gt;
     <branch>error</branch>
     <branch>other</branch>
   </edge>
+  <sib>
+    <id>8907f208-4166-4631-ad5e-9c4d42c7a9db</id>
+    <name>GraphSIB_15</name>
+    <label>Generate CanContain Method For GraphModel</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>1258.0,151.0</position>
+    <parameter name="containingElementKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>graphicalModelElement</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Generate CanContain Method</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>2dfcc433-a956-4609-a130-76521a6c3e9e</string>
+    </userobject>
+  </sib>
+  <sib>
+    <id>671d2ea3-6ce1-440f-989e-2d0cd46c6d2d</id>
+    <name>SwitchNode_1</name>
+    <label>SwitchNode</label>
+    <sib-uid>mgl/mgl/SwitchNode</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.SwitchNode</taxonomy>
+    <position>1118.0,108.0</position>
+    <parameter name="eObjectKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>graphicalModelElement</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>NodeContainer</finalbranches>
+    <finalbranches>error</finalbranches>
+    <finalbranches>other</finalbranches>
+  </sib>
+  <edge>
+    <source>671d2ea3-6ce1-440f-989e-2d0cd46c6d2d</source>
+    <target>8907f208-4166-4631-ad5e-9c4d42c7a9db</target>
+    <point>1185.0,180.0</point>
+    <point>1385.0,168.0</point>
+    <branch>NodeContainer</branch>
+  </edge>
+  <edge>
+    <source>671d2ea3-6ce1-440f-989e-2d0cd46c6d2d</source>
+    <target>d4269432-86c5-44ee-b4c9-46efce9c3fbe</target>
+    <point>1155.0,135.0</point>
+    <point>1167.0,299.0</point>
+    <branch>error</branch>
+    <branch>other</branch>
+  </edge>
+  <edge>
+    <source>8907f208-4166-4631-ad5e-9c4d42c7a9db</source>
+    <target>d4269432-86c5-44ee-b4c9-46efce9c3fbe</target>
+    <point>1395.0,180.0</point>
+    <point>1186.0,284.0</point>
+    <branch>default</branch>
+  </edge>
   <parameter>
     <name>graphModelKey</name>
     <field>containingElementKey</field>
@@ -2001,5 +2068,10 @@ return new org.eclipse.emf.common.util.BasicEList&lt;Class&lt;? extends Node&gt;
     <name>error</name>
     <branch>error</branch>
     <sib>ceb1adfd-57ac-4e1c-a210-6081e936df97</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>8907f208-4166-4631-ad5e-9c4d42c7a9db</sib>
   </branch>
 </model>
