@@ -156,7 +156,7 @@ public class CincoProductProjectCreator {
 
 			IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 			ISetSelectionTarget projectExplorerView = (ISetSelectionTarget)page.findView(IPageLayout.ID_PROJECT_EXPLORER);
-			//FIXME: projectExplorerView is null. Correct ID?
+			// FIXME: projectExplorerView is null if current perspective does not contain a "Project Explorer" view
 			projectExplorerView.selectReveal(new StructuredSelection(cpdModelFile));
 
 

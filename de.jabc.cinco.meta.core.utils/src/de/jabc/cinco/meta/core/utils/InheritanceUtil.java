@@ -21,9 +21,6 @@ public class InheritanceUtil {
 		if (me instanceof Edge) {
 			return checkEdgeInheritance((Edge) me);
 		}
-//		if (me instanceof NodeContainer) {
-//			return checkNodeContainerInheritance((NodeContainer) me);
-//		}
 		return null;
 	}
 	
