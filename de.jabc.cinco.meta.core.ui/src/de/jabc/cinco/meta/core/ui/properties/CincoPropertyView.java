@@ -3,6 +3,7 @@ package de.jabc.cinco.meta.core.ui.properties;
 import graphmodel.GraphModel;
 import graphmodel.ModelElement;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -18,6 +19,7 @@ import org.eclipse.core.databinding.property.list.IListProperty;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFProperties;
 import org.eclipse.emf.databinding.IEMFListProperty;
+import org.eclipse.emf.databinding.edit.EMFEditObservables;
 import org.eclipse.emf.databinding.edit.EMFEditProperties;
 import org.eclipse.emf.databinding.edit.IEMFEditListProperty;
 import org.eclipse.emf.databinding.edit.IEMFEditValueProperty;
@@ -26,6 +28,7 @@ import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.util.TransactionUtil;
 import org.eclipse.gef.GraphicalEditPart;
@@ -37,8 +40,10 @@ import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.databinding.swt.ISWTObservableValue;
 import org.eclipse.jface.databinding.swt.IWidgetValueProperty;
 import org.eclipse.jface.databinding.swt.WidgetProperties;
+import org.eclipse.jface.databinding.viewers.IViewerObservableValue;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
 import org.eclipse.jface.databinding.viewers.ObservableListTreeContentProvider;
+import org.eclipse.jface.databinding.viewers.ViewersObservables;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.ISelection;
@@ -136,10 +141,10 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener{
 			EStructuralFeature... features) {
 		List<EStructuralFeature> featureList = Arrays.asList(features);
 		List<EStructuralFeature> attributeList = featureList.stream()
-				.filter(f -> f instanceof EAttribute)
+				.filter(f -> (f instanceof EAttribute) || (f instanceof EReference && !((EReference) f).isContainment()) )
 				.collect(Collectors.toList());
 		List<EStructuralFeature> referenceList = featureList.stream()
-				.filter(f -> f instanceof EReference)
+				.filter(f -> f instanceof EReference && ((EReference) f).isContainment())
 				.collect(Collectors.toList());
 
 		init_ListPorperties(clazz,
@@ -273,7 +278,7 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener{
 
 		for (EStructuralFeature attr : attributes) {
 			if (attr.getUpperBound() == 1) {
-				createSingleAttributeProperty(bo, comp, (EAttribute) attr);
+				createSingleAttributeProperty(bo, comp,  attr);
 			}
 			if (attr.getUpperBound() == -1) {
 				createMultiAttributeProperty(bo, comp, (EAttribute) attr);
@@ -287,6 +292,45 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener{
 					"NPE: Composite for the simple property view is null");
 		disposeChildren(simpleViewComposite);
 		createUIAndBindings(o, simpleViewComposite);
+	}
+
+	private void createSingleAttributeProperty(EObject bo, Composite comp, EStructuralFeature feature) {
+		if (feature instanceof EAttribute)
+			createSingleAttributeProperty(bo, comp, (EAttribute) feature);
+		if (feature instanceof EReference)
+			createSingleAttributeProperty(bo, comp, (EReference) feature);
+	}
+	
+	private void createSingleAttributeProperty(EObject bo, Composite comp, EReference ref) {
+		Label label = new Label(comp, SWT.NONE);
+		label.setText(ref.getName());
+		label.setLayoutData(labelLayoutData);
+		
+		EObject instanceType = EcoreUtil.create(ref.getEReferenceType());
+		if (instanceType instanceof ModelElement) {
+			Combo combo = new Combo(comp, SWT.BORDER | SWT.DROP_DOWN | SWT.READ_ONLY);
+			combo.setLayoutData(textLayoutData);
+			ComboViewer cv = new ComboViewer(combo);
+			cv.setContentProvider(new ArrayContentProvider());
+			cv.setLabelProvider(getNameLabelProvider());
+			
+			List<ModelElement> input = getInput(bo, instanceType);
+			cv.setInput(input);
+			
+			IViewerObservableValue uiProp = ViewersObservables.observeSingleSelection(cv);
+			IObservableValue modelObs = EMFEditObservables.observeValue(domain,bo,ref);
+			context.bindValue(uiProp, modelObs);
+			
+			combo.setEnabled(!readOnlyAttributes.contains(ref));
+		}
+		
+	}
+	
+	private List<ModelElement> getInput(EObject bo, EObject searchFor) {
+		List<ModelElement> result = new ArrayList<ModelElement>();
+		if (bo instanceof ModelElement)
+			result.addAll(((ModelElement) bo).getRootElement().getModelElements((Class<? extends ModelElement>) searchFor.getClass()));
+		return result;
 	}
 
 	private void createSingleAttributeProperty(EObject bo, Composite comp, EAttribute attr) {
@@ -446,6 +490,32 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener{
 		};
 	}
 
+	private LabelProvider getNameLabelProvider() {
+		return new LabelProvider() {
+			@Override
+			public String getText(Object element) {
+				if (!(element instanceof EObject))
+					return super.getText(element);
+				EObject eObject = (EObject) element;
+				EStructuralFeature nameFeature = getNameFeature(eObject);
+				if (nameFeature == null)
+					return super.getText(element);
+				String name = (String) eObject.eGet(nameFeature);
+				if (name == null) {
+					return "Name attribute has value null..." + super.getText(element);
+				}
+				if (name.isEmpty()) {
+					return "No name set for: " + super.getText(element);
+				}
+				return name;
+			}
+
+			private EStructuralFeature getNameFeature(EObject element) {
+				return element.eClass().getEStructuralFeature("name");
+			}
+		};
+	}
+	
 	private TransactionalEditingDomain getOrCreateEditingDomain(EObject bo) {
 		domain = TransactionUtil.getEditingDomain(bo);
 		if (domain == null)

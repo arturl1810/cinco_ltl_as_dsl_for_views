@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>2895e48a-a0d3-413a-b36a-d295aea6fb53</id>
   <name>Create Containable Element Candidates</name>
-  <changecounter>10</changecounter>
+  <changecounter>19</changecounter>
   <sib>
     <id>00717b6d-22eb-4a91-9454-7c6a12c005b8</id>
     <name>GetGraphicalElementContainmentType</name>
@@ -952,76 +952,76 @@
     <finalbranches>true</finalbranches>
   </sib>
   <edge>
-    <source>0e6d233e-4e64-4b5b-9fb3-ebf6d0d93bd7</source>
+    <source>26887db2-83cb-4d9a-bc99-6c1387ff1006</source>
     <target>878579f7-3439-41cd-820c-0fe6cd16b59e</target>
-    <point>1665.0,60.0</point>
-    <point>1680.0,270.0</point>
+    <point>1708.9156626506024,39.0</point>
+    <point>1696.1688311688313,243.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>next</branch>
   </edge>
   <edge>
     <source>1e6a7f80-7bcc-4e6c-a298-04e512b65eed</source>
-    <target>0e6d233e-4e64-4b5b-9fb3-ebf6d0d93bd7</target>
-    <point>1575.0,390.0</point>
-    <point>1665.0,60.0</point>
+    <target>26887db2-83cb-4d9a-bc99-6c1387ff1006</target>
+    <point>1581.923076923077,363.0</point>
+    <point>1703.4146341463415,39.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>true</branch>
   </edge>
   <edge>
     <source>65c50b40-b286-4d56-acbe-aa2a17610c12</source>
-    <target>0e6d233e-4e64-4b5b-9fb3-ebf6d0d93bd7</target>
-    <point>1800.0,390.0</point>
-    <point>1665.0,60.0</point>
+    <target>26887db2-83cb-4d9a-bc99-6c1387ff1006</target>
+    <point>1809.6153846153845,363.0</point>
+    <point>1715.121951219512,39.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>false</branch>
     <branch>true</branch>
   </edge>
   <edge>
     <source>11f0f2ba-a46d-4613-a6f5-85b912b9d4c9</source>
-    <target>0e6d233e-4e64-4b5b-9fb3-ebf6d0d93bd7</target>
-    <point>1245.0,60.0</point>
-    <point>1627.0,69.0</point>
+    <target>26887db2-83cb-4d9a-bc99-6c1387ff1006</target>
+    <point>1293.0,55.870588235294115</point>
+    <point>1512.0,107.4</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>exit</branch>
     <branch>noElements</branch>
   </edge>
   <sib>
-    <id>0e6d233e-4e64-4b5b-9fb3-ebf6d0d93bd7</id>
-    <name>IterateGraphModelNodes_2</name>
+    <id>26887db2-83cb-4d9a-bc99-6c1387ff1006</id>
+    <name>IterateElements</name>
     <label>IterateGraphModelNodeContainers</label>
-    <sib-uid>mgl/mgl/IterateGraphModelNodeContainers</sib-uid>
-    <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.IterateGraphModelNodeContainers</taxonomy>
-    <position>1584.0,33.0</position>
-    <parameter name="elementKey">
+    <sib-uid>collection-sibs/IterateElements</sib-uid>
+    <taxonomy>de.jabc.sib.common.collection.IterateElements</taxonomy>
+    <position>1579.5,33.0</position>
+    <parameter name="collection">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>type</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>false</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="graphModelKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>graphModelKey</key>
+          <key>containers</key>
           <scope>GLOBAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
-    <parameter name="iteratorKey">
+    <parameter name="element">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>iteratorKey</key>
+          <key>type</key>
           <scope>GLOBAL</scope>
-          <scopeMutable>false</scopeMutable>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="iterator">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>glContitioawjregae</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <finalbranches>error</finalbranches>
     <finalbranches>exit</finalbranches>
     <finalbranches>next</finalbranches>
-    <finalbranches>noElements</finalbranches>
   </sib>
   <parameter>
     <name>containingElementKey</name>
@@ -1037,11 +1037,6 @@
     <name>graphModelKey</name>
     <field>graphModelKey</field>
     <sib>11f0f2ba-a46d-4613-a6f5-85b912b9d4c9</sib>
-  </parameter>
-  <parameter>
-    <name>graphModelKey</name>
-    <field>graphModelKey</field>
-    <sib>0e6d233e-4e64-4b5b-9fb3-ebf6d0d93bd7</sib>
   </parameter>
   <parameter>
     <name>containingElementKey</name>
@@ -1231,18 +1226,13 @@
     <sib>878579f7-3439-41cd-820c-0fe6cd16b59e</sib>
   </branch>
   <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>0e6d233e-4e64-4b5b-9fb3-ebf6d0d93bd7</sib>
-  </branch>
-  <branch>
     <name>exit</name>
     <branch>exit</branch>
-    <sib>0e6d233e-4e64-4b5b-9fb3-ebf6d0d93bd7</sib>
+    <sib>26887db2-83cb-4d9a-bc99-6c1387ff1006</sib>
   </branch>
   <branch>
-    <name>exit</name>
-    <branch>noElements</branch>
-    <sib>0e6d233e-4e64-4b5b-9fb3-ebf6d0d93bd7</sib>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>26887db2-83cb-4d9a-bc99-6c1387ff1006</sib>
   </branch>
 </model>

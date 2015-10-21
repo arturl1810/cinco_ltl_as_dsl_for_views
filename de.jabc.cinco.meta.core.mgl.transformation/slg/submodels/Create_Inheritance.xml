@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>5493c838-f9b5-4019-b333-827236224ae0</id>
   <name>Create Inheritance</name>
-  <changecounter>12</changecounter>
+  <changecounter>14</changecounter>
   <sib>
     <id>d787c5a0-d23c-4e62-9b37-e2e25d08096a</id>
     <name>CheckVariable</name>
@@ -163,7 +163,7 @@
     <label>CopyElement</label>
     <sib-uid>basic-sibs/CopyElement</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.CopyElement</taxonomy>
-    <position>194.0,228.0</position>
+    <position>209.0,318.0</position>
     <parameter name="sourceVariable">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -191,7 +191,7 @@
     <label>GetEClassESuperTypes</label>
     <sib-uid>ecore/ecore/GetEClassESuperTypes</sib-uid>
     <taxonomy>transem.ecore.sib.ecore.GetEClassESuperTypes</taxonomy>
-    <position>329.5,333.0</position>
+    <position>344.5,423.0</position>
     <parameter name="eClassKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -219,7 +219,7 @@
     <label>AddElement</label>
     <sib-uid>collection-sibs/AddElement</sib-uid>
     <taxonomy>de.jabc.sib.common.collection.AddElement</taxonomy>
-    <position>363.0,438.0</position>
+    <position>378.0,528.0</position>
     <parameter name="collection">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -246,8 +246,8 @@
     <source>fb6dbc54-c465-463d-abf8-795cf3459443</source>
     <target>5df3ecb3-ed7c-4568-839f-864e3e229bdc</target>
     <spline/>
-    <point>405.0,360.0</point>
-    <point>405.0,465.0</point>
+    <point>420.0,450.0</point>
+    <point>420.0,555.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -257,7 +257,7 @@
     <label>CopyElement</label>
     <sib-uid>basic-sibs/CopyElement</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.CopyElement</taxonomy>
-    <position>284.0,228.0</position>
+    <position>299.0,318.0</position>
     <parameter name="sourceVariable">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -285,7 +285,7 @@
     <label>CopyElement</label>
     <sib-uid>basic-sibs/CopyElement</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.CopyElement</taxonomy>
-    <position>419.0,228.0</position>
+    <position>434.0,318.0</position>
     <parameter name="sourceVariable">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -311,26 +311,17 @@
     <source>8c038b24-0eca-42b2-8799-8f2721ba5e10</source>
     <target>f1dd65c9-e0e2-40e6-b697-44a91784333a</target>
     <spline/>
-    <point>405.0,165.0</point>
-    <point>330.0,255.0</point>
+    <point>399.2857142857143,174.0</point>
+    <point>351.3157894736842,318.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>Node</branch>
-  </edge>
-  <edge>
-    <source>8c038b24-0eca-42b2-8799-8f2721ba5e10</source>
-    <target>3a7813ad-a76e-4f1b-8283-7ac1a25f819b</target>
-    <spline/>
-    <point>405.0,165.0</point>
-    <point>465.0,255.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>GraphModel</branch>
   </edge>
   <edge>
     <source>3a7813ad-a76e-4f1b-8283-7ac1a25f819b</source>
     <target>fb6dbc54-c465-463d-abf8-795cf3459443</target>
     <spline/>
-    <point>465.0,255.0</point>
-    <point>405.0,360.0</point>
+    <point>480.0,345.0</point>
+    <point>420.0,450.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -338,8 +329,8 @@
     <source>f1dd65c9-e0e2-40e6-b697-44a91784333a</source>
     <target>fb6dbc54-c465-463d-abf8-795cf3459443</target>
     <spline/>
-    <point>330.0,255.0</point>
-    <point>405.0,360.0</point>
+    <point>345.0,345.0</point>
+    <point>420.0,450.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -348,7 +339,7 @@
     <target>fb6dbc54-c465-463d-abf8-795cf3459443</target>
     <spline/>
     <point>255.0,345.0</point>
-    <point>405.0,360.0</point>
+    <point>420.0,450.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -358,7 +349,7 @@
     <label>ThrowException</label>
     <sib-uid>basic-sibs/ThrowException</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.ThrowException</taxonomy>
-    <position>349.5,528.0</position>
+    <position>364.5,618.0</position>
     <parameter name="message">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
@@ -375,8 +366,8 @@
     <source>5df3ecb3-ed7c-4568-839f-864e3e229bdc</source>
     <target>c8167f59-9808-45ca-a7f0-4bb85d10cc9e</target>
     <spline/>
-    <point>405.0,465.0</point>
-    <point>405.0,555.0</point>
+    <point>420.0,555.0</point>
+    <point>420.0,645.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>false</branch>
   </edge>
@@ -394,7 +385,7 @@
     <label>CopyElement</label>
     <sib-uid>basic-sibs/CopyElement</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.CopyElement</taxonomy>
-    <position>554.0,228.0</position>
+    <position>569.0,318.0</position>
     <parameter name="sourceVariable">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -420,8 +411,8 @@
     <source>dd7553bb-9c8d-433a-ab4e-b3c89948c6df</source>
     <target>fb6dbc54-c465-463d-abf8-795cf3459443</target>
     <spline/>
-    <point>555.0,255.0</point>
-    <point>405.0,360.0</point>
+    <point>615.0,345.0</point>
+    <point>420.0,450.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -514,6 +505,13 @@
     <point>60.0,255.0</point>
     <point>111.0,331.0</point>
     <branch>default</branch>
+  </edge>
+  <edge>
+    <source>8c038b24-0eca-42b2-8799-8f2721ba5e10</source>
+    <target>3a7813ad-a76e-4f1b-8283-7ac1a25f819b</target>
+    <point>405.0,165.0</point>
+    <point>488.0,332.0</point>
+    <branch>GraphModel</branch>
   </edge>
   <parameter>
     <name>modelElementClassKey</name>

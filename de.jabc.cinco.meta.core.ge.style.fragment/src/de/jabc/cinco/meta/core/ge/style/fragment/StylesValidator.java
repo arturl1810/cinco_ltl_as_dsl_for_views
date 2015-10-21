@@ -267,8 +267,6 @@ public class StylesValidator implements IMetaPluginValidator {
 				me = ((Node) me).getExtends();
 			if (me instanceof Edge)
 				me = ((Edge) me).getExtends();
-			if (me instanceof NodeContainer)
-				me = ((NodeContainer) me).getExtends();
 		}
 		return attributes;
 	}

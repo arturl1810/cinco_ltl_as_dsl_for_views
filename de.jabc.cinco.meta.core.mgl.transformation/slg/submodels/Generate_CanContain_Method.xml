@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>2dfcc433-a956-4609-a130-76521a6c3e9e</id>
   <name>Generate CanContain Method</name>
-  <changecounter>84</changecounter>
+  <changecounter>88</changecounter>
   <sib>
     <id>c8b450b2-9c6b-482a-a645-5b046c18b7b6</id>
     <name>IterateContainingElementContainableElements</name>
@@ -391,7 +391,8 @@
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>de.jabc.cinco.meta.core.mgl.model.constraints.ContainmentConstraint $constraintName$ = 
+      <string>@SuppressWarnings(&quot;unchecked&quot;)
+de.jabc.cinco.meta.core.mgl.model.constraints.ContainmentConstraint $constraintName$ = 
     new de.jabc.cinco.meta.core.mgl.model.constraints.ContainmentConstraint($conLowerBound$,$conUpperBound$,$elementClasses$);
 </string>
     </parameter>
@@ -758,8 +759,8 @@
     <parameter name="template">
       <string>$constraints$
         org.eclipse.emf.common.util.BasicEList&lt;de.jabc.cinco.meta.core.mgl.model.constraints.ContainmentConstraint&gt;constraints = 
-            new org.eclipse.emf.common.util.BasicEList&lt;de.jabc.cinco.meta.core.mgl.model.constraints.ContainmentConstraint&gt;(java.util.Arrays.asList($constraintVariables$));
-
+            new org.eclipse.emf.common.util.BasicEList&lt;de.jabc.cinco.meta.core.mgl.model.constraints.ContainmentConstraint&gt;(java.util.Arrays.asList($constraintVariables$)); 
+        constraints.addAll(super.getContainmentConstraints());
 return constraints;</string>
     </parameter>
     <finalbranches>default</finalbranches>

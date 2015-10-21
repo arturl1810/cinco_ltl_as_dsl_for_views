@@ -216,7 +216,7 @@ public class CincoDBControllerImpl implements CincoDBController{
         «FOR Node node: g.nodes»
 			«createNode(node,new ArrayList<Type>(g.types.toList),g)»
 		«ENDFOR»
-		«FOR NodeContainer node:g.nodeContainers»
+		«FOR NodeContainer node:g.nodes.filter[n | (n instanceof NodeContainer)].map[nc | nc as NodeContainer]»
 			«createContainer(node,new ArrayList<Type>(g.types.toList),g)»
 		«ENDFOR»
 
@@ -240,7 +240,7 @@ public class CincoDBControllerImpl implements CincoDBController{
         «FOR Node node: g.nodes»
 				«createAttributeCommmand(node,new ArrayList<Type>(g.types.toList))»
 		«ENDFOR»
-		«FOR NodeContainer node: g.nodeContainers»
+		«FOR NodeContainer node: g.nodes.filter[n | (n instanceof NodeContainer)].map[nc | nc as NodeContainer]»
 				«createAttributeCommmand(node,new ArrayList<Type>(g.types.toList))»
 		«ENDFOR»
 		// «g.name.toFirstUpper» Edge Attributes Commands
@@ -270,7 +270,7 @@ public class CincoDBControllerImpl implements CincoDBController{
         //«node.name.toFirstUpper» Attribute
 			«createNodeAttribute(node,new ArrayList<Type>(g.types.toList),g)»
 		«ENDFOR»
-		«FOR NodeContainer node:g.nodeContainers»
+		«FOR NodeContainer node:g.nodes.filter[n | (n instanceof NodeContainer)].map[nc | nc as NodeContainer]»
 		//«node.name.toFirstUpper» Attribute
 			«createContainerAttribute(node,new ArrayList<Type>(g.types.toList),g)»
 		«ENDFOR»
@@ -288,7 +288,7 @@ public class CincoDBControllerImpl implements CincoDBController{
 			«createReferenceAttributes(node,new ArrayList<Type>(g.types.toList),g)»
 		«ENDFOR»
 		
-		«FOR NodeContainer node: g.nodeContainers»
+		«FOR NodeContainer node: g.nodes.filter[n | (n instanceof NodeContainer)].map[nc | nc as NodeContainer]»
 			«createReferenceAttributes(node,new ArrayList<Type>(g.types.toList),g)»
 		«ENDFOR»
 
@@ -325,7 +325,7 @@ public class CincoDBControllerImpl implements CincoDBController{
 			«createInheritance(node)»
 		«ENDFOR»
 		
-		«FOR NodeContainer node: g.nodeContainers»
+		«FOR NodeContainer node: g.nodes.filter[n | (n instanceof NodeContainer)].map[nc | nc as NodeContainer]»
 			«createInheritance(node)»
 		«ENDFOR»
 

@@ -12,10 +12,12 @@ import java.util.ArrayList
 import java.util.HashMap
 import java.util.Set
 import mgl.GraphModel
+import mgl.GraphicalModelElement
 import org.eclipse.core.internal.runtime.InternalPlatform
 import org.eclipse.core.resources.ResourcesPlugin
 import org.eclipse.core.runtime.Path
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage
+import org.eclipse.emf.common.util.BasicEList
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.EReference
@@ -27,10 +29,6 @@ import org.eclipse.pde.core.project.IBundleProjectService
 import org.eclipse.xtext.generator.IFileSystemAccess
 import org.eclipse.xtext.generator.IGenerator
 import org.eclipse.xtext.naming.IQualifiedNameProvider
-import org.eclipse.xtext.xbase.lib.Pair
-import org.eclipse.emf.common.util.BasicEList
-import mgl.GraphicalModelElement
-import mgl.Node
 
 class MGLGenerator implements IGenerator {
 	@Inject extension IQualifiedNameProvider
@@ -147,9 +145,9 @@ class MGLGenerator implements IGenerator {
 	
 	def GraphModel prepareGraphModel(GraphModel graphModel){
 		var connectableElements = new BasicEList<GraphicalModelElement>()
-		
+		//inheritContainable(graphModel.nodes.filter(NodeContainer))
 		connectableElements.addAll(graphModel.nodes)
-		connectableElements.addAll(graphModel.nodeContainers)
+		//connectableElements.addAll(graphModel.nodeContainers)
 		for(elem:connectableElements){
 			for(connect:elem.incomingEdgeConnections){
 				if(connect.connectingEdges.nullOrEmpty){
@@ -169,4 +167,16 @@ class MGLGenerator implements IGenerator {
 		
 		
 	}
+	
+//	def inheritContainable(Iterable<NodeContainer> containers) {
+//		for(container: containers){
+//			var superType = (container.extends as NodeContainer)
+//			while(superType!=null){
+//				container.containableElements.addAll(superType.containableElements.map[ce| EcoreUtil2.copy(ce)])
+//				
+//				superType = (superType.extends as NodeContainer)	
+//			}
+//		}
+//	}
+	
 }

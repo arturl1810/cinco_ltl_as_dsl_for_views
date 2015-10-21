@@ -21,9 +21,6 @@ public class InheritanceUtil {
 		if (me instanceof Edge) {
 			return checkEdgeInheritance((Edge) me);
 		}
-		if (me instanceof NodeContainer) {
-			return checkNodeContainerInheritance((NodeContainer) me);
-		}
 		return null;
 	}
 	
@@ -56,7 +53,7 @@ public class InheritanceUtil {
 	}
 	
 	private static List<String> checkNodeContainerInheritance(NodeContainer nodeContainer) {
-		NodeContainer curr = nodeContainer;
+		Node curr = nodeContainer;
 		List<String> ancestors = new ArrayList<>();
 		while (curr != null) {
 			if (ancestors.contains(curr.getName())) {
