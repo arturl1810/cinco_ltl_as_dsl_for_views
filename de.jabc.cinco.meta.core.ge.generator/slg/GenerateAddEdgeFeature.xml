@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>730ef53f-e135-46d5-9e4b-96fc4843c423</id>
   <name>GenerateAddEdgeFeature</name>
-  <changecounter>747</changecounter>
+  <changecounter>750</changecounter>
   <sib>
     <id>4966ae71-56db-49f8-b6d7-c3a51fbd1021</id>
     <name>PutExpression</name>
@@ -272,12 +272,12 @@ public class Add$context.edgeName$Feature extends AbstractAddFeature {
 			((FreeFormConnection) connection).getBendpoints().add(p1);
 			((FreeFormConnection) connection).getBendpoints().add(p2);
 		}
+		
+		// create link and wire it
+		link(connection, $context.meIdentifier$);
 
 		ConnectionDecorator cd;
 		$context.connectionDecoratorInitContent$
-
-		// create link and wire it
-		link(connection, $context.meIdentifier$);
 
 		$context.importPath$.$context.graphModelName$ $context.lcGraphModelName$ = $context.graphModelName$GraphitiUtils.addToResource(getDiagram(), this.getFeatureProvider());
 		ModelElementContainer container = $context.graphModelName$GraphitiUtils.getInstance().getCommonContainer($context.lcGraphModelName$, $context.meIdentifier$);
