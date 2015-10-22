@@ -1,5 +1,6 @@
 package de.jabc.cinco.meta.core.ge.style.sibs.adapter;
 
+import graphmodel.Container;
 import graphmodel.GraphmodelPackage;
 
 import java.io.BufferedReader;
@@ -419,8 +420,10 @@ public class ServiceAdapter {
 			ContainingElement nc = (ContainingElement) context.get(nodeContainer);
 			ModelElement n = (ModelElement) context.get(node);
 			
-			if (nc.getContainableElements().isEmpty())
+			if (nc instanceof GraphModel && nc.getContainableElements().isEmpty())
 				return Branches.TRUE;
+			if (nc instanceof NodeContainer && nc.getContainableElements().isEmpty())
+				return Branches.FALSE;
 			
 			for (GraphicalElementContainment containedNode : nc.getContainableElements() ) {
 				if (containedNode.getTypes() == null || containedNode.getTypes().isEmpty())
