@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>2190f1aa-18e0-42fc-8098-06e689be2e65</id>
   <name>Generate_APIOperations_GraphModel1</name>
-  <changecounter>726</changecounter>
+  <changecounter>731</changecounter>
   <sib>
     <id>4c75f6b0-160f-414c-8c57-527e808d5a6f</id>
     <name>IsNodeContained</name>
@@ -34,9 +34,9 @@
   </sib>
   <edge>
     <source>4c75f6b0-160f-414c-8c57-527e808d5a6f</source>
-    <target>6f471cb0-59fb-4a51-a1bd-7b6d72b7df55</target>
-    <point>210.0,285.0</point>
-    <point>210.0,375.0</point>
+    <target>341609ec-8e5d-49c9-a047-24c5a0411a4a</target>
+    <point>210.0,294.0</point>
+    <point>210.0,438.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>true</branch>
   </edge>
@@ -1210,14 +1210,6 @@ return retval;</string>
     <branch>default</branch>
   </edge>
   <edge>
-    <source>0ed9bb9e-46e0-4bb9-94f9-cc7534322d4f</source>
-    <target>b5b13a36-dc9f-460e-8cf9-a737aee27175</target>
-    <point>735.0,99.0</point>
-    <point>735.0,168.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>next</branch>
-  </edge>
-  <edge>
     <source>8c5d2d34-2fc3-4bf9-a98c-6ec73197c9db</source>
     <target>eb85562b-f554-4eec-adf2-f41e163267a7</target>
     <point>735.0,585.0</point>
@@ -1623,81 +1615,13 @@ $fqnDeleteFeature$ df = provider.getDeleteFeature(dc);
     <branch>next</branch>
   </edge>
   <edge>
-    <source>b5b13a36-dc9f-460e-8cf9-a737aee27175</source>
+    <source>0ed9bb9e-46e0-4bb9-94f9-cc7534322d4f</source>
     <target>ef4fc818-118e-4bab-ba4d-2d50d31fd5fd</target>
-    <point>735.0,204.0</point>
+    <point>735.0,99.0</point>
     <point>735.0,273.0</point>
     <labelposition>500.0,0.0</labelposition>
-    <branch>false</branch>
+    <branch>next</branch>
   </edge>
-  <edge>
-    <source>b5b13a36-dc9f-460e-8cf9-a737aee27175</source>
-    <target>0ed9bb9e-46e0-4bb9-94f9-cc7534322d4f</target>
-    <spline/>
-    <point>735.0,195.0</point>
-    <point>660.0,150.0</point>
-    <point>717.0,97.56</point>
-    <labelposition>455.63909774435973,-49.000000000000064</labelposition>
-    <branch>true</branch>
-  </edge>
-  <sib>
-    <id>b5b13a36-dc9f-460e-8cf9-a737aee27175</id>
-    <name>IsAbstract_4</name>
-    <label>IsAbstract</label>
-    <sib-uid>ge-util-sibs/IsAbstract</sib-uid>
-    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsAbstract</taxonomy>
-    <position>702.5,168.0</position>
-    <parameter name="modelElement">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>modelElement</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>error</finalbranches>
-    <finalbranches>false</finalbranches>
-    <finalbranches>true</finalbranches>
-  </sib>
-  <edge>
-    <source>6f471cb0-59fb-4a51-a1bd-7b6d72b7df55</source>
-    <target>acab1d2e-e431-4f59-9270-85b418d68b5c</target>
-    <spline/>
-    <point>210.0,375.0</point>
-    <point>105.0,195.0</point>
-    <point>158.79310344827587,39.0</point>
-    <labelposition>523.0,-91.0</labelposition>
-    <branch>true</branch>
-  </edge>
-  <edge>
-    <source>6f471cb0-59fb-4a51-a1bd-7b6d72b7df55</source>
-    <target>341609ec-8e5d-49c9-a047-24c5a0411a4a</target>
-    <point>210.0,384.0</point>
-    <point>210.0,438.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>false</branch>
-  </edge>
-  <sib>
-    <id>6f471cb0-59fb-4a51-a1bd-7b6d72b7df55</id>
-    <name>IsAbstract</name>
-    <label>IsAbstract</label>
-    <sib-uid>ge-util-sibs/IsAbstract</sib-uid>
-    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsAbstract</taxonomy>
-    <position>177.5,348.0</position>
-    <parameter name="modelElement">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>modelElement</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>error</finalbranches>
-    <finalbranches>false</finalbranches>
-    <finalbranches>true</finalbranches>
-  </sib>
   <values/>
   <branch>
     <name>default</name>
