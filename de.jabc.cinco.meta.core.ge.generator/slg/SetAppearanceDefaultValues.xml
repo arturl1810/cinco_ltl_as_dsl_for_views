@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>8c0c4aaa-0b84-496b-b27c-e0bb693c3a1e</id>
   <name>SetAppearanceDefaultValues</name>
-  <changecounter>174</changecounter>
+  <changecounter>181</changecounter>
   <sib>
     <id>0d1da2ca-eb40-4e5d-9608-f689e05aeade</id>
     <name>SetAppearanceAngle</name>
@@ -145,7 +145,7 @@
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
           <key>font</key>
-          <scope>GLOBAL</scope>
+          <scope>LOCAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>

@@ -2,14 +2,14 @@
 <model version="2.1">
   <id>5f5db73a-2f0c-4b4a-9206-54d4b69c1f26</id>
   <name>Generate_APIOperations_Container</name>
-  <changecounter>420</changecounter>
+  <changecounter>423</changecounter>
   <sib>
     <id>c1a0644d-2d54-48b1-b60f-0bcd42cb8f03</id>
     <name>IsNodeContained</name>
     <label>IsNodeContained</label>
     <sib-uid>ge-util-sibs/IsNodeContained</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsNodeContained</taxonomy>
-    <position>218.0,288.0</position>
+    <position>218.0,228.0</position>
     <parameter name="node">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -46,7 +46,7 @@
     <label>IsAbstract</label>
     <sib-uid>ge-util-sibs/IsAbstract</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsAbstract</taxonomy>
-    <position>237.5,408.0</position>
+    <position>237.5,348.0</position>
     <parameter name="modelElement">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -72,20 +72,20 @@
     <source>c1a0644d-2d54-48b1-b60f-0bcd42cb8f03</source>
     <target>71cd5d43-7d47-4e80-a60e-48e1ccb4585f</target>
     <spline/>
-    <point>256.59574468085106,288.0</point>
+    <point>252.0,232.1142857142857</point>
     <point>165.0,165.0</point>
     <point>252.0,107.82857142857142</point>
-    <labelposition>595.9244637959263,-92.88723127563527</labelposition>
+    <labelposition>531.9540229885056,-86.0</labelposition>
     <branch>false</branch>
   </edge>
   <edge>
     <source>d3c1f341-1e6e-445a-8e2b-c739a36d3018</source>
     <target>71cd5d43-7d47-4e80-a60e-48e1ccb4585f</target>
     <spline/>
-    <point>253.75,408.0</point>
+    <point>252.0,351.6</point>
     <point>75.0,210.0</point>
     <point>252.0,106.52307692307693</point>
-    <labelposition>523.0,-91.0</labelposition>
+    <labelposition>561.4563716258632,-181.0</labelposition>
     <branch>true</branch>
   </edge>
   <sib>
@@ -94,7 +94,7 @@
     <label>GetModelElementName</label>
     <sib-uid>mgl/mgl/GetModelElementName</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetModelElementName</taxonomy>
-    <position>200.0,498.0</position>
+    <position>200.0,468.0</position>
     <parameter name="modelElementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>

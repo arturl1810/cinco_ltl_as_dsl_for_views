@@ -1671,20 +1671,23 @@ public class ServiceAdapter {
 		try {
 			GraphModel gm = DummyGenerator.createDummyGraphModel();
 			context.putGlobally("graphModel", gm);
+			context.putGlobally("apiPrefix", "C");
+			context.putGlobally("outletPath", "/home/kopetzki/workspace/runtime-MGL/de.scce.cinco.product.dummy/src-gen/");
+			context.putGlobally("pluginXMLPath", "/home/kopetzki/workspace/runtime-MGL/info.scce.cinco.product.dummy/plugin.xml");
 			EPackage ePkg =GraphmodelPackage.eINSTANCE;
 			
 			context.putGlobally("abstractGraphModel",ePkg);
 			context.put(new ContextKey("resource", Scope.GLOBAL, true).asFoundation(),new XMIResourceImpl(URI.createFileURI("/tmp/"+gm.getName()+".ecore")));
 			HashMap<String, EPackage> ecoreMap = new HashMap<String,EPackage>(); 
-					HashMap<EPackage, String> genModelMap = new HashMap<EPackage, String>();
-					
-					
-					context.put("genmodelMap",genModelMap);
-					context.put("registeredGeneratorPlugins",new HashMap());
-					context.put("registeredPackageMap",ecoreMap);
+			HashMap<EPackage, String> genModelMap = new HashMap<EPackage, String>();
 			
+			
+			context.put("genmodelMap",genModelMap);
+			context.put("registeredGeneratorPlugins",new HashMap());
+			context.put("registeredPackageMap",ecoreMap);
 			
 			context.putGlobally("debugRun", true);
+			
 			return Branches.DEFAULT;
 		} catch (Exception e) {
 			context.putGlobally("exception", e);

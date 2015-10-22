@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>8fd8a2e3-0318-4824-930f-f04d3bde4e69</id>
   <name>CheckAnnotationName</name>
-  <changecounter>97</changecounter>
+  <changecounter>100</changecounter>
   <sib>
     <id>4f8df5a8-3436-4d95-bb8e-c45c384c7557</id>
     <name>CopyEObject</name>
@@ -68,7 +68,7 @@
     <label>@customFeature?</label>
     <sib-uid>basic-sibs/MatchString</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.MatchString</taxonomy>
-    <position>60.5,258.0</position>
+    <position>60.5,273.0</position>
     <parameter name="pattern">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
@@ -97,7 +97,7 @@
     <label>GetAnnotationValue</label>
     <sib-uid>mgl/mgl/GetAnnotationValue</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetAnnotationValue</taxonomy>
-    <position>52.0,363.0</position>
+    <position>52.0,393.0</position>
     <parameter name="annotationKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -122,17 +122,10 @@
   <edge>
     <source>6b044f14-5acd-45a1-bc51-0e686b356cdc</source>
     <target>34b78875-dbc4-4bb6-964e-5503b764aa28</target>
-    <point>450.0,345.0</point>
-    <point>240.0,465.0</point>
-    <branch>true</branch>
-  </edge>
-  <edge>
-    <source>e64b638e-27b2-418b-a952-746560317cf9</source>
-    <target>cb6e0a6e-8d1b-471f-a6b0-925b9ac50d4e</target>
-    <point>138.0,178.75384615384615</point>
-    <point>297.0,239.90769230769232</point>
+    <point>120.0,345.0</point>
+    <point>120.0,450.0</point>
     <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
+    <branch>true</branch>
   </edge>
   <edge>
     <source>4f8df5a8-3436-4d95-bb8e-c45c384c7557</source>
@@ -141,32 +134,12 @@
     <point>115.0,200.0</point>
     <branch>default</branch>
   </edge>
-  <sib>
-    <id>cb6e0a6e-8d1b-471f-a6b0-925b9ac50d4e</id>
-    <name>PrintConsoleMessage</name>
-    <label>PrintConsoleMessage</label>
-    <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
-    <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
-    <position>249.5,228.0</position>
-    <parameter name="error">
-      <boolean>true</boolean>
-    </parameter>
-    <parameter name="message">
-      <de.metaframe.common.sib.parameter.ContextExpression>
-        <ContextExpressionFoundation>
-          <expression>AnnotationName: ${annotationName}!</expression>
-          <clazz>java.lang.Object</clazz>
-          <classMutable>false</classMutable>
-        </ContextExpressionFoundation>
-      </de.metaframe.common.sib.parameter.ContextExpression>
-    </parameter>
-    <finalbranches>default</finalbranches>
-  </sib>
   <edge>
-    <source>cb6e0a6e-8d1b-471f-a6b0-925b9ac50d4e</source>
+    <source>e64b638e-27b2-418b-a952-746560317cf9</source>
     <target>6b044f14-5acd-45a1-bc51-0e686b356cdc</target>
-    <point>315.0,255.0</point>
-    <point>135.0,285.0</point>
+    <point>120.0,189.0</point>
+    <point>120.0,318.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <parameter>

@@ -2,14 +2,14 @@
 <model version="2.1">
   <id>98ab2190-4ec2-4346-85ee-61b8c0d16099</id>
   <name>GenerateMoveNodeFeature</name>
-  <changecounter>274</changecounter>
+  <changecounter>355</changecounter>
   <sib>
     <id>a757414d-68f3-478e-a5f2-cbb249a4880a</id>
     <name>RunStringTemplate_1</name>
     <label>MoveNodeFeatureContent</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>62.0,648.0</position>
+    <position>302.0,468.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -112,6 +112,8 @@ public class Move$context.node.name$Feature extends CincoMoveShapeFeature{
 		super.moveShape(context);
 	}
 
+	$context.postMoveContent$
+
 	$context.cincoErrorGetSet$
 
 }
@@ -123,8 +125,8 @@ public class Move$context.node.name$Feature extends CincoMoveShapeFeature{
   <edge>
     <source>a757414d-68f3-478e-a5f2-cbb249a4880a</source>
     <target>937cd8f9-8811-4be0-a878-ed53993be2d3</target>
-    <point>150.0,645.0</point>
-    <point>150.0,825.0</point>
+    <point>390.0,495.0</point>
+    <point>390.0,345.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -134,7 +136,7 @@ public class Move$context.node.name$Feature extends CincoMoveShapeFeature{
     <label>WriteJavaFile</label>
     <sib-uid>genesys-sibs/WriteJavaFile</sib-uid>
     <taxonomy>de.jabc.sib.genesys.WriteJavaFile</taxonomy>
-    <position>103.0,798.0</position>
+    <position>343.0,318.0</position>
     <parameter name="baseDirectory">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -194,7 +196,7 @@ public class Move$context.node.name$Feature extends CincoMoveShapeFeature{
     <label>ClassName</label>
     <sib-uid>basic-sibs/PutExpression</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
-    <position>110.5,153.0</position>
+    <position>110.5,228.0</position>
     <parameter name="resolve">
       <boolean>true</boolean>
     </parameter>
@@ -270,134 +272,12 @@ public class Move$context.node.name$Feature extends CincoMoveShapeFeature{
     <branch>default</branch>
   </edge>
   <sib>
-    <id>087d711d-b04c-4b7b-a239-244799d7a944</id>
-    <name>EvaluateBoolean</name>
-    <label>containersOnly</label>
-    <sib-uid>basic-sibs/EvaluateBoolean</sib-uid>
-    <taxonomy>de.jabc.sib.common.basic.EvaluateBoolean</taxonomy>
-    <position>97.5,498.0</position>
-    <parameter name="bool">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>containersOnly</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>error</finalbranches>
-    <finalbranches>false</finalbranches>
-    <finalbranches>true</finalbranches>
-  </sib>
-  <edge>
-    <source>087d711d-b04c-4b7b-a239-244799d7a944</source>
-    <target>a757414d-68f3-478e-a5f2-cbb249a4880a</target>
-    <point>150.0,495.0</point>
-    <point>150.0,645.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>false</branch>
-  </edge>
-  <sib>
-    <id>022c7d6d-31be-4366-9dec-2785f83c9a5f</id>
-    <name>RunStringTemplate_3</name>
-    <label>MoveNodeFeatureContent</label>
-    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
-    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>272.0,648.0</position>
-    <parameter name="append">
-      <boolean>false</boolean>
-    </parameter>
-    <parameter name="individualVariables">
-      <boolean>false</boolean>
-    </parameter>
-    <parameter name="result">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>moveNodeFeatureContent</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="template">
-      <string>package $context.localPkgName$;
-import org.eclipse.graphiti.features.IFeatureProvider;
-import org.eclipse.graphiti.features.context.IMoveShapeContext;
-import org.eclipse.graphiti.features.impl.DefaultMoveShapeFeature;
-import org.eclipse.graphiti.mm.pictograms.Diagram;
-
-import graphmodel.Container;
-
-
-
-public class Move$context.node.name$Feature extends DefaultMoveShapeFeature{
-
-	public Move$context.node.name$Feature(IFeatureProvider fp) {
-		super(fp);
-		// TODO Auto-generated constructor stub
-	}
-	
-	@Override
-	public boolean canMoveShape(IMoveShapeContext context) {
-		Object o = getBusinessObjectForPictogramElement(context.getShape());
-		Object target = getBusinessObjectForPictogramElement(context.getTargetContainer());
-		
-		$context.containerCheck$
-		
-		return super.canMoveShape(context);
-	}
-	
-	@Override
-	public void moveShape(IMoveShapeContext context) {
-		Object o = getBusinessObjectForPictogramElement(context.getShape());
-		Object source = getBusinessObjectForPictogramElement(context.getSourceContainer());
-		Object target = getBusinessObjectForPictogramElement(context.getTargetContainer());
-		if (source instanceof Container) {
-			Container nc = (Container) source;
-			nc.getModelElements().remove(($context.importPath$.$context.node.name$) o);
-		}
-		
-		if (target instanceof Container) {
-			Container nc = (Container) source;
-			nc.getModelElements().add(($context.importPath$.$context.node.name$) o);
-		}
-		if (target instanceof $context.importPath$.$context.graphModelName$) {
-			$context.importPath$.$context.graphModelName$ tmp = ($context.importPath$.$context.graphModelName$) target;
-			tmp.getModelElements().add(($context.importPath$.$context.node.name$) o);
-		}
-		
-		super.moveShape(context);
-	}
-
-}
-</string>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-  </sib>
-  <edge>
-    <source>087d711d-b04c-4b7b-a239-244799d7a944</source>
-    <target>022c7d6d-31be-4366-9dec-2785f83c9a5f</target>
-    <point>150.0,495.0</point>
-    <point>360.0,645.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>true</branch>
-  </edge>
-  <edge>
-    <source>022c7d6d-31be-4366-9dec-2785f83c9a5f</source>
-    <target>937cd8f9-8811-4be0-a878-ed53993be2d3</target>
-    <point>360.0,645.0</point>
-    <point>150.0,825.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
-  <sib>
     <id>c04a5aea-5b89-4212-8114-dfc11ef98308</id>
     <name>GraphSIB</name>
     <label>CheckStyleAnnotation</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>257.0,151.0</position>
+    <position>77.0,331.0</position>
     <parameter name="modelElementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -430,7 +310,7 @@ public class Move$context.node.name$Feature extends DefaultMoveShapeFeature{
     <label>GetNodeStyleFixed</label>
     <sib-uid>style/style/GetNodeStyleFixed</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.style.sib.style.GetNodeStyleFixed</taxonomy>
-    <position>265.0,273.0</position>
+    <position>85.0,438.0</position>
     <parameter name="nodeStyleKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -458,7 +338,7 @@ public class Move$context.node.name$Feature extends DefaultMoveShapeFeature{
     <label>GenerateCanMoveNode</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>79.0,391.0</position>
+    <position>79.0,541.0</position>
     <parameter name="modelElementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -478,9 +358,10 @@ public class Move$context.node.name$Feature extends DefaultMoveShapeFeature{
   </sib>
   <edge>
     <source>8ebda373-c17c-400c-9b5d-e91d438808c0</source>
-    <target>087d711d-b04c-4b7b-a239-244799d7a944</target>
-    <point>150.0,390.0</point>
-    <point>151.0,489.0</point>
+    <target>f04cf630-f4c6-477c-8043-8a264258f3ed</target>
+    <point>150.0,581.0</point>
+    <point>150.0,768.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
@@ -489,7 +370,7 @@ public class Move$context.node.name$Feature extends DefaultMoveShapeFeature{
     <label>IsAbstract</label>
     <sib-uid>ge-util-sibs/IsAbstract</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsAbstract</taxonomy>
-    <position>264.0,33.0</position>
+    <position>114.0,138.0</position>
     <parameter name="modelElement">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -517,6 +398,242 @@ public class Move$context.node.name$Feature extends DefaultMoveShapeFeature{
     <point>179.5,441.0</point>
     <branch>default</branch>
   </edge>
+  <sib>
+    <id>f04cf630-f4c6-477c-8043-8a264258f3ed</id>
+    <name>GetModelElementAnnotations</name>
+    <label>GetModelElementAnnotations</label>
+    <sib-uid>mgl/mgl/GetModelElementAnnotations</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetModelElementAnnotations</taxonomy>
+    <position>63.0,693.0</position>
+    <parameter name="eListKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>annotations</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="modelElementKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>node</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>c16baa0b-586a-4af7-aab0-3e04e810dee4</id>
+    <name>IterateElements</name>
+    <label>IterateAnnotations</label>
+    <sib-uid>collection-sibs/IterateElements</sib-uid>
+    <taxonomy>de.jabc.sib.common.collection.IterateElements</taxonomy>
+    <position>94.0,888.0</position>
+    <parameter name="collection">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>annotations</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="element">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>annotation</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="iterator">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>alksdfoaiwejtrvmsdasolkdjfgoeioasjnfd</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>exit</finalbranches>
+    <finalbranches>next</finalbranches>
+  </sib>
+  <sib>
+    <id>eaf738a9-97e2-4f7c-9b18-a25e266e6128</id>
+    <name>GraphSIB_2</name>
+    <label>CheckAnnotationName</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>322.5,886.0</position>
+    <parameter name="annotationKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>annotation</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="annotationName">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>postMove</expression>
+          <clazz>java.lang.String</clazz>
+          <classMutable>false</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>false</finalbranches>
+    <finalbranches>true</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>CheckAnnotationName</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>8fd8a2e3-0318-4824-930f-f04d3bde4e69</string>
+    </userobject>
+  </sib>
+  <sib>
+    <id>547f213e-af03-42cf-abfd-e3a2a2163c86</id>
+    <name>GetAnnotationValue</name>
+    <label>GetAnnotationValue</label>
+    <sib-uid>mgl/mgl/GetAnnotationValue</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetAnnotationValue</taxonomy>
+    <position>330.5,768.0</position>
+    <parameter name="annotationKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>annotation</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="eListKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>annotValues</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>b60a5cdf-9a8d-403b-95fa-ea794107e6be</id>
+    <name>RunStringTemplate</name>
+    <label>PostMoveContent</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>337.0,633.0</position>
+    <parameter name="append">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>postMoveContent</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>@Override
+protected void postMoveShape(IMoveShapeContext context) {
+	try {
+		$importPath$.$node.name$ _s = ($importPath$.$node.name$) getBusinessObjectForPictogramElement(context.getPictogramElement());
+		$importPath$.$graphModelName$ _root = _s.getRootElement();
+		$fqnAPIPrefix$$apiPrefix$$graphModelName$ _wrapped = $graphModelName$Wrapper.wrapGraphModel(_root, getDiagram());
+		
+		int x = context.getX();
+		int y = context.getY();
+		int deltaX = context.getDeltaX();
+		int deltaY = context.getDeltaY();
+		
+		ModelElementContainer source = (ModelElementContainer) getBusinessObjectForPictogramElement(context.getSourceContainer());
+		ModelElementContainer target = (ModelElementContainer) getBusinessObjectForPictogramElement(context.getTargetContainer());
+	
+		$fqnAPIPrefix$$apiPrefix$$node.name$ cModelElement= _wrapped.findC$node.name$(_s);
+		graphicalgraphmodel.CModelElementContainer cSource = _wrapped.findCModelElementContainer(source);
+		graphicalgraphmodel.CModelElementContainer cTarget= _wrapped.findCModelElementContainer(target);
+		
+		new info.scce.cinco.product.flowgraph.hooks.MoveEnd().postMove(cModelElement, cSource, cTarget, x, y, deltaX, deltaY);
+	} catch (Exception e) {
+		
+	}
+	super.postMoveShape(context);
+}</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>b60a5cdf-9a8d-403b-95fa-ea794107e6be</source>
+    <target>a757414d-68f3-478e-a5f2-cbb249a4880a</target>
+    <point>390.0,660.0</point>
+    <point>390.0,495.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>f04cf630-f4c6-477c-8043-8a264258f3ed</source>
+    <target>c16baa0b-586a-4af7-aab0-3e04e810dee4</target>
+    <point>150.0,795.0</point>
+    <point>150.0,932.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>c16baa0b-586a-4af7-aab0-3e04e810dee4</source>
+    <target>eaf738a9-97e2-4f7c-9b18-a25e266e6128</target>
+    <spline/>
+    <point>168.0,912.6857142857143</point>
+    <point>255.0,945.0</point>
+    <point>340.0,913.4285714285714</point>
+    <labelposition>507.0,33.0</labelposition>
+    <branch>next</branch>
+  </edge>
+  <edge>
+    <source>eaf738a9-97e2-4f7c-9b18-a25e266e6128</source>
+    <target>547f213e-af03-42cf-abfd-e3a2a2163c86</target>
+    <point>390.0,915.0</point>
+    <point>390.0,795.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>true</branch>
+  </edge>
+  <edge>
+    <source>547f213e-af03-42cf-abfd-e3a2a2163c86</source>
+    <target>b60a5cdf-9a8d-403b-95fa-ea794107e6be</target>
+    <point>390.0,795.0</point>
+    <point>390.0,660.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>c16baa0b-586a-4af7-aab0-3e04e810dee4</source>
+    <target>a757414d-68f3-478e-a5f2-cbb249a4880a</target>
+    <point>150.0,915.0</point>
+    <point>359.0,506.0</point>
+    <branch>exit</branch>
+  </edge>
+  <edge>
+    <source>eaf738a9-97e2-4f7c-9b18-a25e266e6128</source>
+    <target>c16baa0b-586a-4af7-aab0-3e04e810dee4</target>
+    <point>390.0,915.0</point>
+    <point>153.0,911.0</point>
+    <branch>false</branch>
+  </edge>
   <parameter>
     <name>modelElementKey</name>
     <field>modelElement</field>
@@ -531,6 +648,11 @@ public class Move$context.node.name$Feature extends DefaultMoveShapeFeature{
     <name>modelElementKey</name>
     <field>modelElementKey</field>
     <sib>8ebda373-c17c-400c-9b5d-e91d438808c0</sib>
+  </parameter>
+  <parameter>
+    <name>modelElementKey</name>
+    <field>modelElementKey</field>
+    <sib>f04cf630-f4c6-477c-8043-8a264258f3ed</sib>
   </parameter>
   <values>
     <entry>
@@ -568,16 +690,6 @@ public class Move$context.node.name$Feature extends DefaultMoveShapeFeature{
     <name>error</name>
     <branch>error</branch>
     <sib>420e3c25-c42b-45a4-9b32-e185b5492caf</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>087d711d-b04c-4b7b-a239-244799d7a944</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>022c7d6d-31be-4366-9dec-2785f83c9a5f</sib>
   </branch>
   <branch>
     <name>error</name>
