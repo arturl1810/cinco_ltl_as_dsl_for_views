@@ -144,6 +144,7 @@ class MGLValidator extends AbstractMGLValidator {
 		
 	}
 	
+	
 	def GraphicalModelElement connectedElement(EdgeElementConnection connection){
 		if(connection instanceof IncomingEdgeElementConnection){
 			return (connection as IncomingEdgeElementConnection).connectedElement;
@@ -435,14 +436,14 @@ class MGLValidator extends AbstractMGLValidator {
 //			error("Maximal outgoing cardinality must equal to or higher than -1",MglPackage.Literals::GRAPHICAL_MODEL_ELEMENT__MAX_OUTGOING)
 //	}
 	
-	@Check
-	def checkPrimeReferenceIsPrime(ReferencedType refType){
-		var containingNode = refType.eContainer as Node
-		for(node: containingNode.graphModel.nodes){
-			if(node!=containingNode&&node.primeReference!=null&&node.primeReference.type==refType.type)
-				error("The Same type cannot be referenced by two different Nodes in the same graph model.",MglPackage.Literals::REFERENCED_TYPE__TYPE)
-		} 
-	}
+//	@Check
+//	def checkPrimeReferenceIsPrime(ReferencedType refType){
+//		var containingNode = refType.eContainer as Node
+//		for(node: containingNode.graphModel.nodes){
+//			if(node!=containingNode&&node.primeReference!=null&&node.primeReference.type==refType.type)
+//				error("The Same type cannot be referenced by two different Nodes in the same graph model.",MglPackage.Literals::REFERENCED_TYPE__TYPE)
+//		} 
+//	}
 	
 	@Check
 	def checkCanAttributeBeInstantiatedWithDefaultValue(Attribute attr){
@@ -593,9 +594,20 @@ class MGLValidator extends AbstractMGLValidator {
 					error("Circle in inheritance caused by: " + retvalList, MglPackage.Literals.NODE__EXTENDS)
 				if (me instanceof Edge)
 					error("Circle in inheritance caused by: " + retvalList, MglPackage.Literals.EDGE__EXTENDS)
-				if (me instanceof NodeContainer)
-					error("Circle in inheritance caused by: " + retvalList, MglPackage.Literals.NODE_CONTAINER__EXTENDS)
 			}
+	}
+	@Check
+	def checkContainerInheritsFromContainer(NodeContainer nc){
+		if(nc.extends!=null&&!(nc.extends instanceof NodeContainer)){
+			error("Inheriting from Nodes is not possible for Containers.", MglPackage.Literals.NODE__EXTENDS)
+		}
+	}
+	
+	@Check
+	def checkNodeInheritsFromNode(Node node){
+		if(!(node instanceof NodeContainer)&&node.extends!=null&&(node.extends instanceof NodeContainer)){
+			error("Inheriting from Containers is not possible for Nodes.", MglPackage.Literals.NODE__EXTENDS)
+		}
 	}
 	
 	@Check
@@ -632,7 +644,7 @@ class MGLValidator extends AbstractMGLValidator {
 		val modelElements = new ArrayList
 		modelElements.addAll(graphModel.nodes)
 		modelElements.addAll(graphModel.edges)
-		modelElements.addAll(graphModel.nodeContainers)
+		//modelElements.addAll(graphModel.nodeContainers)
 		
 		val refNodes = modelElements.filter[me | me.name.equals(attribute.type) && !me.attributes.map[name].contains("name")];
 		
@@ -644,8 +656,29 @@ class MGLValidator extends AbstractMGLValidator {
 		switch element {
 			Node : element.graphModel
 			Edge : element.graphModel
-			NodeContainer : element.graphModel		
+					
 		}
+	}
+	
+	@Check 
+	def checkContainableElementIsIndependent(GraphicalElementContainment e){
+		var superType = getContainingSuperType(e.containingElement)
+		while(superType!=null){
+			
+			if(superType.containableElements.exists[y | y.types.exists[x|e.types.contains(x)]]){
+				error("Containment must be independent from inherited containments",MglPackage.Literals.GRAPHICAL_ELEMENT_CONTAINMENT__TYPES)
+			}
+			
+			superType = getContainingSuperType(superType)
+		}
+		
+	}
+	
+	def <T extends ContainingElement> T getContainingSuperType(T modelElement){
+		switch(modelElement){
+			GraphModel: (modelElement.extends) as T
+			NodeContainer: (modelElement.extends) as T 
+		} 
 	}
 	
 	

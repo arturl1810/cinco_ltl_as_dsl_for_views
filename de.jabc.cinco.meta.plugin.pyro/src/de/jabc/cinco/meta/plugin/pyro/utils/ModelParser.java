@@ -12,6 +12,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.eclipse.core.filebuffers.manipulation.ContainerCreator;
 import org.eclipse.core.resources.IFile;
@@ -99,7 +100,7 @@ public class ModelParser {
 			}
 		}
 		if(gme instanceof NodeContainer){
-			for(NodeContainer node:graphModel.getNodeContainers()){
+			for(NodeContainer node:getNodeContainers(graphModel)) {
 				if(node.getExtends() != null){
 					if(node.getExtends().getName().equals(gme.getName())){
 						elements.add(node);
@@ -108,6 +109,10 @@ public class ModelParser {
 			}
 		}
 		return elements;
+	}
+
+	private static List<NodeContainer> getNodeContainers(GraphModel graphModel) {
+		return graphModel.getNodes().stream().filter(n -> n instanceof NodeContainer ).map(nc -> (NodeContainer) nc).collect(Collectors.toList());
 	}
 	
 	public static ArrayList<StyledNode> getNotDisbaledCreate(ArrayList<StyledNode> nodes){
@@ -224,7 +229,7 @@ public class ModelParser {
 		if(nodeContainer.getExtends() == null){
 			return nodeContainer;
 		}
-		NodeContainer parent = getInheritedNodeContainer(nodeContainer.getExtends());
+		NodeContainer parent = getInheritedNodeContainer((NodeContainer) nodeContainer.getExtends());
 		nodeContainer.getAttributes().addAll(parent.getAttributes());
 		if(nodeContainer.getIncomingEdgeConnections()== null || nodeContainer.getIncomingEdgeConnections().isEmpty()){
 			nodeContainer.getIncomingEdgeConnections().addAll(parent.getIncomingEdgeConnections());
@@ -283,7 +288,7 @@ public class ModelParser {
 	public static ArrayList<ConnectionConstraint> getValidConnections(GraphModel graphModel) {
 		
 		ArrayList<Node> nodes = new ArrayList<>(graphModel.getNodes());
-		nodes.addAll((Collection<? extends Node>) graphModel.getNodeContainers());
+//		nodes.addAll((Collection<? extends Node>) graphModel.getNodeContainers());
 		
 		ArrayList<ConnectionConstraint> connectionConstraints = new ArrayList<ConnectionConstraint>();
 		for(GraphicalModelElement sourceNode : nodes) {
@@ -442,7 +447,7 @@ public class ModelParser {
 
 	public static ArrayList<EmbeddingConstraint> getValidEmbeddings(GraphModel graphModel) {
 		ArrayList<EmbeddingConstraint> ecs = new ArrayList<EmbeddingConstraint>();
-		for(NodeContainer container : graphModel.getNodeContainers()) {
+		for(NodeContainer container : getNodeContainers(graphModel)) {
 			container = ModelParser.getInheritedNodeContainer(container);
 			for(GraphicalElementContainment gec : container.getContainableElements()) {
 				EmbeddingConstraint ec = new EmbeddingConstraint();
@@ -453,7 +458,7 @@ public class ModelParser {
 					for(Node node : graphModel.getNodes()) {
 						validNodes.add(node);
 					}
-					for(NodeContainer nodeContainer : graphModel.getNodeContainers()) {
+					for(NodeContainer nodeContainer : getNodeContainers(graphModel)) {
 						validNodes.add(nodeContainer);
 					}
 				}
@@ -571,7 +576,7 @@ public class ModelParser {
 		}
 		List<mgl.ModelElement> modelElements = new ArrayList<mgl.ModelElement>();
 		modelElements.addAll(modelElement.getEdges());
-		modelElements.addAll(modelElement.getNodeContainers());
+//		modelElements.addAll(modelElement.getNodeContainers());
 		modelElements.addAll(modelElement.getNodes());
 		for (mgl.ModelElement modelElement2 : modelElements) {
 			if(isCustomeAction(modelElement2)) {
@@ -589,7 +594,7 @@ public class ModelParser {
 		}
 		List<mgl.ModelElement> modelElements = new ArrayList<mgl.ModelElement>();
 		modelElements.addAll(modelElement.getEdges());
-		modelElements.addAll(modelElement.getNodeContainers());
+//		modelElements.addAll(modelElement.getNodeContainers());
 		modelElements.addAll(modelElement.getNodes());
 		for (mgl.ModelElement modelElement2 : modelElements) {
 			if(isCustomeHook(modelElement2)) {
@@ -810,7 +815,7 @@ public class ModelParser {
 			if(node.getPrimeReference() != null) {
 				if(!selfReferencingIncluded) {
 					ArrayList<ModelElement> modelElements = new ArrayList<ModelElement>();
-					modelElements.addAll(graphModel.getNodeContainers());
+//					modelElements.addAll(graphModel.getNodeContainers());
 					modelElements.addAll(graphModel.getNodes());
 					modelElements.addAll(graphModel.getEdges());
 					boolean selfReferencing = false;
@@ -865,7 +870,7 @@ public class ModelParser {
 	public static ModelElement getReferencedModelType(mgl.GraphModel graphmodel,mgl.Attribute attribute){
 		List<ModelElement> modelElements = new ArrayList<ModelElement>();
 		modelElements.addAll(graphmodel.getEdges());
-		modelElements.addAll(graphmodel.getNodeContainers());
+//		modelElements.addAll(graphmodel.getNodeContainers());
 		modelElements.addAll(graphmodel.getNodes());
 		
 		for(ModelElement modelElement : modelElements) {

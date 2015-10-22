@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>487436ed-b1c2-43df-8ad2-e96d5346db59</id>
   <name>Generate Get Incoming Connection Constraints</name>
-  <changecounter>28</changecounter>
+  <changecounter>32</changecounter>
   <edge>
     <source>d5a126af-6103-4b81-a022-8a52561bd874</source>
     <target>6ce28be9-edf2-4c22-aa4a-2e926c18cb0e</target>
@@ -55,7 +55,7 @@
     <parameter name="outputBuffer">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>outgoingEdgeName</key>
+          <key>incomingEdgeName</key>
           <scope>GLOBAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
@@ -585,7 +585,7 @@ return new org.eclipse.emf.common.util.BasicEList&lt;ConnectionConstraint&gt;(ja
     <parameter name="element">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>outgoingEdgeName</key>
+          <key>incomingEdgeName</key>
           <scope>GLOBAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
@@ -606,6 +606,15 @@ return new org.eclipse.emf.common.util.BasicEList&lt;ConnectionConstraint&gt;(ja
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
           <key>outgoingEdge</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="outputBuffer">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>qualifiedEdgeName</key>
           <scope>GLOBAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>

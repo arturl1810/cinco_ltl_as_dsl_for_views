@@ -163,7 +163,8 @@ public class CreatePyroPlugin {
 					templateContainer.setEnums(new ArrayList<Type>(iteratorModel.getTypes()));
 					ArrayList<GraphicalModelElement> graphicalModelElements = new ArrayList<GraphicalModelElement>();
 					graphicalModelElements.addAll(iteratorModel.getNodes());
-					graphicalModelElements.addAll(iteratorModel.getNodeContainers());
+					/** Since NodeContainers are now also Nodes the following line is redundant!? **/
+//					graphicalModelElements.addAll(iteratorModel.getNodeContainers());
 					templateContainer.setNodes(NodeParser.getStyledNodes(iteratorModel,graphicalModelElements,styles));
 					templateContainer.setGraphModel(iteratorModel);
 					templateContainer.setGroupedNodes(ModelParser.getGroupedNodes(graphicalModelElements));

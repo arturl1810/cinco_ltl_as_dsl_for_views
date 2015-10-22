@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>97cfd22b-887e-4510-8a47-790198806019</id>
   <name>Create Model Element</name>
-  <changecounter>59</changecounter>
+  <changecounter>60</changecounter>
   <sib>
     <id>f2b2a564-ccd0-4b4f-9509-c723edc57a8d</id>
     <name>NewEClassInEPackageEClassifiers</name>
@@ -81,6 +81,7 @@
     <point>1050.0,283.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>Node</branch>
+    <branch>NodeContainer</branch>
   </edge>
   <edge>
     <source>f0d3cd6a-9483-497a-9057-477e7b3c0f25</source>
@@ -89,14 +90,6 @@
     <point>615.0,285.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>Edge</branch>
-  </edge>
-  <edge>
-    <source>f0d3cd6a-9483-497a-9057-477e7b3c0f25</source>
-    <target>22f458a4-e3b5-4a53-8ad1-94eab1877c9d</target>
-    <point>1050.0,163.0</point>
-    <point>1230.0,283.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>NodeContainer</branch>
   </edge>
   <edge>
     <source>7da797d6-8e81-4774-bcab-b7ad4671e4f2</source>
@@ -238,11 +231,11 @@
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>bb74802f-da5c-4c3e-8833-61f0124693de</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Add Attribute</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>bb74802f-da5c-4c3e-8833-61f0124693de</string>
     </userobject>
   </sib>
   <edge>
@@ -292,11 +285,11 @@
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>5493c838-f9b5-4019-b333-827236224ae0</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Create Inheritance</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>5493c838-f9b5-4019-b333-827236224ae0</string>
     </userobject>
   </sib>
   <edge>
@@ -409,14 +402,6 @@
     <target>5085710a-a334-466f-be1b-817815f8112f</target>
     <point>75.0,270.0</point>
     <point>85.0,181.0</point>
-    <branch>default</branch>
-  </edge>
-  <edge>
-    <source>22f458a4-e3b5-4a53-8ad1-94eab1877c9d</source>
-    <target>0339fbec-fcb4-4102-b084-a6cf1060be6b</target>
-    <point>1217.7272727272727,294.0</point>
-    <point>1064.6341463414635,511.0</point>
-    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
@@ -611,34 +596,6 @@
     <finalbranches>error</finalbranches>
   </sib>
   <sib>
-    <id>22f458a4-e3b5-4a53-8ad1-94eab1877c9d</id>
-    <name>GetNodeContainerExtends</name>
-    <label>GetNodeContainerExtends</label>
-    <sib-uid>mgl/mgl/GetNodeContainerExtends</sib-uid>
-    <taxonomy>de.jabc.cinco.meta.core.mgl.sib.mgl.GetNodeContainerExtends</taxonomy>
-    <position>1144.5,258.0</position>
-    <parameter name="nodeContainerKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>modelElement</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="nodeContainerextendsKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>superType</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-  </sib>
-  <sib>
     <id>0443b085-0f15-412d-9ac5-11bbd7959249</id>
     <name>IterateModelElementAttributes</name>
     <label>IterateModelElementAttributes</label>
@@ -704,11 +661,11 @@
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>d56f9277-94e0-48c2-aff2-e2cc43c9b74b</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Create Connecting Constraints</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>d56f9277-94e0-48c2-aff2-e2cc43c9b74b</string>
     </userobject>
   </sib>
   <sib>
@@ -808,11 +765,6 @@
     <name>modelElementKey</name>
     <field>nodeKey</field>
     <sib>99f8a1b4-31d6-4ff3-84ac-e0e7613b51eb</sib>
-  </parameter>
-  <parameter>
-    <name>modelElementKey</name>
-    <field>nodeContainerKey</field>
-    <sib>22f458a4-e3b5-4a53-8ad1-94eab1877c9d</sib>
   </parameter>
   <parameter>
     <name>modelElementKey</name>
@@ -935,11 +887,6 @@
     <name>error</name>
     <branch>error</branch>
     <sib>99f8a1b4-31d6-4ff3-84ac-e0e7613b51eb</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>22f458a4-e3b5-4a53-8ad1-94eab1877c9d</sib>
   </branch>
   <branch>
     <name>error</name>

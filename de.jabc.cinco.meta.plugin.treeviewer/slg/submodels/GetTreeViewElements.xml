@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>725f56d1-138b-4747-9522-e58ee63db3a3</id>
   <name>GetTreeViewElements</name>
-  <changecounter>14</changecounter>
+  <changecounter>20</changecounter>
   <sib>
     <id>f392b43f-f995-4249-bac0-3935eecd60a1</id>
     <name>IterateGraphicalModelElementAnnotations</name>
@@ -185,45 +185,6 @@
     <labelposition>500.0,0.0</labelposition>
     <branch>next</branch>
   </edge>
-  <sib>
-    <id>0878ac59-88de-44b5-832c-3d99c6e0239a</id>
-    <name>IterateGraphModelNodeContainers</name>
-    <label>IterateGraphModelNodeContainers</label>
-    <sib-uid>mgl/mgl/IterateGraphModelNodeContainers</sib-uid>
-    <taxonomy>de.jabc.cinco.meta.core.mgl.sib.mgl.IterateGraphModelNodeContainers</taxonomy>
-    <position>1009.5,483.0</position>
-    <parameter name="elementKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>graphicalModelElement</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>false</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="graphModelKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>graphModel</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="iteratorKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>iteratorKey</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>false</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>error</finalbranches>
-    <finalbranches>exit</finalbranches>
-    <finalbranches>next</finalbranches>
-    <finalbranches>noElements</finalbranches>
-  </sib>
   <edge>
     <source>37a13f1f-caca-426d-96dd-214da4afec67</source>
     <target>779778ff-c639-4e55-86d9-e9bc508a440b</target>
@@ -544,9 +505,9 @@
   </edge>
   <edge>
     <source>207e2e0f-9b1b-4273-9d5c-dfab29ed4d9e</source>
-    <target>0878ac59-88de-44b5-832c-3d99c6e0239a</target>
-    <point>748.0,514.0</point>
-    <point>1123.0,514.0</point>
+    <target>a03912a3-6daa-4502-ae1b-bdeed0784e15</target>
+    <point>768.0,497.112</point>
+    <point>1107.0,415.752</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>exit</branch>
     <branch>noElements</branch>
@@ -769,22 +730,22 @@
     <branch>true</branch>
   </edge>
   <edge>
-    <source>0878ac59-88de-44b5-832c-3d99c6e0239a</source>
+    <source>a03912a3-6daa-4502-ae1b-bdeed0784e15</source>
     <target>8d1a130f-6d5d-433c-92ac-b7808b83ba8f</target>
     <spline/>
-    <point>1123.0,514.0</point>
+    <point>1121.5966386554621,429.0</point>
     <point>1080.0,649.0</point>
-    <point>1123.0,739.0</point>
+    <point>1114.4805194805194,708.0</point>
     <labelposition>500.0,39.0</labelposition>
     <branch>next</branch>
   </edge>
   <edge>
     <source>8d1a130f-6d5d-433c-92ac-b7808b83ba8f</source>
-    <target>0878ac59-88de-44b5-832c-3d99c6e0239a</target>
+    <target>a03912a3-6daa-4502-ae1b-bdeed0784e15</target>
     <spline/>
-    <point>1123.0,739.0</point>
+    <point>1132.570093457944,708.0</point>
     <point>1170.0,619.0</point>
-    <point>1123.0,514.0</point>
+    <point>1128.8942307692307,429.0</point>
     <labelposition>478.14064503332327,39.73483956474826</labelposition>
     <branch>exit</branch>
     <branch>noElements</branch>
@@ -1014,6 +975,44 @@
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
+  <sib>
+    <id>a03912a3-6daa-4502-ae1b-bdeed0784e15</id>
+    <name>IterateElements</name>
+    <label>IterateGraphModelNodeContainers</label>
+    <sib-uid>collection-sibs/IterateElements</sib-uid>
+    <taxonomy>de.jabc.sib.common.collection.IterateElements</taxonomy>
+    <position>1024.5,483.0</position>
+    <parameter name="collection">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>containers</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="element">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>graphicalModelElement</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="iterator">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>oiwaeflsdg</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>exit</finalbranches>
+    <finalbranches>next</finalbranches>
+  </sib>
   <values/>
   <branch>
     <name>error</name>
@@ -1086,21 +1085,6 @@
     <sib>207e2e0f-9b1b-4273-9d5c-dfab29ed4d9e</sib>
   </branch>
   <branch>
-    <name>exit</name>
-    <branch>exit</branch>
-    <sib>0878ac59-88de-44b5-832c-3d99c6e0239a</sib>
-  </branch>
-  <branch>
-    <name>exit</name>
-    <branch>noElements</branch>
-    <sib>0878ac59-88de-44b5-832c-3d99c6e0239a</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>0878ac59-88de-44b5-832c-3d99c6e0239a</sib>
-  </branch>
-  <branch>
     <name>error</name>
     <branch>error</branch>
     <sib>8d1a130f-6d5d-433c-92ac-b7808b83ba8f</sib>
@@ -1159,5 +1143,15 @@
     <name>error</name>
     <branch>error</branch>
     <sib>cc7fcf59-bd2d-4df5-835b-53f41fee3440</sib>
+  </branch>
+  <branch>
+    <name>exit</name>
+    <branch>exit</branch>
+    <sib>a03912a3-6daa-4502-ae1b-bdeed0784e15</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>a03912a3-6daa-4502-ae1b-bdeed0784e15</sib>
   </branch>
 </model>

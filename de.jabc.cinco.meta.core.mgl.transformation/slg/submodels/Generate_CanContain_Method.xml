@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>2dfcc433-a956-4609-a130-76521a6c3e9e</id>
   <name>Generate CanContain Method</name>
-  <changecounter>83</changecounter>
+  <changecounter>88</changecounter>
   <sib>
     <id>c8b450b2-9c6b-482a-a645-5b046c18b7b6</id>
     <name>IterateContainingElementContainableElements</name>
@@ -201,7 +201,7 @@
     <label>GetGraphicalModelElementName</label>
     <sib-uid>mgl/mgl/GetGraphicalModelElementName</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetGraphicalModelElementName</taxonomy>
-    <position>851.0,663.0</position>
+    <position>851.0,708.0</position>
     <parameter name="graphicalModelElementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -226,8 +226,8 @@
   <edge>
     <source>0935a4d7-0c80-4200-ac58-8bdf100a078a</source>
     <target>4c567c63-0536-4e84-a307-45cf34d36002</target>
-    <point>960.0,585.0</point>
-    <point>960.0,690.0</point>
+    <point>978.0,581.6</point>
+    <point>1212.0,646.6</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>next</branch>
   </edge>
@@ -263,7 +263,7 @@
     <label>AddElement</label>
     <sib-uid>collection-sibs/AddElement</sib-uid>
     <taxonomy>de.jabc.sib.common.collection.AddElement</taxonomy>
-    <position>918.0,888.0</position>
+    <position>918.0,1113.0</position>
     <parameter name="collection">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -292,7 +292,7 @@
     <label>MergeStrings</label>
     <sib-uid>basic-sibs/MergeStrings</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.MergeStrings</taxonomy>
-    <position>913.5,753.0</position>
+    <position>913.5,978.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -302,7 +302,7 @@
           <delegate class="list">
             <de.metaframe.jabc.framework.sib.parameter.ContextKey>
               <ContextKeyFoundation>
-                <key>graphicalModelElementName</key>
+                <key>qualifiedContainedGraphicalModelElementName</key>
                 <scope>GLOBAL</scope>
                 <scopeMutable>true</scopeMutable>
               </ContextKeyFoundation>
@@ -335,18 +335,18 @@
     <finalbranches>error</finalbranches>
   </sib>
   <edge>
-    <source>4c567c63-0536-4e84-a307-45cf34d36002</source>
+    <source>048eee7f-c825-4480-b495-58c3bea8da69</source>
     <target>60d2a51b-ebdc-4508-b500-3f575d24df67</target>
-    <point>960.0,690.0</point>
-    <point>960.0,780.0</point>
+    <point>960.0,915.0</point>
+    <point>960.0,1005.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
     <source>60d2a51b-ebdc-4508-b500-3f575d24df67</source>
     <target>412cc75a-3396-4bee-9ea3-67e21d2aa0b6</target>
-    <point>960.0,780.0</point>
-    <point>960.0,915.0</point>
+    <point>960.0,1005.0</point>
+    <point>960.0,1140.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -391,7 +391,8 @@
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>de.jabc.cinco.meta.core.mgl.model.constraints.ContainmentConstraint $constraintName$ = 
+      <string>@SuppressWarnings(&quot;unchecked&quot;)
+de.jabc.cinco.meta.core.mgl.model.constraints.ContainmentConstraint $constraintName$ = 
     new de.jabc.cinco.meta.core.mgl.model.constraints.ContainmentConstraint($conLowerBound$,$conUpperBound$,$elementClasses$);
 </string>
     </parameter>
@@ -758,8 +759,8 @@
     <parameter name="template">
       <string>$constraints$
         org.eclipse.emf.common.util.BasicEList&lt;de.jabc.cinco.meta.core.mgl.model.constraints.ContainmentConstraint&gt;constraints = 
-            new org.eclipse.emf.common.util.BasicEList&lt;de.jabc.cinco.meta.core.mgl.model.constraints.ContainmentConstraint&gt;(java.util.Arrays.asList($constraintVariables$));
-
+            new org.eclipse.emf.common.util.BasicEList&lt;de.jabc.cinco.meta.core.mgl.model.constraints.ContainmentConstraint&gt;(java.util.Arrays.asList($constraintVariables$)); 
+        constraints.addAll(super.getContainmentConstraints());
 return constraints;</string>
     </parameter>
     <finalbranches>default</finalbranches>
@@ -853,6 +854,47 @@ return constraints;</string>
     <target>8fe06a42-b37e-4d66-b41c-9494bae03486</target>
     <point>285.0,180.0</point>
     <point>444.0,107.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>048eee7f-c825-4480-b495-58c3bea8da69</id>
+    <name>GraphSIB_2</name>
+    <label>Get Qualified Name For Node</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>873.0,886.0</position>
+    <parameter name="nodeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>containedGraphicalModelElement</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="qualifiedName">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>qualifiedContainedGraphicalModelElementName</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Get Qualified Name For Node</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>a0356bd8-d2c9-42f7-9cfc-7cd304f53dc4</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>4c567c63-0536-4e84-a307-45cf34d36002</source>
+    <target>048eee7f-c825-4480-b495-58c3bea8da69</target>
+    <point>1230.0,660.0</point>
+    <point>1070.0,751.0</point>
     <branch>default</branch>
   </edge>
   <parameter>

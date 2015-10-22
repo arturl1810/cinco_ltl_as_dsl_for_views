@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>72b26cec-8548-4078-aeb4-bf9b6c0e60cb</id>
   <name>Generate Get Outgoing Connection Constraints</name>
-  <changecounter>22</changecounter>
+  <changecounter>23</changecounter>
   <sib>
     <id>6f7090ae-66fb-467b-9e6e-9c1c6c33fecb</id>
     <name>IterateNodeOutgoingEdgeConnections</name>
@@ -745,11 +745,11 @@ return new org.eclipse.emf.common.util.BasicEList&lt;ConnectionConstraint&gt;(ja
         </ContextKeyFoundation>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
-    <parameter name="qualifiedName">
+    <parameter name="outputBuffer">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>outgoingEdgeNameQualified</key>
-          <scope>LOCAL</scope>
+          <key>qualifiedEdgeName</key>
+          <scope>GLOBAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>

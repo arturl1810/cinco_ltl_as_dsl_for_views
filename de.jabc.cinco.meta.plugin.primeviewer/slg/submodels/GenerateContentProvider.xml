@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>de43b109-ffd6-4dd9-9481-a4e5edefb291</id>
   <name>GenerateContentProvider</name>
-  <changecounter>31</changecounter>
+  <changecounter>32</changecounter>
   <sib>
     <id>6eee949d-1e1f-4c83-8aa0-9aa7cc30b0f0</id>
     <name>RunStringTemplate</name>
@@ -71,7 +71,7 @@ public class $primeviewElementName$ContentProvider implements ITreeContentProvid
 		TreeIterator&lt;EObject&gt; x = resource.getAllContents();
 		while(x.hasNext()){
 			EObject o = x.next();
-			if(o.eClass().getName().equals(&quot;$primeviewElementName$&quot;)&amp;&amp; o.eClass().getEPackage().getNsPrefix().equals(&quot;$primeviewElementPackagePrefix$&quot;)){
+            if((o.eClass().getName().equals(&quot;$primeviewElementName$&quot;)||o.eClass().getEAllSuperTypes().stream().anyMatch(e -&gt; e.getName().equals(&quot;$primeviewElementName$&quot;)) )&amp;&amp; o.eClass().getEPackage().getNsPrefix().equals(&quot;$primeviewElementPackagePrefix$&quot;)){
 	        		prime = o;
 	        		eObjList.add(o);
 	        	}

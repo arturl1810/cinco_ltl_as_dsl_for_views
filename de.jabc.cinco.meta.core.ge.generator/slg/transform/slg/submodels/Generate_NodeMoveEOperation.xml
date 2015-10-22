@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>53c0c093-ef7e-452a-ae07-8946504ff744</id>
   <name>Generate_NodeMoveEOperation</name>
-  <changecounter>621</changecounter>
+  <changecounter>647</changecounter>
   <edge>
     <source>45937ff9-8a61-426a-ad52-785723db3d9e</source>
     <target>33b4498b-317c-424c-a417-153e95dd0cd4</target>
@@ -630,7 +630,7 @@ final $fqnMoveShapeContext$ mc = new $fqnMoveShapeContext$(($fqnShape$)pes.get(0
     <label>CreateClone</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>951.0,421.0</position>
+    <position>951.0,391.0</position>
     <parameter name="eClassKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -728,7 +728,7 @@ return clone;</string>
     <label>Generate_Documentation</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>884.0,136.0</position>
+    <position>884.0,121.0</position>
     <parameter name="eOperationKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -754,8 +754,8 @@ Creates an clone (persisting the modelElement&apos;s id) of this modelElement</s
   <edge>
     <source>8c7d4b5a-b393-4dac-b03e-db89edf3401a</source>
     <target>81bed549-c906-41cc-ac55-ec6863cda23e</target>
-    <point>840.0,540.0</point>
-    <point>840.0,435.0</point>
+    <point>997.0,426.0</point>
+    <point>967.0,336.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -765,7 +765,7 @@ Creates an clone (persisting the modelElement&apos;s id) of this modelElement</s
     <label>PutDynamicLinkedMap</label>
     <sib-uid>ge-util-sibs/PutDynamicLinkedMap</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.PutDynamicLinkedMap</taxonomy>
-    <position>893.5,333.0</position>
+    <position>893.5,303.0</position>
     <parameter name="elements">
       <linked-hash-map>
         <entry>
@@ -800,7 +800,7 @@ Creates an clone (persisting the modelElement&apos;s id) of this modelElement</s
     <label>CreateParametersForEOperation1</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>859.5,241.0</position>
+    <position>859.5,211.0</position>
     <parameter name="map">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1039,9 +1039,9 @@ Creates an clone (persisting the modelElement&apos;s id) of this modelElement</s
   </edge>
   <edge>
     <source>bf43902a-6b9c-47b1-8922-5f33c2c4267b</source>
-    <target>5cb7e3e4-42ad-4bd6-aa6c-e668d1fab125</target>
-    <point>849.6268656716418,918.0</point>
-    <point>799.931506849315,744.0</point>
+    <target>2efc9455-b673-494a-9fbe-7f5542e19870</target>
+    <point>1102.0,846.0</point>
+    <point>997.0,756.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>Node</branch>
   </edge>
@@ -1051,7 +1051,7 @@ Creates an clone (persisting the modelElement&apos;s id) of this modelElement</s
     <label>SwitchModelElement</label>
     <sib-uid>mgl/mgl/SwitchModelElement</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.SwitchModelElement</taxonomy>
-    <position>1138.5,858.0</position>
+    <position>1033.5,813.0</position>
     <parameter name="eObjectKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1076,7 +1076,7 @@ Creates an clone (persisting the modelElement&apos;s id) of this modelElement</s
     <label>CreateClone</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>1161.0,421.0</position>
+    <position>1161.0,391.0</position>
     <parameter name="eClassKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1166,8 +1166,8 @@ return clone;</string>
   <edge>
     <source>c438ef0b-15a9-4825-ba23-eea6454a0672</source>
     <target>81bed549-c906-41cc-ac55-ec6863cda23e</target>
-    <point>975.0,540.0</point>
-    <point>840.0,435.0</point>
+    <point>1207.0,426.0</point>
+    <point>967.0,336.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -1177,7 +1177,7 @@ return clone;</string>
     <label>SwitchModelElement</label>
     <sib-uid>mgl/mgl/SwitchModelElement</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.SwitchModelElement</taxonomy>
-    <position>328.5,843.0</position>
+    <position>373.5,768.0</position>
     <parameter name="eObjectKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1291,9 +1291,9 @@ return clone;</string>
   </sib>
   <edge>
     <source>e2605b87-ec6e-41c3-bb99-d8ad1077d708</source>
-    <target>a4850587-9901-481d-b29a-f3c9a28e4753</target>
-    <point>372.0,679.5428571428571</point>
-    <point>301.57894736842104,609.0</point>
+    <target>3b9b8db6-50ab-451b-85ed-85eea0a297ff</target>
+    <point>462.0,769.8</point>
+    <point>408.1818181818182,716.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>Node</branch>
   </edge>
@@ -1310,7 +1310,7 @@ return clone;</string>
     <label>IsPrimeNode</label>
     <sib-uid>ge-util-sibs/IsPrimeNode</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsPrimeNode</taxonomy>
-    <position>275.5,768.0</position>
+    <position>350.5,843.0</position>
     <parameter name="node">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1425,7 +1425,7 @@ return clone;</string>
     <label>IsPrimeNode</label>
     <sib-uid>ge-util-sibs/IsPrimeNode</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsPrimeNode</taxonomy>
-    <position>845.5,858.0</position>
+    <position>1070.5,918.0</position>
     <parameter name="node">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1445,7 +1445,7 @@ return clone;</string>
     <label>CreateClone</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>771.0,436.0</position>
+    <position>771.0,406.0</position>
     <parameter name="eClassKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1535,8 +1535,8 @@ return clone;</string>
   <edge>
     <source>61bdc499-3684-44c1-9625-28ddb6be168e</source>
     <target>81bed549-c906-41cc-ac55-ec6863cda23e</target>
-    <point>755.0,512.7142857142857</point>
-    <point>823.421052631579,444.0</point>
+    <point>817.0,441.0</point>
+    <point>967.0,336.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -1546,7 +1546,7 @@ return clone;</string>
     <label>Create_Resize</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>795.5,46.0</position>
+    <position>840.5,46.0</position>
     <parameter name="eClassKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1732,7 +1732,7 @@ Creates an clone (persisting the modelElement&apos;s id) of this modelElement</s
     <label>PutDynamicLinkedMap</label>
     <sib-uid>ge-util-sibs/PutDynamicLinkedMap</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.PutDynamicLinkedMap</taxonomy>
-    <position>1133.5,648.0</position>
+    <position>1133.5,618.0</position>
     <parameter name="elements">
       <linked-hash-map>
         <entry>
@@ -1759,7 +1759,7 @@ Creates an clone (persisting the modelElement&apos;s id) of this modelElement</s
     <label>CreateParametersForEOperation1</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>1099.5,526.0</position>
+    <position>1099.5,496.0</position>
     <parameter name="map">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1858,7 +1858,7 @@ Creates an clone (persisting the modelElement&apos;s id) of this modelElement</s
     <label>CreateParametersForEOperation1</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>889.5,541.0</position>
+    <position>889.5,511.0</position>
     <parameter name="map">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1978,7 +1978,7 @@ return cf.canCreate(cc);</string>
     <label>CreateCanClone</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>760.0,751.0</position>
+    <position>760.0,721.0</position>
     <parameter name="eClassKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -2077,7 +2077,7 @@ if (af != null) {
     <label>CreateParametersForEOperation1</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>709.5,526.0</position>
+    <position>709.5,496.0</position>
     <parameter name="map">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -2217,7 +2217,7 @@ else return false;</string>
     <label>PutDynamicLinkedMap</label>
     <sib-uid>ge-util-sibs/PutDynamicLinkedMap</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.PutDynamicLinkedMap</taxonomy>
-    <position>923.5,648.0</position>
+    <position>923.5,618.0</position>
     <parameter name="elements">
       <linked-hash-map>
         <entry>
@@ -2311,7 +2311,7 @@ return false;</string>
     <label>CreateParametersForEOperation1</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>874.5,916.0</position>
+    <position>859.5,916.0</position>
     <parameter name="map">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -2389,7 +2389,7 @@ return false;</string>
     <label>CreateCanClone</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>940.0,751.0</position>
+    <position>940.0,721.0</position>
     <parameter name="eClassKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -2531,7 +2531,7 @@ if (pes != null &amp;&amp; !pes.isEmpty()) {
     <label>CreateCanClone</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>1150.0,751.0</position>
+    <position>1150.0,721.0</position>
     <parameter name="eClassKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -2600,7 +2600,7 @@ return cf.canCreate(cc);</string>
     <label>PutDynamicLinkedMap</label>
     <sib-uid>ge-util-sibs/PutDynamicLinkedMap</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.PutDynamicLinkedMap</taxonomy>
-    <position>743.5,648.0</position>
+    <position>743.5,618.0</position>
     <parameter name="elements">
       <linked-hash-map>
         <entry>
@@ -2694,15 +2694,17 @@ return cf.canCreate(cc);</string>
   <edge>
     <source>c5296c53-c83c-476d-94f3-953f10c0f3ab</source>
     <target>3b3968c8-74ec-4942-9a9d-4160a9f14d93</target>
-    <point>1233.5,696.0</point>
-    <point>1199.5,576.0</point>
+    <point>1207.0,651.0</point>
+    <point>1207.0,531.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
     <source>3b3968c8-74ec-4942-9a9d-4160a9f14d93</source>
     <target>c438ef0b-15a9-4825-ba23-eea6454a0672</target>
-    <point>1199.5,576.0</point>
-    <point>1036.0,741.0</point>
+    <point>1207.0,531.0</point>
+    <point>1207.0,426.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
@@ -2729,8 +2731,9 @@ return cf.canCreate(cc);</string>
   <edge>
     <source>5e0fe310-bffe-46cc-833c-570c722ad994</source>
     <target>8c7d4b5a-b393-4dac-b03e-db89edf3401a</target>
-    <point>989.5,591.0</point>
-    <point>886.0,561.0</point>
+    <point>997.0,546.0</point>
+    <point>997.0,426.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
@@ -2743,15 +2746,17 @@ return cf.canCreate(cc);</string>
   <edge>
     <source>54fa0de5-7b31-49d4-afe1-874eef435cc4</source>
     <target>62b855ad-5f77-4178-a120-fe18546f1795</target>
-    <point>571.0,726.0</point>
-    <point>543.5,606.0</point>
+    <point>510.0,676.0</point>
+    <point>510.0,594.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
     <source>c0925c2e-9ab3-468d-8194-98edb7f124bb</source>
     <target>44f17e74-abe2-4e13-8470-9455a9caf4a6</target>
-    <point>860.0,801.0</point>
-    <point>843.5,696.0</point>
+    <point>817.0,756.0</point>
+    <point>817.0,651.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
@@ -2764,15 +2769,17 @@ return cf.canCreate(cc);</string>
   <edge>
     <source>c87fa87b-c715-4907-bd17-afff04caa741</source>
     <target>61bdc499-3684-44c1-9625-28ddb6be168e</target>
-    <point>809.5,576.0</point>
-    <point>796.0,561.0</point>
+    <point>817.0,531.0</point>
+    <point>817.0,441.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
     <source>40b09b14-bafb-47a8-9b32-6a1be53355e1</source>
-    <target>e2605b87-ec6e-41c3-bb99-d8ad1077d708</target>
-    <point>149.5,891.0</point>
-    <point>428.5,728.0</point>
+    <target>a4850587-9901-481d-b29a-f3c9a28e4753</target>
+    <point>170.0,858.0</point>
+    <point>372.0,820.05</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
@@ -2792,8 +2799,9 @@ return cf.canCreate(cc);</string>
   <edge>
     <source>48e1b6cf-8a41-479b-9a76-31e841efd2f4</source>
     <target>5e0fe310-bffe-46cc-833c-570c722ad994</target>
-    <point>1023.5,696.0</point>
-    <point>989.5,591.0</point>
+    <point>997.0,651.0</point>
+    <point>997.0,546.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
@@ -2805,9 +2813,10 @@ return cf.canCreate(cc);</string>
   </edge>
   <edge>
     <source>db4ecf49-65d3-4636-a75e-8b0e812e86aa</source>
-    <target>bf43902a-6b9c-47b1-8922-5f33c2c4267b</target>
-    <point>974.5,966.0</point>
-    <point>893.5,968.0</point>
+    <target>5cb7e3e4-42ad-4bd6-aa6c-e668d1fab125</target>
+    <point>944.375,961.0</point>
+    <point>896.8421052631579,894.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
@@ -2827,8 +2836,9 @@ return cf.canCreate(cc);</string>
   <edge>
     <source>2efc9455-b673-494a-9fbe-7f5542e19870</source>
     <target>48e1b6cf-8a41-479b-9a76-31e841efd2f4</target>
-    <point>1040.0,801.0</point>
-    <point>1023.5,696.0</point>
+    <point>997.0,756.0</point>
+    <point>997.0,651.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
@@ -2841,15 +2851,17 @@ return cf.canCreate(cc);</string>
   <edge>
     <source>083f65d0-edca-47e0-a7b3-57dfdb431b2d</source>
     <target>c5296c53-c83c-476d-94f3-953f10c0f3ab</target>
-    <point>1250.0,801.0</point>
-    <point>1233.5,696.0</point>
+    <point>1207.0,756.0</point>
+    <point>1207.0,651.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
     <source>44f17e74-abe2-4e13-8470-9455a9caf4a6</source>
     <target>c87fa87b-c715-4907-bd17-afff04caa741</target>
-    <point>843.5,696.0</point>
-    <point>809.5,576.0</point>
+    <point>817.0,651.0</point>
+    <point>817.0,531.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
@@ -2868,9 +2880,10 @@ return cf.canCreate(cc);</string>
   </edge>
   <edge>
     <source>a4850587-9901-481d-b29a-f3c9a28e4753</source>
-    <target>3b9b8db6-50ab-451b-85ed-85eea0a297ff</target>
-    <point>375.5,608.0</point>
-    <point>440.0,726.0</point>
+    <target>e2605b87-ec6e-41c3-bb99-d8ad1077d708</target>
+    <point>408.0,848.76</point>
+    <point>447.0,817.56</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>false</branch>
   </edge>
   <edge>
@@ -2888,17 +2901,11 @@ return cf.canCreate(cc);</string>
     <branch>default</branch>
   </edge>
   <edge>
-    <source>bf43902a-6b9c-47b1-8922-5f33c2c4267b</source>
-    <target>083f65d0-edca-47e0-a7b3-57dfdb431b2d</target>
-    <point>893.5,968.0</point>
-    <point>1250.0,801.0</point>
-    <branch>NodeContainer</branch>
-  </edge>
-  <edge>
     <source>5cb7e3e4-42ad-4bd6-aa6c-e668d1fab125</source>
-    <target>2efc9455-b673-494a-9fbe-7f5542e19870</target>
-    <point>885.5,743.0</point>
-    <point>1040.0,801.0</point>
+    <target>bf43902a-6b9c-47b1-8922-5f33c2c4267b</target>
+    <point>903.0,877.08</point>
+    <point>1017.0,877.08</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>false</branch>
   </edge>
   <edge>
@@ -2911,8 +2918,16 @@ return cf.canCreate(cc);</string>
   <edge>
     <source>e2605b87-ec6e-41c3-bb99-d8ad1077d708</source>
     <target>54fa0de5-7b31-49d4-afe1-874eef435cc4</target>
-    <point>428.5,728.0</point>
-    <point>571.0,726.0</point>
+    <point>480.0,795.0</point>
+    <point>508.0,694.0</point>
+    <branch>NodeContainer</branch>
+  </edge>
+  <edge>
+    <source>bf43902a-6b9c-47b1-8922-5f33c2c4267b</source>
+    <target>083f65d0-edca-47e0-a7b3-57dfdb431b2d</target>
+    <point>1102.0,846.0</point>
+    <point>1207.0,756.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>NodeContainer</branch>
   </edge>
   <parameter>

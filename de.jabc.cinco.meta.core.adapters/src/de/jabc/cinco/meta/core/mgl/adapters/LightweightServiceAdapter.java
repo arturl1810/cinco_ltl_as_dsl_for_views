@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import mgl.Edge;
 import mgl.EdgeElementConnection;
@@ -80,8 +82,8 @@ public class LightweightServiceAdapter {
 				elementTypes.get(edge).add(node);
 			}
 		}
-		
-		for(NodeContainer container: gm.getNodeContainers()){
+		List<NodeContainer> nodeContainers = gm.getNodes().stream().filter(n -> n instanceof NodeContainer).map(n -> (NodeContainer)n).collect(Collectors.toList());
+		for(NodeContainer container: nodeContainers){
 			HashSet<Edge> edges = getEdgesTypes(container,Direction.valueOf(direction),gm.getEdges());
 			for(Edge edge :edges){
 				elementTypes.get(edge).add(container);
@@ -131,27 +133,28 @@ public class LightweightServiceAdapter {
 			LightweightExecutionContext modelElementContext = switchContext(modelElementFoundation, env);
 			GraphicalModelElement modelElement = (GraphicalModelElement)modelElementContext.get(modelElementFoundation);
 			ArrayList<GraphicalModelElement> subElements= new ArrayList<GraphicalModelElement>();
-			if(modelElement instanceof Node){
+			if(modelElement instanceof NodeContainer){
+				for(Node node: ((NodeContainer) modelElement).getGraphModel().getNodes()){
+					if(node!=modelElement && getAllSuperTypes(node).contains(modelElement))
+						subElements.add(node);
+				}
+				List<NodeContainer> nodeContainers = ((NodeContainer) modelElement).getGraphModel().getNodes().stream().filter(n -> n instanceof NodeContainer).map(n -> (NodeContainer)n).collect(Collectors.toList());
+				for(NodeContainer node: nodeContainers){
+					if(node!=modelElement && getAllSuperTypes(node).contains(modelElement))
+						subElements.add(node);
+				}
+			}else if(modelElement instanceof Node){
 				
 				for(Node node: ((Node) modelElement).getGraphModel().getNodes()){
 					if(node!=modelElement && getAllSuperTypes(node).contains(modelElement))
 						subElements.add(node);
 				}
-				
-				for(NodeContainer node: ((Node) modelElement).getGraphModel().getNodeContainers()){
+				List<NodeContainer> nodeContainers = ((Node) modelElement).getGraphModel().getNodes().stream().filter(n -> n instanceof NodeContainer).map(n -> (NodeContainer)n).collect(Collectors.toList());
+				for(NodeContainer node: nodeContainers){
 					if(node!=modelElement && getAllSuperTypes(node).contains(modelElement))
 						subElements.add(node);
 				}
-			}else if(modelElement instanceof NodeContainer){
-				for(Node node: ((NodeContainer) modelElement).getGraphModel().getNodes()){
-					if(node!=modelElement && getAllSuperTypes(node).contains(modelElement))
-						subElements.add(node);
-				}
-				
-				for(NodeContainer node: ((NodeContainer) modelElement).getGraphModel().getNodeContainers()){
-					if(node!=modelElement && getAllSuperTypes(node).contains(modelElement))
-						subElements.add(node);
-				}
+			
 			}else if(modelElement instanceof Edge){
 				for(Edge edge: ((Edge)modelElement).getGraphModel().getEdges()){
 					if(edge!=modelElement && getAllSuperTypes(edge).contains(modelElement))
@@ -183,8 +186,8 @@ public class LightweightServiceAdapter {
 			}
 		}
 		if(modelElement instanceof NodeContainer){
-			NodeContainer nodeContainer = (NodeContainer)modelElement;
-			NodeContainer superNodeContainer = nodeContainer.getExtends();
+			Node nodeContainer = (NodeContainer)modelElement;
+			Node superNodeContainer = nodeContainer.getExtends();
 			while(superNodeContainer != null){
 				superTypes.add(superNodeContainer);
 				superNodeContainer = superNodeContainer.getExtends();

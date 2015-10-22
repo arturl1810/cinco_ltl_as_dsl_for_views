@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>95a30cb5-13ac-431b-ac50-d456a18e2ff9</id>
   <name>Initialize EPackage</name>
-  <changecounter>62</changecounter>
+  <changecounter>63</changecounter>
   <sib>
     <id>6ef7f224-8a3b-47b3-8a89-f7a1eb4616b9</id>
     <name>GetEcoreFactory</name>

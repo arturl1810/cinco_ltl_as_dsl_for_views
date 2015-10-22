@@ -9,10 +9,11 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.core.resources,
  de.jabc.cinco.meta.core.ge.style.model,
  de.jabc.cinco.meta.libraries,
- org.eclipse.xtext.util
+ org.eclipse.xtext.util,
+ de.jabc.cinco.meta.core.utils
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Export-Package: de.jabc.cinco.meta.core.ge.style.sibs,de.jabc.cinco.me
- ta.core.ge.style.sibs.adapter,de.jabc.cinco.meta.core.ge.style.sibs.c
- ommon
-Import-Package: de.jabc.cinco.meta.core.utils
+ ta.core.ge.style.sibs.adapter,de.jabc.cinco.meta.core.ge.style.sibs.common
+
+

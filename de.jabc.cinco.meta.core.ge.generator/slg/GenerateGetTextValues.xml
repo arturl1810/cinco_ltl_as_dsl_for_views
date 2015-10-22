@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>2a28c6a3-7550-4d5b-a8c5-c31758cd1dd2</id>
   <name>GenerateGetTextValues2</name>
-  <changecounter>434</changecounter>
+  <changecounter>435</changecounter>
   <sib>
     <id>b20307c1-400f-471e-b59a-f2361f53f9aa</id>
     <name>GetModelElementAnnotations</name>
@@ -652,7 +652,7 @@ Object $context.attributeID$Value = factory.createValueExpression(elContext, &qu
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
           <key>attributeID</key>
-          <scope>LOCAL</scope>
+          <scope>GLOBAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>

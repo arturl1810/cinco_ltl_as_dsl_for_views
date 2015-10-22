@@ -499,8 +499,8 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 		for (Edge e : gm.getEdges())
 			copyImages(e.getAnnotations(), p, monitor);
 		
-		for (NodeContainer nc : gm.getNodeContainers())
-			copyImages(nc.getAnnotations(), p, monitor);
+//		for (NodeContainer nc : gm.getNodeContainers())
+//			copyImages(nc.getAnnotations(), p, monitor);
 	}
 
 	private void copyImages(List<Annotation> annots, IProject p, NullProgressMonitor monitor) {
@@ -722,17 +722,18 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 			String prefix = gm.getPackage();
 			boolean primeOnly = true, noEdges = true, noContainers = true;
 			for (Node n : gm.getNodes()) {
-				if (!n.isIsAbstract() && n.getPrimeReference() == null) {
-					primeOnly = false;
-					break;
+				if(!n.isIsAbstract()){
+					if(n instanceof NodeContainer){
+						noContainers= false;
+						break;
+					}
+					if ( n.getPrimeReference() == null) {
+						primeOnly = false;
+						break;
+					}
 				}
 			}
-			for (NodeContainer nc : gm.getNodeContainers()) {
-				if (!nc.isIsAbstract()) {
-					noContainers = false;
-					break;
-				}
-			}
+			
 			
 			noEdges = checkNoEdges(gm);
 			
@@ -815,7 +816,6 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 		List<GraphicalModelElement> connectableElements = new ArrayList<>();
 		
 		connectableElements.addAll(graphModel.getNodes());
-		connectableElements.addAll(graphModel.getNodeContainers());
 		for(GraphicalModelElement elem : connectableElements) {
 			for(IncomingEdgeElementConnection connect : elem.getIncomingEdgeConnections()){
 				if(connect.getConnectingEdges() == null || connect.getConnectingEdges().isEmpty()){

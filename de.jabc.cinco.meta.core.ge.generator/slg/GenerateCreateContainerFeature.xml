@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>fb0af092-c2b0-41ca-88d1-29ad9c540729</id>
   <name>GenerateCreateContainerFeature</name>
-  <changecounter>346</changecounter>
+  <changecounter>367</changecounter>
   <sib>
     <id>9adef199-4664-4d95-b976-c83232fc48df</id>
     <name>RunStringTemplate</name>
@@ -103,7 +103,7 @@ public class Create$context.containerName$Feature extends AbstractCreateFeature 
     <label>SetContainerName</label>
     <sib-uid>basic-sibs/PutExpression</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
-    <position>1031.0,63.0</position>
+    <position>671.0,63.0</position>
     <parameter name="resolve">
       <boolean>true</boolean>
     </parameter>
@@ -210,7 +210,7 @@ public class Create$context.containerName$Feature extends AbstractCreateFeature 
     <label>PkgName</label>
     <sib-uid>basic-sibs/PutExpression</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
-    <position>851.5,63.0</position>
+    <position>581.5,63.0</position>
     <parameter name="resolve">
       <boolean>true</boolean>
     </parameter>
@@ -249,7 +249,7 @@ public class Create$context.containerName$Feature extends AbstractCreateFeature 
     <label>ClassName</label>
     <sib-uid>basic-sibs/PutExpression</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
-    <position>1055.5,228.0</position>
+    <position>845.5,63.0</position>
     <parameter name="resolve">
       <boolean>true</boolean>
     </parameter>
@@ -284,9 +284,9 @@ public class Create$context.containerName$Feature extends AbstractCreateFeature 
   </edge>
   <edge>
     <source>dcac4a8a-6170-45c6-a56c-7e780f3c8890</source>
-    <target>e11dd2c3-61f6-4d63-95a2-ebf1aa141ae9</target>
-    <point>927.0,246.83076923076922</point>
-    <point>770.0,246.92307692307693</point>
+    <target>3fbd20f2-0303-40e0-a8e9-8472dc0523be</target>
+    <point>1023.0,82.08</point>
+    <point>1137.0,82.08</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -296,7 +296,7 @@ public class Create$context.containerName$Feature extends AbstractCreateFeature 
     <label>ToFirstLower</label>
     <sib-uid>basic-sibs/ToFirstLower</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.ToFirstLower</taxonomy>
-    <position>899.0,228.0</position>
+    <position>959.0,63.0</position>
     <parameter name="inputString">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -361,7 +361,7 @@ public class Create$context.containerName$Feature extends AbstractCreateFeature 
     <label>EvaluateBoolean</label>
     <sib-uid>basic-sibs/EvaluateBoolean</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.EvaluateBoolean</taxonomy>
-    <position>571.5,63.0</position>
+    <position>451.5,63.0</position>
     <parameter name="bool">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -389,7 +389,7 @@ public class Create$context.containerName$Feature extends AbstractCreateFeature 
     <label>GetNodeContainerIsAbstract</label>
     <sib-uid>mgl/mgl/GetNodeContainerIsAbstract</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.sib.mgl.GetNodeContainerIsAbstract</taxonomy>
-    <position>220.0,61.0</position>
+    <position>220.0,63.0</position>
     <parameter name="nodeContainerKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -545,6 +545,99 @@ public class Create$context.containerName$Feature extends AbstractCreateFeature 
     <point>366.5,276.0</point>
     <branch>default</branch>
   </edge>
+  <sib>
+    <id>3fbd20f2-0303-40e0-a8e9-8472dc0523be</id>
+    <name>GetNodePrimeReference</name>
+    <label>GetNodePrimeReference</label>
+    <sib-uid>mgl/mgl/GetNodePrimeReference</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetNodePrimeReference</taxonomy>
+    <position>1081.5,63.0</position>
+    <parameter name="nodeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>container</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="nodeprimeReferenceKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>primeRef</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>a74f04c5-5bae-48e3-a514-659ff11ed7d1</id>
+    <name>CheckVariable</name>
+    <label>hasPrimeRef?</label>
+    <sib-uid>basic-sibs/CheckVariable</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.CheckVariable</taxonomy>
+    <position>1108.0,228.0</position>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>primeRef</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>emptyString</finalbranches>
+    <finalbranches>error</finalbranches>
+    <finalbranches>false</finalbranches>
+    <finalbranches>true</finalbranches>
+  </sib>
+  <edge>
+    <source>3fbd20f2-0303-40e0-a8e9-8472dc0523be</source>
+    <target>a74f04c5-5bae-48e3-a514-659ff11ed7d1</target>
+    <point>1155.0,90.0</point>
+    <point>1165.0,216.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>a74f04c5-5bae-48e3-a514-659ff11ed7d1</source>
+    <target>e11dd2c3-61f6-4d63-95a2-ebf1aa141ae9</target>
+    <point>1155.0,240.0</point>
+    <point>780.0,242.0</point>
+    <branch>emptyString</branch>
+    <branch>false</branch>
+  </edge>
+  <edge>
+    <source>a74f04c5-5bae-48e3-a514-659ff11ed7d1</source>
+    <target>49b16467-3efb-4b93-95b1-7d60922d0858</target>
+    <point>1155.0,255.0</point>
+    <point>1155.0,420.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>true</branch>
+  </edge>
+  <sib>
+    <id>49b16467-3efb-4b93-95b1-7d60922d0858</id>
+    <name>PrintConsoleMessage_1</name>
+    <label>PrintConsoleMessage</label>
+    <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
+    <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
+    <position>1081.5,393.0</position>
+    <parameter name="error">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="message">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>Container ${containerName} is Lib Component. Don&apos;t generate createFeature</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>false</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <finalbranches>default</finalbranches>
+  </sib>
   <parameter>
     <name>containerKey</name>
     <field>sourceVariable</field>
@@ -626,5 +719,15 @@ public class Create$context.containerName$Feature extends AbstractCreateFeature 
     <name>error</name>
     <branch>error</branch>
     <sib>e11dd2c3-61f6-4d63-95a2-ebf1aa141ae9</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>a74f04c5-5bae-48e3-a514-659ff11ed7d1</sib>
+  </branch>
+  <branch>
+    <name>default</name>
+    <branch>default</branch>
+    <sib>49b16467-3efb-4b93-95b1-7d60922d0858</sib>
   </branch>
 </model>

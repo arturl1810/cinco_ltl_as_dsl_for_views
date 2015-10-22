@@ -1,5 +1,15 @@
 <serviceAdapters defaultAdapter="de.jabc.cinco.meta.core.ge.style.sibs.adapter.ServiceAdapter">
 	
+	<serviceAdapter uid="ge-util-sibs/CreateDummyGraphModel">
+		<service>createDummyGraphModel</service>
+		<arguments/>
+	</serviceAdapter>
+	
+	<serviceAdapter uid="ge-util-sibs/CreateDummyStyles">
+		<service>createDummyStyles</service>
+		<arguments/>
+	</serviceAdapter>
+	
 	<serviceAdapter uid="ge-util-sibs/IsAttributeMultiLine">
 		<service>isAttributeMultiLine</service>
 		<arguments>

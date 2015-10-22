@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>2fd5eeb2-5895-4014-aeac-e3da23378ab7</id>
   <name>Get Qualified Name For Edge</name>
-  <changecounter>7</changecounter>
+  <changecounter>8</changecounter>
   <sib>
     <id>eab65f04-9e79-4fc0-8ffd-759a1df3def6</id>
     <name>GetGraphModelPackage</name>
@@ -65,7 +65,7 @@
     <label>MergeStrings</label>
     <sib-uid>basic-sibs/MergeStrings</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.MergeStrings</taxonomy>
-    <position>298.5,693.0</position>
+    <position>299.5,693.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -290,7 +290,22 @@
     <field>edgeKey</field>
     <sib>ccf9467f-1f57-4413-ac6c-6ceb52fe928d</sib>
   </parameter>
+  <parameter>
+    <name>outputBuffer</name>
+    <field>outputBuffer</field>
+    <sib>c207b573-1042-4691-92ee-8ffdbf947612</sib>
+  </parameter>
   <values>
+    <entry>
+      <string>outputBuffer</string>
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>qualifiedEdgeName</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </entry>
     <entry>
       <string>edgeKey</string>
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>

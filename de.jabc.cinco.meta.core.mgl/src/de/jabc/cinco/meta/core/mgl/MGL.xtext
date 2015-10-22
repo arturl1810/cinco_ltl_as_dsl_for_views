@@ -22,7 +22,7 @@ GraphModel returns GraphModel:
 		
 		 ((nodes+=Node)
 		  |(edges+=Edge)
-		  |(nodeContainers+=NodeContainer)
+		  |(nodes+=NodeContainer)
 		  |(types+=Type))*
 		
 		
@@ -101,6 +101,7 @@ NodeContainer returns NodeContainer:
 	name=EString ('extends' extends=[NodeContainer|EString])?
 	'{'
 		((attributes+=Attribute)*
+		& (primeReference=ReferencedType)?
 		&('containableElements' '(' containableElements+=GraphicalElementContainment ( "," containableElements+=GraphicalElementContainment)* ')' )?
 		&('incomingEdges' '(' incomingEdgeConnections+=IncomingEdgeElementConnection (',' incomingEdgeConnections+=IncomingEdgeElementConnection)*')')?
 		&('outgoingEdges' '(' outgoingEdgeConnections+=OutgoingEdgeElementConnection (',' outgoingEdgeConnections+=OutgoingEdgeElementConnection)*')')?)

@@ -2,7 +2,9 @@ package de.jabc.cinco.meta.core.ge.style.sibs.common;
 
 import de.jabc.cinco.meta.core.ge.style.sibs.adapter.Branches;
 import de.jabc.cinco.meta.core.ge.style.sibs.adapter.ServiceAdapter;
+import de.metaframe.jabc.framework.execution.ExecutionEnvironment;
 import de.metaframe.jabc.framework.execution.LightweightExecutionEnvironment;
+import de.metaframe.jabc.framework.execution.LightweightExecutionEnvironmentAdapter;
 import de.metaframe.jabc.framework.sib.annotation.SIBClass;
 import de.metaframe.jabc.framework.sib.parameter.ContextExpression;
 import de.metaframe.jabc.framework.sib.parameter.ContextKey;
@@ -17,6 +19,11 @@ public class GenerateUniqueShapeName extends AbstractSIB {
 	public ContextKey uniqueShapeName = new ContextKey("uniqueShapeName", ContextKey.Scope.LOCAL, true);
 	public ContextExpression clearCache = new ContextExpression("clearCache", Boolean.class);
 
+	@Override
+	public String trace(ExecutionEnvironment ee) {
+		return execute(new LightweightExecutionEnvironmentAdapter(ee));
+	}
+	
 	public String execute(LightweightExecutionEnvironment env) {
 		return ServiceAdapter.generateUniqueShapeName(env,
 				shapeName.asFoundation(),

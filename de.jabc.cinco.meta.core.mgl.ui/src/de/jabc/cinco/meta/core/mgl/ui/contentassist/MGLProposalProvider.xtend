@@ -68,10 +68,10 @@ class MGLProposalProvider extends AbstractMGLProposalProvider {
 				(registry.getAnnotations(PluginRegistryEntryImpl::GENERAL_ANNOTATION)).forEach[a|acceptor.accept(createCompletionProposal("@"+a,context))]
 				if(semanticElement instanceof GraphModel){
 					(registry.getAnnotations(PluginRegistryEntryImpl::GRAPH_MODEL_ANNOTATION)).forEach[a|acceptor.accept(createCompletionProposal("@"+a,context))]
-				}else if(semanticElement instanceof Node){
-					registry.getAnnotations(PluginRegistryEntryImpl::NODE_ANNOTATION).forEach[a|acceptor.accept(createCompletionProposal("@"+a,context))]
 				}else if(semanticElement instanceof NodeContainer){
 					registry.getAnnotations(PluginRegistryEntryImpl::NODE_CONTAINER_ANNOTATION).forEach[a|acceptor.accept(createCompletionProposal("@"+a,context))]
+				}else if(semanticElement instanceof Node){
+					registry.getAnnotations(PluginRegistryEntryImpl::NODE_ANNOTATION).forEach[a|acceptor.accept(createCompletionProposal("@"+a,context))]
 				}else if(semanticElement instanceof Edge){
 					registry.getAnnotations(PluginRegistryEntryImpl::EDGE_ANNOTATION).forEach[a|acceptor.accept(createCompletionProposal("@"+a,context))]
 				}else if(semanticElement instanceof Attribute){
@@ -163,7 +163,7 @@ class MGLProposalProvider extends AbstractMGLProposalProvider {
 			for(node:graphModel.nodes){
 				acceptor.accept(createCompletionProposal(node.name,context))
 			}
-			for(container:graphModel.nodeContainers){
+			for(container:graphModel.nodes.filter(NodeContainer)){
 				acceptor.accept(createCompletionProposal(container.name,context))
 			}
 		}else if(model instanceof NodeContainer){
@@ -171,7 +171,7 @@ class MGLProposalProvider extends AbstractMGLProposalProvider {
 			for(node:parentModel.nodes){
 				acceptor.accept(createCompletionProposal(node.name,context))
 			}
-			for(container:parentModel.nodeContainers){
+			for(container:parentModel.nodes.filter(NodeContainer)){
 				acceptor.accept(createCompletionProposal(container.name,context))
 			}
 		}

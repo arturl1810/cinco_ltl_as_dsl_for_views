@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>ede0f2a5-2d64-419a-a377-4de364aed9a1</id>
   <name>GenerateGraphmodelWrapper</name>
-  <changecounter>270</changecounter>
+  <changecounter>287</changecounter>
   <sib>
     <id>961ec5c2-d49b-4f47-b506-1d2f2c25fd26</id>
     <name>RunStringTemplate</name>
@@ -214,84 +214,6 @@ public class $graphModelName$Wrapper {
     <finalbranches>error</finalbranches>
   </sib>
   <sib>
-    <id>77754c48-0b34-4c77-bfa2-5043832558ca</id>
-    <name>IterateGraphModelNodes</name>
-    <label>IterateGraphModelNodes</label>
-    <sib-uid>mgl/mgl/IterateGraphModelNodes</sib-uid>
-    <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.IterateGraphModelNodes</taxonomy>
-    <position>75.5,243.0</position>
-    <parameter name="elementKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>node</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>false</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="graphModelKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>graphModel</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="iteratorKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>glNodeKey</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>false</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>error</finalbranches>
-    <finalbranches>exit</finalbranches>
-    <finalbranches>next</finalbranches>
-    <finalbranches>noElements</finalbranches>
-  </sib>
-  <sib>
-    <id>d50f809f-df6c-4eaa-9ae3-282db75427cd</id>
-    <name>IterateGraphModelNodeContainers</name>
-    <label>IterateGraphModelNodeContainers</label>
-    <sib-uid>mgl/mgl/IterateGraphModelNodeContainers</sib-uid>
-    <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.IterateGraphModelNodeContainers</taxonomy>
-    <position>48.0,393.0</position>
-    <parameter name="elementKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>container</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>false</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="graphModelKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>graphModel</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="iteratorKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>glContit</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>false</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>error</finalbranches>
-    <finalbranches>exit</finalbranches>
-    <finalbranches>next</finalbranches>
-    <finalbranches>noElements</finalbranches>
-  </sib>
-  <sib>
     <id>0f89de2f-ec49-4466-8e72-64296dc4b09e</id>
     <name>IterateGraphModelEdges</name>
     <label>IterateGraphModelEdges</label>
@@ -361,10 +283,10 @@ public class $graphModelName$Wrapper {
     <finalbranches>error</finalbranches>
   </sib>
   <edge>
-    <source>77754c48-0b34-4c77-bfa2-5043832558ca</source>
+    <source>d836ad93-0d25-4cc5-931e-bbf078eb2372</source>
     <target>812ef8bc-1c7e-4d9d-997e-a58a0a983bef</target>
-    <point>168.0,254.88</point>
-    <point>282.0,209.28</point>
+    <point>108.0,261.72</point>
+    <point>297.0,261.72</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>next</branch>
   </edge>
@@ -521,10 +443,10 @@ public class $graphModelName$Wrapper {
     <finalbranches>error</finalbranches>
   </sib>
   <edge>
-    <source>d50f809f-df6c-4eaa-9ae3-282db75427cd</source>
+    <source>ab308a99-647b-48cf-a263-2a9a5ae24f83</source>
     <target>a4fa982e-ba82-40b2-93d7-89242f6f803a</target>
-    <point>168.0,408.48</point>
-    <point>282.0,385.68</point>
+    <point>123.0,411.72</point>
+    <point>312.0,411.72</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>next</branch>
   </edge>
@@ -553,30 +475,28 @@ public class $graphModelName$Wrapper {
     <branch>default</branch>
   </edge>
   <edge>
-    <source>77754c48-0b34-4c77-bfa2-5043832558ca</source>
-    <target>d50f809f-df6c-4eaa-9ae3-282db75427cd</target>
-    <point>145.0,265.0</point>
-    <point>145.0,415.0</point>
+    <source>d836ad93-0d25-4cc5-931e-bbf078eb2372</source>
+    <target>ab308a99-647b-48cf-a263-2a9a5ae24f83</target>
+    <point>96.79245283018868,279.0</point>
+    <point>142.3404255319149,393.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>exit</branch>
-    <branch>noElements</branch>
   </edge>
   <edge>
-    <source>d50f809f-df6c-4eaa-9ae3-282db75427cd</source>
+    <source>ab308a99-647b-48cf-a263-2a9a5ae24f83</source>
     <target>0f89de2f-ec49-4466-8e72-64296dc4b09e</target>
-    <point>145.0,415.0</point>
-    <point>145.0,580.0</point>
+    <point>109.65517241379311,429.0</point>
+    <point>144.80769230769232,558.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>exit</branch>
-    <branch>noElements</branch>
   </edge>
   <edge>
     <source>d39e8be8-6780-4bf6-b84e-a83ffa0048a9</source>
-    <target>77754c48-0b34-4c77-bfa2-5043832558ca</target>
+    <target>d836ad93-0d25-4cc5-931e-bbf078eb2372</target>
     <spline/>
-    <point>477.0,270.1636363636364</point>
+    <point>612.0,266.04</point>
     <point>330.0,345.0</point>
-    <point>168.0,269.4</point>
+    <point>108.0,267.3</point>
     <labelposition>496.2121212121212,-74.92</labelposition>
     <branch>default</branch>
   </edge>
@@ -592,11 +512,11 @@ public class $graphModelName$Wrapper {
   </edge>
   <edge>
     <source>f0aabe9d-36b1-45f9-b6d4-5a8efc137fdc</source>
-    <target>d50f809f-df6c-4eaa-9ae3-282db75427cd</target>
+    <target>ab308a99-647b-48cf-a263-2a9a5ae24f83</target>
     <spline/>
-    <point>492.0,419.4</point>
+    <point>612.0,416.04</point>
     <point>330.0,495.0</point>
-    <point>168.0,419.4</point>
+    <point>123.0,431.52</point>
     <labelposition>500.0,-77.59999999999998</labelposition>
     <branch>default</branch>
   </edge>
@@ -783,9 +703,10 @@ public class $graphModelName$Wrapper {
   </sib>
   <edge>
     <source>dc0f4313-3ae4-44e9-8cdd-6e396a906af5</source>
-    <target>77754c48-0b34-4c77-bfa2-5043832558ca</target>
-    <point>150.0,105.0</point>
-    <point>151.0,248.0</point>
+    <target>d836ad93-0d25-4cc5-931e-bbf078eb2372</target>
+    <point>143.79310344827587,114.0</point>
+    <point>96.92307692307692,243.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
@@ -888,24 +809,100 @@ public class $graphModelName$Wrapper {
   </edge>
   <edge>
     <source>a4fa982e-ba82-40b2-93d7-89242f6f803a</source>
-    <target>d50f809f-df6c-4eaa-9ae3-282db75427cd</target>
+    <target>ab308a99-647b-48cf-a263-2a9a5ae24f83</target>
     <spline/>
     <point>312.0,400.8</point>
     <point>240.0,360.0</point>
-    <point>168.0,400.8</point>
+    <point>123.0,404.2</point>
     <labelposition>500.0,39.0</labelposition>
     <branch>true</branch>
   </edge>
   <edge>
     <source>812ef8bc-1c7e-4d9d-997e-a58a0a983bef</source>
-    <target>77754c48-0b34-4c77-bfa2-5043832558ca</target>
+    <target>d836ad93-0d25-4cc5-931e-bbf078eb2372</target>
     <spline/>
     <point>297.0,248.76</point>
     <point>240.0,210.0</point>
-    <point>168.0,250.8</point>
+    <point>108.0,254.88</point>
     <labelposition>437.0,42.0</labelposition>
     <branch>true</branch>
   </edge>
+  <sib>
+    <id>ab308a99-647b-48cf-a263-2a9a5ae24f83</id>
+    <name>IterateElements</name>
+    <label>IterateGraphModelNodeContainers</label>
+    <sib-uid>collection-sibs/IterateElements</sib-uid>
+    <taxonomy>de.jabc.sib.common.collection.IterateElements</taxonomy>
+    <position>48.0,393.0</position>
+    <parameter name="collection">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>containers</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="element">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>container</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="iterator">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>glContit</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>exit</finalbranches>
+    <finalbranches>next</finalbranches>
+  </sib>
+  <sib>
+    <id>d836ad93-0d25-4cc5-931e-bbf078eb2372</id>
+    <name>IterateElements_1</name>
+    <label>IterateGraphModelNodes</label>
+    <sib-uid>collection-sibs/IterateElements</sib-uid>
+    <taxonomy>de.jabc.sib.common.collection.IterateElements</taxonomy>
+    <position>75.5,243.0</position>
+    <parameter name="collection">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>nodes</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="element">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>node</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="iterator">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>glNodeItadsf</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>exit</finalbranches>
+    <finalbranches>next</finalbranches>
+  </sib>
   <values/>
   <branch>
     <name>error</name>

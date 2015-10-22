@@ -1,5 +1,7 @@
 package de.jabc.cinco.meta.core.ge.style.sibs.adapter;
 
+import graphmodel.GraphmodelPackage;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -17,6 +19,7 @@ import java.util.Map.Entry;
 import java.util.jar.Manifest;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import mgl.Annotation;
 import mgl.Attribute;
@@ -53,6 +56,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 import org.eclipse.xtext.util.StringInputStream;
 
 import style.AbsolutPosition;
@@ -78,7 +82,9 @@ import de.jabc.adapter.common.collection.Branches;
 import de.jabc.cinco.meta.core.utils.CincoUtils;
 import de.jabc.cinco.meta.core.utils.InheritanceUtil;
 import de.jabc.cinco.meta.core.utils.PathValidator;
+import de.jabc.cinco.meta.core.utils.dummycreator.DummyGenerator;
 import de.metaframe.jabc.framework.execution.LightweightExecutionEnvironment;
+import de.metaframe.jabc.framework.execution.LightweightExecutionEnvironmentAdapter;
 import de.metaframe.jabc.framework.execution.context.LightweightExecutionContext;
 import de.metaframe.jabc.framework.sib.parameter.ContextKey;
 import de.metaframe.jabc.framework.sib.parameter.ContextKey.Scope;
@@ -1144,7 +1150,7 @@ public class ServiceAdapter {
 			List<ModelElement> modelElements = new ArrayList<>();
 			Map<ModelElement, List<Attribute>> attributesMap = new HashMap<>();
 			modelElements.addAll(gm.getNodes());
-			modelElements.addAll(gm.getNodeContainers());
+			//modelElements.addAll(gm.getNodeContainers());
 			modelElements.addAll(gm.getEdges());
 			for (ModelElement me : modelElements) {
 				attributesMap.put(me, InheritanceUtil.getInheritedAttributes(me));
@@ -1168,22 +1174,29 @@ public class ServiceAdapter {
 		
 		try {
 			GraphModel gm = (GraphModel) context.get(graphModel);
-			for (NodeContainer nc : gm.getNodeContainers()) {
-				if (nc.getContainableElements().isEmpty()) {
-					for (Node node : gm.getNodes()) {
-						GraphicalElementContainment gec = MglFactory.eINSTANCE.createGraphicalElementContainment();
-						gec.setContainingElement(nc);
-//						gec.setType(node);
-						gec.setLowerBound(0);
-						gec.setUpperBound(-1);
-						nc.getContainableElements().add(gec);
-					}
-					
-					for (NodeContainer container : gm.getNodeContainers()) {
-						GraphicalElementContainment gec = MglFactory.eINSTANCE.createGraphicalElementContainment();
-						gec.setContainingElement(nc);
-//						gec.setType(container);
-						nc.getContainableElements().add(gec);
+			for (Node noc : gm.getNodes()) {
+				
+				if(noc instanceof NodeContainer){
+					NodeContainer nc = (NodeContainer)noc;
+					if (nc.getContainableElements().isEmpty()) {
+						
+						for (Node node : gm.getNodes()) {
+							GraphicalElementContainment gec = MglFactory.eINSTANCE.createGraphicalElementContainment();
+							gec.setContainingElement(nc);
+	//						gec.setType(node);
+							gec.setLowerBound(0);
+							gec.setUpperBound(-1);
+							nc.getContainableElements().add(gec);
+						}
+						
+						for (Node container : gm.getNodes()) {
+							if(container instanceof NodeContainer){
+								GraphicalElementContainment gec = MglFactory.eINSTANCE.createGraphicalElementContainment();
+								gec.setContainingElement(nc);
+		//						gec.setType(container);
+								nc.getContainableElements().add(gec);
+							}
+						}
 					}
 				}
 			}
@@ -1221,8 +1234,8 @@ public class ServiceAdapter {
 			HashMap<String, List<GraphicalModelElement>> map = new HashMap<>();
 			
 			map.put(ID_NODES, new ArrayList<GraphicalModelElement>());
-			map.put(ID_CONTAINER, new ArrayList<GraphicalModelElement>());
 			
+			/** After libComp changes in MGL.ecore mgl.NodeContainer is subtype of mgl.Node... **/
 			for (Node n : gm.getNodes()){
 				if (n.isIsAbstract() || n.getPrimeReference() != null || CincoUtils.isCreateDisabled(n))
 					continue;
@@ -1249,22 +1262,6 @@ public class ServiceAdapter {
 							if (map.get(v) == null)
 								map.put(v, new ArrayList<GraphicalModelElement>());
 							map.get(v).add(e);
-						}
-					}
-				}
-			}
-			
-			for (NodeContainer nc : gm.getNodeContainers()){
-				if (nc.isIsAbstract() || CincoUtils.isCreateDisabled(nc))
-					continue;
-				if (!hasPaletteCategory(nc))
-					map.get(ID_CONTAINER).add(nc);
-				for (Annotation a : nc.getAnnotations()) {
-					if ("palette".equals(a.getName())) {
-						for (String v : a.getValue()) {
-							if (map.get(v) == null)
-								map.put(v, new ArrayList<GraphicalModelElement>());
-							map.get(v).add(nc);
 						}
 					}
 				}
@@ -1663,6 +1660,48 @@ public class ServiceAdapter {
 		
 		return Branches.FALSE;
 		
+	}
+
+	@SuppressWarnings("rawtypes")
+	public String createDummyGraphModel(LightweightExecutionEnvironmentAdapter env) {
+		LightweightExecutionContext context = env.getLocalContext();
+		try {
+			GraphModel gm = DummyGenerator.createDummyGraphModel();
+			context.putGlobally("graphModel", gm);
+			EPackage ePkg =GraphmodelPackage.eINSTANCE;
+			
+			context.putGlobally("abstractGraphModel",ePkg);
+			context.put(new ContextKey("resource", Scope.GLOBAL, true).asFoundation(),new XMIResourceImpl(URI.createFileURI("/tmp/"+gm.getName()+".ecore")));
+			HashMap<String, EPackage> ecoreMap = new HashMap<String,EPackage>(); 
+					HashMap<EPackage, String> genModelMap = new HashMap<EPackage, String>();
+					
+					
+					context.put("genmodelMap",genModelMap);
+					context.put("registeredGeneratorPlugins",new HashMap());
+					context.put("registeredPackageMap",ecoreMap);
+			
+			
+			context.putGlobally("debugRun", true);
+			return Branches.DEFAULT;
+		} catch (Exception e) {
+			context.putGlobally("exception", e);
+			return Branches.ERROR;
+		}
+	}
+
+	public String createDummyStyles(LightweightExecutionEnvironmentAdapter env) {
+		
+		LightweightExecutionContext context = env.getLocalContext();
+		try {
+			Styles stlyes = DummyGenerator.createDummyStyles();
+			context.putGlobally("styles", stlyes);
+			context.putGlobally("debugRun", true);
+			
+			return Branches.DEFAULT;
+		} catch (Exception e) {
+			context.putGlobally("exception", e);
+			return Branches.ERROR;
+		}
 	}
 	
 }

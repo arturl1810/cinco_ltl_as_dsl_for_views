@@ -2,60 +2,19 @@
 <model version="2.1">
   <id>2190f1aa-18e0-42fc-8098-06e689be2e65</id>
   <name>Generate_APIOperations_GraphModel1</name>
-  <changecounter>678</changecounter>
-  <sib>
-    <id>6169ccf6-ff91-4039-981b-559fdf62b024</id>
-    <name>IterateElements</name>
-    <label>IterateNodes</label>
-    <sib-uid>collection-sibs/IterateElements</sib-uid>
-    <taxonomy>de.jabc.sib.common.collection.IterateElements</taxonomy>
-    <position>169.5,63.0</position>
-    <parameter name="collection">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>nodes</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="element">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>modelElement</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="iterator">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>nodeadlfjkiowejaksdf</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>error</finalbranches>
-    <finalbranches>exit</finalbranches>
-    <finalbranches>next</finalbranches>
-    <userobject key="ABC$START">
-      <boolean>true</boolean>
-    </userobject>
-  </sib>
+  <changecounter>731</changecounter>
   <sib>
     <id>4c75f6b0-160f-414c-8c57-527e808d5a6f</id>
     <name>IsNodeContained</name>
     <label>IsNodeContained</label>
     <sib-uid>ge-util-sibs/IsNodeContained</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsNodeContained</taxonomy>
-    <position>158.0,183.0</position>
+    <position>158.0,258.0</position>
     <parameter name="node">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
           <key>modelElement</key>
-          <scope>LOCAL</scope>
+          <scope>GLOBAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
@@ -74,60 +33,22 @@
     <finalbranches>true</finalbranches>
   </sib>
   <edge>
-    <source>6169ccf6-ff91-4039-981b-559fdf62b024</source>
-    <target>4c75f6b0-160f-414c-8c57-527e808d5a6f</target>
-    <point>210.0,99.0</point>
-    <point>210.0,183.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>next</branch>
-  </edge>
-  <sib>
-    <id>6f471cb0-59fb-4a51-a1bd-7b6d72b7df55</id>
-    <name>IsAbstract</name>
-    <label>IsAbstract</label>
-    <sib-uid>ge-util-sibs/IsAbstract</sib-uid>
-    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsAbstract</taxonomy>
-    <position>177.5,303.0</position>
-    <parameter name="modelElement">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>modelElement</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>error</finalbranches>
-    <finalbranches>false</finalbranches>
-    <finalbranches>true</finalbranches>
-  </sib>
-  <edge>
     <source>4c75f6b0-160f-414c-8c57-527e808d5a6f</source>
-    <target>6f471cb0-59fb-4a51-a1bd-7b6d72b7df55</target>
-    <point>210.0,219.0</point>
-    <point>210.0,303.0</point>
+    <target>341609ec-8e5d-49c9-a047-24c5a0411a4a</target>
+    <point>210.0,294.0</point>
+    <point>210.0,438.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>true</branch>
   </edge>
   <edge>
     <source>4c75f6b0-160f-414c-8c57-527e808d5a6f</source>
-    <target>6169ccf6-ff91-4039-981b-559fdf62b024</target>
+    <target>acab1d2e-e431-4f59-9270-85b418d68b5c</target>
     <spline/>
     <point>192.0,185.7</point>
     <point>150.0,150.0</point>
-    <point>194.34782608695653,99.0</point>
+    <point>162.90697674418604,39.0</point>
     <labelposition>466.88351912356273,-45.11269323870689</labelposition>
     <branch>false</branch>
-  </edge>
-  <edge>
-    <source>6f471cb0-59fb-4a51-a1bd-7b6d72b7df55</source>
-    <target>6169ccf6-ff91-4039-981b-559fdf62b024</target>
-    <spline/>
-    <point>195.0,303.0</point>
-    <point>105.0,195.0</point>
-    <point>193.42105263157896,99.0</point>
-    <labelposition>523.0,-91.0</labelposition>
-    <branch>true</branch>
   </edge>
   <sib>
     <id>341609ec-8e5d-49c9-a047-24c5a0411a4a</id>
@@ -135,12 +56,12 @@
     <label>GetModelElementName</label>
     <sib-uid>mgl/mgl/GetModelElementName</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetModelElementName</taxonomy>
-    <position>140.0,393.0</position>
+    <position>140.0,438.0</position>
     <parameter name="modelElementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
           <key>modelElement</key>
-          <scope>LOCAL</scope>
+          <scope>GLOBAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
@@ -163,7 +84,7 @@
     <label>GetNodeClass</label>
     <sib-uid>collection-sibs/GetElement</sib-uid>
     <taxonomy>de.jabc.sib.common.collection.GetElement</taxonomy>
-    <position>165.5,618.0</position>
+    <position>165.5,663.0</position>
     <parameter name="element">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -197,26 +118,26 @@
   <edge>
     <source>341609ec-8e5d-49c9-a047-24c5a0411a4a</source>
     <target>12b9649c-8de2-4d56-9b06-047e654ed472</target>
-    <point>192.0,412.35</point>
-    <point>108.0,412.35</point>
+    <point>210.0,465.0</point>
+    <point>210.0,570.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
     <source>5ed53b16-390b-412f-bfb0-c4babfa050eb</source>
     <target>acc51b55-4e11-466a-a3ad-ad0c0c9a91b4</target>
-    <point>210.0,645.0</point>
-    <point>210.0,780.0</point>
+    <point>210.0,690.0</point>
+    <point>210.0,825.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
     <source>acc51b55-4e11-466a-a3ad-ad0c0c9a91b4</source>
-    <target>6169ccf6-ff91-4039-981b-559fdf62b024</target>
+    <target>acab1d2e-e431-4f59-9270-85b418d68b5c</target>
     <spline/>
-    <point>216.18556701030928,631.0</point>
+    <point>214.37956204379563,751.0</point>
     <point>300.0,360.0</point>
-    <point>215.80645161290323,99.0</point>
+    <point>172.16814159292036,39.0</point>
     <labelposition>500.0,83.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -386,13 +307,15 @@
     <finalbranches>next</finalbranches>
   </sib>
   <edge>
-    <source>6169ccf6-ff91-4039-981b-559fdf62b024</source>
-    <target>f75b6cfd-32b6-4356-adcd-e9e93e0a90e3</target>
+    <source>acab1d2e-e431-4f59-9270-85b418d68b5c</source>
+    <target>0ed9bb9e-46e0-4bb9-94f9-cc7534322d4f</target>
     <spline/>
-    <point>228.0,81.49090909090908</point>
-    <point>522.0,81.49090909090908</point>
-    <labelposition>500.0,0.0</labelposition>
+    <point>183.0,21.514285714285712</point>
+    <point>480.0,30.0</point>
+    <point>717.0,77.4</point>
+    <labelposition>513.3288145618636,-43.49733787518988</labelposition>
     <branch>exit</branch>
+    <branch>noElements</branch>
   </edge>
   <edge>
     <source>c474b488-170c-4081-bfa4-5b6ee18a04d6</source>
@@ -664,11 +587,11 @@
   </edge>
   <edge>
     <source>f9a7eaba-1df7-420e-86fc-010262e30801</source>
-    <target>b81efadd-db52-44d0-aa6f-45358642943a</target>
+    <target>0866fe4b-041c-4197-bab4-c68d0e4ce4f5</target>
     <spline/>
-    <point>1005.0,195.0</point>
-    <point>945.0,134.0</point>
-    <point>1005.0,90.0</point>
+    <point>990.0,204.0</point>
+    <point>960.0,240.0</point>
+    <point>989.1176470588235,273.0</point>
     <labelposition>513.0,-45.0</labelposition>
     <branch>true</branch>
   </edge>
@@ -738,7 +661,7 @@
     <label>Create Delete</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>1322.0,526.0</position>
+    <position>1307.0,511.0</position>
     <parameter name="eClassKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -828,7 +751,7 @@ return false;
     <label>CreateParametersForEOperation</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>1268.0,751.0</position>
+    <position>1253.0,751.0</position>
     <parameter name="map">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1046,7 +969,7 @@ return retval;</string>
     <label>PutDynamicLinkedMap</label>
     <sib-uid>ge-util-sibs/PutDynamicLinkedMap</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.PutDynamicLinkedMap</taxonomy>
-    <position>1298.5,633.0</position>
+    <position>1283.5,633.0</position>
     <parameter name="elements">
       <linked-hash-map>
         <entry>
@@ -1100,7 +1023,7 @@ return retval;</string>
     <label>Generate_GraphModelNodeEOperations</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>93.0,751.0</position>
+    <position>93.0,796.0</position>
     <parameter name="eClassKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1175,13 +1098,6 @@ return retval;</string>
       <string>73cad925-428c-4632-9b54-44908e82bd6e</string>
     </userobject>
   </sib>
-  <edge>
-    <source>6f471cb0-59fb-4a51-a1bd-7b6d72b7df55</source>
-    <target>341609ec-8e5d-49c9-a047-24c5a0411a4a</target>
-    <point>210.0,330.0</point>
-    <point>214.0,400.0</point>
-    <branch>false</branch>
-  </edge>
   <sib>
     <id>0ed9bb9e-46e0-4bb9-94f9-cc7534322d4f</id>
     <name>IterateElements_3</name>
@@ -1294,14 +1210,6 @@ return retval;</string>
     <branch>default</branch>
   </edge>
   <edge>
-    <source>0ed9bb9e-46e0-4bb9-94f9-cc7534322d4f</source>
-    <target>b5b13a36-dc9f-460e-8cf9-a737aee27175</target>
-    <point>735.0,150.0</point>
-    <point>735.0,255.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>next</branch>
-  </edge>
-  <edge>
     <source>8c5d2d34-2fc3-4bf9-a98c-6ec73197c9db</source>
     <target>eb85562b-f554-4eec-adf2-f41e163267a7</target>
     <point>735.0,585.0</point>
@@ -1365,44 +1273,6 @@ return retval;</string>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
-  <sib>
-    <id>b5b13a36-dc9f-460e-8cf9-a737aee27175</id>
-    <name>IsAbstract_4</name>
-    <label>IsAbstract</label>
-    <sib-uid>ge-util-sibs/IsAbstract</sib-uid>
-    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsAbstract</taxonomy>
-    <position>702.5,168.0</position>
-    <parameter name="modelElement">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>modelElement</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>error</finalbranches>
-    <finalbranches>false</finalbranches>
-    <finalbranches>true</finalbranches>
-  </sib>
-  <edge>
-    <source>b5b13a36-dc9f-460e-8cf9-a737aee27175</source>
-    <target>ef4fc818-118e-4bab-ba4d-2d50d31fd5fd</target>
-    <point>735.0,255.0</point>
-    <point>735.0,360.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>false</branch>
-  </edge>
-  <edge>
-    <source>b5b13a36-dc9f-460e-8cf9-a737aee27175</source>
-    <target>0ed9bb9e-46e0-4bb9-94f9-cc7534322d4f</target>
-    <spline/>
-    <point>735.0,255.0</point>
-    <point>690.0,195.0</point>
-    <point>735.0,150.0</point>
-    <labelposition>567.8806785033038,-26.690999228554922</labelposition>
-    <branch>true</branch>
-  </edge>
   <edge>
     <source>0ed9bb9e-46e0-4bb9-94f9-cc7534322d4f</source>
     <target>b81efadd-db52-44d0-aa6f-45358642943a</target>
@@ -1441,7 +1311,7 @@ return retval;</string>
     <label>GetEClassifierByName</label>
     <sib-uid>utility-sibs/GetEClassifierByName</sib-uid>
     <taxonomy>transem.utility.sib.GetEClassifierByName</taxonomy>
-    <position>142.0,498.0</position>
+    <position>142.0,543.0</position>
     <parameter name="eClassifierKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1521,8 +1391,9 @@ return retval;</string>
   <edge>
     <source>12b9649c-8de2-4d56-9b06-047e654ed472</source>
     <target>5ed53b16-390b-412f-bfb0-c4babfa050eb</target>
-    <point>90.0,420.0</point>
-    <point>206.0,518.0</point>
+    <point>210.0,570.0</point>
+    <point>210.0,690.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
@@ -1693,10 +1564,73 @@ $fqnDeleteFeature$ df = provider.getDeleteFeature(dc);
     <point>795.0,113.0</point>
     <branch>exit</branch>
   </edge>
+  <sib>
+    <id>acab1d2e-e431-4f59-9270-85b418d68b5c</id>
+    <name>IterateGraphModelNodes</name>
+    <label>IterateGraphModelNodes</label>
+    <sib-uid>mgl/mgl/IterateGraphModelNodes</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.IterateGraphModelNodes</taxonomy>
+    <position>126.0,48.0</position>
+    <parameter name="elementKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>modelElement</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>false</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="graphModelKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>graphModel</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="iteratorKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>jkajfioewjfna234</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>false</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>exit</finalbranches>
+    <finalbranches>next</finalbranches>
+    <finalbranches>noElements</finalbranches>
+    <userobject key="ABC$START">
+      <boolean>true</boolean>
+    </userobject>
+  </sib>
+  <edge>
+    <source>acab1d2e-e431-4f59-9270-85b418d68b5c</source>
+    <target>4c75f6b0-160f-414c-8c57-527e808d5a6f</target>
+    <point>210.0,84.0</point>
+    <point>210.0,258.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>next</branch>
+  </edge>
+  <edge>
+    <source>0ed9bb9e-46e0-4bb9-94f9-cc7534322d4f</source>
+    <target>ef4fc818-118e-4bab-ba4d-2d50d31fd5fd</target>
+    <point>735.0,99.0</point>
+    <point>735.0,273.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>next</branch>
+  </edge>
   <values/>
   <branch>
     <name>default</name>
     <branch>default</branch>
     <sib>d544991e-073a-4b50-b61b-df0e6bacc5fd</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>acab1d2e-e431-4f59-9270-85b418d68b5c</sib>
   </branch>
 </model>
