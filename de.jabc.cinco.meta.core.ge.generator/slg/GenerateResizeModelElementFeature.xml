@@ -2,14 +2,14 @@
 <model version="2.1">
   <id>bd602dcf-2ea3-4585-953e-853c0406cc4e</id>
   <name>GenerateResizeModelElementFeature</name>
-  <changecounter>321</changecounter>
+  <changecounter>405</changecounter>
   <sib>
     <id>6cad6f22-f2a9-4f5c-a9dc-5eaeb99341c0</id>
     <name>PutExpression_1</name>
     <label>PkgName</label>
     <sib-uid>basic-sibs/PutExpression</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
-    <position>56.5,123.0</position>
+    <position>71.5,123.0</position>
     <parameter name="resolve">
       <boolean>true</boolean>
     </parameter>
@@ -40,7 +40,7 @@
     <label>ClassName</label>
     <sib-uid>basic-sibs/PutExpression</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
-    <position>50.5,228.0</position>
+    <position>65.5,228.0</position>
     <parameter name="resolve">
       <boolean>true</boolean>
     </parameter>
@@ -66,12 +66,100 @@
     <finalbranches>error</finalbranches>
   </sib>
   <sib>
-    <id>6989327e-d4db-46f0-8627-3445b5b06d97</id>
-    <name>RunStringTemplate</name>
+    <id>63afe438-b4f7-4db5-9208-5a3499b870ed</id>
+    <name>SwitchModelElement</name>
+    <label>SwitchModelElement</label>
+    <sib-uid>mgl/mgl/SwitchModelElement</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.ge.sib.mgl.SwitchModelElement</taxonomy>
+    <position>34.0,693.0</position>
+    <parameter name="eObjectKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>modelElement</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>Edge</finalbranches>
+    <finalbranches>GraphModel</finalbranches>
+    <finalbranches>GraphicalModelElement</finalbranches>
+    <finalbranches>Node</finalbranches>
+    <finalbranches>NodeContainer</finalbranches>
+    <finalbranches>UserDefinedType</finalbranches>
+    <finalbranches>error</finalbranches>
+    <finalbranches>other</finalbranches>
+  </sib>
+  <edge>
+    <source>63afe438-b4f7-4db5-9208-5a3499b870ed</source>
+    <target>87da938f-89a6-4e95-89bc-4c351854d82d</target>
+    <point>105.0,810.0</point>
+    <point>105.0,915.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>NodeContainer</branch>
+  </edge>
+  <edge>
+    <source>6cad6f22-f2a9-4f5c-a9dc-5eaeb99341c0</source>
+    <target>b906c082-db60-4d7d-a45a-949fb771bd26</target>
+    <point>105.0,150.0</point>
+    <point>105.0,255.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>b906c082-db60-4d7d-a45a-949fb771bd26</source>
+    <target>bdcf4b39-d468-4590-b8db-81204689a0c0</target>
+    <point>108.0,253.52727272727273</point>
+    <point>235.0,299.8181818181818</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>07b59078-3c84-4f4b-8bc7-92303a59c097</id>
+    <name>CopyEObject</name>
+    <label>CopyEObject</label>
+    <sib-uid>utility-sibs/CopyEObject</sib-uid>
+    <taxonomy>transem.utility.sib.CopyEObject</taxonomy>
+    <position>61.5,18.0</position>
+    <parameter name="copiedEObjectKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>modelElement</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="eObjectKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>modelElementKey</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$START">
+      <boolean>true</boolean>
+    </userobject>
+  </sib>
+  <edge>
+    <source>07b59078-3c84-4f4b-8bc7-92303a59c097</source>
+    <target>6cad6f22-f2a9-4f5c-a9dc-5eaeb99341c0</target>
+    <point>105.0,45.0</point>
+    <point>105.0,150.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>6eaa5495-70b4-4f26-b3f1-2ddf8f10b760</id>
+    <name>RunStringTemplate_1</name>
     <label>ResizeModelElement</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>19.5,858.0</position>
+    <position>289.5,888.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -90,45 +178,71 @@
     <parameter name="template">
       <string>package $context.localPkgName$;
 
+import graphmodel.*;
+
+import java.util.List;
+
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.transaction.RecordingCommand;
+import org.eclipse.emf.transaction.TransactionalEditingDomain;
+import org.eclipse.emf.transaction.util.TransactionUtil;
+
 import org.eclipse.draw2d.FigureCanvas;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IResizeShapeContext;
 import org.eclipse.graphiti.features.impl.DefaultResizeShapeFeature;
+import org.eclipse.graphiti.mm.pictograms.FreeFormConnection;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
+import org.eclipse.graphiti.mm.pictograms.ContainerShape;
+import org.eclipse.graphiti.mm.pictograms.Shape;
+import org.eclipse.graphiti.mm.algorithms.*;
+import org.eclipse.graphiti.mm.algorithms.styles.Point;
+import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.ui.editor.IDiagramContainerUI;
 import org.eclipse.graphiti.ui.services.GraphitiUi;
 
-import $context.importPath$.$context.container.name$;
+import $context.importPath$.$context.modelElement.name$;
+import $context.packageName$.graphiti.*;
+import $context.packageName$.graphiti.features.layout.$context.graphModelName$LayoutUtils;
 
-public class Resize$context.container.name$Feature extends DefaultResizeShapeFeature {
+public class Resize$context.modelElement.name$Feature extends DefaultResizeShapeFeature {
+
+	private $context.importPath$.$context.modelElement.name$ bo;
 
 	public Resize$context.modelElement.name$Feature(IFeatureProvider fp) {
 		super(fp);
 		// TODO Auto-generated constructor stub
 	}
 	
-	@Override
-	public boolean canResizeShape(IResizeShapeContext context) {
-		Object bo = getBusinessObjectForPictogramElement(context.getPictogramElement());
-		return (bo instanceof $context.importPath$.$context.modelElement.name$);
+	public boolean canResizeShape(IResizeShapeContext context, boolean apiCall) {
+		if (apiCall) {
+			Object bo = getBusinessObjectForPictogramElement(context.getPictogramElement());
+			return (bo instanceof $context.importPath$.$context.modelElement.name$);
+		}
+		return false;
 	}
 	
+	$context.canResizeContent$
+
 	@Override
-	public void resizeShape(IResizeShapeContext context) {
-		PictogramElement pe = context.getPictogramElement();
-		int width = 10;
-		int height = 10;
-		
-		if (getDiagramBehavior().getDiagramContainer() instanceof IDiagramContainerUI) {
-			GraphicalViewer gv = ((IDiagramContainerUI) getDiagramBehavior().getDiagramContainer()).getGraphicalViewer();
-			FigureCanvas canvas = (FigureCanvas) gv.getControl();
-			width = canvas.getViewport().getClientArea().width();
-			height = canvas.getViewport().getClientArea().height();
-		}
-		
-		GraphitiUi.getUiLayoutService().setSize(pe.getGraphicsAlgorithm(), width -10, height / 4);
-		
+	public void resizeShape(final IResizeShapeContext context) {
+		TransactionalEditingDomain dom = TransactionUtil.getEditingDomain(getDiagram());
+		if (dom == null) 
+			dom = TransactionalEditingDomain.Factory.INSTANCE.createEditingDomain(getDiagram().eResource().getResourceSet());
+		dom.getCommandStack().execute(new RecordingCommand(dom, &quot;Resize&quot;) {
+			
+			@Override
+			protected void doExecute() {
+				bo = ($context.importPath$.$context.modelElement.name$) getBusinessObjectForPictogramElement(context.getPictogramElement());
+				de.jabc.cinco.meta.core.ui.features.CincoResizeFeature.resize(context);
+				$context.postResizeContent$
+				layoutPictogramElement(context.getPictogramElement());
+			}
+
+		});
+
 	}
 
 }
@@ -137,13 +251,339 @@ public class Resize$context.container.name$Feature extends DefaultResizeShapeFea
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
   </sib>
+  <edge>
+    <source>63afe438-b4f7-4db5-9208-5a3499b870ed</source>
+    <target>6eaa5495-70b4-4f26-b3f1-2ddf8f10b760</target>
+    <point>105.0,810.0</point>
+    <point>360.0,915.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>Node</branch>
+  </edge>
   <sib>
-    <id>b666afb6-9cc4-4d2b-aabf-727ef75e9474</id>
+    <id>87da938f-89a6-4e95-89bc-4c351854d82d</id>
+    <name>RunStringTemplate_3</name>
+    <label>MoveBendpointsContent</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>22.0,888.0</position>
+    <parameter name="append">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>moveBendpointsContent</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>switch (context.getDirection()) {
+	case (IResizeShapeContext.DIRECTION_WEST):
+	case (IResizeShapeContext.DIRECTION_NORTH):
+	case (IResizeShapeContext.DIRECTION_NORTH_WEST):
+		break;
+	case (IResizeShapeContext.DIRECTION_SOUTH):
+		deltaHeight = 0;
+	case (IResizeShapeContext.DIRECTION_NORTH_EAST):
+		deltaWidth = 0;
+		break;
+	case (IResizeShapeContext.DIRECTION_SOUTH_WEST):
+		deltaHeight = 0;
+		break;
+	default:
+		deltaHeight = 0;
+		deltaWidth = 0;
+		break;
+	}
+
+for (ModelElement me : (($context.importPath$.$context.importPath$.$context.modelElement.name$) bo).getModelElements()) {
+	if (me instanceof Edge) {
+		List&lt;PictogramElement&gt; pictogramElements = Graphiti.getLinkService().getPictogramElements(getDiagram(), me);
+		if (pictogramElements.get(0) instanceof FreeFormConnection) {
+			FreeFormConnection conn = (FreeFormConnection) pictogramElements.get(0);
+			for (Point p : conn.getBendpoints()) {
+				p.setX(p.getX() + deltaWidth);
+				p.setY(p.getY() + deltaHeight);
+			}
+		}
+	}
+}</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>87da938f-89a6-4e95-89bc-4c351854d82d</source>
+    <target>6eaa5495-70b4-4f26-b3f1-2ddf8f10b760</target>
+    <point>105.0,915.0</point>
+    <point>360.0,915.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>bdcf4b39-d468-4590-b8db-81204689a0c0</id>
+    <name>GraphSIB</name>
+    <label>GenerateCanResize</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>45.5,316.0</position>
+    <parameter name="modelElementKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>modelElement</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>GenerateCanResize</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>f22605ad-6bbb-4870-afb4-8e7d840e0f88</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>bdcf4b39-d468-4590-b8db-81204689a0c0</source>
+    <target>9f68a70b-5bc6-4f0e-b621-4179d46d13ea</target>
+    <point>110.0,345.5</point>
+    <point>312.0,433.8</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>9f68a70b-5bc6-4f0e-b621-4179d46d13ea</id>
+    <name>GetModelElementAnnotations_1</name>
+    <label>GetModelElementAnnotations</label>
+    <sib-uid>mgl/mgl/GetModelElementAnnotations</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetModelElementAnnotations</taxonomy>
+    <position>6.0,423.0</position>
+    <parameter name="eListKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>annotations</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="modelElementKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>modelElement</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>9f68a70b-5bc6-4f0e-b621-4179d46d13ea</source>
+    <target>79083d0a-9c7a-4c37-9610-ad2e4dc171ca</target>
+    <point>330.0,450.0</point>
+    <point>330.0,645.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>79083d0a-9c7a-4c37-9610-ad2e4dc171ca</id>
+    <name>IterateElements</name>
+    <label>IterateAnnotations</label>
+    <sib-uid>collection-sibs/IterateElements</sib-uid>
+    <taxonomy>de.jabc.sib.common.collection.IterateElements</taxonomy>
+    <position>41.0,528.0</position>
+    <parameter name="collection">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>annotations</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="element">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>annotation</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="iterator">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>alksdfoaiwejtrvmsdasolkdjfgo</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>exit</finalbranches>
+    <finalbranches>next</finalbranches>
+  </sib>
+  <edge>
+    <source>795554f4-4318-4960-8319-9500bf72f27c</source>
+    <target>79083d0a-9c7a-4c37-9610-ad2e4dc171ca</target>
+    <point>570.0,630.0</point>
+    <point>330.0,645.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>false</branch>
+  </edge>
+  <sib>
+    <id>795554f4-4318-4960-8319-9500bf72f27c</id>
+    <name>GraphSIB_2</name>
+    <label>CheckAnnotationName</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>283.5,526.0</position>
+    <parameter name="annotationKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>annotation</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="annotationName">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>postResize</expression>
+          <clazz>java.lang.String</clazz>
+          <classMutable>false</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>false</finalbranches>
+    <finalbranches>true</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>CheckAnnotationName</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>8fd8a2e3-0318-4824-930f-f04d3bde4e69</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>79083d0a-9c7a-4c37-9610-ad2e4dc171ca</source>
+    <target>795554f4-4318-4960-8319-9500bf72f27c</target>
+    <spline/>
+    <point>108.0,538.35</point>
+    <point>210.0,495.0</point>
+    <point>325.0,538.4444444444445</point>
+    <labelposition>465.3507545821634,-43.39395390340044</labelposition>
+    <branch>next</branch>
+  </edge>
+  <sib>
+    <id>424493ed-2ead-4250-992d-2a2bde8a93b2</id>
+    <name>GetAnnotationValue</name>
+    <label>GetAnnotationValue</label>
+    <sib-uid>mgl/mgl/GetAnnotationValue</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetAnnotationValue</taxonomy>
+    <position>292.0,633.0</position>
+    <parameter name="annotationKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>annotation</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="eListKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>annotValues</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>79083d0a-9c7a-4c37-9610-ad2e4dc171ca</source>
+    <target>63afe438-b4f7-4db5-9208-5a3499b870ed</target>
+    <point>105.0,564.0</point>
+    <point>105.0,693.0</point>
+    <labelposition>507.9731525392665,-0.7652540197148178</labelposition>
+    <branch>exit</branch>
+  </edge>
+  <sib>
+    <id>7b540591-a3f4-4b71-977a-6a4fe87eb293</id>
+    <name>RunStringTemplate</name>
+    <label>PostResizeContent</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>295.5,768.0</position>
+    <parameter name="append">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>postResizeContent</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>try {	
+	$fqnAPIPrefix$$apiPrefix$$graphModelName$ wrapped = $graphModelName$Wrapper.wrapGraphModel(bo.getRootElement(), getDiagram());
+	$fqnAPIPrefix$$apiPrefix$$modelElement.name$ tmp = wrapped.findC$modelElement.name$(bo);
+			
+	new $annotValues$().postResize(tmp, context.getDirection(), context.getWidth(), context.getHeight());
+} catch (Exception e) {
+	
+}</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>795554f4-4318-4960-8319-9500bf72f27c</source>
+    <target>424493ed-2ead-4250-992d-2a2bde8a93b2</target>
+    <point>360.0,566.0</point>
+    <point>360.0,633.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>true</branch>
+  </edge>
+  <edge>
+    <source>424493ed-2ead-4250-992d-2a2bde8a93b2</source>
+    <target>7b540591-a3f4-4b71-977a-6a4fe87eb293</target>
+    <point>345.0,435.0</point>
+    <point>341.0,313.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>7b540591-a3f4-4b71-977a-6a4fe87eb293</source>
+    <target>79083d0a-9c7a-4c37-9610-ad2e4dc171ca</target>
+    <point>345.0,315.0</point>
+    <point>65.0,539.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>d1247ea7-74ab-4eb8-a7fb-e5997f9d0866</id>
     <name>WriteJavaFile</name>
     <label>WriteJavaFile</label>
     <sib-uid>genesys-sibs/WriteJavaFile</sib-uid>
     <taxonomy>de.jabc.sib.genesys.WriteJavaFile</taxonomy>
-    <position>43.0,978.0</position>
+    <position>523.0,888.0</position>
     <parameter name="baseDirectory">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -198,580 +638,10 @@ public class Resize$context.container.name$Feature extends DefaultResizeShapeFea
     <finalbranches>error</finalbranches>
   </sib>
   <edge>
-    <source>6989327e-d4db-46f0-8627-3445b5b06d97</source>
-    <target>b666afb6-9cc4-4d2b-aabf-727ef75e9474</target>
-    <point>90.0,885.0</point>
-    <point>90.0,1005.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
-  <sib>
-    <id>63afe438-b4f7-4db5-9208-5a3499b870ed</id>
-    <name>SwitchModelElement</name>
-    <label>SwitchModelElement</label>
-    <sib-uid>mgl/mgl/SwitchModelElement</sib-uid>
-    <taxonomy>de.jabc.cinco.meta.core.ge.sib.mgl.SwitchModelElement</taxonomy>
-    <position>19.0,423.0</position>
-    <parameter name="eObjectKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>modelElement</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>Edge</finalbranches>
-    <finalbranches>GraphModel</finalbranches>
-    <finalbranches>GraphicalModelElement</finalbranches>
-    <finalbranches>Node</finalbranches>
-    <finalbranches>NodeContainer</finalbranches>
-    <finalbranches>UserDefinedType</finalbranches>
-    <finalbranches>error</finalbranches>
-    <finalbranches>other</finalbranches>
-  </sib>
-  <edge>
-    <source>63afe438-b4f7-4db5-9208-5a3499b870ed</source>
-    <target>87da938f-89a6-4e95-89bc-4c351854d82d</target>
-    <point>103.125,384.0</point>
-    <point>180.0,483.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>NodeContainer</branch>
-  </edge>
-  <edge>
-    <source>6cad6f22-f2a9-4f5c-a9dc-5eaeb99341c0</source>
-    <target>b906c082-db60-4d7d-a45a-949fb771bd26</target>
-    <point>90.0,30.0</point>
-    <point>90.0,150.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
-  <edge>
-    <source>b906c082-db60-4d7d-a45a-949fb771bd26</source>
-    <target>bdcf4b39-d468-4590-b8db-81204689a0c0</target>
-    <point>108.0,253.52727272727273</point>
-    <point>235.0,299.8181818181818</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
-  <sib>
-    <id>07b59078-3c84-4f4b-8bc7-92303a59c097</id>
-    <name>CopyEObject</name>
-    <label>CopyEObject</label>
-    <sib-uid>utility-sibs/CopyEObject</sib-uid>
-    <taxonomy>transem.utility.sib.CopyEObject</taxonomy>
-    <position>46.5,18.0</position>
-    <parameter name="copiedEObjectKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>modelElement</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="eObjectKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>modelElementKey</key>
-          <scope>DECLARED</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-    <userobject key="ABC$START">
-      <boolean>true</boolean>
-    </userobject>
-  </sib>
-  <edge>
-    <source>07b59078-3c84-4f4b-8bc7-92303a59c097</source>
-    <target>6cad6f22-f2a9-4f5c-a9dc-5eaeb99341c0</target>
-    <point>90.0,54.0</point>
-    <point>90.0,123.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
-  <sib>
-    <id>e6eec0f0-4565-4355-a313-ba0fdae7f14f</id>
-    <name>EvaluateBoolean</name>
-    <label>containersOnly</label>
-    <sib-uid>basic-sibs/EvaluateBoolean</sib-uid>
-    <taxonomy>de.jabc.sib.common.basic.EvaluateBoolean</taxonomy>
-    <position>37.5,618.0</position>
-    <parameter name="bool">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>containersOnly</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>error</finalbranches>
-    <finalbranches>false</finalbranches>
-    <finalbranches>true</finalbranches>
-  </sib>
-  <edge>
-    <source>e6eec0f0-4565-4355-a313-ba0fdae7f14f</source>
-    <target>d0199621-76a1-41cd-bc0f-db725c6b8d00</target>
-    <point>90.0,645.0</point>
-    <point>90.0,750.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>true</branch>
-  </edge>
-  <sib>
-    <id>6eaa5495-70b4-4f26-b3f1-2ddf8f10b760</id>
-    <name>RunStringTemplate_1</name>
-    <label>ResizeModelElement</label>
-    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
-    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>349.5,423.0</position>
-    <parameter name="append">
-      <boolean>false</boolean>
-    </parameter>
-    <parameter name="individualVariables">
-      <boolean>false</boolean>
-    </parameter>
-    <parameter name="result">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>resizeModelElementFeatureContent</key>
-          <scope>DECLARED</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="template">
-      <string>package $context.localPkgName$;
-
-import graphmodel.*;
-
-import java.util.List;
-
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.transaction.RecordingCommand;
-import org.eclipse.emf.transaction.TransactionalEditingDomain;
-import org.eclipse.emf.transaction.util.TransactionUtil;
-
-import org.eclipse.draw2d.FigureCanvas;
-import org.eclipse.gef.GraphicalViewer;
-import org.eclipse.graphiti.features.IFeatureProvider;
-import org.eclipse.graphiti.features.context.IResizeShapeContext;
-import org.eclipse.graphiti.features.impl.DefaultResizeShapeFeature;
-import org.eclipse.graphiti.mm.pictograms.FreeFormConnection;
-import org.eclipse.graphiti.mm.pictograms.PictogramElement;
-import org.eclipse.graphiti.mm.pictograms.ContainerShape;
-import org.eclipse.graphiti.mm.pictograms.Shape;
-import org.eclipse.graphiti.mm.algorithms.*;
-import org.eclipse.graphiti.mm.algorithms.styles.Point;
-import org.eclipse.graphiti.services.Graphiti;
-import org.eclipse.graphiti.ui.editor.IDiagramContainerUI;
-import org.eclipse.graphiti.ui.services.GraphitiUi;
-
-import $context.importPath$.$context.modelElement.name$;
-import $context.packageName$.graphiti.features.layout.$context.graphModelName$LayoutUtils;
-
-public class Resize$context.modelElement.name$Feature extends DefaultResizeShapeFeature {
-
-	private $context.importPath$.$context.modelElement.name$ bo;
-
-	public Resize$context.modelElement.name$Feature(IFeatureProvider fp) {
-		super(fp);
-		// TODO Auto-generated constructor stub
-	}
-	
-	public boolean canResizeShape(IResizeShapeContext context, boolean apiCall) {
-		if (apiCall) {
-			Object bo = getBusinessObjectForPictogramElement(context.getPictogramElement());
-			return (bo instanceof $context.importPath$.$context.modelElement.name$);
-		}
-		return false;
-	}
-	
-	$context.canResizeContent$
-
-	@Override
-	public void resizeShape(final IResizeShapeContext context) {
-		TransactionalEditingDomain dom = TransactionUtil.getEditingDomain(getDiagram());
-		if (dom == null) 
-			dom = TransactionalEditingDomain.Factory.INSTANCE.createEditingDomain(getDiagram().eResource().getResourceSet());
-		dom.getCommandStack().execute(new RecordingCommand(dom, &quot;Resize&quot;) {
-			
-			@Override
-			protected void doExecute() {
-				/*bo = ($context.importPath$.$context.modelElement.name$) getBusinessObjectForPictogramElement(context.getPictogramElement());
-				Shape s = context.getShape();
-				GraphicsAlgorithm ga = s.getGraphicsAlgorithm();
-
-				int oWidth = context.getWidth();
-				int oHeight = context.getHeight();
-				
-				int deltaWidth = context.getShape().getGraphicsAlgorithm().getWidth() - oWidth; 
-				int deltaHeight = context.getShape().getGraphicsAlgorithm().getHeight() - oHeight;
-
-				if (ga instanceof Polyline)
-					resizePolyline((Polyline) ga, context);
-				else resizeByDelta(s.getGraphicsAlgorithm(), context.getWidth(), context.getHeight());
-				if (s instanceof ContainerShape) {
-					for (Shape c : ((ContainerShape) s).getChildren()) {
-						resizeChildren(c, deltaWidth, deltaHeight);
-					}
-				}
-				
-				*/
-				de.jabc.cinco.meta.core.ui.features.CincoResizeFeature.resize(context);
-				layoutPictogramElement(context.getPictogramElement());
-			}
-
-			private void resizeChildren(Shape s, int deltaWidth, int deltaHeight) {
-				GraphicsAlgorithm ga = s.getGraphicsAlgorithm();
-				int width = ga.getWidth(); 
-				int height = ga.getHeight();
-				
-				if (s instanceof ContainerShape) {
-					if (isResizable(ga))
-						resizeByDelta(ga, width - deltaWidth, height - deltaHeight);
-					
-					for (Shape c : ((ContainerShape) s).getChildren())
-						resizeChildren(c, deltaWidth, deltaHeight);
-				}
-				
-			}
-
-			private boolean isResizable(GraphicsAlgorithm ga) {
-				EObject linkedBO = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(ga.getPictogramElement());
-				if (!(ga instanceof AbstractText))
-					if (!(Graphiti.getPeService().getProperty(ga, $context.graphModelName$LayoutUtils.KEY_HORIZONTAL).equals($context.graphModelName$LayoutUtils.KEY_HORIZONTAL_UNDEFINED))) {
-						if (bo instanceof Container)
-							return ( (linkedBO == null || linkedBO.equals(bo)) &amp;&amp; parentIsContainer(ga) );
-						if (bo instanceof Node)
-							return true;
-				}
-				return false;
-			}
-
-			private boolean parentIsContainer(GraphicsAlgorithm ga) {
-				EObject linkedBO = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(ga.getPictogramElement());
-				while (linkedBO == null) {
-					linkedBO = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement((PictogramElement) ga.getPictogramElement().eContainer());
-				}
-				return (bo.equals(linkedBO));
-			}
-
-			private void resizeByDelta(GraphicsAlgorithm ga, int width, int height) {
-				Graphiti.getGaService().setLocationAndSize(ga, ga.getX(), ga.getY(), width, height);
-
-			}
-
-			private void resizePolyline(Polyline polyline, IResizeShapeContext context) {
-				int oldWidth = polyline.getWidth();
-				int oldHeight = polyline.getHeight();
-				int newWidth = context.getWidth();
-				int newHeight = context.getHeight();
-				
-				int contextX = context.getX();
-				int contextY = context.getY();
-				int deltaX = contextX - polyline.getX();
-				int deltaY = contextY - polyline.getY();
-				
-				double scaleX = (double) newWidth / (double) oldWidth;
-				double scaleY = (double) newHeight / (double) oldHeight;
-				scalePoints(polyline.getPoints(), scaleX, scaleY);
-				if (polyline.getPictogramElement() instanceof ContainerShape) {
-					for (Shape child : ((ContainerShape) polyline.getPictogramElement()).getChildren()) {
-						moveByDelta(child, - deltaX, - deltaY);
-					}
-				}
-				
-				Graphiti.getGaService().setLocationAndSize(polyline, contextX, contextY, newWidth, newHeight);
-			}
-
-			private void scalePoints(EList&lt;Point&gt; points, double scaleX, double scaleY) {
-				for (Point p : points) {
-					p.setX((int) (scaleX * p.getX()));
-					p.setY((int) (scaleY * p.getY()));
-				}
-			}
-			
-			private boolean isInnerShape(GraphicsAlgorithm ga) {
-				if (ga instanceof AbstractText
-						|| Graphiti.getPeService().getProperty(ga, $context.graphModelName$LayoutUtils.KEY_HORIZONTAL).equals($context.graphModelName$LayoutUtils.KEY_HORIZONTAL_UNDEFINED))
-					return true;
-				if (bo instanceof Node)
-					return false;
-				return !(bo instanceof Container &amp;&amp; sharesBusinessObject(ga));
-			}
-
-			private boolean sharesBusinessObject(GraphicsAlgorithm ga) {
-				EObject linkedBO = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(ga.getPictogramElement());
-				while (linkedBO == null) {
-					linkedBO = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement((PictogramElement) ga.getPictogramElement().eContainer());
-				}
-				return (bo.equals(linkedBO));
-			}
-
-			private void moveByDelta(Shape shape, int deltaX, int deltaY) {
-				GraphicsAlgorithm ga = shape.getGraphicsAlgorithm();
-				if (ga != null &amp;&amp; !isInnerShape(ga)) {
-					Graphiti.getGaService().setLocation(ga, ga.getX() + deltaX, ga.getY() + deltaY);
-					if (ga instanceof ContainerShape) {
-						for (Shape child : ((ContainerShape) ga).getChildren()) {
-							moveByDelta(child, deltaX, deltaY);
-						}
-					}
-				}
-			}
-		});
-
-	}
-
-}
-</string>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-  </sib>
-  <edge>
-    <source>e6eec0f0-4565-4355-a313-ba0fdae7f14f</source>
-    <target>6eaa5495-70b4-4f26-b3f1-2ddf8f10b760</target>
-    <point>285.0,375.0</point>
-    <point>282.0,485.0</point>
-    <branch>false</branch>
-  </edge>
-  <edge>
     <source>6eaa5495-70b4-4f26-b3f1-2ddf8f10b760</source>
-    <target>b666afb6-9cc4-4d2b-aabf-727ef75e9474</target>
-    <spline/>
-    <point>406.6564417177914,384.0</point>
-    <point>450.0,855.0</point>
-    <point>108.0,988.95</point>
-    <labelposition>598.9082977621217,-250.04622153078984</labelposition>
-    <branch>default</branch>
-  </edge>
-  <edge>
-    <source>63afe438-b4f7-4db5-9208-5a3499b870ed</source>
-    <target>6eaa5495-70b4-4f26-b3f1-2ddf8f10b760</target>
-    <point>100.64516129032258,384.0</point>
-    <point>243.6206896551724,618.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>Node</branch>
-  </edge>
-  <sib>
-    <id>d0199621-76a1-41cd-bc0f-db725c6b8d00</id>
-    <name>SwitchAlingnment</name>
-    <label>SwitchAlingnment</label>
-    <sib-uid>style/style/SwitchAlingnment</sib-uid>
-    <taxonomy>de.jabc.cinco.meta.core.ge.sib.style.SwitchAlingnment</taxonomy>
-    <position>28.5,723.0</position>
-    <parameter name="eEnumKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>containerAlignment</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>HORIZONTAL</finalbranches>
-    <finalbranches>UNDEFINED</finalbranches>
-    <finalbranches>VERTICAL</finalbranches>
-    <finalbranches>error</finalbranches>
-    <finalbranches>other</finalbranches>
-  </sib>
-  <edge>
-    <source>d0199621-76a1-41cd-bc0f-db725c6b8d00</source>
-    <target>6989327e-d4db-46f0-8627-3445b5b06d97</target>
-    <point>90.0,750.0</point>
-    <point>90.0,885.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>HORIZONTAL</branch>
-    <branch>UNDEFINED</branch>
-  </edge>
-  <sib>
-    <id>132adba2-e365-46a2-ae10-e9e221eee02c</id>
-    <name>RunStringTemplate_2</name>
-    <label>ResizeModelElement</label>
-    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
-    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>169.5,723.0</position>
-    <parameter name="append">
-      <boolean>false</boolean>
-    </parameter>
-    <parameter name="individualVariables">
-      <boolean>false</boolean>
-    </parameter>
-    <parameter name="result">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>resizeModelElementFeatureContent</key>
-          <scope>DECLARED</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="template">
-      <string>package $context.localPkgName$;
-
-import org.eclipse.draw2d.FigureCanvas;
-import org.eclipse.gef.GraphicalViewer;
-import org.eclipse.graphiti.features.IFeatureProvider;
-import org.eclipse.graphiti.features.context.IResizeShapeContext;
-import org.eclipse.graphiti.features.impl.DefaultResizeShapeFeature;
-import org.eclipse.graphiti.mm.pictograms.PictogramElement;
-import org.eclipse.graphiti.ui.editor.IDiagramContainerUI;
-import org.eclipse.graphiti.ui.services.GraphitiUi;
-
-import $context.importPath$.$context.container.name$;
-
-public class Resize$context.container.name$Feature extends DefaultResizeShapeFeature {
-
-	public Resize$context.modelElement.name$Feature(IFeatureProvider fp) {
-		super(fp);
-		// TODO Auto-generated constructor stub
-	}
-	
-	@Override
-	public boolean canResizeShape(IResizeShapeContext context) {
-		Object bo = getBusinessObjectForPictogramElement(context.getPictogramElement());
-		return (bo instanceof $context.importPath$.$context.modelElement.name$);
-	}
-	
-	@Override
-	public void resizeShape(IResizeShapeContext context) {
-		PictogramElement pe = context.getPictogramElement();
-		int width = 10;
-		int height = 10;
-		
-		if (getDiagramBehavior().getDiagramContainer() instanceof IDiagramContainerUI) {
-			GraphicalViewer gv = ((IDiagramContainerUI) getDiagramBehavior().getDiagramContainer()).getGraphicalViewer();
-			FigureCanvas canvas = (FigureCanvas) gv.getControl();
-			width = canvas.getViewport().getClientArea().width();
-			height = canvas.getViewport().getClientArea().height();
-		}
-		
-		GraphitiUi.getUiLayoutService().setSize(pe.getGraphicsAlgorithm(), width / 4, height-10);
-		
-	}
-
-}
-</string>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-  </sib>
-  <edge>
-    <source>d0199621-76a1-41cd-bc0f-db725c6b8d00</source>
-    <target>132adba2-e365-46a2-ae10-e9e221eee02c</target>
-    <point>90.0,750.0</point>
-    <point>285.0,885.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>VERTICAL</branch>
-  </edge>
-  <edge>
-    <source>132adba2-e365-46a2-ae10-e9e221eee02c</source>
-    <target>b666afb6-9cc4-4d2b-aabf-727ef75e9474</target>
-    <point>285.0,885.0</point>
-    <point>90.0,1005.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
-  <sib>
-    <id>87da938f-89a6-4e95-89bc-4c351854d82d</id>
-    <name>RunStringTemplate_3</name>
-    <label>MoveBendpointsContent</label>
-    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
-    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>7.0,513.0</position>
-    <parameter name="append">
-      <boolean>false</boolean>
-    </parameter>
-    <parameter name="individualVariables">
-      <boolean>false</boolean>
-    </parameter>
-    <parameter name="result">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>moveBendpointsContent</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="template">
-      <string>switch (context.getDirection()) {
-	case (IResizeShapeContext.DIRECTION_WEST):
-	case (IResizeShapeContext.DIRECTION_NORTH):
-	case (IResizeShapeContext.DIRECTION_NORTH_WEST):
-		break;
-	case (IResizeShapeContext.DIRECTION_SOUTH):
-		deltaHeight = 0;
-	case (IResizeShapeContext.DIRECTION_NORTH_EAST):
-		deltaWidth = 0;
-		break;
-	case (IResizeShapeContext.DIRECTION_SOUTH_WEST):
-		deltaHeight = 0;
-		break;
-	default:
-		deltaHeight = 0;
-		deltaWidth = 0;
-		break;
-	}
-
-for (ModelElement me : (($context.importPath$.$context.importPath$.$context.modelElement.name$) bo).getModelElements()) {
-	if (me instanceof Edge) {
-		List&lt;PictogramElement&gt; pictogramElements = Graphiti.getLinkService().getPictogramElements(getDiagram(), me);
-		if (pictogramElements.get(0) instanceof FreeFormConnection) {
-			FreeFormConnection conn = (FreeFormConnection) pictogramElements.get(0);
-			for (Point p : conn.getBendpoints()) {
-				p.setX(p.getX() + deltaWidth);
-				p.setY(p.getY() + deltaHeight);
-			}
-		}
-	}
-}</string>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-  </sib>
-  <edge>
-    <source>87da938f-89a6-4e95-89bc-4c351854d82d</source>
-    <target>e6eec0f0-4565-4355-a313-ba0fdae7f14f</target>
-    <point>90.0,510.0</point>
-    <point>89.0,635.0</point>
-    <branch>default</branch>
-  </edge>
-  <sib>
-    <id>bdcf4b39-d468-4590-b8db-81204689a0c0</id>
-    <name>GraphSIB</name>
-    <label>GenerateCanResize</label>
-    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
-    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>30.5,316.0</position>
-    <parameter name="modelElementKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>modelElement</key>
-          <scope>DECLARED</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELNAME">
-      <string>GenerateCanResize</string>
-    </userobject>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>f22605ad-6bbb-4870-afb4-8e7d840e0f88</string>
-    </userobject>
-  </sib>
-  <edge>
-    <source>bdcf4b39-d468-4590-b8db-81204689a0c0</source>
-    <target>63afe438-b4f7-4db5-9208-5a3499b870ed</target>
-    <point>255.0,315.0</point>
-    <point>95.0,363.0</point>
+    <target>d1247ea7-74ab-4eb8-a7fb-e5997f9d0866</target>
+    <point>360.0,915.0</point>
+    <point>570.0,902.0</point>
     <branch>default</branch>
   </edge>
   <parameter>
@@ -792,16 +662,6 @@ for (ModelElement me : (($context.importPath$.$context.importPath$.$context.mode
     </entry>
   </values>
   <branch>
-    <name>default</name>
-    <branch>default</branch>
-    <sib>b666afb6-9cc4-4d2b-aabf-727ef75e9474</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>b666afb6-9cc4-4d2b-aabf-727ef75e9474</sib>
-  </branch>
-  <branch>
     <name>error</name>
     <branch>error</branch>
     <sib>6cad6f22-f2a9-4f5c-a9dc-5eaeb99341c0</sib>
@@ -810,11 +670,6 @@ for (ModelElement me : (($context.importPath$.$context.importPath$.$context.mode
     <name>error</name>
     <branch>error</branch>
     <sib>b906c082-db60-4d7d-a45a-949fb771bd26</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>6989327e-d4db-46f0-8627-3445b5b06d97</sib>
   </branch>
   <branch>
     <name>error</name>
@@ -834,21 +689,41 @@ for (ModelElement me : (($context.importPath$.$context.importPath$.$context.mode
   <branch>
     <name>error</name>
     <branch>error</branch>
-    <sib>e6eec0f0-4565-4355-a313-ba0fdae7f14f</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>d0199621-76a1-41cd-bc0f-db725c6b8d00</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>132adba2-e365-46a2-ae10-e9e221eee02c</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
     <sib>87da938f-89a6-4e95-89bc-4c351854d82d</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>9f68a70b-5bc6-4f0e-b621-4179d46d13ea</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>79083d0a-9c7a-4c37-9610-ad2e4dc171ca</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>795554f4-4318-4960-8319-9500bf72f27c</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>424493ed-2ead-4250-992d-2a2bde8a93b2</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>7b540591-a3f4-4b71-977a-6a4fe87eb293</sib>
+  </branch>
+  <branch>
+    <name>default</name>
+    <branch>default</branch>
+    <sib>d1247ea7-74ab-4eb8-a7fb-e5997f9d0866</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>d1247ea7-74ab-4eb8-a7fb-e5997f9d0866</sib>
   </branch>
 </model>

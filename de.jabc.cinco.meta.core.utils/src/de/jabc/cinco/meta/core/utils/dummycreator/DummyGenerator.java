@@ -35,6 +35,38 @@ import mgl.OutgoingEdgeElementConnection;
 public class DummyGenerator {
 
 	//*****************************************			GRPAHMODEL		*********************************//
+	public static GraphModel createDawidDummyGM() {
+		GraphModel gm = MglFactory.eINSTANCE.createGraphModel();
+		setGraphModelAttributes(gm);
+
+		Node n1 = createNode("Start");
+		n1.getAttributes().add(createAttribute("EString", "label", 1, 0));
+		n1.getAnnotations().add(createStyleAnnotation("circle"));
+		
+//		ReferencedEClass n2 = createRefEClass("ExtNode");
+//		n2.getAnnotations().add(createStyleAnnotation("rrect"));
+		
+		NodeContainer c1 = createContainer("Swimlane");
+		c1.getContainableElements().add(createGEC(-1, 0, n1, c1));
+		c1.getAnnotations().add(createStyleAnnotation("rect"));
+		
+		Edge e1 = createEdge("Transition");
+		e1.getAnnotations().add(createStyleAnnotation("simpleArrow"));
+		
+		n1.getOutgoingEdgeConnections().add(createOEEC(-1, 0, e1));
+//		n2.getIncomingEdgeConnections().add(createIEEC(-1, 0, e1));
+//		n2.getOutgoingEdgeConnections().add(createOEEC(-1, 0, e1));
+		
+		gm.getNodes().add(n1);
+		//gm.getNodes().add(n2);
+		
+//		gm.getNodeContainers().add(c1);
+		
+		gm.getEdges().add(e1);
+		
+		return gm;
+	}
+	
 	public static GraphModel createDummyGraphModel() {
 //		GraphModel gm = MglFactory.eINSTANCE.createGraphModel();
 //		setGraphModelAttributes(gm);

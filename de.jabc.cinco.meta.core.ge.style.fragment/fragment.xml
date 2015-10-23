@@ -119,6 +119,9 @@
       <node-annotation
             recognized-annotation="postMove">
       </node-annotation>
+      <node-annotation
+            recognized-annotation="postResize">
+      </node-annotation>
    </extension>
 
 </fragment>

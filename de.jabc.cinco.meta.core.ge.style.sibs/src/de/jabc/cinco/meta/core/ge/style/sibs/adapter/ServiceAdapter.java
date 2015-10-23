@@ -1669,7 +1669,7 @@ public class ServiceAdapter {
 	public String createDummyGraphModel(LightweightExecutionEnvironmentAdapter env) {
 		LightweightExecutionContext context = env.getLocalContext();
 		try {
-			GraphModel gm = DummyGenerator.createDummyGraphModel();
+			GraphModel gm = DummyGenerator.createDawidDummyGM();
 			context.putGlobally("graphModel", gm);
 			context.putGlobally("apiPrefix", "C");
 			context.putGlobally("outletPath", "/home/kopetzki/workspace/runtime-MGL/de.scce.cinco.product.dummy/src-gen/");

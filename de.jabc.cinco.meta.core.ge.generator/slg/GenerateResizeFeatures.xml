@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>f159d8f0-e8b9-4834-89e0-bf3575687fe6</id>
   <name>GenerateResizeFeatures</name>
-  <changecounter>130</changecounter>
+  <changecounter>135</changecounter>
   <sib>
     <id>cb2c4b69-1ec8-4d0c-b400-1bb4a320ae7e</id>
     <name>IterateElements</name>
