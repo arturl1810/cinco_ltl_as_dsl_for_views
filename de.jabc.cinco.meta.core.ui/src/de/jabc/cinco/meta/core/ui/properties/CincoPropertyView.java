@@ -1,7 +1,9 @@
 package de.jabc.cinco.meta.core.ui.properties;
 
+import graphmodel.Container;
 import graphmodel.GraphModel;
 import graphmodel.ModelElement;
+import graphmodel.ModelElementContainer;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -328,9 +330,20 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener{
 	
 	private List<ModelElement> getInput(EObject bo, EObject searchFor) {
 		List<ModelElement> result = new ArrayList<ModelElement>();
-		if (bo instanceof ModelElement)
-			result.addAll(((ModelElement) bo).getRootElement().getModelElements((Class<? extends ModelElement>) searchFor.getClass()));
+		if (bo instanceof ModelElement) {
+			GraphModel gm = ((ModelElement) bo).getRootElement();
+			getAllModelElements(gm, result, searchFor);
+		}
 		return result;
+	}
+
+	
+	
+	private void getAllModelElements(ModelElementContainer container, List<ModelElement> result, EObject searchFor) {
+		result.addAll(container.getModelElements((Class<? extends ModelElement>) searchFor.getClass()));
+		for (Container c : container.getAllContainers()) {
+			getAllModelElements(c, result, searchFor);
+		}
 	}
 
 	private void createSingleAttributeProperty(EObject bo, Composite comp, EAttribute attr) {
