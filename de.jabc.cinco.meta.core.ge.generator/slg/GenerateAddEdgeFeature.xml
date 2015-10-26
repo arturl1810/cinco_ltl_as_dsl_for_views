@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>730ef53f-e135-46d5-9e4b-96fc4843c423</id>
   <name>GenerateAddEdgeFeature</name>
-  <changecounter>750</changecounter>
+  <changecounter>752</changecounter>
   <sib>
     <id>4966ae71-56db-49f8-b6d7-c3a51fbd1021</id>
     <name>PutExpression</name>
@@ -195,7 +195,7 @@
     <label>RunStringTemplate</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>115.0,618.0</position>
+    <position>115.0,603.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -264,6 +264,8 @@ public class Add$context.edgeName$Feature extends AbstractAddFeature {
 		Object sourceBo = addConContext.getSourceAnchor().getParent().getLink().getBusinessObjects().get(0);
 		Object targetBo = addConContext.getTargetAnchor().getParent().getLink().getBusinessObjects().get(0);
 		
+		ClassLoader contextClassLoader;
+
 		if (sourceBo != null &amp;&amp; sourceBo.equals(targetBo)) {
 			int x = addConContext.getSourceAnchor().getParent().getGraphicsAlgorithm().getX();
 			int y = addConContext.getSourceAnchor().getParent().getGraphicsAlgorithm().getY();

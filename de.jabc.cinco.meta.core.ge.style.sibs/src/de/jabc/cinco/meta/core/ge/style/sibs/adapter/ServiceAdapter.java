@@ -22,6 +22,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import javax.xml.crypto.dsig.keyinfo.RetrievalMethod;
+
 import mgl.Annotation;
 import mgl.Attribute;
 import mgl.ContainingElement;
@@ -1706,6 +1708,26 @@ public class ServiceAdapter {
 			return Branches.DEFAULT;
 		} catch (Exception e) {
 			context.putGlobally("exception", e);
+			return Branches.ERROR;
+		}
+	}
+
+	public static String isELExpression(LightweightExecutionEnvironment env,
+			ContextKeyFoundation modelElement,
+			ContextKeyFoundation value,
+			ContextKeyFoundation attributeName) {
+		LightweightExecutionContext context = env.getLocalContext();
+		try {
+			ModelElement me = (ModelElement) context.get(modelElement);
+			String s = (String) context.get(value);
+			Pattern p = Pattern.compile("\\$\\{.*\\}");
+			Matcher m = p.matcher(s);
+			
+			if (m.matches())
+				return Branches.TRUE;
+			else return Branches.FALSE;
+		} catch (Exception e) {
+			context.put("exception", e);
 			return Branches.ERROR;
 		}
 	}
