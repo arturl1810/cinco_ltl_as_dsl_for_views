@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>5f5db73a-2f0c-4b4a-9206-54d4b69c1f26</id>
   <name>Generate_APIOperations_Container</name>
-  <changecounter>423</changecounter>
+  <changecounter>426</changecounter>
   <sib>
     <id>c1a0644d-2d54-48b1-b60f-0bcd42cb8f03</id>
     <name>IsNodeContained</name>
@@ -395,10 +395,10 @@
     <source>e6767693-f2c1-4444-8058-47e2f4cac295</source>
     <target>85bfff3a-fdcc-4942-a624-5cde9e48cf30</target>
     <spline/>
-    <point>528.0,208.0</point>
-    <point>498.0,133.0</point>
-    <point>543.0,103.0</point>
-    <labelposition>415.0,-28.0</labelposition>
+    <point>529.4117647058823,183.0</point>
+    <point>510.0,150.0</point>
+    <point>530.0,114.0</point>
+    <labelposition>460.2243121329454,-28.683527165790544</labelposition>
     <branch>false</branch>
   </edge>
   <edge>
@@ -893,48 +893,6 @@
     <point>532.0,629.0</point>
     <branch>default</branch>
   </edge>
-  <sib>
-    <id>eca839d3-8468-46d9-88ae-f3d922c22461</id>
-    <name>GraphSIB_2</name>
-    <label>Generate_NodeMoveEOperation</label>
-    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
-    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>986.0,271.0</position>
-    <parameter name="eClassKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>containerClass</key>
-          <scope>DECLARED</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="eOperationeTypeKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>containerClass</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>false</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="modelElementKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>container</key>
-          <scope>DECLARED</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELNAME">
-      <string>Generate_NodeMoveEOperation</string>
-    </userobject>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>53c0c093-ef7e-452a-ae07-8946504ff744</string>
-    </userobject>
-  </sib>
   <edge>
     <source>9409baed-7a92-45eb-b415-056ff8ab8c8e</source>
     <target>9cd06a95-4528-43d4-965b-1d604c9018d4</target>

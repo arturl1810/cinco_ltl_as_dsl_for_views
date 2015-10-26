@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>42f98ca5-34c7-4c22-9f6e-1f6dc8d852d7</id>
   <name>Generate_NodeEOperations</name>
-  <changecounter>226</changecounter>
+  <changecounter>236</changecounter>
   <sib>
     <id>be1971b4-e3aa-44cc-862f-367534c2fc2c</id>
     <name>GraphSIB</name>
@@ -159,9 +159,38 @@
   </edge>
   <edge>
     <source>be1971b4-e3aa-44cc-862f-367534c2fc2c</source>
+    <target>18901c81-24b4-4e2d-86e5-0426e443e0fa</target>
+    <point>200.0,105.5</point>
+    <point>402.0,193.8</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>18901c81-24b4-4e2d-86e5-0426e443e0fa</id>
+    <name>PrintConsoleMessage</name>
+    <label>PrintConsoleMessage</label>
+    <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
+    <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
+    <position>369.5,198.0</position>
+    <parameter name="error">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="message">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>Generating for: ${nodeClass}</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>false</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <finalbranches>default</finalbranches>
+  </sib>
+  <edge>
+    <source>18901c81-24b4-4e2d-86e5-0426e443e0fa</source>
     <target>6dad529d-66bf-47c6-9bdc-b0da93a60397</target>
-    <point>164.0,126.0</point>
-    <point>247.5,248.0</point>
+    <point>402.0,202.8</point>
+    <point>198.0,215.55</point>
     <branch>default</branch>
   </edge>
   <values/>
