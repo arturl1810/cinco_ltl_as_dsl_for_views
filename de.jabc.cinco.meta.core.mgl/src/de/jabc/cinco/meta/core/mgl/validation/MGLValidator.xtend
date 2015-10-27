@@ -7,6 +7,7 @@ import de.jabc.cinco.meta.core.utils.InheritanceUtil
 import de.jabc.cinco.meta.core.utils.PathValidator
 import java.net.URI
 import java.net.URISyntaxException
+import java.util.ArrayList
 import java.util.HashSet
 import java.util.List
 import mgl.Attribute
@@ -33,7 +34,6 @@ import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.EcorePackage
 import org.eclipse.xtext.EcoreUtil2
 import org.eclipse.xtext.validation.Check
-import java.util.ArrayList
 
 /**
  * Custom validation rules. 
@@ -641,22 +641,46 @@ class MGLValidator extends AbstractMGLValidator {
 	def checkReferencedNodeHasNameAttribute(Attribute attribute) {
 		val modelElement = attribute.modelElement as ModelElement
 		val graphModel = getGraphModel(modelElement)
-		val modelElements = new ArrayList
-		modelElements.addAll(graphModel.nodes)
-		modelElements.addAll(graphModel.edges)
-		//modelElements.addAll(graphModel.nodeContainers)
 		
-		val refNodes = modelElements.filter[me | me.name.equals(attribute.type) && !me.attributes.map[name].contains("name")];
+		val refNodes = graphModel.nodes.filter[Node n | n.name.equals(attribute.type)]
+		val refEdges = graphModel.edges.filter[Edge e | e.name.equals(attribute.type)]		
 		
-		if (!refNodes.nullOrEmpty)
-			error("Add a String attribute \"name\" to the NodeType(s): " + refNodes.map[name], MglPackage.Literals.ATTRIBUTE__TYPE)
+		if ((!refNodes.nullOrEmpty || !refEdges.nullOrEmpty)) {
+			if (!nodesContainsName(refNodes) && !edgesContainsName(refEdges))
+				error("Add a String attribute \"name\" to the NodeType(s): " + refNodes.map[name], MglPackage.Literals.ATTRIBUTE__TYPE)
+		}
+	}
+	
+	def edgesContainsName(Iterable<Edge> edges) {
+		val parentEdges = new ArrayList<Edge> 
+		for (Edge e : edges) {
+			var currentParent = e
+			while (currentParent != null) {
+				parentEdges.add(currentParent)
+				currentParent = currentParent.extends
+			}
+		}
+		val remainingParents = parentEdges.filter[Edge p |  p.attributes.map[name].contains("name")]
+		return !remainingParents.isEmpty 
+	}
+	
+	def nodesContainsName(Iterable<Node> nodes) {
+		val parentNodes = new ArrayList<Node> 
+		for (Node n : nodes) {
+			var currentParent = n
+			while (currentParent != null) {
+				parentNodes.add(currentParent)
+				currentParent = currentParent.extends
+			}
+		}
+		val remainingParents = parentNodes.filter[Node p |  p.attributes.map[name].contains("name")]
+		return !remainingParents.isEmpty 
 	}
 	
 	def getGraphModel(ModelElement element) {
 		switch element {
 			Node : element.graphModel
 			Edge : element.graphModel
-					
 		}
 	}
 	
