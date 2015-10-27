@@ -308,27 +308,24 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener{
 		label.setText(ref.getName());
 		label.setLayoutData(labelLayoutData);
 		
-		EObject instanceType = EcoreUtil.create(ref.getEReferenceType());
-		if (instanceType instanceof ModelElement) {
-			Combo combo = new Combo(comp, SWT.BORDER | SWT.DROP_DOWN | SWT.READ_ONLY);
-			combo.setLayoutData(textLayoutData);
-			ComboViewer cv = new ComboViewer(combo);
-			cv.setContentProvider(new ArrayContentProvider());
-			cv.setLabelProvider(getNameLabelProvider());
-			
-			List<ModelElement> input = getInput(bo, instanceType);
-			cv.setInput(input);
-			
-			IViewerObservableValue uiProp = ViewersObservables.observeSingleSelection(cv);
-			IObservableValue modelObs = EMFEditObservables.observeValue(domain,bo,ref);
-			context.bindValue(uiProp, modelObs);
-			
-			combo.setEnabled(!readOnlyAttributes.contains(ref));
-		}
+		Class<?> instanceClass = ref.getEReferenceType().getInstanceClass();
+		Combo combo = new Combo(comp, SWT.BORDER | SWT.DROP_DOWN | SWT.READ_ONLY);
+		combo.setLayoutData(textLayoutData);
+		ComboViewer cv = new ComboViewer(combo);
+		cv.setContentProvider(new ArrayContentProvider());
+		cv.setLabelProvider(getNameLabelProvider());
 		
+		List<ModelElement> input = getInput(bo, instanceClass);
+		cv.setInput(input);
+		
+		IViewerObservableValue uiProp = ViewersObservables.observeSingleSelection(cv);
+		IObservableValue modelObs = EMFEditObservables.observeValue(domain,bo,ref);
+		context.bindValue(uiProp, modelObs);
+		
+		combo.setEnabled(!readOnlyAttributes.contains(ref));
 	}
 	
-	private List<ModelElement> getInput(EObject bo, EObject searchFor) {
+	private List<ModelElement> getInput(EObject bo, Class<?> searchFor) {
 		List<ModelElement> result = new ArrayList<ModelElement>();
 		if (bo instanceof ModelElement) {
 			GraphModel gm = ((ModelElement) bo).getRootElement();
@@ -339,8 +336,8 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener{
 
 	
 	
-	private void getAllModelElements(ModelElementContainer container, List<ModelElement> result, EObject searchFor) {
-		result.addAll(container.getModelElements((Class<? extends ModelElement>) searchFor.getClass()));
+	private void getAllModelElements(ModelElementContainer container, List<ModelElement> result, Class<?> searchFor) {
+		result.addAll(container.getModelElements((Class<? extends ModelElement>) searchFor));
 		for (Container c : container.getAllContainers()) {
 			getAllModelElements(c, result, searchFor);
 		}
