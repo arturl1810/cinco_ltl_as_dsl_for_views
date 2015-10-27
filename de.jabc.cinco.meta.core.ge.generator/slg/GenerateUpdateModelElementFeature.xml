@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>ef7786c5-d04b-45de-89fd-b00e68b99149</id>
   <name>GenerateUpdateModelElementFeature</name>
-  <changecounter>423</changecounter>
+  <changecounter>440</changecounter>
   <sib>
     <id>b31345f6-8607-4397-986e-94a14e803be6</id>
     <name>PutExpression_1</name>
@@ -148,13 +148,17 @@ public class $context.className$ extends AbstractUpdateFeature {
 			}
 		} else {
 			if (pe.getGraphicsAlgorithm() instanceof AbstractText) {
+				ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
 				AbstractText t = (AbstractText) pe.getGraphicsAlgorithm();
-				$context.elCode$
-				String formatString = Graphiti.getPeService().getPropertyValue(t, $context.graphModelName$GraphitiUtils.KEY_FORMAT_STRING);
 				try {
+					Thread.currentThread().setContextClassLoader($context.className$.class.getClassLoader());
+					$context.elCode$
+					String formatString = Graphiti.getPeService().getPropertyValue(t, $context.graphModelName$GraphitiUtils.KEY_FORMAT_STRING);
 					t.setValue(String.format(formatString $context.formatParameter$));
 				} catch (java.util.IllegalFormatException ife) {
 					t.setValue(&quot;STRING FORMAT ERROR&quot;);
+				} finally {
+					Thread.currentThread().setContextClassLoader(contextClassLoader);
 				}
 			}
 		}
@@ -177,12 +181,18 @@ public class $context.className$ extends AbstractUpdateFeature {
 		} else {
 			Object o = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
 			if (pe.getGraphicsAlgorithm() instanceof AbstractText &amp;&amp; $context.meIdentifier$.equals(o)) {
-				AbstractText t = (AbstractText) pe.getGraphicsAlgorithm();
-				$context.elCode$
-				String formatString = Graphiti.getPeService().getPropertyValue(t, $context.graphModelName$GraphitiUtils.KEY_FORMAT_STRING);
-				String oldVal = String.format(formatString $context.formatParameter$);
-				String newVal = t.getValue();
-				return (!newVal.equals(oldVal));
+				ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
+				try {
+					Thread.currentThread().setContextClassLoader($context.className$.class.getClassLoader());
+					AbstractText t = (AbstractText) pe.getGraphicsAlgorithm();
+					$context.elCode$
+					String formatString = Graphiti.getPeService().getPropertyValue(t, $context.graphModelName$GraphitiUtils.KEY_FORMAT_STRING);
+					String oldVal = String.format(formatString $context.formatParameter$);
+					String newVal = t.getValue();
+					return (!newVal.equals(oldVal));
+				} finally {
+					Thread.currentThread().setContextClassLoader(contextClassLoader);
+				}
 			}
 		}
 		return false;
