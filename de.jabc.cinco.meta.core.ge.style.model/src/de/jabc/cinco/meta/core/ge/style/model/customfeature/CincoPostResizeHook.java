@@ -14,9 +14,9 @@ public abstract class CincoPostResizeHook<T extends CModelElement> {
 	 * {@link org.eclipse.graphiti.features.context.IResizeShapeContext.DIRECTION_NORTH}, ...
 	 * {@link org.eclipse.graphiti.features.context.IResizeShapeContext.DIRECTION_NORTH_WEST}, ... 
 	 * {@link org.eclipse.graphiti.features.context.IResizeShapeContext.DIRECTION_UNSPECIFIED}
-	 * @param widht The new width
+	 * @param width The new width
 	 * @param height The new height
 	 */
-	public abstract void postResize(T cModelElement, int direction, int widht, int height);
+	public abstract void postResize(T cModelElement, int direction, int width, int height);
 	
 }
