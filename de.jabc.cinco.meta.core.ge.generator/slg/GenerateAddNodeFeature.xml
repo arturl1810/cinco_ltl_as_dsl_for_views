@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>7def08b0-45b0-4f5d-9629-657ab3028508</id>
   <name>GenerateAddNodeFeature</name>
-  <changecounter>1785</changecounter>
+  <changecounter>1790</changecounter>
   <sib>
     <id>b89523ed-9916-4f61-a5e9-9e1d8838a845</id>
     <name>PutExpression_1</name>
@@ -166,8 +166,6 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
 		linkAllShapes($context.rootShapeName$, $context.meIdentifier$);
 		//link($context.rootShapeName$, $context.meIdentifier$);
 
-		for (Shape _s : linkingList)
-			link(_s,$context.meIdentifier$);
 
 		if (context.getWidth() != -1 &amp;&amp; context.getHeight() != -1)  {
 			ResizeShapeContext rc = new ResizeShapeContext(Shape0);
@@ -602,10 +600,8 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
 
 		$context.graphicalRep$
 
-		link($context.rootShapeName$, $context.meIdentifier$);
-		for (Shape _s : linkingList)
-			link(_s,$context.meIdentifier$);
-
+		linkAllShapes($context.rootShapeName$, $context.meIdentifier$);
+	
 		if (context.getWidth() != -1 &amp;&amp; context.getHeight() != -1)  {
 			ResizeShapeContext rc = new ResizeShapeContext(Shape0);
 			rc.setWidth(context.getWidth());
@@ -657,6 +653,12 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
 		if ($context.cincoErrorCheckOk$)
 			$context.cincoErrorMaxCardinality$
 		return false;
+	}
+	
+	private void linkAllShapes(Shape s, EObject eObject) {
+		link(s, eObject);
+		if (s instanceof ContainerShape)
+			((ContainerShape) s).getChildren().forEach(c -&gt; linkAllShapes(c, eObject));
 	}
 
 	$context.cincoErrorGetSet$
