@@ -487,10 +487,12 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener{
 					return element.getClass().getSimpleName()
 							.replace("Impl", "");
 				
-				
-				EObject eContainer = ((EObject) element).eContainer();
+				EObject eObject = (EObject) element;
+				EObject eContainer = eObject.eContainer();
+
 				for (EReference ref : eContainer.eClass().getEAllReferences()) {
-					if (ref.getEType().isInstance(element) && ref != null) {
+					Object value = eContainer.eGet(ref, true);
+					if (eObject.equals(value)) {
 						return ref.getName();
 					}
 				}
