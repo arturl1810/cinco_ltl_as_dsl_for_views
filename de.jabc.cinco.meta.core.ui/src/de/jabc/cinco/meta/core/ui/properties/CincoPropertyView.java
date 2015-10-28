@@ -95,6 +95,8 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener{
 	private static Set<EStructuralFeature> multiLineAttributes = new HashSet<EStructuralFeature>();
 	private static Set<EStructuralFeature> readOnlyAttributes = new HashSet<EStructuralFeature>();
 	
+	private static Set<ISelectionListener> registeredListeners = new HashSet<ISelectionListener>();
+	
 	private Composite parent;
 	private Composite simpleViewComposite;
 	private TreeViewer treeViewer;
@@ -137,6 +139,13 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener{
 			EObject bo = getBusinessObject(pe);
 			init_PropertyView(bo, parent);
 		}
+	}
+	
+	public static void addSelectionListener(ISelectionListener listener) {
+		if (registeredListeners.contains(listener))
+			return;
+		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().addSelectionListener(listener);
+		registeredListeners.add(listener);
 	}
 	
 	public static void init_EStructuralFeatures(Class<? extends EObject> clazz,
@@ -558,6 +567,8 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener{
 	public void dispose() {
 		super.dispose();
 		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().removeSelectionListener(this);
+		registeredListeners.forEach(l -> PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().removeSelectionListener(l));
+		registeredListeners.clear();
 	}
 	
 	public boolean isStructuredSelection(ISelection selection) {

@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>ede0f2a5-2d64-419a-a377-4de364aed9a1</id>
   <name>GenerateGraphmodelWrapper</name>
-  <changecounter>287</changecounter>
+  <changecounter>291</changecounter>
   <sib>
     <id>961ec5c2-d49b-4f47-b506-1d2f2c25fd26</id>
     <name>RunStringTemplate</name>
@@ -100,7 +100,7 @@ public class $graphModelName$Wrapper {
 		return retval;
 	}
 
-	public static $apiPkgName$.$apiPrefix$$graphModelName$ wrapGraphModel(GraphModel sg, Diagram d) throws Exception {
+	public static $apiPkgName$.$apiPrefix$$graphModelName$ wrapGraphModel(GraphModel sg, Diagram d) {
 		$apiPkgName$.$apiPrefix$$graphModelName$ gsg = $apiPkgName$.$gFactoryName$.eINSTANCE.create$apiPrefix$$graphModelName$();
 		dtp = $fqnGraphitiUi$.getExtensionManager().createDiagramTypeProvider(d, DTP_ID);
 		map = new HashMap&lt;&gt;();
@@ -124,7 +124,7 @@ public class $graphModelName$Wrapper {
 		return gsg;
 	}
 	
-	private static CNode wrap(Node n) throws Exception {
+	private static CNode wrap(Node n){
 		CNode gNode = null;
 		
 		if (map.get(n) != null)
@@ -153,7 +153,7 @@ public class $graphModelName$Wrapper {
 		return gNode;
 	}
 	
-	private static CNode wrap(Container c) throws Exception {
+	private static CNode wrap(Container c) {
 		CContainer gCont = null;
 		
 		if (map.get(c) != null)
@@ -180,7 +180,7 @@ public class $graphModelName$Wrapper {
 		return gCont;
 	}
 	
-	private static CEdge wrap(Edge e) throws Exception {
+	private static CEdge wrap(Edge e) {
 		CEdge gEdge = null;
 		if (map.get(e) != null)
 			return (CEdge) map.get(e);
@@ -198,11 +198,11 @@ public class $graphModelName$Wrapper {
 		return gEdge;
 	}
 	
-	private static PictogramElement getPictogramElement(ModelElement me) throws Exception {
+	private static PictogramElement getPictogramElement(ModelElement me) {
 		List&lt;PictogramElement&gt; pes = 
 				GraphitiUi.getLinkService().getPictogramElements(dtp.getDiagram(), me);
 		if (pes == null || pes.isEmpty()) {
-			throw new Exception(&quot;No pictogram element for: &quot; + me);
+			throw new RuntimeException(&quot;No pictogram element for: &quot; + me);
 		}
 		else return pes.get(0);
 	}

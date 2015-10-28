@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>2190f1aa-18e0-42fc-8098-06e689be2e65</id>
   <name>Generate_APIOperations_GraphModel1</name>
-  <changecounter>731</changecounter>
+  <changecounter>796</changecounter>
   <sib>
     <id>4c75f6b0-160f-414c-8c57-527e808d5a6f</id>
     <name>IsNodeContained</name>
@@ -783,7 +783,7 @@ return false;
     <label>Generate_Documentation</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>1514.0,631.0</position>
+    <position>1514.0,751.0</position>
     <parameter name="eOperationKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -810,9 +810,9 @@ Deletes the given modelElement from the $graphModelName$ and the diagram
   </sib>
   <edge>
     <source>e80c9372-d170-45a8-b4eb-1c088956bff3</source>
-    <target>43ac3b31-32bb-4c80-8de4-6d66f4a48d63</target>
-    <point>1590.0,660.0</point>
-    <point>1590.0,555.0</point>
+    <target>2cb1fcc4-180e-49aa-be02-10ac25f7556e</target>
+    <point>1577.2340425531916,751.0</point>
+    <point>1511.3207547169811,641.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -822,7 +822,7 @@ Deletes the given modelElement from the $graphModelName$ and the diagram
     <label>GetEClassifierByName</label>
     <sib-uid>utility-sibs/GetEClassifierByName</sib-uid>
     <taxonomy>transem.utility.sib.GetEClassifierByName</taxonomy>
-    <position>1522.0,483.0</position>
+    <position>1522.0,288.0</position>
     <parameter name="eClassifierKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -857,8 +857,8 @@ Deletes the given modelElement from the $graphModelName$ and the diagram
   <edge>
     <source>43ac3b31-32bb-4c80-8de4-6d66f4a48d63</source>
     <target>aaf72474-f0d0-4231-9767-5e2ad4700784</target>
-    <point>1590.0,555.0</point>
-    <point>1590.0,450.0</point>
+    <point>1605.0,450.0</point>
+    <point>1605.0,330.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -868,7 +868,7 @@ Deletes the given modelElement from the $graphModelName$ and the diagram
     <label>Create getNode</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>1541.5,361.0</position>
+    <position>1541.5,166.0</position>
     <parameter name="eClassKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -918,16 +918,16 @@ return retval;</string>
   <edge>
     <source>aaf72474-f0d0-4231-9767-5e2ad4700784</source>
     <target>19b30d24-7390-4eab-9107-92bf88b7c9d1</target>
-    <point>1590.0,450.0</point>
-    <point>1590.0,315.0</point>
+    <point>1605.0,330.0</point>
+    <point>1605.0,210.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
     <source>19b30d24-7390-4eab-9107-92bf88b7c9d1</source>
     <target>d544991e-073a-4b50-b61b-df0e6bacc5fd</target>
-    <point>1590.0,315.0</point>
-    <point>1590.0,150.0</point>
+    <point>1605.0,210.0</point>
+    <point>1605.0,90.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -937,7 +937,7 @@ return retval;</string>
     <label>CreateParametersForEOperation</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>1481.5,121.0</position>
+    <position>1691.5,61.0</position>
     <parameter name="map">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -996,7 +996,7 @@ return retval;</string>
     <label>PutDynamicLinkedMap</label>
     <sib-uid>ge-util-sibs/PutDynamicLinkedMap</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.PutDynamicLinkedMap</taxonomy>
-    <position>1523.5,243.0</position>
+    <position>1523.5,63.0</position>
     <parameter name="elements">
       <linked-hash-map>
         <entry>
@@ -1621,6 +1621,150 @@ $fqnDeleteFeature$ df = provider.getDeleteFeature(dc);
     <point>735.0,273.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>next</branch>
+  </edge>
+  <sib>
+    <id>2cb1fcc4-180e-49aa-be02-10ac25f7556e</id>
+    <name>GraphSIB_2</name>
+    <label>Create Higlight</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>1544.0,616.0</position>
+    <parameter name="eClassKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>graphModelClass</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="eOperatiobUpperBound">
+      <int>1</int>
+    </parameter>
+    <parameter name="eOperationLowerBound">
+      <int>0</int>
+    </parameter>
+    <parameter name="eOperationNameKey">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>highlight</expression>
+          <clazz>java.lang.String</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="eOperationeTypeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key></key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>false</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>java.util.List&lt;$fqnPictogramElement$&gt; pes = new java.util.ArrayList&lt;$fqnPictogramElement$&gt;();
+for (graphicalgraphmodel.CModelElement cme : elements) {
+	pes.add(cme.getPictogramElement());
+}
+$fqnIDiagramBehavior$ diagramBehavior = $fqnGraphitiUtils$.getInstance().getDTP().getDiagramBehavior();
+if (diagramBehavior instanceof $fqnDiagramBehavior$) {
+	$fqnDiagramBehavior$ db = ($fqnDiagramBehavior$) diagramBehavior;
+	$fqnPictogramElement$[] selected = diagramBehavior.getDiagramContainer().getSelectedPictogramElements();
+	$fqnPictogramElement$[] select = pes.toArray(new $fqnPictogramElement$[pes.size()]);
+	java.util.Set&lt;$fqnPictogramElement$&gt; lastSelected = new java.util.HashSet&lt;$fqnPictogramElement$&gt;();
+	java.util.Set&lt;$fqnPictogramElement$&gt; toSelect = new java.util.HashSet&lt;$fqnPictogramElement$&gt;();
+	lastSelected.addAll(java.util.Arrays.asList(selected));
+	toSelect.addAll(java.util.Arrays.asList(select));
+	for ($fqnPictogramElement$ pe : select) {
+		if (!lastSelected.contains(pe)) {
+			diagramBehavior.getDiagramContainer().selectPictogramElements(select);
+			break;
+		}
+	}
+}</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Create EOperation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>54940845-a071-43d3-98e5-4b0a7418569d</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>2cb1fcc4-180e-49aa-be02-10ac25f7556e</source>
+    <target>af078c56-a129-49d3-8089-0b770865ca6e</target>
+    <point>1570.0,602.7142857142857</point>
+    <point>1501.578947368421,534.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>af078c56-a129-49d3-8089-0b770865ca6e</id>
+    <name>PutDynamicLinkedMap_4</name>
+    <label>PutDynamicLinkedMap</label>
+    <sib-uid>ge-util-sibs/PutDynamicLinkedMap</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.PutDynamicLinkedMap</taxonomy>
+    <position>1523.5,498.0</position>
+    <parameter name="elements">
+      <linked-hash-map>
+        <entry>
+          <string>elements</string>
+          <string>abstractModelElementClass</string>
+        </entry>
+      </linked-hash-map>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>parameters</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>af078c56-a129-49d3-8089-0b770865ca6e</source>
+    <target>632b4273-dc49-4a6c-8ba3-b0a6b02c7bcc</target>
+    <point>1608.0,520.5272727272727</point>
+    <point>1735.0,439.8181818181818</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>632b4273-dc49-4a6c-8ba3-b0a6b02c7bcc</id>
+    <name>GraphSIB_26</name>
+    <label>CreateParametersForEOperation</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>1493.0,391.0</position>
+    <parameter name="map">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>parameters</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>CreateParametersListForEOperation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>f8161f75-1d30-408d-aaf0-e9e1e30225c2</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>632b4273-dc49-4a6c-8ba3-b0a6b02c7bcc</source>
+    <target>43ac3b31-32bb-4c80-8de4-6d66f4a48d63</target>
+    <point>1590.0,435.0</point>
+    <point>1595.0,306.0</point>
+    <branch>default</branch>
   </edge>
   <values/>
   <branch>

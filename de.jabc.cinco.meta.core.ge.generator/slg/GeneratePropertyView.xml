@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>bdb3d94b-23ae-447b-8e05-302a8e6e8657</id>
   <name>GeneratePropertyView</name>
-  <changecounter>1070</changecounter>
+  <changecounter>1102</changecounter>
   <edge>
     <source>0a7b2d2c-a9c5-4f86-a466-a87bd91f0b67</source>
     <target>70edcd98-92b7-4fcd-9c04-a1b8187883a2</target>
@@ -346,7 +346,7 @@
     <label>WriteJavaFile</label>
     <sib-uid>genesys-sibs/WriteJavaFile</sib-uid>
     <taxonomy>de.jabc.sib.genesys.WriteJavaFile</taxonomy>
-    <position>238.0,1023.0</position>
+    <position>238.0,933.0</position>
     <parameter name="baseDirectory">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -403,8 +403,8 @@
   <edge>
     <source>0e346088-d574-4c8d-a76c-f16d30a6fbef</source>
     <target>30944167-b8b3-4a60-93ca-645bf2b156e0</target>
-    <point>105.0,1050.0</point>
-    <point>285.0,1050.0</point>
+    <point>105.0,960.0</point>
+    <point>285.0,960.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -414,7 +414,7 @@
     <label>viewPart</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>77.0,1023.0</position>
+    <position>77.0,933.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -457,9 +457,15 @@ import org.eclipse.ui.IWorkbenchPart;
 public class $graphModelName$View implements ISelectionListener {
 
 	private PictogramElement lastSelected;
+	private static ISelectionListener listener;
 
 	public static void initEStructuralFeatureInformation(){
-		
+
+		if (listener == null) {
+			listener = new $graphModelName$View();
+			CincoPropertyView.addSelectionListener(listener);
+		}
+
 		$structuralFeatureInitContent$
 
 		CincoPropertyView.init_MultiLineAttributes(new EStructuralFeature[] {
@@ -480,10 +486,15 @@ public class $graphModelName$View implements ISelectionListener {
 			if (element instanceof GraphicalEditPart)
 				pe = getPictogramElement(element);
 			
-			if (pe instanceof ConnectionDecorator &amp;&amp; !pe.equals(lastSelected)) {
-				Connection connection = ((ConnectionDecorator) pe).getConnection();
-				if ($graphModelName$GraphitiUtils.getInstance().getDTP().getDiagramBehavior() instanceof DiagramBehavior) {
-					DiagramBehavior db = (DiagramBehavior) $graphModelName$GraphitiUtils.getInstance().getDTP().getDiagramBehavior();
+			if ($graphModelName$GraphitiUtils.getInstance().getDTP().getDiagramBehavior() instanceof DiagramBehavior) {
+				DiagramBehavior db = (DiagramBehavior) $graphModelName$GraphitiUtils.getInstance().getDTP().getDiagramBehavior();		
+				EObject bo = getBusinessObject(pe);
+			
+				$postSelectContent$
+
+				if (pe instanceof ConnectionDecorator &amp;&amp; !pe.equals(lastSelected)) {
+					Connection connection = ((ConnectionDecorator) pe).getConnection();
+				
 					lastSelected = pe;
 					db.getDiagramContainer().selectPictogramElements(new PictogramElement[] {
 						pe, connection
@@ -491,8 +502,6 @@ public class $graphModelName$View implements ISelectionListener {
 				}
 			}
 			lastSelected = pe;
-
-			EObject bo = getBusinessObject(pe);
 		}
 		
 	}
@@ -593,9 +602,9 @@ public class $graphModelName$View implements ISelectionListener {
   </edge>
   <edge>
     <source>eca4241b-845e-4693-ab91-c230c14a8709</source>
-    <target>0e346088-d574-4c8d-a76c-f16d30a6fbef</target>
-    <point>106.66666666666667,759.0</point>
-    <point>133.23529411764707,1038.0</point>
+    <target>8707d41c-23d7-40c5-ad3d-19b756460e99</target>
+    <point>116.25,759.0</point>
+    <point>180.71428571428572,856.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>exit</branch>
     <branch>noElements</branch>
@@ -1035,6 +1044,29 @@ public class $graphModelName$View implements ISelectionListener {
     <target>203a7dc6-16bc-424e-85c2-015299d50371</target>
     <point>840.0,750.0</point>
     <point>582.0,859.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>8707d41c-23d7-40c5-ad3d-19b756460e99</id>
+    <name>GraphSIB</name>
+    <label>GetPostSelectContent</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>39.0,826.0</position>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>GetPostSelectContent</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>2d906cb2-2886-41f9-8018-a0fd96c0a728</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>8707d41c-23d7-40c5-ad3d-19b756460e99</source>
+    <target>0e346088-d574-4c8d-a76c-f16d30a6fbef</target>
+    <point>105.0,840.0</point>
+    <point>107.0,940.0</point>
     <branch>default</branch>
   </edge>
   <values/>

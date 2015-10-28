@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>682624bb-37b0-43b6-8bd5-4da09ee871bd</id>
   <name>CreateParametersForEOperation1</name>
-  <changecounter>149</changecounter>
+  <changecounter>152</changecounter>
   <sib>
     <id>e956fc5f-6187-472e-99d5-dda07a471f4f</id>
     <name>PutExpression</name>
@@ -273,39 +273,10 @@
   </sib>
   <edge>
     <source>abbefd04-296b-42c9-af03-9867f5a2f732</source>
-    <target>96806189-4946-476d-865a-df4b461185a5</target>
-    <point>168.0,426.51428571428573</point>
-    <point>447.0,426.51428571428573</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
-  <sib>
-    <id>96806189-4946-476d-865a-df4b461185a5</id>
-    <name>PrintConsoleMessage</name>
-    <label>PrintConsoleMessage</label>
-    <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
-    <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
-    <position>399.5,408.0</position>
-    <parameter name="error">
-      <boolean>true</boolean>
-    </parameter>
-    <parameter name="message">
-      <de.metaframe.common.sib.parameter.ContextExpression>
-        <ContextExpressionFoundation>
-          <expression>MAP: ${parameters}
-TYPE: ${parameterType.key}</expression>
-          <clazz>java.lang.Object</clazz>
-          <classMutable>false</classMutable>
-        </ContextExpressionFoundation>
-      </de.metaframe.common.sib.parameter.ContextExpression>
-    </parameter>
-    <finalbranches>default</finalbranches>
-  </sib>
-  <edge>
-    <source>96806189-4946-476d-865a-df4b461185a5</source>
     <target>a5239dc8-598d-4770-98b0-0f537419b3fb</target>
-    <point>465.0,435.0</point>
-    <point>130.0,558.0</point>
+    <point>150.0,444.0</point>
+    <point>150.0,543.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <parameter>

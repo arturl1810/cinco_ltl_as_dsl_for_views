@@ -122,6 +122,15 @@
       <node-annotation
             recognized-annotation="postResize">
       </node-annotation>
+      <nodecontainer-annotation
+            recognized-annotation="postSelect">
+      </nodecontainer-annotation>
+      <edge-annotation
+            recognized-annotation="postSelect">
+      </edge-annotation>
+      <node-annotation
+            recognized-annotation="postSelect">
+      </node-annotation>
    </extension>
 
 </fragment>
