@@ -187,7 +187,7 @@
 									<groupId>de.jabc.plugin.transem</groupId>
 									<artifactId>utility-sibs</artifactId>
 									<classifier>adapters</classifier>
-									<version>1.0</version>
+									<version>1.1</version>
 									<type>jar</type>
 								</artifactItem>
 								<artifactItem>

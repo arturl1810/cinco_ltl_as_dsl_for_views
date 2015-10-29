@@ -9,6 +9,8 @@ import org.eclipse.xtext.scoping.IScope
 import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider
 import org.eclipse.emf.ecore.EObject
 import mgl.Import
+import mgl.ReferencedEClass
+import mgl.ReferencedModelElement
 
 /**
  * This class contains custom scoping description.
@@ -20,8 +22,12 @@ import mgl.Import
 class MGLScopeProvider extends AbstractDeclarativeScopeProvider {
 	
 	def IScope scope_ReferencedAttribute_feature(ReferencedAttribute attr, EReference ref){
-		
-		val scope = getScope(attr.referencedType.type,ref)
+		var scope = null as IScope
+		if(attr.referencedType instanceof ReferencedEClass)
+			scope = getScope((attr.referencedType as ReferencedEClass).type,ref)
+		else
+			scope = getScope((attr.referencedType as ReferencedModelElement).type,ref)
+			
 		return scope
 	}
 	

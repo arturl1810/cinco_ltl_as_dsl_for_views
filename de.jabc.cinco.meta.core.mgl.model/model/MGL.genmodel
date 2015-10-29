@@ -17,7 +17,6 @@
     <genClasses ecoreClass="MGL.ecore#//GraphModel">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MGL.ecore#//GraphModel/edges"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MGL.ecore#//GraphModel/nodes"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MGL.ecore#//GraphModel/nodeContainers"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGL.ecore#//GraphModel/package"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGL.ecore#//GraphModel/nsURI"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MGL.ecore#//GraphModel/submodels"/>
@@ -40,7 +39,8 @@
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference MGL.ecore#//Node/graphModel"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGL.ecore#//Node/executable"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGL.ecore#//Node/generatable"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MGL.ecore#//Node/primeReference"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MGL.ecore#//Node/parameters"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MGL.ecore#//Node/primeReference"/>
     </genClasses>
     <genClasses image="false" ecoreClass="MGL.ecore#//ModelElement">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MGL.ecore#//ModelElement/attributes"/>
@@ -55,12 +55,10 @@
     <genClasses ecoreClass="MGL.ecore#//DataFlowInformation">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MGL.ecore#//DataFlowInformation/extends"/>
     </genClasses>
-    <genClasses ecoreClass="MGL.ecore#//NodeContainer">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MGL.ecore#//NodeContainer/extends"/>
-      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference MGL.ecore#//NodeContainer/graphModel"/>
-    </genClasses>
+    <genClasses ecoreClass="MGL.ecore#//NodeContainer"/>
     <genClasses ecoreClass="MGL.ecore#//Import">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGL.ecore#//Import/importURI"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGL.ecore#//Import/name"/>
     </genClasses>
     <genClasses ecoreClass="MGL.ecore#//Attribute">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGL.ecore#//Attribute/name"/>
@@ -86,21 +84,29 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGL.ecore#//Annotation/value"/>
     </genClasses>
     <genClasses ecoreClass="MGL.ecore#//ReferencedType">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MGL.ecore#//ReferencedType/type"/>
+      <genTypeParameters ecoreTypeParameter="MGL.ecore#//ReferencedType/T"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGL.ecore#//ReferencedType/importURI"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MGL.ecore#//ReferencedType/copiedAttributes"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGL.ecore#//ReferencedType/name"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MGL.ecore#//ReferencedType/imprt"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MGL.ecore#//ReferencedType/type"/>
     </genClasses>
+    <genClasses image="false" ecoreClass="MGL.ecore#//ReferencedModelElement"/>
+    <genClasses image="false" ecoreClass="MGL.ecore#//ReferencedEClass"/>
     <genClasses image="false" ecoreClass="MGL.ecore#//GraphicalModelElement">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MGL.ecore#//GraphicalModelElement/containment"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MGL.ecore#//GraphicalModelElement/incomingEdgeConnections"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MGL.ecore#//GraphicalModelElement/outgoingEdgeConnections"/>
     </genClasses>
     <genClasses ecoreClass="MGL.ecore#//ReferencedAttribute">
+      <genTypeParameters ecoreTypeParameter="MGL.ecore#//ReferencedAttribute/T"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGL.ecore#//ReferencedAttribute/name"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MGL.ecore#//ReferencedAttribute/feature"/>
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference MGL.ecore#//ReferencedAttribute/referencedType"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGL.ecore#//ReferencedAttribute/parameter"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MGL.ecore#//ReferencedAttribute/feature"/>
     </genClasses>
+    <genClasses ecoreClass="MGL.ecore#//ReferencedEStructuralFeature"/>
+    <genClasses ecoreClass="MGL.ecore#//ReferencedMGLAttribute"/>
     <genClasses ecoreClass="MGL.ecore#//GraphicalElementContainment">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MGL.ecore#//GraphicalElementContainment/types"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGL.ecore#//GraphicalElementContainment/upperBound"/>
@@ -125,6 +131,13 @@
     </genClasses>
     <genClasses ecoreClass="MGL.ecore#//OutgoingEdgeElementConnection">
       <genFeatures property="None" createChild="false" ecoreFeature="ecore:EReference MGL.ecore#//OutgoingEdgeElementConnection/connectedElement"/>
+    </genClasses>
+    <genClasses ecoreClass="MGL.ecore#//PrimeParameters">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MGL.ecore#//PrimeParameters/names"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MGL.ecore#//PrimeParameters/types"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="MGL.ecore#//Parameterizable">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGL.ecore#//Parameterizable/parameterized"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

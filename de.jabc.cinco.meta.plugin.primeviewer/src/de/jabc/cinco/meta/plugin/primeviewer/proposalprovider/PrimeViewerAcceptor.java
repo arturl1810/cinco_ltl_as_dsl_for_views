@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import mgl.Annotation;
+import mgl.Attribute;
+import mgl.ReferencedEClass;
+import mgl.ReferencedModelElement;
 import mgl.ReferencedType;
 
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -21,8 +24,14 @@ public class PrimeViewerAcceptor implements IMetaPluginAcceptor {
 		ArrayList<String> aList = new ArrayList<>();
 		if(annotation.getName().equals("pvLabel")){
 			ReferencedType rType = ((ReferencedType)annotation.getParent());
-			for(EStructuralFeature feature: rType.getType().getEAllStructuralFeatures()){
-				aList.add(feature.getName());
+			if(rType instanceof ReferencedEClass){
+				for(EStructuralFeature feature: ((ReferencedEClass) rType).getType().getEAllStructuralFeatures()){
+					aList.add(feature.getName());
+				}
+			}else if(rType instanceof ReferencedModelElement){
+				for(Attribute feature: ((ReferencedModelElement) rType).getType().getAttributes()){
+					aList.add(feature.getName());
+				}
 			}
 		}
 		

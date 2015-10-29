@@ -25,6 +25,7 @@ import mgl.ModelElement
 import mgl.Node
 import mgl.NodeContainer
 import mgl.OutgoingEdgeElementConnection
+import mgl.ReferencedEClass
 import mgl.ReferencedType
 import mgl.Type
 import mgl.UserDefinedType
@@ -270,9 +271,6 @@ class MGLValidator extends AbstractMGLValidator {
 				if(!(attr.modelElement instanceof Node)){
 					error("Instance Attribute Only allowed on Nodes",MglPackage.Literals::ATTRIBUTE__INSTANCE_ATTRIBUTE)
 				}
-				if((attr.modelElement as Node).primeReference==null){
-					error("Prime Reference must be set for Instance Attribute",MglPackage.Literals::ATTRIBUTE__INSTANCE_ATTRIBUTE)
-				}
 			}
 		}
 		
@@ -397,7 +395,7 @@ class MGLValidator extends AbstractMGLValidator {
 		}
 	}
 	@Check
-	def checkCanResolveEClass(ReferencedType ref){
+	def checkCanResolveEClass(ReferencedEClass ref){
 		var eclass = ref.type
 		
 		
@@ -483,7 +481,7 @@ class MGLValidator extends AbstractMGLValidator {
 		var currentNode = node
 		while(currentNode.extends!=null){
 			currentNode = currentNode.extends
-			if(!currentNode.isIsAbstract && currentNode.primeReference!=null)
+			if(!currentNode.isIsAbstract && (currentNode instanceof ReferencedType))
 				error(String::format("Node %s inherits from non abstract prime node %s",node.name,currentNode.name),MglPackage.Literals::NODE__EXTENDS)
 		}
 	}

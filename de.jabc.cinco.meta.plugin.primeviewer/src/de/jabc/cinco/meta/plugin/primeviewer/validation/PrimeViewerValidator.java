@@ -1,5 +1,7 @@
 package de.jabc.cinco.meta.plugin.primeviewer.validation;
 import mgl.Annotation;
+import mgl.ReferencedEClass;
+import mgl.ReferencedModelElement;
 import mgl.ReferencedType;
 
 import org.eclipse.emf.ecore.EObject;
@@ -29,8 +31,15 @@ public class PrimeViewerValidator implements IMetaPluginValidator{
 
 				String value = anno.getValue().get(0);
 				ReferencedType refType = (ReferencedType)anno.getParent();
-				if(refType.getType().getEStructuralFeature(value)==null)
-					pair = new ErrorPair<String, EStructuralFeature>(String.format("%s ist not valid a Reference or Attribute of Prime Reference %s", value,refType.getName()), anno.eClass().getEStructuralFeature("value"));
+				if(refType instanceof ReferencedEClass){
+					if(((ReferencedEClass) refType).getType().getEStructuralFeature(value)==null){
+						pair = new ErrorPair<String, EStructuralFeature>(String.format("%s ist not a valid Reference or Attribute of Prime Reference %s", value,refType.getName()), anno.eClass().getEStructuralFeature("value"));
+					}
+				}else if(refType instanceof ReferencedModelElement){
+					if(!(((ReferencedModelElement) refType).getType().getAttributes().stream().anyMatch(e -> e.getName().equals(value)))){
+						pair = new ErrorPair<String, EStructuralFeature>(String.format("%s ist not a valid Attribute of Prime Reference %s", value,refType.getName()), anno.eClass().getEStructuralFeature("value"));
+					}
+				}
 			
 		}
 		
@@ -45,20 +54,21 @@ public class PrimeViewerValidator implements IMetaPluginValidator{
 		}
 	
 	return null;
-}
+	}
 	
 	@Override
 	public ErrorPair<String, EStructuralFeature> checkAll(EObject eObject) {
 		ErrorPair<String,EStructuralFeature> pair = null;
-		if(eObject instanceof Annotation){
+		if(eObject instanceof Annotation) {
 			if(((Annotation)eObject).getName().equals("pvLabel")){
 				pair = checkPVLabelContainsLabel((Annotation)eObject);
-				if(pair!=null)
+				if(pair!=null){
 					return pair;
-				
+				}
 				pair = checkPVLabelContainsValidLabel((Annotation)eObject);
-				if(pair!=null)
+				if(pair!=null){
 					return pair;
+				}
 			}else if(((Annotation)eObject).getName().equals("pvFileExtension")){
 				pair = checkPVFileExtensionValueSize((Annotation)eObject);
 				if(pair!=null)

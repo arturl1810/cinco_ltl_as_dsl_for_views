@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>d5531c11-ffc2-41e6-b1fd-4f08e1327b1f</id>
   <name>Generate Helper EOperations</name>
-  <changecounter>159</changecounter>
+  <changecounter>160</changecounter>
   <sib>
     <id>bc6448fd-1bc6-476c-8269-413c3a139651</id>
     <name>IterateNodeContainerContainableElements</name>
@@ -625,6 +625,9 @@
     <finalbranches>exit</finalbranches>
     <finalbranches>next</finalbranches>
     <finalbranches>noElements</finalbranches>
+    <userobject key="TRACER$BREAKPOINT">
+      <boolean>true</boolean>
+    </userobject>
   </sib>
   <edge>
     <source>d0df52c2-9e11-40c1-913c-3574134d38c6</source>
@@ -1559,7 +1562,7 @@ return new org.eclipse.emf.common.util.BasicEList&lt;Class&lt;? extends Node&gt;
     <label>GetAllSubTypes</label>
     <sib-uid>de/jabc/cinco/meta/core/mgl/sibs/GetAllSubTypes</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.mgl.sibs.GetAllSubTypes</taxonomy>
-    <position>621.0,858.0</position>
+    <position>606.0,933.0</position>
     <parameter name="modelElementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>

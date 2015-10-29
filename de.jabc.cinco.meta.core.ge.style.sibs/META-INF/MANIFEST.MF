@@ -15,5 +15,6 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Export-Package: de.jabc.cinco.meta.core.ge.style.sibs,de.jabc.cinco.me
  ta.core.ge.style.sibs.adapter,de.jabc.cinco.meta.core.ge.style.sibs.common
+Import-Package: de.metaframe.jabc.framework.execution.context
 
 

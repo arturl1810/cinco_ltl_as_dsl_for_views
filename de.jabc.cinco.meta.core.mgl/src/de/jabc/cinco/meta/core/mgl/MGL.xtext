@@ -126,7 +126,7 @@ GraphicalElementContainment returns GraphicalElementContainment:
 
 Import returns Import:
 	{Import}
-importURI=STRING
+importURI=STRING 'as' name=QName
 ;
 
 BoundValue returns ecore::EInt:
@@ -183,12 +183,26 @@ UserDefinedType returns UserDefinedType:
 ;
 
 ReferencedType returns ReferencedType:
-	{ReferencedType}
+	ReferencedEClass|ReferencedModelElement
+;
+
+ReferencedEClass returns ReferencedEClass:
 	(annotations+=Annotation)*
-	'prime' type=[ecore::EClass|QName] 'as' name=EString
-	(copiedAttributes+=ReferencedAttribute)*
+	'prime' imprt=[Import|QName]'::'type=[ecore::EClass|QName] 'as' name=EString
+	(copiedAttributes+=ReferencedEStructuralFeature)*
+;
+
+ReferencedModelElement returns ReferencedModelElement:
+	'prime' ('this'|imprt=[Import|QName])'.'type=[ModelElement|QName] 'as' name=EString
+	(copiedAttributes+=ReferencedMGLAttribute)*
 ;
 
 ReferencedAttribute returns ReferencedAttribute:
-	(parameter?='primeParam'|'primeAttr') feature=[ecore::EStructuralFeature|QName] 'as' name=EString
+	ReferencedMGLAttribute| ReferencedEStructuralFeature
+;
+ReferencedEStructuralFeature returns ReferencedEStructuralFeature:
+		(parameter?='primeparam'|'primeattr') feature=[ecore::EStructuralFeature|QName] 'as' name=EString
+;
+ReferencedMGLAttribute returns ReferencedMGLAttribute:
+	'primeattr' feature=[Attribute|QName] 'as' name=EString
 ;
