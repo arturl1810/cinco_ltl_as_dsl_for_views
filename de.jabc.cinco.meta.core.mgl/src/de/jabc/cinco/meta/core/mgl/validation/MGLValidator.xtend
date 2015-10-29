@@ -35,8 +35,6 @@ import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.EcorePackage
 import org.eclipse.xtext.EcoreUtil2
 import org.eclipse.xtext.validation.Check
-import java.util.ArrayList
-import mgl.ReferencedEClass
 
 /**
  * Custom validation rules. 
