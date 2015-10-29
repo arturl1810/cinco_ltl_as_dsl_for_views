@@ -11,14 +11,14 @@ import de.metaframe.jabc.sib.ServiceAdapterDescriptor;
 public class CreateDummyGraphModel extends AbstractSIB {
 
 	public static final String[] BRANCHES = {Branches.DEFAULT, Branches.ERROR};
-
+	public boolean dawid = false;
 	@Override
 	public String trace(ExecutionEnvironment ee) {
 		return execute(new LightweightExecutionEnvironmentAdapter(ee));
 	}
 
 	public String execute(LightweightExecutionEnvironmentAdapter env) {
-		return new ServiceAdapter().createDummyGraphModel(env);
+		return new ServiceAdapter().createDummyGraphModel(env,dawid);
 	}
 	
 	@Override

@@ -1,5 +1,7 @@
 package de.jabc.cinco.meta.core.utils.dummycreator;
 
+import java.util.Arrays;
+
 import org.eclipse.emf.common.util.BasicEList;
 
 import style.AbsolutPosition;
@@ -20,6 +22,7 @@ import style.StyleFactory;
 import style.Styles;
 import mgl.Annotation;
 import mgl.Attribute;
+import mgl.ContainingElement;
 import mgl.Edge;
 import mgl.GraphModel;
 import mgl.GraphicalElementContainment;
@@ -71,7 +74,8 @@ public class DummyGenerator {
 //		GraphModel gm = MglFactory.eINSTANCE.createGraphModel();
 //		setGraphModelAttributes(gm);
 //
-//		Node n1 = createNode("Start");
+	//	Node n1 = createNode("Start");
+	//	Node n2 = createNode("Stop");
 //		n1.getAttributes().add(createAttribute("EString", "label", 1, 0));
 //		n1.getAnnotations().add(createStyleAnnotation("circle"));
 //		
@@ -101,11 +105,11 @@ public class DummyGenerator {
 		
 		
 //		ReferencedEClass n2 = createRefEClass("ExtNode");
-//		n2.getAnnotations().add(createStyleAnnotation("rrect"));
 		
-//		NodeContainer c1 = createContainer("Swimlane");
-//		c1.getContainableElements().add(createGEC(-1, 0, n1, /*n2,*/ c1));
-//		c1.getAnnotations().add(createStyleAnnotation("rect"));
+		
+		//NodeContainer c1 = createContainer("Swimlane");
+		//c1.getContainableElements().add(createGEC(-1, 0, n1, n2, c1));
+		
 		
 //		n2.getIncomingEdgeConnections().add(createIEEC(-1, 0, e1));
 //		n2.getOutgoingEdgeConnections().add(createOEEC(-1, 0, e1));
@@ -121,14 +125,23 @@ public class DummyGenerator {
 		gm.setPackage("blub.package");
 		Edge transition = createEdge("Transition");
 		Node someNode = createNode("SomeNode");
+		Node someOtherNode = createNode("SomeOtherNode");
+		NodeContainer someNodeContainer = createContainer("SomeContainer");
 		someNode.getAttributes().add(createAttribute("EString", "label", -1,0));
 		someNode.getIncomingEdgeConnections().add(createIEEC(-1, 0, transition));
 		someNode.getOutgoingEdgeConnections().add(createOEEC(-1, 0, transition));
 		//someNode.getAnnotations().add(createStyleAnnotation("ffjfjf"));
 		//transition.getAnnotations().add(createStyleAnnotation("ffjfjf"));
 		//gm.getAnnotations().add(createStyleAnnotation("ffjfjf"));
+		someNodeContainer.getContainableElements().add(createGEC(-1, 0, someNode));
+		someNodeContainer.getContainableElements().add(createGEC(3, 0, someOtherNode));
 		gm.getNodes().add(someNode);
+		gm.getNodes().add(someOtherNode);
 		gm.getEdges().add(transition);
+		gm.getNodes().add(someNodeContainer);
+		
+	
+		
 		return prepareGraphModel(gm);
 	}
 	
@@ -348,8 +361,44 @@ public class DummyGenerator {
 			}
 		}
 		
+		if(graphModel.getContainableElements()==null||graphModel.getContainableElements().isEmpty()){
+			addNodes(graphModel,0,-1,graphModel.getNodes().toArray(new Node[graphModel.getNodes().size()]));
+			
+		}else{
+			for(GraphicalElementContainment gec:graphModel.getContainableElements()){
+				if(gec.getTypes().isEmpty()&&gec.getUpperBound()>0||gec.getUpperBound()<0){
+					addNodes(graphModel,0,-1,graphModel.getNodes().toArray(new Node[graphModel.getNodes().size()]));
+					break;
+				}
+			}
+		}
+		for(Node n: graphModel.getNodes()){
+			if(n instanceof NodeContainer){
+				NodeContainer nc = (NodeContainer)n;
+				if(nc.getContainableElements().isEmpty()){
+					addNodes(nc,0,-1,graphModel.getNodes().toArray(new Node[graphModel.getNodes().size()]));
+				}else{
+					for(GraphicalElementContainment gec:nc.getContainableElements()){
+						if(gec.getTypes().isEmpty()&&gec.getUpperBound()>0||gec.getUpperBound()<0){
+							addNodes(nc,0,-1,graphModel.getNodes().toArray(new Node[graphModel.getNodes().size()]));
+							break;
+						}
+					}
+				}
+			}
+		}
+		
 		return graphModel;
 		
+		
+	}
+	
+	private static void addNodes(ContainingElement ce,int lower, int upper, Node...nodes){
+		GraphicalElementContainment gec = MglFactory.eINSTANCE.createGraphicalElementContainment();
+		gec.setLowerBound(lower);
+		gec.setUpperBound(upper);
+		gec.getTypes().addAll(Arrays.asList(nodes));
+		ce.getContainableElements().add(gec);
 		
 	}
 }
