@@ -9,10 +9,16 @@ import de.metaframe.jabc.framework.execution.context.DefaultLightweightExecution
 import de.metaframe.jabc.framework.execution.context.LightweightExecutionContext
 import java.io.ByteArrayOutputStream
 import java.util.ArrayList
+import java.util.Arrays
 import java.util.HashMap
 import java.util.Set
+import mgl.ContainingElement
 import mgl.GraphModel
+import mgl.GraphicalElementContainment
 import mgl.GraphicalModelElement
+import mgl.MglFactory
+import mgl.Node
+import mgl.NodeContainer
 import org.eclipse.core.internal.runtime.InternalPlatform
 import org.eclipse.core.resources.ResourcesPlugin
 import org.eclipse.core.runtime.Path
@@ -162,9 +168,42 @@ class MGLGenerator implements IGenerator {
 				}
 			}
 		}
+		if(graphModel.containableElements.nullOrEmpty){
+			addNodes(graphModel,0,-1,graphModel.nodes);
+		}else{
+			findWildcard(graphModel,graphModel)
+		}
+		
+		for(nc:graphModel.nodes.filter(NodeContainer)){
+			if(nc.containableElements.nullOrEmpty){
+			addNodes(nc,0,-1,graphModel.nodes);
+		}else{
+			findWildcard(nc,graphModel)
+		}
+		}
 		
 		return graphModel
 		
+		
+	}
+	
+	def findWildcard(ContainingElement ce,GraphModel graphModel) {
+		for(gec:ce.containableElements){
+			if(gec.types.nullOrEmpty&&gec.upperBound!=0){
+				addNodes(ce,0,-1,graphModel.nodes);
+				return
+			}
+		}
+	}
+	
+	
+	
+	def addNodes(ContainingElement ce,int lower, int upper, Node...nodes){
+		var gec = MglFactory.eINSTANCE.createGraphicalElementContainment;
+		gec.setLowerBound(lower);
+		gec.setUpperBound(upper);
+		gec.getTypes().addAll(Arrays.asList(nodes));
+		ce.getContainableElements().add(gec);
 		
 	}
 	
