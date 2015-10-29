@@ -2,6 +2,7 @@ package de.jabc.cinco.meta.core.utils.dummycreator;
 
 import java.util.Arrays;
 
+
 import org.eclipse.emf.common.util.BasicEList;
 
 import style.AbsolutPosition;
@@ -69,6 +70,7 @@ public class DummyGenerator {
 		
 		return gm;
 	}
+
 	
 	public static GraphModel createDummyGraphModel() {
 //		GraphModel gm = MglFactory.eINSTANCE.createGraphModel();
@@ -346,6 +348,8 @@ public class DummyGenerator {
 		BasicEList<GraphicalModelElement> connectableElements = new BasicEList<GraphicalModelElement>();
 		
 		connectableElements.addAll(graphModel.getNodes());
+
+
 		for(GraphicalModelElement elem:connectableElements){
 			for(IncomingEdgeElementConnection connect:elem.getIncomingEdgeConnections()){
 				if(connect.getConnectingEdges()==null||connect.getConnectingEdges().isEmpty()){
@@ -361,6 +365,7 @@ public class DummyGenerator {
 			}
 		}
 		
+
 		if(graphModel.getContainableElements()==null||graphModel.getContainableElements().isEmpty()){
 			addNodes(graphModel,0,-1,graphModel.getNodes().toArray(new Node[graphModel.getNodes().size()]));
 			
@@ -388,6 +393,7 @@ public class DummyGenerator {
 			}
 		}
 		
+
 		return graphModel;
 		
 		
@@ -401,4 +407,5 @@ public class DummyGenerator {
 		ce.getContainableElements().add(gec);
 		
 	}
+
 }
