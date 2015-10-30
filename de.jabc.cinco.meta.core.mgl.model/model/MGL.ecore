@@ -118,6 +118,7 @@
     </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ReferencedModelElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="local" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eGenericSuperTypes eClassifier="#//ReferencedType">
       <eTypeArguments eClassifier="#//ModelElement"/>
     </eGenericSuperTypes>

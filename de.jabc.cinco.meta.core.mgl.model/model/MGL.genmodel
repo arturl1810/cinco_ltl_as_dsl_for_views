@@ -91,7 +91,9 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MGL.ecore#//ReferencedType/imprt"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MGL.ecore#//ReferencedType/type"/>
     </genClasses>
-    <genClasses image="false" ecoreClass="MGL.ecore#//ReferencedModelElement"/>
+    <genClasses image="false" ecoreClass="MGL.ecore#//ReferencedModelElement">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGL.ecore#//ReferencedModelElement/local"/>
+    </genClasses>
     <genClasses image="false" ecoreClass="MGL.ecore#//ReferencedEClass"/>
     <genClasses image="false" ecoreClass="MGL.ecore#//GraphicalModelElement">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MGL.ecore#//GraphicalModelElement/containment"/>
