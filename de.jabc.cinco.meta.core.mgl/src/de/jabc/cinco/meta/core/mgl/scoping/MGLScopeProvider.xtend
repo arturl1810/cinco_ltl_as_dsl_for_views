@@ -4,13 +4,26 @@
 package de.jabc.cinco.meta.core.mgl.scoping
 
 import mgl.ReferencedAttribute
-import org.eclipse.emf.ecore.EReference
-import org.eclipse.xtext.scoping.IScope
-import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider
-import org.eclipse.emf.ecore.EObject
-import mgl.Import
 import mgl.ReferencedEClass
 import mgl.ReferencedModelElement
+import org.eclipse.emf.ecore.EReference
+import org.eclipse.xtext.scoping.IScope
+import org.eclipse.xtext.scoping.Scopes
+import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider
+import org.eclipse.emf.ecore.EClass
+import mgl.ReferencedType
+import mgl.ModelElement
+import mgl.GraphModel
+import com.sun.prism.ResourceFactory
+import org.eclipse.emf.ecore.resource.ResourceSet
+import org.eclipse.emf.ecore.resource.Resource
+import mgl.impl.ReferencedModelElementImpl
+import mgl.impl.ReferencedEClassImpl
+import org.eclipse.emf.common.util.URI
+import java.util.List
+import mgl.Type
+import java.util.Collection
+import java.util.ArrayList
 
 /**
  * This class contains custom scoping description.
@@ -23,12 +36,64 @@ class MGLScopeProvider extends AbstractDeclarativeScopeProvider {
 	
 	def IScope scope_ReferencedAttribute_feature(ReferencedAttribute attr, EReference ref){
 		var scope = null as IScope
+		
+		
+		
 		if(attr.referencedType instanceof ReferencedEClass)
-			scope = getScope((attr.referencedType as ReferencedEClass).type,ref)
+			scope = Scopes.scopeFor((attr.referencedType as ReferencedEClass).type.EAllStructuralFeatures)
 		else
-			scope = getScope((attr.referencedType as ReferencedModelElement).type,ref)
+			scope = Scopes.scopeFor((attr.referencedType as ReferencedModelElement).type.attributes)
 			
 		return scope
+	}
+	
+	def IScope scope_ReferencedEClass_type(ReferencedEClass refType,EReference ref){
+		var scope = null as IScope
+		val rSet = refType.eResource.resourceSet
+			val res = rSet.getResource(URI.createURI(refType.imprt.importURI),true)
+			if(res!=null){
+				scope = Scopes.scopeFor(res.allContents.toList.filter[d| d instanceof EClass])
+			}
+		
+		
+		return scope
+	}
+	
+	def IScope scope_ReferencedModelElement_type(ReferencedModelElement refType,EReference ref){
+ 		var scope = null as IScope
+			if(refType.local){
+				var me = refType.eContainer as ModelElement
+				var graphModel = me.graphModel
+				var types = new ArrayList<Type>()
+				types += graphModel.types.unmodifiableView + graphModel.nodes.unmodifiableView + graphModel.edges.unmodifiableView
+				types += graphModel
+				
+				scope = Scopes.scopeFor(types)
+			}else{
+				
+				val rSet = refType.eResource.resourceSet
+				val res = rSet.getResource(URI.createURI(refType.imprt.importURI),true)
+				if(res!=null){
+					scope = Scopes.scopeFor(res.allContents.toList.filter[d| d instanceof ModelElement])
+				}
+				//println("MGL FACTORY: "+mglFactory)
+			}
+		return scope
+	}
+	
+	def GraphModel getGraphModel(ModelElement element){
+		switch(element){
+			GraphModel: return element
+			default: return element.eContainer as GraphModel
+		}
+	}
+	
+	def IScope scope_ReferencedType_type(ReferencedType<?> refType,EReference ref){
+		if(refType instanceof ReferencedModelElement){
+			return scope_ReferencedModelElement_type(refType as ReferencedModelElement,ref)
+			}else{
+			return scope_ReferencedEClass_type(refType as ReferencedEClass,ref)
+		}
 	}
 	
 }

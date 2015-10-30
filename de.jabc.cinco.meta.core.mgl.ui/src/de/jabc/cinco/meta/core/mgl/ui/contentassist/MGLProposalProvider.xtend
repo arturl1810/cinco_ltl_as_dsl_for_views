@@ -16,6 +16,7 @@ import mgl.Edge
 import mgl.GraphModel
 import mgl.Node
 import mgl.NodeContainer
+import mgl.ReferencedModelElement
 import mgl.ReferencedType
 import mgl.UserDefinedType
 import org.eclipse.emf.ecore.EObject
@@ -25,6 +26,11 @@ import org.eclipse.xtext.RuleCall
 import org.eclipse.xtext.ui.editor.contentassist.ConfigurableCompletionProposal
 import org.eclipse.xtext.ui.editor.contentassist.ContentAssistContext
 import org.eclipse.xtext.ui.editor.contentassist.ICompletionProposalAcceptor
+import org.eclipse.emf.common.util.URI
+import mgl.ModelElement
+import mgl.Type
+import mgl.ReferencedEClass
+import org.eclipse.emf.ecore.EClass
 
 /**
  * see http://www.eclipse.org/Xtext/documentation/latest/xtext.html#contentAssist on how to customize content assistant
@@ -260,6 +266,41 @@ class MGLProposalProvider extends AbstractMGLProposalProvider {
 				}
 			}
 		}
+	}
+	
+	override completeReferencedModelElement_Type(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
+		val refType = model as ReferencedModelElement
+		if(refType.local){
+			var pNode = refType.eContainer as Node
+			val graphModel = pNode.graphModel
+			var types = new ArrayList<Type>()
+			types += graphModel.types.unmodifiableView + graphModel.nodes.unmodifiableView + graphModel.edges.unmodifiableView
+			types += graphModel
+			for(obj: types){
+				acceptor.accept(createCompletionProposal(obj.name,context))
+			}	
+		}else{
+			val rSet = refType.eResource.resourceSet
+			val res = rSet.getResource(URI.createURI(refType.imprt.importURI),true)
+			if(res!=null){
+				for(m: res.allContents.toList.filter[d| d instanceof ModelElement]){
+					acceptor.accept(createCompletionProposal((m as ModelElement).name,context))
+				}
+			}
+		}
+		//super.completeReferencedModelElement_Type(model,assignment,context,acceptor);
+	}
+	
+	override completeReferencedEClass_Type(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor){
+		val refType = model as ReferencedEClass
+		val rSet = refType.eResource.resourceSet
+			val res = rSet.getResource(URI.createURI(refType.imprt.importURI),true)
+			if(res!=null){
+				for(m: res.allContents.toList.filter[d| d instanceof EClass]){
+					acceptor.accept(createCompletionProposal((m as EClass).name,context))
+				}
+			}
+		
 	}
 	
 }

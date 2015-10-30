@@ -19,12 +19,6 @@ import de.jabc.cinco.meta.core.utils.PathValidator;
 
 public class MGLImportUriGlobalScopeProvider extends ImportUriGlobalScopeProvider {
 
-	@Override
-	protected IScope getScope(Resource resource, boolean ignoreCase,
-			EClass type, Predicate<IEObjectDescription> filter) {
-		IScope scope = super.getScope(resource, ignoreCase, type, filter);
-		return scope;
-	}
 	
 	@Override
 	protected LinkedHashSet<URI> getImportedUris(Resource resource) {
