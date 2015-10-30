@@ -188,12 +188,13 @@ ReferencedType returns ReferencedType:
 
 ReferencedEClass returns ReferencedEClass:
 	(annotations+=Annotation)*
-	'prime' imprt=[Import|QName]'::'type=[ecore::EClass|QName] 'as' name=EString
+	'prime' imprt=[Import|QName]'->'type=[ecore::EClass|QName] 'as' name=EString
 	(copiedAttributes+=ReferencedEStructuralFeature)*
 ;
 
 ReferencedModelElement returns ReferencedModelElement:
-	'prime' ('this'|imprt=[Import|QName])'.'type=[ModelElement|QName] 'as' name=EString
+	(annotations+=Annotation)*
+	'prime' (local?='this'|imprt=[Import|QName])'::'type=[ModelElement|QName] 'as' name=EString
 	(copiedAttributes+=ReferencedMGLAttribute)*
 ;
 
