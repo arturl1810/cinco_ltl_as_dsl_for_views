@@ -1,8 +1,17 @@
 package de.jabc.cinco.meta.plugin.primeviewer.validation;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.stream.Collectors;
+
 import mgl.Annotation;
+import mgl.GraphModel;
+import mgl.ModelElement;
+import mgl.Node;
+import mgl.Edge;
 import mgl.ReferencedEClass;
 import mgl.ReferencedModelElement;
 import mgl.ReferencedType;
+import mgl.UserDefinedType;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -36,7 +45,7 @@ public class PrimeViewerValidator implements IMetaPluginValidator{
 						pair = new ErrorPair<String, EStructuralFeature>(String.format("%s ist not a valid Reference or Attribute of Prime Reference %s", value,refType.getName()), anno.eClass().getEStructuralFeature("value"));
 					}
 				}else if(refType instanceof ReferencedModelElement){
-					if(!(((ReferencedModelElement) refType).getType().getAttributes().stream().anyMatch(e -> e.getName().equals(value)))){
+					if(!(getAllAttributes(((ReferencedModelElement) refType).getType()).stream().anyMatch(e -> e.equals(value)))){
 						pair = new ErrorPair<String, EStructuralFeature>(String.format("%s ist not a valid Attribute of Prime Reference %s", value,refType.getName()), anno.eClass().getEStructuralFeature("value"));
 					}
 				}
@@ -46,6 +55,25 @@ public class PrimeViewerValidator implements IMetaPluginValidator{
 		return pair;
 	}
 	
+	private Collection<String> getAllAttributes(ModelElement type) {
+		ArrayList<String> attributes = new ArrayList<>();
+		ModelElement current = type;
+		while(current!=null){
+			attributes.addAll(current.getAttributes().stream().map(attr -> attr.getName()).collect(Collectors.toList()));
+			current=getExtends(current);
+		}
+		return attributes;
+	}
+	private ModelElement getExtends(ModelElement type) {
+		if(type instanceof GraphModel){
+			return ((GraphModel)type).getExtends();
+		}else if(type instanceof Node){
+			return ((Node)type).getExtends();
+		}else if(type instanceof Edge){
+			return ((Edge)type).getExtends();
+		}
+		return null;
+	}
 	public ErrorPair<String,EStructuralFeature> checkPVFileExtensionValueSize(final Annotation anno){
 		
 		if(anno.getValue()==null||anno.getValue().size()!=1){
