@@ -24,6 +24,10 @@ import java.util.List
 import mgl.Type
 import java.util.Collection
 import java.util.ArrayList
+import org.eclipse.emf.ecore.plugin.EcorePlugin
+import org.eclipse.core.runtime.Platform
+import org.eclipse.core.resources.ResourcesPlugin
+import java.net.URL
 
 /**
  * This class contains custom scoping description.
@@ -50,7 +54,13 @@ class MGLScopeProvider extends AbstractDeclarativeScopeProvider {
 	def IScope scope_ReferencedEClass_type(ReferencedEClass refType,EReference ref){
 		var scope = null as IScope
 		val rSet = refType.eResource.resourceSet
-			val res = rSet.getResource(URI.createURI(refType.imprt.importURI),true)
+			var res = null as Resource
+				try{
+					loadResource(refType.imprt.importURI)
+					res = rSet.getResource(URI.createURI(refType.imprt.importURI),true)
+				}catch(Exception e){
+					return null;
+				}
 			if(res!=null){
 				scope = Scopes.scopeFor(res.allContents.toList.filter[d| d instanceof EClass])
 			}
@@ -72,7 +82,14 @@ class MGLScopeProvider extends AbstractDeclarativeScopeProvider {
 			}else{
 				
 				val rSet = refType.eResource.resourceSet
-				val res = rSet.getResource(URI.createURI(refType.imprt.importURI),true)
+				var res = null as Resource
+				try{
+					loadResource(refType.imprt.importURI)
+					res = rSet.getResource(URI.createURI(refType.imprt.importURI),true)
+				}catch(Exception e){
+					return null;
+				}
+				
 				if(res!=null){
 					scope = Scopes.scopeFor(res.allContents.toList.filter[d| d instanceof ModelElement])
 				}
@@ -93,6 +110,16 @@ class MGLScopeProvider extends AbstractDeclarativeScopeProvider {
 			return scope_ReferencedModelElement_type(refType as ReferencedModelElement,ref)
 			}else{
 			return scope_ReferencedEClass_type(refType as ReferencedEClass,ref)
+		}
+	}
+	
+	def loadResource(String uri){
+		try{
+			var url = new URL(uri);
+			return url.openConnection.inputStream
+		
+		}catch(Exception e){
+			throw new RuntimeException(e);
 		}
 	}
 	

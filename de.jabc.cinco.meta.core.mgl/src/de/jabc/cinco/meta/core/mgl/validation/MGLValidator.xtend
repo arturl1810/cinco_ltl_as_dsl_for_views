@@ -35,6 +35,7 @@ import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.EcorePackage
 import org.eclipse.xtext.EcoreUtil2
 import org.eclipse.xtext.validation.Check
+import org.eclipse.emf.ecore.plugin.EcorePlugin
 
 /**
  * Custom validation rules. 
@@ -696,11 +697,18 @@ class MGLValidator extends AbstractMGLValidator {
 		
 	}
 	
+	
+	
 	def <T extends ContainingElement> T getContainingSuperType(T modelElement){
 		switch(modelElement){
 			GraphModel: (modelElement.extends) as T
 			NodeContainer: (modelElement.extends) as T 
 		} 
+	}
+	
+	@Check
+	def checkRightType(ReferencedType refType){
+		
 	}
 	
 	

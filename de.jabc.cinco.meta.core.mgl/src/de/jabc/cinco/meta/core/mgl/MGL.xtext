@@ -82,7 +82,7 @@ Node returns Node:
 	name=EString('extends' extends=[Node|EString])? 
 	'{'
 		( (attributes+=Attribute)*
-		& (primeReference=ReferencedType)?
+		& (primeReference=(ReferencedEClass|ReferencedModelElement))?
 		& ('incomingEdges' '(' incomingEdgeConnections+=IncomingEdgeElementConnection (',' incomingEdgeConnections+=IncomingEdgeElementConnection)*')')?
 		& ('outgoingEdges' '(' outgoingEdgeConnections+=OutgoingEdgeElementConnection (',' outgoingEdgeConnections+=OutgoingEdgeElementConnection)*')')?)
 		
@@ -101,7 +101,7 @@ NodeContainer returns NodeContainer:
 	name=EString ('extends' extends=[NodeContainer|EString])?
 	'{'
 		((attributes+=Attribute)*
-		& (primeReference=ReferencedType)?
+		& (primeReference=(ReferencedEClass|ReferencedModelElement))?
 		&('containableElements' '(' containableElements+=GraphicalElementContainment ( "," containableElements+=GraphicalElementContainment)* ')' )?
 		&('incomingEdges' '(' incomingEdgeConnections+=IncomingEdgeElementConnection (',' incomingEdgeConnections+=IncomingEdgeElementConnection)*')')?
 		&('outgoingEdges' '(' outgoingEdgeConnections+=OutgoingEdgeElementConnection (',' outgoingEdgeConnections+=OutgoingEdgeElementConnection)*')')?)
@@ -126,7 +126,7 @@ GraphicalElementContainment returns GraphicalElementContainment:
 
 Import returns Import:
 	{Import}
-importURI=STRING 'as' name=QName
+importURI=STRING 'as' name=ID
 ;
 
 BoundValue returns ecore::EInt:
@@ -188,7 +188,7 @@ ReferencedType returns ReferencedType:
 
 ReferencedEClass returns ReferencedEClass:
 	(annotations+=Annotation)*
-	'prime' imprt=[Import|QName]'->'type=[ecore::EClass|QName] 'as' name=EString
+	'prime' imprt=[Import|ID]'.'type=[ecore::EClass|ID] 'as' name=EString
 	(copiedAttributes+=ReferencedEStructuralFeature)*
 ;
 
