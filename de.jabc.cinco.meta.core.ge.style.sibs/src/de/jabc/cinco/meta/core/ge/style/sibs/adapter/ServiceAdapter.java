@@ -1,6 +1,5 @@
 package de.jabc.cinco.meta.core.ge.style.sibs.adapter;
 
-import graphmodel.Container;
 import graphmodel.GraphmodelPackage;
 
 import java.io.BufferedReader;
@@ -20,9 +19,6 @@ import java.util.Map.Entry;
 import java.util.jar.Manifest;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-
-import javax.xml.crypto.dsig.keyinfo.RetrievalMethod;
 
 import mgl.Annotation;
 import mgl.Attribute;
@@ -1730,6 +1726,40 @@ public class ServiceAdapter {
 			context.put("exception", e);
 			return Branches.ERROR;
 		}
+	}
+
+	public static String getNSUri(LightweightExecutionEnvironment env,
+			ContextKeyFoundation obj,
+			ContextKeyFoundation nsUri) {
+		
+		LightweightExecutionContext context = env.getLocalContext();
+		try {
+			Object object = context.get(obj);
+			String theUri = null;
+			
+			if (object instanceof GraphModel) {
+				GraphModel gm = (GraphModel) object;
+				theUri = gm.getNsURI();
+			}
+			if (object instanceof Node) {
+				theUri = ((Node) object).getGraphModel().getNsURI();
+			if (object instanceof Edge) 
+				theUri = ((Node) object).getGraphModel().getNsURI();
+			}
+			
+			if (object instanceof EClass) {
+				EClass eClass = (EClass) object;
+				theUri = eClass.getEPackage().getNsURI();
+			}
+			
+			context.put(nsUri, theUri);
+			
+			return Branches.DEFAULT;
+		} catch (Exception e) {
+			context.put("exception", e);
+			return Branches.ERROR;
+		}
+		
 	}
 	
 }

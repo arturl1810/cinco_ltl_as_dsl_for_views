@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>5f357517-18d4-4780-adc3-30879fedbfb1</id>
   <name>GenerateFeatureProvider</name>
-  <changecounter>856</changecounter>
+  <changecounter>863</changecounter>
   <sib>
     <id>23fb1326-f00d-4e42-845a-cdf6492fc417</id>
     <name>PutExpression</name>
@@ -898,9 +898,9 @@ public class $context.graphModelName$FeatureProvider extends DefaultFeatureProvi
   </edge>
   <edge>
     <source>4ab004b6-7137-49c5-8dbc-6939e4edc8c1</source>
-    <target>b094866c-d4c4-4d1b-8307-5cb9d64394e8</target>
-    <point>315.0,870.0</point>
-    <point>120.0,870.0</point>
+    <target>33c1838d-cca3-4900-914e-98696f13bb83</target>
+    <point>297.0,868.7538461538461</point>
+    <point>138.0,929.9076923076923</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -2086,6 +2086,41 @@ import $context.localPkgName$.features.reconnect.*;</string>
     <target>1dde31c6-2ac1-4499-b922-80d82b8475d3</target>
     <point>330.0,240.0</point>
     <point>121.0,424.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>33c1838d-cca3-4900-914e-98696f13bb83</id>
+    <name>GetNSUri</name>
+    <label>GetNSUri</label>
+    <sib-uid>ge-util-sibs/GetNSUri</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.GetNSUri</taxonomy>
+    <position>165.0,813.0</position>
+    <parameter name="nsUri">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>nsURI</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="object">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>primeRefType</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>33c1838d-cca3-4900-914e-98696f13bb83</source>
+    <target>523c383d-4c71-457a-9ac1-a95b491d8088</target>
+    <point>195.0,840.0</point>
+    <point>132.0,651.0</point>
     <branch>default</branch>
   </edge>
   <values/>

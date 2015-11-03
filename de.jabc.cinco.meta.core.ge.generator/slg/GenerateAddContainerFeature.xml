@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>c7542d87-aa25-4707-a286-db91e10d7301</id>
   <name>GenerateAddContainerFeature</name>
-  <changecounter>549</changecounter>
+  <changecounter>550</changecounter>
   <sib>
     <id>3f7b7312-5278-4d0a-b7f8-45424c587ca9</id>
     <name>GetNodeContainerIsAbstract</name>

@@ -1,12 +1,20 @@
 <serviceAdapters defaultAdapter="de.jabc.cinco.meta.core.ge.style.sibs.adapter.ServiceAdapter">
 	
+	<serviceAdapter uid="ge-util-sibs/GetNSUri">
+		<service>getNSUri</service>
+			<arguments>
+				<argument name="object" />
+				<argument name="nsUri" />
+			</arguments>
+	</serviceAdapter>
+	
 	<serviceAdapter uid="ge-util-sibs/IsELExpression">
-	<service>isELExpression</service>
-		<arguments>
-			<argument name="modelElement" />
-			<argument name="value" />
-			<argument name="attributeName" />
-		</arguments>
+		<service>isELExpression</service>
+			<arguments>
+				<argument name="modelElement" />
+				<argument name="value" />
+				<argument name="attributeName" />
+			</arguments>
 	</serviceAdapter>
 	
 	<serviceAdapter uid="ge-util-sibs/CreateDummyGraphModel">

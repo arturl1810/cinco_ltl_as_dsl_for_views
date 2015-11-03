@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>7def08b0-45b0-4f5d-9629-657ab3028508</id>
   <name>GenerateAddNodeFeature</name>
-  <changecounter>1794</changecounter>
+  <changecounter>1800</changecounter>
   <sib>
     <id>b89523ed-9916-4f61-a5e9-9e1d8838a845</id>
     <name>PutExpression_1</name>
@@ -741,9 +741,9 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
   </edge>
   <edge>
     <source>fa12da3c-2c28-417e-831f-57fda54abeb2</source>
-    <target>3262aaaf-e08c-491c-8140-df8f728aec66</target>
-    <point>507.0,769.0</point>
-    <point>732.0,769.0</point>
+    <target>36303ded-1e06-47a6-9ae1-5743e625e9a4</target>
+    <point>468.0,750.2823529411764</point>
+    <point>687.0,672.9882352941177</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -1382,6 +1382,41 @@ Leaving Generate ${nodeName} AddFeature </expression>
     <target>d04e9437-6455-480b-a850-660f91b82b09</target>
     <point>960.0,315.0</point>
     <point>816.0,231.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>36303ded-1e06-47a6-9ae1-5743e625e9a4</id>
+    <name>GetNSUri</name>
+    <label>GetNSUri</label>
+    <sib-uid>ge-util-sibs/GetNSUri</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.GetNSUri</taxonomy>
+    <position>645.0,678.0</position>
+    <parameter name="nsUri">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>nsURI</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="object">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>object</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>36303ded-1e06-47a6-9ae1-5743e625e9a4</source>
+    <target>a3fb0cb1-eed7-49d8-b374-904b3026f7bb</target>
+    <point>705.0,675.0</point>
+    <point>922.0,760.0</point>
     <branch>default</branch>
   </edge>
   <parameter>
