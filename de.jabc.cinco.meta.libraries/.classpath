@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
+	<classpathentry exported="true" kind="lib" path="lib/utility-sibs-1.1-adapters.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib_local/mcam_framework.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/commons-cli-1.2.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/freemarker-2.3.20.jar"/>
@@ -61,7 +62,6 @@
 	<classpathentry exported="true" kind="lib" path="lib/script-sibs-adapters-1.2.3.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/stringtemplate-3.2.jar"/>
 	<classpathentry kind="lib" path="lib/basic-sibs-adapters-1.6.3.jar"/>
-	<classpathentry kind="lib" path="lib/utility-sibs-1.0-adapters.jar"/>
 	<classpathentry kind="lib" path="lib/jabc4-basic-api-5.9.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
