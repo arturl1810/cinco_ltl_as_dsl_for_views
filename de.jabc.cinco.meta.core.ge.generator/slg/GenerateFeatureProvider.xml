@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>5f357517-18d4-4780-adc3-30879fedbfb1</id>
   <name>GenerateFeatureProvider</name>
-  <changecounter>856</changecounter>
+  <changecounter>866</changecounter>
   <sib>
     <id>23fb1326-f00d-4e42-845a-cdf6492fc417</id>
     <name>PutExpression</name>
@@ -70,9 +70,9 @@
   </sib>
   <edge>
     <source>23fb1326-f00d-4e42-845a-cdf6492fc417</source>
-    <target>17963108-b40d-4c2b-ab2d-ace6a4e941fb</target>
-    <point>90.0,45.0</point>
-    <point>495.0,45.0</point>
+    <target>f16abaeb-c960-4c51-99b2-00c0af6f613b</target>
+    <point>108.0,41.91428571428571</point>
+    <point>282.0,91.62857142857143</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -86,8 +86,8 @@
     <parameter name="collection">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>allNodes</key>
-          <scope>GLOBAL</scope>
+          <key>nodeList</key>
+          <scope>LOCAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
@@ -185,8 +185,8 @@
     <parameter name="collection">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>edges</key>
-          <scope>GLOBAL</scope>
+          <key>edgeList</key>
+          <scope>LOCAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
@@ -2086,6 +2086,50 @@ import $context.localPkgName$.features.reconnect.*;</string>
     <target>1dde31c6-2ac1-4499-b922-80d82b8475d3</target>
     <point>330.0,240.0</point>
     <point>121.0,424.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>f16abaeb-c960-4c51-99b2-00c0af6f613b</id>
+    <name>GetOrderedInheritanceLists</name>
+    <label>GetOrderedInheritanceLists</label>
+    <sib-uid>ge-util-sibs/GetOrderedInheritanceLists</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.GetOrderedInheritanceLists</taxonomy>
+    <position>217.5,18.0</position>
+    <parameter name="edgeInheritanceOrder">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>edgeList</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="graphModel">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>graphModel</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="nodeInheritanceOrder">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>nodeList</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>f16abaeb-c960-4c51-99b2-00c0af6f613b</source>
+    <target>17963108-b40d-4c2b-ab2d-ace6a4e941fb</target>
+    <point>300.0,45.0</point>
+    <point>493.0,30.0</point>
     <branch>default</branch>
   </edge>
   <values/>

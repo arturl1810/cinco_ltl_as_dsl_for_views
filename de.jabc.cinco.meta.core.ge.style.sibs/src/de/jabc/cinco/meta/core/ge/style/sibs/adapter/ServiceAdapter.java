@@ -1,6 +1,5 @@
 package de.jabc.cinco.meta.core.ge.style.sibs.adapter;
 
-import graphmodel.Container;
 import graphmodel.GraphmodelPackage;
 
 import java.io.BufferedReader;
@@ -16,13 +15,11 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeSet;
 import java.util.Map.Entry;
 import java.util.jar.Manifest;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-
-import javax.xml.crypto.dsig.keyinfo.RetrievalMethod;
 
 import mgl.Annotation;
 import mgl.Attribute;
@@ -50,6 +47,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
@@ -84,6 +82,7 @@ import style.VAlignment;
 import de.jabc.adapter.common.collection.Branches;
 import de.jabc.cinco.meta.core.utils.CincoUtils;
 import de.jabc.cinco.meta.core.utils.InheritanceUtil;
+import de.jabc.cinco.meta.core.utils.Inheritances;
 import de.jabc.cinco.meta.core.utils.PathValidator;
 import de.jabc.cinco.meta.core.utils.dummycreator.DummyGenerator;
 import de.metaframe.jabc.framework.execution.LightweightExecutionEnvironment;
@@ -102,7 +101,6 @@ public class ServiceAdapter {
 	private static Map<String, String> keywords = new HashMap<String, String>();
 	private static int appearanceCount = 0;
 	
-	private final static String ID_CONTAINER = "Containers";
 	private final static String ID_NODES = "Nodes";
 	
 	private final static String PLUGIN_FRAME = "<?xml version=\"1.0\" encoding=\""+System.getProperty("file.encoding")+"\"?>\n"
@@ -1730,6 +1728,40 @@ public class ServiceAdapter {
 			context.put("exception", e);
 			return Branches.ERROR;
 		}
+	}
+
+	public static String getOrderedInheritanceLists(
+			LightweightExecutionEnvironment env,
+			ContextKeyFoundation graphModel,
+			ContextKeyFoundation nodeList,
+			ContextKeyFoundation edgeList) {
+
+		LightweightExecutionContext context = env.getLocalContext();
+		try {
+			
+			GraphModel gm = (GraphModel) context.get(graphModel);
+			List<ModelElement> nodeInheritanceList = createInheritances(gm.getNodes());
+			List<ModelElement> edgeInheritanceList = createInheritances(gm.getEdges());
+			
+			context.put(nodeList, nodeInheritanceList);
+			context.put(edgeList, edgeInheritanceList);
+			
+			return Branches.DEFAULT;
+		} catch (Exception e) {
+			context.put("exception", e);
+			return Branches.ERROR;
+		}
+	}
+
+	private static List<ModelElement> createInheritances(EList<? extends ModelElement> mes) {
+		Inheritances i = new Inheritances();
+		for (ModelElement n : mes)
+			i.addElement(n);
+		i.printTrees();
+		List<ModelElement> inorderList = i.createList();
+		for (ModelElement me : inorderList)
+			System.out.print(me.getName() + " -> ");
+		return inorderList;
 	}
 	
 }

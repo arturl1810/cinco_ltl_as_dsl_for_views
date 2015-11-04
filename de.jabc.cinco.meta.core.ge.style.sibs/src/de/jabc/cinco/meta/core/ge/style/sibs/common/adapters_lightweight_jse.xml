@@ -1,7 +1,16 @@
 <serviceAdapters defaultAdapter="de.jabc.cinco.meta.core.ge.style.sibs.adapter.ServiceAdapter">
 	
+	<serviceAdapter uid="ge-util-sibs/GetOrderedInheritanceLists">
+		<service>getOrderedInheritanceLists</service>
+		<arguments>
+			<argument name="graphModel" />
+			<argument name="nodeInheritanceOrder" />
+			<argument name="edgeInheritanceOrder" />
+		</arguments>
+	</serviceAdapter>
+	
 	<serviceAdapter uid="ge-util-sibs/IsELExpression">
-	<service>isELExpression</service>
+		<service>isELExpression</service>
 		<arguments>
 			<argument name="modelElement" />
 			<argument name="value" />
