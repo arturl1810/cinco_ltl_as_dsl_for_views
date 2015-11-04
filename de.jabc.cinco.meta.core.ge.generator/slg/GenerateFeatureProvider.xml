@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>5f357517-18d4-4780-adc3-30879fedbfb1</id>
   <name>GenerateFeatureProvider</name>
-  <changecounter>866</changecounter>
+  <changecounter>872</changecounter>
   <sib>
     <id>23fb1326-f00d-4e42-845a-cdf6492fc417</id>
     <name>PutExpression</name>
@@ -87,7 +87,7 @@
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
           <key>nodeList</key>
-          <scope>LOCAL</scope>
+          <scope>GLOBAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
@@ -186,7 +186,7 @@
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
           <key>edgeList</key>
-          <scope>LOCAL</scope>
+          <scope>GLOBAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
@@ -2099,7 +2099,7 @@ import $context.localPkgName$.features.reconnect.*;</string>
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
           <key>edgeList</key>
-          <scope>LOCAL</scope>
+          <scope>GLOBAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
@@ -2117,7 +2117,7 @@ import $context.localPkgName$.features.reconnect.*;</string>
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
           <key>nodeList</key>
-          <scope>LOCAL</scope>
+          <scope>GLOBAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
