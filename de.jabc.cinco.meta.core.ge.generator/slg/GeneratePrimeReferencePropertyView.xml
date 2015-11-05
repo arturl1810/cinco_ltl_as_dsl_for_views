@@ -2,35 +2,7 @@
 <model version="2.1">
   <id>7ce0cea2-f133-4819-a4df-6d0f1188d2ec</id>
   <name>GeneratePrimeReferencePropertyView</name>
-  <changecounter>294</changecounter>
-  <sib>
-    <id>a2cae63c-d9d7-4524-80b8-ad12b33b47d5</id>
-    <name>GetReferencedTypeType</name>
-    <label>GetReferencedTypeType</label>
-    <sib-uid>mgl/mgl/GetReferencedTypeType</sib-uid>
-    <taxonomy>de.jabc.cinco.meta.core.ge.sib.mgl.GetReferencedTypeType</taxonomy>
-    <position>37.5,108.0</position>
-    <parameter name="referencedTypeKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>primeReference</key>
-          <scope>DECLARED</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="referencedTypetypeKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>eClass</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-  </sib>
+  <changecounter>295</changecounter>
   <sib>
     <id>7b0c55f7-78fe-4023-af4b-63027f6a13f0</id>
     <name>GetReferencedTypeName</name>
@@ -60,7 +32,7 @@
     <finalbranches>error</finalbranches>
   </sib>
   <edge>
-    <source>a2cae63c-d9d7-4524-80b8-ad12b33b47d5</source>
+    <source>3ed29f5c-c061-4787-9817-0500e355b4fd</source>
     <target>7b0c55f7-78fe-4023-af4b-63027f6a13f0</target>
     <point>124.0,176.0</point>
     <point>124.0,281.0</point>
@@ -224,11 +196,11 @@
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>6231d795-be3b-4d23-82c4-44a04b1084a3</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>GenerateSingleEAttribute</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>6231d795-be3b-4d23-82c4-44a04b1084a3</string>
     </userobject>
   </sib>
   <edge>
@@ -535,7 +507,7 @@ public class $context.modelElementName$_$context.attributeName$_Section extends 
   </sib>
   <edge>
     <source>80ca2548-875d-46db-afd0-3a80471a9230</source>
-    <target>a2cae63c-d9d7-4524-80b8-ad12b33b47d5</target>
+    <target>3ed29f5c-c061-4787-9817-0500e355b4fd</target>
     <point>124.0,56.0</point>
     <point>124.0,176.0</point>
     <labelposition>500.0,0.0</labelposition>
@@ -988,6 +960,34 @@ public class $context.modelElementName$_$context.attributeName$_Section extends 
     <point>110.0,645.0</point>
     <branch>default</branch>
   </edge>
+  <sib>
+    <id>3ed29f5c-c061-4787-9817-0500e355b4fd</id>
+    <name>GetReferencedTypeType</name>
+    <label>GetReferencedTypeType</label>
+    <sib-uid>mgl/mgl/GetReferencedEClassType</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetReferencedEClassType</taxonomy>
+    <position>37.5,108.0</position>
+    <parameter name="referencedEClassKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>primeReference</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="referencedEClasstypeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>eClass</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
   <parameter>
     <name>referencedTypeKey</name>
     <field>sourceVariable</field>
@@ -1005,11 +1005,6 @@ public class $context.modelElementName$_$context.attributeName$_Section extends 
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </entry>
   </values>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>a2cae63c-d9d7-4524-80b8-ad12b33b47d5</sib>
-  </branch>
   <branch>
     <name>error</name>
     <branch>error</branch>
@@ -1124,5 +1119,10 @@ public class $context.modelElementName$_$context.attributeName$_Section extends 
     <name>exit</name>
     <branch>error</branch>
     <sib>127c60b2-d4e0-42cf-9d51-e37377945c2b</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>3ed29f5c-c061-4787-9817-0500e355b4fd</sib>
   </branch>
 </model>

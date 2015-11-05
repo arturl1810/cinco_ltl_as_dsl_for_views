@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>d6802b2b-5a87-491d-b16d-556c8a7d1d62</id>
   <name>Add Instance Attribute</name>
-  <changecounter>13</changecounter>
+  <changecounter>17</changecounter>
   <sib>
     <id>079336fa-9a4c-44c1-aa31-9736e8581be9</id>
     <name>NewEClassInEPackageEClassifiers</name>
@@ -368,11 +368,11 @@
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>95ba8afa-8ca1-4186-b10e-c69cc1da7332</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Create Reference With Opposite</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>95ba8afa-8ca1-4186-b10e-c69cc1da7332</string>
     </userobject>
   </sib>
   <sib>
@@ -506,44 +506,16 @@
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
   </sib>
-  <sib>
-    <id>361702d3-4fbc-473c-b940-8390aa00a7a2</id>
-    <name>GetReferencedTypeType</name>
-    <label>GetReferencedTypeType</label>
-    <sib-uid>mgl/mgl/GetReferencedTypeType</sib-uid>
-    <taxonomy>de.jabc.cinco.meta.core.mgl.sib.mgl.GetReferencedTypeType</taxonomy>
-    <position>247.5,168.0</position>
-    <parameter name="referencedTypeKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>nodeprimeReference</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="referencedTypetypeKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>nodeprimeReferenceType</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-  </sib>
   <edge>
     <source>ff920d6f-64e3-40f5-8ae5-b5bb1b76f754</source>
-    <target>361702d3-4fbc-473c-b940-8390aa00a7a2</target>
+    <target>1a58d12f-579b-4431-93a6-e6cbe1253cbe</target>
     <point>149.0,193.0</point>
     <point>314.0,193.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
-    <source>361702d3-4fbc-473c-b940-8390aa00a7a2</source>
+    <source>1a58d12f-579b-4431-93a6-e6cbe1253cbe</source>
     <target>4c79883a-b6f6-40e5-a6d0-848f2229b81e</target>
     <point>314.0,193.0</point>
     <point>524.0,193.0</point>
@@ -958,11 +930,11 @@
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>95ba8afa-8ca1-4186-b10e-c69cc1da7332</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>Create Reference With Opposite</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>95ba8afa-8ca1-4186-b10e-c69cc1da7332</string>
     </userobject>
   </sib>
   <edge>
@@ -972,6 +944,34 @@
     <point>1199.0,202.0</point>
     <branch>true</branch>
   </edge>
+  <sib>
+    <id>1a58d12f-579b-4431-93a6-e6cbe1253cbe</id>
+    <name>GetReferencedTypeType</name>
+    <label>GetReferencedTypeType</label>
+    <sib-uid>mgl/mgl/GetReferencedEClassType</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetReferencedEClassType</taxonomy>
+    <position>247.5,168.0</position>
+    <parameter name="referencedEClassKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>nodeprimeReference</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="referencedEClasstypeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>nodeprimeReferenceType</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
   <parameter>
     <name>attributeKey</name>
     <field>attributeKey</field>
@@ -1009,20 +1009,20 @@
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </entry>
     <entry>
-      <string>containingClassKey</string>
+      <string>modelElement</string>
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>containerClass</key>
+          <key>nodeKey</key>
           <scope>GLOBAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </entry>
     <entry>
-      <string>modelElement</string>
+      <string>containingClassKey</string>
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>nodeKey</key>
+          <key>containerClass</key>
           <scope>GLOBAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
@@ -1038,11 +1038,6 @@
     <name>error</name>
     <branch>error</branch>
     <sib>ff920d6f-64e3-40f5-8ae5-b5bb1b76f754</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>361702d3-4fbc-473c-b940-8390aa00a7a2</sib>
   </branch>
   <branch>
     <name>error</name>
@@ -1178,5 +1173,10 @@
     <name>error</name>
     <branch>noElements</branch>
     <sib>4c79883a-b6f6-40e5-a6d0-848f2229b81e</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>1a58d12f-579b-4431-93a6-e6cbe1253cbe</sib>
   </branch>
 </model>

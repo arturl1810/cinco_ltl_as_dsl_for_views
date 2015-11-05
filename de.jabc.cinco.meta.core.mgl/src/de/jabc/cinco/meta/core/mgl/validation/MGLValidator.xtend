@@ -406,7 +406,7 @@ class MGLValidator extends AbstractMGLValidator {
 				var EObject obj
 				ref.type = EcoreUtil2::resolve(eclass,obj) as EClass
 			}catch(Exception e){
-				error("Cannot resolve EClass: "+eclass,MglPackage.Literals::REFERENCED_TYPE__TYPE)
+				error("Cannot resolve EClass: "+eclass,MglPackage.Literals::REFERENCED_ECLASS__TYPE)
 			}
 			
 		}

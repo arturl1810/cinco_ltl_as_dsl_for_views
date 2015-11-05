@@ -15,7 +15,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="imports" upperBound="-1"
         eType="#//Import" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="types" upperBound="-1"
-        eType="#//Type" containment="true"/>
+        eType="#//Type" containment="true" eOpposite="#//Type/typesOpposite"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="iconPath" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="fileExtension" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
@@ -38,11 +38,8 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="generatable" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="parameters" eType="#//PrimeParameters"
         containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="primeReference" containment="true">
-      <eGenericType eClassifier="#//ReferencedType">
-        <eTypeArguments/>
-      </eGenericType>
-    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="primeReference" eType="#//ReferencedType"
+        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ModelElement" abstract="true" eSuperTypes="#//Type #//Parameterizable">
     <eStructuralFeatures xsi:type="ecore:EReference" name="attributes" upperBound="-1"
@@ -92,6 +89,8 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Type" abstract="true" eSuperTypes="#//Annotatable">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="typesOpposite" eType="#//GraphModel"
+        eOpposite="#//GraphModel/types"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="UserDefinedType" eSuperTypes="#//ModelElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="Annotation">
@@ -102,7 +101,6 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ReferencedType" abstract="true" eSuperTypes="#//Annotatable">
-    <eTypeParameters name="T"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="importURI" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="copiedAttributes" upperBound="-1"
         containment="true" eOpposite="#//ReferencedAttribute/referencedType">
@@ -113,20 +111,13 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
         defaultValueLiteral="prime"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="imprt" eType="#//Import"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="type">
-      <eGenericType eTypeParameter="#//ReferencedType/T"/>
-    </eStructuralFeatures>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ReferencedModelElement">
+  <eClassifiers xsi:type="ecore:EClass" name="ReferencedModelElement" eSuperTypes="#//ReferencedType">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="local" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
-    <eGenericSuperTypes eClassifier="#//ReferencedType">
-      <eTypeArguments eClassifier="#//ModelElement"/>
-    </eGenericSuperTypes>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="#//ModelElement"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ReferencedEClass">
-    <eGenericSuperTypes eClassifier="#//ReferencedType">
-      <eTypeArguments eClassifier="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EClass"/>
-    </eGenericSuperTypes>
+  <eClassifiers xsi:type="ecore:EClass" name="ReferencedEClass" eSuperTypes="#//ReferencedType">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EClass"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="GraphicalModelElement" abstract="true"
       eSuperTypes="#//ModelElement">
@@ -143,11 +134,7 @@
     <eTypeParameters name="T"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="referencedType" lowerBound="1"
-        eOpposite="#//ReferencedType/copiedAttributes">
-      <eGenericType eClassifier="#//ReferencedType">
-        <eTypeArguments/>
-      </eGenericType>
-    </eStructuralFeatures>
+        eType="#//ReferencedType" eOpposite="#//ReferencedType/copiedAttributes"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="parameter" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="feature">
       <eGenericType eTypeParameter="#//ReferencedAttribute/T"/>

@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>c6d3a171-4a7c-4363-ab9c-c7be2786983b</id>
   <name>GeneratePluginXML</name>
-  <changecounter>493</changecounter>
+  <changecounter>494</changecounter>
   <sib>
     <id>b9acf74f-0e4c-4f93-80c7-e3f218bfc27e</id>
     <name>RunStringTemplate</name>
@@ -323,45 +323,17 @@
   </edge>
   <edge>
     <source>59a615d8-79df-4a4b-9438-48d9610d9108</source>
-    <target>508806ca-cfdb-4f1f-8a13-83e648100ccb</target>
-    <point>258.0,333.0</point>
-    <point>423.0,333.0</point>
+    <target>ce423ca3-3336-4ee8-8a84-d5b5811adcf3</target>
+    <point>273.0,313.8</point>
+    <point>477.0,224.55</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>true</branch>
   </edge>
-  <sib>
-    <id>508806ca-cfdb-4f1f-8a13-83e648100ccb</id>
-    <name>GetReferencedTypeType</name>
-    <label>GetReferencedTypeType</label>
-    <sib-uid>mgl/mgl/GetReferencedTypeType</sib-uid>
-    <taxonomy>de.jabc.cinco.meta.core.ge.sib.mgl.GetReferencedTypeType</taxonomy>
-    <position>337.5,303.0</position>
-    <parameter name="referencedTypeKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>primeRef</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="referencedTypetypeKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>eClass</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-  </sib>
   <edge>
-    <source>508806ca-cfdb-4f1f-8a13-83e648100ccb</source>
+    <source>ce423ca3-3336-4ee8-8a84-d5b5811adcf3</source>
     <target>1c0326a3-5213-4cc4-8278-183a97bf249c</target>
-    <point>423.0,333.0</point>
-    <point>423.0,498.0</point>
+    <point>490.16129032258067,234.0</point>
+    <point>425.17241379310343,468.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -1706,6 +1678,34 @@
     <labelposition>301.0,-26.0</labelposition>
     <branch>true</branch>
   </edge>
+  <sib>
+    <id>ce423ca3-3336-4ee8-8a84-d5b5811adcf3</id>
+    <name>GetReferencedEClassType</name>
+    <label>GetReferencedEClassType</label>
+    <sib-uid>mgl/mgl/GetReferencedEClassType</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetReferencedEClassType</taxonomy>
+    <position>331.5,303.0</position>
+    <parameter name="referencedEClassKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>primeRef</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="referencedEClasstypeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>eClass</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
   <values/>
   <branch>
     <name>error</name>
@@ -1746,11 +1746,6 @@
     <name>error</name>
     <branch>error</branch>
     <sib>0a0ec469-1ed9-4d7d-a5a9-4b8b65fc6908</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>508806ca-cfdb-4f1f-8a13-83e648100ccb</sib>
   </branch>
   <branch>
     <name>error</name>
@@ -1851,5 +1846,10 @@
     <name>error</name>
     <branch>error</branch>
     <sib>1c0326a3-5213-4cc4-8278-183a97bf249c</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>ce423ca3-3336-4ee8-8a84-d5b5811adcf3</sib>
   </branch>
 </model>

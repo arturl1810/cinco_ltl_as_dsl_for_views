@@ -76,6 +76,7 @@
     </genClasses>
     <genClasses image="false" ecoreClass="MGL.ecore#//Type">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGL.ecore#//Type/name"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference MGL.ecore#//Type/typesOpposite"/>
     </genClasses>
     <genClasses ecoreClass="MGL.ecore#//UserDefinedType"/>
     <genClasses ecoreClass="MGL.ecore#//Annotation">
@@ -84,17 +85,18 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGL.ecore#//Annotation/value"/>
     </genClasses>
     <genClasses ecoreClass="MGL.ecore#//ReferencedType">
-      <genTypeParameters ecoreTypeParameter="MGL.ecore#//ReferencedType/T"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGL.ecore#//ReferencedType/importURI"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MGL.ecore#//ReferencedType/copiedAttributes"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGL.ecore#//ReferencedType/name"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MGL.ecore#//ReferencedType/imprt"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MGL.ecore#//ReferencedType/type"/>
     </genClasses>
     <genClasses image="false" ecoreClass="MGL.ecore#//ReferencedModelElement">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGL.ecore#//ReferencedModelElement/local"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MGL.ecore#//ReferencedModelElement/type"/>
     </genClasses>
-    <genClasses image="false" ecoreClass="MGL.ecore#//ReferencedEClass"/>
+    <genClasses image="false" ecoreClass="MGL.ecore#//ReferencedEClass">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MGL.ecore#//ReferencedEClass/type"/>
+    </genClasses>
     <genClasses image="false" ecoreClass="MGL.ecore#//GraphicalModelElement">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MGL.ecore#//GraphicalModelElement/containment"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MGL.ecore#//GraphicalModelElement/incomingEdgeConnections"/>

@@ -105,7 +105,7 @@ class MGLScopeProvider extends AbstractDeclarativeScopeProvider {
 		}
 	}
 	
-	def IScope scope_ReferencedType_type(ReferencedType<?> refType,EReference ref){
+	def IScope scope_ReferencedType_type(ReferencedType refType,EReference ref){
 		if(refType instanceof ReferencedModelElement){
 			return scope_ReferencedModelElement_type(refType as ReferencedModelElement,ref)
 			}else{

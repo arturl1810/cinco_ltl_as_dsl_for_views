@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>d136ee11-0a5e-458f-8813-648c7e29c207</id>
   <name>Create Nodes</name>
-  <changecounter>138</changecounter>
+  <changecounter>139</changecounter>
   <edge>
     <source>c3388d17-ba63-4d22-8dd3-38d14e68ef9c</source>
     <target>55e2fb55-9ab4-4b8a-a441-888598100881</target>
@@ -107,10 +107,10 @@
     <branch>true</branch>
   </edge>
   <edge>
-    <source>acf74f85-5f2a-44e4-b2f7-d150e519e51d</source>
+    <source>2c0814ab-7ab0-470d-9a42-d47335fdee12</source>
     <target>242fb8b0-b3c8-41dc-8d6a-4c4ba7c83bc3</target>
-    <point>1395.0,705.0</point>
-    <point>1395.0,810.0</point>
+    <point>702.0,772.8</point>
+    <point>348.0,800.0307692307692</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -182,9 +182,9 @@
   </edge>
   <edge>
     <source>8f08fcda-4e89-42c7-a09c-497da77c7deb</source>
-    <target>acf74f85-5f2a-44e4-b2f7-d150e519e51d</target>
-    <point>495.0,204.0</point>
-    <point>495.0,783.0</point>
+    <target>2c0814ab-7ab0-470d-9a42-d47335fdee12</target>
+    <point>501.8181818181818,204.0</point>
+    <point>712.96875,753.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>true</branch>
   </edge>
@@ -281,34 +281,6 @@
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
           <key>dataType</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-  </sib>
-  <sib>
-    <id>acf74f85-5f2a-44e4-b2f7-d150e519e51d</id>
-    <name>GetReferencedTypeType</name>
-    <label>GetReferencedTypeType</label>
-    <sib-uid>mgl/mgl/GetReferencedTypeType</sib-uid>
-    <taxonomy>de.jabc.cinco.meta.core.mgl.sib.mgl.GetReferencedTypeType</taxonomy>
-    <position>412.5,783.0</position>
-    <parameter name="referencedTypeKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>dataType</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="referencedTypetypeKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>dataTypeType</key>
           <scope>GLOBAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
@@ -775,6 +747,34 @@
       <boolean>true</boolean>
     </userobject>
   </sib>
+  <sib>
+    <id>2c0814ab-7ab0-470d-9a42-d47335fdee12</id>
+    <name>GetReferencedEClassType</name>
+    <label>GetReferencedEClassType</label>
+    <sib-uid>mgl/mgl/GetReferencedEClassType</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetReferencedEClassType</taxonomy>
+    <position>406.5,783.0</position>
+    <parameter name="referencedEClassKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>dataType</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="referencedEClasstypeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>dataTypeType</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
   <values/>
   <branch>
     <name>error</name>
@@ -810,11 +810,6 @@
     <name>error</name>
     <branch>error</branch>
     <sib>aa695ed3-b625-4893-9f50-a200a9a21ae0</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>acf74f85-5f2a-44e4-b2f7-d150e519e51d</sib>
   </branch>
   <branch>
     <name>error</name>
@@ -880,5 +875,10 @@
     <name>exit</name>
     <branch>noElements</branch>
     <sib>c3388d17-ba63-4d22-8dd3-38d14e68ef9c</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>2c0814ab-7ab0-470d-9a42-d47335fdee12</sib>
   </branch>
 </model>

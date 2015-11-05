@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>7def08b0-45b0-4f5d-9629-657ab3028508</id>
   <name>GenerateAddNodeFeature</name>
-  <changecounter>1800</changecounter>
+  <changecounter>1801</changecounter>
   <sib>
     <id>b89523ed-9916-4f61-a5e9-9e1d8838a845</id>
     <name>PutExpression_1</name>
@@ -695,34 +695,6 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
   </sib>
-  <sib>
-    <id>fa12da3c-2c28-417e-831f-57fda54abeb2</id>
-    <name>GetReferencedTypeType</name>
-    <label>GetReferencedTypeType</label>
-    <sib-uid>mgl/mgl/GetReferencedTypeType</sib-uid>
-    <taxonomy>de.jabc.cinco.meta.core.ge.sib.mgl.GetReferencedTypeType</taxonomy>
-    <position>367.5,738.0</position>
-    <parameter name="referencedTypeKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>primeRef</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="referencedTypetypeKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>primeRefType</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-  </sib>
   <edge>
     <source>34bac75f-5a18-400f-9ae2-f09f6cc9ecaa</source>
     <target>ccabf017-ba9d-4d9c-94a0-bb4ed47671df</target>
@@ -733,17 +705,17 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
   </edge>
   <edge>
     <source>ccabf017-ba9d-4d9c-94a0-bb4ed47671df</source>
-    <target>fa12da3c-2c28-417e-831f-57fda54abeb2</target>
-    <point>267.0,769.0</point>
-    <point>507.0,769.0</point>
+    <target>a1b068e2-d31f-4aef-bd26-23ef5cb004d8</target>
+    <point>288.0,746.4</point>
+    <point>432.0,662.4</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
-    <source>fa12da3c-2c28-417e-831f-57fda54abeb2</source>
+    <source>a1b068e2-d31f-4aef-bd26-23ef5cb004d8</source>
     <target>36303ded-1e06-47a6-9ae1-5743e625e9a4</target>
-    <point>468.0,750.2823529411764</point>
-    <point>687.0,672.9882352941177</point>
+    <point>468.0,655.32</point>
+    <point>657.0,693.12</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -1419,6 +1391,34 @@ Leaving Generate ${nodeName} AddFeature </expression>
     <point>922.0,760.0</point>
     <branch>default</branch>
   </edge>
+  <sib>
+    <id>a1b068e2-d31f-4aef-bd26-23ef5cb004d8</id>
+    <name>GetReferencedEClassType</name>
+    <label>GetReferencedEClassType</label>
+    <sib-uid>mgl/mgl/GetReferencedEClassType</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetReferencedEClassType</taxonomy>
+    <position>376.5,738.0</position>
+    <parameter name="referencedEClassKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>primeRef</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="referencedEClasstypeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>primeRefType</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
   <parameter>
     <name>modelElementKey</name>
     <field>modelElementKey</field>
@@ -1509,11 +1509,6 @@ Leaving Generate ${nodeName} AddFeature </expression>
   <branch>
     <name>error</name>
     <branch>error</branch>
-    <sib>fa12da3c-2c28-417e-831f-57fda54abeb2</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
     <sib>814245de-6dc8-4511-b290-69abaa62e6a8</sib>
   </branch>
   <branch>
@@ -1600,5 +1595,10 @@ Leaving Generate ${nodeName} AddFeature </expression>
     <name>error</name>
     <branch>error</branch>
     <sib>01a08f28-05d8-4f4f-9acd-7ccfca84f693</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>a1b068e2-d31f-4aef-bd26-23ef5cb004d8</sib>
   </branch>
 </model>
