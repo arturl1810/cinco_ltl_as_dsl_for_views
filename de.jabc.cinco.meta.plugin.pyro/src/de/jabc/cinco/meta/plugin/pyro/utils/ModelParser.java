@@ -42,6 +42,7 @@ import mgl.ModelElement;
 import mgl.Node;
 import mgl.NodeContainer;
 import mgl.OutgoingEdgeElementConnection;
+import mgl.ReferencedEClass;
 import mgl.UserDefinedType;
 import style.AbstractShape;
 import style.Appearance;
@@ -820,7 +821,9 @@ public class ModelParser {
 					modelElements.addAll(graphModel.getEdges());
 					boolean selfReferencing = false;
 					for(ModelElement modelElement:modelElements){
-						if(modelElement.getName().equals(node.getPrimeReference().getType().getName())){
+						
+						// TODO: Check if this workes - unchecked cast to ReferencedEClass
+						if(modelElement.getName().equals(((ReferencedEClass)node.getPrimeReference()).getType().getName())){
 							selfReferencing = true;
 							break;
 						}
@@ -854,7 +857,8 @@ public class ModelParser {
 	public static String getPrimeRefName(mgl.Node node)
 	{
 		if(node.getPrimeReference() != null){
-			return node.getPrimeReference().getType().getName();
+			// TODO: Check if this workes - unchecked cast to ReferencedEClass
+			return ((ReferencedEClass)node.getPrimeReference()).getType().getName();
 		}
 		return "";
 	}

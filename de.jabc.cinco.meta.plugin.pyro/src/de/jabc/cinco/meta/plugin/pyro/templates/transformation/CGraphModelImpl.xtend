@@ -23,6 +23,7 @@ import mgl.Node
 import mgl.NodeContainer
 import mgl.Edge
 import org.eclipse.core.internal.dtree.NodeComparison
+import mgl.ReferencedEClass
 
 class CGraphModelImpl implements Templateable{
 	
@@ -82,8 +83,9 @@ public class C«graphModel.name.toFirstUpper»Impl implements C«graphModel.name
 	private PyroCreateEdgeCommandController pyroCreateEdgeCommandController;
 	
 	«FOR ReferencedType primeRef : ModelParser.getPrimeReferencedModelElements(graphModel,false)»
+	«««    TODO: Check if this worked. Unchecked cast to ReferencedEClass may be ReferencedModelElement in line
 	@Inject
-   	private «primeRef.type.name.toFirstUpper»Controller «primeRef.type.name.toFirstLower»Controller;
+   	private «(primeRef as ReferencedEClass).type.name.toFirstUpper»Controller «(primeRef as ReferencedEClass).type.name.toFirstLower»Controller;
     «ENDFOR»
 	
 	«FOR StyledNode sn:nodes»
@@ -141,9 +143,10 @@ public class C«graphModel.name.toFirstUpper»Impl implements C«graphModel.name
     «ENDFOR»
     
     «FOR ReferencedType primeRef : ModelParser.getPrimeReferencedModelElements(graphModel,false)»
-    public «primeRef.type.name.toFirstUpper»Controller get«primeRef.type.name.toFirstUpper»Controller()
+    «««    TODO: Check if this worked. Unchecked cast to ReferencedEClass may be ReferencedModelElement in line
+    public «(primeRef as ReferencedEClass).type.name.toFirstUpper»Controller get«(primeRef as ReferencedEClass).type.name.toFirstUpper»Controller()
     {
-    	return «primeRef.type.name.toFirstLower»Controller;
+    	return «(primeRef as ReferencedEClass).type.name.toFirstLower»Controller;
 	}
     «ENDFOR»
 	

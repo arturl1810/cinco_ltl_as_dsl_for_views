@@ -18,7 +18,7 @@ import de.jabc.cinco.meta.plugin.pyro.utils.ModelParser
 import mgl.ReferencedType
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.EPackage
-
+import mgl.ReferencedEClass
 class CGraphModel implements Templateable{
 	
 	override create(GraphModel graphModel, ArrayList<StyledNode> nodes, ArrayList<StyledEdge> edges, HashMap<String, ArrayList<StyledNode>> groupedNodes, ArrayList<ConnectionConstraint> validConnections, ArrayList<EmbeddingConstraint> embeddingConstraints, ArrayList<Type> enums,ArrayList<GraphModel> graphModels,ArrayList<EPackage> ecores)
@@ -64,7 +64,8 @@ public interface C«graphModel.name.toFirstUpper» extends CGraphModel{
     «ENDFOR»
     
     «FOR ReferencedType primeRef : ModelParser.getPrimeReferencedModelElements(graphModel,false)»
-    public «primeRef.type.name.toFirstUpper»Controller get«primeRef.type.name.toFirstUpper»Controller();
+«««    TODO: Check if this worked. Unchecked cast to ReferencedEClass may be ReferencedModelElement in line
+    public «(primeRef as ReferencedEClass).type.name.toFirstUpper»Controller get«(primeRef as ReferencedEClass).type.name.toFirstUpper»Controller();
     «ENDFOR»
     
     public PyroMoveNodeCommandController getPyroMoveNodeCommandController();

@@ -16,6 +16,7 @@ import de.jabc.cinco.meta.plugin.pyro.utils.ModelParser
 import org.eclipse.emf.ecore.EClass
 import org.eclipse.emf.ecore.EPackage
 import mgl.ReferencedType
+import mgl.ReferencedEClass
 
 class GraphModelParser implements ElementTemplateable {
 	
@@ -46,17 +47,18 @@ public class «graphModel.name.toFirstUpper»Parser {
     {
     	String jsonString = "";
 		«FOR ReferencedType primeRef:ModelParser.getPrimeReferencedModelElements(graphModel,true)»
-		//«(primeRef.eContainer as Node).name.toFirstUpper» - «primeRef.type.name.toFirstUpper» Prime Reference
+		    «««    TODO: Check if this worked. Unchecked cast to ReferencedEClass may be ReferencedModelElement in line
+		//«(primeRef.eContainer as Node).name.toFirstUpper» - «(primeRef as ReferencedEClass).type.name.toFirstUpper» Prime Reference
         JSONObject «(primeRef.eContainer as Node).name.toFirstLower»PrimeRefs = new JSONObject();
         «(primeRef.eContainer as Node).name.toFirstLower»PrimeRefs.put("group","Prime «(primeRef.eContainer as Node).name.toFirstUpper»");
         JSONArray «(primeRef.eContainer as Node).name.toFirstLower»PrimeElements = new JSONArray();
-        Set<«primeRef.type.name.toFirstUpper»> «primeRef.type.name.toFirstLower»PrimeSet = c«graphModel.name.toFirstUpper».get«primeRef.type.name.toFirstUpper»Controller().fetch«primeRef.type.name.toFirstUpper»();
-        for(«primeRef.type.name.toFirstUpper» «primeRef.type.name.toFirstLower»:«primeRef.type.name.toFirstLower»PrimeSet) {
-            JSONObject «primeRef.type.name.toFirstLower»PrimeObject = new JSONObject();
-            «primeRef.type.name.toFirstLower»PrimeObject.put("name","«(primeRef.eContainer as Node).name.toFirstUpper»");
-            «primeRef.type.name.toFirstLower»PrimeObject.put("label",«primeRef.type.name.toFirstLower».get«ModelParser.getPrimeAttributeLabel(primeRef)»());
-            «primeRef.type.name.toFirstLower»PrimeObject.put("dywaId",«primeRef.type.name.toFirstLower».getId());
-            «(primeRef.eContainer as Node).name.toFirstLower»PrimeElements.add(«primeRef.type.name.toFirstLower»PrimeObject);
+        Set<«(primeRef as ReferencedEClass).type.name.toFirstUpper»> «(primeRef as ReferencedEClass).type.name.toFirstLower»PrimeSet = c«graphModel.name.toFirstUpper».get«(primeRef as ReferencedEClass).type.name.toFirstUpper»Controller().fetch«(primeRef as ReferencedEClass).type.name.toFirstUpper»();
+        for(«(primeRef as ReferencedEClass).type.name.toFirstUpper» «(primeRef as ReferencedEClass).type.name.toFirstLower»:«(primeRef as ReferencedEClass).type.name.toFirstLower»PrimeSet) {
+            JSONObject «(primeRef as ReferencedEClass).type.name.toFirstLower»PrimeObject = new JSONObject();
+            «(primeRef as ReferencedEClass).type.name.toFirstLower»PrimeObject.put("name","«(primeRef.eContainer as Node).name.toFirstUpper»");
+            «(primeRef as ReferencedEClass).type.name.toFirstLower»PrimeObject.put("label",«(primeRef as ReferencedEClass).type.name.toFirstLower».get«ModelParser.getPrimeAttributeLabel(primeRef)»());
+            «(primeRef as ReferencedEClass).type.name.toFirstLower»PrimeObject.put("dywaId",«(primeRef as ReferencedEClass).type.name.toFirstLower».getId());
+            «(primeRef.eContainer as Node).name.toFirstLower»PrimeElements.add(«(primeRef as ReferencedEClass).type.name.toFirstLower»PrimeObject);
         }
         «(primeRef.eContainer as Node).name.toFirstLower»PrimeRefs.put("nodes",«(primeRef.eContainer as Node).name.toFirstLower»PrimeElements);
         jsonString += «(primeRef.eContainer as Node).name.toFirstLower»PrimeRefs.toJSONString();

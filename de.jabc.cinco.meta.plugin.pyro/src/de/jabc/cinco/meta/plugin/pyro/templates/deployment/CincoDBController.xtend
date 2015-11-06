@@ -24,6 +24,7 @@ import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.EClassifier
 import org.eclipse.emf.ecore.EReference
+import mgl.ReferencedEClass
 
 class CincoDBController implements Templateable{
 
@@ -423,7 +424,8 @@ def createNodeAttribute(GraphicalModelElement element,ArrayList<Type> enums,Grap
 def createPrimeAttribute(Node node)
 '''
 «IF node.primeReference != null»
-this.typeController.addComplexFieldToType(«node.name.toFirstLower»,"«node.primeReference.name.toFirstLower»",PropertyType.OBJECT,«node.primeReference.type.name.toFirstLower»);
+«««    TODO: Check if this worked. Unchecked cast to ReferencedEClass may be ReferencedModelElement in line
+this.typeController.addComplexFieldToType(«node.name.toFirstLower»,"«node.primeReference.name.toFirstLower»",PropertyType.OBJECT,«(node.primeReference as ReferencedEClass).type.name.toFirstLower»);
 «ENDIF»
 '''
 
