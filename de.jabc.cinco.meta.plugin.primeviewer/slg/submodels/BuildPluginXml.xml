@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>bf021cce-172c-4032-bc63-a3df4f194744</id>
   <name>BuildPluginXml</name>
-  <changecounter>19</changecounter>
+  <changecounter>20</changecounter>
   <sib>
     <id>df7055d7-adef-4763-bf15-d51401dc612a</id>
     <name>RunStringTemplate</name>
@@ -347,7 +347,7 @@
     <label>SwitchReferencedType</label>
     <sib-uid>mgl/mgl/SwitchReferencedType</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.SwitchReferencedType</taxonomy>
-    <position>132.5,228.0</position>
+    <position>132.5,213.0</position>
     <parameter name="eObjectKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -376,7 +376,7 @@
     <label>GetModelElementName</label>
     <sib-uid>mgl/mgl/GetModelElementName</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetModelElementName</taxonomy>
-    <position>566.5,228.0</position>
+    <position>596.5,213.0</position>
     <parameter name="modelElementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -400,17 +400,17 @@
   </sib>
   <edge>
     <source>482566b2-b22d-45c7-a474-f0572367416b</source>
-    <target>1ac893a8-fd06-4caf-aee7-76af26700f41</target>
-    <point>983.0,210.0</point>
-    <point>878.0,300.0</point>
+    <target>cc9aa4b5-8364-4f36-b18c-b83c45907e69</target>
+    <point>228.0,249.0857142857143</point>
+    <point>507.0,288.9428571428571</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>ReferencedModelElement</branch>
   </edge>
   <edge>
     <source>1ac893a8-fd06-4caf-aee7-76af26700f41</source>
-    <target>cc9aa4b5-8364-4f36-b18c-b83c45907e69</target>
-    <point>678.0,284.4</point>
-    <point>822.0,344.4</point>
+    <target>b8f03e41-d2c1-4eac-8b60-bcae99adcb22</target>
+    <point>672.5342465753424,249.0</point>
+    <point>647.6865671641791,423.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -657,7 +657,7 @@
     <label>GetReferencedModelElementType</label>
     <sib-uid>mgl/mgl/GetReferencedModelElementType</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetReferencedModelElementType</taxonomy>
-    <position>532.5,348.0</position>
+    <position>337.5,213.0</position>
     <parameter name="referencedModelElementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -716,9 +716,10 @@
   </edge>
   <edge>
     <source>cc9aa4b5-8364-4f36-b18c-b83c45907e69</source>
-    <target>b8f03e41-d2c1-4eac-8b60-bcae99adcb22</target>
-    <point>660.0,360.0</point>
-    <point>627.0,447.0</point>
+    <target>1ac893a8-fd06-4caf-aee7-76af26700f41</target>
+    <point>618.0,290.16</point>
+    <point>658.9285714285714,249.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <values/>
