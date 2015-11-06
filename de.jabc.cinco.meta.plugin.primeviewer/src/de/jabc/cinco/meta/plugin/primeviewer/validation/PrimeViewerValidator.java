@@ -26,35 +26,35 @@ public class PrimeViewerValidator implements IMetaPluginValidator{
 	}
 	
 	public ErrorPair<String,EStructuralFeature> checkPVLabelAndPVFileExtensionIsUsed(final Annotation anno){
-		try{
-			GraphModel gm = (GraphModel)anno.getParent();
-			for(Node n: gm.getNodes()){
-				if(n.getPrimeReference()!=null){
-					boolean foundPvLabel=false;
-					boolean foundPvFileExtension=false;
-					for(Annotation a: n.getPrimeReference().getAnnotations()){
-						if(a.getName().equals("pvLabel")){
-							foundPvLabel=true;
-							
-						}else if(a.getName().equals("pvFileExtension")){
-							foundPvFileExtension=true;
-						}
-						
-						if(foundPvFileExtension&&foundPvLabel)
-							break;
-					}
-					if(!foundPvLabel&&foundPvFileExtension)
-						return new ErrorPair<String, EStructuralFeature>(String.format("Node %s has no 'pvLabel' annotation.",n.getName()), anno.eClass().getEStructuralFeature("name"));
-					else if(foundPvLabel&&!foundPvFileExtension)
-						return new ErrorPair<String, EStructuralFeature>(String.format("Node %s has no 'pvFileExtension' annotation.",n.getName()), anno.eClass().getEStructuralFeature("name"));
-					else if(!foundPvLabel&&!foundPvFileExtension)
-						return new ErrorPair<String, EStructuralFeature>(String.format("Node %s has neither 'pvLabel' nor 'pvFileExtension' annotation.",n.getName()), anno.eClass().getEStructuralFeature("name"));
-				}
-			}
-		}catch(ClassCastException ce){
-			return new ErrorPair<String, EStructuralFeature>(String.format("'primeviewer' annotation is not suitable for %s.",anno.getParent().getClass().getSimpleName()), anno.eClass().getEStructuralFeature("name"));
-		}
-		
+//		try{
+//			GraphModel gm = (GraphModel)anno.getParent();
+//			for(Node n: gm.getNodes()){
+//				if(n.getPrimeReference()!=null){
+//					boolean foundPvLabel=false;
+//					boolean foundPvFileExtension=false;
+//					for(Annotation a: n.getPrimeReference().getAnnotations()){
+//						if(a.getName().equals("pvLabel")){
+//							foundPvLabel=true;
+//							
+//						}else if(a.getName().equals("pvFileExtension")){
+//							foundPvFileExtension=true;
+//						}
+//						
+//						if(foundPvFileExtension&&foundPvLabel)
+//							break;
+//					}
+//					if(!foundPvLabel&&foundPvFileExtension)
+//						return new ErrorPair<String, EStructuralFeature>(String.format("Node %s has no 'pvLabel' annotation.",n.getName()), anno.eClass().getEStructuralFeature("name"));
+//					else if(foundPvLabel&&!foundPvFileExtension)
+//						return new ErrorPair<String, EStructuralFeature>(String.format("Node %s has no 'pvFileExtension' annotation.",n.getName()), anno.eClass().getEStructuralFeature("name"));
+//					else if(!foundPvLabel&&!foundPvFileExtension)
+//						return new ErrorPair<String, EStructuralFeature>(String.format("Node %s has neither 'pvLabel' nor 'pvFileExtension' annotation.",n.getName()), anno.eClass().getEStructuralFeature("name"));
+//				}
+//			}
+//		}catch(ClassCastException ce){
+//			return new ErrorPair<String, EStructuralFeature>(String.format("'primeviewer' annotation is not suitable for %s.",anno.getParent().getClass().getSimpleName()), anno.eClass().getEStructuralFeature("name"));
+//		}
+//		
 		return null;
 	}
 	
