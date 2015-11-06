@@ -6,15 +6,23 @@
 				<argument name="object" />
 				<argument name="nsUri" />
 			</arguments>
+    </serviceAdapter>
+	<serviceAdapter uid="ge-util-sibs/GetOrderedInheritanceLists">
+		<service>getOrderedInheritanceLists</service>
+		<arguments>
+			<argument name="graphModel" />
+			<argument name="nodeInheritanceOrder" />
+			<argument name="edgeInheritanceOrder" />
+		</arguments>
 	</serviceAdapter>
 	
 	<serviceAdapter uid="ge-util-sibs/IsELExpression">
 		<service>isELExpression</service>
-			<arguments>
-				<argument name="modelElement" />
-				<argument name="value" />
-				<argument name="attributeName" />
-			</arguments>
+		<arguments>
+			<argument name="modelElement" />
+			<argument name="value" />
+			<argument name="attributeName" />
+		</arguments>
 	</serviceAdapter>
 	
 	<serviceAdapter uid="ge-util-sibs/CreateDummyGraphModel">

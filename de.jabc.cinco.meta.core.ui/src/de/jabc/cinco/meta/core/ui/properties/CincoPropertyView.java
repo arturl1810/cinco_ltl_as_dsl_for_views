@@ -90,6 +90,7 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener{
 	private static Map<Class<? extends EObject>, IEMFListProperty> emfListPropertiesMap = new HashMap<Class<? extends EObject>, IEMFListProperty>();
 	private static Map<Class<? extends EObject>, List<EStructuralFeature>> attributesMap = new HashMap<Class<? extends EObject>, List<EStructuralFeature>>();
 	private static Map<Class<? extends EObject>, List<EStructuralFeature>> referencesMap = new HashMap<Class<? extends EObject>, List<EStructuralFeature>>();
+	private static Map<EStructuralFeature, List<? extends ModelElement>> possibleValuesMap = new HashMap<EStructuralFeature, List<? extends ModelElement>>();
 	private Map<Object, Object[]> treeExpandState;
 
 	private static Set<EStructuralFeature> multiLineAttributes = new HashSet<EStructuralFeature>();
@@ -208,6 +209,9 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener{
 		lastSelectedObject = bo;
 	}
 
+	public static void refreshPossibleValues(EStructuralFeature feature, List<? extends ModelElement> values) {
+		possibleValuesMap.put(feature, values);
+	}
 
 	public void createTreePropertyView(EObject bo, Composite parent) {
 		Tree tree = new Tree(parent, SWT.BORDER | SWT.SINGLE);
@@ -324,7 +328,17 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener{
 		cv.setContentProvider(new ArrayContentProvider());
 		cv.setLabelProvider(getNameLabelProvider());
 		
-		List<ModelElement> input = getInput(bo, instanceClass);
+		List<ModelElement> input = new ArrayList<ModelElement>();
+		List<? extends ModelElement> possibleValues = possibleValuesMap.get(ref);
+		if (possibleValues != null) {
+			input.addAll(possibleValues);
+			ModelElement currentValue = (ModelElement) bo.eGet(ref);
+			if (currentValue != null && !possibleValues.contains(currentValue)) {
+				input.add(currentValue);
+			}
+		} else {
+			input = getInput(bo, instanceClass);
+		}
 		cv.setInput(input);
 		
 		IViewerObservableValue uiProp = ViewersObservables.observeSingleSelection(cv);

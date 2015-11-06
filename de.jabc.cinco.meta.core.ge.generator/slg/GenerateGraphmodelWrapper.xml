@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>ede0f2a5-2d64-419a-a377-4de364aed9a1</id>
   <name>GenerateGraphmodelWrapper</name>
-  <changecounter>291</changecounter>
+  <changecounter>330</changecounter>
   <sib>
     <id>961ec5c2-d49b-4f47-b506-1d2f2c25fd26</id>
     <name>RunStringTemplate</name>
@@ -124,6 +124,11 @@ public class $graphModelName$Wrapper {
 		return gsg;
 	}
 	
+	private static CNode getNode(Node n) {
+		$nodeTypeCheck$
+		return null;
+	}
+
 	private static CNode wrap(Node n){
 		CNode gNode = null;
 		
@@ -134,7 +139,7 @@ public class $graphModelName$Wrapper {
 			gNode = wrap((Container) n);
 		} else {
 
-			$nodeTypeCheck$
+			gNode = getNode(n);
 				
 			gNode.setModelElement(n);
 			gNode.setPictogramElement((ContainerShape) getPictogramElement(n));
@@ -153,13 +158,18 @@ public class $graphModelName$Wrapper {
 		return gNode;
 	}
 	
+	private static CContainer getContainer(Node c) {
+		$containerTypeCheck$
+		return null;
+	}
+
 	private static CNode wrap(Container c) {
 		CContainer gCont = null;
 		
 		if (map.get(c) != null)
 			return (CNode) map.get(c);
 		
-		$containerTypeCheck$
+		gCont = getContainer(c);
 
 		gCont.setModelElement(c);
 		gCont.setPictogramElement((ContainerShape) getPictogramElement(c));
@@ -180,12 +190,17 @@ public class $graphModelName$Wrapper {
 		return gCont;
 	}
 	
+	private static CEdge getEdge(Edge e) {
+		$edgeTypeCheck$
+		return null;
+	}
+
 	private static CEdge wrap(Edge e) {
 		CEdge gEdge = null;
 		if (map.get(e) != null)
 			return (CEdge) map.get(e);
 		
-		$edgeTypeCheck$
+		gEdge = getEdge(e);
 
 		gEdge.setModelElement(e);
 		gEdge.setPictogramElement((Connection) getPictogramElement(e));
@@ -214,45 +229,6 @@ public class $graphModelName$Wrapper {
     <finalbranches>error</finalbranches>
   </sib>
   <sib>
-    <id>0f89de2f-ec49-4466-8e72-64296dc4b09e</id>
-    <name>IterateGraphModelEdges</name>
-    <label>IterateGraphModelEdges</label>
-    <sib-uid>mgl/mgl/IterateGraphModelEdges</sib-uid>
-    <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.IterateGraphModelEdges</taxonomy>
-    <position>76.0,558.0</position>
-    <parameter name="elementKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>edge</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>false</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="graphModelKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>graphModel</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="iteratorKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>glEdgeIt</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>false</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>error</finalbranches>
-    <finalbranches>exit</finalbranches>
-    <finalbranches>next</finalbranches>
-    <finalbranches>noElements</finalbranches>
-  </sib>
-  <sib>
     <id>d39e8be8-6780-4bf6-b84e-a83ffa0048a9</id>
     <name>RunStringTemplate_1</name>
     <label>RunStringTemplate</label>
@@ -276,7 +252,7 @@ public class $graphModelName$Wrapper {
     </parameter>
     <parameter name="template">
       <string>if (n instanceof $importPath$.$nodeName$)
-	gNode = $apiPkgName$.$gFactoryName$.eINSTANCE.create$apiPrefix$$nodeName$();
+	return $apiPkgName$.$gFactoryName$.eINSTANCE.create$apiPrefix$$nodeName$();
 </string>
     </parameter>
     <finalbranches>default</finalbranches>
@@ -322,7 +298,7 @@ public class $graphModelName$Wrapper {
     </parameter>
     <parameter name="template">
       <string>if (e instanceof $importPath$.$edgeName$)
-	gEdge = $apiPkgName$.$gFactoryName$.eINSTANCE.create$apiPrefix$$edgeName$();
+	return $apiPkgName$.$gFactoryName$.eINSTANCE.create$apiPrefix$$edgeName$();
 </string>
     </parameter>
     <finalbranches>default</finalbranches>
@@ -352,7 +328,7 @@ public class $graphModelName$Wrapper {
     </parameter>
     <parameter name="template">
       <string>if (c instanceof $importPath$.$containerName$)
-	gCont = $apiPkgName$.$gFactoryName$.eINSTANCE.create$apiPrefix$$containerName$();
+	return $apiPkgName$.$gFactoryName$.eINSTANCE.create$apiPrefix$$containerName$();
 </string>
     </parameter>
     <finalbranches>default</finalbranches>
@@ -459,10 +435,10 @@ public class $graphModelName$Wrapper {
     <branch>default</branch>
   </edge>
   <edge>
-    <source>0f89de2f-ec49-4466-8e72-64296dc4b09e</source>
+    <source>ed6971ed-9c1d-4762-96a4-8fdab53e752b</source>
     <target>cd57a899-6f49-4495-bee6-27624d423424</target>
-    <point>168.0,573.48</point>
-    <point>282.0,550.68</point>
+    <point>108.0,590.52</point>
+    <point>297.0,577.92</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>next</branch>
   </edge>
@@ -484,9 +460,9 @@ public class $graphModelName$Wrapper {
   </edge>
   <edge>
     <source>ab308a99-647b-48cf-a263-2a9a5ae24f83</source>
-    <target>0f89de2f-ec49-4466-8e72-64296dc4b09e</target>
-    <point>109.65517241379311,429.0</point>
-    <point>144.80769230769232,558.0</point>
+    <target>ed6971ed-9c1d-4762-96a4-8fdab53e752b</target>
+    <point>144.28571428571428,429.0</point>
+    <point>96.3157894736842,573.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>exit</branch>
   </edge>
@@ -502,11 +478,11 @@ public class $graphModelName$Wrapper {
   </edge>
   <edge>
     <source>ad603ea1-5724-4acb-ab41-a272fe8980e9</source>
-    <target>0f89de2f-ec49-4466-8e72-64296dc4b09e</target>
+    <target>ed6971ed-9c1d-4762-96a4-8fdab53e752b</target>
     <spline/>
-    <point>492.0,584.4</point>
+    <point>612.0,581.04</point>
     <point>330.0,660.0</point>
-    <point>168.0,584.4</point>
+    <point>108.0,596.175</point>
     <labelposition>487.65432098765433,-75.59999999999998</labelposition>
     <branch>default</branch>
   </edge>
@@ -643,13 +619,12 @@ public class $graphModelName$Wrapper {
     <finalbranches>error</finalbranches>
   </sib>
   <edge>
-    <source>0f89de2f-ec49-4466-8e72-64296dc4b09e</source>
+    <source>ed6971ed-9c1d-4762-96a4-8fdab53e752b</source>
     <target>92a7abec-9e26-4ebf-97ee-dae2b89ed729</target>
-    <point>162.85714285714286,594.0</point>
-    <point>270.7894736842105,738.0</point>
+    <point>96.79245283018868,609.0</point>
+    <point>142.3404255319149,723.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>exit</branch>
-    <branch>noElements</branch>
   </edge>
   <edge>
     <source>92a7abec-9e26-4ebf-97ee-dae2b89ed729</source>
@@ -799,11 +774,11 @@ public class $graphModelName$Wrapper {
   </edge>
   <edge>
     <source>cd57a899-6f49-4495-bee6-27624d423424</source>
-    <target>0f89de2f-ec49-4466-8e72-64296dc4b09e</target>
+    <target>ed6971ed-9c1d-4762-96a4-8fdab53e752b</target>
     <spline/>
     <point>297.0,560.16</point>
     <point>240.0,510.0</point>
-    <point>168.0,562.8</point>
+    <point>108.0,581.28</point>
     <labelposition>450.0,47.0</labelposition>
     <branch>true</branch>
   </edge>
@@ -875,7 +850,7 @@ public class $graphModelName$Wrapper {
     <parameter name="collection">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>nodes</key>
+          <key>nodeList</key>
           <scope>GLOBAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
@@ -893,8 +868,46 @@ public class $graphModelName$Wrapper {
     <parameter name="iterator">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>glNodeItadsf</key>
+          <key>glNodeItadsfasdf</key>
           <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>exit</finalbranches>
+    <finalbranches>next</finalbranches>
+  </sib>
+  <sib>
+    <id>ed6971ed-9c1d-4762-96a4-8fdab53e752b</id>
+    <name>IterateElements_2</name>
+    <label>iterateEdges</label>
+    <sib-uid>collection-sibs/IterateElements</sib-uid>
+    <taxonomy>de.jabc.sib.common.collection.IterateElements</taxonomy>
+    <position>110.0,558.0</position>
+    <parameter name="collection">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>edgeList</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="element">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>edge</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="iterator">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>jkashdf</key>
+          <scope>LOCAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>

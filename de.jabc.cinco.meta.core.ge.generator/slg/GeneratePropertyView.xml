@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>bdb3d94b-23ae-447b-8e05-302a8e6e8657</id>
   <name>GeneratePropertyView</name>
-  <changecounter>1102</changecounter>
+  <changecounter>1105</changecounter>
   <edge>
     <source>0a7b2d2c-a9c5-4f86-a466-a87bd91f0b67</source>
     <target>70edcd98-92b7-4fcd-9c04-a1b8187883a2</target>
@@ -346,7 +346,7 @@
     <label>WriteJavaFile</label>
     <sib-uid>genesys-sibs/WriteJavaFile</sib-uid>
     <taxonomy>de.jabc.sib.genesys.WriteJavaFile</taxonomy>
-    <position>238.0,933.0</position>
+    <position>613.0,933.0</position>
     <parameter name="baseDirectory">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -414,7 +414,7 @@
     <label>viewPart</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>77.0,933.0</position>
+    <position>482.0,933.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -491,6 +491,7 @@ public class $graphModelName$View implements ISelectionListener {
 				EObject bo = getBusinessObject(pe);
 			
 				$postSelectContent$
+				$valuesProviderContent$
 
 				if (pe instanceof ConnectionDecorator &amp;&amp; !pe.equals(lastSelected)) {
 					Connection connection = ((ConnectionDecorator) pe).getConnection();
@@ -1052,7 +1053,7 @@ public class $graphModelName$View implements ISelectionListener {
     <label>GetPostSelectContent</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>39.0,826.0</position>
+    <position>39.0,931.0</position>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
@@ -1064,9 +1065,33 @@ public class $graphModelName$View implements ISelectionListener {
   </sib>
   <edge>
     <source>8707d41c-23d7-40c5-ad3d-19b756460e99</source>
+    <target>71443c3e-4bce-4967-8785-7a0a9307a06c</target>
+    <point>125.0,949.3529411764706</point>
+    <point>340.0,924.0588235294117</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>71443c3e-4bce-4967-8785-7a0a9307a06c</id>
+    <name>GraphSIB_1</name>
+    <label>GetValuesProviderContent</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>251.5,931.0</position>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>GetValuesProviderContent</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>20a124dc-3dfe-42c9-ae93-6022ba867202</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>71443c3e-4bce-4967-8785-7a0a9307a06c</source>
     <target>0e346088-d574-4c8d-a76c-f16d30a6fbef</target>
-    <point>105.0,840.0</point>
-    <point>107.0,940.0</point>
+    <point>330.0,960.0</point>
+    <point>488.0,945.0</point>
     <branch>default</branch>
   </edge>
   <values/>

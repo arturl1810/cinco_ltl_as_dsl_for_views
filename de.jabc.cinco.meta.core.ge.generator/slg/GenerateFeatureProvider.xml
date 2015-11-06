@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>5f357517-18d4-4780-adc3-30879fedbfb1</id>
   <name>GenerateFeatureProvider</name>
-  <changecounter>864</changecounter>
+  <changecounter>881</changecounter>
   <sib>
     <id>23fb1326-f00d-4e42-845a-cdf6492fc417</id>
     <name>PutExpression</name>
@@ -68,14 +68,6 @@
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
   </sib>
-  <edge>
-    <source>23fb1326-f00d-4e42-845a-cdf6492fc417</source>
-    <target>17963108-b40d-4c2b-ab2d-ace6a4e941fb</target>
-    <point>90.0,45.0</point>
-    <point>495.0,45.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
   <sib>
     <id>d62ce290-0f40-4308-81f1-e273e995b108</id>
     <name>IterateElements</name>
@@ -86,7 +78,7 @@
     <parameter name="collection">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>allNodes</key>
+          <key>nodeList</key>
           <scope>GLOBAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
@@ -185,7 +177,7 @@
     <parameter name="collection">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>edges</key>
+          <key>edgeList</key>
           <scope>GLOBAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
@@ -796,14 +788,6 @@ public class $context.graphModelName$FeatureProvider extends DefaultFeatureProvi
     <labelposition>500.0,0.0</labelposition>
     <branch>false</branch>
   </edge>
-  <edge>
-    <source>6b27cfcd-6b44-4456-b5d4-cd82bfa93ee9</source>
-    <target>270ad7aa-324a-4b81-834a-06bfc45a98a9</target>
-    <point>316.52542372881356,654.0</point>
-    <point>343.3928571428571,963.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>true</branch>
-  </edge>
   <sib>
     <id>4ab004b6-7137-49c5-8dbc-6939e4edc8c1</id>
     <name>GetEClassName</name>
@@ -861,22 +845,6 @@ public class $context.graphModelName$FeatureProvider extends DefaultFeatureProvi
     <finalbranches>error</finalbranches>
   </sib>
   <edge>
-    <source>270ad7aa-324a-4b81-834a-06bfc45a98a9</source>
-    <target>4ab004b6-7137-49c5-8dbc-6939e4edc8c1</target>
-    <point>340.13513513513516,963.0</point>
-    <point>319.1860465116279,879.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
-  <edge>
-    <source>4ab004b6-7137-49c5-8dbc-6939e4edc8c1</source>
-    <target>33c1838d-cca3-4900-914e-98696f13bb83</target>
-    <point>297.0,868.7538461538461</point>
-    <point>138.0,929.9076923076923</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
-  <edge>
     <source>b094866c-d4c4-4d1b-8307-5cb9d64394e8</source>
     <target>ba3f4ecb-4480-4766-8c2a-7d240a3af517</target>
     <point>120.0,870.0</point>
@@ -907,8 +875,8 @@ public class $context.graphModelName$FeatureProvider extends DefaultFeatureProvi
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>if (bo.eClass().getName().equals(&quot;$context.eClassName$&quot;)
-	|| (bo.eClass().getEAllSuperTypes().stream().anyMatch(_superClass -&gt; _superClass.getName().equals(&quot;$context.eClassName$&quot;)))
+      <string>if ( (bo.eClass().getName().equals(&quot;$context.eClassName$&quot;)
+	|| (bo.eClass().getEAllSuperTypes().stream().anyMatch(_superClass -&gt; _superClass.getName().equals(&quot;$context.eClassName$&quot;))))
 	&amp;&amp; bo.eClass().getEPackage().getNsURI().equals(&quot;$context.nsURI$&quot;)
 	&amp;&amp; !sameResource)
 	return new LibraryComponentAddFeature(this);
@@ -2061,6 +2029,43 @@ import $context.localPkgName$.features.reconnect.*;</string>
     <branch>default</branch>
   </edge>
   <sib>
+    <id>f16abaeb-c960-4c51-99b2-00c0af6f613b</id>
+    <name>GetOrderedInheritanceLists</name>
+    <label>GetOrderedInheritanceLists</label>
+    <sib-uid>ge-util-sibs/GetOrderedInheritanceLists</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.GetOrderedInheritanceLists</taxonomy>
+    <position>217.5,16.0</position>
+    <parameter name="edgeInheritanceOrder">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>edgeList</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="graphModel">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>graphModel</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="nodeInheritanceOrder">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>nodeList</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
     <id>33c1838d-cca3-4900-914e-98696f13bb83</id>
     <name>GetNSUri</name>
     <label>GetNSUri</label>
@@ -2088,13 +2093,6 @@ import $context.localPkgName$.features.reconnect.*;</string>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
   </sib>
-  <edge>
-    <source>33c1838d-cca3-4900-914e-98696f13bb83</source>
-    <target>523c383d-4c71-457a-9ac1-a95b491d8088</target>
-    <point>195.0,840.0</point>
-    <point>132.0,651.0</point>
-    <branch>default</branch>
-  </edge>
   <sib>
     <id>270ad7aa-324a-4b81-834a-06bfc45a98a9</id>
     <name>GetReferencedEClassType</name>
@@ -2123,6 +2121,48 @@ import $context.localPkgName$.features.reconnect.*;</string>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
   </sib>
+  <edge>
+    <source>f16abaeb-c960-4c51-99b2-00c0af6f613b</source>
+    <target>17963108-b40d-4c2b-ab2d-ace6a4e941fb</target>
+    <point>317.5,68.0</point>
+    <point>570.5,68.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>33c1838d-cca3-4900-914e-98696f13bb83</source>
+    <target>523c383d-4c71-457a-9ac1-a95b491d8088</target>
+    <point>265.0,863.0</point>
+    <point>148.0,668.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>270ad7aa-324a-4b81-834a-06bfc45a98a9</source>
+    <target>4ab004b6-7137-49c5-8dbc-6939e4edc8c1</target>
+    <point>326.5,773.0</point>
+    <point>360.5,893.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>4ab004b6-7137-49c5-8dbc-6939e4edc8c1</source>
+    <target>33c1838d-cca3-4900-914e-98696f13bb83</target>
+    <point>360.5,893.0</point>
+    <point>265.0,863.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>6b27cfcd-6b44-4456-b5d4-cd82bfa93ee9</source>
+    <target>270ad7aa-324a-4b81-834a-06bfc45a98a9</target>
+    <point>377.0,668.0</point>
+    <point>326.5,773.0</point>
+    <branch>true</branch>
+  </edge>
+  <edge>
+    <source>23fb1326-f00d-4e42-845a-cdf6492fc417</source>
+    <target>f16abaeb-c960-4c51-99b2-00c0af6f613b</target>
+    <point>139.5,68.0</point>
+    <point>317.5,68.0</point>
+    <branch>default</branch>
+  </edge>
   <values/>
   <branch>
     <name>default</name>

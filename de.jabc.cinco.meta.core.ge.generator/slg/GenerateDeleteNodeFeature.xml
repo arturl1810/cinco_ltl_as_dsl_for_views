@@ -350,7 +350,7 @@ public void preDelete(IDeleteContext context) {
 		graphmodel.GraphModel root = me.getRootElement();
 		try {
 			$fqnAPIPrefix$C$graphModelName$ wrapped = $packageName$.graphiti.$graphModelName$Wrapper.wrapGraphModel(root, getDiagram());
-			$fqnAPIPrefix$C$modelElementName$ cMe = wrapped.findCTestNode(($importPath$.$modelElementName$) me);
+			$fqnAPIPrefix$C$modelElementName$ cMe = wrapped.findC$modelElementName$(($importPath$.$modelElementName$) me);
 			new $annotationValues$().preDelete(cMe);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
