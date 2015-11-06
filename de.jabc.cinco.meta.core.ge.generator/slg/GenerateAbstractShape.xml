@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>83d95140-6c37-4d47-b41c-dc01202047a8</id>
   <name>GenerateAbstractShape</name>
-  <changecounter>1205</changecounter>
+  <changecounter>1229</changecounter>
   <sib>
     <id>15d12de3-be92-4199-912c-41f8d0975e20</id>
     <name>SwitchAbstractShape</name>
@@ -346,8 +346,8 @@
   <edge>
     <source>83692398-ebd6-4a3a-8413-84195fc11d5a</source>
     <target>84f98c62-2994-4f7c-b8da-f9d21d8d9162</target>
-    <point>140.0,129.6</point>
-    <point>402.0,168.84</point>
+    <point>140.0,126.54545454545455</point>
+    <point>432.0,126.49090909090908</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -516,8 +516,9 @@
   <edge>
     <source>c19b8d54-474c-424e-bcd7-9286cb62afbc</source>
     <target>2740e0a3-264a-4bf2-8c6b-884ead9bf1b5</target>
-    <point>120.0,600.0</point>
-    <point>121.0,436.0</point>
+    <point>120.0,558.0</point>
+    <point>120.0,444.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>

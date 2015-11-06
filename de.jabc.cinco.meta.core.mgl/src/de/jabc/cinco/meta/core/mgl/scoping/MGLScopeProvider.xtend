@@ -3,31 +3,22 @@
  */
 package de.jabc.cinco.meta.core.mgl.scoping
 
+import java.net.URL
+import java.util.ArrayList
+import mgl.GraphModel
+import mgl.ModelElement
 import mgl.ReferencedAttribute
 import mgl.ReferencedEClass
 import mgl.ReferencedModelElement
+import mgl.ReferencedType
+import mgl.Type
+import org.eclipse.emf.common.util.URI
+import org.eclipse.emf.ecore.EClass
 import org.eclipse.emf.ecore.EReference
+import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.xtext.scoping.IScope
 import org.eclipse.xtext.scoping.Scopes
 import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider
-import org.eclipse.emf.ecore.EClass
-import mgl.ReferencedType
-import mgl.ModelElement
-import mgl.GraphModel
-import com.sun.prism.ResourceFactory
-import org.eclipse.emf.ecore.resource.ResourceSet
-import org.eclipse.emf.ecore.resource.Resource
-import mgl.impl.ReferencedModelElementImpl
-import mgl.impl.ReferencedEClassImpl
-import org.eclipse.emf.common.util.URI
-import java.util.List
-import mgl.Type
-import java.util.Collection
-import java.util.ArrayList
-import org.eclipse.emf.ecore.plugin.EcorePlugin
-import org.eclipse.core.runtime.Platform
-import org.eclipse.core.resources.ResourcesPlugin
-import java.net.URL
 
 /**
  * This class contains custom scoping description.

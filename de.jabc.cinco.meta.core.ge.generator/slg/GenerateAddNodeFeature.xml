@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>7def08b0-45b0-4f5d-9629-657ab3028508</id>
   <name>GenerateAddNodeFeature</name>
-  <changecounter>1801</changecounter>
+  <changecounter>1835</changecounter>
   <sib>
     <id>b89523ed-9916-4f61-a5e9-9e1d8838a845</id>
     <name>PutExpression_1</name>
@@ -359,8 +359,8 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
   <edge>
     <source>41593b09-8ee0-4638-9e7e-9e90f7405015</source>
     <target>dbad13c4-2374-4c8e-bd0d-8863a519e4a5</target>
-    <point>372.0,255.25714285714287</point>
-    <point>303.0,284.8285714285714</point>
+    <point>387.0,247.2</point>
+    <point>288.0,247.2</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -463,8 +463,8 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
   <edge>
     <source>fe24d92a-f68f-432e-8322-e04657863492</source>
     <target>7fb47318-a83d-4813-b386-01e79a68e99a</target>
-    <point>138.0,368.1</point>
-    <point>220.0,440.0</point>
+    <point>120.0,369.0</point>
+    <point>120.0,511.0</point>
     <labelposition>500.0,-7.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -959,8 +959,8 @@ public class Add$context.modelElementName$Feature extends AbstractAddShapeFeatur
   <edge>
     <source>3dba0534-f2fc-402e-a00f-614a1753c864</source>
     <target>0600d8c7-2c7d-427c-b19c-0df44df02475</target>
-    <point>120.0,90.0</point>
-    <point>285.0,120.0</point>
+    <point>138.0,111.98181818181818</point>
+    <point>267.0,111.98181818181818</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -1375,7 +1375,7 @@ Leaving Generate ${nodeName} AddFeature </expression>
     <parameter name="object">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>object</key>
+          <key>primeRefType</key>
           <scope>LOCAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
@@ -1492,11 +1492,6 @@ Leaving Generate ${nodeName} AddFeature </expression>
     <sib>2d0994da-dc0e-48ac-8053-59480260e4b6</sib>
   </branch>
   <branch>
-    <name>default</name>
-    <branch>default</branch>
-    <sib>14638ad3-47f5-47d9-a057-7e754a7e0b27</sib>
-  </branch>
-  <branch>
     <name>error</name>
     <branch>error</branch>
     <sib>34bac75f-5a18-400f-9ae2-f09f6cc9ecaa</sib>
@@ -1600,5 +1595,10 @@ Leaving Generate ${nodeName} AddFeature </expression>
     <name>error</name>
     <branch>error</branch>
     <sib>a1b068e2-d31f-4aef-bd26-23ef5cb004d8</sib>
+  </branch>
+  <branch>
+    <name>default</name>
+    <branch>default</branch>
+    <sib>14638ad3-47f5-47d9-a057-7e754a7e0b27</sib>
   </branch>
 </model>

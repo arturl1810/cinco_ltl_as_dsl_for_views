@@ -19,6 +19,7 @@ import java.util.Map.Entry;
 import java.util.jar.Manifest;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import mgl.Annotation;
 import mgl.Attribute;
@@ -281,17 +282,25 @@ public class ServiceAdapter {
 		LightweightExecutionContext context = env.getLocalContext();
 		
 		try {
-			EClass ec = (EClass) context.get(eClass);
-			System.out.println("EClass: " + ec);
+			Object object = context.get(eClass);
 			String fName = (String) env.evaluate(featureName);
 			System.out.println("FeatureName: " + fName);
-			
-			EStructuralFeature feature = ec.getEStructuralFeature(fName);
-			System.out.println("Feature: " +feature);
-			if (feature != null) {
-				return Branches.TRUE;
+			if (object instanceof ModelElement) {
+				ModelElement me = (ModelElement) object;
+				List<Attribute> attribtues = me.getAttributes().stream().filter(a -> a.getName() != null).collect(Collectors.toList());
+				if (attribtues.contains(fName))
+					return Branches.TRUE;
+				else return Branches.FALSE;
+			} else if (object instanceof EClass){
+				EClass ec = (EClass) object;
+				System.out.println("EClass: " + ec);
+				
+				EStructuralFeature feature = ec.getEStructuralFeature(fName);
+				System.out.println("Feature: " +feature);
+				if (feature != null) {
+					return Branches.TRUE;
+				} else return Branches.FALSE;
 			} else return Branches.FALSE;
-			
 		} catch (Exception e) {
 			context.put("exception", e);
 			return Branches.ERROR;
@@ -356,6 +365,9 @@ public class ServiceAdapter {
 
 		LightweightExecutionContext context = env.getLocalContext();
 		try {
+
+			Object me = context.getGlobally("modelElement");
+			
 			String gaName = (String) env.evaluate(graphicsAlgorithmName);
 			Boolean cCache = (Boolean) env.evaluate(clearCache);
 			
@@ -630,34 +642,35 @@ public class ServiceAdapter {
 			List<String> imps = new ArrayList<>();
 			
 			for (Import i : gmImports){
-				URI importUri = PathValidator.getURIForString(i, i.getImportURI());
-				IPath path = new Path(importUri.toPlatformString(true));
-				IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-				IFile file = root.getFile(path);
-				IProject p = file.getProject();
-				IFile mglFile = findMGLFile(p.getFolder("model"));
-				if (mglFile != null) {
-					Resource res = new ResourceSetImpl().getResource(
-							URI.createPlatformResourceURI(mglFile.getFullPath().toOSString(), true), 
-							true);
-					for (EObject o : res.getContents()) {
-						if (o instanceof GraphModel) {
-							GraphModel gm = (GraphModel) o;
-							if (gm.getPackage() != null && !gm.getPackage().isEmpty()) {
-								imps.add(gm.getPackage().concat("." + gm.getName().toLowerCase()));
-							} else imps.add(gm.getName().toLowerCase());
-						}
-					}
-				} else {
-					Resource res = new ResourceSetImpl().getResource(
-							URI.createPlatformResourceURI(file.getFullPath().toOSString(), true), true);
-					for (EObject o : res.getContents()) {
-						if (o instanceof EPackage) {
-							EPackage ePackage = (EPackage) o;
-							imps.add(ePackage.getName());
-						}
-					}
-				}
+				imps.add(i.getImportURI());
+//				URI importUri = PathValidator.getURIForString(i, i.getImportURI());
+//				IPath path = new Path(importUri.toPlatformString(true));
+//				IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+//				IFile file = root.getFile(path);
+//				IProject p = file.getProject();
+//				IFile mglFile = findMGLFile(p.getFolder("model"));
+//				if (mglFile != null) {
+//					Resource res = new ResourceSetImpl().getResource(
+//							URI.createPlatformResourceURI(mglFile.getFullPath().toOSString(), true), 
+//							true);
+//					for (EObject o : res.getContents()) {
+//						if (o instanceof GraphModel) {
+//							GraphModel gm = (GraphModel) o;
+//							if (gm.getPackage() != null && !gm.getPackage().isEmpty()) {
+//								imps.add(gm.getPackage().concat("." + gm.getName().toLowerCase()));
+//							} else imps.add(gm.getName().toLowerCase());
+//						}
+//					}
+//				} else {
+//					Resource res = new ResourceSetImpl().getResource(
+//							URI.createPlatformResourceURI(file.getFullPath().toOSString(), true), true);
+//					for (EObject o : res.getContents()) {
+//						if (o instanceof EPackage) {
+//							EPackage ePackage = (EPackage) o;
+//							imps.add(ePackage.getName());
+//						}
+//					}
+//				}
 			}
 			context.put(imports, imps);
 			return Branches.DEFAULT;
@@ -1714,6 +1727,7 @@ public class ServiceAdapter {
 			ContextKeyFoundation modelElement,
 			ContextKeyFoundation value,
 			ContextKeyFoundation attributeName) {
+		
 		LightweightExecutionContext context = env.getLocalContext();
 		try {
 			ModelElement me = (ModelElement) context.get(modelElement);
