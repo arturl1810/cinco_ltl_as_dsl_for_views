@@ -9,6 +9,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import mgl.GraphModel;
+import mgl.MglPackage;
+
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.Command;
 import org.eclipse.core.commands.ExecutionEvent;
@@ -24,6 +27,8 @@ import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.jface.dialogs.ErrorDialog;
@@ -64,9 +69,9 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 			if(selection.getFirstElement() instanceof IFile){
 				IFile mglModelFile = null;
 				IFile cpdFile = MGLSelectionListener.INSTANCE.getSelectedCPDFile();
-				CincoProduct cpd = loadCPD(cpdFile);
+				CincoProduct cpd = (CincoProduct)loadModel(cpdFile,"cpd",ProductDefinition.ProductDefinitionPackage.eINSTANCE);
 				BundleRegistry.resetRegistry();
-				deleteGeneratedResources(cpdFile.getProject());
+				deleteGeneratedResources(cpdFile.getProject(),cpd);
 				for(String mglPath: cpd.getMgls()){
 					mglModelFile = cpdFile.getProject().getFile(mglPath);
 					MGLSelectionListener.INSTANCE.putMGLFile(mglModelFile);
@@ -130,25 +135,45 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 		return null;
 	}
 
-	private CincoProduct loadCPD(IFile cpdFile) throws IOException, CoreException {
-		System.out.println(cpdFile);
+	private EObject loadModel(IFile cpdFile, String fileExtension, EPackage ePkg) throws IOException, CoreException {
 		URI createPlatformResourceURI = URI.createPlatformResourceURI(cpdFile.getFullPath().toPortableString(), true);
-		Resource res = Resource.Factory.Registry.INSTANCE.getFactory(createPlatformResourceURI, "cpd").createResource(createPlatformResourceURI);
-		ResourceSet set = ProductDefinition.ProductDefinitionPackage.eINSTANCE.eResource().getResourceSet();
+		Resource res = Resource.Factory.Registry.INSTANCE.getFactory(createPlatformResourceURI, fileExtension).createResource(createPlatformResourceURI);
+		ResourceSet set = ePkg.eResource().getResourceSet();
 		res.load(cpdFile.getContents(),null);
-		return (CincoProduct) res.getContents().get(0);
+		return res.getContents().get(0);
 		
 	}
 
-	private void deleteGeneratedResources(IProject project) {
+	private void deleteGeneratedResources(IProject project, CincoProduct cpd) {
 		try {
+			ArrayList<String> gmPackages = new ArrayList<>();
+			for(String mglPath: cpd.getMgls()){
+				IFile mglFile = project.getFile(mglPath);
+				try {
+					EObject eObj = loadModel(mglFile,"mgl",MglPackage.eINSTANCE);
+					
+					
+						if(eObj instanceof GraphModel)
+							gmPackages.add(((GraphModel)eObj).getPackage());
+					
+				
+				} catch (IOException e) {
+					
+					e.printStackTrace();
+				}
+
+			}
 			Collection<IResource> toDelete = new ArrayList<>();
 			toDelete.add(project.findMember("resources-gen/"));
 			if(project.getFolder("src-gen/").exists()){
 				for (IResource member : project.getFolder("src-gen/").members()) {
 					if (member instanceof IFolder
 							&& !member.getName().equals("model")) {
-						toDelete.add(member);
+
+						for(String e: gmPackages){
+							if(e.startsWith(member.getName()))
+								toDelete.add(((IFolder)member.getParent()).getFolder(toPath(e)));
+						}
 					}
 				}
 			}
@@ -165,5 +190,10 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 			e.printStackTrace();
 		}
 
+	}
+
+	private String toPath(String e) {
+		return e.replace('.', '/');
+		
 	}
 }
