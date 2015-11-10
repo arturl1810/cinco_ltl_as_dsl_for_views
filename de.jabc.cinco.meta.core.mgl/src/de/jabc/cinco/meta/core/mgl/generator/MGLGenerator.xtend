@@ -65,7 +65,6 @@ class MGLGenerator implements IGenerator {
 		var interfaceGraphModel = PluginRegistry::getInstance().getRegisteredEcoreModels().get("abstractGraphModel");
 //		var mcGraphModel = PluginRegistry::getInstance().getRegisteredEcoreModels().get("mc");
 //		var generatable = PluginRegistry::getInstance().getRegisteredEcoreModels().get("generatable")
-//		println(generatable==null)
 		var LightweightExecutionContext context = new DefaultLightweightExecutionContext(null)
 		var ecoreMap = PluginRegistry::getInstance().getRegisteredEcoreModels() 
 		var genModelMap = PluginRegistry::getInstance().getGenModelMap() //new HashMap<EPackage,String>
@@ -88,7 +87,6 @@ class MGLGenerator implements IGenerator {
 		context.put("ExecutionEnvironment",environment)
 		var gdl2ecore = new MGL2Ecore
 		var String x= gdl2ecore.execute(environment);
-		println(x)
 		if(x.equals("default")){
 			
 			var ePackage = context.get("ePackage") as EPackage
@@ -118,7 +116,6 @@ class MGLGenerator implements IGenerator {
 			for(key:usedEcoreModels){
 				var res = new XMIResourceImpl(URI::createURI(genModelMap.get(key))) 
 				res.load(null)
-				println(key + " "+genModelMap.get(key))
 				for(genPackage:res.allContents.toIterable.filter(typeof(GenPackage))){
 					
 					genModel.usedGenPackages += genPackage	
@@ -139,7 +136,6 @@ class MGLGenerator implements IGenerator {
 			
 			
 		}else if(x.equals("error")){
-			println(context)
 			var exception = context.get("exception") as Exception
 			exception.printStackTrace
 			throw exception
@@ -157,13 +153,11 @@ class MGLGenerator implements IGenerator {
 		for(elem:connectableElements){
 			for(connect:elem.incomingEdgeConnections){
 				if(connect.connectingEdges.nullOrEmpty){
-					println("Incoming: "+connect)
 					connect.connectingEdges += graphModel.edges
 				}
 			}
 			for(connect:elem.outgoingEdgeConnections){
 				if(connect.connectingEdges.nullOrEmpty){
-					println("Outgoing: "+connect)
 					connect.connectingEdges += graphModel.edges
 				}
 			}

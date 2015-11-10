@@ -25,7 +25,6 @@ public java.lang.String[] BRANCHES = {"default","error"};
 	
 	@Override
 	public ServiceAdapterDescriptor generate() {
-		System.out.println("Calling Generate for "+this.getClass().getName());
 		return new de.metaframe.jabc.sib.ServiceAdapterDescriptor(LightweightServiceAdapter.class
 				.getName(), "getAllSubTypes", "modelElementKey","subTypesKey");
 		

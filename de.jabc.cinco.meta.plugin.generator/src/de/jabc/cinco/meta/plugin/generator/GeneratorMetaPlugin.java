@@ -13,7 +13,6 @@ public class GeneratorMetaPlugin implements IMetaPlugin {
 
 	@Override
 	public String execute(Map<String, Object> map) {
-		System.out.println("RUNNING GENERATOR METAPLUGIN");
 		LightweightExecutionContext context = new DefaultLightweightExecutionContext(null);
 		LightweightExecutionEnvironment env = new DefaultLightweightExecutionEnvironment(context);
 		for(String str :map.keySet()){

@@ -84,7 +84,6 @@ class MGLScopeProvider extends AbstractDeclarativeScopeProvider {
 				if(res!=null){
 					scope = Scopes.scopeFor(res.allContents.toList.filter[d| d instanceof ModelElement])
 				}
-				//println("MGL FACTORY: "+mglFactory)
 			}
 		return scope
 	}

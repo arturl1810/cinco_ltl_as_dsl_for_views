@@ -85,7 +85,6 @@ public class CreateCodeGeneratorPlugin extends AbstractService {
 					globalContext
 							.put("exception", e);
 					e.printStackTrace();
-					System.out.println("Error 0");
 					return "error";
 				}
 

@@ -291,10 +291,8 @@ class MGLValidator extends AbstractMGLValidator {
 						
 						}
 					
-					//println(graphModel)
 					
 					for(element: model.eAllContents.toIterable.filter(typeof(Type))){
-						//println(element)
 						if(element.name.equals(type)){
 							return true
 						

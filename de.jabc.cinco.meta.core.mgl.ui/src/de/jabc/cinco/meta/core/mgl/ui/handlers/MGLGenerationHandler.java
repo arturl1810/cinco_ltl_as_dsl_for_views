@@ -86,7 +86,6 @@ public class MGLGenerationHandler extends AbstractHandler {
 				ResourceSet rSet = resourceSetProvider.get(file.getProject());
 				
 				Resource res = rSet.createResource(URI.createPlatformResourceURI(file.getFullPath().toOSString(), true));
-				System.err.println("File exists: " + file.getFullPath().toOSString());
 				monitor.worked(0);
 				
 				try {
@@ -129,7 +128,6 @@ public class MGLGenerationHandler extends AbstractHandler {
 				try {
 					file.getProject().refreshLocal(0, monitor);
 				} catch (CoreException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 					
 				}

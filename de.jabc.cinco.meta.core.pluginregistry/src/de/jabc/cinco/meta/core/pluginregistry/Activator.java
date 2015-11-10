@@ -64,7 +64,6 @@ public class Activator extends AbstractUIPlugin {
 			readExtension(extension);
 
 		for(String a: PluginRegistry.getInstance().getAnnotations(0)){
-			System.out.println(a);
 			for(PluginRegistryEntry b: PluginRegistry.getInstance().getSuitableMetaPlugins(a)){
 				System.out.println(b.getMetaPluginService().getClass().getCanonicalName());
 			}

@@ -80,12 +80,9 @@ class CPDGenerator implements IGenerator {
 			var features = new ArrayList<IProductFeature>
 			var feat = null as IProductFeature
 			for (mgl : productDefinition.mgls) {
-				println(mgl)
 				val root = ResourcesPlugin.workspace.root
 				val path = resource.URI.toPlatformString(true)
-				println(path)
 				val findMember = root.findMember(path)
-				println(findMember)
 				var cpdProject = findMember.project
 
 				var fileURI = URI.createURI(cpdProject.findMember(mgl).fullPath.toPortableString)
