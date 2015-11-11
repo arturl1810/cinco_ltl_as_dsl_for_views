@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>a8a13ead-991d-4a0c-b376-516f4a369f43</id>
   <name>Reference Attributes</name>
-  <changecounter>4</changecounter>
+  <changecounter>5</changecounter>
   <sib>
     <id>3f6e3b58-d6c2-48c0-b99e-d64f456d2f74</id>
     <name>IterateElements</name>
@@ -160,9 +160,9 @@
   </edge>
   <edge>
     <source>df24648f-56e5-4fc1-a908-ce372d7ae174</source>
-    <target>b844a872-1fa0-4c6f-8b75-ce6bee8cc0d0</target>
-    <point>582.0,586.08</point>
-    <point>468.0,643.08</point>
+    <target>602c43af-4cd6-4a6d-a005-a3851faa3c26</target>
+    <point>600.0,594.0</point>
+    <point>600.0,678.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -204,34 +204,6 @@
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
   </sib>
-  <sib>
-    <id>b844a872-1fa0-4c6f-8b75-ce6bee8cc0d0</id>
-    <name>PrintConsoleMessage</name>
-    <label>PrintConsoleMessage</label>
-    <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
-    <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
-    <position>324.5,603.0</position>
-    <parameter name="error">
-      <boolean>false</boolean>
-    </parameter>
-    <parameter name="message">
-      <de.metaframe.common.sib.parameter.ContextExpression>
-        <ContextExpressionFoundation>
-          <expression>Adding Reference Name: ${referenceTypeName} with Class: ${referenceType} to Reference ${reference}</expression>
-          <clazz>java.lang.Object</clazz>
-          <classMutable>false</classMutable>
-        </ContextExpressionFoundation>
-      </de.metaframe.common.sib.parameter.ContextExpression>
-    </parameter>
-    <finalbranches>default</finalbranches>
-  </sib>
-  <edge>
-    <source>b844a872-1fa0-4c6f-8b75-ce6bee8cc0d0</source>
-    <target>602c43af-4cd6-4a6d-a005-a3851faa3c26</target>
-    <point>450.0,660.0</point>
-    <point>597.0,699.0</point>
-    <branch>default</branch>
-  </edge>
   <values/>
   <branch>
     <name>error</name>
