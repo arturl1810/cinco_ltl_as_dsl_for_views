@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>d56f9277-94e0-48c2-aff2-e2cc43c9b74b</id>
   <name>Create Connecting Constraints</name>
-  <changecounter>75</changecounter>
+  <changecounter>78</changecounter>
   <sib>
     <id>bfd87f61-6514-4fa7-b65c-deda7e931e26</id>
     <name>CompareElements</name>
@@ -85,9 +85,9 @@
   </sib>
   <edge>
     <source>bfd87f61-6514-4fa7-b65c-deda7e931e26</source>
-    <target>6e2a4ba7-3277-463a-899c-c5fea25382e6</target>
-    <point>770.0,1043.0</point>
-    <point>920.0,908.0</point>
+    <target>fef24ff6-21b4-4e5c-901d-3d753a25952f</target>
+    <point>783.0,1038.4588235294118</point>
+    <point>1000.0,1000.2352941176471</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>equal</branch>
   </edge>
@@ -858,35 +858,6 @@
     <point>218.0,1833.0</point>
     <point>570.2214765100671,1404.0</point>
     <labelposition>396.41486830935315,-152.50542430239122</labelposition>
-    <branch>default</branch>
-  </edge>
-  <sib>
-    <id>6e2a4ba7-3277-463a-899c-c5fea25382e6</id>
-    <name>PrintConsoleMessage</name>
-    <label>PrintConsoleMessage</label>
-    <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
-    <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
-    <position>849.5,888.0</position>
-    <parameter name="error">
-      <boolean>false</boolean>
-    </parameter>
-    <parameter name="message">
-      <de.metaframe.common.sib.parameter.ContextExpression>
-        <ContextExpressionFoundation>
-          <expression>******* ${connectingEdgeName} *******</expression>
-          <clazz>java.lang.Object</clazz>
-          <classMutable>false</classMutable>
-        </ContextExpressionFoundation>
-      </de.metaframe.common.sib.parameter.ContextExpression>
-    </parameter>
-    <finalbranches>default</finalbranches>
-  </sib>
-  <edge>
-    <source>6e2a4ba7-3277-463a-899c-c5fea25382e6</source>
-    <target>fef24ff6-21b4-4e5c-901d-3d753a25952f</target>
-    <point>920.0,908.0</point>
-    <point>1025.0,998.0</point>
-    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
@@ -1993,7 +1964,7 @@
     <parameter name="value">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>(self.incoming-&gt;select(elem| elem.oclIsTypeOf(${connectingEdgeName}))-&gt;size())</expression>
+          <expression>(self.incoming-&gt;select(elem| elem.oclIsKindOf(${connectingEdgeName}))-&gt;size())</expression>
           <clazz>java.lang.String</clazz>
           <classMutable>true</classMutable>
         </ContextExpressionFoundation>
@@ -2109,7 +2080,7 @@
     <parameter name="value">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>${buildConstraint}+(self.incoming-&gt;select(elem| elem.oclIsTypeOf(${connectingEdgeName}))-&gt;size())</expression>
+          <expression>${buildConstraint}+(self.incoming-&gt;select(elem| elem.oclIsKindOf(${connectingEdgeName}))-&gt;size())</expression>
           <clazz>java.lang.String</clazz>
           <classMutable>true</classMutable>
         </ContextExpressionFoundation>
@@ -2161,7 +2132,7 @@
     <parameter name="value">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>(self.outgoing-&gt;select(elem| elem.oclIsTypeOf(${connectingEdgeName}))-&gt;size())</expression>
+          <expression>(self.outgoing-&gt;select(elem| elem.oclIsKindOf(${connectingEdgeName}))-&gt;size())</expression>
           <clazz>java.lang.String</clazz>
           <classMutable>true</classMutable>
         </ContextExpressionFoundation>
@@ -2250,7 +2221,7 @@
     <parameter name="value">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
-          <expression>${buildConstraint}+(self.outgoing-&gt;select(elem| elem.oclIsTypeOf(${connectingEdgeName}))-&gt;size())</expression>
+          <expression>${buildConstraint}+(self.outgoing-&gt;select(elem| elem.oclIsKindOf(${connectingEdgeName}))-&gt;size())</expression>
           <clazz>java.lang.String</clazz>
           <classMutable>true</classMutable>
         </ContextExpressionFoundation>
