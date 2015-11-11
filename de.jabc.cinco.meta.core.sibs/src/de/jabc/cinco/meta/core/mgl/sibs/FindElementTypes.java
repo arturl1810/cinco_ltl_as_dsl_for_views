@@ -28,7 +28,6 @@ public class FindElementTypes extends AbstractSIB {
 	
 	@Override
 	public ServiceAdapterDescriptor generate() {
-		System.out.println("Calling Generate for "+this.getClass().getName());
 		return new de.metaframe.jabc.sib.ServiceAdapterDescriptor(LightweightServiceAdapter.class
 				.getName(), "findElementTypes", "graphModel","elementTypes","direction");
 		
