@@ -44,6 +44,7 @@ private TableViewer viewer;
 		else {
 			selectedObject = ((IStructuredSelection) selection).getFirstElement();
 			manager.add(getCreateAction());
+			manager.add(getEditAction());
 			manager.add(new Separator());
 			manager.add(getDeleteAction(selectedObject));
 		}
@@ -95,6 +96,49 @@ private TableViewer viewer;
 		return action;
 	}
 
+	private IAction getEditAction() {
+		Action action = new Action() {
+			
+			@Override
+			public String getText() {
+				return "Edit...";
+			}
+			
+			@Override
+			public boolean isEnabled() {
+				return selectedObject != null;
+			}
+			
+			@Override
+			public void run() {
+				TransactionalEditingDomain dom = getOrCreateTransactionalEditingDomain(bo);
+				
+				final String newValue = AttributeCreator.createAttribute(attribute, selectedObject);
+				if (newValue == null)
+					return;
+				
+				dom.getCommandStack().execute(new RecordingCommand(dom, this.getText()) {
+					
+					@Override
+					protected void doExecute() {
+						if (attribute.getUpperBound() == 1)
+							bo.eSet(attribute, newValue);
+						else {
+							List<Object> result = (List<Object>) bo.eGet(attribute);
+							int index = result.indexOf(selectedObject);
+							result.remove(index);
+							result.add(index, EcoreUtil.createFromString(attribute.getEAttributeType(), (String) newValue));
+						}
+					}
+				});
+				viewer.refresh();
+			}
+			
+		};
+		
+		return action;
+	}
+	
 	private IAction getDeleteAction(Object eObject) {
 		Action action = new Action() {
 			

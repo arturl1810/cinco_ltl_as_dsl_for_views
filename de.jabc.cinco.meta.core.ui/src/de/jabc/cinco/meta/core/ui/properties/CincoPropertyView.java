@@ -47,6 +47,7 @@ import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
 import org.eclipse.jface.databinding.viewers.ObservableListTreeContentProvider;
 import org.eclipse.jface.databinding.viewers.ViewersObservables;
 import org.eclipse.jface.viewers.ArrayContentProvider;
+import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -54,6 +55,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -442,16 +444,21 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener{
 		label.setText(attr.getName() + ": ");
 		label.setLayoutData(tableLabelLayoutData);
 
-		Table table = new Table(comp, SWT.SINGLE | SWT.BORDER);
+		Table table = new Table(comp, SWT.SINGLE | SWT.BORDER | SWT.FULL_SELECTION);
 		TableViewer tableViewer = new TableViewer(table);
 		table.setLayoutData(tableLayoutData);
 
+		TextCellEditor editor = new TextCellEditor(table);
+		tableViewer.setCellEditors(new CellEditor[] {editor});
+		
+		tableViewer.getTable().setEnabled(true);
+		
 		tableViewer.setContentProvider(new ObservableListContentProvider());
 		tableViewer.setLabelProvider(getLabelProvider());
-
+		
 		IListProperty input = EMFEditProperties.list(domain, attr);
 		tableViewer.setInput(input.observe(bo));
-		
+
 		MenuManager menuManager = new MenuManager();
 		menuManager.setRemoveAllWhenShown(true);
 		menuManager.addMenuListener(new CincoTableMenuListener(tableViewer, bo, attr));

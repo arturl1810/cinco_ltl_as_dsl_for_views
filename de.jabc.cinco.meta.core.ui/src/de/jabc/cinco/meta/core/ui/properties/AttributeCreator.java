@@ -19,6 +19,15 @@ public class AttributeCreator {
 		return retval;
 	}
 
+	public static String createAttribute(EAttribute attr, Object selectedObject) {
+		String retval = null;
+		InputDialog dialog = getDialog(attr, selectedObject);
+		if (dialog.open() == Dialog.OK)
+			return dialog.getValue();
+		
+		return retval;
+	}
+	
 	private static InputDialog getDialog(EAttribute attr) {
 		
 		return new InputDialog(
@@ -29,6 +38,15 @@ public class AttributeCreator {
 				getValidator(attr));
 	}
 	
+	private static InputDialog getDialog(EAttribute attr,Object selectedObject) {
+		
+		return new InputDialog(
+				Display.getCurrent().getActiveShell(), 
+				"New " + attr.getName(), 
+				"Create a new " + attr.getName() + " value", 
+				selectedObject.toString(),
+				getValidator(attr));
+	}
 
 	private static IInputValidator getValidator(final EAttribute attr) {
 		return new IInputValidator() {
@@ -46,6 +64,11 @@ public class AttributeCreator {
 		
 	}
 
+//	private static Object getValue(EAttribute attr) {
+//		EObject eContainer = attr.eContainer();
+//		Object val = eContainer.eGet(attr);
+//	}
+	
 	private static String getInitialValue(EAttribute attr) {
 		EDataType eAttributeType = attr.getEAttributeType();
 		switch (eAttributeType.getName()) {
