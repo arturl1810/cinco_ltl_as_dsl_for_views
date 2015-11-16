@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>ede0f2a5-2d64-419a-a377-4de364aed9a1</id>
   <name>GenerateGraphmodelWrapper</name>
-  <changecounter>330</changecounter>
+  <changecounter>343</changecounter>
   <sib>
     <id>961ec5c2-d49b-4f47-b506-1d2f2c25fd26</id>
     <name>RunStringTemplate</name>
@@ -310,7 +310,7 @@ public class $graphModelName$Wrapper {
     <label>RunStringTemplate</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>572.0,393.0</position>
+    <position>647.0,393.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -396,7 +396,7 @@ public class $graphModelName$Wrapper {
     <label>GetModelElementName</label>
     <sib-uid>mgl/mgl/GetModelElementName</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetModelElementName</taxonomy>
-    <position>380.0,393.0</position>
+    <position>500.0,393.0</position>
     <parameter name="modelElementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -760,9 +760,10 @@ public class $graphModelName$Wrapper {
   </edge>
   <edge>
     <source>a4fa982e-ba82-40b2-93d7-89242f6f803a</source>
-    <target>20fcdb53-ffe1-47ab-8a42-0b7226f73fcd</target>
-    <point>330.0,420.0</point>
-    <point>450.0,414.0</point>
+    <target>f5f14298-68ee-4186-8681-b1b001ed3f27</target>
+    <point>348.0,422.7</point>
+    <point>372.0,434.7</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>false</branch>
   </edge>
   <edge>
@@ -812,7 +813,7 @@ public class $graphModelName$Wrapper {
     <parameter name="collection">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>containers</key>
+          <key>nodeList</key>
           <scope>GLOBAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
@@ -916,6 +917,44 @@ public class $graphModelName$Wrapper {
     <finalbranches>exit</finalbranches>
     <finalbranches>next</finalbranches>
   </sib>
+  <sib>
+    <id>f5f14298-68ee-4186-8681-b1b001ed3f27</id>
+    <name>SwitchNode</name>
+    <label>SwitchNode</label>
+    <sib-uid>mgl/mgl/SwitchNode</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.SwitchNode</taxonomy>
+    <position>398.0,393.0</position>
+    <parameter name="eObjectKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>container</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>NodeContainer</finalbranches>
+    <finalbranches>error</finalbranches>
+    <finalbranches>other</finalbranches>
+  </sib>
+  <edge>
+    <source>f5f14298-68ee-4186-8681-b1b001ed3f27</source>
+    <target>20fcdb53-ffe1-47ab-8a42-0b7226f73fcd</target>
+    <point>483.0,412.35</point>
+    <point>567.0,412.35</point>
+    <labelposition>440.0,-2.0</labelposition>
+    <branch>NodeContainer</branch>
+  </edge>
+  <edge>
+    <source>f5f14298-68ee-4186-8681-b1b001ed3f27</source>
+    <target>ab308a99-647b-48cf-a263-2a9a5ae24f83</target>
+    <spline/>
+    <point>417.0,405.72</point>
+    <point>210.0,345.0</point>
+    <point>166.36363636363637,393.0</point>
+    <labelposition>792.6678367008458,52.70500898735157</labelposition>
+    <branch>other</branch>
+  </edge>
   <values/>
   <branch>
     <name>error</name>
