@@ -79,21 +79,26 @@ class CPDGenerator implements IGenerator {
 			// adding features
 			var features = new ArrayList<IProductFeature>
 			var feat = null as IProductFeature
-			for (mgl : productDefinition.mgls) {
-				val root = ResourcesPlugin.workspace.root
-				val path = resource.URI.toPlatformString(true)
-				val findMember = root.findMember(path)
-				var cpdProject = findMember.project
-
-				var fileURI = URI.createURI(cpdProject.findMember(mgl).fullPath.toPortableString)
-				var res = Resource.Factory.Registry.INSTANCE.getFactory(fileURI, "mgl").createResource(fileURI)
-				res.load(null)
-				var mglModel = res.contents.get(0) as GraphModel
-				feat = new ProductFeature(productModel)
-				feat.id = mglModel.package + ".feature"
+//			for (mgl : productDefinition.mgls) {
+//				val root = ResourcesPlugin.workspace.root
+//				val path = resource.URI.toPlatformString(true)
+//				val findMember = root.findMember(path)
+//				var cpdProject = findMember.project
+//
+//				var fileURI = URI.createURI(cpdProject.findMember(mgl).fullPath.toPortableString)
+//				var res = Resource.Factory.Registry.INSTANCE.getFactory(fileURI, "mgl").createResource(fileURI)
+//				res.load(null)
+//				var mglModel = res.contents.get(0) as GraphModel
+//				feat = new ProductFeature(productModel)
+//				feat.id = mglModel.package + ".feature"
+//				features.add(feat)
+//				BundleRegistry.INSTANCE.addBundle(id, false)
+//			}
+			
+			feat = new ProductFeature(productModel)
+				feat.id = ProjectCreator.getProjectSymbolicName(mglProject) + ".feature"
 				features.add(feat)
 				BundleRegistry.INSTANCE.addBundle(id, false)
-			}
 
 			// adding other features
 			//			 feat = new ProductFeature(productModel)

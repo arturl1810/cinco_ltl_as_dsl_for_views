@@ -59,7 +59,6 @@ public class GenerateFeatureProjectHandler extends AbstractHandler {
 				
 			}
 		} catch (InvocationTargetException | InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return false;
@@ -87,7 +86,7 @@ public class GenerateFeatureProjectHandler extends AbstractHandler {
 						res.load(null);
 						GraphModel model = (GraphModel) res.getContents()
 								.get(0);
-						String packageName = model.getPackage();
+						String packageName = ProjectCreator.getProjectSymbolicName(ProjectCreator.getProject(model.eResource())); 
 						String projectName = packageName + ".feature";
 						ArrayList<String> srcFolders = new ArrayList<>();
 						srcFolders.add("src");
@@ -133,7 +132,6 @@ public class GenerateFeatureProjectHandler extends AbstractHandler {
 						featureProject.refreshLocal(IResource.DEPTH_INFINITE,
 								monitor);
 					} catch (Exception e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				
