@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>3bb8a1c5-18ed-4580-8582-3c735f199d9e</id>
   <name>GenerateModelElementPostCreationHook</name>
-  <changecounter>126</changecounter>
+  <changecounter>130</changecounter>
   <sib>
     <id>c751516d-45fd-4d63-91fb-316082348803</id>
     <name>CopyEObject</name>
@@ -262,8 +262,7 @@
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>if (hook)
-	new $context.className$().postCreateAndUpdate(graph, diagram);</string>
+      <string>new $context.className$().postCreateAndUpdate(graph, diagram);</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
