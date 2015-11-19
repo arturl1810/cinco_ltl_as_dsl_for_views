@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>3bb8a1c5-18ed-4580-8582-3c735f199d9e</id>
   <name>GenerateModelElementPostCreationHook</name>
-  <changecounter>119</changecounter>
+  <changecounter>126</changecounter>
   <sib>
     <id>c751516d-45fd-4d63-91fb-316082348803</id>
     <name>CopyEObject</name>
@@ -142,11 +142,11 @@
     <finalbranches>error</finalbranches>
     <finalbranches>false</finalbranches>
     <finalbranches>true</finalbranches>
-    <userobject key="ABC$GRAPHSIB$MODELID">
-      <string>8fd8a2e3-0318-4824-930f-f04d3bde4e69</string>
-    </userobject>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>CheckCustomFeatureAnnotation</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>8fd8a2e3-0318-4824-930f-f04d3bde4e69</string>
     </userobject>
   </sib>
   <edge>
@@ -189,7 +189,8 @@
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>new $context.className$().postCreateAndUpdate($context.meIdentifier$, getDiagram());</string>
+      <string>if (hook)
+	new $context.className$().postCreateAndUpdate($context.meIdentifier$, getDiagram());</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
@@ -261,7 +262,8 @@
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>new $context.className$().postCreateAndUpdate(graph, diagram);</string>
+      <string>if (hook)
+	new $context.className$().postCreateAndUpdate(graph, diagram);</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>

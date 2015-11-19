@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>c7542d87-aa25-4707-a286-db91e10d7301</id>
   <name>GenerateAddContainerFeature</name>
-  <changecounter>550</changecounter>
+  <changecounter>557</changecounter>
   <sib>
     <id>3f7b7312-5278-4d0a-b7f8-45424c587ca9</id>
     <name>GetNodeContainerIsAbstract</name>
@@ -401,6 +401,8 @@ import graphmodel.Edge;
 import graphmodel.ModelElement;
 import graphmodel.Node;
 
+import de.jabc.cinco.meta.core.ge.style.model.features.CincoAbstractAddFeature;
+
 import java.util.List;
 import java.util.ArrayList;
 
@@ -424,7 +426,7 @@ import org.eclipse.graphiti.services.IPeService;
 import com.sun.el.ExpressionFactoryImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
-public class Add$context.modelElementName$Feature extends AbstractAddShapeFeature {
+public class Add$context.modelElementName$Feature extends CincoAbstractAddFeature {
 	
 	private ExpressionFactoryImpl factory = new ExpressionFactoryImpl();
 	private ExpressionLanguageContext elContext = null;

@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>7def08b0-45b0-4f5d-9629-657ab3028508</id>
   <name>GenerateAddNodeFeature</name>
-  <changecounter>1835</changecounter>
+  <changecounter>1846</changecounter>
   <sib>
     <id>b89523ed-9916-4f61-a5e9-9e1d8838a845</id>
     <name>PutExpression_1</name>
@@ -108,6 +108,8 @@
 
 import java.util.ArrayList;
 
+import de.jabc.cinco.meta.core.ge.style.model.features.CincoAbstractAddFeature;
+
 import $context.packageName$.graphiti.*;
 import $context.packageName$.graphiti.expression.*;
 import $context.packageName$.graphiti.features.layout.*;
@@ -127,7 +129,7 @@ import org.eclipse.graphiti.util.*;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import com.sun.el.ExpressionFactoryImpl;
 
-public class Add$context.modelElementName$Feature extends AbstractAddShapeFeature {
+public class Add$context.modelElementName$Feature extends CincoAbstractAddFeature {
 	
 	private ExpressionFactoryImpl factory = new ExpressionFactoryImpl();
 	private ExpressionLanguageContext elContext = null;
@@ -509,6 +511,7 @@ import $context.packageName$.graphiti.*;
 import $context.packageName$.graphiti.expression.*;
 import $context.packageName$.graphiti.features.layout.*;
 
+import de.jabc.cinco.meta.core.ge.style.model.features.CincoAbstractAddFeature;
 import de.jabc.cinco.meta.core.referenceregistry.*;
 
 import java.util.UUID;
@@ -531,7 +534,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 
 $context.cincoErrorImport$
 
-public class Add$context.modelElementName$Feature extends AbstractAddShapeFeature {
+public class Add$context.modelElementName$Feature extends CincoAbstractAddFeature {
 	
 	$context.cincoErrorField$
 

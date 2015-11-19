@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>730ef53f-e135-46d5-9e4b-96fc4843c423</id>
   <name>GenerateAddEdgeFeature</name>
-  <changecounter>752</changecounter>
+  <changecounter>766</changecounter>
   <sib>
     <id>4966ae71-56db-49f8-b6d7-c3a51fbd1021</id>
     <name>PutExpression</name>
@@ -195,7 +195,7 @@
     <label>RunStringTemplate</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>115.0,603.0</position>
+    <position>115.0,618.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -213,6 +213,8 @@
     </parameter>
     <parameter name="template">
       <string>package $context.localPkgName$;
+
+import de.jabc.cinco.meta.core.ge.style.model.features.CincoAbstractAddFeature;
 
 import org.eclipse.graphiti.features.*;
 import org.eclipse.graphiti.features.context.*;
@@ -234,7 +236,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import graphmodel.ModelElementContainer;
 
-public class Add$context.edgeName$Feature extends AbstractAddFeature {
+public class Add$context.edgeName$Feature extends CincoAbstractAddFeature {
 
 
 	private ExpressionFactoryImpl factory = new ExpressionFactoryImpl();

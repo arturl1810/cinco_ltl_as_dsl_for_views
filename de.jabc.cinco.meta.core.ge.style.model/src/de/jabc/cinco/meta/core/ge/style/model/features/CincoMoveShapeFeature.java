@@ -1,4 +1,4 @@
-package de.jabc.cinco.meta.core.ge.style.model.movefeature;
+package de.jabc.cinco.meta.core.ge.style.model.features;
 
 import org.eclipse.graphiti.datatypes.ILocation;
 import org.eclipse.graphiti.features.IFeatureProvider;
