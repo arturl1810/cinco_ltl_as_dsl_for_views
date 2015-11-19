@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>36d9fec6-e1a2-4c6b-8680-956d60534097</id>
   <name>GenerateShape</name>
-  <changecounter>1270</changecounter>
+  <changecounter>1283</changecounter>
   <sib>
     <id>7588e245-69f9-4992-b2a2-63a8513339bc</id>
     <name>SwitchShape</name>
@@ -521,9 +521,9 @@ $context.peName$.setStretchV(true);
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>if (context.getWidth() != -1 &amp;&amp; context.getHeight() != -1)  {
+      <string>/*if (context.getWidth() != -1 &amp;&amp; context.getHeight() != -1)  {
 	gaService.setSize($context.peName$, context.getWidth(), context.getHeight());
-} else gaService.setSize($context.peName$, $context.size.width$, $context.size.height$);
+} else*/ gaService.setSize($context.peName$, $context.size.width$, $context.size.height$);
 </string>
     </parameter>
     <finalbranches>default</finalbranches>
@@ -552,9 +552,9 @@ $context.peName$.setStretchV(true);
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>if (context.getWidth() != -1 &amp;&amp; context.getHeight() != -1)  {
+      <string>/*if (context.getWidth() != -1 &amp;&amp; context.getHeight() != -1)  {
 	gaService.setSize($context.peName$, context.getWidth(), context.getHeight());
-} else gaService.setSize($context.peName$, 30, 30);
+} else */gaService.setSize($context.peName$, 30, 30);
 </string>
     </parameter>
     <finalbranches>default</finalbranches>
