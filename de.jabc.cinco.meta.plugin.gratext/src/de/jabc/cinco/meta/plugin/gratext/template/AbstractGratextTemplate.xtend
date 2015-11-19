@@ -31,9 +31,12 @@ class AbstractGratextTemplate {
 	def fileFromTemplate(Class<?> templateClass) { ctx.getFileDescriptor(templateClass) }
 	
 	def create(GratextProjectGenerator generator) {
-		ctx = generator;
-		template.toString;
+		ctx = generator
+		init
+		template.toString
 	}
+	
+	def void init() {}
 	
 	def platformResource(URI uri) {
 		ResourcesPlugin.workspace.root.findMember(new Path(uri.toPlatformString(true)))
@@ -109,4 +112,6 @@ class AbstractGratextTemplate {
 //	def getFile(Path path) {
 //		ResourcesPlugin.getWorkspace().getRoot().getFile(path)
 //	}
+
+
 }

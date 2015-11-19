@@ -31,26 +31,28 @@ public class ContainerDescriptor extends NodeDescriptor<NodeContainer> {
 	}
 	
 	protected void initContainables() {
-		Set<ModelElement> set = initContainables(instance());
+		Set<ModelElement> set = getContainmentRestrictions(instance());
 		if (set.isEmpty()) {
-			//System.out.println(instance().getName() + ".containables: ALL");
 			containables.addAll(getModel().getNodes());
+//			System.out.println(instance().getName() + ".containables: ALL");
 		} else {
 			Set<ModelElement> cons = getModel().withSubTypes(set);
-			//System.out.println(instance().getName() + ".containables: " + cons);
+//			System.out.println(instance().getName() + ".containables: " + cons.stream().map(c -> c.getName() + ", ").collect(Collectors.toList()));
 			containables.addAll(cons);
 		}
 	}
 	
-	protected Set<ModelElement> initContainables(NodeContainer container) {
-		Set<ModelElement> set = new HashSet<>();
+	protected Set<ModelElement> getContainmentRestrictions(NodeContainer container) {
+		Set<ModelElement> restrictions = (container.getExtends() != null) 
+				? getContainmentRestrictions((NodeContainer) container.getExtends())
+				: new HashSet<>();
 		container.getContainableElements().forEach(containment -> {
-			containment.getTypes().forEach(set::add);
+			containment.getTypes().forEach(t -> {
+//				System.out.println(container.getName() + ".containmentRestriction: " + t);
+				restrictions.add(t);
+			});
 		});
-		if (container.getExtends() != null) {
-			set.addAll(initContainables((NodeContainer) container.getExtends()));
-		}
-		return set;
+		return restrictions;
 	}
 	
 	public boolean canContain(GraphicalModelElement element) {

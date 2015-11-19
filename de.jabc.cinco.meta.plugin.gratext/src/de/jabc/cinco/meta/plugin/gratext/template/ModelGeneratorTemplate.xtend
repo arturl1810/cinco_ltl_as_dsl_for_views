@@ -2,6 +2,10 @@ package de.jabc.cinco.meta.plugin.gratext.template
 
 class ModelGeneratorTemplate extends AbstractGratextTemplate {
 	
+def generator() {
+	fileFromTemplate(GratextGeneratorTemplate)
+}
+	
 override template()
 '''	
 package «project.basePackage».generator
@@ -21,32 +25,36 @@ import java.util.HashMap
 import java.util.List
 import java.util.Map
 
+import org.eclipse.core.resources.IFile
+import org.eclipse.core.resources.IProject
 import org.eclipse.core.runtime.IPath
 import org.eclipse.core.runtime.Path
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
+import org.eclipse.emf.transaction.RecordingCommand
+import org.eclipse.emf.transaction.TransactionalEditingDomain
+import org.eclipse.emf.transaction.util.TransactionUtil
 import org.eclipse.graphiti.dt.IDiagramTypeProvider
 import org.eclipse.graphiti.features.IFeatureProvider
+import org.eclipse.graphiti.features.context.impl.AddBendpointContext
 import org.eclipse.graphiti.features.context.impl.AddConnectionContext
 import org.eclipse.graphiti.features.context.impl.AddContext
 import org.eclipse.graphiti.features.context.impl.AreaContext
 import org.eclipse.graphiti.features.context.impl.UpdateContext
 import org.eclipse.graphiti.mm.pictograms.ContainerShape
 import org.eclipse.graphiti.mm.pictograms.Diagram
+import org.eclipse.graphiti.mm.pictograms.FreeFormConnection
 import org.eclipse.graphiti.mm.pictograms.PictogramElement
 import org.eclipse.graphiti.mm.pictograms.Shape
 import org.eclipse.graphiti.services.Graphiti
 import org.eclipse.graphiti.ui.services.GraphitiUi
 import org.eclipse.swt.widgets.Display
-import org.eclipse.xtext.generator.IFileSystemAccess
-import org.eclipse.xtext.generator.IGenerator
-import org.eclipse.graphiti.features.context.impl.AddBendpointContext
-import org.eclipse.graphiti.mm.pictograms.FreeFormConnection
 
-class «project.targetName»Generator implements IGenerator {
+class «model.name»ModelGenerator {
 	
+	final String FILE_SUFFIX = "-restored"
 	final String FILE_EXTENSION = "«graphmodel.fileExtension»"
 	final String DTP_ID = "«graphmodel.package».«model.name»DiagramTypeProvider";
 
@@ -56,32 +64,37 @@ class «project.targetName»Generator implements IGenerator {
 
 	GraphModel model
 	Diagram diagram
-	IDiagramTypeProvider dtp;
-	IFeatureProvider fp;
+	IDiagramTypeProvider dtp
+	IFeatureProvider fp
+	IProject project
+	IFile sourceFile
 	
-
-	override void doGenerate(Resource resource, IFileSystemAccess fsa) {
+	def void doGenerate(IFile file, String folder) {
 		
-		init(resource)
+		init(file, folder)
 		clearCache
 		
 		Display.getDefault.asyncExec[
-			
-			model.modelElements.forEach[add]
-			
-			edgeSources.forEach[source | 
-				new ArrayList(source.outgoingEdges).forEach[edge | 
-					add(edge, source, (edge as Edge).targetElement) ] ]
-			
-			update
-			save
+			edit(diagram).apply[
+				model.modelElements.forEach[add]
+				edgeSources.forEach[source | 
+					new ArrayList(source.outgoingEdges).forEach[edge | 
+						add(edge, source, (edge as Edge).targetElement) ] ]
+				update
+				save(folder)
+			]
 		]
 	}
 	
-	def init(Resource resource) {
+	def init(IFile file, String folder) {
+		sourceFile = file
+		project = file.project
+		val resource = new ResourceSetImpl().getResource(
+					URI.createPlatformResourceURI(file.getFullPath().toOSString(), true), true);
+		resource.load(null);
 		model = resource.contents.get(0) as «model.name»
-		val filename = "«model.name»_" + model.id
-		diagram = newDiagram(filename)
+		val name = file.projectRelativePath.removeFileExtension.lastSegment
+		diagram = newDiagram(name)
 		resource.getContents().add(diagram)
 		dtp = GraphitiUi.getExtensionManager().createDiagramTypeProvider(diagram, DTP_ID);
 		fp = dtp.featureProvider
@@ -125,8 +138,8 @@ class «project.targetName»Generator implements IGenerator {
 			System.out.println("  > source " + source)
 			System.out.println("  > target " + target)
 			
-			(edge as graphmodel.Edge).sourceElement = source as graphmodel.Node
-			(edge as graphmodel.Edge).targetElement = target as graphmodel.Node
+			(edge as Edge).sourceElement = source as Node
+			(edge as Edge).targetElement = target as Node
 			
 			val pe = fp.addIfPossible(getAddContext(edge, (source as ModelElement), (target as ModelElement)))
 			cache((edge as ModelElement), pe)
@@ -190,8 +203,9 @@ class «project.targetName»Generator implements IGenerator {
 			feature.update(ctx);
 	}
 
-	def save() {
-		val res = createResource(new Path("Project/src-gen/"), "«model.name»_" + model.id, FILE_EXTENSION)
+	def save(String folder) {
+		val filename = new Path(sourceFile.name).removeFileExtension.toString
+		val res = createResource(«generator.nameWithoutExtension».createFolder(new Path(folder), project).fullPath, filename + FILE_SUFFIX, FILE_EXTENSION)
 		addToResource(res, diagram, model)
 		res.save(null)
 	}
@@ -234,6 +248,28 @@ class «project.targetName»Generator implements IGenerator {
 			if (placement.height >= 0) plm.height = placement.height
 		}
 		return plm;
+	}
+	
+	def static Edit edit(EObject obj) {
+		return [Runnable runnable |
+			var domain = TransactionUtil.getEditingDomain(obj)
+			if (domain == null)
+				domain = TransactionalEditingDomain.Factory.INSTANCE.createEditingDomain(obj.eResource.resourceSet)
+			domain.getCommandStack().execute(new RecordingCommand(domain) {
+				override doExecute() {
+					try {
+						runnable.run
+					} catch(IllegalStateException e) {
+						e.printStackTrace();
+					}
+				}
+			})
+	    ]
+	}
+	
+	@FunctionalInterface
+	static interface Edit {
+		def void apply(Runnable runnable);
 	}
 }
 '''

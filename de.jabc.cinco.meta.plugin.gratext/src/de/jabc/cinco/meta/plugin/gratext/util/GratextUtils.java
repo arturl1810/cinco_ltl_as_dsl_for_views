@@ -21,6 +21,9 @@ public class GratextUtils {
 	public static Edit edit(EObject obj) {
 		return (runnable) -> {
 			TransactionalEditingDomain domain = TransactionUtil.getEditingDomain(obj);
+			if (domain == null)
+				domain = TransactionalEditingDomain.Factory.INSTANCE
+					.createEditingDomain(obj.eResource().getResourceSet());
 			domain.getCommandStack().execute(new RecordingCommand(domain) {
 				@Override protected void doExecute() {
 					try {

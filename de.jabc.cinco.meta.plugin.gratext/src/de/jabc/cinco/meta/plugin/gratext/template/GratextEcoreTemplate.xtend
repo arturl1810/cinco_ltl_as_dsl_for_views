@@ -20,12 +20,14 @@ def classes() {
 			.add(new E_Reference("placement", "#//_Placement").containment(true)),
 		new E_Class("_Route")
 			.add(new E_Reference("points", "#//_Point").containment(true).upper(-1)),
-		new E_Interface("_EdgeTarget"),
+//		new E_Interface("_EdgeTarget"),
 		new E_Interface("_EdgeSource")
 			.add(new E_Reference("outgoingEdges", "#//_Edge").containment(true).upper(-1)),
 		new E_Interface("_Edge")
 			.add(new E_Attribute("target", E_Type.EString))
-			.add(new E_Reference("route", "#//_Route").containment(true))
+			.add(new E_Reference("route", "#//_Route").containment(true)),
+		new E_Interface("_Prime")
+			.add(new E_Reference("prime", "ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"))
 	))
 //	model.edges.forEach[edge | classes.add(
 //		new E_Interface("_" + edge.name + "Target").supertypes("#//_EdgeTarget")
@@ -35,15 +37,10 @@ def classes() {
 
 def interfaces(Node node) {
 	var str = '''<eSuperTypes href="#//_Placed"/>'''
-//	debug("Node: " + node.name)
-//	debug(" > isEdgeSource: " + model.resp(node).isEdgeSource)
 	if (model.resp(node).isEdgeSource)
 		str += '''<eSuperTypes href="#//_EdgeSource"/>'''
-//	debug(" > #incoming: " + model.resp(node).incomingEdges.size)
-//	for (edge : model.resp(node).incomingEdges) {
-//		debug("   > " + edge.name)
-//		str += '''<eSuperTypes href="#//_«edge.name»Target"/>'''
-//	}
+	if (node.primeReference != null)
+		str += '''<eSuperTypes href="#//_Prime"/>'''
 	return str
 }
 
@@ -80,34 +77,110 @@ override template()
 '''
 
 
+//static class E_Class {
+//	protected String name
+//	protected String supertypes
+//	protected Boolean isAbstract = false
+//	protected Boolean isInterface = false
+//	List<E_Attribute> attributes = new ArrayList<E_Attribute>
+//	List<E_Reference> references = new ArrayList<E_Reference>
+//	
+//	new(String name) { this.name = name }
+//	
+//	def add(E_Attribute attr) { attributes.add(attr); this }
+//	def add(E_Reference ref) { references.add(ref); this }
+//	def supertypes(String types) { supertypes = types; this }
+//	
+//	def toXMI() { '''
+//		<eClassifiers xsi:type="ecore:EClass" name="«name»" abstract="«isAbstract»" interface="«isInterface»" eSuperTypes="«supertypes»">
+//		«FOR attr:attributes»«attr.toXMI»«ENDFOR»
+//		«FOR ref:references»«ref.toXMI»«ENDFOR»
+//		</eClassifiers>'''
+//	}
+//}	
+//	
+//static class E_Interface extends E_Class {
+//	new(String name) { super(name); isAbstract = true; isInterface = true }
+//}
+//
+//static class E_Attribute {
+//	protected String name
+//	protected String type
+//	protected String defaultValue
+//	
+//	new(String name, String type) { this.name = name; this.type = type }
+//	
+//	def defaultValue(String value) { defaultValue = value; this }
+//	
+//	def toXMI() { '''
+//		<eStructuralFeatures xsi:type="ecore:EAttribute" name="«name»" eType="«type»" defaultValueLiteral="«defaultValue»"/>'''
+//	}
+//}
+//
+//static class E_Reference {
+//	protected String name
+//	protected String type
+//	protected boolean isContainment = false
+//	protected int lower = 0
+//	protected int upper = 1
+//	
+//	new(String name, String type) {
+//		this.name = name
+//		this.type = type
+//	}
+//	
+//	def containment(boolean flag) { isContainment = flag; this }
+//	def lower(int num) { lower = num; this }
+//	def upper(int num) { upper = num; this }
+//	
+//	def toXMI() { '''
+//		<eStructuralFeatures xsi:type="ecore:EReference" name="«name»" eType="«type»" containment="«isContainment»" lowerBound="«lower»" upperBound="«upper»"/>'''
+//	}
+//}
+//
+//static class E_Type {
+//	protected final static String EInt = '''ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt'''
+//	protected final static String EString = '''ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString'''
+//	protected final static String EBoolean = '''ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean'''
+//}
+
 static class E_Class {
 	protected String name
 	protected String supertypes
-	protected Boolean isAbstract = false
 	protected Boolean isInterface = false
 	List<E_Attribute> attributes = new ArrayList<E_Attribute>
 	List<E_Reference> references = new ArrayList<E_Reference>
 	
 	new(String name) { this.name = name }
 	
-	def add(E_Attribute attr) { attributes.add(attr); this }
-	def add(E_Reference ref) { references.add(ref); this }
+	def add(E_Attribute attr) { attributes.add(attr); attr.classname = name; this }
+	def add(E_Reference ref) { references.add(ref); ref.classname = name; this }
 	def supertypes(String types) { supertypes = types; this }
 	
-	def toXMI() { '''
-		<eClassifiers xsi:type="ecore:EClass" name="«name»" abstract="«isAbstract»" interface="«isInterface»" eSuperTypes="«supertypes»">
+	def toXMI()
+	'''
+		<eClassifiers xsi:type="ecore:EClass" name="«name»" abstract="«isInterface»" interface="«isInterface»" eSuperTypes="«supertypes»">
 		«FOR attr:attributes»«attr.toXMI»«ENDFOR»
 		«FOR ref:references»«ref.toXMI»«ENDFOR»
-		</eClassifiers>'''
-	}
+		</eClassifiers>
+	'''
+	
+	def toGenmodelXMI(String ecoreClass)
+	'''
+		<genClasses ecoreClass="«ecoreClass»#//«name»">
+	    «FOR attr:attributes»«attr.toGenmodelXMI(ecoreClass)»«ENDFOR»
+	    «FOR ref:references»«ref.toGenmodelXMI(ecoreClass)»«ENDFOR»
+		</genClasses>
+	'''
 }	
 	
 static class E_Interface extends E_Class {
-	new(String name) { super(name); isAbstract = true; isInterface = true }
+	new(String name) { super(name); isInterface = false }
 }
 
 static class E_Attribute {
 	protected String name
+	protected String classname
 	protected String type
 	protected String defaultValue
 	
@@ -115,13 +188,16 @@ static class E_Attribute {
 	
 	def defaultValue(String value) { defaultValue = value; this }
 	
-	def toXMI() { '''
-		<eStructuralFeatures xsi:type="ecore:EAttribute" name="«name»" eType="«type»" defaultValueLiteral="«defaultValue»"/>'''
-	}
+	def toXMI()
+	'''<eStructuralFeatures xsi:type="ecore:EAttribute" name="«name»" eType="«type»" defaultValueLiteral="«defaultValue»"/>'''
+	
+	def toGenmodelXMI(String ecoreClass)
+	'''<genFeatures createChild="false" ecoreFeature="ecore:EAttribute «ecoreClass»#//«classname»/«name»"/>'''
 }
 
 static class E_Reference {
 	protected String name
+	protected String classname
 	protected String type
 	protected boolean isContainment = false
 	protected int lower = 0
@@ -138,6 +214,10 @@ static class E_Reference {
 	
 	def toXMI() { '''
 		<eStructuralFeatures xsi:type="ecore:EReference" name="«name»" eType="«type»" containment="«isContainment»" lowerBound="«lower»" upperBound="«upper»"/>'''
+	}
+	
+	def toGenmodelXMI(String ecoreClass) { '''
+		<genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference «ecoreClass»#//«classname»/«name»"/>'''
 	}
 }
 

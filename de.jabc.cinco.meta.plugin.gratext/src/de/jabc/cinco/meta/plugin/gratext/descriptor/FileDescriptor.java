@@ -57,7 +57,8 @@ public class FileDescriptor {
 	}
 	public FileDescriptor setPackage(String pkg) {
 		this.pkg = pkg;
-		setSrcFolderRelativeDir(pkg.replace(".","/"));
+		if (pkg != null)
+			setSrcFolderRelativeDir(pkg.replace(".","/"));
 		if (getSourceFolder() != null) {
 			setProjectRelativeDir(getSourceFolder() + "/" + getSrcFolderRelativeDir());
 		}

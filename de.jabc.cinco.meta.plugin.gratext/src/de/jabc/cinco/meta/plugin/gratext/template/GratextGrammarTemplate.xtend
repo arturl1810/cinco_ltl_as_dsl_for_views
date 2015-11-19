@@ -1,15 +1,58 @@
 package de.jabc.cinco.meta.plugin.gratext.template
 
+import java.util.HashMap
+import java.util.Map
+import mgl.Attribute
 import mgl.Edge
 import mgl.Enumeration
+import mgl.GraphModel
+import mgl.ModelElement
 import mgl.Node
 import mgl.NodeContainer
+import mgl.ReferencedEClass
+import mgl.ReferencedModelElement
+import mgl.ReferencedType
 import mgl.UserDefinedType
-import mgl.Attribute
-import mgl.ModelElement
+import org.eclipse.emf.ecore.EClass
+import org.eclipse.emf.ecore.ENamedElement
+import org.eclipse.emf.ecore.EObject
 
 class GratextGrammarTemplate extends AbstractGratextTemplate {
 
+Map<String,String> references
+
+override init() {
+	references = new HashMap
+	model.nodes.map[it.primeReference]
+		.filter[it != null]
+		.forEach[initReferences]
+}
+
+def initReferences(ReferencedType reftype) {
+	switch reftype {
+		ReferencedModelElement: reftype.type
+		ReferencedEClass:		reftype.type
+	}.addToReferences
+}
+
+def addToReferences(EObject obj) {
+	val entry = switch obj {
+		GraphModel: obj.acronym -> obj.nsURI
+		Node: 		obj.graphModel.acronym -> obj.graphModel.nsURI
+		EClass:		obj.EPackage.acronym -> obj.EPackage.nsURI
+	}
+	if (!graphmodel.nsURI.equals(entry.value)) {
+		references.put(entry.key, entry.value)
+		ctx.addGenPackageReference(entry.value);
+	}
+}
+
+def String acronym(EObject obj) {
+	switch obj {
+		GraphModel:	obj.fileExtension
+		ENamedElement:	obj.name
+	}
+}
 
 def modelRule() {
 	val containables = model.nonAbstractContainables
@@ -19,13 +62,13 @@ def modelRule() {
 	('{'
 		«attributes(graphmodel)»
 		«IF !containables.empty»
-			( ( modelElements += «containables.get(0).name» )*
+			( modelElements += «containables.get(0).name»
 			«IF (containables.size > 1)»
 				«FOR i:1..(containables.size-1)»
-				& ( modelElements += «containables.get(i).name» )*
+				| modelElements += «containables.get(i).name»
 				«ENDFOR»
 			«ENDIF»
-			)
+			)*
 		«ENDIF»
 	'}')?
 	;
@@ -41,24 +84,23 @@ def containerRule(NodeContainer node) {
 	'«node.name»' (id = CincoID)? placement = Placement
 	('{'
 		«attributes(node)»
-		«prime(node)»
 		«IF !containables.empty»
-			( ( modelElements += «containables.get(0).name» )*
+			( modelElements += «containables.get(0).name»
 			«IF (containables.size > 1)»
 				«FOR i:1..(containables.size-1)»
-				& ( modelElements += «containables.get(i).name» )*
+				| modelElements += «containables.get(i).name»
 				«ENDFOR»
 			«ENDIF»
-			)
+			)*
 		«ENDIF»
 		«IF !outEdges.empty»
-			( ( outgoingEdges += «outEdges.get(0).name» )*
+			( outgoingEdges += «outEdges.get(0).name»
 			«IF (outEdges.size > 1)»
 				«FOR i:1..(outEdges.size-1)»
-				& ( outgoingEdges += «outEdges.get(i).name» )*
+				| outgoingEdges += «outEdges.get(i).name»
 				«ENDFOR»
 			«ENDIF»
-			)
+			)*
 		«ENDIF»
 	'}')?
 	;
@@ -73,15 +115,14 @@ def nodeRule(Node node) {
 	'«node.name»' (id = CincoID)? placement = Placement
 	('{'
 		«attributes(node)»
-		«prime(node)»
 		«IF !outEdges.empty»
-			( ( outgoingEdges += «outEdges.get(0).name» )*
+			( outgoingEdges += «outEdges.get(0).name»
 			«IF (outEdges.size > 1)»
 				«FOR i:1..(outEdges.size-1)»
-				& ( outgoingEdges += «outEdges.get(i).name» )*
+				| outgoingEdges += «outEdges.get(i).name»
 				«ENDFOR»
 			«ENDIF»
-			)
+			)*
 		«ENDIF»
 	'}')?
 	;
@@ -94,6 +135,7 @@ def edgeRule(Edge edge) {
 	'-«edge.name»->' targetElement = [graphmodel::Node|CincoID]
 	(route = Route)?
 	('{'
+		('id' id = CincoID)?
 		«attributes(edge)»
 	'}')?
 	;
@@ -127,35 +169,56 @@ def type(Attribute attr) {
 	else attr.type
 }
 
-def attributes(ModelElement element) {
-	val attrs = model.resp(element).attributes
-'''
-	«IF !attrs.empty»
-		( ( '«attrs.get(0).name»' «attrs.get(0).name» = «type(attrs.get(0))» )
-		«IF (attrs.size > 1)»
-			«FOR i:1..(attrs.size-1)»
-			& ( '«attrs.get(i).name»' «attrs.get(i).name» = «type(attrs.get(i))» )
-			«ENDFOR»
-		«ENDIF» )?
-	«ENDIF»
-'''
+def type(ReferencedType ref) {
+	val type = switch ref {
+	 	ReferencedModelElement: ref.type
+	 	ReferencedEClass: ref.type
+	}
+	if (type != null) {
+		val entry = switch type {
+			GraphModel: type.acronym -> type.name
+			Node: 		type.graphModel.acronym -> type.graphModel.name
+			EClass: 	type.EPackage.acronym -> type.name
+		}
+		println(" > Type: " + entry)
+		'''[«entry.key»::«entry.value»|CincoID]'''
+	}
+}
+
+def attributes(ModelElement elm) {
+	val attrs = model.resp(elm).attributes
+	val attrsStr = attrs.map['''( '«it.name»' «it.name» = «type(it)» )?'''].join(' &\n')
+	val primeStr = switch elm {
+		Node: elm.prime
+	}
+	if (attrs.empty) primeStr
+	else if (primeStr != null) "( " + primeStr + ' &\n' + attrsStr + " )"
+	else "( " + attrsStr + " )"
 }
 
 def prime(Node node) {
-	val ref = (node as Node).primeReference
+	val ref = node.primeReference
 	if (ref != null) {
-		return '''( '«ref.name»' EString )'''
+		println(node.name + ".prime: " + ref)
+		'''( '«ref.name»' prime = «ref.type» | '«ref.name»UID' «ref.name»UID = EString )'''
 	}
+}
+
+def imports() {
+'''
+import "«graphmodel.nsURI»/«project.acronym»"
+import "«graphmodel.nsURI»" as «model.acronym»
+«references.entrySet.map['''import "«it.value»" as «it.key»'''].join('\n')»
+import "http://www.jabc.de/cinco/gdl/graphmodel" as graphmodel
+import "http://www.eclipse.org/emf/2002/Ecore" as ecore
+'''	
 }
 
 override template()
 '''	
 grammar «project.basePackage».«project.targetName» with org.eclipse.xtext.common.Terminals
-	
-import "«graphmodel.nsURI»/«project.acronym»"
-import "«graphmodel.nsURI»" as «model.acronym»
-import "http://www.jabc.de/cinco/gdl/graphmodel" as graphmodel
-import "http://www.eclipse.org/emf/2002/Ecore" as ecore
+
+«imports»
 
 «modelRule»
 
@@ -182,7 +245,7 @@ Point returns _Point:{_Point}
 	'(' x = EInt ',' y = EInt ')'
 ;
 
-CincoID: ID ('-' ID)*;
+CincoID: ID (IDPART)*;
 
 EString returns ecore::EString:
 	STRING | ID;
@@ -204,5 +267,7 @@ EBoolean returns ecore::EBoolean:
 ;
 
 terminal SIGN : '+' | '-' ;
+
+terminal IDPART: SIGN('a'..'z'|'A'..'Z'|'_'|'0'..'9')*;
 '''
 }

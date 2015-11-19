@@ -1,6 +1,5 @@
 package de.jabc.cinco.meta.plugin.gratext;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -10,9 +9,7 @@ import java.util.Map;
 import java.util.Set;
 
 import mgl.GraphModel;
-import mgl.GraphicalElementContainment;
 import mgl.GraphicalModelElement;
-import mgl.NodeContainer;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -20,33 +17,30 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.codegen.ecore.generator.Generator;
-import org.eclipse.emf.codegen.ecore.generator.GeneratorAdapterFactory;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
-import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
+import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.generator.GenBaseGeneratorAdapter;
-import org.eclipse.emf.codegen.ecore.genmodel.generator.GenModelGeneratorAdapter;
-import org.eclipse.emf.codegen.ecore.genmodel.generator.GenModelGeneratorAdapterFactory;
+import org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl;
 import org.eclipse.emf.common.util.BasicMonitor;
-import org.eclipse.emf.common.util.Diagnostic;
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 
 import de.jabc.cinco.meta.core.utils.projects.ProjectCreator;
 import de.jabc.cinco.meta.plugin.gratext.descriptor.GraphModelDescriptor;
 import de.jabc.cinco.meta.plugin.gratext.descriptor.ProjectDescriptor;
+import de.jabc.cinco.meta.plugin.gratext.template.BackupActionTemplate;
+import de.jabc.cinco.meta.plugin.gratext.template.BackupGeneratorTemplate;
 import de.jabc.cinco.meta.plugin.gratext.template.GratextEcoreTemplate;
+import de.jabc.cinco.meta.plugin.gratext.template.GratextGeneratorTemplate;
 import de.jabc.cinco.meta.plugin.gratext.template.GratextGenmodelTemplate;
 import de.jabc.cinco.meta.plugin.gratext.template.GratextGrammarTemplate;
 import de.jabc.cinco.meta.plugin.gratext.template.GratextMWETemplate;
 import de.jabc.cinco.meta.plugin.gratext.template.GratextQualifiedNameProviderTemplate;
 import de.jabc.cinco.meta.plugin.gratext.template.ModelGeneratorTemplate;
+import de.jabc.cinco.meta.plugin.gratext.template.PluginXmlTemplate;
+import de.jabc.cinco.meta.plugin.gratext.template.RestoreActionTemplate;
 import de.jabc.cinco.meta.plugin.gratext.template.RuntimeModuleTemplate;
 import de.jabc.cinco.meta.plugin.gratext.template.ScopeProviderTemplate;
 
@@ -54,16 +48,46 @@ public class GratextProjectGenerator extends ProjectGenerator {
 
 	private static final String PROJECT_ACRONYM = "gratext";
 	private static final String PROJECT_SUFFIX = "Gratext";
+	private final String GRAPHICAL_GRAPH_MODEL_PATH = "/de.jabc.cinco.meta.core.ge.style.model/"
+													+ "model/"
+													+ "GraphicalGraphModel.genmodel";
 	
 	private GraphModel model;
 	
 	@Override
 	protected void init(Map<String, Object> context) {
-		System.out.println("Execute Gratext Plugin:");
 		model = (GraphModel) context.get("graphModel");
-//		printGraphModel(); // debug only
+		initGenModelFiles();
 	}
 	
+	protected void initGenModelFiles() {
+		getFiles("genmodel").forEach(f -> { try {
+//			System.out.println("GenModelFile: " + f.getFullPath()); // /info.scce.dime/src-gen/model/Search.genmodel
+			Resource res = new ResourceSetImpl().getResource(
+				URI.createPlatformResourceURI(f.getFullPath().toOSString(), true), true);
+			res.load(null);
+			for (EObject content : res.getContents()) {	
+				if (content instanceof GenModel) {
+					final GenModel genModel = (GenModel) content;
+//					System.out.println(" > modelName: " + genModel.getModelName()); // Search
+//					System.out.println(" > modelDir: " + genModel.getModelDirectory()); // /info.scce.dime/src-gen
+					genModel.getGenPackages().forEach(p -> {
+//						System.out.println(" > genPackage: " + p);
+//						System.out.println("   > nsURI: " + p.getNSURI()); // http://dime.scce.info/search
+//						System.out.println("   > prefix: " + p.getPrefix()); // Search
+//						System.out.println("   > basePackage: " + p.getBasePackage()); // info.scce.dime.search
+//						System.out.println("   > ecore.name: " + p.getEcorePackage().getName()); // search
+						genModelFiles.put(p.getNSURI(), f);
+						genModels.put(p.getNSURI(), genModel);
+						genPackages.put(p.getNSURI(), p);
+					});
+				}
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		}});
+	}
+
 	@Override
 	public void execute(Map<String, Object> context) {
 		super.execute(context);
@@ -87,9 +111,9 @@ public class GratextProjectGenerator extends ProjectGenerator {
 			};
 		}.execute(context);
 		
+//		generateGenModelCode(getFileDescriptor(GratextGenmodelTemplate.class).resource());
 		
-//		generateModelCode();
-		
+			
 //		new EmptyProjectGenerator(getSymbolicName() + ".tests") {
 //			@Override protected List<String> getSourceFolders() {
 //				return list("src-gen");
@@ -101,54 +125,65 @@ public class GratextProjectGenerator extends ProjectGenerator {
 //		new EmptyProjectGenerator(getSymbolicName() + ".sdk" ).execute(context);
 	}
 	
-	protected void generateModelCode() {
-		System.out.println("Generating model code...");
-		IFile genModelFile = getFileDescriptor(GratextGenmodelTemplate.class).resource();
-		URI uri = URI.createPlatformResourceURI(genModelFile.getFullPath().toString(), true);
-		
-		ResourceSet set = new ResourceSetImpl();
-		EcoreResourceFactoryImpl ecoreFactory = new EcoreResourceFactoryImpl();
-		Resource.Factory.Registry registry = set.getResourceFactoryRegistry();
-		Map<String, Object> map = registry.getExtensionToFactoryMap();
-		map.put("ecore", ecoreFactory);
-		map.put("genmodel", ecoreFactory);
-
-		GenModelPackage.eINSTANCE.eClass();
-
-		Resource res = set.getResource(uri, true);
+	protected void generateGenModelCode(IFile genModelFile) {
 		try {
-			res.load(new HashMap<>());
-		} catch (IOException e) {}
-
-		GenModel genModel = null;
-		TreeIterator<EObject> list = res.getAllContents();
-		while (list.hasNext()) {
-			EObject obj = list.next();
-			if (obj instanceof GenModel) {
-				genModel = (GenModel) obj;
-				break;
+			
+			Resource res = new ResourceSetImpl().getResource(
+					URI.createPlatformResourceURI(genModelFile.getFullPath().toOSString(), true),true);
+			res.load(null);
+			GenModel genModel = null;
+			for (EObject content : res.getContents()) {	
+				if (content instanceof GenModel) {
+					genModel = (GenModel) content;
+					for (GenPackage gm : new ArrayList<>(genModel.getUsedGenPackages())) {
+						if (!gm.getGenModel().equals(genModel)) {
+							GenPackage pkg = getGenPackage(gm.getNSURI());
+							if (pkg != null) {
+								System.out.println("Push UsedGenPackage: " + pkg);
+								genModel.getUsedGenPackages().add(pkg);
+							}
+						}
+					}
+					Resource absGraphmodelGenModel = new ResourceSetImpl().getResource(
+							URI.createPlatformPluginURI(GRAPHICAL_GRAPH_MODEL_PATH , true), true);
+					for (EObject o : absGraphmodelGenModel.getContents()) {
+						if (o instanceof GenModel)
+							genModel.getUsedGenPackages().addAll(((GenModel) o).getGenPackages());
+					}
+//					System.out.println(genModel.getUsedGenPackages());
+					genModel.setCanGenerate(true);
+					genModel.reconcile();
+					Generator generator = new Generator();
+					generator.setInput(genModel);
+					generator.generate(genModel, GenBaseGeneratorAdapter.MODEL_PROJECT_TYPE, BasicMonitor.toMonitor(getProgressMonitor()));
+				}
 			}
+			
+//			IResource iRes = ResourcesPlugin.getWorkspace().getRoot()
+//					.getProject(getModelProjectSymbolicName()).getFile("/src-gen/model/" + getModelDescriptor().getName() + ".genmodel");
+//			if (iRes.exists()) {
+//				Resource modelGenModel = new ResourceSetImpl().getResource(
+//							URI.createFileURI(iRes.getLocation().toOSString()), true );
+//				for (EObject content : modelGenModel.getContents()) {
+//					if (content instanceof GenModel)
+//						genModel.getUsedGenPackages().addAll(((GenModel) content).getGenPackages());
+//				}
+//			}
+			
+			
+			
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+//			throw new GenerationException("Failed to generate model code from genmodel file " + genModelFile, e);
 		}
-		genModel.reconcile();
-		genModel.setCanGenerate(true);
-		
-		GeneratorAdapterFactory.Descriptor.Registry.INSTANCE.addDescriptor(GenModelPackage.eNS_URI, GenModelGeneratorAdapterFactory.DESCRIPTOR);
-		Generator generator = new Generator();
-		generator.setInput(genModel);
-		generator.requestInitialize();
-		Diagnostic d = generator.generate(genModel, GenBaseGeneratorAdapter.MODEL_PROJECT_TYPE, new BasicMonitor());
-		System.out.println("Code generation done: " + d.getMessage());
-		
-		
-//		GeneratorAdapterFactory factory = GenModelGeneratorAdapterFactory.DESCRIPTOR.createAdapterFactory();
-//		GenModelGeneratorAdapter adapter = new GenModelGeneratorAdapter(factory);
-//		adapter.generate(genModel, GenModelGeneratorAdapter.MODEL_PROJECT_TYPE, new BasicMonitor());
 	}
 	
 	@Override
 	protected void createFiles(FileCreator creator) {
 		String basePkg = getProjectDescriptor().getBasePackage();
 		String targetName = getProjectDescriptor().getTargetName();
+		String modelName = getModelDescriptor().getName();
 		
 		creator.inSrcFolder("model")
 			.inPackage(basePkg)
@@ -170,10 +205,35 @@ public class GratextProjectGenerator extends ProjectGenerator {
 			.createFile(targetName + ".mwe2")
 			.withContent(GratextMWETemplate.class, this);
 				
+//		creator.inSrcFolder("src")
+//			.inPackage(basePkg + ".generator")
+//			.createFile(targetName + "Generator.xtend")
+//			.withContent(ModelGeneratorTemplate.class, this);
+		
 		creator.inSrcFolder("src")
 			.inPackage(basePkg + ".generator")
-			.createFile(targetName + "Generator.xtend")
+			.createFile("GratextGenerator.xtend")
+			.withContent(GratextGeneratorTemplate.class, this);
+		
+		creator.inSrcFolder("src")
+			.inPackage(basePkg + ".generator")
+			.createFile(modelName + "BackupGenerator.xtend")
+			.withContent(BackupGeneratorTemplate.class, this);
+		
+		creator.inSrcFolder("src")
+			.inPackage(basePkg + ".generator")
+			.createFile("BackupAction.java")
+			.withContent(BackupActionTemplate.class, this);
+		
+		creator.inSrcFolder("src")
+			.inPackage(basePkg + ".generator")
+			.createFile(modelName + "ModelGenerator.xtend")
 			.withContent(ModelGeneratorTemplate.class, this);
+		
+		creator.inSrcFolder("src")
+			.inPackage(basePkg + ".generator")
+			.createFile("RestoreAction.java")
+			.withContent(RestoreActionTemplate.class, this);
 		
 		creator.inSrcFolder("src")
 			.inPackage(basePkg + ".scoping")
@@ -185,12 +245,15 @@ public class GratextProjectGenerator extends ProjectGenerator {
 			.createFile(targetName + "ScopeProvider.xtend")
 			.withContent(ScopeProviderTemplate.class, this);
 		
-		
 		creator.inSrcFolder("src")
 			.inPackage(basePkg)
 			.createFile(targetName + "RuntimeModule.java")
 			.withContent(RuntimeModuleTemplate.class, this);
-	
+		
+		creator.createFile("plugin.xml")
+			.withContent(PluginXmlTemplate.class, this);
+		
+		
 	}
 	
 	@Override
@@ -207,6 +270,7 @@ public class GratextProjectGenerator extends ProjectGenerator {
 		return list(
 			"src",
 			"src-gen",
+			"xtend-gen",
 			"model"
 		);
 	}
@@ -255,9 +319,14 @@ public class GratextProjectGenerator extends ProjectGenerator {
 	}
 	
 	
+	public IProject getModelProject() {
+		return ResourcesPlugin.getWorkspace().getRoot().findMember(
+				new Path(model.eResource().getURI().toPlatformString(true))).getProject();
+	}
+	
 	public String getModelProjectSymbolicName() {
 		IResource res = ResourcesPlugin.getWorkspace().getRoot().findMember(
-				new Path(getModelDescriptor().instance().eResource().getURI().toPlatformString(true)));
+				new Path(model.eResource().getURI().toPlatformString(true)));
 		return (res != null)
 				? ProjectCreator.getProjectSymbolicName(res.getProject())
 				: model.getPackage();
@@ -275,6 +344,7 @@ public class GratextProjectGenerator extends ProjectGenerator {
 			"org.eclipse.emf.common",
 			"org.eclipse.emf.ecore",
 			"org.eclipse.emf.codegen.ecore",
+			"org.eclipse.emf.transaction",
 			"org.eclipse.emf.mwe.utils",
 			"org.eclipse.emf.mwe2.launch",
 			"org.eclipse.xtext",
@@ -335,6 +405,41 @@ public class GratextProjectGenerator extends ProjectGenerator {
 		return projectDesc;
 	}
 	
+	private Map<String,IFile> genModelFiles = new HashMap<>();
+	
+	public IFile getGenModelFile(String nsURI) {
+		return genModelFiles.get(nsURI);
+	}
+	
+	private Map<String,GenModel> genModels = new HashMap<>();
+	
+	public GenModel getGenModel(String nsURI) {
+		//System.out.println("Get GenModel " + nsURI + " = " + genModels.get(nsURI));
+		return genModels.get(nsURI);
+	}
+	
+	Map<String, GenPackage> genPackages = new HashMap<>();
+	
+	public GenPackage getGenPackage(String nsURI) {
+		//System.out.println("Get GenPackage " + nsURI + " = " + genPackages.get(nsURI));
+		return genPackages.get(nsURI);
+	}
+	
+	private Set<String> referenced = new HashSet<>();
+	
+	public Set<String> getGenPackageReferences() {
+		return referenced;
+	}
+	
+	public boolean isReferenced(String nsURI) {
+		return referenced.contains(nsURI);
+	}
+	
+	public boolean addGenPackageReference(String nsURI) {
+		//System.out.println("Referenced package " + nsURI);
+		return referenced.add(nsURI);
+	}
+	
 	class ContainmentDescriptor {
 		
 		List<GraphicalModelElement> types;
@@ -346,62 +451,6 @@ public class GratextProjectGenerator extends ProjectGenerator {
 			this.lower = lower;
 			this.upper = upper;
 		}
-	}
-		
-	void printGraphModel() {
-		GraphModel graphModel = (GraphModel) ctx.get("graphModel");
-		printContainer(graphModel);
-		graphModel.getNodes().stream().filter(NodeContainer.class::isInstance).forEach(node -> {
-			printContainer((NodeContainer) node);
-		});
-		
-		Map<?,?> modelElements = (Map<?,?>) ctx.get("modelElements");
-		System.out.println(" > ModelElements: " + ((modelElements != null) ? modelElements.getClass().getSimpleName() : "null"));
-		
-		modelElements.entrySet().stream().forEach(entry -> System.out.println("   > " + entry.getKey() + " = " + entry.getValue()));
-		
-		EPackage ePackage = (EPackage) ctx.get("ePackage");
-		System.out.println(" > ePackage: " + ((ePackage != null) ? ePackage.getClass().getSimpleName() : "null"));
-	}
-
-	void printContainer(NodeContainer container) {
-		System.out.println(" > " + container.getName());
-		EList<GraphicalElementContainment> containables = container.getContainableElements();
-		if (containables.isEmpty())
-			System.out.println("   > Containable: NONE");
-		else containables.stream().forEach(c -> {
-			EList<GraphicalModelElement> types = c.getTypes();
-			if (types.isEmpty())
-				System.out.println("   > Containable: ALL");
-			else {
-				System.out.print("   > Containable: ");
-				types.stream().forEach(t -> System.out.print(t.getName() + " "));
-				System.out.println("["
-					+ (c.getLowerBound() == -1 ? "*" : c.getLowerBound()) + ","
-					+ (c.getUpperBound() == -1 ? "*" : c.getUpperBound()) + "]");
-				new ContainmentDescriptor(new ArrayList<>(types), c.getLowerBound(), c.getLowerBound());
-			};
-		});
-	}
-	
-	void printContainer(GraphModel model) {
-		System.out.println(" > " + model.getName());
-		EList<GraphicalElementContainment> containables = model.getContainableElements();
-		if (containables.isEmpty())
-			System.out.println("   > Containable: ALL");
-		else containables.stream().forEach(c -> {
-			System.out.println("   > Containable: " + c);
-			EList<GraphicalModelElement> types = c.getTypes();
-			if (types.isEmpty())
-				System.out.println("     > ALL");
-			else {
-				System.out.print("     > ");
-				types.stream().forEach(t -> System.out.print(t.getName() + " "));
-				System.out.println("["
-					+ (c.getLowerBound() == -1 ? "*" : c.getLowerBound()) + ","
-					+ (c.getUpperBound() == -1 ? "*" : c.getUpperBound()) + "]");
-			};
-		});
 	}
 	
 	

@@ -17,4 +17,5 @@ Import-Package: de.jabc.cinco.meta.core,
 Bundle-Version: 0.1.0.qualifier
 Require-Bundle: org.eclipse.emf.transaction,
  de.jabc.cinco.meta.core.mgl,
- org.eclipse.emf.codegen.ecore
+ org.eclipse.emf.codegen.ecore,
+ org.eclipse.osgi

@@ -67,7 +67,6 @@ public class GraphModelDescriptor extends Descriptor<GraphModel> {
 			if (node instanceof NodeContainer)
 				containers.add((NodeContainer) node);
 			else nonContainers.add(node);
-			//System.out.println(node.getName() + ".prime: " + node.getPrimeReference());
 			initType(node);
 		});
 		instance().getEdges().forEach(this::initType);
@@ -76,7 +75,7 @@ public class GraphModelDescriptor extends Descriptor<GraphModel> {
 	protected void initType(Edge edge) {
 		Edge ext = edge.getExtends();
 		while (ext != null) {
-			//System.out.println("Type " + edge.getName() + " > " + ext.getName());
+			System.out.println("Type " + edge.getName() + " > " + ext.getName());
 			subTypes.get(ext).add(edge);
 			ext = ext.getExtends();
 		}
@@ -85,7 +84,7 @@ public class GraphModelDescriptor extends Descriptor<GraphModel> {
 	protected void initType(Node node) {
 		Node ext = node.getExtends();
 		while (ext != null) {
-			//System.out.println("Type " + node.getName() + " > " + ext.getName());
+			System.out.println("Type " + node.getName() + " > " + ext.getName() + " prime = " + node.getPrimeReference());
 			subTypes.get(ext).add(node);
 			ext = ext.getExtends();
 		}

@@ -1,10 +1,25 @@
 package de.jabc.cinco.meta.plugin.gratext.template
 
+import org.eclipse.core.resources.IFile
+import org.eclipse.emf.codegen.ecore.genmodel.GenPackage
+
 class GratextMWETemplate extends AbstractGratextTemplate {
 	
 def xtextFile() { fileFromTemplate(GratextGrammarTemplate) }
 
 def genmodelFile() { fileFromTemplate(GratextGenmodelTemplate) }	
+
+def genPackageRule(GenPackage pkg) {
+	'''
+	registerGeneratedEPackage = "«pkg.basePackage».«pkg.getEcorePackage.name».«pkg.prefix»Package"
+	'''
+}
+
+def genFileRule(IFile file) {
+	'''
+	registerGenModelFile = "platform:/resource«file.fullPath»"
+	'''
+}
 	
 override template()
 '''	
@@ -27,6 +42,16 @@ Workflow {
 		platformUri = "${runtimeProject}/.."
 		registerGeneratedEPackage = "«project.basePackage».«project.targetName»Package"
 		registerGenModelFile = "platform:/resource/«project.symbolicName»/model/«project.basePackageDir»/«genmodelFile.name»"
+		«ctx.genPackageReferences.map[ctx.getGenPackage(it)].map[genPackageRule].join('\n')»
+		«ctx.genPackageReferences.map[ctx.getGenModelFile(it)].map[genFileRule].join('\n')»
+//		registerGeneratedEPackage = "info.scce.dime.search.search.SearchPackage"
+//		registerGenModelFile = "platform:/resource/info.scce.dime/src-gen/model/Search.genmodel"
+//		registerGeneratedEPackage = "info.scce.dime.data.data.DataPackage"
+//		registerGenModelFile = "platform:/resource/info.scce.dime/src-gen/model/Data.genmodel"
+//		registerGeneratedEPackage = "info.scce.dime.siblibrary.SIBLibraryPackage"
+//		registerGenModelFile = "platform:/resource/info.scce.dime.siblibrary/model/SIBLibrary.genmodel"
+//		registerGeneratedEPackage = "info.scce.dime.gui.gui.GuiPackage"
+//		registerGenModelFile = "platform:/resource/info.scce.dime/src-gen/model/GUI.genmodel"
 	}
 
 	component = DirectoryCleaner {

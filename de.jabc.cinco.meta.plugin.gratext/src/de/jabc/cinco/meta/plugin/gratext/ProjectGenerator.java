@@ -13,13 +13,30 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.core.internal.registry.Contribution;
+import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.emf.codegen.ecore.generator.Generator;
+import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
+import org.eclipse.emf.codegen.ecore.genmodel.generator.GenBaseGeneratorAdapter;
+import org.eclipse.emf.common.util.BasicMonitor;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.osgi.framework.Bundle;
 
 import de.jabc.cinco.meta.core.BundleRegistry;
 import de.jabc.cinco.meta.core.utils.BuildProperties;
@@ -102,6 +119,8 @@ public abstract class ProjectGenerator {
 	
 	private IFile createFile(String name, String folderName, String content) {
 		try {
+			if (folderName == null || folderName.trim().isEmpty())
+				return ProjectCreator.createFile(name, project, content, getProgressMonitor());
 			return ProjectCreator.createFile(name, folder(folderName), content, getProgressMonitor());
 		} catch (Exception e) {
 			throw new GenerationException("Failed to create file " + name + " in folder " + folderName, e);
@@ -183,7 +202,34 @@ public abstract class ProjectGenerator {
 		return Arrays.asList(strs);
 	}
 	
+	protected List<IFile> getFiles(String fileExtension) {
+		return getFiles(ResourcesPlugin.getWorkspace().getRoot(), fileExtension, true);
+	}
+	
+	protected List<IFile> getFiles(IContainer container, String fileExtension, boolean recurse) {
+	    ArrayList<IFile> files = new ArrayList<>();
+	    IResource[] members = null;
+	    try {
+	    	members = container.members();
+	    } catch(CoreException e) {
+	    	e.printStackTrace();
+	    }
+	    if (members != null)
+			Arrays.stream(members).forEach(mbr -> {
+			   if (recurse && mbr instanceof IContainer)
+				   files.addAll(getFiles((IContainer) mbr, fileExtension, recurse));
+			   else if (mbr instanceof IFile && !!mbr.isDerived()) {
+				   IFile file = (IFile) mbr;
+				   if (fileExtension.equals(file.getFileExtension()))
+						   files.add(file);
+			   }
+		   });
+		return files;
+	}
+	
 	protected IFolder folder(String folderName) throws CoreException {
+		if (folderName == null || folderName.trim().isEmpty())
+			return project.getFolder(project.getProjectRelativePath());
 		return createResource(project.getFolder(folderName));
 	}
 	
@@ -228,10 +274,13 @@ public abstract class ProjectGenerator {
 	
 	protected class FileCreator {
 		
-		public IFile create(FileDescriptor file) {
-			IFile f = createFile(
-					file.getName(), file.getProjectRelativeDir(), file.getContent());
-			return f;
+//		public IFile createFile(FileDescriptor file) {
+//			IFile f = createFile(file.getName(), file.getProjectRelativeDir(), file.getContent());
+//			return f;
+//		}
+		
+		public TemplateBasedFileCreator createFile(String fileName) {
+			return new TemplateBasedFileCreator(null, null, fileName);
 		}
 		
 		public SrcFileCreator inSrcFolder(String srcFolder) {
@@ -280,7 +329,14 @@ public abstract class ProjectGenerator {
 		}
 		
 		public IFile withContent(String content) {
-			IFile file = createFile(fileName, srcFolder + "/" + pkg.replace(".", "/"), content);
+			IFile file = null;
+			if (srcFolder == null || srcFolder.trim().isEmpty())
+				if (pkg == null || pkg.trim().isEmpty())
+					file = createFile(fileName, null, content);
+				else file = createFile(fileName, pkg.replace(".", "/"), content);
+			else if (pkg == null || pkg.trim().isEmpty())
+				file = createFile(fileName, srcFolder, content);
+			else file = createFile(fileName, srcFolder + "/" + pkg.replace(".", "/"), content);
 			fileDescriptors.put(fileName,
 				new FileDescriptor(file)
 					.setName(fileName)
