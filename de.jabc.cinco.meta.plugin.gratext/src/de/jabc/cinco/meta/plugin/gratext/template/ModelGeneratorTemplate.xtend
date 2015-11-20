@@ -117,7 +117,7 @@ class «model.name»ModelGenerator {
 		}
 		try {
 			System.out.println(" > add pictogram for " + bo)
-			val pe = fp.addIfPossible(getAddContext(bo, container))
+			val pe = addIfPossible(getAddContext(bo, container))
 			System.out.println("   => bo.id: " + bo.id)
 			System.out.println("   => pe: " + pe)
 			cache(bo, pe)
@@ -141,7 +141,7 @@ class «model.name»ModelGenerator {
 			(edge as Edge).sourceElement = source as Node
 			(edge as Edge).targetElement = target as Node
 			
-			val pe = fp.addIfPossible(getAddContext(edge, (source as ModelElement), (target as ModelElement)))
+			val pe = addIfPossible(getAddContext(edge, (source as ModelElement), (target as ModelElement)))
 			cache((edge as ModelElement), pe)
 			
 			add(edge.route, pe)
@@ -160,6 +160,13 @@ class «model.name»ModelGenerator {
 	def add(_Point p, FreeFormConnection connection, int index) {
 		val ctx = new AddBendpointContext(connection, p.x, p.y, index)
 		dtp.diagramBehavior.executeFeature(fp.getAddBendpointFeature(ctx), ctx);
+	}
+	
+	def addIfPossible(AddContext ctx) {
+		val ftr = fp.getAddFeature(ctx)
+		(ftr as CincoAbstractAddFeature).hook = false
+		if (ftr?.canAdd(ctx))
+			fp.diagramTypeProvider.diagramBehavior.executeFeature(ftr, ctx) as PictogramElement
 	}
 	
 	def getAddContext(ModelElement bo, ContainerShape target) {
@@ -203,13 +210,6 @@ class «model.name»ModelGenerator {
 			feature.update(ctx);
 	}
 
-	def save(String folder) {
-		val filename = new Path(sourceFile.name).removeFileExtension.toString
-		val res = createResource(«generator.nameWithoutExtension».createFolder(new Path(folder), project).fullPath, filename + FILE_SUFFIX, FILE_EXTENSION)
-		addToResource(res, diagram, model)
-		res.save(null)
-	}
-
 	def createResource(IPath path, String fileName, String fileExtension) {
 		val filePath = path.append(fileName).addFileExtension(fileExtension)
 		val uri = URI.createPlatformResourceURI(filePath.toOSString(), true)
@@ -221,11 +221,18 @@ class «model.name»ModelGenerator {
 	}
 
 	def newDiagram(String filename) {
-		return Graphiti.getPeCreateService().createDiagram("«model.name»", filename, true)
+		return Graphiti.getPeCreateService().createDiagram("Data", filename, true)
 	}
 
 	def newFeatureProvider(Diagram diagram) {
 		return GraphitiUi.getExtensionManager().createFeatureProvider(diagram)
+	}
+
+	def save(String folder) {
+		val filename = new Path(sourceFile.name).removeFileExtension.toString
+		val res = createResource(«generator.nameWithoutExtension».createFolder(new Path(folder), project).fullPath, filename + FILE_SUFFIX, FILE_EXTENSION)
+		addToResource(res, diagram, model)
+		res.save(null)
 	}
 
 	def getPlacement() {

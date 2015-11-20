@@ -20,7 +20,6 @@ import org.eclipse.emf.codegen.ecore.generator.Generator;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.generator.GenBaseGeneratorAdapter;
-import org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl;
 import org.eclipse.emf.common.util.BasicMonitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -48,9 +47,7 @@ public class GratextProjectGenerator extends ProjectGenerator {
 
 	private static final String PROJECT_ACRONYM = "gratext";
 	private static final String PROJECT_SUFFIX = "Gratext";
-	private final String GRAPHICAL_GRAPH_MODEL_PATH = "/de.jabc.cinco.meta.core.ge.style.model/"
-													+ "model/"
-													+ "GraphicalGraphModel.genmodel";
+	private static final String GRAPHMODEL_PATH = "/de.jabc.cinco.meta.core.mgl.model/model/GraphModel.genmodel";
 	
 	private GraphModel model;
 	
@@ -111,7 +108,7 @@ public class GratextProjectGenerator extends ProjectGenerator {
 			};
 		}.execute(context);
 		
-//		generateGenModelCode(getFileDescriptor(GratextGenmodelTemplate.class).resource());
+		generateGenModelCode(getFileDescriptor(GratextGenmodelTemplate.class).resource());
 		
 			
 //		new EmptyProjectGenerator(getSymbolicName() + ".tests") {
@@ -131,10 +128,9 @@ public class GratextProjectGenerator extends ProjectGenerator {
 			Resource res = new ResourceSetImpl().getResource(
 					URI.createPlatformResourceURI(genModelFile.getFullPath().toOSString(), true),true);
 			res.load(null);
-			GenModel genModel = null;
 			for (EObject content : res.getContents()) {	
 				if (content instanceof GenModel) {
-					genModel = (GenModel) content;
+					final GenModel genModel = (GenModel) content;
 					for (GenPackage gm : new ArrayList<>(genModel.getUsedGenPackages())) {
 						if (!gm.getGenModel().equals(genModel)) {
 							GenPackage pkg = getGenPackage(gm.getNSURI());
@@ -144,11 +140,18 @@ public class GratextProjectGenerator extends ProjectGenerator {
 							}
 						}
 					}
-					Resource absGraphmodelGenModel = new ResourceSetImpl().getResource(
-							URI.createPlatformPluginURI(GRAPHICAL_GRAPH_MODEL_PATH , true), true);
-					for (EObject o : absGraphmodelGenModel.getContents()) {
-						if (o instanceof GenModel)
-							genModel.getUsedGenPackages().addAll(((GenModel) o).getGenPackages());
+					Resource graphmodelGenModel = new ResourceSetImpl().getResource(
+							URI.createPlatformPluginURI(GRAPHMODEL_PATH , true), true);
+					System.out.println("Graphmodel genmodel: " + graphmodelGenModel);
+					for (EObject gm : graphmodelGenModel.getContents()) {
+						if (gm instanceof GenModel) {
+							System.out.println(" > genmodel: " + gm);
+							((GenModel) gm).getGenPackages().forEach(pkg -> {
+								System.out.println(" > push UsedGenPackage: " + pkg);
+								genModel.getUsedGenPackages().add(pkg);
+							});
+							
+						}
 					}
 //					System.out.println(genModel.getUsedGenPackages());
 					genModel.setCanGenerate(true);
