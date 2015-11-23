@@ -24,7 +24,8 @@ def classes() {
 		new E_Interface("_EdgeSource")
 			.add(new E_Reference("outgoingEdges", "#//_Edge").containment(true).upper(-1)),
 		new E_Interface("_Edge")
-			.add(new E_Attribute("target", E_Type.EString))
+//			.add(new E_Reference("target", "ecore:EClass http://www.jabc.de/cinco/gdl/graphmodel#//Node"))
+//			.add(new E_Reference("target", "#//_EdgeTarget"))
 			.add(new E_Reference("route", "#//_Route").containment(true)),
 		new E_Interface("_Prime")
 			.add(new E_Reference("prime", "ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"))
@@ -39,6 +40,8 @@ def interfaces(Node node) {
 	var str = '''<eSuperTypes href="#//_Placed"/>'''
 	if (model.resp(node).isEdgeSource)
 		str += '''<eSuperTypes href="#//_EdgeSource"/>'''
+//	if (model.resp(node).isEdgeTarget)
+//		str += '''<eSuperTypes href="#//_EdgeTarget"/>'''
 	if (node.primeReference != null)
 		str += '''<eSuperTypes href="#//_Prime"/>'''
 	return str

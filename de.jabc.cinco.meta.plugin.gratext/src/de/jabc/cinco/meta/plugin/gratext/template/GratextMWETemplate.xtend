@@ -10,15 +10,25 @@ def xtextFile() { fileFromTemplate(GratextGrammarTemplate) }
 def genmodelFile() { fileFromTemplate(GratextGenmodelTemplate) }	
 
 def genPackageRule(GenPackage pkg) {
+	try {
 	'''
 	registerGeneratedEPackage = "«pkg.basePackage».«pkg.getEcorePackage.name».«pkg.prefix»Package"
 	'''
+	} catch(NullPointerException e) {
+		e.printStackTrace
+		''''''
+	}
 }
 
 def genFileRule(IFile file) {
+	try {
 	'''
 	registerGenModelFile = "platform:/resource«file.fullPath»"
 	'''
+	} catch(NullPointerException e) {
+		e.printStackTrace
+		''''''
+	}
 }
 	
 override template()

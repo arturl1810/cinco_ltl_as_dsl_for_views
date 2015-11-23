@@ -52,6 +52,8 @@ import org.eclipse.graphiti.services.Graphiti
 import org.eclipse.graphiti.ui.services.GraphitiUi
 import org.eclipse.swt.widgets.Display
 
+import de.jabc.cinco.meta.core.ge.style.model.features.CincoAbstractAddFeature
+
 class «model.name»ModelGenerator {
 	
 	final String FILE_SUFFIX = "-restored"
@@ -132,19 +134,27 @@ class «model.name»ModelGenerator {
 		 	bo.modelElements.forEach[child | add(child, pe as ContainerShape)]
 	}
 	
-	def add(_Edge edge, _EdgeSource source, Node target) {
+	def add(_Edge _edge, _EdgeSource src, Node target) {
 		try {
+			val edge = _edge as Edge
+			val source = src as Node
+			
 			System.out.println("Generator.add " + edge)
 			System.out.println("  > source " + source)
 			System.out.println("  > target " + target)
 			
-			(edge as Edge).sourceElement = source as Node
-			(edge as Edge).targetElement = target as Node
+			// reset source and target to trigger ecore opposites
+			if (edge.sourceElement != null)
+				edge.sourceElement = null
+			edge.sourceElement = source
+			if (edge.targetElement != null)
+				edge.targetElement = null
+			edge.targetElement = target
 			
 			val pe = addIfPossible(getAddContext(edge, (source as ModelElement), (target as ModelElement)))
 			cache((edge as ModelElement), pe)
 			
-			add(edge.route, pe)
+			add(_edge.route, pe)
 			
 		} catch(Exception e) {
 			e.printStackTrace
@@ -180,7 +190,7 @@ class «model.name»ModelGenerator {
 		return ctx
 	}
 	
-	def getAddContext(_Edge edge, ModelElement source, ModelElement target) {
+	def getAddContext(Edge edge, ModelElement source, ModelElement target) {
 		val ctx = new AddConnectionContext(getAnchor(pes.get(source)), getAnchor(pes.get(target)))
 		ctx.setNewObject(edge)
 		return ctx
