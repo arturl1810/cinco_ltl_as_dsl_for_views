@@ -1,5 +1,7 @@
 package de.jabc.cinco.meta.core.referenceregistry;
 
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
@@ -27,9 +29,8 @@ public class Activator extends AbstractUIPlugin {
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
-		if (ReferenceRegistry.getInstance().load()) {
-			System.out.println("Loaded reference registry file!");
-		}
+		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().addPartListener(ReferenceRegistry.getInstance());
+		ResourcesPlugin.getWorkspace().addResourceChangeListener(ReferenceRegistry.getInstance());
 	}
 
 	/*

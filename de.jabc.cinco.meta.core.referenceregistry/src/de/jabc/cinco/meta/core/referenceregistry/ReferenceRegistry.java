@@ -9,8 +9,12 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.Properties;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IResourceChangeEvent;
+import org.eclipse.core.resources.IResourceChangeListener;
+import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
@@ -26,7 +30,7 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IPartListener;
 import org.eclipse.ui.IWorkbenchPart;
 
-public class ReferenceRegistry implements IPartListener {
+public class ReferenceRegistry implements IPartListener, IResourceChangeListener {
 
 	private IProject currentProject;
 	
@@ -38,8 +42,6 @@ public class ReferenceRegistry implements IPartListener {
 	private HashMap<IProject, HashMap<String, EObject>> cachesMap;
 	private HashMap<IProject, HashMap<String, String>> registriesMap;
 	
-	private int count = 0;
-	
 	private static final String REF_REG_FILE = "refReg.rrg";
 	
 	private ReferenceRegistry() {
@@ -47,7 +49,6 @@ public class ReferenceRegistry implements IPartListener {
 		objectCache = new HashMap<String, EObject>();
 		registriesMap = new HashMap<IProject, HashMap<String,String>>();
 		cachesMap = new HashMap<IProject, HashMap<String,EObject>>();
-		objectCache = new HashMap<String, EObject>();
 	}
 	
 	public static ReferenceRegistry getInstance() {
@@ -84,12 +85,13 @@ public class ReferenceRegistry implements IPartListener {
 	}
 	
 	public boolean load() {
-		File file = getFile();
+		File file = getCurrentFile();
 		if (file != null && file.exists()) {
 			try {
 				FileInputStream fis = new FileInputStream(file);
 				Properties props = new Properties();
 				props.loadFromXML(fis);
+				map = new HashMap<String, String>();
 				for (Entry<Object, Object> e : props.entrySet()) {
 					map.put((String) e.getKey(), (String)e.getValue());
 				}
@@ -103,15 +105,45 @@ public class ReferenceRegistry implements IPartListener {
 		return false;
 	}
 	
-	public boolean save() {
+	private boolean load(IProject p) {
+		File file = getFile(p);
+		if (file != null && file.exists()) {
 			try {
-				File file = getFile();
+				FileInputStream fis = new FileInputStream(file);
+				Properties props = new Properties();
+				props.loadFromXML(fis);
+				map = new HashMap<String, String>();
+				for (Entry<Object, Object> e : props.entrySet()) {
+					map.put((String) e.getKey(), (String)e.getValue());
+				}
+				fis.close();
+				return true;
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+	
+	public boolean save() {
+		for (IProject p : registriesMap.keySet()) {
+			if (!save(p))
+				return false;
+		}
+		return true;
+	}
+	
+	private boolean save(IProject p) {
+			try {
+				File file = getFile(p);
 				if (!file.exists()) {
 					file.createNewFile();
 				}
 				FileOutputStream fos = new FileOutputStream(file);
 				Properties props = new Properties();
-				props.putAll(map);
+				props.putAll(registriesMap.get(p));
 				props.storeToXML(fos, "The reference registry");
 				fos.close();
 				return true;
@@ -122,23 +154,18 @@ public class ReferenceRegistry implements IPartListener {
 		return false;
 	}
 	
-	public void clearRegistry() {
-		this.map = new HashMap<String, String>();
-		this.count = 0;
-	}
-	
-	public void print() {
-		System.out.println("Current count value: " + count);
-		System.out.println("RefReg map contents:.....");
-		for (Entry<String, String> e : map.entrySet()) {
-			System.out.println(String.format("KEY: %d \t VALUE: %s", e.getKey(), e.getValue()));
-		}
-		System.out.println("");
-	}
-	
-	private File getFile() {
+	private File getCurrentFile() {
 		if (currentProject != null) {
 			IPath base = currentProject.getLocation();
+			IPath path = base.append(new Path(REF_REG_FILE));
+			File file = path.toFile();
+			return file;
+		} return null;
+	}
+	
+	private File getFile(IProject p) {
+		if (p != null) {
+			IPath base = p.getLocation();
 			IPath path = base.append(new Path(REF_REG_FILE));
 			File file = path.toFile();
 			return file;
@@ -161,21 +188,17 @@ public class ReferenceRegistry implements IPartListener {
 			return null;
 	}
 	
-	private void refreshData(IProject p) {
-		if (p != null && !p.equals(currentProject)){
-			saveAndClearCurrentMaps(p);
-			setNewMaps(p);
-		}
-	}
-	
 	private void setNewMaps(IProject p) {
 		if (!registriesMap.containsKey(p)) {
-			load();
-			registriesMap.put(p, map);
+			if (load(p)) {
+				System.err.println("Putting map for project: " + p.getName());
+				registriesMap.put(p, map);
+			} else registriesMap.put(p, new HashMap<String, String>());
 		}
 		map = registriesMap.get(p);
 		
 		if (!cachesMap.containsKey(p)) {
+			objectCache = new HashMap<String, EObject>();
 			for (String key : map.keySet()) {
 				EObject eObject = getEObject(key);
 				if (eObject != null) 
@@ -187,10 +210,11 @@ public class ReferenceRegistry implements IPartListener {
 	}
 
 	private void saveAndClearCurrentMaps(IProject p) {
+		System.out.println("Saving map for Project " + p.getName());
 		registriesMap.put(p, map);
 		cachesMap.put(p, objectCache);
-		map.clear();
-		objectCache.clear();
+//		map = new HashMap<String, String>();
+//		objectCache = new HashMap<String, EObject>();
 	}
 	
 	private void showError(EObject bo) {
@@ -202,28 +226,86 @@ public class ReferenceRegistry implements IPartListener {
 	
 	@Override
 	public void partActivated(IWorkbenchPart part) {
-		System.out.println("ACTIVATE: " + getProject(part));
+		IProject project = getProject(part);
+		if (project != null) {
+			setNewMaps(project);
+			currentProject = project;
+		}
+//		print();
 	}
 
 	@Override
 	public void partBroughtToTop(IWorkbenchPart part) {
-		System.out.println("ToTOP: " + getProject(part));		
+//		System.out.println("ToTOP: " + getProject(part));		
 	}
 
 	@Override
 	public void partClosed(IWorkbenchPart part) {
-		System.out.println("CLOSED: " + getProject(part));	
+//		System.out.println("CLOSED: " + getProject(part));	
 	}
 
 	@Override
 	public void partDeactivated(IWorkbenchPart part) {
-		System.out.println("DeACTIVATE: " + getProject(part));
+		if (currentProject != null)
+			saveAndClearCurrentMaps(currentProject);
 	}
 
 	@Override
 	public void partOpened(IWorkbenchPart part) {
 		IProject project = getProject(part);
-		refreshData(project);
+		if (project != null) {
+			setNewMaps(project);
+			currentProject = project;
+		}
+//		print();
 	}
 
+	public void clearRegistry() {
+		this.map = new HashMap<String, String>();
+		this.cachesMap = new HashMap<IProject, HashMap<String,EObject>>();
+		this.objectCache = new HashMap<String, EObject>();
+		this.registriesMap = new HashMap<IProject, HashMap<String,String>>();
+	}
+	
+	public void print() {
+		System.out.println("RefReg map contents:");
+		if (map.entrySet().isEmpty())
+			System.out.println("EMPTY");
+		for (Entry<String, String> e : map.entrySet()) {
+			System.out.println(String.format("KEY: %s \t VALUE: %s", e.getKey(), e.getValue()));
+		}
+		
+		System.out.println("Object Cache:");
+		if (objectCache.entrySet().isEmpty())
+			System.out.println("EMPTY");
+		for (Entry<String, EObject> e : objectCache.entrySet()) {
+			System.out.println(String.format("KEY: %s \t VALUE: %s", e.getKey(), e.getValue()));
+		}
+		System.out.println("");
+	}
+
+	@Override
+	public void resourceChanged(IResourceChangeEvent event) {
+		IResourceDelta delta = event.getDelta();
+		processAffectedFiles(delta);
+	}
+
+	private void processAffectedFiles(IResourceDelta delta) {
+		for (IResourceDelta child: delta.getAffectedChildren()) {
+			IResource res = child.getResource();
+			if (res instanceof IFile) {
+				IPath fullPath = res.getFullPath();
+				System.out.println("Found affected file: " + fullPath);
+				for (Entry<IProject, HashMap<String, String>> val : registriesMap.entrySet()) {
+					for (Entry<String, String> e : val.getValue().entrySet()) {
+						if (e.getValue().equals(fullPath)) {
+//							refresh();
+						}
+					}
+				}
+			}
+			processAffectedFiles(child);
+		}
+	}
+	
 }
