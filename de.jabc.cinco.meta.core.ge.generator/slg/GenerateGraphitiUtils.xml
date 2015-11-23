@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>b227a7a0-5af9-431e-b485-0ba300749007</id>
   <name>GenerateGraphitiUtils</name>
-  <changecounter>198</changecounter>
+  <changecounter>207</changecounter>
   <sib>
     <id>801054f5-02ab-407f-9a7a-c39fb7a43cb9</id>
     <name>PutExpression</name>
@@ -156,6 +156,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.graphiti.dt.IDiagramTypeProvider;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
+import org.eclipse.graphiti.ui.services.GraphitiUi;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PlatformUI;
 import org.osgi.framework.Bundle;
@@ -266,11 +267,16 @@ public class $context.graphModelName$GraphitiUtils {
 	public IDiagramTypeProvider getDTP() {
 		if (PlatformUI.getWorkbench().getActiveWorkbenchWindow() == null ||
 				PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage() == null) 
-			return null;
+			return loadByDarkFeature();
 		IEditorPart part = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
 		if (part instanceof $context.graphModelName$DiagramEditor)
 			return (($context.graphModelName$DiagramEditor) part).getDiagramTypeProvider();
 		return this.dtp;
+	}
+
+	private IDiagramTypeProvider loadByDarkFeature() {
+		IDiagramTypeProvider dtp = GraphitiUi.getExtensionManager().createDiagramTypeProvider($context.graphModelName$Wrapper.DTP_ID);
+		return dtp;
 	}
 
 	private void copy(FileInputStream fis, FileOutputStream fos) {
