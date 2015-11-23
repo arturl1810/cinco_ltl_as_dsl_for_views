@@ -3,13 +3,13 @@ Bundle-ManifestVersion: 2
 Bundle-Name: ConflictView
 Bundle-SymbolicName: ${ViewPackage};singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: ${ViewPackage}.Activator
+Bundle-Activator: ${McamViewProject}.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
- info.scce.cinco.product.${GraphModelName?lower_case}.mcam,
+ ${McamProject},
+ ${BasePackage},
  org.eclipse.ui.workbench,
  org.eclipse.core.resources
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ActivationPolicy: lazy
 Import-Package: info.scce.mcam.framework.adapter,
  info.scce.mcam.framework.modules,

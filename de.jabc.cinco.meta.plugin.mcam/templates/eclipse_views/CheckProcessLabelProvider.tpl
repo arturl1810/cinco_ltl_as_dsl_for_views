@@ -1,4 +1,4 @@
-package ${ViewPackage}.util;
+package ${ViewUtilPackage};
 
 import ${AdapterPackage}.${GraphModelName}Adapter;
 import ${AdapterPackage}.${GraphModelName}Id;

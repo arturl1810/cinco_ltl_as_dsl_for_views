@@ -1,6 +1,6 @@
-package ${ViewPackage}.views;
+package ${McamViewProject};
 
-import info.scce.cinco.product.${GraphModelName?lower_case}.mcam.cli.FrameworkExecution;
+import ${CliPackage}.FrameworkExecution;
 
 import java.io.File;
 import java.util.HashMap;
@@ -34,7 +34,7 @@ public class CheckView extends ViewPart implements IPartListener2 {
 	/**
 	 * The ID of the view as specified by the extension.
 	 */
-	public static final String ID = "${ViewPackage}.views.CheckView";
+	public static final String ID = "${McamViewProject}.CheckView";
 
 	private Composite parent = null;
 
@@ -210,8 +210,8 @@ public class CheckView extends ViewPart implements IPartListener2 {
 				if (origFile.exists()) {
 
 					if (!checkInfoMap.keySet().contains(origFile)) {
-						CheckViewInformation checkInfo = new CheckViewInformation(
-								origFile, res);
+						CheckViewInformation checkInfo = CheckViewInformationFactory
+								.create(origFile, res);
 						checkInfo.createCheckProcess();
 						checkInfo.createCheckViewTree(parent);
 						checkInfoMap.put(origFile, checkInfo);

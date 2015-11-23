@@ -1,10 +1,10 @@
-package ${ViewPackage}.views;
+package ${ViewViewPackage};
 
 import ${AdapterPackage}.${GraphModelName}Adapter;
 import ${AdapterPackage}.${GraphModelName}Id;
-import info.scce.cinco.product.${GraphModelName?lower_case}.mcam.cli.FrameworkExecution;
-import ${ViewPackage}.util.CheckProcessContentProvider;
-import ${ViewPackage}.util.CheckProcessLabelProvider;
+import ${CliPackage}.FrameworkExecution;
+import ${ViewUtilPackage}.CheckProcessContentProvider;
+import ${ViewUtilPackage}.CheckProcessLabelProvider;
 import info.scce.mcam.framework.processes.CheckProcess;
 
 import java.io.File;
@@ -20,20 +20,15 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 
-public class CheckViewInformation {
-	private File file = null;
-	private Resource resource = null;
+public class CheckViewInformation extends ${McamViewProject}.CheckViewInformation {
 	
 	private CheckProcess<${GraphModelName}Id, ${GraphModelName}Adapter> cp = null;
 	
-	private TreeViewer treeViewer = null;
-
 	public CheckViewInformation(File file, Resource resource) {
-		super();
-		this.file = file;
-		this.resource = resource;
+		super(file, resource);
 	}
 	
+	@Override
 	public void createCheckProcess() {
 		${GraphModelName}Adapter model = FrameworkExecution
 				.initApiAdapterFromResource(resource, file);
@@ -43,6 +38,7 @@ public class CheckViewInformation {
 		cp.checkModel();
 	}
 	
+	@Override
 	public void createCheckViewTree(Composite parent) {
 		treeViewer = new TreeViewer(parent, SWT.BORDER | SWT.V_SCROLL
 				| SWT.H_SCROLL);
@@ -69,22 +65,9 @@ public class CheckViewInformation {
 		});
 	}
 
-	public File getFile() {
-		return file;
-	}
-
 	public CheckProcess<${GraphModelName}Id, ${GraphModelName}Adapter> getCp() {
 		return cp;
 	}
 
-	public TreeViewer getTreeViewer() {
-		return treeViewer;
-	}
-	
-	public void closeView() {
-		treeViewer.getControl().dispose();
-	}
-	
-	
 }
 

@@ -1,9 +1,9 @@
-package ${ViewPackage}.views;
+package ${McamViewProject};
 
-import info.scce.cinco.product.${GraphModelName?lower_case}.mcam.cli.FrameworkExecution;
-import ${ViewPackage}.util.MergeProcessSorterAlphabetical;
-import ${ViewPackage}.util.MergeProcessSorterType;
-import ${ViewPackage}.util.MergeProcessTypeFilter;
+import ${CliPackage}.FrameworkExecution;
+import ${ViewUtilPackage}.MergeProcessSorterAlphabetical;
+import ${ViewUtilPackage}.MergeProcessSorterType;
+import ${ViewUtilPackage}.MergeProcessTypeFilter;
 import info.scce.mcam.framework.processes.MergeInformation.MergeType;
 
 import java.io.File;
@@ -51,7 +51,7 @@ public class ConflictView extends ViewPart implements IPartListener2 {
 	/**
 	 * The ID of the view as specified by the extension.
 	 */
-	public static final String ID = "${ViewPackage}.views.ConflictView";
+	public static final String ID = "${McamViewProject}.ConflictView";
 
 	private Action saveAction;
 
@@ -472,7 +472,7 @@ public class ConflictView extends ViewPart implements IPartListener2 {
 						&& remoteFile.exists()) {
 
 					if (!conflictInfoMap.keySet().contains(origFile)) {
-						ConflictViewInformation conflictInfo = new ConflictViewInformation(
+						ConflictViewInformation conflictInfo = ConflictViewInformationFactory.create(
 								origFile, remoteFile, localFile, file, res);
 						conflictInfo.createMergeProcess();
 						conflictInfo.runInitialChangeExecution();

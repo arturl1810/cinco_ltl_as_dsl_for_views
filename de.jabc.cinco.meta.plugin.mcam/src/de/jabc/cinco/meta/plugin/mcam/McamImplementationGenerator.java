@@ -7,8 +7,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.emf.ecore.EObject;
@@ -52,19 +50,25 @@ public class McamImplementationGenerator {
 
 	public Map<String, Object> data = new HashMap<>();
 
+	private boolean generateMerge = false;
+	private boolean generateCheck = false;
+
 	private ArrayList<HashMap<String, Object>> modelLabels = new ArrayList<>();
 	private HashMap<ModelElement, ArrayList<Attribute>> entityAttributes = new HashMap<>();
 	private HashMap<String, ArrayList<String>> typeNames = new HashMap<>();
+	private HashMap<ModelElement, ModelElement> extendsMap = new HashMap<>();
+
 
 	public McamImplementationGenerator(GraphModel gModel, IProject project,
 			String basePackage) {
 		super();
 		this.gModel = gModel;
 		this.project = project;
-		this.basePackage = basePackage;
 		this.graphModelName = gModel.getName();
+		this.basePackage = basePackage + "." + mcamPackageSuffix + "."
+				+ graphModelName.toLowerCase();
 
-		getCustomImplementations();
+		parseAnnotations();
 
 		initEntityMaps();
 
@@ -75,22 +79,17 @@ public class McamImplementationGenerator {
 
 		data.put("GraphModelPackage",
 				basePackage + "." + graphModelName.toLowerCase());
-		data.put("AdapterPackage", this.basePackage + "." + mcamPackageSuffix
-				+ "." + adapterPackageSuffix);
-		data.put("ModulePackage", this.basePackage + "." + mcamPackageSuffix
-				+ "." + modulesPackageSuffix);
+		data.put("AdapterPackage", this.basePackage + "."
+				+ adapterPackageSuffix);
+		data.put("ModulePackage", this.basePackage + "." + modulesPackageSuffix);
 		data.put("ChangeModulePackage", this.basePackage + "."
-				+ mcamPackageSuffix + "." + modulesPackageSuffix + "."
-				+ changeModulesPackageSuffix);
+				+ modulesPackageSuffix + "." + changeModulesPackageSuffix);
 		data.put("CheckModulePackage", this.basePackage + "."
-				+ mcamPackageSuffix + "." + modulesPackageSuffix + "."
-				+ checkModulesPackageSuffix);
-		data.put("CliPackage", this.basePackage + "." + mcamPackageSuffix + "."
-				+ cliPackageSuffix);
-		data.put("StrategyPackage", this.basePackage + "." + mcamPackageSuffix
-				+ "." + strategiesPackageSuffix);
-		data.put("UtilPackage", this.basePackage + "." + mcamPackageSuffix
-				+ "." + utilPackageSuffix);
+				+ modulesPackageSuffix + "." + checkModulesPackageSuffix);
+		data.put("CliPackage", this.basePackage + "." + cliPackageSuffix);
+		data.put("StrategyPackage", this.basePackage + "."
+				+ strategiesPackageSuffix);
+		data.put("UtilPackage", this.basePackage + "." + utilPackageSuffix);
 
 		data.put("ChangeModules", changeModuleClasses);
 		data.put("CheckModules", checkModuleClasses);
@@ -104,6 +103,22 @@ public class McamImplementationGenerator {
 		data.put("NodeTypes", typeNames.get("Node"));
 		data.put("EdgeTypes", typeNames.get("Edge"));
 	}
+	
+	public IProject getProject() {
+		return project;
+	}
+
+	public String getBasePackage() {
+		return basePackage;
+	}
+	
+	public boolean doGenerateMerge() {
+		return generateMerge;
+	}
+
+	public boolean doGenerateCheck() {
+		return generateCheck;
+	}
 
 	private void initEntityMaps() {
 		entityAttributes.put(gModel, new ArrayList<Attribute>());
@@ -115,6 +130,8 @@ public class McamImplementationGenerator {
 
 		typeNames.put("Node", new ArrayList<String>());
 		for (Node node : gModel.getNodes()) {
+			if (node.getExtends() != null)
+				extendsMap.put(node, node.getExtends());
 			typeNames.get("Node").add(node.getName());
 			entityAttributes.put(node, new ArrayList<Attribute>());
 			for (Attribute attribute : node.getAttributes()) {
@@ -124,6 +141,8 @@ public class McamImplementationGenerator {
 
 		typeNames.put("Edge", new ArrayList<String>());
 		for (Edge edge : gModel.getEdges()) {
+			if (edge.getExtends() != null)
+				extendsMap.put(edge, edge.getExtends());
 			typeNames.get("Edge").add(edge.getName());
 			entityAttributes.put(edge, new ArrayList<Attribute>());
 			for (Attribute attribute : edge.getAttributes()) {
@@ -136,6 +155,8 @@ public class McamImplementationGenerator {
 			if (!(n instanceof NodeContainer))
 				continue;
 			NodeContainer container = (NodeContainer) n;
+			if (container.getExtends() != null)
+				extendsMap.put(container, container.getExtends());
 			typeNames.get("Container").add(container.getName());
 			entityAttributes.put(container, new ArrayList<Attribute>());
 			for (Attribute attribute : container.getAttributes()) {
@@ -146,45 +167,55 @@ public class McamImplementationGenerator {
 
 	public String generate() {
 		try {
-			for (ModelElement element : entityAttributes.keySet()) {
-				addLabelEntry(element);
-
-				data.put("ModelElementType", "GraphModel");
-
-				if (!(element instanceof GraphModel)) {
-
-					if (element instanceof Edge) {
-						data.put("ModelElementType", "Edge");
-						generateAddEdgeChangeModule((Edge) element);
-						generateDeleteEdgeChangeModule((Edge) element);
-						generateSourceTargetChangeModule((Edge) element);
-					}
-					if (element instanceof Node) {
-						data.put("ModelElementType", "Node");
-						generateAddElementChangeModule(element);
-						generateDeleteElementChangeModule(element);
-						generateMoveResizeElementChangeModule(element);
-					}
-					if (element instanceof NodeContainer) {
-						data.put("ModelElementType", "Container");
-						generateAddElementChangeModule(element);
-						generateDeleteElementChangeModule(element);
-						generateMoveResizeElementChangeModule(element);
-					}
-
-				}
-
-				for (Attribute attribute : entityAttributes.get(element)) {
-					generateAttributeChangeModule(element, attribute);
-				}
-			}
-
+			
 			generateEntityId();
 			generateModelAdapter();
-
-			generateMergeStrategy();
 			generateCliExecution();
 			generateUtils();
+			generateMergeStrategy();
+
+			if (generateMerge) {
+				
+				for (ModelElement element : entityAttributes.keySet()) {
+					if (element.isIsAbstract())
+						continue;
+
+					addLabelEntry(element);
+
+					data.put("ModelElementType", "GraphModel");
+					if (!(element instanceof GraphModel)) {
+
+						if (element instanceof Edge) {
+							data.put("ModelElementType", "Edge");
+							generateAddEdgeChangeModule((Edge) element);
+							generateDeleteEdgeChangeModule((Edge) element);
+							generateSourceTargetChangeModule((Edge) element);
+						}
+						if (element instanceof Node) {
+							data.put("ModelElementType", "Node");
+							generateAddElementChangeModule(element);
+							generateDeleteElementChangeModule(element);
+							generateMoveResizeElementChangeModule(element);
+						}
+						if (element instanceof NodeContainer) {
+							data.put("ModelElementType", "Container");
+							generateAddElementChangeModule(element);
+							generateDeleteElementChangeModule(element);
+							generateMoveResizeElementChangeModule(element);
+						}
+
+					}
+
+					ModelElement elementToGen = element;
+					while (elementToGen != null) {
+						for (Attribute attribute : entityAttributes
+								.get(elementToGen)) {
+							generateAttributeChangeModule(element, attribute);
+						}
+						elementToGen = extendsMap.get(elementToGen);
+					}
+				}
+			}
 			return "default";
 		} catch (IOException | TemplateException e) {
 			e.printStackTrace();
@@ -192,8 +223,15 @@ public class McamImplementationGenerator {
 		return "error";
 	}
 
-	private void getCustomImplementations() {
+	private void parseAnnotations() {
 		for (Annotation annotation : gModel.getAnnotations()) {
+			if ("mcam".equals(annotation.getName())) {
+				List<String> values = annotation.getValue();
+				if (values.size() == 0 || values.contains("check"))
+					generateCheck = true;
+				if (values.size() == 0 || values.contains("merge"))
+					generateMerge = true;
+			}
 			if ("mcam_changemodule".equals(annotation.getName()))
 				changeModuleClasses.add(annotation.getValue().get(0));
 			if ("mcam_checkmodule".equals(annotation.getName()))
@@ -204,17 +242,25 @@ public class McamImplementationGenerator {
 	}
 
 	private void addLabelEntry(ModelElement element) {
-		for (Attribute attribute : element.getAttributes()) {
-			for (Annotation annotation : attribute.getAnnotations()) {
-				if ("mcam_label".equals(annotation.getName())) {
-					HashMap<String, Object> labelEntry = new HashMap<>();
-					labelEntry.put("type", element.getName());
-					labelEntry.put("attribute", attribute.getName());
-					labelEntry.put("isModelElement",
-							(getModelElementType(attribute) != null));
-					modelLabels.add(labelEntry);
+		ModelElement elementToLabel = element;
+		boolean labelFound = false;
+		while (element != null) {
+			for (Attribute attribute : element.getAttributes()) {
+				for (Annotation annotation : attribute.getAnnotations()) {
+					if ("mcam_label".equals(annotation.getName())) {
+						HashMap<String, Object> labelEntry = new HashMap<>();
+						labelEntry.put("type", elementToLabel.getName());
+						labelEntry.put("attribute", attribute.getName());
+						labelEntry.put("isModelElement",
+								(getModelElementType(attribute) != null));
+						modelLabels.add(labelEntry);
+						labelFound = true;
+					}
 				}
 			}
+			if (labelFound)
+				break;
+			element = extendsMap.get(element);
 		}
 	}
 
@@ -225,13 +271,13 @@ public class McamImplementationGenerator {
 		}
 		return null;
 	}
-	
+
 	private Type getEnumType(Attribute attribute) {
 		for (Type type : gModel.getTypes()) {
 			if (attribute.getType().equals(type.getName()))
 				return type;
 		}
-		
+
 		return null;
 	}
 
@@ -256,7 +302,6 @@ public class McamImplementationGenerator {
 				}
 			}
 		}
-
 		return possibleContainer;
 	}
 
@@ -413,13 +458,15 @@ public class McamImplementationGenerator {
 				+ attribute.getName().substring(1) + "Change");
 		data.put("ModelElementName", element.getName());
 		data.put("AttributeName", attribute.getName());
-		
+
 		if (getModelElementType(attribute) != null) {
 			data.put("AttributeCategory", "ModelElement");
-			data.put("AttributeType", data.get("GraphModelPackage") + "." + attribute.getType().toString());
+			data.put("AttributeType", data.get("GraphModelPackage") + "."
+					+ attribute.getType().toString());
 		} else if (getEnumType(attribute) != null) {
 			data.put("AttributeCategory", "Enum");
-			data.put("AttributeType", data.get("GraphModelPackage") + "." + getEnumType(attribute).getName());
+			data.put("AttributeType", data.get("GraphModelPackage") + "."
+					+ getEnumType(attribute).getName());
 		} else {
 			data.put("AttributeCategory", "Normal");
 			data.put("AttributeType",

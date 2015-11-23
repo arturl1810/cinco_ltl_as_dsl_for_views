@@ -1,14 +1,14 @@
-package ${ViewPackage}.views;
+package ${ViewViewPackage};
 
 import ${AdapterPackage}.${GraphModelName}Adapter;
 import ${AdapterPackage}.${GraphModelName}Id;
 
-import info.scce.cinco.product.${GraphModelName?lower_case}.mcam.cli.FrameworkExecution;
-import info.scce.cinco.product.${GraphModelName?lower_case}.mcam.strategies.${GraphModelName}MergeStrategy;
-import info.scce.cinco.product.${GraphModelName?lower_case}.mcam.util.ChangeDeadlockException;
+import ${CliPackage}.FrameworkExecution;
+import ${StrategyPackage}.${GraphModelName}MergeStrategy;
+import ${UtilPackage}.ChangeDeadlockException;
 
-import ${ViewPackage}.util.MergeProcessContentProvider;
-import ${ViewPackage}.util.MergeProcessLabelProvider;
+import ${ViewUtilPackage}.MergeProcessContentProvider;
+import ${ViewUtilPackage}.MergeProcessLabelProvider;
 
 import info.scce.mcam.framework.modules.ChangeModule;
 import info.scce.mcam.framework.processes.CompareProcess;
@@ -29,71 +29,22 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 
-public class ConflictViewInformation {
-	
-	private IFile iFile = null;
-
-	private File origFile = null;
-	private File remoteFile = null;
-	private File localFile = null;
-
-	private Resource resource = null;
+public class ConflictViewInformation extends ${McamViewProject}.ConflictViewInformation {
 	
 	private MergeProcess<${GraphModelName}Id, ${GraphModelName}Adapter> mp = null;
 
 	private List<ChangeModule<${GraphModelName}Id, ${GraphModelName}Adapter>> changesDone;
 	
-	private TreeViewer treeViewer = null;
-	private int activeFilter = 0;
-	private int activeSort = 0;
-
 	public ConflictViewInformation(File origFile, File remoteFile,
 			File localFile, IFile iFile, Resource resource) {
-		super();
-		this.origFile = origFile;
-		this.remoteFile = remoteFile;
-		this.localFile = localFile;
-		this.iFile = iFile;
-		this.resource = resource;
-	}
-
-	public File getOrigFile() {
-		return origFile;
-	}
-
-	public File getRemoteFile() {
-		return remoteFile;
-	}
-
-	public File getLocalFile() {
-		return localFile;
-	}
-
-	public IFile getIFile() {
-		return iFile;
+		super(origFile, remoteFile, localFile, iFile, resource);
 	}
 
 	public MergeProcess<${GraphModelName}Id, ${GraphModelName}Adapter> getMp() {
 		return mp;
 	}
 
-	public TreeViewer getTreeViewer() {
-		return treeViewer;
-	}
-
-	public void setActiveFilter(int filter) {
-		activeFilter = filter;
-	}
-	public int getActiveFilter() {
-		return activeFilter;
-	}
-	public void setActiveSort(int sort) {
-		activeSort = sort;
-	}
-	public int getActiveSort() {
-		return activeSort;
-	}
-
+	@Override
 	public void createMergeProcess() {
 		${GraphModelName}Adapter orig = FrameworkExecution.initApiAdapter(origFile);
 		${GraphModelName}Adapter local = FrameworkExecution.initApiAdapter(localFile);
@@ -110,6 +61,7 @@ public class ConflictViewInformation {
 				.createMergePhase(localCompare, remoteCompare, mergeModel);
 	}
 	
+	@Override
 	public void createConflictViewTree(Composite parent) {
 		treeViewer = new TreeViewer(parent, SWT.BORDER | SWT.V_SCROLL
 				| SWT.H_SCROLL);
@@ -181,6 +133,7 @@ public class ConflictViewInformation {
 
 	}
 
+	@Override
 	public void runInitialChangeExecution() {
 		mp.analyzeGraphCompares();
 		
@@ -199,11 +152,5 @@ public class ConflictViewInformation {
 			changesDone = e.getChangesDone();
 		}
 	}
-
-	public void closeView() {
-		treeViewer.getControl().dispose();
-	}
-	
-	
 }
 
