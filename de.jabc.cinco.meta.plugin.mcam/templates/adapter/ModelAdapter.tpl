@@ -20,20 +20,20 @@ import org.eclipse.graphiti.mm.pictograms.PictogramsPackage;
 
 import graphmodel.ModelElement;
 import graphmodel.IdentifiableElement;
-import ${GraphModelPackage}.${GraphModelName};
-import ${GraphModelPackage}.${GraphModelName?lower_case?capitalize}Package;
+import ${GraphModelPackage}.${GraphModelName?lower_case}.${GraphModelName};
+import ${GraphModelPackage}.${GraphModelName?lower_case}.${GraphModelName?lower_case?capitalize}Package;
 import info.scce.mcam.framework.adapter.ModelAdapter;
-import ${BasePackage}.graphiti.${GraphModelName}Wrapper;
-import ${BasePackage}.api.c${GraphModelName?lower_case}.C${GraphModelName};
+import ${GraphModelPackage}.graphiti.${GraphModelName}Wrapper;
+import ${GraphModelPackage}.api.c${GraphModelName?lower_case}.C${GraphModelName};
 
 <#list ContainerTypes as type>
-import ${GraphModelPackage}.${type};
+import ${GraphModelPackage}.${GraphModelName?lower_case}.${type};
 </#list>
 <#list NodeTypes as type>
-import ${GraphModelPackage}.${type};
+import ${GraphModelPackage}.${GraphModelName?lower_case}.${type};
 </#list>
 <#list EdgeTypes as type>
-import ${GraphModelPackage}.${type};
+import ${GraphModelPackage}.${GraphModelName?lower_case}.${type};
 </#list>
 
 public class ${GraphModelName}Adapter implements ModelAdapter<${GraphModelName}Id> {

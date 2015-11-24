@@ -1,4 +1,4 @@
-package ${McamViewProject};
+package ${McamViewBasePackage};
 
 import java.io.File;
 

@@ -40,9 +40,10 @@ public class McamImplementationGenerator {
 	private GraphModel gModel = null;
 	private String graphModelName = null;
 
-	private IProject project = null;
-
-	private String basePackage = null;
+	private IProject mcamProject = null;
+	private String mcamProjectBasePackage = null;
+	private String graphModelProjectName = null;
+	private String graphModelPackage = null;
 
 	private ArrayList<String> changeModuleClasses = new ArrayList<>();
 	private ArrayList<String> checkModuleClasses = new ArrayList<>();
@@ -58,60 +59,63 @@ public class McamImplementationGenerator {
 	private HashMap<String, ArrayList<String>> typeNames = new HashMap<>();
 	private HashMap<ModelElement, ModelElement> extendsMap = new HashMap<>();
 
-
 	public McamImplementationGenerator(GraphModel gModel, IProject project,
-			String basePackage) {
+			String graphModelPackage, String graphModelProjectName) {
 		super();
 		this.gModel = gModel;
-		this.project = project;
 		this.graphModelName = gModel.getName();
-		this.basePackage = basePackage + "." + mcamPackageSuffix + "."
-				+ graphModelName.toLowerCase();
+		this.graphModelPackage = graphModelPackage;
+		this.graphModelProjectName = graphModelProjectName;
+
+		this.mcamProject = project;
+		this.mcamProjectBasePackage = graphModelProjectName + "."
+				+ mcamPackageSuffix + "." + graphModelName.toLowerCase();
 
 		parseAnnotations();
 
 		initEntityMaps();
 
-		data.put("GraphModelName", graphModelName);
-		data.put("GraphModelExtension", gModel.getFileExtension());
+		data.put("GraphModelName", this.graphModelName);
+		data.put("GraphModelProjectName", this.graphModelProjectName);
+		data.put("GraphModelExtension", this.gModel.getFileExtension());
+		data.put("GraphModelPackage", this.graphModelPackage);
 
-		data.put("BasePackage", basePackage);
-
-		data.put("GraphModelPackage",
-				basePackage + "." + graphModelName.toLowerCase());
-		data.put("AdapterPackage", this.basePackage + "."
+		data.put("AdapterPackage", this.mcamProjectBasePackage + "."
 				+ adapterPackageSuffix);
-		data.put("ModulePackage", this.basePackage + "." + modulesPackageSuffix);
-		data.put("ChangeModulePackage", this.basePackage + "."
+		data.put("ModulePackage", this.mcamProjectBasePackage + "."
+				+ modulesPackageSuffix);
+		data.put("ChangeModulePackage", this.mcamProjectBasePackage + "."
 				+ modulesPackageSuffix + "." + changeModulesPackageSuffix);
-		data.put("CheckModulePackage", this.basePackage + "."
+		data.put("CheckModulePackage", this.mcamProjectBasePackage + "."
 				+ modulesPackageSuffix + "." + checkModulesPackageSuffix);
-		data.put("CliPackage", this.basePackage + "." + cliPackageSuffix);
-		data.put("StrategyPackage", this.basePackage + "."
+		data.put("CliPackage", this.mcamProjectBasePackage + "."
+				+ cliPackageSuffix);
+		data.put("StrategyPackage", this.mcamProjectBasePackage + "."
 				+ strategiesPackageSuffix);
-		data.put("UtilPackage", this.basePackage + "." + utilPackageSuffix);
+		data.put("UtilPackage", this.mcamProjectBasePackage + "."
+				+ utilPackageSuffix);
 
-		data.put("ChangeModules", changeModuleClasses);
-		data.put("CheckModules", checkModuleClasses);
+		data.put("ChangeModules", this.changeModuleClasses);
+		data.put("CheckModules", this.checkModuleClasses);
 
-		data.put("CustomMergeStrategy", customMergeStrategy);
+		data.put("CustomMergeStrategy", this.customMergeStrategy);
 		data.put("MergeStrategyClass", this.graphModelName + "MergeStrategy");
 
-		data.put("ModelLabels", modelLabels);
+		data.put("ModelLabels", this.modelLabels);
 
-		data.put("ContainerTypes", typeNames.get("Container"));
-		data.put("NodeTypes", typeNames.get("Node"));
-		data.put("EdgeTypes", typeNames.get("Edge"));
+		data.put("ContainerTypes", this.typeNames.get("Container"));
+		data.put("NodeTypes", this.typeNames.get("Node"));
+		data.put("EdgeTypes", this.typeNames.get("Edge"));
 	}
-	
+
 	public IProject getProject() {
-		return project;
+		return mcamProject;
 	}
 
-	public String getBasePackage() {
-		return basePackage;
+	public String getMcamProjectBasePackage() {
+		return mcamProjectBasePackage;
 	}
-	
+
 	public boolean doGenerateMerge() {
 		return generateMerge;
 	}
@@ -167,15 +171,8 @@ public class McamImplementationGenerator {
 
 	public String generate() {
 		try {
-			
-			generateEntityId();
-			generateModelAdapter();
-			generateCliExecution();
-			generateUtils();
-			generateMergeStrategy();
-
 			if (generateMerge) {
-				
+
 				for (ModelElement element : entityAttributes.keySet()) {
 					if (element.isIsAbstract())
 						continue;
@@ -216,6 +213,13 @@ public class McamImplementationGenerator {
 					}
 				}
 			}
+			
+			generateEntityId();
+			generateModelAdapter();
+			generateCliExecution();
+			generateUtils();
+			generateMergeStrategy();
+			
 			return "default";
 		} catch (IOException | TemplateException e) {
 			e.printStackTrace();
@@ -393,7 +397,7 @@ public class McamImplementationGenerator {
 
 	private void generateEntityId() throws IOException, TemplateException {
 		TemplateGenerator templateGen = new TemplateGenerator(
-				"templates/adapter/EntityId.tpl", project);
+				"templates/adapter/EntityId.tpl", mcamProject);
 		templateGen.setFilename(graphModelName + "Id.java");
 		templateGen.setPkg((String) data.get("AdapterPackage"));
 		templateGen.setData(data);
@@ -402,7 +406,7 @@ public class McamImplementationGenerator {
 
 	private void generateModelAdapter() throws IOException, TemplateException {
 		TemplateGenerator templateGen = new TemplateGenerator(
-				"templates/adapter/ModelAdapter.tpl", project);
+				"templates/adapter/ModelAdapter.tpl", mcamProject);
 		templateGen.setFilename(graphModelName + "Adapter.java");
 		templateGen.setPkg((String) data.get("AdapterPackage"));
 		templateGen.setData(data);
@@ -411,21 +415,21 @@ public class McamImplementationGenerator {
 
 	private void generateCliExecution() throws IOException, TemplateException {
 		TemplateGenerator templateGen = new TemplateGenerator(
-				"templates/cli/CliMain.tpl", project);
+				"templates/cli/CliMain.tpl", mcamProject);
 		templateGen.setFilename("CliMain.java");
 		templateGen.setPkg((String) data.get("CliPackage"));
 		templateGen.setData(data);
 		templateGen.generateFile();
 
 		templateGen = new TemplateGenerator("templates/cli/CliExecution.tpl",
-				project);
+				mcamProject);
 		templateGen.setFilename("CliExecution.java");
 		templateGen.setPkg((String) data.get("CliPackage"));
 		templateGen.setData(data);
 		templateGen.generateFile();
 
 		templateGen = new TemplateGenerator(
-				"templates/cli/FrameworkExecution.tpl", project);
+				"templates/cli/FrameworkExecution.tpl", mcamProject);
 		templateGen.setFilename("FrameworkExecution.java");
 		templateGen.setPkg((String) data.get("CliPackage"));
 		templateGen.setData(data);
@@ -434,7 +438,7 @@ public class McamImplementationGenerator {
 
 	private void generateMergeStrategy() throws IOException, TemplateException {
 		TemplateGenerator templateGen = new TemplateGenerator(
-				"templates/strategies/MergeStrategy.tpl", project);
+				"templates/strategies/MergeStrategy.tpl", mcamProject);
 		templateGen.setFilename((String) data.get("MergeStrategyClass")
 				+ ".java");
 		templateGen.setPkg((String) data.get("StrategyPackage"));
@@ -444,7 +448,7 @@ public class McamImplementationGenerator {
 
 	private void generateUtils() throws IOException, TemplateException {
 		TemplateGenerator templateGen = new TemplateGenerator(
-				"templates/util/ChangeDeadlockException.tpl", project);
+				"templates/util/ChangeDeadlockException.tpl", mcamProject);
 		templateGen.setFilename("ChangeDeadlockException.java");
 		templateGen.setPkg((String) data.get("UtilPackage"));
 		templateGen.setData(data);
@@ -475,7 +479,7 @@ public class McamImplementationGenerator {
 		}
 
 		TemplateGenerator templateGen = new TemplateGenerator(
-				"templates/modules/AttributeChangeModule.tpl", project);
+				"templates/modules/AttributeChangeModule.tpl", mcamProject);
 		templateGen.setFilename((String) data.get("ClassName") + ".java");
 		templateGen.setPkg((String) data.get("ChangeModulePackage"));
 		templateGen.setData(data);
@@ -492,7 +496,7 @@ public class McamImplementationGenerator {
 		data.put("PossibleContainer", getPossibleContainer(element));
 
 		TemplateGenerator templateGen = new TemplateGenerator(
-				"templates/modules/AddElementModule.tpl", project);
+				"templates/modules/AddElementModule.tpl", mcamProject);
 		templateGen.setFilename((String) data.get("ClassName") + ".java");
 		templateGen.setPkg((String) data.get("ChangeModulePackage"));
 		templateGen.setData(data);
@@ -509,7 +513,7 @@ public class McamImplementationGenerator {
 		data.put("PossibleContainer", getPossibleContainer(element));
 
 		TemplateGenerator templateGen = new TemplateGenerator(
-				"templates/modules/DeleteElementModule.tpl", project);
+				"templates/modules/DeleteElementModule.tpl", mcamProject);
 		templateGen.setFilename((String) data.get("ClassName") + ".java");
 		templateGen.setPkg((String) data.get("ChangeModulePackage"));
 		templateGen.setData(data);
@@ -527,7 +531,7 @@ public class McamImplementationGenerator {
 		data.put("PossibleEdgeTargets", getPossibleEdgeTargets(element));
 
 		TemplateGenerator templateGen = new TemplateGenerator(
-				"templates/modules/DeleteEdgeModule.tpl", project);
+				"templates/modules/DeleteEdgeModule.tpl", mcamProject);
 		templateGen.setFilename((String) data.get("ClassName") + ".java");
 		templateGen.setPkg((String) data.get("ChangeModulePackage"));
 		templateGen.setData(data);
@@ -545,7 +549,7 @@ public class McamImplementationGenerator {
 		data.put("PossibleEdgeTargets", getPossibleEdgeTargets(element));
 
 		TemplateGenerator templateGen = new TemplateGenerator(
-				"templates/modules/AddEdgeModule.tpl", project);
+				"templates/modules/AddEdgeModule.tpl", mcamProject);
 		templateGen.setFilename((String) data.get("ClassName") + ".java");
 		templateGen.setPkg((String) data.get("ChangeModulePackage"));
 		templateGen.setData(data);
@@ -563,7 +567,7 @@ public class McamImplementationGenerator {
 		data.put("PossibleEdgeTargets", getPossibleEdgeTargets(element));
 
 		TemplateGenerator templateGen = new TemplateGenerator(
-				"templates/modules/SourceTargetChangeModule.tpl", project);
+				"templates/modules/SourceTargetChangeModule.tpl", mcamProject);
 		templateGen.setFilename((String) data.get("ClassName") + ".java");
 		templateGen.setPkg((String) data.get("ChangeModulePackage"));
 		templateGen.setData(data);
@@ -580,7 +584,7 @@ public class McamImplementationGenerator {
 		data.put("PossibleContainer", getPossibleContainer(element));
 
 		TemplateGenerator templateGen = new TemplateGenerator(
-				"templates/modules/MoveResizeElementModule.tpl", project);
+				"templates/modules/MoveResizeElementModule.tpl", mcamProject);
 		templateGen.setFilename((String) data.get("ClassName") + ".java");
 		templateGen.setPkg((String) data.get("ChangeModulePackage"));
 		templateGen.setData(data);

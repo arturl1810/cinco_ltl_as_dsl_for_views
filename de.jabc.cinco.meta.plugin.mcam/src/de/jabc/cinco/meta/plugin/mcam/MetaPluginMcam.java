@@ -27,7 +27,8 @@ public class MetaPluginMcam implements IMetaPlugin {
 
 	private GraphModel gModel;
 
-	private String basePackage = null;
+	private String modelPackage = null;
+	private String modelProjectName = null;
 	private String mcamPackageSuffix = McamImplementationGenerator.mcamPackageSuffix;
 	private String mcamViewPackageSuffix = McamViewGenerator.viewPackageSuffix;
 
@@ -39,8 +40,10 @@ public class MetaPluginMcam implements IMetaPlugin {
 	@Override
 	public String execute(Map<String, Object> map) {
 		gModel = (GraphModel) map.get("graphModel");
-		this.basePackage = gModel.getPackage();
-
+		this.modelPackage = gModel.getPackage();
+		String[] path = gModel.eResource().getURI().path().split(File.separator);
+		this.modelProjectName = path[2];
+		
 		System.out.println("------ Model-CaM Generation for '"
 				+ gModel.getName() + "' ------");
 
@@ -65,10 +68,10 @@ public class MetaPluginMcam implements IMetaPlugin {
 		 * create mcam implementation
 		 */
 		McamImplementationGenerator genMcam = new McamImplementationGenerator(
-				gModel, mcamProject, basePackage);
+				gModel, mcamProject, modelPackage, modelProjectName);
 		try {
 			IFolder f = mcamProject.getFolder("src-gen" + File.separator
-					+ genMcam.getBasePackage().replace(".", File.separator));
+					+ genMcam.getMcamProjectBasePackage().replace(".", File.separator));
 			if (f != null && f.exists())
 				cleanDirectory(f);
 			mcamProject.refreshLocal(IResource.DEPTH_INFINITE, monitor);
@@ -111,10 +114,10 @@ public class MetaPluginMcam implements IMetaPlugin {
 		 * create view implementation
 		 */
 		McamViewGenerator genView = new McamViewGenerator(gModel,
-				mcamViewProject, basePackage, genMcam);
+				mcamViewProject, modelPackage, modelProjectName, genMcam);
 		try {
 			IFolder f = mcamViewProject.getFolder("src-gen" + File.separator
-					+ genView.getBasePackage().replace(".", File.separator));
+					+ genView.getMcamViewPackage().replace(".", File.separator));
 			if (f != null && f.exists())
 				cleanDirectory(f);
 			mcamViewProject.refreshLocal(IResource.DEPTH_INFINITE, monitor);
@@ -138,7 +141,7 @@ public class MetaPluginMcam implements IMetaPlugin {
 	}
 
 	private IProject createMcamEclipseProject() {
-		String projectName = basePackage + "." + mcamPackageSuffix;
+		String projectName = modelProjectName + "." + mcamPackageSuffix;
 		List<String> srcFolders = getSrcFolders();
 		List<String> cleanDirs = getCleanDirectory();
 		Set<String> reqBundles = getReqBundlesForMcam();
@@ -147,7 +150,7 @@ public class MetaPluginMcam implements IMetaPlugin {
 	}
 
 	private IProject createMcamViewEclipseProject() {
-		String projectName = basePackage + "." + mcamPackageSuffix + "."
+		String projectName = modelProjectName + "." + mcamPackageSuffix + "."
 				+ mcamViewPackageSuffix;
 		List<String> srcFolders = getSrcFolders();
 		List<String> cleanDirs = getCleanDirectory();
@@ -175,7 +178,7 @@ public class MetaPluginMcam implements IMetaPlugin {
 
 		manifest.getMainAttributes().putValue(
 				"Export-Package",
-				cleanExportedPackages(oldEP, genMcam.getBasePackage())
+				cleanExportedPackages(oldEP, genMcam.getMcamProjectBasePackage())
 						+ exportPackage);
 
 		manifest.write(new FileOutputStream(iManiFile.getLocation().toFile()));
@@ -183,7 +186,7 @@ public class MetaPluginMcam implements IMetaPlugin {
 
 	private String getExportedPackages() throws CoreException, IOException {
 		IProject project = ResourcesPlugin.getWorkspace().getRoot()
-				.getProject(basePackage + "." + mcamPackageSuffix);
+				.getProject(modelProjectName + "." + mcamPackageSuffix);
 		IFile iManiFile = project.getFolder("META-INF").getFile("MANIFEST.MF");
 		if (!iManiFile.exists())
 			return "";
@@ -249,7 +252,7 @@ public class MetaPluginMcam implements IMetaPlugin {
 		reqBundles.add("org.eclipse.core.runtime");
 		reqBundles.add("de.jabc.cinco.meta.core.mgl.model");
 		reqBundles.add("org.eclipse.graphiti.mm");
-		reqBundles.add(basePackage);
+		reqBundles.add(modelProjectName);
 		reqBundles.add("de.jabc.cinco.meta.core.ge.style.model");
 		reqBundles.add("de.jabc.cinco.meta.libraries");
 		reqBundles.add("org.apache.commons.cli");

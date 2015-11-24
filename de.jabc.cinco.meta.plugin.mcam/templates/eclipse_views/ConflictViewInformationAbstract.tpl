@@ -1,10 +1,14 @@
-package ${McamViewProject};
+package ${McamViewBasePackage};
+
+import info.scce.mcam.framework.processes.MergeInformation.MergeType;
 
 import java.io.File;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.viewers.ViewerFilter;
+import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.swt.widgets.Composite;
 
 public abstract class ConflictViewInformation {
@@ -76,6 +80,10 @@ public abstract class ConflictViewInformation {
 	public abstract void runInitialChangeExecution();
 
 	public abstract void createConflictViewTree(Composite parent);
+
+	public abstract ViewerSorter getDefaultNameSorter();
+	public abstract ViewerSorter getDefaultTypeSorter();
+	public abstract ViewerFilter getMergeProcessTypeFilter(MergeType type);
 
 }
 

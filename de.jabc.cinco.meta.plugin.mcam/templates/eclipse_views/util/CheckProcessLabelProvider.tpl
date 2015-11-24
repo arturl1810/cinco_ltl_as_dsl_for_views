@@ -21,10 +21,12 @@ public class CheckProcessLabelProvider extends LabelProvider {
 	private String checkErrorIconPath = "icons/error.png";
 	private String checkOkIconPath = "icons/ok.png";
 	private String checkWarningIconPath = "icons/warning.png";
+	private String checkNotCheckedIconPath = "icons/info.png";
 
 	private Image checkOkImg = null;
 	private Image checkErrorImg = null;
 	private Image checkWarningImg = null;
+	private Image checkNotCheckedImg = null;
 
 	public CheckProcessLabelProvider() {
 		super();
@@ -52,6 +54,9 @@ public class CheckProcessLabelProvider extends LabelProvider {
 			InputStream checkWarningImgStream = FileLocator.openStream(bundle,
 					new Path(checkWarningIconPath), true);
 			checkWarningImg = new Image(getDisplay(), checkWarningImgStream);
+			InputStream checkNotCheckedImgStream = FileLocator.openStream(bundle,
+					new Path(checkNotCheckedIconPath), true);
+			checkNotCheckedImg = new Image(getDisplay(), checkNotCheckedImgStream);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -73,6 +78,8 @@ public class CheckProcessLabelProvider extends LabelProvider {
 				return checkErrorImg;
 			if (module.result.equals(CheckResultType.WARNING))
 				return checkWarningImg;
+			if (module.result.equals(CheckResultType.NOT_CHECKED))
+				return checkNotCheckedImg;
 		}
 		throw unknownElement(element);
 	}

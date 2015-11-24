@@ -20,7 +20,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 
-public class CheckViewInformation extends ${McamViewProject}.CheckViewInformation {
+public class CheckViewInformation extends ${McamViewBasePackage}.CheckViewInformation {
 	
 	private CheckProcess<${GraphModelName}Id, ${GraphModelName}Adapter> cp = null;
 	

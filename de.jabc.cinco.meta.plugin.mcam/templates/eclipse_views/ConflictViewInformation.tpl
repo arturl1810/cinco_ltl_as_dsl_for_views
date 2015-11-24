@@ -9,9 +9,13 @@ import ${UtilPackage}.ChangeDeadlockException;
 
 import ${ViewUtilPackage}.MergeProcessContentProvider;
 import ${ViewUtilPackage}.MergeProcessLabelProvider;
+import ${ViewUtilPackage}.MergeProcessSorterAlphabetical;
+import ${ViewUtilPackage}.MergeProcessSorterType;
+import ${ViewUtilPackage}.MergeProcessTypeFilter;
 
 import info.scce.mcam.framework.modules.ChangeModule;
 import info.scce.mcam.framework.processes.CompareProcess;
+import info.scce.mcam.framework.processes.MergeInformation.MergeType;
 import info.scce.mcam.framework.processes.MergeProcess;
 
 import java.io.File;
@@ -24,16 +28,24 @@ import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.viewers.ViewerFilter;
+import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 
-public class ConflictViewInformation extends ${McamViewProject}.ConflictViewInformation {
+public class ConflictViewInformation extends ${McamViewBasePackage}.ConflictViewInformation {
 	
 	private MergeProcess<${GraphModelName}Id, ${GraphModelName}Adapter> mp = null;
-
 	private List<ChangeModule<${GraphModelName}Id, ${GraphModelName}Adapter>> changesDone;
+
+	private MergeProcessSorterAlphabetical nameSorter = new MergeProcessSorterAlphabetical();
+	private MergeProcessSorterType typeSorter = new MergeProcessSorterType();
+	private MergeProcessTypeFilter changedFilter = new MergeProcessTypeFilter(MergeType.CHANGED);
+	private MergeProcessTypeFilter addedFilter = new MergeProcessTypeFilter(MergeType.ADDED);
+	private MergeProcessTypeFilter deletedFilter = new MergeProcessTypeFilter(MergeType.DELETED);
+	private MergeProcessTypeFilter conflictedFilter = new MergeProcessTypeFilter(MergeType.CONFLICTED);
 	
 	public ConflictViewInformation(File origFile, File remoteFile,
 			File localFile, IFile iFile, Resource resource) {
@@ -150,6 +162,32 @@ public class ConflictViewInformation extends ${McamViewProject}.ConflictViewInfo
 				System.err.println(" - " + change.id + ": " + change);
 			}
 			changesDone = e.getChangesDone();
+		}
+	}
+
+	@Override
+	public ViewerSorter getDefaultNameSorter() {
+		return nameSorter;
+	}
+
+	@Override
+	public ViewerSorter getDefaultTypeSorter() {
+		return typeSorter;
+	}
+
+	@Override
+	public ViewerFilter getMergeProcessTypeFilter(MergeType type) {
+		switch (type) {
+		case ADDED:
+			return addedFilter;
+		case CHANGED:
+			return changedFilter;
+		case CONFLICTED:
+			return conflictedFilter;
+		case DELETED:
+			return deletedFilter;
+		default:
+			return null;
 		}
 	}
 }

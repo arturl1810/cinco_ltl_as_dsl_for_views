@@ -1,4 +1,4 @@
-package ${McamViewProject};
+package ${McamViewBasePackage};
 
 import ${ViewUtilPackage}.ResourceChangeListener;
 
@@ -16,7 +16,7 @@ import org.osgi.framework.BundleContext;
 public class ${ClassName} extends AbstractUIPlugin {
 
 	// The plug-in ID
-	public static final String PLUGIN_ID = "${McamViewProject}"; //$NON-NLS-1$
+	public static final String PLUGIN_ID = "${McamViewBasePackage}"; //$NON-NLS-1$
 
 	// The shared instance
 	private static Activator plugin;
