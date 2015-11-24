@@ -39,20 +39,24 @@ public class MetaPluginMcam implements IMetaPlugin {
 
 	@Override
 	public String execute(Map<String, Object> map) {
+		System.out.println("------ Model-CaM Generation for '"
+				+ gModel.getName() + "' ------");
+		
 		gModel = (GraphModel) map.get("graphModel");
 		this.modelPackage = gModel.getPackage();
 		String[] path = gModel.eResource().getURI().path().split(File.separator);
 		this.modelProjectName = path[2];
+		IProject mcamProject = ResourcesPlugin.getWorkspace().getRoot().getProject(modelProjectName);
 		
-		System.out.println("------ Model-CaM Generation for '"
-				+ gModel.getName() + "' ------");
-
+		if (mcamProject == null)
+			return "error";
+		
 		/*
 		 * get old exported Packages
 		 */
 		String oldEP = "";
 		try {
-			oldEP = getExportedPackages();
+			oldEP = getExportedPackages(mcamProject);
 		} catch (CoreException | IOException e) {
 			e.printStackTrace();
 			return "error";
@@ -61,8 +65,8 @@ public class MetaPluginMcam implements IMetaPlugin {
 		/*
 		 * create mcam project
 		 */
-		System.out.println("Creating Mcam-Eclipse-Project...");
-		IProject mcamProject = createMcamEclipseProject();
+//		System.out.println("Creating Mcam-Eclipse-Project...");
+//		IProject mcamProject = createMcamEclipseProject();
 
 		/*
 		 * create mcam implementation
@@ -86,7 +90,7 @@ public class MetaPluginMcam implements IMetaPlugin {
 		 */
 		System.out.println("Editing Manifest...");
 		try {
-			createMcamManifest(mcamProject, genMcam, oldEP);
+			writeExportedPackagesToManifest(mcamProject, genMcam, oldEP);
 		} catch (IOException | CoreException e) {
 			e.printStackTrace();
 			return "error";
@@ -159,7 +163,7 @@ public class MetaPluginMcam implements IMetaPlugin {
 				reqBundles, null, null, monitor, cleanDirs, false);
 	}
 
-	private void createMcamManifest(IProject project,
+	private void writeExportedPackagesToManifest(IProject project,
 			McamImplementationGenerator genMcam, String oldEP)
 			throws IOException, CoreException {
 		IFile iManiFile = project.getFolder("META-INF").getFile("MANIFEST.MF");
@@ -184,9 +188,7 @@ public class MetaPluginMcam implements IMetaPlugin {
 		manifest.write(new FileOutputStream(iManiFile.getLocation().toFile()));
 	}
 
-	private String getExportedPackages() throws CoreException, IOException {
-		IProject project = ResourcesPlugin.getWorkspace().getRoot()
-				.getProject(modelProjectName + "." + mcamPackageSuffix);
+	private String getExportedPackages(IProject project) throws CoreException, IOException {
 		IFile iManiFile = project.getFolder("META-INF").getFile("MANIFEST.MF");
 		if (!iManiFile.exists())
 			return "";

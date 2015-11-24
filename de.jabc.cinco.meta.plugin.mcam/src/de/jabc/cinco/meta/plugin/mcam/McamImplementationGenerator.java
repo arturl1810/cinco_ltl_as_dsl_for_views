@@ -68,8 +68,10 @@ public class McamImplementationGenerator {
 		this.graphModelProjectName = graphModelProjectName;
 
 		this.mcamProject = project;
-		this.mcamProjectBasePackage = graphModelProjectName + "."
-				+ mcamPackageSuffix + "." + graphModelName.toLowerCase();
+//		this.mcamProjectBasePackage = graphModelProjectName + "."
+//				+ mcamPackageSuffix + "." + graphModelName.toLowerCase();
+		this.mcamProjectBasePackage = graphModelPackage + "."
+				+ mcamPackageSuffix;
 
 		parseAnnotations();
 

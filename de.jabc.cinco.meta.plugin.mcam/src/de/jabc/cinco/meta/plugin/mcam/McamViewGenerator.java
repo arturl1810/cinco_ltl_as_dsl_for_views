@@ -443,8 +443,9 @@ public class McamViewGenerator {
 				}
 				fis.close();
 
-				originalText = originalText.replaceAll(marker, marker + "\n"
-						+ code);
+				if (!originalText.contains(code))
+					originalText = originalText.replaceAll(marker, marker
+							+ "\n" + code);
 
 				FileOutputStream fos = new FileOutputStream(file);
 				fos.write(originalText.getBytes());
