@@ -210,11 +210,8 @@ public class ReferenceRegistry implements IPartListener, IResourceChangeListener
 	}
 
 	private void saveAndClearCurrentMaps(IProject p) {
-		System.out.println("Saving map for Project " + p.getName());
 		registriesMap.put(p, map);
 		cachesMap.put(p, objectCache);
-//		map = new HashMap<String, String>();
-//		objectCache = new HashMap<String, EObject>();
 	}
 	
 	private void showError(EObject bo) {
@@ -299,7 +296,10 @@ public class ReferenceRegistry implements IPartListener, IResourceChangeListener
 				for (Entry<IProject, HashMap<String, String>> val : registriesMap.entrySet()) {
 					for (Entry<String, String> e : val.getValue().entrySet()) {
 						if (e.getValue().equals(fullPath)) {
-//							refresh();
+							IProject project = val.getKey();
+							String objectId = e.getKey();
+							String resourcePath = e.getValue();
+							refresh(project, objectId, resourcePath);
 						}
 					}
 				}
@@ -307,5 +307,26 @@ public class ReferenceRegistry implements IPartListener, IResourceChangeListener
 			processAffectedFiles(child);
 		}
 	}
+
+	private void refresh(IProject project, String objectId, String resourcePath) {
+		HashMap<String, EObject> cache = cachesMap.get(project);
+		HashMap<String, String> refMap = registriesMap.get(project);
+		EObject eObject = loadObject(objectId, resourcePath);
+		if (eObject != null)
+			cache.put(objectId, eObject);
+		else {
+			System.err.println("Object removed... ");
+			cache.remove(objectId);
+			refMap.remove(objectId);
+		}
+	}
+
+	private EObject loadObject(String objectId, String resourcePath) {
+		URI uri = URI.createPlatformResourceURI(resourcePath, true);
+		Resource res = new ResourceSetImpl().getResource(uri, true);
+		EObject eObject = res.getEObject(objectId);
+		return eObject;
+	}
+
 	
 }
