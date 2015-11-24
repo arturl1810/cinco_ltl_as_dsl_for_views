@@ -26,6 +26,7 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference GraphicalGraphModel.ecore#//CGraphModel/diagram"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference GraphicalGraphModel.ecore#//CGraphModel/shape"/>
       <genOperations ecoreOperation="GraphicalGraphModel.ecore#//CGraphModel/getPictogramElement"/>
+      <genOperations ecoreOperation="GraphicalGraphModel.ecore#//CGraphModel/save"/>
     </genClasses>
     <genClasses ecoreClass="GraphicalGraphModel.ecore#//CEdge">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference GraphicalGraphModel.ecore#//CEdge/sourceElement"/>
