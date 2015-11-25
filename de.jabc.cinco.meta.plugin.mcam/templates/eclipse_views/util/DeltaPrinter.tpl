@@ -1,4 +1,4 @@
-package ${ViewPackage}.util;
+package ${ViewUtilPackage};
 
 import org.eclipse.core.resources.IMarkerDelta;
 import org.eclipse.core.resources.IResource;

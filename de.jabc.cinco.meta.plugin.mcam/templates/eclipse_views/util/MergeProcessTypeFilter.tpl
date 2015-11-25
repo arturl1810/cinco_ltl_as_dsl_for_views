@@ -1,4 +1,4 @@
-package ${ViewPackage}.util;
+package ${ViewUtilPackage};
 
 import java.util.Set;
 

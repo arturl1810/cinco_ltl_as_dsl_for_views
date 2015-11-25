@@ -1,6 +1,4 @@
-package ${ViewPackage}.views;
-
-import info.scce.cinco.product.${GraphModelName?lower_case}.mcam.cli.FrameworkExecution;
+package ${McamViewBasePackage};
 
 import java.io.File;
 import java.util.HashMap;
@@ -34,7 +32,7 @@ public class CheckView extends ViewPart implements IPartListener2 {
 	/**
 	 * The ID of the view as specified by the extension.
 	 */
-	public static final String ID = "${ViewPackage}.views.CheckView";
+	public static final String ID = "${McamViewBasePackage}.CheckView";
 
 	private Composite parent = null;
 
@@ -97,8 +95,8 @@ public class CheckView extends ViewPart implements IPartListener2 {
 						parent.update();
 					}
 
-					MessageDialog.openInformation(parent.getShell(),
-							"Check View", "Checks executed!");
+//					MessageDialog.openInformation(parent.getShell(),
+//							"Check View", "Checks executed!");
 				}
 			}
 		};
@@ -140,7 +138,7 @@ public class CheckView extends ViewPart implements IPartListener2 {
 
 			if (file != null) {
 				String path = file.getRawLocation().toOSString();
-				File origFile = FrameworkExecution.getFile(path);
+				File origFile = new File(path);
 
 				// System.out.println("Closed File: " + origFile.getName());
 
@@ -206,22 +204,26 @@ public class CheckView extends ViewPart implements IPartListener2 {
 			if (file != null && res != null) {
 				String path = file.getRawLocation().toOSString();
 				
-				File origFile = FrameworkExecution.getFile(path);
+				File origFile = new File(path);
 				if (origFile.exists()) {
 
 					if (!checkInfoMap.keySet().contains(origFile)) {
-						CheckViewInformation checkInfo = new CheckViewInformation(
-								origFile, res);
-						checkInfo.createCheckProcess();
-						checkInfo.createCheckViewTree(parent);
-						checkInfoMap.put(origFile, checkInfo);
+						CheckViewInformation checkInfo = CheckViewInformationFactory
+								.create(origFile, res);
+						if (checkInfo != null) {
+							checkInfo.createCheckProcess();
+							checkInfo.createCheckViewTree(parent);
+							checkInfoMap.put(origFile, checkInfo);
+						}
 					}
 
 					activeCheckViewInformation = checkInfoMap
 							.get(origFile);
-					activeCheckViewInformation.getTreeViewer().getTree().setVisible(true);
-					((GridData) activeCheckViewInformation.getTreeViewer().getTree().getLayoutData()).exclude = false;
+					if (activeCheckViewInformation != null) {
+						activeCheckViewInformation.getTreeViewer().getTree().setVisible(true);
+						((GridData) activeCheckViewInformation.getTreeViewer().getTree().getLayoutData()).exclude = false;
 					parent.layout();
+					}
 				} 
 			}
 		}

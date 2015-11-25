@@ -1,4 +1,4 @@
-package ${ViewPackage}.util;
+package ${ViewUtilPackage};
 
 import java.util.ArrayList;
 import java.util.List;

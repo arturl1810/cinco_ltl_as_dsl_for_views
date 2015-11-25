@@ -4,22 +4,22 @@ import info.scce.mcam.framework.modules.ChangeModule;
 import ${AdapterPackage}.${GraphModelName}Id;
 import ${AdapterPackage}.${GraphModelName}Adapter;
 
-import ${GraphModelPackage}.${ModelElementName};
+import ${GraphModelPackage}.${GraphModelName?lower_case}.${ModelElementName};
 
 <#list PossibleEdgeSources as source>
 <#if source.getName() != ModelElementName>
-import ${GraphModelPackage}.${source.getName()};
+import ${GraphModelPackage}.${GraphModelName?lower_case}.${source.getName()};
 </#if>
 </#list>
 
 <#list PossibleEdgeTargets as target>
 <#if target.getName() != ModelElementName>
-import ${GraphModelPackage}.${target.getName()};
+import ${GraphModelPackage}.${GraphModelName?lower_case}.${target.getName()};
 </#if>
 </#list>
 
-import ${BasePackage}.api.c${GraphModelName?lower_case}.C${ModelElementName};
-import ${BasePackage}.api.c${GraphModelName?lower_case}.C${GraphModelName};
+import ${GraphModelPackage}.api.c${GraphModelName?lower_case}.C${ModelElementName};
+import ${GraphModelPackage}.api.c${GraphModelName?lower_case}.C${GraphModelName};
 
 import java.util.ArrayList;
 import java.util.List;

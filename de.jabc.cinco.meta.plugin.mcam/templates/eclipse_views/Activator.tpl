@@ -1,6 +1,6 @@
-package ${ViewPackage};
+package ${McamViewBasePackage};
 
-import ${ViewPackage}.util.ResourceChangeListener;
+import ${ViewUtilPackage}.ResourceChangeListener;
 
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
@@ -16,7 +16,7 @@ import org.osgi.framework.BundleContext;
 public class ${ClassName} extends AbstractUIPlugin {
 
 	// The plug-in ID
-	public static final String PLUGIN_ID = "${ViewPackage}"; //$NON-NLS-1$
+	public static final String PLUGIN_ID = "${McamViewBasePackage}"; //$NON-NLS-1$
 
 	// The shared instance
 	private static Activator plugin;
@@ -38,7 +38,7 @@ public class ${ClassName} extends AbstractUIPlugin {
 		plugin = this;
 
 		IWorkspace workspace = ResourcesPlugin.getWorkspace();
-		workspace.addResourceChangeListener(listener, IResourceChangeEvent.POST_CHANGE);
+		//workspace.addResourceChangeListener(listener, IResourceChangeEvent.POST_CHANGE);
 	}
 
 	/*
@@ -50,7 +50,7 @@ public class ${ClassName} extends AbstractUIPlugin {
 		super.stop(context);
 
 		IWorkspace workspace = ResourcesPlugin.getWorkspace();
-		workspace.removeResourceChangeListener(listener);
+		//workspace.removeResourceChangeListener(listener);
 	}
 
 	/**

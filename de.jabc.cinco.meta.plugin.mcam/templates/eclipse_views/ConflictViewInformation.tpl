@@ -1,17 +1,21 @@
-package ${ViewPackage}.views;
+package ${ViewViewPackage};
 
 import ${AdapterPackage}.${GraphModelName}Adapter;
 import ${AdapterPackage}.${GraphModelName}Id;
 
-import info.scce.cinco.product.${GraphModelName?lower_case}.mcam.cli.FrameworkExecution;
-import info.scce.cinco.product.${GraphModelName?lower_case}.mcam.strategies.${GraphModelName}MergeStrategy;
-import info.scce.cinco.product.${GraphModelName?lower_case}.mcam.util.ChangeDeadlockException;
+import ${CliPackage}.FrameworkExecution;
+import ${StrategyPackage}.${GraphModelName}MergeStrategy;
+import ${UtilPackage}.ChangeDeadlockException;
 
-import ${ViewPackage}.util.MergeProcessContentProvider;
-import ${ViewPackage}.util.MergeProcessLabelProvider;
+import ${ViewUtilPackage}.MergeProcessContentProvider;
+import ${ViewUtilPackage}.MergeProcessLabelProvider;
+import ${ViewUtilPackage}.MergeProcessSorterAlphabetical;
+import ${ViewUtilPackage}.MergeProcessSorterType;
+import ${ViewUtilPackage}.MergeProcessTypeFilter;
 
 import info.scce.mcam.framework.modules.ChangeModule;
 import info.scce.mcam.framework.processes.CompareProcess;
+import info.scce.mcam.framework.processes.MergeInformation.MergeType;
 import info.scce.mcam.framework.processes.MergeProcess;
 
 import java.io.File;
@@ -24,76 +28,35 @@ import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.viewers.ViewerFilter;
+import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 
-public class ConflictViewInformation {
-	
-	private IFile iFile = null;
-
-	private File origFile = null;
-	private File remoteFile = null;
-	private File localFile = null;
-
-	private Resource resource = null;
+public class ConflictViewInformation extends ${McamViewBasePackage}.ConflictViewInformation {
 	
 	private MergeProcess<${GraphModelName}Id, ${GraphModelName}Adapter> mp = null;
-
 	private List<ChangeModule<${GraphModelName}Id, ${GraphModelName}Adapter>> changesDone;
-	
-	private TreeViewer treeViewer = null;
-	private int activeFilter = 0;
-	private int activeSort = 0;
 
+	private MergeProcessSorterAlphabetical nameSorter = new MergeProcessSorterAlphabetical();
+	private MergeProcessSorterType typeSorter = new MergeProcessSorterType();
+	private MergeProcessTypeFilter changedFilter = new MergeProcessTypeFilter(MergeType.CHANGED);
+	private MergeProcessTypeFilter addedFilter = new MergeProcessTypeFilter(MergeType.ADDED);
+	private MergeProcessTypeFilter deletedFilter = new MergeProcessTypeFilter(MergeType.DELETED);
+	private MergeProcessTypeFilter conflictedFilter = new MergeProcessTypeFilter(MergeType.CONFLICTED);
+	
 	public ConflictViewInformation(File origFile, File remoteFile,
 			File localFile, IFile iFile, Resource resource) {
-		super();
-		this.origFile = origFile;
-		this.remoteFile = remoteFile;
-		this.localFile = localFile;
-		this.iFile = iFile;
-		this.resource = resource;
-	}
-
-	public File getOrigFile() {
-		return origFile;
-	}
-
-	public File getRemoteFile() {
-		return remoteFile;
-	}
-
-	public File getLocalFile() {
-		return localFile;
-	}
-
-	public IFile getIFile() {
-		return iFile;
+		super(origFile, remoteFile, localFile, iFile, resource);
 	}
 
 	public MergeProcess<${GraphModelName}Id, ${GraphModelName}Adapter> getMp() {
 		return mp;
 	}
 
-	public TreeViewer getTreeViewer() {
-		return treeViewer;
-	}
-
-	public void setActiveFilter(int filter) {
-		activeFilter = filter;
-	}
-	public int getActiveFilter() {
-		return activeFilter;
-	}
-	public void setActiveSort(int sort) {
-		activeSort = sort;
-	}
-	public int getActiveSort() {
-		return activeSort;
-	}
-
+	@Override
 	public void createMergeProcess() {
 		${GraphModelName}Adapter orig = FrameworkExecution.initApiAdapter(origFile);
 		${GraphModelName}Adapter local = FrameworkExecution.initApiAdapter(localFile);
@@ -110,6 +73,7 @@ public class ConflictViewInformation {
 				.createMergePhase(localCompare, remoteCompare, mergeModel);
 	}
 	
+	@Override
 	public void createConflictViewTree(Composite parent) {
 		treeViewer = new TreeViewer(parent, SWT.BORDER | SWT.V_SCROLL
 				| SWT.H_SCROLL);
@@ -181,6 +145,7 @@ public class ConflictViewInformation {
 
 	}
 
+	@Override
 	public void runInitialChangeExecution() {
 		mp.analyzeGraphCompares();
 		
@@ -200,10 +165,30 @@ public class ConflictViewInformation {
 		}
 	}
 
-	public void closeView() {
-		treeViewer.getControl().dispose();
+	@Override
+	public ViewerSorter getDefaultNameSorter() {
+		return nameSorter;
 	}
-	
-	
+
+	@Override
+	public ViewerSorter getDefaultTypeSorter() {
+		return typeSorter;
+	}
+
+	@Override
+	public ViewerFilter getMergeProcessTypeFilter(MergeType type) {
+		switch (type) {
+		case ADDED:
+			return addedFilter;
+		case CHANGED:
+			return changedFilter;
+		case CONFLICTED:
+			return conflictedFilter;
+		case DELETED:
+			return deletedFilter;
+		default:
+			return null;
+		}
+	}
 }
 

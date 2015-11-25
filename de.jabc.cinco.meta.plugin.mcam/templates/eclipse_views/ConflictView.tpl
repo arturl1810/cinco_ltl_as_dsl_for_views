@@ -1,9 +1,5 @@
-package ${ViewPackage}.views;
+package ${McamViewBasePackage};
 
-import info.scce.cinco.product.${GraphModelName?lower_case}.mcam.cli.FrameworkExecution;
-import ${ViewPackage}.util.MergeProcessSorterAlphabetical;
-import ${ViewPackage}.util.MergeProcessSorterType;
-import ${ViewPackage}.util.MergeProcessTypeFilter;
 import info.scce.mcam.framework.processes.MergeInformation.MergeType;
 
 import java.io.File;
@@ -26,8 +22,6 @@ import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.graphiti.ui.editor.DiagramEditor;
 import org.eclipse.jface.action.*;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.viewers.ViewerFilter;
-import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.ui.*;
 
 /**
@@ -51,15 +45,12 @@ public class ConflictView extends ViewPart implements IPartListener2 {
 	/**
 	 * The ID of the view as specified by the extension.
 	 */
-	public static final String ID = "${ViewPackage}.views.ConflictView";
+	public static final String ID = "${McamViewBasePackage}.ConflictView";
 
 	private Action saveAction;
 
 	private Action sortByMergeTypeAction;
-	private ViewerSorter byTypeSorter = new MergeProcessSorterType();
-	
 	private Action sortByNameAction;
-	private ViewerSorter byNameSorter = new MergeProcessSorterAlphabetical();
 	
 	/*
 	 * Filtering
@@ -67,17 +58,9 @@ public class ConflictView extends ViewPart implements IPartListener2 {
 	private Action filterNothingAction;
 	
 	private Action filterOnlyConflictedAction;
-	private ViewerFilter onlyConflictedFilter = new MergeProcessTypeFilter(MergeType.CONFLICTED);
-	
 	private Action filterOnlyAddedAction;
-	private ViewerFilter onlyAddedFilter = new MergeProcessTypeFilter(MergeType.ADDED);
-	
 	private Action filterOnlyChangedAction;
-	private ViewerFilter onlyChangedFilter = new MergeProcessTypeFilter(MergeType.CHANGED);
-	
 	private Action filterOnlyDeletedAction;
-	private ViewerFilter onlyDeletedFilter = new MergeProcessTypeFilter(MergeType.DELETED);
-	
 	
 	private NullProgressMonitor monitor = new NullProgressMonitor();
 
@@ -285,12 +268,12 @@ public class ConflictView extends ViewPart implements IPartListener2 {
 		if(action == sortByNameAction) {
 			sortByNameAction.setChecked(true);
 			activeConflictViewInformation.setActiveSort(1);
-			activeConflictViewInformation.getTreeViewer().setSorter(byNameSorter);
+			activeConflictViewInformation.getTreeViewer().setSorter(activeConflictViewInformation.getDefaultNameSorter());
 		}
 		if(action == sortByMergeTypeAction) {
 			sortByMergeTypeAction.setChecked(true);
 			activeConflictViewInformation.setActiveSort(0);
-			activeConflictViewInformation.getTreeViewer().setSorter(byTypeSorter);
+			activeConflictViewInformation.getTreeViewer().setSorter(activeConflictViewInformation.getDefaultTypeSorter());
 		}
 	}
 	
@@ -310,16 +293,16 @@ public class ConflictView extends ViewPart implements IPartListener2 {
 		filterNothingAction.setChecked(false);
 		
 		filterOnlyAddedAction.setChecked(false);
-		activeConflictViewInformation.getTreeViewer().removeFilter(onlyAddedFilter);
+		activeConflictViewInformation.getTreeViewer().removeFilter(activeConflictViewInformation.getMergeProcessTypeFilter(MergeType.ADDED));
 		
 		filterOnlyChangedAction.setChecked(false);
-		activeConflictViewInformation.getTreeViewer().removeFilter(onlyChangedFilter);
+		activeConflictViewInformation.getTreeViewer().removeFilter(activeConflictViewInformation.getMergeProcessTypeFilter(MergeType.CHANGED));
 		
 		filterOnlyDeletedAction.setChecked(false);
-		activeConflictViewInformation.getTreeViewer().removeFilter(onlyDeletedFilter);
+		activeConflictViewInformation.getTreeViewer().removeFilter(activeConflictViewInformation.getMergeProcessTypeFilter(MergeType.DELETED));
 		
 		filterOnlyConflictedAction.setChecked(false);
-		activeConflictViewInformation.getTreeViewer().removeFilter(onlyConflictedFilter);
+		activeConflictViewInformation.getTreeViewer().removeFilter(activeConflictViewInformation.getMergeProcessTypeFilter(MergeType.CONFLICTED));
 		
 		if(action == filterNothingAction) {
 			filterNothingAction.setChecked(true);
@@ -327,22 +310,22 @@ public class ConflictView extends ViewPart implements IPartListener2 {
 		}
 		
 		if(action == filterOnlyAddedAction) {
-				activeConflictViewInformation.getTreeViewer().addFilter(onlyAddedFilter);
+				activeConflictViewInformation.getTreeViewer().addFilter(activeConflictViewInformation.getMergeProcessTypeFilter(MergeType.ADDED));
 				filterOnlyAddedAction.setChecked(true);
 				activeConflictViewInformation.setActiveFilter(1);
 		}
 		if(action == filterOnlyChangedAction) {
-				activeConflictViewInformation.getTreeViewer().addFilter(onlyChangedFilter);
+				activeConflictViewInformation.getTreeViewer().addFilter(activeConflictViewInformation.getMergeProcessTypeFilter(MergeType.CHANGED));
 				filterOnlyChangedAction.setChecked(true);
 				activeConflictViewInformation.setActiveFilter(2);
 		}
 		if(action == filterOnlyDeletedAction) {
-				activeConflictViewInformation.getTreeViewer().addFilter(onlyDeletedFilter);
+				activeConflictViewInformation.getTreeViewer().addFilter(activeConflictViewInformation.getMergeProcessTypeFilter(MergeType.DELETED));
 				filterOnlyDeletedAction.setChecked(true);
 				activeConflictViewInformation.setActiveFilter(3);
 		}
 		if(action == filterOnlyConflictedAction) {
-				activeConflictViewInformation.getTreeViewer().addFilter(onlyConflictedFilter);
+				activeConflictViewInformation.getTreeViewer().addFilter(activeConflictViewInformation.getMergeProcessTypeFilter(MergeType.CONFLICTED));
 				filterOnlyConflictedAction.setChecked(true);
 				activeConflictViewInformation.setActiveFilter(4);
 		}
@@ -399,7 +382,7 @@ public class ConflictView extends ViewPart implements IPartListener2 {
 
 			if (file != null) {
 				String path = file.getRawLocation().toOSString();
-				File origFile = FrameworkExecution.getFile(path);
+				File origFile = new File(path);
 
 				// System.out.println("Closed File: " + origFile.getName());
 
@@ -465,29 +448,33 @@ public class ConflictView extends ViewPart implements IPartListener2 {
 			if (file != null && res != null) {
 				String path = file.getRawLocation().toOSString();
 				
-				File origFile = FrameworkExecution.getFile(path);
-				File remoteFile = FrameworkExecution.getFile(path + ".remote");
-				File localFile = FrameworkExecution.getFile(path + ".local");
+				File origFile = new File(path);
+				File remoteFile = new File(path + ".remote");
+				File localFile = new File(path + ".local");
 				if (origFile.exists() && localFile.exists()
 						&& remoteFile.exists()) {
 
 					if (!conflictInfoMap.keySet().contains(origFile)) {
-						ConflictViewInformation conflictInfo = new ConflictViewInformation(
+						ConflictViewInformation conflictInfo = ConflictViewInformationFactory.create(
 								origFile, remoteFile, localFile, file, res);
-						conflictInfo.createMergeProcess();
-						conflictInfo.runInitialChangeExecution();
-						conflictInfo.createConflictViewTree(parent);
-						conflictInfoMap.put(origFile, conflictInfo);
+						if (conflictInfo != null) {
+							conflictInfo.createMergeProcess();
+							conflictInfo.runInitialChangeExecution();
+							conflictInfo.createConflictViewTree(parent);
+							conflictInfoMap.put(origFile, conflictInfo);
+						}
 					}
 
 					activeConflictViewInformation = conflictInfoMap
 							.get(origFile);
-					activeConflictViewInformation.getTreeViewer().getTree().setVisible(true);
-					((GridData) activeConflictViewInformation.getTreeViewer().getTree().getLayoutData()).exclude = false;
-					parent.layout();
-					saveAction.setEnabled(true);
-					restoreActiveFilter(activeConflictViewInformation.getActiveFilter());
-					restoreActiveSorter(activeConflictViewInformation.getActiveSort());
+					if (activeConflictViewInformation != null) {
+						activeConflictViewInformation.getTreeViewer().getTree().setVisible(true);
+						((GridData) activeConflictViewInformation.getTreeViewer().getTree().getLayoutData()).exclude = false;
+						parent.layout();
+						saveAction.setEnabled(true);
+						restoreActiveFilter(activeConflictViewInformation.getActiveFilter());
+						restoreActiveSorter(activeConflictViewInformation.getActiveSort());
+					}
 				} else {
 					saveAction.setEnabled(false);
 				}
