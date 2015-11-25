@@ -95,8 +95,8 @@ public class CheckView extends ViewPart implements IPartListener2 {
 						parent.update();
 					}
 
-					MessageDialog.openInformation(parent.getShell(),
-							"Check View", "Checks executed!");
+//					MessageDialog.openInformation(parent.getShell(),
+//							"Check View", "Checks executed!");
 				}
 			}
 		};
