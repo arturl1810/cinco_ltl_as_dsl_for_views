@@ -39,10 +39,11 @@ public class MetaPluginMcam implements IMetaPlugin {
 
 	@Override
 	public String execute(Map<String, Object> map) {
+		gModel = (GraphModel) map.get("graphModel");
 		System.out.println("------ Model-CaM Generation for '"
 				+ gModel.getName() + "' ------");
 		
-		gModel = (GraphModel) map.get("graphModel");
+		
 		this.modelPackage = gModel.getPackage();
 		String[] path = gModel.eResource().getURI().path().split(File.separator);
 		this.modelProjectName = path[2];
