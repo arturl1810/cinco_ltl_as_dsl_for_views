@@ -15,10 +15,11 @@ import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.xtend.typesystem.emf.EcoreUtil2
+import de.jabc.cinco.meta.plugin.gratext.ProjectGenerator
 
 class AbstractGratextTemplate {
 	
-	protected GratextProjectGenerator ctx
+	protected ProjectGenerator ctx
 	
 	def project() { ctx.projectDescriptor }
 	
@@ -30,7 +31,7 @@ class AbstractGratextTemplate {
 	
 	def fileFromTemplate(Class<?> templateClass) { ctx.getFileDescriptor(templateClass) }
 	
-	def create(GratextProjectGenerator generator) {
+	def create(ProjectGenerator generator) {
 		ctx = generator
 		init
 		template.toString

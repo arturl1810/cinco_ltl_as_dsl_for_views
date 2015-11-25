@@ -56,7 +56,7 @@ import de.jabc.cinco.meta.core.ge.style.model.features.CincoAbstractAddFeature
 
 class «model.name»ModelGenerator {
 	
-	final String FILE_SUFFIX = "-restored"
+	final String FILE_SUFFIX = ""
 	final String FILE_EXTENSION = "«graphmodel.fileExtension»"
 	final String DTP_ID = "«graphmodel.package».«model.name»DiagramTypeProvider";
 
@@ -118,10 +118,10 @@ class «model.name»ModelGenerator {
 			e.printStackTrace
 		}
 		try {
-			System.out.println(" > add pictogram for " + bo)
+			// System.out.println(" > add pictogram for " + bo)
 			val pe = addIfPossible(getAddContext(bo, container))
-			System.out.println("   => bo.id: " + bo.id)
-			System.out.println("   => pe: " + pe)
+			// System.out.println("   => bo.id: " + bo.id)
+			// System.out.println("   => pe: " + pe)
 			cache(bo, pe)
 			addChildren(bo, pe)
 		} catch(Exception e) {
@@ -139,9 +139,9 @@ class «model.name»ModelGenerator {
 			val edge = _edge as Edge
 			val source = src as Node
 			
-			System.out.println("Generator.add " + edge)
-			System.out.println("  > source " + source)
-			System.out.println("  > target " + target)
+			// System.out.println("Generator.add " + edge)
+			// System.out.println("  > source " + source)
+			// System.out.println("  > target " + target)
 			
 			// reset source and target to trigger ecore opposites
 			if (edge.sourceElement != null)
@@ -231,7 +231,7 @@ class «model.name»ModelGenerator {
 	}
 
 	def newDiagram(String filename) {
-		return Graphiti.getPeCreateService().createDiagram("Data", filename, true)
+		return Graphiti.getPeCreateService().createDiagram("«model.name»", filename, true)
 	}
 
 	def newFeatureProvider(Diagram diagram) {

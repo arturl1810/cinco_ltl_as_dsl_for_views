@@ -15,24 +15,18 @@ import «providerFile.package».«providerFile.nameWithoutExtension»;
 
 import graphmodel.Edge;
 import graphmodel.Node;
-import org.eclipse.emf.common.notify.Adapter;
-import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.impl.AdapterImpl;
+
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtext.conversion.ValueConverterException;
-import org.eclipse.xtext.naming.IQualifiedNameProvider;
+import org.eclipse.xtext.linking.ILinker;
+import org.eclipse.xtext.linking.impl.Linker;
 import org.eclipse.xtext.nodemodel.INode;
 import org.eclipse.xtext.parser.DefaultEcoreElementFactory;
 import org.eclipse.xtext.parser.IAstFactory;
 
 public class «project.targetName»RuntimeModule extends «project.basePackage».Abstract«project.targetName»RuntimeModule {
 
-	@Override
-	public Class<? extends IQualifiedNameProvider> bindIQualifiedNameProvider() {
-		return «providerFile.nameWithoutExtension».class;
-	}
-	
 	@Override
 	public Class<? extends IAstFactory> bindIAstFactory() {
 		return MyAstFactory.class;
@@ -53,6 +47,24 @@ public class «project.targetName»RuntimeModule extends «project.basePackage»
 		}
 		
     }
+    
+    @Override
+	public Class<? extends ILinker> bindILinker() {
+		return MyLinker.class;
+	}
+	
+	public static class MyLinker extends Linker {
+		
+		@Override
+		protected boolean isClearAllReferencesRequired(Resource resource) {
+			return false;
+		}
+	}
+    
+    @Override
+	public Class<? extends IQualifiedNameProvider> bindIQualifiedNameProvider() {
+		return «providerFile.nameWithoutExtension».class;
+	}
 }
 '''
 }

@@ -6,6 +6,7 @@ import java.nio.charset.StandardCharsets
 import java.util.HashMap
 import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.xmi.XMIResource
+import de.jabc.cinco.meta.plugin.gratext.GratextProjectGenerator
 
 class GratextGenmodelTemplate extends GratextEcoreTemplate {
 	
@@ -44,7 +45,7 @@ override template()
     «ENDFOR»
     «FOR cls:classes»«cls.toGenmodelXMI(ecoreFile.name)»«ENDFOR»
   </genPackages>
-  <usedGenPackages href="platform:/resource/«ctx.modelProjectSymbolicName»/src-gen/model/«model.name».genmodel#//«model.acronym»"/>
+  <usedGenPackages href="platform:/resource/«(ctx as GratextProjectGenerator).modelProjectSymbolicName»/src-gen/model/«model.name».genmodel#//«model.acronym»"/>
   <usedGenPackages href="platform:/plugin/de.jabc.cinco.meta.core.mgl.model/model/GraphModel.genmodel#//graphmodel"/>
 </genmodel:GenModel>
 '''

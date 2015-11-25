@@ -13,35 +13,22 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.core.internal.registry.Contribution;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IWorkspace;
-import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.Platform;
-import org.eclipse.emf.codegen.ecore.generator.Generator;
-import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
-import org.eclipse.emf.codegen.ecore.genmodel.generator.GenBaseGeneratorAdapter;
-import org.eclipse.emf.common.util.BasicMonitor;
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.osgi.framework.Bundle;
 
 import de.jabc.cinco.meta.core.BundleRegistry;
 import de.jabc.cinco.meta.core.utils.BuildProperties;
 import de.jabc.cinco.meta.core.utils.projects.ProjectCreator;
 import de.jabc.cinco.meta.plugin.gratext.descriptor.FileDescriptor;
+import de.jabc.cinco.meta.plugin.gratext.descriptor.GraphModelDescriptor;
+import de.jabc.cinco.meta.plugin.gratext.descriptor.ProjectDescriptor;
 
 public abstract class ProjectGenerator {
 
@@ -72,6 +59,10 @@ public abstract class ProjectGenerator {
 		refresh(project);
 		return project;
 	}
+	
+	public abstract GraphModelDescriptor getModelDescriptor();
+	
+	public abstract ProjectDescriptor getProjectDescriptor();
 	
 	protected <T> List<T> nullempty(List<T> list) {
 		return (list == null) ? list : (!list.isEmpty()) ? list : null;
@@ -118,6 +109,10 @@ public abstract class ProjectGenerator {
 //	}
 	
 	private IFile createFile(String name, String folderName, String content) {
+		return createFile(project, name, folderName, content);
+	}
+	
+	private IFile createFile(IProject project, String name, String folderName, String content) {
 		try {
 			if (folderName == null || folderName.trim().isEmpty())
 				return ProjectCreator.createFile(name, project, content, getProgressMonitor());
@@ -127,12 +122,13 @@ public abstract class ProjectGenerator {
 		}
 	}
 	
-	public void execute(Map<String,Object> context) {
+	public IProject execute(Map<String,Object> context) {
 		init(ctx = context);
 		createProject();
 		createBuildProperties();
 		createFiles(new FileCreator());
 		BundleRegistry.INSTANCE.addBundle(project.getName(), false);
+		return project;
 	}
 	
 	protected void extendManifest() {
@@ -280,7 +276,7 @@ public abstract class ProjectGenerator {
 //		}
 		
 		public TemplateBasedFileCreator createFile(String fileName) {
-			return new TemplateBasedFileCreator(null, null, fileName);
+			return new TemplateBasedFileCreator(project, null, null, fileName);
 		}
 		
 		public SrcFileCreator inSrcFolder(String srcFolder) {
@@ -299,6 +295,10 @@ public abstract class ProjectGenerator {
 		public PkgRelatedSrcFileCreator inPackage(String pkg) {
 			return new PkgRelatedSrcFileCreator(srcFolder, pkg);
 		}
+
+		public TemplateBasedFileCreator createFile(String fileName) {
+			return new TemplateBasedFileCreator(project, srcFolder, null, fileName);
+		}
 	}
 	
 	protected class PkgRelatedSrcFileCreator {
@@ -312,17 +312,19 @@ public abstract class ProjectGenerator {
 		}
 		
 		public TemplateBasedFileCreator createFile(String fileName) {
-			return new TemplateBasedFileCreator(srcFolder, pkg, fileName);
+			return new TemplateBasedFileCreator(project, srcFolder, pkg, fileName);
 		}
 	}
 	
 	protected class TemplateBasedFileCreator {
 		
+		IProject project;
 		String srcFolder;
 		String pkg;
 		String fileName;
 		
-		public TemplateBasedFileCreator(String srcFolder, String pkg, String fileName) {
+		public TemplateBasedFileCreator(IProject project, String srcFolder, String pkg, String fileName) {
+			this.project = project;
 			this.srcFolder = srcFolder;
 			this.pkg = pkg;
 			this.fileName = fileName;
@@ -332,11 +334,11 @@ public abstract class ProjectGenerator {
 			IFile file = null;
 			if (srcFolder == null || srcFolder.trim().isEmpty())
 				if (pkg == null || pkg.trim().isEmpty())
-					file = createFile(fileName, null, content);
-				else file = createFile(fileName, pkg.replace(".", "/"), content);
+					file = createFile(project, fileName, null, content);
+				else file = createFile(project, fileName, pkg.replace(".", "/"), content);
 			else if (pkg == null || pkg.trim().isEmpty())
-				file = createFile(fileName, srcFolder, content);
-			else file = createFile(fileName, srcFolder + "/" + pkg.replace(".", "/"), content);
+				file = createFile(project, fileName, srcFolder, content);
+			else file = createFile(project, fileName, srcFolder + "/" + pkg.replace(".", "/"), content);
 			fileDescriptors.put(fileName,
 				new FileDescriptor(file)
 					.setName(fileName)
@@ -346,9 +348,9 @@ public abstract class ProjectGenerator {
 			return file;
 		}
 		
-		public IFile withContent(Class<?> templateClass, Object ctx) {
+		public IFile withContent(Class<?> templateClass, ProjectGenerator ctx) {
 			try {
-				Method method = templateClass.getMethod("create", ctx.getClass());
+				Method method = templateClass.getMethod("create", ProjectGenerator.class);
 				method.setAccessible(true);
 				String content = method.invoke(templateClass.newInstance(), ctx).toString();
 				IFile file = withContent(content);

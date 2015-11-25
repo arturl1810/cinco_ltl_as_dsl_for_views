@@ -42,6 +42,13 @@ import de.jabc.cinco.meta.plugin.gratext.template.PluginXmlTemplate;
 import de.jabc.cinco.meta.plugin.gratext.template.RestoreActionTemplate;
 import de.jabc.cinco.meta.plugin.gratext.template.RuntimeModuleTemplate;
 import de.jabc.cinco.meta.plugin.gratext.template.ScopeProviderTemplate;
+import de.jabc.cinco.meta.plugin.gratext.template.action.GratextBackupActionTemplate;
+import de.jabc.cinco.meta.plugin.gratext.template.action.GratextBackupSchemaTemplate;
+import de.jabc.cinco.meta.plugin.gratext.template.action.GratextIBackupActionTemplate;
+import de.jabc.cinco.meta.plugin.gratext.template.action.GratextIRestoreActionTemplate;
+import de.jabc.cinco.meta.plugin.gratext.template.action.GratextPluginXmlTemplate;
+import de.jabc.cinco.meta.plugin.gratext.template.action.GratextRestoreActionTemplate;
+import de.jabc.cinco.meta.plugin.gratext.template.action.GratextRestoreSchemaTemplate;
 
 public class GratextProjectGenerator extends ProjectGenerator {
 
@@ -86,16 +93,17 @@ public class GratextProjectGenerator extends ProjectGenerator {
 	}
 
 	@Override
-	public void execute(Map<String, Object> context) {
-		super.execute(context);
+	public IProject execute(Map<String, Object> context) {
+		IProject project = super.execute(context);
+		
+		String basePkg = getProjectDescriptor().getBasePackage();
 		
 		new EmptyProjectGenerator(getSymbolicName() + ".ui"  ) {
 			@Override protected List<String> getSourceFolders() {
 				return list("src", "src-gen", "xtend-gen");
 			};
 			@Override protected Set<String> getRequiredBundles() {
-				return new HashSet<>(list(
-					getProjectDescriptor().getBasePackage()));
+				return new HashSet<>(list(basePkg));
 			};
 			@Override protected List<String> getNatures() {
 				return list(
@@ -108,7 +116,73 @@ public class GratextProjectGenerator extends ProjectGenerator {
 			};
 		}.execute(context);
 		
-		generateGenModelCode(getFileDescriptor(GratextGenmodelTemplate.class).resource());
+		IProject gratextProject = ResourcesPlugin.getWorkspace().getRoot().getProject(getModelProjectSymbolicName() + ".gratext");
+
+		if (!gratextProject.exists()) {
+			gratextProject = new EmptyProjectGenerator(getModelProjectSymbolicName() + ".gratext") {
+				@Override protected List<String> getSourceFolders() {
+					return list("src-gen");
+				};
+				@Override protected Set<String> getRequiredBundles() {
+					return new HashSet<>(list(
+							 "org.eclipse.core.runtime",
+							 "org.eclipse.core.resources",
+							 "org.eclipse.e4.core.di",
+							 "org.eclipse.ui"
+						));
+				};
+				@Override protected List<String> getNatures() {
+					return list(
+						"org.eclipse.pde.PluginNature"
+					);
+				}
+				@Override protected java.util.List<String> getManifestExtensions() {
+					return list("Bundle-ActivationPolicy: lazy");
+				};
+				
+				@Override protected java.util.List<String> getExportedPackages() {
+					return list("info.scce.cinco.gratext");
+				};
+				
+				@Override protected void createFiles(FileCreator creator) {
+					creator.inSrcFolder("src-gen")
+						.inPackage("info.scce.cinco.gratext")
+						.createFile("IBackupAction.java")
+						.withContent(GratextIBackupActionTemplate.class, this);
+					
+					creator.inSrcFolder("src-gen")
+						.inPackage("info.scce.cinco.gratext")
+						.createFile("IRestoreAction.java")
+						.withContent(GratextIRestoreActionTemplate.class, this);
+					
+					creator.inSrcFolder("src-gen")
+						.inPackage("info.scce.cinco.gratext")
+						.createFile("BackupAction.java")
+						.withContent(GratextBackupActionTemplate.class, this);
+					
+					creator.inSrcFolder("src-gen")
+						.inPackage("info.scce.cinco.gratext")
+						.createFile("RestoreAction.java")
+						.withContent(GratextRestoreActionTemplate.class, this);
+					
+					creator.inSrcFolder("schema")
+						.createFile("info.scce.cinco.gratext.backup.exsd")
+						.withContent(GratextBackupSchemaTemplate.class, this);
+					
+					creator.inSrcFolder("schema")
+						.createFile("info.scce.cinco.gratext.restore.exsd")
+						.withContent(GratextRestoreSchemaTemplate.class, this);
+					
+					creator.createFile("plugin.xml")
+						.withContent(GratextPluginXmlTemplate.class, this);
+					
+				};
+			}.execute(context);
+		}
+		
+//		generateGenModelCode(getFileDescriptor(GratextGenmodelTemplate.class).resource());
+		
+		
 		
 			
 //		new EmptyProjectGenerator(getSymbolicName() + ".tests") {
@@ -120,6 +194,8 @@ public class GratextProjectGenerator extends ProjectGenerator {
 //			};
 //		}.execute(context);
 //		new EmptyProjectGenerator(getSymbolicName() + ".sdk" ).execute(context);
+		
+		return project;
 	}
 	
 	protected void generateGenModelCode(IFile genModelFile) {
@@ -378,7 +454,7 @@ public class GratextProjectGenerator extends ProjectGenerator {
 	
 	@Override
 	protected List<String> getManifestExtensions() {
-		return null;
+		return list("Import-Package: info.scce.cinco.gratext");
 	}
 	
 	private GraphModelDescriptor modelDesc;

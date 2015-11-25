@@ -16,6 +16,7 @@ import mgl.UserDefinedType
 import org.eclipse.emf.ecore.EClass
 import org.eclipse.emf.ecore.ENamedElement
 import org.eclipse.emf.ecore.EObject
+import de.jabc.cinco.meta.plugin.gratext.GratextProjectGenerator
 
 class GratextGrammarTemplate extends AbstractGratextTemplate {
 
@@ -43,7 +44,7 @@ def addToReferences(EObject obj) {
 	}
 	if (!graphmodel.nsURI.equals(entry.value)) {
 		references.put(entry.key, entry.value)
-		ctx.addGenPackageReference(entry.value);
+		(ctx as GratextProjectGenerator).addGenPackageReference(entry.value);
 	}
 }
 

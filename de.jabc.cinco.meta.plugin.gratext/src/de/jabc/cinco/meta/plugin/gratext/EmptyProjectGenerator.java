@@ -6,6 +6,10 @@ import java.util.Set;
 
 import org.eclipse.core.resources.IProject;
 
+import de.jabc.cinco.meta.plugin.gratext.descriptor.Descriptor;
+import de.jabc.cinco.meta.plugin.gratext.descriptor.GraphModelDescriptor;
+import de.jabc.cinco.meta.plugin.gratext.descriptor.ProjectDescriptor;
+
 public class EmptyProjectGenerator extends ProjectGenerator {
 
 	private String projectName;
@@ -77,6 +81,19 @@ public class EmptyProjectGenerator extends ProjectGenerator {
 	protected List<String> getManifestExtensions() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public GraphModelDescriptor getModelDescriptor() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ProjectDescriptor getProjectDescriptor() {
+		Descriptor<IProject> desc = new ProjectDescriptor(project)
+			.setBasePackage(projectName);
+		return (ProjectDescriptor) desc;
 	}
 
 }
