@@ -222,6 +222,15 @@ public class McamViewGenerator {
 		templateGen2.setPkg((String) data.get("ViewUtilPackage"));
 		templateGen2.setData(data);
 		templateGen2.generateFile();
+		
+		data.put("ClassName", "CheckProcessSorterType");
+		TemplateGenerator templateGen3 = new TemplateGenerator(
+				"templates/eclipse_views/util/CheckProcessSorterType.tpl",
+				mcamViewProject);
+		templateGen3.setFilename((String) data.get("ClassName") + ".java");
+		templateGen3.setPkg((String) data.get("ViewUtilPackage"));
+		templateGen3.setData(data);
+		templateGen3.generateFile();
 	}
 
 	private void generateCheckViewInformation() throws IOException,

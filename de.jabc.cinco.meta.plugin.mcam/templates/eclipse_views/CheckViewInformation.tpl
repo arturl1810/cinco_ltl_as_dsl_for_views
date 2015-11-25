@@ -5,6 +5,7 @@ import ${AdapterPackage}.${GraphModelName}Id;
 import ${CliPackage}.FrameworkExecution;
 import ${ViewUtilPackage}.CheckProcessContentProvider;
 import ${ViewUtilPackage}.CheckProcessLabelProvider;
+import ${ViewUtilPackage}.CheckProcessSorterType;
 import info.scce.mcam.framework.processes.CheckProcess;
 
 import java.io.File;
@@ -23,6 +24,8 @@ import org.eclipse.swt.widgets.Composite;
 public class CheckViewInformation extends ${McamViewBasePackage}.CheckViewInformation {
 	
 	private CheckProcess<${GraphModelName}Id, ${GraphModelName}Adapter> cp = null;
+
+	private CheckProcessSorterType typeSorter = new CheckProcessSorterType();
 	
 	public CheckViewInformation(File file, Resource resource) {
 		super(file, resource);
@@ -48,6 +51,8 @@ public class CheckViewInformation extends ${McamViewBasePackage}.CheckViewInform
 		treeViewer.getTree().setLayout(new GridLayout(1, false));
 		treeViewer.getTree().setLayoutData(
 				new GridData(SWT.FILL, SWT.FILL, true, true));
+
+		treeViewer.setSorter(typeSorter);
 
 		treeViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 			public void selectionChanged(SelectionChangedEvent event) {

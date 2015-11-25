@@ -22,11 +22,13 @@ public class CheckProcessLabelProvider extends LabelProvider {
 	private String checkOkIconPath = "icons/ok.png";
 	private String checkWarningIconPath = "icons/warning.png";
 	private String checkNotCheckedIconPath = "icons/info.png";
+	private String checkItemIconPath = "icons/item.png";
 
 	private Image checkOkImg = null;
 	private Image checkErrorImg = null;
 	private Image checkWarningImg = null;
 	private Image checkNotCheckedImg = null;
+	private Image checkitemImg = null;
 
 	public CheckProcessLabelProvider() {
 		super();
@@ -57,6 +59,9 @@ public class CheckProcessLabelProvider extends LabelProvider {
 			InputStream checkNotCheckedImgStream = FileLocator.openStream(bundle,
 					new Path(checkNotCheckedIconPath), true);
 			checkNotCheckedImg = new Image(getDisplay(), checkNotCheckedImgStream);
+			InputStream checkItemImgStream = FileLocator.openStream(bundle,
+					new Path(checkItemIconPath), true);
+			checkitemImg = new Image(getDisplay(), checkItemImgStream);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -68,7 +73,7 @@ public class CheckProcessLabelProvider extends LabelProvider {
 	@SuppressWarnings("unchecked")
 	public Image getImage(Object element) {
 		if (element instanceof DefaultKeyValue) {
-			return null;
+			return checkitemImg;
 		}
 		if (element instanceof CheckModule<?, ?>) {
 			CheckModule<${GraphModelName}Id, ${GraphModelName}Adapter> module = (CheckModule<${GraphModelName}Id, ${GraphModelName}Adapter>) element;
