@@ -9,13 +9,7 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.Properties;
 
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IResourceChangeEvent;
-import org.eclipse.core.resources.IResourceChangeListener;
-import org.eclipse.core.resources.IResourceDelta;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.URI;
@@ -23,23 +17,19 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.graphiti.ui.editor.DiagramEditorInput;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.ui.IEditorInput;
-import org.eclipse.ui.IPartListener;
-import org.eclipse.ui.IWorkbenchPart;
 
-public class ReferenceRegistry implements IPartListener, IResourceChangeListener {
+public class ReferenceRegistry {
 
-	private IProject currentProject;
-	
 	private static ReferenceRegistry instance;
 	
 	/** EObject id -> URI **/
 	private HashMap<String, String> map;
 	/** EObject id -> EObject instance**/
-	private HashMap<String, EObject> objectCache;
+	private HashMap<String, EObject> cache;
+	
+	
 	
 	/** Project -> map **/
 	private HashMap<IProject, HashMap<String, String>> registriesMap;
@@ -50,7 +40,7 @@ public class ReferenceRegistry implements IPartListener, IResourceChangeListener
 	
 	private ReferenceRegistry() {
 		map = new HashMap<String, String>();
-		objectCache = new HashMap<String, EObject>();
+		cache = new HashMap<String, EObject>();
 		registriesMap = new HashMap<IProject, HashMap<String,String>>();
 		cachesMap = new HashMap<IProject, HashMap<String,EObject>>();
 	}
@@ -67,71 +57,127 @@ public class ReferenceRegistry implements IPartListener, IResourceChangeListener
 			showError(bo);
 		if (!map.containsKey(id)) {
 			URI uri = bo.eResource().getURI();
-			System.err.println("Registering by uri: " + uri);
+//			System.err.println("Registering by uri: " + uri.toPlatformString(true));
 			map.put(id, uri.toPlatformString(true));
-			objectCache.put(id, bo);
+			cache.put(id, bo);
 		} else {
 			System.out.println(String.format("Found element for id %s. Nothing to do...", id));
 		}
 	}
 	
 	public EObject getEObject(String key) {
-		if (objectCache.containsKey(key))
-			return objectCache.get(key);
-
+		if (cache.containsKey(key)) {
+			return cache.get(key);
+		}
 		EObject bo = null;
 		String uri = map.get(key);
 		if (uri != null) {
 			URI full = URI.createURI(uri, true);
 			Resource res = new ResourceSetImpl().getResource(full, true);
 			bo = res.getEObject(key);
+		} else {
+			System.err.println(String.format("Something went wrong. Could not find object for key: %s", key));
 		}
 		return bo;
 	}
 	
-	public boolean load() {
-		File file = getCurrentFile();
-		if (file != null && file.exists()) {
-			try {
-				FileInputStream fis = new FileInputStream(file);
-				Properties props = new Properties();
-				props.loadFromXML(fis);
-				map = new HashMap<String, String>();
-				for (Entry<Object, Object> e : props.entrySet()) {
-					map.put((String) e.getKey(), (String)e.getValue());
-				}
-				fis.close();
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+	public void setCurrentMap(IProject p) {
+		if (registriesMap.containsKey(p) && cachesMap.containsKey(p)) {
+			this.map = registriesMap.get(p);
+			this.cache = cachesMap.get(p);
+		} else {
+			System.out.println(String.format("No registry file found for project: %s. Creating new map", p));
+			load(p);
+			registriesMap.put(p, map);
+			cachesMap.put(p, cache);
 		}
-		return false;
 	}
 	
-	private boolean load(IProject p) {
+	public void storeMaps(IProject p) {
+		registriesMap.put(p, map);
+		cachesMap.put(p, cache);
+	}
+	
+	public void handleDelete(URI uri) {
+		String searchVal = uri.toPlatformString(true);
+		HashMap<IProject, String> affected = getAffectedEntries(searchVal);
+		
+		for (Entry<IProject, String> e : affected.entrySet()) {
+			registriesMap.get(e.getKey()).remove(e.getValue());
+			cachesMap.get(e.getKey()).remove(e.getValue());
+		}
+	}
+
+	public void handleRename(URI fromURI, URI toURI) {
+		String from = fromURI.toPlatformString(true);
+		String to = toURI.toPlatformString(true);
+		HashMap<IProject, String> affected = getAffectedEntries(from);
+		for (Entry<IProject, String> e : affected.entrySet()) {
+			registriesMap.get(e.getKey()).replace(e.getValue(), to);
+		}
+	}
+	
+	public void handleContentChange(URI affectedFileUri) {
+		String resourcePath = affectedFileUri.toPlatformString(true);
+		HashMap<IProject, String> affected = getAffectedEntries(resourcePath);
+		for (Entry<IProject, String> e : affected.entrySet()) {
+			IProject p = e.getKey();
+			String objectId = e.getValue();
+			String uri = registriesMap.get(p).get(objectId);
+			EObject loadedObject = loadObject(objectId, uri);
+			cachesMap.get(p).replace(objectId, loadedObject);
+		}
+	}
+	
+	/**
+	 * This method searches the tuples of (IProject,ID) which are affected by changes to the
+	 * resource given by the resourcePath
+	 * @param resourcePath
+	 * @return Affected tuples (IProject,ID)
+	 */
+	private HashMap<IProject, String> getAffectedEntries(String resourcePath) {
+		HashMap<IProject, String> affected = new HashMap<IProject, String>();
+		for (Entry<IProject, HashMap<String, String>> p2m : registriesMap.entrySet()) {
+			HashMap<String, String> m = p2m.getValue();
+			for (Entry<String, String> e : m.entrySet()) {
+				if (e.getValue().equals(resourcePath)) {
+					affected.put(p2m.getKey(), e.getKey());
+				}
+			}
+		}
+		return affected;
+	}
+	
+	/**
+	 * Creates a new HashMap<ID,URI> and fills it with the content of the
+	 * registry file.
+	 * @param p The project in which to search the stored registry
+	 * @return true, if the registry file was successfully loaded, false otherwise
+	 */
+	private void load(IProject p) {
 		File file = getFile(p);
+		this.map = new HashMap<String, String>();
 		if (file != null && file.exists()) {
 			try {
 				FileInputStream fis = new FileInputStream(file);
 				Properties props = new Properties();
 				props.loadFromXML(fis);
-				map = new HashMap<String, String>();
 				for (Entry<Object, Object> e : props.entrySet()) {
 					map.put((String) e.getKey(), (String)e.getValue());
 				}
 				fis.close();
-				return true;
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
-		return false;
 	}
 	
+	/**
+	 * Saves all in-memory maps to the hard disk inside the corresponding IProject
+	 * @return true, if all maps were stored, false if an error occurred
+	 */
 	public boolean save() {
 		for (IProject p : registriesMap.keySet()) {
 			if (!save(p))
@@ -159,14 +205,6 @@ public class ReferenceRegistry implements IPartListener, IResourceChangeListener
 		return false;
 	}
 	
-	private File getCurrentFile() {
-		if (currentProject != null) {
-			IPath base = currentProject.getLocation();
-			IPath path = base.append(new Path(REF_REG_FILE));
-			File file = path.toFile();
-			return file;
-		} return null;
-	}
 	
 	private File getFile(IProject p) {
 		if (p != null) {
@@ -177,149 +215,13 @@ public class ReferenceRegistry implements IPartListener, IResourceChangeListener
 		} return null;
 	}
 
-	private IProject getProject(IWorkbenchPart part) {
-		if (part.getSite().getPage().getActiveEditor() == null) 
-			return null;
-			IEditorInput editorInput = part.getSite().getPage().getActiveEditor().getEditorInput();
-			if (!(editorInput instanceof DiagramEditorInput))
-				return null;
-			DiagramEditorInput input = (DiagramEditorInput) editorInput;
-			URI uri = input.getUri();
-			IResource member = ResourcesPlugin.getWorkspace().getRoot().findMember(uri.toPlatformString(true));
-			IProject project = member.getProject();
-			if (project != null && !project.equals(currentProject))
-				return project;
-			
-			return null;
-	}
 	
-	private void setNewMaps(IProject p) {
-		if (!registriesMap.containsKey(p)) {
-			if (load(p)) {
-				System.err.println("Putting map for project: " + p.getName());
-				registriesMap.put(p, map);
-			} else registriesMap.put(p, new HashMap<String, String>());
-		}
-		map = registriesMap.get(p);
-		
-		if (!cachesMap.containsKey(p)) {
-			objectCache = new HashMap<String, EObject>();
-			for (String key : map.keySet()) {
-				EObject eObject = getEObject(key);
-				if (eObject != null) 
-					objectCache.put(key, eObject);
-			}
-			cachesMap.put(p, objectCache);
-		}
-		objectCache = cachesMap.get(p);
-	}
 
-	private void saveAndClearCurrentMaps(IProject p) {
-		registriesMap.put(p, map);
-		cachesMap.put(p, objectCache);
-	}
-	
 	private void showError(EObject bo) {
 		MessageDialog.openError(
 				Display.getCurrent().getActiveShell(), 
 				"Error adding Library Component", 
 				"The object " + bo + " has no id feature. Can't add it to the registry");
-	}
-	
-	@Override
-	public void partActivated(IWorkbenchPart part) {
-		IProject project = getProject(part);
-		if (project != null) {
-			setNewMaps(project);
-			currentProject = project;
-		}
-//		print();
-	}
-
-	@Override
-	public void partBroughtToTop(IWorkbenchPart part) {
-//		System.out.println("ToTOP: " + getProject(part));		
-	}
-
-	@Override
-	public void partClosed(IWorkbenchPart part) {
-//		System.out.println("CLOSED: " + getProject(part));	
-	}
-
-	@Override
-	public void partDeactivated(IWorkbenchPart part) {
-		if (currentProject != null)
-			saveAndClearCurrentMaps(currentProject);
-	}
-
-	@Override
-	public void partOpened(IWorkbenchPart part) {
-		IProject project = getProject(part);
-		if (project != null) {
-			setNewMaps(project);
-			currentProject = project;
-		}
-//		print();
-	}
-
-	@Override
-	public void resourceChanged(IResourceChangeEvent event) {
-		IResourceDelta delta = event.getDelta();
-		processAffectedFiles(delta);
-	}
-
-	private void processAffectedFiles(IResourceDelta delta) {
-		for (IResourceDelta child: delta.getAffectedChildren()) {
-			IResource res = child.getResource();
-			if (res instanceof IFile) {
-				IPath fullPath = res.getFullPath();
-//				System.out.println("Found affected file: " + fullPath);
-//				System.out.println("Delta Kind: " + delta.getKind());
-				if (resourceRemoved(fullPath)){
-					handleFileRemoval(fullPath);
-				} else {
-					updateChangedFile(fullPath);
-				}
-			}
-			processAffectedFiles(child);
-		}
-	}
-
-	private void handleFileRemoval(IPath fullPath) {
-		for ( Entry<String, String> e: map.entrySet()) {
-			if (e.getValue().equals(fullPath.toString())) {
-				String objectId = e.getKey();
-				map.remove(objectId);
-				objectCache.remove(objectId);
-			}
-				
-		}
-	}
-
-	private void updateChangedFile(IPath fullPath) {
-		for (Entry<IProject, HashMap<String, String>> val : registriesMap.entrySet()) {
-			for (Entry<String, String> e : val.getValue().entrySet()) {
-				if (e.getValue().equals(fullPath.toString())) {
-					IProject project = val.getKey();
-					String objectId = e.getKey();
-					String resourcePath = e.getValue();
-					refresh(project, objectId, resourcePath);
-				}
-			}
-		}
-	}
-
-	private void refresh(IProject project, String objectId, String resourcePath) {
-		HashMap<String, EObject> cache = cachesMap.get(project);
-		HashMap<String, String> refMap = registriesMap.get(project);
-		EObject eObject = loadObject(objectId, resourcePath);
-		if (eObject != null)
-			cache.put(objectId, eObject);
-		else {
-			System.err.println("Object removed... ");
-			cache.remove(objectId);
-			refMap.remove(objectId);
-		}
 	}
 
 	private EObject loadObject(String objectId, String resourcePath) {
@@ -328,23 +230,19 @@ public class ReferenceRegistry implements IPartListener, IResourceChangeListener
 		return eObject;
 	}
 
-	private boolean resourceRemoved(IPath fullPath) {
-		Resource res = getResource(fullPath.toOSString());
-		return res == null;
-	}
-	
 	private Resource getResource(String resourcePath) {
 		URI uri = URI.createPlatformResourceURI(resourcePath, true);
-		Resource res = new ResourceSetImpl().getResource(uri, false);
+		Resource res = new ResourceSetImpl().getResource(uri, true);
 		if (res != null)
 			res = new ResourceSetImpl().getResource(uri, true);
 		return res;
 	}
 
 	public void clearRegistry() {
+		System.out.println("Clearing");
 		this.map = new HashMap<String, String>();
 		this.cachesMap = new HashMap<IProject, HashMap<String,EObject>>();
-		this.objectCache = new HashMap<String, EObject>();
+		this.cache = new HashMap<String, EObject>();
 		this.registriesMap = new HashMap<IProject, HashMap<String,String>>();
 	}
 	
@@ -357,9 +255,9 @@ public class ReferenceRegistry implements IPartListener, IResourceChangeListener
 		}
 		
 		System.out.println("Object Cache:");
-		if (objectCache.entrySet().isEmpty())
+		if (cache.entrySet().isEmpty())
 			System.out.println("EMPTY");
-		for (Entry<String, EObject> e : objectCache.entrySet()) {
+		for (Entry<String, EObject> e : cache.entrySet()) {
 			System.out.println(String.format("KEY: %s \t VALUE: %s", e.getKey(), e.getValue()));
 		}
 		System.out.println("");

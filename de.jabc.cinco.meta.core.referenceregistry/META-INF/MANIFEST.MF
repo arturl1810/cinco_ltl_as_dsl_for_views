@@ -12,4 +12,5 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.graphiti.ui
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
-Export-Package: de.jabc.cinco.meta.core.referenceregistry
+Export-Package: de.jabc.cinco.meta.core.referenceregistry,
+ de.jabc.cinco.meta.core.referenceregistry.listener
