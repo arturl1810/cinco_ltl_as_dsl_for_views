@@ -16,6 +16,8 @@
 <module>de.jabc.cinco.meta.core.mgl.model</module>
 <module>de.jabc.cinco.meta.plugin.spreadsheet</module>
 <module>de.jabc.cinco.meta.plugin.pyro</module>
+<module>de.jabc.cinco.meta.plugin.gratext</module>
+<module>de.jabc.cinco.meta.plugin.mcam</module>
 <!--
 <module>de.jabc.cinco.meta.core.mgl.model.edit</module>
 <module>de.jabc.cinco.meta.core.mgl.model.editor</module>
