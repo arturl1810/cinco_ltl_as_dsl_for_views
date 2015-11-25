@@ -36,11 +36,15 @@ public class ReferenceRegistry implements IPartListener, IResourceChangeListener
 	
 	private static ReferenceRegistry instance;
 	
+	/** EObject id -> URI **/
 	private HashMap<String, String> map;
+	/** EObject id -> EObject instance**/
 	private HashMap<String, EObject> objectCache;
-
-	private HashMap<IProject, HashMap<String, EObject>> cachesMap;
+	
+	/** Project -> map **/
 	private HashMap<IProject, HashMap<String, String>> registriesMap;
+	/** Project -> cache **/
+	private HashMap<IProject, HashMap<String, EObject>> cachesMap;
 	
 	private static final String REF_REG_FILE = "refReg.rrg";
 	
@@ -63,6 +67,7 @@ public class ReferenceRegistry implements IPartListener, IResourceChangeListener
 			showError(bo);
 		if (!map.containsKey(id)) {
 			URI uri = bo.eResource().getURI();
+			System.err.println("Registering by uri: " + uri);
 			map.put(id, uri.toPlatformString(true));
 			objectCache.put(id, bo);
 		} else {
@@ -228,14 +233,17 @@ public class ReferenceRegistry implements IPartListener, IResourceChangeListener
 			setNewMaps(project);
 			currentProject = project;
 		}
+//		print();
 	}
 
 	@Override
 	public void partBroughtToTop(IWorkbenchPart part) {
+//		System.out.println("ToTOP: " + getProject(part));		
 	}
 
 	@Override
 	public void partClosed(IWorkbenchPart part) {
+//		System.out.println("CLOSED: " + getProject(part));	
 	}
 
 	@Override
@@ -251,6 +259,86 @@ public class ReferenceRegistry implements IPartListener, IResourceChangeListener
 			setNewMaps(project);
 			currentProject = project;
 		}
+//		print();
+	}
+
+	@Override
+	public void resourceChanged(IResourceChangeEvent event) {
+		IResourceDelta delta = event.getDelta();
+		processAffectedFiles(delta);
+	}
+
+	private void processAffectedFiles(IResourceDelta delta) {
+		for (IResourceDelta child: delta.getAffectedChildren()) {
+			IResource res = child.getResource();
+			if (res instanceof IFile) {
+				IPath fullPath = res.getFullPath();
+//				System.out.println("Found affected file: " + fullPath);
+//				System.out.println("Delta Kind: " + delta.getKind());
+				if (resourceRemoved(fullPath)){
+					handleFileRemoval(fullPath);
+				} else {
+					updateChangedFile(fullPath);
+				}
+			}
+			processAffectedFiles(child);
+		}
+	}
+
+	private void handleFileRemoval(IPath fullPath) {
+		for ( Entry<String, String> e: map.entrySet()) {
+			if (e.getValue().equals(fullPath.toString())) {
+				String objectId = e.getKey();
+				map.remove(objectId);
+				objectCache.remove(objectId);
+			}
+				
+		}
+	}
+
+	private void updateChangedFile(IPath fullPath) {
+		for (Entry<IProject, HashMap<String, String>> val : registriesMap.entrySet()) {
+			for (Entry<String, String> e : val.getValue().entrySet()) {
+				if (e.getValue().equals(fullPath.toString())) {
+					IProject project = val.getKey();
+					String objectId = e.getKey();
+					String resourcePath = e.getValue();
+					refresh(project, objectId, resourcePath);
+				}
+			}
+		}
+	}
+
+	private void refresh(IProject project, String objectId, String resourcePath) {
+		HashMap<String, EObject> cache = cachesMap.get(project);
+		HashMap<String, String> refMap = registriesMap.get(project);
+		EObject eObject = loadObject(objectId, resourcePath);
+		if (eObject != null)
+			cache.put(objectId, eObject);
+		else {
+			System.err.println("Object removed... ");
+			cache.remove(objectId);
+			refMap.remove(objectId);
+		}
+	}
+
+	private EObject loadObject(String objectId, String resourcePath) {
+		Resource res = getResource(resourcePath);
+		EObject eObject = res.getEObject(objectId);
+		return eObject;
+	}
+
+	private boolean resourceRemoved(IPath fullPath) {
+		Resource res = getResource(fullPath.toOSString());
+		return res == null;
+	}
+	
+	private Resource getResource(String resourcePath) {
+		URI uri = URI.createPlatformResourceURI(resourcePath, true);
+		Resource res = new ResourceSetImpl().getResource(uri, false);
+		if (res != null)
+			res = new ResourceSetImpl().getResource(uri, true);
+		return res;
 	}
 
 	public void clearRegistry() {
@@ -276,53 +364,5 @@ public class ReferenceRegistry implements IPartListener, IResourceChangeListener
 		}
 		System.out.println("");
 	}
-
-	@Override
-	public void resourceChanged(IResourceChangeEvent event) {
-		IResourceDelta delta = event.getDelta();
-		processAffectedFiles(delta);
-	}
-
-	private void processAffectedFiles(IResourceDelta delta) {
-		for (IResourceDelta child: delta.getAffectedChildren()) {
-			IResource res = child.getResource();
-			if (res instanceof IFile) {
-				IPath fullPath = res.getFullPath();
-//				System.out.println("Found affected file: " + fullPath);
-				for (Entry<IProject, HashMap<String, String>> val : registriesMap.entrySet()) {
-					for (Entry<String, String> e : val.getValue().entrySet()) {
-						if (e.getValue().equals(fullPath.toString())) {
-							IProject project = val.getKey();
-							String objectId = e.getKey();
-							String resourcePath = e.getValue();
-							refresh(project, objectId, resourcePath);
-						}
-					}
-				}
-			}
-			processAffectedFiles(child);
-		}
-	}
-
-	private void refresh(IProject project, String objectId, String resourcePath) {
-		HashMap<String, EObject> cache = cachesMap.get(project);
-		HashMap<String, String> refMap = registriesMap.get(project);
-		EObject eObject = loadObject(objectId, resourcePath);
-		if (eObject != null)
-			cache.put(objectId, eObject);
-		else {
-			System.err.println(String.format("Object with id: \"%s\" removed... ",objectId));
-			cache.remove(objectId);
-			refMap.remove(objectId);
-		}
-	}
-
-	private EObject loadObject(String objectId, String resourcePath) {
-		URI uri = URI.createPlatformResourceURI(resourcePath, true);
-		Resource res = new ResourceSetImpl().getResource(uri, true);
-		EObject eObject = res.getEObject(objectId);
-		return eObject;
-	}
-
 	
 }
