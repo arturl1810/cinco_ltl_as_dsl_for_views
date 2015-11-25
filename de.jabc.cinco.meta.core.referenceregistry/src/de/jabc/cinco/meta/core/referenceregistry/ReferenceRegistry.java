@@ -228,17 +228,14 @@ public class ReferenceRegistry implements IPartListener, IResourceChangeListener
 			setNewMaps(project);
 			currentProject = project;
 		}
-//		print();
 	}
 
 	@Override
 	public void partBroughtToTop(IWorkbenchPart part) {
-//		System.out.println("ToTOP: " + getProject(part));		
 	}
 
 	@Override
 	public void partClosed(IWorkbenchPart part) {
-//		System.out.println("CLOSED: " + getProject(part));	
 	}
 
 	@Override
@@ -254,7 +251,6 @@ public class ReferenceRegistry implements IPartListener, IResourceChangeListener
 			setNewMaps(project);
 			currentProject = project;
 		}
-//		print();
 	}
 
 	public void clearRegistry() {
@@ -292,10 +288,10 @@ public class ReferenceRegistry implements IPartListener, IResourceChangeListener
 			IResource res = child.getResource();
 			if (res instanceof IFile) {
 				IPath fullPath = res.getFullPath();
-				System.out.println("Found affected file: " + fullPath);
+//				System.out.println("Found affected file: " + fullPath);
 				for (Entry<IProject, HashMap<String, String>> val : registriesMap.entrySet()) {
 					for (Entry<String, String> e : val.getValue().entrySet()) {
-						if (e.getValue().equals(fullPath)) {
+						if (e.getValue().equals(fullPath.toString())) {
 							IProject project = val.getKey();
 							String objectId = e.getKey();
 							String resourcePath = e.getValue();
@@ -315,7 +311,7 @@ public class ReferenceRegistry implements IPartListener, IResourceChangeListener
 		if (eObject != null)
 			cache.put(objectId, eObject);
 		else {
-			System.err.println("Object removed... ");
+			System.err.println(String.format("Object with id: \"%s\" removed... ",objectId));
 			cache.remove(objectId);
 			refMap.remove(objectId);
 		}
