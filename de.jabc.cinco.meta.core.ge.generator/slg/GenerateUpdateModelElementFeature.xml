@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>ef7786c5-d04b-45de-89fd-b00e68b99149</id>
   <name>GenerateUpdateModelElementFeature</name>
-  <changecounter>441</changecounter>
+  <changecounter>442</changecounter>
   <sib>
     <id>b31345f6-8607-4397-986e-94a14e803be6</id>
     <name>PutExpression_1</name>
@@ -115,13 +115,13 @@ public class $context.className$ extends AbstractUpdateFeature {
 		PictogramElement pe = context.getPictogramElement();
 		$context.importPath$.$context.fuModelElementName$ bo =($context.importPath$.$context.fuModelElementName$) Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
 		if (checkUpdateNeeded(bo, pe)) {
-			TransactionalEditingDomain dom = getDiagramBehavior().getEditingDomain();
+			/*TransactionalEditingDomain dom = getDiagramBehavior().getEditingDomain();
 			dom.getCommandStack().execute(new RecordingCommand(dom) {
 				@Override
 				protected void doExecute() {
 					update(context);
 				}
-			});
+			});*/
 			return Reason.createTrueReason();
 		}
 		return Reason.createFalseReason();
