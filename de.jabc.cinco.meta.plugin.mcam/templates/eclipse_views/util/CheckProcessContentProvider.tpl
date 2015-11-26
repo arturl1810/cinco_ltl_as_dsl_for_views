@@ -34,8 +34,11 @@ private static Object[] EMPTY_ARRAY = new Object[0];
 		if(parentElement instanceof CheckModule) {
 			CheckModule<${GraphModelName}Id, ${GraphModelName}Adapter> module = (CheckModule<${GraphModelName}Id, ${GraphModelName}Adapter>) parentElement;
 			for (${GraphModelName}Id id : module.resultList.keySet()) {
-				DefaultKeyValue pair = new DefaultKeyValue(id, module.resultList.get(id));
-				elements.add(pair);
+				String[] msgList = module.resultList.get(id).split("\\|");
+				for (String msg : msgList) {
+					DefaultKeyValue pair = new DefaultKeyValue(id, msg.trim());
+					elements.add(pair);
+				}
 			}
 			return elements.toArray();
 		}
