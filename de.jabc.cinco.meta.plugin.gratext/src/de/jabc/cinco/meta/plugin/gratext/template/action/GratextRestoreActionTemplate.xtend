@@ -65,7 +65,7 @@ public class RestoreAction implements IActionDelegate {
 			IStructuredSelection ssel = (IStructuredSelection) selection;
 			if (!ssel.isEmpty() && ssel.getFirstElement() instanceof IProject) {
 				initExtensions();
-				executeExtensions((IProject) ssel.getFirstElement());
+				runRestore((IProject) ssel.getFirstElement());
 			}
 		}
 	}
@@ -205,7 +205,6 @@ public class RestoreAction implements IActionDelegate {
 	public void selectionChanged(IAction action, ISelection selection) {
 		this.selection = selection;
 	}
-}
 }
 '''
 }
