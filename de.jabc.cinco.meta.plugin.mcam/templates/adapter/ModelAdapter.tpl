@@ -79,7 +79,7 @@ public class ${GraphModelName}Adapter implements ModelAdapter<${GraphModelName}I
 		return new ${GraphModelName}Id(obj.getId(), obj.eClass());
 	}
 
-	public Object getElementById(${GraphModelName}Id id) {
+	public EObject getElementById(${GraphModelName}Id id) {
 		if (id.getId().equals(model.getId()))
 			return model;
 		TreeIterator<EObject> it = model.eAllContents();
