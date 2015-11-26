@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>6f7f5be4-ea16-48c7-88f4-256ad7b313df</id>
   <name>GenerateDiagramEditor</name>
-  <changecounter>107</changecounter>
+  <changecounter>115</changecounter>
   <sib>
     <id>e97de522-155e-4799-8276-7e12d0fd9715</id>
     <name>RunStringTemplate</name>
@@ -28,6 +28,7 @@
     <parameter name="template">
       <string>package $context.localPkgName$;
 
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.draw2d.FigureCanvas;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.transaction.RecordingCommand;
@@ -88,6 +89,12 @@ public class $context.graphModelName$DiagramEditor extends DiagramEditor {
 			for (EObject bo : pl.getBusinessObjects())
 				$context.graphModelName$EContentAdapter.getInstance().addAdapter(bo);
 		
+	}
+
+	@Override
+	public void doSave(IProgressMonitor monitor) {
+		super.doSave(monitor);
+		ReferenceRegistry.getInstance().save();
 	}
 
 	protected ResizeShapeContext createContext(Shape child) {

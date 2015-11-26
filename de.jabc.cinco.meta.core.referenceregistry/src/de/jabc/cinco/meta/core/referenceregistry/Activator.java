@@ -19,7 +19,6 @@ public class Activator extends AbstractUIPlugin {
 	 * The constructor
 	 */
 	public Activator() {
-		System.out.println("Init listener");
 	}
 
 	/*
@@ -37,7 +36,7 @@ public class Activator extends AbstractUIPlugin {
 	 */
 	public void stop(BundleContext context) throws Exception {
 		System.out.println("Stopping bundle");
-//		System.out.println("Save: " + ReferenceRegistry.getInstance().save());
+		System.out.println("Save: " + ReferenceRegistry.getInstance().save());
 		plugin = null;
 		super.stop(context);
 	}
