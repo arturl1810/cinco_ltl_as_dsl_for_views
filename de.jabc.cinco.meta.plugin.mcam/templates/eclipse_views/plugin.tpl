@@ -9,13 +9,13 @@
             id="${McamViewBasePackage}">
       </category>
       <view
-            name="Conflict View"
+            name="Merge Conflicts"
             category="${McamViewBasePackage}"
             class="${McamViewBasePackage}.ConflictView"
             id="${McamViewBasePackage}.ConflictView">
       </view>
       <view
-            name="Check View"
+            name="Model Validation"
             category="${McamViewBasePackage}"
             class="${McamViewBasePackage}.CheckView"
             id="${McamViewBasePackage}.CheckView">

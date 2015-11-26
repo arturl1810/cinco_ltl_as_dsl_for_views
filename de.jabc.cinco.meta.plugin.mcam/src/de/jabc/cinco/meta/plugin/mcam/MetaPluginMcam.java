@@ -91,6 +91,7 @@ public class MetaPluginMcam implements IMetaPlugin {
 		 */
 		System.out.println("Editing Manifest...");
 		try {
+			mcamProject.refreshLocal(IResource.DEPTH_INFINITE, monitor);
 			writeExportedPackagesToManifest(mcamProject, genMcam, oldEP);
 		} catch (IOException | CoreException e) {
 			e.printStackTrace();
@@ -134,7 +135,6 @@ public class MetaPluginMcam implements IMetaPlugin {
 
 		try {
 			mcamViewProject.refreshLocal(IResource.DEPTH_INFINITE, monitor);
-
 			mcamViewProject.close(monitor);
 			mcamViewProject.open(monitor);
 		} catch (CoreException e) {
