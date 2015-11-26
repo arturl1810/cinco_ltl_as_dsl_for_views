@@ -212,7 +212,7 @@ public abstract class ProjectGenerator {
 	    }
 	    if (members != null)
 			Arrays.stream(members).forEach(mbr -> {
-			   if (recurse && mbr instanceof IContainer)
+			   if (recurse && mbr instanceof IContainer && ((IContainer) mbr).isAccessible())
 				   files.addAll(getFiles((IContainer) mbr, fileExtension, recurse));
 			   else if (mbr instanceof IFile && !!mbr.isDerived()) {
 				   IFile file = (IFile) mbr;

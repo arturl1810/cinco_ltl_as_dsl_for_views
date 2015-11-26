@@ -18,4 +18,6 @@ Bundle-Version: 0.7.0.qualifier
 Require-Bundle: org.eclipse.emf.transaction,
  de.jabc.cinco.meta.core.mgl,
  org.eclipse.emf.codegen.ecore,
- org.eclipse.osgi
+ org.eclipse.osgi,
+ org.eclipse.emf.mwe2.language,
+ org.eclipse.emf.ecore

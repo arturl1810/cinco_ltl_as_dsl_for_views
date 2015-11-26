@@ -135,7 +135,6 @@ class «model.name»BackupGenerator extends GratextGenerator<«model.basePackage
 			EAttribute: ftr.EAttributeType.name -> ftr.EAttributeType.classifierID
 			EReference: ftr.EReferenceType.name -> ftr.EReferenceType.classifierID
 		}
-		println("Attribute " + ftr.name + " " + type.key + " = " + value);
 		if (value != null) {
 			ftr.name + ' ' + switch type.value {
 				case EcorePackage.ESTRING: '"' + value + '"'

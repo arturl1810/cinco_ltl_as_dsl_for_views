@@ -1,5 +1,10 @@
 package de.jabc.cinco.meta.plugin.gratext;
 
+import graphmodel.GraphmodelPackage;
+
+
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -8,14 +13,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+
+
 import mgl.GraphModel;
 import mgl.GraphicalModelElement;
+
+
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.ISafeRunnable;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.SafeRunner;
 import org.eclipse.emf.codegen.ecore.generator.Generator;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
@@ -23,10 +34,18 @@ import org.eclipse.emf.codegen.ecore.genmodel.generator.GenBaseGeneratorAdapter;
 import org.eclipse.emf.common.util.BasicMonitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.mwe2.language.mwe2.Module;
+import org.eclipse.emf.mwe2.launch.runtime.Mwe2Launcher;
+import org.eclipse.emf.mwe2.launch.runtime.Mwe2Runner;
+
+
 
 import de.jabc.cinco.meta.core.utils.projects.ProjectCreator;
+import de.jabc.cinco.meta.plugin.gratext.descriptor.FileDescriptor;
 import de.jabc.cinco.meta.plugin.gratext.descriptor.GraphModelDescriptor;
 import de.jabc.cinco.meta.plugin.gratext.descriptor.ProjectDescriptor;
 import de.jabc.cinco.meta.plugin.gratext.template.BackupActionTemplate;
@@ -180,11 +199,6 @@ public class GratextProjectGenerator extends ProjectGenerator {
 			}.execute(context);
 		}
 		
-//		generateGenModelCode(getFileDescriptor(GratextGenmodelTemplate.class).resource());
-		
-		
-		
-			
 //		new EmptyProjectGenerator(getSymbolicName() + ".tests") {
 //			@Override protected List<String> getSourceFolders() {
 //				return list("src-gen");
@@ -195,66 +209,170 @@ public class GratextProjectGenerator extends ProjectGenerator {
 //		}.execute(context);
 //		new EmptyProjectGenerator(getSymbolicName() + ".sdk" ).execute(context);
 		
+		generateGenModelCode(getFileDescriptor(GratextGenmodelTemplate.class).resource());
+		
+//		runMWE();
+		
 		return project;
 	}
 	
 	protected void generateGenModelCode(IFile genModelFile) {
-		try {
-			
-			Resource res = new ResourceSetImpl().getResource(
-					URI.createPlatformResourceURI(genModelFile.getFullPath().toOSString(), true),true);
-			res.load(null);
-			for (EObject content : res.getContents()) {	
-				if (content instanceof GenModel) {
-					final GenModel genModel = (GenModel) content;
-					for (GenPackage gm : new ArrayList<>(genModel.getUsedGenPackages())) {
-						if (!gm.getGenModel().equals(genModel)) {
-							GenPackage pkg = getGenPackage(gm.getNSURI());
-							if (pkg != null) {
-								System.out.println("Push UsedGenPackage: " + pkg);
-								genModel.getUsedGenPackages().add(pkg);
+//		ISafeRunnable runnable = new ISafeRunnable() {
+//			
+//			@Override
+//			public void handleException(Throwable e) {
+//				System.out.println("Failed to run generation on genmodel: " + genModelFile);
+//			}
+//
+//			@Override
+//			public void run() throws Exception {
+			try {
+				Resource res = new ResourceSetImpl().getResource(
+						URI.createPlatformResourceURI(genModelFile.getFullPath().toOSString(), true),true);
+				res.load(null);
+				for (EObject content : res.getContents()) {	
+					if (content instanceof GenModel) {
+						final GenModel genModel = (GenModel) content;
+						for (GenPackage gm : new ArrayList<>(genModel.getUsedGenPackages())) {
+							if (!gm.getGenModel().equals(genModel)) {
+								GenPackage pkg = getGenPackage(gm.getNSURI());
+								if (pkg != null) {
+									System.out.println("Push UsedGenPackage: " + pkg);
+									genModel.getUsedGenPackages().add(pkg);
+								}
 							}
 						}
-					}
-					Resource graphmodelGenModel = new ResourceSetImpl().getResource(
-							URI.createPlatformPluginURI(GRAPHMODEL_PATH , true), true);
-					System.out.println("Graphmodel genmodel: " + graphmodelGenModel);
-					for (EObject gm : graphmodelGenModel.getContents()) {
-						if (gm instanceof GenModel) {
-							System.out.println(" > genmodel: " + gm);
-							((GenModel) gm).getGenPackages().forEach(pkg -> {
-								System.out.println(" > push UsedGenPackage: " + pkg);
-								genModel.getUsedGenPackages().add(pkg);
-							});
-							
+						GraphmodelPackage.eINSTANCE.eClass();
+						Resource graphmodelGenModel = new ResourceSetImpl().getResource(
+								URI.createPlatformPluginURI(GRAPHMODEL_PATH , true), true);
+//						System.out.println("Graphmodel genmodel: " + graphmodelGenModel);
+						for (EObject gm : graphmodelGenModel.getContents()) {
+							if (gm instanceof GenModel) {
+//								System.out.println(" > genmodel: " + gm);
+								((GenModel) gm).getGenPackages().forEach(pkg -> {
+									System.out.println("Push UsedGenPackage: " + pkg);
+									System.out.println(" > is proxy: " + pkg.eIsProxy());
+									if (pkg.eIsProxy())
+										EcoreUtil.resolveAll(pkg);
+									genModel.getUsedGenPackages().add(pkg);
+								});
+								
+							}
 						}
+//						System.out.println(genModel.getUsedGenPackages());
+						genModel.setCanGenerate(true);
+						genModel.reconcile();
+						Generator generator = new Generator();
+						generator.setInput(genModel);
+						generator.generate(genModel, GenBaseGeneratorAdapter.MODEL_PROJECT_TYPE, BasicMonitor.toMonitor(getProgressMonitor()));
 					}
-//					System.out.println(genModel.getUsedGenPackages());
-					genModel.setCanGenerate(true);
-					genModel.reconcile();
-					Generator generator = new Generator();
-					generator.setInput(genModel);
-					generator.generate(genModel, GenBaseGeneratorAdapter.MODEL_PROJECT_TYPE, BasicMonitor.toMonitor(getProgressMonitor()));
 				}
+				runMWE(getFileDescriptor(GratextMWETemplate.class).resource());
+			} catch(Exception e) {
+				e.printStackTrace();
 			}
-			
-//			IResource iRes = ResourcesPlugin.getWorkspace().getRoot()
-//					.getProject(getModelProjectSymbolicName()).getFile("/src-gen/model/" + getModelDescriptor().getName() + ".genmodel");
-//			if (iRes.exists()) {
-//				Resource modelGenModel = new ResourceSetImpl().getResource(
-//							URI.createFileURI(iRes.getLocation().toOSString()), true );
-//				for (EObject content : modelGenModel.getContents()) {
-//					if (content instanceof GenModel)
-//						genModel.getUsedGenPackages().addAll(((GenModel) content).getGenPackages());
+//			}
+//		};
+//		SafeRunner.run(runnable);
+		
+//		try {
+//			
+//			Resource res = new ResourceSetImpl().getResource(
+//					URI.createPlatformResourceURI(genModelFile.getFullPath().toOSString(), true),true);
+//			res.load(null);
+//			for (EObject content : res.getContents()) {	
+//				if (content instanceof GenModel) {
+//					final GenModel genModel = (GenModel) content;
+//					for (GenPackage gm : new ArrayList<>(genModel.getUsedGenPackages())) {
+//						if (!gm.getGenModel().equals(genModel)) {
+//							GenPackage pkg = getGenPackage(gm.getNSURI());
+//							if (pkg != null) {
+//								System.out.println("Push UsedGenPackage: " + pkg);
+//								genModel.getUsedGenPackages().add(pkg);
+//							}
+//						}
+//					}
+//					Resource graphmodelGenModel = new ResourceSetImpl().getResource(
+//							URI.createPlatformPluginURI(GRAPHMODEL_PATH , true), true);
+////					System.out.println("Graphmodel genmodel: " + graphmodelGenModel);
+//					for (EObject gm : graphmodelGenModel.getContents()) {
+//						if (gm instanceof GenModel) {
+////							System.out.println(" > genmodel: " + gm);
+//							((GenModel) gm).getGenPackages().forEach(pkg -> {
+//								System.out.println("Push UsedGenPackage: " + pkg);
+//								genModel.getUsedGenPackages().add(pkg);
+//							});
+//							
+//						}
+//					}
+////					System.out.println(genModel.getUsedGenPackages());
+//					genModel.setCanGenerate(true);
+//					genModel.reconcile();
+//					Generator generator = new Generator();
+//					generator.setInput(genModel);
+//					generator.generate(genModel, GenBaseGeneratorAdapter.MODEL_PROJECT_TYPE, BasicMonitor.toMonitor(getProgressMonitor()));
 //				}
 //			}
+//			
+////			IResource iRes = ResourcesPlugin.getWorkspace().getRoot()
+////					.getProject(getModelProjectSymbolicName()).getFile("/src-gen/model/" + getModelDescriptor().getName() + ".genmodel");
+////			if (iRes.exists()) {
+////				Resource modelGenModel = new ResourceSetImpl().getResource(
+////							URI.createFileURI(iRes.getLocation().toOSString()), true );
+////				for (EObject content : modelGenModel.getContents()) {
+////					if (content instanceof GenModel)
+////						genModel.getUsedGenPackages().addAll(((GenModel) content).getGenPackages());
+////				}
+////			}
+//			
+//		} catch(Exception e) {
+//			e.printStackTrace();
+////			throw new GenerationException("Failed to generate model code from genmodel file " + genModelFile, e);
+//		}
+	}
+	
+	protected void runMWE() {
+		ISafeRunnable runnable = new ISafeRunnable() {
 			
+			private String fileName;
 			
-			
-			
+			@Override
+			public void handleException(Throwable e) {
+				System.out.println("Failed to run MWE2 workflow on " + fileName);
+//				e.printStackTrace();
+			}
+
+			@Override
+			public void run() throws Exception {
+				FileDescriptor file = getFileDescriptor(GratextMWETemplate.class);
+				fileName = file.resource().getFullPath().toOSString();
+//				String path = file.resource().getFullPath().toOSString();
+//				String path = file.resource().getLocation().toOSString();
+				System.out.println("MWE file: " + fileName);
+//				project.getProjectRelativePath().append(new Path(file.getProjectRelativeDir()).append(file.))
+//				Mwe2Launcher.main(new String[]{"src/info/scce/dime/data/gratext/DataGratext.mwe2"});
+				new Mwe2Launcher().run(new String[]{fileName});
+			}
+		};
+		SafeRunner.run(runnable);
+	}
+	
+	protected void runMWE(IFile file) {
+		System.out.println("Run MWE2 workflow");
+		try {
+			Resource res = new ResourceSetImpl().getResource(
+					URI.createPlatformResourceURI(file.getFullPath().toOSString(), true), true);
+			res.load(null);
+			System.out.println(" > resource: " + res);
+			for (EObject content : res.getContents()) {
+				System.out.println("   > " + content);
+				if (content instanceof Module) {
+					new Mwe2Runner().run(((Module) content).getCanonicalName(), null);
+					break;
+				}
+			}
 		} catch(Exception e) {
 			e.printStackTrace();
-//			throw new GenerationException("Failed to generate model code from genmodel file " + genModelFile, e);
 		}
 	}
 	
