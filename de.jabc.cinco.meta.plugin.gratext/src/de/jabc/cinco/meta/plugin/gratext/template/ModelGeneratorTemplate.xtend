@@ -1,9 +1,15 @@
 package de.jabc.cinco.meta.plugin.gratext.template
 
+import de.jabc.cinco.meta.plugin.gratext.descriptor.GraphModelDescriptor
+
 class ModelGeneratorTemplate extends AbstractGratextTemplate {
 	
 def generator() {
 	fileFromTemplate(GratextGeneratorTemplate)
+}
+
+def nameFirstUpper(GraphModelDescriptor model) {
+	model.name.toLowerCase.toFirstUpper
 }
 	
 override template()
@@ -11,8 +17,8 @@ override template()
 package «project.basePackage».generator
 
 import «graphmodel.package».«model.name.toLowerCase».«model.name»
-import «graphmodel.package».«model.name.toLowerCase».«model.name»Package
-import «graphmodel.package».«model.name.toLowerCase».«model.name»Factory
+import «graphmodel.package».«model.name.toLowerCase».«model.nameFirstUpper»Package
+import «graphmodel.package».«model.name.toLowerCase».«model.nameFirstUpper»Factory
 
 import «project.basePackage».*
 import de.jabc.cinco.meta.core.ge.style.model.features.CincoAbstractAddFeature
@@ -71,8 +77,8 @@ class «model.name»ModelGenerator {
 	Map<IdentifiableElement,IdentifiableElement> counterparts = new HashMap
 	List<Edge> edges = new ArrayList
 
-	«model.name»Factory baseModelFct = «model.name»Factory.eINSTANCE;
-	«model.name»Package baseModelPkg = «model.name»Package.eINSTANCE;
+	«model.nameFirstUpper»Factory baseModelFct = «model.nameFirstUpper»Factory.eINSTANCE;
+	«model.nameFirstUpper»Package baseModelPkg = «model.nameFirstUpper»Package.eINSTANCE;
 
 	GraphModel model
 	Diagram diagram
