@@ -10,6 +10,7 @@ import java.util.Map.Entry;
 import java.util.Properties;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.URI;
@@ -19,6 +20,10 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.PlatformUI;
+
+import de.jabc.cinco.meta.core.referenceregistry.listener.RegistryPartListener;
+import de.jabc.cinco.meta.core.referenceregistry.listener.RegistryResourceChangeListener;
 
 public class ReferenceRegistry {
 
@@ -37,6 +42,10 @@ public class ReferenceRegistry {
 	private HashMap<IProject, HashMap<String, EObject>> cachesMap;
 	
 	private static final String REF_REG_FILE = "refReg.rrg";
+	
+	private RegistryPartListener partListener = new RegistryPartListener();
+	private RegistryResourceChangeListener resourceListener = new RegistryResourceChangeListener();
+	private boolean registered = false;
 	
 	private ReferenceRegistry() {
 		map = new HashMap<String, String>();
@@ -89,6 +98,10 @@ public class ReferenceRegistry {
 			System.out.println(String.format("No registry file found for project: %s. Creating new map", p));
 			load(p);
 			registriesMap.put(p, map);
+			//FIXME: Load the new cache!!! This maps the old cache to Project p...
+			cache = new HashMap<String, EObject>();
+			for (Entry<String, String> e : map.entrySet()) 
+				cache.put(e.getKey(), loadObject(e.getKey(), e.getValue()));
 			cachesMap.put(p, cache);
 		}
 	}
@@ -247,20 +260,29 @@ public class ReferenceRegistry {
 	}
 	
 	public void print() {
+		System.out.println("----------------------------------------------------------");
 		System.out.println("RefReg map contents:");
 		if (map.entrySet().isEmpty())
 			System.out.println("EMPTY");
 		for (Entry<String, String> e : map.entrySet()) {
 			System.out.println(String.format("KEY: %s \t VALUE: %s", e.getKey(), e.getValue()));
 		}
-		
+		System.out.println("");
 		System.out.println("Object Cache:");
 		if (cache.entrySet().isEmpty())
 			System.out.println("EMPTY");
 		for (Entry<String, EObject> e : cache.entrySet()) {
 			System.out.println(String.format("KEY: %s \t VALUE: %s", e.getKey(), e.getValue()));
 		}
-		System.out.println("");
+		System.out.println("----------------------------------------------------------");
+	}
+	
+	public void registerListener() {
+		if (registered)
+			return;
+		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().addPartListener(partListener);
+		ResourcesPlugin.getWorkspace().addResourceChangeListener(resourceListener);
+		registered = true;
 	}
 	
 }

@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>6f7f5be4-ea16-48c7-88f4-256ad7b313df</id>
   <name>GenerateDiagramEditor</name>
-  <changecounter>104</changecounter>
+  <changecounter>107</changecounter>
   <sib>
     <id>e97de522-155e-4799-8276-7e12d0fd9715</id>
     <name>RunStringTemplate</name>
@@ -41,6 +41,8 @@ import org.eclipse.graphiti.ui.editor.DiagramEditor;
 import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.ControlListener;
 
+import de.jabc.cinco.meta.core.referenceregistry.ReferenceRegistry;
+
 import $context.packageName$.graphiti.content.adapter.$context.graphModelName$EContentAdapter;
 
 public class $context.graphModelName$DiagramEditor extends DiagramEditor {
@@ -49,6 +51,8 @@ public class $context.graphModelName$DiagramEditor extends DiagramEditor {
 	public void initializeGraphicalViewer() {
 		super.initializeGraphicalViewer();
 		
+		ReferenceRegistry.getInstance().registerListener();
+
 		/*FigureCanvas canvas = (FigureCanvas) getGraphicalControl();
 		canvas.addControlListener(new ControlListener() {
 			
