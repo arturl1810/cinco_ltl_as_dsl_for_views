@@ -107,7 +107,7 @@ public class «project.targetName»RuntimeModule extends «project.basePackage»
 
 		@Override
 		public Object get(Object key) {
-			if (key == null) {
+«««			if (key == null) {
 				return new EValidator() {
 
 					@Override
@@ -132,8 +132,7 @@ public class «project.targetName»RuntimeModule extends «project.basePackage»
 					}
 					
 				};
-			}
-			return instance.get(key);
+«««			}
 		}
 
 		@Override
