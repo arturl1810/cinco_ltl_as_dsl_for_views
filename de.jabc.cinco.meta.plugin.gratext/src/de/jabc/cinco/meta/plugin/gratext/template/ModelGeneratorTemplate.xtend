@@ -11,12 +11,16 @@ override template()
 package «project.basePackage».generator
 
 import «graphmodel.package».«model.name.toLowerCase».«model.name»
+import «graphmodel.package».«model.name.toLowerCase».«model.name»Package
+import «graphmodel.package».«model.name.toLowerCase».«model.name»Factory
 
 import «project.basePackage».*
+import de.jabc.cinco.meta.core.ge.style.model.features.CincoAbstractAddFeature
 
 import graphmodel.GraphModel
 import graphmodel.ModelElement
 import graphmodel.ModelElementContainer
+import graphmodel.IdentifiableElement
 import graphmodel.Edge
 import graphmodel.Node
 
@@ -31,6 +35,9 @@ import org.eclipse.core.runtime.IPath
 import org.eclipse.core.runtime.Path
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.EObject
+import org.eclipse.emf.ecore.EAttribute
+import org.eclipse.emf.ecore.EReference
+import org.eclipse.emf.ecore.EStructuralFeature
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 import org.eclipse.emf.transaction.RecordingCommand
@@ -52,8 +59,6 @@ import org.eclipse.graphiti.services.Graphiti
 import org.eclipse.graphiti.ui.services.GraphitiUi
 import org.eclipse.swt.widgets.Display
 
-import de.jabc.cinco.meta.core.ge.style.model.features.CincoAbstractAddFeature
-
 class «model.name»ModelGenerator {
 	
 	final String FILE_SUFFIX = ""
@@ -63,6 +68,11 @@ class «model.name»ModelGenerator {
 	Map<ModelElement, PictogramElement> pes = new HashMap
 	List<_EdgeSource> edgeSources = new ArrayList
 	Map<String, ModelElement> byId = new HashMap
+	Map<IdentifiableElement,IdentifiableElement> counterparts = new HashMap
+	List<Edge> edges = new ArrayList
+
+	«model.name»Factory baseModelFct = «model.name»Factory.eINSTANCE;
+	«model.name»Package baseModelPkg = «model.name»Package.eINSTANCE;
 
 	GraphModel model
 	Diagram diagram
@@ -79,9 +89,7 @@ class «model.name»ModelGenerator {
 		Display.getDefault.asyncExec[
 			edit(diagram).apply[
 				model.modelElements.forEach[add]
-				edgeSources.forEach[source | 
-					new ArrayList(source.outgoingEdges).forEach[edge | 
-						add(edge, source, (edge as Edge).targetElement) ] ]
+				edges.forEach[edge | add(edge, edge.sourceElement, edge.targetElement) ] 
 				update
 				save(folder)
 			]
@@ -95,6 +103,13 @@ class «model.name»ModelGenerator {
 					URI.createPlatformResourceURI(file.getFullPath().toOSString(), true), true);
 		resource.load(null);
 		model = resource.contents.get(0) as «model.name»
+		
+		val baseModel = model.map
+		
+		resource.contents.remove(model)
+		resource.contents.add(baseModel)
+		model = baseModel
+		
 		val name = file.projectRelativePath.removeFileExtension.lastSegment
 		diagram = newDiagram(name)
 		resource.getContents().add(diagram)
@@ -103,20 +118,11 @@ class «model.name»ModelGenerator {
 		fp.link(diagram, model)
 	}
 	
-	def process(ModelElement bo) {
-		
-	}
-	
 	def add(ModelElement bo) {
 		add(bo, diagram)
 	}
 	
 	def add(ModelElement bo, ContainerShape container) {
-		try {
-			process(bo)
-		} catch(Exception e) {
-			e.printStackTrace
-		}
 		try {
 			// System.out.println(" > add pictogram for " + bo)
 			val pe = addIfPossible(getAddContext(bo, container))
@@ -132,6 +138,16 @@ class «model.name»ModelGenerator {
 	def addChildren(ModelElement bo, PictogramElement pe) {
 		if (bo instanceof ModelElementContainer) 
 		 	bo.modelElements.forEach[child | add(child, pe as ContainerShape)]
+	}
+	
+	def add(Edge edge, Node source, Node target) {
+		try {
+			val pe = addIfPossible(getAddContext(edge, source, target))
+			cache((edge as ModelElement), pe)
+			add((edge.counterpart as _Edge).route, pe)
+		} catch(Exception e) {
+			e.printStackTrace
+		}
 	}
 	
 	def add(_Edge _edge, _EdgeSource src, Node target) {
@@ -250,8 +266,9 @@ class «model.name»ModelGenerator {
 	} 
 	
 	def getPlacement(ModelElement element) {
-		if (element instanceof _Placed)
-			getPlacement((element as _Placed).placement)
+		val cp = element.counterpart
+		if (cp != null && cp instanceof _Placed)
+			getPlacement((cp as _Placed).placement)
 		else
 			getPlacement
 	}
@@ -287,6 +304,84 @@ class «model.name»ModelGenerator {
 	@FunctionalInterface
 	static interface Edit {
 		def void apply(Runnable runnable);
+	}
+	
+	def cache(ModelElement baseElm, ModelElement gtxElm) {
+		println("Map gratext." + gtxElm.class.simpleName + " => data." + baseElm.class.simpleName)
+		counterparts.put(baseElm, gtxElm)
+		counterparts.put(gtxElm, baseElm)
+		if (baseElm instanceof Edge) {
+			edges.add(baseElm)
+		}
+	}
+	
+	def counterpart(EObject elm) {
+		counterparts.get(elm)
+	}
+	
+	def GraphModel map(GraphModel model) {
+		val cp = model.counterpart
+		if (cp != null) return cp as GraphModel
+		val baseModel = baseModelFct.create«model.name»
+		model.modelElements.forEach[
+			println("Model element: " + it)
+			val mapped = it.map
+			println("## Add " + mapped)
+			baseModel.modelElements.add(mapped)
+		]
+		baseModel.modelElements.addAll(edges)
+		return baseModel
+	}
+	
+	def ModelElement map(ModelElement elm) {
+		val cp = elm.counterpart
+		if (cp != null) return cp as ModelElement
+		val baseElm = elm.toBase
+		cache(baseElm, elm)
+		baseElm.attributes.map(baseElm)
+		baseElm.references.map(baseElm)
+		println("Mapped " + elm.class.simpleName + " => " + baseElm.class.simpleName)
+		return baseElm
+	}
+	
+	def attributes(ModelElement elm) {
+		elm.eClass.EAllAttributes
+	}
+	
+	def references(ModelElement elm) {
+		elm.eClass.EAllReferences
+	}
+	
+	def map(List<? extends EStructuralFeature> ftrs, ModelElement elm) {
+		ftrs.forEach[switch it {
+				EAttribute: it.map(elm)
+				EReference: it.map(elm)
+			}
+		]
+	}
+	
+	def map(EAttribute attr, ModelElement elm) {
+		val value = elm.counterpart.eGet(attr)
+		println(" -> attribute " + attr.name + " = " + value)
+		elm.eSet(attr, value)
+	}
+	
+	def map(EReference ref, ModelElement elm) {
+		val value = elm.counterpart.eGet(ref)
+		println(" > reference " + ref.name + " = " + value)
+		elm.eSet(ref, switch value {
+			ModelElement: value.map
+			List<ModelElement>: (value as List<ModelElement>).map[map]
+			GraphModel: value.map
+			default: { println("   > unmatched: " + value); value }
+		})
+	}
+	
+	def toBase(ModelElement elm) {
+		elm.eClass.ESuperTypes
+			.filter[baseModelPkg.eContents.contains(it)]
+			.map[baseModelFct.create(it)]
+			.reduce[p1, p2 | p1] as ModelElement
 	}
 }
 '''
