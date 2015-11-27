@@ -67,7 +67,7 @@ public class ReferenceRegistry {
 			showError(bo);
 		if (!map.containsKey(id)) {
 			URI uri = bo.eResource().getURI();
-			if (!uri.isRelative()) {
+			if (!uri.isRelative() && !uri.isPlatformResource()) {
 				IPath path = new Path(uri.toFileString());
 				IFile file = ResourcesPlugin.getWorkspace().getRoot().getFileForLocation(path);
 				uri = URI.createPlatformResourceURI(file.getFullPath().toOSString(), true);

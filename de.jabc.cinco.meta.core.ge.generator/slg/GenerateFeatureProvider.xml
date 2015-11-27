@@ -2,14 +2,14 @@
 <model version="2.1">
   <id>5f357517-18d4-4780-adc3-30879fedbfb1</id>
   <name>GenerateFeatureProvider</name>
-  <changecounter>885</changecounter>
+  <changecounter>901</changecounter>
   <sib>
     <id>23fb1326-f00d-4e42-845a-cdf6492fc417</id>
     <name>PutExpression</name>
     <label>LocalPkgName</label>
     <sib-uid>basic-sibs/PutExpression</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
-    <position>45.5,17.5</position>
+    <position>39.5,18.0</position>
     <parameter name="resolve">
       <boolean>true</boolean>
     </parameter>
@@ -43,7 +43,7 @@
     <label>ClassName</label>
     <sib-uid>basic-sibs/PutExpression</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
-    <position>475.0,17.5</position>
+    <position>470.5,18.0</position>
     <parameter name="resolve">
       <boolean>true</boolean>
     </parameter>
@@ -74,7 +74,7 @@
     <label>IterateNodes</label>
     <sib-uid>collection-sibs/IterateElements</sib-uid>
     <taxonomy>de.jabc.sib.common.collection.IterateElements</taxonomy>
-    <position>470.5,272.5</position>
+    <position>464.5,273.0</position>
     <parameter name="collection">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -127,7 +127,7 @@
     <label>GetAddNodeFeatureIfBlock</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>222.0,512.5</position>
+    <position>224.5,513.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -173,7 +173,7 @@
     <label>IterateEdges</label>
     <sib-uid>collection-sibs/IterateElements</sib-uid>
     <taxonomy>de.jabc.sib.common.collection.IterateElements</taxonomy>
-    <position>861.0,137.5</position>
+    <position>855.0,138.0</position>
     <parameter name="collection">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -226,7 +226,7 @@
     <label>GetAddEdgeFeatureIfBlock</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>822.5,587.5</position>
+    <position>825.0,588.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -272,7 +272,7 @@
     <label>GetCreateEdgeFeatureIfBlock</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>1040.0,587.5</position>
+    <position>1040.5,588.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -309,7 +309,7 @@
     <label>GetCreateNodeFeatureIfBlock</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>214.5,392.5</position>
+    <position>215.0,393.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -346,7 +346,7 @@
     <label>GenerateFeatureProvider</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>1921.0,452.5</position>
+    <position>1925.0,453.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -569,7 +569,7 @@ public class $context.graphModelName$FeatureProvider extends DefaultFeatureProvi
     <label>WriteJavaFile</label>
     <sib-uid>genesys-sibs/WriteJavaFile</sib-uid>
     <taxonomy>de.jabc.sib.genesys.WriteJavaFile</taxonomy>
-    <position>1970.0,692.5</position>
+    <position>1963.0,693.0</position>
     <parameter name="baseDirectory">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -637,7 +637,7 @@ public class $context.graphModelName$FeatureProvider extends DefaultFeatureProvi
     <label>PrintConsoleMessage</label>
     <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
     <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
-    <position>1929.5,797.5</position>
+    <position>1936.5,798.0</position>
     <parameter name="error">
       <boolean>false</boolean>
     </parameter>
@@ -666,7 +666,7 @@ public class $context.graphModelName$FeatureProvider extends DefaultFeatureProvi
     <label>CheckStyleAnnotation</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>430.0,510.5</position>
+    <position>435.5,511.0</position>
     <parameter name="modelElementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -691,7 +691,7 @@ public class $context.graphModelName$FeatureProvider extends DefaultFeatureProvi
     <label>CheckStyleAnnotation</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>835.0,405.5</position>
+    <position>840.5,406.0</position>
     <parameter name="modelElementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -716,7 +716,7 @@ public class $context.graphModelName$FeatureProvider extends DefaultFeatureProvi
     <label>GetUpdateNodeFeatureIfBlock</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>19.0,407.5</position>
+    <position>18.5,408.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -746,7 +746,7 @@ public class $context.graphModelName$FeatureProvider extends DefaultFeatureProvi
     <label>GetNodePrimeReference</label>
     <sib-uid>mgl/mgl/GetNodePrimeReference</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.sib.mgl.GetNodePrimeReference</taxonomy>
-    <position>422.5,720.5</position>
+    <position>428.0,723.0</position>
     <parameter name="nodeKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -774,7 +774,7 @@ public class $context.graphModelName$FeatureProvider extends DefaultFeatureProvi
     <label>isPrimeRef</label>
     <sib-uid>basic-sibs/CheckVariable</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.CheckVariable</taxonomy>
-    <position>280.5,617.5</position>
+    <position>277.0,618.0</position>
     <parameter name="variable">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -819,7 +819,7 @@ public class $context.graphModelName$FeatureProvider extends DefaultFeatureProvi
     <label>GetEClassName</label>
     <sib-uid>ecore/ecore/GetEClassName</sib-uid>
     <taxonomy>transem.ecore.sib.ecore.GetEClassName</taxonomy>
-    <position>267.5,842.5</position>
+    <position>260.5,843.0</position>
     <parameter name="eClassKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -842,48 +842,12 @@ public class $context.graphModelName$FeatureProvider extends DefaultFeatureProvi
     <finalbranches>error</finalbranches>
   </sib>
   <sib>
-    <id>b094866c-d4c4-4d1b-8307-5cb9d64394e8</id>
-    <name>GetEClassEPackage</name>
-    <label>GetEClassEPackage</label>
-    <sib-uid>ecore/ecore/GetEClassEPackage</sib-uid>
-    <taxonomy>transem.ecore.sib.ecore.GetEClassEPackage</taxonomy>
-    <position>47.0,842.5</position>
-    <parameter name="eClassKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>primeRefType</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="eClassePackageKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>eClassPackage</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-  </sib>
-  <edge>
-    <source>b094866c-d4c4-4d1b-8307-5cb9d64394e8</source>
-    <target>ba3f4ecb-4480-4766-8c2a-7d240a3af517</target>
-    <point>120.0,870.0</point>
-    <point>120.0,765.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
-  <sib>
     <id>f614cec5-b6be-4c16-ab07-68c8e9e6e81a</id>
     <name>RunStringTemplate_6</name>
     <label>GetAddNodeFeatureIfBlock</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>27.0,512.5</position>
+    <position>-0.5,528.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -913,14 +877,6 @@ if (bo instanceof $context.importPath$.$context.node.name$)
     <finalbranches>error</finalbranches>
   </sib>
   <edge>
-    <source>ba3f4ecb-4480-4766-8c2a-7d240a3af517</source>
-    <target>523c383d-4c71-457a-9ac1-a95b491d8088</target>
-    <point>138.0,727.8</point>
-    <point>192.0,682.8</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
-  <edge>
     <source>f614cec5-b6be-4c16-ab07-68c8e9e6e81a</source>
     <target>1dde31c6-2ac1-4499-b922-80d82b8475d3</target>
     <point>120.0,585.0</point>
@@ -934,7 +890,7 @@ if (bo instanceof $context.importPath$.$context.node.name$)
     <label>PrintConsoleMessage</label>
     <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
     <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
-    <position>439.0,842.5</position>
+    <position>444.5,843.0</position>
     <parameter name="error">
       <boolean>false</boolean>
     </parameter>
@@ -957,34 +913,6 @@ if (bo instanceof $context.importPath$.$context.node.name$)
     <labelposition>500.0,0.0</labelposition>
     <branch>emptyString</branch>
   </edge>
-  <sib>
-    <id>ba3f4ecb-4480-4766-8c2a-7d240a3af517</id>
-    <name>GetEPackageNsURI</name>
-    <label>GetEPackageNsURI</label>
-    <sib-uid>ecore/ecore/GetEPackageNsURI</sib-uid>
-    <taxonomy>transem.ecore.sib.ecore.GetEPackageNsURI</taxonomy>
-    <position>50.0,722.5</position>
-    <parameter name="ePackageKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>eClassPackage</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="ePackagensURIKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>nsURI</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-  </sib>
   <edge>
     <source>8ffecb62-718e-4075-a27b-23c3da46af23</source>
     <target>35ff4ed8-a4f5-4a93-b61f-f657f98df6b9</target>
@@ -1027,7 +955,7 @@ if (bo instanceof $context.importPath$.$context.node.name$)
     <label>IterateContainer</label>
     <sib-uid>collection-sibs/IterateElements</sib-uid>
     <taxonomy>de.jabc.sib.common.collection.IterateElements</taxonomy>
-    <position>1391.0,137.5</position>
+    <position>1398.0,138.0</position>
     <parameter name="collection">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1073,7 +1001,7 @@ if (bo instanceof $context.importPath$.$context.node.name$)
     <label>GetAddContainerFeatureIfBlock</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>1349.0,512.5</position>
+    <position>1349.5,513.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -1103,7 +1031,7 @@ if (bo instanceof $context.importPath$.$context.node.name$)
     <label>CheckStyleAnnotation</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>1375.0,390.5</position>
+    <position>1380.5,391.0</position>
     <parameter name="modelElementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1135,7 +1063,7 @@ if (bo instanceof $context.importPath$.$context.node.name$)
     <label>GetCreateContainerFeatureIfBlock</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>1341.5,647.5</position>
+    <position>1340.0,648.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -1187,7 +1115,7 @@ if (bo instanceof $context.importPath$.$context.node.name$)
     <label>GetUpdateEdgeFeatureIfBlock</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>1039.5,452.5</position>
+    <position>1039.0,453.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -1225,7 +1153,7 @@ if (bo instanceof $context.importPath$.$context.node.name$)
     <label>GetMoveNodeFeatureIfBlock</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>23.0,302.5</position>
+    <position>24.5,303.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -1263,7 +1191,7 @@ if (bo instanceof $context.importPath$.$context.node.name$)
     <label>GetUpdateContainerFeatureIfBlock</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>1341.0,782.5</position>
+    <position>1338.5,783.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -1301,7 +1229,7 @@ if (bo instanceof $context.importPath$.$context.node.name$)
     <label>GetLayoutNodeFeatureIfBlock</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>19.5,122.5</position>
+    <position>20.0,123.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -1339,7 +1267,7 @@ if (bo instanceof $context.importPath$.$context.node.name$)
     <label>GetLayoutContainerFeatureIfBlock</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>1596.5,782.5</position>
+    <position>1595.0,783.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -1377,7 +1305,7 @@ if (bo instanceof $context.importPath$.$context.node.name$)
     <label>GetLayoutEdgeFeatureIfBlock</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>1040.0,317.5</position>
+    <position>1040.5,318.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -1415,7 +1343,7 @@ if (bo instanceof $context.importPath$.$context.node.name$)
     <label>GetMoveContainerFeatureIfBlock</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>1600.0,677.5</position>
+    <position>1599.5,678.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -1453,7 +1381,7 @@ if (bo instanceof $context.importPath$.$context.node.name$)
     <label>GetResizeContainerFeatureIfBlock</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>1596.5,467.5</position>
+    <position>1595.5,468.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -1491,7 +1419,7 @@ if (bo instanceof $context.importPath$.$context.node.name$)
     <label>GetResizeNodeFeatureIfBlock</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>244.5,122.5</position>
+    <position>245.5,123.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -1528,7 +1456,7 @@ if (bo instanceof $context.importPath$.$context.node.name$)
     <label>ImportNodeCode</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>264.0,317.5</position>
+    <position>257.5,318.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -1577,7 +1505,7 @@ if (bo instanceof $context.importPath$.$context.node.name$)
     <label>GetReconnectEdgeFeatureIfBlock</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>1029.5,212.5</position>
+    <position>1028.5,213.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -1614,7 +1542,7 @@ if (bo instanceof $context.importPath$.$context.node.name$)
     <label>IsEdgeUsed</label>
     <sib-uid>ge-util-sibs/IsEdgeUsed</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsEdgeUsed</taxonomy>
-    <position>878.5,317.5</position>
+    <position>873.5,318.0</position>
     <parameter name="edge">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1643,7 +1571,7 @@ if (bo instanceof $context.importPath$.$context.node.name$)
     <label>ImportEdgeCode</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>864.5,497.5</position>
+    <position>858.0,498.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -1672,7 +1600,7 @@ import $context.localPkgName$.features.reconnect.*;</string>
     <label>ImportContainerCode</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>1631.0,347.5</position>
+    <position>1637.5,348.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -1714,7 +1642,7 @@ import $context.localPkgName$.features.reconnect.*;</string>
     <label>GetDeleteEdgeFeatureIfBlock</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>826.0,692.5</position>
+    <position>829.0,693.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -1751,7 +1679,7 @@ import $context.localPkgName$.features.reconnect.*;</string>
     <label>GetDeleteNodeFeatureIfBlock</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>30.5,212.5</position>
+    <position>33.5,213.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -1788,7 +1716,7 @@ import $context.localPkgName$.features.reconnect.*;</string>
     <label>GetDeleteContainerFeatureIfBlock</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>1610.0,572.5</position>
+    <position>1610.5,573.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -1825,7 +1753,7 @@ import $context.localPkgName$.features.reconnect.*;</string>
     <label>IsAbstract</label>
     <sib-uid>ge-util-sibs/IsAbstract</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsAbstract</taxonomy>
-    <position>1426.0,257.5</position>
+    <position>1422.5,258.0</position>
     <parameter name="modelElement">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1863,7 +1791,7 @@ import $context.localPkgName$.features.reconnect.*;</string>
     <label>IsAbstract</label>
     <sib-uid>ge-util-sibs/IsAbstract</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsAbstract</taxonomy>
-    <position>481.0,392.5</position>
+    <position>477.5,393.0</position>
     <parameter name="modelElement">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1883,7 +1811,7 @@ import $context.localPkgName$.features.reconnect.*;</string>
     <label>IsAbstract</label>
     <sib-uid>ge-util-sibs/IsAbstract</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsAbstract</taxonomy>
-    <position>736.0,317.5</position>
+    <position>732.5,318.0</position>
     <parameter name="modelElement">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1903,7 +1831,7 @@ import $context.localPkgName$.features.reconnect.*;</string>
     <label>PrintConsoleMessage</label>
     <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
     <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
-    <position>1279.0,317.5</position>
+    <position>1284.5,318.0</position>
     <parameter name="error">
       <boolean>true</boolean>
     </parameter>
@@ -1931,7 +1859,7 @@ import $context.localPkgName$.features.reconnect.*;</string>
     <label>GenerateFeatureProviderImports</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>1537.5,135.5</position>
+    <position>1537.5,136.0</position>
     <finalbranches>default</finalbranches>
     <userobject key="ABC$GRAPHSIB$MODELNAME">
       <string>GenerateFeatureProviderImports</string>
@@ -1954,7 +1882,7 @@ import $context.localPkgName$.features.reconnect.*;</string>
     <label>getAllLibComponents</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>55.5,617.5</position>
+    <position>123.0,618.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -1990,7 +1918,7 @@ import $context.localPkgName$.features.reconnect.*;</string>
     <label>SwitchNode</label>
     <sib-uid>mgl/mgl/SwitchNode</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.SwitchNode</taxonomy>
-    <position>401.5,302.5</position>
+    <position>398.0,303.0</position>
     <parameter name="eObjectKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -2000,9 +1928,7 @@ import $context.localPkgName$.features.reconnect.*;</string>
         </ContextKeyFoundation>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
-    <finalbranches>ReferencedEClass</finalbranches>
-    <finalbranches>ReferencedModelElement</finalbranches>
-    <finalbranches>ReferencedType</finalbranches>
+    <finalbranches>NodeContainer</finalbranches>
     <finalbranches>error</finalbranches>
     <finalbranches>other</finalbranches>
   </sib>
@@ -2019,7 +1945,7 @@ import $context.localPkgName$.features.reconnect.*;</string>
     <label>ImportContainerCode</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>236.0,212.5</position>
+    <position>242.5,213.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -2061,7 +1987,7 @@ import $context.localPkgName$.features.reconnect.*;</string>
     <label>GetOrderedInheritanceLists</label>
     <sib-uid>ge-util-sibs/GetOrderedInheritanceLists</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.GetOrderedInheritanceLists</taxonomy>
-    <position>214.5,15.5</position>
+    <position>217.5,18.0</position>
     <parameter name="edgeInheritanceOrder">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -2098,7 +2024,7 @@ import $context.localPkgName$.features.reconnect.*;</string>
     <label>GetNSUri</label>
     <sib-uid>ge-util-sibs/GetNSUri</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.GetNSUri</taxonomy>
-    <position>169.0,810.5</position>
+    <position>60.0,828.0</position>
     <parameter name="nsUri">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -2126,7 +2052,7 @@ import $context.localPkgName$.features.reconnect.*;</string>
     <label>GetReferencedEClassType</label>
     <sib-uid>mgl/mgl/GetReferencedEClassType</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetReferencedEClassType</taxonomy>
-    <position>222.5,722.5</position>
+    <position>226.5,723.0</position>
     <parameter name="referencedEClassKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -2157,9 +2083,10 @@ import $context.localPkgName$.features.reconnect.*;</string>
   </edge>
   <edge>
     <source>33c1838d-cca3-4900-914e-98696f13bb83</source>
-    <target>523c383d-4c71-457a-9ac1-a95b491d8088</target>
-    <point>265.0,863.0</point>
-    <point>148.0,668.0</point>
+    <target>f6e107e7-f613-4eb5-89f0-d7714ded8f62</target>
+    <point>118.63636363636364,843.0</point>
+    <point>87.85714285714286,804.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
@@ -2189,6 +2116,40 @@ import $context.localPkgName$.features.reconnect.*;</string>
     <point>139.5,68.0</point>
     <point>317.5,68.0</point>
     <branch>default</branch>
+  </edge>
+  <sib>
+    <id>f6e107e7-f613-4eb5-89f0-d7714ded8f62</id>
+    <name>IsCreateDisabled</name>
+    <label>IsCreateDisabled</label>
+    <sib-uid>ge-util-sibs/IsCreateDisabled</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsCreateDisabled</taxonomy>
+    <position>37.5,708.0</position>
+    <parameter name="modelElementKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>node</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>false</finalbranches>
+    <finalbranches>true</finalbranches>
+  </sib>
+  <edge>
+    <source>f6e107e7-f613-4eb5-89f0-d7714ded8f62</source>
+    <target>523c383d-4c71-457a-9ac1-a95b491d8088</target>
+    <point>60.0,795.0</point>
+    <point>136.0,717.0</point>
+    <branch>false</branch>
+  </edge>
+  <edge>
+    <source>f6e107e7-f613-4eb5-89f0-d7714ded8f62</source>
+    <target>f614cec5-b6be-4c16-ab07-68c8e9e6e81a</target>
+    <point>60.0,795.0</point>
+    <point>111.0,536.0</point>
+    <branch>true</branch>
   </edge>
   <values/>
   <branch>
@@ -2279,17 +2240,7 @@ import $context.localPkgName$.features.reconnect.*;</string>
   <branch>
     <name>error</name>
     <branch>error</branch>
-    <sib>b094866c-d4c4-4d1b-8307-5cb9d64394e8</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
     <sib>4ab004b6-7137-49c5-8dbc-6939e4edc8c1</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>ba3f4ecb-4480-4766-8c2a-7d240a3af517</sib>
   </branch>
   <branch>
     <name>error</name>
