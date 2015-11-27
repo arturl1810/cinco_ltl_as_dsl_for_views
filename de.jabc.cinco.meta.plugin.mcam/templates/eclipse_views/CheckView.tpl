@@ -135,6 +135,8 @@ public class CheckView extends ViewPart implements IPartListener2 {
 					activeCheckViewInformation.createCheckProcess();
 					activeCheckViewInformation.createCheckViewTree(parent);
 
+					activeCheckViewInformation.getTreeViewer().expandAll();
+
 					if (!parent.isDisposed()) {
 						parent.layout(true);
 						parent.redraw();
