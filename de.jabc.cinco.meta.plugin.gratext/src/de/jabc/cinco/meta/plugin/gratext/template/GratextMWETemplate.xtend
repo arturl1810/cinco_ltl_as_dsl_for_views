@@ -2,23 +2,34 @@ package de.jabc.cinco.meta.plugin.gratext.template
 
 import org.eclipse.core.resources.IFile
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage
+import de.jabc.cinco.meta.plugin.gratext.GratextProjectGenerator
 
 class GratextMWETemplate extends AbstractGratextTemplate {
+	
+def context() {
+	super.ctx as GratextProjectGenerator
+}
 	
 def xtextFile() { fileFromTemplate(GratextGrammarTemplate) }
 
 def genmodelFile() { fileFromTemplate(GratextGenmodelTemplate) }	
 
 def genPackageRule(GenPackage pkg) {
-	'''
-	registerGeneratedEPackage = "«pkg.basePackage».«pkg.getEcorePackage.name».«pkg.prefix»Package"
-	'''
+//	try {
+	'''registerGeneratedEPackage = "«pkg.basePackage».«pkg.getEcorePackage?.name».«pkg.prefix»Package"'''
+//	} catch(NullPointerException e) {
+//		e.printStackTrace
+//		''''''
+//	}
 }
 
 def genFileRule(IFile file) {
-	'''
-	registerGenModelFile = "platform:/resource«file.fullPath»"
-	'''
+//	try {
+	'''registerGenModelFile = "platform:/resource«file.fullPath»"'''
+//	} catch(NullPointerException e) {
+//		e.printStackTrace
+//		''''''
+//	}
 }
 	
 override template()
@@ -42,16 +53,24 @@ Workflow {
 		platformUri = "${runtimeProject}/.."
 		registerGeneratedEPackage = "«project.basePackage».«project.targetName»Package"
 		registerGenModelFile = "platform:/resource/«project.symbolicName»/model/«project.basePackageDir»/«genmodelFile.name»"
-		«ctx.genPackageReferences.map[ctx.getGenPackage(it)].map[genPackageRule].join('\n')»
-		«ctx.genPackageReferences.map[ctx.getGenModelFile(it)].map[genFileRule].join('\n')»
-//		registerGeneratedEPackage = "info.scce.dime.search.search.SearchPackage"
-//		registerGenModelFile = "platform:/resource/info.scce.dime/src-gen/model/Search.genmodel"
-//		registerGeneratedEPackage = "info.scce.dime.data.data.DataPackage"
-//		registerGenModelFile = "platform:/resource/info.scce.dime/src-gen/model/Data.genmodel"
-//		registerGeneratedEPackage = "info.scce.dime.siblibrary.SIBLibraryPackage"
-//		registerGenModelFile = "platform:/resource/info.scce.dime.siblibrary/model/SIBLibrary.genmodel"
-//		registerGeneratedEPackage = "info.scce.dime.gui.gui.GuiPackage"
-//		registerGenModelFile = "platform:/resource/info.scce.dime/src-gen/model/GUI.genmodel"
+		
+		/* ##########  THESE ARE STATIC STRINGS, DELETE THEM IF PROBLEMS OCCUR ############*/
+		registerGeneratedEPackage = "info.scce.dime.search.search.SearchPackage"
+		registerGenModelFile = "platform:/resource/info.scce.dime/src-gen/model/Search.genmodel"
+		registerGeneratedEPackage = "info.scce.dime.data.data.DataPackage"
+		registerGenModelFile = "platform:/resource/info.scce.dime/src-gen/model/Data.genmodel"
+		registerGeneratedEPackage = "info.scce.dime.search.search.SearchPackage"
+		registerGenModelFile = "platform:/resource/info.scce.dime/src-gen/model/Search.genmodel"
+		registerGeneratedEPackage = "info.scce.dime.data.data.DataPackage"
+		registerGenModelFile = "platform:/resource/info.scce.dime/src-gen/model/Data.genmodel"
+		registerGeneratedEPackage = "info.scce.dime.siblibrary.SIBLibraryPackage"
+		registerGenModelFile = "platform:/resource/info.scce.dime.siblibrary/model/SIBLibrary.genmodel"
+		registerGeneratedEPackage = "info.scce.dime.gui.gui.GuiPackage"
+		registerGenModelFile = "platform:/resource/info.scce.dime/src-gen/model/GUI.genmodel"
+		/* ################################################################################ */
+		
+		«context.genPackageReferences.map[context.getGenPackage(it)].filterNull.map[genPackageRule].join('\n')»
+		«context.genPackageReferences.map[context.getGenModelFile(it)].filterNull.map[genFileRule].join('\n')»
 	}
 
 	component = DirectoryCleaner {

@@ -22,12 +22,10 @@ import graphmodel.GraphmodelPackage
 
 import org.eclipse.core.resources.IFile
 import org.eclipse.core.runtime.Path
-import org.eclipse.emf.ecore.EAttribute
 import org.eclipse.emf.ecore.EClass
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.EReference
 import org.eclipse.emf.ecore.EStructuralFeature
-import org.eclipse.emf.ecore.EcorePackage
 import org.eclipse.graphiti.mm.pictograms.FreeFormConnection
 import org.eclipse.graphiti.ui.services.GraphitiUi
 
@@ -62,12 +60,8 @@ class «model.name»BackupGenerator extends GratextGenerator<«model.basePackage
 		obj.eClass.name
 	}
 	
-	def attributes(GraphModel model) {
-		model.eClass.attributes.gratext(model)
-	}
-	
-	def attributes(ModelElement elm) {
-		elm.eClass.attributes.gratext(elm)
+	def String attributes(EObject obj) {
+		obj.eClass.attributes.gratext(obj)
 	}
 	
 	def List<? extends EStructuralFeature> attributes(EClass cls) {
@@ -127,20 +121,26 @@ class «model.name»BackupGenerator extends GratextGenerator<«model.basePackage
 	}
 	
 	def gratext(EStructuralFeature ftr, EObject obj) {
-		val value = switch ftr {
-			EAttribute: obj.eGet(ftr)
-			EReference: (obj.eGet(ftr) as ModelElement)?.id
-		}
-		val type = switch ftr {
-			EAttribute: ftr.EAttributeType.name -> ftr.EAttributeType.classifierID
-			EReference: ftr.EReferenceType.name -> ftr.EReferenceType.classifierID
-		}
-		println("Attribute " + ftr.name + " " + type.key + " = " + value);
-		if (value != null) {
-			ftr.name + ' ' + switch type.value {
-				case EcorePackage.ESTRING: '"' + value + '"'
-				default: value
+		val v = obj.eGet(ftr)
+		if (v != null) {
+			val value = switch v {
+				List<?>: '[ ' + v.map[valueGratext].join(', ') + ' ]'
+				default: v.valueGratext
 			}
+			if (value != null)
+				ftr.name + ' ' + value
+		}
+	}
+	
+	def valueGratext(Object obj) {
+		switch obj {
+			ModelElement: obj?.id
+			String: '"' + obj + '"'
+			EObject: «"'''"»
+				«"«"»obj.name«"»"» {
+						«"«"»obj.attributes«"»"»
+					}«"'''"» 
+			default: obj
 		}
 	}
 }

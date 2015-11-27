@@ -10,17 +10,19 @@ override template()
 '''	
 package «project.basePackage».generator;
 
+import info.scce.cinco.gratext.IBackupAction;
+
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.runtime.Path;
-import org.eclipse.jface.dialogs.InputDialog;
-import org.eclipse.jface.window.Window;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.ui.IActionDelegate;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.IActionDelegate;
 
-public class BackupAction implements IActionDelegate {
+public class BackupAction implements IActionDelegate, IBackupAction {
 
 	private ISelection sel;
 	
@@ -36,7 +38,7 @@ public class BackupAction implements IActionDelegate {
 				//String path = new Path("#backup").append(file.getProjectRelativePath().removeLastSegments(1)).toOSString();
 				//String folder = showDirChooser(path);
 				//if (folder != null)
-				new «backupGenerator.nameWithoutExtension»().doGenerate(file, file.getProjectRelativePath().removeLastSegments(1).toOSString());
+				run(file, file.getProjectRelativePath().removeLastSegments(1));
 			}
 		}
 	}
@@ -52,6 +54,11 @@ public class BackupAction implements IActionDelegate {
 	@Override
 	public void selectionChanged(IAction action, ISelection selection) {
 		this.sel = selection;
+	}
+
+	@Override
+	public void run(IFile file, IPath targetFolder) {
+		new «backupGenerator.nameWithoutExtension»().doGenerate(file, targetFolder.toOSString());
 	}
 }
 '''

@@ -14,6 +14,7 @@ public class Activator extends AbstractUIPlugin {
 	// The shared instance
 	private static Activator plugin;
 	
+	
 	/**
 	 * The constructor
 	 */
@@ -27,9 +28,6 @@ public class Activator extends AbstractUIPlugin {
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
-		if (ReferenceRegistry.getInstance().load()) {
-			System.out.println("Loaded reference registry file!");
-		}
 	}
 
 	/*
@@ -37,8 +35,6 @@ public class Activator extends AbstractUIPlugin {
 	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
 	 */
 	public void stop(BundleContext context) throws Exception {
-		System.out.println("Stopping bundle");
-		System.out.println("Save: " + ReferenceRegistry.getInstance().save());
 		plugin = null;
 		super.stop(context);
 	}

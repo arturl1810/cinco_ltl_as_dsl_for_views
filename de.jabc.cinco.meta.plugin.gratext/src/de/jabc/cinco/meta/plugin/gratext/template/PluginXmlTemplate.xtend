@@ -30,6 +30,10 @@ override template()
 			</action>
 		</objectContribution>
    </extension>
+   <extension point="info.scce.cinco.gratext.backup">
+      <!--@GratextGen Data-->
+		<client fileExtension="«model.acronym»" class="«backupAction.package».«backupAction.nameWithoutExtension»"/>
+   </extension>
    <extension point="org.eclipse.ui.popupMenus">
       <!--@GratextGen «model.name»-->
 		<objectContribution
@@ -43,6 +47,10 @@ override template()
 				label="Restore Model">
 			</action>
 		</objectContribution>
+   </extension>
+    <extension point="info.scce.cinco.gratext.restore">
+      <!--@GratextGen Data-->
+		<client fileExtension="«model.acronym»DL" class="«restoreAction.package».«restoreAction.nameWithoutExtension»"/>
    </extension>
 </plugin>
 '''

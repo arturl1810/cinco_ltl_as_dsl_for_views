@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>2a28c6a3-7550-4d5b-a8c5-c31758cd1dd2</id>
   <name>GenerateGetTextValues2</name>
-  <changecounter>451</changecounter>
+  <changecounter>456</changecounter>
   <sib>
     <id>b20307c1-400f-471e-b59a-f2361f53f9aa</id>
     <name>GetModelElementAnnotations</name>
@@ -193,10 +193,10 @@
   </sib>
   <edge>
     <source>08f52c7b-4be4-458b-9651-7b15962ad2a6</source>
-    <target>cb2152a6-0724-405f-b51a-cf0391982573</target>
-    <point>153.0,527.16</point>
-    <point>567.0,430.56</point>
-    <labelposition>500.0,0.0</labelposition>
+    <target>338a37fe-3452-4eca-b323-538e230d8dc7</target>
+    <point>153.0,528.3391304347826</point>
+    <point>462.0,474.6</point>
+    <labelposition>453.125,0.6142857142857187</labelposition>
     <branch>next</branch>
   </edge>
   <sib>
@@ -474,8 +474,11 @@ Object $context.attributeID$Value = factory.createValueExpression(elContext, &qu
   <edge>
     <source>bf995d4d-b491-46c5-a3ba-c95567a9b0e9</source>
     <target>08f52c7b-4be4-458b-9651-7b15962ad2a6</target>
-    <point>360.0,1005.0</point>
-    <point>119.0,534.0</point>
+    <spline/>
+    <point>792.0,1113.12</point>
+    <point>210.0,1020.0</point>
+    <point>137.76073619631902,549.0</point>
+    <labelposition>573.0979653021413,-307.88780219115444</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
@@ -773,7 +776,7 @@ Object $context.attributeID$Value = factory.createValueExpression(elContext, &qu
     <label>RunStringTemplate</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>362.0,588.0</position>
+    <position>257.0,708.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -845,7 +848,7 @@ Object $context.attributeID$Value = factory.createValueExpression(elContext, &qu
     <label>GenerateUniqueGaName</label>
     <sib-uid>ge-util-sibs/GenerateUniqueGaName</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.GenerateUniqueGaName</taxonomy>
-    <position>390.5,693.0</position>
+    <position>390.5,708.0</position>
     <parameter name="clearCache">
       <de.metaframe.common.sib.parameter.ContextExpression>
         <ContextExpressionFoundation>
@@ -881,6 +884,41 @@ Object $context.attributeID$Value = factory.createValueExpression(elContext, &qu
     <target>3770d6db-5d41-4fb5-98b2-928cba042baf</target>
     <point>537.0,544.6285714285714</point>
     <point>363.0,668.9142857142857</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>338a37fe-3452-4eca-b323-538e230d8dc7</id>
+    <name>RunStringTemplate_7</name>
+    <label>ValuesList</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>357.0,513.0</position>
+    <parameter name="append">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>valuesList</key>
+          <scope>PARENT</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>$context.value$ </string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>338a37fe-3452-4eca-b323-538e230d8dc7</source>
+    <target>cb2152a6-0724-405f-b51a-cf0391982573</target>
+    <point>480.0,480.0</point>
+    <point>552.0,540.0</point>
     <branch>default</branch>
   </edge>
   <parameter>
