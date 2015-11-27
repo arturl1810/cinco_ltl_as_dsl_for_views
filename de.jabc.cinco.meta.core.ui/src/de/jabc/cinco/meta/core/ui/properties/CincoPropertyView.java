@@ -70,7 +70,9 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.IViewSite;
+import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
@@ -147,7 +149,15 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener{
 	public static void addSelectionListener(ISelectionListener listener) {
 		if (registeredListeners.contains(listener))
 			return;
-		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().addSelectionListener(listener);
+		IWorkbenchWindow activeWorkbenchWindow = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+		if (activeWorkbenchWindow == null)
+			return;
+		
+		IWorkbenchPage activePage = activeWorkbenchWindow.getActivePage();
+		if (activePage == null) 
+			return;
+		
+		activePage.addSelectionListener(listener);
 		registeredListeners.add(listener);
 	}
 	
