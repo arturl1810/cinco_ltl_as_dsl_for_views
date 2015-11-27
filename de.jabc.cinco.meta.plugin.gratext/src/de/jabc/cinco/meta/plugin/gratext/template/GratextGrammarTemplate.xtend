@@ -146,7 +146,9 @@ def edgeRule(Edge edge) {
 def typeRule(UserDefinedType type) {
 	'''
 	«type.name» returns «model.acronym»::«type.name»:{«model.acronym»::«type.name»}
-	«attributes(type)»
+	'«type.name»' '{'
+		«attributes(type)»
+	'}'
 	;
 	'''
 }
@@ -154,12 +156,7 @@ def typeRule(UserDefinedType type) {
 def enumRule(Enumeration type) {
 	'''
 	enum «type.name» returns «model.acronym»::«type.name»: 
-		«type.literals.get(0)»
-		«IF (type.literals.size > 1)»
-			«FOR i:1..(type.literals.size-1)»
-			| «type.literals.get(i)»
-			«ENDFOR»
-		«ENDIF»
+		«type.literals.join('| ')»
 	;
 	'''
 }
@@ -188,7 +185,10 @@ def type(ReferencedType ref) {
 
 def attributes(ModelElement elm) {
 	val attrs = model.resp(elm).attributes
-	val attrsStr = attrs.map['''( '«it.name»' «it.name» = «type(it)» )?'''].join(' &\n')
+	val attrsStr = attrs.map[switch it {
+		case (upperBound < 0) || (upperBound > 1): '''( '«it.name»' '[' ( «it.name» += «type(it)» ( ',' «it.name» += «type(it)» )* )? ']' )?'''
+		default: '''( '«it.name»' «it.name» = «type(it)» )?'''
+	}].join(' &\n')
 	val primeStr = switch elm {
 		Node: elm.prime
 	}

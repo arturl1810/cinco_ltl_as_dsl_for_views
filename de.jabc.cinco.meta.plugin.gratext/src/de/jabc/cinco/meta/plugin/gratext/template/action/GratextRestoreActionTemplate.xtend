@@ -114,7 +114,8 @@ public class RestoreAction implements IActionDelegate {
 	        		showErrorMessage("Some restores seem to have failed.");
 	        }
 	     });
-		job.schedule();
+	     job.setUser(true);
+		 job.schedule();
 	}
 	
 	private void showMessage(String msg) {

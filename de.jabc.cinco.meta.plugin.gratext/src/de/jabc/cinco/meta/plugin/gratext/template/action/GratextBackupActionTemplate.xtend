@@ -112,6 +112,7 @@ public class BackupAction implements IActionDelegate {
 	        		showErrorMessage("Some backups seem to have failed.");
 	        }
 	     });
+	    job.setUser(true);
 		job.schedule();
 	}
 	

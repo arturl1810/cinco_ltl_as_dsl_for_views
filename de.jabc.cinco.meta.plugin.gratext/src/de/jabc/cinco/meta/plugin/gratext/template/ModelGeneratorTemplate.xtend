@@ -312,8 +312,7 @@ class «model.name»ModelGenerator {
 		def void apply(Runnable runnable);
 	}
 	
-	def cache(ModelElement baseElm, ModelElement gtxElm) {
-		println("Map gratext." + gtxElm.class.simpleName + " => data." + baseElm.class.simpleName)
+	def cache(IdentifiableElement baseElm, IdentifiableElement gtxElm) {
 		counterparts.put(baseElm, gtxElm)
 		counterparts.put(gtxElm, baseElm)
 		if (baseElm instanceof Edge) {
@@ -329,10 +328,13 @@ class «model.name»ModelGenerator {
 		val cp = model.counterpart
 		if (cp != null) return cp as GraphModel
 		val baseModel = baseModelFct.create«model.name»
+		cache(baseModel, model)
+		baseModel.attributes.map(baseModel)
+		baseModel.references.map(baseModel)
 		model.modelElements.forEach[
-			println("Model element: " + it)
+			//println("Model element: " + it)
 			val mapped = it.map
-			println("## Add " + mapped)
+			//println("## Add " + mapped)
 			baseModel.modelElements.add(mapped)
 		]
 		baseModel.modelElements.addAll(edges)
@@ -346,19 +348,19 @@ class «model.name»ModelGenerator {
 		cache(baseElm, elm)
 		baseElm.attributes.map(baseElm)
 		baseElm.references.map(baseElm)
-		println("Mapped " + elm.class.simpleName + " => " + baseElm.class.simpleName)
+		//println("Mapped " + elm.class.simpleName + " => " + baseElm.class.simpleName)
 		return baseElm
 	}
 	
-	def attributes(ModelElement elm) {
+	def attributes(EObject elm) {
 		elm.eClass.EAllAttributes
 	}
 	
-	def references(ModelElement elm) {
+	def references(EObject elm) {
 		elm.eClass.EAllReferences
 	}
 	
-	def map(List<? extends EStructuralFeature> ftrs, ModelElement elm) {
+	def map(List<? extends EStructuralFeature> ftrs, IdentifiableElement elm) {
 		ftrs.forEach[switch it {
 				EAttribute: it.map(elm)
 				EReference: it.map(elm)
@@ -366,21 +368,29 @@ class «model.name»ModelGenerator {
 		]
 	}
 	
-	def map(EAttribute attr, ModelElement elm) {
+	def map(EAttribute attr, IdentifiableElement elm) {
 		val value = elm.counterpart.eGet(attr)
-		println(" -> attribute " + attr.name + " = " + value)
+		//println(" -> attribute " + attr.name + " = " + value)
 		elm.eSet(attr, value)
 	}
 	
-	def map(EReference ref, ModelElement elm) {
-		val value = elm.counterpart.eGet(ref)
+	def map(EReference ref, IdentifiableElement elm) {
+		val value = elm.counterpart.eGet(ref).mapValue
 		println(" > reference " + ref.name + " = " + value)
-		elm.eSet(ref, switch value {
-			ModelElement: value.map
-			List<ModelElement>: (value as List<ModelElement>).map[map]
+		if (value instanceof EObject) {
+			(value as EObject).eContainer
+		}
+		elm.eSet(ref, value)
+	}
+	
+	def Object mapValue(Object value) {
+		switch value {
 			GraphModel: value.map
+			ModelElement: value.map
+			List<?>: value.map[mapValue]
+			EObject: value
 			default: { println("   > unmatched: " + value); value }
-		})
+		}
 	}
 	
 	def toBase(ModelElement elm) {
