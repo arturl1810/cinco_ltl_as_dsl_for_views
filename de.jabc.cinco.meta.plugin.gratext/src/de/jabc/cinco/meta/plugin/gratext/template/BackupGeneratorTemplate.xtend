@@ -123,11 +123,8 @@ class «model.name»BackupGenerator extends GratextGenerator<«model.basePackage
 	def gratext(EStructuralFeature ftr, EObject obj) {
 		val v = obj.eGet(ftr)
 		if (v != null) {
-			val value = switch ftr {
-				EReference: switch v {
-					List<?>: '[ ' + (v as List<EObject>).map[valueGratext].join(', ') + ' ]'
-					default: v.valueGratext
-				}
+			val value = switch v {
+				List<?>: '[ ' + v.map[valueGratext].join(', ') + ' ]'
 				default: v.valueGratext
 			}
 			if (value != null)
