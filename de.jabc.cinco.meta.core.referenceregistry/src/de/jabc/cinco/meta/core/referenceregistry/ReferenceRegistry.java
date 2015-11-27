@@ -119,7 +119,9 @@ public class ReferenceRegistry {
 			registriesMap.get(e.getKey()).remove(e.getValue());
 			cachesMap.get(e.getKey()).remove(e.getValue());
 		}
-	}
+		if (affected != null && !affected.isEmpty())
+			save();
+		}
 
 	public void handleRename(URI fromURI, URI toURI) {
 		String from = fromURI.toPlatformString(true);
@@ -128,6 +130,8 @@ public class ReferenceRegistry {
 		for (Entry<IProject, String> e : affected.entrySet()) {
 			registriesMap.get(e.getKey()).replace(e.getValue(), to);
 		}
+		if (affected != null && !affected.isEmpty())
+			save();
 	}
 	
 	public void handleContentChange(URI affectedFileUri) {
@@ -140,7 +144,9 @@ public class ReferenceRegistry {
 			EObject loadedObject = loadObject(objectId, uri);
 			cachesMap.get(p).replace(objectId, loadedObject);
 		}
-	}
+		if (affected != null && !affected.isEmpty())
+			save();
+		}
 	
 	/**
 	 * This method searches the tuples of (IProject,ID) which are affected by changes to the
