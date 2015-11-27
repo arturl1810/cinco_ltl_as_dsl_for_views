@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.Properties;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
@@ -66,6 +67,11 @@ public class ReferenceRegistry {
 			showError(bo);
 		if (!map.containsKey(id)) {
 			URI uri = bo.eResource().getURI();
+			if (!uri.isRelative()) {
+				IPath path = new Path(uri.toFileString());
+				IFile file = ResourcesPlugin.getWorkspace().getRoot().getFileForLocation(path);
+				uri = URI.createPlatformResourceURI(file.getFullPath().toOSString(), true);
+			}
 //			System.err.println("Registering by uri: " + uri.toPlatformString(true));
 			map.put(id, uri.toPlatformString(true));
 			cache.put(id, bo);
