@@ -166,7 +166,12 @@ public class RestoreAction implements IActionDelegate {
 				action.run(file, new Path(TARGET_FOLDER).append(file.getProjectRelativePath().removeFirstSegments(1).removeLastSegments(1)));
 			}
 		};
-		SafeRunner.run(runnable);
+		try {
+			SafeRunner.run(runnable);
+		} catch(Error e) {
+			System.err.println("[GratextRestore] severe error, failed to restore " + file.getFullPath());
+			System.err.println("[GratextRestore] " + e.getMessage());
+		}
 	}
 	
 	protected List<IFile> getBackupFiles(IProject project) {

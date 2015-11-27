@@ -163,7 +163,12 @@ public class BackupAction implements IActionDelegate {
 				action.run(file, new Path(TARGET_FOLDER).append(file.getProjectRelativePath().removeLastSegments(1)));
 			}
 		};
-		SafeRunner.run(runnable);
+		try {
+			SafeRunner.run(runnable);
+		} catch(Error e) {
+			System.err.println("[GratextBackup] severe error, failed to backup " + file.getFullPath());
+			System.err.println("[GratextBackup] " + e.getMessage());
+		}
 	}
 	
 	protected List<IFile> getWorkspaceFiles() {

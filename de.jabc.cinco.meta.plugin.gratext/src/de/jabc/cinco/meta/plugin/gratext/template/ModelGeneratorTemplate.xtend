@@ -376,7 +376,7 @@ class «model.name»ModelGenerator {
 	
 	def map(EReference ref, IdentifiableElement elm) {
 		val value = elm.counterpart.eGet(ref).mapValue
-		println(" > reference " + ref.name + " = " + value)
+		//println(" > reference " + ref.name + " = " + value)
 		if (value instanceof EObject) {
 			(value as EObject).eContainer
 		}
@@ -389,7 +389,7 @@ class «model.name»ModelGenerator {
 			ModelElement: value.map
 			List<?>: value.map[mapValue]
 			EObject: value
-			default: { println("   > unmatched: " + value); value }
+			default: { println("[GratextRestore] WARN unmatched value type: " + value); value }
 		}
 	}
 	
