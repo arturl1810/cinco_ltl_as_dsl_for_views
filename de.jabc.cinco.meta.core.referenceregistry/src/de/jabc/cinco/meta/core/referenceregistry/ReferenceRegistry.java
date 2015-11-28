@@ -67,11 +67,7 @@ public class ReferenceRegistry {
 			showError(bo);
 		if (!map.containsKey(id)) {
 			URI uri = bo.eResource().getURI();
-			if (!uri.isRelative() && !uri.isPlatformResource()) {
-				IPath path = new Path(uri.toFileString());
-				IFile file = ResourcesPlugin.getWorkspace().getRoot().getFileForLocation(path);
-				uri = URI.createPlatformResourceURI(file.getFullPath().toOSString(), true);
-			}
+			uri = toWorkspaceRelativeURI(uri);
 //			System.err.println("Registering by uri: " + uri.toPlatformString(true));
 			map.put(id, uri.toPlatformString(true));
 			cache.put(id, bo);
@@ -79,7 +75,7 @@ public class ReferenceRegistry {
 			System.out.println(String.format("Found element for id %s. Nothing to do...", id));
 		}
 	}
-	
+
 	public EObject getEObject(String key) {
 		if (cache.containsKey(key)) {
 			return cache.get(key);
@@ -142,6 +138,7 @@ public class ReferenceRegistry {
 	
 	public void handleContentChange(URI affectedFileUri) {
 		String resourcePath = affectedFileUri.toPlatformString(true);
+		System.out.println(resourcePath);
 		HashMap<IProject, String> affected = getAffectedEntries(resourcePath);
 		for (Entry<IProject, String> e : affected.entrySet()) {
 			IProject p = e.getKey();
@@ -263,6 +260,15 @@ public class ReferenceRegistry {
 		return res;
 	}
 
+	private URI toWorkspaceRelativeURI(URI uri) {
+		if (!uri.isRelative() && !uri.isPlatformResource()) {
+			IPath path = new Path(uri.toFileString());
+			IFile file = ResourcesPlugin.getWorkspace().getRoot().getFileForLocation(path);
+			uri = URI.createPlatformResourceURI(file.getFullPath().toOSString(), true);
+		}
+		return uri;
+	}
+	
 	public void clearRegistry() {
 		System.out.println("Clearing");
 		this.map = new HashMap<String, String>();
