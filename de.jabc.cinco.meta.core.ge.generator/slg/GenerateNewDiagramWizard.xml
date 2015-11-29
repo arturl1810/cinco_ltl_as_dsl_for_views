@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>4b8f0479-9813-462d-b7d3-1e7c977bb9c6</id>
   <name>GenerateNewDiagramWizard</name>
-  <changecounter>232</changecounter>
+  <changecounter>233</changecounter>
   <sib>
     <id>4db12997-4cd3-4e00-94ed-f5405dd7aa9b</id>
     <name>PutExpression</name>
@@ -186,16 +186,16 @@ public class New$context.fuGraphModelName$DiagramWizard extends Wizard implement
 			try {
 				getContainer().run(false, false, operation);
 	
-				IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow(); 
-				PlatformUI.getWorkbench().showPerspective($context.graphModelName$PerspectiveFactory.ID_PERSPECTIVE, window);
+				//IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow(); 
+				//PlatformUI.getWorkbench().showPerspective($context.graphModelName$PerspectiveFactory.ID_PERSPECTIVE, window);
 
 			} catch (InvocationTargetException | InterruptedException e) {
 				e.printStackTrace();
 				return false;
-			} catch (WorkbenchException e) {
+			}/* catch (WorkbenchException e) {
 				e.printStackTrace();
 				return false;
-			}
+			}*/
 		}
 		return true;
 	}
@@ -230,15 +230,15 @@ public class New$context.fuGraphModelName$DiagramWizard extends Wizard implement
 
 				res.save(null);
 
-				//IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+				IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 				
-				//IDE.openEditor(page, file,&quot;$context.packageName$.$context.fuGraphModelName$Editor&quot;, true);
+				IDE.openEditor(page, file,&quot;$context.packageName$.$context.fuGraphModelName$Editor&quot;, true);
 				
 			} catch (IOException e) {
 				e.printStackTrace();
-			} /*catch (PartInitException e) {
+			} catch (PartInitException e) {
 				e.printStackTrace();
-			}*/
+			}
 		}
 		
 	}

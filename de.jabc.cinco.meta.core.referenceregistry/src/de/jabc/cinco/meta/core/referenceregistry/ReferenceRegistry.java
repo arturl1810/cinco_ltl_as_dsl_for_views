@@ -5,7 +5,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map.Entry;
 import java.util.Properties;
 
@@ -72,7 +74,7 @@ public class ReferenceRegistry {
 			map.put(id, uri.toPlatformString(true));
 			cache.put(id, bo);
 		} else {
-			System.out.println(String.format("Found element for id %s. Nothing to do...", id));
+//			System.out.println(String.format("Found element for id %s. Nothing to do...", id));
 		}
 	}
 
@@ -115,11 +117,13 @@ public class ReferenceRegistry {
 	
 	public void handleDelete(URI uri) {
 		String searchVal = uri.toPlatformString(true);
-		HashMap<IProject, String> affected = getAffectedEntries(searchVal);
+		HashMap<IProject, List<String>> affected = getAffectedEntries(searchVal);
 		
-		for (Entry<IProject, String> e : affected.entrySet()) {
-			registriesMap.get(e.getKey()).remove(e.getValue());
-			cachesMap.get(e.getKey()).remove(e.getValue());
+		for (Entry<IProject, List<String>> e : affected.entrySet()) {
+			for (String id : e.getValue()) {
+				registriesMap.get(e.getKey()).remove(id);
+				cachesMap.get(e.getKey()).remove(id);
+			}
 		}
 		if (affected != null && !affected.isEmpty())
 			save();
@@ -128,9 +132,10 @@ public class ReferenceRegistry {
 	public void handleRename(URI fromURI, URI toURI) {
 		String from = fromURI.toPlatformString(true);
 		String to = toURI.toPlatformString(true);
-		HashMap<IProject, String> affected = getAffectedEntries(from);
-		for (Entry<IProject, String> e : affected.entrySet()) {
-			registriesMap.get(e.getKey()).replace(e.getValue(), to);
+		HashMap<IProject, List<String>> affected = getAffectedEntries(from);
+		for (Entry<IProject, List<String>> e : affected.entrySet()) {
+			for (String id : e.getValue())
+				registriesMap.get(e.getKey()).replace(id, to);
 		}
 		if (affected != null && !affected.isEmpty())
 			save();
@@ -138,14 +143,18 @@ public class ReferenceRegistry {
 	
 	public void handleContentChange(URI affectedFileUri) {
 		String resourcePath = affectedFileUri.toPlatformString(true);
-		System.out.println(resourcePath);
-		HashMap<IProject, String> affected = getAffectedEntries(resourcePath);
-		for (Entry<IProject, String> e : affected.entrySet()) {
+		System.out.println("Affected file: " +resourcePath);
+		HashMap<IProject, List<String>> affected = getAffectedEntries(resourcePath);
+		for (Entry<IProject, List<String>> e : affected.entrySet()) {
 			IProject p = e.getKey();
-			String objectId = e.getValue();
-			String uri = registriesMap.get(p).get(objectId);
-			EObject loadedObject = loadObject(objectId, uri);
-			cachesMap.get(p).replace(objectId, loadedObject);
+			for (String id : e.getValue()) {
+				String objectId = id;
+				String uri = registriesMap.get(p).get(objectId);
+				System.out.println("Refreshing: " + uri + "->" + objectId);
+				EObject loadedObject = loadObject(objectId, uri);
+				HashMap<String, EObject> tmpCache = cachesMap.get(p);
+				tmpCache.replace(objectId, loadedObject);
+			}
 		}
 		if (affected != null && !affected.isEmpty())
 			save();
@@ -157,13 +166,15 @@ public class ReferenceRegistry {
 	 * @param resourcePath
 	 * @return Affected tuples (IProject,ID)
 	 */
-	private HashMap<IProject, String> getAffectedEntries(String resourcePath) {
-		HashMap<IProject, String> affected = new HashMap<IProject, String>();
+	private HashMap<IProject, List<String>> getAffectedEntries(String resourcePath) {
+		HashMap<IProject, List<String>> affected = new HashMap<IProject, List<String>>();
 		for (Entry<IProject, HashMap<String, String>> p2m : registriesMap.entrySet()) {
 			HashMap<String, String> m = p2m.getValue();
 			for (Entry<String, String> e : m.entrySet()) {
 				if (e.getValue().equals(resourcePath)) {
-					affected.put(p2m.getKey(), e.getKey());
+					if (affected.get(p2m.getKey()) == null)
+						affected.put(p2m.getKey(), new ArrayList<String>());
+					affected.get(p2m.getKey()).add(e.getKey());
 				}
 			}
 		}
@@ -223,7 +234,7 @@ public class ReferenceRegistry {
 			} 
 			catch (IOException e) {
 				e.printStackTrace();
-			}
+			} 
 		return false;
 	}
 	
