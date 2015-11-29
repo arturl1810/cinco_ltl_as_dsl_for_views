@@ -30,7 +30,6 @@ import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.util.TransactionUtil;
 import org.eclipse.gef.GraphicalEditPart;
@@ -58,6 +57,7 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Combo;
@@ -206,7 +206,9 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener{
 		
 		disposeChildren(parent);
 		context = new EMFDataBindingContext();
+		
 		Composite mainComposite = new Composite(parent, SWT.NONE);
+		
 		setTwoColumnGridLayout(mainComposite);
 		mainComposite.setLayoutData(new GridData(SWT.NONE));
 
@@ -287,13 +289,23 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener{
 	}
 
 	public void createSimplePropertyView(EObject bo, Composite parent) {
-
-		Composite comp = new Composite(parent, SWT.BORDER);
+		
+		ScrolledComposite sc = new ScrolledComposite(parent, SWT.BORDER | SWT.V_SCROLL);
+		sc.setLayout(new GridLayout(1, false));
+		sc.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		
+		Composite comp = new Composite(sc, SWT.NONE);
 		comp.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		setTwoColumnGridLayout(comp);
-
+		
 		createUIAndBindings(bo, comp);
-
+		
+		sc.setContent(comp);
+		sc.setExpandHorizontal(true);
+		sc.setExpandVertical(true);
+		sc.setAlwaysShowScrollBars(true);
+		sc.setMinSize(parent.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+		
 		simpleViewComposite = comp;
 	}
 
