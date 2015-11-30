@@ -543,13 +543,21 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener{
 				EObject eContainer = eObject.eContainer();
 
 				for (EReference ref : eContainer.eClass().getEAllReferences()) {
+					//FIXME: Does not work for multiValued attributes
 					Object value = eContainer.eGet(ref, true);
+					if (isMultiValued(value) && !((List<?>) value).isEmpty())
+						value = ((List<?>) value).get(0);
 					if (eObject.equals(value)) {
 						return ref.getName();
 					}
+					
 				}
 
 				return null;
+			}
+
+			private boolean isMultiValued(Object value) {
+				return value instanceof List;
 			}
 		};
 	}
