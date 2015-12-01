@@ -89,8 +89,6 @@ import de.jabc.cinco.meta.core.ui.validator.TextValidator;
  */
 public class CincoPropertyView extends ViewPart implements ISelectionListener{
 
-	private Map<EObject, Composite> compositesMap;
-	
 	private static Map<Class<? extends EObject>, IEMFListProperty> emfListPropertiesMap = new HashMap<Class<? extends EObject>, IEMFListProperty>();
 	private static Map<Class<? extends EObject>, List<EStructuralFeature>> attributesMap = new HashMap<Class<? extends EObject>, List<EStructuralFeature>>();
 	private static Map<Class<? extends EObject>, List<EStructuralFeature>> referencesMap = new HashMap<Class<? extends EObject>, List<EStructuralFeature>>();
@@ -103,7 +101,8 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener{
 	private static Set<ISelectionListener> registeredListeners = new HashSet<ISelectionListener>();
 	
 	private Composite parent;
-	private Composite simpleViewComposite;
+	private ScrolledComposite simpleViewComposite;
+	private Composite treeViewComposite;
 	private TreeViewer treeViewer;
 
 	private final GridData labelLayoutData = new GridData(SWT.LEFT, SWT.CENTER,
@@ -122,7 +121,6 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener{
 
 	
 	public CincoPropertyView() {
-		compositesMap = new HashMap<EObject, Composite>();
 		treeExpandState = new HashMap<Object, Object[]>();
 		
 		multiLineAttributes = new HashSet<EStructuralFeature>();
@@ -142,7 +140,7 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener{
 				pe = getPictogramElement(element);
 			
 			EObject bo = getBusinessObject(pe);
-			init_PropertyView(bo, parent);
+			init_PropertyView(bo);
 		}
 	}
 	
@@ -197,7 +195,7 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener{
 			readOnlyAttributes.add(f);
 	}
 	
-	public void init_PropertyView(EObject bo, Composite parent) {
+	public void init_PropertyView(EObject bo) {
 		if (bo == null || bo.equals(lastSelectedObject) || referencesMap.get(bo.getClass()) == null)
 			return;
 		
@@ -206,19 +204,31 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener{
 		
 		disposeChildren(parent);
 		context = new EMFDataBindingContext();
+//		Composite mainComposite = new Composite(parent, SWT.NONE);
+		setTwoColumnGridLayout(parent);
+		treeViewComposite = new Composite(parent, SWT.BORDER);
+		treeViewComposite.setLayout(new GridLayout(1, false));
+		treeViewComposite.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, true));
+//		mainComposite.setLayoutData(new GridData(SWT.NONE));
+		simpleViewComposite = new ScrolledComposite(parent, SWT.BORDER | SWT.V_SCROLL);
+		simpleViewComposite.setLayout(new GridLayout(1,false));
+		simpleViewComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+//		createTreePropertyView(bo, mainComposite);
+		createTreePropertyView(bo);
+//		createSimplePropertyView(bo, mainComposite);
+		createSimplePropertyView(bo);
 		
-		Composite mainComposite = new Composite(parent, SWT.NONE);
+//		mainComposite.pack();
+		treeViewComposite.pack();
+		simpleViewComposite.pack();
+		treeViewComposite.layout(true);
+		simpleViewComposite.layout(true);
 		
-		setTwoColumnGridLayout(mainComposite);
-		mainComposite.setLayoutData(new GridData(SWT.NONE));
-
-		createTreePropertyView(bo, mainComposite);
-		createSimplePropertyView(bo, mainComposite);
-
-		mainComposite.pack();
+		
+//		parent.pack(true);
 		parent.layout(true);
-		
-		compositesMap.put(bo, mainComposite);
+//		parent.redraw();
+//		parent.update();
 		
 		lastSelectedObject = bo;
 	}
@@ -227,8 +237,8 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener{
 		possibleValuesMap.put(feature, values);
 	}
 
-	public void createTreePropertyView(EObject bo, Composite parent) {
-		Tree tree = new Tree(parent, SWT.BORDER | SWT.SINGLE);
+	public void createTreePropertyView(EObject bo) {
+		Tree tree = new Tree(treeViewComposite, SWT.BORDER | SWT.SINGLE);
 		GridData data = new GridData(SWT.LEFT, SWT.FILL, false, true);
 		data.widthHint = 255;
 		tree.setLayoutData(data);
@@ -280,33 +290,28 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener{
 
 				Object o = ((IStructuredSelection) selection).getFirstElement();
 				if (o instanceof EObject) {
-					createSimplePropertyView((EObject) o);
-					simpleViewComposite.layout(true);
+					disposeChildren(simpleViewComposite);
+					createSimplePropertyView((EObject) o, simpleViewComposite);
 				}
 			}
 		};
 		return listener;
 	}
 
-	public void createSimplePropertyView(EObject bo, Composite parent) {
-		
-		ScrolledComposite sc = new ScrolledComposite(parent, SWT.BORDER | SWT.V_SCROLL);
-		sc.setLayout(new GridLayout(1, false));
-		sc.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		
-		Composite comp = new Composite(sc, SWT.NONE);
+	
+	public void createSimplePropertyView(EObject bo, ScrolledComposite parent) {
+		Composite comp = new Composite(parent, SWT.NONE);
 		comp.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		setTwoColumnGridLayout(comp);
 		
 		createUIAndBindings(bo, comp);
 		
-		sc.setContent(comp);
-		sc.setExpandHorizontal(true);
-		sc.setExpandVertical(true);
-		sc.setAlwaysShowScrollBars(true);
-		sc.setMinSize(parent.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+		parent.setContent(comp);
+		parent.setExpandHorizontal(true);
+		parent.setExpandVertical(true);
+		parent.setAlwaysShowScrollBars(true);
+		parent.setMinSize(parent.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 		
-		simpleViewComposite = comp;
 	}
 
 	private void createUIAndBindings(EObject bo, Composite comp) {
@@ -330,7 +335,16 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener{
 			throw new RuntimeException(
 					"NPE: Composite for the simple property view is null");
 		disposeChildren(simpleViewComposite);
-		createUIAndBindings(o, simpleViewComposite);
+		Composite dataComp = new Composite(simpleViewComposite, SWT.NONE);
+		dataComp.setLayout(new GridLayout(2,false));
+		dataComp.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1,1));
+		createUIAndBindings(o, dataComp);
+		simpleViewComposite.setContent(dataComp);
+		simpleViewComposite.setExpandHorizontal(true);
+		simpleViewComposite.setExpandVertical(true);
+		simpleViewComposite.setAlwaysShowScrollBars(true);
+		simpleViewComposite.layout(true);
+		simpleViewComposite.setMinSize(dataComp.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 	}
 
 	private void createSingleAttributeProperty(EObject bo, Composite comp, EStructuralFeature feature) {
@@ -543,7 +557,6 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener{
 				EObject eContainer = eObject.eContainer();
 
 				for (EReference ref : eContainer.eClass().getEAllReferences()) {
-					//FIXME: Does not work for multiValued attributes
 					Object value = eContainer.eGet(ref, true);
 					if (isMultiValued(value) && !((List<?>) value).isEmpty())
 						value = ((List<?>) value).get(0);
