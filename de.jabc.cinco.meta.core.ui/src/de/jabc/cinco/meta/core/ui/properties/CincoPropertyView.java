@@ -204,31 +204,25 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener{
 		
 		disposeChildren(parent);
 		context = new EMFDataBindingContext();
-//		Composite mainComposite = new Composite(parent, SWT.NONE);
 		setTwoColumnGridLayout(parent);
+		
 		treeViewComposite = new Composite(parent, SWT.BORDER);
 		treeViewComposite.setLayout(new GridLayout(1, false));
 		treeViewComposite.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, true));
-//		mainComposite.setLayoutData(new GridData(SWT.NONE));
+		
 		simpleViewComposite = new ScrolledComposite(parent, SWT.BORDER | SWT.V_SCROLL);
 		simpleViewComposite.setLayout(new GridLayout(1,false));
 		simpleViewComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-//		createTreePropertyView(bo, mainComposite);
+
 		createTreePropertyView(bo);
-//		createSimplePropertyView(bo, mainComposite);
 		createSimplePropertyView(bo);
 		
-//		mainComposite.pack();
 		treeViewComposite.pack();
 		simpleViewComposite.pack();
 		treeViewComposite.layout(true);
 		simpleViewComposite.layout(true);
 		
-		
-//		parent.pack(true);
 		parent.layout(true);
-//		parent.redraw();
-//		parent.update();
 		
 		lastSelectedObject = bo;
 	}
