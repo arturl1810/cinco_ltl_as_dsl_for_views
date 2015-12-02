@@ -113,7 +113,7 @@ public class ${GraphModelName}Adapter implements ModelAdapter<${GraphModelName}I
 			return String.valueOf(((${modelLabel.type}) element).get${modelLabel.attribute?cap_first}());
 		</#if>
 		</#list>
-		return "unknown label";
+		return null;
 	}
 
 	public void highlightElement(${GraphModelName}Id id) {
