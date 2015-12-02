@@ -1,5 +1,7 @@
 package ${McamViewBasePackage};
 
+import ${McamViewBasePackage}.CheckResourceChangeListener;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,6 +15,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
@@ -49,7 +52,7 @@ public class CheckView extends ViewPart implements IPartListener2 {
 
 	private CheckViewInformation activeCheckViewInformation = null;
 
-	private HashMap<File, CheckViewInformation> checkInfoMap = new HashMap<>();
+	private HashMap<String, CheckViewInformation> checkInfoMap = new HashMap<>();
 
 	private String refreshIconPath = "icons/refresh.gif";
 	private String expandAllIconPath = "icons/expandall.gif";
@@ -63,6 +66,18 @@ public class CheckView extends ViewPart implements IPartListener2 {
 	 * The constructor.
 	 */
 	public CheckView() {
+	}
+	
+	public CheckViewInformation getActiveCheckViewInformation() {
+		return activeCheckViewInformation;
+	}
+
+	public HashMap<String, CheckViewInformation> getCheckInfoMap() {
+		return checkInfoMap;
+	}
+	
+	public Composite getParent() {
+		return parent;
 	}
 
 	/**
@@ -104,6 +119,9 @@ public class CheckView extends ViewPart implements IPartListener2 {
 
 		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
 				.addPartListener(this);
+
+		ResourcesPlugin.getWorkspace().addResourceChangeListener(
+				new CheckResourceChangeListener(this));
 
 		loadIcons();
 		makeActions();
@@ -222,11 +240,11 @@ public class CheckView extends ViewPart implements IPartListener2 {
 
 				// System.out.println("Closed File: " + origFile.getName());
 
-				if (checkInfoMap.keySet().contains(origFile)) {
+				if (checkInfoMap.keySet().contains(origFile.getAbsolutePath())) {
 					CheckViewInformation activeCheckViewInformation = checkInfoMap
-							.get(origFile);
+							.get(origFile.getAbsolutePath());
 					activeCheckViewInformation.closeView();
-					checkInfoMap.remove(origFile);
+					checkInfoMap.remove(origFile.getAbsolutePath());
 
 					activeCheckViewInformation = null;
 //					saveAction.setEnabled(false);
@@ -287,18 +305,18 @@ public class CheckView extends ViewPart implements IPartListener2 {
 				File origFile = new File(path);
 				if (origFile.exists()) {
 
-					if (!checkInfoMap.keySet().contains(origFile)) {
+					if (!checkInfoMap.keySet().contains(origFile.getAbsolutePath())) {
 						CheckViewInformation checkInfo = CheckViewInformationFactory
 								.create(origFile, res);
 						if (checkInfo != null) {
 							checkInfo.createCheckProcess();
 							checkInfo.createCheckViewTree(parent);
-							checkInfoMap.put(origFile, checkInfo);
+							checkInfoMap.put(origFile.getAbsolutePath(), checkInfo);
 						}
 					}
 
 					activeCheckViewInformation = checkInfoMap
-							.get(origFile);
+							.get(origFile.getAbsolutePath());
 					if (activeCheckViewInformation != null) {
 						activeCheckViewInformation.getTreeViewer().getTree().setVisible(true);
 						((GridData) activeCheckViewInformation.getTreeViewer().getTree().getLayoutData()).exclude = false;
