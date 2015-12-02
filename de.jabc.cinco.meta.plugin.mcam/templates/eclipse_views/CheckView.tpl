@@ -318,6 +318,7 @@ public class CheckView extends ViewPart implements IPartListener2 {
 					activeCheckViewInformation = checkInfoMap
 							.get(origFile.getAbsolutePath());
 					if (activeCheckViewInformation != null) {
+						reloadAction.run();
 						activeCheckViewInformation.getTreeViewer().getTree().setVisible(true);
 						((GridData) activeCheckViewInformation.getTreeViewer().getTree().getLayoutData()).exclude = false;
 					parent.layout();
