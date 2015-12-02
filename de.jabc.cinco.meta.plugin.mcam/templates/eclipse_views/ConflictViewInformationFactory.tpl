@@ -16,7 +16,7 @@ public class ConflictViewInformationFactory {
 		//	return new info.scce.cinco.product.flowgraph.mcam.views.flowgraph.views.ConflictViewInformation(origFile, remoteFile, localFile, file, res);
 
 		}
-		return null;
+		throw new RuntimeException("Could not load view for '" + res + "'");
 	}
 }
 

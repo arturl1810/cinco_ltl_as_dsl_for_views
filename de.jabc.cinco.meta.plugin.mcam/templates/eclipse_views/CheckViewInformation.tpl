@@ -68,6 +68,7 @@ public class CheckViewInformation extends ${McamViewBasePackage}.CheckViewInform
 				}
 			}
 		});
+		treeViewer.expandAll();
 	}
 
 	public CheckProcess<${GraphModelName}Id, ${GraphModelName}Adapter> getCp() {

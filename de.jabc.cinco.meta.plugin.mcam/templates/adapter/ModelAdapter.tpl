@@ -88,7 +88,7 @@ public class ${GraphModelName}Adapter implements ModelAdapter<${GraphModelName}I
 			if (id.getId().equals(obj.getId()))
 				return obj;
 		}
-		return null;
+		throw new RuntimeException("Could not find element for '" + id + "'");
 	}
 
 	public ${GraphModelName}Id getIdByString(String idString) {
@@ -96,7 +96,7 @@ public class ${GraphModelName}Adapter implements ModelAdapter<${GraphModelName}I
 			if (idString.equals(id.getId()))
 				return id;
 		}
-		return null;
+		throw new RuntimeException("Could not find id for '" + idString + "'");
 	}
 
 	@Override
@@ -113,7 +113,7 @@ public class ${GraphModelName}Adapter implements ModelAdapter<${GraphModelName}I
 			return String.valueOf(((${modelLabel.type}) element).get${modelLabel.attribute?cap_first}());
 		</#if>
 		</#list>
-		return null;
+		return "unknown label"
 	}
 
 	public void highlightElement(${GraphModelName}Id id) {
