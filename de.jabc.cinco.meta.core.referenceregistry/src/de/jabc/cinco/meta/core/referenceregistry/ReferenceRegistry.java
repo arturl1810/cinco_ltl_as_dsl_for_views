@@ -10,10 +10,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Properties;
+import java.util.Set;
+
+import javax.print.attribute.standard.Severity;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.URI;
@@ -23,6 +29,9 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 
 import de.jabc.cinco.meta.core.referenceregistry.listener.RegistryPartListener;
@@ -49,12 +58,16 @@ public class ReferenceRegistry {
 	private RegistryPartListener partListener = new RegistryPartListener();
 	private RegistryResourceChangeListener resourceListener = new RegistryResourceChangeListener();
 	private boolean registered = false;
+
+	private IProject currentProject = null;
+
 	
 	private ReferenceRegistry() {
 		map = new HashMap<String, String>();
 		cache = new HashMap<String, EObject>();
 		registriesMap = new HashMap<IProject, HashMap<String,String>>();
 		cachesMap = new HashMap<IProject, HashMap<String,EObject>>();
+		
 	}
 	
 	public static ReferenceRegistry getInstance() {
@@ -70,7 +83,6 @@ public class ReferenceRegistry {
 		if (!map.containsKey(id)) {
 			URI uri = bo.eResource().getURI();
 			uri = toWorkspaceRelativeURI(uri);
-//			System.err.println("Registering by uri: " + uri.toPlatformString(true));
 			map.put(id, uri.toPlatformString(true));
 			cache.put(id, bo);
 		} else {
@@ -102,11 +114,12 @@ public class ReferenceRegistry {
 			System.out.println(String.format("No registry file found for project: %s. Creating new map", p));
 			load(p);
 			registriesMap.put(p, map);
-			//FIXME: Load the new cache!!! This maps the old cache to Project p...
 			cache = new HashMap<String, EObject>();
+			currentProject = p;
 			for (Entry<String, String> e : map.entrySet()) 
 				cache.put(e.getKey(), loadObject(e.getKey(), e.getValue()));
 			cachesMap.put(p, cache);
+			
 		}
 	}
 	
@@ -259,16 +272,23 @@ public class ReferenceRegistry {
 
 	private EObject loadObject(String objectId, String resourcePath) {
 		Resource res = getResource(resourcePath);
+		if (res == null) 
+			return null;
 		EObject eObject = res.getEObject(objectId);
 		return eObject;
 	}
 
+	
 	private Resource getResource(String resourcePath) {
 		URI uri = URI.createPlatformResourceURI(resourcePath, true);
-		Resource res = new ResourceSetImpl().getResource(uri, true);
-		if (res != null)
-			res = new ResourceSetImpl().getResource(uri, true);
-		return res;
+		try {
+			Resource res = new ResourceSetImpl().getResource(uri, true);
+			deleteMarker(resourcePath);
+			return res;
+		} catch (Exception e) {
+			addMarker(resourcePath);
+		}
+		return null;
 	}
 
 	private URI toWorkspaceRelativeURI(URI uri) {
@@ -309,9 +329,56 @@ public class ReferenceRegistry {
 	public void registerListener() {
 		if (registered)
 			return;
-		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().addPartListener(partListener);
+		IWorkbench workbench = PlatformUI.getWorkbench();
+		if (workbench == null)
+			return;
+		IWorkbenchWindow activeWorkbenchWindow = workbench.getActiveWorkbenchWindow();
+		if (activeWorkbenchWindow == null)
+			return;
+		IWorkbenchPage activePage = activeWorkbenchWindow.getActivePage();
+		if (activePage != null)
+			activePage.addPartListener(partListener);
 		ResourcesPlugin.getWorkspace().addResourceChangeListener(resourceListener);
 		registered = true;
+	}
+	
+	private void addMarker(String resourcePath) {
+		try {
+			if (currentProject == null)
+				return;
+			
+			IMarker[] markers = currentProject.findMarkers(IMarker.PROBLEM, true, IResource.DEPTH_ONE);
+			
+			String message = String.format("Can't find resource: %s. Does the referenced project exist in the workspace?", resourcePath);
+			for (IMarker m :markers) {
+				Object attribute = m.getAttribute(IMarker.MESSAGE);
+				if (attribute == null)
+					continue;
+				if (attribute.equals(message))
+					return;
+			}
+			
+			IMarker marker = currentProject.createMarker(IMarker.PROBLEM);
+			if (marker.exists()) {
+				marker.setAttribute(IMarker.MESSAGE, message);
+			}
+		} catch (CoreException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void deleteMarker(String resourcePath) {
+		if (currentProject == null) 
+			return;
+		try {
+			String message = String.format("Can't find resource: %s. Does the referenced project exist in the workspace?", resourcePath);
+			for (IMarker m : currentProject.findMarkers(IMarker.PROBLEM, true, IResource.DEPTH_ONE)) {
+				if (m.getAttribute(IMarker.MESSAGE).equals(message))
+					m.delete();
+			}
+		} catch (CoreException e) {
+			e.printStackTrace();
+		}
 	}
 	
 }
