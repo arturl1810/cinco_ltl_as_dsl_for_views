@@ -79,7 +79,7 @@ public class ${GraphModelName}Adapter implements ModelAdapter<${GraphModelName}I
 		return new ${GraphModelName}Id(obj.getId(), obj.eClass());
 	}
 
-	public Object getElementById(${GraphModelName}Id id) {
+	public EObject getElementById(${GraphModelName}Id id) {
 		if (id.getId().equals(model.getId()))
 			return model;
 		TreeIterator<EObject> it = model.eAllContents();
@@ -88,7 +88,7 @@ public class ${GraphModelName}Adapter implements ModelAdapter<${GraphModelName}I
 			if (id.getId().equals(obj.getId()))
 				return obj;
 		}
-		return null;
+		throw new RuntimeException("Could not find element for '" + id + "'");
 	}
 
 	public ${GraphModelName}Id getIdByString(String idString) {
@@ -96,7 +96,7 @@ public class ${GraphModelName}Adapter implements ModelAdapter<${GraphModelName}I
 			if (idString.equals(id.getId()))
 				return id;
 		}
-		return null;
+		throw new RuntimeException("Could not find id for '" + idString + "'");
 	}
 
 	@Override

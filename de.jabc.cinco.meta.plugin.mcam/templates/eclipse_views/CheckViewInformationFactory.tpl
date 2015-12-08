@@ -14,7 +14,7 @@ public class CheckViewInformationFactory {
 		//	return new info.scce.cinco.product.flowgraph.mcam.views.flowgraph.views.CheckViewInformation(origFile, res);
 
 		}
-		return null;
+		throw new RuntimeException("Could not load view for '" + res + "'");
 	}
 		
 }

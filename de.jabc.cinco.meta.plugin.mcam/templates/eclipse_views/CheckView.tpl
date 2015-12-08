@@ -1,14 +1,24 @@
 package ${McamViewBasePackage};
 
+import ${McamViewBasePackage}.CheckResourceChangeListener;
+
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
@@ -16,15 +26,15 @@ import org.eclipse.graphiti.ui.editor.DiagramEditor;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
-import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IPartListener2;
-import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchPartReference;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.internal.EditorReference;
 import org.eclipse.ui.part.ViewPart;
+import org.osgi.framework.Bundle;
 
 @SuppressWarnings("restriction")
 public class CheckView extends ViewPart implements IPartListener2 {
@@ -37,21 +47,69 @@ public class CheckView extends ViewPart implements IPartListener2 {
 	private Composite parent = null;
 
 	private Action reloadAction;
+	private Action expandAction;
+	private Action collapseAction;
 
 	private CheckViewInformation activeCheckViewInformation = null;
 
-	private HashMap<File, CheckViewInformation> checkInfoMap = new HashMap<>();
+	private HashMap<String, CheckViewInformation> checkInfoMap = new HashMap<>();
+
+	private String refreshIconPath = "icons/refresh.gif";
+	private String expandAllIconPath = "icons/expandall.gif";
+	private String collapseAllIconPath = "icons/collapseall.png";
+
+	private Image refreshImg = null;
+	private Image expandAllImg = null;
+	private Image collapseAllImg = null;
 
 	/**
 	 * The constructor.
 	 */
 	public CheckView() {
 	}
+	
+	public CheckViewInformation getActiveCheckViewInformation() {
+		return activeCheckViewInformation;
+	}
+
+	public HashMap<String, CheckViewInformation> getCheckInfoMap() {
+		return checkInfoMap;
+	}
+	
+	public Composite getParent() {
+		return parent;
+	}
 
 	/**
 	 * This is a callback that will allow us to create the viewer and initialize
 	 * it.
 	 */
+
+	private void loadIcons() {
+		Bundle bundle = Platform
+				.getBundle("de.jabc.cinco.meta.plugin.mcam");
+		try {
+			InputStream refreshImgStream = FileLocator.openStream(bundle,
+					new Path(refreshIconPath), true);
+			refreshImg = new Image(getDisplay(), refreshImgStream);
+			InputStream expandAllImgStream = FileLocator.openStream(bundle,
+					new Path(expandAllIconPath), true);
+			expandAllImg = new Image(getDisplay(), expandAllImgStream);
+			InputStream collapseAllImgStream = FileLocator.openStream(bundle,
+					new Path(collapseAllIconPath), true);
+			collapseAllImg = new Image(getDisplay(), collapseAllImgStream);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public Display getDisplay() {
+		Display display = Display.getCurrent();
+		// may be null if outside the UI thread
+		if (display == null)
+			display = Display.getDefault();
+		return display;
+	}
 
 	public void createPartControl(Composite parent) {
 
@@ -62,6 +120,10 @@ public class CheckView extends ViewPart implements IPartListener2 {
 		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
 				.addPartListener(this);
 
+		ResourcesPlugin.getWorkspace().addResourceChangeListener(
+				new CheckResourceChangeListener(this));
+
+		loadIcons();
 		makeActions();
 		contributeToActionBars();
 	}
@@ -73,12 +135,14 @@ public class CheckView extends ViewPart implements IPartListener2 {
 	}
 
 	private void fillLocalPullDown(IMenuManager manager) {
-		manager.add(reloadAction);
+		// manager.add(reloadAction);
 		// manager.add(new Separator());
 	}
 
 	private void fillLocalToolBar(IToolBarManager manager) {
 		manager.add(reloadAction);
+		manager.add(expandAction);
+		manager.add(collapseAction);
 	}
 
 	private void makeActions() {
@@ -88,6 +152,8 @@ public class CheckView extends ViewPart implements IPartListener2 {
 					activeCheckViewInformation.closeView();
 					activeCheckViewInformation.createCheckProcess();
 					activeCheckViewInformation.createCheckViewTree(parent);
+
+					activeCheckViewInformation.getTreeViewer().expandAll();
 
 					if (!parent.isDisposed()) {
 						parent.layout(true);
@@ -102,10 +168,42 @@ public class CheckView extends ViewPart implements IPartListener2 {
 		};
 		reloadAction.setText("check again");
 		reloadAction.setToolTipText("redo checks");
-		reloadAction.setImageDescriptor(PlatformUI.getWorkbench()
-				.getSharedImages()
-				.getImageDescriptor(ISharedImages.IMG_ELCL_SYNCED));
+		reloadAction.setImageDescriptor(ImageDescriptor
+				.createFromImage(refreshImg));
 		reloadAction.setEnabled(true);
+
+		/*
+		* ------------------------------------------
+		*/
+		expandAction = new Action() {
+			public void run() {
+				if (activeCheckViewInformation != null) {
+					activeCheckViewInformation.getTreeViewer().expandAll();
+				}
+			}
+		};
+		expandAction.setText("expand all");
+		expandAction.setToolTipText("expand all");
+		expandAction.setImageDescriptor(ImageDescriptor
+				.createFromImage(expandAllImg));
+		expandAction.setEnabled(true);
+
+		/*
+		* ------------------------------------------
+		*/
+		collapseAction = new Action() {
+			public void run() {
+				if (activeCheckViewInformation != null) {
+					activeCheckViewInformation.getTreeViewer().collapseAll();
+				}
+			}
+		};
+		collapseAction.setText("collapse all");
+		collapseAction.setToolTipText("collapse all");
+		collapseAction.setImageDescriptor(ImageDescriptor
+				.createFromImage(collapseAllImg));
+		collapseAction.setEnabled(true);
+
 	}
 	
 	/**
@@ -142,11 +240,11 @@ public class CheckView extends ViewPart implements IPartListener2 {
 
 				// System.out.println("Closed File: " + origFile.getName());
 
-				if (checkInfoMap.keySet().contains(origFile)) {
+				if (checkInfoMap.keySet().contains(origFile.getAbsolutePath())) {
 					CheckViewInformation activeCheckViewInformation = checkInfoMap
-							.get(origFile);
+							.get(origFile.getAbsolutePath());
 					activeCheckViewInformation.closeView();
-					checkInfoMap.remove(origFile);
+					checkInfoMap.remove(origFile.getAbsolutePath());
 
 					activeCheckViewInformation = null;
 //					saveAction.setEnabled(false);
@@ -207,19 +305,20 @@ public class CheckView extends ViewPart implements IPartListener2 {
 				File origFile = new File(path);
 				if (origFile.exists()) {
 
-					if (!checkInfoMap.keySet().contains(origFile)) {
+					if (!checkInfoMap.keySet().contains(origFile.getAbsolutePath())) {
 						CheckViewInformation checkInfo = CheckViewInformationFactory
 								.create(origFile, res);
 						if (checkInfo != null) {
 							checkInfo.createCheckProcess();
 							checkInfo.createCheckViewTree(parent);
-							checkInfoMap.put(origFile, checkInfo);
+							checkInfoMap.put(origFile.getAbsolutePath(), checkInfo);
 						}
 					}
 
 					activeCheckViewInformation = checkInfoMap
-							.get(origFile);
+							.get(origFile.getAbsolutePath());
 					if (activeCheckViewInformation != null) {
+						reloadAction.run();
 						activeCheckViewInformation.getTreeViewer().getTree().setVisible(true);
 						((GridData) activeCheckViewInformation.getTreeViewer().getTree().getLayoutData()).exclude = false;
 					parent.layout();

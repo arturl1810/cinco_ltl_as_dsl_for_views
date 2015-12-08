@@ -418,22 +418,14 @@ public class McamViewGenerator {
 
 	private void generateResourceChangeListener() throws IOException,
 			TemplateException {
-		data.put("ClassName", "ResourceChangeListener");
+		data.put("ClassName", "CheckResourceChangeListener");
 		TemplateGenerator templateGen = new TemplateGenerator(
-				"templates/eclipse_views/util/ResourceChangeListener.tpl",
+				"templates/eclipse_views/CheckResourceChangeListener.tpl",
 				mcamViewProject);
 		templateGen.setFilename((String) data.get("ClassName") + ".java");
-		templateGen.setPkg((String) data.get("ViewUtilPackage"));
+		templateGen.setPkg((String) data.get("McamViewBasePackage"));
 		templateGen.setData(data);
 		templateGen.generateFile();
-
-		TemplateGenerator templateGen2 = new TemplateGenerator(
-				"templates/eclipse_views/util/DeltaPrinter.tpl",
-				mcamViewProject);
-		templateGen2.setFilename("DeltaPrinter.java");
-		templateGen2.setPkg((String) data.get("ViewUtilPackage"));
-		templateGen2.setData(data);
-		templateGen2.generateFile();
 	}
 
 	private void insertCodeAfterMarker(File file, String marker, String code) {

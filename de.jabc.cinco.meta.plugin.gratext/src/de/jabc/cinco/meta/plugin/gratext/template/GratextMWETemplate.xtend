@@ -69,8 +69,8 @@ Workflow {
 		registerGenModelFile = "platform:/resource/info.scce.dime/src-gen/model/GUI.genmodel"
 		/* ################################################################################ */
 		
-		«context.genPackageReferences.map[context.getGenPackage(it)].filterNull.map[genPackageRule].join»
-		«context.genPackageReferences.map[context.getGenModelFile(it)].filterNull.map[genFileRule].join»
+		«context.genPackageReferences.map[context.getGenPackage(it)].filterNull.map[genPackageRule].join('\n')»
+		«context.genPackageReferences.map[context.getGenModelFile(it)].filterNull.map[genFileRule].join('\n')»
 	}
 
 	component = DirectoryCleaner {

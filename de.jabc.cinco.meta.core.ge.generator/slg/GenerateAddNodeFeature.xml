@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>7def08b0-45b0-4f5d-9629-657ab3028508</id>
   <name>GenerateAddNodeFeature</name>
-  <changecounter>1846</changecounter>
+  <changecounter>1856</changecounter>
   <sib>
     <id>b89523ed-9916-4f61-a5e9-9e1d8838a845</id>
     <name>PutExpression_1</name>
@@ -545,12 +545,17 @@ public class Add$context.modelElementName$Feature extends CincoAbstractAddFeatur
 		super(fp);
 	}
 	
+	@Override
+	public String getName() {
+		return &quot;$context.addFeatureName$&quot;;
+	}
+
 	public boolean canAdd(IAddContext context) {
 		if ( !(context.getNewObject() instanceof EObject))
 			return false;
 		EObject bo;
 		if (context.getNewObject() instanceof $context.importPath$.$context.modelElementName$) {
-			int uid = Integer.parseInt((($context.importPath$.$context.modelElementName$) context.getNewObject()).get$context.fuPrimeRefTypeName$UID());
+			String uid = (($context.importPath$.$context.modelElementName$) context.getNewObject()).get$context.fuPrimeRefTypeName$UID();
 			bo = ReferenceRegistry.getInstance().getEObject(uid);
 		} else {
 			bo = (EObject) context.getNewObject();
@@ -569,12 +574,14 @@ public class Add$context.modelElementName$Feature extends CincoAbstractAddFeatur
 		EObject bo;
 		$context.importPath$.$context.modelElementName$ $context.meIdentifier$ = null;
 		if (context.getNewObject() instanceof $context.importPath$.$context.modelElementName$) {
-			int uid = Integer.parseInt((($context.importPath$.$context.modelElementName$) context.getNewObject()).get$context.fuPrimeRefTypeName$UID());
+			String uid = (($context.importPath$.$context.modelElementName$) context.getNewObject()).get$context.fuPrimeRefTypeName$UID();
 			bo = ReferenceRegistry.getInstance().getEObject(uid);
 			$context.meIdentifier$ = ($context.importPath$.$context.modelElementName$) context.getNewObject();
 		} else {
 			bo = (EObject) context.getNewObject();
 			$context.meIdentifier$ = $context.importPath$.$context.factoryName$Factory.eINSTANCE.create$context.modelElementName$();
+			ReferenceRegistry.getInstance().addElement(bo);
+			$context.meIdentifier$.set$context.fuPrimeRefTypeName$UID(EcoreUtil.getID(bo));
 			$context.primeParamContent$
 		}
 		if ($context.meIdentifier$.getId() == null || $context.meIdentifier$.getId().isEmpty())
@@ -584,12 +591,12 @@ public class Add$context.modelElementName$Feature extends CincoAbstractAddFeatur
 		IPeService peService = Graphiti.getPeService();
 		IGaService gaService = Graphiti.getGaService();
 
-		String objectUri = ReferenceRegistry.getInstance().generateURI(bo);
-		int id = ReferenceRegistry.getInstance().getKey(objectUri);
+		//String objectUri = ReferenceRegistry.getInstance().generateURI(bo);
+		//int id = ReferenceRegistry.getInstance().getKey(objectUri);
 
-		$context.meIdentifier$.set$context.fuPrimeRefTypeName$UID(Integer.toString(id));
+		//$context.meIdentifier$.set$context.fuPrimeRefTypeName$UID(Integer.toString(id));
 		
-		ReferenceRegistry.getInstance().addElement(id, objectUri);
+		//ReferenceRegistry.getInstance().addElement(id, objectUri);
 
 		ModelElementContainer container = (ModelElementContainer) getBusinessObjectForPictogramElement(context.getTargetContainer());
 		container.getModelElements().add($context.meIdentifier$);
@@ -728,78 +735,6 @@ public class Add$context.modelElementName$Feature extends CincoAbstractAddFeatur
     <point>282.0,994.0</point>
     <point>117.0,994.0</point>
     <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
-  <sib>
-    <id>3262aaaf-e08c-491c-8140-df8f728aec66</id>
-    <name>GetEClassEPackage</name>
-    <label>GetEClassEPackage</label>
-    <sib-uid>ecore/ecore/GetEClassEPackage</sib-uid>
-    <taxonomy>transem.ecore.sib.ecore.GetEClassEPackage</taxonomy>
-    <position>562.5,738.0</position>
-    <parameter name="eClassKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>primeRefType</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="eClassePackageKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>eClassPackage</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-  </sib>
-  <edge>
-    <source>3262aaaf-e08c-491c-8140-df8f728aec66</source>
-    <target>2e37f6a6-78cc-4d3f-a1f6-dfef0c7f7d41</target>
-    <point>732.0,769.0</point>
-    <point>897.0,769.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
-  <sib>
-    <id>2e37f6a6-78cc-4d3f-a1f6-dfef0c7f7d41</id>
-    <name>GetEPackageNsURI</name>
-    <label>GetEPackageNsURI</label>
-    <sib-uid>ecore/ecore/GetEPackageNsURI</sib-uid>
-    <taxonomy>transem.ecore.sib.ecore.GetEPackageNsURI</taxonomy>
-    <position>715.5,738.0</position>
-    <parameter name="ePackageKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>eClassPackage</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="ePackagensURIKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>nsURI</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-  </sib>
-  <edge>
-    <source>2e37f6a6-78cc-4d3f-a1f6-dfef0c7f7d41</source>
-    <target>a3fb0cb1-eed7-49d8-b374-904b3026f7bb</target>
-    <point>897.0,769.0</point>
-    <point>897.0,994.0</point>
-    <labelposition>481.0,-5.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
@@ -1365,7 +1300,7 @@ Leaving Generate ${nodeName} AddFeature </expression>
     <label>GetNSUri</label>
     <sib-uid>ge-util-sibs/GetNSUri</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.GetNSUri</taxonomy>
-    <position>645.0,678.0</position>
+    <position>645.0,738.0</position>
     <parameter name="nsUri">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1512,17 +1447,7 @@ Leaving Generate ${nodeName} AddFeature </expression>
   <branch>
     <name>error</name>
     <branch>error</branch>
-    <sib>3262aaaf-e08c-491c-8140-df8f728aec66</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
     <sib>fe24d92a-f68f-432e-8322-e04657863492</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>2e37f6a6-78cc-4d3f-a1f6-dfef0c7f7d41</sib>
   </branch>
   <branch>
     <name>error</name>

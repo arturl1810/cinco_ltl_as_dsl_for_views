@@ -51,7 +51,7 @@ class «project.targetName»ScopeProvider extends AbstractDeclarativeScopeProvid
 			case "targetElement": switch context {
 				«model.nonAbstractEdges.map[
 				'''
-				«name»: context.root.scopeForContents(
+				^«name»: context.root.scopeForContents(
 						«targetNodes.map[name].join(',\n')» )
 				'''	
 				].join('\n')»

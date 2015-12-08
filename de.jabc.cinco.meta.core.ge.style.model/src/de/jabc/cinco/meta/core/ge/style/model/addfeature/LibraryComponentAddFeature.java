@@ -1,6 +1,7 @@
 package de.jabc.cinco.meta.core.ge.style.model.addfeature;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.graphiti.features.IAddFeature;
@@ -52,7 +53,7 @@ public class LibraryComponentAddFeature extends AbstractAddShapeFeature {
 		MenuItem item = null; 
 		for (IAddFeature af : features) {
 			item = new MenuItem (menu, SWT.PUSH);
-			item.setText (af.getClass().getSimpleName());
+			item.setText (generateDisplayName(af));
 			item.setData(af);
 			item.addListener (SWT.Selection, selectionListener);
 		}
@@ -73,6 +74,12 @@ public class LibraryComponentAddFeature extends AbstractAddShapeFeature {
 		}
 		
 		return null;
+	}
+
+	private String generateDisplayName(IAddFeature af) {
+		String simpleName = af.getClass().getSimpleName();
+		simpleName = simpleName.replaceFirst("Add", "").replace("Feature", "");
+		return simpleName;
 	}
 
 	private boolean possibleFeatureExists(IAddContext context) {

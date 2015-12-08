@@ -8,7 +8,9 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.core.resources;bundle-version="3.8.100",
  org.eclipse.emf.codegen.ecore,
- org.eclipse.xtend.typesystem.emf
+ org.eclipse.xtend.typesystem.emf,
+ org.eclipse.graphiti.ui
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
-Export-Package: de.jabc.cinco.meta.core.referenceregistry
+Export-Package: de.jabc.cinco.meta.core.referenceregistry,
+ de.jabc.cinco.meta.core.referenceregistry.listener

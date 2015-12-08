@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>ef7786c5-d04b-45de-89fd-b00e68b99149</id>
   <name>GenerateUpdateModelElementFeature</name>
-  <changecounter>440</changecounter>
+  <changecounter>442</changecounter>
   <sib>
     <id>b31345f6-8607-4397-986e-94a14e803be6</id>
     <name>PutExpression_1</name>
@@ -71,6 +71,8 @@
       <string>package $context.localPkgName$;
 
 import org.eclipse.emf.ecore.*;
+import org.eclipse.emf.transaction.RecordingCommand;
+import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.graphiti.features.*;
@@ -112,8 +114,16 @@ public class $context.className$ extends AbstractUpdateFeature {
 	public IReason updateNeeded(IUpdateContext context) {
 		PictogramElement pe = context.getPictogramElement();
 		$context.importPath$.$context.fuModelElementName$ bo =($context.importPath$.$context.fuModelElementName$) Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
-		if (checkUpdateNeeded(bo, pe))
+		if (checkUpdateNeeded(bo, pe)) {
+			/*TransactionalEditingDomain dom = getDiagramBehavior().getEditingDomain();
+			dom.getCommandStack().execute(new RecordingCommand(dom) {
+				@Override
+				protected void doExecute() {
+					update(context);
+				}
+			});*/
 			return Reason.createTrueReason();
+		}
 		return Reason.createFalseReason();
 	}
 

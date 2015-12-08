@@ -59,7 +59,7 @@ def modelRule() {
 	val containables = model.nonAbstractContainables
 	'''
 	«model.name» returns «model.name»:{«model.name»}
-	'«model.name»' (id = CincoID)?
+	'«model.name»' (id = ID)?
 	('{'
 		«attributes(graphmodel)»
 		«IF !containables.empty»
@@ -82,7 +82,7 @@ def containerRule(NodeContainer node) {
 	val containables = model.resp(node).nonAbstractContainables
 	'''
 	«node.name» returns «node.name»:{«node.name»}
-	'«node.name»' (id = CincoID)? placement = Placement
+	'«node.name»' (id = ID)? placement = Placement
 	('{'
 		«attributes(node)»
 		«IF !containables.empty»
@@ -113,7 +113,7 @@ def nodeRule(Node node) {
 	val outEdges = model.resp(node).outgoingEdges
 	'''
 	«node.name» returns «node.name»:{«node.name»}
-	'«node.name»' (id = CincoID)? placement = Placement
+	'«node.name»' (id = ID)? placement = Placement
 	('{'
 		«attributes(node)»
 		«IF !outEdges.empty»
@@ -133,10 +133,10 @@ def nodeRule(Node node) {
 def edgeRule(Edge edge) {
 	'''
 	«edge.name» returns «edge.name»:{«edge.name»}
-	'-«edge.name»->' targetElement = [graphmodel::Node|CincoID]
+	'-«edge.name»->' targetElement = [graphmodel::Node|ID]
 	(route = Route)?
 	('{'
-		('id' id = CincoID)?
+		('id' id = ID)?
 		«attributes(edge)»
 	'}')?
 	;
@@ -146,7 +146,9 @@ def edgeRule(Edge edge) {
 def typeRule(UserDefinedType type) {
 	'''
 	«type.name» returns «model.acronym»::«type.name»:{«model.acronym»::«type.name»}
-	«attributes(type)»
+	'«type.name»' '{'
+		«attributes(type)»
+	'}'
 	;
 	'''
 }
@@ -154,19 +156,14 @@ def typeRule(UserDefinedType type) {
 def enumRule(Enumeration type) {
 	'''
 	enum «type.name» returns «model.acronym»::«type.name»: 
-		«type.literals.get(0)»
-		«IF (type.literals.size > 1)»
-			«FOR i:1..(type.literals.size-1)»
-			| «type.literals.get(i)»
-			«ENDFOR»
-		«ENDIF»
+		«type.literals.join('| ')»
 	;
 	'''
 }
 	
 def type(Attribute attr) {
 	if (model.contains(attr.type))
-		'''[«model.acronym»::«attr.type»|CincoID]'''
+		'''[«model.acronym»::«attr.type»|ID]'''
 	else attr.type
 }
 
@@ -182,13 +179,16 @@ def type(ReferencedType ref) {
 			EClass: 	type.EPackage.acronym -> type.name
 		}
 		println(" > Type: " + entry)
-		'''[«entry.key»::«entry.value»|CincoID]'''
+		'''[«entry.key»::«entry.value»|ID]'''
 	}
 }
 
 def attributes(ModelElement elm) {
 	val attrs = model.resp(elm).attributes
-	val attrsStr = attrs.map['''( '«it.name»' «it.name» = «type(it)» )?'''].join(' &\n')
+	val attrsStr = attrs.map[switch it {
+		case (upperBound < 0) || (upperBound > 1): '''( '«it.name»' '[' ( «it.name» += «type(it)» ( ',' «it.name» += «type(it)» )* )? ']' )?'''
+		default: '''( '«it.name»' «it.name» = «type(it)» )?'''
+	}].join(' &\n')
 	val primeStr = switch elm {
 		Node: elm.prime
 	}
@@ -246,13 +246,11 @@ Point returns _Point:{_Point}
 	'(' x = EInt ',' y = EInt ')'
 ;
 
-CincoID: ID (IDPART)*;
-
 EString returns ecore::EString:
-	STRING | ID;
+	STRING;
 
 EInt returns ecore::EInt:
-	INT
+	SIGN? INT
 ;
 
 ELong returns ecore::ELong:
@@ -267,8 +265,8 @@ EBoolean returns ecore::EBoolean:
 	'true' | 'false'
 ;
 
-terminal SIGN : '+' | '-' ;
+terminal ID: '^'?('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'_'|'-'|'0'..'9')*;
 
-terminal IDPART: SIGN('a'..'z'|'A'..'Z'|'_'|'0'..'9')*;
+terminal SIGN : '+' | '-' ;
 '''
 }
