@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>7def08b0-45b0-4f5d-9629-657ab3028508</id>
   <name>GenerateAddNodeFeature</name>
-  <changecounter>1856</changecounter>
+  <changecounter>1858</changecounter>
   <sib>
     <id>b89523ed-9916-4f61-a5e9-9e1d8838a845</id>
     <name>PutExpression_1</name>
@@ -555,7 +555,7 @@ public class Add$context.modelElementName$Feature extends CincoAbstractAddFeatur
 			return false;
 		EObject bo;
 		if (context.getNewObject() instanceof $context.importPath$.$context.modelElementName$) {
-			String uid = (($context.importPath$.$context.modelElementName$) context.getNewObject()).get$context.fuPrimeRefTypeName$UID();
+			String uid = (($context.importPath$.$context.modelElementName$) context.getNewObject()).getLibraryComponentUID();
 			bo = ReferenceRegistry.getInstance().getEObject(uid);
 		} else {
 			bo = (EObject) context.getNewObject();
@@ -574,14 +574,14 @@ public class Add$context.modelElementName$Feature extends CincoAbstractAddFeatur
 		EObject bo;
 		$context.importPath$.$context.modelElementName$ $context.meIdentifier$ = null;
 		if (context.getNewObject() instanceof $context.importPath$.$context.modelElementName$) {
-			String uid = (($context.importPath$.$context.modelElementName$) context.getNewObject()).get$context.fuPrimeRefTypeName$UID();
+			String uid = (($context.importPath$.$context.modelElementName$) context.getNewObject()).getLibraryComponentUID();
 			bo = ReferenceRegistry.getInstance().getEObject(uid);
 			$context.meIdentifier$ = ($context.importPath$.$context.modelElementName$) context.getNewObject();
 		} else {
 			bo = (EObject) context.getNewObject();
 			$context.meIdentifier$ = $context.importPath$.$context.factoryName$Factory.eINSTANCE.create$context.modelElementName$();
 			ReferenceRegistry.getInstance().addElement(bo);
-			$context.meIdentifier$.set$context.fuPrimeRefTypeName$UID(EcoreUtil.getID(bo));
+			$context.meIdentifier$.setLibraryComponentUID(EcoreUtil.getID(bo));
 			$context.primeParamContent$
 		}
 		if ($context.meIdentifier$.getId() == null || $context.meIdentifier$.getId().isEmpty())
