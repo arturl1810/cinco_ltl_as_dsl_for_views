@@ -22,7 +22,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.emf.databinding.edit,
  org.eclipse.emf.transaction,
  org.eclipse.graphiti,
- org.eclipse.draw2d
+ org.eclipse.draw2d,
+ de.jabc.cinco.meta.core.utils
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: ProductDefinition,
  de.jabc.cinco.meta.core.utils,
@@ -41,7 +42,8 @@ Import-Package: ProductDefinition,
  org.eclipse.graphiti.ui.services;version="0.11.2",
  org.eclipse.ui.views.properties.tabbed,
  org.eclipse.xtext.resource,
- org.eclipse.xtext.ui.resource
+ org.eclipse.xtext.ui.resource,
+ transem.utility.helper
 Export-Package: de.jabc.cinco.meta.core,
  de.jabc.cinco.meta.core.ui.features,
  de.jabc.cinco.meta.core.ui.handlers,

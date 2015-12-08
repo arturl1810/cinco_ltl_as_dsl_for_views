@@ -15,7 +15,7 @@ CincoProduct returns CincoProduct:
 		('id' id=QName)?
 		('version' version=EString)?
 		//('mgls' '(' mgls+=[mgl::GraphModel|EString](',' mgls+=[mgl::GraphModel|EString] )* ')')+
-		('mgl'  mgls+=EString)+
+		(mgls+=MGLDescriptor)+
 		
 		('splashScreen' splashScreen=SplashScreen)?
 		('image16' image16=Path)?
@@ -29,6 +29,11 @@ CincoProduct returns CincoProduct:
 		('features' '{'features+=QName (','features+=QName)*'}')?
 	'}'
 	;
+
+MGLDescriptor returns MGLDescriptor:
+	{MGLDescriptor}
+	(dontGenerate?='generateNOT')? 'mgl' mglPath=EString
+;
 
 
 

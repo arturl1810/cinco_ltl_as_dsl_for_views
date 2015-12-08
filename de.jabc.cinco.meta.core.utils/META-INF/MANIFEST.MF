@@ -16,6 +16,7 @@ Import-Package: mgl,
  org.eclipse.pde.core.project,
  style
 Export-Package: de.jabc.cinco.meta.core.utils,
+ de.jabc.cinco.meta.core.utils.dependency,
  de.jabc.cinco.meta.core.utils.dummycreator,
  de.jabc.cinco.meta.core.utils.projects,
  de.jabc.cinco.meta.core.utils.xtext

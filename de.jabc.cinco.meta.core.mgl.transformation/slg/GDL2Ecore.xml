@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>ca5a39ee-2606-4461-8c2d-1e6ebdbd9d0e</id>
   <name>MGL2Ecore</name>
-  <changecounter>79</changecounter>
+  <changecounter>85</changecounter>
   <sib>
     <id>e763e08f-ee7b-48f6-8187-dac38f44f435</id>
     <name>MacroSIB</name>
@@ -261,9 +261,9 @@
     <finalbranches>default</finalbranches>
   </sib>
   <edge>
-    <source>6bbe603e-79c9-4547-bc18-f9bb41a277b7</source>
+    <source>acb16c7c-045f-4e6d-a97f-0b163d36c778</source>
     <target>c8c9f94e-73b9-47f8-935e-8ca1543b4dc2</target>
-    <point>1515.0,104.0</point>
+    <point>1547.0,359.0</point>
     <point>1515.0,420.0</point>
     <point>1862.0,420.0</point>
     <labelposition>21.947641382730335,14.43731542276192</labelposition>
@@ -596,6 +596,30 @@ return list;</string>
     <point>1755.0,330.0</point>
     <point>2123.0,207.0</point>
     <branch>error</branch>
+  </edge>
+  <sib>
+    <id>acb16c7c-045f-4e6d-a97f-0b163d36c778</id>
+    <name>GraphSIB_2</name>
+    <label>Set Types For Model Element Library Component Getter</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>1337.0,241.0</position>
+    <finalbranches>error</finalbranches>
+    <finalbranches>exit</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Set Types For Model Element Library Component Getter</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>c682181c-4993-419e-94df-13b868ac3619</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>6bbe603e-79c9-4547-bc18-f9bb41a277b7</source>
+    <target>acb16c7c-045f-4e6d-a97f-0b163d36c778</target>
+    <point>1487.9411764705883,86.0</point>
+    <point>1511.774193548387,241.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>exit</branch>
   </edge>
   <userobject key="ABC$ANNOTATION">
     <Content Version="1.0" Grammar="ModelDocGrammar">

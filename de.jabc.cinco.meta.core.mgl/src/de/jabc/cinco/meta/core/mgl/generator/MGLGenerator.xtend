@@ -35,6 +35,10 @@ import org.eclipse.pde.core.project.IBundleProjectService
 import org.eclipse.xtext.generator.IFileSystemAccess
 import org.eclipse.xtext.generator.IGenerator
 import org.eclipse.xtext.naming.IQualifiedNameProvider
+import de.jabc.cinco.meta.core.mgl.MGLEPackageRegistry;
+import de.jabc.cinco.meta.core.utils.projects.ProjectCreator;
+import org.eclipse.emf.codegen.ecore.genmodel.GenModel
+import org.eclipse.emf.ecore.util.EcoreUtil
 
 class MGLGenerator implements IGenerator {
 	@Inject extension IQualifiedNameProvider
@@ -62,17 +66,23 @@ class MGLGenerator implements IGenerator {
 	}
 	
 	def doGenerateEcoreByTransformation(String projectName, String projectID, GraphModel model, IFileSystemAccess access,URI resourceURI) {
+		
+		
+		
 		var interfaceGraphModel = PluginRegistry::getInstance().getRegisteredEcoreModels().get("abstractGraphModel");
 //		var mcGraphModel = PluginRegistry::getInstance().getRegisteredEcoreModels().get("mc");
 //		var generatable = PluginRegistry::getInstance().getRegisteredEcoreModels().get("generatable")
 		var LightweightExecutionContext context = new DefaultLightweightExecutionContext(null)
 		var ecoreMap = PluginRegistry::getInstance().getRegisteredEcoreModels() 
 		var genModelMap = PluginRegistry::getInstance().getGenModelMap() //new HashMap<EPackage,String>
+		
+		var mglEPackages = MGLEPackageRegistry.INSTANCE.getMGLEPackages()
 		prepareGraphModel(model)
 		context.put("graphModel",model)
 //		context.put("mcGraphModel",mcGraphModel)
 		context.put("abstractGraphModel",interfaceGraphModel)
 		context.put("genmodelMap",genModelMap)
+		context.put("mglEPackages",mglEPackages);
 		
 		// These modeld should be added automatically in the final version
 		
@@ -90,20 +100,9 @@ class MGLGenerator implements IGenerator {
 		if(x.equals("default")){
 			
 			var ePackage = context.get("ePackage") as EPackage
-			EPackage.Registry.INSTANCE.put(ePackage.nsURI,ePackage)
-			var bops = new ByteArrayOutputStream()
-			xmiResource.contents.add(ePackage)
-			var optionMap = new HashMap<String,Object>
-			optionMap.put(XMIResource.OPTION_URI_HANDLER,new URIHandler(ePackage))
-			
-			
-			
-						
-			xmiResource.save(bops,optionMap)
-			
-			var output = bops.toString(xmiResource.getEncoding)
 			var ecorePath = "/model/"+model.fullyQualifiedName.toString("/")+".ecore".toFirstUpper
-			access.generateFile(ecorePath,output)
+			
+			
 			var projectPath = new Path(projectName)
 			var genModel = GenModelCreator::createGenModel(new Path(ecorePath),ePackage,projectName, projectID, projectPath)
 			if(model.package!=null && model.package.length>0){
@@ -112,7 +111,7 @@ class MGLGenerator implements IGenerator {
 				}
 			
 			}
-			var usedEcoreModels = context.get("usedEcoreModels") as Set
+			var usedEcoreModels = context.get("usedEcoreModels") as Set<EPackage>
 			for(key:usedEcoreModels){
 				var res = new XMIResourceImpl(URI::createURI(genModelMap.get(key))) 
 				res.load(null)
@@ -123,14 +122,37 @@ class MGLGenerator implements IGenerator {
 					
 			}
 			
-			bops = new ByteArrayOutputStream()
-			uri = URI::createFileURI(model.name.toString.toFirstUpper+".genmodel")
-			xmiResource = new XMIResourceFactoryImpl().createResource(uri) as XMIResourceImpl
-			xmiResource.contents.add(genModel)
-			xmiResource.save(bops,null)
-			output = bops.toString(xmiResource.encoding)
-			var genModelPath = "/model/"+model.fullyQualifiedName.toString("/")+".genmodel".toFirstUpper
-			access.generateFile(genModelPath,output)
+			
+			val referencedMGLEPackages = context.get("referencedMGLEPackages") as Set<EPackage>
+			for(referencedMGLEPackage: referencedMGLEPackages){
+
+				var genModelPath = referencedMGLEPackage.eResource.URI.trimFileExtension.toString+".genmodel"
+				
+		
+				System.err.println("************\n genmodel File: "+genModelPath +"\n*************")
+				
+					var genmodelUri = URI::createURI(genModelPath,true)
+					println("loading GenModel: "+genmodelUri)
+					var res = Resource.Factory.Registry.INSTANCE.getFactory(genmodelUri).createResource(genmodelUri); 
+					res.load(null)
+					for(referencedGenModel:res.contents.filter(typeof(GenModel))){
+						
+						println("Adding genModel: "+ referencedGenModel)
+						for(referencedGenPackage: referencedGenModel.genPackages){
+							var dx = (genModel.usedGenPackages += referencedGenPackage)
+							println("Adding genPackage:"+ referencedGenPackage)
+							println("... "+ dx)
+							println(genModel.usedGenPackages)
+						}	
+					}
+				
+				
+			}
+			
+			
+			saveEcoreModel(ePackage,model)
+			MGLEPackageRegistry.INSTANCE.addMGLEPackage(ePackage)
+			saveGenModel(genModel, model)
 			
 		 
 			
@@ -143,6 +165,30 @@ class MGLGenerator implements IGenerator {
 			
 		}
 		
+	}
+	
+	def saveEcoreModel(EPackage ePackage,GraphModel model) {
+		EPackage.Registry.INSTANCE.put(ePackage.nsURI,ePackage)
+		var outPath = ProjectCreator.getProject(model.eResource).fullPath.append("/src-gen/model/"+model.fullyQualifiedName+".ecore")	
+		var uri = URI::createPlatformResourceURI(outPath.toString)
+		
+		var ePackageResource = Resource.Factory.Registry.INSTANCE.getFactory(uri).createResource(uri)
+		ePackageResource.contents.add(ePackage)		
+			var optionMap = new HashMap<String,Object>
+			optionMap.put(XMIResource.OPTION_URI_HANDLER,new URIHandler(ePackage))
+		ePackageResource.save(optionMap)	
+			
+			
+						
+			
+	}
+	
+	def saveGenModel(GenModel genModel, GraphModel model){
+		var outPath = ProjectCreator.getProject(model.eResource).fullPath.append("/src-gen/model/"+model.fullyQualifiedName+".genmodel")	
+		var uri = URI::createURI(outPath.toString)
+		var genModelResource = Resource.Factory.Registry.INSTANCE.getFactory(uri).createResource(uri)
+		genModelResource.contents.add(genModel)
+		genModelResource.save(null)
 	}
 	
 	def GraphModel prepareGraphModel(GraphModel graphModel){

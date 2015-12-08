@@ -24,12 +24,18 @@
         eType="#//Import" containment="true" eOpposite="#//Import/product"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="features" upperBound="-1"
         eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="mgls" upperBound="-1" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="linuxIcon" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="splashScreen" eType="#//SplashScreen"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="plugins" upperBound="-1"
         eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="mgls" lowerBound="1" upperBound="-1"
+        eType="#//MGLDescriptor" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MGLDescriptor">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="mglPath" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="dontGenerate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="About">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="imagePath" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
