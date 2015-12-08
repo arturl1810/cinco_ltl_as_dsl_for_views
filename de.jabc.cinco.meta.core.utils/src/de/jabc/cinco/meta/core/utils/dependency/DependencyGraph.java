@@ -42,7 +42,9 @@ public class DependencyGraph {
 	
 		while(!toVisit.isEmpty()){
 			List<String> toRemove = new ArrayList<String>();
+			String lastCurrent ="";
  			for(String current: toVisit){
+ 				lastCurrent = current;
 				DependencyNode dn = nodes.get(current);
 				for(String ign: this.ignore){
 					dn.removeDependency(ign);
@@ -56,7 +58,10 @@ public class DependencyGraph {
 					toRemove.add(current);
 				}
 			}
- 			toVisit.removeAll(toRemove);
+ 			if(!toRemove.isEmpty())
+ 				toVisit.removeAll(toRemove);
+ 			else
+ 				throw new RuntimeException(String.format("Could not resolve MGL Dependencies, Dependency Graph contains circles, including '%s'.",lastCurrent));
 		}
 		
 		
