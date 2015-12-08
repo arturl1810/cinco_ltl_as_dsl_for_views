@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>d136ee11-0a5e-458f-8813-648c7e29c207</id>
   <name>Create Nodes</name>
-  <changecounter>77</changecounter>
+  <changecounter>78</changecounter>
   <edge>
     <source>bcbab676-0b89-45b1-87a8-6b31f8136bf1</source>
     <target>55e2fb55-9ab4-4b8a-a441-888598100881</target>
@@ -169,9 +169,9 @@
   </edge>
   <edge>
     <source>8f08fcda-4e89-42c7-a09c-497da77c7deb</source>
-    <target>bca8af70-5369-4a70-ad47-165818ee9577</target>
-    <point>1407.0,517.1142857142858</point>
-    <point>813.0,545.4</point>
+    <target>d33898ff-c7e4-499a-bb67-5d8b175694e1</target>
+    <point>1407.0,418.74</point>
+    <point>1143.0,524.34</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>true</branch>
   </edge>
@@ -575,7 +575,7 @@
     </parameter>
     <parameter name="template">
       <string>String uid = this.getLibraryComponentUID();
-return de.jabc.cinco.meta.core.referenceregistry.ReferenceRegistry.getInstance().getEObject(uid);
+return $modelElementTypeCast$ de.jabc.cinco.meta.core.referenceregistry.ReferenceRegistry.getInstance().getEObject(uid);
 </string>
     </parameter>
     <finalbranches>default</finalbranches>
@@ -1138,6 +1138,44 @@ return de.jabc.cinco.meta.core.referenceregistry.ReferenceRegistry.getInstance()
     <point>202.5,308.0</point>
     <branch>default</branch>
   </edge>
+  <sib>
+    <id>d33898ff-c7e4-499a-bb67-5d8b175694e1</id>
+    <name>PutExpression_1</name>
+    <label>PutExpression</label>
+    <sib-uid>basic-sibs/PutExpression</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
+    <position>1075.5,513.0</position>
+    <parameter name="resolve">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="value">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression></expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>modelElementTypeCast</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>d33898ff-c7e4-499a-bb67-5d8b175694e1</source>
+    <target>bca8af70-5369-4a70-ad47-165818ee9577</target>
+    <point>1125.0,540.0</point>
+    <point>1418.0,560.0</point>
+    <branch>default</branch>
+  </edge>
   <values/>
   <branch>
     <name>error</name>
@@ -1293,5 +1331,10 @@ return de.jabc.cinco.meta.core.referenceregistry.ReferenceRegistry.getInstance()
     <name>error</name>
     <branch>error</branch>
     <sib>32765b8d-359f-4e67-836e-d147043c28d3</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>d33898ff-c7e4-499a-bb67-5d8b175694e1</sib>
   </branch>
 </model>
