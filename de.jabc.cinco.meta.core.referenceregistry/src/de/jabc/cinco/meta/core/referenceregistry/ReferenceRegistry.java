@@ -1,38 +1,48 @@
 package de.jabc.cinco.meta.core.referenceregistry;
 
+import graphmodel.GraphModel;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
-import java.util.Set;
 
-import javax.print.attribute.standard.Severity;
-
+import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.progress.IProgressService;
 
 import de.jabc.cinco.meta.core.referenceregistry.listener.RegistryPartListener;
 import de.jabc.cinco.meta.core.referenceregistry.listener.RegistryResourceChangeListener;
@@ -283,10 +293,10 @@ public class ReferenceRegistry {
 		URI uri = URI.createPlatformResourceURI(resourcePath, true);
 		try {
 			Resource res = new ResourceSetImpl().getResource(uri, true);
-			deleteMarker(resourcePath);
+//			deleteMarker(resourcePath);
 			return res;
 		} catch (Exception e) {
-			addMarker(resourcePath);
+//			addMarker(resourcePath);
 		}
 		return null;
 	}
@@ -308,6 +318,126 @@ public class ReferenceRegistry {
 		this.registriesMap = new HashMap<IProject, HashMap<String,String>>();
 	}
 	
+	public void reinitialize(final IWorkspaceRoot root) {
+		IProgressService progressService = PlatformUI.getWorkbench().getProgressService();
+		try {
+			progressService.busyCursorWhile(new IRunnableWithProgress() {
+				
+				@Override
+				public void run(IProgressMonitor monitor) throws InvocationTargetException,InterruptedException {
+					monitor.beginTask("Reinitialize reference registry", 100);
+					monitor.worked(0);
+					
+					clearRegistry();
+					
+					monitor.worked(10);
+					
+					Map<String,EObject> allOther = new HashMap<String, EObject>();
+					Map<IProject,List<String>> searchFor = new HashMap<IProject,List<String>>();
+					
+					monitor.subTask("Searching workspace resources...");
+					collectResources(root, searchFor, allOther, monitor);
+					monitor.worked(60);
+					//FIXME: iteration
+					for (Entry<IProject, List<String>> e : searchFor.entrySet()) {
+						IProject project = e.getKey();
+						List<String> ids = e.getValue();
+						for (String id : ids) {
+							EObject libCompObject = allOther.get(id);
+							if (libCompObject != null) {
+								URI objectUri = libCompObject.eResource().getURI();
+								objectUri = toWorkspaceRelativeURI(objectUri);
+								map.put(id, objectUri.toPlatformString(true));
+								cache.put(id, libCompObject);
+							}
+						}
+						registriesMap.put(project, map);
+						cachesMap.put(project, cache);
+					}				
+					allOther.clear();
+					if (currentProject != null) {
+						map = registriesMap.get(currentProject);
+						cache = cachesMap.get(currentProject);
+					}
+					monitor.worked(100);
+				}
+			});
+		} catch (InvocationTargetException | InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	private void collectResources(IResource iRes, Map<IProject,List<String>> searchFor, 
+			Map<String,EObject> allOther, 
+			IProgressMonitor monitor) {
+		
+		try {
+			if (iRes instanceof IContainer && !iRes.getName().equals(".git")) {
+				monitor.subTask("Checking resource: " + iRes.getFullPath());
+				for (IResource child : ((IContainer) iRes).members()) {
+					collectResources(child, searchFor, allOther, monitor);
+				}
+			} else if (iRes instanceof IFile && !iRes.getName().equals(REF_REG_FILE)) {
+				IFile file = (IFile) iRes;
+				IProject project = file.getProject();
+				if (!file.exists())
+					return;
+				
+				Resource res = getResource(file.getFullPath().toOSString());
+				if (searchFor.get(project)== null)
+					searchFor.put(project, new ArrayList<String>());
+				if (isCincoResource(res)) {
+					List<String> wantedIDs = searchForPrimeNodes(res, allOther);
+					searchFor.get(project).addAll(wantedIDs);
+				}
+			}
+		} catch (CoreException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private List<String> searchForPrimeNodes(Resource r, Map<String,EObject> allOther) {
+		List<String> wanted = new ArrayList<String>();
+		TreeIterator<EObject> it = r.getAllContents();
+		EObject bo = null;
+		while (it.hasNext()) {
+			bo = it.next();
+			if (bo instanceof EObject) {
+				String id = EcoreUtil.getID(bo);
+				if (id != null && !id.isEmpty()) {
+					allOther.put(id, bo);
+				}
+			}
+			if (bo instanceof Diagram)
+				it.prune();
+			else {
+				EStructuralFeature libCompFeature = bo.eClass().getEStructuralFeature("libraryComponentUID");
+				if (libCompFeature != null && bo.eGet(libCompFeature) != null) {
+					String id = (String) bo.eGet(libCompFeature);
+					wanted.add(id);
+				}
+			}
+		}
+		return wanted;
+	}
+
+	private boolean isCincoResource(Resource res) {
+		if (res == null)
+			return false;
+		EList<EObject> contents = res.getContents();
+		// If the resource is a cinco resource
+		if (contents != null && contents.size() == 2) {
+			EObject o1 = contents.get(0);
+			EObject o2 = contents.get(1);
+			return (o1 instanceof Diagram && o2 instanceof GraphModel);
+		}
+		// If the resource is an arbitrary library created with EMF
+		else if (contents != null && contents.size() == 1)
+			return (contents.get(0) instanceof EObject);
+		return false;
+	}
+
 	public void print() {
 		System.out.println("----------------------------------------------------------");
 		System.out.println("RefReg map contents:");
@@ -380,5 +510,7 @@ public class ReferenceRegistry {
 			e.printStackTrace();
 		}
 	}
+
+	
 	
 }

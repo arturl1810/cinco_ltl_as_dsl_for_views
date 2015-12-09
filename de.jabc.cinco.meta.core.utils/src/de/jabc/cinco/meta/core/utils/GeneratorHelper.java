@@ -51,7 +51,7 @@ public class GeneratorHelper {
 				: mglModelFile.getName();
 				
 		IProject project = mglModelFile.getProject();
-IFile genModelFile = project.getFile("src-gen/model/" + modelName +".genmodel");
+		IFile genModelFile = project.getFile("src-gen/model/" + modelName +".genmodel");
 		
 		if (!genModelFile.exists())
 			throw new IOException("The file: " + modelName+".genmodel does not exist");

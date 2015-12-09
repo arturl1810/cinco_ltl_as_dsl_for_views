@@ -12,6 +12,11 @@
                id="de.jabc.cinco.meta.core.referenceregistry.clearRefReg"
                label="Clear Reference Registry">
          </action>
+         <action
+               class="de.jabc.cinco.meta.core.referenceregistry.ReInitializeFromWorkspace"
+               id="de.jabc.cinco.meta.core.referenceregistry.reinitRefReg"
+               label="Reinitialize Registry">
+         </action>
       </objectContribution>
    </extension>
 
