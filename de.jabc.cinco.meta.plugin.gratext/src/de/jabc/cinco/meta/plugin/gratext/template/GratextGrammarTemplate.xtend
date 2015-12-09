@@ -201,7 +201,7 @@ def prime(Node node) {
 	val ref = node.primeReference
 	if (ref != null) {
 		println(node.name + ".prime: " + ref)
-		'''( '«ref.name»' prime = «ref.type» | '«ref.name»UID' «ref.name»UID = EString )'''
+		'''( '«ref.name»' prime = «ref.type» | '«ref.name»UID' libraryComponentUID = EString )'''
 	}
 }
 
