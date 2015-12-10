@@ -178,7 +178,7 @@ def type(ReferencedType ref) {
 			Node: 		type.graphModel.acronym -> type.graphModel.name
 			EClass: 	type.EPackage.acronym -> type.name
 		}
-		println(" > Type: " + entry)
+//		println(" > Type: " + entry)
 		'''[«entry.key»::«entry.value»|ID]'''
 	}
 }
@@ -200,7 +200,7 @@ def attributes(ModelElement elm) {
 def prime(Node node) {
 	val ref = node.primeReference
 	if (ref != null) {
-		println(node.name + ".prime: " + ref)
+//		println(node.name + ".prime: " + ref)
 		'''( '«ref.name»' prime = «ref.type» | 'libraryComponentUID' libraryComponentUID = EString )'''
 	}
 }

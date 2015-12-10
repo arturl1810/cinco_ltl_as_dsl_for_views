@@ -11,9 +11,12 @@ Import-Package: de.jabc.cinco.meta.core,
  de.jabc.cinco.meta.core.utils,
  de.jabc.cinco.meta.core.utils.projects,
  mgl,
+ org.eclipse.core.commands,
  org.eclipse.core.resources,
+ org.eclipse.debug.core,
  org.eclipse.emf.mwe2.launch.runtime,
- org.eclipse.emf.transaction.util
+ org.eclipse.emf.transaction.util,
+ org.eclipse.jface.dialogs
 Bundle-Version: 0.7.0.qualifier
 Require-Bundle: org.eclipse.emf.transaction,
  de.jabc.cinco.meta.core.mgl,

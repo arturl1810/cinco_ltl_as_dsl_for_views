@@ -12,5 +12,55 @@
             recognized-annotation="gratext">
       </graphmodel-annotation>
    </extension>
-
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            adaptable="false"
+            id="de.jabc.cinco.meta.plugin.gratext.contributor"
+            nameFilter="*gratext"
+            objectClass="org.eclipse.core.resources.IProject">
+         <action
+               class="de.jabc.cinco.meta.plugin.gratext.build.GratextModelGenerator"
+               id="de.jabc.cinco.meta.plugin.gratext.build.generateGratextModel"
+               label="Generate Gratext Model Code">
+         </action>
+      </objectContribution>
+   </extension>
+   <!-- extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            adaptable="false"
+            id="de.jabc.cinco.meta.plugin.gratext.contributor"
+            nameFilter="*gratext"
+            objectClass="org.eclipse.core.resources.IProject">
+         <action
+               class="de.jabc.cinco.meta.plugin.gratext.build.GratextMWERunner"
+               id="de.jabc.cinco.meta.plugin.gratext.build.runGratextMWE"
+               label="Run Gratext MWE">
+         </action>
+      </objectContribution>
+   </extension -->
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            adaptable="false"
+            id="de.jabc.cinco.meta.plugin.gratext.contributor"
+            nameFilter="*genmodel"
+            objectClass="org.eclipse.core.resources.IFile">
+         <action
+               class="de.jabc.cinco.meta.plugin.gratext.build.GenmodelGenerator"
+               id="de.jabc.cinco.meta.plugin.gratext.build.generateGenmodel"
+               label="Generate Model Code">
+         </action>
+      </objectContribution>
+   </extension>
+   <!--extension
+        id="de.jabc.cinco.meta.core.ui.productgenerationhandlers"
+        name="CincoProductGenerationHandlers"
+        point="org.eclipse.ui.handlers">
+     <handler
+           class="de.jabc.cinco.meta.core.ui.handlers.CincoProductGenerationHandler"
+           commandId="de.jabc.cinco.meta.core.ui.cincoproductgenerationcommand">
+     </handler>
+  </extension-->
 </fragment>
