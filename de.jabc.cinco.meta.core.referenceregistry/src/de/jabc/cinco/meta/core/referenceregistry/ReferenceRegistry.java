@@ -384,7 +384,7 @@ public class ReferenceRegistry {
 			IProgressMonitor monitor) {
 		
 		try {
-			if (iRes instanceof IContainer && !iRes.getName().equals(".git")) {
+			if (iRes instanceof IContainer && !iRes.getName().equals(".git") && !iRes.getName().equals("_backup")) {
 				monitor.subTask("Checking resource: " + iRes.getFullPath());
 				for (IResource child : ((IContainer) iRes).members()) {
 					collectResources(child, searchFor, allOther, monitor);
