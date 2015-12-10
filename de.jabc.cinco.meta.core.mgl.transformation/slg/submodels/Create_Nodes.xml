@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>d136ee11-0a5e-458f-8813-648c7e29c207</id>
   <name>Create Nodes</name>
-  <changecounter>78</changecounter>
+  <changecounter>81</changecounter>
   <edge>
     <source>bcbab676-0b89-45b1-87a8-6b31f8136bf1</source>
     <target>55e2fb55-9ab4-4b8a-a441-888598100881</target>
@@ -681,7 +681,7 @@ return $modelElementTypeCast$ de.jabc.cinco.meta.core.referenceregistry.Referenc
     <label>GetReferencedModelElementType</label>
     <sib-uid>mgl/mgl/GetReferencedModelElementType</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetReferencedModelElementType</taxonomy>
-    <position>1462.5,693.0</position>
+    <position>1537.5,768.0</position>
     <parameter name="referencedModelElementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -709,7 +709,7 @@ return $modelElementTypeCast$ de.jabc.cinco.meta.core.referenceregistry.Referenc
     <label>GetReferencedEClassType</label>
     <sib-uid>mgl/mgl/GetReferencedEClassType</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetReferencedEClassType</taxonomy>
-    <position>1201.5,693.0</position>
+    <position>1051.5,648.0</position>
     <parameter name="referencedEClassKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -810,7 +810,7 @@ return $modelElementTypeCast$ de.jabc.cinco.meta.core.referenceregistry.Referenc
     <label>PutElement</label>
     <sib-uid>collection-sibs/PutElement</sib-uid>
     <taxonomy>de.jabc.sib.common.collection.PutElement</taxonomy>
-    <position>289.5,168.0</position>
+    <position>424.5,198.0</position>
     <parameter name="key">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -869,7 +869,7 @@ return $modelElementTypeCast$ de.jabc.cinco.meta.core.referenceregistry.Referenc
     <label>PutExpression</label>
     <sib-uid>basic-sibs/PutExpression</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
-    <position>1015.5,903.0</position>
+    <position>730.5,1008.0</position>
     <parameter name="resolve">
       <boolean>true</boolean>
     </parameter>
@@ -928,7 +928,7 @@ return $modelElementTypeCast$ de.jabc.cinco.meta.core.referenceregistry.Referenc
     <label>PutElement</label>
     <sib-uid>collection-sibs/PutElement</sib-uid>
     <taxonomy>de.jabc.sib.common.collection.PutElement</taxonomy>
-    <position>694.5,318.0</position>
+    <position>814.5,318.0</position>
     <parameter name="key">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -966,7 +966,7 @@ return $modelElementTypeCast$ de.jabc.cinco.meta.core.referenceregistry.Referenc
     <label>EvaluateBoolean</label>
     <sib-uid>basic-sibs/EvaluateBoolean</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.EvaluateBoolean</taxonomy>
-    <position>511.5,318.0</position>
+    <position>601.5,318.0</position>
     <parameter name="bool">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -986,7 +986,7 @@ return $modelElementTypeCast$ de.jabc.cinco.meta.core.referenceregistry.Referenc
     <label>Get Qualified Name For ModelElement</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>1148.5,976.0</position>
+    <position>1148.5,1006.0</position>
     <parameter name="modelElement">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1021,7 +1021,7 @@ return $modelElementTypeCast$ de.jabc.cinco.meta.core.referenceregistry.Referenc
     <label>GetTypeName</label>
     <sib-uid>mgl/mgl/GetTypeName</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.mgl.sib.mgl.GetTypeName</taxonomy>
-    <position>1226.5,843.0</position>
+    <position>956.5,1008.0</position>
     <parameter name="typeKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1045,9 +1045,10 @@ return $modelElementTypeCast$ de.jabc.cinco.meta.core.referenceregistry.Referenc
   </sib>
   <edge>
     <source>43c017e8-9f82-4b7c-9ea6-2738be0df444</source>
-    <target>b8e91c5e-1991-4b67-99d5-26b0438518d7</target>
-    <point>1521.5,878.0</point>
-    <point>1248.5,1026.0</point>
+    <target>c55b2248-e78d-4adb-bbd4-aea5b2065705</target>
+    <point>1452.0,851.9142857142857</point>
+    <point>1280.0,901.1428571428571</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
@@ -1076,15 +1077,17 @@ return $modelElementTypeCast$ de.jabc.cinco.meta.core.referenceregistry.Referenc
   <edge>
     <source>c8e0beec-b0b3-4ce4-96d6-6c2381bfa270</source>
     <target>8b6f9ba0-e7ee-4197-95de-13807eebe452</target>
-    <point>1115.5,953.0</point>
-    <point>738.5,953.0</point>
+    <point>1047.0,921.5684210526316</point>
+    <point>798.0,921.5684210526316</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
     <source>e09abe47-d752-4e7c-aabb-df74266b0a0d</source>
-    <target>1d8d98a6-b9e3-4bf0-a245-2b776ad624dc</target>
-    <point>361.0,368.0</point>
-    <point>611.5,368.0</point>
+    <target>c5da3dab-e7f3-4d6d-bf48-069de5ec921f</target>
+    <point>393.0,349.92</point>
+    <point>580.0,487.1333333333333</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
@@ -1120,8 +1123,9 @@ return $modelElementTypeCast$ de.jabc.cinco.meta.core.referenceregistry.Referenc
   <edge>
     <source>32765b8d-359f-4e67-836e-d147043c28d3</source>
     <target>c8e0beec-b0b3-4ce4-96d6-6c2381bfa270</target>
-    <point>1326.5,893.0</point>
-    <point>1115.5,953.0</point>
+    <point>1257.0,865.6</point>
+    <point>1023.0,917.6</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
@@ -1175,6 +1179,86 @@ return $modelElementTypeCast$ de.jabc.cinco.meta.core.referenceregistry.Referenc
     <point>1125.0,540.0</point>
     <point>1418.0,560.0</point>
     <branch>default</branch>
+  </edge>
+  <sib>
+    <id>c55b2248-e78d-4adb-bbd4-aea5b2065705</id>
+    <name>GraphSIB_2</name>
+    <label>Check ReferencedTyp In Stealth Import</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>1146.0,886.0</position>
+    <parameter name="referencedTypeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>dataType</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>false</finalbranches>
+    <finalbranches>true</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Check ReferencedTyp In Stealth Import</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>d4c287ed-038c-4279-9b01-efccbc564410</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>c55b2248-e78d-4adb-bbd4-aea5b2065705</source>
+    <target>b8e91c5e-1991-4b67-99d5-26b0438518d7</target>
+    <point>1290.0,870.0</point>
+    <point>1367.0,1006.0</point>
+    <branch>false</branch>
+  </edge>
+  <edge>
+    <source>c55b2248-e78d-4adb-bbd4-aea5b2065705</source>
+    <target>8b6f9ba0-e7ee-4197-95de-13807eebe452</target>
+    <point>1290.0,870.0</point>
+    <point>839.0,938.0</point>
+    <branch>true</branch>
+  </edge>
+  <sib>
+    <id>c5da3dab-e7f3-4d6d-bf48-069de5ec921f</id>
+    <name>GraphSIB_3</name>
+    <label>Check ReferencedTyp In Stealth Import</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>441.0,391.0</position>
+    <parameter name="referencedTypeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>dataType</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>false</finalbranches>
+    <finalbranches>true</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>Check ReferencedTyp In Stealth Import</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>d4c287ed-038c-4279-9b01-efccbc564410</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>c5da3dab-e7f3-4d6d-bf48-069de5ec921f</source>
+    <target>1d8d98a6-b9e3-4bf0-a245-2b776ad624dc</target>
+    <point>515.0,429.3636363636364</point>
+    <point>642.0,348.43636363636364</point>
+    <branch>false</branch>
+  </edge>
+  <edge>
+    <source>c5da3dab-e7f3-4d6d-bf48-069de5ec921f</source>
+    <target>bcbab676-0b89-45b1-87a8-6b31f8136bf1</target>
+    <point>555.0,420.0</point>
+    <point>158.0,75.0</point>
+    <branch>true</branch>
   </edge>
   <values/>
   <branch>
@@ -1336,5 +1420,15 @@ return $modelElementTypeCast$ de.jabc.cinco.meta.core.referenceregistry.Referenc
     <name>error</name>
     <branch>error</branch>
     <sib>d33898ff-c7e4-499a-bb67-5d8b175694e1</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>c55b2248-e78d-4adb-bbd4-aea5b2065705</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>c5da3dab-e7f3-4d6d-bf48-069de5ec921f</sib>
   </branch>
 </model>

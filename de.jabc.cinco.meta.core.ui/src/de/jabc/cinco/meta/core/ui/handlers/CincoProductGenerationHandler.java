@@ -230,7 +230,8 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 						//ArrayList<String> before = new ArrayList<String>();
 						for(Import imprt : gm.getImports()){
 							if(imprt.getImportURI().endsWith(".mgl")){
-								dn.getDependsOf().add(imprt.getImportURI().replace("platform:/resource/"+projectSymbolicName,""));
+								if(!imprt.isStealth())
+									dn.getDependsOf().add(imprt.getImportURI().replace("platform:/resource/"+projectSymbolicName,""));
 							}
 						}
 						dns.add(dn);

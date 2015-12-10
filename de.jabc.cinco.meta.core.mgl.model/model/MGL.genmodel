@@ -59,6 +59,7 @@
     <genClasses ecoreClass="MGL.ecore#//Import">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGL.ecore#//Import/importURI"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGL.ecore#//Import/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGL.ecore#//Import/stealth"/>
     </genClasses>
     <genClasses ecoreClass="MGL.ecore#//Attribute">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGL.ecore#//Attribute/name"/>
