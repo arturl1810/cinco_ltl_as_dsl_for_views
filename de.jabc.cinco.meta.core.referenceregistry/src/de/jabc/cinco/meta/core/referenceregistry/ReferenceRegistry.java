@@ -165,23 +165,34 @@ public class ReferenceRegistry {
 	}
 	
 	public void handleContentChange(URI affectedFileUri) {
+		long start = System.currentTimeMillis();
 		String resourcePath = affectedFileUri.toPlatformString(true);
 		System.out.println("Affected file: " +resourcePath);
 		HashMap<IProject, List<String>> affected = getAffectedEntries(resourcePath);
+		Map<String,Resource> loadedResources = new HashMap<String,Resource>();
 		for (Entry<IProject, List<String>> e : affected.entrySet()) {
 			IProject p = e.getKey();
 			for (String id : e.getValue()) {
 				String objectId = id;
 				String uri = registriesMap.get(p).get(objectId);
-				System.out.println("Refreshing: " + uri + "->" + objectId);
-				EObject loadedObject = loadObject(objectId, uri);
+//				System.out.println("Refreshing: " + uri + "->" + objectId);
+				EObject loadedObject = null;
+				if (loadedResources.containsKey(uri)) {
+					Resource res = loadedResources.get(uri);
+					loadedObject = res.getEObject(objectId);
+				} else {
+					loadedObject = loadObject(objectId, uri);
+				}
+				loadedResources.put(uri,loadedObject.eResource());
 				HashMap<String, EObject> tmpCache = cachesMap.get(p);
 				tmpCache.replace(objectId, loadedObject);
 			}
 		}
 		if (affected != null && !affected.isEmpty())
 			save();
-		}
+		long end = System.currentTimeMillis();
+		System.out.println("Update time in ms: "+ (end-start));
+	}
 	
 	/**
 	 * This method searches the tuples of (IProject,ID) which are affected by changes to the
