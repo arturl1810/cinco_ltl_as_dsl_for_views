@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>3b155a4c-e8a2-4d35-8a22-ca19d32aaa18</id>
   <name>GenerateDeleteNodeFeature</name>
-  <changecounter>163</changecounter>
+  <changecounter>167</changecounter>
   <sib>
     <id>67f5c959-13f5-45e3-abca-ef1e07a712e3</id>
     <name>IterateElements</name>
@@ -246,34 +246,7 @@ public class Delete$context.node.name$Feature extends de.jabc.cinco.meta.core.ui
 
 	@Override
 	public void delete(IDeleteContext context) {
-		super.delete(context);		
-
-		/*PictogramElement pe = context.getPictogramElement();
-		EObject bo = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
-		
-		if (bo instanceof graphmodel.Node) {
-			graphmodel.Node n = (graphmodel.Node) bo;
-			List&lt;Edge&gt; delEdges = new ArrayList&lt;Edge&gt;();
-			
-			delEdges.addAll(n.getIncoming());
-			delEdges.addAll(n.getOutgoing());
-			
-			Map&lt;Object, Connection&gt; bo2edge = new HashMap&lt;Object, Connection&gt;();
-			for (Connection c : getDiagram().getConnections()) {
-				Object o = getBusinessObjectForPictogramElement(c);
-				bo2edge.put(o, c);
-			}
-			
-			for (Edge e : delEdges) {
-				PictogramElement edgePE = bo2edge.get(e);
-				RemoveContext remContext = new RemoveContext(edgePE);
-				IRemoveFeature rf = getFeatureProvider().getRemoveFeature(remContext);
-				if (rf != null &amp;&amp; rf.canRemove(remContext)) {
-					rf.remove(remContext);
-					EcoreUtil.delete(e, true);
-				}
-			}
-		}*/
+		super.delete(context);
 	}
 
 	@Override
