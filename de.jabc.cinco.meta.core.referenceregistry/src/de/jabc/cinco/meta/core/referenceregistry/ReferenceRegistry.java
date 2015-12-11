@@ -390,7 +390,8 @@ public class ReferenceRegistry {
 				for (IResource child : ((IContainer) iRes).members()) {
 					collectResources(child, searchFor, allOther, monitor);
 				}
-			} else if (iRes instanceof IFile && !iRes.getName().equals(REF_REG_FILE)) {
+			} else if (iRes instanceof IFile && !iRes.getName().equals(REF_REG_FILE) && 
+					!iRes.getFullPath().toOSString().endsWith(".svg")) {
 				IFile file = (IFile) iRes;
 				IProject project = file.getProject();
 				if (!file.exists())
