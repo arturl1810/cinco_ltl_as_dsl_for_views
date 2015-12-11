@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>d4c287ed-038c-4279-9b01-efccbc564410</id>
   <name>Check ReferencedTyp In Stealth Import</name>
-  <changecounter>4</changecounter>
+  <changecounter>6</changecounter>
   <sib>
     <id>8e410bbe-793a-4f4b-ab30-c42a3aae1bf7</id>
     <name>GetImportStealth</name>
@@ -169,17 +169,17 @@
   </branch>
   <branch>
     <name>true</name>
-    <branch>false</branch>
-    <sib>23899284-ae75-43af-a9ed-18916136cff1</sib>
-  </branch>
-  <branch>
-    <name>true</name>
     <branch>emptyString</branch>
     <sib>23899284-ae75-43af-a9ed-18916136cff1</sib>
   </branch>
   <branch>
     <name>error</name>
     <branch>error</branch>
+    <sib>23899284-ae75-43af-a9ed-18916136cff1</sib>
+  </branch>
+  <branch>
+    <name>false</name>
+    <branch>false</branch>
     <sib>23899284-ae75-43af-a9ed-18916136cff1</sib>
   </branch>
 </model>
