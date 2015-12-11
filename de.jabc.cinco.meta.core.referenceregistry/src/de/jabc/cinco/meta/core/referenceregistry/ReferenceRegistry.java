@@ -370,6 +370,7 @@ public class ReferenceRegistry {
 						map = registriesMap.get(currentProject);
 						cache = cachesMap.get(currentProject);
 					}
+					save();
 					monitor.worked(100);
 				}
 			});
