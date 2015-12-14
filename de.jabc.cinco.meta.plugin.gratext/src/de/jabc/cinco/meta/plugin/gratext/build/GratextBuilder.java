@@ -43,6 +43,11 @@ public class GratextBuilder extends Job {
 		
 		List<IProject> projects = getGratextProjects();
 		
+		if (projects.isEmpty()) {
+			showMessage("No Gratext workflow files found.");
+			return Status.OK_STATUS;
+		}
+		
 		jobGroup = Job.getJobManager().createProgressGroup();
 		jobGroup.beginTask("Running Gratext builds", 1000);
 		projects.forEach(project -> spawnJob(project, 1000 / projects.size()));
@@ -118,6 +123,8 @@ public class GratextBuilder extends Job {
 	}
 	
 	private void showMessage(String msg) {
+		if (display == null)
+			display = Display.getDefault();
 		display.asyncExec(() ->
 			new MessageDialog(display.getActiveShell(),
 	            "Gratext Builder", display.getSystemImage(SWT.ICON_INFORMATION),

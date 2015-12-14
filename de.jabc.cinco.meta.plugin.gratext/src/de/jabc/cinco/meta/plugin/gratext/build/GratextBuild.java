@@ -99,7 +99,7 @@ public class GratextBuild extends ReiteratingJob {
 //		SubMonitor mainMonitor = getMonitor();
 		
 		System.out.println("[Gratext] Status " + getStatus() +  "(" + getStatus().isOK() + ") " + project.getName());
-		if (getStatus().getSeverity() != Status.ERROR)  {
+		if (jobStatus.isOK())  {
 //			mainMonitor.setWorkRemaining(4);
 //			monitor = SubMonitor.convert(mainMonitor.newChild(2), 100);
 			
