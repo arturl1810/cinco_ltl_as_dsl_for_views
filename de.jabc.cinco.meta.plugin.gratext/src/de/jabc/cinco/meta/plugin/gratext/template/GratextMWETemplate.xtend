@@ -55,18 +55,18 @@ Workflow {
 		registerGenModelFile = "platform:/resource/«project.symbolicName»/model/«project.basePackageDir»/«genmodelFile.name»"
 		
 		/* ##########  THESE ARE STATIC STRINGS, DELETE THEM IF PROBLEMS OCCUR ############*/
-		registerGeneratedEPackage = "info.scce.dime.search.search.SearchPackage"
-		registerGenModelFile = "platform:/resource/info.scce.dime/src-gen/model/Search.genmodel"
+		registerGeneratedEPackage = "info.scce.dime.dad.dad.DadPackage"
+		registerGenModelFile = "platform:/resource/info.scce.dime/src-gen/model/DAD.genmodel"
 		registerGeneratedEPackage = "info.scce.dime.data.data.DataPackage"
 		registerGenModelFile = "platform:/resource/info.scce.dime/src-gen/model/Data.genmodel"
-		registerGeneratedEPackage = "info.scce.dime.search.search.SearchPackage"
-		registerGenModelFile = "platform:/resource/info.scce.dime/src-gen/model/Search.genmodel"
-		registerGeneratedEPackage = "info.scce.dime.data.data.DataPackage"
-		registerGenModelFile = "platform:/resource/info.scce.dime/src-gen/model/Data.genmodel"
-		registerGeneratedEPackage = "info.scce.dime.siblibrary.SIBLibraryPackage"
-		registerGenModelFile = "platform:/resource/info.scce.dime.siblibrary/model/SIBLibrary.genmodel"
 		registerGeneratedEPackage = "info.scce.dime.gui.gui.GuiPackage"
 		registerGenModelFile = "platform:/resource/info.scce.dime/src-gen/model/GUI.genmodel"
+		registerGeneratedEPackage = "info.scce.dime.process.process.ProcessPackage"
+		registerGenModelFile = "platform:/resource/info.scce.dime/src-gen/model/Process.genmodel"
+		registerGeneratedEPackage = "info.scce.dime.search.search.SearchPackage"
+		registerGenModelFile = "platform:/resource/info.scce.dime/src-gen/model/Search.genmodel"
+		registerGeneratedEPackage = "info.scce.dime.siblibrary.SIBLibraryPackage"
+		registerGenModelFile = "platform:/resource/info.scce.dime.siblibrary/model/SIBLibrary.genmodel"
 		/* ################################################################################ */
 		
 		«context.genPackageReferences.map[context.getGenPackage(it)].filterNull.map[genPackageRule].join('\n')»

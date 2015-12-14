@@ -15,6 +15,8 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.IJobManager;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.debug.core.DebugException;
 import org.eclipse.debug.core.model.IProcess;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
@@ -89,8 +91,7 @@ public class GratextBuild extends ReiteratingJob {
 	protected void repeat() {
 		if (jobStatus != null) {
 			System.out.println("[Gratext] Job Status: " + jobStatus);
-			setStatus(jobStatus);
-			quit();
+			quit(jobStatus);
 		}
 	}
 	

@@ -45,7 +45,7 @@ public abstract class ReiteratingJob extends Job {
     }
 
     protected void tick() {
-    	if (getMonitor().isCanceled()) quit();
+    	if (getMonitor().isCanceled()) quit(Status.CANCEL_STATUS);
     }
 
     @Override
@@ -89,7 +89,7 @@ public abstract class ReiteratingJob extends Job {
     }
 
     public void quit() {
-    	quit(Status.CANCEL_STATUS);
+    	quit(Status.OK_STATUS);
     }
     
     protected void quit(IStatus status) {

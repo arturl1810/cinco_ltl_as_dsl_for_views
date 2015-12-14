@@ -16,6 +16,8 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.jobs.IJobManager;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.debug.core.DebugException;
 import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.ILaunch;
@@ -121,6 +123,7 @@ public abstract class GratextMwe2Job extends ReiteratingThread {
     
     private void launch(ILaunchConfigurationType type, IProject project, IFile file) throws CoreException {
 		ILaunchConfigurationWorkingCopy cfg = type.newInstance(null, file.getName());
+		
 		cfg.setAttribute("org.eclipse.debug.core.ATTR_REFRESH_SCOPE", "${project}");
 		cfg.setAttribute("org.eclipse.debug.core.MAPPED_RESOURCE_PATHS", Lists.newArrayList(new String[] {"/" + project.getName()}));
 		cfg.setAttribute("org.eclipse.debug.core.MAPPED_RESOURCE_TYPES", Lists.newArrayList(new String[] {"4"}));
@@ -128,8 +131,21 @@ public abstract class GratextMwe2Job extends ReiteratingThread {
 		cfg.setAttribute("org.eclipse.jdt.launching.MAIN_TYPE", "org.eclipse.emf.mwe2.launch.runtime.Mwe2Launcher");
 		cfg.setAttribute("org.eclipse.jdt.launching.PROGRAM_ARGUMENTS", file.getProjectRelativePath().toOSString() /* "src/info/scce/dime/dad/gratext/DADGratext.mwe2" */);
 		cfg.setAttribute("org.eclipse.jdt.launching.PROJECT_ATTR", project.getName() /* "info.scce.dime.dad.gratext" */);
+		cfg.setAttribute("org.eclipse.ptp.launch.ATTR_AUTO_RUN_COMMAND", true);
 		ILaunchConfiguration launchCfg = cfg.doSave();
 		register(launchCfg);
+		
+		/*
+		 * Wait for an eventual auto-build process to complete
+		 * before launching the Mwe2 workflow
+		 */
+		IJobManager manager = Job.getJobManager();
+		Job[] build = manager.find(ResourcesPlugin.FAMILY_AUTO_BUILD); 
+		if (build.length == 1) try {
+			build[0].join();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		launchCfg.launch(ILaunchManager.RUN_MODE, null);
 	}
     
