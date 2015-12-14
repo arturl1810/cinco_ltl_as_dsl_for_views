@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>ede0f2a5-2d64-419a-a377-4de364aed9a1</id>
   <name>GenerateGraphmodelWrapper</name>
-  <changecounter>343</changecounter>
+  <changecounter>346</changecounter>
   <sib>
     <id>961ec5c2-d49b-4f47-b506-1d2f2c25fd26</id>
     <name>RunStringTemplate</name>
@@ -86,6 +86,8 @@ public class $graphModelName$Wrapper {
 		Diagram diagram = Graphiti.getPeCreateService().createDiagram(&quot;$graphModelName$&quot;, fileName, true);
 		$importPath$.$graphModelName$ graph = $importPath$.$factoryName$Factory.eINSTANCE.create$graphModelName$();
 		
+		org.eclipse.emf.ecore.util.EcoreUtil.setID(graph, org.eclipse.emf.ecore.util.EcoreUtil.generateUUID());
+
 		res.getContents().add(diagram);
 		res.getContents().add(graph);
 		
