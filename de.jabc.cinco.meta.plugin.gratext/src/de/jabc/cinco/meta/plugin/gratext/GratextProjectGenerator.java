@@ -72,21 +72,13 @@ public class GratextProjectGenerator extends ProjectGenerator {
 	
 	protected void initGenModelFiles() {
 		getFiles("genmodel").forEach(f -> { try {
-//			System.out.println("GenModelFile: " + f.getFullPath()); // /info.scce.dime/src-gen/model/Search.genmodel
 			Resource res = new ResourceSetImpl().getResource(
 				URI.createPlatformResourceURI(f.getFullPath().toOSString(), true), true);
 			res.load(null);
 			for (EObject content : res.getContents()) {	
 				if (content instanceof GenModel) {
 					final GenModel genModel = (GenModel) content;
-//					System.out.println(" > modelName: " + genModel.getModelName()); // Search
-//					System.out.println(" > modelDir: " + genModel.getModelDirectory()); // /info.scce.dime/src-gen
 					genModel.getGenPackages().forEach(p -> {
-//						System.out.println(" > genPackage: " + p);
-//						System.out.println("   > nsURI: " + p.getNSURI()); // http://dime.scce.info/search
-//						System.out.println("   > prefix: " + p.getPrefix()); // Search
-//						System.out.println("   > basePackage: " + p.getBasePackage()); // info.scce.dime.search
-//						System.out.println("   > ecore.name: " + p.getEcorePackage().getName()); // search
 						genModelFiles.put(p.getNSURI(), f);
 						genModels.put(p.getNSURI(), genModel);
 						genPackages.put(p.getNSURI(), p);
@@ -185,106 +177,7 @@ public class GratextProjectGenerator extends ProjectGenerator {
 				};
 			}.execute(context);
 		}
-		
-//		new EmptyProjectGenerator(getSymbolicName() + ".tests") {
-//			@Override protected List<String> getSourceFolders() {
-//				return list("src-gen");
-//			};
-//			@Override protected Set<String> getRequiredBundles() {
-//				return new HashSet<>(list("com.google.inject"));
-//			};
-//		}.execute(context);
-//		new EmptyProjectGenerator(getSymbolicName() + ".sdk" ).execute(context);
-		
-//		generateModelCode(getFileDescriptor(GratextGenmodelTemplate.class).resource());
-		
-//		runMWE();
-		
 		return project;
-	}
-	
-	protected void generateModelCode(IFile genModelFile) {
-		task("Genmodel Model Code Generation").run(() -> {
-			Resource res = new ResourceSetImpl().getResource(
-					URI.createPlatformResourceURI(genModelFile.getFullPath().toOSString(), true),true);
-			try {
-				res.load(null);
-			} catch (IOException e) {
-				e.printStackTrace();
-				return;
-			}
-			res.getContents().stream()
-				.filter(GenModel.class::isInstance)
-				.map(GenModel.class::cast)
-				.forEach(genModel -> {
-					genModel.reconcile();
-					
-					// !!! Very important lines, do not delete !!!
-					genModel.getUsedGenPackages().stream()
-						.filter(pkg -> !pkg.getGenModel().equals(genModel))
-						.forEach(genModel.getUsedGenPackages()::add);
-					
-					genModel.setCanGenerate(true);
-					GenModelUtil.createGenerator(genModel).generate(genModel,
-							GenBaseGeneratorAdapter.MODEL_PROJECT_TYPE, CodeGenUtil.EclipseUtil.createMonitor(getProgressMonitor(), 1));
-				});
-		});
-	}
-	
-	protected void runMWE() {
-		task("MWE2 Workflow").run(() -> {
-			FileDescriptor file = getFileDescriptor(GratextMWETemplate.class);
-			String fileName = file.resource().getFullPath().toOSString();
-//			String path = file.resource().getFullPath().toOSString();
-//			String path = file.resource().getLocation().toOSString();
-			System.out.println("MWE file: " + fileName);
-//			project.getProjectRelativePath().append(new Path(file.getProjectRelativeDir()).append(file.))
-//			Mwe2Launcher.main(new String[]{"src/info/scce/dime/data/gratext/DataGratext.mwe2"});
-			new Mwe2Launcher().run(new String[]{fileName});
-		});
-//		ISafeRunnable runnable = new ISafeRunnable() {
-//			
-//			private String fileName;
-//			
-//			@Override
-//			public void handleException(Throwable e) {
-//				System.out.println("Failed to run MWE2 workflow on " + fileName + ": " + e.getMessage());
-//			}
-//
-//			@Override
-//			public void run() throws Exception {
-//				FileDescriptor file = getFileDescriptor(GratextMWETemplate.class);
-//				fileName = file.resource().getFullPath().toOSString();
-////				String path = file.resource().getFullPath().toOSString();
-////				String path = file.resource().getLocation().toOSString();
-//				System.out.println("MWE file: " + fileName);
-////				project.getProjectRelativePath().append(new Path(file.getProjectRelativeDir()).append(file.))
-////				Mwe2Launcher.main(new String[]{"src/info/scce/dime/data/gratext/DataGratext.mwe2"});
-//				new Mwe2Launcher().run(new String[]{fileName});
-//			}
-//		};
-//		SafeRunner.run(runnable);
-	}
-	
-	
-	
-	protected void runMWE(IFile file) {
-		System.out.println("Run MWE2 workflow");
-		try {
-			Resource res = new ResourceSetImpl().getResource(
-					URI.createPlatformResourceURI(file.getFullPath().toOSString(), true), true);
-			res.load(null);
-			System.out.println(" > resource: " + res);
-			for (EObject content : res.getContents()) {
-				System.out.println("   > " + content);
-				if (content instanceof Module) {
-					new Mwe2Runner().run(((Module) content).getCanonicalName(), null);
-					break;
-				}
-			}
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
 	}
 	
 	@Override
@@ -360,8 +253,6 @@ public class GratextProjectGenerator extends ProjectGenerator {
 		
 		creator.createFile("plugin.xml")
 			.withContent(PluginXmlTemplate.class, this);
-		
-		
 	}
 	
 	@Override
@@ -392,27 +283,6 @@ public class GratextProjectGenerator extends ProjectGenerator {
 		map.put("model", basePkg + ".generator");
 		return map;
 	}
-	
-//	@Override
-//	protected SrcFile[] getSourceFiles(String srcFolder, String pkg) {
-//		switch(srcFolder) {
-//		case "src": switch(pkg) {
-//			case "": return new SrcFile[] {
-//					new SrcFile(getModelDescriptor().getName() + "Gratext.xtext", GratextEcoreTemplate.class),
-//					new SrcFile(getModelDescriptor().getName() + "GratextGenerator.mwe2", GratextMWETemplate.class),
-//				};
-//			case "generator": return new SrcFile[] {
-//					new SrcFile(getModelDescriptor().getName() + "ModelGenerator.xtend", ModelGeneratorTemplate.class),
-//				};
-//		}
-//		case "model": switch(pkg) {
-//			case "": return new SrcFile[] {
-//					new SrcFile("Gratext.ecore", GratextEcoreTemplate.class),
-//					new SrcFile("Gratext.genmodel", GratextGenmodelTemplate.class),
-//				};
-//		}}
-//		return new SrcFile[]{};
-//	}
 	
 	@Override
 	protected List<IProject> getReferencedProjects() {

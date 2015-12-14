@@ -12,7 +12,7 @@
             recognized-annotation="gratext">
       </graphmodel-annotation>
    </extension>
-   <extension
+   <!-- extension
          point="org.eclipse.ui.popupMenus">
       <objectContribution
             adaptable="false"
@@ -25,8 +25,8 @@
                label="Generate Gratext Model Code">
          </action>
       </objectContribution>
-   </extension>
-   <!-- extension
+   </extension -->
+   <extension
          point="org.eclipse.ui.popupMenus">
       <objectContribution
             adaptable="false"
@@ -34,12 +34,12 @@
             nameFilter="*gratext"
             objectClass="org.eclipse.core.resources.IProject">
          <action
-               class="de.jabc.cinco.meta.plugin.gratext.build.GratextMWERunner"
+               class="de.jabc.cinco.meta.plugin.gratext.build.GratextBuildAction"
                id="de.jabc.cinco.meta.plugin.gratext.build.runGratextMWE"
-               label="Run Gratext MWE">
+               label="Build Gratext">
          </action>
       </objectContribution>
-   </extension -->
+   </extension>
    <extension
          point="org.eclipse.ui.popupMenus">
       <objectContribution
