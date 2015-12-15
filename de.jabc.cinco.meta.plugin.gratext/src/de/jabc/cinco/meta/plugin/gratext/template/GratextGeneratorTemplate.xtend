@@ -35,7 +35,7 @@ abstract class GratextGenerator<T extends GraphModel> {
 	
 	def doGenerate(IFile file, String outFolder) {
 		val fileUri = URI.createPlatformResourceURI(file.getFullPath().toOSString(), true);
-		System.out.println("File: " + file.getName() + " in path " + file.getProjectRelativePath());
+		System.out.println("[Gratext] File: " + file.getName() + " in path " + file.getProjectRelativePath());
 		val res = new ResourceSetImpl().getResource(fileUri, true);
 		
 		init(file, res)
@@ -107,7 +107,8 @@ abstract class GratextGenerator<T extends GraphModel> {
 	}
 	
 	static def IFolder createFolder(IPath folderPath, IProject project, IProgressMonitor monitor) throws CoreException {
-		return createResource(project.getFolder(folderPath), monitor)
+		if (folderPath.isEmpty) project
+		else createResource(project.getFolder(folderPath), monitor)
 	}
 	
 	static def <T extends IResource> T createResource(T resource) throws CoreException {

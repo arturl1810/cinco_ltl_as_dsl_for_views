@@ -54,17 +54,18 @@ public class BackupAction implements IActionDelegate {
 	private Display display;
 	private ISelection selection;
 	private Map<String, IBackupAction> map = new HashMap<>();
+	private IProject project;
 	
 	@Override
 	public void run(IAction action) {
-		System.out.println("[GratextBackup] run");
 		display = Display.getCurrent();
 		if (selection instanceof IStructuredSelection) {
 			map = new HashMap<>();
 			IStructuredSelection ssel = (IStructuredSelection) selection;
 			if (!ssel.isEmpty() && ssel.getFirstElement() instanceof IProject) {
+				project = (IProject) ssel.getFirstElement();
 				initExtensions();
-				runBackup((IProject) ssel.getFirstElement());
+				runBackup();
 			}
 		}
 	}
@@ -72,11 +73,10 @@ public class BackupAction implements IActionDelegate {
 	private void initExtensions() {
 		IConfigurationElement[] configs = Platform.getExtensionRegistry().getConfigurationElementsFor(EXTENSION_POINT);
 		for (IConfigurationElement config : configs) try {
-			System.out.println("[GratextBackup] Evaluating extension");
 			final Object ext = config.createExecutableExtension(ATTRIBUTE_CLASS);
 			String fileExtension = config.getAttribute(ATTRIBUTE_FILE_EXTENSION);
 			if (fileExtension != null && ext instanceof IBackupAction) {
-				System.out.println("[GratextBackup]  > " + fileExtension + " = " + ext);
+				System.out.println("[GratextBackup] Extension for '" + fileExtension + "' => " + ext);
 				map.put(fileExtension, (IBackupAction) ext);
 			}
 		} catch (CoreException e) {
@@ -84,17 +84,19 @@ public class BackupAction implements IActionDelegate {
 		}
 	}
 	
-	private void runBackup(IProject project) {
+	private void runBackup() {
 		Job job = new Job("Generate Gratext Backup") {
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
 				SubMonitor subMonitor = SubMonitor.convert(monitor, 100);
-				Map<IFile,IBackupAction> files = getFilesToBackup(subMonitor.newChild(5));
+				List<SimpleEntry<IFile, IBackupAction>> entries = getFilesToBackup(subMonitor.newChild(5));
+				if (entries.isEmpty())
+					return Status.OK_STATUS;
 				subMonitor.setWorkRemaining(95);
-				int totalWork = files.size();
+				int totalWork = entries.size();
 				int workTick = 95/totalWork;
 				int worked = 1;
-				for (Entry<IFile, IBackupAction> entry : files.entrySet()) {
+				for (Entry<IFile, IBackupAction> entry : entries) {
 					subMonitor.setTaskName("Backing up file " + (worked++) + "/" + totalWork + ": " + entry.getKey().getName());
 					subMonitor.worked(workTick);
 					runBackup(entry.getValue(), entry.getKey());
@@ -134,19 +136,16 @@ public class BackupAction implements IActionDelegate {
 		);
 	}
 	
-	private Map<IFile, IBackupAction> getFilesToBackup(IProgressMonitor monitor) {
+	private List<SimpleEntry<IFile, IBackupAction>> getFilesToBackup(IProgressMonitor monitor) {
 		SubMonitor subMonitor = SubMonitor.convert(monitor, 100);
 		subMonitor.setTaskName("Collecting files to backup...");
-		Map<IFile,IBackupAction> files = new HashMap<>();
-		List<IFile> wsFiles = getWorkspaceFiles();
 		subMonitor.worked(50);
-		for (IFile file : wsFiles) {
-			IBackupAction action = map.get(file.getFileExtension());
-			if (action != null)
-				files.put(file, action);
-		}
+		List<SimpleEntry<IFile, IBackupAction>> entries = getProjectFiles().stream()
+			.map(file -> new AbstractMap.SimpleEntry<IFile, IBackupAction>(file, map.get(file.getFileExtension())))
+			.filter(entry -> entry.getValue() != null)
+			.collect(Collectors.toList());
 		subMonitor.worked(50);
-		return files;
+		return entries;
 	}
 	
 	private void runBackup(final IBackupAction action, IFile file) {
@@ -177,6 +176,10 @@ public class BackupAction implements IActionDelegate {
 	
 	protected List<IFile> getWorkspaceFiles(String fileExtension) {
 		return getFiles(ResourcesPlugin.getWorkspace().getRoot(), fileExtension, true);
+	}
+	
+	protected List<IFile> getProjectFiles() {
+		return getFiles(project, null, true);
 	}
 	
 	protected List<IFile> getFiles(IContainer container, String fileExtension, boolean recurse) {

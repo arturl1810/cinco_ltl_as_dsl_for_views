@@ -58,7 +58,6 @@ public class RestoreAction implements IActionDelegate {
 	
 	@Override
 	public void run(IAction action) {
-		System.out.println("[GratextRestore] run");
 		display = Display.getCurrent();
 		if (selection instanceof IStructuredSelection) {
 			map = new HashMap<>();
@@ -73,11 +72,10 @@ public class RestoreAction implements IActionDelegate {
 	private void initExtensions() {
 		IConfigurationElement[] configs = Platform.getExtensionRegistry().getConfigurationElementsFor(EXTENSION_POINT);
 		for (IConfigurationElement config : configs) try {
-			System.out.println("[GratextRestore] Evaluating extension");
 			final Object ext = config.createExecutableExtension(ATTRIBUTE_CLASS);
 			String fileExtension = config.getAttribute(ATTRIBUTE_FILE_EXTENSION);
 			if (fileExtension != null && ext instanceof IRestoreAction) {
-				System.out.println("[GratextRestore]  > " + fileExtension + " = " + ext);
+				System.out.println("[GratextRestore] Extension for '" + fileExtension + "' => " + ext);
 				map.put(fileExtension, (IRestoreAction) ext);
 			}
 		} catch (CoreException e) {
@@ -92,6 +90,8 @@ public class RestoreAction implements IActionDelegate {
 			protected IStatus run(IProgressMonitor monitor) {
 				SubMonitor subMonitor = SubMonitor.convert(monitor, 100);
 				Map<IFile,IRestoreAction> files = getFilesToRestore(project, subMonitor.newChild(5));
+				if (files.isEmpty())
+					return Status.OK_STATUS;
 				subMonitor.setWorkRemaining(95);
 				int totalWork = files.size();
 				int workTick = 95/totalWork;
