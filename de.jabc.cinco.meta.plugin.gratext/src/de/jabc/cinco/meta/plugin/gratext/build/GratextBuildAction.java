@@ -10,7 +10,9 @@ public class GratextBuildAction implements IActionDelegate {
 	
 	@Override
 	public void run(IAction action) {
-		new GratextBuilder().schedule();
+		GratextBuilder builder = new GratextBuilder();
+		builder.setUser(true);
+		builder.schedule();
 	}
 
 	@Override

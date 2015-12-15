@@ -14,6 +14,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.core.runtime.jobs.JobChangeAdapter;
@@ -28,14 +29,17 @@ public class GratextBuilder extends Job {
 	private List<GratextBuild> failed;
 	private IProgressMonitor jobGroup;
 	private Display display;
+	private SubMonitor monitor;
 	
     public GratextBuilder() {
         super("Building Gratext");
-//        setProgressGroup(jobGroup, 1000);
     }
 
 	@Override
-	protected IStatus run(IProgressMonitor monitor) {
+	protected IStatus run(IProgressMonitor mainMonitor) {
+		monitor = SubMonitor.convert(mainMonitor, 100);
+		monitor.beginTask("Retrieving model files...", 5);
+		
 		display = Display.getCurrent();
 		jobs = new ArrayList<>();
 		done = new ArrayList<>();
@@ -44,22 +48,29 @@ public class GratextBuilder extends Job {
 		List<IProject> projects = getGratextProjects();
 		
 		if (projects.isEmpty()) {
-			showMessage("No Gratext workflow files found.");
+			showMessage("No Gratext model files found.\n"
+					+ "Gratext build finished (in a fairly trivial way).");
+			monitor.done();
 			return Status.OK_STATUS;
 		}
 		
+		monitor.beginTask("Spawning build jobs...", 5);
+		
 		jobGroup = Job.getJobManager().createProgressGroup();
-		jobGroup.beginTask("Running Gratext builds", 1000);
+		jobGroup.beginTask("Running build jobs...", 1000);
 		projects.forEach(project -> spawnJob(project, 1000 / projects.size()));
 		
-		jobs.forEach(job -> { try {
+		jobs.stream().forEach(job -> { try {
 			job.join();
+			monitor.beginTask("Completed build jobs: " + done.size() + "/" + jobs.size(), 90 / projects.size());
 		} catch(InterruptedException e) {}});
 		
 		jobGroup.done();
+		monitor.done();
 		
-		if (!failed.isEmpty()) {
-			showMessage("Gratext build completed.");
+		if (failed.isEmpty()) {
+			showMessage("Gratext build finished.");
+			return Status.OK_STATUS;
 		}
 		return Status.OK_STATUS;
 	}
@@ -73,7 +84,6 @@ public class GratextBuilder extends Job {
 		        	failed.add(job);
 		        }
 	     	});
-	    job.setUser(true);
 	    job.setProgressGroup(jobGroup, ticks);
 	    jobs.add(job);
 		job.schedule();

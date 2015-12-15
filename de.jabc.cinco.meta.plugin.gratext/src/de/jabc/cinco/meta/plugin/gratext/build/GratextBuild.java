@@ -12,11 +12,10 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.core.runtime.jobs.IJobManager;
-import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.debug.core.DebugException;
 import org.eclipse.debug.core.model.IProcess;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
@@ -35,7 +34,7 @@ public class GratextBuild extends ReiteratingJob {
 	private IFile genmodel;
 	private IFile mwe2;
 	private IFile xtext;
-//	private IProgressMonitor monitor;
+	private IProgressMonitor monitor;
 	private IStatus jobStatus;
 	
 	public GratextBuild(IProject project) {
@@ -45,9 +44,10 @@ public class GratextBuild extends ReiteratingJob {
 
 	@Override
 	protected void prepare() {
+		monitor = getMonitor();
 //		SubMonitor mainMonitor = getMonitor();
 //		monitor = SubMonitor.convert(mainMonitor.newChild(2), 100);
-//		monitor.setTaskName("Building gratext: " + project.getName());
+		monitor.setTaskName("Retrieving model files: " + project.getName());
 		
 		try {
 			findGenmodel();
@@ -103,7 +103,7 @@ public class GratextBuild extends ReiteratingJob {
 		if (jobStatus.isOK())  {
 //			mainMonitor.setWorkRemaining(4);
 //			monitor = SubMonitor.convert(mainMonitor.newChild(2), 100);
-			
+			monitor.setTaskName("Deleting model files: " + mwe2.getName());
 			try {
 				deleteSources();
 			} catch(Exception e) {
@@ -142,7 +142,7 @@ public class GratextBuild extends ReiteratingJob {
 	}
 	
 	private void runGenmodel() throws IOException {
-//		monitor.setTaskName("Running Genmodel job: " + genmodel.getName());
+		monitor.setTaskName("Running Genmodel job: " + genmodel.getName());
 		Resource res = new ResourceSetImpl().getResource(
 				URI.createPlatformResourceURI(genmodel.getFullPath().toOSString(), true),true);
 		res.load(null);
@@ -165,7 +165,7 @@ public class GratextBuild extends ReiteratingJob {
 	}
 	
 	private void runMwe2() {
-//		monitor.setTaskName("Running Mwe2 job: " + mwe2.getName());
+		monitor.setTaskName("Running Mwe2 job: " + mwe2.getName());
 		GratextMwe2Job job = new GratextMwe2Job(project, mwe2) {
 
 			boolean success;
