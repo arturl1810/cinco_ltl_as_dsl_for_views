@@ -1,6 +1,5 @@
 package ${AdapterPackage};
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.ArrayList;
@@ -134,7 +133,7 @@ public class ${GraphModelName}Adapter implements ModelAdapter<${GraphModelName}I
 				</#list>
 	}
 
-	public void setModel(Resource resource, File file) {
+	public void setModel(Resource resource, java.io.File file) {
 		modelName = file.getName();
 		this.path = file.getPath();
 		
@@ -153,7 +152,7 @@ public class ${GraphModelName}Adapter implements ModelAdapter<${GraphModelName}I
 	}
 
 	@Override
-	public void readModel(File arg0) {
+	public void readModel(java.io.File arg0) {
 		modelName = arg0.getName();
 		this.path = arg0.getPath();
 
@@ -190,7 +189,7 @@ public class ${GraphModelName}Adapter implements ModelAdapter<${GraphModelName}I
 	}
 
 	@Override
-	public void writeModel(File arg0) {
+	public void writeModel(java.io.File arg0) {
 		// Register the XMI resource factory for the .website extension
 		Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
 		Map<String, Object> m = reg.getExtensionToFactoryMap();
