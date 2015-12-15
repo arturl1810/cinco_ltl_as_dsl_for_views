@@ -102,11 +102,11 @@ abstract class GratextGenerator<T extends GraphModel> {
 		return file
 	}
 	
-	static def IFolder createFolder(IPath folderPath, IProject project) throws CoreException {
+	static def IContainer createFolder(IPath folderPath, IProject project) throws CoreException {
 		createFolder(folderPath, project, getMonitor)
 	}
 	
-	static def IFolder createFolder(IPath folderPath, IProject project, IProgressMonitor monitor) throws CoreException {
+	static def IContainer createFolder(IPath folderPath, IProject project, IProgressMonitor monitor) throws CoreException {
 		if (folderPath.isEmpty) project
 		else createResource(project.getFolder(folderPath), monitor)
 	}
