@@ -23,6 +23,7 @@ import org.eclipse.graphiti.ui.editor.DiagramEditor;
 import org.eclipse.jface.action.*;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.*;
+import org.eclipse.ui.IEditorReference;
 
 /**
  * This sample class demonstrates how to plug-in a new workbench view. The view
@@ -96,6 +97,12 @@ public class ConflictView extends ViewPart implements IPartListener2 {
 		
 		makeActions();
 		contributeToActionBars();
+
+		for (IEditorReference editor : PlatformUI.getWorkbench()
+				.getActiveWorkbenchWindow().getActivePage()
+				.getEditorReferences()) {
+			loadPageByEditor(editor);
+		}
 	}
 
 	/*
@@ -423,13 +430,24 @@ public class ConflictView extends ViewPart implements IPartListener2 {
 	@Override
 	public void partVisible(IWorkbenchPartReference partRef) {
 		// System.out.println("Part visible: " + partRef.getTitle());
+		loadPageByEditor(partRef);
+		
+	}
 
+	@Override
+	public void partInputChanged(IWorkbenchPartReference partRef) {
+		// System.out.println("Part input changed: " + partRef.getTitle());
+	}
+
+	private void loadPageByEditor(IWorkbenchPartReference partRef) {
 		if (partRef instanceof EditorReference) {
-			IFile file = (IFile) ((EditorReference) partRef).getEditor(false)
-					.getEditorInput().getAdapter(IFile.class);
+			IEditorPart editor = ((EditorReference) partRef).getEditor(true);
+			if (editor instanceof DiagramEditor == false)
+				return;
 
+			IFile file = (IFile) editor.getEditorInput().getAdapter(IFile.class);
 			Resource res = null;
-			IEditorPart editor = ((EditorReference) partRef).getEditor(false);
+
 			if (editor instanceof DiagramEditor) {
 				DiagramEditor deditor = (DiagramEditor) editor;
 				TransactionalEditingDomain ed = deditor.getEditingDomain();	
@@ -442,7 +460,8 @@ public class ConflictView extends ViewPart implements IPartListener2 {
 
 			for (Control child : parent.getChildren()) {
 				child.setVisible(false);
-				((GridData) child.getLayoutData()).exclude = true;
+				if (child.getLayoutData() instanceof GridData)
+					((GridData) child.getLayoutData()).exclude = true;
 			}
 
 			if (file != null && res != null) {
@@ -486,10 +505,5 @@ public class ConflictView extends ViewPart implements IPartListener2 {
 			parent.redraw();
 			parent.update();
 		}
-	}
-
-	@Override
-	public void partInputChanged(IWorkbenchPartReference partRef) {
-		// System.out.println("Part input changed: " + partRef.getTitle());
 	}
 }
