@@ -52,9 +52,13 @@ public class ${GraphModelName}Adapter implements ModelAdapter<${GraphModelName}I
 		
 		TreeIterator<EObject> it = model.eAllContents();
 		while (it.hasNext()) {
-			ModelElement obj = (ModelElement) it.next();
-			${GraphModelName}Id id = create${GraphModelName}Id(obj);
-			String label = getLabel(obj);
+			Object obj = it.next();
+			if (obj instanceof ModelElement == false)
+				continue;
+			
+			ModelElement me = (ModelElement) obj;
+			${GraphModelName}Id id = create${GraphModelName}Id(me);
+			String label = getLabel(me);
 			if (label != null)
 				id.setLabel(label);
 			ids.add(id);
@@ -83,9 +87,13 @@ public class ${GraphModelName}Adapter implements ModelAdapter<${GraphModelName}I
 			return model;
 		TreeIterator<EObject> it = model.eAllContents();
 		while (it.hasNext()) {
-			ModelElement obj = (ModelElement) it.next();
-			if (id.getId().equals(obj.getId()))
-				return obj;
+			Object obj = it.next();
+			if (obj instanceof ModelElement == false)
+				continue;
+			
+			ModelElement me = (ModelElement) obj;
+			if (id.getId().equals(me.getId()))
+				return me;
 		}
 		throw new RuntimeException("Could not find element for '" + id + "'");
 	}
