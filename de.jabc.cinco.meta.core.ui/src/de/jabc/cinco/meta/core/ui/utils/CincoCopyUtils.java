@@ -141,6 +141,7 @@ public class CincoCopyUtils {
 		ContainerShape shapeCopy = EcoreUtil.copy(cs);
 		EObject boOrig = cs.getLink().getBusinessObjects().get(0);
 		EObject boCopy = EcoreUtil.copy(boOrig);
+		EcoreUtil.setID(boCopy,EcoreUtil.generateUUID());
 		((Container) boCopy).getModelElements().clear();
 		
 		shapeCopy.getLink().setPictogramElement(shapeCopy);
@@ -176,6 +177,7 @@ public class CincoCopyUtils {
 		Shape shapeCopy = EcoreUtil.copy(s);
 		EObject boOrig = s.getLink().getBusinessObjects().get(0);
 		EObject boCopy = EcoreUtil.copy(boOrig);
+		EcoreUtil.setID(boCopy,EcoreUtil.generateUUID());
 		
 		shapeCopy.getLink().setPictogramElement(shapeCopy);
 		shapeCopy.getLink().getBusinessObjects().clear();
@@ -208,6 +210,7 @@ public class CincoCopyUtils {
 	/************************************************************** Connection copy methods **************************************************************/
 	private static Connection copyConnection(Connection connection) {
 		Connection copy = EcoreUtil.copy(connection);
+		EcoreUtil.setID(copy,EcoreUtil.generateUUID());
 		
 		copy.setStart(copiedAnchors.get(connection.getStart().getParent().getLink().getBusinessObjects().get(0)));
 		copy.setEnd(copiedAnchors.get(connection.getEnd().getParent().getLink().getBusinessObjects().get(0)));
@@ -227,6 +230,7 @@ public class CincoCopyUtils {
 		PictogramLink pl = PictogramsFactory.eINSTANCE.createPictogramLink();
 		pl.setPictogramElement(copiedPE);
 		EObject copy = EcoreUtil.copy(originBO);
+		EcoreUtil.setID(copy,EcoreUtil.generateUUID());
 		if (originBO instanceof Edge) {
 			((Edge) copy).setSourceElement((Node) copiedBos.get(source));
 			((Edge) copy).setTargetElement((Node) copiedBos.get(target));
