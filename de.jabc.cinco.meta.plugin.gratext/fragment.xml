@@ -12,30 +12,17 @@
             recognized-annotation="gratext">
       </graphmodel-annotation>
    </extension>
-   <!-- extension
-         point="org.eclipse.ui.popupMenus">
-      <objectContribution
-            adaptable="false"
-            id="de.jabc.cinco.meta.plugin.gratext.contributor"
-            nameFilter="*gratext"
-            objectClass="org.eclipse.core.resources.IProject">
-         <action
-               class="de.jabc.cinco.meta.plugin.gratext.build.GratextModelGenerator"
-               id="de.jabc.cinco.meta.plugin.gratext.build.generateGratextModel"
-               label="Generate Gratext Model Code">
-         </action>
-      </objectContribution>
-   </extension -->
    <extension
          point="org.eclipse.ui.popupMenus">
       <objectContribution
-            adaptable="false"
-            id="de.jabc.cinco.meta.plugin.gratext.contributor"
-            nameFilter="*gratext"
-            objectClass="org.eclipse.core.resources.IProject">
+            id="de.jabc.cinco.meta.plugin.gratext.menu.gratextbuild"
+            objectClass="org.eclipse.core.resources.IProject"
+            adaptable="true"
+            nameFilter="*gratext">
          <action
+               id="de.jabc.cinco.meta.plugin.gratext.build.buildGratext"
                class="de.jabc.cinco.meta.plugin.gratext.build.GratextBuildAction"
-               id="de.jabc.cinco.meta.plugin.gratext.build.runGratextMWE"
+               icon="platform:/plugin/de.jabc.cinco.meta.plugin.gratext/gt_icon_16.png"
                label="Build Gratext">
          </action>
       </objectContribution>
@@ -43,24 +30,16 @@
    <extension
          point="org.eclipse.ui.popupMenus">
       <objectContribution
-            adaptable="false"
-            id="de.jabc.cinco.meta.plugin.gratext.contributor"
-            nameFilter="*genmodel"
-            objectClass="org.eclipse.core.resources.IFile">
+            id="de.jabc.cinco.meta.plugin.gratext.menu.gratextbuild"
+            objectClass="org.eclipse.core.resources.IFile"
+            adaptable="true"
+            nameFilter="*.cpd">
          <action
-               class="de.jabc.cinco.meta.plugin.gratext.build.GenmodelGenerator"
-               id="de.jabc.cinco.meta.plugin.gratext.build.generateGenmodel"
-               label="Generate Model Code">
+               id="de.jabc.cinco.meta.plugin.gratext.build.buildGratext"
+               class="de.jabc.cinco.meta.plugin.gratext.build.GratextBuildAction"
+               icon="platform:/plugin/de.jabc.cinco.meta.plugin.gratext/gt_icon_16.png"
+               label="Build Gratext">
          </action>
       </objectContribution>
    </extension>
-   <!--extension
-        id="de.jabc.cinco.meta.core.ui.productgenerationhandlers"
-        name="CincoProductGenerationHandlers"
-        point="org.eclipse.ui.handlers">
-     <handler
-           class="de.jabc.cinco.meta.core.ui.handlers.CincoProductGenerationHandler"
-           commandId="de.jabc.cinco.meta.core.ui.cincoproductgenerationcommand">
-     </handler>
-  </extension-->
 </fragment>
