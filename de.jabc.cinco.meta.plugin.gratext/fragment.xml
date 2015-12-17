@@ -15,13 +15,29 @@
    <extension
          point="org.eclipse.ui.popupMenus">
       <objectContribution
-            id="de.jabc.cinco.meta.plugin.gratext.contributor"
+            id="de.jabc.cinco.meta.plugin.gratext.menu.gratextbuild"
             objectClass="org.eclipse.core.resources.IProject"
             adaptable="true"
             nameFilter="*gratext">
          <action
                id="de.jabc.cinco.meta.plugin.gratext.build.buildGratext"
                class="de.jabc.cinco.meta.plugin.gratext.build.GratextBuildAction"
+               icon="platform:/plugin/de.jabc.cinco.meta.plugin.gratext/gt_icon_16.png"
+               label="Build Gratext">
+         </action>
+      </objectContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            id="de.jabc.cinco.meta.plugin.gratext.menu.gratextbuild"
+            objectClass="org.eclipse.core.resources.IFile"
+            adaptable="true"
+            nameFilter="*.cpd">
+         <action
+               id="de.jabc.cinco.meta.plugin.gratext.build.buildGratext"
+               class="de.jabc.cinco.meta.plugin.gratext.build.GratextBuildAction"
+               icon="platform:/plugin/de.jabc.cinco.meta.plugin.gratext/gt_icon_16.png"
                label="Build Gratext">
          </action>
       </objectContribution>
