@@ -13,28 +13,26 @@ override template()
    <extension-point id="info.scce.cinco.gratext.backup" name="Gratext Backup" schema="schema/info.scce.cinco.gratext.backup.exsd"/>
    <extension-point id="info.scce.cinco.gratext.restore" name="Gratext Restore" schema="schema/info.scce.cinco.gratext.restore.exsd"/>
    <extension point="org.eclipse.ui.popupMenus">
-      <!--@GratextGen Data-->
 		<objectContribution
-			adaptable="false"
+			adaptable="true"
 			id="info.scce.cinco.gratext.ProjectContributor"
 			objectClass="org.eclipse.core.resources.IProject">
-			<action
-				class="info.scce.cinco.gratext.BackupAction"
-				id="info.scce.cinco.gratext.BackupAction"
-				label="Generate Gratext Backup">
-			</action>
-		</objectContribution>
-   </extension>
-   <extension point="org.eclipse.ui.popupMenus">
-      <!--@GratextGen Data-->
-		<objectContribution
-			adaptable="false"
-			id="info.scce.cinco.gratext.ProjectContributor"
-			objectClass="org.eclipse.core.resources.IProject">
+			<menu id="gratext.main"
+				path="additions"
+				label="Gratext"
+				icon="platform:/plugin/de.jabc.cinco.meta.plugin.gratext/gt_icon_16.png">
+			</menu>
 			<action
 				class="info.scce.cinco.gratext.RestoreAction"
 				id="info.scce.cinco.gratext.RestoreAction"
-				label="Restore Gratext Backup">
+				label="Restore from Backup"
+				menubarPath="gratext.main/group1">
+			</action>
+			<action
+				class="info.scce.cinco.gratext.BackupAction"
+				id="info.scce.cinco.gratext.BackupAction"
+				label="Generate Backup"
+				menubarPath="gratext.main/group1">
 			</action>
 		</objectContribution>
    </extension>
