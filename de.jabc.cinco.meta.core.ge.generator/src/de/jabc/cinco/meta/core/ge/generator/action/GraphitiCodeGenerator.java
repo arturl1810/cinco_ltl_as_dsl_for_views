@@ -120,6 +120,7 @@ import de.jabc.cinco.meta.core.ge.style.model.preprocessors.StylesPreprocessor;
 import de.jabc.cinco.meta.core.mgl.generator.GenModelCreator;
 import de.jabc.cinco.meta.core.pluginregistry.PluginRegistry;
 import de.jabc.cinco.meta.core.ui.listener.MGLSelectionListener;
+import de.jabc.cinco.meta.core.utils.CincoUtils;
 import de.jabc.cinco.meta.core.utils.URIHandler;
 import de.jabc.cinco.meta.core.utils.projects.ProjectCreator;
 import de.metaframe.jabc.framework.execution.DefaultLightweightExecutionEnvironment;
@@ -215,13 +216,13 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 			    copyImage(gModel, p, monitor);
 			    copyIcons("de.jabc.cinco.meta.core.ge.generator", p, monitor);
 			    
-			    try {
-					p.refreshLocal(IResource.DEPTH_INFINITE, monitor);
-					apiProject.refreshLocal(IResource.DEPTH_INFINITE, monitor);
-				} catch (CoreException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+//			    try {
+//					p.refreshLocal(IResource.DEPTH_INFINITE, monitor);
+//					apiProject.refreshLocal(IResource.DEPTH_INFINITE, monitor);
+//				} catch (CoreException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
 			    String outletPath = p.getFolder("src-gen").getLocation().makeAbsolute().toString();
 			    String customFeatureOutletPath = p.getFolder("src").getLocation().makeAbsolute().toOSString();
 				
@@ -359,7 +360,8 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 					if (!genModelFile.exists())
 						genModelFile.create(new ByteArrayInputStream(output.getBytes()), true, monitor);
 					else genModelFile.setContents(new ByteArrayInputStream(output.getBytes()), true, true, monitor);
-					apiProject.refreshLocal(IResource.DEPTH_INFINITE, monitor);
+//					apiProject.refreshLocal(IResource.DEPTH_INFINITE, monitor);
+					CincoUtils.refreshFolders(monitor, folder);
 				}
 				
 				if (result.equals("error")) {
@@ -367,7 +369,7 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 					throw new ExecutionException(e.getMessage());
 				}
 				
-				p.refreshLocal(IResource.DEPTH_INFINITE, monitor);
+//				p.refreshLocal(IResource.DEPTH_INFINITE, monitor);
 				
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -522,8 +524,8 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 			icoGen.create(true, true, monitor);
 		if (!icons.exists()) 
 			icons.create(true, true, monitor);
+		CincoUtils.refreshFolders(monitor, icons, resGen, icoGen);
 		} catch (CoreException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -555,7 +557,6 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 	private void copyImage(String path, IProject target, NullProgressMonitor monitor) {
 		if (path == null || path.isEmpty())
 			return;
-//		IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
 		URI iconURI = URI.createURI(path);
 		IFile iconFile = null;
 		try {
@@ -569,38 +570,10 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 		} catch (CoreException e ) {
 			e.printStackTrace();
 		}
-//		} else {
-//			IResource res = workspaceRoot.findMember(iconURI.toPlatformString(true));
-//			if (res instanceof IFile) {
-//				iconFile = (IFile) res;
-//			}
-//		}
-//		try {
-//			IFolder icons = target.getFolder("icons");
-//			IFolder iconsGen = target.getFolder("resources-gen/icons");
-//			if (!icons.exists())
-//				icons.create(true, true, monitor);
-//			IFile file = icons.getFile(iconFile.getLocation());
-//			IFile fileGen = iconsGen.getFile(iconFile.getLocation());
-//			if ( (file == null || !file.exists()) && (fileGen == null || !fileGen.exists()) )
-//				iconFile.copy(iconsGen.getFullPath().append(iconFile.getName()), true, monitor);
-//		} catch (CoreException e) {
-//			e.printStackTrace();
-//		}
 		
 	}
 
 	private Styles loadStyles(String path, GraphModel gm) throws IOException {
-//		URI resourceUri = gm.eResource().getURI();
-//		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(resourceUri.toPlatformString(true));
-//		Resource stylesResource = CincoUtils.getStylesResource(path, project);
-//		for (EObject o : stylesResource.getContents()) {
-//			if (o instanceof Styles)
-//				return (Styles) o;
-//		}
-//		return null;
-		
-//		/**			This code part was swapped to CincoUtils class...
 		Resource res = null;
 		
 		URI uri = URI.createURI(path, true);
@@ -655,9 +628,10 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 		bundles.add(Platform.getBundle("javax.el"));
 		bundles.add(Platform.getBundle("com.sun.el"));
 		try {
-			p.refreshLocal(IResource.DEPTH_INFINITE, monitor);
+//			p.refreshLocal(IResource.DEPTH_INFINITE, monitor);
 			ProjectCreator.addRequiredBundle(p, bundles);
-			p.refreshLocal(IResource.DEPTH_INFINITE, monitor);
+			p.getFolder("META-INF").getFile("MANIFEST.MF").refreshLocal(IResource.DEPTH_ONE, monitor);
+//			p.refreshLocal(IResource.DEPTH_INFINITE, monitor);
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (CoreException e) {
@@ -695,7 +669,7 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 			os.flush();
 			os.close();
 			
-			
+			CincoUtils.refreshFiles(monitor, p.getFolder("resources-gen/icons").getFile("_Connection.gif"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -717,7 +691,8 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 	private void exportPackages(IProject p, GraphModel gm, NullProgressMonitor monitor ) {
 		IFile iManiFile= p.getFolder("META-INF").getFile("MANIFEST.MF");
 		try {
-			iManiFile.refreshLocal(IFile.DEPTH_INFINITE, monitor);
+			CincoUtils.refreshFiles(monitor, iManiFile);
+//			iManiFile.refreshLocal(IFile.DEPTH_INFINITE, monitor);
 			Manifest manifest = new Manifest(iManiFile.getContents());
 			String prefix = gm.getPackage();
 			boolean primeOnly = true, noEdges = true, noContainers = true;
@@ -764,7 +739,8 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 			manifest.getMainAttributes().putValue("Export-Package", val);
 			
 			manifest.write(new FileOutputStream(iManiFile.getLocation().toFile()));
-			p.refreshLocal(IResource.DEPTH_INFINITE, monitor);
+//			p.refreshLocal(IResource.DEPTH_INFINITE, monitor);
+			CincoUtils.refreshFiles(monitor, iManiFile);
 		} catch (IOException | CoreException e) {
 			e.printStackTrace();
 		}

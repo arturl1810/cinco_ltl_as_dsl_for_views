@@ -10,8 +10,12 @@ import mgl.GraphModel;
 import mgl.ModelElement;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
@@ -167,5 +171,25 @@ public class CincoUtils {
 				return true;
 		}
 		return false;
+	}
+	
+	public static void refreshFiles(IProgressMonitor monitor, IFile...files) {
+		for (IFile f : files)
+			try {
+				f.refreshLocal(IResource.DEPTH_ZERO, monitor);
+			} catch (CoreException e) {
+				System.err.println("Refresh folder error...");
+				e.printStackTrace();
+			}
+	}
+	
+	public static void refreshFolders(IProgressMonitor monitor, IFolder...folders) {
+		for (IFolder f : folders)
+			try {
+				f.refreshLocal(IResource.DEPTH_ONE, monitor);
+			} catch (CoreException e) {
+				System.err.println("Refresh folder error...");
+				e.printStackTrace();
+			}
 	}
 }
