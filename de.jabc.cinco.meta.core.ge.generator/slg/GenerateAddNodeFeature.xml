@@ -568,7 +568,8 @@ public class Add$context.modelElementName$Feature extends CincoAbstractAddFeatur
 		if (eClass.getName().equals(&quot;$context.primeRefType.name$&quot;) 
 			|| (eClass.getEAllSuperTypes().stream().anyMatch(_superClass -&gt; _superClass.getName().equals(&quot;$context.primeRefType.name$&quot;)))
 			&amp;&amp; eClass.getEPackage().getNsURI().equals(&quot;$context.nsURI$&quot;)){
-			return canAddToTarget(target);
+			if (hook) return canAddToTarget(target);
+			else return true;
 		}
 		return false;
 	}

@@ -94,8 +94,8 @@ class «model.name»ModelGenerator {
 		
 		Display.getDefault.asyncExec[
 			edit(diagram).apply[
-				model.modelElements.forEach[add]
-				edges.forEach[edge | add(edge, edge.sourceElement, edge.targetElement) ] 
+				nodes.forEach[add]
+				edges.forEach[add(it, it.sourceElement, it.targetElement)]
 				update
 				save(folder)
 			]
@@ -220,6 +220,10 @@ class «model.name»ModelGenerator {
 	
 	def getAnchor(PictogramElement pe) {
 		return (pe as Shape).anchors.get(0)
+	}
+	
+	def nodes() {
+		return model.modelElements.filter(Node)
 	}
 	
 	def cache(ModelElement bo, PictogramElement pe) {
@@ -389,6 +393,7 @@ class «model.name»ModelGenerator {
 			ModelElement: value.map
 			List<?>: value.map[mapValue]
 			EObject: value
+			case null: value
 			default: { println("[GratextRestore] WARN unmatched value type: " + value); value }
 		}
 	}
