@@ -156,7 +156,7 @@ def typeRule(UserDefinedType type) {
 def enumRule(Enumeration type) {
 	'''
 	enum «type.name» returns «model.acronym»::«type.name»: 
-		«type.literals.join('| ')»
+		«type.literals.map(literal | '''^«literal»''').join(' | ')»
 	;
 	'''
 }
