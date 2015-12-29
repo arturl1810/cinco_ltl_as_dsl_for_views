@@ -135,7 +135,7 @@ class «model.name»BackupGenerator extends GratextGenerator<«model.basePackage
 	def valueGratext(Object obj) {
 		switch obj {
 			ModelElement: obj?.id
-			String: '"' + obj + '"'
+			String: '"' + obj.replace('"', '\\"') + '"'
 			EObject: «"'''"»
 				«"«"»obj.name«"»"» {
 						«"«"»obj.attributes«"»"»
