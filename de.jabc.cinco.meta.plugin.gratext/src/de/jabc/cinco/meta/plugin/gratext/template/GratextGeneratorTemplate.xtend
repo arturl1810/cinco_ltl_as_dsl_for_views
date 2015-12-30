@@ -63,7 +63,7 @@ abstract class GratextGenerator<T extends GraphModel> {
 					"Error", "No diagram found in file: " + file.name)
 		else if (model == null)
 			MessageDialog.openError(Display.current.activeShell, 
-					"Error", "No model of type 'Data' found in file: " + file.name)
+					"Error", "No model found in file: " + file.name)
 	}
 	
 	def CharSequence template()
