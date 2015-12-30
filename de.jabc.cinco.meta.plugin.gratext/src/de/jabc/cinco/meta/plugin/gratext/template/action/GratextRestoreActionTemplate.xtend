@@ -128,12 +128,16 @@ public class RestoreAction implements IActionDelegate {
 	}
 	
 	private void showErrorMessage(String msg) {
-		display.syncExec(() ->
-			new MessageDialog(display.getActiveShell(),
-	            "Gratext Restore", display.getSystemImage(SWT.ICON_ERROR),
-	            msg, MessageDialog.ERROR, new String[] {"OK"}, 0
-	        ).open()
-		);
+		display = Display.getCurrent();
+		if (display == null)
+			display = Display.getDefault();
+		if (display != null)
+			display.syncExec(() ->
+				new MessageDialog(display.getActiveShell(),
+		            "Gratext Restore", display.getSystemImage(SWT.ICON_ERROR),
+		            msg, MessageDialog.ERROR, new String[] {"OK"}, 0
+		        ).open()
+			);
 	}
 	
 	protected List<IFile> getBackupFiles(IProject project) {
