@@ -9,32 +9,28 @@ override template()
 '''	
 package info.scce.cinco.gratext;
 
+import static de.jabc.cinco.meta.core.utils.job.JobFactory.job;
+
+import java.util.AbstractMap;
+import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
+import java.util.stream.Stream;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.ISafeRunnable;
-import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.SafeRunner;
-import org.eclipse.core.runtime.Status;
-import org.eclipse.core.runtime.SubMonitor;
-import org.eclipse.core.runtime.jobs.IJobChangeEvent;
-import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.core.runtime.jobs.JobChangeAdapter;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
@@ -54,29 +50,36 @@ public class RestoreAction implements IActionDelegate {
 	
 	private Display display;
 	private ISelection selection;
-	private Map<String, IRestoreAction> map = new HashMap<>();
+	private IProject project;
+	private Map<String, IRestoreAction> actionByExtension;
+	private Stream<SimpleEntry<IFile, IRestoreAction>> actionByFile;
 	
 	@Override
 	public void run(IAction action) {
-		display = Display.getCurrent();
-		if (selection instanceof IStructuredSelection) {
-			map = new HashMap<>();
-			IStructuredSelection ssel = (IStructuredSelection) selection;
-			if (!ssel.isEmpty() && ssel.getFirstElement() instanceof IProject) {
-				initExtensions();
-				runRestore((IProject) ssel.getFirstElement());
-			}
-		}
+		if (!initProject()) return;
+		
+		job("Gratext Restore")
+		  .label("Collecting files...")
+		  .consume(5)
+		    .task(this::initExtensions)
+		    .task(this::initActions)
+		  .label("Restoring from backups...")
+		  .consumeConcurrent(95)
+			.taskForEach(() -> actionByFile, 
+		    		  entry -> runRestore(entry.getValue(), entry.getKey()),
+		    		  entry -> entry.getKey().getName())
+		  .onFailed(() -> showErrorMessage("Some restore tasks seem to have failed."))
+		  .schedule();
 	}
 	
 	private void initExtensions() {
+		actionByExtension = new HashMap<>();
 		IConfigurationElement[] configs = Platform.getExtensionRegistry().getConfigurationElementsFor(EXTENSION_POINT);
 		for (IConfigurationElement config : configs) try {
 			final Object ext = config.createExecutableExtension(ATTRIBUTE_CLASS);
 			String fileExtension = config.getAttribute(ATTRIBUTE_FILE_EXTENSION);
 			if (fileExtension != null && ext instanceof IRestoreAction) {
-				System.out.println("[GratextRestore] Extension for '" + fileExtension + "' => " + ext);
-				map.put(fileExtension, (IRestoreAction) ext);
+				actionByExtension.put(fileExtension, (IRestoreAction) ext);
 			}
 		} catch (CoreException e) {
 			e.printStackTrace();
@@ -84,71 +87,21 @@ public class RestoreAction implements IActionDelegate {
 		
 	}
 	
-	private void runRestore(IProject project) {
-		Job job = new Job("Gratext Restore") {
-			@Override
-			protected IStatus run(IProgressMonitor monitor) {
-				SubMonitor subMonitor = SubMonitor.convert(monitor, 100);
-				Map<IFile,IRestoreAction> files = getFilesToRestore(project, subMonitor.newChild(5));
-				if (files.isEmpty())
-					return Status.OK_STATUS;
-				subMonitor.setWorkRemaining(95);
-				int totalWork = files.size();
-				int workTick = 95/totalWork;
-				int worked = 1;
-				for (Entry<IFile, IRestoreAction> entry : files.entrySet()) {
-					subMonitor.setTaskName("Restoring file " + (worked++) + "/" + totalWork + ": " + entry.getKey().getName());
-					subMonitor.worked(workTick);
-					runRestore(entry.getValue(), entry.getKey());
-					if (monitor.isCanceled())
-						return Status.CANCEL_STATUS;
-				}
-				return Status.OK_STATUS;
-			};
-		};
-		job.addJobChangeListener(new JobChangeAdapter() {
-	        public void done(IJobChangeEvent event) {
-	        if (event.getResult().isOK())
-	        		showMessage("Restore successful.");
-	        else if (!event.getResult().equals(Status.CANCEL_STATUS))
-	        		showErrorMessage("Some restores seem to have failed.");
-	        }
-	     });
-	     job.setUser(true);
-		 job.schedule();
+	private void initActions() {
+		actionByFile = getBackupFiles(project).stream()
+			.map(file -> new AbstractMap.SimpleEntry<IFile, IRestoreAction>(file, actionByExtension.get(file.getFileExtension())))
+			.filter(entry -> entry.getValue() != null);
 	}
 	
-	private void showMessage(String msg) {
-		display.asyncExec(() ->
-			new MessageDialog(display.getActiveShell(),
-	            "Gratext Restore", display.getSystemImage(SWT.ICON_INFORMATION),
-	            msg, MessageDialog.INFORMATION, new String[] {"OK"}, 0
-	        ).open()
-		);
-	}
-	
-	private void showErrorMessage(String msg) {
-		display.asyncExec(() ->
-			new MessageDialog(display.getActiveShell(),
-	            "Gratext Restore", display.getSystemImage(SWT.ICON_ERROR),
-	            msg, MessageDialog.ERROR, new String[] {"OK"}, 0
-	        ).open()
-		);
-	}
-	
-	private Map<IFile,IRestoreAction> getFilesToRestore(IProject project, IProgressMonitor monitor) {
-		SubMonitor subMonitor = SubMonitor.convert(monitor, 100);
-		subMonitor.setTaskName("Collecting files to restore...");
-		Map<IFile,IRestoreAction> files = new HashMap<>();
-		List<IFile> wsFiles = getBackupFiles(project);
-		subMonitor.worked(50);
-		for (IFile file : wsFiles) {
-			IRestoreAction action = map.get(file.getFileExtension());
-			if (action != null)
-				files.put(file, action);
+	private boolean initProject() {
+		if (selection instanceof IStructuredSelection) {
+			IStructuredSelection ssel = (IStructuredSelection) selection;
+			if (!ssel.isEmpty() && ssel.getFirstElement() instanceof IProject) {
+				project = (IProject) ssel.getFirstElement();
+				return true;
+			}
 		}
-		subMonitor.worked(50);
-		return files;
+		return false;
 	}
 	
 	
@@ -174,36 +127,43 @@ public class RestoreAction implements IActionDelegate {
 		}
 	}
 	
+	private void showErrorMessage(String msg) {
+		display.syncExec(() ->
+			new MessageDialog(display.getActiveShell(),
+	            "Gratext Restore", display.getSystemImage(SWT.ICON_ERROR),
+	            msg, MessageDialog.ERROR, new String[] {"OK"}, 0
+	        ).open()
+		);
+	}
+	
 	protected List<IFile> getBackupFiles(IProject project) {
 		IFolder backupFolder = project.getFolder(new Path(BACKUP_FOLDER));
-		System.out.println("[GratextRestore] Backup folder = " + backupFolder);
 		if (backupFolder != null && backupFolder.exists())
 			return getFiles(backupFolder, null, true);
 		return new ArrayList<>();
 	}
 	
-	protected List<IFile> getWorkspaceFiles(String fileExtension) {
-		return getFiles(ResourcesPlugin.getWorkspace().getRoot(), fileExtension, true);
-	}
-	
 	protected List<IFile> getFiles(IContainer container, String fileExtension, boolean recurse) {
-	    List<IFile> files = new ArrayList<>();
-	    IResource[] members = null;
-	    try {
-	    	members = container.members();
-	    } catch(CoreException e) {
-	    	e.printStackTrace();
-	    }
-	    if (members != null)
+		List<IFile> files = new ArrayList<>();
+		IResource[] members = null;
+		try {
+			members = container.members();
+		} catch (CoreException e) {
+			e.printStackTrace();
+		}
+		if (members != null)
 			Arrays.stream(members).forEach(mbr -> {
-			   if (recurse && mbr instanceof IContainer)
-				   files.addAll(getFiles((IContainer) mbr, fileExtension, recurse));
-			   else if (mbr instanceof IFile && !mbr.isDerived()) {
-				   IFile file = (IFile) mbr;
-				   if (fileExtension == null || fileExtension.equals(file.getFileExtension()))
-				       files.add(file);
-			   }
-		   });
+				if (recurse && mbr instanceof IContainer)
+					files.addAll(getFiles((IContainer) mbr,
+							fileExtension, recurse));
+				else if (mbr instanceof IFile && !mbr.isDerived()) {
+					IFile file = (IFile) mbr;
+					if (fileExtension == null
+							|| fileExtension.equals(file
+									.getFileExtension()))
+						files.add(file);
+				}
+			});
 		return files;
 	}
 

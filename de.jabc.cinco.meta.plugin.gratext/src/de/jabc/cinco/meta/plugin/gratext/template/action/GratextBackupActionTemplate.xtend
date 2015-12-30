@@ -9,6 +9,8 @@ override template()
 '''	
 package info.scce.cinco.gratext;
 
+import static de.jabc.cinco.meta.core.utils.job.JobFactory.job;
+
 import java.util.AbstractMap;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
@@ -16,28 +18,19 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.ISafeRunnable;
-import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.SafeRunner;
-import org.eclipse.core.runtime.Status;
-import org.eclipse.core.runtime.SubMonitor;
-import org.eclipse.core.runtime.jobs.IJobChangeEvent;
-import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.core.runtime.jobs.JobChangeAdapter;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
@@ -45,7 +38,6 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IActionDelegate;
-
 
 public class BackupAction implements IActionDelegate {
 
@@ -56,101 +48,58 @@ public class BackupAction implements IActionDelegate {
 	
 	private Display display;
 	private ISelection selection;
-	private Map<String, IBackupAction> map = new HashMap<>();
 	private IProject project;
+	private Map<String, IBackupAction> actionByExtension;
+	private Stream<SimpleEntry<IFile, IBackupAction>> actionByFile;
 	
 	@Override
 	public void run(IAction action) {
-		display = Display.getCurrent();
-		if (selection instanceof IStructuredSelection) {
-			map = new HashMap<>();
-			IStructuredSelection ssel = (IStructuredSelection) selection;
-			if (!ssel.isEmpty() && ssel.getFirstElement() instanceof IProject) {
-				project = (IProject) ssel.getFirstElement();
-				initExtensions();
-				runBackup();
-			}
-		}
+		if (!initProject()) return;
+		
+		job("Gratext Backup")
+		  .label("Collecting files...")
+		  .consume(5)
+		    .task(this::initExtensions)
+		    .task(this::initActions)
+		  .label("Generating backups...")
+		  .consumeConcurrent(95)
+		    .taskForEach(() -> actionByFile, 
+		    		  entry -> runBackup(entry.getValue(), entry.getKey()),
+		    		  entry -> entry.getKey().getName())
+		  .onFailed(() -> showErrorMessage("Some backup tasks seem to have failed."))
+		  .schedule();
 	}
 	
 	private void initExtensions() {
+		actionByExtension = new HashMap<>();
 		IConfigurationElement[] configs = Platform.getExtensionRegistry().getConfigurationElementsFor(EXTENSION_POINT);
 		for (IConfigurationElement config : configs) try {
 			final Object ext = config.createExecutableExtension(ATTRIBUTE_CLASS);
 			String fileExtension = config.getAttribute(ATTRIBUTE_FILE_EXTENSION);
-			if (fileExtension != null && ext instanceof IBackupAction) {
-				System.out.println("[GratextBackup] Extension for '" + fileExtension + "' => " + ext);
-				map.put(fileExtension, (IBackupAction) ext);
-			}
+			if (fileExtension != null && ext instanceof IBackupAction)
+				actionByExtension.put(fileExtension, (IBackupAction) ext);
 		} catch (CoreException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	private void runBackup() {
-		Job job = new Job("Generate Gratext Backup") {
-			@Override
-			protected IStatus run(IProgressMonitor monitor) {
-				SubMonitor subMonitor = SubMonitor.convert(monitor, 100);
-				List<SimpleEntry<IFile, IBackupAction>> entries = getFilesToBackup(subMonitor.newChild(5));
-				if (entries.isEmpty())
-					return Status.OK_STATUS;
-				subMonitor.setWorkRemaining(95);
-				int totalWork = entries.size();
-				int workTick = 95/totalWork;
-				int worked = 1;
-				for (Entry<IFile, IBackupAction> entry : entries) {
-					subMonitor.setTaskName("Backing up file " + (worked++) + "/" + totalWork + ": " + entry.getKey().getName());
-					subMonitor.worked(workTick);
-					runBackup(entry.getValue(), entry.getKey());
-					if (monitor.isCanceled())
-						return Status.CANCEL_STATUS;
-				}
-				return Status.OK_STATUS;
-			};
-		};
-		job.addJobChangeListener(new JobChangeAdapter() {
-	        public void done(IJobChangeEvent event) {
-	        if (event.getResult().isOK())
-	        		showMessage("Backup successful.");
-	        else if (!event.getResult().equals(Status.CANCEL_STATUS))
-	        		showErrorMessage("Some backups seem to have failed.");
-	        }
-	     });
-	    job.setUser(true);
-		job.schedule();
+	private void initActions() {
+		actionByFile = getProjectFiles().stream()
+			.map(file -> new AbstractMap.SimpleEntry<IFile, IBackupAction>(file, actionByExtension.get(file.getFileExtension())))
+			.filter(entry -> entry.getValue() != null);
 	}
 	
-	private void showMessage(String msg) {
-		display.asyncExec(() ->
-			new MessageDialog(display.getActiveShell(),
-	            "Gratext Backup", display.getSystemImage(SWT.ICON_INFORMATION),
-	            msg, MessageDialog.INFORMATION, new String[] {"OK"}, 0
-	        ).open()
-		);
+	private boolean initProject() {
+		if (selection instanceof IStructuredSelection) {
+			IStructuredSelection ssel = (IStructuredSelection) selection;
+			if (!ssel.isEmpty() && ssel.getFirstElement() instanceof IProject) {
+				project = (IProject) ssel.getFirstElement();
+				return true;
+			}
+		}
+		return false;
 	}
-	
-	private void showErrorMessage(String msg) {
-		display.asyncExec(() ->
-			new MessageDialog(display.getActiveShell(),
-	            "Gratext Backup", display.getSystemImage(SWT.ICON_ERROR),
-	            msg, MessageDialog.ERROR, new String[] {"OK"}, 0
-	        ).open()
-		);
-	}
-	
-	private List<SimpleEntry<IFile, IBackupAction>> getFilesToBackup(IProgressMonitor monitor) {
-		SubMonitor subMonitor = SubMonitor.convert(monitor, 100);
-		subMonitor.setTaskName("Collecting files to backup...");
-		subMonitor.worked(50);
-		List<SimpleEntry<IFile, IBackupAction>> entries = getProjectFiles().stream()
-			.map(file -> new AbstractMap.SimpleEntry<IFile, IBackupAction>(file, map.get(file.getFileExtension())))
-			.filter(entry -> entry.getValue() != null)
-			.collect(Collectors.toList());
-		subMonitor.worked(50);
-		return entries;
-	}
-	
+		
 	private void runBackup(final IBackupAction action, IFile file) {
 		ISafeRunnable runnable = new ISafeRunnable() {
 			
@@ -173,38 +122,56 @@ public class BackupAction implements IActionDelegate {
 		}
 	}
 	
-	protected List<IFile> getWorkspaceFiles() {
-		return getFiles(ResourcesPlugin.getWorkspace().getRoot(), null, true);
+	private void showErrorMessage(String msg) {
+		display = Display.getCurrent();
+		if (display == null)
+			display = Display.getDefault();
+		if (display != null)
+			display.syncExec(() ->
+				new MessageDialog(display.getActiveShell(),
+		            "Gratext Backup", display.getSystemImage(SWT.ICON_ERROR),
+		            msg, MessageDialog.ERROR, new String[] {"OK"}, 0
+		        ).open()
+			);
 	}
 	
-	protected List<IFile> getWorkspaceFiles(String fileExtension) {
-		return getFiles(ResourcesPlugin.getWorkspace().getRoot(), fileExtension, true);
-	}
+//	protected List<IFile> getWorkspaceFiles() {
+//		return getFiles(ResourcesPlugin.getWorkspace().getRoot(), null, true);
+//	}
+	
+//	protected List<IFile> getWorkspaceFiles(String fileExtension) {
+//		return getFiles(ResourcesPlugin.getWorkspace().getRoot(), fileExtension, true);
+//	}
 	
 	protected List<IFile> getProjectFiles() {
 		return getFiles(project, null, true);
 	}
 	
-	protected List<IFile> getFiles(IContainer container, String fileExtension, boolean recurse) {
-	    List<IFile> files = new ArrayList<>();
-	    if (container instanceof IFolder && TARGET_FOLDER.equals(((IFolder)container).getName()))
-	    		return files;
-	    IResource[] members = null;
-	    try {
-	    	members = container.members();
-	    } catch(CoreException e) {
-	    	e.printStackTrace();
-	    }
-	    if (members != null)
-			Arrays.stream(members).forEach(mbr -> {
-			   if (recurse && mbr instanceof IContainer)
-				   files.addAll(getFiles((IContainer) mbr, fileExtension, recurse));
-			   else if (mbr instanceof IFile && !mbr.isDerived()) {
-				   IFile file = (IFile) mbr;
-				   if (fileExtension == null || fileExtension.equals(file.getFileExtension()))
-				       files.add(file);
-			   }
-		   });
+	protected List<IFile> getFiles(IContainer container, String fileExtension,
+			boolean recurse) {
+		List<IFile> files = new ArrayList<>();
+		if (container instanceof IFolder
+				&& TARGET_FOLDER.equals(((IFolder) container).getName()))
+			return files;
+		IResource[] members = null;
+		try {
+			members = container.members();
+		} catch (CoreException e) {
+			e.printStackTrace();
+		}
+		if (members != null)
+			Arrays.stream(members).forEach( mbr -> {
+				if (recurse && mbr instanceof IContainer)
+					files.addAll(getFiles((IContainer) mbr,
+							fileExtension, recurse));
+				else if (mbr instanceof IFile && !mbr.isDerived()) {
+					IFile file = (IFile) mbr;
+					if (fileExtension == null
+							|| fileExtension.equals(file
+									.getFileExtension()))
+						files.add(file);
+				}
+			});
 		return files;
 	}
 

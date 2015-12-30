@@ -1,8 +1,5 @@
 package de.jabc.cinco.meta.plugin.gratext;
 
-import static de.jabc.cinco.meta.plugin.gratext.util.GratextUtils.task;
-
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -20,19 +17,12 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
-import org.eclipse.emf.codegen.ecore.genmodel.generator.GenBaseGeneratorAdapter;
-import org.eclipse.emf.codegen.ecore.genmodel.util.GenModelUtil;
-import org.eclipse.emf.codegen.util.CodeGenUtil;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.mwe2.language.mwe2.Module;
-import org.eclipse.emf.mwe2.launch.runtime.Mwe2Launcher;
-import org.eclipse.emf.mwe2.launch.runtime.Mwe2Runner;
 
 import de.jabc.cinco.meta.core.utils.projects.ProjectCreator;
-import de.jabc.cinco.meta.plugin.gratext.descriptor.FileDescriptor;
 import de.jabc.cinco.meta.plugin.gratext.descriptor.GraphModelDescriptor;
 import de.jabc.cinco.meta.plugin.gratext.descriptor.ProjectDescriptor;
 import de.jabc.cinco.meta.plugin.gratext.template.BackupActionTemplate;
@@ -60,7 +50,6 @@ public class GratextProjectGenerator extends ProjectGenerator {
 
 	private static final String PROJECT_ACRONYM = "gratext";
 	private static final String PROJECT_SUFFIX = "Gratext";
-	private static final String GRAPHMODEL_PATH = "/de.jabc.cinco.meta.core.mgl.model/model/GraphModel.genmodel";
 	
 	private GraphModel model;
 	
@@ -126,7 +115,8 @@ public class GratextProjectGenerator extends ProjectGenerator {
 							 "org.eclipse.core.runtime",
 							 "org.eclipse.core.resources",
 							 "org.eclipse.e4.core.di",
-							 "org.eclipse.ui"
+							 "org.eclipse.ui",
+							 "de.jabc.cinco.meta.core.utils"
 						));
 				};
 				@Override protected List<String> getNatures() {
@@ -399,7 +389,6 @@ public class GratextProjectGenerator extends ProjectGenerator {
 	Map<String, GenPackage> genPackages = new HashMap<>();
 	
 	public GenPackage getGenPackage(String nsURI) {
-		//System.out.println("Get GenPackage " + nsURI + " = " + genPackages.get(nsURI));
 		return genPackages.get(nsURI);
 	}
 	
@@ -414,7 +403,6 @@ public class GratextProjectGenerator extends ProjectGenerator {
 	}
 	
 	public boolean addGenPackageReference(String nsURI) {
-		//System.out.println("Referenced package " + nsURI);
 		return referenced.add(nsURI);
 	}
 	
