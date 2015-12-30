@@ -20,6 +20,7 @@ import com.google.common.collect.Iterables;
 public class CompoundJob extends Job {
 	
 	private SubMonitor monitor;
+	private IProgressMonitor parentMonitor;
 	private IStatus status;
 	private List<Step> steps = new ArrayList<>();
 	
@@ -42,6 +43,19 @@ public class CompoundJob extends Job {
 		registerListener();
 	}
 	
+	public CompoundJob(String name, IProgressMonitor monitor) {
+		super(name);
+		parentMonitor = monitor;
+		registerListener();
+	}
+	
+	public CompoundJob(String name, IProgressMonitor monitor, boolean user) {
+		super(name);
+		parentMonitor = monitor;
+		setUser(user);
+		registerListener();
+	}
+	
 	/**
 	 * Sets the display name of the current task group.
 	 * 
@@ -54,7 +68,7 @@ public class CompoundJob extends Job {
 	}
 	
 	/**
-	 * Initiates the creation of a task sequence that in
+	 * Initiates the creation of a task group that in
 	 * total consumes the specified work quota. The latter
 	 * does not represent a percentage but is interpreted
 	 * as an installment relative to the total workload of
@@ -82,7 +96,7 @@ public class CompoundJob extends Job {
 	}
 	
 	/**
-	 * Initiates the creation of a task sequence that in
+	 * Initiates the creation of a task group that in
 	 * total consumes the specified work quota. The latter
 	 * does not represent a percentage but is interpreted
 	 * as an installment relative to the total workload of
@@ -193,7 +207,7 @@ public class CompoundJob extends Job {
 	
 	@Override
 	protected IStatus run(IProgressMonitor pm) {
-		monitor = SubMonitor.convert(pm, getTotalWorkload() + 5);
+		wrapMonitor(pm);
 		status = Status.OK_STATUS;
 		try {
 			// necessary to update task name in progress window
@@ -248,7 +262,13 @@ public class CompoundJob extends Job {
 		return retVal;
 	}
 	
-	private int getTotalWorkload() {
+	protected void wrapMonitor(IProgressMonitor pm) {
+		monitor = SubMonitor.convert(
+			parentMonitor != null ? parentMonitor : pm,
+			getTotalWorkload() + 5);
+	}
+	
+	protected int getTotalWorkload() {
 		return steps.stream()
 			.filter(ComplexStep.class::isInstance)
 			.map(ComplexStep.class::cast)

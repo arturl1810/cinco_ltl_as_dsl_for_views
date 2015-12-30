@@ -1,5 +1,7 @@
 package de.jabc.cinco.meta.core.utils.job;
 
+import org.eclipse.core.runtime.IProgressMonitor;
+
 
 /**
    Job factory that provides static methods to create runtime
@@ -23,8 +25,11 @@ package de.jabc.cinco.meta.core.utils.job;
 public class JobFactory {
 	
 	/**
+	 * Creates and returns a job object that can handle separate
+	 * groups of tasks and cares about progress monitoring.
 	 * 
-	 * @param name  Display name of the task.
+	 * @param name  Display name of the job that is used as
+	 *   title of the progress dialog.
 	 * @return  The job object.
 	 */
 	public static CompoundJob job(String name) {
@@ -32,8 +37,11 @@ public class JobFactory {
 	}
 	
 	/**
+	 * Creates and returns a job object that can handle separate
+	 * groups of tasks and cares about progress monitoring.
 	 * 
-	 * @param name  Display name of the task.
+	 * @param name  Display name of the job that is used as
+	 *   title of the progress dialog.
 	 * @param user  If {@code true}, the user is provided with 
 	 *   a cancelable progress monitor at runtime. Otherwise, an
 	 *   uncancelable job is executed in the background.
@@ -41,5 +49,39 @@ public class JobFactory {
 	 */
 	public static CompoundJob job(String name, boolean user) {
 		return new CompoundJob(name, user);
+	}
+	
+	/**
+	 * Creates and returns a job object that can handle separate
+	 * groups of tasks and cares about progress monitoring.
+	 * 
+	 * @param name  Display name of the job that is used as
+	 *   title of the progress dialog.
+	 * @param monitor  Progress monitor to be used instead of the default
+	 *   monitor that is provided at runtime.
+	 * @param user  If {@code true}, the user is provided with 
+	 *   a cancelable progress monitor at runtime. Otherwise, an
+	 *   uncancelable job is executed in the background.
+	 * @return  The job object.
+	 */
+	public static CompoundJob job(String name, IProgressMonitor monitor) {
+		return new CompoundJob(name, monitor);
+	}
+	
+	/**
+	 * Creates and returns a job object that can handle separate
+	 * groups of tasks and cares about progress monitoring.
+	 * 
+	 * @param name  Display name of the job that is used as
+	 *   title of the progress dialog.
+	 * @param monitor  Progress monitor to be used instead of the default
+	 *   monitor that is provided at runtime.
+	 * @param user  If {@code true}, the user is provided with 
+	 *   a cancelable progress monitor at runtime. Otherwise, an
+	 *   uncancelable job is executed in the background.
+	 * @return  The job object.
+	 */
+	public static CompoundJob job(String name, IProgressMonitor monitor, boolean user) {
+		return new CompoundJob(name, monitor, user);
 	}
 }
