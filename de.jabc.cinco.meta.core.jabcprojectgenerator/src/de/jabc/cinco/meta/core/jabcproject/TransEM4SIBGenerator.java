@@ -38,7 +38,7 @@ public class TransEM4SIBGenerator implements IRunnableWithProgress {
 				//monitor.subTask("Generating jABC4 Project");
 				generateJABC4Project(projectPath);
 			}
-			monitor.worked(90);
+			
 		}catch(Exception e){
 			e.printStackTrace();
 			throw new InvocationTargetException(e);
@@ -46,12 +46,12 @@ public class TransEM4SIBGenerator implements IRunnableWithProgress {
 		try {
 			//monitor.subTask("Refreshing Project");
 			project.refreshLocal(IProject.DEPTH_ONE, monitor);
-			monitor.worked(10);
+			
 		} catch (Exception e) {
 			throw new InvocationTargetException(e);
 		}
 		
-		monitor.done();
+		
 	}
 
 
