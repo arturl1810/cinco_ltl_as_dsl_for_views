@@ -46,6 +46,7 @@ import org.eclipse.ui.progress.IProgressService;
 
 import de.jabc.cinco.meta.core.referenceregistry.listener.RegistryPartListener;
 import de.jabc.cinco.meta.core.referenceregistry.listener.RegistryResourceChangeListener;
+import de.jabc.cinco.meta.core.utils.job.JobFactory;
 
 public class ReferenceRegistry {
 
@@ -122,16 +123,45 @@ public class ReferenceRegistry {
 			this.cache = cachesMap.get(p);
 		} else {
 			System.out.println(String.format("No registry file found for project: %s. Creating new map", p));
-			load(p);
-			registriesMap.put(p, map);
-			cache = new HashMap<String, EObject>();
-			currentProject = p;
-			for (Entry<String, String> e : map.entrySet()) 
-				cache.put(e.getKey(), loadObject(e.getKey(), e.getValue()));
-			cachesMap.put(p, cache);
 			
+			long debugTime = System.currentTimeMillis();
+			
+			JobFactory.job("Reference Registry")
+			  .label("Building registry map...")
+			  .consume(5)
+			    .task(() -> load(p))
+			  .consume(95)
+			    .task(() -> rebuildMap(p))
+			  .onFinished(() -> {
+				  System.out.println(String.format(
+						"Registry map created. This took %s of your lifetime.",
+						"" + (System.currentTimeMillis() - debugTime) + " ms"));
+			  })
+			.schedule();
 		}
 	}
+	
+	private void rebuildMap(IProject p) {
+		registriesMap.put(p, map);
+		cache = new HashMap<String, EObject>();
+		currentProject = p;
+		Map<String,Resource> loadedResources = new HashMap<>();
+		for (Entry<String, String> e : map.entrySet()) {
+			String uri = e.getValue();
+//			System.out.println("Refreshing: " + uri + "->" + objectId);
+			EObject loadedObject = null;
+			if (loadedResources.containsKey(uri)) {
+				Resource res = loadedResources.get(uri);
+				loadedObject = res.getEObject(e.getKey());
+			} else {
+				loadedObject = loadObject(e.getKey(), uri);
+				loadedResources.put(uri,loadedObject.eResource());
+			}
+			cache.put(e.getKey(), loadedObject);
+		}	
+		cachesMap.put(p, cache);
+	}
+	
 	
 	public void storeMaps(IProject p) {
 		registriesMap.put(p, map);
@@ -167,7 +197,7 @@ public class ReferenceRegistry {
 	public void handleContentChange(URI affectedFileUri) {
 		long start = System.currentTimeMillis();
 		String resourcePath = affectedFileUri.toPlatformString(true);
-		System.out.println("Affected file: " +resourcePath);
+		System.out.println("Content change event for file: " +resourcePath);
 		HashMap<IProject, List<String>> affected = getAffectedEntries(resourcePath);
 		Map<String,Resource> loadedResources = new HashMap<String,Resource>();
 		for (Entry<IProject, List<String>> e : affected.entrySet()) {
