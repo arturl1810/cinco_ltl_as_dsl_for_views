@@ -55,7 +55,7 @@ public class GenerateFeatureProjectHandler extends AbstractHandler {
 			IFile file = MGLSelectionListener.INSTANCE.getCurrentMGLFile();
 			if(file!=null){
 				ResourceSet rSet = new ResourceSetImpl();
-				ps.busyCursorWhile(new FeatureGenerator(file,rSet));
+				ps.run(true,false,new FeatureGenerator(file,rSet));
 				
 			}
 		} catch (InvocationTargetException | InterruptedException e) {

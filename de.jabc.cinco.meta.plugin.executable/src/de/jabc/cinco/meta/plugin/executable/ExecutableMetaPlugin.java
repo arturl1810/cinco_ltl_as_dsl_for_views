@@ -182,7 +182,7 @@ public class ExecutableMetaPlugin implements IMetaPlugin {
 				out.close();
 				File schemaDirectory = new File(projectPath+"/schema/");
 				schemaDirectory.mkdir();
-				System.out.println(schemaDirectory.isDirectory());
+				//System.out.println(schemaDirectory.isDirectory());
 				context.put("schemaDirectory",schemaDirectory);
 				context.put("executorPath", projectPath);
 				

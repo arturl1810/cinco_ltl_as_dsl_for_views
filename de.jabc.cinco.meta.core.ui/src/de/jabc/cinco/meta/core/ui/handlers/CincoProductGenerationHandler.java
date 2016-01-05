@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import mgl.GraphModel;
 import mgl.Import;
@@ -24,10 +23,8 @@ import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -40,8 +37,6 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.commands.ICommandService;
 import org.eclipse.ui.handlers.HandlerUtil;
-
-import com.google.common.collect.Lists;
 
 import transem.utility.helper.Tuple;
 import ProductDefinition.CincoProduct;
@@ -74,7 +69,11 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 	 * from the application context.
 	 */
 	synchronized public Object execute(ExecutionEvent event) throws ExecutionException {
+		
+		long startTime = System.nanoTime();
+		System.err.println("Starting at: "+startTime);
 		try{
+			
 			commandService = (ICommandService)PlatformUI.getWorkbench().getService(ICommandService.class);
 			StructuredSelection selection = (StructuredSelection)HandlerUtil.getActiveMenuSelection(event);
 			if(selection.getFirstElement() instanceof IFile){
@@ -85,20 +84,20 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 				MGLEPackageRegistry.resetRegistry();
 				deleteGeneratedResources(cpdFile.getProject(),cpd);
 				List<String> mgls = mglTopSort(cpd, cpdFile.getProject());
-				System.out.println(mgls);
+				//System.out.println(mgls);
 				for(String mglPath: mgls){
 					
 					mglModelFile = cpdFile.getProject().getFile(mglPath);
 					MGLSelectionListener.INSTANCE.putMGLFile(mglModelFile);
 					
-					System.out.println("Generating Ecore/GenModel from MGL...");
+					//System.out.println("Generating Ecore/GenModel from MGL...");
 					Command mglGeneratorCommand = commandService.getCommand("de.jabc.cinco.meta.core.mgl.ui.mglgenerationcommand");
 					mglGeneratorCommand.executeWithChecks(event);
 					
-					System.out.println("Generating Model Code from GenModel...");
+					//System.out.println("Generating Model Code from GenModel...");
 					GeneratorHelper.generateGenModelCode(mglModelFile);
 					
-					System.out.println("Generating Graphiti Editor...");
+					//System.out.println("Generating Graphiti Editor...");
 					Command graphitiEditorGeneratorCommand = commandService.getCommand("de.jabc.cinco.meta.core.ge.generator.generateeditorcommand");
 					graphitiEditorGeneratorCommand.executeWithChecks(event);
 	//				IProject apiProject = ResourcesPlugin.getWorkspace().getRoot().getProject(mglModelFile.getProject().getName().concat(".graphiti.api"));
@@ -109,20 +108,22 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 						GeneratorHelper.generateGenModelCode(apiProject, "C"+mglModelFile.getName().split("\\.")[0]);
 					
 					
-					System.out.println("Generating jABC4 Project Information");
+					//System.out.println("Generating jABC4 Project Information");
 					Command sibGenerationCommand = commandService.getCommand("de.jabc.cinco.meta.core.jabcproject.commands.generateCincoSIBsCommand");
 					sibGenerationCommand.executeWithChecks(event);
 					
 					// TODO: Product definition should be made central file
-					System.out.println("Generating Product project");
+					//System.out.println("Generating Product project");
 					Command cpdGenerationCommand = commandService.getCommand("cpd.handler.ui.generate");
 					cpdGenerationCommand.executeWithChecks(event);
 					
-					System.out.println("Generating Feature Project");
+					//System.out.println("Generating Feature Project");
 					Command featureGenerationCommand = commandService.getCommand("de.jabc.cinco.meta.core.generatefeature");
 					featureGenerationCommand.executeWithChecks(event);
 				}
-				
+				long stopTime = System.nanoTime();
+				System.err.println("Stoppint at: "+stopTime);
+				System.err.println(String.format("Executed Generation in %s minutes",(stopTime-startTime)*Math.pow(10,-9)/60));
 				MessageDialog.openInformation(HandlerUtil.getActiveShell(event), "Cinco Product Generation", "Cinco Product generation completed successfully");
 				
 			}
@@ -145,7 +146,6 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 			
 			e1.printStackTrace();
 		}
-		
 		
 		return null;
 	}
@@ -195,12 +195,11 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 					}
 				}
 			}
-			IProgressMonitor monitor = new NullProgressMonitor();
 
 			for (IResource resource : toDelete) {
 				if (resource != null) {
 					resource.delete(org.eclipse.core.resources.IResource.FORCE,
-							monitor);
+							null);
 				}
 			}
 

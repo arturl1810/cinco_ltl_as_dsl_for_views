@@ -71,7 +71,7 @@ public class CincoResizeFeature {
 		
 		resize(shape);
 		
-//		System.out.println(String.format("Size: (%s,%s)", ga.getWidth(), ga.getHeight()));
+//		//System.out.println(String.format("Size: (%s,%s)", ga.getWidth(), ga.getHeight()));
 //		System.err.println(String.format("Pos: (%s,%s)", ga.getX(), ga.getY()));
 	}
 	
@@ -120,12 +120,12 @@ public class CincoResizeFeature {
 				}
 				oldParent.setSize(initialParent.width, initialParent.height);
 			} else {
-				System.out.println("WARN Polygon resize: points do not match reference points. "
-						+ "Resizing based on current state, might be inaccurate.");
+				//System.out.println("WARN Polygon resize: points do not match reference points. "
+					//	+ "Resizing based on current state, might be inaccurate.");
 			}
 		} else {
-			System.out.println("WARN Polygon resize: reference points and/or parent size not found. "
-					+ "Resizing based on current state, might be inaccurate.");
+			//System.out.println("WARN Polygon resize: reference points and/or parent size not found. "
+				//	+ "Resizing based on current state, might be inaccurate.");
 		}
 		
 		if (checkPropertyValue(polyline, FIXED_WIDTH, FIXED))

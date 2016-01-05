@@ -50,7 +50,7 @@ public class ProductProjectGenerationHandler extends AbstractHandler {
 		//@Override
 		public void run(IProgressMonitor monitor)
 				throws InvocationTargetException, InterruptedException {
-			monitor.subTask("Generating Cinco Product.");
+			//monitor.subTask("Generating Cinco Product.");
 			if(!monitor.isCanceled()){
 				IFile selectedFile = MGLSelectionListener.INSTANCE.getSelectedCPDFile();
 				if(selectedFile.getFileExtension().equals("cpd")){
@@ -60,7 +60,7 @@ public class ProductProjectGenerationHandler extends AbstractHandler {
 					//Resource res = rSet.createResource(createPlatformResourceURI);
 					Resource res = Resource.Factory.Registry.INSTANCE.getFactory(createPlatformResourceURI, "cpd").createResource(createPlatformResourceURI);
 					try {
-						monitor.subTask("Loading Resource");
+						//monitor.subTask("Loading Resource");
 						res.load(null);
 						EclipseResourceFileSystemAccess2 access =  new EclipseResourceFileSystemAccess2();//fileAccessProvider.get();
 						access.setProject(project);

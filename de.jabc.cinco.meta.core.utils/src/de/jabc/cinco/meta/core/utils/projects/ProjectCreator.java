@@ -83,8 +83,8 @@ public class ProjectCreator {
 		
 		IProject project = null;
 		try {
-			progressMonitor.beginTask("", 10);
-			progressMonitor.subTask("Creating project " + projectName);
+			//progressMonitor.beginTask("", 10);
+			//progressMonitor.subTask("Creating project " + projectName);
 			final IWorkspace workspace = ResourcesPlugin.getWorkspace();
 			project = workspace.getRoot().getProject(projectName);
 

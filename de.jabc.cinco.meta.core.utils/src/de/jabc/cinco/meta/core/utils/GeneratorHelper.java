@@ -35,7 +35,7 @@ public class GeneratorHelper {
 						genModel.getUsedGenPackages().add(gm);
 					}
 				}
-				System.out.println(genModel.getUsedGenPackages());
+				//System.out.println(genModel.getUsedGenPackages());
 				genModel.setCanGenerate(true);
 				genModel.reconcile();
 				Generator generator = new Generator();
@@ -67,7 +67,7 @@ public class GeneratorHelper {
 						genModel.getUsedGenPackages().add(gm);
 					}
 				}
-				System.out.println(genModel.getUsedGenPackages());
+				//System.out.println(genModel.getUsedGenPackages());
 				genModel.setCanGenerate(true);
 				genModel.reconcile();
 				Generator generator = new Generator();

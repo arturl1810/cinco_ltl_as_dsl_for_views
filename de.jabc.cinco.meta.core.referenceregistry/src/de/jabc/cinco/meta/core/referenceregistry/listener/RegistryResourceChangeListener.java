@@ -26,11 +26,11 @@ public class RegistryResourceChangeListener implements IResourceChangeListener {
 			IResource res = child.getResource();
 			if (res instanceof IFile) {
 				IFile file = (IFile) res;
-//				System.out.println("For file: " + file);
-//				System.out.println("Delta-Kind: " + child.getKind());
-//				System.out.println("Delta-Flags : " + child.getFlags());
-//				System.out.println("From: " + child.getMovedFromPath());
-//				System.out.println("To: " + child.getMovedToPath());
+//				//System.out.println("For file: " + file);
+//				//System.out.println("Delta-Kind: " + child.getKind());
+//				//System.out.println("Delta-Flags : " + child.getFlags());
+//				//System.out.println("From: " + child.getMovedFromPath());
+//				//System.out.println("To: " + child.getMovedToPath());
 				if (deleted(child)){
 					ReferenceRegistry.getInstance().handleDelete(getUri(file.getFullPath()));
 				}
