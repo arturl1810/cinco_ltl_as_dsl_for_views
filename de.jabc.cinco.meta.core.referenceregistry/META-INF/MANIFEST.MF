@@ -16,3 +16,4 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Export-Package: de.jabc.cinco.meta.core.referenceregistry,
  de.jabc.cinco.meta.core.referenceregistry.listener
+Import-Package: de.jabc.cinco.meta.core.utils.job
