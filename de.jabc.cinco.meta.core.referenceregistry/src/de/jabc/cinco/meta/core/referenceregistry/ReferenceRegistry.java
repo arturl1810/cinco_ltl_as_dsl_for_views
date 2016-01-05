@@ -122,14 +122,29 @@ public class ReferenceRegistry {
 			this.cache = cachesMap.get(p);
 		} else {
 			System.out.println(String.format("No registry file found for project: %s. Creating new map", p));
+			long debugTime = System.currentTimeMillis();
 			load(p);
 			registriesMap.put(p, map);
 			cache = new HashMap<String, EObject>();
 			currentProject = p;
-			for (Entry<String, String> e : map.entrySet()) 
-				cache.put(e.getKey(), loadObject(e.getKey(), e.getValue()));
+			Map<String,Resource> loadedResources = new HashMap<>();
+			for (Entry<String, String> e : map.entrySet()) {
+				String uri = e.getValue();
+//				System.out.println("Refreshing: " + uri + "->" + objectId);
+				EObject loadedObject = null;
+				if (loadedResources.containsKey(uri)) {
+					Resource res = loadedResources.get(uri);
+					loadedObject = res.getEObject(e.getKey());
+				} else {
+					loadedObject = loadObject(e.getKey(), uri);
+					loadedResources.put(uri,loadedObject.eResource());
+				}
+				cache.put(e.getKey(), loadedObject);
+			}
+				
 			cachesMap.put(p, cache);
-			
+			System.out.println(String.format("Registry map created. This took %s of your lifetime.",
+					"" + (System.currentTimeMillis() - debugTime) + " ms"));
 		}
 	}
 	
@@ -167,7 +182,7 @@ public class ReferenceRegistry {
 	public void handleContentChange(URI affectedFileUri) {
 		long start = System.currentTimeMillis();
 		String resourcePath = affectedFileUri.toPlatformString(true);
-		System.out.println("Affected file: " +resourcePath);
+		System.out.println("Content change event for file: " +resourcePath);
 		HashMap<IProject, List<String>> affected = getAffectedEntries(resourcePath);
 		Map<String,Resource> loadedResources = new HashMap<String,Resource>();
 		for (Entry<IProject, List<String>> e : affected.entrySet()) {
