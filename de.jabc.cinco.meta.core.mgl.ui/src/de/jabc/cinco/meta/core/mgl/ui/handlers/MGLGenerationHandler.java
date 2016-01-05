@@ -68,7 +68,7 @@ public class MGLGenerationHandler extends AbstractHandler {
 			
 			 IProgressService ps = HandlerUtil.getActiveWorkbenchWindowChecked(event).getWorkbench().getProgressService();
 			 try {
-				ps.run(false, true, new MGLGenerator());
+				callGenerator();
 			} catch (Exception e) {
 				throw new ExecutionException("Exception in MGL 2 Ecore Transformation", e);
 			}
@@ -77,64 +77,53 @@ public class MGLGenerationHandler extends AbstractHandler {
 		return null;
 	}
 
-	private class MGLGenerator implements IRunnableWithProgress{
-
-		@Override
-		public void run(IProgressMonitor monitor)
-				throws InvocationTargetException, InterruptedException {
-				IFile file = MGLSelectionListener.INSTANCE.getCurrentMGLFile();
-				ResourceSet rSet = resourceSetProvider.get(file.getProject());
+	private void callGenerator() {
+		IFile file = MGLSelectionListener.INSTANCE.getCurrentMGLFile();
+		ResourceSet rSet = resourceSetProvider.get(file.getProject());
+		
+		Resource res = rSet.createResource(URI.createPlatformResourceURI(file.getFullPath().toOSString(), true));
+		
+		try {
+			//monitor.subTask("Loading Resource");
+			res.load(null);
+			EclipseResourceFileSystemAccess2 access = fileAccessProvider.get();
+			access.setProject(file.getProject());
+			access.setMonitor(null);
+			OutputConfiguration defaultOutput = new OutputConfiguration("DEFAULT_OUTPUT");
+		    defaultOutput.setOutputDirectory("./src-gen");
+		    defaultOutput.setCreateOutputDirectory(true);
+		    defaultOutput.setOverrideExistingResources(true);
+		    defaultOutput.setCleanUpDerivedResources(true);
+		    defaultOutput.setSetDerivedProperty(true);
+		    defaultOutput.setCanClearOutputDirectory(true);
+		    
+			access.getOutputConfigurations().put("DEFAULT_OUTPUT", defaultOutput);
+			access.setPostProcessor(new IFileCallback() {
 				
-				Resource res = rSet.createResource(URI.createPlatformResourceURI(file.getFullPath().toOSString(), true));
-				monitor.worked(0);
+				@Override
+				public boolean beforeFileDeletion(IFile file) {
+					return false;
+				}
 				
-				try {
-					//monitor.subTask("Loading Resource");
-					res.load(null);
-					EclipseResourceFileSystemAccess2 access = fileAccessProvider.get();
-					access.setProject(file.getProject());
-					access.setMonitor(monitor);
-					OutputConfiguration defaultOutput = new OutputConfiguration("DEFAULT_OUTPUT");
-				    defaultOutput.setOutputDirectory("./src-gen");
-				    defaultOutput.setCreateOutputDirectory(true);
-				    defaultOutput.setOverrideExistingResources(true);
-				    defaultOutput.setCleanUpDerivedResources(true);
-				    defaultOutput.setSetDerivedProperty(true);
-				    defaultOutput.setCanClearOutputDirectory(true);
-				    
-					access.getOutputConfigurations().put("DEFAULT_OUTPUT", defaultOutput);
-					access.setPostProcessor(new IFileCallback() {
-						
-						@Override
-						public boolean beforeFileDeletion(IFile file) {
-							return false;
-						}
-						
-						@Override
-						public void afterFileUpdate(IFile file) {}
-						
-						@Override
-						public void afterFileCreation(IFile file) {}
-					});
-					
-					monitor.worked(0);
-					//monitor.subTask("Generating Ecore And GenModel File");
-					generator.doGenerate(res, access);
-					monitor.worked(0);
+				@Override
+				public void afterFileUpdate(IFile file) {}
+				
+				@Override
+				public void afterFileCreation(IFile file) {}
+			});
+			
+			generator.doGenerate(res, access);
 
-				} catch (Exception e) {
-					throw new InvocationTargetException(e, e.getMessage());
-				}
-				try {
-					file.getProject().refreshLocal(0, monitor);
-				} catch (CoreException e) {
-					e.printStackTrace();
-					
-				}
-			
-			
+		} catch (Exception e) {
+			throw new RuntimeException(e.getMessage(), e);
+		}
+		try {
+			file.getProject().refreshLocal(0, null);
+		} catch (CoreException e) {
+			e.printStackTrace();
 			
 		}
 		
 	}
+
 }
