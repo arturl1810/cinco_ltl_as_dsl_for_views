@@ -89,7 +89,7 @@ public class MGLGenerationHandler extends AbstractHandler {
 				monitor.worked(0);
 				
 				try {
-					monitor.subTask("Loading Resource");
+					//monitor.subTask("Loading Resource");
 					res.load(null);
 					EclipseResourceFileSystemAccess2 access = fileAccessProvider.get();
 					access.setProject(file.getProject());
@@ -118,7 +118,7 @@ public class MGLGenerationHandler extends AbstractHandler {
 					});
 					
 					monitor.worked(0);
-					monitor.subTask("Generating Ecore And GenModel File");
+					//monitor.subTask("Generating Ecore And GenModel File");
 					generator.doGenerate(res, access);
 					monitor.worked(0);
 
