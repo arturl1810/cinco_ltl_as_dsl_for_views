@@ -63,6 +63,8 @@ public class CheckView extends ViewPart implements IPartListener2 {
 	private Image expandAllImg = null;
 	private Image collapseAllImg = null;
 
+	private CheckResourceChangeListener resourceChangeListener;
+
 	/**
 	 * The constructor.
 	 */
@@ -121,8 +123,8 @@ public class CheckView extends ViewPart implements IPartListener2 {
 		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
 				.addPartListener(this);
 
-		ResourcesPlugin.getWorkspace().addResourceChangeListener(
-				new CheckResourceChangeListener(this));
+		resourceChangeListener = new CheckResourceChangeListener(this);
+		ResourcesPlugin.getWorkspace().addResourceChangeListener(resourceChangeListener);
 
 		loadIcons();
 		makeActions();
@@ -133,6 +135,17 @@ public class CheckView extends ViewPart implements IPartListener2 {
 				.getEditorReferences()) {
 			loadPageByEditor(editor);
 		}
+	}
+
+	@Override
+	public void dispose() {
+		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
+		.removePartListener(this);
+
+		ResourcesPlugin.getWorkspace().removeResourceChangeListener(
+		resourceChangeListener);
+		
+		super.dispose();
 	}
 
 	private void contributeToActionBars() {

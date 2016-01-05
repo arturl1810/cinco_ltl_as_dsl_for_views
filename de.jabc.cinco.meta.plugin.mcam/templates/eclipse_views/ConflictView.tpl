@@ -105,6 +105,14 @@ public class ConflictView extends ViewPart implements IPartListener2 {
 		}
 	}
 
+	@Override
+	public void dispose() {
+		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
+		.removePartListener(this);
+		
+		super.dispose();
+	}
+
 	/*
 	private void hookContextMenu() {
 		MenuManager menuMgr = new MenuManager("#PopupMenu");
