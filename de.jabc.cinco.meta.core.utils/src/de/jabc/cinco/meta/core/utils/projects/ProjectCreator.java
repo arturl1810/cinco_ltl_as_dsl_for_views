@@ -25,6 +25,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.emf.common.util.URI;
@@ -80,7 +81,9 @@ public class ProjectCreator {
 	public static IProject createProject(final String projectName, final List<String> srcFolders,
 			final List<IProject> referencedProjects, final Set<String> requiredBundles,
 			final List<String> exportedPackages, final List<String> additionalNatures, final IProgressMonitor progressMonitor, final List<String> cleanDirs, boolean askIfDelete) {
-		
+			IProgressMonitor localProgressMonitor = progressMonitor;
+			if(localProgressMonitor==null)
+				localProgressMonitor = new NullProgressMonitor();
 		IProject project = null;
 		try {
 			//progressMonitor.beginTask("", 10);
@@ -104,12 +107,12 @@ public class ProjectCreator {
 
 					if (result[0]) {
 						if (cleanDirs == null) {
-							project.delete(true, true, new SubProgressMonitor(progressMonitor, 1));
+							project.delete(true, true, null);
 						} else {
 							for (String s : cleanDirs) {
 								IFolder f = project.getFolder(s);
 								if (f.exists()) {
-									f.delete(true, progressMonitor);
+									f.delete(true, localProgressMonitor);
 								}
 							}
 						}
@@ -123,7 +126,7 @@ public class ProjectCreator {
 					projectName);
 			projectDescription.setLocation(null);
 			if (!project.exists())
-				project.create(projectDescription, new SubProgressMonitor(progressMonitor, 1));
+				project.create(projectDescription, new SubProgressMonitor(localProgressMonitor, 1));
 			final List<IClasspathEntry> classpathEntries = new ArrayList<IClasspathEntry>();
 			if (referencedProjects != null && referencedProjects.size() != 0) {
 				projectDescription.setReferencedProjects(referencedProjects.toArray(new IProject[referencedProjects
@@ -158,15 +161,17 @@ public class ProjectCreator {
 
 			projectDescription.setBuildSpec(new ICommand[] { java, manifest, schema });
 
-			project.open(new SubProgressMonitor(progressMonitor, 1));
-			project.setDescription(projectDescription, new SubProgressMonitor(progressMonitor, 1));
+			project.open(new SubProgressMonitor(localProgressMonitor, 1));
+			
+			project.setDescription(projectDescription, new SubProgressMonitor(localProgressMonitor, 1));
+			
 
 			if (srcFolders != null) {
 				Collections.reverse(srcFolders);
 				for (final String src : srcFolders) {
 					final IFolder srcContainer = project.getFolder(src);
 					if (!srcContainer.exists()) {
-						srcContainer.create(false, true,new SubProgressMonitor(progressMonitor, 1));
+						srcContainer.create(false, true,new SubProgressMonitor(localProgressMonitor, 1));
 					}
 					final IClasspathEntry srcClasspathEntry = JavaCore
 							.newSourceEntry(srcContainer.getFullPath());
@@ -180,18 +185,19 @@ public class ProjectCreator {
 			classpathEntries.add(JavaCore.newContainerEntry(new Path("org.eclipse.pde.core.requiredPlugins")));
 
 			javaProject.setRawClasspath(classpathEntries.toArray(new IClasspathEntry[classpathEntries.size()]),
-					new SubProgressMonitor(progressMonitor, 1));
+					new SubProgressMonitor(localProgressMonitor, 1));
+			
 
-			javaProject.setOutputLocation(new Path("/" + projectName + "/bin"), new SubProgressMonitor(progressMonitor,
+			javaProject.setOutputLocation(new Path("/" + projectName + "/bin"), new SubProgressMonitor(localProgressMonitor,
 					1));
-			createManifest(projectName, requiredBundles, exportedPackages, progressMonitor, project);
-			createBuildProps(progressMonitor, project, srcFolders);
+			createManifest(projectName, requiredBundles, exportedPackages, localProgressMonitor, project);
+			createBuildProps(localProgressMonitor, project, srcFolders);
 		}
 		catch (final Exception exception) {
 			exception.printStackTrace();
 		}
 		finally {
-			progressMonitor.done();
+			//progressMonitor.done();
 		}
 
 		return project;
@@ -320,7 +326,7 @@ public class ProjectCreator {
 		catch (final Exception e) {
 			e.printStackTrace();
 		}
-		progressMonitor.worked(1);
+		//progressMonitor.worked(1);
 
 		return file;
 	}
