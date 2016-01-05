@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.function.Consumer;
 
 import mgl.GraphModel;
 import mgl.Import;
@@ -18,6 +19,9 @@ import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.Command;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.core.commands.NotEnabledException;
+import org.eclipse.core.commands.NotHandledException;
+import org.eclipse.core.commands.common.NotDefinedException;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
@@ -34,6 +38,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.commands.ICommandService;
 import org.eclipse.ui.handlers.HandlerUtil;
@@ -47,6 +52,9 @@ import de.jabc.cinco.meta.core.ui.listener.MGLSelectionListener;
 import de.jabc.cinco.meta.core.utils.GeneratorHelper;
 import de.jabc.cinco.meta.core.utils.dependency.DependencyGraph;
 import de.jabc.cinco.meta.core.utils.dependency.DependencyNode;
+import de.jabc.cinco.meta.core.utils.job.CompoundJob;
+import de.jabc.cinco.meta.core.utils.job.JobFactory;
+import de.jabc.cinco.meta.core.utils.job.Workload;
 import de.jabc.cinco.meta.core.utils.projects.ProjectCreator;
 
 
@@ -63,6 +71,7 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 	public CincoProductGenerationHandler() {
 	}
 	ICommandService commandService;
+	private RuntimeException reason;
 
 	/**
 	 * the command has been executed, so extract extract the needed information
@@ -85,69 +94,103 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 				deleteGeneratedResources(cpdFile.getProject(),cpd);
 				List<String> mgls = mglTopSort(cpd, cpdFile.getProject());
 				//System.out.println(mgls);
-				for(String mglPath: mgls){
-					
-					mglModelFile = cpdFile.getProject().getFile(mglPath);
-					MGLSelectionListener.INSTANCE.putMGLFile(mglModelFile);
-					
-					//System.out.println("Generating Ecore/GenModel from MGL...");
-					Command mglGeneratorCommand = commandService.getCommand("de.jabc.cinco.meta.core.mgl.ui.mglgenerationcommand");
-					mglGeneratorCommand.executeWithChecks(event);
-					
-					//System.out.println("Generating Model Code from GenModel...");
-					GeneratorHelper.generateGenModelCode(mglModelFile);
-					
-					//System.out.println("Generating Graphiti Editor...");
-					Command graphitiEditorGeneratorCommand = commandService.getCommand("de.jabc.cinco.meta.core.ge.generator.generateeditorcommand");
-					graphitiEditorGeneratorCommand.executeWithChecks(event);
-	//				IProject apiProject = ResourcesPlugin.getWorkspace().getRoot().getProject(mglModelFile.getProject().getName().concat(".graphiti.api"));
-					
-					
-					IProject apiProject = mglModelFile.getProject();
-					if (apiProject.exists())
-						GeneratorHelper.generateGenModelCode(apiProject, "C"+mglModelFile.getName().split("\\.")[0]);
-					
-					
-					//System.out.println("Generating jABC4 Project Information");
-					Command sibGenerationCommand = commandService.getCommand("de.jabc.cinco.meta.core.jabcproject.commands.generateCincoSIBsCommand");
-					sibGenerationCommand.executeWithChecks(event);
-					
-					// TODO: Product definition should be made central file
-					//System.out.println("Generating Product project");
-					Command cpdGenerationCommand = commandService.getCommand("cpd.handler.ui.generate");
-					cpdGenerationCommand.executeWithChecks(event);
-					
-					//System.out.println("Generating Feature Project");
-					Command featureGenerationCommand = commandService.getCommand("de.jabc.cinco.meta.core.generatefeature");
-					featureGenerationCommand.executeWithChecks(event);
-				}
-				long stopTime = System.nanoTime();
-				System.err.println("Stoppint at: "+stopTime);
-				System.err.println(String.format("Executed Generation in %s minutes",(stopTime-startTime)*Math.pow(10,-9)/60));
-				MessageDialog.openInformation(HandlerUtil.getActiveShell(event), "Cinco Product Generation", "Cinco Product generation completed successfully");
+				String generationName = String.format("Generating %s Product",cpd.getName());
+				Workload job = JobFactory
+						.job(generationName, true)
+						.consume(100)
+						.taskForEach(mgls,
+								t -> generateProductPart(event, cpdFile, t),t-> String.format("Generating %s.",t))
+						.onFailed(() -> {
+							displayErrorDialog(event, reason);
+						}).onDone(() -> {				
+				
+				displaySuccessDialog(event, startTime);
+						});
+				
+				job.schedule();
 				
 			}
 		}catch(Exception e1){
 
-			StringWriter sw = new StringWriter();
-			PrintWriter pw = new PrintWriter(sw);
-			e1.printStackTrace(pw);
-			
-			List<Status> children = new ArrayList<>();
-			
-			String pluginId = event.getTrigger().getClass().getCanonicalName();
-			for (String line : sw.toString().split(System.lineSeparator())) {
-				Status status = new Status(IStatus.ERROR, pluginId, line);
-				children.add(status);
-			}
-			
-			MultiStatus mstat = new MultiStatus(pluginId, IStatus.ERROR, children.toArray(new IStatus[children.size()]), e1.getLocalizedMessage(), e1);
-			ErrorDialog.openError(HandlerUtil.getActiveShell(event), "Error in Cinco Product Generation", "An error occured during generation: ", mstat);
-			
-			e1.printStackTrace();
+			displayErrorDialog(event, e1);
 		}
 		
 		return null;
+	}
+
+	private void displaySuccessDialog(ExecutionEvent event, long startTime) {
+		long stopTime = System.nanoTime();
+		System.err.println("Stoppint at: "+stopTime);
+		System.err.println(String.format("Executed Generation in %s minutes",(stopTime-startTime)*Math.pow(10,-9)/60));
+		Display display = Display.getCurrent();
+		if(display==null)
+			display=Display.getDefault();
+		
+		display.syncExec(()->{MessageDialog.openInformation(HandlerUtil.getActiveShell(event), "Cinco Product Generation", "Cinco Product generation completed successfully");});
+		
+	}
+
+	private void displayErrorDialog(ExecutionEvent event, Exception e1) {
+//		StringWriter sw = new StringWriter();
+//		PrintWriter pw = new PrintWriter(sw);
+//		e1.printStackTrace(pw);
+//		
+//		List<Status> children = new ArrayList<>();
+//		
+//		String pluginId = event.getTrigger().getClass().getCanonicalName();
+//		for (String line : sw.toString().split(System.lineSeparator())) {
+//			Status status = new Status(IStatus.ERROR, pluginId, line);
+//			children.add(status);
+//		}
+//		
+//		MultiStatus mstat = new MultiStatus(pluginId, IStatus.ERROR, children.toArray(new IStatus[children.size()]), e1.getLocalizedMessage(), e1);
+//		ErrorDialog.openError(HandlerUtil.getActiveShell(event), "Error in Cinco Product Generation", "An error occured during generation: ", mstat);
+//		
+//		e1.printStackTrace();
+	}
+
+	private void generateProductPart(ExecutionEvent event, IFile cpdFile,
+			String mglPath){
+		IFile mglModelFile;
+		mglModelFile = cpdFile.getProject().getFile(mglPath);
+		MGLSelectionListener.INSTANCE.putMGLFile(mglModelFile);
+		
+		try {
+			//System.out.println("Generating Ecore/GenModel from MGL...");
+			Command mglGeneratorCommand = commandService.getCommand("de.jabc.cinco.meta.core.mgl.ui.mglgenerationcommand");
+			mglGeneratorCommand.executeWithChecks(event);
+			
+			//System.out.println("Generating Model Code from GenModel...");
+			GeneratorHelper.generateGenModelCode(mglModelFile);
+			
+			//System.out.println("Generating Graphiti Editor...");
+			Command graphitiEditorGeneratorCommand = commandService.getCommand("de.jabc.cinco.meta.core.ge.generator.generateeditorcommand");
+			graphitiEditorGeneratorCommand.executeWithChecks(event);
+//				IProject apiProject = ResourcesPlugin.getWorkspace().getRoot().getProject(mglModelFile.getProject().getName().concat(".graphiti.api"));
+			
+			
+			IProject apiProject = mglModelFile.getProject();
+			if (apiProject.exists())
+				GeneratorHelper.generateGenModelCode(apiProject, "C"+mglModelFile.getName().split("\\.")[0]);
+			
+			
+			//System.out.println("Generating jABC4 Project Information");
+			Command sibGenerationCommand = commandService.getCommand("de.jabc.cinco.meta.core.jabcproject.commands.generateCincoSIBsCommand");
+			sibGenerationCommand.executeWithChecks(event);
+			
+			// TODO: Product definition should be made central file
+			//System.out.println("Generating Product project");
+			Command cpdGenerationCommand = commandService.getCommand("cpd.handler.ui.generate");
+			cpdGenerationCommand.executeWithChecks(event);
+			
+			//System.out.println("Generating Feature Project");
+			Command featureGenerationCommand = commandService.getCommand("de.jabc.cinco.meta.core.generatefeature");
+			featureGenerationCommand.executeWithChecks(event);
+		} catch (ExecutionException | NotDefinedException | NotEnabledException
+				| NotHandledException | IOException e) {
+			reason = new RuntimeException(String.format("Generation of %s failed", cpdFile.getName()),e);
+			throw reason;
+		}
 	}
 
 	private EObject loadModel(IFile cpdFile, String fileExtension, EPackage ePkg) throws IOException, CoreException {
