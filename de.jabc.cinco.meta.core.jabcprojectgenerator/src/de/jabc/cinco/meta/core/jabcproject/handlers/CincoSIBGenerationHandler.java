@@ -13,6 +13,7 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -64,8 +65,8 @@ public class CincoSIBGenerationHandler extends AbstractHandler {
 
 				GraphModel mglModel = (GraphModel) mglResource.getContents()
 						.get(0);
-				ps.run(true,false,new TransEM4SIBGenerator(file.getProject(),
-						mglModel));
+				new TransEM4SIBGenerator(file.getProject(),
+						mglModel).run(new NullProgressMonitor());
 
 			} catch (Exception e) {
 				e.printStackTrace();
