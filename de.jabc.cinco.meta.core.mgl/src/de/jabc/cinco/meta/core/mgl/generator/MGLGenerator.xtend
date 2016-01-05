@@ -129,20 +129,20 @@ class MGLGenerator implements IGenerator {
 				var genModelPath = referencedMGLEPackage.eResource.URI.trimFileExtension.toString+".genmodel"
 				
 		
-				System.err.println("************\n genmodel File: "+genModelPath +"\n*************")
+				//System.err.println("************\n genmodel File: "+genModelPath +"\n*************")
 				
 					var genmodelUri = URI::createURI(genModelPath,true)
-					println("loading GenModel: "+genmodelUri)
+				//	println("loading GenModel: "+genmodelUri)
 					var res = Resource.Factory.Registry.INSTANCE.getFactory(genmodelUri).createResource(genmodelUri); 
 					res.load(null)
 					for(referencedGenModel:res.contents.filter(typeof(GenModel))){
 						
-						println("Adding genModel: "+ referencedGenModel)
+						//println("Adding genModel: "+ referencedGenModel)
 						for(referencedGenPackage: referencedGenModel.genPackages){
 							var dx = (genModel.usedGenPackages += referencedGenPackage)
-							println("Adding genPackage:"+ referencedGenPackage)
-							println("... "+ dx)
-							println(genModel.usedGenPackages)
+							//println("Adding genPackage:"+ referencedGenPackage)
+							//println("... "+ dx)
+							//println(genModel.usedGenPackages)
 						}	
 					}
 				
