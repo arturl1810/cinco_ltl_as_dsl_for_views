@@ -64,7 +64,7 @@ public class CincoSIBGenerationHandler extends AbstractHandler {
 
 				GraphModel mglModel = (GraphModel) mglResource.getContents()
 						.get(0);
-				ps.busyCursorWhile(new TransEM4SIBGenerator(file.getProject(),
+				ps.run(true,false,new TransEM4SIBGenerator(file.getProject(),
 						mglModel));
 
 			} catch (Exception e) {
@@ -80,7 +80,7 @@ public class CincoSIBGenerationHandler extends AbstractHandler {
 		try {
 			mani.read(new FileInputStream(project.getLocation()
 					.append("META-INF/MANIFEST.MF").toFile()));
-			System.out.println("*** Manifest Attributes ***");
+			//System.out.println("*** Manifest Attributes ***");
 			String oldValue = mani.getMainAttributes().getValue(
 					"Require-Bundle");
 			if (!oldValue.contains("de.jabc.cinco.meta.libraries")) {
