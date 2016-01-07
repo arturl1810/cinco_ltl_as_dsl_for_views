@@ -72,6 +72,9 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 	}
 	ICommandService commandService;
 	private RuntimeException reason;
+	private List<String> mgls;
+	private IFile cpdFile;
+	private CincoProduct cpd;
 
 	/**
 	 * the command has been executed, so extract extract the needed information
@@ -87,25 +90,23 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 			StructuredSelection selection = (StructuredSelection)HandlerUtil.getActiveMenuSelection(event);
 			if(selection.getFirstElement() instanceof IFile){
 				IFile mglModelFile = null;
-				IFile cpdFile = MGLSelectionListener.INSTANCE.getSelectedCPDFile();
-				CincoProduct cpd = (CincoProduct)loadModel(cpdFile,"cpd",ProductDefinition.ProductDefinitionPackage.eINSTANCE);
-				BundleRegistry.resetRegistry();
-				MGLEPackageRegistry.resetRegistry();
+				cpdFile = MGLSelectionListener.INSTANCE.getSelectedCPDFile();
+				cpd = (CincoProduct) loadModel(cpdFile, "cpd",ProductDefinition.ProductDefinitionPackage.eINSTANCE);
 				deleteGeneratedResources(cpdFile.getProject(),cpd);
-				List<String> mgls = mglTopSort(cpd, cpdFile.getProject());
-				//System.out.println(mgls);
-				String generationName = String.format("Generating %s Product",cpd.getName());
+				mgls = mglTopSort(cpd, cpdFile.getProject());
+				String generationName = "Generating Cinco Product.";
 				Workload job = JobFactory
 						.job(generationName, true)
-						.consume(100)
-						.taskForEach(mgls,
-								t -> generateProductPart(event, cpdFile, t),t-> String.format("Generating %s.",t))
-						.onFailed(() -> {
+						.consume(100).onFailed(() -> {
 							displayErrorDialog(event, reason);
-						}).onDone(() -> {				
+						})
+						.onDone(() -> {				
 				
-				displaySuccessDialog(event, startTime);
-						});
+							displaySuccessDialog(event, startTime);
+						})
+						.task("Reset",()-> {resetRegistries();})
+						.taskForEach(mgls,
+								t -> generateProductPart(event, cpdFile, t),t-> String.format("Generating %s.",t));
 				
 				job.schedule();
 				
@@ -118,10 +119,15 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 		return null;
 	}
 
+	private void resetRegistries() {
+		BundleRegistry.resetRegistry();
+		MGLEPackageRegistry.resetRegistry();
+	}
+
 	private void displaySuccessDialog(ExecutionEvent event, long startTime) {
 		long stopTime = System.nanoTime();
-		System.err.println("Stoppint at: "+stopTime);
-		System.err.println(String.format("Executed Generation in %s minutes",(stopTime-startTime)*Math.pow(10,-9)/60));
+		System.err.println("Stopping at: "+stopTime);
+		System.err.println(String.format("Generation took %s of your earth minutes.",(stopTime-startTime)*Math.pow(10,-9)/60));
 		Display display = Display.getCurrent();
 		if(display==null)
 			display=Display.getDefault();
@@ -144,9 +150,13 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 //		}
 //		
 //		MultiStatus mstat = new MultiStatus(pluginId, IStatus.ERROR, children.toArray(new IStatus[children.size()]), e1.getLocalizedMessage(), e1);
-//		ErrorDialog.openError(HandlerUtil.getActiveShell(event), "Error in Cinco Product Generation", "An error occured during generation: ", mstat);
-//		
-//		e1.printStackTrace();
+//		Display display = Display.getCurrent();
+//		if(display==null)
+//			display = Display.getDefault();
+//		display.asyncExec(() ->{
+//		ErrorDialog.openError(HandlerUtil.getActiveShell(event), "Error in Cinco Product Generation", "An error occured during generation: ", mstat);});
+		
+		e1.printStackTrace();
 	}
 
 	private void generateProductPart(ExecutionEvent event, IFile cpdFile,
@@ -341,4 +351,5 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 		return e.replace('.', '/');
 		
 	}
+	
 }
