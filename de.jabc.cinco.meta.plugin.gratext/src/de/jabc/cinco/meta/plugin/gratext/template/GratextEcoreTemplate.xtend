@@ -20,13 +20,17 @@ def classes() {
 			.add(new E_Reference("placement", "#//_Placement").containment(true)),
 		new E_Class("_Route")
 			.add(new E_Reference("points", "#//_Point").containment(true).upper(-1)),
+		new E_Class("_Decoration")
+			.add(new E_Attribute("namehint", E_Type.EString).defaultValue(""))
+			.add(new E_Reference("location", "#//_Point").containment(true)),
 //		new E_Interface("_EdgeTarget"),
 		new E_Interface("_EdgeSource")
 			.add(new E_Reference("outgoingEdges", "#//_Edge").containment(true).upper(-1)),
 		new E_Interface("_Edge")
 //			.add(new E_Reference("target", "ecore:EClass http://www.jabc.de/cinco/gdl/graphmodel#//Node"))
 //			.add(new E_Reference("target", "#//_EdgeTarget"))
-			.add(new E_Reference("route", "#//_Route").containment(true)),
+			.add(new E_Reference("route", "#//_Route").containment(true))
+			.add(new E_Reference("decorations", "#//_Decoration").containment(true).upper(-1)),
 		new E_Interface("_Prime")
 			.add(new E_Reference("prime", "ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"))
 	))

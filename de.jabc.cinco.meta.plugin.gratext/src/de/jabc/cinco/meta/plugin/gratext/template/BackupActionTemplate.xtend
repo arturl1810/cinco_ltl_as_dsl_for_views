@@ -10,16 +10,18 @@ override template()
 '''	
 package «project.basePackage».generator;
 
+import static de.jabc.cinco.meta.core.utils.job.JobFactory.job;
+
 import info.scce.cinco.gratext.IBackupAction;
+
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jface.action.IAction;
-import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.window.Window;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IActionDelegate;
 
 public class BackupAction implements IActionDelegate, IBackupAction {
@@ -27,28 +29,25 @@ public class BackupAction implements IActionDelegate, IBackupAction {
 	private ISelection sel;
 	
 	public BackupAction() {}
-
-	@Override
+	
+	@Override 
 	public void run(IAction action) {
-		System.out.println("Selection: " + sel);
-		if (sel instanceof IStructuredSelection) {
-			IStructuredSelection ssel = (IStructuredSelection) sel;
-			if (!ssel.isEmpty() && ssel.getFirstElement() instanceof IFile) {
-				IFile file = (IFile) ssel.getFirstElement();
-				//String path = new Path("#backup").append(file.getProjectRelativePath().removeLastSegments(1)).toOSString();
-				//String folder = showDirChooser(path);
-				//if (folder != null)
-				run(file, file.getProjectRelativePath().removeLastSegments(1));
-			}
-		}
+		job("Gratext Backup")
+		  .label("Generating backup...")
+		  .consumeConcurrent(15)
+		    .taskForEach(getSelectedFiles(),
+		    		file -> run(file, file.getProjectRelativePath().removeLastSegments(1)),
+		    		file -> file.getName())
+		  .schedule();
 	}
 	
-	private String showDirChooser(String path) {
-		InputDialog dlg = new InputDialog(Display.getCurrent().getActiveShell(),
-            "Generate Backup", "Type a project-relative output folder", path, null);
-        if (dlg.open() == Window.OK) {
-          return dlg.getValue();
-        } else return null;
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	private Stream<IFile> getSelectedFiles() {
+		if (sel instanceof IStructuredSelection && !sel.isEmpty())
+			return StreamSupport.stream(
+				((Iterable)(() -> ((IStructuredSelection)sel).iterator())).spliterator(), false)
+				.filter(IFile.class::isInstance);
+		return Stream.empty();
 	}
 
 	@Override

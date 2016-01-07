@@ -135,6 +135,7 @@ def edgeRule(Edge edge) {
 	«edge.name» returns «edge.name»:{«edge.name»}
 	'-«edge.name»->' targetElement = [graphmodel::Node|ID]
 	(route = Route)?
+	(decorations += Decoration)*
 	('{'
 		('id' id = ID)?
 		«attributes(edge)»
@@ -236,6 +237,10 @@ grammar «project.basePackage».«project.targetName» with org.eclipse.xtext.co
 Placement returns _Placement:{_Placement}
 	( ('at' x=EInt ',' y=EInt)?
 	& ('size' width=EInt ',' height=EInt)? )
+;
+
+Decoration returns _Decoration:{_Decoration}
+	'decorate' (namehint = EString)? 'at' location = Point
 ;
 
 Route returns _Route:{_Route}
