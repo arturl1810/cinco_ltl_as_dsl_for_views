@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>586b7b70-5c30-487f-aa09-ffe8208bf019</id>
   <name>GenerateReconnectFeatures</name>
-  <changecounter>293</changecounter>
+  <changecounter>300</changecounter>
   <sib>
     <id>cb541589-b45f-430c-a56b-1cebe00059bf</id>
     <name>PutExpression</name>
@@ -355,11 +355,11 @@ public class Reconnect$context.edge.name$Feature extends DefaultReconnectionFeat
 			if (newAnchor != null) {
 				Object bo = getBusinessObjectForPictogramElement(context.getNewAnchor().getParent());
 				if (ReconnectionContext.RECONNECT_TARGET.equals(context.getReconnectType())) {
-					return checkTarget(bo);
+					return ((graphmodel.Node) bo).canEnd($context.importPath$.$context.edge.name$.class);
 				}
 				
 				if (ReconnectionContext.RECONNECT_SOURCE.equals(context.getReconnectType())) {
-					return checkSource(bo);
+					return ((graphmodel.Node) bo).canStart($context.importPath$.$context.edge.name$.class);
 				}
 			}
 			return false;
