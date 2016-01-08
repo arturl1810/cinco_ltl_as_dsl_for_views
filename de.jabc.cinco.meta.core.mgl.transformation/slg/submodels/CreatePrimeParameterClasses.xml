@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>b45d64c8-b97b-4d96-a2a6-7102d21d79b8</id>
   <name>CreatePrimeParameterClasses</name>
-  <changecounter>38</changecounter>
+  <changecounter>39</changecounter>
   <sib>
     <id>13254bc3-7568-4c60-8430-f3dcdf901d74</id>
     <name>GetReferencedAttributeParameter</name>
@@ -796,32 +796,11 @@
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
-  <sib>
-    <id>0676ebbc-c3ec-4ebf-8dcb-07762165e4b3</id>
-    <name>PrintConsoleMessage</name>
-    <label>PrintConsoleMessage</label>
-    <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
-    <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
-    <position>324.5,873.0</position>
-    <parameter name="error">
-      <boolean>true</boolean>
-    </parameter>
-    <parameter name="message">
-      <de.metaframe.common.sib.parameter.ContextExpression>
-        <ContextExpressionFoundation>
-          <expression>Got an Error...</expression>
-          <clazz>java.lang.Object</clazz>
-          <classMutable>false</classMutable>
-        </ContextExpressionFoundation>
-      </de.metaframe.common.sib.parameter.ContextExpression>
-    </parameter>
-    <finalbranches>default</finalbranches>
-  </sib>
   <edge>
     <source>1e9ee43e-8b6a-44df-bd85-46cb173899ce</source>
-    <target>0676ebbc-c3ec-4ebf-8dcb-07762165e4b3</target>
-    <point>390.0,780.0</point>
-    <point>390.0,900.0</point>
+    <target>7f20d7cd-819c-487c-a584-0e5960b17a93</target>
+    <point>390.0,791.0</point>
+    <point>390.0,978.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>error</branch>
   </edge>
@@ -843,14 +822,6 @@
     </parameter>
     <finalbranches>default</finalbranches>
   </sib>
-  <edge>
-    <source>0676ebbc-c3ec-4ebf-8dcb-07762165e4b3</source>
-    <target>7f20d7cd-819c-487c-a584-0e5960b17a93</target>
-    <point>390.0,900.0</point>
-    <point>390.0,1005.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
   <sib>
     <id>79c9a1fc-8b00-4bbc-ade1-0a0605992cf7</id>
     <name>SwitchReferencedAttribute</name>

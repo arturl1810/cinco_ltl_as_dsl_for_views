@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>5493c838-f9b5-4019-b333-827236224ae0</id>
   <name>Create Inheritance</name>
-  <changecounter>14</changecounter>
+  <changecounter>15</changecounter>
   <sib>
     <id>d787c5a0-d23c-4e62-9b37-e2e25d08096a</id>
     <name>CheckVariable</name>
@@ -373,9 +373,9 @@
   </edge>
   <edge>
     <source>cff5681a-716a-4c8c-a149-018ba12291be</source>
-    <target>50c4d19c-010b-47fa-a74c-29e83b2e2faf</target>
-    <point>111.62790697674417,144.0</point>
-    <point>69.72972972972974,228.0</point>
+    <target>160f3fca-fed2-48a0-85b2-2d99c547531f</target>
+    <point>120.0,144.0</point>
+    <point>120.0,318.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -478,34 +478,6 @@
     <finalbranches>error</finalbranches>
     <finalbranches>other</finalbranches>
   </sib>
-  <sib>
-    <id>50c4d19c-010b-47fa-a74c-29e83b2e2faf</id>
-    <name>PrintConsoleMessage</name>
-    <label>PrintConsoleMessage</label>
-    <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
-    <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
-    <position>-5.5,228.0</position>
-    <parameter name="error">
-      <boolean>false</boolean>
-    </parameter>
-    <parameter name="message">
-      <de.metaframe.common.sib.parameter.ContextExpression>
-        <ContextExpressionFoundation>
-          <expression>ADDING TUPLE: &lt;${modelElement.name},${superType.name}&gt;</expression>
-          <clazz>java.lang.Object</clazz>
-          <classMutable>false</classMutable>
-        </ContextExpressionFoundation>
-      </de.metaframe.common.sib.parameter.ContextExpression>
-    </parameter>
-    <finalbranches>default</finalbranches>
-  </sib>
-  <edge>
-    <source>50c4d19c-010b-47fa-a74c-29e83b2e2faf</source>
-    <target>160f3fca-fed2-48a0-85b2-2d99c547531f</target>
-    <point>60.0,255.0</point>
-    <point>111.0,331.0</point>
-    <branch>default</branch>
-  </edge>
   <edge>
     <source>8c038b24-0eca-42b2-8799-8f2721ba5e10</source>
     <target>3a7813ad-a76e-4f1b-8283-7ac1a25f819b</target>

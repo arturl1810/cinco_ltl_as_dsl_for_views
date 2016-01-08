@@ -97,7 +97,7 @@ public class CincoTreeMenuListener implements IMenuListener2{
 						else {
 							List<EObject> result = (List<EObject>) eObject.eGet(f);
 							result.add(newValue);
-							System.out.println(result);
+							//System.out.println(result);
 						}
 					}
 				});

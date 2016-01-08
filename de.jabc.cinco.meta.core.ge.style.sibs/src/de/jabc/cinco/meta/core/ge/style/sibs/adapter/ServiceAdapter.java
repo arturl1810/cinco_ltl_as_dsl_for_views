@@ -284,7 +284,7 @@ public class ServiceAdapter {
 		try {
 			Object object = context.get(eClass);
 			String fName = (String) env.evaluate(featureName);
-			System.out.println("FeatureName: " + fName);
+			//System.out.println("FeatureName: " + fName);
 			if (object instanceof ModelElement) {
 				ModelElement me = (ModelElement) object;
 				List<Attribute> attribtues = me.getAttributes().stream().filter(a -> a.getName() != null).collect(Collectors.toList());
@@ -293,10 +293,10 @@ public class ServiceAdapter {
 				else return Branches.FALSE;
 			} else if (object instanceof EClass){
 				EClass ec = (EClass) object;
-				System.out.println("EClass: " + ec);
+				//System.out.println("EClass: " + ec);
 				
 				EStructuralFeature feature = ec.getEStructuralFeature(fName);
-				System.out.println("Feature: " +feature);
+				//System.out.println("Feature: " +feature);
 				if (feature != null) {
 					return Branches.TRUE;
 				} else return Branches.FALSE;
@@ -1457,7 +1457,7 @@ public class ServiceAdapter {
 					file.setContents(new StringInputStream(sb.toString()), IFile.DEPTH_INFINITE, monitor);
 				}
 				file.getProject().refreshLocal(IFile.DEPTH_INFINITE, monitor);
-				System.out.println(file.getFullPath());
+				//System.out.println(file.getFullPath());
 			}
 			return Branches.DEFAULT;
 		} catch (Exception e) {

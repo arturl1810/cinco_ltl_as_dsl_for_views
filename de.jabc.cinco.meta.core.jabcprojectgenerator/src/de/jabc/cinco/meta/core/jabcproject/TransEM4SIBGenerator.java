@@ -31,27 +31,27 @@ public class TransEM4SIBGenerator implements IRunnableWithProgress {
 	@Override
 	public void run(IProgressMonitor monitor) throws InvocationTargetException,
 			InterruptedException {
-		monitor.beginTask("Generate CINCO SIBs for jABC4", 100);
+		//monitor.beginTask("Generate CINCO SIBs for jABC4", 100);
 		try{
 			
 			if(!isJABC4Project(projectPath)){
-				monitor.subTask("Generating jABC4 Project");
+				//monitor.subTask("Generating jABC4 Project");
 				generateJABC4Project(projectPath);
 			}
-			monitor.worked(90);
+			
 		}catch(Exception e){
 			e.printStackTrace();
 			throw new InvocationTargetException(e);
 		}
 		try {
-			monitor.subTask("Refreshing Project");
-			project.refreshLocal(IProject.DEPTH_INFINITE, monitor);
-			monitor.worked(10);
+			//monitor.subTask("Refreshing Project");
+			project.refreshLocal(IProject.DEPTH_ONE, monitor);
+			
 		} catch (Exception e) {
 			throw new InvocationTargetException(e);
 		}
 		
-		monitor.done();
+		
 	}
 
 

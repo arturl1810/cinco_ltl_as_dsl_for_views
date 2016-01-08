@@ -1,5 +1,7 @@
 package de.jabc.cinco.meta.core.referenceregistry;
 
+import static de.jabc.cinco.meta.core.utils.job.JobFactory.job;
+
 import graphmodel.GraphModel;
 
 import java.io.File;
@@ -7,8 +9,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,14 +22,11 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -36,20 +35,27 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.progress.IProgressService;
 
 import de.jabc.cinco.meta.core.referenceregistry.listener.RegistryPartListener;
 import de.jabc.cinco.meta.core.referenceregistry.listener.RegistryResourceChangeListener;
-import de.jabc.cinco.meta.core.utils.job.JobFactory;
 
 public class ReferenceRegistry {
 
+	private static final String REF_REG_FILE = "refReg.rrg";
+	
+	private static List<String> EXTENSION_BLACKLIST = Arrays.asList(new String[] {
+		"svg", "jsp"
+	});
+	
+	private static List<String> RESOURCE_BLACKLIST = Arrays.asList(new String[] {
+		REF_REG_FILE, ".git", "_backup"
+	});
+	
 	private static ReferenceRegistry instance;
 	
 	/** EObject id -> URI **/
@@ -64,7 +70,7 @@ public class ReferenceRegistry {
 	/** Project -> cache **/
 	private HashMap<IProject, HashMap<String, EObject>> cachesMap;
 	
-	private static final String REF_REG_FILE = "refReg.rrg";
+	
 	
 	private RegistryPartListener partListener = new RegistryPartListener();
 	private RegistryResourceChangeListener resourceListener = new RegistryResourceChangeListener();
@@ -123,45 +129,45 @@ public class ReferenceRegistry {
 			this.cache = cachesMap.get(p);
 		} else {
 			System.out.println(String.format("No registry file found for project: %s. Creating new map", p));
-			
 			long debugTime = System.currentTimeMillis();
 			
-			JobFactory.job("Reference Registry")
-			  .label("Building registry map...")
+			job("Build Reference Registry")
+			  .label("Initializing...")
 			  .consume(5)
-			    .task(() -> load(p))
-			  .consume(95)
-			    .task(() -> rebuildMap(p))
+			    .task(() -> loadMap(p))
+			    .task(this::clearCache)
+			  .label("Processing resources...")
+			  .consumeConcurrent(100)
+			    .taskForEach(() -> map.entrySet().stream().map(e -> e.getValue()).distinct(),
+				    		this::loadObjects, uri -> uri)
+			  .consume(5)
+			    .task(() -> storeMaps(p))
 			  .onFinished(() -> {
 				  System.out.println(String.format(
 						"Registry map created. This took %s of your lifetime.",
 						"" + (System.currentTimeMillis() - debugTime) + " ms"));
-			  })
-			.schedule();
+			      })
+			  .schedule();
 		}
 	}
 	
-	private void rebuildMap(IProject p) {
-		registriesMap.put(p, map);
-		cache = new HashMap<String, EObject>();
+	private void loadMap(IProject p) {
 		currentProject = p;
-		Map<String,Resource> loadedResources = new HashMap<>();
-		for (Entry<String, String> e : map.entrySet()) {
-			String uri = e.getValue();
-//			System.out.println("Refreshing: " + uri + "->" + objectId);
-			EObject loadedObject = null;
-			if (loadedResources.containsKey(uri)) {
-				Resource res = loadedResources.get(uri);
-				loadedObject = res.getEObject(e.getKey());
-			} else {
-				loadedObject = loadObject(e.getKey(), uri);
-				loadedResources.put(uri,loadedObject.eResource());
-			}
-			cache.put(e.getKey(), loadedObject);
-		}	
-		cachesMap.put(p, cache);
+		load(p);
 	}
 	
+	private void clearCache() {
+		cache = new HashMap<String, EObject>();
+	}
+	
+	private void loadObjects(String resourceUri) {
+		Resource res = getResource(resourceUri);
+		res.getAllContents().forEachRemaining(obj -> {
+			String id = res.getURIFragment(obj);
+			if (map.containsKey(id))
+				cache.put(id, obj);
+		});
+	}
 	
 	public void storeMaps(IProject p) {
 		registriesMap.put(p, map);
@@ -359,112 +365,126 @@ public class ReferenceRegistry {
 		this.registriesMap = new HashMap<IProject, HashMap<String,String>>();
 	}
 	
-	public void reinitialize(final IWorkspaceRoot root) {
-		IProgressService progressService = PlatformUI.getWorkbench().getProgressService();
-		try {
-			progressService.busyCursorWhile(new IRunnableWithProgress() {
-				
-				@Override
-				public void run(IProgressMonitor monitor) throws InvocationTargetException,InterruptedException {
-					monitor.beginTask("Reinitialize reference registry", 100);
-					monitor.worked(0);
-					
-					clearRegistry();
-					
-					monitor.worked(10);
-					
-					Map<String,EObject> allOther = new HashMap<String, EObject>();
-					Map<IProject,List<String>> searchFor = new HashMap<IProject,List<String>>();
-					
-					monitor.subTask("Searching workspace resources...");
-					collectResources(root, searchFor, allOther, monitor);
-					monitor.worked(60);
-					//FIXME: iteration
-					for (Entry<IProject, List<String>> e : searchFor.entrySet()) {
-						IProject project = e.getKey();
-						List<String> ids = e.getValue();
-						for (String id : ids) {
-							EObject libCompObject = allOther.get(id);
-							if (libCompObject != null) {
-								URI objectUri = libCompObject.eResource().getURI();
-								objectUri = toWorkspaceRelativeURI(objectUri);
-								map.put(id, objectUri.toPlatformString(true));
-								cache.put(id, libCompObject);
-							}
-						}
-						registriesMap.put(project, map);
-						cachesMap.put(project, cache);
-					}				
-					allOther.clear();
-					if (currentProject != null) {
-						map = registriesMap.get(currentProject);
-						cache = cachesMap.get(currentProject);
+	public void reinitialize(IContainer container) {
+		List<IFile> files = new ArrayList<>();
+		Map<String,EObject> objectsById = new HashMap<>();
+		Map<IProject,List<String>> idsByProject = new HashMap<>();
+		
+		long debugTime = System.currentTimeMillis();
+		
+		job("Reinitialize Reference Registry")
+		  .label("Initializing...")
+		  .consume(5)
+		    .task("Clear registry", this::clearRegistry)
+		    .task("Collect files", () -> collectFiles(container, files))
+		  .label("Collecting resources...")
+		  .consumeConcurrent(80)
+		    .taskForEach(() -> files.stream(),
+		    			file -> extractIds(file, idsByProject, objectsById),
+		    			file -> file.getName())
+		  .label("Creating registry entries...")
+		  .consume(5)
+		    .taskForEach(() -> idsByProject.entrySet().stream(),
+		    			e -> registerObjects(e.getKey(), e.getValue(), objectsById),
+		    			e -> e.getKey().getName())
+		  .consume(5)
+		    .task("Save to registry file", this::setCurrentProject)
+		    .task("Save to registry file", this::save)
+		  .onFinished(() -> { System.out.println(String.format(
+					"Registry map created. This took %s of your lifetime.",
+					"" + (System.currentTimeMillis() - debugTime) + " ms"));
+		  	})
+		  .schedule();
+	}
+	
+	private void registerObjects(IProject project, Iterable<String> ids, Map<String,EObject> objectsById) {
+		HashMap<String,String> map = new HashMap<>();
+		HashMap<String,EObject> cache = new HashMap<>();
+		ids.forEach(id -> {
+			EObject libCompObject = objectsById.get(id);
+			if (libCompObject != null) {
+				URI objectUri = libCompObject.eResource().getURI();
+				objectUri = toWorkspaceRelativeURI(objectUri);
+				map.put(id, objectUri.toPlatformString(true));
+				cache.put(id, libCompObject);
+			}
+		});
+		registriesMap.put(project, map);
+		cachesMap.put(project, cache);
+	}
+	
+	private void setCurrentProject() {
+		if (currentProject != null) {
+			map = registriesMap.get(currentProject);
+			cache = cachesMap.get(currentProject);
+		}
+	}
+	
+	private boolean isBlacklisted(IContainer con) {
+		return RESOURCE_BLACKLIST.contains(con.getName());
+	}
+	
+	private boolean isBlacklisted(IFile file) {
+		return EXTENSION_BLACKLIST.contains(file.getFileExtension())
+				|| RESOURCE_BLACKLIST.contains(file.getName());
+	}
+	
+	private void collectFiles(IContainer container, List<IFile> files) {
+		System.out.println("Collect files: " + container);
+		if (container instanceof IContainer
+				&& !isBlacklisted(container)
+				&& container.isAccessible()) {
+			
+			IResource[] members = null;
+			try {
+				members = container.members();
+			} catch (CoreException e) {
+				e.printStackTrace();
+			}
+			if (members != null)
+				Arrays.stream(members).forEach(child -> {
+					if (child instanceof IContainer) {
+						collectFiles((IContainer) child, files);
+					} else if (child instanceof IFile
+							&& !isBlacklisted((IFile)child)) {
+						files.add((IFile)child);
 					}
-					save();
-					monitor.worked(100);
-				}
-			});
-		} catch (InvocationTargetException | InterruptedException e) {
-			e.printStackTrace();
-		}
-		
-	}
-	
-	private void collectResources(IResource iRes, Map<IProject,List<String>> searchFor, 
-			Map<String,EObject> allOther, 
-			IProgressMonitor monitor) {
-		
-		try {
-			if (iRes instanceof IContainer && !iRes.getName().equals(".git") && !iRes.getName().equals("_backup")) {
-				monitor.subTask("Checking resource: " + iRes.getFullPath());
-				for (IResource child : ((IContainer) iRes).members()) {
-					collectResources(child, searchFor, allOther, monitor);
-				}
-			} else if (iRes instanceof IFile && !iRes.getName().equals(REF_REG_FILE) && 
-					!iRes.getFullPath().toOSString().endsWith(".svg")) {
-				IFile file = (IFile) iRes;
-				IProject project = file.getProject();
-				if (!file.exists())
-					return;
-				
-				Resource res = getResource(file.getFullPath().toOSString());
-				if (searchFor.get(project)== null)
-					searchFor.put(project, new ArrayList<String>());
-				if (isCincoResource(res)) {
-					List<String> wantedIDs = searchForPrimeNodes(res, allOther);
-					searchFor.get(project).addAll(wantedIDs);
-				}
-			}
-		} catch (CoreException e) {
-			e.printStackTrace();
+				});
 		}
 	}
 	
-	private List<String> searchForPrimeNodes(Resource r, Map<String,EObject> allOther) {
+	private void extractIds(IFile file, Map<IProject,List<String>> idsByProject, Map<String, EObject> objectsById) {
+		IProject project = file.getProject();
+		List<String> ids = idsByProject.get(project);
+		if (ids == null) {
+			ids = new ArrayList<>();
+			idsByProject.put(project, ids);
+		}
+		Resource res = getResource(file.getFullPath().toOSString());
+		if (isCincoResource(res)) {
+			ids.addAll(extractIds(res, objectsById));
+		}
+	}
+	
+	private List<String> extractIds(Resource res, Map<String,EObject> objectsById) {
 		List<String> wanted = new ArrayList<String>();
-		TreeIterator<EObject> it = r.getAllContents();
-		EObject bo = null;
-		while (it.hasNext()) {
-			bo = it.next();
-			if (bo instanceof EObject) {
-				String id = EcoreUtil.getID(bo);
-				if (id != null && !id.isEmpty()) {
-					allOther.put(id, bo);
+		res.getAllContents().forEachRemaining(obj -> {
+			String id = EcoreUtil.getID(obj);
+			if (id != null && !id.isEmpty())
+				objectsById.put(id, obj);
+			if (!(obj instanceof Diagram)) {
+				EStructuralFeature libCompFeature =
+						obj.eClass().getEStructuralFeature("libraryComponentUID");
+				if (libCompFeature != null) {
+					Object val = obj.eGet(libCompFeature);
+					if (val != null)
+						wanted.add((String) val);
 				}
 			}
-			if (bo instanceof Diagram)
-				it.prune();
-			else {
-				EStructuralFeature libCompFeature = bo.eClass().getEStructuralFeature("libraryComponentUID");
-				if (libCompFeature != null && bo.eGet(libCompFeature) != null) {
-					String id = (String) bo.eGet(libCompFeature);
-					wanted.add(id);
-				}
-			}
-		}
+		});
 		return wanted;
 	}
-
+	
 	private boolean isCincoResource(Resource res) {
 		if (res == null)
 			return false;

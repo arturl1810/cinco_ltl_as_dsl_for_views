@@ -56,6 +56,7 @@ import org.eclipse.graphiti.features.context.impl.AddConnectionContext
 import org.eclipse.graphiti.features.context.impl.AddContext
 import org.eclipse.graphiti.features.context.impl.AreaContext
 import org.eclipse.graphiti.features.context.impl.UpdateContext
+import org.eclipse.graphiti.mm.pictograms.Connection
 import org.eclipse.graphiti.mm.pictograms.ContainerShape
 import org.eclipse.graphiti.mm.pictograms.Diagram
 import org.eclipse.graphiti.mm.pictograms.FreeFormConnection
@@ -95,7 +96,7 @@ class «model.name»ModelGenerator {
 		Display.getDefault.asyncExec[
 			edit(diagram).apply[
 				nodes.forEach[add]
-				edges.forEach[add(it, it.sourceElement, it.targetElement)]
+				edges.forEach[add]
 				update
 				save(folder)
 			]
@@ -146,41 +147,20 @@ class «model.name»ModelGenerator {
 		 	bo.modelElements.forEach[child | add(child, pe as ContainerShape)]
 	}
 	
-	def add(Edge edge, Node source, Node target) {
+	def add(Edge edge) {
 		try {
-			val pe = addIfPossible(getAddContext(edge, source, target))
+			val pe = addIfPossible(edge.addContext)
 			cache((edge as ModelElement), pe)
-			add((edge.counterpart as _Edge).route, pe)
+			postprocess(edge, pe)
 		} catch(Exception e) {
 			e.printStackTrace
 		}
 	}
 	
-	def add(_Edge _edge, _EdgeSource src, Node target) {
-		try {
-			val edge = _edge as Edge
-			val source = src as Node
-			
-			// System.out.println("Generator.add " + edge)
-			// System.out.println("  > source " + source)
-			// System.out.println("  > target " + target)
-			
-			// reset source and target to trigger ecore opposites
-			if (edge.sourceElement != null)
-				edge.sourceElement = null
-			edge.sourceElement = source
-			if (edge.targetElement != null)
-				edge.targetElement = null
-			edge.targetElement = target
-			
-			val pe = addIfPossible(getAddContext(edge, (source as ModelElement), (target as ModelElement)))
-			cache((edge as ModelElement), pe)
-			
-			add(_edge.route, pe)
-			
-		} catch(Exception e) {
-			e.printStackTrace
-		}
+	def postprocess(Edge edge, PictogramElement pe) {
+		val _edge = edge.counterpart as _Edge
+		add(_edge.route, pe)
+		add(_edge.decorations, pe)
 	}
 	
 	def add(_Route route, PictogramElement pe) {
@@ -192,6 +172,18 @@ class «model.name»ModelGenerator {
 	def add(_Point p, FreeFormConnection connection, int index) {
 		val ctx = new AddBendpointContext(connection, p.x, p.y, index)
 		dtp.diagramBehavior.executeFeature(fp.getAddBendpointFeature(ctx), ctx);
+	}
+	
+	def add(List<_Decoration> decs, PictogramElement pe) {
+		if (decs != null)
+			for (var i=0; i < decs.size; i++)
+				update(decs.get(i), (pe as Connection), i)
+	}
+	
+	def update(_Decoration dec, Connection con, int index) {
+		val ga = con.connectionDecorators.get(index).graphicsAlgorithm
+		ga.x = dec.location.x
+		ga.y = dec.location.y
 	}
 	
 	def addIfPossible(AddContext ctx) {
@@ -212,14 +204,19 @@ class «model.name»ModelGenerator {
 		return ctx
 	}
 	
-	def getAddContext(Edge edge, ModelElement source, ModelElement target) {
-		val ctx = new AddConnectionContext(getAnchor(pes.get(source)), getAnchor(pes.get(target)))
-		ctx.setNewObject(edge)
+	def getAddContext(Edge edge) {
+		val ctx = new AddConnectionContext(
+			edge.sourceElement.pe.anchor, edge.targetElement.pe.anchor)
+		ctx.newObject = edge
 		return ctx
 	}
 	
+	def getPe(ModelElement elm) {
+		pes.get(elm)
+	}
+	
 	def getAnchor(PictogramElement pe) {
-		return (pe as Shape).anchors.get(0)
+		(pe as Shape).anchors.get(0)
 	}
 	
 	def nodes() {

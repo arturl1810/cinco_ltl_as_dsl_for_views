@@ -31,74 +31,46 @@ public class ProductProjectGenerationHandler extends AbstractHandler {
 	public Object execute(ExecutionEvent event) throws ExecutionException {	
 		 IProgressService ps = HandlerUtil.getActiveWorkbenchWindowChecked(event).getWorkbench().getProgressService();
 		 try {
-			ps.run(false, true, new ProductProjectGenerator(event));
+			callGenerator();
 		} catch (Exception e) {
-			throw new ExecutionException("Exception while Generating Product Project", e);
+			throw new RuntimeException("Exception while Generating Product Project", e);
 		}
 		return null;
 	}
 	
 	
-	private class ProductProjectGenerator implements IRunnableWithProgress{
-
-		private ExecutionEvent event;
-
-		public ProductProjectGenerator(ExecutionEvent event) {
-			this.event = event;
-		}
-
-		//@Override
-		public void run(IProgressMonitor monitor)
-				throws InvocationTargetException, InterruptedException {
-			monitor.subTask("Generating Cinco Product.");
-			if(!monitor.isCanceled()){
-				IFile selectedFile = MGLSelectionListener.INSTANCE.getSelectedCPDFile();
-				if(selectedFile.getFileExtension().equals("cpd")){
-					IProject project = selectedFile.getProject();
-					//ResourceSet rSet =   resourceSetProvider.get(project);
-					URI createPlatformResourceURI = URI.createPlatformResourceURI(selectedFile.getFullPath().toOSString(), true);
-					//Resource res = rSet.createResource(createPlatformResourceURI);
-					Resource res = Resource.Factory.Registry.INSTANCE.getFactory(createPlatformResourceURI, "cpd").createResource(createPlatformResourceURI);
-					try {
-						monitor.subTask("Loading Resource");
-						res.load(null);
-						EclipseResourceFileSystemAccess2 access =  new EclipseResourceFileSystemAccess2();//fileAccessProvider.get();
-						access.setProject(project);
-						access.setMonitor(monitor);
-						OutputConfiguration defaultOutput = new OutputConfiguration("DEFAULT_OUTPUT");
-					    defaultOutput.setOutputDirectory("./src-gen");
-					    defaultOutput.setCreateOutputDirectory(true);
-					    defaultOutput.setOverrideExistingResources(true);
-					    defaultOutput.setCleanUpDerivedResources(true);
-					    defaultOutput.setSetDerivedProperty(true);
-					    defaultOutput.setCanClearOutputDirectory(true);
-					    
-						access.getOutputConfigurations().put("DEFAULT_OUTPUT", defaultOutput);
-//						access.setPostProcessor(new IFileCallback() {
-//							
-//							@Override
-//							public boolean beforeFileDeletion(IFile file) {
-//								return false;
-//							}
-//							
-//							@Override
-//							public void afterFileUpdate(IFile file) {}
-//							
-//							@Override
-//							public void afterFileCreation(IFile file) {}
-//						});
-						generator = new CPDGenerator();
-						generator.doGenerate(res, access);
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					
+	private void callGenerator() {
+			IFile selectedFile = MGLSelectionListener.INSTANCE.getSelectedCPDFile();
+			if(selectedFile.getFileExtension().equals("cpd")){
+				IProject project = selectedFile.getProject();
+				URI createPlatformResourceURI = URI.createPlatformResourceURI(selectedFile.getFullPath().toOSString(), true);
+				Resource res = Resource.Factory.Registry.INSTANCE.getFactory(createPlatformResourceURI, "cpd").createResource(createPlatformResourceURI);
+				try {
+					res.load(null);
+					EclipseResourceFileSystemAccess2 access =  new EclipseResourceFileSystemAccess2();
+					access.setProject(project);
+					access.setMonitor(null);
+					OutputConfiguration defaultOutput = new OutputConfiguration("DEFAULT_OUTPUT");
+				    defaultOutput.setOutputDirectory("./src-gen");
+				    defaultOutput.setCreateOutputDirectory(true);
+				    defaultOutput.setOverrideExistingResources(true);
+				    defaultOutput.setCleanUpDerivedResources(true);
+				    defaultOutput.setSetDerivedProperty(true);
+				    defaultOutput.setCanClearOutputDirectory(true);
+				    
+					access.getOutputConfigurations().put("DEFAULT_OUTPUT", defaultOutput);
+					generator = new CPDGenerator();
+					generator.doGenerate(res, access);
+				} catch (IOException e) {
+					throw new RuntimeException(e);
 				}
 				
 			}
 			
-		}
+		
 		
 	}
+
+
+
 }

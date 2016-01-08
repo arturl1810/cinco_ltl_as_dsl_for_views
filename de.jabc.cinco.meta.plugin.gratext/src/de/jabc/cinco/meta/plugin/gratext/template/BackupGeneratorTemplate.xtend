@@ -13,7 +13,6 @@ import java.util.stream.Collectors
 import java.util.stream.Stream
 import java.util.stream.StreamSupport
 
-import graphmodel.Edge
 import graphmodel.Node
 import graphmodel.Container
 import graphmodel.ModelElement
@@ -24,9 +23,14 @@ import org.eclipse.core.resources.IFile
 import org.eclipse.core.runtime.Path
 import org.eclipse.emf.ecore.EClass
 import org.eclipse.emf.ecore.EObject
-import org.eclipse.emf.ecore.EReference
 import org.eclipse.emf.ecore.EStructuralFeature
+
+import org.eclipse.graphiti.mm.algorithms.styles.Point
+import org.eclipse.graphiti.mm.pictograms.Connection
+import org.eclipse.graphiti.mm.pictograms.ConnectionDecorator
 import org.eclipse.graphiti.mm.pictograms.FreeFormConnection
+import org.eclipse.graphiti.mm.pictograms.PictogramElement
+
 import org.eclipse.graphiti.ui.services.GraphitiUi
 
 class «model.name»BackupGenerator extends GratextGenerator<«model.basePackage».«model.acronym».«model.name»> {
@@ -89,19 +93,38 @@ class «model.name»BackupGenerator extends GratextGenerator<«model.basePackage
 		«"'''"»at «"«"»ga.x«"»"»,«"«"»ga.y«"»"» size «"«"»ga.width«"»"»,«"«"»ga.height«"»"»«"'''"»
 	}
 	
-	def placement(Edge edge) {
-		val pe = GraphitiUi.getLinkService.getPictogramElements(diagram, edge).get(0)
+	def route(PictogramElement pe) {
 		val points = switch pe {
 			FreeFormConnection case !pe.bendpoints.empty:
-				pe.bendpoints.map[«"'''"»(«"«"»it.x«"»"»,«"«"»it.y«"»"»)«"'''"»].join(' ')
+				pe.bendpoints.map[gratext].join(' ')
 		}
 		if (points != null)
 			«"'''"»via «"«"»points«"»"»«"'''"»
 	}
 	
+	def decorations(PictogramElement pe) {
+		switch pe {
+			Connection case !pe.connectionDecorators.empty:
+				pe.connectionDecorators.map[gratext].join(' ')
+		}
+	}
+	
+	def pe(EObject obj) {
+		GraphitiUi.getLinkService.getPictogramElements(diagram, obj).get(0)
+	}
+	
+	def gratext(Point p) {
+		«"'''"»(«"«"»p.x«"»"»,«"«"»p.y«"»"»)«"'''"»
+	}
+	
+	def gratext(ConnectionDecorator dec) {
+		val ga = dec.graphicsAlgorithm
+		«"'''"»decorate "«"«"»ga.name«"»"»" at («"«"»ga.x«"»"»,«"«"»ga.y«"»"»)«"'''"»
+	}
+	
 	def edges(Node node) {
 		node.outgoing.map[«"'''"»
-			-«"«"»it.name«"»"»-> «"«"»it.targetElement.id«"»"» «"«"»it.placement«"»"» {
+			-«"«"»it.name«"»"»-> «"«"»it.targetElement.id«"»"» «"«"»it.pe.route«"»"» «"«"»it.pe.decorations«"»"» {
 				id «"«"»it.id«"»"»
 				«"«"»it.attributes«"»"»
 			}

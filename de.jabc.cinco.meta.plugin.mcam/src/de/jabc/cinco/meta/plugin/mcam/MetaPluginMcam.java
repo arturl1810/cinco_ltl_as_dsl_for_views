@@ -103,8 +103,8 @@ public class MetaPluginMcam implements IMetaPlugin {
 		 */
 		try {
 			mcamProject.refreshLocal(IResource.DEPTH_INFINITE, monitor);
-			mcamProject.close(monitor);
-			mcamProject.open(monitor);
+//			mcamProject.close(monitor);
+//			mcamProject.open(monitor);
 		} catch (CoreException e) {
 			e.printStackTrace();
 			return "error";

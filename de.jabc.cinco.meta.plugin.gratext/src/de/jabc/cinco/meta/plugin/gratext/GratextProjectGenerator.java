@@ -324,7 +324,8 @@ public class GratextProjectGenerator extends ProjectGenerator {
 			"org.eclipse.graphiti.ui",
 			"org.antlr.runtime",
 			"org.apache.commons.logging",
-			"de.jabc.cinco.meta.core.mgl.model"
+			"de.jabc.cinco.meta.core.mgl.model",
+			"de.jabc.cinco.meta.core.utils"
 		}));
 	}
 	

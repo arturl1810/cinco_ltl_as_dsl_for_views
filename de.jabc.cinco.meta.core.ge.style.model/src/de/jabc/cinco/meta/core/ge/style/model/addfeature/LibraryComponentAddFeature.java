@@ -67,7 +67,7 @@ public class LibraryComponentAddFeature extends AbstractAddShapeFeature {
 		menu.dispose();
 		shell.dispose();
 		
-		System.out.println(selectedFeature);
+		////System.out.println(selectedFeature);
 		if (selectedFeature instanceof IAddFeature) {
 			if (selectedFeature.canAdd(context))
 				return selectedFeature.add(context);

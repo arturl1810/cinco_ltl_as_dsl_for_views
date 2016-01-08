@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>bb74802f-da5c-4c3e-8833-61f0124693de</id>
   <name>Add Attribute</name>
-  <changecounter>113</changecounter>
+  <changecounter>115</changecounter>
   <sib>
     <id>d5922047-b452-471d-b56f-44a40dec91d1</id>
     <name>EvaluateBoolean</name>
@@ -2459,70 +2459,13 @@
   </edge>
   <edge>
     <source>752c1d77-7c25-4e70-b4f3-60c22911c3e6</source>
-    <target>1a87f25b-9ea2-4410-881c-2546e87bf749</target>
+    <target>1f295286-3454-4fdc-966c-ce459a030db1</target>
     <spline/>
     <point>1878.0,1215.6</point>
     <point>2130.0,1140.0</point>
-    <point>2292.0,1091.4</point>
+    <point>2785.0,1218.6</point>
     <labelposition>564.5969064397464,-13.026437479007653</labelposition>
     <branch>emptyString</branch>
-  </edge>
-  <sib>
-    <id>1a87f25b-9ea2-4410-881c-2546e87bf749</id>
-    <name>PrintConsoleMessage</name>
-    <label>PrintConsoleMessage</label>
-    <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
-    <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
-    <position>2094.5,1143.0</position>
-    <parameter name="error">
-      <boolean>false</boolean>
-    </parameter>
-    <parameter name="message">
-      <de.metaframe.common.sib.parameter.ContextExpression>
-        <ContextExpressionFoundation>
-          <expression>Hello ${variable}!EMPTY STRING</expression>
-          <clazz>java.lang.Object</clazz>
-          <classMutable>false</classMutable>
-        </ContextExpressionFoundation>
-      </de.metaframe.common.sib.parameter.ContextExpression>
-    </parameter>
-    <finalbranches>default</finalbranches>
-  </sib>
-  <sib>
-    <id>a4649bf5-addc-4da8-9cff-b8ca22053fb6</id>
-    <name>PrintConsoleMessage_1</name>
-    <label>PrintConsoleMessage</label>
-    <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
-    <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
-    <position>2574.5,1203.0</position>
-    <parameter name="error">
-      <boolean>false</boolean>
-    </parameter>
-    <parameter name="message">
-      <de.metaframe.common.sib.parameter.ContextExpression>
-        <ContextExpressionFoundation>
-          <expression>Hello ${attributedefaultValue}!!!!</expression>
-          <clazz>java.lang.Object</clazz>
-          <classMutable>false</classMutable>
-        </ContextExpressionFoundation>
-      </de.metaframe.common.sib.parameter.ContextExpression>
-    </parameter>
-    <finalbranches>default</finalbranches>
-  </sib>
-  <edge>
-    <source>a4649bf5-addc-4da8-9cff-b8ca22053fb6</source>
-    <target>1f295286-3454-4fdc-966c-ce459a030db1</target>
-    <point>2595.0,1245.0</point>
-    <point>2715.0,1245.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
-  <edge>
-    <source>1a87f25b-9ea2-4410-881c-2546e87bf749</source>
-    <target>1f295286-3454-4fdc-966c-ce459a030db1</target>
-    <point>2310.0,1095.0</point>
-    <point>2429.0,1226.0</point>
-    <branch>default</branch>
   </edge>
   <sib>
     <id>e017a9b1-656e-44a9-bc3c-73fa09b31d90</id>
@@ -2633,9 +2576,9 @@
   </sib>
   <edge>
     <source>efa0f13e-728a-42c4-8d15-5324bd52e9bc</source>
-    <target>e14dadeb-d140-4d2a-bf3f-640b82eda633</target>
-    <point>798.0,2348.34</point>
-    <point>1062.0,2374.74</point>
+    <target>3af38777-7240-4fb0-978b-b2454943c0bd</target>
+    <point>798.0,2369.1473684210528</point>
+    <point>1047.0,2473.9894736842107</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>true</branch>
   </edge>
@@ -2676,34 +2619,6 @@
     <branch>default</branch>
   </edge>
   <sib>
-    <id>e14dadeb-d140-4d2a-bf3f-640b82eda633</id>
-    <name>PrintConsoleMessage_2</name>
-    <label>PrintConsoleMessage</label>
-    <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
-    <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
-    <position>999.5,2343.0</position>
-    <parameter name="error">
-      <boolean>false</boolean>
-    </parameter>
-    <parameter name="message">
-      <de.metaframe.common.sib.parameter.ContextExpression>
-        <ContextExpressionFoundation>
-          <expression>!!!! ${feature} IS FINAL !!!!</expression>
-          <clazz>java.lang.Object</clazz>
-          <classMutable>false</classMutable>
-        </ContextExpressionFoundation>
-      </de.metaframe.common.sib.parameter.ContextExpression>
-    </parameter>
-    <finalbranches>default</finalbranches>
-  </sib>
-  <edge>
-    <source>e14dadeb-d140-4d2a-bf3f-640b82eda633</source>
-    <target>3af38777-7240-4fb0-978b-b2454943c0bd</target>
-    <point>1065.0,2325.0</point>
-    <point>944.0,2440.0</point>
-    <branch>default</branch>
-  </edge>
-  <sib>
     <id>7f541737-37ee-465f-a389-f45b1daf9413</id>
     <name>EvaluateBoolean_3</name>
     <label>Evaluate AttributeNotChangable</label>
@@ -2725,40 +2640,11 @@
   </sib>
   <edge>
     <source>7f541737-37ee-465f-a389-f45b1daf9413</source>
-    <target>0fa573fc-c633-455b-98f0-3fbd4c461a5a</target>
-    <point>2130.0,1440.0</point>
-    <point>2340.0,1410.0</point>
+    <target>1cf12776-31e6-4309-b741-b3fe847b6f5a</target>
+    <point>2343.0,1236.2</point>
+    <point>2442.0,1313.2</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>true</branch>
-  </edge>
-  <sib>
-    <id>0fa573fc-c633-455b-98f0-3fbd4c461a5a</id>
-    <name>PrintConsoleMessage_3</name>
-    <label>PrintConsoleMessage</label>
-    <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
-    <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
-    <position>2259.5,1308.0</position>
-    <parameter name="error">
-      <boolean>false</boolean>
-    </parameter>
-    <parameter name="message">
-      <de.metaframe.common.sib.parameter.ContextExpression>
-        <ContextExpressionFoundation>
-          <expression>!!!! ${feature} IS FINAL !!!!</expression>
-          <clazz>java.lang.Object</clazz>
-          <classMutable>false</classMutable>
-        </ContextExpressionFoundation>
-      </de.metaframe.common.sib.parameter.ContextExpression>
-    </parameter>
-    <finalbranches>default</finalbranches>
-  </sib>
-  <edge>
-    <source>0fa573fc-c633-455b-98f0-3fbd4c461a5a</source>
-    <target>1cf12776-31e6-4309-b741-b3fe847b6f5a</target>
-    <point>2310.0,1335.0</point>
-    <point>2460.0,1335.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
   </edge>
   <sib>
     <id>1cf12776-31e6-4309-b741-b3fe847b6f5a</id>
@@ -2820,17 +2706,18 @@
   </sib>
   <edge>
     <source>f1eee804-7fc9-420a-91a5-c7acacd9aaa4</source>
-    <target>a4649bf5-addc-4da8-9cff-b8ca22053fb6</target>
-    <point>2338.2802547770702,1683.0</point>
-    <point>2296.6564417177915,1239.0</point>
+    <target>1f295286-3454-4fdc-966c-ce459a030db1</target>
+    <point>2658.0,1315.5272727272727</point>
+    <point>2785.0,1234.8181818181818</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
     <source>7f541737-37ee-465f-a389-f45b1daf9413</source>
-    <target>a4649bf5-addc-4da8-9cff-b8ca22053fb6</target>
-    <point>2130.0,1410.0</point>
-    <point>2288.0,1224.0</point>
+    <target>1f295286-3454-4fdc-966c-ce459a030db1</target>
+    <point>2343.0,1221.3375</point>
+    <point>2785.0,1221.375</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>false</branch>
   </edge>
   <sib>

@@ -43,7 +43,7 @@ public class Inheritances {
 
 	public void printTrees() {
 		for (InheritanceTree<ModelElement> t : trees) {
-			System.out.println("Tree: ......");
+			//System.out.println("Tree: ......");
 			t.print();
 		}
 	}
@@ -78,7 +78,7 @@ class InheritanceTree<E extends ModelElement> {
 	}
 	
 	public void print() {
-		System.out.println(root.getName() + ": ");
+		//System.out.println(root.getName() + ": ");
 		children.forEach(c -> System.out.print(c.getRoot().getName() + ", "));
 		System.err.println("\n------------------------------------------\n\n");
 		children.forEach(c -> c.print());
