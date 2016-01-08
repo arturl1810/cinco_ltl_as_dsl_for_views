@@ -65,7 +65,7 @@ public class FrameworkExecution {
 
 	public static ${GraphModelName}Adapter initApiAdapterFromResource(Resource resource, File file) {
 		${GraphModelName}Adapter model = new ${GraphModelName}Adapter();
-		model.setModel(resource, file);
+		model.readModel(resource, file);
 		return model;
 	}
 

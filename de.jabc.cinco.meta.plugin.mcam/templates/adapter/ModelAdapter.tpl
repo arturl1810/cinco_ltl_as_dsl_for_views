@@ -40,6 +40,7 @@ public class ${GraphModelName}Adapter implements ModelAdapter<${GraphModelName}I
 	private ${GraphModelName} model = null;
 	private Diagram diagram = null;
 
+	private Resource resource = null;
 	private C${GraphModelName} modelWrapper = null;
 
 	private String modelName = "";
@@ -48,9 +49,9 @@ public class ${GraphModelName}Adapter implements ModelAdapter<${GraphModelName}I
 	@Override
 	public List<${GraphModelName}Id> getEntityIds() {
 		ArrayList<${GraphModelName}Id> ids = new ArrayList<>();
-		ids.add(create${GraphModelName}Id(model));
+		ids.add(create${GraphModelName}Id(getModel()));
 		
-		TreeIterator<EObject> it = model.eAllContents();
+		TreeIterator<EObject> it = getModel().eAllContents();
 		while (it.hasNext()) {
 			Object obj = it.next();
 			if (obj instanceof ModelElement == false)
@@ -67,15 +68,41 @@ public class ${GraphModelName}Adapter implements ModelAdapter<${GraphModelName}I
 	}
 
 	public ${GraphModelName} getModel() {
+		if (model == null)
+			readModelFromResource();
+		if (model == null)
+			throw new RuntimeException("model is null");
 		return this.model;	
 	}
 
 	public Diagram getDiagram() {
+		if (diagram == null)
+			readDiagramFromResource();
+		if (diagram == null)
+			throw new RuntimeException("diagram is null");
 		return this.diagram;	
 	}
 
+	public void setModel(${GraphModelName} model) {
+		this.model = model;
+	}
+
+	public void setDiagram(Diagram diagram) {
+		this.diagram = diagram;
+	}
+
 	public C${GraphModelName} getModelWrapper() {
+		if (modelWrapper == null)
+			createModelWrapper();
 		return modelWrapper;
+	}
+
+	public void setModelName(String modelName) {
+		this.modelName = modelName;
+	}
+
+	public void setPath(String path) {
+		this.path = path;
 	}
 
 	private ${GraphModelName}Id create${GraphModelName}Id(IdentifiableElement obj) {
@@ -83,9 +110,9 @@ public class ${GraphModelName}Adapter implements ModelAdapter<${GraphModelName}I
 	}
 
 	public EObject getElementById(${GraphModelName}Id id) {
-		if (id.getId().equals(model.getId()))
-			return model;
-		TreeIterator<EObject> it = model.eAllContents();
+		if (id.getId().equals(getModel().getId()))
+			return getModel();
+		TreeIterator<EObject> it = getModel().eAllContents();
 		while (it.hasNext()) {
 			Object obj = it.next();
 			if (obj instanceof ModelElement == false)
@@ -129,34 +156,26 @@ public class ${GraphModelName}Adapter implements ModelAdapter<${GraphModelName}I
 			if (!(element instanceof ${GraphModelName}))
 				<#list ContainerTypes as type>
 				if (element instanceof ${type})
-					modelWrapper.findC${type}((${type}) element).highlight();
+					getModelWrapper().findC${type}((${type}) element).highlight();
 				</#list>
 				<#list NodeTypes as type>
 				if (element instanceof ${type})
-					modelWrapper.findC${type}((${type}) element).highlight();
+					getModelWrapper().findC${type}((${type}) element).highlight();
 				</#list>
 				<#list EdgeTypes as type>
 				if (element instanceof ${type})
-					modelWrapper.findC${type}((${type}) element).highlight();
+					getModelWrapper().findC${type}((${type}) element).highlight();
 				</#list>
 	}
 
-	public void setModel(Resource resource, java.io.File file) {
+	public void readModel(Resource resource, java.io.File file) {
 		modelName = file.getName();
 		this.path = file.getPath();
-		
-		for (EObject obj : resource.getContents()) {
-			if ("Diagram".equals(obj.eClass().getName()))
-				diagram = (Diagram) obj;
-			if ("${GraphModelName}".equals(obj.eClass().getName()))
-				model = (${GraphModelName}) obj;
-		}
-		try {
-			modelWrapper = ${GraphModelName}Wrapper.wrapGraphModel(model, diagram);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		this.resource = resource;
+	}
+
+	public void readModel(Resource resource) {
+		this.resource = resource;
 	}
 
 	@Override
@@ -177,23 +196,37 @@ public class ${GraphModelName}Adapter implements ModelAdapter<${GraphModelName}I
 		ResourceSet resSet = new ResourceSetImpl();
 
 		// Get the resource
-		Resource resource = resSet.getResource(
+		resource = resSet.getResource(
 				URI.createFileURI(arg0.getAbsolutePath()), true);
-		// Get the first model element and cast it to the right type, in my
-		// example everything is hierarchical included in this first node
-		for (EObject obj : resource.getContents()) {
-			if ("Diagram".equals(obj.eClass().getName()))
-				diagram = (Diagram) obj;
+	}
+
+	public Resource getResource() {
+		if (resource == null)
+			throw new RuntimeException("resource is null");
+		return resource;
+	}
+
+	private void readModelFromResource() {
+		for (EObject obj : getResource().getContents()) {
 			if ("${GraphModelName}".equals(obj.eClass().getName()))
 				model = (${GraphModelName}) obj;
 		}
+	}
+
+	private void readDiagramFromResource() {
+		for (EObject obj : getResource().getContents()) {
+			if ("Diagram".equals(obj.eClass().getName()))
+				diagram = (Diagram) obj;
+		}
+	}
+
+	private void createModelWrapper() {
 		try {
-			modelWrapper = ${GraphModelName}Wrapper.wrapGraphModel(model, diagram);
+			modelWrapper = ${GraphModelName}Wrapper.wrapGraphModel(getModel(), getDiagram());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
 
 	@Override
@@ -211,8 +244,8 @@ public class ${GraphModelName}Adapter implements ModelAdapter<${GraphModelName}I
 
 		// Get the first model element and cast it to the right type, in my
 		// example everything is hierarchical included in this first node
-		resource.getContents().add(diagram);
-		resource.getContents().add(model);
+		resource.getContents().add(getDiagram());
+		resource.getContents().add(getModel());
 
 		// now save the content.
 		try {
