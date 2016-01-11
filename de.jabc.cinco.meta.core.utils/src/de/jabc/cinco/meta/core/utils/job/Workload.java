@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
@@ -19,6 +20,7 @@ public class Workload implements ComplexStep {
 	protected CompoundJob job;
 	protected int quota;
 	protected double tick;
+	protected boolean canceled;
 	protected List<Supplier<Stream<Task>>> tasksSuppliers = new ArrayList<>();;
 	
 	public Workload(CompoundJob job, int quota) {
@@ -249,6 +251,11 @@ public class Workload implements ComplexStep {
 			task(nameProvider.apply(item), () -> consumer.accept(item));
 		return this;
 	}
+	
+	public Workload cancelIf(Supplier<Boolean> test) {
+		task("", () -> { if (test.get()) cancel(); });
+		return this;
+	}
 
 	@Override
 	public void perform(SubMonitor monitor) {
@@ -258,7 +265,7 @@ public class Workload implements ComplexStep {
 		} else {
 			tick = 0;
 			tasks.forEach(task -> {
-				if (!monitor.isCanceled()) {
+				if (!monitor.isCanceled() && !canceled) {
 					tick += (double) quota / tasks.size();
 					monitor.newChild((int) tick).subTask(getName(task, tasks));
 					tick -= (int) tick;
@@ -301,6 +308,14 @@ public class Workload implements ComplexStep {
 	 */
 	public void schedule() {
 		job.schedule();
+	}
+	
+	/**
+	 * Cancel the current execution.
+	 */
+	protected void cancel() {
+		this.canceled = true;
+		job.requestCancel();
 	}
 
 	/**

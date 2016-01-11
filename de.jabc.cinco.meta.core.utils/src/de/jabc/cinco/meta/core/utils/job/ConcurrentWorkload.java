@@ -11,7 +11,9 @@ public class ConcurrentWorkload extends Workload {
 
 	private ExecutorService pool = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
 	private List<Task> tasks;
-	private int done;
+	private int tasksDone;
+	private String doneTaskName = "";
+	private boolean done;
 	private SubMonitor monitor; 
 	
 	public ConcurrentWorkload(CompoundJob job, int percent) {
@@ -23,10 +25,9 @@ public class ConcurrentWorkload extends Workload {
 		return new Task(name, runnable) {
 			@Override
 			protected void onDone() {
-				done++;
-				if (monitor.isCanceled())
-					pool.shutdownNow();
-				updateMonitor(name);
+				tasksDone++;
+				doneTaskName = name;
+				tickMonitor();
 			}
 		};
 	}
@@ -40,21 +41,50 @@ public class ConcurrentWorkload extends Workload {
 		} else {
 			tasks.forEach(task -> pool.submit(task.runnable));
 			pool.shutdown();
-			updateMonitor("");
+			startMonitorUpdates();
 			try {
 				pool.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
 			} catch (InterruptedException e) {}
+			done = true;
+			this.monitor.done();
 		}
 	}
 	
+	protected void startMonitorUpdates() {
+		new ReiteratingThread(500,200) {
+			protected void work() {
+				if (done || canceled) {
+					System.out.println("[## Job ##] Quit updater");
+					quit();
+				}
+			}
+			protected void tick() { updateMonitor(doneTaskName); }
+		}.start();
+	}
+	
 	protected void updateMonitor(String taskName) {
-		if (monitor.isCanceled()) {
-			monitor.newChild(0).subTask("Canceled by user, awaiting termination...");
+		if (monitor.isCanceled() || canceled) {
+			if (!canceled) cancel();
+			monitor.newChild(0)
+				.subTask("Canceled by user, awaiting termination...");
 		} else {
+			monitor.newChild(0)
+				.subTask("Completed " + tasksDone + "/" + tasks.size() + ". "
+					+ (taskName != null ? taskName : ""));
+		}
+	}
+	
+	protected void tickMonitor() {
+		if (!monitor.isCanceled() && !canceled) {
 			tick += (double) quota / tasks.size();
-			monitor.newChild((int) tick).subTask(
-					"Completed " + done + "/" + tasks.size() + ". " + taskName);
+			monitor.newChild((int) tick);
 			tick -= (int) tick;
 		}
+	}
+	
+	@Override
+	protected void cancel() {
+		super.cancel();
+		pool.shutdownNow();
 	}
 }

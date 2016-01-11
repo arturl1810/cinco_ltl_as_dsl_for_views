@@ -21,6 +21,7 @@ public class CompoundJob extends Job {
 	
 	private SubMonitor monitor;
 	private IProgressMonitor parentMonitor;
+	private boolean canceled;
 	private IStatus status;
 	private List<Step> steps = new ArrayList<>();
 	
@@ -44,16 +45,13 @@ public class CompoundJob extends Job {
 	}
 	
 	public CompoundJob(String name, IProgressMonitor monitor) {
-		super(name);
+		this(name);
 		parentMonitor = monitor;
-		registerListener();
 	}
 	
 	public CompoundJob(String name, IProgressMonitor monitor, boolean user) {
-		super(name);
+		this(name, user);
 		parentMonitor = monitor;
-		setUser(user);
-		registerListener();
 	}
 	
 	/**
@@ -121,6 +119,12 @@ public class CompoundJob extends Job {
 		ConcurrentWorkload workload = new ConcurrentWorkload(this, quota);
 		steps.add(workload);
 		return workload;
+	}
+	
+	protected boolean requestCancel() {
+		canceled = true;
+		boolean result = super.cancel();
+		return result;
 	}
 
 	/**
@@ -215,7 +219,7 @@ public class CompoundJob extends Job {
 		} catch (InterruptedException e) {}
 		monitor.newChild(5);
 		steps.forEach(step -> {
-			if (monitor.isCanceled())
+			if (monitor.isCanceled() || canceled)
 				status = Status.CANCEL_STATUS;
 			else perform(step);
 		});
