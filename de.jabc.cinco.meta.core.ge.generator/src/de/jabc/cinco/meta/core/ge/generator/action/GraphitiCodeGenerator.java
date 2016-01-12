@@ -108,6 +108,7 @@ import style.NodeStyle;
 import style.Style;
 import style.Styles;
 import de.jabc.cinco.meta.core.ge.generator.Main;
+import de.jabc.cinco.meta.core.ge.generator.templates.FileExtensionContent;
 import de.jabc.cinco.meta.core.ge.style.model.errorhandling.CincoContainerCardinalityException;
 import de.jabc.cinco.meta.core.ge.style.model.errorhandling.CincoEdgeCardinalityInException;
 import de.jabc.cinco.meta.core.ge.style.model.errorhandling.CincoEdgeCardinalityOutException;
@@ -119,6 +120,7 @@ import de.jabc.cinco.meta.core.ge.style.model.errorhandling.ECincoError;
 import de.jabc.cinco.meta.core.ge.style.model.preprocessors.StylesPreprocessor;
 import de.jabc.cinco.meta.core.mgl.generator.GenModelCreator;
 import de.jabc.cinco.meta.core.pluginregistry.PluginRegistry;
+import de.jabc.cinco.meta.core.referenceregistry.ReferenceRegistry;
 import de.jabc.cinco.meta.core.ui.listener.MGLSelectionListener;
 import de.jabc.cinco.meta.core.utils.CincoUtils;
 import de.jabc.cinco.meta.core.utils.URIHandler;
@@ -165,7 +167,14 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 		    try {
 		    	gModel = loadGraphModel(resource);
 				
-				for (Annotation a : gModel.getAnnotations()) {
+		    	// List of all used lib comp extensions
+		    	List<String> usedExtensions = CincoUtils.getUsedExtensions(gModel);
+		    	CharSequence fileExtensionClassContent = 
+		    			new FileExtensionContent(gModel, usedExtensions).generateJavaClassContents();
+		    	CharSequence fileExtensionPluginExtensionContent = 
+		    			new FileExtensionContent(gModel, usedExtensions).generatePluginExtensionContents();
+				
+		    	for (Annotation a : gModel.getAnnotations()) {
 					if (ID_STYLE.equals(a.getName())) {
 						String stylePath = a.getValue().get(0);
 						styles = loadStyles(stylePath, gModel);
@@ -282,7 +291,8 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 				context.put("eObjectType", EcorePackage.eINSTANCE.getEObject());
 				context.put("genGraphModelPackage", generatedGraphmodelPackage);
 				
-				
+				context.put("fileExtensionClassContent", fileExtensionClassContent);
+				context.put("fileExtensionPluginExtensionContent", fileExtensionPluginExtensionContent);
 				
 				fqnToContext(context);
 				

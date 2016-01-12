@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
+   <extension-point id="de.jabc.cinco.meta.core.referenceregistry" name="FileExtensionRegistry" schema="schema/de.jabc.cinco.meta.core.referenceregistry.exsd"/>
    <extension
          point="org.eclipse.ui.popupMenus">
       <objectContribution

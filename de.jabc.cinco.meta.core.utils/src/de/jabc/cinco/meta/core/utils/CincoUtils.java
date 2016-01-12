@@ -1,12 +1,16 @@
 package de.jabc.cinco.meta.core.utils;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import mgl.Annotation;
 import mgl.Attribute;
 import mgl.GraphModel;
+import mgl.Import;
 import mgl.ModelElement;
 
 import org.eclipse.core.resources.IFile;
@@ -17,6 +21,8 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
+import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -191,5 +197,52 @@ public class CincoUtils {
 				System.err.println("Refresh folder error...");
 				e.printStackTrace();
 			}
+	}
+
+	public static List<String> getUsedExtensions(GraphModel gModel) {
+		List<String> extensions = new ArrayList<>();
+		for (Import i : gModel.getImports()) {
+			if (i.getImportURI().endsWith(".mgl")) {
+				GraphModel gm = getImportedGraphModel(i);
+				extensions.add(gm.getFileExtension());
+			}
+			if (i.getImportURI().endsWith(".ecore")) {
+				GenModel gm = getImportedGenmodel(i);
+				extensions.add(getFileExtension(gm));
+			}
+		}
+		return extensions;
+	}
+
+	private static GenModel getImportedGenmodel(Import i) {
+		URI genModelURI = URI.createURI(i.getImportURI().replace(".ecore", ".genmodel"));
+		Resource res = new ResourceSetImpl().getResource(genModelURI, true);
+		if (res != null)
+			try {
+				res.load(null);
+				EObject genModel = res.getContents().get(0);
+				if (genModel instanceof GenModel)
+					return (GenModel) genModel;
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		return null;
+	}
+
+	private static GraphModel getImportedGraphModel(Import i) {
+		URI gmURI = URI.createURI(i.getImportURI(), true);
+		Resource res = new ResourceSetImpl().getResource(gmURI, true);
+		EObject graphModel = res.getContents().get(0);
+		if (graphModel instanceof GraphModel)
+			return (GraphModel) graphModel;
+		return null;
+	}
+	
+	private static String getFileExtension(GenModel genModel) {
+		for (GenPackage gp : genModel.getAllGenPackagesWithClassifiers()) {
+			return gp.getFileExtension();
+		}
+		
+		return "";
 	}
 }

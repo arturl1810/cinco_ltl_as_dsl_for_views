@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>c6d3a171-4a7c-4363-ab9c-c7be2786983b</id>
   <name>GeneratePluginXML</name>
-  <changecounter>494</changecounter>
+  <changecounter>520</changecounter>
   <sib>
     <id>b9acf74f-0e4c-4f93-80c7-e3f218bfc27e</id>
     <name>RunStringTemplate</name>
@@ -45,7 +45,7 @@
     <label>PrintConsoleMessage</label>
     <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
     <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
-    <position>331.5,723.0</position>
+    <position>316.5,873.0</position>
     <parameter name="error">
       <boolean>false</boolean>
     </parameter>
@@ -63,8 +63,8 @@
   <edge>
     <source>111011d2-0b5f-4dbe-97a6-0f5fd43c7db6</source>
     <target>5bcd0097-9953-43cc-88dd-f57569ee54bf</target>
-    <point>912.0,742.3090909090909</point>
-    <point>618.0,755.6727272727272</point>
+    <point>912.0,736.8315789473684</point>
+    <point>663.0,671.3052631578947</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -639,6 +639,7 @@
 			&lt;enablement&gt;&lt;/enablement&gt;
 		&lt;/commonWizard&gt;
 	&lt;/extension&gt;
+	$context.fileExtensionPluginExtensionContent$
 </string>
     </parameter>
     <finalbranches>default</finalbranches>
@@ -1350,7 +1351,7 @@
     <label>WritePluginXMLContent</label>
     <sib-uid>ge-util-sibs/WritePluginXMLContent</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.WritePluginXMLContent</taxonomy>
-    <position>547.0,723.0</position>
+    <position>697.0,723.0</position>
     <parameter name="pluginXMLContent">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -1381,13 +1382,6 @@
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
   </sib>
-  <edge>
-    <source>5bcd0097-9953-43cc-88dd-f57569ee54bf</source>
-    <target>524dcd1c-6963-4a38-8b36-00bb95ac062c</target>
-    <point>555.0,645.0</point>
-    <point>404.0,734.0</point>
-    <branch>default</branch>
-  </edge>
   <sib>
     <id>fe4a93d5-1f3c-43c4-b5eb-e2cfa101b905</id>
     <name>IsAttributeHidden</name>
@@ -1706,6 +1700,157 @@
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
   </sib>
+  <sib>
+    <id>109382c5-c1cf-44f6-a558-10ea56ab0122</id>
+    <name>WriteJavaFile</name>
+    <label>WriteJavaFile</label>
+    <sib-uid>genesys-sibs/WriteJavaFile</sib-uid>
+    <taxonomy>de.jabc.sib.genesys.WriteJavaFile</taxonomy>
+    <position>351.0,723.0</position>
+    <parameter name="baseDirectory">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>outletPath</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="beautify">
+      <boolean>false</boolean>
+    </parameter>
+    <parameter name="beautifyMethod">
+      <de.metaframe.common.sib.parameter.ListBox>
+        <ListBoxFoundation>
+          <list>
+            <string>Eclipse</string>
+            <string>Jalopy</string>
+          </list>
+          <selected>0</selected>
+        </ListBoxFoundation>
+      </de.metaframe.common.sib.parameter.ListBox>
+    </parameter>
+    <parameter name="className">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>className</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="fileContent">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>fileExtensionClassContent</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="packageName">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>localPkgName</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>ad1e2701-2da5-4326-94f8-88713c9068b2</id>
+    <name>PutExpression_1</name>
+    <label>ClassName</label>
+    <sib-uid>basic-sibs/PutExpression</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
+    <position>473.5,723.0</position>
+    <parameter name="resolve">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="value">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>${graphModelName}FileExtensions</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>className</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>5bcd0097-9953-43cc-88dd-f57569ee54bf</source>
+    <target>6ac71595-520b-470e-911e-8cba7981ec0e</target>
+    <point>717.0,724.8</point>
+    <point>661.3636363636364,669.0</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>ad1e2701-2da5-4326-94f8-88713c9068b2</source>
+    <target>109382c5-c1cf-44f6-a558-10ea56ab0122</target>
+    <point>510.0,750.0</point>
+    <point>433.0,875.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>109382c5-c1cf-44f6-a558-10ea56ab0122</source>
+    <target>524dcd1c-6963-4a38-8b36-00bb95ac062c</target>
+    <point>450.0,885.0</point>
+    <point>177.0,832.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>6ac71595-520b-470e-911e-8cba7981ec0e</id>
+    <name>PutExpression</name>
+    <label>LocalPkgName</label>
+    <sib-uid>basic-sibs/PutExpression</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
+    <position>570.0,723.0</position>
+    <parameter name="resolve">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="value">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>${packageName}.graphiti</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>true</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>localPkgName</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>6ac71595-520b-470e-911e-8cba7981ec0e</source>
+    <target>ad1e2701-2da5-4326-94f8-88713c9068b2</target>
+    <point>645.0,660.0</point>
+    <point>578.0,743.0</point>
+    <branch>default</branch>
+  </edge>
   <values/>
   <branch>
     <name>error</name>

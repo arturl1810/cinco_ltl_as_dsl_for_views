@@ -1,7 +1,6 @@
 package de.jabc.cinco.meta.core.referenceregistry;
 
 import static de.jabc.cinco.meta.core.utils.job.JobFactory.job;
-
 import graphmodel.GraphModel;
 
 import java.io.File;
@@ -11,21 +10,27 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
+import java.util.Set;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.ISafeRunnable;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.SafeRunner;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -41,20 +46,20 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 
+import de.jabc.cinco.meta.core.referenceregistry.implementing.IFileExtensionSupplier;
 import de.jabc.cinco.meta.core.referenceregistry.listener.RegistryPartListener;
 import de.jabc.cinco.meta.core.referenceregistry.listener.RegistryResourceChangeListener;
 
 public class ReferenceRegistry {
 
 	private static final String REF_REG_FILE = "refReg.rrg";
-	
-	private static List<String> EXTENSION_BLACKLIST = Arrays.asList(new String[] {
-		"svg", "jsp"
-	});
+	private static final String EXTENSION_ID = "de.jabc.cinco.meta.core.referenceregistry";
 	
 	private static List<String> RESOURCE_BLACKLIST = Arrays.asList(new String[] {
 		REF_REG_FILE, ".git", "_backup"
 	});
+	
+	private static HashSet<String> KNOWN_EXTENSIONS;
 	
 	private static ReferenceRegistry instance;
 	
@@ -85,6 +90,7 @@ public class ReferenceRegistry {
 		registriesMap = new HashMap<IProject, HashMap<String,String>>();
 		cachesMap = new HashMap<IProject, HashMap<String,EObject>>();
 		
+		KNOWN_EXTENSIONS = new HashSet<String>();
 	}
 	
 	public static ReferenceRegistry getInstance() {
@@ -366,9 +372,10 @@ public class ReferenceRegistry {
 	}
 	
 	public void reinitialize(IContainer container) {
+		initKnownFileExtensions();
 		List<IFile> files = new ArrayList<>();
 		Map<String,EObject> objectsById = new HashMap<>();
-		Map<IProject,List<String>> idsByProject = new HashMap<>();
+		Map<IProject,Set<String>> idsByProject = new HashMap<>();
 		
 		long debugTime = System.currentTimeMillis();
 		
@@ -425,12 +432,11 @@ public class ReferenceRegistry {
 	}
 	
 	private boolean isBlacklisted(IFile file) {
-		return EXTENSION_BLACKLIST.contains(file.getFileExtension())
-				|| RESOURCE_BLACKLIST.contains(file.getName());
+		return !KNOWN_EXTENSIONS.contains(file.getFileExtension())
+				&& !KNOWN_EXTENSIONS.contains(file.getName());
 	}
 	
 	private void collectFiles(IContainer container, List<IFile> files) {
-		System.out.println("Collect files: " + container);
 		if (container instanceof IContainer
 				&& !isBlacklisted(container)
 				&& container.isAccessible()) {
@@ -453,11 +459,12 @@ public class ReferenceRegistry {
 		}
 	}
 	
-	private void extractIds(IFile file, Map<IProject,List<String>> idsByProject, Map<String, EObject> objectsById) {
+	//FIXME: Changes idsByProject type from Map<IProject,List<String>> to Map<IProject,Set<String>>
+	private void extractIds(IFile file, Map<IProject,Set<String>> idsByProject, Map<String, EObject> objectsById) {
 		IProject project = file.getProject();
-		List<String> ids = idsByProject.get(project);
+		Set<String> ids = idsByProject.get(project);
 		if (ids == null) {
-			ids = new ArrayList<>();
+			ids = new HashSet<>();
 			idsByProject.put(project, ids);
 		}
 		Resource res = getResource(file.getFullPath().toOSString());
@@ -470,15 +477,19 @@ public class ReferenceRegistry {
 		List<String> wanted = new ArrayList<String>();
 		res.getAllContents().forEachRemaining(obj -> {
 			String id = EcoreUtil.getID(obj);
-			if (id != null && !id.isEmpty())
+			if (id != null && !id.isEmpty()) {
 				objectsById.put(id, obj);
+				//FIXME: This line was missing. It works now...
+				wanted.add(id);
+			}
 			if (!(obj instanceof Diagram)) {
 				EStructuralFeature libCompFeature =
 						obj.eClass().getEStructuralFeature("libraryComponentUID");
 				if (libCompFeature != null) {
 					Object val = obj.eGet(libCompFeature);
-					if (val != null)
+					if (val != null) {
 						wanted.add((String) val);
+					}
 				}
 			}
 		});
@@ -535,45 +546,37 @@ public class ReferenceRegistry {
 		registered = true;
 	}
 	
-	private void addMarker(String resourcePath) {
-		try {
-			if (currentProject == null)
-				return;
-			
-			IMarker[] markers = currentProject.findMarkers(IMarker.PROBLEM, true, IResource.DEPTH_ONE);
-			
-			String message = String.format("Can't find resource: %s. Does the referenced project exist in the workspace?", resourcePath);
-			for (IMarker m :markers) {
-				Object attribute = m.getAttribute(IMarker.MESSAGE);
-				if (attribute == null)
-					continue;
-				if (attribute.equals(message))
-					return;
+	private void initKnownFileExtensions() {
+		IConfigurationElement[] configElements = 
+				Platform.getExtensionRegistry().getConfigurationElementsFor(EXTENSION_ID);
+		for (IConfigurationElement ce : configElements) {
+			try {
+				Object o = ce.createExecutableExtension("class");
+				KNOWN_EXTENSIONS.addAll(executeExtension(o));
+			} catch (CoreException e) {
+				e.printStackTrace();
 			}
-			
-			IMarker marker = currentProject.createMarker(IMarker.PROBLEM);
-			if (marker.exists()) {
-				marker.setAttribute(IMarker.MESSAGE, message);
-			}
-		} catch (CoreException e) {
-			e.printStackTrace();
 		}
 	}
 
-	private void deleteMarker(String resourcePath) {
-		if (currentProject == null) 
-			return;
-		try {
-			String message = String.format("Can't find resource: %s. Does the referenced project exist in the workspace?", resourcePath);
-			for (IMarker m : currentProject.findMarkers(IMarker.PROBLEM, true, IResource.DEPTH_ONE)) {
-				if (m.getAttribute(IMarker.MESSAGE).equals(message))
-					m.delete();
-			}
-		} catch (CoreException e) {
-			e.printStackTrace();
-		}
-	}
-
+	private Collection<? extends String> executeExtension(final Object o) {
+		final List<String> extensions = new ArrayList<String>();
 	
+		ISafeRunnable runnable = new ISafeRunnable() {
+			
+			@Override
+			public void run() throws Exception {
+				extensions.addAll(((IFileExtensionSupplier) o).getKnownFileExtensions());
+			}
+			
+			@Override
+			public void handleException(Throwable exception) {
+				System.out.println("Exception in client");
+				exception.printStackTrace();
+			}
+		};
+		SafeRunner.run(runnable);
+		return extensions;
+	}
 	
 }
