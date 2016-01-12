@@ -4,7 +4,6 @@ import mgl.GraphModel
 import java.util.List
 import java.util.Arrays
 import de.jabc.cinco.meta.core.referenceregistry.implementing.IFileExtensionSupplier
-import de.metaframe.jabc.editor.menu.SeperatedGroup
 
 class FileExtensionContent {
 	
