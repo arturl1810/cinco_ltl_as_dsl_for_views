@@ -49,6 +49,7 @@ import org.eclipse.ui.PlatformUI;
 import de.jabc.cinco.meta.core.referenceregistry.implementing.IFileExtensionSupplier;
 import de.jabc.cinco.meta.core.referenceregistry.listener.RegistryPartListener;
 import de.jabc.cinco.meta.core.referenceregistry.listener.RegistryResourceChangeListener;
+import de.jabc.cinco.meta.core.utils.job.CompoundJob;
 
 public class ReferenceRegistry {
 
@@ -80,8 +81,10 @@ public class ReferenceRegistry {
 	private RegistryPartListener partListener = new RegistryPartListener();
 	private RegistryResourceChangeListener resourceListener = new RegistryResourceChangeListener();
 	private boolean registered = false;
+	private boolean refreshedOnStartup = false;
 
 	private IProject currentProject = null;
+	private CompoundJob reinitJob;
 
 	
 	private ReferenceRegistry() {
@@ -124,9 +127,35 @@ public class ReferenceRegistry {
 			Resource res = new ResourceSetImpl().getResource(full, true);
 			bo = res.getEObject(key);
 		} else {
-			System.err.println(String.format("Something went wrong. Could not find object for key: %s", key));
+			if (!refreshedOnStartup) {
+				reinitialize(ResourcesPlugin.getWorkspace().getRoot());
+				refreshedOnStartup = true;
+				if (reinitJob != null) {
+					try {
+						reinitJob.join();
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+					
+			}
+			// Reinitialized but currentProject not set
+			if (refreshedOnStartup && currentProject == null) 
+				bo = searchInAllMaps(key);
+			
+			if (bo == null)
+				System.err.println(String.format("Something went wrong. Could not find object for key: %s", key));
 		}
 		return bo;
+	}
+	
+	private EObject searchInAllMaps(String key) {
+		for (HashMap<String, EObject> c : cachesMap.values()) {
+			if (c.containsKey(key))
+				return c.get(key);
+		}
+		return null;
 	}
 	
 	public void setCurrentMap(IProject p) {
@@ -379,8 +408,8 @@ public class ReferenceRegistry {
 		
 		long debugTime = System.currentTimeMillis();
 		
-		job("Reinitialize Reference Registry")
-		  .label("Initializing...")
+		reinitJob = job("Reinitialize Reference Registry");
+		reinitJob.label("Initializing...")
 		  .consume(5)
 		    .task("Clear registry", this::clearRegistry)
 		    .task("Collect files", () -> collectFiles(container, files))
