@@ -211,6 +211,7 @@ public class CincoUtils {
 				extensions.add(getFileExtension(gm));
 			}
 		}
+		extensions.add(gModel.getFileExtension());
 		return extensions;
 	}
 
