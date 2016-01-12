@@ -238,7 +238,7 @@ public class ReferenceRegistry {
 	public void handleContentChange(URI affectedFileUri) {
 		long start = System.currentTimeMillis();
 		String resourcePath = affectedFileUri.toPlatformString(true);
-		System.out.println("Content change event for file: " +resourcePath);
+//		System.out.println("Content change event for file: " +resourcePath);
 		HashMap<IProject, List<String>> affected = getAffectedEntries(resourcePath);
 		Map<String,Resource> loadedResources = new HashMap<String,Resource>();
 		for (Entry<IProject, List<String>> e : affected.entrySet()) {
