@@ -262,7 +262,7 @@ public class ReferenceRegistry {
 		if (affected != null && !affected.isEmpty())
 			save();
 		long end = System.currentTimeMillis();
-		System.out.println("Update time in ms: "+ (end-start));
+//		System.out.println("Update time in ms: "+ (end-start));
 	}
 	
 	/**
