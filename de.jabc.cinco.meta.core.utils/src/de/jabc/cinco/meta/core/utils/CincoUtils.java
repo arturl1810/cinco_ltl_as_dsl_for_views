@@ -3,9 +3,13 @@ package de.jabc.cinco.meta.core.utils;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import javax.swing.plaf.ListUI;
 
 import mgl.Annotation;
 import mgl.Attribute;
@@ -13,6 +17,7 @@ import mgl.GraphModel;
 import mgl.Import;
 import mgl.ModelElement;
 
+import org.apache.commons.io.FilenameUtils;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
@@ -28,6 +33,8 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+
+import com.google.common.base.Strings;
 
 import style.Style;
 import style.Styles;
@@ -216,7 +223,7 @@ public class CincoUtils {
 	}
 
 	private static GenModel getImportedGenmodel(Import i) {
-		URI genModelURI = URI.createURI(i.getImportURI().replace(".ecore", ".genmodel"));
+		URI genModelURI = URI.createURI(FilenameUtils.removeExtension(i.getImportURI()).concat(".genmodel"));
 		Resource res = new ResourceSetImpl().getResource(genModelURI, true);
 		if (res != null)
 			try {

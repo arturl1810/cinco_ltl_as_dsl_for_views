@@ -508,8 +508,6 @@ public class ReferenceRegistry {
 			String id = EcoreUtil.getID(obj);
 			if (id != null && !id.isEmpty()) {
 				objectsById.put(id, obj);
-				//FIXME: This line was missing. It works now...
-//				wanted.add(id);
 			}
 			if (!(obj instanceof Diagram)) {
 				EStructuralFeature libCompFeature =

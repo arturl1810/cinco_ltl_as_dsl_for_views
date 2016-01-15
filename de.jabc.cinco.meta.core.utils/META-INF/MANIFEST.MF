@@ -7,7 +7,8 @@ Bundle-Activator: de.jabc.cinco.meta.core.utils.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.xtext.ui,
- org.eclipse.emf.codegen.ecore
+ org.eclipse.emf.codegen.ecore,
+ org.apache.commons.io
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: mgl,
