@@ -1,6 +1,5 @@
 package de.jabc.cinco.meta.plugin.gratext.build;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -10,6 +9,7 @@ import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -36,6 +36,7 @@ public class GratextBuild extends ReiteratingJob {
 	private IFile xtext;
 	private IProgressMonitor monitor;
 	private IStatus jobStatus;
+	private boolean failed;
 	
 	public GratextBuild(IProject project) {
 		super("Building Gratext: " + project.getName());
@@ -45,165 +46,153 @@ public class GratextBuild extends ReiteratingJob {
 	@Override
 	protected void prepare() {
 		monitor = getMonitor();
-//		SubMonitor mainMonitor = getMonitor();
-//		monitor = SubMonitor.convert(mainMonitor.newChild(2), 100);
-		monitor.setTaskName("Retrieving model files: " + project.getName());
-		
-		try {
-			findGenmodel();
+		findGenmodel();
+		runGenmodel();
+		buildProject();
+		findMwe2();
+		runMwe2();
+	}
+	
+	@Override
+	protected void repeat() {
+		if (jobStatus != null)
+			quit(jobStatus);
+	}
+	
+	@Override
+	protected void afterwork() {
+		if (jobStatus.isOK())  {
+			deleteSources();
+			triggerRefresh();
+			buildProject();
+			buildUIProject();
+		} else triggerRefresh();
+	}
+	
+	private void findGenmodel() {
+		if (!failed) try {
+			monitor.setTaskName("Retrieve .genmodel: " + project.getName());
+			genmodel = getProjectFiles("genmodel").stream()
+				.filter(file -> file.getName().endsWith("Gratext.genmodel"))
+				.collect(Collectors.toList())
+				.get(0);
 		} catch(Exception e) {
 			fail("Failed to retrieve .genmodel file.", e);
 			return;
 		}
-		
-//		mainMonitor.setWorkRemaining(98);
-//		monitor = SubMonitor.convert(mainMonitor.newChild(36), 100);
-		
-		try {
-			runGenmodel();
-		} catch(Exception e) {
-			fail("Model code generation failed.", e);
-			return;
-		}
-		
-//		mainMonitor.setWorkRemaining(72);
-//		monitor = SubMonitor.convert(mainMonitor.newChild(2), 100);
-		
-		try {
-			findMwe2();
+	}
+	
+	private void findMwe2() {
+		if (!failed) try {
+			xtext = getProjectFiles("xtext").stream()
+				.filter(file -> file.getName().endsWith("Gratext.xtext"))
+				.collect(Collectors.toList())
+				.get(0);
+			mwe2 = getProjectFiles("mwe2").stream()
+				.filter(file -> file.getName().endsWith("Gratext.mwe2"))
+				.collect(Collectors.toList())
+				.get(0);
 		} catch(Exception e) {
 			fail("Genmodel job fine, but failed to retrieve .mwe2 file.", e);
 			return;
 		}
-		
-//		mainMonitor.setWorkRemaining(70);
-//		monitor = SubMonitor.convert(mainMonitor.newChild(66), 100);
-		
-		try {
-			runMwe2();
+	}
+	
+	private void runGenmodel() {
+		if (!failed) try {
+			monitor.setTaskName("Genmodel job: " + project.getName());
+			Resource res = new ResourceSetImpl().getResource(
+					URI.createPlatformResourceURI(genmodel.getFullPath().toOSString(), true),true);
+			res.load(null);
+			res.getContents().stream()
+				.filter(GenModel.class::isInstance)
+				.map(GenModel.class::cast)
+				.forEach(genModel -> {
+					genModel.reconcile();
+					
+					// !!! Very important lines, do not delete !!!
+					genModel.getUsedGenPackages().stream()
+						.filter(pkg -> !pkg.getGenModel().equals(genModel))
+						.forEach(genModel.getUsedGenPackages()::add);
+					
+					genModel.setCanGenerate(true);
+					GenModelUtil.createGenerator(genModel).generate(genModel,
+						GenBaseGeneratorAdapter.MODEL_PROJECT_TYPE,
+						CodeGenUtil.EclipseUtil.createMonitor(new NullProgressMonitor(), 100));
+				});
+		} catch(Exception e) {
+			fail("Model code generation failed.", e);
+			return;
+		}
+	}
+	
+	private void runMwe2() {
+		if (!failed) try {
+			monitor.setTaskName("Mwe2 job: " + mwe2.getName());
+			GratextMwe2Job job = new GratextMwe2Job(project, mwe2) {
+
+				boolean success;
+				
+				@Override
+				public void onTerminated(IProcess process) {
+					try {
+						success = (process.getExitValue() == 0);
+					} catch (DebugException e) {
+						e.printStackTrace();
+					}
+				}
+
+				@Override
+				public void onQuit() {
+					jobStatus = success
+						? Status.OK_STATUS
+						: new Status(Status.ERROR, getName(), "Mwe2 workflow failed.");
+				}
+			};
+			job.start();
 		} catch(Exception e) {
 			fail("Genmodel job fine, but Mwe2 workflow failed.",  e);
 			return;
 		}
 	}
 	
-	@Override
-	protected void repeat() {
-		if (jobStatus != null) {
-			System.out.println("[Gratext] Job Status: " + jobStatus);
-			quit(jobStatus);
-		}
-	}
-	
-	@Override
-	protected void afterwork() {
-//		SubMonitor mainMonitor = getMonitor();
-		
-		System.out.println("[Gratext] Status " + getStatus() +  "(" + getStatus().isOK() + ") " + project.getName());
-		if (jobStatus.isOK())  {
-//			mainMonitor.setWorkRemaining(4);
-//			monitor = SubMonitor.convert(mainMonitor.newChild(2), 100);
-			monitor.setTaskName("Deleting model files: " + mwe2.getName());
-			try {
-				deleteSources();
-			} catch(Exception e) {
-				fail("Build process fine, but failed to delete .genmodel and/or .xtext file.", e);
-				return;
-			}
-		}
-		
-//		mainMonitor.setWorkRemaining(2);
-//		monitor = SubMonitor.convert(mainMonitor.newChild(2), 100);
-		
-		try {
-			triggerRefresh();
+	private void deleteSources() {
+		if (!failed) try {
+			monitor.setTaskName("Cleaning up " + mwe2.getName());
+			xtext.delete(true, null);
+			mwe2.delete(true, null);
 		} catch(Exception e) {
-			fail("Build process fine, but failed to trigger refresh on project.", e);
+			fail("Build process fine, but failed to delete .genmodel and/or .xtext file.", e);
 			return;
 		}
 	}
 	
-	private void findGenmodel() {
-		genmodel = getProjectFiles("genmodel").stream()
-			.filter(file -> file.getName().endsWith("Gratext.genmodel"))
-			.collect(Collectors.toList())
-			.get(0);
-	}
-	
-	private void findMwe2() {
-		xtext = getProjectFiles("xtext").stream()
-				.filter(file -> file.getName().endsWith("Gratext.xtext"))
-				.collect(Collectors.toList())
-				.get(0);
-		mwe2 = getProjectFiles("mwe2").stream()
-			.filter(file -> file.getName().endsWith("Gratext.mwe2"))
-			.collect(Collectors.toList())
-			.get(0);
-	}
-	
-	private void runGenmodel() throws IOException {
-		monitor.setTaskName("Running Genmodel job: " + genmodel.getName());
-		Resource res = new ResourceSetImpl().getResource(
-				URI.createPlatformResourceURI(genmodel.getFullPath().toOSString(), true),true);
-		res.load(null);
-		res.getContents().stream()
-			.filter(GenModel.class::isInstance)
-			.map(GenModel.class::cast)
-			.forEach(genModel -> {
-				genModel.reconcile();
-				
-				// !!! Very important lines, do not delete !!!
-				genModel.getUsedGenPackages().stream()
-					.filter(pkg -> !pkg.getGenModel().equals(genModel))
-					.forEach(genModel.getUsedGenPackages()::add);
-				
-				genModel.setCanGenerate(true);
-				GenModelUtil.createGenerator(genModel).generate(genModel,
-//						GenBaseGeneratorAdapter.MODEL_PROJECT_TYPE, CodeGenUtil.EclipseUtil.createMonitor(monitor, 100));
-						GenBaseGeneratorAdapter.MODEL_PROJECT_TYPE, CodeGenUtil.EclipseUtil.createMonitor(new NullProgressMonitor(), 100));
-			});
-	}
-	
-	private void runMwe2() {
-		monitor.setTaskName("Running Mwe2 job: " + mwe2.getName());
-		GratextMwe2Job job = new GratextMwe2Job(project, mwe2) {
-
-			boolean success;
-			
-			@Override
-			public void onTerminated(IProcess process) {
-				try {
-					success = (process.getExitValue() == 0);
-				} catch (DebugException e) {
-					e.printStackTrace();
-				}
-			}
-
-			@Override
-			public void onQuit() {
-				System.out.println("[Gratext] OnQuit - success: " + success);
-				jobStatus = success
-					? Status.OK_STATUS
-					: new Status(Status.ERROR, getName(), "Mwe2 workflow failed.");
-				System.out.println("[Gratext] OnQuit - set status: " + jobStatus);
-			}
-		};
-		job.start();
-	}
-	
-	private void deleteSources() throws CoreException {
-		System.out.println("[Gratext] Deleting sources: " + project.getName());
-		xtext.delete(true, null);
-		mwe2.delete(true, null);
-		
-	}
-	
 	private void triggerRefresh() {
-		try {
-//			project.refreshLocal(IResource.DEPTH_INFINITE, monitor);
-//			getProject(project.getName() + ".ui").refreshLocal(IResource.DEPTH_INFINITE, monitor);
+		if (!failed) try {
 			project.refreshLocal(IResource.DEPTH_INFINITE, null);
 			getProject(project.getName() + ".ui").refreshLocal(IResource.DEPTH_INFINITE, null);
+		} catch (CoreException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void buildProject() {
+		if (!failed) try {
+			monitor.setTaskName("Building " + project.getName());
+			project.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, null);
+		} catch (CoreException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void buildUIProject() {
+		if (!failed) try {
+			String projectName = this.project.getName() + ".ui";
+			IProject project = getProject(projectName);
+			if (project != null) {
+				monitor.setTaskName("Building " + projectName);
+				project.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, null);
+			}
 		} catch (CoreException e) {
 			e.printStackTrace();
 		}
@@ -236,5 +225,11 @@ public class GratextBuild extends ReiteratingJob {
 			   }
 		   });
 		return files;
+	}
+	
+	@Override
+	protected void fail(String msg, Exception e) {
+		failed = true;
+		super.fail(msg, e);
 	}
 }
