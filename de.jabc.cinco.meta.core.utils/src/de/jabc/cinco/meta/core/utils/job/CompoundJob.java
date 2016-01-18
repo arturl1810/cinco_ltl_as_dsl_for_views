@@ -22,6 +22,7 @@ public class CompoundJob extends Job {
 	private SubMonitor monitor;
 	private IProgressMonitor parentMonitor;
 	private boolean canceled;
+	private boolean cancelOnFail = true;
 	private IStatus status;
 	private List<Step> steps = new ArrayList<>();
 	
@@ -107,6 +108,33 @@ public class CompoundJob extends Job {
 	 * first group of tasks makes up 33% of the total work
 	 * while the second one makes up 66%.</p>
 	 * <p>The tasks that are created with the returned
+	 * Workload object will be performed sequentially.
+	 * If you are interested in parallel execution use
+	 * {@linkplain #consumeConcurrent(int) consumeConcurrent(int quota)}.</p>
+	 * 
+	 * @param quota Value representing the work quota relative
+	 *   to an implicit total workload of the corresponding job.
+	 * @param label  Display name of the current task group.
+	 * @return Workload object
+	 */
+	public Workload consume(int quota, String label) {
+		return label(label).consume(quota);
+	}
+	
+	/**
+	 * Initiates the creation of a task group that in
+	 * total consumes the specified work quota. The latter
+	 * does not represent a percentage but is interpreted
+	 * as an installment relative to the total workload of
+	 * the corresponding job. The job's total workload is
+	 * the sum of all quotas.
+	 * <p>Example: Let there be two groups of tasks. The
+	 * first one consumes a workload of 23 while the second
+	 * one consumes a workload of 46. Then the total
+	 * workload of the corresponding job is 69 and the
+	 * first group of tasks makes up 33% of the total work
+	 * while the second one makes up 66%.</p>
+	 * <p>The tasks that are created with the returned
 	 * Workload object will be performed in parallel.
 	 * If you are interested in sequential execution use
 	 * {@linkplain #consume(int) consume(int quota)}.</p>
@@ -121,10 +149,44 @@ public class CompoundJob extends Job {
 		return workload;
 	}
 	
-	protected boolean requestCancel() {
-		canceled = true;
-		boolean result = super.cancel();
-		return result;
+	/**
+	 * Initiates the creation of a task group that in
+	 * total consumes the specified work quota. The latter
+	 * does not represent a percentage but is interpreted
+	 * as an installment relative to the total workload of
+	 * the corresponding job. The job's total workload is
+	 * the sum of all quotas.
+	 * <p>Example: Let there be two groups of tasks. The
+	 * first one consumes a workload of 23 while the second
+	 * one consumes a workload of 46. Then the total
+	 * workload of the corresponding job is 69 and the
+	 * first group of tasks makes up 33% of the total work
+	 * while the second one makes up 66%.</p>
+	 * <p>The tasks that are created with the returned
+	 * Workload object will be performed in parallel.
+	 * If you are interested in sequential execution use
+	 * {@linkplain #consume(int) consume(int quota)}.</p>
+	 * 
+	 * @param quota Value representing the work quota relative
+	 *   to an implicit total workload of the corresponding job.
+	 * @param label  Display name of the current task group.
+	 * @return Workload object
+	 */
+	public Workload consumeConcurrent(int quota, String label) {
+		return label(label).consumeConcurrent(quota);
+	}
+	
+	public CompoundJob cancelOnFail(boolean flag) {
+		cancelOnFail = flag;
+		return this;
+	}
+	
+	protected void requestCancel() {
+		if (!canceled) {
+			canceled = true;
+			status = Status.CANCEL_STATUS;
+			super.cancel();
+		}
 	}
 
 	/**
@@ -219,9 +281,10 @@ public class CompoundJob extends Job {
 		} catch (InterruptedException e) {}
 		monitor.newChild(5);
 		steps.forEach(step -> {
-			if (monitor.isCanceled() || canceled)
-				status = Status.CANCEL_STATUS;
-			else perform(step);
+			if (monitor.isCanceled())
+				requestCancel();
+			if (!canceled)
+				perform(step);
 		});
 		return status;
 	}
@@ -230,8 +293,36 @@ public class CompoundJob extends Job {
 		try {
 			step.perform(monitor);
 		} catch(Exception e) {
-			status = new Status(Status.ERROR, getName(),
-				"Tasks failed:\n" + step, e);
+			onStepFailed(step, e);
+		}
+	}
+	
+	private void onStepFailed(Step step, Exception e) {
+		if (step instanceof ComplexStep)
+			onTaskFailed((ComplexStep) step, ((ComplexStep) step).currentTask());
+		else {
+			if (cancelOnFail) {
+				requestCancel();
+			}
+			String msg = "Execution failed: " + step;
+			status = new Status(Status.ERROR, getName(), msg, e);
+		}
+	}
+	
+	protected void onTaskFailed(ComplexStep step, Task task) {
+		System.out.println("OnTaskFailed: " + cancelOnFail);
+		if (cancelOnFail) {
+			step.requestCancel();
+			requestCancel();
+		}
+		String msg = "Task failed";
+		if (task != null) {
+			msg += ": " + task.name;
+			if (task.exception != null) {
+				status = new Status(Status.ERROR, getName(), msg, task.exception);
+			}
+		} else {
+			status = new Status(Status.ERROR, getName(), msg);
 		}
 	}
 		

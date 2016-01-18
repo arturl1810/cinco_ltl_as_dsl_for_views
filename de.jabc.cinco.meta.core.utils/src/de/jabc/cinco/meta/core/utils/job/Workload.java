@@ -4,11 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
-import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 import org.eclipse.core.runtime.SubMonitor;
+import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Display;
 
 /**
  * Represents a workload object, that basically is a sequence
@@ -21,7 +24,10 @@ public class Workload implements ComplexStep {
 	protected int quota;
 	protected double tick;
 	protected boolean canceled;
-	protected List<Supplier<Stream<Task>>> tasksSuppliers = new ArrayList<>();;
+	protected List<Supplier<Stream<Task>>> tasksSuppliers = new ArrayList<>();
+	protected List<Task> tasks;
+	protected Task currentTask;
+	protected String displayName;
 	
 	public Workload(CompoundJob job, int quota) {
 		this.job = job;
@@ -62,6 +68,33 @@ public class Workload implements ComplexStep {
 		}
 		else return job.consume(quota);
 	}
+	
+	/**
+	 * Initiates the creation of a task group that in
+	 * total consumes the specified work quota. The latter
+	 * does not represent a percentage but is interpreted
+	 * as an installment relative to the total workload of
+	 * the corresponding job. The job's total workload is
+	 * the sum of all quotas.
+	 * <p>Example: Let there be two groups of tasks. The
+	 * first one consumes a workload of 23 while the second
+	 * one consumes a workload of 46. Then the total
+	 * workload of the corresponding job is 69 and the
+	 * first group of tasks makes up 33% of the total work
+	 * while the second one makes up 66%.</p>
+	 * <p>The tasks that are created with the returned
+	 * Workload object will be performed sequentially.
+	 * If you are interested in parallel execution use
+	 * {@linkplain #consumeConcurrent(int) consumeConcurrent(int quota)}.</p>
+	 * 
+	 * @param quota Value representing the work quota relative
+	 *   to an implicit total workload of the corresponding job.
+	 * @param label  Display name of the current task group.
+	 * @return Workload object
+	 */
+	public Workload consume(int quota, String label) {
+		return label(label).consume(quota);
+	}
 			
 	/**
 	 * Initiates the creation of a task sequence that in
@@ -95,6 +128,33 @@ public class Workload implements ComplexStep {
 			return job.consumeConcurrent(this.quota + quota);
 		}
 	}
+	
+	/**
+	 * Initiates the creation of a task group that in
+	 * total consumes the specified work quota. The latter
+	 * does not represent a percentage but is interpreted
+	 * as an installment relative to the total workload of
+	 * the corresponding job. The job's total workload is
+	 * the sum of all quotas.
+	 * <p>Example: Let there be two groups of tasks. The
+	 * first one consumes a workload of 23 while the second
+	 * one consumes a workload of 46. Then the total
+	 * workload of the corresponding job is 69 and the
+	 * first group of tasks makes up 33% of the total work
+	 * while the second one makes up 66%.</p>
+	 * <p>The tasks that are created with the returned
+	 * Workload object will be performed in parallel.
+	 * If you are interested in sequential execution use
+	 * {@linkplain #consume(int) consume(int quota)}.</p>
+	 * 
+	 * @param quota Value representing the work quota relative
+	 *   to an implicit total workload of the corresponding job.
+	 * @param label  Display name of the current task group.
+	 * @return Workload object
+	 */
+	public Workload consumeConcurrent(int quota, String label) {
+		return label(label).consumeConcurrent(quota);
+	}
 
 	/**
 	 * Creates a task to be added to the group of tasks
@@ -122,8 +182,49 @@ public class Workload implements ComplexStep {
 		return this;
 	}
 	
+	/**
+	 * Creates a task to be added to the group of tasks
+	 * that share the current work quota.
+	 * 
+	 * @param job  The job that manages the executable work
+	 *   of the task. At runtime the job is scheduled and
+	 *   joined internally, i.e. the task waits for the job
+	 *   to complete. The job's name is taken as task name.
+	 *   The job will be executed as background job to prevent
+	 *   an additional progress window.
+	 * @return Workload object
+	 */
+	public Workload task(Job job) {
+		return task(job.getName(), job);
+	}
+
+	/**
+	 * Creates a task to be added to the group of tasks
+	 * that share the current work quota.
+	 * 
+	 * @param name  The display name of the task.
+	 * @param job  The job that manages the executable work
+	 *   of the task. At runtime the job is scheduled and
+	 *   joined internally, i.e. the task waits for the job
+	 *   to complete. The job will be executed as background
+	 *   job to prevent an additional progress window.
+	 * @return Workload object
+	 */
+	public Workload task(String name, Job job) {
+		addTask(createTask(name, () -> {
+			job.setUser(false);
+			job.schedule();
+			try {
+				job.join();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}));
+		return this;
+	}
+	
 	protected Task createTask(String name, Runnable runnable) {
-		return new Task(name, runnable);
+		return new Task(name, runnable, this::taskDone);
 	}
 	
 	protected void addTask(Task task) {
@@ -252,22 +353,47 @@ public class Workload implements ComplexStep {
 		return this;
 	}
 	
+	/**
+	 * Creates a task for every iterable item and adds it to
+	 * the group of tasks that share the current work quota.
+	 * 
+	 * @param iterables  The list of items.
+	 * @param consumer  The consumer that represents the executable work
+	 *   for each item of the list.
+	 */
+	public Workload taskForEach(Iterable<Job> jobs) {
+		jobs.forEach(this::task);
+		return this;
+	}
+	
 	public Workload cancelIf(Supplier<Boolean> test) {
 		task("", () -> { if (test.get()) cancel(); });
+		return this;
+	}
+	
+	public Workload cancelIf(Supplier<Boolean> test, String message) {
+		task("", () -> {
+			if (test.get()) {
+				cancel();
+				showMessage(message);
+			}
+		});
 		return this;
 	}
 
 	@Override
 	public void perform(SubMonitor monitor) {
-		List<Task> tasks = buildTasks();
+		tasks = buildTasks();
 		if (tasks.isEmpty()) {
 			monitor.newChild(quota).subTask("");
 		} else {
 			tick = 0;
 			tasks.forEach(task -> {
 				if (!monitor.isCanceled() && !canceled) {
+					currentTask = task;
+					displayName = toDisplayName(task, tasks);
 					tick += (double) quota / tasks.size();
-					monitor.newChild((int) tick).subTask(getName(task, tasks));
+					monitor.newChild((int) tick).subTask(displayName);
 					tick -= (int) tick;
 					task.run();
 				}
@@ -281,7 +407,7 @@ public class Workload implements ComplexStep {
 		return tasks;
 	}
 	
-	private String getName(Task task, List<Task> tasks) {
+	private String toDisplayName(Task task, List<Task> tasks) {
 		return (task.name != null)
 			? task.name
 			: "Task " + tasks.indexOf(task) + " / " + tasks.size();
@@ -314,8 +440,10 @@ public class Workload implements ComplexStep {
 	 * Cancel the current execution.
 	 */
 	protected void cancel() {
-		this.canceled = true;
-		job.requestCancel();
+		if (!canceled) {
+			canceled = true;
+			job.requestCancel();
+		}
 	}
 
 	/**
@@ -422,5 +550,33 @@ public class Workload implements ComplexStep {
 	public Workload onFailed(Runnable handler) {
 		job.onFailed(handler);
 		return this;
+	}
+	
+	
+	@Override
+	public Task currentTask() {
+		return currentTask;
+	}
+	
+	protected void taskDone(Task task) {
+		if (task.exception != null)
+			job.onTaskFailed(this, task);
+	}
+	
+	public void requestCancel() {
+		canceled = true;
+	}
+	
+	private void showMessage(String msg) {
+		Display d = Display.getCurrent();
+		if (d == null)
+			d = Display.getDefault();
+		final Display display = d;
+		display.asyncExec(() ->
+			new MessageDialog(display.getActiveShell(),
+				job.getName(), display.getSystemImage(SWT.ICON_INFORMATION),
+	            msg, MessageDialog.INFORMATION, new String[] {"OK"}, 0
+	        ).open()
+		);
 	}
 }

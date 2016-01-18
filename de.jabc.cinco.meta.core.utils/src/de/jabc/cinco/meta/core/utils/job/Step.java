@@ -6,4 +6,5 @@ import org.eclipse.core.runtime.SubMonitor;
 public interface Step {
 	
 	public void perform(SubMonitor monitor);
+	
 }
