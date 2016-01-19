@@ -141,11 +141,12 @@ public class ReferenceRegistry {
 					
 			}
 			// Reinitialized but currentProject not set
-			if (refreshedOnStartup && currentProject == null) 
-				bo = searchInAllMaps(key);
+//			if (refreshedOnStartup && currentProject == null) 
+			bo = searchInAllMaps(key);
 			
-			if (bo == null)
-				System.err.println(String.format("Something went wrong. Could not find object for key: %s", key));
+			if (bo != null) {
+				refreshCurrentMap(key);
+			} else System.err.println(String.format("Something went wrong. Could not find object for key: %s", key));
 		}
 		return bo;
 	}
@@ -156,6 +157,15 @@ public class ReferenceRegistry {
 				return c.get(key);
 		}
 		return null;
+	}
+	
+	private void refreshCurrentMap(String key) {
+		for (Entry<IProject, HashMap<String, EObject>> e : cachesMap.entrySet()) {
+			if (e.getValue().containsKey(key)) {
+				cache = e.getValue();
+				map = registriesMap.get(e.getKey());
+			}
+		}
 	}
 	
 	public void setCurrentMap(IProject p) {
