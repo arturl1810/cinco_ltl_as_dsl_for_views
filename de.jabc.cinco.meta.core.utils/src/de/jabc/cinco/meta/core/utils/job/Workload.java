@@ -123,10 +123,7 @@ public class Workload implements ComplexStep {
 			this.quota += quota;
 			return this;
 		}
-		else {
-			this.quota = 0;
-			return job.consumeConcurrent(this.quota + quota);
-		}
+		else return job.consumeConcurrent(quota);
 	}
 	
 	/**

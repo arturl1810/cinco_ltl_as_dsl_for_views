@@ -12,8 +12,6 @@ import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.core.runtime.jobs.JobChangeAdapter;
 
-import com.google.common.collect.Iterables;
-
 /**
  * Runtime job whose progress can be monitored.
  */
@@ -329,13 +327,19 @@ public class CompoundJob extends Job {
 	private void registerListener() {
 		addJobChangeListener(new JobChangeAdapter() {
 	        public void done(IJobChangeEvent event) {
-	        	Iterable<Runnable> handlers = new ArrayList<>();
-	        	if (event.getResult().isOK())
-	        		handlers = Iterables.concat(getHandlers(ifDone), getHandlers(onFinished, onDone));
+	        	List<Runnable> handlers = new ArrayList<>();
+	        	if (event.getResult().isOK()) {
+	        		handlers.addAll(getHandlers(ifDone));
+	        		handlers.addAll(getHandlers(onFinished, onDone));
+	        	}
 	        	else if (event.getResult().equals(Status.CANCEL_STATUS)) {
-	        		handlers = Iterables.concat(getHandlers(ifCanceled), getHandlers(ifDone), getHandlers(onCanceled, onDone));
+	        		handlers.addAll(getHandlers(ifCanceled));
+	        		handlers.addAll(getHandlers(ifDone));
+	        		handlers.addAll(getHandlers(onCanceled, onDone));
 	        	} else {
-	        		handlers = Iterables.concat(getHandlers(ifFailed), getHandlers(ifDone), getHandlers(onFailed, onDone));
+	        		handlers.addAll(getHandlers(ifFailed));
+	        		handlers.addAll(getHandlers(ifDone));
+	        		handlers.addAll(getHandlers(onFailed, onDone));
 	        	}
 	        	handlers.forEach(handler -> handler.run());
 	        }

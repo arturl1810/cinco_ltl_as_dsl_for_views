@@ -13,6 +13,7 @@ public class ConcurrentWorkload extends Workload {
 
 	private ExecutorService pool = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
 	private int tasksDone;
+	private int quotaLeft;
 	private Map<Task,Future<?>> results = new HashMap<>();
 	private boolean done;
 	private SubMonitor monitor; 
@@ -24,6 +25,7 @@ public class ConcurrentWorkload extends Workload {
 	@Override
 	public void perform(SubMonitor monitor) {
 		this.monitor = monitor;
+		quotaLeft = quota;
 		tasks = buildTasks();
 		if (tasks.isEmpty()) {
 			monitor.newChild(quota).subTask("");
@@ -34,8 +36,11 @@ public class ConcurrentWorkload extends Workload {
 			try {
 				pool.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
 			} catch (InterruptedException e) {}
+			if (quotaLeft > 0) {
+				monitor.newChild(quotaLeft);
+				monitor.newChild(0);
+			}
 			done = true;
-			this.monitor.done();
 		}
 	}
 	
@@ -68,8 +73,7 @@ public class ConcurrentWorkload extends Workload {
 	protected void updateMonitor() {
 		if (monitor.isCanceled() || canceled) {
 			if (!canceled) cancel();
-			monitor.newChild(0)
-				.subTask("Job canceled, awaiting termination...");
+			monitor.subTask("Job canceled, awaiting termination...");
 		}
 //		else if (failed) {
 //			monitor.newChild(0)
@@ -79,8 +83,7 @@ public class ConcurrentWorkload extends Workload {
 			String label = "Completed " + tasksDone + "/" + tasks.size() + ".";
 			if (displayName != null)
 				label += " Recent: " + displayName;
-			monitor.newChild(0)
-				.subTask(label);
+			monitor.subTask(label);
 		}
 	}
 	
@@ -88,6 +91,7 @@ public class ConcurrentWorkload extends Workload {
 		if (!monitor.isCanceled() && !canceled) {
 			tick += (double) quota / tasks.size();
 			monitor.newChild((int) tick);
+			quotaLeft -= (int) tick;
 			tick -= (int) tick;
 		}
 	}
