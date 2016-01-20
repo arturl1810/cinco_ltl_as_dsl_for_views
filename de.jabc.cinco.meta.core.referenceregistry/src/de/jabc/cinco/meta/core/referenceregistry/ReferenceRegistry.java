@@ -110,7 +110,8 @@ public class ReferenceRegistry {
 			URI uri = bo.eResource().getURI();
 			uri = toWorkspaceRelativeURI(uri);
 			map.put(id, uri.toPlatformString(true));
-			cache.put(id, bo);
+			EObject newBo = getEObject(id);
+			cache.put(id, newBo);
 		} else {
 //			System.out.println(String.format("Found element for id %s. Nothing to do...", id));
 		}
