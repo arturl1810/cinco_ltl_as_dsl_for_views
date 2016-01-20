@@ -1,6 +1,7 @@
 package de.jabc.cinco.meta.core.referenceregistry.listener;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
@@ -24,6 +25,13 @@ public class RegistryResourceChangeListener implements IResourceChangeListener {
 		IPath from = null;
 		for (IResourceDelta child: delta.getAffectedChildren()) {
 			IResource res = child.getResource();
+		
+			if (res instanceof IProject) {
+				if (deleted(child)) {
+					ReferenceRegistry.getInstance().handleDeleteProject((IProject) res);
+				}
+			}
+			
 			if (res instanceof IFile) {
 				IFile file = (IFile) res;
 //				//System.out.println("For file: " + file);

@@ -231,8 +231,13 @@ public class ReferenceRegistry {
 		}
 		if (affected != null && !affected.isEmpty())
 			save();
-		}
+	}
 
+	public void handleDeleteProject(IProject p) {
+		removeProjectFromMaps(p);
+	}
+	
+	
 	public void handleRename(URI fromURI, URI toURI) {
 		String from = fromURI.toPlatformString(true);
 		String to = toURI.toPlatformString(true);
@@ -353,7 +358,13 @@ public class ReferenceRegistry {
 		return false;
 	}
 	
-	
+	private void removeProjectFromMaps(IProject p) {
+		registriesMap.remove(p);
+		cachesMap.remove(p);
+		if (currentProject != null && currentProject.equals(p))
+			currentProject = null;
+	}
+
 	private File getFile(IProject p) {
 		if (p != null) {
 			IPath base = p.getLocation();
@@ -615,5 +626,6 @@ public class ReferenceRegistry {
 		SafeRunner.run(runnable);
 		return extensions;
 	}
+
 	
 }
