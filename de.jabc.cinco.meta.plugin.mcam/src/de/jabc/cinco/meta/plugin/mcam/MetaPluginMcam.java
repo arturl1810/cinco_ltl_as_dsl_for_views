@@ -20,6 +20,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 
+import de.jabc.cinco.meta.core.BundleRegistry;
 import de.jabc.cinco.meta.core.pluginregistry.IMetaPlugin;
 import de.jabc.cinco.meta.core.utils.projects.ProjectCreator;
 
@@ -39,6 +40,9 @@ public class MetaPluginMcam implements IMetaPlugin {
 
 	@Override
 	public String execute(Map<String, Object> map) {
+		
+		BundleRegistry.INSTANCE.addBundle("de.jabc.cinco.meta.plugin.mcam", true);
+		
 		gModel = (GraphModel) map.get("graphModel");
 		System.out.println("------ Model-CaM Generation for '"
 				+ gModel.getName() + "' ------");
