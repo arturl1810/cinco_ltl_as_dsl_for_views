@@ -11,9 +11,8 @@
    </configIni>
 
    <launcherArgs>
-      <vmArgs>-XX:MaxPermSize=256m
--Xms40m
--Xmx512m
+      <vmArgs>-Xms40m
+-Xmx3072m
 -XX:+CMSClassUnloadingEnabled 
 -XX:+UseConcMarkSweepGC
       </vmArgs>
