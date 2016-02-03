@@ -49,7 +49,7 @@ public class MetaPluginMcam implements IMetaPlugin {
 		
 		
 		this.modelPackage = gModel.getPackage();
-		String[] path = gModel.eResource().getURI().path().split(File.separator);
+		String[] path = gModel.eResource().getURI().path().split("/");
 		this.modelProjectName = path[2];
 		IProject mcamProject = ResourcesPlugin.getWorkspace().getRoot().getProject(modelProjectName);
 		
@@ -79,8 +79,8 @@ public class MetaPluginMcam implements IMetaPlugin {
 		McamImplementationGenerator genMcam = new McamImplementationGenerator(
 				gModel, mcamProject, modelPackage, modelProjectName);
 		try {
-			IFolder f = mcamProject.getFolder("src-gen" + File.separator
-					+ genMcam.getMcamProjectBasePackage().replace(".", File.separator));
+			IFolder f = mcamProject.getFolder("src-gen" + "/"
+					+ genMcam.getMcamProjectBasePackage().replace(".", "/"));
 			if (f != null && f.exists())
 				cleanDirectory(f);
 			mcamProject.refreshLocal(IResource.DEPTH_INFINITE, monitor);
@@ -126,8 +126,8 @@ public class MetaPluginMcam implements IMetaPlugin {
 		McamViewGenerator genView = new McamViewGenerator(gModel,
 				mcamViewProject, modelPackage, modelProjectName, genMcam);
 		try {
-			IFolder f = mcamViewProject.getFolder("src-gen" + File.separator
-					+ genView.getMcamViewPackage().replace(".", File.separator));
+			IFolder f = mcamViewProject.getFolder("src-gen" + "/"
+					+ genView.getMcamViewPackage().replace(".", "/"));
 			if (f != null && f.exists())
 				cleanDirectory(f);
 			mcamViewProject.refreshLocal(IResource.DEPTH_INFINITE, monitor);
