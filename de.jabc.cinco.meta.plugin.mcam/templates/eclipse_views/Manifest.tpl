@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: ConflictView
 Bundle-SymbolicName: ${McamViewBasePackage};singleton:=true
-Bundle-Version: 1.0.0.qualifier
+Bundle-Version: 1.0.0
 Bundle-Activator: ${McamViewBasePackage}.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
