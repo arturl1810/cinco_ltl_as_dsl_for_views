@@ -18,11 +18,11 @@ class NewGraphDialog implements Templateable{
 	
 	override create(GraphModel graphModel, ArrayList<StyledNode> nodes, ArrayList<StyledEdge> edges, HashMap<String, ArrayList<StyledNode>> groupedNodes, ArrayList<ConnectionConstraint> validConnections, ArrayList<EmbeddingConstraint> embeddingConstraints, ArrayList<Type> enums,ArrayList<GraphModel> graphModels,ArrayList<EPackage> ecores)
 	'''
-package de.mtf.dywa.components.modals.graph;
+package de.ls5.cinco.pyro.components.modals.graph;
 
 import de.ls5.dywa.generated.controller.*;
 import de.ls5.dywa.generated.entity.*;
-import de.mtf.dywa.pages.Pyro;
+import de.ls5.cinco.pyro.pages.Pyro;
 import org.apache.tapestry5.SelectModel;
 import org.apache.tapestry5.ValueEncoder;
 import org.apache.tapestry5.annotations.Component;
@@ -35,9 +35,9 @@ import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.PageRenderLinkSource;
 import org.apache.tapestry5.services.SelectModelFactory;
 «FOR GraphModel g : graphModels»
-import de.ls5.cinco.transformation.api.«g.name.toFirstLower».*;
+import de.ls5.cinco.pyro.transformation.api.«g.name.toFirstLower».*;
 «IF ModelParser.isCustomeHookAvailable(g)»
-import de.ls5.cinco.custom.hook.«g.name.toFirstLower».*;
+import de.ls5.cinco.pyro.custom.hook.«g.name.toFirstLower».*;
 «ENDIF»
 «ENDFOR»
 
@@ -163,7 +163,7 @@ public class NewGraphDialog {
         «FOR Annotation a:g.annotations»
         «IF a.name.equals("postCreate")»
         if(this.selectedGraphModel.getName().equals(«g.name.toFirstUpper».class.getName()) ) {
-	        «ModelParser.getCustomHookName(a).toFirstUpper»CustomHook «ModelParser.getCustomHookName(a).toFirstLower»CustomHook = new de.ls5.cinco.custom.hook.«g.name.toFirstLower».«ModelParser.getCustomHookName(a).toFirstUpper»CustomHook();
+	        «ModelParser.getCustomHookName(a).toFirstUpper»CustomHook «ModelParser.getCustomHookName(a).toFirstLower»CustomHook = new de.ls5.cinco.pyro.custom.hook.«g.name.toFirstLower».«ModelParser.getCustomHookName(a).toFirstUpper»CustomHook();
             C«g.name.toFirstUpper» c«g.name.toFirstUpper» = c«g.name.toFirstUpper»Wrapper.wrap«g.name.toFirstUpper»((«g.name.toFirstUpper»)this.newGraphModel);
             if(«ModelParser.getCustomHookName(a).toFirstLower»CustomHook.canExecute(c«g.name.toFirstUpper»)){
         		«ModelParser.getCustomHookName(a).toFirstLower»CustomHook.execute(c«g.name.toFirstUpper»);

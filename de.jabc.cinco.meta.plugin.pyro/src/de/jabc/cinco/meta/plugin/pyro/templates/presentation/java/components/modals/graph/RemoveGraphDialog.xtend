@@ -16,12 +16,12 @@ class RemoveGraphDialog implements Templateable{
 	
 	override create(GraphModel graphModel, ArrayList<StyledNode> nodes, ArrayList<StyledEdge> edges, HashMap<String, ArrayList<StyledNode>> groupedNodes, ArrayList<ConnectionConstraint> validConnections, ArrayList<EmbeddingConstraint> embeddingConstraints, ArrayList<Type> enums,ArrayList<GraphModel> graphModels,ArrayList<EPackage> ecores)
 	'''
-package de.mtf.dywa.components.modals.graph;
+package de.ls5.cinco.pyro.components.modals.graph;
 
 import de.ls5.dywa.generated.controller.*;
 import de.ls5.dywa.generated.entity.*;
-import de.mtf.dywa.pages.Pyro;
-import de.mtf.dywa.pages.Projects;
+import de.ls5.cinco.pyro.pages.Pyro;
+import de.ls5.cinco.pyro.pages.Projects;
 import org.apache.tapestry5.alerts.AlertManager;
 import org.apache.tapestry5.alerts.Duration;
 import org.apache.tapestry5.alerts.Severity;

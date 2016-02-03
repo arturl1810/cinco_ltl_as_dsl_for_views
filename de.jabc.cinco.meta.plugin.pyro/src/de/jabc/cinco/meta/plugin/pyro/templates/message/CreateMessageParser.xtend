@@ -20,10 +20,10 @@ class CreateMessageParser implements Templateable{
 	
 	override create(GraphModel graphModel, ArrayList<StyledNode> nodes, ArrayList<StyledEdge> edges, HashMap<String, ArrayList<StyledNode>> groupedNodes, ArrayList<ConnectionConstraint> validConnections, ArrayList<EmbeddingConstraint> embeddingConstraints, ArrayList<Type> enums,ArrayList<GraphModel> graphModels,ArrayList<EPackage> ecores)
 	'''
-package de.ls5.cinco.message.«graphModel.name.toFirstLower»;
+package de.ls5.cinco.pyro.message.«graphModel.name.toFirstLower»;
 
-import de.ls5.cinco.transformation.api.«graphModel.name.toFirstLower».*;
-import de.ls5.cinco.message.MessageParser;
+import de.ls5.cinco.pyro.transformation.api.«graphModel.name.toFirstLower».*;
+import de.ls5.cinco.pyro.message.MessageParser;
 import de.ls5.dywa.generated.entity.*;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -67,15 +67,15 @@ public class CreateMessageParser {
 			if(parentElement != null){
 				long parentId = (long) parentElement.get("cinco_id");
 				String parentType = (String) parentElement.get("cinco_name");
-				«FOR StyledNode ssn: nodes»
-				«IF ssn.modelElement instanceof NodeContainer»
-				«IF ModelParser.isContainable(sn.modelElement,ssn.modelElement as NodeContainer)»
-				if(parentType.equals("«ssn.modelElement.name.toFirstUpper»")){
-					C«ssn.modelElement.name.toFirstUpper» c«ssn.modelElement.name.toFirstUpper» = c«graphModel.name.toFirstUpper».getC«ssn.modelElement.name.toFirstUpper»(parentId);
-					c«sn.modelElement.name.toFirstUpper» = c«ssn.modelElement.name.toFirstUpper».newC«sn.modelElement.name.toFirstUpper»((long)x,(long)y);
-				}
-				«ENDIF»
-				«ENDIF»
+				//«var counter = 0»
+				«FOR StyledNode ssn: nodes.filter[n | (n.modelElement instanceof NodeContainer)]»
+					«IF ModelParser.isContainable(sn.modelElement,ssn.modelElement as NodeContainer)»
+					if(parentType.equals("«ssn.modelElement.name.toFirstUpper»")){
+						C«ssn.modelElement.name.toFirstUpper» c«counter»«ssn.modelElement.name.toFirstUpper» = c«graphModel.name.toFirstUpper».getC«ssn.modelElement.name.toFirstUpper»(parentId);
+						c«sn.modelElement.name.toFirstUpper» = c«counter»«ssn.modelElement.name.toFirstUpper».newC«sn.modelElement.name.toFirstUpper»((long)x,(long)y);
+					}
+					«ENDIF»
+					//Counter «counter=counter +1»
 				«ENDFOR»
 			}
 			else{

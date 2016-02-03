@@ -91,12 +91,12 @@ public class CreatePyroPlugin {
 		String jsPath = "js/pyro/";
 		String cssPath = "css/pyro/";
 		String wildFlyPath ="~/";
-		String businessPath = "/testapp-business/src/main/java/de/ls5/cinco/";
-		String presentationPath = "/testapp-presentation/src/main/";
-		String componentsPath = "java/de/mtf/dywa/";
-		String resourcesPath = "resources/de/mtf/dywa/";
+		String businessPath = "/app-business/src/main/java/de/ls5/cinco/pyro/";
+		String presentationPath = "/app-presentation/src/main/";
+		String componentsPath = "java/de/ls5/cinco/pyro/";
+		String resourcesPath = "resources/de/ls5/cinco/pyro/";
 		String webappPath = "webapp/";
-		String preconfigPath = "/testapp-preconfig/src/main/java/de/ls5/cinco/";
+		String preconfigPath = "/app-preconfig/src/main/java/de/ls5/cinco/pyro/";
 		//Search for Graphmodel Annotation "pyro"
 		for(mgl.Annotation anno: graphModel.getAnnotations()){
 			if(anno.getName().equals(PYRO)){

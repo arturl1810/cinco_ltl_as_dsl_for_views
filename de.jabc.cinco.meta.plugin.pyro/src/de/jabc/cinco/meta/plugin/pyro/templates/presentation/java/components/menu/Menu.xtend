@@ -16,7 +16,7 @@ class Menu implements Templateable{
 	
 	override create(GraphModel graphModel, ArrayList<StyledNode> nodes, ArrayList<StyledEdge> edges, HashMap<String, ArrayList<StyledNode>> groupedNodes, ArrayList<ConnectionConstraint> validConnections, ArrayList<EmbeddingConstraint> embeddingConstraints, ArrayList<Type> enums,ArrayList<GraphModel> graphModels,ArrayList<EPackage> ecores)
 	'''
-	package de.mtf.dywa.components.menubar;
+	package de.ls5.cinco.pyro.components.menubar;
 
 import de.ls5.dywa.generated.controller.*;
 import de.ls5.dywa.generated.entity.*;

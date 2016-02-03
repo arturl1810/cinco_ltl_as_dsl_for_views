@@ -30,7 +30,7 @@ class CincoDBController implements Templateable{
 
 override create(GraphModel graphModel, ArrayList<StyledNode> nodes, ArrayList<StyledEdge> edges, HashMap<String, ArrayList<StyledNode>> groupedNodes, ArrayList<ConnectionConstraint> validConnections, ArrayList<EmbeddingConstraint> embeddingConstraints, ArrayList<Type> enums,ArrayList<GraphModel> graphModels,ArrayList<EPackage> ecores)
 '''
-package de.ls5.cinco.deployment;
+package de.ls5.cinco.pyro.deployment;
 
 import de.ls5.dywa.api.ObjectController;
 import de.ls5.dywa.api.TypeController;
@@ -214,7 +214,7 @@ public class CincoDBControllerImpl implements CincoDBController{
         «FOR GraphModel g:graphModels»
         //Create «g.name» Node-Types and Container-Types
 
-        «FOR Node node: g.nodes»
+        «FOR Node node: g.nodes.filter[n | !(n instanceof NodeContainer)]»
 			«createNode(node,new ArrayList<Type>(g.types.toList),g)»
 		«ENDFOR»
 		«FOR NodeContainer node:g.nodes.filter[n | (n instanceof NodeContainer)].map[nc | nc as NodeContainer]»
@@ -241,9 +241,9 @@ public class CincoDBControllerImpl implements CincoDBController{
         «FOR Node node: g.nodes»
 				«createAttributeCommmand(node,new ArrayList<Type>(g.types.toList))»
 		«ENDFOR»
-		«FOR NodeContainer node: g.nodes.filter[n | (n instanceof NodeContainer)].map[nc | nc as NodeContainer]»
-				«createAttributeCommmand(node,new ArrayList<Type>(g.types.toList))»
-		«ENDFOR»
+«««		«FOR NodeContainer node: g.nodes.filter[n | (n instanceof NodeContainer)].map[nc | nc as NodeContainer]»
+«««				«createAttributeCommmand(node,new ArrayList<Type>(g.types.toList))»
+«««		«ENDFOR»
 		// «g.name.toFirstUpper» Edge Attributes Commands
 		«FOR Edge edge: g.edges»
 		«createAttributeCommmand(edge,new ArrayList<Type>(g.types.toList))»
@@ -267,7 +267,7 @@ public class CincoDBControllerImpl implements CincoDBController{
 
         //Create «g.name» Node-Attributes and Container-Attributes
 
-        «FOR Node node: g.nodes»
+        «FOR Node node: g.nodes.filter[n | !(n instanceof NodeContainer)]»
         //«node.name.toFirstUpper» Attribute
 			«createNodeAttribute(node,new ArrayList<Type>(g.types.toList),g)»
 		«ENDFOR»
@@ -285,7 +285,7 @@ public class CincoDBControllerImpl implements CincoDBController{
 		
 		//Create «g.name» Cross-Type References
 
-        «FOR Node node: g.nodes»
+        «FOR Node node: g.nodes.filter[n | !(n instanceof NodeContainer)]»
 			«createReferenceAttributes(node,new ArrayList<Type>(g.types.toList),g)»
 		«ENDFOR»
 		
@@ -322,7 +322,7 @@ public class CincoDBControllerImpl implements CincoDBController{
         «ENDFOR»
         System.out.println("Create inheritances");
         «FOR GraphModel g:graphModels»
-        «FOR Node node: g.nodes»
+        «FOR Node node: g.nodes.filter[n | !(n instanceof NodeContainer)]»
 			«createInheritance(node)»
 		«ENDFOR»
 		

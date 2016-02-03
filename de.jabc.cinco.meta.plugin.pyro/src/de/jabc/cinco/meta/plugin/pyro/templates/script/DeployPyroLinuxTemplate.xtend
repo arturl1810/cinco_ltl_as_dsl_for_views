@@ -14,7 +14,7 @@ class DeployPyroLinuxTemplate implements DefaultTemplate{
 	cd «objects.get(0)»
 	mvn clean install
 	echo "APP installed"
-	cp «objects.get(0)»/testapp-presentation/target/testapp.war «objects.get(1)»/standalone/deployments/
+	cp «objects.get(0)»/app-presentation/target/app.war «objects.get(1)»/standalone/deployments/
 	echo "Successfully deployed!"
 		
 	'''

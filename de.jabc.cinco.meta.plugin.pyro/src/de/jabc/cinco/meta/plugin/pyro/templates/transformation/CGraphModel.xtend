@@ -23,11 +23,11 @@ class CGraphModel implements Templateable{
 	
 	override create(GraphModel graphModel, ArrayList<StyledNode> nodes, ArrayList<StyledEdge> edges, HashMap<String, ArrayList<StyledNode>> groupedNodes, ArrayList<ConnectionConstraint> validConnections, ArrayList<EmbeddingConstraint> embeddingConstraints, ArrayList<Type> enums,ArrayList<GraphModel> graphModels,ArrayList<EPackage> ecores)
 	'''
-package de.ls5.cinco.transformation.api.«graphModel.name.toFirstLower»;
+package de.ls5.cinco.pyro.transformation.api.«graphModel.name.toFirstLower»;
 
 import de.ls5.dywa.generated.entity.*;
 import de.ls5.dywa.generated.controller.*;
-import de.ls5.cinco.transformation.api.*;
+import de.ls5.cinco.pyro.transformation.api.*;
 
 import javax.inject.Inject;
 import java.util.ArrayList;

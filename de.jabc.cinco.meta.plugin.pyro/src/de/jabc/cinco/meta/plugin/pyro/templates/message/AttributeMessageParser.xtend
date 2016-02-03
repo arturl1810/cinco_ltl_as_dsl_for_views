@@ -19,10 +19,10 @@ class AttributeMessageParser implements Templateable{
 	
 	override create(GraphModel graphModel, ArrayList<StyledNode> nodes, ArrayList<StyledEdge> edges, HashMap<String, ArrayList<StyledNode>> groupedNodes, ArrayList<ConnectionConstraint> validConnections, ArrayList<EmbeddingConstraint> embeddingConstraints, ArrayList<Type> enums,ArrayList<GraphModel> graphModels,ArrayList<EPackage> ecores)
 	'''
-package de.ls5.cinco.message.«graphModel.name.toFirstLower»;
+package de.ls5.cinco.pyro.message.«graphModel.name.toFirstLower»;
 
-import de.ls5.cinco.transformation.api.«graphModel.name.toFirstLower».*;
-import de.ls5.cinco.message.MessageParser;
+import de.ls5.cinco.pyro.transformation.api.«graphModel.name.toFirstLower».*;
+import de.ls5.cinco.pyro.message.MessageParser;
 import de.ls5.dywa.generated.entity.«graphModel.name.toFirstUpper»;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;

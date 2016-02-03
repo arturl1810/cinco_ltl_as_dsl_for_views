@@ -17,17 +17,17 @@ class EdgeParser implements ElementTemplateable {
 	
 	override create(StyledModelElement sme, GraphModel graphModel, ArrayList<StyledNode> nodes, ArrayList<StyledEdge> edges, HashMap<String, ArrayList<StyledNode>> groupedNodes, ArrayList<ConnectionConstraint> validConnections, ArrayList<EmbeddingConstraint> embeddingConstraints, ArrayList<Type> enums)
 	'''
-package de.ls5.cinco.parser.«graphModel.name.toFirstLower»;
+package de.ls5.cinco.pyro.parser.«graphModel.name.toFirstLower»;
 
 import de.ls5.dywa.generated.entity.«sme.modelElement.name.toFirstUpper»;
 import de.ls5.dywa.generated.entity.Point;
-import de.ls5.cinco.transformation.api.«graphModel.name.toFirstLower».*;
+import de.ls5.cinco.pyro.transformation.api.«graphModel.name.toFirstLower».*;
 «IF ModelParser.isCustomeActionAvailable(graphModel)»
-import de.ls5.cinco.custom.action.«graphModel.name.toFirstLower».*;
+import de.ls5.cinco.pyro.custom.action.«graphModel.name.toFirstLower».*;
 «ENDIF»
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import de.ls5.cinco.parser.PointParser;
+import de.ls5.cinco.pyro.parser.PointParser;
 import java.util.List;
 import java.util.stream.Collectors;
 

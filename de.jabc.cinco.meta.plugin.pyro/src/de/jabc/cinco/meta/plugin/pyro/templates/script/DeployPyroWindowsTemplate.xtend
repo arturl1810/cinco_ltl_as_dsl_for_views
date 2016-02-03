@@ -10,7 +10,7 @@ class DeployPyroWindowsTemplate implements DefaultTemplate{
 	mode 120,80
 	cd «objects.get(0)»
 	mvn clean install
-	copy /b/v/y «objects.get(0)»\testapp-presentation\target\testapp.war «objects.get(1)»\standalone\deployments
+	copy /b/v/y «objects.get(0)»\app-presentation\target\app.war «objects.get(1)»\standalone\deployments
 	echo "Successfully deployed!"
 	pause>nul
 		

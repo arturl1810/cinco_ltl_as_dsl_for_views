@@ -5,23 +5,23 @@
 		xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>de.mtf.dywa</groupId>
-	<artifactId>testapp</artifactId>
+	<groupId>de.ls5.cinco.pyro</groupId>
+	<artifactId>pyro-app</artifactId>
 	<version>0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
-	<name>Test App Parent</name>
+	<name>Pyro</name>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<!-- By default, this value is empy -->
 		<de.ls5.dywa.instanceId></de.ls5.dywa.instanceId>
-		<de.ls5.dywa.version>0.6-SNAPSHOT</de.ls5.dywa.version>
+		<de.ls5.dywa.version>0.6.2</de.ls5.dywa.version>
 		<de.ls5.dywa.generation.packageName>de.ls5.dywa.generated</de.ls5.dywa.generation.packageName>
 		<de.ls5.dywa.generation.processFilter>de.ls5.dywa.generated.process</de.ls5.dywa.generation.processFilter>
 		<de.jabc4.codegenerator.version>5.5</de.jabc4.codegenerator.version>
 		<de.jabc4.basics.version>5.13</de.jabc4.basics.version>
-		<de.mtf.dywa.finalName>testapp</de.mtf.dywa.finalName>
+		<de.ls5.cinco.pyro.finalName>pyro-app</de.ls5.cinco.pyro.finalName>
 	</properties>
 
 	<profiles>
@@ -31,31 +31,24 @@
 				<activeByDefault>true</activeByDefault>
 			</activation>
 			<modules>
-				<module>testapp-preconfig</module>
-				<module>testapp-persistence</module>
-				<module>testapp-business</module>
-				<module>testapp-plugin</module>
-				<module>testapp-presentation</module>
+				<module>app-preconfig</module>
+				<module>app-persistence</module>
+				<module>app-business</module>
+				<module>app-presentation</module>
 			</modules>
 		</profile>
 		<profile>
 			<id>prepareModeling</id>
 			<modules>
-				<module>testapp-persistence</module>
-				<module>testapp-plugin</module>
-				<module>testapp-project</module>
-				<module>testapp-service</module>
+				<module>app-persistence</module>
 			</modules>
 		</profile>
 		<profile>
 			<id>all</id>
 			<modules>
-				<module>testapp-persistence</module>
-				<module>testapp-business</module>
-				<module>testapp-plugin</module>
-				<module>testapp-presentation</module>
-				<module>testapp-project</module>
-				<module>testapp-service</module>
+				<module>app-persistence</module>
+				<module>app-business</module>
+				<module>app-presentation</module>
 			</modules>
 		</profile>
 	</profiles>

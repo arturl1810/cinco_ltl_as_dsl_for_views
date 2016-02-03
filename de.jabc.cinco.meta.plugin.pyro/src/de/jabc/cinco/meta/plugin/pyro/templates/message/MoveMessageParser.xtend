@@ -17,10 +17,10 @@ class MoveMessageParser implements Templateable{
 	
 	override create(GraphModel graphModel, ArrayList<StyledNode> nodes, ArrayList<StyledEdge> edges, HashMap<String, ArrayList<StyledNode>> groupedNodes, ArrayList<ConnectionConstraint> validConnections, ArrayList<EmbeddingConstraint> embeddingConstraints, ArrayList<Type> enums,ArrayList<GraphModel> graphModels,ArrayList<EPackage> ecores)
 	'''
-package de.ls5.cinco.message.«graphModel.name.toFirstLower»;
+package de.ls5.cinco.pyro.message.«graphModel.name.toFirstLower»;
 
-import de.ls5.cinco.transformation.api.«graphModel.name.toFirstLower».*;
-import de.ls5.cinco.message.MessageParser;
+import de.ls5.cinco.pyro.transformation.api.«graphModel.name.toFirstLower».*;
+import de.ls5.cinco.pyro.message.MessageParser;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.JSONArray;
@@ -70,19 +70,19 @@ public class MoveMessageParser {
                 JSONObject parent = (JSONObject) receivedMessage.get("parent");
                 long parentId = Long.parseLong(""+parent.get("cinco_id"));
                 «FOR EmbeddingConstraint ec:embeddingConstraints»
-                «FOR GraphicalModelElement gme: ec.validNode»
-                «IF gme.name.equals(sn.modelElement.name)»
+                	«FOR GraphicalModelElement gme: ec.validNode»
+                		«IF gme.name.equals(sn.modelElement.name)»
                 if(parent.get("cinco_name").equals("«ec.container.name.toFirstUpper»")) {
-                    C«ec.container.name.toFirstUpper» c«ec.container.name.toFirstUpper» = c«graphModel.name.toFirstUpper».getC«ec.container.name.toFirstUpper»(parentId);
-                    if(c«ec.container.name.toFirstUpper» != null){
-                        c«sn.modelElement.name.toFirstUpper».setContainer(c«ec.container.name.toFirstUpper»);
+                    C«ec.container.name.toFirstUpper» cInner«ec.container.name.toFirstUpper» = c«graphModel.name.toFirstUpper».getC«ec.container.name.toFirstUpper»(parentId);
+                    if(cInner«ec.container.name.toFirstUpper» != null){
+                        c«sn.modelElement.name.toFirstUpper».setContainer(cInner«ec.container.name.toFirstUpper»);
                     }
                     else{
                         return getMoveErrorResponse((JSONObject) receivedMessage.get("element"));
                     }
                 }
-                «ENDIF»
-                «ENDFOR»
+                		«ENDIF»
+               		«ENDFOR»
                 «ENDFOR»
             }
             else {

@@ -20,19 +20,15 @@ class AppModule implements Templateable {
 	
 	override create(GraphModel graphModel, ArrayList<StyledNode> nodes, ArrayList<StyledEdge> edges, HashMap<String, ArrayList<StyledNode>> groupedNodes, ArrayList<ConnectionConstraint> validConnections, ArrayList<EmbeddingConstraint> embeddingConstraints, ArrayList<Type> enums,ArrayList<GraphModel> graphModels,ArrayList<EPackage> ecores)
 	'''
-package de.mtf.dywa.services;
+package de.ls5.cinco.pyro.services;
 
-import de.ls5.cinco.deployment.CincoDBController;
+import de.ls5.cinco.pyro.deployment.CincoDBController;
 «FOR GraphModel g:graphModels»
-import de.ls5.cinco.transformation.api.«g.name.toFirstLower».*;
+import de.ls5.cinco.pyro.transformation.api.«g.name.toFirstLower».*;
 «ENDFOR»
-import de.ls5.dywa.api.security.DyWARealm;
 import de.ls5.dywa.generated.controller.*;
-import de.mtf.dywa.ExampleController;
-import de.mtf.dywa.util.filter.CERFImpl;
-import de.mtf.dywa.util.filter.PRRFImpl;
-import org.apache.shiro.realm.Realm;
-import org.apache.shiro.web.mgt.WebSecurityManager;
+import de.ls5.cinco.pyro.util.filter.CERFImpl;
+import de.ls5.cinco.pyro.util.filter.PRRFImpl;
 import org.apache.tapestry5.SymbolConstants;
 import org.apache.tapestry5.ioc.*;
 import org.apache.tapestry5.ioc.annotations.Contribute;
@@ -200,16 +196,6 @@ public class AppModule
 		}
 	}
 
-	@Scope(ScopeConstants.PERTHREAD)
-	public ExampleController buildExampleController() {
-		return buildControllerOrNull(ExampleController.class, "exampleController");
-	}
-
-
-	@Contribute(WebSecurityManager.class)
-	public void configureDyWARealm(Configuration<Realm> configuration) {
-		configuration.add(buildControllerOrNull(DyWARealm.class, "dywaRealm"));
-	}
 
     @Scope(ScopeConstants.PERTHREAD)
     public CincoDBController buildCincoDBController() {
@@ -274,7 +260,7 @@ public class AppModule
     }
     «ENDIF»
     
-    «FOR mgl.Node sn:g.nodes»
+    «FOR mgl.Node sn:g.nodes.filter[n | !(n instanceof NodeContainer)]»
     @Scope(ScopeConstants.PERTHREAD)
     public «sn.name.toFirstUpper»Controller build«sn.name.toFirstUpper»Controller() {
         return buildControllerOrNull(«sn.name.toFirstUpper»Controller.class, "«sn.name.toFirstLower»ControllerImpl");

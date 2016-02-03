@@ -19,13 +19,13 @@ class ModelingCanvas implements Templateable{
 package de.mtf.dywa.components.canvas;
 
 «FOR GraphModel g:graphModels»
-import de.ls5.cinco.message.«g.name.toFirstLower».*;
-import de.ls5.cinco.transformation.api.«g.name.toFirstLower».*;
-import de.ls5.cinco.parser.«g.name.toFirstLower».*;
+import de.ls5.cinco.pyro.message.«g.name.toFirstLower».*;
+import de.ls5.cinco.pyro.transformation.api.«g.name.toFirstLower».*;
+import de.ls5.cinco.pyro.parser.«g.name.toFirstLower».*;
 «ENDFOR»
 import de.ls5.dywa.generated.controller.*;
 import de.ls5.dywa.generated.entity.*;
-import de.mtf.dywa.pages.Pyro;
+import de.ls5.cinco.pyro.pages.Pyro;
 import org.apache.tapestry5.ComponentResources;
 import org.apache.tapestry5.annotations.InjectPage;
 import org.apache.tapestry5.annotations.Parameter;
