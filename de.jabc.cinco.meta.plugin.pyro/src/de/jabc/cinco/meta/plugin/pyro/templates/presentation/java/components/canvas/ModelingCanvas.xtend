@@ -16,7 +16,7 @@ class ModelingCanvas implements Templateable{
 	
 	override create(GraphModel graphModel, ArrayList<StyledNode> nodes, ArrayList<StyledEdge> edges, HashMap<String, ArrayList<StyledNode>> groupedNodes, ArrayList<ConnectionConstraint> validConnections, ArrayList<EmbeddingConstraint> embeddingConstraints, ArrayList<Type> enums,ArrayList<GraphModel> graphModels,ArrayList<EPackage> ecores)
 	'''
-package de.mtf.dywa.components.canvas;
+package de.ls5.cinco.pyro.components.canvas;
 
 «FOR GraphModel g:graphModels»
 import de.ls5.cinco.pyro.message.«g.name.toFirstLower».*;

@@ -12,13 +12,15 @@ import org.apache.tapestry5.SymbolConstants;
 @Import(stylesheet = {
         "context:css/joint/joint.css",
         "context:css/pyro/pyro.core.css",
-        "context:css/pyro/pyro.nodes.css",
         "context:css/plugins/jquery.contextMenu.css",
         "context:css/themes/bootstrap.min.css",
         "context:css/themes/bootstrap-theme.min.css"
 
 },
         library = {
+				"context:js/jquery.min.js",
+				"context:js/joint/lodash.min.js",
+				"context:js/joint/backbone-min.js",
                 "context:js/joint/joint.js",
                 "context:js/plugins/base64.js",
                 "context:js/plugins/jquery.ui.position.js",

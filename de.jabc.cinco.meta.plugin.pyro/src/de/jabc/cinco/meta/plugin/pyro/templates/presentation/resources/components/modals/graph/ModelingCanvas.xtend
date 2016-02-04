@@ -98,7 +98,7 @@ class ModelingCanvas implements Templateable{
             return "${context:css}";
         }
         function getImgRootPath() {
-            return "${context:img/pyro}/${graphModelTypeName}/";
+            return "/pyro-app/assets/0.1-SNAPSHOT/ctx/img/${graphModelTypeName}/";
         }
         function getPrimeReferences() {
             return  ${primeReferences};
