@@ -24,6 +24,7 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ProductDefinition.ecore#//CincoProduct/splashScreen"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ProductDefinition.ecore#//CincoProduct/plugins"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ProductDefinition.ecore#//CincoProduct/mgls"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ProductDefinition.ecore#//CincoProduct/defaultPerspective"/>
     </genClasses>
     <genClasses ecoreClass="ProductDefinition.ecore#//MGLDescriptor">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ProductDefinition.ecore#//MGLDescriptor/mglPath"/>

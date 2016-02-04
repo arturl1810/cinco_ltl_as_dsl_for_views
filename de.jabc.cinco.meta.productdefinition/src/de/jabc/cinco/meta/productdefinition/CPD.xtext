@@ -16,7 +16,7 @@ CincoProduct returns CincoProduct:
 		('version' version=EString)?
 		//('mgls' '(' mgls+=[mgl::GraphModel|EString](',' mgls+=[mgl::GraphModel|EString] )* ')')+
 		(mgls+=MGLDescriptor)+
-		
+		('defaultPerspective' defaultPerspective=QName)?
 		('splashScreen' splashScreen=SplashScreen)?
 		('image16' image16=Path)?
 		('image32' image32=Path)?

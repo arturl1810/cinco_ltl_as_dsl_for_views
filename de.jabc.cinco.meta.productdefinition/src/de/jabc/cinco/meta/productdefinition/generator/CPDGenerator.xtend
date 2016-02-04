@@ -25,6 +25,7 @@ import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.pde.internal.core.iproduct.IProduct
 import org.eclipse.pde.internal.core.iproduct.IProductFeature
 import org.eclipse.pde.internal.core.iproduct.IWindowImages
+import org.eclipse.pde.internal.core.product.ArgumentsInfo
 import org.eclipse.pde.internal.core.product.AboutInfo
 import org.eclipse.pde.internal.core.product.LauncherInfo
 import org.eclipse.pde.internal.core.product.ProductFeature
@@ -189,6 +190,16 @@ class CPDGenerator implements IGenerator {
 				var text = productDefinition.about.aboutText
 				aboutInfo.setText(text)
 				product.setAboutInfo(aboutInfo)
+			}
+			
+			if(productDefinition.defaultPerspective!=null){
+				var defaultPerspective = String.format("-perspective %s",productDefinition.defaultPerspective);
+				 
+				var programOptions = new ArgumentsInfo(productModel);
+				programOptions.setProgramArguments(defaultPerspective,0);
+				println("jAPÖÖAÖAPAP")
+				product.launcherArguments = programOptions;
+				
 			}
 
 			product.setWindowImages(windowImages)
