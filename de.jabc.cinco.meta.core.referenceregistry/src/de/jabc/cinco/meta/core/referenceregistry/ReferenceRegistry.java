@@ -405,14 +405,21 @@ public class ReferenceRegistry {
 		return null;
 	}
 
+		
 	private URI toWorkspaceRelativeURI(URI uri) {
 		if (!uri.isRelative() && !uri.isPlatformResource()) {
 			IPath path = new Path(uri.toFileString());
 			IFile file = ResourcesPlugin.getWorkspace().getRoot().getFileForLocation(path);
 			uri = URI.createPlatformResourceURI(file.getFullPath().toOSString(), true);
 		}
+		
+		if (uri.isRelative() && !uri.isPlatformResource()) {
+			uri = URI.createPlatformResourceURI(uri.toString(), true);
+		}
+		
 		return uri;
 	}
+		
 	
 	public void clearRegistry() {
 		System.out.println("Clearing");
