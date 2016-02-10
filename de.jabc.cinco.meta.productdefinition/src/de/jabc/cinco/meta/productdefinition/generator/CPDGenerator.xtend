@@ -197,7 +197,6 @@ class CPDGenerator implements IGenerator {
 				 
 				var programOptions = new ArgumentsInfo(productModel);
 				programOptions.setProgramArguments(defaultPerspective,0);
-				println("jAPÖÖAÖAPAP")
 				product.launcherArguments = programOptions;
 				
 			}
