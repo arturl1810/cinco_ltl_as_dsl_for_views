@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>83d95140-6c37-4d47-b41c-dc01202047a8</id>
   <name>GenerateAbstractShape</name>
-  <changecounter>1229</changecounter>
+  <changecounter>1237</changecounter>
   <sib>
     <id>15d12de3-be92-4199-912c-41f8d0975e20</id>
     <name>SwitchAbstractShape</name>

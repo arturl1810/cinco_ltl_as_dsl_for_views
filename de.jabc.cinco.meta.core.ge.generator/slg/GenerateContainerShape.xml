@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>c1206c24-81a8-4ae2-b093-4d794fac9742</id>
   <name>GenerateContainerShape</name>
-  <changecounter>1286</changecounter>
+  <changecounter>1299</changecounter>
   <sib>
     <id>299dd76d-8397-43af-aff5-bc29e4d4a5d6</id>
     <name>SwitchContainerShape</name>
@@ -792,19 +792,19 @@ peService.setPropertyValue($context.peName$, $context.graphModelName$LayoutUtils
     <parameter name="template">
       <string>$context.appearanceContent$
 
-int[] points = new int[] {$context.pointCode$};
+points = new int[] {$context.pointCode$};
 		
-int[] xs = new int[] {$context.xPoints$};
-int[] ys = new int[] {$context.yPoints$};
+xs = new int[] {$context.xPoints$};
+ys = new int[] {$context.yPoints$};
 		
-int minX = $context.graphModelName$GraphitiUtils.getInstance().min(xs);
-int maxX = $context.graphModelName$GraphitiUtils.getInstance().max(xs);
+minX = $context.graphModelName$GraphitiUtils.getInstance().min(xs);
+maxX = $context.graphModelName$GraphitiUtils.getInstance().max(xs);
 
-int minY = $context.graphModelName$GraphitiUtils.getInstance().min(ys);
-int maxY = $context.graphModelName$GraphitiUtils.getInstance().max(ys);
+minY = $context.graphModelName$GraphitiUtils.getInstance().min(ys);
+maxY = $context.graphModelName$GraphitiUtils.getInstance().max(ys);
 
-int width = maxX - minX;
-int height = maxY - minY;
+width = maxX - minX;
+height = maxY - minY;
 
 $context.graphModelName$GraphitiUtils.getInstance().transform(points, -minX, -minY);
 
@@ -825,7 +825,7 @@ for (Point _p : $context.peName$.getPoints()) {
 */
 gaService.setSize($context.peName$, width, height);
 
-String _pointsString = &quot;&quot;;
+_pointsString = &quot;&quot;;
 for (int i : points) {
 	_pointsString += String.valueOf(i)+&quot;,&quot;;
 }
@@ -1351,8 +1351,11 @@ $context.setStyleContent$</string>
   <edge>
     <source>db99eefe-a74c-4a7d-bc42-11c536305ccb</source>
     <target>c55c98a6-9232-40f6-b45c-3faf2b048b8a</target>
-    <point>703.0,458.0</point>
-    <point>813.5,788.0</point>
+    <spline/>
+    <point>640.6626506024096,444.0</point>
+    <point>585.0,675.0</point>
+    <point>732.0,747.1636363636363</point>
+    <labelposition>609.7322172898016,118.38682078921153</labelposition>
     <branch>default</branch>
   </edge>
   <parameter>
