@@ -136,11 +136,10 @@ class «model.name»BackupGenerator extends GratextGenerator<«model.basePackage
 	}
 	
 	def gratext(List<? extends EStructuralFeature> ftrs, EObject obj) {
-		ftrs.excludeId.map[gratext(obj)].filterNull.join('\n')
-	}
-	
-	def excludeId(List<? extends EStructuralFeature> ftrs) {
-		ftrs.filter[it.featureID != GraphmodelPackage.MODEL_ELEMENT__ID]
+		switch obj {
+			ModelElement: ftrs.filter[it.featureID != GraphmodelPackage.MODEL_ELEMENT__ID]
+			default: ftrs
+		}.map[gratext(obj)].filterNull.join('\n')
 	}
 	
 	def gratext(EStructuralFeature ftr, EObject obj) {
