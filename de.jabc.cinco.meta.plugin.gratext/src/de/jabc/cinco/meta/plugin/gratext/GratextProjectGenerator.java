@@ -104,7 +104,7 @@ public class GratextProjectGenerator extends ProjectGenerator {
 			};
 			
 			@Override protected List<String> getBuildPropertiesBinIncludes() {
-				return list("src", "src-gen", "xtend-gen", "plugin.xml");
+				return list("plugin.xml");
 			}
 		}.execute(context);
 		
@@ -142,7 +142,7 @@ public class GratextProjectGenerator extends ProjectGenerator {
 			};
 			
 			@Override protected List<String> getBuildPropertiesBinIncludes() {
-				return list("src-gen", "plugin.xml");
+				return list("plugin.xml");
 			}
 			
 			@Override protected void createFiles(FileCreator creator) {
@@ -261,9 +261,6 @@ public class GratextProjectGenerator extends ProjectGenerator {
 	@Override
 	protected List<String> getBuildPropertiesBinIncludes() {
 		return list(
-			"src/",
-			"src-gen/",
-			"model-gen/",
 			"plugin.xml",
 			"plugin.properties"
 		);
