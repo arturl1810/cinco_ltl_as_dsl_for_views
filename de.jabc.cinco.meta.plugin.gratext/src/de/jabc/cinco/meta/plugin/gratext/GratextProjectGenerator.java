@@ -14,6 +14,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
@@ -101,72 +102,84 @@ public class GratextProjectGenerator extends ProjectGenerator {
 			@Override protected java.util.List<String> getManifestExtensions() {
 				return list("Bundle-ActivationPolicy: lazy");
 			};
+			
+			@Override protected List<String> getBuildPropertiesBinIncludes() {
+				return list("src", "src-gen", "xtend-gen", "plugin.xml");
+			}
 		}.execute(context);
 		
 		IProject gratextProject = ResourcesPlugin.getWorkspace().getRoot().getProject(getModelProjectSymbolicName() + ".gratext");
-
-		if (!gratextProject.exists()) {
-			gratextProject = new EmptyProjectGenerator(getModelProjectSymbolicName() + ".gratext") {
-				@Override protected List<String> getSourceFolders() {
-					return list("src-gen");
-				};
-				@Override protected Set<String> getRequiredBundles() {
-					return new HashSet<>(list(
-							 "org.eclipse.core.runtime",
-							 "org.eclipse.core.resources",
-							 "org.eclipse.e4.core.di",
-							 "org.eclipse.ui",
-							 "de.jabc.cinco.meta.core.utils"
-						));
-				};
-				@Override protected List<String> getNatures() {
-					return list(
-						"org.eclipse.pde.PluginNature"
-					);
-				}
-				@Override protected java.util.List<String> getManifestExtensions() {
-					return list("Bundle-ActivationPolicy: lazy");
-				};
-				
-				@Override protected java.util.List<String> getExportedPackages() {
-					return list("info.scce.cinco.gratext");
-				};
-				
-				@Override protected void createFiles(FileCreator creator) {
-					creator.inSrcFolder("src-gen")
-						.inPackage("info.scce.cinco.gratext")
-						.createFile("IBackupAction.java")
-						.withContent(GratextIBackupActionTemplate.class, this);
-					
-					creator.inSrcFolder("src-gen")
-						.inPackage("info.scce.cinco.gratext")
-						.createFile("IRestoreAction.java")
-						.withContent(GratextIRestoreActionTemplate.class, this);
-					
-					creator.inSrcFolder("src-gen")
-						.inPackage("info.scce.cinco.gratext")
-						.createFile("BackupAction.java")
-						.withContent(GratextBackupActionTemplate.class, this);
-					
-					creator.inSrcFolder("src-gen")
-						.inPackage("info.scce.cinco.gratext")
-						.createFile("RestoreAction.java")
-						.withContent(GratextRestoreActionTemplate.class, this);
-					
-					creator.inSrcFolder("schema")
-						.createFile("info.scce.cinco.gratext.backup.exsd")
-						.withContent(GratextBackupSchemaTemplate.class, this);
-					
-					creator.inSrcFolder("schema")
-						.createFile("info.scce.cinco.gratext.restore.exsd")
-						.withContent(GratextRestoreSchemaTemplate.class, this);
-					
-					creator.createFile("plugin.xml")
-						.withContent(GratextPluginXmlTemplate.class, this);
-					
-				};
-			}.execute(context);
+		try {
+			gratextProject.delete(true, true, null);
+		} catch (CoreException e) {
+			e.printStackTrace();
 		}
+		
+		new EmptyProjectGenerator(getModelProjectSymbolicName() + ".gratext") {
+			@Override protected List<String> getSourceFolders() {
+				return list("src-gen");
+			};
+			@Override protected Set<String> getRequiredBundles() {
+				return new HashSet<>(list(
+						 "org.eclipse.core.runtime",
+						 "org.eclipse.core.resources",
+						 "org.eclipse.e4.core.di",
+						 "org.eclipse.ui",
+						 "de.jabc.cinco.meta.core.utils"
+					));
+			};
+			@Override protected List<String> getNatures() {
+				return list(
+					"org.eclipse.pde.PluginNature"
+				);
+			}
+			@Override protected java.util.List<String> getManifestExtensions() {
+				return list("Bundle-ActivationPolicy: lazy");
+			};
+			
+			@Override protected java.util.List<String> getExportedPackages() {
+				return list("info.scce.cinco.gratext");
+			};
+			
+			@Override protected List<String> getBuildPropertiesBinIncludes() {
+				return list("src-gen", "plugin.xml");
+			}
+			
+			@Override protected void createFiles(FileCreator creator) {
+				creator.inSrcFolder("src-gen")
+					.inPackage("info.scce.cinco.gratext")
+					.createFile("IBackupAction.java")
+					.withContent(GratextIBackupActionTemplate.class, this);
+				
+				creator.inSrcFolder("src-gen")
+					.inPackage("info.scce.cinco.gratext")
+					.createFile("IRestoreAction.java")
+					.withContent(GratextIRestoreActionTemplate.class, this);
+				
+				creator.inSrcFolder("src-gen")
+					.inPackage("info.scce.cinco.gratext")
+					.createFile("BackupAction.java")
+					.withContent(GratextBackupActionTemplate.class, this);
+				
+				creator.inSrcFolder("src-gen")
+					.inPackage("info.scce.cinco.gratext")
+					.createFile("RestoreAction.java")
+					.withContent(GratextRestoreActionTemplate.class, this);
+				
+				creator.inSrcFolder("schema")
+					.createFile("info.scce.cinco.gratext.backup.exsd")
+					.withContent(GratextBackupSchemaTemplate.class, this);
+				
+				creator.inSrcFolder("schema")
+					.createFile("info.scce.cinco.gratext.restore.exsd")
+					.withContent(GratextRestoreSchemaTemplate.class, this);
+				
+				creator.createFile("plugin.xml")
+					.withContent(GratextPluginXmlTemplate.class, this);
+				
+			};
+		}.execute(context);
+		
 		return project;
 	}
 	
@@ -250,7 +263,9 @@ public class GratextProjectGenerator extends ProjectGenerator {
 		return list(
 			"src/",
 			"src-gen/",
-			"plugin.xml"
+			"model-gen/",
+			"plugin.xml",
+			"plugin.properties"
 		);
 	}
 	
@@ -260,7 +275,8 @@ public class GratextProjectGenerator extends ProjectGenerator {
 			"src",
 			"src-gen",
 			"xtend-gen",
-			"model"
+			"model",
+			"model-gen"
 		);
 	}
 	
