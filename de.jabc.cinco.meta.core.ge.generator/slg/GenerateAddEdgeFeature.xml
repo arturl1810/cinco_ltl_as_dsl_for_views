@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>730ef53f-e135-46d5-9e4b-96fc4843c423</id>
   <name>GenerateAddEdgeFeature</name>
-  <changecounter>766</changecounter>
+  <changecounter>783</changecounter>
   <sib>
     <id>4966ae71-56db-49f8-b6d7-c3a51fbd1021</id>
     <name>PutExpression</name>
@@ -229,6 +229,7 @@ import org.eclipse.graphiti.util.*;
 
 import com.sun.el.ExpressionFactoryImpl;
 
+import $context.packageName$.graphiti.content.adapter.$context.graphModelName$EContentAdapter;
 import $context.packageName$.graphiti.*;
 import $context.packageName$.graphiti.expression.*;
 import $context.packageName$.graphiti.features.layout.*;
@@ -289,6 +290,8 @@ public class Add$context.edgeName$Feature extends CincoAbstractAddFeature {
 
 		$context.postCreateHookContent$
 		
+		$context.graphModelName$EContentAdapter.getInstance().addAdapter($context.meIdentifier$);
+
 		UpdateContext uc = new UpdateContext(connection);
 		IUpdateFeature uf = getFeatureProvider().getUpdateFeature(uc);
 		if (uf.canUpdate(uc))
