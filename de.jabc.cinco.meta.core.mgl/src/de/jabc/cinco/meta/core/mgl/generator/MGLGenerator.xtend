@@ -196,18 +196,26 @@ class MGLGenerator implements IGenerator {
 		//inheritContainable(graphModel.nodes.filter(NodeContainer))
 		connectableElements.addAll(graphModel.nodes)
 		//connectableElements.addAll(graphModel.nodeContainers)
-		for(elem:connectableElements){
-			for(connect:elem.incomingEdgeConnections){
-				if(connect.connectingEdges.nullOrEmpty){
-					connect.connectingEdges += graphModel.edges
+		if(graphModel.edges.size!=0){
+			for(elem:connectableElements){
+				for(connect:elem.incomingEdgeConnections){
+					if(connect.connectingEdges.nullOrEmpty){
+						connect.connectingEdges += graphModel.edges
+					}
+				}
+				for(connect:elem.outgoingEdgeConnections){
+					if(connect.connectingEdges.nullOrEmpty){
+						connect.connectingEdges += graphModel.edges
+					}
 				}
 			}
-			for(connect:elem.outgoingEdgeConnections){
-				if(connect.connectingEdges.nullOrEmpty){
-					connect.connectingEdges += graphModel.edges
-				}
+		}else{
+			for(elem:connectableElements){
+				elem.incomingEdgeConnections.clear
+				elem.outgoingEdgeConnections.clear
 			}
 		}
+		
 		if(graphModel.containableElements.nullOrEmpty){
 			addNodes(graphModel,0,-1,graphModel.nodes);
 		}else{
