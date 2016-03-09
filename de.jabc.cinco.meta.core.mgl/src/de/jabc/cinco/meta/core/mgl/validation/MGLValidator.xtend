@@ -36,6 +36,7 @@ import org.eclipse.emf.ecore.EcorePackage
 import org.eclipse.xtext.EcoreUtil2
 import org.eclipse.xtext.validation.Check
 import org.eclipse.emf.ecore.plugin.EcorePlugin
+import mgl.BoundedConstraint
 
 /**
  * Custom validation rules. 
@@ -75,18 +76,6 @@ class MGLValidator extends AbstractMGLValidator {
 				error('Name must be unique',MglPackage.Literals::TYPE__NAME) 
 		}
 			
-	}
-	
-	@Check
-	def checkEdgeElementConnectionCardinalities( EdgeElementConnection eec){
-		
-		if(eec.lowerBound<0)
-			error("Lower Bound cannot be less than 0", MglPackage.Literals::EDGE_ELEMENT_CONNECTION__LOWER_BOUND)
-		if(eec.lowerBound>eec.upperBound&&eec.upperBound!=-1)
-			error("Lower Bound cannot be bigger than upper bound.", MglPackage.Literals::EDGE_ELEMENT_CONNECTION__LOWER_BOUND)
-		if(eec.upperBound<-1)
-			error("Lower Bound cannot be less than -1", MglPackage.Literals::EDGE_ELEMENT_CONNECTION__LOWER_BOUND)
-		
 	}
 	
 	@Check
@@ -540,16 +529,16 @@ class MGLValidator extends AbstractMGLValidator {
 	}
 	
 	@Check
-	def checkContainableElementsCardinality(GraphicalElementContainment containment){
-		var lower= containment.lowerBound
-		var upper = containment.upperBound
+	def checkBoundedConstraintCardinality(BoundedConstraint bc){
+		var lower= bc.lowerBound
+		var upper = bc.upperBound
 		
 		if(lower<0)
-			error("Containment lower bound must not be lower 0.",MglPackage.Literals::GRAPHICAL_ELEMENT_CONTAINMENT__LOWER_BOUND)
+			error("Containment lower bound must not be lower 0.",MglPackage.Literals::BOUNDED_CONSTRAINT__LOWER_BOUND)
 		if(lower>upper&&upper!=-1)
-			error("Containment lower bound must not be bigger than upper bound.",MglPackage.Literals::GRAPHICAL_ELEMENT_CONTAINMENT__LOWER_BOUND)
+			error("Containment lower bound must not be bigger than upper bound.",MglPackage.Literals::BOUNDED_CONSTRAINT__LOWER_BOUND)
 		if(upper<-1)
-			error("Containment upper bound must not be lower -1",MglPackage.Literals::GRAPHICAL_ELEMENT_CONTAINMENT__UPPER_BOUND)
+			error("Containment upper bound must not be lower -1",MglPackage.Literals::BOUNDED_CONSTRAINT__UPPER_BOUND)
 	}
 	
 	@Check

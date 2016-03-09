@@ -94,6 +94,10 @@ Annotation:
 	'@'name=EString('('value+=EString (',' value+=EString)* ')')?
 ;
 
+OrContainmentConstraint returns OrConstraint:
+	negative?='not''<'constraints+=GraphicalElementContainment(',' constraints+=GraphicalElementContainment)*'>'
+;
+
 NodeContainer returns NodeContainer:
 	{NodeContainer}
 	(annotations+=Annotation)*
