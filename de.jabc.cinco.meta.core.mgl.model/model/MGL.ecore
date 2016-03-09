@@ -19,7 +19,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="iconPath" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="fileExtension" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="includes" upperBound="-1"
-        eType="#//Include" containment="true"/>
+        eType="#//Import" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Edge" eSuperTypes="#//GraphicalModelElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="edgeElementConnections"
@@ -126,7 +126,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="GraphicalModelElement" abstract="true"
       eSuperTypes="#//ModelElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="containment" upperBound="-1"
-        eType="#//GraphicalElementContainment" eOpposite="#//GraphicalElementContainment/types"/>
+        eType="#//GraphicalElementContainment"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="incomingEdgeConnections"
         upperBound="-1" eType="#//IncomingEdgeElementConnection" containment="true"
         eOpposite="#//IncomingEdgeElementConnection/connectedElement"/>
@@ -156,7 +156,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="GraphicalElementContainment" eSuperTypes="#//BoundedConstraint">
     <eStructuralFeatures xsi:type="ecore:EReference" name="types" upperBound="-1"
-        eType="#//GraphicalModelElement" eOpposite="#//GraphicalModelElement/containment"/>
+        eType="#//GraphicalModelElement"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="containingElement" eType="#//ContainingElement"
         eOpposite="#//ContainingElement/containableElements"/>
   </eClassifiers>
