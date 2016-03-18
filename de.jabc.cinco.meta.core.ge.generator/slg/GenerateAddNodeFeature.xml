@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>7def08b0-45b0-4f5d-9629-657ab3028508</id>
   <name>GenerateAddNodeFeature</name>
-  <changecounter>1900</changecounter>
+  <changecounter>1909</changecounter>
   <sib>
     <id>b89523ed-9916-4f61-a5e9-9e1d8838a845</id>
     <name>PutExpression_1</name>
@@ -180,7 +180,9 @@ public class Add$context.modelElementName$Feature extends CincoAbstractAddFeatur
 			rc.setHeight(context.getHeight());
 			rc.setX(context.getX());
 			rc.setY(context.getY());
-			IResizeShapeFeature rf = getFeatureProvider().getResizeShapeFeature(rc);
+			de.jabc.cinco.meta.core.ge.style.model.features.CincoAbstractResizeFeature rf = 
+				(de.jabc.cinco.meta.core.ge.style.model.features.CincoAbstractResizeFeature) getFeatureProvider().getResizeShapeFeature(rc);
+			rf.activateApiCall(!hook);
 			if (rf != null &amp;&amp; rf.canResizeShape(rc))
 			rf.resizeShape(rc);
 		} else if (parentIsDiagram)  {
@@ -189,7 +191,9 @@ public class Add$context.modelElementName$Feature extends CincoAbstractAddFeatur
 			rc.setHeight(height);
 			rc.setX(context.getX() + minX);
 			rc.setY(context.getY() + minY);
-			IResizeShapeFeature rf = getFeatureProvider().getResizeShapeFeature(rc);
+			de.jabc.cinco.meta.core.ge.style.model.features.CincoAbstractResizeFeature rf = 
+				(de.jabc.cinco.meta.core.ge.style.model.features.CincoAbstractResizeFeature) getFeatureProvider().getResizeShapeFeature(rc);
+			rf.activateApiCall(!hook);
 			if (rf != null &amp;&amp; rf.canResizeShape(rc))
 				rf.resizeShape(rc);
 		}
@@ -200,7 +204,9 @@ public class Add$context.modelElementName$Feature extends CincoAbstractAddFeatur
 			rc.setHeight(context.getHeight());
 			rc.setX(context.getX());
 			rc.setY(context.getY());
-			IResizeShapeFeature rf = getFeatureProvider().getResizeShapeFeature(rc);
+			CincoAbstractResizeFeature rf = 
+				(CincoAbstractResizeFeature) getFeatureProvider().getResizeShapeFeature(rc);
+			rf.activateApiCall(!hook);
 			if (rf != null &amp;&amp; rf.canResizeShape(rc))
 				rf.resizeShape(rc);
 		}*/
@@ -489,7 +495,7 @@ public class Add$context.modelElementName$Feature extends CincoAbstractAddFeatur
     <label>RunStringTemplate</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>280.0,963.0</position>
+    <position>265.0,963.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -632,7 +638,9 @@ public class Add$context.modelElementName$Feature extends CincoAbstractAddFeatur
 			rc.setHeight(context.getHeight());
 			rc.setX(context.getX());
 			rc.setY(context.getY());
-			IResizeShapeFeature rf = getFeatureProvider().getResizeShapeFeature(rc);
+			de.jabc.cinco.meta.core.ge.style.model.features.CincoAbstractResizeFeature rf = 
+				(de.jabc.cinco.meta.core.ge.style.model.features.CincoAbstractResizeFeature) getFeatureProvider().getResizeShapeFeature(rc);
+			rf.activateApiCall(!hook);
 			if (rf != null &amp;&amp; rf.canResizeShape(rc))
 			rf.resizeShape(rc);
 		} else if (parentIsDiagram)  {
@@ -641,7 +649,9 @@ public class Add$context.modelElementName$Feature extends CincoAbstractAddFeatur
 			rc.setHeight(height);
 			rc.setX(context.getX() + minX);
 			rc.setY(context.getY() + minY);
-			IResizeShapeFeature rf = getFeatureProvider().getResizeShapeFeature(rc);
+			de.jabc.cinco.meta.core.ge.style.model.features.CincoAbstractResizeFeature rf = 
+				(de.jabc.cinco.meta.core.ge.style.model.features.CincoAbstractResizeFeature) getFeatureProvider().getResizeShapeFeature(rc);
+			rf.activateApiCall(!hook);
 			if (rf != null &amp;&amp; rf.canResizeShape(rc))
 				rf.resizeShape(rc);
 		}
