@@ -14,14 +14,17 @@ public class URIHandler extends org.eclipse.emf.ecore.xmi.impl.URIHandlerImpl.Pl
 	public URIHandler(EPackage ePack){
 		this.ePack = ePack;
 		this.uriMap = new HashMap<String,String>();
+		
 		for(EClassifier eClassifier: ePack.getEClassifiers()){
 			if(eClassifier instanceof EClass){
 				EClass eClass = (EClass)eClassifier;
 				for(EClass superType: eClass.getESuperTypes()){
-					String superTypeURIFragment = superType.eResource().getURIFragment(superType);
-					String from = superType.eResource().getURI()+"#"+superTypeURIFragment;
-					String to = superType.getEPackage().getNsURI()+"#"+superTypeURIFragment;
-					uriMap.put(from, to);
+					if(!ePack.eContents().contains(superType)){
+						String superTypeURIFragment = superType.eResource().getURIFragment(superType);
+						String from = superType.eResource().getURI()+"#"+superTypeURIFragment;
+						String to = superType.getEPackage().getNsURI()+"#"+superTypeURIFragment;
+						uriMap.put(from, to);
+					}
 				}
 				
 			}
