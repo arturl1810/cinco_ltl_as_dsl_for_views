@@ -1,10 +1,10 @@
 package ${CliPackage};
 
+import ${AdapterPackage}.${GraphModelName}Id;
+import ${AdapterPackage}.${GraphModelName}Adapter;
 import info.scce.mcam.framework.processes.CheckProcess;
 import info.scce.mcam.framework.processes.CompareProcess;
 import info.scce.mcam.framework.processes.MergeProcess;
-import ${AdapterPackage}.${GraphModelName}Id;
-import ${AdapterPackage}.${GraphModelName}Adapter;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,6 +25,8 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
 public class CliExecution {
+	
+	private ${GraphModelName}Execution fe = new ${GraphModelName}Execution();
 
 	private Options cliOptions = new Options();
 	private CommandLine cmdCall = null;
@@ -239,10 +241,10 @@ public class CliExecution {
 		File mergeFile = null;
 		File remoteFile = null;
 		try {
-			origFile = FrameworkExecution.getFile(origPath, true);
-			remoteFile = FrameworkExecution.getFile(remotePath, true);
-			localFile = FrameworkExecution.getFile(localPath, true);
-			mergeFile = FrameworkExecution.getFile(mergePath);
+			origFile = fe.getFile(origPath, true);
+			remoteFile = fe.getFile(remotePath, true);
+			localFile = fe.getFile(localPath, true);
+			mergeFile = fe.getFile(mergePath);
 		} catch (Exception e) {
 			backupFiles(localFile, remoteFile, origFile);
 			printError(e, "Merge - Load Files", localFile, null);
@@ -250,7 +252,7 @@ public class CliExecution {
 
 		${GraphModelName}Adapter local = null;
 		try {
-			local = FrameworkExecution.initApiAdapter(localFile);
+			local = fe.initApiAdapter(localFile);
 		} catch (Exception e) {
 			printError(e, "Merge - Load Model 'Local'", localFile, local);
 			backupFiles(localFile, remoteFile, origFile);
@@ -259,7 +261,7 @@ public class CliExecution {
 
 		${GraphModelName}Adapter orig = null;
 		try {
-			orig = FrameworkExecution.initApiAdapter(origFile);
+			orig = fe.initApiAdapter(origFile);
 		} catch (Exception e) {
 			printError(e, "Merge - Load Model 'Original'", origFile, orig);
 			backupFiles(localFile, remoteFile, origFile);
@@ -268,7 +270,7 @@ public class CliExecution {
 
 		${GraphModelName}Adapter remote = null;
 		try {
-			remote = FrameworkExecution.initApiAdapter(remoteFile);
+			remote = fe.initApiAdapter(remoteFile);
 		} catch (Exception e) {
 			printError(e, "Merge - Load Model 'Remote'", remoteFile, remote);
 			backupFiles(localFile, remoteFile, origFile);
@@ -277,7 +279,7 @@ public class CliExecution {
 
 		${GraphModelName}Adapter mergeModel = null;
 		try {
-			mergeModel = FrameworkExecution.initApiAdapter(origFile);
+			mergeModel = fe.initApiAdapter(origFile);
 		} catch (Exception e) {
 			printError(e, "Merge - Load Model 'Merged'", mergeFile, mergeModel);
 			backupFiles(localFile, remoteFile, origFile);
@@ -286,7 +288,7 @@ public class CliExecution {
 
 		CompareProcess<${GraphModelName}Id, ${GraphModelName}Adapter> localCompare = null;
 		try {
-			localCompare = FrameworkExecution.executeComparePhase(orig, local);
+			localCompare = fe.executeComparePhase(orig, local);
 		} catch (Exception e) {
 			printError(e, "Merge - Executing localCompare", null, null);
 			backupFiles(localFile, remoteFile, origFile);
@@ -295,7 +297,7 @@ public class CliExecution {
 
 		CompareProcess<${GraphModelName}Id, ${GraphModelName}Adapter> remoteCompare = null;
 		try {
-			remoteCompare = FrameworkExecution
+			remoteCompare = fe
 					.executeComparePhase(orig, remote);
 		} catch (Exception e) {
 			printError(e, "Merge - Executing remoteCompare", null, null);
@@ -305,7 +307,7 @@ public class CliExecution {
 
 		MergeProcess<${GraphModelName}Id, ${GraphModelName}Adapter> mp = null;
 		try {
-			mp = FrameworkExecution.executeMergePhase(localCompare,
+			mp = fe.executeMergePhase(localCompare,
 					remoteCompare, mergeModel);
 		} catch (Exception e) {
 			printError(e, "Merge - Executing Merge", null, null);
@@ -315,7 +317,7 @@ public class CliExecution {
 
 		CheckProcess<${GraphModelName}Id, ${GraphModelName}Adapter> cp = null;
 		try {
-			cp = FrameworkExecution.executeCheckPhase(mergeModel);
+			cp = fe.executeCheckPhase(mergeModel);
 		} catch (Exception e) {
 			printError(e, "Merge - Executing Check", null, null);
 			backupFiles(localFile, remoteFile, origFile);
@@ -346,8 +348,8 @@ public class CliExecution {
 		${GraphModelName}Adapter model1 = null;
 		File file1 = null;
 		try {
-			file1 = FrameworkExecution.getFile(origPath, true);
-			model1 = FrameworkExecution.initApiAdapter(file1);
+			file1 = fe.getFile(origPath, true);
+			model1 = fe.initApiAdapter(file1);
 		} catch (Exception e) {
 			printError(e, "Diff - Load Model1", file1, model1);
 			System.exit(1);
@@ -356,15 +358,15 @@ public class CliExecution {
 		${GraphModelName}Adapter model2 = null;
 		File file2 = null;
 		try {
-			file2 = FrameworkExecution.getFile(localPath, true);
-			model2 = FrameworkExecution.initApiAdapter(file2);
+			file2 = fe.getFile(localPath, true);
+			model2 = fe.initApiAdapter(file2);
 		} catch (Exception e) {
 			printError(e, "Diff - Load Model2", file2, model2);
 			System.exit(1);
 		}
 
 		try {
-			CompareProcess<${GraphModelName}Id, ${GraphModelName}Adapter> compare = FrameworkExecution
+			CompareProcess<${GraphModelName}Id, ${GraphModelName}Adapter> compare = fe
 					.executeComparePhase(model1, model2);
 			outputData(compare.toString());
 		} catch (Exception e) {
@@ -377,10 +379,10 @@ public class CliExecution {
 		${GraphModelName}Adapter model1 = null;
 		File file1 = null;
 		try {
-			file1 = FrameworkExecution.getFile(filePath, true);
-			model1 = FrameworkExecution.initApiAdapter(file1);
+			file1 = fe.getFile(filePath, true);
+			model1 = fe.initApiAdapter(file1);
 
-			CheckProcess<${GraphModelName}Id, ${GraphModelName}Adapter> check = FrameworkExecution
+			CheckProcess<${GraphModelName}Id, ${GraphModelName}Adapter> check = fe
 					.executeCheckPhase(model1);
 			outputData(check.toString(verboseOutput));
 
@@ -396,3 +398,4 @@ public class CliExecution {
 		}
 	}
 }
+

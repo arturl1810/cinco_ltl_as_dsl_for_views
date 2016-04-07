@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <relativePath>../pom.xml</relativePath>
+    <groupId>de.jabc.cinco</groupId>
+    <artifactId>de.jabc.cinco.meta.parent</artifactId>
+    <version>0.7.0-SNAPSHOT</version>
+  </parent>
+  <artifactId>de.jabc.cinco.meta.plugin.mcam.runtime</artifactId>
+  <packaging>eclipse-plugin</packaging>
+
+	<repositories>
+		<repository>
+			<id>vulturius-webdav</id>
+			<name>jABC Repository</name>
+			<url>https://vulturius.cs.tu-dortmund.de/maven</url>
+			<layout>default</layout>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+
+	<pluginRepositories>
+		<pluginRepository>
+			<id>vulturius-webdav</id>
+			<name>jABC Repository</name>
+			<url>https://vulturius.cs.tu-dortmund.de/maven</url>
+			<layout>default</layout>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</pluginRepository>
+	</pluginRepositories>
+
+
+</project> 

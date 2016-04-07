@@ -21,7 +21,7 @@ import freemarker.template.TemplateException;
 
 public class McamViewGenerator {
 	public static String viewPackageSuffix = "views";
-	public static String utilPackageSuffix = "util";
+	public static String pagePackageSuffix = "pages";
 
 	private GraphModel gModel;
 	private String graphModelName = null;
@@ -63,22 +63,18 @@ public class McamViewGenerator {
 		data.put("GraphModelProject", this.graphModelProjectName);
 
 		data.put("McamViewBasePackage", this.mcamViewBasePackage);
+		data.put("McamViewPagePackage", this.mcamViewBasePackage + "."
+				+ pagePackageSuffix);
 
 		data.put("McamProject", genMcam.getProject().getName());
 
 		data.put("AdapterPackage", this.mcamProjectBasePackage + "."
 				+ McamImplementationGenerator.adapterPackageSuffix);
-		data.put("StrategyPackage", this.mcamProjectBasePackage + "."
-				+ McamImplementationGenerator.strategiesPackageSuffix);
-		data.put("UtilPackage", this.mcamProjectBasePackage + "."
-				+ McamImplementationGenerator.utilPackageSuffix);
 		data.put("CliPackage", this.mcamProjectBasePackage + "."
 				+ McamImplementationGenerator.cliPackageSuffix);
 
 		data.put("ViewViewPackage", this.mcamViewBasePackage + "."
 				+ this.graphModelName.toLowerCase() + "." + viewPackageSuffix);
-		data.put("ViewUtilPackage", this.mcamViewBasePackage + "."
-				+ this.graphModelName.toLowerCase() + "." + utilPackageSuffix);
 
 	}
 
@@ -114,27 +110,21 @@ public class McamViewGenerator {
 	public String generate() {
 		try {
 			if (generateMerge) {
-				generateConflictView();
-				generateConflictViewInformation();
-				generateConflictViewInformationAbstract();
-				generateConflictViewInformationFactory();
-				generateMergeProcessTreeView();
+				generateConflictViewPage();
 			}
 
 			if (generateCheck) {
-				generateCheckView();
-				generateCheckViewInformation();
-				generateCheckViewInformationAbstract();
-				generateCheckViewInformationFactory();
-				generateCheckProcessTreeView();
+				generateCheckViewPage();
 			}
+
+			generatePageFactory();
 
 			generateActivator();
 			generatePluginXml();
 			generateManifest();
 			generateBuildProperties();
 			generateContextsXml();
-			generateResourceChangeListener();
+
 			return "default";
 		} catch (IOException | TemplateException e) {
 			e.printStackTrace();
@@ -146,229 +136,7 @@ public class McamViewGenerator {
 		data.put("ClassName", "Activator");
 
 		TemplateGenerator templateGen = new TemplateGenerator(
-				"templates/eclipse_views/Activator.tpl", mcamViewProject);
-		templateGen.setFilename((String) data.get("ClassName") + ".java");
-		templateGen.setPkg((String) data.get("McamViewBasePackage"));
-		templateGen.setData(data);
-		templateGen.generateFile();
-	}
-
-	private void generateMergeProcessTreeView() throws IOException,
-			TemplateException {
-		data.put("ClassName", "MergeProcessContentProvider");
-		TemplateGenerator templateGen = new TemplateGenerator(
-				"templates/eclipse_views/util/MergeProcessContentProvider.tpl",
-				mcamViewProject);
-		templateGen.setFilename((String) data.get("ClassName") + ".java");
-		templateGen.setPkg((String) data.get("ViewUtilPackage"));
-		templateGen.setData(data);
-		templateGen.generateFile();
-
-		data.put("ClassName", "MergeProcessLabelProvider");
-		TemplateGenerator templateGen2 = new TemplateGenerator(
-				"templates/eclipse_views/util/MergeProcessLabelProvider.tpl",
-				mcamViewProject);
-		templateGen2.setFilename((String) data.get("ClassName") + ".java");
-		templateGen2.setPkg((String) data.get("ViewUtilPackage"));
-		templateGen2.setData(data);
-		templateGen2.generateFile();
-
-		data.put("ClassName", "MergeProcessTypeFilter");
-		TemplateGenerator templateGen3 = new TemplateGenerator(
-				"templates/eclipse_views/util/MergeProcessTypeFilter.tpl",
-				mcamViewProject);
-		templateGen3.setFilename((String) data.get("ClassName") + ".java");
-		templateGen3.setPkg((String) data.get("ViewUtilPackage"));
-		templateGen3.setData(data);
-		templateGen3.generateFile();
-
-		data.put("ClassName", "MergeProcessSorterAlphabetical");
-		TemplateGenerator templateGen4 = new TemplateGenerator(
-				"templates/eclipse_views/util/MergeProcessSorterAlphabetical.tpl",
-				mcamViewProject);
-		templateGen4.setFilename((String) data.get("ClassName") + ".java");
-		templateGen4.setPkg((String) data.get("ViewUtilPackage"));
-		templateGen4.setData(data);
-		templateGen4.generateFile();
-
-		data.put("ClassName", "MergeProcessSorterType");
-		TemplateGenerator templateGen5 = new TemplateGenerator(
-				"templates/eclipse_views/util/MergeProcessSorterType.tpl",
-				mcamViewProject);
-		templateGen5.setFilename((String) data.get("ClassName") + ".java");
-		templateGen5.setPkg((String) data.get("ViewUtilPackage"));
-		templateGen5.setData(data);
-		templateGen5.generateFile();
-	}
-
-	private void generateCheckProcessTreeView() throws IOException,
-			TemplateException {
-		data.put("ClassName", "CheckProcessContentProvider");
-
-		TemplateGenerator templateGen = new TemplateGenerator(
-				"templates/eclipse_views/util/CheckProcessContentProvider.tpl",
-				mcamViewProject);
-		templateGen.setFilename((String) data.get("ClassName") + ".java");
-		templateGen.setPkg((String) data.get("ViewUtilPackage"));
-		templateGen.setData(data);
-		templateGen.generateFile();
-
-		data.put("ClassName", "CheckProcessLabelProvider");
-
-		TemplateGenerator templateGen2 = new TemplateGenerator(
-				"templates/eclipse_views/util/CheckProcessLabelProvider.tpl",
-				mcamViewProject);
-		templateGen2.setFilename((String) data.get("ClassName") + ".java");
-		templateGen2.setPkg((String) data.get("ViewUtilPackage"));
-		templateGen2.setData(data);
-		templateGen2.generateFile();
-		
-		data.put("ClassName", "CheckProcessSorterType");
-		TemplateGenerator templateGen3 = new TemplateGenerator(
-				"templates/eclipse_views/util/CheckProcessSorterType.tpl",
-				mcamViewProject);
-		templateGen3.setFilename((String) data.get("ClassName") + ".java");
-		templateGen3.setPkg((String) data.get("ViewUtilPackage"));
-		templateGen3.setData(data);
-		templateGen3.generateFile();
-	}
-
-	private void generateCheckViewInformation() throws IOException,
-			TemplateException {
-		data.put("ClassName", "CheckViewInformation");
-
-		TemplateGenerator templateGen = new TemplateGenerator(
-				"templates/eclipse_views/CheckViewInformation.tpl",
-				mcamViewProject);
-		templateGen.setFilename((String) data.get("ClassName") + ".java");
-		templateGen.setPkg((String) data.get("ViewViewPackage"));
-		templateGen.setData(data);
-		templateGen.generateFile();
-	}
-
-	private void generateCheckView() throws IOException, TemplateException {
-		data.put("ClassName", "CheckView");
-
-		TemplateGenerator templateGen = new TemplateGenerator(
-				"templates/eclipse_views/CheckView.tpl", mcamViewProject);
-		templateGen.setFilename((String) data.get("ClassName") + ".java");
-		templateGen.setPkg((String) data.get("McamViewBasePackage"));
-		templateGen.setData(data);
-		templateGen.generateFile();
-	}
-
-	private void generateConflictViewInformation() throws IOException,
-			TemplateException {
-		data.put("ClassName", "ConflictViewInformation");
-
-		TemplateGenerator templateGen = new TemplateGenerator(
-				"templates/eclipse_views/ConflictViewInformation.tpl",
-				mcamViewProject);
-		templateGen.setFilename((String) data.get("ClassName") + ".java");
-		templateGen.setPkg((String) data.get("ViewViewPackage"));
-		templateGen.setData(data);
-		templateGen.generateFile();
-	}
-
-	private void generateConflictView() throws IOException, TemplateException {
-		data.put("ClassName", "ConflictView");
-
-		TemplateGenerator templateGen = new TemplateGenerator(
-				"templates/eclipse_views/ConflictView.tpl", mcamViewProject);
-		templateGen.setFilename((String) data.get("ClassName") + ".java");
-		templateGen.setPkg((String) data.get("McamViewBasePackage"));
-		templateGen.setData(data);
-		templateGen.generateFile();
-	}
-
-	private void generateConflictViewInformationFactory() throws IOException,
-			TemplateException {
-		data.put("ClassName", "ConflictViewInformationFactory");
-		String filename = "src-gen"
-				+ File.separator
-				+ ((String) data.get("McamViewBasePackage")).replace(".",
-						File.separator) + File.separator
-				+ (String) data.get("ClassName") + ".java";
-
-		IFile res = mcamViewProject.getFile(filename);
-		if (res == null || !res.exists()) {
-			TemplateGenerator templateGen = new TemplateGenerator(
-					"templates/eclipse_views/ConflictViewInformationFactory.tpl",
-					mcamViewProject);
-			templateGen.setFilename((String) data.get("ClassName") + ".java");
-			templateGen.setPkg((String) data.get("McamViewBasePackage"));
-			templateGen.setData(data);
-			templateGen.generateFile();
-
-			System.out.println("ConflictFactory not found... now generated!");
-		}
-
-		IFile file = mcamViewProject.getFile(filename);
-		String code = "if (obj instanceof "
-				+ graphModelPackage
-				+ "."
-				+ graphModelName.toLowerCase()
-				+ "."
-				+ graphModelName
-				+ ") return new "
-				+ (String) data.get("ViewViewPackage")
-				+ ".ConflictViewInformation(origFile, remoteFile, localFile, file, res); \n";
-		insertCodeAfterMarker(file.getRawLocation().makeAbsolute().toFile(),
-				"// @FACTORY", code);
-	}
-
-	private void generateCheckViewInformationFactory() throws IOException,
-			TemplateException {
-		data.put("ClassName", "CheckViewInformationFactory");
-
-		String filename = "src-gen"
-				+ File.separator
-				+ ((String) data.get("McamViewBasePackage")).replace(".",
-						File.separator) + File.separator
-				+ (String) data.get("ClassName") + ".java";
-
-		IFile res = mcamViewProject.getFile(filename);
-		if (res == null || !res.exists()) {
-			TemplateGenerator templateGen = new TemplateGenerator(
-					"templates/eclipse_views/CheckViewInformationFactory.tpl",
-					mcamViewProject);
-			templateGen.setFilename((String) data.get("ClassName") + ".java");
-			templateGen.setPkg((String) data.get("McamViewBasePackage"));
-			templateGen.setData(data);
-			templateGen.generateFile();
-
-			System.out.println("CheckFactory not found... now generated!");
-		}
-
-		IFile file = mcamViewProject.getFile(filename);
-		String code = "if (obj instanceof " + graphModelPackage + "."
-				+ graphModelName.toLowerCase() + "." + graphModelName
-				+ ") return new " + (String) data.get("ViewViewPackage")
-				+ ".CheckViewInformation(origFile, res); \n";
-		insertCodeAfterMarker(file.getRawLocation().makeAbsolute().toFile(),
-				"// @FACTORY", code);
-	}
-
-	private void generateCheckViewInformationAbstract() throws IOException,
-			TemplateException {
-		data.put("ClassName", "CheckViewInformation");
-
-		TemplateGenerator templateGen = new TemplateGenerator(
-				"templates/eclipse_views/CheckViewInformationAbstract.tpl",
-				mcamViewProject);
-		templateGen.setFilename((String) data.get("ClassName") + ".java");
-		templateGen.setPkg((String) data.get("McamViewBasePackage"));
-		templateGen.setData(data);
-		templateGen.generateFile();
-	}
-
-	private void generateConflictViewInformationAbstract() throws IOException,
-			TemplateException {
-		data.put("ClassName", "ConflictViewInformation");
-
-		TemplateGenerator templateGen = new TemplateGenerator(
-				"templates/eclipse_views/ConflictViewInformationAbstract.tpl",
-				mcamViewProject);
+				"templates/views/Activator.tpl", mcamViewProject);
 		templateGen.setFilename((String) data.get("ClassName") + ".java");
 		templateGen.setPkg((String) data.get("McamViewBasePackage"));
 		templateGen.setData(data);
@@ -377,7 +145,7 @@ public class McamViewGenerator {
 
 	private void generatePluginXml() throws IOException, TemplateException {
 		TemplateGenerator templateGen = new TemplateGenerator(
-				"templates/eclipse_views/plugin.tpl", mcamViewProject);
+				"templates/views/plugin.tpl", mcamViewProject);
 		templateGen.setFilename("plugin.xml");
 		templateGen.setPkg("");
 		templateGen.setBasePath("");
@@ -387,7 +155,7 @@ public class McamViewGenerator {
 
 	private void generateManifest() throws IOException, TemplateException {
 		TemplateGenerator templateGen = new TemplateGenerator(
-				"templates/eclipse_views/Manifest.tpl", mcamViewProject);
+				"templates/views/Manifest.tpl", mcamViewProject);
 		templateGen.setFilename("MANIFEST.MF");
 		templateGen.setPkg("");
 		templateGen.setBasePath("META-INF");
@@ -398,7 +166,7 @@ public class McamViewGenerator {
 	private void generateBuildProperties() throws IOException,
 			TemplateException {
 		TemplateGenerator templateGen = new TemplateGenerator(
-				"templates/eclipse_views/build.properties", mcamViewProject);
+				"templates/views/build.properties", mcamViewProject);
 		templateGen.setFilename("build.properties");
 		templateGen.setPkg("");
 		templateGen.setBasePath("");
@@ -408,7 +176,7 @@ public class McamViewGenerator {
 
 	private void generateContextsXml() throws IOException, TemplateException {
 		TemplateGenerator templateGen = new TemplateGenerator(
-				"templates/eclipse_views/contexts.tpl", mcamViewProject);
+				"templates/views/contexts.tpl", mcamViewProject);
 		templateGen.setFilename("contexts.xml");
 		templateGen.setPkg("");
 		templateGen.setBasePath("");
@@ -416,16 +184,71 @@ public class McamViewGenerator {
 		templateGen.generateFile();
 	}
 
-	private void generateResourceChangeListener() throws IOException,
-			TemplateException {
-		data.put("ClassName", "CheckResourceChangeListener");
+	private void generateCheckViewPage() throws IOException, TemplateException {
+		data.put("ClassName", graphModelName + "CheckViewPage");
 		TemplateGenerator templateGen = new TemplateGenerator(
-				"templates/eclipse_views/CheckResourceChangeListener.tpl",
-				mcamViewProject);
+				"templates/views/CheckViewPage.tpl", mcamViewProject);
 		templateGen.setFilename((String) data.get("ClassName") + ".java");
-		templateGen.setPkg((String) data.get("McamViewBasePackage"));
+		templateGen.setPkg((String) data.get("McamViewPagePackage"));
 		templateGen.setData(data);
 		templateGen.generateFile();
+	}
+
+	private void generateConflictViewPage() throws IOException,
+			TemplateException {
+		data.put("ClassName", graphModelName + "ConflictViewPage");
+		TemplateGenerator templateGen = new TemplateGenerator(
+				"templates/views/ConflictViewPage.tpl", mcamViewProject);
+		templateGen.setFilename((String) data.get("ClassName") + ".java");
+		templateGen.setPkg((String) data.get("McamViewPagePackage"));
+		templateGen.setData(data);
+		templateGen.generateFile();
+	}
+
+	private void generatePageFactory() throws IOException, TemplateException {
+		data.put("ClassName", "PageFactoryImpl");
+
+		String filename = "src-gen"
+				+ File.separator
+				+ ((String) data.get("McamViewBasePackage")).replace(".",
+						File.separator) + File.separator
+				+ (String) data.get("ClassName") + ".java";
+
+		IFile res = mcamViewProject.getFile(filename);
+		if (res == null || !res.exists()) {
+			TemplateGenerator templateGen = new TemplateGenerator(
+					"templates/views/PageFactoryImpl.tpl", mcamViewProject);
+			templateGen.setFilename((String) data.get("ClassName") + ".java");
+			templateGen.setPkg((String) data.get("McamViewBasePackage"));
+			templateGen.setData(data);
+			templateGen.generateFile();
+
+			System.out.println("CheckFactory not found... now generated!");
+		}
+
+		IFile file = mcamViewProject.getFile(filename);
+
+		if (generateCheck) {
+			String code_check = "if (obj instanceof " + graphModelPackage + "."
+					+ graphModelName.toLowerCase() + "." + graphModelName
+					+ ") return new "
+					+ (String) data.get("McamViewPagePackage") + "."
+					+ graphModelName + "CheckViewPage(file); \n";
+			insertCodeAfterMarker(
+					file.getRawLocation().makeAbsolute().toFile(),
+					"// @FACTORY_CHECK", code_check);
+		}
+
+		if (generateMerge) {
+			String code_conflict = "if (obj instanceof " + graphModelPackage
+					+ "." + graphModelName.toLowerCase() + "." + graphModelName
+					+ ") return new "
+					+ (String) data.get("McamViewPagePackage") + "."
+					+ graphModelName + "ConflictViewPage(file); \n";
+			insertCodeAfterMarker(
+					file.getRawLocation().makeAbsolute().toFile(),
+					"// @FACTORY_CONFLICT", code_conflict);
+		}
 	}
 
 	private void insertCodeAfterMarker(File file, String marker, String code) {

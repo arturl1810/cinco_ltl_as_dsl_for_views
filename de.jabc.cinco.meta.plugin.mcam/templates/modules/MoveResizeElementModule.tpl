@@ -52,13 +52,15 @@ public class ${ClassName} extends
 		${ModelElementName} element = (${ModelElementName}) model.getElementById(id);
 		C${ModelElementName} cElement = cModel.findC${ModelElementName}(element);
 
+		/*
 		<#list PossibleContainer as container>
 		if (container instanceof ${container.getName()})
 			cElement.moveTo(cModel.findC${container.getName()}((${container.getName()}) container), newX, newY);
 		</#list>
 		if (container instanceof ${GraphModelName})
 			cElement.moveTo(cModel, newX, newY);
-	
+		*/	
+
 		cElement.resize(newWidth, newHeight);
 	}
 
@@ -78,6 +80,7 @@ public class ${ClassName} extends
 		if (cElement == null)
 			return false;
 
+		/*
 		<#list PossibleContainer as container>
 		if (container instanceof ${container.getName()})
 			if (!cElement.canMoveTo(cModel.findC${container.getName()}((${container.getName()}) container)))
@@ -86,6 +89,7 @@ public class ${ClassName} extends
 		if (container instanceof ${GraphModelName})
 			if (!cElement.canMoveTo(cModel))
 				return false;
+		*/
 
 		return true;
 	}
@@ -98,12 +102,14 @@ public class ${ClassName} extends
 		${ModelElementName} element = (${ModelElementName}) model.getElementById(id);
 		C${ModelElementName} cElement = cModel.findC${ModelElementName}(element);
 
+		/*
 		<#list PossibleContainer as container>
 		if (container instanceof ${container.getName()})
 			cElement.moveTo(cModel.findC${container.getName()}((${container.getName()}) container), oldX, oldY);
 		</#list>
 		if (container instanceof ${GraphModelName})
 			cElement.moveTo(cModel, oldX, oldY);
+		*/
 
 		cElement.resize(oldWidth, oldHeight);
 	}
@@ -124,6 +130,7 @@ public class ${ClassName} extends
 		if (cElement == null)
 			return false;
 
+		/*
 		<#list PossibleContainer as container>
 		if (container instanceof ${container.getName()})
 			if (!cElement.canMoveTo(cModel.findC${container.getName()}((${container.getName()}) container)))
@@ -132,6 +139,7 @@ public class ${ClassName} extends
 		if (container instanceof ${GraphModelName})
 			if (!cElement.canMoveTo(cModel))
 				return false;
+		*/
 
 		return true;
 	}

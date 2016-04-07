@@ -1,6 +1,5 @@
 package de.jabc.cinco.meta.plugin.mcam;
 
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -40,38 +39,28 @@ public class MetaPluginMcam implements IMetaPlugin {
 
 	@Override
 	public String execute(Map<String, Object> map) {
-		
-		BundleRegistry.INSTANCE.addBundle("de.jabc.cinco.meta.plugin.mcam", true);
-		
+		String result = "";
+
+		BundleRegistry.INSTANCE.addBundle("de.jabc.cinco.meta.plugin.mcam",
+				true);
+		BundleRegistry.INSTANCE.addBundle(
+				"de.jabc.cinco.meta.plugin.mcam.runtime", false);
+
 		gModel = (GraphModel) map.get("graphModel");
 		System.out.println("------ Model-CaM Generation for '"
 				+ gModel.getName() + "' ------");
-		
-		
+
+		/*
+		 *  get packages / project
+		 */
 		this.modelPackage = gModel.getPackage();
 		String[] path = gModel.eResource().getURI().path().split("/");
 		this.modelProjectName = path[2];
-		IProject mcamProject = ResourcesPlugin.getWorkspace().getRoot().getProject(modelProjectName);
-		
+		IProject mcamProject = ResourcesPlugin.getWorkspace().getRoot()
+				.getProject(modelProjectName);
+
 		if (mcamProject == null)
 			return "error";
-		
-		/*
-		 * get old exported Packages
-		 */
-		String oldEP = "";
-		try {
-			oldEP = getExportedPackages(mcamProject);
-		} catch (CoreException | IOException e) {
-			e.printStackTrace();
-			return "error";
-		}
-
-		/*
-		 * create mcam project
-		 */
-//		System.out.println("Creating Mcam-Eclipse-Project...");
-//		IProject mcamProject = createMcamEclipseProject();
 
 		/*
 		 * create mcam implementation
@@ -88,7 +77,7 @@ public class MetaPluginMcam implements IMetaPlugin {
 			e.printStackTrace();
 			return "error";
 		}
-		String result = genMcam.generate();
+		result = genMcam.generate();
 
 		/*
 		 * write new manifest
@@ -96,26 +85,15 @@ public class MetaPluginMcam implements IMetaPlugin {
 		System.out.println("Editing Manifest...");
 		try {
 			mcamProject.refreshLocal(IResource.DEPTH_INFINITE, monitor);
-			writeExportedPackagesToManifest(mcamProject, genMcam, oldEP);
+			writeExportedPackagesToManifest(mcamProject, genMcam, getManifestAttribute(mcamProject, "Export-Package"));
+			writeRequiredBundlesToManifest(mcamProject, genMcam, getManifestAttribute(mcamProject, "Require-Bundle"));
 		} catch (IOException | CoreException e) {
 			e.printStackTrace();
 			return "error";
 		}
 
 		/*
-		 * refresh project
-		 */
-		try {
-			mcamProject.refreshLocal(IResource.DEPTH_INFINITE, monitor);
-//			mcamProject.close(monitor);
-//			mcamProject.open(monitor);
-		} catch (CoreException e) {
-			e.printStackTrace();
-			return "error";
-		}
-		
-		/*
-		 *  create view project
+		 * create view project
 		 */
 		System.out.println("Creating MCaM-View-Eclipse-Project...");
 		IProject mcamViewProject = createMcamViewEclipseProject();
@@ -135,7 +113,7 @@ public class MetaPluginMcam implements IMetaPlugin {
 			e.printStackTrace();
 			return "error";
 		}
-		genView.generate();
+		result = genView.generate();
 
 		try {
 			mcamViewProject.refreshLocal(IResource.DEPTH_INFINITE, monitor);
@@ -180,42 +158,57 @@ public class MetaPluginMcam implements IMetaPlugin {
 		if (genMcam.doGenerateMerge())
 			exportPackage = exportPackage + ","
 					+ (String) genMcam.data.get("ChangeModulePackage");
-		exportPackage = exportPackage + ","
-				+ (String) genMcam.data.get("StrategyPackage");
-		exportPackage = exportPackage + ","
-				+ (String) genMcam.data.get("UtilPackage");
 
 		manifest.getMainAttributes().putValue(
 				"Export-Package",
-				cleanExportedPackages(oldEP, genMcam.getMcamProjectBasePackage())
+				cleanManifestAttribute(oldEP,
+						genMcam.getMcamProjectBasePackage())
 						+ exportPackage);
 
 		manifest.write(new FileOutputStream(iManiFile.getLocation().toFile()));
 	}
 
-	private String getExportedPackages(IProject project) throws CoreException, IOException {
+	private void writeRequiredBundlesToManifest(IProject project,
+			McamImplementationGenerator genMcam, String oldRB)
+			throws IOException, CoreException {
+		IFile iManiFile = project.getFolder("META-INF").getFile("MANIFEST.MF");
+		Manifest manifest = new Manifest(iManiFile.getContents());
+
+		String exportPackage = "de.jabc.cinco.meta.plugin.mcam.runtime" ; //;visibility:=reexport";
+
+		manifest.getMainAttributes().putValue(
+				"Require-Bundle",
+				cleanManifestAttribute(oldRB, "de.jabc.cinco.meta.plugin.mcam")
+						+ exportPackage);
+
+		manifest.write(new FileOutputStream(iManiFile.getLocation().toFile()));
+	}
+
+	private String getManifestAttribute(IProject project, String attrName) throws IOException, CoreException {
 		IFile iManiFile = project.getFolder("META-INF").getFile("MANIFEST.MF");
 		if (!iManiFile.exists())
 			return "";
-		Manifest manifest = new Manifest(iManiFile.getContents());
-		return manifest.getMainAttributes().getValue("Export-Package");
+		Manifest manifest;
+		manifest = new Manifest(iManiFile.getContents());
+		return manifest.getMainAttributes().getValue("attrName");
 	}
 
-	private String cleanExportedPackages(String ep, String packagePrefix) {
-		String epOutput = "";
-		if (ep == null)
-			return epOutput;
-		String[] epEntries = ep.split(",");
+	private String cleanManifestAttribute(String values,
+			String packagePrefixToClean) {
+		String output = "";
+		if (values == null)
+			return output;
+		String[] epEntries = values.split(",");
 		for (String entry : epEntries) {
-			if (entry.startsWith(packagePrefix))
+			if (entry.startsWith(packagePrefixToClean))
 				continue;
 			if (entry.equals("null"))
 				continue;
 			if (entry.length() <= 0)
 				continue;
-			epOutput += entry + ",";
+			output += entry + ",";
 		}
-		return epOutput;
+		return output;
 	}
 
 	private void cleanDirectory(IFolder folder) throws CoreException {
@@ -263,6 +256,7 @@ public class MetaPluginMcam implements IMetaPlugin {
 		reqBundles.add("de.jabc.cinco.meta.core.ge.style.model");
 		reqBundles.add("de.jabc.cinco.meta.libraries");
 		reqBundles.add("org.apache.commons.cli");
+		reqBundles.add("de.jabc.cinco.meta.plugin.mcam.runtime");
 
 		return reqBundles;
 	}

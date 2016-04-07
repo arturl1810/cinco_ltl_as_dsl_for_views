@@ -36,12 +36,14 @@ public class ${ClassName} extends ChangeModule<${GraphModelName}Id, ${GraphModel
 	public void execute(${GraphModelName}Adapter model) {
 		C${GraphModelName} cModel = model.getModelWrapper();
 		Object container = model.getElementById(containerId);
+		/*
 		<#list PossibleContainer as container>
 		if (container instanceof ${container.getName()})
 			cElement.clone(cModel.findC${container.getName()}((${container.getName()}) container));
 		</#list>
 		if (container instanceof ${GraphModelName})
 			cElement.clone(cModel);
+		*/
 	}
 
 	@Override
@@ -55,6 +57,7 @@ public class ${ClassName} extends ChangeModule<${GraphModelName}Id, ${GraphModel
 		if (element != null)
 			return false;
 
+		/*
 		<#list PossibleContainer as container>
 		if (container instanceof ${container.getName()})
 			if (!cElement.canClone(cModel.findC${container.getName()}((${container.getName()}) container)))
@@ -63,6 +66,7 @@ public class ${ClassName} extends ChangeModule<${GraphModelName}Id, ${GraphModel
 		if (container instanceof ${GraphModelName})
 			if (!cElement.canClone(cModel))
 				return false;
+		*/
 
 		return true;
 	}
