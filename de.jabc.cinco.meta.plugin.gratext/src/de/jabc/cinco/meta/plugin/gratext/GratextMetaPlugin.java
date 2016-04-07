@@ -2,6 +2,7 @@ package de.jabc.cinco.meta.plugin.gratext;
 
 import java.util.Map;
 
+import de.jabc.cinco.meta.core.BundleRegistry;
 import de.jabc.cinco.meta.core.pluginregistry.IMetaPlugin;
 
 public class GratextMetaPlugin implements IMetaPlugin {
@@ -12,6 +13,7 @@ public class GratextMetaPlugin implements IMetaPlugin {
 	@Override
 	public String execute(Map<String, Object> ctx) {
 		try {
+			BundleRegistry.INSTANCE.addBundle("de.jabc.cinco.meta.plugin.gratext", true);
 			new GratextProjectGenerator().execute(ctx);
 			return RESULT_DEFAULT;
 		} catch(Exception e) {

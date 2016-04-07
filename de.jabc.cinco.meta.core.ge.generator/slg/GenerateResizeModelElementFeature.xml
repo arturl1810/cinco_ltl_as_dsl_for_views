@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>bd602dcf-2ea3-4585-953e-853c0406cc4e</id>
   <name>GenerateResizeModelElementFeature</name>
-  <changecounter>405</changecounter>
+  <changecounter>409</changecounter>
   <sib>
     <id>6cad6f22-f2a9-4f5c-a9dc-5eaeb99341c0</id>
     <name>PutExpression_1</name>
@@ -207,7 +207,7 @@ import $context.importPath$.$context.modelElement.name$;
 import $context.packageName$.graphiti.*;
 import $context.packageName$.graphiti.features.layout.$context.graphModelName$LayoutUtils;
 
-public class Resize$context.modelElement.name$Feature extends DefaultResizeShapeFeature {
+public class Resize$context.modelElement.name$Feature extends de.jabc.cinco.meta.core.ge.style.model.features.CincoAbstractResizeFeature {
 
 	private $context.importPath$.$context.modelElement.name$ bo;
 

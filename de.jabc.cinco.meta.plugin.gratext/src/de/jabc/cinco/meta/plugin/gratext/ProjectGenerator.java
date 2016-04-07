@@ -85,7 +85,7 @@ public abstract class ProjectGenerator {
 			IFile bpf = (IFile) project.findMember("build.properties");
 			BuildProperties properties = BuildProperties.loadBuildProperties(bpf);
 			nullsave(getBuildPropertiesBinIncludes())
-				.stream().forEach(properties::appendBinExcludes);
+				.stream().forEach(properties::appendBinIncludes);
 			properties.store(bpf, getProgressMonitor());
 		} catch (Exception e) {
 			throw new GenerationException("Failed to create build properties", e);

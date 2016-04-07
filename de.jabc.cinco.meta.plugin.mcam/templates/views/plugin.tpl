@@ -4,7 +4,7 @@
    <extension
          point="de.jabc.cinco.meta.plugin.mcam.runtime.extensionpoint">
       <PageFactory
-            class="info.scce.cinco.product.flowgraph.mcam.views.PageFactoryImpl">
+            class="${McamViewBasePackage}.PageFactoryImpl">
       </PageFactory>
    </extension>
 </plugin>

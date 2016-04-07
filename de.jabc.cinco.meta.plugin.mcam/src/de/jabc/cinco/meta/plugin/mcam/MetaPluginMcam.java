@@ -51,7 +51,7 @@ public class MetaPluginMcam implements IMetaPlugin {
 				+ gModel.getName() + "' ------");
 
 		/*
-		 *  get packages / project
+		 * get packages / project
 		 */
 		this.modelPackage = gModel.getPackage();
 		String[] path = gModel.eResource().getURI().path().split("/");
@@ -84,9 +84,9 @@ public class MetaPluginMcam implements IMetaPlugin {
 		 */
 		System.out.println("Editing Manifest...");
 		try {
+			writeExportedPackagesToManifest(mcamProject, genMcam);
+			writeRequiredBundlesToManifest(mcamProject, genMcam);
 			mcamProject.refreshLocal(IResource.DEPTH_INFINITE, monitor);
-			writeExportedPackagesToManifest(mcamProject, genMcam, getManifestAttribute(mcamProject, "Export-Package"));
-			writeRequiredBundlesToManifest(mcamProject, genMcam, getManifestAttribute(mcamProject, "Require-Bundle"));
 		} catch (IOException | CoreException e) {
 			e.printStackTrace();
 			return "error";
@@ -147,8 +147,8 @@ public class MetaPluginMcam implements IMetaPlugin {
 	}
 
 	private void writeExportedPackagesToManifest(IProject project,
-			McamImplementationGenerator genMcam, String oldEP)
-			throws IOException, CoreException {
+			McamImplementationGenerator genMcam) throws IOException,
+			CoreException {
 		IFile iManiFile = project.getFolder("META-INF").getFile("MANIFEST.MF");
 		Manifest manifest = new Manifest(iManiFile.getContents());
 
@@ -161,36 +161,39 @@ public class MetaPluginMcam implements IMetaPlugin {
 
 		manifest.getMainAttributes().putValue(
 				"Export-Package",
-				cleanManifestAttribute(oldEP,
-						genMcam.getMcamProjectBasePackage())
-						+ exportPackage);
+				cleanManifestAttribute(
+						getManifestAttribute(project, "Export-Package"),
+						genMcam.getMcamProjectBasePackage()) + exportPackage);
 
 		manifest.write(new FileOutputStream(iManiFile.getLocation().toFile()));
 	}
 
 	private void writeRequiredBundlesToManifest(IProject project,
-			McamImplementationGenerator genMcam, String oldRB)
-			throws IOException, CoreException {
+			McamImplementationGenerator genMcam) throws IOException,
+			CoreException {
 		IFile iManiFile = project.getFolder("META-INF").getFile("MANIFEST.MF");
 		Manifest manifest = new Manifest(iManiFile.getContents());
 
-		String exportPackage = "de.jabc.cinco.meta.plugin.mcam.runtime" ; //;visibility:=reexport";
+		String exportPackage = "de.jabc.cinco.meta.plugin.mcam.runtime"; // ;visibility:=reexport";
 
 		manifest.getMainAttributes().putValue(
 				"Require-Bundle",
-				cleanManifestAttribute(oldRB, "de.jabc.cinco.meta.plugin.mcam")
+				cleanManifestAttribute(
+						getManifestAttribute(project, "Require-Bundle"),
+						"de.jabc.cinco.meta.plugin.mcam.runtime")
 						+ exportPackage);
 
 		manifest.write(new FileOutputStream(iManiFile.getLocation().toFile()));
 	}
 
-	private String getManifestAttribute(IProject project, String attrName) throws IOException, CoreException {
+	private String getManifestAttribute(IProject project, String attrName)
+			throws IOException, CoreException {
 		IFile iManiFile = project.getFolder("META-INF").getFile("MANIFEST.MF");
 		if (!iManiFile.exists())
 			return "";
 		Manifest manifest;
 		manifest = new Manifest(iManiFile.getContents());
-		return manifest.getMainAttributes().getValue("attrName");
+		return manifest.getMainAttributes().getValue(attrName);
 	}
 
 	private String cleanManifestAttribute(String values,

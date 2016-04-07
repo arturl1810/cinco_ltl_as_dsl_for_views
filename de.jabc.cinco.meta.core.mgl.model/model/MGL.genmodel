@@ -25,6 +25,7 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MGL.ecore#//GraphModel/types"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGL.ecore#//GraphModel/iconPath"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGL.ecore#//GraphModel/fileExtension"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MGL.ecore#//GraphModel/includes"/>
     </genClasses>
     <genClasses ecoreClass="MGL.ecore#//Edge">
       <genFeatures children="true" createChild="false" propertySortChoices="true"
@@ -114,8 +115,6 @@
     <genClasses ecoreClass="MGL.ecore#//ReferencedMGLAttribute"/>
     <genClasses ecoreClass="MGL.ecore#//GraphicalElementContainment">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MGL.ecore#//GraphicalElementContainment/types"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGL.ecore#//GraphicalElementContainment/upperBound"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGL.ecore#//GraphicalElementContainment/lowerBound"/>
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference MGL.ecore#//GraphicalElementContainment/containingElement"/>
     </genClasses>
     <genClasses ecoreClass="MGL.ecore#//ContainingElement">
@@ -125,8 +124,6 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MGL.ecore#//Annotatable/annotations"/>
     </genClasses>
     <genClasses image="false" ecoreClass="MGL.ecore#//EdgeElementConnection">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGL.ecore#//EdgeElementConnection/upperBound"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGL.ecore#//EdgeElementConnection/lowerBound"/>
       <genFeatures createChild="false" propertyCategory="" propertyDescription=""
           propertySortChoices="true" ecoreFeature="ecore:EReference MGL.ecore#//EdgeElementConnection/connectingEdges"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGL.ecore#//EdgeElementConnection/isOutgoing"/>
@@ -143,6 +140,20 @@
     </genClasses>
     <genClasses image="false" ecoreClass="MGL.ecore#//Parameterizable">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGL.ecore#//Parameterizable/parameterized"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="MGL.ecore#//Constraint">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGL.ecore#//Constraint/negative"/>
+    </genClasses>
+    <genClasses ecoreClass="MGL.ecore#//OrConstraint">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MGL.ecore#//OrConstraint/constraints"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="MGL.ecore#//BoundedConstraint">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGL.ecore#//BoundedConstraint/upperBound"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGL.ecore#//BoundedConstraint/lowerBound"/>
+    </genClasses>
+    <genClasses ecoreClass="MGL.ecore#//Include">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGL.ecore#//Include/importURI"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGL.ecore#//Include/name"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>
