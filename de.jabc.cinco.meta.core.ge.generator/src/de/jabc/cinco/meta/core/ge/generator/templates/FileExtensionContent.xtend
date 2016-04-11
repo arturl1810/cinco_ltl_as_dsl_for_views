@@ -27,7 +27,6 @@ class FileExtensionContent {
 		public «List.name»<«String.name»> getKnownFileExtensions() {
 			return «Arrays.name».asList(new «String.name»[] {«FOR e : exts SEPARATOR ','» "«e»"«ENDFOR »});
 		}
-		
 	}
 	'''
 
