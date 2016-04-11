@@ -108,7 +108,7 @@ cincoProduct «modelName»Tool {
 	
 	def static generateFlowGraphMGL(String modelName, String packageName, String projectName, Set<ExampleFeature> features) '''
 «IF features.contains(PRIME_REFERENCES)»
-import "platform:/resource/«projectName»/model/ExternalLibrary.ecore"
+import "platform:/resource/«projectName»/model/ExternalLibrary.ecore" as externalLibrary
 «ENDIF»
 	
 @style("model/«modelName».style")
