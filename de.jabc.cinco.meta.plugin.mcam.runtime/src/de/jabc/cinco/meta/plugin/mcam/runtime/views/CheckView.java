@@ -1,6 +1,9 @@
 package de.jabc.cinco.meta.plugin.mcam.runtime.views;
 
+import java.io.File;
+
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
@@ -9,6 +12,7 @@ import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.IEditorPart;
 
 import de.jabc.cinco.meta.plugin.mcam.runtime.views.pages.CheckViewPage;
 import de.jabc.cinco.meta.plugin.mcam.runtime.views.provider.CheckViewTreeProvider.ViewType;
@@ -27,10 +31,6 @@ public class CheckView extends McamView<CheckViewPage> {
 
 	private IAction showByModuleViewAction;
 	private IAction showByIdViewAction;
-
-	public CheckView() {
-		this.genericParameterClass = CheckViewPage.class;
-	}
 
 	@Override
 	protected void initView(Composite parent) {
@@ -142,10 +142,10 @@ public class CheckView extends McamView<CheckViewPage> {
 	}
 
 	@Override
-	public CheckViewPage<?, ?, ?> createPage(IFile file) {
+	public CheckViewPage<?, ?, ?, ?> createPage(String id, IEditorPart editor) {
 		PageFactory pf = getPageFactory();
 		if (pf != null)
-			return pf.createCheckViewPage(file);
+			return pf.createCheckViewPage(id, editor);
 		return null;
 	}
 
@@ -154,6 +154,17 @@ public class CheckView extends McamView<CheckViewPage> {
 		ResourcesPlugin.getWorkspace().removeResourceChangeListener(
 				resourceChangeListener);
 		super.dispose();
+	}
+
+	@Override
+	public String getPageId(IResource res) {
+		if (res instanceof IFile == false || res == null)
+			return null;
+
+		IFile file = (IFile) res;
+		String path = file.getRawLocation().toOSString();
+		File origFile = new File(path);
+		return origFile.getAbsolutePath();
 	}
 
 }

@@ -58,7 +58,7 @@ public class ResourceChangeListener implements IResourceChangeListener {
 			return;
 
 		// Execute refresh
-		String pageId = view.createPage(iFile).getPageId();
+		String pageId = view.getPageId(iFile);
 		if (pageId != null) {
 			Object obj = view.getPageMap().get(pageId);
 			if (obj instanceof McamPage) {

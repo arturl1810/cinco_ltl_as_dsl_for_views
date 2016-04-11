@@ -1,14 +1,18 @@
 package de.jabc.cinco.meta.plugin.mcam.runtime.views;
 
+import java.io.File;
+
 import info.scce.mcam.framework.processes.MergeInformation.MergeType;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
+import org.eclipse.ui.IEditorPart;
 
 import de.jabc.cinco.meta.plugin.mcam.runtime.views.pages.ConflictViewPage;
 import de.jabc.cinco.meta.plugin.mcam.runtime.views.provider.ConflictViewTreeProvider.ViewType;
@@ -36,10 +40,6 @@ public class ConflictView extends McamView<ConflictViewPage> {
 	private IAction filterOnlyAddedAction;
 	private IAction filterOnlyChangedAction;
 	private IAction filterOnlyDeletedAction;
-
-	public ConflictView() {
-		this.genericParameterClass = ConflictViewPage.class;
-	}
 
 	@Override
 	protected void fillLocalPullDown(IMenuManager manager) {
@@ -336,10 +336,22 @@ public class ConflictView extends McamView<ConflictViewPage> {
 	}
 
 	@Override
-	public ConflictViewPage<?, ?, ?> createPage(IFile file) {
+	public ConflictViewPage<?, ?, ?, ?> createPage(String pageId, IEditorPart editor) {
 		PageFactory pf = getPageFactory();
 		if (pf != null)
-			return pf.createConflictViewPage(file);
+			return pf.createConflictViewPage(pageId, editor);
 		return null;
 	}
+
+	@Override
+	public String getPageId(IResource res) {
+		if (res instanceof IFile == false || res == null)
+			return null;
+
+		IFile file = (IFile) res;
+		String path = file.getRawLocation().toOSString();
+		File origFile = new File(path);
+		return origFile.getAbsolutePath();
+	}
+
 }

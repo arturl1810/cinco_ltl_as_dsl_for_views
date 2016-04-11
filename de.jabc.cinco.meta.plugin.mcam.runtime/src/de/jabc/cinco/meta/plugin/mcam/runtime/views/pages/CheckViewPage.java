@@ -12,15 +12,18 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.part.ViewPart;
 import org.osgi.framework.Bundle;
 
@@ -30,9 +33,14 @@ import de.jabc.cinco.meta.plugin.mcam.runtime.views.nodes.TreeNode;
 import de.jabc.cinco.meta.plugin.mcam.runtime.views.provider.CheckViewTreeProvider;
 import de.jabc.cinco.meta.plugin.mcam.runtime.views.utils.EclipseUtils;
 
-public abstract class CheckViewPage<E extends _CincoId, M extends GraphModel, W extends CGraphModel> extends McamPage {
+public abstract class CheckViewPage<E extends _CincoId, M extends GraphModel, W extends CGraphModel, A extends _CincoAdapter<E, M, W>> extends McamPage {
 	
-	private CheckViewTreeProvider<E,M,W> data = new CheckViewTreeProvider<E,M,W>();
+	private CheckViewTreeProvider<E,M,W,A> data;
+	
+	protected IFile iFile;
+	protected Resource resource;
+	
+	protected CheckProcess<E, A> cp;
 
 	private HashMap<String, Image> icons = new HashMap<>();
 
@@ -41,16 +49,32 @@ public abstract class CheckViewPage<E extends _CincoId, M extends GraphModel, W 
 
 	private CheckViewResultTypeFilter resultTypeFilter = new CheckViewResultTypeFilter();
 
-	public CheckViewPage(Object obj) {
-		super(obj);
+	public CheckViewPage(String pageId, IFile iFile, Resource resource) {
+		super(pageId);
+		this.iFile = iFile;
+		this.resource = resource;
+		
+		this.cp = createCp();
+		this.data = new CheckViewTreeProvider<E, M, W, A>(this);
 	}
 	
 	/*
 	 * Getter / Setter
 	 */
+	public IFile getiFile() {
+		return iFile;
+	}
+
+	public CheckProcess<E, A> getCp() {
+		return cp;
+	}
+
+	public Resource getResource() {
+		return resource;
+	}
 
 	@Override
-	public CheckViewTreeProvider<E,M,W> getDataProvider() {
+	public CheckViewTreeProvider<E,M,W,A> getDataProvider() {
 		return data;
 	}
 
@@ -97,12 +121,16 @@ public abstract class CheckViewPage<E extends _CincoId, M extends GraphModel, W 
 			e.printStackTrace();
 		}
 	}
+	
+	protected abstract W getWrapperFromEditor(IEditorPart editorPart);
+	
+	protected abstract CheckProcess<E, A> createCp();
 
 	@Override
 	public void reload() {
 		storeTreeState();
+		this.cp = createCp();
 		data.reset();
-		this.rootObject = getPageRootObject(initObject);
 		treeViewer.setInput(parentViewPart.getViewSite());
 		restoreTreeState();
 	}
@@ -110,18 +138,19 @@ public abstract class CheckViewPage<E extends _CincoId, M extends GraphModel, W 
 	@SuppressWarnings("unchecked")
 	@Override
 	public void highlight(Object obj) {
-		CheckProcess<E, _CincoAdapter<E, M, W>> cp = (CheckProcess<E, _CincoAdapter<E, M, W>>) getRootObject(); 
-		
-		obj = getTreeNodeData(obj);
-		if (obj instanceof CheckResult<?, ?>) {
-			CheckResult<E, _CincoAdapter<E, M, W>> result = (CheckResult<E, _CincoAdapter<E, M, W>>) obj;
+		Object element = obj;
+		if (obj instanceof TreeNode)
+			 element = getTreeNodeData(obj);
+			
+		if (element instanceof CheckResult<?, ?>) {
+			CheckResult<E, A> result = (CheckResult<E, A>) element;
 			
 			cp.getModel().highlightElement(
 					(E) result.getId());
 		}
-		if (obj instanceof _CincoId) {
+		if (element instanceof _CincoId) {
 			cp.getModel().highlightElement(
-					(E) obj);
+					(E) element);
 		}
 	}
 
@@ -149,11 +178,11 @@ public abstract class CheckViewPage<E extends _CincoId, M extends GraphModel, W 
 		public Image getImage(Object obj) {
 			Object element = getTreeNodeData(obj);
 			if (element instanceof CheckResult<?, ?>) {
-				CheckResult<E, _CincoAdapter<E, M, W>> result = (CheckResult<E, _CincoAdapter<E, M, W>>) element;
+				CheckResult<E, A> result = (CheckResult<E, A>) element;
 				return mapResultTypeToImage(result.getType());
 			}
 			if (element instanceof CheckModule<?, ?>) {
-				CheckModule<E, _CincoAdapter<E, M, W>> module = (CheckModule<E, _CincoAdapter<E, M, W>>) element;
+				CheckModule<E, A> module = (CheckModule<E, A>) element;
 				return mapResultTypeToImage(module.getResultType());
 			}
 			if (element instanceof _CincoId) {
@@ -212,15 +241,15 @@ public abstract class CheckViewPage<E extends _CincoId, M extends GraphModel, W 
 				return cat1 - cat2;
 
 			if (e1 instanceof CheckModule && e2 instanceof CheckModule) {
-				CheckModule<E, _CincoAdapter<E, M, W>> cm1 = (CheckModule<E, _CincoAdapter<E, M, W>>) e1;
-				CheckModule<E, _CincoAdapter<E, M, W>> cm2 = (CheckModule<E, _CincoAdapter<E, M, W>>) e2;
+				CheckModule<E, A> cm1 = (CheckModule<E, A>) e1;
+				CheckModule<E, A> cm2 = (CheckModule<E, A>) e2;
 				return typeSorting.indexOf(cm1.getResultType())
 						- typeSorting.indexOf(cm2.getResultType());
 			}
 
 			if (e1 instanceof CheckResult && e2 instanceof CheckResult) {
-				CheckResult<E, _CincoAdapter<E, M, W>> result1 = (CheckResult<E, _CincoAdapter<E, M, W>>) e1;
-				CheckResult<E, _CincoAdapter<E, M, W>> result2 = (CheckResult<E, _CincoAdapter<E, M, W>>) e2;
+				CheckResult<E, A> result1 = (CheckResult<E, A>) e1;
+				CheckResult<E, A> result2 = (CheckResult<E, A>) e2;
 				return typeSorting.indexOf(result1.getType())
 						- typeSorting.indexOf(result2.getType());
 			}
@@ -272,7 +301,7 @@ public abstract class CheckViewPage<E extends _CincoId, M extends GraphModel, W 
 		@SuppressWarnings("unchecked")
 		private boolean display(Object element) {
 			if (element instanceof CheckResult<?, ?>) {
-				CheckResult<E, _CincoAdapter<E, M, W>> result = (CheckResult<E, _CincoAdapter<E, M, W>>) element;
+				CheckResult<E, A> result = (CheckResult<E, A>) element;
 				if (types.contains(result.getType()))
 					return true;
 			}

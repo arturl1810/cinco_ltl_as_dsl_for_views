@@ -10,10 +10,13 @@ import de.jabc.cinco.meta.plugin.mcam.runtime.core._CincoId;
 import de.jabc.cinco.meta.plugin.mcam.runtime.views.nodes.ContainerTreeNode;
 import de.jabc.cinco.meta.plugin.mcam.runtime.views.nodes.IdNode;
 import de.jabc.cinco.meta.plugin.mcam.runtime.views.nodes.TreeNode;
+import de.jabc.cinco.meta.plugin.mcam.runtime.views.pages.CheckViewPage;
 
-public class CheckViewTreeProvider<E extends _CincoId, M extends GraphModel, W extends CGraphModel> extends TreeProvider {
+public class CheckViewTreeProvider<E extends _CincoId, M extends GraphModel, W extends CGraphModel, A extends _CincoAdapter<E, M, W>> extends TreeProvider {
 	private String[] fileExtensions = { "data", "sibs" };
 
+	private CheckViewPage<E, M, W, A> page;
+	
 	public enum ViewType {
 		BY_MODULE, BY_ID
 	}
@@ -23,7 +26,12 @@ public class CheckViewTreeProvider<E extends _CincoId, M extends GraphModel, W e
 
 	private ViewType activeView = ViewType.BY_ID;
 
-	private CheckProcess<E, _CincoAdapter<E, M, W>> cp;
+	private CheckProcess<E, A> cp;
+	
+	public CheckViewTreeProvider(CheckViewPage<E, M, W, A> page) {
+		super();
+		this.page = page;
+	}
 
 	@Override
 	public TreeNode getTree() {
@@ -48,22 +56,22 @@ public class CheckViewTreeProvider<E extends _CincoId, M extends GraphModel, W e
 		this.activeView = activeView;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public void loadData(Object rootObject) {
 		
-		if (rootObject == null)
-			return;
-		
 		final long timeStart = System.currentTimeMillis();
 		
-		cp = (CheckProcess<E, _CincoAdapter<E, M, W>>) rootObject;
+		cp = page.getCp();
+		
+		if (cp == null)
+			return;
+		
 		cp.checkModel();
 		
 		switch (activeView) {
 		case BY_MODULE:
 			byModuleRoot = new ContainerTreeNode(null, "root");
-			for (CheckModule<E, _CincoAdapter<E, M, W>> module : cp.getModules()) {
+			for (CheckModule<E, A> module : cp.getModules()) {
 				buildTreeByModule(module, byModuleRoot);
 			}
 			break;
@@ -85,13 +93,13 @@ public class CheckViewTreeProvider<E extends _CincoId, M extends GraphModel, W e
 		if (obj instanceof _CincoId) {
 			node = new IdNode(obj);
 			node.setLabel(((_CincoId) obj).toString());
-			for (CheckResult<E, _CincoAdapter<E, M, W>> result : cp.getCheckInformationMap().get(obj).getResults()) {
+			for (CheckResult<E, A> result : cp.getCheckInformationMap().get(obj).getResults()) {
 				buildTreeById(result, node);
 			}
 		}
 		
 		if (obj instanceof CheckResult<?, ?>) {
-			CheckResult<E, _CincoAdapter<E, M, W>> result = (CheckResult<E, _CincoAdapter<E, M, W>>) obj;
+			CheckResult<E, A> result = (CheckResult<E, A>) obj;
 			node = new ContainerTreeNode(obj, result.getUUID().toString());
 			node.setLabel("[" + result.getModule().getClass().getSimpleName() + "] " + result.getMessage());
 		}
@@ -114,16 +122,16 @@ public class CheckViewTreeProvider<E extends _CincoId, M extends GraphModel, W e
 		TreeNode node = new ContainerTreeNode(null, "dummy");
 		
 		if (obj instanceof CheckModule<?, ?>) {
-			CheckModule<E, _CincoAdapter<E, M, W>> module = (CheckModule<E, _CincoAdapter<E, M, W>>) obj;
+			CheckModule<E, A> module = (CheckModule<E, A>) obj;
 			node = new ContainerTreeNode(obj, module.getClass().getSimpleName());
 			node.setLabel(module.getClass().getSimpleName());
-			for (CheckResult<E, _CincoAdapter<E, M, W>> result : module.getResults()) {
+			for (CheckResult<E, A> result : module.getResults()) {
 				buildTreeByModule(result, node);
 			}
 		}
 		
 		if (obj instanceof CheckResult<?, ?>) {
-			CheckResult<E, _CincoAdapter<E, M, W>> result = (CheckResult<E, _CincoAdapter<E, M, W>>) obj;
+			CheckResult<E, A> result = (CheckResult<E, A>) obj;
 			node = new ContainerTreeNode(obj, result.getUUID().toString());
 			node.setLabel(result.getId().toString() + ": " + result.getMessage());
 		}

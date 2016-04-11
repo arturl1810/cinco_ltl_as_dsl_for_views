@@ -8,39 +8,28 @@ import ${GraphModelPackage}.api.c${GraphModelName?lower_case}.C${GraphModelName}
 import ${CliPackage}.${GraphModelName}Execution;
 
 import info.scce.mcam.framework.processes.CompareProcess;
+import info.scce.mcam.framework.processes.MergeProcess;
 
 import java.io.File;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.emf.ecore.resource.Resource;
 
 import de.jabc.cinco.meta.plugin.mcam.runtime.views.pages.ConflictViewPage;
 
-public class ${GraphModelName}ConflictViewPage extends ConflictViewPage<${GraphModelName}Id, ${GraphModelName}, C${GraphModelName}> {
+public class ${GraphModelName}ConflictViewPage extends ConflictViewPage<${GraphModelName}Id, ${GraphModelName}, C${GraphModelName}, ${GraphModelName}Adapter> {
 
-	public ${GraphModelName}ConflictViewPage(Object obj) {
-		super(obj);
+	public ${GraphModelName}ConflictViewPage(String pageId, IFile iFile, Resource resource) {
+		super(pageId, iFile, resource);
 	}
 	
-	@Override
-	protected String getPageId(Object obj) {
-		if (obj instanceof IFile == false || obj == null) 
-			return null;
-
-		IFile file = (IFile) obj;
-		String path = file.getRawLocation().toOSString();
-		File origFile = new File(path);
-		return origFile.getAbsolutePath();
-	}
 
 	@Override
-	protected Object getPageRootObject(Object obj) {
-		if (obj instanceof IFile == false || obj == null) 
-			return null;
+	protected MergeProcess<${GraphModelName}Id, ${GraphModelName}Adapter> createMp() {
 
-		IFile file = (IFile) obj;
 		${GraphModelName}Execution fe = new ${GraphModelName}Execution();
 		
-		String path = file.getRawLocation().toOSString();
+		String path = iFile.getRawLocation().toOSString();
 		
 		File origFile = new File(path);
 		File remoteFile = new File(path + ".remote");
@@ -52,7 +41,7 @@ public class ${GraphModelName}ConflictViewPage extends ConflictViewPage<${GraphM
 			${GraphModelName}Adapter local = fe.initApiAdapter(localFile);
 			${GraphModelName}Adapter remote = fe.initApiAdapter(remoteFile);
 
-			${GraphModelName}Adapter mergeModel = fe.initApiAdapter(origFile);
+			${GraphModelName}Adapter mergeModel = fe.initApiAdapterFromResource(this.resource, origFile);
 
 			CompareProcess<${GraphModelName}Id, ${GraphModelName}Adapter> localCompare = fe.executeComparePhase(orig, local);
 			CompareProcess<${GraphModelName}Id, ${GraphModelName}Adapter> remoteCompare = fe.executeComparePhase(orig, remote);

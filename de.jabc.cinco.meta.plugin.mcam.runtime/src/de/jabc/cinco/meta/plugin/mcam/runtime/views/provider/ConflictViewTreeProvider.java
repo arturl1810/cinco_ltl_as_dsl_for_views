@@ -13,9 +13,12 @@ import de.jabc.cinco.meta.plugin.mcam.runtime.core._CincoId;
 import de.jabc.cinco.meta.plugin.mcam.runtime.views.nodes.ContainerTreeNode;
 import de.jabc.cinco.meta.plugin.mcam.runtime.views.nodes.IdNode;
 import de.jabc.cinco.meta.plugin.mcam.runtime.views.nodes.TreeNode;
+import de.jabc.cinco.meta.plugin.mcam.runtime.views.pages.ConflictViewPage;
 
-public class ConflictViewTreeProvider<E extends _CincoId, M extends GraphModel, W extends CGraphModel> extends TreeProvider {
+public class ConflictViewTreeProvider<E extends _CincoId, M extends GraphModel, W extends CGraphModel, A extends _CincoAdapter<E, M, W>> extends TreeProvider {
 
+	private ConflictViewPage<E, M, W, A> page;
+	
 	public enum ViewType {
 		BY_ID
 	}
@@ -24,7 +27,12 @@ public class ConflictViewTreeProvider<E extends _CincoId, M extends GraphModel, 
 
 	private ViewType activeView = ViewType.BY_ID;
 
-	private MergeProcess<E, _CincoAdapter<E, M, W>> mp;
+	private MergeProcess<E, A> mp;
+	
+	public ConflictViewTreeProvider(ConflictViewPage<E, M, W, A> page) {
+		super();
+		this.page = page;
+	}
 
 	@Override
 	public TreeNode getTree() {
@@ -43,25 +51,24 @@ public class ConflictViewTreeProvider<E extends _CincoId, M extends GraphModel, 
 		this.activeView = activeView;
 	}
 
-	public MergeProcess<E, _CincoAdapter<E, M, W>> getMergeProcess() {
+	public MergeProcess<E, A> getMergeProcess() {
 		return mp;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public void loadData(Object rootObject) {
-		if (rootObject == null)
-			return;
-		
 		final long timeStart = System.currentTimeMillis();
 		
-		mp = (MergeProcess<E, _CincoAdapter<E, M, W>>) rootObject;
+		mp = page.getMp();
+		
+		if (mp == null)
+			return;
 
 		switch (activeView) {
 		case BY_ID:
 		default:
 			byIdRoot = new ContainerTreeNode(null, "root");
-			for (MergeInformation<E, _CincoAdapter<E, M, W>> mergeInfo : mp.getMergeInformationMap().values()) {
+			for (MergeInformation<E, A> mergeInfo : mp.getMergeInformationMap().values()) {
 				if (mergeInfo.getLocalChanges().size() > 0 || mergeInfo.getRemoteChanges().size() > 0)
 					buildTreeById(mergeInfo.getId(), byIdRoot);
 			}
@@ -80,22 +87,22 @@ public class ConflictViewTreeProvider<E extends _CincoId, M extends GraphModel, 
 			node = new IdNode(obj);
 			node.setLabel(id.toString());
 
-			MergeInformation<E, _CincoAdapter<E, M, W>> mergeInfo = mp.getMergeInformationMap().get(id);
-			for (Set<ChangeModule<E, _CincoAdapter<E, M, W>>> conflictSet : mergeInfo.getListOfConflictedChangeSets()) {
+			MergeInformation<E, A> mergeInfo = mp.getMergeInformationMap().get(id);
+			for (Set<ChangeModule<E, A>> conflictSet : mergeInfo.getListOfConflictedChangeSets()) {
 				buildTreeById(conflictSet, node);
 			}
-			for (ChangeModule<E, _CincoAdapter<E, M, W>> change : mergeInfo.getLocalChanges()) {
+			for (ChangeModule<E, A> change : mergeInfo.getLocalChanges()) {
 				if (!mergeInfo.isConflictedChange(change))
 					buildTreeById(change, node);
 			}
-			for (ChangeModule<E, _CincoAdapter<E, M, W>> change : mergeInfo.getRemoteChanges()) {
+			for (ChangeModule<E, A> change : mergeInfo.getRemoteChanges()) {
 				if (!mergeInfo.isConflictedChange(change))
 					buildTreeById(change, node);
 			}
 		}
 
 		if (obj instanceof ChangeModule<?, ?>) {
-			ChangeModule<E, _CincoAdapter<E, M, W>> change = (ChangeModule<E, _CincoAdapter<E, M, W>>) obj;		
+			ChangeModule<E, A> change = (ChangeModule<E, A>) obj;		
 			node = new ContainerTreeNode(obj, obj.toString());
 			node.setLabel(change.toString());
 
@@ -107,8 +114,8 @@ public class ConflictViewTreeProvider<E extends _CincoId, M extends GraphModel, 
 			node = new ContainerTreeNode(obj, obj.toString());
 			node.setLabel("Conflict Set");
 
-			Set<ChangeModule<E, _CincoAdapter<E, M, W>>> conflictSet = (Set<ChangeModule<E, _CincoAdapter<E, M, W>>>) obj;
-			for (ChangeModule<E, _CincoAdapter<E, M, W>> change : conflictSet) {
+			Set<ChangeModule<E, A>> conflictSet = (Set<ChangeModule<E, A>>) obj;
+			for (ChangeModule<E, A> change : conflictSet) {
 				buildTreeById(change, node);
 			}
 		}

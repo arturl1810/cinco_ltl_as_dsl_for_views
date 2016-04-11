@@ -49,8 +49,6 @@ public abstract class McamPage {
 	protected TreeViewer treeViewer;
 	protected Composite frameComposite;
 
-	protected Object initObject;
-	protected Object rootObject;
 	protected String pageId;
 	
 	protected Bundle bundle = FrameworkUtil.getBundle(this.getClass());
@@ -62,10 +60,8 @@ public abstract class McamPage {
 	protected McamFullTextFilter defaultFilterFullText = new McamFullTextFilter();
 	protected McamContentProvider defaultContentProvider = new McamContentProvider();
 	
-	public McamPage(Object obj) {
-		this.initObject = obj;
-		this.pageId = getPageId(obj);
-		this.rootObject = getPageRootObject(obj);
+	public McamPage(String id) {
+		this.pageId = id;
 	}
 
 	public Composite getFrameComposite() {
@@ -76,10 +72,6 @@ public abstract class McamPage {
 		return treeViewer;
 	}
 
-	public Object getRootObject() {
-		return rootObject;
-	}
-	
 	public String getPageId() {
 		return pageId;
 	}
@@ -329,10 +321,6 @@ public abstract class McamPage {
 	
 	abstract public TreeProvider getDataProvider(); 
 	
-	abstract protected String getPageId(Object obj);
-	
-	abstract protected Object getPageRootObject(Object obj);
-
 	/*
 	 * Provider / Classes for TreeViewer
 	 */
@@ -349,8 +337,8 @@ public abstract class McamPage {
 
 		public Object[] getElements(Object parent) {
 			if (parent.equals(parentViewPart.getViewSite())) {
-				if (getDataProvider().isResetted()) 
-					getDataProvider().load(rootObject);
+				if (getDataProvider() != null && getDataProvider().isResetted()) 
+					getDataProvider().load(this);
 				return getChildren(getDataProvider().getTree());
 			}
 			return getChildren(parent);

@@ -233,7 +233,7 @@ public class McamViewGenerator {
 					+ graphModelName.toLowerCase() + "." + graphModelName
 					+ ") return new "
 					+ (String) data.get("McamViewPagePackage") + "."
-					+ graphModelName + "CheckViewPage(file); \n";
+					+ graphModelName + "CheckViewPage(id, iFile, resource); \n";
 			insertCodeAfterMarker(
 					file.getRawLocation().makeAbsolute().toFile(),
 					"// @FACTORY_CHECK", code_check);
@@ -244,7 +244,7 @@ public class McamViewGenerator {
 					+ "." + graphModelName.toLowerCase() + "." + graphModelName
 					+ ") return new "
 					+ (String) data.get("McamViewPagePackage") + "."
-					+ graphModelName + "ConflictViewPage(file); \n";
+					+ graphModelName + "ConflictViewPage(id, iFile, resource); \n";
 			insertCodeAfterMarker(
 					file.getRawLocation().makeAbsolute().toFile(),
 					"// @FACTORY_CONFLICT", code_conflict);

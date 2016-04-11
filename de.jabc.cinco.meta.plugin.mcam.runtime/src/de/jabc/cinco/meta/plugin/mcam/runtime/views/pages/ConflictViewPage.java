@@ -14,9 +14,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -38,10 +40,13 @@ import de.jabc.cinco.meta.plugin.mcam.runtime.views.nodes.TreeNode;
 import de.jabc.cinco.meta.plugin.mcam.runtime.views.provider.ConflictViewTreeProvider;
 import de.jabc.cinco.meta.plugin.mcam.runtime.views.utils.EclipseUtils;
 
-public abstract class ConflictViewPage<E extends _CincoId, M extends GraphModel, W extends CGraphModel>
+public abstract class ConflictViewPage<E extends _CincoId, M extends GraphModel, W extends CGraphModel, A extends _CincoAdapter<E, M, W>>
 		extends McamPage {
 
-	private ConflictViewTreeProvider<E, M, W> data = new ConflictViewTreeProvider<E, M, W>();
+	private ConflictViewTreeProvider<E, M, W, A> data;
+	
+	protected IFile iFile;
+	protected Resource resource;
 
 	private HashMap<String, Image> icons = new HashMap<>();
 
@@ -49,8 +54,8 @@ public abstract class ConflictViewPage<E extends _CincoId, M extends GraphModel,
 	private ConflictViewNameSorter nameSorter = new ConflictViewNameSorter();
 	private ConflictViewTypeSorter typeSorter = new ConflictViewTypeSorter();
 
-	private List<ChangeModule<E, _CincoAdapter<E, M, W>>> changesDone = new ArrayList<ChangeModule<E, _CincoAdapter<E, M, W>>>();
-	private MergeProcess<E, _CincoAdapter<E, M, W>> mp = null;
+	private List<ChangeModule<E, A>> changesDone = new ArrayList<ChangeModule<E, A>>();
+	protected MergeProcess<E, A> mp = null;
 
 	protected int activeFilter = 0;
 	protected int activeSort = 0;
@@ -64,17 +69,34 @@ public abstract class ConflictViewPage<E extends _CincoId, M extends GraphModel,
 	private ConflictViewTypeFilter conflictedFilter = new ConflictViewTypeFilter(
 			MergeType.CONFLICTED);
 
-	public ConflictViewPage(Object obj) {
-		super(obj);
+	public ConflictViewPage(String pageId, IFile iFile, Resource resource) {
+		super(pageId);
+		this.iFile = iFile;
+		this.resource = resource;
+		
+		this.mp = (MergeProcess<E, A>) createMp();
+		this.data = new ConflictViewTreeProvider<E, M, W, A>(this);
 	}
 
 	/*
 	 * Getter / Setter
 	 */
-
+	
 	@Override
-	public ConflictViewTreeProvider<E, M, W> getDataProvider() {
+	public ConflictViewTreeProvider<E, M, W, A> getDataProvider() {
 		return data;
+	}
+
+	public IFile getiFile() {
+		return iFile;
+	}
+
+	public Resource getResource() {
+		return resource;
+	}
+
+	public MergeProcess<E, A> getMp() {
+		return mp;
 	}
 
 	@Override
@@ -186,18 +208,15 @@ public abstract class ConflictViewPage<E extends _CincoId, M extends GraphModel,
 	@Override
 	public void initPage(Composite parent, ViewPart parentViewPart)
 			throws IOException {
+		
 		super.initPage(parent, parentViewPart);
 
-		if (rootObject instanceof MergeProcess<?, ?> == false)
+		if (mp == null)
 			return;
-
-		mp = (MergeProcess<E, _CincoAdapter<E, M, W>>) rootObject;
+		
 		runInitialChangeExecution();
 
 		treeViewer.addSelectionChangedListener(new ISelectionChangedListener() {
-
-			MergeProcess<E, _CincoAdapter<E, M, W>> mp = getDataProvider()
-					.getMergeProcess();
 
 			public void selectionChanged(SelectionChangedEvent event) {
 				if (event.getSelection() instanceof IStructuredSelection) {
@@ -213,7 +232,7 @@ public abstract class ConflictViewPage<E extends _CincoId, M extends GraphModel,
 						mp.getMergeModelAdapter().highlightElement((E) obj);
 
 					if (obj instanceof ChangeModule<?, ?>) {
-						ChangeModule<E, _CincoAdapter<E, M, W>> change = (ChangeModule<E, _CincoAdapter<E, M, W>>) obj;
+						ChangeModule<E, A> change = (ChangeModule<E, A>) obj;
 						if (!changesDone.contains(change)) {
 							if (change.canPreExecute(mp.getMergeModelAdapter())
 									&& change.canExecute(mp
@@ -264,10 +283,10 @@ public abstract class ConflictViewPage<E extends _CincoId, M extends GraphModel,
 	public void runInitialChangeExecution() {
 		mp.analyzeGraphCompares();
 
-		_CincoMergeStrategy<E, _CincoAdapter<E, M, W>> strategy = new _CincoMergeStrategy<E, _CincoAdapter<E, M, W>>();
+		_CincoMergeStrategy<E, A> strategy = new _CincoMergeStrategy<E, A>();
 
 		try {
-			changesDone = strategy.executeChanges((_CincoAdapter<E, M, W>) mp
+			changesDone = strategy.executeChanges((A) mp
 					.getMergeModelAdapter(), mp.getMergeInformationMap()
 					.values(), false);
 		} catch (ChangeDeadlockException e) {
@@ -279,6 +298,8 @@ public abstract class ConflictViewPage<E extends _CincoId, M extends GraphModel,
 			// changesDone = e.getChangesDone();
 		}
 	}
+	
+	protected abstract MergeProcess<E, A> createMp();
 
 	/*
 	 * Provider / Classes for TreeViewer
@@ -302,7 +323,7 @@ public abstract class ConflictViewPage<E extends _CincoId, M extends GraphModel,
 				return icons.get("info");
 			}
 			if (element instanceof ChangeModule<?, ?>) {
-				ChangeModule<E, _CincoAdapter<E, M, W>> change = (ChangeModule<E, _CincoAdapter<E, M, W>>) element;
+				ChangeModule<E, A> change = (ChangeModule<E, A>) element;
 				if (changesDone.contains(change))
 					return icons.get("boxChecked");
 				return icons.get("boxUnchecked");
@@ -322,7 +343,7 @@ public abstract class ConflictViewPage<E extends _CincoId, M extends GraphModel,
 			if (element instanceof _CincoId)
 				return ((E) element).toString();
 			if (element instanceof ChangeModule<?, ?>) {
-				ChangeModule<E, _CincoAdapter<E, M, W>> change = (ChangeModule<E, _CincoAdapter<E, M, W>>) element;
+				ChangeModule<E, A> change = (ChangeModule<E, A>) element;
 				if (getDataProvider().getMergeProcess()
 						.getMergeInformationMap().get(change.id)
 						.getLocalChanges().contains(change))
@@ -333,14 +354,13 @@ public abstract class ConflictViewPage<E extends _CincoId, M extends GraphModel,
 					return "(R) " + change.toString();
 			}
 			if (element instanceof Set<?>) {
-				for (MergeInformation<E, _CincoAdapter<E, M, W>> mergeInfo : getDataProvider()
-						.getMergeProcess().getMergeInformationMap().values()) {
+				for (MergeInformation<E, A> mergeInfo : mp.getMergeInformationMap().values()) {
 					int i = 0;
-					for (Set<ChangeModule<E, _CincoAdapter<E, M, W>>> conflictSet : mergeInfo
+					for (Set<ChangeModule<E, A>> conflictSet : mergeInfo
 							.getListOfConflictedChangeSets()) {
 						i++;
 						if (conflictSet
-								.equals((Set<ChangeModule<E, _CincoAdapter<E, M, W>>>) element))
+								.equals((Set<ChangeModule<E, A>>) element))
 							return "Conflict " + i;
 					}
 				}
@@ -387,7 +407,7 @@ public abstract class ConflictViewPage<E extends _CincoId, M extends GraphModel,
 				E id2 = (E) e2;
 				Object input = viewer.getInput();
 				if (input instanceof MergeProcess<?, ?>) {
-					MergeProcess<E, _CincoAdapter<E, M, W>> mp = (MergeProcess<E, _CincoAdapter<E, M, W>>) input;
+					MergeProcess<E, A> mp = (MergeProcess<E, A>) input;
 					MergeType type1 = mp.getMergeInformationMap().get(id1)
 							.getType();
 					MergeType type2 = mp.getMergeInformationMap().get(id2)
@@ -439,7 +459,7 @@ public abstract class ConflictViewPage<E extends _CincoId, M extends GraphModel,
 				E id2 = (E) e2;
 				Object input = viewer.getInput();
 				if (input instanceof MergeProcess<?, ?>) {
-					MergeProcess<E, _CincoAdapter<E, M, W>> mp = (MergeProcess<E, _CincoAdapter<E, M, W>>) input;
+					MergeProcess<E, A> mp = (MergeProcess<E, A>) input;
 					MergeType type1 = mp.getMergeInformationMap().get(id1)
 							.getType();
 					MergeType type2 = mp.getMergeInformationMap().get(id2)

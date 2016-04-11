@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -50,8 +51,6 @@ public abstract class McamView<T extends McamPage> extends ViewPart implements
 	private static final String EXTENSION_ID = "de.jabc.cinco.meta.plugin.mcam.runtime.extensionpoint";
 
 	protected Bundle bundle = FrameworkUtil.getBundle(this.getClass());
-
-	protected Class<T> genericParameterClass;
 
 	private Composite parent;
 
@@ -327,8 +326,7 @@ public abstract class McamView<T extends McamPage> extends ViewPart implements
 			if (editor instanceof DiagramEditor == false)
 				return;
 
-			T newPage = createPage(EclipseUtils.getIFile(editor));
-			String pageId = newPage.getPageId();
+			String pageId = getPageId(EclipseUtils.getIFile(editor));
 
 			if (pageMap.keySet().contains(pageId)) {
 				T page = pageMap.get(pageId);
@@ -351,12 +349,7 @@ public abstract class McamView<T extends McamPage> extends ViewPart implements
 			if (editor instanceof DiagramEditor == false)
 				return;
 
-			T newPage = createPage(EclipseUtils.getIFile(editor));
-			
-			if (newPage == null)
-				return;
-			
-			String pageId = newPage.getPageId();
+			String pageId = getPageId(EclipseUtils.getIFile(editor));
 
 			if (parent.isDisposed())
 				return;
@@ -371,6 +364,7 @@ public abstract class McamView<T extends McamPage> extends ViewPart implements
 
 				if (!pageMap.keySet().contains(pageId)) {
 					try {
+						T newPage = createPage(pageId, editor);
 						newPage.initPage(parent, this);
 						pageMap.put(pageId, newPage);
 					} catch (IOException e) {
@@ -389,8 +383,10 @@ public abstract class McamView<T extends McamPage> extends ViewPart implements
 			editorChanged();
 		}
 	}
+	
+	abstract public String getPageId(IResource res);
 
-	public abstract T createPage(IFile file);
+	public abstract T createPage(String pageId, IEditorPart editor);
 
 	protected PageFactory getPageFactory() {
 		IConfigurationElement[] configElements = Platform

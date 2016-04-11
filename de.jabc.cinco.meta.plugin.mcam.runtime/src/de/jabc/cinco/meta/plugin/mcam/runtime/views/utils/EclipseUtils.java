@@ -1,20 +1,28 @@
 package de.jabc.cinco.meta.plugin.mcam.runtime.views.utils;
 
+import graphmodel.GraphModel;
+
 import java.io.File;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.graphiti.ui.editor.DiagramEditor;
 import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.wizards.IWizardDescriptor;
 
 public class EclipseUtils {
@@ -51,6 +59,47 @@ public class EclipseUtils {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	public static IEditorPart openEditor(GraphModel model) {
+		IEditorPart iEditor = null;
+		
+		URI uri = EcoreUtil.getURI(model);
+//		URI uri2 = model.eResource().getURI();
+		
+//		System.out.println("----------------------------------------------");
+//		
+//		System.out.println("uri1: " + uri);
+//		System.out.println("filestring: " + uri.toFileString());
+//		System.out.println("platformstring: " + uri.toPlatformString(true));
+//		
+//		System.out.println("uri2: " + uri2);
+//		System.out.println("filestring: " + uri2.toFileString());
+//		System.out.println("platformstring: " + uri2.toPlatformString(true));
+		
+		IFile iFile = null;
+		Path path = null;
+		if (uri.toPlatformString(true) != null) {
+			path = new Path(uri.toPlatformString(true));
+		} 
+		if (uri.toFileString() != null) {
+			IFile newFile = ResourcesPlugin.getWorkspace().getRoot().getFileForLocation(new Path(uri.toFileString()));
+			path = new Path(newFile.getFullPath().toOSString());
+		}
+			
+		if (path != null)
+			iFile = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
+		
+//		System.out.println(iFile);
+		
+		IWorkbenchPage page = PlatformUI.getWorkbench()
+				.getActiveWorkbenchWindow().getActivePage();
+		try {
+			iEditor = IDE.openEditor(page, iFile);
+		} catch (PartInitException e) {
+			e.printStackTrace();
+		}
+		return iEditor;
 	}
 	
 	public static void runBusy(Runnable runnable){

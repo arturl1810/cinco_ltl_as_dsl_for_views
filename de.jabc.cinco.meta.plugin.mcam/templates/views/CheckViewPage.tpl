@@ -1,43 +1,37 @@
 package ${McamViewPagePackage};
 
 import ${AdapterPackage}.${GraphModelName}Id;
+import ${AdapterPackage}.${GraphModelName}Adapter;
 import ${GraphModelPackage}.${GraphModelName?lower_case}.${GraphModelName};
 import ${GraphModelPackage}.api.c${GraphModelName?lower_case}.C${GraphModelName};
 
+import info.scce.mcam.framework.processes.CheckProcess;
+
 import ${CliPackage}.${GraphModelName}Execution;
 
-import java.io.File;
-
 import org.eclipse.core.resources.IFile;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.ui.IEditorPart;
 
 import de.jabc.cinco.meta.plugin.mcam.runtime.views.pages.CheckViewPage;
 import de.jabc.cinco.meta.plugin.mcam.runtime.views.utils.EclipseUtils;
 
-public class ${GraphModelName}CheckViewPage extends CheckViewPage<${GraphModelName}Id, ${GraphModelName}, C${GraphModelName}> {
+public class ${GraphModelName}CheckViewPage extends CheckViewPage<${GraphModelName}Id, ${GraphModelName}, C${GraphModelName}, ${GraphModelName}Adapter> {
 
-	public ${GraphModelName}CheckViewPage(Object obj) {
-		super(obj);
+	public ${GraphModelName}CheckViewPage(String pageId, IFile iFile, Resource resource) {
+		super(pageId, iFile, resource);
 	}
 	
 	@Override
-	protected String getPageId(Object obj) {
-		if (obj instanceof IFile == false || obj == null) 
-			return null;
-
-		IFile file = (IFile) obj;
-		String path = file.getRawLocation().toOSString();
-		File origFile = new File(path);
-		return origFile.getAbsolutePath();
+	protected CheckProcess<${GraphModelName}Id, ${GraphModelName}Adapter> createCp() {
+		${GraphModelName}Execution fe = new ${GraphModelName}Execution();
+		return fe.createCheckPhase(fe.initApiAdapterFromResource(this.resource, EclipseUtils.getFile(iFile)));
 	}
 
 	@Override
-	protected Object getPageRootObject(Object obj) {
-		if (obj instanceof IFile == false || obj == null) 
-			return null;
+	protected C${GraphModelName} getWrapperFromEditor(IEditorPart editorPart) {
 
-		IFile file = (IFile) obj;
-		${GraphModelName}Execution fe = new ${GraphModelName}Execution();
-		return fe.createCheckPhase(fe.initApiAdapter(EclipseUtils.getFile(file)));
+		return null;
 	}
 }
 
