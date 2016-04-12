@@ -193,6 +193,13 @@ graphModel «modelName» {
 		incomingEdges (*[1,*])
 		outgoingEdges (LabeledTransition[1,*])			
 	}
+	
+	@style(greenTextRectangle, "${subFlowGraph.modelName}")
+	node SubFlowGraph {
+		prime this::FlowGraph as subFlowGraph
+		incomingEdges (*[1,*])
+		outgoingEdges (LabeledTransition[1,*])
+	}
 	«ENDIF»
 	
 	«IF features.contains(CONTAINERS)»

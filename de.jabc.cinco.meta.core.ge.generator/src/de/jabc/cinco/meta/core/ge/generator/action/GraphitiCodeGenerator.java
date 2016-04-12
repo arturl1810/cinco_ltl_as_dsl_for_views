@@ -97,6 +97,7 @@ import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 
+import ProductDefinition.CincoProduct;
 import style.AbstractShape;
 import style.Appearance;
 import style.ConnectionDecorator;
@@ -108,7 +109,9 @@ import style.NodeStyle;
 import style.Style;
 import style.Styles;
 import de.jabc.cinco.meta.core.ge.generator.Main;
+import de.jabc.cinco.meta.core.ge.generator.templates.DefaultPerspectiveContent;
 import de.jabc.cinco.meta.core.ge.generator.templates.FileExtensionContent;
+import de.jabc.cinco.meta.core.ge.style.model.customfeature.CincoPreDeleteHook;
 import de.jabc.cinco.meta.core.ge.style.model.errorhandling.CincoContainerCardinalityException;
 import de.jabc.cinco.meta.core.ge.style.model.errorhandling.CincoEdgeCardinalityInException;
 import de.jabc.cinco.meta.core.ge.style.model.errorhandling.CincoEdgeCardinalityOutException;
@@ -140,6 +143,7 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 	
 	
 	private GraphModel gModel;
+	private CincoProduct cp;
 	private IProject sourceProject;
 	private final String GRAPHICAL_GRAPH_MODEL_PATH = "/de.jabc.cinco.meta.core.ge.style.model/"
 			+ "model/"
@@ -154,6 +158,7 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		
 		IFile file = MGLSelectionListener.INSTANCE.getCurrentMGLFile();
+		IFile cpdFile = MGLSelectionListener.INSTANCE.getSelectedCPDFile();
 		
 		if (file!=null) {
 		
@@ -163,10 +168,12 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 		
 			
 			Resource resource = new ResourceSetImpl().getResource(URI.createPlatformResourceURI(file.getFullPath().toOSString(), true), true);
+			Resource cpRes = new ResourceSetImpl().getResource(URI.createPlatformResourceURI(cpdFile.getFullPath().toOSString(), true), true);
 		    Styles styles = null;
 		    try {
 		    	gModel = loadGraphModel(resource);
-				
+				cp = loadCP(cpRes);
+		    	
 		    	// List of all used lib comp extensions
 		    	List<String> usedExtensions = CincoUtils.getUsedExtensions(gModel);
 		    	CharSequence fileExtensionClassContent = 
@@ -174,6 +181,9 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 		    	CharSequence fileExtensionPluginExtensionContent = 
 		    			new FileExtensionContent(gModel, usedExtensions).generatePluginExtensionContents();
 				
+		    	CharSequence defaultPerspectiveContent = DefaultPerspectiveContent.generateDefaultPerspective(cp, gModel);
+		    	CharSequence defaultXMLPerspectiveContent = DefaultPerspectiveContent.generateXMLPerspective(cp, gModel);
+		    	
 		    	for (Annotation a : gModel.getAnnotations()) {
 					if (ID_STYLE.equals(a.getName())) {
 						String stylePath = a.getValue().get(0);
@@ -273,6 +283,7 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 				context.put("registeredGeneratorPlugins", PluginRegistry.getInstance().getPluginGenerators());
 				context.put("registeredPackageMap", PluginRegistry.getInstance().getRegisteredEcoreModels());
 				context.put("resource", graphicalGraphModelRes);
+				context.put("cpName", cp.getName());
 				
 				context.put("gModelElementType", GraphicalgraphmodelPackage.eINSTANCE.getEClassifier("CModelElement"));
 				context.put("gNodeType", GraphicalgraphmodelPackage.eINSTANCE.getEClassifier("CNode"));
@@ -293,6 +304,9 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 				
 				context.put("fileExtensionClassContent", fileExtensionClassContent);
 				context.put("fileExtensionPluginExtensionContent", fileExtensionPluginExtensionContent);
+				
+				context.put("defaultPerspectiveContent", defaultPerspectiveContent);
+				context.put("defaultXMLPerspectiveContent", defaultXMLPerspectiveContent);
 				
 				fqnToContext(context);
 				
@@ -618,6 +632,14 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 		} else {
 			throw new IOException("Could not load GraphModel (mgl) from resource: "+res);
 		}
+	}
+	
+	private CincoProduct loadCP(Resource res) throws IOException {
+		if (res == null)
+			throw new IOException("Resource is null");
+		if (res.getContents().get(0) instanceof CincoProduct)
+			return (CincoProduct) res.getContents().get(0);
+		throw new IOException("Could not load CincoProductDefinition (cpd) from resource: "+res);
 	}
 	
 	private void addReqBundles(IProject p, IProgressMonitor monitor) {
