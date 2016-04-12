@@ -15,7 +15,7 @@ public class CincoAbstractResizeFeature extends DefaultResizeShapeFeature {
 
 	@Override
 	public boolean canResizeShape(IResizeShapeContext context) {
-		return super.canResizeShape(context);
+		return apiCall || super.canResizeShape(context);
 	}
 	
 	@Override

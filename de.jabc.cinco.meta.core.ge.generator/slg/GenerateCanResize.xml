@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>f22605ad-6bbb-4870-afb4-8e7d840e0f88</id>
   <name>GenerateCanResize</name>
-  <changecounter>37</changecounter>
+  <changecounter>39</changecounter>
   <sib>
     <id>4c48b9ac-0389-498b-ab49-2d73c39b88d7</id>
     <name>IsResizeDisabled</name>
@@ -51,7 +51,7 @@
     <parameter name="template">
       <string>@Override
 public boolean canResizeShape(IResizeShapeContext context) {
-	return canResizeShape(context, false);
+	return super.canResizeShape(context) || canResizeShape(context, false);
 }</string>
     </parameter>
     <finalbranches>default</finalbranches>
