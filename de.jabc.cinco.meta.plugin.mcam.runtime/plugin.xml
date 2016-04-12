@@ -14,12 +14,6 @@
             id="de.jabc.cinco.meta.plugin.mcam.runtime.views.CheckView">
       </view>
       <view
-            name="Project Validation"
-            category="de.jabc.cinco.meta.plugin.mcam.runtime.views"
-            class="de.jabc.cinco.meta.plugin.mcam.runtime.views.ProjectCheckView"
-            id="de.jabc.cinco.meta.plugin.mcam.runtime.views.ProjectCheckView">
-      </view>
-      <view
             name="Merge Conflicts"
             category="de.jabc.cinco.meta.plugin.mcam.runtime.views"
             class="de.jabc.cinco.meta.plugin.mcam.runtime.views.ConflictView"
