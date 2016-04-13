@@ -365,6 +365,8 @@ public abstract class McamView<T extends McamPage> extends ViewPart implements
 				if (!pageMap.keySet().contains(pageId)) {
 					try {
 						T newPage = createPage(pageId, editor);
+						if (newPage == null)
+							return;
 						newPage.initPage(parent, this);
 						pageMap.put(pageId, newPage);
 					} catch (IOException e) {
