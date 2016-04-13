@@ -1466,9 +1466,9 @@ public class ServiceAdapter {
 		}
 	}
 
-	private static ArrayList<String> getExtensions(String c) {
+	private static ArrayList<String> getExtensions(String origText) {
 		ArrayList<String> extensions = new ArrayList<>();
-		String[] lines = c.split("\n");
+		String[] lines = origText.split("\n");
 		StringBuilder sb = new StringBuilder();
 		for (String s : lines) {
 			if (s.contains("<extension")) 

@@ -1,15 +1,18 @@
 package de.jabc.cinco.meta.core.utils;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import javax.swing.plaf.ListUI;
 
 import mgl.Annotation;
 import mgl.Attribute;
@@ -25,6 +28,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
@@ -33,11 +37,11 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-
-import com.google.common.base.Strings;
+import org.eclipse.xtext.util.StringInputStream;
 
 import style.Style;
 import style.Styles;
+import ProductDefinition.CincoProduct;
 
 
 public class CincoUtils {
@@ -54,6 +58,11 @@ public class CincoUtils {
 	public static Set<String> DISABLE_NODE_VALUES = new HashSet<String>(Arrays.asList("create", "delete", "move", "resize", "select"));
 	public static Set<String> DISABLE_EDGE_VALUES = new HashSet<String>(Arrays.asList("create", "delete", "reconnect", "select"));
 	
+	
+	private final static String PLUGIN_FRAME = "<?xml version=\"1.0\" encoding=\""+System.getProperty("file.encoding")+"\"?>\n"
+			+ "<?eclipse version=\"3.0\"?>\n"
+			+ "<plugin>\n"
+			+ "</plugin>";
 	
 	public static boolean isCreateDisabled(ModelElement me) {
 		return isDisabled(me, ID_DISABLE_CREATE);
@@ -162,7 +171,26 @@ public class CincoUtils {
 		return null;
 	}
 
+	public static CincoProduct getCincoProduct(IFile file) {
+		URI uri = URI.createFileURI(file.getLocation().toString());
+		Resource res = new ResourceSetImpl().getResource(uri, true);
+		return getCincoProduct(res);
+	}
 
+	public static CincoProduct getCincoProduct(Resource res) {
+		for (TreeIterator<EObject> it = res.getAllContents(); it.hasNext(); ) {
+			EObject o = it.next();
+			if (o instanceof CincoProduct)
+				return (CincoProduct) o; 
+		}
+		return null;
+	}
+	
+	public static GraphModel getGraphModel(IFile file) {
+		URI uri = URI.createFileURI(file.getLocation().toString());
+		Resource res = new ResourceSetImpl().getResource(uri, true);
+		return getGraphModel(res);
+	}
 
 	public static GraphModel getGraphModel(Resource res) {
 		for (TreeIterator<EObject> it = res.getAllContents(); it.hasNext(); ) {
@@ -171,7 +199,6 @@ public class CincoUtils {
 				return (GraphModel) o; 
 		}
 		return null;
-		
 	}
 
 	public static boolean isAttributeMultiValued(Attribute attr) {
@@ -252,5 +279,120 @@ public class CincoUtils {
 		}
 		
 		return "";
+	}
+
+	public static EObject getCPD(IFile cpdFile) {
+			URI uri = URI.createFileURI(cpdFile.getLocation().toString());
+			Resource res = new ResourceSetImpl().getResource(uri, true);
+			if (res == null)
+				throw new RuntimeException("Could not load resource for: " + uri);
+			if (res.getContents().isEmpty())
+				throw new RuntimeException("Resource: \""+res+ "\" is empty...");
+			return res.getContents().get(0);
+	}
+	
+	/**This method adds an extension point to the plugin.xml file given by {@linkplain pluginXMLPath}.
+	 * The extension point should be passed as String representing the extension point. If an extension with
+	 * this {@linkplain extensionCommentID} already exists, the old one is replaced by this extension.
+	 * 
+	 * @param pluginXMLPath Location of the plugin.xml file
+	 * @param content String representation of the extension point
+	 * @param extensionCommentID An unique ID which will be added as identifier to the extension point
+	 */
+	public static void addExtension(String pluginXMLPath, String content, String extensionCommentID, String projectName) {
+		String p = pluginXMLPath;
+		String c = content;
+		String pName = projectName;
+		
+		IProgressMonitor monitor = new NullProgressMonitor();
+		try {
+			File f = new File(p);
+			if (f.exists()) {
+				FileInputStream fis = new FileInputStream(f);
+				BufferedReader reader = new BufferedReader(new InputStreamReader(fis));
+				String line = null;
+				String originalText = new String();
+				while ((line = reader.readLine()) != null) {
+					originalText += line.concat("\n");
+				}
+				fis.close();
+				fis = new FileInputStream(f);
+				reader = new BufferedReader(new InputStreamReader(fis));
+				String CINCO_GEN = extensionCommentID;
+	//			String CINCO_GEN = new String("<!--@CincoGen "+gName+"-->");
+				ArrayList<String> extensions = getExtensions(originalText);
+				ArrayList<String> remove = new ArrayList<>();
+				for (String ext : extensions) {
+					if (ext.contains(CINCO_GEN))
+						remove.add(ext);
+				}
+				
+				extensions.removeAll(remove);
+				
+				StringBuilder sb = new StringBuilder(PLUGIN_FRAME);
+				int offset = sb.indexOf("</plugin>");
+				sb.insert(offset, c);
+				for (String ext : extensions)
+					sb.insert(offset, ext);
+				originalText = sb.toString();
+				FileOutputStream fos = new FileOutputStream(f);
+				fos.write(originalText.getBytes());
+				fos.close();
+				fis.close();
+			} else {
+				StringBuilder sb = new StringBuilder();
+				sb.append(PLUGIN_FRAME);
+				int offset = sb.indexOf("</plugin>");
+				sb.insert(offset, c);
+				IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(pName);
+				IFile file = project.getFile("plugin.xml");
+				if (!file.exists()) {
+					file.create(new StringInputStream(sb.toString()), true, monitor);
+				}
+				else {
+					file.setContents(new StringInputStream(sb.toString()), IFile.DEPTH_INFINITE, monitor);
+				}
+				file.getProject().refreshLocal(IFile.DEPTH_INFINITE, monitor);
+				//System.out.println(file.getFullPath());
+			}
+		}catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (CoreException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	private static ArrayList<String> getExtensions(String origText) {
+		ArrayList<String> extensions = new ArrayList<>();
+		String[] lines = origText.split("\n");
+		StringBuilder sb = new StringBuilder();
+		for (String s : lines) {
+			if (s.contains("<extension")) 
+				sb = new StringBuilder();
+			
+			sb.append(s.concat("\n"));
+			
+			if (s.contains("</extension>")) 
+				extensions.add(sb.toString());
+			
+		}
+		return extensions;
+	}
+	
+	public static void writeContentToFile(IFile f, String contents) {
+		StringInputStream sis = new StringInputStream(contents);
+		try {
+			if (f.exists())
+				f.setContents(sis, IResource.DEPTH_ONE, null);
+			else f.create(sis, true, null);
+		} catch (CoreException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

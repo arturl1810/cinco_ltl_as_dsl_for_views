@@ -192,15 +192,16 @@ class CPDGenerator implements IGenerator {
 				product.setAboutInfo(aboutInfo)
 			}
 			
+			var String defaultPerspective
 			if(productDefinition.defaultPerspective!=null){
-				var defaultPerspective = String.format("-perspective %s",productDefinition.defaultPerspective);
-				 
-				var programOptions = new ArgumentsInfo(productModel);
-				programOptions.setProgramArguments(defaultPerspective,0);
-				product.launcherArguments = programOptions;
-				
+				defaultPerspective = String.format("-perspective %s",productDefinition.defaultPerspective);
+			} else {
+				defaultPerspective = String.format("-perspective %s",'''«mglProject.name».«productDefinition.name.toLowerCase»perspective''');
 			}
-
+			var programOptions = new ArgumentsInfo(productModel);
+			programOptions.setProgramArguments(defaultPerspective,0);
+			product.launcherArguments = programOptions;
+		
 			product.setWindowImages(windowImages)
 			var pluginXML = generatePluginXML(project, productDefinition, windowImages)
 			ProjectCreator.createFile("plugin.xml", project, pluginXML.toString, progressMonitor)

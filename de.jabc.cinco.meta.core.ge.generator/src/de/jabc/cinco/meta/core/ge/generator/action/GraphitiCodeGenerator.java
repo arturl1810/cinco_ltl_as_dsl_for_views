@@ -97,7 +97,6 @@ import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 
-import ProductDefinition.CincoProduct;
 import style.AbstractShape;
 import style.Appearance;
 import style.ConnectionDecorator;
@@ -108,10 +107,9 @@ import style.Image;
 import style.NodeStyle;
 import style.Style;
 import style.Styles;
+import ProductDefinition.CincoProduct;
 import de.jabc.cinco.meta.core.ge.generator.Main;
-import de.jabc.cinco.meta.core.ge.generator.templates.DefaultPerspectiveContent;
 import de.jabc.cinco.meta.core.ge.generator.templates.FileExtensionContent;
-import de.jabc.cinco.meta.core.ge.style.model.customfeature.CincoPreDeleteHook;
 import de.jabc.cinco.meta.core.ge.style.model.errorhandling.CincoContainerCardinalityException;
 import de.jabc.cinco.meta.core.ge.style.model.errorhandling.CincoEdgeCardinalityInException;
 import de.jabc.cinco.meta.core.ge.style.model.errorhandling.CincoEdgeCardinalityOutException;
@@ -123,7 +121,6 @@ import de.jabc.cinco.meta.core.ge.style.model.errorhandling.ECincoError;
 import de.jabc.cinco.meta.core.ge.style.model.preprocessors.StylesPreprocessor;
 import de.jabc.cinco.meta.core.mgl.generator.GenModelCreator;
 import de.jabc.cinco.meta.core.pluginregistry.PluginRegistry;
-import de.jabc.cinco.meta.core.referenceregistry.ReferenceRegistry;
 import de.jabc.cinco.meta.core.ui.listener.MGLSelectionListener;
 import de.jabc.cinco.meta.core.utils.CincoUtils;
 import de.jabc.cinco.meta.core.utils.URIHandler;
@@ -181,9 +178,6 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 		    	CharSequence fileExtensionPluginExtensionContent = 
 		    			new FileExtensionContent(gModel, usedExtensions).generatePluginExtensionContents();
 				
-		    	CharSequence defaultPerspectiveContent = DefaultPerspectiveContent.generateDefaultPerspective(cp, gModel);
-		    	CharSequence defaultXMLPerspectiveContent = DefaultPerspectiveContent.generateXMLPerspective(cp, gModel);
-		    	
 		    	for (Annotation a : gModel.getAnnotations()) {
 					if (ID_STYLE.equals(a.getName())) {
 						String stylePath = a.getValue().get(0);
@@ -304,9 +298,6 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 				
 				context.put("fileExtensionClassContent", fileExtensionClassContent);
 				context.put("fileExtensionPluginExtensionContent", fileExtensionPluginExtensionContent);
-				
-				context.put("defaultPerspectiveContent", defaultPerspectiveContent);
-				context.put("defaultXMLPerspectiveContent", defaultXMLPerspectiveContent);
 				
 				fqnToContext(context);
 				
