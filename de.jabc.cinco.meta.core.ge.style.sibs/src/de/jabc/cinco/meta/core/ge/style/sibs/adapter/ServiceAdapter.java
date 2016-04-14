@@ -1806,8 +1806,8 @@ public class ServiceAdapter {
 			i.addElement(n);
 		i.printTrees();
 		List<ModelElement> inorderList = i.createList();
-		for (ModelElement me : inorderList)
-			System.out.print(me.getName() + " -> ");
+//		for (ModelElement me : inorderList)
+//			System.out.print(me.getName() + " -> ");
 		return inorderList;
 	}
 }
