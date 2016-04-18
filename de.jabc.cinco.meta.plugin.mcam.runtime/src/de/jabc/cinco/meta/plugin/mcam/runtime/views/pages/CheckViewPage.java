@@ -157,7 +157,7 @@ public abstract class CheckViewPage<E extends _CincoId, M extends GraphModel, W 
 	@Override
 	public void initPage(Composite parent, ViewPart parentViewPart) throws IOException {
 		super.initPage(parent, parentViewPart);
-		treeViewer.addFilter(resultTypeFilter);
+//		treeViewer.addFilter(resultTypeFilter);
 	}
 	
 	/*

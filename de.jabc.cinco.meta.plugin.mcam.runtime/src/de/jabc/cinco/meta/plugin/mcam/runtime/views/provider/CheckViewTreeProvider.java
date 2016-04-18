@@ -24,7 +24,7 @@ public class CheckViewTreeProvider<E extends _CincoId, M extends GraphModel, W e
 	private ContainerTreeNode byModuleRoot;
 	private ContainerTreeNode byIdRoot;
 
-	private ViewType activeView = ViewType.BY_ID;
+	private ViewType activeView = ViewType.BY_MODULE;
 
 	private CheckProcess<E, A> cp;
 	
