@@ -2,14 +2,13 @@ package de.jabc.cinco.meta.core.ui.handlers;
 
 
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
-import java.util.function.Consumer;
 
 import mgl.GraphModel;
 import mgl.Import;
@@ -27,15 +26,11 @@ import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.MultiStatus;
-import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.widgets.Display;
@@ -49,10 +44,10 @@ import ProductDefinition.MGLDescriptor;
 import de.jabc.cinco.meta.core.BundleRegistry;
 import de.jabc.cinco.meta.core.mgl.MGLEPackageRegistry;
 import de.jabc.cinco.meta.core.ui.listener.MGLSelectionListener;
+import de.jabc.cinco.meta.core.utils.CincoUtils;
 import de.jabc.cinco.meta.core.utils.GeneratorHelper;
 import de.jabc.cinco.meta.core.utils.dependency.DependencyGraph;
 import de.jabc.cinco.meta.core.utils.dependency.DependencyNode;
-import de.jabc.cinco.meta.core.utils.job.CompoundJob;
 import de.jabc.cinco.meta.core.utils.job.JobFactory;
 import de.jabc.cinco.meta.core.utils.job.Workload;
 import de.jabc.cinco.meta.core.utils.projects.ProjectCreator;
@@ -196,6 +191,8 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 			//System.out.println("Generating Feature Project");
 			Command featureGenerationCommand = commandService.getCommand("de.jabc.cinco.meta.core.generatefeature");
 			featureGenerationCommand.executeWithChecks(event);
+			
+			generateDefaultPerspective(cpdFile, mglModelFile);
 		} catch (ExecutionException | NotDefinedException | NotEnabledException
 				| NotHandledException | IOException e) {
 			reason = new RuntimeException(String.format("Generation of %s failed", cpdFile.getName()),e);
@@ -352,4 +349,23 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 		
 	}
 	
+	private void generateDefaultPerspective(IFile cpdFile, IFile mglFile) {
+		CincoProduct cp = (CincoProduct) CincoUtils.getCPD(cpdFile);
+		
+		IProject p = cpdFile.getProject();
+		IFile pluginXML = p.getFile("plugin.xml");
+		String extensionCommentID = "<!--@CincoGen "+cp.getName().toUpperCase()+"-->";
+		
+		if (cp.getDefaultPerspective() != null && !cp.getDefaultPerspective().isEmpty())
+			return;
+		
+		CharSequence defaultPerspectiveContent = 
+				de.jabc.cinco.meta.core.ui.templates.DefaultPerspectiveContent.generateDefaultPerspective(cp, cpdFile.getProject().getName());
+		CharSequence defaultXMLPerspectiveContent = 
+				de.jabc.cinco.meta.core.ui.templates.DefaultPerspectiveContent.generateXMLPerspective(cp, cpdFile.getProject().getName());
+		
+		IFile file = p.getFile("src-gen/"+p.getName().replace(".", "/")+"/"+cp.getName()+"Perspective.java");
+		CincoUtils.writeContentToFile(file, defaultPerspectiveContent.toString());
+		CincoUtils.addExtension(pluginXML.getLocation().toString(), defaultXMLPerspectiveContent.toString(), extensionCommentID, p.getName());
+	}
 }

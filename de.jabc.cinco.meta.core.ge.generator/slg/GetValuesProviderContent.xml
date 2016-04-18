@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>20a124dc-3dfe-42c9-ae93-6022ba867202</id>
   <name>GetValuesProviderContent</name>
-  <changecounter>78</changecounter>
+  <changecounter>109</changecounter>
   <sib>
     <id>b759313e-637a-433a-9e70-ebd806bd30e6</id>
     <name>IterateElements</name>
@@ -78,7 +78,7 @@
     <label>GetAttributeAnnotations</label>
     <sib-uid>mgl/mgl/GetAttributeAnnotations</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetAttributeAnnotations</taxonomy>
-    <position>23.5,393.0</position>
+    <position>23.5,408.0</position>
     <parameter name="attributeKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -144,7 +144,7 @@
     <label>IterateAnnotations</label>
     <sib-uid>collection-sibs/IterateElements</sib-uid>
     <taxonomy>de.jabc.sib.common.collection.IterateElements</taxonomy>
-    <position>161.0,498.0</position>
+    <position>161.0,483.0</position>
     <parameter name="collection">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -182,7 +182,7 @@
     <label>CheckAnnotationName</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>148.5,661.0</position>
+    <position>148.5,646.0</position>
     <parameter name="annotationKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -378,9 +378,10 @@
   </edge>
   <edge>
     <source>95c52d16-c8b9-45a3-ad80-463eb6dab2e4</source>
-    <target>398fdc06-7c51-431b-88ec-ed2603e30777</target>
-    <point>225.0,315.0</point>
-    <point>221.0,435.0</point>
+    <target>48ac3d55-3c3c-41ab-9f97-42c16bea25de</target>
+    <point>207.0,311.85</point>
+    <point>123.0,332.85</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>next</branch>
   </edge>
   <edge>
@@ -394,7 +395,7 @@
     <source>84854891-153f-4716-b77f-91313dbbb500</source>
     <target>0b196711-cd02-481c-aa8a-957711f58dcf</target>
     <spline/>
-    <point>225.0,579.0</point>
+    <point>225.0,519.0</point>
     <point>225.0,661.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>next</branch>
@@ -408,9 +409,10 @@
   </edge>
   <edge>
     <source>6bd36a6b-8990-405a-8cbf-5454ce3fd326</source>
-    <target>3836059f-0ac7-4791-a52c-31c6e9d71107</target>
-    <point>225.0,810.0</point>
-    <point>538.0,811.0</point>
+    <target>7f4d65cd-558d-4f94-8aac-e11d0782b133</target>
+    <point>243.0,783.9818181818182</point>
+    <point>372.9310344827586,654.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
@@ -437,8 +439,9 @@
   <edge>
     <source>5da86df6-49fb-4da2-b8e0-09ea0af6588e</source>
     <target>95c52d16-c8b9-45a3-ad80-463eb6dab2e4</target>
-    <point>555.0,435.0</point>
-    <point>237.0,309.0</point>
+    <point>537.0,306.4909090909091</point>
+    <point>243.0,306.4909090909091</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
@@ -464,6 +467,61 @@
     <point>212.14285714285714,534.0</point>
     <labelposition>500.00468390006694,-45.9091998181749</labelposition>
     <branch>false</branch>
+  </edge>
+  <sib>
+    <id>7f4d65cd-558d-4f94-8aac-e11d0782b133</id>
+    <name>PrintConsoleMessage</name>
+    <label>PrintConsoleMessage</label>
+    <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
+    <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
+    <position>324.5,783.0</position>
+    <parameter name="error">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="message">
+      <de.metaframe.common.sib.parameter.ContextExpression>
+        <ContextExpressionFoundation>
+          <expression>Hello ${modelElement}, ${attribute}, ${annotation}!</expression>
+          <clazz>java.lang.Object</clazz>
+          <classMutable>false</classMutable>
+        </ContextExpressionFoundation>
+      </de.metaframe.common.sib.parameter.ContextExpression>
+    </parameter>
+    <finalbranches>default</finalbranches>
+  </sib>
+  <edge>
+    <source>7f4d65cd-558d-4f94-8aac-e11d0782b133</source>
+    <target>3836059f-0ac7-4791-a52c-31c6e9d71107</target>
+    <point>407.0689655172414,654.0</point>
+    <point>537.0,783.9818181818182</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>48ac3d55-3c3c-41ab-9f97-42c16bea25de</id>
+    <name>RemoveElement</name>
+    <label>RemoveElement</label>
+    <sib-uid>basic-sibs/RemoveElement</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.RemoveElement</taxonomy>
+    <position>55.5,288.0</position>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>asdfasditeraadafssfdator</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>48ac3d55-3c3c-41ab-9f97-42c16bea25de</source>
+    <target>398fdc06-7c51-431b-88ec-ed2603e30777</target>
+    <point>105.0,345.0</point>
+    <point>113.0,401.0</point>
+    <branch>default</branch>
   </edge>
   <values/>
   <branch>

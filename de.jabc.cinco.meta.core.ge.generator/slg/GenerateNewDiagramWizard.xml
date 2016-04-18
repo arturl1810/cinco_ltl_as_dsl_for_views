@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>4b8f0479-9813-462d-b7d3-1e7c977bb9c6</id>
   <name>GenerateNewDiagramWizard</name>
-  <changecounter>233</changecounter>
+  <changecounter>234</changecounter>
   <sib>
     <id>4db12997-4cd3-4e00-94ed-f5405dd7aa9b</id>
     <name>PutExpression</name>

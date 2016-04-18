@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>515e192a-491c-479e-8a33-09039d8d3703</id>
   <name>GeneratePerspectiveView</name>
-  <changecounter>103</changecounter>
+  <changecounter>105</changecounter>
   <sib>
     <id>78f83feb-ac3e-4b72-9248-b8a7e326ab10</id>
     <name>PutExpression</name>
@@ -226,115 +226,10 @@ public class $context.graphModelName$PerspectiveFactory implements IPerspectiveF
   </sib>
   <edge>
     <source>14438f70-baeb-4db4-9e0c-8f9ba113b564</source>
-    <target>e86e39ba-1321-4e4a-b7ae-0d826faefb24</target>
-    <point>183.0,439.08</point>
-    <point>298.0188679245283,324.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
-  <sib>
-    <id>f0255cdc-f3ff-417d-aa94-16a52aaab0d4</id>
-    <name>WriteJavaFile_1</name>
-    <label>WriteJavaFile</label>
-    <sib-uid>genesys-sibs/WriteJavaFile</sib-uid>
-    <taxonomy>de.jabc.sib.genesys.WriteJavaFile</taxonomy>
-    <position>321.0,438.0</position>
-    <parameter name="baseDirectory">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>outletPath</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="beautify">
-      <boolean>false</boolean>
-    </parameter>
-    <parameter name="beautifyMethod">
-      <de.metaframe.common.sib.parameter.ListBox>
-        <ListBoxFoundation>
-          <list>
-            <string>Eclipse</string>
-            <string>Jalopy</string>
-          </list>
-          <selected>0</selected>
-        </ListBoxFoundation>
-      </de.metaframe.common.sib.parameter.ListBox>
-    </parameter>
-    <parameter name="className">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>className</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="fileContent">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>defaultPerspectiveContent</key>
-          <scope>GLOBAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="packageName">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>localPkgName</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-  </sib>
-  <edge>
-    <source>f0255cdc-f3ff-417d-aa94-16a52aaab0d4</source>
     <target>cd885932-8add-4a69-8049-5108de957602</target>
-    <point>360.0,465.0</point>
-    <point>175.0,581.0</point>
-    <branch>default</branch>
-  </edge>
-  <sib>
-    <id>e86e39ba-1321-4e4a-b7ae-0d826faefb24</id>
-    <name>PutExpression_2</name>
-    <label>ClassName</label>
-    <sib-uid>basic-sibs/PutExpression</sib-uid>
-    <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
-    <position>320.5,318.0</position>
-    <parameter name="resolve">
-      <boolean>true</boolean>
-    </parameter>
-    <parameter name="value">
-      <de.metaframe.common.sib.parameter.ContextExpression>
-        <ContextExpressionFoundation>
-          <expression>${cpName}Perspective</expression>
-          <clazz>java.lang.Object</clazz>
-          <classMutable>true</classMutable>
-        </ContextExpressionFoundation>
-      </de.metaframe.common.sib.parameter.ContextExpression>
-    </parameter>
-    <parameter name="variable">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>className</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-  </sib>
-  <edge>
-    <source>e86e39ba-1321-4e4a-b7ae-0d826faefb24</source>
-    <target>f0255cdc-f3ff-417d-aa94-16a52aaab0d4</target>
-    <point>360.0,345.0</point>
-    <point>374.0,441.0</point>
+    <point>165.0,474.0</point>
+    <point>165.0,543.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <values/>
@@ -362,10 +257,5 @@ public class $context.graphModelName$PerspectiveFactory implements IPerspectiveF
     <name>default</name>
     <branch>default</branch>
     <sib>cd885932-8add-4a69-8049-5108de957602</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>e86e39ba-1321-4e4a-b7ae-0d826faefb24</sib>
   </branch>
 </model>
