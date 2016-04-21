@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.OptionalInt;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.eclipse.core.databinding.UpdateValueStrategy;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
@@ -92,7 +93,7 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener{
 	private static Map<Class<? extends EObject>, IEMFListProperty> emfListPropertiesMap = new HashMap<Class<? extends EObject>, IEMFListProperty>();
 	private static Map<Class<? extends EObject>, List<EStructuralFeature>> attributesMap = new HashMap<Class<? extends EObject>, List<EStructuralFeature>>();
 	private static Map<Class<? extends EObject>, List<EStructuralFeature>> referencesMap = new HashMap<Class<? extends EObject>, List<EStructuralFeature>>();
-	private static Map<EStructuralFeature, List<? extends ModelElement>> possibleValuesMap = new HashMap<EStructuralFeature, List<? extends ModelElement>>();
+	private static Map<EStructuralFeature, Map<? extends ModelElement, String>> possibleValuesMap = new HashMap<EStructuralFeature, Map<? extends ModelElement, String>>();
 	private Map<Object, Object[]> treeExpandState;
 
 	private static Set<EStructuralFeature> multiLineAttributes = new HashSet<EStructuralFeature>();
@@ -227,7 +228,7 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener{
 		lastSelectedObject = bo;
 	}
 
-	public static void refreshPossibleValues(EStructuralFeature feature, List<? extends ModelElement> values) {
+	public static void refreshPossibleValues(EStructuralFeature feature, Map<? extends ModelElement, String> values) {
 		possibleValuesMap.put(feature, values);
 	}
 
@@ -361,11 +362,11 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener{
 		cv.setLabelProvider(getNameLabelProvider());
 		
 		List<ModelElement> input = new ArrayList<ModelElement>();
-		List<? extends ModelElement> possibleValues = possibleValuesMap.get(ref);
+		Map<? extends ModelElement, String> possibleValues = possibleValuesMap.get(ref);
 		if (possibleValues != null) {
-			input.addAll(possibleValues);
+			input.addAll(possibleValues.keySet());
 			ModelElement currentValue = (ModelElement) bo.eGet(ref);
-			if (currentValue != null && !possibleValues.contains(currentValue)) {
+			if (currentValue != null && !possibleValues.keySet().contains(currentValue)) {
 				input.add(currentValue);
 			}
 		} else {
@@ -576,6 +577,10 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener{
 				if (!(element instanceof EObject))
 					return super.getText(element);
 				EObject eObject = (EObject) element;
+				String alternativeLabel = getAlternativeLabel(element);
+				if (alternativeLabel != null && !alternativeLabel.isEmpty()) {
+					return alternativeLabel;
+				}
 				EStructuralFeature nameFeature = getNameFeature(eObject);
 				if (nameFeature == null)
 					return super.getText(element);
@@ -587,6 +592,14 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener{
 					return "No name set for: " + super.getText(element);
 				}
 				return name;
+			}
+
+			private String getAlternativeLabel(Object element) {
+				for (Map<? extends ModelElement, String> map : possibleValuesMap.values()) {
+					if (map.containsKey(element))
+						return map.get(element);
+				}
+				return null;
 			}
 
 			private EStructuralFeature getNameFeature(EObject element) {
