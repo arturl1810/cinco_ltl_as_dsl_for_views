@@ -23,20 +23,12 @@ import org.eclipse.xtext.ui.editor.XtextEditor;
 
 public class «model.name»GratextEditor extends MultiPageGratextEditor {
 
-	// TODO for debugging only, remove
- 	private void print(String msg) {
- 		System.out.println("[" + getClass().getSimpleName() + "] " + msg);
- 	}
-	
 	@Override
 	protected XtextEditor getSourceEditor() {
 		«model.name»GratextExecutableExtensionFactory fac = new «model.name»GratextExecutableExtensionFactory();
-		print("getSourceEditor > factory: " + fac);
 		try {
 			Class<?> clazz = fac.getBundle().loadClass("org.eclipse.xtext.ui.editor.XtextEditor");
-			print("getSourceEditor > class: " + clazz);
 			Object editor = fac.getInjector().getInstance(clazz);
-			print("getSourceEditor > editor: " + editor);
 			return (XtextEditor) editor;
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();

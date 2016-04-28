@@ -29,7 +29,6 @@ public class PageAwarePersistencyBehavior extends DefaultPersistencyBehavior {
 	
 	@Override
 	public Diagram loadDiagram(URI uri) {
-		System.out.println("[Persistency] load diagram");
 		Diagram diagram = getDiagram();
 		if (diagram != null) {
 			diagram.eResource().setTrackingModification(true);

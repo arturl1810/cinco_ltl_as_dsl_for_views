@@ -16,11 +16,6 @@ import de.jabc.cinco.meta.plugin.gratext.runtime.editor.PageAwareEditorPart;
 
 public class PageAware«model.name»DiagramEditor extends «model.name»DiagramEditor implements PageAwareEditorPart {
 	
-	// TODO for debugging only, remove
-	private void print(String msg) {
-		System.out.println("[" + getClass().getSimpleName() + "] " + msg);
-	}
-	
 	PageAwareDiagramBehavior diagramBehavior;
 	
 	@Override
@@ -34,18 +29,11 @@ public class PageAware«model.name»DiagramEditor extends «model.name»DiagramE
 	}
 	
 	public void handlePageActivated() {
-		print("handle page activated");
-		print(" > editing domain: " + (getEditingDomain() != null ? getEditingDomain().hashCode() : "null"));
-		print(" > innerState: " + (diagramBehavior.getInnerState() != null ? diagramBehavior.getInnerState().hashCode() : "null"));
-		print(" > innerState.resourceSet: " + (diagramBehavior.getInnerState().getResourceSet() != null ? diagramBehavior.getInnerState().getResourceSet().hashCode() : "null"));
-
 		diagramBehavior.handlePageActivated();
-		print("page activated, isDirty: " + isDirty());
 	}
 
 	@Override
 	public void handlePageDeactivated() {
-		print("handle page deactivated, dirty: " + isDirty());
 		diagramBehavior.handlePageDeactivated();
 	}
 	
