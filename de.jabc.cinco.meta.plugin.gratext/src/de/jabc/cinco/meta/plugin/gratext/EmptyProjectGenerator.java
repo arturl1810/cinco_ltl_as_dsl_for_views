@@ -85,7 +85,6 @@ public class EmptyProjectGenerator extends ProjectGenerator {
 
 	@Override
 	public GraphModelDescriptor getModelDescriptor() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

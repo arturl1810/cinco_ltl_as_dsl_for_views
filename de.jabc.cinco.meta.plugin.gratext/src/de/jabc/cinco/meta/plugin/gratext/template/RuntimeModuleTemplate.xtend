@@ -34,6 +34,7 @@ import org.eclipse.xtext.naming.IQualifiedNameProvider;
 import org.eclipse.xtext.nodemodel.INode;
 import org.eclipse.xtext.parser.DefaultEcoreElementFactory;
 import org.eclipse.xtext.parser.IAstFactory;
+import org.eclipse.xtext.resource.XtextResource;
 
 public class «project.targetName»RuntimeModule extends «project.basePackage».Abstract«project.targetName»RuntimeModule {
 
@@ -75,6 +76,11 @@ public class «project.targetName»RuntimeModule extends «project.basePackage»
 	public Class<? extends IQualifiedNameProvider> bindIQualifiedNameProvider() {
 		return «providerFile.nameWithoutExtension».class;
 	}
+    
+    @Override
+    public Class<? extends XtextResource> bindXtextResource() {
+    		return «project.targetName»Resource.class;
+    }
 	
 	@Override
 	public Registry bindEValidatorRegistry() {
@@ -107,32 +113,30 @@ public class «project.targetName»RuntimeModule extends «project.basePackage»
 
 		@Override
 		public Object get(Object key) {
-«««			if (key == null) {
-				return new EValidator() {
+			return new EValidator() {
 
-					@Override
-					public boolean validate(EObject eObject,
-							DiagnosticChain diagnostics,
-							Map<Object, Object> context) {
-						return true;
-					}
+				@Override
+				public boolean validate(EObject eObject,
+						DiagnosticChain diagnostics,
+						Map<Object, Object> context) {
+					return true;
+				}
 
-					@Override
-					public boolean validate(EClass eClass, EObject eObject,
-							DiagnosticChain diagnostics,
-							Map<Object, Object> context) {
-						return true;
-					}
+				@Override
+				public boolean validate(EClass eClass, EObject eObject,
+						DiagnosticChain diagnostics,
+						Map<Object, Object> context) {
+					return true;
+				}
 
-					@Override
-					public boolean validate(EDataType eDataType, Object value,
-							DiagnosticChain diagnostics,
-							Map<Object, Object> context) {
-						return true;
-					}
-					
-				};
-«««			}
+				@Override
+				public boolean validate(EDataType eDataType, Object value,
+						DiagnosticChain diagnostics,
+						Map<Object, Object> context) {
+					return true;
+				}
+				
+			};
 		}
 
 		@Override

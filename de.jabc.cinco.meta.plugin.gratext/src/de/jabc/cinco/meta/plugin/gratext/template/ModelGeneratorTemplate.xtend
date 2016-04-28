@@ -16,6 +16,10 @@ override template()
 '''	
 package «project.basePackage».generator
 
+import static extension de.jabc.cinco.meta.plugin.gratext.runtime.generator.GratextGenerator.*
+
+import de.jabc.cinco.meta.plugin.gratext.runtime.generator.GratextModelTransformer
+
 import «graphmodel.package».«model.name.toLowerCase».«model.name»
 import «graphmodel.package».«model.name.toLowerCase».«model.nameFirstUpper»Package
 import «graphmodel.package».«model.name.toLowerCase».«model.nameFirstUpper»Factory
@@ -23,32 +27,23 @@ import «graphmodel.package».«model.name.toLowerCase».«model.nameFirstUpper�
 import «project.basePackage».*
 import de.jabc.cinco.meta.core.ge.style.model.features.CincoAbstractAddFeature
 
-import graphmodel.GraphModel
+import graphmodel.Edge
 import graphmodel.ModelElement
 import graphmodel.ModelElementContainer
-import graphmodel.IdentifiableElement
-import graphmodel.Edge
 import graphmodel.Node
 
-import java.util.ArrayList
 import java.util.HashMap
 import java.util.List
 import java.util.Map
 
 import org.eclipse.core.resources.IFile
 import org.eclipse.core.resources.IProject
-import org.eclipse.core.runtime.IPath
 import org.eclipse.core.runtime.Path
 import org.eclipse.emf.common.util.URI
+import org.eclipse.emf.ecore.EClass
 import org.eclipse.emf.ecore.EObject
-import org.eclipse.emf.ecore.EAttribute
-import org.eclipse.emf.ecore.EReference
-import org.eclipse.emf.ecore.EStructuralFeature
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
-import org.eclipse.emf.transaction.RecordingCommand
-import org.eclipse.emf.transaction.TransactionalEditingDomain
-import org.eclipse.emf.transaction.util.TransactionUtil
 import org.eclipse.graphiti.dt.IDiagramTypeProvider
 import org.eclipse.graphiti.features.IFeatureProvider
 import org.eclipse.graphiti.features.context.impl.AddBendpointContext
@@ -62,9 +57,7 @@ import org.eclipse.graphiti.mm.pictograms.Diagram
 import org.eclipse.graphiti.mm.pictograms.FreeFormConnection
 import org.eclipse.graphiti.mm.pictograms.PictogramElement
 import org.eclipse.graphiti.mm.pictograms.Shape
-import org.eclipse.graphiti.services.Graphiti
 import org.eclipse.graphiti.ui.services.GraphitiUi
-import org.eclipse.swt.widgets.Display
 
 class «model.name»ModelGenerator {
 	
@@ -72,55 +65,74 @@ class «model.name»ModelGenerator {
 	final String FILE_EXTENSION = "«graphmodel.fileExtension»"
 	final String DTP_ID = "«graphmodel.package».«model.name»DiagramTypeProvider";
 
-	Map<ModelElement, PictogramElement> pes = new HashMap
-	List<_EdgeSource> edgeSources = new ArrayList
-	Map<String, ModelElement> byId = new HashMap
-	Map<IdentifiableElement,IdentifiableElement> counterparts = new HashMap
-	List<Edge> edges = new ArrayList
-
 	«model.nameFirstUpper»Factory baseModelFct = «model.nameFirstUpper»Factory.eINSTANCE;
 	«model.nameFirstUpper»Package baseModelPkg = «model.nameFirstUpper»Package.eINSTANCE;
+	EClass baseModelCls = «model.nameFirstUpper»Package.eINSTANCE.get«model.name»
+	
+	GratextModelTransformer transformer
 
-	GraphModel model
+	Map<ModelElement, PictogramElement> pes = new HashMap
+	Map<String, ModelElement> byId = new HashMap
+
+	«model.name» model
 	Diagram diagram
 	IDiagramTypeProvider dtp
 	IFeatureProvider fp
 	IProject project
 	IFile sourceFile
+	String idSuffix
 	
 	def void doGenerate(IFile file, String folder) {
-		
+		idSuffix = "GRATEXT"
 		init(file, folder)
 		clearCache
-		
-		Display.getDefault.asyncExec[
-			edit(diagram).apply[
-				nodes.forEach[add]
-				edges.forEach[add]
-				update
-				save(folder)
-			]
+		diagram.edit[
+			nodes.forEach[add]
+			edges.forEach[add]
+			update
+			save(folder)
+		]
+	}
+	
+	def doGenerate(Resource resource) {
+		resource.edit[
+			init(resource, 0)
+			clearCache
+			nodes.forEach[add]
+			edges.forEach[add]
+			update
 		]
 	}
 	
 	def init(IFile file, String folder) {
 		sourceFile = file
 		project = file.project
-		val resource = new ResourceSetImpl().getResource(
-					URI.createPlatformResourceURI(file.getFullPath().toOSString(), true), true);
-		resource.load(null);
-		model = resource.contents.get(0) as «model.name»
+		val path = file.getFullPath().toOSString()
+		val uri = URI.createPlatformResourceURI(path, true)
+		val resource = new ResourceSetImpl().getResource(uri, true)
+		resource.edit[
+			init(resource, 2)
+		]
+	}
+	
+	def init(Resource resource, int modelIndex) {
+		model = [|
+			resource.contents.get(modelIndex) as «model.name»
+		].onException[
+			model = resource.contents.filter(«model.name»).get(0)
+		]
 		
-		val baseModel = model.map
+		transformer = new GratextModelTransformer(baseModelFct, baseModelPkg, baseModelCls)
+		val baseModel = transformer.transform(model, idSuffix)
 		
 		resource.contents.remove(model)
-		resource.contents.add(baseModel)
-		model = baseModel
+		resource.contents.add(0, baseModel)
+		model = baseModel as «model.name»
 		
-		val name = file.projectRelativePath.removeFileExtension.lastSegment
-		diagram = newDiagram(name)
-		resource.getContents().add(diagram)
-		dtp = GraphitiUi.getExtensionManager().createDiagramTypeProvider(diagram, DTP_ID);
+		diagram = createDiagram("«model.name»")
+		resource.contents.add(0, diagram)
+		
+		dtp = GraphitiUi.extensionManager.createDiagramTypeProvider(diagram, DTP_ID)
 		fp = dtp.featureProvider
 		fp.link(diagram, model)
 	}
@@ -130,31 +142,28 @@ class «model.name»ModelGenerator {
 	}
 	
 	def add(ModelElement bo, ContainerShape container) {
-		try {
-			// System.out.println(" > add pictogram for " + bo)
-			val pe = addIfPossible(getAddContext(bo, container))
-			// System.out.println("   => bo.id: " + bo.id)
-			// System.out.println("   => pe: " + pe)
+		val pe = [|
+			addIfPossible(getAddContext(bo, container))
+		].printException
+		if (pe != null) {
 			cache(bo, pe)
 			addChildren(bo, pe)
-		} catch(Exception e) {
-			e.printStackTrace
-		}
+		} else warn("Pictogram null. Failed to add " + bo)
 	}
 	
 	def addChildren(ModelElement bo, PictogramElement pe) {
 		if (bo instanceof ModelElementContainer) 
-		 	bo.modelElements.forEach[child | add(child, pe as ContainerShape)]
+		 	bo.modelElements.forEach[add(pe as ContainerShape)]
 	}
 	
 	def add(Edge edge) {
-		try {
-			val pe = addIfPossible(edge.addContext)
-			cache((edge as ModelElement), pe)
+		val pe = [|	
+			edge.addContext?.addIfPossible
+		].printException
+		if (pe != null) {
+			cache(edge, pe)
 			postprocess(edge, pe)
-		} catch(Exception e) {
-			e.printStackTrace
-		}
+		} else warn("Pictogram null. Failed to add " + edge)
 	}
 	
 	def postprocess(Edge edge, PictogramElement pe) {
@@ -164,9 +173,9 @@ class «model.name»ModelGenerator {
 	}
 	
 	def add(_Route route, PictogramElement pe) {
-		if (route != null && route.points != null)
-			for (var i=0; i < route.points.size; i++)
-				add(route.points.get(i), (pe as FreeFormConnection), i)
+		route?.points?.forEach[ point, i |
+			add(point, (pe as FreeFormConnection), i)
+		]
 	}
 	
 	def add(_Point p, FreeFormConnection connection, int index) {
@@ -181,34 +190,42 @@ class «model.name»ModelGenerator {
 	}
 	
 	def update(_Decoration dec, Connection con, int index) {
-		val ga = con.connectionDecorators.get(index).graphicsAlgorithm
-		ga.x = dec.location.x
-		ga.y = dec.location.y
+		val ga = [|	
+			con.connectionDecorators?.get(index)?.graphicsAlgorithm
+		].printException
+		if (ga != null) {
+			ga.x = dec?.location?.x
+			ga.y = dec?.location?.y
+		} else warn("Failed to retrieve decorator shape (index=" + index + ") of " + con)
 	}
 	
 	def addIfPossible(AddContext ctx) {
-		val ftr = fp.getAddFeature(ctx)
-		(ftr as CincoAbstractAddFeature).hook = false
-		if (ftr?.canAdd(ctx))
-			fp.diagramTypeProvider.diagramBehavior.executeFeature(ftr, ctx) as PictogramElement
+		val ftr = fp.getAddFeature(ctx) as CincoAbstractAddFeature
+		if (ftr != null) {
+			ftr.hook = false
+			if (ftr?.canAdd(ctx))
+				fp.diagramTypeProvider.diagramBehavior.executeFeature(ftr, ctx) as PictogramElement
+		} else warn("Failed to retrieve AddFeature for " + ctx)
 	}
 	
 	def getAddContext(ModelElement bo, ContainerShape target) {
 		val place = getPlacement(bo)
-		val ctx = new AddContext(new AreaContext, bo)
-			ctx.targetContainer = target
-			ctx.x = place.x
-			ctx.y = place.y
-			ctx.width = place.width
-			ctx.height = place.height
-		return ctx
+		new AddContext(new AreaContext, bo) => [
+			targetContainer = target
+			x = place.x
+			y = place.y
+			width = place.width
+			height = place.height
+		]
 	}
 	
 	def getAddContext(Edge edge) {
-		val ctx = new AddConnectionContext(
-			edge.sourceElement.pe.anchor, edge.targetElement.pe.anchor)
-		ctx.newObject = edge
-		return ctx
+		val srcAnchor = edge.sourceElement.pe.anchor
+		val tgtAnchor = edge.targetElement.pe.anchor
+		if (srcAnchor != null && tgtAnchor != null)
+			new AddConnectionContext(srcAnchor, tgtAnchor) => [
+				newObject = edge
+			]
 	}
 	
 	def getPe(ModelElement elm) {
@@ -216,56 +233,19 @@ class «model.name»ModelGenerator {
 	}
 	
 	def getAnchor(PictogramElement pe) {
-		(pe as Shape).anchors.get(0)
+		(pe as Shape)?.anchors?.get(0)
 	}
 	
-	def nodes() {
-		return model.modelElements.filter(Node)
+	def getCounterpart(EObject elm) {
+		transformer.getCounterpart(elm)
 	}
 	
-	def cache(ModelElement bo, PictogramElement pe) {
-		byId.put(bo.id, bo)
-		pes.put(bo, pe)
-		if (bo instanceof _EdgeSource)
-			edgeSources.add(bo)
+	def getEdges() {
+		transformer.edges
 	}
 	
-	def clearCache() {
-		byId.clear
-		pes.clear
-		edgeSources.clear
-	}
-	
-	def update() {
-		val ctx = new UpdateContext(diagram);
-		val feature = fp.getUpdateFeature(ctx);
-		if (feature.canUpdate(ctx)) 
-			feature.update(ctx);
-	}
-
-	def createResource(IPath path, String fileName, String fileExtension) {
-		val filePath = path.append(fileName).addFileExtension(fileExtension)
-		val uri = URI.createPlatformResourceURI(filePath.toOSString(), true)
-		return new ResourceSetImpl().createResource(uri)
-	}
-
-	def addToResource(Resource res, EObject... objs) {
-		objs.forEach[obj | res.contents.add(obj)]
-	}
-
-	def newDiagram(String filename) {
-		return Graphiti.getPeCreateService().createDiagram("«model.name»", filename, true)
-	}
-
-	def newFeatureProvider(Diagram diagram) {
-		return GraphitiUi.getExtensionManager().createFeatureProvider(diagram)
-	}
-
-	def save(String folder) {
-		val filename = new Path(sourceFile.name).removeFileExtension.toString
-		val res = createResource(«generator.nameWithoutExtension».createFolder(new Path(folder), project).fullPath, filename + FILE_SUFFIX, FILE_EXTENSION)
-		addToResource(res, diagram, model)
-		res.save(null)
+	def getNodes() {
+		model.modelElements.filter(Node)
 	}
 
 	def getPlacement() {
@@ -291,115 +271,32 @@ class «model.name»ModelGenerator {
 		return plm;
 	}
 	
-	def static Edit edit(EObject obj) {
-		return [Runnable runnable |
-			var domain = TransactionUtil.getEditingDomain(obj)
-			if (domain == null)
-				domain = TransactionalEditingDomain.Factory.INSTANCE.createEditingDomain(obj.eResource.resourceSet)
-			domain.getCommandStack().execute(new RecordingCommand(domain) {
-				override doExecute() {
-					try {
-						runnable.run
-					} catch(IllegalStateException e) {
-						e.printStackTrace();
-					}
-				}
-			})
-	    ]
+	def cache(ModelElement bo, PictogramElement pe) {
+		byId.put(bo.id, bo)
+		pes.put(bo, pe)
 	}
 	
-	@FunctionalInterface
-	static interface Edit {
-		def void apply(Runnable runnable);
+	def clearCache() {
+		byId.clear
+		pes.clear
 	}
 	
-	def cache(IdentifiableElement baseElm, IdentifiableElement gtxElm) {
-		counterparts.put(baseElm, gtxElm)
-		counterparts.put(gtxElm, baseElm)
-		if (baseElm instanceof Edge) {
-			edges.add(baseElm)
-		}
+	def update() {
+		val ctx = new UpdateContext(diagram);
+		val feature = fp.getUpdateFeature(ctx);
+		if (feature.canUpdate(ctx)) 
+			feature.update(ctx)
+	}
+
+	def save(String folder) {
+		val filename = new Path(sourceFile.name).removeFileExtension.toString
+		val res = createFile(createFolder(new Path(folder), project).fullPath, filename + FILE_SUFFIX, FILE_EXTENSION)
+		res.addContent(diagram, model)
+		res.save(null)
 	}
 	
-	def counterpart(EObject elm) {
-		counterparts.get(elm)
-	}
-	
-	def GraphModel map(GraphModel model) {
-		val cp = model.counterpart
-		if (cp != null) return cp as GraphModel
-		val baseModel = baseModelFct.create«model.name»
-		cache(baseModel, model)
-		baseModel.attributes.map(baseModel)
-		baseModel.references.map(baseModel)
-		model.modelElements.forEach[
-			//println("Model element: " + it)
-			val mapped = it.map
-			//println("## Add " + mapped)
-			baseModel.modelElements.add(mapped)
-		]
-		baseModel.modelElements.addAll(edges)
-		return baseModel
-	}
-	
-	def ModelElement map(ModelElement elm) {
-		val cp = elm.counterpart
-		if (cp != null) return cp as ModelElement
-		val baseElm = elm.toBase
-		cache(baseElm, elm)
-		baseElm.attributes.map(baseElm)
-		baseElm.references.map(baseElm)
-		//println("Mapped " + elm.class.simpleName + " => " + baseElm.class.simpleName)
-		return baseElm
-	}
-	
-	def attributes(EObject elm) {
-		elm.eClass.EAllAttributes
-	}
-	
-	def references(EObject elm) {
-		elm.eClass.EAllReferences
-	}
-	
-	def map(List<? extends EStructuralFeature> ftrs, IdentifiableElement elm) {
-		ftrs.forEach[switch it {
-				EAttribute: it.map(elm)
-				EReference: it.map(elm)
-			}
-		]
-	}
-	
-	def map(EAttribute attr, IdentifiableElement elm) {
-		val value = elm.counterpart.eGet(attr)
-		//println(" -> attribute " + attr.name + " = " + value)
-		elm.eSet(attr, value)
-	}
-	
-	def map(EReference ref, IdentifiableElement elm) {
-		val value = elm.counterpart.eGet(ref).mapValue
-		//println(" > reference " + ref.name + " = " + value)
-		if (value instanceof EObject) {
-			(value as EObject).eContainer
-		}
-		elm.eSet(ref, value)
-	}
-	
-	def Object mapValue(Object value) {
-		switch value {
-			GraphModel: value.map
-			ModelElement: value.map
-			List<?>: value.map[mapValue]
-			EObject: value
-			case null: value
-			default: { println("[GratextRestore] WARN unmatched value type: " + value); value }
-		}
-	}
-	
-	def toBase(ModelElement elm) {
-		elm.eClass.ESuperTypes
-			.filter[baseModelPkg.eContents.contains(it)]
-			.map[baseModelFct.create(it)]
-			.reduce[p1, p2 | p1] as ModelElement
+	def warn(String msg) {
+		System.err.println("[" + this.class.simpleName + "] " + msg)
 	}
 }
 '''

@@ -23,14 +23,12 @@ override template()
 				icon="platform:/plugin/de.jabc.cinco.meta.plugin.gratext/gt_icon_16.png">
 			</menu>
 			<action
-				class="info.scce.cinco.gratext.RestoreAction"
-				id="info.scce.cinco.gratext.RestoreAction"
+				class="de.jabc.cinco.meta.plugin.gratext.runtime.action.GratextRestoreAction"
 				label="Restore from Backup"
 				menubarPath="gratext.main/group1">
 			</action>
 			<action
-				class="info.scce.cinco.gratext.BackupAction"
-				id="info.scce.cinco.gratext.BackupAction"
+				class="de.jabc.cinco.meta.plugin.gratext.runtime.action.GratextBackupAction"
 				label="Generate Backup"
 				menubarPath="gratext.main/group1">
 			</action>

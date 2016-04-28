@@ -114,5 +114,5 @@ class AbstractGratextTemplate {
 //		ResourcesPlugin.getWorkspace().getRoot().getFile(path)
 //	}
 
-
+	protected val backupFileSuffix = "GT" 
 }

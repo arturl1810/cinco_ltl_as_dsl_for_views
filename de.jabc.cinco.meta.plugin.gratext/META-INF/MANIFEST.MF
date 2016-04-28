@@ -19,11 +19,16 @@ Import-Package: de.jabc.cinco.meta.core,
  org.eclipse.debug.ui,
  org.eclipse.emf.mwe2.launch.runtime,
  org.eclipse.emf.transaction.util,
- org.eclipse.jface.dialogs
+ org.eclipse.emf.workspace,
+ org.eclipse.jface.dialogs,
+ org.eclipse.xtext.ui.editor
 Bundle-Version: 0.7.0.qualifier
 Require-Bundle: org.eclipse.emf.transaction,
  de.jabc.cinco.meta.core.mgl,
  org.eclipse.emf.codegen.ecore,
  org.eclipse.osgi,
  org.eclipse.emf.mwe2.language,
- org.eclipse.emf.ecore
+ org.eclipse.emf.ecore,
+ org.eclipse.graphiti,
+ org.eclipse.graphiti.ui
+Export-Package: de.jabc.cinco.meta.plugin.gratext.build
