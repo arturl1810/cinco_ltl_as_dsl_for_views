@@ -635,12 +635,14 @@ public class ReferenceRegistry {
 		return extensions;
 	}
 
-	public EObject getEObjectFromURI(URI uri) {
+	public GraphModel getGraphModelFromURI(URI uri) {
 		String searchFor = toWorkspaceRelativeURI(uri).toPlatformString(true);
 		for (Entry<IProject, HashMap<String, String>> map : registriesMap.entrySet()) {
 			for (Entry<String, String> e : map.getValue().entrySet()) {
 				if (e.getValue().equals(searchFor)) {
-					return cachesMap.get(map.getKey()).get(e.getKey());
+					EObject eObj = cachesMap.get(map.getKey()).get(e.getKey());
+					if (eObj instanceof GraphModel)
+						return (GraphModel) eObj;
 				}
 			}
 		}
