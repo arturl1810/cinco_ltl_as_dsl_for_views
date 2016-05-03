@@ -14,6 +14,7 @@ public class GratextMetaPlugin implements IMetaPlugin {
 	public String execute(Map<String, Object> ctx) {
 		try {
 			BundleRegistry.INSTANCE.addBundle("de.jabc.cinco.meta.plugin.gratext", true);
+			BundleRegistry.INSTANCE.addBundle("de.jabc.cinco.meta.plugin.gratext.runtime", false);
 			new GratextProjectGenerator().execute(ctx);
 			return RESULT_DEFAULT;
 		} catch(Exception e) {

@@ -11,6 +11,8 @@ package info.scce.cinco.gratext;
 
 import static de.jabc.cinco.meta.core.utils.job.JobFactory.job;
 
+import de.jabc.cinco.meta.plugin.gratext.runtime.action.IRestoreAction;
+
 import java.util.AbstractMap;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;

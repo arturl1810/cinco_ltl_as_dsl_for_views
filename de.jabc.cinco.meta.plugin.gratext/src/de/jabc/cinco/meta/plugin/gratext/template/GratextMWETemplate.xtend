@@ -41,7 +41,7 @@ import org.eclipse.xtext.generator.*
 import org.eclipse.xtext.ui.generator.*
 
 var grammarURI = "classpath:/«xtextFile.srcFolderRelativeDir»/«xtextFile.name»"
-var fileExtensions = "«graphmodel.fileExtension»DL"
+var fileExtensions = "«graphmodel.fileExtension»«backupFileSuffix»"
 var projectName = "«project.basePackage»"
 var runtimeProject = "../${projectName}"
 var generateXtendStub = true

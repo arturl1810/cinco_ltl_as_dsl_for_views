@@ -204,15 +204,22 @@
          unpack="false"/>
 
    <plugin
+         id="de.jabc.cinco.meta.plugin.mcam.runtime"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
          id="de.jabc.cinco.meta.plugin.gratext"
          download-size="0"
          install-size="0"
          version="0.0.0"
          fragment="true"
          unpack="false"/>
-
+         
    <plugin
-         id="de.jabc.cinco.meta.plugin.mcam.runtime"
+         id="de.jabc.cinco.meta.plugin.gratext.runtime"
          download-size="0"
          install-size="0"
          version="0.0.0"
