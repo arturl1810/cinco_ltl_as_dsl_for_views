@@ -9,7 +9,8 @@ Require-Bundle: org.eclipse.ui,
  ${GraphModelProject},
  de.jabc.cinco.meta.plugin.mcam.runtime,
  org.eclipse.ui.workbench,
- org.eclipse.core.resources
+ org.eclipse.core.resources,
+ de.jabc.cinco.meta.core.referenceregistry
 Bundle-ActivationPolicy: lazy
 Import-Package: info.scce.mcam.framework.adapter,
  info.scce.mcam.framework.modules,

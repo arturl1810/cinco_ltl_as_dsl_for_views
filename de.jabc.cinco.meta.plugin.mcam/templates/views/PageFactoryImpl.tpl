@@ -22,10 +22,20 @@ public class PageFactoryImpl implements PageFactory {
 
 			// @FACTORY_CHECK
 			// if (res instanceof info.scce.cinco.product.flowgraph.flowgraph.FlowGraph)
-			//	return new info.scce.cinco.product.flowgraph.mcam.views.flowgraph.views.pages.FlowGraphCheckViewPage(id, iFile, resource);
+			//	return new info.scce.cinco.product.flowgraph.mcam.views.flowgraph.views.pages.FlowGraphCheckViewPage(id);
 
 		}
 		return null;
+	}
+
+	@Override
+	public CheckViewPage<?, ?, ?, ?> createProjectCheckViewPage(String id, IEditorPart editor) {
+		
+		IFile iFile = EclipseUtils.getIFile(editor);
+		Resource resource = EclipseUtils.getResource(editor);
+
+		// @FACTORY_PROJECT_CHECK
+		// return new info.scce.cinco.product.flowgraph.mcam.views.flowgraph.views.pages.FlowGraphCheckViewPage(id);
 	}
 
 	@Override

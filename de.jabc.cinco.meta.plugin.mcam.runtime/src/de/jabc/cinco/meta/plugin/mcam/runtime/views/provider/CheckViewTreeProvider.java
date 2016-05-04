@@ -1,12 +1,17 @@
 package de.jabc.cinco.meta.plugin.mcam.runtime.views.provider;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import graphicalgraphmodel.CGraphModel;
 import graphmodel.GraphModel;
+import info.scce.mcam.framework.adapter.EntityId;
 import info.scce.mcam.framework.modules.CheckModule;
 import info.scce.mcam.framework.processes.CheckProcess;
 import info.scce.mcam.framework.processes.CheckResult;
 import de.jabc.cinco.meta.plugin.mcam.runtime.core._CincoAdapter;
 import de.jabc.cinco.meta.plugin.mcam.runtime.core._CincoId;
+import de.jabc.cinco.meta.plugin.mcam.runtime.views.nodes.CheckResultNode;
 import de.jabc.cinco.meta.plugin.mcam.runtime.views.nodes.ContainerTreeNode;
 import de.jabc.cinco.meta.plugin.mcam.runtime.views.nodes.IdNode;
 import de.jabc.cinco.meta.plugin.mcam.runtime.views.nodes.TreeNode;
@@ -24,9 +29,9 @@ public class CheckViewTreeProvider<E extends _CincoId, M extends GraphModel, W e
 	private ContainerTreeNode byModuleRoot;
 	private ContainerTreeNode byIdRoot;
 
-	private ViewType activeView = ViewType.BY_MODULE;
+	private ViewType activeView = ViewType.BY_ID;
 
-	private CheckProcess<E, A> cp;
+	private List<CheckProcess<?, ?>> checkProcesses = new ArrayList<CheckProcess<?, ?>>();
 	
 	public CheckViewTreeProvider(CheckViewPage<E, M, W, A> page) {
 		super();
@@ -61,91 +66,85 @@ public class CheckViewTreeProvider<E extends _CincoId, M extends GraphModel, W e
 		
 		final long timeStart = System.currentTimeMillis();
 		
-		cp = page.getCp();
+		checkProcesses = page.getCheckProcesses();
 		
-		if (cp == null)
+		if (checkProcesses.size() <= 0)
 			return;
 		
-		cp.checkModel();
+		for (CheckProcess<?, ?> checkProcess : checkProcesses) {
+			checkProcess.checkModel();
+		}
+		
+		final long timeLoad = System.currentTimeMillis();
 		
 		switch (activeView) {
 		case BY_MODULE:
 			byModuleRoot = new ContainerTreeNode(null, "root");
-			for (CheckModule<E, A> module : cp.getModules()) {
-				buildTreeByModule(module, byModuleRoot);
+			for (CheckProcess<?, ?> checkProcess : checkProcesses) {
+				for (CheckModule<?, ?> module : checkProcess.getModules()) {
+					buildTreeByModule(module, byModuleRoot, checkProcess);
+				}
 			}
 			break;
 		case BY_ID:
 		default:
 			byIdRoot = new ContainerTreeNode(null, "root");
-			for (_CincoId id : cp.getCheckInformationMap().keySet()) {
-				buildTreeById(id, byIdRoot);
+			for (CheckProcess<?, ?> checkProcess : checkProcesses) {
+				for (EntityId id : checkProcess.getCheckInformationMap().keySet()) {
+					buildTreeById(id, byIdRoot, checkProcess);
+				}
 			}
 			break;
 		}
-		System.out.println("CheckView - create Tree: " + (System.currentTimeMillis() - timeStart) + " ms");
+		final long timeBuild = System.currentTimeMillis();
+		
+		System.out.println("CheckView - load: " + (timeLoad - timeStart) + " ms / build: " + (timeBuild - timeLoad) + " ms");
 	}
 
 	@SuppressWarnings("unchecked")
-	private TreeNode buildTreeById(Object obj, TreeNode parentNode) {
+	private TreeNode buildTreeById(Object obj, TreeNode parentNode, CheckProcess<?, ?> checkProcess) {
 		TreeNode node = new ContainerTreeNode(null, "dummy");
 		
 		if (obj instanceof _CincoId) {
 			node = new IdNode(obj);
 			node.setLabel(((_CincoId) obj).toString());
-			for (CheckResult<E, A> result : cp.getCheckInformationMap().get(obj).getResults()) {
-				buildTreeById(result, node);
+			node = findExistingNode(node, parentNode);
+			for (CheckResult<?, ?> result : checkProcess.getCheckInformationMap().get(obj).getResults()) {
+				buildTreeById(result, node, checkProcess);
 			}
 		}
 		
 		if (obj instanceof CheckResult<?, ?>) {
 			CheckResult<E, A> result = (CheckResult<E, A>) obj;
-			node = new ContainerTreeNode(obj, result.getUUID().toString());
+			node = new CheckResultNode(result);
 			node.setLabel("[" + result.getModule().getClass().getSimpleName() + "] " + result.getMessage());
+			node = findExistingNode(node, parentNode);
 		}
 		
-		/*
-		 * post processing
-		 */
-		TreeNode existingNode = parentNode.find(node.getId());
-		if (existingNode == null) {
-			parentNode.getChildren().add(node);
-			node.setParent(parentNode);
-		} else {
-			return existingNode;
-		}
 		return node;
 	}
 
 	@SuppressWarnings("unchecked")
-	private TreeNode buildTreeByModule(Object obj, TreeNode parentNode) {
+	private TreeNode buildTreeByModule(Object obj, TreeNode parentNode, CheckProcess<?, ?> checkProcess) {
 		TreeNode node = new ContainerTreeNode(null, "dummy");
 		
 		if (obj instanceof CheckModule<?, ?>) {
 			CheckModule<E, A> module = (CheckModule<E, A>) obj;
 			node = new ContainerTreeNode(obj, module.getClass().getSimpleName());
 			node.setLabel(module.getClass().getSimpleName());
+			node = findExistingNode(node, parentNode);
 			for (CheckResult<E, A> result : module.getResults()) {
-				buildTreeByModule(result, node);
+				buildTreeByModule(result, node, checkProcess);
 			}
 		}
 		
 		if (obj instanceof CheckResult<?, ?>) {
 			CheckResult<E, A> result = (CheckResult<E, A>) obj;
-			node = new ContainerTreeNode(obj, result.getUUID().toString());
+			node = new CheckResultNode(result);
 			node.setLabel(result.getId().toString() + ": " + result.getMessage());
+			node = findExistingNode(node, parentNode);
 		}
 		
-		/*
-		 * post processing
-		 */
-		TreeNode existingNode = parentNode.find(node.getId());
-		if (existingNode == null) {
-			parentNode.getChildren().add(node);
-			node.setParent(parentNode);
-		} else {
-			return existingNode;
-		}
 		return node;
 	}
 
