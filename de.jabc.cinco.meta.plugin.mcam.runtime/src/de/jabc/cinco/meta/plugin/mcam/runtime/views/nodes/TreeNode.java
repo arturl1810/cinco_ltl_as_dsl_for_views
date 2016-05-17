@@ -3,6 +3,8 @@ package de.jabc.cinco.meta.plugin.mcam.runtime.views.nodes;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.jabc.cinco.meta.plugin.mcam.runtime.core._CincoId;
+
 public abstract class TreeNode {
 
 	protected String label = null;
@@ -69,6 +71,26 @@ public abstract class TreeNode {
 				return result;
 		}
 		return null;
+	}
+	
+	public int hashCode() {
+		String pathId = getPathIdentifier();
+		final int prime = 19;
+		int result = 1;
+		result = prime * result + ((pathId == null) ? 0 : pathId.hashCode());
+		return result;
+	}
+	
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (obj instanceof TreeNode == false)
+			return false;
+		
+		TreeNode node = (TreeNode) obj;
+		return this.getPathIdentifier().equals(node.getPathIdentifier());
 	}
 
 	@Override

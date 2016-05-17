@@ -16,6 +16,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 
+import de.jabc.cinco.meta.plugin.mcam.runtime.core.FrameworkExecution;
 import de.jabc.cinco.meta.plugin.mcam.runtime.core._CincoAdapter;
 import de.jabc.cinco.meta.plugin.mcam.runtime.core._CincoId;
 import de.jabc.cinco.meta.plugin.mcam.runtime.views.pages.CheckViewPage;
@@ -29,23 +30,42 @@ public class ProjectCheckViewPage extends CheckViewPage<_CincoId, GraphModel, CG
 		"" 
 	};
 
+	private String[] tmpNames = { "temp", "tmp" };
+
 	private IProject iProject = null;
 
 	public ProjectCheckViewPage(String pageId) {
 		super(pageId);
 	}
 	
-	@Override
-	public void addCheckProcess(IFile iFile, Resource resource) {
+	@SuppressWarnings("rawtypes")
+	public FrameworkExecution getFrameWorkExecution(IFile iFile) {
+		FrameworkExecution fe = null;
 		// @PROJECT_CHECK_PAGE_ADD
 		// ${CliPackage}.${GraphModelName}Execution fe = new ${GraphModelName}Execution();
 		// getCheckProcesses().add(fe.createCheckPhase(fe.initApiAdapterFromResource(resource, EclipseUtils.getFile(iFile))));
+		return fe;
+	}
+
+	@SuppressWarnings("rawtypes")
+	@Override
+	public _CincoAdapter getAdapter(IFile iFile, Resource resource) {
+		return getFrameWorkExecution(iFile).initApiAdapterFromResource(resource, EclipseUtils.getFile(iFile));
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public void addCheckProcess(IFile iFile, Resource resource) {
+		getCheckProcesses().add(getFrameWorkExecution(iFile).createCheckPhase(getAdapter(iFile, resource)));
 	}
 
 	@SuppressWarnings("restriction")
 	public void addCheckProcesses(IResource iResource) {
 		if (iResource instanceof org.eclipse.core.internal.resources.Project)
 			iProject = ((org.eclipse.core.internal.resources.Project) iResource);
+
+		if (ignoreResource(iResource))
+			return;
 
 		if (iResource instanceof org.eclipse.core.internal.resources.File)
 			if (Arrays.asList(fileExtensions).contains(
@@ -64,6 +84,14 @@ public class ProjectCheckViewPage extends CheckViewPage<_CincoId, GraphModel, CG
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+	}
+
+	private boolean ignoreResource(IResource iResource) {
+		for (String string : Arrays.asList(tmpNames)) {
+			if (iResource.getName().toLowerCase().contains(string.toLowerCase()))
+				return true;
+		}
+		return false;
 	}
 
 	public EObject loadModel(IResource res) {

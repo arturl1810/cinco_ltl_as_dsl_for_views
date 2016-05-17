@@ -2,6 +2,7 @@ package de.jabc.cinco.meta.plugin.mcam.runtime.views.pages;
 
 import graphicalgraphmodel.CGraphModel;
 import graphmodel.GraphModel;
+import graphmodel.ModelElement;
 import info.scce.mcam.framework.modules.CheckModule;
 import info.scce.mcam.framework.processes.CheckProcess;
 import info.scce.mcam.framework.processes.CheckResult;
@@ -10,7 +11,9 @@ import info.scce.mcam.framework.processes.CheckResult.CheckResultType;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
@@ -32,6 +35,7 @@ import de.jabc.cinco.meta.plugin.mcam.runtime.core._CincoAdapter;
 import de.jabc.cinco.meta.plugin.mcam.runtime.core._CincoId;
 import de.jabc.cinco.meta.plugin.mcam.runtime.views.nodes.TreeNode;
 import de.jabc.cinco.meta.plugin.mcam.runtime.views.provider.CheckViewTreeProvider;
+import de.jabc.cinco.meta.plugin.mcam.runtime.views.provider.CheckViewTreeProvider.ViewType;
 import de.jabc.cinco.meta.plugin.mcam.runtime.views.utils.EclipseUtils;
 
 public abstract class CheckViewPage<E extends _CincoId, M extends GraphModel, W extends CGraphModel, A extends _CincoAdapter<E, M, W>>
@@ -39,11 +43,6 @@ public abstract class CheckViewPage<E extends _CincoId, M extends GraphModel, W 
 
 	private CheckViewTreeProvider<E, M, W, A> data;
 
-	// protected IFile iFile;
-	// protected Resource resource;
-
-	// private List<CheckProcess<E, A>> checkProcesses = new
-	// ArrayList<CheckProcess<E, A>>();
 	private List<CheckProcess<?, ?>> checkProcesses = new ArrayList<CheckProcess<?, ?>>();
 
 	private HashMap<String, Image> icons = new HashMap<>();
@@ -55,27 +54,15 @@ public abstract class CheckViewPage<E extends _CincoId, M extends GraphModel, W 
 
 	public CheckViewPage(String pageId) {
 		super(pageId);
-		// this.iFile = iFile;
-		// this.resource = resource;
-
-		// this.cp = createCp();
-		this.data = new CheckViewTreeProvider<E, M, W, A>(this);
+		this.data = new CheckViewTreeProvider<E, M, W, A>(this, ViewType.BY_ID);
 	}
 
 	/*
 	 * Getter / Setter
 	 */
-	// public IFile getiFile() {
-	// return iFile;
-	// }
-
 	public List<CheckProcess<?, ?>> getCheckProcesses() {
 		return checkProcesses;
 	}
-
-	// public Resource getResource() {
-	// return resource;
-	// }
 
 	@Override
 	public CheckViewTreeProvider<E, M, W, A> getDataProvider() {
@@ -90,6 +77,10 @@ public abstract class CheckViewPage<E extends _CincoId, M extends GraphModel, W 
 	@Override
 	public ViewerSorter getDefaultSorter() {
 		return nameSorter;
+	}
+
+	public CheckViewResultTypeFilter getResultTypeFilter() {
+		return resultTypeFilter;
 	}
 
 	/*
@@ -135,14 +126,16 @@ public abstract class CheckViewPage<E extends _CincoId, M extends GraphModel, W 
 
 	public abstract void addCheckProcess(IFile iFile, Resource resource);
 
-	@Override
-	public void reload() {
-		storeTreeState();
-		// this.cp = createCp();
-		data.reset();
-		treeViewer.setInput(parentViewPart.getViewSite());
-		restoreTreeState();
-	}
+//	@Override
+//	public void reload() {
+////		storeTreeState();
+////		data.reset();
+////		treeViewer.setInput(parentViewPart.getViewSite());
+////		restoreTreeState();
+//		
+//		getDataProvider().load(this);
+//		treeViewer.refresh(getDataProvider().getTree());
+//	}
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -165,6 +158,38 @@ public abstract class CheckViewPage<E extends _CincoId, M extends GraphModel, W 
 		}
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public void openAndHighlight(Object obj) {
+		obj = getTreeNodeData(obj);
+		if (obj instanceof _CincoId)
+			openAndHighlight((_CincoId) obj);
+		if (obj instanceof CheckResult)
+			openAndHighlight(((CheckResult<E, A>) obj).getId());
+		if (obj instanceof CheckProcess)
+			openEditor(((CheckProcess<E, A>) obj).getModel().getModel());
+	}
+
+	@SuppressWarnings("unchecked")
+	protected void openAndHighlight(_CincoId id) {
+		Object element = ((_CincoAdapter<E, M, W>) getCheckProcessById(id)
+				.getModel()).getElementById((E) id);
+
+		if (element instanceof ModelElement) {
+			ModelElement me = (ModelElement) element;
+			IEditorPart editor = openEditor(me.getRootElement());
+
+			IFile iFile = EclipseUtils.getIFile(editor);
+			Resource resource = EclipseUtils.getResource(editor);
+
+			_CincoAdapter<E, M, W> adapter = getAdapter(iFile, resource);
+			adapter.highlightElement(adapter.getIdByString(me.getId()));
+		}
+		if (element instanceof GraphModel) {
+			openEditor((GraphModel) element);
+		}
+	}
+
 	protected CheckProcess<?, ?> getCheckProcessById(_CincoId id) {
 		for (CheckProcess<?, ?> checkProcess : checkProcesses) {
 			if (checkProcess.getModel().getEntityIds().contains(id))
@@ -173,11 +198,38 @@ public abstract class CheckViewPage<E extends _CincoId, M extends GraphModel, W 
 		return null;
 	}
 
+	protected CheckResultType getResultType(Class<?> moduleClass) {
+		CheckResultType type = CheckResultType.NOT_CHECKED;
+		for (CheckProcess<?, ?> checkProcess : checkProcesses) {
+			for (CheckModule<?, ?> module : checkProcess.getModules()) {
+				if (module.getClass().equals(moduleClass)) {
+					if (compareResultType(module.getResultType(), type) < 0)
+						type = module.getResultType();
+				}
+			}
+		}
+		return type;
+	}
+
+	protected CheckResultType getResultType(CheckProcess<?, ?> cp) {
+		CheckResultType type = CheckResultType.NOT_CHECKED;
+		for (CheckModule<?, ?> module : cp.getModules()) {
+			if (compareResultType(module.getResultType(), type) < 0)
+				type = module.getResultType();
+		}
+		return type;
+	}
+
+	protected int compareResultType(CheckResultType type1, CheckResultType type2) {
+		return CheckResultType.valueOf(type1.toString()).ordinal()
+				- CheckResultType.valueOf(type2.toString()).ordinal();
+	}
+
 	@Override
 	public void initPage(Composite parent, ViewPart parentViewPart)
 			throws IOException {
 		super.initPage(parent, parentViewPart);
-		// treeViewer.addFilter(resultTypeFilter);
+		treeViewer.addFilter(resultTypeFilter);
 	}
 
 	/*
@@ -202,12 +254,16 @@ public abstract class CheckViewPage<E extends _CincoId, M extends GraphModel, W 
 			}
 			if (element instanceof CheckModule<?, ?>) {
 				CheckModule<E, A> module = (CheckModule<E, A>) element;
-				return mapResultTypeToImage(module.getResultType());
+				return mapResultTypeToImage(getResultType(module.getClass()));
 			}
 			if (element instanceof _CincoId) {
 				CheckProcess<?, ?> cp = getCheckProcessById((_CincoId) element);
-				return mapResultTypeToImage(cp.getCheckInformationMap().get(element).getResultType());
-				//return icons.get("item");
+				return mapResultTypeToImage(cp.getCheckInformationMap()
+						.get(element).getResultType());
+			}
+			if (element instanceof CheckProcess) {
+				CheckProcess<?, ?> cp = (CheckProcess<?, ?>) element;
+				return mapResultTypeToImage(getResultType(cp));
 			}
 			return null;
 		}
@@ -231,16 +287,8 @@ public abstract class CheckViewPage<E extends _CincoId, M extends GraphModel, W 
 
 	private class CheckViewNameSorter extends ViewerSorter {
 
-		private ArrayList<CheckResultType> typeSorting = new ArrayList<>();
-
 		public CheckViewNameSorter() {
 			super();
-			typeSorting.add(CheckResultType.FAILURE);
-			typeSorting.add(CheckResultType.ERROR);
-			typeSorting.add(CheckResultType.WARNING);
-			typeSorting.add(CheckResultType.INFO);
-			typeSorting.add(CheckResultType.PASSED);
-			typeSorting.add(CheckResultType.NOT_CHECKED);
 		}
 
 		@Override
@@ -260,45 +308,93 @@ public abstract class CheckViewPage<E extends _CincoId, M extends GraphModel, W 
 			int cat2 = category(e2);
 			if (cat1 != cat2)
 				return cat1 - cat2;
+			
+			if (e1 instanceof CheckProcess && e2 instanceof CheckProcess) {
+				CheckProcess<E, A> cp1 = (CheckProcess<E, A>) e1;
+				CheckProcess<E, A> cp2 = (CheckProcess<E, A>) e2;
+				int diff = compareResultType(getResultType(cp1),
+						getResultType(cp2));
+				if (diff == 0)
+					return cp1.getModel().getModelName().compareTo(cp2.getModel().getModelName());
+				else
+					return diff;
+			}
 
 			if (e1 instanceof CheckModule && e2 instanceof CheckModule) {
 				CheckModule<E, A> cm1 = (CheckModule<E, A>) e1;
 				CheckModule<E, A> cm2 = (CheckModule<E, A>) e2;
-				return typeSorting.indexOf(cm1.getResultType())
-						- typeSorting.indexOf(cm2.getResultType());
+				int diff = compareResultType(getResultType(cm1.getClass()),
+						getResultType(cm2.getClass()));
+				if (diff == 0)
+					return cm1.getClass().getSimpleName()
+							.compareTo(cm2.getClass().getSimpleName());
+				else
+					return diff;
 			}
 
 			if (e1 instanceof CheckResult && e2 instanceof CheckResult) {
 				CheckResult<E, A> result1 = (CheckResult<E, A>) e1;
 				CheckResult<E, A> result2 = (CheckResult<E, A>) e2;
-				return typeSorting.indexOf(result1.getType())
-						- typeSorting.indexOf(result2.getType());
+				int diff = compareResultType(result1.getType(),
+						result2.getType());
+				if (diff == 0)
+					return compare(viewer, result1.getModule(),
+							result2.getModule());
+				else
+					return diff;
 			}
 
 			if (e1 instanceof _CincoId && e2 instanceof _CincoId) {
 				E id1 = (E) e1;
 				E id2 = (E) e2;
-				return id1.toString().compareTo(id2.toString());
+
+				CheckProcess<?, ?> cp1 = getCheckProcessById(id1);
+				CheckProcess<?, ?> cp2 = getCheckProcessById(id2);
+
+				CheckResultType type1 = cp1.getCheckInformationMap().get(id1)
+						.getResultType();
+				CheckResultType type2 = cp2.getCheckInformationMap().get(id2)
+						.getResultType();
+
+				int diff = compareResultType(type1, type2);
+				if (diff == 0)
+					return id1.toString().compareTo(id2.toString());
+				else
+					return diff;
 			}
 
 			return super.compare(viewer, e1, e2);
 		}
-
 	}
 
-	private class CheckViewResultTypeFilter extends ViewerFilter {
+	public class CheckViewResultTypeFilter extends ViewerFilter {
 
-		private ArrayList<CheckResultType> types = new ArrayList<CheckResultType>();
+		private boolean showNonErrors = true;
+		private HashSet<CheckResultType> types = new HashSet<CheckResultType>();
+
+		private CheckResultType[] non_errors = { CheckResultType.NOT_CHECKED,
+				CheckResultType.INFO, CheckResultType.PASSED,
+				CheckResultType.WARNING };
 
 		public CheckViewResultTypeFilter() {
 			super();
 
-			types.add(CheckResultType.ERROR);
-			types.add(CheckResultType.FAILURE);
-			types.add(CheckResultType.INFO);
-			types.add(CheckResultType.NOT_CHECKED);
-			types.add(CheckResultType.PASSED);
-			types.add(CheckResultType.WARNING);
+			for (CheckResultType type : CheckResultType.values()) {
+				types.add(type);
+			}
+		}
+
+		public boolean isShowNonErrors() {
+			return showNonErrors;
+		}
+
+		public void switchShowNonErrors() {
+			if (showNonErrors)
+				types.removeAll(Arrays.asList(non_errors));
+			else
+				types.addAll(Arrays.asList(non_errors));
+
+			showNonErrors = !showNonErrors;
 		}
 
 		@Override
@@ -319,9 +415,29 @@ public abstract class CheckViewPage<E extends _CincoId, M extends GraphModel, W 
 
 		@SuppressWarnings("unchecked")
 		private boolean display(Object element) {
+			if (element instanceof CheckProcess<?, ?>) {
+				CheckProcess<?, ?> cp = (CheckProcess<?, ?>) element;
+				return display(getResultType(cp));
+			}
 			if (element instanceof CheckResult<?, ?>) {
 				CheckResult<E, A> result = (CheckResult<E, A>) element;
-				if (types.contains(result.getType()))
+				return display(result.getType());
+			}
+			if (element instanceof CheckModule<?, ?>) {
+				CheckModule<E, A> module = (CheckModule<E, A>) element;
+				return display(getResultType(module.getClass()));
+			}
+			if (element instanceof _CincoId) {
+				_CincoId id = (_CincoId) element;
+				return display(getCheckProcessById(id).getCheckInformationMap()
+						.get(id).getResultType());
+			}
+			return false;
+		}
+
+		private boolean display(CheckResultType type) {
+			for (CheckResultType checkResultType : types) {
+				if (compareResultType(type, checkResultType) <= 0)
 					return true;
 			}
 			return false;

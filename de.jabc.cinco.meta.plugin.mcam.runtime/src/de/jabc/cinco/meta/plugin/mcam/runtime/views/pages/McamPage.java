@@ -1,11 +1,18 @@
 package de.jabc.cinco.meta.plugin.mcam.runtime.views.pages;
 
+import graphmodel.GraphModel;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.viewers.AbstractTreeViewer;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
@@ -32,17 +39,22 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.TreeItem;
+import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.ISharedImages;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.ViewPart;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
 
+import de.jabc.cinco.meta.plugin.mcam.runtime.core._CincoAdapter;
 import de.jabc.cinco.meta.plugin.mcam.runtime.views.nodes.TreeNode;
 import de.jabc.cinco.meta.plugin.mcam.runtime.views.provider.TreeProvider;
 
 public abstract class McamPage {
-	
+
 	protected Composite parent;
 	protected ViewPart parentViewPart;
 
@@ -50,16 +62,16 @@ public abstract class McamPage {
 	protected Composite frameComposite;
 
 	protected String pageId;
-	
+
 	protected Bundle bundle = FrameworkUtil.getBundle(this.getClass());
 	protected Image iconClearSearch = PlatformUI.getWorkbench()
 			.getSharedImages().getImage(ISharedImages.IMG_ELCL_REMOVE);
 
-	protected HashMap<String, Boolean> expandState = new HashMap<>();
-	
+//	protected HashMap<String, Boolean> expandState = new HashMap<>();
+
 	protected McamFullTextFilter defaultFilterFullText = new McamFullTextFilter();
 	protected McamContentProvider defaultContentProvider = new McamContentProvider();
-	
+
 	public McamPage(String id) {
 		this.pageId = id;
 	}
@@ -75,12 +87,13 @@ public abstract class McamPage {
 	public String getPageId() {
 		return pageId;
 	}
-	
+
 	public McamFullTextFilter getDefaultFilterFullText() {
 		return defaultFilterFullText;
 	}
 
-	public void setDefaultFilterFullText(McamFullTextFilter defaultFilterFullText) {
+	public void setDefaultFilterFullText(
+			McamFullTextFilter defaultFilterFullText) {
 		this.defaultFilterFullText = defaultFilterFullText;
 	}
 
@@ -94,10 +107,11 @@ public abstract class McamPage {
 	}
 
 	protected void loadIcons() throws IOException {
-		
+
 	}
 
-	public void initPage(Composite parent, ViewPart parentViewPart) throws IOException {
+	public void initPage(Composite parent, ViewPart parentViewPart)
+			throws IOException {
 		this.parent = parent;
 		this.parentViewPart = parentViewPart;
 
@@ -118,7 +132,7 @@ public abstract class McamPage {
 			public void modifyText(ModifyEvent e) {
 				Text text = (Text) e.widget;
 				treeViewer.removeFilter(defaultFilterFullText);
-				defaultFilterFullText.searchString= text.getText();
+				defaultFilterFullText.searchString = text.getText();
 				treeViewer.addFilter(defaultFilterFullText);
 				if (text.getText().length() > 0)
 					treeViewer.expandAll();
@@ -156,115 +170,88 @@ public abstract class McamPage {
 					IStructuredSelection selection = (IStructuredSelection) event
 							.getSelection();
 					highlight(selection.getFirstElement());
-					treeViewer.refresh();
+//					treeViewer.refresh();
 				}
 			}
 		});
 
 		/*
-		treeViewer.addDragSupport(DND.DROP_MOVE | DND.DROP_COPY,
-				new Transfer[] { LocalSelectionTransfer.getTransfer() },
-				new DragSourceAdapter() {
+		 * treeViewer.addDragSupport(DND.DROP_MOVE | DND.DROP_COPY, new
+		 * Transfer[] { LocalSelectionTransfer.getTransfer() }, new
+		 * DragSourceAdapter() {
+		 * 
+		 * @Override public void dragStart(DragSourceEvent event) { ISelection
+		 * sel = treeViewer.getSelection(); if (sel instanceof TreeSelection) {
+		 * TreeSelection treeSel = (TreeSelection) treeViewer .getSelection();
+		 * List<Object> selItems = new ArrayList<Object>();
+		 * 
+		 * Object firstELem = treeSel.getFirstElement(); if (firstELem
+		 * instanceof TreeNode) selItems.add(((TreeNode) firstELem).getData());
+		 * sel = new StructuredSelection(selItems); }
+		 * LocalSelectionTransfer.getTransfer().setSelection(sel); }
+		 * 
+		 * });
+		 */
 
-					@Override
-					public void dragStart(DragSourceEvent event) {
-						ISelection sel = treeViewer.getSelection();
-						if (sel instanceof TreeSelection) {
-							TreeSelection treeSel = (TreeSelection) treeViewer
-									.getSelection();
-							List<Object> selItems = new ArrayList<Object>();
-
-							Object firstELem = treeSel.getFirstElement();
-							if (firstELem instanceof TreeNode)
-								selItems.add(((TreeNode) firstELem).getData());
-							sel = new StructuredSelection(selItems);
-						}
-						LocalSelectionTransfer.getTransfer().setSelection(sel);
-					}
-
-				});
-		*/
-
-		treeViewer.getTree().addListener(SWT.Expand, new Listener() {
-			public void handleEvent(Event e) {
-				storeTreeState();
-				expandState.put(
-						getPathIdentifier(((TreeItem) e.item).getData()), true);
-			}
-		});
-		treeViewer.getTree().addListener(SWT.Collapse, new Listener() {
-			public void handleEvent(Event e) {
-				storeTreeState();
-				expandState.put(
-						getPathIdentifier(((TreeItem) e.item).getData()), false);
-			}
-		});
+//		treeViewer.getTree().addListener(SWT.Expand, new Listener() {
+//			public void handleEvent(Event e) {
+//				storeTreeState();
+//				expandState.put(
+//						getPathIdentifier(((TreeItem) e.item).getData()), true);
+//			}
+//		});
+//		treeViewer.getTree().addListener(SWT.Collapse, new Listener() {
+//			public void handleEvent(Event e) {
+//				storeTreeState();
+//				expandState.put(
+//						getPathIdentifier(((TreeItem) e.item).getData()), false);
+//			}
+//		});
 
 		treeViewer.setInput(parentViewPart.getViewSite());
 
 		frameComposite.pack();
 	}
 
-	public void storeTreeState() {
-		expandState.clear();
-		ArrayList<TreeItem> list = new ArrayList<TreeItem>();
-		for (TreeItem item : treeViewer.getTree().getItems()) {
-			list.add(item);
-			list.addAll(getAllTreeItems(item));
-		}
-
-		for (TreeItem treeItem : list) {
-			expandState.put(getPathIdentifier(treeItem.getData()),
-					treeItem.getExpanded());
-		}
-	}
-
-	public void restoreTreeState() {
-		treeViewer.expandAll();
-
-		ArrayList<TreeItem> list = new ArrayList<TreeItem>();
-		for (TreeItem item : treeViewer.getTree().getItems()) {
-			list.add(item);
-			list.addAll(getAllTreeItems(item));
-		}
-
-		for (TreeItem treeItem : list) {
-			Boolean expanded = expandState.get(getPathIdentifier(treeItem
-					.getData()));
-			if (expanded != null) {
-				treeItem.setExpanded(expanded);
-			}
-		}
-	}
+//	public void storeTreeState() {
+//		expandState.clear();
+//		ArrayList<TreeItem> list = new ArrayList<TreeItem>();
+//		for (TreeItem item : treeViewer.getTree().getItems()) {
+//			list.add(item);
+//			list.addAll(getAllTreeItems(item));
+//		}
+//
+//		for (TreeItem treeItem : list) {
+//			expandState.put(getPathIdentifier(treeItem.getData()),
+//					treeItem.getExpanded());
+//		}
+//	}
+//
+//	public void restoreTreeState() {
+//		treeViewer.expandAll();
+//		ArrayList<TreeItem> list = new ArrayList<TreeItem>();
+//		for (TreeItem item : treeViewer.getTree().getItems()) {
+//			list.add(item);
+//			list.addAll(getAllTreeItems(item));
+//		}
+//
+//		for (TreeItem treeItem : list) {
+//			Boolean expanded = expandState.get(getPathIdentifier(treeItem
+//					.getData()));
+//			if (expanded != null) {
+//				treeItem.setExpanded(expanded);
+//			}
+//		}
+//	}
 	
-	public void selectTreeItem(IFile file) {
-		storeTreeState();
+	public void reload() {
+//		storeTreeState();
+//		data.reset();
+//		treeViewer.setInput(parentViewPart.getViewSite());
+//		restoreTreeState();
 		
-		ArrayList<TreeItem> list = new ArrayList<TreeItem>();
-		for (TreeItem item : treeViewer.getTree().getItems()) {
-			list.add(item);
-			list.addAll(getAllTreeItems(item));
-		}
-		
-		for (TreeItem treeItem : list) {
-			if (treeItem.getText().contains(file.getName())) {
-				treeViewer.setSelection(new StructuredSelection(treeItem.getData()), true);
-				TreeItem item = treeItem;
-				while (item != null) {
-					expandState.put(getPathIdentifier(item.getData()),
-							true);
-					item = item.getParentItem();
-				}
-			}
-		}
-		
-		restoreTreeState();
-	}
-
-	private String getPathIdentifier(Object obj) {
-		if (obj instanceof TreeNode)
-			return ((TreeNode) obj).getPathIdentifier();
-		return "";
+		getDataProvider().load(this);
+		treeViewer.refresh(getDataProvider().getTree());
 	}
 
 	protected Object getTreeNodeData(Object obj) {
@@ -281,7 +268,7 @@ public abstract class McamPage {
 		}
 		return list;
 	}
-	
+
 	public void closeView() {
 		frameComposite.dispose();
 	}
@@ -298,12 +285,12 @@ public abstract class McamPage {
 					if (treeItem.getExpanded()) {
 						treeViewer.collapseToLevel(obj,
 								AbstractTreeViewer.ALL_LEVELS);
-						expandState.put(getPathIdentifier(treeItem.getData()),
-								false);
+//						expandState.put(getPathIdentifier(treeItem.getData()),
+//								false);
 					} else {
 						treeViewer.expandToLevel(obj, 1);
-						expandState.put(getPathIdentifier(treeItem.getData()),
-								true);
+//						expandState.put(getPathIdentifier(treeItem.getData()),
+//								true);
 					}
 					return;
 				}
@@ -315,12 +302,63 @@ public abstract class McamPage {
 
 	abstract public ViewerSorter getDefaultSorter();
 
-	abstract public void reload();
-	
+	abstract public void openAndHighlight(Object obj);
+
 	abstract public void highlight(Object obj);
+
+	@SuppressWarnings("rawtypes")
+	abstract public _CincoAdapter getAdapter(IFile iFile, Resource resource);
+
+	abstract public TreeProvider getDataProvider();
+
+	protected IEditorPart openEditor(GraphModel model) {
+		IEditorPart iEditor = null;
+
+		URI uri = EcoreUtil.getURI(model);
+		URI uri2 = model.eResource().getURI();
+
+		// System.out.println("----------------------------------------------");
+		//
+		// System.out.println("uri1: " + uri);
+		// System.out.println("filestring: " + uri.toFileString());
+		// System.out.println("platformstring: " + uri.toPlatformString(true));
+		//
+		// System.out.println("uri2: " + uri2);
+		// System.out.println("filestring: " + uri2.toFileString());
+		// System.out.println("platformstring: " + uri2.toPlatformString(true));
+
+		IFile iFile = null;
+		Path path = null;
+		if (uri.toPlatformString(true) != null) {
+			path = new Path(uri.toPlatformString(true));
+		}
+		if (uri.toFileString() != null) {
+			IFile newFile = ResourcesPlugin.getWorkspace().getRoot()
+					.getFileForLocation(new Path(uri.toFileString()));
+			path = new Path(newFile.getFullPath().toOSString());
+		}
+
+		if (path != null)
+			iFile = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
+
+		if (iFile == null)
+			iFile = ResourcesPlugin.getWorkspace().getRoot()
+					.getFile(new Path(uri2.toString()));
+
+		// System.out.println(iFile);
+
+		IWorkbenchPage page = PlatformUI.getWorkbench()
+				.getActiveWorkbenchWindow().getActivePage();
+		try {
+			iEditor = IDE.openEditor(page, iFile);
+		} catch (PartInitException e) {
+			e.printStackTrace();
+		}
+		return iEditor;
+	}
 	
-	abstract public TreeProvider getDataProvider(); 
 	
+
 	/*
 	 * Provider / Classes for TreeViewer
 	 */
@@ -337,7 +375,7 @@ public abstract class McamPage {
 
 		public Object[] getElements(Object parent) {
 			if (parent.equals(parentViewPart.getViewSite())) {
-				if (getDataProvider() != null && getDataProvider().isResetted()) 
+				if (getDataProvider() != null && getDataProvider().isResetted())
 					getDataProvider().load(this);
 				return getChildren(getDataProvider().getTree());
 			}
@@ -371,33 +409,48 @@ public abstract class McamPage {
 				Object element) {
 
 			if (searchString.length() > 0) {
-				if (compare(getDefaultLabelProvider().getText(element)))
-					return true;
-				if (compare(getDefaultLabelProvider().getText(parentElement)))
-					return true;
-				if (element instanceof TreeNode)
-					if (compare((TreeNode) element))
+				if (element instanceof TreeNode) {
+					TreeNode node = (TreeNode) element;
+					if (node.getParent() == null)
+						return false;
+
+					if (compare(node))
 						return true;
+					if (hasMatchedChild(node))
+						return true;
+					if (hasMatchedParent(node))
+						return true;
+				}
 				return false;
 			}
 			return true;
 		}
 
-		private boolean compare(TreeNode element) {
-			if (compare(getDefaultLabelProvider().getText(element)))
-				return true;
-			for (TreeNode childElement : element.getChildren()) {
-				if (compare(childElement))
+		private boolean hasMatchedChild(TreeNode node) {
+			for (TreeNode childNode : node.getChildren()) {
+				if (compare(childNode))
+					return true;
+				if (hasMatchedChild(childNode))
 					return true;
 			}
 			return false;
 		}
 
-		private boolean compare(String string) {
+		private boolean hasMatchedParent(TreeNode node) {
+			if (node.getParent() == null)
+				return false;
+			if (compare(node))
+				return true;
+			if (hasMatchedParent(node.getParent()))
+				return true;
+			return false;
+		}
+
+		private boolean compare(TreeNode node) {
+			String string = getDefaultLabelProvider().getText(node);
 			if (string.toLowerCase().contains(searchString.toLowerCase()))
 				return true;
 			return false;
 		}
 	}
 }
-

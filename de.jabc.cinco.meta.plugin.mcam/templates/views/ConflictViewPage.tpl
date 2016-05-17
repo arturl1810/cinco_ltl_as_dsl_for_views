@@ -15,7 +15,10 @@ import java.io.File;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.emf.ecore.resource.Resource;
 
+import de.jabc.cinco.meta.plugin.mcam.runtime.core.FrameworkExecution;
+import de.jabc.cinco.meta.plugin.mcam.runtime.core._CincoAdapter;
 import de.jabc.cinco.meta.plugin.mcam.runtime.views.pages.ConflictViewPage;
+import de.jabc.cinco.meta.plugin.mcam.runtime.views.utils.EclipseUtils;
 
 public class ${GraphModelName}ConflictViewPage extends ConflictViewPage<${GraphModelName}Id, ${GraphModelName}, C${GraphModelName}, ${GraphModelName}Adapter> {
 
@@ -48,6 +51,17 @@ public class ${GraphModelName}ConflictViewPage extends ConflictViewPage<${GraphM
 			return fe.createMergePhase(localCompare, remoteCompare, mergeModel);
 		}
 		return null;
+	}
+
+	@SuppressWarnings("rawtypes")
+	@Override
+	public _CincoAdapter getAdapter(IFile iFile, Resource resource) {
+		return getFrameWorkExecution(iFile).initApiAdapterFromResource(resource, EclipseUtils.getFile(iFile));
+	}
+
+	@SuppressWarnings("rawtypes")
+	public FrameworkExecution getFrameWorkExecution(IFile iFile) {
+		return new ${GraphModelName}Execution();
 	}
 }
 

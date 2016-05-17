@@ -163,14 +163,15 @@ public class McamImplementationGenerator {
 
 	public String generate() {
 		try {
-			if (generateMerge) {
 
-				for (ModelElement element : entityAttributes.keySet()) {
-					if (element.isIsAbstract())
-						continue;
+			for (ModelElement element : entityAttributes.keySet()) {
 
-					addLabelEntry(element);
+				addLabelEntry(element);
 
+				if (element.isIsAbstract())
+					continue;
+
+				if (generateMerge) {
 					data.put("ModelElementType", "GraphModel");
 					if (!(element instanceof GraphModel)) {
 
@@ -205,11 +206,11 @@ public class McamImplementationGenerator {
 					}
 				}
 			}
-			
+
 			generateEntityId();
 			generateModelAdapter();
 			generateCliExecution();
-			
+
 			return "default";
 		} catch (IOException | TemplateException e) {
 			e.printStackTrace();

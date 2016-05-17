@@ -223,11 +223,8 @@ public class McamViewGenerator {
 				file.getRawLocation().makeAbsolute().toFile(),
 				"// @PROJECT_CHECK_PAGE_EXT", code_extension);
 		
-		String code_cpadd = "if (iFile.getFileExtension().equals(\"" + data.get("GraphModelExtension") + "\")) { \n"
-				+ data.get("CliPackage") + "." + data.get("GraphModelName") + "Execution fe = "
-				+ "new " + data.get("CliPackage") + "." + data.get("GraphModelName") + "Execution(); \n"
-				+ "getCheckProcesses().add(fe.createCheckPhase(fe.initApiAdapterFromResource(resource, EclipseUtils.getFile(iFile)))); \n"
-				+ "} \n";
+		String code_cpadd = "if (iFile.getFileExtension().equals(\"" + data.get("GraphModelExtension") + "\")) \n"
+				+ "fe = new " + data.get("CliPackage") + "." + data.get("GraphModelName") + "Execution(); \n";
 		insertCodeAfterMarker(
 				file.getRawLocation().makeAbsolute().toFile(),
 				"// @PROJECT_CHECK_PAGE_ADD", code_cpadd);

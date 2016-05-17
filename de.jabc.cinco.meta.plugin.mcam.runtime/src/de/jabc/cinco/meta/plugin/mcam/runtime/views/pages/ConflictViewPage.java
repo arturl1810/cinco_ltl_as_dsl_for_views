@@ -2,6 +2,7 @@ package de.jabc.cinco.meta.plugin.mcam.runtime.views.pages;
 
 import graphicalgraphmodel.CGraphModel;
 import graphmodel.GraphModel;
+import graphmodel.ModelElement;
 import info.scce.mcam.framework.modules.ChangeModule;
 import info.scce.mcam.framework.processes.MergeInformation;
 import info.scce.mcam.framework.processes.MergeInformation.MergeType;
@@ -29,6 +30,7 @@ import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.part.ViewPart;
 import org.osgi.framework.Bundle;
 
@@ -186,13 +188,13 @@ public abstract class ConflictViewPage<E extends _CincoId, M extends GraphModel,
 		}
 	}
 
-	@Override
-	public void reload() {
-		storeTreeState();
-		data.reset();
-		treeViewer.setInput(parentViewPart.getViewSite());
-		restoreTreeState();
-	}
+//	@Override
+//	public void reload() {
+//		storeTreeState();
+//		data.reset();
+//		treeViewer.setInput(parentViewPart.getViewSite());
+//		restoreTreeState();
+//	}
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -296,6 +298,41 @@ public abstract class ConflictViewPage<E extends _CincoId, M extends GraphModel,
 			// System.err.println(" - " + change.id + ": " + change);
 			// }
 			// changesDone = e.getChangesDone();
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public void openAndHighlight(Object obj) {
+		obj = getTreeNodeData(obj);
+		if (obj instanceof _CincoId) {
+			_CincoId id = (_CincoId) obj;
+			Object element = ((_CincoAdapter<E, M, W>) getAdapter(iFile, resource)).getElementById((E) id);
+
+			if (element instanceof ModelElement) {
+				ModelElement me = (ModelElement) element;
+				IEditorPart editor = openEditor(me.getRootElement());
+
+				IFile iFile = EclipseUtils.getIFile(editor);
+				Resource resource = EclipseUtils.getResource(editor);
+
+				_CincoAdapter<E, M, W> adapter = getAdapter(iFile, resource);
+				adapter.highlightElement(adapter.getIdByString(me.getId()));
+
+				// if (me.getRootElement() instanceof Process) {
+				// CProcess wrapper =
+				// data.getUtils().getProcessWrapperFromEditor(editorPart);
+				// data.getUtils().highlightElement(wrapper, me.getId());
+				// }
+				// if (me.getRootElement() instanceof GUI) {
+				// CGUI wrapper =
+				// data.getUtils().getGuiWrapperFromEditor(editorPart);
+				// data.getUtils().highlightElement(wrapper, me.getId());
+				// }
+			}
+			if (element instanceof GraphModel) {
+				openEditor((GraphModel) element);
+			}
 		}
 	}
 	

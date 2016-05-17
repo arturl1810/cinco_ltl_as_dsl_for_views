@@ -11,6 +11,7 @@ import info.scce.mcam.framework.processes.CheckProcess;
 import info.scce.mcam.framework.processes.CheckResult;
 import de.jabc.cinco.meta.plugin.mcam.runtime.core._CincoAdapter;
 import de.jabc.cinco.meta.plugin.mcam.runtime.core._CincoId;
+import de.jabc.cinco.meta.plugin.mcam.runtime.views.nodes.CheckProcessNode;
 import de.jabc.cinco.meta.plugin.mcam.runtime.views.nodes.CheckResultNode;
 import de.jabc.cinco.meta.plugin.mcam.runtime.views.nodes.ContainerTreeNode;
 import de.jabc.cinco.meta.plugin.mcam.runtime.views.nodes.IdNode;
@@ -18,8 +19,6 @@ import de.jabc.cinco.meta.plugin.mcam.runtime.views.nodes.TreeNode;
 import de.jabc.cinco.meta.plugin.mcam.runtime.views.pages.CheckViewPage;
 
 public class CheckViewTreeProvider<E extends _CincoId, M extends GraphModel, W extends CGraphModel, A extends _CincoAdapter<E, M, W>> extends TreeProvider {
-	private String[] fileExtensions = { "data", "sibs" };
-
 	private CheckViewPage<E, M, W, A> page;
 	
 	public enum ViewType {
@@ -33,9 +32,10 @@ public class CheckViewTreeProvider<E extends _CincoId, M extends GraphModel, W e
 
 	private List<CheckProcess<?, ?>> checkProcesses = new ArrayList<CheckProcess<?, ?>>();
 	
-	public CheckViewTreeProvider(CheckViewPage<E, M, W, A> page) {
+	public CheckViewTreeProvider(CheckViewPage<E, M, W, A> page, ViewType vType) {
 		super();
 		this.page = page;
+		this.activeView = vType;
 	}
 
 	@Override
@@ -47,10 +47,6 @@ public class CheckViewTreeProvider<E extends _CincoId, M extends GraphModel, W e
 		default:
 			return byIdRoot;
 		}
-	}
-
-	public String[] getFileExtensions() {
-		return fileExtensions;
 	}
 
 	public ViewType getActiveView() {
@@ -80,30 +76,48 @@ public class CheckViewTreeProvider<E extends _CincoId, M extends GraphModel, W e
 		switch (activeView) {
 		case BY_MODULE:
 			byModuleRoot = new ContainerTreeNode(null, "root");
-			for (CheckProcess<?, ?> checkProcess : checkProcesses) {
-				for (CheckModule<?, ?> module : checkProcess.getModules()) {
-					buildTreeByModule(module, byModuleRoot, checkProcess);
+			if (checkProcesses.size() == 1) {
+				for (CheckModule<?, ?> module : checkProcesses.get(0).getModules()) {
+					buildTreeByModule(module, byModuleRoot, checkProcesses.get(0));
+				}
+			} else {
+				for (CheckProcess<?, ?> checkProcess : checkProcesses) {
+					buildTreeByModule(checkProcess, byModuleRoot, checkProcess);
 				}
 			}
 			break;
 		case BY_ID:
 		default:
 			byIdRoot = new ContainerTreeNode(null, "root");
-			for (CheckProcess<?, ?> checkProcess : checkProcesses) {
-				for (EntityId id : checkProcess.getCheckInformationMap().keySet()) {
-					buildTreeById(id, byIdRoot, checkProcess);
+			if (checkProcesses.size() == 1) {
+				for (EntityId id : checkProcesses.get(0).getCheckInformationMap().keySet()) {
+					buildTreeById(id, byIdRoot, checkProcesses.get(0));
+				}
+			} else {
+				for (CheckProcess<?, ?> checkProcess : checkProcesses) {
+					buildTreeById(checkProcess, byIdRoot, checkProcess);
 				}
 			}
 			break;
 		}
 		final long timeBuild = System.currentTimeMillis();
 		
-		System.out.println("CheckView - load: " + (timeLoad - timeStart) + " ms / build: " + (timeBuild - timeLoad) + " ms");
+		System.out.println(page.getClass().getSimpleName() + " - load: " + (timeLoad - timeStart) + " ms / build: " + (timeBuild - timeLoad) + " ms");
 	}
 
 	@SuppressWarnings("unchecked")
 	private TreeNode buildTreeById(Object obj, TreeNode parentNode, CheckProcess<?, ?> checkProcess) {
 		TreeNode node = new ContainerTreeNode(null, "dummy");
+		
+		if (obj instanceof CheckProcess) {
+			node = new CheckProcessNode(obj);
+			CheckProcess<?, ?> cp = (CheckProcess<?, ?>) obj;
+			node.setLabel(cp.getModel().getModelName());
+			node = findExistingNode(node, parentNode);
+			for (EntityId id : checkProcess.getCheckInformationMap().keySet()) {
+				buildTreeById(id, node, cp);
+			}
+		}
 		
 		if (obj instanceof _CincoId) {
 			node = new IdNode(obj);
@@ -127,6 +141,16 @@ public class CheckViewTreeProvider<E extends _CincoId, M extends GraphModel, W e
 	@SuppressWarnings("unchecked")
 	private TreeNode buildTreeByModule(Object obj, TreeNode parentNode, CheckProcess<?, ?> checkProcess) {
 		TreeNode node = new ContainerTreeNode(null, "dummy");
+		
+		if (obj instanceof CheckProcess) {
+			node = new CheckProcessNode(obj);
+			CheckProcess<?, ?> cp = (CheckProcess<?, ?>) obj;
+			node.setLabel(cp.getModel().getModelName());
+			node = findExistingNode(node, parentNode);
+			for (CheckModule<?, ?> module : checkProcess.getModules()) {
+				buildTreeByModule(module, node, cp);
+			}
+		}
 		
 		if (obj instanceof CheckModule<?, ?>) {
 			CheckModule<E, A> module = (CheckModule<E, A>) obj;

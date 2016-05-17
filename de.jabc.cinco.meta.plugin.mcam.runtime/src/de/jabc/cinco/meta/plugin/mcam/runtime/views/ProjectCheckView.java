@@ -12,8 +12,6 @@ public class ProjectCheckView extends CheckView {
 	
 	public static final String ID = "de.jabc.cinco.meta.plugin.mcam.runtime.views.ProjectCheckView";
 
-	
-	
 	@Override
 	protected void initView(Composite parent) {
 		super.initView(parent);

@@ -59,11 +59,13 @@ public abstract class McamView<T extends McamPage> extends ViewPart implements
 	protected IFile activeFile;
 
 	private HashMap<String, T> pageMap = new HashMap<>();
+	private HashMap<String, Integer> pageCountMap = new HashMap<>();
 
 	protected IAction doubleClickAction;
 	protected IAction expandAllAction;
 	protected IAction collapseAllAction;
 	protected IAction reloadAction;
+	protected IAction openModelAction;
 
 	protected Image iconRefresh;
 	protected Image iconCollapseAll;
@@ -103,20 +105,14 @@ public abstract class McamView<T extends McamPage> extends ViewPart implements
 		contributeToActionBars();
 
 		initView(parent);
-
-		for (IEditorReference editor : PlatformUI.getWorkbench()
-				.getActiveWorkbenchWindow().getActivePage()
-				.getEditorReferences()) {
-			loadPageByEditor(editor);
-		}
 	}
 
 	private void initControls() {
 		viewer = activePage.getTreeViewer();
 
 		// Create the help context id for the viewer's control
-		PlatformUI.getWorkbench().getHelpSystem()
-				.setHelp(viewer.getControl(), "mcamview.viewer");
+		// PlatformUI.getWorkbench().getHelpSystem()
+		// .setHelp(viewer.getControl(), "mcamview.viewer");
 
 		hookContextMenu();
 		hookDoubleClickAction();
@@ -130,6 +126,7 @@ public abstract class McamView<T extends McamPage> extends ViewPart implements
 				fillContextMenu(manager);
 			}
 		});
+
 		Menu menu = menuMgr.createContextMenu(viewer.getControl());
 		viewer.getControl().setMenu(menu);
 		getSite().registerContextMenu(menuMgr, viewer);
@@ -159,6 +156,7 @@ public abstract class McamView<T extends McamPage> extends ViewPart implements
 	abstract protected void fillLocalToolBar(IToolBarManager manager);
 
 	protected void initView(Composite parent) {
+
 	}
 
 	protected void makeActions() {
@@ -186,7 +184,7 @@ public abstract class McamView<T extends McamPage> extends ViewPart implements
 				Object obj = ((IStructuredSelection) selection)
 						.getFirstElement();
 				activePage.toggleExpand(obj);
-				activePage.storeTreeState();
+//				activePage.storeTreeState();
 			}
 		};
 
@@ -197,7 +195,7 @@ public abstract class McamView<T extends McamPage> extends ViewPart implements
 			public void run() {
 				if (activePage != null) {
 					activePage.getTreeViewer().expandAll();
-					activePage.storeTreeState();
+//					activePage.storeTreeState();
 				}
 			}
 		};
@@ -213,7 +211,7 @@ public abstract class McamView<T extends McamPage> extends ViewPart implements
 			public void run() {
 				if (activePage != null) {
 					activePage.getTreeViewer().collapseAll();
-					activePage.storeTreeState();
+//					activePage.storeTreeState();
 				}
 			}
 		};
@@ -221,6 +219,20 @@ public abstract class McamView<T extends McamPage> extends ViewPart implements
 		collapseAllAction.setToolTipText("Collapse all");
 		collapseAllAction.setImageDescriptor(ImageDescriptor
 				.createFromImage(iconCollapseAll));
+
+		/*
+		 * ------------------------------------------
+		 */
+		openModelAction = new Action() {
+			public void run() {
+				ISelection selection = viewer.getSelection();
+				Object obj = ((IStructuredSelection) selection)
+						.getFirstElement();
+				activePage.openAndHighlight(obj);
+			}
+		};
+		openModelAction.setText("show/open model");
+		openModelAction.setToolTipText("show/open model");
 	}
 
 	abstract protected void reloadViewState();
@@ -264,6 +276,8 @@ public abstract class McamView<T extends McamPage> extends ViewPart implements
 	}
 
 	protected void activePageChanged() {
+		initControls();
+		// reloadAction.run();
 		reloadViewState();
 	}
 
@@ -286,6 +300,7 @@ public abstract class McamView<T extends McamPage> extends ViewPart implements
 	public void partClosed(IWorkbenchPartReference partRef) {
 		// System.out.println(this.getClass().getSimpleName() + "Part closed: "
 		// + partRef.getTitle());
+		refreshActivePages();
 		closePage(partRef);
 	}
 
@@ -299,6 +314,8 @@ public abstract class McamView<T extends McamPage> extends ViewPart implements
 	public void partOpened(IWorkbenchPartReference partRef) {
 		// System.out.println(this.getClass().getSimpleName() + "Part opened: "
 		// + partRef.getTitle());
+		refreshActivePages();
+		createPageByEditor(partRef);
 	}
 
 	@Override
@@ -311,6 +328,7 @@ public abstract class McamView<T extends McamPage> extends ViewPart implements
 	public void partVisible(IWorkbenchPartReference partRef) {
 		// System.out.println(this.getClass().getSimpleName() + "Part visible: "
 		// + partRef.getTitle());
+		refreshActivePages();
 		loadPageByEditor(partRef);
 	}
 
@@ -320,18 +338,54 @@ public abstract class McamView<T extends McamPage> extends ViewPart implements
 		// + "Part input changed: " + partRef.getTitle());
 	}
 
-	public void closePage(IWorkbenchPartReference partRef) {
+	protected void refreshActivePages() {
+		pageCountMap = new HashMap<String, Integer>();
+		for (IEditorReference editorRef : PlatformUI.getWorkbench()
+				.getActiveWorkbenchWindow().getActivePage()
+				.getEditorReferences()) {
+			
+			IEditorPart editor = ((EditorReference) editorRef).getEditor(true);
+			String pageId = getPageId(EclipseUtils.getIFile(editor));
+			
+			if (!pageCountMap.containsKey(pageId))
+				pageCountMap.put(pageId, 1);
+			else {
+				int i = pageCountMap.get(pageId);
+				i++;
+				pageCountMap.put(pageId, i);
+			}
+		}
+		
+//		System.out.println(pageMap.keySet());
+//		for (String pId : pageCountMap.keySet()) {
+//			System.out.println(pId + " - " + pageCountMap.get(pId));
+//		}
+	}
+
+	protected void closePage(IWorkbenchPartReference partRef) {
 		if (partRef instanceof EditorReference) {
 			IEditorPart editor = ((EditorReference) partRef).getEditor(true);
 			if (editor instanceof DiagramEditor == false)
 				return;
 
+			if (parent.isDisposed())
+				return;
+			
 			String pageId = getPageId(EclipseUtils.getIFile(editor));
-
+			
 			if (pageMap.keySet().contains(pageId)) {
+//				 System.out.println("PageCount for " + pageId + " = "
+//				 + pageCountMap.get(pageId));
+
+				if (pageCountMap.get(pageId) != null && pageCountMap.get(pageId) > 0)
+					return;
+
+				System.out.println("Closing page " + pageId);
+
 				T page = pageMap.get(pageId);
 				page.closeView();
 				pageMap.remove(pageId);
+				pageCountMap.remove(pageId);
 				activePage = null;
 
 				if (!parent.isDisposed()) {
@@ -343,49 +397,82 @@ public abstract class McamView<T extends McamPage> extends ViewPart implements
 		}
 	}
 
-	public void loadPageByEditor(IWorkbenchPartReference partRef) {
+	protected void createPageByEditor(IWorkbenchPartReference partRef) {
 		if (partRef instanceof EditorReference) {
 			IEditorPart editor = ((EditorReference) partRef).getEditor(true);
 			if (editor instanceof DiagramEditor == false)
 				return;
 
+			if (parent.isDisposed())
+				return;
+
 			String pageId = getPageId(EclipseUtils.getIFile(editor));
+
+			if (!pageMap.keySet().contains(pageId)) {
+
+				System.out.println("Creating page for " + pageId);
+
+				try {
+					T newPage = createPage(pageId, editor);
+					if (newPage == null)
+						return;
+					newPage.initPage(parent, this);
+					// newPage.reload();
+					pageMap.put(pageId, newPage);
+					pageCountMap.put(pageId, 1);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			} else {
+				int count = pageCountMap.get(pageId);
+				count++;
+				pageCountMap.put(pageId, count);
+			}
+
+			// System.out.println("PageCount for " + pageId + " = "
+			// + pageCountMap.get(pageId));
+		}
+	}
+
+	protected void loadPageByEditor(IWorkbenchPartReference partRef) {
+		if (partRef instanceof EditorReference) {
+			IEditorPart editor = ((EditorReference) partRef).getEditor(true);
+
+			for (Control child : parent.getChildren()) {
+				child.setVisible(false);
+				if (child.getLayoutData() instanceof GridData)
+					((GridData) child.getLayoutData()).exclude = true;
+			}
+
+			if (editor instanceof DiagramEditor == false)
+				return;
 
 			if (parent.isDisposed())
 				return;
 
+			String pageId = getPageId(EclipseUtils.getIFile(editor));
+
 			if (activePage == null || !pageId.equals(activePage.getPageId())) {
+				System.out.println("Loading pageId = " + pageId);
 
-				for (Control child : parent.getChildren()) {
-					child.setVisible(false);
-					if (child.getLayoutData() instanceof GridData)
-						((GridData) child.getLayoutData()).exclude = true;
-				}
-
-				if (!pageMap.keySet().contains(pageId)) {
-					try {
-						T newPage = createPage(pageId, editor);
-						if (newPage == null)
-							return;
-						newPage.initPage(parent, this);
-						pageMap.put(pageId, newPage);
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				}
+				if (pageMap.get(pageId) == null)
+					createPageByEditor(partRef);
 
 				setActivePage(pageMap.get(pageId));
-				reloadAction.run();
-				activePage.getFrameComposite().setVisible(true);
-				((GridData) activePage.getFrameComposite().getLayoutData()).exclude = false;
 
-				initControls();
+				if (activePage == null)
+					return;
+
 				activePageChanged();
 			}
+
+			activePage.getFrameComposite().setVisible(true);
+			((GridData) activePage.getFrameComposite().getLayoutData()).exclude = false;
+
 			editorChanged();
 		}
 	}
-	
+
 	abstract public String getPageId(IResource res);
 
 	public abstract T createPage(String pageId, IEditorPart editor);

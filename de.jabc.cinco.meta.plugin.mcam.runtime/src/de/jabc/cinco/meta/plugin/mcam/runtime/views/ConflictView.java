@@ -65,7 +65,7 @@ public class ConflictView extends McamView<ConflictViewPage> {
 
 	@Override
 	protected void fillContextMenu(IMenuManager manager) {
-		// manager.add(openModelAction);
+		manager.add(openModelAction);
 		// manager.add(new Separator());
 		// // Other plug-ins can contribute there actions here
 		// manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));

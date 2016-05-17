@@ -31,6 +31,8 @@ public class CheckView extends McamView<CheckViewPage> {
 
 	private IAction showByModuleViewAction;
 	private IAction showByIdViewAction;
+	
+	private IAction showNonErrorsAction;
 
 	@Override
 	protected void initView(Composite parent) {
@@ -45,6 +47,7 @@ public class CheckView extends McamView<CheckViewPage> {
 	@Override
 	protected void fillLocalPullDown(IMenuManager manager) {
 		IMenuManager filterSubmenu = new MenuManager("Filters");
+		filterSubmenu.add(showNonErrorsAction);
 
 		IMenuManager viewSubmenu = new MenuManager("Views");
 		viewSubmenu.add(showByModuleViewAction);
@@ -58,7 +61,7 @@ public class CheckView extends McamView<CheckViewPage> {
 
 	@Override
 	protected void fillContextMenu(IMenuManager manager) {
-		// manager.add(openModelAction);
+		manager.add(openModelAction);
 		// manager.add(new Separator());
 		// // Other plug-ins can contribute there actions here
 		// manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
@@ -117,6 +120,26 @@ public class CheckView extends McamView<CheckViewPage> {
 		showByModuleViewAction.setText("by module");
 		showByModuleViewAction.setToolTipText("show results by module");
 		showByModuleViewAction.setChecked(false);
+		
+		/*
+		 * ------------------------------------------
+		 */
+		showNonErrorsAction = new Action() {
+			public void run() {
+				
+				activePage.getResultTypeFilter().switchShowNonErrors();
+
+				EclipseUtils.runBusy(new Runnable() {
+					public void run() {
+						activePage.reload();
+						reloadViewState();
+					}
+				});
+			}
+		};
+		showNonErrorsAction.setText("show non-errors");
+		showNonErrorsAction.setToolTipText("show warnings and less important entries");
+		showNonErrorsAction.setChecked(true);
 
 	}
 
@@ -124,6 +147,8 @@ public class CheckView extends McamView<CheckViewPage> {
 	protected void reloadViewState() {
 		showByIdViewAction.setChecked(false);
 		showByModuleViewAction.setChecked(false);
+		
+		showNonErrorsAction.setChecked(activePage.getResultTypeFilter().isShowNonErrors());
 
 		switch (activePage.getDataProvider().getActiveView()) {
 		case BY_ID:
