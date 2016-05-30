@@ -10,11 +10,12 @@ public class CheckProcessNode extends TreeNode {
 
 	@Override
 	public String getId() {
-		if (data instanceof CheckProcess) {
-			CheckProcess<?, ?> cp = (CheckProcess<?, ?>) data;
-			return cp.getModel().getFilePath() + "_" + cp.getModel().getModelName();
+		if (data instanceof CheckProcess<?, ?>) {
+			CheckProcess<?, ?> process = (CheckProcess<?, ?>) data;
+			return process.getModel().getFilePath() + "/" + process.getModel().getModelName();
 		}
-		return null;
+		return uuid.toString();
 	}
 
+	
 }

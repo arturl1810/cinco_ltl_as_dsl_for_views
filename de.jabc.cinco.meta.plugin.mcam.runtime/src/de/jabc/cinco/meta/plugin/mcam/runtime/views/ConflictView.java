@@ -12,6 +12,7 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IEditorPart;
 
 import de.jabc.cinco.meta.plugin.mcam.runtime.views.pages.ConflictViewPage;
@@ -352,6 +353,12 @@ public class ConflictView extends McamView<ConflictViewPage> {
 		String path = file.getRawLocation().toOSString();
 		File origFile = new File(path);
 		return origFile.getAbsolutePath();
+	}
+
+	@Override
+	protected void initView(Composite parent) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

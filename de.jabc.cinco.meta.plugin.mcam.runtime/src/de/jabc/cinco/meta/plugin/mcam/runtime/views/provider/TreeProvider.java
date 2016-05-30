@@ -4,28 +4,42 @@ import de.jabc.cinco.meta.plugin.mcam.runtime.views.nodes.TreeNode;
 
 public abstract class TreeProvider {
 
-	private boolean resetted = true;
+	private boolean updateNeeded = true;
 
-	public boolean isResetted() {
-		return resetted;
+	public boolean isUpdateNeeded() {
+		return updateNeeded;
 	}
 
-	public void reset() {
-		resetted = true;
+	public void flagDirty() {
+		updateNeeded = true;
+	}
+
+	public void flagClean() {
+		updateNeeded = true;
 	}
 
 	public void load(Object rootObject) {
-		resetted = false;
-		loadData(rootObject);
+		synchronized (this) {
+			if (updateNeeded) {
+				loadData(rootObject);
+				updateNeeded = false;
+			}
+		}
 	}
 
 	abstract protected void loadData(Object rootObject);
 
-	abstract public TreeNode getTree();
+	public TreeNode getTree() {
+		synchronized (this) {
+			return getTreeRoot();
+		}
+	}
+
+	abstract protected TreeNode getTreeRoot();
 
 	protected TreeNode findExistingNode(TreeNode node, TreeNode parentNode) {
 		TreeNode existingNode = parentNode.find(node.getId());
-		
+
 		if (existingNode != null)
 			return existingNode;
 

@@ -47,7 +47,7 @@ import de.jabc.cinco.meta.plugin.mcam.runtime.views.utils.EclipseUtils;
 @SuppressWarnings("restriction")
 public abstract class McamView<T extends McamPage> extends ViewPart implements
 		IPartListener2 {
-
+	
 	private static final String EXTENSION_ID = "de.jabc.cinco.meta.plugin.mcam.runtime.extensionpoint";
 
 	protected Bundle bundle = FrameworkUtil.getBundle(this.getClass());
@@ -82,7 +82,7 @@ public abstract class McamView<T extends McamPage> extends ViewPart implements
 	public HashMap<String, T> getPageMap() {
 		return pageMap;
 	}
-
+	
 	/**
 	 * This is a callback that will allow us to create the viewer and initialize
 	 * it.
@@ -155,9 +155,7 @@ public abstract class McamView<T extends McamPage> extends ViewPart implements
 
 	abstract protected void fillLocalToolBar(IToolBarManager manager);
 
-	protected void initView(Composite parent) {
-
-	}
+	abstract protected void initView(Composite parent);
 
 	protected void makeActions() {
 		/*
@@ -184,7 +182,6 @@ public abstract class McamView<T extends McamPage> extends ViewPart implements
 				Object obj = ((IStructuredSelection) selection)
 						.getFirstElement();
 				activePage.toggleExpand(obj);
-//				activePage.storeTreeState();
 			}
 		};
 
@@ -195,7 +192,6 @@ public abstract class McamView<T extends McamPage> extends ViewPart implements
 			public void run() {
 				if (activePage != null) {
 					activePage.getTreeViewer().expandAll();
-//					activePage.storeTreeState();
 				}
 			}
 		};
@@ -211,7 +207,6 @@ public abstract class McamView<T extends McamPage> extends ViewPart implements
 			public void run() {
 				if (activePage != null) {
 					activePage.getTreeViewer().collapseAll();
-//					activePage.storeTreeState();
 				}
 			}
 		};
@@ -260,7 +255,7 @@ public abstract class McamView<T extends McamPage> extends ViewPart implements
 	 * Passing the focus request to the viewer's control.
 	 */
 	public void setFocus() {
-		// viewer.getControl().setFocus();
+//		 viewer.getControl().setFocus();
 	}
 
 	public void refreshView() {

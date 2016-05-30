@@ -2,19 +2,21 @@ package de.jabc.cinco.meta.plugin.mcam.runtime.views.nodes;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import de.jabc.cinco.meta.plugin.mcam.runtime.core._CincoId;
+import java.util.UUID;
 
 public abstract class TreeNode {
+	
+	protected UUID uuid = null;
 
 	protected String label = null;
 	protected Object data = null;
 	private TreeNode parent = null;
-	private List<TreeNode> children = new ArrayList<TreeNode>();
+	private ArrayList<TreeNode> children = new ArrayList<TreeNode>();
 
-	TreeNode(Object data) {
+	public TreeNode(Object data) {
 		super();
 		this.data = data;
+		this.uuid = UUID.randomUUID();
 	}
 
 	public Object getData() {
@@ -37,7 +39,7 @@ public abstract class TreeNode {
 		return children;
 	}
 
-	public void setChildren(List<TreeNode> children) {
+	public void setChildren(ArrayList<TreeNode> children) {
 		this.children = children;
 	}
 
@@ -51,7 +53,7 @@ public abstract class TreeNode {
 		this.label = label;
 	}
 
-	abstract public String getId();
+	public abstract String getId();
 
 	public String getPathIdentifier() {
 		String ident = getId();
@@ -95,7 +97,7 @@ public abstract class TreeNode {
 
 	@Override
 	public String toString() {
-		String output = "TreeNode of: " + data + "\n";
+		String output = "TreeNode of: " + data.getClass().getSimpleName() + "\n";
 		for (TreeNode treeNode : children) {
 			output += " - " + treeNode.toString();
 		}

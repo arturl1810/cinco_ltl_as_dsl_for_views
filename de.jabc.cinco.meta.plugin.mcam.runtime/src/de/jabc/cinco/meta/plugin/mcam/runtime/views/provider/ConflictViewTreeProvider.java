@@ -15,10 +15,11 @@ import de.jabc.cinco.meta.plugin.mcam.runtime.views.nodes.IdNode;
 import de.jabc.cinco.meta.plugin.mcam.runtime.views.nodes.TreeNode;
 import de.jabc.cinco.meta.plugin.mcam.runtime.views.pages.ConflictViewPage;
 
-public class ConflictViewTreeProvider<E extends _CincoId, M extends GraphModel, W extends CGraphModel, A extends _CincoAdapter<E, M, W>> extends TreeProvider {
+public class ConflictViewTreeProvider<E extends _CincoId, M extends GraphModel, W extends CGraphModel, A extends _CincoAdapter<E, M, W>>
+		extends TreeProvider {
 
 	private ConflictViewPage<E, M, W, A> page;
-	
+
 	public enum ViewType {
 		BY_ID
 	}
@@ -28,14 +29,14 @@ public class ConflictViewTreeProvider<E extends _CincoId, M extends GraphModel, 
 	private ViewType activeView = ViewType.BY_ID;
 
 	private MergeProcess<E, A> mp;
-	
+
 	public ConflictViewTreeProvider(ConflictViewPage<E, M, W, A> page) {
 		super();
 		this.page = page;
 	}
 
 	@Override
-	public TreeNode getTree() {
+	public TreeNode getTreeRoot() {
 		switch (activeView) {
 		case BY_ID:
 		default:
@@ -58,37 +59,42 @@ public class ConflictViewTreeProvider<E extends _CincoId, M extends GraphModel, 
 	@Override
 	public void loadData(Object rootObject) {
 		final long timeStart = System.currentTimeMillis();
-		
-		mp = page.getMp();
-		
-		if (mp == null)
-			return;
 
-		switch (activeView) {
-		case BY_ID:
-		default:
-			byIdRoot = new ContainerTreeNode(null, "root");
-			for (MergeInformation<E, A> mergeInfo : mp.getMergeInformationMap().values()) {
-				if (mergeInfo.getLocalChanges().size() > 0 || mergeInfo.getRemoteChanges().size() > 0)
-					buildTreeById(mergeInfo.getId(), byIdRoot);
-			}
-			break;
+		mp = page.getMp();
+		final long timeLoad = System.currentTimeMillis();
+
+		buildTree();
+		final long timeBuild = System.currentTimeMillis();
+
+		System.out.println(page.getClass().getSimpleName()
+				+ " - load: " + (timeLoad - timeStart)
+				+ " ms / build: " + (timeBuild - timeLoad) + " ms");
+	}
+
+	protected void buildTree() {
+		byIdRoot = new ContainerTreeNode(null, "byIdRoot");
+		for (MergeInformation<E, A> mergeInfo : mp.getMergeInformationMap()
+				.values()) {
+			if (mergeInfo.getLocalChanges().size() > 0
+					|| mergeInfo.getRemoteChanges().size() > 0)
+				buildTreeById(mergeInfo.getId(), byIdRoot);
 		}
-		System.out.println("ConflictView - create Tree: " + (System.currentTimeMillis() - timeStart) + " ms");
 	}
 
 	@SuppressWarnings("unchecked")
 	private TreeNode buildTreeById(Object obj, TreeNode parentNode) {
 		TreeNode node = new ContainerTreeNode(null, "dummy");
-		
-		if(obj instanceof _CincoId) {
+
+		if (obj instanceof _CincoId) {
 			_CincoId id = (_CincoId) obj;
-			
+
 			node = new IdNode(obj);
 			node.setLabel(id.toString());
 
-			MergeInformation<E, A> mergeInfo = mp.getMergeInformationMap().get(id);
-			for (Set<ChangeModule<E, A>> conflictSet : mergeInfo.getListOfConflictedChangeSets()) {
+			MergeInformation<E, A> mergeInfo = mp.getMergeInformationMap().get(
+					id);
+			for (Set<ChangeModule<E, A>> conflictSet : mergeInfo
+					.getListOfConflictedChangeSets()) {
 				buildTreeById(conflictSet, node);
 			}
 			for (ChangeModule<E, A> change : mergeInfo.getLocalChanges()) {
@@ -102,13 +108,11 @@ public class ConflictViewTreeProvider<E extends _CincoId, M extends GraphModel, 
 		}
 
 		if (obj instanceof ChangeModule<?, ?>) {
-			ChangeModule<E, A> change = (ChangeModule<E, A>) obj;		
+			ChangeModule<E, A> change = (ChangeModule<E, A>) obj;
 			node = new ContainerTreeNode(obj, obj.toString());
 			node.setLabel(change.toString());
 
 		}
-
-
 
 		if (obj instanceof Set<?>) {
 			node = new ContainerTreeNode(obj, obj.toString());
@@ -120,7 +124,6 @@ public class ConflictViewTreeProvider<E extends _CincoId, M extends GraphModel, 
 			}
 		}
 
-		
 		/*
 		 * post processing
 		 */
@@ -128,18 +131,12 @@ public class ConflictViewTreeProvider<E extends _CincoId, M extends GraphModel, 
 		node.setParent(parentNode);
 
 		/*
-		TreeNode existingNode = parentNode.find(node.getId());
-		if (existingNode == null) {
-			parentNode.getChildren().add(node);
-			node.setParent(parentNode);
-		} else {
-			return existingNode;
-		}
-		*/
+		 * TreeNode existingNode = parentNode.find(node.getId()); if
+		 * (existingNode == null) { parentNode.getChildren().add(node);
+		 * node.setParent(parentNode); } else { return existingNode; }
+		 */
 
 		return node;
 	}
 
-
 }
-

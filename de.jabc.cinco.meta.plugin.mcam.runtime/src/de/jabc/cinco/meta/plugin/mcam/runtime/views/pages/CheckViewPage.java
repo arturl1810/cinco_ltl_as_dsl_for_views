@@ -4,6 +4,7 @@ import graphicalgraphmodel.CGraphModel;
 import graphmodel.GraphModel;
 import graphmodel.ModelElement;
 import info.scce.mcam.framework.modules.CheckModule;
+import info.scce.mcam.framework.processes.CheckInformation;
 import info.scce.mcam.framework.processes.CheckProcess;
 import info.scce.mcam.framework.processes.CheckResult;
 import info.scce.mcam.framework.processes.CheckResult.CheckResultType;
@@ -21,7 +22,10 @@ import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.jface.viewers.DelegatingStyledCellLabelProvider;
+import org.eclipse.jface.viewers.DelegatingStyledCellLabelProvider.IStyledLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.jface.viewers.StyledString;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.jface.viewers.ViewerSorter;
@@ -70,7 +74,12 @@ public abstract class CheckViewPage<E extends _CincoId, M extends GraphModel, W 
 	}
 
 	@Override
-	public LabelProvider getDefaultLabelProvider() {
+	public DelegatingStyledCellLabelProvider getDefaultLabelProvider() {
+		return new DelegatingStyledCellLabelProvider(labelProvider);
+		// return labelProvider;
+	}
+	
+	public CheckViewLabelProvider getLabelProvider() {
 		return labelProvider;
 	}
 
@@ -125,17 +134,6 @@ public abstract class CheckViewPage<E extends _CincoId, M extends GraphModel, W 
 	}
 
 	public abstract void addCheckProcess(IFile iFile, Resource resource);
-
-//	@Override
-//	public void reload() {
-////		storeTreeState();
-////		data.reset();
-////		treeViewer.setInput(parentViewPart.getViewSite());
-////		restoreTreeState();
-//		
-//		getDataProvider().load(this);
-//		treeViewer.refresh(getDataProvider().getTree());
-//	}
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -235,14 +233,17 @@ public abstract class CheckViewPage<E extends _CincoId, M extends GraphModel, W 
 	/*
 	 * Provider / Classes for TreeViewer
 	 */
-	private class CheckViewLabelProvider extends LabelProvider {
+	public class CheckViewLabelProvider extends LabelProvider implements
+			IStyledLabelProvider {
 
-		public String getText(Object obj) {
-			// Object element = getTreeNodeData(obj);
-			if (obj instanceof TreeNode) {
-				return ((TreeNode) obj).getLabel();
-			}
-			return "unknown";
+		private boolean showPerformance = false;
+
+		public boolean isShowPerformance() {
+			return showPerformance;
+		}
+
+		public void setShowPerformance(boolean showPerformance) {
+			this.showPerformance = showPerformance;
 		}
 
 		@SuppressWarnings("unchecked")
@@ -254,7 +255,9 @@ public abstract class CheckViewPage<E extends _CincoId, M extends GraphModel, W 
 			}
 			if (element instanceof CheckModule<?, ?>) {
 				CheckModule<E, A> module = (CheckModule<E, A>) element;
-				return mapResultTypeToImage(getResultType(module.getClass()));
+				return mapResultTypeToImage(module.getResultType());
+				// return
+				// mapResultTypeToImage(getResultType(module.getClass()));
 			}
 			if (element instanceof _CincoId) {
 				CheckProcess<?, ?> cp = getCheckProcessById((_CincoId) element);
@@ -283,6 +286,55 @@ public abstract class CheckViewPage<E extends _CincoId, M extends GraphModel, W 
 				return icons.get("resultFailure");
 			return null;
 		}
+
+		@SuppressWarnings("unchecked")
+		@Override
+		public StyledString getStyledText(Object obj) {
+			StyledString styledString = new StyledString("unknown");
+
+			if (obj instanceof TreeNode == false)
+				return styledString;
+
+			styledString = new StyledString(((TreeNode) obj).getLabel());
+			// styledString.append(" (" + ((TreeNode) obj).getPathIdentifier() +
+			// ") ", StyledString.DECORATIONS_STYLER);
+
+			Object element = getTreeNodeData(obj);
+			if (element instanceof CheckModule<?, ?>) {
+				CheckModule<E, A> module = (CheckModule<E, A>) element;
+				styledString.append(" ("
+						// + checkInfo.getNumberOf(CheckResultType.FAILURE) +
+						// "/"
+						+ module.getNumberOf(CheckResultType.ERROR) + "/"
+						+ module.getNumberOf(CheckResultType.WARNING) + ") ",
+						StyledString.COUNTER_STYLER);
+				if (showPerformance)
+					styledString.append(" [" + module.getExecutionTime()
+							+ "ms] ", StyledString.QUALIFIER_STYLER);
+			}
+			if (element instanceof _CincoId) {
+				CheckProcess<?, ?> cp = getCheckProcessById((_CincoId) element);
+				CheckInformation<?, ?> checkInfo = cp.getCheckInformationMap()
+						.get(element);
+				styledString.append(
+						" ("
+								// +
+								// checkInfo.getNumberOf(CheckResultType.FAILURE)
+								// + "/"
+								+ checkInfo.getNumberOf(CheckResultType.ERROR)
+								+ "/"
+								+ checkInfo
+										.getNumberOf(CheckResultType.WARNING)
+								+ ") ", StyledString.COUNTER_STYLER);
+			}
+			if (element instanceof CheckProcess) {
+				CheckProcess<?, ?> cp = (CheckProcess<?, ?>) element;
+				if (showPerformance)
+					styledString.append(" [" + cp.getExecutionTime() + "ms] ",
+							StyledString.QUALIFIER_STYLER);
+			}
+			return styledString;
+		}
 	}
 
 	private class CheckViewNameSorter extends ViewerSorter {
@@ -295,27 +347,48 @@ public abstract class CheckViewPage<E extends _CincoId, M extends GraphModel, W 
 		public int category(Object element) {
 			if (element instanceof _CincoId)
 				return 1;
-			return 3;
+			if (element instanceof CheckResult)
+				return 2;
+			if (element instanceof CheckModule)
+				return 2;
+			if (element instanceof CheckProcess)
+				return 4;
+			return 5;
 		}
 
 		@SuppressWarnings("unchecked")
 		@Override
 		public int compare(Viewer viewer, Object e1, Object e2) {
-			e1 = getTreeNodeData(e1);
-			e2 = getTreeNodeData(e2);
+
+			if (e1 instanceof String && e2 instanceof String) {
+				String s1 = (String) e1;
+				String s2 = (String) e2;
+				return s1.toLowerCase().compareTo(s2.toLowerCase());
+			}
+
+			if (e1 instanceof TreeNode == false
+					&& e2 instanceof TreeNode == false)
+				return 0;
+
+			TreeNode node1 = (TreeNode) e1;
+			TreeNode node2 = (TreeNode) e2;
+
+			e1 = getTreeNodeData(node1);
+			e2 = getTreeNodeData(node2);
 
 			int cat1 = category(e1);
 			int cat2 = category(e2);
 			if (cat1 != cat2)
 				return cat1 - cat2;
-			
+
 			if (e1 instanceof CheckProcess && e2 instanceof CheckProcess) {
 				CheckProcess<E, A> cp1 = (CheckProcess<E, A>) e1;
 				CheckProcess<E, A> cp2 = (CheckProcess<E, A>) e2;
 				int diff = compareResultType(getResultType(cp1),
 						getResultType(cp2));
 				if (diff == 0)
-					return cp1.getModel().getModelName().compareTo(cp2.getModel().getModelName());
+					return compare(viewer, cp1.getModel().getModelName(), cp2
+							.getModel().getModelName());
 				else
 					return diff;
 			}
@@ -323,11 +396,11 @@ public abstract class CheckViewPage<E extends _CincoId, M extends GraphModel, W 
 			if (e1 instanceof CheckModule && e2 instanceof CheckModule) {
 				CheckModule<E, A> cm1 = (CheckModule<E, A>) e1;
 				CheckModule<E, A> cm2 = (CheckModule<E, A>) e2;
-				int diff = compareResultType(getResultType(cm1.getClass()),
-						getResultType(cm2.getClass()));
+				int diff = compareResultType(cm1.getResultType(),
+						cm2.getResultType());
 				if (diff == 0)
-					return cm1.getClass().getSimpleName()
-							.compareTo(cm2.getClass().getSimpleName());
+					return compare(viewer, cm1.getClass().getSimpleName(), cm2
+							.getClass().getSimpleName());
 				else
 					return diff;
 			}
@@ -338,8 +411,8 @@ public abstract class CheckViewPage<E extends _CincoId, M extends GraphModel, W 
 				int diff = compareResultType(result1.getType(),
 						result2.getType());
 				if (diff == 0)
-					return compare(viewer, result1.getModule(),
-							result2.getModule());
+					return compare(viewer, result1.getMessage(),
+							result2.getMessage());
 				else
 					return diff;
 			}
@@ -358,7 +431,7 @@ public abstract class CheckViewPage<E extends _CincoId, M extends GraphModel, W 
 
 				int diff = compareResultType(type1, type2);
 				if (diff == 0)
-					return id1.toString().compareTo(id2.toString());
+					return compare(viewer, id1.toString(), id2.toString());
 				else
 					return diff;
 			}

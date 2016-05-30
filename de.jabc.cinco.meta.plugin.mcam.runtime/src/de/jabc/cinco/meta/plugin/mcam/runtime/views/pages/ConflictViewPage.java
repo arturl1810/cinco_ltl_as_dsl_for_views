@@ -21,13 +21,16 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.viewers.DelegatingStyledCellLabelProvider;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.StyledString;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.jface.viewers.ViewerSorter;
+import org.eclipse.jface.viewers.DelegatingStyledCellLabelProvider.IStyledLabelProvider;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IEditorPart;
@@ -102,8 +105,8 @@ public abstract class ConflictViewPage<E extends _CincoId, M extends GraphModel,
 	}
 
 	@Override
-	public LabelProvider getDefaultLabelProvider() {
-		return labelProvider;
+	public DelegatingStyledCellLabelProvider getDefaultLabelProvider() {
+		return new DelegatingStyledCellLabelProvider(labelProvider);
 	}
 
 	@Override
@@ -341,7 +344,8 @@ public abstract class ConflictViewPage<E extends _CincoId, M extends GraphModel,
 	/*
 	 * Provider / Classes for TreeViewer
 	 */
-	private class ConflictViewLabelProvider extends LabelProvider {
+	private class ConflictViewLabelProvider extends LabelProvider implements
+	IStyledLabelProvider {
 
 		public ConflictViewLabelProvider() {
 			super();
@@ -404,6 +408,12 @@ public abstract class ConflictViewPage<E extends _CincoId, M extends GraphModel,
 				return "Conflict";
 			}
 			return "unknown";
+		}
+
+		@Override
+		public StyledString getStyledText(Object arg0) {
+			// TODO Auto-generated method stub
+			return null;
 		}
 
 	}

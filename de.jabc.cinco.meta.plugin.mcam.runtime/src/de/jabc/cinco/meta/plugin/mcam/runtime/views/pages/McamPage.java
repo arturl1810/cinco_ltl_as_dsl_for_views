@@ -4,23 +4,25 @@ import graphmodel.GraphModel;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.viewers.AbstractTreeViewer;
+import org.eclipse.jface.viewers.DelegatingStyledCellLabelProvider;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITreeContentProvider;
-import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
-import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
@@ -35,8 +37,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.IEditorPart;
@@ -66,8 +67,6 @@ public abstract class McamPage {
 	protected Bundle bundle = FrameworkUtil.getBundle(this.getClass());
 	protected Image iconClearSearch = PlatformUI.getWorkbench()
 			.getSharedImages().getImage(ISharedImages.IMG_ELCL_REMOVE);
-
-//	protected HashMap<String, Boolean> expandState = new HashMap<>();
 
 	protected McamFullTextFilter defaultFilterFullText = new McamFullTextFilter();
 	protected McamContentProvider defaultContentProvider = new McamContentProvider();
@@ -170,7 +169,7 @@ public abstract class McamPage {
 					IStructuredSelection selection = (IStructuredSelection) event
 							.getSelection();
 					highlight(selection.getFirstElement());
-//					treeViewer.refresh();
+					// treeViewer.refresh();
 				}
 			}
 		});
@@ -193,65 +192,81 @@ public abstract class McamPage {
 		 * });
 		 */
 
-//		treeViewer.getTree().addListener(SWT.Expand, new Listener() {
-//			public void handleEvent(Event e) {
-//				storeTreeState();
-//				expandState.put(
-//						getPathIdentifier(((TreeItem) e.item).getData()), true);
-//			}
-//		});
-//		treeViewer.getTree().addListener(SWT.Collapse, new Listener() {
-//			public void handleEvent(Event e) {
-//				storeTreeState();
-//				expandState.put(
-//						getPathIdentifier(((TreeItem) e.item).getData()), false);
-//			}
-//		});
+		// treeViewer.getTree().addListener(SWT.Expand, new Listener() {
+		// public void handleEvent(Event e) {
+		// storeTreeState();
+		// expandState.put(
+		// getPathIdentifier(((TreeItem) e.item).getData()), true);
+		// }
+		// });
+		// treeViewer.getTree().addListener(SWT.Collapse, new Listener() {
+		// public void handleEvent(Event e) {
+		// storeTreeState();
+		// expandState.put(
+		// getPathIdentifier(((TreeItem) e.item).getData()), false);
+		// }
+		// });
 
+//		treeViewer.setInput(getDataProvider().getTree());
 		treeViewer.setInput(parentViewPart.getViewSite());
 
 		frameComposite.pack();
 	}
 
-//	public void storeTreeState() {
-//		expandState.clear();
-//		ArrayList<TreeItem> list = new ArrayList<TreeItem>();
-//		for (TreeItem item : treeViewer.getTree().getItems()) {
-//			list.add(item);
-//			list.addAll(getAllTreeItems(item));
-//		}
-//
-//		for (TreeItem treeItem : list) {
-//			expandState.put(getPathIdentifier(treeItem.getData()),
-//					treeItem.getExpanded());
-//		}
-//	}
-//
-//	public void restoreTreeState() {
-//		treeViewer.expandAll();
-//		ArrayList<TreeItem> list = new ArrayList<TreeItem>();
-//		for (TreeItem item : treeViewer.getTree().getItems()) {
-//			list.add(item);
-//			list.addAll(getAllTreeItems(item));
-//		}
-//
-//		for (TreeItem treeItem : list) {
-//			Boolean expanded = expandState.get(getPathIdentifier(treeItem
-//					.getData()));
-//			if (expanded != null) {
-//				treeItem.setExpanded(expanded);
-//			}
-//		}
-//	}
-	
+	// public void storeTreeState() {
+	// expandState.clear();
+	// ArrayList<TreeItem> list = new ArrayList<TreeItem>();
+	// for (TreeItem item : treeViewer.getTree().getItems()) {
+	// list.add(item);
+	// list.addAll(getAllTreeItems(item));
+	// }
+	//
+	// for (TreeItem treeItem : list) {
+	// expandState.put(getPathIdentifier(treeItem.getData()),
+	// treeItem.getExpanded());
+	// }
+	// }
+	//
+	// public void restoreTreeState() {
+	// treeViewer.expandAll();
+	// ArrayList<TreeItem> list = new ArrayList<TreeItem>();
+	// for (TreeItem item : treeViewer.getTree().getItems()) {
+	// list.add(item);
+	// list.addAll(getAllTreeItems(item));
+	// }
+	//
+	// for (TreeItem treeItem : list) {
+	// Boolean expanded = expandState.get(getPathIdentifier(treeItem
+	// .getData()));
+	// if (expanded != null) {
+	// treeItem.setExpanded(expanded);
+	// }
+	// }
+	// }
+
 	public void reload() {
-//		storeTreeState();
-//		data.reset();
-//		treeViewer.setInput(parentViewPart.getViewSite());
-//		restoreTreeState();
+		// UISynchronize sync = (UISynchronize)
+		// PlatformUI.getWorkbench().getService(UISynchronize.class);
 		
-		getDataProvider().load(this);
-		treeViewer.refresh(getDataProvider().getTree());
+		getDataProvider().flagDirty();
+
+		Job job = new Job("reloading " + this.getClass().getSimpleName()
+				+ " ...") {
+			@Override
+			protected IStatus run(IProgressMonitor monitor) {
+				getDataProvider().load(null);
+
+				Display.getDefault().syncExec(new Runnable() {
+					@Override
+					public void run() {
+//						treeViewer.setInput(parentViewPart.getViewSite());
+						treeViewer.refresh(true);
+					}
+				});
+				return Status.OK_STATUS;
+			}
+		};
+		job.schedule();
 	}
 
 	protected Object getTreeNodeData(Object obj) {
@@ -285,27 +300,27 @@ public abstract class McamPage {
 					if (treeItem.getExpanded()) {
 						treeViewer.collapseToLevel(obj,
 								AbstractTreeViewer.ALL_LEVELS);
-//						expandState.put(getPathIdentifier(treeItem.getData()),
-//								false);
+						// expandState.put(getPathIdentifier(treeItem.getData()),
+						// false);
 					} else {
 						treeViewer.expandToLevel(obj, 1);
-//						expandState.put(getPathIdentifier(treeItem.getData()),
-//								true);
+						// expandState.put(getPathIdentifier(treeItem.getData()),
+						// true);
 					}
 					return;
 				}
 			}
 		}
 	}
-
-	abstract public LabelProvider getDefaultLabelProvider();
+	
+	abstract public DelegatingStyledCellLabelProvider getDefaultLabelProvider();
 
 	abstract public ViewerSorter getDefaultSorter();
 
 	abstract public void openAndHighlight(Object obj);
 
 	abstract public void highlight(Object obj);
-
+	
 	@SuppressWarnings("rawtypes")
 	abstract public _CincoAdapter getAdapter(IFile iFile, Resource resource);
 
@@ -356,8 +371,6 @@ public abstract class McamPage {
 		}
 		return iEditor;
 	}
-	
-	
 
 	/*
 	 * Provider / Classes for TreeViewer
@@ -374,12 +387,13 @@ public abstract class McamPage {
 		}
 
 		public Object[] getElements(Object parent) {
-			if (parent.equals(parentViewPart.getViewSite())) {
-				if (getDataProvider() != null && getDataProvider().isResetted())
-					getDataProvider().load(this);
-				return getChildren(getDataProvider().getTree());
-			}
-			return getChildren(parent);
+			// if (parent.equals(parentViewPart.getViewSite())) {
+			if (getDataProvider() == null)
+				return EMPTY_ARRAY;
+			getDataProvider().load(null);
+			return getChildren(getDataProvider().getTree());
+			// }
+			// return getChildren(parent);
 		}
 
 		public Object getParent(Object child) {
@@ -390,7 +404,8 @@ public abstract class McamPage {
 
 		public Object[] getChildren(Object parent) {
 			if (parent instanceof TreeNode)
-				return ((TreeNode) parent).getChildren().toArray();
+				return ((TreeNode) parent).getChildren().toArray(
+						new TreeNode[0]);
 			return EMPTY_ARRAY;
 		}
 
@@ -447,7 +462,8 @@ public abstract class McamPage {
 		}
 
 		private boolean compare(TreeNode node) {
-			String string = getDefaultLabelProvider().getText(node);
+			String string = getDefaultLabelProvider().getStyledStringProvider()
+					.getStyledText(node).toString();
 			if (string.toLowerCase().contains(searchString.toLowerCase()))
 				return true;
 			return false;
