@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>730ef53f-e135-46d5-9e4b-96fc4843c423</id>
   <name>GenerateAddEdgeFeature</name>
-  <changecounter>783</changecounter>
+  <changecounter>788</changecounter>
   <sib>
     <id>4966ae71-56db-49f8-b6d7-c3a51fbd1021</id>
     <name>PutExpression</name>
@@ -288,8 +288,9 @@ public class Add$context.edgeName$Feature extends CincoAbstractAddFeature {
 		ModelElementContainer container = $context.graphModelName$GraphitiUtils.getInstance().getCommonContainer($context.lcGraphModelName$, $context.meIdentifier$);
 		container.getModelElements().add($context.meIdentifier$);
 
-		$context.postCreateHookContent$
-		
+		if (hook) {
+			$context.postCreateHookContent$
+		}
 		$context.graphModelName$EContentAdapter.getInstance().addAdapter($context.meIdentifier$);
 
 		UpdateContext uc = new UpdateContext(connection);

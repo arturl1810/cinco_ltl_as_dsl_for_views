@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>7def08b0-45b0-4f5d-9629-657ab3028508</id>
   <name>GenerateAddNodeFeature</name>
-  <changecounter>1909</changecounter>
+  <changecounter>1914</changecounter>
   <sib>
     <id>b89523ed-9916-4f61-a5e9-9e1d8838a845</id>
     <name>PutExpression_1</name>
@@ -214,7 +214,9 @@ public class Add$context.modelElementName$Feature extends CincoAbstractAddFeatur
 		peService.createChopboxAnchor($context.rootShapeName$);
 		layoutPictogramElement($context.rootShapeName$);
 		
-		$context.postCreateHookContent$
+		if (hook) {
+			$context.postCreateHookContent$
+		}
 
 		return $context.rootShapeName$;
 	}
@@ -671,8 +673,9 @@ public class Add$context.modelElementName$Feature extends CincoAbstractAddFeatur
 		peService.createChopboxAnchor($context.rootShapeName$);
 		layoutPictogramElement($context.rootShapeName$);
 
-		$context.postCreateHookContent$
-
+		if (hook){
+			$context.postCreateHookContent$
+		}
 		return $context.rootShapeName$;
 
 	}

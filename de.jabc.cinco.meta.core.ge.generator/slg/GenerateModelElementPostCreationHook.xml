@@ -2,14 +2,14 @@
 <model version="2.1">
   <id>3bb8a1c5-18ed-4580-8582-3c735f199d9e</id>
   <name>GenerateModelElementPostCreationHook</name>
-  <changecounter>130</changecounter>
+  <changecounter>137</changecounter>
   <sib>
     <id>c751516d-45fd-4d63-91fb-316082348803</id>
     <name>CopyEObject</name>
     <label>CopyEObject</label>
     <sib-uid>utility-sibs/CopyEObject</sib-uid>
     <taxonomy>transem.utility.sib.CopyEObject</taxonomy>
-    <position>185.0,33.0</position>
+    <position>380.0,33.0</position>
     <parameter name="copiedEObjectKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -40,7 +40,7 @@
     <label>GetModelElementAnnotations</label>
     <sib-uid>mgl/mgl/GetModelElementAnnotations</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetModelElementAnnotations</taxonomy>
-    <position>138.0,153.0</position>
+    <position>333.0,153.0</position>
     <parameter name="eListKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -65,15 +65,17 @@
   <edge>
     <source>c751516d-45fd-4d63-91fb-316082348803</source>
     <target>10c71ea3-c1fc-433b-bcf0-635bf872f423</target>
-    <point>240.0,105.0</point>
-    <point>240.0,210.0</point>
+    <point>420.0,60.0</point>
+    <point>420.0,180.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
     <source>10c71ea3-c1fc-433b-bcf0-635bf872f423</source>
     <target>0927d331-decb-4b20-9814-706866acd904</target>
-    <point>240.0,195.0</point>
-    <point>300.0,270.0</point>
+    <point>420.0,180.0</point>
+    <point>420.0,300.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
@@ -82,7 +84,7 @@
     <label>IterateAnnotations</label>
     <sib-uid>collection-sibs/IterateElements</sib-uid>
     <taxonomy>de.jabc.sib.common.collection.IterateElements</taxonomy>
-    <position>161.0,273.0</position>
+    <position>356.0,273.0</position>
     <parameter name="collection">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -120,7 +122,7 @@
     <label>CheckAnnotationName</label>
     <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
-    <position>157.5,406.0</position>
+    <position>352.5,406.0</position>
     <parameter name="annotationKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -152,17 +154,18 @@
   <edge>
     <source>8baacd1f-00ae-4cb0-8cac-a1d19ab51d34</source>
     <target>0927d331-decb-4b20-9814-706866acd904</target>
-    <point>240.0,420.0</point>
-    <point>240.0,285.0</point>
+    <point>420.0,435.0</point>
+    <point>420.0,300.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>false</branch>
   </edge>
   <edge>
     <source>0927d331-decb-4b20-9814-706866acd904</source>
     <target>8baacd1f-00ae-4cb0-8cac-a1d19ab51d34</target>
     <spline/>
-    <point>207.0,292.56</point>
-    <point>150.0,345.0</point>
-    <point>206.48148148148147,406.0</point>
+    <point>420.0,300.0</point>
+    <point>345.0,345.0</point>
+    <point>420.0,435.0</point>
     <labelposition>482.3087850500199,59.750538130773016</labelposition>
     <branch>next</branch>
   </edge>
@@ -172,7 +175,7 @@
     <label>FeatureProviderCustomFeatureContent</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>95.0,783.0</position>
+    <position>50.5,648.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -189,8 +192,8 @@
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>if (hook)
-	new $context.className$().postCreateAndUpdate($context.meIdentifier$, getDiagram());</string>
+      <string>new $context.className$().postCreateAndUpdate($context.meIdentifier$, getDiagram());
+</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
@@ -198,8 +201,8 @@
   <edge>
     <source>8baacd1f-00ae-4cb0-8cac-a1d19ab51d34</source>
     <target>a1787132-4935-41b6-9125-f034f5a5be02</target>
-    <point>255.0,435.0</point>
-    <point>465.0,525.0</point>
+    <point>420.0,435.0</point>
+    <point>420.0,540.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>true</branch>
   </edge>
@@ -209,7 +212,7 @@
     <label>GetCustomFeatureClassName</label>
     <sib-uid>ge-util-sibs/GetCustomFeatureClassName</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.GetCustomFeatureClassName</taxonomy>
-    <position>135.0,543.0</position>
+    <position>330.0,513.0</position>
     <parameter name="annotationKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -234,8 +237,8 @@
   <edge>
     <source>a1787132-4935-41b6-9125-f034f5a5be02</source>
     <target>58d0c3ca-2122-46b1-b939-e870a2ddc9af</target>
-    <point>241.57894736842104,579.0</point>
-    <point>312.0,649.5428571428571</point>
+    <point>420.0,540.0</point>
+    <point>420.0,675.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -245,7 +248,7 @@
     <label>FeatureProviderCustomFeatureContent</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>380.0,648.0</position>
+    <position>575.5,648.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -270,8 +273,8 @@
   <edge>
     <source>58d0c3ca-2122-46b1-b939-e870a2ddc9af</source>
     <target>16179f5e-d358-456d-871f-8778d53937fe</target>
-    <point>316.875,684.0</point>
-    <point>240.0,783.0</point>
+    <point>420.0,675.0</point>
+    <point>420.0,810.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>Edge</branch>
     <branch>GraphicalModelElement</branch>
@@ -281,8 +284,8 @@
   <edge>
     <source>58d0c3ca-2122-46b1-b939-e870a2ddc9af</source>
     <target>65f62879-979b-4ecb-8cc4-b6bc847d68fd</target>
-    <point>348.0,668.4</point>
-    <point>492.0,680.4</point>
+    <point>420.0,675.0</point>
+    <point>690.0,675.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>GraphModel</branch>
     <branch>other</branch>
@@ -293,7 +296,7 @@
     <label>SwitchModelElement</label>
     <sib-uid>mgl/mgl/SwitchModelElement</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.SwitchModelElement</taxonomy>
-    <position>163.0,648.0</position>
+    <position>358.0,648.0</position>
     <parameter name="eObjectKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -312,6 +315,20 @@
     <finalbranches>error</finalbranches>
     <finalbranches>other</finalbranches>
   </sib>
+  <edge>
+    <source>65f62879-979b-4ecb-8cc4-b6bc847d68fd</source>
+    <target>0927d331-decb-4b20-9814-706866acd904</target>
+    <point>690.0,675.0</point>
+    <point>420.0,300.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>16179f5e-d358-456d-871f-8778d53937fe</source>
+    <target>0927d331-decb-4b20-9814-706866acd904</target>
+    <point>165.0,675.0</point>
+    <point>399.0,284.0</point>
+    <branch>default</branch>
+  </edge>
   <parameter>
     <name>modelElementKey</name>
     <field>eObjectKey</field>
@@ -333,15 +350,5 @@
     <name>default</name>
     <branch>exit</branch>
     <sib>0927d331-decb-4b20-9814-706866acd904</sib>
-  </branch>
-  <branch>
-    <name>default</name>
-    <branch>default</branch>
-    <sib>16179f5e-d358-456d-871f-8778d53937fe</sib>
-  </branch>
-  <branch>
-    <name>default</name>
-    <branch>default</branch>
-    <sib>65f62879-979b-4ecb-8cc4-b6bc847d68fd</sib>
   </branch>
 </model>
