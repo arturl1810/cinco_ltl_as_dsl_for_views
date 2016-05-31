@@ -149,14 +149,15 @@ public class GratextProjectGenerator extends ProjectGenerator {
 			
 		}.execute(context);
 		
-		IProject gratextProject = ResourcesPlugin.getWorkspace().getRoot().getProject(getModelProjectSymbolicName() + ".gratext");
+		String actionProjectName = getModelProjectSymbolicName() + ".gratext.action";
+		IProject gratextProject = ResourcesPlugin.getWorkspace().getRoot().getProject(actionProjectName);
 		try {
 			gratextProject.delete(true, true, null);
 		} catch (CoreException e) {
 			e.printStackTrace();
 		}
 		
-		new EmptyProjectGenerator(getModelProjectSymbolicName() + ".gratext") {
+		new EmptyProjectGenerator(actionProjectName) {
 //			@Override protected List<String> getSourceFolders() {
 //				return list("src-gen");
 //			};
