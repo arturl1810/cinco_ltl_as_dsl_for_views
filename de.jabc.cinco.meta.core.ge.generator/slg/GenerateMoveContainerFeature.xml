@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>b68091c8-07fa-4991-a66b-090c41737165</id>
   <name>GenerateMoveContainerFeature</name>
-  <changecounter>249</changecounter>
+  <changecounter>277</changecounter>
   <sib>
     <id>5d019596-ff11-4edc-9603-2477370f8043</id>
     <name>PutExpression</name>
@@ -161,7 +161,7 @@ public class Move$context.container.name$Feature extends DefaultMoveShapeFeature
 		super.moveShape(context);
 	}
 
-	$context.postMoveContent$
+	$context.postMoveStubContent$
 
 	$context.cincoErrorGetSet$
 
@@ -441,7 +441,7 @@ return false;</string>
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
           <key>modelElement</key>
-          <scope>DECLARED</scope>
+          <scope>GLOBAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
@@ -586,19 +586,19 @@ return false;</string>
   </sib>
   <edge>
     <source>d81e6814-c63d-4fff-a183-da5a14a85989</source>
-    <target>487de10c-77e3-4303-8b1e-715c07f4be47</target>
-    <point>360.0,660.0</point>
-    <point>360.0,525.0</point>
+    <target>512f3e2f-1bfe-43e8-97ee-d688dd0d2051</target>
+    <point>378.0,653.4631578947368</point>
+    <point>627.0,679.6736842105263</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
     <id>487de10c-77e3-4303-8b1e-715c07f4be47</id>
     <name>RunStringTemplate_3</name>
-    <label>PostMoveContent</label>
+    <label>PostMoveStub</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>307.0,498.0</position>
+    <position>316.0,468.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -608,7 +608,7 @@ return false;</string>
     <parameter name="result">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>postMoveContent</key>
+          <key>postMoveStubContent</key>
           <scope>LOCAL</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
@@ -634,7 +634,7 @@ protected void postMoveShape(IMoveShapeContext context) {
 		graphicalgraphmodel.CModelElementContainer cSource = _wrapped.findCModelElementContainer(source);
 		graphicalgraphmodel.CModelElementContainer cTarget= _wrapped.findCModelElementContainer(target);
 		
-		new $annotValues$().postMove(cModelElement, cSource, cTarget, x, y, deltaX, deltaY);
+		$postMoveContent$
 	} catch (Exception e) {
 		
 	}
@@ -654,11 +654,47 @@ protected void postMoveShape(IMoveShapeContext context) {
   </edge>
   <edge>
     <source>fa69fe01-8237-4401-aea8-319ff56226a6</source>
-    <target>c476f425-7879-477f-af5f-865a37aa638a</target>
-    <point>128.8815789473684,753.0</point>
-    <point>336.4556962025316,324.0</point>
+    <target>487de10c-77e3-4303-8b1e-715c07f4be47</target>
+    <point>135.6521739130435,753.0</point>
+    <point>345.3061224489796,504.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>exit</branch>
+  </edge>
+  <sib>
+    <id>512f3e2f-1bfe-43e8-97ee-d688dd0d2051</id>
+    <name>RunStringTemplate_4</name>
+    <label>PostMoveContent</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>307.0,558.0</position>
+    <parameter name="append">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>postMoveContent</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>new $annotValues$().postMove(cModelElement, cSource, cTarget, x, y, deltaX, deltaY);
+</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>512f3e2f-1bfe-43e8-97ee-d688dd0d2051</source>
+    <target>fa69fe01-8237-4401-aea8-319ff56226a6</target>
+    <point>360.0,585.0</point>
+    <point>101.0,790.0</point>
+    <branch>default</branch>
   </edge>
   <parameter>
     <name>modelElementKey</name>
