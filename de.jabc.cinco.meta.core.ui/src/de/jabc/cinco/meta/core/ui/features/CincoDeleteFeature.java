@@ -11,13 +11,15 @@ import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IDeleteContext;
 import org.eclipse.graphiti.ui.features.DefaultDeleteFeature;
 
-public class CincoDeleteFeature extends DefaultDeleteFeature {
+public abstract class CincoDeleteFeature extends DefaultDeleteFeature {
 
 	public CincoDeleteFeature(IFeatureProvider fp) {
 		super(fp);
 		// TODO Auto-generated constructor stub
 	}
 
+	public abstract boolean canDelete(IDeleteContext dc, boolean apiCall);
+	
 	@Override
 	public void postDelete(IDeleteContext context) {
 		Object object = getBusinessObjectForPictogramElement(getDiagram());

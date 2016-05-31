@@ -121,6 +121,7 @@ import de.jabc.cinco.meta.core.ge.style.model.errorhandling.ECincoError;
 import de.jabc.cinco.meta.core.ge.style.model.preprocessors.StylesPreprocessor;
 import de.jabc.cinco.meta.core.mgl.generator.GenModelCreator;
 import de.jabc.cinco.meta.core.pluginregistry.PluginRegistry;
+import de.jabc.cinco.meta.core.ui.features.CincoDeleteFeature;
 import de.jabc.cinco.meta.core.ui.listener.MGLSelectionListener;
 import de.jabc.cinco.meta.core.utils.CincoUtils;
 import de.jabc.cinco.meta.core.utils.URIHandler;
@@ -464,6 +465,7 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 		context.put("fqnModelElementContainer", graphmodel.ModelElementContainer.class.getName());
 		
 		context.put("fqnDeleteFeature", IDeleteFeature.class.getName());
+		context.put("fqnCincoDeleteFeature", CincoDeleteFeature.class.getName());
 		context.put("fqnMoveShapeFeature", IMoveShapeFeature.class.getName());
 		context.put("fqnReconnectionFeature", IReconnectionFeature.class.getName());
 		context.put("fqnUpdateFeature", IUpdateFeature.class.getName());

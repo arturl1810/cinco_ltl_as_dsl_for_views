@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>2190f1aa-18e0-42fc-8098-06e689be2e65</id>
   <name>Generate_APIOperations_GraphModel1</name>
-  <changecounter>796</changecounter>
+  <changecounter>802</changecounter>
   <sib>
     <id>4c75f6b0-160f-414c-8c57-527e808d5a6f</id>
     <name>IsNodeContained</name>
@@ -703,7 +703,7 @@ java.util.List&lt;$fqnPictogramElement$&gt; pes = $fqnGraphitiUi$.getLinkService
     if (pes == null || pes.isEmpty())
     	return false;
 $fqnDeleteContext$ dc = new $fqnDeleteContext$(pes.get(0));
-$fqnDeleteFeature$ df = provider.getDeleteFeature(dc);
+$fqnCincoDeleteFeature$ df = ($fqnCincoDeleteFeature$) provider.getDeleteFeature(dc);
 
 if (this.getMap().get(me.getModelElement()) != null) {
 	this.getMap().remove(me.getModelElement());
@@ -713,7 +713,7 @@ if ( this.getCRootElement().getMap().get(me.getModelElement()) != null) {
 	this.getCRootElement().getMap().remove(me.getModelElement());
 }
 
-if (df.canDelete(dc)) {
+if (df.canDelete(dc, true)) {
 	df.delete(dc);
 	return true;
 }
