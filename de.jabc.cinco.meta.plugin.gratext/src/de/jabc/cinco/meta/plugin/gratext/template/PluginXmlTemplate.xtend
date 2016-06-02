@@ -9,6 +9,10 @@ def backupAction() {
 def restoreAction() {
 	fileFromTemplate(RestoreActionTemplate)
 }
+
+def fileExtension() {
+	graphmodel.fileExtension
+}
 		
 override template()
 '''	
@@ -21,7 +25,7 @@ override template()
 		<objectContribution
 			id="«model.basePackage».«model.name»GratextBackupObjectContributor"
 			adaptable="false"
-			nameFilter="*«model.acronym»"
+			nameFilter="*«fileExtension»"
 			objectClass="org.eclipse.core.resources.IResource">
 			<action
 				class="«backupAction.package».«backupAction.nameWithoutExtension»"
@@ -33,7 +37,7 @@ override template()
 		<objectContribution
 			id="«model.basePackage».«model.name»GratextRestoreObjectContributor"
 			adaptable="false"
-			nameFilter="*«model.acronym»«backupFileSuffix»"
+			nameFilter="*«fileExtension»«backupFileSuffix»"
 			objectClass="org.eclipse.core.resources.IResource">
 			<action
 				class="«backupAction.package».«restoreAction.nameWithoutExtension»"
@@ -45,7 +49,7 @@ override template()
 		<objectContribution
 			id="«model.basePackage».«model.name»GratextRestoreObjectContributor2"
 			adaptable="false"
-			nameFilter="*«model.acronym»DL"
+			nameFilter="*«fileExtension»DL"
 			objectClass="org.eclipse.core.resources.IResource">
 			<action
 				class="«backupAction.package».«restoreAction.nameWithoutExtension»"
@@ -57,15 +61,15 @@ override template()
    </extension>
    <extension point="info.scce.cinco.gratext.backup">
       <!--@GratextGen «model.name»-->
-		<client fileExtension="«model.acronym»" class="«backupAction.package».«backupAction.nameWithoutExtension»"/>
+		<client fileExtension="«fileExtension»" class="«backupAction.package».«backupAction.nameWithoutExtension»"/>
    </extension>
    <extension point="info.scce.cinco.gratext.restore">
       <!--@GratextGen «model.name»-->
-		<client fileExtension="«model.acronym»«backupFileSuffix»" class="«restoreAction.package».«restoreAction.nameWithoutExtension»"/>
+		<client fileExtension="«fileExtension»«backupFileSuffix»" class="«restoreAction.package».«restoreAction.nameWithoutExtension»"/>
    </extension>
    <extension point="info.scce.cinco.gratext.restore">
       <!--@GratextGen «model.name»-->
-		<client fileExtension="«model.acronym»DL" class="«restoreAction.package».«restoreAction.nameWithoutExtension»"/>
+		<client fileExtension="«fileExtension»DL" class="«restoreAction.package».«restoreAction.nameWithoutExtension»"/>
    </extension>
 </plugin>
 '''

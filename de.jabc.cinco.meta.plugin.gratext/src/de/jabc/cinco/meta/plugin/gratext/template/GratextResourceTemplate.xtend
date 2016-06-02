@@ -7,7 +7,7 @@ override template()
 package «project.basePackage»
 
 import de.jabc.cinco.meta.plugin.gratext.runtime.resource.GratextResource
-import info.scce.dime.«model.acronym».gratext.generator.«model.name»ModelGenerator
+import «project.basePackage».generator.«model.name»ModelGenerator
 import org.eclipse.emf.ecore.resource.Resource
 
 class «model.name»GratextResource extends GratextResource {
