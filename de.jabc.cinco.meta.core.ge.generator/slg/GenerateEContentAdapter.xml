@@ -2,14 +2,14 @@
 <model version="2.1">
   <id>3c916ba5-62a2-4951-941d-c4302cc4e008</id>
   <name>GenerateEContentAdapter</name>
-  <changecounter>162</changecounter>
+  <changecounter>207</changecounter>
   <sib>
     <id>ec2d367e-832c-4b37-b128-73a511511d46</id>
     <name>PutExpression_1</name>
     <label>PkgName</label>
     <sib-uid>basic-sibs/PutExpression</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
-    <position>71.5,18.0</position>
+    <position>176.5,33.0</position>
     <parameter name="resolve">
       <boolean>true</boolean>
     </parameter>
@@ -43,7 +43,7 @@
     <label>ClassName</label>
     <sib-uid>basic-sibs/PutExpression</sib-uid>
     <taxonomy>de.jabc.sib.common.basic.PutExpression</taxonomy>
-    <position>65.5,108.0</position>
+    <position>170.5,123.0</position>
     <parameter name="resolve">
       <boolean>true</boolean>
     </parameter>
@@ -74,7 +74,7 @@
     <label>WriteJavaFile</label>
     <sib-uid>genesys-sibs/WriteJavaFile</sib-uid>
     <taxonomy>de.jabc.sib.genesys.WriteJavaFile</taxonomy>
-    <position>58.0,438.0</position>
+    <position>163.0,513.0</position>
     <parameter name="baseDirectory">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -134,7 +134,7 @@
     <label>SuperEContentAdapter</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>28.0,333.0</position>
+    <position>133.0,423.0</position>
     <parameter name="append">
       <boolean>false</boolean>
     </parameter>
@@ -208,6 +208,7 @@ public class $context.graphModelName$EContentAdapter extends EContentAdapter {
 			List&lt;PictogramElement&gt; pes = Graphiti.getLinkService().getPictogramElements(getDiagram(), tmp);
 			if (pes == null || pes.isEmpty())
 				return;
+			PictogramElement pe = pes.get(0);
 
 			UpdateContext uContext = new UpdateContext(pes.get(0));
 			IFeatureProvider fp = getFeatureProvider();
@@ -217,7 +218,14 @@ public class $context.graphModelName$EContentAdapter extends EContentAdapter {
 			if (uf != null &amp;&amp; uf.canUpdate(uContext)) {
 				uf.update(uContext);
 			}
-			
+
+			try {
+				org.eclipse.graphiti.features.context.impl.CustomContext cc = new org.eclipse.graphiti.features.context.impl.CustomContext();
+				cc.setPictogramElements(new PictogramElement[] {pe});
+				$context.graphmodelValueChangeListenerStubContent$
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 			refreshPropertyView();
 		}
 		
@@ -225,6 +233,10 @@ public class $context.graphModelName$EContentAdapter extends EContentAdapter {
 	}
 
 	public void addAdapter(EObject bo) {
+		if (bo instanceof $context.importPath$.$context.graphModel.name$) {
+			if (!(($context.importPath$.$context.graphModel.name$) bo).eAdapters().contains(getInstance()))
+				(($context.importPath$.$context.graphModel.name$) bo).eAdapters().add(getInstance());
+		}
 		$context.initAdapterContent$
 	}
 	
@@ -257,15 +269,16 @@ public class $context.graphModelName$EContentAdapter extends EContentAdapter {
   <edge>
     <source>ec2d367e-832c-4b37-b128-73a511511d46</source>
     <target>9c71b03f-9abe-4725-9bd8-f53a09037855</target>
-    <point>90.0,60.0</point>
-    <point>49.0,205.0</point>
+    <point>210.0,60.0</point>
+    <point>210.0,150.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
     <source>9c71b03f-9abe-4725-9bd8-f53a09037855</source>
     <target>0469d54d-b7dc-40a2-bc5d-60f6990a92cd</target>
-    <point>123.0,194.1</point>
-    <point>207.0,225.6</point>
+    <point>210.0,150.0</point>
+    <point>210.0,255.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -275,7 +288,7 @@ public class $context.graphModelName$EContentAdapter extends EContentAdapter {
     <label>GenerateModelElementEContentAdapter</label>
     <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
-    <position>346.5,541.0</position>
+    <position>451.5,601.0</position>
     <parameter name="ModelElementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -300,7 +313,7 @@ public class $context.graphModelName$EContentAdapter extends EContentAdapter {
     <label>IterateNodes</label>
     <sib-uid>collection-sibs/IterateElements</sib-uid>
     <taxonomy>de.jabc.sib.common.collection.IterateElements</taxonomy>
-    <position>59.5,543.0</position>
+    <position>164.5,603.0</position>
     <parameter name="collection">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -338,7 +351,7 @@ public class $context.graphModelName$EContentAdapter extends EContentAdapter {
     <label>IterateEdges</label>
     <sib-uid>collection-sibs/IterateElements</sib-uid>
     <taxonomy>de.jabc.sib.common.collection.IterateElements</taxonomy>
-    <position>60.0,663.0</position>
+    <position>165.0,723.0</position>
     <parameter name="collection">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -376,7 +389,7 @@ public class $context.graphModelName$EContentAdapter extends EContentAdapter {
     <label>IterateContainers</label>
     <sib-uid>collection-sibs/IterateElements</sib-uid>
     <taxonomy>de.jabc.sib.common.collection.IterateElements</taxonomy>
-    <position>44.5,783.0</position>
+    <position>149.5,843.0</position>
     <parameter name="collection">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -411,47 +424,51 @@ public class $context.graphModelName$EContentAdapter extends EContentAdapter {
   <edge>
     <source>0a9dd153-7eeb-4f7d-82ec-a614bba0d469</source>
     <target>1e84aec9-7065-4ab9-b574-f389d355a1ff</target>
-    <point>105.0,324.0</point>
-    <point>105.0,438.0</point>
+    <point>204.0,455.0</point>
+    <point>204.0,560.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
     <source>1e84aec9-7065-4ab9-b574-f389d355a1ff</source>
     <target>ffaca9cb-058c-4c6d-a014-108fdf4540ca</target>
-    <point>105.0,435.0</point>
-    <point>110.0,612.0</point>
+    <point>204.0,560.0</point>
+    <point>204.0,635.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
     <source>ffaca9cb-058c-4c6d-a014-108fdf4540ca</source>
     <target>7af5dec5-cd87-4b4b-9339-6460b9eb493a</target>
-    <point>90.0,585.0</point>
-    <point>95.0,708.0</point>
+    <point>204.0,635.0</point>
+    <point>204.0,755.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>exit</branch>
   </edge>
   <edge>
     <source>7af5dec5-cd87-4b4b-9339-6460b9eb493a</source>
     <target>77d154f0-a250-42a9-9e01-1029bea7effa</target>
-    <point>90.0,720.0</point>
-    <point>106.0,827.0</point>
+    <point>204.0,755.0</point>
+    <point>204.0,875.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>exit</branch>
   </edge>
   <edge>
     <source>ffaca9cb-058c-4c6d-a014-108fdf4540ca</source>
     <target>eda5c89f-dca3-483c-bff4-d2d42b7da366</target>
     <spline/>
-    <point>123.0,555.9</point>
-    <point>285.0,510.0</point>
-    <point>445.0,555.3333333333334</point>
+    <point>204.0,635.0</point>
+    <point>387.0,568.0</point>
+    <point>579.0,635.0</point>
     <labelposition>506.1955567012996,-41.36527789414759</labelposition>
     <branch>next</branch>
   </edge>
   <edge>
     <source>eda5c89f-dca3-483c-bff4-d2d42b7da366</source>
     <target>ffaca9cb-058c-4c6d-a014-108fdf4540ca</target>
-    <point>465.0,570.0</point>
-    <point>96.0,567.0</point>
+    <point>579.0,635.0</point>
+    <point>204.0,635.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
@@ -460,7 +477,7 @@ public class $context.graphModelName$EContentAdapter extends EContentAdapter {
     <label>GenerateModelElementEContentAdapter</label>
     <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
-    <position>346.5,661.0</position>
+    <position>451.5,721.0</position>
     <parameter name="ModelElementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -483,17 +500,18 @@ public class $context.graphModelName$EContentAdapter extends EContentAdapter {
     <source>7af5dec5-cd87-4b4b-9339-6460b9eb493a</source>
     <target>2bfc09f9-dc8a-43c6-8fb1-fab3e1b45a65</target>
     <spline/>
-    <point>123.0,676.2923076923076</point>
-    <point>300.0,630.0</point>
-    <point>475.0,675.7692307692307</point>
+    <point>204.0,755.0</point>
+    <point>402.0,688.0</point>
+    <point>579.0,755.0</point>
     <labelposition>506.1955567012996,-41.36527789414759</labelposition>
     <branch>next</branch>
   </edge>
   <edge>
     <source>2bfc09f9-dc8a-43c6-8fb1-fab3e1b45a65</source>
     <target>7af5dec5-cd87-4b4b-9339-6460b9eb493a</target>
-    <point>475.0,681.4615384615385</point>
-    <point>123.0,681.4153846153846</point>
+    <point>579.0,755.0</point>
+    <point>204.0,755.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
@@ -502,7 +520,7 @@ public class $context.graphModelName$EContentAdapter extends EContentAdapter {
     <label>GenerateModelElementEContentAdapter</label>
     <sib-uid>c0a80801:2d383935393038373037:1172579262297</sib-uid>
     <taxonomy>de.metaframe.jabc.sib.MacroSIB</taxonomy>
-    <position>346.5,781.0</position>
+    <position>451.5,841.0</position>
     <parameter name="ModelElementKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -525,17 +543,18 @@ public class $context.graphModelName$EContentAdapter extends EContentAdapter {
     <source>77d154f0-a250-42a9-9e01-1029bea7effa</source>
     <target>728cf2b1-29f2-491c-8c9a-a0066a0623a4</target>
     <spline/>
-    <point>123.0,794.4</point>
-    <point>285.0,735.0</point>
-    <point>445.0,793.6666666666666</point>
+    <point>204.0,875.0</point>
+    <point>387.0,793.0</point>
+    <point>579.0,875.0</point>
     <labelposition>503.5160283837027,-58.03090540637467</labelposition>
     <branch>next</branch>
   </edge>
   <edge>
     <source>728cf2b1-29f2-491c-8c9a-a0066a0623a4</source>
     <target>77d154f0-a250-42a9-9e01-1029bea7effa</target>
-    <point>490.0,801.4444444444445</point>
-    <point>123.0,801.4</point>
+    <point>579.0,875.0</point>
+    <point>204.0,875.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <sib>
@@ -544,7 +563,7 @@ public class $context.graphModelName$EContentAdapter extends EContentAdapter {
     <label>PrintConsoleMessage</label>
     <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
     <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
-    <position>31.5,903.0</position>
+    <position>136.5,963.0</position>
     <parameter name="error">
       <boolean>false</boolean>
     </parameter>
@@ -562,8 +581,9 @@ public class $context.graphModelName$EContentAdapter extends EContentAdapter {
   <edge>
     <source>77d154f0-a250-42a9-9e01-1029bea7effa</source>
     <target>f74edd14-9e6b-4852-9d06-6f79e4a1fec7</target>
-    <point>105.0,810.0</point>
-    <point>106.0,922.0</point>
+    <point>204.0,875.0</point>
+    <point>204.0,995.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>exit</branch>
   </edge>
   <sib>
@@ -572,7 +592,7 @@ public class $context.graphModelName$EContentAdapter extends EContentAdapter {
     <label>IterateModelElements</label>
     <sib-uid>collection-sibs/IterateElements</sib-uid>
     <taxonomy>de.jabc.sib.common.collection.IterateElements</taxonomy>
-    <position>30.5,213.0</position>
+    <position>135.5,228.0</position>
     <parameter name="collection">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -608,17 +628,17 @@ public class $context.graphModelName$EContentAdapter extends EContentAdapter {
     <source>0469d54d-b7dc-40a2-bc5d-60f6990a92cd</source>
     <target>1eb2cbb8-b4fa-44e3-ae38-c9844747d15a</target>
     <spline/>
-    <point>123.0,220.2</point>
-    <point>240.0,150.0</point>
-    <point>387.0,141.98181818181817</point>
+    <point>210.0,255.0</point>
+    <point>342.0,163.0</point>
+    <point>510.0,165.0</point>
     <labelposition>481.57991164187064,-37.21267534222637</labelposition>
     <branch>next</branch>
   </edge>
   <edge>
     <source>9f4c1579-66ad-4a98-bb62-57a65f5a6746</source>
     <target>0469d54d-b7dc-40a2-bc5d-60f6990a92cd</target>
-    <point>330.0,240.0</point>
-    <point>105.0,240.0</point>
+    <point>510.0,255.0</point>
+    <point>210.0,255.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -628,7 +648,7 @@ public class $context.graphModelName$EContentAdapter extends EContentAdapter {
     <label>RunStringTemplate</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>340.0,213.0</position>
+    <position>445.0,228.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -650,16 +670,16 @@ public class $context.graphModelName$EContentAdapter extends EContentAdapter {
 		(($context.importPath$.$context.modelElement.name$) bo).eAdapters().add($context.modelElement.name$EContentAdapter.getInstance());
 }
 
-	</string>
+</string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
   </sib>
   <edge>
     <source>0469d54d-b7dc-40a2-bc5d-60f6990a92cd</source>
-    <target>0a9dd153-7eeb-4f7d-82ec-a614bba0d469</target>
-    <point>105.0,240.0</point>
-    <point>105.0,330.0</point>
+    <target>2509e96c-b011-4bb1-b7d5-8e811d2b3b5e</target>
+    <point>210.0,255.0</point>
+    <point>240.0,375.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>exit</branch>
   </edge>
@@ -669,7 +689,7 @@ public class $context.graphModelName$EContentAdapter extends EContentAdapter {
     <label>IsAbstract</label>
     <sib-uid>ge-util-sibs/IsAbstract</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsAbstract</taxonomy>
-    <position>372.5,123.0</position>
+    <position>477.5,138.0</position>
     <parameter name="modelElement">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -686,16 +706,49 @@ public class $context.graphModelName$EContentAdapter extends EContentAdapter {
   <edge>
     <source>1eb2cbb8-b4fa-44e3-ae38-c9844747d15a</source>
     <target>9f4c1579-66ad-4a98-bb62-57a65f5a6746</target>
-    <point>285.0,165.0</point>
-    <point>417.0,221.0</point>
+    <point>510.0,165.0</point>
+    <point>510.0,255.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>false</branch>
   </edge>
   <edge>
     <source>1eb2cbb8-b4fa-44e3-ae38-c9844747d15a</source>
     <target>0469d54d-b7dc-40a2-bc5d-60f6990a92cd</target>
-    <point>285.0,165.0</point>
-    <point>111.0,216.0</point>
+    <point>510.0,165.0</point>
+    <point>210.0,255.0</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>true</branch>
+  </edge>
+  <sib>
+    <id>2509e96c-b011-4bb1-b7d5-8e811d2b3b5e</id>
+    <name>GraphSIB</name>
+    <label>GenerateModelElementValueChangeListener</label>
+    <sib-uid>00000000:00000000000000000000:0000000000011</sib-uid>
+    <taxonomy>de.metaframe.jabc.sib.GraphSIB</taxonomy>
+    <position>80.0,331.0</position>
+    <parameter name="eObjectKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>graphModel</key>
+          <scope>GLOBAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <userobject key="ABC$GRAPHSIB$MODELNAME">
+      <string>GenerateModelElementValueChangeListener</string>
+    </userobject>
+    <userobject key="ABC$GRAPHSIB$MODELID">
+      <string>aadeeb9b-d43e-4af2-a6bb-f7ce9e348c34</string>
+    </userobject>
+  </sib>
+  <edge>
+    <source>2509e96c-b011-4bb1-b7d5-8e811d2b3b5e</source>
+    <target>0a9dd153-7eeb-4f7d-82ec-a614bba0d469</target>
+    <point>234.0,380.0</point>
+    <point>204.0,455.0</point>
+    <branch>default</branch>
   </edge>
   <values/>
   <branch>

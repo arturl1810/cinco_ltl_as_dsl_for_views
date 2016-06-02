@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>aadeeb9b-d43e-4af2-a6bb-f7ce9e348c34</id>
   <name>GenerateModelElementValueChangeListener</name>
-  <changecounter>177</changecounter>
+  <changecounter>187</changecounter>
   <sib>
     <id>0e10735b-4710-4f11-89c3-6bcba695f67c</id>
     <name>CopyEObject</name>
@@ -264,14 +264,14 @@
     <parameter name="result">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>valueChangeListenerStubContent</key>
+          <key>graphmodelValueChangeListenerStubContent</key>
           <scope>PARENT</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>new $context.className$().handleValueChanged(graph, diagram);
+      <string>new $context.className$(getFeatureProvider()).execute(cc);
 </string>
     </parameter>
     <finalbranches>default</finalbranches>

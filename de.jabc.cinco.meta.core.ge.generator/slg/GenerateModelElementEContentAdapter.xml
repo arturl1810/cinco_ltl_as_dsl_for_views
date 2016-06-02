@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>0d0bb94f-e4a8-4614-bd88-5a867e133c4c</id>
   <name>GenerateModelElementEContentAdapter</name>
-  <changecounter>225</changecounter>
+  <changecounter>226</changecounter>
   <sib>
     <id>c516040b-59e6-4c24-89ca-20ac4f67f7ab</id>
     <name>CopyEObject</name>
