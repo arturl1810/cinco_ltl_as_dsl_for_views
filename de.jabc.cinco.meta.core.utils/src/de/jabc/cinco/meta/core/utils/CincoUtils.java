@@ -323,7 +323,7 @@ public class CincoUtils {
 				ArrayList<String> extensions = getExtensions(originalText);
 				ArrayList<String> remove = new ArrayList<>();
 				for (String ext : extensions) {
-					if (ext.contains(CINCO_GEN))
+					if (ext.contains(CINCO_GEN) && ext.contains("perspective"))
 						remove.add(ext);
 				}
 				
