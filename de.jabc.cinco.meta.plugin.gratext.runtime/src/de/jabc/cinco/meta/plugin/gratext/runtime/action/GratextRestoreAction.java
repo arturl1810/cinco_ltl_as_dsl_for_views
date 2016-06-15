@@ -1,22 +1,19 @@
 package de.jabc.cinco.meta.plugin.gratext.runtime.action;
 
+import static de.jabc.cinco.meta.core.utils.WorkspaceUtil.resp;
 import static de.jabc.cinco.meta.core.utils.job.JobFactory.job;
 import static de.jabc.cinco.meta.plugin.gratext.runtime.util.GratextUtils.showErrorMessage;
 
 import java.util.AbstractMap;
 import java.util.AbstractMap.SimpleEntry;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
-import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.ISafeRunnable;
@@ -59,6 +56,17 @@ public class GratextRestoreAction implements IActionDelegate {
 		  .onFailed(() -> showErrorMessage("Gratext Restore", "Some restore tasks seem to have failed."))
 		  .schedule();
 	}
+		
+	private boolean initProject() {
+		if (selection instanceof IStructuredSelection) {
+			IStructuredSelection ssel = (IStructuredSelection) selection;
+			if (!ssel.isEmpty() && ssel.getFirstElement() instanceof IProject) {
+				project = (IProject) ssel.getFirstElement();
+				return true;
+			}
+		}
+		return false;
+	}
 	
 	private void initExtensions() {
 		actionByExtension = new HashMap<>();
@@ -76,22 +84,15 @@ public class GratextRestoreAction implements IActionDelegate {
 	}
 	
 	private void initActions() {
-		actionByFile = getBackupFiles(project).stream()
+		actionByFile = getRestoreCandidates(project).stream()
 			.map(file -> new AbstractMap.SimpleEntry<IFile, IRestoreAction>(file, actionByExtension.get(file.getFileExtension())))
 			.filter(entry -> entry.getValue() != null);
 	}
 	
-	private boolean initProject() {
-		if (selection instanceof IStructuredSelection) {
-			IStructuredSelection ssel = (IStructuredSelection) selection;
-			if (!ssel.isEmpty() && ssel.getFirstElement() instanceof IProject) {
-				project = (IProject) ssel.getFirstElement();
-				return true;
-			}
-		}
-		return false;
+	protected List<IFile> getRestoreCandidates(IProject project) {
+		IFolder backupFolder = project.getFolder(new Path(BACKUP_FOLDER));
+		return resp(backupFolder).getFiles();
 	}
-	
 	
 	private void runRestore(final IRestoreAction action, IFile file) {
 		ISafeRunnable runnable = new ISafeRunnable() {
@@ -113,37 +114,6 @@ public class GratextRestoreAction implements IActionDelegate {
 			System.err.println("[GratextRestore] severe error, failed to restore " + file.getFullPath());
 			System.err.println("[GratextRestore] " + e.getMessage());
 		}
-	}
-	
-	protected List<IFile> getBackupFiles(IProject project) {
-		IFolder backupFolder = project.getFolder(new Path(BACKUP_FOLDER));
-		if (backupFolder != null && backupFolder.exists())
-			return getFiles(backupFolder, null, true);
-		return new ArrayList<>();
-	}
-	
-	protected List<IFile> getFiles(IContainer container, String fileExtension, boolean recurse) {
-		List<IFile> files = new ArrayList<>();
-		IResource[] members = null;
-		try {
-			members = container.members();
-		} catch (CoreException e) {
-			e.printStackTrace();
-		}
-		if (members != null)
-			Arrays.stream(members).forEach(mbr -> {
-				if (recurse && mbr instanceof IContainer)
-					files.addAll(getFiles((IContainer) mbr,
-							fileExtension, recurse));
-				else if (mbr instanceof IFile && !mbr.isDerived()) {
-					IFile file = (IFile) mbr;
-					if (fileExtension == null
-							|| fileExtension.equals(file
-									.getFileExtension()))
-						files.add(file);
-				}
-			});
-		return files;
 	}
 
 	@Override

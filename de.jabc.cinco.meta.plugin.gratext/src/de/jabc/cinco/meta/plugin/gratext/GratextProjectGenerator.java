@@ -61,7 +61,7 @@ public class GratextProjectGenerator extends ProjectGenerator {
 	}
 	
 	protected void initGenModelFiles() {
-		getFiles("genmodel").forEach(f -> { try {
+		getWorkspaceFiles("genmodel").forEach(f -> { try {
 			Resource res = new ResourceSetImpl().getResource(
 				URI.createPlatformResourceURI(f.getFullPath().toOSString(), true), true);
 			res.load(null);
@@ -132,19 +132,19 @@ public class GratextProjectGenerator extends ProjectGenerator {
 				return list("plugin.xml");
 			}
 			
-			@Override protected void createFiles(FileCreator creator) {
-				creator.inSrcFolder("src")
+			@Override protected void createFiles() {
+				inSrcFolder("src")
 					.inPackage(basePkg + ".ui")
 					.createFile(targetName + "Editor.java")
-					.withContent(GratextEditorTemplate.class, this);
+					.withContent(GratextEditorTemplate.class);
 
-				creator.inSrcFolder("src")
+				inSrcFolder("src")
 					.inPackage(basePkg + ".ui")
 					.createFile("PageAware" + modelName + "DiagramEditor.java")
-					.withContent(PageAwareDiagramEditorTemplate.class, this);
+					.withContent(PageAwareDiagramEditorTemplate.class);
 				
-				creator.createFile("plugin.xml")
-					.withContent(UiPluginXmlTemplate.class, this);
+				createFile("plugin.xml")
+					.withContent(UiPluginXmlTemplate.class);
 			}
 			
 		}.execute(context);
@@ -188,37 +188,17 @@ public class GratextProjectGenerator extends ProjectGenerator {
 				return list("plugin.xml");
 			}
 			
-			@Override protected void createFiles(FileCreator creator) {
-//				creator.inSrcFolder("src-gen")
-//					.inPackage("info.scce.cinco.gratext")
-//					.createFile("IBackupAction.java")
-//					.withContent(GratextIBackupActionTemplate.class, this);
-				
-//				creator.inSrcFolder("src-gen")
-//					.inPackage("info.scce.cinco.gratext")
-//					.createFile("IRestoreAction.java")
-//					.withContent(GratextIRestoreActionTemplate.class, this);
-				
-//				creator.inSrcFolder("src-gen")
-//					.inPackage("info.scce.cinco.gratext")
-//					.createFile("BackupAction.java")
-//					.withContent(GratextBackupActionTemplate.class, this);
-				
-//				creator.inSrcFolder("src-gen")
-//					.inPackage("info.scce.cinco.gratext")
-//					.createFile("RestoreAction.java")
-//					.withContent(GratextRestoreActionTemplate.class, this);
-				
-				creator.inSrcFolder("schema")
+			@Override protected void createFiles() {
+				inSrcFolder("schema")
 					.createFile("info.scce.cinco.gratext.backup.exsd")
-					.withContent(GratextBackupSchemaTemplate.class, this);
+					.withContent(GratextBackupSchemaTemplate.class);
 				
-				creator.inSrcFolder("schema")
+				inSrcFolder("schema")
 					.createFile("info.scce.cinco.gratext.restore.exsd")
-					.withContent(GratextRestoreSchemaTemplate.class, this);
+					.withContent(GratextRestoreSchemaTemplate.class);
 				
-				creator.createFile("plugin.xml")
-					.withContent(GratextPluginXmlTemplate.class, this);
+				createFile("plugin.xml")
+					.withContent(GratextPluginXmlTemplate.class);
 				
 			};
 		}.execute(context);
@@ -227,83 +207,78 @@ public class GratextProjectGenerator extends ProjectGenerator {
 	}
 	
 	@Override
-	protected void createFiles(FileCreator creator) {
+	protected void createFiles() {
 		String basePkg = getProjectDescriptor().getBasePackage();
 		String targetName = getProjectDescriptor().getTargetName();
 		String modelName = getModelDescriptor().getName();
 		
-		creator.inSrcFolder("model")
+		inSrcFolder("model")
 			.inPackage(basePkg)
 			.createFile(targetName + ".ecore")
-			.withContent(GratextEcoreTemplate.class, this);
+			.withContent(GratextEcoreTemplate.class);
 		
-		creator.inSrcFolder("model")
+		inSrcFolder("model")
 			.inPackage(basePkg)
 			.createFile(targetName + ".genmodel")
-			.withContent(GratextGenmodelTemplate.class, this);
+			.withContent(GratextGenmodelTemplate.class);
 			
-		creator.inSrcFolder("src")
+		inSrcFolder("src")
 			.inPackage(basePkg)
 			.createFile(targetName + ".xtext")
-			.withContent(GratextGrammarTemplate.class, this);
+			.withContent(GratextGrammarTemplate.class);
 				
-		creator.inSrcFolder("src")
+		inSrcFolder("src")
 			.inPackage(basePkg)
 			.createFile(targetName + ".mwe2")
-			.withContent(GratextMWETemplate.class, this);
+			.withContent(GratextMWETemplate.class);
 				
-//		creator.inSrcFolder("src")
-//			.inPackage(basePkg + ".generator")
-//			.createFile(targetName + "Generator.xtend")
-//			.withContent(ModelGeneratorTemplate.class, this);
-		
-		creator.inSrcFolder("src")
+		inSrcFolder("src")
 			.inPackage(basePkg + ".generator")
 			.createFile("GratextGenerator.xtend")
-			.withContent(GratextGeneratorTemplate.class, this);
+			.withContent(GratextGeneratorTemplate.class);
 		
-		creator.inSrcFolder("src")
+		inSrcFolder("src")
 			.inPackage(basePkg + ".generator")
 			.createFile(modelName + "BackupGenerator.xtend")
-			.withContent(BackupGeneratorTemplate.class, this);
+			.withContent(BackupGeneratorTemplate.class);
 		
-		creator.inSrcFolder("src")
+		inSrcFolder("src")
 			.inPackage(basePkg + ".generator")
 			.createFile("BackupAction.java")
-			.withContent(BackupActionTemplate.class, this);
+			.withContent(BackupActionTemplate.class);
 		
-		creator.inSrcFolder("src")
+		inSrcFolder("src")
 			.inPackage(basePkg + ".generator")
 			.createFile(modelName + "ModelGenerator.xtend")
-			.withContent(ModelGeneratorTemplate.class, this);
+			.withContent(ModelGeneratorTemplate.class);
 		
-		creator.inSrcFolder("src")
+		inSrcFolder("src")
 			.inPackage(basePkg + ".generator")
 			.createFile("RestoreAction.java")
-			.withContent(RestoreActionTemplate.class, this);
+			.withContent(RestoreActionTemplate.class);
 		
-		creator.inSrcFolder("src")
+		inSrcFolder("src")
 			.inPackage(basePkg + ".scoping")
 			.createFile(targetName + "QualifiedNameProvider.java")
-			.withContent(GratextQualifiedNameProviderTemplate.class, this);
+			.withContent(GratextQualifiedNameProviderTemplate.class);
 
-		creator.inSrcFolder("src")
+		inSrcFolder("src")
 			.inPackage(basePkg + ".scoping")
 			.createFile(targetName + "ScopeProvider.xtend")
-			.withContent(ScopeProviderTemplate.class, this);
+			.withContent(ScopeProviderTemplate.class);
 		
-		creator.inSrcFolder("src")
+		inSrcFolder("src")
 			.inPackage(basePkg)
 			.createFile(targetName + "RuntimeModule.java")
-			.withContent(RuntimeModuleTemplate.class, this);
+			.withContent(RuntimeModuleTemplate.class);
 
-		creator.inSrcFolder("src")
+		inSrcFolder("src")
 			.inPackage(basePkg)
 			.createFile(targetName + "Resource.xtend")
-			.withContent(GratextResourceTemplate.class, this);
+			.withContent(GratextResourceTemplate.class);
 		
-		creator.createFile("plugin.xml")
-			.withContent(PluginXmlTemplate.class, this);
+		createFile("plugin.xml")
+			.withContent(PluginXmlTemplate.class);
 	}
 	
 	@Override
@@ -447,7 +422,6 @@ public class GratextProjectGenerator extends ProjectGenerator {
 	private Map<String,GenModel> genModels = new HashMap<>();
 	
 	public GenModel getGenModel(String nsURI) {
-		//System.out.println("Get GenModel " + nsURI + " = " + genModels.get(nsURI));
 		return genModels.get(nsURI);
 	}
 	

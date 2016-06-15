@@ -20,7 +20,8 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui.ide
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
-Import-Package: de.jabc.cinco.meta.core.utils.job,
+Import-Package: de.jabc.cinco.meta.core.utils,
+ de.jabc.cinco.meta.core.utils.job,
  org.eclipse.draw2d,
  org.eclipse.emf.workspace,
  org.eclipse.gef.ui.actions,

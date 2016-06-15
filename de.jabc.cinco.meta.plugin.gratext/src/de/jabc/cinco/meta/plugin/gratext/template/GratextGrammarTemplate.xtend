@@ -24,8 +24,8 @@ Map<String,String> references
 
 override init() {
 	references = new HashMap
-	model.nodes.map[it.primeReference]
-		.filter[it != null]
+	model.nodes.map[primeReference]
+		.filterNull
 		.forEach[initReferences]
 }
 

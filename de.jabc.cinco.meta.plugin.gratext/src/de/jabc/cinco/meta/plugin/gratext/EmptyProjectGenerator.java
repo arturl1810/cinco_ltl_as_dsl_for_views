@@ -25,7 +25,7 @@ public class EmptyProjectGenerator extends ProjectGenerator {
 	}
 	
 	@Override
-	protected void createFiles(FileCreator creator) {
+	protected void createFiles() {
 		// TODO Auto-generated method stub
 		
 	}

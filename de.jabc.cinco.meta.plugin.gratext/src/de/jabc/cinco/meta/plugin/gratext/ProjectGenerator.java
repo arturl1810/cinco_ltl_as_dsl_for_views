@@ -1,5 +1,9 @@
 package de.jabc.cinco.meta.plugin.gratext;
 
+import static de.jabc.cinco.meta.core.utils.WorkspaceUtil.createResource;
+import static de.jabc.cinco.meta.core.utils.WorkspaceUtil.getFiles;
+import static de.jabc.cinco.meta.core.utils.WorkspaceUtil.resp;
+
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
@@ -18,7 +22,6 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -37,9 +40,7 @@ public abstract class ProjectGenerator {
 	private IProgressMonitor monitor;
 	private HashMap<Object,FileDescriptor> fileDescriptors = new HashMap<>();
 	
-	public ProjectGenerator() {
-		
-	}
+	public ProjectGenerator() {}
 	
 	protected IProject createProject() {
 		return createProject(false);
@@ -108,25 +109,11 @@ public abstract class ProjectGenerator {
 //		}
 //	}
 	
-	private IFile createFile(String name, String folderName, String content) {
-		return createFile(project, name, folderName, content);
-	}
-	
-	private IFile createFile(IProject project, String name, String folderName, String content) {
-		try {
-			if (folderName == null || folderName.trim().isEmpty())
-				return ProjectCreator.createFile(name, project, content, getProgressMonitor());
-			return ProjectCreator.createFile(name, folder(folderName), content, getProgressMonitor());
-		} catch (Exception e) {
-			throw new GenerationException("Failed to create file " + name + " in folder " + folderName, e);
-		}
-	}
-	
 	public IProject execute(Map<String,Object> context) {
 		init(ctx = context);
 		createProject();
 		createBuildProperties();
-		createFiles(new FileCreator());
+		createFiles();
 		BundleRegistry.INSTANCE.addBundle(project.getName(), false);
 		return project;
 	}
@@ -149,7 +136,7 @@ public abstract class ProjectGenerator {
 	
 	protected abstract void init(Map<String,Object> context);
 	
-	protected abstract void createFiles(FileCreator creator);
+	protected abstract void createFiles();
 
 	protected abstract List<String> getNatures();
 	
@@ -198,90 +185,35 @@ public abstract class ProjectGenerator {
 		return Arrays.asList(strs);
 	}
 	
-	protected List<IFile> getFiles(String fileExtension) {
-		return getFiles(ResourcesPlugin.getWorkspace().getRoot(), fileExtension, true);
+	protected List<IFile> getWorkspaceFiles(String extension) {
+		return getFiles(f -> !f.isDerived() && extension.equals(f.getFileExtension()));
+	}
+		
+	public TemplateBasedFileCreator createFile(String fileName) {
+		return new TemplateBasedFileCreator(null, null, fileName);
 	}
 	
-	protected List<IFile> getFiles(IContainer container, String fileExtension, boolean recurse) {
-	    ArrayList<IFile> files = new ArrayList<>();
-	    IResource[] members = null;
-	    try {
-	    	members = container.members();
-	    } catch(CoreException e) {
-	    	e.printStackTrace();
-	    }
-	    if (members != null)
-			Arrays.stream(members).forEach(mbr -> {
-			   if (recurse && mbr instanceof IContainer && ((IContainer) mbr).isAccessible())
-				   files.addAll(getFiles((IContainer) mbr, fileExtension, recurse));
-			   else if (mbr instanceof IFile && !!mbr.isDerived()) {
-				   IFile file = (IFile) mbr;
-				   if (fileExtension.equals(file.getFileExtension()))
-						   files.add(file);
-			   }
-		   });
-		return files;
+	public SrcFileCreator inSrcFolder(String srcFolder) {
+		return new SrcFileCreator(srcFolder);
+	}
+	
+	private IFile createFile(String name, String folderName, String content) {
+		try {
+			IContainer container = (folderName == null || folderName.trim().isEmpty())
+				? project
+				: folder(folderName);
+			return resp(container)
+				.withProgressMonitor(getProgressMonitor())
+				.createFile(name, content);
+		} catch (Exception e) {
+			throw new GenerationException("Failed to create file " + name + " in folder " + folderName, e);
+		}
 	}
 	
 	protected IFolder folder(String folderName) throws CoreException {
 		if (folderName == null || folderName.trim().isEmpty())
 			return project.getFolder(project.getProjectRelativePath());
-		return createResource(project.getFolder(folderName));
-	}
-	
-	/**
-	 * recursively create resources.
-	 * taken from here: https://www.eclipse.org/forums/index.php/mv/msg/91710/282873/#msg_282873
-	 * 
-	 */
-	protected <T extends IResource> T createResource(T resource) throws CoreException {
-		if (resource == null || resource.exists())
-			return resource;
-		if (!resource.getParent().exists())
-			createResource(resource.getParent());
-		
-		switch (resource.getType()) {
-		case IResource.FILE :
-			((IFile) resource).create(new ByteArrayInputStream(new byte[0]),
-					true, getProgressMonitor());
-			break;
-		case IResource.FOLDER :
-			((IFolder) resource).create(IResource.NONE, true, monitor);
-			break;
-		case IResource.PROJECT :
-			((IProject) resource).create(getProgressMonitor());
-			((IProject) resource).open(getProgressMonitor());
-			break;
-		}
-		return resource;
-	}
-	
-	
-//	protected class SrcFile {
-//		
-//		String fileName;
-//		Class<?> templateClass;
-//		
-//		public SrcFile(String fileName, Class<?> templateClass) {
-//			this.fileName = fileName;
-//			this.templateClass = templateClass;
-//		}
-//	}
-	
-	protected class FileCreator {
-		
-//		public IFile createFile(FileDescriptor file) {
-//			IFile f = createFile(file.getName(), file.getProjectRelativeDir(), file.getContent());
-//			return f;
-//		}
-		
-		public TemplateBasedFileCreator createFile(String fileName) {
-			return new TemplateBasedFileCreator(project, null, null, fileName);
-		}
-		
-		public SrcFileCreator inSrcFolder(String srcFolder) {
-			return new SrcFileCreator(srcFolder);
-		}
+		return createResource(project.getFolder(folderName), null);
 	}
 	
 	protected class SrcFileCreator {
@@ -297,7 +229,7 @@ public abstract class ProjectGenerator {
 		}
 
 		public TemplateBasedFileCreator createFile(String fileName) {
-			return new TemplateBasedFileCreator(project, srcFolder, null, fileName);
+			return new TemplateBasedFileCreator(srcFolder, null, fileName);
 		}
 	}
 	
@@ -312,33 +244,36 @@ public abstract class ProjectGenerator {
 		}
 		
 		public TemplateBasedFileCreator createFile(String fileName) {
-			return new TemplateBasedFileCreator(project, srcFolder, pkg, fileName);
+			return new TemplateBasedFileCreator(srcFolder, pkg, fileName);
 		}
 	}
 	
 	protected class TemplateBasedFileCreator {
 		
-		IProject project;
 		String srcFolder;
 		String pkg;
 		String fileName;
 		
-		public TemplateBasedFileCreator(IProject project, String srcFolder, String pkg, String fileName) {
-			this.project = project;
+		public TemplateBasedFileCreator(String srcFolder, String pkg, String fileName) {
 			this.srcFolder = srcFolder;
 			this.pkg = pkg;
 			this.fileName = fileName;
+		}
+		
+		public TemplateBasedFileCreator inSrcFolder(String srcFolder) {
+			this.srcFolder = srcFolder;
+			return this;
 		}
 		
 		public IFile withContent(String content) {
 			IFile file = null;
 			if (srcFolder == null || srcFolder.trim().isEmpty())
 				if (pkg == null || pkg.trim().isEmpty())
-					file = createFile(project, fileName, null, content);
-				else file = createFile(project, fileName, pkg.replace(".", "/"), content);
+					file = createFile(fileName, null, content);
+				else file = createFile(fileName, pkg.replace(".", "/"), content);
 			else if (pkg == null || pkg.trim().isEmpty())
-				file = createFile(project, fileName, srcFolder, content);
-			else file = createFile(project, fileName, srcFolder + "/" + pkg.replace(".", "/"), content);
+				file = createFile(fileName, srcFolder, content);
+			else file = createFile(fileName, srcFolder + "/" + pkg.replace(".", "/"), content);
 			fileDescriptors.put(fileName,
 				new FileDescriptor(file)
 					.setName(fileName)
@@ -348,11 +283,11 @@ public abstract class ProjectGenerator {
 			return file;
 		}
 		
-		public IFile withContent(Class<?> templateClass, ProjectGenerator ctx) {
+		public IFile withContent(Class<?> templateClass) {
 			try {
 				Method method = templateClass.getMethod("create", ProjectGenerator.class);
 				method.setAccessible(true);
-				String content = method.invoke(templateClass.newInstance(), ctx).toString();
+				String content = method.invoke(templateClass.newInstance(), ProjectGenerator.this).toString();
 				IFile file = withContent(content);
 				fileDescriptors.put(templateClass,
 						new FileDescriptor(file)
