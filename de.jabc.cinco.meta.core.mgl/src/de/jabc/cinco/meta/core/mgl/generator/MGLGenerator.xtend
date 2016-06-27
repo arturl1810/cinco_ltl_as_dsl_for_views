@@ -43,10 +43,8 @@ import org.eclipse.emf.ecore.util.EcoreUtil
 class MGLGenerator implements IGenerator {
 	@Inject extension IQualifiedNameProvider
 	
-	ArrayList<Pair<EReference,String>> toReference
 
 	override doGenerate(Resource input, IFileSystemAccess fsa) {
-		toReference = new ArrayList
 		var resourceUri = input.URI
 		var filePath = input.URI.toPlatformString(true)
 		var iFile = ResourcesPlugin.workspace.root.getFile(new Path(filePath))
@@ -195,6 +193,9 @@ class MGLGenerator implements IGenerator {
 		var connectableElements = new BasicEList<GraphicalModelElement>()
 		//inheritContainable(graphModel.nodes.filter(NodeContainer))
 		connectableElements.addAll(graphModel.nodes)
+		for(n: graphModel.nodes){
+			inheritConnectionConstraints(n)
+		}
 		//connectableElements.addAll(graphModel.nodeContainers)
 		if(graphModel.edges.size!=0){
 			for(elem:connectableElements){
@@ -233,6 +234,35 @@ class MGLGenerator implements IGenerator {
 		return graphModel
 		
 		
+	}
+	
+	def inheritConnectionConstraints(Node node){
+		var currentNode = node.extends
+		while(currentNode!=null && currentNode!=node){
+			var in = new ArrayList
+			var out = new ArrayList  
+			for(iec: currentNode.incomingEdgeConnections){
+				var iecCopy = MglFactory.eINSTANCE.createIncomingEdgeElementConnection
+				
+				iecCopy.connectingEdges.addAll(iec.connectingEdges)
+				iecCopy.upperBound = iec.upperBound
+				iecCopy.lowerBound = iec.lowerBound
+				//node.incomingEdgeConnections.add(iecCopy)
+				in.add(iecCopy)
+			}
+			node.incomingEdgeConnections.addAll(in)
+			for(oec: currentNode.outgoingEdgeConnections){
+				var oecCopy = MglFactory.eINSTANCE.createOutgoingEdgeElementConnection
+				//oecCopy.connectedElement = MglFactory.eINSTANCE.create(oec.connectedElement.eClass) as GraphicalModelElement
+				oecCopy.connectingEdges.addAll(oec.connectingEdges)
+				oecCopy.upperBound = oec.upperBound
+				oecCopy.lowerBound = oec.lowerBound
+				//node.outgoingEdgeConnections.add(oecCopy)
+				out.add(oecCopy)
+			}
+			node.outgoingEdgeConnections.addAll(out)
+			currentNode = currentNode.extends
+		}
 	}
 	
 	def findWildcard(ContainingElement ce,GraphModel graphModel) {
