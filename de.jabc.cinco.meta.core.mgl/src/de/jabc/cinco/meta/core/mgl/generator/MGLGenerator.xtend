@@ -1,9 +1,11 @@
 package de.jabc.cinco.meta.core.mgl.generator
 
 import com.google.inject.Inject
+import de.jabc.cinco.meta.core.mgl.MGLEPackageRegistry
 import de.jabc.cinco.meta.core.mgl.transformation.MGL2Ecore
 import de.jabc.cinco.meta.core.pluginregistry.PluginRegistry
 import de.jabc.cinco.meta.core.utils.URIHandler
+import de.jabc.cinco.meta.core.utils.projects.ProjectCreator
 import de.metaframe.jabc.framework.execution.DefaultLightweightExecutionEnvironment
 import de.metaframe.jabc.framework.execution.context.DefaultLightweightExecutionContext
 import de.metaframe.jabc.framework.execution.context.LightweightExecutionContext
@@ -16,18 +18,23 @@ import mgl.ContainingElement
 import mgl.GraphModel
 import mgl.GraphicalElementContainment
 import mgl.GraphicalModelElement
+import mgl.IncomingEdgeElementConnection
 import mgl.MglFactory
 import mgl.Node
 import mgl.NodeContainer
+import mgl.OutgoingEdgeElementConnection
+import mgl.impl.OutgoingEdgeElementConnectionImpl
 import org.eclipse.core.internal.runtime.InternalPlatform
 import org.eclipse.core.resources.ResourcesPlugin
 import org.eclipse.core.runtime.Path
+import org.eclipse.emf.codegen.ecore.genmodel.GenModel
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage
 import org.eclipse.emf.common.util.BasicEList
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.EReference
 import org.eclipse.emf.ecore.resource.Resource
+import org.eclipse.emf.ecore.util.EcoreUtil
 import org.eclipse.emf.ecore.xmi.XMIResource
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl
@@ -35,10 +42,7 @@ import org.eclipse.pde.core.project.IBundleProjectService
 import org.eclipse.xtext.generator.IFileSystemAccess
 import org.eclipse.xtext.generator.IGenerator
 import org.eclipse.xtext.naming.IQualifiedNameProvider
-import de.jabc.cinco.meta.core.mgl.MGLEPackageRegistry;
-import de.jabc.cinco.meta.core.utils.projects.ProjectCreator;
-import org.eclipse.emf.codegen.ecore.genmodel.GenModel
-import org.eclipse.emf.ecore.util.EcoreUtil
+import transem.utility.helper.Tuple
 
 class MGLGenerator implements IGenerator {
 	@Inject extension IQualifiedNameProvider
@@ -193,9 +197,9 @@ class MGLGenerator implements IGenerator {
 		var connectableElements = new BasicEList<GraphicalModelElement>()
 		//inheritContainable(graphModel.nodes.filter(NodeContainer))
 		connectableElements.addAll(graphModel.nodes)
-		for(n: graphModel.nodes){
-			inheritConnectionConstraints(n)
-		}
+		
+		inheritAllConnectionConstraints(graphModel)
+		
 		//connectableElements.addAll(graphModel.nodeContainers)
 		if(graphModel.edges.size!=0){
 			for(elem:connectableElements){
@@ -236,8 +240,24 @@ class MGLGenerator implements IGenerator {
 		
 	}
 	
+	def inheritAllConnectionConstraints(GraphModel graphModel) {
+		var inoutMap = new HashMap<Node,Tuple<ArrayList<IncomingEdgeElementConnection>,ArrayList<OutgoingEdgeElementConnection>>>;
+		
+		for(n: graphModel.nodes){
+			val t = inheritConnectionConstraints(n)
+			inoutMap.put(n,t);
+		}
+		for(n: inoutMap.keySet){
+			val inout = inoutMap.get(n)
+			n.incomingEdgeConnections.addAll(inout.left)
+			n.outgoingEdgeConnections.addAll(inout.right)
+		}
+	}
+	
 	def inheritConnectionConstraints(Node node){
 		var currentNode = node.extends
+		var outgoingEdgeConnections = new ArrayList<OutgoingEdgeElementConnection>
+		var incomingEdgeConnections = new ArrayList<IncomingEdgeElementConnection>
 		while(currentNode!=null && currentNode!=node){
 			var in = new ArrayList
 			var out = new ArrayList  
@@ -250,7 +270,7 @@ class MGLGenerator implements IGenerator {
 				//node.incomingEdgeConnections.add(iecCopy)
 				in.add(iecCopy)
 			}
-			node.incomingEdgeConnections.addAll(in)
+			incomingEdgeConnections.addAll(in)
 			for(oec: currentNode.outgoingEdgeConnections){
 				var oecCopy = MglFactory.eINSTANCE.createOutgoingEdgeElementConnection
 				//oecCopy.connectedElement = MglFactory.eINSTANCE.create(oec.connectedElement.eClass) as GraphicalModelElement
@@ -260,9 +280,10 @@ class MGLGenerator implements IGenerator {
 				//node.outgoingEdgeConnections.add(oecCopy)
 				out.add(oecCopy)
 			}
-			node.outgoingEdgeConnections.addAll(out)
+			outgoingEdgeConnections.addAll(out)
 			currentNode = currentNode.extends
 		}
+		return new Tuple<ArrayList<IncomingEdgeElementConnection>,ArrayList<OutgoingEdgeElementConnection>>(incomingEdgeConnections,outgoingEdgeConnections)
 	}
 	
 	def findWildcard(ContainingElement ce,GraphModel graphModel) {
