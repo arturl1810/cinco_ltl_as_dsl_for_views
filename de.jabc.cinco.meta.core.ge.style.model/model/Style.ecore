@@ -27,6 +27,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="referencedAppearance" eType="#//Appearance"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="inlineAppearance" eType="#//Appearance"
         containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="connectionType" eType="#//ConnectionType"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="AbstractShape" abstract="true">
     <eStructuralFeatures xsi:type="ecore:EReference" name="position" eType="#//AbstractPosition"
@@ -198,5 +199,11 @@
     <eLiterals name="true" value="1" literal="true"/>
     <eLiterals name="false" literal="false"/>
     <eLiterals name="undef" value="-1" literal="undef"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ConnectionType">
+    <eLiterals name="FreeForm"/>
+    <eLiterals name="Manhattan" value="1"/>
+    <eLiterals name="Curved" value="2"/>
+    <eLiterals name="Composite" value="3"/>
   </eClassifiers>
 </ecore:EPackage>

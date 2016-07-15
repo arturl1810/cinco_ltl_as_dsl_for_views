@@ -27,6 +27,7 @@ EdgeStyle returns EdgeStyle:
 	'edgeStyle' name=ID ('(' parameterCount=INT ')')? '{'
 		('appearanceProvider' '('appearanceProvider=QName')')? 
 		(('appearance' referencedAppearance=[Appearance]) | (inlineAppearance=InlineAppearance) )?
+		('type' connectionType=ConnectionType)?
 		(decorator+=ConnectionDecorator)*
 	'}'
 ;
@@ -265,6 +266,10 @@ enum LineStyle returns LineStyle:
 
 enum Boolean returns BooleanEnum:
 	true | false
+;
+
+enum ConnectionType returns ConnectionType:
+	FreeForm = 'freeform' | Manhattan = 'manhattan' //| Curved = 'curved' | Composite = 'composite'
 ;
 
 Color returns Color:

@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>730ef53f-e135-46d5-9e4b-96fc4843c423</id>
   <name>GenerateAddEdgeFeature</name>
-  <changecounter>788</changecounter>
+  <changecounter>794</changecounter>
   <sib>
     <id>4966ae71-56db-49f8-b6d7-c3a51fbd1021</id>
     <name>PutExpression</name>
@@ -255,7 +255,7 @@ public class Add$context.edgeName$Feature extends CincoAbstractAddFeature {
 		IPeCreateService peCreateService = Graphiti.getPeCreateService();
        
 		Connection connection = peCreateService
-		.createFreeFormConnection(getDiagram());
+		.create$context.style.connectionType$Connection(getDiagram());
 		connection.setStart(addConContext.getSourceAnchor());
 		connection.setEnd(addConContext.getTargetAnchor());
 		
