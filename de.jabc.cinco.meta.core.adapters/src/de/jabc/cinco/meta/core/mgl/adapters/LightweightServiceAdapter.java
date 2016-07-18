@@ -17,6 +17,7 @@ import mgl.NodeContainer;
 
 import org.eclipse.emf.common.util.EList;
 
+import de.jabc.cinco.meta.core.utils.InheritanceUtil;
 import de.metaframe.jabc.framework.execution.LightweightExecutionEnvironment;
 import de.metaframe.jabc.framework.execution.LightweightExecutionEnvironmentAdapter;
 import de.metaframe.jabc.framework.execution.context.LightweightExecutionContext;
@@ -95,6 +96,9 @@ public class LightweightServiceAdapter {
 			
 			if(elementTypes.get(edge).size()==1)
 				elemTypes.put(edge, (GraphicalModelElement) ((HashSet)elementTypes.get(edge)).toArray()[0]);
+			else if(elementTypes.get(edge).size()>1)
+				//elemTypes.put(edge,null);
+				elemTypes.put(edge,InheritanceUtil.getLowestMutualSuperNode(elementTypes.get(edge).stream().map(gme -> (Node)gme).collect(Collectors.toList())));
 			else
 				elemTypes.put(edge,null);
 			

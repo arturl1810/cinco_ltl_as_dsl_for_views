@@ -1,9 +1,12 @@
 package de.jabc.cinco.meta.core.utils;
 
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
-import org.eclipse.emf.ecore.util.EcoreUtil;
+import com.google.common.collect.Lists;
 
 import mgl.Attribute;
 import mgl.Edge;
@@ -79,5 +82,67 @@ public class InheritanceUtil {
 		}
 		
 		return attributes;
+	}
+	
+	public static Node getLowestMutualSuperNode(List<Node> nodes){
+		HashSet<Node> superNodes = new HashSet<Node>();
+		boolean first = true;
+		for(Node node: nodes){
+			if(first){
+				superNodes.addAll(getAllSuperNodes(node));
+				first = false;
+			}else{
+				superNodes.retainAll(getAllSuperNodes(node));
+			}
+			
+		}
+		if(superNodes.size()==1){
+			return superNodes.toArray(new Node[1])[0];
+		}else if(superNodes.size()>1){
+			return sortByInheritance(Lists.newArrayList(superNodes)).get(superNodes.size()-1);
+		}else{
+			return null;
+		}
+	}
+	
+	private static List<Node> sortByInheritance(List<Node> nodes) {
+		
+		nodes.sort(new Comparator<Node>() {
+
+			@Override
+			public int compare(Node o1, Node o2) {
+				int j=0,i = 0;
+				Node sn = o1.getExtends();
+				while(sn != null){
+					sn = sn.getExtends();
+					i++;
+				}
+				sn = o2.getExtends();
+				while(sn != null){
+					sn = sn.getExtends();
+					j++;
+				}
+				return Integer.compare(i, j);
+			}
+
+			
+		});
+		return nodes;
+		
+		
+	}
+
+	
+	
+	public static Set<Node> getAllSuperNodes(Node node){
+		HashSet<Node> superNodes = new HashSet<Node>();
+		superNodes.add(node);
+		Node superNode = node.getExtends();
+		while(superNode!=null){
+			superNodes.add(superNode);
+			superNode = superNode.getExtends();
+		}
+		return superNodes;
+		
 	}
 }

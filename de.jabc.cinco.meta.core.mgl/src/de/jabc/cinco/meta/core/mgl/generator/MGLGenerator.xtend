@@ -252,6 +252,7 @@ class MGLGenerator implements IGenerator {
 			n.incomingEdgeConnections.addAll(inout.left)
 			n.outgoingEdgeConnections.addAll(inout.right)
 		}
+		println("H")
 	}
 	
 	def inheritConnectionConstraints(Node node){
