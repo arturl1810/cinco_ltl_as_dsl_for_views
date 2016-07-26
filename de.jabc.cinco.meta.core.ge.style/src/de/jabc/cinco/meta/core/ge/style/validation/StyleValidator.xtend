@@ -4,11 +4,14 @@
 package de.jabc.cinco.meta.core.ge.style.validation
 
 import de.jabc.cinco.meta.core.utils.PathValidator
-import org.eclipse.xtext.validation.Check
-import style.Image
-import style.StylePackage
-import style.Appearance
 import java.util.ArrayList
+import org.eclipse.xtext.validation.Check
+import style.AbstractShape
+import style.Alignment
+import style.Appearance
+import style.Image
+import style.NodeStyle
+import style.StylePackage
 
 //import org.eclipse.xtext.validation.Check
 
@@ -58,6 +61,15 @@ class StyleValidator extends JStyleValidator {
 				return apps
 			apps.add(current.name)
 			current = current.parent
+		}
+	}
+	
+	@Check
+	def checkMainShapePosition(AbstractShape abs) {
+		if (abs.eContainer instanceof NodeStyle) {
+			val pos = abs.position
+			if (pos instanceof Alignment)
+				error("Relativ positions are not allowed in the topmost element", StylePackage.Literals.ABSTRACT_SHAPE__POSITION);
 		}
 	}
 	
