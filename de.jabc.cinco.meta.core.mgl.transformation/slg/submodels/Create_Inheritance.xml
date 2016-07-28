@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>5493c838-f9b5-4019-b333-827236224ae0</id>
   <name>Create Inheritance</name>
-  <changecounter>15</changecounter>
+  <changecounter>17</changecounter>
   <sib>
     <id>d787c5a0-d23c-4e62-9b37-e2e25d08096a</id>
     <name>CheckVariable</name>

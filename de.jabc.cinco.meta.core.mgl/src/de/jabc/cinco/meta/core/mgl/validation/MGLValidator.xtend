@@ -37,6 +37,7 @@ import org.eclipse.xtext.EcoreUtil2
 import org.eclipse.xtext.validation.Check
 import org.eclipse.emf.ecore.plugin.EcorePlugin
 import mgl.BoundedConstraint
+import java.nio.file.attribute.UserDefinedFileAttributeView
 
 /**
  * Custom validation rules. 
@@ -335,8 +336,9 @@ class MGLValidator extends AbstractMGLValidator {
 		for(a: attr.modelElement.attributes)
 			if(a!=attr&&a.name.equalsIgnoreCase(attr.name))
 				error("Attribute Names must be unique",MglPackage.Literals::ATTRIBUTE__NAME)
-		if(attr.modelElement instanceof Edge){
-			var element = attr.modelElement as Edge
+		var element = attr.modelElement		
+		
+			
 			
 			var superType = element.extends
 			while(superType!=null && InheritanceUtil.checkMGLInheritance(element).nullOrEmpty){
@@ -352,36 +354,18 @@ class MGLValidator extends AbstractMGLValidator {
 				superType=superType.extends
 			}
 			
-		}else if(attr.modelElement instanceof Node){
-			
-			var element = attr.modelElement as Node
-			
-			var superType = element.extends
-                while(superType!=null && InheritanceUtil.checkMGLInheritance(element).nullOrEmpty){
-				for(a: superType.attributes){
-						if(a.name.equalsIgnoreCase(attr.name))
-							error("Attribute Names must be unique",MglPackage.Literals::ATTRIBUTE__NAME)
-						
-				}
-				superType=superType.extends				
-			}
-		}else if(attr.modelElement instanceof GraphModel){
-			var element = attr.modelElement as GraphModel
-			var superType = element.extends
-			while(superType!=null&& InheritanceUtil.checkMGLInheritance(element).nullOrEmpty){
-				
-					for(a: superType.attributes){
-						if(a.name.equalsIgnoreCase(attr.name))
-							error("Attribute Names must be unique",MglPackage.Literals::ATTRIBUTE__NAME)
-						
-					}
-				
-				
-			
-				superType=superType.extends				
-			}
+		
+	}
+	
+	def <T extends ModelElement> getExtends(ModelElement element){
+		switch(element){
+			Node: element.extends
+			Edge: element.extends
+			UserDefinedType: element.extends
+			GraphModel: element.extends
 		}
 	}
+	
 	@Check
 	def checkCanResolveEClass(ReferencedEClass ref){
 		var eclass = ref.type
@@ -467,7 +451,8 @@ class MGLValidator extends AbstractMGLValidator {
 	@Check
 	def checkNodeInheritsFromNonAbstractPrimeReferenceNode(Node node){
 		var currentNode = node
-		while(currentNode.extends!=null){
+		var noCircles =InheritanceUtil.checkMGLInheritance(node).nullOrEmpty
+		while(currentNode.extends!=null && noCircles){
 			currentNode = currentNode.extends
 			if(!currentNode.isIsAbstract && (currentNode instanceof ReferencedType))
 				error(String::format("Node %s inherits from non abstract prime node %s",node.name,currentNode.name),MglPackage.Literals::NODE__EXTENDS)
@@ -580,6 +565,9 @@ class MGLValidator extends AbstractMGLValidator {
 					error("Circle in inheritance caused by: " + retvalList, MglPackage.Literals.NODE__EXTENDS)
 				if (me instanceof Edge)
 					error("Circle in inheritance caused by: " + retvalList, MglPackage.Literals.EDGE__EXTENDS)
+				if (me instanceof UserDefinedType){
+					error("Circle in inheritance caused by: " + retvalList, MglPackage.Literals.USER_DEFINED_TYPE__EXTENDS)
+				}
 			}
 	}
 	@Check

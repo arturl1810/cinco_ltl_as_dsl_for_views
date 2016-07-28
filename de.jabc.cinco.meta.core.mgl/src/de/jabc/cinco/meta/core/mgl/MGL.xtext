@@ -188,7 +188,7 @@ Type:
 UserDefinedType returns UserDefinedType:
 	{UserDefinedType}
 	(annotations+=Annotation)*
-	'type' name=EString '{' 
+	(isAbstract?='abstract')? 'type' name=EString ('extends' extends=[UserDefinedType|EString])?'{' 
 			(attributes+=Attribute)*
 	'}'
 ;

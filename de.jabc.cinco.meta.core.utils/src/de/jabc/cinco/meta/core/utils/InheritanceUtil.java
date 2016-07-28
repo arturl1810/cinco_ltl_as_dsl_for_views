@@ -13,6 +13,7 @@ import mgl.Edge;
 import mgl.ModelElement;
 import mgl.Node;
 import mgl.NodeContainer;
+import mgl.UserDefinedType;
 
 
 public class InheritanceUtil {
@@ -24,9 +25,28 @@ public class InheritanceUtil {
 		if (me instanceof Edge) {
 			return checkEdgeInheritance((Edge) me);
 		}
+		
+		if (me instanceof UserDefinedType){
+			return checkUserDefinedTypeInheritance((UserDefinedType)me);
+		}
 		return null;
 	}
 	
+	private static List<String> checkUserDefinedTypeInheritance(
+			UserDefinedType type) {
+		UserDefinedType curr = type;
+		List<String> ancestors = new ArrayList<>();
+		while (curr != null) {
+			if (ancestors.contains(curr.getName())) {
+				return ancestors;
+			}
+			ancestors.add(curr.getName());
+			curr = curr.getExtends();
+		}
+		
+		return null;
+	}
+
 	private static List<String> checkNodeInheritance(Node node) {
 		Node curr = node;
 		List<String> ancestors = new ArrayList<>();
@@ -71,7 +91,8 @@ public class InheritanceUtil {
 	
 	public static List<Attribute> getInheritedAttributes(ModelElement me) {
 		ArrayList<Attribute> attributes = new ArrayList<>();
-		while (me != null) {
+		List<String> checked = checkMGLInheritance(me);
+		while (me != null && (checked==null || checked.isEmpty()) ) {
 			attributes.addAll(me.getAttributes());
 			if (me instanceof Node)
 				me = ((Node) me).getExtends();
@@ -138,7 +159,8 @@ public class InheritanceUtil {
 		HashSet<Node> superNodes = new HashSet<Node>();
 		superNodes.add(node);
 		Node superNode = node.getExtends();
-		while(superNode!=null){
+		List<String> checked = checkMGLInheritance(superNode);
+		while(superNode!=null && (checked == null || checked.isEmpty())){
 			superNodes.add(superNode);
 			superNode = superNode.getExtends();
 		}
