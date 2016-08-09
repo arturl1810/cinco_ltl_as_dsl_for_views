@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>5f357517-18d4-4780-adc3-30879fedbfb1</id>
   <name>GenerateFeatureProvider</name>
-  <changecounter>901</changecounter>
+  <changecounter>907</changecounter>
   <sib>
     <id>23fb1326-f00d-4e42-845a-cdf6492fc417</id>
     <name>PutExpression</name>
@@ -547,6 +547,11 @@ public class $context.graphModelName$FeatureProvider extends DefaultFeatureProvi
 			$context.featureProviderCustomFeatureContent$
 		}
 		return new ICustomFeature[] {};
+	}
+
+	@Override
+	public IRemoveFeature getRemoveFeature(IRemoveContext context) {
+		return null;
 	}
 }</string>
     </parameter>
