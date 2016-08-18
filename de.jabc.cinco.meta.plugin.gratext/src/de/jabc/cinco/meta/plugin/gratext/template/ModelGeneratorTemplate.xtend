@@ -87,9 +87,7 @@ class «model.name»ModelGenerator {
 		init(file, folder)
 		clearCache
 		diagram.edit[
-			nodes.forEach[add]
-			edges.forEach[add]
-			update
+			diagram.name = new Path(file.name).removeFileExtension.lastSegment
 			save(folder)
 		]
 	}
@@ -110,9 +108,17 @@ class «model.name»ModelGenerator {
 		val path = file.getFullPath().toOSString()
 		val uri = URI.createPlatformResourceURI(path, true)
 		val resource = new ResourceSetImpl().getResource(uri, true)
-		resource.edit[
-			init(resource, 2)
-		]
+		// model and diagram are generated while creating the resource
+		resource.extractContent
+	}
+	
+	def extractContent(Resource resource) {
+		diagram = [|
+			resource.contents.filter(Diagram).get(0)
+		].printException
+		model = [|
+			resource.contents.filter(«model.name»).get(0)
+		].printException
 	}
 	
 	def init(Resource resource, int modelIndex) {
@@ -127,7 +133,7 @@ class «model.name»ModelGenerator {
 		
 		resource.contents.remove(model)
 		resource.contents.add(0, baseModel)
-		model = baseModel as «model.name»
+		model = baseModel
 		
 		diagram = createDiagram("«model.name»")
 		resource.contents.add(0, diagram)

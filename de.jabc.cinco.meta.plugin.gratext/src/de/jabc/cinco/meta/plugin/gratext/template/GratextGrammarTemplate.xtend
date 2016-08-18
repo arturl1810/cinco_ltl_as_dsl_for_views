@@ -163,9 +163,11 @@ def enumRule(Enumeration type) {
 }
 	
 def type(Attribute attr) {
-	if (model.contains(attr.type))
-		'''[«model.acronym»::«attr.type»|ID]'''
-	else attr.type
+	if (model.contains(attr.type)) {
+		if (model.containsEnumeration(attr.type) || model.containsUserDefinedType(attr.type))
+			attr.type
+		else '''[«model.acronym»::«attr.type»|ID]'''
+	} else attr.type
 }
 
 def type(ReferencedType ref) {
@@ -230,7 +232,7 @@ grammar «project.basePackage».«project.targetName» with org.eclipse.xtext.co
 
 «FOR edge:model.nonAbstractEdges»«edgeRule(edge)»«ENDFOR»
 
-«FOR type:model.types»«typeRule(type)»«ENDFOR»
+«FOR type:model.userDefinedTypes»«typeRule(type)»«ENDFOR»
 
 «FOR type:model.enumerations»«enumRule(type)»«ENDFOR»
 

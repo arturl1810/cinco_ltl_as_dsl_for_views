@@ -130,6 +130,19 @@ public class WorkspaceUtil {
 		}
 		
 		/**
+		 * Creates a folder with the specified name.
+		 */
+		public IFolder createFolder(String name) {
+			IFolder folder = container.getFolder(new Path(name));
+			if (!folder.exists()) try {
+				createResource(folder, progressMonitor);
+			} catch (CoreException e) {
+				e.printStackTrace();
+			}
+			return folder;
+		}
+		
+		/**
 		 * Retrieve all files in the container.
 		 * Only recurses through accessible sub-containers (e.g. open projects).
 		 * <p>Convenience method equal to <code>getResource(IFile.class)</code></p>

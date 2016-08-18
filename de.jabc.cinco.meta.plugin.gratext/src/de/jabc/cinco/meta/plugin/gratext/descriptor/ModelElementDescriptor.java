@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 
 import mgl.Attribute;
 import mgl.ModelElement;
+import mgl.Node;
 
 public class ModelElementDescriptor<T extends ModelElement> {
 	
@@ -53,14 +54,27 @@ public class ModelElementDescriptor<T extends ModelElement> {
 		return attributes;
 	}
 	
-	@SuppressWarnings("unchecked")
 	public Set<T> getSubTypes() {
-		return (Set<T>) model.getSubTypes(instance());
+		return getSubTypes(true);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public Set<T> getSubTypes(boolean recurse) {
+		if (recurse)
+			return (Set<T>) model.getSubTypes(instance());
+		return (Set<T>) model.getSubTypes(instance()).stream()
+				.filter(sub -> model.resp(sub).hasSuperType(instance()))
+				.collect(Collectors.toSet());
 	}
 	
 	public Set<T> getNonAbstractSubTypes() {
+		return getNonAbstractSubTypes(true);
+	}
+	
+	public Set<T> getNonAbstractSubTypes(boolean recurse) {
 		return getSubTypes().stream()
 				.filter(element -> !element.isIsAbstract())
+				.filter(sub -> model.resp(sub).hasSuperType(instance()))
 				.collect(Collectors.toSet());
 	}
 	
@@ -79,6 +93,10 @@ public class ModelElementDescriptor<T extends ModelElement> {
 	
 	public T getSuperType() {
 		return null;
+	}
+	
+	public boolean hasSuperType(ModelElement sup) {
+		return getSuperType() == sup;
 	}
 	
 }

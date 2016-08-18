@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import mgl.Attribute;
@@ -40,6 +41,8 @@ public class GraphModelDescriptor extends Descriptor<GraphModel> {
 			return new ContainerDescriptor((NodeContainer)element, this);
 		if (element instanceof Node)
 			return new NodeDescriptor<Node>((Node)element, this);
+		if (element instanceof UserDefinedType)
+			return new UserDefinedTypeDescriptor((UserDefinedType)element, this);
 		return new ModelElementDescriptor<ModelElement>(element, this);
 	});
 	
@@ -56,37 +59,39 @@ public class GraphModelDescriptor extends Descriptor<GraphModel> {
 	}
 	
 	protected void init(GraphModel model) {
-		initTypes();
+		initModelElements();
 		initAttributes();
 		initContainables();
 	}
 	
-	protected void initTypes() {
-		instance().getNodes().forEach(node -> {
-			elements.add(node);
-			if (node instanceof NodeContainer)
-				containers.add((NodeContainer) node);
-			else nonContainers.add(node);
-			initType(node);
-		});
-		instance().getEdges().forEach(this::initType);
+	protected void initModelElements() {
+		instance().getNodes().forEach(this::initTypeHierarchy);
+		instance().getEdges().forEach(this::initTypeHierarchy);
+		instance().getTypes().stream()
+			.filter(UserDefinedType.class::isInstance)
+			.map(UserDefinedType.class::cast)
+			.forEach(this::initTypeHierarchy);
 	}
 	
-	protected void initType(Edge edge) {
-		Edge ext = edge.getExtends();
-		while (ext != null) {
-			//System.out.println("Type " + edge.getName() + " > " + ext.getName());
-			subTypes.get(ext).add(edge);
-			ext = ext.getExtends();
+	protected void initTypeHierarchy(ModelElement elem) {
+		elements.add(elem);
+		if (elem instanceof Node) {
+			if (elem instanceof NodeContainer)
+				containers.add((NodeContainer) elem);
+			else nonContainers.add((Node) elem);
+			initTypeHierarchy((Node) elem, x -> ((Node)x).getExtends());
+		} else if (elem instanceof Edge) {
+			initTypeHierarchy((Edge) elem, x -> ((Edge)x).getExtends());
+		} else if (elem instanceof UserDefinedType) {
+			initTypeHierarchy((UserDefinedType) elem, x -> ((UserDefinedType)x).getExtends());
 		}
 	}
 	
-	protected void initType(Node node) {
-		Node ext = node.getExtends();
+	protected void initTypeHierarchy(ModelElement elem, Function<ModelElement, ModelElement> superTypeSupplier) {
+		ModelElement ext = superTypeSupplier.apply(elem);
 		while (ext != null) {
-			//System.out.println("Type " + node.getName() + " > " + ext.getName() + " prime = " + node.getPrimeReference());
-			subTypes.get(ext).add(node);
-			ext = ext.getExtends();
+			subTypes.get(ext).add(elem);
+			ext = superTypeSupplier.apply(ext);
 		}
 	}
 	
@@ -150,7 +155,6 @@ public class GraphModelDescriptor extends Descriptor<GraphModel> {
 	}
 	
 	protected Set<String> withSubTypes(String type) {
-		//System.out.println(" Type " + type);
 		Set<String> retVal = new HashSet<>(Arrays.asList(new String[] {type}));
 		ModelElement node = elements.get(type);
 		if (node != null) {
@@ -163,6 +167,18 @@ public class GraphModelDescriptor extends Descriptor<GraphModel> {
 	
 	public boolean contains(String name) {
 		return elements.containsKey(name);
+	}
+	
+	public boolean containsEnumeration(String name) {
+		return getEnumerations().stream()
+				.filter(type -> type.getName().equals(name))
+				.findAny().isPresent();
+	}
+	
+	public boolean containsUserDefinedType(String name) {
+		return getUserDefinedTypes().stream()
+			.filter(type -> type.getName().equals(name))
+			.findAny().isPresent();
 	}
 	
 	public List<NodeContainer> getContainers() {
@@ -212,7 +228,7 @@ public class GraphModelDescriptor extends Descriptor<GraphModel> {
 				.collect(Collectors.toList());
 	}
 	
-	public List<UserDefinedType> getTypes() {
+	public List<UserDefinedType> getUserDefinedTypes() {
 		return instance().getTypes().stream()
 				.filter(UserDefinedType.class::isInstance)
 				.filter(type -> !(type instanceof Enumeration))
