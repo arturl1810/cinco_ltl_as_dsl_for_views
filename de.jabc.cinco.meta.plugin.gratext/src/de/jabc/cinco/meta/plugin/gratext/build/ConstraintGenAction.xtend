@@ -54,7 +54,7 @@ class ConstraintGenAction implements IActionDelegate {
 	def run(IFile modelFile) {
 		createModelGenFolder(modelFile)
 		desc = new GraphModelDescriptor(modelFile.resource.contents.get(0) as GraphModel)
-		desc.nodes.forEach[genFile]
+		desc.nonAbstractNodes.forEach[genFile]
 	}
 	
 	def genFile(Node node) {
@@ -203,9 +203,7 @@ class ConstraintGenAction implements IActionDelegate {
 	}
 	
 	def Stream<IFile> getModelFiles() {
-		val folder = project.getFolder("model")
-		println("Folder: " + folder)
-		resp(folder).getFiles(["mgl".equals(fileExtension)]).stream
+		resp(project).getFiles(["mgl".equals(fileExtension)]).stream
 	}
 	
 	def isDisabled(Node node) {
