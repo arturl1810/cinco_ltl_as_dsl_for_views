@@ -38,5 +38,17 @@
                label="Build Gratext">
          </action>
       </objectContribution>
+      <objectContribution
+            id="de.jabc.cinco.meta.plugin.gratext.menu.constraintgen"
+            objectClass="org.eclipse.core.resources.IFile"
+            adaptable="true"
+            nameFilter="*.cpd">
+         <action 
+               id="de.jabc.cinco.meta.plugin.gratext.build.genConstraints"
+               class="de.jabc.cinco.meta.plugin.gratext.build.ConstraintGenAction"
+               icon="platform:/plugin/de.jabc.cinco.meta.plugin.gratext/cv_icon_16.png"
+               label="Build ConView">
+         </action>
+      </objectContribution>
    </extension>
 </fragment>
