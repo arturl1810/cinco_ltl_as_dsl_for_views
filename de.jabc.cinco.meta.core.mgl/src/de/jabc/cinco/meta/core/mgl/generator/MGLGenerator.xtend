@@ -54,7 +54,7 @@ class MGLGenerator implements IGenerator {
 		var iFile = ResourcesPlugin.workspace.root.getFile(new Path(filePath))
 		var projectName = iFile.project.name
 
-		var bc = InternalPlatform::getDefault().getBundleContext();
+		var bc = InternalPlatform::getDefault().getBundleContext(); 
 		var ref = bc.getServiceReference(IBundleProjectService.name);
 		var service = bc.getService(ref) as IBundleProjectService
 		var bpd = service.getDescription(iFile.project);

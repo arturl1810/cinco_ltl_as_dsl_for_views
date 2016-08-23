@@ -26,4 +26,5 @@ Export-Package: de.jabc.cinco.meta.core.mgl.ui.contentassist,
 Bundle-Activator: de.jabc.cinco.meta.core.mgl.ui.internal.MGLActivator
 Import-Package: de.jabc.cinco.meta.core.ui.listener,
  org.apache.log4j;version="1.2.15",
+ org.eclipse.jdt.core,
  org.eclipse.xtext.xbase.lib

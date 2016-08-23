@@ -30,17 +30,24 @@ public class MGLHyperLinkDetector implements IHyperlinkDetector {
 		if (!(textViewer instanceof XtextSourceViewer))
 			return null;
 		
-		XtextSourceViewer viewer = (XtextSourceViewer) textViewer;
-		XtextDocument doc = (XtextDocument) viewer.getInput();
+		XtextSourceViewer viewer = (XtextSourceViewer) textViewer; //Viewer holen
+		XtextDocument doc = (XtextDocument) viewer.getInput();  //Datei (mgl) holen
 		
-		Resource res = new ResourceSetImpl().getResource(doc.getResourceURI(), true);
+		Resource res = new ResourceSetImpl().getResource(doc.getResourceURI(), true); //uri-pfad
 		
+		//Helper um object zu erstellen
 		EObjectAtOffsetHelper resolver = new EObjectAtOffsetHelper();
+		//Object wird erstellt
 		EObject object = resolver.resolveElementAt((XtextResource) res, region.getOffset());
+		//Object enthält annotation-name:style, value: [redCircle]
 		
+		
+		//Wenn Object eine Annotation ist und zu einem Modelelement gehört (Knoten/Kante)
 		if (object instanceof Annotation && ((Annotation) object).getParent() instanceof ModelElement) {
+			//neuer Linkhelper wird erstellt, HyperLinks werden erstellt und zurückgegeben
 			return new MGLHyperLinkHelper().createHyperlinksByOffset((XtextResource) res, region.getOffset(), canShowMultipleHyperlinks);
 		} else {
+			//auf dem vorhandenen helper (@Inject) werden Hyperlinks erstellt und zurückgegeben
 			return helper.createHyperlinksByOffset((XtextResource) res, region.getOffset(), canShowMultipleHyperlinks) ;
 		}
 		
