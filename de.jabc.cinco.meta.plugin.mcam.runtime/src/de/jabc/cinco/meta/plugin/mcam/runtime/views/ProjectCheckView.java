@@ -7,6 +7,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IEditorPart;
 
 import de.jabc.cinco.meta.plugin.mcam.runtime.views.pages.CheckViewPage;
+import de.jabc.cinco.meta.plugin.mcam.runtime.views.provider.CheckViewTreeProvider.ViewType;
 
 public class ProjectCheckView extends CheckView {
 	
@@ -21,8 +22,11 @@ public class ProjectCheckView extends CheckView {
 	@Override
 	public CheckViewPage<?, ?, ?, ?> createPage(String id, IEditorPart editor) {
 		PageFactory pf = getPageFactory();
-		if (pf != null)
-			return pf.createProjectCheckViewPage(id, editor);
+		if (pf != null) {
+			CheckViewPage<?, ?, ?, ?> cVP = pf.createProjectCheckViewPage(id, editor);
+			cVP.getDataProvider().setActiveView(ViewType.BY_MODULE);
+			return cVP;
+		}
 		return null;
 	}
 
