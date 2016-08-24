@@ -59,7 +59,7 @@ class ConstraintGenAction implements IActionDelegate {
 	
 	def genFile(Node node) {
 		resp(modelGenFolder).createFile(
-			node.name, node.genContent.toString)
+			node.name + ".txt", node.genContent.toString)
 	}
 	
 	def genContent(Node node) '''
@@ -73,12 +73,23 @@ class ConstraintGenAction implements IActionDelegate {
 		
 		=== CAN CONTAIN ==============================
 		
+		 == Created by User ==
+		
 		«desc.nonAbstractNodes
 			.filter[!isDisabled]
 			.filter[desc.resp(cont).canContain(it)]
 			.sortBy[name]
 			.map['''  + «name»«genContainableHierarchy(cont)»''']
-			.join('\n')»
+			.join('\n').or('  n/a')»
+		
+		 == Created by API (in addition) ==
+		 
+		«desc.nonAbstractNodes
+			.filter[isDisabled]
+			.filter[desc.resp(cont).canContain(it)]
+			.sortBy[name]
+			.map['''  + «name»«genContainableHierarchy(cont)»''']
+			.join('\n').or('  n/a')»
 		
 		=== CANNOT CONTAIN ===========================
 		
@@ -87,15 +98,15 @@ class ConstraintGenAction implements IActionDelegate {
 			.filter[!desc.resp(cont).canContain(it)]
 			.sortBy[name]
 			.map['''  - «name»«genContainableHierarchy(cont)»''']
-			.join('\n')»
+			.join('\n').or('  n/a')»
 	'''
 	
 	def genContainableView(Node node) '''
 		
 		=== CAN BE CONTAINED IN ======================
 		
+		«if (desc.canContain(node)) '  + ' + desc.name + '[model]'»
 		«desc.nonAbstractContainers
-			.filter[!isDisabled]
 			.filter[desc.resp(it).canContain(node)]
 			.sortBy[name]
 			.map['''  + «name»«genContainerHierarchy(it)»''']
@@ -108,10 +119,12 @@ class ConstraintGenAction implements IActionDelegate {
 			.filter[!desc.resp(it).canContain(node)]
 			.sortBy[name]
 			.map['''  - «name»«genContainerHierarchy(it)»''']
-			.join('\n')»
+			.join('\n').or('  n/a')»
 	'''
 	
 	def footer() '''
+		
+		
 		
 		
 		=== EXPLANATION ==============================
@@ -215,6 +228,11 @@ class ConstraintGenAction implements IActionDelegate {
 			tabs += '\t'
 		}
 		return tabs
+	}
+	
+	def or(String str, String alt) {
+		if (str.nullOrEmpty) alt
+		else str
 	}
 	
 	def createModelGenFolder(IFile modelFile) {
