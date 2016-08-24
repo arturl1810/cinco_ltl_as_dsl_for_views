@@ -66,6 +66,7 @@ class ConstraintGenAction implements IActionDelegate {
 		«node.name»«node.genTypeTag»«node.genHierarchy»
 		«node.genContainableView»
 		«switch node {NodeContainer: node.genContainerView}»
+		«footer»
 	'''
 	
 	def genContainerView(NodeContainer cont) '''
@@ -87,38 +88,6 @@ class ConstraintGenAction implements IActionDelegate {
 			.sortBy[name]
 			.map['''  - «name»«genContainableHierarchy(cont)»''']
 			.join('\n')»
-			
-		
-		=== EXPLANATION ==============================
-		 
-		The containment table above provides an overview on containment constraints
-		regarding the node named in line 1. The following conditions apply:
-		 
-		 > A file with a containment table is generated only for nodes that can
-		   somehow be created by the user (i.e. non-abstract nodes that are not
-		   annotated with @disable(create))
-		   
-		 > Each table row lists a non-abstract node followed by the respective
-		   type hierarchy, while the latter might comprise abstract nodes.
-		   
-		 > The type hierarchy provides some additional information about containments
-		   in order to enable the identification of possible misconception.
-		   
-		Example: the following table snippet shows that 'SomeType' is a container
-		that extends the non-abstract node 'SupType', which extends the abstract node
-		'SupSupType'. 'Type' can be contained in 'SomeContainer' that extends the
-		non-abstract node 'SupContainer', which extends the abstract node
-		'SupSupContainer'. The (+) at 'SupContainer' shows that 'SomeType' can be
-		contained in it. The (-) at 'SupSupContainer' shows that 'SomeType' cannot
-		be contained in it. 
-		
-		-----------------------------------------------------------------------
-		SomeType[container]		<  SupType  <  SupSupType[abs]
-		
-		=== CAN BE CONTAINED IN ======================
-		
-		 + SomeContainer		<  SupContainer(+)  <  SupSupContainer[abs](-)
-		-----------------------------------------------------------------------
 	'''
 	
 	def genContainableView(Node node) '''
@@ -140,6 +109,41 @@ class ConstraintGenAction implements IActionDelegate {
 			.sortBy[name]
 			.map['''  - «name»«genContainerHierarchy(it)»''']
 			.join('\n')»
+	'''
+	
+	def footer() '''
+		
+		
+		=== EXPLANATION ==============================
+		 
+		The containment table above provides an overview on containment constraints
+		regarding the node named in line 1. The following conditions apply:
+		 
+		 > A file with a containment table is generated only for nodes that can
+		   somehow be created by the user (i.e. non-abstract nodes that are not
+		   annotated with @disable(create))
+		   
+		 > Each table row lists a non-abstract node followed by the respective
+		   type hierarchy, while the latter might comprise abstract nodes.
+		   
+		 > The type hierarchy provides some additional information about containments
+		   in order to enable the identification of eventual misconception.
+		   
+		Example: the following table snippet shows that 'SomeType' is a container
+		that extends the non-abstract node 'SupType', which extends the abstract node
+		'SupSupType'. 'Type' can be contained in 'SomeContainer' that extends the
+		non-abstract node 'SupContainer', which extends the abstract node
+		'SupSupContainer'. The (+) at 'SupContainer' shows that 'SomeType' can be
+		contained in it. The (-) at 'SupSupContainer' shows that 'SomeType' cannot
+		be contained in it. 
+		
+		-----------------------------------------------------------------------
+		SomeType[container]		<  SupType  <  SupSupType[abs]
+		
+		=== CAN BE CONTAINED IN ======================
+		
+		 + SomeContainer		<  SupContainer(+)  <  SupSupContainer[abs](-)
+		-----------------------------------------------------------------------
 	'''
 	
 	def genHierarchy(Node node) {
