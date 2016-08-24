@@ -14,7 +14,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
@@ -37,6 +36,7 @@ import org.osgi.framework.Bundle;
 
 import de.jabc.cinco.meta.plugin.mcam.runtime.core._CincoAdapter;
 import de.jabc.cinco.meta.plugin.mcam.runtime.core._CincoId;
+import de.jabc.cinco.meta.plugin.mcam.runtime.views.nodes.DefaultOkObject;
 import de.jabc.cinco.meta.plugin.mcam.runtime.views.nodes.TreeNode;
 import de.jabc.cinco.meta.plugin.mcam.runtime.views.provider.CheckViewTreeProvider;
 import de.jabc.cinco.meta.plugin.mcam.runtime.views.provider.CheckViewTreeProvider.ViewType;
@@ -55,6 +55,7 @@ public abstract class CheckViewPage<E extends _CincoId, M extends GraphModel, W 
 	private CheckViewNameSorter nameSorter = new CheckViewNameSorter();
 
 	private CheckViewResultTypeFilter resultTypeFilter = new CheckViewResultTypeFilter();
+	private DefaultOkResultFilter defaultOkResultFilter = new DefaultOkResultFilter();
 
 	public CheckViewPage(String pageId) {
 		super(pageId);
@@ -78,7 +79,7 @@ public abstract class CheckViewPage<E extends _CincoId, M extends GraphModel, W 
 		return new DelegatingStyledCellLabelProvider(labelProvider);
 		// return labelProvider;
 	}
-	
+
 	public CheckViewLabelProvider getLabelProvider() {
 		return labelProvider;
 	}
@@ -228,6 +229,7 @@ public abstract class CheckViewPage<E extends _CincoId, M extends GraphModel, W 
 			throws IOException {
 		super.initPage(parent, parentViewPart);
 		treeViewer.addFilter(resultTypeFilter);
+		treeViewer.addFilter(defaultOkResultFilter);
 	}
 
 	/*
@@ -268,6 +270,8 @@ public abstract class CheckViewPage<E extends _CincoId, M extends GraphModel, W 
 				CheckProcess<?, ?> cp = (CheckProcess<?, ?>) element;
 				return mapResultTypeToImage(getResultType(cp));
 			}
+			if (element instanceof DefaultOkObject)
+				return icons.get("resultOk");
 			return null;
 		}
 
@@ -332,6 +336,9 @@ public abstract class CheckViewPage<E extends _CincoId, M extends GraphModel, W 
 				if (showPerformance)
 					styledString.append(" [" + cp.getExecutionTime() + "ms] ",
 							StyledString.QUALIFIER_STYLER);
+			}
+			if (element instanceof DefaultOkObject) {
+				return new StyledString("all checks passed!");
 			}
 			return styledString;
 		}
@@ -439,11 +446,36 @@ public abstract class CheckViewPage<E extends _CincoId, M extends GraphModel, W 
 			return super.compare(viewer, e1, e2);
 		}
 	}
+	
+	public class DefaultOkResultFilter extends ViewerFilter {
+
+		@Override
+		public boolean select(Viewer viewer, Object parentElement,
+				Object element) {
+			
+			if (!getDataProvider().getActiveView().equals(ViewType.BY_ID))
+				return true;
+			
+			if (element instanceof TreeNode) {
+				TreeNode node = (TreeNode) element;
+				if (node.getData() instanceof DefaultOkObject == false)
+					return true;
+			}
+			
+			for (CheckProcess<?, ?> checkProcess : checkProcesses) {
+				for (CheckInformation<?, ?> checkInfo:checkProcess.getCheckInformationMap().values()) {
+					if (!checkInfo.getResultType().equals(CheckResultType.PASSED))
+							return false;
+				}
+			}
+			return true;
+		}
+		
+	}
 
 	public class CheckViewResultTypeFilter extends ViewerFilter {
 
 		private boolean showNonErrors = true;
-		private HashSet<CheckResultType> types = new HashSet<CheckResultType>();
 
 		private CheckResultType[] non_errors = { CheckResultType.NOT_CHECKED,
 				CheckResultType.INFO, CheckResultType.PASSED,
@@ -451,10 +483,6 @@ public abstract class CheckViewPage<E extends _CincoId, M extends GraphModel, W 
 
 		public CheckViewResultTypeFilter() {
 			super();
-
-			for (CheckResultType type : CheckResultType.values()) {
-				types.add(type);
-			}
 		}
 
 		public boolean isShowNonErrors() {
@@ -462,11 +490,6 @@ public abstract class CheckViewPage<E extends _CincoId, M extends GraphModel, W 
 		}
 
 		public void switchShowNonErrors() {
-			if (showNonErrors)
-				types.removeAll(Arrays.asList(non_errors));
-			else
-				types.addAll(Arrays.asList(non_errors));
-
 			showNonErrors = !showNonErrors;
 		}
 
@@ -488,6 +511,8 @@ public abstract class CheckViewPage<E extends _CincoId, M extends GraphModel, W 
 
 		@SuppressWarnings("unchecked")
 		private boolean display(Object element) {
+			if (element instanceof DefaultOkObject)
+				return true;
 			if (element instanceof CheckProcess<?, ?>) {
 				CheckProcess<?, ?> cp = (CheckProcess<?, ?>) element;
 				return display(getResultType(cp));
@@ -509,11 +534,11 @@ public abstract class CheckViewPage<E extends _CincoId, M extends GraphModel, W 
 		}
 
 		private boolean display(CheckResultType type) {
-			for (CheckResultType checkResultType : types) {
-				if (compareResultType(type, checkResultType) <= 0)
-					return true;
-			}
-			return false;
+			if (showNonErrors)
+				return true;
+			if (Arrays.asList(non_errors).contains(type))
+				return false;
+			return true;
 		}
 
 	}

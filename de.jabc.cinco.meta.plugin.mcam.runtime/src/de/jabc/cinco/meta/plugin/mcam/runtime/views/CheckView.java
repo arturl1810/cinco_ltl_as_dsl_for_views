@@ -161,7 +161,7 @@ public class CheckView extends McamView<CheckViewPage> {
 		showNonErrorsAction.setChecked(activePage.getResultTypeFilter()
 				.isShowNonErrors());
 		
-		showNonErrorsAction.setChecked(activePage.getLabelProvider().isShowPerformance());
+		showCheckPerformanceAction.setChecked(activePage.getLabelProvider().isShowPerformance());
 
 		switch (activePage.getDataProvider().getActiveView()) {
 		case BY_ID:

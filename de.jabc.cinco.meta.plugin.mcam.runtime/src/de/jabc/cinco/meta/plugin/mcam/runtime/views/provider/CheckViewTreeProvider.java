@@ -15,6 +15,7 @@ import de.jabc.cinco.meta.plugin.mcam.runtime.views.nodes.CheckModuleNode;
 import de.jabc.cinco.meta.plugin.mcam.runtime.views.nodes.CheckProcessNode;
 import de.jabc.cinco.meta.plugin.mcam.runtime.views.nodes.CheckResultNode;
 import de.jabc.cinco.meta.plugin.mcam.runtime.views.nodes.ContainerTreeNode;
+import de.jabc.cinco.meta.plugin.mcam.runtime.views.nodes.DefaultOkObject;
 import de.jabc.cinco.meta.plugin.mcam.runtime.views.nodes.IdNode;
 import de.jabc.cinco.meta.plugin.mcam.runtime.views.nodes.TreeNode;
 import de.jabc.cinco.meta.plugin.mcam.runtime.views.pages.CheckViewPage;
@@ -86,6 +87,7 @@ public class CheckViewTreeProvider<E extends _CincoId, M extends GraphModel, W e
 			for (CheckModule<?, ?> module : checkProcesses.get(0).getModules()) {
 				buildTreeByModule(module, byModuleRoot, checkProcesses.get(0));
 			}
+			addDefaultOkNode(byModuleRoot);
 		} else {
 			for (CheckProcess<?, ?> checkProcess : checkProcesses) {
 				buildTreeByModule(checkProcess, byModuleRoot, checkProcess);
@@ -96,13 +98,21 @@ public class CheckViewTreeProvider<E extends _CincoId, M extends GraphModel, W e
 		if (checkProcesses.size() == 1) {
 			for (EntityId id : checkProcesses.get(0).getCheckInformationMap()
 					.keySet()) {
+				System.out.println(id);
 				buildTreeById(id, byIdRoot, checkProcesses.get(0));
+				
 			}
+			addDefaultOkNode(byIdRoot);
 		} else {
 			for (CheckProcess<?, ?> checkProcess : checkProcesses) {
 				buildTreeById(checkProcess, byIdRoot, checkProcess);
 			}
 		}
+	}
+	
+	protected void addDefaultOkNode(TreeNode parentNode) {
+		TreeNode node = new ContainerTreeNode(new DefaultOkObject(), "defaultOK");
+		findExistingNode(node, parentNode);
 	}
 
 	@SuppressWarnings("unchecked")
