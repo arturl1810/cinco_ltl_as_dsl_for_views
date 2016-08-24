@@ -453,14 +453,14 @@ public abstract class CheckViewPage<E extends _CincoId, M extends GraphModel, W 
 		public boolean select(Viewer viewer, Object parentElement,
 				Object element) {
 			
-			if (!getDataProvider().getActiveView().equals(ViewType.BY_ID))
-				return true;
-			
 			if (element instanceof TreeNode) {
 				TreeNode node = (TreeNode) element;
 				if (node.getData() instanceof DefaultOkObject == false)
 					return true;
 			}
+			
+			if (!getDataProvider().getActiveView().equals(ViewType.BY_ID))
+				return false;
 			
 			for (CheckProcess<?, ?> checkProcess : checkProcesses) {
 				for (CheckInformation<?, ?> checkInfo:checkProcess.getCheckInformationMap().values()) {
