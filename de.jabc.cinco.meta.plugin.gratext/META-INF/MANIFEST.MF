@@ -31,4 +31,6 @@ Require-Bundle: org.eclipse.emf.transaction,
  org.eclipse.emf.ecore,
  org.eclipse.graphiti,
  org.eclipse.graphiti.ui
-Export-Package: de.jabc.cinco.meta.plugin.gratext.build
+Export-Package: de.jabc.cinco.meta.plugin.gratext,
+ de.jabc.cinco.meta.plugin.gratext.build,
+ de.jabc.cinco.meta.plugin.gratext.util

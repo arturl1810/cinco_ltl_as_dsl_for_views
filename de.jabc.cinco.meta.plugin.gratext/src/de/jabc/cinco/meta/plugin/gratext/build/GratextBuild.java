@@ -26,7 +26,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 
-import de.jabc.cinco.meta.plugin.gratext.util.ReiteratingJob;
+import de.jabc.cinco.meta.core.utils.job.ReiteratingJob;
 
 public class GratextBuild extends ReiteratingJob {
 
