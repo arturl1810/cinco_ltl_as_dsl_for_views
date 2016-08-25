@@ -16,7 +16,6 @@ import de.jabc.cinco.meta.plugin.gratext.util.Registry;
 public class ContainerDescriptor extends NodeDescriptor<NodeContainer> {
 	
 	Set<ModelElement> containables;
-	Registry<GraphicalModelElement, GraphicalElementContainment> containments;
 	
 	public ContainerDescriptor(NodeContainer container, GraphModelDescriptor modelDescriptor) {
 		super(container, modelDescriptor);
@@ -26,7 +25,6 @@ public class ContainerDescriptor extends NodeDescriptor<NodeContainer> {
 	protected void init() {
 		super.init();
 		containables = new HashSet<>();
-		containments = new Registry<>();
 		initContainables();
 	}
 	

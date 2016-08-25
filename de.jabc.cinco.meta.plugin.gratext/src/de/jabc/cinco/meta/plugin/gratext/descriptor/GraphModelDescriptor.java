@@ -28,8 +28,6 @@ public class GraphModelDescriptor extends Descriptor<GraphModel> {
 	
 	private Set<ModelElement> containables = new HashSet<>();
 	
-	private Registry<GraphicalModelElement, GraphicalElementContainment> containments = new Registry<>();
-	
 	private NonEmptyRegistry<ModelElement, Set<String>> attributes = new NonEmptyRegistry<>((element) -> new HashSet<>());
 	
 	private NonEmptyRegistry<ModelElement, Set<ModelElement>> subTypes = new NonEmptyRegistry<>((element) -> new HashSet<>());
@@ -108,7 +106,7 @@ public class GraphModelDescriptor extends Descriptor<GraphModel> {
 	}
 	
 	protected void initContainables() {
-		Set<ModelElement> set = initContainables(instance());
+		Set<ModelElement> set = getContainmentRestrictions(instance());
 		if (set.isEmpty()) {
 			//System.out.println(instance().getName() + ".containables: ALL");
 			containables.addAll(getNodes());
@@ -119,15 +117,18 @@ public class GraphModelDescriptor extends Descriptor<GraphModel> {
 		}
 	}
 	
-	protected Set<ModelElement> initContainables(GraphModel container) {
-		Set<ModelElement> set = new HashSet<>();
+	protected Set<ModelElement> getContainmentRestrictions(GraphModel container) {
+		Set<ModelElement> restrictions = new HashSet<>();
 		container.getContainableElements().forEach(containment -> {
 			containment.getTypes().forEach(t -> {
-				set.add(t);
-				containments.put(t, containment);
+				restrictions.add(t);
 			});
 		});
-		return set;
+		return restrictions;
+	}
+	
+	public boolean canContain(GraphicalModelElement element) {
+		return containables.contains(element);
 	}
 	
 	protected Set<ModelElement> getSubTypes(ModelElement element) {
