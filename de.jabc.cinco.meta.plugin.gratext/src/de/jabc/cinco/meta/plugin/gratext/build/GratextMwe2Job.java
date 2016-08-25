@@ -30,7 +30,7 @@ import org.eclipse.debug.core.model.IProcess;
 
 import com.google.common.collect.Lists;
 
-import de.jabc.cinco.meta.plugin.gratext.util.ReiteratingThread;
+import de.jabc.cinco.meta.core.utils.job.ReiteratingThread;
 
 /**
  * Created by Steve Bosselmann on 07/03/15.
@@ -87,7 +87,7 @@ public abstract class GratextMwe2Job extends ReiteratingThread {
     }
 
     @Override
-    protected void repeat() {
+    protected void work() {
     	for (IProcess process : new ArrayList<>(processes)) try {
     		if (process.isTerminated()) {
     			int value = process.getExitValue();
