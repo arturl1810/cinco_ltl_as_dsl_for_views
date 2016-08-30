@@ -37,6 +37,7 @@ public class MGLHyperLinkHelper extends HyperlinkHelper {
 	private String[] annotationsForClasses = new String [] {
 			"contextMenuAction",
 			"doubleClickAction",
+			"preDelete",
 			"postCreate",
 			"postAttributeValueChange",
 			"postDelete",
