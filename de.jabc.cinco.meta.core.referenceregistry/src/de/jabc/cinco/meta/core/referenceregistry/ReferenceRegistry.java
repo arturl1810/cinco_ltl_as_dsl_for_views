@@ -429,7 +429,7 @@ public class ReferenceRegistry {
 		this.registriesMap = new HashMap<IProject, HashMap<String,String>>();
 	}
 	
-	public void reinitialize(IContainer container) {
+	public CompoundJob reinitialize(IContainer container) {
 		initKnownFileExtensions();
 		List<IFile> files = new ArrayList<>();
 		Map<String,EObject> objectsById = new HashMap<>();
@@ -460,6 +460,7 @@ public class ReferenceRegistry {
 					"" + (System.currentTimeMillis() - debugTime) + " ms"));
 		  	})
 		  .schedule();
+		return reinitJob;
 	}
 	
 	private void registerObjects(IProject project, Iterable<String> ids, Map<String,EObject> objectsById) {
