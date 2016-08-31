@@ -153,6 +153,9 @@ public class MGLHyperLinkHelper extends HyperlinkHelper {
 				IProject [] projects = root.getProjects();
 				for (IProject iProject : projects) {
 					IJavaProject jproject = JavaCore.create(iProject);
+					// Search only in existing projects
+					if (!jproject.exists())
+						continue;
 					//get packages 
 					try {
 						IType type = jproject.findType(searchClass);
