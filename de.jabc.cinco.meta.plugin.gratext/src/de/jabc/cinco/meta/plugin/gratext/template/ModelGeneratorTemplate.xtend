@@ -157,11 +157,10 @@ class «model.name»ModelGenerator {
 			bo.cache(ctx.addIfPossible)
 			bo.postprocess
 		].onException[switch it {
-			SWTException case "Invalid thread access".equals(message):
-				async([ 
-					bo.cache(ctx.addIfPossible)
-					bo.postprocess
-				])
+			SWTException case "Invalid thread access".equals(message): {
+				bo.cache(fp.getPictogramElementForBusinessObject(bo))
+				bo.postprocess
+			}
 		}]
 	}
 	
