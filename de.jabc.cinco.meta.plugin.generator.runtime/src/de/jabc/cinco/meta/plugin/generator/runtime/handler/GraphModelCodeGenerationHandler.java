@@ -18,7 +18,9 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.graphiti.ui.editor.DiagramEditorInput;
+import org.eclipse.emf.edit.domain.EditingDomain;
+import org.eclipse.emf.edit.domain.IEditingDomainProvider;
+import org.eclipse.graphiti.ui.editor.DiagramEditor;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
@@ -49,13 +51,11 @@ public class GraphModelCodeGenerationHandler extends AbstractHandler {
 	 * from the application context.
 	 */
 	public Object execute(final ExecutionEvent event) throws ExecutionException {
-				IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindowChecked(event);
-		
+			IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindowChecked(event);
 		try {
 			IEditorPart activeEditor =  window.getActivePage().getActiveEditor();
-			DiagramEditorInput input = (DiagramEditorInput)activeEditor.getEditorInput();
-			final URI uri = input.getUri();
-    			IProgressService ps = window.getWorkbench().getProgressService();
+			final URI uri = getResource(activeEditor).getURI();
+    		IProgressService ps = window.getWorkbench().getProgressService();
 			ps.run(true, true, new IRunnableWithProgress() {
 				
 			@Override
@@ -128,5 +128,20 @@ public class GraphModelCodeGenerationHandler extends AbstractHandler {
 			
 		}
     return null;
+	}
+	
+	public static Resource getResource(IEditorPart editor) {
+		EditingDomain ed = getEditingDomain(editor);
+		if (ed != null)
+			return ed.getResourceSet().getResources().get(0);
+		else return null;
+	}
+	
+	public static EditingDomain getEditingDomain(IEditorPart editor) {
+		return editor instanceof DiagramEditor
+			? ((DiagramEditor) editor).getEditingDomain()
+			: editor instanceof IEditingDomainProvider 
+				? ((IEditingDomainProvider) editor).getEditingDomain()
+				: null;
 	}
 }
