@@ -186,9 +186,9 @@ public abstract class MultiPageGratextEditor extends MultiPageEditorPart impleme
 		}
     }
 
-    protected boolean activatePage(IEditorPart editor) {
+    protected boolean activatePage(IEditorPart editor, IEditorPart prevEditor) {
 		if (editor instanceof PageAwareEditorPart) try {
-			((PageAwareEditorPart) editor).handlePageActivated();
+			((PageAwareEditorPart) editor).handlePageActivated(prevEditor);
 		} catch(Exception e) {
 			handlePageActivationError(editor, e);
 			return false;
@@ -203,9 +203,9 @@ public abstract class MultiPageGratextEditor extends MultiPageEditorPart impleme
 		}
     }
 
-    protected boolean deactivatePage(IEditorPart editor) {
+    protected boolean deactivatePage(IEditorPart editor, IEditorPart nextEditor) {
 		if (editor instanceof PageAwareEditorPart) try {
-    		((PageAwareEditorPart) editor).handlePageDeactivated();
+    		((PageAwareEditorPart) editor).handlePageDeactivated(nextEditor);
 		} catch(Exception e) {
 			handlePageDeactivationError(editor, e);
 			return false;
@@ -220,17 +220,76 @@ public abstract class MultiPageGratextEditor extends MultiPageEditorPart impleme
 		}
     }
     
-    protected void updateInnerState(IEditorPart editor) {
-		if (editor != sourceEditor && editor.isDirty()) {
+//    protected void interceptDocumentChanges() {
+//    	IXtextDocument doc = sourceEditor.getDocument();
+//    	System.out.println("[MPGE] listen to " + doc);
+//    	if (documentListener == null) {
+//    		documentListener = new IDocumentListener() {
+//				
+//				boolean undoNextAction = false;
+//				boolean undoInProgress = false;
+//				
+//				@Override
+//				public void documentChanged(DocumentEvent event) {
+//					System.out.println("[DocListener-" + hashCode() + "] doc " + doc.hashCode() + " changed: " + event);
+//					if (undoNextAction && !undoInProgress) {
+//						System.out.println("[DocListener-" + hashCode() + "] undo! ");
+//						undoInProgress = true;
+//						async(() -> {
+//							if (proceedAndLooseUndoHistory()) {
+//								doc.removeDocumentListener(this);
+//							} else try {
+//								revertInnerState();
+////								pawEditors.forEach(editor -> editor.handleInnerStateChanged(sourceEditor));
+//							} catch(Exception e) {
+//								e.printStackTrace();
+//							} finally {
+//								undoInProgress = false;
+//								undoNextAction = false;
+//							}
+//						});
+//					}
+//				}
+//				
+//				@Override
+//				public void documentAboutToBeChanged(DocumentEvent event) {
+//	//					System.out.println("[Gratext] doc " + doc.hashCode() + " about to be changed: " + event);
+//					if (!undoInProgress) undoNextAction = true;
+//				}
+//			};
+//    	}
+//    	doc.addDocumentListener(documentListener);
+//    }
+    
+    protected void updateInnerState(IEditorPart triggerEditor) {
+		if (triggerEditor != null
+				&& triggerEditor != sourceEditor
+				&& triggerEditor.isDirty()) {
 			XtextDocument doc = (XtextDocument) sourceEditor.getDocument();
-    		String text = generateSourceCode(editor);
+			String text = generateSourceCode(triggerEditor);
     		if (text != null) {
+    			doc.stopListenerNotification();
     			doc.set(text);
+    			doc.resumeListenerNotification();
     		} else System.err.println(
 				"[GratextEditor] WARN: Failed to reconcile inner state. "
-				+ "Generated source code is null for " + editor);
+				+ "Generated source code is null for " + triggerEditor);
 		}
     }
+    
+//    protected void revertInnerState() {
+//    	XtextDocument doc = (XtextDocument) sourceEditor.getDocument();
+//		if (textOnLastUpdate != null) {
+//			TextViewer viewer = (TextViewer) sourceEditor.getInternalSourceViewer();
+//			viewer.setRedraw(false);
+//			doc.stopListenerNotification();
+//			doc.set(textOnLastUpdate);
+//			doc.resumeListenerNotification();
+//			viewer.setRedraw(true);
+//		} else System.err.println(
+//			"[GratextEditor] WARN: Failed to revert inner state. "
+//			+ "Generated source code is null.");
+//    }
     
 	@Override
 	protected void pageChange(int newPageIndex) {
@@ -243,12 +302,19 @@ public abstract class MultiPageGratextEditor extends MultiPageEditorPart impleme
 				showEditorContainsSyntaxErrors();
 				return;
 			}
-			if (currentPage > -1) {
-				IEditorPart prevEditor = getEditor(currentPage);
-				deactivatePage(prevEditor);
+			IEditorPart prevEditor = currentPage > -1 ? getEditor(currentPage) : null;
+			if (prevEditor != null
+					&& prevEditor != sourceEditor
+					&& prevEditor.isDirty()
+					&& !proceedAndLooseUndoHistory()) {
+				setActiveEditor(prevEditor);
+				return;
+			}
+			if (prevEditor != null) {
+				deactivatePage(prevEditor, newEditor);
 				updateInnerState(prevEditor);
 			}
-			activatePage(newEditor);
+			activatePage(newEditor, prevEditor);
 			super.pageChange(newPageIndex);
 			currentPage = newPageIndex;
 		}
@@ -271,6 +337,14 @@ public abstract class MultiPageGratextEditor extends MultiPageEditorPart impleme
 			"Switching editor page failed", "Failed to deactivate editor page.\n"
 					+ "Leaving the current page might result in the loss of changes.\n"
 					+ "Would you still like to leave this page?");
+	}
+	
+	protected boolean proceedAndLooseUndoHistory() {
+		return MessageDialog.openQuestion(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+			"Pending model changes",
+				"There are unsaved changes.\n"
+				+ "If you switch editor pages you wont be able to come back and undo any of these changes.\n\n"
+				+ "Do you want to proceed?");
 	}
 	
 	protected void showEditorContainsSyntaxErrors() {
@@ -324,14 +398,14 @@ public abstract class MultiPageGratextEditor extends MultiPageEditorPart impleme
 			}
 			if (innerState instanceof GratextResource) {
 				((GratextResource) innerState).onInternalStateChanged(() -> {
-					async(() ->
+					async(() -> 
 						pawEditors.forEach(editor -> editor.handleInnerStateChanged())
 					);
 				});
 			} else {
 				// this editor is NOT supposed to work with incompatible resources
 				System.err.println("[" + getClass().getSimpleName() + "] "
-						+ "WARN: inner state should be DataGratextResource: " + innerState.getClass());
+						+ "WARN: inner state should be GratextResource: " + innerState.getClass());
 			}
 		}
 		return innerState;

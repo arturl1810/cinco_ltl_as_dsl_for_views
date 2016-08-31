@@ -24,6 +24,7 @@ Import-Package: de.jabc.cinco.meta.core.utils,
  de.jabc.cinco.meta.core.utils.job,
  org.eclipse.draw2d,
  org.eclipse.emf.workspace,
+ org.eclipse.emf.workspace.util,
  org.eclipse.gef.ui.actions,
  org.eclipse.ui.views.properties.tabbed,
  org.eclipse.xtext.linking.lazy

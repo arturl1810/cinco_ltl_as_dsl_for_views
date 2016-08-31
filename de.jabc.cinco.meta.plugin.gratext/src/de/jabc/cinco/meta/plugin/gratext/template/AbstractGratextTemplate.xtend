@@ -1,7 +1,7 @@
 package de.jabc.cinco.meta.plugin.gratext.template
 
 import de.jabc.cinco.meta.core.utils.projects.ProjectCreator
-import de.jabc.cinco.meta.plugin.gratext.GratextProjectGenerator
+import de.jabc.cinco.meta.plugin.gratext.ProjectGenerator
 import java.util.ArrayList
 import org.eclipse.core.resources.IProject
 import org.eclipse.core.resources.ResourcesPlugin
@@ -15,7 +15,6 @@ import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.xtend.typesystem.emf.EcoreUtil2
-import de.jabc.cinco.meta.plugin.gratext.ProjectGenerator
 
 class AbstractGratextTemplate {
 	

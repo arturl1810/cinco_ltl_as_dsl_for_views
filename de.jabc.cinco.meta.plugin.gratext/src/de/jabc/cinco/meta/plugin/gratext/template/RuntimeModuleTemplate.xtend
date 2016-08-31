@@ -10,7 +10,7 @@ override template()
 '''	
 package «project.basePackage»;
 
-import «providerFile.package».«providerFile.nameWithoutExtension»;
+import «providerFile.className»;
 
 import graphmodel.Edge;
 import graphmodel.Node;
@@ -74,7 +74,7 @@ public class «project.targetName»RuntimeModule extends «project.basePackage»
     
     @Override
 	public Class<? extends IQualifiedNameProvider> bindIQualifiedNameProvider() {
-		return «providerFile.nameWithoutExtension».class;
+		return «providerFile.classSimpleName».class;
 	}
     
     @Override

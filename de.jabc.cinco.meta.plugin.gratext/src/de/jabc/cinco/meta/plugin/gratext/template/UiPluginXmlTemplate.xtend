@@ -35,6 +35,17 @@ override template()
             name="«model.name» Gratext Editor">
         </editor>
     </extension>
+    <extension point="org.eclipse.ui.editors">
+        <editor
+            class="«project.basePackage».«targetName»Editor"
+            contributorClass="de.jabc.cinco.meta.plugin.gratext.runtime.editor.MultiPageContributor"
+            default="true"
+            icon="platform:/plugin/«modelProjectSymbolicName»/«graphmodel.iconPath»"
+            extensions="«graphmodel.fileExtension»"
+            id="«model.basePackage».«model.name»MultiPageEditor"
+            name="«model.name» Multi-Page Editor">
+        </editor>
+    </extension>
     
     <extension point="org.eclipse.ui.handlers">
         <handler
@@ -254,6 +265,19 @@ override template()
         <resourceServiceProvider
             class="«extensionFactory»:org.eclipse.xtext.ui.resource.IResourceUIServiceProvider"
             uriExtension="«fileExtension»">
+        </resourceServiceProvider>
+    </extension>
+    <extension
+		point="org.eclipse.emf.ecore.extension_parser">
+		<parser
+			class="«extensionFactory»:org.eclipse.xtext.resource.IResourceFactory"
+			type="«graphmodel.fileExtension»">
+		</parser>
+	</extension>
+	<extension point="org.eclipse.xtext.extension_resourceServiceProvider">
+        <resourceServiceProvider
+            class="«extensionFactory»:org.eclipse.xtext.ui.resource.IResourceUIServiceProvider"
+            uriExtension="«graphmodel.fileExtension»">
         </resourceServiceProvider>
     </extension>
 

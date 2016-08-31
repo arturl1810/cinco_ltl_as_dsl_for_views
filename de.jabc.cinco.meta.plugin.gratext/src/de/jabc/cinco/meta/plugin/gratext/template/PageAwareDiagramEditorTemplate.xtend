@@ -9,6 +9,7 @@ package «project.basePackage»;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.graphiti.ui.editor.IDiagramEditorInput;
 import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IEditorPart;
 
 import «model.basePackage».graphiti.«model.name»DiagramEditor;
 import de.jabc.cinco.meta.plugin.gratext.runtime.editor.PageAwareDiagramBehavior;
@@ -28,13 +29,13 @@ public class PageAware«model.name»DiagramEditor extends «model.name»DiagramE
 		return diagramBehavior.getInnerState();
 	}
 	
-	public void handlePageActivated() {
-		diagramBehavior.handlePageActivated();
+	public void handlePageActivated(IEditorPart prevEditor) {
+		diagramBehavior.handlePageActivated(prevEditor);
 	}
 
 	@Override
-	public void handlePageDeactivated() {
-		diagramBehavior.handlePageDeactivated();
+	public void handlePageDeactivated(IEditorPart nextEditor) {
+		diagramBehavior.handlePageDeactivated(nextEditor);
 	}
 	
 	@Override

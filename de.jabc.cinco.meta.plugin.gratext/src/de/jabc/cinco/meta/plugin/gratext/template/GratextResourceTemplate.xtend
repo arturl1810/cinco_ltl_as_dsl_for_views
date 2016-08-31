@@ -1,21 +1,27 @@
 package de.jabc.cinco.meta.plugin.gratext.template
 
 class GratextResourceTemplate extends AbstractGratextTemplate {
+	
+	def backupGenerator() { fileFromTemplate(BackupGeneratorTemplate) }	
+	def modelGenerator() { fileFromTemplate(ModelGeneratorTemplate) }
 		
-override template()
-'''
-package «project.basePackage»
-
-import de.jabc.cinco.meta.plugin.gratext.runtime.resource.GratextResource
-import «project.basePackage».generator.«model.name»ModelGenerator
-import org.eclipse.emf.ecore.resource.Resource
-
-class «model.name»GratextResource extends GratextResource {
-	
-	override generateModel(Resource resource) {
-		new «model.name»ModelGenerator().doGenerate(resource)
-	}
-	
-}
-'''
+	override template() '''
+		package «project.basePackage»
+		
+		import de.jabc.cinco.meta.plugin.gratext.runtime.resource.GratextResource
+		import «backupGenerator.className»
+		import «modelGenerator.className»
+		
+		class «model.name»GratextResource extends GratextResource {
+			
+			override generateContent() {
+				new «modelGenerator.classSimpleName»().doGenerate(this)
+			}
+			
+			override serialize() {
+				new «backupGenerator.classSimpleName»().toText(this)
+			}
+			
+		}
+	'''
 }

@@ -19,7 +19,7 @@ public class BackupAction extends de.jabc.cinco.meta.plugin.gratext.runtime.acti
 
 	@Override
 	public void run(IFile file, IPath targetFolder) {
-		BackupGenerator<?> generator = new «backupGenerator.nameWithoutExtension»();
+		BackupGenerator<?> generator = new «backupGenerator.classSimpleName»();
 		generator.setIdSuffix("GRATEXT");
 		try {
 			generator.doGenerate(file, targetFolder.toOSString());

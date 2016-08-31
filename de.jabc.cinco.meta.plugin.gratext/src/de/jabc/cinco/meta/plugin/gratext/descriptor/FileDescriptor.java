@@ -24,19 +24,17 @@ public class FileDescriptor {
 	}
 	public FileDescriptor setName(String name) {
 		this.name = name;
-		int index = name.lastIndexOf(".");
-		if (index > -1)
-			setNameWithoutExtension(name.substring(0, index));
 		return this;
 	}
 	
-	private String nameWithoutExtension;
-	public String getNameWithoutExtension() {
-		return nameWithoutExtension;
+	public String getClassName() {
+		return getPackage() + "." + getClassSimpleName();
 	}
-	public FileDescriptor setNameWithoutExtension(String name) {
-		this.nameWithoutExtension = name;
-		return this;
+	
+	public String getClassSimpleName() {
+		if (getName() == null) return null;
+		int index = getName().lastIndexOf(".");
+		return index > -1 ? name.substring(0, index) : name;
 	}
 	
 	private String sourceFolder;

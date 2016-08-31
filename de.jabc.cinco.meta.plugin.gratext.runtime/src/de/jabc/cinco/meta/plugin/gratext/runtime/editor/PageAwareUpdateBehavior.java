@@ -5,6 +5,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.transaction.impl.TransactionalEditingDomainImpl;
 import org.eclipse.emf.workspace.WorkspaceEditingDomainFactory;
+import org.eclipse.emf.workspace.util.WorkspaceSynchronizer;
 import org.eclipse.graphiti.ui.editor.DefaultUpdateBehavior;
 import org.eclipse.graphiti.ui.editor.IDiagramEditorInput;
 import org.eclipse.graphiti.ui.internal.editor.GFWorkspaceCommandStackImpl;
@@ -15,6 +16,7 @@ public class PageAwareUpdateBehavior extends DefaultUpdateBehavior {
 		super(diagramBehavior);
 	}
 	
+	@Override
 	@SuppressWarnings("restriction")
 	public void createEditingDomain(IDiagramEditorInput input) {
 		Resource innerState = getInnerState(input);
@@ -28,6 +30,12 @@ public class PageAwareUpdateBehavior extends DefaultUpdateBehavior {
 		} else {
 			super.createEditingDomain(input);
 		}
+	}
+	
+	@Override
+	protected WorkspaceSynchronizer.Delegate createWorkspaceSynchronizerDelegate() {
+		// workspace sync should be managed by the multi page editor
+		return null;
 	}
 	
 	private Resource getInnerState(IDiagramEditorInput input) {

@@ -28,8 +28,8 @@ override template()
 			nameFilter="*«fileExtension»"
 			objectClass="org.eclipse.core.resources.IResource">
 			<action
-				class="«backupAction.package».«backupAction.nameWithoutExtension»"
-				id="«backupAction.package».«backupAction.nameWithoutExtension»"
+				class="«backupAction.className»"
+				id="«backupAction.className»"
 				icon="platform:/plugin/de.jabc.cinco.meta.plugin.gratext/gt_icon_16.png"
 				label="Generate Backup">
 			</action>
@@ -40,8 +40,8 @@ override template()
 			nameFilter="*«fileExtension»«backupFileSuffix»"
 			objectClass="org.eclipse.core.resources.IResource">
 			<action
-				class="«backupAction.package».«restoreAction.nameWithoutExtension»"
-				id="«backupAction.package».«restoreAction.nameWithoutExtension»"
+				class="«restoreAction.className»"
+				id="«restoreAction.className»"
 				icon="platform:/plugin/de.jabc.cinco.meta.plugin.gratext/gt_icon_16.png"
 				label="Restore Model">
 			</action>
@@ -52,8 +52,8 @@ override template()
 			nameFilter="*«fileExtension»DL"
 			objectClass="org.eclipse.core.resources.IResource">
 			<action
-				class="«backupAction.package».«restoreAction.nameWithoutExtension»"
-				id="«backupAction.package».«restoreAction.nameWithoutExtension»"
+				class="«restoreAction.className»"
+				id="«restoreAction.className»"
 				icon="platform:/plugin/de.jabc.cinco.meta.plugin.gratext/gt_icon_16.png"
 				label="Restore Model">
 			</action>
@@ -61,15 +61,15 @@ override template()
    </extension>
    <extension point="info.scce.cinco.gratext.backup">
       <!--@GratextGen «model.name»-->
-		<client fileExtension="«fileExtension»" class="«backupAction.package».«backupAction.nameWithoutExtension»"/>
+		<client fileExtension="«fileExtension»" class="«backupAction.className»"/>
    </extension>
    <extension point="info.scce.cinco.gratext.restore">
       <!--@GratextGen «model.name»-->
-		<client fileExtension="«fileExtension»«backupFileSuffix»" class="«restoreAction.package».«restoreAction.nameWithoutExtension»"/>
+		<client fileExtension="«fileExtension»«backupFileSuffix»" class="«restoreAction.className»"/>
    </extension>
    <extension point="info.scce.cinco.gratext.restore">
       <!--@GratextGen «model.name»-->
-		<client fileExtension="«fileExtension»DL" class="«restoreAction.package».«restoreAction.nameWithoutExtension»"/>
+		<client fileExtension="«fileExtension»DL" class="«restoreAction.className»"/>
    </extension>
 </plugin>
 '''

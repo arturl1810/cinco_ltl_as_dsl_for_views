@@ -110,6 +110,8 @@
       <string>package $context.localPkgName$;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.ByteArrayInputStream;
 import java.lang.reflect.InvocationTargetException;
 
 import org.eclipse.core.resources.IContainer;
@@ -135,15 +137,12 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.WorkbenchException;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 
-import $context.packageName$.*;
 import $context.packageName$.graphiti.*;
 
 public class New$context.fuGraphModelName$DiagramWizard extends Wizard implements INewWizard {
@@ -179,7 +178,7 @@ public class New$context.fuGraphModelName$DiagramWizard extends Wizard implement
 				@Override
 				public void run(IProgressMonitor monitor) throws InvocationTargetException,
 						InterruptedException {
-					createDiagram(dir, fileName);
+					createResource(dir, fileName);
 				}
 			};
 			
@@ -200,39 +199,29 @@ public class New$context.fuGraphModelName$DiagramWizard extends Wizard implement
 		return true;
 	}
 
-	
-	private void createDiagram(String dir, String fName) {
+	private void createResource(String folder, String fileName) {
 		String extension = &quot;$context.extension$&quot;;
-		String fNameWithExt = (fName.contains(&quot;.&quot;)) ? fName : fName.concat(&quot;.&quot; + extension);
-		String dName = fNameWithExt.split(&quot;\\\.&quot;)[0];
+		String fNameWithExt = (fileName.contains(&quot;.&quot;)) ? fileName : fileName.concat(&quot;.&quot; + extension);
 		
 		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-		IResource containerResource = root.getContainerForLocation(new Path(dir));
+		IResource containerResource = root.getContainerForLocation(new Path(folder));
 		if (containerResource instanceof IContainer) {
 			IPath filePath = new Path(containerResource.getFullPath().append(fNameWithExt).toOSString());
 			IFile file = root.getFile(filePath);
-			URI resUri = URI.createPlatformResourceURI(filePath.toOSString() ,true);
-			Resource res = new ResourceSetImpl().createResource(resUri);
-			Diagram diagram = Graphiti.getPeService().createDiagram(&quot;$context.fuGraphModelName$&quot;, dName, true);
-			$context.importPath$.$context.graphModelName$ graph = $context.importPath$.$context.factoryName$Factory.eINSTANCE.create$context.graphModelName$();
-			graph.setId(EcoreUtil.generateUUID());
+			String content = &quot;$context.fuGraphModelName$ &quot; + EcoreUtil.generateUUID() + &quot; {\\n\\n}&quot;;
+			createFile(file, content);
 			try {
-				res.unload();
-				res.getContents().add(diagram);
-				res.getContents().add(graph);
-				res.save(null);
-				
-				IDiagramTypeProvider dtp = GraphitiUi.getExtensionManager().createDiagramTypeProvider(diagram, &quot;$context.packageName$.$context.graphModelName$DiagramTypeProvider&quot;);
-				$context.graphModelName$GraphitiUtils.addToResource(diagram, dtp.getFeatureProvider());
-				dtp.getFeatureProvider().link(diagram, graph);
+				URI resUri = URI.createPlatformResourceURI(filePath.toOSString() ,true);
+				Resource res = new ResourceSetImpl().getResource(resUri, true);
+				Diagram diagram = (Diagram) res.getContents().get(0);
+				$context.importPath$.$context.graphModelName$ graph = ($context.importPath$.$context.graphModelName$) res.getContents().get(1);
 
 				$context.gmPostCreateHookContent$
-
-				res.save(null);
-
-				IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 				
-				IDE.openEditor(page, file,&quot;$context.packageName$.$context.fuGraphModelName$Editor&quot;, true);
+				res.save(null);
+				
+				IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+				IDE.openEditor(page, file, &quot;$context.packageName$.$context.fuGraphModelName$MultiPageEditor&quot;, true);
 				
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -241,6 +230,22 @@ public class New$context.fuGraphModelName$DiagramWizard extends Wizard implement
 			}
 		}
 		
+	}
+	
+	public IFile createFile(IFile file, String content) {
+		try {
+			final InputStream stream = new ByteArrayInputStream(
+					content.getBytes(file.getCharset()));
+			if (file.exists()) 
+				file.setContents(stream, true, true, null);
+			else
+				file.create(stream, true, null);
+			stream.close();
+		}
+		catch (final Exception e) {
+			e.printStackTrace();
+		}
+		return file;
 	}
 	
 	public IStructuredSelection getSelection() {

@@ -17,7 +17,7 @@ public class RestoreAction extends de.jabc.cinco.meta.plugin.gratext.runtime.act
 
 	@Override
 	public void run(IFile file, IPath targetFolder) {
-		new «restoreGenerator.nameWithoutExtension»().doGenerate(file, targetFolder.toOSString());
+		new «restoreGenerator.classSimpleName»().doGenerate(file, targetFolder.toOSString());
 	}
 }
 '''

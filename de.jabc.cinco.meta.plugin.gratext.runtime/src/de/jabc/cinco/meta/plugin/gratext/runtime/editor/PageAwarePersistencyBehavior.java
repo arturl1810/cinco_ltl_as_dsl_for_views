@@ -14,7 +14,8 @@ public class PageAwarePersistencyBehavior extends DefaultPersistencyBehavior {
 		return (PageAwareDiagramBehavior) diagramBehavior;
 	}
 	
-	protected void clearDirtyState() {
+	protected void flushCommandStack() {
+		diagramBehavior.getEditingDomain().getCommandStack().flush();
 		savedCommand = diagramBehavior.getEditingDomain().getCommandStack().getUndoCommand();
 		diagramBehavior.getDiagramContainer().updateDirtyState();
 	}

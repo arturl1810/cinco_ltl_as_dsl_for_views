@@ -4,13 +4,14 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.graphiti.ui.editor.DiagramBehavior;
 import org.eclipse.graphiti.ui.editor.DiagramEditor;
 import org.eclipse.graphiti.ui.editor.IDiagramEditorInput;
+import org.eclipse.ui.IEditorPart;
 
 public class PageAwareDiagramBehavior extends DiagramBehavior implements InnerStateAwareness, PageAwareness {
 	
 	public PageAwareDiagramBehavior(DiagramEditor editor) {
 		super(editor);
 	}
-
+	
 	@Override
 	protected PageAwarePersistencyBehavior createPersistencyBehavior() {
 		return new PageAwarePersistencyBehavior(this);
@@ -41,7 +42,7 @@ public class PageAwareDiagramBehavior extends DiagramBehavior implements InnerSt
 	}
 	
 	@Override
-	public void handlePageActivated() {
+	public void handlePageActivated(IEditorPart prevEditor) {
 		getUpdateBehavior().setResourceChanged(false);
 		refreshContent();
 	}
@@ -50,11 +51,11 @@ public class PageAwareDiagramBehavior extends DiagramBehavior implements InnerSt
 	public void handleInnerStateChanged() {
 		refreshContent();
 		getUpdateBehavior().setResourceChanged(false);
-		getPersistencyBehavior().clearDirtyState();
+		getPersistencyBehavior().flushCommandStack();
 	}
 	
 	@Override
-	public void handlePageDeactivated() {
+	public void handlePageDeactivated(IEditorPart nextEditor) {
 		/* do nothing */
 	}
 	
@@ -62,4 +63,6 @@ public class PageAwareDiagramBehavior extends DiagramBehavior implements InnerSt
 	public void handleNewInnerState() {
 		/* do nothing */
 	}
+	
+	
 }

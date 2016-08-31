@@ -439,8 +439,8 @@ public abstract class McamView<T extends McamPage> extends ViewPart implements
 					((GridData) child.getLayoutData()).exclude = true;
 			}
 
-			if (editor instanceof DiagramEditor == false)
-				return;
+//			if (editor instanceof DiagramEditor == false)
+//				return;
 
 			if (parent.isDisposed())
 				return;

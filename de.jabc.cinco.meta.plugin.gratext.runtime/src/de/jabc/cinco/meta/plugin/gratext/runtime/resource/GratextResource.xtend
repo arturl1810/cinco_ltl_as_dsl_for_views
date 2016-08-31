@@ -1,12 +1,14 @@
 package de.jabc.cinco.meta.plugin.gratext.runtime.resource
 
 import org.eclipse.emf.ecore.EObject
-import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.graphiti.mm.pictograms.Diagram
 import org.eclipse.xtext.linking.lazy.LazyLinkingResource
 import org.eclipse.xtext.parser.IParseResult
 
 import static de.jabc.cinco.meta.plugin.gratext.runtime.util.GratextUtils.edit
+import java.io.OutputStream
+import java.io.OutputStreamWriter
+import java.util.Map
 
 abstract class GratextResource extends LazyLinkingResource {
 	
@@ -14,7 +16,15 @@ abstract class GratextResource extends LazyLinkingResource {
 	private EObject model
 	private Runnable internalStateChangedHandler
 	
-	def void generateModel(Resource resource);
+	def void generateContent()
+	
+	def String serialize()
+	
+	override doSave(OutputStream outputStream, Map<?, ?> options) {
+		val writer = new OutputStreamWriter(outputStream, encoding)
+		writer.write(serialize)
+		writer.flush
+	}
 	
 	override clearInternalState() {
 		unload(getContents)
@@ -72,16 +82,15 @@ abstract class GratextResource extends LazyLinkingResource {
 				addSyntaxErrors
 				transact[
 					doLinking
-					generateModel(this)
+					generateContent
 					diagram = getContent(0) as Diagram
 					model = getContent(1)
 				]
-				insert(2, newRoot)
 				internalStateChangedHandler?.run
 			}
 		}
 		// for debugging only
-		if (getContents.size != 3) {
+		if (getContents.size != 2) {
 			System.err.println("[" + getClass().getSimpleName() + "] WARN: unexpected number of content objects")
 			getContents.forEach[System.err.println(" > content: " + it)]
 		}

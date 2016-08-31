@@ -17,6 +17,7 @@ override template()
 package «project.basePackage».generator
 
 import static extension de.jabc.cinco.meta.plugin.gratext.runtime.generator.GratextGenerator.*
+import static de.jabc.cinco.meta.plugin.gratext.runtime.util.GratextUtils.async
 
 import de.jabc.cinco.meta.plugin.gratext.runtime.generator.GratextModelTransformer
 
@@ -58,6 +59,7 @@ import org.eclipse.graphiti.mm.pictograms.FreeFormConnection
 import org.eclipse.graphiti.mm.pictograms.PictogramElement
 import org.eclipse.graphiti.mm.pictograms.Shape
 import org.eclipse.graphiti.ui.services.GraphitiUi
+import org.eclipse.swt.SWTException
 
 class «model.name»ModelGenerator {
 	
@@ -144,38 +146,40 @@ class «model.name»ModelGenerator {
 	}
 	
 	def add(ModelElement bo) {
-		add(bo, diagram)
+		switch bo {
+			Edge: add(bo, bo.addContext)
+			default: add(bo, bo.getAddContext(diagram))
+		}
 	}
 	
-	def add(ModelElement bo, ContainerShape container) {
-		val pe = [|
-			addIfPossible(getAddContext(bo, container))
-		].printException
-		if (pe != null) {
-			cache(bo, pe)
-			addChildren(bo, pe)
-		} else warn("Pictogram null. Failed to add " + bo)
+	def add(ModelElement bo, AddContext ctx) {
+		[|
+			bo.cache(ctx.addIfPossible)
+			bo.postprocess
+		].onException[switch it {
+			SWTException case "Invalid thread access".equals(message):
+				async([ 
+					bo.cache(ctx.addIfPossible)
+					bo.postprocess
+				])
+		}]
 	}
 	
-	def addChildren(ModelElement bo, PictogramElement pe) {
-		if (bo instanceof ModelElementContainer) 
-		 	bo.modelElements.forEach[add(pe as ContainerShape)]
-	}
-	
-	def add(Edge edge) {
-		val pe = [|	
-			edge.addContext?.addIfPossible
-		].printException
-		if (pe != null) {
-			cache(edge, pe)
-			postprocess(edge, pe)
-		} else warn("Pictogram null. Failed to add " + edge)
-	}
-	
-	def postprocess(Edge edge, PictogramElement pe) {
-		val _edge = edge.counterpart as _Edge
-		add(_edge.route, pe)
-		add(_edge.decorations, pe)
+	def postprocess(ModelElement bo) {
+		val pe = bo.pe
+		if (pe == null) {
+			warn("Pictogram null. Failed to add " + bo)
+		} else switch bo {
+			Edge: {
+				val _edge = bo.counterpart as _Edge
+				add(_edge.route, pe)
+				add(_edge.decorations, pe)
+			}
+			ModelElementContainer :
+				bo.modelElements.forEach[
+					add(getAddContext(pe as ContainerShape))
+				]
+		}
 	}
 	
 	def add(_Route route, PictogramElement pe) {
