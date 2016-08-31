@@ -13,7 +13,8 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.transaction.TransactionalEditingDomain;
+import org.eclipse.emf.edit.domain.EditingDomain;
+import org.eclipse.emf.edit.domain.IEditingDomainProvider;
 import org.eclipse.graphiti.ui.editor.DiagramEditor;
 import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.swt.custom.BusyIndicator;
@@ -111,14 +112,18 @@ public class EclipseUtils {
 	}
 	
 	public static Resource getResource(IEditorPart editor) {
-		Resource res = null;
-		if (editor instanceof DiagramEditor) {
-			DiagramEditor deditor = (DiagramEditor) editor;
-			TransactionalEditingDomain ed = deditor.getEditingDomain();	
-			ResourceSet rs = ed.getResourceSet();
-			res = rs.getResources().get(0);
-		}
-		return res;
+		EditingDomain ed = getEditingDomain(editor);
+		if (ed != null)
+			return ed.getResourceSet().getResources().get(0);
+		else return null;
+	}
+	
+	public static EditingDomain getEditingDomain(IEditorPart editor) {
+		return editor instanceof DiagramEditor
+			? ((DiagramEditor) editor).getEditingDomain()
+			: editor instanceof IEditingDomainProvider 
+				? ((IEditingDomainProvider) editor).getEditingDomain()
+				: null;
 	}
 	
 	public static File getFile(IFile iFile) {

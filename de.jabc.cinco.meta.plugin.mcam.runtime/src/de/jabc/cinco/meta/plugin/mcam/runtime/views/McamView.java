@@ -395,13 +395,14 @@ public abstract class McamView<T extends McamPage> extends ViewPart implements
 	protected void createPageByEditor(IWorkbenchPartReference partRef) {
 		if (partRef instanceof EditorReference) {
 			IEditorPart editor = ((EditorReference) partRef).getEditor(true);
-			if (editor instanceof DiagramEditor == false)
-				return;
 
 			if (parent.isDisposed())
 				return;
 
-			String pageId = getPageId(EclipseUtils.getIFile(editor));
+			IFile file = EclipseUtils.getIFile(editor);
+			if (file == null) return;
+			
+			String pageId = getPageId(file);
 
 			if (!pageMap.keySet().contains(pageId)) {
 
