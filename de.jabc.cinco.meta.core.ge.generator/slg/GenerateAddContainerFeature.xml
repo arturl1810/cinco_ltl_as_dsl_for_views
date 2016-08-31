@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>c7542d87-aa25-4707-a286-db91e10d7301</id>
   <name>GenerateAddContainerFeature</name>
-  <changecounter>579</changecounter>
+  <changecounter>581</changecounter>
   <sib>
     <id>3f7b7312-5278-4d0a-b7f8-45424c587ca9</id>
     <name>GetNodeContainerIsAbstract</name>
@@ -473,7 +473,7 @@ public class Add$context.modelElementName$Feature extends CincoAbstractAddFeatur
 			link(s,$context.meIdentifier$);
 
 		if (context.getWidth() != -1 &amp;&amp; context.getHeight() != -1)  {
-			ResizeShapeContext rc = new ResizeShapeContext(Shape0);
+			ResizeShapeContext rc = new ResizeShapeContext($context.rootShapeName$);
 			rc.setWidth(context.getWidth());
 			rc.setHeight(context.getHeight());
 			rc.setX(context.getX());
@@ -482,7 +482,7 @@ public class Add$context.modelElementName$Feature extends CincoAbstractAddFeatur
 			if (rf != null &amp;&amp; rf.canResizeShape(rc))
 			rf.resizeShape(rc);
 		} else if (parentIsDiagram)  {
-			ResizeShapeContext rc = new ResizeShapeContext(Shape0);
+			ResizeShapeContext rc = new ResizeShapeContext($context.rootShapeName$);
 			rc.setWidth(width);
 			rc.setHeight(height);
 			rc.setX(context.getX() + minX);
