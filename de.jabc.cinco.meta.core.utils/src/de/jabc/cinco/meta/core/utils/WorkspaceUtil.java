@@ -1,9 +1,13 @@
 package de.jabc.cinco.meta.core.utils;
 
+import graphmodel.GraphModel;
+
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.function.Predicate;
 
 import org.eclipse.core.resources.IContainer;
@@ -15,6 +19,10 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 
 public class WorkspaceUtil {
 
@@ -24,6 +32,14 @@ public class WorkspaceUtil {
 	 */
 	public static IContainerEAPI resp(IContainer container) {
 		return new IContainerEAPI(container);
+	}
+	
+	/**
+	 * Retrieve the API extension of the specified file that
+	 * provides file-specific utility methods for convenience.
+	 */
+	public static IFileEAPI resp(IFile file) {
+		return new IFileEAPI(file);
 	}
 	
 	/**
@@ -244,6 +260,107 @@ public class WorkspaceUtil {
 		}
 		
 		public IContainerEAPI withProgressMonitor(IProgressMonitor monitor) {
+			this.progressMonitor = monitor;
+			return this;
+		}
+	}
+	
+	
+	/**
+	 * Extension of the IFile API
+	 */
+	public static class IFileEAPI {
+		
+		private IFile file;
+		private IProgressMonitor progressMonitor;
+
+		public IFileEAPI(IFile file) {
+			this.file = file;
+		}
+		
+		/**
+		 * Creates the resource for this file and returns the contained graph model.
+		 * It is assumed that a graph model exists and is placed at the default location
+		 * (i.e. the second content object of the resource).
+		 * However, if the content object at this index is not a graph model all content
+		 * objects are searched through for graph models and the first occurrence is
+		 * returned, if existent.
+		 * 
+		 * @throws NoSuchElementException if the resource does not contain any graph model.
+		 * @throws RuntimeException if accessing the resource failed.
+		 */
+		public GraphModel getGraphModel() {
+			try {
+				Resource res = getResource();
+				EObject model = res.getContents().get(1);
+				if (model instanceof GraphModel)
+					return (GraphModel) model;
+				else {
+					Optional<GraphModel> opt = res.getContents().stream()
+						.filter(GraphModel.class::isInstance)
+						.map(GraphModel.class::cast)
+						.findFirst();
+					if (opt.isPresent())
+						return opt.get();
+					else throw new NoSuchElementException(
+						"No graph model found in file: " + file);
+				}
+			} catch(Exception e) {
+				e.printStackTrace();
+				throw new RuntimeException(
+					"Failed to retrieve graph model from file: " + file, e);
+			}
+		}
+		
+		/**
+		 * Creates the resource for this file and returns the contained graph model
+		 * of the specified type.
+		 * It is assumed that a graph model of the specified type exists and is placed
+		 * at the default location (i.e. the second content object of the resource).
+		 * However, if the content object at this index is not a graph model of the
+		 * specified type all content objects are searched through for graph models
+		 * of that type and the first occurrence is returned, if existent.
+		 * 
+		 * @throws NoSuchElementException if the resource does not contain any graph
+		 *   model of the specified type.
+		 * @throws RuntimeException if accessing the resource failed.
+		 */
+		public <T extends GraphModel> T getGraphModel(Class<T> modelClass) {
+			try {
+				Resource res = getResource();
+				EObject model = res.getContents().get(1);
+				if (modelClass.isAssignableFrom(model.getClass())) {
+					@SuppressWarnings("unchecked")
+					T retVal = (T) model;
+					return retVal;
+				} else {
+					Optional<T> opt = res.getContents().stream()
+						.filter(c -> modelClass.isAssignableFrom(c.getClass()))
+						.map(modelClass::cast)
+						.findFirst();
+					if (opt.isPresent())
+						return opt.get();
+					else throw new NoSuchElementException(
+						"No graph model found in file: " + file);
+				}
+			} catch(Exception e) {
+				e.printStackTrace();
+				throw new RuntimeException(
+					"Failed to retrieve graph model from file: " + file, e);
+			}
+		}
+		
+		public Resource getResource() {
+			return new ResourceSetImpl().getResource(
+					getPlatformResourceURI(), true);
+		}
+		
+		public URI getPlatformResourceURI() {
+			return URI.createPlatformResourceURI(
+					file.getFullPath().toOSString(), true);
+		}
+		
+		public IFileEAPI withProgressMonitor(IProgressMonitor monitor) {
 			this.progressMonitor = monitor;
 			return this;
 		}
