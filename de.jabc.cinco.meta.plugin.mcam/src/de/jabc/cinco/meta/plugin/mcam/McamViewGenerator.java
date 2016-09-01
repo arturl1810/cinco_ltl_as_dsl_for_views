@@ -228,8 +228,9 @@ public class McamViewGenerator {
 		insertCodeAfterMarker(
 				file.getRawLocation().makeAbsolute().toFile(),
 				"// @PROJECT_CHECK_PAGE_ADD", code_cpadd);
+		
 	}
-
+	
 	private void generateConflictViewPage() throws IOException,
 			TemplateException {
 		data.put("ClassName", graphModelName + "ConflictViewPage");
@@ -299,6 +300,12 @@ public class McamViewGenerator {
 					file.getRawLocation().makeAbsolute().toFile(),
 					"// @FACTORY_CONFLICT", code_conflict);
 		}
+		
+		String code_handle = "if (obj instanceof " + graphModelPackage
+				+ "." + graphModelName.toLowerCase() + "." + graphModelName + ") return true;";
+		insertCodeAfterMarker(
+				file.getRawLocation().makeAbsolute().toFile(),
+				"// @FACTORY_HANDLE", code_handle);
 	}
 
 	private void insertCodeAfterMarker(File file, String marker, String code) {

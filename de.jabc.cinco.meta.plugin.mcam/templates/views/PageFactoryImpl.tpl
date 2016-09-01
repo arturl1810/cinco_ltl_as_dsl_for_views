@@ -13,6 +13,18 @@ import de.jabc.cinco.meta.plugin.mcam.runtime.views.utils.EclipseUtils;
 public class PageFactoryImpl implements PageFactory {
 
 	@Override
+	public boolean canHandle(Resource resource) {
+		if (resource == null)
+			return false;
+		for (EObject obj : resource.getContents()) {
+			// @FACTORY_HANDLE
+			// if (obj instanceof info.scce.dime.process.process.Process)
+			//    return true;
+		}
+		return false;
+	}
+
+	@Override
 	public CheckViewPage<?, ?, ?, ?> createCheckViewPage(String id, IEditorPart editor) {
 		
 		IFile iFile = EclipseUtils.getIFile(editor);

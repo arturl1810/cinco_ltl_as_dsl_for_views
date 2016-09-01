@@ -10,7 +10,6 @@ import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.graphiti.ui.editor.DiagramEditor;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuListener;
@@ -105,6 +104,9 @@ public abstract class McamView<T extends McamPage> extends ViewPart implements
 		contributeToActionBars();
 
 		initView(parent);
+		
+		loadPageByEditor(PlatformUI.getWorkbench().getActiveWorkbenchWindow()
+				.getActivePage().getActiveEditor());
 	}
 
 	private void initControls() {
@@ -296,7 +298,9 @@ public abstract class McamView<T extends McamPage> extends ViewPart implements
 		// System.out.println(this.getClass().getSimpleName() + "Part closed: "
 		// + partRef.getTitle());
 		refreshActivePages();
-		closePage(partRef);
+		if (partRef instanceof EditorReference) {
+			closePage(((EditorReference) partRef).getEditor(true));
+		}
 	}
 
 	@Override
@@ -310,7 +314,9 @@ public abstract class McamView<T extends McamPage> extends ViewPart implements
 		// System.out.println(this.getClass().getSimpleName() + "Part opened: "
 		// + partRef.getTitle());
 		refreshActivePages();
-		createPageByEditor(partRef);
+		if (partRef instanceof EditorReference) {
+			createPageByEditor(((EditorReference) partRef).getEditor(true));
+		}
 	}
 
 	@Override
@@ -324,7 +330,9 @@ public abstract class McamView<T extends McamPage> extends ViewPart implements
 		// System.out.println(this.getClass().getSimpleName() + "Part visible: "
 		// + partRef.getTitle());
 		refreshActivePages();
-		loadPageByEditor(partRef);
+		if (partRef instanceof EditorReference) {
+			loadPageByEditor(((EditorReference) partRef).getEditor(true));
+		}
 	}
 
 	@Override
@@ -357,122 +365,121 @@ public abstract class McamView<T extends McamPage> extends ViewPart implements
 //		}
 	}
 
-	protected void closePage(IWorkbenchPartReference partRef) {
-		if (partRef instanceof EditorReference) {
-			IEditorPart editor = ((EditorReference) partRef).getEditor(true);
-			if (editor instanceof DiagramEditor == false)
-				return;
+	protected void closePage(IEditorPart editor) {
+		if (!canHandle(editor))
+			return;
 
-			if (parent.isDisposed())
-				return;
-			
-			String pageId = getPageId(EclipseUtils.getIFile(editor));
-			
-			if (pageMap.keySet().contains(pageId)) {
+		if (parent.isDisposed())
+			return;
+		
+		String pageId = getPageId(EclipseUtils.getIFile(editor));
+		
+		if (pageMap.keySet().contains(pageId)) {
 //				 System.out.println("PageCount for " + pageId + " = "
 //				 + pageCountMap.get(pageId));
 
-				if (pageCountMap.get(pageId) != null && pageCountMap.get(pageId) > 0)
-					return;
+			if (pageCountMap.get(pageId) != null && pageCountMap.get(pageId) > 0)
+				return;
 
-				System.out.println("Closing page " + pageId);
+			System.out.println("Closing page " + pageId);
 
-				T page = pageMap.get(pageId);
-				page.closeView();
-				pageMap.remove(pageId);
-				pageCountMap.remove(pageId);
-				activePage = null;
+			T page = pageMap.get(pageId);
+			page.closeView();
+			pageMap.remove(pageId);
+			pageCountMap.remove(pageId);
+			activePage = null;
 
-				if (!parent.isDisposed()) {
-					parent.layout(true);
-					parent.redraw();
-					parent.update();
-				}
+			if (!parent.isDisposed()) {
+				parent.layout(true);
+				parent.redraw();
+				parent.update();
 			}
 		}
 	}
 
-	protected void createPageByEditor(IWorkbenchPartReference partRef) {
-		if (partRef instanceof EditorReference) {
-			IEditorPart editor = ((EditorReference) partRef).getEditor(true);
+	protected void createPageByEditor(IEditorPart editor) {
+		if (!canHandle(editor))
+			return;
+		
+		if (parent.isDisposed())
+			return;
 
-			if (parent.isDisposed())
-				return;
+		IFile file = EclipseUtils.getIFile(editor);
+		if (file == null) return;
+		
+		String pageId = getPageId(file);
 
-			IFile file = EclipseUtils.getIFile(editor);
-			if (file == null) return;
-			
-			String pageId = getPageId(file);
+		if (!pageMap.keySet().contains(pageId)) {
 
-			if (!pageMap.keySet().contains(pageId)) {
+			System.out.println("Creating page for " + pageId);
 
-				System.out.println("Creating page for " + pageId);
-
-				try {
-					T newPage = createPage(pageId, editor);
-					if (newPage == null)
-						return;
-					newPage.initPage(parent, this);
-					// newPage.reload();
-					pageMap.put(pageId, newPage);
-					pageCountMap.put(pageId, 1);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			} else {
-				int count = pageCountMap.get(pageId);
-				count++;
-				pageCountMap.put(pageId, count);
+			try {
+				T newPage = createPage(pageId, editor);
+				if (newPage == null)
+					return;
+				newPage.initPage(parent, this);
+				// newPage.reload();
+				pageMap.put(pageId, newPage);
+				pageCountMap.put(pageId, 1);
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
-
-			// System.out.println("PageCount for " + pageId + " = "
-			// + pageCountMap.get(pageId));
+		} else {
+			int count = pageCountMap.get(pageId);
+			count++;
+			pageCountMap.put(pageId, count);
 		}
+
+		// System.out.println("PageCount for " + pageId + " = "
+		// + pageCountMap.get(pageId));
+	}
+	
+	protected boolean canHandle(IEditorPart editor) {
+		return editor != null && getPageFactory().canHandle(
+				EclipseUtils.getResource(editor));
 	}
 
-	protected void loadPageByEditor(IWorkbenchPartReference partRef) {
-		if (partRef instanceof EditorReference) {
-			IEditorPart editor = ((EditorReference) partRef).getEditor(true);
+	protected void loadPageByEditor(IEditorPart editor) {
+		for (Control child : parent.getChildren()) {
+			child.setVisible(false);
+			if (child.getLayoutData() instanceof GridData)
+				((GridData) child.getLayoutData()).exclude = true;
+		}
+		
+		if (!canHandle(editor))
+			return;
+		
+		if (parent.isDisposed())
+			return;
 
-			for (Control child : parent.getChildren()) {
-				child.setVisible(false);
-				if (child.getLayoutData() instanceof GridData)
-					((GridData) child.getLayoutData()).exclude = true;
-			}
+		String pageId = getPageId(EclipseUtils.getIFile(editor));
 
-//			if (editor instanceof DiagramEditor == false)
-//				return;
+		if (activePage == null || !pageId.equals(activePage.getPageId())) {
+			System.out.println("Loading pageId = " + pageId);
 
-			if (parent.isDisposed())
+			if (pageMap.get(pageId) == null)
+				createPageByEditor(editor);
+
+			setActivePage(pageMap.get(pageId));
+
+			if (activePage == null)
 				return;
 
-			String pageId = getPageId(EclipseUtils.getIFile(editor));
-
-			if (activePage == null || !pageId.equals(activePage.getPageId())) {
-				System.out.println("Loading pageId = " + pageId);
-
-				if (pageMap.get(pageId) == null)
-					createPageByEditor(partRef);
-
-				setActivePage(pageMap.get(pageId));
-
-				if (activePage == null)
-					return;
-
-				activePageChanged();
-			}
-
-			activePage.getFrameComposite().setVisible(true);
-			((GridData) activePage.getFrameComposite().getLayoutData()).exclude = false;
-
-			editorChanged();
+			activePageChanged();
 		}
+
+		activePage.getFrameComposite().setVisible(true);
+		((GridData) activePage.getFrameComposite().getLayoutData()).exclude = false;
+
+		editorChanged();
 	}
 
 	abstract public String getPageId(IResource res);
 
 	public abstract T createPage(String pageId, IEditorPart editor);
 
+	
+	
 	protected PageFactory getPageFactory() {
 		IConfigurationElement[] configElements = Platform
 				.getExtensionRegistry().getConfigurationElementsFor(

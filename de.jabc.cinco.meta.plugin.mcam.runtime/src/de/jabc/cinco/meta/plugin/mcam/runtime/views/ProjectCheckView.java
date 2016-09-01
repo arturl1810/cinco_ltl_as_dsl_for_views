@@ -20,6 +20,11 @@ public class ProjectCheckView extends CheckView {
 	}
 
 	@Override
+	protected boolean canHandle(IEditorPart editor) {
+		return true;
+	}
+	
+	@Override
 	public CheckViewPage<?, ?, ?, ?> createPage(String id, IEditorPart editor) {
 		PageFactory pf = getPageFactory();
 		if (pf != null) {
