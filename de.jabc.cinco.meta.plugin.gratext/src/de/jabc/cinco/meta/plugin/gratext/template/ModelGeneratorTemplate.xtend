@@ -48,7 +48,6 @@ import org.eclipse.graphiti.features.context.impl.AddContext
 import org.eclipse.graphiti.features.context.impl.AreaContext
 import org.eclipse.graphiti.mm.pictograms.Connection
 import org.eclipse.graphiti.mm.pictograms.ContainerShape
-import org.eclipse.graphiti.mm.pictograms.Diagram
 import org.eclipse.graphiti.mm.pictograms.FreeFormConnection
 import org.eclipse.graphiti.mm.pictograms.PictogramElement
 import org.eclipse.graphiti.mm.pictograms.Shape
@@ -67,7 +66,7 @@ class «model.name»ModelGenerator {
 	Map<String, ModelElement> byId = new HashMap
 
 	«model.name» model
-	Diagram diagram
+	«model.name»Diagram diagram
 	IDiagramTypeProvider dtp
 	IFeatureProvider fp
 	
@@ -79,11 +78,13 @@ class «model.name»ModelGenerator {
 			nodes.forEach[add]
 			edges.forEach[add]
 		])
+		diagram.avoidInitialization = true
 		resource.edit[
 			resource.contents.remove(gratextModel)
 			resource.contents.add(0, model)
 			resource.contents.add(0, diagram)
 		]
+		diagram.avoidInitialization = false
 	}
 	
 	def transform(«model.name» model) {

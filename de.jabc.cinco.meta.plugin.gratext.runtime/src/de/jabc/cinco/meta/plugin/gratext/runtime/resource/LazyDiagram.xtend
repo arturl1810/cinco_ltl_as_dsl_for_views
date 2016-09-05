@@ -24,6 +24,7 @@ abstract class LazyDiagram extends DiagramImpl {
 	
 	private boolean initialized
 	private boolean initializing
+	private boolean avoidInitialization
 	
 	new(String name) {
 		super()
@@ -43,8 +44,7 @@ abstract class LazyDiagram extends DiagramImpl {
 	def void initialize()
 	
 	def assertInitialized() {
-		if (!initialized && !initializing) {
-//			new IllegalStateException().printStackTrace
+		if (!initialized && !avoidInitialization && !initializing ) {
 			initializing = true
 			transact[ initialize ]
 			println('''[«this.class.simpleName»-«hashCode»] initialized''')
@@ -194,6 +194,10 @@ abstract class LazyDiagram extends DiagramImpl {
 //		if (feature.canUpdate(ctx)) 
 //			feature.update(ctx)
 //	}
+
+	def setAvoidInitialization(boolean flag) {
+		avoidInitialization = flag
+	}
 	
 	def transact(Runnable runnable) {
 		edit(this).transact[
