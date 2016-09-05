@@ -435,8 +435,10 @@ public abstract class McamView<T extends McamPage> extends ViewPart implements
 	}
 	
 	protected boolean canHandle(IEditorPart editor) {
-		return editor != null && getPageFactory().canHandle(
-				EclipseUtils.getResource(editor));
+		return editor != null
+			&& editor.getEditorInput() != null
+			&& getPageFactory().canHandle(
+					EclipseUtils.getResource(editor));
 	}
 
 	protected void loadPageByEditor(IEditorPart editor) {

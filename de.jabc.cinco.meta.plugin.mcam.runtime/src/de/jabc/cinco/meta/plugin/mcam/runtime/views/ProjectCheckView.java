@@ -21,7 +21,8 @@ public class ProjectCheckView extends CheckView {
 
 	@Override
 	protected boolean canHandle(IEditorPart editor) {
-		return true;
+		return editor != null
+			&& editor.getEditorInput() != null;
 	}
 	
 	@Override
