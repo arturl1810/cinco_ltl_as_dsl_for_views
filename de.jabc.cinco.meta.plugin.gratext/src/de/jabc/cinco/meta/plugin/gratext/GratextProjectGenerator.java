@@ -14,7 +14,6 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
@@ -26,8 +25,8 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import de.jabc.cinco.meta.core.utils.projects.ProjectCreator;
 import de.jabc.cinco.meta.plugin.gratext.descriptor.GraphModelDescriptor;
 import de.jabc.cinco.meta.plugin.gratext.descriptor.ProjectDescriptor;
-import de.jabc.cinco.meta.plugin.gratext.template.BackupActionTemplate;
 import de.jabc.cinco.meta.plugin.gratext.template.BackupGeneratorTemplate;
+import de.jabc.cinco.meta.plugin.gratext.template.DiagramTemplate;
 import de.jabc.cinco.meta.plugin.gratext.template.GratextEcoreTemplate;
 import de.jabc.cinco.meta.plugin.gratext.template.GratextEditorTemplate;
 import de.jabc.cinco.meta.plugin.gratext.template.GratextGeneratorTemplate;
@@ -38,14 +37,9 @@ import de.jabc.cinco.meta.plugin.gratext.template.GratextQualifiedNameProviderTe
 import de.jabc.cinco.meta.plugin.gratext.template.GratextResourceTemplate;
 import de.jabc.cinco.meta.plugin.gratext.template.ModelGeneratorTemplate;
 import de.jabc.cinco.meta.plugin.gratext.template.PageAwareDiagramEditorTemplate;
-import de.jabc.cinco.meta.plugin.gratext.template.PluginXmlTemplate;
-import de.jabc.cinco.meta.plugin.gratext.template.RestoreActionTemplate;
 import de.jabc.cinco.meta.plugin.gratext.template.RuntimeModuleTemplate;
 import de.jabc.cinco.meta.plugin.gratext.template.ScopeProviderTemplate;
 import de.jabc.cinco.meta.plugin.gratext.template.UiPluginXmlTemplate;
-import de.jabc.cinco.meta.plugin.gratext.template.action.GratextBackupSchemaTemplate;
-import de.jabc.cinco.meta.plugin.gratext.template.action.GratextPluginXmlTemplate;
-import de.jabc.cinco.meta.plugin.gratext.template.action.GratextRestoreSchemaTemplate;
 
 public class GratextProjectGenerator extends ProjectGenerator {
 
@@ -57,8 +51,93 @@ public class GratextProjectGenerator extends ProjectGenerator {
 	@Override
 	protected void init(Map<String, Object> context) {
 		model = (GraphModel) context.get("graphModel");
+//		System.out.println("[GratextGen] model: " + model.getName());
+//		listImports();
 		initGenModelFiles();
 	}
+	
+//	private void listImports() {
+//		for (String ext : CincoUtils.getUsedExtensions(model)) {
+//			System.out.println("[GratextGen]  > ext: " + ext);
+//		}
+//		
+//		
+//		model.getImports().forEach(i -> {
+//			System.out.println("[GratextGen]  > import: " + i.getImportURI());
+//			if (i.getImportURI().endsWith(".mgl")) {
+//				GraphModel gm = getImportedGraphModel(i);
+//				System.out.println("[GratextGen]    > model.nsUri: " + gm.getNsURI());
+//				System.out.println("[GratextGen]    > model.package: " + gm.getPackage() + "." + gm.getName().toLowerCase() + "." + gm.getName() + "Package");
+//				System.out.println("[GratextGen]    > model.genmodel: platform:/resource/" + getModelProjectSymbolicName() + "/src-gen/model/" + gm.getName() + ".genmodel");
+//				
+//			}
+//			if (i.getImportURI().endsWith(".ecore")) {
+//				GenModel gm = getImportedGenmodel(i);
+//				System.out.println("[GratextGen]    > genmodel.uri: " + gm.eResource().getURI());
+//				gm.getUsedGenPackages().forEach(genPkg -> {
+//					System.out.println("[GratextGen]      > genpkg: " + genPkg);
+//					System.out.println("[GratextGen]      > genpkg.nsUri: " + genPkg.getNSURI());
+//				});
+//			}
+//		});
+//	}
+	
+//	private GenModel getImportedGenmodel(Import i) {
+//		URI genModelURI = URI.createURI(FilenameUtils.removeExtension(i.getImportURI()).concat(".genmodel"));
+//		Resource res = new ResourceSetImpl().getResource(genModelURI, true);
+//		if (res != null)
+//			try {
+//				res.load(null);
+//				EObject genModel = res.getContents().get(0);
+//				if (genModel instanceof GenModel)
+//					return (GenModel) genModel;
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
+//		return null;
+//	}
+//
+//	private GraphModel getImportedGraphModel(Import i) {
+//		URI gmURI = URI.createURI(i.getImportURI(), true);
+//		Resource res = new ResourceSetImpl().getResource(gmURI, true);
+//		EObject graphModel = res.getContents().get(0);
+//		if (graphModel instanceof GraphModel)
+//			return (GraphModel) graphModel;
+//		return null;
+//	}
+//	
+//	private void listUsedEcoreModels(Map<String, Object> context) {
+//		
+//		HashMap<EPackage, String> genModelMap = PluginRegistry.getInstance().getGenModelMap();
+//		for (Entry<EPackage, String> entry : genModelMap.entrySet()) {
+//			System.out.println("[GratextGen] genmodel: " + entry.getKey() + " => " + entry.getValue());
+//		}
+//		@SuppressWarnings("unchecked")
+//		Set<EPackage> pkgs = (Set<EPackage>) context.get("usedEcoreModels");
+//		if (pkgs != null) for (EPackage pkg : pkgs) {
+//			XMIResourceImpl res = new XMIResourceImpl(URI.createURI(genModelMap.get(pkg)));
+//			try {
+//				res.load(null);
+//				res.getAllContents().forEachRemaining(c -> {
+//					if (c instanceof GenPackage) {
+//						String path = ((GenPackage) c).eResource().getURI().trimFileExtension().toString() + ".genmodel";
+//						System.out.println("[GratextGen] used genmodel: " + path);
+//					}
+//				});
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
+//		}
+//	}
+//	
+//	private void listUsedGenModels(Map<String, Object> context) {
+//		@SuppressWarnings("unchecked")
+//		Set<EPackage> pkgs = (Set<EPackage>) context.get("referencedMGLEPackages");
+//		if (pkgs != null) for (EPackage pkg : pkgs) {
+//			String path = pkg.eResource().getURI().trimFileExtension().toString() + ".genmodel";
+//			System.out.println("[GratextGen] referenced genmodel: " + path);
+//		}
+//	}
 	
 	protected void initGenModelFiles() {
 		getWorkspaceFiles("genmodel").forEach(f -> { try {
@@ -149,59 +228,59 @@ public class GratextProjectGenerator extends ProjectGenerator {
 			
 		}.execute(context);
 		
-		String actionProjectName = getModelProjectSymbolicName() + ".gratext.action";
-		IProject gratextProject = ResourcesPlugin.getWorkspace().getRoot().getProject(actionProjectName);
-		try {
-			gratextProject.delete(true, true, null);
-		} catch (CoreException e) {
-			e.printStackTrace();
-		}
-		
-		new EmptyProjectGenerator(actionProjectName) {
-//			@Override protected List<String> getSourceFolders() {
-//				return list("src-gen");
+//		String actionProjectName = getModelProjectSymbolicName() + ".gratext.action";
+//		IProject gratextProject = ResourcesPlugin.getWorkspace().getRoot().getProject(actionProjectName);
+//		try {
+//			gratextProject.delete(true, true, null);
+//		} catch (CoreException e) {
+//			e.printStackTrace();
+//		}
+//		
+//		new EmptyProjectGenerator(actionProjectName) {
+////			@Override protected List<String> getSourceFolders() {
+////				return list("src-gen");
+////			};
+//			@Override protected Set<String> getRequiredBundles() {
+//				return new HashSet<>(list(
+//						 "org.eclipse.core.runtime",
+//						 "org.eclipse.core.resources",
+//						 "org.eclipse.e4.core.di",
+//						 "org.eclipse.ui",
+//						 "de.jabc.cinco.meta.core.utils",
+//						 "de.jabc.cinco.meta.plugin.gratext.runtime"
+//					));
 //			};
-			@Override protected Set<String> getRequiredBundles() {
-				return new HashSet<>(list(
-						 "org.eclipse.core.runtime",
-						 "org.eclipse.core.resources",
-						 "org.eclipse.e4.core.di",
-						 "org.eclipse.ui",
-						 "de.jabc.cinco.meta.core.utils",
-						 "de.jabc.cinco.meta.plugin.gratext.runtime"
-					));
-			};
-			@Override protected List<String> getNatures() {
-				return list(
-					"org.eclipse.pde.PluginNature"
-				);
-			}
-			@Override protected java.util.List<String> getManifestExtensions() {
-				return list("Bundle-ActivationPolicy: lazy");
-			};
-			
-//			@Override protected java.util.List<String> getExportedPackages() {
-//				return list("info.scce.cinco.gratext");
+//			@Override protected List<String> getNatures() {
+//				return list(
+//					"org.eclipse.pde.PluginNature"
+//				);
+//			}
+//			@Override protected java.util.List<String> getManifestExtensions() {
+//				return list("Bundle-ActivationPolicy: lazy");
 //			};
-			
-			@Override protected List<String> getBuildPropertiesBinIncludes() {
-				return list("plugin.xml");
-			}
-			
-			@Override protected void createFiles() {
-				inSrcFolder("schema")
-					.createFile("info.scce.cinco.gratext.backup.exsd")
-					.withContent(GratextBackupSchemaTemplate.class);
-				
-				inSrcFolder("schema")
-					.createFile("info.scce.cinco.gratext.restore.exsd")
-					.withContent(GratextRestoreSchemaTemplate.class);
-				
-				createFile("plugin.xml")
-					.withContent(GratextPluginXmlTemplate.class);
-				
-			};
-		}.execute(context);
+//			
+////			@Override protected java.util.List<String> getExportedPackages() {
+////				return list("info.scce.cinco.gratext");
+////			};
+//			
+//			@Override protected List<String> getBuildPropertiesBinIncludes() {
+//				return list("plugin.xml");
+//			}
+//			
+//			@Override protected void createFiles() {
+//				inSrcFolder("schema")
+//					.createFile("info.scce.cinco.gratext.backup.exsd")
+//					.withContent(GratextBackupSchemaTemplate.class);
+//				
+//				inSrcFolder("schema")
+//					.createFile("info.scce.cinco.gratext.restore.exsd")
+//					.withContent(GratextRestoreSchemaTemplate.class);
+//				
+//				createFile("plugin.xml")
+//					.withContent(GratextPluginXmlTemplate.class);
+//				
+//			};
+//		}.execute(context);
 		
 		return project;
 	}
@@ -242,20 +321,20 @@ public class GratextProjectGenerator extends ProjectGenerator {
 			.createFile(modelName + "BackupGenerator.xtend")
 			.withContent(BackupGeneratorTemplate.class);
 		
-		inSrcFolder("src")
-			.inPackage(basePkg + ".generator")
-			.createFile("BackupAction.java")
-			.withContent(BackupActionTemplate.class);
+//		inSrcFolder("src")
+//			.inPackage(basePkg + ".generator")
+//			.createFile("BackupAction.java")
+//			.withContent(BackupActionTemplate.class);
 		
 		inSrcFolder("src")
 			.inPackage(basePkg + ".generator")
 			.createFile(modelName + "ModelGenerator.xtend")
 			.withContent(ModelGeneratorTemplate.class);
 		
-		inSrcFolder("src")
-			.inPackage(basePkg + ".generator")
-			.createFile("RestoreAction.java")
-			.withContent(RestoreActionTemplate.class);
+//		inSrcFolder("src")
+//			.inPackage(basePkg + ".generator")
+//			.createFile("RestoreAction.java")
+//			.withContent(RestoreActionTemplate.class);
 		
 		inSrcFolder("src")
 			.inPackage(basePkg + ".scoping")
@@ -276,9 +355,14 @@ public class GratextProjectGenerator extends ProjectGenerator {
 			.inPackage(basePkg)
 			.createFile(targetName + "Resource.xtend")
 			.withContent(GratextResourceTemplate.class);
+
+		inSrcFolder("src")
+			.inPackage(basePkg)
+			.createFile(modelName + "Diagram.xtend")
+			.withContent(DiagramTemplate.class);
 		
-		createFile("plugin.xml")
-			.withContent(PluginXmlTemplate.class);
+//		createFile("plugin.xml")
+//			.withContent(PluginXmlTemplate.class);
 	}
 	
 	@Override

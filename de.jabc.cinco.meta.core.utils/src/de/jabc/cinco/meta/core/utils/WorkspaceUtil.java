@@ -19,10 +19,12 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.graphiti.mm.pictograms.Diagram;
 
 public class WorkspaceUtil {
 
@@ -35,11 +37,43 @@ public class WorkspaceUtil {
 	}
 	
 	/**
+	 * Retrieve the API extension of the specified container that
+	 * provides container-specific utility methods for convenience.
+	 */
+	public static IContainerEAPI eapi(IContainer container) {
+		return resp(container);
+	}
+	
+	/**
 	 * Retrieve the API extension of the specified file that
 	 * provides file-specific utility methods for convenience.
 	 */
 	public static IFileEAPI resp(IFile file) {
 		return new IFileEAPI(file);
+	}
+	
+	/**
+	 * Retrieve the API extension of the specified file that
+	 * provides file-specific utility methods for convenience.
+	 */
+	public static IFileEAPI eapi(IFile file) {
+		return resp(file);
+	}
+	
+	/**
+	 * Retrieve the API extension of the specified resource that
+	 * provides resource-specific utility methods for convenience.
+	 */
+	public static ResourceEAPI resp(Resource resource) {
+		return new ResourceEAPI(resource);
+	}
+	
+	/**
+	 * Retrieve the API extension of the specified resource that
+	 * provides resource-specific utility methods for convenience.
+	 */
+	public static ResourceEAPI eapi(Resource resource) {
+		return resp(resource);
 	}
 	
 	/**
@@ -279,41 +313,41 @@ public class WorkspaceUtil {
 		}
 		
 		/**
-		 * Creates the resource for this file and returns the contained graph model.
+		 * Creates the resource for this file and retrieves the contained diagram.
+		 * It is assumed that a diagram exists and is placed at the default location
+		 * (i.e. the first content object of the resource).
+		 * However, if the content object at this index is not a diagram all content
+		 * objects are searched through for diagrams and the first occurrence is
+		 * returned, if existent.
+		 * 
+		 * Convenience method for {@code getContent(Diagram.class, 0)}.
+		 * 
+		 * @throws NoSuchElementException if the resource does not contain any diagram.
+		 * @throws RuntimeException if accessing the resource failed.
+		 */
+		public Diagram getDiagram() {
+			return getResourceContent(Diagram.class, 0);
+		}
+		
+		/**
+		 * Creates the resource for this file and retrieves the contained graph model.
 		 * It is assumed that a graph model exists and is placed at the default location
 		 * (i.e. the second content object of the resource).
 		 * However, if the content object at this index is not a graph model all content
 		 * objects are searched through for graph models and the first occurrence is
 		 * returned, if existent.
 		 * 
+		 * Convenience method for {@code getContent(GraphModel.class, 1)}.
+		 * 
 		 * @throws NoSuchElementException if the resource does not contain any graph model.
 		 * @throws RuntimeException if accessing the resource failed.
 		 */
 		public GraphModel getGraphModel() {
-			try {
-				Resource res = getResource();
-				EObject model = res.getContents().get(1);
-				if (model instanceof GraphModel)
-					return (GraphModel) model;
-				else {
-					Optional<GraphModel> opt = res.getContents().stream()
-						.filter(GraphModel.class::isInstance)
-						.map(GraphModel.class::cast)
-						.findFirst();
-					if (opt.isPresent())
-						return opt.get();
-					else throw new NoSuchElementException(
-						"No graph model found in file: " + file);
-				}
-			} catch(Exception e) {
-				e.printStackTrace();
-				throw new RuntimeException(
-					"Failed to retrieve graph model from file: " + file, e);
-			}
+			return getResourceContent(GraphModel.class, 1);
 		}
 		
 		/**
-		 * Creates the resource for this file and returns the contained graph model
+		 * Creates the resource for this file and retrieves the contained graph model
 		 * of the specified type.
 		 * It is assumed that a graph model of the specified type exists and is placed
 		 * at the default location (i.e. the second content object of the resource).
@@ -321,32 +355,57 @@ public class WorkspaceUtil {
 		 * specified type all content objects are searched through for graph models
 		 * of that type and the first occurrence is returned, if existent.
 		 * 
+		 * Convenience method for {@code getContent(<ModelClass>, 1)}.
+		 * 
 		 * @throws NoSuchElementException if the resource does not contain any graph
 		 *   model of the specified type.
 		 * @throws RuntimeException if accessing the resource failed.
 		 */
 		public <T extends GraphModel> T getGraphModel(Class<T> modelClass) {
+			return getResourceContent(modelClass, 1);
+		}
+		
+		/**
+		 * Creates the resource for this file and retrieves the contained content of
+		 * the specified type. It is assumed that one exists at the default index.
+		 * However, if the content object at this index is not of appropriate type
+		 * all content content objects are searched through and the first occurrence
+		 * is returned, if existent.
+		 * 
+		 * @throws NoSuchElementException if the resource does not contain any content
+		 *   of the specified type.
+		 * @throws RuntimeException if accessing the resource failed.
+		 */
+		public <T extends EObject> T getResourceContent(Class<T> contentClass, int defaultIndex) {
 			try {
-				Resource res = getResource();
-				EObject model = res.getContents().get(1);
-				if (modelClass.isAssignableFrom(model.getClass())) {
-					@SuppressWarnings("unchecked")
-					T retVal = (T) model;
-					return retVal;
-				} else {
-					Optional<T> opt = res.getContents().stream()
-						.filter(c -> modelClass.isAssignableFrom(c.getClass()))
-						.map(modelClass::cast)
-						.findFirst();
-					if (opt.isPresent())
-						return opt.get();
-					else throw new NoSuchElementException(
-						"No graph model found in file: " + file);
-				}
+				return resp(getResource()).getContent(contentClass, defaultIndex);
+			} catch(RuntimeException re) {
+				throw re;
 			} catch(Exception e) {
 				e.printStackTrace();
 				throw new RuntimeException(
-					"Failed to retrieve graph model from file: " + file, e);
+					"Failed to retrieve resource content for file: " + file, e);
+			}
+		}
+		
+		/**
+		 * Creates the resource for this file and retrieves the contained content of
+		 * the specified type by searching through all content objects and the first
+		 * occurrence, if existent.
+		 * 
+		 * @throws NoSuchElementException if the resource does not contain any content
+		 *   of the specified type.
+		 * @throws RuntimeException if accessing the resource failed.
+		 */
+		public <T extends EObject> T getResourceContent(Class<T> contentClass) {
+			try {
+				return resp(getResource()).getContent(contentClass);
+			} catch(RuntimeException re) {
+				throw re;
+			} catch(Exception e) {
+				e.printStackTrace();
+				throw new RuntimeException(
+					"Failed to retrieve resource content for file: " + file, e);
 			}
 		}
 		
@@ -361,6 +420,136 @@ public class WorkspaceUtil {
 		}
 		
 		public IFileEAPI withProgressMonitor(IProgressMonitor monitor) {
+			this.progressMonitor = monitor;
+			return this;
+		}
+	}
+	
+	/**
+	 * Extension of the Resource API
+	 */
+	public static class ResourceEAPI {
+		
+		private Resource resource;
+		private IProgressMonitor progressMonitor;
+
+		public ResourceEAPI(Resource resource) {
+			this.resource = resource;
+		}
+		
+		/**
+		 * Retrieves the contained diagram.
+		 * It is assumed that a diagram exists and is placed at the default location
+		 * (i.e. the first content object of the resource).
+		 * However, if the content object at this index is not a diagram all content
+		 * objects are searched through for diagrams and the first occurrence is
+		 * returned, if existent.
+		 * 
+		 * Convenience method for {@code getContent(Diagram.class, 0)}.
+		 * 
+		 * @throws NoSuchElementException if the resource does not contain any diagram.
+		 * @throws RuntimeException if accessing the resource failed.
+		 */
+		public Diagram getDiagram() {
+			return getContent(Diagram.class, 0);
+		}
+		
+		/**
+		 * Retrieves the contained graph model.
+		 * It is assumed that a graph model exists and is placed at the default location
+		 * (i.e. the second content object of the resource).
+		 * However, if the content object at this index is not a graph model all content
+		 * objects are searched through for graph models and the first occurrence is
+		 * returned, if existent.
+		 * 
+		 * Convenience method for {@code getContent(GraphModel.class, 1)}.
+		 * 
+		 * @throws NoSuchElementException if the resource does not contain any graph model.
+		 * @throws RuntimeException if accessing the resource failed.
+		 */
+		public GraphModel getGraphModel() {
+			return getContent(GraphModel.class, 1);
+		}
+		
+		/**
+		 * Retrieves the contained graph model of the specified type.
+		 * It is assumed that a graph model of the specified type exists and is placed
+		 * at the default location (i.e. the second content object of the resource).
+		 * However, if the content object at this index is not a graph model of the
+		 * specified type all content objects are searched through for graph models
+		 * of that type and the first occurrence is returned, if existent.
+		 * 
+		 * Convenience method for {@code getContent(<ModelClass>, 1)}.
+		 * 
+		 * @throws NoSuchElementException if the resource does not contain any graph
+		 *   model of the specified type.
+		 * @throws RuntimeException if accessing the resource failed.
+		 */
+		public <T extends GraphModel> T getGraphModel(Class<T> modelClass) {
+			return getContent(modelClass, 1);
+		}
+		
+		/**
+		 * Retrieves the contained content of the specified type.
+		 * It is assumed that one exists at the default index.
+		 * However, if the content object at this index is not of appropriate type
+		 * all content content objects are searched through and the first occurrence
+		 * is returned, if existent.
+		 * 
+		 * @throws NoSuchElementException if the resource does not contain any content
+		 *   of the specified type.
+		 * @throws RuntimeException if accessing the resource failed.
+		 */
+		public <T extends EObject> T getContent(Class<T> contentClass, int defaultIndex) {
+			try {
+				EList<EObject> objs = resource.getContents();
+				if (defaultIndex >= 0 && defaultIndex < objs.size()) {
+					EObject obj = objs.get(defaultIndex);
+					if (contentClass.isAssignableFrom(obj.getClass())) {
+						@SuppressWarnings("unchecked")
+						T retVal = (T) obj;
+						return (T) retVal;
+					}
+				}
+				return getContent(contentClass);
+			} catch(RuntimeException re) {
+				throw re;
+			} catch(Exception e) {
+				e.printStackTrace();
+				throw new RuntimeException(
+					"Failed to retrieve resource content for file: " + resource, e);
+			}
+		}
+		
+		/**
+		 * Creates the resource for this file and returns the contained content of
+		 * the specified type by searching through all content objects and the first
+		 * occurrence, if existent.
+		 * 
+		 * @throws NoSuchElementException if the resource does not contain any content
+		 *   of the specified type.
+		 * @throws RuntimeException if accessing the resource failed.
+		 */
+		public <T extends EObject> T getContent(Class<T> contentClass) {
+			try {
+				Optional<T> opt = resource.getContents().stream()
+					.filter(c -> contentClass.isAssignableFrom(c.getClass()))
+					.map(contentClass::cast)
+					.findFirst();
+				if (opt.isPresent())
+					return opt.get();
+				else throw new NoSuchElementException(
+					"No content of type " + contentClass + " found in file: " + resource);
+			} catch(RuntimeException re) {
+				throw re;
+			} catch(Exception e) {
+				e.printStackTrace();
+				throw new RuntimeException(
+					"Failed to retrieve resource content for file: " + resource, e);
+			}
+		}
+		
+		public ResourceEAPI withProgressMonitor(IProgressMonitor monitor) {
 			this.progressMonitor = monitor;
 			return this;
 		}

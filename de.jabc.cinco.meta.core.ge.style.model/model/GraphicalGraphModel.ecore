@@ -199,13 +199,33 @@
       </eAnnotations>
       <eParameters name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eOperations>
+    <eOperations name="getPictogramElement" eType="ecore:EClass ../../org.eclipse.graphiti.mm/model/graphiti.ecore#//pictograms/PictogramElement">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="if (getPictogramElementSupplier() != null) {&#xA;&#x9;&#x9;return getPictogramElementSupplier().get();&#xA;&#x9;}&#xA;&#x9;return null;"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="setPictogramElement">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="setPictogramElementSupplier(&#xA;&#x9;new Supplier&lt;PictogramElement>() {&#xA;&#x9;&#x9;@Override&#xA;&#x9;&#x9;public PictogramElement get() {&#xA;&#x9;&#x9;&#x9;return pe;&#xA;&#x9;&#x9;}&#xA;&#x9;});"/>
+      </eAnnotations>
+      <eParameters name="pe" eType="ecore:EClass ../../org.eclipse.graphiti.mm/model/graphiti.ecore#//pictograms/PictogramElement"/>
+    </eOperations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="container" eType="#//CModelElementContainer"
         eOpposite="#//CModelElementContainer/modelElements"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="modelElement" eType="ecore:EClass ../../de.jabc.cinco.meta.core.mgl.model/model/GraphModel.ecore#//ModelElement"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="pictogramElement" eType="ecore:EClass ../../org.eclipse.graphiti.mm/model/graphiti.ecore#//pictograms/PictogramElement"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pictogramElementSupplier"
+        transient="true">
+      <eGenericType eClassifier="#//PictogramElementSupplier">
+        <eTypeArguments eClassifier="ecore:EClass ../../org.eclipse.graphiti.mm/model/graphiti.ecore#//pictograms/PictogramElement"/>
+      </eGenericType>
+    </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ModelElementToCModelElementMap" instanceClassName="java.util.Map$Entry">
     <eStructuralFeatures xsi:type="ecore:EReference" name="key" eType="ecore:EClass ../../de.jabc.cinco.meta.core.mgl.model/model/GraphModel.ecore#//ModelElement"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="value" eType="#//CModelElement"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="PictogramElementSupplier" instanceClassName="java.util.function.Supplier"
+      serializable="false">
+    <eTypeParameters name="PictogramElement"/>
   </eClassifiers>
 </ecore:EPackage>

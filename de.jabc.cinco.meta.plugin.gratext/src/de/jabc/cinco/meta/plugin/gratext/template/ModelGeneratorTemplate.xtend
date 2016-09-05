@@ -16,9 +16,11 @@ override template()
 '''	
 package «project.basePackage».generator
 
+import static org.eclipse.graphiti.ui.services.GraphitiUi.getExtensionManager
+import static extension de.jabc.cinco.meta.core.utils.WorkspaceUtil.eapi
 import static extension de.jabc.cinco.meta.plugin.gratext.runtime.generator.GratextGenerator.*
-import static de.jabc.cinco.meta.plugin.gratext.runtime.util.GratextUtils.async
 
+import de.jabc.cinco.meta.core.ge.style.model.features.CincoAbstractAddFeature
 import de.jabc.cinco.meta.plugin.gratext.runtime.generator.GratextModelTransformer
 
 import «graphmodel.package».«model.name.toLowerCase».«model.name»
@@ -26,7 +28,6 @@ import «graphmodel.package».«model.name.toLowerCase».«model.nameFirstUpper�
 import «graphmodel.package».«model.name.toLowerCase».«model.nameFirstUpper»Factory
 
 import «project.basePackage».*
-import de.jabc.cinco.meta.core.ge.style.model.features.CincoAbstractAddFeature
 
 import graphmodel.Edge
 import graphmodel.ModelElement
@@ -37,39 +38,28 @@ import java.util.HashMap
 import java.util.List
 import java.util.Map
 
-import org.eclipse.core.resources.IFile
-import org.eclipse.core.resources.IProject
-import org.eclipse.core.runtime.Path
-import org.eclipse.emf.common.util.URI
-import org.eclipse.emf.ecore.EClass
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.resource.Resource
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 import org.eclipse.graphiti.dt.IDiagramTypeProvider
 import org.eclipse.graphiti.features.IFeatureProvider
 import org.eclipse.graphiti.features.context.impl.AddBendpointContext
 import org.eclipse.graphiti.features.context.impl.AddConnectionContext
 import org.eclipse.graphiti.features.context.impl.AddContext
 import org.eclipse.graphiti.features.context.impl.AreaContext
-import org.eclipse.graphiti.features.context.impl.UpdateContext
 import org.eclipse.graphiti.mm.pictograms.Connection
 import org.eclipse.graphiti.mm.pictograms.ContainerShape
 import org.eclipse.graphiti.mm.pictograms.Diagram
 import org.eclipse.graphiti.mm.pictograms.FreeFormConnection
 import org.eclipse.graphiti.mm.pictograms.PictogramElement
 import org.eclipse.graphiti.mm.pictograms.Shape
-import org.eclipse.graphiti.ui.services.GraphitiUi
 import org.eclipse.swt.SWTException
 
 class «model.name»ModelGenerator {
 	
-	final String FILE_SUFFIX = ""
-	final String FILE_EXTENSION = "«graphmodel.fileExtension»"
 	final String DTP_ID = "«graphmodel.package».«model.name»DiagramTypeProvider";
 
 	«model.nameFirstUpper»Factory baseModelFct = «model.nameFirstUpper»Factory.eINSTANCE;
 	«model.nameFirstUpper»Package baseModelPkg = «model.nameFirstUpper»Package.eINSTANCE;
-	EClass baseModelCls = «model.nameFirstUpper»Package.eINSTANCE.get«model.name»
 	
 	GratextModelTransformer transformer
 
@@ -80,69 +70,27 @@ class «model.name»ModelGenerator {
 	Diagram diagram
 	IDiagramTypeProvider dtp
 	IFeatureProvider fp
-	IProject project
-	IFile sourceFile
-	String idSuffix
-	
-	def void doGenerate(IFile file, String folder) {
-		idSuffix = "GRATEXT"
-		init(file, folder)
-		clearCache
-		diagram.edit[
-			diagram.name = new Path(file.name).removeFileExtension.lastSegment
-			save(folder)
-		]
-	}
 	
 	def doGenerate(Resource resource) {
-		resource.edit[
-			init(resource, 0)
-			clearCache
+		val gratextModel = resource.eapi.getGraphModel(«model.name»)
+		model = gratextModel.transform
+		diagram = new «model.name»Diagram([|
+			link(diagram, model)
 			nodes.forEach[add]
 			edges.forEach[add]
-			update
+		])
+		resource.edit[
+			resource.contents.remove(gratextModel)
+			resource.contents.add(0, model)
+			resource.contents.add(0, diagram)
 		]
 	}
 	
-	def init(IFile file, String folder) {
-		sourceFile = file
-		project = file.project
-		val path = file.getFullPath().toOSString()
-		val uri = URI.createPlatformResourceURI(path, true)
-		val resource = new ResourceSetImpl().getResource(uri, true)
-		// model and diagram are generated while creating the resource
-		resource.extractContent
-	}
-	
-	def extractContent(Resource resource) {
-		diagram = [|
-			resource.contents.filter(Diagram).get(0)
-		].printException
-		model = [|
-			resource.contents.filter(«model.name»).get(0)
-		].printException
-	}
-	
-	def init(Resource resource, int modelIndex) {
-		model = [|
-			resource.contents.get(modelIndex) as «model.name»
-		].onException[
-			model = resource.contents.filter(«model.name»).get(0)
-		]
-		
-		transformer = new GratextModelTransformer(baseModelFct, baseModelPkg, baseModelCls)
-		val baseModel = transformer.transform(model, idSuffix)
-		
-		resource.contents.remove(model)
-		resource.contents.add(0, baseModel)
-		model = baseModel
-		
-		diagram = createDiagram("«model.name»")
-		resource.contents.add(0, diagram)
-		
-		dtp = GraphitiUi.extensionManager.createDiagramTypeProvider(diagram, DTP_ID)
-		fp = dtp.featureProvider
-		fp.link(diagram, model)
+	def transform(«model.name» model) {
+		transformer = new GratextModelTransformer(
+			baseModelFct, baseModelPkg, baseModelPkg.get«model.name»
+		)
+		transformer.transform(model)
 	}
 	
 	def add(ModelElement bo) {
@@ -153,14 +101,15 @@ class «model.name»ModelGenerator {
 	}
 	
 	def add(ModelElement bo, AddContext ctx) {
-		[|
+		if (ctx != null) [| 
 			bo.cache(ctx.addIfPossible)
 			bo.postprocess
 		].onException[switch it {
 			SWTException case "Invalid thread access".equals(message): {
-				bo.cache(fp.getPictogramElementForBusinessObject(bo))
+				bo.cache(featureProvider.getPictogramElementForBusinessObject(bo))
 				bo.postprocess
 			}
+			default: printStackTrace
 		}]
 	}
 	
@@ -189,7 +138,8 @@ class «model.name»ModelGenerator {
 	
 	def add(_Point p, FreeFormConnection connection, int index) {
 		val ctx = new AddBendpointContext(connection, p.x, p.y, index)
-		dtp.diagramBehavior.executeFeature(fp.getAddBendpointFeature(ctx), ctx);
+		diagramTypeProvider.diagramBehavior.executeFeature(
+			featureProvider.getAddBendpointFeature(ctx), ctx);
 	}
 	
 	def add(List<_Decoration> decs, PictogramElement pe) {
@@ -209,11 +159,12 @@ class «model.name»ModelGenerator {
 	}
 	
 	def addIfPossible(AddContext ctx) {
-		val ftr = fp.getAddFeature(ctx) as CincoAbstractAddFeature
+		val ftr = featureProvider.getAddFeature(ctx) as CincoAbstractAddFeature
 		if (ftr != null) {
 			ftr.hook = false
 			if (ftr?.canAdd(ctx))
-				fp.diagramTypeProvider.diagramBehavior.executeFeature(ftr, ctx) as PictogramElement
+				featureProvider.diagramTypeProvider.diagramBehavior
+					.executeFeature(ftr, ctx) as PictogramElement
 		} else warn("Failed to retrieve AddFeature for " + ctx)
 	}
 	
@@ -280,6 +231,18 @@ class «model.name»ModelGenerator {
 		return plm;
 	}
 	
+	def link(PictogramElement pe, EObject bo) {
+		featureProvider.link(pe,bo)
+	}
+	
+	def getFeatureProvider() {
+		fp ?: (fp = diagramTypeProvider.featureProvider)
+	}
+	
+	def getDiagramTypeProvider() {
+		dtp ?: (dtp = extensionManager.createDiagramTypeProvider(diagram, DTP_ID))
+	}
+	
 	def cache(ModelElement bo, PictogramElement pe) {
 		byId.put(bo.id, bo)
 		pes.put(bo, pe)
@@ -288,20 +251,6 @@ class «model.name»ModelGenerator {
 	def clearCache() {
 		byId.clear
 		pes.clear
-	}
-	
-	def update() {
-		val ctx = new UpdateContext(diagram);
-		val feature = fp.getUpdateFeature(ctx);
-		if (feature.canUpdate(ctx)) 
-			feature.update(ctx)
-	}
-
-	def save(String folder) {
-		val filename = new Path(sourceFile.name).removeFileExtension.toString
-		val res = createFile(createFolder(new Path(folder), project).fullPath, filename + FILE_SUFFIX, FILE_EXTENSION)
-		res.addContent(diagram, model)
-		res.save(null)
 	}
 	
 	def warn(String msg) {

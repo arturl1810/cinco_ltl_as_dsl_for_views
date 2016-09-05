@@ -183,7 +183,7 @@ public class ReferenceRegistry {
 			    .task(() -> loadMap(p))
 			    .task(this::clearCache)
 			  .label("Processing resources...")
-			  .consumeConcurrent(100)
+			  .consume(100)
 			    .taskForEach(() -> map.entrySet().stream().map(e -> e.getValue()).distinct(),
 				    		this::loadObjects, uri -> uri)
 			  .consume(5)
@@ -208,11 +208,21 @@ public class ReferenceRegistry {
 	
 	private void loadObjects(String resourceUri) {
 		Resource res = getResource(resourceUri);
-		res.getAllContents().forEachRemaining(obj -> {
-			String id = res.getURIFragment(obj);
-			if (map.containsKey(id))
-				cache.put(id, obj);
+		res.getContents().forEach(obj -> {
+			loadObject(res, obj);
 		});
+	}
+	
+	private void loadObject(Resource res, Object obj) {
+		if (obj instanceof EObject && !(obj instanceof Diagram)) {
+			EObject eobj = (EObject) obj;
+			String id = res.getURIFragment(eobj);
+			if (map.containsKey(id))
+				cache.put(id, eobj);
+			EcoreUtil.getAllContents(eobj, true).forEachRemaining(child -> {
+				loadObject(res, child);
+			});
+		}
 	}
 	
 	public void storeMaps(IProject p) {
@@ -436,14 +446,13 @@ public class ReferenceRegistry {
 		Map<IProject,Set<String>> idsByProject = new HashMap<>();
 		
 		long debugTime = System.currentTimeMillis();
-		
 		reinitJob = job("Reinitialize Reference Registry");
 		reinitJob.label("Initializing...")
 		  .consume(5)
 		    .task("Clear registry", this::clearRegistry)
 		    .task("Collect files", () -> collectFiles(container, files))
 		  .label("Collecting resources...")
-		  .consumeConcurrent(80)
+		  .consume(80)
 		    .taskForEach(() -> files.stream(),
 		    			file -> extractIds(file, idsByProject, objectsById),
 		    			file -> file.getName())
@@ -534,23 +543,31 @@ public class ReferenceRegistry {
 	
 	private List<String> extractIds(Resource res, Map<String,EObject> objectsById) {
 		List<String> wanted = new ArrayList<String>();
-		res.getAllContents().forEachRemaining(obj -> {
-			String id = EcoreUtil.getID(obj);
-			if (id != null && !id.isEmpty()) {
-				objectsById.put(id, obj);
-			}
-			if (!(obj instanceof Diagram)) {
-				EStructuralFeature libCompFeature =
-						obj.eClass().getEStructuralFeature("libraryComponentUID");
-				if (libCompFeature != null) {
-					Object val = obj.eGet(libCompFeature);
-					if (val != null) {
-						wanted.add((String) val);
-					}
-				}
-			}
+		res.getContents().forEach(obj -> {
+			extractIds(obj, objectsById, wanted);
 		});
 		return wanted;
+	}
+	
+	private void extractIds(Object obj, Map<String,EObject> objectsById, List<String> wanted) {
+		if (obj instanceof EObject && !(obj instanceof Diagram)) {
+			EObject eobj = (EObject) obj;
+			String id = EcoreUtil.getID(eobj);
+			if (id != null && !id.isEmpty()) {
+				objectsById.put(id, eobj);
+			}
+			EStructuralFeature libCompFeature =
+					eobj.eClass().getEStructuralFeature("libraryComponentUID");
+			if (libCompFeature != null) {
+				Object val = eobj.eGet(libCompFeature);
+				if (val != null) {
+					wanted.add((String) val);
+				}
+			}
+			EcoreUtil.getAllContents(eobj, true).forEachRemaining(child -> {
+				extractIds(child, objectsById, wanted);
+			});
+		}
 	}
 	
 	private boolean isCincoResource(Resource res) {

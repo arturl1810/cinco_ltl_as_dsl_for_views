@@ -144,7 +144,7 @@ public class $graphModelName$Wrapper {
 			gNode = getNode(n);
 				
 			gNode.setModelElement(n);
-			gNode.setPictogramElement((ContainerShape) getPictogramElement(n));
+			gNode.setPictogramElementSupplier(() -> (ContainerShape) getPictogramElement(n));
 
 			map.put(n, gNode);
 			
@@ -174,7 +174,7 @@ public class $graphModelName$Wrapper {
 		gCont = getContainer(c);
 
 		gCont.setModelElement(c);
-		gCont.setPictogramElement((ContainerShape) getPictogramElement(c));
+		gCont.setPictogramElementSupplier(() -> (Connection) getPictogramElement(c));
 
 		map.put(c, gCont);
 		
@@ -205,7 +205,7 @@ public class $graphModelName$Wrapper {
 		gEdge = getEdge(e);
 
 		gEdge.setModelElement(e);
-		gEdge.setPictogramElement((Connection) getPictogramElement(e));
+		gEdge.setPictogramElementSupplier(() -> (Connection) getPictogramElement(e));
 
 		map.put(e, gEdge);
 		

@@ -1,14 +1,16 @@
 package de.jabc.cinco.meta.plugin.gratext.runtime.resource
 
+import java.io.OutputStream
+import java.io.OutputStreamWriter
+import java.util.Map
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.graphiti.mm.pictograms.Diagram
 import org.eclipse.xtext.linking.lazy.LazyLinkingResource
 import org.eclipse.xtext.parser.IParseResult
 
 import static de.jabc.cinco.meta.plugin.gratext.runtime.util.GratextUtils.edit
-import java.io.OutputStream
-import java.io.OutputStreamWriter
-import java.util.Map
+import org.eclipse.emf.common.util.TreeIterator
+import org.eclipse.emf.ecore.util.EcoreUtil
 
 abstract class GratextResource extends LazyLinkingResource {
 	
@@ -39,6 +41,30 @@ abstract class GratextResource extends LazyLinkingResource {
 	
 	def getContent(int index) {
 		getContents.get(index)
+	}
+	
+	override getEObjectByID(String id) {
+    	val map = getIntrinsicIDToEObjectMap
+    	if (map != null) {
+      		val eObject = map.get(id)
+      		if (eObject != null)
+        		return eObject
+    	}
+		getContents.tail.toList.allProperContents.getEObjectById(id)
+		?: if (getContents.size > 0) {
+			getContents.head.allProperContents.getEObjectById(id)
+		}
+	}
+	
+	private def getEObjectById(TreeIterator<EObject> iterator, String id) {
+		while (iterator.hasNext) {
+			val eObject = iterator.next
+			val eObjectId = EcoreUtil.getID(eObject)
+			if (getIntrinsicIDToEObjectMap != null)
+				getIntrinsicIDToEObjectMap.put(eObjectId,eObject)
+			if (eObjectId.equals(id))
+	          return eObject
+		}
 	}
 	
 	def add(EObject object) {
