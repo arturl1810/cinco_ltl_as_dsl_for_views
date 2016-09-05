@@ -46,6 +46,7 @@ import org.eclipse.graphiti.features.context.impl.AddBendpointContext
 import org.eclipse.graphiti.features.context.impl.AddConnectionContext
 import org.eclipse.graphiti.features.context.impl.AddContext
 import org.eclipse.graphiti.features.context.impl.AreaContext
+import org.eclipse.graphiti.features.context.impl.UpdateContext
 import org.eclipse.graphiti.mm.pictograms.Connection
 import org.eclipse.graphiti.mm.pictograms.ContainerShape
 import org.eclipse.graphiti.mm.pictograms.FreeFormConnection
@@ -77,6 +78,7 @@ class «model.name»ModelGenerator {
 			link(diagram, model)
 			nodes.forEach[add]
 			edges.forEach[add]
+			diagram.update
 		])
 		diagram.avoidInitialization = true
 		resource.edit[
@@ -252,6 +254,13 @@ class «model.name»ModelGenerator {
 	def clearCache() {
 		byId.clear
 		pes.clear
+	}
+	
+	def update(«model.name»Diagram diagram) {
+		val ctx = new UpdateContext(diagram)
+		val feature = featureProvider.getUpdateFeature(ctx)
+		if (feature.canUpdate(ctx)) 
+			feature.update(ctx)
 	}
 	
 	def warn(String msg) {

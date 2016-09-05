@@ -30,6 +30,7 @@
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.function.Supplier;
 
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.dt.IDiagramTypeProvider;
@@ -144,7 +145,8 @@ public class $graphModelName$Wrapper {
 			gNode = getNode(n);
 				
 			gNode.setModelElement(n);
-			gNode.setPictogramElementSupplier(() -> (ContainerShape) getPictogramElement(n));
+			gNode.setPictogramElementSupplier(
+					new PictogramElementSupplier(dtp.getDiagram(), n));
 
 			map.put(n, gNode);
 			
@@ -174,7 +176,8 @@ public class $graphModelName$Wrapper {
 		gCont = getContainer(c);
 
 		gCont.setModelElement(c);
-		gCont.setPictogramElementSupplier(() -> (Connection) getPictogramElement(c));
+		gCont.setPictogramElementSupplier(
+				new PictogramElementSupplier(dtp.getDiagram(), c));
 
 		map.put(c, gCont);
 		
@@ -205,7 +208,8 @@ public class $graphModelName$Wrapper {
 		gEdge = getEdge(e);
 
 		gEdge.setModelElement(e);
-		gEdge.setPictogramElementSupplier(() -> (Connection) getPictogramElement(e));
+		gEdge.setPictogramElementSupplier(
+				new PictogramElementSupplier(dtp.getDiagram(), e));
 
 		map.put(e, gEdge);
 		
@@ -215,15 +219,26 @@ public class $graphModelName$Wrapper {
 		return gEdge;
 	}
 	
-	private static PictogramElement getPictogramElement(ModelElement me) {
-		List&lt;PictogramElement&gt; pes = 
-				GraphitiUi.getLinkService().getPictogramElements(dtp.getDiagram(), me);
-		if (pes == null || pes.isEmpty()) {
-			throw new RuntimeException(&quot;No pictogram element for: &quot; + me);
+	private static class PictogramElementSupplier implements Supplier&lt;PictogramElement&gt; {
+		
+		private Diagram diagram;
+		private ModelElement me;
+		
+		public PictogramElementSupplier(Diagram diagram, ModelElement me) {
+			this.diagram = diagram;
+			this.me = me;
 		}
-		else return pes.get(0);
+
+		@Override
+		public PictogramElement get() {
+			List&lt;PictogramElement&gt; pes = 
+					GraphitiUi.getLinkService().getPictogramElements(diagram, me);
+			if (pes == null || pes.isEmpty()) {
+				throw new RuntimeException("No pictogram element for: " + me);
+			}
+			else return pes.get(0);
+		}
 	}
-	
 }
 </string>
     </parameter>
