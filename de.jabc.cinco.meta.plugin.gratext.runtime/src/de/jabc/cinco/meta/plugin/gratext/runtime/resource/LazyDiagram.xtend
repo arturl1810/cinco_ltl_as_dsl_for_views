@@ -44,10 +44,10 @@ abstract class LazyDiagram extends DiagramImpl {
 	
 	def assertInitialized() {
 		if (!initialized && !initializing) {
-			new IllegalStateException().printStackTrace
+//			new IllegalStateException().printStackTrace
 			initializing = true
 			transact[ initialize ]
-			debug("initialized")
+			println('''[«this.class.simpleName»-«hashCode»] initialized''')
 			initializing = false
 			initialized = true
 		}
