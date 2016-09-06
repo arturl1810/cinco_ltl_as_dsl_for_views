@@ -103,11 +103,6 @@ public class ${GraphModelName}Adapter extends _CincoAdapter<${GraphModelName}Id,
 		${GraphModelName?lower_case?capitalize}Package.eINSTANCE.eClass();
 		PictogramsPackage.eINSTANCE.eClass();
 
-		// Register the XMI resource factory for the .family extension
-		Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
-		Map<String, Object> m = reg.getExtensionToFactoryMap();
-		m.put("${GraphModelExtension}", new XMIResourceFactoryImpl());
-
 		// Obtain a new resource set
 		ResourceSet resSet = new ResourceSetImpl();
 
