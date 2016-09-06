@@ -162,7 +162,7 @@ abstract class BackupGenerator<T extends GraphModel> extends GratextGenerator<T>
 	def valueGratext(Object obj) {
 		switch obj {
 			ModelElement: obj?.id + idSuffix
-			String: '"' + obj.replace('"', '\\"').replace("\n", "\\\\n").replace("\\","\\\\") + '"'
+			String: '"' + obj.replace('"', '\\"').replace("\\","\\\\").replace('\n', '\\n') + '"'
 			EObject: '''
 				«obj.name» {
 						«obj.attributes»
