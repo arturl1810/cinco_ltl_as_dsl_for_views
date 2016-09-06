@@ -28,6 +28,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IEditorPart;
@@ -40,6 +41,7 @@ import org.eclipse.ui.part.ViewPart;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
 
+import de.jabc.cinco.meta.core.utils.job.JobFactory;
 import de.jabc.cinco.meta.plugin.mcam.runtime.views.pages.McamPage;
 import de.jabc.cinco.meta.plugin.mcam.runtime.views.utils.EclipseUtils;
 
@@ -297,6 +299,7 @@ public abstract class McamView<T extends McamPage> extends ViewPart implements
 	public void partClosed(IWorkbenchPartReference partRef) {
 		// System.out.println(this.getClass().getSimpleName() + "Part closed: "
 		// + partRef.getTitle());
+		
 		refreshActivePages();
 		if (partRef instanceof EditorReference) {
 			closePage(((EditorReference) partRef).getEditor(true));
@@ -313,10 +316,12 @@ public abstract class McamView<T extends McamPage> extends ViewPart implements
 	public void partOpened(IWorkbenchPartReference partRef) {
 		// System.out.println(this.getClass().getSimpleName() + "Part opened: "
 		// + partRef.getTitle());
-		refreshActivePages();
-		if (partRef instanceof EditorReference) {
-			createPageByEditor(((EditorReference) partRef).getEditor(true));
-		}
+		
+		Display.getCurrent().asyncExec(() -> {
+			if (partRef instanceof EditorReference) {
+				createPageByEditor(((EditorReference) partRef).getEditor(true));
+			}
+		});
 	}
 
 	@Override
@@ -329,10 +334,12 @@ public abstract class McamView<T extends McamPage> extends ViewPart implements
 	public void partVisible(IWorkbenchPartReference partRef) {
 		// System.out.println(this.getClass().getSimpleName() + "Part visible: "
 		// + partRef.getTitle());
-		refreshActivePages();
-		if (partRef instanceof EditorReference) {
-			loadPageByEditor(((EditorReference) partRef).getEditor(true));
-		}
+		
+		Display.getCurrent().asyncExec(() -> {
+			if (partRef instanceof EditorReference) {
+				createPageByEditor(((EditorReference) partRef).getEditor(true));
+			}
+		});
 	}
 
 	@Override
@@ -343,9 +350,15 @@ public abstract class McamView<T extends McamPage> extends ViewPart implements
 
 	protected void refreshActivePages() {
 		pageCountMap = new HashMap<String, Integer>();
-		for (IEditorReference editorRef : PlatformUI.getWorkbench()
-				.getActiveWorkbenchWindow().getActivePage()
-				.getEditorReferences()) {
+		IEditorReference[] editorRefs = null;
+		try {
+			editorRefs = PlatformUI.getWorkbench().getActiveWorkbenchWindow()
+							.getActivePage().getEditorReferences();
+		} catch(NullPointerException e) { 
+			return;
+		}
+		
+		if (editorRefs != null) for (IEditorReference editorRef : editorRefs) {
 			
 			IEditorPart editor = ((EditorReference) editorRef).getEditor(true);
 			String pageId = getPageId(EclipseUtils.getIFile(editor));
