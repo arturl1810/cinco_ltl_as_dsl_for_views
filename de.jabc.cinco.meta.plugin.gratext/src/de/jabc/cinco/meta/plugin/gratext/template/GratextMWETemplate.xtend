@@ -1,14 +1,12 @@
 package de.jabc.cinco.meta.plugin.gratext.template
 
+import de.jabc.cinco.meta.plugin.gratext.GratextGenerator
 import org.eclipse.core.resources.IFile
-import org.eclipse.emf.codegen.ecore.genmodel.GenPackage
-import de.jabc.cinco.meta.plugin.gratext.GratextProjectGenerator
-import org.eclipse.emf.common.util.URI
 
 class GratextMWETemplate extends AbstractGratextTemplate {
 	
 def context() {
-	super.ctx as GratextProjectGenerator
+	super.ctx as GratextGenerator
 }
 	
 def xtextFile() { fileFromTemplate(GratextGrammarTemplate) }

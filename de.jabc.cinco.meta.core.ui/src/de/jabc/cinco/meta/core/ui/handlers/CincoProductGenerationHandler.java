@@ -94,21 +94,21 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 			return null;
 		
 		job("Generating Cinco Product.")
-		  .consume(10)
+		  .consume(5)
 			.task("Disabling auto-build...", this::disableAutoBuild)
 		  	.task("Initializing...", this::init)
-		    .task("Deleting generated resources...", this::deleteGeneratedResources)
+		    .task("Deleting previously generated resources...", this::deleteGeneratedResources)
 		    .task("Collecting MGLs...", this::mglTopSort)
 		    .task("Resetting registries...", this::resetRegistries)
 		  
 		  .consume(30)
 			.taskForEach(() -> mgls.stream(), this::generateProductPart,
-					t -> String.format("Generating %s.",t.getFullPath().lastSegment()))
+					t -> String.format("Generating %s",t.getFullPath().lastSegment()))
 		  
 		  .consume(20)
 			.task("Building workspace...", this::buildWorkspace)
 		  		
-//		  .consumeConcurrent(30)
+//		  .consumeConcurrent(45)
 //		    .taskForEach(mgls, this::buildGratext)
 		  
 		  .onFailed(() -> displayErrorDialog(event, reason))
@@ -425,6 +425,23 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 	
 	private void resetAutoBuild() {
 		try {
+			System.out.println("###");
+			System.out.println("###");
+			System.out.println("###");
+			System.out.println("###");
+			System.out.println("###");
+			System.out.println("###");
+			System.out.println("###");
+			System.out.println("###");
+			System.out.println("[CincoGen] reset auto build to " + autoBuild);
+			System.out.println("###");
+			System.out.println("###");
+			System.out.println("###");
+			System.out.println("###");
+			System.out.println("###");
+			System.out.println("###");
+			System.out.println("###");
+			System.out.println("###");
 			setAutoBuild(autoBuild);
 		} catch (Exception e) {
 			if (!autoBuild != isAutoBuild()) {

@@ -12,11 +12,11 @@ import de.jabc.cinco.meta.plugin.gratext.descriptor.ProjectDescriptor;
 
 public class EmptyProjectGenerator extends ProjectGenerator {
 
-	private String projectName;
-	
-	EmptyProjectGenerator(String projectName) {
-		this.projectName = projectName;
-	}
+//	private String projectName;
+//	
+//	EmptyProjectGenerator(String projectName) {
+//		this.projectName = projectName;
+//	}
 
 	@Override
 	protected void init(Map<String, Object> context) {
@@ -34,11 +34,6 @@ public class EmptyProjectGenerator extends ProjectGenerator {
 	protected List<String> getNatures() {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	@Override
-	protected String getSymbolicName() {
-		return projectName;
 	}
 
 	@Override
@@ -83,17 +78,17 @@ public class EmptyProjectGenerator extends ProjectGenerator {
 		return null;
 	}
 
-	@Override
-	public GraphModelDescriptor getModelDescriptor() {
-		return null;
-	}
+//	@Override
+//	public GraphModelDescriptor getModelDescriptor() {
+//		return null;
+//	}
 
-	@Override
-	public ProjectDescriptor getProjectDescriptor() {
-		Descriptor<IProject> desc = new ProjectDescriptor(project)
-			.setBasePackage(projectName);
-		return (ProjectDescriptor) desc;
-	}
+//	@Override
+//	public ProjectDescriptor getProjectDescriptor() {
+//		Descriptor<IProject> desc = super.getProjectDescriptor()
+//			.setBasePackage(projectName);
+//		return (ProjectDescriptor) desc;
+//	}
 
 	@Override
 	public String getProjectAcronym() {

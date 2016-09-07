@@ -41,7 +41,6 @@ import org.eclipse.ui.part.ViewPart;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
 
-import de.jabc.cinco.meta.core.utils.job.JobFactory;
 import de.jabc.cinco.meta.plugin.mcam.runtime.views.pages.McamPage;
 import de.jabc.cinco.meta.plugin.mcam.runtime.views.utils.EclipseUtils;
 

@@ -14,53 +14,37 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.jobs.Job;
 
 import de.jabc.cinco.meta.core.ui.listener.MGLSelectionListener;
 import de.jabc.cinco.meta.core.utils.WorkspaceUtil;
-import de.jabc.cinco.meta.plugin.gratext.build.GratextBuild;
+import de.jabc.cinco.meta.plugin.gratext.build.GratextModelBuild;
 
 public class GratextGenerationHandler extends AbstractHandler {
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		
-		System.err.println("###");
-		System.err.println("###");
-		System.err.println("###");
-		System.err.println("###");
-		System.err.println("###");
-		System.err.println("###");
-		System.err.println("###");
-		System.err.println("### Generate Gratext: ");
-		
 		IFile mglFile = MGLSelectionListener.INSTANCE.getCurrentMGLFile();
-		
 		if (mglFile == null) 
 			return null;
 		
 		GraphModel model = WorkspaceUtil.resp(mglFile).getResourceContent(GraphModel.class, 0);
-
-		System.err.println("### Model: " + model.getName());
-		System.err.println("###");
-		System.err.println("###");
-		System.err.println("###");
-		System.err.println("###");
-		System.err.println("###");
-		System.err.println("###");
-		System.err.println("###");
-		
 		Map<String, Object> ctx = new HashMap<>();
 		ctx.put("graphModel", model);
 		
-		IProject project = new GratextProjectGenerator().execute(ctx);
+		GratextGenerator gratextGen = new GratextGenerator(model);
+		IProject gratextProject = gratextGen.execute(ctx);
 		
-//		spawnJob(project);
+		GratextUiProjectGenerator gratextUiGen = new GratextUiProjectGenerator();
+		gratextUiGen.execute(ctx);
+		
+		execute(new GratextModelBuild(gratextProject));
 		
 		return null;
 	}
 	
-	private void spawnJob(IProject project) {
-		GratextBuild job = new GratextBuild(project);
+	private void execute(Job job) {
 		job.schedule();
 		try {
 			job.join();

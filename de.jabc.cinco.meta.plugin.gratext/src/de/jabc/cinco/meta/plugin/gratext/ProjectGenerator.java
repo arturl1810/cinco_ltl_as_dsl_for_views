@@ -74,7 +74,8 @@ public abstract class ProjectGenerator {
 	public GraphModelDescriptor getModelDescriptor() {
 		if (model == null) 
 			model = (GraphModel) getContext().get("graphModel");
-			
+		System.out.println("[ProjGen] model: " + model);
+		
 		if (modelDesc == null)
 			modelDesc = ModelDescriptorRegistry.INSTANCE.get(model);
 		
@@ -83,7 +84,15 @@ public abstract class ProjectGenerator {
 			modelDesc.setBasePackage(model.getPackage());
 			ModelDescriptorRegistry.INSTANCE.add(modelDesc);
 		}
+		
+		System.out.println("[ProjGen] modelDesc: " + modelDesc);
+		
 		return modelDesc;
+	}
+	
+	public IProject getModelProject() {
+		return ResourcesPlugin.getWorkspace().getRoot().findMember(
+				new Path(model.eResource().getURI().toPlatformString(true))).getProject();
 	}
 	
 	public String getModelProjectSymbolicName() {
@@ -99,11 +108,16 @@ public abstract class ProjectGenerator {
 	public abstract String getProjectSuffix();
 	
 	public ProjectDescriptor getProjectDescriptor() {
-		String basePkg = getModelDescriptor().getBasePackage() + "." + getProjectAcronym();
+		String basePkg = getModelDescriptor().getBasePackage();
+		if (getProjectAcronym() != null && !getProjectAcronym().trim().isEmpty())
+			basePkg += "." + getProjectAcronym();
 		if (projectDesc == null || (projectDesc.instance() == null && project != null)) {
+			String targetName = getModelDescriptor().getName();
+			if (getProjectSuffix() != null && !getProjectSuffix().trim().isEmpty()) 
+				targetName += getProjectSuffix();
 			projectDesc = new ProjectDescriptor(project)
 				.setSymbolicName(basePkg)
-				.setTargetName(getModelDescriptor().getName() + getProjectSuffix());
+				.setTargetName(targetName);
 			projectDesc.setBasePackage(basePkg)
 				.setAcronym(getProjectAcronym());
 		}
@@ -185,8 +199,6 @@ public abstract class ProjectGenerator {
 
 	protected abstract List<String> getNatures();
 	
-	protected abstract String getSymbolicName();
-	
 	protected abstract List<String> getBuildPropertiesBinIncludes();
 	
 	protected abstract List<String> getExportedPackages();
@@ -203,6 +215,9 @@ public abstract class ProjectGenerator {
 	
 	protected abstract List<String> getSourceFolders();
 	
+	protected String getSymbolicName() {
+		return getProjectDescriptor().getSymbolicName();
+	}
 	
 	protected IProgressMonitor getProgressMonitor() {
 		if (monitor == null)
@@ -226,8 +241,12 @@ public abstract class ProjectGenerator {
 		}
 	}
 	
-	protected List<String> list(String... strs) {
-		return Arrays.asList(strs);
+	protected <T extends Object> List<T> list(T... objs) {
+		return Arrays.asList(objs);
+	}
+	
+	protected <T extends Object> Set<T> set(T... objs) {
+		return new HashSet<>(list(objs));
 	}
 	
 	protected List<IFile> getWorkspaceFiles(String extension) {
