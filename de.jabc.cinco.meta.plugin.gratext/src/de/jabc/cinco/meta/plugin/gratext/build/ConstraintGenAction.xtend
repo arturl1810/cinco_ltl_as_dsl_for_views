@@ -1,6 +1,12 @@
 package de.jabc.cinco.meta.plugin.gratext.build
 
+import static de.jabc.cinco.meta.core.utils.WorkspaceUtil.resp
+import static de.jabc.cinco.meta.core.utils.job.JobFactory.job
+import static extension de.jabc.cinco.meta.core.utils.WorkspaceUtil.createResource
+import static extension java.util.stream.StreamSupport.stream
+
 import java.util.stream.Stream
+
 import org.eclipse.core.resources.IFile
 import org.eclipse.core.resources.IFolder
 import org.eclipse.core.resources.IProject
@@ -12,11 +18,6 @@ import org.eclipse.jface.viewers.ISelection
 import org.eclipse.jface.viewers.IStructuredSelection
 import org.eclipse.ui.IActionDelegate
 
-import static de.jabc.cinco.meta.core.utils.WorkspaceUtil.resp
-import static de.jabc.cinco.meta.core.utils.job.JobFactory.job
-
-import static extension de.jabc.cinco.meta.core.utils.WorkspaceUtil.createResource
-import static extension java.util.stream.StreamSupport.stream
 import de.jabc.cinco.meta.plugin.gratext.descriptor.GraphModelDescriptor
 import mgl.GraphModel
 import mgl.Node

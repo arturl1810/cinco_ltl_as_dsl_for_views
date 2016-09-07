@@ -100,6 +100,21 @@ public abstract class GratextMwe2Job extends ReiteratingThread {
     }
     
     @Override
+    protected void afterwork() {
+    	ILaunchManager manager = DebugPlugin.getDefault().getLaunchManager();
+		ILaunchConfigurationType type = manager.getLaunchConfigurationType("org.eclipse.emf.mwe2.launch.Mwe2LaunchConfigurationType");
+		try {
+			Arrays.stream(manager.getLaunchConfigurations(type))
+				.filter(cfg -> cfg.getName().equals(mwe2File.getName()))
+				.forEach(cfg -> { try { 
+					cfg.delete();
+				} catch(CoreException e) { e.printStackTrace(); }});
+		} catch (CoreException e) {
+			e.printStackTrace();
+		}
+    }
+    
+    @Override
     protected void cleanup() {
     	ILaunchManager manager = DebugPlugin.getDefault().getLaunchManager();
     	manager.removeLaunchListener(launchListener);

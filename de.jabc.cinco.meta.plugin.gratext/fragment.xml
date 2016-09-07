@@ -15,39 +15,27 @@
    <extension
          point="org.eclipse.ui.popupMenus">
       <objectContribution
-            id="de.jabc.cinco.meta.plugin.gratext.menu.gratextbuild.project"
-            objectClass="org.eclipse.core.resources.IProject"
-            adaptable="true"
-            nameFilter="*gratext">
-         <action
-               id="de.jabc.cinco.meta.plugin.gratext.build.buildGratext"
-               class="de.jabc.cinco.meta.plugin.gratext.build.GratextBuildAction"
-               icon="platform:/plugin/de.jabc.cinco.meta.plugin.gratext/gt_icon_16.png"
-               label="Build Gratext">
-         </action>
-      </objectContribution>
-      <objectContribution
             id="de.jabc.cinco.meta.plugin.gratext.menu.gratextbuild.cpd"
             objectClass="org.eclipse.core.resources.IFile"
             adaptable="true"
             nameFilter="*.cpd">
+         <menu id="cincodebug.main"
+               path="additions"
+               label="Cinco Debug Tools">
+         </menu>
          <action 
                id="de.jabc.cinco.meta.plugin.gratext.build.buildGratext"
                class="de.jabc.cinco.meta.plugin.gratext.build.GratextBuildAction"
                icon="platform:/plugin/de.jabc.cinco.meta.plugin.gratext/gt_icon_16.png"
-               label="Build Gratext">
+               label="Build Gratext"
+               menubarPath="cincodebug.main/group1">
          </action>
-      </objectContribution>
-      <objectContribution
-            id="de.jabc.cinco.meta.plugin.gratext.menu.constraintgen"
-            objectClass="org.eclipse.core.resources.IFile"
-            adaptable="true"
-            nameFilter="*.cpd">
          <action 
                id="de.jabc.cinco.meta.plugin.gratext.build.genConstraints"
                class="de.jabc.cinco.meta.plugin.gratext.build.ConstraintGenAction"
                icon="platform:/plugin/de.jabc.cinco.meta.plugin.gratext/cv_icon_16.png"
-               label="Build ConView">
+               label="Generate ConView"
+               menubarPath="cincodebug.main/group1">
          </action>
       </objectContribution>
    </extension>

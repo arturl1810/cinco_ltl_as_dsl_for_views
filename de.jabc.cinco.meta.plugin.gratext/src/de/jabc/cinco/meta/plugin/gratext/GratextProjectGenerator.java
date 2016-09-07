@@ -411,6 +411,11 @@ public class GratextProjectGenerator extends ProjectGenerator {
 	}
 	
 	@Override
+	protected List<String> getDirectoriesToBeCleaned() {
+		return null; // means delete project if existent
+	}
+	
+	@Override
 	protected List<String> getSourceFolders() {
 		return list(
 			"src",

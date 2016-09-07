@@ -1,10 +1,8 @@
 package de.jabc.cinco.meta.core.ui.handlers;
 
-import static de.jabc.cinco.meta.core.utils.job.JobFactory.job;
 import static de.jabc.cinco.meta.core.utils.WorkspaceUtil.resp;
+import static de.jabc.cinco.meta.core.utils.job.JobFactory.job;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -17,7 +15,6 @@ import mgl.Import;
 import mgl.MglPackage;
 
 import org.eclipse.core.commands.AbstractHandler;
-import org.eclipse.core.commands.Command;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.NotEnabledException;
@@ -52,11 +49,8 @@ import de.jabc.cinco.meta.core.mgl.MGLEPackageRegistry;
 import de.jabc.cinco.meta.core.ui.listener.MGLSelectionListener;
 import de.jabc.cinco.meta.core.utils.CincoUtils;
 import de.jabc.cinco.meta.core.utils.GeneratorHelper;
-import de.jabc.cinco.meta.core.utils.WorkspaceUtil;
 import de.jabc.cinco.meta.core.utils.dependency.DependencyGraph;
 import de.jabc.cinco.meta.core.utils.dependency.DependencyNode;
-import de.jabc.cinco.meta.core.utils.job.JobFactory;
-import de.jabc.cinco.meta.core.utils.job.Workload;
 import de.jabc.cinco.meta.core.utils.projects.ProjectCreator;
 
 
@@ -93,26 +87,30 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 		if (!(selection.getFirstElement() instanceof IFile))
 			return null;
 		
-		job("Generating Cinco Product.")
-		  .consume(5)
+		job("Generate Cinco Product")
+		  .consume(5, "Initializing...")
 			.task("Disabling auto-build...", this::disableAutoBuild)
 		  	.task("Initializing...", this::init)
 		    .task("Deleting previously generated resources...", this::deleteGeneratedResources)
 		    .task("Collecting MGLs...", this::mglTopSort)
 		    .task("Resetting registries...", this::resetRegistries)
 		  
-		  .consume(30)
+		  .consume(30, "Generating model code...")
 			.taskForEach(() -> mgls.stream(), this::generateProductPart,
-					t -> String.format("Generating %s",t.getFullPath().lastSegment()))
+					t -> String.format("Processing %s", t.getFullPath().lastSegment()))
 		  
-		  .consume(20)
-			.task("Building workspace...", this::buildWorkspace)
-		  		
-//		  .consumeConcurrent(45)
-//		    .taskForEach(mgls, this::buildGratext)
+//		  .consume(20)
+//			.task("Building workspace...", this::buildWorkspace)
+			
+		  .consumeConcurrent(45, "Building Gratext...")
+		    .taskForEach(() -> mgls.stream(), this::buildGratext,
+					t -> t.getFullPath().lastSegment())
 		  
-		  .onFailed(() -> displayErrorDialog(event, reason))
 		  .onDone(this::resetAutoBuild)
+		  .onFailed(() -> {
+			  resetAutoBuild();
+			  displayErrorDialog(event, reason);
+		  })
 		  .onFinished(() -> displaySuccessDialog(event, startTime))
 		.schedule();
 	

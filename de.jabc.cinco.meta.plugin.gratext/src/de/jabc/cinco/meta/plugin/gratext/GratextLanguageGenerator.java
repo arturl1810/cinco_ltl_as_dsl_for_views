@@ -11,11 +11,9 @@ import java.util.Set;
 import mgl.GraphModel;
 import mgl.Import;
 
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.common.util.URI;
@@ -24,6 +22,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 
 import de.jabc.cinco.meta.core.utils.projects.ProjectCreator;
+import de.jabc.cinco.meta.plugin.gratext.descriptor.FileDescriptor;
 import de.jabc.cinco.meta.plugin.gratext.descriptor.GraphModelDescriptor;
 import de.jabc.cinco.meta.plugin.gratext.template.BackupGeneratorTemplate;
 import de.jabc.cinco.meta.plugin.gratext.template.DiagramTemplate;
@@ -38,13 +37,13 @@ import de.jabc.cinco.meta.plugin.gratext.template.ModelGeneratorTemplate;
 import de.jabc.cinco.meta.plugin.gratext.template.RuntimeModuleTemplate;
 import de.jabc.cinco.meta.plugin.gratext.template.ScopeProviderTemplate;
 
-public class GratextGenerator extends ProjectGenerator {
+public class GratextLanguageGenerator extends ProjectGenerator {
 	
 	private Map<String,String> genModelURIs = new HashMap<>();
 	private Map<String, String> genPackages = new HashMap<>();
 	private Set<String> referenced = new HashSet<>();
 	
-	public GratextGenerator(GraphModel model) {
+	public GratextLanguageGenerator(GraphModel model) {
 		this.model = model;
 	}
 	
@@ -71,14 +70,27 @@ public class GratextGenerator extends ProjectGenerator {
 				
 				String genModelUri = "platform:/resource/" + getModelProjectSymbolicName() + "/src-gen/model/" + gm.getName() + ".genmodel";
 				genModelURIs.put(gm.getNsURI(), genModelUri);
+				
+//				genModels.put(gm.getNsURI(), uri);
+				
+				
 			}
 			if (i.getImportURI().endsWith(".ecore")) {
 				GenModel gm = getImportedGenmodel(i);
+				
+//				gm.getUsedGenPackages().forEach(genPkg -> {
+//					System.out.println("[GratextGen]      > usedGenPkg: " + genPkg);
+//					System.out.println("[GratextGen]      > usedGenPkg.nsUri: " + genPkg.getNSURI());
+//				});
 				gm.getGenPackages().forEach(genPkg -> {
 					String genPackage = genPkg.getBasePackage() + "." + genPkg.getEcorePackage().getName() + "." + genPkg.getPrefix() + "Package";
+					System.out.println("[GratextGen]    > genPkg: " + genPackage);
 					genPackages.put(genPkg.getNSURI(), genPackage);
 					
+					System.out.println("[GratextGen]    > genPkg.nsUri: " + genPkg.getNSURI());
+					
 					String genModelUri = gm.eResource().getURI().toString();
+					System.out.println("[GratextGen]    > genPkg.genModel: " + genModelUri);
 					genModelURIs.put(genPkg.getNSURI(), genModelUri);
 				});
 			}
@@ -91,93 +103,59 @@ public class GratextGenerator extends ProjectGenerator {
 		String targetName = getProjectDescriptor().getTargetName();
 		String modelName = getModelDescriptor().getName();
 		
-		inSrcFolder("model")
-			.inPackage(basePkg)
-			.createFile(targetName + ".ecore")
-			.withContent(GratextEcoreTemplate.class);
+//		inSrcFolder("model")
+//			.inPackage(basePkg)
+//			.createFile(targetName + ".ecore")
+//			.withContent(GratextEcoreTemplate.class);
 		
-		inSrcFolder("model")
-			.inPackage(basePkg)
-			.createFile(targetName + ".genmodel")
-			.withContent(GratextGenmodelTemplate.class);
+//		fileDescriptors.put(GratextEcoreTemplate.class,
+//				new FileDescriptor(null)
+//					.setName(targetName + ".ecore")
+//					.setSourceFolder("model")
+//					.setPackage(basePkg)
+//					.setContent(""));
+		
+//		inSrcFolder("model")
+//			.inPackage(basePkg)
+//			.createFile(targetName + ".genmodel")
+//			.withContent(GratextGenmodelTemplate.class);
+		
+		fileDescriptors.put(GratextGenmodelTemplate.class,
+				new FileDescriptor(null)
+					.setName(targetName + ".genmodel")
+					.setSourceFolder("model")
+					.setPackage(basePkg)
+					.setContent(""));
 			
-//		inSrcFolder("src")
-//			.inPackage(basePkg)
-//			.createFile(targetName + ".xtext")
-//			.withContent(GratextGrammarTemplate.class);
-				
-//		inSrcFolder("src")
-//			.inPackage(basePkg)
-//			.createFile(targetName + ".mwe2")
-//			.withContent(GratextMWETemplate.class);
-				
 		inSrcFolder("src")
-			.inPackage(basePkg + ".generator")
-			.createFile("GratextGenerator.xtend")
-			.withContent(GratextGeneratorTemplate.class);
-		
-		inSrcFolder("src")
-			.inPackage(basePkg + ".generator")
-			.createFile(modelName + "BackupGenerator.xtend")
-			.withContent(BackupGeneratorTemplate.class);
-		
-		inSrcFolder("src")
-			.inPackage(basePkg + ".generator")
-			.createFile(modelName + "ModelGenerator.xtend")
-			.withContent(ModelGeneratorTemplate.class);
-		
-//		inSrcFolder("src")
-//			.inPackage(basePkg + ".scoping")
-//			.createFile(targetName + "QualifiedNameProvider.java")
-//			.withContent(GratextQualifiedNameProviderTemplate.class);
-
-//		inSrcFolder("src")
-//			.inPackage(basePkg + ".scoping")
-//			.createFile(targetName + "ScopeProvider.xtend")
-//			.withContent(ScopeProviderTemplate.class);
-		
-//		inSrcFolder("src")
-//			.inPackage(basePkg)
-//			.createFile(targetName + "RuntimeModule.java")
-//			.withContent(RuntimeModuleTemplate.class);
-
-		inSrcFolder("src")
-			.inPackage(basePkg)
-			.createFile(targetName + "Resource.xtend")
-			.withContent(GratextResourceTemplate.class);
-
-		inSrcFolder("src")
-			.inPackage(basePkg)
-			.createFile(modelName + "Diagram.xtend")
-			.withContent(DiagramTemplate.class);
-	}
-	
-	public void proceed() {
-
-		String basePkg = getProjectDescriptor().getBasePackage();
-		String targetName = getProjectDescriptor().getTargetName();
-		
-		IFile file = inSrcFolder("bin")
 			.inPackage(basePkg)
 			.createFile(targetName + ".xtext")
 			.withContent(GratextGrammarTemplate.class);
 		
-		try {
-			file.setDerived(true, null);
-		} catch (CoreException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		inSrcFolder("src")
+		inSrcFolder("bin")
 			.inPackage(basePkg)
 			.createFile(targetName + ".xtext")
 			.withContent(GratextGrammarTemplate.class);
-			
+				
 		inSrcFolder("src")
 			.inPackage(basePkg)
 			.createFile(targetName + ".mwe2")
 			.withContent(GratextMWETemplate.class);
+				
+//		inSrcFolder("src")
+//			.inPackage(basePkg + ".generator")
+//			.createFile("GratextGenerator.xtend")
+//			.withContent(GratextGeneratorTemplate.class);
+		
+//		inSrcFolder("src")
+//			.inPackage(basePkg + ".generator")
+//			.createFile(modelName + "BackupGenerator.xtend")
+//			.withContent(BackupGeneratorTemplate.class);
+		
+//		inSrcFolder("src")
+//			.inPackage(basePkg + ".generator")
+//			.createFile(modelName + "ModelGenerator.xtend")
+//			.withContent(ModelGeneratorTemplate.class);
 		
 		inSrcFolder("src")
 			.inPackage(basePkg + ".scoping")
@@ -193,6 +171,16 @@ public class GratextGenerator extends ProjectGenerator {
 			.inPackage(basePkg)
 			.createFile(targetName + "RuntimeModule.java")
 			.withContent(RuntimeModuleTemplate.class);
+
+//		inSrcFolder("src")
+//			.inPackage(basePkg)
+//			.createFile(targetName + "Resource.xtend")
+//			.withContent(GratextResourceTemplate.class);
+
+//		inSrcFolder("src")
+//			.inPackage(basePkg)
+//			.createFile(modelName + "Diagram.xtend")
+//			.withContent(DiagramTemplate.class);
 	}
 
 	@Override
@@ -213,7 +201,7 @@ public class GratextGenerator extends ProjectGenerator {
 	
 	@Override
 	protected List<String> getDirectoriesToBeCleaned() {
-		return null; // means delete project if existent
+		return list(); // means do not delete project if existent
 	}
 
 	@Override

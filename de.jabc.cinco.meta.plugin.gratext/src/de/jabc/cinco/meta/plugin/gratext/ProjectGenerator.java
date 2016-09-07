@@ -48,7 +48,7 @@ public abstract class ProjectGenerator {
 	private ProjectDescriptor projectDesc;
 	
 	private IProgressMonitor monitor;
-	private HashMap<Object,FileDescriptor> fileDescriptors = new HashMap<>();
+	protected HashMap<Object,FileDescriptor> fileDescriptors = new HashMap<>();
 	
 	public ProjectGenerator() {}
 	
@@ -65,6 +65,7 @@ public abstract class ProjectGenerator {
 				nullsave(getExportedPackages()),
 				nullempty(getNatures()),
 				getProgressMonitor(),
+				getDirectoriesToBeCleaned(),
 				false);
 		extendManifest();
 		refresh(project);
@@ -74,7 +75,6 @@ public abstract class ProjectGenerator {
 	public GraphModelDescriptor getModelDescriptor() {
 		if (model == null) 
 			model = (GraphModel) getContext().get("graphModel");
-		System.out.println("[ProjGen] model: " + model);
 		
 		if (modelDesc == null)
 			modelDesc = ModelDescriptorRegistry.INSTANCE.get(model);
@@ -84,8 +84,6 @@ public abstract class ProjectGenerator {
 			modelDesc.setBasePackage(model.getPackage());
 			ModelDescriptorRegistry.INSTANCE.add(modelDesc);
 		}
-		
-		System.out.println("[ProjGen] modelDesc: " + modelDesc);
 		
 		return modelDesc;
 	}
@@ -196,6 +194,8 @@ public abstract class ProjectGenerator {
 	protected abstract void init(Map<String,Object> context);
 	
 	protected abstract void createFiles();
+	
+	protected abstract List<String> getDirectoriesToBeCleaned();
 
 	protected abstract List<String> getNatures();
 	

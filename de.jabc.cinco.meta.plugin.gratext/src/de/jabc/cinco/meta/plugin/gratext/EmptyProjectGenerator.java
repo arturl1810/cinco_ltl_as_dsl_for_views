@@ -41,6 +41,11 @@ public class EmptyProjectGenerator extends ProjectGenerator {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	@Override
+	protected List<String> getDirectoriesToBeCleaned() {
+		return null; // means delete project if existent
+	}
 
 	@Override
 	protected List<String> getExportedPackages() {
