@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>515e192a-491c-479e-8a33-09039d8d3703</id>
   <name>GeneratePerspectiveView</name>
-  <changecounter>105</changecounter>
+  <changecounter>110</changecounter>
   <sib>
     <id>78f83feb-ac3e-4b72-9248-b8a7e326ab10</id>
     <name>PutExpression</name>
@@ -232,6 +232,19 @@ public class $context.graphModelName$PerspectiveFactory implements IPerspectiveF
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
+  <cell>
+    <form>HTML</form>
+    <bounds>
+      <x>317.0</x>
+      <y>152.0</y>
+      <width>1376.0</width>
+      <height>86.0</height>
+    </bounds>
+    <value>&lt;html&gt;
+&lt;p&gt;&lt;strong&gt;&lt;font size=&quot;20&quot; color=&quot;red&quot;&gt;This SLG is not called during generation.&lt;br&gt;
+See: &quot;de.jabc.cinco.meta.core.ui.templates&quot; package in cinco-meta.&lt;/font&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;/html&gt;</value>
+  </cell>
   <values/>
   <branch>
     <name>error</name>
