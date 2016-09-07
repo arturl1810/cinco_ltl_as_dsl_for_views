@@ -17,14 +17,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import mgl.GraphModel;
+
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.Path;
 
 import de.jabc.cinco.meta.core.BundleRegistry;
 import de.jabc.cinco.meta.core.utils.BuildProperties;
@@ -32,11 +36,17 @@ import de.jabc.cinco.meta.core.utils.projects.ProjectCreator;
 import de.jabc.cinco.meta.plugin.gratext.descriptor.FileDescriptor;
 import de.jabc.cinco.meta.plugin.gratext.descriptor.GraphModelDescriptor;
 import de.jabc.cinco.meta.plugin.gratext.descriptor.ProjectDescriptor;
+import de.jabc.cinco.meta.plugin.gratext.util.ModelDescriptorRegistry;
 
 public abstract class ProjectGenerator {
 
 	protected Map<String, Object> ctx;
+	
+	protected GraphModel model;
+	private GraphModelDescriptor modelDesc;
 	protected IProject project;
+	private ProjectDescriptor projectDesc;
+	
 	private IProgressMonitor monitor;
 	private HashMap<Object,FileDescriptor> fileDescriptors = new HashMap<>();
 	
@@ -61,9 +71,44 @@ public abstract class ProjectGenerator {
 		return project;
 	}
 	
-	public abstract GraphModelDescriptor getModelDescriptor();
+	public GraphModelDescriptor getModelDescriptor() {
+		if (model == null) 
+			model = (GraphModel) getContext().get("graphModel");
+			
+		if (modelDesc == null)
+			modelDesc = ModelDescriptorRegistry.INSTANCE.get(model);
+		
+		if (modelDesc == null) {
+			modelDesc = new GraphModelDescriptor(model);
+			modelDesc.setBasePackage(model.getPackage());
+			ModelDescriptorRegistry.INSTANCE.add(modelDesc);
+		}
+		return modelDesc;
+	}
 	
-	public abstract ProjectDescriptor getProjectDescriptor();
+	public String getModelProjectSymbolicName() {
+		IResource res = ResourcesPlugin.getWorkspace().getRoot().findMember(
+				new Path(model.eResource().getURI().toPlatformString(true)));
+		return (res != null)
+				? ProjectCreator.getProjectSymbolicName(res.getProject())
+				: model.getPackage();
+	}
+	
+	public abstract String getProjectAcronym();
+
+	public abstract String getProjectSuffix();
+	
+	public ProjectDescriptor getProjectDescriptor() {
+		String basePkg = getModelDescriptor().getBasePackage() + "." + getProjectAcronym();
+		if (projectDesc == null || (projectDesc.instance() == null && project != null)) {
+			projectDesc = new ProjectDescriptor(project)
+				.setSymbolicName(basePkg)
+				.setTargetName(getModelDescriptor().getName() + getProjectSuffix());
+			projectDesc.setBasePackage(basePkg)
+				.setAcronym(getProjectAcronym());
+		}
+		return projectDesc;
+	}
 	
 	protected <T> List<T> nullempty(List<T> list) {
 		return (list == null) ? list : (!list.isEmpty()) ? list : null;

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <fragment>
-   <extension
+   <!--extension
          id="id1"
          name="name"
          point="de.jabc.cinco.meta.core.pluginregistry.metaplugin">
@@ -11,7 +11,7 @@
       <graphmodel-annotation
             recognized-annotation="gratext">
       </graphmodel-annotation>
-   </extension>
+   </extension-->
    <extension
          point="org.eclipse.ui.popupMenus">
       <objectContribution
@@ -50,5 +50,23 @@
                label="Build ConView">
          </action>
       </objectContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            defaultHandler="de.jabc.cinco.meta.plugin.gratext.GratextGenerationHandler"
+            description="Generates Gratext project and model code"
+            id="de.jabc.cinco.meta.plugin.gratext.generategratext"
+            name="Generate Gratext">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            defaultHandler="de.jabc.cinco.meta.plugin.gratext.GratextBuilder"
+            description="Generate Gratext language constructs and build gratext projects"
+            id="de.jabc.cinco.meta.plugin.gratext.buildgratext"
+            name="Generate Gratext">
+      </command>
    </extension>
 </fragment>

@@ -3,6 +3,7 @@ package de.jabc.cinco.meta.plugin.gratext.template
 import org.eclipse.core.resources.IFile
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage
 import de.jabc.cinco.meta.plugin.gratext.GratextProjectGenerator
+import org.eclipse.emf.common.util.URI
 
 class GratextMWETemplate extends AbstractGratextTemplate {
 	
@@ -14,9 +15,18 @@ def xtextFile() { fileFromTemplate(GratextGrammarTemplate) }
 
 def genmodelFile() { fileFromTemplate(GratextGenmodelTemplate) }	
 
-def genPackageRule(GenPackage pkg) {
+//def genPackageRule(GenPackage pkg) {
+////	try {
+//	'''registerGeneratedEPackage = "«pkg.basePackage».«pkg.getEcorePackage?.name».«pkg.prefix»Package"'''
+////	} catch(NullPointerException e) {
+////		e.printStackTrace
+////		''''''
+////	}
+//}
+
+def genPackageRule(String pkg) {
 //	try {
-	'''registerGeneratedEPackage = "«pkg.basePackage».«pkg.getEcorePackage?.name».«pkg.prefix»Package"'''
+	'''registerGeneratedEPackage = "«pkg»"'''
 //	} catch(NullPointerException e) {
 //		e.printStackTrace
 //		''''''
@@ -26,6 +36,15 @@ def genPackageRule(GenPackage pkg) {
 def genFileRule(IFile file) {
 //	try {
 	'''registerGenModelFile = "platform:/resource«file.fullPath»"'''
+//	} catch(NullPointerException e) {
+//		e.printStackTrace
+//		''''''
+//	}
+}
+
+def genURIRule(String uri) {
+//	try {
+	'''registerGenModelFile = "«uri»"'''
 //	} catch(NullPointerException e) {
 //		e.printStackTrace
 //		''''''
@@ -70,7 +89,8 @@ Workflow {
 «««		/* ################################################################################ */
 		
 		«context.genPackageReferences.map[context.getGenPackage(it)].filterNull.map[genPackageRule].join('\n')»
-		«context.genPackageReferences.map[context.getGenModelFile(it)].filterNull.map[genFileRule].join('\n')»
+«««		«context.genPackageReferences.map[context.getGenModelFile(it)].filterNull.map[genFileRule].join('\n')»
+		«context.genPackageReferences.map[context.getGenModelURI(it)].filterNull.map[genURIRule].join('\n')»
 	}
 
 	component = DirectoryCleaner {

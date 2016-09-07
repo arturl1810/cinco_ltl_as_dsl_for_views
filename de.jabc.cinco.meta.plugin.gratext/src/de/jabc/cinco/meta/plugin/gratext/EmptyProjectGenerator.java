@@ -95,4 +95,16 @@ public class EmptyProjectGenerator extends ProjectGenerator {
 		return (ProjectDescriptor) desc;
 	}
 
+	@Override
+	public String getProjectAcronym() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getProjectSuffix() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
