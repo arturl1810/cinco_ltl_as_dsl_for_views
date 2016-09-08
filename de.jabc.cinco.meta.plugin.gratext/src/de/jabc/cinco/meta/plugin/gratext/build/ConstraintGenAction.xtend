@@ -22,6 +22,9 @@ import de.jabc.cinco.meta.plugin.gratext.descriptor.GraphModelDescriptor
 import mgl.GraphModel
 import mgl.Node
 import mgl.NodeContainer
+import org.eclipse.swt.widgets.Display
+import org.eclipse.jface.dialogs.MessageDialog
+import org.eclipse.swt.SWT
 
 class ConstraintGenAction implements IActionDelegate {
 	
@@ -35,12 +38,64 @@ class ConstraintGenAction implements IActionDelegate {
 	IFolder modelGenFolder;
 	
 	override run(IAction action) {
-		job("Constraint View Builder")
-			.consume(5, "Initializing...")
-			.task([init])
-			.consume(95, "Generating...")
-			.taskForEach([modelFiles],[run],[name])
-			.schedule
+		
+		job("Test Builder")
+		  .cancelOnFail(false)
+		  .consume(25, "Consume.string")
+		    .task("Task 1 its name",[dummy])
+		    .task("Name of task 2",[dummy])
+//		    .task("throwExceptionTask1", [throwException])
+		    .task("Task 4 its name",[dummy])
+//		    .task("throwExceptionTask2", [throwException])
+		    .task("Task 6 its name",[dummy])
+		    .task("Task 7 its name",[dummy])
+		  
+		  .onFailed[show("onFailed message")]  
+		  .onFinished[show("onFinished message")]
+		   
+		  .schedule();
+		
+//		job("Constraint View Builder")
+//			.consume(5, "Initializing...")
+//			.task([init])
+//			.consume(95, "Generating...")
+//			.taskForEach([modelFiles],[run],[name])
+//			.schedule
+	}
+	
+	def show(String msg) {
+		val display = Display.getCurrent ?: Display.getDefault
+		display.syncExec[
+			MessageDialog.openInformation(display.getActiveShell, "Message title", msg)
+		]
+	}
+	
+	def dummy() {
+		try {
+			Thread.sleep(500)
+		} catch(InterruptedException e) {
+			
+		}
+		println("done")
+	}
+	
+	def throwException() {
+		try {
+			try {
+				try {
+					throw new RuntimeException("This is the exception message.");
+				} catch(Exception e) {
+					var message = "Something wrong on lvl 0."
+					throw new RuntimeException(message, e);
+				}
+			} catch(Exception e) {
+				var message = "Something wrong on lvl 1."
+				throw new RuntimeException(message, e);
+			}
+		} catch(Exception e) {
+			var message = "Something wrong on lvl 2."
+			throw new RuntimeException(message, e);
+		}
 	}
 	
 	def init() {

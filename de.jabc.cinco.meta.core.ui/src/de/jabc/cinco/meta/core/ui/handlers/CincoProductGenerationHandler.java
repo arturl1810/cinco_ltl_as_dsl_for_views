@@ -51,6 +51,7 @@ import de.jabc.cinco.meta.core.utils.CincoUtils;
 import de.jabc.cinco.meta.core.utils.GeneratorHelper;
 import de.jabc.cinco.meta.core.utils.dependency.DependencyGraph;
 import de.jabc.cinco.meta.core.utils.dependency.DependencyNode;
+import de.jabc.cinco.meta.core.utils.job.Workload;
 import de.jabc.cinco.meta.core.utils.projects.ProjectCreator;
 
 
@@ -64,8 +65,8 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 	/**
 	 * The constructor.
 	 */
-	public CincoProductGenerationHandler() {
-	}
+	public CincoProductGenerationHandler() {}
+	
 	ICommandService commandService;
 	private RuntimeException reason;
 	private List<IFile> mgls;
@@ -75,8 +76,8 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 	private boolean autoBuild;
 
 	/**
-	 * the command has been executed, so extract extract the needed information
-	 * from the application context.
+	 * the command has been executed, so extract the needed information
+	 * from the application context and run the build job.
 	 */
 	synchronized public Object execute(ExecutionEvent executionEvent) throws ExecutionException {
 		long startTime = System.nanoTime();
@@ -87,37 +88,36 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 		if (!(selection.getFirstElement() instanceof IFile))
 			return null;
 		
-		job("Generate Cinco Product")
-		  .consume(5, "Initializing...")
+		init(); // retrieve command service and cpd file
+		mglTopSort(); // collect and sort mgl files
+		
+		Workload job = job("Generate Cinco Product")
+		  .consume(10, "Initializing...")
 			.task("Disabling auto-build...", this::disableAutoBuild)
-		  	.task("Initializing...", this::init)
 		    .task("Deleting previously generated resources...", this::deleteGeneratedResources)
-		    .task("Collecting MGLs...", this::mglTopSort)
-		    .task("Resetting registries...", this::resetRegistries)
-		  
-		  .consume(30, "Generating model code...")
-			.taskForEach(() -> mgls.stream(), this::generateProductPart,
-					t -> String.format("Processing %s", t.getFullPath().lastSegment()))
-		  
-//		  .consume(20)
-//			.task("Building workspace...", this::buildWorkspace)
+		    .task("Resetting registries...", this::resetRegistries);
+		
+		for (IFile mgl : mgls) {
+			job.consume(50, String.format("Processing %s", mgl.getFullPath().lastSegment()))
+				.task("Initializing...", () -> publishMglFile(mgl))
+				.task("Generating Ecore/GenModel...", () -> generateEcoreModel(mgl))
+				.task("Generating model code...", () -> generateGenmodelCode(mgl))
+				.task("Generating Graphiti editor...", () -> generateGraphitiEditor(mgl))
+				.task("Generating API...", () -> generateApi(mgl))
+				.task("Generating Cinco SIBs...", () -> generateCincoSIBs(mgl))
+				.task("Generating product project...", () -> generateProductProject(mgl))
+				.task("Generating feature project...", () -> generateFeatureProject(mgl))
+				.task("Generating perspective...", () -> generatePerspective(mgl))
+				.task("Generating Gratext model...", () -> generateGratextModel(mgl));
+		}
 			
-		  .consumeConcurrent(45, "Building Gratext...")
+		job.consumeConcurrent(mgls.size() * 60, "Building Gratext...")
 		    .taskForEach(() -> mgls.stream(), this::buildGratext,
 					t -> t.getFullPath().lastSegment())
-		  
 		  .onDone(this::resetAutoBuild)
-		  .onFailed(() -> {
-			  resetAutoBuild();
-			  displayErrorDialog(event, reason);
-		  })
+		  .onCanceled(() -> displayCanceledDialog(event, startTime))
 		  .onFinished(() -> displaySuccessDialog(event, startTime))
 		.schedule();
-	
-//		}catch(Exception e1){
-//
-//			displayErrorDialog(event, e1);
-//		}
 		
 		return null;
 	}
@@ -131,18 +131,31 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 	private void resetRegistries() {
 		BundleRegistry.resetRegistry();
 		MGLEPackageRegistry.resetRegistry();
+		
+	}
+	
+	private void displayCanceledDialog(ExecutionEvent event, long startTime) {
+		displayMessageDialog("Cinco Product generation has been canceled");
 	}
 
 	private void displaySuccessDialog(ExecutionEvent event, long startTime) {
 		long stopTime = System.nanoTime();
 		System.err.println("Stopping at: "+stopTime);
 		System.err.println(String.format("Generation took %s of your earth minutes.",(stopTime-startTime)*Math.pow(10,-9)/60));
-		Display display = Display.getCurrent();
-		if(display==null)
-			display=Display.getDefault();
 		
-		display.syncExec(()->{MessageDialog.openInformation(HandlerUtil.getActiveShell(event), "Cinco Product Generation", "Cinco Product generation completed successfully");});
-		
+		displayMessageDialog("Cinco Product generation completed successfully");
+	}
+	
+	private void displayMessageDialog(String message) {
+		Display display =
+			Display.getCurrent() != null
+				? Display.getCurrent()
+				: Display.getDefault();
+		display.syncExec(()->{
+			MessageDialog.openInformation(
+				HandlerUtil.getActiveShell(event),
+				"Cinco Product Generation", message);
+		});
 	}
 
 	private void displayErrorDialog(ExecutionEvent event, Exception e1) {
@@ -167,55 +180,60 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 		
 		e1.printStackTrace();
 	}
-
-	private void generateProductPart(IFile mglFile) {
-		
+	
+	private void publishMglFile(IFile mglFile) {
 		MGLSelectionListener.INSTANCE.putMGLFile(mglFile);
-		
+	}
+
+	private void generateEcoreModel(IFile mglFile) {
+		execute("de.jabc.cinco.meta.core.mgl.ui.mglgenerationcommand");
+	}
+	
+	private void generateGenmodelCode(IFile mglFile) {
 		try {
-			//System.out.println("Generating Ecore/GenModel from MGL...");
-			execute("de.jabc.cinco.meta.core.mgl.ui.mglgenerationcommand");
-			
-			//System.out.println("Generating Model Code from GenModel...");
 			GeneratorHelper.generateGenModelCode(mglFile);
-			
-			//System.out.println("Generating Graphiti Editor...");
-			execute("de.jabc.cinco.meta.core.ge.generator.generateeditorcommand");
-//				IProject apiProject = ResourcesPlugin.getWorkspace().getRoot().getProject(mglModelFile.getProject().getName().concat(".graphiti.api"));
-			
-			IProject apiProject = mglFile.getProject();
-			if (apiProject.exists())
-				GeneratorHelper.generateGenModelCode(apiProject, "C"+mglFile.getName().split("\\.")[0]);
-			
-			//System.out.println("Generating jABC4 Project Information");
-			execute("de.jabc.cinco.meta.core.jabcproject.commands.generateCincoSIBsCommand");
-			
-			// TODO: Product definition should be made central file
-			//System.out.println("Generating Product project");
-			execute("cpd.handler.ui.generate");
-			
-			//System.out.println("Generating Feature Project");
-			execute("de.jabc.cinco.meta.core.generatefeature");
-			
-			generateDefaultPerspective(mglFile);
-			
-			execute("de.jabc.cinco.meta.plugin.gratext.generategratext");
-			
-		} catch (ExecutionException | NotDefinedException | NotEnabledException
-				| NotHandledException | IOException e) {
-			reason = new RuntimeException(String.format("Generation of %s failed", cpdFile.getName()),e);
+		} catch (IOException e) {
+			reason = new RuntimeException(String.format("Generation of %s failed", mglFile.getFullPath().lastSegment()),e);
 			throw reason;
 		}
 	}
+	
+	private void generateGraphitiEditor(IFile mglFile) {
+		execute("de.jabc.cinco.meta.core.ge.generator.generateeditorcommand");
+	}
+	
+	private void generateApi(IFile mglFile) {
+		IProject apiProject = mglFile.getProject();
+		if (apiProject.exists()) try {
+			GeneratorHelper.generateGenModelCode(apiProject, "C"+mglFile.getName().split("\\.")[0]);
+		} catch (IOException e) {
+			reason = new RuntimeException(String.format("Generation of %s failed", mglFile.getFullPath().lastSegment()),e);
+			throw reason;
+		}
+	}
+	
+	private void generateCincoSIBs(IFile mglFile) {
+		execute("de.jabc.cinco.meta.core.jabcproject.commands.generateCincoSIBsCommand");
+	}
+	
+	private void generateProductProject(IFile mglFile) {
+		execute("cpd.handler.ui.generate");
+	}
+	
+	private void generateFeatureProject(IFile mglFile) {
+		execute("de.jabc.cinco.meta.core.generatefeature");
+	}
+	
+	private void generatePerspective(IFile mglFile) {
+		generateDefaultPerspective(mglFile);
+	}
+	
+	private void generateGratextModel(IFile mglFile) {
+		execute("de.jabc.cinco.meta.plugin.gratext.generategratext");
+	}
 
 	private void buildGratext(IFile mglFile) {
-		try {
-			
-			execute("de.jabc.cinco.meta.plugin.gratext.buildgratext");
-		
-		} catch (ExecutionException | NotDefinedException | NotEnabledException | NotHandledException e) {
-			throw new RuntimeException(String.format("Generation of %s failed", cpdFile.getName()), e);
-		}
+		execute("de.jabc.cinco.meta.plugin.gratext.buildgratext");
 	}
 	
 	private EObject loadModel(IFile cpdFile, String fileExtension, EPackage ePkg) throws IOException, CoreException {
@@ -224,7 +242,6 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 		ResourceSet set = ePkg.eResource().getResourceSet();
 		res.load(cpdFile.getContents(), null);
 		return res.getContents().get(0);
-		
 	}
 
 	private void deleteGeneratedResources() {
@@ -361,13 +378,10 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 		
 			throw new RuntimeException("Failed to load ecore model: "+ecoreName,e);
 		}
-		
-		
 	}
 
 	private String toPath(String e) {
 		return e.replace('.', '/');
-		
 	}
 	
 	private void generateDefaultPerspective(IFile mglFile) {
@@ -390,8 +404,16 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 		CincoUtils.addExtension(pluginXML.getLocation().toString(), defaultXMLPerspectiveContent.toString(), extensionCommentID, p.getName());
 	}
 	
-	private void execute(String commandId) throws ExecutionException, NotDefinedException, NotEnabledException, NotHandledException {
-		commandService.getCommand(commandId).executeWithChecks(event);
+	private void execute(String commandId) {
+		try {
+			commandService.getCommand(commandId).executeWithChecks(event);
+		} catch (ExecutionException | NotDefinedException | NotEnabledException | NotHandledException e) {
+			IFile mglFile = MGLSelectionListener.INSTANCE.getCurrentMGLFile();
+			reason = (mglFile != null)
+				? new RuntimeException(String.format("Generation of %s failed", mglFile.getFullPath().lastSegment()), e)
+				: new RuntimeException(String.format("Generation of %s failed", cpdFile.getName()), e);
+			throw reason;
+		}
 	}
 	
 	private boolean isAutoBuild() {

@@ -21,6 +21,7 @@ public class CompoundJob extends Job {
 	private IProgressMonitor parentMonitor;
 	private boolean canceled;
 	private boolean cancelOnFail = true;
+	protected List<String> failedTaskNames = new ArrayList<>();
 	private IStatus status;
 	private List<Step> steps = new ArrayList<>();
 	
@@ -308,20 +309,54 @@ public class CompoundJob extends Job {
 	}
 	
 	protected void onTaskFailed(ComplexStep step, Task task) {
-		System.out.println("OnTaskFailed: " + cancelOnFail);
 		if (cancelOnFail) {
 			step.requestCancel();
 			requestCancel();
 		}
-		String msg = "Task failed";
+		String msg = buildErrorMessage(task);
+		Exception e = buildErrorException(task);
+		status = (e != null) 
+			? new Status(Status.ERROR, getName(), msg, e)
+			: new Status(Status.ERROR, getName(), msg);
+	}
+	
+	protected String buildErrorMessage(Task task) {
+		String msg = (cancelOnFail)
+			? "The execution has been canceled.\n\n"
+			: "The execution of other tasks has not been canceled.\n\n";
+		
+		if (failedTaskNames.isEmpty())
+			msg += "Task failed:\n";
+		else msg += "Tasks failed:\n";
+		
+		for (String failed : failedTaskNames)
+			msg += failed;
+		
 		if (task != null) {
-			msg += ": " + task.name;
-			if (task.exception != null) {
-				status = new Status(Status.ERROR, getName(), msg, task.exception);
-			}
-		} else {
-			status = new Status(Status.ERROR, getName(), msg);
+			String taskName = (task.name != null)
+				? "\t" + task.name + "\n"
+				: "\t<unnamed>\n";
+			failedTaskNames.add(taskName);
+			msg += taskName;
 		}
+		return msg;
+	}
+	
+	protected Exception buildErrorException(Task task) {
+		Exception e = task.exception;
+		if (e == null) return null;
+		
+		String msg = (e.getMessage() != null)
+			? e.getMessage()
+			: "Unknown exception.";
+			
+		Throwable cause = e.getCause();
+		while (cause != null) {
+			if (cause.getMessage() != null)
+				msg += "\n\t" + cause.getMessage();
+			cause = cause.getCause();
+		}
+		return new RuntimeException(msg, e);
 	}
 		
 	private void registerListener() {
