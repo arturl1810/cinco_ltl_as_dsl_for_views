@@ -171,9 +171,7 @@ public class GratextLanguageBuild extends ReiteratingJob {
 	private void deleteSources() {
 		if (!failed) try {
 			monitor.setTaskName("Cleaning up " + mwe2.getName());
-			System.err.println("### delete " + xtext);
 			xtext.delete(true, null);
-			System.err.println("### delete " + mwe2);
 			mwe2.delete(true, null);
 		} catch(Exception e) {
 			fail("Failed to delete .mwe2 and/or .xtext file.", e);

@@ -34,9 +34,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.StructuredSelection;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.commands.ICommandService;
 import org.eclipse.ui.handlers.HandlerUtil;
@@ -97,7 +95,7 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 		    .task("Deleting previously generated resources...", this::deleteGeneratedResources)
 		    .task("Resetting registries...", this::resetRegistries);
 		
-		for (IFile mgl : mgls) {
+		for (IFile mgl : mgls) { // execute the following tasks for each mgl file
 			job.consume(50, String.format("Processing %s", mgl.getFullPath().lastSegment()))
 				.task("Initializing...", () -> publishMglFile(mgl))
 				.task("Generating Ecore/GenModel...", () -> generateEcoreModel(mgl))
@@ -114,9 +112,14 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 		job.consumeConcurrent(mgls.size() * 60, "Building Gratext...")
 		    .taskForEach(() -> mgls.stream(), this::buildGratext,
 					t -> t.getFullPath().lastSegment())
+					
+		  .onCanceledShowMessage("Cinco Product generation has been canceled")
+		  
+		  .onFinished(() -> printDebugOutput(event, startTime))
+		  .onFinishedShowMessage("Cinco Product generation completed successfully")
+		  
 		  .onDone(this::resetAutoBuild)
-		  .onCanceled(() -> displayCanceledDialog(event, startTime))
-		  .onFinished(() -> displaySuccessDialog(event, startTime))
+		  
 		.schedule();
 		
 		return null;
@@ -133,29 +136,11 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 		MGLEPackageRegistry.resetRegistry();
 		
 	}
-	
-	private void displayCanceledDialog(ExecutionEvent event, long startTime) {
-		displayMessageDialog("Cinco Product generation has been canceled");
-	}
 
-	private void displaySuccessDialog(ExecutionEvent event, long startTime) {
+	private void printDebugOutput(ExecutionEvent event, long startTime) {
 		long stopTime = System.nanoTime();
 		System.err.println("Stopping at: "+stopTime);
 		System.err.println(String.format("Generation took %s of your earth minutes.",(stopTime-startTime)*Math.pow(10,-9)/60));
-		
-		displayMessageDialog("Cinco Product generation completed successfully");
-	}
-	
-	private void displayMessageDialog(String message) {
-		Display display =
-			Display.getCurrent() != null
-				? Display.getCurrent()
-				: Display.getDefault();
-		display.syncExec(()->{
-			MessageDialog.openInformation(
-				HandlerUtil.getActiveShell(event),
-				"Cinco Product Generation", message);
-		});
 	}
 
 	private void displayErrorDialog(ExecutionEvent event, Exception e1) {
@@ -445,34 +430,17 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 	
 	private void resetAutoBuild() {
 		try {
-			System.out.println("###");
-			System.out.println("###");
-			System.out.println("###");
-			System.out.println("###");
-			System.out.println("###");
-			System.out.println("###");
-			System.out.println("###");
-			System.out.println("###");
-			System.out.println("[CincoGen] reset auto build to " + autoBuild);
-			System.out.println("###");
-			System.out.println("###");
-			System.out.println("###");
-			System.out.println("###");
-			System.out.println("###");
-			System.out.println("###");
-			System.out.println("###");
-			System.out.println("###");
 			setAutoBuild(autoBuild);
 		} catch (Exception e) {
 			if (!autoBuild != isAutoBuild()) {
-				System.out.println("[Gratext] WARN: Failed to reset state for \"Build Automatically\". "
+				System.err.println("[Gratext] WARN: Failed to reset state for \"Build Automatically\". "
 						+ "Should be " + autoBuild);
 				e.printStackTrace();
 			}
 		}
 	}
 	
-	public void build(IProject project) {
+	private void build(IProject project) {
 		try {
 			project.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, null);
 		} catch (CoreException e) {
@@ -480,7 +448,7 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 		}
 	}
 	
-	public void buildWorkspace() {
+	private void buildWorkspace() {
 		try {
 			ResourcesPlugin.getWorkspace().build(IncrementalProjectBuilder.FULL_BUILD, null);
 		} catch (CoreException e) {

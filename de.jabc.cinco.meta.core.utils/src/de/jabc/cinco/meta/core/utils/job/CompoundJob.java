@@ -3,6 +3,7 @@ package de.jabc.cinco.meta.core.utils.job;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -11,6 +12,11 @@ import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.core.runtime.jobs.JobChangeAdapter;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.swt.widgets.Display;
+
+import de.jabc.cinco.meta.core.utils.CincoUtils;
+import de.jabc.cinco.meta.core.utils.WorkspaceUtil;
 
 /**
  * Runtime job whose progress can be monitored.
@@ -27,8 +33,11 @@ public class CompoundJob extends Job {
 	
 	private Runnable onDone;
 	private Runnable onFinished;
+	private Runnable onFinishedMessage;
 	private Runnable onCanceled;
+	private Runnable onCanceledMessage;
 	private Runnable onFailed;
+	private Runnable onFailedMessage;
 
 	private List<Runnable> ifDone = new ArrayList<>();
 	private List<Runnable> ifCanceled = new ArrayList<>();
@@ -247,6 +256,17 @@ public class CompoundJob extends Job {
 		onFinished = handler;
 		return this;
 	}
+	
+	/**
+	 * Sets a message to be shown in a dialog if the execution
+	 * of all the tasks of the job has been completed successfully.
+	 * 
+	 * @param message  The message to be shown.
+	 */
+	public CompoundJob onFinishedShowMessage(String message) {
+		onFinishedMessage = () -> showMessage(message);
+		return this;
+	}
 
 	/**
 	 * Sets an event handler to be called if the execution
@@ -260,6 +280,17 @@ public class CompoundJob extends Job {
 	}
 	
 	/**
+	 * Sets a message to be shown in a dialog if the execution
+	 * has been canceled by the user.
+	 * 
+	 * @param message  The message to be shown.
+	 */
+	public CompoundJob onCanceledShowMessage(String message) {
+		onCanceledMessage = () -> showMessage(message);
+		return this;
+	}
+	
+	/**
 	 * Sets an event handler to be called if the execution
 	 * of any task of the job has failed.
 	 * 
@@ -267,6 +298,17 @@ public class CompoundJob extends Job {
 	 */
 	public CompoundJob onFailed(Runnable handler) {
 		onFailed = handler;
+		return this;
+	}
+	
+	/**
+	 * Sets a message to be shown in a dialog if the execution
+	 * of any task of the job has failed.
+	 * 
+	 * @param message  The message to be shown.
+	 */
+	public CompoundJob onFailedShowMessage(String message) {
+		onFailedMessage = () -> showMessage(message);
 		return this;
 	}
 	
@@ -365,16 +407,16 @@ public class CompoundJob extends Job {
 	        	List<Runnable> handlers = new ArrayList<>();
 	        	if (event.getResult().isOK()) {
 	        		handlers.addAll(getHandlers(ifDone));
-	        		handlers.addAll(getHandlers(onFinished, onDone));
+	        		handlers.addAll(getHandlers(onFinished, onFinishedMessage, onDone));
 	        	}
 	        	else if (event.getResult().equals(Status.CANCEL_STATUS)) {
 	        		handlers.addAll(getHandlers(ifCanceled));
 	        		handlers.addAll(getHandlers(ifDone));
-	        		handlers.addAll(getHandlers(onCanceled, onDone));
+	        		handlers.addAll(getHandlers(onCanceled, onCanceledMessage, onDone));
 	        	} else {
 	        		handlers.addAll(getHandlers(ifFailed));
 	        		handlers.addAll(getHandlers(ifDone));
-	        		handlers.addAll(getHandlers(onFailed, onDone));
+	        		handlers.addAll(getHandlers(onFailed, onFailedMessage, onDone));
 	        	}
 	        	handlers.forEach(handler -> handler.run());
 	        }
@@ -389,11 +431,23 @@ public class CompoundJob extends Job {
 	}
 	
 	private List<Runnable> getHandlers(Runnable... handlers) {
-		List<Runnable> retVal = new ArrayList<>();
-		Arrays.stream(handlers)
+		return Arrays.stream(handlers)
 			.filter(handler -> handler != null)
-			.forEach(retVal::add);
-		return retVal;
+			.collect(Collectors.toList());
+	}
+	
+	private Display getDisplay() {
+		return Display.getCurrent() != null
+			? Display.getCurrent()
+			: Display.getDefault();
+	}
+	
+	private void showMessage(String message) {
+		Display display = getDisplay();
+		display.syncExec(() ->
+			MessageDialog.openInformation(display.getActiveShell(),
+				this.getName(), message)
+		);
 	}
 	
 	protected void wrapMonitor(IProgressMonitor pm) {
