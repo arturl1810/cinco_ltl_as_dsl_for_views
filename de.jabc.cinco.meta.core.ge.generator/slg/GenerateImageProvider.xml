@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>b2a34056-d5cd-4de8-9af8-7b51a4f248b2</id>
   <name>GenerateImageProvider</name>
-  <changecounter>162</changecounter>
+  <changecounter>175</changecounter>
   <sib>
     <id>64a32e2e-03eb-437a-8d64-183fed477869</id>
     <name>PutExpression</name>
@@ -82,7 +82,7 @@
     <label>RunStringTemplate</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>55.0,498.0</position>
+    <position>55.0,483.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -105,6 +105,7 @@
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.net.MalformedURLException;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Map.Entry;
@@ -141,8 +142,17 @@ public class $context.graphModelName$ImageProvider extends AbstractImageProvider
 			if (e.getValue().equals(path))
 				return e.getKey();
 		}
-		
-		return &quot;&quot;;
+		try {
+			java.util.List&lt;IFile&gt; files = de.jabc.cinco.meta.core.utils.WorkspaceUtil.getFiles(f -&gt; f.getFullPath().toString().contains(path));
+			if (files.size() == 1) {
+				IFile f = files.get(0);
+				URL url = f.getLocationURI().toURL();
+				addImage(path, url.toString());
+			}
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
+		return path;
 	}
 
 	@Override

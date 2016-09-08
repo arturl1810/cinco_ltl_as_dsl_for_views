@@ -395,7 +395,7 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 			return;
 		
 		CharSequence defaultPerspectiveContent = 
-				de.jabc.cinco.meta.core.ui.templates.DefaultPerspectiveContent.generateDefaultPerspective(cp, cpdFile.getProject().getName());
+				de.jabc.cinco.meta.core.ui.templates.DefaultPerspectiveContent.generateDefaultPerspective(cp, cpdFile);
 		CharSequence defaultXMLPerspectiveContent = 
 				de.jabc.cinco.meta.core.ui.templates.DefaultPerspectiveContent.generateXMLPerspective(cp, cpdFile.getProject().getName());
 		
