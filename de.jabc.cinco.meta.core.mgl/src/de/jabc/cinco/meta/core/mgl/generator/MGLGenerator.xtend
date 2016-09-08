@@ -288,8 +288,8 @@ class MGLGenerator implements IGenerator {
 	
 	def findWildcard(ContainingElement ce,GraphModel graphModel) {
 		for(gec:ce.containableElements){
-			if(gec.types.nullOrEmpty&&gec.upperBound!=0){
-				addNodes(ce,0,-1,graphModel.nodes);
+			if(gec.types.nullOrEmpty){
+				addNodes(ce,gec.lowerBound,gec.upperBound,graphModel.nodes);
 				return
 			}
 		}
