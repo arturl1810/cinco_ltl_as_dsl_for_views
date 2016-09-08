@@ -11,6 +11,9 @@ import org.eclipse.xtext.parser.IParseResult
 import static de.jabc.cinco.meta.plugin.gratext.runtime.util.GratextUtils.edit
 import org.eclipse.emf.common.util.TreeIterator
 import org.eclipse.emf.ecore.util.EcoreUtil
+import org.eclipse.xtext.util.CancelIndicator
+import org.eclipse.emf.ecore.impl.EClassImpl
+import org.eclipse.emf.ecore.InternalEObject
 
 abstract class GratextResource extends LazyLinkingResource {
 	
@@ -119,6 +122,32 @@ abstract class GratextResource extends LazyLinkingResource {
 		if (getContents.size != 2) {
 			System.err.println("[" + getClass().getSimpleName() + "] WARN: unexpected number of content objects")
 			getContents.forEach[System.err.println(" > content: " + it)]
+		}
+	}
+	
+	override resolveLazyCrossReferences(CancelIndicator mon) {
+		val monitor = 
+			if (mon == null) CancelIndicator.NullImpl
+			else mon
+		getContents.forEach[it.resolveLazyCrossReferences(monitor)]
+	}
+	
+	def resolveLazyCrossReferences(Object obj, CancelIndicator monitor) {
+		if (monitor.canceled) return;
+		
+		if (obj instanceof EObject && !(obj instanceof Diagram)) {
+			val iEobj = obj as InternalEObject
+			val cls = iEobj.eClass
+			val sup = cls.getEAllStructuralFeatures as EClassImpl.FeatureSubsetSupplier
+			sup.crossReferences?.forEach[
+				if (monitor.canceled) return;
+				if (it.isPotentialLazyCrossReference)
+					doResolveLazyCrossReference(iEobj, it)
+			]
+			
+			EcoreUtil.getAllContents(iEobj, true).forEachRemaining[
+				it.resolveLazyCrossReferences(monitor)
+			]
 		}
 	}
 	
