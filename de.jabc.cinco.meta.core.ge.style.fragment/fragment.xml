@@ -134,6 +134,9 @@
       <attribute-annotation
             recognized-annotation="possibleValuesProvider">
       </attribute-annotation>
+      <attribute-annotation
+            recognized-annotation="file">
+      </attribute-annotation>
    </extension>
 
 </fragment>

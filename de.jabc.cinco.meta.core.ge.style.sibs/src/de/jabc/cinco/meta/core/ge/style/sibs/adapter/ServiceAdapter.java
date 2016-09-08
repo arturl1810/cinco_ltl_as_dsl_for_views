@@ -1675,9 +1675,25 @@ public class ServiceAdapter {
 		}
 		
 		return Branches.FALSE;
-		
 	}
 
+	public static String isAttributeFile(
+			LightweightExecutionEnvironment env, ContextKeyFoundation attribute) {
+
+		LightweightExecutionContext context = env.getLocalContext();
+		try {
+			Attribute attr = (Attribute) context.get(attribute);
+			if (CincoUtils.isAttributeFile(attr))
+				return Branches.TRUE;
+			
+		} catch (Exception e) {
+			context.put("exception", e);
+			return Branches.ERROR;
+		}
+		
+		return Branches.FALSE;
+	}
+	
 	@SuppressWarnings("rawtypes")
 	public String createDummyGraphModel(LightweightExecutionEnvironmentAdapter env,Boolean dawid) {
 		LightweightExecutionContext context = env.getLocalContext();

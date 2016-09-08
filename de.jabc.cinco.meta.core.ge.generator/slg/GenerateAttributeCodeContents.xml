@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>920b3bbf-25aa-46be-a18b-a45295984a8d</id>
   <name>GenerateAttributeCodeContents</name>
-  <changecounter>58</changecounter>
+  <changecounter>64</changecounter>
   <sib>
     <id>6a00f202-229b-4d0c-af84-83ded9d04bb9</id>
     <name>GetAttributeName</name>
@@ -125,7 +125,7 @@
     <label>structuralFeatureContent</label>
     <sib-uid>script-sibs/RunStringTemplate</sib-uid>
     <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
-    <position>64.5,708.0</position>
+    <position>64.5,828.0</position>
     <parameter name="append">
       <boolean>true</boolean>
     </parameter>
@@ -246,17 +246,17 @@
   </edge>
   <edge>
     <source>44d104e5-5487-4173-afb7-72000cc1020d</source>
-    <target>74cacde4-c7d1-4b1b-a349-792df656be7e</target>
-    <point>330.0,615.0</point>
-    <point>150.0,735.0</point>
+    <target>16b27dbe-7578-4e8f-b946-75bb2c24a306</target>
+    <point>312.0,618.9</point>
+    <point>168.0,714.9</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
     <source>514a8e6c-a9aa-4a5b-80c9-fde4eb6b473a</source>
-    <target>74cacde4-c7d1-4b1b-a349-792df656be7e</target>
-    <point>150.0,615.0</point>
-    <point>150.0,735.0</point>
+    <target>16b27dbe-7578-4e8f-b946-75bb2c24a306</target>
+    <point>145.81395348837208,624.0</point>
+    <point>124.86486486486487,708.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>false</branch>
   </edge>
@@ -331,6 +331,75 @@
     <point>164.0,190.0</point>
     <branch>default</branch>
   </edge>
+  <sib>
+    <id>16b27dbe-7578-4e8f-b946-75bb2c24a306</id>
+    <name>IsAttributeFile</name>
+    <label>IsAttributeFile</label>
+    <sib-uid>ge-util-sibs/IsAttributeFile</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsAttributeFile</taxonomy>
+    <position>107.5,708.0</position>
+    <parameter name="attributeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>attributeKey</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>false</finalbranches>
+    <finalbranches>true</finalbranches>
+  </sib>
+  <sib>
+    <id>c1d819d8-cfd2-4726-91f3-5f9e2578b61b</id>
+    <name>RunStringTemplate_11</name>
+    <label>initReadOnlyAttribute</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>267.0,708.0</position>
+    <parameter name="append">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>initFileAttributeContent</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>$factoryName$Package.eINSTANCE.get$modelElementName$_$fuAttributeName$(),</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>16b27dbe-7578-4e8f-b946-75bb2c24a306</source>
+    <target>c1d819d8-cfd2-4726-91f3-5f9e2578b61b</target>
+    <point>150.0,735.0</point>
+    <point>316.0,738.0</point>
+    <branch>true</branch>
+  </edge>
+  <edge>
+    <source>c1d819d8-cfd2-4726-91f3-5f9e2578b61b</source>
+    <target>74cacde4-c7d1-4b1b-a349-792df656be7e</target>
+    <point>330.0,750.0</point>
+    <point>170.0,837.0</point>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>16b27dbe-7578-4e8f-b946-75bb2c24a306</source>
+    <target>74cacde4-c7d1-4b1b-a349-792df656be7e</target>
+    <point>150.0,735.0</point>
+    <point>138.0,837.0</point>
+    <branch>false</branch>
+  </edge>
   <parameter>
     <name>attributeKey</name>
     <field>attributeKey</field>
@@ -350,6 +419,11 @@
     <name>attributeKey</name>
     <field>attributeKey</field>
     <sib>c91b8841-fb25-4cb8-9bf5-7af1265c99b7</sib>
+  </parameter>
+  <parameter>
+    <name>attributeKey</name>
+    <field>attributeKey</field>
+    <sib>16b27dbe-7578-4e8f-b946-75bb2c24a306</sib>
   </parameter>
   <values>
     <entry>
