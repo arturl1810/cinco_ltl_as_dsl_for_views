@@ -64,6 +64,7 @@ public class DefaultHighlighter extends Highlighter {
 				context.getOldAnchor(),
 				context.getNewAnchor(),
 				context.getTargetLocation());
+		ctx.setReconnectType(context.getReconnectType());
 		return HighlightUtils.getShapes().stream()
 				.filter(shape -> HighlightUtils.testBusinessObjectType(shape, Node.class))
 				.filter(shape -> {
