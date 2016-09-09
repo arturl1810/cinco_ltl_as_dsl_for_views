@@ -1694,6 +1694,31 @@ public class ServiceAdapter {
 		return Branches.FALSE;
 	}
 	
+	public static String getAnnotation(LightweightExecutionEnvironment env, 
+			ContextKeyFoundation attribute, 
+			ContextKeyFoundation annotationName,
+			ContextKeyFoundation annotation) {
+
+		LightweightExecutionContext context = env.getLocalContext();
+		try {
+			Attribute attr = (Attribute) context.get(attribute);
+			String annotName = (String) context.get(annotationName);
+			Annotation fileAnnot = CincoUtils.getAnnotation(attr, annotName);
+			if (fileAnnot != null) {
+				context.put(annotation, fileAnnot);
+			} else {
+				context.put("exception", new RuntimeException("Annotation for "+attr + " not found"));
+				return Branches.ERROR;
+			}
+			return Branches.DEFAULT;
+			
+		} catch (Exception e) {
+			context.put("exception", e);
+			return Branches.ERROR;
+		}
+		
+	}
+	
 	@SuppressWarnings("rawtypes")
 	public String createDummyGraphModel(LightweightExecutionEnvironmentAdapter env,Boolean dawid) {
 		LightweightExecutionContext context = env.getLocalContext();

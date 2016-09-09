@@ -104,6 +104,8 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener{
 	private static Map<EStructuralFeature, Map<? extends ModelElement, String>> possibleValuesMap = new HashMap<EStructuralFeature, Map<? extends ModelElement, String>>();
 	private Map<Object, Object[]> treeExpandState;
 
+	private static Map<EStructuralFeature, List<String>> fileExtensionFilters = new HashMap<EStructuralFeature, List<String>>();
+	
 	private static Set<EStructuralFeature> multiLineAttributes = new HashSet<EStructuralFeature>();
 	private static Set<EStructuralFeature> readOnlyAttributes = new HashSet<EStructuralFeature>();
 	private static Set<EStructuralFeature> fileAttributes = new HashSet<EStructuralFeature>();
@@ -207,6 +209,10 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener{
 	public static void init_FileAttributes(EStructuralFeature... features) {
 		for (EStructuralFeature f : features)
 			fileAttributes.add(f);
+	}
+	
+	public static void init_FileAttributesExtensionFilters(EStructuralFeature feature, String[] extensions) {
+		fileExtensionFilters.put(feature, Arrays.asList(extensions));
 	}
 	
 	public void init_PropertyView(EObject bo) {
@@ -464,7 +470,7 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener{
 			
 			Button browse = new Button(fileComposite, SWT.PUSH | SWT.BORDER);
 			browse.setText("Browse...");
-			browse.addSelectionListener(initBrowseSelectionListener(fileComposite.getShell(), text));
+			browse.addSelectionListener(initBrowseSelectionListener(fileComposite.getShell(), text, attr));
 			
 			IWidgetValueProperty uiProp = WidgetProperties.text(new int[] { SWT.DefaultSelection, SWT.FocusOut, SWT.Modify });			
 			IObservableValue modelObs = EMFEditProperties.value(domain,attr).observe(bo);
@@ -695,7 +701,7 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener{
 		return Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
 	}
 	
-	private SelectionListener initBrowseSelectionListener(Shell s, Text text) {
+	private SelectionListener initBrowseSelectionListener(Shell s, Text text, EAttribute attr) {
 		SelectionListener sl = new SelectionListener() {
 			
 			@Override
@@ -704,6 +710,14 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener{
 				if (WorkbenchUtil.getProjectForActiveEditor() != null) {
 					dialog.setFilterPath(WorkbenchUtil.getProjectForActiveEditor().getLocation().toString());
 				} else dialog.setFilterPath(ResourcesPlugin.getWorkspace().getRoot().getLocation().toString());
+				
+				String extensions = "";
+				List<String> nonEmpty = fileExtensionFilters.get(attr).stream().filter(str -> !str.isEmpty()).collect(Collectors.toList());
+				for (String ext : nonEmpty)
+					extensions += "*."+ext+";";
+				
+				if (!extensions.isEmpty())
+					dialog.setFilterExtensions(new String[] {extensions});
 				
 				String path = dialog.open();
 				if (path != null) {

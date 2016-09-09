@@ -13,6 +13,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import mgl.Annotation;
 import mgl.Attribute;
@@ -209,6 +210,11 @@ public class CincoUtils {
 		return null;
 	}
 
+	public static Annotation getAnnotation(Attribute attr, String annotName) {
+		List<Annotation> annots = attr.getAnnotations().stream().filter(a -> a.getName().equals(annotName)).collect(Collectors.toList());
+		return (annots.isEmpty()) ? null : annots.get(0);
+	}
+	
 	public static boolean isAttributeMultiValued(Attribute attr) {
 		return attr.getUpperBound() != 1;
 	}
@@ -403,4 +409,5 @@ public class CincoUtils {
 			e.printStackTrace();
 		}
 	}
+
 }
