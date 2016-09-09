@@ -347,8 +347,9 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener{
 		simpleViewComposite.setExpandHorizontal(true);
 		simpleViewComposite.setExpandVertical(true);
 		simpleViewComposite.setAlwaysShowScrollBars(true);
-		simpleViewComposite.layout(true);
+		simpleViewComposite.layout(true, true);
 		simpleViewComposite.setMinSize(dataComp.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+//		simpleViewComposite.getShell().pack();
 	}
 
 	private void createSingleAttributeProperty(EObject bo, Composite comp, EStructuralFeature feature) {
@@ -455,7 +456,7 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener{
 			fileComposite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 			
 			Text text = new Text(fileComposite, SWT.BORDER);
-			text.setLayoutData(textLayoutData);
+			text.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 			
 			Button browse = new Button(fileComposite, SWT.PUSH | SWT.BORDER);
 			browse.setText("Browse...");
@@ -463,8 +464,10 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener{
 			
 			IWidgetValueProperty uiProp = WidgetProperties.text(new int[] { SWT.DefaultSelection, SWT.FocusOut, SWT.Modify });			
 			IObservableValue modelObs = EMFEditProperties.value(domain,attr).observe(bo);
-			
+
 			context.bindValue(uiProp.observe(text),  modelObs);
+			text.setEnabled(false);
+			browse.setEnabled(true);
 		} else {
 			Text text = null;
 			
@@ -476,7 +479,7 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener{
 				text = new Text(comp, SWT.BORDER);
 				text.setLayoutData(textLayoutData);
 			}
-			
+			comp.layout(true, true);
 			text.addModifyListener(new TextValidator(attr.getEAttributeType()));
 			
 			IWidgetValueProperty uiProp = WidgetProperties.text(new int[] {
