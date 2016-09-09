@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>bdb3d94b-23ae-447b-8e05-302a8e6e8657</id>
   <name>GeneratePropertyView</name>
-  <changecounter>1105</changecounter>
+  <changecounter>1108</changecounter>
   <edge>
     <source>0a7b2d2c-a9c5-4f86-a466-a87bd91f0b67</source>
     <target>70edcd98-92b7-4fcd-9c04-a1b8187883a2</target>
@@ -475,6 +475,10 @@ public class $graphModelName$View implements ISelectionListener {
 		CincoPropertyView.init_ReadOnlyAttributes(new EStructuralFeature[] {
 			$initReadOnlyAttributeContent$		
 		});
+
+		CincoPropertyView.init_FileAttributes(new EStructuralFeature[] {
+			$initFileAttributeContent$		
+		});
 	}
 	
 
@@ -711,7 +715,6 @@ public class $graphModelName$View implements ISelectionListener {
     <finalbranches>ModelElement</finalbranches>
     <finalbranches>Node</finalbranches>
     <finalbranches>NodeContainer</finalbranches>
-    <finalbranches>ReferencedType</finalbranches>
     <finalbranches>UserDefinedType</finalbranches>
     <finalbranches>error</finalbranches>
     <finalbranches>other</finalbranches>

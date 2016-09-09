@@ -158,6 +158,7 @@ import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.ui.services.GraphitiUi;
 import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.part.MultiPageEditorPart;
 import org.eclipse.ui.PlatformUI;
 import org.osgi.framework.Bundle;
 
@@ -271,6 +272,11 @@ public class $context.graphModelName$GraphitiUtils {
 		IEditorPart part = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
 		if (part instanceof $context.graphModelName$DiagramEditor)
 			return (($context.graphModelName$DiagramEditor) part).getDiagramTypeProvider();
+		if (part instanceof MultiPageEditorPart) {
+			Object page = ((MultiPageEditorPart) part).getSelectedPage();
+			if (page instanceof $context.graphModelName$DiagramEditor)
+				return (($context.graphModelName$DiagramEditor) page).getDiagramTypeProvider();
+		}
 		return this.dtp;
 	}
 

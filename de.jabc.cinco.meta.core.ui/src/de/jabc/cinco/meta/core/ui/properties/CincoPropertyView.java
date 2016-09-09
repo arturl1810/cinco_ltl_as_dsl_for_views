@@ -14,11 +14,12 @@ import java.util.Map;
 import java.util.OptionalInt;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.eclipse.core.databinding.UpdateValueStrategy;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.databinding.property.list.IListProperty;
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFProperties;
 import org.eclipse.emf.databinding.IEMFListProperty;
@@ -59,13 +60,18 @@ import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.DateTime;
+import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
@@ -83,6 +89,8 @@ import de.jabc.cinco.meta.core.ui.listener.CincoTableMenuListener;
 import de.jabc.cinco.meta.core.ui.listener.CincoTreeMenuListener;
 import de.jabc.cinco.meta.core.ui.utils.CincoPropertyUtils;
 import de.jabc.cinco.meta.core.ui.validator.TextValidator;
+import de.jabc.cinco.meta.core.utils.WorkbenchUtil;
+import de.jabc.cinco.meta.core.utils.WorkspaceUtil;
 
 /**
  * @author kopetzki
@@ -98,7 +106,7 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener{
 
 	private static Set<EStructuralFeature> multiLineAttributes = new HashSet<EStructuralFeature>();
 	private static Set<EStructuralFeature> readOnlyAttributes = new HashSet<EStructuralFeature>();
-	
+	private static Set<EStructuralFeature> fileAttributes = new HashSet<EStructuralFeature>();
 	private static Set<ISelectionListener> registeredListeners = new HashSet<ISelectionListener>();
 	
 	private Composite parent;
@@ -194,6 +202,11 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener{
 	public static void init_ReadOnlyAttributes(EStructuralFeature... features) {
 		for (EStructuralFeature f : features)
 			readOnlyAttributes.add(f);
+	}
+	
+	public static void init_FileAttributes(EStructuralFeature... features) {
+		for (EStructuralFeature f : features)
+			fileAttributes.add(f);
 	}
 	
 	public void init_PropertyView(EObject bo) {
@@ -338,8 +351,9 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener{
 		simpleViewComposite.setExpandHorizontal(true);
 		simpleViewComposite.setExpandVertical(true);
 		simpleViewComposite.setAlwaysShowScrollBars(true);
-		simpleViewComposite.layout(true);
+		simpleViewComposite.layout(true, true);
 		simpleViewComposite.setMinSize(dataComp.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+//		simpleViewComposite.getShell().pack();
 	}
 
 	private void createSingleAttributeProperty(EObject bo, Composite comp, EStructuralFeature feature) {
@@ -422,7 +436,9 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener{
 //			context.bindValue(uiPropTime, boProp);
 			
 			date.setEnabled(!readOnlyAttributes.contains(attr));
-		}  else if (attr.getEAttributeType() instanceof EEnum || attr.getEAttributeType().getName().equals("EBoolean")) {
+		}  
+		
+		else if (attr.getEAttributeType() instanceof EEnum || attr.getEAttributeType().getName().equals("EBoolean")) {
 			Combo combo = new Combo(comp, SWT.BORDER | SWT.DROP_DOWN | SWT.READ_ONLY);
 			combo.setLayoutData(textLayoutData);
 			ComboViewer cv = new ComboViewer(combo);
@@ -437,6 +453,25 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener{
 			
 			context.bindValue(uiProp, modelObs);
 			combo.setEnabled(!readOnlyAttributes.contains(attr));
+		} 
+		else if (fileAttributes.contains(attr)) {
+			Composite fileComposite = new Composite(comp, SWT.NONE);
+			fileComposite.setLayout(new GridLayout(2, false));
+			fileComposite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+			
+			Text text = new Text(fileComposite, SWT.BORDER);
+			text.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+			
+			Button browse = new Button(fileComposite, SWT.PUSH | SWT.BORDER);
+			browse.setText("Browse...");
+			browse.addSelectionListener(initBrowseSelectionListener(fileComposite.getShell(), text));
+			
+			IWidgetValueProperty uiProp = WidgetProperties.text(new int[] { SWT.DefaultSelection, SWT.FocusOut, SWT.Modify });			
+			IObservableValue modelObs = EMFEditProperties.value(domain,attr).observe(bo);
+
+			context.bindValue(uiProp.observe(text),  modelObs);
+			text.setEnabled(false);
+			browse.setEnabled(true);
 		} else {
 			Text text = null;
 			
@@ -448,7 +483,7 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener{
 				text = new Text(comp, SWT.BORDER);
 				text.setLayoutData(textLayoutData);
 			}
-			
+			comp.layout(true, true);
 			text.addModifyListener(new TextValidator(attr.getEAttributeType()));
 			
 			IWidgetValueProperty uiProp = WidgetProperties.text(new int[] {
@@ -658,6 +693,33 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener{
 	
 	public EObject getBusinessObject(PictogramElement pe) {
 		return Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
+	}
+	
+	private SelectionListener initBrowseSelectionListener(Shell s, Text text) {
+		SelectionListener sl = new SelectionListener() {
+			
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				FileDialog dialog = new FileDialog(s, SWT.OPEN);
+				if (WorkbenchUtil.getProjectForActiveEditor() != null) {
+					dialog.setFilterPath(WorkbenchUtil.getProjectForActiveEditor().getLocation().toString());
+				} else dialog.setFilterPath(ResourcesPlugin.getWorkspace().getRoot().getLocation().toString());
+				
+				String path = dialog.open();
+				if (path != null) {
+					List<IFile> files = WorkspaceUtil.getFiles(f -> f.getLocation().toPortableString().equals(path));
+					IFile iFile = (files.isEmpty()) ? null : files.get(0);
+					if (iFile != null)
+						text.setText(iFile.getProjectRelativePath().toString());
+					else text.setText(path);
+				}
+			}
+			
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+			}
+		};
+		return sl;
 	}
 	
 }
