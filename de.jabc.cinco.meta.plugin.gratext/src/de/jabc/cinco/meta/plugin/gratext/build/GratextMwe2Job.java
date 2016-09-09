@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.ConcurrentModificationException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -100,6 +101,21 @@ public abstract class GratextMwe2Job extends ReiteratingThread {
     }
     
     @Override
+    protected void afterwork() {
+    	ILaunchManager manager = DebugPlugin.getDefault().getLaunchManager();
+		ILaunchConfigurationType type = manager.getLaunchConfigurationType("org.eclipse.emf.mwe2.launch.Mwe2LaunchConfigurationType");
+		try {
+			Arrays.stream(manager.getLaunchConfigurations(type))
+				.filter(cfg -> cfg.getName().equals(mwe2File.getName()))
+				.forEach(cfg -> { try { 
+					cfg.delete();
+				} catch(CoreException e) { e.printStackTrace(); }});
+		} catch (CoreException e) {
+			e.printStackTrace();
+		}
+    }
+    
+    @Override
     protected void cleanup() {
     	ILaunchManager manager = DebugPlugin.getDefault().getLaunchManager();
     	manager.removeLaunchListener(launchListener);
@@ -147,7 +163,11 @@ public abstract class GratextMwe2Job extends ReiteratingThread {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		launchCfg.launch(ILaunchManager.RUN_MODE, null);
+		try {
+			launchCfg.launch(ILaunchManager.RUN_MODE, null);
+		} catch(ConcurrentModificationException e) {
+			// do nothing here, does not seem to break it
+		}
 	}
     
     private void registerLaunchListener() {

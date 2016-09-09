@@ -1,5 +1,6 @@
 package de.jabc.cinco.meta.plugin.gratext.template
 
+import de.jabc.cinco.meta.plugin.gratext.GratextGenerator
 import java.util.HashMap
 import java.util.Map
 import mgl.Attribute
@@ -16,7 +17,6 @@ import mgl.UserDefinedType
 import org.eclipse.emf.ecore.EClass
 import org.eclipse.emf.ecore.ENamedElement
 import org.eclipse.emf.ecore.EObject
-import de.jabc.cinco.meta.plugin.gratext.GratextProjectGenerator
 
 class GratextGrammarTemplate extends AbstractGratextTemplate {
 
@@ -44,7 +44,7 @@ def addToReferences(EObject obj) {
 	}
 	if (!graphmodel.nsURI.equals(entry.value)) {
 		references.put(entry.key, entry.value)
-		(ctx as GratextProjectGenerator).addGenPackageReference(entry.value);
+		(ctx as GratextGenerator).addGenPackageReference(entry.value);
 	}
 }
 

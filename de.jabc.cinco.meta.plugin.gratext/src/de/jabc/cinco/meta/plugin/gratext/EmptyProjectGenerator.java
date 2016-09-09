@@ -12,11 +12,11 @@ import de.jabc.cinco.meta.plugin.gratext.descriptor.ProjectDescriptor;
 
 public class EmptyProjectGenerator extends ProjectGenerator {
 
-	private String projectName;
-	
-	EmptyProjectGenerator(String projectName) {
-		this.projectName = projectName;
-	}
+//	private String projectName;
+//	
+//	EmptyProjectGenerator(String projectName) {
+//		this.projectName = projectName;
+//	}
 
 	@Override
 	protected void init(Map<String, Object> context) {
@@ -37,14 +37,14 @@ public class EmptyProjectGenerator extends ProjectGenerator {
 	}
 
 	@Override
-	protected String getSymbolicName() {
-		return projectName;
-	}
-
-	@Override
 	protected List<String> getBuildPropertiesBinIncludes() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	@Override
+	protected List<String> getDirectoriesToBeCleaned() {
+		return null; // means delete project if existent
 	}
 
 	@Override
@@ -83,16 +83,28 @@ public class EmptyProjectGenerator extends ProjectGenerator {
 		return null;
 	}
 
+//	@Override
+//	public GraphModelDescriptor getModelDescriptor() {
+//		return null;
+//	}
+
+//	@Override
+//	public ProjectDescriptor getProjectDescriptor() {
+//		Descriptor<IProject> desc = super.getProjectDescriptor()
+//			.setBasePackage(projectName);
+//		return (ProjectDescriptor) desc;
+//	}
+
 	@Override
-	public GraphModelDescriptor getModelDescriptor() {
+	public String getProjectAcronym() {
+		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ProjectDescriptor getProjectDescriptor() {
-		Descriptor<IProject> desc = new ProjectDescriptor(project)
-			.setBasePackage(projectName);
-		return (ProjectDescriptor) desc;
+	public String getProjectSuffix() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

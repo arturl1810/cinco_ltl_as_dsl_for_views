@@ -105,6 +105,14 @@ public class CincoUtils {
 		return false;
 	}
 	
+	public static boolean isAttributeFile(Attribute attr) {
+		for (Annotation annot : attr.getAnnotations()) {
+			if (annot.getName().equals("file"))
+				return true;
+		}
+		return false;
+	}
+	
 	public static Resource getStylesResource(String pathToStyles, IProject p) {
 		Resource res = null;
 		URI uri = URI.createURI(pathToStyles, true);

@@ -8,7 +8,8 @@ public class FileDescriptor {
 	
 	public FileDescriptor(IFile obj) {
 		this.obj = obj;
-		setName(obj.getName());
+		if (obj != null)
+			setName(obj.getName());
 	}
 	
 	private IFile obj;

@@ -17,14 +17,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import mgl.GraphModel;
+
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.Path;
 
 import de.jabc.cinco.meta.core.BundleRegistry;
 import de.jabc.cinco.meta.core.utils.BuildProperties;
@@ -32,13 +36,19 @@ import de.jabc.cinco.meta.core.utils.projects.ProjectCreator;
 import de.jabc.cinco.meta.plugin.gratext.descriptor.FileDescriptor;
 import de.jabc.cinco.meta.plugin.gratext.descriptor.GraphModelDescriptor;
 import de.jabc.cinco.meta.plugin.gratext.descriptor.ProjectDescriptor;
+import de.jabc.cinco.meta.plugin.gratext.util.ModelDescriptorRegistry;
 
 public abstract class ProjectGenerator {
 
 	protected Map<String, Object> ctx;
+	
+	protected GraphModel model;
+	private GraphModelDescriptor modelDesc;
 	protected IProject project;
+	private ProjectDescriptor projectDesc;
+	
 	private IProgressMonitor monitor;
-	private HashMap<Object,FileDescriptor> fileDescriptors = new HashMap<>();
+	protected HashMap<Object,FileDescriptor> fileDescriptors = new HashMap<>();
 	
 	public ProjectGenerator() {}
 	
@@ -55,15 +65,62 @@ public abstract class ProjectGenerator {
 				nullsave(getExportedPackages()),
 				nullempty(getNatures()),
 				getProgressMonitor(),
+				getDirectoriesToBeCleaned(),
 				false);
 		extendManifest();
 		refresh(project);
 		return project;
 	}
 	
-	public abstract GraphModelDescriptor getModelDescriptor();
+	public GraphModelDescriptor getModelDescriptor() {
+		if (model == null) 
+			model = (GraphModel) getContext().get("graphModel");
+		
+		if (modelDesc == null)
+			modelDesc = ModelDescriptorRegistry.INSTANCE.get(model);
+		
+		if (modelDesc == null) {
+			modelDesc = new GraphModelDescriptor(model);
+			modelDesc.setBasePackage(model.getPackage());
+			ModelDescriptorRegistry.INSTANCE.add(modelDesc);
+		}
+		
+		return modelDesc;
+	}
 	
-	public abstract ProjectDescriptor getProjectDescriptor();
+	public IProject getModelProject() {
+		return ResourcesPlugin.getWorkspace().getRoot().findMember(
+				new Path(model.eResource().getURI().toPlatformString(true))).getProject();
+	}
+	
+	public String getModelProjectSymbolicName() {
+		IResource res = ResourcesPlugin.getWorkspace().getRoot().findMember(
+				new Path(model.eResource().getURI().toPlatformString(true)));
+		return (res != null)
+				? ProjectCreator.getProjectSymbolicName(res.getProject())
+				: model.getPackage();
+	}
+	
+	public abstract String getProjectAcronym();
+
+	public abstract String getProjectSuffix();
+	
+	public ProjectDescriptor getProjectDescriptor() {
+		String basePkg = getModelDescriptor().getBasePackage();
+		if (getProjectAcronym() != null && !getProjectAcronym().trim().isEmpty())
+			basePkg += "." + getProjectAcronym();
+		if (projectDesc == null || (projectDesc.instance() == null && project != null)) {
+			String targetName = getModelDescriptor().getName();
+			if (getProjectSuffix() != null && !getProjectSuffix().trim().isEmpty()) 
+				targetName += getProjectSuffix();
+			projectDesc = new ProjectDescriptor(project)
+				.setSymbolicName(basePkg)
+				.setTargetName(targetName);
+			projectDesc.setBasePackage(basePkg)
+				.setAcronym(getProjectAcronym());
+		}
+		return projectDesc;
+	}
 	
 	protected <T> List<T> nullempty(List<T> list) {
 		return (list == null) ? list : (!list.isEmpty()) ? list : null;
@@ -137,10 +194,10 @@ public abstract class ProjectGenerator {
 	protected abstract void init(Map<String,Object> context);
 	
 	protected abstract void createFiles();
+	
+	protected abstract List<String> getDirectoriesToBeCleaned();
 
 	protected abstract List<String> getNatures();
-	
-	protected abstract String getSymbolicName();
 	
 	protected abstract List<String> getBuildPropertiesBinIncludes();
 	
@@ -158,6 +215,9 @@ public abstract class ProjectGenerator {
 	
 	protected abstract List<String> getSourceFolders();
 	
+	protected String getSymbolicName() {
+		return getProjectDescriptor().getSymbolicName();
+	}
 	
 	protected IProgressMonitor getProgressMonitor() {
 		if (monitor == null)
@@ -181,8 +241,12 @@ public abstract class ProjectGenerator {
 		}
 	}
 	
-	protected List<String> list(String... strs) {
-		return Arrays.asList(strs);
+	protected <T extends Object> List<T> list(T... objs) {
+		return Arrays.asList(objs);
+	}
+	
+	protected <T extends Object> Set<T> set(T... objs) {
+		return new HashSet<>(list(objs));
 	}
 	
 	protected List<IFile> getWorkspaceFiles(String extension) {

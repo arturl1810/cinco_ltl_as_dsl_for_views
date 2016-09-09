@@ -519,6 +519,19 @@ public class Workload implements ComplexStep {
 		job.onFinished(handler);
 		return this;
 	}
+	
+	/**
+	 * Reference to the API of the job that corresponds
+	 * to this Workload object.
+	 * 
+	 * @param message  The message to be shown.
+	 * 
+	 * @see #CompoundJob.onFinishedShowMessage(String) CompoundJob.onFinishedShowMessage(String message)
+	 */
+	public Workload onFinishedShowMessage(String message) {
+		job.onFinishedShowMessage(message);
+		return this;
+	}
 
 	/**
 	 * Reference to the API of the job that corresponds
@@ -540,12 +553,41 @@ public class Workload implements ComplexStep {
 	 * to this Workload object.
 	 * 
 	 * @param handler  Runnable to be executed if
+	 *   the execution of the tasks of the job has been
+	 *   canceled eventually.
+	 * 
+	 * @see #CompoundJob.onCanceledShowMessage(String) CompoundJob.onCanceledShowMessage(String message)
+	 */
+	public Workload onCanceledShowMessage(String message) {
+		job.onCanceledShowMessage(message);
+		return this;
+	}
+
+	/**
+	 * Reference to the API of the job that corresponds
+	 * to this Workload object.
+	 * 
+	 * @param handler  Runnable to be executed if
 	 *   the execution of any task of the job has failed.
 	 * 
 	 * @see #CompoundJob.onFailed(Runnable) CompoundJob.onFailed(Runnable handler)
 	 */
 	public Workload onFailed(Runnable handler) {
 		job.onFailed(handler);
+		return this;
+	}
+
+	/**
+	 * Reference to the API of the job that corresponds
+	 * to this Workload object.
+	 * 
+	 * @param handler  Runnable to be executed if
+	 *   the execution of any task of the job has failed.
+	 * 
+	 * @see #CompoundJob.onFailedShowMessage(String) CompoundJob.onFailedShowMessage(String message)
+	 */
+	public Workload onFailedShowMessage(String message) {
+		job.onFailedShowMessage(message);
 		return this;
 	}
 	

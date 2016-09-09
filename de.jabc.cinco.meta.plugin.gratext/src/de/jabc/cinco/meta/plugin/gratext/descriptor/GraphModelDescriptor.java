@@ -12,7 +12,6 @@ import mgl.Attribute;
 import mgl.Edge;
 import mgl.Enumeration;
 import mgl.GraphModel;
-import mgl.GraphicalElementContainment;
 import mgl.GraphicalModelElement;
 import mgl.ModelElement;
 import mgl.Node;
@@ -20,7 +19,6 @@ import mgl.NodeContainer;
 import mgl.UserDefinedType;
 import de.jabc.cinco.meta.plugin.gratext.util.KeygenRegistry;
 import de.jabc.cinco.meta.plugin.gratext.util.NonEmptyRegistry;
-import de.jabc.cinco.meta.plugin.gratext.util.Registry;
 
 
 public class GraphModelDescriptor extends Descriptor<GraphModel> {

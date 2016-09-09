@@ -3,6 +3,7 @@ package de.jabc.cinco.meta.core.utils.job;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -11,6 +12,11 @@ import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.core.runtime.jobs.JobChangeAdapter;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.swt.widgets.Display;
+
+import de.jabc.cinco.meta.core.utils.CincoUtils;
+import de.jabc.cinco.meta.core.utils.WorkspaceUtil;
 
 /**
  * Runtime job whose progress can be monitored.
@@ -21,13 +27,17 @@ public class CompoundJob extends Job {
 	private IProgressMonitor parentMonitor;
 	private boolean canceled;
 	private boolean cancelOnFail = true;
+	protected List<String> failedTaskNames = new ArrayList<>();
 	private IStatus status;
 	private List<Step> steps = new ArrayList<>();
 	
 	private Runnable onDone;
 	private Runnable onFinished;
+	private Runnable onFinishedMessage;
 	private Runnable onCanceled;
+	private Runnable onCanceledMessage;
 	private Runnable onFailed;
+	private Runnable onFailedMessage;
 
 	private List<Runnable> ifDone = new ArrayList<>();
 	private List<Runnable> ifCanceled = new ArrayList<>();
@@ -246,6 +256,17 @@ public class CompoundJob extends Job {
 		onFinished = handler;
 		return this;
 	}
+	
+	/**
+	 * Sets a message to be shown in a dialog if the execution
+	 * of all the tasks of the job has been completed successfully.
+	 * 
+	 * @param message  The message to be shown.
+	 */
+	public CompoundJob onFinishedShowMessage(String message) {
+		onFinishedMessage = () -> showMessage(message);
+		return this;
+	}
 
 	/**
 	 * Sets an event handler to be called if the execution
@@ -259,6 +280,17 @@ public class CompoundJob extends Job {
 	}
 	
 	/**
+	 * Sets a message to be shown in a dialog if the execution
+	 * has been canceled by the user.
+	 * 
+	 * @param message  The message to be shown.
+	 */
+	public CompoundJob onCanceledShowMessage(String message) {
+		onCanceledMessage = () -> showMessage(message);
+		return this;
+	}
+	
+	/**
 	 * Sets an event handler to be called if the execution
 	 * of any task of the job has failed.
 	 * 
@@ -266,6 +298,17 @@ public class CompoundJob extends Job {
 	 */
 	public CompoundJob onFailed(Runnable handler) {
 		onFailed = handler;
+		return this;
+	}
+	
+	/**
+	 * Sets a message to be shown in a dialog if the execution
+	 * of any task of the job has failed.
+	 * 
+	 * @param message  The message to be shown.
+	 */
+	public CompoundJob onFailedShowMessage(String message) {
+		onFailedMessage = () -> showMessage(message);
 		return this;
 	}
 	
@@ -308,20 +351,54 @@ public class CompoundJob extends Job {
 	}
 	
 	protected void onTaskFailed(ComplexStep step, Task task) {
-		System.out.println("OnTaskFailed: " + cancelOnFail);
 		if (cancelOnFail) {
 			step.requestCancel();
 			requestCancel();
 		}
-		String msg = "Task failed";
+		String msg = buildErrorMessage(task);
+		Exception e = buildErrorException(task);
+		status = (e != null) 
+			? new Status(Status.ERROR, getName(), msg, e)
+			: new Status(Status.ERROR, getName(), msg);
+	}
+	
+	protected String buildErrorMessage(Task task) {
+		String msg = (cancelOnFail)
+			? "The execution has been canceled.\n\n"
+			: "The execution of other tasks has not been canceled.\n\n";
+		
+		if (failedTaskNames.isEmpty())
+			msg += "Task failed:\n";
+		else msg += "Tasks failed:\n";
+		
+		for (String failed : failedTaskNames)
+			msg += failed;
+		
 		if (task != null) {
-			msg += ": " + task.name;
-			if (task.exception != null) {
-				status = new Status(Status.ERROR, getName(), msg, task.exception);
-			}
-		} else {
-			status = new Status(Status.ERROR, getName(), msg);
+			String taskName = (task.name != null)
+				? "\t" + task.name + "\n"
+				: "\t<unnamed>\n";
+			failedTaskNames.add(taskName);
+			msg += taskName;
 		}
+		return msg;
+	}
+	
+	protected Exception buildErrorException(Task task) {
+		Exception e = task.exception;
+		if (e == null) return null;
+		
+		String msg = (e.getMessage() != null)
+			? e.getMessage()
+			: "Unknown exception.";
+			
+		Throwable cause = e.getCause();
+		while (cause != null) {
+			if (cause.getMessage() != null)
+				msg += "\n\t" + cause.getMessage();
+			cause = cause.getCause();
+		}
+		return new RuntimeException(msg, e);
 	}
 		
 	private void registerListener() {
@@ -330,16 +407,16 @@ public class CompoundJob extends Job {
 	        	List<Runnable> handlers = new ArrayList<>();
 	        	if (event.getResult().isOK()) {
 	        		handlers.addAll(getHandlers(ifDone));
-	        		handlers.addAll(getHandlers(onFinished, onDone));
+	        		handlers.addAll(getHandlers(onFinished, onFinishedMessage, onDone));
 	        	}
 	        	else if (event.getResult().equals(Status.CANCEL_STATUS)) {
 	        		handlers.addAll(getHandlers(ifCanceled));
 	        		handlers.addAll(getHandlers(ifDone));
-	        		handlers.addAll(getHandlers(onCanceled, onDone));
+	        		handlers.addAll(getHandlers(onCanceled, onCanceledMessage, onDone));
 	        	} else {
 	        		handlers.addAll(getHandlers(ifFailed));
 	        		handlers.addAll(getHandlers(ifDone));
-	        		handlers.addAll(getHandlers(onFailed, onDone));
+	        		handlers.addAll(getHandlers(onFailed, onFailedMessage, onDone));
 	        	}
 	        	handlers.forEach(handler -> handler.run());
 	        }
@@ -354,11 +431,23 @@ public class CompoundJob extends Job {
 	}
 	
 	private List<Runnable> getHandlers(Runnable... handlers) {
-		List<Runnable> retVal = new ArrayList<>();
-		Arrays.stream(handlers)
+		return Arrays.stream(handlers)
 			.filter(handler -> handler != null)
-			.forEach(retVal::add);
-		return retVal;
+			.collect(Collectors.toList());
+	}
+	
+	private Display getDisplay() {
+		return Display.getCurrent() != null
+			? Display.getCurrent()
+			: Display.getDefault();
+	}
+	
+	private void showMessage(String message) {
+		Display display = getDisplay();
+		display.syncExec(() ->
+			MessageDialog.openInformation(display.getActiveShell(),
+				this.getName(), message)
+		);
 	}
 	
 	protected void wrapMonitor(IProgressMonitor pm) {

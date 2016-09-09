@@ -49,6 +49,13 @@
 		</arguments>
 	</serviceAdapter>
 	
+	<serviceAdapter uid="ge-util-sibs/IsAttributeFile">
+		<service>isAttributeFile</service>
+		<arguments>
+			<argument name="attributeKey" />
+		</arguments>
+	</serviceAdapter>
+	
 	<serviceAdapter uid="ge-util-sibs/IsAttributeReadOnly">
 		<service>isAttributeReadOnly</service>
 		<arguments>
