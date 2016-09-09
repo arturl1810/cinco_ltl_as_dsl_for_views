@@ -18,6 +18,8 @@ import java.util.stream.Collectors;
 import org.eclipse.core.databinding.UpdateValueStrategy;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.databinding.property.list.IListProperty;
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFProperties;
 import org.eclipse.emf.databinding.IEMFListProperty;
@@ -87,6 +89,8 @@ import de.jabc.cinco.meta.core.ui.listener.CincoTableMenuListener;
 import de.jabc.cinco.meta.core.ui.listener.CincoTreeMenuListener;
 import de.jabc.cinco.meta.core.ui.utils.CincoPropertyUtils;
 import de.jabc.cinco.meta.core.ui.validator.TextValidator;
+import de.jabc.cinco.meta.core.utils.WorkbenchUtil;
+import de.jabc.cinco.meta.core.utils.WorkspaceUtil;
 
 /**
  * @author kopetzki
@@ -697,9 +701,17 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener{
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				FileDialog dialog = new FileDialog(s, SWT.OPEN);
+				if (WorkbenchUtil.getProjectForActiveEditor() != null) {
+					dialog.setFilterPath(WorkbenchUtil.getProjectForActiveEditor().getLocation().toString());
+				} else dialog.setFilterPath(ResourcesPlugin.getWorkspace().getRoot().getLocation().toString());
+				
 				String path = dialog.open();
 				if (path != null) {
-					text.setText(path);
+					List<IFile> files = WorkspaceUtil.getFiles(f -> f.getLocation().toPortableString().equals(path));
+					IFile iFile = (files.isEmpty()) ? null : files.get(0);
+					if (iFile != null)
+						text.setText(iFile.getProjectRelativePath().toString());
+					else text.setText(path);
 				}
 			}
 			
