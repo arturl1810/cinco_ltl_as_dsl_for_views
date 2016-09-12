@@ -75,10 +75,12 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
+import org.eclipse.ui.IPartListener2;
 import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.IViewSite;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.IWorkbenchPartReference;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
@@ -91,12 +93,13 @@ import de.jabc.cinco.meta.core.ui.utils.CincoPropertyUtils;
 import de.jabc.cinco.meta.core.ui.validator.TextValidator;
 import de.jabc.cinco.meta.core.utils.WorkbenchUtil;
 import de.jabc.cinco.meta.core.utils.WorkspaceUtil;
+import de.jabc.cinco.meta.plugin.gratext.runtime.editor.MultiPageGratextEditor;
 
 /**
  * @author kopetzki
  *
  */
-public class CincoPropertyView extends ViewPart implements ISelectionListener{
+public class CincoPropertyView extends ViewPart implements ISelectionListener, IPartListener2{
 
 	private static Map<Class<? extends EObject>, IEMFListProperty> emfListPropertiesMap = new HashMap<Class<? extends EObject>, IEMFListProperty>();
 	private static Map<Class<? extends EObject>, List<EStructuralFeature>> attributesMap = new HashMap<Class<? extends EObject>, List<EStructuralFeature>>();
@@ -140,6 +143,8 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener{
 		context = new EMFDataBindingContext();
 		
 		tableLayoutData.minimumHeight = 50;
+		
+		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().addPartListener(this);
 	}
 
 	@Override
@@ -151,8 +156,16 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener{
 				pe = getPictogramElement(element);
 			
 			EObject bo = getBusinessObject(pe);
-			init_PropertyView(bo);
+			if (bo != null)
+				init_PropertyView(bo);
+			else if (part instanceof MultiPageGratextEditor) {
+				clearPage();
+			}
 		}
+	}
+	
+	private void clearPage() {
+		disposeChildren(parent);
 	}
 	
 	public static void addSelectionListener(ISelectionListener listener) {
@@ -679,6 +692,7 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener{
 	public void dispose() {
 		super.dispose();
 		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().removeSelectionListener(this);
+		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().removePartListener(this);
 		registeredListeners.forEach(l -> PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().removeSelectionListener(l));
 		registeredListeners.clear();
 	}
@@ -734,6 +748,55 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener{
 			}
 		};
 		return sl;
+	}
+
+	@Override
+	public void partActivated(IWorkbenchPartReference partRef) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void partBroughtToTop(IWorkbenchPartReference partRef) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void partClosed(IWorkbenchPartReference partRef) {
+		IWorkbenchPart activePart = partRef.getPage().getActivePart();
+		if (!(activePart instanceof MultiPageGratextEditor))
+			clearPage();
+	}
+
+	@Override
+	public void partDeactivated(IWorkbenchPartReference partRef) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void partOpened(IWorkbenchPartReference partRef) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void partHidden(IWorkbenchPartReference partRef) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void partVisible(IWorkbenchPartReference partRef) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void partInputChanged(IWorkbenchPartReference partRef) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }
