@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>b2a34056-d5cd-4de8-9af8-7b51a4f248b2</id>
   <name>GenerateImageProvider</name>
-  <changecounter>175</changecounter>
+  <changecounter>184</changecounter>
   <sib>
     <id>64a32e2e-03eb-437a-8d64-183fed477869</id>
     <name>PutExpression</name>
@@ -148,6 +148,11 @@ public class $context.graphModelName$ImageProvider extends AbstractImageProvider
 				IFile f = files.get(0);
 				URL url = f.getLocationURI().toURL();
 				addImage(path, url.toString());
+			}  else {
+				java.io.File f = new java.io.File(path);
+				if (f.exists()) {
+					addImage(path, f.toURI().toURL().toString());
+				}
 			}
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
