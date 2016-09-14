@@ -56,7 +56,7 @@ public class ${GraphModelName}Adapter extends _CincoAdapter<${GraphModelName}Id,
 	}
 
 	public C${GraphModelName} getModelWrapper() {
-		if (modelWrapper == null)
+	//	if (modelWrapper == null)
 			createModelWrapper();
 		return modelWrapper;
 	}
