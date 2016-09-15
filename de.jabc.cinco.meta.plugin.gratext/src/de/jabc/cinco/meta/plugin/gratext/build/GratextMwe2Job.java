@@ -145,7 +145,6 @@ public abstract class GratextMwe2Job extends ReiteratingThread {
 		cfg.setAttribute("org.eclipse.debug.core.MAPPED_RESOURCE_TYPES", Lists.newArrayList(new String[] {"4"}));
 		cfg.setAttribute("org.eclipse.jdt.launching.ATTR_USE_START_ON_FIRST_THREAD", true);
 		cfg.setAttribute("org.eclipse.jdt.launching.MAIN_TYPE", "org.eclipse.emf.mwe2.launch.runtime.Mwe2Launcher");
-//		cfg.setAttribute("org.eclipse.jdt.launching.PROGRAM_ARGUMENTS", file.getProjectRelativePath().toOSString() /* "src/info/scce/dime/dad/gratext/DADGratext.mwe2" */);
 		cfg.setAttribute("org.eclipse.jdt.launching.PROGRAM_ARGUMENTS", file.getProjectRelativePath().toPortableString() /* "src/info/scce/dime/dad/gratext/DADGratext.mwe2" */);
 		cfg.setAttribute("org.eclipse.jdt.launching.PROJECT_ATTR", project.getName() /* "info.scce.dime.dad.gratext" */);
 		cfg.setAttribute("org.eclipse.ptp.launch.ATTR_AUTO_RUN_COMMAND", true);
