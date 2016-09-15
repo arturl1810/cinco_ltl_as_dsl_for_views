@@ -40,7 +40,7 @@ override template()
             class="«project.basePackage».«targetName»Editor"
             contributorClass="de.jabc.cinco.meta.plugin.gratext.runtime.editor.MultiPageContributor"
             default="true"
-            icon="platform:/plugin/«modelProjectSymbolicName»/«graphmodel.iconPath»"
+            «if (!graphmodel.iconPath.nullOrEmpty) '''icon="platform:/plugin/«modelProjectSymbolicName»/«graphmodel.iconPath»"'''»
             extensions="«graphmodel.fileExtension»"
             id="«model.basePackage».«model.name»MultiPageEditor"
             name="«model.name» Multi-Page Editor">
