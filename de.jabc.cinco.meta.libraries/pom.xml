@@ -376,7 +376,11 @@
 									<artifactId>poi-excelant</artifactId>
 									<version>3.10.1</version>
 								</artifactItem>
-
+								<artifactItem>
+								  <groupId>org.jooq</groupId>
+								  <artifactId>jool</artifactId>
+								  <version>0.9.12</version>
+								</artifactItem>
 							</artifactItems>
 							<outputDirectory>${basedir}/lib</outputDirectory>
 							<overWriteReleases>false</overWriteReleases>
