@@ -1,7 +1,6 @@
 package de.jabc.cinco.meta.plugin.gratext;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -24,7 +23,6 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 
 import de.jabc.cinco.meta.core.utils.projects.ProjectCreator;
-import de.jabc.cinco.meta.plugin.gratext.descriptor.GraphModelDescriptor;
 import de.jabc.cinco.meta.plugin.gratext.template.BackupGeneratorTemplate;
 import de.jabc.cinco.meta.plugin.gratext.template.DiagramTemplate;
 import de.jabc.cinco.meta.plugin.gratext.template.GratextEcoreTemplate;
@@ -78,7 +76,8 @@ public class GratextGenerator extends ProjectGenerator {
 					String genPackage = genPkg.getBasePackage() + "." + genPkg.getEcorePackage().getName() + "." + genPkg.getPrefix() + "Package";
 					genPackages.put(genPkg.getNSURI(), genPackage);
 					
-					String genModelUri = gm.eResource().getURI().toString();
+					String genModelUri = URI.createPlatformResourceURI(
+							gm.eResource().getURI().toPlatformString(false), false).toString();
 					genModelURIs.put(genPkg.getNSURI(), genModelUri);
 				});
 			}
