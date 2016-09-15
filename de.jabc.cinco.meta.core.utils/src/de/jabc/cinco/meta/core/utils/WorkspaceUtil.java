@@ -24,7 +24,10 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.edit.domain.EditingDomain;
+import org.eclipse.emf.edit.domain.IEditingDomainProvider;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
+import org.eclipse.ui.IEditorPart;
 
 public class WorkspaceUtil {
 
@@ -75,6 +78,24 @@ public class WorkspaceUtil {
 	public static ResourceEAPI eapi(Resource resource) {
 		return resp(resource);
 	}
+	
+	/**
+	 * Retrieve the API extension of the specified editor that
+	 * provides editor-specific utility methods for convenience.
+	 */
+	public static IEditorPartEAPI resp(IEditorPart editor) {
+		return new IEditorPartEAPI(editor);
+	}
+	
+	/**
+	 * Retrieve the API extension of the specified editor that
+	 * provides editor-specific utility methods for convenience.
+	 */
+	public static IEditorPartEAPI eapi(IEditorPart editor) {
+		return resp(editor);
+	}
+	
+	
 	
 	/**
 	 * Creates the specified resource.
@@ -166,14 +187,27 @@ public class WorkspaceUtil {
 		public IFile createFile(String name, String content) {
 			IFile file = container.getFile(new Path(name));
 			try {
-				final InputStream stream = new ByteArrayInputStream(content.getBytes(file.getCharset()));
+				return createFile(name, new ByteArrayInputStream(content.getBytes(file.getCharset())));
+			} catch (final Exception e) {
+				e.printStackTrace();
+			}
+			return file;
+		}
+		
+		/**
+		 * Creates a file with the specified name and content provided
+		 * by the specified input stream.
+		 * Only replaces its content if the file already exists.
+		 */
+		public IFile createFile(String name, InputStream stream) {
+			IFile file = container.getFile(new Path(name));
+			try {
 				if (file.exists()) 
 					file.setContents(stream, true, true, progressMonitor);
 				else
 					file.create(stream, true, progressMonitor);
 				stream.close();
-			}
-			catch (final Exception e) {
+			} catch (final Exception e) {
 				e.printStackTrace();
 			}
 			return file;
@@ -552,6 +586,114 @@ public class WorkspaceUtil {
 		public ResourceEAPI withProgressMonitor(IProgressMonitor monitor) {
 			this.progressMonitor = monitor;
 			return this;
+		}
+	}
+	
+	public static class IEditorPartEAPI {
+		
+		private IEditorPart editor;
+		private IProgressMonitor progressMonitor;
+
+		public IEditorPartEAPI(IEditorPart editor) {
+			this.editor = editor;
+		}
+		
+		/**
+		 * Retrieves the project that the underlying resource representing this editor's
+		 * input is associated with, or {@code null} if not existing or this editor does
+		 * not implement the interface {@code IEditingDomainProvider}.
+		 */
+		public IProject getProject() {
+			URI uri = getResource().getURI();
+			if (uri.isPlatformResource()) {
+				return ResourcesPlugin.getWorkspace().getRoot()
+						.findMember(uri.toPlatformString(true)).getProject();
+			}
+			return null;
+		}
+		
+		/**
+		 * Retrieves the underlying resource that represents this editor's input, or
+		 * {@code null} if not existing or this editor does not implement the interface
+		 * {@code IEditingDomainProvider}.
+		 */
+		public Resource getResource() {
+			EditingDomain ed = getEditingDomain();
+			if (ed != null)
+				return ed.getResourceSet().getResources().get(0);
+			else return null;
+		}
+		
+		/**
+		 * Retrieves the editing domain of this editor, or {@code null} if not existing
+		 * or this editor does not implement the interface
+		 * {@code IEditingDomainProvider}.
+		 */
+		public EditingDomain getEditingDomain() {
+			return editor instanceof IEditingDomainProvider
+				? ((IEditingDomainProvider) editor).getEditingDomain()
+				: null;
+		}
+		
+		/**
+		 * Retrieves the diagram contained in the underlying resource that represents
+		 * this editor's input.
+		 * It is assumed that the editor implements the interface
+		 * {@code IEditingDomainProvider}.
+		 * It is assumed that a diagram exists and is placed at the default location
+		 * (i.e. the first content object of the resource).
+		 * However, if the content object at this index is not a diagram all content
+		 * objects are searched through for diagrams and the first occurrence is
+		 * returned, if existent.
+		 * 
+		 * Convenience method for {@code getContent(Diagram.class, 0)}.
+		 * 
+		 * @throws NoSuchElementException if the resource does not contain any diagram.
+		 * @throws RuntimeException if accessing the resource failed.
+		 */
+		public Diagram getDiagram() {
+			return resp(getResource()).getContent(Diagram.class, 0);
+		}
+		
+		/**
+		 * Retrieves the graph model contained in the underlying resource that
+		 * represents this editor's input.
+		 * It is assumed that the editor implements the interface
+		 * {@code IEditingDomainProvider}.
+		 * It is assumed that a graph model exists and is placed at the default location
+		 * (i.e. the second content object of the resource).
+		 * However, if the content object at this index is not a graph model all content
+		 * objects are searched through for graph models and the first occurrence is
+		 * returned, if existent.
+		 * 
+		 * Convenience method for {@code getContent(GraphModel.class, 1)}.
+		 * 
+		 * @throws NoSuchElementException if the resource does not contain any graph model.
+		 * @throws RuntimeException if accessing the resource failed.
+		 */
+		public GraphModel getGraphModel() {
+			return resp(getResource()).getContent(GraphModel.class, 1);
+		}
+		
+		/**
+		 * Retrieves the graph model of the specified type contained in the underlying
+		 * resource that represents this editor's input.
+		 * It is assumed that the editor implements the interface
+		 * {@code IEditingDomainProvider}.
+		 * It is assumed that a graph model of the specified type exists and is placed
+		 * at the default location (i.e. the second content object of the resource).
+		 * However, if the content object at this index is not a graph model of the
+		 * specified type all content objects are searched through for graph models
+		 * of that type and the first occurrence is returned, if existent.
+		 * 
+		 * Convenience method for {@code getContent(<ModelClass>, 1)}.
+		 * 
+		 * @throws NoSuchElementException if the resource does not contain any graph
+		 *   model of the specified type.
+		 * @throws RuntimeException if accessing the resource failed.
+		 */
+		public <T extends GraphModel> T getGraphModel(Class<T> modelClass) {
+			return resp(getResource()).getContent(modelClass, 1);
 		}
 	}
 }
