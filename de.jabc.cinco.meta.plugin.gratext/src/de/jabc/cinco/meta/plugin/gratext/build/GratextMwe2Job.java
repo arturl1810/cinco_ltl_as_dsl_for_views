@@ -49,7 +49,7 @@ public abstract class GratextMwe2Job extends ReiteratingThread {
 	private List<ILaunchConfiguration> launches;
 	private List<ILaunchConfiguration> unseen;
 	private ILaunchListener launchListener;
-	private IFile antlrPatch;
+//	private IFile antlrPatch;
 	
 	public GratextMwe2Job(IProject project) {
 		super(INTERVAL, INTERVAL / 10);
@@ -82,7 +82,7 @@ public abstract class GratextMwe2Job extends ReiteratingThread {
 		
 		unseen = new ArrayList<>();
     	processes = new ArrayList<>(); 
-    	antlrPatch = findAntlrPatch();
+//    	antlrPatch = findAntlrPatch();
 		registerLaunchListener();
 		launch(project, mwe2File);
     }
@@ -264,6 +264,7 @@ public abstract class GratextMwe2Job extends ReiteratingThread {
 		IFile file = project.getFile(new Path(ANTLR_PATCH_FILENAME));
 		//System.out.println("[Gratext.Listener" + hashCode() + "] Antlr patch exists: " + file.exists());
 		if (!file.exists()) {
+			IFile antlrPatch = findAntlrPatch();
 			//System.out.println("[Gratext.Listener" + hashCode() + "] Not found Antlr patch for project " + project.getName());
 			if (antlrPatch == null) {
 				antlrPatch = downloadAntlrPatch(project);
