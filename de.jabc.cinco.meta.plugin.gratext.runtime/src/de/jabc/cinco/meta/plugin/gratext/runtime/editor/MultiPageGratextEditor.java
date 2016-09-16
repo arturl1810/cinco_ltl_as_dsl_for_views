@@ -172,8 +172,14 @@ public abstract class MultiPageGratextEditor extends MultiPageEditorPart impleme
     public void doSave(IProgressMonitor monitor) {
 		IEditorPart editor = getActiveEditor();
 		if (isDirty()) try {
+			if (editor != sourceEditor
+					&& innerState != null
+					&& innerState instanceof GratextResource) {
+				((GratextResource) innerState).informAboutSave();
+			}
 			updateInnerState(editor);
 			sourceEditor.doSave(monitor);
+			pawEditors.forEach(pawEditor -> pawEditor.handleSaved());
 		} catch(Exception e) {
 			handleSaveError(editor, e);
 		}
@@ -398,9 +404,7 @@ public abstract class MultiPageGratextEditor extends MultiPageEditorPart impleme
 			}
 			if (innerState instanceof GratextResource) {
 				((GratextResource) innerState).onInternalStateChanged(() -> {
-					async(() -> 
-						pawEditors.forEach(editor -> editor.handleInnerStateChanged())
-					);
+					pawEditors.forEach(editor -> async(() -> editor.handleInnerStateChanged()));
 				});
 			} else {
 				// this editor is NOT supposed to work with incompatible resources

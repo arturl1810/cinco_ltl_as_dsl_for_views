@@ -20,6 +20,7 @@ abstract class GratextResource extends LazyLinkingResource {
 	private Diagram diagram
 	private EObject model
 	private Runnable internalStateChangedHandler
+	private boolean saveTriggered
 	
 	def void generateContent()
 	
@@ -90,12 +91,21 @@ abstract class GratextResource extends LazyLinkingResource {
 		update(0, getParseResult().getRootNode().getText().length(), newText)
 	}
 	
+	def informAboutSave() {
+		saveTriggered = true 
+	}
+	
 	override updateInternalState(IParseResult oldParseResult, IParseResult newParseResult) {
 		val oldRoot = oldParseResult?.rootASTElement
 		if (oldRoot != null && oldRoot != newParseResult.rootASTElement) {
-			oldRoot.unload
-			diagram.unload
-			remove(oldRoot, diagram, model)
+			if (getContents.contains(oldRoot)) {
+				oldRoot.unload
+				remove(oldRoot)
+			}
+			if (!saveTriggered) {
+				diagram.unload
+				remove(diagram, model)
+			}
 		}
 		updateInternalState(newParseResult)
 	}
@@ -104,7 +114,10 @@ abstract class GratextResource extends LazyLinkingResource {
 		parseResult = newParseResult
 		val newRoot = newParseResult.rootASTElement
 		if (newRoot != null) {
-			if (diagram == null || !getContents.contains(diagram)) {
+			if (saveTriggered) {
+				saveTriggered = false
+			}
+			else if (diagram == null || !getContents.contains(diagram)) {
 				insert(0, newRoot)
 				newRoot.reattachModificationTracker
 				clearErrorsAndWarnings
