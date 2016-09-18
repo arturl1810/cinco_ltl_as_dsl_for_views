@@ -20,7 +20,8 @@ abstract class GratextResource extends LazyLinkingResource {
 	private Diagram diagram
 	private EObject model
 	private Runnable internalStateChangedHandler
-	private boolean saveTriggered
+	private Runnable newParseResultHandler
+	private boolean skipInternalStateUpdate
 	
 	def void generateContent()
 	
@@ -41,6 +42,10 @@ abstract class GratextResource extends LazyLinkingResource {
 	
 	def onInternalStateChanged(Runnable runnable) {
 		internalStateChangedHandler = runnable
+	}
+	
+	def onNewParseResult(Runnable runnable) {
+		newParseResultHandler = runnable
 	}
 	
 	def getContent(int index) {
@@ -91,8 +96,8 @@ abstract class GratextResource extends LazyLinkingResource {
 		update(0, getParseResult().getRootNode().getText().length(), newText)
 	}
 	
-	def informAboutSave() {
-		saveTriggered = true 
+	def skipInternalStateUpdate() {
+		skipInternalStateUpdate = true 
 	}
 	
 	override updateInternalState(IParseResult oldParseResult, IParseResult newParseResult) {
@@ -102,7 +107,7 @@ abstract class GratextResource extends LazyLinkingResource {
 				oldRoot.unload
 				remove(oldRoot)
 			}
-			if (!saveTriggered) {
+			if (!skipInternalStateUpdate) {
 				diagram.unload
 				remove(diagram, model)
 			}
@@ -114,23 +119,25 @@ abstract class GratextResource extends LazyLinkingResource {
 		parseResult = newParseResult
 		val newRoot = newParseResult.rootASTElement
 		if (newRoot != null) {
-			if (saveTriggered) {
-				saveTriggered = false
-			}
-			else if (diagram == null || !getContents.contains(diagram)) {
-				insert(0, newRoot)
-				newRoot.reattachModificationTracker
-				clearErrorsAndWarnings
-				addSyntaxErrors
-				transact[
-					doLinking
-					generateContent
-					diagram = getContent(0) as Diagram
-					model = getContent(1)
-				]
-				internalStateChangedHandler?.run
+			if (!skipInternalStateUpdate) {
+				if (diagram == null || !getContents.contains(diagram)) {
+					insert(0, newRoot)
+					newRoot.reattachModificationTracker
+					clearErrorsAndWarnings
+					addSyntaxErrors
+					transact[
+						doLinking
+						generateContent
+						diagram = getContent(0) as Diagram
+						model = getContent(1)
+					]
+					internalStateChangedHandler?.run
+				}
+			} else {
+				skipInternalStateUpdate = false
 			}
 		}
+		newParseResultHandler?.run
 		// for debugging only
 		if (getContents.size != 2) {
 			System.err.println("[" + getClass().getSimpleName() + "] WARN: unexpected number of content objects")

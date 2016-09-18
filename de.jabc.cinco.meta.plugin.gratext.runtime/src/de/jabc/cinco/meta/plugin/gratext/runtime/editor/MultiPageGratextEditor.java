@@ -6,6 +6,7 @@ import static de.jabc.cinco.meta.plugin.gratext.runtime.util.GratextUtils.sync;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.concurrent.LinkedTransferQueue;
 
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -47,7 +48,7 @@ public abstract class MultiPageGratextEditor extends MultiPageEditorPart impleme
 	
     private XtextResource innerState;
     private int currentPage = -1;
-    
+    private boolean awaitingResourceUpdate;
     
     public MultiPageGratextEditor() {
         super();
@@ -170,12 +171,25 @@ public abstract class MultiPageGratextEditor extends MultiPageEditorPart impleme
     
     @Override
     public void doSave(IProgressMonitor monitor) {
-		IEditorPart editor = getActiveEditor();
+    	if (awaitingResourceUpdate || !UpdatingEditorsRegistry.INSTANCE.isEmpty()) {
+    		showSaveInProgress();
+    		return;
+    	}
+    	IEditorPart editor = getActiveEditor();
 		if (isDirty()) try {
 			if (editor != sourceEditor
 					&& innerState != null
 					&& innerState instanceof GratextResource) {
-				((GratextResource) innerState).informAboutSave();
+				((GratextResource) innerState).skipInternalStateUpdate();
+				((GratextResource) innerState).onNewParseResult(() -> {
+					awaitingResourceUpdate = false;
+				});
+				awaitingResourceUpdate = true;
+			}
+			if (editor == sourceEditor) try {
+				Thread.sleep(500);
+			} catch(InterruptedException e) {
+				e.printStackTrace();
 			}
 			updateInnerState(editor);
 			sourceEditor.doSave(monitor);
@@ -359,6 +373,12 @@ public abstract class MultiPageGratextEditor extends MultiPageEditorPart impleme
 					+ "Please resolve them before switching to another editor page.");
 	}
 	
+	protected void showSaveInProgress() {
+		MessageDialog.openInformation(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+			"Saving editor state canceled", "The preceding saving process has not finished, yet.\n"
+					+ "Please try again later.");
+	}
+	
 	protected void switchToEditor(EditorPart editor) {
 		setActiveEditor(editor);
 	}
@@ -404,7 +424,11 @@ public abstract class MultiPageGratextEditor extends MultiPageEditorPart impleme
 			}
 			if (innerState instanceof GratextResource) {
 				((GratextResource) innerState).onInternalStateChanged(() -> {
-					pawEditors.forEach(editor -> async(() -> editor.handleInnerStateChanged()));
+					pawEditors.forEach(editor -> async(() -> {
+						UpdatingEditorsRegistry.INSTANCE.put(editor);
+						editor.handleInnerStateChanged();
+						UpdatingEditorsRegistry.INSTANCE.poll();
+					}));
 				});
 			} else {
 				// this editor is NOT supposed to work with incompatible resources
@@ -417,5 +441,9 @@ public abstract class MultiPageGratextEditor extends MultiPageEditorPart impleme
 	
 	protected int getSourceEditorIndex() {
 		return getPageCount() - 1;
+	}
+	
+	private static class UpdatingEditorsRegistry {
+		public static LinkedTransferQueue<IEditorPart> INSTANCE = new LinkedTransferQueue<>();
 	}
 }
