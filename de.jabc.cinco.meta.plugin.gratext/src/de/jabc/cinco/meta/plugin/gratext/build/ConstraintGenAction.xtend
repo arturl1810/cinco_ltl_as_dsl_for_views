@@ -1,12 +1,10 @@
 package de.jabc.cinco.meta.plugin.gratext.build
 
-import static de.jabc.cinco.meta.core.utils.WorkspaceUtil.resp
-import static de.jabc.cinco.meta.core.utils.job.JobFactory.job
-import static extension de.jabc.cinco.meta.core.utils.WorkspaceUtil.createResource
-import static extension java.util.stream.StreamSupport.stream
-
+import de.jabc.cinco.meta.plugin.gratext.descriptor.GraphModelDescriptor
 import java.util.stream.Stream
-
+import mgl.GraphModel
+import mgl.Node
+import mgl.NodeContainer
 import org.eclipse.core.resources.IFile
 import org.eclipse.core.resources.IFolder
 import org.eclipse.core.resources.IProject
@@ -18,13 +16,11 @@ import org.eclipse.jface.viewers.ISelection
 import org.eclipse.jface.viewers.IStructuredSelection
 import org.eclipse.ui.IActionDelegate
 
-import de.jabc.cinco.meta.plugin.gratext.descriptor.GraphModelDescriptor
-import mgl.GraphModel
-import mgl.Node
-import mgl.NodeContainer
-import org.eclipse.swt.widgets.Display
-import org.eclipse.jface.dialogs.MessageDialog
-import org.eclipse.swt.SWT
+import static de.jabc.cinco.meta.core.utils.WorkspaceUtil.resp
+import static de.jabc.cinco.meta.core.utils.job.JobFactory.job
+
+import static extension de.jabc.cinco.meta.core.utils.WorkspaceUtil.createResource
+import static extension java.util.stream.StreamSupport.stream
 
 class ConstraintGenAction implements IActionDelegate {
 	
@@ -38,64 +34,12 @@ class ConstraintGenAction implements IActionDelegate {
 	IFolder modelGenFolder;
 	
 	override run(IAction action) {
-		
-		job("Test Builder")
-		  .cancelOnFail(false)
-		  .consume(25, "Consume.string")
-		    .task("Task 1 its name",[dummy])
-		    .task("Name of task 2",[dummy])
-//		    .task("throwExceptionTask1", [throwException])
-		    .task("Task 4 its name",[dummy])
-//		    .task("throwExceptionTask2", [throwException])
-		    .task("Task 6 its name",[dummy])
-		    .task("Task 7 its name",[dummy])
-		  
-		  .onFailed[show("onFailed message")]  
-		  .onFinished[show("onFinished message")]
-		   
-		  .schedule();
-		
-//		job("Constraint View Builder")
-//			.consume(5, "Initializing...")
-//			.task([init])
-//			.consume(95, "Generating...")
-//			.taskForEach([modelFiles],[run],[name])
-//			.schedule
-	}
-	
-	def show(String msg) {
-		val display = Display.getCurrent ?: Display.getDefault
-		display.syncExec[
-			MessageDialog.openInformation(display.getActiveShell, "Message title", msg)
-		]
-	}
-	
-	def dummy() {
-		try {
-			Thread.sleep(500)
-		} catch(InterruptedException e) {
-			
-		}
-		println("done")
-	}
-	
-	def throwException() {
-		try {
-			try {
-				try {
-					throw new RuntimeException("This is the exception message.");
-				} catch(Exception e) {
-					var message = "Something wrong on lvl 0."
-					throw new RuntimeException(message, e);
-				}
-			} catch(Exception e) {
-				var message = "Something wrong on lvl 1."
-				throw new RuntimeException(message, e);
-			}
-		} catch(Exception e) {
-			var message = "Something wrong on lvl 2."
-			throw new RuntimeException(message, e);
-		}
+		job("Constraint View Builder")
+			.consume(5, "Initializing...")
+			.task([init])
+			.consume(95, "Generating...")
+			.taskForEach([modelFiles],[run],[name])
+			.schedule
 	}
 	
 	def init() {
