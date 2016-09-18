@@ -1,5 +1,7 @@
 package de.jabc.cinco.meta.core.utils.job;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -14,9 +16,6 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.core.runtime.jobs.JobChangeAdapter;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Display;
-
-import de.jabc.cinco.meta.core.utils.CincoUtils;
-import de.jabc.cinco.meta.core.utils.WorkspaceUtil;
 
 /**
  * Runtime job whose progress can be monitored.
@@ -390,7 +389,7 @@ public class CompoundJob extends Job {
 		
 		String msg = (e.getMessage() != null)
 			? e.getMessage()
-			: "Unknown exception.";
+			: "Unexpected exception.";
 			
 		Throwable cause = e.getCause();
 		while (cause != null) {
@@ -398,6 +397,11 @@ public class CompoundJob extends Job {
 				msg += "\n\t" + cause.getMessage();
 			cause = cause.getCause();
 		}
+		
+		StringWriter stacktrace = new StringWriter();
+		e.printStackTrace(new PrintWriter(stacktrace));
+		msg += "\n\n" + stacktrace.toString();
+		
 		return new RuntimeException(msg, e);
 	}
 		
