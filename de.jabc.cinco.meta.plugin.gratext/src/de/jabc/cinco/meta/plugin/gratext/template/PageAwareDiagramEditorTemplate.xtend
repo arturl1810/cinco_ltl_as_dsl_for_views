@@ -50,6 +50,11 @@ public class PageAware«model.name»DiagramEditor extends «model.name»DiagramE
 			diagramBehavior.getUpdateBehavior().createEditingDomain((IDiagramEditorInput) input);
 		}
 	}
+
+	@Override
+	public void handleSaved() {
+		diagramBehavior.handleSaved();
+	}
 }
 '''
 }

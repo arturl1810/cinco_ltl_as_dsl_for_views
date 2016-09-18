@@ -302,7 +302,7 @@ public class GratextLanguageGenerator extends ProjectGenerator {
 	}
 	
 	private GenModel getImportedGenmodel(Import i) {
-		URI genModelURI = URI.createURI(new Path(i.getImportURI()).removeFileExtension().addFileExtension("genmodel").toOSString());
+		URI genModelURI = URI.createURI(new Path(i.getImportURI()).removeFileExtension().addFileExtension("genmodel").toString());
 		Resource res = new ResourceSetImpl().getResource(genModelURI, true);
 		if (res != null) try {
 			res.load(null);

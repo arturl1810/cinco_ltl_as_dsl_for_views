@@ -103,7 +103,7 @@ public class GratextModelBuild extends ReiteratingJob {
 		if (!failed) try {
 			monitor.setTaskName("Genmodel job: " + project.getName());
 			Resource res = new ResourceSetImpl().getResource(
-					URI.createPlatformResourceURI(genmodel.getFullPath().toOSString(), true),true);
+					URI.createPlatformResourceURI(genmodel.getFullPath().toString(), true),true);
 			res.load(null);
 			res.getContents().stream()
 				.filter(GenModel.class::isInstance)
