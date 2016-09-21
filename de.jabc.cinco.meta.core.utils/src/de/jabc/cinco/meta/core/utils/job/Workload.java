@@ -10,7 +10,6 @@ import java.util.stream.Stream;
 import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
 
 /**
@@ -612,10 +611,7 @@ public class Workload implements ComplexStep {
 			d = Display.getDefault();
 		final Display display = d;
 		display.asyncExec(() ->
-			new MessageDialog(display.getActiveShell(),
-				job.getName(), display.getSystemImage(SWT.ICON_INFORMATION),
-	            msg, MessageDialog.INFORMATION, new String[] {"OK"}, 0
-	        ).open()
+			MessageDialog.openError(display.getActiveShell(), job.getName(), msg)
 		);
 	}
 }

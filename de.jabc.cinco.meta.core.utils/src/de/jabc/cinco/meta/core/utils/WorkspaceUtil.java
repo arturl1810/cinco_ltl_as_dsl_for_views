@@ -167,6 +167,16 @@ public class WorkspaceUtil {
 		return resp(ResourcesPlugin.getWorkspace().getRoot()).getResources(clazz, resConstraint, contConstraint);
 	}
 	
+	/**
+	 * Retrieves the resource for the specified URI from the workspace,
+	 * if existent. Returns {@code null} if the resource does not exist
+	 * or the specified URI is not a platform URI.
+	 */
+	public static IResource getResource(URI uri) {
+		if (uri.isPlatformResource())
+			return ResourcesPlugin.getWorkspace().getRoot().findMember(uri.toPlatformString(true));
+		return null;
+	}
 	
 	/**
 	 * Extension of the IContainer API
@@ -587,6 +597,26 @@ public class WorkspaceUtil {
 			this.progressMonitor = monitor;
 			return this;
 		}
+				
+		/**
+		 * Retrieves the IResource pendant for the specified resource,
+		 * if existent. Returns {@code null} if the resource does not exist
+		 * or the specified URI is not a platform URI.
+		 */
+		public IResource getIResource() {
+			return getResource(resource.getURI());
+		}
+
+		/**
+		 * Retrieves the project this resource is located in, if existent.
+		 * Returns {@code null} if the resource or the project does not exist.
+		 */
+		public IProject getProject() {
+			IResource ires = getIResource();
+			if (ires == null)
+				return null;
+			return ires.getProject();
+		}
 	}
 	
 	public static class IEditorPartEAPI {
@@ -604,12 +634,7 @@ public class WorkspaceUtil {
 		 * not implement the interface {@code IEditingDomainProvider}.
 		 */
 		public IProject getProject() {
-			URI uri = getResource().getURI();
-			if (uri.isPlatformResource()) {
-				return ResourcesPlugin.getWorkspace().getRoot()
-						.findMember(uri.toPlatformString(true)).getProject();
-			}
-			return null;
+			return resp(getResource()).getProject();
 		}
 		
 		/**

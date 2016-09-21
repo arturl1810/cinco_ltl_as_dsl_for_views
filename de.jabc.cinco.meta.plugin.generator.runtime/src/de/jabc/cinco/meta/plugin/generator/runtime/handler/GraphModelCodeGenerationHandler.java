@@ -18,7 +18,6 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.handlers.HandlerUtil;
 
 import de.jabc.cinco.meta.core.utils.job.CompoundJob;
-import de.jabc.cinco.meta.plugin.generator.runtime.IGenerator;
 import de.jabc.cinco.meta.plugin.generator.runtime.registry.GeneratorDiscription;
 import de.jabc.cinco.meta.plugin.generator.runtime.registry.GraphModelGeneratorRegistry;
 
@@ -30,8 +29,9 @@ import de.jabc.cinco.meta.plugin.generator.runtime.registry.GraphModelGeneratorR
  */
 public class GraphModelCodeGenerationHandler extends AbstractHandler {
 	
-	private IGenerator<GraphModel> generator;
+	private IEditorPart activeEditor;
 	private GraphModel graphModel;
+	private GeneratorDiscription<GraphModel> generatorDescription;
 	private String fileName;
 	private IProject project;
 	private IPath outlet;
@@ -48,8 +48,14 @@ public class GraphModelCodeGenerationHandler extends AbstractHandler {
 		CompoundJob job = job("Code Generation");
 		
 		job.consume(100, "Initializing...")
-			.task("Retrieve graph model", () -> init(event));
-		
+		   .task("Retrieve active editor", () -> retrieveActiveEditor(event))
+		   .task("Retrieve graph model", this::retrieveGraphModel)
+		   .task("Retrieve generator", this::retrieveGenerator)
+		   .cancelIf(this::isGeneratorMissing, "Failed to retrieve generator.\n\n"
+					+ "Either this type of model is not associated with a generator "
+					+ "or something went seriously wrong. In the latter case, try to "
+					+ "restart the application.")
+		   .task("Initialize outlet", this::initOutlet);
 		job.schedule();
 		
 		try {
@@ -66,11 +72,10 @@ public class GraphModelCodeGenerationHandler extends AbstractHandler {
 		job = job("Code Generation")
 				.label("Generating for model " + fileName + " ...");
 		
-		generator.collectTasks(graphModel, outlet, job);
+		generatorDescription.getGenerator().collectTasks(graphModel, outlet, job);
 		
 		job.consume(5, "Refreshing workspace...")
-		   .task("Refreshing workspace...", this::refreshProject)
-//		   .onCanceledShowMessage("Code generation canceled.")
+		   .task("Refresh workspace", this::refreshProject)
 		   .onFinishedShowMessage("Code generation successful.")
 		   .schedule();
 		
@@ -170,47 +175,60 @@ public class GraphModelCodeGenerationHandler extends AbstractHandler {
 //		return null;
 	}
 	
-	private void init(ExecutionEvent event) {
-		IEditorPart activeEditor = null;
+	
+	
+	private void retrieveActiveEditor(ExecutionEvent event) {
 		try {
 			IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindowChecked(event);
 			activeEditor = window.getActivePage().getActiveEditor();
 		} catch (Exception e) {
 			throw new RuntimeException("Failed to retrieve active editor.", e);
 		}
+	}
+	
+	private void retrieveGraphModel() {
 		try {
 			fileName = resp(activeEditor).getResource().getURI().lastSegment();
 			graphModel = resp(activeEditor).getGraphModel();
 		} catch (Exception e) {
 			throw new RuntimeException("Failed to retrieve graph model for editor: " + activeEditor, e);
 		}
+	}
+	
+	private void retrieveGenerator() {
 		try {
 			String graphModelClassName = 
 					graphModel.getClass().getName().replace("Impl", "").replace(".impl", "");
 			List<GeneratorDiscription<GraphModel>> generatorDescriptions =
 					GraphModelGeneratorRegistry.INSTANCE.getAllGenerators(graphModelClassName);
-			
-			if (generatorDescriptions == null) {
-				throw new RuntimeException(
-						"No generator found for model class: " + graphModelClassName);
-			} else for (GeneratorDiscription<GraphModel> generatorDiscription : generatorDescriptions) {
-				generator = generatorDiscription.getGenerator();
-				System.err.println("### generator: " + generator);
-				if (generator == null) {
-					throw new RuntimeException(
-							"No generator found for model class: " + graphModelClassName);
-				}
-				project = resp(activeEditor).getProject();
-//				IFolder outletFolder = resp(project).createFolder(generatorDiscription.getOutlet());
-				outlet = project.getLocation().append(generatorDiscription.getOutlet());
-				if (!outlet.toFile().exists()) {
-					outlet.toFile().mkdirs();
-				} else if (!outlet.toFile().isDirectory()) {
-					throw new RuntimeException("Outlet exists, but is no directory: " + outlet);
-				}
-			}
+			if (generatorDescriptions != null && !generatorDescriptions.isEmpty()) 
+				generatorDescription = generatorDescriptions.get(0);
 		} catch(Exception e) {
-			throw new RuntimeException("Failed to start generator due to an unexpected error.", e);
+			throw new RuntimeException("Failed to retrieve generator.", e);
+		}
+	}
+	
+	private boolean isGeneratorMissing() {
+		return generatorDescription == null
+				|| generatorDescription.getGenerator() == null;
+	}
+	
+	private void initOutlet() {
+		try {
+			project = resp(activeEditor).getProject();
+			if (project == null || !project.isOpen()) {
+				throw new RuntimeException("The project is closed or does not exist: " + project);
+			}
+			outlet = project.getLocation().append(generatorDescription.getOutlet());
+			if (!outlet.toFile().exists()) {
+				outlet.toFile().mkdirs();
+			} else if (!outlet.toFile().isDirectory()) {
+				throw new RuntimeException("Outlet exists, but is no directory: " + outlet);
+			}
+		} catch(RuntimeException e) {
+			throw e;
+		} catch(Exception e) {
+			throw new RuntimeException("Unexpected exception. Failed to initialize the outlet: " + outlet, e);
 		}
 	}
 	

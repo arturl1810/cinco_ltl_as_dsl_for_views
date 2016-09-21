@@ -307,7 +307,7 @@ public class CompoundJob extends Job {
 	 * @param message  The message to be shown.
 	 */
 	public CompoundJob onFailedShowMessage(String message) {
-		onFailedMessage = () -> showMessage(message);
+		onFailedMessage = () -> showErrorMessage(message);
 		return this;
 	}
 	
@@ -450,6 +450,14 @@ public class CompoundJob extends Job {
 		Display display = getDisplay();
 		display.syncExec(() ->
 			MessageDialog.openInformation(display.getActiveShell(),
+				this.getName(), message)
+		);
+	}
+	
+	private void showErrorMessage(String message) {
+		Display display = getDisplay();
+		display.syncExec(() ->
+			MessageDialog.openError(display.getActiveShell(),
 				this.getName(), message)
 		);
 	}
