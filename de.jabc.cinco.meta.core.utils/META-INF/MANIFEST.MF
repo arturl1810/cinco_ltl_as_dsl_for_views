@@ -19,6 +19,7 @@ Import-Package: ProductDefinition,
  org.eclipse.graphiti.mm.pictograms,
  org.eclipse.jdt.core,
  org.eclipse.pde.core.project,
+ org.eclipse.ui.ide,
  style
 Export-Package: de.jabc.cinco.meta.core.utils,
  de.jabc.cinco.meta.core.utils.dependency,

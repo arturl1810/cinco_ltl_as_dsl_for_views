@@ -24,10 +24,14 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.ide.IDE;
 
 public class WorkspaceUtil {
 
@@ -169,13 +173,59 @@ public class WorkspaceUtil {
 	
 	/**
 	 * Retrieves the resource for the specified URI from the workspace,
-	 * if existent. Returns {@code null} if the resource does not exist
-	 * or the specified URI is not a platform URI.
+	 * if existent. Returns {@code null} if the resource does not exist.
 	 */
 	public static IResource getResource(URI uri) {
-		if (uri.isPlatformResource())
-			return ResourcesPlugin.getWorkspace().getRoot().findMember(uri.toPlatformString(true));
-		return null;
+		if (uri == null)
+			return null;
+		String path = uri.isPlatformResource()
+				? uri.toPlatformString(true)
+				: uri.path();
+		return ResourcesPlugin.getWorkspace().getRoot().findMember(path);
+	}
+	
+	/**
+	 * Retrieves the resource for the specified object from the workspace,
+	 * if existent. Returns {@code null} if the resource does not exist.
+	 */
+	public static IResource getResource(EObject obj) {
+		return getResource(EcoreUtil.getURI(obj));
+	}
+	
+	/**
+	 * Retrieves the file for the specified URI from the workspace,
+	 * if existent. Returns {@code null} if the resource does not exist
+	 * or it is not a file.
+	 */
+	public static IFile getFile(URI uri) {
+		IResource res = getResource(uri);
+		return (res instanceof IFile)
+			? (IFile) res
+			: null;
+	}
+	
+	/**
+	 * Retrieves the file for the specified EObject from the workspace,
+	 * if existent. Returns {@code null} if the resource does not exist
+	 * or it is not a file.
+	 */
+	public static IFile getFile(EObject obj) {
+		return getFile(EcoreUtil.getURI(obj));
+	}
+	
+	/**
+	 * Retrieves the underlying file for the specified EObject and opens
+	 * it in a new editor in the active page of the active workbench window.
+	 * @return 
+	 * @return an open editor or {@code null} if an external editor was opened
+	 *   or the containing resource is not associated with a file in the workspace.
+	 * @throws PartInitException if the editor could not be initialized 
+	 */
+	public static IEditorPart openEditor(EObject obj) throws PartInitException {
+		IFile file = getFile(obj);
+		if (file == null)
+			return null;
+		return resp(file).openEditor();
 	}
 	
 	/**
@@ -463,6 +513,19 @@ public class WorkspaceUtil {
 					file.getFullPath().toOSString(), true);
 		}
 		
+		/**
+		 * Open a new editor for the specified file in the active page of the
+		 * active workbench window.
+		 * @return an open editor or {@code null} if an external editor was opened
+		 *   or the containing resource is not associated with a file in the workspace.
+		 * @throws PartInitException if the editor could not be initialized
+		 */
+		public IEditorPart openEditor() throws PartInitException {
+			return IDE.openEditor(
+				PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage(),
+				file);
+		}
+		
 		public IFileEAPI withProgressMonitor(IProgressMonitor monitor) {
 			this.progressMonitor = monitor;
 			return this;
@@ -605,6 +668,17 @@ public class WorkspaceUtil {
 		 */
 		public IResource getIResource() {
 			return getResource(resource.getURI());
+		}
+		
+		/**
+		 * Retrieves the file for this resource, if existent.
+		 * Returns {@code null} if the file does not exist.
+		 */
+		public IFile getFile() {
+			IResource res = getIResource();
+			return (res instanceof IFile)
+				? (IFile) res
+				: null;
 		}
 
 		/**
