@@ -11,7 +11,8 @@ Require-Bundle: org.eclipse.core.runtime,
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Export-Package: de.jabc.cinco.meta.plugin.generator.runtime,
- de.jabc.cinco.meta.plugin.generator.runtime.handler
+ de.jabc.cinco.meta.plugin.generator.runtime.handler,
+ de.jabc.cinco.meta.plugin.generator.runtime.registry
 Import-Package: de.jabc.cinco.meta.core.utils,
  de.jabc.cinco.meta.core.utils.job,
  org.eclipse.core.commands,
