@@ -9,7 +9,12 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.xtext.ui,
  org.eclipse.emf.codegen.ecore,
  org.apache.commons.io,
- org.eclipse.ui.workbench
+ org.eclipse.ui.workbench,
+ com.google.guava,
+ org.eclipse.xtext.xbase.lib,
+ org.eclipse.xtend.lib,
+ org.eclipse.xtend.lib.macro,
+ de.jabc.cinco.meta.libraries
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: ProductDefinition,
