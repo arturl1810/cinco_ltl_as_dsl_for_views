@@ -17,6 +17,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.EList;
@@ -314,6 +315,19 @@ public class WorkspaceUtil {
 		 */
 		public List<IFile> getFiles(Predicate<IFile> fileConstraint, Predicate<IContainer> contConstraint) {
 			return getResources(IFile.class, fileConstraint, contConstraint);
+		}
+
+		/**
+		 * Retrieves the folder identified by the path of this container that
+		 * is interpreted relative to this container's project.
+		 * Returns {@code null} if path or folder does not exist.
+		 */
+		public IFolder getFolder() {
+			IPath path = container.getProjectRelativePath();
+			if (path == null)
+				return null;
+			IFolder folder = container.getFolder(path);
+			return folder;
 		}
 		
 		/**

@@ -105,6 +105,33 @@ public class EclipseFileUtils {
 		}
 	}
 	
+	/**
+	 * Helper method for code generators that require static files given in some bundle (probably the one
+	 * where the code generator is implemented).
+	 * 
+	 * @param bundleId
+	 * @param pathInBundle
+	 * @param targetFile
+	 */
+	public static void copyFromBundleToFile(String bundleId, String pathInBundle, IFile targetFile) {
+		Bundle b = Platform.getBundle(bundleId);
+		URL directoryURL = b.getEntry(pathInBundle);
+		if (directoryURL == null) {
+			throw new RuntimeException(String.format("path '%s' not found in bundle '%s'", pathInBundle, bundleId));
+		}
+		try {
+			// solution based on http://stackoverflow.com/a/23953081
+			URL fileURL = FileLocator.toFileURL(directoryURL);
+			java.net.URI resolvedURI = new java.net.URI(fileURL.getProtocol(), fileURL.getPath(), null);
+		    File source = new File(resolvedURI);
+		    File target = targetFile.getRawLocation().makeAbsolute().toFile(); 
+		    FileUtils.copyFile(source, target);
+		}
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+	
 	
 	
 	

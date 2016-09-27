@@ -22,6 +22,8 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.jobs.Job;
 
 import de.jabc.cinco.meta.core.ui.listener.MGLSelectionListener;
+import de.jabc.cinco.meta.core.utils.EclipseFileUtils;
+import de.jabc.cinco.meta.core.utils.WorkspaceUtil;
 import de.jabc.cinco.meta.plugin.gratext.build.GratextModelBuild;
 
 public class GratextGenerationHandler extends AbstractHandler {
@@ -81,15 +83,24 @@ public class GratextGenerationHandler extends AbstractHandler {
 	private void assertAntlrPatch(IProject project) {
 		IFile file = project.getFile(new Path(ANTLR_PATCH_FILENAME));
 		if (!file.exists()) {
-			IFile antlrPatch = findAntlrPatch();
-			if (antlrPatch == null) {
-				antlrPatch = downloadAntlrPatch(project);
-			} else try {
-				file.create(antlrPatch.getContents(), true, null);
-			} catch(CoreException e) {
-				e.printStackTrace();
-			}
+			copyAntlrPatch(project);
+			
+//			IFile antlrPatch = findAntlrPatch();
+//			if (antlrPatch == null) {
+//				antlrPatch = downloadAntlrPatch(project);
+//			} else try {
+//				file.create(antlrPatch.getContents(), true, null);
+//			} catch(CoreException e) {
+//				e.printStackTrace();
+//			}
 		}
+	}
+	
+	private void copyAntlrPatch(IProject project) {
+		EclipseFileUtils.copyFromBundleToFile(
+			"de.jabc.cinco.meta.libraries",
+			"lib_local/antlr-generator-3.2.0-patch.jar",
+			project.getFile(".antlr-generator-3.2.0-patch.jar"));
 	}
 	
 	private IFile findAntlrPatch() {
