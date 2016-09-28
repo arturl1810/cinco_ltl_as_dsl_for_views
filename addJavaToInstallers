@@ -40,7 +40,7 @@ for os in linux win32 macosx; do
 	unzip ${zip} "${cincoini}" || exit 3
 
 	echo "Adding '-vm ${javapath}' to ${cincoini}"
-	sed -i "s#-vmargs#-vm\n${javapath}\n-vmargs#" ${cincoini} || exit 4
+	sed -i "s,-vmargs,-vm\n${javapath}\n-vmargs," ${cincoini} || exit 4
 
 	echo "Copying all-jdks/java-${os} to ${version}/java"
 	cp -a all-jdks/java-${os} ${version}/java || exit 5
