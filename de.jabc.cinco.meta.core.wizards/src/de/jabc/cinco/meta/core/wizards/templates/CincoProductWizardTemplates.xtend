@@ -58,7 +58,7 @@ edgeStyle simpleArrow {
 	'''
 	
 	def static generateSomeGraphCPD(String modelName, String packageName)'''
-cincoProduct «modelName»{
+cincoProduct «modelName»Tool {
 	mgl "model/«modelName».mgl"
 }		
 	'''

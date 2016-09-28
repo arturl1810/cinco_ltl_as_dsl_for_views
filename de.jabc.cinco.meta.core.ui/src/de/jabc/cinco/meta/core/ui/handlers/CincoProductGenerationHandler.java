@@ -45,6 +45,7 @@ import ProductDefinition.MGLDescriptor;
 import de.jabc.cinco.meta.core.BundleRegistry;
 import de.jabc.cinco.meta.core.mgl.MGLEPackageRegistry;
 import de.jabc.cinco.meta.core.ui.listener.MGLSelectionListener;
+import de.jabc.cinco.meta.core.ui.templates.NewProjectWizardGenerator;
 import de.jabc.cinco.meta.core.utils.CincoUtils;
 import de.jabc.cinco.meta.core.utils.GeneratorHelper;
 import de.jabc.cinco.meta.core.utils.dependency.DependencyGraph;
@@ -108,6 +109,9 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 				.task("Generating perspective...", () -> generatePerspective(mgl))
 				.task("Generating Gratext model...", () -> generateGratextModel(mgl));
 		}
+		
+		job.consume(5, "Global Processing")
+			.task("Generating project wizard...", this::generateProjectWizard);
 			
 		job.consumeConcurrent(mgls.size() * 60, "Building Gratext...")
 		    .taskForEach(() -> mgls.stream(), this::buildGratext,
@@ -438,6 +442,28 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	private void generateProjectWizard() {
+		System.out.println("Generating Project Wizard");
+		CincoProduct cp = (CincoProduct) CincoUtils.getCPD(cpdFile);
+		
+		IProject p = cpdFile.getProject();
+		IFile pluginXML = p.getFile("plugin.xml");
+		String wizardExtensionCommentID = "<!--@CincoGen PROJECT_WIZARD_"+cp.getName().toUpperCase()+"_WIZ -->";
+		String navigatorExtensionCommentID = "<!--@CincoGen PROJECT_WIZARD_"+cp.getName().toUpperCase()+"_NAV -->";
+		
+		CharSequence wizardJavaCode = 
+				NewProjectWizardGenerator.generateWizardJavaCode(cp, cpdFile.getProject().getName());
+		CharSequence newWizardXML = 
+				NewProjectWizardGenerator.generateNewWizardXML(cp, cpdFile.getProject().getName(), wizardExtensionCommentID);
+		CharSequence navigatorXML = 
+				NewProjectWizardGenerator.generateNavigatorXML(cp, cpdFile.getProject().getName(), navigatorExtensionCommentID);
+		
+		IFile file = p.getFile("src-gen/"+p.getName().replace(".", "/")+"/"+cp.getName()+"ProjectWizard.java");
+		CincoUtils.writeContentToFile(file, wizardJavaCode.toString());
+		CincoUtils.addExtension(pluginXML.getLocation().toString(), newWizardXML.toString(), wizardExtensionCommentID, p.getName());
+		CincoUtils.addExtension(pluginXML.getLocation().toString(), navigatorXML.toString(), navigatorExtensionCommentID, p.getName());
 	}
 	
 	private void build(IProject project) {

@@ -41,13 +41,15 @@ public class CincoProductProjectCreator {
 	private final String projectName;
 	private final String packageName;
 	private final String mglModelName;
+	private final String productName;
 	private final boolean createExample;
 	private final Set<ExampleFeature> features;
 	
-	public CincoProductProjectCreator(String projectName, String packageName, String mglModelName, boolean createExample, Set<ExampleFeature> features) {
+	public CincoProductProjectCreator(String projectName, String packageName, String mglModelName, String productName, boolean createExample, Set<ExampleFeature> features) {
 		this.projectName = projectName;
 		this.packageName = packageName;
 		this.mglModelName = (mglModelName.endsWith(".mgl")) ? mglModelName.split("\\.")[0] : mglModelName;
+		this.productName = productName;
 		this.createExample = createExample;
 		if (createExample)
 			this.features = features;
@@ -76,7 +78,7 @@ public class CincoProductProjectCreator {
 			createResource(modelFolder, monitor);
 			IFile mglModelFile = modelFolder.getFile(mglModelName.concat(".mgl"));
 			IFile styleModelFile = modelFolder.getFile(mglModelName.concat(".style"));
-			IFile cpdModelFile = modelFolder.getFile(mglModelName.concat(".cpd"));
+			IFile cpdModelFile = modelFolder.getFile(productName.concat(".cpd"));
 			if (!createExample) {
 				CharSequence mglCode = CincoProductWizardTemplates.generateSomeGraphMGL(mglModelName, packageName);
 				EclipseFileUtils.writeToFile(mglModelFile, mglCode);

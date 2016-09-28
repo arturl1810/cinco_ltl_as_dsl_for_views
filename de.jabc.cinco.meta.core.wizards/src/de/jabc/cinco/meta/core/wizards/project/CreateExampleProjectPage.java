@@ -53,6 +53,8 @@ public class CreateExampleProjectPage extends WizardPage {
 		btnProjectAsPkg.setSelection(true);
 		btnProjectAsPkg.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 2, 1));
 		btnProjectAsPkg.setText("Use project name as package name");
+		//FIXME: this is a temporary hack, as different project names and package names cause errors
+		btnProjectAsPkg.setEnabled(false);
 		
 		Label lblPackageName = new Label(comp, SWT.NONE);
 		lblPackageName.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1));

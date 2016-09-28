@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.StringWriter;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,6 +15,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 import mgl.Annotation;
 import mgl.Attribute;
@@ -39,6 +47,9 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.xtext.util.StringInputStream;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import style.Style;
 import style.Styles;
@@ -334,23 +345,22 @@ public class CincoUtils {
 				reader = new BufferedReader(new InputStreamReader(fis));
 				String CINCO_GEN = extensionCommentID;
 	//			String CINCO_GEN = new String("<!--@CincoGen "+gName+"-->");
-				ArrayList<String> extensions = getExtensions(originalText);
+				ArrayList<String> extensions = getExtensionsWithDOM(originalText);
 				ArrayList<String> remove = new ArrayList<>();
 				for (String ext : extensions) {
-					if (ext.contains(CINCO_GEN) && ext.contains("perspective"))
+					if (ext.contains(CINCO_GEN))
 						remove.add(ext);
 				}
 				
 				extensions.removeAll(remove);
 				
-				StringBuilder sb = new StringBuilder(PLUGIN_FRAME);
-				int offset = sb.indexOf("</plugin>");
-				sb.insert(offset, c);
+				StringBuilder updatedText = new StringBuilder(PLUGIN_FRAME);
+				int offset = updatedText.indexOf("</plugin>");
 				for (String ext : extensions)
-					sb.insert(offset, ext);
-				originalText = sb.toString();
+					updatedText.insert(offset, ext);
+				updatedText.insert(offset, c);				
 				FileOutputStream fos = new FileOutputStream(f);
-				fos.write(originalText.getBytes());
+				fos.write(updatedText.toString().getBytes());
 				fos.close();
 				fis.close();
 			} else {
@@ -378,6 +388,32 @@ public class CincoUtils {
 		} catch (CoreException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+	}
+	
+	private static ArrayList<String> getExtensionsWithDOM(String origText) {
+		try {
+			ArrayList<String> extensions = new ArrayList<>();
+			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+			Document doc = dBuilder.parse(new StringInputStream(origText));
+			doc.getDocumentElement().normalize();
+			NodeList extensionNodes = doc.getElementsByTagName("extension");
+			for (int extensionIndex = 0; extensionIndex < extensionNodes.getLength(); extensionIndex++) {
+				Node extensionNode = extensionNodes.item(extensionIndex);				
+				// https://stackoverflow.com/questions/2223020/convert-an-org-w3c-dom-node-into-a-string
+				StringWriter writer = new StringWriter();
+				Transformer transformer = TransformerFactory.newInstance().newTransformer();
+				transformer.transform(new DOMSource(extensionNode), new StreamResult(writer));
+				String extensionString = writer.toString();
+				//remove <?xml version="1.0" encoding="UTF-8"?>
+				extensionString = extensionString.substring(extensionString.indexOf("?>") + 2);
+				extensions.add(extensionString);				
+			}
+			return extensions;			
+		}
+		catch (Throwable t) {
+			throw new RuntimeException(t);
 		}
 	}
 	
