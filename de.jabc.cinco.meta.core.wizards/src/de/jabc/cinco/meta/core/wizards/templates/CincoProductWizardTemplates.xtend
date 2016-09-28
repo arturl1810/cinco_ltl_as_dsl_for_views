@@ -525,7 +525,7 @@ public class ShortestPathToEnd extends CincoCustomAction<Start> {
 	def static generatePrimeRefGenmodel(String modelName, String packageName, String projectName, String projectID) '''
 <?xml version="1.0" encoding="UTF-8"?>
 <genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
-    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/«projectName»/src-gen" editDirectory="/«projectName».edit/src-gen"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/«projectName»/elib-src-gen" editDirectory="/«projectName».edit/src-gen"
     editorDirectory="/«projectName».editor/src-gen" modelPluginID="«projectID»"
     modelName="ExternalLibrary" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
     testsDirectory="/«projectName».tests/src-gen" importerID="org.eclipse.emf.importer.ecore"
@@ -642,6 +642,19 @@ public class InitializeFlowGraphModel extends CincoPostCreateHook<FlowGraph> {
 
 	'''
 	
+	def static generateReadme(String modelName, String packageName, String projectName, Set<ExampleFeature> features) '''
+	Generated Documentation for Cinco feature showcase project «projectName»
+	
+	To generate your Cinco Product, right-click on «packageName»/model/«modelName».cpd and select 'Generate Cinco Product'
+	
+	«IF features.contains(PRIME_REFERENCES)»
+		CAUTION: You selected the "prime references" feature. Prior to product generation, you need to build the ExternalLibrary
+		code by opening «packageName»/model/ExternalLibrary.genmodel, right-clicking
+		on the root node in the opened editor, and selecting 'Generate All' from the context menu.
+	«ENDIF»	
+
+
+	'''
 	
 	
 	

@@ -32,6 +32,7 @@ import org.eclipse.ui.part.ISetSelectionTarget;
 import org.osgi.framework.Bundle;
 
 import de.jabc.cinco.meta.core.utils.BuildProperties;
+import de.jabc.cinco.meta.core.utils.EclipseFileUtils;
 import de.jabc.cinco.meta.core.utils.projects.ProjectCreator;
 import de.jabc.cinco.meta.core.wizards.templates.CincoProductWizardTemplates;
 
@@ -78,46 +79,50 @@ public class CincoProductProjectCreator {
 			IFile cpdModelFile = modelFolder.getFile(mglModelName.concat(".cpd"));
 			if (!createExample) {
 				CharSequence mglCode = CincoProductWizardTemplates.generateSomeGraphMGL(mglModelName, packageName);
-				writeToFile(mglModelFile, mglCode);
+				EclipseFileUtils.writeToFile(mglModelFile, mglCode);
 				
 				CharSequence styleCode = CincoProductWizardTemplates.generateSomeGraphStyle();
-				writeToFile(styleModelFile, styleCode);
+				EclipseFileUtils.writeToFile(styleModelFile, styleCode);
 
 				CharSequence cpdCode = CincoProductWizardTemplates.generateSomeGraphCPD(mglModelName, packageName);
-				writeToFile(cpdModelFile, cpdCode);
+				EclipseFileUtils.writeToFile(cpdModelFile, cpdCode);
 				
 				
 			}
 			else {
 				CharSequence mglCode = CincoProductWizardTemplates.generateFlowGraphMGL(mglModelName, packageName, projectName, features);
-				writeToFile(mglModelFile, mglCode);
+				EclipseFileUtils.writeToFile(mglModelFile, mglCode);
 				
 				CharSequence styleCode = CincoProductWizardTemplates.generateFlowGraphStyle(packageName, features);
-				writeToFile(styleModelFile, styleCode);
+				EclipseFileUtils.writeToFile(styleModelFile, styleCode);
 
 				CharSequence cpdCode = CincoProductWizardTemplates.generateFlowGraphCPD(mglModelName, packageName, features);
-				writeToFile(cpdModelFile, cpdCode);
+				EclipseFileUtils.writeToFile(cpdModelFile, cpdCode);
+				
+				IFile readmeFile = project.getFile("README.txt");
+				CharSequence readmeCode = CincoProductWizardTemplates.generateReadme(mglModelName, packageName, projectName, features);
+				EclipseFileUtils.writeToFile(readmeFile, readmeCode);
 
 				if (features.contains(APPEARANCE_PROVIDER)) {
 					IFolder appearanceFolder = project.getFolder("src/" + packageName.replaceAll("\\.", "/") + "/appearance");
 					createResource(appearanceFolder, monitor); 
 					IFile appearanceProviderFile = appearanceFolder.getFile("SimpleArrowAppearance.java");
 					CharSequence appearanceProviderCode = CincoProductWizardTemplates.generateAppearanceProvider(mglModelName, packageName);
-					writeToFile(appearanceProviderFile, appearanceProviderCode);
+					EclipseFileUtils.writeToFile(appearanceProviderFile, appearanceProviderCode);
 				}
 				if (features.contains(CODE_GENERATOR)) {
 					IFolder codegenFolder = project.getFolder("src/" + packageName.replaceAll("\\.", "/") + "/codegen");
 					createResource(codegenFolder, monitor);
 					IFile codegenFile = codegenFolder.getFile("Generate.java");
 					CharSequence codegenCode = CincoProductWizardTemplates.generateCodeGenerator(mglModelName, packageName);
-					writeToFile(codegenFile, codegenCode);
+					EclipseFileUtils.writeToFile(codegenFile, codegenCode);
 				}
 				if (features.contains(CUSTOM_ACTION)) {
 					IFolder customActionFolder = project.getFolder("src/" + packageName.replaceAll("\\.", "/") + "/action");
 					createResource(customActionFolder, monitor);
 					IFile customActionFile = customActionFolder.getFile("ShortestPathToEnd.java");
 					CharSequence customActionCode = CincoProductWizardTemplates.generateCustomAction(mglModelName, packageName);
-					writeToFile(customActionFile, customActionCode);
+					EclipseFileUtils.writeToFile(customActionFile, customActionCode);
 				}
 				if (features.contains(ICONS)){
 					copyIcons(project);
@@ -128,12 +133,12 @@ public class CincoProductProjectCreator {
 				if (features.contains(PRIME_REFERENCES)) {
 					IFile externalLibraryEcoreFile = modelFolder.getFile("ExternalLibrary.ecore");
 					CharSequence externalLibraryEcoreCode = CincoProductWizardTemplates.generatePrimeRefEcore(mglModelName, packageName);
-					writeToFile(externalLibraryEcoreFile, externalLibraryEcoreCode);
+					EclipseFileUtils.writeToFile(externalLibraryEcoreFile, externalLibraryEcoreCode);
 
 					IFile externalLibraryGenmodelFile = modelFolder.getFile("ExternalLibrary.genmodel");
 					CharSequence externalLibraryGenmodelCode = CincoProductWizardTemplates.generatePrimeRefGenmodel(
 							mglModelName, packageName, projectName, ProjectCreator.makeSymbolicName(projectName));
-					writeToFile(externalLibraryGenmodelFile, externalLibraryGenmodelCode);
+					EclipseFileUtils.writeToFile(externalLibraryGenmodelFile, externalLibraryGenmodelCode);
 				}
 				if (features.contains(POST_CREATE_HOOKS) || features.contains(TRANSFORMATION_API)) {
 					IFolder hooksFolder = project.getFolder("src/" + packageName.replaceAll("\\.", "/") + "/hooks");
@@ -141,12 +146,12 @@ public class CincoProductProjectCreator {
 					if (features.contains(POST_CREATE_HOOKS)) {
 						IFile appearanceProviderFile = hooksFolder.getFile("RandomActivityName.java");
 						CharSequence randomNameHookCode = CincoProductWizardTemplates.generateRandomActivityNameHook(mglModelName, packageName);
-						writeToFile(appearanceProviderFile, randomNameHookCode);
+						EclipseFileUtils.writeToFile(appearanceProviderFile, randomNameHookCode);
 					}
 					if (features.contains(TRANSFORMATION_API)) {
 						IFile appearanceProviderFile = hooksFolder.getFile("InitializeFlowGraphModel.java");
 						CharSequence initFlowGraphHookCode = CincoProductWizardTemplates.generateInitFlowGraphHook(mglModelName, packageName);
-						writeToFile(appearanceProviderFile, initFlowGraphHookCode);
+						EclipseFileUtils.writeToFile(appearanceProviderFile, initFlowGraphHookCode);
 						
 					}
 				}
@@ -234,20 +239,6 @@ public class CincoProductProjectCreator {
 		List<String> natures = new ArrayList<String>();
 		natures.add("org.eclipse.xtext.ui.shared.xtextNature");
 		return natures;
-	}
-
-	private void writeToFile(IFile file, CharSequence code) {		
-		try {
-			createFile(file, code.toString());
-		} catch (CoreException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	
-	}
-
-	private void createFile(IFile file, String content) throws CoreException{
-		file.create(new ByteArrayInputStream(content.getBytes()), true, new NullProgressMonitor());
 	}
 
 	/**

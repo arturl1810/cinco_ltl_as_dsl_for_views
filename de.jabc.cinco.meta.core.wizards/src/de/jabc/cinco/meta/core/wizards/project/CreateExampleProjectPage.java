@@ -33,7 +33,7 @@ public class CreateExampleProjectPage extends WizardPage {
 	protected CreateExampleProjectPage(String pageName) {
 		super(pageName);
 		setTitle("Initialize Showcase Project with Examples");
-		setDescription("Create FlowGraph feature showcase project.");
+		setDescription("Create FlowGraph feature showcase project. Please read README.txt after project creation.");
 		setPageComplete(false);
 	}
 
