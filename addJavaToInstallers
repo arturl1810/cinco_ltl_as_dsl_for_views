@@ -1,0 +1,59 @@
+#!/bin/zsh
+
+if [ ! -d "all-jdks" ]; then
+	echo "You don't have the required directory 'all-jdks'. See https://projekte.itmc.tu-dortmund.de/projects/cinco-ls5/wiki/JDK_Package for more information. Exiting."
+	exit 1
+fi
+
+for os in linux win32 macosx; do
+
+	echo "Processing ${os}"
+
+	zip=`ls de.jabc.cinco.meta.product/target/products/*zip | grep ${os} | head -n 1`
+
+	if [ -z $zip ]; then
+		echo "zip file for os=${os} not found. Aborting."
+		echo
+		continue
+	fi
+
+	echo "ZIP file: $zip"
+
+	version=`ls ${zip} | sed "s,.*\\(cinco-[0-9\\.]*\\).*,\\1,"`
+	echo "Version: $version"
+
+	if [ ${os} = 'macosx' ]; then
+		cincoini="${version}/cinco.app/Contents/MacOS/cinco.ini"
+		javapath="../../../java/Contents/Home/bin/java"
+	elif [ ${os} = 'win32' ]; then
+		cincoini="${version}/cinco.ini"
+		javapath="java/bin/java.exe"
+	elif [ ${os} = 'linux' ]; then
+		cincoini="${version}/cinco.ini"
+		javapath="java/bin/java"
+	else
+		echo "Unknown os=${os}. Exiting."
+		exit 2
+	fi
+	
+	echo "Extracting ${cincoini} from ${zip}"
+	unzip ${zip} "${cincoini}" || exit 3
+
+	echo "Adding '-vm ${javapath}' to ${cincoini}"
+	sed -i "s#-vmargs#-vm\n${javapath}\n-vmargs#" ${cincoini} || exit 4
+
+	echo "Copying all-jdks/java-${os} to ${version}/java"
+	cp -a all-jdks/java-${os} ${version}/java || exit 5
+
+	echo "Adding ${version} to ${zip}"
+	zip -q --symlinks -r ${zip} ${version} || exit 6
+
+	echo "Deleting ${version}"
+	rm -rf ${version} || exit 7
+
+	echo "Done with ${os}"
+	echo
+
+done
+
+echo "All done"
