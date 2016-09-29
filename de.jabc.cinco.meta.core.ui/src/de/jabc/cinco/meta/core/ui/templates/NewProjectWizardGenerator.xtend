@@ -71,11 +71,11 @@ public class «cp.name»ProjectWizard extends Wizard implements IWorkbenchWizard
 		
 		IWorkbench workbench = PlatformUI.getWorkbench();
 		try {
-		«IF (cp.defaultPerspective.nullOrEmpty)»
-			workbench.showPerspective("«pName».«cp.name.toLowerCase»perspective", workbench.getActiveWorkbenchWindow());
-		«ELSE»
-			workbench.showPerspective("«cp.defaultPerspective»", workbench.getActiveWorkbenchWindow());
-		«ENDIF»
+			«IF (cp.defaultPerspective.nullOrEmpty)»
+				workbench.showPerspective("«pName».«cp.name.toLowerCase»perspective", workbench.getActiveWorkbenchWindow());
+			«ELSE»
+				workbench.showPerspective("«cp.defaultPerspective»", workbench.getActiveWorkbenchWindow());
+			«ENDIF»
 		} catch (WorkbenchException e) {
 			e.printStackTrace();
 		}

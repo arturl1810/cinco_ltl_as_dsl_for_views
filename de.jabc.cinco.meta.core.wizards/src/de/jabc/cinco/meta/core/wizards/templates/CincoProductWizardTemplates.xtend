@@ -643,15 +643,91 @@ public class InitializeFlowGraphModel extends CincoPostCreateHook<FlowGraph> {
 	'''
 	
 	def static generateReadme(String modelName, String packageName, String projectName, Set<ExampleFeature> features) '''
-	Generated Documentation for Cinco feature showcase project «projectName»
+	= README =
 	
-	To generate your Cinco Product, right-click on «packageName»/model/«modelName».cpd and select 'Generate Cinco Product'
+	This is dynamically generated documentation for the Cinco FlowGraph example project with features
+	selected during project setup.
+
+	
+	== Getting Started ==
+	
+	Generate your Cinco Product: right-click on /«packageName»/model/«modelName»Tool.cpd and
+	select 'Generate Cinco Product'
 	
 	«IF features.contains(PRIME_REFERENCES)»
 		CAUTION: You selected the "prime references" feature. Prior to product generation, you need to build the ExternalLibrary
-		code by opening «packageName»/model/ExternalLibrary.genmodel, right-clicking
+		code by opening /«packageName»/model/ExternalLibrary.genmodel, right-clicking
 		on the root node in the opened editor, and selecting 'Generate All' from the context menu.
-	«ENDIF»	
+
+	«ENDIF»
+	Start your generated Cinco Product: right-click on /«packageName» and
+	select 'Run as > Eclipse Application'.
+	
+	Before you can start modeling, you need to create a project: right-click in the Project Explorer and
+	select 'New > New FlowGraphTool Project', give the project a name and click 'Finish'.
+	
+	Now start a first FlowGraph model: right-click on your created project and select 'New > New FlowGraph'.
+	
+
+	== General Features ==
+	
+	Basic FlowGraph models consist of three types of nodes and two types of edges:
+	
+	* 'Start' nodes are represented by a green circle and can may have exactly one outgoing 'Transition'
+	
+	* 'Activity' nodes have attributes 'name' and 'description' and are represented by a blue rectangle
+	  showing the name.  They can have multiple outgoing 'LabeledTransition' edges, and multiple incoming
+	  edges of arbitrary type.
+	
+	* 'End' nodes are represented by a red double circle and can have multiple incoming edges of arbitrary type.
+	
+
+	== Additional Features ==
+	
+	«IF (features.empty)»
+		You have not selected any additional features during project initialization.
+	«ELSE»
+		«IF features.contains(CONTAINERS)»
+			=== Containers ===
+
+		«ENDIF»
+		«IF features.contains(ICONS)»
+			=== Icons ===
+
+		«ENDIF»
+		«IF features.contains(APPEARANCE_PROVIDER)»
+			=== Appearance Provider ===
+
+		«ENDIF»
+		«IF features.contains(CUSTOM_ACTION)»
+			=== Custom Action ===
+
+		«ENDIF»
+		«IF features.contains(CODE_GENERATOR)»
+			=== Code Generator ===
+
+		«ENDIF»
+		«IF features.contains(PRIME_REFERENCES)»
+			=== Prime References ===
+
+		«ENDIF»
+		«IF features.contains(POST_CREATE_HOOKS)»
+			=== Post-Create Hooks ===
+
+		«ENDIF»
+		«IF features.contains(PALETTE_GROUPS)»
+			=== Palette Groups ===
+
+		«ENDIF»
+		«IF features.contains(TRANSFORMATION_API)»
+			=== Transformation API ===
+
+		«ENDIF»
+		«IF features.contains(PRODUCT_BRANDING)»
+			=== Product Branding ===	
+
+		«ENDIF»
+	«ENDIF»
 
 
 	'''

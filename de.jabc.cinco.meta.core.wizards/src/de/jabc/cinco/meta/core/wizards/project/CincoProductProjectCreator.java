@@ -26,6 +26,7 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.ui.IPageLayout;
+import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ISetSelectionTarget;
@@ -88,7 +89,8 @@ public class CincoProductProjectCreator {
 
 				CharSequence cpdCode = CincoProductWizardTemplates.generateSomeGraphCPD(mglModelName, packageName);
 				EclipseFileUtils.writeToFile(cpdModelFile, cpdCode);
-				
+
+				refreshSelectOpen(project, cpdModelFile, null, monitor);
 				
 			}
 			else {
@@ -157,19 +159,29 @@ public class CincoProductProjectCreator {
 						
 					}
 				}
+				refreshSelectOpen(project, cpdModelFile, readmeFile, monitor);
 			}
 
-			project.refreshLocal(IResource.DEPTH_INFINITE, monitor);
-
-			IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-			ISetSelectionTarget projectExplorerView = (ISetSelectionTarget)page.findView(IPageLayout.ID_PROJECT_EXPLORER);
-			// FIXME: projectExplorerView is null if current perspective does not contain a "Project Explorer" view
-			projectExplorerView.selectReveal(new StructuredSelection(cpdModelFile));
 
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private void refreshSelectOpen(IProject project, IFile selection, IFile open, IProgressMonitor monitor) throws CoreException {
+		project.refreshLocal(IResource.DEPTH_INFINITE, monitor);
+		
+		IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+
+		if (open != null) 
+			IDE.openEditor(page, open);
+
+		ISetSelectionTarget projectExplorerView = (ISetSelectionTarget)page.findView(IPageLayout.ID_PROJECT_EXPLORER);
+		// FIXME: projectExplorerView is null if current perspective does not contain a "Project Explorer" view
+		if (projectExplorerView != null && selection != null)
+			projectExplorerView.selectReveal(new StructuredSelection(selection));
+
 	}
 
 
