@@ -4,6 +4,8 @@ import de.jabc.cinco.meta.core.wizards.project.ExampleFeature
 import java.util.Set
 
 import static de.jabc.cinco.meta.core.wizards.project.ExampleFeature.*
+import java.util.Collections
+import java.util.EnumSet
 
 class CincoProductWizardTemplates {
 
@@ -211,8 +213,12 @@ graphModel «modelName» {
 	@palette("Rectangular Elements")
 	«ENDIF»
 	container Swimlane {
-		containableElements (*)
 		attr EString as actor	
+		«IF features.contains(PRIME_REFERENCES)»
+			containableElements (Start[1,1], Activity, End, ExternalActivity, SubFlowGraph)
+		«ELSE»
+			containableElements (Start[1,1], Activity, End)
+		«ENDIF»
 	}
 	«ENDIF»
 	
@@ -370,6 +376,52 @@ public class SimpleArrowAppearance implements StyleAppearanceProvider<Transition
 
 }
 	
+	
+	'''
+	
+	def static generateXtendCodeGenerator(String modelName, String packageName) '''
+
+package info.scce.cinco.product.flowgraph.codegen
+
+import de.jabc.cinco.meta.plugin.generator.runtime.IGenerator
+import info.scce.cinco.product.flowgraph.flowgraph.FlowGraph
+import org.eclipse.core.runtime.IPath
+import org.eclipse.core.runtime.IProgressMonitor
+import org.eclipse.core.resources.ResourcesPlugin
+import de.jabc.cinco.meta.core.utils.EclipseFileUtils
+
+/**
+ *  Example class that generates code for a given FlowGraph model. As different
+ *  feature examples might or might not be included (e.g. the external component
+ *  library or swimlanes), this generator only does stupidly enumerate all
+ *  nodes and prints some general information about them.
+ *
+ */
+class Generate implements IGenerator<FlowGraph> {
+	
+	override generate(FlowGraph model, IPath targetDir, IProgressMonitor monitor) {
+
+		if (model.modelName.nullOrEmpty)
+			throw new RuntimeException("Model's name must be set.")
+
+		val code = generateCode(model);
+		val targetFile = ResourcesPlugin.workspace.root.getFileForLocation(targetDir.append(model.modelName + ".txt"))
+
+		EclipseFileUtils.writeToFile(targetFile, code)
+
+	}
+
+	private def generateCode(FlowGraph model) «"'''"»
+		=== «"«"»model.modelName«"»"» ===
+		
+		The model contains «"«"»model.allNodes.size«"»"» nodes. Here's some general information about them:
+		
+		«"«"»FOR node : model.allNodes«"»"»
+			* node «"«"»node.id«"»"» of type '«"«"»node.eClass.name«"»"»' with «"«"»node.successors.size» successors and «"«"»node.predecessors.size«"»"» predecessors
+		«"«"»ENDFOR«"»"»
+	«"'''"»
+
+}
 	
 	'''
 	
@@ -651,15 +703,21 @@ public class InitializeFlowGraphModel extends CincoPostCreateHook<FlowGraph> {
 	
 	== Getting Started ==
 	
+		«IF features.contains(PRIME_REFERENCES)»
+		CAUTION: You selected the "prime references" feature. Prior to product generation, you need to build the
+		ExternalLibrary: open /«packageName»/model/ExternalLibrary.genmodel, right-click
+		on the root node in the opened editor, and select 'Generate All' from the context menu.
+
+		«ENDIF»
+		«IF !Collections.disjoint(features,EnumSet.of(APPEARANCE_PROVIDER, CODE_GENERATOR, CUSTOM_ACTION, POST_CREATE_HOOKS, TRANSFORMATION_API))»
+		Please note: You selected one or more features that produced Java source files. As they depend on classes
+		generated from the MGL, the project will report build errors (indicated by the red X marker) until you
+		generate the Cinco Product.
+
+		«ENDIF»
 	Generate your Cinco Product: right-click on /«packageName»/model/«modelName»Tool.cpd and
 	select 'Generate Cinco Product'
 	
-	«IF features.contains(PRIME_REFERENCES)»
-		CAUTION: You selected the "prime references" feature. Prior to product generation, you need to build the ExternalLibrary
-		code by opening /«packageName»/model/ExternalLibrary.genmodel, right-clicking
-		on the root node in the opened editor, and selecting 'Generate All' from the context menu.
-
-	«ENDIF»
 	Start your generated Cinco Product: right-click on /«packageName» and
 	select 'Run as > Eclipse Application'.
 	
@@ -668,6 +726,9 @@ public class InitializeFlowGraphModel extends CincoPostCreateHook<FlowGraph> {
 	
 	Now start a first FlowGraph model: right-click on your created project and select 'New > New FlowGraph'.
 	
+	See below for details on the available modeling elements and effects of additional features selected
+	during project initialization.
+
 
 	== General Features ==
 	
@@ -688,42 +749,79 @@ public class InitializeFlowGraphModel extends CincoPostCreateHook<FlowGraph> {
 		You have not selected any additional features during project initialization.
 	«ELSE»
 		«IF features.contains(CONTAINERS)»
+
 			=== Containers ===
+			
+			Containers are special nodes that can again hold other nodes (and containers). This selected feature adds
+			'Swimlane' containers to the FlowGraph example. The containableElements constraint defines what kind of
+			nodes (and how many of them) can be contained: Exactly one 'Start' node and arbitrary many of the other
+			node types, but no 'Swimlane' containers. The 'actor' attribute is displayed in the top left corner
+			of the swimlane.
 
 		«ENDIF»
 		«IF features.contains(ICONS)»
+
 			=== Icons ===
+			
+			This selected feature adds icons to the nodes (displayed in the palette), as well as to the FlowGraph
+			model type itself (used as file icon and in the editor tab). The images (png files) are located in the
+			icons folder of the project. They are referenced with the @icon(...) annotation (on nodes) and the iconPath
+			keyword on the graphModel.
 
 		«ENDIF»
 		«IF features.contains(APPEARANCE_PROVIDER)»
+
 			=== Appearance Provider ===
+			
+			Appearances define basic visual properties within the style language, like colors, line widths, line styles
+			fonts, etc. The selected feature makes use of an appearance provider, which can determine these values
+			dynamically at runtime. The Java class implementing this behavior is referenced in the edgeStyle/nodeStyle.
+			For the FlowGraph example, the appearance provider is used on the 'simpleArrow' style, which is used
+			by the 'Transition' node defined in the MGL. It will set a dashed line style, if the target node
+			of the edge is of type 'End', and a solid one in all other cases. Thus, if a 'Start' node is directly
+			connected with an 'End' node, the connecting edge will be rendered with a dashed line style.
 
 		«ENDIF»
 		«IF features.contains(CUSTOM_ACTION)»
+
 			=== Custom Action ===
+			
+			Cinco's custom actions allow one to execute arbitrary code based on the selected element. This includes
+			analyzing the model, transforming the model, code generation, etc. Currently, the action can be added to
+			the element in the MGL with two possible annotations: @contextMenuAction(...) and @doubleClickAction(...).
+			While the first appears in the menu for the user to choose when right-clicking on the element, the second
+			one is automatically executed on double-clicking the element. In the FlowGraph example, a custom action
+			is added to the 'Start' node. It searches for the shortest path to an 'End' node and displays the number
+			of required steps in a dialog window.
 
 		«ENDIF»
 		«IF features.contains(CODE_GENERATOR)»
+
 			=== Code Generator ===
 
 		«ENDIF»
 		«IF features.contains(PRIME_REFERENCES)»
+
 			=== Prime References ===
 
 		«ENDIF»
 		«IF features.contains(POST_CREATE_HOOKS)»
+
 			=== Post-Create Hooks ===
 
 		«ENDIF»
 		«IF features.contains(PALETTE_GROUPS)»
+
 			=== Palette Groups ===
 
 		«ENDIF»
 		«IF features.contains(TRANSFORMATION_API)»
+
 			=== Transformation API ===
 
 		«ENDIF»
 		«IF features.contains(PRODUCT_BRANDING)»
+
 			=== Product Branding ===	
 
 		«ENDIF»

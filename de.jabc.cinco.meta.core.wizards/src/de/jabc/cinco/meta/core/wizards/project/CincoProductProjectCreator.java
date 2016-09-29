@@ -117,8 +117,8 @@ public class CincoProductProjectCreator {
 				if (features.contains(CODE_GENERATOR)) {
 					IFolder codegenFolder = project.getFolder("src/" + packageName.replaceAll("\\.", "/") + "/codegen");
 					createResource(codegenFolder, monitor);
-					IFile codegenFile = codegenFolder.getFile("Generate.java");
-					CharSequence codegenCode = CincoProductWizardTemplates.generateCodeGenerator(mglModelName, packageName);
+					IFile codegenFile = codegenFolder.getFile("Generate.xtend");
+					CharSequence codegenCode = CincoProductWizardTemplates.generateXtendCodeGenerator(mglModelName, packageName);
 					EclipseFileUtils.writeToFile(codegenFile, codegenCode);
 				}
 				if (features.contains(CUSTOM_ACTION)) {
