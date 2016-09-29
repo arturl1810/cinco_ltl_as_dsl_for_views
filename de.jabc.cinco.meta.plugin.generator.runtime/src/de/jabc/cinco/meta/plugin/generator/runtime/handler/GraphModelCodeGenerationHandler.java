@@ -222,6 +222,7 @@ public class GraphModelCodeGenerationHandler extends AbstractHandler {
 			outlet = project.getLocation().append(generatorDescription.getOutlet());
 			if (!outlet.toFile().exists()) {
 				outlet.toFile().mkdirs();
+				project.refreshLocal(IProject.DEPTH_INFINITE, null);
 			} else if (!outlet.toFile().isDirectory()) {
 				throw new RuntimeException("Outlet exists, but is no directory: " + outlet);
 			}
