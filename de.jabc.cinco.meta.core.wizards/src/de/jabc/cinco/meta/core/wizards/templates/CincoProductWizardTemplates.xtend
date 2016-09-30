@@ -381,10 +381,10 @@ public class SimpleArrowAppearance implements StyleAppearanceProvider<Transition
 	
 	def static generateXtendCodeGenerator(String modelName, String packageName) '''
 
-package info.scce.cinco.product.flowgraph.codegen
+package «packageName».codegen
 
 import de.jabc.cinco.meta.plugin.generator.runtime.IGenerator
-import info.scce.cinco.product.flowgraph.flowgraph.FlowGraph
+import «packageName».«modelName.toLowerCase».«modelName»
 import org.eclipse.core.runtime.IPath
 import org.eclipse.core.runtime.IProgressMonitor
 import org.eclipse.core.resources.ResourcesPlugin
@@ -397,9 +397,9 @@ import de.jabc.cinco.meta.core.utils.EclipseFileUtils
  *  nodes and prints some general information about them.
  *
  */
-class Generate implements IGenerator<FlowGraph> {
+class Generate implements IGenerator<«modelName»> {
 	
-	override generate(FlowGraph model, IPath targetDir, IProgressMonitor monitor) {
+	override generate(«modelName» model, IPath targetDir, IProgressMonitor monitor) {
 
 		if (model.modelName.nullOrEmpty)
 			throw new RuntimeException("Model's name must be set.")
@@ -411,7 +411,7 @@ class Generate implements IGenerator<FlowGraph> {
 
 	}
 
-	private def generateCode(FlowGraph model) «"'''"»
+	private def generateCode(«modelName» model) «"'''"»
 		=== «"«"»model.modelName«"»"» ===
 		
 		The model contains «"«"»model.allNodes.size«"»"» nodes. Here's some general information about them:
@@ -568,7 +568,7 @@ public class ShortestPathToEnd extends CincoCustomAction<Start> {
         eType="#//ExternalActivity" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ExternalActivity">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" iD="true" />
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
 </ecore:EPackage>
@@ -703,18 +703,23 @@ public class InitializeFlowGraphModel extends CincoPostCreateHook<FlowGraph> {
 	
 	== Getting Started ==
 	
-		«IF features.contains(PRIME_REFERENCES)»
-		CAUTION: You selected the "prime references" feature. Prior to product generation, you need to build the
-		ExternalLibrary: open /«packageName»/model/ExternalLibrary.genmodel, right-click
-		on the root node in the opened editor, and select 'Generate All' from the context menu.
+			«IF features.contains(PRIME_REFERENCES)»
+			                            ┌─────────────────┐
+			                            │ /!\ CAUTION /!\ │
+			                            └─────────────────┘
+			You selected the "prime references" feature. Prior to product generation, 
+			you need to build the ExternalLibrary: open model/ExternalLibrary.genmodel,
+			right-click on the root node in the opened editor, and select 'Generate All'
+			from the context menu. See the "Additional Features" section below for more
+			information.
 
-		«ENDIF»
-		«IF !Collections.disjoint(features,EnumSet.of(APPEARANCE_PROVIDER, CODE_GENERATOR, CUSTOM_ACTION, POST_CREATE_HOOKS, TRANSFORMATION_API))»
-		Please note: You selected one or more features that produced Java source files. As they depend on classes
-		generated from the MGL, the project will report build errors (indicated by the red X marker) until you
-		generate the Cinco Product.
+			«ENDIF»
+	«IF !Collections.disjoint(features,EnumSet.of(APPEARANCE_PROVIDER, CODE_GENERATOR, CUSTOM_ACTION, POST_CREATE_HOOKS, TRANSFORMATION_API))»
+	Please note: You selected one or more features that produced Java source files. As they depend on classes
+	generated from the MGL, the project will report build errors (indicated by the red X marker) until you
+	generate the Cinco Product.
 
-		«ENDIF»
+	«ENDIF»
 	Generate your Cinco Product: right-click on /«packageName»/model/«modelName»Tool.cpd and
 	select 'Generate Cinco Product'
 	
@@ -743,8 +748,7 @@ public class InitializeFlowGraphModel extends CincoPostCreateHook<FlowGraph> {
 	* 'End' nodes are represented by a red double circle and can have multiple incoming edges of arbitrary type.
 	
 
-	== Additional Features ==
-	
+	== Additional Features ==	
 	«IF (features.empty)»
 		You have not selected any additional features during project initialization.
 	«ELSE»
@@ -798,6 +802,14 @@ public class InitializeFlowGraphModel extends CincoPostCreateHook<FlowGraph> {
 		«IF features.contains(CODE_GENERATOR)»
 
 			=== Code Generator ===
+			
+			The example code generator is implemented in Xtend, as it is compatible with Java (it actually generates
+			.java files from .xtend files), but provides several syntactic ehancements and has built-in support for
+			templates. See https://eclipse.org/xtend/documentation/ for more information on Xtend.
+			Code generators are usually very specific to the target domain, and there is no meaningful execution semantics
+			for our	FlowGraph model. So, the example code generator only enumerates all nodes of the model and prints
+			some general information about them.
+
 
 		«ENDIF»
 		«IF features.contains(PRIME_REFERENCES)»
@@ -808,16 +820,44 @@ public class InitializeFlowGraphModel extends CincoPostCreateHook<FlowGraph> {
 		«IF features.contains(POST_CREATE_HOOKS)»
 
 			=== Post-Create Hooks ===
+			
+			Hooks are used to execute arbitrary code (e.g. analyzing/transforming the model) before or after certain events
+			on elements occur. Currently, four different events are available, which are referenced with according annotations:
+			@postCreate(...), @postMove(...), @postResize(...), and @preDelete(...). The post-create hook generated with this
+			FlowGraph example is bound to the 'Activity' node type and randomly sets the name when a new activity is created.
 
 		«ENDIF»
 		«IF features.contains(PALETTE_GROUPS)»
 
 			=== Palette Groups ===
+			
+			By default, all node types are displayed in the palette in a general group named "Nodes". This selected feature 
+			adds the @palette(...) annotation to all node types, either with "Round Elements" or "Rectangular Elements" as
+			name for the group.
 
 		«ENDIF»
 		«IF features.contains(TRANSFORMATION_API)»
 
 			=== Transformation API ===
+			
+			The Cinco Transformation API (C-API) is automatically generated for every Cinco product. It wraps the actual model
+			types as defined in the MGL and the graphical representation into one easy-to-use API. Every model element has an
+			according C-prefixed type, i.e. CFlowGraph, CStart, CActivity, etc. on which one can perform programmatically (e.g.
+			within custom actions, hooks, or even code generators) everything that the modeling tool user can do by clicking
+			within the running tool. This includes adding, moving, resizing, and deleting nodes, connecting, reconnecting and
+			deleting edges, setting attributes, etc.
+
+			This selected feature adds a post-create hook to the FlowGraph model itself. It is triggered by the "New FlowGraph"
+			wizard after creating the model. It initializes the model with a 'Start' node, an 'Activity' node, and an 'End' node.
+
+			«IF features.contains(POST_CREATE_HOOKS)»
+				Please note: You also selected the "Post-create hooks" feature during project initialization. So, the added 'Activity'
+				node will also contain a random value for the 'name' attribute, as its post-create hook will also trigger when a new
+				node is created via the C-API.
+			«ELSE»
+				Please note: If you would have selected the "Post-create hooks" feature during project initialization, the according
+				hook of the 'Activity' node would also trigger when a new node is created via the C-API.
+			«ENDIF»
 
 		«ENDIF»
 		«IF features.contains(PRODUCT_BRANDING)»
