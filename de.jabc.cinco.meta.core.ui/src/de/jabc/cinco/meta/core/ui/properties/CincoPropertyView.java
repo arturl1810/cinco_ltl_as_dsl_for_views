@@ -19,7 +19,9 @@ import org.eclipse.core.databinding.UpdateValueStrategy;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.databinding.property.list.IListProperty;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFProperties;
 import org.eclipse.emf.databinding.IEMFListProperty;
@@ -721,9 +723,17 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				FileDialog dialog = new FileDialog(s, SWT.OPEN);
-				if (WorkbenchUtil.getProjectForActiveEditor() != null) {
-					dialog.setFilterPath(WorkbenchUtil.getProjectForActiveEditor().getLocation().toString());
-				} else dialog.setFilterPath(ResourcesPlugin.getWorkspace().getRoot().getLocation().toString());
+				IProject project = WorkbenchUtil.getProjectForActiveEditor();
+				if (project != null) {
+					IPath location = project.getLocation();
+					System.out.println("Setting browsee location via project: " + location.toString());
+					dialog.setFilterPath(location.toString());
+				}
+				else {
+					IPath location = ResourcesPlugin.getWorkspace().getRoot().getLocation();
+					System.out.println("Setting browse location via workspace: " + location.toString());
+					dialog.setFilterPath(location.toString());
+				}
 				
 				String extensions = "";
 				List<String> nonEmpty = fileExtensionFilters.get(attr).stream().filter(str -> !str.isEmpty()).collect(Collectors.toList());
