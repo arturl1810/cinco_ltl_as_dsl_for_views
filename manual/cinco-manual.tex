@@ -3,7 +3,7 @@
 % rubber: module xr
 \documentclass[a4paper,american,12pt]{scrreprt}
 
-\usepackage[margin=1.5cm]{geometry}
+\usepackage[margin=1.8cm]{geometry}
 
 \usepackage{graphicx}
 \usepackage[headsepline]{scrpage2}
@@ -81,31 +81,37 @@
 \vfill
 \end{titlepage}
 
-
 \chapter{Basics}
 
 \section{About This Document}
 
 This is the technical manual for the ``\cinco SCCE Meta Tooling Suite'' (in
 short just \cinco). It is intended to provide a basic usage introduction as
-well as (coming soon) reference for all features and keywords. It only implicitely covers the
+well as (coming soon\texttrademark{}) reference for all features and keywords. It only implicitely covers the
 conceptual ideas behind \cinco. For a more in-depth and scientific view on those,
 please refer to the following publications:
 %
 \begin{itemize}
 %\item S. Naujokat et al.: Full generation of domain-specific graphical modeling tools: a
 %meta$^2$modeling approach \cite{NaLSKM2014}
-\item S. Naujokat et al.: Domain-Specific Code Generator Modeling: A Case Study for
-Multi-Faceted Concurrent Systems \cite{NaTISL2014}
-\item D. Kopetzki: Model-based generation of graphical editors on
-the basis of abstract meta-model specifications \cite{Kopetz2014}
+\item B. Steffen \& S. Naujokat: Archimedean Points: The Essence for Mastering Change~\cite{SteNau2016}
+\item S. Naujokat et al.: Meta-Level Reuse for Mastering Domain Specialization~\cite{NaNeMS2016}
+\item D. Kopetzki: Model-based generation of graphical editors on the basis of abstract meta-model specifications~\cite{Kopetz2014}
+\end{itemize}
+%
+For concrete applications, i.e, tools developed with \cinco{}, consider the following publications:
+\begin{itemize}
+\item S. Boßelmann et al.: DIME: A Programming-Less Modeling Environment for Web Applications~\cite{BFKLNN2016}
+\item N. Wortmann et al.: A Fully Model-Based Approach to Software Development for Industrial Centrifuges~\cite{WoMiNa2016}
+\item L.-M. Traonouez et al.: A Model-Based Framework for the Specification and Analysis of Hierarchical Scheduling Systems~\cite{TLKCSN2016}
+\item S. Naujokat et al.: Domain-Specific Code Generator Modeling: A Case Study for Multi-Faceted Concurrent Systems~\cite{NaTISL2014}
 \end{itemize}
 
 This document will constantly be revised and extendend. The latest version will
 always be available for download at \url{http://cinco.scce.info/resources/}. 
 
 \begin{description}
-\item[covered version] \cinco v. 0.6
+\item[covered version] \cinco v. 0.7.RC1
 \item[git commit id] \gitAbbrevHash{}
 \item[date of build] \today
 \end{description}
@@ -161,11 +167,11 @@ MERCHANTIBILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 ===============================================================================
 \end{verbatim}
 
-\cinco{} requires OpenJDK 7 to be installed on your system as main Java
-installation (i.e. JAVA\_HOME pointing there). Apart from that, you just have to
-choose the correct zip file for download (Linux/Window/Mac in 32 or 64 bit
-variant), unzip it and execute the included binary: \code{cinco} for Mac and
-Linux, \code{cinco.exe} for Windows.
+\cinco{} requires Java JDK 8 to be installed on your system as main Java
+installation (i.e. JAVA\_HOME pointing there). Apart from that, you just have
+to choose the correct zip file for your operating system, unzip it and execute
+the included binary: \code{cinco} for Mac and Linux, \code{cinco.exe} for
+Windows.
 
 \section{Getting Started Tutorial}
 
@@ -224,7 +230,7 @@ is fixed, as the generated example is a flow graph. For now, you probably should
 the project/package name as suggested; if you create additional examples with
 the wizard later, you can choose different names here to distinguish them. Each
 feature you select at the bottom will generate additional parts in the example.
-We suggest to use \gui{Icons} and \gui{Appearance provider} to keep the files
+We suggest to only use \gui{Icons} and \gui{Appearance provider} to keep the files
 manageable small for your first attempt using \cinco{}. Confirm your
 selection with \gui{Finish}
 
@@ -245,7 +251,11 @@ selection with \gui{Finish}
 \end{figure}
 
 After running the wizard, the project explorer contains your freshly created
-project. Depending on the names you've chosen, it should now look somewhat
+project and a \code{README.txt} (which was generated based on the features you
+previously selected) is opened in the editor area. For now, you don't need to read it,
+as it contains information similar to this tutorial, but once you generate the example
+project with additional selected features, you should do so.
+Depending on the names you've chosen, the project explorer now looks somewhat
 similar to Fig.~\ref{fig:cpPreGen}. Please note that the compile error marked at
 \code{SimpleArrowAppearance.java} is not unexpected. The Java class refers to
 other Java entities that have not yet been generated. 
@@ -254,9 +264,9 @@ You might want to take a short look into those initialized files (especially the
 \code{model} folder), but before we delve more deeply
 into their contents (which we will do
 in Sec.~\ref{sec:examplefiles}), let's first generate this example CP and give
-it a try. Just right-click on the \cpd{FlowGraph.cpd} and
-choose \gui{Generate Cinco Product}. Shortly after, your project explorer should
-look like Fig.~\ref{fig:cpPostGen}. Several new files, directories, and
+it a try. Just right-click on the \cpd{FlowGraphTool.cpd} and
+choose \gui{Generate Cinco Product}. Shortly after, a dialog reporting success should appear and your project explorer
+looks like Fig.~\ref{fig:cpPostGen}. Several new files, directories, and
 projects -- which will be even more once you start using advanced
 features of \cinco{}, such as meta plug-ins -- have been generated. Also, the
 compile error we've noticed before is gone. 
@@ -287,27 +297,27 @@ it does not impose any obstacles other than ample unnecessary GUI elements.}
 Again, you should see an empty tool like Fig.~\ref{fig:firstStart}. To create a
 new model we first need a new project where it can be placed. This time,
 however, we don't need a \cinco product project (as we don't want to develop
-another \cinco product within the just started \cinco product). A plain project
-is enough this time. Right-click somewhere in the project explorer and select
-\gui{New / Project... / General / Project / Next >}, give the project some name
+another \cinco product within the just started \cinco product). 
+Right-click somewhere in the project explorer and select
+\gui{New / New FlowGraphTool Project}, give the project some name
 and click \gui{Finish}. Then, right-click on your newly created project and
-select \gui{New / Other... / Cinco Product / New FlowGraph} to create your
+select \gui{New / New FlowGraph} to create your
 first CP-specific model.
 
 The editor area now shows your empty model with a drawing grid. On the right
 side you see a \gui{Palette}, containing the elements you can now use for modeling.
-The elements you see there are in the \gui{Palette / Objects}
+The elements you see there are in the \gui{Palette / Nodes}
 category: \code{Start}, \code{End}, and \code{Activity}. Those are the three node
 types that are were automatically included in the \mgl{FlowGraph.mgl} by the
 wizard. Begin modeling by just drag\&dropping a few different nodes into the
 modeling area. To connect nodes, you can just hover over one and drag the small
 appearing arrow icon onto another one. For the \code{Activity} node type and
-the edges originating from them, you can use the \gui{Properties} view (bottom
-of your window) to set attributes; \code{Name} and \code{Description} for the
-node as well as \code{Label} for the edge. An activity's name is displayed
+the edges originating from them, you can use the \gui{Cinco Properties} view (bottom
+of your window) to set attributes; \code{name} and \code{description} for the
+node as well as \code{label} for the edge. An activity's name is displayed
 within the node shape (the blue box) and the edge label is shown as a floating
 (and movable) textbox next to the edge. Fig.~\ref{fig:firstModel} shows an
-example how your tool should look now.
+example how your tool might look now.
 
 \begin{figure}
 	\centering
@@ -325,9 +335,9 @@ The modeling elements abide by the following syntactic rules:
 	but no outgoing.
 \item \code{Activity} (blue box) nodes have multiple outgoing edges of type
 	\code{LabeledTransition}, and may have multiple incoming edges of both types.
-	The attribute \code{Name} is displayed centered within the box.
+	The attribute \code{name} is displayed centered within the box.
 \item \code{LabeledTransition} edges connect \code{Activity} nodes to arbitrary other nodes and
-	have their attribute \code{Label} displayed as movable caption next to it.
+	have their attribute \code{label} displayed as movable caption next to it.
 \item \code{Transition} edges only originate from \code{Start} nodes. If such an
 	edge directly leads to an \code{End} node, it is displayed with a dashed
 	line.
@@ -401,7 +411,7 @@ seperately for each occurance in the model.
 
 Node types can declare an arbitrary amount of such attributes. An attribute's
 name (written after the keyword \kw{as}) is displayed as a label next to the
-editing field in the \gui{Properties View}. Possible data types for attributes
+editing field in the \gui{Cinco Properties} view. Possible data types for attributes
 (written directly after the keyword \kw{attr}) are currently \code{EString},
 \code{EInt}, \code{EDouble} and enumerations defined within the MGL (not in this
 example). There is also basic support to reference instances of the other node
