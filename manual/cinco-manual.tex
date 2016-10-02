@@ -354,7 +354,7 @@ We consider our specification formats MGL, MSL, and CPD fairly self-explanatory,
 meaning that one usually can understand most of their contents without detailed
 knowledge on available keywords or syntactic structures. This section
 will nonetheless detail on our two example files, but you might want to have a look at
-your \mgl{FlowGraph.mgl}, \msl{FlowGraph.style}, and \cpd{FlowGraph.cpd} beforehand, to decide for
+your \mgl{FlowGraph.mgl}, \msl{FlowGraph.style}, and \cpd{FlowGraphTool.cpd} beforehand, to decide for
 yourself. 
 
 However, writing (instead of just understanding) a programming or specification language usually is a totally
@@ -365,7 +365,7 @@ editor provides a very useful autocompletion when
 \keystroke{Ctrl}+\keystroke{Space} is pressed (if you ever programmed Java using
 Eclipse, you most likely know this shortcut already). With this feature it is
 often not even required to read the documentation, as one can autocomplete
-through the whole specification file, manually inserting an identifier every now and
+through the whole specification file, manually inserting a name/identifier every now and
 then.
 
 Modeling tool development with \cinco centers around two textual specification
@@ -407,24 +407,21 @@ Each node type defines one kind of component that can be inserted into the
 graphModel by drag\&dropping it from the \gui{Palette} into the modeling area.
 Doing so will create a dedicated instance of this node type, so that attributes
 (like name or description in the Activity node, cf. lines 36 and 37) can be set
-seperately for each occurance in the model.
+separately for each occurance in the model.
 
 Node types can declare an arbitrary amount of such attributes. An attribute's
 name (written after the keyword \kw{as}) is displayed as a label next to the
 editing field in the \gui{Cinco Properties} view. Possible data types for attributes
 (written directly after the keyword \kw{attr}) are currently \code{EString},
 \code{EInt}, \code{EDouble} and enumerations defined within the MGL (not in this
-example). There is also basic support to reference instances of the other node
-types from the same MGL. However, this node type currently needs a \code{name} attribute
-that will be displayed in a dropdown box when choosing the referenced node.
+example).%  There is also basic support to reference instances of the other node
+% types from the same MGL. However, this node type currently needs a \code{name} attribute
+% that will be displayed in a dropdown box when choosing the referenced node.
+
+\FloatBarrier
 
 The definition how the different node types can be connected using edges is
-done with the \kw{incomingEdges} and \kw{outgoingEdges} keywords\footnotemark{}.
-%
-\footnotetext{Earlier versions of \cinco{} used the dual representation of
-defining \kw{targetNodes} and \kw{sourceNodes} in the edge type. However, this did
-not allow for the declaration of cardinalities.}
-%
+done with the \kw{incomingEdges} and \kw{outgoingEdges} keywords.
 Enclosed in parantheses you can express a comma-seperated list of constraints,
 each suffixed by an upper/lower bound range in brackets. Line 39 shows a 
 declaration of outgoing edges using one such contraint. It states that at least
@@ -446,7 +443,6 @@ relative path from line 12 would look like this in absolute notation:
 
 \code{@icon("platform:/resource/info.scce.cinco.product.flowgraph/icons/Start.png")}
 
-\FloatBarrier
 
 Finally, the \code{@style} annotation is used to assign a node style from the
 MSL definition to this node. The first parameter must equal the style identifier
@@ -506,10 +502,10 @@ the target node.
 
 \subsubsection{GraphModel Type}
 
-Prior to the definition of node and edge types\footnote{Actually, the \kw{node}
+Prior to the definition of node and edge types some global things can be specified for your \cinco
+product's model type using a \kw{graphModel} \code{\{...\}} block\footnote{Actually, the \kw{node}
 and \kw{edge} blocks are located \emph{in} this \kw{graphModel} block. See
-Listing \ref{lst:myMGL}.} some global things can be specified for your \cinco
-product's model type using a \kw{graphModel} \code{\{...\}} block.  This time,
+Listing \ref{lst:myMGL}.}.  This time,
 the \code{@style} annotation points to your \msl{FlowGraph.style}, but
 attributes are defined identically as for nodes and edges.
 
@@ -566,23 +562,22 @@ interface and whose \code{getAppearance} method is called at runtime to
 determine the current appearance of the element. They are referenced in MSL using
 the \kw{appearanceProvider} keyword (cf. line 49).
 
+\FloatBarrier
 
 \subsubsection{Node Styles}
 
 Each node style is defined using a \kw{nodeStyle} \code{\{...\}} block and
-consists of at least one primary \newnotion{shape} declaration. For example, the
-"greenCircle" style (lines 23-31) consists of a single \kw{ellipse} shape with
-width and height of 36 pixels (making it a circle) and an
-inline appearance that extends the appearance "default". If the primary shape is
-a \newnotion{container shape}, additional child shapes can be included, which is
-done for the style "redCircle" (cf. lines 15-19). To allow relative positioning
-of child shapes, shapes can be given an identifier that need to be placed after
-the respective keyword. In the "redCircle" style the primary shape is named
-"outer" (cf. line 12), so that the (unnamed) inner ellipse can be aligned
-horizontally and vertically to it (cf. line 17). If no position is given, the
-upper left corner of the bounding box is placed at (0,0) of the parent shape.
-The position of the primary shape determines the placement relative to the mouse
-position where the create tool was dropped.
+consists of at least one primary \newnotion{shape} declaration. For example,
+the "greenCircle" style (lines 23-31) consists of a single \kw{ellipse} shape
+with width and height of 36 pixels (making it a circle) and an inline
+appearance that extends the appearance "default". If the primary shape is a
+\newnotion{container shape}, additional child shapes can be included, which is
+done for the style "redCircle" (cf. lines 15-19). Positioning of child shapes
+is done with the keyword \kw{position} and can either be absolute or relative
+to the parent shape. If no position is given, the upper left corner of the
+bounding box is placed at (0,0) of the parent shape.  The position of the
+primary shape determines the placement relative to the mouse position where the
+create tool was dropped.
 
 The following container shapes are currently supported:
 \begin{description}
@@ -600,7 +595,6 @@ coordinates can be given that are connected. The last point is
 automatically connected to the first one, closing the polygon.
 \end{description}
 %
-\FloatBarrier
 
 
 Additionally, the following simple shapes exist:
@@ -643,8 +637,8 @@ the node style section (simple or container, but not hierarchical). With the
 keyword \kw{location} an initial position of the decorator can be given by means
 of a floating point value between 0.0 (start of the edge) to 1.0 (end of the
 edge). The real position will be calculated according to actual the length of
-the edge, so that the location of the text decorator of the labeled Arrow (cf.
-line 66). The keyword \kw{movable} allows the decorator to be freely moved away
+the edge, e.g., the text decorator of the labeledArrow (cf.
+line 66) is located at 30\% of the edge length. The keyword \kw{movable} allows the decorator to be freely moved away
 from its initial position (this makes more sense for caption labels than it does
 for arrow tips ;)). 
 
@@ -680,13 +674,14 @@ quite small, only providing two things:
 
 \includecpd{listings/FlowGraph.cpd}{FlowGraph CPD file}{lst:myCPD}
 
-Beyond the possibility to have multiple \cinco{}-based model types, \cinco{}
-also generates the appropriate Eclipse bundles from the CPD that allow for an
-easy export of the CP into a standalone application.  It is even possible to
-define a branding (i.e. dedicated startup splash screen, about text, icons,
-etc.) within the CPD file. For reference, Listing~\ref{lst:brandingCPD} shows
-the product definition, when \gui{Product branding} is selected in the \cinco{}
-product creation wizard (cf. Sect.~\ref{sec:wizard}).
+Beyond the possibility to have multiple interconnected \cinco{}-based model
+types, \cinco{} also generates the appropriate Eclipse bundles from the CPD
+that allow for an easy export of the CP into a standalone application.  It is
+even possible to define a branding (i.e. dedicated startup splash screen, about
+text, icons, etc.) within the CPD file. For reference,
+Listing~\ref{lst:brandingCPD} shows the product definition, when \gui{Product
+branding} is selected in the \cinco{} product creation wizard (cf.
+Sect.~\ref{sec:wizard}).
 
 \includecpd{listings/FlowGraphBranding.cpd}{FlowGraph CPD file with product
 branding}{lst:brandingCPD}
