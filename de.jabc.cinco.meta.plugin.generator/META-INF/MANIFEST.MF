@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Generator Meta-Plugin
 Bundle-SymbolicName: de.jabc.cinco.meta.plugin.generator;singleton:=true
-Bundle-Version: 0.7.0.qualifier
+Bundle-Version: 0.7.0.RC1
 Fragment-Host: de.jabc.cinco.meta.core.pluginregistry
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: de.jabc.cinco.meta.core.feature.handler,

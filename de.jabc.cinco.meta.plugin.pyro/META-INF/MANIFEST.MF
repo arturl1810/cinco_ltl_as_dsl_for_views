@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Pyro
 Bundle-SymbolicName: de.jabc.cinco.meta.plugin.pyro;singleton:=true
-Bundle-Version: 0.7.0.qualifier
+Bundle-Version: 0.7.0.RC1
 Fragment-Host: de.jabc.cinco.meta.core.pluginregistry;bundle-version="0.6.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: org.eclipse.pde;bundle-version="3.8.100",

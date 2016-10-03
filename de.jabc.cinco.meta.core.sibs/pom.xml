@@ -71,12 +71,12 @@
     <dependency>
          <groupId>de.jabc.cinco</groupId>
          <artifactId>de.jabc.cinco.meta.core.mgl.model</artifactId>
-         <version>0.7.0-SNAPSHOT</version>
+         <version>0.7.0.RC1</version>
     </dependency>
     <dependency>
     	<groupId>de.jabc.cinco</groupId>
 	  	<artifactId>de.jabc.cinco.meta.core.adapters</artifactId>
-  		<version>0.7.0-SNAPSHOT</version>
+  		<version>0.7.0.RC1</version>
     </dependency>
 	</dependencies>
 

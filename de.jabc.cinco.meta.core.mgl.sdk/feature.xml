@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature id="de.jabc.cinco.meta.core.mgl.sdk"
 	label="MGL SDK Feature "
-	version="0.7.0.qualifier">
+	version="0.7.0.RC1">
 	<plugin
 			id="de.jabc.cinco.meta.core.mgl"
 			download-size="0"
