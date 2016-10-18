@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<fragment>
+   <extension
+         id="esdsl"
+         name="executionSemantics"
+         point="de.jabc.cinco.meta.core.pluginregistry.metaplugin">
+      <graphmodel-annotation
+            recognized-annotation="esdsl">
+      </graphmodel-annotation>
+      <metaplugin_description
+            metapluginService="de.jabc.cinco.meta.plugin.executer.service.ESDSLMetaPluginService">
+      </metaplugin_description>
+   </extension>
+
+</fragment>
