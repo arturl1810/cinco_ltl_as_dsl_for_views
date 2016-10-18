@@ -5,15 +5,12 @@ Bundle-SymbolicName: de.jabc.cinco.meta.plugin.executer;singleton:=true
 Bundle-Version: 0.7.0.qualifier
 Fragment-Host: de.jabc.cinco.meta.core.pluginregistry
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Require-Bundle: de.jabc.cinco.meta.core.utils,
- de.jabc.cinco.meta.core.ge.style.model,
- org.eclipse.jdt,
- org.eclipse.pde,
- org.eclipse.core.resources.source
-Import-Package: de.jabc.cinco.meta.plugin.executer.generator.model,
+Import-Package: de.jabc.cinco.meta.core.utils,
+ de.jabc.cinco.meta.plugin.executer.generator.model,
  org.apache.commons.io,
  org.eclipse.jdt.core,
  org.eclipse.jdt.core.manipulation,
- org.eclipse.pde.core.project
+ org.eclipse.pde.core.project,
+ style
 Export-Package: de.jabc.cinco.meta.plugin.executer.generator.model,
  de.jabc.cinco.meta.plugin.executer.service
