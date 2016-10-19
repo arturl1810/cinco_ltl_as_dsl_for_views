@@ -5,7 +5,7 @@
 		<relativePath>../pom.xml</relativePath>
 		<groupId>de.jabc.cinco</groupId>
 		<artifactId>de.jabc.cinco.meta.parent</artifactId>
-		<version>0.7.0.RC1</version>
+		<version>0.7.0</version>
 	</parent>
 	<artifactId>de.jabc.cinco.meta.libraries</artifactId>
 	<packaging>eclipse-plugin</packaging>

@@ -23,7 +23,7 @@ Import-Package: de.jabc.cinco.meta.core,
  org.eclipse.emf.workspace,
  org.eclipse.jface.dialogs,
  org.eclipse.xtext.ui.editor
-Bundle-Version: 0.7.0.RC1
+Bundle-Version: 0.7.0
 Require-Bundle: org.eclipse.emf.transaction,
  de.jabc.cinco.meta.core.mgl,
  org.eclipse.emf.codegen.ecore,
