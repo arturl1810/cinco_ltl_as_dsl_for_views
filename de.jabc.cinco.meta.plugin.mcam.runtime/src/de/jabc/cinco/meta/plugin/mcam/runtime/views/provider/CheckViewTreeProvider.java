@@ -143,7 +143,7 @@ public class CheckViewTreeProvider<E extends _CincoId, M extends GraphModel, W e
 		if (obj instanceof CheckResult<?, ?>) {
 			CheckResult<E, A> result = (CheckResult<E, A>) obj;
 			node = new CheckResultNode(result);
-			node.setLabel("[" + result.getModule().getClass().getSimpleName()
+			node.setLabel("[" + result.getModule().getName()
 					+ "] " + result.getMessage());
 			node = findExistingNode(node, parentNode);
 		}
@@ -169,7 +169,7 @@ public class CheckViewTreeProvider<E extends _CincoId, M extends GraphModel, W e
 		if (obj instanceof CheckModule<?, ?>) {
 			CheckModule<E, A> module = (CheckModule<E, A>) obj;
 			node = new CheckModuleNode(obj);
-			node.setLabel(module.getClass().getSimpleName());
+			node.setLabel(module.getName());
 			node = findExistingNode(node, parentNode);
 			for (CheckResult<E, A> result : module.getResults()) {
 				buildTreeByModule(result, node, checkProcess);

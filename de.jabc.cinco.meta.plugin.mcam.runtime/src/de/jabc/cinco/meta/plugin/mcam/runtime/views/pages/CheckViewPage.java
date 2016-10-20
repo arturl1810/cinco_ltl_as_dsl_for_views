@@ -406,8 +406,8 @@ public abstract class CheckViewPage<E extends _CincoId, M extends GraphModel, W 
 				int diff = compareResultType(cm1.getResultType(),
 						cm2.getResultType());
 				if (diff == 0)
-					return compare(viewer, cm1.getClass().getSimpleName(), cm2
-							.getClass().getSimpleName());
+					return compare(viewer, cm1.getName(), cm2
+							.getName());
 				else
 					return diff;
 			}

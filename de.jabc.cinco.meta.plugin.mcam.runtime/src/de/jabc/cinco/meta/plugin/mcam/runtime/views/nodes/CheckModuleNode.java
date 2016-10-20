@@ -12,7 +12,7 @@ public class CheckModuleNode extends TreeNode {
 	public String getId() {
 		if (data instanceof CheckModule<?, ?>) {
 			CheckModule<?, ?> module = (CheckModule<?, ?>) data;
-			return module.getClass().getSimpleName();
+			return module.getName();
 		}
 		return uuid.toString();
 	}
