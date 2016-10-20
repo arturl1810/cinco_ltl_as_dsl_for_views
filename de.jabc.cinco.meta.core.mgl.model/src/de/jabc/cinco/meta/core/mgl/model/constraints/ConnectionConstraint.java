@@ -46,6 +46,10 @@ public class ConnectionConstraint {
 		
 	}
 	
+	public List<Class<? extends Edge>> getEdgeTypes() {
+		return edgeClasses;
+	}
+	
 	
 	public boolean isInEdges(Class<? extends Edge> edgeType){
 		return edgeClasses.stream().anyMatch(c -> c.isAssignableFrom(edgeType));
@@ -76,5 +80,33 @@ public class ConnectionConstraint {
 		List<Edge> edges = node.getIncoming().stream().filter(e -> isInEdges(e.getClass())).collect(Collectors.toList());
 		HashSet<Edge> edgeSet = new HashSet<>(edges);
 		return edgeSet.size();
+	}
+	
+	public boolean checkUpperBound(graphmodel.Node node){
+		int sum = 0;
+		if (outgoing)
+			sum = countOutgoing(node);
+		else
+			sum = countIncoming(node);
+		return sum <= this.upperBound;
+		
+		
+	}
+	public boolean checkLowerBound(graphmodel.Node node){
+		int sum = 0;
+		if (outgoing)
+			sum = countOutgoing(node);
+		else
+			sum = countIncoming(node);
+		return sum >= this.lowerBound;
+	}
+	public boolean checkConstraint(graphmodel.Node node){
+		int sum = 0;
+		if (outgoing)
+			sum = countOutgoing(node);
+		else
+			sum = countIncoming(node);
+		return sum >= this.lowerBound && sum <= this.upperBound;
+		
 	}
 }

@@ -194,7 +194,7 @@ public class McamImplementationGenerator {
 							generateMoveResizeElementChangeModule(element);
 						}
 
-					}
+					} 
 
 					ModelElement elementToGen = element;
 					while (elementToGen != null) {
@@ -206,7 +206,14 @@ public class McamImplementationGenerator {
 					}
 				}
 			}
-
+			
+			if (generateCheck) {
+				generateCincoCheckModule(gModel);
+				generateContainmentCheckModule(gModel);
+				generateIncomingCheckModule(gModel);
+				generateOutgoingCheckModule(gModel);
+			}
+			
 			generateEntityId();
 			generateModelAdapter();
 			generateCliExecution();
@@ -563,6 +570,66 @@ public class McamImplementationGenerator {
 		templateGen.generateFile();
 
 		changeModuleClasses.add((String) data.get("ChangeModulePackage") + "."
+				+ (String) data.get("ClassName"));
+	}
+	
+	private void generateCincoCheckModule(ModelElement element)
+			throws IOException, TemplateException {
+		data.put("ClassName", data.get("GraphModelName") + "Check");
+
+		TemplateGenerator templateGen = new TemplateGenerator(
+				"templates/modules/CincoCheckModule.tpl", mcamProject);
+		templateGen.setFilename((String) data.get("ClassName") + ".xtend");
+		templateGen.setPkg((String) data.get("CheckModulePackage"));
+		templateGen.setData(data);
+		templateGen.generateFile();
+
+//		checkModuleClasses.add((String) data.get("CheckModulePackage") + "."
+//				+ (String) data.get("ClassName"));
+	}
+
+	private void generateContainmentCheckModule(ModelElement element)
+			throws IOException, TemplateException {
+		data.put("ClassName", data.get("GraphModelName") + "ContainmentCheck");
+
+		TemplateGenerator templateGen = new TemplateGenerator(
+				"templates/modules/ContainmentCheckModule.tpl", mcamProject);
+		templateGen.setFilename((String) data.get("ClassName") + ".xtend");
+		templateGen.setPkg((String) data.get("CheckModulePackage"));
+		templateGen.setData(data);
+		templateGen.generateFile();
+
+		checkModuleClasses.add((String) data.get("CheckModulePackage") + "."
+				+ (String) data.get("ClassName"));
+	}
+	
+	private void generateIncomingCheckModule(ModelElement element)
+			throws IOException, TemplateException {
+		data.put("ClassName", data.get("GraphModelName") + "IncomingCheck");
+
+		TemplateGenerator templateGen = new TemplateGenerator(
+				"templates/modules/IncomingCheckModule.tpl", mcamProject);
+		templateGen.setFilename((String) data.get("ClassName") + ".xtend");
+		templateGen.setPkg((String) data.get("CheckModulePackage"));
+		templateGen.setData(data);
+		templateGen.generateFile();
+
+		checkModuleClasses.add((String) data.get("CheckModulePackage") + "."
+				+ (String) data.get("ClassName"));
+	}
+	
+	private void generateOutgoingCheckModule(ModelElement element)
+			throws IOException, TemplateException {
+		data.put("ClassName", data.get("GraphModelName") + "OutgoingCheck");
+
+		TemplateGenerator templateGen = new TemplateGenerator(
+				"templates/modules/OutgoingCheckModule.tpl", mcamProject);
+		templateGen.setFilename((String) data.get("ClassName") + ".xtend");
+		templateGen.setPkg((String) data.get("CheckModulePackage"));
+		templateGen.setData(data);
+		templateGen.generateFile();
+
+		checkModuleClasses.add((String) data.get("CheckModulePackage") + "."
 				+ (String) data.get("ClassName"));
 	}
 
