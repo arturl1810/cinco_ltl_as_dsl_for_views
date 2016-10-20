@@ -19,7 +19,7 @@ for os in linux win32 macosx; do
 
 	echo "ZIP file: $zip"
 
-	version=`ls ${zip} | sed "s,.*\\(cinco-[0-9\\.]*\\).*,\\1,"`
+	version=`ls ${zip} | sed "s,.*\\(cinco-[0-9RC\\.]*\\).*,\\1,"`
 	echo "Version: $version"
 
 	if [ ${os} = 'macosx' ]; then

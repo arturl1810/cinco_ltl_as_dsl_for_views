@@ -1,3 +1,45 @@
+20161017 - Cinco Release 0.7
+
+- Technology:
+-- Java 8 is now supported/required
+-- Removed support for 32 bit systems (sorry, ancients ;))
+-- New "GraText" textual serialization format for all models
+
+- General Changes/Addition:
+-- new CINCO Properties view: can display hierarchic attributes
+-- Generated perspective per Cinco product
+-- Generated "new Project" wizard per product
+-- Generated "new model" wizard per MGL
+-- Model and project validation with MCaM framework
+-- Example generator now produces README.txt explaining selected features
+
+- MGL Changes:
+-- New Hooks: postAttributeValueChange, preDelete, postMove, postResize, postSelect (all use C-prefixed transformation API)
+-- @disable annotation with comma-separated list of: create, move, resize, reconnect, select, delete
+-- @readOnly annotation for attributes
+-- @file annotation on EString attribute produces file selector in property view
+-- set-based constraints for containableElements (e.g. {A,B}[1,5])
+-- passed parameters to @style annotation can now be arbitrary EL Expressions 
+
+- Advanced Prime References
+-- directly import MGLs to use for prime references
+-- import with "as" to provide namespace
+-- namespace notation for prime references ( "::" for MGLs, "." for Ecore, "this::" for the same MGL)
+-- Containers can be prime references
+-- Support for multiple prime referencing nodes for same type (then produces GUI to select type)
+
+- Graphical Editor
+-- support for polygon resizing
+-- image URLs can be set at runtime via appearance provider
+
+- Style Changes
+-- type keyword in edgeStyle: manhattan or freeform
+-- Removed "relativeTo" keyword; positions now relative to the parent shape
+-- Margins (positive and negative) for relative position
+-- Named decorators in edge styles to reference in appearance provider
+-- Shapes can have fixed size (i.e. not scaling when node is resized)
+
+
 20150513 - Cinco Release 0.6
 - new Cinco Product Definition (CPD) file format that enables branding of CPs
   and more easy merging of multiple MGLs into a single CP
