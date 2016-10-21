@@ -49,8 +49,16 @@
       </genOperations>
     </genClasses>
     <genClasses image="false" ecoreClass="GraphModel.ecore#//Edge">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference GraphModel.ecore#//Edge/sourceElement"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference GraphModel.ecore#//Edge/targetElement"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference GraphModel.ecore#//Edge/_sourceElement"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference GraphModel.ecore#//Edge/_targetElement"/>
+      <genOperations ecoreOperation="GraphModel.ecore#//Edge/getSourceElement"/>
+      <genOperations ecoreOperation="GraphModel.ecore#//Edge/getTargetElement"/>
+      <genOperations ecoreOperation="GraphModel.ecore#//Edge/setSourceElement">
+        <genParameters ecoreParameter="GraphModel.ecore#//Edge/setSourceElement/sourceElement"/>
+      </genOperations>
+      <genOperations ecoreOperation="GraphModel.ecore#//Edge/setTargetElement">
+        <genParameters ecoreParameter="GraphModel.ecore#//Edge/setTargetElement/targetElement"/>
+      </genOperations>
     </genClasses>
     <genClasses ecoreClass="GraphModel.ecore#//Container"/>
     <genClasses image="false" ecoreClass="GraphModel.ecore#//ModelElement">
