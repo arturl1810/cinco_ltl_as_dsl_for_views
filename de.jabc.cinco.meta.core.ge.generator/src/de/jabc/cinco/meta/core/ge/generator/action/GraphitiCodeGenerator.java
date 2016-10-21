@@ -107,7 +107,7 @@ import style.Image;
 import style.NodeStyle;
 import style.Style;
 import style.Styles;
-import ProductDefinition.CincoProduct;
+import productDefinition.CincoProduct;
 import de.jabc.cinco.meta.core.ge.generator.Main;
 import de.jabc.cinco.meta.core.ge.generator.templates.FileExtensionContent;
 import de.jabc.cinco.meta.core.ge.style.model.errorhandling.CincoContainerCardinalityException;

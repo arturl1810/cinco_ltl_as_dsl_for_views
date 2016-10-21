@@ -133,7 +133,6 @@
       <feature id="org.eclipse.graphiti.source.feature"/>
       <feature id="org.eclipse.graphiti.feature.examples.source"/>
       <feature id="de.jabc.cinco.meta.core.ge.style.sdk"/>
-      <feature id="org.eclipse.emf.ecoretools"/>
       <feature id="org.eclipse.emf.validation.ocl"/>
       <feature id="org.eclipse.xsd"/>
       <feature id="org.eclipse.xsd.edit"/>

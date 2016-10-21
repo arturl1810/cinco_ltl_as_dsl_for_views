@@ -3,11 +3,11 @@
  */
 package de.jabc.cinco.meta.productdefinition.validation
 
-import ProductDefinition.About
-import ProductDefinition.CincoProduct
-import ProductDefinition.Color
-import ProductDefinition.SplashScreen
-import ProductDefinition.ProductDefinitionPackage
+import productDefinition.About
+import productDefinition.CincoProduct
+import productDefinition.Color
+import productDefinition.SplashScreen
+import productDefinition.ProductDefinitionPackage
 import de.jabc.cinco.meta.core.utils.projects.ProjectCreator
 import java.io.File
 import org.eclipse.core.resources.IProject

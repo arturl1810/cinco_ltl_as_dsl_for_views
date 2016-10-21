@@ -3,8 +3,8 @@
  */
 package de.jabc.cinco.meta.productdefinition.generator
 
-import ProductDefinition.CincoProduct
-import ProductDefinition.Color
+import productDefinition.CincoProduct
+import productDefinition.Color
 import de.jabc.cinco.meta.core.BundleRegistry
 import de.jabc.cinco.meta.core.utils.BuildProperties
 import de.jabc.cinco.meta.core.utils.projects.ProjectCreator

@@ -40,8 +40,8 @@ import org.eclipse.ui.commands.ICommandService;
 import org.eclipse.ui.handlers.HandlerUtil;
 
 import transem.utility.helper.Tuple;
-import ProductDefinition.CincoProduct;
-import ProductDefinition.MGLDescriptor;
+import productDefinition.CincoProduct;
+import productDefinition.MGLDescriptor;
 import de.jabc.cinco.meta.core.BundleRegistry;
 import de.jabc.cinco.meta.core.mgl.MGLEPackageRegistry;
 import de.jabc.cinco.meta.core.ui.listener.MGLSelectionListener;

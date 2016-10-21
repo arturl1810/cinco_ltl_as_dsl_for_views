@@ -14,9 +14,11 @@ Workflow {
 	bean = StandaloneSetup {
 		scanClassPath  = true
 		platformUri = "${runtimeProject}/.."
-		registerGeneratedEPackage = "ProductDefinition.ProductDefinitionPackage"
+		registerGeneratedEPackage = "productDefinition.ProductDefinitionPackage"
 		registerGenModelFile = "platform:/resource/de.jabc.cinco.meta.productdefinition.model/model/ProductDefinition.genmodel"
 	}
+
+
 
 	component = DirectoryCleaner {
 		directory = "${runtimeProject}/src-gen"
