@@ -265,7 +265,7 @@ enum LineStyle returns LineStyle:
 ;
 
 enum Boolean returns BooleanEnum:
-	true | false
+	^true | ^false
 ;
 
 enum ConnectionType returns ConnectionType:

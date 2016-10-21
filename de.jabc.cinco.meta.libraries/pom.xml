@@ -172,12 +172,6 @@
 									<type>jar</type>
 								</artifactItem>
 								<artifactItem>
-									<groupId>log4j</groupId>
-									<artifactId>log4j</artifactId>
-									<version>1.2.14</version>
-									<type>jar</type>
-								</artifactItem>
-								<artifactItem>
 									<groupId>de.jabc.sib</groupId>
 									<artifactId>script-sibs</artifactId>
 									<version>1.2.3</version>
@@ -305,11 +299,6 @@
 									<groupId>org.jboss.classfilewriter</groupId>
 									<artifactId>jboss-classfilewriter</artifactId>
 									<version>1.0.4.Final</version>
-								</artifactItem>
-								<artifactItem>
-									<groupId>com.google.guava</groupId>
-									<artifactId>guava</artifactId>
-									<version>13.0.1</version>
 								</artifactItem>
 								<artifactItem>
 									<groupId>org.jboss.spec.javax.el</groupId>

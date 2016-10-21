@@ -6,7 +6,6 @@ Bundle-Version: 0.8.0.qualifier
 Bundle-Activator: de.jabc.cinco.meta.core.utils.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
- org.eclipse.xtext.ui,
  org.eclipse.emf.codegen.ecore,
  org.apache.commons.io,
  org.eclipse.ui.workbench,
@@ -14,13 +13,18 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.xtext.xbase.lib,
  org.eclipse.xtend.lib,
  org.eclipse.xtend.lib.macro,
- de.jabc.cinco.meta.libraries
+ de.jabc.cinco.meta.libraries,
+ org.eclipse.xtext.util,
+ org.eclipse.xtext.ui
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Import-Package: ProductDefinition,
+Import-Package: productDefinition,
  graphmodel,
  mgl,
+ org.eclipse.core.internal.resources,
  org.eclipse.core.resources,
+ org.eclipse.emf.ecore.xmi.impl,
+ org.eclipse.emf.edit.domain,
  org.eclipse.graphiti.mm.pictograms,
  org.eclipse.jdt.core,
  org.eclipse.pde.core.project,
