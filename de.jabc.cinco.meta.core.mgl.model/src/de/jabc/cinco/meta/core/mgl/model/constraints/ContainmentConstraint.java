@@ -105,14 +105,6 @@ public class ContainmentConstraint {
 			if(isInstance(n)||superNodes.stream().anyMatch(sn -> isInTypes(sn)))
 				i++;
 		}
-		
-		
-		for(Node n: container.getAllContainers()){
-			if(isInTypes(n.getClass()))
-				i++;
-		}
-		
-		
 		return i;
 	}
 	
