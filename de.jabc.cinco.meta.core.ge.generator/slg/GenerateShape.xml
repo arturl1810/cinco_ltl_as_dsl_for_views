@@ -720,7 +720,7 @@ for (int i : points) {
 	_pointsString += String.valueOf(i)+&quot;,&quot;;
 }
 
-if (!parentIsDiagram) {
+if (!parentIsDiagram &amp;&amp; $context.meShapeName$.getContainer().getLink() == null) {
 	$context.peName$ = gaService.createPolyline($context.meShapeName$, points);
 	peService.setPropertyValue($context.peName$, $context.graphModelName$LayoutUtils.KEY_INITIAL_PARENT_SIZE, &quot;&quot; + $context.meShapeName$.getContainer().getGraphicsAlgorithm().getWidth() + &quot;,&quot; + $context.meShapeName$.getContainer().getGraphicsAlgorithm().getHeight()); 
 } else {
