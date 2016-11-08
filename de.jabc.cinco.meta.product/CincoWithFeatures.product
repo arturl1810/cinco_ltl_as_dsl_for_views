@@ -11,6 +11,9 @@
    </configIni>
 
    <launcherArgs>
+      <programArgsLin>--launcher.GTK_version
+2
+      </programArgsLin>
       <vmArgs>-Xms40m
 -Xmx3072m
 -XX:+CMSClassUnloadingEnabled 

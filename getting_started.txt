@@ -7,6 +7,12 @@ Starting Requirements:
 
 
 Preparing Eclipse Modeling:
+- Linux users may want to add the lines:
+
+    --launcher.GTK_version
+    2
+
+to 'eclipse.ini' before the line '--launcher.appendVmargs' when experiencing graphical issues
 - Start Eclipse with a fresh workspace
 - Help / Install Modeling Components
 	- mark Xpand, Graphiti and Xtext for installation
