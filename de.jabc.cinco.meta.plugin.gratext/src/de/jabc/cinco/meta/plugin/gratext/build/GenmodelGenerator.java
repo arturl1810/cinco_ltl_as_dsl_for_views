@@ -86,7 +86,7 @@ public class GenmodelGenerator implements IActionDelegate {
 	
 	private void generateModelCode(IFile genModelFile, IProgressMonitor monitor) throws IOException {
 		Resource res = new ResourceSetImpl().getResource(
-				URI.createPlatformResourceURI(genModelFile.getFullPath().toOSString(), true),true);
+				URI.createPlatformResourceURI(genModelFile.getFullPath().toString(), true),true);
 		res.load(null);
 		res.getContents().stream()
 			.filter(GenModel.class::isInstance)

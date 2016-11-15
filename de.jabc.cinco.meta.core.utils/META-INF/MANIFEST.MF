@@ -9,7 +9,12 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.xtext.ui,
  org.eclipse.emf.codegen.ecore,
  org.apache.commons.io,
- org.eclipse.ui.workbench
+ org.eclipse.ui.workbench,
+ com.google.guava,
+ org.eclipse.xtext.xbase.lib,
+ org.eclipse.xtend.lib,
+ org.eclipse.xtend.lib.macro,
+ de.jabc.cinco.meta.libraries
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: ProductDefinition,
@@ -19,6 +24,7 @@ Import-Package: ProductDefinition,
  org.eclipse.graphiti.mm.pictograms,
  org.eclipse.jdt.core,
  org.eclipse.pde.core.project,
+ org.eclipse.ui.ide,
  style
 Export-Package: de.jabc.cinco.meta.core.utils,
  de.jabc.cinco.meta.core.utils.dependency,

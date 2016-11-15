@@ -63,6 +63,10 @@ public class PageAwareDiagramBehavior extends DiagramBehavior implements InnerSt
 	public void handleNewInnerState() {
 		/* do nothing */
 	}
-	
-	
+
+	@Override
+	public void handleSaved() {
+		getUpdateBehavior().setResourceChanged(false);
+		getPersistencyBehavior().clearDirtyState();
+	}
 }

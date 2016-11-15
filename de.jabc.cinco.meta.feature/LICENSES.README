@@ -1,0 +1,14 @@
+This Cinco build includes the ANTLR 3 parser generator for which the BSD license applies (http://www.antlr.org/license.html).
+
+This Cinco build includes several libraries from the jABC project (http://www.jabc.de), for which the following license applies:
+
+> This software is free to use.
+> 
+> You are not allowed to redistribute, modify or decompile this software.
+> 
+> Third-party components are included for which these restrictions may not apply.
+> Please refer to the documentation for details.
+> 
+> THIS SOFTWARE IS PROVIDED ``AS IS'' AND WITHOUT ANY EXPRESS OR IMPLIED
+> WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED WARRANTIES OF
+> MERCHANTIBILITY AND FITNESS FOR A PARTICULAR PURPOSE.

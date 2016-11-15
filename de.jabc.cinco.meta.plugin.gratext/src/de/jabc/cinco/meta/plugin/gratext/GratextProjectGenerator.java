@@ -118,7 +118,7 @@ public class GratextProjectGenerator extends ProjectGenerator {
 //				FilenameUtils.removeExtension(i.getImportURI()).concat(".genmodel"));
 //		System.out.println("[GratextGen] imported GenModel: " + genModelURI);
 		
-		URI genModelURI = URI.createURI(new Path(i.getImportURI()).removeFileExtension().addFileExtension("genmodel").toOSString());
+		URI genModelURI = URI.createURI(new Path(i.getImportURI()).removeFileExtension().addFileExtension("genmodel").toString());
 		System.out.println("[GratextGen] imported GenModel: " + genModelURI);
 		
 		Resource res = new ResourceSetImpl().getResource(genModelURI, true);

@@ -230,6 +230,10 @@ public class ReferenceRegistry {
 		cachesMap.put(p, cache);
 	}
 	
+	public void handleAdd(URI uri) {
+		handleContentChange(uri);
+	}
+	
 	public void handleDelete(URI uri) {
 		String searchVal = uri.toPlatformString(true);
 		HashMap<IProject, List<String>> affected = getAffectedEntries(searchVal);
@@ -244,10 +248,17 @@ public class ReferenceRegistry {
 			save();
 	}
 
-	public void handleDeleteProject(IProject p) {
+	public void handleProjectDeleted(IProject p) {
 		removeProjectFromMaps(p);
 	}
+
+	public void handleProjectOpened(IProject p) {
+		reinitialize(p);
+	}
 	
+	public void handleProjectClosed(IProject p) {
+		removeProjectFromMaps(p);
+	}
 	
 	public void handleRename(URI fromURI, URI toURI) {
 		String from = fromURI.toPlatformString(true);

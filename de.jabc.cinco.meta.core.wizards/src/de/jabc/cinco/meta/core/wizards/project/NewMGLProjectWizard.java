@@ -68,7 +68,7 @@ public class NewMGLProjectWizard extends Wizard implements IWorkbenchWizard{
 		}
 		
 		CincoProductProjectCreator projectCreator = new CincoProductProjectCreator(
-				projectName, packageName, mglModelName, mainPage.isCreateExample(), features);
+				projectName, packageName, mglModelName, mglModelName + "Tool", mainPage.isCreateExample(), features);
 		
 		projectCreator.create();
 		

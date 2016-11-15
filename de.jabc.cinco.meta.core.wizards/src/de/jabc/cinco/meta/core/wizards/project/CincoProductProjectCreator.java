@@ -26,12 +26,14 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.ui.IPageLayout;
+import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ISetSelectionTarget;
 import org.osgi.framework.Bundle;
 
 import de.jabc.cinco.meta.core.utils.BuildProperties;
+import de.jabc.cinco.meta.core.utils.EclipseFileUtils;
 import de.jabc.cinco.meta.core.utils.projects.ProjectCreator;
 import de.jabc.cinco.meta.core.wizards.templates.CincoProductWizardTemplates;
 
@@ -40,13 +42,15 @@ public class CincoProductProjectCreator {
 	private final String projectName;
 	private final String packageName;
 	private final String mglModelName;
+	private final String productName;
 	private final boolean createExample;
 	private final Set<ExampleFeature> features;
 	
-	public CincoProductProjectCreator(String projectName, String packageName, String mglModelName, boolean createExample, Set<ExampleFeature> features) {
+	public CincoProductProjectCreator(String projectName, String packageName, String mglModelName, String productName, boolean createExample, Set<ExampleFeature> features) {
 		this.projectName = projectName;
 		this.packageName = packageName;
 		this.mglModelName = (mglModelName.endsWith(".mgl")) ? mglModelName.split("\\.")[0] : mglModelName;
+		this.productName = productName;
 		this.createExample = createExample;
 		if (createExample)
 			this.features = features;
@@ -75,49 +79,54 @@ public class CincoProductProjectCreator {
 			createResource(modelFolder, monitor);
 			IFile mglModelFile = modelFolder.getFile(mglModelName.concat(".mgl"));
 			IFile styleModelFile = modelFolder.getFile(mglModelName.concat(".style"));
-			IFile cpdModelFile = modelFolder.getFile(mglModelName.concat(".cpd"));
+			IFile cpdModelFile = modelFolder.getFile(productName.concat(".cpd"));
 			if (!createExample) {
 				CharSequence mglCode = CincoProductWizardTemplates.generateSomeGraphMGL(mglModelName, packageName);
-				writeToFile(mglModelFile, mglCode);
+				EclipseFileUtils.writeToFile(mglModelFile, mglCode);
 				
 				CharSequence styleCode = CincoProductWizardTemplates.generateSomeGraphStyle();
-				writeToFile(styleModelFile, styleCode);
+				EclipseFileUtils.writeToFile(styleModelFile, styleCode);
 
 				CharSequence cpdCode = CincoProductWizardTemplates.generateSomeGraphCPD(mglModelName, packageName);
-				writeToFile(cpdModelFile, cpdCode);
-				
+				EclipseFileUtils.writeToFile(cpdModelFile, cpdCode);
+
+				refreshSelectOpen(project, cpdModelFile, null, monitor);
 				
 			}
 			else {
 				CharSequence mglCode = CincoProductWizardTemplates.generateFlowGraphMGL(mglModelName, packageName, projectName, features);
-				writeToFile(mglModelFile, mglCode);
+				EclipseFileUtils.writeToFile(mglModelFile, mglCode);
 				
 				CharSequence styleCode = CincoProductWizardTemplates.generateFlowGraphStyle(packageName, features);
-				writeToFile(styleModelFile, styleCode);
+				EclipseFileUtils.writeToFile(styleModelFile, styleCode);
 
 				CharSequence cpdCode = CincoProductWizardTemplates.generateFlowGraphCPD(mglModelName, packageName, features);
-				writeToFile(cpdModelFile, cpdCode);
+				EclipseFileUtils.writeToFile(cpdModelFile, cpdCode);
+				
+				IFile readmeFile = project.getFile("README.txt");
+				CharSequence readmeCode = CincoProductWizardTemplates.generateReadme(mglModelName, packageName, projectName, features);
+				EclipseFileUtils.writeToFile(readmeFile, readmeCode);
 
 				if (features.contains(APPEARANCE_PROVIDER)) {
 					IFolder appearanceFolder = project.getFolder("src/" + packageName.replaceAll("\\.", "/") + "/appearance");
 					createResource(appearanceFolder, monitor); 
 					IFile appearanceProviderFile = appearanceFolder.getFile("SimpleArrowAppearance.java");
 					CharSequence appearanceProviderCode = CincoProductWizardTemplates.generateAppearanceProvider(mglModelName, packageName);
-					writeToFile(appearanceProviderFile, appearanceProviderCode);
+					EclipseFileUtils.writeToFile(appearanceProviderFile, appearanceProviderCode);
 				}
 				if (features.contains(CODE_GENERATOR)) {
 					IFolder codegenFolder = project.getFolder("src/" + packageName.replaceAll("\\.", "/") + "/codegen");
 					createResource(codegenFolder, monitor);
-					IFile codegenFile = codegenFolder.getFile("Generate.java");
-					CharSequence codegenCode = CincoProductWizardTemplates.generateCodeGenerator(mglModelName, packageName);
-					writeToFile(codegenFile, codegenCode);
+					IFile codegenFile = codegenFolder.getFile("Generate.xtend");
+					CharSequence codegenCode = CincoProductWizardTemplates.generateXtendCodeGenerator(mglModelName, packageName);
+					EclipseFileUtils.writeToFile(codegenFile, codegenCode);
 				}
 				if (features.contains(CUSTOM_ACTION)) {
 					IFolder customActionFolder = project.getFolder("src/" + packageName.replaceAll("\\.", "/") + "/action");
 					createResource(customActionFolder, monitor);
 					IFile customActionFile = customActionFolder.getFile("ShortestPathToEnd.java");
 					CharSequence customActionCode = CincoProductWizardTemplates.generateCustomAction(mglModelName, packageName);
-					writeToFile(customActionFile, customActionCode);
+					EclipseFileUtils.writeToFile(customActionFile, customActionCode);
 				}
 				if (features.contains(ICONS)){
 					copyIcons(project);
@@ -128,12 +137,12 @@ public class CincoProductProjectCreator {
 				if (features.contains(PRIME_REFERENCES)) {
 					IFile externalLibraryEcoreFile = modelFolder.getFile("ExternalLibrary.ecore");
 					CharSequence externalLibraryEcoreCode = CincoProductWizardTemplates.generatePrimeRefEcore(mglModelName, packageName);
-					writeToFile(externalLibraryEcoreFile, externalLibraryEcoreCode);
+					EclipseFileUtils.writeToFile(externalLibraryEcoreFile, externalLibraryEcoreCode);
 
 					IFile externalLibraryGenmodelFile = modelFolder.getFile("ExternalLibrary.genmodel");
 					CharSequence externalLibraryGenmodelCode = CincoProductWizardTemplates.generatePrimeRefGenmodel(
 							mglModelName, packageName, projectName, ProjectCreator.makeSymbolicName(projectName));
-					writeToFile(externalLibraryGenmodelFile, externalLibraryGenmodelCode);
+					EclipseFileUtils.writeToFile(externalLibraryGenmodelFile, externalLibraryGenmodelCode);
 				}
 				if (features.contains(POST_CREATE_HOOKS) || features.contains(TRANSFORMATION_API)) {
 					IFolder hooksFolder = project.getFolder("src/" + packageName.replaceAll("\\.", "/") + "/hooks");
@@ -141,28 +150,38 @@ public class CincoProductProjectCreator {
 					if (features.contains(POST_CREATE_HOOKS)) {
 						IFile appearanceProviderFile = hooksFolder.getFile("RandomActivityName.java");
 						CharSequence randomNameHookCode = CincoProductWizardTemplates.generateRandomActivityNameHook(mglModelName, packageName);
-						writeToFile(appearanceProviderFile, randomNameHookCode);
+						EclipseFileUtils.writeToFile(appearanceProviderFile, randomNameHookCode);
 					}
 					if (features.contains(TRANSFORMATION_API)) {
 						IFile appearanceProviderFile = hooksFolder.getFile("InitializeFlowGraphModel.java");
 						CharSequence initFlowGraphHookCode = CincoProductWizardTemplates.generateInitFlowGraphHook(mglModelName, packageName);
-						writeToFile(appearanceProviderFile, initFlowGraphHookCode);
+						EclipseFileUtils.writeToFile(appearanceProviderFile, initFlowGraphHookCode);
 						
 					}
 				}
+				refreshSelectOpen(project, cpdModelFile, readmeFile, monitor);
 			}
 
-			project.refreshLocal(IResource.DEPTH_INFINITE, monitor);
-
-			IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-			ISetSelectionTarget projectExplorerView = (ISetSelectionTarget)page.findView(IPageLayout.ID_PROJECT_EXPLORER);
-			// FIXME: projectExplorerView is null if current perspective does not contain a "Project Explorer" view
-			projectExplorerView.selectReveal(new StructuredSelection(cpdModelFile));
 
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private void refreshSelectOpen(IProject project, IFile selection, IFile open, IProgressMonitor monitor) throws CoreException {
+		project.refreshLocal(IResource.DEPTH_INFINITE, monitor);
+		
+		IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+
+		if (open != null) 
+			IDE.openEditor(page, open);
+
+		ISetSelectionTarget projectExplorerView = (ISetSelectionTarget)page.findView(IPageLayout.ID_PROJECT_EXPLORER);
+		// FIXME: projectExplorerView is null if current perspective does not contain a "Project Explorer" view
+		if (projectExplorerView != null && selection != null)
+			projectExplorerView.selectReveal(new StructuredSelection(selection));
+
 	}
 
 
@@ -234,20 +253,6 @@ public class CincoProductProjectCreator {
 		List<String> natures = new ArrayList<String>();
 		natures.add("org.eclipse.xtext.ui.shared.xtextNature");
 		return natures;
-	}
-
-	private void writeToFile(IFile file, CharSequence code) {		
-		try {
-			createFile(file, code.toString());
-		} catch (CoreException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	
-	}
-
-	private void createFile(IFile file, String content) throws CoreException{
-		file.create(new ByteArrayInputStream(content.getBytes()), true, new NullProgressMonitor());
 	}
 
 	/**

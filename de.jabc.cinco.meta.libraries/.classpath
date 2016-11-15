@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
+	<classpathentry exported="true" kind="lib" path="lib/jool-0.9.12.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/utility-sibs-1.1-adapters.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib_local/mcam_framework.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/commons-cli-1.2.jar"/>

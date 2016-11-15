@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>bd602dcf-2ea3-4585-953e-853c0406cc4e</id>
   <name>GenerateResizeModelElementFeature</name>
-  <changecounter>436</changecounter>
+  <changecounter>438</changecounter>
   <sib>
     <id>6cad6f22-f2a9-4f5c-a9dc-5eaeb99341c0</id>
     <name>PutExpression_1</name>
@@ -544,10 +544,12 @@ for (ModelElement me : (($context.importPath$.$context.importPath$.$context.mode
     </parameter>
     <parameter name="template">
       <string>try {	
-	$fqnAPIPrefix$$apiPrefix$$graphModelName$ wrapped = $graphModelName$Wrapper.wrapGraphModel(bo.getRootElement(), getDiagram());
-	$fqnAPIPrefix$$apiPrefix$$modelElement.name$ tmp = wrapped.findC$modelElement.name$(bo);
+	if (!isApiCall()) {
+		$fqnAPIPrefix$$apiPrefix$$graphModelName$ wrapped = $graphModelName$Wrapper.wrapGraphModel(bo.getRootElement(), getDiagram());
+		$fqnAPIPrefix$$apiPrefix$$modelElement.name$ tmp = wrapped.findC$modelElement.name$(bo);
 			
-	$postResizeContent$
+		$postResizeContent$
+	}
 } catch (Exception e) {
 	
 }</string>

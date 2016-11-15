@@ -28,4 +28,8 @@ public class CincoAbstractResizeFeature extends DefaultResizeShapeFeature {
 		apiCall = activate;
 	}
 	
+	public boolean isApiCall() {
+		return apiCall;
+	}
+	
 }

@@ -302,15 +302,6 @@
 	<repositories>
 	
 		<repository>
-  			<id>kepler</id>
- 			<url>http://download.eclipse.org/releases/kepler</url>
- 			<layout>p2</layout>
- 			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-	
-		<repository>
 			<id>vulturius-webdav</id>
 			<name>jABC Repository</name>
 			<url>https://vulturius.cs.tu-dortmund.de/maven</url>

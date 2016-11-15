@@ -112,6 +112,15 @@
 		</arguments>
 	</serviceAdapter>
 
+	<serviceAdapter uid="ge-util-sibs/GetAnnotation">
+		<service>getAnnotation</service>
+		<arguments>
+			<argument name="attributeKey" />
+			<argument name="annotationNameKey" />
+			<argument name="annotationKey" />
+		</arguments>
+	</serviceAdapter>
+
 	<serviceAdapter uid="ge-util-sibs/PutDynamicLinkedMap">
 		<service>putDynamicLinkedMap</service>
 		<arguments>

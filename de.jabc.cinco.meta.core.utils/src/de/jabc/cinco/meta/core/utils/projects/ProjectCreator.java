@@ -379,4 +379,81 @@ public class ProjectCreator {
 		}
 		return null;
 	}
+
+	/**
+	 * Creates a new plain Ecipse project with potentially additional natures.
+	 * 
+	 * @param projectName Name of new project
+	 * @param additionalNatures Additional Natures.
+	 * @param progressMonitor Progress monitor
+	 * @return New project
+	 */
+	
+	public static IProject createPlainProject(final String projectName, final List<String> additionalNatures, final IProgressMonitor progressMonitor,  final List<String> cleanDirs, boolean askIfDelete ) {
+			IProgressMonitor localProgressMonitor = progressMonitor;
+			if(localProgressMonitor==null)
+				localProgressMonitor = new NullProgressMonitor();
+		IProject project = null;
+		try {
+			final IWorkspace workspace = ResourcesPlugin.getWorkspace();
+			project = workspace.getRoot().getProject(projectName);
+	
+			// Clean up any old project information.
+			if (project.exists()) {
+				final boolean[] result = new boolean[1];
+				result[0] = true;
+				if (askIfDelete) {
+					PlatformUI.getWorkbench().getDisplay().syncExec(new Runnable() {
+						public void run() {
+							result[0] = MessageDialog.openQuestion(null, "Do you want to overwrite the project "
+									+ projectName, "Note that everything inside the project '" + projectName
+									+ "' will be deleted if you confirm this dialog.");
+						}
+					});
+				}
+	
+					if (result[0]) {
+						if (cleanDirs == null) {
+							project.delete(true, true, null);
+						} else {
+							for (String s : cleanDirs) {
+								IFolder f = project.getFolder(s);
+								if (f.exists()) {
+									f.delete(true, localProgressMonitor);
+								}
+							}
+						}
+					}
+				else
+					return null;
+			}
+	
+			final IProjectDescription projectDescription = ResourcesPlugin.getWorkspace().newProjectDescription(
+					projectName);
+			projectDescription.setLocation(null);
+			if (!project.exists())
+				project.create(projectDescription, new SubProgressMonitor(localProgressMonitor, 1));
+			
+			if (additionalNatures != null) {
+				String[] natures = new String[additionalNatures.size()];
+				for (int i = 0; i < additionalNatures.size(); i++) {
+					natures[i] = additionalNatures.get(i);
+				}				
+				projectDescription.setNatureIds(natures);
+			}
+	
+			project.open(new SubProgressMonitor(localProgressMonitor, 1));
+			
+			project.setDescription(projectDescription, new SubProgressMonitor(localProgressMonitor, 1));
+		
+		}
+		catch (final Exception exception) {
+			exception.printStackTrace();
+		}
+		finally {
+			//progressMonitor.done();
+		}
+	
+		return project;
+	}
 }

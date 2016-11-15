@@ -18,6 +18,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 
@@ -53,7 +54,7 @@ public abstract class _CincoAdapter<T extends _CincoId, M extends GraphModel, W 
 	}
 
 	public M getModel() {
-		if (model == null)
+		if (model == null || model.eResource() == null)
 			readModelFromResource();
 		if (model == null)
 			throw new RuntimeException("model is null");
@@ -61,7 +62,7 @@ public abstract class _CincoAdapter<T extends _CincoId, M extends GraphModel, W 
 	}
 
 	public Diagram getDiagram() {
-		if (diagram == null)
+		if (diagram == null || diagram.eResource() == null)
 			readDiagramFromResource();
 		if (diagram == null)
 			throw new RuntimeException("diagram is null");

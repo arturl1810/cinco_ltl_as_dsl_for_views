@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>920b3bbf-25aa-46be-a18b-a45295984a8d</id>
   <name>GenerateAttributeCodeContents</name>
-  <changecounter>64</changecounter>
+  <changecounter>140</changecounter>
   <sib>
     <id>6a00f202-229b-4d0c-af84-83ded9d04bb9</id>
     <name>GetAttributeName</name>
@@ -341,8 +341,8 @@
     <parameter name="attributeKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
-          <key>attributeKey</key>
-          <scope>LOCAL</scope>
+          <key>attribute</key>
+          <scope>DECLARED</scope>
           <scopeMutable>true</scopeMutable>
         </ContextKeyFoundation>
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
@@ -388,9 +388,10 @@
   </edge>
   <edge>
     <source>c1d819d8-cfd2-4726-91f3-5f9e2578b61b</source>
-    <target>74cacde4-c7d1-4b1b-a349-792df656be7e</target>
-    <point>330.0,750.0</point>
-    <point>170.0,837.0</point>
+    <target>faf2231b-53fd-43b6-95bf-40522c0fc7ae</target>
+    <point>348.0,727.2</point>
+    <point>447.0,727.2</point>
+    <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
   <edge>
@@ -399,6 +400,155 @@
     <point>150.0,735.0</point>
     <point>138.0,837.0</point>
     <branch>false</branch>
+  </edge>
+  <sib>
+    <id>c5e1fcee-b91f-456a-8a9e-0b2e19507ccf</id>
+    <name>GetAnnotation</name>
+    <label>GetAnnotation</label>
+    <sib-uid>ge-util-sibs/GetAnnotation</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.GetAnnotation</taxonomy>
+    <position>540.5,708.0</position>
+    <parameter name="annotationKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>annot</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="annotationNameKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>annotName</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="attributeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>attribute</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <sib>
+    <id>faf2231b-53fd-43b6-95bf-40522c0fc7ae</id>
+    <name>PutString</name>
+    <label>PutString</label>
+    <sib-uid>basic-sibs/PutString</sib-uid>
+    <taxonomy>de.jabc.sib.common.basic.PutString</taxonomy>
+    <position>435.0,708.0</position>
+    <parameter name="value">
+      <string>file</string>
+    </parameter>
+    <parameter name="variable">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>annotName</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>faf2231b-53fd-43b6-95bf-40522c0fc7ae</source>
+    <target>c5e1fcee-b91f-456a-8a9e-0b2e19507ccf</target>
+    <point>465.0,735.0</point>
+    <point>572.0,730.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>ea75e5af-5f24-4311-a17d-57f4ccfe8f35</id>
+    <name>GetAnnotationValue</name>
+    <label>GetAnnotationValue</label>
+    <sib-uid>mgl/mgl/GetAnnotationValue</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetAnnotationValue</taxonomy>
+    <position>525.5,828.0</position>
+    <parameter name="annotationKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>annot</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="eListKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>values</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>c5e1fcee-b91f-456a-8a9e-0b2e19507ccf</source>
+    <target>ea75e5af-5f24-4311-a17d-57f4ccfe8f35</target>
+    <point>585.0,735.0</point>
+    <point>591.0,846.0</point>
+    <branch>default</branch>
+  </edge>
+  <sib>
+    <id>10e6e4cb-1a6a-41dc-a5f3-88d11d0d5aea</id>
+    <name>RunStringTemplate_12</name>
+    <label>initExtensions</label>
+    <sib-uid>script-sibs/RunStringTemplate</sib-uid>
+    <taxonomy>de.jabc.sib.common.script.RunStringTemplate</taxonomy>
+    <position>286.5,828.0</position>
+    <parameter name="append">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="individualVariables">
+      <boolean>true</boolean>
+    </parameter>
+    <parameter name="result">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>initExtensionsContent</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="template">
+      <string>CincoPropertyView.init_FileAttributesExtensionFilters(
+	$factoryName$Package.eINSTANCE.get$modelElementName$_$fuAttributeName$(), 
+	new String[] {&quot;$values; separator=&quot;\&quot;,\&quot;&quot;$&quot;});
+
+</string>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>ea75e5af-5f24-4311-a17d-57f4ccfe8f35</source>
+    <target>10e6e4cb-1a6a-41dc-a5f3-88d11d0d5aea</target>
+    <point>717.0,743.28</point>
+    <point>603.0,845.88</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
+  </edge>
+  <edge>
+    <source>10e6e4cb-1a6a-41dc-a5f3-88d11d0d5aea</source>
+    <target>74cacde4-c7d1-4b1b-a349-792df656be7e</target>
+    <point>567.0,860.751724137931</point>
+    <point>168.0,846.9931034482759</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>default</branch>
   </edge>
   <parameter>
     <name>attributeKey</name>
@@ -424,6 +574,11 @@
     <name>attributeKey</name>
     <field>attributeKey</field>
     <sib>16b27dbe-7578-4e8f-b946-75bb2c24a306</sib>
+  </parameter>
+  <parameter>
+    <name>attributeKey</name>
+    <field>attributeKey</field>
+    <sib>c5e1fcee-b91f-456a-8a9e-0b2e19507ccf</sib>
   </parameter>
   <values>
     <entry>

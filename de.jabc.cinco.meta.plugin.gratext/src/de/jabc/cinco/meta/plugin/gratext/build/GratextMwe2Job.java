@@ -49,7 +49,7 @@ public abstract class GratextMwe2Job extends ReiteratingThread {
 	private List<ILaunchConfiguration> launches;
 	private List<ILaunchConfiguration> unseen;
 	private ILaunchListener launchListener;
-	private IFile antlrPatch;
+//	private IFile antlrPatch;
 	
 	public GratextMwe2Job(IProject project) {
 		super(INTERVAL, INTERVAL / 10);
@@ -82,7 +82,7 @@ public abstract class GratextMwe2Job extends ReiteratingThread {
 		
 		unseen = new ArrayList<>();
     	processes = new ArrayList<>(); 
-    	antlrPatch = findAntlrPatch();
+//    	antlrPatch = findAntlrPatch();
 		registerLaunchListener();
 		launch(project, mwe2File);
     }
@@ -145,7 +145,6 @@ public abstract class GratextMwe2Job extends ReiteratingThread {
 		cfg.setAttribute("org.eclipse.debug.core.MAPPED_RESOURCE_TYPES", Lists.newArrayList(new String[] {"4"}));
 		cfg.setAttribute("org.eclipse.jdt.launching.ATTR_USE_START_ON_FIRST_THREAD", true);
 		cfg.setAttribute("org.eclipse.jdt.launching.MAIN_TYPE", "org.eclipse.emf.mwe2.launch.runtime.Mwe2Launcher");
-//		cfg.setAttribute("org.eclipse.jdt.launching.PROGRAM_ARGUMENTS", file.getProjectRelativePath().toOSString() /* "src/info/scce/dime/dad/gratext/DADGratext.mwe2" */);
 		cfg.setAttribute("org.eclipse.jdt.launching.PROGRAM_ARGUMENTS", file.getProjectRelativePath().toPortableString() /* "src/info/scce/dime/dad/gratext/DADGratext.mwe2" */);
 		cfg.setAttribute("org.eclipse.jdt.launching.PROJECT_ATTR", project.getName() /* "info.scce.dime.dad.gratext" */);
 		cfg.setAttribute("org.eclipse.ptp.launch.ATTR_AUTO_RUN_COMMAND", true);
@@ -264,6 +263,7 @@ public abstract class GratextMwe2Job extends ReiteratingThread {
 		IFile file = project.getFile(new Path(ANTLR_PATCH_FILENAME));
 		//System.out.println("[Gratext.Listener" + hashCode() + "] Antlr patch exists: " + file.exists());
 		if (!file.exists()) {
+			IFile antlrPatch = findAntlrPatch();
 			//System.out.println("[Gratext.Listener" + hashCode() + "] Not found Antlr patch for project " + project.getName());
 			if (antlrPatch == null) {
 				antlrPatch = downloadAntlrPatch(project);

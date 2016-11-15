@@ -15,6 +15,7 @@
 -Xmx3072m
 -XX:+CMSClassUnloadingEnabled 
 -XX:+UseConcMarkSweepGC
+-Dfile.encoding=UTF-8
       </vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
       </vmArgsMac>

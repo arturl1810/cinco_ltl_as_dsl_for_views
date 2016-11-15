@@ -8,6 +8,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -20,6 +21,13 @@ import java.util.jar.Manifest;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 import mgl.Annotation;
 import mgl.Attribute;
@@ -59,6 +67,8 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 import org.eclipse.xtext.util.StringInputStream;
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
 
 import style.AbsolutPosition;
 import style.AbstractShape;
@@ -1424,7 +1434,7 @@ public class ServiceAdapter {
 						fis = new FileInputStream(f);
 						reader = new BufferedReader(new InputStreamReader(fis));
 						String CINCO_GEN = new String("<!--@CincoGen "+gName+"-->");
-						ArrayList<String> extensions = getExtensions(originalText);
+						ArrayList<String> extensions = getExtensionsWithDOM(originalText);
 						ArrayList<String> remove = new ArrayList<>();
 						for (String ext : extensions) {
 							if (ext.contains(CINCO_GEN))
@@ -1435,9 +1445,9 @@ public class ServiceAdapter {
 						
 						StringBuilder sb = new StringBuilder(PLUGIN_FRAME);
 						int offset = sb.indexOf("</plugin>");
-						sb.insert(offset, c);
+						sb.insert(offset, c + "\n");
 						for (String ext : extensions)
-							sb.insert(offset, ext);
+							sb.insert(offset, ext + "\n");
 						originalText = sb.toString();
 						FileOutputStream fos = new FileOutputStream(f);
 						fos.write(originalText.getBytes());
@@ -1463,6 +1473,32 @@ public class ServiceAdapter {
 		} catch (Exception e) {
 			context.put("exception", e);
 			return Branches.ERROR;
+		}
+	}
+
+	private static ArrayList<String> getExtensionsWithDOM(String origText) {
+		try {
+			ArrayList<String> extensions = new ArrayList<>();
+			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+			Document doc = dBuilder.parse(new StringInputStream(origText));
+			doc.getDocumentElement().normalize();
+			NodeList extensionNodes = doc.getElementsByTagName("extension");
+			for (int extensionIndex = 0; extensionIndex < extensionNodes.getLength(); extensionIndex++) {
+				org.w3c.dom.Node extensionNode = extensionNodes.item(extensionIndex);				
+				// https://stackoverflow.com/questions/2223020/convert-an-org-w3c-dom-node-into-a-string
+				StringWriter writer = new StringWriter();
+				Transformer transformer = TransformerFactory.newInstance().newTransformer();
+				transformer.transform(new DOMSource(extensionNode), new StreamResult(writer));
+				String extensionString = writer.toString();
+				//remove <?xml version="1.0" encoding="UTF-8"?>
+				extensionString = extensionString.substring(extensionString.indexOf("?>") + 2);
+				extensions.add(extensionString);				
+			}
+			return extensions;			
+		}
+		catch (Throwable t) {
+			throw new RuntimeException(t);
 		}
 	}
 
@@ -1692,6 +1728,31 @@ public class ServiceAdapter {
 		}
 		
 		return Branches.FALSE;
+	}
+	
+	public static String getAnnotation(LightweightExecutionEnvironment env, 
+			ContextKeyFoundation attribute, 
+			ContextKeyFoundation annotationName,
+			ContextKeyFoundation annotation) {
+
+		LightweightExecutionContext context = env.getLocalContext();
+		try {
+			Attribute attr = (Attribute) context.get(attribute);
+			String annotName = (String) context.get(annotationName);
+			Annotation fileAnnot = CincoUtils.getAnnotation(attr, annotName);
+			if (fileAnnot != null) {
+				context.put(annotation, fileAnnot);
+			} else {
+				context.put("exception", new RuntimeException("Annotation for "+attr + " not found"));
+				return Branches.ERROR;
+			}
+			return Branches.DEFAULT;
+			
+		} catch (Exception e) {
+			context.put("exception", e);
+			return Branches.ERROR;
+		}
+		
 	}
 	
 	@SuppressWarnings("rawtypes")

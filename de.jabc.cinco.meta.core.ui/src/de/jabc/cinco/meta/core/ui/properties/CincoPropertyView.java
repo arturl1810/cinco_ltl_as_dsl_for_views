@@ -19,7 +19,9 @@ import org.eclipse.core.databinding.UpdateValueStrategy;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.databinding.property.list.IListProperty;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFProperties;
 import org.eclipse.emf.databinding.IEMFListProperty;
@@ -75,10 +77,12 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
+import org.eclipse.ui.IPartListener2;
 import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.IViewSite;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.IWorkbenchPartReference;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
@@ -91,12 +95,13 @@ import de.jabc.cinco.meta.core.ui.utils.CincoPropertyUtils;
 import de.jabc.cinco.meta.core.ui.validator.TextValidator;
 import de.jabc.cinco.meta.core.utils.WorkbenchUtil;
 import de.jabc.cinco.meta.core.utils.WorkspaceUtil;
+import de.jabc.cinco.meta.plugin.gratext.runtime.editor.MultiPageGratextEditor;
 
 /**
  * @author kopetzki
  *
  */
-public class CincoPropertyView extends ViewPart implements ISelectionListener{
+public class CincoPropertyView extends ViewPart implements ISelectionListener, IPartListener2{
 
 	private static Map<Class<? extends EObject>, IEMFListProperty> emfListPropertiesMap = new HashMap<Class<? extends EObject>, IEMFListProperty>();
 	private static Map<Class<? extends EObject>, List<EStructuralFeature>> attributesMap = new HashMap<Class<? extends EObject>, List<EStructuralFeature>>();
@@ -104,6 +109,8 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener{
 	private static Map<EStructuralFeature, Map<? extends ModelElement, String>> possibleValuesMap = new HashMap<EStructuralFeature, Map<? extends ModelElement, String>>();
 	private Map<Object, Object[]> treeExpandState;
 
+	private static Map<EStructuralFeature, List<String>> fileExtensionFilters = new HashMap<EStructuralFeature, List<String>>();
+	
 	private static Set<EStructuralFeature> multiLineAttributes = new HashSet<EStructuralFeature>();
 	private static Set<EStructuralFeature> readOnlyAttributes = new HashSet<EStructuralFeature>();
 	private static Set<EStructuralFeature> fileAttributes = new HashSet<EStructuralFeature>();
@@ -138,6 +145,8 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener{
 		context = new EMFDataBindingContext();
 		
 		tableLayoutData.minimumHeight = 50;
+		
+		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().addPartListener(this);
 	}
 
 	@Override
@@ -149,8 +158,16 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener{
 				pe = getPictogramElement(element);
 			
 			EObject bo = getBusinessObject(pe);
-			init_PropertyView(bo);
+			if (bo != null)
+				init_PropertyView(bo);
+			else if (part instanceof MultiPageGratextEditor) {
+				clearPage();
+			}
 		}
+	}
+	
+	private void clearPage() {
+		disposeChildren(parent);
 	}
 	
 	public static void addSelectionListener(ISelectionListener listener) {
@@ -207,6 +224,10 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener{
 	public static void init_FileAttributes(EStructuralFeature... features) {
 		for (EStructuralFeature f : features)
 			fileAttributes.add(f);
+	}
+	
+	public static void init_FileAttributesExtensionFilters(EStructuralFeature feature, String[] extensions) {
+		fileExtensionFilters.put(feature, Arrays.asList(extensions));
 	}
 	
 	public void init_PropertyView(EObject bo) {
@@ -464,7 +485,7 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener{
 			
 			Button browse = new Button(fileComposite, SWT.PUSH | SWT.BORDER);
 			browse.setText("Browse...");
-			browse.addSelectionListener(initBrowseSelectionListener(fileComposite.getShell(), text));
+			browse.addSelectionListener(initBrowseSelectionListener(fileComposite.getShell(), text, attr));
 			
 			IWidgetValueProperty uiProp = WidgetProperties.text(new int[] { SWT.DefaultSelection, SWT.FocusOut, SWT.Modify });			
 			IObservableValue modelObs = EMFEditProperties.value(domain,attr).observe(bo);
@@ -673,6 +694,7 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener{
 	public void dispose() {
 		super.dispose();
 		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().removeSelectionListener(this);
+		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().removePartListener(this);
 		registeredListeners.forEach(l -> PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().removeSelectionListener(l));
 		registeredListeners.clear();
 	}
@@ -695,15 +717,31 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener{
 		return Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
 	}
 	
-	private SelectionListener initBrowseSelectionListener(Shell s, Text text) {
+	private SelectionListener initBrowseSelectionListener(Shell s, Text text, EAttribute attr) {
 		SelectionListener sl = new SelectionListener() {
 			
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				FileDialog dialog = new FileDialog(s, SWT.OPEN);
-				if (WorkbenchUtil.getProjectForActiveEditor() != null) {
-					dialog.setFilterPath(WorkbenchUtil.getProjectForActiveEditor().getLocation().toString());
-				} else dialog.setFilterPath(ResourcesPlugin.getWorkspace().getRoot().getLocation().toString());
+				IProject project = WorkbenchUtil.getProjectForActiveEditor();
+				if (project != null) {
+					IPath location = project.getLocation();
+					System.out.println("Setting browsee location via project: " + location.toString());
+					dialog.setFilterPath(location.toString());
+				}
+				else {
+					IPath location = ResourcesPlugin.getWorkspace().getRoot().getLocation();
+					System.out.println("Setting browse location via workspace: " + location.toString());
+					dialog.setFilterPath(location.toString());
+				}
+				
+				String extensions = "";
+				List<String> nonEmpty = fileExtensionFilters.get(attr).stream().filter(str -> !str.isEmpty()).collect(Collectors.toList());
+				for (String ext : nonEmpty)
+					extensions += "*."+ext+";";
+				
+				if (!extensions.isEmpty())
+					dialog.setFilterExtensions(new String[] {extensions});
 				
 				String path = dialog.open();
 				if (path != null) {
@@ -720,6 +758,55 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener{
 			}
 		};
 		return sl;
+	}
+
+	@Override
+	public void partActivated(IWorkbenchPartReference partRef) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void partBroughtToTop(IWorkbenchPartReference partRef) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void partClosed(IWorkbenchPartReference partRef) {
+		IWorkbenchPart activePart = partRef.getPage().getActivePart();
+		if (!(activePart instanceof MultiPageGratextEditor))
+			clearPage();
+	}
+
+	@Override
+	public void partDeactivated(IWorkbenchPartReference partRef) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void partOpened(IWorkbenchPartReference partRef) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void partHidden(IWorkbenchPartReference partRef) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void partVisible(IWorkbenchPartReference partRef) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void partInputChanged(IWorkbenchPartReference partRef) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

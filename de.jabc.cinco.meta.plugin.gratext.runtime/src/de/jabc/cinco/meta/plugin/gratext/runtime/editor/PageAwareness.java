@@ -7,4 +7,6 @@ public interface PageAwareness {
 	void handlePageActivated(IEditorPart prevEditor);
 	
 	void handlePageDeactivated(IEditorPart nextEditor);
+	
+	void handleSaved();
 }

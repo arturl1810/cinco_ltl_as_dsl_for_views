@@ -315,7 +315,8 @@ public abstract class McamView<T extends McamPage> extends ViewPart implements
 	public void partOpened(IWorkbenchPartReference partRef) {
 		// System.out.println(this.getClass().getSimpleName() + "Part opened: "
 		// + partRef.getTitle());
-		
+
+		refreshActivePages();
 		Display.getCurrent().asyncExec(() -> {
 			if (partRef instanceof EditorReference) {
 				createPageByEditor(((EditorReference) partRef).getEditor(true));
@@ -333,10 +334,11 @@ public abstract class McamView<T extends McamPage> extends ViewPart implements
 	public void partVisible(IWorkbenchPartReference partRef) {
 		// System.out.println(this.getClass().getSimpleName() + "Part visible: "
 		// + partRef.getTitle());
-		
+
+		refreshActivePages();
 		Display.getCurrent().asyncExec(() -> {
 			if (partRef instanceof EditorReference) {
-				createPageByEditor(((EditorReference) partRef).getEditor(true));
+				loadPageByEditor(((EditorReference) partRef).getEditor(true));
 			}
 		});
 	}
@@ -474,6 +476,8 @@ public abstract class McamView<T extends McamPage> extends ViewPart implements
 			return;
 
 		String pageId = getPageId(EclipseUtils.getIFile(editor));
+		if (pageId == null)
+			return;
 
 		if (activePage == null || !pageId.equals(activePage.getPageId())) {
 			System.out.println("Loading pageId = " + pageId);

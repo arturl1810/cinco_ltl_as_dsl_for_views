@@ -42,9 +42,12 @@ public class NodeDescriptor<T extends Node> extends ModelElementDescriptor<T> {
 	protected void initIncomingEdgeConnections(Node node) {
 		List<IncomingEdgeElementConnection> connections = node.getIncomingEdgeConnections();
 		if (connections != null) connections.forEach(connection -> {
-			getModel().withSubTypes(new ArrayList<>(connection.getConnectingEdges())).forEach(obj -> {
-				incomingEdges.add((Edge)obj);
-				getModel().withSubTypes(node).forEach(n -> getModel().resp((Edge)obj).addTargetNode((Node)n));
+			ArrayList<ModelElement> edges = new ArrayList<>(connection.getConnectingEdges());
+			if (edges.isEmpty())
+				edges = new ArrayList<>(getModel().getEdges());
+			getModel().withSubTypes(edges).forEach(edge -> {
+				incomingEdges.add((Edge) edge);
+				getModel().withSubTypes(node).forEach(n -> getModel().resp((Edge) edge).addTargetNode((Node)n));
 			});
 		});
 		if (node.getExtends() != null) {
@@ -55,7 +58,10 @@ public class NodeDescriptor<T extends Node> extends ModelElementDescriptor<T> {
 	protected void initOutgoingEdgeConnections(Node node) {
 		List<OutgoingEdgeElementConnection> connections = node.getOutgoingEdgeConnections();
 		if (connections != null) connections.forEach(connection -> {
-			getModel().withSubTypes(new ArrayList<>(connection.getConnectingEdges())).forEach(obj -> {
+			ArrayList<ModelElement> edges = new ArrayList<>(connection.getConnectingEdges());
+			if (edges.isEmpty())
+				edges = new ArrayList<>(getModel().getEdges());
+			getModel().withSubTypes(edges).forEach(obj -> {
 				outgoingEdges.add((Edge)obj);
 				getModel().withSubTypes(node).forEach(n -> getModel().resp((Edge)obj).addSourceNode((Node)n));
 			});
