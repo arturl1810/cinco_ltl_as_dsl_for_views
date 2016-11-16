@@ -2,13 +2,16 @@ package de.jabc.cinco.meta.core.ui.highlight;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
 import org.eclipse.graphiti.mm.algorithms.styles.Color;
 import org.eclipse.graphiti.mm.algorithms.styles.StylesFactory;
 import org.eclipse.graphiti.mm.algorithms.styles.StylesPackage;
+import org.eclipse.graphiti.mm.pictograms.Connection;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.tb.IDecorator;
@@ -22,8 +25,9 @@ public class Highlight {
 	private HighlightDecorator deco = new HighlightDecorator(
 			new ColorConstant(20, 150, 20), new ColorConstant(240, 255, 240));
 	
-	private Set<PictogramElement> pes = new HashSet<PictogramElement>();
-	private Set<PictogramElement> affected = new HashSet<PictogramElement>();
+	private Set<PictogramElement> pes = new HashSet<>();
+	private Set<PictogramElement> affected = new HashSet<>();
+	private Map<PictogramElement, ConnectionDecoratorLayouter> layouters = new HashMap<>();
 	private Color diagramHltColor;
 	private Color diagramOrgColor;
 	private boolean on = false;
@@ -79,7 +83,7 @@ public class Highlight {
 			if (pe instanceof Diagram) {
 				diagramOn((Diagram)pe);
 			} else {
-				put(pe, deco);
+				on(pe, deco);
 			}
 			affected.add(pe);
 		}
@@ -91,13 +95,13 @@ public class Highlight {
 			if (pe instanceof Diagram) {
 				diagramOff((Diagram)pe);
 			} else
-				put(pe, null);
-		}	
+				off(pe, null);
+		}
 		affected.clear();
 		on = false;
 	}
 	
-	protected void diagramOn(final Diagram diagram) {
+	protected void diagramOn(Diagram diagram) {
 		final GraphicsAlgorithm ga = diagram.getGraphicsAlgorithm();
 		assertDiagramHltColor(diagram);
 		diagramOrgColor = ga.getBackground();
@@ -108,7 +112,7 @@ public class Highlight {
 		}
 	}
 	
-	protected void diagramOff(final Diagram diagram) {
+	protected void diagramOff(Diagram diagram) {
 		try {
 			diagram.getGraphicsAlgorithm().setBackground(diagramOrgColor);
 		} catch(IllegalStateException expected) {
@@ -116,11 +120,29 @@ public class Highlight {
 		}
 	}
 	
-	protected void put(final PictogramElement pe, final IDecorator dec) {
+	protected void on(PictogramElement pe, final IDecorator dec) {
 		DecoratorRegistry.INSTANCE.get().put(pe, dec);
+		registerConnectionDecoratorLayouter(pe);
 		HighlightUtils.triggerUpdate(pe);
 	}
 	
+	protected void off(PictogramElement pe, final IDecorator dec) {
+		DecoratorRegistry.INSTANCE.get().put(pe, dec);
+		unregisterConnectionDecoratorLayouter(pe);
+		HighlightUtils.triggerUpdate(pe);
+	}
+	
+	private void registerConnectionDecoratorLayouter(PictogramElement pe) {
+		if (pe instanceof Connection)
+			layouters.put(pe, ConnectionDecoratorLayouter.applyTo(pe));
+	}
+	
+	private void unregisterConnectionDecoratorLayouter(PictogramElement pe) {
+		ConnectionDecoratorLayouter layouter = layouters.remove(pe);
+		if (layouter != null)
+			layouter.setUnregisterAfterNextLayout(true);
+	}
+
 	private void assertDiagramHltColor(final Diagram diagram) {
 		if (diagramHltColor == null) {
 			IColorConstant clr = deco.getBackgroundColor();

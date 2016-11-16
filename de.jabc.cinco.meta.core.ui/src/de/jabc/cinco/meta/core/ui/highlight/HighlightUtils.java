@@ -17,6 +17,7 @@ import org.eclipse.emf.transaction.util.TransactionUtil;
 import org.eclipse.graphiti.dt.IDiagramTypeProvider;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
+import org.eclipse.graphiti.mm.pictograms.Connection;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
@@ -28,6 +29,7 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.part.MultiPageEditorPart;
 
 /**
  * Convenient class that provides static methods for accessing runtime objects
@@ -60,7 +62,16 @@ public class HighlightUtils {
 	
 	public static DiagramEditor getDiagramEditor() {
 		IEditorPart editor = getActiveEditor();
-		return (editor != null && editor instanceof DiagramEditor) ? (DiagramEditor) editor : null;
+		if (editor == null)
+			return null;
+		if (editor instanceof MultiPageEditorPart) {
+			Object page = ((MultiPageEditorPart) editor).getSelectedPage();
+			if (page instanceof DiagramEditor)
+				return (DiagramEditor) page;
+		}
+		return editor instanceof DiagramEditor
+				? (DiagramEditor) editor
+				: null;
 	}
 	
 	public static Object getBusinessObject(PictogramElement pe) {
@@ -164,10 +175,15 @@ public class HighlightUtils {
 	}
 	
 	public static void triggerUpdate(PictogramElement pe) {
+		GraphicsAlgorithm ga = pe.getGraphicsAlgorithm();
 		edit(pe).apply(() -> {
-			GraphicsAlgorithm ga = pe.getGraphicsAlgorithm();
-			ga.setFilled(!ga.getFilled());
-			ga.setFilled(!ga.getFilled());
+			if (pe instanceof Connection) {
+				ga.setLineVisible(!ga.getLineVisible());
+				ga.setLineVisible(!ga.getLineVisible());
+			} else {
+				ga.setFilled(!ga.getFilled());
+				ga.setFilled(!ga.getFilled());
+			}
 		});
 	}
 	

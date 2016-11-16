@@ -5,7 +5,7 @@ import org.eclipse.graphiti.tb.IColorDecorator;
 import org.eclipse.graphiti.tb.ITextDecorator;
 import org.eclipse.graphiti.util.IColorConstant;
 
-public class HighlightDecorator extends AbstractDecorator implements IColorDecorator, ITextDecorator {
+public class HighlightDecorator extends AbstractDecorator implements IColorDecorator {
 
 	private IColorConstant foregroundColor;
 	private IColorConstant backgroundColor;
@@ -53,7 +53,7 @@ public class HighlightDecorator extends AbstractDecorator implements IColorDecor
 	 * 
 	 * @see org.eclipse.graphiti.tb.ITextDecorator#setForegroundColor()
 	 */
-	@Override
+//	@Override
 	public void setForegroundColor(IColorConstant foregroundColor) {
 		this.foregroundColor = foregroundColor;
 	}
@@ -72,7 +72,7 @@ public class HighlightDecorator extends AbstractDecorator implements IColorDecor
 	 * 
 	 * @see org.eclipse.graphiti.tb.ITextDecorator#setBackgroundColor()
 	 */
-	@Override
+//	@Override
 	public void setBackgroundColor(IColorConstant backgroundColor) {
 		this.backgroundColor = backgroundColor;
 	}
