@@ -25,19 +25,24 @@ import style.Styles;
 import de.jabc.cinco.meta.core.utils.CincoUtils;
 import de.jabc.cinco.meta.plugin.executer.collector.GraphmodelCollector;
 import de.jabc.cinco.meta.plugin.executer.compounds.ExecutableGraphmodel;
+import de.jabc.cinco.meta.plugin.executer.generator.hooks.ESDSLPostCreateHook;
 import de.jabc.cinco.meta.plugin.executer.service.MGLGenerator;
 import de.jabc.cinco.meta.plugin.executer.service.ProjectCreator;
 import de.metaframe.jabc.framework.execution.LightweightExecutionEnvironment;
 import de.metaframe.jabc.framework.execution.context.LightweightExecutionContext;
 
 public class CreateExecuterPlugin {
-	public static final String EXECUTER = "executionSemantics";
+	public static final String EXECUTER = "execsem";
 	
 	public String basePath;
 	
 	public String execute(LightweightExecutionEnvironment env) throws IOException, URISyntaxException {
 		LightweightExecutionContext context = env.getLocalContext().getGlobalContext();
 		GraphModel graphModel = (GraphModel) context.get("graphModel");
+		IProject project = de.jabc.cinco.meta.core.utils.projects.ProjectCreator.getProject(graphModel.eResource());
+		if(project==null){
+			throw new IllegalStateException("Project cannot be found");
+		}
 		Styles styles = CincoUtils.getStyles(graphModel);
  
 		String graphModelName = graphModel.getName();
@@ -49,9 +54,14 @@ public class CreateExecuterPlugin {
 		
 		List<IProject> referencedProjects = new LinkedList<IProject>();
 		Set<String> requiredBundles = new HashSet<String>();
+		requiredBundles.add(graphModel.getPackage());
+		requiredBundles.add("de.jabc.cinco.meta.core.ge.style.model");
+		
 		List<String> exportedPackages = new LinkedList<String>();
 		List<String> additionalNatures = new LinkedList<String>();
 		List<String> cleanDirs = new LinkedList<String>();
+		cleanDirs.add("model");
+		cleanDirs.add("scr");
 		String pluginXML = "";
 		
 		IProgressMonitor progressMonitor = new NullProgressMonitor();
@@ -82,17 +92,22 @@ public class CreateExecuterPlugin {
 				MGLGenerator mglGen = new MGLGenerator();
 				
 				
-				
+				// /model
 				ProjectCreator.createFile(graphModelName+"ES.mgl", esdslProject.getFolder("model/"),
 					mglGen.create(exg).toString(),
 					progressMonitor);
 				
-				ProjectCreator.createFile(graphModelName+"ES.msl", esdslProject.getFolder("model/"),
-						new StyleGeneratorTemplate().create(exg).toString(),
+				ProjectCreator.createFile(graphModelName+"ES.style", esdslProject.getFolder("model/"),
+						new StyleGeneratorTemplate().create(exg,project).toString(),
 						progressMonitor);
 				
-				ProjectCreator.createFile(graphModelName+"ES.cpd", esdslProject.getFolder("model/"),
+				ProjectCreator.createFile(graphModelName+"ESTool.cpd", esdslProject.getFolder("model/"),
 						new CPDGeneratorTemplate().create(exg).toString(),
+						progressMonitor);
+				// /src
+				// /src/ .hooks
+				ProjectCreator.createFile("CreateGraphModelHook.xtend", esdslProject.getFolder("src/"+projectName),
+						new ESDSLPostCreateHook().create(exg).toString(),
 						progressMonitor);
 				
 				System.out.println("Executer MGL creation finished");

@@ -1,24 +1,35 @@
 package de.jabc.cinco.meta.plugin.executer.service
 
 import de.jabc.cinco.meta.plugin.executer.compounds.ExecutableGraphmodel
+
+
 import mgl.Annotatable
-import mgl.GraphModel
+
+import static extension de.jabc.cinco.meta.plugin.executer.generator.model.Utils.*;
+import mgl.GraphicalModelElement
+import mgl.Edge
+import mgl.Node
+import mgl.ModelElement
+import org.eclipse.emf.common.util.EList
+import mgl.Annotation
+import de.jabc.cinco.meta.plugin.executer.compounds.ExecutableNode
 
 class MGLGenerator {
 	
-	def getProjectName(ExecutableGraphmodel ex)
-	{
-		return '''Executable«ex.name»'''
-	}
+	
 	
 	def create(ExecutableGraphmodel graphmodel)
 	'''
-	@postCreate("«graphmodel.package».executable.hooks.CreateGraphModelHook")
+	«FOR i:graphmodel.graphModel.imports.filter[isMGL]»
+	«IF i.stealth»stealth «ENDIF»import «i.importURI»ES«IF !i.name.nullOrEmpty» as «i.name»«ENDIF»;
+	«ENDFOR»
+	@postCreate("«graphmodel.package».CreateGraphModelHook")
+	@primeviewer
 	@style("model/«graphmodel.projectName».style")
 	graphModel «graphmodel.projectName» {
-		package «graphmodel.package».executable
-		nsURI "«graphmodel.nsUri»/executable"
-		diagramExtension "«graphmodel.extension»Exe"
+		package «graphmodel.package»
+		nsURI "«graphmodel.nsUri»"
+		diagramExtension "«graphmodel.extension»es"
 		
 		containableElements (
 			MetaStates[1,1],
@@ -31,8 +42,8 @@ class MGLGenerator {
 		@disable(create,delete)
 		container MetaStates {
 			containableElements (
-				Initializing[0,*]
-				Default[1,*]
+				Initializing[0,*],
+				Default[1,*],
 				Terminating[0,*]
 			)
 		}
@@ -46,44 +57,68 @@ class MGLGenerator {
 		}
 		
 		// Meta States
-		abstract container StateContainer {
+		abstract container Pattern {
+			attr EString as label
+			attr EBoolean as executable := false
 			containableElements(
-				«FOR node:graphmodel.nodes»
-				«node.modelElement.name»[0,*]
-				«ENDFOR»
-				PlaceholderContainer[0,1]
-				SourceConnector[0,1]
+				ExecutableNode[0,*],
+				PlaceholderContainer[0,1],
+				SourceConnector[0,1],
 				TargetConnector[0,1]
 			)
 		}
 		
+		abstract node ReferencedPattern {
+			attr Compare as compare
+			// -1 represents the start *
+			attr EInt as border
+		}
+		
+		@style(stateContainer,"${stateContainer.label}")
+		node ReferencedInitializing extends ReferencedPattern {
+			prime this::Initializing as stateContainer
+		}
+		
 		@style(stateContainer,"Initializing")
-		container Initializing extends StateContainer{}
+		container Initializing extends Pattern{}
+		
+		@style(stateContainer,"${stateContainer.label}")
+		node ReferencedDefault extends ReferencedPattern {
+			prime this::Default as stateContainer
+			
+		}
 		
 		@style(stateContainer,"Default")
-		container Default extends StateContainer{}
+		container Default extends Pattern{}
+		
+		@style(stateContainer,"${stateContainer.label}")
+		node ReferencedTerminating extends ReferencedPattern {
+			prime this::Terminating as stateContainer
+		}
 		
 		@style(stateContainer,"Terminating")
-		container Terminating extends StateContainer{}
+		container Terminating extends Pattern{}
 		
 		//Meta Transitions
 		
-		@style(stateContainer,"Passing")
-		container MetaTransition {
-			containableElements(
-				SourceConnector[0,1]
-				TargetConnector[0,1]
-			)
+		@style(stateContainer,"Transition")
+		container MetaTransition extends Pattern {
+
+		}
+		
+		@style(stateContainer,"${stateContainer.label}")
+		node ReferencedMetaTransition extends ReferencedPattern {
+			prime this::MetaTransition as metaTransition
 		}
 		
 		@style(connector,"Source")
 		node SourceConnector {
-			outgoing(*[1,*])
+			outgoingEdges(*[1,1])
 		}
 		
 		@style(connector,"Target")
 		node TargetConnector {
-			incoming(*[1,*])
+			incomingEdges(*[1,1])
 		}
 		
 		//Placeholders 
@@ -97,7 +132,7 @@ class MGLGenerator {
 		//Nodes
 		
 		abstract node ExecutableNode {
-			attr EBoolean as executable := false
+			attr EBoolean as start := false
 		}
 		«FOR node:graphmodel.exclusivelyNodes»
 		«{
@@ -105,19 +140,13 @@ class MGLGenerator {
 			'''
 			«n.style»
 			node «n.name» extends «IF node.parent != null»«node.parent.modelElement.name»«ELSE»ExecutableNode«ENDIF» {
-				
-				incoming (
-					«FOR edge:node.outgoing»
-					«edge.modelElement.name»[0,*]
-					«ENDFOR»
-					PlaceholderEdge[0,1]
-				)
-				outgoing (
-					«FOR edge:node.incoming»
-					«edge.modelElement.name»[0,*]
-					«ENDFOR»
-					PlaceholderEdge[0,1]
-				)
+				«IF n.isPrime»
+				«n.primeReference.annotations.getPvAnnotation("pvLabel","")»
+				«n.primeReference.annotations.getPvAnnotation("pvFileExtension","es")»
+				prime «n.primeReference.type»
+				attr EBoolean as hasInnerLevelState := false
+				«ENDIF»
+				«node.inAndOut»
 			}
 			'''	
 		}»
@@ -126,7 +155,8 @@ class MGLGenerator {
 		//Container
 		
 		abstract container ExecutableContainer {
-			attr EBoolean as executable := false
+			attr EBoolean as start := false
+			attr EBoolean as hasInterlevelState := false
 		}
 		«FOR node:graphmodel.containers»
 		«{
@@ -135,22 +165,11 @@ class MGLGenerator {
 			«n.style»
 			container «n.name» extends «IF node.parent != null»«node.parent.modelElement.name»«ELSE»ExecutableContainer«ENDIF» {
 				
-				incoming (
-					«FOR edge:node.outgoing»
-					«edge.modelElement.name»[0,*]
-					«ENDFOR»
-					PlaceholderEdge[0,1]
-				)
-				outgoing (
-					«FOR edge:node.incoming»
-					«edge.modelElement.name»[0,*]
-					«ENDFOR»
-					PlaceholderEdge[0,1]
-				)
+				«node.inAndOut»
 				
 				containableElements(
 					«FOR cn:node.containableNodes»
-					«cn.modelElement.name»[0,*]
+					«cn.modelElement.name»[0,*],
 					«ENDFOR»
 					PlaceholderContainer[0,1]
 				)
@@ -160,27 +179,47 @@ class MGLGenerator {
 		«ENDFOR»
 		
 		//Edges
-		
-		abstract edge ExecutableEdge {
-			attr EBoolean as executable := false
+		enum Compare {
+			EQ L LEQ G GEQ
 		}
 		
-		«FOR node:graphmodel.edges»
+		abstract edge ExecutableEdge {
+			attr EBoolean as start := false
+			attr Compare as compare
+			// -1 represents the start *
+			attr EInt as border
+		}
+		
+		«FOR edge:graphmodel.edges»
 		«{
-			var n = node.modelElement
+			var e = edge.modelElement
 			'''
-			«n.style»
-			edge «n.name» extends «IF node.parent != null»«node.parent.modelElement.name»«ELSE»ExecutableEdge«ENDIF» {}
+			«e.style»
+			edge «e.name» extends «IF edge.parent != null»«edge.parent.modelElement.name»«ELSE»ExecutableEdge«ENDIF» {}
 			'''	
 		}»
 		«ENDFOR»
 	}
 	'''
 	
-	def String getStyle(Annotatable annotatable)
+	
+	def String getPvAnnotation(EList<Annotation> list,String anno,String suffix){
+		var arg = list.filter[it.name.equals(anno)].get(0).value.get(0);
+		return '''@«anno»("«arg»«suffix»")'''
+	}
+	
+	def String getStyle(ModelElement annotatable)
 	{
+		if(annotatable.isIsAbstract){
+			var style = ""
+			switch(annotatable){
+				case Edge:style="defaultEdge"
+				default:style="defaultNode"
+			}
+			return '''@style(«style»,"«annotatable.name»")'''
+		}
 		val anno = annotatable.annotations.filter[n|n.name.equals("style")].get(0);	
-		return '''@style(«anno.name»,«anno.value.map[n|n.statify].join('''"''','''"''',''',''')[n|n]»)''';
+		return '''@style(«anno.value.get(0)»«IF anno.value.size>1»,«anno.value.drop(1).map[n|n.statify].join('''"''',''',''','''"''')[n|n]»«ENDIF»)''';
 	}
 	
 	def String getStatify(String string) {
@@ -188,25 +227,23 @@ class MGLGenerator {
 		return string;
 	}
 	
+	def String inAndOut(ExecutableNode node)
+	'''
+	incomingEdges (
+	«FOR edge:node.incoming.groupBy[entry|entry.modelElement.name].entrySet»
+		«edge.key»[0,*],
+	«ENDFOR»
+		PlaceholderEdge[0,1]
+	)
+	outgoingEdges (
+	«FOR edge:node.outgoing.groupBy[entry|entry.modelElement.name].entrySet»
+		«edge.key»[0,*],
+	«ENDFOR»
+	PlaceholderEdge[0,1]
+	)
+	'''
 	
-	def String getPackage(ExecutableGraphmodel graphmodel)
-	{
-		return (graphmodel.modelElement as GraphModel).package;
-	}
 	
-	def String getExtension(ExecutableGraphmodel graphmodel)
-	{
-		return (graphmodel.modelElement as GraphModel).fileExtension;
-	}
 	
-	def String getNsUri(ExecutableGraphmodel graphmodel)
-	{
-		return (graphmodel.modelElement as GraphModel).nsURI;
-	}
-	
-	def String getName(ExecutableGraphmodel graphmodel)
-	{
-		return (graphmodel.modelElement as GraphModel).name;
-	}
 	
 }

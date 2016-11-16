@@ -1,10 +1,13 @@
 package de.jabc.cinco.meta.plugin.executer.collector;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import mgl.Node;
+import mgl.NodeContainer;
 import de.jabc.cinco.meta.plugin.executer.compounds.ExecutableContainer;
 import de.jabc.cinco.meta.plugin.executer.compounds.ExecutableEdge;
 import de.jabc.cinco.meta.plugin.executer.compounds.ExecutableGraphmodel;
@@ -42,6 +45,8 @@ public class GraphmodelCollector {
 		
 		//Edges
 		eg.getModelElements().addAll(graphModel.getEdges().stream().map(n->convertEdge(n)).collect(Collectors.toList()));
+		//Nodes
+		eg.getModelElements().addAll(graphModel.getNodes().stream().map(n->convertNode(n)).collect(Collectors.toList()));
 		
 		return eg;
 	}
@@ -72,12 +77,40 @@ public class GraphmodelCollector {
 		
 	}
 	
+	@SuppressWarnings("unchecked")
 	public ExecutableNode convertNode(mgl.Node node)
 	{
-		if(nodes.containsKey(node.getName())){
-			return nodes.get(node.getName());
+		ExecutableNode en = null;
+		if(node instanceof NodeContainer){
+			if(container.containsKey(node.getName())){
+				return container.get(node.getName());
+			}
+			en = new ExecutableContainerImpl();
+			mgl.NodeContainer nodeContainer = (NodeContainer) node;
+			ExecutableContainer ec = (ExecutableContainer) en;
+			ec.getContainableNodes().
+				addAll(
+					(Collection<? extends ExecutableNode>) nodeContainer.
+					getContainableElements().
+					stream().
+					flatMap(
+							n->n.
+							getTypes().
+							stream().
+							map(
+								e->convertNode((Node) e)
+								)
+							).
+					collect(Collectors.toList())
+				);
+
+		}else{
+			if(nodes.containsKey(node.getName())){
+				return nodes.get(node.getName());
+			}
+			
+			en = new ExecutableNodeImpl();
 		}
-		ExecutableNode en = new ExecutableNodeImpl();
 		nodes.put(node.getName(), en);
 		en.setModelElement(node);
 		
@@ -91,18 +124,29 @@ public class GraphmodelCollector {
 				en.setParent(convertNode(node.getExtends()));
 			}
 		}
-		
-		en.getIncoming().addAll(en.getParent().getIncoming());
-//		en.getIncoming().addAll(
-//				node.
-//				getIncomingEdgeConnections().
-//				stream().
-//				map((n)->{
-//					//this.targets.put(key, value)
-//					return convertEdge(n.getConnectingEdges());
-//					}).
-//				collect(Collectors.toList())
-//				);
+		if(en.getParent()!=null){
+			en.getIncoming().addAll(en.getParent().getIncoming());			
+			en.getOutgoing().addAll(en.getParent().getOutgoing());			
+		}
+
+		en.getIncoming().addAll(
+				(Collection<? extends ExecutableEdge>) node.
+				getIncomingEdgeConnections().
+				stream().
+				flatMap(
+						n->n.getConnectingEdges().stream().map(e->convertEdge(e))
+						).
+				collect(Collectors.toSet())
+				);
+		en.getOutgoing().addAll(
+				(Collection<? extends ExecutableEdge>) node.
+				getOutgoingEdgeConnections().
+				stream().
+				flatMap(
+						n->n.getConnectingEdges().stream().map(e->convertEdge(e))
+						).
+				collect(Collectors.toSet())
+				);
 		
 		
 		return en;

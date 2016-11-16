@@ -8,13 +8,14 @@ import org.eclipse.core.runtime.Path
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
+import org.eclipse.core.resources.IProject
 
 class StyleGeneratorTemplate {
-	def create(ExecutableGraphmodel graphmodel)
+	def create(ExecutableGraphmodel graphmodel,IProject p)
 	'''
 	//Imported style
 	
-	«graphmodel.includStyling»
+	«getIncludeStyling(graphmodel,p)»
 	
 	//Additional styles
 	
@@ -113,7 +114,30 @@ class StyleGeneratorTemplate {
 		}
 	}
 	
-	edgeSytle placeholderEdge {
+	nodeStyle defaultNode(1) {
+		roundedRectangle {
+			appearance {
+				lineWidth 2
+				lineStyle DASH
+				foreground (127,127,127)
+				background (255,255,255)
+				filled true
+			}
+			size (100,50)
+			corner (4,4)
+			text {
+				appearance {
+					foreground (0,0,0)
+					background (255,255,255)
+					font ("Helvetica",12)
+				}
+				position (CENTER,MIDDLE)
+				value "%s"
+			}
+		}
+	}
+	
+	edgeStyle placeholderEdge {
 		appearance {
 		lineWidth 2
 		lineStyle DOT
@@ -136,36 +160,45 @@ class StyleGeneratorTemplate {
 			location (0.5)
 		}
 	}
+	
+	edgeStyle defaultEdge(1) {
+		appearance {
+		lineWidth 2
+		lineStyle DOT
+		foreground (0,0,0)
+		background (0,0,0)
+		}
+		decorator {
+			ARROW
+			location (1.0)
+		}
+		decorator {
+			text {
+				appearance  {
+					foreground (0,0,0)
+					background (255,255,255)
+					font ("Helvetica",12)
+				}
+				value "%s"
+			}
+			location (0.5)
+		}
+	}
 	'''
 	
-	def String getIncludStyling(ExecutableGraphmodel graphmodel)
+	def String getIncludeStyling(ExecutableGraphmodel graphmodel,IProject p)
 	{
 		for ( a : graphmodel.modelElement.getAnnotations()) {
 			if ("style".equals(a.getName())) {
 				var path = a.getValue().get(0);
-				var uri = URI.createURI(path, true);
+				var file = p.getFile(new Path(path));
 				try {
-					var Resource res = null;
-					if (uri.isPlatformResource()) {
-						res = new ResourceSetImpl().getResource(uri, true);
-					}
-					else {
-						var p = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(graphmodel.modelElement.eResource().getURI().toPlatformString(true))).getProject();
-						var file = p.getFile(path);
-						if (file.exists()) {
-							var fileURI = URI.createPlatformResourceURI(file.getFullPath().toOSString(), true);
-							res = new ResourceSetImpl().getResource(fileURI, true);
-						}
-						else {
-							return null;
-						}
-					}
-					return new String (Files.readAllBytes(new File(res.URI.toFileString).toPath()));
+					return new String (Files.readAllBytes(new File(file.rawLocation.toOSString).toPath.toAbsolutePath));
 					
 					
 				} catch (Exception e) {
 					e.printStackTrace();
-					return null;
+					return "";
 				}
 			}
 		}

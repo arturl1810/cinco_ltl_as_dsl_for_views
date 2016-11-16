@@ -6,9 +6,9 @@ class CPDGeneratorTemplate {
 	
 	def create(ExecutableGraphmodel eg)
 	'''
-	cincoProduct «eg.graphModel.name» {
+	cincoProduct «eg.graphModel.name»ESTool {
 
-		mgl "model/«eg.graphModel.name».mgl"
+		mgl "model/«eg.graphModel.name»ES.mgl"
 
 	}
 	'''

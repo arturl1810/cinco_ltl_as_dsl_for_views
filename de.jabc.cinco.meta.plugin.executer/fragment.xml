@@ -2,15 +2,15 @@
 <?eclipse version="3.4"?>
 <fragment>
    <extension
-         id="esdsl"
-         name="executionSemantics"
+         id="AwesomeExecuter"
+        name="Executer"
          point="de.jabc.cinco.meta.core.pluginregistry.metaplugin">
-      <graphmodel-annotation
-            recognized-annotation="esdsl">
-      </graphmodel-annotation>
       <metaplugin_description
             metapluginService="de.jabc.cinco.meta.plugin.executer.service.ESDSLMetaPluginService">
       </metaplugin_description>
+      <graphmodel-annotation
+            recognized-annotation="execsem">
+      </graphmodel-annotation>
    </extension>
 
 </fragment>

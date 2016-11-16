@@ -1,5 +1,6 @@
 package de.jabc.cinco.meta.plugin.executer.compounds.impl;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import mgl.ModelElement;
@@ -19,6 +20,12 @@ public class ExecutableContainerImpl implements ExecutableContainer {
 	private ExecutableContainer parent;
 	
 	private List<ExecutableNode> containableNodes;
+	
+	public ExecutableContainerImpl() {
+		this.outgoing = new LinkedList<ExecutableEdge>();
+		this.incoming = new LinkedList<ExecutableEdge>();
+		this.containableNodes = new LinkedList<ExecutableNode>();
+	}
 	
 	@Override
 	public List<ExecutableNode> getContainableNodes() {
