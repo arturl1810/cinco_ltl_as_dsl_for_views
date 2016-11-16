@@ -363,6 +363,7 @@ public class Reconnect$context.edge.name$Feature extends DefaultReconnectionFeat
 	public boolean canReconnect(IReconnectionContext context, boolean apiCall) {
 		if (apiCall) {
 			if (!ReconnectRegistry.INSTANCE.containsKey(context.getConnection())) {
+				ReconnectRegistry.INSTANCE.put(context.getConnection(),"");
 				ReconnectRegistry.INSTANCE.put(context.getConnection(),
 						Highlighter.INSTANCE.get().onReconnectionStart(this, context));
 			}
