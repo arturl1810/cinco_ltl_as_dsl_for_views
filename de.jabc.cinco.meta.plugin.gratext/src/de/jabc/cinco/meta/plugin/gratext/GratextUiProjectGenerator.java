@@ -49,7 +49,8 @@ public class GratextUiProjectGenerator extends EmptyProjectGenerator {
 				+ " org.eclipse.ui.ide,\n"
 				+ " org.eclipse.ui.part,\n"
 				+ " org.eclipse.ui.views.properties.tabbed,\n"
-				+ " org.eclipse.xtext.ui.editor"
+				+ " org.eclipse.xtext.ui.editor,\n"
+				+ " de.jabc.cinco.meta.core.ui.highlight"
 		);
 	}
 	
