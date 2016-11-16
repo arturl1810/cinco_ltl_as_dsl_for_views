@@ -13,7 +13,7 @@ import org.eclipse.graphiti.ui.editor.IDiagramEditorInput;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
 
-public abstract class AccessiblePaletteViewerDiagramEditor extends DiagramEditor {
+public class AccessiblePaletteViewerDiagramEditor extends DiagramEditor {
 
 	
 	@Override
@@ -40,8 +40,13 @@ public abstract class AccessiblePaletteViewerDiagramEditor extends DiagramEditor
 	}
 	
 	
-	public abstract void onPaletteViewerCreated(PaletteViewer pViewer);
-	public abstract void initRequiredPackages();
+	public void onPaletteViewerCreated(PaletteViewer pViewer) {
+		// default: do nothing
+	}
+	
+	public void initRequiredPackages() {
+		// default: do nothing
+	}
 	
 	
 	public PaletteViewer getPaletteViewer() {

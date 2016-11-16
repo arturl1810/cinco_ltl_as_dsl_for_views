@@ -101,6 +101,8 @@
     <parameter name="template">
       <string>package $context.localPkgName$;
 
+import static de.jabc.cinco.meta.core.ui.highlight.DecoratorRegistry.complementDecorators;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -136,6 +138,11 @@ public class $context.fuGraphModelName$ToolBehaviourProvider extends DefaultTool
 	public $context.fuGraphModelName$ToolBehaviourProvider(
 			IDiagramTypeProvider diagramTypeProvider) {
 		super(diagramTypeProvider);
+	}
+	
+	@Override
+	public IDecorator[] getDecorators(PictogramElement pe) {
+		return complementDecorators(pe, super.getDecorators(pe));
 	}
 
 	@Override
