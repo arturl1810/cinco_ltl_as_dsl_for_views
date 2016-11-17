@@ -5,7 +5,6 @@ import de.jabc.cinco.meta.plugin.executer.compounds.ExecutableGraphmodel
 
 import mgl.Annotatable
 
-import static extension de.jabc.cinco.meta.plugin.executer.generator.model.Utils.*;
 import mgl.GraphicalModelElement
 import mgl.Edge
 import mgl.Node
@@ -13,6 +12,8 @@ import mgl.ModelElement
 import org.eclipse.emf.common.util.EList
 import mgl.Annotation
 import de.jabc.cinco.meta.plugin.executer.compounds.ExecutableNode
+import mgl.ReferencedType
+import mgl.Import
 
 class MGLGenerator {
 	
@@ -201,6 +202,37 @@ class MGLGenerator {
 		«ENDFOR»
 	}
 	'''
+	
+	def void getType(ReferencedType type){
+		
+	}
+	
+	def boolean getIsPrime(Node node)
+	{
+		return false;	
+	}
+	
+	def boolean getIsMGL(Import i) {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
+	def String getExtension(ExecutableGraphmodel graphmodel)
+	{
+		
+	}
+	
+	
+	def void getProjectName(ExecutableGraphmodel graphmodel){
+		
+	}
+	
+	def void getPackage(ExecutableGraphmodel graphmodel){
+		
+	}
+	
+	def void getNsUri(ExecutableGraphmodel graphmodel){
+		
+	}
 	
 	
 	def String getPvAnnotation(EList<Annotation> list,String anno,String suffix){

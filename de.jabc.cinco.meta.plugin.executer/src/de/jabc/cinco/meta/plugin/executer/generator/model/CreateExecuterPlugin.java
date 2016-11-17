@@ -25,7 +25,6 @@ import style.Styles;
 import de.jabc.cinco.meta.core.utils.CincoUtils;
 import de.jabc.cinco.meta.plugin.executer.collector.GraphmodelCollector;
 import de.jabc.cinco.meta.plugin.executer.compounds.ExecutableGraphmodel;
-import de.jabc.cinco.meta.plugin.executer.generator.hooks.ESDSLPostCreateHook;
 import de.jabc.cinco.meta.plugin.executer.service.MGLGenerator;
 import de.jabc.cinco.meta.plugin.executer.service.ProjectCreator;
 import de.metaframe.jabc.framework.execution.LightweightExecutionEnvironment;
@@ -106,9 +105,6 @@ public class CreateExecuterPlugin {
 						progressMonitor);
 				// /src
 				// /src/ .hooks
-				ProjectCreator.createFile("CreateGraphModelHook.xtend", esdslProject.getFolder("src/"+projectName),
-						new ESDSLPostCreateHook().create(exg).toString(),
-						progressMonitor);
 				
 				System.out.println("Executer MGL creation finished");
 				return "default";
