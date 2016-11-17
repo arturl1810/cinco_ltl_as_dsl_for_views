@@ -1,14 +1,15 @@
 package de.jabc.cinco.meta.core.ui.highlight;
 
 import static de.jabc.cinco.meta.core.utils.WorkbenchUtil.eapi;
-
 import graphmodel.ModelElement;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Stack;
 
 import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
 import org.eclipse.graphiti.mm.algorithms.styles.Color;
@@ -180,7 +181,7 @@ public class Highlight {
 		if (pe instanceof Diagram) {
 			diagramOff((Diagram)pe);
 		} else {
-			off(pe, null);
+			off(pe, deco);
 		}
 		affected.remove(pe);
 	}
@@ -205,13 +206,16 @@ public class Highlight {
 	}
 	
 	protected void on(PictogramElement pe, final IDecorator dec) {
-		DecoratorRegistry.INSTANCE.get().put(pe, dec);
+		DecoratorRegistry.INSTANCE.get().get(pe).push(dec);
 		registerConnectionDecoratorLayouter(pe);
 		HighlightUtils.triggerUpdate(pe);
 	}
 	
 	protected void off(PictogramElement pe, final IDecorator dec) {
-		DecoratorRegistry.INSTANCE.get().put(pe, dec);
+		if (!DecoratorRegistry.INSTANCE.get().get(pe).contains(dec)) 
+			System.err.println("WARN: Stack does not contain decorator!");
+		
+		DecoratorRegistry.INSTANCE.get().get(pe).remove(dec);
 		unregisterConnectionDecoratorLayouter(pe);
 		HighlightUtils.triggerUpdate(pe);
 	}

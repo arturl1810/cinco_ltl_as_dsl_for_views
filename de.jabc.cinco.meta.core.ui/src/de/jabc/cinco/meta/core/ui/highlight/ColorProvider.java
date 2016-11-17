@@ -16,9 +16,9 @@ public class ColorProvider {
 	
 	public ColorConstant amend(ColorConstant color, double factor) {  
 		return new ColorConstant(
-			(int) Math.max(0, Math.min(color.getRed() * factor, 255)),
-			(int) Math.max(0, Math.min(color.getGreen() * factor, 255)),
-			(int) Math.max(0, Math.min(color.getBlue() * factor, 255)));
+			(int) Math.max(30, Math.min(color.getRed() * factor, 225)),
+			(int) Math.max(30, Math.min(color.getGreen() * factor, 225)),
+			(int) Math.max(30, Math.min(color.getBlue() * factor, 225)));
 	}
 	
 	private static final String[] COLORS = new String[] {
