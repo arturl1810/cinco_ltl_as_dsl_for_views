@@ -1,7 +1,10 @@
 package de.jabc.cinco.meta.core.ui.highlight;
 
+import static de.jabc.cinco.meta.core.utils.WorkbenchUtil.eapi;
+
+import graphmodel.ModelElement;
+
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -32,25 +35,27 @@ public class Highlight {
 	private Color diagramOrgColor;
 	private boolean on = false;
 	
-	public Highlight() {}
+	public Highlight() {};
+	
+	public Highlight(IColorConstant fgColor, IColorConstant bgColor) {
+		this();
+		deco = new HighlightDecorator(fgColor, bgColor);
+	}
 	
 	public Highlight(Highlight archetype) {
-		this();
-		deco = new HighlightDecorator(
-				archetype.deco.getBackgroundColor(), archetype.deco.getForegroundColor());
+		this(archetype.deco.getForegroundColor(), archetype.deco.getBackgroundColor());
 		pes = archetype.pes;
 	}
 	
 	public Highlight add(PictogramElement pe) {
 		pes.add(pe);
-		if (isOn()) on(false);
-		return this;
+		return changed();
 	}
 	
-	public Highlight addAll(Collection<PictogramElement> pes) {
-		this.pes.addAll(pes);
-		if (isOn()) on(false);
-		return this;
+	public Highlight add(ModelElement me) {
+		PictogramElement pe = eapi(me).getPictogramElement();
+		pes.add(pe);
+		return changed();
 	}
 	
 	public boolean isOn() {
@@ -59,17 +64,17 @@ public class Highlight {
 	
 	public Highlight setForegroundColor(IColorConstant fgColor) {
 		deco.setForegroundColor(fgColor);
-		return this;
+		return changed();
 	}
 	
 	public Highlight setBackgroundColor(IColorConstant bgColor) {
 		deco.setBackgroundColor(bgColor);
-		return this;
+		return changed();
 	}
 	
 	public Highlight setPictogramElements(PictogramElement... pes) {
 		this.pes = new HashSet<PictogramElement>(Arrays.asList(pes));
-		return this;
+		return changed();
 	}
 	
 	public void on() {
@@ -153,5 +158,9 @@ public class Highlight {
 		}
 	}
 	
+	private Highlight changed() {
+		if (isOn()) on(false);
+		return this;
+	}
 		
 }

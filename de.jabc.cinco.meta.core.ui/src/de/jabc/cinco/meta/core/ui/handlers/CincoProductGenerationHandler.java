@@ -1,6 +1,6 @@
 package de.jabc.cinco.meta.core.ui.handlers;
 
-import static de.jabc.cinco.meta.core.utils.WorkspaceUtil.resp;
+import static de.jabc.cinco.meta.core.utils.WorkspaceUtil.eapi;
 import static de.jabc.cinco.meta.core.utils.job.JobFactory.job;
 
 import java.io.IOException;
@@ -132,7 +132,7 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 	private void init() {
 		commandService = (ICommandService) PlatformUI.getWorkbench().getService(ICommandService.class);
 		cpdFile = MGLSelectionListener.INSTANCE.getSelectedCPDFile();
-		cpd = resp(cpdFile).getResourceContent(CincoProduct.class, 0);
+		cpd = eapi(cpdFile).getResourceContent(CincoProduct.class, 0);
 	}
 
 	private void resetRegistries() {

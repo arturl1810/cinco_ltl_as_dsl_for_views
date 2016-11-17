@@ -1,5 +1,7 @@
 package de.jabc.cinco.meta.core.ui.highlight;
 
+import static de.jabc.cinco.meta.core.utils.WorkbenchUtil.getDiagramBehavior;
+
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.LayoutListener;
 import org.eclipse.gef.GraphicalEditPart;
@@ -10,7 +12,7 @@ import org.eclipse.graphiti.ui.internal.figures.GFPolylineConnection;
 public class ConnectionDecoratorLayouter extends LayoutListener.Stub {
 
 	public static ConnectionDecoratorLayouter applyTo(PictogramElement pe) {
-		DiagramBehavior db = HighlightUtils.getDiagramBehavior();
+		DiagramBehavior db = getDiagramBehavior();
 		GraphicalEditPart ep = db.getEditPartForPictogramElement(pe);
 		figure = ep.getFigure();
 		ConnectionDecoratorLayouter layouter = new ConnectionDecoratorLayouter(figure);
