@@ -25,8 +25,9 @@ public class Highlight {
 	
 	public static InstanceRegistry<Highlight> INSTANCE = new InstanceRegistry<>(() -> new Highlight());
 	
-	private HighlightDecorator deco = new HighlightDecorator(
-			new ColorConstant(20, 150, 20), new ColorConstant(240, 255, 240));
+	public static InstanceRegistry<ColorProvider> COLORPROVIDER = new InstanceRegistry<>(() -> new ColorProvider());
+	
+	private HighlightDecorator deco;
 	
 	private Set<PictogramElement> pes = new HashSet<>();
 	private Set<PictogramElement> affected = new HashSet<>();
@@ -35,7 +36,13 @@ public class Highlight {
 	private Color diagramOrgColor;
 	private boolean on = false;
 	
-	public Highlight() {};
+	public Highlight() {
+		ColorProvider prov = COLORPROVIDER.get();
+		ColorConstant c = prov.next();
+		ColorConstant bgColor = prov.amend(c, 1.3);
+		ColorConstant fgColor = prov.amend(c, 0.7);
+		deco = new HighlightDecorator(fgColor, bgColor);
+	}
 	
 	public Highlight(IColorConstant fgColor, IColorConstant bgColor) {
 		this();
@@ -89,8 +96,48 @@ public class Highlight {
 		return changed();
 	}
 	
+	/**
+	 * red, green and blue values expressed as integers in the range
+	 * 0 to 255 (where 0 is black and 255 is full brightness).
+	 */
+	public Highlight setForegroundColor(int red, int green, int blue) {
+		deco.setForegroundColor(new ColorConstant(red, green, blue));
+		return changed();
+	}
+	
+	/**
+	 * RGB values in hexadecimal format. This means, that the String must
+	 * have a length of 6 characters. Example: <code>"FF0000"</code>
+	 * represents a red color.
+	 * 
+	 */
+	public Highlight setForegroundColor(String hexRGBString) {
+		deco.setForegroundColor(new ColorConstant(hexRGBString));
+		return changed();
+	}
+	
 	public Highlight setBackgroundColor(IColorConstant bgColor) {
 		deco.setBackgroundColor(bgColor);
+		return changed();
+	}
+	
+	/**
+	 * red, green and blue values expressed as integers in the range
+	 * 0 to 255 (where 0 is black and 255 is full brightness).
+	 */
+	public Highlight setBackgroundColor(int red, int green, int blue) {
+		deco.setBackgroundColor(new ColorConstant(red, green, blue));
+		return changed();
+	}
+	
+	/**
+	 * RGB values in hexadecimal format. This means, that the String must
+	 * have a length of 6 characters. Example: <code>"FF0000"</code>
+	 * represents a red color.
+	 * 
+	 */
+	public Highlight setBackgroundColor(String hexRGBString) {
+		deco.setBackgroundColor(new ColorConstant(hexRGBString));
 		return changed();
 	}
 	
@@ -194,5 +241,5 @@ public class Highlight {
 		if (isOn()) on(false);
 		return this;
 	}
-		
+	
 }
