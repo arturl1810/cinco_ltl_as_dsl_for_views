@@ -1,20 +1,15 @@
 package de.jabc.cinco.meta.core.ui.highlight;
 
-import static de.jabc.cinco.meta.core.utils.WorkspaceUtil.eapi;
-
 import static de.jabc.cinco.meta.core.utils.WorkbenchUtil.eapi;
-import static de.jabc.cinco.meta.core.utils.WorkbenchUtil.edit;
 import static de.jabc.cinco.meta.core.utils.WorkbenchUtil.getDiagramBehavior;
 import static de.jabc.cinco.meta.core.utils.WorkbenchUtil.getShapes;
-
+import static de.jabc.cinco.meta.core.utils.WorkspaceUtil.eapi;
 import graphmodel.ModelElement;
 
-import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
-import org.eclipse.graphiti.mm.pictograms.Connection;
+import java.util.Collection;
+
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
-
-import java.util.Collection;
 
 /**
  * Utility methods for handling highlight-related stuff.
@@ -33,23 +28,18 @@ public class HighlightUtils {
 	}
 	
 	public static void refreshDecorators(Collection<? extends PictogramElement> pes) {
-		pes.stream().forEach(pe -> refreshDecorators(pe));
+		pes.stream().forEach(pe ->
+		getDiagramBehavior().refreshRenderingDecorators(pe));
+		getDiagramBehavior().refresh();
 	}
 	
 	public static void refreshDecorators(PictogramElement pe) {
 		getDiagramBehavior().refreshRenderingDecorators(pe);
+		getDiagramBehavior().refresh();
+		
 	}
 	
 	public static void triggerUpdate(PictogramElement pe) {
-		GraphicsAlgorithm ga = pe.getGraphicsAlgorithm();
-		edit(pe).apply(() -> {
-			if (pe instanceof Connection) {
-				ga.setLineVisible(!ga.getLineVisible());
-				ga.setLineVisible(!ga.getLineVisible());
-			} else {
-				ga.setFilled(!ga.getFilled());
-				ga.setFilled(!ga.getFilled());
-			}
-		});
+		getDiagramBehavior().refresh();
 	}
 }

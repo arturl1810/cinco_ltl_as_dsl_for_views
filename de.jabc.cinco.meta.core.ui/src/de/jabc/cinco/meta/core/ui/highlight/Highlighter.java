@@ -130,7 +130,6 @@ public abstract class Highlighter {
 	
 	public String onConnectionStart(ICreateConnectionFeature feature, ICreateConnectionContext context) {
 		String contextKey = turnOnHighlights(getHighlightablesOnConnect(feature, context));
-		HighlightUtils.refreshDecorators(context.getSourcePictogramElement());
 		return contextKey;
 	}
 	
@@ -144,7 +143,6 @@ public abstract class Highlighter {
 	
 	public String onReconnectionStart(IReconnectionFeature feature, IReconnectionContext context) {
 		String contextKey = turnOnHighlights(getHighlightablesOnReconnect(feature, context));
-		HighlightUtils.refreshDecorators(context.getConnection());
 		return contextKey;
 	}
 	
