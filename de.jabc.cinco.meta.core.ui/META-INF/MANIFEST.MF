@@ -27,6 +27,7 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: de.jabc.cinco.meta.core.mgl,
  de.jabc.cinco.meta.core.utils,
  de.jabc.cinco.meta.core.utils.dependency,
+ de.jabc.cinco.meta.core.utils.eapi,
  de.jabc.cinco.meta.core.utils.job,
  de.jabc.cinco.meta.core.utils.projects,
  graphmodel,
