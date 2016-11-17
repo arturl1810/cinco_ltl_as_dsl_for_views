@@ -48,14 +48,36 @@ public class Highlight {
 	}
 	
 	public Highlight add(PictogramElement pe) {
-		pes.add(pe);
-		return changed();
+		if (pes.add(pe) && isOn()) {
+			on(pe);
+		}
+		return this;
 	}
 	
 	public Highlight add(ModelElement me) {
-		PictogramElement pe = eapi(me).getPictogramElement();
-		pes.add(pe);
-		return changed();
+		add(eapi(me).getPictogramElement());
+		return this;
+	}
+	
+	public Highlight remove(PictogramElement pe) {
+		if (pes.remove(pe) && isOn()) {
+			off(pe);
+		}
+		return this;
+	}
+	
+	public Highlight remove(ModelElement me) {
+		remove(eapi(me).getPictogramElement());
+		return this;
+	}
+	
+	public Highlight clear() {
+		System.out.println("Highlight clear");
+		if (isOn()) {
+			off();
+		}
+		pes.clear();
+		return this;
 	}
 	
 	public boolean isOn() {
@@ -82,28 +104,38 @@ public class Highlight {
 	}
 	
 	public void on(boolean withdrawPrevious) {
-		if (withdrawPrevious && isOn())
+		if (withdrawPrevious && isOn()) {
 			off();
+		}
 		for (final PictogramElement pe : pes) {
-			if (pe instanceof Diagram) {
-				diagramOn((Diagram)pe);
-			} else {
-				on(pe, deco);
-			}
-			affected.add(pe);
+			on(pe);
 		}
 		on = true;
 	}
 	
-	public void off() {
-		for (final PictogramElement pe : affected) {
-			if (pe instanceof Diagram) {
-				diagramOff((Diagram)pe);
-			} else
-				off(pe, null);
+	public void on(PictogramElement pe) {
+		if (pe instanceof Diagram) {
+			diagramOn((Diagram)pe);
+		} else {
+			on(pe, deco);
 		}
-		affected.clear();
+		affected.add(pe);
+	}
+	
+	public void off() {
+		for (PictogramElement pe : new HashSet<>(affected)) {
+			off(pe);
+		}
 		on = false;
+	}
+	
+	protected void off(PictogramElement pe) {
+		if (pe instanceof Diagram) {
+			diagramOff((Diagram)pe);
+		} else {
+			off(pe, null);
+		}
+		affected.remove(pe);
 	}
 	
 	protected void diagramOn(Diagram diagram) {
