@@ -1,6 +1,6 @@
 package de.jabc.cinco.meta.plugin.gratext.runtime.action;
 
-import static de.jabc.cinco.meta.core.utils.WorkspaceUtil.resp;
+import static de.jabc.cinco.meta.core.utils.WorkspaceUtil.eapi;
 import static de.jabc.cinco.meta.core.utils.job.JobFactory.job;
 import static de.jabc.cinco.meta.plugin.gratext.runtime.util.GratextUtils.showErrorMessage;
 
@@ -91,7 +91,7 @@ public class GratextRestoreAction implements IActionDelegate {
 	
 	protected List<IFile> getRestoreCandidates(IProject project) {
 		IFolder backupFolder = project.getFolder(new Path(BACKUP_FOLDER));
-		return resp(backupFolder).getFiles();
+		return eapi(backupFolder).getFiles();
 	}
 	
 	private void runRestore(final IRestoreAction action, IFile file) {

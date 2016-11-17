@@ -98,6 +98,7 @@ public abstract class Highlighter {
 	 * @return
 	 */
 	public Highlighter listenToPaletteDrag(PaletteViewer viewer) {
+		System.out.println("Add PaletteDragSourceListener to " + viewer);
 		viewer.addDragSourceListener(new PaletteDragSourceListener(viewer));
 		return this;
 	}
@@ -129,7 +130,7 @@ public abstract class Highlighter {
 	
 	public String onConnectionStart(ICreateConnectionFeature feature, ICreateConnectionContext context) {
 		String contextKey = turnOnHighlights(getHighlightablesOnConnect(feature, context));
-		HighlightUtils.refreshDecorators();
+		HighlightUtils.refreshDecorators(context.getSourcePictogramElement());
 		return contextKey;
 	}
 	
@@ -143,7 +144,7 @@ public abstract class Highlighter {
 	
 	public String onReconnectionStart(IReconnectionFeature feature, IReconnectionContext context) {
 		String contextKey = turnOnHighlights(getHighlightablesOnReconnect(feature, context));
-		HighlightUtils.refreshDecorators();
+		HighlightUtils.refreshDecorators(context.getConnection());
 		return contextKey;
 	}
 	
@@ -164,6 +165,7 @@ public abstract class Highlighter {
 	}
 	
 	private String turnOnHighlights(Collection<PictogramElement> pes) {
+		System.out.println("[Highlighter] highlight: " + pes);
 		List<Highlight> highlights = new ArrayList<>();
 		if (pes != null) for (PictogramElement pe : pes) {
 			Highlight highlight = getHighlight(pe);
@@ -201,6 +203,7 @@ public abstract class Highlighter {
 		
 		@Override
 		public void dragStart(DragSourceEvent event) {
+			System.out.println("[Highlighter] palette drag start");
 			super.dragStart(event);
 			try {
 				CreationFactory template = (CreationFactory) getTemplate();

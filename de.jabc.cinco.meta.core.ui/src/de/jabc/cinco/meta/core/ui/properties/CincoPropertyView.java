@@ -1,5 +1,8 @@
 package de.jabc.cinco.meta.core.ui.properties;
 
+import static de.jabc.cinco.meta.core.utils.WorkbenchUtil.eapi;
+import static de.jabc.cinco.meta.core.utils.WorkbenchUtil.getActiveEditor;
+
 import graphmodel.Container;
 import graphmodel.GraphModel;
 import graphmodel.ModelElement;
@@ -723,7 +726,7 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				FileDialog dialog = new FileDialog(s, SWT.OPEN);
-				IProject project = WorkbenchUtil.getProjectForActiveEditor();
+				IProject project = eapi(getActiveEditor()).getProject();
 				if (project != null) {
 					IPath location = project.getLocation();
 					System.out.println("Setting browsee location via project: " + location.toString());

@@ -1,6 +1,6 @@
 package de.jabc.cinco.meta.plugin.gratext;
 
-import static de.jabc.cinco.meta.core.utils.WorkspaceUtil.resp;
+import static de.jabc.cinco.meta.core.utils.WorkspaceUtil.eapi;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -23,7 +23,6 @@ import org.eclipse.core.runtime.jobs.Job;
 
 import de.jabc.cinco.meta.core.ui.listener.MGLSelectionListener;
 import de.jabc.cinco.meta.core.utils.EclipseFileUtils;
-import de.jabc.cinco.meta.core.utils.WorkspaceUtil;
 import de.jabc.cinco.meta.plugin.gratext.build.GratextModelBuild;
 
 public class GratextGenerationHandler extends AbstractHandler {
@@ -39,7 +38,7 @@ public class GratextGenerationHandler extends AbstractHandler {
 			return null;
 		IProject mglProject = mglFile.getProject();
 		
-		GraphModel model = resp(mglFile).getResourceContent(GraphModel.class, 0);
+		GraphModel model = eapi(mglFile).getResourceContent(GraphModel.class, 0);
 		
 		Map<String, Object> ctx = new HashMap<>();
 		ctx.put("graphModel", model);
@@ -115,7 +114,7 @@ public class GratextGenerationHandler extends AbstractHandler {
 	private IFile downloadAntlrPatch(IProject project) {
 		try {
 			BufferedInputStream stream = new BufferedInputStream(new URL(DOWNLOAD_URL).openStream());
-			return resp(project).createFile(ANTLR_PATCH_FILENAME, stream);
+			return eapi(project).createFile(ANTLR_PATCH_FILENAME, stream);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

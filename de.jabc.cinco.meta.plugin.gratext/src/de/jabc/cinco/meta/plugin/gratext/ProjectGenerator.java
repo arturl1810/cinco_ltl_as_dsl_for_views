@@ -2,7 +2,7 @@ package de.jabc.cinco.meta.plugin.gratext;
 
 import static de.jabc.cinco.meta.core.utils.WorkspaceUtil.createResource;
 import static de.jabc.cinco.meta.core.utils.WorkspaceUtil.getFiles;
-import static de.jabc.cinco.meta.core.utils.WorkspaceUtil.resp;
+import static de.jabc.cinco.meta.core.utils.WorkspaceUtil.eapi;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -266,7 +266,7 @@ public abstract class ProjectGenerator {
 			IContainer container = (folderName == null || folderName.trim().isEmpty())
 				? project
 				: folder(folderName);
-			return resp(container)
+			return eapi(container)
 				.withProgressMonitor(getProgressMonitor())
 				.createFile(name, content);
 		} catch (Exception e) {

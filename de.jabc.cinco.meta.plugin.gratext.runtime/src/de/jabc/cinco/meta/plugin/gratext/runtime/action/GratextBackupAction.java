@@ -1,6 +1,6 @@
 package de.jabc.cinco.meta.plugin.gratext.runtime.action;
 
-import static de.jabc.cinco.meta.core.utils.WorkspaceUtil.resp;
+import static de.jabc.cinco.meta.core.utils.WorkspaceUtil.eapi;
 import static de.jabc.cinco.meta.core.utils.job.JobFactory.job;
 import static de.jabc.cinco.meta.plugin.gratext.runtime.util.GratextUtils.showErrorMessage;
 
@@ -12,7 +12,6 @@ import java.util.Map;
 import java.util.stream.Stream;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -87,7 +86,7 @@ public class GratextBackupAction implements IActionDelegate {
 	}
 	
 	private List<IFile> getBackupCandidates() {
-		return resp(project).getFiles(
+		return eapi(project).getFiles(
 				file -> true, // retrieve all files
 				container ->  // exclude the backup folder
 					!TARGET_FOLDER.equals(container.getName())

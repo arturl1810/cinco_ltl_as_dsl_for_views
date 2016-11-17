@@ -16,7 +16,7 @@ import org.eclipse.jface.viewers.ISelection
 import org.eclipse.jface.viewers.IStructuredSelection
 import org.eclipse.ui.IActionDelegate
 
-import static de.jabc.cinco.meta.core.utils.WorkspaceUtil.resp
+import static de.jabc.cinco.meta.core.utils.WorkspaceUtil.eapi
 import static de.jabc.cinco.meta.core.utils.job.JobFactory.job
 
 import static extension de.jabc.cinco.meta.core.utils.WorkspaceUtil.createResource
@@ -48,7 +48,7 @@ class ConstraintGenAction implements IActionDelegate {
 		if (fldr.exists) [|
 			fldr.delete(true, true, null)
 		].printException
-		genFolder = resp(project).createFolder(GENFOLDER_NAME)
+		genFolder = eapi(project).createFolder(GENFOLDER_NAME)
 	}
 	
 	def run(IFile modelFile) {
@@ -58,7 +58,7 @@ class ConstraintGenAction implements IActionDelegate {
 	}
 	
 	def genFile(Node node) {
-		resp(modelGenFolder).createFile(
+		eapi(modelGenFolder).createFile(
 			node.name + ".txt", node.genContent.toString)
 	}
 	
@@ -236,7 +236,7 @@ class ConstraintGenAction implements IActionDelegate {
 	}
 	
 	def createModelGenFolder(IFile modelFile) {
-		modelGenFolder = resp(genFolder).createFolder(modelFile.projectRelativePath.removeFileExtension.lastSegment)
+		modelGenFolder = eapi(genFolder).createFolder(modelFile.projectRelativePath.removeFileExtension.lastSegment)
 	}
 	
 	def createFolder(IPath path) {
@@ -257,7 +257,7 @@ class ConstraintGenAction implements IActionDelegate {
 	}
 	
 	def Stream<IFile> getModelFiles() {
-		resp(project).getFiles(["mgl".equals(fileExtension)]).stream
+		eapi(project).getFiles(["mgl".equals(fileExtension)]).stream
 	}
 	
 	def isDisabled(Node node) {

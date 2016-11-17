@@ -20,12 +20,17 @@ Require-Bundle: org.eclipse.core.runtime,
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Import-Package: de.jabc.cinco.meta.core.utils,
+ de.jabc.cinco.meta.core.utils.eapi,
  de.jabc.cinco.meta.core.utils.job,
  graphmodel,
  org.eclipse.draw2d,
  org.eclipse.emf.workspace,
  org.eclipse.emf.workspace.util,
+ org.eclipse.gef,
+ org.eclipse.gef.palette,
+ org.eclipse.gef.tools,
  org.eclipse.gef.ui.actions,
+ org.eclipse.gef.ui.palette,
  org.eclipse.ui.views.properties.tabbed,
  org.eclipse.xtext.linking.lazy
 Export-Package: de.jabc.cinco.meta.plugin.gratext.runtime,

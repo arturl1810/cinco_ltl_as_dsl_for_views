@@ -13,12 +13,14 @@ import org.eclipse.graphiti.ui.editor.IDiagramEditorInput;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
 
+import de.jabc.cinco.meta.plugin.gratext.runtime.editor.PageAwareDiagramBehavior;
+
 public class AccessiblePaletteViewerDiagramEditor extends DiagramEditor {
 
 	
 	@Override
 	protected DiagramBehavior createDiagramBehavior() {
-		return new DiagramBehavior(this) {
+		return new PageAwareDiagramBehavior(this) {
 			
 			@Override
 			protected DefaultPaletteBehavior createPaletteBehaviour() {
