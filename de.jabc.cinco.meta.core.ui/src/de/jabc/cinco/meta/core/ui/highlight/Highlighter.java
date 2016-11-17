@@ -165,7 +165,6 @@ public abstract class Highlighter {
 	}
 	
 	private String turnOnHighlights(Collection<PictogramElement> pes) {
-		System.out.println("[Highlighter] highlight: " + pes);
 		List<Highlight> highlights = new ArrayList<>();
 		if (pes != null) for (PictogramElement pe : pes) {
 			Highlight highlight = getHighlight(pe);
@@ -203,7 +202,6 @@ public abstract class Highlighter {
 		
 		@Override
 		public void dragStart(DragSourceEvent event) {
-			System.out.println("[Highlighter] palette drag start");
 			super.dragStart(event);
 			try {
 				CreationFactory template = (CreationFactory) getTemplate();

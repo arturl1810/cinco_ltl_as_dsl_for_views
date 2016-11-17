@@ -4,7 +4,6 @@ import static de.jabc.cinco.meta.core.utils.WorkbenchUtil.getShapes;
 import static de.jabc.cinco.meta.core.utils.WorkbenchUtil.getContainerShapes;
 import static de.jabc.cinco.meta.core.utils.WorkbenchUtil.testBusinessObjectType;
 import static de.jabc.cinco.meta.core.utils.WorkbenchUtil.treatBusinessObject;
-
 import graphmodel.ModelElementContainer;
 import graphmodel.Node;
 
@@ -23,6 +22,7 @@ import org.eclipse.graphiti.features.context.impl.ReconnectionContext;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
+import org.eclipse.graphiti.util.ColorConstant;
 
 public class DefaultHighlighter extends Highlighter {
 
@@ -99,7 +99,10 @@ public class DefaultHighlighter extends Highlighter {
 
 	@Override
 	protected Highlight getHighlight(PictogramElement pe) {
-		return Highlight.INSTANCE.create().setPictogramElements(pe);
+		return Highlight.INSTANCE.create()
+				.setForegroundColor(20, 150, 20)
+				.setBackgroundColor(240, 255, 240)
+				.setPictogramElements(pe);
 	}
 	
 }
