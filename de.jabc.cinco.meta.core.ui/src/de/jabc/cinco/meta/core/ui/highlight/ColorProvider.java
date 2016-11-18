@@ -1,5 +1,8 @@
 package de.jabc.cinco.meta.core.ui.highlight;
 
+import java.util.function.BiFunction;
+import java.util.function.Function;
+
 import org.eclipse.graphiti.util.ColorConstant;
 
 public class ColorProvider {
@@ -14,11 +17,21 @@ public class ColorProvider {
 		return new ColorConstant(COLORS[colorIndex++ % COLORS.length]);
 	}
 	
-	public ColorConstant amend(ColorConstant color, double factor) {  
+	public static ColorConstant amend(ColorConstant color, double factor) {  
+		Function<Integer,Integer> func = i -> (int) Math.max(80, Math.min(i * factor, 225));
 		return new ColorConstant(
-			(int) Math.max(80, Math.min(color.getRed() * factor, 225)),
-			(int) Math.max(80, Math.min(color.getGreen() * factor, 225)),
-			(int) Math.max(80, Math.min(color.getBlue() * factor, 225)));
+			func.apply(color.getRed()),
+			func.apply(color.getGreen()),
+			func.apply(color.getBlue()));
+	}
+	
+	public static ColorConstant transfer(ColorConstant from, ColorConstant to, double ratio) {
+		BiFunction<Integer, Integer, Integer> func = (i1, i2) -> 
+			(int) Math.abs((ratio * i1) + ((1 - ratio) * i2));
+		return new ColorConstant(
+			func.apply(from.getRed(), to.getRed()),
+			func.apply(from.getGreen(), to.getGreen()),
+			func.apply(from.getBlue(), to.getBlue()));	
 	}
 	
 	private static final String[] COLORS = new String[] {
