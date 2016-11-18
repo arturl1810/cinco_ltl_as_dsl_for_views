@@ -90,6 +90,14 @@ public class Highlight {
 		return on;
 	}
 	
+	public IColorConstant getForegroundColor() {
+		return deco.getForegroundColor();
+	}
+	
+	public IColorConstant getBackgroundColor() {
+		return deco.getBackgroundColor();
+	}
+	
 	public Highlight setForegroundColor(IColorConstant fgColor) {
 		deco.setForegroundColor(fgColor);
 		return changed();
