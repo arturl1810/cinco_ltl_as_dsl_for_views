@@ -26,7 +26,6 @@ Import-Package: de.jabc.cinco.meta.core,
  org.eclipse.xtext.ui.editor
 Bundle-Version: 0.8.0.qualifier
 Require-Bundle: org.eclipse.emf.transaction,
- de.jabc.cinco.meta.core.mgl,
  org.eclipse.emf.codegen.ecore,
  org.eclipse.osgi,
  org.eclipse.emf.mwe2.language,

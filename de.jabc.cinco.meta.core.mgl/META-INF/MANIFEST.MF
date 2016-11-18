@@ -15,7 +15,9 @@ Require-Bundle: org.eclipse.xtext.generator,
  de.jabc.cinco.meta.libraries,
  org.eclipse.core.runtime,
  org.eclipse.pde.core,
- org.eclipse.xtext.xbase.lib
+ org.eclipse.xtext.xbase.lib,
+ org.eclipse.emf.ecore,
+ org.eclipse.emf.common
 Import-Package: de.jabc.cinco.meta.core.utils,
  de.jabc.cinco.meta.core.utils.projects,
  org.apache.commons.logging,

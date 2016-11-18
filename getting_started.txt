@@ -2,11 +2,17 @@ Starting Requirements:
 
 - Oracle JDK 8 (Open JDK 8 might be supported when stable)
 - Maven 3 installed
-- Eclipse 4.4.2 "Luna SR2" in the "Modeling Tools" variant: 
-  http://eclipse.org/downloads/packages/eclipse-modeling-tools/lunasr2
+- Eclipse 4.5.2 "Mars SR2" in the "Modeling Tools" variant: 
+  http://eclipse.org/downloads/packages/eclipse-modeling-tools/mars2
 
 
 Preparing Eclipse Modeling:
+- Linux users may want to add the lines:
+
+    --launcher.GTK_version
+    2
+
+to 'eclipse.ini' before the line '--launcher.appendVmargs' when experiencing graphical issues
 - Start Eclipse with a fresh workspace
 - Help / Install Modeling Components
 	- mark Xpand, Graphiti and Xtext for installation

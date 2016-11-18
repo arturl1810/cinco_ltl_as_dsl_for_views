@@ -164,7 +164,7 @@ class «model.name»ModelGenerator {
 	def addIfPossible(AddContext ctx) {
 		val ftr = featureProvider.getAddFeature(ctx) as CincoAbstractAddFeature
 		if (ftr != null) {
-			ftr.hook = false
+			ftr.setHook(false)
 			if (ftr?.canAdd(ctx))
 				featureProvider.diagramTypeProvider.diagramBehavior
 					.executeFeature(ftr, ctx) as PictogramElement

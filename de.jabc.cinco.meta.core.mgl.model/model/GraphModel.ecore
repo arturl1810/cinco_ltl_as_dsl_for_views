@@ -130,15 +130,37 @@
       </eParameters>
     </eOperations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="incoming" upperBound="-1"
-        eType="#//Edge" eOpposite="#//Edge/targetElement"/>
+        eType="#//Edge" eOpposite="#//Edge/_targetElement"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="outgoing" upperBound="-1"
-        eType="#//Edge" eOpposite="#//Edge/sourceElement"/>
+        eType="#//Edge" eOpposite="#//Edge/_sourceElement"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Edge" abstract="true" interface="true"
       eSuperTypes="#//ModelElement">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="sourceElement" eType="#//Node"
+    <eOperations name="getSourceElement" eType="#//Node">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return get_sourceElement();"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="getTargetElement" eType="#//Node">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return get_targetElement();"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="setSourceElement">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="set_sourceElement(sourceElement);"/>
+      </eAnnotations>
+      <eParameters name="sourceElement" eType="#//Node"/>
+    </eOperations>
+    <eOperations name="setTargetElement">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="set_targetElement(targetElement);"/>
+      </eAnnotations>
+      <eParameters name="targetElement" eType="#//Node"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="_sourceElement" eType="#//Node"
         eOpposite="#//Node/outgoing"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="targetElement" eType="#//Node"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="_targetElement" eType="#//Node"
         eOpposite="#//Node/incoming"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Container" abstract="true" eSuperTypes="#//ModelElementContainer #//Node"/>

@@ -53,7 +53,7 @@ import org.w3c.dom.NodeList;
 
 import style.Style;
 import style.Styles;
-import ProductDefinition.CincoProduct;
+import productDefinition.CincoProduct;
 
 
 public class CincoUtils {

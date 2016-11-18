@@ -133,7 +133,7 @@ def nodeRule(Node node) {
 def edgeRule(Edge edge) {
 	'''
 	«edge.name» returns «edge.name»:{«edge.name»}
-	'-«edge.name»->' targetElement = [graphmodel::Node|ID]
+	'-«edge.name»->' _targetElement = [graphmodel::Node|ID]
 	(route = Route)?
 	(decorations += Decoration)*
 	('{'

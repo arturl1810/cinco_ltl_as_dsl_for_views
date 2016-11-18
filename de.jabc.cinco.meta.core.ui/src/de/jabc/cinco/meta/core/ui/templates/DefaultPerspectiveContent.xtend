@@ -1,6 +1,6 @@
 package de.jabc.cinco.meta.core.ui.templates
 
-import ProductDefinition.CincoProduct
+import productDefinition.CincoProduct
 import mgl.GraphModel
 import org.eclipse.ui.IFolderLayout
 import org.eclipse.ui.IPageLayout
