@@ -36,6 +36,8 @@ import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.widgets.Control;
 
+import de.jabc.cinco.meta.core.utils.WorkbenchUtil;
+
 public abstract class Highlighter {
 	
 	public static InstanceRegistry<Highlighter> INSTANCE = new InstanceRegistry<>(() -> new DefaultHighlighter());
@@ -164,12 +166,15 @@ public abstract class Highlighter {
 	
 	private String turnOnHighlights(Collection<PictogramElement> pes) {
 		List<Highlight> highlights = new ArrayList<>();
-		if (pes != null) for (PictogramElement pe : pes) {
-			Highlight highlight = getHighlight(pe);
-			if (highlight != null) {
-				highlights.add(highlight);
-				highlight.on();
+		if (pes != null && !pes.isEmpty()) {
+			for (PictogramElement pe : pes) {
+				Highlight highlight = getHighlight(pe);
+				if (highlight != null) {
+					highlights.add(highlight);
+					highlight.avoidRefreshOnce(true).on();
+				}
 			}
+			WorkbenchUtil.refreshDiagram();
 		}
 		String contextKey = getContextKey();
 		highlightContexts.put(contextKey, highlights);
@@ -178,10 +183,13 @@ public abstract class Highlighter {
 	
 	private void turnOffHighlights(String transactionKey) {
 		Collection<Highlight> highlights = highlightContexts.get(transactionKey);
-		if (highlights != null) for (Highlight highlight : highlights) try {
-			highlight.off();
-		} catch(Exception e) {
-			e.printStackTrace();
+		if (highlights != null && !highlights.isEmpty()) {
+			for (Highlight highlight : highlights) try {
+				highlight.avoidRefreshOnce(true).off();
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			WorkbenchUtil.refreshDiagram();
 		}
 	}
 	
