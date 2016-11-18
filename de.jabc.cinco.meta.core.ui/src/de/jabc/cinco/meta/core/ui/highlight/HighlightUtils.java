@@ -38,8 +38,4 @@ public class HighlightUtils {
 		getDiagramBehavior().refresh();
 		
 	}
-	
-	public static void triggerUpdate(PictogramElement pe) {
-		getDiagramBehavior().refresh();
-	}
 }

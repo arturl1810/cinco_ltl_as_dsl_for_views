@@ -1,7 +1,7 @@
 package de.jabc.cinco.meta.plugin.gratext.runtime.editor;
 
-import static de.jabc.cinco.meta.plugin.gratext.runtime.util.GratextUtils.async;
-import static de.jabc.cinco.meta.plugin.gratext.runtime.util.GratextUtils.sync;
+import static de.jabc.cinco.meta.core.utils.WorkbenchUtil.async;
+import static de.jabc.cinco.meta.core.utils.WorkbenchUtil.sync;
 
 import java.util.ArrayList;
 import java.util.Collections;

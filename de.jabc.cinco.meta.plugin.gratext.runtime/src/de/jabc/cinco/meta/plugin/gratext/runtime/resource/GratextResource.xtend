@@ -1,5 +1,7 @@
 package de.jabc.cinco.meta.plugin.gratext.runtime.resource
 
+import static de.jabc.cinco.meta.core.utils.WorkspaceUtil.edit;
+
 import java.io.OutputStream
 import java.io.OutputStreamWriter
 import java.util.Map
@@ -8,7 +10,6 @@ import org.eclipse.graphiti.mm.pictograms.Diagram
 import org.eclipse.xtext.linking.lazy.LazyLinkingResource
 import org.eclipse.xtext.parser.IParseResult
 
-import static de.jabc.cinco.meta.plugin.gratext.runtime.util.GratextUtils.edit
 import org.eclipse.emf.common.util.TreeIterator
 import org.eclipse.emf.ecore.util.EcoreUtil
 import org.eclipse.xtext.util.CancelIndicator

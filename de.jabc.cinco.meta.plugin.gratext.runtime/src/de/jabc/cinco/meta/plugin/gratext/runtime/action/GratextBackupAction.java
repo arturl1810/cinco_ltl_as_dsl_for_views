@@ -1,8 +1,8 @@
 package de.jabc.cinco.meta.plugin.gratext.runtime.action;
 
+import static de.jabc.cinco.meta.core.utils.WorkbenchUtil.showErrorDialog;
 import static de.jabc.cinco.meta.core.utils.WorkspaceUtil.eapi;
 import static de.jabc.cinco.meta.core.utils.job.JobFactory.job;
-import static de.jabc.cinco.meta.plugin.gratext.runtime.util.GratextUtils.showErrorMessage;
 
 import java.util.AbstractMap;
 import java.util.AbstractMap.SimpleEntry;
@@ -51,7 +51,7 @@ public class GratextBackupAction implements IActionDelegate {
 		    .taskForEach(() -> actionByFile, 
 		    		  entry -> runBackup(entry.getValue(), entry.getKey()),
 		    		  entry -> entry.getKey().getName())
-		  .onFailed(() -> showErrorMessage("Gratext Backup", "Some backup tasks seem to have failed."))
+		  .onFailed(() -> showErrorDialog("Gratext Backup", "Some backup tasks seem to have failed."))
 		  .schedule();
 	}
 	

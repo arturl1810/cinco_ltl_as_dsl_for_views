@@ -20,6 +20,8 @@ import org.eclipse.graphiti.tb.IDecorator;
 import org.eclipse.graphiti.util.ColorConstant;
 import org.eclipse.graphiti.util.IColorConstant;
 
+import de.jabc.cinco.meta.core.utils.WorkbenchUtil;
+
 public class Highlight {
 	
 	public static InstanceRegistry<Highlight> INSTANCE = new InstanceRegistry<>(() -> new Highlight());
@@ -33,13 +35,14 @@ public class Highlight {
 	private Map<PictogramElement, ConnectionDecoratorLayouter> layouters = new HashMap<>();
 	private Color diagramHltColor;
 	private Color diagramOrgColor;
+	private boolean avoidRefresh;
 	private boolean on = false;
+
 	
 	public Highlight() {
-		ColorProvider prov = COLORPROVIDER.get();
-		ColorConstant c = prov.next();
-		ColorConstant bgColor = prov.amend(c, 1.3);
-		ColorConstant fgColor = prov.amend(c, 0.7);
+		ColorConstant c = COLORPROVIDER.get().next();
+		ColorConstant bgColor = ColorProvider.amend(c, 1.3);
+		ColorConstant fgColor = ColorProvider.amend(c, 0.7);
 		deco = new HighlightDecorator(fgColor, bgColor);
 	}
 	
@@ -153,6 +156,11 @@ public class Highlight {
 		return changed();
 	}
 	
+	public Highlight avoidRefreshOnce(boolean flag) {
+		avoidRefresh = true;
+		return this;
+	}
+	
 	public void on() {
 		on(true);
 	}
@@ -214,7 +222,7 @@ public class Highlight {
 	protected void on(PictogramElement pe, final IDecorator dec) {
 		DecoratorRegistry.INSTANCE.get().get(pe).push(dec);
 		registerConnectionDecoratorLayouter(pe);
-		HighlightUtils.triggerUpdate(pe);
+		triggerDiagramRefresh();
 	}
 	
 	protected void off(PictogramElement pe, final IDecorator dec) {
@@ -223,7 +231,7 @@ public class Highlight {
 		
 		DecoratorRegistry.INSTANCE.get().get(pe).remove(dec);
 		unregisterConnectionDecoratorLayouter(pe);
-		HighlightUtils.triggerUpdate(pe);
+		triggerDiagramRefresh();
 	}
 	
 	private void registerConnectionDecoratorLayouter(PictogramElement pe) {
@@ -236,6 +244,14 @@ public class Highlight {
 		if (layouter != null)
 			layouter.setUnregisterAfterNextLayout(true);
 	}
+	
+	private void triggerDiagramRefresh() {
+		if (!avoidRefresh)
+			WorkbenchUtil.refreshDiagram();
+		else
+			avoidRefresh = false;
+	}
+	
 
 	private void assertDiagramHltColor(final Diagram diagram) {
 		if (diagramHltColor == null) {
