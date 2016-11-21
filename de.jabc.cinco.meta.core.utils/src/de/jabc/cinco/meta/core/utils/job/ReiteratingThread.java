@@ -71,8 +71,8 @@ public abstract class ReiteratingThread extends Thread {
         	afterwork();
         	onFinished();
         }
-        onDone();
         cleanup();
+        onDone();
     }
 
     @Override
@@ -92,6 +92,7 @@ public abstract class ReiteratingThread extends Thread {
 
     public void quit() {
         myself = null;
+        if (paused) unpause();
     }
 
     protected void fail() {

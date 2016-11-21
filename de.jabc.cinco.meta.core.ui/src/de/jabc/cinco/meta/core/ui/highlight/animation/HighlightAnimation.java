@@ -23,7 +23,6 @@ public abstract class HighlightAnimation extends ReiteratingThread {
 	public HighlightAnimation(Highlight hl, double effectTimeInSeconds) {
 		super(EffectIntervalInMs);
 		steps = (int) (effectTimeInSeconds * 1000 / HighlightAnimation.EffectIntervalInMs);
-		System.out.println("[ANIM] steps: " + steps);
 		this.hl = hl;
 	}
 	
@@ -39,7 +38,7 @@ public abstract class HighlightAnimation extends ReiteratingThread {
 	}
 	
 	@Override
-	public void afterwork() {
+	public void cleanup() {
 		hl.off();
 	}
 	
@@ -63,16 +62,7 @@ public abstract class HighlightAnimation extends ReiteratingThread {
 	}
 	
 	IColorConstant getBackgroundColor(PictogramElement pe) {
-		Stack<IDecorator> reg = DecoratorRegistry.INSTANCE.get().get(pe);
-		System.out.println("Reg.size = " + reg.size());
-		IDecorator deco = null;
-		if (hl.isOn()) {
-			if (reg.size() > 1) {
-				deco = reg.get(reg.size() - 2);
-			}
-		} else if (!reg.isEmpty()) {
-			deco = reg.lastElement();
-		}
+		IDecorator deco = getDecorator(pe);
 		if (deco != null && deco instanceof IColorDecorator) {
 			return ((IColorDecorator) deco).getBackgroundColor();
 		}
@@ -81,19 +71,23 @@ public abstract class HighlightAnimation extends ReiteratingThread {
 	}
 	
 	IColorConstant getForegroundColor(PictogramElement pe) {
-		Stack<IDecorator> reg = DecoratorRegistry.INSTANCE.get().get(pe);
-		IDecorator deco = null;
-		if (hl.isOn()) {
-			if (reg.size() > 1) {
-				deco = reg.get(reg.size() - 2);
-			}
-		} else if (!reg.isEmpty()) {
-			deco = reg.lastElement();
-		}
+		IDecorator deco = getDecorator(pe);
 		if (deco != null && deco instanceof IColorDecorator) {
 			return ((IColorDecorator) deco).getForegroundColor();
 		}
 		return ColorProvider.toColorConstant(
 				pe.getGraphicsAlgorithm().getForeground());
+	}
+	
+	IDecorator getDecorator(PictogramElement pe) {
+		Stack<IDecorator> reg = DecoratorRegistry.INSTANCE.get().get(pe);
+		if (hl.isOn()) {
+			if (reg.size() > 1) {
+				return reg.get(reg.size() - 2);
+			}
+		} else if (!reg.isEmpty()) {
+			return reg.lastElement();
+		}
+		return null;
 	}
 }

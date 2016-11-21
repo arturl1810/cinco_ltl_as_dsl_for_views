@@ -17,11 +17,8 @@ public class HighlightFade extends HighlightAnimation {
 	@Override
 	protected void work() {
 		super.work();
-		
 		if (step-- <= 0) {
 			quit();
 		}
 	}
-	
-	
 }

@@ -14,7 +14,6 @@ public class HighlightFlash extends HighlightAnimation {
 	@Override
 	protected void work() {
 		super.work();
-		
 		if (swelling) {
 			if (step++ >= steps) {
 				swelling = false;

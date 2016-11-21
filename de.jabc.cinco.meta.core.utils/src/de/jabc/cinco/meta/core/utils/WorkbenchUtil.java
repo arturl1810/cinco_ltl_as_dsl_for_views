@@ -154,6 +154,12 @@ public class WorkbenchUtil {
 		);
 	}
 	
+	public static void refreshDecorators(PictogramElement pe) {
+		async(() -> 
+			getDiagramBehavior().refreshRenderingDecorators(pe)
+		);
+	}
+	
 	public static Display getDisplay() {
 		Display display = Display.getCurrent();
 		if (display == null)
