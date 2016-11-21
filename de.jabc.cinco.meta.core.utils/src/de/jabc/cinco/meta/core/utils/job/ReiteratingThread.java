@@ -13,6 +13,10 @@ public abstract class ReiteratingThread extends Thread {
     private Thread myself;
     private long next = System.currentTimeMillis();
 
+    private Runnable onDoneCallback;
+    private Runnable onFailedCallback;
+    private Runnable onFinishedCallback;
+    
     public ReiteratingThread() {}
 
     public ReiteratingThread(int intervalMs) {
@@ -61,7 +65,13 @@ public abstract class ReiteratingThread extends Thread {
                 tick();
             }
         }
-        if (!failed) afterwork();
+        if (failed) {
+        	onFailed();
+        } else {
+        	afterwork();
+        	onFinished();
+        }
+        onDone();
         cleanup();
     }
 
@@ -88,4 +98,34 @@ public abstract class ReiteratingThread extends Thread {
     	failed = true;
     	quit();
     }
+    	
+	public void onFinished(Runnable callback) {
+		onFinishedCallback = callback;
+	}
+	
+	private void onFinished() {
+		if (onFinishedCallback != null) {
+			onFinishedCallback.run();
+		}
+	}
+	
+	public void onFailed(Runnable callback) {
+		onFailedCallback = callback;
+	}
+
+	private void onFailed() {
+		if (onFailedCallback != null) {
+			onFailedCallback.run();
+		}
+	}
+	
+	public void onDone(Runnable callback) {
+		onDoneCallback = callback;
+	}
+
+	private void onDone() {
+		if (onDoneCallback != null) {
+			onDoneCallback.run();
+		}
+	}
 }

@@ -2,7 +2,7 @@ package de.jabc.cinco.meta.core.ui.highlight;
 
 import org.eclipse.graphiti.mm.pictograms.Connection;
 
-import de.jabc.cinco.meta.core.ui.highlight.Registry;
+import de.jabc.cinco.meta.core.utils.registry.Registry;
 
 public class ReconnectRegistry extends Registry<Connection, String> {
 	

@@ -1,8 +1,12 @@
-package de.jabc.cinco.meta.core.ui.highlight;
+package de.jabc.cinco.meta.core.utils.registry;
 
 import java.util.UUID;
 import java.util.function.Supplier;
 
+/**
+ * 
+ * @author Steve Bosselmann
+ */
 public class InstanceRegistry<V> extends KeygenRegistry<String,V> {
 
 	// generated

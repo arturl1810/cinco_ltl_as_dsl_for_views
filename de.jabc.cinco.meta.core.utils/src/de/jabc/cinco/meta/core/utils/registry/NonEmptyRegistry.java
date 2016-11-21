@@ -1,8 +1,12 @@
-package de.jabc.cinco.meta.core.ui.highlight;
+package de.jabc.cinco.meta.core.utils.registry;
 
 import java.util.Map;
 import java.util.function.Function;
 
+/**
+ * 
+ * @author Steve Bosselmann
+ */
 public class NonEmptyRegistry<K,V> extends Registry<K,V> {
 
 	// generated

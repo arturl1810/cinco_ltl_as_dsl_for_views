@@ -3,10 +3,17 @@ package de.jabc.cinco.meta.core.ui.highlight;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
+import org.eclipse.graphiti.mm.algorithms.styles.Color;
 import org.eclipse.graphiti.util.ColorConstant;
+import org.eclipse.graphiti.util.IColorConstant;
+
+import de.jabc.cinco.meta.core.utils.registry.InstanceRegistry;
 
 public class ColorProvider {
 
+	public static InstanceRegistry<ColorProvider> INSTANCE = new InstanceRegistry<>(() -> new ColorProvider());
+	
+	
 	private int colorIndex = 0;
 	
 	public ColorProvider() {
@@ -16,8 +23,11 @@ public class ColorProvider {
 	public ColorConstant next() {
 		return new ColorConstant(COLORS[colorIndex++ % COLORS.length]);
 	}
-	
-	public static ColorConstant amend(ColorConstant color, double factor) {  
+		
+	public static ColorConstant amend(Color color, double factor) {
+		return amend(toColorConstant(color), factor);
+	}
+	public static ColorConstant amend(IColorConstant color, double factor) {  
 		Function<Integer,Integer> func = i -> (int) Math.max(80, Math.min(i * factor, 225));
 		return new ColorConstant(
 			func.apply(color.getRed()),
@@ -25,13 +35,29 @@ public class ColorProvider {
 			func.apply(color.getBlue()));
 	}
 	
-	public static ColorConstant transfer(ColorConstant from, ColorConstant to, double ratio) {
+	public static ColorConstant transfer(Color from, Color to, double ratio) {
+		return mix(toColorConstant(from), toColorConstant(to), ratio);
+	}
+	
+	public static ColorConstant transfer(Color from, IColorConstant to, double ratio) {
+		return mix(toColorConstant(from), to, ratio);
+	}
+	
+	public static ColorConstant transfer(IColorConstant from, Color to, double ratio) {
+		return mix(from, toColorConstant(to), ratio);
+	}
+	
+	public static ColorConstant mix(IColorConstant from, IColorConstant to, double ratio) {
 		BiFunction<Integer, Integer, Integer> func = (i1, i2) -> 
-			(int) Math.abs((ratio * i1) + ((1 - ratio) * i2));
+			(int) Math.abs(((1 - ratio) * i1) + (ratio * i2));
 		return new ColorConstant(
 			func.apply(from.getRed(), to.getRed()),
 			func.apply(from.getGreen(), to.getGreen()),
 			func.apply(from.getBlue(), to.getBlue()));	
+	}
+	
+	public static ColorConstant toColorConstant(Color col) {
+		return new ColorConstant(col.getRed(), col.getGreen(), col.getBlue());
 	}
 	
 	private static final String[] COLORS = new String[] {
