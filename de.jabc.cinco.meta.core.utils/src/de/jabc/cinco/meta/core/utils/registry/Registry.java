@@ -1,4 +1,4 @@
-package de.jabc.cinco.meta.core.ui.highlight;
+package de.jabc.cinco.meta.core.utils.registry;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -7,6 +7,10 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
+/**
+ * 
+ * @author Steve Bosselmann
+ */
 public class Registry<K,V> extends LinkedHashMap<K,V> implements IRegistry<K,V> {
 
 	// generated

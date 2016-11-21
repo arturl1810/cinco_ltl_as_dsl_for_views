@@ -8,6 +8,9 @@ import java.util.function.Function;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.tb.IDecorator;
 
+import de.jabc.cinco.meta.core.utils.registry.InstanceRegistry;
+import de.jabc.cinco.meta.core.utils.registry.NonEmptyRegistry;
+
 public class DecoratorRegistry extends NonEmptyRegistry<PictogramElement, Stack<IDecorator>>{
 	
 	public static InstanceRegistry<DecoratorRegistry> INSTANCE = new InstanceRegistry<>(() -> new DecoratorRegistry(pe -> new Stack<>()));

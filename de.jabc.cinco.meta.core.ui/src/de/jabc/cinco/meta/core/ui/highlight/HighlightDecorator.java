@@ -2,7 +2,6 @@ package de.jabc.cinco.meta.core.ui.highlight;
 
 import org.eclipse.graphiti.tb.AbstractDecorator;
 import org.eclipse.graphiti.tb.IColorDecorator;
-import org.eclipse.graphiti.tb.ITextDecorator;
 import org.eclipse.graphiti.util.IColorConstant;
 
 public class HighlightDecorator extends AbstractDecorator implements IColorDecorator {
@@ -37,6 +36,10 @@ public class HighlightDecorator extends AbstractDecorator implements IColorDecor
 		this();
 		setForegroundColor(foregroundColor);
 		setBackgroundColor(backgroundColor);
+	}
+	
+	public HighlightDecorator(HighlightDecorator archetype) {
+		this(archetype.foregroundColor, archetype.backgroundColor);
 	}
 
 	/*

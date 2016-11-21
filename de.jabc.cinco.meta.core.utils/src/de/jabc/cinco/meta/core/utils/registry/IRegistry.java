@@ -1,8 +1,12 @@
-package de.jabc.cinco.meta.core.ui.highlight;
+package de.jabc.cinco.meta.core.utils.registry;
 
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 
+ * @author Steve Bosselmann
+ */
 public interface IRegistry<K,T> {
 	
 	T lookup(K key);

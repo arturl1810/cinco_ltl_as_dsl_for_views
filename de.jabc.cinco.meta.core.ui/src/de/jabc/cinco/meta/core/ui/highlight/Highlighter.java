@@ -37,6 +37,7 @@ import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.widgets.Control;
 
 import de.jabc.cinco.meta.core.utils.WorkbenchUtil;
+import de.jabc.cinco.meta.core.utils.registry.InstanceRegistry;
 
 public abstract class Highlighter {
 	
@@ -171,7 +172,7 @@ public abstract class Highlighter {
 				Highlight highlight = getHighlight(pe);
 				if (highlight != null) {
 					highlights.add(highlight);
-					highlight.avoidRefreshOnce(true).on();
+					highlight.on(false);
 				}
 			}
 			WorkbenchUtil.refreshDiagram();
@@ -185,7 +186,7 @@ public abstract class Highlighter {
 		Collection<Highlight> highlights = highlightContexts.get(transactionKey);
 		if (highlights != null && !highlights.isEmpty()) {
 			for (Highlight highlight : highlights) try {
-				highlight.avoidRefreshOnce(true).off();
+				highlight.off(false);
 			} catch(Exception e) {
 				e.printStackTrace();
 			}

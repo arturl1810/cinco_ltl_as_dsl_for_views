@@ -43,4 +43,5 @@ Export-Package: de.jabc.cinco.meta.core.utils,
  de.jabc.cinco.meta.core.utils.eapi,
  de.jabc.cinco.meta.core.utils.job,
  de.jabc.cinco.meta.core.utils.projects,
+ de.jabc.cinco.meta.core.utils.registry,
  de.jabc.cinco.meta.core.utils.xtext
