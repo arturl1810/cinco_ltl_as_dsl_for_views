@@ -1,6 +1,7 @@
 package de.jabc.cinco.meta.core.ui.highlight;
 
 import static de.jabc.cinco.meta.core.utils.WorkbenchUtil.eapi;
+import static de.jabc.cinco.meta.core.utils.WorkbenchUtil.sync;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -62,7 +63,7 @@ public class Highlight {
 
 	public Highlight add(PictogramElement pe) {
 		if (pes.add(pe) && isOn()) {
-			on(pe, true);
+			on(pe);
 		}
 		return this;
 	}
@@ -146,7 +147,7 @@ public class Highlight {
 	}
 
 	public Highlight setForegroundColor(PictogramElement pe, IColorConstant fgColor) {
-		getPeSpecificDeco(pe).setForegroundColor(fgColor);
+		getDeco(pe).setForegroundColor(fgColor);
 		refresh(pe);
 		return this;
 	}
@@ -156,7 +157,7 @@ public class Highlight {
 	 * (where 0 is black and 255 is full brightness).
 	 */
 	public Highlight setForegroundColor(PictogramElement pe, int red, int green, int blue) {
-		getPeSpecificDeco(pe).setForegroundColor(new ColorConstant(red, green, blue));
+		getDeco(pe).setForegroundColor(new ColorConstant(red, green, blue));
 		refresh(pe);
 		return this;
 	}
@@ -168,7 +169,7 @@ public class Highlight {
 	 * 
 	 */
 	public Highlight setForegroundColor(PictogramElement pe, String hexRGBString) {
-		getPeSpecificDeco(pe).setForegroundColor(new ColorConstant(hexRGBString));
+		getDeco(pe).setForegroundColor(new ColorConstant(hexRGBString));
 		refresh(pe);
 		return this;
 	}
@@ -202,7 +203,7 @@ public class Highlight {
 	}
 
 	public Highlight setBackgroundColor(PictogramElement pe, IColorConstant bgColor) {
-		getPeSpecificDeco(pe).setBackgroundColor(bgColor);
+		getDeco(pe).setBackgroundColor(bgColor);
 		refresh(pe);
 		return this;
 	}
@@ -212,7 +213,7 @@ public class Highlight {
 	 * (where 0 is black and 255 is full brightness).
 	 */
 	public Highlight setBackgroundColor(PictogramElement pe, int red, int green, int blue) {
-		getPeSpecificDeco(pe).setBackgroundColor(new ColorConstant(red, green, blue));
+		getDeco(pe).setBackgroundColor(new ColorConstant(red, green, blue));
 		refresh(pe);
 		return this;
 	}
@@ -224,7 +225,7 @@ public class Highlight {
 	 * 
 	 */
 	public Highlight setBackgroundColor(PictogramElement pe, String hexRGBString) {
-		getPeSpecificDeco(pe).setBackgroundColor(new ColorConstant(hexRGBString));
+		getDeco(pe).setBackgroundColor(new ColorConstant(hexRGBString));
 		refresh(pe);
 		return this;
 	}
@@ -240,19 +241,15 @@ public class Highlight {
 	}
 
 	public Highlight on() {
-		on(true);
-		return this;
-	}
-
-	public Highlight on(boolean triggerDiagramRefresh) {
 		for (final PictogramElement pe : pes) {
-			on(pe, false);
+			on(pe);
 		}
 		on = true;
+		refreshAll();
 		return this;
 	}
 
-	protected Highlight on(PictogramElement pe, boolean triggerRefresh) {
+	protected Highlight on(PictogramElement pe) {
 		if (pe instanceof Diagram) {
 			diagramOn((Diagram) pe);
 		} else {
@@ -389,8 +386,9 @@ public class Highlight {
 	}
 
 	private void registerConnectionDecoratorLayouter(PictogramElement pe) {
-		if (pe instanceof Connection)
-			layouters.put(pe, ConnectionDecoratorLayouter.applyTo(pe));
+		if (pe instanceof Connection) sync(() -> 
+			layouters.put(pe, ConnectionDecoratorLayouter.applyTo(pe))
+		);
 	}
 
 	private void unregisterConnectionDecoratorLayouter(PictogramElement pe) {
@@ -400,11 +398,6 @@ public class Highlight {
 	}
 
 	private HighlightDecorator getDeco(PictogramElement pe) {
-		HighlightDecorator deco = decos.get(pe);
-		return deco != null ? deco : this.deco;
-	}
-
-	private HighlightDecorator getPeSpecificDeco(PictogramElement pe) {
 		HighlightDecorator deco = decos.get(pe);
 		if (deco == null) {
 			deco = new HighlightDecorator(this.deco);
@@ -418,6 +411,7 @@ public class Highlight {
 			for (PictogramElement pe : affected) {
 				WorkbenchUtil.refreshDecorators(pe);
 			}
+			WorkbenchUtil.refreshDiagram();
 		}
 	}
 	

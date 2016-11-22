@@ -1,8 +1,5 @@
 package de.jabc.cinco.meta.core.utils;
 
-import graphmodel.GraphModel;
-import graphmodel.ModelElement;
-
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -29,6 +26,8 @@ import de.jabc.cinco.meta.core.utils.eapi.DiagramEditorEAPI;
 import de.jabc.cinco.meta.core.utils.eapi.DiagramTypeProviderEAPI;
 import de.jabc.cinco.meta.core.utils.eapi.IEditorPartEAPI;
 import de.jabc.cinco.meta.core.utils.eapi.ModelElementEAPI;
+import graphmodel.GraphModel;
+import graphmodel.ModelElement;
 
 public class WorkbenchUtil {
 		
@@ -140,24 +139,28 @@ public class WorkbenchUtil {
 		return new Treat(getBusinessObject(pe));
 	}
 	
-	
-	
 	public static void refreshDiagram() {
-		async(() -> 
-			getDiagramBehavior().refreshContent()
-		);
+		async(() -> {
+			DiagramBehavior db = getDiagramBehavior();
+			if (db != null) 
+				db.refreshContent();
+		});
 	}
 	
 	public static void refreshDiagramEditor() {
-		async(() -> 
-			getDiagramBehavior().refresh()
-		);
+		async(() -> {
+			DiagramBehavior db = getDiagramBehavior();
+			if (db != null) 
+				db.refresh();
+		});
 	}
 	
 	public static void refreshDecorators(PictogramElement pe) {
-		async(() -> 
-			getDiagramBehavior().refreshRenderingDecorators(pe)
-		);
+		async(() -> {
+			DiagramBehavior db = getDiagramBehavior();
+			if (db != null) 
+				db.refreshRenderingDecorators(pe);
+		});
 	}
 	
 	public static Display getDisplay() {

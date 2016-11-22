@@ -172,7 +172,7 @@ public abstract class Highlighter {
 				Highlight highlight = getHighlight(pe);
 				if (highlight != null) {
 					highlights.add(highlight);
-					highlight.on(false);
+					highlight.on();
 				}
 			}
 			WorkbenchUtil.refreshDiagram();

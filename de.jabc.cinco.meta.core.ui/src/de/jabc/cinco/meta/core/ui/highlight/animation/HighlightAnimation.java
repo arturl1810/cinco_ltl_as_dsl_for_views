@@ -1,5 +1,7 @@
 package de.jabc.cinco.meta.core.ui.highlight.animation;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Stack;
 
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
@@ -14,6 +16,14 @@ import de.jabc.cinco.meta.core.utils.job.ReiteratingThread;
 
 public abstract class HighlightAnimation extends ReiteratingThread {
 
+	final static Set<HighlightAnimation> ANIMATIONS = new HashSet<>();
+	
+	public static void quitAll() {
+		for (HighlightAnimation anim : ANIMATIONS) {
+			anim.quit();
+		}
+	}
+	
 	final static int EffectIntervalInMs = 30;
 	
 	private Highlight hl;
@@ -22,6 +32,8 @@ public abstract class HighlightAnimation extends ReiteratingThread {
 	
 	public HighlightAnimation(Highlight hl, double effectTimeInSeconds) {
 		super(EffectIntervalInMs);
+		ANIMATIONS.add(this);
+		onDone(() -> ANIMATIONS.remove(this));
 		steps = (int) (effectTimeInSeconds * 1000 / HighlightAnimation.EffectIntervalInMs);
 		this.hl = hl;
 	}
@@ -43,6 +55,7 @@ public abstract class HighlightAnimation extends ReiteratingThread {
 	@Override
 	public void cleanup() {
 		hl.off();
+		
 	}
 	
 	public Highlight getHighlight() {
