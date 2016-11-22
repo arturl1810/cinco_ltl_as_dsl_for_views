@@ -16,9 +16,9 @@ public abstract class HighlightAnimation extends ReiteratingThread {
 
 	final static int EffectIntervalInMs = 30;
 	
-	Highlight hl;
-	double step = 0;
-	double steps = 30;
+	private Highlight hl;
+	private int step = 0;
+	private int steps = 30;
 	
 	public HighlightAnimation(Highlight hl, double effectTimeInSeconds) {
 		super(EffectIntervalInMs);
@@ -28,18 +28,41 @@ public abstract class HighlightAnimation extends ReiteratingThread {
 	
 	@Override
 	protected void prepare() {
-		mixColors(step/steps);
+		mixColors((double) step / (double) steps);
 		hl.on();
 	}
 	
 	@Override
 	protected void work() {
-		mixColors(step/steps);
+		mixColors((double) step / (double) steps);
+		step = nextStep(step, steps);
 	}
+	
+	abstract int nextStep(int step, int steps);
 	
 	@Override
 	public void cleanup() {
 		hl.off();
+	}
+	
+	public Highlight getHighlight() {
+		return hl;
+	}
+	
+	public int getStep() {
+		return step;
+	}
+	
+	public void setStep(int step) {
+		this.step = step;
+	}
+	
+	public int getSteps() {
+		return steps;
+	}
+	
+	public void setSteps(int steps) {
+		this.steps = steps;
 	}
 	
 	void mixColors(double ratio) {

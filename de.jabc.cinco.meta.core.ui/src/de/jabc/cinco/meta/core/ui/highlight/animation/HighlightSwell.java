@@ -9,10 +9,10 @@ public class HighlightSwell extends HighlightAnimation {
 	}
 	
 	@Override
-	protected void work() {
-		super.work();
-		if (step++ >= steps) {
+	int nextStep(int step, int steps) {
+		if (step >= steps) {
 			pause();
 		}
+		return step + 1;
 	}
 }
