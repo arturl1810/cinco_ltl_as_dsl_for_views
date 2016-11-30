@@ -207,7 +207,7 @@ public class ProjectCreator {
 	 * Per default, the src and src-gen folder is created as well a default Manifest
 	 * file.
 	 * @param projectName
-	 * @return
+	 * @return Create plugin project
 	 */
 	public static IProject createDefaultPluginProject(String projectName, Set<String> reqBundles) {
 		IProject p = createProject(projectName, 
@@ -220,6 +220,28 @@ public class ProjectCreator {
 				false);
 		return p;
 	}
+	
+	/**This method creates an IProject containing the Java and Plugin nature.
+	 * Per default, the src and src-gen folder is created as well a Manifest file.
+	 * The manifest contains the required bundles and exported packages.
+	 * file.
+	 * @param projectName
+	 * @param reqBundles List of bundle id, which are required for the new project
+	 * @param exportPackage List of package names, which should be exported
+	 * @return Create plugin project
+	 */
+	public static IProject createDefaultPluginProject(String projectName, Set<String> reqBundles, List<String> exportPackage) {
+		IProject p = createProject(projectName, 
+				DEFAULT_SOURCE,
+				Collections.emptyList(), 
+				reqBundles, 
+				exportPackage, 
+				Collections.emptyList(), 
+				null, DEFAULT_CLEAN, 
+				false);
+		return p;
+	}
+	
 	
 	/**
 	 * converts a project name that might contain special characters into

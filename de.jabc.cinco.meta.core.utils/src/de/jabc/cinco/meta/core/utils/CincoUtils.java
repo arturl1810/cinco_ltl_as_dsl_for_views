@@ -30,6 +30,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
@@ -41,6 +42,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.xtend.lib.macro.file.FileLocations;
 import org.eclipse.xtext.util.StringInputStream;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -162,7 +164,8 @@ public class CincoUtils {
 		for (Annotation a : gm.getAnnotations()) {
 			if (ID_STYLE.equals(a.getName())) {
 				String path = a.getValue().get(0);
-				URI uri = URI.createURI(path, true);
+//				URI uri = URI.createURI(path, true);
+				URI uri = PathValidator.getURIForString(gm, path);
 				try {
 					Resource res = null;
 					if (uri.isPlatformResource()) {

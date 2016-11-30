@@ -105,7 +105,7 @@ class GraphitiGeneratorMain extends GeneratorUtils {
 		content = gm.generateContext
 		ContentWriter::writeJavaFileInSrcGen(project, gm.packageNameExpression, gm.name.toFirstUpper.concat("ExpressionLanguageContext.java"), content)
 		
-		ContentWriter::writeJavaFileInSrcGen(project, gm.packageNameExpression, gm.name.toFirstUpper.concat("ExpressionLanguageContext.java"), content)
+//		ContentWriter::writeJavaFileInSrcGen(project, gm.packageNameExpression, gm.name.toFirstUpper.concat("ExpressionLanguageContext.java"), content)
 		
 		for (Node n : gm.nodes) {
 			if (n.isPrime){

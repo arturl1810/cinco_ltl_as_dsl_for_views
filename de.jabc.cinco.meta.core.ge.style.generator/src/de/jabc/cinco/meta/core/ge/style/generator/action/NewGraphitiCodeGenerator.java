@@ -32,6 +32,7 @@ import org.eclipse.core.runtime.Platform;
 import org.osgi.framework.Bundle;
 
 import de.jabc.cinco.meta.core.ge.style.generator.main.GraphitiGeneratorMain;
+import de.jabc.cinco.meta.core.ge.style.generator.templates.util.GeneratorUtils;
 import de.jabc.cinco.meta.core.ui.listener.MGLSelectionListener;
 import de.jabc.cinco.meta.core.utils.CincoUtils;
 import de.jabc.cinco.meta.core.utils.MGLUtils;
@@ -59,7 +60,7 @@ public class NewGraphitiCodeGenerator extends AbstractHandler{
 		
 		if (graphModel == null) throw new RuntimeException("Could not load graphmodel from file: " + file);
 		graphModel = prepareGraphModel(graphModel);
-		IProject project = ProjectCreator.createDefaultPluginProject(name_editorProject, addReqBundles(graphModel, monitor));
+		IProject project = ProjectCreator.createDefaultPluginProject(name_editorProject, addReqBundles(graphModel, monitor), addExpPackages(graphModel));
 		copyImages(graphModel, project);
 
 		GraphitiGeneratorMain editorGenerator = new GraphitiGeneratorMain(graphModel,cpdFile, CincoUtils.getStyles(graphModel));
@@ -109,9 +110,16 @@ public class NewGraphitiCodeGenerator extends AbstractHandler{
 		bundles.add(Platform.getBundle("de.jabc.cinco.meta.core.wizards"));
 		bundles.add(Platform.getBundle("javax.el"));
 		bundles.add(Platform.getBundle("com.sun.el"));
-		Set<String> retval = bundles.stream().map(b -> b.getSymbolicName()).collect(Collectors.toSet());
+		Set<String> retval = bundles.stream().filter(b -> b != null).map(b -> b.getSymbolicName()).collect(Collectors.toSet());
 		retval.add(graphModel.getPackage());
 		return retval;
+	}
+	
+	private List<String> addExpPackages(GraphModel gm) {
+		ArrayList<String> packs = new ArrayList<String>();
+		packs.add(GeneratorUtils.packageName(gm).toString());
+		
+		return packs;
 	}
 	
 	private void copyImages(GraphModel graphModel, IProject project) {

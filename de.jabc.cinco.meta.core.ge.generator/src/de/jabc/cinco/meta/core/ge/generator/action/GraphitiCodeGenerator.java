@@ -765,7 +765,6 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 			manifest.getMainAttributes().putValue("Export-Package", val);
 			
 			manifest.write(new FileOutputStream(iManiFile.getLocation().toFile()));
-//			p.refreshLocal(IResource.DEPTH_INFINITE, monitor);
 			CincoUtils.refreshFiles(monitor, iManiFile);
 		} catch (IOException | CoreException e) {
 			e.printStackTrace();

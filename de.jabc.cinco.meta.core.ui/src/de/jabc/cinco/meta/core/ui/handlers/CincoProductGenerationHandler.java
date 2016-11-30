@@ -189,6 +189,7 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 	
 	private void generateGraphitiEditor(IFile mglFile) {
 		execute("de.jabc.cinco.meta.core.ge.generator.generateeditorcommand");
+		execute("de.jabc.cinco.meta.core.ge.style.generator.newgraphitigenerator");
 	}
 	
 	private void generateApi(IFile mglFile) {

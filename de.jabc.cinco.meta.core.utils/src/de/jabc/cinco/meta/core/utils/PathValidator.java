@@ -6,12 +6,16 @@ import java.net.URL;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.URIUtil;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.xtext.util.UriUtil;
 
 public class PathValidator {
 
@@ -38,11 +42,11 @@ public class PathValidator {
 		}
 		
 		else if (uri.isPlatformPlugin()) {
-			return checkPlatformPluginURI(uri);
+			return checkPlatformResourceURI(uri);
 		}
 		
 		else {
-			return checkRelativePath(res.getURI(), path);
+			return checkRelativePath(path);
 		}
 	}
 
@@ -52,22 +56,16 @@ public class PathValidator {
 		URI uri = URI.createURI(path, true);
 		String retval = null;
 		
-		if (uri.isPlatformResource()) {
-			retval = checkPlatformPluginURI(uri);
+		if (uri.isPlatformResource() || uri.isPlatformPlugin()) {
+			retval = checkPlatformResourceURI(uri);
 			if (retval == null || retval.isEmpty())
 				return uri;
 		}
 		
-		else if (uri.isPlatformPlugin()) {
-			retval = checkPlatformPluginURI(uri);
-			if (retval == null || retval.isEmpty()) 
-				return uri;
-		}
-		
 		else {
-			retval = checkRelativePath(res.getURI(), path);
+			retval = checkRelativePath(path);
 			if (retval == null || retval.isEmpty()) {
-				return pathToURI(res.getURI(), path);
+				return pathToURI(path);
 			}
 				
 		}
@@ -82,7 +80,7 @@ public class PathValidator {
 		
 		try {
 			if (uri.isPlatformResource()) {
-				retval = checkPlatformPluginURI(uri);
+				retval = checkPlatformResourceURI(uri);
 				if (retval == null || retval.isEmpty()){
 					IResource member = root.findMember(uri.toPlatformString(true));
 						return member.getLocationURI().toURL();
@@ -90,7 +88,7 @@ public class PathValidator {
 			}
 			
 			else if (uri.isPlatformPlugin()) {
-				retval = checkPlatformPluginURI(uri);
+				retval = checkPlatformResourceURI(uri);
 				if (retval == null || retval.isEmpty()) {
 					IResource res = root.findMember(uri.toPlatformString(true));
 					return res.getLocationURI().toURL();
@@ -98,14 +96,13 @@ public class PathValidator {
 			}
 			
 			else {
-				retval = checkRelativePath(res.getURI(), path);
+				retval = checkRelativePath(path);
 				if (retval == null || retval.isEmpty()) {
 					return pathToURL(res.getURI(), path);
 				}
 					
 			}
 		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
@@ -135,30 +132,40 @@ public class PathValidator {
 		return "";
 	}
 	
-	private static String checkPlatformPluginURI(URI uri) {
-		IResource res = root.findMember(uri.toPlatformString(true));
-		if (res == null || !(res instanceof IFile) ) {
-			return "The specified file does not exists.";
-		}
-		return "";
-	}
-	
-	private static String checkRelativePath(URI resUri, String path) {
+	private static String checkRelativePath(String path) {
         if (path != null && path.isEmpty())
                 return "No path specified";
-        IProject p = root.getFile(new Path(res.getURI().toPlatformString(true))).getProject();
-        IFile file = p.getFile(path);
-		if (!file.exists()) {
-			return "The specified file: \""+path+"\" does not exists.";
-		}
+        IProject p;
+        IFile file;
+        URI uri = res.getURI();
+		if (uri.isFile()) {
+			IPath fromOSString = Path.fromOSString(uri.toFileString());
+        	IResource member = root.getFileForLocation(fromOSString);
+        	if (member != null) {
+        		p = member.getProject();
+        		file = p.getFile(path);
+        		if (!file.exists()) {
+        			return "The specified file: \""+path+"\" does not exists.";
+        		}
+        	}
+        		
+        } else {
+	        file = handlePlatformUri(path, uri);
+			if (!file.exists()) {
+				return "The specified file: \""+path+"\" does not exists.";
+			}
+        }
 		return "";
 	}
 	
-	private static URI pathToURI(URI resURI, String path) {
+	private static URI pathToURI(String path) {
         if (path != null && path.isEmpty())
         	return null;
-        IProject p = root.getFile(new Path(res.getURI().toPlatformString(true))).getProject();
-        IFile file = p.getFile(path);
+        URI uri = res.getURI();
+        IFile file = null;
+		if (uri.isFile())
+			file = handleFileUri(path, uri);
+		else file = handlePlatformUri(path, uri);
 		if (!file.exists()) 
 			return null;
 		return URI.createPlatformResourceURI(file.getFullPath().toPortableString(), true);
@@ -167,16 +174,44 @@ public class PathValidator {
 	private static URL pathToURL(URI resURI, String path) {
         if (path != null && path.isEmpty())
         	return null;
-        IProject p = root.getFile(new Path(res.getURI().toPlatformString(true))).getProject();
-        IFile file = p.getFile(path);
+        IFile file = null;
+        URI uri = res.getURI();
+		if (uri.isFile()) {
+        	file = handleFileUri(path, uri);
+        } else {
+        	file = handlePlatformUri(path, uri);
 		if (!file.exists()) 
 			return null;
+        }
 		try {
 			return file.getLocationURI().toURL();
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	private static IFile handlePlatformUri(String path, URI uri) {
+		IProject p;
+		IFile file;
+		p = root.getFile(new Path(uri.toPlatformString(true))).getProject();
+		file = p.getFile(path);
+		return file;
+	}
+
+	private static IFile handleFileUri(String path, URI uri) {
+		IProject p;
+		IFile file = null;
+		IPath fromOSString = Path.fromOSString(uri.toFileString());
+		IResource member = root.getFileForLocation(fromOSString);
+		if (member != null) {
+			p = member.getProject();
+			file = p.getFile(path);
+			if (!file.exists()) {
+				return null;
+			}
+		}
+		return file;
 	}
 	
 }
