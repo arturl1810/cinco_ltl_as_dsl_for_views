@@ -27,5 +27,5 @@ public class CincoAbstractAddFeature extends AbstractAddFeature {
 	public void setHook(boolean activateHook) {
 		hook = activateHook;
 	}
-
+	
 }

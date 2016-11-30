@@ -15,7 +15,9 @@ public class CincoAbstractResizeFeature extends DefaultResizeShapeFeature {
 
 	@Override
 	public boolean canResizeShape(IResizeShapeContext context) {
+
 		return apiCall;
+
 	}
 	
 	@Override
@@ -31,5 +33,4 @@ public class CincoAbstractResizeFeature extends DefaultResizeShapeFeature {
 	public boolean isApiCall() {
 		return apiCall;
 	}
-	
 }

@@ -8,10 +8,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringWriter;
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -22,12 +22,6 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-
-import mgl.Annotation;
-import mgl.Attribute;
-import mgl.GraphModel;
-import mgl.Import;
-import mgl.ModelElement;
 
 import org.apache.commons.io.FilenameUtils;
 import org.eclipse.core.resources.IFile;
@@ -41,6 +35,7 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -51,9 +46,17 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import mgl.Annotation;
+import mgl.Attribute;
+import mgl.Edge;
+import mgl.GraphModel;
+import mgl.Import;
+import mgl.ModelElement;
+import productDefinition.CincoProduct;
+import style.EdgeStyle;
+import style.NodeStyle;
 import style.Style;
 import style.Styles;
-import productDefinition.CincoProduct;
 
 
 public class CincoUtils {
@@ -67,6 +70,7 @@ public class CincoUtils {
 	public static final String ID_DISABLE_RESIZE = "resize";
 	public static final String ID_DISABLE_RECONNECT = "reconnect";
 	public static final String ID_DISABLE_SELECT = "select";
+	public static final String ID_ATTRIBUTE_HIDDEN = "propertiesViewHidden";
 	public static Set<String> DISABLE_NODE_VALUES = new HashSet<String>(Arrays.asList("create", "delete", "move", "resize", "select"));
 	public static Set<String> DISABLE_EDGE_VALUES = new HashSet<String>(Arrays.asList("create", "delete", "reconnect", "select"));
 	
@@ -120,6 +124,14 @@ public class CincoUtils {
 	public static boolean isAttributeFile(Attribute attr) {
 		for (Annotation annot : attr.getAnnotations()) {
 			if (annot.getName().equals("file"))
+				return true;
+		}
+		return false;
+	}
+	
+	public static boolean isAttributeHidden(Attribute attr) {
+		for (Annotation annot : attr.getAnnotations()) {
+			if (annot.getName().equals(ID_ATTRIBUTE_HIDDEN))
 				return true;
 		}
 		return false;
@@ -181,6 +193,24 @@ public class CincoUtils {
 		return null;
 	}
 	
+	public static NodeStyle getStyleForNode(mgl.Node n, Styles st) {
+		Styles styles = st;
+		String styleName = getStyleName(n);
+		Style findStyle = findStyle(styles, styleName);
+		if (findStyle instanceof NodeStyle)
+			return (NodeStyle) findStyle;
+		return null;
+	}
+	
+	public static EdgeStyle getStyleForEdge(Edge e) {
+		Styles styles = getStyles(e.getGraphModel());
+		String styleName = getStyleName(e);
+		Style findStyle = findStyle(styles, styleName);
+		if (findStyle instanceof EdgeStyle)
+			return (EdgeStyle) findStyle;
+		return null;
+	}
+	
 	public static Style findStyle(Styles styles, String name) {
 		if (styles == null)
 			return null;
@@ -191,6 +221,13 @@ public class CincoUtils {
 		return null;
 	}
 
+	public static String getStyleName(ModelElement me) {
+		List<Annotation> styles = me.getAnnotations().stream().filter(a -> a.getName().equals("style")).collect(Collectors.toList());
+		if (styles != null && styles.size() > 0)
+			return styles.get(0).getValue().get(0);
+		return null;
+	}
+	
 	public static CincoProduct getCincoProduct(IFile file) {
 		URI uri = URI.createFileURI(file.getLocation().toString());
 		Resource res = new ResourceSetImpl().getResource(uri, true);
@@ -258,6 +295,15 @@ public class CincoUtils {
 			}
 	}
 
+	public static void refreshProject(IProgressMonitor monitor, IProject p){
+		try {
+			p.refreshLocal(IResource.DEPTH_INFINITE, monitor);
+		} catch (CoreException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	public static List<String> getUsedExtensions(GraphModel gModel) {
 		List<String> extensions = new ArrayList<>();
 		for (Import i : gModel.getImports()) {
@@ -446,4 +492,64 @@ public class CincoUtils {
 		}
 	}
 
+	public static Annotation findAnnotationPostCreate(ModelElement me)
+	{
+		EList<Annotation> anno = me.getAnnotations();
+		Iterator<Annotation> iter = anno.iterator();
+		while(iter.hasNext())
+		{
+			Annotation next = iter.next();
+			if(next.getName().equals("postCreate"))
+			{
+				return next;
+			}
+		}
+		return null;
+	}
+	
+	public static Annotation findAnnotationPostMove(ModelElement me)
+	{
+		EList<Annotation> anno = me.getAnnotations();
+		Iterator<Annotation> iter = anno.iterator();
+		while(iter.hasNext())
+		{
+			Annotation next = iter.next();
+			if(next.getName().equals("postMove"))
+			{
+				return next;
+			}
+		}
+		return null;
+	}
+	
+	public static Annotation findAnnotationPostResize(ModelElement me)
+	{
+		EList<Annotation> anno = me.getAnnotations();
+		Iterator<Annotation> iter = anno.iterator();
+		while(iter.hasNext())
+		{
+			Annotation next = iter.next();
+			if(next.getName().equals("postResize"))
+			{
+				return next;
+			}
+		}
+		return null;
+	}
+	
+	public static Annotation findAnnotationPostSelect(ModelElement me)
+	{
+		EList<Annotation> anno = me.getAnnotations();
+		Iterator<Annotation> iter = anno.iterator();
+		while(iter.hasNext())
+		{
+			Annotation next = iter.next();
+			if(next.getName().equals("postSelect"))
+			{
+				return next;
+			}
+		}
+		return null;
+	}
+	
 }

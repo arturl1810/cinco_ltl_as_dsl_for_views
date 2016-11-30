@@ -55,6 +55,7 @@ Export-Package: de.jabc.cinco.meta.core,
  de.jabc.cinco.meta.core.ui.highlight,
  de.jabc.cinco.meta.core.ui.listener,
  de.jabc.cinco.meta.core.ui.properties,
+ de.jabc.cinco.meta.core.ui.templates,
  de.jabc.cinco.meta.core.ui.utils,
  de.jabc.cinco.meta.core.ui.validator
 Bundle-ActivationPolicy: lazy

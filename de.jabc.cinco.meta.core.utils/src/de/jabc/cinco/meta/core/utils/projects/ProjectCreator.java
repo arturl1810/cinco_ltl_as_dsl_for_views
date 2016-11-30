@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -42,6 +43,9 @@ import org.osgi.framework.ServiceReference;
 
 public class ProjectCreator {
 
+	private static final List<String> DEFAULT_SOURCE = Arrays.asList(new String[] {"src", "src-gen"});
+	private static final List<String> DEFAULT_CLEAN = Arrays.asList(new String[] {"src-gen"}); 
+	
 	public static IProject createProject(final String projectName, final List<String> srcFolders,
 			final List<IProject> referencedProjects, final Set<String> requiredBundles,
 			final List<String> exportedPackages, final List<String> additionalNatures, final IProgressMonitor progressMonitor, boolean askIfDel) {
@@ -197,6 +201,24 @@ public class ProjectCreator {
 		}
 
 		return project;
+	}
+	
+	/**This method creates an IProject containing the Java and Plugin nature.
+	 * Per default, the src and src-gen folder is created as well a default Manifest
+	 * file.
+	 * @param projectName
+	 * @return
+	 */
+	public static IProject createDefaultPluginProject(String projectName, Set<String> reqBundles) {
+		IProject p = createProject(projectName, 
+				DEFAULT_SOURCE,
+				Collections.emptyList(), 
+				reqBundles, 
+				Collections.emptyList(), 
+				Collections.emptyList(), 
+				null, DEFAULT_CLEAN, 
+				false);
+		return p;
 	}
 	
 	/**

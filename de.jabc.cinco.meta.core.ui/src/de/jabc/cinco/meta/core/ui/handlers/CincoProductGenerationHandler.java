@@ -383,14 +383,14 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 		if (cp.getDefaultPerspective() != null && !cp.getDefaultPerspective().isEmpty())
 			return;
 		
-		CharSequence defaultPerspectiveContent = 
-				de.jabc.cinco.meta.core.ui.templates.DefaultPerspectiveContent.generateDefaultPerspective(cp, cpdFile);
-		CharSequence defaultXMLPerspectiveContent = 
-				de.jabc.cinco.meta.core.ui.templates.DefaultPerspectiveContent.generateXMLPerspective(cp, cpdFile.getProject().getName());
+//		CharSequence defaultPerspectiveContent = 
+//				de.jabc.cinco.meta.core.ui.templates.DefaultPerspectiveContent.generateDefaultPerspective(cp, cpdFile);
+//		CharSequence defaultXMLPerspectiveContent = 
+//				de.jabc.cinco.meta.core.ui.templates.DefaultPerspectiveContent.generateXMLPerspective(cp, cpdFile.getProject().getName());
 		
 		IFile file = p.getFile("src-gen/"+p.getName().replace(".", "/")+"/"+cp.getName()+"Perspective.java");
-		CincoUtils.writeContentToFile(file, defaultPerspectiveContent.toString());
-		CincoUtils.addExtension(pluginXML.getLocation().toString(), defaultXMLPerspectiveContent.toString(), extensionCommentID, p.getName());
+//		CincoUtils.writeContentToFile(file, defaultPerspectiveContent.toString());
+//		CincoUtils.addExtension(pluginXML.getLocation().toString(), defaultXMLPerspectiveContent.toString(), extensionCommentID, p.getName());
 	}
 	
 	private void execute(String commandId) {
