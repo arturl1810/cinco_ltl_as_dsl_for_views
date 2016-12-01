@@ -464,6 +464,7 @@ public class GratextProjectGenerator extends ProjectGenerator {
 	
 	@Override
 	protected Set<String> getRequiredBundles() {
+		System.err.println("CALLING REQBUNDLES with: " + getSymbolicName());
 		return new HashSet<String>(Arrays.asList(new String[] {
 			getModelProjectSymbolicName(),
 			"org.eclipse.ui",
@@ -483,12 +484,14 @@ public class GratextProjectGenerator extends ProjectGenerator {
 			"org.eclipse.xtext.xbase",
 			"org.eclipse.xtext.xbase.lib",
 			"org.eclipse.xtext.common.types",
+			"org.eclipse.graphiti",
 			"org.eclipse.graphiti.ui",
 			"org.antlr.runtime",
 			"org.apache.commons.logging",
 			"de.jabc.cinco.meta.core.mgl.model",
 			"de.jabc.cinco.meta.core.utils",
-			"de.jabc.cinco.meta.plugin.gratext.runtime"
+			"de.jabc.cinco.meta.plugin.gratext.runtime",
+			"de.jabc.cinco.meta.core.ge.style.model"
 		}));
 	}
 	

@@ -263,10 +263,12 @@ public class GratextGenerator extends ProjectGenerator {
 				"org.eclipse.xtext.xbase",
 				"org.eclipse.xtext.xbase.lib",
 				"org.eclipse.xtext.common.types",
+				"org.eclipse.graphiti",
 				"org.eclipse.graphiti.ui",
 				"org.antlr.runtime",
 				"org.apache.commons.logging",
 				"de.jabc.cinco.meta.core.mgl.model",
+				"de.jabc.cinco.meta.core.ge.style.model",
 				"de.jabc.cinco.meta.core.utils",
 				"de.jabc.cinco.meta.plugin.gratext.runtime"
 			);

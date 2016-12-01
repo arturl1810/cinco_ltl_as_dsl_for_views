@@ -11,7 +11,7 @@ import org.eclipse.graphiti.ui.editor.IDiagramEditorInput;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 
-import «model.basePackage».graphiti.«model.name»DiagramEditor;
+import «model.basePackage».editor.graphiti.«model.name»DiagramEditor;
 import de.jabc.cinco.meta.plugin.gratext.runtime.editor.PageAwareDiagramBehavior;
 import de.jabc.cinco.meta.plugin.gratext.runtime.editor.PageAwareEditorPart;
 

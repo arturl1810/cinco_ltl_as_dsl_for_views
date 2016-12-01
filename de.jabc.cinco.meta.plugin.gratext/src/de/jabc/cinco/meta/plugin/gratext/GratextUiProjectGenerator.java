@@ -25,7 +25,10 @@ public class GratextUiProjectGenerator extends EmptyProjectGenerator {
 	@Override protected Set<String> getRequiredBundles() {
 		return new HashSet<>(list(
 			getModelDescriptor().getBasePackage() + ".gratext",
-			"de.jabc.cinco.meta.plugin.gratext.runtime"
+			"de.jabc.cinco.meta.plugin.gratext.runtime",
+			getModelDescriptor().getBasePackage() + ".editor.graphiti",
+			"org.eclipse.graphiti",
+			"org.eclipse.graphiti.ui"
 		));
 	};
 	@Override protected List<String> getNatures() {

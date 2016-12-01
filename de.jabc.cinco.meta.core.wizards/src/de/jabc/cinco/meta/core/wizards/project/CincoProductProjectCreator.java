@@ -223,13 +223,14 @@ public class CincoProductProjectCreator {
 	private Set<String> getReqBundles() {
 		Set<String> bundles = new  HashSet<String>();
 		bundles.add("org.eclipse.core.runtime");
+		bundles.add("org.eclipse.core.resources");
 		bundles.add("org.eclipse.emf.ecore");
+		bundles.add("org.eclipse.jface");
+		bundles.add("org.eclipse.ui");
 		bundles.add("de.jabc.cinco.meta.core.mgl.model");
 		bundles.add("de.jabc.cinco.meta.core.ge.style.model");
 		bundles.add("de.jabc.cinco.meta.core.ge.style");
-		if (features.contains(CUSTOM_ACTION)) {
-			bundles.add("org.eclipse.jface");
-		}
+		bundles.add("de.jabc.cinco.meta.core.utils");
 		if (features.contains(CODE_GENERATOR)) {
 			bundles.add("de.jabc.cinco.meta.plugin.generator.runtime");
 		}
