@@ -6,14 +6,8 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.LayoutListener;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
-import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.ui.editor.DiagramBehavior;
 import org.eclipse.graphiti.ui.internal.figures.GFPolylineConnection;
-import org.eclipse.graphiti.ui.services.GraphitiUi;
-import org.eclipse.swt.widgets.Display;
-
-import de.jabc.cinco.meta.core.utils.WorkbenchUtil;
-import de.jabc.cinco.meta.core.utils.WorkspaceUtil;
 
 public class ConnectionDecoratorLayouter extends LayoutListener.Stub {
 
