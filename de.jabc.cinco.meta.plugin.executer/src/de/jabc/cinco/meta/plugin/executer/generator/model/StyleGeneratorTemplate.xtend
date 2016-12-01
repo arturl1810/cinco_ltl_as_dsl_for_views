@@ -1,21 +1,26 @@
 package de.jabc.cinco.meta.plugin.executer.generator.model
 
 import de.jabc.cinco.meta.plugin.executer.compounds.ExecutableGraphmodel
+import de.jabc.cinco.meta.plugin.executer.generator.tracer.MainTemplate
 import java.io.File
 import java.nio.file.Files
-import org.eclipse.core.resources.ResourcesPlugin
-import org.eclipse.core.runtime.Path
-import org.eclipse.emf.common.util.URI
-import org.eclipse.emf.ecore.resource.Resource
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 import org.eclipse.core.resources.IProject
+import org.eclipse.core.runtime.Path
 
-class StyleGeneratorTemplate {
-	def create(ExecutableGraphmodel graphmodel,IProject p)
+class StyleGeneratorTemplate extends MainTemplate {
+	
+	private IProject p
+	
+	new(ExecutableGraphmodel graphmodel,IProject p) {
+		super(graphmodel)
+		this.p = p;
+	}
+	
+	override create(ExecutableGraphmodel graphmodel)
 	'''
 	//Imported style
 	
-	«getIncludeStyling(graphmodel,p)»
+	«getIncludeStyling(graphmodel,this.p)»
 	
 	//Additional styles
 	
@@ -203,6 +208,10 @@ class StyleGeneratorTemplate {
 			}
 		}
 		return null;
+	}
+	
+	override fileName() {
+		return this.graphmodel.graphModel.name+"ES.style"
 	}
 	
 }

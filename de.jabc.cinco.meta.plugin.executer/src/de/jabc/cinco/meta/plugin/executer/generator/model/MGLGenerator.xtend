@@ -1,30 +1,31 @@
-package de.jabc.cinco.meta.plugin.executer.service
+package de.jabc.cinco.meta.plugin.executer.generator.model
 
 import de.jabc.cinco.meta.plugin.executer.compounds.ExecutableGraphmodel
-
-
-import mgl.Annotatable
-
-import mgl.GraphicalModelElement
-import mgl.Edge
-import mgl.Node
-import mgl.ModelElement
-import org.eclipse.emf.common.util.EList
-import mgl.Annotation
 import de.jabc.cinco.meta.plugin.executer.compounds.ExecutableNode
-import mgl.ReferencedType
+import mgl.Annotation
+import mgl.Edge
 import mgl.Import
+import mgl.ModelElement
+import mgl.NodeContainer
+import mgl.ReferencedModelElement
+import mgl.ReferencedType
+import org.eclipse.emf.common.util.EList
+import de.jabc.cinco.meta.plugin.executer.generator.tracer.MainTemplate
 
-class MGLGenerator {
+class MGLGenerator extends MainTemplate{
 	
 	
 	
-	def create(ExecutableGraphmodel graphmodel)
+	new(ExecutableGraphmodel graphmodel) {
+		super(graphmodel)
+	}
+	
+	override create(ExecutableGraphmodel graphmodel)
 	'''
 	«FOR i:graphmodel.graphModel.imports.filter[isMGL]»
 	«IF i.stealth»stealth «ENDIF»import «i.importURI»ES«IF !i.name.nullOrEmpty» as «i.name»«ENDIF»;
 	«ENDFOR»
-	@postCreate("«graphmodel.package».CreateGraphModelHook")
+«««	@postCreate("«graphmodel.package».CreateGraphModelHook")
 	@primeviewer
 	@style("model/«graphmodel.projectName».style")
 	graphModel «graphmodel.projectName» {
@@ -33,69 +34,52 @@ class MGLGenerator {
 		diagramExtension "«graphmodel.extension»es"
 		
 		containableElements (
-			MetaStates[1,1],
-			MetaTransitions[1,1]
+			MetaLevel[1,*]
 		)
 		
-		//Meta Elements
+		//Meta Level
 		
-		@style(metaElement,"MetaStates")
-		@disable(create,delete)
-		container MetaStates {
+		@style(metaElement,"Meta level ${label}")
+		container MetaLevel {
+			attr EString as label
 			containableElements (
-				Initializing[0,*],
-				Default[1,*],
-				Terminating[0,*]
-			)
-		}
-		
-		@style(metaElement,"MetaTransitions")
-		@disable(create,delete)
-		container MetaTransitions {
-			containableElements (
+				Initializing[1,*],
+				Default[0,*],
+				Terminating[1,*],
 				MetaTransition[1,*]
 			)
 		}
 		
-		// Meta States
+		@style(metaElement,"Meta level ${level.label}")
+		node ReferencedMetaLevel {
+			@pvLabel("label")
+			@pvFileExtension(".«graphmodel.extension»")
+			prime this::MetaLevel as level
+		}
+		
+		// Meta Pattern
 		abstract container Pattern {
 			attr EString as label
 			attr EBoolean as executable := false
 			containableElements(
 				ExecutableNode[0,*],
+				ExecutableContainer[0,*],
 				PlaceholderContainer[0,1],
-				SourceConnector[0,1],
-				TargetConnector[0,1]
+				SourceConnector[0,*],
+				TargetConnector[0,*],
+				{
+					ExecutableNodeOuterLevelState,
+					ExecutableContainerOuterLevelState,
+					ExecutableContainerInnerLevelState
+				}[0,1]
 			)
-		}
-		
-		abstract node ReferencedPattern {
-			attr Compare as compare
-			// -1 represents the start *
-			attr EInt as border
-		}
-		
-		@style(stateContainer,"${stateContainer.label}")
-		node ReferencedInitializing extends ReferencedPattern {
-			prime this::Initializing as stateContainer
 		}
 		
 		@style(stateContainer,"Initializing")
 		container Initializing extends Pattern{}
 		
-		@style(stateContainer,"${stateContainer.label}")
-		node ReferencedDefault extends ReferencedPattern {
-			prime this::Default as stateContainer
-			
-		}
-		
 		@style(stateContainer,"Default")
 		container Default extends Pattern{}
-		
-		@style(stateContainer,"${stateContainer.label}")
-		node ReferencedTerminating extends ReferencedPattern {
-			prime this::Terminating as stateContainer
-		}
 		
 		@style(stateContainer,"Terminating")
 		container Terminating extends Pattern{}
@@ -103,13 +87,10 @@ class MGLGenerator {
 		//Meta Transitions
 		
 		@style(stateContainer,"Transition")
-		container MetaTransition extends Pattern {
-
-		}
+		container MetaTransition extends Pattern {}
 		
-		@style(stateContainer,"${stateContainer.label}")
-		node ReferencedMetaTransition extends ReferencedPattern {
-			prime this::MetaTransition as metaTransition
+		enum BorderElement {
+			NONE START END START_AND_END
 		}
 		
 		@style(connector,"Source")
@@ -133,7 +114,17 @@ class MGLGenerator {
 		//Nodes
 		
 		abstract node ExecutableNode {
-			attr EBoolean as start := false
+			attr BorderElement as border
+		}
+		
+		abstract node ExecutableNodeOuterLevelState {
+			
+			
+			@pvLabel("label")
+			@pvFileExtension(".«graphmodel.extension»")
+			prime this::MetaLevel as level
+			
+			attr BorderElement as border
 		}
 		«FOR node:graphmodel.exclusivelyNodes»
 		«{
@@ -141,14 +132,16 @@ class MGLGenerator {
 			'''
 			«n.style»
 			node «n.name» extends «IF node.parent != null»«node.parent.modelElement.name»«ELSE»ExecutableNode«ENDIF» {
-				«IF n.isPrime»
-				«n.primeReference.annotations.getPvAnnotation("pvLabel","")»
-				«n.primeReference.annotations.getPvAnnotation("pvFileExtension","es")»
-				prime «n.primeReference.type»
-				attr EBoolean as hasInnerLevelState := false
-				«ENDIF»
+				
 				«node.inAndOut»
 			}
+			«IF n.isPrime»
+			«n.style»
+			node «n.name»OuterLevelState extends «IF node.parent != null»«node.parent.modelElement.name»«ELSE»ExecutableNodeOuterLevelState«ENDIF» {
+				
+				«node.inAndOut»
+			}
+			«ENDIF»
 			'''	
 		}»
 		«ENDFOR»
@@ -156,12 +149,32 @@ class MGLGenerator {
 		//Container
 		
 		abstract container ExecutableContainer {
-			attr EBoolean as start := false
-			attr EBoolean as hasInterlevelState := false
+			attr BorderElement as border
+		}
+		
+		abstract container ExecutableContainerOuterLevelState {
+			
+			
+			@pvLabel("label")
+			@pvFileExtension(".«graphmodel.extension»")
+			prime this::MetaLevel as level
+			
+			attr BorderElement as border
+
+			containableElements(*[0,0])
+		}
+		
+		abstract container ExecutableContainerInnerLevelState {
+			
+			attr BorderElement as border
+			
+			containableElements(
+				ReferencedMetaLevel[1,1]
+			)
 		}
 		«FOR node:graphmodel.containers»
 		«{
-			var n = node.modelElement
+			var n = node.modelElement as NodeContainer
 			'''
 			«n.style»
 			container «n.name» extends «IF node.parent != null»«node.parent.modelElement.name»«ELSE»ExecutableContainer«ENDIF» {
@@ -169,12 +182,23 @@ class MGLGenerator {
 				«node.inAndOut»
 				
 				containableElements(
-					«FOR cn:node.containableNodes»
-					«cn.modelElement.name»[0,*],
+					«FOR cn:node.containableNodes SEPARATOR ","»
+					«cn.modelElement.name»[0,*]
 					«ENDFOR»
-					PlaceholderContainer[0,1]
 				)
 			}
+			
+			«n.style»
+			container «n.name»InnerLevelState extends «IF node.parent != null»«node.parent.modelElement.name»«ELSE»ExecutableContainer«ENDIF» {
+				
+				«node.inAndOut»
+			}
+			«IF n.isPrime»
+			container «n.name»OuterLevelState extends «IF node.parent != null»«node.parent.modelElement.name»«ELSE»ExecutableContainerOuterLevelState«ENDIF» {
+				
+				«node.inAndOut»
+			}
+			«ENDIF»
 			'''	
 		}»
 		«ENDFOR»
@@ -185,10 +209,12 @@ class MGLGenerator {
 		}
 		
 		abstract edge ExecutableEdge {
-			attr EBoolean as start := false
+			
+			attr BorderElement as border
+			
 			attr Compare as compare
 			// -1 represents the start *
-			attr EInt as border
+			attr EInt as cardinality
 		}
 		
 		«FOR edge:graphmodel.edges»
@@ -203,13 +229,31 @@ class MGLGenerator {
 	}
 	'''
 	
-	def void getType(ReferencedType type){
-		
+	def String getType(ReferencedType type){
+		var s = "";
+		if(!type.importURI.nullOrEmpty){
+			s+=type.importURI;
+		}
+		if(type.imprt != null){
+			if (!type.imprt.name.nullOrEmpty){
+				s+=type.imprt.name;
+			}
+		}
+		if(s.nullOrEmpty){
+			s+="this";
+		}
+		var t = "";
+		if(type instanceof ReferencedModelElement){
+			t = type.type.name;
+		}
+		return s+"::"+t+" as "+type.name
 	}
 	
-	def boolean getIsPrime(Node node)
+	
+	
+	def boolean getIsPrime(NodeContainer nodeContainer)
 	{
-		return false;	
+		return nodeContainer.primeReference != null;	
 	}
 	
 	def boolean getIsMGL(Import i) {
@@ -218,21 +262,11 @@ class MGLGenerator {
 	
 	def String getExtension(ExecutableGraphmodel graphmodel)
 	{
-		
+		return graphmodel.graphModel.fileExtension+"es";
 	}
 	
 	
-	def void getProjectName(ExecutableGraphmodel graphmodel){
-		
-	}
 	
-	def void getPackage(ExecutableGraphmodel graphmodel){
-		
-	}
-	
-	def void getNsUri(ExecutableGraphmodel graphmodel){
-		
-	}
 	
 	
 	def String getPvAnnotation(EList<Annotation> list,String anno,String suffix){
@@ -274,6 +308,10 @@ class MGLGenerator {
 	PlaceholderEdge[0,1]
 	)
 	'''
+	
+	override fileName() {
+		return super.graphmodel.graphModel.name+"ES.mgl"
+	}
 	
 	
 	

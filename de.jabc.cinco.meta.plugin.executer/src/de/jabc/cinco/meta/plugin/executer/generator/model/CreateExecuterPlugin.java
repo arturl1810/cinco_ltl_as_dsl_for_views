@@ -8,8 +8,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import mgl.GraphModel;
-
 import org.apache.commons.io.FileUtils;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -21,14 +19,16 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 
-import style.Styles;
 import de.jabc.cinco.meta.core.utils.CincoUtils;
+import de.jabc.cinco.meta.core.utils.WorkspaceUtil;
 import de.jabc.cinco.meta.plugin.executer.collector.GraphmodelCollector;
 import de.jabc.cinco.meta.plugin.executer.compounds.ExecutableGraphmodel;
-import de.jabc.cinco.meta.plugin.executer.service.MGLGenerator;
+import de.jabc.cinco.meta.plugin.executer.generator.tracer.TracerProjectGenerator;
 import de.jabc.cinco.meta.plugin.executer.service.ProjectCreator;
 import de.metaframe.jabc.framework.execution.LightweightExecutionEnvironment;
 import de.metaframe.jabc.framework.execution.context.LightweightExecutionContext;
+import mgl.GraphModel;
+import style.Styles;
 
 public class CreateExecuterPlugin {
 	public static final String EXECUTER = "execsem";
@@ -48,7 +48,6 @@ public class CreateExecuterPlugin {
 		String pluginPath = ".plugin.esdsl";
 		String projectName = graphModel.getPackage() + pluginPath;
 		List<String> srcFolders = new LinkedList<String>();
-		srcFolders.add("model");
 		srcFolders.add("src");
 		
 		List<IProject> referencedProjects = new LinkedList<IProject>();
@@ -88,46 +87,33 @@ public class CreateExecuterPlugin {
 							false, 
 							pluginXML
 						);
-				MGLGenerator mglGen = new MGLGenerator();
 				
 				
-				// /model
-				ProjectCreator.createFile(graphModelName+"ES.mgl", esdslProject.getFolder("model/"),
-					mglGen.create(exg).toString(),
-					progressMonitor);
 				
-				ProjectCreator.createFile(graphModelName+"ES.style", esdslProject.getFolder("model/"),
-						new StyleGeneratorTemplate().create(exg,project).toString(),
-						progressMonitor);
+				//model
+				new MGLGenerator(exg).generate("model/", esdslProject);
+				new StyleGeneratorTemplate(exg,project).generate("model/", esdslProject);
+				new CPDGeneratorTemplate(exg).generate("model/", esdslProject);
 				
-				ProjectCreator.createFile(graphModelName+"ESTool.cpd", esdslProject.getFolder("model/"),
-						new CPDGeneratorTemplate().create(exg).toString(),
-						progressMonitor);
 				// /src
 				// /src/ .hooks
+				
+				/**
+				 * Tracer project creation
+				 */
+				new TracerProjectGenerator().create(exg);
+				
 				
 				System.out.println("Executer MGL creation finished");
 				return "default";
 			}
 		}
+		
 			
 		return null;
 	}
 
 	
-	private void createFile(Object template,String path,Object ...objects) throws IOException
-	{
-		File f = new File(path);
-		f.getParentFile().mkdirs(); 
-		f.createNewFile();
-		
-		//FileUtils.writeStringToFile(f, template.create(objects).toString());
-	}
-	
-	public static void deleteFolder(String path) throws IOException {
-		File folder = new File(path);
-		FileUtils.deleteDirectory(folder);
-	}
 	
 	private Resource findImportModels(mgl.Import import1,GraphModel masterModel)
 	{
