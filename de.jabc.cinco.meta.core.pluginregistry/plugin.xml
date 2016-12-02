@@ -2,5 +2,6 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension-point id="de.jabc.cinco.meta.core.pluginregistry.metaplugin" name="MetaPlugin" schema="schema/de.jabc.cinco.meta.core.pluginregistry.metaplugin.exsd"/>
+   <extension-point id="de.jabc.cinco.meta.core.pluginregistry.cpdplugin" name="de.jabc.cinco.meta.core.pluginregistry.cpdplugin" schema="schema/de.jabc.cinco.meta.core.pluginregistry.cpdplugin.exsd"/>
 
 </plugin>

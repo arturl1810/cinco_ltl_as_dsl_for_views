@@ -25,6 +25,8 @@ Require-Bundle: org.eclipse.ui,
  de.jabc.cinco.meta.plugin.gratext.runtime
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: de.jabc.cinco.meta.core.mgl,
+ de.jabc.cinco.meta.core.mgl.model,
+ de.jabc.cinco.meta.core.pluginregistry,
  de.jabc.cinco.meta.core.utils,
  de.jabc.cinco.meta.core.utils.dependency,
  de.jabc.cinco.meta.core.utils.eapi,

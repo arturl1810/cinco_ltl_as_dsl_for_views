@@ -17,12 +17,15 @@ Require-Bundle: de.jabc.cinco.meta.productdefinition;visibility:=reexport,
  org.eclipse.xtext.ui.codetemplates.ui,
  org.eclipse.compare,
  org.eclipse.xtext.xbase.lib
-Import-Package: de.jabc.cinco.meta.core.ui.listener,
+Import-Package: de.jabc.cinco.meta.core.pluginregistry,
+ de.jabc.cinco.meta.core.pluginregistry.proposalprovider,
+ de.jabc.cinco.meta.core.ui.listener,
  de.jabc.cinco.meta.core.utils.xtext,
  org.apache.log4j,
  org.eclipse.pde.core.plugin,
  org.eclipse.pde.internal.core.bundle,
- org.eclipse.xtext.xbase.lib
+ org.eclipse.xtext.xbase.lib,
+ productDefinition
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: de.jabc.cinco.meta.productdefinition.ui.quickfix,
  de.jabc.cinco.meta.productdefinition.ui.contentassist,

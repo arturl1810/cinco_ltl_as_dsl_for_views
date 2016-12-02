@@ -8,11 +8,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
-
-import mgl.GraphModel;
-import mgl.Import;
-import mgl.MglPackage;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
@@ -39,11 +36,9 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.commands.ICommandService;
 import org.eclipse.ui.handlers.HandlerUtil;
 
-import transem.utility.helper.Tuple;
-import productDefinition.CincoProduct;
-import productDefinition.MGLDescriptor;
 import de.jabc.cinco.meta.core.BundleRegistry;
 import de.jabc.cinco.meta.core.mgl.MGLEPackageRegistry;
+import de.jabc.cinco.meta.core.pluginregistry.PluginRegistry;
 import de.jabc.cinco.meta.core.ui.listener.MGLSelectionListener;
 import de.jabc.cinco.meta.core.ui.templates.NewProjectWizardGenerator;
 import de.jabc.cinco.meta.core.utils.CincoUtils;
@@ -52,6 +47,12 @@ import de.jabc.cinco.meta.core.utils.dependency.DependencyGraph;
 import de.jabc.cinco.meta.core.utils.dependency.DependencyNode;
 import de.jabc.cinco.meta.core.utils.job.Workload;
 import de.jabc.cinco.meta.core.utils.projects.ProjectCreator;
+import mgl.GraphModel;
+import mgl.Import;
+import mgl.MglPackage;
+import productDefinition.CincoProduct;
+import productDefinition.MGLDescriptor;
+import transem.utility.helper.Tuple;
 
 
 /**
@@ -110,6 +111,8 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 				.task("Generating Gratext model...", () -> generateGratextModel(mgl));
 		}
 		
+		job.task("Generate CPD plugins", () -> generateCPDPlugins(mgls));
+		
 		job.consume(5, "Global Processing")
 			.task("Generating project wizard...", this::generateProjectWizard);
 			
@@ -129,6 +132,15 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 		return null;
 	}
 	
+	/**
+	 * Executes the CPD meta plug ins
+	 * @param mgls
+	 */
+	private void generateCPDPlugins(List<IFile> mgls) {
+		Set<GraphModel> graphModels = mgls.stream().map(n->CincoUtils.getGraphModel(n)).collect(Collectors.toSet());
+		PluginRegistry.getInstance().getPluginCPDGenerators().forEach(n->n.getPlugin().execute(graphModels,cpd));
+	}
+
 	private void init() {
 		commandService = (ICommandService) PlatformUI.getWorkbench().getService(ICommandService.class);
 		cpdFile = MGLSelectionListener.INSTANCE.getSelectedCPDFile();
