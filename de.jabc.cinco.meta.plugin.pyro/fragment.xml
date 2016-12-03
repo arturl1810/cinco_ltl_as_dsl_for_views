@@ -18,5 +18,15 @@
             MetaPluginAcceptor="de.jabc.cinco.meta.plugin.pyro.Acceptor">
       </proposalprovider>
    </extension>
+   <extension
+         id="id1"
+         name="name"
+         point="de.jabc.cinco.meta.core.pluginregistry.cpdplugin">
+      <cpd_metaplugin_description
+            acceptor="de.jabc.cinco.meta.plugin.pyro.CPDAcceptor"
+            cpdMetapluginService="de.jabc.cinco.meta.plugin.pyro.CPDMetaPlugin"
+            recognized-annotation="pyro">
+      </cpd_metaplugin_description>
+   </extension>
 
 </fragment>

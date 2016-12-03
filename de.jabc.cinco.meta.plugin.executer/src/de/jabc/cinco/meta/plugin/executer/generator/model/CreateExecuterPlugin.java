@@ -1,6 +1,5 @@
 package de.jabc.cinco.meta.plugin.executer.generator.model;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.HashSet;
@@ -8,19 +7,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.commons.io.FileUtils;
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.core.runtime.Path;
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 
-import de.jabc.cinco.meta.core.utils.CincoUtils;
-import de.jabc.cinco.meta.core.utils.WorkspaceUtil;
 import de.jabc.cinco.meta.plugin.executer.collector.GraphmodelCollector;
 import de.jabc.cinco.meta.plugin.executer.compounds.ExecutableGraphmodel;
 import de.jabc.cinco.meta.plugin.executer.generator.tracer.TracerProjectGenerator;
@@ -28,7 +18,6 @@ import de.jabc.cinco.meta.plugin.executer.service.ProjectCreator;
 import de.metaframe.jabc.framework.execution.LightweightExecutionEnvironment;
 import de.metaframe.jabc.framework.execution.context.LightweightExecutionContext;
 import mgl.GraphModel;
-import style.Styles;
 
 public class CreateExecuterPlugin {
 	public static final String EXECUTER = "execsem";
@@ -42,9 +31,7 @@ public class CreateExecuterPlugin {
 		if(project==null){
 			throw new IllegalStateException("Project cannot be found");
 		}
-		Styles styles = CincoUtils.getStyles(graphModel);
  
-		String graphModelName = graphModel.getName();
 		String pluginPath = ".plugin.esdsl";
 		String projectName = graphModel.getPackage() + pluginPath;
 		List<String> srcFolders = new LinkedList<String>();
@@ -113,36 +100,6 @@ public class CreateExecuterPlugin {
 		return null;
 	}
 
-	
-	
-	private Resource findImportModels(mgl.Import import1,GraphModel masterModel)
-	{
-		String path = import1.getImportURI();
-		URI uri = URI.createURI(path, true);
-		try {
-			Resource res = null;
-			if (uri.isPlatformResource()) {
-				res = new ResourceSetImpl().getResource(uri, true);
-			}
-			else {
-				IProject p = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(masterModel.eResource().getURI().toPlatformString(true))).getProject();
-				IFile file = p.getFile(path);
-				if (file.exists()) {
-					URI fileURI = URI.createPlatformResourceURI(file.getFullPath().toOSString(), true);
-					res = new ResourceSetImpl().getResource(fileURI, true);
-				}
-				else {
-					return null;
-				}
-			}
-			
-			return res;
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
 	
 	public static String toFirstUpper(String s) {
 		return Character.toUpperCase(s.charAt(0)) + s.substring(1);

@@ -77,7 +77,6 @@ public class GraphmodelCollector {
 		
 	}
 	
-	@SuppressWarnings("unchecked")
 	public ExecutableNode convertNode(mgl.Node node)
 	{
 		ExecutableNode en = null;
@@ -151,6 +150,56 @@ public class GraphmodelCollector {
 		
 		return en;
 		
+	}
+
+
+	public Map<String, ExecutableEdge> getEdges() {
+		return edges;
+	}
+
+
+	public void setEdges(Map<String, ExecutableEdge> edges) {
+		this.edges = edges;
+	}
+
+
+	public Map<String, ExecutableNode> getNodes() {
+		return nodes;
+	}
+
+
+	public void setNodes(Map<String, ExecutableNode> nodes) {
+		this.nodes = nodes;
+	}
+
+
+	public Map<String, ExecutableContainer> getContainer() {
+		return container;
+	}
+
+
+	public void setContainer(Map<String, ExecutableContainer> container) {
+		this.container = container;
+	}
+
+
+	public Map<String, Set<ExecutableNode>> getSources() {
+		return sources;
+	}
+
+
+	public void setSources(Map<String, Set<ExecutableNode>> sources) {
+		this.sources = sources;
+	}
+
+
+	public Map<String, Set<ExecutableNode>> getTargets() {
+		return targets;
+	}
+
+
+	public void setTargets(Map<String, Set<ExecutableNode>> targets) {
+		this.targets = targets;
 	}
 
 	
