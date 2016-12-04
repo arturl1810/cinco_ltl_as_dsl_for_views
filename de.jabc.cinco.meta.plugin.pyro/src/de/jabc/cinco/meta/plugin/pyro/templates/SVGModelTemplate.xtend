@@ -1,150 +1,143 @@
 package de.jabc.cinco.meta.plugin.pyro.templates
 
-import mgl.GraphModel
-import java.util.ArrayList
-import mgl.GraphicalModelElement
-import mgl.Attribute
-import de.jabc.cinco.meta.plugin.pyro.utils.Formatter
-import de.jabc.cinco.meta.plugin.pyro.model.StyledNode
-import de.jabc.cinco.meta.plugin.pyro.model.StyledEdge
-import de.jabc.cinco.meta.plugin.pyro.model.StyledConnector
-import java.util.HashMap
-import de.jabc.cinco.meta.plugin.pyro.model.ConnectionConstraint
-import de.jabc.cinco.meta.plugin.pyro.model.NodeShape
-import de.jabc.cinco.meta.plugin.pyro.model.PolygonPoint
-import de.jabc.cinco.meta.plugin.pyro.model.StyledLabel
-import mgl.Node
 import de.jabc.cinco.meta.plugin.pyro.model.LabelAlignment
-import de.jabc.cinco.meta.plugin.pyro.model.EmbeddingConstraint
-import mgl.Type
-import mgl.Enumeration
+import de.jabc.cinco.meta.plugin.pyro.model.StyledConnector
+import de.jabc.cinco.meta.plugin.pyro.model.StyledEdge
+import de.jabc.cinco.meta.plugin.pyro.model.StyledLabel
+import de.jabc.cinco.meta.plugin.pyro.model.StyledNode
+import de.jabc.cinco.meta.plugin.pyro.model.TemplateContainer
+import de.jabc.cinco.meta.plugin.pyro.utils.Formatter
 import de.jabc.cinco.meta.plugin.pyro.utils.ModelParser
-import org.eclipse.emf.ecore.EObject
-import org.eclipse.emf.ecore.EPackage
+import java.util.List
+import mgl.Attribute
+import mgl.Enumeration
+import mgl.GraphicalModelElement
+import mgl.Node
+import mgl.Type
 
 class SVGModelTemplate implements Templateable{
 	
-override create(GraphModel graphModel, ArrayList<StyledNode> nodes, ArrayList<StyledEdge> edges, HashMap<String, ArrayList<StyledNode>> groupedNodes, ArrayList<ConnectionConstraint> validConnections, ArrayList<EmbeddingConstraint> embeddingConstraints,ArrayList<Type> enums,ArrayList<GraphModel> graphModels,ArrayList<EPackage> ecores)
-'''
-	/**
-	 * Created by pyro cinco meta plugin
-	 * For Graphmodel «graphModel.name»
-	 */
+	override create(TemplateContainer tc)
+	'''
+		/**
+		 * Created by pyro cinco meta plugin
+		 * For Graphmodel «tc.graphModel.name»
+		 */
+		
+		
+		if (typeof exports === 'object') {
+		
+		    var joint = {
+		        util: require('../src/core').util,
+		        shapes: {
+		            basic: require('./joint.shapes.basic')
+		        },
+		        dia: {
+		            ElementView: require('../src/joint.dia.element').ElementView,
+		            Link: require('../src/joint.dia.link').Link
+		        }
+		    };
+		    var _ = require('lodash');
+		}
+		
+		joint.shapes.devs = {};
+		
 	
-	
-	if (typeof exports === 'object') {
-	
-	    var joint = {
-	        util: require('../src/core').util,
-	        shapes: {
-	            basic: require('./joint.shapes.basic')
-	        },
-	        dia: {
-	            ElementView: require('../src/joint.dia.element').ElementView,
-	            Link: require('../src/joint.dia.link').Link
-	        }
-	    };
-	    var _ = require('lodash');
-	}
-	
-	joint.shapes.devs = {};
-	
-
-	
-	/**
-	 * GraphModel Attributes
-	 * @type {{GraphModel: string[]}}
-	 */
-	cinco_graphModelAttr = [
-	    «FOR Attribute attr : graphModel.attributes  SEPARATOR ', '»
-	    	«createAttribute(attr,enums)»
-	    «ENDFOR»
-	];
-	
-	/*
-	 -------------------------------------------------------
-	 -------------Define Nodes and Containers---------------
-	 -------------------------------------------------------
-	 */
-	 
-	«FOR StyledNode node: nodes»
-		«JointModelTemplate.createNodeModel(node,enums)»
+		
+		/**
+		 * GraphModel Attributes
+		 * @type {{GraphModel: string[]}}
+		 */
+		cinco_graphModelAttr = [
+    «FOR Attribute attr : tc.graphModel.attributes  SEPARATOR ', '»
+    	«createAttribute(attr,tc.enums)»
+    «ENDFOR»
+		];
+		
+		/*
+		 -------------------------------------------------------
+		 -------------Define Nodes and Containers---------------
+		 -------------------------------------------------------
+		 */
+		 
+	«FOR StyledNode node: tc.nodes»
+		«JointModelTemplate.createNodeModel(node,tc.enums)»
 	«ENDFOR»
-	/*
-	 -------------------------------------------------------
-	 ---------------------Define Edges----------------------
-	 -------------------------------------------------------
-	 */
-	 
-	«FOR StyledEdge edge: edges»
-		«createEdge(edge,enums)»
+		/*
+		 -------------------------------------------------------
+		 ---------------------Define Edges----------------------
+		 -------------------------------------------------------
+		 */
+		 
+	«FOR StyledEdge edge: tc.edges»
+		«createEdge(edge,tc.enums)»
 	«ENDFOR»
-	
-	joint.shapes.devs.ModelView = joint.dia.ElementView.extend(joint.shapes.basic.PortsViewInterface);
-	«FOR StyledNode node: nodes»
-	joint.shapes.devs.«node.modelElement.name»View = joint.shapes.devs.ModelView;
+		
+		joint.shapes.devs.ModelView = joint.dia.ElementView.extend(joint.shapes.basic.PortsViewInterface);
+	«FOR StyledNode node: tc.nodes»
+		joint.shapes.devs.«node.modelElement.name»View = joint.shapes.devs.ModelView;
 	«ENDFOR»
+		
+		if (typeof exports === 'object') {
+		
+		    module.exports = joint.shapes.devs;
+		}
+	'''
 	
-	if (typeof exports === 'object') {
-	
-	    module.exports = joint.shapes.devs;
-	}
-'''
-	
-def createEdge(StyledEdge styledEdge,ArrayList<Type> enums)
-'''
-	/**
-	 * «styledEdge.modelElement.name.toFirstUpper»
-	 * @type {void|*}
-	 */
-	joint.shapes.devs.«styledEdge.modelElement.name.toFirstUpper» = joint.dia.Link.extend({
-	
-	    defaults: {
-	        type: 'devs.Link',
-	        cinco_name: '«styledEdge.modelElement.name.toFirstUpper»',
-	        cinco_type: 'Edge',
-	        cinco_id: '0',
-	        «createAttributes(styledEdge.modelElement,enums)»,
-	        attrs: {
-	            '.connection': { 
-	            	stroke: '#«Formatter.toHex(styledEdge.foregroundColor)»',
-	            	'stroke-width': «styledEdge.lineWidth»
-	            },
-	            '.marker-source': {
-	            	«createEdgeDecorator(styledEdge.sourceConnector)»
-	            },
-	            '.marker-target': {
-	            	«createEdgeDecorator(styledEdge.targetConnector)»
-	            }
-	        }
-	
-	    },
-	    setLabel: function() {
-	        /**
-	         * Get the needed Attributes for the label
-	         */
-	        var attributes = this.attributes.cinco_attrs;
-	        this.set('labels', [
-	        	{
-	        		«IF styledEdge.styledLabel != null»
-	        		position: «styledEdge.styledLabel.location»,
+	def createEdge(StyledEdge styledEdge,List<Type> enums)
+	'''
+		/**
+		 * «styledEdge.modelElement.name.toFirstUpper»
+		 * @type {void|*}
+		 */
+		joint.shapes.devs.«styledEdge.modelElement.name.toFirstUpper» = joint.dia.Link.extend({
+		
+		    defaults: {
+		        type: 'devs.Link',
+		        cinco_name: '«styledEdge.modelElement.name.toFirstUpper»',
+		        cinco_type: 'Edge',
+		        cinco_id: '0',
+		        «createAttributes(styledEdge.modelElement,enums)»,
+		        attrs: {
+		            '.connection': { 
+		            	stroke: '#«Formatter.toHex(styledEdge.foregroundColor)»',
+		            	'stroke-width': «styledEdge.lineWidth»
+		            },
+		            '.marker-source': {
+		            	«createEdgeDecorator(styledEdge.sourceConnector)»
+		            },
+		            '.marker-target': {
+		            	«createEdgeDecorator(styledEdge.targetConnector)»
+		            }
+		        }
+		
+		    },
+		    setLabel: function() {
+		        /**
+		         * Get the needed Attributes for the label
+		         */
+		        var attributes = this.attributes.cinco_attrs;
+		        this.set('labels', [
+		        	{
+					«IF styledEdge.styledLabel != null»
+					position: «styledEdge.styledLabel.location»,
 						attrs: {
 							text: {
 								text: '«Formatter.getLabelText(styledEdge)»',
-								«IF styledEdge.styledLabel != null»
-    							«createLabel(styledEdge.styledLabel)»
-	    						«ENDIF»
+						«IF styledEdge.styledLabel != null»
+							«createLabel(styledEdge.styledLabel)»
+						«ENDIF»
 								dy: -10
 								}
 							}
-        			«ELSE»
-	        		position: 0.0
-	        		«ENDIF»
-	        	}
-	        ]);
-	    }
-	});
-'''
+					«ELSE»
+						position: 0.0
+					«ENDIF»
+					}
+				]);
+		    }
+		});
+	'''
 
 def createEdgeDecorator(StyledConnector styledConnector)
 '''
@@ -158,11 +151,11 @@ def createEdgeDecorator(StyledConnector styledConnector)
 
 
 	
-static def createAttributes(GraphicalModelElement modelElement,ArrayList<Type> enums)
+static def createAttributes(GraphicalModelElement modelElement,List<Type> enums)
 '''
 	cinco_attrs: [
-		«IF modelElement instanceof mgl.Node»
-		«IF (modelElement as mgl.Node).primeReference != null»
+		«IF modelElement instanceof Node»
+		«IF (modelElement as Node).primeReference != null»
 		{
 			name: 'prime',
 			type: 'text',
@@ -178,7 +171,7 @@ static def createAttributes(GraphicalModelElement modelElement,ArrayList<Type> e
 	    «ENDIF»
 	        ]
 '''
-static def createAttribute(Attribute attr,ArrayList<Type> enums)
+static def createAttribute(Attribute attr,List<Type> enums)
 '''
 	«IF attr.upperBound == 1 && (attr.lowerBound == 0 || attr.lowerBound == 1) »
 	«createPrimativeAttribute(attr,enums)»
@@ -188,7 +181,7 @@ static def createAttribute(Attribute attr,ArrayList<Type> enums)
 	
 '''
 
-static def createListAttribute(Attribute attr,ArrayList<Type> enums)
+static def createListAttribute(Attribute attr,List<Type> enums)
 '''
 	{
 		name: '«attr.name»',
@@ -216,7 +209,7 @@ static def getAttributeType(String type) {
 	return "choice";
 }
 
-static def public String getAttributeDefault(Attribute attr, ArrayList<Type> enums) {
+static def public String getAttributeDefault(Attribute attr, List<Type> enums) {
 	if(attr.type.equals("EString")) return "''";
 	if(attr.type.equals("EInt")) return "0";
 	if(attr.type.equals("EDouble")) return "0.00";
@@ -251,7 +244,7 @@ static def createEnumAttribute(Attribute attr,Enumeration e)
 }
 '''
 
-static def getEnumByName(Attribute attr, ArrayList<Type> enums) {
+static def getEnumByName(Attribute attr, List<Type> enums) {
 	var typeName = attr.type;
 	for(Type type : enums) {
 		if(type.name.equals(typeName)){
@@ -263,7 +256,7 @@ static def getEnumByName(Attribute attr, ArrayList<Type> enums) {
 }
 
 
-static def createPrimativeAttribute(Attribute attr,ArrayList<Type> enums)
+static def createPrimativeAttribute(Attribute attr,List<Type> enums)
 '''
 	{
 		name: '«attr.name»',
@@ -288,6 +281,5 @@ static def createLabel(StyledLabel styledLabel)
 				«ENDIF»
 				'ref-x': .5,
 '''
-
 	
 }

@@ -1,5 +1,7 @@
 package de.jabc.cinco.meta.plugin.pyro;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.Set;
 
 import de.jabc.cinco.meta.core.pluginregistry.ICPDMetaPlugin;
@@ -9,13 +11,18 @@ import productDefinition.CincoProduct;
 public class CPDMetaPlugin implements ICPDMetaPlugin {
 
 	public CPDMetaPlugin() {
-		// TODO Auto-generated constructor stub
 	}
 
 
 	@Override
-	public void execute(Set<GraphModel> mglList, CincoProduct arguments) {
-		System.out.println("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");		
+	public void execute(Set<GraphModel> mglList, CincoProduct arguments)
+	{
+		CreatePyroPlugin cpp = new CreatePyroPlugin();
+		try {
+			cpp.execute(mglList);
+		} catch (IOException | URISyntaxException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

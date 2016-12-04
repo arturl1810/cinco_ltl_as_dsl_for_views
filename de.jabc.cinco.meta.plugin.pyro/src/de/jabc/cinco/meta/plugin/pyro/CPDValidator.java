@@ -9,9 +9,6 @@ import productDefinition.Annotation;
 
 public class CPDValidator implements IMetaPluginValidator {
 
-	public CPDValidator() {
-		// TODO Auto-generated constructor stub
-	}
 
 	@Override
 	public ErrorPair<String, EStructuralFeature> checkAll(EObject eObject) {
@@ -20,13 +17,10 @@ public class CPDValidator implements IMetaPluginValidator {
 			if(a.getName().equals("pyro"))
 			{
 				if(!a.getValue().isEmpty()){
-					if(!a.getValue().get(0).equals("foo"))
-					{
 						return new ErrorPair<String,EStructuralFeature>(
-								"Only foo.",
+								"No arguments allowed.",
 								eObject.eClass().getEStructuralFeature("value")
 								);						
-					}
 				}
 			}
 		}
