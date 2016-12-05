@@ -42,7 +42,7 @@ class StyleUtils extends GeneratorUtils {
 	private static var num = 0;
 	private static Node node;
 
-	def getAlgorithmCode(AbstractShape aShape, String containerShapeName, Node n, Styles styles) {
+	def getAlgorithmCode(AbstractShape aShape, String containerShapeName, Node n) {
 		node = n;
 		'''
 				«var currentPeName = getShapeName(aShape)»
@@ -51,18 +51,19 @@ class StyleUtils extends GeneratorUtils {
 				
 				«aShape.creator(currentPeName.toString, containerShapeName)»
 				
-				«aShape.getCode(currentGaName, currentPeName, styles)» 
+				«aShape.getCode(currentGaName, currentPeName)» 
 				
 				«aShape.setSize(currentGaName)»
 				
-				«getReferencedStyle(currentGaName, styles)»
+				«aShape.appearanceCode(currentGaName)»
+«««				«getReferencedStyle(currentGaName)»
 				
 				«aShape.setPosition(currentGaName)»
 				
 «««				«aShape.setAppearance(currentGaName)»
-				«aShape.getInlineAppearance(currentGaName)»
+«««				«aShape.getInlineAppearance(currentGaName)»
 			
-				«aShape.recursiveCall(currentPeName.toString, styles)»
+				«aShape.recursiveCall(currentPeName.toString)»
 			
 				linkAllShapes(«currentPeName», bo);
 				layoutPictogramElement(«currentPeName»);
@@ -101,46 +102,52 @@ class StyleUtils extends GeneratorUtils {
 			}
 
 			
-				return «currentPeName»;
+			return «currentPeName»;
 		'''
 	}
 
-	def CharSequence getCode(AbstractShape absShape, String containerShapeName, Styles styles) '''
+	def CharSequence getCode(AbstractShape absShape, String containerShapeName) '''
 		«var currentPeName = getShapeName(absShape)»
 		«var currentGaName = getGAName(absShape)»
 		«absShape.creator(currentPeName.toString, containerShapeName)»
-		«absShape.getCode(currentGaName, currentPeName, styles)» 
+		«absShape.getCode(currentGaName, currentPeName)» 
 		«absShape.setSize(currentGaName)»
 		
 		«absShape.setPosition(currentGaName)»
-		
+		«absShape.appearanceCode(currentGaName)»
 «««		«absShape.setAppearance(currentGaName)»
-		«absShape.getInlineAppearance(currentGaName)»
+«««		«absShape.getInlineAppearance(currentGaName)»
 
-		«absShape.recursiveCall(currentPeName.toString, styles)»
+		«absShape.recursiveCall(currentPeName.toString)»
 	'''
 
-	def getReferencedStyle(CharSequence currentGaName, Styles styles)
-	{
-		var nodestyle = CincoUtils.getStyleForNode(node, styles)
-		val mainShape = nodestyle.mainShape
-		if (mainShape.referencedAppearance != null)
-		{
-			var result = mainShape.referencedAppearance.name
-			return '''«node.graphModel.packageName».«node.graphModel.name»LayoutUtils.set«result»Style(«currentGaName», getDiagram());'''
-		}
-		else return '''«node.graphModel.packageName».«node.graphModel.name»LayoutUtils.set_«node.graphModel.name»DefaultAppearanceStyle(«currentGaName», getDiagram());'''
+	def appearanceCode(AbstractShape shape, CharSequence currentGaName) {
+		if (shape.referencedAppearance != null) '''«node.packageName».«node.graphModel.name»LayoutUtils.set«shape.referencedAppearance.name»Style(«currentGaName», getDiagram());'''
+		else if (shape.inlineAppearance != null)  ''' «node.packageName».«node.graphModel.name»LayoutUtils.«LayoutFeatureTmpl.shapeMap.get(shape)»(«currentGaName», getDiagram());'''
+		else '''«node.graphModel.packageName».«node.graphModel.name»LayoutUtils.set_«node.graphModel.name»DefaultAppearanceStyle(«currentGaName», getDiagram());'''
 	}
 
-	def getInlineAppearance(AbstractShape shape, CharSequence currentGaName)
-	{
-		var mapInline = LayoutFeatureTmpl.shapeMap;
-		if(mapInline.containsKey(shape))
-		{
-			var str = mapInline.get(shape);
-			return ''' «node.graphModel.packageName».«node.graphModel.name»LayoutUtils.«str»(«currentGaName», getDiagram());'''
-		}
-	}
+//	def getReferencedStyle(AbstractShape shape, CharSequence currentGaName)
+//	{
+//		var nodestyle = CincoUtils.getStyleForNode(node, styles)
+//		val mainShape = nodestyle.mainShape
+//		if (mainShape.referencedAppearance != null)
+//		{
+//			var result = mainShape.referencedAppearance.name
+//			return '''«node.graphModel.packageName».«node.graphModel.name»LayoutUtils.set«result»Style(«currentGaName», getDiagram());'''
+//		}
+//		else return '''«node.graphModel.packageName».«node.graphModel.name»LayoutUtils.set_«node.graphModel.name»DefaultAppearanceStyle(«currentGaName», getDiagram());'''
+//	}
+//
+//	def getInlineAppearance(AbstractShape shape, CharSequence currentGaName)
+//	{
+//		var mapInline = LayoutFeatureTmpl.shapeMap;
+//		if(mapInline.containsKey(shape))
+//		{
+//			var str = mapInline.get(shape);
+//			return ''' «node.graphModel.packageName».«node.graphModel.name»LayoutUtils.«str»(«currentGaName», getDiagram());'''
+//		}
+//	}
 
 	def dispatch creator(ContainerShape cs, String peName, String containerName) '''
 		«org.eclipse.graphiti.mm.pictograms.ContainerShape.name» «peName» = peService.createContainerShape(«containerName», «containerIsDiagramOrMovable(
@@ -151,20 +158,20 @@ class StyleUtils extends GeneratorUtils {
 		«Shape.name» «peName» = peService.createShape(«containerName», «containerIsDiagramOrMovable(s as AbstractShape)»);
 	'''
 
-	def dispatch getCode(Ellipse e, CharSequence currentGaName, CharSequence currentPeName, Styles styles) '''
+	def dispatch getCode(Ellipse e, CharSequence currentGaName, CharSequence currentPeName) '''
 		«org.eclipse.graphiti.mm.algorithms.Ellipse.name» «currentGaName» = gaService.createPlainEllipse(«currentPeName»);
 	'''
 
-	def dispatch getCode(Rectangle r, CharSequence currentGaName, CharSequence currentPeName, Styles styles) '''
+	def dispatch getCode(Rectangle r, CharSequence currentGaName, CharSequence currentPeName) '''
 		«org.eclipse.graphiti.mm.algorithms.Rectangle.name» «currentGaName» = gaService.createPlainRectangle(«currentPeName»);
 	'''
 
-	def dispatch getCode(RoundedRectangle rr, CharSequence currentGaName, CharSequence currentPeName, Styles styles) '''
+	def dispatch getCode(RoundedRectangle rr, CharSequence currentGaName, CharSequence currentPeName) '''
 		«org.eclipse.graphiti.mm.algorithms.RoundedRectangle.name» «currentGaName» = gaService.createPlainRoundedRectangle(«currentPeName», «rr.
 			cornerWidth», «rr.cornerHeight»);
 	'''
 
-	def dispatch getCode(Polygon p, CharSequence currentGaName, CharSequence currentPeName, Styles styles)'''
+	def dispatch getCode(Polygon p, CharSequence currentGaName, CharSequence currentPeName)'''
 		points = new «int»[] {«printPoints(p)»};
 				
 		xs = new «int»[] {«printX(p)»};
@@ -223,7 +230,7 @@ class StyleUtils extends GeneratorUtils {
 		String pointsString = "";
 	'''
 
-	def dispatch getCode(Polyline p, CharSequence currentGaName, CharSequence currentPeName, Styles styles) '''
+	def dispatch getCode(Polyline p, CharSequence currentGaName, CharSequence currentPeName) '''
 «««	ToDO: Polyline
 		points = new «int»[] {«printPoints(p)»};
 				
@@ -271,7 +278,7 @@ class StyleUtils extends GeneratorUtils {
 		
 	'''
 
-	def dispatch getCode(Text p, CharSequence currentGaName, CharSequence currentPeName, Styles styles) '''
+	def dispatch getCode(Text t, CharSequence currentGaName, CharSequence currentPeName) '''
 		«org.eclipse.graphiti.mm.algorithms.Text.name» «currentGaName» = gaService.createPlainText(«currentPeName»);
 		
 		«««Hier muss der Code generiert werden, der den anzuzeigenden Wert aus der zugehörigen @style annotation ausliest
@@ -287,10 +294,10 @@ class StyleUtils extends GeneratorUtils {
 			graphModel.packageNameExpression».«node.graphModel.fuName»ExpressionLanguageContext(bo);
 			«Object.name» tmp0Value = factory.createValueExpression(elContext, "«getText(node)»", «Object.name».class).getValue(elContext);
 		
-			peService.setPropertyValue(«currentGaName.toString», «node.graphModel.packageName».«node.graphModel.fuName»GraphitiUtils.KEY_FORMAT_STRING, "«getAnnotationStyleValue(node, styles)»");
+			peService.setPropertyValue(«currentGaName.toString», «node.graphModel.packageName».«node.graphModel.fuName»GraphitiUtils.KEY_FORMAT_STRING, "«t.value»");
 
 			peService.setPropertyValue(«currentGaName.toString», "Params","«getText(node)»");
-			«currentGaName.toString».setValue(String.format("«getAnnotationStyleValue(node, styles)»", tmp0Value));
+			«currentGaName.toString».setValue(String.format("«t.value»", tmp0Value));
 		} catch (java.util.IllegalFormatException ife) {
 			«currentGaName.toString».setValue("STRING FORMAT ERROR");
 		} finally {
@@ -311,13 +318,12 @@ class StyleUtils extends GeneratorUtils {
 		
 	'''
 
-	def dispatch getCode(MultiText p, CharSequence currentGaName, CharSequence currentPeName, Styles styles) '''
+	def dispatch getCode(MultiText p, CharSequence currentGaName, CharSequence currentPeName) '''
 		«org.eclipse.graphiti.mm.algorithms.MultiText.name» «currentGaName» = gaService.createPlainMultiText(«currentPeName»);
 	'''
 
-	def dispatch getCode(Image p, CharSequence currentGaName, CharSequence currentPeName, Styles styles) '''
-		«org.eclipse.graphiti.mm.algorithms.Image.name» «currentGaName» = gaService.createPlainImage(«currentPeName», "«p.
-			path»");
+	def dispatch getCode(Image p, CharSequence currentGaName, CharSequence currentPeName) '''
+		«org.eclipse.graphiti.mm.algorithms.Image.name» «currentGaName» = gaService.createPlainImage(«currentPeName», "«p.path»");
 	'''
 
 	def static setSize(AbstractShape a, CharSequence gaName) '''
@@ -452,12 +458,12 @@ class StyleUtils extends GeneratorUtils {
 
 	def static genGName(AbstractShape aShape) '''«aShape.class.simpleName.toFirstLower»«num++»'''
 
-	def recursiveCall(AbstractShape aShape, String containerShapeName, Styles styles) {
+	def recursiveCall(AbstractShape aShape, String containerShapeName) {
 		if (aShape instanceof ContainerShape) {
 			for (child : aShape.children) {
 				return '''
 				{
-					«child.getCode(containerShapeName, styles)»
+					«child.getCode(containerShapeName)»
 				}'''
 			}
 		}

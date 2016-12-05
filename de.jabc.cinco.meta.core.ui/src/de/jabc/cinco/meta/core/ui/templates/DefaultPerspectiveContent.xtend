@@ -36,7 +36,7 @@ public class «cp.name.toFirstUpper»Perspective implements «IPerspectiveFactor
 		point="org.eclipse.ui.perspectives">
 	<!--@CincoGen «cp.name.toUpperCase»-->
 		<perspective
-			class="«pName».«cp.name.toFirstUpper»Perspective"
+			class="«pName».editor.graphiti.«cp.name.toFirstUpper»Perspective"
 			fixed="false"
 			id="«pName».«cp.name.toLowerCase»perspective"
 			«IF !cp.image16.isNullOrEmpty»

@@ -30,20 +30,23 @@ class GeneratorUtils {
 	def instanceofCheck(ModelElement me, String varName) 
 	'''«varName» instanceof «me.beanPackage».«me.fuName»'''
 		
-	static def fuName(Type t) {
+	def fuName(Type t) {
 		t.name.toFirstUpper
 	}
 	
-	static def fuName(ModelElement me) {
+	def fuName(ModelElement me) {
 		me.name.toFirstUpper
 	}
 	
-	static def flName(ModelElement me) {
+	def flName(ModelElement me) {
 		me.name.toFirstLower
 	}
 	
-	static def packageName(GraphModel gm)
+	def packageName(GraphModel gm)
 	'''«gm.package».editor.graphiti'''
+	
+	def packageName(ModelElement me)
+	'''«me.graphModel.packageName»'''
 	
 	def packageNameExpression(GraphModel gm)
 	'''«gm.package».editor.graphiti.expression'''

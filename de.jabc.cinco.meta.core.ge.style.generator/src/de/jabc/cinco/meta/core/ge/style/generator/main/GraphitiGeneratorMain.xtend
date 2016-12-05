@@ -74,7 +74,6 @@ class GraphitiGeneratorMain extends GeneratorUtils {
 		this.gm = gm
 		this.cpdFile = cpdFile
 		styles = s
-	
 	}
 	
 	def doGenerate(IProject project) {
@@ -105,8 +104,6 @@ class GraphitiGeneratorMain extends GeneratorUtils {
 		content = gm.generateContext
 		ContentWriter::writeJavaFileInSrcGen(project, gm.packageNameExpression, gm.name.toFirstUpper.concat("ExpressionLanguageContext.java"), content)
 		
-//		ContentWriter::writeJavaFileInSrcGen(project, gm.packageNameExpression, gm.name.toFirstUpper.concat("ExpressionLanguageContext.java"), content)
-		
 		for (Node n : gm.nodes) {
 			if (n.isPrime){
 				content = n.doGeneratePrimeAddFeature(styles)
@@ -115,7 +112,7 @@ class GraphitiGeneratorMain extends GeneratorUtils {
 			content = n.doGenerateAddFeature(styles)
 			ContentWriter::writeJavaFileInSrcGen(project, n.packageNameAdd, "AddFeature"+n.name.toFirstUpper+".java", content)
 			
-			content = n.doGenerateCreateFeature(styles)
+			content = n.doGenerateCreateFeature
 			ContentWriter::writeJavaFileInSrcGen(project, n.packageNameCreate, "CreateFeature"+n.name.toFirstUpper+".java", content)
 			
 			content = n.doGenerateDeleteFeature(styles)
@@ -154,8 +151,8 @@ class GraphitiGeneratorMain extends GeneratorUtils {
 
 		
 		var cp = CincoUtils::getCPD(cpdFile) as CincoProduct
-		var pluginXML = project.getFile("plugin.xml");  
-		var extensionCommentID = "<!--@CincoGen "+cp.getName().toUpperCase()+"-->";
+//		var pluginXML = project.getFile("plugin.xml");  
+//		var extensionCommentID = "<!--@CincoGen "+cp.getName().toUpperCase()+"-->";
 		
 		if (cp.getDefaultPerspective() != null && !cp.getDefaultPerspective().isEmpty())
 			return;
@@ -163,7 +160,7 @@ class GraphitiGeneratorMain extends GeneratorUtils {
 		var defaultPerspectiveContent = de.jabc.cinco.meta.core.ui.templates.DefaultPerspectiveContent::generateDefaultPerspective(cp, gm.packageName.toString)
 		var defaultXMLPerspectiveContent = de.jabc.cinco.meta.core.ui.templates.DefaultPerspectiveContent::generateXMLPerspective(cp, cpdFile.getProject().getName())
 		
-		var file = project.getFile("src-gen/"+project.getName().replace(".", "/")+"/"+cp.getName()+"Perspective.java");
+//		var file = project.getFile("src-gen/"+project.getName().replace(".", "/")+"/"+cp.getName()+"Perspective.java");
 		ContentWriter::writeJavaFileInSrcGen(project, gm.packageName, cp.name+"Perspective.java",defaultPerspectiveContent)
 		
 //		CincoUtils.writeContentToFile(file, defaultPerspectiveContent.toString());

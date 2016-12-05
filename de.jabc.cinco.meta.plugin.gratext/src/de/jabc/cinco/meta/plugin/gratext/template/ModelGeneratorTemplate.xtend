@@ -56,7 +56,7 @@ import org.eclipse.swt.SWTException
 
 class «model.name»ModelGenerator {
 	
-	final String DTP_ID = "«graphmodel.package».«model.name»DiagramTypeProvider";
+	final String DTP_ID = "«graphmodel.package».editor.graphiti.«model.name»DiagramTypeProvider";
 
 	«model.nameFirstUpper»Factory baseModelFct = «model.nameFirstUpper»Factory.eINSTANCE;
 	«model.nameFirstUpper»Package baseModelPkg = «model.nameFirstUpper»Package.eINSTANCE;
