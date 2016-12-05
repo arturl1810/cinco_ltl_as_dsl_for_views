@@ -50,7 +50,7 @@ public class AddFeature«n.fuName» extends «CincoAbstractAddFeature.name» {
 		«IPeService.name» peService = «Graphiti.name».getPeService();
 		«IGaService.name» gaService = «Graphiti.name».getGaService();
 		
-		«s.mainShape.getAlgorithmCode("d",n, styles)»
+		«s.mainShape.getAlgorithmCode("d",n)»
 	}
 	
 	private void linkAllShapes(«PictogramElement.name» pe, «EObject.name» bo) {

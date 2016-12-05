@@ -234,6 +234,8 @@ public class CincoProductProjectCreator {
 		if (features.contains(CODE_GENERATOR)) {
 			bundles.add("de.jabc.cinco.meta.plugin.generator.runtime");
 		}
+		if (features.contains(PRIME_REFERENCES))
+			bundles.add("de.jabc.cinco.meta.core.referenceregistry");
 		return bundles;
 	}
 

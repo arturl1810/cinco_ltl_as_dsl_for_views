@@ -31,8 +31,6 @@ import style.AbstractShape
 
 class EdgeAddFeatures extends GeneratorUtils {
 	
-	
-	
 	def doGenerateAddFeature(Edge e) {
 								'''
 	package «e.packageNameAdd»;
@@ -139,7 +137,7 @@ class EdgeAddFeatures extends GeneratorUtils {
 			«Text.name» Text0 = gaService.createDefaultText(getDiagram(), gaContainer);
 			
 			«ExpressionFactoryImpl.name» factory = new «ExpressionFactoryImpl.name»();
-			 «e.graphModel.packageName».expression.«e.graphModel.fuName»ExpressionLanguageContext elContext = null;
+			«e.graphModel.packageName».expression.«e.graphModel.fuName»ExpressionLanguageContext elContext = null;
 
 			elContext = new  «e.graphModel.packageName».expression.«e.graphModel.fuName»ExpressionLanguageContext(«e.fuName.toFirstLower»);
 			«Object.name» tmp0Value = factory.createValueExpression(elContext, "${label}", «Object.name».class).getValue(elContext);
@@ -159,7 +157,6 @@ class EdgeAddFeatures extends GeneratorUtils {
 	'''
 	
 	}
-	
 	
 	def int getHeigth(AbstractShape aShape){
 		return aShape.size.height

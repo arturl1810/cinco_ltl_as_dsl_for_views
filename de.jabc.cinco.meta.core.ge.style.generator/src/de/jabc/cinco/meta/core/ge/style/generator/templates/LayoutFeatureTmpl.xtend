@@ -211,7 +211,6 @@ public class «gm.fuName»LayoutUtils {
 	
 	public static void createCIRCLE(«GraphicsAlgorithmContainer.name» gaContainer) {
 		«IGaService.name» gaService = «Graphiti.name».getGaService();
-		«IPeService.name» peService = «Graphiti.name».getPeService();
 		«Ellipse.name» tmp = gaService.createEllipse(gaContainer);
 		gaService.setSize(tmp, 12, 12);
 		gaService.setLocation(tmp, tmp.getX() + 2, tmp.getY());
@@ -220,7 +219,6 @@ public class «gm.fuName»LayoutUtils {
 
 	public static  void createTRIANGLE(«GraphicsAlgorithmContainer.name» gaContainer) {
 		«IGaService.name» gaService = «Graphiti.name».getGaService();
-		«IPeService.name» peService = «Graphiti.name».getPeService();
 		«Polygon.name» tmp = gaService.createPolygon(gaContainer, new int[] {-11,-8, 0,0, -11,8, -11,-8});
 		gaService.setLocation(tmp, tmp.getX() + 2, tmp.getY());
 		tmp.setFilled(true);
@@ -228,14 +226,12 @@ public class «gm.fuName»LayoutUtils {
 
 	public static  void createARROW(«GraphicsAlgorithmContainer.name» gaContainer) {
 		«IGaService.name» gaService = «Graphiti.name».getGaService();
-		«IPeService.name» peService = «Graphiti.name».getPeService();
 		«Polyline.name» tmp = gaService.createPolyline(gaContainer, new int[] {-10,-4, 0,0, -10,4});
 		gaService.setLocation(tmp, tmp.getX() + 2, tmp.getY());
 	}
 
 	public static  void createDIAMOND(«GraphicsAlgorithmContainer.name» gaContainer) {
 		«IGaService.name» gaService = «Graphiti.name».getGaService();
-		«IPeService.name» peService = «Graphiti.name».getPeService();
 		«Polygon.name» tmp = gaService.createPolygon(gaContainer, new int[] {-9,-6, 0,0, -9,6, -18,0, -9,-6});
 		gaService.setLocation(tmp, tmp.getX() + 2, tmp.getY());
 		tmp.setFilled(true);

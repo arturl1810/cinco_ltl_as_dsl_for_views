@@ -117,7 +117,7 @@ public class NewGraphitiCodeGenerator extends AbstractHandler{
 	
 	private List<String> addExpPackages(GraphModel gm) {
 		ArrayList<String> packs = new ArrayList<String>();
-		packs.add(GeneratorUtils.packageName(gm).toString());
+		packs.add(new GeneratorUtils().packageName(gm).toString());
 		
 		return packs;
 	}

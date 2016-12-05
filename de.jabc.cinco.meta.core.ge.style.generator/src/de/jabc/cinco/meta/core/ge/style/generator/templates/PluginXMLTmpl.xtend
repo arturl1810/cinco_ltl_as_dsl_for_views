@@ -121,7 +121,7 @@ class PluginXMLTmpl extends GeneratorUtils {
 			icon="«icon»"
 			«ENDIF»
 			id="«pkgName».wizard.«gmName.toLowerCase»"
-			name="New «gmName»">
+			name="NNNNNNew «gmName»">
 		</wizard>
 	</extension>
 	'''
