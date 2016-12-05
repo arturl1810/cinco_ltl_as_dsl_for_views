@@ -80,8 +80,8 @@ public class CreatePyroPlugin {
 	
 	public String basePath;
 	
-	public void execute(Set<GraphModel> graphModels) throws IOException, URISyntaxException {
-		basePath = "CincoProductsFTWGen/pyro/";
+	public void execute(Set<GraphModel> graphModels,IProject project) throws IOException, URISyntaxException {
+		basePath = "dywa-app";
 		String jsPath = "js/pyro/";
 		String cssPath = "css/pyro/";
 		String wildFlyPath ="~/";
@@ -141,7 +141,7 @@ public class CreatePyroPlugin {
 				
 		// For all imported or referenced GraphModels
 		for(GraphModel iteratorModel:graphModels) {
-			Styles styles = CincoUtils.getStyles(iteratorModel);
+			Styles styles = CincoUtils.getStyles(iteratorModel,project);
 
 			String graphModelPath = toFirstLower(iteratorModel.getName()) + "/";
 					
@@ -157,7 +157,7 @@ public class CreatePyroPlugin {
 			templateContainer.setEmbeddingConstraints(ModelParser.getValidEmbeddings(iteratorModel));
 					
 			//Copy Images
-			FileHandler.copyImages(iteratorModel, basePath+presentationPath +webappPath);
+			FileHandler.copyImages(iteratorModel, basePath+presentationPath +webappPath,project);
 					
 			createFile(new EditorCommunicatorTemplyte(), basePath+presentationPath +webappPath+ jsPath +graphModelPath+"pyro.communicator.js", templateContainer);
 			//createFile(new EditorModelTemplate(), basePath+presentationPath +webappPath+ jsPath +graphModelPath+"pyro.model.js", templateContainer);

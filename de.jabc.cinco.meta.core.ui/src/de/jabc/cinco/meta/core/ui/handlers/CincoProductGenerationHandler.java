@@ -138,7 +138,7 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 	 */
 	private void generateCPDPlugins(List<IFile> mgls) {
 		Set<GraphModel> graphModels = mgls.stream().map(n->CincoUtils.getGraphModel(n)).collect(Collectors.toSet());
-		PluginRegistry.getInstance().getPluginCPDGenerators().forEach(n->n.getPlugin().execute(graphModels,cpd));
+		PluginRegistry.getInstance().getPluginCPDGenerators().forEach(n->n.getPlugin().execute(graphModels,cpd,cpdFile.getProject()));
 	}
 
 	private void init() {

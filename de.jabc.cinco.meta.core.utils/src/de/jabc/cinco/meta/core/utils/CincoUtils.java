@@ -8,7 +8,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringWriter;
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -22,12 +21,6 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-
-import mgl.Annotation;
-import mgl.Attribute;
-import mgl.GraphModel;
-import mgl.Import;
-import mgl.ModelElement;
 
 import org.apache.commons.io.FilenameUtils;
 import org.eclipse.core.resources.IFile;
@@ -51,9 +44,14 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import mgl.Annotation;
+import mgl.Attribute;
+import mgl.GraphModel;
+import mgl.Import;
+import mgl.ModelElement;
+import productDefinition.CincoProduct;
 import style.Style;
 import style.Styles;
-import productDefinition.CincoProduct;
 
 
 public class CincoUtils {
@@ -144,8 +142,6 @@ public class CincoUtils {
 		}
 	}
 	
-	
-	
 	public static Styles getStyles(GraphModel gm) {
 		for (Annotation a : gm.getAnnotations()) {
 			if (ID_STYLE.equals(a.getName())) {
@@ -176,6 +172,19 @@ public class CincoUtils {
 					e.printStackTrace();
 					return null;
 				}
+			}
+		}
+		return null;
+	}
+	
+	
+	public static Styles getStyles(GraphModel gm,IProject project) {
+		for (Annotation a : gm.getAnnotations()) {
+			if (ID_STYLE.equals(a.getName())) {
+				String path = a.getValue().get(0);
+				IFile iFile = project.getFile(path);
+				Resource res = WorkspaceUtil.eapi(iFile).getResource();
+				return WorkspaceUtil.eapi(res).getContent(Styles.class);
 			}
 		}
 		return null;
