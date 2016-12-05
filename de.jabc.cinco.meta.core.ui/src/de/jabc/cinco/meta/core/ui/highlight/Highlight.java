@@ -325,11 +325,6 @@ public class Highlight {
 	}
 
 	public Highlight off() {
-		off(true);
-		return this;
-	}
-
-	public Highlight off(boolean triggerDiagramRefresh) {
 		if (animation != null) {
 			animation.quit();
 		}
@@ -411,7 +406,7 @@ public class Highlight {
 			for (PictogramElement pe : affected) {
 				WorkbenchUtil.refreshDecorators(pe);
 			}
-			WorkbenchUtil.refreshDiagram();
+//			WorkbenchUtil.refreshDiagram();
 		}
 	}
 	

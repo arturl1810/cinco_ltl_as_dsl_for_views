@@ -11,12 +11,21 @@ import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.PictogramLink;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 
+import de.jabc.cinco.meta.core.utils.WorkbenchUtil;
+
+import static de.jabc.cinco.meta.core.utils.WorkbenchUtil.eapi;
+
 public class DiagramEAPI {
 
 	private Diagram diagram;
 	
 	public DiagramEAPI(Diagram diagram) {
 		this.diagram = diagram;
+	}
+	
+	public void getEditor() {
+		WorkbenchUtil.getEditor(editor -> 
+			eapi(editor).getResource() == diagram.eResource());
 	}
 	
 	public List<ContainerShape> getContainerShapes() {

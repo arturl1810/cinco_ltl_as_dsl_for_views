@@ -206,20 +206,20 @@ public class CincoUtils {
 		return null;
 	}
 	
-	public static GraphModel getGraphModel(IFile file) {
-		URI uri = URI.createFileURI(file.getLocation().toString());
-		Resource res = new ResourceSetImpl().getResource(uri, true);
-		return getGraphModel(res);
-	}
-
-	public static GraphModel getGraphModel(Resource res) {
-		for (TreeIterator<EObject> it = res.getAllContents(); it.hasNext(); ) {
-			EObject o = it.next();
-			if (o instanceof GraphModel)
-				return (GraphModel) o; 
-		}
-		return null;
-	}
+//	public static GraphModel getGraphModel(IFile file) {
+//		URI uri = URI.createFileURI(file.getLocation().toString());
+//		Resource res = new ResourceSetImpl().getResource(uri, true);
+//		return getGraphModel(res);
+//	}
+//
+//	public static GraphModel getGraphModel(Resource res) {
+//		for (TreeIterator<EObject> it = res.getAllContents(); it.hasNext(); ) {
+//			EObject o = it.next();
+//			if (o instanceof GraphModel)
+//				return (GraphModel) o; 
+//		}
+//		return null;
+//	}
 
 	public static Annotation getAnnotation(Attribute attr, String annotName) {
 		List<Annotation> annots = attr.getAnnotations().stream().filter(a -> a.getName().equals(annotName)).collect(Collectors.toList());

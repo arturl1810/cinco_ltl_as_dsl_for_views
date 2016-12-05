@@ -15,6 +15,8 @@ import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.dnd.AbstractTransferDropTargetListener;
 import org.eclipse.gef.dnd.TemplateTransferDragSourceListener;
+import org.eclipse.gef.palette.CombinedTemplateCreationEntry;
+import org.eclipse.gef.palette.PaletteTemplateEntry;
 import org.eclipse.gef.requests.CreateRequest;
 import org.eclipse.gef.requests.CreationFactory;
 import org.eclipse.gef.ui.palette.PaletteViewer;
@@ -172,10 +174,9 @@ public abstract class Highlighter {
 				Highlight highlight = getHighlight(pe);
 				if (highlight != null) {
 					highlights.add(highlight);
-					highlight.on();
+					highlight.swell(0.2);
 				}
 			}
-			WorkbenchUtil.refreshDiagram();
 		}
 		String contextKey = getContextKey();
 		highlightContexts.put(contextKey, highlights);
@@ -186,11 +187,10 @@ public abstract class Highlighter {
 		Collection<Highlight> highlights = highlightContexts.get(transactionKey);
 		if (highlights != null && !highlights.isEmpty()) {
 			for (Highlight highlight : highlights) try {
-				highlight.off(false);
+				highlight.fade(0.2);
 			} catch(Exception e) {
 				e.printStackTrace();
 			}
-			WorkbenchUtil.refreshDiagram();
 		}
 	}
 	
@@ -245,7 +245,11 @@ public abstract class Highlighter {
 		@Override
 		@SuppressWarnings("restriction")
 		public void dragStart(DragSourceEvent event) {
+			event.doit = false;
+			System.out.println("[Highlighter] dragStart doit=" + event.doit);
 			try {
+//				System.out.println("[Highlighter] dragStart " + editor.getDiagramBehavior().getDiagramContainer().getGraphicalViewer().findHandleAt(new Point(event.x, event.y)));
+				
 				EditPart clicked = editor.getDiagramBehavior().getDiagramContainer().getGraphicalViewer().findObjectAt(new Point(event.x, event.y));
 				if (clicked instanceof ContainerShapeEditPart) {
 					contextKey = onDragStart(((ContainerShapeEditPart)clicked).getPictogramElement());
@@ -262,7 +266,7 @@ public abstract class Highlighter {
 			}
 			
 			// inform that we are not interested in handling the drag
-			event.doit = false;
+			
 		}
 		
 		@Override

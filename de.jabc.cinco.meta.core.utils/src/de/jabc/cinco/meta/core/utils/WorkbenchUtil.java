@@ -15,6 +15,7 @@ import org.eclipse.graphiti.ui.editor.DiagramEditor;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
@@ -72,6 +73,19 @@ public class WorkbenchUtil {
 	public static IEditorPart getActiveEditor() {
 		IWorkbenchPage page = getActivePage();
 		return (page != null) ? page.getActiveEditor() : null;
+	}
+	
+	public static IEditorPart getEditor(Predicate<IEditorPart> predicate) {
+		IWorkbenchPage page = getActivePage();
+		if (page == null)
+			return null;
+		for (IEditorReference ref : page.getEditorReferences()) {
+			IEditorPart editor = ref.getEditor(true);
+			if (predicate.test(editor)) {
+				return editor;
+			}
+		}
+		return null;
 	}
 	
 	public static DiagramEditor getDiagramEditor() {
