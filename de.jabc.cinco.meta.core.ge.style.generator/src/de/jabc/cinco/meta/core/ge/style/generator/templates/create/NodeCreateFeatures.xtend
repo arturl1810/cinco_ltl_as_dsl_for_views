@@ -15,7 +15,7 @@ import style.Styles
 
 class NodeCreateFeatures extends GeneratorUtils{
 	
-	def doGenerateCreateFeature(Node n, Styles styles) '''
+	def doGenerateCreateFeature(Node n) '''
 	package «n.packageNameCreate»;
 	
 	public class CreateFeature«n.fuName» extends de.jabc.cinco.meta.core.ge.style.model.createfeature.CincoCreateFeature<«ModelElement.name»>{
@@ -26,10 +26,12 @@ class NodeCreateFeatures extends GeneratorUtils{
 			super(fp, "«n.fuName»", "Create «n.fuName»");
 		}
 
+		«IF !n.iconNodeValue.nullOrEmpty»	
 		@Override
-		public String getCreateImageId() {		
-			return "«getIconNodeValue(n)»";  		 
+		public String getCreateImageId() {
+			return "«getIconNodeValue(n)»";
 		}
+		«ENDIF»
 	
 		public boolean canCreate(«ICreateContext.name» context, boolean apiCall) {
 		if (apiCall) {
