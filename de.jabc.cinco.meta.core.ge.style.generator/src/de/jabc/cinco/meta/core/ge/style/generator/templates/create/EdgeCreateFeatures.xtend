@@ -2,20 +2,20 @@ package de.jabc.cinco.meta.core.ge.style.generator.templates.create
 
 import de.jabc.cinco.meta.core.ge.style.generator.templates.util.GeneratorUtils
 import de.jabc.cinco.meta.core.ge.style.model.errorhandling.ECincoError
+import graphmodel.Node
 import mgl.Edge
-import org.eclipse.graphiti.features.IFeatureProvider
-import org.eclipse.graphiti.features.context.ICreateContext
-import org.eclipse.graphiti.features.impl.AbstractCreateConnectionFeature
-import org.eclipse.graphiti.features.context.ICreateConnectionContext
-import org.eclipse.graphiti.mm.pictograms.Connection
 import mgl.ModelElement
-import graphmodel.Node;
+import org.eclipse.graphiti.features.IFeatureProvider
+import org.eclipse.graphiti.features.context.ICreateConnectionContext
 import org.eclipse.graphiti.features.context.impl.AddConnectionContext
+import org.eclipse.graphiti.features.impl.AbstractCreateConnectionFeature
 import org.eclipse.graphiti.mm.pictograms.Anchor
+import org.eclipse.graphiti.mm.pictograms.Connection
+import style.Styles
 
 class EdgeCreateFeatures extends GeneratorUtils{
 	
-	def doGenerateCreateFeature(Edge e) '''
+	def doGenerateCreateFeature(Edge e, Styles styles) '''
 	package «e.packageNameCreate»;
 	
 	public class CreateFeature«e.fuName» extends «AbstractCreateConnectionFeature.name» {

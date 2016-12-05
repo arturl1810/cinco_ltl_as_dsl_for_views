@@ -147,7 +147,7 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 			if (bo instanceof «ModelElement.name»){
 				«FOR n : gm.nodes»
 					if («n.instanceofCheck("bo")»)
-					return new «n.packageNameLayout».LayoutFeature«n.fuName»(this);
+						return new «n.packageNameLayout».LayoutFeature«n.fuName»(this);
 				«ENDFOR»
 			}
 		}
@@ -163,7 +163,7 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 			if (bo instanceof «ModelElement.name»){
 				«FOR n : gm.nodes»
 					if («n.instanceofCheck("bo")»)
-					return new «n.packageNameResize».ResizeFeature«n.fuName»(this);
+						return new «n.packageNameResize».ResizeFeature«n.fuName»(this);
 				«ENDFOR»
 			}
 		}
@@ -179,7 +179,7 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 			if (bo instanceof «ModelElement.name»){
 				«FOR n : gm.nodes»
 					if («n.instanceofCheck("bo")»)
-					return new «n.packageNameMove».MoveFeature«n.fuName»(this);
+						return new «n.packageNameMove».MoveFeature«n.fuName»(this);
 				«ENDFOR»
 			}
 		}
@@ -195,7 +195,11 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 			if (bo instanceof «ModelElement.name»){
 				«FOR n : gm.nodes»
 					if («n.instanceofCheck("bo")»)
-					return new «n.packageNameUpdate».UpdateFeature«n.fuName»(this);
+						return new «n.packageNameUpdate».UpdateFeature«n.fuName»(this);
+				«ENDFOR»
+				«FOR e : gm.edges»
+					if («e.instanceofCheck("bo")»)
+						return new «e.packageNameUpdate».UpdateFeature«e.fuName»(this);
 				«ENDFOR»
 			}
 		}

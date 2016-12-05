@@ -28,12 +28,14 @@ import de.jabc.cinco.meta.core.utils.CincoUtils
 import org.eclipse.graphiti.mm.algorithms.Ellipse
 import style.impl.TextImpl
 import style.AbstractShape
+import de.jabc.cinco.meta.core.ge.style.generator.templates.util.StyleUtils
+import style.Styles
 
 class EdgeAddFeatures extends GeneratorUtils {
 	
 	
 	
-	def doGenerateAddFeature(Edge e) {
+	def doGenerateAddFeature(Edge e, Styles styles) {
 								'''
 	package «e.packageNameAdd»;
 	
@@ -80,7 +82,7 @@ class EdgeAddFeatures extends GeneratorUtils {
 			«ConnectionDecorator.name» cd;
 
 			
-			«FOR d : CincoUtils.getStyleForEdge(e).decorator»			
+			«FOR d : CincoUtils.getStyleForEdge(e, styles).decorator»			
 				«IF d.predefinedDecorator != null »			
 				cd = peCreateService.createConnectionDecorator(connection, false,«d.location», true);
 				«e.graphModel.packageName».«e.graphModel.fuName»LayoutUtils.create«d.predefinedDecorator.shape.name()»(cd);
@@ -142,7 +144,7 @@ class EdgeAddFeatures extends GeneratorUtils {
 			 «e.graphModel.packageName».expression.«e.graphModel.fuName»ExpressionLanguageContext elContext = null;
 
 			elContext = new  «e.graphModel.packageName».expression.«e.graphModel.fuName»ExpressionLanguageContext(«e.fuName.toFirstLower»);
-			«Object.name» tmp0Value = factory.createValueExpression(elContext, "${label}", «Object.name».class).getValue(elContext);
+			«Object.name» tmp0Value = factory.createValueExpression(elContext, "«StyleUtils.getAnnotationStyleValue(e, styles)»${label}", «Object.name».class).getValue(elContext);
 
 			Text0.setValue(String.format(textValue , tmp0Value));
 			peService.setPropertyValue(Text0, «e.graphModel.packageName».«e.graphModel.fuName»GraphitiUtils.KEY_FORMAT_STRING,textValue);

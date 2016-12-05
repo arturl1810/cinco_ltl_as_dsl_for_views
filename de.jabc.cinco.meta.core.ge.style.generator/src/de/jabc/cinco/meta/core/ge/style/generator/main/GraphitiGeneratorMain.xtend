@@ -136,13 +136,13 @@ class GraphitiGeneratorMain extends GeneratorUtils {
 		}
 		
 		for (Edge e : gm.edges) {
-			content = e.doGenerateAddFeature
+			content = e.doGenerateAddFeature(styles)
 			ContentWriter::writeJavaFileInSrcGen(project, e.packageNameAdd, "AddFeature"+e.name.toFirstUpper+".java", content)
 
-			content = e.doGenerateCreateFeature
+			content = e.doGenerateCreateFeature(styles)
 			ContentWriter::writeJavaFileInSrcGen(project, e.packageNameCreate, "CreateFeature"+e.name.toFirstUpper+".java", content)
 			
-			content = e.doGenerateEdgeUpdateFeature
+			content = e.doGenerateEdgeUpdateFeature(styles)
 			ContentWriter::writeJavaFileInSrcGen(project, e.packageNameUpdate, "UpdateFeature"+e.name.toFirstUpper+".java", content)
 		}
 		

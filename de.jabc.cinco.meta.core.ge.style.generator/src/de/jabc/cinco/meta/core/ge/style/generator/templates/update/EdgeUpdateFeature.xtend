@@ -20,10 +20,11 @@ import org.eclipse.graphiti.mm.pictograms.Connection
 import org.eclipse.graphiti.mm.pictograms.ConnectionDecorator
 import org.eclipse.graphiti.mm.algorithms.AbstractText
 import java.util.IllegalFormatException
+import style.Styles
 
 class EdgeUpdateFeature extends GeneratorUtils{
 	
-	def doGenerateEdgeUpdateFeature(Edge e)'''
+	def doGenerateEdgeUpdateFeature(Edge e, Styles styles)'''
 	package «e.packageNameUpdate»;
 	
 	public class UpdateFeature«e.fuName» extends «AbstractUpdateFeature.name»{

@@ -205,8 +205,8 @@ public class CincoUtils {
 		return null;
 	}
 	
-	public static EdgeStyle getStyleForEdge(Edge e) {
-		Styles styles = getStyles(e.getGraphModel());
+	public static EdgeStyle getStyleForEdge(Edge e, Styles st) {
+		Styles styles = st;
 		String styleName = getStyleName(e);
 		Style findStyle = findStyle(styles, styleName);
 		if (findStyle instanceof EdgeStyle)

@@ -33,7 +33,9 @@ import style.RoundedRectangle
 import style.StyleFactory
 import style.Styles
 import style.Text
-import org.eclipse.emf.common.util.BasicEList
+import mgl.Edge
+import style.ConnectionDecorator
+import style.GraphicsAlgorithm
 
 class StyleUtils extends GeneratorUtils {
 
@@ -460,12 +462,27 @@ class StyleUtils extends GeneratorUtils {
 			}
 		}
 	}
+	
+	def static getAnnotationStyleValue(Edge e, Styles styles) {
+		var style = CincoUtils.getStyleForEdge(e, styles)
+		var decorators = style.decorator
+		for(deco : decorators)
+		{
+			getTextValue(deco)
+		}
+	}
 
 	def static getAnnotationStyleValue(Node n, Styles styles) {
 		var style = CincoUtils.getStyleForNode(n, styles)
 		val mainShape = style.mainShape
 		var result = getTextValue(mainShape)
 		return result
+	}
+
+	def static getTextValue(ConnectionDecorator con) {
+		//if(con instanceof GraphicsAlgorithm)
+//			con.decoratorShape 
+//			con.predefinedDecorator
 	}
 
 	def static getTextValue(AbstractShape shape) {
@@ -501,7 +518,7 @@ class StyleUtils extends GeneratorUtils {
 
 
 	def static String printPoints(Polygon p) {
-		var EList<style.Point> polyPoints = p.points;
+		var EList<Point> polyPoints = p.points;
 		var pointValues = "";
 		for (points : polyPoints) {
 			pointValues += points.x + "," + points.y + ",";
@@ -510,7 +527,7 @@ class StyleUtils extends GeneratorUtils {
 	}
 
 	def static String printPoints(Polyline p) {
-		var EList<style.Point> polyPoints = p.points;
+		var EList<Point> polyPoints = p.points;
 		var pointValues = "";
 		for (points : polyPoints) {
 			pointValues += points.x + "," + points.y + ",";
@@ -519,7 +536,7 @@ class StyleUtils extends GeneratorUtils {
 	}
 
 	def static String printX(Polygon p) {
-		var EList<style.Point> polyPoints = p.points;
+		var EList<Point> polyPoints = p.points;
 		var pointX = "";
 		for (points : polyPoints) {
 			pointX += points.x + ",";
@@ -528,7 +545,7 @@ class StyleUtils extends GeneratorUtils {
 	}
 
 	def static String printY(Polygon p) {
-		var EList<style.Point> polyPoints = p.points;
+		var EList<Point> polyPoints = p.points;
 		var pointY = "";
 		for (points : polyPoints) {
 			pointY += points.y + ",";
@@ -538,7 +555,7 @@ class StyleUtils extends GeneratorUtils {
 
 
 	def static String printX(Polyline p) {
-		var EList<style.Point> polyPoints = p.points;
+		var EList<Point> polyPoints = p.points;
 		var pointX = "";
 		for (points : polyPoints) {
 			pointX += points.x + ",";
@@ -547,7 +564,7 @@ class StyleUtils extends GeneratorUtils {
 	}
 
 	def static String printY(Polyline p) {
-		var EList<style.Point> polyPoints = p.points;
+		var EList<Point> polyPoints = p.points;
 		var pointY = "";
 		for (points : polyPoints) {
 			pointY += points.y + ",";
