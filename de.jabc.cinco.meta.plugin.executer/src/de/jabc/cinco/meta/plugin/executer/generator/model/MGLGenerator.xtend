@@ -208,7 +208,8 @@ class MGLGenerator extends MainTemplate{
 			EQ L LEQ G GEQ
 		}
 		
-		abstract edge ExecutableEdge {
+		@style(simpleArrow,"")
+		edge ExecutableEdge {
 			
 			attr BorderElement as border
 			
