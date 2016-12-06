@@ -34,13 +34,27 @@ public class IContainerEAPI {
 	 * Only replaces its content if the file already exists.
 	 */
 	public IFile createFile(String name, String content) {
-		IFile file = container.getFile(new Path(name));
+		IFile file = container.getFile(new Path(name));			
 		try {
 			return createFile(name, new ByteArrayInputStream(content.getBytes(file.getCharset())));
 		} catch (final Exception e) {
 			e.printStackTrace();
 		}
 		return file;
+	}
+	
+	/**
+	 * Creates a file with the specified name and content.
+	 * @param createFolders decides whether all folders in the given name are created
+	 */
+	public IFile createFile(String name, String content,boolean createFolders) {
+		int index = name.lastIndexOf("/");
+		if(index>-1){
+			String fileName = name.substring(index+1);
+			String fodlerPath = name.substring(0, index);
+			return WorkspaceUtil.eapi(this.createFolder(fodlerPath)).createFile(fileName, content);
+		}
+		return createFile(name, content);
 	}
 	
 	/**
@@ -60,6 +74,21 @@ public class IContainerEAPI {
 			e.printStackTrace();
 		}
 		return file;
+	}
+	
+	/**
+	 * Creates a file with the specified name and content provided
+	 * by the specified input stream.
+	 * @param createFolders decides whether all folders in the given name are created
+	 */
+	public IFile createFile(String name, InputStream stream, boolean createFolders) {
+		int index = name.lastIndexOf("/");
+		if(index>-1){
+			String fileName = name.substring(index+1);
+			String fodlerPath = name.substring(0, index);
+			return WorkspaceUtil.eapi(this.createFolder(fodlerPath)).createFile(fileName, stream);
+		}
+		return createFile(name, stream);
 	}
 	
 	/**

@@ -43,6 +43,7 @@ import de.jabc.cinco.meta.core.ui.listener.MGLSelectionListener;
 import de.jabc.cinco.meta.core.ui.templates.NewProjectWizardGenerator;
 import de.jabc.cinco.meta.core.utils.CincoUtils;
 import de.jabc.cinco.meta.core.utils.GeneratorHelper;
+import de.jabc.cinco.meta.core.utils.WorkspaceUtil;
 import de.jabc.cinco.meta.core.utils.dependency.DependencyGraph;
 import de.jabc.cinco.meta.core.utils.dependency.DependencyNode;
 import de.jabc.cinco.meta.core.utils.job.Workload;
@@ -137,7 +138,7 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 	 * @param mgls
 	 */
 	private void generateCPDPlugins(List<IFile> mgls) {
-		Set<GraphModel> graphModels = mgls.stream().map(n->CincoUtils.getGraphModel(n)).collect(Collectors.toSet());
+		Set<GraphModel> graphModels = mgls.stream().map(n->WorkspaceUtil.eapi(n).getResourceContent(GraphModel.class)).collect(Collectors.toSet());
 		PluginRegistry.getInstance().getPluginCPDGenerators().forEach(n->n.getPlugin().execute(graphModels,cpd,cpdFile.getProject()));
 	}
 

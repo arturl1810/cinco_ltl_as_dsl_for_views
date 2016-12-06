@@ -20,12 +20,13 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 
 import de.jabc.cinco.meta.core.utils.CincoUtils;
+import de.jabc.cinco.meta.core.utils.WorkspaceUtil;
+import de.jabc.cinco.meta.core.utils.eapi.IContainerEAPI;
 import de.jabc.cinco.meta.plugin.pyro.model.StyledEdge;
 import de.jabc.cinco.meta.plugin.pyro.model.StyledModelElement;
 import de.jabc.cinco.meta.plugin.pyro.model.StyledNode;
 import de.jabc.cinco.meta.plugin.pyro.model.TemplateContainer;
 import de.jabc.cinco.meta.plugin.pyro.templates.AnnotationElementTemplateable;
-import de.jabc.cinco.meta.plugin.pyro.templates.DefaultTemplate;
 import de.jabc.cinco.meta.plugin.pyro.templates.EditorCSSTemplate;
 import de.jabc.cinco.meta.plugin.pyro.templates.EditorCommunicatorTemplyte;
 import de.jabc.cinco.meta.plugin.pyro.templates.EditorConstraintTemplate;
@@ -51,8 +52,6 @@ import de.jabc.cinco.meta.plugin.pyro.templates.presentation.java.components.mod
 import de.jabc.cinco.meta.plugin.pyro.templates.presentation.java.pages.PyroTemplate;
 import de.jabc.cinco.meta.plugin.pyro.templates.presentation.java.services.AppModule;
 import de.jabc.cinco.meta.plugin.pyro.templates.presentation.resources.components.modals.graph.ModelingCanvasProperties;
-import de.jabc.cinco.meta.plugin.pyro.templates.script.DeployPyroLinuxTemplate;
-import de.jabc.cinco.meta.plugin.pyro.templates.script.DeployPyroWindowsTemplate;
 import de.jabc.cinco.meta.plugin.pyro.templates.transformation.CContainer;
 import de.jabc.cinco.meta.plugin.pyro.templates.transformation.CContainerImpl;
 import de.jabc.cinco.meta.plugin.pyro.templates.transformation.CEdge;
@@ -77,20 +76,18 @@ public class CreatePyroPlugin {
 	public static final String PYRO = "pyro";
 	public static final String PRIME = "primeviewer";
 	public static final String PRIME_LABEL = "pvLabel";
-	
-	public String basePath;
+	IContainerEAPI dywaAppfolder;
 	
 	public void execute(Set<GraphModel> graphModels,IProject project) throws IOException, URISyntaxException {
-		basePath = "dywa-app";
+		dywaAppfolder = WorkspaceUtil.eapi(WorkspaceUtil.eapi(project).createFolder("dywa-app"));
 		String jsPath = "js/pyro/";
 		String cssPath = "css/pyro/";
-		String wildFlyPath ="~/";
-		String businessPath = "/app-business/src/main/java/de/ls5/cinco/pyro/";
-		String presentationPath = "/app-presentation/src/main/";
-		String componentsPath = "java/de/ls5/cinco/pyro/";
+		String businessPath = "/app-business/target/generated-sources/de/ls5/cinco/pyro/";
+		String presentationPath = "/app-presentation/target/generated-sources/";
+		String componentsPath = "de/ls5/cinco/pyro/";
 		String resourcesPath = "resources/de/ls5/cinco/pyro/";
 		String webappPath = "webapp/";
-		String preconfigPath = "/app-preconfig/src/main/java/de/ls5/cinco/pyro/";
+		String preconfigPath = "/app-preconfig/target/generated-sources/de/ls5/cinco/pyro/";
 		//Search for Graphmodel Annotation "pyro"
 		
 		ArrayList<EPackage> ecores = new ArrayList<EPackage>();
@@ -118,26 +115,24 @@ public class CreatePyroPlugin {
 		templateContainer.setEcores(ecores);
 		templateContainer.setGraphModels(graphModels);
 		//Testapp-Business
-		createFile(new CincoDBController(), basePath+preconfigPath+ "deployment/CincoDBControllerImpl.java", templateContainer);
-		//Scripts
-		createFile(new DeployPyroLinuxTemplate(),basePath+"/deployment/deployPyro.sh", basePath,wildFlyPath);
-		createFile(new DeployPyroWindowsTemplate(),basePath+"/deployment/deployPyro.bat", basePath,wildFlyPath);
+		createFile(new CincoDBController(), preconfigPath+ "deployment/CincoDBControllerImpl.java", templateContainer);
+
 				
 		//Testapp-Presentation
-		createFile(new ModelingCanvas(), basePath+presentationPath+componentsPath+ "components/canvas/ModelingCanvas.java", templateContainer);
-		createFile(new Menu(), basePath+presentationPath+componentsPath+ "components/menubar/Menu.java", templateContainer);
-		createFile(new NewGraphDialog(), basePath+presentationPath+componentsPath+ "components/modals/graph/NewGraphDialog.java", templateContainer);
-		createFile(new NewGraphDialogProperties(), basePath+presentationPath+resourcesPath+ "components/modals/graph/NewGraphDialog.properties", templateContainer);
-		createFile(new RemoveGraphDialog(), basePath+presentationPath+componentsPath+ "components/modals/graph/RemoveGraphDialog.java", templateContainer);
-		createFile(new AppModule(), basePath+presentationPath+componentsPath+ "services/AppModule.java", templateContainer);
-		createFile(new ModelingCanvasProperties(), basePath+presentationPath+resourcesPath+ "components/canvas/ModelingCanvas.properties", templateContainer);
-		createFile(new de.jabc.cinco.meta.plugin.pyro.templates.presentation.resources.components.modals.graph.ModelingCanvas(), basePath+presentationPath+resourcesPath+ "components/canvas/ModelingCanvas.tml", templateContainer);
-		createFile(new PyroTemplate(), basePath+presentationPath+componentsPath+ "pages/Pyro.java", templateContainer);
+		createFile(new ModelingCanvas(), presentationPath+componentsPath+ "components/canvas/ModelingCanvas.java", templateContainer);
+		createFile(new Menu(), presentationPath+componentsPath+ "components/menubar/Menu.java", templateContainer);
+		createFile(new NewGraphDialog(), presentationPath+componentsPath+ "components/modals/graph/NewGraphDialog.java", templateContainer);
+		createFile(new NewGraphDialogProperties(), presentationPath+resourcesPath+ "components/modals/graph/NewGraphDialog.properties", templateContainer);
+		createFile(new RemoveGraphDialog(), presentationPath+componentsPath+ "components/modals/graph/RemoveGraphDialog.java", templateContainer);
+		createFile(new AppModule(), presentationPath+componentsPath+ "services/AppModule.java", templateContainer);
+		createFile(new ModelingCanvasProperties(), presentationPath+resourcesPath+ "components/canvas/ModelingCanvas.properties", templateContainer);
+		createFile(new de.jabc.cinco.meta.plugin.pyro.templates.presentation.resources.components.modals.graph.ModelingCanvas(), presentationPath+resourcesPath+ "components/canvas/ModelingCanvas.tml", templateContainer);
+		createFile(new PyroTemplate(), presentationPath+componentsPath+ "pages/Pyro.java", templateContainer);
 				
 		//Clear Folders
-		deleteFolder(basePath+businessPath+"parser");
-		deleteFolder(basePath+businessPath+ "message");
-		deleteFolder(basePath+businessPath+"transformation/api");
+		deleteFolder(businessPath+"parser");
+		deleteFolder(businessPath+ "message");
+		deleteFolder(businessPath+"transformation/api");
 				
 		// For all imported or referenced GraphModels
 		for(GraphModel iteratorModel:graphModels) {
@@ -157,20 +152,20 @@ public class CreatePyroPlugin {
 			templateContainer.setEmbeddingConstraints(ModelParser.getValidEmbeddings(iteratorModel));
 					
 			//Copy Images
-			FileHandler.copyImages(iteratorModel, basePath+presentationPath +webappPath,project);
+			FileHandler.copyImages(iteratorModel, presentationPath +webappPath,project);
 					
-			createFile(new EditorCommunicatorTemplyte(), basePath+presentationPath +webappPath+ jsPath +graphModelPath+"pyro.communicator.js", templateContainer);
-			//createFile(new EditorModelTemplate(), basePath+presentationPath +webappPath+ jsPath +graphModelPath+"pyro.model.js", templateContainer);
-			createFile(new SVGModelTemplate(), basePath+presentationPath +webappPath+ jsPath +graphModelPath+"pyro.model.js", templateContainer);
-			createFile(new EditorConstraintTemplate(), basePath+presentationPath +webappPath+ jsPath +graphModelPath+ "pyro.constraints.js", templateContainer);
-			createFile(new EditorCSSTemplate(), basePath+presentationPath +webappPath+ cssPath +graphModelPath+ "pyro.nodes.css", templateContainer);
+			createFile(new EditorCommunicatorTemplyte(), presentationPath +webappPath+ jsPath +graphModelPath+"pyro.communicator.js", templateContainer);
+			//createFile(new EditorModelTemplate(), presentationPath +webappPath+ jsPath +graphModelPath+"pyro.model.js", templateContainer);
+			createFile(new SVGModelTemplate(), presentationPath +webappPath+ jsPath +graphModelPath+"pyro.model.js", templateContainer);
+			createFile(new EditorConstraintTemplate(), presentationPath +webappPath+ jsPath +graphModelPath+ "pyro.constraints.js", templateContainer);
+			createFile(new EditorCSSTemplate(), presentationPath +webappPath+ cssPath +graphModelPath+ "pyro.nodes.css", templateContainer);
 					
 			//CustomActions
 			for(Annotation annotation:iteratorModel.getAnnotations())
 			{
 				if(annotation.getName().equals("contextMenuAction"))
 				{
-					createFile(new de.jabc.cinco.meta.plugin.pyro.templates.custom.action.GraphCustomAction(), null,annotation, basePath+businessPath+"custom/action/"+graphModelPath+ ModelParser.getCustomActionName(annotation)+"CustomAction.java", templateContainer);							
+					createFile(new de.jabc.cinco.meta.plugin.pyro.templates.custom.action.GraphCustomAction(), null,annotation, businessPath+"custom/action/"+graphModelPath+ ModelParser.getCustomActionName(annotation)+"CustomAction.java", templateContainer);							
 				}
 			}
 			for(StyledNode styledNode : templateContainer.getNodes())
@@ -179,7 +174,7 @@ public class CreatePyroPlugin {
 				{
 					if(annotation.getName().equals("contextMenuAction"))
 					{
-						createFile(new de.jabc.cinco.meta.plugin.pyro.templates.custom.action.CustomAction(), styledNode,annotation, basePath+businessPath+"custom/action/"+graphModelPath+ ModelParser.getCustomActionName(annotation)+"CustomAction.java", templateContainer);							
+						createFile(new de.jabc.cinco.meta.plugin.pyro.templates.custom.action.CustomAction(), styledNode,annotation, businessPath+"custom/action/"+graphModelPath+ ModelParser.getCustomActionName(annotation)+"CustomAction.java", templateContainer);							
 					}
 				}
 			}
@@ -189,7 +184,7 @@ public class CreatePyroPlugin {
 				{
 					if(annotation.getName().equals("contextMenuAction"))
 					{
-						createFile(new de.jabc.cinco.meta.plugin.pyro.templates.custom.action.CustomAction(), styledEdge,annotation, basePath+businessPath+"custom/action/"+graphModelPath+  ModelParser.getCustomActionName(annotation)+"CustomAction.java", templateContainer);							
+						createFile(new de.jabc.cinco.meta.plugin.pyro.templates.custom.action.CustomAction(), styledEdge,annotation, businessPath+"custom/action/"+graphModelPath+  ModelParser.getCustomActionName(annotation)+"CustomAction.java", templateContainer);							
 					}
 				}
 			}
@@ -199,7 +194,7 @@ public class CreatePyroPlugin {
 			{
 				if(annotation.getName().equals("postCreate"))
 				{
-					createFile(new de.jabc.cinco.meta.plugin.pyro.templates.custom.hook.GraphCustomHook(), null,annotation, basePath+businessPath+"custom/hook/"+graphModelPath+ ModelParser.getCustomHookName(annotation)+"CustomHook.java", templateContainer);							
+					createFile(new de.jabc.cinco.meta.plugin.pyro.templates.custom.hook.GraphCustomHook(), null,annotation, businessPath+"custom/hook/"+graphModelPath+ ModelParser.getCustomHookName(annotation)+"CustomHook.java", templateContainer);							
 				}
 			}
 			for(StyledNode styledNode : templateContainer.getNodes())
@@ -208,7 +203,7 @@ public class CreatePyroPlugin {
 				{
 					if(annotation.getName().equals("postCreate"))
 					{
-						createFile(new de.jabc.cinco.meta.plugin.pyro.templates.custom.hook.CustomHook(), styledNode,annotation, basePath+businessPath+"custom/hook/"+graphModelPath+ ModelParser.getCustomHookName(annotation)+"CustomHook.java", templateContainer);							
+						createFile(new de.jabc.cinco.meta.plugin.pyro.templates.custom.hook.CustomHook(), styledNode,annotation, businessPath+"custom/hook/"+graphModelPath+ ModelParser.getCustomHookName(annotation)+"CustomHook.java", templateContainer);							
 					}
 				}
 			}
@@ -218,60 +213,60 @@ public class CreatePyroPlugin {
 				{
 					if(annotation.getName().equals("postCreate"))
 					{
-						createFile(new de.jabc.cinco.meta.plugin.pyro.templates.custom.hook.CustomHook(), styledEdge,annotation, basePath+businessPath+"custom/hook/"+graphModelPath+  ModelParser.getCustomHookName(annotation)+"CustomHook.java", templateContainer);							
+						createFile(new de.jabc.cinco.meta.plugin.pyro.templates.custom.hook.CustomHook(), styledEdge,annotation,businessPath+"custom/hook/"+graphModelPath+  ModelParser.getCustomHookName(annotation)+"CustomHook.java", templateContainer);							
 					}
 				}
 			}
 					
 			//Parser
 			//deleteFolder(basePath+businessPath+"parser/"+graphModelPath);
-			createFile(new GraphModelParser(),null, basePath+businessPath+"parser/"+graphModelPath+ iteratorModel.getName()+"Parser.java", templateContainer);
+			createFile(new GraphModelParser(),null, businessPath+"parser/"+graphModelPath+ iteratorModel.getName()+"Parser.java", templateContainer);
 			for(StyledNode styledNode : templateContainer.getNodes())
 			{
-				createFile(new de.jabc.cinco.meta.plugin.pyro.templates.parser.NodeParser(), styledNode, basePath+businessPath+"parser/"+graphModelPath+ styledNode.getModelElement().getName()+"Parser.java", templateContainer);
+				createFile(new de.jabc.cinco.meta.plugin.pyro.templates.parser.NodeParser(), styledNode, businessPath+"parser/"+graphModelPath+ styledNode.getModelElement().getName()+"Parser.java", templateContainer);
 			}
 			for(StyledEdge styledEdge : templateContainer.getEdges())
 			{
-				createFile(new de.jabc.cinco.meta.plugin.pyro.templates.parser.EdgeParser(), styledEdge, basePath+businessPath+"parser/"+graphModelPath+ styledEdge.getModelElement().getName()+"Parser.java", templateContainer);
+				createFile(new de.jabc.cinco.meta.plugin.pyro.templates.parser.EdgeParser(), styledEdge, businessPath+"parser/"+graphModelPath+ styledEdge.getModelElement().getName()+"Parser.java", templateContainer);
 			}
 					
 			//Message
-			createFile(new CreateMessageParser(), basePath+businessPath+ "message/"+graphModelPath+"CreateMessageParser.java", templateContainer);
-			createFile(new RemoveMessageParser(), basePath+businessPath+ "message/"+graphModelPath+"RemoveMessageParser.java", templateContainer);
-			createFile(new MoveMessageParser(), basePath+businessPath+ "message/"+graphModelPath+"MoveMessageParser.java", templateContainer);
-			createFile(new EditMessageParser(), basePath+businessPath+ "message/"+graphModelPath+"EditMessageParser.java", templateContainer);
-			createFile(new ResizeMessageParser(), basePath+businessPath+ "message/"+graphModelPath+"ResizeMessageParser.java", templateContainer);
-			createFile(new RotateMessageParser(), basePath+businessPath+ "message/"+graphModelPath+"RotateMessageParser.java", templateContainer);
-			createFile(new AttributeMessageParser(), basePath+businessPath+ "message/"+graphModelPath+"AttributeMessageParser.java", templateContainer);
-			createFile(new CustomMessageParser(), basePath+businessPath+ "message/"+graphModelPath+"CustomFeatureParser.java", templateContainer);
-			createFile(new SettingsMessageParser(), basePath+businessPath+ "message/"+graphModelPath+"SettingsMessageParser.java", templateContainer);
+			createFile(new CreateMessageParser(), businessPath+ "message/"+graphModelPath+"CreateMessageParser.java", templateContainer);
+			createFile(new RemoveMessageParser(), businessPath+ "message/"+graphModelPath+"RemoveMessageParser.java", templateContainer);
+			createFile(new MoveMessageParser(), businessPath+ "message/"+graphModelPath+"MoveMessageParser.java", templateContainer);
+			createFile(new EditMessageParser(), businessPath+ "message/"+graphModelPath+"EditMessageParser.java", templateContainer);
+			createFile(new ResizeMessageParser(), businessPath+ "message/"+graphModelPath+"ResizeMessageParser.java", templateContainer);
+			createFile(new RotateMessageParser(), businessPath+ "message/"+graphModelPath+"RotateMessageParser.java", templateContainer);
+			createFile(new AttributeMessageParser(), businessPath+ "message/"+graphModelPath+"AttributeMessageParser.java", templateContainer);
+			createFile(new CustomMessageParser(), businessPath+ "message/"+graphModelPath+"CustomFeatureParser.java", templateContainer);
+			createFile(new SettingsMessageParser(), businessPath+ "message/"+graphModelPath+"SettingsMessageParser.java", templateContainer);
 					
 			//Transformation
-			createFile(new GraphWrapper(), basePath+businessPath+"transformation/api/"+graphModelPath+"C"+ iteratorModel.getName()+"Wrapper.java", templateContainer);
-			createFile(new GraphWrapperImpl(), basePath+businessPath+"transformation/api/"+graphModelPath+"C"+ iteratorModel.getName()+"WrapperImpl.java", templateContainer);
+			createFile(new GraphWrapper(), businessPath+"transformation/api/"+graphModelPath+"C"+ iteratorModel.getName()+"Wrapper.java", templateContainer);
+			createFile(new GraphWrapperImpl(), businessPath+"transformation/api/"+graphModelPath+"C"+ iteratorModel.getName()+"WrapperImpl.java", templateContainer);
 					
-			createFile(new CGraphModel(), basePath+businessPath+"transformation/api/"+graphModelPath+"C"+ iteratorModel.getName()+".java", templateContainer);
-			createFile(new CGraphModelImpl(), basePath+businessPath+"transformation/api/"+graphModelPath+"C"+ iteratorModel.getName()+"Impl.java", templateContainer);
+			createFile(new CGraphModel(), businessPath+"transformation/api/"+graphModelPath+"C"+ iteratorModel.getName()+".java", templateContainer);
+			createFile(new CGraphModelImpl(), businessPath+"transformation/api/"+graphModelPath+"C"+ iteratorModel.getName()+"Impl.java", templateContainer);
 					
 			for(StyledNode styledNode : templateContainer.getNodes())
 			{
 				if(styledNode.getModelElement() instanceof mgl.NodeContainer)
 				{
-					createFile(new CContainer(), styledNode, basePath+businessPath+"transformation/api/"+graphModelPath+"C"+ styledNode.getModelElement().getName()+".java", templateContainer);
-					createFile(new CContainerImpl(), styledNode, basePath+businessPath+"transformation/api/"+graphModelPath+"C"+ styledNode.getModelElement().getName()+"Impl.java", templateContainer);						
+					createFile(new CContainer(), styledNode, businessPath+"transformation/api/"+graphModelPath+"C"+ styledNode.getModelElement().getName()+".java", templateContainer);
+					createFile(new CContainerImpl(), styledNode, businessPath+"transformation/api/"+graphModelPath+"C"+ styledNode.getModelElement().getName()+"Impl.java", templateContainer);						
 				}
 				else
 				{
-					createFile(new CNode(), styledNode, basePath+businessPath+"transformation/api/"+graphModelPath+"C"+ styledNode.getModelElement().getName()+".java", templateContainer);
-					createFile(new CNodeImpl(), styledNode, basePath+businessPath+"transformation/api/"+graphModelPath+"C"+ styledNode.getModelElement().getName()+"Impl.java", templateContainer);
+					createFile(new CNode(), styledNode, businessPath+"transformation/api/"+graphModelPath+"C"+ styledNode.getModelElement().getName()+".java", templateContainer);
+					createFile(new CNodeImpl(), styledNode, businessPath+"transformation/api/"+graphModelPath+"C"+ styledNode.getModelElement().getName()+"Impl.java", templateContainer);
 				}
 			}
 			for(StyledEdge styledEdge : templateContainer.getEdges())
 			{
-				createFile(new CEdge(), styledEdge, basePath+businessPath+"transformation/api/"+graphModelPath+"C"+ styledEdge.getModelElement().getName()+".java", templateContainer);
-				createFile(new CEdgeImpl(), styledEdge, basePath+businessPath+"transformation/api/"+graphModelPath+"C"+ styledEdge.getModelElement().getName()+"Impl.java", templateContainer);
+				createFile(new CEdge(), styledEdge, businessPath+"transformation/api/"+graphModelPath+"C"+ styledEdge.getModelElement().getName()+".java", templateContainer);
+				createFile(new CEdgeImpl(), styledEdge, businessPath+"transformation/api/"+graphModelPath+"C"+ styledEdge.getModelElement().getName()+"Impl.java", templateContainer);
 			}					
-			FileHandler.copyResources("de.jabc.cinco.meta.plugin.pyro",basePath);
+			FileHandler.copyResources("de.jabc.cinco.meta.plugin.pyro",dywaAppfolder.getFolder().getParent().getRawLocation().toOSString());
 		}
 								
 	}
@@ -279,44 +274,20 @@ public class CreatePyroPlugin {
 	
 	private void createFile(Templateable template,String path,TemplateContainer tc) throws IOException
 	{
-		File f = new File(path);
-		f.getParentFile().mkdirs(); 
-		f.createNewFile();
-		
-		FileUtils.writeStringToFile(f, template.create(tc).toString());
+		dywaAppfolder.createFile(path, template.create(tc).toString(),true);
 	}
 	
 	private void createFile(ElementTemplateable template,StyledModelElement sme,String path,TemplateContainer tc) throws IOException
 	{
-		File f = new File(path);
-		f.getParentFile().mkdirs(); 
-		f.createNewFile();
-		
-		FileUtils.writeStringToFile(f, template.create(sme,tc).toString());
+		dywaAppfolder.createFile(path, template.create(sme,tc).toString(),true);
 	}
 	private void createFile(AnnotationElementTemplateable template,StyledModelElement sme,mgl.Annotation anno,String path,TemplateContainer tc) throws IOException
 	{
-		File f = new File(path);
-		if(f.exists() && !f.isDirectory()) {
-			return;
-		}
-		f.getParentFile().mkdirs(); 
-		f.createNewFile();
-		
-		FileUtils.writeStringToFile(f, template.create(anno,sme,tc).toString());
+		dywaAppfolder.createFile(path, template.create(anno,sme,tc).toString(),true);
 	}
 	
-	private void createFile(DefaultTemplate template,String path,Object ...objects) throws IOException
-	{
-		File f = new File(path);
-		f.getParentFile().mkdirs(); 
-		f.createNewFile();
-		
-		FileUtils.writeStringToFile(f, template.create(objects).toString());
-	}
-	
-	public static void deleteFolder(String path) throws IOException {
-		File folder = new File(path);
+	private void deleteFolder(String path) throws IOException {
+		File folder = new File(dywaAppfolder.getFolder().getFullPath().toOSString()+path);
 		FileUtils.deleteDirectory(folder);
 	}
 	

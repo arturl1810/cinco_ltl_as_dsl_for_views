@@ -13,7 +13,7 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 
 import de.jabc.cinco.meta.plugin.executer.collector.GraphmodelCollector;
 import de.jabc.cinco.meta.plugin.executer.compounds.ExecutableGraphmodel;
-import de.jabc.cinco.meta.plugin.executer.generator.tracer.TracerProjectGenerator;
+import de.jabc.cinco.meta.plugin.executer.generator.TracerProjectGenerator;
 import de.jabc.cinco.meta.plugin.executer.service.ProjectCreator;
 import de.metaframe.jabc.framework.execution.LightweightExecutionEnvironment;
 import de.metaframe.jabc.framework.execution.context.LightweightExecutionContext;
