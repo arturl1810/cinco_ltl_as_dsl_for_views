@@ -271,7 +271,10 @@ public abstract class Highlighter {
 		
 		@Override
 		public void mouseUp(MouseEvent evt) {
-			onDragEnd(contextKey);
+			if (contextKey != null) {
+				onDragEnd(contextKey);
+				contextKey = null;
+			}
 		}
 		
 		@Override
