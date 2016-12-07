@@ -1,10 +1,7 @@
 package de.jabc.cinco.meta.core.ui.highlight;
 
 import static de.jabc.cinco.meta.core.utils.WorkbenchUtil.eapi;
-<<<<<<< HEAD
 import static de.jabc.cinco.meta.core.utils.WorkbenchUtil.sync;
-=======
->>>>>>> master
 
 import java.util.ArrayList;
 import java.util.Arrays;
