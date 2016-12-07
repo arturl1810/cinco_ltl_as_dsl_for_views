@@ -1,10 +1,10 @@
 package de.jabc.cinco.meta.core.ge.style.generator.api.main
 
+import mgl.ContainingElement
 import mgl.GraphModel
 import mgl.NodeContainer
-import mgl.ContainingElement
 
-class Wrapper_MainTemplate extends de.jabc.cinco.meta.core.capi.generator.GraphModel_MainTemplate {
+class Wrapper_MainTemplate extends GraphModel_MainTemplate {
 	
 	var GraphModel gm
 	

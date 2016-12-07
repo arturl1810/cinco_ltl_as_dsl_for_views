@@ -1,6 +1,6 @@
 package de.jabc.cinco.meta.core.ge.style.generator.api.main
 
-import de.jabc.cinco.meta.core.capi.generator.templates.NodeViewTemplate
+import de.jabc.cinco.meta.core.ge.style.generator.api.templates.NodeViewTemplate
 import mgl.Node
 import mgl.NodeContainer
 

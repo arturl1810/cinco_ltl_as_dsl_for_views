@@ -1,6 +1,6 @@
 package de.jabc.cinco.meta.core.ge.style.generator.api.main
 
-import de.jabc.cinco.meta.core.capi.generator.templates.NodeTemplate
+import de.jabc.cinco.meta.core.ge.style.generator.api.templates.NodeTemplate
 import graphicalgraphmodel.impl.CContainerImpl
 import graphicalgraphmodel.impl.CNodeImpl
 import mgl.Node

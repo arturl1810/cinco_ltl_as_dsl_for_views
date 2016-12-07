@@ -1,12 +1,12 @@
 package de.jabc.cinco.meta.core.ge.style.generator.api.main
 
-import de.jabc.cinco.meta.core.capi.generator.utils.CAPIUtils
+import de.jabc.cinco.meta.core.ge.style.generator.api.utils.APIUtils
 import mgl.Edge
 import mgl.GraphModel
 import mgl.ModelElement
 import mgl.Node
 
-class ModelElement_MainTemplate extends CAPIUtils {
+class ModelElement_MainTemplate extends APIUtils {
 	
 	protected GraphModel gm
 	protected ModelElement me

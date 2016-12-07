@@ -3,7 +3,7 @@ package de.jabc.cinco.meta.core.ge.style.generator.api.main
 import graphicalgraphmodel.impl.CEdgeImpl
 import mgl.Edge
 
-class Edge_MainTemplate extends de.jabc.cinco.meta.core.capi.generator.ModelElement_MainTemplate {
+class Edge_MainTemplate extends ModelElement_MainTemplate {
 	
 	Edge e
 	

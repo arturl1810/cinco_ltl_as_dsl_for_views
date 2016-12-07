@@ -1,17 +1,11 @@
 package de.jabc.cinco.meta.core.ge.style.generator.api.templates
 
 import java.util.List
-import mgl.Edge
 import mgl.ModelElement
 import mgl.Node
-import org.eclipse.graphiti.features.context.impl.CreateConnectionContext
-import org.eclipse.graphiti.mm.pictograms.PictogramElement
-import org.eclipse.graphiti.ui.services.GraphitiUi
 import mgl.NodeContainer
-import org.eclipse.graphiti.features.context.impl.CreateContext
-import mgl.ContainingElement
 
-class NodeTemplate extends de.jabc.cinco.meta.core.capi.generator.templates.ModelElementTemplate {
+class NodeTemplate extends ModelElementTemplate {
 	
 	new(ModelElement me) {
 		super(me)

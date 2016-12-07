@@ -24,7 +24,7 @@ import org.eclipse.graphiti.mm.pictograms.ContainerShape
 import org.eclipse.graphiti.mm.pictograms.PictogramElement
 import org.eclipse.graphiti.mm.pictograms.Shape
 
-class NodeViewTemplate extends de.jabc.cinco.meta.core.capi.generator.templates.ModelElementTemplate implements de.jabc.cinco.meta.core.capi.generator.templates.MovableElementTemplate{
+class NodeViewTemplate extends ModelElementTemplate implements MovableElementTemplate{
 	
 	new(ModelElement me) {
 		super(me)

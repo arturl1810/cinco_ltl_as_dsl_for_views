@@ -1,14 +1,13 @@
 package de.jabc.cinco.meta.core.ge.style.generator.api.templates
 
-import de.jabc.cinco.meta.core.capi.generator.utils.CAPIUtils
 import mgl.GraphModel
 import mgl.Node
-import mgl.Type
 import org.eclipse.graphiti.features.IAddFeature
 import org.eclipse.graphiti.features.context.impl.AddContext
 import org.eclipse.graphiti.mm.pictograms.PictogramElement
+import de.jabc.cinco.meta.core.ge.style.generator.api.utils.APIUtils
 
-class GraphModelViewTemplate extends CAPIUtils{
+class GraphModelViewTemplate extends APIUtils{
 	
 	var GraphModel gm
 	

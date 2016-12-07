@@ -1,11 +1,11 @@
 package de.jabc.cinco.meta.core.ge.style.generator.api.main
 
-import de.jabc.cinco.meta.core.capi.generator.utils.CAPIUtils
 import graphicalgraphmodel.impl.CGraphModelImpl
 import mgl.GraphModel
 import mgl.ModelElement
+import de.jabc.cinco.meta.core.ge.style.generator.api.utils.APIUtils
 
-class GraphModel_MainTemplate extends CAPIUtils{
+class GraphModel_MainTemplate extends APIUtils{
 	
 	static var String packageName
 	var GraphModel gm

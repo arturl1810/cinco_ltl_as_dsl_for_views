@@ -1,8 +1,8 @@
 package de.jabc.cinco.meta.core.ge.style.generator.api.main
 
-import de.jabc.cinco.meta.core.capi.generator.templates.EdgeViewTemplate
-import mgl.ModelElement
+import de.jabc.cinco.meta.core.ge.style.generator.api.templates.EdgeViewTemplate
 import mgl.Edge
+import mgl.ModelElement
 
 class EdgeView_MainTemplate extends EdgeViewTemplate {
 
