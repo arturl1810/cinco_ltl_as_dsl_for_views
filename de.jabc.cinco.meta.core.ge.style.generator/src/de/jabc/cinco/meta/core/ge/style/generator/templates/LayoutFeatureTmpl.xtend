@@ -237,7 +237,7 @@ public class «gm.fuName»LayoutUtils {
 		tmp.setFilled(true);
 	}
 
-	public static void set_FlowGraphDefaultAppearanceStyle(«GraphicsAlgorithm.name» ga, «Diagram.name» diagram){
+	public static void set_«gm.fuName»DefaultAppearanceStyle(«GraphicsAlgorithm.name» ga, «Diagram.name» diagram){
 		if( ga instanceof «AbstractText.name»){
 			((«AbstractText.name») ga).setRotation(0.0);
 			((«AbstractText.name») ga).setFont(gaService.manageFont(diagram, "Arial", 8, false, false));
@@ -312,26 +312,21 @@ public class «gm.fuName»LayoutUtils {
 		inlineAppearance(mainShape)	
 	}
 	
-	def inlineAppearance(AbstractShape shape)
-	{
-		if(shape.inlineAppearance != null) 
-		{
+	def inlineAppearance(AbstractShape shape){
+		if(shape.inlineAppearance != null) {
 			counter2 = counter2+1
 			appList.add(shape.inlineAppearance);
 			shapeMap.put(shape, "set" + counter2 + "InlineStyle")
 		}	
-		if(shape instanceof ContainerShape)
-		{
+		if(shape instanceof ContainerShape){
 			var children = shape.children
 			for(child: children)
 				inlineAppearance(child)
 		}
 	}
 
-	def String createBackground(Appearance app)
-	{
-		if (app.parent != null)
-		{
+	def String createBackground(Appearance app){
+		if (app.parent != null){
 			if(app.parent.background != null)  
 				return '''ga.setBackground(gaService.manageColor(diagram, «app.parent.background.r», «app.parent.background.g», «app.parent.background.b»));  '''
 			else
@@ -340,10 +335,8 @@ public class «gm.fuName»LayoutUtils {
 		else return '''ga.setBackground(gaService.manageColor(diagram, 255, 255, 255)); ''' 
 	}
 	
-	def String createForeground(Appearance app)
-	{
-		if (app.parent != null)
-		{
+	def String createForeground(Appearance app){
+		if (app.parent != null){
 			if(app.parent.foreground != null)  
 				return '''ga.setForeground(gaService.manageColor(diagram, «app.parent.foreground.r», «app.parent.foreground.g», «app.parent.foreground.b»));'''
 			else
@@ -352,10 +345,8 @@ public class «gm.fuName»LayoutUtils {
 		else return '''ga.setForeground(gaService.manageColor(diagram, 0, 0, 0)); '''  
 	}
 	
-	def String createLineStyle(Appearance app)
-	{
-		if (app.parent != null)
-		{
+	def String createLineStyle(Appearance app){
+		if (app.parent != null){
 			if(!app.parent.lineStyle.equals(LineStyle.UNSPECIFIED))
 				return '''ga.setLineStyle(org.eclipse.graphiti.mm.algorithms.styles.LineStyle.«app.parent.lineStyle»);''' 
 			else
@@ -364,10 +355,8 @@ public class «gm.fuName»LayoutUtils {
 		else return '''ga.setLineStyle(org.eclipse.graphiti.mm.algorithms.styles.LineStyle.SOLID); '''  
 	}
 	
-	def String createLineWidth(Appearance app)
-	{
-		if (app.parent != null)
-		{
+	def String createLineWidth(Appearance app){
+		if (app.parent != null){
 			if(app.parent.lineWidth != -1)
 				return '''ga.setLineWidth(«app.parent.lineWidth»);''' 
 			else
@@ -376,10 +365,8 @@ public class «gm.fuName»LayoutUtils {
 		else return '''ga.setLineWidth(1); '''  
 	}
 	
-	def String createTransparency(Appearance app)
-	{
-		if (app.parent != null)
-		{
+	def String createTransparency(Appearance app){
+		if (app.parent != null){
 			if(app.parent.transparency != -1.0)
 				return '''ga.setTransparency(«app.parent.transparency»);''' 
 			else
@@ -388,10 +375,8 @@ public class «gm.fuName»LayoutUtils {
 		else return '''ga.setTransparency(0.0); '''  
 	}
 	
-	def String createLineVisible(Appearance app)
-	{
-		if (app.parent != null)
-		{
+	def String createLineVisible(Appearance app){
+		if (app.parent != null){
 			if(app.parent.lineInVisible != false)
 				return '''ga.setLineVisible(«app.parent.lineInVisible»);''' 
 			else

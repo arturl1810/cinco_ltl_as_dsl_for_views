@@ -469,38 +469,34 @@ class StyleUtils extends GeneratorUtils {
 		}
 	}
 	
-	def static getAnnotationStyleValue(Edge e, Styles styles) {
-		var style = CincoUtils.getStyleForEdge(e, styles)
-		var decorators = style.decorator
-		for(deco : decorators)
-		{
-			getTextValue(deco)
-		}
-	}
-
-	def static getAnnotationStyleValue(Node n, Styles styles) {
-		var style = CincoUtils.getStyleForNode(n, styles)
-		val mainShape = style.mainShape
-		var result = getTextValue(mainShape)
-		return result
-	}
-
-	def static getTextValue(ConnectionDecorator con) {
-		//if(con instanceof GraphicsAlgorithm)
-//			con.decoratorShape 
-//			con.predefinedDecorator
-	}
-
-	def static getTextValue(AbstractShape shape) {
-		if (shape instanceof ContainerShape) {
-			var children = shape.children
-			for (child : children) {
-				return getTextValue(child)
+	def static getText(Edge e){
+		var annot = e.annotations
+		for( an : annot){
+			var name = an.name
+			if(name.equals("style")){
+				var value = an.value
+				return listToString(value)
 			}
 		}
-		if (shape instanceof Text)
-			return shape.value
 	}
+
+//	def static getAnnotationStyleShapeValue(Node n, Styles styles) {
+//		var style = CincoUtils.getStyleForNode(n, styles)
+//		val mainShape = style.mainShape
+//		var result = getTextValue(mainShape)
+//		return result
+//	}
+//
+//	def static getTextValue(AbstractShape shape) {
+//		if (shape instanceof ContainerShape) {
+//			var children = shape.children
+//			for (child : children) {
+//				return getTextValue(child)
+//			}
+//		}
+//		if (shape instanceof Text)
+//			return shape.value
+//	}
 
 	def static getText(Node n) {
 		var listAnnot = n.annotations;
