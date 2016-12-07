@@ -44,6 +44,23 @@ public class IContainerEAPI {
 	}
 	
 	/**
+<<<<<<< HEAD
+=======
+	 * Creates a file with the specified name and content.
+	 * @param createFolders decides whether all folders in the given name are created
+	 */
+	public IFile createFile(String name, String content,boolean createFolders) {
+		int index = name.lastIndexOf("/");
+		if(index>-1){
+			String fileName = name.substring(index+1);
+			String fodlerPath = name.substring(0, index);
+			return WorkspaceUtil.eapi(this.createFolder(fodlerPath)).createFile(fileName, content);
+		}
+		return createFile(name, content);
+	}
+	
+	/**
+>>>>>>> master
 	 * Creates a file with the specified name and content provided
 	 * by the specified input stream.
 	 * Only replaces its content if the file already exists.
@@ -63,6 +80,24 @@ public class IContainerEAPI {
 	}
 	
 	/**
+<<<<<<< HEAD
+=======
+	 * Creates a file with the specified name and content provided
+	 * by the specified input stream.
+	 * @param createFolders decides whether all folders in the given name are created
+	 */
+	public IFile createFile(String name, InputStream stream, boolean createFolders) {
+		int index = name.lastIndexOf("/");
+		if(index>-1){
+			String fileName = name.substring(index+1);
+			String fodlerPath = name.substring(0, index);
+			return WorkspaceUtil.eapi(this.createFolder(fodlerPath)).createFile(fileName, stream);
+		}
+		return createFile(name, stream);
+	}
+	
+	/**
+>>>>>>> master
 	 * Creates a folder with the specified name.
 	 */
 	public IFolder createFolder(String name) {

@@ -1,25 +1,25 @@
 package de.jabc.cinco.meta.plugin.pyro.templates.parser
 
-import mgl.Attribute
-import java.util.ArrayList
-import mgl.Type
-import mgl.Enumeration
 import de.jabc.cinco.meta.plugin.pyro.utils.ModelParser
+import java.util.List
+import mgl.Attribute
+import mgl.Enumeration
 import mgl.GraphModel
+import mgl.Type
 
 class AttributeParser {
-	static def createAttribute(mgl.Attribute attribute,String modelName,ArrayList<Type> enums,GraphModel graphModel)
+	static def createAttribute(Attribute attribute,String modelName,List<Type> enums,GraphModel graphModel)
 	'''
 	«IF !ModelParser.isUserDefinedType(attribute,enums)»
-	«IF attribute.upperBound == 1 && (attribute.lowerBound == 0 || attribute.lowerBound == 1) »
-	«createPrimativeAttribute(attribute,modelName,enums,graphModel)»
-	«ELSE»
-	«createListAttribute(attribute,modelName,enums)»
-	«ENDIF»
+		«IF attribute.upperBound == 1 && (attribute.lowerBound == 0 || attribute.lowerBound == 1) »
+			«createPrimativeAttribute(attribute,modelName,enums,graphModel)»
+		«ELSE»
+			«createListAttribute(attribute,modelName,enums)»
+		«ENDIF»
 	«ENDIF»
 	'''
 	
-	static def createListAttribute(Attribute attribute, String name,ArrayList<Type> enums)
+	static def createListAttribute(Attribute attribute, String name,List<Type> enums)
 	'''
 	// «attribute.name.toFirstUpper»
 	JSONObject «attribute.name.toFirstLower»Attribute = new JSONObject();
@@ -48,7 +48,7 @@ class AttributeParser {
 	«name.toFirstLower»Attributes.add(«attribute.name.toFirstLower»Attribute);
 	'''
 	
-	static def createPrimativeAttribute(Attribute attribute, String string, ArrayList<Type> enums,GraphModel graphModel)
+	static def createPrimativeAttribute(Attribute attribute, String string, List<Type> enums,GraphModel graphModel)
 	'''
 	// «attribute.name.toFirstUpper»
 	JSONObject «attribute.name.toFirstLower»Attribute = new JSONObject();
@@ -59,7 +59,7 @@ class AttributeParser {
 	«string.toFirstLower»Attributes.add(«attribute.name.toFirstLower»Attribute);
 	'''
 	
-	static def createPrimativeAttributeValues(Attribute attribute,String attrName, String string, ArrayList<Type> enums,GraphModel graphModel)
+	static def createPrimativeAttributeValues(Attribute attribute,String attrName, String string, List<Type> enums,GraphModel graphModel)
 	'''
 	«IF attribute.type.equals("EString")»
 	«attrName.toFirstLower».put("values",new String(«string.toFirstLower».get«attribute.name.toFirstLower»()==null?"":«string.toFirstLower».get«attribute.name.toFirstLower»()));
@@ -84,7 +84,7 @@ class AttributeParser {
 	«ENDIF»
 	'''
 	
-	static def createPrimativeAttributeValuesList(Attribute attribute,String attrName, String string, ArrayList<Type> enums)
+	static def createPrimativeAttributeValuesList(Attribute attribute,String attrName, String string, List<Type> enums)
 	'''
 	«IF attribute.type.equals("EString")»
 	«createPrimativeAttributeValuesListIterated(attrName)»
@@ -115,7 +115,7 @@ class AttributeParser {
 	«attrName.toFirstLower».put("values",new String(""+listEntry==null?"":listEntry));
 	'''
 	
-	static def createPrimativeAttributeValuesDefault(Attribute attribute,String attrName, String string, ArrayList<Type> enums)
+	static def createPrimativeAttributeValuesDefault(Attribute attribute,String attrName, String string, List<Type> enums)
 	'''
 	«IF attribute.type.equals("EString")»
 	«attrName.toFirstLower».put("values",new String(""));
@@ -150,7 +150,7 @@ class AttributeParser {
 	}
 	
 	
-	static def Type getEnumByName(Attribute attr, ArrayList<Type> enums) {
+	static def Type getEnumByName(Attribute attr, List<Type> enums) {
 		var typeName = attr.type;
 		for(Type type : enums) {
 			if(type.name.equals(typeName)){

@@ -23,16 +23,11 @@ import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 
-import de.jabc.cinco.meta.core.utils.CincoUtils;
-
 public class DefaultHighlighter extends Highlighter {
 
 
 	@Override
 	protected Set<PictogramElement> getHighlightablesOnDrag(PictogramElement dragged) {
-//		if (CincoUtils.isMoveDisabled(dragged)) {
-//			
-//		}
 		return getShapes().stream()
 				.filter(pe -> pe != dragged
 					&& testBusinessObjectType(pe, ModelElementContainer.class)

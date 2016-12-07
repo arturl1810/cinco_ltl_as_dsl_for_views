@@ -1,36 +1,24 @@
 package de.jabc.cinco.meta.plugin.pyro.utils;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.eclipse.core.filebuffers.manipulation.ContainerCreator;
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.FileLocator;
-import org.eclipse.core.runtime.Platform;
-import org.eclipse.core.runtime.URIUtil;
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EClassifier;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.osgi.framework.Bundle;
 
+import de.jabc.cinco.meta.plugin.pyro.CreatePyroPlugin;
+import de.jabc.cinco.meta.plugin.pyro.model.ConnectionConstraint;
+import de.jabc.cinco.meta.plugin.pyro.model.EmbeddingConstraint;
+import de.jabc.cinco.meta.plugin.pyro.model.LabelAlignment;
+import de.jabc.cinco.meta.plugin.pyro.model.StyledConnector;
+import de.jabc.cinco.meta.plugin.pyro.model.StyledEdge;
+import de.jabc.cinco.meta.plugin.pyro.model.StyledLabel;
+import de.jabc.cinco.meta.plugin.pyro.model.StyledNode;
 import mgl.Annotation;
 import mgl.Attribute;
 import mgl.Edge;
@@ -49,27 +37,10 @@ import style.Appearance;
 import style.BooleanEnum;
 import style.Color;
 import style.ContainerShape;
-import style.Ellipse;
 import style.Font;
 import style.LineStyle;
-import style.NodeStyle;
-import style.Polygon;
-import style.Rectangle;
-import style.RoundedRectangle;
-import style.Style;
 import style.StyleFactory;
 import style.Text;
-import de.jabc.cinco.meta.core.utils.PathValidator;
-import de.jabc.cinco.meta.plugin.pyro.CreatePyroPlugin;
-import de.jabc.cinco.meta.plugin.pyro.model.ConnectionConstraint;
-import de.jabc.cinco.meta.plugin.pyro.model.EmbeddingConstraint;
-import de.jabc.cinco.meta.plugin.pyro.model.LabelAlignment;
-import de.jabc.cinco.meta.plugin.pyro.model.NodeShape;
-import de.jabc.cinco.meta.plugin.pyro.model.StyledConnector;
-import de.jabc.cinco.meta.plugin.pyro.model.StyledEdge;
-import de.jabc.cinco.meta.plugin.pyro.model.StyledLabel;
-import de.jabc.cinco.meta.plugin.pyro.model.StyledNode;
-import de.jabc.cinco.meta.plugin.pyro.templates.presentation.java.pages.PyroTemplate;
 
 public class ModelParser {
 	
@@ -79,9 +50,9 @@ public class ModelParser {
 	public static String DISABLE_CREATE_ANNOTATION = "create";
 	public static String DISABLE_DELETE_ANNOTATION = "delete";
 	
-	public static ArrayList<GraphicalModelElement> getInheritanceChildren(GraphicalModelElement gme, GraphModel graphModel)
+	public static List<GraphicalModelElement> getInheritanceChildren(GraphicalModelElement gme, GraphModel graphModel)
 	{
-		ArrayList<GraphicalModelElement> elements = new ArrayList<GraphicalModelElement>();
+		List<GraphicalModelElement> elements = new LinkedList<GraphicalModelElement>();
 		if(gme instanceof Node){
 			for(Node node:graphModel.getNodes()){
 				if(node.getExtends() != null){
@@ -116,8 +87,8 @@ public class ModelParser {
 		return graphModel.getNodes().stream().filter(n -> n instanceof NodeContainer ).map(nc -> (NodeContainer) nc).collect(Collectors.toList());
 	}
 	
-	public static ArrayList<StyledNode> getNotDisbaledCreate(ArrayList<StyledNode> nodes){
-		ArrayList<StyledNode> notDisbaledNodes = new ArrayList<StyledNode>();
+	public static List<StyledNode> getNotDisbaledCreate(List<StyledNode> nodes){
+		List<StyledNode> notDisbaledNodes = new LinkedList<StyledNode>();
 		for(StyledNode n:nodes){
 			if(!isDisabledCreate(n.getModelElement())){
 				notDisbaledNodes.add(n);
@@ -215,7 +186,7 @@ public class ModelParser {
 	}
 
 	
-	public static StyledNode getStyledNode(ArrayList<StyledNode> nodes,String name){
+	public static StyledNode getStyledNode(List<StyledNode> nodes,String name){
 		for(StyledNode sn:nodes){
 			if(sn.getModelElement().getName().equals(name)){
 				return sn;
@@ -254,8 +225,8 @@ public class ModelParser {
 	}
 	
 	
-	public static HashMap<String,ArrayList<StyledNode>> getGroupedNodes(ArrayList<GraphicalModelElement> graphicalModelElements) {
-		HashMap<String,ArrayList<StyledNode>> groupedNodes = new HashMap<String,ArrayList<StyledNode>>();
+	public static HashMap<String,List<StyledNode>> getGroupedNodes(List<GraphicalModelElement> graphicalModelElements) {
+		HashMap<String,List<StyledNode>> groupedNodes = new HashMap<String,List<StyledNode>>();
 		for(GraphicalModelElement gme : graphicalModelElements) {
 			if(gme.isIsAbstract())continue;
 			StyledNode styledNode = new StyledNode();
@@ -278,7 +249,7 @@ public class ModelParser {
 				groupedNodes.get(groupName).add(styledNode);
 			}
 			else {
-				ArrayList<StyledNode> styledNodes = new ArrayList<StyledNode>();
+				List<StyledNode> styledNodes = new LinkedList<StyledNode>();
 				styledNodes.add(styledNode);
 				groupedNodes.put(groupName,styledNodes);
 			}
@@ -777,7 +748,7 @@ public class ModelParser {
 		return prefix+parts[parts.length-1];
 	}
 	
-	public static boolean isUserDefinedType(mgl.Attribute attribute,ArrayList<mgl.Type> types)
+	public static boolean isUserDefinedType(mgl.Attribute attribute,List<mgl.Type> types)
 	{
 		for (mgl.Type type : types) {
 			if(type.getName().equals(attribute.getType()) && type instanceof UserDefinedType){
@@ -787,9 +758,9 @@ public class ModelParser {
 		return false;
 	}
 	
-	public static List<mgl.Attribute> getNoUserDefinedAttributtes(List<mgl.Attribute> attributes,ArrayList<mgl.Type> types)
+	public static List<mgl.Attribute> getNoUserDefinedAttributtes(List<mgl.Attribute> attributes,List<mgl.Type> types)
 	{
-		List<Attribute> noUseDefinedAttributes = new ArrayList<Attribute>();
+		List<Attribute> noUseDefinedAttributes = new LinkedList<Attribute>();
 		for (Attribute attribute : attributes) {
 			if(!ModelParser.isUserDefinedType(attribute, types)){
 				noUseDefinedAttributes.add(attribute);

@@ -1,5 +1,8 @@
 package de.jabc.cinco.meta.core.utils;
 
+import graphmodel.GraphModel;
+import graphmodel.ModelElement;
+
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -27,6 +30,7 @@ import de.jabc.cinco.meta.core.utils.eapi.DiagramEditorEAPI;
 import de.jabc.cinco.meta.core.utils.eapi.DiagramTypeProviderEAPI;
 import de.jabc.cinco.meta.core.utils.eapi.IEditorPartEAPI;
 import de.jabc.cinco.meta.core.utils.eapi.ModelElementEAPI;
+
 import graphmodel.GraphModel;
 import graphmodel.ModelElement;
 
@@ -87,7 +91,7 @@ public class WorkbenchUtil {
 		}
 		return null;
 	}
-	
+
 	public static DiagramEditor getDiagramEditor() {
 		IEditorPart editor = getActiveEditor();
 		if (editor == null)

@@ -16,7 +16,6 @@ import org.eclipse.swt.events.KeyEvent;
 import de.jabc.cinco.meta.plugin.gratext.runtime.editor.PageAwareDiagramBehavior;
 
 public class CincoDiagramEditor extends DiagramEditor {
-
 	
 	@Override
 	protected DiagramBehavior createDiagramBehavior() {

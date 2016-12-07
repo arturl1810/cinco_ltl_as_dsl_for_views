@@ -30,6 +30,7 @@ import style.VAlignment
 import java.util.Set
 import java.util.Map
 import mgl.GraphicalModelElement
+import java.util.List
 
 class JointModelTemplate {
 	
@@ -274,7 +275,7 @@ class JointModelTemplate {
 	«ENDIF»
 	'''
 	
-	static def createNodeModel(StyledModelElement sme,ArrayList<Type> enums)
+	static def createNodeModel(StyledModelElement sme,List<Type> enums)
 	'''
 /**
  * Model «sme.modelElement.name.toFirstUpper»

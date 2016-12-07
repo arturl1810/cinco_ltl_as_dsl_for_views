@@ -9,6 +9,7 @@ import mgl.GraphModel;
 
 import org.apache.commons.io.FileUtils;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -48,10 +49,10 @@ public class FileHandler {
 		}
 	}
 	
-	public static void copyImages(GraphModel graphModel,String resourcePath) {
+	public static void copyImages(GraphModel graphModel,String resourcePath,IProject iProject) {
 		try {
 			String path = resourcePath + "/img/pyro/"+ CreatePyroPlugin.toFirstLower(graphModel.getName())+"/";
-			Styles styles = CincoUtils.getStyles(graphModel);
+			Styles styles = CincoUtils.getStyles(graphModel,iProject);
 			for(Style style:styles.getStyles()){
 				if(style instanceof NodeStyle){
 					copyImage(((NodeStyle)style).getMainShape(),path);

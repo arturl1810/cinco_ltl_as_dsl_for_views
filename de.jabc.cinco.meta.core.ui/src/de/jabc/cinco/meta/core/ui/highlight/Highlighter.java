@@ -177,6 +177,7 @@ public abstract class Highlighter {
 					highlight.swell(0.2);
 				}
 			}
+			WorkbenchUtil.refreshDiagram();
 		}
 		String contextKey = getContextKey();
 		highlightContexts.put(contextKey, highlights);

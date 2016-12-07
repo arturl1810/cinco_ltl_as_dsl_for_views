@@ -1,45 +1,39 @@
 package de.jabc.cinco.meta.plugin.pyro.templates
-import java.util.ArrayList
-import de.jabc.cinco.meta.plugin.pyro.model.StyledNode
+
 import de.jabc.cinco.meta.plugin.pyro.model.ConnectionConstraint
-import java.util.HashMap
-import java.util.Map.Entry
-import mgl.GraphModel
-import de.jabc.cinco.meta.plugin.pyro.model.StyledEdge
 import de.jabc.cinco.meta.plugin.pyro.model.EmbeddingConstraint
-import mgl.GraphicalModelElement
-import mgl.Type
+import de.jabc.cinco.meta.plugin.pyro.model.StyledNode
+import de.jabc.cinco.meta.plugin.pyro.model.TemplateContainer
 import de.jabc.cinco.meta.plugin.pyro.utils.ModelParser
-import org.eclipse.emf.ecore.EObject
-import org.eclipse.emf.ecore.EPackage
+import java.util.List
+import java.util.Map.Entry
+import mgl.GraphicalModelElement
+import mgl.Node
 import mgl.NodeContainer
 
 class EditorConstraintTemplate implements Templateable{
 
 	
-	def creatNodeGroup(Entry<String, ArrayList<StyledNode>> entry) 
+	def creatNodeGroup(Entry<String, List<StyledNode>> entry) 
 	'''
 		«IF !ModelParser.getNotDisbaledCreate(entry.value).isEmpty && !(entry.value.empty)»
 		{
 			group:'«entry.key.toFirstUpper»',
 			nodes:[
-			«FOR StyledNode node : ModelParser.getNotDisbaledCreate(entry.value) SEPARATOR ','»
-			«IF !ModelParser.isDisabledCreate(node.modelElement)»
-			«IF node.modelElement instanceof mgl.Node»
-			«IF (node.modelElement as mgl.Node).primeReference != null»
-			«ELSE»
-			{
-				name:'«node.modelElement.name.toFirstUpper»',
-				label:'«node.modelElement.name.toFirstUpper»'
-			}
-			«ENDIF»
-			«ELSE»
-			{
-				name:'«node.modelElement.name.toFirstUpper»',
-				label:'«node.modelElement.name.toFirstUpper»'
-			}
-			«ENDIF»
-			«ENDIF»
+			«FOR StyledNode node : ModelParser.getNotDisbaledCreate(entry.value).filter[node|!ModelParser.isDisabledCreate(node.modelElement)] SEPARATOR ','»
+					«IF node.modelElement instanceof Node»
+						«IF (node.modelElement as Node).primeReference == null»
+							{
+								name:'«node.modelElement.name.toFirstUpper»',
+								label:'«node.modelElement.name.toFirstUpper»'
+							}
+						«ENDIF»
+					«ELSE»
+						{
+							name:'«node.modelElement.name.toFirstUpper»',
+							label:'«node.modelElement.name.toFirstUpper»'
+						}
+					«ENDIF»
 			«ENDFOR»
 			]
 		}
@@ -49,21 +43,21 @@ class EditorConstraintTemplate implements Templateable{
 	def createEmbaddingConstraints(EmbeddingConstraint embeddingConstraint)
 	'''
 		«FOR GraphicalModelElement gme : embeddingConstraint.validNode»
-		if(embeddingName == '«gme.name.toFirstUpper»' && containerName == '«embeddingConstraint.container.name.toFirstUpper»'){
+			if(embeddingName == '«gme.name.toFirstUpper»' && containerName == '«embeddingConstraint.container.name.toFirstUpper»'){
 			«IF embeddingConstraint.highBound >= 1»
-			var count = 0;
-			for(var i=0;i<embeddedElements.length;i++) {
-				if(embeddedElements[i].attributes.cinco_name === '«gme.name.toFirstUpper»') {
-					count++;
+				var count = 0;
+				for(var i=0;i<embeddedElements.length;i++) {
+					if(embeddedElements[i].attributes.cinco_name === '«gme.name.toFirstUpper»') {
+						count++;
+					}
 				}
-			}
-			if(count < «embeddingConstraint.highBound»){
-				return true;
-			}
+				if(count < «embeddingConstraint.highBound»){
+					return true;
+				}
 			«ELSE»
-			return true;
+				return true;
 			«ENDIF»
-		}
+			}
 		«ENDFOR»
 		
 	'''
@@ -71,37 +65,37 @@ class EditorConstraintTemplate implements Templateable{
 	def createConnectingConstraints(ConnectionConstraint connection)
 	'''
 		if(sourceNodeType == '«connection.sourceNode.modelElement.name.toFirstUpper»' && targetNodeType == '«connection.targetNode.modelElement.name.toFirstUpper»'){
-			«IF connection.sourceCardinalityHigh >= 1»
+		«IF connection.sourceCardinalityHigh >= 1»
 			var countSource = 0;
 			for(var i = 0;i<sourceLinks.length;i++) {
 				if(sourceLinks[i].attributes.cinco_name === '«connection.connectingEdge.modelElement.name.toFirstUpper»'){
 					countSource++;
 				}
 			}
-			«ENDIF»
-			«IF connection.targetCardinalityHigh >= 1»
+		«ENDIF»
+		«IF connection.targetCardinalityHigh >= 1»
 			var countTarget = 0;
 			for(var i = 0;i<targetLinks.length;i++) {
 				if(targetLinks[i].attributes.cinco_name === '«connection.connectingEdge.modelElement.name.toFirstUpper»'){
 					countTarget++;
 				}
 			}
-			«ENDIF»
-			«IF connection.sourceCardinalityHigh < 1 && connection.targetCardinalityHigh < 1»
+		«ENDIF»
+		«IF connection.sourceCardinalityHigh < 1 && connection.targetCardinalityHigh < 1»
 			return true;
-			«ELSEIF connection.sourceCardinalityHigh >= 1 && connection.targetCardinalityHigh < 1»
+		«ELSEIF connection.sourceCardinalityHigh >= 1 && connection.targetCardinalityHigh < 1»
 			if(countSource < «connection.sourceCardinalityHigh» ){
 				return true;
 			}
-			«ELSEIF connection.sourceCardinalityHigh < 1 && connection.targetCardinalityHigh >= 1»
+		«ELSEIF connection.sourceCardinalityHigh < 1 && connection.targetCardinalityHigh >= 1»
 			if(countTarget < «connection.targetCardinalityHigh» ){
 				return true;
 			}
-			«ELSE»
+		«ELSE»
 			if(countSource < «connection.sourceCardinalityHigh» && countTarget < «connection.targetCardinalityHigh» ){
 				return true;
 			}
-			«ENDIF»
+		«ENDIF»
 		}
 	'''
 	
@@ -115,7 +109,7 @@ class EditorConstraintTemplate implements Templateable{
 		}
 	'''
 	
-	override create(GraphModel graphModel, ArrayList<StyledNode> nodes, ArrayList<StyledEdge> edges, HashMap<String, ArrayList<StyledNode>> groupedNodes, ArrayList<ConnectionConstraint> validConnections, ArrayList<EmbeddingConstraint> embeddingConstraints,ArrayList<Type> enums,ArrayList<GraphModel> graphModels,ArrayList<EPackage> ecores)
+	override create(TemplateContainer tc)
 	'''
 		/**
 		 * Validates two Nodes, whether they can be embedded
@@ -140,18 +134,15 @@ class EditorConstraintTemplate implements Templateable{
 				var containerElement = graph.getCell(parentView.id);
 			}
 			var embeddedElements = containerElement.getEmbeddedCells();
-		    «FOR StyledNode containerSN : nodes»
-		    «IF containerSN.modelElement instanceof NodeContainer»
-		    «FOR StyledNode sn:nodes»
-			«IF ModelParser.isContainable(sn.modelElement,containerSN.modelElement as NodeContainer)»
-		    if(embeddingName == '«sn.modelElement.name.toFirstUpper»' && containerName == '«containerSN.modelElement.name.toFirstUpper»'){
-		    	//TODO Bounds
-				return true;
-			}
-		    «ENDIF»
-		    «ENDFOR»
-		    «ENDIF»
-		    «ENDFOR»
+		«FOR StyledNode containerSN : tc.nodes.filter[containerSN|containerSN.modelElement instanceof NodeContainer]»
+    		«FOR StyledNode sn:tc.nodes.filter[sn|ModelParser.isContainable(sn.modelElement,containerSN.modelElement as NodeContainer)]»
+				if(embeddingName == '«sn.modelElement.name.toFirstUpper»' && containerName == '«containerSN.modelElement.name.toFirstUpper»')
+				{
+					//TODO Bounds
+					return true;
+				}
+    		«ENDFOR»
+	    «ENDFOR»
 		    return false;
 		}
 		
@@ -171,9 +162,9 @@ class EditorConstraintTemplate implements Templateable{
 			var targetOpt = {inbound:true};
 			var sourceLinks = graph.getConnectedLinks(sourceNodeElement,sourceOpt);
 			var targetLinks = graph.getConnectedLinks(targetNodeElement,targetOpt);
-		    «FOR ConnectionConstraint connection : validConnections»
-	        «createConnectingConstraints(connection)»
-			«ENDFOR»
+	    «FOR ConnectionConstraint connection : tc.validConnections»
+        	«createConnectingConstraints(connection)»
+		«ENDFOR»
 		    return false;
 		}
 		
@@ -198,9 +189,9 @@ class EditorConstraintTemplate implements Templateable{
 		        return links;
 		    }
 		    //Determine which connection should be created
-		    «FOR ConnectionConstraint connection : validConnections»
+	    «FOR ConnectionConstraint connection : tc.validConnections»
 			«createEdgeCreation(connection)»
-			«ENDFOR»
+		«ENDFOR»
 		
 		    return links;
 		}
@@ -212,12 +203,12 @@ class EditorConstraintTemplate implements Templateable{
 		function getAllNodeTypes()
 		{
 			return [
-			«IF !ModelParser.getPrimeReferencedModelElements(graphModel,true).empty»
+		«IF !ModelParser.getPrimeReferencedModelElements(tc.graphModel,true).empty»
 			getPrimeReferences(),
-			«ENDIF»
-			«FOR group : groupedNodes.entrySet SEPARATOR ','»
+		«ENDIF»
+		«FOR group : tc.groupedNodes.entrySet SEPARATOR ','»
 	        «creatNodeGroup(group)»
-			«ENDFOR»
+		«ENDFOR»
 		    ];
 		}
 		
@@ -230,7 +221,6 @@ class EditorConstraintTemplate implements Templateable{
 			});*/
 		}
 		
-		graphModelName = '«graphModel.name.toFirstUpper»';
+		graphModelName = '«tc.graphModel.name.toFirstUpper»';
 	'''
-	
 }

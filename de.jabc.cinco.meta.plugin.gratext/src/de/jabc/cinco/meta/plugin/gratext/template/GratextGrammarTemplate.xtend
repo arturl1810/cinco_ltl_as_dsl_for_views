@@ -50,7 +50,7 @@ def addToReferences(EObject obj) {
 
 def String acronym(EObject obj) {
 	switch obj {
-		GraphModel:	obj.fileExtension
+		GraphModel:	obj.name.toLowerCase
 		ENamedElement:	obj.name
 	}
 }

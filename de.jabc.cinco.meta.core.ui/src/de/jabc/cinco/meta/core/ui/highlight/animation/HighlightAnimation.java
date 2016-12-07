@@ -2,6 +2,7 @@ package de.jabc.cinco.meta.core.ui.highlight.animation;
 
 import java.util.HashSet;
 import java.util.Set;
+
 import java.util.Stack;
 
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;

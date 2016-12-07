@@ -15,6 +15,7 @@ import de.jabc.cinco.meta.core.utils.WorkbenchUtil;
 
 import static de.jabc.cinco.meta.core.utils.WorkbenchUtil.eapi;
 
+
 public class DiagramEAPI {
 
 	private Diagram diagram;

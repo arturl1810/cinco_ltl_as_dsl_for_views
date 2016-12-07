@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<fragment>
+   <extension
+         id="AwesomeExecuter"
+        name="Executer"
+         point="de.jabc.cinco.meta.core.pluginregistry.metaplugin">
+      <metaplugin_description
+            metapluginService="de.jabc.cinco.meta.plugin.executer.service.ESDSLMetaPluginService">
+      </metaplugin_description>
+      <graphmodel-annotation
+            recognized-annotation="execsem">
+      </graphmodel-annotation>
+   </extension>
+
+</fragment>

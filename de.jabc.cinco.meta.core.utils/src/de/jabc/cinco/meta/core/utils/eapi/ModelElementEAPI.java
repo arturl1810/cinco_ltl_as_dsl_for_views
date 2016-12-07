@@ -19,6 +19,7 @@ public class ModelElementEAPI {
 		this.element = element;
 	}
 	
+
 //	public boolean canBeCreated() {
 //		
 //		getPictogramElement().getLink().eContainer()
@@ -27,6 +28,7 @@ public class ModelElementEAPI {
 //		return !CincoUtils.isCreateDisabled(element);
 //	}
 	
+
 	public PictogramElement getPictogramElement() {
 		Diagram diagram = eapi(element.eResource()).getDiagram();
 		return eapi(diagram).getPictogramElement(element);
