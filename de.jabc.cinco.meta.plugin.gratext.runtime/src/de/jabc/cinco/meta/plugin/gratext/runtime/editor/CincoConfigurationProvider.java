@@ -169,6 +169,7 @@ public class CincoConfigurationProvider extends ConfigurationProvider {
 //		}
 		
 		public EditPolicy createShapeXYLayoutEditPolicy() {
+			
 			return new CustomShapeContainerAndXYLayoutEditPolicy(getConfigurationProvider());
 		}
 		
@@ -239,14 +240,13 @@ public class CincoConfigurationProvider extends ConfigurationProvider {
 					getCurrentInput().setInput(me);
 					handleDrag();
 					if (movedPastThreshold()) {
-						if (!wasDragging)
+						// At this point wasDragging might be true while NOT being in
+						// state DRAG_IN_PROGRESS although the original implementation
+						// assumes the latter. Fix: call handleDragStarted
+						if (!wasDragging
+								|| !isInState(STATE_DRAG_IN_PROGRESS | STATE_ACCESSIBLE_DRAG_IN_PROGRESS)) {
 							handleDragStarted();
-						
-						// !!! Fixes an issue of not correctly
-						// !!! recognizing the movement handles
-						else if (getState() == 1) // STATE_INITIAL
-							stateTransition(1, 4); // STATE_INITIAL  ==>  STATE_DRAG_IN_PROGRESS
-							
+						}	
 						handleDragInProgress();
 					}
 				}
@@ -297,14 +297,13 @@ public class CincoConfigurationProvider extends ConfigurationProvider {
 							getCurrentInput().setInput(me);
 							handleDrag();
 							if (movedPastThreshold()) {
-								if (!wasDragging)
+								// At this point wasDragging might be true while NOT being in
+								// state DRAG_IN_PROGRESS although the original implementation
+								// assumes the latter. Fix: call handleDragStarted
+								if (!wasDragging
+										|| !isInState(STATE_DRAG_IN_PROGRESS | STATE_ACCESSIBLE_DRAG_IN_PROGRESS)) {
 									handleDragStarted();
-								
-								// !!! Fixes an issue of not correctly
-								// !!! recognizing the movement handles
-								else if (getState() == 1) // STATE_INITIAL
-									stateTransition(1, 4); // STATE_INITIAL  ==>  STATE_DRAG_IN_PROGRESS
-									
+								}	
 								handleDragInProgress();
 							}
 						}
@@ -458,14 +457,13 @@ public class CincoConfigurationProvider extends ConfigurationProvider {
 						getCurrentInput().setInput(me);
 						handleDrag();
 						if (movedPastThreshold()) {
-							if (!wasDragging)
+							// At this point wasDragging might be true while NOT being in
+							// state DRAG_IN_PROGRESS although the original implementation
+							// assumes the latter. Fix: call handleDragStarted
+							if (!wasDragging
+									|| !isInState(STATE_DRAG_IN_PROGRESS | STATE_ACCESSIBLE_DRAG_IN_PROGRESS)) {
 								handleDragStarted();
-							
-							// !!! Fixes an issue of not correctly
-							// !!! recognizing the movement of handles
-							else if (getState() == 1) // STATE_INITIAL
-								stateTransition(1, 4); // STATE_INITIAL  ==>  STATE_DRAG_IN_PROGRESS
-								
+							}	
 							handleDragInProgress();
 						}
 					}
@@ -493,7 +491,28 @@ public class CincoConfigurationProvider extends ConfigurationProvider {
 		@Override
 		protected DragTracker createDragTracker() {
 			if (resizeDirection != 0) { // if is resizable
-				return new ResizeTracker(getOwner(), resizeDirection);
+				return new ResizeTracker(getOwner(), resizeDirection) {
+					
+					@Override
+					public void mouseDrag(MouseEvent me, EditPartViewer viewer) {
+						if (!isViewerImportant(viewer))
+							return;
+						setViewer(viewer);
+						boolean wasDragging = movedPastThreshold();
+						getCurrentInput().setInput(me);
+						handleDrag();
+						if (movedPastThreshold()) {
+							// At this point wasDragging might be true while NOT being in
+							// state DRAG_IN_PROGRESS although the original implementation
+							// assumes the latter. Fix: call handleDragStarted
+							if (!wasDragging
+									|| !isInState(STATE_DRAG_IN_PROGRESS | STATE_ACCESSIBLE_DRAG_IN_PROGRESS)) {
+								handleDragStarted();
+							}	
+							handleDragInProgress();
+						}
+					}
+				};
 			} else if (movable) {
 				DragEditPartsTracker tracker = new DragEditPartsTracker(getOwner()) {
 					
@@ -506,14 +525,13 @@ public class CincoConfigurationProvider extends ConfigurationProvider {
 						getCurrentInput().setInput(me);
 						handleDrag();
 						if (movedPastThreshold()) {
-							if (!wasDragging)
+							// At this point wasDragging might be true while NOT being in
+							// state DRAG_IN_PROGRESS although the original implementation
+							// assumes the latter. Fix: call handleDragStarted
+							if (!wasDragging
+									|| !isInState(STATE_DRAG_IN_PROGRESS | STATE_ACCESSIBLE_DRAG_IN_PROGRESS)) {
 								handleDragStarted();
-							
-							// !!! Fixes an issue of not correctly
-							// !!! recognizing the movement of handles
-							else if (getState() == 1) // STATE_INITIAL
-								stateTransition(1, 4); // STATE_INITIAL  ==>  STATE_DRAG_IN_PROGRESS
-								
+							}	
 							handleDragInProgress();
 						}
 					}
