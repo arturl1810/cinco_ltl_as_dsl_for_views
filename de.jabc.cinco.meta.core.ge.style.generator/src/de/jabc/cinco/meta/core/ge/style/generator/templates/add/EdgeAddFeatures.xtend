@@ -33,6 +33,9 @@ import style.Styles
 
 class EdgeAddFeatures extends GeneratorUtils {
 	
+	boolean create3 =false
+	boolean create4 = false
+	
 	def doGenerateAddFeature(Edge e, Styles styles) {
 								'''
 	package «e.packageNameAdd»;
@@ -89,7 +92,7 @@ class EdgeAddFeatures extends GeneratorUtils {
 				«e.graphModel.packageName».«e.graphModel.fuName»LayoutUtils.setdefaultStyle(cd.getGraphicsAlgorithm(), getDiagram());
 				«ENDIF»
 				«IF d.predefinedDecorator.shape.name() != "ARROW"»
-				«e.graphModel.packageName».«e.graphModel.fuName»LayoutUtils.set_FlowGraphDefaultAppearanceStyle(cd.getGraphicsAlgorithm(), getDiagram());
+				«e.graphModel.packageName».«e.graphModel.fuName»LayoutUtils.set_«e.graphModel.fuName»DefaultAppearanceStyle(cd.getGraphicsAlgorithm(), getDiagram());
 				«ENDIF»
 				«ENDIF»
 				«IF d.decoratorShape != null»	
@@ -97,6 +100,7 @@ class EdgeAddFeatures extends GeneratorUtils {
 				«var text = d.decoratorShape as style.Text»
 				cd = peCreateService.createConnectionDecorator(connection, false,«d.location», true);
 				createShape3(cd, «e.fuName.toFirstLower», "«text.value»");
+				«{ create3 = true; "" }»
 				link(cd, «e.fuName.toFirstLower»);
 				
 				«ELSE»
@@ -104,6 +108,7 @@ class EdgeAddFeatures extends GeneratorUtils {
 				
 				cd = peCreateService.createConnectionDecorator(connection, false, «d.location», true);
 				createShape4(cd, «e.fuName.toFirstLower», «getHeigth(aShape)», «getWidth(aShape)»);
+			    «{ create4 = true; "" }»
 				link(cd, «e.fuName.toFirstLower»);
 				«ENDIF»
 				«ENDIF»
@@ -131,33 +136,50 @@ class EdgeAddFeatures extends GeneratorUtils {
 			}
 			return false;
 		}
-	
-
-		private void createShape3(«GraphicsAlgorithmContainer.name» gaContainer, info.scce.cinco.product.«e.graphModel.name.toLowerCase».«e.graphModel.name.toLowerCase».«e.fuName» «e.fuName.toFirstLower», «String.name» textValue) {
-			«IGaService.name» gaService = «Graphiti.name».getGaService();
-			«IPeService.name» peService = «Graphiti.name».getPeService();
-			«Text.name» Text0 = gaService.createDefaultText(getDiagram(), gaContainer);
-			
-			«ExpressionFactoryImpl.name» factory = new «ExpressionFactoryImpl.name»();
-			«e.graphModel.packageName».expression.«e.graphModel.fuName»ExpressionLanguageContext elContext = null;
-
-			elContext = new  «e.graphModel.packageName».expression.«e.graphModel.fuName»ExpressionLanguageContext(«e.fuName.toFirstLower»);
-			«Object.name» tmp0Value = factory.createValueExpression(elContext, "«StyleUtils.getAnnotationStyleValue(e, styles)»${label}", «Object.name».class).getValue(elContext);
-
-			Text0.setValue(String.format(textValue , tmp0Value));
-			peService.setPropertyValue(Text0, «e.graphModel.packageName».«e.graphModel.fuName»GraphitiUtils.KEY_FORMAT_STRING,textValue);
-		}
-		private void createShape4(«GraphicsAlgorithmContainer.name» gaContainer, info.scce.cinco.product.«e.graphModel.name.toLowerCase».«e.graphModel.name.toLowerCase».«e.fuName» «e.fuName.toFirstLower», «int.name» height, «int.name» width){
-			«IGaService.name» gaService = «Graphiti.name».getGaService();
-			«IPeService.name» peService = «Graphiti.name».getPeService();
-			
-			«Ellipse.name» Ellipse0 = gaService.createPlainEllipse(gaContainer);
-			gaService.setSize(Ellipse0, width ,height);
-			
-		}
+		
+		«getCreateShape3(e)»
+		
+		«getCreateShape4(e)»
 	}
 	'''
 	
+	}
+	
+	def getCreateShape3(Edge e){
+		if(create3){
+			'''
+			private void createShape3(«GraphicsAlgorithmContainer.name» gaContainer, «e.graphModel.beanPackage».«e.fuName» «e.fuName.toFirstLower» , «String.name» textValue) {
+				«IGaService.name» gaService = «Graphiti.name».getGaService();
+				«IPeService.name» peService = «Graphiti.name».getPeService();
+				«Text.name» Text0 = gaService.createDefaultText(getDiagram(), gaContainer);
+						
+				«ExpressionFactoryImpl.name» factory = new «ExpressionFactoryImpl.name»();
+				«e.graphModel.packageName».expression.«e.graphModel.fuName»ExpressionLanguageContext elContext = null;
+			
+				elContext = new  «e.graphModel.packageName».expression.«e.graphModel.fuName»ExpressionLanguageContext(«e.fuName.toFirstLower»);
+				«Object.name» tmp0Value = factory.createValueExpression(elContext, "«StyleUtils.getText(e)»", «Object.name».class).getValue(elContext);
+			
+				Text0.setValue(String.format(textValue , tmp0Value));
+				peService.setPropertyValue(Text0, «e.graphModel.packageName».«e.graphModel.fuName»GraphitiUtils.KEY_FORMAT_STRING,textValue);
+			}
+			'''
+			}
+	}
+	
+	def getCreateShape4(Edge e)
+	{
+		if(create4){
+			'''
+			private void createShape4(«GraphicsAlgorithmContainer.name» gaContainer, «e.graphModel.beanPackage».«e.fuName» «e.fuName.toFirstLower», «int.name» height, «int.name» width){
+				«IGaService.name» gaService = «Graphiti.name».getGaService();
+				«IPeService.name» peService = «Graphiti.name».getPeService();
+						
+				«Ellipse.name» Ellipse0 = gaService.createPlainEllipse(gaContainer);
+				gaService.setSize(Ellipse0, width ,height);
+						
+			}
+			'''
+		}
 	}
 	
 	def int getHeigth(AbstractShape aShape){
