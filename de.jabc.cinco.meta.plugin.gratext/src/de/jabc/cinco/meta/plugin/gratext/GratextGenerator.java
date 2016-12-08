@@ -25,6 +25,7 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import de.jabc.cinco.meta.core.utils.projects.ProjectCreator;
 import de.jabc.cinco.meta.plugin.gratext.template.BackupGeneratorTemplate;
 import de.jabc.cinco.meta.plugin.gratext.template.DiagramTemplate;
+import de.jabc.cinco.meta.plugin.gratext.template.FormatterTemplate;
 import de.jabc.cinco.meta.plugin.gratext.template.GratextEcoreTemplate;
 import de.jabc.cinco.meta.plugin.gratext.template.GratextGeneratorTemplate;
 import de.jabc.cinco.meta.plugin.gratext.template.GratextGenmodelTemplate;
@@ -187,6 +188,11 @@ public class GratextGenerator extends ProjectGenerator {
 			.inPackage(basePkg + ".scoping")
 			.createFile(targetName + "ScopeProvider.xtend")
 			.withContent(ScopeProviderTemplate.class);
+
+		inSrcFolder("src")
+			.inPackage(basePkg + ".formatting")
+			.createFile(targetName + "Formatter.xtend")
+			.withContent(FormatterTemplate.class);
 		
 		inSrcFolder("src")
 			.inPackage(basePkg)
