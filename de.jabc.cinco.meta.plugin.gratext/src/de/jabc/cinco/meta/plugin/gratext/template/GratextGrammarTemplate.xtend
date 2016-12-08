@@ -165,13 +165,6 @@ def enumRule(Enumeration type) {
 }
 	
 def type(Attribute attr) {
-	println("[GRAM] " + attr)
-	println("[GRAM]  > type: " + attr.type)
-	println("[GRAM]  > ecore? " + EcorePackage.eINSTANCE.getEClassifier(attr.type))
-	println("[GRAM]  > model? " + model.contains(attr.type))
-	println("[GRAM]  > enumType? " + model.containsEnumeration(attr.type))
-	println("[GRAM]  > userType? " + model.containsUserDefinedType(attr.type))
-	
 	if (EcorePackage.eINSTANCE.getEClassifier(attr.type) != null)
 			'''_«attr.type»'''
 	else if (model.contains(attr.type)) {
