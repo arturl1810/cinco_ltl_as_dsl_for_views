@@ -12,10 +12,10 @@ class Edge_MainTemplate extends ModelElement_MainTemplate {
 		e = edge
 	}
 	
-	def create() '''
-package «packageName».newcapi;
+	def doGenerate() '''
+package «packageName».api;
 	
-public class C«fuMEName» extends «IF (e.extends == null)»«CEdgeImpl.name»«ELSE»«e.extends.fqcn»«ENDIF»{
+public class «fuMEName» extends «IF (e.extends == null)»«CEdgeImpl.name»«ELSE»«e.extends.fqn»«ENDIF»{
 
 	«e.attributeGetter»
 	

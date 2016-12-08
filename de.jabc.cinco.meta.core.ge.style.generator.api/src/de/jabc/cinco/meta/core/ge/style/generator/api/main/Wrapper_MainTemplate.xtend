@@ -13,7 +13,7 @@ class Wrapper_MainTemplate extends GraphModel_MainTemplate {
 		gm = me
 	}
 	
-	override create() 
+	override doGenerate() 
 	'''package «gm.package».newcapi;
 
 import java.util.HashMap;
@@ -54,7 +54,7 @@ public class FlowGraphWrapper {
 	public static final String DTP_ID = "info.scce.cinco.product.flowgraph.FlowGraphDiagramTypeProvider";
 	
 	
-	public static «gm.fqcn»View newFlowGraph(IPath path, String fileName) throws IOException, CoreException, Exception {
+	public static «gm.fqn»View newFlowGraph(IPath path, String fileName) throws IOException, CoreException, Exception {
 		IPath filePath = path.append(fileName).addFileExtension("flowgraph");
 		URI uri = URI.createPlatformResourceURI(filePath.toOSString(), true);
 		IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(filePath);
@@ -72,13 +72,13 @@ public class FlowGraphWrapper {
 		dtp.getFeatureProvider().link(diagram, graph);
 		res.save(null);
 
-		«gm.fqcn»View retval = wrapGraphModel(graph, diagram);
+		«gm.fqn»View retval = wrapGraphModel(graph, diagram);
 
 		return retval;
 	}
 
-	public static «gm.fqcn»View wrapGraphModel(GraphModel sg, Diagram d) {
-		«gm.fqcn» gsg = new «gm.fqcn»();
+	public static «gm.fqn»View wrapGraphModel(GraphModel sg, Diagram d) {
+		«gm.fqn» gsg = new «gm.fqn»();
 		dtp = org.eclipse.graphiti.ui.services.GraphitiUi.getExtensionManager().createDiagramTypeProvider(d, DTP_ID);
 		map = new HashMap<>();
 		for (Node n : sg.getAllNodes()) {
@@ -98,13 +98,13 @@ public class FlowGraphWrapper {
 		gsg.setShape(dtp.getDiagram());
 		gsg.setDiagram(d);
 		
-		return gsg.get«getCName(gm as ContainingElement)»View();
+		return gsg.get«gm.name»View();
 	}
 	
 	private static CNode getNode(Node n) {
 		«FOR n : gm.nodes.filter[n | !(n instanceof NodeContainer)]»
 		if (n instanceof «n.fqn»)
-			return new «n.fqcn»();
+			return new «n.fqn»();
 		«ENDFOR»
 		return null;
 	}
@@ -141,7 +141,7 @@ public class FlowGraphWrapper {
 	private static CContainer getContainer(Node c) {
 		«FOR n : gm.nodes.filter[n | (n instanceof NodeContainer)]»
 		if (c instanceof «n.fqn»)
-			return new «n.fqcn»();
+			return new «n.fqn»();
 		«ENDFOR»
 		return null;
 	}
@@ -176,7 +176,7 @@ public class FlowGraphWrapper {
 	private static CEdge getEdge(Edge e) {
 		«FOR e : gm.edges»
 		if (e instanceof «e.fqn»)
-			return new «e.fqcn»();
+			return new «e.fqn»();
 		«ENDFOR»
 		return null;
 	}

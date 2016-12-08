@@ -5,22 +5,21 @@ import java.util.HashMap
 import java.util.List
 import java.util.Map
 import java.util.Map.Entry
+import mgl.Annotatable
+import mgl.Annotation
 import mgl.Attribute
 import mgl.Edge
 import mgl.GraphModel
 import mgl.GraphicalModelElement
 import mgl.ModelElement
 import mgl.Node
+import mgl.ReferencedEClass
+import mgl.ReferencedModelElement
 import mgl.Type
 import mgl.UserDefinedType
+import org.eclipse.emf.common.util.EList
 
 import static extension de.jabc.cinco.meta.core.utils.CincoUtils.*
-import org.eclipse.emf.common.util.EList
-import org.eclipse.emf.common.util.BasicEList
-import mgl.ReferencedEClass
-import mgl.ReferencedType
-import mgl.ReferencedModelElement
-import org.eclipse.emf.ecore.EClass
 
 class GeneratorUtils {
 	val static String ID_CONTAINER = "Containers";
@@ -29,7 +28,16 @@ class GeneratorUtils {
 	
 	def instanceofCheck(ModelElement me, String varName) 
 	'''«varName» instanceof «me.beanPackage».«me.fuName»'''
+	
+	def instanceofCheck(Annotatable a, String varName){
+		if (a instanceof ModelElement) {
+			var me = a as ModelElement
+			return me.instanceofCheck(varName)
+		}
 		
+	}
+	
+			
 	def fuName(Type t) {
 		t.name.toFirstUpper
 	}
@@ -85,10 +93,12 @@ class GeneratorUtils {
 	
 	def fqPropertyView(ModelElement me) 
 	'''«me.graphModel.packageName».property.view.«me.graphModel.fuName»PropertyView'''
+	
 	def modelElements(GraphModel gm) {
 		var List<ModelElement> mes = new ArrayList<ModelElement>;
 		mes.addAll(gm.nodes)
 		mes.addAll(gm.edges)
+		mes.add(gm)
 		return mes
 	}
 	 
@@ -147,7 +157,7 @@ class GeneratorUtils {
 	
 	def String getIconNodeValue(Node n){
 		var icon ="";
-		var EList <mgl.Annotation> annots = n.annotations;
+		var EList <Annotation> annots = n.annotations;
 		for (annot : annots){
 			if(annot.name.equals("icon")){
 				icon = annot.value.get(0);
@@ -156,7 +166,7 @@ class GeneratorUtils {
 		return icon;		
 	}
 	
-	def isPrime(mgl.Node n)
+	def isPrime(Node n)
 	{
 		if(n.primeReference != null)
 			return true

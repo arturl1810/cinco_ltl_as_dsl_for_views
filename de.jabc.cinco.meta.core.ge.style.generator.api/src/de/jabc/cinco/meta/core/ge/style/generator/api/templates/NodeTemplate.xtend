@@ -13,8 +13,8 @@ class NodeTemplate extends ModelElementTemplate {
 	
 	def outgoingEdgesGetter(Node n) 
 	'''«FOR e : n.outgoingConnectingEdges»
-	public «List.name»<«e.getCName»> getOutgoing«e.getCName.toFirstUpper» () {
-		return getOutgoing(«e.getCName.toFirstUpper».class);
+	public «List.name»<«e.name»> getOutgoing«e.name.toFirstUpper» () {
+		return getOutgoing(«e.name.toFirstUpper».class);
 	}
 	
 	«ENDFOR»
@@ -22,8 +22,8 @@ class NodeTemplate extends ModelElementTemplate {
 	
 	def outgoingEdgesGetter(NodeContainer n) 
 	'''«FOR e : n.outgoingConnectingEdges»
-	public «List.name»<«e.getCName»> getOutgoing«e.getCName.toFirstUpper» () {
-		return getOutgoing(«e.getCName.toFirstUpper».class);
+	public «List.name»<«e.name»> getOutgoing«e.name.toFirstUpper» () {
+		return getOutgoing(«e.name.toFirstUpper».class);
 	}
 	
 	«ENDFOR»
@@ -31,8 +31,8 @@ class NodeTemplate extends ModelElementTemplate {
 	
 	def incomingEdgesGetter(Node n) 
 	'''«FOR e : n.incomingConnectingEdges»
-	public «List.name»<«e.getCName»> getIncoming«e.getCName.toFirstUpper» () {
-		return getIncoming(«e.getCName.toFirstUpper».class);
+	public «List.name»<«e.name»> getIncoming«e.name.toFirstUpper» () {
+		return getIncoming(«e.name.toFirstUpper».class);
 	}
 	
 	«ENDFOR»
@@ -40,8 +40,8 @@ class NodeTemplate extends ModelElementTemplate {
 	
 	def incomingEdgesGetter(NodeContainer n) 
 	'''«FOR e : n.incomingConnectingEdges»
-	public «List.name»<«e.getCName»> getIncoming«e.getCName.toFirstUpper» () {
-		return getIncoming(«e.getCName.toFirstUpper».class);
+	public «List.name»<«e.name»> getIncoming«e.name.toFirstUpper» () {
+		return getIncoming(«e.name.toFirstUpper».class);
 	}
 	
 	«ENDFOR»

@@ -1,6 +1,8 @@
 package de.jabc.cinco.meta.core.ge.style.generator.api.utils
 
 import de.jabc.cinco.meta.core.utils.MGLUtils
+import java.util.ArrayList
+import java.util.List
 import mgl.Attribute
 import mgl.ContainingElement
 import mgl.Edge
@@ -12,10 +14,8 @@ import mgl.Type
 import org.eclipse.graphiti.features.IFeatureProvider
 import org.eclipse.graphiti.mm.pictograms.Diagram
 import org.eclipse.graphiti.ui.services.GraphitiUi
-import java.util.List
-import java.util.ArrayList
 
-class APIUtils{
+class APIUtils {
 
 	static var String packageName
 	static var String gmName
@@ -24,22 +24,11 @@ class APIUtils{
 		gmName = gm.name
 	}
 
-	def getCName(ModelElement me) {
-		"C"+me.name
-	}
-	
 	def getName(ContainingElement ce) {
 		if (ce instanceof NodeContainer)
 			return ce.name
 		if (ce instanceof GraphModel)
 			return ce.name
-	}
-	
-	def getCName(ContainingElement ce) {
-		if (ce instanceof NodeContainer)
-			return "C"+ce.name
-		if (ce instanceof GraphModel)
-			return "C"+ce.name
 	}
 	
 	def getGraphModel(ModelElement me) {
@@ -56,47 +45,28 @@ class APIUtils{
 		else return rootElement(t.eContainer as Type)
 	}
 	
-//	def fqn(ContainingElement ce)'''
-//	«IF ce instanceof GraphModel»
-//	«fqn(ce as GraphModel)»
-//	«ELSEIF ce instanceof Node»
-//	«fqn(ce as Node)»
-//	«ENDIF»
-//	'''
 	
-//	def fqn(ContainingElement ce) {
-//		switch ce {
-//			NodeContainer : '''«packageName».«ce.graphModel.name.toLowerCase».«ce.name.toFirstUpper»'''
-//			GraphModel : '''«packageName».«ce.name.toLowerCase».«ce.name.toFirstUpper»'''
-//		}
-//	}
 	
 	def fqn(Type t) {
 		'''«packageName».«gmName.toLowerCase».«t.name.toFirstUpper»'''
+	}
+	
+//	def fqn(Type t) {
 //		switch t {
-//			GraphModel :'''«packageName».«t.name.toLowerCase».«t.name.toFirstUpper»'''
-//			Node : '''«packageName».«t.graphModel.name.toLowerCase».«t.name.toFirstUpper»'''
-//			Edge : '''«packageName».«t.graphModel.name.toLowerCase».«t.name.toFirstUpper»'''	
-//			Type : '''«packageName».«t.typesOpposite.name.toLowerCase».«t.name.toFirstUpper»'''
+//			GraphModel : fqn(t as GraphModel)
+//			Node : fqn(t as Node)
+//			Edge : fqn(t as Edge)	
 //		}
-	}
+//	}
 	
-	def fqcn(Type t) {
-		switch t {
-			GraphModel : fqcn(t as GraphModel)
-			Node : fqcn(t as Node)
-			Edge : fqcn(t as Edge)	
-		}
-	}
-	
-	def fqcn(Node n)'''
-	«packageName».newcapi.C«n.name.toFirstUpper»'''
+	def fqn(Node n)'''
+	«packageName».api.«n.name.toFirstUpper»'''
 
-	def fqcn(Edge e)'''
-	«packageName».newcapi.C«e.name.toFirstUpper»'''
+	def fqn(Edge e)'''
+	«packageName».api.C«e.name.toFirstUpper»'''
 	
-	def fqcn(GraphModel gm)'''
-	«packageName».newcapi.C«gm.name.toFirstUpper»'''
+	def fqn(GraphModel gm)'''
+	«packageName».api.C«gm.name.toFirstUpper»'''
 	
 	def createFeatureName(ModelElement me) {
 		var featureName = '''Create«me.name.toFirstUpper»Feature'''
@@ -168,8 +138,8 @@ class APIUtils{
 	'''
 	
 	def viewGetter(ModelElement me) '''
-	public «me.fqcn»View get«me.getCName»View() {
-		«me.fqcn»View view = new «me.fqcn»View();
+	public «me.fqn»View get«me.name»View() {
+		«me.fqn»View view = new «me.fqn»View();
 		view.setViewable(this);
 		return view;
 	}

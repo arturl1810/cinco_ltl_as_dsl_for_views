@@ -13,8 +13,8 @@ public class NodeView_MainTemplate extends NodeViewTemplate{
 		n = node
 	}
 	   
-def create() 
-'''package «packageName».newcapi;
+def doGenerate() 
+'''package «packageName».api;
 
 «IF n instanceof NodeContainer»
 public class C«fuMEName»View {
@@ -22,7 +22,7 @@ public class C«fuMEName»View {
 public class C«fuMEName»View {
 «ENDIF»
 
-	private «n.fqcn» viewable;
+	private «n.fqn» viewable;
 
 	«n.incomingEdgesGetter»
 	

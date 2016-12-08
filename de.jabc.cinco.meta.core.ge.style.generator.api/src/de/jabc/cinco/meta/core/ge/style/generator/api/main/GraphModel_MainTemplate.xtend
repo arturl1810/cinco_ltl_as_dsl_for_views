@@ -14,13 +14,12 @@ class GraphModel_MainTemplate extends APIUtils{
 	new (GraphModel graphModel) {
 		this.gm = graphModel
 		packageName = graphModel.package 
-		cname = getCName(gm as ModelElement)
 	}
 	
-	def create()'''
-package «packageName».newcapi;
+	def doGenerate()'''
+package «packageName».doGenerate;
 
-public class «cname» extends «IF (gm.extends == null)»«CGraphModelImpl.name»«ELSE»«gm.extends.fqcn»«ENDIF»{
+public class «cname» extends «IF (gm.extends == null)»«CGraphModelImpl.name»«ELSE»«gm.extends.fqn»«ENDIF»{
 
 	«gm.attributeGetter»
 	

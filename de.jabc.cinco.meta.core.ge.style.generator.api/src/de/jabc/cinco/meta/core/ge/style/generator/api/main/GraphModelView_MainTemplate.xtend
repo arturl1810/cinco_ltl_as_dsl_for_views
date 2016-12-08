@@ -13,12 +13,12 @@ class GraphModelView_MainTemplate extends GraphModelViewTemplate{
 		this.gm = gm
 	}
 	
-	def create()'''
-	package «gm.package».newcapi;
+	def doGenerate()'''
+	package «gm.package».api;
 
-	public class «getCName(gm as ContainingElement)»View {
+	public class «gm.name»View {
 	
-		private «gm.fqcn» viewable;
+		private «gm.fqn» viewable;
 
 		«gm.attributeGetter»
 	

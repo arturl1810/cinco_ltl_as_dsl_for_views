@@ -16,29 +16,29 @@ class GraphModelViewTemplate extends APIUtils{
 	}
 	
 	def viewableGetter(GraphModel gm)'''
-	public «gm.fqcn» getViewable(){
+	public «gm.fqn» getViewable(){
 		return this.viewable;
 	}
 	'''
 	
 	def viewableSetter(GraphModel gm)'''
-	public void setViewable(«gm.fqcn» cNode) {
+	public void setViewable(«gm.fqn» cNode) {
 		this.viewable = cNode;
 	}
 	'''
 	
 	def canNewMethod(GraphModel gm, Node n) '''
-	public boolean canNew«n.getCName»() {
+	public boolean canNew«n.name»() {
 		return ((«gm.fqn») this.getModelElement()).get«gm.name.toFirstUpper»View().canNew«n.name.toFirstUpper»();
 	}
 	'''
 	
 	def newNodeMethod(GraphModel gm, Node n)'''	
-	public «n.getCName»View new«n.getCName»(final int x, final int y) {
-		return new«n.getCName»(x,y,-1,-1);
+	public «n.name»View new«n.name»(final int x, final int y) {
+		return new«n.name»(x,y,-1,-1);
 	}
 	
-	public «n.getCName»View new«n.getCName»(final int x, final int y, final int width, final int height) {
+	public «n.name»View new«n.name»(final int x, final int y, final int width, final int height) {
 		«gm.fqn» cont = («gm.fqn») this.getViewable().getModelElement();
 		«n.fqn» me = cont.get«gm.name.toFirstUpper»View().new«n.name.toFirstUpper»(x, y, width, height).getViewable();
 		
@@ -56,13 +56,13 @@ class GraphModelViewTemplate extends APIUtils{
 		
 		if (pe == null) 
 			throw new «RuntimeException.name»("Failed to create PE for: " +af);
-		«n.getCName» cNode = new «n.getCName»();
+		«n.name» cNode = new «n.name»();
 		cNode.setModelElement(me);
 		cNode.setPictogramElement(pe);
 		getViewable().getModelElements().add(cNode);
 		getViewable().getMap().put(me, cNode);
 		
-		return cNode.get«n.getCName»View();
+		return cNode.get«n.name»View();
 	}
 	'''
 }

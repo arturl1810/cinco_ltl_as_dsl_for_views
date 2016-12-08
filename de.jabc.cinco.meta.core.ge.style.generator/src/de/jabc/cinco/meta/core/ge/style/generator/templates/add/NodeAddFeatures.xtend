@@ -111,7 +111,6 @@ public class AddFeaturePrime«n.fuName» extends «CincoAbstractAddFeature.name�
 		return null;
 	}
 	
-	
 }
 '''
 	}

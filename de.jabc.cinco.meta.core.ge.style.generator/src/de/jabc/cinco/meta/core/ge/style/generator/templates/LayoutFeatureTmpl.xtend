@@ -312,7 +312,7 @@ public class «gm.fuName»LayoutUtils {
 		inlineAppearance(mainShape)	
 	}
 	
-	def inlineAppearance(AbstractShape shape){
+	def void inlineAppearance(AbstractShape shape){
 		if(shape.inlineAppearance != null) {
 			counter2 = counter2+1
 			appList.add(shape.inlineAppearance);

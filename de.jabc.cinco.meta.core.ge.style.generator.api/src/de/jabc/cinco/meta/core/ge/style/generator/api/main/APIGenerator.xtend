@@ -1,59 +1,56 @@
 package de.jabc.cinco.meta.core.ge.style.generator.api.main
 
 import de.jabc.cinco.meta.core.ge.style.generator.api.utils.APIUtils
+import de.jabc.cinco.meta.core.utils.projects.ContentWriter
 import mgl.GraphModel
 import mgl.ModelElement
 import org.eclipse.core.resources.IProject
-import org.eclipse.core.runtime.IPath
 import org.eclipse.jdt.core.IPackageFragment
 import org.eclipse.jdt.core.JavaCore
-import de.jabc.cinco.meta.core.utils.projects.ContentWriter
 
 class APIGenerator {
 	
 	def doGenerate(IProject p, GraphModel gm) {
 		APIUtils.setCurrentGraphModel(gm);
-		val packageName = gm.package.concat(".newcapi")
-		var pack = createPackage(p, gm.package.concat(".newcapi"))
+		val packageName = gm.package.concat(".api")
+		var pack = createPackage(p, gm.package.concat(".api"))
 		
 		for (n : gm.nodes) {
-			var nodeTmplContent = new de.jabc.cinco.meta.core.ge.style.generator.api.main.Node_MainTemplate(n).create()
+			var nodeTmplContent = new Node_MainTemplate(n).doGenerate()
 			var fileName = n.fileName
 			
 			ContentWriter::writeJavaFileInSrcGen(p, packageName, fileName, nodeTmplContent)
-//			createJavaFile(pack, fileName, nodeTmplContent.toString)
 			
-			nodeTmplContent = new de.jabc.cinco.meta.core.ge.style.generator.api.main.NodeView_MainTemplate(n).create()
+			nodeTmplContent = new NodeView_MainTemplate(n).doGenerate()
 			fileName = n.viewFileName
 			
-			ContentWriter::writeJavaFileInSrcGen(p, gm.package.concat(".newcapi"),fileName, nodeTmplContent)
-//			createJavaFile(pack, fileName, nodeTmplContent.toString)
+			ContentWriter::writeJavaFileInSrcGen(p, gm.package.concat(".api"),fileName, nodeTmplContent)
 		}
 		
 		for (e : gm.edges) {
-			var edgeTmplContent = new Edge_MainTemplate(e).create()
+			var edgeTmplContent = new Edge_MainTemplate(e).doGenerate()
 			var fileName = e.fileName
 			
 			createJavaFile(pack, fileName, edgeTmplContent.toString)
 			
-			edgeTmplContent = new de.jabc.cinco.meta.core.ge.style.generator.api.main.EdgeView_MainTemplate(e).create()
+			edgeTmplContent = new EdgeView_MainTemplate(e).doGenerate()
 			fileName = e.viewFileName
 			
-			ContentWriter::writeJavaFileInSrcGen(p, gm.package.concat(".newcapi"),fileName, edgeTmplContent)
+			ContentWriter::writeJavaFileInSrcGen(p, gm.package.concat(".api"),fileName, edgeTmplContent)
 		}
 		
-		var graphModelTmplContent = new de.jabc.cinco.meta.core.ge.style.generator.api.main.GraphModel_MainTemplate(gm).create();
+		var graphModelTmplContent = new GraphModel_MainTemplate(gm).doGenerate();
 		var fileName = gm.fileName
-		ContentWriter::writeJavaFileInSrcGen(p,gm.package.concat(".newcapi"),fileName, graphModelTmplContent)
+		ContentWriter::writeJavaFileInSrcGen(p,gm.package.concat(".api"),fileName, graphModelTmplContent)
 		
-		graphModelTmplContent = new de.jabc.cinco.meta.core.ge.style.generator.api.main.GraphModelView_MainTemplate(gm).create();
+		graphModelTmplContent = new GraphModelView_MainTemplate(gm).doGenerate();
 		fileName = gm.viewFileName
-		ContentWriter::writeJavaFileInSrcGen(p,gm.package.concat(".newcapi"),fileName, graphModelTmplContent)
+		ContentWriter::writeJavaFileInSrcGen(p,gm.package.concat(".api"),fileName, graphModelTmplContent)
 		
-		var wrapperTmplContent = new de.jabc.cinco.meta.core.ge.style.generator.api.main.Wrapper_MainTemplate(gm).create()
+		var wrapperTmplContent = new Wrapper_MainTemplate(gm).doGenerate()
 		fileName = gm.wrapperFileName
 		
-		ContentWriter::writeJavaFileInSrcGen(p, gm.package.concat(".newcapi"), fileName, wrapperTmplContent)
+		ContentWriter::writeJavaFileInSrcGen(p, gm.package.concat(".api"), fileName, wrapperTmplContent)
 	}
 	
 	def createPackage(IProject p, String apiPackageName) {
@@ -71,11 +68,11 @@ class APIGenerator {
 	}
 	
 	def getFileName(ModelElement me) {
-		return "C" + me.name + ".java"
+		return me.name + ".java"
 	}
 	
 	def getViewFileName(ModelElement me) {
-		return "C" + me.name + "View.java"
+		return me.name + "View.java"
 	}
 	
 	def getWrapperFileName(GraphModel gm) {

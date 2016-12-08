@@ -15,13 +15,13 @@ public class Node_MainTemplate extends NodeTemplate {
 		n = node
 	}
 	   
-def create() 
-'''package «packageName».newcapi;
+def doGenerate() 
+'''package «packageName».api;
 
 «IF n instanceof NodeContainer»
-public class C«fuMEName» extends «IF (n.extends == null)»«CContainerImpl.name»«ELSE»«n.extends.fqcn»«ENDIF»{
+public class C«fuMEName» extends «IF (n.extends == null)»«CContainerImpl.name»«ELSE»«n.extends.fqn»«ENDIF»{
 «ELSE»
-public class C«fuMEName» extends «IF (n.extends == null)»«CNodeImpl.name»«ELSE»«n.extends.fqcn»«ENDIF»{
+public class C«fuMEName» extends «IF (n.extends == null)»«CNodeImpl.name»«ELSE»«n.extends.fqn»«ENDIF»{
 «ENDIF»
 
 	«n.incomingEdgesGetter»

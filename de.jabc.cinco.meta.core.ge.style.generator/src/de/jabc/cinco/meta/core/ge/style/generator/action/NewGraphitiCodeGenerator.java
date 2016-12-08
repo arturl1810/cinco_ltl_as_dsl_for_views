@@ -68,7 +68,7 @@ public class NewGraphitiCodeGenerator extends AbstractHandler{
 
 		editorGenerator.doGenerate(project);
 		
-		new APIGenerator().doGenerate(project, graphModel);
+//		new APIGenerator().doGenerate(project, graphModel);
 		
 		return null;
 	}

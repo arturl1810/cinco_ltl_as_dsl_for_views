@@ -12,12 +12,12 @@ class EdgeView_MainTemplate extends EdgeViewTemplate {
 		e = me as Edge
 	}
 	
-def create()
-'''package «packageName».newcapi;
+def doGenerate()
+'''package «packageName».api;
 
-public class «e.getCName»View {«««extends «CEdgeViewImpl.name» {
+public class «e.name»View {
 	
-	private «e.fqcn» viewable;
+	private «e.fqn» viewable;
 	
 	«e.sourceGetter»
 	
