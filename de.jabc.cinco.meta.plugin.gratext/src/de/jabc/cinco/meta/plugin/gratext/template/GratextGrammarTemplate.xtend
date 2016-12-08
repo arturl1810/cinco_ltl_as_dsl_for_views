@@ -17,6 +17,8 @@ import mgl.UserDefinedType
 import org.eclipse.emf.ecore.EClass
 import org.eclipse.emf.ecore.ENamedElement
 import org.eclipse.emf.ecore.EObject
+import org.eclipse.emf.ecore.EDataType
+import org.eclipse.emf.ecore.EcorePackage
 
 class GratextGrammarTemplate extends AbstractGratextTemplate {
 
@@ -59,7 +61,7 @@ def modelRule() {
 	val containables = model.nonAbstractContainables
 	'''
 	«model.name» returns «model.name»:{«model.name»}
-	'«model.name»' (id = ID)?
+	'«model.name»' (id = _ID)?
 	('{'
 		«attributes(graphmodel)»
 		«IF !containables.empty»
@@ -82,7 +84,7 @@ def containerRule(NodeContainer node) {
 	val containables = model.resp(node).nonAbstractContainables
 	'''
 	«node.name» returns «node.name»:{«node.name»}
-	'«node.name»' (id = ID)? placement = Placement
+	'«node.name»' (id = _ID)? placement = _Placement
 	('{'
 		«attributes(node)»
 		«IF !containables.empty»
@@ -113,7 +115,7 @@ def nodeRule(Node node) {
 	val outEdges = model.resp(node).outgoingEdges
 	'''
 	«node.name» returns «node.name»:{«node.name»}
-	'«node.name»' (id = ID)? placement = Placement
+	'«node.name»' (id = _ID)? placement = _Placement
 	('{'
 		«attributes(node)»
 		«IF !outEdges.empty»
@@ -133,11 +135,11 @@ def nodeRule(Node node) {
 def edgeRule(Edge edge) {
 	'''
 	«edge.name» returns «edge.name»:{«edge.name»}
-	'-«edge.name»->' _targetElement = [graphmodel::Node|ID]
-	(route = Route)?
-	(decorations += Decoration)*
+	'-«edge.name»->' _targetElement = [graphmodel::Node|_ID]
+	(route = _Route)?
+	(decorations += _Decoration)*
 	('{'
-		('id' id = ID)?
+		('id' id = _ID)?
 		«attributes(edge)»
 	'}')?
 	;
@@ -163,11 +165,22 @@ def enumRule(Enumeration type) {
 }
 	
 def type(Attribute attr) {
-	if (model.contains(attr.type)) {
+	println("[GRAM] " + attr)
+	println("[GRAM]  > type: " + attr.type)
+	println("[GRAM]  > ecore? " + EcorePackage.eINSTANCE.getEClassifier(attr.type))
+	println("[GRAM]  > model? " + model.contains(attr.type))
+	println("[GRAM]  > enumType? " + model.containsEnumeration(attr.type))
+	println("[GRAM]  > userType? " + model.containsUserDefinedType(attr.type))
+	
+	if (EcorePackage.eINSTANCE.getEClassifier(attr.type) != null)
+			'''_«attr.type»'''
+	else if (model.contains(attr.type)) {
 		if (model.containsEnumeration(attr.type) || model.containsUserDefinedType(attr.type))
 			attr.type
-		else '''[«model.acronym»::«attr.type»|ID]'''
-	} else attr.type
+		else 
+			'''[«model.acronym»::«attr.type»|_ID]'''
+	}
+	else attr.type
 }
 
 def type(ReferencedType ref) {
@@ -182,7 +195,7 @@ def type(ReferencedType ref) {
 			EClass: 	type.EPackage.acronym -> type.name
 		}
 //		println(" > Type: " + entry)
-		'''[«entry.key»::«entry.value»|ID]'''
+		'''[«entry.key»::«entry.value»|_ID]'''
 	}
 }
 
@@ -204,7 +217,7 @@ def prime(Node node) {
 	val ref = node.primeReference
 	if (ref != null) {
 //		println(node.name + ".prime: " + ref)
-		'''( '«ref.name»' prime = «ref.type» | 'libraryComponentUID' libraryComponentUID = EString )'''
+		'''( '«ref.name»' prime = «ref.type» | 'libraryComponentUID' libraryComponentUID = _EString )'''
 	}
 }
 
@@ -214,13 +227,13 @@ import "«graphmodel.nsURI»/«project.acronym»"
 import "«graphmodel.nsURI»" as «model.acronym»
 «references.entrySet.map['''import "«it.value»" as «it.key»'''].join('\n')»
 import "http://www.jabc.de/cinco/gdl/graphmodel" as graphmodel
-import "http://www.eclipse.org/emf/2002/Ecore" as ecore
+import "http://www.eclipse.org/emf/2002/Ecore" as _ecore
 '''	
 }
 
 override template()
 '''	
-grammar «project.basePackage».«project.targetName» with org.eclipse.xtext.common.Terminals
+grammar «project.basePackage».«project.targetName» hidden(_WS, _ML_COMMENT, _SL_COMMENT)
 
 «imports»
 
@@ -236,44 +249,57 @@ grammar «project.basePackage».«project.targetName» with org.eclipse.xtext.co
 
 «FOR type:model.enumerations»«enumRule(type)»«ENDFOR»
 
-Placement returns _Placement:{_Placement}
-	( ('at' x=EInt ',' y=EInt)?
-	& ('size' width=EInt ',' height=EInt)? )
+_Placement returns _Placement:{_Placement}
+	( ('at' x=_EInt ',' y=_EInt)?
+	& ('size' width=_EInt ',' height=_EInt)? )
 ;
 
-Decoration returns _Decoration:{_Decoration}
-	'decorate' (namehint = EString)? 'at' location = Point
+_Decoration returns _Decoration:{_Decoration}
+	'decorate' (namehint = _EString)? 'at' location = _Point
 ;
 
-Route returns _Route:{_Route}
-	'via' (points += Point)+
+_Route returns _Route:{_Route}
+	'via' (points += _Point)+
 ;
 
-Point returns _Point:{_Point}
-	'(' x = EInt ',' y = EInt ')'
+_Point returns _Point:{_Point}
+	'(' x = _EInt ',' y = _EInt ')'
 ;
 
-EString returns ecore::EString:
-	STRING;
+_EString returns _ecore::EString:
+	_STRING;
 
-EInt returns ecore::EInt:
-	SIGN? INT
+_EInt returns _ecore::EInt:
+	_SIGN? _INT
 ;
 
-ELong returns ecore::ELong:
-	SIGN? INT
+_ELong returns _ecore::ELong:
+	_SIGN? _INT
 ;
 
-EDouble returns ecore::EDouble:
-	SIGN? INT? '.' INT
+_EDouble returns _ecore::EDouble:
+	_SIGN? _INT? '.' _INT
 ;
 
-EBoolean returns ecore::EBoolean:
+_EBoolean returns _ecore::EBoolean:
 	'true' | 'false'
 ;
 
-terminal ID: '^'?('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'_'|'-'|'0'..'9')*;
+terminal _ID : '^'?('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'_'|'-'|'0'..'9')* ;
 
-terminal SIGN : '+' | '-' ;
+terminal _SIGN : '+' | '-' ;
+
+terminal _INT returns _ecore::EInt: ('0'..'9')+ ;
+
+terminal _STRING	: 
+			'"' ( '\\' . /* 'b'|'t'|'n'|'f'|'r'|'u'|'"'|"'"|'\\' */ | !('\\'|'"') )* '"' |
+			"'" ( '\\' . /* 'b'|'t'|'n'|'f'|'r'|'u'|'"'|"'"|'\\' */ | !('\\'|"'") )* "'"
+		; 
+terminal _ML_COMMENT	: '/*' -> '*/' ;
+terminal _SL_COMMENT 	: '//' !('\n'|'\r')* ('\r'? '\n')? ;
+
+terminal _WS			: (' '|'\t'|'\r'|'\n')+ ;
+
+terminal _ANY_OTHER: . ;
 '''
 }
