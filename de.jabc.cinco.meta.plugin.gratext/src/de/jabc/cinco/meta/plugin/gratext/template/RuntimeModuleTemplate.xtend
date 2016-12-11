@@ -27,6 +27,7 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EValidator;
 import org.eclipse.emf.ecore.EValidator.Registry;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.xtext.conversion.IValueConverterService;
 import org.eclipse.xtext.conversion.ValueConverterException;
 import org.eclipse.xtext.linking.ILinker;
 import org.eclipse.xtext.linking.impl.Linker;
@@ -36,7 +37,14 @@ import org.eclipse.xtext.parser.DefaultEcoreElementFactory;
 import org.eclipse.xtext.parser.IAstFactory;
 import org.eclipse.xtext.resource.XtextResource;
 
+import de.jabc.cinco.meta.plugin.gratext.runtime.util.TerminalConverters;
+
 public class «project.targetName»RuntimeModule extends «project.basePackage».Abstract«project.targetName»RuntimeModule {
+
+	@Override
+	public Class<? extends IValueConverterService> bindIValueConverterService() {
+	    return TerminalConverters.class;
+	}
 
 	@Override
 	public Class<? extends IAstFactory> bindIAstFactory() {

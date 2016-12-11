@@ -78,10 +78,12 @@ class GratextModelTransformer {
 	}
 	
 	private def ModelElement map(ModelElement elm) {
+		println("Map: " + elm)
 		val cp = elm.counterpart
 		if (cp != null)
 			return cp as ModelElement
 		val baseElm = elm.toBase
+		println(" > " + baseElm)
 		cache(baseElm, elm)
 		baseElm.attributes.map(baseElm)
 		baseElm.references.map(baseElm)
