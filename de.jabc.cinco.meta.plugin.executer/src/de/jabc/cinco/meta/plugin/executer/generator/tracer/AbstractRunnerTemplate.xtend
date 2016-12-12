@@ -33,6 +33,7 @@ class AbstractRunnerTemplate extends MainTemplate {
 	import «graphmodel.tracerPackage».stepper.model.Stepper;
 	import «graphmodel.tracerPackage».stepper.model.Thread;
 	import «graphmodel.tracerPackage».stepper.utils.JointTracerException;
+	import «graphmodel.tracerPackage».stepper.utils.TracerException;
 	
 	/**
 	 * The abstract runner class defines an extension point class
@@ -69,13 +70,14 @@ class AbstractRunnerTemplate extends MainTemplate {
 			for(Run r:runs){
 				// determine the context for each run
 				AbstractContext context = r.getContext();
-				// initialize the context
-				// HINT: may take user interaction and blocks the UI
-				context.initialize(shell);
-				// receive the semantics for this run
 				AbstractSemantic semantic = r.getSemantic();
 				// create the stepper
-				Stepper stepper = new Stepper(matchGraph,r.getStartingElements(),shell,context,semantic);
+				Stepper stepper;
+				try {
+					stepper = new Stepper(matchGraph,r.getStartingElements(),shell,context,semantic);
+				} catch (TracerException e) {
+					continue;
+				}
 				// and combine it with the run 
 				runSteppers.add(new RunStepper(r,stepper));
 			}

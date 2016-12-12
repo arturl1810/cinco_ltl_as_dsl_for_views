@@ -52,8 +52,12 @@ class MatchTemplate extends MainTemplate {
 		}
 		
 		public Match(Match match) {
-			this.elements = match.getElements();
-			this.level = match.getLevel();
+			this.setElements(match.getElements());
+			this.setEndPoint(match.getEndPoint());
+			this.setStartPoint(match.getStartPoint());
+			this.setLevel(match.getLevel());
+			this.setPattern(match.getPattern());
+			this.setRoot(match.getRoot());
 		}
 	
 		public Set<CModelElement> getElements() {

@@ -23,11 +23,9 @@ class NodeSimulatorTemplate extends MainTemplate {
 	
 	import graphicalgraphmodel.CModelElement;
 	import graphicalgraphmodel.CNode;
-	import «graphmodel.CApiPackage».CExecutableNodeOuterLevelState;
 	import «graphmodel.CApiPackage».CMetaLevel;
 	import «graphmodel.CApiPackage».CPattern;
 	import «graphmodel.CApiPackage».C«graphmodel.graphModel.name»ES;
-	import «graphmodel.apiPackage».ExecutableNodeOuterLevelState;
 	import «graphmodel.apiPackage».MetaLevel;
 	import «graphmodel.tracerPackage».match.model.Match;
 	import «graphmodel.tracerPackage».match.model.LTSMatch;
@@ -59,7 +57,7 @@ class NodeSimulatorTemplate extends MainTemplate {
 			/**
 			 * 2. Type check
 			 */
-			if(TypeChecker.checkType(startGraphNode, startPatternNode))
+			if(!TypeChecker.checkType(startGraphNode, startPatternNode))
 			{
 				return null;
 			}
@@ -85,20 +83,30 @@ class NodeSimulatorTemplate extends MainTemplate {
 			match.unionMatch(edgeMatch);
 			return match;
 		}
-		
-		public Match simulatePatternFromOLNode(CNode startGraphNode,CExecutableNodeOuterLevelState startPatternNode,Map<CModelElement,Set<CModelElement>> foundMatches,LTSMatch ltsMatch)
+		«FOR n:graphmodel.exclusivelyNodes.map[n|n.modelElement as mgl.Node].filter[isPrime]»
+		public Match simulatePatternFromOLNode(CNode startGraphNode,«graphmodel.CApiPackage».C«n.name»OuterLevelState startPatternNode,Map<CModelElement,Set<CModelElement>> foundMatches,LTSMatch ltsMatch)
 		{
 			Match match = simulatePatternFromNode(startGraphNode,(CNode) startPatternNode, foundMatches,ltsMatch);
 			
-			MetaLevel level = ((ExecutableNodeOuterLevelState)startPatternNode.getModelElement()).getLevel();
+			if(match==null) 
+			{
+				return null;
+			}
 			
-			CMetaLevel cMetaLevel = this.patternGraph.findCMetaLevel(level);
-			LTSMatch lts = graphSimulator.simulateLTS(cMetaLevel,startGraphNode.getCRootElement(),startGraphNode.getContainer());
+			MetaLevel level = ((«graphmodel.apiPackage».«n.name»OuterLevelState)startPatternNode.getModelElement()).getLevel();
+			
+			CMetaLevel cMetaLevel = (CMetaLevel) this.patternGraph.getModelElements().stream().filter(n->n.getModelElement().getId().equals(level.getId())).findFirst().get();
+			
+			«graphmodel.sourceApiPackage».«n.name» startNode = («graphmodel.sourceApiPackage».«n.name») startGraphNode.getModelElement();
+			«graphmodel.sourceCApiPackage».C«n.primeAttrType» reference = («graphmodel.sourceCApiPackage».C«n.primeAttrType») startGraphNode.getCRootElement().getAllCNodes().stream().filter(n->n.getModelElement().getId().equals(startNode.get«n.primeAttrName.toFirstUpper»().getId())).findFirst().get();
+			
+			LTSMatch lts = graphSimulator.simulateLTS(cMetaLevel,startGraphNode.getCRootElement(),reference);
 			
 			match.setLevel(lts);
 			
 			return match;
 		}
+		«ENDFOR»
 	
 		public void setEdgeSimulator(EdgeSimulator edgeSimulator) {
 			this.edgeSimulator = edgeSimulator;

@@ -31,7 +31,7 @@ class MGLGenerator extends MainTemplate{
 	graphModel «graphmodel.projectName» {
 		package «graphmodel.package»
 		nsURI "«graphmodel.nsUri»"
-		diagramExtension "«graphmodel.extension»es"
+		diagramExtension "«graphmodel.extension»"
 		
 		containableElements (
 			MetaLevel[1,*]
@@ -66,12 +66,7 @@ class MGLGenerator extends MainTemplate{
 				ExecutableContainer[0,*],
 				PlaceholderContainer[0,1],
 				SourceConnector[0,*],
-				TargetConnector[0,*],
-				{
-					ExecutableNodeOuterLevelState,
-					ExecutableContainerOuterLevelState,
-					ExecutableContainerInnerLevelState
-				}[0,1]
+				TargetConnector[0,*]
 			)
 		}
 		
@@ -117,15 +112,6 @@ class MGLGenerator extends MainTemplate{
 			attr BorderElement as border
 		}
 		
-		abstract node ExecutableNodeOuterLevelState {
-			
-			
-			@pvLabel("label")
-			@pvFileExtension(".«graphmodel.extension»")
-			prime this::MetaLevel as level
-			
-			attr BorderElement as border
-		}
 		«FOR node:graphmodel.exclusivelyNodes»
 		«{
 			var n = node.modelElement
@@ -137,9 +123,15 @@ class MGLGenerator extends MainTemplate{
 			}
 			«IF n.isPrime»
 			«n.style»
-			node «n.name»OuterLevelState extends «IF node.parent != null»«node.parent.modelElement.name»«ELSE»ExecutableNodeOuterLevelState«ENDIF» {
+			node «n.name»OuterLevelState extends «IF node.parent != null»«node.parent.modelElement.name»«ELSE»ExecutableNode«ENDIF» {
+				
+				@pvLabel("label")
+				@pvFileExtension(".«graphmodel.extension»")
+				prime this::MetaLevel as level
+				
 				
 				«node.inAndOut»
+				
 			}
 			«ENDIF»
 			'''	
@@ -152,26 +144,7 @@ class MGLGenerator extends MainTemplate{
 			attr BorderElement as border
 		}
 		
-		abstract container ExecutableContainerOuterLevelState {
-			
-			
-			@pvLabel("label")
-			@pvFileExtension(".«graphmodel.extension»")
-			prime this::MetaLevel as level
-			
-			attr BorderElement as border
-
-			containableElements(*[0,0])
-		}
 		
-		abstract container ExecutableContainerInnerLevelState {
-			
-			attr BorderElement as border
-			
-			containableElements(
-				ReferencedMetaLevel[1,1]
-			)
-		}
 		«FOR node:graphmodel.containers»
 		«{
 			var n = node.modelElement as NodeContainer
@@ -192,11 +165,21 @@ class MGLGenerator extends MainTemplate{
 			container «n.name»InnerLevelState extends «IF node.parent != null»«node.parent.modelElement.name»«ELSE»ExecutableContainer«ENDIF» {
 				
 				«node.inAndOut»
+				
+				containableElements(
+					ReferencedMetaLevel[1,1]
+				)
 			}
 			«IF n.isPrime»
-			container «n.name»OuterLevelState extends «IF node.parent != null»«node.parent.modelElement.name»«ELSE»ExecutableContainerOuterLevelState«ENDIF» {
+			container «n.name»OuterLevelState extends «IF node.parent != null»«node.parent.modelElement.name»«ELSE»ExecutableContainer«ENDIF» {
 				
+				@pvLabel("label")
+				@pvFileExtension(".«graphmodel.extension»")
+				prime this::MetaLevel as level
+								
 				«node.inAndOut»
+				
+				containableElements(*[0,0])
 			}
 			«ENDIF»
 			'''	

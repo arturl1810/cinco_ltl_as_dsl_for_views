@@ -17,13 +17,14 @@ class ThreadTemplate extends MainTemplate {
 	'''
 	package «graphmodel.tracerPackage».stepper.model;
 	
-	import java.util.Arrays;
 	import java.util.LinkedList;
 	import java.util.List;
 	import java.util.Queue;
+	import java.util.Set;
 	import java.util.stream.Collectors;
 	import java.util.stream.Stream;
 	
+	import graphicalgraphmodel.CModelElement;
 	import «graphmodel.tracerPackage».extension.AbstractContext;
 	import «graphmodel.tracerPackage».extension.AbstractSemantic;
 	import «graphmodel.tracerPackage».match.model.LTSMatch;
@@ -221,7 +222,7 @@ class ThreadTemplate extends MainTemplate {
 			List<ContentView> result = new LinkedList<ContentView>();
 			for(Level l:this.levelQueue){
 				result.add(new ContentView(
-						semantic.displayLevel(l.getCurrentContainer().getRoot())+":"+semantic.displayElement(l.getCurrenElement()),
+						semantic.displayLevel(l.getCurrentContainer().getContainer())+":"+semantic.displayElement(l.getCurrenElement()),
 						l.getCurrenElement(),
 						this
 						));
@@ -232,11 +233,11 @@ class ThreadTemplate extends MainTemplate {
 		
 		public final void highlightLevels()
 		{
-			List<Match> activeElements = Stream.concat(
-					this.levelQueue.stream().map(n->n.getCurrentContainer()).filter(n->n!=null),
-					this.levelQueue.stream().map(n->n.getCurrenElement())
-					).collect(Collectors.toList());
-			this.highlighter.highlight(activeElements.stream().flatMap(n->n.getElements().stream()).collect(Collectors.toSet()));
+			Set<CModelElement> activeElements = Stream.concat(
+					this.levelQueue.stream().map(n->n.getCurrentContainer().getContainer()).filter(n->n!=null).filter(n->n instanceof CModelElement).map(n->(CModelElement)n),
+					this.levelQueue.stream().flatMap(n->n.getCurrenElement().getElements().stream())
+					).collect(Collectors.toSet());
+			this.highlighter.highlight(activeElements);
 		}
 	
 		public final List<Match> getGlobalHistory() {

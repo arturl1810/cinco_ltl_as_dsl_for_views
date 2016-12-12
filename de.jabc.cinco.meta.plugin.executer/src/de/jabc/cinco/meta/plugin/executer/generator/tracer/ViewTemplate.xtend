@@ -24,6 +24,7 @@ class ViewTemplate extends MainTemplate {
 	import java.util.Map.Entry;
 	
 	import org.eclipse.core.resources.IFile;
+	import org.eclipse.core.resources.ResourcesPlugin;
 	import org.eclipse.core.runtime.Platform;
 	import org.eclipse.graphiti.mm.pictograms.Diagram;
 	import org.eclipse.jface.action.Action;
@@ -61,7 +62,7 @@ class ViewTemplate extends MainTemplate {
 	import org.eclipse.ui.model.WorkbenchLabelProvider;
 	import org.eclipse.ui.part.ViewPart;
 	
-	import de.jabc.cinco.meta.core.utils.CincoUtils;
+	import de.jabc.cinco.meta.core.utils.WorkspaceUtil;
 	import de.jabc.cinco.meta.core.utils.WorkbenchUtil;
 	import graphmodel.GraphModel;
 	import «graphmodel.sourceCApiPackage».C«graphmodel.graphModel.name»;
@@ -80,6 +81,7 @@ class ViewTemplate extends MainTemplate {
 	import «graphmodel.tracerPackage».stepper.model.Thread;
 	import «graphmodel.tracerPackage».stepper.utils.ContentView;
 	import «graphmodel.tracerPackage».stepper.utils.JointTracerException;
+	import «graphmodel.tracerPackage».stepper.utils.TracerException;
 	import «graphmodel.graphModel.package».«graphmodel.graphModel.name.toLowerCase».«graphmodel.graphModel.name»;
 	
 	
@@ -100,7 +102,7 @@ class ViewTemplate extends MainTemplate {
 	 * presented in the same way everywhere.
 	 * <p>
 	 */
-	
+	@SuppressWarnings("restriction")
 	public class View extends ViewPart {
 	
 		/**
@@ -537,12 +539,16 @@ class ViewTemplate extends MainTemplate {
 			}
 			GraphSimulator gs = new GraphSimulator(c«graphmodel.graphModel.name», c«graphmodel.graphModel.name»ES);
 			LTSMatch lstMatch = gs.simulate();
-			stepper = new Stepper(lstMatch,shell,currentSemantic.getContext(),currentSemantic.getSemantic());
-			for(Thread t:stepper.getActiveThreads()){
-				this.viewerMap.put(t, createThread(t));	
+			try {
+				stepper = new Stepper(lstMatch,shell,currentSemantic.getContext(),currentSemantic.getSemantic());
+				for(Thread t:stepper.getActiveThreads()){
+					this.viewerMap.put(t, createThread(t));	
+				}
+				updateViewMode();
+				showMessage("Tracer ready for execution");		
+			} catch (TracerException e) {
+				showMessage(e.getText());
 			}
-			updateViewMode();
-			showMessage("Tracer ready for execution");		
 		}
 		
 		/**
@@ -601,6 +607,7 @@ class ViewTemplate extends MainTemplate {
 		    		    new BaseWorkbenchContentProvider());
 		    		selection.setTitle("Pattern Selection");
 		    		selection.setAllowMultiple(false);
+		    		selection.setInput(ResourcesPlugin.getWorkspace().getRoot());
 		    		selection.addFilter(new FileExtensionFilter("«graphmodel.graphModel.name.toLowerCase»es"));
 			    	selection.setMessage("Select a String (* = any string, ? = any char):");
 			    	
@@ -611,7 +618,7 @@ class ViewTemplate extends MainTemplate {
 			    			showMessage("No pattern selected.");
 			    			return false;
 			    		}
-			    		«graphmodel.graphModel.name.toFirstLower»ES = («graphmodel.graphModel.name»ES) CincoUtils.getGraphModel((IFile)et);
+			    		«graphmodel.graphModel.name.toFirstLower»ES = WorkspaceUtil.eapi((IFile) et).getGraphModel(«graphmodel.graphModel.name»ES.class);
 			    		c«graphmodel.graphModel.name»ES = «graphmodel.graphModel.name»ESWrapper.wrapGraphModel(«graphmodel.graphModel.name.toFirstLower»ES, (Diagram) «graphmodel.graphModel.name.toFirstLower»ES.eResource().getContents().get(0));
 			    		hasToBeReseted = true;
 			    }
@@ -694,6 +701,7 @@ class ViewTemplate extends MainTemplate {
 		    		    new BaseWorkbenchContentProvider());
 		    		selection.setTitle("Pattern Selection");
 		    		selection.setAllowMultiple(false);
+		    		selection.setInput(ResourcesPlugin.getWorkspace().getRoot());
 		    		selection.addFilter(new FileExtensionFilter("«graphmodel.graphModel.name.toLowerCase»es"));
 			    	selection.setMessage("Select a String (* = any string, ? = any char):");
 			    	
@@ -704,7 +712,7 @@ class ViewTemplate extends MainTemplate {
 			    			showMessage("No pattern selected.");
 			    			return false;
 			    		}
-			    		«graphmodel.graphModel.name.toFirstLower»ES = («graphmodel.graphModel.name»ES) CincoUtils.getGraphModel((IFile) et);
+			    		«graphmodel.graphModel.name.toFirstLower»ES = WorkspaceUtil.eapi((IFile) et).getGraphModel(«graphmodel.graphModel.name»ES.class);
 			    		c«graphmodel.graphModel.name»ES = «graphmodel.graphModel.name»ESWrapper.wrapGraphModel(«graphmodel.graphModel.name.toFirstLower»ES, (Diagram) «graphmodel.graphModel.name.toFirstLower»ES.eResource().getContents().get(0));
 			    }
 			    else

@@ -42,8 +42,9 @@ class AbstractContextTemplate extends MainTemplate {
 		/**
 		 * Initializes the context with user input
 		 * @param shell Enables the creation of dialogs
+		 * @return boolean True, if the context initialized correctly, else false
 		 */
-		public abstract void initialize(Shell shell);
+		public abstract boolean initialize(Shell shell);
 		
 		/**
 		 * Returns the context value to a given key

@@ -34,6 +34,7 @@ class ManifestTemplate extends MainTemplate {
 	 de.jabc.cinco.meta.core.referenceregistry,
 	 de.jabc.cinco.meta.core.ui.highlight,
 	 de.jabc.cinco.meta.core.utils,
+	 de.jabc.cinco.meta.core.utils.eapi,
 	 de.jabc.cinco.meta.core.utils.job,
 	 graphicalgraphmodel,
 	 graphmodel,

@@ -49,18 +49,21 @@ class StepperTemplate extends MainTemplate {
 		 * @param context
 		 * @param semantic
 		 */
-		public Stepper(LTSMatch firstGraph, Shell shell, AbstractContext context, AbstractSemantic semantic)
+		public Stepper(LTSMatch firstGraph, Shell shell, AbstractContext context, AbstractSemantic semantic) throws TracerException
 		{
 			this(firstGraph,null,shell,context,semantic);
 		}
 		
-		public Stepper(LTSMatch firstGraph,List<Match> startingElements, Shell shell, AbstractContext context, AbstractSemantic semantic)
+		public Stepper(LTSMatch firstGraph,List<Match> startingElements, Shell shell, AbstractContext context, AbstractSemantic semantic) throws TracerException
 		{
 			this.semantic = semantic;
 			activeThreads = new LinkedList<Thread>();
 			
 			// initialize the context
-			context.initialize(shell);
+			if(!context.initialize(shell))
+			{
+				throw new TracerException("Context has not been initialized correctly");
+			}
 			
 			//Get starting element
 			if(startingElements != null){

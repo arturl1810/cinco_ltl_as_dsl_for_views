@@ -2,6 +2,7 @@ package de.jabc.cinco.meta.plugin.executer.generator.tracer
 
 import de.jabc.cinco.meta.plugin.executer.generator.tracer.MainTemplate
 import de.jabc.cinco.meta.plugin.executer.compounds.ExecutableGraphmodel
+import mgl.NodeContainer
 
 class EdgeSimulatorTemplate extends MainTemplate {
 	
@@ -26,11 +27,8 @@ class EdgeSimulatorTemplate extends MainTemplate {
 	import graphicalgraphmodel.CModelElement;
 	import graphicalgraphmodel.CNode;
 	import «graphmodel.CApiPackage».CExecutableContainer;
-	import «graphmodel.CApiPackage».CExecutableContainerInnerLevelState;
-	import «graphmodel.CApiPackage».CExecutableContainerOuterLevelState;
 	import «graphmodel.CApiPackage».CExecutableEdge;
 	import «graphmodel.CApiPackage».CExecutableNode;
-	import «graphmodel.CApiPackage».CExecutableNodeOuterLevelState;
 	import «graphmodel.CApiPackage».CPattern;
 	import «graphmodel.CApiPackage».CSourceConnector;
 	import «graphmodel.CApiPackage».CTargetConnector;
@@ -47,7 +45,8 @@ class EdgeSimulatorTemplate extends MainTemplate {
 			
 			Match match = new Match();
 			match.setRoot(ltsMatch);
-			match.setPattern((CPattern) cExecutableEdge.getContainer());
+			
+			match.getElements().add(edge);
 			
 			BorderMatcher.setBorder(match,edge,cExecutableEdge);
 			
@@ -74,6 +73,7 @@ class EdgeSimulatorTemplate extends MainTemplate {
 			Match match = new Match();
 			match.setPattern((CPattern) startPatternNode.getContainer());
 			match.setRoot(ltsMatch);
+			
 			// simulate incoming edges
 			for(CExecutableEdge patternEdge:startPatternNode.getIncoming(CExecutableEdge.class)) {
 				// for each incoming pattern edge
@@ -163,43 +163,65 @@ class EdgeSimulatorTemplate extends MainTemplate {
 			match.setPattern((CPattern) pattern.getContainer());
 			match.setRoot(ltsMatch);
 			
-			match.getElements().add(startGraphEdge);
-			
 			/**
 			 * 1. Check if target is a connector
 			 */
 			if(clazz.isInstance(pattern)){
 				return match;
 			}
+			
+			match.getElements().add(startGraphEdge);
+			
 			/**
 			 * 2. Check pattern type of the source and continue with the source node
 			 */
 			
 			Match connectorMatch = null;
 			
+			«FOR node:graphmodel.containers.map[n|n.modelElement as NodeContainer]»
+				if(pattern instanceof «graphmodel.CApiPackage».C«node.name»InnerLevelState && node instanceof CContainer){
+					connectorMatch = containerSimulator.simulatePatternFromILContainer((CContainer)node, («graphmodel.CApiPackage».C«node.name»InnerLevelState)pattern,foundMatches,ltsMatch);
+					if(connectorMatch != null){
+						match.unionMatch(connectorMatch);
+						return match;
+					}
+				}
+				«IF node.isPrime»
+					if(pattern instanceof «graphmodel.CApiPackage».C«node.name»OuterLevelState && node instanceof CContainer){
+						connectorMatch = containerSimulator.simulatePatternFromOLContainer((CContainer)node, («graphmodel.CApiPackage».C«node.name»OuterLevelState)pattern,foundMatches,ltsMatch);
+						if(connectorMatch != null){
+							match.unionMatch(connectorMatch);
+							return match;
+						}
+					}
+				«ENDIF»
+			«ENDFOR»
+			«FOR n:graphmodel.exclusivelyNodes.map[n|n.modelElement as mgl.Node].filter[isPrime]»
+				if(pattern instanceof «graphmodel.CApiPackage».C«n.name»OuterLevelState){
+					connectorMatch = nodeSimulator.simulatePatternFromOLNode(node, («graphmodel.CApiPackage».C«n.name»OuterLevelState)pattern,foundMatches,ltsMatch);
+					if(connectorMatch != null){
+						match.unionMatch(connectorMatch);
+						return match;
+					}
+				}
+			«ENDFOR»
+			
 			if(pattern instanceof CExecutableNode){
 				connectorMatch = nodeSimulator.simulatePatternFromNode(node, (CExecutableNode)pattern,foundMatches,ltsMatch);
+				if(connectorMatch != null){
+					match.unionMatch(connectorMatch);
+					return match;
+				}
 				
-			}
-			if(pattern instanceof CExecutableNodeOuterLevelState){
-				connectorMatch = nodeSimulator.simulatePatternFromOLNode(node, (CExecutableNodeOuterLevelState)pattern,foundMatches,ltsMatch);
 			}
 			if(pattern instanceof CExecutableContainer){
 				connectorMatch = containerSimulator.simulatePatternFromContainer((CContainer)node, (CExecutableContainer)pattern,foundMatches,ltsMatch);
+				if(connectorMatch != null){
+					match.unionMatch(connectorMatch);
+					return match;
+				}
 			}
-			if(pattern instanceof CExecutableContainerInnerLevelState){
-				connectorMatch = containerSimulator.simulatePatternFromILContainer((CContainer)node, (CExecutableContainerInnerLevelState)pattern,foundMatches,ltsMatch);
-			}
-			if(pattern instanceof CExecutableContainerOuterLevelState){
-				connectorMatch = containerSimulator.simulatePatternFromOLContainer((CContainer)node, (CExecutableContainerOuterLevelState)pattern,foundMatches,ltsMatch);
-			}
-			
-			if(connectorMatch == null){
-				return null;
-			}
-			match.unionMatch(connectorMatch);
-			
-			return match;
+			return null;
 		}
 	
 		public void setNodeSimulator(NodeSimulator nodeSimulator) {

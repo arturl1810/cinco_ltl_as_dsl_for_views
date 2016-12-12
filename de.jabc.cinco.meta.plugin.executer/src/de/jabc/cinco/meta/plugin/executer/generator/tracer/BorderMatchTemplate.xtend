@@ -21,11 +21,8 @@ class BorderMatchTemplate extends MainTemplate {
 	import graphicalgraphmodel.CEdge;
 	import graphicalgraphmodel.CNode;
 	import «graphmodel.CApiPackage».CExecutableContainer;
-	import «graphmodel.CApiPackage».CExecutableContainerInnerLevelState;
-	import «graphmodel.CApiPackage».CExecutableContainerOuterLevelState;
 	import «graphmodel.CApiPackage».CExecutableEdge;
 	import «graphmodel.CApiPackage».CExecutableNode;
-	import «graphmodel.CApiPackage».CExecutableNodeOuterLevelState;
 	import «graphmodel.apiPackage».BorderElement;
 	import «graphmodel.tracerPackage».match.model.Match;
 	
@@ -37,23 +34,13 @@ class BorderMatchTemplate extends MainTemplate {
 					setBorder(match,(CContainer) node, (CExecutableContainer) cExecutabelNode);
 					return;
 				}
-				if(cExecutabelNode instanceof CExecutableContainerInnerLevelState){
-					setBorder(match,(CContainer) node, (CExecutableContainerInnerLevelState) cExecutabelNode);
-					return;
-				}
-				if(cExecutabelNode instanceof CExecutableContainerOuterLevelState){
-					setBorder(match,(CContainer) node, (CExecutableContainerOuterLevelState) cExecutabelNode);
-					return;
-				}
+	
 			}
 			if(cExecutabelNode instanceof CExecutableNode){
 				setBorder(match,node, (CExecutableNode) cExecutabelNode);
 				return;
 			}
-			if(cExecutabelNode instanceof CExecutableNodeOuterLevelState){
-				setBorder(match,node, (CExecutableNodeOuterLevelState) cExecutabelNode);
-				return;
-			}
+	
 		}
 		
 		public static void setBorder(Match match,CEdge edge,CExecutableEdge cExecutableEdge)
@@ -76,37 +63,9 @@ class BorderMatchTemplate extends MainTemplate {
 			}
 		}
 		
-		public static void setBorder(Match match,CContainer container,CExecutableContainerInnerLevelState cExecutableContainer)
-		{
-			if(cExecutableContainer.getBorder() == BorderElement.START || cExecutableContainer.getBorder() == BorderElement.START_AND_END){
-				match.setStartPoint(container);
-			}
-			if(cExecutableContainer.getBorder() == BorderElement.END || cExecutableContainer.getBorder() == BorderElement.START_AND_END){
-				match.setEndPoint(container);
-			}
-		}
 		
-		public static void setBorder(Match match,CContainer container,CExecutableContainerOuterLevelState cExecutableContainer)
-		{
-			if(cExecutableContainer.getBorder() == BorderElement.START || cExecutableContainer.getBorder() == BorderElement.START_AND_END){
-				match.setStartPoint(container);
-			}
-			if(cExecutableContainer.getBorder() == BorderElement.END || cExecutableContainer.getBorder() == BorderElement.START_AND_END){
-				match.setEndPoint(container);
-			}
-		}
 		
 		public static void setBorder(Match match,CNode node,CExecutableNode cExecutableNode)
-		{
-			if(cExecutableNode.getBorder() == BorderElement.START || cExecutableNode.getBorder() == BorderElement.START_AND_END){
-				match.setStartPoint(node);
-			}
-			if(cExecutableNode.getBorder() == BorderElement.END || cExecutableNode.getBorder() == BorderElement.START_AND_END){
-				match.setEndPoint(node);
-			}
-		}
-		
-		public static void setBorder(Match match,CNode node,CExecutableNodeOuterLevelState cExecutableNode)
 		{
 			if(cExecutableNode.getBorder() == BorderElement.START || cExecutableNode.getBorder() == BorderElement.START_AND_END){
 				match.setStartPoint(node);

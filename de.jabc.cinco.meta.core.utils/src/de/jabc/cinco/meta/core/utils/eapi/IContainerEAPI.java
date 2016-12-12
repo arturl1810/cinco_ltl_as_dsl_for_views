@@ -48,11 +48,13 @@ public class IContainerEAPI {
 	 * @param createFolders decides whether all folders in the given name are created
 	 */
 	public IFile createFile(String name, String content,boolean createFolders) {
-		int index = name.lastIndexOf("/");
-		if(index>-1){
-			String fileName = name.substring(index+1);
-			String fodlerPath = name.substring(0, index);
-			return WorkspaceUtil.eapi(this.createFolder(fodlerPath)).createFile(fileName, content);
+		if(createFolders){
+			int index = name.lastIndexOf("/");
+			if(index>-1){
+				String fileName = name.substring(index+1);
+				String fodlerPath = name.substring(0, index);
+				return WorkspaceUtil.eapi(this.createFolder(fodlerPath)).createFile(fileName, content);
+			}			
 		}
 		return createFile(name, content);
 	}
@@ -82,11 +84,13 @@ public class IContainerEAPI {
 	 * @param createFolders decides whether all folders in the given name are created
 	 */
 	public IFile createFile(String name, InputStream stream, boolean createFolders) {
-		int index = name.lastIndexOf("/");
-		if(index>-1){
-			String fileName = name.substring(index+1);
-			String fodlerPath = name.substring(0, index);
-			return WorkspaceUtil.eapi(this.createFolder(fodlerPath)).createFile(fileName, stream);
+		if(createFolders) {
+			int index = name.lastIndexOf("/");
+			if(index>-1){
+				String fileName = name.substring(index+1);
+				String fodlerPath = name.substring(0, index);
+				return WorkspaceUtil.eapi(this.createFolder(fodlerPath)).createFile(fileName, stream);
+			}			
 		}
 		return createFile(name, stream);
 	}

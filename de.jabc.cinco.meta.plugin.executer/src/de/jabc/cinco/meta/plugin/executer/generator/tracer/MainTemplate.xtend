@@ -6,6 +6,7 @@ import de.jabc.cinco.meta.plugin.executer.compounds.ExecutableGraphmodel
 import mgl.Node
 import org.eclipse.core.resources.IProject
 import org.eclipse.core.runtime.NullProgressMonitor
+import mgl.ReferencedModelElement
 
 abstract class MainTemplate {
 	
@@ -40,6 +41,10 @@ abstract class MainTemplate {
 		return graphmodel.graphModel.package+".api.c"+graphmodel.graphModel.name.toLowerCase;
 	}
 	
+	def String getSourceApiPackage(ExecutableGraphmodel graphmodel){
+		return graphmodel.graphModel.package+"."+graphmodel.graphModel.name.toLowerCase;
+	}
+	
 	def String getApiPackage(ExecutableGraphmodel graphmodel){
 		return graphmodel.graphModel.package+".esdsl."+graphmodel.graphModel.name.toLowerCase+"es";
 	}
@@ -59,6 +64,20 @@ abstract class MainTemplate {
 	def boolean getIsPrime(Node node)
 	{
 		return node.primeReference != null;	
+	}
+	
+	def String primeAttrName(Node node)
+	{
+		return node.primeReference.name;
+	}
+	
+	def String primeAttrType(Node node)
+	{	
+		var type = node.primeReference;
+		if(type instanceof ReferencedModelElement){
+			return type.type.name;
+		}
+		return type.class.name;
 	}
 	
 	static def generateFile(MainTemplate template,String folderFQN,IProject project)

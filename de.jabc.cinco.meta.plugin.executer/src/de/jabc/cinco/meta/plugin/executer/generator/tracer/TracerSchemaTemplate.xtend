@@ -82,7 +82,7 @@ class TracerSchemaTemplate extends MainTemplate {
 	                  
 	               </documentation>
 	               <appinfo>
-	                  <meta.attribute kind="java" basedOn="«graphmodel.tracerPackage».AbstractAspectSemantic:"/>
+	                  <meta.attribute kind="java" basedOn="«graphmodel.tracerPackage».AbstractSemantic:"/>
 	               </appinfo>
 	            </annotation>
 	         </attribute>

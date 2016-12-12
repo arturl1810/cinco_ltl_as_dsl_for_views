@@ -36,7 +36,7 @@ class LevelTemplate extends MainTemplate {
 	public final class Level {
 		private LTSMatch graph;
 		private Match currentElement;
-		private Match currentContainer;
+		private LTSMatch currentContainer;
 		private List<Match> history;
 		private AbstractSemantic abstractSemantic;
 		
@@ -53,7 +53,7 @@ class LevelTemplate extends MainTemplate {
 			
 			history = new LinkedList<Match>();
 			currentElement = firstElement;
-			currentContainer = null;
+			currentContainer = firstElement.getRoot();
 			graph = firstElement.getRoot();
 			history.add(currentElement);
 			globalHistory.add(currentElement);
@@ -105,10 +105,10 @@ class LevelTemplate extends MainTemplate {
 		public final void setCurrenElement(Match currenElement) {
 			this.currentElement = currenElement;
 		}
-		public final Match getCurrentContainer() {
+		public final LTSMatch getCurrentContainer() {
 			return currentContainer;
 		}
-		public final void setCurrentContainer(Match currentContainer) {
+		public final void setCurrentContainer(LTSMatch currentContainer) {
 			this.currentContainer = currentContainer;
 		}
 		public final List<Match> getHistory() {
@@ -120,7 +120,7 @@ class LevelTemplate extends MainTemplate {
 		
 		public final String toString()
 		{
-			return this.abstractSemantic.displayLevel(currentContainer.getRoot())+" "+this.abstractSemantic.displayElement(currentElement);
+			return this.abstractSemantic.displayLevel(currentContainer.getContainer())+" "+this.abstractSemantic.displayElement(currentElement);
 		}
 	}
 	

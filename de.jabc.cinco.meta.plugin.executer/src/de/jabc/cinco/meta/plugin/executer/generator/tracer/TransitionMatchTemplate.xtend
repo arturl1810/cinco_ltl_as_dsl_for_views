@@ -22,8 +22,7 @@ class TransitionMatchTemplate extends MainTemplate {
 		private StateMatch target;
 		
 		public TransitionMatch(Match match) {
-			
-			this.setElements(match.getElements());
+			super(match);
 		}
 		public StateMatch getSource() {
 			return source;

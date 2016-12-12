@@ -20,6 +20,7 @@ class AbstractSemanticTemplate extends MainTemplate {
 	import java.util.List;
 	import java.util.stream.Collectors;
 	
+	import graphicalgraphmodel.CModelElementContainer;
 	import «graphmodel.CApiPackage».CDefault;
 	import «graphmodel.CApiPackage».CInitializing;
 	import «graphmodel.CApiPackage».CTerminating;
@@ -82,7 +83,7 @@ class AbstractSemanticTemplate extends MainTemplate {
 				LTSMatch nextLevel = element.getLevel();
 				List<StateMatch> startStates = nextLevel.getStartStates();
 				if(startStates.isEmpty()){
-					throw new TracerException("No Start State found in "+this.displayLevel(nextLevel));
+					throw new TracerException("No Start State found in "+this.displayLevel(nextLevel.getContainer()));
 				}
 				StateMatch startState = startStates.get(0);
 				
@@ -157,6 +158,8 @@ class AbstractSemanticTemplate extends MainTemplate {
 				}
 				if(state.getPattern() instanceof CTerminating){
 					this.preExecuteTerminatingStateHook(state, context);
+					stepResult.setStepType(StepType.Terminating);
+					return stepResult;
 				}
 				
 				
@@ -300,7 +303,7 @@ class AbstractSemanticTemplate extends MainTemplate {
 		 * @param container
 		 * @return
 		 */
-		public abstract String displayLevel(LTSMatch container);
+		public abstract String displayLevel(CModelElementContainer container);
 		
 		/**
 		 * Returns the visual representation for an element

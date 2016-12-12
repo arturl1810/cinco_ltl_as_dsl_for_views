@@ -33,7 +33,9 @@ class StateMatchTemplate extends MainTemplate {
 		}
 		
 		public StateMatch(Match matchPattern) {
-			this.setElements(matchPattern.getElements());
+			super(matchPattern);
+			this.incoming = new LinkedList<TransitionMatch>();
+			this.outgoing = new LinkedList<TransitionMatch>();
 		}
 	
 		public List<TransitionMatch> getIncoming() {
