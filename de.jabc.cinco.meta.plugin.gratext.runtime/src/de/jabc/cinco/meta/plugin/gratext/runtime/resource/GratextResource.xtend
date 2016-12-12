@@ -1,6 +1,6 @@
 package de.jabc.cinco.meta.plugin.gratext.runtime.resource
 
-import static de.jabc.cinco.meta.core.utils.WorkspaceUtil.edit;
+import static extension de.jabc.cinco.meta.core.utils.eapi.ResourceEAPI.edit
 
 import java.io.OutputStream
 import java.io.OutputStreamWriter
@@ -173,6 +173,6 @@ abstract class GratextResource extends LazyLinkingResource {
 	}
 	
 	def transact(Runnable change) {
-		edit(this).transact(change)
+		this.edit.transact(change)
 	}
 }

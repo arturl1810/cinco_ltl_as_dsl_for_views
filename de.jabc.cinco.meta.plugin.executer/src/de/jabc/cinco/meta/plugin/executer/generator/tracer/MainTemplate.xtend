@@ -1,6 +1,7 @@
 package de.jabc.cinco.meta.plugin.executer.generator.tracer
 
-import de.jabc.cinco.meta.core.utils.WorkspaceUtil
+import static extension de.jabc.cinco.meta.core.utils.eapi.ContainerEAPI.createFolder
+
 import de.jabc.cinco.meta.core.utils.projects.ProjectCreator
 import de.jabc.cinco.meta.plugin.executer.compounds.ExecutableGraphmodel
 import mgl.Node
@@ -66,7 +67,7 @@ abstract class MainTemplate {
 		if(!folderFQN.nullOrEmpty)
 		{
 			var folderPath = folderFQN.replaceAll("\\.","/")
-			var folder = WorkspaceUtil.eapi(project).createFolder(folderPath)			
+			var folder = project.createFolder(folderPath)			
 			ProjectCreator.createFile(template.fileName(),folder,template.create().toString,new NullProgressMonitor())
 		}else{
 			ProjectCreator.createFile(template.fileName(),project,template.create().toString,new NullProgressMonitor())

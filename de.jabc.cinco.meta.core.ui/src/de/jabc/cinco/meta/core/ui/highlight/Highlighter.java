@@ -38,7 +38,7 @@ import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.widgets.Control;
 
-import de.jabc.cinco.meta.core.utils.WorkbenchUtil;
+import de.jabc.cinco.meta.core.utils.eapi.Cinco;
 import de.jabc.cinco.meta.core.utils.registry.InstanceRegistry;
 
 public abstract class Highlighter {
@@ -177,7 +177,7 @@ public abstract class Highlighter {
 					highlight.swell(0.2);
 				}
 			}
-			WorkbenchUtil.refreshDiagram();
+			Cinco.Workbench.refreshDiagram();
 		}
 		String contextKey = getContextKey();
 		highlightContexts.put(contextKey, highlights);

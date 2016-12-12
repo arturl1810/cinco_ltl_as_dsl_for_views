@@ -32,7 +32,7 @@ import com.google.inject.Provider;
 import de.jabc.cinco.meta.core.mgl.ui.internal.MGLActivator;
 import de.jabc.cinco.meta.core.utils.CincoUtils;
 
-import static de.jabc.cinco.meta.core.utils.WorkspaceUtil.eapi;
+import static de.jabc.cinco.meta.core.utils.eapi.ResourceEAPI.eapi;
 
 
 public class MGLHyperLinkHelper extends HyperlinkHelper {

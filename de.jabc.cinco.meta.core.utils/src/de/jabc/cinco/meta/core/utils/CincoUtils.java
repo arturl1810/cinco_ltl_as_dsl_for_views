@@ -44,6 +44,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import static de.jabc.cinco.meta.core.utils.eapi.Cinco.eapi;
 import mgl.Annotation;
 import mgl.Attribute;
 import mgl.GraphModel;
@@ -183,8 +184,8 @@ public class CincoUtils {
 			if (ID_STYLE.equals(a.getName())) {
 				String path = a.getValue().get(0);
 				IFile iFile = project.getFile(path);
-				Resource res = WorkspaceUtil.eapi(iFile).getResource();
-				return WorkspaceUtil.eapi(res).getContent(Styles.class);
+				Resource res = eapi(iFile).getResource();
+				return eapi(res).getContent(Styles.class);
 			}
 		}
 		return null;

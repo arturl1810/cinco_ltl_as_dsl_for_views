@@ -9,7 +9,7 @@ import de.jabc.cinco.meta.core.utils.CincoUtils
 import org.eclipse.core.resources.ResourcesPlugin
 import org.eclipse.core.resources.IFile
 
-import static extension de.jabc.cinco.meta.core.utils.WorkspaceUtil.eapi;
+import static extension de.jabc.cinco.meta.core.utils.eapi.FileEAPI.getResourceContent
 
 class DefaultPerspectiveContent {
 	
@@ -59,7 +59,7 @@ public class «cp.name.toFirstUpper»Perspective implements «IPerspectiveFactor
 		for (mgl : cp.mgls) {
 			var iRes = cpdFile.project.findMember(mgl.mglPath);
 			if (iRes instanceof IFile) {
-				var gm = iRes.eapi.getResourceContent(GraphModel, 0)
+				var gm = iRes.getResourceContent(GraphModel, 0)
 				if (gm.annotations.exists[annot | annot.name.equals("mcam")])
 					return true;
 			}

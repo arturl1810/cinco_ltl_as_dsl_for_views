@@ -17,7 +17,6 @@ import mgl.UserDefinedType
 import org.eclipse.emf.ecore.EClass
 import org.eclipse.emf.ecore.ENamedElement
 import org.eclipse.emf.ecore.EObject
-import org.eclipse.emf.ecore.EDataType
 import org.eclipse.emf.ecore.EcorePackage
 
 class GratextGrammarTemplate extends AbstractGratextTemplate {
@@ -42,6 +41,7 @@ def addToReferences(EObject obj) {
 	val entry = switch obj {
 		GraphModel: obj.acronym -> obj.nsURI
 		Node: 		obj.graphModel.acronym -> obj.graphModel.nsURI
+		Edge:		obj.graphModel.acronym -> obj.graphModel.nsURI
 		EClass:		obj.EPackage.acronym -> obj.EPackage.nsURI
 	}
 	if (!graphmodel.nsURI.equals(entry.value)) {
@@ -165,13 +165,6 @@ def enumRule(Enumeration type) {
 }
 	
 def type(Attribute attr) {
-	println("[GRAM] " + attr)
-	println("[GRAM]  > type: " + attr.type)
-	println("[GRAM]  > ecore? " + EcorePackage.eINSTANCE.getEClassifier(attr.type))
-	println("[GRAM]  > model? " + model.contains(attr.type))
-	println("[GRAM]  > enumType? " + model.containsEnumeration(attr.type))
-	println("[GRAM]  > userType? " + model.containsUserDefinedType(attr.type))
-	
 	if (EcorePackage.eINSTANCE.getEClassifier(attr.type) != null)
 			'''_«attr.type»'''
 	else if (model.contains(attr.type)) {
@@ -192,6 +185,7 @@ def type(ReferencedType ref) {
 		val entry = switch type {
 			GraphModel: type.acronym -> type.name
 			Node: 		type.graphModel.acronym -> type.graphModel.name
+			Edge: 		type.graphModel.acronym -> type.graphModel.name
 			EClass: 	type.EPackage.acronym -> type.name
 		}
 //		println(" > Type: " + entry)

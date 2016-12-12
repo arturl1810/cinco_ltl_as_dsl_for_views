@@ -7,7 +7,7 @@ import org.eclipse.graphiti.mm.pictograms.PictogramsPackage
 import org.eclipse.graphiti.mm.pictograms.impl.DiagramImpl
 import org.eclipse.graphiti.util.IColorConstant
 
-import static de.jabc.cinco.meta.core.utils.WorkspaceUtil.edit
+import static de.jabc.cinco.meta.core.utils.eapi.ResourceEAPI.*
 import static org.eclipse.graphiti.internal.util.LookManager.getLook
 import static org.eclipse.graphiti.services.Graphiti.getGaService
 

@@ -1,7 +1,6 @@
 package de.jabc.cinco.meta.plugin.gratext.runtime.action;
 
-import static de.jabc.cinco.meta.core.utils.WorkbenchUtil.showErrorDialog;
-import static de.jabc.cinco.meta.core.utils.WorkspaceUtil.eapi;
+import static de.jabc.cinco.meta.core.utils.eapi.Cinco.*;
 import static de.jabc.cinco.meta.core.utils.job.JobFactory.job;
 
 import java.util.AbstractMap;
@@ -53,7 +52,7 @@ public class GratextRestoreAction implements IActionDelegate {
 			.taskForEach(() -> actionByFile, 
 		    		  entry -> runRestore(entry.getValue(), entry.getKey()),
 		    		  entry -> entry.getKey().getName())
-		  .onFailed(() -> showErrorDialog("Gratext Restore", "Some restore tasks seem to have failed."))
+		  .onFailed(() -> Workbench.showErrorDialog("Gratext Restore", "Some restore tasks seem to have failed."))
 		  .schedule();
 	}
 		

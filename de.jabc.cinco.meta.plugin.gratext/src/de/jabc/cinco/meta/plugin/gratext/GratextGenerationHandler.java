@@ -1,6 +1,6 @@
 package de.jabc.cinco.meta.plugin.gratext;
 
-import static de.jabc.cinco.meta.core.utils.WorkspaceUtil.eapi;
+import static de.jabc.cinco.meta.core.utils.eapi.Cinco.eapi;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;

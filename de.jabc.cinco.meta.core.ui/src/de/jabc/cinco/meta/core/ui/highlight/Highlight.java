@@ -1,7 +1,7 @@
 package de.jabc.cinco.meta.core.ui.highlight;
 
-import static de.jabc.cinco.meta.core.utils.WorkbenchUtil.eapi;
-import static de.jabc.cinco.meta.core.utils.WorkbenchUtil.sync;
+import static de.jabc.cinco.meta.core.utils.eapi.Cinco.eapi;
+import static de.jabc.cinco.meta.core.utils.eapi.Cinco.Workbench.sync;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,7 +27,6 @@ import de.jabc.cinco.meta.core.ui.highlight.animation.HighlightBlink;
 import de.jabc.cinco.meta.core.ui.highlight.animation.HighlightFade;
 import de.jabc.cinco.meta.core.ui.highlight.animation.HighlightFlash;
 import de.jabc.cinco.meta.core.ui.highlight.animation.HighlightSwell;
-import de.jabc.cinco.meta.core.utils.WorkbenchUtil;
 import de.jabc.cinco.meta.core.utils.registry.InstanceRegistry;
 import graphmodel.ModelElement;
 
@@ -404,7 +403,7 @@ public class Highlight {
 	private void refreshAll() {
 		if (isOn()) {
 			for (PictogramElement pe : affected) {
-				WorkbenchUtil.refreshDecorators(pe);
+				eapi(pe).refreshDecorators();
 			}
 //			WorkbenchUtil.refreshDiagram();
 		}
@@ -412,7 +411,7 @@ public class Highlight {
 	
 	private void refresh(PictogramElement pe) {
 		if (isOn()) {
-			WorkbenchUtil.refreshDecorators(pe);
+			eapi(pe).refreshDecorators();
 		}
 	}
 
