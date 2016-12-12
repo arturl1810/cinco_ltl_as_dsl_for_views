@@ -81,12 +81,14 @@ class ContainerEAPI {
 	 * @param createFolders decides whether all folders in the given name are created
 	 */
 	def static createFile(IContainer container, String name, String content, boolean createFolders) {
-		val index = name.lastIndexOf("/")
-		if (index > -1) {
-			val fileName = name.substring(index + 1)
-			val folderPath = name.substring(0, index)
-			val folder = createFolder(container, folderPath)
-			createFile(folder, fileName, content)
+		if (createFolders) {
+			val index = name.lastIndexOf("/")
+			if (index > -1) {
+				val fileName = name.substring(index + 1)
+				val folderPath = name.substring(0, index)
+				val folder = createFolder(container, folderPath)
+				createFile(folder, fileName, content)                 
+			}
 		}
 		return createFile(container, name, content)
 	}
@@ -134,14 +136,16 @@ class ContainerEAPI {
 	 * @param createFolders decides whether all folders in the given name are created
 	 */
 	def static createFile(IContainer container, String name, InputStream stream, boolean createFolders) {
-		val index = name.lastIndexOf("/")
-		if (index > -1) {
-			val fileName = name.substring(index + 1)
-			val folderPath = name.substring(0, index)
-			val folder = createFolder(container, folderPath)
-			createFile(folder, fileName, stream);
+		if (createFolders) {
+			val index = name.lastIndexOf("/")
+			if (index > -1) {
+				val fileName = name.substring(index + 1)
+				val folderPath = name.substring(0, index)
+				val folder = createFolder(container, folderPath)
+				createFile(folder, fileName, stream);
+			}
 		}
-		return createFile(container, name, stream);
+		createFile(container, name, stream);
 	}
 	
 	/**
