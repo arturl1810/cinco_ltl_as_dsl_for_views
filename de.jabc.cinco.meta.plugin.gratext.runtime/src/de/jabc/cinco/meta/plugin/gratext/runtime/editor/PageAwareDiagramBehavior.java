@@ -75,18 +75,4 @@ public class PageAwareDiagramBehavior extends DiagramBehavior implements InnerSt
 		getUpdateBehavior().setResourceChanged(false);
 		getPersistencyBehavior().clearDirtyState();
 	}
-	
-	@Override
-	public void refresh() {
-		System.out.println("[PADB] refresh START");
-		super.refresh();
-		System.out.println("[PADB] refresh DONE");
-	}
-	
-	@Override
-	public void refreshContent() {
-		System.out.println("[PADB] refreshContent START");
-		super.refreshContent();
-		System.out.println("[PADB] refreshContent DONE");
-	}
 }
