@@ -1,4 +1,4 @@
-package de.jabc.cinco.meta.core.ui.highlight;
+package de.jabc.cinco.meta.core.ui.editor;
 
 import org.eclipse.gef.KeyHandler;
 import org.eclipse.gef.Tool;
@@ -15,8 +15,7 @@ import org.eclipse.swt.events.KeyEvent;
 
 import de.jabc.cinco.meta.plugin.gratext.runtime.editor.PageAwareDiagramBehavior;
 
-public class AccessiblePaletteViewerDiagramEditor extends DiagramEditor {
-
+public class CincoDiagramEditor extends DiagramEditor {
 	
 	@Override
 	protected DiagramBehavior createDiagramBehavior() {

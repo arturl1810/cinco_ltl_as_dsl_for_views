@@ -1,7 +1,8 @@
 package de.jabc.cinco.meta.core.ui.properties;
 
-import static de.jabc.cinco.meta.core.utils.WorkbenchUtil.eapi;
-import static de.jabc.cinco.meta.core.utils.WorkbenchUtil.getActiveEditor;
+import static de.jabc.cinco.meta.core.utils.eapi.Cinco.*;
+import static de.jabc.cinco.meta.core.utils.eapi.Cinco.Workbench.getActiveEditor;
+import static de.jabc.cinco.meta.core.utils.eapi.Cinco.Workspace.getFiles;
 
 import graphmodel.Container;
 import graphmodel.GraphModel;
@@ -96,8 +97,6 @@ import de.jabc.cinco.meta.core.ui.listener.CincoTableMenuListener;
 import de.jabc.cinco.meta.core.ui.listener.CincoTreeMenuListener;
 import de.jabc.cinco.meta.core.ui.utils.CincoPropertyUtils;
 import de.jabc.cinco.meta.core.ui.validator.TextValidator;
-import de.jabc.cinco.meta.core.utils.WorkbenchUtil;
-import de.jabc.cinco.meta.core.utils.WorkspaceUtil;
 import de.jabc.cinco.meta.plugin.gratext.runtime.editor.MultiPageGratextEditor;
 
 /**
@@ -748,7 +747,7 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 				
 				String path = dialog.open();
 				if (path != null) {
-					List<IFile> files = WorkspaceUtil.getFiles(f -> f.getLocation().toPortableString().equals(path));
+					List<IFile> files = getFiles(f -> f.getLocation().toPortableString().equals(path));
 					IFile iFile = (files.isEmpty()) ? null : files.get(0);
 					if (iFile != null)
 						text.setText(iFile.getProjectRelativePath().toString());

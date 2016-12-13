@@ -44,13 +44,14 @@ public class GratextUiProjectGenerator extends EmptyProjectGenerator {
 				+ " org.eclipse.emf.transaction.impl,\n"
 				+ " org.eclipse.emf.transaction.util,\n"
 				+ " org.eclipse.gef,\n"
-				+ " org.eclipse.graphiti.ui.editor;version=\"0.11.2\",\n"
+				+ " org.eclipse.graphiti.ui.editor,\n"
 				+ " org.eclipse.ui.editors.text,\n"
 				+ " org.eclipse.ui.ide,\n"
 				+ " org.eclipse.ui.part,\n"
 				+ " org.eclipse.ui.views.properties.tabbed,\n"
 				+ " org.eclipse.xtext.ui.editor,\n"
-				+ " de.jabc.cinco.meta.core.ui.highlight"
+				+ " de.jabc.cinco.meta.core.ui.highlight,\n"
+				+ " de.jabc.cinco.meta.core.ui.editor"
 		);
 	}
 	

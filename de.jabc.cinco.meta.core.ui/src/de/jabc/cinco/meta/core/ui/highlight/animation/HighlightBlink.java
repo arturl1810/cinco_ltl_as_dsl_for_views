@@ -8,21 +8,23 @@ public class HighlightBlink extends HighlightAnimation {
 
 	public HighlightBlink(Highlight hl, double effectTimeInSeconds) {
 		super(hl, effectTimeInSeconds);
-		steps = (int) (steps * 0.5);
+		setSteps((int) (getSteps() * 0.5));
 	}
 	
 	@Override
-	protected void work() {
-		super.work();	
-		
+	int nextStep(int step, int steps) {
 		if (swelling) {
-			if (step++ >= steps) {
+			if (step >= steps) {
 				swelling = false;
-				step = steps;
+				return steps;
 			}
-		} else if (step-- <= 0) {
-			swelling = true;
-			step = 0;
+			return step + 1;
+		} else {
+			if (step <= 0) {
+				swelling = true;
+				return 0;
+			}
+			return step - 1;
 		}
 	}
 }

@@ -1,9 +1,7 @@
 package de.jabc.cinco.meta.core.ui.highlight;
 
-import static de.jabc.cinco.meta.core.utils.WorkbenchUtil.getContainerShapes;
-import static de.jabc.cinco.meta.core.utils.WorkbenchUtil.getShapes;
-import static de.jabc.cinco.meta.core.utils.WorkbenchUtil.testBusinessObjectType;
-import static de.jabc.cinco.meta.core.utils.WorkbenchUtil.treatBusinessObject;
+import static de.jabc.cinco.meta.core.utils.eapi.Cinco.Workbench.*;
+
 import graphmodel.ModelElementContainer;
 import graphmodel.Node;
 
@@ -87,10 +85,9 @@ public class DefaultHighlighter extends Highlighter {
 	
 	private boolean canContain(Shape containerShape, PictogramElement pe) {
 		try {
-			Node node = treatBusinessObject(pe).as(Node.class).get();
-			return treatBusinessObject(containerShape)
-				.as(ModelElementContainer.class)
-				.test(c -> c.equals(node.getContainer()) || c.canContain(node.getClass()));
+			Node node = (Node) getBusinessObject(pe);
+			ModelElementContainer cont = (ModelElementContainer) getBusinessObject(containerShape);
+			return cont.equals(node.getContainer()) || cont.canContain(node.getClass());
 		} catch(RuntimeException e) {
 			return false;
 		}

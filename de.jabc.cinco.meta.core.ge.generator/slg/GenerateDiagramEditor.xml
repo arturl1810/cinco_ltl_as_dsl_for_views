@@ -39,17 +39,16 @@ import org.eclipse.graphiti.features.context.impl.ResizeShapeContext;
 import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.graphiti.mm.pictograms.PictogramLink;
-import org.eclipse.graphiti.ui.editor.DiagramEditor;
 import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.ControlListener;
 
 import de.jabc.cinco.meta.core.referenceregistry.ReferenceRegistry;
-import de.jabc.cinco.meta.core.ui.highlight.AccessiblePaletteViewerDiagramEditor;
+import de.jabc.cinco.meta.core.ui.editor.CincoDiagramEditor;
 import de.jabc.cinco.meta.core.ui.highlight.Highlighter;
 
 import $context.packageName$.graphiti.content.adapter.$context.graphModelName$EContentAdapter;
 
-public class $context.graphModelName$DiagramEditor extends AccessiblePaletteViewerDiagramEditor {
+public class $context.graphModelName$DiagramEditor extends CincoDiagramEditor {
 
 	@Override
 	public void initializeGraphicalViewer() {

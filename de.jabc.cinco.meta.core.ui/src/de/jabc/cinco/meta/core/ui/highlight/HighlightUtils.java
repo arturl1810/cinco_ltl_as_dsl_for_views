@@ -1,9 +1,7 @@
 package de.jabc.cinco.meta.core.ui.highlight;
 
-import static de.jabc.cinco.meta.core.utils.WorkbenchUtil.eapi;
-import static de.jabc.cinco.meta.core.utils.WorkbenchUtil.getDiagramBehavior;
-import static de.jabc.cinco.meta.core.utils.WorkbenchUtil.getShapes;
-import static de.jabc.cinco.meta.core.utils.WorkspaceUtil.eapi;
+import static de.jabc.cinco.meta.core.utils.eapi.Cinco.*;
+import static de.jabc.cinco.meta.core.utils.eapi.Cinco.Workbench.*;
 import graphmodel.ModelElement;
 
 import java.util.Collection;
@@ -19,7 +17,7 @@ import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 public class HighlightUtils {
 	
 	public static void refreshDecorators() {
-		refreshDecorators(getShapes());
+		refreshDecorators(Workbench.getShapes());
 	}
 
 	public static void refreshDecorators(ModelElement element) {
@@ -29,7 +27,7 @@ public class HighlightUtils {
 	
 	public static void refreshDecorators(Collection<? extends PictogramElement> pes) {
 		pes.stream().forEach(pe ->
-		getDiagramBehavior().refreshRenderingDecorators(pe));
+		Workbench.getDiagramBehavior().refreshRenderingDecorators(pe));
 		getDiagramBehavior().refresh();
 	}
 	

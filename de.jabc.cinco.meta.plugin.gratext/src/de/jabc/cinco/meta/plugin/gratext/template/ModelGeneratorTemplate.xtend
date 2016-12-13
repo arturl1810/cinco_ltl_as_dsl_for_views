@@ -17,7 +17,7 @@ override template()
 package «project.basePackage».generator
 
 import static org.eclipse.graphiti.ui.services.GraphitiUi.getExtensionManager
-import static extension de.jabc.cinco.meta.core.utils.WorkspaceUtil.eapi
+import static extension de.jabc.cinco.meta.core.utils.eapi.ResourceEAPI.getGraphModel
 import static extension de.jabc.cinco.meta.plugin.gratext.runtime.generator.GratextGenerator.*
 
 import de.jabc.cinco.meta.core.ge.style.model.features.CincoAbstractAddFeature
@@ -72,7 +72,7 @@ class «model.name»ModelGenerator {
 	IFeatureProvider fp
 	
 	def doGenerate(Resource resource) {
-		val gratextModel = resource.eapi.getGraphModel(«model.name»)
+		val gratextModel = resource.getGraphModel(«model.name»)
 		model = gratextModel.transform
 		diagram = new «model.name»Diagram([|
 			link(diagram, model)

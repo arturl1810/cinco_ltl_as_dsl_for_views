@@ -1,6 +1,6 @@
 package de.jabc.cinco.meta.plugin.generator.runtime.handler;
 
-import static de.jabc.cinco.meta.core.utils.WorkbenchUtil.eapi;
+import static de.jabc.cinco.meta.core.utils.eapi.Cinco.eapi;
 import static de.jabc.cinco.meta.core.utils.job.JobFactory.job;
 
 import graphmodel.GraphModel;

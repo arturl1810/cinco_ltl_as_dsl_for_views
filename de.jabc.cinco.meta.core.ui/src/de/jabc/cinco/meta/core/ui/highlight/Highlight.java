@@ -1,6 +1,7 @@
 package de.jabc.cinco.meta.core.ui.highlight;
 
-import static de.jabc.cinco.meta.core.utils.WorkbenchUtil.eapi;
+import static de.jabc.cinco.meta.core.utils.eapi.Cinco.eapi;
+import static de.jabc.cinco.meta.core.utils.eapi.Cinco.Workbench.sync;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,67 +27,63 @@ import de.jabc.cinco.meta.core.ui.highlight.animation.HighlightBlink;
 import de.jabc.cinco.meta.core.ui.highlight.animation.HighlightFade;
 import de.jabc.cinco.meta.core.ui.highlight.animation.HighlightFlash;
 import de.jabc.cinco.meta.core.ui.highlight.animation.HighlightSwell;
-import de.jabc.cinco.meta.core.utils.WorkbenchUtil;
 import de.jabc.cinco.meta.core.utils.registry.InstanceRegistry;
 import graphmodel.ModelElement;
 
 public class Highlight {
-	
+
 	public static InstanceRegistry<Highlight> INSTANCE = new InstanceRegistry<>(() -> new Highlight());
-	
+
 	private Set<PictogramElement> pes = new HashSet<>();
 	private Set<PictogramElement> affected = new HashSet<>();
 	private Map<PictogramElement, ConnectionDecoratorLayouter> layouters = new HashMap<>();
 	private Map<PictogramElement, HighlightDecorator> decos = new HashMap<>();
-	
+
 	private HighlightDecorator deco;
 	private Color diagramHltColor;
 	private Color diagramOrgColor;
 	private HighlightAnimation animation;
-	
-	private boolean triggerRefresh = true;
+
 	private boolean on = false;
 
-	
 	public Highlight() {
 		ColorConstant c = ColorProvider.INSTANCE.get().next();
-		deco = new HighlightDecorator(
-				ColorProvider.amend(c, 0.7), ColorProvider.amend(c, 1.3));
+		deco = new HighlightDecorator(ColorProvider.amend(c, 0.7), ColorProvider.amend(c, 1.3));
 	}
-	
+
 	public Highlight(IColorConstant fgColor, IColorConstant bgColor) {
 		deco = new HighlightDecorator(fgColor, bgColor);
 	}
-	
+
 	public Highlight(Highlight archetype) {
 		this(archetype.deco.getForegroundColor(), archetype.deco.getBackgroundColor());
 		pes = archetype.pes;
 	}
-	
+
 	public Highlight add(PictogramElement pe) {
 		if (pes.add(pe) && isOn()) {
-			on(pe, true);
+			on(pe);
 		}
 		return this;
 	}
-	
+
 	public Highlight add(ModelElement me) {
 		add(eapi(me).getPictogramElement());
 		return this;
 	}
-	
+
 	public Highlight remove(PictogramElement pe) {
 		if (pes.remove(pe) && isOn()) {
 			off(pe, true);
 		}
 		return this;
 	}
-	
+
 	public Highlight remove(ModelElement me) {
 		remove(eapi(me).getPictogramElement());
 		return this;
 	}
-	
+
 	public Highlight clear() {
 		if (isOn()) {
 			off();
@@ -99,282 +96,260 @@ public class Highlight {
 		Stack<IDecorator> reg = DecoratorRegistry.INSTANCE.get().get(pe);
 		return !reg.isEmpty() && (getDeco(pe) == reg.lastElement());
 	}
-	
+
 	public boolean isOn() {
 		return on;
 	}
-	
+
 	public IColorConstant getForegroundColor() {
 		return deco.getForegroundColor();
 	}
-	
+
 	public IColorConstant getForegroundColor(PictogramElement pe) {
 		return getDeco(pe).getForegroundColor();
 	}
-	
+
 	public IColorConstant getBackgroundColor() {
 		return deco.getBackgroundColor();
 	}
-	
+
 	public IColorConstant getBackgroundColor(PictogramElement pe) {
 		return getDeco(pe).getBackgroundColor();
 	}
-	
+
 	public Highlight setForegroundColor(IColorConstant fgColor) {
 		deco.setForegroundColor(fgColor);
-		if (isOn()) refreshDiagram();
+		refreshAll();
 		return this;
 	}
-	
+
 	/**
-	 * red, green and blue values expressed as integers in the range
-	 * 0 to 255 (where 0 is black and 255 is full brightness).
+	 * red, green and blue values expressed as integers in the range 0 to 255
+	 * (where 0 is black and 255 is full brightness).
 	 */
 	public Highlight setForegroundColor(int red, int green, int blue) {
 		deco.setForegroundColor(new ColorConstant(red, green, blue));
-		if (isOn()) refreshDiagram();
+		refreshAll();
 		return this;
 	}
-	
+
 	/**
-	 * RGB values in hexadecimal format. This means, that the String must
-	 * have a length of 6 characters. Example: <code>"FF0000"</code>
-	 * represents a red color.
+	 * RGB values in hexadecimal format. This means, that the String must have a
+	 * length of 6 characters. Example: <code>"FF0000"</code> represents a red
+	 * color.
 	 * 
 	 */
 	public Highlight setForegroundColor(String hexRGBString) {
 		deco.setForegroundColor(new ColorConstant(hexRGBString));
-		if (isOn()) refreshDiagram();
+		refreshAll();
 		return this;
 	}
-	
+
 	public Highlight setForegroundColor(PictogramElement pe, IColorConstant fgColor) {
-		getPeSpecificDeco(pe).setForegroundColor(fgColor);
-		if (isOn()) refreshDiagram();
+		getDeco(pe).setForegroundColor(fgColor);
+		refresh(pe);
 		return this;
 	}
-	
+
 	/**
-	 * red, green and blue values expressed as integers in the range
-	 * 0 to 255 (where 0 is black and 255 is full brightness).
+	 * red, green and blue values expressed as integers in the range 0 to 255
+	 * (where 0 is black and 255 is full brightness).
 	 */
 	public Highlight setForegroundColor(PictogramElement pe, int red, int green, int blue) {
-		getPeSpecificDeco(pe).setForegroundColor(new ColorConstant(red, green, blue));
-		if (isOn()) refreshDiagram();
+		getDeco(pe).setForegroundColor(new ColorConstant(red, green, blue));
+		refresh(pe);
 		return this;
 	}
-	
+
 	/**
-	 * RGB values in hexadecimal format. This means, that the String must
-	 * have a length of 6 characters. Example: <code>"FF0000"</code>
-	 * represents a red color.
+	 * RGB values in hexadecimal format. This means, that the String must have a
+	 * length of 6 characters. Example: <code>"FF0000"</code> represents a red
+	 * color.
 	 * 
 	 */
 	public Highlight setForegroundColor(PictogramElement pe, String hexRGBString) {
-		getPeSpecificDeco(pe).setForegroundColor(new ColorConstant(hexRGBString));
-		if (isOn()) refreshDiagram();
+		getDeco(pe).setForegroundColor(new ColorConstant(hexRGBString));
+		refresh(pe);
 		return this;
 	}
-	
+
 	public Highlight setBackgroundColor(IColorConstant bgColor) {
 		deco.setBackgroundColor(bgColor);
-		if (isOn()) refreshDiagram();
+		refreshAll();
 		return this;
 	}
-	
+
 	/**
-	 * red, green and blue values expressed as integers in the range
-	 * 0 to 255 (where 0 is black and 255 is full brightness).
+	 * red, green and blue values expressed as integers in the range 0 to 255
+	 * (where 0 is black and 255 is full brightness).
 	 */
 	public Highlight setBackgroundColor(int red, int green, int blue) {
 		deco.setBackgroundColor(new ColorConstant(red, green, blue));
-		if (isOn()) refreshDiagram();
+		refreshAll();
 		return this;
 	}
-	
+
 	/**
-	 * RGB values in hexadecimal format. This means, that the String must
-	 * have a length of 6 characters. Example: <code>"FF0000"</code>
-	 * represents a red color.
+	 * RGB values in hexadecimal format. This means, that the String must have a
+	 * length of 6 characters. Example: <code>"FF0000"</code> represents a red
+	 * color.
 	 * 
 	 */
 	public Highlight setBackgroundColor(String hexRGBString) {
 		deco.setBackgroundColor(new ColorConstant(hexRGBString));
-		if (isOn()) refreshDiagram();
+		refreshAll();
 		return this;
 	}
-	
+
 	public Highlight setBackgroundColor(PictogramElement pe, IColorConstant bgColor) {
-		getPeSpecificDeco(pe).setBackgroundColor(bgColor);
-		if (isOn()) refreshDiagram();
+		getDeco(pe).setBackgroundColor(bgColor);
+		refresh(pe);
 		return this;
 	}
-	
+
 	/**
-	 * red, green and blue values expressed as integers in the range
-	 * 0 to 255 (where 0 is black and 255 is full brightness).
+	 * red, green and blue values expressed as integers in the range 0 to 255
+	 * (where 0 is black and 255 is full brightness).
 	 */
 	public Highlight setBackgroundColor(PictogramElement pe, int red, int green, int blue) {
-		getPeSpecificDeco(pe).setBackgroundColor(new ColorConstant(red, green, blue));
-		if (isOn()) refreshDiagram();
+		getDeco(pe).setBackgroundColor(new ColorConstant(red, green, blue));
+		refresh(pe);
 		return this;
 	}
-	
+
 	/**
-	 * RGB values in hexadecimal format. This means, that the String must
-	 * have a length of 6 characters. Example: <code>"FF0000"</code>
-	 * represents a red color.
+	 * RGB values in hexadecimal format. This means, that the String must have a
+	 * length of 6 characters. Example: <code>"FF0000"</code> represents a red
+	 * color.
 	 * 
 	 */
 	public Highlight setBackgroundColor(PictogramElement pe, String hexRGBString) {
-		getPeSpecificDeco(pe).setBackgroundColor(new ColorConstant(hexRGBString));
-		if (isOn()) refreshDiagram();
+		getDeco(pe).setBackgroundColor(new ColorConstant(hexRGBString));
+		refresh(pe);
 		return this;
 	}
-	
+
 	public ArrayList<PictogramElement> getPictogramElements() {
 		return new ArrayList<>(pes);
 	}
-	
+
 	public Highlight setPictogramElements(PictogramElement... pes) {
 		this.pes = new HashSet<PictogramElement>(Arrays.asList(pes));
 		refresh();
 		return this;
 	}
-	
-	public Highlight setTriggerDiagramRefresh(boolean flag) {
-		triggerRefresh = flag;
-		return this;
-	}
-	
+
 	public Highlight on() {
-		on(true);
-		return this;
-	}
-	
-	public Highlight on(boolean triggerDiagramRefresh) {
 		for (final PictogramElement pe : pes) {
-			on(pe, false);
+			on(pe);
 		}
 		on = true;
-		if (triggerDiagramRefresh) {
-			refreshDiagram();
-		}
+		refreshAll();
 		return this;
 	}
-	
-	protected Highlight on(PictogramElement pe, boolean triggerRefresh) {
+
+	protected Highlight on(PictogramElement pe) {
 		if (pe instanceof Diagram) {
-			diagramOn((Diagram)pe);
+			diagramOn((Diagram) pe);
 		} else {
-			HighlightDecorator d = getDeco(pe);
-			System.out.println("[HL] push deco: " + d.hashCode());
-			DecoratorRegistry.INSTANCE.get().get(pe).push(d);
+			DecoratorRegistry.INSTANCE.get().get(pe).push(getDeco(pe));
 		}
 		affected.add(pe);
 		registerConnectionDecoratorLayouter(pe);
-		if (triggerRefresh) {
-			refreshDiagram();
-		}
+		refresh(pe);
 		return this;
 	}
-	
+
 	public Highlight flash() {
 		flash(1.0);
 		return this;
 	}
-	
+
 	public Highlight flash(double effectTimeInSeconds) {
-		setAnimation(new HighlightFlash(this, effectTimeInSeconds));
+		startAnimation(new HighlightFlash(this, effectTimeInSeconds));
 		return this;
 	}
-	
+
 	public Highlight blink() {
 		blink(1.0);
 		return this;
 	}
-	
+
 	public Highlight blink(double effectTimeInSeconds) {
-		setAnimation(new HighlightBlink(this, effectTimeInSeconds));
+		startAnimation(new HighlightBlink(this, effectTimeInSeconds));
 		return this;
 	}
-	
+
 	public Highlight swell() {
 		swell(0.5);
 		return this;
 	}
-	
+
 	public Highlight swell(double effectTimeInSeconds) {
-		setAnimation(new HighlightSwell(this, effectTimeInSeconds));
+		startAnimation(new HighlightSwell(this, effectTimeInSeconds));
 		return this;
 	}
-	
+
 	public Highlight fade() {
 		fade(0.5);
 		return this;
 	}
-	
+
 	public Highlight fade(double effectTimeInSeconds) {
-		setAnimation(new HighlightFade(this, effectTimeInSeconds));
+		startAnimation(new HighlightFade(this, effectTimeInSeconds));
 		return this;
 	}
-	
+
 	public Highlight setAnimation(HighlightAnimation animation) {
 		if (this.animation != null) {
 			this.animation.quit();
 		}
 		this.animation = animation;
-		if (animation != null) {
-			animation.onDone(() -> {
-				this.animation = null;
+		return this;
+	}
+	
+	protected Highlight startAnimation(HighlightAnimation animation) {
+		if (this.animation != null) {
+			this.animation.onDone(() -> {
+				this.animation = animation;
+				animation.start();
 			});
+			this.animation.quit();
+			this.animation = null;
+		} else {
 			this.animation = animation;
 			animation.start();
 		}
 		return this;
 	}
-	
+
 	public Highlight off() {
-		off(true);
-		return this;
-	}
-	
-	public Highlight off(boolean triggerDiagramRefresh) {
 		if (animation != null) {
 			animation.quit();
-			return this;
 		}
 		removeDecos();
-		if (triggerDiagramRefresh) {
-			refreshDiagram();
-		}
 		return this;
 	}
-	
+
 	protected Highlight off(PictogramElement pe, boolean triggerDiagramRefresh) {
 		if (pe instanceof Diagram) {
-			diagramOff((Diagram)pe);
+			diagramOff((Diagram) pe);
 		} else {
-			
-			HighlightDecorator d = getDeco(pe);
-			System.out.println("[HL] remove deco: " + deco.hashCode());
-			DecoratorRegistry.INSTANCE.get().get(pe).remove(d);
+			DecoratorRegistry.INSTANCE.get().get(pe).remove(getDeco(pe));
 		}
 		affected.remove(pe);
 		unregisterConnectionDecoratorLayouter(pe);
-		if (triggerDiagramRefresh) {
-			refreshDiagram();
-		}
+		refresh(pe);
 		return this;
 	}
-	
+
 	protected void removeDecos() {
 		for (PictogramElement pe : new HashSet<>(affected)) {
 			off(pe, false);
 		}
 		on = false;
 	}
-		
+
 	public Highlight refresh() {
 		if (isOn()) {
 			removeDecos();
@@ -382,45 +357,41 @@ public class Highlight {
 		}
 		return this;
 	}
-	
+
 	protected Highlight diagramOn(Diagram diagram) {
 		final GraphicsAlgorithm ga = diagram.getGraphicsAlgorithm();
 		assertDiagramHltColor(diagram);
 		diagramOrgColor = ga.getBackground();
 		try {
 			diagram.getGraphicsAlgorithm().setBackground(diagramHltColor);
-		} catch(IllegalStateException expected) {
+		} catch (IllegalStateException expected) {
 			// expected and ok as we want a non-permanent diagram color
 		}
 		return this;
 	}
-	
+
 	protected Highlight diagramOff(Diagram diagram) {
 		try {
 			diagram.getGraphicsAlgorithm().setBackground(diagramOrgColor);
-		} catch(IllegalStateException expected) {
+		} catch (IllegalStateException expected) {
 			// expected and ok as we want to reset the diagram color
 		}
 		return this;
 	}
-	
+
 	private void registerConnectionDecoratorLayouter(PictogramElement pe) {
-		if (pe instanceof Connection)
-			layouters.put(pe, ConnectionDecoratorLayouter.applyTo(pe));
+		if (pe instanceof Connection) sync(() -> 
+			layouters.put(pe, ConnectionDecoratorLayouter.applyTo(pe))
+		);
 	}
-	
+
 	private void unregisterConnectionDecoratorLayouter(PictogramElement pe) {
 		ConnectionDecoratorLayouter layouter = layouters.remove(pe);
 		if (layouter != null)
 			layouter.setUnregisterAfterNextLayout(true);
 	}
-	
+
 	private HighlightDecorator getDeco(PictogramElement pe) {
-		HighlightDecorator deco = decos.get(pe);
-		return deco != null ? deco : this.deco;
-	}
-	
-	private HighlightDecorator getPeSpecificDeco(PictogramElement pe) {
 		HighlightDecorator deco = decos.get(pe);
 		if (deco == null) {
 			deco = new HighlightDecorator(this.deco);
@@ -428,11 +399,19 @@ public class Highlight {
 		}
 		return deco;
 	}
+
+	private void refreshAll() {
+		if (isOn()) {
+			for (PictogramElement pe : affected) {
+				eapi(pe).refreshDecorators();
+			}
+//			WorkbenchUtil.refreshDiagram();
+		}
+	}
 	
-	private void refreshDiagram() {
-		if (triggerRefresh) {
-			System.out.println("Refresh diagram");
-			WorkbenchUtil.refreshDiagram();
+	private void refresh(PictogramElement pe) {
+		if (isOn()) {
+			eapi(pe).refreshDecorators();
 		}
 	}
 

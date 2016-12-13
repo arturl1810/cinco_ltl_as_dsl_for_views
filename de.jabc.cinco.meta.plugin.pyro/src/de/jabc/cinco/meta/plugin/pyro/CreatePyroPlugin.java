@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.io.FileUtils;
+import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -20,8 +21,8 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 
 import de.jabc.cinco.meta.core.utils.CincoUtils;
-import de.jabc.cinco.meta.core.utils.WorkspaceUtil;
-import de.jabc.cinco.meta.core.utils.eapi.IContainerEAPI;
+import de.jabc.cinco.meta.core.utils.eapi.ContainerEAPI;
+import static de.jabc.cinco.meta.core.utils.eapi.ContainerEAPI.eapi;
 import de.jabc.cinco.meta.plugin.pyro.model.StyledEdge;
 import de.jabc.cinco.meta.plugin.pyro.model.StyledModelElement;
 import de.jabc.cinco.meta.plugin.pyro.model.StyledNode;
@@ -76,10 +77,10 @@ public class CreatePyroPlugin {
 	public static final String PYRO = "pyro";
 	public static final String PRIME = "primeviewer";
 	public static final String PRIME_LABEL = "pvLabel";
-	IContainerEAPI dywaAppfolder;
+	ContainerEAPI dywaAppfolder;
 	
 	public void execute(Set<GraphModel> graphModels,IProject project) throws IOException, URISyntaxException {
-		dywaAppfolder = WorkspaceUtil.eapi(WorkspaceUtil.eapi(project).createFolder("dywa-app"));
+		dywaAppfolder = eapi(eapi(project).createFolder("dywa-app"));
 		String jsPath = "js/pyro/";
 		String cssPath = "css/pyro/";
 		String businessPath = "/app-business/target/generated-sources/de/ls5/cinco/pyro/";

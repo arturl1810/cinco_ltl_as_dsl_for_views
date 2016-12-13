@@ -129,6 +129,7 @@ import org.eclipse.graphiti.tb.IDecorator;
 
 $context.getImportsContent$
 
+import de.jabc.cinco.meta.core.ui.highlight.animation.HighlightAnimation;
 
 $context.importCreateNodesFeaturesContent$
 $context.importCreateEdgesFeaturesContent$
@@ -144,6 +145,12 @@ public class $context.fuGraphModelName$ToolBehaviourProvider extends DefaultTool
 	@Override
 	public IDecorator[] getDecorators(PictogramElement pe) {
 		return complementDecorators(pe, super.getDecorators(pe));
+	}
+	
+	@Override
+	public void dispose() {
+		HighlightAnimation.quitAll();
+		super.dispose();
 	}
 
 	@Override

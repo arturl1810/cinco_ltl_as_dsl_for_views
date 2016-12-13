@@ -32,6 +32,9 @@ import com.google.inject.Provider;
 import de.jabc.cinco.meta.core.mgl.ui.internal.MGLActivator;
 import de.jabc.cinco.meta.core.utils.CincoUtils;
 
+import static de.jabc.cinco.meta.core.utils.eapi.ResourceEAPI.eapi;
+
+
 public class MGLHyperLinkHelper extends HyperlinkHelper {
 
 	private String[] annotationsForClasses = new String [] {
@@ -70,7 +73,7 @@ public class MGLHyperLinkHelper extends HyperlinkHelper {
 		//creates an annotation of the object
 		Annotation annot = (Annotation) object;
 		if ("style".equals(annot.getName())) {
-			GraphModel gm = CincoUtils.getGraphModel(resource);
+			GraphModel gm = eapi(resource).getContent(GraphModel.class, 0);
 			if (gm == null)
 				return;
 
@@ -97,7 +100,7 @@ public class MGLHyperLinkHelper extends HyperlinkHelper {
 		} 
 		
 		else if (isJavaClassAnnotation(annot.getName())) {
-			GraphModel gModel = CincoUtils.getGraphModel(resource);
+			GraphModel gModel = eapi(resource).getContent(GraphModel.class, 0);
 			if(gModel == null){
 				return;
 			}

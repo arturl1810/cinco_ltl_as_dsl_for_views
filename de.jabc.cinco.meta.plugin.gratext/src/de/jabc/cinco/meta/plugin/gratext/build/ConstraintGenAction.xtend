@@ -16,10 +16,10 @@ import org.eclipse.jface.viewers.ISelection
 import org.eclipse.jface.viewers.IStructuredSelection
 import org.eclipse.ui.IActionDelegate
 
-import static de.jabc.cinco.meta.core.utils.WorkspaceUtil.eapi
 import static de.jabc.cinco.meta.core.utils.job.JobFactory.job
+import static de.jabc.cinco.meta.core.utils.eapi.Cinco.*
 
-import static extension de.jabc.cinco.meta.core.utils.WorkspaceUtil.createResource
+import static extension de.jabc.cinco.meta.core.utils.eapi.ContainerEAPI.createFolder
 import static extension java.util.stream.StreamSupport.stream
 
 class ConstraintGenAction implements IActionDelegate {
@@ -240,7 +240,7 @@ class ConstraintGenAction implements IActionDelegate {
 	}
 	
 	def createFolder(IPath path) {
-		project.getFolder(path).createResource(null)
+		project.createFolder(path)
 	}
 	
 	def getResource(IFile file) {

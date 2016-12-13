@@ -1,8 +1,6 @@
 package de.jabc.cinco.meta.plugin.gratext;
 
-import static de.jabc.cinco.meta.core.utils.WorkspaceUtil.createResource;
-import static de.jabc.cinco.meta.core.utils.WorkspaceUtil.getFiles;
-import static de.jabc.cinco.meta.core.utils.WorkspaceUtil.eapi;
+import static de.jabc.cinco.meta.core.utils.eapi.Cinco.*;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -250,7 +248,7 @@ public abstract class ProjectGenerator {
 	}
 	
 	protected List<IFile> getWorkspaceFiles(String extension) {
-		return getFiles(f -> !f.isDerived() && extension.equals(f.getFileExtension()));
+		return Workspace.getFiles(f -> !f.isDerived() && extension.equals(f.getFileExtension()));
 	}
 		
 	public TemplateBasedFileCreator createFile(String fileName) {
@@ -267,7 +265,7 @@ public abstract class ProjectGenerator {
 				? project
 				: folder(folderName);
 			return eapi(container)
-				.withProgressMonitor(getProgressMonitor())
+//				.withProgressMonitor(getProgressMonitor())
 				.createFile(name, content);
 		} catch (Exception e) {
 			throw new GenerationException("Failed to create file " + name + " in folder " + folderName, e);
@@ -277,7 +275,7 @@ public abstract class ProjectGenerator {
 	protected IFolder folder(String folderName) throws CoreException {
 		if (folderName == null || folderName.trim().isEmpty())
 			return project.getFolder(project.getProjectRelativePath());
-		return createResource(project.getFolder(folderName), null);
+		return Workspace.createResource(project.getFolder(folderName), null);
 	}
 	
 	protected class SrcFileCreator {

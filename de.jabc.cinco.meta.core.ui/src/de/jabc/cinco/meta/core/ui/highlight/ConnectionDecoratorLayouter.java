@@ -1,6 +1,6 @@
 package de.jabc.cinco.meta.core.ui.highlight;
 
-import static de.jabc.cinco.meta.core.utils.WorkbenchUtil.getDiagramBehavior;
+import static de.jabc.cinco.meta.core.utils.eapi.Cinco.Workbench.getDiagramBehavior;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.LayoutListener;

@@ -6,22 +6,20 @@ public class HighlightFade extends HighlightAnimation {
 	
 	public HighlightFade(Highlight hl, double effectTimeInSeconds) {
 		super(hl, effectTimeInSeconds);
-		step = steps;
+		setStep(getSteps());
 	}
-	
+
 	@Override
 	protected void prepare() {
+		Highlight hl = getHighlight();
 		if (!hl.isOn()) hl.on();
 	}
 	
 	@Override
-	protected void work() {
-		super.work();
-		
-		if (step-- <= 0) {
+	int nextStep(int step, int steps) {
+		if (step <= 0) {
 			quit();
 		}
+		return step - 1;
 	}
-	
-	
 }

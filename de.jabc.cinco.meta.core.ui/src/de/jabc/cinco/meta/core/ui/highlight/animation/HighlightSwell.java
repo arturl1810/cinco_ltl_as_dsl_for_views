@@ -6,21 +6,13 @@ public class HighlightSwell extends HighlightAnimation {
 	
 	public HighlightSwell(Highlight hl, double effectTimeInSeconds) {
 		super(hl, effectTimeInSeconds);
-		System.out.println("[SWELL] steps: " + steps);
 	}
 	
 	@Override
-	protected void work() {
-		System.out.println("[SWELL] work: " + step + " of " + steps);
-		super.work();
-		
-		if (step++ >= steps) {
-			quit();
+	int nextStep(int step, int steps) {
+		if (step >= steps) {
+			pause();
 		}
-	}
-	
-	@Override
-	public void afterwork() {
-		// do nothing
+		return step + 1;
 	}
 }
