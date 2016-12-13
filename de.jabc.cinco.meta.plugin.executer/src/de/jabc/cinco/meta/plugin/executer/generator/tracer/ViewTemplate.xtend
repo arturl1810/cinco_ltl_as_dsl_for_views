@@ -64,6 +64,7 @@ class ViewTemplate extends MainTemplate {
 	import org.eclipse.ui.part.ViewPart;
 	
 	import de.jabc.cinco.meta.core.utils.WorkspaceUtil;
+	import de.jabc.cinco.meta.core.utils.eapi.Cinco;
 	import de.jabc.cinco.meta.core.utils.WorkbenchUtil;
 	import graphmodel.GraphModel;
 	import «graphmodel.sourceCApiPackage».C«graphmodel.graphModel.name»;
