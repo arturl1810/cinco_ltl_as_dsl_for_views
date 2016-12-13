@@ -20,6 +20,7 @@ class ViewTemplate extends MainTemplate {
 	
 	import java.util.HashMap;
 	import java.util.List;
+	import java.util.LinkedList;
 	import java.util.Map;
 	import java.util.Map.Entry;
 	
@@ -121,21 +122,6 @@ class ViewTemplate extends MainTemplate {
 		private Composite threadContainer;
 		
 		private Color buttonBackGroundColor;
-		
-	//	private Action actionLoadSemantic;
-	//	private Action actionLoadGraphmodel;
-	//	private Action actionExecuteStep;
-	//	private Action actionExecuteAuto;
-	//	private Action actionExecuteRunner;
-	//	private Action doubleClickAction;
-	//	private Action actionResetTrace;
-	//	private Action actionShowContext;
-	//	
-	//	private Action actionShowLevelMode;
-	//	private Action actionShowHistoryMode;
-		
-		// The semantics
-		//private «graphmodel.graphModel.name»ES «graphmodel.graphModel.name.toFirstLower»ES;
 		
 		// The model
 		private «graphmodel.graphModel.name» «graphmodel.graphModel.name.toFirstLower»;
@@ -780,6 +766,13 @@ class ViewTemplate extends MainTemplate {
 		
 		private void updateViewMode()
 		{
+			for(Thread thread:this.stepper.getActiveThreads()){
+				if(!this.viewerMap.containsKey(thread)){
+					this.viewerMap.put(thread, createThread(thread));	
+				}
+			}
+			// check known threads
+			List<Thread> removedThreads = new LinkedList<Thread>();
 			for(Entry<Thread, ThreadView> entry:this.viewerMap.entrySet()){
 				if(this.stepper.getActiveThreads().contains(entry.getKey())){
 					if(entry.getValue().getCurrentMode() == LEVEL_MODE){			
@@ -815,8 +808,14 @@ class ViewTemplate extends MainTemplate {
 				}
 				else{
 					//Deactivated Thread
+					//deactivate highlight
+					entry.getKey().getHighlighter().clear();
+					entry.getValue().getViewer().getControl().getParent().getParent().dispose();
+					removedThreads.add(entry.getKey());
 				}
 			}
+			//remove deactivated threads from view
+			removedThreads.forEach(n->this.viewerMap.remove(n));
 		}
 	}
 	'''

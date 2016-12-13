@@ -26,7 +26,6 @@ class GraphSimulatorTemplate extends MainTemplate {
 	import java.util.stream.Collectors;
 	import java.util.stream.Stream;
 	
-	import graphicalgraphmodel.CContainer;
 	import graphicalgraphmodel.CEdge;
 	import graphicalgraphmodel.CGraphModel;
 	import graphicalgraphmodel.CModelElement;

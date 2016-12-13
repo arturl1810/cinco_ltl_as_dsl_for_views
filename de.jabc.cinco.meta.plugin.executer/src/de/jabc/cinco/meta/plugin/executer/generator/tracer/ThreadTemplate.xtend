@@ -29,7 +29,6 @@ class ThreadTemplate extends MainTemplate {
 	import «graphmodel.tracerPackage».extension.AbstractSemantic;
 	import «graphmodel.tracerPackage».match.model.LTSMatch;
 	import «graphmodel.tracerPackage».match.model.Match;
-	import «graphmodel.tracerPackage».match.model.TransitionMatch;
 	import «graphmodel.tracerPackage».stepper.utils.ContentView;
 	import «graphmodel.tracerPackage».stepper.utils.Highlighter;
 	import «graphmodel.tracerPackage».stepper.utils.TracerException;
@@ -145,13 +144,7 @@ class ThreadTemplate extends MainTemplate {
 			//Add the new threads to the active threads to be executed in parallel
 			for(Match match:stepResult.getNewElements()){
 				semantic.preSpawnNewThread(this);
-				Thread newThread;
-				if(match instanceof TransitionMatch){
-					newThread = new Thread(match.getRoot(),semantic.executeEdge((TransitionMatch) match,context,threads),context,semantic);				
-				}
-				else{
-					newThread = new Thread(match.getRoot(),match,context,semantic);
-				}
+				Thread newThread = new Thread(match.getRoot(),match,context,semantic);
 				threads.add(newThread);
 				semantic.postSpawnNewThread(newThread);
 			}
@@ -169,7 +162,6 @@ class ThreadTemplate extends MainTemplate {
 				levelDown(stepResult);
 				semantic.postEnterNewLevel(this,currentLevel);
 			}
-			//Hihghlight the new current element
 			return true;
 		}
 	

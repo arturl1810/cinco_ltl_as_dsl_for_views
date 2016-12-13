@@ -18,7 +18,6 @@ class AbstractSemanticTemplate extends MainTemplate {
 	package «graphmodel.tracerPackage».extension;
 	
 	import java.util.List;
-	import java.util.stream.Collectors;
 	
 	import graphicalgraphmodel.CModelElementContainer;
 	import «graphmodel.CApiPackage».CDefault;
@@ -129,7 +128,7 @@ class AbstractSemanticTemplate extends MainTemplate {
 				
 				if(nextTransition.getNextEdge() != null) {
 					stepResult.setFollowingElement(nextTransition.getNextEdge());
-					stepResult.setNewElements(nextTransition.getForkEdges().stream().map(n->n.getTarget()).collect(Collectors.toList()));
+					stepResult.setNewElements(nextTransition.getForkEdges());
 					stepResult.setStepType(StepType.Default);
 					return stepResult;
 				}
@@ -137,7 +136,7 @@ class AbstractSemanticTemplate extends MainTemplate {
 					if(!nextTransition.getForkEdges().isEmpty())
 					{
 						stepResult.setFollowingElement(null);
-						stepResult.setNewElements(nextTransition.getForkEdges().stream().map(n->n.getTarget()).collect(Collectors.toList()));
+						stepResult.setNewElements(nextTransition.getForkEdges());
 						stepResult.setStepType(StepType.Terminating);
 						return stepResult;
 					}
@@ -177,14 +176,14 @@ class AbstractSemanticTemplate extends MainTemplate {
 		 * @param context The context
 		 * @return the next edge to be taken
 		 */
-		public abstract NextTransition executeState(StateMatch state,AbstractContext context,List<Thread> threads) throws TracerException;	
+		public abstract NextTransition executeState(StateMatch state,AbstractContext context,List<Thread> threads) throws TracerException, WaitingException;	
 		
 		/**
 		 * The callback to be executed when an edge is taken in the next step
 		 * @param edge The current Edge
 		 * @param context The Abstract Context
 		 */
-		public StateMatch executeEdge(TransitionMatch edge,AbstractContext context,List<Thread> threads) throws TracerException
+		public StateMatch executeEdge(TransitionMatch edge,AbstractContext context,List<Thread> threads) throws TracerException, WaitingException
 		{
 			return edge.getTarget();
 		}

@@ -136,7 +136,7 @@ class TypeCheckerTemplate extends MainTemplate {
 		 */
 		public static boolean checkType(CEdge graphEdge,CExecutableEdge patternEdge)
 		{
-			if(patternEdge instanceof info.scce.cinco.product.somegraph.esdsl.api.csomegraphes.CPlaceholderEdge){
+			if(patternEdge instanceof «graphmodel.CApiPackage».CPlaceholderEdge){
 				return true;
 			}
 			«FOR edge:graphmodel.edges»
