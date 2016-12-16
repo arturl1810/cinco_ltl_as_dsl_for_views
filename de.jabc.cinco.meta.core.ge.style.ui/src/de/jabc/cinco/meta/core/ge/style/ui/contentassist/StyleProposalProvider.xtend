@@ -15,6 +15,7 @@ import org.eclipse.xtext.ui.editor.contentassist.ConfigurableCompletionProposal
 import org.eclipse.xtext.ui.editor.contentassist.ContentAssistContext
 import org.eclipse.xtext.ui.editor.contentassist.ICompletionProposalAcceptor
 import org.eclipse.swt.SWT
+import de.jabc.cinco.meta.core.utils.xtext.ChooseWizardAppearance
 
 /**
  * see http://www.eclipse.org/Xtext/documentation.html#contentAssist on how to customize content assistant
@@ -116,4 +117,27 @@ class StyleProposalProvider extends AbstractStyleProposalProvider {
 //		super.completeFont_Style(model, assignment, context, acceptor)
 //	}
 
+
+	
+	override completeNodeStyle_AppearanceProvider(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
+		var proposal = createCompletionProposal("New Class...", context)
+		if(proposal instanceof ConfigurableCompletionProposal){
+			var configProp = proposal as ConfigurableCompletionProposal
+			configProp.setTextApplier(new ChooseWizardAppearance(model))
+		}
+		acceptor.accept(proposal)
+		super.completeNodeStyle_AppearanceProvider(model, assignment, context, acceptor)
+	}
+	
+	override completeEdgeStyle_AppearanceProvider(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor){
+		var proposal = createCompletionProposal("New Class...", context)
+		if(proposal instanceof ConfigurableCompletionProposal){
+			var configProp = proposal as ConfigurableCompletionProposal
+			configProp.setTextApplier(new ChooseWizardAppearance(model))
+		}
+		acceptor.accept(proposal)
+		super.completeEdgeStyle_AppearanceProvider(model,assignment,context,acceptor)
+	}
+	
+	
 }

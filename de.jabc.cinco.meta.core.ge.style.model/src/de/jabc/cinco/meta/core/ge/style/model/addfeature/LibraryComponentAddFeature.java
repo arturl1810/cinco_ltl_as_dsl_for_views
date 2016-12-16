@@ -1,7 +1,6 @@
 package de.jabc.cinco.meta.core.ge.style.model.addfeature;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.graphiti.features.IAddFeature;
@@ -17,7 +16,7 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
 
-import de.jabc.cinco.meta.core.ge.style.model.featureprovider.CincoFeatureProvider;
+import de.jabc.cinco.meta.core.ge.style.model.provider.CincoFeatureProvider;
 
 public class LibraryComponentAddFeature extends AbstractAddShapeFeature {
 

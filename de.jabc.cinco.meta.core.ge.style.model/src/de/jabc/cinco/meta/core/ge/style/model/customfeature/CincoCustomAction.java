@@ -15,7 +15,6 @@ public abstract class CincoCustomAction<T extends EObject> extends AbstractCusto
 	
 	public CincoCustomAction(IFeatureProvider fp) {
 		super(fp);
-		// TODO Auto-generated constructor stub
 	}
 
 	

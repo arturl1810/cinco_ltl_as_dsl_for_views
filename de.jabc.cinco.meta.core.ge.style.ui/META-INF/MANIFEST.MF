@@ -19,7 +19,9 @@ Require-Bundle: de.jabc.cinco.meta.core.ge.style;visibility:=reexport,
  de.jabc.cinco.meta.core.utils,
  org.eclipse.xtext.xbase.lib
 Import-Package: org.apache.log4j,
- org.eclipse.xtext.xbase.lib
+ org.eclipse.jdt.core,
+ org.eclipse.xtext.xbase.lib,
+ style
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: de.jabc.cinco.meta.core.ge.style.ui.quickfix,
  de.jabc.cinco.meta.core.ge.style.ui.contentassist,

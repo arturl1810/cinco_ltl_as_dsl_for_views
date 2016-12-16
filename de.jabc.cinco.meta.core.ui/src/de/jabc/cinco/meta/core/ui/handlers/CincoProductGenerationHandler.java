@@ -188,18 +188,18 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 	}
 	
 	private void generateGraphitiEditor(IFile mglFile) {
-//		execute("de.jabc.cinco.meta.core.ge.generator.generateeditorcommand");
+		execute("de.jabc.cinco.meta.core.ge.generator.generateeditorcommand");
 		execute("de.jabc.cinco.meta.core.ge.style.generator.newgraphitigenerator");
 	}
 	
 	private void generateApi(IFile mglFile) {
-//		IProject apiProject = mglFile.getProject();
-//		if (apiProject.exists()) try {
-//			GeneratorHelper.generateGenModelCode(apiProject, "C"+mglFile.getName().split("\\.")[0]);
-//		} catch (IOException e) {
-//			reason = new RuntimeException(String.format("Generation of %s failed", mglFile.getFullPath().lastSegment()),e);
-//			throw reason;
-//		}
+		IProject apiProject = mglFile.getProject();
+		if (apiProject.exists()) try {
+			GeneratorHelper.generateGenModelCode(apiProject, "C"+mglFile.getName().split("\\.")[0]);
+		} catch (IOException e) {
+			reason = new RuntimeException(String.format("Generation of %s failed", mglFile.getFullPath().lastSegment()),e);
+			throw reason;
+		}
 	}
 	
 	private void generateCincoSIBs(IFile mglFile) {
