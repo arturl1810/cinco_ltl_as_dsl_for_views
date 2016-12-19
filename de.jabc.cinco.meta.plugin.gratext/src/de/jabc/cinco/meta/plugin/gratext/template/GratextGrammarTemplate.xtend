@@ -245,7 +245,8 @@ grammar «project.basePackage».«project.targetName» hidden(_WS, _ML_COMMENT, 
 
 _Placement returns _Placement:{_Placement}
 	( ('at' x=_EInt ',' y=_EInt)?
-	& ('size' width=_EInt ',' height=_EInt)? )
+	& ('size' width=_EInt ',' height=_EInt)?
+	& ('index' index=_EInt)? )
 ;
 
 _Decoration returns _Decoration:{_Decoration}

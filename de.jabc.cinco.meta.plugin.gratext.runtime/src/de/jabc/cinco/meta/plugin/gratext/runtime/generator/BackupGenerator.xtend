@@ -99,8 +99,12 @@ abstract class BackupGenerator<T extends GraphModel> extends GratextGenerator<T>
 	}
 	
 	def placement(Node node) {
-		val ga = GraphitiUi.getLinkService.getPictogramElements(diagram, node).get(0).graphicsAlgorithm
-		'''at «ga.x»,«ga.y» size «ga.width»,«ga.height»'''
+		val ga = node.pe.graphicsAlgorithm
+		'''at «ga.x»,«ga.y» size «ga.width»,«ga.height» index «node.index»'''
+	}
+	
+	def index(Node node) {
+		node.pe.eContainer.eContents.indexOf(node.pe)
 	}
 	
 	def route(PictogramElement pe) {
@@ -137,7 +141,7 @@ abstract class BackupGenerator<T extends GraphModel> extends GratextGenerator<T>
 	}
 	
 	def nodes(GraphModel model) {
-		model.allNodes.map[gratext].join('\n')
+		model.allNodes.sortBy[index].map[gratext].join('\n')
 	}
 	
 	def gratext(List<? extends EStructuralFeature> ftrs, EObject obj) {

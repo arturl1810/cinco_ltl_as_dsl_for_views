@@ -210,7 +210,11 @@ class «model.name»ModelGenerator {
 	def getNodes() {
 		model.modelElements.filter(Node)
 	}
-
+	
+	def index(ModelElement element) {
+		element.placement.index
+	}
+	
 	def getPlacement() {
 		getPlacement(null as _Placement)
 	} 
