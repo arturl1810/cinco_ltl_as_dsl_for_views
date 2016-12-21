@@ -72,7 +72,7 @@ class TracerSchemaTemplate extends MainTemplate {
 	                  
 	               </documentation>
 	               <appinfo>
-	                  <meta.attribute kind="java" basedOn="«graphmodel.tracerPackage».AbstractContext:"/>
+	                  <meta.attribute kind="java" basedOn="«graphmodel.tracerPackage».extension.AbstractContext:"/>
 	               </appinfo>
 	            </annotation>
 	         </attribute>
@@ -82,7 +82,7 @@ class TracerSchemaTemplate extends MainTemplate {
 	                  
 	               </documentation>
 	               <appinfo>
-	                  <meta.attribute kind="java" basedOn="«graphmodel.tracerPackage».AbstractSemantic:"/>
+	                  <meta.attribute kind="java" basedOn="«graphmodel.tracerPackage».extension.AbstractSemantic:"/>
 	               </appinfo>
 	            </annotation>
 	         </attribute>

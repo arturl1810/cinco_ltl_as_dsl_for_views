@@ -85,6 +85,7 @@ public class GraphmodelCollector {
 				return container.get(node.getName());
 			}
 			en = new ExecutableContainerImpl();
+			container.put(node.getName(), (ExecutableContainer) en);
 			mgl.NodeContainer nodeContainer = (NodeContainer) node;
 			ExecutableContainer ec = (ExecutableContainer) en;
 			ec.getContainableNodes().

@@ -63,7 +63,6 @@ class ViewTemplate extends MainTemplate {
 	import org.eclipse.ui.model.WorkbenchLabelProvider;
 	import org.eclipse.ui.part.ViewPart;
 	
-	import de.jabc.cinco.meta.core.utils.WorkspaceUtil;
 	import de.jabc.cinco.meta.core.utils.eapi.Cinco;
 	import de.jabc.cinco.meta.core.utils.WorkbenchUtil;
 	import graphmodel.GraphModel;
@@ -605,7 +604,7 @@ class ViewTemplate extends MainTemplate {
 			    			showMessage("No pattern selected.");
 			    			return false;
 			    		}
-			    		«graphmodel.graphModel.name.toFirstLower»ES = WorkspaceUtil.eapi((IFile) et).getGraphModel(«graphmodel.graphModel.name»ES.class);
+			    		«graphmodel.graphModel.name.toFirstLower»ES = Cinco.eapi((IFile) et).getGraphModel(«graphmodel.graphModel.name»ES.class);
 			    		c«graphmodel.graphModel.name»ES = «graphmodel.graphModel.name»ESWrapper.wrapGraphModel(«graphmodel.graphModel.name.toFirstLower»ES, (Diagram) «graphmodel.graphModel.name.toFirstLower»ES.eResource().getContents().get(0));
 			    		hasToBeReseted = true;
 			    }
@@ -699,7 +698,7 @@ class ViewTemplate extends MainTemplate {
 			    			showMessage("No pattern selected.");
 			    			return false;
 			    		}
-			    		«graphmodel.graphModel.name.toFirstLower»ES = WorkspaceUtil.eapi((IFile) et).getGraphModel(«graphmodel.graphModel.name»ES.class);
+			    		«graphmodel.graphModel.name.toFirstLower»ES = Cinco.eapi((IFile) et).getGraphModel(«graphmodel.graphModel.name»ES.class);
 			    		c«graphmodel.graphModel.name»ES = «graphmodel.graphModel.name»ESWrapper.wrapGraphModel(«graphmodel.graphModel.name.toFirstLower»ES, (Diagram) «graphmodel.graphModel.name.toFirstLower»ES.eResource().getContents().get(0));
 			    }
 			    else

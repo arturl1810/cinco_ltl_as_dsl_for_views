@@ -73,15 +73,15 @@ class StyleGeneratorTemplate extends MainTemplate {
 			appearance {
 				background (255,255,255)
 				foreground (255,255,255)
-				filled true
 			}
 			size(60,60)
 			ellipse {
 				appearance {
-					background (255,255,255)
+					background (0,0,0)
 					foreground (0,0,0)
+					filled true
 				}
-				position (CENTER,TOP -15)
+				position (CENTER,MIDDLE)
 				size(15,15)
 			}
 			text {

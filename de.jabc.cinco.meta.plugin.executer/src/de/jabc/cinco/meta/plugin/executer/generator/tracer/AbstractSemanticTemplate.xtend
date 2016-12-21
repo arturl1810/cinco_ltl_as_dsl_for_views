@@ -149,6 +149,10 @@ class AbstractSemanticTemplate extends MainTemplate {
 				// pre state hooks
 				StateMatch state = (StateMatch) stepResult.getFollowingElement();
 				
+				if(state == null){
+					return null;
+				}
+				
 				if(state.getPattern() instanceof CInitializing){
 					this.preExecuteStartStateHook(state, context);
 				}

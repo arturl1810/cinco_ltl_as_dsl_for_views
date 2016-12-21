@@ -39,7 +39,7 @@ class MGLGenerator extends MainTemplate{
 		
 		//Meta Level
 		
-		@style(metaElement,"Meta level ${label}")
+		@style(metaElement,"${label}")
 		container MetaLevel {
 			attr EString as label
 			containableElements (
@@ -50,7 +50,7 @@ class MGLGenerator extends MainTemplate{
 			)
 		}
 		
-		@style(metaElement,"Meta level ${level.label}")
+		@style(metaElement,"${level.label}")
 		node ReferencedMetaLevel {
 			@pvLabel("label")
 			@pvFileExtension(".«graphmodel.extension»")
@@ -191,7 +191,7 @@ class MGLGenerator extends MainTemplate{
 			EQ L LEQ G GEQ
 		}
 		
-		@style(simpleArrow,"")
+		@style(defaultEdge,"")
 		edge ExecutableEdge {
 			
 			attr BorderElement as border

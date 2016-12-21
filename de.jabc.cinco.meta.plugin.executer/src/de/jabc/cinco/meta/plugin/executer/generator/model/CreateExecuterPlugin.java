@@ -41,6 +41,7 @@ public class CreateExecuterPlugin {
 		Set<String> requiredBundles = new HashSet<String>();
 		requiredBundles.add(graphModel.getPackage());
 		requiredBundles.add("de.jabc.cinco.meta.core.ge.style.model");
+		requiredBundles.add("org.eclipse.xtext");
 		
 		List<String> exportedPackages = new LinkedList<String>();
 		List<String> additionalNatures = new LinkedList<String>();
