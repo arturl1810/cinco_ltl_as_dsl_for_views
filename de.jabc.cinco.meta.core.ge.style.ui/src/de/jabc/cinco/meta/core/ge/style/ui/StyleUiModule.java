@@ -3,7 +3,9 @@
  */
 package de.jabc.cinco.meta.core.ge.style.ui;
 
+import org.eclipse.jface.text.hyperlink.IHyperlinkDetector;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
+
 
 /**
  * Use this class to register components to be used within the IDE.
@@ -11,5 +13,10 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 public class StyleUiModule extends de.jabc.cinco.meta.core.ge.style.ui.AbstractStyleUiModule {
 	public StyleUiModule(AbstractUIPlugin plugin) {
 		super(plugin);
+	}
+	
+	@Override
+	public Class<? extends IHyperlinkDetector> bindIHyperlinkDetector() {
+		return StyleHyperLinkDetector.class;
 	}
 }

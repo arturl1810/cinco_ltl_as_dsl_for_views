@@ -18,7 +18,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.xtext.ui
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Import-Package: productDefinition,
+Import-Package: de.jabc.cinco.meta.core.ge.style.model.customfeature,
  graphmodel,
  mgl,
  org.eclipse.core.internal.resources,
@@ -27,8 +27,11 @@ Import-Package: productDefinition,
  org.eclipse.emf.edit.domain,
  org.eclipse.graphiti.mm.pictograms,
  org.eclipse.jdt.core,
+ org.eclipse.jdt.ui.actions,
+ org.eclipse.jdt.ui.wizards,
  org.eclipse.pde.core.project,
  org.eclipse.ui.ide,
+ productDefinition,
  style
 Export-Package: de.jabc.cinco.meta.core.utils,
  de.jabc.cinco.meta.core.utils.dependency,

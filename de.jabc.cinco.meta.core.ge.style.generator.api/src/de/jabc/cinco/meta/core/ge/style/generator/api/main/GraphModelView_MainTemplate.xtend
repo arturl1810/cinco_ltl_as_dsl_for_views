@@ -1,6 +1,7 @@
 package de.jabc.cinco.meta.core.ge.style.generator.api.main
 
-import de.jabc.cinco.meta.core.capi.generator.templates.GraphModelViewTemplate
+import de.jabc.cinco.meta.core.ge.style.generator.api.templates.GraphModelViewTemplate
+import mgl.ContainingElement
 import mgl.GraphModel
 
 class GraphModelView_MainTemplate extends GraphModelViewTemplate{
@@ -12,12 +13,12 @@ class GraphModelView_MainTemplate extends GraphModelViewTemplate{
 		this.gm = gm
 	}
 	
-	def create()'''
-	package «gm.package».newcapi;
+	def doGenerate()'''
+	package «gm.package».api;
 
-	public class «getCName(gm as mgl.ContainingElement)»View {
+	public class «gm.name»View {
 	
-		private «gm.fqcn» viewable;
+		private «gm.fqn» viewable;
 
 		«gm.attributeGetter»
 	

@@ -3,7 +3,7 @@ package de.jabc.cinco.meta.core.ge.style.generator.api.main
 import graphicalgraphmodel.impl.CEdgeImpl
 import mgl.Edge
 
-class Edge_MainTemplate extends de.jabc.cinco.meta.core.capi.generator.ModelElement_MainTemplate {
+class Edge_MainTemplate extends ModelElement_MainTemplate {
 	
 	Edge e
 	
@@ -12,10 +12,10 @@ class Edge_MainTemplate extends de.jabc.cinco.meta.core.capi.generator.ModelElem
 		e = edge
 	}
 	
-	def create() '''
-package «packageName».newcapi;
+	def doGenerate() '''
+package «packageName».api;
 	
-public class C«fuMEName» extends «IF (e.extends == null)»«CEdgeImpl.name»«ELSE»«e.extends.fqcn»«ENDIF»{
+public class «fuMEName» extends «IF (e.extends == null)»«CEdgeImpl.name»«ELSE»«e.extends.fqn»«ENDIF»{
 
 	«e.attributeGetter»
 	

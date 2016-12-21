@@ -24,6 +24,8 @@ import style.Styles
 
 class EdgeUpdateFeature extends GeneratorUtils{
 	
+	var static number = 0
+	
 	def doGenerateEdgeUpdateFeature(Edge e, Styles styles)'''
 	package «e.packageNameUpdate»;
 	
@@ -73,14 +75,13 @@ class EdgeUpdateFeature extends GeneratorUtils{
 			}		
 			return false;
 		}
-		
-		private void updateText( «e.graphModel.beanPackage».«e.fuName» «e.fuName.toFirstLower», «PictogramElement.name» pe) {
+		private void updateText( «e.fqBeanName» «e.name.toLowerCase», «PictogramElement.name» pe) {
 			if (pe instanceof «ContainerShape.name») {
 				«PictogramElement.name» tmp = pe;
 				Object o = «Graphiti.name».getLinkService().getBusinessObjectForLinkedPictogramElement(tmp);
-				if («e.fuName.toFirstLower».equals(o) || o == null)
+				if («e.name.toLowerCase».equals(o) || o == null)
 				for («Shape.name» _s : ((«ContainerShape.name») pe).getChildren()) {
-					updateText(«e.fuName.toFirstLower», _s);
+					updateText(«e.name.toLowerCase», _s);
 				}
 			} 
 			if (pe instanceof «Connection.name») {
@@ -94,8 +95,10 @@ class EdgeUpdateFeature extends GeneratorUtils{
 					«AbstractText.name» t = («AbstractText.name») pe.getGraphicsAlgorithm();
 					try {
 						«Thread.name».currentThread().setContextClassLoader(UpdateFeature«e.fuName».class.getClassLoader());
+						«getValue(e)»
+						
 						«String.name» formatString = «Graphiti.name».getPeService().getPropertyValue(t, «e.graphModel.packageName».«e.graphModel.name»GraphitiUtils.KEY_FORMAT_STRING);
-						t.setValue(«String.name».format(formatString , "test"));
+						t.setValue(«String.name».format(formatString «fill(e)»));
 					} 
 					catch («IllegalFormatException.name» ife) {
 						t.setValue("STRING FORMAT ERROR");
@@ -106,7 +109,6 @@ class EdgeUpdateFeature extends GeneratorUtils{
 				}
 			}
 		}
-	
 		public static boolean checkUpdateNeeded(«e.graphModel.beanPackage».«e.fuName» «e.fuName.toFirstLower», «PictogramElement.name» pe) {
 			boolean updateNeeded;
 			if (pe instanceof «ContainerShape.name») {
@@ -118,6 +120,7 @@ class EdgeUpdateFeature extends GeneratorUtils{
 				«Connection.name» connection = («Connection.name») pe;
 				for («ConnectionDecorator.name» cd : connection.getConnectionDecorators()) {
 					updateNeeded = checkUpdateNeeded(«e.fuName.toFirstLower», cd);
+
 					if (updateNeeded)
 						return true;
 				}
@@ -128,8 +131,10 @@ class EdgeUpdateFeature extends GeneratorUtils{
 					try {
 						«Thread.name».currentThread().setContextClassLoader( «e.packageNameUpdate».UpdateFeature«e.fuName».class.getClassLoader());
 						«AbstractText.name» t = («AbstractText.name») pe.getGraphicsAlgorithm();
+						«getValue(e)»
+						
 						«String.name» formatString = «Graphiti.name».getPeService().getPropertyValue(t, «e.graphModel.packageName».«e.graphModel.name»GraphitiUtils.KEY_FORMAT_STRING);
-						«String.name» oldVal = «String.name».format(formatString);
+						«String.name» oldVal = «String.name».format(formatString «fill(e)»);
 						«String.name» newVal = t.getValue();
 						return (!newVal.equals(oldVal));
 					} 
@@ -142,4 +147,27 @@ class EdgeUpdateFeature extends GeneratorUtils{
 		}
 	}
 	'''
+	
+	def getValue(Edge n){
+		var listAnnot = n.annotations;
+		var annot = listAnnot.get(0);
+		var listValue = annot.value;
+		number = 0
+		
+		return '''
+		«FOR value : listValue»«IF value.startsWith("${")»
+		elContext = new «n.packageName».expression.«n.graphModel.name»ExpressionLanguageContext(«n.name.toLowerCase»);
+		Object tmp«number = number+1»Value = factory.createValueExpression(elContext, "«value»", Object.class).getValue(elContext); 
+		«ENDIF»«ENDFOR»''' 
+
+	}
+	
+	def fill(Edge e){
+		var listAnnot = e.annotations;
+		var annot = listAnnot.get(0);
+		var listValue = annot.value;
+		number = 0
+		return 
+		'''«FOR value : listValue»«IF value.startsWith("${")»,tmp«number = number+1»Value«ENDIF»«ENDFOR»'''
+	}
 }

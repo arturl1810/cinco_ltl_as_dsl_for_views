@@ -1,11 +1,11 @@
 package de.jabc.cinco.meta.core.ge.style.generator.api.main
 
-import de.jabc.cinco.meta.core.capi.generator.utils.CAPIUtils
 import graphicalgraphmodel.impl.CGraphModelImpl
 import mgl.GraphModel
 import mgl.ModelElement
+import de.jabc.cinco.meta.core.ge.style.generator.api.utils.APIUtils
 
-class GraphModel_MainTemplate extends CAPIUtils{
+class GraphModel_MainTemplate extends APIUtils{
 	
 	static var String packageName
 	var GraphModel gm
@@ -14,13 +14,12 @@ class GraphModel_MainTemplate extends CAPIUtils{
 	new (GraphModel graphModel) {
 		this.gm = graphModel
 		packageName = graphModel.package 
-		cname = getCName(gm as ModelElement)
 	}
 	
-	def create()'''
-package «packageName».newcapi;
+	def doGenerate()'''
+package «packageName».doGenerate;
 
-public class «cname» extends «IF (gm.extends == null)»«CGraphModelImpl.name»«ELSE»«gm.extends.fqcn»«ENDIF»{
+public class «cname» extends «IF (gm.extends == null)»«CGraphModelImpl.name»«ELSE»«gm.extends.fqn»«ENDIF»{
 
 	«gm.attributeGetter»
 	

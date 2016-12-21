@@ -22,4 +22,5 @@ Require-Bundle: org.eclipse.ui,
  de.jabc.cinco.meta.core.ge.style.model
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
-Export-Package: de.jabc.cinco.meta.core.ge.style.generator.api
+Export-Package: de.jabc.cinco.meta.core.ge.style.generator.api,
+ de.jabc.cinco.meta.core.ge.style.generator.api.main

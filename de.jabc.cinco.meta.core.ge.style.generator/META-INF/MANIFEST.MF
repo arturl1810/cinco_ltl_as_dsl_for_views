@@ -30,7 +30,8 @@ Require-Bundle: org.eclipse.ui,
  de.jabc.cinco.meta.core.ge.style.model;bundle-version="0.7.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
-Import-Package: de.jabc.cinco.meta.core.ge.style.model.errorhandling,
+Import-Package: de.jabc.cinco.meta.core.ge.style.generator.api.main,
+ de.jabc.cinco.meta.core.ge.style.model.errorhandling,
  de.jabc.cinco.meta.core.ge.style.model.features,
  de.jabc.cinco.meta.core.ge.style.model.provider,
  de.jabc.cinco.meta.core.ui.features,

@@ -32,6 +32,13 @@ import org.eclipse.graphiti.features.context.impl.AddContext
 import org.eclipse.graphiti.features.custom.ICustomFeature
 import org.eclipse.graphiti.mm.pictograms.PictogramElement
 import org.eclipse.graphiti.ui.features.DefaultFeatureProvider
+import de.jabc.cinco.meta.core.utils.MGLUtils
+import org.eclipse.graphiti.features.IFeature
+import org.eclipse.graphiti.features.context.IContext
+import org.eclipse.emf.transaction.TransactionalEditingDomain
+import org.eclipse.core.runtime.Assert
+import org.eclipse.emf.transaction.RecordingCommand
+import org.eclipse.graphiti.features.context.ICreateContext
 
 class FeatureProviderTmpl extends GeneratorUtils{
 	
@@ -301,16 +308,48 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 		«Object.name» o = getBusinessObjectForPictogramElement(pe);
 		if (o instanceof «EObject.name») {
 			«EObject.name» bo = («EObject.name») o;
+			«FOR me : gm.modelElements»
+			if («me.instanceofCheck("bo")») {
+				return new «ICustomFeature.name»[] {
+					«FOR annotValue : MGLUtils.getAllAnnotation("contextMenuAction", me) SEPARATOR ","»
+					new «annotValue»(this)
+					«ENDFOR»
+				};
+			}
 			
-«««			if (bo.eClass().getName().equals("SomeNode")) {
-«««				return new ICustomFeature[] {};
-«««			}if (bo.eClass().getName().equals("Transition")) {
-«««				return new ICustomFeature[] {};
-«««			}if (bo.eClass().getName().equals("SomeGraph")) {
-«««				return new ICustomFeature[] {};
-«««			}
+			«ENDFOR»
 		}
 		return new «ICustomFeature.name»[] {};
+	}
+	
+	@Override
+	public «Object.name»[] executeFeature(final «IFeature.name» f, final «IContext.name» c) {
+		if (f instanceof «ICreateFeature.name») {
+			final «Object.name»[] created = new Object[2];
+			
+			«TransactionalEditingDomain.name» dom = getDiagramTypeProvider().getDiagramBehavior().getEditingDomain();
+			«Assert.name».isNotNull(dom, «String.name».format("The TransactionalEditingDomain is null"));
+			
+			dom.getCommandStack().execute(new «RecordingCommand.name»(dom, f.getName()) {
+				
+				@Override
+				protected void doExecute() {
+					«ICreateFeature.name» cf = («ICreateFeature.name») f;
+					if (cf.canCreate((«ICreateContext.name») c)) {
+						«Object.name»[] result = cf.create((«ICreateContext.name») c);
+						if (result.length == 2) {
+							created[0] = result[0];
+							created[1] = result[1];
+						}
+					}
+				}
+			});
+			
+			return created;
+		} else {
+			getDiagramTypeProvider().getDiagramBehavior().executeFeature(f, c);
+			return null;
+		}
 	}
 	
 }

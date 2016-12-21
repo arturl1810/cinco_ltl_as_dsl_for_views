@@ -9,7 +9,6 @@ import de.jabc.cinco.meta.core.pluginregistry.impl.PluginRegistryEntryImpl
 import de.jabc.cinco.meta.core.utils.xtext.ChooseFileTextApplier
 import java.util.ArrayList
 import java.util.Set
-import mgl.Annotatable
 import mgl.Annotation
 import mgl.Attribute
 import mgl.Edge
@@ -21,7 +20,6 @@ import mgl.ReferencedType
 import mgl.UserDefinedType
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.xtext.Assignment
-import org.eclipse.xtext.Group
 import org.eclipse.xtext.RuleCall
 import org.eclipse.xtext.ui.editor.contentassist.ConfigurableCompletionProposal
 import org.eclipse.xtext.ui.editor.contentassist.ContentAssistContext
@@ -31,6 +29,8 @@ import mgl.ModelElement
 import mgl.Type
 import mgl.ReferencedEClass
 import org.eclipse.emf.ecore.EClass
+import de.jabc.cinco.meta.core.utils.xtext.ChooseWizard
+import java.util.LinkedList
 
 /**
  * see http://www.eclipse.org/Xtext/documentation/latest/xtext.html#contentAssist on how to customize content assistant
@@ -191,8 +191,9 @@ class MGLProposalProvider extends AbstractMGLProposalProvider {
 			annot = model as Annotation
 			parentModel = annot.parent
 			metaPlugins = registry.getSuitableMetaPlugins(annot.name,PluginRegistryEntryImpl::GENERAL_ANNOTATION)
+			
 			if(metaPlugins==null){
-			if(parentModel instanceof Node)
+			if(parentModel instanceof Node) 
 				metaPlugins = registry.getSuitableMetaPlugins(annot.name,PluginRegistryEntryImpl::NODE_ANNOTATION)
 				
 			if(parentModel instanceof UserDefinedType)
@@ -265,7 +266,42 @@ class MGLProposalProvider extends AbstractMGLProposalProvider {
 					}
 				}
 			}
+			if(checkAnnotations(annot.name)){
+				var proposal = createCompletionProposal("New Class...", context);
+				acceptor.accept(proposal)
+				if (proposal instanceof ConfigurableCompletionProposal) {
+				var configProp = proposal as ConfigurableCompletionProposal
+				configProp.setTextApplier(new ChooseWizard(annot))
+					}
+				}
+			}
 		}
+	
+	
+	
+	def createAnnotations(){
+		var annotationsForClasses = new LinkedList <String>
+		annotationsForClasses.add("contextMenuAction")
+		annotationsForClasses.add("doubleClickAction")
+		annotationsForClasses.add("preDelete")
+		annotationsForClasses.add("postCreate")
+		annotationsForClasses.add("postAttributeValueChange")
+		annotationsForClasses.add("postDelete")
+		annotationsForClasses.add("postMove")
+		annotationsForClasses.add("postResize")
+		annotationsForClasses.add("postSelect")
+		
+		return annotationsForClasses
+	}
+	
+	def checkAnnotations(String annotionname){
+		var annotations = createAnnotations()
+		for (var i = 0; i < annotations.size; i++){
+			if(annotionname.equals(annotations.get(i))){
+				return true
+			}
+		}
+		return false
 	}
 	
 	override completeReferencedModelElement_Type(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {

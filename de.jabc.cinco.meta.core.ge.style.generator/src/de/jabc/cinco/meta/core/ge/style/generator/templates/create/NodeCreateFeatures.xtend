@@ -15,7 +15,7 @@ import style.Styles
 
 class NodeCreateFeatures extends GeneratorUtils{
 	
-	def doGenerateCreateFeature(Node n) '''
+	def doGenerateCreateFeature(Node n, Styles styles) '''
 	package «n.packageNameCreate»;
 	
 	public class CreateFeature«n.fuName» extends de.jabc.cinco.meta.core.ge.style.model.createfeature.CincoCreateFeature<«ModelElement.name»>{
@@ -57,10 +57,11 @@ class NodeCreateFeatures extends GeneratorUtils{
 			((«ModelElementContainer.name») targetBO).getModelElements().add(«n.flName»);		
 		}
 
+		«PictogramElement.name» pe = null;
 		«IF !n.isPrime»
-		addGraphicalRepresentation(context, «n.flName»);
+		pe = addGraphicalRepresentation(context, «n.flName»);
 		«ENDIF»
-		return new «Object.name»[] {«n.flName»}; 
+		return new «Object.name»[] {«n.flName», pe};
 	}
 		
 		@Override

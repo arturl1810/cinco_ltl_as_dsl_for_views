@@ -1,6 +1,7 @@
 package de.jabc.cinco.meta.core.utils;
 
 import java.net.URL;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -11,6 +12,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import style.Image;
 import style.Styles;
@@ -158,5 +160,17 @@ public class MGLUtils {
 			}
 		}
 		return paths;
+	}
+	
+	/**
+	 * This methods returns all annotations of the given name annotated at the modelElement
+	 * 
+	 * @param annotationName
+	 * @param gm The model element for which the annotation should be searched 
+	 * @return A list containing all annotation values with the given name
+	 */
+	public static List<String> getAllAnnotation(String annotationName, ModelElement me) {
+		List<String> values = me.getAnnotations().stream().filter(a -> a.getName().equals(annotationName)).map(a -> a.getValue().get(0)).collect(Collectors.toList());
+		return values;
 	}
 }

@@ -1,6 +1,6 @@
 package de.jabc.cinco.meta.core.ge.style.generator.api.main
 
-import de.jabc.cinco.meta.core.capi.generator.templates.NodeViewTemplate
+import de.jabc.cinco.meta.core.ge.style.generator.api.templates.NodeViewTemplate
 import mgl.Node
 import mgl.NodeContainer
 
@@ -13,8 +13,8 @@ public class NodeView_MainTemplate extends NodeViewTemplate{
 		n = node
 	}
 	   
-def create() 
-'''package «packageName».newcapi;
+def doGenerate() 
+'''package «packageName».api;
 
 «IF n instanceof NodeContainer»
 public class C«fuMEName»View {
@@ -22,7 +22,7 @@ public class C«fuMEName»View {
 public class C«fuMEName»View {
 «ENDIF»
 
-	private «n.fqcn» viewable;
+	private «n.fqn» viewable;
 
 	«n.incomingEdgesGetter»
 	

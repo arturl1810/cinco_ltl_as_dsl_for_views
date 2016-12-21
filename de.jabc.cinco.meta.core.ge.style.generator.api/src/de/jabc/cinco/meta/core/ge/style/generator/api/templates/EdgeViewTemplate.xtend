@@ -13,8 +13,8 @@ class EdgeViewTemplate extends ModelElementTemplate{
 	def sourceGetter(Edge edge)'''
 	«var sources = edge.possibleSources»
 	«IF sources.size == 1»
-	public «sources.get(0).fqcn» getSource() {
-		return («sources.get(0).fqcn») getViewable().getSourceElement();
+	public «sources.get(0).fqn» getSource() {
+		return («sources.get(0).fqn») getViewable().getSourceElement();
 	}
 	«ELSE»
 	public «CNode.name» getSource() {
@@ -27,8 +27,8 @@ class EdgeViewTemplate extends ModelElementTemplate{
 	def targetGetter(Edge edge)'''
 	«var targets = edge.possibleTargets»
 	«IF targets.size == 1»
-	public «targets.get(0).fqcn» getTarget() {
-		return («targets.get(0).fqcn») getViewable().getTargetElement();
+	public «targets.get(0).fqn» getTarget() {
+		return («targets.get(0).fqn») getViewable().getTargetElement();
 	}
 	«ELSE»
 	public «CNode.name» getTarget() {
@@ -40,11 +40,11 @@ class EdgeViewTemplate extends ModelElementTemplate{
 	def reconnectSource(Edge edge)'''
 	«var sources = edge.possibleSources»
 	«FOR s : sources»
-	/*public boolean canReconnectSource(«s.fqcn» source) {
+	/*public boolean canReconnectSource(«s.fqn» source) {
 		return ((«edge.fqn») getViewable().getModelElement()).getEdgeView().canReconnectSource(source.getModelElement());
 	}
 	
-	public void reconnectSource(«s.fqcn» source) {
+	public void reconnectSource(«s.fqn» source) {
 		((«edge.fqn») getViewable().getModelElement()).getEdgeView().reconnectSource(source.getModelElement());
 		// TODO: do the awesome graphiti reconnect stuff.
 	}*/
@@ -55,11 +55,11 @@ class EdgeViewTemplate extends ModelElementTemplate{
 	def reconnectTarget(Edge edge)'''
 	«var targets = edge.possibleTargets»
 	«FOR s : targets»
-	/*public boolean canReconnectTarget(«s.fqcn» target) {
+	/*public boolean canReconnectTarget(«s.fqn» target) {
 		//return ((«edge.fqn») getViewable().getModelElement()).getEdgeView().canReconnectTarget(target.getModelElement());
 	}*/
 	
-	/*public void reconnectTarget(«s.fqcn» target) {
+	/*public void reconnectTarget(«s.fqn» target) {
 		((«edge.fqn») getViewable().getModelElement()).getEdgeView().reconnectTarget(target.getModelElement());
 		// TODO: do the awesome graphiti reconnect stuff.
 	}*/
@@ -68,13 +68,13 @@ class EdgeViewTemplate extends ModelElementTemplate{
 	''' 
 
 	def viewableGetter(Edge e)'''
-	public «e.fqcn» getViewable() {
+	public «e.fqn» getViewable() {
 		return this.viewable;
 	}
 	'''
 	
 	def viewableSetter(Edge e)'''
-	public void  setViewable(«e.fqcn» cEdge) {
+	public void  setViewable(«e.fqn» cEdge) {
 		this.viewable = cEdge;
 	}
 	'''
