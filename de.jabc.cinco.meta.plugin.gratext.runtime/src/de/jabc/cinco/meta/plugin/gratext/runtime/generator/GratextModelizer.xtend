@@ -1,35 +1,16 @@
-package de.jabc.cinco.meta.plugin.gratext.template
-
-import de.jabc.cinco.meta.plugin.gratext.descriptor.GraphModelDescriptor
-
-class ModelGeneratorTemplate extends AbstractGratextTemplate {
-	
-def generator() {
-	fileFromTemplate(GratextGeneratorTemplate)
-}
-
-def nameFirstUpper(GraphModelDescriptor model) {
-	model.name.toLowerCase.toFirstUpper
-}
-	
-override template()
-'''	
-package «project.basePackage».generator
+package de.jabc.cinco.meta.plugin.gratext.runtime.generator
 
 import static org.eclipse.graphiti.ui.services.GraphitiUi.getExtensionManager
 import static extension de.jabc.cinco.meta.core.utils.eapi.ResourceEAPI.getGraphModel
 import static extension de.jabc.cinco.meta.plugin.gratext.runtime.generator.GratextGenerator.*
 
+import de.jabc.cinco.meta.core.utils.registry.NonEmptyRegistry
 import de.jabc.cinco.meta.core.ge.style.model.features.CincoAbstractAddFeature
 import de.jabc.cinco.meta.plugin.gratext.runtime.generator.GratextModelTransformer
-
-import «graphmodel.package».«model.name.toLowerCase».«model.name»
-import «graphmodel.package».«model.name.toLowerCase».«model.nameFirstUpper»Package
-import «graphmodel.package».«model.name.toLowerCase».«model.nameFirstUpper»Factory
-
-import «project.basePackage».*
+import de.jabc.cinco.meta.plugin.gratext.runtime.editor.LazyDiagram
 
 import graphmodel.Edge
+import graphmodel.GraphModel
 import graphmodel.ModelElement
 import graphmodel.ModelElementContainer
 import graphmodel.Node
@@ -38,7 +19,10 @@ import java.util.HashMap
 import java.util.List
 import java.util.Map
 
+import org.eclipse.emf.ecore.EClass
 import org.eclipse.emf.ecore.EObject
+import org.eclipse.emf.ecore.EFactory
+import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.graphiti.dt.IDiagramTypeProvider
 import org.eclipse.graphiti.features.IFeatureProvider
@@ -54,32 +38,37 @@ import org.eclipse.graphiti.mm.pictograms.PictogramElement
 import org.eclipse.graphiti.mm.pictograms.Shape
 import org.eclipse.swt.SWTException
 
-class «model.name»ModelGenerator {
+abstract class GratextModelizer {
 	
-	final String DTP_ID = "«graphmodel.package».«model.name»DiagramTypeProvider";
-
-	«model.nameFirstUpper»Factory baseModelFct = «model.nameFirstUpper»Factory.eINSTANCE;
-	«model.nameFirstUpper»Package baseModelPkg = «model.nameFirstUpper»Package.eINSTANCE;
+	NonEmptyRegistry<ModelElementContainer,List<EObject>>
+		nodesInitialOrder = new NonEmptyRegistry[newArrayList]
 	
 	GratextModelTransformer transformer
 
 	Map<ModelElement, PictogramElement> pes = new HashMap
 	Map<String, ModelElement> byId = new HashMap
 
-	«model.name» model
-	«model.name»Diagram diagram
+	GraphModel model
+	LazyDiagram diagram
 	IDiagramTypeProvider dtp
 	IFeatureProvider fp
 	
-	def doGenerate(Resource resource) {
-		val gratextModel = resource.getGraphModel(«model.name»)
-		model = gratextModel.transform
-		diagram = new «model.name»Diagram([|
+	new(EFactory modelFct, EPackage modelPkg, EClass modelCls) {
+		transformer = new GratextModelTransformer(modelFct, modelPkg, modelCls)
+	}
+	
+	def run(Resource resource) {
+		val gratextModel = resource.graphModel
+		nodesInitialOrder.clear
+		gratextModel.cacheInitialOrder
+		diagram = createDiagram
+		model = transformer.transform(gratextModel)
+		diagram.initialization = [|
 			link(diagram, model)
 			nodes.forEach[add]
 			edges.forEach[add]
 			diagram.update
-		])
+		]
 		diagram.avoidInitialization = true
 		resource.edit[
 			resource.contents.remove(gratextModel)
@@ -89,11 +78,23 @@ class «model.name»ModelGenerator {
 		diagram.avoidInitialization = false
 	}
 	
-	def transform(«model.name» model) {
-		transformer = new GratextModelTransformer(
-			baseModelFct, baseModelPkg, baseModelPkg.get«model.name»
-		)
-		transformer.transform(model)
+	def LazyDiagram createDiagram()
+	
+	def void cacheInitialOrder(ModelElementContainer container) {
+		val children = nodesInitialOrder.get(container)
+		for (Node node : container.allNodes) {
+			if (node.index < 0) {
+				node.index = children.size
+			}
+			children.add(node)
+			if (node instanceof ModelElementContainer) {
+				cacheInitialOrder(node)
+			}
+		}
+	}
+	
+	def getInitialIndex(Node node) {
+		nodesInitialOrder.get(node.container.counterpart).indexOf(node.counterpart)
 	}
 	
 	def add(ModelElement bo) {
@@ -122,9 +123,8 @@ class «model.name»ModelGenerator {
 			warn("Pictogram null. Failed to add " + bo)
 		} else switch bo {
 			Edge: {
-				val _edge = bo.counterpart as _Edge
-				add(_edge.route, pe)
-				add(_edge.decorations, pe)
+				addBendpoints(bo, pe)
+				addDecorators(bo, pe as Connection)
 			}
 			ModelElementContainer :
 				bo.modelElements.forEach[
@@ -133,31 +133,35 @@ class «model.name»ModelGenerator {
 		}
 	}
 	
-	def add(_Route route, PictogramElement pe) {
-		route?.points?.forEach[ point, i |
+	def List<Pair<Integer,Integer>> getBendpoints(Edge edge)
+	
+	def addBendpoints(Edge edge, PictogramElement pe) {
+		(edge.counterpart as Edge).bendpoints?.forEach[ point, i |
 			add(point, (pe as FreeFormConnection), i)
 		]
 	}
 	
-	def add(_Point p, FreeFormConnection connection, int index) {
-		val ctx = new AddBendpointContext(connection, p.x, p.y, index)
+	def add(Pair<Integer,Integer> p, FreeFormConnection connection, int index) {
+		val ctx = new AddBendpointContext(connection, p.key, p.value, index)
 		diagramTypeProvider.diagramBehavior.executeFeature(
 			featureProvider.getAddBendpointFeature(ctx), ctx);
 	}
 	
-	def add(List<_Decoration> decs, PictogramElement pe) {
-		if (decs != null)
-			for (var i=0; i < decs.size; i++)
-				update(decs.get(i), (pe as Connection), i)
+	def addDecorators(Edge edge, Connection con) {
+		val size = con.connectionDecorators?.size
+		for (var i = 0; i < size; i++)
+			con.updateDecorator(i, (edge.counterpart as Edge).getDecoratorLocation(i))
 	}
 	
-	def update(_Decoration dec, Connection con, int index) {
+	def Pair<Integer,Integer> getDecoratorLocation(Edge edge, int index)
+	
+	def updateDecorator(Connection con, int index, Pair<Integer,Integer> location) {
 		val ga = [|	
 			con.connectionDecorators?.get(index)?.graphicsAlgorithm
 		].printException
-		if (ga != null) {
-			ga.x = dec?.location?.x
-			ga.y = dec?.location?.y
+		if (ga != null && location != null) {
+			ga.x = location?.key
+			ga.y = location?.value
 		} else warn("Failed to retrieve decorator shape (index=" + index + ") of " + con)
 	}
 	
@@ -172,15 +176,22 @@ class «model.name»ModelGenerator {
 	}
 	
 	def getAddContext(ModelElement bo, ContainerShape target) {
-		val place = getPlacement(bo)
 		new AddContext(new AreaContext, bo) => [
 			targetContainer = target
-			x = place.x
-			y = place.y
-			width = place.width
-			height = place.height
+			x = (bo.counterpart as ModelElement).x
+			y = (bo.counterpart as ModelElement).y
+			width = (bo.counterpart as ModelElement).width
+			height = (bo.counterpart as ModelElement).height
 		]
 	}
+	
+	def int getX(ModelElement element)
+	
+	def int getY(ModelElement element)
+	
+	def int getWidth(ModelElement element)
+	
+	def int getHeight(ModelElement element)
 	
 	def getAddContext(Edge edge) {
 		val srcAnchor = edge.sourceElement.pe.anchor
@@ -208,35 +219,12 @@ class «model.name»ModelGenerator {
 	}
 	
 	def getNodes() {
-		model.modelElements.filter(Node)
+		model.modelElements.filter(Node).sortBy[(counterpart as Node).index]
 	}
 	
-	def index(ModelElement element) {
-		element.placement.index
-	}
+	def int getIndex(ModelElement element)
 	
-	def getPlacement() {
-		getPlacement(null as _Placement)
-	} 
-	
-	def getPlacement(ModelElement element) {
-		val cp = element.counterpart
-		if (cp != null && cp instanceof _Placed)
-			getPlacement((cp as _Placed).placement)
-		else
-			getPlacement
-	}
-	
-	def getPlacement(_Placement placement) {
-		val plm = «project.targetName»Factory.eINSTANCE.create_Placement
-		if (placement != null) {
-			if (placement.x != 0) plm.x = placement.x
-			if (placement.y != 0) plm.y = placement.y
-			if (placement.width >= 0) plm.width = placement.width
-			if (placement.height >= 0) plm.height = placement.height
-		}
-		return plm;
-	}
+	def void setIndex(ModelElement element, int i)
 	
 	def link(PictogramElement pe, EObject bo) {
 		featureProvider.link(pe,bo)
@@ -247,7 +235,7 @@ class «model.name»ModelGenerator {
 	}
 	
 	def getDiagramTypeProvider() {
-		dtp ?: (dtp = extensionManager.createDiagramTypeProvider(diagram, DTP_ID))
+		dtp ?: (dtp = extensionManager.createDiagramTypeProvider(diagram, diagram.diagramTypeProviderId))
 	}
 	
 	def cache(ModelElement bo, PictogramElement pe) {
@@ -260,7 +248,7 @@ class «model.name»ModelGenerator {
 		pes.clear
 	}
 	
-	def update(«model.name»Diagram diagram) {
+	def update(LazyDiagram diagram) {
 		val ctx = new UpdateContext(diagram)
 		val feature = featureProvider.getUpdateFeature(ctx)
 		if (feature.canUpdate(ctx)) 
@@ -268,8 +256,6 @@ class «model.name»ModelGenerator {
 	}
 	
 	def warn(String msg) {
-		System.err.println("[" + this.class.simpleName + "] " + msg)
+		System.err.println("[" + class.simpleName + "] " + msg)
 	}
-}
-'''
 }

@@ -23,17 +23,16 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 
 import de.jabc.cinco.meta.core.utils.projects.ProjectCreator;
-import de.jabc.cinco.meta.plugin.gratext.template.BackupGeneratorTemplate;
+import de.jabc.cinco.meta.plugin.gratext.template.SerializerTemplate;
 import de.jabc.cinco.meta.plugin.gratext.template.DiagramTemplate;
 import de.jabc.cinco.meta.plugin.gratext.template.FormatterTemplate;
 import de.jabc.cinco.meta.plugin.gratext.template.GratextEcoreTemplate;
-import de.jabc.cinco.meta.plugin.gratext.template.GratextGeneratorTemplate;
 import de.jabc.cinco.meta.plugin.gratext.template.GratextGenmodelTemplate;
 import de.jabc.cinco.meta.plugin.gratext.template.GratextGrammarTemplate;
 import de.jabc.cinco.meta.plugin.gratext.template.GratextMWETemplate;
 import de.jabc.cinco.meta.plugin.gratext.template.GratextQualifiedNameProviderTemplate;
 import de.jabc.cinco.meta.plugin.gratext.template.GratextResourceTemplate;
-import de.jabc.cinco.meta.plugin.gratext.template.ModelGeneratorTemplate;
+import de.jabc.cinco.meta.plugin.gratext.template.ModelizerTemplate;
 import de.jabc.cinco.meta.plugin.gratext.template.RuntimeModuleTemplate;
 import de.jabc.cinco.meta.plugin.gratext.template.ScopeProviderTemplate;
 
@@ -111,20 +110,20 @@ public class GratextGenerator extends ProjectGenerator {
 //			.createFile(targetName + ".mwe2")
 //			.withContent(GratextMWETemplate.class);
 				
-		inSrcFolder("src")
-			.inPackage(basePkg + ".generator")
-			.createFile("GratextGenerator.xtend")
-			.withContent(GratextGeneratorTemplate.class);
+//		inSrcFolder("src")
+//			.inPackage(basePkg + ".generator")
+//			.createFile("GratextGenerator.xtend")
+//			.withContent(GratextGeneratorTemplate.class);
 		
 		inSrcFolder("src")
 			.inPackage(basePkg + ".generator")
-			.createFile(modelName + "BackupGenerator.xtend")
-			.withContent(BackupGeneratorTemplate.class);
+			.createFile(modelName + "Serializer.xtend")
+			.withContent(SerializerTemplate.class);
 		
 		inSrcFolder("src")
 			.inPackage(basePkg + ".generator")
-			.createFile(modelName + "ModelGenerator.xtend")
-			.withContent(ModelGeneratorTemplate.class);
+			.createFile(modelName + "Modelizer.xtend")
+			.withContent(ModelizerTemplate.class);
 		
 //		inSrcFolder("src")
 //			.inPackage(basePkg + ".scoping")

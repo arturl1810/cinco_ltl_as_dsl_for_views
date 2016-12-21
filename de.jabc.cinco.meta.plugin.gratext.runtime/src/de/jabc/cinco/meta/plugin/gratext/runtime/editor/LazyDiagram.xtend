@@ -1,4 +1,4 @@
-package de.jabc.cinco.meta.plugin.gratext.runtime.resource
+package de.jabc.cinco.meta.plugin.gratext.runtime.editor
 
 import org.eclipse.graphiti.internal.IDiagramVersion
 import org.eclipse.graphiti.mm.algorithms.styles.StylesFactory
@@ -22,13 +22,16 @@ abstract class LazyDiagram extends DiagramImpl {
 //		}
 	}
 	
+	private String dtpId
+	private Runnable initialization
 	private boolean initialized
 	private boolean initializing
 	private boolean avoidInitialization
 	
-	new(String name) {
+	new(String name, String dtpId) {
 		super()
 		setDiagramTypeId(name)
+		setDiagramTypeProviderId(dtpId)
 		setGridUnit(look.getMinorGridLineDistance)
 		setSnapToGrid(true)
 		setVisible(true)
@@ -40,8 +43,11 @@ abstract class LazyDiagram extends DiagramImpl {
 		gaService.setSize(rect, 1000, 1000)
 	}
 	
-	def String getDiagramTypeProviderId()
-	def void initialize()
+	def initialize() {
+		if (initialization != null) {
+			initialization.run
+		}
+	}
 	
 	def assertInitialized() {
 		if (!initialized && !avoidInitialization && !initializing ) {
@@ -51,6 +57,10 @@ abstract class LazyDiagram extends DiagramImpl {
 			initializing = false
 			initialized = true
 		}
+	}
+	
+	def setInitialization(Runnable rbl) {
+		initialization = rbl
 	}
 	
 	override getAnchors() {
@@ -87,6 +97,12 @@ abstract class LazyDiagram extends DiagramImpl {
 		debug("getDiagramTypeId")
 		assertInitialized
 		super.getDiagramTypeId
+	}
+	
+	def String getDiagramTypeProviderId() {
+//		debug("getDiagramTypeProviderId")
+//		assertInitialized
+		this.dtpId
 	}
 	
 	override getFonts() {
@@ -153,6 +169,10 @@ abstract class LazyDiagram extends DiagramImpl {
 		//debug("setDiagramTypeId")
 //		assertInitialized
 		super.setDiagramTypeId(value)
+	}
+	
+	def setDiagramTypeProviderId(String dtpId) {
+		this.dtpId = dtpId
 	}
 	
 	override setGridUnit(int value) {

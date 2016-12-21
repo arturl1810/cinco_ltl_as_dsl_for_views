@@ -19,9 +19,11 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui.ide
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
-Import-Package: de.jabc.cinco.meta.core.utils,
+Import-Package: de.jabc.cinco.meta.core.ge.style.model.features,
+ de.jabc.cinco.meta.core.utils,
  de.jabc.cinco.meta.core.utils.eapi,
  de.jabc.cinco.meta.core.utils.job,
+ de.jabc.cinco.meta.core.utils.registry,
  graphmodel,
  org.eclipse.draw2d,
  org.eclipse.draw2d.geometry,
