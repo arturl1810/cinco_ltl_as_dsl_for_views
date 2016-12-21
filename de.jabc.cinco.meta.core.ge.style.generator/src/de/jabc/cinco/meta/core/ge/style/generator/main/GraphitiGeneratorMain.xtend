@@ -112,7 +112,7 @@ class GraphitiGeneratorMain extends GeneratorUtils {
 			content = n.doGenerateAddFeature(styles)
 			ContentWriter::writeJavaFileInSrcGen(project, n.packageNameAdd, "AddFeature"+n.name.toFirstUpper+".java", content)
 			
-			content = n.doGenerateCreateFeature
+			content = n.doGenerateCreateFeature(styles)
 			ContentWriter::writeJavaFileInSrcGen(project, n.packageNameCreate, "CreateFeature"+n.name.toFirstUpper+".java", content)
 			
 			content = n.doGenerateDeleteFeature(styles)

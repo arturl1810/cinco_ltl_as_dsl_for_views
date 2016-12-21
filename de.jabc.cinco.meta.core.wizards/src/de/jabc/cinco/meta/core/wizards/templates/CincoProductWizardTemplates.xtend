@@ -626,7 +626,6 @@ nodeStyle test«c.toString»«e.toString» {
 					location (1.0)
 					ellipse {
 					appearance default
-					position (0,0)
 					size (10,20)
 							}
 						}
@@ -662,7 +661,6 @@ nodeStyle test«c.toString»«e.toString» {
 					location (1.0)
 					   polygon {
 						appearance default
-						position (0,0)
 						points [(0,0) (0,10) (20,0)]
 						size (10,20)
 								}
@@ -680,7 +678,6 @@ nodeStyle test«c.toString»«e.toString» {
 						decorator{
 								location (1.0)
 								image {
-								position (0,0)
 								size (10,20)
 								path ("icons/ellielli.png")
 										}
