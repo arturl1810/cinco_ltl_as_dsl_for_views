@@ -10,7 +10,8 @@ public enum ExampleFeature {
 	POST_CREATE_HOOKS ("Post-create hooks"),
 	PALETTE_GROUPS ("Palette groups"),
 	TRANSFORMATION_API ("Transformation API"),
-	PRODUCT_BRANDING ("Product branding");
+	PRODUCT_BRANDING ("Product branding"),
+	STYLETEST ("Styletest");
 	
 	private final String label;
 	private ExampleFeature(String label) {

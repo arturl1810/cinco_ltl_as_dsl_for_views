@@ -75,7 +75,6 @@ class EdgeUpdateFeature extends GeneratorUtils{
 			}		
 			return false;
 		}
-		
 		private void updateText( «e.fqBeanName» «e.name.toLowerCase», «PictogramElement.name» pe) {
 			if (pe instanceof «ContainerShape.name») {
 				«PictogramElement.name» tmp = pe;
@@ -88,7 +87,7 @@ class EdgeUpdateFeature extends GeneratorUtils{
 			if (pe instanceof «Connection.name») {
 				«Connection.name» connection = («Connection.name») pe;
 				for («ConnectionDecorator.name» cd : connection.getConnectionDecorators()) {
-					updateText(«e.name.toLowerCase», cd); 
+					updateText(«e.fuName.toFirstLower», cd); 
 				} 
 			} else {
 				if (pe.getGraphicsAlgorithm() instanceof «AbstractText.name») {
@@ -110,24 +109,24 @@ class EdgeUpdateFeature extends GeneratorUtils{
 				}
 			}
 		}
-	
-		public static boolean checkUpdateNeeded( «e.fqBeanName» «e.name.toLowerCase», «PictogramElement.name» pe) {
+		public static boolean checkUpdateNeeded(«e.graphModel.beanPackage».«e.fuName» «e.fuName.toFirstLower», «PictogramElement.name» pe) {
 			boolean updateNeeded;
 			if (pe instanceof «ContainerShape.name») {
 				for («Shape.name» _s : ((«ContainerShape.name») pe).getChildren()) {
-					return checkUpdateNeeded(«e.name.toLowerCase», _s);
+					return checkUpdateNeeded(«e.fuName.toFirstLower», _s);
 				}
 			} 
 			if (pe instanceof «Connection.name») {
 				«Connection.name» connection = («Connection.name») pe;
 				for («ConnectionDecorator.name» cd : connection.getConnectionDecorators()) {
-					updateNeeded = checkUpdateNeeded(«e.name.toLowerCase», cd);
+					updateNeeded = checkUpdateNeeded(«e.fuName.toFirstLower», cd);
+
 					if (updateNeeded)
 						return true;
 				}
 			} else {
 				«Object.name» o = «Graphiti.name».getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
-				if (pe.getGraphicsAlgorithm() instanceof «AbstractText.name» && «e.name.toLowerCase».equals(o)) {
+				if (pe.getGraphicsAlgorithm() instanceof «AbstractText.name» && «e.fuName.toFirstLower».equals(o)) {
 					«ClassLoader.name» contextClassLoader = «Thread.name».currentThread().getContextClassLoader();
 					try {
 						«Thread.name».currentThread().setContextClassLoader( «e.packageNameUpdate».UpdateFeature«e.fuName».class.getClassLoader());
