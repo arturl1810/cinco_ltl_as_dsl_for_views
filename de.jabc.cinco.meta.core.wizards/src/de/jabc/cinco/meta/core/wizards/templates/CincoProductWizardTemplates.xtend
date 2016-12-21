@@ -6,6 +6,8 @@ import java.util.Set
 import static de.jabc.cinco.meta.core.wizards.project.ExampleFeature.*
 import java.util.Collections
 import java.util.EnumSet
+import org.eclipse.emf.common.util.EList
+import org.eclipse.emf.common.util.BasicEList
 
 class CincoProductWizardTemplates {
 
@@ -230,8 +232,144 @@ graphModel «modelName» {
 	edge LabeledTransition {
 		attr EString as label
 	}
-}
 
+	«IF features.contains(STYLETEST)»
+	//rectangle
+	@icon("icons/rectrect.png")
+	@style(testrectanglerectangle)
+	node RectangleRectangle{
+		incomingEdges (*[1,*])
+		outgoingEdges (*[1,1]) 
+	}
+	@icon("icons/rectellipse.png")
+	@style(testrectangleellipse)
+	node RectangleEllipse{
+		incomingEdges (*[1,*])
+		outgoingEdges (*[1,1]) 
+	}
+	@icon("icons/rectpoly.png")
+	@style(testrectanglepolygon)
+		node RectanglePolygon{
+			incomingEdges (*[1,*])
+			outgoingEdges (*[1,1]) 
+	}
+	@icon("icons/rectround.png")
+	@style(testrectangleroundedRectangle)
+		node RectangleRoundedRectangle{
+			incomingEdges (*[1,*])
+			outgoingEdges (*[1,1]) 
+	}
+	//ellipse
+	@icon("icons/ellirect.png")
+	@style(testellipserectangle)
+		node EllipseRectangle{
+			incomingEdges (*[1,*])
+			outgoingEdges (*[1,1]) 
+		}
+	@icon("icons/ellielli.png")	
+	@style(testellipseellipse)
+		node EllipseEllipse{
+			incomingEdges (*[1,*])
+			outgoingEdges (*[1,1]) 
+		}
+	@icon("icons/ellipoly.png")	
+	@style(testellipsepolygon)
+		node EllipsePolygon{
+			incomingEdges (*[1,*])
+			outgoingEdges (*[1,1]) 
+		}
+	@icon("icons/elliround.png")
+	@style(testellipseroundedRectangle)
+		node EllipseRoundedRectangle{
+			incomingEdges (*[1,*])
+			outgoingEdges (*[1,1]) 
+		}
+		//polygon
+	@icon("icons/polyrect.png")
+	@style(testpolygonrectangle)
+		node PolygonRectangle{
+			incomingEdges (*[1,*])
+			outgoingEdges (*[1,1]) 
+			}
+	@icon("icons/polyelli.png")		
+	@style(testpolygonellipse)
+		node PolygonEllipse{
+			incomingEdges (*[1,*])
+			outgoingEdges (*[1,1]) 
+			}
+	@icon("icons/polypoly.png")		
+	@style(testpolygonpolygon)
+		node PolygonPolygon{
+			incomingEdges (*[1,*])
+			outgoingEdges (*[1,1]) 
+			}
+	@icon("icons/polyround.png")
+	@style(testpolygonroundedRectangle)
+		node PolygonRoundedRectangle{
+			incomingEdges (*[1,*])
+			outgoingEdges (*[1,1]) 
+			}
+	//roundedRectangle
+	@icon("icons/roundrect.png")
+	@style(testroundedRectanglerectangle)
+		node RoundedRectangleRectangle{
+			incomingEdges (*[1,*])
+			outgoingEdges (*[1,1]) 
+		}
+	@icon("icons/roundelli.png")	
+	@style(testroundedRectangleellipse)
+		node RoundedRectangleEllipse{
+			incomingEdges (*[1,*])
+			outgoingEdges (*[1,1]) 
+		}
+	@icon("icons/roundpoly.png")	
+	@style(testroundedRectanglepolygon)
+			node RoundedRectanglePolygon{
+				incomingEdges (*[1,*])
+				outgoingEdges (*[1,1]) 
+		}
+	@icon("icons/roundround.png")
+	@style(testroundedRectangleroundedRectangle)
+			node RoundedRectangleRoundedRectangle{
+				incomingEdges (*[1,*])
+				outgoingEdges (*[1,1]) 
+		}
+		
+	//edgestyle
+	@style(testArrow)
+		edge TestArrow { 
+		}		
+	@style(labeledDiamond)
+		edge LabeledDiamond{
+			}
+	@style (labeledCircle)
+	 	edge LabeledCircle{
+	 		}
+	@style (labeledTriangle)
+		edge LabeledTriangle{
+			}
+	@style (labeledText, "${label}")
+		edge LabeledText{
+			attr EString as label
+			}
+	@style (labeledMultitext , "${name}")
+		edge LabeledMultitext{
+			attr EString as name
+			}
+	@style (labeledEllipse)
+		edge LabeledEllipse{
+			}
+	@style (labeledPolygon)
+		edge LabeledPolygon{
+			}
+	@style (labeledPolyline)
+		edge LabeledPolyline{
+			}
+	@style (labeledImage)
+		edge LabeledImage{
+			}
+	«ENDIF»
+}
 	'''
 	
 
@@ -342,7 +480,290 @@ edgeStyle labeledArrow(1) {
 		}
 	}
 }
+
+	«IF features.contains(STYLETEST)»
+	//nodeStyle Test
+	«FOR c : createCShapeList»
+	«FOR e : createCShapeList»
+nodeStyle test«c.toString»«e.toString» {
+		«IF c == "polygon"»
+			«c.toString» {
+			 appearance default
+			 points [(0,0) (0,10) (20,0)]
+			 size(36,36)	
+		«ELSEIF c == "roundedRectangle"»		
+		«c.toString» {
+			  appearance default
+			  position (0,0)
+		  	  size (96,32)
+		  	  corner (8,8)		  	  
+		 «ELSE»
+		 «c.toString» {
+		 	  appearance default
+		 	  size(36,36)
+		 		  
+		 «ENDIF»
+		«IF e == "polygon"»
+		«e.toString» {
+			appearance default
+			points [(0,0) (0,10) (20,0)]
+			size(23,23)
+					 }
+		«ELSEIF e == "roundedRectangle"»
+		«e.toString» {
+			appearance default
+			position (0,0)
+			size (23,23)
+		    corner (8,8)
+				  	 }
+		 «ELSE»
+		 «e.toString» {
+		 appearance default
+		 size(23,23)
+		 }
+	    «ENDIF»
+		}
+}
+	«ENDFOR»	 
+	«ENDFOR»
+	
+	//edgeStyle Test
+	«FOR d : createTestDecoratorList»
+		«IF d == "ARROW"»		
+		edgeStyle testArrow {
+			decorator {
+				location (1.0) // at the end of the edge
+				ARROW
+				appearance default 
+				}
+			}
+		«ENDIF»
+		«IF d == "DIAMOND"»
+		edgeStyle labeledDiamond {	
+			appearance default
+			decorator {
+				location (1.0)
+				ARROW
+				appearance default
+			}
+			decorator {
+				location (0.3)
+				DIAMOND
+			}
+		}
+		«ENDIF»
+		«IF d == "CIRCLE"»
+				edgeStyle labeledCircle{	
+					appearance default
+					decorator {
+						location (1.0)
+						ARROW
+						appearance default
+					}
+					decorator {
+						location (0.3)
+						CIRCLE
+					}
+				}
+		«ENDIF»
+		«IF d == "TRIANGLE"»
+				edgeStyle labeledTriangle {	
+					appearance default
+					decorator {
+						location (1.0)
+						ARROW
+						appearance default
+					}
+					decorator {
+						location (0.3)
+						TRIANGLE
+					}
+				}
+		«ENDIF»
+		«IF d == "Text"»
+			edgeStyle labeledText (1) {	
+				appearance default
+				decorator {
+					location (1.0)
+					ARROW
+					appearance default
+				}
+«««				decorator {
+«««					location (0.3)
+«««					movable
+«««					text {
+«««						value "%s"
+«««					}
+«««				}
+		}			
+		«ENDIF»
+		«IF d == "Multitext"»
+		edgeStyle labeledMultitext(1) {	
+			appearance default
+			decorator {
+				location (1.0)
+				ARROW
+				appearance default
+			}
+«««			decorator {
+«««				location (0.3)
+«««				movable
+«««				multiText{
+«««					value "%s"
+«««			}
+«««		}
+		}
+		«ENDIF»
+		«IF d == "Ellipse"»
+		edgeStyle labeledEllipse {
+				appearance default
+				decorator {
+						location (1.0)
+						ARROW
+						appearance default
+				}
+				decorator{
+					location (1.0)
+					ellipse {
+					appearance default
+					position (0,0)
+					size (10,20)
+							}
+						}
+			}
+		«ENDIF»
+		«IF d == "Polyline"»
+		edgeStyle labeledPolyline{
+				appearance default
+				decorator {
+						location (1.0)
+						ARROW
+						appearance default
+					}
+				decorator {
+						location (1.0)
+						polyline {
+						appearance default
+						points [(0,0) (0,10) (20,0)]
+						size (10,20)
+								}
+							}
+					}
+		«ENDIF»
+		«IF d == "Polygon"»
+		edgeStyle labeledPolygon {
+				appearance default
+				decorator {
+						location (1.0)
+						ARROW
+						appearance default
+					}
+				decorator{
+					location (1.0)
+					   polygon {
+						appearance default
+						position (0,0)
+						points [(0,0) (0,10) (20,0)]
+						size (10,20)
+								}
+							}
+					}
+		«ENDIF»
+		«IF d == "Image"»
+		edgeStyle labeledImage {
+						appearance default
+						decorator {
+								location (1.0)
+								ARROW
+								appearance default
+							}
+						decorator{
+								location (1.0)
+								image {
+								position (0,0)
+								size (10,20)
+								path ("icons/ellielli.png")
+										}
+									}
+							}
+		«ENDIF»
+«««		«IF d == "RoundedRectangle"»
+«««		edgeStyle labeledRoundedRect {
+«««					appearance default
+«««					decorator {
+«««							location (1.0)
+«««							ARROW
+«««							appearance default
+«««					}
+«««					decorator{
+«««						location (1.0)				
+«««						roundedRectangle {
+«««						appearance default
+«««						position (0,0)
+«««						size (96,32)
+«««						corner (8,8)
+«««						text {
+«««						position ( CENTER, MIDDLE )
+«««							value "roundedRectangle" 
+«««									}
+«««								}
+«««							}
+«««					}
+«««		«ENDIF»
+«««		«IF d == "Rectangle"»
+«««		edgeStyle labeledRect {
+«««			appearance default
+«««			decorator {
+«««					location (1.0)
+«««					ARROW
+«««					appearance default
+«««			}
+«««			decorator{
+«««				location (1.0)				
+«««				rectangle {
+«««				appearance default
+«««				position (0,0)
+«««				size (96,32)
+«««				corner (8,8)
+«««				text {
+«««				position ( CENTER, MIDDLE )
+«««					value "Rectangle" 
+«««							}
+«««						}
+«««					}
+«««			}
+«««		«ENDIF»
+	«ENDFOR»
+	«ENDIF»
 	'''
+	def static EList <String> createTestDecoratorList(){
+		var EList <String> decorators = new BasicEList <String>();
+		decorators.add("ARROW")
+		decorators.add("DIAMOND")
+		decorators.add("CIRCLE")
+		decorators.add("TRIANGLE")
+		decorators.add("Text")
+		decorators.add("RoundedRectangle")
+		decorators.add("Rectangle")
+		decorators.add("Multitext")
+		decorators.add("Ellipse")
+		decorators.add("Polyline")
+		decorators.add("Polygon")
+		decorators.add("Image")
+
+		
+		return decorators;
+	}
+	
+	def static EList <String> createCShapeList() {
+		var EList <String> cShapes = new BasicEList <String>();
+		cShapes.add("rectangle")
+		cShapes.add("ellipse")
+		cShapes.add("polygon")
+		cShapes.add("roundedRectangle")
+		
+		return cShapes;
+	}
 	
 	def static generateAppearanceProvider(String modelName, String packageName) '''
 package «packageName».appearance;

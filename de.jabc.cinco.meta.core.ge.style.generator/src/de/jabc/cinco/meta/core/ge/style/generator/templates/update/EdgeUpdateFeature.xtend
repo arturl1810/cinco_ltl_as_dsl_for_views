@@ -74,19 +74,19 @@ class EdgeUpdateFeature extends GeneratorUtils{
 			return false;
 		}
 		
-		private void updateText( «e.fqBeanName» transition, «PictogramElement.name» pe) {
+		private void updateText( «e.graphModel.beanPackage».«e.fuName» «e.fuName.toFirstLower», «PictogramElement.name» pe) {
 			if (pe instanceof «ContainerShape.name») {
 				«PictogramElement.name» tmp = pe;
 				Object o = «Graphiti.name».getLinkService().getBusinessObjectForLinkedPictogramElement(tmp);
-				if (transition.equals(o) || o == null)
+				if («e.fuName.toFirstLower».equals(o) || o == null)
 				for («Shape.name» _s : ((«ContainerShape.name») pe).getChildren()) {
-					updateText(transition, _s);
+					updateText(«e.fuName.toFirstLower», _s);
 				}
 			} 
 			if (pe instanceof «Connection.name») {
 				«Connection.name» connection = («Connection.name») pe;
 				for («ConnectionDecorator.name» cd : connection.getConnectionDecorators()) {
-					updateText(transition, cd); 
+					updateText(«e.fuName.toFirstLower», cd); 
 				} 
 			} else {
 				if (pe.getGraphicsAlgorithm() instanceof «AbstractText.name») {
@@ -107,23 +107,23 @@ class EdgeUpdateFeature extends GeneratorUtils{
 			}
 		}
 	
-		public static boolean checkUpdateNeeded( «e.fqBeanName» transition, «PictogramElement.name» pe) {
+		public static boolean checkUpdateNeeded(«e.graphModel.beanPackage».«e.fuName» «e.fuName.toFirstLower», «PictogramElement.name» pe) {
 			boolean updateNeeded;
 			if (pe instanceof «ContainerShape.name») {
 				for («Shape.name» _s : ((«ContainerShape.name») pe).getChildren()) {
-					return checkUpdateNeeded(transition, _s);
+					return checkUpdateNeeded(«e.fuName.toFirstLower», _s);
 				}
 			} 
 			if (pe instanceof «Connection.name») {
 				«Connection.name» connection = («Connection.name») pe;
 				for («ConnectionDecorator.name» cd : connection.getConnectionDecorators()) {
-					updateNeeded = checkUpdateNeeded(transition, cd);
+					updateNeeded = checkUpdateNeeded(«e.fuName.toFirstLower», cd);
 					if (updateNeeded)
 						return true;
 				}
 			} else {
 				«Object.name» o = «Graphiti.name».getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
-				if (pe.getGraphicsAlgorithm() instanceof «AbstractText.name» && transition.equals(o)) {
+				if (pe.getGraphicsAlgorithm() instanceof «AbstractText.name» && «e.fuName.toFirstLower».equals(o)) {
 					«ClassLoader.name» contextClassLoader = «Thread.name».currentThread().getContextClassLoader();
 					try {
 						«Thread.name».currentThread().setContextClassLoader( «e.packageNameUpdate».UpdateFeature«e.fuName».class.getClassLoader());
