@@ -149,8 +149,7 @@ class NodeUpdateFeature extends GeneratorUtils{
 	}
 	'''
 	
-	def getValue(Node n)
-	{
+	def getValue(Node n){
 		var listAnnot = n.annotations;
 		var annot = listAnnot.get(0);
 		var listValue = annot.value;
@@ -161,11 +160,9 @@ class NodeUpdateFeature extends GeneratorUtils{
 		elContext = new «n.packageName».expression.«n.graphModel.name»ExpressionLanguageContext(«n.name.toLowerCase»);
 		Object tmp«number = number+1»Value = factory.createValueExpression(elContext, "«value»", Object.class).getValue(elContext); 
 		«ENDIF»«ENDFOR»''' 
-
 	}
 	
-	def fill(Node n)
-	{
+	def fill(Node n){
 		var listAnnot = n.annotations;
 		var annot = listAnnot.get(0);
 		var listValue = annot.value;
@@ -173,6 +170,4 @@ class NodeUpdateFeature extends GeneratorUtils{
 		return 
 		'''«FOR value : listValue»«IF value.startsWith("${")»,tmp«number = number+1»Value«ENDIF»«ENDFOR»'''
 	}
-	
-	
 }

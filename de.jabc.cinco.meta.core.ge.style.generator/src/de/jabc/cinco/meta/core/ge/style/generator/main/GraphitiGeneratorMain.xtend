@@ -1,9 +1,11 @@
 package de.jabc.cinco.meta.core.ge.style.generator.main
 
 //import ProductDefinition.CincoProduct
+
 import de.jabc.cinco.meta.core.ge.style.generator.templates.DiagramEditorTmpl
 import de.jabc.cinco.meta.core.ge.style.generator.templates.DiagramTypeProviderTmpl
 import de.jabc.cinco.meta.core.ge.style.generator.templates.FeatureProviderTmpl
+import de.jabc.cinco.meta.core.ge.style.generator.templates.FileExtensionContent
 import de.jabc.cinco.meta.core.ge.style.generator.templates.GraphitiUtilsTmpl
 import de.jabc.cinco.meta.core.ge.style.generator.templates.ImageProviderTmpl
 import de.jabc.cinco.meta.core.ge.style.generator.templates.LayoutFeatureTmpl
@@ -20,12 +22,14 @@ import de.jabc.cinco.meta.core.ge.style.generator.templates.create.NodeCreateFea
 import de.jabc.cinco.meta.core.ge.style.generator.templates.delete.NodeDeleteFeatures
 import de.jabc.cinco.meta.core.ge.style.generator.templates.expressionlanguage.ContextTmp
 import de.jabc.cinco.meta.core.ge.style.generator.templates.expressionlanguage.ResolverTmp
+import de.jabc.cinco.meta.core.ge.style.generator.templates.layout.EdgeLayoutFeature
 import de.jabc.cinco.meta.core.ge.style.generator.templates.layout.NodeLayoutFeature
 import de.jabc.cinco.meta.core.ge.style.generator.templates.move.NodeMoveFeature
 import de.jabc.cinco.meta.core.ge.style.generator.templates.resize.NodeResizeFeature
 import de.jabc.cinco.meta.core.ge.style.generator.templates.update.EdgeUpdateFeature
 import de.jabc.cinco.meta.core.ge.style.generator.templates.update.NodeUpdateFeature
 import de.jabc.cinco.meta.core.ge.style.generator.templates.util.GeneratorUtils
+import de.jabc.cinco.meta.core.ui.templates.DefaultPerspectiveContent
 import de.jabc.cinco.meta.core.utils.CincoUtils
 import de.jabc.cinco.meta.core.utils.projects.ContentWriter
 import mgl.Edge
@@ -34,10 +38,8 @@ import mgl.Node
 import org.eclipse.core.resources.IFile
 import org.eclipse.core.resources.IProject
 import org.eclipse.core.runtime.NullProgressMonitor
-import style.Styles
-import de.jabc.cinco.meta.core.ge.style.generator.templates.FileExtensionContent
-import java.util.List
 import productDefinition.CincoProduct
+import style.Styles
 
 class GraphitiGeneratorMain extends GeneratorUtils { 
 	
@@ -65,6 +67,7 @@ class GraphitiGeneratorMain extends GeneratorUtils {
 	extension NodeMoveFeature = new NodeMoveFeature
 	extension NodeUpdateFeature = new NodeUpdateFeature
 	extension EdgeUpdateFeature = new EdgeUpdateFeature
+	extension EdgeLayoutFeature = new EdgeLayoutFeature
 	
 	var GraphModel gm
 	var IFile cpdFile
@@ -112,7 +115,7 @@ class GraphitiGeneratorMain extends GeneratorUtils {
 			content = n.doGenerateAddFeature(styles)
 			ContentWriter::writeJavaFileInSrcGen(project, n.packageNameAdd, "AddFeature"+n.name.toFirstUpper+".java", content)
 			
-			content = n.doGenerateCreateFeature
+			content = n.doGenerateCreateFeature(styles)
 			ContentWriter::writeJavaFileInSrcGen(project, n.packageNameCreate, "CreateFeature"+n.name.toFirstUpper+".java", content)
 			
 			content = n.doGenerateDeleteFeature(styles)
@@ -141,6 +144,9 @@ class GraphitiGeneratorMain extends GeneratorUtils {
 			
 			content = e.doGenerateEdgeUpdateFeature(styles)
 			ContentWriter::writeJavaFileInSrcGen(project, e.packageNameUpdate, "UpdateFeature"+e.name.toFirstUpper+".java", content)
+			
+			content = e.doGenerateEdgeLayoutFeature(styles)
+			ContentWriter::writeJavaFileInSrcGen(project, e.packageNameLayout, "LayoutFeature"+e.name.toFirstUpper+".java", content)
 		}
 		
 		var usedExtensions = CincoUtils.getUsedExtensions(gm);
@@ -157,8 +163,8 @@ class GraphitiGeneratorMain extends GeneratorUtils {
 		if (cp.getDefaultPerspective() != null && !cp.getDefaultPerspective().isEmpty())
 			return;
 		 
-		var defaultPerspectiveContent = de.jabc.cinco.meta.core.ui.templates.DefaultPerspectiveContent::generateDefaultPerspective(cp, gm.packageName.toString)
-		var defaultXMLPerspectiveContent = de.jabc.cinco.meta.core.ui.templates.DefaultPerspectiveContent::generateXMLPerspective(cp, cpdFile.getProject().getName())
+		var defaultPerspectiveContent = DefaultPerspectiveContent::generateDefaultPerspective(cp, gm.packageName.toString)
+		var defaultXMLPerspectiveContent = DefaultPerspectiveContent::generateXMLPerspective(cp, cpdFile.getProject().getName())
 		
 //		var file = project.getFile("src-gen/"+project.getName().replace(".", "/")+"/"+cp.getName()+"Perspective.java");
 		ContentWriter::writeJavaFileInSrcGen(project, gm.packageName, cp.name+"Perspective.java",defaultPerspectiveContent)

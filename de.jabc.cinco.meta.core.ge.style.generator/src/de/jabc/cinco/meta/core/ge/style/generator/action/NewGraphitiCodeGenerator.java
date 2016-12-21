@@ -31,7 +31,6 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.osgi.framework.Bundle;
 
-import de.jabc.cinco.meta.core.ge.style.generator.api.main.APIGenerator;
 import de.jabc.cinco.meta.core.ge.style.generator.main.GraphitiGeneratorMain;
 import de.jabc.cinco.meta.core.ge.style.generator.templates.util.GeneratorUtils;
 import de.jabc.cinco.meta.core.ui.listener.MGLSelectionListener;

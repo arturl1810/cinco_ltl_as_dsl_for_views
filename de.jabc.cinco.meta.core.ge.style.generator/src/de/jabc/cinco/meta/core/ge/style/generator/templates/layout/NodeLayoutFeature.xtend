@@ -10,7 +10,7 @@ import org.eclipse.graphiti.mm.pictograms.ContainerShape
 import org.eclipse.graphiti.mm.pictograms.Shape
 import style.Styles
 
-class NodeLayoutFeature extends GeneratorUtils{
+class NodeLayoutFeature extends GeneratorUtils{ 
 	
 	def doGenerateNodeLayoutFeature(Node n,Styles styles)'''
 	package «n.packageNameLayout»;

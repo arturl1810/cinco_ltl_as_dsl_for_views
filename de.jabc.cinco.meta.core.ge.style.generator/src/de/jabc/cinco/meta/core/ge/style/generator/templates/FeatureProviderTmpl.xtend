@@ -156,6 +156,10 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 					if («n.instanceofCheck("bo")»)
 						return new «n.packageNameLayout».LayoutFeature«n.fuName»(this);
 				«ENDFOR»
+				«FOR e : gm.edges»
+					if («e.instanceofCheck("bo")»)
+					    return new «e.packageNameLayout».LayoutFeature«e.fuName»(this);
+				«ENDFOR»
 			}
 		}
 

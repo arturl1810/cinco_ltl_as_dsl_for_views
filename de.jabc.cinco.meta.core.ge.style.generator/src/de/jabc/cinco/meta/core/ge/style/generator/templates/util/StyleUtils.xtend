@@ -127,28 +127,6 @@ class StyleUtils extends GeneratorUtils {
 		else '''«node.graphModel.packageName».«node.graphModel.name»LayoutUtils.set_«node.graphModel.name»DefaultAppearanceStyle(«currentGaName», getDiagram());'''
 	}
 
-//	def getReferencedStyle(AbstractShape shape, CharSequence currentGaName)
-//	{
-//		var nodestyle = CincoUtils.getStyleForNode(node, styles)
-//		val mainShape = nodestyle.mainShape
-//		if (mainShape.referencedAppearance != null)
-//		{
-//			var result = mainShape.referencedAppearance.name
-//			return '''«node.graphModel.packageName».«node.graphModel.name»LayoutUtils.set«result»Style(«currentGaName», getDiagram());'''
-//		}
-//		else return '''«node.graphModel.packageName».«node.graphModel.name»LayoutUtils.set_«node.graphModel.name»DefaultAppearanceStyle(«currentGaName», getDiagram());'''
-//	}
-//
-//	def getInlineAppearance(AbstractShape shape, CharSequence currentGaName)
-//	{
-//		var mapInline = LayoutFeatureTmpl.shapeMap;
-//		if(mapInline.containsKey(shape))
-//		{
-//			var str = mapInline.get(shape);
-//			return ''' «node.graphModel.packageName».«node.graphModel.name»LayoutUtils.«str»(«currentGaName», getDiagram());'''
-//		}
-//	}
-
 	def dispatch creator(ContainerShape cs, String peName, String containerName) '''
 		«org.eclipse.graphiti.mm.pictograms.ContainerShape.name» «peName» = peService.createContainerShape(«containerName», «containerIsDiagramOrMovable(
 			cs as AbstractShape)»);
@@ -303,18 +281,6 @@ class StyleUtils extends GeneratorUtils {
 		} finally {
 			«Thread.name».currentThread().setContextClassLoader(contextClassLoader);
 		}
-		gaService.setSize(«currentGaName.toString», 50, 50);
-		
-		
-		«node.graphModel.packageName».«node.graphModel.fuName»LayoutUtils.setdefaultStyle(«currentGaName.toString», getDiagram());
-		gaService.setLocation(«currentGaName.toString», 23, -9);
-		peService.setPropertyValue(«currentGaName.toString»,«node.graphModel.packageName».«node.graphModel.fuName»LayoutUtils.KEY_HORIZONTAL, «node.
-			graphModel.packageName».«node.graphModel.fuName»LayoutUtils.KEY_HORIZONTAL_CENTER);
-		peService.setPropertyValue(«currentGaName.toString», «node.graphModel.packageName».«node.graphModel.fuName»LayoutUtils.KEY_VERTICAL, «node.
-			graphModel.packageName».«node.graphModel.fuName»LayoutUtils.KEY_VERTICAL_MIDDLE);
-		
-		peService.setPropertyValue(«currentGaName.toString», «node.graphModel.packageName».«node.graphModel.fuName»LayoutUtils.KEY_MARGIN_HORIZONTAL, "0");
-		peService.setPropertyValue(«currentGaName.toString», «node.graphModel.packageName».«node.graphModel.fuName»LayoutUtils.KEY_MARGIN_VERTICAL, "0");
 		
 	'''
 
