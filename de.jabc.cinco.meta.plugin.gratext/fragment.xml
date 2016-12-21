@@ -13,6 +13,16 @@
       </graphmodel-annotation>
    </extension-->
    <extension
+         id="GratextDisableFeature"
+         name="Gratext Disable Feature"
+         point="de.jabc.cinco.meta.core.pluginregistry.cpdplugin">
+      <cpd_metaplugin_description
+            cpdMetapluginService="de.jabc.cinco.meta.plugin.gratext.CPDMetaPlugin"
+            recognized-annotation="disableGratext"
+            validatorClass="de.jabc.cinco.meta.plugin.gratext.CPDValidator">
+      </cpd_metaplugin_description>
+   </extension>
+   <extension
          point="org.eclipse.ui.popupMenus">
       <objectContribution
             id="de.jabc.cinco.meta.plugin.gratext.menu.gratextbuild.cpd"

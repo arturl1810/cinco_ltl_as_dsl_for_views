@@ -98,8 +98,8 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 		    .task("Resetting registries...", this::resetRegistries);
 		
 		for (IFile mgl : mgls) { // execute the following tasks for each mgl file
-			job.consume(50, String.format("Processing %s", mgl.getFullPath().lastSegment()))
-				.task("Initializing...", () -> publishMglFile(mgl))
+			Workload tasks = job.consume(50, String.format("Processing %s", mgl.getFullPath().lastSegment()));
+			tasks.task("Initializing...", () -> publishMglFile(mgl))
 				.task("Generating Ecore/GenModel...", () -> generateEcoreModel(mgl))
 				.task("Generating model code...", () -> generateGenmodelCode(mgl))
 				.task("Generating Graphiti editor...", () -> generateGraphitiEditor(mgl))
@@ -107,27 +107,28 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 				.task("Generating Cinco SIBs...", () -> generateCincoSIBs(mgl))
 				.task("Generating product project...", () -> generateProductProject(mgl))
 				.task("Generating feature project...", () -> generateFeatureProject(mgl))
-				.task("Generating perspective...", () -> generatePerspective(mgl))
-				.task("Generating Gratext model...", () -> generateGratextModel(mgl));
+				.task("Generating perspective...", () -> generatePerspective(mgl));
+			if (isGratextEnabled()) {
+				tasks.task("Generating Gratext model...", () -> generateGratextModel(mgl));
+			}
 		}
 		
 		job.task("Generate CPD plugins", () -> generateCPDPlugins(mgls));
 		
 		job.consume(5, "Global Processing")
 			.task("Generating project wizard...", this::generateProjectWizard);
-			
-		job.consumeConcurrent(mgls.size() * 60, "Building Gratext...")
-		    .taskForEach(() -> mgls.stream(), this::buildGratext,
-					t -> t.getFullPath().lastSegment())
-					
-		  .onCanceledShowMessage("Cinco Product generation has been canceled")
-		  
+		
+		if (isGratextEnabled()) {
+			job.consumeConcurrent(mgls.size() * 60, "Building Gratext...")
+			    .taskForEach(() -> mgls.stream(), this::buildGratext,
+						t -> t.getFullPath().lastSegment());
+		}
+		
+		job.onCanceledShowMessage("Cinco Product generation has been canceled")
 		  .onFinished(() -> printDebugOutput(event, startTime))
 		  .onFinishedShowMessage("Cinco Product generation completed successfully")
-		  
 		  .onDone(this::resetAutoBuild)
-		  
-		.schedule();
+		  .schedule();
 		
 		return null;
 	}
@@ -244,11 +245,19 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 	}
 	
 	private void generateGratextModel(IFile mglFile) {
-		execute("de.jabc.cinco.meta.plugin.gratext.generategratext");
+		if (isGratextEnabled()) {
+			execute("de.jabc.cinco.meta.plugin.gratext.generategratext");
+		}
 	}
 
 	private void buildGratext(IFile mglFile) {
-		execute("de.jabc.cinco.meta.plugin.gratext.buildgratext");
+		if (isGratextEnabled()) {
+			execute("de.jabc.cinco.meta.plugin.gratext.buildgratext");
+		}
+	}
+	
+	private boolean isGratextEnabled() {
+		return cpd.getAnnotations().stream().noneMatch(ann -> "disableGratext".equals(ann.getName()));
 	}
 	
 	private EObject loadModel(IFile cpdFile, String fileExtension, EPackage ePkg) throws IOException, CoreException {

@@ -14,11 +14,14 @@ import org.eclipse.xtext.ui.editor.contentassist.ConfigurableCompletionProposal
 import org.eclipse.xtext.ui.editor.contentassist.ContentAssistContext
 import org.eclipse.xtext.ui.editor.contentassist.ICompletionProposalAcceptor
 import productDefinition.Annotation
+import productDefinition.CincoProduct
 
 /**
  * see http://www.eclipse.org/Xtext/documentation.html#contentAssist on how to customize content assistant
  */
 class CPDProposalProvider extends AbstractCPDProposalProvider {
+	
+	val registry = PluginRegistry::instance
 	
 	override complete_Color(EObject model, RuleCall ruleCall, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
 		var proposal = createCompletionProposal("Pick color...", context);
@@ -42,6 +45,12 @@ class CPDProposalProvider extends AbstractCPDProposalProvider {
 		
 		super.completeColor_R(model, assignment, context, acceptor)
 		
+	}
+	
+	override complete_Annotation(EObject model, RuleCall ruleCall, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
+		switch context.currentNode.semanticElement {
+			CincoProduct: acceptor.accept(createCompletionProposal("@disableGratext", context))
+		}
 	}
 	
 	override completeAnnotation_Value(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
