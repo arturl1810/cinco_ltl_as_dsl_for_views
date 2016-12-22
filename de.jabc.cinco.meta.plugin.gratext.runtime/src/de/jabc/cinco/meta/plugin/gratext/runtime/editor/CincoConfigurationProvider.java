@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.eclipse.draw2d.Bendpoint;
 import org.eclipse.draw2d.ConnectionLocator;
+import org.eclipse.draw2d.Cursors;
 import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.gef.ConnectionEditPart;
@@ -15,13 +16,17 @@ import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.Handle;
 import org.eclipse.gef.RequestConstants;
+import org.eclipse.gef.SharedCursors;
 import org.eclipse.gef.editpolicies.NonResizableEditPolicy;
 import org.eclipse.gef.handles.AbstractHandle;
 import org.eclipse.gef.handles.BendpointHandle;
+import org.eclipse.gef.handles.MoveHandle;
+import org.eclipse.gef.handles.ResizableHandleKit;
 import org.eclipse.gef.tools.ConnectionBendpointTracker;
 import org.eclipse.gef.tools.ConnectionEndpointTracker;
 import org.eclipse.gef.tools.DragEditPartsTracker;
 import org.eclipse.gef.tools.ResizeTracker;
+import org.eclipse.gef.tools.SelectEditPartTracker;
 import org.eclipse.graphiti.dt.IDiagramTypeProvider;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.IReconnectionFeature;
@@ -372,6 +377,16 @@ public class CincoConfigurationProvider extends ConfigurationProvider {
 		}
 		
 		@Override
+		protected SelectEditPartTracker getSelectTracker() {
+			return new CustomSelectEditPartTracker(getHost());
+		}
+
+		@Override
+		protected DragEditPartsTracker getDragTracker() {
+			return new CustomDragEditPartsTracker(getHost());
+		}
+		
+		@Override
 		protected List<?> createSelectionHandles() {
 			boolean resizeAllowed = false;
 			if (context != null) {
@@ -433,6 +448,87 @@ public class CincoConfigurationProvider extends ConfigurationProvider {
 		}
 	}
 	
+	static class CustomSelectEditPartTracker extends SelectEditPartTracker {
+
+		public CustomSelectEditPartTracker(EditPart owner) {
+			super(owner);
+		}
+		
+		@Override
+		public void mouseDrag(MouseEvent me, EditPartViewer viewer) {
+			if (!isViewerImportant(viewer))
+				return;
+			setViewer(viewer);
+			boolean wasDragging = movedPastThreshold();
+			getCurrentInput().setInput(me);
+			handleDrag();
+			if (movedPastThreshold()) {
+				// At this point wasDragging might be true while NOT being in
+				// state DRAG_IN_PROGRESS although the original implementation
+				// assumes the latter. Fix: call handleDragStarted
+				if (!wasDragging
+						|| !isInState(STATE_DRAG_IN_PROGRESS | STATE_ACCESSIBLE_DRAG_IN_PROGRESS)) {
+					handleDragStarted();
+				}	
+				handleDragInProgress();
+			}
+		}
+	}
+	
+	static class CustomDragEditPartsTracker extends DragEditPartsTracker {
+
+		public CustomDragEditPartsTracker(EditPart sourceEditPart) {
+			super(sourceEditPart);
+		}
+		
+		@Override
+		public void mouseDrag(MouseEvent me, EditPartViewer viewer) {
+			if (!isViewerImportant(viewer))
+				return;
+			setViewer(viewer);
+			boolean wasDragging = movedPastThreshold();
+			getCurrentInput().setInput(me);
+			handleDrag();
+			if (movedPastThreshold()) {
+				// At this point wasDragging might be true while NOT being in
+				// state DRAG_IN_PROGRESS although the original implementation
+				// assumes the latter. Fix: call handleDragStarted
+				if (!wasDragging
+						|| !isInState(STATE_DRAG_IN_PROGRESS | STATE_ACCESSIBLE_DRAG_IN_PROGRESS)) {
+					handleDragStarted();
+				}	
+				handleDragInProgress();
+			}
+		}
+	}
+	
+	static class CustomResizeTracker extends ResizeTracker {
+
+		public CustomResizeTracker(GraphicalEditPart owner, int direction) {
+			super(owner, direction);
+		}
+
+		@Override
+		public void mouseDrag(MouseEvent me, EditPartViewer viewer) {
+			if (!isViewerImportant(viewer))
+				return;
+			setViewer(viewer);
+			boolean wasDragging = movedPastThreshold();
+			getCurrentInput().setInput(me);
+			handleDrag();
+			if (movedPastThreshold()) {
+				// At this point wasDragging might be true while NOT being in
+				// state DRAG_IN_PROGRESS although the original implementation
+				// assumes the latter. Fix: call handleDragStarted
+				if (!wasDragging
+						|| !isInState(STATE_DRAG_IN_PROGRESS | STATE_ACCESSIBLE_DRAG_IN_PROGRESS)) {
+					handleDragStarted();
+				}	
+				handleDragInProgress();
+			}
+		}
+	}
+	
 	static class CustomGFSurroundingHandle extends GFSurroundingHandle {
 
 		private boolean movable;
@@ -446,28 +542,7 @@ public class CincoConfigurationProvider extends ConfigurationProvider {
 		@Override
 		protected DragTracker createDragTracker() {
 			if (movable) {
-				DragEditPartsTracker tracker = new DragEditPartsTracker(getOwner()) {
-					
-					@Override
-					public void mouseDrag(MouseEvent me, EditPartViewer viewer) {
-						if (!isViewerImportant(viewer))
-							return;
-						setViewer(viewer);
-						boolean wasDragging = movedPastThreshold();
-						getCurrentInput().setInput(me);
-						handleDrag();
-						if (movedPastThreshold()) {
-							// At this point wasDragging might be true while NOT being in
-							// state DRAG_IN_PROGRESS although the original implementation
-							// assumes the latter. Fix: call handleDragStarted
-							if (!wasDragging
-									|| !isInState(STATE_DRAG_IN_PROGRESS | STATE_ACCESSIBLE_DRAG_IN_PROGRESS)) {
-								handleDragStarted();
-							}	
-							handleDragInProgress();
-						}
-					}
-				};
+				DragEditPartsTracker tracker = new CustomDragEditPartsTracker(getOwner());
 				tracker.setDefaultCursor(getCursor());
 				return tracker;
 			} else {
@@ -491,51 +566,9 @@ public class CincoConfigurationProvider extends ConfigurationProvider {
 		@Override
 		protected DragTracker createDragTracker() {
 			if (resizeDirection != 0) { // if is resizable
-				return new ResizeTracker(getOwner(), resizeDirection) {
-					
-					@Override
-					public void mouseDrag(MouseEvent me, EditPartViewer viewer) {
-						if (!isViewerImportant(viewer))
-							return;
-						setViewer(viewer);
-						boolean wasDragging = movedPastThreshold();
-						getCurrentInput().setInput(me);
-						handleDrag();
-						if (movedPastThreshold()) {
-							// At this point wasDragging might be true while NOT being in
-							// state DRAG_IN_PROGRESS although the original implementation
-							// assumes the latter. Fix: call handleDragStarted
-							if (!wasDragging
-									|| !isInState(STATE_DRAG_IN_PROGRESS | STATE_ACCESSIBLE_DRAG_IN_PROGRESS)) {
-								handleDragStarted();
-							}	
-							handleDragInProgress();
-						}
-					}
-				};
+				return new CustomResizeTracker(getOwner(), resizeDirection);
 			} else if (movable) {
-				DragEditPartsTracker tracker = new DragEditPartsTracker(getOwner()) {
-					
-					@Override
-					public void mouseDrag(MouseEvent me, EditPartViewer viewer) {
-						if (!isViewerImportant(viewer))
-							return;
-						setViewer(viewer);
-						boolean wasDragging = movedPastThreshold();
-						getCurrentInput().setInput(me);
-						handleDrag();
-						if (movedPastThreshold()) {
-							// At this point wasDragging might be true while NOT being in
-							// state DRAG_IN_PROGRESS although the original implementation
-							// assumes the latter. Fix: call handleDragStarted
-							if (!wasDragging
-									|| !isInState(STATE_DRAG_IN_PROGRESS | STATE_ACCESSIBLE_DRAG_IN_PROGRESS)) {
-								handleDragStarted();
-							}	
-							handleDragInProgress();
-						}
-					}
-				};
+				DragEditPartsTracker tracker = new CustomDragEditPartsTracker(getOwner());
 				tracker.setDefaultCursor(getCursor());
 				return tracker;
 			} else {
