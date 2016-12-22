@@ -34,7 +34,9 @@ class GratextResourceTemplate extends AbstractGratextTemplate {
 			}
 			
 			def sortByInitialOrder(List<Node> nodes) {
-				nodes.sortWith[n1,n2 | 
+				if (modelGen == null)
+					nodes
+				else nodes.sortWith[n1,n2 | 
 					val i1 = modelGen.getInitialIndex(n1)
 					val i2 = modelGen.getInitialIndex(n2)
 					if (i1 < 0) {
