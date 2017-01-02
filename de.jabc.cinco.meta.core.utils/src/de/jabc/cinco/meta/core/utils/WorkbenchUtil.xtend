@@ -78,19 +78,19 @@ class WorkbenchUtil {
 	}
 	
 	def static getModel() {
-		diagramEditor.model
+		diagramEditor?.model
 	}
 	
 	def static getShapes() {
-		diagram.shapes
+		diagram?.shapes ?: newArrayList
 	}
 	
 	def static getContainerShapes() {
-		diagram.containerShapes
+		diagram?.containerShapes ?: newArrayList
 	}
 	
 	def static testBusinessObjectType(PictogramElement pe, Class<?> cls) {
-		val bo = getBusinessObject(pe)
+		val bo = pe.businessObject
 		return bo != null && cls.isAssignableFrom(bo.class)
 	}
 	
