@@ -55,8 +55,8 @@ class StyleValidator extends JStyleValidator {
 	def checkConnectionDecoratorShapeSize(ConnectionDecorator cd) {
 		if(cd.decoratorShape != null && cd.decoratorShape instanceof AbstractShape){
 			var abs = cd.decoratorShape as AbstractShape
-			if(abs.size.height < 0  || abs.size.width < 0 || abs.size.height > 100  || abs.size.width > 100 )
-				warning("The size should be in [0,100]", StylePackage.Literals.CONNECTION_DECORATOR__DECORATOR_SHAPE)
+			if(abs.size.height < 0  || abs.size.width < 0 || abs.size.height > 1000  || abs.size.width > 1000 )
+				warning("The size should be in [0,1000]", StylePackage.Literals.CONNECTION_DECORATOR__DECORATOR_SHAPE)
 		}
 	}
 	
@@ -64,35 +64,6 @@ class StyleValidator extends JStyleValidator {
 	def checkConnectionDecoratorLocation(ConnectionDecorator cd) {	
 		if(cd.location>1 || cd.location <0)
 			warning("The location should be in [0,1]", StylePackage.Literals.CONNECTION_DECORATOR__LOCATION)
-	}
-	
-	@Check
-	def checkConnectionDecoratorShapePolylinePoints(ConnectionDecorator cd){
-		if (cd.decoratorShape != null && cd.decoratorShape instanceof AbstractShape){
-			var abs = cd.decoratorShape as AbstractShape
-			if (abs instanceof Polyline){
-				abs.points
-				for(e : abs.points){
-					if (e.x < 0 || e.y < 0){
-						warning ("No negative values allowed", StylePackage.Literals.CONNECTION_DECORATOR__DECORATOR_SHAPE)
-					}
-				}
-			}			
-		}
-	}
-	@Check
-	def checkConnectionDecoratorShapePolygonPoints(ConnectionDecorator cd){
-		if (cd.decoratorShape != null && cd.decoratorShape instanceof AbstractShape){
-			var abs = cd.decoratorShape as AbstractShape
-			if (abs instanceof Polygon){
-				abs.points
-				for(e : abs.points){
-					if (e.x < 0 || e.y < 0){
-						warning ("No negative values allowed", StylePackage.Literals.CONNECTION_DECORATOR__DECORATOR_SHAPE)
-					}
-				}
-			}			
-		}
 	}
 	
 	@Check

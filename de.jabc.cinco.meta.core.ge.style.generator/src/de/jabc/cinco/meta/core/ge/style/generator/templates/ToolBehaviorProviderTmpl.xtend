@@ -50,8 +50,7 @@ def generateToolBehaviorProvider(GraphModel gm)
 
 public class «gm.fuName»ToolBehaviorProvider extends «DefaultToolBehaviorProvider.name» {
 
-	public «gm.fuName»ToolBehaviorProvider(
-			«IDiagramTypeProvider.name» diagramTypeProvider) {
+	public «gm.fuName»ToolBehaviorProvider(«IDiagramTypeProvider.name» diagramTypeProvider) {
 		super(diagramTypeProvider);
 	}
 

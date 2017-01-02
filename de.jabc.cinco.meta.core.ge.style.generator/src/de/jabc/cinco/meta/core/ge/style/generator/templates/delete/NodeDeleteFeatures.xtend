@@ -20,9 +20,14 @@ class NodeDeleteFeatures extends GeneratorUtils{
 
 		public DeleteFeature«n.fuName»(«IFeatureProvider.name» fp) {
 			super(fp);
-			// TODO Auto-generated constructor stub
 		}
 		
+		/*
+		 * Checks if the node can be deleted
+		 * @param context : DeleteContext
+		 * @param apiCall : Checks if true
+		 * @return Return true if it can be deleted
+		 */
 		public boolean canDelete(«IDeleteContext.name» context, boolean apiCall) {
 			if (apiCall) {
 				«PictogramElement.name» pe = context.getPictogramElement();

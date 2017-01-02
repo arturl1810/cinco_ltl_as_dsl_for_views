@@ -76,6 +76,10 @@ class NodeUpdateFeature extends GeneratorUtils{
 			return false;
 		}
 		
+		/* Updates the text of the node
+		 * @param «n.name.toLowerCase» : The node
+		 * @ param pe : PictrogramElement
+		 */
 		private void updateText( «n.fqBeanName» «n.name.toLowerCase», «PictogramElement.name» pe) {
 			if (pe instanceof «ContainerShape.name») {
 				«PictogramElement.name» tmp = pe;
@@ -111,6 +115,12 @@ class NodeUpdateFeature extends GeneratorUtils{
 			}
 		}
 	
+		/*
+		 * Checks if the text need to be updated
+		 * @param «n.name.toLowerCase» :
+		 * @param pe : PictrogramElement
+		 * @return Returns true if an update is needed
+		 */
 		public static boolean checkUpdateNeeded( «n.fqBeanName» «n.name.toLowerCase», «PictogramElement.name» pe) {
 			boolean updateNeeded;
 			if (pe instanceof «ContainerShape.name») {

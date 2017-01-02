@@ -38,6 +38,10 @@ class EdgeLayoutFeature extends GeneratorUtils {
 			return false;
 		}
 		
+		/*
+		 * Returns true
+		 * @ param cs : Connection
+		 */	
 		private boolean layout(«Connection.name» cs) {
 			return true;
 		}

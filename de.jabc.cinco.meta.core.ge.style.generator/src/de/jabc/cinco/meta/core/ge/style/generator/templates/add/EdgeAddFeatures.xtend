@@ -57,6 +57,11 @@ class EdgeAddFeatures extends GeneratorUtils {
 			super(fp);
 		}
 	
+		/**
+		 * Adds a pictogram element to a container shape
+		 * @param context : Contains Information needed to let a feature add a pictogram element
+		 * @return Returns the connection
+		 */
 		public «PictogramElement.name» add(«IAddContext.name» context) {
 			«IAddConnectionContext.name» addConContext = («IAddConnectionContext.name») context;
 			«e.graphModel.beanPackage».«e.fuName» «e.fuName.toFirstLower» = («e.graphModel.beanPackage».«e.fuName») context.getNewObject();
@@ -175,6 +180,11 @@ class EdgeAddFeatures extends GeneratorUtils {
 			return connection;
 		}
 	
+		/**
+		 * Checks if the context can be added
+		 * @param context : Contains Information needed to let a feature add a pictogram element
+		 * @return Returns true if the context can be added or false
+		 */
 		public boolean canAdd(«IAddContext.name» context) {
 			if (context instanceof «IAddConnectionContext.name» && context.getNewObject() instanceof «e.graphModel.beanPackage».«e.fuName») {
 				return true;
@@ -253,6 +263,12 @@ class EdgeAddFeatures extends GeneratorUtils {
 	
 	def getText (style.Text t, Edge e, int counter){
 		'''
+		/**
+		 * Defines the appearance of the text
+		 * @param gaContainer : The container for the new graphics algorithm
+		 * @param «e.fuName.toFirstLower» : Name of the text
+		 * @param textValue : Value of the text
+		 */
 		private void createShapeText«counter»(«GraphicsAlgorithmContainer.name» gaContainer, «e.graphModel.beanPackage».«e.fuName» «e.fuName.toFirstLower» , «String.name» textValue) {
 			«IGaService.name» gaService = «Graphiti.name».getGaService();
 			«IPeService.name» peService = «Graphiti.name».getPeService();
@@ -274,6 +290,12 @@ class EdgeAddFeatures extends GeneratorUtils {
 	
 	def getMultiText(style.MultiText m, Edge e, int counter){
 		'''
+		/**
+		 * Defines the appearance of the multitext
+		 * @param gaContainer : The container for the new graphics algorithm
+		 * @param «e.fuName.toFirstLower» : Name of the multitext
+		 * @param textValue : Value of the multitext
+		 */
 		private void createShapeMultiText«counter»(«GraphicsAlgorithmContainer.name» gaContainer, «e.graphModel.beanPackage».«e.fuName» «e.fuName.toFirstLower», «String.name» textValue) {
 			«IGaService.name» gaService = «Graphiti.name».getGaService();
 			«IPeService.name» peService = «Graphiti.name».getPeService();
@@ -294,8 +316,20 @@ class EdgeAddFeatures extends GeneratorUtils {
 	def getEllipse(style.Ellipse el, Edge e, int counter){
 		'''
 		«IF el.size != null»
+		/**
+		 * Defines the appearance of the ellipse
+		 * @param gaContainer : The container for the new graphics algorithm
+		 * @param «e.fuName.toFirstLower» : Name of the ellipse
+		 * @param width : Width of the ellipse
+		 * @param height : Height of the ellipse
+		 */
 		private void createShapeEllipse«counter»(«GraphicsAlgorithmContainer.name» gaContainer, «e.graphModel.beanPackage».«e.fuName» «e.fuName.toFirstLower», «int.name» width, «int.name» height){
 		«ELSE»
+		/**
+		 * Defines the appearance of the ellipse
+		 * @param gaContainer : The container for the new graphics algorithm
+		 * @param «e.fuName.toFirstLower» : Name of the ellipse
+		 */
 		private void createShapeEllipse«counter»(«GraphicsAlgorithmContainer.name» gaContainer, «e.graphModel.beanPackage».«e.fuName» «e.fuName.toFirstLower»){
 		«ENDIF»
 			«IGaService.name» gaService = «Graphiti.name».getGaService();
@@ -314,8 +348,20 @@ class EdgeAddFeatures extends GeneratorUtils {
 	def getPolyline(style.Polyline p, Edge e, int counter)	{
 		'''
 		«IF p.size != null»
+		/**
+		 * Defines the appearance of the polyline
+		 * @param gaContainer : The container for the new graphics algorithm
+		 * @param «e.fuName.toFirstLower» : Name of the polyline
+		 * @param width : Width of the polyline
+		 * @param height : Height of the polyline
+		 */
 		private void createShapePolyline«counter»(«GraphicsAlgorithmContainer.name» gaContainer, «e.graphModel.beanPackage».«e.fuName» «e.fuName.toFirstLower», «int.name» width, «int.name» height) {
 		«ELSE»
+		/**
+		 * Defines the appearance of the polyline
+		 * @param gaContainer : The container for the new graphics algorithm
+		 * @param «e.fuName.toFirstLower» : Name of the polyline
+		 */
 		private void createShapePolyline«counter»(«GraphicsAlgorithmContainer.name» gaContainer, «e.graphModel.beanPackage».«e.fuName» «e.fuName.toFirstLower») {
 		«ENDIF»
 			«IGaService.name» gaService = «Graphiti.name».getGaService();
@@ -334,8 +380,20 @@ class EdgeAddFeatures extends GeneratorUtils {
 	def getPolygon(style.Polygon p, Edge e, int counter)	{
 		'''
 		«IF p.size != null»
+		/**
+		 * Defines the appearance of the polygon
+		 * @param gaContainer : The container for the new graphics algorithm
+		 * @param «e.fuName.toFirstLower» : Name of the polygon
+		 * @param width : Width of the polygon
+		 * @param height : Height of the polygon
+		 */
 		private void createShapePolygon«counter»(«GraphicsAlgorithmContainer.name» gaContainer, «e.graphModel.beanPackage».«e.fuName» «e.fuName.toFirstLower», «int.name» width, «int.name» height) {
 		«ELSE»
+		/**
+		 * Defines the appearance of the polygon
+		 * @param gaContainer : The container for the new graphics algorithm
+		 * @param «e.fuName.toFirstLower» : Name of the polygon
+		 */
 		private void createShapePolygon«counter»(«GraphicsAlgorithmContainer.name» gaContainer, «e.graphModel.beanPackage».«e.fuName» «e.fuName.toFirstLower») {
 		«ENDIF»
 			«IGaService.name» gaService = «Graphiti.name».getGaService();
@@ -354,8 +412,22 @@ class EdgeAddFeatures extends GeneratorUtils {
 	def getImage(style.Image i, Edge e, int counter){
 		'''
 		«IF i.size != null»
+		/**
+		 * Defines the appearance of the image
+		 * @param gaContainer : The container for the new graphics algorithm
+		 * @param «e.fuName.toFirstLower» : Name of the image
+		 * @param path : Path of the image
+		 * @param width : Width of the image
+		 * @param height : Height of the image
+		 */
 		private void createShapeImage«counter»(«GraphicsAlgorithmContainer.name» gaContainer, «e.graphModel.beanPackage».«e.fuName» «e.fuName.toFirstLower», «String.name» path, «int.name» height, «int.name» width){
 		«ELSE»
+		/**
+		 * Defines the appearance of the image
+		 * @param gaContainer : The container for the new graphics algorithm
+		 * @param «e.fuName.toFirstLower» : Name of the image
+		 * @param path : Path of the image
+		 */
 		private void createShapeImage«counter»(«GraphicsAlgorithmContainer.name» gaContainer, «e.graphModel.beanPackage».«e.fuName» «e.fuName.toFirstLower», «String.name» path){
 		«ENDIF»
 			«IGaService.name» gaService = «Graphiti.name».getGaService();

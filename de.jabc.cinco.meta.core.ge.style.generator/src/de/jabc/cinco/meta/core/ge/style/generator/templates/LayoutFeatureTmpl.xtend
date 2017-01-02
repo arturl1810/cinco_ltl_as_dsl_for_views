@@ -65,7 +65,11 @@ public class «gm.fuName»LayoutUtils {
 
 	private static «IGaService.name» gaService = «Graphiti.name».getGaService();
 
-
+	/*
+	 * Sets the generell layout
+	 * @param parent : GraphicsAlgorithm
+	 * @param ga : GraphicsAlgorithm
+	 */
 	public static void layout(final «GraphicsAlgorithm.name» parent, final «GraphicsAlgorithm.name» ga) {
         «IPeService.name» peService = «Graphiti.name».getPeService();
 		«IGaService.name» gaService = «Graphiti.name».getGaService();
@@ -142,21 +146,37 @@ public class «gm.fuName»LayoutUtils {
 
 		gaService.setLocation(ga, x+xMargin, y+yMargin);
 	}
-
+	
+	/*
+	 * Returns the dimension of a text
+	 * @param t : The text
+	 * @return Returns the dimension of the text
+	 */	
 	public static «IDimension.name» getTextDimension(«AbstractText.name» t) {
 		«String.name» value = t.getValue();
 		«Font.name» font = (t.getFont() != null) ? t.getFont() : t.getStyle().getFont();
 		«IDimension.name» dim = «GraphitiUi.name».getUiLayoutService().calculateTextSize(value, font);
 		return dim;
 	}
-
+	
+	/*
+	 * Returns the dimension of a text
+	 * @param value : The value of the text
+	 * @param font : The font of the text
+	 * @return Returns the dimension of the text
+	 */	
 	private static «IDimension.name» getTextDimension(String value, «Font.name» font) {
 		«IDimension.name» dim = «GraphitiUi.name».getUiLayoutService().calculateTextSize(value, font);
 		return dim;
 	}
 	«var styles = st»
 	«FOR app : styles.appearances»	
-		
+	
+	/*
+	 * Defines the Style of the Appearance «app.name»
+	 * @param ga : GraphicsAlgorithm
+	 * @param diagram : Diagram
+	 */	
 	public static void set«app.name»Style(«GraphicsAlgorithm.name» ga, «Diagram.name» diagram){
 		if (ga instanceof «AbstractText.name») {
 			((«AbstractText.name») ga).setRotation(0.0);
@@ -209,6 +229,10 @@ public class «gm.fuName»LayoutUtils {
 	«ENDFOR»
 	«ENDFOR»
 	
+	/*
+	 * Defines the appearance of the Circle
+	 * @param gaContainer : GraphicsAlgorithmContainer
+	 */
 	public static void createCIRCLE(«GraphicsAlgorithmContainer.name» gaContainer) {
 		«IGaService.name» gaService = «Graphiti.name».getGaService();
 		«Ellipse.name» tmp = gaService.createEllipse(gaContainer);
@@ -217,6 +241,10 @@ public class «gm.fuName»LayoutUtils {
 		tmp.setFilled(true);
 	}
 
+	/*
+	 * Defines the appearance of the Triangle
+	 * @param gaContainer : GraphicsAlgorithmContainer
+	 */
 	public static  void createTRIANGLE(«GraphicsAlgorithmContainer.name» gaContainer) {
 		«IGaService.name» gaService = «Graphiti.name».getGaService();
 		«Polygon.name» tmp = gaService.createPolygon(gaContainer, new int[] {-11,-8, 0,0, -11,8, -11,-8});
@@ -224,12 +252,20 @@ public class «gm.fuName»LayoutUtils {
 		tmp.setFilled(true);
 	}
 
+	/*
+	 * Defines the appearance of the Arrow
+	 * @param gaContainer : GraphicsAlgorithmContainer
+	 */
 	public static  void createARROW(«GraphicsAlgorithmContainer.name» gaContainer) {
 		«IGaService.name» gaService = «Graphiti.name».getGaService();
 		«Polyline.name» tmp = gaService.createPolyline(gaContainer, new int[] {-10,-4, 0,0, -10,4});
 		gaService.setLocation(tmp, tmp.getX() + 2, tmp.getY());
 	}
 
+	/*
+	 * Defines the appearance of the Diamond
+	 * @param gaContainer : GraphicsAlgorithmContainer
+	 */
 	public static  void createDIAMOND(«GraphicsAlgorithmContainer.name» gaContainer) {
 		«IGaService.name» gaService = «Graphiti.name».getGaService();
 		«Polygon.name» tmp = gaService.createPolygon(gaContainer, new int[] {-9,-6, 0,0, -9,6, -18,0, -9,-6});
@@ -237,6 +273,11 @@ public class «gm.fuName»LayoutUtils {
 		tmp.setFilled(true);
 	}
 
+	/*
+	 * Defines the default appearance
+	 * @param gaContainer : GraphicsAlgorithm
+	 * @param diagram : Diagram
+	 */
 	public static void set_«gm.fuName»DefaultAppearanceStyle(«GraphicsAlgorithm.name» ga, «Diagram.name» diagram){
 		if( ga instanceof «AbstractText.name»){
 			((«AbstractText.name») ga).setRotation(0.0);
@@ -259,6 +300,11 @@ public class «gm.fuName»LayoutUtils {
 	{
 		counter1 = counter1+1
 		return '''
+	/*
+	 * Defines the InlineStyle
+	 * @param ga : GraphicsAlgorithm
+	 * @param diagram : Diagram
+	 */
 	public static void set«counter1»InlineStyle(«GraphicsAlgorithm.name» ga, «Diagram.name» diagram){
 		if (ga instanceof «AbstractText.name») {
 			((«AbstractText.name») ga).setRotation(0.0);

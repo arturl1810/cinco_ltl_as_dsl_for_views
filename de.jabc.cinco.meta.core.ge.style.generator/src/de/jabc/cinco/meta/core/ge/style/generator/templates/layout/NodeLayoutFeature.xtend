@@ -16,7 +16,7 @@ class NodeLayoutFeature extends GeneratorUtils{
 	package «n.packageNameLayout»;
 	
 	public class LayoutFeature«n.fuName» extends «AbstractLayoutFeature.name»{
-		
+				
 		public LayoutFeature«n.fuName»(«IFeatureProvider.name» fp) {
 			super(fp);
 		}
@@ -39,6 +39,11 @@ class NodeLayoutFeature extends GeneratorUtils{
 			return false;
 		}
 		
+		/* 
+		 * Checks if the node was layouted
+		 * @param cs : The containershape
+		 * @return Returns true, if update process was successfull
+		 */
 		private boolean layout(«ContainerShape.name» cs) {
 			for («Shape.name» child : cs.getChildren()) {
 				«n.graphModel.packageName».«n.graphModel.fuName»LayoutUtils.layout(cs.getGraphicsAlgorithm(), child.getGraphicsAlgorithm());
