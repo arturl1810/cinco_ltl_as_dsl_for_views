@@ -75,13 +75,13 @@ class EdgeUpdateFeatures extends GeneratorUtils{
 			}		
 			return false;
 		}
-		private void updateText( «e.fqBeanName» «e.name.toLowerCase», «PictogramElement.name» pe) {
+		private void updateText( «e.fqBeanName» «e.fuName.toFirstLower», «PictogramElement.name» pe) {
 			if (pe instanceof «ContainerShape.name») {
 				«PictogramElement.name» tmp = pe;
 				Object o = «Graphiti.name».getLinkService().getBusinessObjectForLinkedPictogramElement(tmp);
-				if («e.name.toLowerCase».equals(o) || o == null)
+				if («e.fuName.toFirstLower».equals(o) || o == null)
 				for («Shape.name» _s : ((«ContainerShape.name») pe).getChildren()) {
-					updateText(«e.name.toLowerCase», _s);
+					updateText(«e.fuName.toFirstLower», _s);
 				}
 			} 
 			if (pe instanceof «Connection.name») {
@@ -156,7 +156,7 @@ class EdgeUpdateFeatures extends GeneratorUtils{
 		
 		return '''
 		«FOR value : listValue»«IF value.startsWith("${")»
-		elContext = new «n.packageName».expression.«n.graphModel.name»ExpressionLanguageContext(«n.name.toLowerCase»);
+		elContext = new «n.packageName».expression.«n.graphModel.name»ExpressionLanguageContext(«n.name.toFirstLower»);
 		Object tmp«number = number+1»Value = factory.createValueExpression(elContext, "«value»", Object.class).getValue(elContext); 
 		«ENDIF»«ENDFOR»''' 
 
