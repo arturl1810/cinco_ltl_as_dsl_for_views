@@ -56,13 +56,9 @@ class StyleUtils extends GeneratorUtils {
 				«aShape.setSize(currentGaName)»
 				
 				«aShape.appearanceCode(currentGaName)»
-«««				«getReferencedStyle(currentGaName)»
-				
+
 				«aShape.setPosition(currentGaName)»
 				
-«««				«aShape.setAppearance(currentGaName)»
-«««				«aShape.getInlineAppearance(currentGaName)»
-			
 				«aShape.recursiveCall(currentPeName.toString)»
 			
 				linkAllShapes(«currentPeName», bo);
@@ -97,7 +93,7 @@ class StyleUtils extends GeneratorUtils {
 			
 			peService.createChopboxAnchor(«currentPeName»);
 			layoutPictogramElement(«currentPeName»);
-		
+
 			if (hook) {
 			}
 
@@ -106,6 +102,7 @@ class StyleUtils extends GeneratorUtils {
 		'''
 	}
 
+	
 	def CharSequence getCode(AbstractShape absShape, String containerShapeName) '''
 		«var currentPeName = getShapeName(absShape)»
 		«var currentGaName = getGAName(absShape)»
@@ -115,8 +112,6 @@ class StyleUtils extends GeneratorUtils {
 		
 		«absShape.setPosition(currentGaName)»
 		«absShape.appearanceCode(currentGaName)»
-«««		«absShape.setAppearance(currentGaName)»
-«««		«absShape.getInlineAppearance(currentGaName)»
 
 		«absShape.recursiveCall(currentPeName.toString)»
 	'''
@@ -127,11 +122,25 @@ class StyleUtils extends GeneratorUtils {
 		else '''«node.graphModel.packageName».«node.graphModel.name»LayoutUtils.set_«node.graphModel.name»DefaultAppearanceStyle(«currentGaName», getDiagram());'''
 	}
 
+	/**
+	 * This method writes the {@link org.eclipse.graphiti.mm.pictograms.ContainerShape} initialization code.
+	 *	
+	 * @param cs The {@link ContainerShape} for which the Graphiti code should be generated
+	 * @param peName The ContainerShape's name
+	 * @param containerName The parent's name
+	 */
 	def dispatch creator(ContainerShape cs, String peName, String containerName) '''
 		«org.eclipse.graphiti.mm.pictograms.ContainerShape.name» «peName» = peService.createContainerShape(«containerName», «containerIsDiagramOrMovable(
 			cs as AbstractShape)»);
 	'''
-
+	
+	/**
+	 * This method writes the {@link org.eclipse.graphiti.mm.pictograms.Shape} initialization code.
+	 * 
+	 * @param s The {@link style.Shape} for which the Graphiti code should be generated
+	 * @param peName The ContainerShape's name
+	 * @param containerName The parent's name
+	 */
 	def dispatch creator(style.Shape s, String peName, String containerName) '''
 		«Shape.name» «peName» = peService.createShape(«containerName», «containerIsDiagramOrMovable(s as AbstractShape)»);
 	'''
