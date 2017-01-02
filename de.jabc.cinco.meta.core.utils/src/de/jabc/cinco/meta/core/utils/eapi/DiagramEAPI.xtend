@@ -5,8 +5,10 @@ import org.eclipse.emf.ecore.EObject
 import org.eclipse.graphiti.mm.pictograms.ContainerShape
 import org.eclipse.graphiti.mm.pictograms.Diagram
 import org.eclipse.graphiti.mm.pictograms.Shape
+import org.eclipse.graphiti.ui.editor.DiagramEditor
+import org.eclipse.ui.part.MultiPageEditorPart
 
-import static de.jabc.cinco.meta.core.utils.eapi.Cinco.Workbench.getEditor
+import static de.jabc.cinco.meta.core.utils.WorkbenchUtil.*
 import static org.eclipse.emf.ecore.util.EcoreUtil.equals
 
 import static extension de.jabc.cinco.meta.core.utils.eapi.EditorPartEAPI.*
@@ -23,12 +25,38 @@ class DiagramEAPI {
 		new DiagramEAPI(diagram)
 	}
 	
+	def getDiagramTypeProvider() {
+		getDiagramTypeProvider(diagram)
+	}
+	
+	def static getDiagramTypeProvider(Diagram diagram) {
+		getEditor(diagram)?.diagramTypeProvider
+	}
+	
+	def getFeatureProvider() {
+		getFeatureProvider(diagram)
+	}
+	
+	def static getFeatureProvider(Diagram diagram) {
+		getDiagramTypeProvider(diagram)?.featureProvider
+	}
+	
 	def getEditor() {
 		getEditor(diagram)
 	}
 	
 	def static getEditor(Diagram diagram) {
-		getEditor(editor | editor.resource == diagram.eResource)
+		val editor = getEditor(editor | editor.resource == diagram.eResource)
+		if (editor == null)
+			return null
+		if (editor instanceof MultiPageEditorPart) {
+			val page = (editor as MultiPageEditorPart).selectedPage
+			if (page instanceof DiagramEditor)
+				return page as DiagramEditor
+		}
+		if (editor instanceof DiagramEditor)
+			editor as DiagramEditor
+		else null
 	}
 	
 	def getContainerShapes() {

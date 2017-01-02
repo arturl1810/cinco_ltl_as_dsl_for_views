@@ -41,6 +41,7 @@ class WorkbenchUtil {
 	def static getEditor(Predicate<IEditorPart> predicate) {
 		activePage?.editorReferences
 			.findFirst[ref | predicate.test(ref.getEditor(true))]
+			.getEditor(true)
 	}
 
 	def static getDiagramEditor() {
@@ -75,6 +76,10 @@ class WorkbenchUtil {
 	
 	def static getDiagramTypeProvider() {
 		diagramEditor?.diagramTypeProvider
+	}
+	
+	def static getFeatureProvider() {
+		diagramTypeProvider.featureProvider
 	}
 	
 	def static getModel() {
