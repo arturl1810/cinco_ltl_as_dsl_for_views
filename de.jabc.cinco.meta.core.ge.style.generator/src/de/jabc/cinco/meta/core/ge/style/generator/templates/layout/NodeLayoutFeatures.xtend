@@ -10,8 +10,13 @@ import org.eclipse.graphiti.mm.pictograms.ContainerShape
 import org.eclipse.graphiti.mm.pictograms.Shape
 import style.Styles
 
-class NodeLayoutFeature extends GeneratorUtils{ 
+class NodeLayoutFeatures extends GeneratorUtils{ 
 	
+	/**
+	 * Generates the Class 'LayoutFeature' for the Node n
+	 * @param n : The node
+	 * @param styles : Styles
+	 */
 	def doGenerateNodeLayoutFeature(Node n,Styles styles)'''
 	package «n.packageNameLayout»;
 	
@@ -39,7 +44,7 @@ class NodeLayoutFeature extends GeneratorUtils{
 			return false;
 		}
 		
-		/* 
+		/** 
 		 * Checks if the node was layouted
 		 * @param cs : The containershape
 		 * @return Returns true, if update process was successfull

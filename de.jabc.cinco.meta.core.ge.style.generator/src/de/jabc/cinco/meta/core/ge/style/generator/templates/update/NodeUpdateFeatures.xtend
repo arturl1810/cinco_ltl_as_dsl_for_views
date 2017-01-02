@@ -1,40 +1,45 @@
 package de.jabc.cinco.meta.core.ge.style.generator.templates.update
 
-import de.jabc.cinco.meta.core.ge.style.generator.templates.util.GeneratorUtils
-import mgl.Edge
-import org.eclipse.graphiti.features.impl.AbstractUpdateFeature
 import com.sun.el.ExpressionFactoryImpl
-import org.eclipse.graphiti.features.IFeatureProvider
-import org.eclipse.graphiti.features.context.IUpdateContext
-import org.eclipse.graphiti.mm.pictograms.PictogramElement
+import de.jabc.cinco.meta.core.ge.style.generator.templates.util.GeneratorUtils
+import java.util.IllegalFormatException
+import mgl.Node
 import org.eclipse.emf.ecore.EObject
-import org.eclipse.graphiti.services.Graphiti
-import org.eclipse.graphiti.features.IReason
 import org.eclipse.emf.transaction.TransactionalEditingDomain
-import org.eclipse.graphiti.features.impl.Reason
-import org.eclipse.graphiti.features.context.impl.LayoutContext
+import org.eclipse.graphiti.features.IFeatureProvider
 import org.eclipse.graphiti.features.ILayoutFeature
-import org.eclipse.graphiti.mm.pictograms.ContainerShape
-import org.eclipse.graphiti.mm.pictograms.Shape
+import org.eclipse.graphiti.features.IReason
+import org.eclipse.graphiti.features.context.IUpdateContext
+import org.eclipse.graphiti.features.context.impl.LayoutContext
+import org.eclipse.graphiti.features.impl.AbstractUpdateFeature
+import org.eclipse.graphiti.features.impl.Reason
+import org.eclipse.graphiti.mm.algorithms.AbstractText
 import org.eclipse.graphiti.mm.pictograms.Connection
 import org.eclipse.graphiti.mm.pictograms.ConnectionDecorator
-import org.eclipse.graphiti.mm.algorithms.AbstractText
-import java.util.IllegalFormatException
+import org.eclipse.graphiti.mm.pictograms.ContainerShape
+import org.eclipse.graphiti.mm.pictograms.PictogramElement
+import org.eclipse.graphiti.mm.pictograms.Shape
+import org.eclipse.graphiti.services.Graphiti
 import style.Styles
 
-class EdgeUpdateFeature extends GeneratorUtils{
+class NodeUpdateFeatures extends GeneratorUtils{
 	
 	var static number = 0
 	
-	def doGenerateEdgeUpdateFeature(Edge e, Styles styles)'''
-	package «e.packageNameUpdate»;
+	/**
+	 * Generates the Class 'UpdateFeature' for the Node n
+	 * @param n : The node
+	 * @param styles : Styles
+	 */
+	def doGenerateNodeUpdateFeature(Node n, Styles styles)'''
+	package «n.packageNameUpdate»;
 	
-	public class UpdateFeature«e.fuName» extends «AbstractUpdateFeature.name»{
+	public class UpdateFeature«n.fuName» extends «AbstractUpdateFeature.name» {
 		
 		private static «ExpressionFactoryImpl.name» factory = new «ExpressionFactoryImpl.name»();
-		private static «e.graphModel.packageName».expression.«e.graphModel.fuName»ExpressionLanguageContext elContext;
+		private static «n.graphModel.packageName».expression.«n.graphModel.fuName»ExpressionLanguageContext elContext;
 		
-		public UpdateFeature«e.fuName»(«IFeatureProvider.name» fp) {
+		public UpdateFeature«n.fuName»(«IFeatureProvider.name» fp) {
 			super(fp);
 		}
 	
@@ -42,13 +47,13 @@ class EdgeUpdateFeature extends GeneratorUtils{
 		public boolean canUpdate(«IUpdateContext.name» context) {
 			«PictogramElement.name» pe = context.getPictogramElement();
 			«EObject.name» bo = «Graphiti.name».getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
-			return (bo instanceof «e.fqBeanName»);
+			return (bo instanceof «n.fqBeanName»);
 		}
 	
 		@Override
 		public «IReason.name» updateNeeded(«IUpdateContext.name» context) {
 			«PictogramElement.name» pe = context.getPictogramElement();
-			«e.fqBeanName» bo =( «e.fqBeanName») «Graphiti.name».getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
+			«n.fqBeanName» bo =( «n.fqBeanName») «Graphiti.name».getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
 			if (checkUpdateNeeded(bo, pe)) {
 				/*
 				«TransactionalEditingDomain.name» dom = getDiagramBehavior().getEditingDomain();
@@ -66,7 +71,7 @@ class EdgeUpdateFeature extends GeneratorUtils{
 		@Override
 		public boolean update(«IUpdateContext.name» context) {
 			«PictogramElement.name» pe = context.getPictogramElement();
-			«e.fqBeanName» bo = ( «e.fqBeanName») «Graphiti.name».getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
+			 «n.fqBeanName» bo = ( «n.fqBeanName») «Graphiti.name».getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
 			updateText(bo, pe);
 			«LayoutContext.name» lContext = new «LayoutContext.name»(context.getPictogramElement());
 			«ILayoutFeature.name» lf = getFeatureProvider().getLayoutFeature(lContext);
@@ -75,30 +80,36 @@ class EdgeUpdateFeature extends GeneratorUtils{
 			}		
 			return false;
 		}
-		private void updateText( «e.fqBeanName» «e.name.toLowerCase», «PictogramElement.name» pe) {
+		
+		/**
+		 *Updates the text of the node
+		 * @param «n.name.toLowerCase» : The node
+		 * @ param pe : PictrogramElement
+		 */
+		private void updateText( «n.fqBeanName» «n.name.toLowerCase», «PictogramElement.name» pe) {
 			if (pe instanceof «ContainerShape.name») {
 				«PictogramElement.name» tmp = pe;
 				Object o = «Graphiti.name».getLinkService().getBusinessObjectForLinkedPictogramElement(tmp);
-				if («e.name.toLowerCase».equals(o) || o == null)
+				if («n.name.toLowerCase».equals(o) || o == null)
 				for («Shape.name» _s : ((«ContainerShape.name») pe).getChildren()) {
-					updateText(«e.name.toLowerCase», _s);
+					updateText(«n.name.toLowerCase», _s);
 				}
 			} 
 			if (pe instanceof «Connection.name») {
 				«Connection.name» connection = («Connection.name») pe;
 				for («ConnectionDecorator.name» cd : connection.getConnectionDecorators()) {
-					updateText(«e.fuName.toFirstLower», cd); 
+					updateText(«n.name.toLowerCase», cd); 
 				} 
 			} else {
 				if (pe.getGraphicsAlgorithm() instanceof «AbstractText.name») {
 					«ClassLoader.name» contextClassLoader = «Thread.name».currentThread().getContextClassLoader();
 					«AbstractText.name» t = («AbstractText.name») pe.getGraphicsAlgorithm();
 					try {
-						«Thread.name».currentThread().setContextClassLoader(UpdateFeature«e.fuName».class.getClassLoader());
-						«getValue(e)»
+						«Thread.name».currentThread().setContextClassLoader(UpdateFeature«n.fuName».class.getClassLoader());
+						«setValue(n)»
 						
-						«String.name» formatString = «Graphiti.name».getPeService().getPropertyValue(t, «e.graphModel.packageName».«e.graphModel.name»GraphitiUtils.KEY_FORMAT_STRING);
-						t.setValue(«String.name».format(formatString «fill(e)»));
+						«String.name» formatString = «Graphiti.name».getPeService().getPropertyValue(t, «n.graphModel.packageName».«n.graphModel.name»GraphitiUtils.KEY_FORMAT_STRING);
+						t.setValue(String.format(formatString «fill(n)»));
 					} 
 					catch («IllegalFormatException.name» ife) {
 						t.setValue("STRING FORMAT ERROR");
@@ -109,32 +120,38 @@ class EdgeUpdateFeature extends GeneratorUtils{
 				}
 			}
 		}
-		public static boolean checkUpdateNeeded(«e.graphModel.beanPackage».«e.fuName» «e.fuName.toFirstLower», «PictogramElement.name» pe) {
+	
+		/**
+		 * Checks if the text needs to be updated
+		 * @param «n.name.toLowerCase» :
+		 * @param pe : PictrogramElement
+		 * @return Returns true if an update is needed
+		 */
+		public static boolean checkUpdateNeeded( «n.fqBeanName» «n.name.toLowerCase», «PictogramElement.name» pe) {
 			boolean updateNeeded;
 			if (pe instanceof «ContainerShape.name») {
 				for («Shape.name» _s : ((«ContainerShape.name») pe).getChildren()) {
-					return checkUpdateNeeded(«e.fuName.toFirstLower», _s);
+					return checkUpdateNeeded(«n.name.toLowerCase», _s);
 				}
 			} 
 			if (pe instanceof «Connection.name») {
 				«Connection.name» connection = («Connection.name») pe;
 				for («ConnectionDecorator.name» cd : connection.getConnectionDecorators()) {
-					updateNeeded = checkUpdateNeeded(«e.fuName.toFirstLower», cd);
-
+					updateNeeded = checkUpdateNeeded(«n.name.toLowerCase», cd);
 					if (updateNeeded)
 						return true;
 				}
 			} else {
 				«Object.name» o = «Graphiti.name».getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
-				if (pe.getGraphicsAlgorithm() instanceof «AbstractText.name» && «e.fuName.toFirstLower».equals(o)) {
+				if (pe.getGraphicsAlgorithm() instanceof «AbstractText.name» && «n.name.toLowerCase».equals(o)) {
 					«ClassLoader.name» contextClassLoader = «Thread.name».currentThread().getContextClassLoader();
 					try {
-						«Thread.name».currentThread().setContextClassLoader( «e.packageNameUpdate».UpdateFeature«e.fuName».class.getClassLoader());
+						«Thread.name».currentThread().setContextClassLoader( «n.packageNameUpdate».UpdateFeature«n.fuName».class.getClassLoader());
 						«AbstractText.name» t = («AbstractText.name») pe.getGraphicsAlgorithm();
-						«getValue(e)»
+						«setValue(n)»
 						
-						«String.name» formatString = «Graphiti.name».getPeService().getPropertyValue(t, «e.graphModel.packageName».«e.graphModel.name»GraphitiUtils.KEY_FORMAT_STRING);
-						«String.name» oldVal = «String.name».format(formatString «fill(e)»);
+						«String.name» formatString = «Graphiti.name».getPeService().getPropertyValue(t, «n.graphModel.packageName».«n.graphModel.name»GraphitiUtils.KEY_FORMAT_STRING);
+						String oldVal = String.format(formatString «fill(n)»);
 						«String.name» newVal = t.getValue();
 						return (!newVal.equals(oldVal));
 					} 
@@ -148,7 +165,11 @@ class EdgeUpdateFeature extends GeneratorUtils{
 	}
 	'''
 	
-	def getValue(Edge n){
+	/**
+	 * Generates code to set the value of the node n
+	 * @param n : The node
+	 */
+	def setValue(Node n){
 		var listAnnot = n.annotations;
 		var annot = listAnnot.get(0);
 		var listValue = annot.value;
@@ -159,11 +180,14 @@ class EdgeUpdateFeature extends GeneratorUtils{
 		elContext = new «n.packageName».expression.«n.graphModel.name»ExpressionLanguageContext(«n.name.toLowerCase»);
 		Object tmp«number = number+1»Value = factory.createValueExpression(elContext, "«value»", Object.class).getValue(elContext); 
 		«ENDIF»«ENDFOR»''' 
-
 	}
 	
-	def fill(Edge e){
-		var listAnnot = e.annotations;
+	/**
+	 * Generates the valuename
+	 * @param n : Node
+	 */
+	def fill(Node n){
+		var listAnnot = n.annotations;
 		var annot = listAnnot.get(0);
 		var listValue = annot.value;
 		number = 0

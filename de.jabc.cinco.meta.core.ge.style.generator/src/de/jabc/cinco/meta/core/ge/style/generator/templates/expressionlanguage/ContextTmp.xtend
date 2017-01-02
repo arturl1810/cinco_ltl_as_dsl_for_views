@@ -11,11 +11,8 @@ import javax.el.BeanELResolver
 class ContextTmp extends GeneratorUtils{
 	
 	/**
-	 * Generates the {@link ELContext}
-	 * 
-	 * TODO: The class should be moved to cinco-meta
-	 * 
-	 * @param gm The processed {@link GraphModel}
+	 * Generates the Class 'ExpressionLanguageContext' for the graphmodel gm
+	 * @param gm : GraphModel
 	 */
 	def generateContext(mgl.GraphModel gm)'''
 	package «gm.packageNameExpression»;

@@ -15,7 +15,7 @@ import style.Styles
 
 class NodeCreateFeatures extends GeneratorUtils{
 	
-	def doGenerateCreateFeature(Node n) '''
+	def doGenerateNodeCreateFeature(Node n,Styles styles) '''
 	package «n.packageNameCreate»;
 	
 	public class CreateFeature«n.fuName» extends de.jabc.cinco.meta.core.ge.style.model.createfeature.CincoCreateFeature<«ModelElement.name»>{

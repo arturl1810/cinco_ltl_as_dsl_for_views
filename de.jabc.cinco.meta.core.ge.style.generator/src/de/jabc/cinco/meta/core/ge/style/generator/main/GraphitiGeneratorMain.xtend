@@ -20,12 +20,6 @@ import de.jabc.cinco.meta.core.ge.style.generator.templates.create.NodeCreateFea
 import de.jabc.cinco.meta.core.ge.style.generator.templates.delete.NodeDeleteFeatures
 import de.jabc.cinco.meta.core.ge.style.generator.templates.expressionlanguage.ContextTmp
 import de.jabc.cinco.meta.core.ge.style.generator.templates.expressionlanguage.ResolverTmp
-import de.jabc.cinco.meta.core.ge.style.generator.templates.layout.EdgeLayoutFeature
-import de.jabc.cinco.meta.core.ge.style.generator.templates.layout.NodeLayoutFeature
-import de.jabc.cinco.meta.core.ge.style.generator.templates.move.NodeMoveFeature
-import de.jabc.cinco.meta.core.ge.style.generator.templates.resize.NodeResizeFeature
-import de.jabc.cinco.meta.core.ge.style.generator.templates.update.EdgeUpdateFeature
-import de.jabc.cinco.meta.core.ge.style.generator.templates.update.NodeUpdateFeature
 import de.jabc.cinco.meta.core.ge.style.generator.templates.util.GeneratorUtils
 import de.jabc.cinco.meta.core.ui.templates.DefaultPerspectiveContent
 import de.jabc.cinco.meta.core.utils.CincoUtils
@@ -38,6 +32,12 @@ import org.eclipse.core.resources.IProject
 import org.eclipse.core.runtime.NullProgressMonitor
 import productDefinition.CincoProduct
 import style.Styles
+import de.jabc.cinco.meta.core.ge.style.generator.templates.layout.EdgeLayoutFeatures
+import de.jabc.cinco.meta.core.ge.style.generator.templates.layout.NodeLayoutFeatures
+import de.jabc.cinco.meta.core.ge.style.generator.templates.move.NodeMoveFeatures
+import de.jabc.cinco.meta.core.ge.style.generator.templates.resize.NodeResizeFeatures
+import de.jabc.cinco.meta.core.ge.style.generator.templates.update.EdgeUpdateFeatures
+import de.jabc.cinco.meta.core.ge.style.generator.templates.update.NodeUpdateFeatures
 
 class GraphitiGeneratorMain extends GeneratorUtils { 
 	
@@ -60,12 +60,12 @@ class GraphitiGeneratorMain extends GeneratorUtils {
 	extension NodeDeleteFeatures = new NodeDeleteFeatures
 	extension EdgeAddFeatures = new EdgeAddFeatures
 	extension EdgeCreateFeatures = new EdgeCreateFeatures
-	extension NodeLayoutFeature = new NodeLayoutFeature
-	extension NodeResizeFeature = new NodeResizeFeature
-	extension NodeMoveFeature = new NodeMoveFeature
-	extension NodeUpdateFeature = new NodeUpdateFeature
-	extension EdgeUpdateFeature = new EdgeUpdateFeature
-	extension EdgeLayoutFeature = new EdgeLayoutFeature
+	extension NodeLayoutFeatures = new NodeLayoutFeatures
+	extension NodeResizeFeatures = new NodeResizeFeatures
+	extension NodeMoveFeatures = new NodeMoveFeatures
+	extension NodeUpdateFeatures = new NodeUpdateFeatures
+	extension EdgeUpdateFeatures = new EdgeUpdateFeatures
+	extension EdgeLayoutFeatures = new EdgeLayoutFeatures
 	
 	var GraphModel gm
 	var IFile cpdFile
@@ -110,13 +110,13 @@ class GraphitiGeneratorMain extends GeneratorUtils {
 				content = n.doGeneratePrimeAddFeature(styles)
 				ContentWriter::writeJavaFileInSrcGen(project, n.packageNameAdd, "AddFeaturePrime"+n.name.toFirstUpper+".java", content)
 			}
-			content = n.doGenerateAddFeature(styles)
+			content = n.doGenerateNodeAddFeature(styles)
 			ContentWriter::writeJavaFileInSrcGen(project, n.packageNameAdd, "AddFeature"+n.name.toFirstUpper+".java", content)
 			
-			content = n.doGenerateCreateFeature(styles)
+			content = n.doGenerateNodeCreateFeature(styles) 
 			ContentWriter::writeJavaFileInSrcGen(project, n.packageNameCreate, "CreateFeature"+n.name.toFirstUpper+".java", content)
 			
-			content = n.doGenerateDeleteFeature(styles)
+			content = n.doGenerateNodeDeleteFeature(styles)
 			ContentWriter::writeJavaFileInSrcGen(project, n.packageNameDelete, "DeleteFeature"+n.name.toFirstUpper+".java", content)
 			
 			content = n.doGenerateNodeLayoutFeature(styles)
@@ -134,10 +134,10 @@ class GraphitiGeneratorMain extends GeneratorUtils {
 		}
 		
 		for (Edge e : gm.edges) {
-			content = e.doGenerateAddFeature(styles)
+			content = e.doGenerateEdgeAddFeature(styles)
 			ContentWriter::writeJavaFileInSrcGen(project, e.packageNameAdd, "AddFeature"+e.name.toFirstUpper+".java", content)
 
-			content = e.doGenerateCreateFeature(styles)
+			content = e.doGenerateEdgeCreateFeature(styles)
 			ContentWriter::writeJavaFileInSrcGen(project, e.packageNameCreate, "CreateFeature"+e.name.toFirstUpper+".java", content)
 			
 			content = e.doGenerateEdgeUpdateFeature(styles)

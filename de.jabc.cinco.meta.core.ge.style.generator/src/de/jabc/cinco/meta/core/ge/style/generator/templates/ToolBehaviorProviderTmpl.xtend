@@ -2,14 +2,12 @@ package de.jabc.cinco.meta.core.ge.style.generator.templates
 
 import de.jabc.cinco.meta.core.ge.style.generator.templates.util.GeneratorUtils
 import de.jabc.cinco.meta.core.ge.style.model.createfeature.CincoCreateFeature
-import de.jabc.cinco.meta.core.utils.CincoUtils
 import graphicalgraphmodel.CModelElementContainer
 import graphmodel.ModelElementContainer
 import java.util.ArrayList
 import java.util.List
 import mgl.Edge
 import mgl.GraphModel
-import mgl.ModelElement
 import mgl.Node
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.transaction.RecordingCommand
@@ -41,16 +39,12 @@ import org.eclipse.graphiti.tb.DefaultToolBehaviorProvider
 import org.eclipse.graphiti.tb.IContextButtonPadData
 
 import static extension de.jabc.cinco.meta.core.utils.CincoUtils.*
-import org.eclipse.graphiti.tb.IToolBehaviorProvider
 
 class ToolBehaviorProviderTmpl extends GeneratorUtils{
 	
 /**
- * Generates the {@link IToolBehaviorProvider} code. This template processes the defined 
- * palette groups and the hooks defined in the {@link GraphModel}
- * 
- * @param gm The processed {@link GraphModel}
- * 
+ *  Generates the Class 'LayoutUtils' for the graphmodel gm
+ * @param gm : GraphModel
  */
 def generateToolBehaviorProvider(GraphModel gm)
 

@@ -119,16 +119,4 @@ class StyleValidator extends JStyleValidator {
 		}
 	}
 	
-//	@Check
-//	def checkContainerShapeCorner(AbstractShape abs)
-//	{
-//		
-//	}
-
-//	@Check
-//	def checkContainerShapeSize(AbstractShape abs)
-//	{
-//		
-//	}
-	
 }

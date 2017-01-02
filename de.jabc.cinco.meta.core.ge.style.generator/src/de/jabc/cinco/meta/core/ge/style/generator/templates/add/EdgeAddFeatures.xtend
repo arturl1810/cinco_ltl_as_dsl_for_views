@@ -44,7 +44,13 @@ class EdgeAddFeatures extends GeneratorUtils {
 	EList<style.Ellipse> ellipse = new BasicEList();
 	EList<style.Image> image = new BasicEList();
 	
-	def doGenerateAddFeature(Edge e, Styles styles) {
+	
+	/**
+	 * Generates the Class 'AddFeature' for the Edge e
+	 * @param e : The edge
+	 * @param styles : Styles
+	 */
+	def doGenerateEdgeAddFeature(Edge e, Styles styles) {
 								'''
 	package «e.packageNameAdd»;
 	
@@ -195,9 +201,11 @@ class EdgeAddFeatures extends GeneratorUtils {
 		«shapeMethods(e)»	
 	}
 	'''
-	
 	}
 	
+	/**
+	 * Clears all lists
+	 */
 	def clear (){
 		text.clear
 		multitext.clear
@@ -207,6 +215,10 @@ class EdgeAddFeatures extends GeneratorUtils {
 		image.clear
 	}
 	
+	/**
+	 * Calls all createShape-Methods
+	 * @param e : The edge
+	 */
 	def shapeMethods(Edge e){
 		var counter = 0
 		return 
@@ -243,12 +255,23 @@ class EdgeAddFeatures extends GeneratorUtils {
 		'''
 	}
 	
+	/**
+	 * Returns the right setStyle-Methode for the Edge e
+	 * @param shape : AbstractShape
+	 * @param currentGaName : String
+	 * @param e : The edge
+	 */
 	def appearanceCodeEdge(AbstractShape shape, String currentGaName, Edge e) {
 		if (shape.referencedAppearance != null) '''«e.packageName».«e.graphModel.name»LayoutUtils.set«shape.referencedAppearance.name»Style(«currentGaName», getDiagram());'''
 		else if (shape.inlineAppearance != null)  ''' «e.packageName».«e.graphModel.name»LayoutUtils.«LayoutFeatureTmpl.shapeMap.get(shape)»(«currentGaName», getDiagram());'''
 		else '''«e.graphModel.packageName».«e.graphModel.name»LayoutUtils.set_«e.graphModel.name»DefaultAppearanceStyle(«currentGaName», getDiagram());'''
 	}
 	
+	/**
+	 * Gets the coordinates of the points
+	 * @param points : List of points
+	 * @return Returns the coordinates of all points separated with a comma
+	 */
 	def getPoints(EList<style.Point> points){
 		var result = ""
 		for( p: points)
@@ -261,6 +284,12 @@ class EdgeAddFeatures extends GeneratorUtils {
 		return result
 	}
 	
+	/**
+	 * Generates the methode 'createShapeText'
+	 * @param t : Text
+	 * @param e : The edge
+	 * @param counter : Makes the methode unique 
+	 */
 	def getText (style.Text t, Edge e, int counter){
 		'''
 		/**
@@ -288,6 +317,12 @@ class EdgeAddFeatures extends GeneratorUtils {
 		'''		
 	}
 	
+	/**
+	 * Generates the methode 'createShapeMultiText'
+	 * @param m : Multitext
+	 * @param e : The edge
+	 * @param counter : Makes the methode unique 
+	 */
 	def getMultiText(style.MultiText m, Edge e, int counter){
 		'''
 		/**
@@ -313,6 +348,12 @@ class EdgeAddFeatures extends GeneratorUtils {
 		'''
 	}
 	
+	/**
+	 * Generates the methode 'createShapeEllipse'
+	 * @param el : Ellipse
+	 * @param e : The edge
+	 * @param counter : Makes the methode unique 
+	 */
 	def getEllipse(style.Ellipse el, Edge e, int counter){
 		'''
 		«IF el.size != null»
@@ -345,6 +386,12 @@ class EdgeAddFeatures extends GeneratorUtils {
 		'''
 	}
 	
+	/**
+	 * Generates the methode 'createShapePolyline'
+	 * @param p : Polyline
+	 * @param e : The edge
+	 * @param counter : Makes the methode unique 
+	 */
 	def getPolyline(style.Polyline p, Edge e, int counter)	{
 		'''
 		«IF p.size != null»
@@ -377,6 +424,12 @@ class EdgeAddFeatures extends GeneratorUtils {
 		'''
 	}
 	
+	/**
+	 * Generates the methode 'createShapePolygon'
+	 * @param p : Polygon
+	 * @param e : The edge
+	 * @param counter : Makes the methode unique 
+	 */
 	def getPolygon(style.Polygon p, Edge e, int counter)	{
 		'''
 		«IF p.size != null»
@@ -409,6 +462,12 @@ class EdgeAddFeatures extends GeneratorUtils {
 		'''
 	}
 	
+	/**
+	 * Generates the methode 'createShapImage'
+	 * @param i : Image
+	 * @param e : The edge
+	 * @param counter : Makes the methode unique 
+	 */
 	def getImage(style.Image i, Edge e, int counter){
 		'''
 		«IF i.size != null»
@@ -441,13 +500,19 @@ class EdgeAddFeatures extends GeneratorUtils {
 		'''
 	}
 	
+	/**
+	 * Returns the heigth of the shape
+	 * @param aShape : AbstractShape
+	 */
 	def int getHeigth(AbstractShape aShape){
 		return aShape.size.height
 	}
 	
+	/**
+	 * Returns the width of the shape
+	 * @param aShape : AbstractShape
+	 */
 	def int getWidth (AbstractShape aShape){
 		return aShape.size.width
-	}
-	
-	
+	}	
 }

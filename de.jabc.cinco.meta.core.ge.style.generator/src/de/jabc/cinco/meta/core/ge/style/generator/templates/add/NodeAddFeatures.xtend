@@ -25,7 +25,7 @@ class NodeAddFeatures extends StyleUtils {
 	var Node n;
 	var NodeStyle s;
 	
-	def doGenerateAddFeature(Node n, Styles styles) {
+	def doGenerateNodeAddFeature(Node n, Styles styles) {
 		this.n = n
 		s = CincoUtils.getStyleForNode(n,styles)
 '''package «n.packageNameAdd»;

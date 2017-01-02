@@ -9,8 +9,13 @@ import org.eclipse.graphiti.mm.pictograms.Connection
 import org.eclipse.graphiti.mm.pictograms.PictogramElement
 import style.Styles
 
-class EdgeLayoutFeature extends GeneratorUtils {
+class EdgeLayoutFeatures extends GeneratorUtils {
 	
+	/**
+	 * Generates the Class 'LayoutFeature' for the Edge e
+	 * @param e : The edge
+	 * @param styles : Styles
+	 */
 	def doGenerateEdgeLayoutFeature(Edge e,Styles styles)'''
 	package «e.packageNameLayout»;
 	
@@ -38,7 +43,7 @@ class EdgeLayoutFeature extends GeneratorUtils {
 			return false;
 		}
 		
-		/*
+		/**
 		 * Returns true
 		 * @ param cs : Connection
 		 */	

@@ -15,7 +15,7 @@ import style.Styles
 
 class EdgeCreateFeatures extends GeneratorUtils{
 	
-	def doGenerateCreateFeature(Edge e, Styles styles) '''
+	def doGenerateEdgeCreateFeature(Edge e, Styles styles) '''
 	package «e.packageNameCreate»;
 	
 	public class CreateFeature«e.fuName» extends «AbstractCreateConnectionFeature.name» {

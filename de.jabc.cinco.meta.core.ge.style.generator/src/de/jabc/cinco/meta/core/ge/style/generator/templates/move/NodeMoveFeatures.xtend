@@ -13,7 +13,7 @@ import org.eclipse.graphiti.features.context.IMoveShapeContext
 import de.jabc.cinco.meta.core.utils.CincoUtils
 import style.Styles
 
-class NodeMoveFeature extends GeneratorUtils{
+class NodeMoveFeatures extends GeneratorUtils{
 	
 	def doGenerateNodeMoveFeature(Node n, Styles styles)'''
 	package «n.packageNameMove»;

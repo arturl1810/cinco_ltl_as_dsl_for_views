@@ -11,9 +11,8 @@ class ResolverTmp extends GeneratorUtils{
 	
 	
 	/**
-	 * Generates an implementation of {@link ELResolver}
-	 * 
-	 * TODO: This class should be moved to cinco-meta.
+	 * Generates the Class 'ExpressionLanguageResolver' for the graphmodel gm
+	 * @param gm : GraphModel
 	 */
 	def generateResolver(mgl.GraphModel gm)'''
 	package «gm.packageNameExpression»;

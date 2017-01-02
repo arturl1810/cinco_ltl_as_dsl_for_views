@@ -13,7 +13,12 @@ import style.Styles
 
 class NodeDeleteFeatures extends GeneratorUtils{
 	
-	def doGenerateDeleteFeature(Node n, Styles styles)'''
+	/**
+	 * Generates the Class 'DeleteFeature' for the graphmodel gm
+ 	 * @param n : Node
+ 	 * @param styles : Styles
+ 	 */
+	def doGenerateNodeDeleteFeature(Node n, Styles styles)'''
 	package «n.packageNameDelete»;
 	
 	public class DeleteFeature«n.fuName» extends «CincoDeleteFeature.name» {
@@ -22,7 +27,7 @@ class NodeDeleteFeatures extends GeneratorUtils{
 			super(fp);
 		}
 		
-		/*
+		/**
 		 * Checks if the node can be deleted
 		 * @param context : DeleteContext
 		 * @param apiCall : Checks if true

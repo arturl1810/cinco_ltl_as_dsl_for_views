@@ -12,7 +12,7 @@ import org.eclipse.graphiti.features.IFeatureProvider
 import org.eclipse.graphiti.features.context.IResizeShapeContext
 import style.Styles
 
-class NodeResizeFeature extends GeneratorUtils{
+class NodeResizeFeatures extends GeneratorUtils{
 	
 	def doGenerateNodeResizeFeature(Node n, Styles styles)'''
 	package «n.packageNameResize»;

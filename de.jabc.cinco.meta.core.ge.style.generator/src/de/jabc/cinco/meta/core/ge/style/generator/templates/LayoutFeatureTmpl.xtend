@@ -38,12 +38,9 @@ var counter2 = 0
 EList<Appearance> appList = new BasicEList <Appearance>();
 	
 	/**
-	 * Generates the <GraphModel>LayoutUtils class. This class will contain the
-	 * setAppearance methods for {@link Appearance}s defined in the {@link GraphModel}'s
-	 * {@link style.Style} 
-	 * 
-	 * @param gm The processed {@link GraphModel} 
-	 * @param st The {@link graphmodel.GraphModel}'s style
+	 * Generates the Class 'LayoutUtils' for the graphmodel gm
+	 * @param gm : GraphModel
+	 * @param st : Styles
 	 */
 	def generateLayoutFeature(GraphModel gm, Styles st)
 '''package «gm.packageName»;
@@ -73,7 +70,7 @@ public class «gm.fuName»LayoutUtils {
 
 	private static «IGaService.name» gaService = «Graphiti.name».getGaService();
 
-	/*
+	/**
 	 * Sets the generell layout
 	 * @param parent : GraphicsAlgorithm
 	 * @param ga : GraphicsAlgorithm
@@ -155,7 +152,7 @@ public class «gm.fuName»LayoutUtils {
 		gaService.setLocation(ga, x+xMargin, y+yMargin);
 	}
 	
-	/*
+	/**
 	 * Returns the dimension of a text
 	 * @param t : The text
 	 * @return Returns the dimension of the text
@@ -167,7 +164,7 @@ public class «gm.fuName»LayoutUtils {
 		return dim;
 	}
 	
-	/*
+	/**
 	 * Returns the dimension of a text
 	 * @param value : The value of the text
 	 * @param font : The font of the text
@@ -180,7 +177,7 @@ public class «gm.fuName»LayoutUtils {
 	«var styles = st»
 	«FOR app : styles.appearances»	
 	
-	/*
+	/**
 	 * Defines the Style of the Appearance «app.name»
 	 * @param ga : GraphicsAlgorithm
 	 * @param diagram : Diagram
@@ -237,7 +234,7 @@ public class «gm.fuName»LayoutUtils {
 	«ENDFOR»
 	«ENDFOR»
 	
-	/*
+	/**
 	 * Defines the appearance of the Circle
 	 * @param gaContainer : GraphicsAlgorithmContainer
 	 */
@@ -249,7 +246,7 @@ public class «gm.fuName»LayoutUtils {
 		tmp.setFilled(true);
 	}
 
-	/*
+	/**
 	 * Defines the appearance of the Triangle
 	 * @param gaContainer : GraphicsAlgorithmContainer
 	 */
@@ -260,7 +257,7 @@ public class «gm.fuName»LayoutUtils {
 		tmp.setFilled(true);
 	}
 
-	/*
+	/**
 	 * Defines the appearance of the Arrow
 	 * @param gaContainer : GraphicsAlgorithmContainer
 	 */
@@ -270,7 +267,7 @@ public class «gm.fuName»LayoutUtils {
 		gaService.setLocation(tmp, tmp.getX() + 2, tmp.getY());
 	}
 
-	/*
+	/**
 	 * Defines the appearance of the Diamond
 	 * @param gaContainer : GraphicsAlgorithmContainer
 	 */
@@ -281,7 +278,7 @@ public class «gm.fuName»LayoutUtils {
 		tmp.setFilled(true);
 	}
 
-	/*
+	/**
 	 * Defines the default appearance
 	 * @param gaContainer : GraphicsAlgorithm
 	 * @param diagram : Diagram
@@ -303,12 +300,15 @@ public class «gm.fuName»LayoutUtils {
 }
 
 '''
-	
+	/**
+	 * Generates methode(s) for all inlinestyles of the Appearance inline
+	 * @param inline : Appearance
+	 */
 	def getInlineMethode(Appearance inline)
 	{
 		counter1 = counter1+1
 		return '''
-	/*
+	/**
 	 * Defines the InlineStyle
 	 * @param ga : GraphicsAlgorithm
 	 * @param diagram : Diagram
@@ -359,6 +359,11 @@ public class «gm.fuName»LayoutUtils {
 		'''
 	}
 	
+	/**
+	 * Calls the methode inlineAppearance with the mainshape of Node n
+	 * @param n : The node
+	 * @param styles : Styles
+	 */
 	def searchInAppearance(Node n, Styles styles){
 		var nodeStyle = CincoUtils.getStyleForNode(n,styles)
 		val mainShape = nodeStyle.mainShape
@@ -366,6 +371,10 @@ public class «gm.fuName»LayoutUtils {
 		inlineAppearance(mainShape)	
 	}
 	
+	/**
+	 * Search for all inlineappearance of the Shape, creates a methode-call
+	 * @param shape : AbstractShape
+	 */
 	def void inlineAppearance(AbstractShape shape){
 		if(shape.inlineAppearance != null) {
 			counter2 = counter2+1
@@ -379,6 +388,10 @@ public class «gm.fuName»LayoutUtils {
 		}
 	}
 
+	/**
+	 * Generates a methode-call of 'setBackground'
+	 * @param app : Appearance
+	 */
 	def String createBackground(Appearance app){
 		if (app.parent != null){
 			if(app.parent.background != null)  
@@ -389,6 +402,10 @@ public class «gm.fuName»LayoutUtils {
 		else return '''ga.setBackground(gaService.manageColor(diagram, 255, 255, 255)); ''' 
 	}
 	
+	/**
+	 * Generates a methode-call of 'setForeground'
+	 * @param app : Appearance
+	 */
 	def String createForeground(Appearance app){
 		if (app.parent != null){
 			if(app.parent.foreground != null)  
@@ -399,6 +416,10 @@ public class «gm.fuName»LayoutUtils {
 		else return '''ga.setForeground(gaService.manageColor(diagram, 0, 0, 0)); '''  
 	}
 	
+	/**
+	 * Generates a methode-call of 'setLineStyle'
+	 * @param app : Appearance
+	 */
 	def String createLineStyle(Appearance app){
 		if (app.parent != null){
 			if(!app.parent.lineStyle.equals(LineStyle.UNSPECIFIED))
@@ -409,6 +430,10 @@ public class «gm.fuName»LayoutUtils {
 		else return '''ga.setLineStyle(org.eclipse.graphiti.mm.algorithms.styles.LineStyle.SOLID); '''  
 	}
 	
+	/**
+	 * Generates a methode-call of 'setLineWidth'
+	 * @param app : Appearance
+	 */
 	def String createLineWidth(Appearance app){
 		if (app.parent != null){
 			if(app.parent.lineWidth != -1)
@@ -419,6 +444,10 @@ public class «gm.fuName»LayoutUtils {
 		else return '''ga.setLineWidth(1); '''  
 	}
 	
+	/**
+	 * Generates a methode-call of 'setTransparency'
+	 * @param app : Appearance
+	 */
 	def String createTransparency(Appearance app){
 		if (app.parent != null){
 			if(app.parent.transparency != -1.0)
@@ -429,6 +458,10 @@ public class «gm.fuName»LayoutUtils {
 		else return '''ga.setTransparency(0.0); '''  
 	}
 	
+	/**
+	 * Generates a methode-call of 'setLineVisible'
+	 * @param app : Appearance
+	 */
 	def String createLineVisible(Appearance app){
 		if (app.parent != null){
 			if(app.parent.lineInVisible != false)
