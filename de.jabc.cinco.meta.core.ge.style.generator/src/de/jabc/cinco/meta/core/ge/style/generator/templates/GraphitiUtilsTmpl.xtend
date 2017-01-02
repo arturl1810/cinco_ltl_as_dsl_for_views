@@ -27,9 +27,20 @@ import org.eclipse.core.runtime.FileLocator
 import org.eclipse.core.resources.ResourcesPlugin
 import graphmodel.Container
 import org.eclipse.core.runtime.Path
+import org.eclipse.graphiti.services.Graphiti
+import style.Polygon
+import style.Polyline
 
 class GraphitiUtilsTmpl extends GeneratorUtils {
-	
+
+/**
+ * Generates a utility class for the {@link Graphiti} framework. The class is used to
+ * load images and compute and transform {@link Polygon} and {@link Polyline} points
+ * 
+ * TODO: This class should be moved to cinco-meta.
+ * 
+ * @param gm The processed {@link GraphModel}
+ */	
 def generateGraphitiUtils(GraphModel gm)
 '''package «gm.packageName»;
 

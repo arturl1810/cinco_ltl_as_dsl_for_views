@@ -41,9 +41,17 @@ import org.eclipse.graphiti.tb.DefaultToolBehaviorProvider
 import org.eclipse.graphiti.tb.IContextButtonPadData
 
 import static extension de.jabc.cinco.meta.core.utils.CincoUtils.*
+import org.eclipse.graphiti.tb.IToolBehaviorProvider
 
 class ToolBehaviorProviderTmpl extends GeneratorUtils{
 	
+/**
+ * Generates the {@link IToolBehaviorProvider} code. This template processes the defined 
+ * palette groups and the hooks defined in the {@link GraphModel}
+ * 
+ * @param gm The processed {@link GraphModel}
+ * 
+ */
 def generateToolBehaviorProvider(GraphModel gm)
 
 '''package «gm.packageName»;
@@ -253,73 +261,5 @@ public class «gm.fuName»ToolBehaviorProvider extends «DefaultToolBehaviorProv
 	}
 }
 '''
-
-def booleanWriteMethodCallPostCreate(ModelElement me){
-	
-	var annot = CincoUtils.findAnnotationPostCreate(me);
-	if(annot != null)
-		return true;
-	return false;
-}
-
-def writeMethodCallPostCreate(ModelElement me){
-	var annot = CincoUtils.findAnnotationPostCreate(me);
-	if(annot != null)
-	{
-		var class = annot.value.get(0)
-		return '''new «class»().postCreate((«me.fqBeanName») modelCreate);'''	
-	}
-}
-
-
-def booleanWriteMethodCallPostMove(ModelElement me){
-	var annot = CincoUtils.findAnnotationPostMove(me);
-	if(annot != null)
-		return true;
-	return false;
-}
-
-def writeMethodCallPostMove(ModelElement me){
-	var annot = CincoUtils.findAnnotationPostMove(me);
-	if(annot != null)
-	{
-		var class = annot.value.get(0)
-		
-		return '''new «class»().postMove(«me.name.toLowerCase», CSource, CTarget, x ,y, deltaX, deltaY);'''
-	}
-}
-
-def booleanWriteMethodCallPostResize(ModelElement me){
-	var annot = CincoUtils.findAnnotationPostResize(me);
-	if(annot != null)
-		return true;
-	return false;
-}
-
-def writeMethodCallPostResize(ModelElement me){
-	var annot = CincoUtils.findAnnotationPostResize(me);
-	me.graphModel
-	if(annot != null)
-	{
-		var class = annot.value.get(0)
-		return '''new «class»().postResize(«me.name.toLowerCase», direction, height, width);'''	
-	}
-}
-
-def booleanWriteMethodCallPostSelect(ModelElement me){
-	var annot = CincoUtils.findAnnotationPostSelect(me);
-	if(annot != null)
-		return true;
-	return false;
-}
-
-def writeMethodCallPostSelect(ModelElement me){
-	var annot = CincoUtils.findAnnotationPostSelect(me);
-	if(annot != null)
-	{
-		var class = annot.value.get(0)
-		return '''new «class»().postSelect((«me.fqBeanName»)modelSelect);'''	
-	}
-}
 	
 }

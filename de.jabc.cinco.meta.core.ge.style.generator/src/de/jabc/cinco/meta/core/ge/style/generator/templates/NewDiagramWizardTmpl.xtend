@@ -35,6 +35,11 @@ import org.eclipse.swt.widgets.Composite
 
 class NewDiagramWizardTmpl extends GeneratorUtils{
 	
+/**
+ * Generates the {@link Wizard} class code for the {@link GraphModel}.
+ * 
+ * @param gm The processed {@link GraphModel}
+ */	
 def generateNewDiagramWizard(GraphModel gm)
 '''package «gm.packageName».wizard;
 

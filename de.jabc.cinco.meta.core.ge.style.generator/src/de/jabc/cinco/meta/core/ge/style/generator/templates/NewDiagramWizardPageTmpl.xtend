@@ -23,6 +23,11 @@ import org.eclipse.swt.events.KeyEvent
 
 class NewDiagramWizardPageTmpl extends GeneratorUtils {
 	
+/**
+ * Generates the {@link WizardPage} class for the {@link GraphModel}
+ * 
+ * @param The processed {@link graphmodel.GraphModel}
+ */
 def generateNewDiagramWizardPage(GraphModel gm)
 '''package «gm.packageName».wizard;
 

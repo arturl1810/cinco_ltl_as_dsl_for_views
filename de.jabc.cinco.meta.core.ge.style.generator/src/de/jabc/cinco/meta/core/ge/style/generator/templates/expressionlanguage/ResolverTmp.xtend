@@ -9,6 +9,12 @@ import java.beans.FeatureDescriptor
 
 class ResolverTmp extends GeneratorUtils{
 	
+	
+	/**
+	 * Generates an implementation of {@link ELResolver}
+	 * 
+	 * TODO: This class should be moved to cinco-meta.
+	 */
 	def generateResolver(mgl.GraphModel gm)'''
 	package «gm.packageNameExpression»;
 	

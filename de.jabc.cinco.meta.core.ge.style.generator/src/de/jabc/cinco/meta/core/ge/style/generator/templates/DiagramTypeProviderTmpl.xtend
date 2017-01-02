@@ -1,17 +1,19 @@
 package de.jabc.cinco.meta.core.ge.style.generator.templates
 
 import de.jabc.cinco.meta.core.ge.style.generator.templates.util.GeneratorUtils
-import org.eclipse.graphiti.tb.IToolBehaviorProvider
-import de.jabc.cinco.meta.core.ge.style.model.provider.CincoImageProvider
-import de.jabc.cinco.meta.core.utils.CincoUtils
-import de.jabc.cinco.meta.core.utils.MGLUtils
-import java.util.Map.Entry
+import mgl.GraphModel
 import org.eclipse.graphiti.dt.AbstractDiagramTypeProvider
-import java.net.URL
+import org.eclipse.graphiti.dt.IDiagramTypeProvider
+import org.eclipse.graphiti.tb.IToolBehaviorProvider
 
 class DiagramTypeProviderTmpl extends GeneratorUtils {
 	
-def generateDiagramTypeProvider(mgl.GraphModel gm)'''
+/**
+ * Generates the template for the {@link IDiagramTypeProvider}
+ * 
+ * @param gm The Graphmodel for information retrieval
+ */
+def generateDiagramTypeProvider(GraphModel gm)'''
 package «gm.packageName»;
 	
 public class «gm.fuName»DiagramTypeProvider extends «AbstractDiagramTypeProvider.name»{

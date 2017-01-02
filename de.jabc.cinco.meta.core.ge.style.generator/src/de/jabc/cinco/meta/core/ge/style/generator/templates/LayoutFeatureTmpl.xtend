@@ -37,6 +37,14 @@ var counter1 = 0;
 var counter2 = 0
 EList<Appearance> appList = new BasicEList <Appearance>();
 	
+	/**
+	 * Generates the <GraphModel>LayoutUtils class. This class will contain the
+	 * setAppearance methods for {@link Appearance}s defined in the {@link GraphModel}'s
+	 * {@link style.Style} 
+	 * 
+	 * @param gm The processed {@link GraphModel} 
+	 * @param st The {@link graphmodel.GraphModel}'s style
+	 */
 	def generateLayoutFeature(GraphModel gm, Styles st)
 '''package «gm.packageName»;
 
