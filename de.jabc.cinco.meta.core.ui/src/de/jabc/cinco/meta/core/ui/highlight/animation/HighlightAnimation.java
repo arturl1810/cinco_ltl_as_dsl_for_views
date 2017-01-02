@@ -86,16 +86,22 @@ public abstract class HighlightAnimation extends ReiteratingThread {
 	}
 
 	void mixColors(PictogramElement pe, Highlight hl, double ratio) {
-		hl.setBackgroundColor(pe,
-			ColorProvider.mix(
-				getBackgroundColor(pe),
-				hl.getBackgroundColor(),
-				ratio));
-		hl.setForegroundColor(pe,
-			ColorProvider.mix(
-				getForegroundColor(pe),
-				hl.getForegroundColor(),
-				ratio));
+		IColorConstant peBgColor = getBackgroundColor(pe);
+		if (peBgColor != null) {
+			hl.setBackgroundColor(pe,
+				ColorProvider.mix(
+					peBgColor,
+					hl.getBackgroundColor(),
+					ratio));
+		}
+		IColorConstant peFgColor = getForegroundColor(pe);
+		if (peFgColor != null) {
+			hl.setForegroundColor(pe,
+				ColorProvider.mix(
+					peFgColor,
+					hl.getForegroundColor(),
+					ratio));
+		}
 	}
 	
 	IColorConstant getBackgroundColor(PictogramElement pe) {
@@ -103,8 +109,11 @@ public abstract class HighlightAnimation extends ReiteratingThread {
 		if (deco != null && deco instanceof IColorDecorator) {
 			return ((IColorDecorator) deco).getBackgroundColor();
 		}
-		return ColorProvider.toColorConstant(
-				pe.getGraphicsAlgorithm().getBackground());
+		if (pe.getGraphicsAlgorithm() != null) {
+			return ColorProvider.toColorConstant(
+					pe.getGraphicsAlgorithm().getBackground());
+		}
+		return null;
 	}
 	
 	IColorConstant getForegroundColor(PictogramElement pe) {
@@ -112,8 +121,11 @@ public abstract class HighlightAnimation extends ReiteratingThread {
 		if (deco != null && deco instanceof IColorDecorator) {
 			return ((IColorDecorator) deco).getForegroundColor();
 		}
-		return ColorProvider.toColorConstant(
-				pe.getGraphicsAlgorithm().getForeground());
+		if (pe.getGraphicsAlgorithm() != null) {
+			return ColorProvider.toColorConstant(
+					pe.getGraphicsAlgorithm().getForeground());
+		}
+		return null;
 	}
 	
 	IDecorator getDecorator(PictogramElement pe) {
