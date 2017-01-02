@@ -123,7 +123,7 @@ class WorkbenchUtil {
 		display.syncExec(runnable)
 	}
 	
-	def static void showConfirmDialog(String title, String message) {
+	def static boolean showConfirmDialog(String title, String message) {
 		MessageDialog.openConfirm(
 				display.activeShell, title, message)
 	}
@@ -138,7 +138,7 @@ class WorkbenchUtil {
 				display.activeShell, title, message)
 	}
 	
-	def static void showQuestionDialog(String title, String message) {
+	def static boolean showQuestionDialog(String title, String message) {
 		MessageDialog.openQuestion(
 				display.activeShell, title, message)
 	}
