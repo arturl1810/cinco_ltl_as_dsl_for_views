@@ -8,7 +8,12 @@ import org.eclipse.graphiti.ui.internal.editor.ThumbNailView
 import org.eclipse.ui.IFolderLayout
 
 class PerspectiveTmpl extends GeneratorUtils{
-	
+
+
+/** Generates the {@link IPerspectiveFactory} class. 
+ * 
+ * @param the processed {@link mgl.GraphModel}
+ */
 def generatePerspective(GraphModel gm)
 '''package «gm.packageName»;
 

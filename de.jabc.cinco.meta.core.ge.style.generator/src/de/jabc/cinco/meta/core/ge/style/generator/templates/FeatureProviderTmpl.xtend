@@ -39,9 +39,15 @@ import org.eclipse.emf.transaction.TransactionalEditingDomain
 import org.eclipse.core.runtime.Assert
 import org.eclipse.emf.transaction.RecordingCommand
 import org.eclipse.graphiti.features.context.ICreateContext
+import org.eclipse.graphiti.features.IFeatureProvider
 
 class FeatureProviderTmpl extends GeneratorUtils{
 	
+/**
+ * Generates the {@link IFeatureProvider} code for the Graphmodel
+ * 
+ * @param gm The processed {@link GraphModel}
+ */
 def generateFeatureProvider(GraphModel gm)'''
 package «gm.packageName»;
 

@@ -24,7 +24,13 @@ import org.eclipse.graphiti.platform.IDiagramBehavior
 import de.jabc.cinco.meta.core.ge.style.generator.graphiti.utils.CincoGraphitiUtils
 
 class PropertyViewTmpl extends GeneratorUtils {
-	
+
+/**
+ * Generates the code which registers the {@link EStructuralFeature}s for the 
+ * generic {@link CincoPropertyView}
+ * 
+ * @param gm The processed {@link GraphModel}
+ */	
 def generatePropertyView(GraphModel gm)'''
 package «gm.packageName».property.view;
 

@@ -24,7 +24,11 @@ import org.eclipse.emf.common.util.BasicEList
 class ImageProviderTmpl extends GeneratorUtils{
 
 	
-	
+/**
+ * Generates the {@link IImageProvider} code
+ *
+ * @param gm The processed {@link mgl.GraphModel} 
+ */	
 	def generateImageProvider(GraphModel gm)
 '''package «gm.packageName»;
 

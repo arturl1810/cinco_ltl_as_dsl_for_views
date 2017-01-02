@@ -1,7 +1,5 @@
 package de.jabc.cinco.meta.core.ge.style.generator.main
 
-//import ProductDefinition.CincoProduct
-
 import de.jabc.cinco.meta.core.ge.style.generator.templates.DiagramEditorTmpl
 import de.jabc.cinco.meta.core.ge.style.generator.templates.DiagramTypeProviderTmpl
 import de.jabc.cinco.meta.core.ge.style.generator.templates.FeatureProviderTmpl
@@ -157,8 +155,6 @@ class GraphitiGeneratorMain extends GeneratorUtils {
 
 		
 		var cp = CincoUtils::getCPD(cpdFile) as CincoProduct
-//		var pluginXML = project.getFile("plugin.xml");  
-//		var extensionCommentID = "<!--@CincoGen "+cp.getName().toUpperCase()+"-->";
 		
 		if (cp.getDefaultPerspective() != null && !cp.getDefaultPerspective().isEmpty())
 			return;
@@ -166,11 +162,8 @@ class GraphitiGeneratorMain extends GeneratorUtils {
 		var defaultPerspectiveContent = DefaultPerspectiveContent::generateDefaultPerspective(cp, gm.packageName.toString)
 		var defaultXMLPerspectiveContent = DefaultPerspectiveContent::generateXMLPerspective(cp, cpdFile.getProject().getName())
 		
-//		var file = project.getFile("src-gen/"+project.getName().replace(".", "/")+"/"+cp.getName()+"Perspective.java");
 		ContentWriter::writeJavaFileInSrcGen(project, gm.packageName, cp.name+"Perspective.java",defaultPerspectiveContent)
 		
-//		CincoUtils.writeContentToFile(file, defaultPerspectiveContent.toString());
-//		CincoUtils.addExtension(pluginXML.getLocation().toString(), defaultXMLPerspectiveContent.toString(), extensionCommentID, project.getName());
 		
 		pluginXMLContent.add(defaultXMLPerspectiveContent)
 				

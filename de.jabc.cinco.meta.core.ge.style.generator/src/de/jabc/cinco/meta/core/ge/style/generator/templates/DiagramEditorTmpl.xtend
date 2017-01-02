@@ -12,7 +12,12 @@ import org.eclipse.graphiti.features.context.impl.ResizeShapeContext
 import org.eclipse.graphiti.mm.pictograms.Shape
 
 class DiagramEditorTmpl extends GeneratorUtils{
-	
+
+/**
+ * Generates the {@link DiagramEditor} for the {@link GraphModel}
+ * 
+ * @param gm The processed {@link GraphModel}
+ */
 def generateDiagramEditor(GraphModel gm) '''
 package «gm.packageName»;
 
