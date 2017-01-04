@@ -113,8 +113,10 @@ class GraphitiGeneratorMain extends GeneratorUtils {
 			content = n.doGenerateNodeAddFeature(styles)
 			ContentWriter::writeJavaFileInSrcGen(project, n.packageNameAdd, "AddFeature"+n.name.toFirstUpper+".java", content)
 			
-			content = n.doGenerateNodeCreateFeature(styles) 
-			ContentWriter::writeJavaFileInSrcGen(project, n.packageNameCreate, "CreateFeature"+n.name.toFirstUpper+".java", content)
+			if (!n.isIsAbstract) {
+				content = n.doGenerateNodeCreateFeature(styles) 
+				ContentWriter::writeJavaFileInSrcGen(project, n.packageNameCreate, "CreateFeature"+n.name.toFirstUpper+".java", content)
+			}
 			
 			content = n.doGenerateNodeDeleteFeature(styles)
 			ContentWriter::writeJavaFileInSrcGen(project, n.packageNameDelete, "DeleteFeature"+n.name.toFirstUpper+".java", content)
@@ -137,8 +139,10 @@ class GraphitiGeneratorMain extends GeneratorUtils {
 			content = e.doGenerateEdgeAddFeature(styles)
 			ContentWriter::writeJavaFileInSrcGen(project, e.packageNameAdd, "AddFeature"+e.name.toFirstUpper+".java", content)
 
-			content = e.doGenerateEdgeCreateFeature(styles)
-			ContentWriter::writeJavaFileInSrcGen(project, e.packageNameCreate, "CreateFeature"+e.name.toFirstUpper+".java", content)
+			if (!e.isIsAbstract) {
+				content = e.doGenerateEdgeCreateFeature(styles)
+				ContentWriter::writeJavaFileInSrcGen(project, e.packageNameCreate, "CreateFeature"+e.name.toFirstUpper+".java", content)
+			}
 			
 			content = e.doGenerateEdgeUpdateFeature(styles)
 			ContentWriter::writeJavaFileInSrcGen(project, e.packageNameUpdate, "UpdateFeature"+e.name.toFirstUpper+".java", content)

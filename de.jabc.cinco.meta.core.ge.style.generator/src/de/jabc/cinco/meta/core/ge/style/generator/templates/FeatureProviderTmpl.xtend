@@ -118,7 +118,7 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 	@Override
 	public «ICreateFeature.name»[] getCreateFeatures() {
 		return new «ICreateFeature.name»[] {
-		«FOR me : gm.nodes SEPARATOR ","»
+		«FOR me : gm.nodes.filter[!isIsAbstract] SEPARATOR ","»
 			new «me.packageNameCreate».CreateFeature«me.fuName»(this)
 		«ENDFOR»
 		};
@@ -127,7 +127,7 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 	@Override
 	public «ICreateConnectionFeature.name»[] getCreateConnectionFeatures() {
 		return new «ICreateConnectionFeature.name»[] {
-		«FOR e : gm.edges SEPARATOR ","»
+		«FOR e : gm.edges.filter[!isIsAbstract] SEPARATOR ","»
 			new «e.packageNameCreate».CreateFeature«e.fuName»(this)	
 		«ENDFOR»
 

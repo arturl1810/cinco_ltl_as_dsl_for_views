@@ -27,6 +27,9 @@ import org.eclipse.graphiti.features.ICreateFeature
 import org.eclipse.graphiti.features.IDeleteFeature
 import org.eclipse.graphiti.features.ILayoutFeature
 import org.eclipse.emf.ecore.EFactory
+import org.eclipse.emf.ecore.EcorePackage
+import org.eclipse.emf.ecore.EPackage
+import org.eclipse.emf.ecore.EClass
 
 class GeneratorUtils {
 	val static String ID_CONTAINER = "Containers";
@@ -97,43 +100,43 @@ class GeneratorUtils {
 	 * Returns the package name for the generated {@link IAddFeature} implementing classes
 	 */
 	def packageNameAdd(ModelElement me)
-	'''«me.graphModel.package».features.add'''
+	'''«me.graphModel.packageName».features.add'''
 	
 	/**
 	 * Returns the package name for the generated {@link ICreateFeature} implementing classes
 	 */
 	def packageNameCreate(ModelElement me)
-	'''«me.graphModel.package».features.create'''
+	'''«me.graphModel.packageName».features.create'''
 	
 	/**
 	 * Returns the package name for the generated {@link IDeleteFeature} implementing classes
 	 */
 	def packageNameDelete(ModelElement me)
-	'''«me.graphModel.package».features.delete'''
+	'''«me.graphModel.packageName».features.delete'''
 	
 	/**
 	 * Returns the package name for the generated {@link ILayoutFeature} implementing classes
 	 */
 	def packageNameLayout(ModelElement me)
-	'''«me.graphModel.package».features.layout'''
+	'''«me.graphModel.packageName».features.layout'''
 	
 	/**
 	 * Returns the package name for the generated {@link IResizeFeature} implementing classes
 	 */
 	def packageNameResize(ModelElement me)
-	'''«me.graphModel.package».features.resize'''
+	'''«me.graphModel.packageName».features.resize'''
 	
 	/**
 	 * Returns the package name for the generated {@link IMoveFeature} implementing classes
 	 */
 	def packageNameMove(ModelElement me)
-	'''«me.graphModel.package».features.move'''
+	'''«me.graphModel.packageName».features.move'''
 	
 	/**
 	 * Returns the package name for the generated {@link IUpdateFeature} implementing classes
 	 */
 	def packageNameUpdate(ModelElement me)
-	'''«me.graphModel.package».features.update'''
+	'''«me.graphModel.packageName».features.update'''
 	
 	/**
 	 * Returns the package name of the business object's java class which is generated for the given node
@@ -198,16 +201,23 @@ class GeneratorUtils {
 	/**
 	 * Returns the {@link ModelElement}'s name. All letters except for the first letter are in lower case
 	 * 
-	 * @param The {@ModelElement}
+	 * @param The {@link ModelElement}
 	 */
 	def firstUpperOnly(ModelElement me)
 	'''«me.name.toLowerCase.toFirstUpper»'''
 	
 	/** 
-	 * Returns the fully qualified name of the java.util.Map$Entry class
+	 * Returns the fully qualified name of the {@link java.util.Map$Entry} class
 	 */
 	def entryName(Class<Entry> e) '''java.util.Map.Entry'''
 	
+	
+	/**
+	 * Returns a map of palette group names to a list of {@link GraphicalModelElement}s. The map is used to
+	 * create the appropriate palette groups and the corresponding create tools
+	 * 
+	 * @param gm The processes {@link GraphModel}
+	 */
 	def getPaletteGroupsMap(GraphModel gm) {
 		val map = new HashMap<String, List<GraphicalModelElement>>
 		map.put(ID_NODES, new ArrayList)
@@ -229,20 +239,44 @@ class GeneratorUtils {
 		return map
 	}
 	
+	/**
+	 * Adds a {@link ModelElement} to the list of the corresponding palette group.
+	 * 
+	 * @param m The map holding the palette group name to {@link GraphicalModelElement} list mapping
+	 * @param paletteName The palette group name the {@link GraphicalModelElement} should be added
+	 * @param me The {@link GraphicalModelElement} that should be added into the given palette group
+	 */
 	def addToMap(Map<String, List<GraphicalModelElement>> m, String paletteName, GraphicalModelElement me) {
 		if (m.get(paletteName) == null)
 			m.put(paletteName, new ArrayList)
 		m.get(paletteName).add(me)
 	}
 	
+	/**
+	 * Checks if the given {@link ModelElement} contains a palette annotation
+	 * 
+	 * @param me The processed {@link ModelElement}
+	 * @return true if the {@link ModelElement} contains a palette annotation
+	 */
 	def hasPaletteCategory(ModelElement me) {
 		me.annotations.filter[a | a.name.equals("palette")].size > 0
 	}
 	
+	/**
+	 * @param gm The processed {@link GraphModel}
+	 * @return All {@link mgl.Attributes} (including {@link mgl.Node}, 
+	 * {@link mgl.Edge}, {@link mgl.Container}, and {@link GraphModel})
+	 * used in the definition of the given {@link GraphModel}.
+	 */
 	def allModelAttributes(GraphModel gm) {
 		gm.eResource.allContents.toIterable.filter[c | c instanceof Attribute].map[a | a as Attribute]
 	}
 	
+	/**
+	 * @param n The processed {@link Node}
+	 * @return The {@link String} value of the {@link Node}'s "icon" annotation 
+	 * and the empty {@link String} if no icon annotation provided  
+	 */
 	def String getIconNodeValue(Node n){
 		var icon ="";
 		var EList <Annotation> annots = n.annotations;
@@ -254,6 +288,10 @@ class GeneratorUtils {
 		return icon;		
 	}
 	
+	/**
+	 * @param n The processed {@link Node}
+	 * @return True, if the given node is a primeNode
+	 */
 	def isPrime(Node n)
 	{
 		if(n.primeReference != null)
@@ -261,27 +299,57 @@ class GeneratorUtils {
 		return false;
 	}
 
+	/**
+	 * @param rme The {@link ReferencedModelElement} of a prime node. 
+	 * @return The name of the prime reference's type
+	 */
 	dispatch def primeType(ReferencedModelElement rme) {
 		return rme.type.name
 	}
 	
+	/**
+	 * @param The {@link ReferencedEClass} of a prime node
+	 * @return The name of the prime reference's type
+	 */
 	dispatch def primeType(ReferencedEClass rec) {
 		return rec.type.name
 	}
 	
+	/**
+	 * @param The processed {@link Node}
+	 * @return The {@link Node}'s prime reference name
+	 */
 	def primeName(Node n)
 	{
 		return n.primeReference.name
 	}
 	
+	/**
+	 * This method retrieves the {@link GraphModel} of the {@link ReferencedModelElement}'s type
+	 * and returns its nsUri {@see GraphModel}
+	 * 
+	 * @param rem The {@link ReferencedModelElement} of a prime node
+	 * @return The {@link mgl.GraphModel#getNsURI nsURI} of the {@link ReferencedModelElement}'s {@link GraphModel}
+	 */
 	dispatch def nsURI(ReferencedModelElement rem) {
 		return rem.type.graphModel.nsURI
 	}
 	
+	/**
+	 * This method retrieves the {@link EPackage} of the {@link ReferencedEClass}' type
+	 * and returns its {@link EPackage#getNsURI nsURI}.
+	 * 
+	 * @param refEClass The prime referenced {@link EClass}
+	 * @param The {@link EPackage#getNsURI nsURI} of the given {@link EClass}
+	 */
 	dispatch def nsURI(ReferencedEClass refEClass) {
 		return refEClass.type.EPackage.nsURI
 	}
 	
+	/**
+	 * @param n The processed {@link Node}
+	 * @return The name of the (additional) {@link IAddFeature} for a prime node
+	 */
 	def addFeaturePrimeCode(Node n) '''
 	new AddFeaturePrime«n.fuName»(this),
 	'''
