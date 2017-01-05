@@ -1,11 +1,16 @@
 package de.jabc.cinco.meta.core.ge.style.generator.templates.util
 
+import cincoapi.CContainer
+import cincoapi.CEdge
+import cincoapi.CGraphModel
+import cincoapi.CNode
 import de.jabc.cinco.meta.core.utils.CincoUtils
 import java.util.ArrayList
 import java.util.HashMap
 import java.util.List
 import java.util.Map
 import java.util.Map.Entry
+import javax.el.ExpressionFactory
 import mgl.Annotatable
 import mgl.Annotation
 import mgl.Attribute
@@ -14,24 +19,26 @@ import mgl.GraphModel
 import mgl.GraphicalModelElement
 import mgl.ModelElement
 import mgl.Node
+import mgl.NodeContainer
 import mgl.ReferencedEClass
 import mgl.ReferencedModelElement
 import mgl.Type
 import mgl.UserDefinedType
 import org.eclipse.emf.common.util.EList
-
-import static extension de.jabc.cinco.meta.core.utils.CincoUtils.*
-import javax.el.ExpressionFactory
+import org.eclipse.emf.ecore.EClass
+import org.eclipse.emf.ecore.EFactory
+import org.eclipse.emf.ecore.EPackage
 import org.eclipse.graphiti.features.IAddFeature
 import org.eclipse.graphiti.features.ICreateFeature
 import org.eclipse.graphiti.features.IDeleteFeature
 import org.eclipse.graphiti.features.ILayoutFeature
-import org.eclipse.emf.ecore.EFactory
-import org.eclipse.emf.ecore.EcorePackage
-import org.eclipse.emf.ecore.EPackage
-import org.eclipse.emf.ecore.EClass
+import org.eclipse.graphiti.features.IMoveFeature
+import org.eclipse.graphiti.features.IResizeFeature
+import org.eclipse.graphiti.features.IUpdateFeature
 
-class GeneratorUtils {
+import static extension de.jabc.cinco.meta.core.utils.CincoUtils.*
+
+class GeneratorUtils extends APIUtils{
 	val static String ID_CONTAINER = "Containers";
 	val static String ID_NODES = "Nodes";
 	
@@ -66,6 +73,14 @@ class GeneratorUtils {
 		me.name.toFirstUpper
 	}
 	
+	def fuCName(ModelElement me) {
+		"C"+me.name.toFirstUpper
+	}
+	
+	def fuCImplName(ModelElement me) {
+		"C"+me.name.toFirstUpper+"Impl"
+	}
+	
 	/**
 	 * Returns the {@link ModelElement}'s name in first lower
 	 */
@@ -81,6 +96,9 @@ class GeneratorUtils {
 	def packageName(GraphModel gm)
 	'''«gm.package».editor.graphiti'''
 	
+	def packageNameAPI(GraphModel gm)
+	'''«gm.packageName».api'''
+	
 	/**
 	 * Returns the package name prefix for the generated graphiti sources.
 	 * 
@@ -89,6 +107,8 @@ class GeneratorUtils {
 	def packageName(ModelElement me)
 	'''«me.graphModel.packageName»'''
 	
+	def packageNameAPI(ModelElement me)
+	'''«me.graphModel.packageName».api'''
 	/**
 	 * Returns the package name for the generated {@link ExpressionFactory}
 	 * class
@@ -156,12 +176,18 @@ class GeneratorUtils {
 	def fqBeanName(ModelElement me)
 	'''«me.beanPackage».«me.fuName»'''
 	
+	def fqBeanImplName(ModelElement me)
+	'''«me.beanPackage».impl.«me.fuName»Impl'''
+	
 	/**
 	 * Returns the fully qualified name of the {@link EFactory} class for the given {@link ModelElement}, i.e. for the
 	 * {@link ModelElement}'s {@link GraphModel}. 
 	 */
 	def fqFactoryName(ModelElement me) 
 	'''«me.graphModel.package».«me.graphModel.name.toLowerCase».«me.graphModel.name.toLowerCase.toFirstUpper»Factory'''
+	
+	def fqCreateFeatureName(ModelElement me)
+	'''«me.packageNameCreate».CreateFeature«me.fuName»'''
 	
 	/**
 	 * Returns the fully qulified name of the generated property view class
@@ -180,21 +206,39 @@ class GeneratorUtils {
 		return mes
 	}
 	 
-	/**
-	 * Returns the {@link GraphModel} of the given {@link ModelElement}
-	 * 
-	 * @param me The {@link ModelElement} for which to retrieve the {@link GraphModel} 
-	 */
-	def getGraphModel(ModelElement me) {
-		if (me instanceof GraphModel)
-			return me
-		if (me instanceof Node) {
-			var n = me as Node
-			return n.graphModel
+//	/**
+//	 * Returns the {@link GraphModel} of the given {@link ModelElement}
+//	 * 
+//	 * @param me The {@link ModelElement} for which to retrieve the {@link GraphModel} 
+//	 */
+//	def getGraphModel(ModelElement me) {
+//		if (me instanceof GraphModel)
+//			return me
+//		if (me instanceof Node) {
+//			var n = me as Node
+//			return n.graphModel
+//		}
+//		if (me instanceof Edge) {
+//			var e = me as Edge
+//			return e.graphModel
+//		}
+//	}
+	
+	def getExtends(ModelElement me) {
+		switch (me) {
+			Node : me.extends
+			Edge : me.extends
+			GraphModel : me.extends
+			default : null
 		}
-		if (me instanceof Edge) {
-			var e = me as Edge
-			return e.graphModel
+	}
+	
+	def superClass(ModelElement me) {
+		switch (me) {
+			NodeContainer : '''«CContainer.name»'''
+			Node : '''«CNode.name»'''
+			Edge : '''«CEdge.name»'''
+			GraphModel : '''«CGraphModel.name»'''
 		}
 	}
 	
@@ -207,7 +251,7 @@ class GeneratorUtils {
 	'''«me.name.toLowerCase.toFirstUpper»'''
 	
 	/** 
-	 * Returns the fully qualified name of the {@link java.util.Map$Entry} class
+	 * Returns the fully qualified name of the {@link Entry} class
 	 */
 	def entryName(Class<Entry> e) '''java.util.Map.Entry'''
 	
@@ -264,8 +308,8 @@ class GeneratorUtils {
 	
 	/**
 	 * @param gm The processed {@link GraphModel}
-	 * @return All {@link mgl.Attributes} (including {@link mgl.Node}, 
-	 * {@link mgl.Edge}, {@link mgl.Container}, and {@link GraphModel})
+	 * @return All {@link mgl.Attributes} (including {@link Node}, 
+	 * {@link Edge}, {@link mgl.Container}, and {@link GraphModel})
 	 * used in the definition of the given {@link GraphModel}.
 	 */
 	def allModelAttributes(GraphModel gm) {
@@ -329,7 +373,7 @@ class GeneratorUtils {
 	 * and returns its nsUri {@see GraphModel}
 	 * 
 	 * @param rem The {@link ReferencedModelElement} of a prime node
-	 * @return The {@link mgl.GraphModel#getNsURI nsURI} of the {@link ReferencedModelElement}'s {@link GraphModel}
+	 * @return The {@link GraphModel#getNsURI nsURI} of the {@link ReferencedModelElement}'s {@link GraphModel}
 	 */
 	dispatch def nsURI(ReferencedModelElement rem) {
 		return rem.type.graphModel.nsURI
@@ -357,7 +401,7 @@ class GeneratorUtils {
 	/**
 	 *  Checks if a postCreateHook is annotated at the {@link ModelElement}
 	 * 
-	 * @param me The processed {@link mgl.ModelElement} 
+	 * @param me The processed {@link ModelElement} 
 	 */
 	def booleanWriteMethodCallPostCreate(ModelElement me){
 		
@@ -370,7 +414,7 @@ class GeneratorUtils {
 	/**
 	 * Generates the postCreate code for the {@link ModelElement}
 	 * 
-	 * @param me The processed {@link mgl.ModelElement} 
+	 * @param me The processed {@link ModelElement} 
 	 */
 	def writeMethodCallPostCreate(ModelElement me){
 		var annot = CincoUtils.findAnnotationPostCreate(me);
@@ -384,7 +428,7 @@ class GeneratorUtils {
 	/**
 	 *  Checks if a postMoveHook is annotated at the {@link ModelElement}
 	 * 
-	 * @param me The processed {@link mgl.ModelElement} 
+	 * @param me The processed {@link ModelElement} 
 	 */
 	 def booleanWriteMethodCallPostMove(ModelElement me){
 		var annot = CincoUtils.findAnnotationPostMove(me);
@@ -396,7 +440,7 @@ class GeneratorUtils {
 	/**
 	 * Generates the postMove code for the {@link ModelElement}
 	 * 
-	 * @param me The processed {@link mgl.ModelElement} 
+	 * @param me The processed {@link ModelElement} 
 	 */
 	def writeMethodCallPostMove(ModelElement me){
 		var annot = CincoUtils.findAnnotationPostMove(me);
@@ -411,7 +455,7 @@ class GeneratorUtils {
 	/**
 	 * Checks if a postResizeHook is annotated at the {@link ModelElement}
 	 * 
-	 * @param me The processed {@link mgl.ModelElement} 
+	 * @param me The processed {@link ModelElement} 
 	 */
 	def booleanWriteMethodCallPostResize(ModelElement me){
 		var annot = CincoUtils.findAnnotationPostResize(me);
@@ -423,7 +467,7 @@ class GeneratorUtils {
 	/**
 	 * Generates the postResize code for the {@link ModelElement}
 	 * 
-	 * @param me The processed {@link mgl.ModelElement} 
+	 * @param me The processed {@link ModelElement} 
 	 */
 	def writeMethodCallPostResize(ModelElement me){
 		var annot = CincoUtils.findAnnotationPostResize(me);
@@ -438,7 +482,7 @@ class GeneratorUtils {
 	/**
 	 *  Checks if a postMoveHook is annotated at the {@link ModelElement}
 	 * 
-	 * @param me The processed {@link mgl.ModelElement} 
+	 * @param me The processed {@link ModelElement} 
 	 */
 	def booleanWriteMethodCallPostSelect(ModelElement me){
 		var annot = CincoUtils.findAnnotationPostSelect(me);

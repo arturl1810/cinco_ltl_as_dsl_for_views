@@ -50,6 +50,24 @@ public class MGLUtils {
 		return targets;
 	}
 	
+	public static Set<Node> getPossibleSuccessors(Node n) {
+		Set<Node> possSucc = new HashSet<Node>();
+		Set<Edge> outs = getOutgoingConnectingEdges(n);
+		for (Edge e : outs) {
+			possSucc.addAll(getPossibleTargets(e));
+		}
+		return possSucc;
+	}
+	
+	public static Set<Node> getPossiblePredecessors(Node n) {
+		Set<Node> possPreds = new HashSet<Node>();
+		Set<Edge> outs = getIncomingConnectingEdges(n);
+		for (Edge e : outs) {
+			possPreds.addAll(getPossibleSources(e));
+		}
+		return possPreds;
+	}
+	
 	public static Set<Node> getPossibleSources(Edge ce) {
 		HashSet<Node> sources = new HashSet<>();
 		

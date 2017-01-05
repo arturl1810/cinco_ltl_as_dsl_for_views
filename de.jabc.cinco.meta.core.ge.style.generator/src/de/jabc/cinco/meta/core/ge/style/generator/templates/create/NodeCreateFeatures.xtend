@@ -51,7 +51,6 @@ class NodeCreateFeatures extends GeneratorUtils{
 		setModelElement(«n.flName»);
 		«PictogramElement.name» target = context.getTargetContainer();
 		«EObject.name» targetBO = («EObject.name») getBusinessObjectForPictogramElement(target);
-«««		«n.graphModel.fqBeanName» «n.graphModel.name.toLowerCase» = «CincoGraphitiUtils.name».addToResource(getDiagram(), this.getFeatureProvider());		
 
 		if (targetBO instanceof «ModelElementContainer.name») {
 			((«ModelElementContainer.name») targetBO).getModelElements().add(«n.flName»);		

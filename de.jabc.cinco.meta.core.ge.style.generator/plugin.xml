@@ -10,4 +10,12 @@
       </command>
    </extension>
 
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated CincoAPI -->
+      <package
+            uri="http://cinco.scce.info/api"
+            class="cincoapi.CincoapiPackage"
+            genModel="model/CincoAPI.genmodel"/>
+   </extension>
+
 </plugin>

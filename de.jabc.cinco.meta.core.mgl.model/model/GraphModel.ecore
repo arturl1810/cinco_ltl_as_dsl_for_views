@@ -202,7 +202,7 @@
     </eOperations>
     <eOperations name="getAllContainers" upperBound="-1" eType="#//Container">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="return getModelElements(Container.class);"/>
+        <details key="body" value="return getModelElements(graphmodel.Container.class);"/>
       </eAnnotations>
     </eOperations>
     <eOperations name="canContain" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
