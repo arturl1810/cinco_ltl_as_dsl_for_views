@@ -108,7 +108,7 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 	private static Map<Class<? extends EObject>, IEMFListProperty> emfListPropertiesMap = new HashMap<Class<? extends EObject>, IEMFListProperty>();
 	private static Map<Class<? extends EObject>, List<EStructuralFeature>> attributesMap = new HashMap<Class<? extends EObject>, List<EStructuralFeature>>();
 	private static Map<Class<? extends EObject>, List<EStructuralFeature>> referencesMap = new HashMap<Class<? extends EObject>, List<EStructuralFeature>>();
-	private static Map<EStructuralFeature, Map<? extends ModelElement, String>> possibleValuesMap = new HashMap<EStructuralFeature, Map<? extends ModelElement, String>>();
+	private static Map<EStructuralFeature, Map<? extends Object, String>> possibleValuesMap = new HashMap<EStructuralFeature, Map<? extends Object, String>>();
 	private Map<Object, Object[]> treeExpandState;
 
 	private static Map<EStructuralFeature, List<String>> fileExtensionFilters = new HashMap<EStructuralFeature, List<String>>();
@@ -264,7 +264,7 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 		lastSelectedObject = bo;
 	}
 
-	public static void refreshPossibleValues(EStructuralFeature feature, Map<? extends ModelElement, String> values) {
+	public static void refreshPossibleValues(EStructuralFeature feature, Map<? extends Object, String> values) {
 		possibleValuesMap.put(feature, values);
 	}
 
@@ -398,8 +398,8 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 		cv.setContentProvider(new ArrayContentProvider());
 		cv.setLabelProvider(getNameLabelProvider());
 		
-		List<ModelElement> input = new ArrayList<ModelElement>();
-		Map<? extends ModelElement, String> possibleValues = possibleValuesMap.get(ref);
+		List<Object> input = new ArrayList<Object>();
+		Map<? extends Object, String> possibleValues = possibleValuesMap.get(ref);
 		if (possibleValues != null) {
 			input.addAll(possibleValues.keySet());
 			ModelElement currentValue = (ModelElement) bo.eGet(ref);
@@ -418,8 +418,8 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 		combo.setEnabled(!readOnlyAttributes.contains(ref));
 	}
 	
-	private List<ModelElement> getInput(EObject bo, Class<?> searchFor) {
-		List<ModelElement> result = new ArrayList<ModelElement>();
+	private List<Object> getInput(EObject bo, Class<?> searchFor) {
+		List<Object> result = new ArrayList<Object>();
 		if (bo instanceof ModelElement) {
 			GraphModel gm = ((ModelElement) bo).getRootElement();
 			getAllModelElements(gm, result, searchFor);
@@ -427,9 +427,7 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 		return result;
 	}
 
-	
-	
-	private void getAllModelElements(ModelElementContainer container, List<ModelElement> result, Class<?> searchFor) {
+	private void getAllModelElements(ModelElementContainer container, List<Object> result, Class<?> searchFor) {
 		result.addAll(container.getModelElements((Class<? extends ModelElement>) searchFor));
 		for (Container c : container.getAllContainers()) {
 			getAllModelElements(c, result, searchFor);
@@ -495,6 +493,36 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 			context.bindValue(uiProp.observe(text),  modelObs);
 			text.setEnabled(false);
 			browse.setEnabled(true);
+		} else if (possibleValuesMap.containsKey(attr)) {
+//			Label label = new Label(comp, SWT.NONE);
+//			label.setText(ref.getName());
+//			label.setLayoutData(labelLayoutData);
+			
+//			Class<?> instanceClass = ref.getEReferenceType().getInstanceClass();
+			Combo combo = new Combo(comp, SWT.BORDER | SWT.DROP_DOWN | SWT.READ_ONLY);
+			combo.setLayoutData(textLayoutData);
+			ComboViewer cv = new ComboViewer(combo);
+			cv.setContentProvider(new ArrayContentProvider());
+			cv.setLabelProvider(getNameLabelProvider());
+			
+			List<Object> input = new ArrayList<Object>();
+			Map<? extends Object, String> possibleValues = possibleValuesMap.get(attr);
+			if (possibleValues != null) {
+				input.addAll(possibleValues.keySet());
+				Object currentValue = (Object) bo.eGet(attr);
+				if (currentValue != null && !possibleValues.keySet().contains(currentValue)) {
+					input.add(currentValue);
+				}
+			} else {
+//				input = getInput(bo, instanceClass);
+			}
+			cv.setInput(input);
+			
+			IViewerObservableValue uiProp = ViewersObservables.observeSingleSelection(cv);
+			IObservableValue modelObs = EMFEditObservables.observeValue(domain,bo,attr);
+			context.bindValue(uiProp, modelObs);
+			
+			combo.setEnabled(!readOnlyAttributes.contains(attr));
 		} else {
 			Text text = null;
 			
@@ -653,7 +681,7 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 			}
 
 			private String getAlternativeLabel(Object element) {
-				for (Map<? extends ModelElement, String> map : possibleValuesMap.values()) {
+				for (Map<? extends Object, String> map : possibleValuesMap.values()) {
 					if (map.containsKey(element))
 						return map.get(element);
 				}
