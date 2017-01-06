@@ -17,6 +17,8 @@ import mgl.NodeContainer
 import mgl.ContainingElement
 import mgl.Node
 import org.eclipse.graphiti.features.context.impl.CreateConnectionContext
+import mgl.ReferencedModelElement
+import org.eclipse.emf.ecore.EObject
 
 class CModelElementTmpl extends GeneratorUtils {
 	
@@ -27,8 +29,27 @@ public interface «me.fuCName» extends «IF me.extends == null»«me.superClass
 	
 	«IF me instanceof NodeContainer»
 	«FOR n : MGLUtils::getContainableNodes(me as NodeContainer).filter[!isIsAbstract]»
-	public «n.fqBeanName» new«n.fuName»();
+	public «n.fqBeanName» new«n.fuName»(int x, int y);
+	public «n.fqBeanName» new«n.fuName»(int x, int y, int width, int height);
 	«ENDFOR»
+	«ENDIF»
+	
+	«IF me instanceof Node»
+	«FOR e : MGLUtils::getOutgoingConnectingEdges(me as Node)»
+	«FOR target : MGLUtils::getPossibleTargets(e)»
+	public «e.fuCName» new«e.fuName»(«target.fuCName» cTarget);
+	«ENDFOR»
+	«ENDFOR»
+	
+	public void move(int x, int y);
+	«FOR cont : MGLUtils::getPossibleContainers(me as Node)»
+	public void move(«cont.fuCName» target, int x, int y);
+	«ENDFOR»
+	
+	«IF me.isPrime»
+	public «EObject.name» get«me.primeName.toFirstUpper»();
+	«ENDIF»
+	
 	«ENDIF»
 	
 }
@@ -55,10 +76,13 @@ public «IF me.isIsAbstract»abstract«ENDIF» class «me.fuCImplName» extends 
 	«IF me instanceof ContainingElement»
 	«FOR n : MGLUtils::getContainableNodes(me).filter[!isIsAbstract]»
 
-	public «n.fuCName» new«n.fuName»() {
+	public «n.fuCName» new«n.fuName»(int x, int y) {
 		«CreateContext.name» cc = new «CreateContext.name»();
 		cc.setLocation(10, 10);
 		cc.setTargetContainer((«ContainerShape.name») getPictogramElement());
+		
+		cc.setLocation(x,y);
+		cc.setSize(-1,-1);
 		
 		«IFeatureProvider.name» fp = getFeatureProvider();
 		«n.fqCreateFeatureName» cf = new «n.fqCreateFeatureName»(fp);
@@ -70,6 +94,25 @@ public «IF me.isIsAbstract»abstract«ENDIF» class «me.fuCImplName» extends 
 		}
 		return null;
 	}
+	
+	public «n.fuCName» new«n.fuName»(int x, int y, int width, int height) {
+			«CreateContext.name» cc = new «CreateContext.name»();
+			cc.setLocation(10, 10);
+			cc.setTargetContainer((«ContainerShape.name») getPictogramElement());
+			
+			cc.setLocation(x,y);
+			cc.setSize(width,height);
+			
+			«IFeatureProvider.name» fp = getFeatureProvider();
+			«n.fqCreateFeatureName» cf = new «n.fqCreateFeatureName»(fp);
+			if (fp instanceof «CincoFeatureProvider.name») {
+				Object[] retVal = ((«CincoFeatureProvider.name») fp).executeFeature(cf, cc);
+				«n.fuCName» tmp = («n.fuCName») retVal[0];
+				tmp.setPictogramElement((«PictogramElement.name») retVal[1]);
+				return tmp;
+			}
+			return null;
+		}
 	«ENDFOR»
 	«ENDIF»
 	
@@ -77,21 +120,24 @@ public «IF me.isIsAbstract»abstract«ENDIF» class «me.fuCImplName» extends 
 	«FOR e : MGLUtils::getOutgoingConnectingEdges(me as Node)»
 	«FOR target : MGLUtils::getPossibleTargets(e)»
 	public «e.fuCName» new«e.fuName»(«target.fuCName» cTarget) {
-			«CreateConnectionContext.name» cc = new «CreateConnectionContext.name»();
-			cc.setSourcePictogramElement(getPictogramElement());
-			cc.setTargetPictogramElement(cTarget.getPictogramElement());
-			
-			«IFeatureProvider.name» fp = getFeatureProvider();
-			«e.fqCreateFeatureName» cf = new «e.fqCreateFeatureName»(fp);
-			if (fp instanceof «CincoFeatureProvider.name») {
-				Object[] retVal = ((«CincoFeatureProvider.name») fp).executeFeature(cf, cc);
-				«e.fuCName» tmp = («e.fuCName») retVal[0];
-				tmp.setPictogramElement((«PictogramElement.name») retVal[1]);
-				return tmp;
-			}
-			return null;
+		«CreateConnectionContext.name» cc = new «CreateConnectionContext.name»();
+		cc.setSourcePictogramElement(getPictogramElement());
+		cc.setTargetPictogramElement(cTarget.getPictogramElement());
+		
+		«IFeatureProvider.name» fp = getFeatureProvider();
+		«e.fqCreateFeatureName» cf = new «e.fqCreateFeatureName»(fp);
+		if (fp instanceof «CincoFeatureProvider.name») {
+			Object[] retVal = ((«CincoFeatureProvider.name») fp).executeFeature(cf, cc);
+			«e.fuCName» tmp = («e.fuCName») retVal[0];
+			tmp.setPictogramElement((«PictogramElement.name») retVal[1]);
+			return tmp;
 		}
+		return null;
+	}
 	«ENDFOR»
+	«ENDFOR»
+	
+	«FOR cont : MGLUtils::getPossibleContainers(me as Node)»
 	«ENDFOR»
 	«ENDIF»
 	

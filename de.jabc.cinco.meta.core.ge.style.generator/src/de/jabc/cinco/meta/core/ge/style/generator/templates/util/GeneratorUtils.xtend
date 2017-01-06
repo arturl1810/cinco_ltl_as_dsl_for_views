@@ -37,6 +37,7 @@ import org.eclipse.graphiti.features.IResizeFeature
 import org.eclipse.graphiti.features.IUpdateFeature
 
 import static extension de.jabc.cinco.meta.core.utils.CincoUtils.*
+import mgl.ContainingElement
 
 class GeneratorUtils extends APIUtils{
 	val static String ID_CONTAINER = "Containers";
@@ -73,11 +74,15 @@ class GeneratorUtils extends APIUtils{
 		me.name.toFirstUpper
 	}
 	
-	def fuCName(ModelElement me) {
+	dispatch def fuCName(Type me) {
 		"C"+me.name.toFirstUpper
 	}
 	
-	def fuCImplName(ModelElement me) {
+	dispatch def fuCName(ContainingElement me) {
+		"C"+me.name.toFirstUpper
+	}
+	
+	def fuCImplName(Type me) {
 		"C"+me.name.toFirstUpper+"Impl"
 	}
 	
