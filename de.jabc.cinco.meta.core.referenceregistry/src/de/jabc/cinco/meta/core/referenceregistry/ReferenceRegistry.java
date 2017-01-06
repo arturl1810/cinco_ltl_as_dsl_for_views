@@ -129,20 +129,15 @@ public class ReferenceRegistry {
 			bo = res.getEObject(key);
 		} else {
 			if (!refreshedOnStartup) {
+				reinitializeOnStartup(ResourcesPlugin.getWorkspace().getRoot());
+			} else {
 				reinitialize(ResourcesPlugin.getWorkspace().getRoot());
-				refreshedOnStartup = true;
-				if (reinitJob != null) {
-					try {
-						reinitJob.join();
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+				if (reinitJob != null) try {
+					reinitJob.join();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
 				}
-					
 			}
-			// Reinitialized but currentProject not set
-//			if (refreshedOnStartup && currentProject == null) 
 			bo = searchInAllMaps(key);
 			
 			if (bo != null) {
@@ -481,6 +476,30 @@ public class ReferenceRegistry {
 		  	})
 		  .schedule();
 		return reinitJob;
+	}
+	
+	public void reinitializeOnStartup(IContainer container) {
+		System.err.println("Reinitializing Reference Registry on startup...");
+		
+		long debugTime = System.currentTimeMillis();
+		
+		initKnownFileExtensions();
+		List<IFile> files = new ArrayList<>();
+		Map<String,EObject> objectsById = new HashMap<>();
+		Map<IProject,Set<String>> idsByProject = new HashMap<>();
+		
+		clearRegistry();
+		collectFiles(container, files);
+		files.forEach(file -> extractIds(file, idsByProject, objectsById));
+		idsByProject.entrySet().forEach(e -> registerObjects(e.getKey(), e.getValue(), objectsById));
+		setCurrentProject();
+		save();
+		
+		System.out.println(String.format(
+				"Registry map created. This took %s of your lifetime.",
+				"" + (System.currentTimeMillis() - debugTime) + " ms"));
+		
+		refreshedOnStartup = true;
 	}
 	
 	private void registerObjects(IProject project, Iterable<String> ids, Map<String,EObject> objectsById) {
