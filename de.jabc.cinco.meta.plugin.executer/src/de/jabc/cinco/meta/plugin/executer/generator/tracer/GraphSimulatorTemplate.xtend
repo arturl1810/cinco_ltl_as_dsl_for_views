@@ -109,9 +109,9 @@ class GraphSimulatorTemplate extends MainTemplate {
 			 */
 			List<Match> initializingStateMatches = getMatches(levelDefinition.getCInitializings(),ltsMatch);
 			
-			if(initializingStateMatches.isEmpty()){
-				return null;
-			}
+«««			if(initializingStateMatches.isEmpty()){
+«««				return null;
+«««			}
 			
 			ltsMatch.setAbstractStartStates(initializingStateMatches);
 			

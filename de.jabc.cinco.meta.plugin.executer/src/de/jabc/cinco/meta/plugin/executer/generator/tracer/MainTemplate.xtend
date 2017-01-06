@@ -45,6 +45,9 @@ abstract class MainTemplate {
 	def String getSourceApiPackage(ExecutableGraphmodel graphmodel){
 		return graphmodel.graphModel.package+"."+graphmodel.graphModel.name.toLowerCase;
 	}
+	def String getSourceGraphitiPackage(ExecutableGraphmodel graphmodel){
+		return graphmodel.graphModel.package+".graphiti";
+	}
 	
 	def String getApiPackage(ExecutableGraphmodel graphmodel){
 		return graphmodel.graphModel.package+".esdsl."+graphmodel.graphModel.name.toLowerCase+"es";
