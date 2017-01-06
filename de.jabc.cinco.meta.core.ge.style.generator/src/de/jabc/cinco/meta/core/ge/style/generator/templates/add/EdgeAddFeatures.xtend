@@ -1,10 +1,10 @@
 package de.jabc.cinco.meta.core.ge.style.generator.templates.add
 
 import com.sun.el.ExpressionFactoryImpl
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoAbstractAddFeature
 import de.jabc.cinco.meta.core.ge.style.generator.templates.LayoutFeatureTmpl
 import de.jabc.cinco.meta.core.ge.style.generator.templates.util.GeneratorUtils
 import de.jabc.cinco.meta.core.ge.style.generator.templates.util.StyleUtils
-import de.jabc.cinco.meta.core.ge.style.model.features.CincoAbstractAddFeature
 import de.jabc.cinco.meta.core.utils.CincoUtils
 import graphmodel.ModelElementContainer
 import mgl.Edge

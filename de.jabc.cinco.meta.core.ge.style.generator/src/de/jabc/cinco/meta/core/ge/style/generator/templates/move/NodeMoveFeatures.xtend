@@ -1,8 +1,9 @@
 package de.jabc.cinco.meta.core.ge.style.generator.templates.move
 
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.errorhandling.ECincoError
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoMoveShapeFeature
 import de.jabc.cinco.meta.core.ge.style.generator.templates.util.GeneratorUtils
-import de.jabc.cinco.meta.core.ge.style.model.errorhandling.ECincoError
-import de.jabc.cinco.meta.core.ge.style.model.features.CincoMoveShapeFeature
+import de.jabc.cinco.meta.core.utils.CincoUtils
 import graphmodel.Container
 import graphmodel.Edge
 import graphmodel.ModelElementContainer
@@ -10,7 +11,6 @@ import java.util.HashSet
 import mgl.Node
 import org.eclipse.graphiti.features.IFeatureProvider
 import org.eclipse.graphiti.features.context.IMoveShapeContext
-import de.jabc.cinco.meta.core.utils.CincoUtils
 import style.Styles
 
 class NodeMoveFeatures extends GeneratorUtils{

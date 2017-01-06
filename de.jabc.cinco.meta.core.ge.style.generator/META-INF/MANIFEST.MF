@@ -32,12 +32,13 @@ Require-Bundle: org.eclipse.ui,
  javax.el;bundle-version="2.2.0",
  de.jabc.cinco.meta.productdefinition.model;bundle-version="0.7.0",
  de.jabc.cinco.meta.core.ui;bundle-version="0.7.0",
- de.jabc.cinco.meta.core.ge.style.model;bundle-version="0.7.0"
+ de.jabc.cinco.meta.core.ge.style.model;bundle-version="0.7.0",
+ de.jabc.cinco.meta.core.ge.style.generator.runtime
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
-Import-Package: de.jabc.cinco.meta.core.ge.style.model.errorhandling,
- de.jabc.cinco.meta.core.ge.style.model.features,
- de.jabc.cinco.meta.core.ge.style.model.provider,
+Import-Package: de.jabc.cinco.meta.core.ge.style.generator.runtime.errorhandling,
+ de.jabc.cinco.meta.core.ge.style.generator.runtime.features,
+ de.jabc.cinco.meta.core.ge.style.generator.runtime.provider,
  de.jabc.cinco.meta.core.ui.features,
  de.jabc.cinco.meta.core.utils.projects,
  org.eclipse.graphiti.ui.features,

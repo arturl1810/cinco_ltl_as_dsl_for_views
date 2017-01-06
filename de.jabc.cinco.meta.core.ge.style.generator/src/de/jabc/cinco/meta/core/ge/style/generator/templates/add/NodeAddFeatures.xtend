@@ -1,7 +1,6 @@
 package de.jabc.cinco.meta.core.ge.style.generator.templates.add
 
 import de.jabc.cinco.meta.core.ge.style.generator.templates.util.StyleUtils
-import de.jabc.cinco.meta.core.ge.style.model.features.CincoAbstractAddFeature
 import de.jabc.cinco.meta.core.utils.CincoUtils
 import graphmodel.ModelElementContainer
 import mgl.Node
@@ -19,6 +18,7 @@ import style.Styles
 import org.eclipse.graphiti.features.context.impl.CreateContext
 import org.eclipse.graphiti.features.context.impl.AddContext
 import de.jabc.cinco.meta.core.referenceregistry.ReferenceRegistry
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoAbstractAddFeature
 
 class NodeAddFeatures extends StyleUtils {
 	

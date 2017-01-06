@@ -27,7 +27,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.xtext.util,
  org.eclipse.emf.transaction,
  de.jabc.cinco.meta.core.referenceregistry,
- de.jabc.cinco.meta.productdefinition.model
+ de.jabc.cinco.meta.productdefinition.model,
+ de.jabc.cinco.meta.core.ge.style.generator.runtime
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Import-Package: de.jabc.cinco.meta.core.ui.features,

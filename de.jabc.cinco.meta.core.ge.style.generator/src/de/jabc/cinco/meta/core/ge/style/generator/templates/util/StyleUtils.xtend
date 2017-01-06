@@ -1,12 +1,12 @@
 package de.jabc.cinco.meta.core.ge.style.generator.templates.util
 
 import com.sun.el.ExpressionFactoryImpl
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoAbstractResizeFeature
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoLayoutFeature
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoResizeFeature
 import de.jabc.cinco.meta.core.ge.style.generator.templates.LayoutFeatureTmpl
-import de.jabc.cinco.meta.core.ge.style.model.features.CincoAbstractResizeFeature
-import de.jabc.cinco.meta.core.ge.style.model.features.CincoLayoutFeature
-import de.jabc.cinco.meta.core.ge.style.model.features.CincoResizeFeature
-import de.jabc.cinco.meta.core.utils.CincoUtils
 import java.util.LinkedList
+import mgl.Edge
 import mgl.Node
 import org.eclipse.emf.common.util.EList
 import org.eclipse.emf.ecore.util.EcoreUtil
@@ -31,11 +31,7 @@ import style.Polyline
 import style.Rectangle
 import style.RoundedRectangle
 import style.StyleFactory
-import style.Styles
 import style.Text
-import mgl.Edge
-import style.ConnectionDecorator
-import style.GraphicsAlgorithm
 
 class StyleUtils extends GeneratorUtils {
 
@@ -135,7 +131,7 @@ class StyleUtils extends GeneratorUtils {
 	'''
 	
 	/**
-	 * This method writes the {@link org.eclipse.graphiti.mm.pictograms.Shape} initialization code.
+	 * This method writes the {@link Shape} initialization code.
 	 * 
 	 * @param s The {@link style.Shape} for which the Graphiti code should be generated
 	 * @param peName The ContainerShape's name

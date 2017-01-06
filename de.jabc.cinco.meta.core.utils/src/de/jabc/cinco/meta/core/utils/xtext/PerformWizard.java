@@ -12,15 +12,15 @@ import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 
-import de.jabc.cinco.meta.core.ge.style.model.customfeature.CincoCustomAction;
-import de.jabc.cinco.meta.core.ge.style.model.customfeature.CincoDoubleClickAction;
-import de.jabc.cinco.meta.core.ge.style.model.customfeature.CincoPostCreateHook;
-import de.jabc.cinco.meta.core.ge.style.model.customfeature.CincoPostMoveHook;
-import de.jabc.cinco.meta.core.ge.style.model.customfeature.CincoPostResizeHook;
-import de.jabc.cinco.meta.core.ge.style.model.customfeature.CincoPostSelectHook;
-import de.jabc.cinco.meta.core.ge.style.model.customfeature.CincoPostValueChangeListener;
-import de.jabc.cinco.meta.core.ge.style.model.customfeature.CincoPreDeleteHook;
-import de.jabc.cinco.meta.core.ge.style.model.customfeature.CincoValuesProvider;
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.customfeature.CincoCustomAction;
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.customfeature.CincoDoubleClickAction;
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.customfeature.CincoPostCreateHook;
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.customfeature.CincoPostMoveHook;
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.customfeature.CincoPostResizeHook;
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.customfeature.CincoPostSelectHook;
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.customfeature.CincoPostValueChangeListener;
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.customfeature.CincoPreDeleteHook;
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.customfeature.CincoValuesProvider;
 
 
 

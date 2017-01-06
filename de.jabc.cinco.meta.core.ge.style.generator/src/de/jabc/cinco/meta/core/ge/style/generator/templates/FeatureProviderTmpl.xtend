@@ -1,26 +1,33 @@
 package de.jabc.cinco.meta.core.ge.style.generator.templates
 
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.provider.CincoFeatureProvider
 import de.jabc.cinco.meta.core.ge.style.generator.templates.util.GeneratorUtils
-import de.jabc.cinco.meta.core.ge.style.model.addfeature.LibraryComponentAddFeature
-import de.jabc.cinco.meta.core.ge.style.model.provider.CincoFeatureProvider
+import de.jabc.cinco.meta.core.utils.MGLUtils
 import graphmodel.ModelElement
 import mgl.GraphModel
 import org.eclipse.core.resources.IFile
+import org.eclipse.core.runtime.Assert
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
+import org.eclipse.emf.transaction.RecordingCommand
+import org.eclipse.emf.transaction.TransactionalEditingDomain
 import org.eclipse.graphiti.dt.IDiagramTypeProvider
 import org.eclipse.graphiti.features.IAddFeature
 import org.eclipse.graphiti.features.ICreateConnectionFeature
 import org.eclipse.graphiti.features.ICreateFeature
 import org.eclipse.graphiti.features.IDeleteFeature
+import org.eclipse.graphiti.features.IFeature
+import org.eclipse.graphiti.features.IFeatureProvider
 import org.eclipse.graphiti.features.ILayoutFeature
 import org.eclipse.graphiti.features.IMoveShapeFeature
 import org.eclipse.graphiti.features.IReconnectionFeature
 import org.eclipse.graphiti.features.IResizeShapeFeature
 import org.eclipse.graphiti.features.IUpdateFeature
 import org.eclipse.graphiti.features.context.IAddContext
+import org.eclipse.graphiti.features.context.IContext
+import org.eclipse.graphiti.features.context.ICreateContext
 import org.eclipse.graphiti.features.context.ICustomContext
 import org.eclipse.graphiti.features.context.IDeleteContext
 import org.eclipse.graphiti.features.context.ILayoutContext
@@ -32,14 +39,7 @@ import org.eclipse.graphiti.features.context.impl.AddContext
 import org.eclipse.graphiti.features.custom.ICustomFeature
 import org.eclipse.graphiti.mm.pictograms.PictogramElement
 import org.eclipse.graphiti.ui.features.DefaultFeatureProvider
-import de.jabc.cinco.meta.core.utils.MGLUtils
-import org.eclipse.graphiti.features.IFeature
-import org.eclipse.graphiti.features.context.IContext
-import org.eclipse.emf.transaction.TransactionalEditingDomain
-import org.eclipse.core.runtime.Assert
-import org.eclipse.emf.transaction.RecordingCommand
-import org.eclipse.graphiti.features.context.ICreateContext
-import org.eclipse.graphiti.features.IFeatureProvider
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.addfeature.LibraryComponentAddFeature
 
 class FeatureProviderTmpl extends GeneratorUtils{
 	

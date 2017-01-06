@@ -1,7 +1,7 @@
 package de.jabc.cinco.meta.core.ge.style.generator.templates
 
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.createfeature.CincoCreateFeature
 import de.jabc.cinco.meta.core.ge.style.generator.templates.util.GeneratorUtils
-import de.jabc.cinco.meta.core.ge.style.model.createfeature.CincoCreateFeature
 import graphicalgraphmodel.CModelElementContainer
 import graphmodel.ModelElementContainer
 import java.util.ArrayList

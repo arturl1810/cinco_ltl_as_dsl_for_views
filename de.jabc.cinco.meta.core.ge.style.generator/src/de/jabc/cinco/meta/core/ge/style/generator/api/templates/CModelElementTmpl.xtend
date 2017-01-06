@@ -8,7 +8,6 @@ import de.jabc.cinco.meta.core.utils.MGLUtils
 import org.eclipse.graphiti.features.context.impl.CreateContext
 import org.eclipse.graphiti.mm.pictograms.ContainerShape
 import org.eclipse.graphiti.features.IFeatureProvider
-import de.jabc.cinco.meta.core.ge.style.model.provider.CincoFeatureProvider
 import org.eclipse.graphiti.mm.pictograms.PictogramElement
 import org.eclipse.graphiti.mm.pictograms.Diagram
 import org.eclipse.graphiti.ui.services.GraphitiUi
@@ -19,6 +18,7 @@ import mgl.Node
 import org.eclipse.graphiti.features.context.impl.CreateConnectionContext
 import mgl.ReferencedModelElement
 import org.eclipse.emf.ecore.EObject
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.provider.CincoFeatureProvider
 
 class CModelElementTmpl extends GeneratorUtils {
 	

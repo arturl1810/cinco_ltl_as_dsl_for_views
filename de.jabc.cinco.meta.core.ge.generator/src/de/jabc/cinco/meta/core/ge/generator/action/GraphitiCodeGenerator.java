@@ -1,12 +1,5 @@
 package de.jabc.cinco.meta.core.ge.generator.action;
 
-import graphicalgraphmodel.CContainer;
-import graphicalgraphmodel.CGraphModel;
-import graphicalgraphmodel.CModelElement;
-import graphicalgraphmodel.CModelElementContainer;
-import graphicalgraphmodel.GraphicalgraphmodelPackage;
-import graphmodel.GraphmodelPackage;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -21,15 +14,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.jar.Manifest;
-
-import mgl.Annotation;
-import mgl.Edge;
-import mgl.GraphModel;
-import mgl.GraphicalModelElement;
-import mgl.IncomingEdgeElementConnection;
-import mgl.Node;
-import mgl.NodeContainer;
-import mgl.OutgoingEdgeElementConnection;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
@@ -97,27 +81,16 @@ import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 
-import style.AbstractShape;
-import style.Appearance;
-import style.ConnectionDecorator;
-import style.ContainerShape;
-import style.EdgeStyle;
-import style.GraphicsAlgorithm;
-import style.Image;
-import style.NodeStyle;
-import style.Style;
-import style.Styles;
-import productDefinition.CincoProduct;
 import de.jabc.cinco.meta.core.ge.generator.Main;
 import de.jabc.cinco.meta.core.ge.generator.templates.FileExtensionContent;
-import de.jabc.cinco.meta.core.ge.style.model.errorhandling.CincoContainerCardinalityException;
-import de.jabc.cinco.meta.core.ge.style.model.errorhandling.CincoEdgeCardinalityInException;
-import de.jabc.cinco.meta.core.ge.style.model.errorhandling.CincoEdgeCardinalityOutException;
-import de.jabc.cinco.meta.core.ge.style.model.errorhandling.CincoInvalidCloneTargetException;
-import de.jabc.cinco.meta.core.ge.style.model.errorhandling.CincoInvalidContainerException;
-import de.jabc.cinco.meta.core.ge.style.model.errorhandling.CincoInvalidSourceException;
-import de.jabc.cinco.meta.core.ge.style.model.errorhandling.CincoInvalidTargetException;
-import de.jabc.cinco.meta.core.ge.style.model.errorhandling.ECincoError;
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.errorhandling.CincoContainerCardinalityException;
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.errorhandling.CincoEdgeCardinalityInException;
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.errorhandling.CincoEdgeCardinalityOutException;
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.errorhandling.CincoInvalidCloneTargetException;
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.errorhandling.CincoInvalidContainerException;
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.errorhandling.CincoInvalidSourceException;
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.errorhandling.CincoInvalidTargetException;
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.errorhandling.ECincoError;
 import de.jabc.cinco.meta.core.ge.style.model.preprocessors.StylesPreprocessor;
 import de.jabc.cinco.meta.core.mgl.generator.GenModelCreator;
 import de.jabc.cinco.meta.core.pluginregistry.PluginRegistry;
@@ -130,6 +103,31 @@ import de.metaframe.jabc.framework.execution.DefaultLightweightExecutionEnvironm
 import de.metaframe.jabc.framework.execution.LightweightExecutionEnvironment;
 import de.metaframe.jabc.framework.execution.context.DefaultLightweightExecutionContext;
 import de.metaframe.jabc.framework.execution.context.LightweightExecutionContext;
+import graphicalgraphmodel.CContainer;
+import graphicalgraphmodel.CGraphModel;
+import graphicalgraphmodel.CModelElement;
+import graphicalgraphmodel.CModelElementContainer;
+import graphicalgraphmodel.GraphicalgraphmodelPackage;
+import graphmodel.GraphmodelPackage;
+import mgl.Annotation;
+import mgl.Edge;
+import mgl.GraphModel;
+import mgl.GraphicalModelElement;
+import mgl.IncomingEdgeElementConnection;
+import mgl.Node;
+import mgl.NodeContainer;
+import mgl.OutgoingEdgeElementConnection;
+import productDefinition.CincoProduct;
+import style.AbstractShape;
+import style.Appearance;
+import style.ConnectionDecorator;
+import style.ContainerShape;
+import style.EdgeStyle;
+import style.GraphicsAlgorithm;
+import style.Image;
+import style.NodeStyle;
+import style.Style;
+import style.Styles;
 
 public class GraphitiCodeGenerator extends AbstractHandler {
 
