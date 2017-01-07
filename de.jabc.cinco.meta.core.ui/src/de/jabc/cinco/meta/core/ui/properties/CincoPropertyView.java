@@ -503,7 +503,7 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 			combo.setLayoutData(textLayoutData);
 			ComboViewer cv = new ComboViewer(combo);
 			cv.setContentProvider(new ArrayContentProvider());
-			cv.setLabelProvider(getNameLabelProvider());
+			cv.setLabelProvider(getSpecialLabelProvider());
 			
 			List<Object> input = new ArrayList<Object>();
 			Map<? extends Object, String> possibleValues = possibleValuesMap.get(attr);
@@ -678,6 +678,49 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 					return "No name set for: " + super.getText(element);
 				}
 				return name;
+			}
+
+			private String getAlternativeLabel(Object element) {
+				for (Map<? extends Object, String> map : possibleValuesMap.values()) {
+					if (map.containsKey(element))
+						return map.get(element);
+				}
+				return null;
+			}
+
+			private EStructuralFeature getNameFeature(EObject element) {
+				return element.eClass().getEStructuralFeature("name");
+			}
+		};
+	}
+	
+	/**
+	 * This class is a temporary solution since the {@link #getNameLabelProvider()} could not
+	 * retrieve the display names for possibleValues of primitive attributes.
+	 * 
+	 * FIXME: Provide a nice solution
+	 * @return
+	 */
+	private LabelProvider getSpecialLabelProvider() {
+		return new LabelProvider() {
+			@Override
+			public String getText(Object element) {
+				Object eObject = (Object) element;
+				String alternativeLabel = getAlternativeLabel(element);
+				if (alternativeLabel != null && !alternativeLabel.isEmpty()) {
+					return alternativeLabel;
+				}
+//				EStructuralFeature nameFeature = getNameFeature(eObject);
+//				if (nameFeature == null)
+//					return super.getText(element);
+//				String name = (String) eObject.eGet(nameFeature);
+//				if (name == null) {
+//					return "Name attribute has value null..." + super.getText(element);
+//				}
+//				if (name.isEmpty()) {
+//					return "No name set for: " + super.getText(element);
+//				}
+				return "ERROR";
 			}
 
 			private String getAlternativeLabel(Object element) {
