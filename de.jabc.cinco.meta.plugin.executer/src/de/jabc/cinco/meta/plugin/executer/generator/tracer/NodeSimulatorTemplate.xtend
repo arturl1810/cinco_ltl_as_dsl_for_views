@@ -21,12 +21,15 @@ class NodeSimulatorTemplate extends MainTemplate {
 	import java.util.Map;
 	import java.util.Set;
 	
+	import org.eclipse.graphiti.mm.pictograms.Diagram;
+	
 	import graphicalgraphmodel.CModelElement;
 	import graphicalgraphmodel.CNode;
 	import «graphmodel.CApiPackage».CMetaLevel;
 	import «graphmodel.CApiPackage».CPattern;
 	import «graphmodel.CApiPackage».C«graphmodel.graphModel.name»ES;
 	import «graphmodel.apiPackage».MetaLevel;
+	import «graphmodel.sourceGraphitiPackage».«graphmodel.modelElement.name»Wrapper;
 	import «graphmodel.tracerPackage».match.model.Match;
 	import «graphmodel.tracerPackage».match.model.LTSMatch;
 	
@@ -98,7 +101,9 @@ class NodeSimulatorTemplate extends MainTemplate {
 			CMetaLevel cMetaLevel = (CMetaLevel) this.patternGraph.getModelElements().stream().filter(n->n.getModelElement().getId().equals(level.getId())).findFirst().get();
 			
 			«graphmodel.sourceApiPackage».«n.name» startNode = («graphmodel.sourceApiPackage».«n.name») startGraphNode.getModelElement();
-			«graphmodel.sourceCApiPackage».C«n.primeAttrType» reference = («graphmodel.sourceCApiPackage».C«n.primeAttrType») startGraphNode.getCRootElement().getAllCNodes().stream().filter(n->n.getModelElement().getId().equals(startNode.get«n.primeAttrName.toFirstUpper»().getId())).findFirst().get();
+			«graphmodel.sourceCApiPackage».C«graphmodel.modelElement.name» graphModel = «graphmodel.modelElement.name»Wrapper.wrapGraphModel(startNode.getProcedure().getRootElement(), (Diagram) startNode.get«n.primeAttrName.toFirstUpper»().getRootElement().eResource().getContents().get(0));
+					
+			«graphmodel.sourceCApiPackage».C«n.primeAttrType» reference = («graphmodel.sourceCApiPackage».C«n.primeAttrType») graphModel.getAllCNodes().stream().filter(n->n.getModelElement().getId().equals(startNode.get«n.primeAttrName.toFirstUpper»().getId())).findFirst().get();
 			
 			LTSMatch lts = graphSimulator.simulateLTS(cMetaLevel,startGraphNode.getCRootElement(),reference);
 			
