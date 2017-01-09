@@ -172,8 +172,10 @@ class CollectionExtensions {
 	 * @param associator a lambda expression for establishing an association 
 	 * 	between a node and the node to be deleted.
 	 */
-	public static def <T> deleteByAssociation(Seq<T> seq, (T) => T associator) {		
-		deleteByAssociatedElements(seq, [Seq.of(associator.apply(it))])
+	public static def <T> removeByAssociation(Seq<T> seq, (T) => T associator) {		
+		seq.removeByAssociatedElements[
+			Seq.of(associator.apply(it))
+		]
 	}
 	
 	/**
@@ -188,7 +190,7 @@ class CollectionExtensions {
 	 * @param associator a lambda expression for establishing an association 
 	 * 	between a node and the node to be deleted.
 	 */
-	public static def <T> deleteByAssociatedElements(Seq<T> seq, (T) => Seq<T> associator) {		
+	public static def <T> removeByAssociatedElements(Seq<T> seq, (T) => Seq<T> associator) {		
 		val dupe = seq.duplicate
 		val deleteItems = dupe.v1.flatMap[associator.apply(it)].distinct
 		dupe.v2.removeAll(deleteItems)
