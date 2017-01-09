@@ -159,4 +159,38 @@ class CollectionExtensions {
 	static def <T> match(Seq<T> seq, (T) => boolean predicate) {
 		seq.partition(predicate)
 	}
+	
+	/**
+	 * Removes elements that have a given association to an element. This method can be used e.g. 
+	 * to lazily delete all but leaf nodes from a tree like this:
+	 * 
+	 * <pre>
+	 * treeNodes.seq.deleteByAssociation[parent].toList
+	 * </pre>
+	 * 
+	 * @param seq the sequence to filter.
+	 * @param associator a lambda expression for establishing an association 
+	 * 	between a node and the node to be deleted.
+	 */
+	public static def <T> deleteByAssociation(Seq<T> seq, (T) => T associator) {		
+		deleteByAssociatedElements(seq, [Seq.of(associator.apply(it))])
+	}
+	
+	/**
+	 * Removes elements that have the given associated elements. This method can be used e.g. 
+	 * to lazily delete all but leaf nodes from a tree like this:
+	 * 
+	 * <pre>
+	 * treeNodes.seq.deleteByAssociation[Seq.of(parent)].toList
+	 * </pre>
+	 * 
+	 * @param seq the sequence to filter.
+	 * @param associator a lambda expression for establishing an association 
+	 * 	between a node and the node to be deleted.
+	 */
+	public static def <T> deleteByAssociatedElements(Seq<T> seq, (T) => Seq<T> associator) {		
+		val dupe = seq.duplicate
+		val deleteItems = dupe.v1.flatMap[associator.apply(it)].distinct
+		dupe.v2.removeAll(deleteItems)
+	}
 }
