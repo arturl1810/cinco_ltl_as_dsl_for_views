@@ -67,8 +67,8 @@ public class NewGraphitiCodeGenerator extends AbstractHandler{
 		GraphitiGeneratorMain editorGenerator = new GraphitiGeneratorMain(graphModel,cpdFile, CincoUtils.getStyles(graphModel));
 		editorGenerator.doGenerate(project);
 		
-		CincoApiGeneratorMain apiGenerator = new CincoApiGeneratorMain(graphModel);
-		apiGenerator.doGenerate(project);
+//		CincoApiGeneratorMain apiGenerator = new CincoApiGeneratorMain(graphModel);
+//		apiGenerator.doGenerate(project);
 		
 		return null;
 	}
@@ -113,6 +113,7 @@ public class NewGraphitiCodeGenerator extends AbstractHandler{
 		bundles.add(Platform.getBundle("de.jabc.cinco.meta.core.wizards"));
 		bundles.add(Platform.getBundle("javax.el"));
 		bundles.add(Platform.getBundle("com.sun.el"));
+		bundles.add(Platform.getBundle("de.jabc.cinco.meta.core.ge.style.generator.runtime"));
 		Set<String> retval = bundles.stream().filter(b -> b != null).map(b -> b.getSymbolicName()).collect(Collectors.toSet());
 		retval.add(graphModel.getPackage());
 		return retval;

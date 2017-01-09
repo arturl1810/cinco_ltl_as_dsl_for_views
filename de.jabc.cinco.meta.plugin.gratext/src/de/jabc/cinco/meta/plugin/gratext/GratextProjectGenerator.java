@@ -491,7 +491,8 @@ public class GratextProjectGenerator extends ProjectGenerator {
 			"de.jabc.cinco.meta.core.mgl.model",
 			"de.jabc.cinco.meta.core.utils",
 			"de.jabc.cinco.meta.plugin.gratext.runtime",
-			"de.jabc.cinco.meta.core.ge.style.model"
+			"de.jabc.cinco.meta.core.ge.style.model",
+			"de.jabc.cinco.meta.core.ge.style.generator.runtime"
 		}));
 	}
 	

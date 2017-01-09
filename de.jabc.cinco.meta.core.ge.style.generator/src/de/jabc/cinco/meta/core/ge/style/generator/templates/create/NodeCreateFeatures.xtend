@@ -18,7 +18,7 @@ class NodeCreateFeatures extends GeneratorUtils{
 	def doGenerateNodeCreateFeature(Node n,Styles styles) '''
 	package «n.packageNameCreate»;
 	
-	public class CreateFeature«n.fuName» extends de.jabc.cinco.meta.core.ge.style.model.createfeature.CincoCreateFeature<«ModelElement.name»>{
+	public class CreateFeature«n.fuName» extends  de.jabc.cinco.meta.core.ge.style.generator.runtime.createfeature.CincoCreateFeature<graphmodel.ModelElement>{
 		
 		private «ECincoError.name» error = «ECincoError.name».OK;
 		

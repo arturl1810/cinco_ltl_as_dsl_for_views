@@ -2,7 +2,6 @@ package de.jabc.cinco.meta.core.ge.style.generator.templates.delete
 
 import de.jabc.cinco.meta.core.ge.style.generator.templates.util.GeneratorUtils
 import mgl.Node
-import de.jabc.cinco.meta.core.ui.features.CincoDeleteFeature
 import org.eclipse.graphiti.features.IFeatureProvider
 import org.eclipse.graphiti.features.context.IDeleteContext
 import org.eclipse.graphiti.mm.pictograms.PictogramElement
@@ -10,6 +9,7 @@ import org.eclipse.emf.ecore.EObject
 import org.eclipse.graphiti.services.Graphiti
 import de.jabc.cinco.meta.core.utils.CincoUtils
 import style.Styles
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoDeleteFeature
 
 class NodeDeleteFeatures extends GeneratorUtils{
 	
