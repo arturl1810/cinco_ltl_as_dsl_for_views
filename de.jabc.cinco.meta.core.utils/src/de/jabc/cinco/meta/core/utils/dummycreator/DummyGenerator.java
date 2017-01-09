@@ -1,5 +1,6 @@
 package de.jabc.cinco.meta.core.utils.dummycreator;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 
@@ -23,7 +24,9 @@ import style.StyleFactory;
 import style.Styles;
 import mgl.Annotation;
 import mgl.Attribute;
+import mgl.ComplexAttribute;
 import mgl.ContainingElement;
+import mgl.EDataTypeType;
 import mgl.Edge;
 import mgl.GraphModel;
 import mgl.GraphicalElementContainment;
@@ -34,7 +37,9 @@ import mgl.MglFactory;
 import mgl.Node;
 import mgl.NodeContainer;
 import mgl.OutgoingEdgeElementConnection;
+import mgl.PrimitiveAttribute;
 //import mgl.ReferencedEClass;
+import mgl.Type;
 
 public class DummyGenerator {
 
@@ -44,7 +49,7 @@ public class DummyGenerator {
 		setGraphModelAttributes(gm);
 
 		Node n1 = createNode("Start");
-		n1.getAttributes().add(createAttribute("EString", "label", 1, 0));
+		n1.getAttributes().add(createAttribute("EString", "label", 1, 0,gm));
 		n1.getAnnotations().add(createStyleAnnotation("circle"));
 		
 //		ReferencedEClass n2 = createRefEClass("ExtNode");
@@ -129,7 +134,7 @@ public class DummyGenerator {
 		Node someNode = createNode("SomeNode");
 		Node someOtherNode = createNode("SomeOtherNode");
 		NodeContainer someNodeContainer = createContainer("SomeContainer");
-		someNode.getAttributes().add(createAttribute("EString", "label", -1,0));
+		someNode.getAttributes().add(createAttribute("EString", "label", -1,0,gm));
 		someNode.getIncomingEdgeConnections().add(createIEEC(-1, 0, transition));
 		someNode.getOutgoingEdgeConnections().add(createOEEC(-1, 0, transition));
 		//someNode.getAnnotations().add(createStyleAnnotation("ffjfjf"));
@@ -216,10 +221,27 @@ public class DummyGenerator {
 		return e;
 	}
 	
-	private static Attribute createAttribute(String type, String name, int upper, int lower) {
-		Attribute a = MglFactory.eINSTANCE.createAttribute();
+	private static Attribute createAttribute(String type, String name, int upper, int lower, GraphModel model) {
+		Attribute a = null;
+		if(Arrays.asList(EDataTypeType.values()).contains(name)){
+			a = MglFactory.eINSTANCE.createPrimitiveAttribute();
+			((PrimitiveAttribute)a).setType(EDataTypeType.valueOf(type));
+		}else{
+			a = MglFactory.eINSTANCE.createComplexAttribute();
+			ArrayList<Type> types = new ArrayList<>();
+			types.addAll(model.getTypes());
+			types.addAll(model.getEdges());
+			types.addAll(model.getNodes());
+			for(Type t: types){
+				if(t.getName().equals(type)){
+					((ComplexAttribute) a).setType(t);
+				}
+					
+			}
+			
+		}
+		
 		a.setName(name);
-		a.setType(type);
 		a.setUpperBound(upper);
 		a.setLowerBound(lower);
 		return a;

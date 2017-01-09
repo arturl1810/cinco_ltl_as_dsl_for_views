@@ -188,8 +188,8 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 	}
 	
 	private void generateGraphitiEditor(IFile mglFile) {
-		execute("de.jabc.cinco.meta.core.ge.generator.generateeditorcommand");
 		execute("de.jabc.cinco.meta.core.ge.style.generator.newgraphitigenerator");
+
 	}
 	
 	private void generateApi(IFile mglFile) {
@@ -289,7 +289,7 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 		IProject project = cpdFile.getProject();
 		ArrayList<Tuple<String,List<String>>> unsorted = new ArrayList<>();
 		HashMap<String,Integer> mglPrios = new HashMap<>();
-		List<DependencyNode> dns = new ArrayList<DependencyNode>();
+		List<DependencyNode<String>> dns = new ArrayList<DependencyNode<String>>();
 		List<String> stacked = new ArrayList<>();
 		for(MGLDescriptor mgl: cpd.getMgls()){
 			String mglPath = mgl.getMglPath();
@@ -302,7 +302,7 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 					if(eObj instanceof GraphModel){
 						GraphModel gm = (GraphModel)eObj;
 						String projectSymbolicName = ProjectCreator.getProjectSymbolicName(project);
-						DependencyNode dn = new DependencyNode(gm.eResource().getURI().toPlatformString(true).replace("/"+projectSymbolicName,""));
+						DependencyNode<String> dn = new DependencyNode<String>(gm.eResource().getURI().toPlatformString(true).replace("/"+projectSymbolicName,""));
 						//ArrayList<String> before = new ArrayList<String>();
 						for(Import imprt : gm.getImports()){
 							if(imprt.getImportURI().endsWith(".mgl")){
@@ -328,7 +328,7 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 			}
 			
 		}
-		DependencyGraph dg = DependencyGraph.createGraph(dns,stacked);
+		DependencyGraph<String> dg = new DependencyGraph<String>(new ArrayList<>()).createGraph(dns,stacked);
 		mgls = dg.topSort().stream().map(path -> cpdFile.getProject().getFile(path)).collect(Collectors.toList());
 		return mgls;
 		//HashMap<String,Integer> mglPrios = new HashMap<>();

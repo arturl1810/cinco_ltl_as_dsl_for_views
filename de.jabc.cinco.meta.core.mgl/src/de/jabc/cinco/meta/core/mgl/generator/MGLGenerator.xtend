@@ -9,10 +9,12 @@ import de.jabc.cinco.meta.core.utils.projects.ProjectCreator
 import de.metaframe.jabc.framework.execution.DefaultLightweightExecutionEnvironment
 import de.metaframe.jabc.framework.execution.context.DefaultLightweightExecutionContext
 import de.metaframe.jabc.framework.execution.context.LightweightExecutionContext
+import graphmodel.GraphmodelPackage
 import java.io.ByteArrayOutputStream
 import java.util.ArrayList
 import java.util.Arrays
 import java.util.HashMap
+import java.util.HashSet
 import java.util.Set
 import mgl.ContainingElement
 import mgl.GraphModel
@@ -43,6 +45,8 @@ import org.eclipse.xtext.generator.IFileSystemAccess
 import org.eclipse.xtext.generator.IGenerator
 import org.eclipse.xtext.naming.IQualifiedNameProvider
 import transem.utility.helper.Tuple
+import org.eclipse.xtext.util.StringInputStream
+import de.jabc.cinco.meta.core.utils.WorkspaceUtil
 
 class MGLGenerator implements IGenerator {
 	@Inject extension IQualifiedNameProvider
@@ -98,34 +102,52 @@ class MGLGenerator implements IGenerator {
 		var environment = new DefaultLightweightExecutionEnvironment(context)
 		context.put("ExecutionEnvironment",environment)
 		var gdl2ecore = new MGL2Ecore
-		var String x= gdl2ecore.execute(environment);
+		//var String x= gdl2ecore.execute(environment);
+		var x = "default"
+		val altGen = new MGLAlternateGenerator()
+		var ePackage = altGen.generateEcoreModel(model)
+		generateFactory(altGen, model, access)
+		saveEcoreModel(ePackage,model)
 		if(x.equals("default")){
 			
-			var ePackage = context.get("ePackage") as EPackage
+			// var ePackage = context.get("ePackage") as EPackage
 			var ecorePath = "/model/"+model.fullyQualifiedName.toString("/")+".ecore".toFirstUpper
 			
 			
+			
 			var projectPath = new Path(projectName)
-			var genModel = GenModelCreator::createGenModel(new Path(ecorePath),ePackage,projectName, projectID, projectPath)
+			val genModel = GenModelCreator::createGenModel(new Path(ecorePath),ePackage,projectName, projectID, projectPath)
+			genModel.computeMissingUsedGenPackages
 			if(model.package!=null && model.package.length>0){
 				for(genPackage: genModel.genPackages){
 					genPackage.basePackage = model.package
 				}
 			
 			}
-			var usedEcoreModels = context.get("usedEcoreModels") as Set<EPackage>
-			for(key:usedEcoreModels){
-				var res = new XMIResourceImpl(URI::createURI(genModelMap.get(key))) 
-				res.load(null)
-				for(genPackage:res.allContents.toIterable.filter(typeof(GenPackage))){
-					
-					genModel.usedGenPackages += genPackage	
+			
+			var usedEcoreModels = new HashSet<EPackage>
+			
+			
+			val otherEcoreModels = context.get("usedEcoreModels") as Set<EPackage>
+			if(otherEcoreModels!=null)
+				usedEcoreModels += otherEcoreModels
+			
+			if(!usedEcoreModels.nullOrEmpty){ 
+				for(key:usedEcoreModels){
+					var res = new XMIResourceImpl(URI::createURI(genModelMap.get(key))) 
+					res.load(null)
+					for(genPackage:res.allContents.toIterable.filter(typeof(GenPackage))){
+						
+						genModel.usedGenPackages += genPackage	
+					}
+						
 				}
-					
 			}
 			
-			
-			val referencedMGLEPackages = context.get("referencedMGLEPackages") as Set<EPackage>
+			var referencedMGLEPackages = context.get("referencedMGLEPackages") as Set<EPackage>
+			if(referencedMGLEPackages== null)
+				referencedMGLEPackages = new HashSet<EPackage>
+				
 			for(referencedMGLEPackage: referencedMGLEPackages){
 
 				var genModelPath = referencedMGLEPackage.eResource.URI.trimFileExtension.toString+".genmodel"
@@ -152,7 +174,7 @@ class MGLGenerator implements IGenerator {
 			}
 			
 			
-			saveEcoreModel(ePackage,model)
+			
 			MGLEPackageRegistry.INSTANCE.addMGLEPackage(ePackage)
 			saveGenModel(genModel, model)
 			
@@ -167,6 +189,20 @@ class MGLGenerator implements IGenerator {
 			
 		}
 		
+	}
+	
+	protected def void generateFactory(MGLAlternateGenerator altGen, GraphModel model, IFileSystemAccess access) {
+		val factoryContent = altGen.createFactory(model) 
+		val path = "/src-gen/" + model.package.replaceAll("\\.","/")+"/factory"
+		val name = model.name+"Factory.xtend"
+		val project = ProjectCreator.getProject(model.eResource)
+		
+		val fullPath = path+"/"+name
+		val file = project.getFile(fullPath)
+		if(!file.exists){
+			 WorkspaceUtil.createResource(file,null)	
+		}
+		file.setContents(new StringInputStream(factoryContent.toString),true,true,null)
 	}
 	
 	def saveEcoreModel(EPackage ePackage,GraphModel model) {

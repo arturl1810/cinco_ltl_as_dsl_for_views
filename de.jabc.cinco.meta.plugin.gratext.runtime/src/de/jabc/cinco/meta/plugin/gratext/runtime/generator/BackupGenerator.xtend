@@ -133,7 +133,7 @@ abstract class BackupGenerator<T extends GraphModel> extends GratextGenerator<T>
 	}
 	
 	def edges(Node node) {
-		node.outgoing.map[gratext].join('\n')
+		node.getOutgoing(Edge).map[gratext].join('\n')
 	}
 	
 	def nodes(GraphModel model) {

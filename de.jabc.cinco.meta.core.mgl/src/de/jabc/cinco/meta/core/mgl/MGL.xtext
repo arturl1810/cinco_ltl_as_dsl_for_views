@@ -55,11 +55,42 @@ EString returns ecore::EString:
 	
 EInt returns ecore::EInt:
 	'-'? INT;
+	
+//EDataTypeType returns EDataTypeType:
+//	{EDataTypeType}
+//	EString	
+//;
+
 Attribute returns Attribute:
-	{Attribute}
-	(annotations+=Annotation)*
-	(notChangeable?='final')? (unique?='unique')? 'attr' type=(EString|Map) 'as' name=EString ('[' lowerBound=EInt (',' ((upperBound=BoundValue)))? ']')?  (':=' defaultValue=EString)? 
+	PrimitiveAttribute|ComplexAttribute
+	 
 ;
+
+PrimitiveAttribute returns PrimitiveAttribute:
+	(notChangeable?='final')? (unique?='unique')? 'attr' type=EDataTypeType 'as' name=EString ('[' lowerBound=EInt (',' ((upperBound=BoundValue)))? ']')?  (':=' defaultValue=EString)?
+;
+
+ComplexAttribute returns ComplexAttribute:
+	(notChangeable?='final')? (unique?='unique')? (override?='override')? 'attr' type=[Type|EString] 'as' name=EString ('[' lowerBound=EInt (',' ((upperBound=BoundValue)))? ']')?  (':=' defaultValue=EString)?
+;
+
+enum EDataTypeType returns EDataTypeType:
+
+	 EString 
+	 |EChar
+	 |EFloat
+	 |EBoolean
+	 |EDouble
+	 |EInt
+	 |ELong
+	 |EBigInteger
+	 |EBigDecimal
+	 |EByte
+	 |EShort
+
+;
+
+
 
 GraphicalModelElement:
 	Edge|Node|NodeContainer
@@ -218,3 +249,5 @@ ReferencedEStructuralFeature returns ReferencedEStructuralFeature:
 ReferencedMGLAttribute returns ReferencedMGLAttribute:
 	'primeattr' feature=[Attribute|QName] 'as' name=EString
 ;
+
+

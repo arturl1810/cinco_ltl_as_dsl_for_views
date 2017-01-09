@@ -6,33 +6,34 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 import java.util.Stack;
+import de.jabc.cinco.meta.core.utils.dependency.DependencyNode;
 
-public class DependencyGraph {
-	HashMap<String,DependencyNode> nodes;
-	private List<String> ignore;
+public class DependencyGraph<T> {
+	HashMap<T,DependencyNode<T>> nodes;
+	private List<T> ignore;
 	
-	public DependencyGraph(List<String> ignore){
+	public DependencyGraph(List<T> ignore){
 		this.ignore = ignore;
-		this.nodes = new HashMap<String, DependencyNode>();
+		this.nodes = new HashMap<T, DependencyNode<T>>();
 	}
 	
-	public void addNode(DependencyNode node){
+	public void addNode(DependencyNode<T> node){
 		nodes.put(node.getPath(),node);
 	}
 	
-	public static DependencyGraph createGraph(Collection<DependencyNode> nodes, List<String> stacked){
-		DependencyGraph dpg = new DependencyGraph(stacked);
+	public  DependencyGraph<T> createGraph(Iterable<DependencyNode<T>> nodes, List<T> stacked){
+		DependencyGraph<T> dpg = new DependencyGraph<T>(stacked);
 		nodes.forEach(node -> dpg.addNode(node));
 		
 		return dpg;
 	}
 	
 	
-	public Stack<String> topSort(){
-		Stack<String> stck = new Stack<>();
-		List<String> toVisit = new ArrayList<>();
+	public Stack<T> topSort(){
+		Stack<T> stck = new Stack<>();
+		List<T> toVisit = new ArrayList<>();
 		
-		for(String key: this.nodes.keySet()){
+		for(T key: this.nodes.keySet()){
 			if(nodes.get(key).getDependsOf().size()==0){
 				stck.push(key);
 			}else{
@@ -41,15 +42,15 @@ public class DependencyGraph {
 		}
 	
 		while(!toVisit.isEmpty()){
-			List<String> toRemove = new ArrayList<String>();
-			String lastCurrent ="";
- 			for(String current: toVisit){
+			List<T> toRemove = new ArrayList<T>();
+			T lastCurrent =null;
+ 			for(T current: toVisit){
  				lastCurrent = current;
-				DependencyNode dn = nodes.get(current);
-				for(String ign: this.ignore){
+				DependencyNode<T> dn = nodes.get(current);
+				for(T ign: this.ignore){
 					dn.removeDependency(ign);
 				}
-				for(String stacked : stck){
+				for(T stacked : stck){
 					dn.removeDependency(stacked);
 					
 				}
@@ -61,12 +62,16 @@ public class DependencyGraph {
  			if(!toRemove.isEmpty())
  				toVisit.removeAll(toRemove);
  			else
- 				throw new RuntimeException(String.format("Could not resolve MGL Dependencies, Dependency Graph contains circles, including '%s'.",lastCurrent));
+ 				throw new RuntimeException(String.format("Could not resolve Dependencies, Dependency Graph contains circles, including '%s'.",lastCurrent));
 		}
 		
 		
 		
 		
 		return stck;
+	}
+
+	public void addNodes(List<DependencyNode<T>> nodes) {
+	  nodes.forEach(n->this.addNode(n));
 	}
 }

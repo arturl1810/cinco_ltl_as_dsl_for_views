@@ -106,6 +106,7 @@ public class InheritanceUtil {
 	}
 	
 	public static Node getLowestMutualSuperNode(List<Node> nodes){
+		if(nodes!=null){
 		HashSet<Node> superNodes = new HashSet<Node>();
 		boolean first = true;
 		for(Node node: nodes){
@@ -124,6 +125,8 @@ public class InheritanceUtil {
 		}else{
 			return null;
 		}
+		}
+		return null;
 	}
 	
 	private static List<Node> sortByInheritance(List<Node> nodes) {

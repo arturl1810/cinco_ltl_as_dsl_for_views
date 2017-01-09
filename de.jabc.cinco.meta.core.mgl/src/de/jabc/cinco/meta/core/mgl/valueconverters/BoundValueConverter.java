@@ -1,10 +1,20 @@
 package de.jabc.cinco.meta.core.mgl.valueconverters;
 
+import org.eclipse.xtext.EcoreUtil2;
 import org.eclipse.xtext.common.services.Ecore2XtextTerminalConverters;
 import org.eclipse.xtext.conversion.IValueConverter;
 import org.eclipse.xtext.conversion.ValueConverter;
 import org.eclipse.xtext.conversion.ValueConverterException;
 import org.eclipse.xtext.nodemodel.INode;
+
+import de.jabc.cinco.meta.core.mgl.services.MGLGrammarAccess.EIntElements;
+
+import org.eclipse.emf.codegen.util.CodeGenUtil.EclipseUtil;
+import org.eclipse.emf.ecore.EDataType;
+import org.eclipse.emf.ecore.EcoreFactory;
+import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
+import mgl.EDataTypeType;
 public class BoundValueConverter extends Ecore2XtextTerminalConverters {
 	@ValueConverter(rule = "BoundValue")
 	public IValueConverter<Integer> BoundValue(){
@@ -55,5 +65,7 @@ public class BoundValueConverter extends Ecore2XtextTerminalConverters {
 				
 		};
 	}
+	
+	
 	
 }

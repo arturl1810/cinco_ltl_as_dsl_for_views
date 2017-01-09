@@ -9,6 +9,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import mgl.Attribute;
+import mgl.ComplexAttribute;
 import mgl.Edge;
 import mgl.Enumeration;
 import mgl.GraphModel;
@@ -16,6 +17,7 @@ import mgl.GraphicalModelElement;
 import mgl.ModelElement;
 import mgl.Node;
 import mgl.NodeContainer;
+import mgl.PrimitiveAttribute;
 import mgl.UserDefinedType;
 import de.jabc.cinco.meta.plugin.gratext.util.KeygenRegistry;
 import de.jabc.cinco.meta.plugin.gratext.util.NonEmptyRegistry;
@@ -95,14 +97,22 @@ public class GraphModelDescriptor extends Descriptor<GraphModel> {
 		elements.values().forEach(element -> {
 			List<Attribute> attrs = element.getAttributes();
 			if (attrs != null) {
+				//TODO: Add Proper type handling
 				List<String> types = attrs.stream()
-					.map(attr -> attr.getType())
+					.map(attr -> getTypeName(attr))
 					.collect(Collectors.toList());
 				attributes.get(element).addAll(withSubTypesFromNames(types));
 			}
 		});
 	}
 	
+	private String getTypeName(Attribute attr) {
+		if(attr instanceof PrimitiveAttribute){
+			return ((PrimitiveAttribute)attr).getType().getLiteral();
+		}
+		return ((ComplexAttribute)attr).getType().getName();
+	}
+
 	protected void initContainables() {
 		Set<ModelElement> set = getContainmentRestrictions(instance());
 		if (set.isEmpty()) {

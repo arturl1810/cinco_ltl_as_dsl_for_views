@@ -1,32 +1,38 @@
 package de.jabc.cinco.meta.core.utils.dependency;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+import de.jabc.cinco.meta.core.utils.dependency.DependencyNode;
 
-public class DependencyNode {
-	private String path;
-	private Set<String> dependsOf;
+public class DependencyNode<T> {
+	private T path;
+	private Set<T> dependsOf;
 
-	public Set<String> getDependsOf() {
+	public Set<T> getDependsOf() {
 		return dependsOf;
 	}
 
-	public DependencyNode(String path){
+	public DependencyNode(T path){
 		this.path = path;
-		this.dependsOf = new HashSet<String>();
+		this.dependsOf = new HashSet<T>();
 	}
 	
-	public boolean dependsOf(String path){
+	public boolean dependsOf(T path){
 		return this.dependsOf.add(path);
 	}
 	
-	public boolean removeDependency(String path){
+	public boolean removeDependency(T path){
 		return this.dependsOf.remove(path);
 	}
 	
 
-	public String getPath() {
+	public T getPath() {
 		return this.path;
+	}
+
+	public boolean addDependencies(Collection<T> strings) {
+	  return dependsOf.addAll(strings);
 	}
 	
 }

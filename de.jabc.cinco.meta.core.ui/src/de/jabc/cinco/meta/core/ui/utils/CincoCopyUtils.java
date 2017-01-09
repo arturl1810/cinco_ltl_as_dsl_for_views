@@ -50,6 +50,7 @@ public class CincoCopyUtils {
 			}
 			cs.getChildren().removeAll(remove);
 			Container c = (Container) cs.getLink().getBusinessObjects().get(0);
+			// TODO: This won't work with the Internal Elements in background
 			c.getModelElements().clear();
 			return cs;
 		}

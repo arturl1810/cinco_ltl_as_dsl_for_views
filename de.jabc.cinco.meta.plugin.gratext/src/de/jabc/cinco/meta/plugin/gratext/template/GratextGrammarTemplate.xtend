@@ -17,6 +17,8 @@ import mgl.UserDefinedType
 import org.eclipse.emf.ecore.EClass
 import org.eclipse.emf.ecore.ENamedElement
 import org.eclipse.emf.ecore.EObject
+import mgl.ComplexAttribute
+import mgl.PrimitiveAttribute
 
 class GratextGrammarTemplate extends AbstractGratextTemplate {
 
@@ -161,13 +163,22 @@ def enumRule(Enumeration type) {
 	;
 	'''
 }
-	
+//TODO: Proper Handling of Attributes	
 def type(Attribute attr) {
-	if (model.contains(attr.type)) {
-		if (model.containsEnumeration(attr.type) || model.containsUserDefinedType(attr.type))
-			attr.type
-		else '''[«model.acronym»::«attr.type»|ID]'''
-	} else attr.type
+//	if (model.contains(attr.type)) {
+//		if (model.containsEnumeration(attr.type) || model.containsUserDefinedType(attr.type))
+//			attr.type
+//		else 
+//	} else attr.type
+	if(attr instanceof ComplexAttribute){
+		if(attr.type.eContainer == attr.eContainer || attr.type.eContainer == attr.eContainer.eContainer)
+		attr.type.name
+		else
+		'''[«model.acronym»::«attr.type»|ID]'''
+		
+	}else if(attr instanceof PrimitiveAttribute){
+		attr.type.literal
+	}
 }
 
 def type(ReferencedType ref) {

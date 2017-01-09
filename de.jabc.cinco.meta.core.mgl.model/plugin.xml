@@ -34,6 +34,14 @@
    </extension>
 
    <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated GraphModel -->
+      <package
+            uri="http://www.jabc.de/cinco/gdl/graphmodel/internal"
+            class="graphmodel.internal.InternalPackage"
+            genModel="model/GraphModel.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
       <!-- @generated GraphicalGraphModel -->
       <package
             uri="http://graphicalgraphmodel/1.0"

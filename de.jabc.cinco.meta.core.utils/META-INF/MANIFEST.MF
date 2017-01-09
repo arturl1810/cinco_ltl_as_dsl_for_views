@@ -18,8 +18,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.xtext.ui
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Import-Package: de.jabc.cinco.meta.core.ge.style.generator.runtime.customfeature,
- graphmodel,
+Import-Package: graphmodel,
  mgl,
  org.eclipse.core.internal.resources,
  org.eclipse.core.resources,
@@ -38,4 +37,5 @@ Export-Package: de.jabc.cinco.meta.core.utils,
  de.jabc.cinco.meta.core.utils.dummycreator,
  de.jabc.cinco.meta.core.utils.job,
  de.jabc.cinco.meta.core.utils.projects,
- de.jabc.cinco.meta.core.utils.xtext
+ de.jabc.cinco.meta.core.utils.xtext,
+ de.jabc.cinco.meta.core.utils.generator

@@ -75,7 +75,6 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Attribute" eSuperTypes="#//Annotatable">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="lowerBound" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"
         defaultValueLiteral="0"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="upperBound" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"
@@ -212,5 +211,26 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="importURI" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="EDataTypeType">
+    <eLiterals name="EString" literal="EString"/>
+    <eLiterals name="EChar" value="1" literal="EChar"/>
+    <eLiterals name="EFloat" value="2" literal="EFloat"/>
+    <eLiterals name="EBoolean" value="3" literal="EBoolean"/>
+    <eLiterals name="EDouble" value="4" literal="EDouble"/>
+    <eLiterals name="EInt" value="5" literal="EInt"/>
+    <eLiterals name="ELong" value="6" literal="ELong"/>
+    <eLiterals name="EBigInteger" value="7" literal="EBigInteger"/>
+    <eLiterals name="EBigDecimal" value="8" literal="EBigDecimal"/>
+    <eLiterals name="EByte" value="9" literal="EByte"/>
+    <eLiterals name="EShort" value="10" literal="EShort"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ComplexAttribute" eSuperTypes="#//Attribute">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="#//Type"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="override" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PrimitiveAttribute" eSuperTypes="#//Attribute">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="#//EDataTypeType"/>
   </eClassifiers>
 </ecore:EPackage>

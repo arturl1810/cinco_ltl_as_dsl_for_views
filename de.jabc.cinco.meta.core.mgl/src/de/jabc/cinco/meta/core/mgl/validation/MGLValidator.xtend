@@ -38,6 +38,8 @@ import org.eclipse.xtext.validation.Check
 import org.eclipse.emf.ecore.plugin.EcorePlugin
 import mgl.BoundedConstraint
 import java.nio.file.attribute.UserDefinedFileAttributeView
+import mgl.PrimitiveAttribute
+import mgl.ComplexAttribute
 
 /**
  * Custom validation rules. 
@@ -201,69 +203,69 @@ class MGLValidator extends AbstractMGLValidator {
 		
 	}
 	
-	@Check
-	def checkIsKnownEcoreType(Attribute attr){
-		
-		if(!attr.instanceAttribute){
-		var GraphModel graphModel
-				try{
-					
-				var element = attr.modelElement as Node
-					graphModel = element.graphModel
-				}catch(ClassCastException c){
-					
-					try{
-						var element = attr.modelElement as Edge
-						graphModel = element.graphModel
-					}catch(ClassCastException ca){
-						
-						try{
-							var element = attr.modelElement as NodeContainer
-							graphModel = element.graphModel
-						}catch(ClassCastException cb){
-							
-							try{
-								graphModel = attr.modelElement as GraphModel
-							}catch(ClassCastException cc){
-								try{
-								var element = attr.modelElement as UserDefinedType
-								graphModel = element.eContainer as GraphModel
-							}catch(ClassCastException cf){}								
-							}
-							
-							
-						}
-					}
-				}
-		
-		
-		
-		
-			if(attr.type!=null&&attr.type.startsWith("EMap<")){
-				var map = attr.type.replaceAll("\\s", "")
-				var left = map.substring(5,attr.type.indexOf(","))
-				var right = attr.type.substring(attr.type.indexOf(",")+1).replace(">","")
-				
-				
-				if(!typeKnown(left,graphModel)){
-					error("Left Attribute Unknown",MglPackage.Literals::ATTRIBUTE__TYPE)
-				}
-				if(!typeKnown(right,graphModel)){
-					error("Right Attribute Unknown",MglPackage.Literals::ATTRIBUTE__TYPE)
-				
-				}
-							
-			}else {
-				if(!typeKnown(attr.type,graphModel)){
-					error("Attribute Type Unknown",MglPackage.Literals::ATTRIBUTE__TYPE)	
-				}
-		}
-			}else{
-				if(!(attr.modelElement instanceof Node)){
-					error("Instance Attribute Only allowed on Nodes",MglPackage.Literals::ATTRIBUTE__INSTANCE_ATTRIBUTE)
-				}
-			}
-		}
+//	@Check
+//	def checkIsKnownEcoreType(ComplexAttribute attr){
+//		
+//		if(!attr.instanceAttribute){
+//		var GraphModel graphModel
+//				try{
+//					
+//				var element = attr.modelElement as Node
+//					graphModel = element.graphModel
+//				}catch(ClassCastException c){
+//					
+//					try{
+//						var element = attr.modelElement as Edge
+//						graphModel = element.graphModel
+//					}catch(ClassCastException ca){
+//						
+//						try{
+//							var element = attr.modelElement as NodeContainer
+//							graphModel = element.graphModel
+//						}catch(ClassCastException cb){
+//							
+//							try{
+//								graphModel = attr.modelElement as GraphModel
+//							}catch(ClassCastException cc){
+//								try{
+//								var element = attr.modelElement as UserDefinedType
+//								graphModel = element.eContainer as GraphModel
+//							}catch(ClassCastException cf){}								
+//							}
+//							
+//							
+//						}
+//					}
+//				}
+//		
+//		
+//		
+//		
+//			if(attr.type!=null&&attr.type.startsWith("EMap<")){
+//				var map = attr.type.replaceAll("\\s", "")
+//				var left = map.substring(5,attr.type.indexOf(","))
+//				var right = attr.type.substring(attr.type.indexOf(",")+1).replace(">","")
+//				
+//				
+//				if(!typeKnown(left,graphModel)){
+//					error("Left Attribute Unknown",MglPackage.Literals::ATTRIBUTE__TYPE)
+//				}
+//				if(!typeKnown(right,graphModel)){
+//					error("Right Attribute Unknown",MglPackage.Literals::ATTRIBUTE__TYPE)
+//				
+//				}
+//							
+//			}else {
+//				if(!typeKnown(attr.type,graphModel)){
+//					error("Attribute Type Unknown",MglPackage.Literals::ATTRIBUTE__TYPE)	
+//				}
+//		}
+//			}else{
+//				if(!(attr.modelElement instanceof Node)){
+//					error("Instance Attribute Only allowed on Nodes",MglPackage.Literals::ATTRIBUTE__INSTANCE_ATTRIBUTE)
+//				}
+			//}
+//		}
 		
 		def boolean typeKnown(String type,GraphModel graphModel){
 					var ecorePackageInstance = EcorePackage::eINSTANCE
@@ -335,7 +337,8 @@ class MGLValidator extends AbstractMGLValidator {
 		
 		for(a: attr.modelElement.attributes)
 			if(a!=attr&&a.name.equalsIgnoreCase(attr.name))
-				error("Attribute Names must be unique",MglPackage.Literals::ATTRIBUTE__NAME)
+					error("Attribute Names must be unique",MglPackage.Literals::ATTRIBUTE__NAME)
+				
 		var element = attr.modelElement		
 		
 			
@@ -345,6 +348,7 @@ class MGLValidator extends AbstractMGLValidator {
 				
 					for(a: superType.attributes){
 						if(a.name.equalsIgnoreCase(attr.name))
+						if(!(attr instanceof ComplexAttribute) || !(attr as ComplexAttribute).override)
 							error("Attribute Names must be unique",MglPackage.Literals::ATTRIBUTE__NAME)
 						
 					}
@@ -355,6 +359,34 @@ class MGLValidator extends AbstractMGLValidator {
 			}
 			
 		
+	}
+	
+	@Check
+	def checkIsOverridenTypeSuperType(ComplexAttribute attr){
+		var e=attr.parent.extends
+		while(e!=null){
+			e.attributes.filter(ComplexAttribute).forEach[at| if(at.name==attr.name && !attr.type.isSubType(at.type))error("Overriding attribute types must be subtype of overridden attribute types.",MglPackage.Literals::COMPLEX_ATTRIBUTE__TYPE) ]
+			e.attributes.filter(PrimitiveAttribute).forEach[at| if(at.name==attr.name)error("Only Complex Attributes can be overridden.",MglPackage.Literals.COMPLEX_ATTRIBUTE__TYPE)]
+			e=e.extends
+		}
+		
+	}
+	
+	def boolean isSubType(Type subtype, Type superType){
+		if(subtype instanceof ModelElement && superType instanceof ModelElement){
+			var e= (subtype as ModelElement).extends
+			while(e!=null){
+				if(e==superType)
+					return true
+				else
+					e = e.extends
+			}
+		}
+		false
+	}
+	
+	def ModelElement parent(ComplexAttribute attribute){
+		attribute.eContainer as ModelElement
 	}
 	
 	def <T extends ModelElement> getExtends(ModelElement element){
@@ -415,38 +447,38 @@ class MGLValidator extends AbstractMGLValidator {
 //		} 
 //	}
 	
-	@Check
-	def checkCanAttributeBeInstantiatedWithDefaultValue(Attribute attr){
-		if(attr.defaultValue!=null){
-			var ecorePackageInstance = EcorePackage::eINSTANCE
-			try{
-			var eDataType = ecorePackageInstance.getEClassifier(attr.type)as EDataType
-			if(eDataType!=null){
-				
-					var obj = eDataType.EPackage.EFactoryInstance.createFromString(eDataType,attr.defaultValue)
-					if(obj==null)
-						 error(String::format("DataType %s cannot be instantiated with default value: %s.",attr.type,attr.defaultValue),MglPackage.Literals::ATTRIBUTE__DEFAULT_VALUE)
-				
-			}else{
-				val e = getEnum(attr)
-				if(e!=null){
-					if(!e.literals.contains(attr.defaultValue)){
-						error(String::format("Default value: '%s' is not valid for Enum: '%s'.",attr.defaultValue,attr.type),MglPackage.Literals::ATTRIBUTE__DEFAULT_VALUE)
-					
-					}
-				}else{
-					error(String::format("DataType %s cannot be instantiated with default value: %s.",attr.type,attr.defaultValue),MglPackage.Literals::ATTRIBUTE__DEFAULT_VALUE)
-				}
-			
-			}
-			}catch(Exception s){
-					error(String::format("DataType %s cannot be instantiated with default value: %s.",attr.type,attr.defaultValue),MglPackage.Literals::ATTRIBUTE__DEFAULT_VALUE)
-				
-		
-			}
-		}
-		
-	}
+//	@Check
+//	def checkCanAttributeBeInstantiatedWithDefaultValue(PrimitiveAttribute attr){
+//		if(attr.defaultValue!=null){
+//			var ecorePackageInstance = EcorePackage::eINSTANCE
+//			try{
+//			var eDataType = attr.type.type
+//			if(eDataType!=null){
+//				
+//					var obj = eDataType.EPackage.EFactoryInstance.createFromString(eDataType,attr.defaultValue)
+//					if(obj==null)
+//						 error(String::format("DataType %s cannot be instantiated with default value: %s.",attr.type,attr.defaultValue),MglPackage.Literals::ATTRIBUTE__DEFAULT_VALUE)
+//				
+//			}else{
+//				val e = getEnum(attr)
+//				if(e!=null){
+//					if(!e.literals.contains(attr.defaultValue)){
+//						error(String::format("Default value: '%s' is not valid for Enum: '%s'.",attr.defaultValue,attr.type),MglPackage.Literals::ATTRIBUTE__DEFAULT_VALUE)
+//					
+//					}
+//				}else{
+//					error(String::format("DataType %s cannot be instantiated with default value: %s.",attr.type,attr.defaultValue),MglPackage.Literals::ATTRIBUTE__DEFAULT_VALUE)
+//				}
+//			
+//			}
+//			}catch(Exception s){
+//					error(String::format("DataType %s cannot be instantiated with default value: %s.",attr.type,attr.defaultValue),MglPackage.Literals::ATTRIBUTE__DEFAULT_VALUE)
+//				
+//		
+//			}
+//		}
+//		
+//	}
 	
 	@Check
 	def checkNodeInheritsFromNonAbstractPrimeReferenceNode(Node node){
@@ -459,7 +491,7 @@ class MGLValidator extends AbstractMGLValidator {
 		}
 	}
 	
-	def getEnum(Attribute attr) {
+	def getEnum(ComplexAttribute attr) {
 		var mgl = attr.modelElement.eContainer as GraphModel
 		for(enum :mgl.types.filter(Enumeration))
 			if(enum.name.equals(attr.type)){
@@ -612,7 +644,7 @@ class MGLValidator extends AbstractMGLValidator {
 	}
 	
 	@Check
-	def checkReferencedNodeHasNameAttribute(Attribute attribute) {
+	def checkReferencedNodeHasNameAttribute(ComplexAttribute attribute) {
 		val modelElement = attribute.modelElement as ModelElement
 		val graphModel = getGraphModel(modelElement)
 		
@@ -621,7 +653,7 @@ class MGLValidator extends AbstractMGLValidator {
 		
 		if ((!refNodes.nullOrEmpty || !refEdges.nullOrEmpty)) {
 			if (!nodesContainsName(refNodes) && !edgesContainsName(refEdges))
-				error("Add a String attribute \"name\" to the NodeType(s): " + refNodes.map[name], MglPackage.Literals.ATTRIBUTE__TYPE)
+				error("Add a String attribute \"name\" to the NodeType(s): " + refNodes.map[name], MglPackage.Literals.COMPLEX_ATTRIBUTE__TYPE)
 		}
 	}
 	

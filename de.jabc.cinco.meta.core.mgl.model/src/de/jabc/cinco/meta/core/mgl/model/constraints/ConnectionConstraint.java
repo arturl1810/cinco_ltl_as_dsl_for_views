@@ -3,6 +3,7 @@ package de.jabc.cinco.meta.core.mgl.model.constraints;
 import graphmodel.Edge;
 import graphmodel.Node;
 
+
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -82,7 +83,7 @@ public class ConnectionConstraint {
 		return edgeSet.size();
 	}
 	
-	public boolean checkUpperBound(graphmodel.Node node){
+	public boolean checkUpperBound(Node node){
 		int sum = 0;
 		if (outgoing)
 			sum = countOutgoing(node);
@@ -92,7 +93,7 @@ public class ConnectionConstraint {
 		
 		
 	}
-	public boolean checkLowerBound(graphmodel.Node node){
+	public boolean checkLowerBound(Node node){
 		int sum = 0;
 		if (outgoing)
 			sum = countOutgoing(node);
@@ -100,7 +101,7 @@ public class ConnectionConstraint {
 			sum = countIncoming(node);
 		return sum >= this.lowerBound;
 	}
-	public boolean checkConstraint(graphmodel.Node node){
+	public boolean checkConstraint(Node node){
 		int sum = 0;
 		if (outgoing)
 			sum = countOutgoing(node);
