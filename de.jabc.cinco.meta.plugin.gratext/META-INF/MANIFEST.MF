@@ -31,7 +31,7 @@ Require-Bundle: org.eclipse.emf.transaction,
  org.eclipse.emf.ecore,
  org.eclipse.graphiti,
  org.eclipse.graphiti.ui,
- de.jabc.cinco.meta.core.ge.style.generator.runtime;bundle-version="1.0.0"
+ de.jabc.cinco.meta.core.ge.style.generator.runtime
 Export-Package: de.jabc.cinco.meta.plugin.gratext,
  de.jabc.cinco.meta.plugin.gratext.build,
  de.jabc.cinco.meta.plugin.gratext.util

@@ -268,6 +268,7 @@ public class GratextGenerator extends ProjectGenerator {
 				"org.antlr.runtime",
 				"org.apache.commons.logging",
 				"de.jabc.cinco.meta.core.mgl.model",
+				"de.jabc.cinco.meta.core.ge.style.generator.runtime",
 				"de.jabc.cinco.meta.core.ge.style.model",
 				"de.jabc.cinco.meta.core.utils",
 				"de.jabc.cinco.meta.plugin.gratext.runtime"
