@@ -15,6 +15,7 @@
 <module>de.jabc.cinco.meta.core.ge.style.sdk</module>
 <module>de.jabc.cinco.meta.core.ge.style.ui</module>
 <module>de.jabc.cinco.meta.core.mgl</module>
+<module>de.jabc.cinco.meta.core.mgl.generator</module>
 <module>de.jabc.cinco.meta.core.mgl.model</module>
 <module>de.jabc.cinco.meta.plugin.spreadsheet</module>
 <module>de.jabc.cinco.meta.plugin.pyro</module>
