@@ -1,7 +1,7 @@
 package de.jabc.cinco.meta.core.ge.style.generator.templates.update
 
 import com.sun.el.ExpressionFactoryImpl
-import de.jabc.cinco.meta.core.ge.style.generator.templates.util.GeneratorUtils
+import de.jabc.cinco.meta.core.utils.generator.GeneratorUtils;
 import java.util.IllegalFormatException
 import mgl.Node
 import org.eclipse.emf.ecore.EObject

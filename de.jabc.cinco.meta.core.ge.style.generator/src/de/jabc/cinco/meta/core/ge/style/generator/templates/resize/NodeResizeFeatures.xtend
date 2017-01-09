@@ -3,6 +3,9 @@ package de.jabc.cinco.meta.core.ge.style.generator.templates.resize
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoAbstractResizeFeature
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoResizeFeature
 import de.jabc.cinco.meta.core.ge.style.generator.templates.util.GeneratorUtils
+import de.jabc.cinco.meta.core.utils.generator.GeneratorUtils;
+import de.jabc.cinco.meta.core.ge.style.model.features.CincoAbstractResizeFeature
+import de.jabc.cinco.meta.core.ge.style.model.features.CincoResizeFeature
 import de.jabc.cinco.meta.core.utils.CincoUtils
 import mgl.Node
 import org.eclipse.emf.transaction.RecordingCommand

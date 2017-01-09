@@ -1,6 +1,6 @@
 package de.jabc.cinco.meta.core.ge.style.generator.templates.update
 
-import de.jabc.cinco.meta.core.ge.style.generator.templates.util.GeneratorUtils
+import de.jabc.cinco.meta.core.utils.generator.GeneratorUtils;
 import mgl.Edge
 import org.eclipse.graphiti.features.impl.AbstractUpdateFeature
 import com.sun.el.ExpressionFactoryImpl

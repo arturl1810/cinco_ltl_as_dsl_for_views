@@ -5,6 +5,7 @@ import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoAbstract
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoLayoutFeature
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoResizeFeature
 import de.jabc.cinco.meta.core.ge.style.generator.templates.LayoutFeatureTmpl
+import de.jabc.cinco.meta.core.utils.generator.GeneratorUtils
 import java.util.LinkedList
 import mgl.Edge
 import mgl.Node

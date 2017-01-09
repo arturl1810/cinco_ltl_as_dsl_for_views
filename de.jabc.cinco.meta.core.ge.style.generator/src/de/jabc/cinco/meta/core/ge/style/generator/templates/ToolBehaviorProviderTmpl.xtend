@@ -1,7 +1,13 @@
 package de.jabc.cinco.meta.core.ge.style.generator.templates
 
+<<<<<<< Updated upstream
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.createfeature.CincoCreateFeature
 import de.jabc.cinco.meta.core.ge.style.generator.templates.util.GeneratorUtils
+=======
+import de.jabc.cinco.meta.core.utils.generator.GeneratorUtils;
+import de.jabc.cinco.meta.core.ge.style.model.createfeature.CincoCreateFeature
+import de.jabc.cinco.meta.core.utils.CincoUtils
+>>>>>>> Stashed changes
 import graphicalgraphmodel.CModelElementContainer
 import graphmodel.ModelElementContainer
 import java.util.ArrayList

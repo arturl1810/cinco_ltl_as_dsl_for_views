@@ -3,7 +3,7 @@ package de.jabc.cinco.meta.core.ge.style.generator.templates
 import java.util.ArrayList
 import java.util.List
 import mgl.GraphModel
-import de.jabc.cinco.meta.core.ge.style.generator.templates.util.GeneratorUtils
+import de.jabc.cinco.meta.core.utils.generator.GeneratorUtils;
 
 class PluginXMLTmpl extends GeneratorUtils {
 

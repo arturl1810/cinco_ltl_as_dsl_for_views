@@ -1,6 +1,6 @@
 package de.jabc.cinco.meta.core.ge.style.generator.templates.layout
 
-import de.jabc.cinco.meta.core.ge.style.generator.templates.util.GeneratorUtils
+import de.jabc.cinco.meta.core.utils.generator.GeneratorUtils;
 import mgl.Node
 import org.eclipse.graphiti.features.IFeatureProvider
 import org.eclipse.graphiti.mm.pictograms.PictogramElement

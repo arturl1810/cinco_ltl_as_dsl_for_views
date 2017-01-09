@@ -14,6 +14,10 @@ import mgl.Type
 import org.eclipse.graphiti.features.IFeatureProvider
 import org.eclipse.graphiti.mm.pictograms.Diagram
 import org.eclipse.graphiti.ui.services.GraphitiUi
+import mgl.ComplexAttribute
+import mgl.PrimitiveAttribute
+import java.math.BigDecimal
+import java.math.BigInteger
 
 class APIUtils {
 
@@ -79,9 +83,24 @@ class APIUtils {
 	}
 	
 	def fqTypeName(Attribute a) {
-		switch a.type {
-			case "EString" : String.name
-			default : getEnumOrUDT(a)
+		switch a {
+			case PrimitiveAttribute: fqTypeName(a as PrimitiveAttribute)
+			default : getEnumOrUDT(a as ComplexAttribute)
+		}
+	}
+	
+	def fqTypeName(PrimitiveAttribute a){
+		switch a.type{
+			case EBIG_DECIMAL: BigDecimal.name
+			case EBIG_INTEGER: BigInteger.name
+			case EBOOLEAN: boolean.name
+			case EBYTE : byte.name
+			case ECHAR: char.name
+			case EDOUBLE: double.name
+			case EINT: int.name
+			case ELONG: long.name
+			case ESHORT: short.name
+			default: String.name
 		}
 	}
 	
@@ -145,7 +164,7 @@ class APIUtils {
 	}
 	'''
 	
-	def getEnumOrUDT(Attribute a){
+	def getEnumOrUDT(ComplexAttribute a){
 		var gm = a.modelElement.graphModel
 		var List<Type> types = new ArrayList();
 		types.addAll(gm.types)

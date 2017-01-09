@@ -1,6 +1,6 @@
 package de.jabc.cinco.meta.core.ge.style.generator.templates
 
-import de.jabc.cinco.meta.core.ge.style.generator.templates.util.GeneratorUtils
+import de.jabc.cinco.meta.core.utils.generator.GeneratorUtils
 import mgl.GraphModel
 import org.eclipse.graphiti.dt.AbstractDiagramTypeProvider
 import org.eclipse.graphiti.dt.IDiagramTypeProvider

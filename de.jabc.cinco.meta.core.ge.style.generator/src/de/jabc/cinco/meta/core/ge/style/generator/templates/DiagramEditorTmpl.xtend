@@ -1,7 +1,7 @@
 package de.jabc.cinco.meta.core.ge.style.generator.templates
 
 import mgl.GraphModel
-import de.jabc.cinco.meta.core.ge.style.generator.templates.util.GeneratorUtils
+import de.jabc.cinco.meta.core.utils.generator.GeneratorUtils;
 import org.eclipse.graphiti.ui.editor.DiagramEditor
 import de.jabc.cinco.meta.core.referenceregistry.ReferenceRegistry
 import org.eclipse.graphiti.mm.pictograms.PictogramLink

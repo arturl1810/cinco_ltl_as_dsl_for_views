@@ -1,8 +1,8 @@
 package de.jabc.cinco.meta.core.ge.style.generator.templates.create
 
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.errorhandling.ECincoError
-import de.jabc.cinco.meta.core.ge.style.generator.templates.util.GeneratorUtils
 import de.jabc.cinco.meta.core.utils.CincoUtils
+import de.jabc.cinco.meta.core.utils.generator.GeneratorUtils
 import graphmodel.ModelElement
 import graphmodel.ModelElementContainer
 import mgl.Node

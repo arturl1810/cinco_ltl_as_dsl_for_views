@@ -1,7 +1,7 @@
 package de.jabc.cinco.meta.core.ge.style.generator.templates
 
 import mgl.GraphModel
-import de.jabc.cinco.meta.core.ge.style.generator.templates.util.GeneratorUtils
+import de.jabc.cinco.meta.core.utils.generator.GeneratorUtils;
 import org.eclipse.ui.IPerspectiveFactory
 import org.eclipse.ui.IPageLayout
 import org.eclipse.graphiti.ui.internal.editor.ThumbNailView

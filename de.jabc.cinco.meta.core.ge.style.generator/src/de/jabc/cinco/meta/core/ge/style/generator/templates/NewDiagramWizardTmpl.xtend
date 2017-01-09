@@ -1,7 +1,7 @@
 package de.jabc.cinco.meta.core.ge.style.generator.templates
 
 import mgl.GraphModel
-import de.jabc.cinco.meta.core.ge.style.generator.templates.util.GeneratorUtils
+import de.jabc.cinco.meta.core.utils.generator.GeneratorUtils;
 import org.eclipse.jface.wizard.Wizard
 import org.eclipse.ui.INewWizard
 import org.eclipse.jface.wizard.IWizardPage

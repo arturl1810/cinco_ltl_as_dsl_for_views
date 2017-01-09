@@ -1,6 +1,6 @@
 package de.jabc.cinco.meta.core.ge.style.generator.templates.expressionlanguage
 
-import de.jabc.cinco.meta.core.ge.style.generator.templates.util.GeneratorUtils
+import de.jabc.cinco.meta.core.utils.generator.GeneratorUtils;
 import javax.el.ELContext
 import javax.el.VariableMapper
 import javax.el.FunctionMapper

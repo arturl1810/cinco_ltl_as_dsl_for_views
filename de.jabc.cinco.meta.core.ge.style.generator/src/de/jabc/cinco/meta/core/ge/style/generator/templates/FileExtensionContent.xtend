@@ -4,7 +4,7 @@ import java.util.List
 import java.util.Arrays
 import de.jabc.cinco.meta.core.referenceregistry.implementing.IFileExtensionSupplier
 import mgl.GraphModel
-import de.jabc.cinco.meta.core.ge.style.generator.templates.util.GeneratorUtils
+import de.jabc.cinco.meta.core.utils.generator.GeneratorUtils;
 
 class FileExtensionContent extends GeneratorUtils{
 	

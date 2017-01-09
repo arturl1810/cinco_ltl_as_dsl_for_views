@@ -1,7 +1,7 @@
 package de.jabc.cinco.meta.core.ge.style.generator.templates
 
 
-import de.jabc.cinco.meta.core.ge.style.generator.templates.util.GeneratorUtils
+import de.jabc.cinco.meta.core.utils.generator.GeneratorUtils;
 import org.eclipse.graphiti.ui.platform.AbstractImageProvider
 import org.eclipse.graphiti.ui.platform.IImageProvider
 import java.util.Hashtable

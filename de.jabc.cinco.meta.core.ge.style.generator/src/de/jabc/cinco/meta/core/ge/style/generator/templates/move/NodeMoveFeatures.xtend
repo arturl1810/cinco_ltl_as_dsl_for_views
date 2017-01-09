@@ -2,8 +2,8 @@ package de.jabc.cinco.meta.core.ge.style.generator.templates.move
 
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.errorhandling.ECincoError
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoMoveShapeFeature
-import de.jabc.cinco.meta.core.ge.style.generator.templates.util.GeneratorUtils
 import de.jabc.cinco.meta.core.utils.CincoUtils
+import de.jabc.cinco.meta.core.utils.generator.GeneratorUtils
 import graphmodel.Container
 import graphmodel.Edge
 import graphmodel.ModelElementContainer

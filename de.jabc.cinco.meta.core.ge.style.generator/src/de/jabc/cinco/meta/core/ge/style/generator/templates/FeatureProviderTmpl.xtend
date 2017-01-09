@@ -1,8 +1,9 @@
 package de.jabc.cinco.meta.core.ge.style.generator.templates
 
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.addfeature.LibraryComponentAddFeature
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.provider.CincoFeatureProvider
-import de.jabc.cinco.meta.core.ge.style.generator.templates.util.GeneratorUtils
 import de.jabc.cinco.meta.core.utils.MGLUtils
+import de.jabc.cinco.meta.core.utils.generator.GeneratorUtils
 import graphmodel.ModelElement
 import mgl.GraphModel
 import org.eclipse.core.resources.IFile
@@ -39,7 +40,6 @@ import org.eclipse.graphiti.features.context.impl.AddContext
 import org.eclipse.graphiti.features.custom.ICustomFeature
 import org.eclipse.graphiti.mm.pictograms.PictogramElement
 import org.eclipse.graphiti.ui.features.DefaultFeatureProvider
-import de.jabc.cinco.meta.core.ge.style.generator.runtime.addfeature.LibraryComponentAddFeature
 
 class FeatureProviderTmpl extends GeneratorUtils{
 	
