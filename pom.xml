@@ -8,6 +8,8 @@
   <modules><module>de.jabc.cinco.meta.branding</module>
 <module>de.jabc.cinco.meta.core.ge.generator</module>
 <module>de.jabc.cinco.meta.core.ge.style</module>
+<module>de.jabc.cinco.meta.core.ge.style.generator</module>
+<module>de.jabc.cinco.meta.core.ge.style.generator.runtime</module>
 <module>de.jabc.cinco.meta.core.ge.style.fragment</module>
 <module>de.jabc.cinco.meta.core.ge.style.model</module>
 <module>de.jabc.cinco.meta.core.ge.style.sdk</module>
