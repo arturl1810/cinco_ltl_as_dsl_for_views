@@ -1,7 +1,9 @@
 package de.jabc.cinco.meta.core.feature.handler;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Set;
 
 import mgl.GraphModel;
 
@@ -92,21 +94,20 @@ public class GenerateFeatureProjectHandler extends AbstractHandler {
 			
 			// Generating feature.xml
 			LightweightExecutionContext context = new DefaultLightweightExecutionContext(null);
-			context.put("packageName", packageName);
-			context.put("annotationToMGLPackageMap", PluginRegistry.getInstance().getMGLDependentPlugins());
-			context.put("annotationToPackageMap", PluginRegistry.getInstance().getUsedPlugins());
-			context.put("annotationToFragmentMap", PluginRegistry.getInstance().getUsedFragments());
-			context.put("annotationToMGLFragmentMap", PluginRegistry.getInstance().getMGLDependentFragments());
-			context.put("annotationToPackageMap", PluginRegistry.getInstance().getUsedPlugins());
-			context.put("featureProjectPath",featureProjectPath);
-			context.put("graphModel",model);
-			context.put("otherPluginIDs", BundleRegistry.INSTANCE.getPluginIDs());
-			context.put("otherFragmentIDs", BundleRegistry.INSTANCE.getFragmentIDs());
-			LightweightExecutionEnvironment env = new DefaultLightweightExecutionEnvironment(context);
-			if(new Generate_Feature_XML().execute(env).equals("error"))
-				throw new Exception("Could not create feature.xml",(Throwable)context.get("exception"));
-			featureProject.refreshLocal(IResource.DEPTH_INFINITE,
-					null);
+			//context.put("packageName", packageName);
+			try{
+			HashMap<String, Set<String>> annotationToMGLPackageMap = PluginRegistry.getInstance().getMGLDependentPlugins();
+			HashMap<String, Set<String>> annotationToPackageMap = PluginRegistry.getInstance().getUsedPlugins();
+			HashMap<String, Set<String>> annotationToFragmentMap = PluginRegistry.getInstance().getUsedFragments();
+			HashMap<String, Set<String>> annotationToMGLFragmentMap = PluginRegistry.getInstance().getMGLDependentFragments();
+			//featureProjectPath = featureProjectPath;
+			//context.put("graphModel",model);
+			Set<String> otherPluginIDs = BundleRegistry.INSTANCE.getPluginIDs();
+			Set<String> otherFragmentIDs = BundleRegistry.INSTANCE.getFragmentIDs();
+			GenerateFeatureXML.generate(model,packageName,annotationToMGLPackageMap,annotationToPackageMap,annotationToFragmentMap,annotationToMGLFragmentMap, otherPluginIDs,otherFragmentIDs,featureProject);
+			}catch(Exception e){
+				throw new Exception("Could not create feature.xml",e);
+			}
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
