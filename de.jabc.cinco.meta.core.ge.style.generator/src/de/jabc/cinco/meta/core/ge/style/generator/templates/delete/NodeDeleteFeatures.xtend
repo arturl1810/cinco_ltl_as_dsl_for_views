@@ -8,12 +8,13 @@ import de.jabc.cinco.meta.core.utils.CincoUtils
 import de.jabc.cinco.meta.core.utils.generator.GeneratorUtils;
 >>>>>>> Stashed changes
 import mgl.Node
-import org.eclipse.emf.ecore.EObject
 import org.eclipse.graphiti.features.IFeatureProvider
 import org.eclipse.graphiti.features.context.IDeleteContext
 import org.eclipse.graphiti.mm.pictograms.PictogramElement
 import org.eclipse.graphiti.services.Graphiti
 import style.Styles
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoDeleteFeature
+import org.eclipse.emf.ecore.EObject
 
 class NodeDeleteFeatures extends GeneratorUtils{
 	

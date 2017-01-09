@@ -151,7 +151,7 @@ class NodeUpdateFeatures extends GeneratorUtils{
 						«setValue(n)»
 						
 						«String.name» formatString = «Graphiti.name».getPeService().getPropertyValue(t, «n.graphModel.packageName».«n.graphModel.name»GraphitiUtils.KEY_FORMAT_STRING);
-						String oldVal = String.format(formatString «fill(n)»);
+						String oldVal = String.format(formatString«fill(n)»);
 						«String.name» newVal = t.getValue();
 						return (!newVal.equals(oldVal));
 					} 
@@ -176,10 +176,12 @@ class NodeUpdateFeatures extends GeneratorUtils{
 		number = 0
 		
 		return '''
-		«FOR value : listValue»«IF value.startsWith("${")»
+		«FOR value : listValue»
+		«IF number != 1»
 		elContext = new «n.packageName».expression.«n.graphModel.name»ExpressionLanguageContext(«n.name.toLowerCase»);
 		Object tmp«number = number+1»Value = factory.createValueExpression(elContext, "«value»", Object.class).getValue(elContext); 
-		«ENDIF»«ENDFOR»''' 
+		«ENDIF»
+		«ENDFOR»''' 
 	}
 	
 	/**
@@ -192,6 +194,7 @@ class NodeUpdateFeatures extends GeneratorUtils{
 		var listValue = annot.value;
 		number = 0
 		return 
-		'''«FOR value : listValue»«IF value.startsWith("${")»,tmp«number = number+1»Value«ENDIF»«ENDFOR»'''
+		//'''«FOR value : listValue»«IF value.startsWith("${")»,tmp«number = number+1»Value«ENDIF»«ENDFOR»'''
+		'''«FOR value : listValue», «IF number != 1»tmp«number = number+1»Value «ENDIF»«ENDFOR»'''
 	}
 }

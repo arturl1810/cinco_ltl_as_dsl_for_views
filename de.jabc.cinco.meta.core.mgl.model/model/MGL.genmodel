@@ -80,7 +80,9 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGL.ecore#//Type/name"/>
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference MGL.ecore#//Type/typesOpposite"/>
     </genClasses>
-    <genClasses ecoreClass="MGL.ecore#//UserDefinedType"/>
+    <genClasses ecoreClass="MGL.ecore#//UserDefinedType">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MGL.ecore#//UserDefinedType/extends"/>
+    </genClasses>
     <genClasses ecoreClass="MGL.ecore#//Annotation">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGL.ecore#//Annotation/name"/>
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference MGL.ecore#//Annotation/parent"/>

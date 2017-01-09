@@ -1,6 +1,7 @@
 package de.jabc.cinco.meta.plugin.gratext.template
 
 import de.jabc.cinco.meta.plugin.gratext.descriptor.GraphModelDescriptor
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoAbstractAddFeature
 
 class ModelGeneratorTemplate extends AbstractGratextTemplate {
 	
@@ -20,7 +21,7 @@ import static org.eclipse.graphiti.ui.services.GraphitiUi.getExtensionManager
 import static extension de.jabc.cinco.meta.core.utils.WorkspaceUtil.eapi
 import static extension de.jabc.cinco.meta.plugin.gratext.runtime.generator.GratextGenerator.*
 
-import de.jabc.cinco.meta.core.ge.style.model.features.CincoAbstractAddFeature
+import «CincoAbstractAddFeature.name»
 import de.jabc.cinco.meta.plugin.gratext.runtime.generator.GratextModelTransformer
 
 import «graphmodel.package».«model.name.toLowerCase».«model.name»
