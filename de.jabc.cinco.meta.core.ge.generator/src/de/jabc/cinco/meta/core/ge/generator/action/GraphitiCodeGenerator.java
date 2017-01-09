@@ -91,10 +91,10 @@ import de.jabc.cinco.meta.core.ge.style.generator.runtime.errorhandling.CincoInv
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.errorhandling.CincoInvalidSourceException;
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.errorhandling.CincoInvalidTargetException;
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.errorhandling.ECincoError;
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoDeleteFeature;
 import de.jabc.cinco.meta.core.ge.style.model.preprocessors.StylesPreprocessor;
 import de.jabc.cinco.meta.core.mgl.generator.GenModelCreator;
 import de.jabc.cinco.meta.core.pluginregistry.PluginRegistry;
-import de.jabc.cinco.meta.core.ui.features.CincoDeleteFeature;
 import de.jabc.cinco.meta.core.ui.listener.MGLSelectionListener;
 import de.jabc.cinco.meta.core.utils.CincoUtils;
 import de.jabc.cinco.meta.core.utils.URIHandler;

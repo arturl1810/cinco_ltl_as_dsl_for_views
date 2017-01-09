@@ -31,8 +31,7 @@ Require-Bundle: org.eclipse.ui,
  de.jabc.cinco.meta.core.ge.style.generator.runtime
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
-Import-Package: de.jabc.cinco.meta.core.ui.features,
- de.jabc.cinco.meta.core.ui.listener,
+Import-Package: de.jabc.cinco.meta.core.ui.listener,
  org.eclipse.emf.ecore.xmi,
  org.eclipse.emf.ecore.xmi.impl,
  org.eclipse.emf.ecore.xmi.util

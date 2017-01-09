@@ -11,7 +11,9 @@ Export-Package: de.jabc.cinco.meta.core.ge.style.model.preprocessors,
  graphicalgraphmodel,
  graphicalgraphmodel.impl,
  graphicalgraphmodel.util,
- style;uses:="org.eclipse.emf.ecore,org.eclipse.emf.common.util",
+ style;
+  uses:="org.eclipse.emf.ecore,
+   org.eclipse.emf.common.util",
  style.impl;
   uses:="org.eclipse.emf.ecore,
    style,

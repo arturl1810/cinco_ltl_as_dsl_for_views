@@ -1,4 +1,4 @@
-package de.jabc.cinco.meta.core.ui.features;
+package de.jabc.cinco.meta.core.ge.style.generator.runtime.features;
 
 import graphmodel.Edge;
 import graphmodel.GraphModel;

@@ -39,7 +39,6 @@ Bundle-ActivationPolicy: lazy
 Import-Package: de.jabc.cinco.meta.core.ge.style.generator.runtime.errorhandling,
  de.jabc.cinco.meta.core.ge.style.generator.runtime.features,
  de.jabc.cinco.meta.core.ge.style.generator.runtime.provider,
- de.jabc.cinco.meta.core.ui.features,
  de.jabc.cinco.meta.core.utils.projects,
  org.eclipse.graphiti.ui.features,
  style
