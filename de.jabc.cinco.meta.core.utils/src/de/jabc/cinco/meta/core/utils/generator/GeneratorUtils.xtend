@@ -243,6 +243,7 @@ class GeneratorUtils {
 			Edge : '''«graphmodel.Edge»'''
 			GraphModel : '''«graphmodel.GraphModel.name»'''
 		}
+
 	}
 	
 	/**
@@ -284,6 +285,14 @@ class GeneratorUtils {
 		map.remove("NONE");
 		
 		return map
+	}
+	
+	def isCreateDisabled(Edge edge){
+		false
+	}
+	
+	def isCreateDisabled() {
+		false
 	}
 	
 	/**
