@@ -1,16 +1,11 @@
 package de.jabc.cinco.meta.core.utils.xtext;
 
-import mgl.Annotation;
-import mgl.ModelElement;
-
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.jdt.core.IJavaProject;
-import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.JavaCore;
-import org.eclipse.jdt.core.JavaModelException;
 
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.customfeature.CincoCustomAction;
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.customfeature.CincoDoubleClickAction;
@@ -21,6 +16,8 @@ import de.jabc.cinco.meta.core.ge.style.generator.runtime.customfeature.CincoPos
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.customfeature.CincoPostValueChangeListener;
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.customfeature.CincoPreDeleteHook;
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.customfeature.CincoValuesProvider;
+import mgl.Annotation;
+import mgl.ModelElement;
 
 
 

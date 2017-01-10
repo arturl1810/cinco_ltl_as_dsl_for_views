@@ -25,6 +25,7 @@ import org.eclipse.emf.ecore.EClass
 import org.eclipse.emf.ecore.EFactory
 import org.eclipse.emf.ecore.EPackage
 import de.jabc.cinco.meta.core.utils.CincoUtils
+import graphmodel.Container
 
 class GeneratorUtils {
 	val static String ID_CONTAINER = "Containers";
@@ -237,10 +238,10 @@ class GeneratorUtils {
 	
 	def superClass(ModelElement me) {
 		switch (me) {
-			NodeContainer : '''«CContainer.name»'''
-			Node : '''«CNode.name»'''
-			Edge : '''«CEdge.name»'''
-			GraphModel : '''«CGraphModel.name»'''
+			NodeContainer : '''«Container.name»'''
+			Node : '''«graphmodel.Node.name»'''
+			Edge : '''«graphmodel.Edge»'''
+			GraphModel : '''«graphmodel.GraphModel.name»'''
 		}
 	}
 	
@@ -343,6 +344,10 @@ class GeneratorUtils {
 		if(n.primeReference != null)
 			return true
 		return false;
+	}
+
+	def isCreateDisabled(ModelElement me) {
+		CincoUtils::isCreateDisabled(me)
 	}
 
 	/**

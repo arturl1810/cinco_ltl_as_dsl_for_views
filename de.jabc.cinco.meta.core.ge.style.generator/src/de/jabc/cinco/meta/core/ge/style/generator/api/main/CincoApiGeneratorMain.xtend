@@ -1,12 +1,12 @@
 package de.jabc.cinco.meta.core.ge.style.generator.api.main
 
 import de.jabc.cinco.meta.core.ge.style.generator.api.templates.CModelElementTmpl
-import de.jabc.cinco.meta.core.ge.style.generator.templates.util.GeneratorUtils
 import de.jabc.cinco.meta.core.utils.projects.ContentWriter
 import mgl.GraphModel
 import org.eclipse.core.resources.IProject
+import de.jabc.cinco.meta.core.ge.style.generator.templates.util.APIUtils
 
-class CincoApiGeneratorMain extends GeneratorUtils {
+class CincoApiGeneratorMain extends APIUtils {
 	
 	extension CModelElementTmpl = new CModelElementTmpl
 	

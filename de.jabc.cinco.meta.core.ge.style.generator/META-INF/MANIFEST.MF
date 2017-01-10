@@ -44,8 +44,5 @@ Import-Package: de.jabc.cinco.meta.core.ge.style.generator.runtime.errorhandling
  org.eclipse.graphiti.ui.features,
  style
 Export-Package: de.jabc.cinco.meta.core.ge.style.generator.graphiti.utils,
- de.jabc.cinco.meta.core.ge.style.generator.main,
- cincoapi,
- cincoapi.impl,
- cincoapi.util
+ de.jabc.cinco.meta.core.ge.style.generator.main
 

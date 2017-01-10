@@ -67,8 +67,8 @@ public class NewGraphitiCodeGenerator extends AbstractHandler{
 		GraphitiGeneratorMain editorGenerator = new GraphitiGeneratorMain(graphModel,cpdFile, CincoUtils.getStyles(graphModel));
 		editorGenerator.doGenerate(project);
 		
-//		CincoApiGeneratorMain apiGenerator = new CincoApiGeneratorMain(graphModel);
-//		apiGenerator.doGenerate(project);
+		CincoApiGeneratorMain apiGenerator = new CincoApiGeneratorMain(graphModel);
+		apiGenerator.doGenerate(project);
 		
 		return null;
 	}

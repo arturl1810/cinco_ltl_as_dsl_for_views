@@ -1,26 +1,22 @@
 package de.jabc.cinco.meta.core.ge.style.generator.api.templates
 
-import mgl.GraphModel
-import de.jabc.cinco.meta.core.ge.style.generator.templates.util.GeneratorUtils
-import cincoapi.CGraphModel
-
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.provider.CincoFeatureProvider
+import de.jabc.cinco.meta.core.ge.style.generator.templates.util.APIUtils
 import de.jabc.cinco.meta.core.utils.MGLUtils
+import mgl.ContainingElement
+import mgl.ModelElement
+import mgl.Node
+import mgl.NodeContainer
+import org.eclipse.emf.ecore.EObject
+import org.eclipse.graphiti.features.IFeatureProvider
+import org.eclipse.graphiti.features.context.impl.CreateConnectionContext
 import org.eclipse.graphiti.features.context.impl.CreateContext
 import org.eclipse.graphiti.mm.pictograms.ContainerShape
-import org.eclipse.graphiti.features.IFeatureProvider
-import org.eclipse.graphiti.mm.pictograms.PictogramElement
 import org.eclipse.graphiti.mm.pictograms.Diagram
+import org.eclipse.graphiti.mm.pictograms.PictogramElement
 import org.eclipse.graphiti.ui.services.GraphitiUi
-import mgl.ModelElement
-import mgl.NodeContainer
-import mgl.ContainingElement
-import mgl.Node
-import org.eclipse.graphiti.features.context.impl.CreateConnectionContext
-import mgl.ReferencedModelElement
-import org.eclipse.emf.ecore.EObject
-import de.jabc.cinco.meta.core.ge.style.generator.runtime.provider.CincoFeatureProvider
 
-class CModelElementTmpl extends GeneratorUtils {
+class CModelElementTmpl extends APIUtils {
 	
 def doGenerateInterface(ModelElement me)'''
 package «me.packageNameAPI»;

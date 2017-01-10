@@ -18,8 +18,9 @@ import mgl.ComplexAttribute
 import mgl.PrimitiveAttribute
 import java.math.BigDecimal
 import java.math.BigInteger
+import de.jabc.cinco.meta.core.utils.generator.GeneratorUtils
 
-class APIUtils {
+class APIUtils extends GeneratorUtils {
 
 	static var String packageName
 	static var String gmName
@@ -35,13 +36,13 @@ class APIUtils {
 			return ce.name
 	}
 	
-	def getGraphModel(ModelElement me) {
-		switch me {
-			Node : me.rootElement
-			Edge : me.rootElement
-			GraphModel : me
-		}
-	}
+//	def getGraphModel(ModelElement me) {
+//		switch me {
+//			Node : me.rootElement
+//			Edge : me.rootElement
+//			GraphModel : me
+//		}
+//	}
 	
 	def GraphModel rootElement(Type t) {
 		if (t instanceof GraphModel)

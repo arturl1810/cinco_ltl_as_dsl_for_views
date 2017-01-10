@@ -1,6 +1,8 @@
 package de.jabc.cinco.meta.core.ge.style.generator.main
 
 import de.jabc.cinco.meta.core.ge.style.generator.templates.DiagramEditorTmpl
+import de.jabc.cinco.meta.core.ge.style.generator.templates.DiagramTypeProviderTmpl
+import de.jabc.cinco.meta.core.ge.style.generator.templates.FeatureProviderTmpl
 import de.jabc.cinco.meta.core.ge.style.generator.templates.FileExtensionContent
 import de.jabc.cinco.meta.core.ge.style.generator.templates.GraphitiUtilsTmpl
 import de.jabc.cinco.meta.core.ge.style.generator.templates.ImageProviderTmpl
@@ -10,12 +12,18 @@ import de.jabc.cinco.meta.core.ge.style.generator.templates.NewDiagramWizardTmpl
 import de.jabc.cinco.meta.core.ge.style.generator.templates.PerspectiveTmpl
 import de.jabc.cinco.meta.core.ge.style.generator.templates.PluginXMLTmpl
 import de.jabc.cinco.meta.core.ge.style.generator.templates.PropertyViewTmpl
+import de.jabc.cinco.meta.core.ge.style.generator.templates.ToolBehaviorProviderTmpl
 import de.jabc.cinco.meta.core.ge.style.generator.templates.add.EdgeAddFeatures
 import de.jabc.cinco.meta.core.ge.style.generator.templates.add.NodeAddFeatures
+import de.jabc.cinco.meta.core.ge.style.generator.templates.create.EdgeCreateFeatures
+import de.jabc.cinco.meta.core.ge.style.generator.templates.create.NodeCreateFeatures
+import de.jabc.cinco.meta.core.ge.style.generator.templates.delete.NodeDeleteFeatures
 import de.jabc.cinco.meta.core.ge.style.generator.templates.expressionlanguage.ContextTmp
 import de.jabc.cinco.meta.core.ge.style.generator.templates.expressionlanguage.ResolverTmp
 import de.jabc.cinco.meta.core.ge.style.generator.templates.layout.EdgeLayoutFeatures
 import de.jabc.cinco.meta.core.ge.style.generator.templates.layout.NodeLayoutFeatures
+import de.jabc.cinco.meta.core.ge.style.generator.templates.move.NodeMoveFeatures
+import de.jabc.cinco.meta.core.ge.style.generator.templates.resize.NodeResizeFeatures
 import de.jabc.cinco.meta.core.ge.style.generator.templates.update.EdgeUpdateFeatures
 import de.jabc.cinco.meta.core.ge.style.generator.templates.update.NodeUpdateFeatures
 import de.jabc.cinco.meta.core.ui.templates.DefaultPerspectiveContent
