@@ -1,10 +1,12 @@
 package de.jabc.cinco.meta.core.feature.handler
 
+import java.util.ArrayList
 import java.util.HashMap
 import java.util.Set
 import mgl.GraphModel
 import org.eclipse.core.resources.IProject
 import org.eclipse.xtext.util.StringInputStream
+import java.util.HashSet
 
 class GenerateFeatureXML {
 	def static void generate(GraphModel model, String packageName,
@@ -51,12 +53,28 @@ class GenerateFeatureXML {
 	'''
 	
 	def static collectPlugins(GraphModel model, HashMap<String, Set<String>> annotationToPackageMap, HashMap<String, Set<String>> annotationToMGLPackageMap,String packageName){
-		model.annotations.map[anno| annotationToPackageMap.get(anno)+annotationToMGLPackageMap.get(anno).map[mglDepPkg|String.format("%s.%s",packageName,mglDepPkg)] ].flatten
+		model.annotations.map [anno|
+				var pkgs = annotationToPackageMap.get(anno.name);
+				if(pkgs==null){
+					pkgs=new HashSet<String>();
+				} 
+				val mglPkgs = if(annotationToMGLPackageMap.get(anno.name)!=null){annotationToMGLPackageMap.get(anno.name).map[mglDepPkg|String.format("%s.%s", packageName, mglDepPkg)]}else{ new HashSet<String>()};
+				pkgs+mglPkgs
+			].flatten
+			
 	}
 	
 	def static collectFragments(GraphModel model,HashMap<String, Set<String>> annotationToFragmentMap,
 			HashMap<String, Set<String>> annotationToMGLFragmentMap,String packageName){
-		model.annotations.map[anno| annotationToFragmentMap.get(anno)+annotationToMGLFragmentMap.get(anno).map[mglDepFrg|String.format("%s.%s",packageName,mglDepFrg)] ].flatten
+				
+		model.annotations.map [anno|
+			var frgm = annotationToFragmentMap.get(anno.name);
+			if(frgm==null){
+				frgm=new HashSet<String>
+			}
+			val mglFrgm = if(annotationToMGLFragmentMap.get(anno.name)!=null){annotationToMGLFragmentMap.get(anno.name).map [mglDepFrg| String.format("%s.%s", packageName, mglDepFrg)]}else{new HashSet<String>()};
+			frgm+mglFrgm
+		].flatten
 	}
 	
 	
