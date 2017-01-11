@@ -15,6 +15,7 @@ import org.eclipse.emf.ecore.EcorePackage;
 import freemarker.template.TemplateException;
 import mgl.Annotation;
 import mgl.Attribute;
+import mgl.ComplexAttribute;
 import mgl.Edge;
 import mgl.GraphModel;
 import mgl.GraphicalElementContainment;
@@ -23,6 +24,7 @@ import mgl.ModelElement;
 import mgl.Node;
 import mgl.NodeContainer;
 import mgl.OutgoingEdgeElementConnection;
+import mgl.PrimitiveAttribute;
 import mgl.Type;
 
 public class McamImplementationGenerator {
@@ -267,22 +269,24 @@ public class McamImplementationGenerator {
 	}
 
 	private ModelElement getModelElementType(Attribute attribute) {
+//		FIXME: Added cast during api overhaul
 		for (ModelElement element : entityAttributes.keySet()) {
-			if (attribute.getType().equals(element.getName()))
+			if (((PrimitiveAttribute) attribute).getType().equals(element.getName()))
 				return element;
 		}
 		return null;
 	}
 
 	private Type getEnumType(Attribute attribute) {
+//		FIXME: Added cast during api overhaul
 		for (Type type : gModel.getTypes()) {
-			if (attribute.getType().equals(type.getName()))
+			if (((ComplexAttribute) attribute).getType().equals(type.getName()))
 				return type;
 		}
 
 		return null;
 	}
-
+	
 	private Set<ModelElement> getPossibleContainer(ModelElement element) {
 		HashSet<ModelElement> possibleContainer = new HashSet<>();
 
@@ -445,7 +449,7 @@ public class McamImplementationGenerator {
 		if (getModelElementType(attribute) != null) {
 			data.put("AttributeCategory", "ModelElement");
 			data.put("AttributeType", data.get("GraphModelPackage") + "."
-					+ attribute.getType().toString());
+					+ ((PrimitiveAttribute) attribute).getType().toString());
 		} else if (getEnumType(attribute) != null) {
 			data.put("AttributeCategory", "Enum");
 			data.put("AttributeType", data.get("GraphModelPackage") + "."
@@ -453,7 +457,7 @@ public class McamImplementationGenerator {
 		} else {
 			data.put("AttributeCategory", "Normal");
 			data.put("AttributeType",
-					EcorePackage.eINSTANCE.getEClassifier(attribute.getType())
+					EcorePackage.eINSTANCE.getEClassifier(((ComplexAttribute) attribute).getType().getName())
 							.getInstanceClass().getName());
 		}
 

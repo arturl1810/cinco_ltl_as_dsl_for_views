@@ -14,6 +14,8 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import de.jabc.cinco.meta.core.pluginregistry.validation.ErrorPair;
 import de.jabc.cinco.meta.core.pluginregistry.validation.IMetaPluginValidator;
 
+import static de.jabc.cinco.meta.plugin.template.SpreadsheetUtil.getType; 
+
 public class SpreadSheetAnnotationValidator implements IMetaPluginValidator {
 
 	@Override
@@ -68,7 +70,9 @@ public class SpreadSheetAnnotationValidator implements IMetaPluginValidator {
 			
 		}
 		if(eObject instanceof Annotation&&((Annotation)eObject).getName().equals("result")){
-			if(!((Attribute)((Annotation)eObject).getParent()).getType().equals("EDouble")){
+			//FIXME: Changed during api overhaul. Old verion in comment
+//			if(!((Attribute)((Annotation)eObject).getParent()).getType().equals("EDouble")){
+			if(!(getType((Attribute)((Annotation)eObject).getParent())).equals("EDouble")){
 				return new ErrorPair<String,EStructuralFeature>(
 						"Attribute type EDouble required for result attribute.",
 						eObject.eClass().getEStructuralFeature("value")

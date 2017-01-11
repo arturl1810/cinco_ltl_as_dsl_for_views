@@ -6,6 +6,9 @@ import mgl.Attribute
 import de.jabc.cinco.meta.plugin.pyro.utils.ModelParser
 import mgl.ModelElement
 
+//FIXME: Added during api overhaul
+import static extension de.jabc.cinco.meta.plugin.pyro.templates.Templateable.getType
+
 class CModelElementImpl {
 	
 	static def createCommadsGetters(ModelElement modelElement,String type)

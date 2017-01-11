@@ -71,6 +71,9 @@ import de.jabc.cinco.meta.plugin.pyro.model.StyledLabel;
 import de.jabc.cinco.meta.plugin.pyro.model.StyledNode;
 import de.jabc.cinco.meta.plugin.pyro.templates.presentation.java.pages.PyroTemplate;
 
+//FIXME: Added during api overhaul
+import static de.jabc.cinco.meta.plugin.pyro.templates.Templateable.getType;
+
 public class ModelParser {
 	
 	public static String GROUP_ANNOTATION = "palette";
@@ -780,7 +783,7 @@ public class ModelParser {
 	public static boolean isUserDefinedType(mgl.Attribute attribute,ArrayList<mgl.Type> types)
 	{
 		for (mgl.Type type : types) {
-			if(type.getName().equals(attribute.getType()) && type instanceof UserDefinedType){
+			if(type.getName().equals(/*attribute.*/getType(attribute)) && type instanceof UserDefinedType){
 				return true;
 			}
 		}
@@ -878,7 +881,7 @@ public class ModelParser {
 		modelElements.addAll(graphmodel.getNodes());
 		
 		for(ModelElement modelElement : modelElements) {
-			if(modelElement.getName().equals(attribute.getType())){
+			if(modelElement.getName().equals(/*attribute.*/getType(attribute))){
 				return modelElement;
 			}
 		}

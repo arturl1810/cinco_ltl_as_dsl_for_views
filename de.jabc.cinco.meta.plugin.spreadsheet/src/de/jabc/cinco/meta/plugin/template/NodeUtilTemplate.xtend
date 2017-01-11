@@ -5,6 +5,8 @@ import de.jabc.cinco.meta.plugin.spreadsheet.ResultNode
 import java.util.ArrayList
 import mgl.Node
 
+import static extension de.jabc.cinco.meta.plugin.template.SpreadsheetUtil.getType
+
 class NodeUtilTemplate {
 	def create(String projectPath,String packageName,ArrayList<ResultNode> nodes, ArrayList<CalculatingEdge> edges,ArrayList<Node> allNodes,String graphName)'''
 package «packageName»;

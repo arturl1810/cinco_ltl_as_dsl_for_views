@@ -4,6 +4,8 @@ import de.jabc.cinco.meta.plugin.pyro.model.StyledModelElement
 import java.util.ArrayList
 import mgl.Attribute
 import de.jabc.cinco.meta.plugin.pyro.utils.ModelParser
+//FIXME: Added during api overhaul
+import static extension de.jabc.cinco.meta.plugin.pyro.templates.Templateable.getType
 
 class CModelElement {
 	static def createAttribute(mgl.Attribute attribute,StyledModelElement sme,ArrayList<mgl.Type> enums,mgl.GraphModel graphModel)

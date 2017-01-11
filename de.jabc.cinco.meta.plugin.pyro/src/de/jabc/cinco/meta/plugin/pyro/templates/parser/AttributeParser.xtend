@@ -7,6 +7,9 @@ import mgl.Enumeration
 import de.jabc.cinco.meta.plugin.pyro.utils.ModelParser
 import mgl.GraphModel
 
+//FIXME: Added during api overhaul
+import static extension de.jabc.cinco.meta.plugin.pyro.templates.Templateable.getType
+
 class AttributeParser {
 	static def createAttribute(mgl.Attribute attribute,String modelName,ArrayList<Type> enums,GraphModel graphModel)
 	'''
