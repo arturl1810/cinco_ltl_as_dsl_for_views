@@ -14,6 +14,11 @@ import style.Styles
 
 class NodeResizeFeatures extends GeneratorUtils{
 	
+	/**
+	 * Generates the 'Resize-Feature' for a node
+	 * @param n : The node
+	 * @param styles : The style
+	 */
 	def doGenerateNodeResizeFeature(Node n, Styles styles)'''
 	package «n.packageNameResize»;
 	
@@ -21,10 +26,20 @@ class NodeResizeFeatures extends GeneratorUtils{
 		
 		«n.fqBeanName» bo;
 		
+		/**
+		 * Call of the Superclass
+		 * @param fp: Fp is the parameter of the Superclass-Call
+		*/
 		public ResizeFeature«n.fuName»(«IFeatureProvider.name» fp) {
 			super(fp);
 		}
 		
+		/**
+		 * Checks if a shape can be resized
+		 * @param context: Contains the information, needed to let a feature resize a shape
+		 * @param apiCall: ApiCall shows if the Cinco Api is used
+		 * @return Returns true if the shape can be resized and false if not
+		*/
 		public boolean canResizeShape(«IResizeShapeContext.name» context, boolean apiCall) {
 			if (apiCall) {
 				«Object.name» bo = getBusinessObjectForPictogramElement(context.getPictogramElement());
@@ -33,11 +48,20 @@ class NodeResizeFeatures extends GeneratorUtils{
 			return false;
 		}
 		
+		/**
+		 * Checks if a shape can be resized by using the method 'canResizeShape(context,apiCall)'
+		 * @param context: Contains the information, needed to let a feature create a shape
+		 * @return Returns if the shape can be resized and false if not
+		*/
 		@Override
 		public boolean canResizeShape(«IResizeShapeContext.name» context) {
 			return canResizeShape(context, «!CincoUtils.isResizeDisabled(n)»);
 		}
 		
+		/**
+		 * Resizes a shape
+		 * @param context: Contains the information, needed to let a feature resize a shape
+		*/
 		@Override
 		public void resizeShape(final «IResizeShapeContext.name» context) {
 			«TransactionalEditingDomain.name» dom = «TransactionUtil.name».getEditingDomain(getDiagram());

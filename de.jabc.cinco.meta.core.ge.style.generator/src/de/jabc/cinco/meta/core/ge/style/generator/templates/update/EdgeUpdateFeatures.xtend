@@ -26,6 +26,11 @@ class EdgeUpdateFeatures extends GeneratorUtils{
 	
 	var static number = 0
 	
+	/** 
+	 * Generates the 'Update-Feature' for a given edge
+	 * @param e : The edge
+	 * @param styles : The style
+	*/	
 	def doGenerateEdgeUpdateFeature(Edge e, Styles styles)'''
 	package «e.packageNameUpdate»;
 	
@@ -34,10 +39,19 @@ class EdgeUpdateFeatures extends GeneratorUtils{
 		private static «ExpressionFactoryImpl.name» factory = new «ExpressionFactoryImpl.name»();
 		private static «e.graphModel.packageName».expression.«e.graphModel.fuName»ExpressionLanguageContext elContext;
 		
+		/**
+		 * Call of the Superclass
+		 * @param fp: Fp is the parameter of the Superclass-Call
+		*/
 		public UpdateFeature«e.fuName»(«IFeatureProvider.name» fp) {
 			super(fp);
 		}
-	
+		
+		/**
+		 * Checks if a pictogram element can be updated
+		 * @param context: Contains the information, needed to let a feature update a pictogram element
+		 * @return Returns true if a pictogram element can be updated and false if not
+		*/
 		@Override
 		public boolean canUpdate(«IUpdateContext.name» context) {
 			«PictogramElement.name» pe = context.getPictogramElement();
@@ -45,6 +59,11 @@ class EdgeUpdateFeatures extends GeneratorUtils{
 			return (bo instanceof «e.fqBeanName»);
 		}
 	
+		/**
+		 * Checks if an Update for a pictogram element is needed
+		 * @param context: Contains the information, needed to let a feature update a pictogram element
+		 * @return Returns a 'true reason' or a 'false reason' to update a pictogram element
+		*/
 		@Override
 		public «IReason.name» updateNeeded(«IUpdateContext.name» context) {
 			«PictogramElement.name» pe = context.getPictogramElement();
@@ -62,7 +81,12 @@ class EdgeUpdateFeatures extends GeneratorUtils{
 			}
 			return «Reason.name».createFalseReason();
 		}
-	
+		
+		/**
+		 * Checks if the update process was successful
+		 * @param context: Contains the information, needed to let a feature update a pictogram element
+		 * @return Returns true if the update process was successful and false if not
+		*/
 		@Override
 		public boolean update(«IUpdateContext.name» context) {
 			«PictogramElement.name» pe = context.getPictogramElement();
@@ -75,7 +99,14 @@ class EdgeUpdateFeatures extends GeneratorUtils{
 			}		
 			return false;
 		}
-		private void updateText( «e.fqBeanName» «e.fuName.toFirstLower», «PictogramElement.name» pe) {
+
+		
+		/**
+		 * Updates the text on an edge
+		 * @param «e.name.toLowerCase»: «e.name.toLowerCase» is the pictogram element that will be updated
+		 * @param pe: A representation of the model object 'Pictogram Element'
+		*/
+		private void updateText( «e.fqBeanName» «e.name.toLowerCase», «PictogramElement.name» pe) {
 			if (pe instanceof «ContainerShape.name») {
 				«PictogramElement.name» tmp = pe;
 				Object o = «Graphiti.name».getLinkService().getBusinessObjectForLinkedPictogramElement(tmp);
@@ -109,6 +140,13 @@ class EdgeUpdateFeatures extends GeneratorUtils{
 				}
 			}
 		}
+		
+		/*
+		 * Checks if an update is needed
+		 * @param «e.name.toLowerCase»: «e.name.toLowerCase» is the pictogram element that will be updated
+		 * @param pe: A representation of the model object 'Pictogram Element'
+		 * @return Returns true if an update is needed and false if not
+		*/
 		public static boolean checkUpdateNeeded(«e.graphModel.beanPackage».«e.fuName» «e.fuName.toFirstLower», «PictogramElement.name» pe) {
 			boolean updateNeeded;
 			if (pe instanceof «ContainerShape.name») {
@@ -147,21 +185,28 @@ class EdgeUpdateFeatures extends GeneratorUtils{
 		}
 	}
 	'''
-	
-	def getValue(Edge n){
-		var listAnnot = n.annotations;
+	/**
+	 * Auxiliary method to get the text value of a given edge
+	 * @param e : The edge
+	 */
+	def getValue(Edge e){
+		var listAnnot = e.annotations;
 		var annot = listAnnot.get(0);
 		var listValue = annot.value;
 		number = 0
 		
 		return '''
 		«FOR value : listValue»«IF value.startsWith("${")»
-		elContext = new «n.packageName».expression.«n.graphModel.name»ExpressionLanguageContext(«n.name.toFirstLower»);
+
+		elContext = new «e.packageName».expression.«e.graphModel.name»ExpressionLanguageContext(«e.name.toLowerCase»);
 		Object tmp«number = number+1»Value = factory.createValueExpression(elContext, "«value»", Object.class).getValue(elContext); 
 		«ENDIF»«ENDFOR»''' 
 
 	}
-	
+	/** 
+	 * Auxiliary method
+	 * @param e : The edge
+	*/	
 	def fill(Edge e){
 		var listAnnot = e.annotations;
 		var annot = listAnnot.get(0);

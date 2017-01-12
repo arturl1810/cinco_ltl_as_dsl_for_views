@@ -44,7 +44,7 @@ class StyleUtils extends GeneratorUtils {
 		'''
 				«var currentPeName = getShapeName(aShape)»
 				«var currentGaName = getGAName(aShape)»
-				«polygonVarDeclaration()»				
+				«polyVarDeclaration()»				
 				
 				«aShape.creator(currentPeName.toString, containerShapeName)»
 				
@@ -154,7 +154,12 @@ class StyleUtils extends GeneratorUtils {
 		«org.eclipse.graphiti.mm.algorithms.RoundedRectangle.name» «currentGaName» = gaService.createPlainRoundedRectangle(«currentPeName», «rr.
 			cornerWidth», «rr.cornerHeight»);
 	'''
-
+	/**
+	 * Generates a polygon 
+	 * @param p : The polygon that will be generated
+	 * @param currentGaName : The 'Impl' of a shape e.g. 'polygonImpl25'
+	 * @param currentPeName : The 'Shape' of a 'Impl' of a shape e.g. 'polygonImplSHAPE25
+	 */
 	def dispatch getCode(Polygon p, CharSequence currentGaName, CharSequence currentPeName)'''
 		points = new «int»[] {«printPoints(p)»};
 				
@@ -199,8 +204,10 @@ class StyleUtils extends GeneratorUtils {
 			graphModel.packageName».«node.graphModel.fuName»LayoutUtils.KEY_VERTICAL_UNDEFINED);
 		
 	'''
-
-	def polygonVarDeclaration() '''
+	/**
+	 * Generates the variable declaration that is need for the getCode-Method for polygon and polyline
+	 */	
+	def polyVarDeclaration() '''
 		boolean parentIsDiagram = false;
 		int width = 0;
 		int height = 0;
@@ -213,9 +220,14 @@ class StyleUtils extends GeneratorUtils {
 		int[] ys;
 		String pointsString = "";
 	'''
-
+	/**
+	 * Generates a polyline 
+	 * @param p : The polyline that will be generated
+	 * @param currentGaName : The 'Impl' of a shape e.g. 'polylineImpl'
+	 * @param currentPeName : The 'Shape' of a 'Impl' of a shape e.g. 'polylineImplSHAPE'
+	 */
 	def dispatch getCode(Polyline p, CharSequence currentGaName, CharSequence currentPeName) '''
-«««	ToDO: Polyline
+
 		points = new «int»[] {«printPoints(p)»};
 				
 		xs = new «int»[] {«printX(p)»};
@@ -440,7 +452,9 @@ class StyleUtils extends GeneratorUtils {
 			}
 		}
 	}
-	
+	/**
+	 * 
+	 */
 	def static getText(Edge e){
 		var annot = e.annotations
 		for( an : annot){
@@ -469,7 +483,11 @@ class StyleUtils extends GeneratorUtils {
 //		if (shape instanceof Text)
 //			return shape.value
 //	}
-
+	/**
+	 * Auxiliary method to get the text of a node
+	 * @param n : The node
+	 * @return Returns the string with the text of a node
+	 */
 	def static getText(Node n) {
 		var listAnnot = n.annotations;
 		var annot = listAnnot.get(0);
@@ -490,7 +508,11 @@ class StyleUtils extends GeneratorUtils {
 		return string;
 	}
 
-
+	/**
+	 * Reads out the points of a polygon
+	 * @param p : The polygon
+	 * @return Returns the points of the polygon
+	 */
 	def static String printPoints(Polygon p) {
 		var EList<Point> polyPoints = p.points;
 		var pointValues = "";
@@ -499,7 +521,12 @@ class StyleUtils extends GeneratorUtils {
 		}
 		return pointValues
 	}
-
+	
+	/**
+	 * Reads out the points of a polyline
+	 * @param p : The polyline
+	 * @return Returns the points of the polyline
+	 */
 	def static String printPoints(Polyline p) {
 		var EList<Point> polyPoints = p.points;
 		var pointValues = "";
@@ -508,7 +535,11 @@ class StyleUtils extends GeneratorUtils {
 		}
 		return pointValues
 	}
-
+	/**
+	 * Reads out the x-values of a polygon
+	 * @param p : The polygon
+	 * @return Returns the x-values of the polygon
+	 */	
 	def static String printX(Polygon p) {
 		var EList<Point> polyPoints = p.points;
 		var pointX = "";
@@ -517,7 +548,12 @@ class StyleUtils extends GeneratorUtils {
 		}
 		return pointX;
 	}
-
+	
+	/**
+	 * Reads out the y-values of a polygon
+	 * @param p : The polygon
+	 * @return Returns the y-values of the polygon
+	 */	
 	def static String printY(Polygon p) {
 		var EList<Point> polyPoints = p.points;
 		var pointY = "";
@@ -527,7 +563,11 @@ class StyleUtils extends GeneratorUtils {
 		return pointY;
 	}
 
-
+	/**
+	 * Reads out the x-values of a polyline
+	 * @param p : The polyline
+	 * @return Returns the x-values of the polyline
+	 */	
 	def static String printX(Polyline p) {
 		var EList<Point> polyPoints = p.points;
 		var pointX = "";
@@ -536,7 +576,11 @@ class StyleUtils extends GeneratorUtils {
 		}
 		return pointX;
 	}
-
+	/**
+	 * Reads out the y-values of a polyline
+	 * @param p : The polyline
+	 * @return Returns the y-values of the polyline
+	 */		
 	def static String printY(Polyline p) {
 		var EList<Point> polyPoints = p.points;
 		var pointY = "";

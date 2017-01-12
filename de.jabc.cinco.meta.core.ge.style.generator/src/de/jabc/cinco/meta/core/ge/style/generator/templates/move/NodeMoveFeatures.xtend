@@ -15,6 +15,11 @@ import style.Styles
 
 class NodeMoveFeatures extends GeneratorUtils{
 	
+	/**
+	 * Generates the 'Move-Feature' for a given node
+	 * @param n : The node
+	 * @param style : The style
+	 */
 	def doGenerateNodeMoveFeature(Node n, Styles styles)'''
 	package «n.packageNameMove»;
 	
@@ -22,10 +27,20 @@ class NodeMoveFeatures extends GeneratorUtils{
 		
 		private «ECincoError.name» error = «ECincoError.name».OK;
 		
+		/**
+		 * Call of the Superclass
+		 * @param fp: Fp is the parameter of the Superclass-Call
+		*/
 		public MoveFeature«n.fuName»(«IFeatureProvider.name» fp) {
 			super(fp);
 		}
 		
+		/**
+		 * Checks if a shape is moveable
+		 * @param context: Contains the information, needed to let a feature move a shape
+		 * @param apiCall: Apicall shows if the Cinco Api is used
+		 * @return Returns true if a shape can be moved and false if not
+		*/
 		public boolean canMoveShape(«IMoveShapeContext.name» context, boolean apiCall) {
 			if (apiCall) {
 				«Object.name» o = getBusinessObjectForPictogramElement(context.getShape());
@@ -46,11 +61,20 @@ class NodeMoveFeatures extends GeneratorUtils{
 			return false;
 		}
 		
+		/**
+		 * Checks if a shape is moveable by using the method 'canMoveShape(context,apiCall)'
+		 * @param context: Contains the information, needed to let a feature move a shape
+		 * @return Returns true if a shape can be moved and false if not
+		*/
 		@Override
 		public boolean canMoveShape(«IMoveShapeContext.name» context) {
 			return canMoveShape(context, «!CincoUtils.isMoveDisabled(n)»);
 		}
 	
+		/**
+		 * Moves a Shape by removing the shape at the source and adding it at the target
+		 * @param context: Contains the information, needed to let a feature move a shape
+		*/
 		@Override
 		public void moveShape(«IMoveShapeContext.name» context) {
 			«Object.name» o = getBusinessObjectForPictogramElement(context.getShape());
@@ -86,7 +110,11 @@ class NodeMoveFeatures extends GeneratorUtils{
 
 			super.moveShape(context);
 		}
-
+		
+		/**
+		 * Tries to get the root of the pictogram element, the coordinates of the context and the source and target
+		 * @param context: Contains the information, needed to let a feature move a shape
+		*/
 		@Override
 		protected void postMoveShape(«IMoveShapeContext.name» context) {
 			try {
@@ -112,17 +140,30 @@ class NodeMoveFeatures extends GeneratorUtils{
 			super.postMoveShape(context);
 		}
 
+		/**
+		 * Get-method for an error
+		 * @return Returns an 'error' in which 'error' is  'ECincoError.OK'
+		*/
 		public «ECincoError.name» getError() {
 			return error;
 		}
 
+		/**
+		 * Set-method for an error
+		 * @param error: Error is a value of the enum: MAX_CARDINALITY, MAX_IN, MAX_OUT, INVALID_SOURCE, INVALID_TARGET, INVALID_CONTAINER, INVALID_CLONE_TARGET, OK
+		*/
 		public void setError(«ECincoError.name» error) {
 			this.error = error;
 		}
 		
 	}
 	'''
-	
+	/**
+	 * Auxiliary method to check if a style of a node is fixed
+	 * @param n : The node
+	 * @param style : The style
+	 * @return Returns true if the style of a node is fixed and false if not
+	 */
 	def isFixed(Node n, Styles styles)
 	{
 		var style = CincoUtils.getStyleForNode(n, styles);

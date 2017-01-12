@@ -21,7 +21,8 @@ import mgl.GraphModel
 import mgl.Node
 import org.eclipse.emf.common.util.BasicEList
 
-class ImageProviderTmpl extends GeneratorUtils{
+class ImageProviderTmpl extends GeneratorUtils {
+
 
 	
 /**
@@ -32,15 +33,24 @@ class ImageProviderTmpl extends GeneratorUtils{
 	def generateImageProvider(GraphModel gm)
 '''package «gm.packageName»;
 
+
 public class «gm.fuName»ImageProvider extends «AbstractImageProvider.name» 
 	implements «IImageProvider.name» {
 
 	private «Hashtable.name»<«String.name», «String.name»> images;
 	
+	/**
+	 * Sets an ImageProvider
+	*/
 	public «gm.fuName»ImageProvider() {
 		«gm.fuName»GraphitiUtils.getInstance().setImageProvider(this);
 	}
 
+	/**
+	 * Adds an image to the editor
+	 * @param id: Id of an image
+	 * @param path: Path of the image
+	 */
 	public void addImage(«String.name» id, «String.name» path) {
 		if (images == null) {
 			images = new «Hashtable.name»<«String.name», «String.name»>();
@@ -49,6 +59,11 @@ public class «gm.fuName»ImageProvider extends «AbstractImageProvider.name»
 		addAvailableImages();
 	}
 	
+	/**
+	 * Returns the id of an image.
+	 * @param path: Path is the path of an image
+	 * @return Returns the id of an image.
+	*/
 	public «String.name» getImageId(«String.name» path) {
 		for («Entry.entryName»<«String.name», «String.name»> e : images.entrySet()){
 			if (e.getValue().equals(path))
@@ -57,7 +72,11 @@ public class «gm.fuName»ImageProvider extends «AbstractImageProvider.name»
 		
 		return "";
 	}
-
+	
+    /**
+     * Adds available images if the 'ImageFilePath' is is null
+     * If the HashTable 'images' is null a new one will be created
+    */
 	@Override
 	protected void addAvailableImages() {
 		if (images == null) {
@@ -68,7 +87,10 @@ public class «gm.fuName»ImageProvider extends «AbstractImageProvider.name»
 				addImageFilePath(e.getKey(), e.getValue());
 		}
 	}
-
+	
+	/**
+	 * Each image is logged in by adding the images and creating the related path.
+	*/
 	public void initImages() {
 		«Bundle.name» b = «Platform.name».getBundle("«gm.package».editor.graphiti");
 		«File.name» file;
@@ -111,18 +133,23 @@ public class «gm.fuName»ImageProvider extends «AbstractImageProvider.name»
 }
 
 '''
-def static EList<Node> getIconNodes(GraphModel gm){
-		var EList <Node> foundNodes = new BasicEList <Node>();
-		var EList <Node> nodes = gm.nodes;		
-		for(node : nodes){
-			var EList <mgl.Annotation> annots = node.annotations;
-			for(annot : annots){
-				if(annot.name.equals("icon")){
+	/**
+	 * Auxiliary method to get all nodes with the annotation "icon"
+	 * @param gm: The Graphmodel
+	 * @return Returns a list of all found nodes with the annotation "icon"
+	 */
+	def static EList<Node> getIconNodes(GraphModel gm) {
+		var EList<Node> foundNodes = new BasicEList<Node>();
+		var EList<Node> nodes = gm.nodes;
+		for (node : nodes) {
+			var EList<mgl.Annotation> annots = node.annotations;
+			for (annot : annots) {
+				if (annot.name.equals("icon")) {
 					foundNodes.add(node);
-					}							
-				}				
+				}
 			}
-			return foundNodes;			
+		}
+		return foundNodes;
 	}
 
 }
