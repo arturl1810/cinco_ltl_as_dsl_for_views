@@ -154,18 +154,21 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 		new CPDPreprocessorPlugin().execute(graphModels, cpd, cpdFile.getProject());
 
 		Collection<IFile> preProcessedMgls = new ArrayList<>();
-
-		preProcessedMgls = graphModels.stream().map(n -> n.eResource()).peek(res -> {
-			res.setURI(res.getURI().appendFragment("prep"));
-			try {
-				res.save(null);
-			} catch (Exception e) {
+		
+		graphModels.forEach(gm ->{
+			 Resource res = gm.eResource().getResourceSet().createResource(URI.createPlatformResourceURI(
+					 ResourceEAPI.eapi(gm.eResource()).getFile().getFullPath().removeLastSegments(1).append(gm.getName()+"preprocessed.mgl").toPortableString(),true));
+			 res.getContents().add(gm);
+			try{
+			res.save(null);
+			}catch(Exception e){
 				e.printStackTrace();
+				throw new RuntimeException(e);
 			}
-		}).map(res -> ResourceEAPI.eapi(res).getFile()).collect(Collectors.toList());
-
-
-		return preProcessedMgls;
+		});
+		preProcessedMgls = graphModels.stream().map(gm -> ResourceEAPI.eapi(gm.eResource()).getFile()).collect(Collectors.toList());
+		//TODO: Fix Every Place where FileName is used instead of GraphmodelName to form names and then return preProcessedMgls instead
+		return mgls;
 	}
 	
 	/**
