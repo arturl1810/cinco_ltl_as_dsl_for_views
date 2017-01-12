@@ -153,20 +153,20 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 				mgls.stream().map(n -> eapi(n).getResourceContent(GraphModel.class)).collect(Collectors.toList()));
 		new CPDPreprocessorPlugin().execute(graphModels, cpd, cpdFile.getProject());
 
-		Collection<IFile> preProcessedMgls = new ArrayList<>();
-		
-		graphModels.forEach(gm ->{
-			 Resource res = gm.eResource().getResourceSet().createResource(URI.createPlatformResourceURI(
-					 ResourceEAPI.eapi(gm.eResource()).getFile().getFullPath().removeLastSegments(1).append(gm.getName()+"preprocessed.mgl").toPortableString(),true));
-			 res.getContents().add(gm);
-			try{
-			res.save(null);
-			}catch(Exception e){
-				e.printStackTrace();
-				throw new RuntimeException(e);
-			}
-		});
-		preProcessedMgls = graphModels.stream().map(gm -> ResourceEAPI.eapi(gm.eResource()).getFile()).collect(Collectors.toList());
+//		Collection<IFile> preProcessedMgls = new ArrayList<>();
+//		
+//		graphModels.forEach(gm ->{
+//			 Resource res = gm.eResource().getResourceSet().createResource(URI.createPlatformResourceURI(
+//					 ResourceEAPI.eapi(gm.eResource()).getFile().getFullPath().removeLastSegments(1).append(gm.getName()+"preprocessed.mgl").toPortableString(),true));
+//			 res.getContents().add(gm);
+//			try{
+//			res.save(null);
+//			}catch(Exception e){
+//				e.printStackTrace();
+//				throw new RuntimeException(e);
+//			}
+//		});
+//		preProcessedMgls = graphModels.stream().map(gm -> ResourceEAPI.eapi(gm.eResource()).getFile()).collect(Collectors.toList());
 		//TODO: Fix Every Place where FileName is used instead of GraphmodelName to form names and then return preProcessedMgls instead
 		return mgls;
 	}
