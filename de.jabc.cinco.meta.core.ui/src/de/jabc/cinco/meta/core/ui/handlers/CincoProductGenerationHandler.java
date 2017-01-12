@@ -7,9 +7,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
@@ -35,6 +37,7 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.commands.ICommandService;
 import org.eclipse.ui.handlers.HandlerUtil;
+import org.eclipse.xtext.xbase.lib.Pair;
 
 import de.jabc.cinco.meta.core.BundleRegistry;
 import de.jabc.cinco.meta.core.mgl.MGLEPackageRegistry;
@@ -47,6 +50,7 @@ import de.jabc.cinco.meta.core.utils.dependency.DependencyGraph;
 import de.jabc.cinco.meta.core.utils.dependency.DependencyNode;
 import de.jabc.cinco.meta.core.utils.job.Workload;
 import de.jabc.cinco.meta.core.utils.projects.ProjectCreator;
+import de.jabc.cinco.meta.plugin.cpdpreprocessor.CPDPreprocessorPlugin;
 import mgl.GraphModel;
 import mgl.Import;
 import mgl.MglPackage;
@@ -97,30 +101,40 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 		    .task("Deleting previously generated resources...", this::deleteGeneratedResources)
 		    .task("Resetting registries...", this::resetRegistries);
 		
-		for (IFile mgl : mgls) { // execute the following tasks for each mgl file
-			Workload tasks = job.consume(50, String.format("Processing %s", mgl.getFullPath().lastSegment()));
-			tasks.task("Initializing...", () -> publishMglFile(mgl))
-				.task("Generating Ecore/GenModel...", () -> generateEcoreModel(mgl))
-				.task("Generating model code...", () -> generateGenmodelCode(mgl))
-				.task("Generating Graphiti editor...", () -> generateGraphitiEditor(mgl))
-				.task("Generating API...", () -> generateApi(mgl))
-				.task("Generating Cinco SIBs...", () -> generateCincoSIBs(mgl))
-				.task("Generating product project...", () -> generateProductProject(mgl))
-				.task("Generating feature project...", () -> generateFeatureProject(mgl))
-				.task("Generating perspective...", () -> generatePerspective(mgl));
-			if (isGratextEnabled()) {
-				tasks.task("Generating Gratext model...", () -> generateGratextModel(mgl));
-			}
-		}
+		// FIXME this should be put to a CPDMetaPlugin as soon as the plugin structure has been fixed.
+		final List<IFile> preprocessedMGLs = new LinkedList<>();
+		job.consume(20, "Preprocess MGLs").task(() -> preprocessedMGLs.addAll(generatePreprocessMGLs(mgls)));
 		
-		job.task("Generate CPD plugins", () -> generateCPDPlugins(mgls));
+		// TODO this could be much nicer with nested jobs or JOOL/Seq and Xtend
+		job.consume(50 * mgls.size(), "Processing mgls").taskForEach(() ->
+			preprocessedMGLs.stream().flatMap(file -> {
+				final List<Pair<String, Runnable>> pairs = new LinkedList<>();
+				pairs.add(new Pair<>(String.format("Initializing... %s", file.getFullPath().lastSegment()), () -> publishMglFile(file)));
+				pairs.add(new Pair<>(String.format("Generating Ecore/GenModel...", file.getFullPath().lastSegment()), () -> generateEcoreModel(file)));
+				pairs.add(new Pair<>(String.format("Generating model code...", file.getFullPath().lastSegment()), () -> generateGenmodelCode(file)));
+				pairs.add(new Pair<>(String.format("Generating Graphiti editor...", file.getFullPath().lastSegment()), () -> generateGraphitiEditor(file)));
+				pairs.add(new Pair<>(String.format("Generating API...", file.getFullPath().lastSegment()), () -> generateApi(file)));
+				pairs.add(new Pair<>(String.format("Generating Cinco SIBs...", file.getFullPath().lastSegment()), () -> generateCincoSIBs(file)));
+				pairs.add(new Pair<>(String.format("Generating product project...", file.getFullPath().lastSegment()), () -> generateProductProject(file)));
+				pairs.add(new Pair<>(String.format("Generating feature project...", file.getFullPath().lastSegment()), () -> generateFeatureProject(file)));
+				pairs.add(new Pair<>(String.format("Generating perspective...", file.getFullPath().lastSegment()), () -> generatePerspective(file)));
+				pairs.add(new Pair<>(String.format("Generating Gratext model...", file.getFullPath().lastSegment()), () -> {
+					if (isGratextEnabled()) generateGratextModel(file);
+				}));
+				return pairs.stream();
+			}),
+			pair -> pair.getValue().run(),
+			pair -> pair.getKey()
+		);
+		
+		job.task("Generate CPD plugins", () -> generateCPDPlugins(preprocessedMGLs));
 		
 		job.consume(5, "Global Processing")
 			.task("Generating project wizard...", this::generateProjectWizard);
 		
 		if (isGratextEnabled()) {
 			job.consumeConcurrent(mgls.size() * 60, "Building Gratext...")
-			    .taskForEach(() -> mgls.stream(), this::buildGratext,
+			    .taskForEach(() -> preprocessedMGLs.stream(), this::buildGratext,
 						t -> t.getFullPath().lastSegment());
 		}
 		
@@ -131,6 +145,13 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 		  .schedule();
 		
 		return null;
+	}
+	
+	private Collection<IFile> generatePreprocessMGLs(List<IFile> mgls) {
+		final Set<GraphModel> graphModels = mgls.stream().map(n->eapi(n).getResourceContent(GraphModel.class)).collect(Collectors.toSet());
+		new CPDPreprocessorPlugin().execute(graphModels, cpd, cpdFile.getProject());
+		// TODO store graphmodels, return filenames.
+		return mgls;
 	}
 	
 	/**
