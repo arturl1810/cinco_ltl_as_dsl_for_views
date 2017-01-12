@@ -2,7 +2,7 @@ package de.jabc.cinco.meta.core.ui.handlers;
 
 import static de.jabc.cinco.meta.core.utils.eapi.Cinco.eapi;
 import static de.jabc.cinco.meta.core.utils.job.JobFactory.job;
-
+import de.jabc.cinco.meta.core.utils.eapi.ResourceEAPI;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -149,10 +149,23 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 	}
 	
 	private Collection<IFile> generatePreprocessMGLs(List<IFile> mgls) {
-		final Set<GraphModel> graphModels = new LinkedHashSet<>(mgls.stream().map(n->eapi(n).getResourceContent(GraphModel.class)).collect(Collectors.toList()));
+		final Set<GraphModel> graphModels = new LinkedHashSet<>(
+				mgls.stream().map(n -> eapi(n).getResourceContent(GraphModel.class)).collect(Collectors.toList()));
 		new CPDPreprocessorPlugin().execute(graphModels, cpd, cpdFile.getProject());
-		// TODO store graphmodels, return filenames.
-		return mgls;
+
+		Collection<IFile> preProcessedMgls = new ArrayList<>();
+
+		preProcessedMgls = graphModels.stream().map(n -> n.eResource()).peek(res -> {
+			res.setURI(res.getURI().appendFragment("prep"));
+			try {
+				res.save(null);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}).map(res -> ResourceEAPI.eapi(res).getFile()).collect(Collectors.toList());
+
+
+		return preProcessedMgls;
 	}
 	
 	/**
