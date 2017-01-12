@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -148,7 +149,7 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 	}
 	
 	private Collection<IFile> generatePreprocessMGLs(List<IFile> mgls) {
-		final Set<GraphModel> graphModels = mgls.stream().map(n->eapi(n).getResourceContent(GraphModel.class)).collect(Collectors.toSet());
+		final Set<GraphModel> graphModels = new LinkedHashSet<>(mgls.stream().map(n->eapi(n).getResourceContent(GraphModel.class)).collect(Collectors.toList()));
 		new CPDPreprocessorPlugin().execute(graphModels, cpd, cpdFile.getProject());
 		// TODO store graphmodels, return filenames.
 		return mgls;
