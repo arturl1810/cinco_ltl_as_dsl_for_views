@@ -1,7 +1,18 @@
 package de.jabc.cinco.meta.plugin.pyro.utils;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
+import de.jabc.cinco.meta.core.utils.CincoUtils;
+import de.jabc.cinco.meta.plugin.pyro.model.NodeShape;
+import de.jabc.cinco.meta.plugin.pyro.model.StyledLabel;
+import de.jabc.cinco.meta.plugin.pyro.model.StyledNode;
+import mgl.Annotation;
+import mgl.GraphModel;
+import mgl.GraphicalModelElement;
+import mgl.Node;
+import mgl.NodeContainer;
 import style.AbstractShape;
 import style.Appearance;
 import style.ContainerShape;
@@ -13,16 +24,6 @@ import style.RoundedRectangle;
 import style.Style;
 import style.Styles;
 import style.Text;
-import mgl.Annotation;
-import mgl.GraphModel;
-import mgl.GraphicalModelElement;
-import mgl.Node;
-import mgl.NodeContainer;
-import de.jabc.cinco.meta.core.utils.CincoUtils;
-import de.jabc.cinco.meta.plugin.pyro.model.NodeShape;
-import de.jabc.cinco.meta.plugin.pyro.model.StyledLabel;
-import de.jabc.cinco.meta.plugin.pyro.model.StyledNode;
-import de.jabc.cinco.meta.plugin.pyro.templates.ElementTemplateable;
 
 public class NodeParser{
 	/**
@@ -32,9 +33,9 @@ public class NodeParser{
 	 * @param styles
 	 * @return
 	 */
-	public static ArrayList<StyledNode> getStyledNodes(GraphModel graphModel, ArrayList<GraphicalModelElement> elements, Styles styles) {
+	public static List<StyledNode> getStyledNodes(GraphModel graphModel, List<GraphicalModelElement> elements, Styles styles) {
 		
-		ArrayList<StyledNode> styledNodes = new ArrayList<StyledNode>();
+		List<StyledNode> styledNodes = new LinkedList<StyledNode>();
 		for(GraphicalModelElement node : elements) {
 			if(node.isIsAbstract())continue;
 			StyledNode styledNode = new StyledNode();

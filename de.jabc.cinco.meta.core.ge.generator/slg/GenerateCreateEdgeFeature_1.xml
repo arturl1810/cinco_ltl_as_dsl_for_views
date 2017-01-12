@@ -407,11 +407,16 @@ import org.eclipse.graphiti.features.context.*;
 import org.eclipse.graphiti.features.context.impl.*;
 import org.eclipse.graphiti.mm.pictograms.*;
 
+import de.jabc.cinco.meta.core.ui.highlight.Highlight;
+import de.jabc.cinco.meta.core.ui.highlight.Highlighter;
+
 $context.cincoErrorImport$
 
 public class Create$context.edgeName$Feature extends AbstractCreateConnectionFeature {
 	
 	$context.cincoErrorField$
+	private ICreateConnectionContext context;
+	private String highlightContextKey;
 
 	public Create$context.edgeName$Feature(IFeatureProvider fp) {
 		super(fp, &quot;$context.edgeName$&quot;, &quot;Create a new edge: $context.edgeName$&quot;);
@@ -442,6 +447,7 @@ public class Create$context.edgeName$Feature extends AbstractCreateConnectionFea
 
 	@Override
 	public boolean canStartConnection(ICreateConnectionContext context) {
+		this.context = context;
 		Object source = getBusinessObject(context.getSourceAnchor());
 		if (source instanceof graphmodel.Node) {	
 			if (! ((graphmodel.Node) source).canStart($context.importPath$.$context.edgeName$.class)) {
@@ -475,7 +481,25 @@ public class Create$context.edgeName$Feature extends AbstractCreateConnectionFea
 			connection = (Connection) getFeatureProvider().addIfPossible(addContext);
 		}
 		return connection;
-	}	
+	}
+	
+	@Override
+	public void startConnecting() {
+		super.startConnecting();
+		highlightContextKey = Highlighter.INSTANCE.get().onConnectionStart(this, context);
+	}
+	
+	@Override
+	public void canceledAttaching(ICreateConnectionContext context) {
+		super.canceledAttaching(context);
+		Highlighter.INSTANCE.get().onConnectionCancel(highlightContextKey);
+	}
+	
+	@Override
+	public void endConnecting() {
+		super.endConnecting();
+		Highlighter.INSTANCE.get().onConnectionEnd(highlightContextKey);
+	}
 
 	private Object getBusinessObject(Anchor anchor) {
 		if (anchor != null) {

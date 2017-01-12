@@ -1,5 +1,7 @@
 package de.jabc.cinco.meta.core.ui.highlight;
 
+import static de.jabc.cinco.meta.core.utils.eapi.Cinco.Workbench.*;
+
 import graphmodel.ModelElementContainer;
 import graphmodel.Node;
 
@@ -19,24 +21,22 @@ import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 
-import de.jabc.cinco.meta.core.ui.highlight.HighlightUtils.TreatFail;
-
 public class DefaultHighlighter extends Highlighter {
 
 
 	@Override
 	protected Set<PictogramElement> getHighlightablesOnDrag(PictogramElement dragged) {
-		return HighlightUtils.getShapes().stream()
+		return getShapes().stream()
 				.filter(pe -> pe != dragged
-					&& HighlightUtils.testBusinessObjectType(pe, ModelElementContainer.class)
+					&& testBusinessObjectType(pe, ModelElementContainer.class)
 					&& canContain(pe, dragged))
 				.collect(Collectors.toSet());
 	}
 
 	@Override
 	protected Set<PictogramElement> getHighlightablesOnCreate(ICreateFeature feature) {
-		return HighlightUtils.getContainerShapes().stream()
-				.filter(pe -> HighlightUtils.testBusinessObjectType(pe, ModelElementContainer.class))
+		return getContainerShapes().stream()
+				.filter(pe -> testBusinessObjectType(pe, ModelElementContainer.class))
 				.filter(pe -> canCreate(feature, pe))
 				.collect(Collectors.toSet());
 	}
@@ -45,8 +45,8 @@ public class DefaultHighlighter extends Highlighter {
 	protected Set<PictogramElement> getHighlightablesOnConnect(ICreateConnectionFeature feature, ICreateConnectionContext context) {
 		CreateConnectionContext ctx = new CreateConnectionContext();
 		ctx.setSourceAnchor(context.getSourceAnchor());
-		return HighlightUtils.getShapes().stream()
-				.filter(shape -> HighlightUtils.testBusinessObjectType(shape, Node.class))
+		return getShapes().stream()
+				.filter(shape -> testBusinessObjectType(shape, Node.class))
 				.filter(shape -> {
 					if (!shape.getAnchors().isEmpty()) {
 						ctx.setTargetAnchor(shape.getAnchors().get(0));
@@ -64,8 +64,9 @@ public class DefaultHighlighter extends Highlighter {
 				context.getOldAnchor(),
 				context.getNewAnchor(),
 				context.getTargetLocation());
-		return HighlightUtils.getShapes().stream()
-				.filter(shape -> HighlightUtils.testBusinessObjectType(shape, Node.class))
+		ctx.setReconnectType(context.getReconnectType());
+		return getShapes().stream()
+				.filter(shape -> testBusinessObjectType(shape, Node.class))
 				.filter(shape -> {
 					if (!shape.getAnchors().isEmpty()) {
 						ctx.setNewAnchor(shape.getAnchors().get(0));
@@ -84,18 +85,20 @@ public class DefaultHighlighter extends Highlighter {
 	
 	private boolean canContain(Shape containerShape, PictogramElement pe) {
 		try {
-			Node node = HighlightUtils.treatBusinessObject(pe).as(Node.class).get();
-			return HighlightUtils.treatBusinessObject(containerShape)
-				.as(ModelElementContainer.class)
-				.test(c -> c.equals(node.getContainer()) || c.canContain(node.getClass()));
-		} catch(TreatFail e) {
+			Node node = (Node) getBusinessObject(pe);
+			ModelElementContainer cont = (ModelElementContainer) getBusinessObject(containerShape);
+			return cont.equals(node.getContainer()) || cont.canContain(node.getClass());
+		} catch(RuntimeException e) {
 			return false;
 		}
 	}
 
 	@Override
 	protected Highlight getHighlight(PictogramElement pe) {
-		return Highlight.INSTANCE.create().setPictogramElements(pe);
+		return Highlight.INSTANCE.create()
+				.setForegroundColor(20, 150, 20)
+				.setBackgroundColor(240, 255, 240)
+				.setPictogramElements(pe);
 	}
 	
 }

@@ -125,6 +125,7 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.graphiti.dt.IDiagramTypeProvider;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.services.Graphiti;
@@ -136,12 +137,8 @@ import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.ide.IDE;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 
+import de.jabc.cinco.meta.core.utils.eapi.Cinco.Workbench;
 
 import $context.packageName$.graphiti.*;
 
@@ -198,38 +195,41 @@ public class New$context.fuGraphModelName$DiagramWizard extends Wizard implement
 		}
 		return true;
 	}
-
-	private void createResource(String folder, String fileName) {
+	
+	private void createResource(String dir, String fName) {
 		String extension = &quot;$context.extension$&quot;;
-		String fNameWithExt = (fileName.contains(&quot;.&quot;)) ? fileName : fileName.concat(&quot;.&quot; + extension);
+		String fNameWithExt = (fName.contains(&quot;.&quot;)) ? fName : fName.concat(&quot;.&quot; + extension);
+		String dName = fNameWithExt.split(&quot;\\\.&quot;)[0];
 		
 		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-		IResource containerResource = root.getContainerForLocation(new Path(folder));
+		IResource containerResource = root.getContainerForLocation(new Path(dir));
 		if (containerResource instanceof IContainer) {
 			IPath filePath = new Path(containerResource.getFullPath().append(fNameWithExt).toOSString());
-			IFile file = root.getFile(filePath);
-			String content = &quot;$context.fuGraphModelName$ &quot; + EcoreUtil.generateUUID() + &quot; {\\n\\n}&quot;;
-			createFile(file, content);
+			URI resUri = URI.createPlatformResourceURI(filePath.toOSString() ,true);
+			Resource res = new ResourceSetImpl().createResource(resUri);
+			Diagram diagram = Graphiti.getPeService().createDiagram(&quot;$context.fuGraphModelName$&quot;, dName, true);
+			$context.importPath$.$context.graphModelName$ graph = $context.importPath$.$context.factoryName$Factory.eINSTANCE.create$context.graphModelName$();
+			graph.setId(EcoreUtil.generateUUID());
 			try {
-				URI resUri = URI.createPlatformResourceURI(filePath.toOSString() ,true);
-				Resource res = new ResourceSetImpl().getResource(resUri, true);
-				Diagram diagram = (Diagram) res.getContents().get(0);
-				$context.importPath$.$context.graphModelName$ graph = ($context.importPath$.$context.graphModelName$) res.getContents().get(1);
-
-				$context.gmPostCreateHookContent$
-				
+				res.unload();
+				res.getContents().add(diagram);
+				res.getContents().add(graph);
 				res.save(null);
 				
-				IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-				IDE.openEditor(page, file, &quot;$context.packageName$.$context.fuGraphModelName$MultiPageEditor&quot;, true);
+				IDiagramTypeProvider dtp = GraphitiUi.getExtensionManager().createDiagramTypeProvider(diagram, &quot;$context.packageName$.$context.graphModelName$DiagramTypeProvider&quot;);
+				$context.graphModelName$GraphitiUtils.addToResource(diagram, dtp.getFeatureProvider());
+				dtp.getFeatureProvider().link(diagram, graph);
+
+				$context.gmPostCreateHookContent$
+
+				res.save(null);
+
+				Workbench.openEditor(graph);
 				
 			} catch (IOException e) {
 				e.printStackTrace();
-			} catch (PartInitException e) {
-				e.printStackTrace();
 			}
 		}
-		
 	}
 	
 	public IFile createFile(IFile file, String content) {

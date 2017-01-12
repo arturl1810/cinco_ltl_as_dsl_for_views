@@ -15,6 +15,8 @@ import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.dnd.AbstractTransferDropTargetListener;
 import org.eclipse.gef.dnd.TemplateTransferDragSourceListener;
+import org.eclipse.gef.palette.CombinedTemplateCreationEntry;
+import org.eclipse.gef.palette.PaletteTemplateEntry;
 import org.eclipse.gef.requests.CreateRequest;
 import org.eclipse.gef.requests.CreationFactory;
 import org.eclipse.gef.ui.palette.PaletteViewer;
@@ -35,6 +37,9 @@ import org.eclipse.swt.dnd.TransferData;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.widgets.Control;
+
+import de.jabc.cinco.meta.core.utils.eapi.Cinco;
+import de.jabc.cinco.meta.core.utils.registry.InstanceRegistry;
 
 public abstract class Highlighter {
 	
@@ -98,6 +103,7 @@ public abstract class Highlighter {
 	 * @return
 	 */
 	public Highlighter listenToPaletteDrag(PaletteViewer viewer) {
+		System.out.println("Add PaletteDragSourceListener to " + viewer);
 		viewer.addDragSourceListener(new PaletteDragSourceListener(viewer));
 		return this;
 	}
@@ -129,7 +135,6 @@ public abstract class Highlighter {
 	
 	public String onConnectionStart(ICreateConnectionFeature feature, ICreateConnectionContext context) {
 		String contextKey = turnOnHighlights(getHighlightablesOnConnect(feature, context));
-		HighlightUtils.refreshDecorators();
 		return contextKey;
 	}
 	
@@ -143,7 +148,6 @@ public abstract class Highlighter {
 	
 	public String onReconnectionStart(IReconnectionFeature feature, IReconnectionContext context) {
 		String contextKey = turnOnHighlights(getHighlightablesOnReconnect(feature, context));
-		HighlightUtils.refreshDecorators();
 		return contextKey;
 	}
 	
@@ -165,12 +169,15 @@ public abstract class Highlighter {
 	
 	private String turnOnHighlights(Collection<PictogramElement> pes) {
 		List<Highlight> highlights = new ArrayList<>();
-		if (pes != null) for (PictogramElement pe : pes) {
-			Highlight highlight = getHighlight(pe);
-			if (highlight != null) {
-				highlights.add(highlight);
-				highlight.on();
+		if (pes != null && !pes.isEmpty()) {
+			for (PictogramElement pe : pes) {
+				Highlight highlight = getHighlight(pe);
+				if (highlight != null) {
+					highlights.add(highlight);
+					highlight.swell(0.2);
+				}
 			}
+			Cinco.Workbench.refreshDiagram();
 		}
 		String contextKey = getContextKey();
 		highlightContexts.put(contextKey, highlights);
@@ -179,10 +186,12 @@ public abstract class Highlighter {
 	
 	private void turnOffHighlights(String transactionKey) {
 		Collection<Highlight> highlights = highlightContexts.get(transactionKey);
-		if (highlights != null) for (Highlight highlight : highlights) try {
-			highlight.off();
-		} catch(Exception e) {
-			e.printStackTrace();
+		if (highlights != null && !highlights.isEmpty()) {
+			for (Highlight highlight : highlights) try {
+				highlight.fade(0.2);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -237,7 +246,11 @@ public abstract class Highlighter {
 		@Override
 		@SuppressWarnings("restriction")
 		public void dragStart(DragSourceEvent event) {
+			event.doit = false;
+			System.out.println("[Highlighter] dragStart doit=" + event.doit);
 			try {
+//				System.out.println("[Highlighter] dragStart " + editor.getDiagramBehavior().getDiagramContainer().getGraphicalViewer().findHandleAt(new Point(event.x, event.y)));
+				
 				EditPart clicked = editor.getDiagramBehavior().getDiagramContainer().getGraphicalViewer().findObjectAt(new Point(event.x, event.y));
 				if (clicked instanceof ContainerShapeEditPart) {
 					contextKey = onDragStart(((ContainerShapeEditPart)clicked).getPictogramElement());
@@ -254,12 +267,15 @@ public abstract class Highlighter {
 			}
 			
 			// inform that we are not interested in handling the drag
-			event.doit = false;
+			
 		}
 		
 		@Override
 		public void mouseUp(MouseEvent evt) {
-			onDragEnd(contextKey);
+			if (contextKey != null) {
+				onDragEnd(contextKey);
+				contextKey = null;
+			}
 		}
 		
 		@Override

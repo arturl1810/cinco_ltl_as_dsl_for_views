@@ -167,8 +167,7 @@ public class $context.fuModelElementName$EContentAdapter extends $context.graphM
 	@Override
 	public void notifyChanged(Notification notification) {
 		Object o = notification.getNotifier();
-		String featureName = ((EStructuralFeature) notification.getFeature()).getName();
-		if (invalidFeature(featureName))
+		if (invalidFeature((EStructuralFeature) notification.getFeature()))
 			return;
 		if (o instanceof $context.importPath$.$context.fuModelElementName$) {
 			$context.importPath$.$context.fuModelElementName$ tmp = ($context.importPath$.$context.fuModelElementName$) o;
@@ -198,8 +197,11 @@ public class $context.fuModelElementName$EContentAdapter extends $context.graphM
 	
 	$context.updateProviderContent$
 
-	private boolean invalidFeature(String featureName) {
-		switch (featureName) {
+	private boolean invalidFeature(EStructuralFeature feature) {
+		if (feature == null || feature.getName() == null)
+			return true;
+		
+		switch (feature.getName()) {
 		case &quot;incoming&quot;:
 		case &quot;outgoing&quot;:
 		case &quot;sourceElement&quot;:

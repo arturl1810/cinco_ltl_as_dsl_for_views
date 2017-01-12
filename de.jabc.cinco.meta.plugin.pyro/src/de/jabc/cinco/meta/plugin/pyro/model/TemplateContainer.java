@@ -2,8 +2,9 @@ package de.jabc.cinco.meta.plugin.pyro.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
 
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 
 import mgl.GraphModel;
@@ -11,14 +12,14 @@ import mgl.Type;
 
 public class TemplateContainer {
 	private GraphModel graphModel;
-	private ArrayList<GraphModel> graphModels;
-	private ArrayList<EPackage> ecores;
-	private ArrayList<StyledNode> nodes;
-	private ArrayList<StyledEdge> edges;
-	private ArrayList<Type> enums;
-	private HashMap<String,ArrayList<StyledNode>> groupedNodes;
-	private ArrayList<ConnectionConstraint> validConnections;
-	ArrayList<EmbeddingConstraint> embeddingConstraints;
+	private Set<GraphModel> graphModels;
+	private List<EPackage> ecores;
+	private List<StyledNode> nodes;
+	private List<StyledEdge> edges;
+	private List<Type> enums;
+	private HashMap<String,List<StyledNode>> groupedNodes;
+	private List<ConnectionConstraint> validConnections;
+	List<EmbeddingConstraint> embeddingConstraints;
 	
 	public GraphModel getGraphModel() {
 		return graphModel;
@@ -27,53 +28,53 @@ public class TemplateContainer {
 		this.graphModel = graphModel;
 	}
 	
-	public ArrayList<StyledNode> getNodes() {
+	public List<StyledNode> getNodes() {
 		return nodes;
 	}
-	public void setNodes(ArrayList<StyledNode> nodes) {
+	public void setNodes(List<StyledNode> nodes) {
 		this.nodes = nodes;
 	}
-	public ArrayList<StyledEdge> getEdges() {
+	public List<StyledEdge> getEdges() {
 		return edges;
 	}
-	public void setEdges(ArrayList<StyledEdge> edges) {
+	public void setEdges(List<StyledEdge> edges) {
 		this.edges = edges;
 	}
-	public HashMap<String, ArrayList<StyledNode>> getGroupedNodes() {
+	public HashMap<String, List<StyledNode>> getGroupedNodes() {
 		return groupedNodes;
 	}
-	public void setGroupedNodes(HashMap<String, ArrayList<StyledNode>> groupedNodes) {
+	public void setGroupedNodes(HashMap<String, List<StyledNode>> groupedNodes) {
 		this.groupedNodes = groupedNodes;
 	}
-	public ArrayList<ConnectionConstraint> getValidConnections() {
+	public List<ConnectionConstraint> getValidConnections() {
 		return validConnections;
 	}
-	public void setValidConnections(ArrayList<ConnectionConstraint> validConnections) {
+	public void setValidConnections(List<ConnectionConstraint> validConnections) {
 		this.validConnections = validConnections;
 	}
-	public ArrayList<EmbeddingConstraint> getEmbeddingConstraints() {
+	public List<EmbeddingConstraint> getEmbeddingConstraints() {
 		return embeddingConstraints;
 	}
 	public void setEmbeddingConstraints(
-			ArrayList<EmbeddingConstraint> embeddingConstraints) {
+			List<EmbeddingConstraint> embeddingConstraints) {
 		this.embeddingConstraints = embeddingConstraints;
 	}
-	public ArrayList<Type> getEnums() {
+	public List<Type> getEnums() {
 		return enums;
 	}
-	public void setEnums(ArrayList<Type> enums) {
+	public void setEnums(List<Type> enums) {
 		this.enums = enums;
 	}
-	public ArrayList<GraphModel> getGraphModels() {
+	public Set<GraphModel> getGraphModels() {
 		return graphModels;
 	}
-	public void setGraphModels(ArrayList<GraphModel> graphModels) {
+	public void setGraphModels(Set<GraphModel> graphModels) {
 		this.graphModels = graphModels;
 	}
-	public ArrayList<EPackage> getEcores() {
+	public List<EPackage> getEcores() {
 		return ecores;
 	}
-	public void setEcores(ArrayList<EPackage> ecores) {
+	public void setEcores(List<EPackage> ecores) {
 		this.ecores = ecores;
 	}
 	

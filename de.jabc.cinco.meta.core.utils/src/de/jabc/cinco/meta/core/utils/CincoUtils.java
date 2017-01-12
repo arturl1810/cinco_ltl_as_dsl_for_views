@@ -1,5 +1,7 @@
 package de.jabc.cinco.meta.core.utils;
 
+import static de.jabc.cinco.meta.core.utils.eapi.Cinco.eapi;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -30,7 +32,6 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
@@ -42,7 +43,6 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.xtend.lib.macro.file.FileLocations;
 import org.eclipse.xtext.util.StringInputStream;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -158,8 +158,6 @@ public class CincoUtils {
 		}
 	}
 	
-	
-	
 	public static Styles getStyles(GraphModel gm) {
 		for (Annotation a : gm.getAnnotations()) {
 			if (ID_STYLE.equals(a.getName())) {
@@ -214,6 +212,18 @@ public class CincoUtils {
 		return null;
 	}
 	
+	public static Styles getStyles(GraphModel gm,IProject project) {
+		for (Annotation a : gm.getAnnotations()) {
+			if (ID_STYLE.equals(a.getName())) {
+				String path = a.getValue().get(0);
+				IFile iFile = project.getFile(path);
+				Resource res = eapi(iFile).getResource();
+				return eapi(res).getContent(Styles.class);
+			}
+		}
+		return null;
+	}
+	
 	public static Style findStyle(Styles styles, String name) {
 		if (styles == null)
 			return null;
@@ -246,20 +256,20 @@ public class CincoUtils {
 		return null;
 	}
 	
-	public static GraphModel getGraphModel(IFile file) {
-		URI uri = URI.createFileURI(file.getLocation().toString());
-		Resource res = new ResourceSetImpl().getResource(uri, true);
-		return getGraphModel(res);
-	}
-
-	public static GraphModel getGraphModel(Resource res) {
-		for (TreeIterator<EObject> it = res.getAllContents(); it.hasNext(); ) {
-			EObject o = it.next();
-			if (o instanceof GraphModel)
-				return (GraphModel) o; 
-		}
-		return null;
-	}
+//	public static GraphModel getGraphModel(IFile file) {
+//		URI uri = URI.createFileURI(file.getLocation().toString());
+//		Resource res = new ResourceSetImpl().getResource(uri, true);
+//		return getGraphModel(res);
+//	}
+//
+//	public static GraphModel getGraphModel(Resource res) {
+//		for (TreeIterator<EObject> it = res.getAllContents(); it.hasNext(); ) {
+//			EObject o = it.next();
+//			if (o instanceof GraphModel)
+//				return (GraphModel) o; 
+//		}
+//		return null;
+//	}
 
 	public static Annotation getAnnotation(Attribute attr, String annotName) {
 		List<Annotation> annots = attr.getAnnotations().stream().filter(a -> a.getName().equals(annotName)).collect(Collectors.toList());

@@ -3,7 +3,7 @@ package de.jabc.cinco.meta.plugin.gratext.template
 class RestoreActionTemplate extends AbstractGratextTemplate {
 		
 def restoreGenerator() {
-	fileFromTemplate(ModelGeneratorTemplate)
+	fileFromTemplate(ModelizerTemplate)
 }
 		
 override template()

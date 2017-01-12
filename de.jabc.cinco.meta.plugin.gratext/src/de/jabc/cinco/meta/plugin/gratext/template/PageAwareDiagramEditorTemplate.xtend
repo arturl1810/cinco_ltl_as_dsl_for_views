@@ -21,7 +21,7 @@ public class PageAware«model.name»DiagramEditor extends «model.name»DiagramE
 	
 	@Override
 	protected PageAwareDiagramBehavior createDiagramBehavior() {
-		diagramBehavior = new PageAwareDiagramBehavior(this);
+		diagramBehavior = (PageAwareDiagramBehavior) super.createDiagramBehavior();
 		return diagramBehavior;
 	}
 	

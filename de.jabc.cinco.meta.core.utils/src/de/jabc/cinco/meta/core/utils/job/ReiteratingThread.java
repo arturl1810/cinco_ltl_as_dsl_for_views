@@ -1,5 +1,7 @@
 package de.jabc.cinco.meta.core.utils.job;
 
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Steve Bosselmann on 07/03/15.
@@ -13,6 +15,10 @@ public abstract class ReiteratingThread extends Thread {
     private Thread myself;
     private long next = System.currentTimeMillis();
 
+    private List<Runnable> onDoneCallbacks = new ArrayList<>();
+    private List<Runnable> onFailedCallbacks = new ArrayList<>();
+    private List<Runnable> onFinishedCallbacks = new ArrayList<>();
+    
     public ReiteratingThread() {}
 
     public ReiteratingThread(int intervalMs) {
@@ -61,8 +67,14 @@ public abstract class ReiteratingThread extends Thread {
                 tick();
             }
         }
-        if (!failed) afterwork();
+        if (failed) {
+        	onFailed();
+        } else {
+        	afterwork();
+        	onFinished();
+        }
         cleanup();
+        onDone();
     }
 
     @Override
@@ -82,10 +94,41 @@ public abstract class ReiteratingThread extends Thread {
 
     public void quit() {
         myself = null;
+        if (paused) unpause();
     }
 
     protected void fail() {
     	failed = true;
     	quit();
     }
+    	
+	public void onFinished(Runnable callback) {
+		onFinishedCallbacks.add(callback);
+	}
+	
+	private void onFinished() {
+		for (Runnable callback : onFinishedCallbacks) {
+			callback.run();
+		}
+	}
+	
+	public void onFailed(Runnable callback) {
+		onFailedCallbacks.add(callback);
+	}
+
+	private void onFailed() {
+		for (Runnable callback : onFailedCallbacks) {
+			callback.run();
+		}
+	}
+	
+	public void onDone(Runnable callback) {
+		onDoneCallbacks.add(callback);
+	}
+
+	private void onDone() {
+		for (Runnable callback : onDoneCallbacks) {
+			callback.run();
+		}
+	}
 }

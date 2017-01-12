@@ -1,16 +1,9 @@
 package de.jabc.cinco.meta.core.ui.templates
 
 import productDefinition.CincoProduct
-import mgl.GraphModel
-import org.eclipse.ui.IFolderLayout
-import org.eclipse.ui.IPageLayout
-import org.eclipse.ui.IPerspectiveFactory
-import de.jabc.cinco.meta.core.utils.CincoUtils
-import org.eclipse.core.resources.ResourcesPlugin
-import org.eclipse.core.resources.IFile
 
 class NewProjectWizardGenerator {
-	
+
 def static generateWizardJavaCode(CincoProduct cp, String pName) '''
 		
 package «pName»;

@@ -1,7 +1,6 @@
 package de.jabc.cinco.meta.plugin.gratext.runtime.editor;
 
-import static de.jabc.cinco.meta.plugin.gratext.runtime.util.GratextUtils.async;
-import static de.jabc.cinco.meta.plugin.gratext.runtime.util.GratextUtils.sync;
+import static de.jabc.cinco.meta.core.utils.eapi.Cinco.Workbench.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -46,7 +45,7 @@ public abstract class MultiPageGratextEditor extends MultiPageEditorPart impleme
     private ArrayList<PageAwareEditorPart> pawEditors = new ArrayList<>();
     private HashMap<PageAwareEditorPart, PageAwareEditorDescriptor> pawEditorDescriptors = new HashMap<>();
 	
-    private XtextResource innerState;
+    private GratextResource innerState;
     private int currentPage = -1;
     private boolean awaitingResourceUpdate;
     
@@ -400,7 +399,7 @@ public abstract class MultiPageGratextEditor extends MultiPageEditorPart impleme
 		return null;
 	}
 	
-	protected XtextResource getInnerState() {
+	protected GratextResource getInnerState() {
 		int hash = (innerState != null) ? innerState.hashCode() : 0;
 		if (sourceEditor != null) {
 			/*
@@ -411,7 +410,7 @@ public abstract class MultiPageGratextEditor extends MultiPageEditorPart impleme
     		doc.internalModify(new IUnitOfWork.Void<XtextResource>() {
 				@Override
 				public void process(XtextResource state) throws Exception {
-					innerState = state;
+					innerState = (GratextResource) state;
 				}
 			});
 		}

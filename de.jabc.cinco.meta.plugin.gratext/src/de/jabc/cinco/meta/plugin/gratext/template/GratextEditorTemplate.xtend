@@ -14,7 +14,6 @@ import static de.jabc.cinco.meta.plugin.gratext.runtime.util.GratextUtils.getUri
 import de.jabc.cinco.meta.plugin.gratext.runtime.editor.MultiPageGratextEditor;
 import de.jabc.cinco.meta.plugin.gratext.runtime.editor.PageAwareDiagramEditorInput;
 import de.jabc.cinco.meta.plugin.gratext.runtime.editor.PageAwareEditorDescriptor;
-import «parentPackage».generator.«model.name»BackupGenerator;
 
 import java.util.Arrays;
 
@@ -41,7 +40,7 @@ public class «model.name»GratextEditor extends MultiPageGratextEditor {
 		return Arrays.asList(new PageAwareEditorDescriptor[] {
 			new PageAwareEditorDescriptor("Diagram", PageAware«model.name»DiagramEditor.class,
 				editorInput -> new PageAwareDiagramEditorInput(getUri(editorInput)),
-				innerState -> new «model.name»BackupGenerator().toText(innerState))
+				innerState -> getInnerState().serialize())
 		});
 	}
 }

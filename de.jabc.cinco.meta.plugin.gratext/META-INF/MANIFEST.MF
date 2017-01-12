@@ -6,10 +6,10 @@ Fragment-Host: de.jabc.cinco.meta.core.pluginregistry
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: de.jabc.cinco.meta.core,
  de.jabc.cinco.meta.core.mgl.model.constraints,
- de.jabc.cinco.meta.core.mgl.transformation.helper,
  de.jabc.cinco.meta.core.pluginregistry,
  de.jabc.cinco.meta.core.ui.listener,
  de.jabc.cinco.meta.core.utils,
+ de.jabc.cinco.meta.core.utils.eapi,
  de.jabc.cinco.meta.core.utils.job,
  de.jabc.cinco.meta.core.utils.projects,
  mgl,
@@ -17,21 +17,12 @@ Import-Package: de.jabc.cinco.meta.core,
  org.eclipse.core.resources,
  org.eclipse.debug.core,
  org.eclipse.debug.core.model,
- org.eclipse.debug.ui,
- org.eclipse.emf.mwe2.launch.runtime,
- org.eclipse.emf.transaction.util,
- org.eclipse.emf.workspace,
- org.eclipse.jface.dialogs,
- org.eclipse.xtext.ui.editor
+ org.eclipse.graphiti.ui.editor,
+ org.eclipse.jface.dialogs
 Bundle-Version: 0.8.0.qualifier
 Require-Bundle: org.eclipse.emf.transaction,
  org.eclipse.emf.codegen.ecore,
- org.eclipse.osgi,
- org.eclipse.emf.mwe2.language,
- org.eclipse.emf.ecore,
- org.eclipse.graphiti,
- org.eclipse.graphiti.ui,
- de.jabc.cinco.meta.core.ge.style.generator.runtime
+ org.eclipse.graphiti
 Export-Package: de.jabc.cinco.meta.plugin.gratext,
  de.jabc.cinco.meta.plugin.gratext.build,
  de.jabc.cinco.meta.plugin.gratext.util

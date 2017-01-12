@@ -5,68 +5,12 @@ import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.ISafeRunnable;
 import org.eclipse.core.runtime.SafeRunner;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.transaction.RecordingCommand;
-import org.eclipse.emf.transaction.TransactionalEditingDomain;
-import org.eclipse.emf.transaction.util.TransactionUtil;
-import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
 
 
 public class GratextUtils {
 	
-	/**
-	 * Convenient method to wrap a modification of an EObject in a recording command.
-	 * 
-	 * <p>Retrieves a TransactionalEditingDomain for the specified object via the
-	 * {@linkplain TransactionUtil#getEditingDomain(EObject)}, hence it should be ensured
-	 * that it exists.
-	 * 
-	 * @param obj  The object for which to access the TransactionalEditingDomain.
-	 * @return  An Edit object whose application is wrapped into the recording command.
-	 */
-	public static Edit edit(EObject obj) {
-		return edit(obj.eResource());
-	}
-	
-	/**
-	 * Convenient method to wrap a modification of a Resource in a recording command.
-	 * 
-	 * <p>Retrieves a TransactionalEditingDomain for the specified object via the
-	 * {@linkplain TransactionUtil#getEditingDomain(EObject)}, hence it should be ensured
-	 * that it exists.
-	 * 
-	 * @param res  The resource for which to access the TransactionalEditingDomain.
-	 * @return  An Edit object whose application is wrapped into the recording command.
-	 */
-	public static Edit edit(Resource res) {
-		return (runnable) -> {
-			TransactionalEditingDomain domain = TransactionUtil.getEditingDomain(res);
-			if (domain == null) {
-				domain = res.getResourceSet() != null
-					? TransactionalEditingDomain.Factory.INSTANCE.createEditingDomain(res.getResourceSet())
-					: TransactionalEditingDomain.Factory.INSTANCE.createEditingDomain();
-			}
-			domain.getCommandStack().execute(new RecordingCommand(domain) {
-				@Override protected void doExecute() {
-					try {
-						runnable.run();
-					} catch(IllegalStateException e) {
-						e.printStackTrace();
-					}
-				}
-			});
-	    };
-	}
-	
-	@FunctionalInterface
-	public static interface Edit {
-		public void transact(Runnable runnable);
-	}
 	
 	public static SafeRunnable task(String name) {
 		return (runnable) -> {
@@ -89,29 +33,6 @@ public class GratextUtils {
 	@FunctionalInterface
 	public static interface SafeRunnable {
 		public void run(Runnable runnable);
-	}
-	
-	public static Display getDisplay() {
-		return Display.getCurrent() != null
-				? Display.getCurrent()
-				: Display.getDefault();
-	}
-	
-	public static void async(Runnable runnable) {
-		getDisplay().asyncExec(runnable);
-	}
-	
-	public static void sync(Runnable runnable) {
-		getDisplay().syncExec(runnable);
-	}
-	
-	public static void showErrorMessage(String title, String message) {
-		Display display = getDisplay();
-		display.syncExec(() -> {
-			new MessageDialog(display.getActiveShell(),
-	            title, display.getSystemImage(SWT.ICON_ERROR),
-	            message, MessageDialog.ERROR, new String[] {"OK"}, 0).open();
-		});
 	}
 	
 	/**

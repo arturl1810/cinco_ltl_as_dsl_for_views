@@ -1,14 +1,19 @@
 package de.jabc.cinco.meta.plugin.pyro.templates.transformation
 
 import de.jabc.cinco.meta.plugin.pyro.model.StyledModelElement
-import java.util.ArrayList
-import mgl.Attribute
 import de.jabc.cinco.meta.plugin.pyro.utils.ModelParser
 //FIXME: Added during api overhaul
 import static extension de.jabc.cinco.meta.plugin.pyro.templates.Templateable.getType
+import java.util.List
+import mgl.Attribute
+import mgl.Edge
+import mgl.GraphModel
+import mgl.ModelElement
+import mgl.Node
+import mgl.Type
 
 class CModelElement {
-	static def createAttribute(mgl.Attribute attribute,StyledModelElement sme,ArrayList<mgl.Type> enums,mgl.GraphModel graphModel)
+	static def createAttribute(Attribute attribute,StyledModelElement sme,List<Type> enums,GraphModel graphModel)
 	'''
 	«IF attribute.upperBound == 1 && (attribute.lowerBound == 0 || attribute.lowerBound == 1) »
 	«createPrimativeAttribute(attribute,sme.modelElement,enums,graphModel)»
@@ -18,7 +23,7 @@ class CModelElement {
 	
 	'''
 	
-	static def createAttribute(mgl.Attribute attribute,mgl.ModelElement sme,ArrayList<mgl.Type> enums,mgl.GraphModel graphModel)
+	static def createAttribute(Attribute attribute,ModelElement sme,List<Type> enums,GraphModel graphModel)
 	'''
 	«IF attribute.upperBound == 1 && (attribute.lowerBound == 0 || attribute.lowerBound == 1) »
 	«createPrimativeAttribute(attribute,sme,enums,graphModel)»
@@ -28,14 +33,14 @@ class CModelElement {
 	
 	'''
 	
-	static def createPrimativeAttribute(mgl.Attribute attribute,mgl.ModelElement sme,ArrayList<mgl.Type> enums,mgl.GraphModel graphModel)
+	static def createPrimativeAttribute(Attribute attribute,ModelElement sme,List<Type> enums,GraphModel graphModel)
 	'''
 	public «getAttributeType(attribute,enums,graphModel)» get«attribute.name.toFirstUpper»();
 	
 	public void set«attribute.name.toFirstUpper»(«getAttributeType(attribute,enums,graphModel)» «attribute.name.toFirstLower»);
 	'''
 	
-	static def createListAttribute(mgl.Attribute attribute,mgl.ModelElement sme,ArrayList<mgl.Type> enums,mgl.GraphModel graphModel)
+	static def createListAttribute(Attribute attribute,ModelElement sme,List<Type> enums,GraphModel graphModel)
 	'''
 	«IF ModelParser.isUserDefinedType(attribute,enums)»
 	public List<«getAttributeType(attribute,enums,graphModel)»> get«attribute.name.toFirstUpper»();
@@ -48,7 +53,7 @@ class CModelElement {
 	«ENDIF»
 	'''
 	
-	static def getAttributeType(Attribute attribute,ArrayList<mgl.Type> enums,mgl.GraphModel graphModel) {
+	static def getAttributeType(Attribute attribute,List<Type> enums,GraphModel graphModel) {
 	if(attribute.type.equals("EString")) return "String";
 	if(attribute.type.equals("EInt")) return "long";
 	if(attribute.type.equals("EDouble")) return "double";
@@ -65,7 +70,7 @@ class CModelElement {
 	}
 	
 	
-	static def createCommadsGetters(mgl.ModelElement modelElement,String type)
+	static def createCommadsGetters(ModelElement modelElement,String type)
 	'''
 	public PyroRemove«type.toFirstUpper»CommandController getPyroCreate«type.toFirstUpper»CommandController();
 	
@@ -75,7 +80,7 @@ class CModelElement {
 	'''
 	
 	
-	static def createNodeCommandsGetters(mgl.Node node)
+	static def createNodeCommandsGetters(Node node)
 	'''
 	«createCommadsGetters(node,"Node")»
 	
@@ -87,7 +92,7 @@ class CModelElement {
 	'''
 
 	
-	static def createEdgeCommandsGetters(mgl.Edge edge)
+	static def createEdgeCommandsGetters(Edge edge)
 	'''
 	«createCommadsGetters(edge,"Edge")»
 	public PyroReconnectEdgeCommandController getPyroReconnectEdgeCommandController();

@@ -4,19 +4,12 @@
    <extension
          id="id1"
          name="name"
-         point="de.jabc.cinco.meta.core.pluginregistry.metaplugin">
-      <metaplugin_description
-            metapluginService="de.jabc.cinco.meta.plugin.pyro.MetaPluginService">
-      </metaplugin_description>
-      <graphmodel-annotation
-            recognized-annotation="pyro">
-      </graphmodel-annotation>
-      <validator
-            ValidatorClass="de.jabc.cinco.meta.plugin.pyro.validator.AnnotationValidator">
-      </validator>
-      <proposalprovider
-            MetaPluginAcceptor="de.jabc.cinco.meta.plugin.pyro.Acceptor">
-      </proposalprovider>
+         point="de.jabc.cinco.meta.core.pluginregistry.cpdplugin">
+      <cpd_metaplugin_description
+            cpdMetapluginService="de.jabc.cinco.meta.plugin.pyro.CPDMetaPlugin"
+            recognized-annotation="pyro"
+            validatorClass="de.jabc.cinco.meta.plugin.pyro.CPDValidator">
+      </cpd_metaplugin_description>
    </extension>
 
 </fragment>

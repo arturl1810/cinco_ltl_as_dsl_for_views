@@ -101,6 +101,8 @@
     <parameter name="template">
       <string>package $context.localPkgName$;
 
+import static de.jabc.cinco.meta.core.ui.highlight.DecoratorRegistry.complementDecorators;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -123,9 +125,11 @@ import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.tb.ContextButtonEntry;
 import org.eclipse.graphiti.tb.DefaultToolBehaviorProvider;
 import org.eclipse.graphiti.tb.IContextButtonPadData;
+import org.eclipse.graphiti.tb.IDecorator;
 
 $context.getImportsContent$
 
+import de.jabc.cinco.meta.core.ui.highlight.animation.HighlightAnimation;
 
 $context.importCreateNodesFeaturesContent$
 $context.importCreateEdgesFeaturesContent$
@@ -136,6 +140,17 @@ public class $context.fuGraphModelName$ToolBehaviourProvider extends DefaultTool
 	public $context.fuGraphModelName$ToolBehaviourProvider(
 			IDiagramTypeProvider diagramTypeProvider) {
 		super(diagramTypeProvider);
+	}
+	
+	@Override
+	public IDecorator[] getDecorators(PictogramElement pe) {
+		return complementDecorators(pe, super.getDecorators(pe));
+	}
+	
+	@Override
+	public void dispose() {
+		HighlightAnimation.quitAll();
+		super.dispose();
 	}
 
 	@Override

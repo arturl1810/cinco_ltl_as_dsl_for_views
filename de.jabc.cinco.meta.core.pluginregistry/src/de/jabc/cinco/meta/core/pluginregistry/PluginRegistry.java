@@ -2,11 +2,13 @@ package de.jabc.cinco.meta.core.pluginregistry;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.xtend.typesystem.emf.EcoreUtil2;
 
 import de.jabc.cinco.meta.core.pluginregistry.impl.PluginRegistryEntryImpl;
+import org.eclipse.emf.common.util.EList;
 //import de.jabc.cinco.meta.core.pluginregistry.service.helper.AbstractService;
 //import de.jabc.cinco.meta.core.pluginregistry.service.helper.Service;
 public class PluginRegistry {
@@ -19,6 +21,9 @@ public class PluginRegistry {
 	private HashMap<String, Set<String>> usedPlugins;
 	private HashMap<String, Set<String>> mglDependentFragments;
 	private HashMap<String, Set<String>> usedFragments;
+	
+	private Set<CPDAnnotation> cpdPluginGenerators;
+	
 	public HashMap<String, IMetaPlugin> getPluginGenerators() {
 		return pluginGenerators;
 	}
@@ -26,6 +31,15 @@ public class PluginRegistry {
 			HashMap<String, IMetaPlugin> pluginGenerators) {
 		this.pluginGenerators = pluginGenerators;
 	}
+	
+	public Set<CPDAnnotation> getPluginCPDGenerators() {
+		return cpdPluginGenerators;
+	}
+	public void setCPDPluginGenerators(
+			Set<CPDAnnotation> cpdPluginGenerators) {
+		this.cpdPluginGenerators = cpdPluginGenerators;
+	}
+	
 	private PluginRegistry(){
 		
 		this.genModelMap = new HashMap<EPackage,String>();
@@ -33,6 +47,8 @@ public class PluginRegistry {
 		this.metaPlugins = new HashSet<PluginRegistryEntryImpl>();
 		
 		this.pluginGenerators = new HashMap<String,IMetaPlugin>();
+		
+		this.cpdPluginGenerators = new HashSet<CPDAnnotation>();
 		
 		EPackage abstractGraphModel = EcoreUtil2.getEPackage("platform:/plugin/de.jabc.cinco.meta.core.mgl.model/model/GraphModel.ecore");
 		ecoreMap.put("abstractGraphModel", abstractGraphModel);
@@ -73,6 +89,11 @@ public class PluginRegistry {
 		}
 	}
 	
+	public void registerCPDMetaPlugin(CPDAnnotation annotation)
+	{
+		cpdPluginGenerators.add(annotation);
+	}
+	
 	public Set<PluginRegistryEntry> getSuitableMetaPlugins(String annotation){
 		HashSet<PluginRegistryEntry> set = new HashSet<PluginRegistryEntry>();
 		for(PluginRegistryEntry p: metaPlugins){
@@ -80,6 +101,10 @@ public class PluginRegistry {
 				set.add(p);
 		}
 		return set;
+	}
+	
+	public Set<CPDAnnotation> getSuitableCPDMetaPlugins(String annotation){
+		return this.cpdPluginGenerators.stream().filter(n->n.getAnnotationName().equals(annotation)).collect(Collectors.toSet());
 	}
 	
 	public Set<String> getAnnotations(int annotationType){

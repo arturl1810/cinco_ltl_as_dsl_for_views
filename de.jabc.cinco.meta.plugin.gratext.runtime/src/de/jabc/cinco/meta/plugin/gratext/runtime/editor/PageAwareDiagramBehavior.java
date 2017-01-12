@@ -1,15 +1,21 @@
 package de.jabc.cinco.meta.plugin.gratext.runtime.editor;
 
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.graphiti.dt.IDiagramTypeProvider;
 import org.eclipse.graphiti.ui.editor.DiagramBehavior;
 import org.eclipse.graphiti.ui.editor.DiagramEditor;
 import org.eclipse.graphiti.ui.editor.IDiagramEditorInput;
+import org.eclipse.graphiti.ui.platform.IConfigurationProvider;
 import org.eclipse.ui.IEditorPart;
 
 public class PageAwareDiagramBehavior extends DiagramBehavior implements InnerStateAwareness, PageAwareness {
 	
 	public PageAwareDiagramBehavior(DiagramEditor editor) {
 		super(editor);
+	}
+	
+	protected IConfigurationProvider createConfigurationProvider(IDiagramTypeProvider diagramTypeProvider) {
+		return new CincoConfigurationProvider(this, diagramTypeProvider);
 	}
 	
 	@Override

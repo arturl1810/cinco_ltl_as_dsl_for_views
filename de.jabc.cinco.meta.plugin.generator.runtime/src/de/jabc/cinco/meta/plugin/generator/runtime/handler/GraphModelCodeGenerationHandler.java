@@ -1,6 +1,8 @@
 package de.jabc.cinco.meta.plugin.generator.runtime.handler;
-import static de.jabc.cinco.meta.core.utils.WorkspaceUtil.resp;
+
+import static de.jabc.cinco.meta.core.utils.eapi.Cinco.eapi;
 import static de.jabc.cinco.meta.core.utils.job.JobFactory.job;
+
 import graphmodel.GraphModel;
 
 import java.util.List;
@@ -188,8 +190,8 @@ public class GraphModelCodeGenerationHandler extends AbstractHandler {
 	
 	private void retrieveGraphModel() {
 		try {
-			fileName = resp(activeEditor).getResource().getURI().lastSegment();
-			graphModel = resp(activeEditor).getGraphModel();
+			fileName = eapi(activeEditor).getResource().getURI().lastSegment();
+			graphModel = eapi(activeEditor).getGraphModel();
 		} catch (Exception e) {
 			throw new RuntimeException("Failed to retrieve graph model for editor: " + activeEditor, e);
 		}
@@ -215,7 +217,7 @@ public class GraphModelCodeGenerationHandler extends AbstractHandler {
 	
 	private void initOutlet() {
 		try {
-			project = resp(activeEditor).getProject();
+			project = eapi(activeEditor).getProject();
 			if (project == null || !project.isOpen()) {
 				throw new RuntimeException("The project is closed or does not exist: " + project);
 			}

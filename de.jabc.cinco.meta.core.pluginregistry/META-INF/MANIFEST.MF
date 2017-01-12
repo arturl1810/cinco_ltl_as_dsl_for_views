@@ -13,7 +13,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.resources
 Bundle-ActivationPolicy: lazy
 Import-Package: org.eclipse.xtend.typesystem.emf,
- org.eclipse.xtext.ui.editor.contentassist
+ org.eclipse.xtext.ui.editor.contentassist,
+ productDefinition
 Export-Package: de.jabc.cinco.meta.core.pluginregistry,de.jabc.cinco.m
  eta.core.pluginregistry.impl,de.jabc.cinco.meta.core.pluginregistry.p
  roposalprovider,de.jabc.cinco.meta.core.pluginregistry.validation

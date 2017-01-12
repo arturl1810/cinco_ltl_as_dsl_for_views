@@ -335,6 +335,8 @@ import org.eclipse.graphiti.features.context.impl.UpdateContext;
 import org.eclipse.graphiti.features.impl.DefaultReconnectionFeature;
 import org.eclipse.graphiti.mm.pictograms.Anchor;
 
+import de.jabc.cinco.meta.core.ui.highlight.Highlighter;
+import de.jabc.cinco.meta.core.ui.highlight.ReconnectRegistry;
 
 $context.cincoErrorImport$
 
@@ -345,9 +347,26 @@ public class Reconnect$context.edge.name$Feature extends DefaultReconnectionFeat
 	public Reconnect$context.edge.name$Feature(IFeatureProvider fp) {
 		super(fp);
 	}
+	
+	@Override
+	public void canceledReconnect(IReconnectionContext context) {
+		Highlighter.INSTANCE.get().onReconnectionCancel(ReconnectRegistry.INSTANCE.remove(context.getConnection()));
+		super.canceledReconnect(context);
+	}
+	
+	@Override
+	public void preReconnect(IReconnectionContext context) {
+		Highlighter.INSTANCE.get().onReconnectionEnd(ReconnectRegistry.INSTANCE.remove(context.getConnection()));
+		super.preReconnect(context);
+	}
 
 	public boolean canReconnect(IReconnectionContext context, boolean apiCall) {
 		if (apiCall) {
+			if (!ReconnectRegistry.INSTANCE.containsKey(context.getConnection())) {
+				ReconnectRegistry.INSTANCE.put(context.getConnection(),"");
+				ReconnectRegistry.INSTANCE.put(context.getConnection(),
+						Highlighter.INSTANCE.get().onReconnectionStart(this, context));
+			}
 			Anchor newAnchor = context.getNewAnchor();
 			Anchor oldAnchor = context.getOldAnchor();
 				if (newAnchor != null &amp;&amp; newAnchor.equals(oldAnchor))

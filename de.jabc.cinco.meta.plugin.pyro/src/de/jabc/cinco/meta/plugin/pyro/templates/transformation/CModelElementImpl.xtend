@@ -5,6 +5,7 @@ import java.util.ArrayList
 import mgl.Attribute
 import de.jabc.cinco.meta.plugin.pyro.utils.ModelParser
 import mgl.ModelElement
+import java.util.List
 
 //FIXME: Added during api overhaul
 import static extension de.jabc.cinco.meta.plugin.pyro.templates.Templateable.getType
@@ -88,7 +89,7 @@ class CModelElementImpl {
 	}
 	'''
 	
-	static def createAttribute(mgl.Attribute attribute,StyledModelElement sme,ArrayList<mgl.Type> enums,mgl.GraphModel graphModel)
+	static def createAttribute(mgl.Attribute attribute,StyledModelElement sme,List<mgl.Type> enums,mgl.GraphModel graphModel)
 	'''
 	«IF attribute.upperBound == 1 && (attribute.lowerBound == 0 || attribute.lowerBound == 1) »
 	«createPrimativeAttribute(attribute,sme.modelElement,enums,graphModel)»
@@ -98,7 +99,7 @@ class CModelElementImpl {
 	
 	'''
 	
-	static def createAttribute(mgl.Attribute attribute,mgl.ModelElement sme,ArrayList<mgl.Type> enums,mgl.GraphModel graphModel)
+	static def createAttribute(mgl.Attribute attribute,mgl.ModelElement sme,List<mgl.Type> enums,mgl.GraphModel graphModel)
 	'''
 	«IF attribute.upperBound == 1 && (attribute.lowerBound == 0 || attribute.lowerBound == 1) »
 	«createPrimativeAttribute(attribute,sme,enums,graphModel)»
@@ -109,7 +110,7 @@ class CModelElementImpl {
 	'''
 	
 	
-	static def createPrimativeAttribute(mgl.Attribute attribute,mgl.ModelElement sme,ArrayList<mgl.Type> enums,mgl.GraphModel graphModel)
+	static def createPrimativeAttribute(mgl.Attribute attribute,mgl.ModelElement sme,List<mgl.Type> enums,mgl.GraphModel graphModel)
 	'''
 	public «getAttributeType(attribute,enums,graphModel)» get«attribute.name.toFirstUpper»(){
 		return ((«sme.name.toFirstUpper»)this.modelElement).get«attribute.name.toFirstLower»();
@@ -120,7 +121,7 @@ class CModelElementImpl {
 	}
 	'''
 	
-	static def createListAttribute(mgl.Attribute attribute,mgl.ModelElement sme,ArrayList<mgl.Type> enums,mgl.GraphModel graphModel)
+	static def createListAttribute(mgl.Attribute attribute,mgl.ModelElement sme,List<mgl.Type> enums,mgl.GraphModel graphModel)
 	'''
 	public List<«getAttributeType(attribute,enums,graphModel)»> get«attribute.name.toFirstUpper»(){
 		«IF ModelParser.isUserDefinedType(attribute,enums)»
@@ -140,19 +141,19 @@ class CModelElementImpl {
 	}
 	'''
 	
-	static def getAttributeType(Attribute attribute,ArrayList<mgl.Type> enums,mgl.GraphModel graphModel) {
-	if(attribute.type.equals("EString")) return "String";
-	if(attribute.type.equals("EInt")) return "long";
-	if(attribute.type.equals("EDouble")) return "double";
-	if(attribute.type.equals("EBoolean")) return "boolean";
-	if(ModelParser.isUserDefinedType(attribute,enums)){
-		return attribute.type+"Type";
+	static def getAttributeType(Attribute attribute,List<mgl.Type> enums,mgl.GraphModel graphModel)
+	{
+		if(attribute.type.equals("EString")) return "String";
+		if(attribute.type.equals("EInt")) return "long";
+		if(attribute.type.equals("EDouble")) return "double";
+		if(attribute.type.equals("EBoolean")) return "boolean";
+		if(ModelParser.isUserDefinedType(attribute,enums)){
+			return attribute.type+"Type";
+		}
+		if(ModelParser.isReferencedModelType(graphModel,attribute)) {
+			return attribute.type;
+		}
+		//ENUM
+		return "String";	
 	}
-	if(ModelParser.isReferencedModelType(graphModel,attribute)) {
-		return attribute.type;
-	}
-	//ENUM
-	return "String";
-	
-}
 }
