@@ -23,6 +23,7 @@ import org.eclipse.core.runtime.jobs.Job;
 
 import de.jabc.cinco.meta.core.ui.listener.MGLSelectionListener;
 import de.jabc.cinco.meta.core.utils.EclipseFileUtils;
+import de.jabc.cinco.meta.core.utils.eapi.ResourceEAPI;
 import de.jabc.cinco.meta.plugin.gratext.build.GratextModelBuild;
 
 public class GratextGenerationHandler extends AbstractHandler {
@@ -33,12 +34,13 @@ public class GratextGenerationHandler extends AbstractHandler {
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		
-		IFile mglFile = MGLSelectionListener.INSTANCE.getCurrentMGLFile();
-		if (mglFile == null) 
-			return null;
-		IProject mglProject = mglFile.getProject();
+		GraphModel model =  MGLSelectionListener.INSTANCE.getCurrentMGLGraphModel();
 		
-		GraphModel model = eapi(mglFile).getResourceContent(GraphModel.class, 0);
+		if (model == null) 
+			return null;
+		IProject mglProject = ResourceEAPI.getProject(model.eResource());
+		
+		
 		
 		Map<String, Object> ctx = new HashMap<>();
 		ctx.put("graphModel", model);

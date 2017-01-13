@@ -8,6 +8,7 @@ import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -32,6 +33,8 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import de.jabc.cinco.meta.core.ui.listener.MGLSelectionListener;
+import de.jabc.cinco.meta.core.utils.eapi.ResourceEAPI;
+import mgl.GraphModel;
 
 /**
  * Our sample handler extends AbstractHandler, an IHandler base class.
@@ -78,16 +81,16 @@ public class MGLGenerationHandler extends AbstractHandler {
 	}
 
 	private void callGenerator() {
-		IFile file = MGLSelectionListener.INSTANCE.getCurrentMGLFile();
-		ResourceSet rSet = resourceSetProvider.get(file.getProject());
+		GraphModel model = MGLSelectionListener.INSTANCE.getCurrentMGLGraphModel();
+		IProject mglProject = ResourceEAPI.getProject(model.eResource());
 		
-		Resource res = rSet.createResource(URI.createPlatformResourceURI(file.getFullPath().toOSString(), true));
+		
 		
 		try {
 			//monitor.subTask("Loading Resource");
-			res.load(null);
+			
 			EclipseResourceFileSystemAccess2 access = fileAccessProvider.get();
-			access.setProject(file.getProject());
+			access.setProject(mglProject);
 			access.setMonitor(null);
 			OutputConfiguration defaultOutput = new OutputConfiguration("DEFAULT_OUTPUT");
 		    defaultOutput.setOutputDirectory("./src-gen");
@@ -112,13 +115,13 @@ public class MGLGenerationHandler extends AbstractHandler {
 				public void afterFileCreation(IFile file) {}
 			});
 			
-			generator.doGenerate(res, access);
+			generator.doGenerate(model.eResource(), access);
 
 		} catch (Exception e) {
 			throw new RuntimeException(e.getMessage(), e);
 		}
 		try {
-			file.getProject().refreshLocal(0, null);
+			mglProject.refreshLocal(0, null);
 		} catch (CoreException e) {
 			e.printStackTrace();
 			
