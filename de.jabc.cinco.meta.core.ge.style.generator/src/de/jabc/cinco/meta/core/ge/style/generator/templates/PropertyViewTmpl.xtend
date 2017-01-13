@@ -47,39 +47,43 @@ public class «gm.fuName»PropertyView implements «ISelectionListener.name» {
 			«CincoPropertyView.name».addSelectionListener(listener);
 		}
 
-		«CincoPropertyView.name».init_EStructuralFeatures(«gm.beanPackage».impl.«gm.fuName»Impl.class, 
+		«CincoPropertyView.name».init_EStructuralFeatures(«gm.beanPackage».internal.impl.Internal«gm.fuName»Impl.class, 
 			new «EStructuralFeature.name»[] {
 			«FOR attr : gm.attributes SEPARATOR ","»
-				«gm.beanPackage».«gm.name.toLowerCase.toFirstUpper»Package.eINSTANCE.get«gm.fuName»_«attr.name.toFirstUpper»()
+«««				«gm.beanPackage».«gm.name.toLowerCase.toFirstUpper»Package.eINSTANCE.get«gm.fuName»_«attr.name.toFirstUpper»()
+				«gm.beanPackage».internal.InternalPackage.eINSTANCE.getInternal«gm.fuName»_«attr.name.toFirstUpper»()
 			«ENDFOR»
 			}
 		);
 		
 		«FOR n : gm.nodes»
-		«CincoPropertyView.name».init_EStructuralFeatures(«n.beanPackage».impl.«n.fuName»Impl.class, 
+		«CincoPropertyView.name».init_EStructuralFeatures(«n.beanPackage».internal.impl.Internal«n.fuName»Impl.class, 
 			new «EStructuralFeature.name»[] {
 			«FOR attr : n.attributes.filter[!isAttributeHidden] SEPARATOR ","»
-				«gm.beanPackage».«gm.name.toLowerCase.toFirstUpper»Package.eINSTANCE.get«n.fuName»_«attr.name.toFirstUpper»()
+«««				«gm.beanPackage».«gm.name.toLowerCase.toFirstUpper»Package.eINSTANCE.get«n.fuName»_«attr.name.toFirstUpper»()
+				«gm.beanPackage».internal.InternalPackage.eINSTANCE.getInternal«n.fuName»_«attr.name.toFirstUpper»()
 			«ENDFOR»
 			}
 		);
 		«ENDFOR»
 		
 		«FOR e : gm.edges»
-		«CincoPropertyView.name».init_EStructuralFeatures(«e.beanPackage».impl.«e.fuName»Impl.class, 
+		«CincoPropertyView.name».init_EStructuralFeatures(«e.beanPackage».internal.impl.Internal«e.fuName»Impl.class, 
 			new «EStructuralFeature.name»[] {
 			«FOR attr : e.attributes.filter[!isAttributeHidden] SEPARATOR ","»
-				«gm.beanPackage».«gm.name.toLowerCase.toFirstUpper»Package.eINSTANCE.get«e.fuName»_«attr.name.toFirstUpper»()
+«««				«gm.beanPackage».«gm.name.toLowerCase.toFirstUpper»Package.eINSTANCE.get«e.fuName»_«attr.name.toFirstUpper»()
+				«gm.beanPackage».internal.InternalPackage.eINSTANCE.getInternal«e.fuName»_«attr.name.toFirstUpper»()
 			«ENDFOR»
 			}
 		);
 		«ENDFOR»
 
 		«FOR t : gm.types.filter[t | t instanceof UserDefinedType].map[t | t as UserDefinedType]»
-		«CincoPropertyView.name».init_EStructuralFeatures(«t.beanPackage».impl.«t.fuName»Impl.class, 
+		«CincoPropertyView.name».init_EStructuralFeatures(«t.beanPackage».internal.impl.Internal«t.fuName»Impl.class, 
 			new «EStructuralFeature.name»[] {
 			«FOR attr : t.attributes.filter[!isAttributeHidden] SEPARATOR ","»
-				«gm.beanPackage».«gm.name.toLowerCase.toFirstUpper»Package.eINSTANCE.get«t.fuName»_«attr.name.toFirstUpper»()
+«««				«gm.beanPackage».«gm.name.toLowerCase.toFirstUpper»Package.eINSTANCE.get«t.fuName»_«attr.name.toFirstUpper»()
+				«gm.beanPackage».internal.InternalPackage.eINSTANCE.getInternal«t.fuName»_«attr.name.toFirstUpper»()
 			«ENDFOR»
 			}
 		);
@@ -87,13 +91,15 @@ public class «gm.fuName»PropertyView implements «ISelectionListener.name» {
 
 		«CincoPropertyView.name».init_MultiLineAttributes(new «EStructuralFeature.name»[] {
 		«FOR attr : gm.allModelAttributes.filter[isAttributeMultiLine] SEPARATOR ","»
-			«gm.beanPackage».«gm.name.toLowerCase.toFirstUpper»Package.eINSTANCE.get«attr.modelElement.fuName»_«attr.name.toFirstUpper»()
+«««			«gm.beanPackage».«gm.name.toLowerCase.toFirstUpper»Package.eINSTANCE.get«attr.modelElement.fuName»_«attr.name.toFirstUpper»()
+			«gm.beanPackage».internal.InternalPackage.eINSTANCE.getInternal«attr.modelElement.fuName»_«attr.name.toFirstUpper»()
 		«ENDFOR»			
 		});
 
 		«CincoPropertyView.name».init_ReadOnlyAttributes(new «EStructuralFeature.name»[] {
 		«FOR attr : gm.allModelAttributes.filter[isAttributeReadOnly] SEPARATOR ","»
-			«gm.beanPackage».«gm.name.toLowerCase.toFirstUpper»Package.eINSTANCE.get«attr.modelElement.fuName»_«attr.name.toFirstUpper»()
+«««			«gm.beanPackage».«gm.name.toLowerCase.toFirstUpper»Package.eINSTANCE.get«attr.modelElement.fuName»_«attr.name.toFirstUpper»()
+			«gm.beanPackage».internal.InternalPackage.eINSTANCE.getInternal«attr.modelElement.fuName»_«attr.name.toFirstUpper»()
 		«ENDFOR»
 		});
 	}

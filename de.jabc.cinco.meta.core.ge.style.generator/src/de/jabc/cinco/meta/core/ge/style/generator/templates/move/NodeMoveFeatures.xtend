@@ -119,7 +119,7 @@ class NodeMoveFeatures extends GeneratorUtils{
 		protected void postMoveShape(«IMoveShapeContext.name» context) {
 			try {
 				«n.fqBeanName» _s = («n.fqBeanName») getBusinessObjectForPictogramElement(context.getPictogramElement());
-				«n.graphModel.beanPackage».«n.graphModel.name» _root = _s.getRootElement();
+				//«n.graphModel.beanPackage».«n.graphModel.name» _root = _s.getRootElement();
 				//«n.graphModel.package».api.c«n.graphModel.name.toLowerCase».C«n.graphModel.name» _wrapped = «n.graphModel.package».graphiti.«n.graphModel.name»Wrapper.wrapGraphModel(_root, getDiagram());
 			
 				int x = context.getX();

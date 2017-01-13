@@ -106,7 +106,7 @@ class EdgeUpdateFeatures extends GeneratorUtils{
 		 * @param «e.name.toLowerCase»: «e.name.toLowerCase» is the pictogram element that will be updated
 		 * @param pe: A representation of the model object 'Pictogram Element'
 		*/
-		private void updateText( «e.fqBeanName» «e.name.toLowerCase», «PictogramElement.name» pe) {
+		private void updateText( «e.fqBeanName» «e.flName», «PictogramElement.name» pe) {
 			if (pe instanceof «ContainerShape.name») {
 				«PictogramElement.name» tmp = pe;
 				Object o = «Graphiti.name».getLinkService().getBusinessObjectForLinkedPictogramElement(tmp);
@@ -198,7 +198,7 @@ class EdgeUpdateFeatures extends GeneratorUtils{
 		return '''
 		«FOR value : listValue»«IF value.startsWith("${")»
 
-		elContext = new «e.packageName».expression.«e.graphModel.name»ExpressionLanguageContext(«e.name.toLowerCase»);
+		elContext = new «e.packageName».expression.«e.graphModel.name»ExpressionLanguageContext(«e.flName»);
 		Object tmp«number = number+1»Value = factory.createValueExpression(elContext, "«value»", Object.class).getValue(elContext); 
 		«ENDIF»«ENDFOR»''' 
 
@@ -213,6 +213,6 @@ class EdgeUpdateFeatures extends GeneratorUtils{
 		var listValue = annot.value;
 		number = 0
 		return 
-		'''«FOR value : listValue»«IF value.startsWith("${")»,tmp«number = number+1»Value«ENDIF»«ENDFOR»'''
+		'''«FOR value : listValue SEPARATOR ","»«IF value.startsWith("${")»tmp«number = number+1»Value«ENDIF»«ENDFOR»'''
 	}
 }

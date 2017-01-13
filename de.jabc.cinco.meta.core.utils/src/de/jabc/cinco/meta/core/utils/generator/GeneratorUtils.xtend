@@ -73,6 +73,11 @@ class GeneratorUtils {
 		}
 	}
 	
+	def fuCViewName(Type me) { 
+		me.fuCName+"View"
+	}
+	
+	
 	def fuCImplName(Type me) {
 		"C"+me.name.toFirstUpper+"Impl"
 	}
@@ -181,6 +186,9 @@ class GeneratorUtils {
 	
 	def fqBeanImplName(ModelElement me)
 	'''«me.beanPackage».impl.«me.fuName»Impl'''
+	
+	def fqBeanViewName(ModelElement me)
+	'''«me.beanPackage».views.impl.«me.fuName»ViewImpl'''
 	
 	/**
 	 * Returns the fully qualified name of the {@link EFactory} class for the given {@link ModelElement}, i.e. for the
