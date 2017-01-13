@@ -194,7 +194,7 @@
          version="0.0.0"
          fragment="true"
          unpack="false"/>
-         
+
    <plugin
          id="de.jabc.cinco.meta.plugin.executer"
          download-size="0"
@@ -225,12 +225,20 @@
          version="0.0.0"
          fragment="true"
          unpack="false"/>
-         
+
    <plugin
          id="de.jabc.cinco.meta.plugin.gratext.runtime"
          download-size="0"
          install-size="0"
          version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="de.jabc.cinco.meta.plugin.cpdpreprocessor"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
          unpack="false"/>
 
 </feature>
