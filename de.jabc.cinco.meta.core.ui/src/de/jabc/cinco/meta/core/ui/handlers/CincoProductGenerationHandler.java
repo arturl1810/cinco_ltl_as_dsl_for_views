@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -108,7 +109,7 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 		
 		// TODO this could be much nicer with nested jobs or JOOL/Seq and Xtend
 		job.consume(50 * mgls.size(), "Processing mgls").taskForEach(() ->
-			preprocessedMGLs.stream().flatMap(file -> {
+			mgls.stream().flatMap(file -> {
 				final List<Pair<String, Runnable>> pairs = new LinkedList<>();
 				pairs.add(new Pair<>(String.format("Initializing... %s", file.getFullPath().lastSegment()), () -> publishMglFile(file)));
 				pairs.add(new Pair<>(String.format("Generating Ecore/GenModel...", file.getFullPath().lastSegment()), () -> generateEcoreModel(file)));
@@ -128,16 +129,35 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 			pair -> pair.getKey()
 		);
 		
-		job.task("Generate CPD plugins", () -> generateCPDPlugins(preprocessedMGLs));
+		job.task("Generate CPD plugins", () -> generateCPDPlugins(mgls));
 		
 		job.consume(5, "Global Processing")
 			.task("Generating project wizard...", this::generateProjectWizard);
 		
 		if (isGratextEnabled()) {
 			job.consumeConcurrent(mgls.size() * 60, "Building Gratext...")
-			    .taskForEach(() -> preprocessedMGLs.stream(), this::buildGratext,
+			    .taskForEach(() -> mgls.stream(), this::buildGratext,
 						t -> t.getFullPath().lastSegment());
 		}
+		
+//		job.task("Putting mgls back...", () -> {
+//			final Set<GraphModel> graphModels = new LinkedHashSet<>(
+//					preprocessedMGLs.stream().map(n -> eapi(n).getResourceContent(GraphModel.class)).collect(Collectors.toList()));
+//
+//			final Iterator<IFile> mglsIter = mgls.iterator();
+//			graphModels.forEach( gm -> {
+//				final Resource res = eapi(mglsIter.next()).getResource();
+//				res.getContents().clear();
+//				res.getContents().add(gm);
+//				try {
+//					res.save(null);
+//				}
+//				catch(Exception e){
+//					e.printStackTrace();
+//					throw new RuntimeException(e);
+//				}
+//			});
+//		});
 		
 		job.onCanceledShowMessage("Cinco Product generation has been canceled")
 		  .onFinished(() -> printDebugOutput(event, startTime))
@@ -151,23 +171,40 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 	private Collection<IFile> generatePreprocessMGLs(List<IFile> mgls) {
 		final Set<GraphModel> graphModels = new LinkedHashSet<>(
 				mgls.stream().map(n -> eapi(n).getResourceContent(GraphModel.class)).collect(Collectors.toList()));
-		new CPDPreprocessorPlugin().execute(graphModels, cpd, cpdFile.getProject());
-
+//		
+//		List<Resource> mglResources = graphModels.stream().map(gm -> gm.eResource()).collect(Collectors.toList());
+//
 //		Collection<IFile> preProcessedMgls = new ArrayList<>();
 //		
-//		graphModels.forEach(gm ->{
+//		graphModels.forEach(gm -> {
 //			 Resource res = gm.eResource().getResourceSet().createResource(URI.createPlatformResourceURI(
-//					 ResourceEAPI.eapi(gm.eResource()).getFile().getFullPath().removeLastSegments(1).append(gm.getName()+"preprocessed.mgl").toPortableString(),true));
+//					 ResourceEAPI.eapi(gm.eResource()).getFile().getFullPath().removeLastSegments(1).append("tmp").append(gm.getName()).toPortableString(), true));
 //			 res.getContents().add(gm);
-//			try{
-//			res.save(null);
-//			}catch(Exception e){
+//			try {
+//				res.save(null);
+//			}
+//			catch(Exception e){
 //				e.printStackTrace();
 //				throw new RuntimeException(e);
 //			}
 //		});
+//		
 //		preProcessedMgls = graphModels.stream().map(gm -> ResourceEAPI.eapi(gm.eResource()).getFile()).collect(Collectors.toList());
-		//TODO: Fix Every Place where FileName is used instead of GraphmodelName to form names and then return preProcessedMgls instead
+//		
+		new CPDPreprocessorPlugin().execute(graphModels, cpd, cpdFile.getProject());
+		
+		graphModels.stream().map(gm -> gm.eResource()).forEach(res -> {
+			try {
+				res.save(null);
+			}
+			catch(Exception e) {
+				e.printStackTrace();
+				throw new RuntimeException(e);
+			}
+		});
+
+//		//TODO: Fix Every Place where FileName is used instead of GraphmodelName to form names and then return preProcessedMgls instead
+//		return preProcessedMgls;
 		return mgls;
 	}
 	
