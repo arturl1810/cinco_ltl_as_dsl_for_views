@@ -11,6 +11,8 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -30,6 +32,7 @@ import org.eclipse.core.resources.IWorkspaceDescription;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
@@ -104,8 +107,8 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 		    .task("Resetting registries...", this::resetRegistries);
 		
 		// FIXME this should be put to a CPDMetaPlugin as soon as the plugin structure has been fixed.
-		final List<IFile> preprocessedMGLs = new LinkedList<>();
-		job.consume(20, "Preprocess MGLs").task(() -> preprocessedMGLs.addAll(generatePreprocessMGLs(mgls)));
+		final Map<IFile, IFile> backuppedMGLs = new HashMap<IFile, IFile>();
+		job.consume(20, "Preprocess MGLs").task(() -> backuppedMGLs.putAll(preprocessMGLs(mgls)));
 		
 		// TODO this could be much nicer with nested jobs or JOOL/Seq and Xtend
 		job.consume(50 * mgls.size(), "Processing mgls").taskForEach(() ->
@@ -162,50 +165,64 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 		job.onCanceledShowMessage("Cinco Product generation has been canceled")
 		  .onFinished(() -> printDebugOutput(event, startTime))
 		  .onFinishedShowMessage("Cinco Product generation completed successfully")
-		  .onDone(this::resetAutoBuild)
+		  .onDone(() -> {restoreMGLBackups(backuppedMGLs); resetAutoBuild();})
 		  .schedule();
 		
 		return null;
 	}
 	
-	private Collection<IFile> generatePreprocessMGLs(List<IFile> mgls) {
-		final Set<GraphModel> graphModels = new LinkedHashSet<>(
-				mgls.stream().map(n -> eapi(n).getResourceContent(GraphModel.class)).collect(Collectors.toList()));
-//		
-//		List<Resource> mglResources = graphModels.stream().map(gm -> gm.eResource()).collect(Collectors.toList());
-//
-//		Collection<IFile> preProcessedMgls = new ArrayList<>();
-//		
-//		graphModels.forEach(gm -> {
-//			 Resource res = gm.eResource().getResourceSet().createResource(URI.createPlatformResourceURI(
-//					 ResourceEAPI.eapi(gm.eResource()).getFile().getFullPath().removeLastSegments(1).append("tmp").append(gm.getName()).toPortableString(), true));
-//			 res.getContents().add(gm);
-//			try {
-//				res.save(null);
-//			}
-//			catch(Exception e){
-//				e.printStackTrace();
-//				throw new RuntimeException(e);
-//			}
-//		});
-//		
-//		preProcessedMgls = graphModels.stream().map(gm -> ResourceEAPI.eapi(gm.eResource()).getFile()).collect(Collectors.toList());
-//		
-		new CPDPreprocessorPlugin().execute(graphModels, cpd, cpdFile.getProject());
+	/**
+	 * backups all provided MGLs and afterwards applies the preprocessing meta plug-in to the original files (potentially changing them).
+	 * The returned map provides the reference to the backups for later restore.
+	 * 
+	 * @param mgls
+	 * @return The MGL backups for later restore; key=backup value=(changed) original.
+	 */
+	private Map<IFile, IFile> preprocessMGLs(List<IFile> mgls) {
 		
-		graphModels.stream().map(gm -> gm.eResource()).forEach(res -> {
-			try {
-				res.save(null);
-			}
-			catch(Exception e) {
-				e.printStackTrace();
-				throw new RuntimeException(e);
-			}
-		});
+		try {
 
-//		//TODO: Fix Every Place where FileName is used instead of GraphmodelName to form names and then return preProcessedMgls instead
-//		return preProcessedMgls;
-		return mgls;
+			Map<IFile, IFile> backups = new HashMap<IFile, IFile>();
+
+			IFolder backupFolder = mgls.get(0).getProject().getFolder("mgl-backups");
+			backupFolder.create(false,  false, null);
+
+			mgls.stream().forEach(mgl -> {
+				IFile targetFile = backupFolder.getFile(mgl.getName());
+				try {
+					mgl.copy(targetFile.getFullPath(), true, null);
+					backups.put(targetFile, mgl);
+				} catch (Exception e) {
+					e.printStackTrace();
+					throw new RuntimeException(e);
+				}
+			});
+
+			final Set<GraphModel> graphModels = new LinkedHashSet<>(
+					mgls.stream().map(n -> eapi(n).getResourceContent(GraphModel.class)).collect(Collectors.toList()));
+
+			new CPDPreprocessorPlugin().execute(graphModels, cpd, cpdFile.getProject());
+
+			graphModels.stream().map(gm -> gm.eResource()).forEach(res -> {
+				try {
+					res.save(null);
+				} catch (Exception e) {
+					e.printStackTrace();
+					throw new RuntimeException(e);
+				}
+			});
+
+			return backups;
+
+		}
+		catch (RuntimeException e) {
+			throw e;
+		}
+		catch (Throwable t) {
+			t.printStackTrace();
+			throw new RuntimeException(t);
+		}
+
 	}
 	
 	/**
@@ -550,6 +567,28 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 				System.err.println("[Gratext] WARN: Failed to reset state for \"Build Automatically\". "
 						+ "Should be " + autoBuild);
 				e.printStackTrace();
+			}
+		}
+	}
+	
+	/**
+	 * used to restore MGL backups:
+	 * copies every key IFile to the according value IFile, deletes the key IFile and also each key IFile's parent folder, if it is empty (e.g. when the last backup is restored)
+	 */
+	private void restoreMGLBackups(Map<IFile, IFile> mgls) {
+		for (Entry<IFile, IFile> entry : mgls.entrySet()) {
+			try {
+				IFile target = entry.getValue();
+				IFile source = entry.getKey();
+				target.delete(true, null);
+				source.copy(target.getFullPath(), true, null);
+				source.delete(true, null);
+				if (source.getParent().members().length == 0) {
+					source.getParent().delete(true, null);
+				}
+			} catch (CoreException e) {
+				e.printStackTrace();
+				throw new RuntimeException(e);
 			}
 		}
 	}
