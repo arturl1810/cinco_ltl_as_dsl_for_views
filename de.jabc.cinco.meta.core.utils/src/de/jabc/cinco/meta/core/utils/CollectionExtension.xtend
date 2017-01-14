@@ -11,7 +11,7 @@ import static extension org.jooq.lambda.Seq.*
  * 
  * @author Johannes Neubauer
  */
-class CollectionExtensions {
+class CollectionExtension {
 	
 	/**
 	 * Filters all distinct objects in a sequence by a given key, i.e., all duplicates

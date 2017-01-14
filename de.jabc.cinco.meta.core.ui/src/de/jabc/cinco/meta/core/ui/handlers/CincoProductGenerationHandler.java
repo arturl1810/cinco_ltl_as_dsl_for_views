@@ -107,8 +107,8 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 		    .task("Resetting registries...", this::resetRegistries);
 		
 		// FIXME this should be put to a CPDMetaPlugin as soon as the plugin structure has been fixed.
-		final Map<IFile, IFile> backuppedMGLs = new HashMap<IFile, IFile>();
-		job.consume(20, "Preprocess MGLs").task(() -> backuppedMGLs.putAll(preprocessMGLs(mgls)));
+//		final Map<IFile, IFile> backuppedMGLs = new HashMap<IFile, IFile>();
+//		job.consume(20, "Preprocess MGLs").task(() -> backuppedMGLs.putAll(preprocessMGLs(mgls)));
 		
 		// TODO this could be much nicer with nested jobs or JOOL/Seq and Xtend
 		job.consume(50 * mgls.size(), "Processing mgls").taskForEach(() ->
@@ -165,7 +165,7 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 		job.onCanceledShowMessage("Cinco Product generation has been canceled")
 		  .onFinished(() -> printDebugOutput(event, startTime))
 		  .onFinishedShowMessage("Cinco Product generation completed successfully")
-		  .onDone(() -> {restoreMGLBackups(backuppedMGLs); resetAutoBuild();})
+//		  .onDone(() -> {restoreMGLBackups(backuppedMGLs); resetAutoBuild();})
 		  .schedule();
 		
 		return null;
