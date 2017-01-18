@@ -177,7 +177,8 @@ class NodeUpdateFeatures extends GeneratorUtils{
 		
 		return '''
 		«FOR value : listValue»
-		«IF number != 1»
+		«IF (number+1) == 1» «{number++; ""}»
+		«ELSE»
 		elContext = new «n.packageName».expression.«n.graphModel.name»ExpressionLanguageContext(«n.name.toLowerCase»);
 		Object tmp«number = number+1»Value = factory.createValueExpression(elContext, "«value»", Object.class).getValue(elContext); 
 		«ENDIF»
@@ -194,7 +195,6 @@ class NodeUpdateFeatures extends GeneratorUtils{
 		var listValue = annot.value;
 		number = 0
 		return 
-		//'''«FOR value : listValue»«IF value.startsWith("${")»,tmp«number = number+1»Value«ENDIF»«ENDFOR»'''
-		'''«FOR value : listValue SEPARATOR ","»«IF number != 1»tmp«number = number+1»Value «ENDIF»«ENDFOR»'''
+		'''«FOR value : listValue»«IF (number+1) == 1»«{number++; ""}»«ELSE», tmp«number = number+1»Value«ENDIF»«ENDFOR»'''
 	}
 }

@@ -210,14 +210,11 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 		if (o instanceof «EObject.name») {
 			«EObject.name» bo = («EObject.name») o;
 			if (bo instanceof «ModelElement.name»){
-				«FOR n : gm.nodes»
-					if («n.instanceofCheck("bo")»)
-						return new «n.packageNameUpdate».UpdateFeature«n.fuName»(this);
-				«ENDFOR»
-				«FOR e : gm.edges»
-					if («e.instanceofCheck("bo")»)
-						return new «e.packageNameUpdate».UpdateFeature«e.fuName»(this);
-				«ENDFOR»
+				return new de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoUpdateFeature(this);
+«««				«FOR e : gm.edges»
+«««					if («e.instanceofCheck("bo")»)
+«««						//return new «e.packageNameUpdate».UpdateFeature«e.fuName»(this);
+«««				«ENDFOR»
 			}
 		}
 

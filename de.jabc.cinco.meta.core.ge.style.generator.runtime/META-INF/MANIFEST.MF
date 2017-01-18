@@ -21,3 +21,5 @@ Export-Package: de.jabc.cinco.meta.core.ge.style.generator.runtime.addfeature,
  de.jabc.cinco.meta.core.ge.style.generator.runtime.features,
  de.jabc.cinco.meta.core.ge.style.generator.runtime.provider
 Bundle-Vendor: %providerName
+Import-Package: com.sun.el;version="2.2.0",
+ javax.el

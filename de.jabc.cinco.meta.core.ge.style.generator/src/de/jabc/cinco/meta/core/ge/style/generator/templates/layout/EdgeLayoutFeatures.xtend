@@ -8,6 +8,10 @@ import org.eclipse.graphiti.features.impl.AbstractLayoutFeature
 import org.eclipse.graphiti.mm.pictograms.Connection
 import org.eclipse.graphiti.mm.pictograms.PictogramElement
 import style.Styles
+import org.eclipse.graphiti.mm.algorithms.Text
+import org.eclipse.graphiti.mm.pictograms.ConnectionDecorator
+import org.eclipse.graphiti.datatypes.IDimension
+import org.eclipse.graphiti.services.Graphiti
 
 class EdgeLayoutFeatures extends APIUtils {
 	
@@ -36,11 +40,20 @@ class EdgeLayoutFeatures extends APIUtils {
 		@Override
 		public boolean layout(«ILayoutContext.name» context) {
 			«PictogramElement.name» pe = context.getPictogramElement();
-			if (pe instanceof «Connection.name») {
-				layout((«Connection.name») pe);
-				return true;
+			Object bo = getBusinessObjectForPictogramElement(pe);
+			if (bo instanceof «e.graphModel.beanPackage».«e.name») {
+				if (pe instanceof «Connection.name») {
+					«Connection.name» conn = («Connection.name») pe;
+					for («ConnectionDecorator.name» cd : conn.getConnectionDecorators()) {
+						if (cd.getGraphicsAlgorithm() instanceof «Text.name») {
+							«Text.name» t = («Text.name») cd.getGraphicsAlgorithm();
+						    «IDimension.name» dim = «e.graphModel.packageName».«e.graphModel.name»LayoutUtils.getTextDimension(t); ////////////7
+						    «Graphiti.name».getGaService().setSize(t, dim.getWidth(), dim.getHeight());
+						 }
+					}
+				}
 			}
-			return false;
+			return true;
 		}
 		
 		/**

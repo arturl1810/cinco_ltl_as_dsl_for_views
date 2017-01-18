@@ -103,7 +103,7 @@ class EdgeAddFeatures extends GeneratorUtils {
 			«clear»
 			«FOR d : CincoUtils.getStyleForEdge(e, styles).decorator»			
 				«IF d.predefinedDecorator != null »			
-				cd = peCreateService.createConnectionDecorator(connection, false,«d.location», true);
+				cd = peCreateService.createConnectionDecorator(connection, «d.movable»,«d.location», true);
 				«e.graphModel.packageName».«e.graphModel.fuName»LayoutUtils.create«d.predefinedDecorator.shape.name()»(cd);
 				
 				«IF d.predefinedDecorator.shape.name() == "ARROW"»				
@@ -117,13 +117,13 @@ class EdgeAddFeatures extends GeneratorUtils {
 				«IF d.decoratorShape != null»	
 				«IF d.decoratorShape instanceof style.Text»	
 				«var textShape = d.decoratorShape as style.Text»
-				cd = peCreateService.createConnectionDecorator(connection, false,«d.location», true);
+				cd = peCreateService.createConnectionDecorator(connection, «d.movable»,«d.location», true);
 				createShapeText«text.length»(cd, «e.fuName.toFirstLower», "«textShape.value»");
 				link(cd, «e.fuName.toFirstLower»);
 				«{text.add(textShape); ""}»
 				«ELSEIF d.decoratorShape instanceof style.Polyline»
 				«var polylineShape = d.decoratorShape as style.Polyline»
-				cd = peCreateService.createConnectionDecorator(connection, false, «d.location», true);
+				cd = peCreateService.createConnectionDecorator(connection, «d.movable», «d.location», true);
 				«IF polylineShape.size != null»
 				createShapePolyline«polyline.length»(cd, «e.fuName.toFirstLower», «polylineShape.width», «polylineShape.heigth»);
 				«ELSE»
@@ -133,7 +133,7 @@ class EdgeAddFeatures extends GeneratorUtils {
 				«{polyline.add(polylineShape); ""}»		
 				«ELSEIF d.decoratorShape instanceof style.Ellipse»
 				«var ellipseShape = d.decoratorShape as style.Ellipse»
-				cd = peCreateService.createConnectionDecorator(connection, false, «d.location», true);
+				cd = peCreateService.createConnectionDecorator(connection, «d.movable», «d.location», true);
 				«IF ellipseShape.size != null»
 				createShapeEllipse«ellipse.length»(cd, «e.fuName.toFirstLower», «ellipseShape.width», «ellipseShape.heigth»);
 				«ELSE»
@@ -143,7 +143,7 @@ class EdgeAddFeatures extends GeneratorUtils {
 				«{ellipse.add(ellipseShape); ""}»				
 				«ELSEIF d.decoratorShape instanceof style.Polygon»
 				«var polygonShape = d.decoratorShape as style.Polygon»
-				cd = peCreateService.createConnectionDecorator(connection, false, «d.location», true);
+				cd = peCreateService.createConnectionDecorator(connection, «d.movable», «d.location», true);
 				«IF polygonShape.size != null»
 				createShapePolygon«polygon.length»(cd, «e.fuName.toFirstLower», «polygonShape.width», «polygonShape.heigth»);
 				«ELSE»
@@ -153,13 +153,13 @@ class EdgeAddFeatures extends GeneratorUtils {
 				«{polygon.add(polygonShape); ""}»				
 				«ELSEIF d.decoratorShape instanceof style.MultiText»
 				«var multitextShape = d.decoratorShape as style.MultiText»
-				cd = peCreateService.createConnectionDecorator(connection, false, «d.location», true);
+				cd = peCreateService.createConnectionDecorator(connection, «d.movable», «d.location», true);
 				createShapeMultiText«multitext.length»(cd, «e.fuName.toFirstLower», "«multitextShape.value»");
 				link(cd, «e.fuName.toFirstLower»);
 				«{multitext.add(multitextShape); ""}»				
 				«ELSEIF d.decoratorShape instanceof style.Image»
 				«var imageShape = d.decoratorShape as style.Image»
-				cd = peCreateService.createConnectionDecorator(connection, false,«d.location», true);
+				cd = peCreateService.createConnectionDecorator(connection, «d.movable»,«d.location», true);
 				«IF imageShape.size != null»
 				createShapeImage«image.length»(cd, «e.fuName.toFirstLower», "«imageShape.path»", «imageShape.width», «imageShape.heigth»);
 				«ELSE»
@@ -306,11 +306,13 @@ class EdgeAddFeatures extends GeneratorUtils {
 			«e.graphModel.packageName».expression.«e.graphModel.fuName»ExpressionLanguageContext elContext = null;
 						
 			elContext = new  «e.graphModel.packageName».expression.«e.graphModel.fuName»ExpressionLanguageContext(«e.fuName.toFirstLower»);
-			«Object.name» tmpValue = factory.createValueExpression(elContext, "«StyleUtils.getText(e)»", «Object.name».class).getValue(elContext);
+			String value = "«StyleUtils.getText(e)»";
+			«Object.name» tmpValue = factory.createValueExpression(elContext, value, «Object.name».class).getValue(elContext);
 			
 			«Text.name» text = gaService.createDefaultText(getDiagram(), gaContainer);			
 			text.setValue(String.format(textValue , tmpValue));
 			peService.setPropertyValue(text, «e.graphModel.packageName».«e.graphModel.fuName»GraphitiUtils.KEY_FORMAT_STRING,textValue);
+			peService.setPropertyValue(text, "Params", value);
 			«appearanceCodeEdge(t, "text", e)»
 		}
 		
