@@ -46,134 +46,8 @@ EList<Appearance> appList = new BasicEList <Appearance>();
 '''package «gm.packageName»;
 
 public class «gm.fuName»LayoutUtils {
-	
-	public static final «String.name» KEY_HORIZONTAL = "horizontal";
-	public static final «String.name» KEY_VERTICAL = "vertical";
-	
-	public static final «String.name» KEY_HORIZONTAL_UNDEFINED = "undef";
-	public static final «String.name» KEY_HORIZONTAL_LEFT = "h_layout_left";
-	public static final «String.name» KEY_HORIZONTAL_CENTER = "h_layout_center";
-	public static final «String.name» KEY_HORIZONTAL_RIGHT = "h_layout_right";
-
-	public static final «String.name» KEY_VERTICAL_UNDEFINED = "undef";
-	public static final «String.name» KEY_VERTICAL_TOP = "v_layout_top";
-	public static final «String.name» KEY_VERTICAL_MIDDLE = "v_layout_middle";
-	public static final «String.name» KEY_VERTICAL_BOTTOM = "v_layout_bottom";
-
-	public static final «String.name» KEY_MARGIN_HORIZONTAL = "margin_horizontal";
-	public static final «String.name» KEY_MARGIN_VERTICAL = "margin_vertical";
-
-	public static final «String.name» KEY_INITIAL_POINTS = "initial_points";
-	public static final «String.name» KEY_INITIAL_PARENT_SIZE = "initial_parent_size";
-
-	public static final «String.name» KEY_GA_NAME = "ga_name";   
-
 	private static «IGaService.name» gaService = «Graphiti.name».getGaService();
-
-	/**
-	 * Sets the generell layout
-	 * @param parent : GraphicsAlgorithm
-	 * @param ga : GraphicsAlgorithm
-	 */
-	public static void layout(final «GraphicsAlgorithm.name» parent, final «GraphicsAlgorithm.name» ga) {
-        «IPeService.name» peService = «Graphiti.name».getPeService();
-		«IGaService.name» gaService = «Graphiti.name».getGaService();
-		«String.name» horizontal = peService.getPropertyValue(ga, KEY_HORIZONTAL);
-		«String.name» vertical = peService.getPropertyValue(ga, KEY_VERTICAL);
-		«int.name» xMargin = 0;
-		«int.name» yMargin = 0;
-		if (peService.getPropertyValue(ga, KEY_MARGIN_HORIZONTAL) != null)
-			xMargin = «Integer.name».parseInt(peService.getPropertyValue(ga, KEY_MARGIN_HORIZONTAL));
-		if (peService.getPropertyValue(ga, KEY_MARGIN_VERTICAL) != null)
-			yMargin = «Integer.name».parseInt(peService.getPropertyValue(ga, KEY_MARGIN_VERTICAL));
 	
-		if (parent == null || ga == null)
-			return;
-		
-		«int.name» parentWidth = parent.getWidth(), parentHeight = parent.getHeight();
-		«int.name» gaWidth = ga.getWidth(), gaHeight = ga.getHeight();
-		if (ga instanceof «Text.name») {
-			«IDimension.name» dim = getTextDimension((«Text.name») ga);
-			gaService.setWidth(ga, dim.getWidth());
-			gaService.setHeight(ga, dim.getHeight());
-			gaWidth = dim.getWidth();
-			gaHeight = dim.getHeight();
-		}
-
-		if (ga instanceof «MultiText.name») {
-			«MultiText.name» mt = («MultiText.name») ga;
-			«String.name» content = mt.getValue().trim();
-			«String.name»[] lines = content.split("\n");
-			«int.name» linesCount = lines.length + 1;
-			«int.name» maxLineWidth = -1;
-			«int.name» lineHeight = -1;
-		
-			«IDimension.name» dim = null;
-			for («String.name» s : lines) {
-				dim = getTextDimension(s, (mt.getFont() != null) ? mt.getFont() : mt.getStyle().getFont());
-				maxLineWidth = Math.max(maxLineWidth, dim.getWidth());
-			}
-			if (dim != null)
-				lineHeight = dim.getHeight();
-	
-			gaWidth = maxLineWidth + 5;
-			gaHeight = lineHeight * linesCount;
-			mt.setWidth(gaWidth);
-			mt.setHeight(gaHeight);
-	
-			if (parent.getWidth() < gaWidth + mt.getX())
-				parent.setWidth(gaWidth + mt.getX());
-			if (parent.getHeight() < gaHeight + mt.getY())
-				parent.setHeight(gaHeight + mt.getY());
-	
-			parentWidth = parent.getWidth();
-			parentHeight = parent.getHeight();
-		}
-
-		if (KEY_HORIZONTAL_UNDEFINED.equals(horizontal) || KEY_VERTICAL_UNDEFINED.equals(vertical))
-			return;
-
-		«int.name» x = 0, y = 0;
-
-		switch (horizontal) {
-			case KEY_HORIZONTAL_LEFT: x = 0; break;
-			case KEY_HORIZONTAL_CENTER: x = parentWidth / 2 - gaWidth / 2; break;
-			case KEY_HORIZONTAL_RIGHT: x = parentWidth - gaWidth; break;
-			default: break;
-		}
-	
-		switch (vertical) {
-			case KEY_VERTICAL_TOP: y = 0; break;
-			case KEY_VERTICAL_MIDDLE: y = parentHeight / 2 - gaHeight / 2; break;
-			case KEY_VERTICAL_BOTTOM: y = parentHeight - gaHeight; break;
-			default: break;
-		}
-
-		gaService.setLocation(ga, x+xMargin, y+yMargin);
-	}
-	
-	/**
-	 * Returns the dimension of a text
-	 * @param t : The text
-	 * @return Returns the dimension of the text
-	 */	
-	public static «IDimension.name» getTextDimension(«AbstractText.name» t) {
-		«String.name» value = t.getValue();
-		«Font.name» font = (t.getFont() != null) ? t.getFont() : t.getStyle().getFont();
-		«IDimension.name» dim = «GraphitiUi.name».getUiLayoutService().calculateTextSize(value, font);
-		return dim;
-	}
-	
-	/**
-	 * Returns the dimension of a text
-	 * @param value : The value of the text
-	 * @param font : The font of the text
-	 * @return Returns the dimension of the text
-	 */	
-	private static «IDimension.name» getTextDimension(String value, «Font.name» font) {
-		«IDimension.name» dim = «GraphitiUi.name».getUiLayoutService().calculateTextSize(value, font);
-		return dim;
-	}
 	«var styles = st»
 	«FOR app : styles.appearances»	
 	
@@ -235,50 +109,6 @@ public class «gm.fuName»LayoutUtils {
 	«ENDFOR»
 	
 	/**
-	 * Defines the appearance of the Circle
-	 * @param gaContainer : GraphicsAlgorithmContainer
-	 */
-	public static void createCIRCLE(«GraphicsAlgorithmContainer.name» gaContainer) {
-		«IGaService.name» gaService = «Graphiti.name».getGaService();
-		«Ellipse.name» tmp = gaService.createEllipse(gaContainer);
-		gaService.setSize(tmp, 12, 12);
-		gaService.setLocation(tmp, tmp.getX() + 2, tmp.getY());
-		tmp.setFilled(true);
-	}
-
-	/**
-	 * Defines the appearance of the Triangle
-	 * @param gaContainer : GraphicsAlgorithmContainer
-	 */
-	public static  void createTRIANGLE(«GraphicsAlgorithmContainer.name» gaContainer) {
-		«IGaService.name» gaService = «Graphiti.name».getGaService();
-		«Polygon.name» tmp = gaService.createPolygon(gaContainer, new int[] {-11,-8, 0,0, -11,8, -11,-8});
-		gaService.setLocation(tmp, tmp.getX() + 2, tmp.getY());
-		tmp.setFilled(true);
-	}
-
-	/**
-	 * Defines the appearance of the Arrow
-	 * @param gaContainer : GraphicsAlgorithmContainer
-	 */
-	public static  void createARROW(«GraphicsAlgorithmContainer.name» gaContainer) {
-		«IGaService.name» gaService = «Graphiti.name».getGaService();
-		«Polyline.name» tmp = gaService.createPolyline(gaContainer, new int[] {-10,-4, 0,0, -10,4});
-		gaService.setLocation(tmp, tmp.getX() + 2, tmp.getY());
-	}
-
-	/**
-	 * Defines the appearance of the Diamond
-	 * @param gaContainer : GraphicsAlgorithmContainer
-	 */
-	public static  void createDIAMOND(«GraphicsAlgorithmContainer.name» gaContainer) {
-		«IGaService.name» gaService = «Graphiti.name».getGaService();
-		«Polygon.name» tmp = gaService.createPolygon(gaContainer, new int[] {-9,-6, 0,0, -9,6, -18,0, -9,-6});
-		gaService.setLocation(tmp, tmp.getX() + 2, tmp.getY());
-		tmp.setFilled(true);
-	}
-
-	/**
 	 * Defines the default appearance
 	 * @param gaContainer : GraphicsAlgorithm
 	 * @param diagram : Diagram
@@ -312,7 +142,7 @@ public class «gm.fuName»LayoutUtils {
 	 * Defines the InlineStyle
 	 * @param ga : GraphicsAlgorithm
 	 * @param diagram : Diagram
-	 */
+	 */«»
 	public static void set«counter1»InlineStyle(«GraphicsAlgorithm.name» ga, «Diagram.name» diagram){
 		if (ga instanceof «AbstractText.name») {
 			((«AbstractText.name») ga).setRotation(0.0);

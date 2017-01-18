@@ -40,6 +40,8 @@ import org.eclipse.graphiti.features.context.impl.AddContext
 import org.eclipse.graphiti.features.custom.ICustomFeature
 import org.eclipse.graphiti.mm.pictograms.PictogramElement
 import org.eclipse.graphiti.ui.features.DefaultFeatureProvider
+import graphmodel.Node
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoLayoutFeature
 
 class FeatureProviderTmpl extends GeneratorUtils{
 	
@@ -158,10 +160,10 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 		if (o instanceof «EObject.name») {
 			«EObject.name» bo = («EObject.name») o;
 			if (bo instanceof «ModelElement.name»){
-				«FOR n : gm.nodes»
-					if («n.instanceofCheck("bo")»)
-						return new «n.packageNameLayout».LayoutFeature«n.fuName»(this);
-				«ENDFOR»
+				
+					if (bo instanceof «Node.name»)
+						return new «CincoLayoutFeature.name»(this);
+				
 				«FOR e : gm.edges»
 					if («e.instanceofCheck("bo")»)
 					    return new «e.packageNameLayout».LayoutFeature«e.fuName»(this);

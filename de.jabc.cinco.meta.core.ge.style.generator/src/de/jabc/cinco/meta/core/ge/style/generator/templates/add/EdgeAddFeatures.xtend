@@ -102,10 +102,10 @@ class EdgeAddFeatures extends GeneratorUtils {
 			«ConnectionDecorator.name» cd;
 			«clear»
 			«FOR d : CincoUtils.getStyleForEdge(e, styles).decorator»			
-				«IF d.predefinedDecorator != null »			
-				cd = peCreateService.createConnectionDecorator(connection, «d.movable»,«d.location», true);
-				«e.graphModel.packageName».«e.graphModel.fuName»LayoutUtils.create«d.predefinedDecorator.shape.name()»(cd);
-				
+				«IF d.predefinedDecorator != null »	
+				cd = peCreateService.createConnectionDecorator(connection, false,«d.location», true);
+				de.jabc.cinco.meta.core.ge.style.generator.runtime.utils.CincoLayoutUtils.create«d.predefinedDecorator.shape.name()»(cd);
+
 				«IF d.predefinedDecorator.shape.name() == "ARROW"»				
 				«e.graphModel.packageName».«e.graphModel.fuName»LayoutUtils.setdefaultStyle(cd.getGraphicsAlgorithm(), getDiagram());
 				«ENDIF»
