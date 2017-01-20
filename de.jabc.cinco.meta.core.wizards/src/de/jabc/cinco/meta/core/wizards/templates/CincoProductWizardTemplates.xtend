@@ -8,6 +8,7 @@ import java.util.Collections
 import java.util.EnumSet
 import org.eclipse.emf.common.util.EList
 import org.eclipse.emf.common.util.BasicEList
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.appearance.StyleAppearanceProvider
 
 class CincoProductWizardTemplates {
 
@@ -768,7 +769,7 @@ package «packageName».appearance;
 import style.Appearance;
 import style.LineStyle;
 import style.StyleFactory;
-import de.jabc.cinco.meta.core.ge.style.model.appearance.StyleAppearanceProvider;
+import «StyleAppearanceProvider.name»;
 import «packageName».«modelName.toLowerCase».End;
 import «packageName».«modelName.toLowerCase».Transition;
 

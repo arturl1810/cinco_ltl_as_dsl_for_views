@@ -5,6 +5,7 @@ import de.jabc.cinco.meta.core.mgl.MGLEPackageRegistry
 import de.jabc.cinco.meta.core.mgl.transformation.MGL2Ecore
 import de.jabc.cinco.meta.core.pluginregistry.PluginRegistry
 import de.jabc.cinco.meta.core.utils.URIHandler
+import de.jabc.cinco.meta.core.utils.WorkspaceUtil
 import de.jabc.cinco.meta.core.utils.projects.ProjectCreator
 import de.metaframe.jabc.framework.execution.DefaultLightweightExecutionEnvironment
 import de.metaframe.jabc.framework.execution.context.DefaultLightweightExecutionContext
@@ -27,6 +28,7 @@ import mgl.NodeContainer
 import mgl.OutgoingEdgeElementConnection
 import mgl.impl.OutgoingEdgeElementConnectionImpl
 import org.eclipse.core.internal.runtime.InternalPlatform
+import org.eclipse.core.resources.IFile
 import org.eclipse.core.resources.ResourcesPlugin
 import org.eclipse.core.runtime.Path
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel
@@ -44,9 +46,12 @@ import org.eclipse.pde.core.project.IBundleProjectService
 import org.eclipse.xtext.generator.IFileSystemAccess
 import org.eclipse.xtext.generator.IGenerator
 import org.eclipse.xtext.naming.IQualifiedNameProvider
-import transem.utility.helper.Tuple
 import org.eclipse.xtext.util.StringInputStream
-import de.jabc.cinco.meta.core.utils.WorkspaceUtil
+import transem.utility.helper.Tuple
+
+import static extension de.jabc.cinco.meta.core.utils.eapi.FileEAPI.*
+import java.util.Map
+import de.jabc.cinco.meta.core.pluginregistry.IMetaPlugin
 
 class MGLGenerator implements IGenerator {
 	@Inject extension IQualifiedNameProvider
@@ -112,8 +117,12 @@ class MGLGenerator implements IGenerator {
 			
 			// var ePackage = context.get("ePackage") as EPackage
 			var ecorePath = "/model/"+model.fullyQualifiedName.toString("/")+".ecore".toFirstUpper
+			val map = new HashMap
+			map.put("graphModel", model)
+			map.put("ePackage", ePackage)
+			map.put("modelElements", altGen.modelElementsClasses)
 			
-			
+			callMetaPlugins(model, map)
 			
 			var projectPath = new Path(projectName)
 			val genModel = GenModelCreator::createGenModel(new Path(ecorePath),ePackage,projectName, projectID, projectPath)
@@ -122,7 +131,6 @@ class MGLGenerator implements IGenerator {
 				for(genPackage: genModel.genPackages){
 					genPackage.basePackage = model.package
 				}
-			
 			}
 			
 			var usedEcoreModels = new HashSet<EPackage>
@@ -331,8 +339,6 @@ class MGLGenerator implements IGenerator {
 		}
 	}
 	
-	
-	
 	def addNodes(ContainingElement ce,int lower, int upper, Node...nodes){
 		var gec = MglFactory.eINSTANCE.createGraphicalElementContainment;
 		gec.setLowerBound(lower);
@@ -342,6 +348,21 @@ class MGLGenerator implements IGenerator {
 		
 	}
 	
+	/**
+	 * Collects the Metaplugins registered at the current {@link GraphModel} and executes them
+	 * 
+	 * @param mgl: The file representing the currently processed {@link GraphModel}
+	 * @param metaPluginParams: See {@link de.jabc.cinco.meta.core.pluginregistry.IMetaPlugin#execute IMetaPlugin}
+	 */
+	def callMetaPlugins(GraphModel gm, Map<String, Object> metaPluginParams) {
+		val generators = PluginRegistry.instance.pluginGenerators
+		val annotNames = gm.annotations.map[name]
+		val registeredMetaPlugins = generators.filter[name, mp | annotNames.contains(name)]
+		
+		registeredMetaPlugins.forEach[name, mp | mp.execute(metaPluginParams)]
+	}
+
+
 //	def inheritContainable(Iterable<NodeContainer> containers) {
 //		for(container: containers){
 //			var superType = (container.extends as NodeContainer)
