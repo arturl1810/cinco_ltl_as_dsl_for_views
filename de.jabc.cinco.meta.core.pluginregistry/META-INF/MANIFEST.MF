@@ -9,7 +9,6 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.xtend.lib,
  de.jabc.cinco.meta.core.mgl.model;visibility:=reexport,
  org.eclipse.xtext,
- de.jabc.cinco.meta.core.mgl.transformation;visibility:=reexport,
  org.eclipse.core.resources
 Bundle-ActivationPolicy: lazy
 Import-Package: org.eclipse.xtend.typesystem.emf,
