@@ -163,4 +163,18 @@
          version="0.0.0"
          unpack="false"/>
 
+   <plugin
+         id="de.jabc.cinco.meta.core.ge.style"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="de.jabc.cinco.meta.core.ge.style.generator"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
 </feature>
