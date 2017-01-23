@@ -2,7 +2,6 @@ package de.jabc.cinco.meta.core.mgl.generator
 
 import com.google.inject.Inject
 import de.jabc.cinco.meta.core.mgl.MGLEPackageRegistry
-import de.jabc.cinco.meta.core.mgl.transformation.MGL2Ecore
 import de.jabc.cinco.meta.core.pluginregistry.PluginRegistry
 import de.jabc.cinco.meta.core.utils.URIHandler
 import de.jabc.cinco.meta.core.utils.WorkspaceUtil
@@ -106,7 +105,6 @@ class MGLGenerator implements IGenerator {
 		context.put("resource",xmiResource)
 		var environment = new DefaultLightweightExecutionEnvironment(context)
 		context.put("ExecutionEnvironment",environment)
-		var gdl2ecore = new MGL2Ecore
 		//var String x= gdl2ecore.execute(environment);
 		var x = "default"
 		val altGen = new MGLAlternateGenerator()
