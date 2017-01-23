@@ -30,13 +30,6 @@
          version="0.0.0"/>
 
    <plugin
-         id="de.jabc.cinco.meta.core.ge.generator"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="de.jabc.cinco.meta.core.ge.style.fragment"
          download-size="0"
          install-size="0"
@@ -139,13 +132,6 @@
 
    <plugin
          id="de.jabc.cinco.meta.core"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="de.jabc.cinco.meta.core.ge.style.sibs"
          download-size="0"
          install-size="0"
          version="0.0.0"
