@@ -11,40 +11,34 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.jar.Attributes;
 import java.util.jar.Manifest;
 import java.util.regex.Pattern;
 
-import mgl.Annotation;
-import mgl.GraphModel;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jdt.core.IJavaModelStatusConstants;
 import org.eclipse.jdt.core.JavaModelException;
-import org.eclipse.pde.core.plugin.PluginRegistry;
 import org.eclipse.xtext.util.StringInputStream;
 import org.osgi.framework.Bundle;
 
 import de.jabc.cinco.meta.core.BundleRegistry;
-import de.jabc.cinco.meta.core.mgl.transformation.helper.AbstractService;
-import de.jabc.cinco.meta.core.mgl.transformation.helper.ServiceException;
 import de.jabc.cinco.meta.core.utils.BuildProperties;
 import de.jabc.cinco.meta.core.utils.projects.ProjectCreator;
-import de.metaframe.jabc.framework.execution.LightweightExecutionEnvironment;
 import de.metaframe.jabc.framework.execution.context.LightweightExecutionContext;
+import mgl.GraphModel;
 
-public class CreateCodeGeneratorPlugin extends AbstractService {
+public class CreateCodeGeneratorPlugin{
 
 
 	private static final String GENERATOR_RUNTIME_BUNDLE_NAME = "de.jabc.cinco.meta.plugin.generator.runtime";
@@ -52,56 +46,52 @@ public class CreateCodeGeneratorPlugin extends AbstractService {
 	public CreateCodeGeneratorPlugin() {
 	}
 
-	@Override
-	public String execute(LightweightExecutionEnvironment environment)
-			throws ServiceException {
-		LightweightExecutionContext globalContext = environment.getLocalContext().getGlobalContext();
+//	@Override
+	public String execute(Map<String, Object> map) {
+//		LightweightExecutionContext globalContext = environment.getLocalContext().getGlobalContext();
 		IProject proj = null;
 		try{
-			proj = this.createCodeGeneratorEclipseProject(environment);
+			proj = this.createCodeGeneratorEclipseProject(map);
 		}catch(Exception e){
 			e.printStackTrace();
-			globalContext.put("exception", e);
+//			globalContext.put("exception", e);
 			return "error";
 		}
-		
-		
 		//return callSLG(environment, globalContext, proj);
 		return "default";
 	}
 
-	@SuppressWarnings("unused")
-	private String callSLG(LightweightExecutionEnvironment environment,
-			LightweightExecutionContext globalContext, IProject proj) {
-		if (proj != null) {
-			String s = new Create_Generator_Plugin().execute(environment);
-			if (s.equals("default")) {
-				try {
-					createCodeGeneratorEclipseProject(environment);
-					proj.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
-					return "default";
-				} catch (Exception e) {
-					
-					globalContext
-							.put("exception", e);
-					e.printStackTrace();
-					return "error";
-				}
-
-			} else {
-				return "error";
-
-			}
-		} else {
-			return "error";
-		}
-	}
+//	@SuppressWarnings("unused")
+//	private String callSLG(LightweightExecutionEnvironment environment,
+//			LightweightExecutionContext globalContext, IProject proj) {
+//		if (proj != null) {
+//			String s = new Create_Generator_Plugin().execute(environment);
+//			if (s.equals("default")) {
+//				try {
+//					createCodeGeneratorEclipseProject(environment);
+//					proj.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
+//					return "default";
+//				} catch (Exception e) {
+//					
+//					globalContext
+//							.put("exception", e);
+//					e.printStackTrace();
+//					return "error";
+//				}
+//
+//			} else {
+//				return "error";
+//
+//			}
+//		} else {
+//			return "error";
+//		}
+//	}
 	
-	public IProject createCodeGeneratorEclipseProject(
-			LightweightExecutionEnvironment environment) {
-		LightweightExecutionContext context = environment.getLocalContext().getGlobalContext();
+	public IProject createCodeGeneratorEclipseProject(Map<String, Object> map) {
+//		LightweightExecutionContext context = environment.getLocalContext().getGlobalContext();
 		try {
-			GraphModel graphModel = (GraphModel) context.get("graphModel");
+			GraphModel graphModel = (GraphModel) map.get("graphModel");
 			String implementingClassName = "";
 			String bundleName = "";
 			String outlet = "";
@@ -120,8 +110,8 @@ public class CreateCodeGeneratorPlugin extends AbstractService {
 					}
 				}
 			}
-			context.put("implementingClassName",implementingClassName);
-			context.put("outlet",outlet);
+//			context.put("implementingClassName",implementingClassName);
+//			context.put("outlet",outlet);
 			String packageName = implementingClassName.substring(0, implementingClassName.lastIndexOf('.'));
 			
 			String className = null;
@@ -193,7 +183,7 @@ public class CreateCodeGeneratorPlugin extends AbstractService {
 			
 			return null;
 		} catch (Exception e) {
-			context.put("exception", e);
+//			context.put("exception", e);
 			e.printStackTrace();
 			return null;
 		} finally {
