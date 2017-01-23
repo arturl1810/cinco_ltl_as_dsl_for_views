@@ -5,6 +5,7 @@ import java.net.URISyntaxException;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.resources.IProject;
@@ -15,8 +16,6 @@ import de.jabc.cinco.meta.plugin.executer.collector.GraphmodelCollector;
 import de.jabc.cinco.meta.plugin.executer.compounds.ExecutableGraphmodel;
 import de.jabc.cinco.meta.plugin.executer.generator.TracerProjectGenerator;
 import de.jabc.cinco.meta.plugin.executer.service.ProjectCreator;
-import de.metaframe.jabc.framework.execution.LightweightExecutionEnvironment;
-import de.metaframe.jabc.framework.execution.context.LightweightExecutionContext;
 import mgl.GraphModel;
 
 public class CreateExecuterPlugin {
@@ -24,9 +23,9 @@ public class CreateExecuterPlugin {
 	
 	public String basePath;
 	
-	public String execute(LightweightExecutionEnvironment env) throws IOException, URISyntaxException {
-		LightweightExecutionContext context = env.getLocalContext().getGlobalContext();
-		GraphModel graphModel = (GraphModel) context.get("graphModel");
+	public String execute(Map<String, Object> map) throws IOException, URISyntaxException {
+//		LightweightExecutionContext context = env.getLocalContext().getGlobalContext();
+		GraphModel graphModel = (GraphModel) map.get("graphModel");
 		IProject project = de.jabc.cinco.meta.core.utils.projects.ProjectCreator.getProject(graphModel.eResource());
 		if(project==null){
 			throw new IllegalStateException("Project cannot be found");
