@@ -28,10 +28,8 @@ import de.metaframe.jabc.framework.execution.context.LightweightExecutionContext
 
 
 public class OCLPluginProjectCreater {
-	public static void createPlugin(LightweightExecutionContext context) throws IOException, CoreException {
-		GraphModel graphModel = (GraphModel) context.get("graphModel");
+	public static void createPlugin(GraphModel graphModel) throws IOException, CoreException {
 		String pluginPath = ".plugin.ocl";
-		String graphName = graphModel.getName();
 		List<String> exportedPackages = new ArrayList<>();
 		List<String> additionalNature = new ArrayList<>();
 		String projectName = graphModel.getPackage() + pluginPath;
@@ -102,8 +100,6 @@ public class OCLPluginProjectCreater {
 				new ServiceLoaderTemplate().create(projectName).toString(),
 				progressMonitor);
 		
-		
-		context.put("projectPath", projectPath);
 		
 		//Write the MANIFEST.MF
 		File maniFile = tvProject.getLocation().append("META-INF/MANIFEST.MF").toFile();

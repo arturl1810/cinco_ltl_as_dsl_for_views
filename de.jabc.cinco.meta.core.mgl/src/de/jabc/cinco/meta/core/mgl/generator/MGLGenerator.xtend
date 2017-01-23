@@ -122,8 +122,6 @@ class MGLGenerator implements IGenerator {
 			map.put("ePackage", ePackage)
 			map.put("modelElements", altGen.modelElementsClasses)
 			
-			callMetaPlugins(model, map)
-			
 			var projectPath = new Path(projectName)
 			val genModel = GenModelCreator::createGenModel(new Path(ecorePath),ePackage,projectName, projectID, projectPath)
 			genModel.computeMissingUsedGenPackages
@@ -186,7 +184,7 @@ class MGLGenerator implements IGenerator {
 			MGLEPackageRegistry.INSTANCE.addMGLEPackage(ePackage)
 			saveGenModel(genModel, model)
 			
-		 
+		 	callMetaPlugins(model, map)
 			
 			
 		}else if(x.equals("error")){
