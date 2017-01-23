@@ -9,6 +9,7 @@ import org.eclipse.graphiti.features.context.ILayoutContext
 import org.eclipse.graphiti.mm.pictograms.ContainerShape
 import org.eclipse.graphiti.mm.pictograms.Shape
 import style.Styles
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.utils.CincoLayoutUtils
 
 class NodeLayoutFeatures extends GeneratorUtils{ 
 	
@@ -51,7 +52,7 @@ class NodeLayoutFeatures extends GeneratorUtils{
 		 */
 		private boolean layout(«ContainerShape.name» cs) {
 			for («Shape.name» child : cs.getChildren()) {
-				CincoLayoutUtils.layout(cs.getGraphicsAlgorithm(), child.getGraphicsAlgorithm());
+				«CincoLayoutUtils.name».layout(cs.getGraphicsAlgorithm(), child.getGraphicsAlgorithm());
 				if (child instanceof «ContainerShape.name») {
 					layout((«ContainerShape.name») child);
 				}

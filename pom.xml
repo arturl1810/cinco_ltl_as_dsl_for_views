@@ -40,7 +40,7 @@
 <module>de.jabc.cinco.meta.plugin.generator.runtime</module>
 <module>de.jabc.cinco.meta.plugin.ocl</module>
 <module>de.jabc.cinco.meta.plugin.primeviewer</module>
-<module>de.jabc.cinco.meta.plugin.treeviewer</module>
+<!--<module>de.jabc.cinco.meta.plugin.treeviewer</module>-->
 <module>de.jabc.cinco.meta.product</module>
 <module>de.jabc.cinco.meta.core.ui</module>
 <module>de.jabc.cinco.meta.plugin.executable</module>

@@ -12,6 +12,7 @@ import org.eclipse.graphiti.mm.algorithms.Text
 import org.eclipse.graphiti.mm.pictograms.ConnectionDecorator
 import org.eclipse.graphiti.datatypes.IDimension
 import org.eclipse.graphiti.services.Graphiti
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.utils.CincoLayoutUtils
 
 class EdgeLayoutFeatures extends APIUtils {
 	
@@ -47,7 +48,7 @@ class EdgeLayoutFeatures extends APIUtils {
 					for («ConnectionDecorator.name» cd : conn.getConnectionDecorators()) {
 						if (cd.getGraphicsAlgorithm() instanceof «Text.name») {
 							«Text.name» t = («Text.name») cd.getGraphicsAlgorithm();
-						    «IDimension.name» dim = «e.graphModel.packageName».«e.graphModel.name»LayoutUtils.getTextDimension(t);
+						    «IDimension.name» dim = «CincoLayoutUtils.name».getTextDimension(t);
 						    «Graphiti.name».getGaService().setSize(t, dim.getWidth(), dim.getHeight());
 						 }
 					}
