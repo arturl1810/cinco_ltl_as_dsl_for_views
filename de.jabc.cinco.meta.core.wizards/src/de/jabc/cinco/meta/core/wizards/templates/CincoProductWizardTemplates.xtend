@@ -440,7 +440,7 @@ nodeStyle greenTextRectangle(1) {
 
 «IF features.contains(CONTAINERS)»
 nodeStyle swimlane(1) {
-	rectangle {FlowGraphLayoutUtils
+	rectangle {
 		appearance {
 			background (255,236,202)
 		}
