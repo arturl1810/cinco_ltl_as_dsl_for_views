@@ -35,7 +35,6 @@ import org.osgi.framework.Bundle;
 import de.jabc.cinco.meta.core.BundleRegistry;
 import de.jabc.cinco.meta.core.utils.BuildProperties;
 import de.jabc.cinco.meta.core.utils.projects.ProjectCreator;
-import de.metaframe.jabc.framework.execution.context.LightweightExecutionContext;
 import mgl.GraphModel;
 
 public class CreateCodeGeneratorPlugin{
@@ -276,7 +275,7 @@ public class CreateCodeGeneratorPlugin{
 
 	@SuppressWarnings("unused")
 	private IProject createGenerationHandlerProject(
-			LightweightExecutionContext context, List<String> exportedPackages,
+			List<String> exportedPackages,
 			List<String> additionalNature, String projectName,
 			List<IProject> referencedProjects, List<String> srcFolders,
 			Set<String> requiredBundles) throws IOException,
@@ -290,7 +289,7 @@ public class CreateCodeGeneratorPlugin{
 		String projectPath = tvProject.getLocation().makeAbsolute()
 				.toPortableString();
 		
-		context.put("projectPath", projectPath);
+//		context.put("projectPath", projectPath);
 		
 		File maniFile = tvProject.getLocation().append("META-INF/MANIFEST.MF").toFile();
 		BufferedWriter bufwr = new BufferedWriter(new FileWriter(maniFile,true));

@@ -138,7 +138,7 @@ public class NewGraphitiCodeGenerator extends AbstractHandler{
 			if (!resGen.exists()) resGen.create(true, true, null);
 			if (!icoGen.exists()) icoGen.create(true, true, null);
 			
-			Bundle b = Platform.getBundle("de.jabc.cinco.meta.core.ge.generator");
+			Bundle b = Platform.getBundle("de.jabc.cinco.meta.core.ge.style.generator.runtime");
 			InputStream fileis = null;
 			try {
 				fileis = FileLocator.openStream(b, new Path("/icons/_Connection.gif"), false);
