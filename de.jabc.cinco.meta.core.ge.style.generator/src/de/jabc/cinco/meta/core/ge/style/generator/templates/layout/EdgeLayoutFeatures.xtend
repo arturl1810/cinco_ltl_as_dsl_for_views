@@ -47,20 +47,12 @@ class EdgeLayoutFeatures extends APIUtils {
 					for («ConnectionDecorator.name» cd : conn.getConnectionDecorators()) {
 						if (cd.getGraphicsAlgorithm() instanceof «Text.name») {
 							«Text.name» t = («Text.name») cd.getGraphicsAlgorithm();
-						    «IDimension.name» dim = «e.graphModel.packageName».«e.graphModel.name»LayoutUtils.getTextDimension(t); ////////////7
+						    «IDimension.name» dim = «e.graphModel.packageName».«e.graphModel.name»LayoutUtils.getTextDimension(t);
 						    «Graphiti.name».getGaService().setSize(t, dim.getWidth(), dim.getHeight());
 						 }
 					}
 				}
 			}
-			return true;
-		}
-		
-		/**
-		 * Returns true
-		 * @ param cs : Connection
-		 */	
-		private boolean layout(«Connection.name» cs) {
 			return true;
 		}
 	}

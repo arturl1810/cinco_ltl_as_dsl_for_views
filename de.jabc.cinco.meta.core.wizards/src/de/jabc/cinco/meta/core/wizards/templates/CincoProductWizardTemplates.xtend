@@ -9,6 +9,7 @@ import java.util.EnumSet
 import org.eclipse.emf.common.util.EList
 import org.eclipse.emf.common.util.BasicEList
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.appearance.StyleAppearanceProvider
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.customfeature.CincoCustomAction
 
 class CincoProductWizardTemplates {
 
@@ -439,7 +440,7 @@ nodeStyle greenTextRectangle(1) {
 
 «IF features.contains(CONTAINERS)»
 nodeStyle swimlane(1) {
-	rectangle {
+	rectangle {FlowGraphLayoutUtils
 		appearance {
 			background (255,236,202)
 		}
@@ -917,7 +918,7 @@ import «packageName».«modelName.toLowerCase».Start;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.jface.dialogs.MessageDialog;
 
-import de.jabc.cinco.meta.core.ge.style.model.customfeature.CincoCustomAction;
+import «CincoCustomAction.name»;
 
 public class ShortestPathToEnd extends CincoCustomAction<Start> {
 	
