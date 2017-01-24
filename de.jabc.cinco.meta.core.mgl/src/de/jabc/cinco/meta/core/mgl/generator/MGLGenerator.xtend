@@ -55,17 +55,12 @@ class MGLGenerator implements IGenerator {
 		var bpd = service.getDescription(iFile.project);
 		var projectID = bpd.symbolicName
 		bc.ungetService(ref);
-
-		for(graphModel : input.allContents.toIterable.filter(typeof(GraphModel))){
-			
-			doGenerateEcoreByTransformation(projectName,projectID,graphModel,fsa,resourceUri)
-		}
+		
+		(input.contents.head as GraphModel)?.doGenerateEcoreByTransformation(projectName,projectID,fsa,resourceUri)
 	}
 	
-	def doGenerateEcoreByTransformation(String projectName, String projectID, GraphModel model, IFileSystemAccess access,URI resourceURI) {
-		
-		
-		
+	private def doGenerateEcoreByTransformation(GraphModel model, String projectName, String projectID, IFileSystemAccess access,URI resourceURI) {
+				
 		var interfaceGraphModel = PluginRegistry::getInstance().getRegisteredEcoreModels().get("abstractGraphModel");
 //		var mcGraphModel = PluginRegistry::getInstance().getRegisteredEcoreModels().get("mc");
 //		var generatable = PluginRegistry::getInstance().getRegisteredEcoreModels().get("generatable")
