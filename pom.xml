@@ -53,7 +53,6 @@
 <module>de.jabc.cinco.meta.productdefinition.sdk</module>
 <module>de.jabc.cinco.meta.core.jabcprojectgenerator</module>
 <module>de.jabc.cinco.meta.libraries</module>
-<modulde>de.jabc.cinco.meta.plugin.cpdpreprocessor</module>
 </modules>
   <properties>
    <tycho.version>0.24.0</tycho.version>
