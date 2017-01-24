@@ -107,8 +107,10 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 		    .task("Resetting registries...", this::resetRegistries);
 		
 		// FIXME this should be put to a CPDMetaPlugin as soon as the plugin structure has been fixed.
-		final List<GraphModel> preProcessedMGLs = preprocessMGLs(mgls);
+		final List<GraphModel>preProcessedMGLs = preprocessMGLs(mgls);
 		
+		
+		// TODO this could be much nicer with nested jobs or JOOL/Seq and Xtend
 		for (GraphModel mgl : preProcessedMGLs) { // execute the following tasks for each mgl file
 			Workload tasks = job.consume(50, String.format("Processing %s", mgl.getName()));
 			tasks.task("Initializing...", () -> publishMglFile(mgl))
@@ -136,6 +138,25 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 						t -> t.getName());
 		}
 		
+//		job.task("Putting mgls back...", () -> {
+//			final Set<GraphModel> graphModels = new LinkedHashSet<>(
+//					preprocessedMGLs.stream().map(n -> eapi(n).getResourceContent(GraphModel.class)).collect(Collectors.toList()));
+//
+//			final Iterator<IFile> mglsIter = mgls.iterator();
+//			graphModels.forEach( gm -> {
+//				final Resource res = eapi(mglsIter.next()).getResource();
+//				res.getContents().clear();
+//				res.getContents().add(gm);
+//				try {
+//					res.save(null);
+//				}
+//				catch(Exception e){
+//					e.printStackTrace();
+//					throw new RuntimeException(e);
+//				}
+//			});
+//		});
+		
 		job.onCanceledShowMessage("Cinco Product generation has been canceled")
 		  .onFinished(() -> printDebugOutput(event, startTime))
 		  .onFinishedShowMessage("Cinco Product generation completed successfully")
@@ -152,15 +173,20 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 	 * @return The MGL backups for later restore; key=backup value=(changed) original.
 	 */
 	private List<GraphModel> preprocessMGLs(List<GraphModel> mgls) {
+		
 		try {
+
+
 			final Set<GraphModel> graphModels = new LinkedHashSet<>(mgls);
-			// TODO use CPDMetaPlugin facility...
-//			new CPDPreprocessorPlugin().execute(graphModels, cpd, cpdFile.getProject());
+
+			new CPDPreprocessorPlugin().execute(graphModels, cpd, cpdFile.getProject());
+
+			
 
 			return mgls;
+
 		}
 		catch (RuntimeException e) {
-			e.printStackTrace();
 			throw e;
 		}
 		catch (Throwable t) {
