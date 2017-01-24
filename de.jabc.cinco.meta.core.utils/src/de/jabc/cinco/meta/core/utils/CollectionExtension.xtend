@@ -11,7 +11,7 @@ import static extension org.jooq.lambda.Seq.*
  * 
  * @author Johannes Neubauer
  */
-class CollectionExtensions {
+class CollectionExtension {
 	
 	/**
 	 * Filters all distinct objects in a sequence by a given key, i.e., all duplicates
@@ -84,8 +84,8 @@ class CollectionExtensions {
 	 * Convenience extension function taking a sequence and executing a given lambda 
 	 * on it. It illustrates, that the given sequence contains the not matching results
 	 * of, e.g., a partition. You may chain multiple {@link Seq#partition} and 
-	 * {@link CollectionExtensions#matching} calls and finally call
-	 * {@link CollectionExtensions#nonMatching} to handle the sequence with remaining elements.
+	 * {@link CollectionExtension#matching} calls and finally call
+	 * {@link CollectionExtension#nonMatching} to handle the sequence with remaining elements.
 	 * 
 	 * @param seq the sequence with remaining elements.
 	 * @param block the lambda to be executed on the remaining elements.
@@ -112,8 +112,8 @@ class CollectionExtensions {
 	 * Convenience extension function taking a sequence and executing a given lambda 
 	 * on it. It illustrates, that the given sequence contains the second sequence
 	 * (i.e. the copy) of, e.g., a duplication. You may chain multiple {@link Seq#duplicate} and 
-	 * {@link CollectionExtensions#orig} calls and finally call
-	 * {@link CollectionExtensions#copy} to handle the sequence with remaining elements.
+	 * {@link CollectionExtension#orig} calls and finally call
+	 * {@link CollectionExtension#copy} to handle the sequence with remaining elements.
 	 * 
 	 * @param seq the sequence with remaining elements.
 	 * @param block the lambda to be executed on the remaining elements.
