@@ -125,8 +125,6 @@ import de.jabc.cinco.meta.core.ui.features.CincoDeleteFeature;
 import de.jabc.cinco.meta.core.ui.listener.MGLSelectionListener;
 import de.jabc.cinco.meta.core.utils.CincoUtils;
 import de.jabc.cinco.meta.core.utils.URIHandler;
-import de.jabc.cinco.meta.core.utils.eapi.FileEAPI;
-import de.jabc.cinco.meta.core.utils.eapi.ResourceEAPI;
 import de.jabc.cinco.meta.core.utils.projects.ProjectCreator;
 import de.metaframe.jabc.framework.execution.DefaultLightweightExecutionEnvironment;
 import de.metaframe.jabc.framework.execution.LightweightExecutionEnvironment;
@@ -157,21 +155,21 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		
-		gModel = MGLSelectionListener.INSTANCE.getCurrentMGLGraphModel();
+		IFile file = MGLSelectionListener.INSTANCE.getCurrentMGLFile();
 		IFile cpdFile = MGLSelectionListener.INSTANCE.getSelectedCPDFile();
 		
-		if (gModel!=null) {
+		if (file!=null) {
 		
-		IProject gProject = ResourceEAPI.eapi(gModel.eResource()).getProject();
-		sourceProject = cpdFile.getProject();
+		
+		sourceProject = file.getProject();
 		NullProgressMonitor monitor = new NullProgressMonitor();
 		
 			
-			
+			Resource resource = new ResourceSetImpl().getResource(URI.createPlatformResourceURI(file.getFullPath().toOSString(), true), true);
 			Resource cpRes = new ResourceSetImpl().getResource(URI.createPlatformResourceURI(cpdFile.getFullPath().toOSString(), true), true);
 		    Styles styles = null;
 		    try {
-		    	
+		    	gModel = loadGraphModel(resource);
 				cp = loadCP(cpRes);
 		    	
 		    	// List of all used lib comp extensions
@@ -200,11 +198,11 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 				
 				EPackage generatedGraphmodelPackage = getPackage(sourceProject, gModel.getName());
 				
-				String mglProjectName = gProject.getName();
-				String projectName = gProject.getName();
+				String mglProjectName = file.getProject().getName();
+				String projectName = file.getProject().getName();
 				String apiProjectName = mglProjectName;
 				String path = ResourcesPlugin.getWorkspace().getRoot().getLocation().append(projectName).toOSString() + "/plugin.xml";
-				IFile pluginXMLFile = gProject.getFile("plugin.xml");
+				IFile pluginXMLFile = file.getProject().getFile("plugin.xml");
 				if (pluginXMLFile.exists())
 					path = pluginXMLFile.getLocation().toOSString();
 				

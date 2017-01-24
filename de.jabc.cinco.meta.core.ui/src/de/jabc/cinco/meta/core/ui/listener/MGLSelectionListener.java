@@ -5,7 +5,6 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.IWorkbenchPart;
-import mgl.GraphModel;
 
 public class MGLSelectionListener implements ISelectionListener{
 
@@ -13,7 +12,6 @@ public class MGLSelectionListener implements ISelectionListener{
 	IWorkbenchPart part = null;
 	IFile selectedFile = null;
 	private IFile selectedMGLFile = null;
-	private GraphModel currentMGLGraphModel;
 	
 	public static MGLSelectionListener INSTANCE = new MGLSelectionListener(); 
 		
@@ -37,14 +35,13 @@ public class MGLSelectionListener implements ISelectionListener{
 		
 	}
 	
-
-	
-	public GraphModel getCurrentMGLGraphModel(){
-		return this.currentMGLGraphModel;
+	public IFile getCurrentMGLFile(){
+		return this.selectedMGLFile;
 	}
 	
-	public void putMGLGraphModel(GraphModel mgl){
-		this.currentMGLGraphModel = mgl;
+	public void putMGLFile(IFile iFile){
+		if(iFile.getFileExtension().equals("mgl"))
+			this.selectedMGLFile = iFile;
 	}
 	
 	public IFile getSelectedCPDFile(){

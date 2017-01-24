@@ -78,7 +78,7 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 	
 	ICommandService commandService;
 	private RuntimeException reason;
-	private List<GraphModel> mgls;
+	private List<IFile> mgls;
 	private IFile cpdFile;
 	private CincoProduct cpd;
 	private ExecutionEvent event;
@@ -107,25 +107,30 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 		    .task("Resetting registries...", this::resetRegistries);
 		
 		// FIXME this should be put to a CPDMetaPlugin as soon as the plugin structure has been fixed.
-		final List<GraphModel>preProcessedMGLs = preprocessMGLs(mgls);
-		
+		final Map<IFile, IFile> backuppedMGLs = new HashMap<IFile, IFile>();
+		job.consume(20, "Preprocess MGLs").task(() -> backuppedMGLs.putAll(preprocessMGLs(mgls)));
 		
 		// TODO this could be much nicer with nested jobs or JOOL/Seq and Xtend
-		for (GraphModel mgl : preProcessedMGLs) { // execute the following tasks for each mgl file
-			Workload tasks = job.consume(50, String.format("Processing %s", mgl.getName()));
-			tasks.task("Initializing...", () -> publishMglFile(mgl))
-				.task("Generating Ecore/GenModel...", () -> generateEcoreModel(mgl))
-				.task("Generating model code...", () -> generateGenmodelCode(mgl))
-				.task("Generating Graphiti editor...", () -> generateGraphitiEditor(mgl))
-				.task("Generating API...", () -> generateApi(mgl))
-				.task("Generating Cinco SIBs...", () -> generateCincoSIBs(mgl))
-				.task("Generating product project...", () -> generateProductProject(mgl))
-				.task("Generating feature project...", () -> generateFeatureProject(mgl))
-				.task("Generating perspective...", () -> generatePerspective(mgl));
-			if (isGratextEnabled()) {
-				tasks.task("Generating Gratext model...", () -> generateGratextModel(mgl));
-			}
-		}
+		job.consume(50 * mgls.size(), "Processing mgls").taskForEach(() ->
+			mgls.stream().flatMap(file -> {
+				final List<Pair<String, Runnable>> pairs = new LinkedList<>();
+				pairs.add(new Pair<>(String.format("Initializing... %s", file.getFullPath().lastSegment()), () -> publishMglFile(file)));
+				pairs.add(new Pair<>(String.format("Generating Ecore/GenModel...", file.getFullPath().lastSegment()), () -> generateEcoreModel(file)));
+				pairs.add(new Pair<>(String.format("Generating model code...", file.getFullPath().lastSegment()), () -> generateGenmodelCode(file)));
+				pairs.add(new Pair<>(String.format("Generating Graphiti editor...", file.getFullPath().lastSegment()), () -> generateGraphitiEditor(file)));
+				pairs.add(new Pair<>(String.format("Generating API...", file.getFullPath().lastSegment()), () -> generateApi(file)));
+				pairs.add(new Pair<>(String.format("Generating Cinco SIBs...", file.getFullPath().lastSegment()), () -> generateCincoSIBs(file)));
+				pairs.add(new Pair<>(String.format("Generating product project...", file.getFullPath().lastSegment()), () -> generateProductProject(file)));
+				pairs.add(new Pair<>(String.format("Generating feature project...", file.getFullPath().lastSegment()), () -> generateFeatureProject(file)));
+				pairs.add(new Pair<>(String.format("Generating perspective...", file.getFullPath().lastSegment()), () -> generatePerspective(file)));
+				pairs.add(new Pair<>(String.format("Generating Gratext model...", file.getFullPath().lastSegment()), () -> {
+					if (isGratextEnabled()) generateGratextModel(file);
+				}));
+				return pairs.stream();
+			}),
+			pair -> pair.getValue().run(),
+			pair -> pair.getKey()
+		);
 		
 		job.task("Generate CPD plugins", () -> generateCPDPlugins(mgls));
 		
@@ -135,7 +140,7 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 		if (isGratextEnabled()) {
 			job.consumeConcurrent(mgls.size() * 60, "Building Gratext...")
 			    .taskForEach(() -> mgls.stream(), this::buildGratext,
-						t -> t.getName());
+						t -> t.getFullPath().lastSegment());
 		}
 		
 //		job.task("Putting mgls back...", () -> {
@@ -160,6 +165,7 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 		job.onCanceledShowMessage("Cinco Product generation has been canceled")
 		  .onFinished(() -> printDebugOutput(event, startTime))
 		  .onFinishedShowMessage("Cinco Product generation completed successfully")
+		  .onDone(() -> {restoreMGLBackups(backuppedMGLs); resetAutoBuild();})
 		  .schedule();
 		
 		return null;
@@ -172,18 +178,41 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 	 * @param mgls
 	 * @return The MGL backups for later restore; key=backup value=(changed) original.
 	 */
-	private List<GraphModel> preprocessMGLs(List<GraphModel> mgls) {
+	private Map<IFile, IFile> preprocessMGLs(List<IFile> mgls) {
 		
 		try {
 
+			Map<IFile, IFile> backups = new HashMap<IFile, IFile>();
 
-			final Set<GraphModel> graphModels = new LinkedHashSet<>(mgls);
+			IFolder backupFolder = mgls.get(0).getProject().getFolder("mgl-backups");
+			backupFolder.create(false,  false, null);
+
+			mgls.stream().forEach(mgl -> {
+				IFile targetFile = backupFolder.getFile(mgl.getName());
+				try {
+					mgl.copy(targetFile.getFullPath(), true, null);
+					backups.put(targetFile, mgl);
+				} catch (Exception e) {
+					e.printStackTrace();
+					throw new RuntimeException(e);
+				}
+			});
+
+			final Set<GraphModel> graphModels = new LinkedHashSet<>(
+					mgls.stream().map(n -> eapi(n).getResourceContent(GraphModel.class)).collect(Collectors.toList()));
 
 			new CPDPreprocessorPlugin().execute(graphModels, cpd, cpdFile.getProject());
 
-			
+			graphModels.stream().map(gm -> gm.eResource()).forEach(res -> {
+				try {
+					res.save(null);
+				} catch (Exception e) {
+					e.printStackTrace();
+					throw new RuntimeException(e);
+				}
+			});
 
-			return mgls;
+			return backups;
 
 		}
 		catch (RuntimeException e) {
@@ -200,8 +229,8 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 	 * Executes the CPD meta plug ins
 	 * @param mgls
 	 */
-	private void generateCPDPlugins(List<GraphModel> mgls) {
-		Set<GraphModel> graphModels = new LinkedHashSet<GraphModel>(mgls); 
+	private void generateCPDPlugins(List<IFile> mgls) {
+		Set<GraphModel> graphModels = mgls.stream().map(n->eapi(n).getResourceContent(GraphModel.class)).collect(Collectors.toSet());
 		PluginRegistry.
 		getInstance().
 		getPluginCPDGenerators().
@@ -260,18 +289,16 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 		e1.printStackTrace();
 	}
 	
-	private void publishMglFile(GraphModel mgl) {
-		MGLSelectionListener.INSTANCE.putMGLGraphModel(mgl);
+	private void publishMglFile(IFile mglFile) {
+		MGLSelectionListener.INSTANCE.putMGLFile(mglFile);
 	}
 
-	private void generateEcoreModel(GraphModel mglFile) {
+	private void generateEcoreModel(IFile mglFile) {
 		execute("de.jabc.cinco.meta.core.mgl.ui.mglgenerationcommand");
 	}
 	
-	private void generateGenmodelCode(GraphModel mgl) {
-		IFile mglFile = eapi(mgl.eResource()).getFile();
+	private void generateGenmodelCode(IFile mglFile) {
 		try {
-			
 			GeneratorHelper.generateGenModelCode(mglFile);
 		} catch (IOException e) {
 			reason = new RuntimeException(String.format("Generation of %s failed", mglFile.getFullPath().lastSegment()),e);
@@ -279,44 +306,43 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 		}
 	}
 	
-	private void generateGraphitiEditor(GraphModel mgl) {
+	private void generateGraphitiEditor(IFile mglFile) {
 		execute("de.jabc.cinco.meta.core.ge.generator.generateeditorcommand");
 	}
 	
-	private void generateApi(GraphModel mgl) {
-		ResourceEAPI fileEAPI = eapi(mgl.eResource());
-		IProject apiProject = fileEAPI.getProject();
+	private void generateApi(IFile mglFile) {
+		IProject apiProject = mglFile.getProject();
 		if (apiProject.exists()) try {
-			GeneratorHelper.generateGenModelCode(apiProject, "C"+fileEAPI.getFile().getName().split("\\.")[0]);
+			GeneratorHelper.generateGenModelCode(apiProject, "C"+mglFile.getName().split("\\.")[0]);
 		} catch (IOException e) {
-			reason = new RuntimeException(String.format("Generation of %s failed", fileEAPI.getFile().getFullPath().lastSegment()),e);
+			reason = new RuntimeException(String.format("Generation of %s failed", mglFile.getFullPath().lastSegment()),e);
 			throw reason;
 		}
 	}
 	
-	private void generateCincoSIBs(GraphModel mgl) {
+	private void generateCincoSIBs(IFile mglFile) {
 		execute("de.jabc.cinco.meta.core.jabcproject.commands.generateCincoSIBsCommand");
 	}
 	
-	private void generateProductProject(GraphModel mgl) {
+	private void generateProductProject(IFile mglFile) {
 		execute("cpd.handler.ui.generate");
 	}
 	
-	private void generateFeatureProject(GraphModel mgl) {
+	private void generateFeatureProject(IFile mglFile) {
 		execute("de.jabc.cinco.meta.core.generatefeature");
 	}
 	
-	private void generatePerspective(GraphModel mgl) {
-		generateDefaultPerspective(mgl);
+	private void generatePerspective(IFile mglFile) {
+		generateDefaultPerspective(mglFile);
 	}
 	
-	private void generateGratextModel(GraphModel mgl) {
+	private void generateGratextModel(IFile mglFile) {
 		if (isGratextEnabled()) {
 			execute("de.jabc.cinco.meta.plugin.gratext.generategratext");
 		}
 	}
 
-	private void buildGratext(GraphModel mgl) {
+	private void buildGratext(IFile mglFile) {
 		if (isGratextEnabled()) {
 			execute("de.jabc.cinco.meta.plugin.gratext.buildgratext");
 		}
@@ -385,7 +411,7 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 
 	}
 	
-	private List<GraphModel> mglTopSort(){
+	private List<IFile> mglTopSort(){
 		IProject project = cpdFile.getProject();
 		ArrayList<Tuple<String,List<String>>> unsorted = new ArrayList<>();
 		HashMap<String,Integer> mglPrios = new HashMap<>();
@@ -429,14 +455,7 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 			
 		}
 		DependencyGraph dg = DependencyGraph.createGraph(dns,stacked);
-		mgls = dg.topSort().stream().map(path -> {
-			try {
-				return (GraphModel)loadModel(cpdFile.getProject().getFile(path),"mgl",MglPackage.eINSTANCE);
-			} catch (Exception e) {
-				throw new RuntimeException(e);
-			}
-			
-		}).collect(Collectors.toList());
+		mgls = dg.topSort().stream().map(path -> cpdFile.getProject().getFile(path)).collect(Collectors.toList());
 		return mgls;
 		//HashMap<String,Integer> mglPrios = new HashMap<>();
 //		for(Tuple<String, List<String>> e: unsorted){
@@ -481,7 +500,7 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 		return e.replace('.', '/');
 	}
 	
-	private void generateDefaultPerspective(GraphModel mgl) {
+	private void generateDefaultPerspective(IFile mglFile) {
 		CincoProduct cp = (CincoProduct) CincoUtils.getCPD(cpdFile);
 		
 		IProject p = cpdFile.getProject();
@@ -505,10 +524,10 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 		try {
 			commandService.getCommand(commandId).executeWithChecks(event);
 		} catch (ExecutionException | NotDefinedException | NotEnabledException | NotHandledException e) {
-			GraphModel mgl = MGLSelectionListener.INSTANCE.getCurrentMGLGraphModel();
-			reason = (mgl != null)
-				? new RuntimeException(String.format("Generation of MGL %s failed", mgl.getName()), e)
-				: new RuntimeException(String.format("Generation of CPD %s failed", cpdFile.getName()), e);
+			IFile mglFile = MGLSelectionListener.INSTANCE.getCurrentMGLFile();
+			reason = (mglFile != null)
+				? new RuntimeException(String.format("Generation of %s failed", mglFile.getFullPath().lastSegment()), e)
+				: new RuntimeException(String.format("Generation of %s failed", cpdFile.getName()), e);
 			throw reason;
 		}
 	}

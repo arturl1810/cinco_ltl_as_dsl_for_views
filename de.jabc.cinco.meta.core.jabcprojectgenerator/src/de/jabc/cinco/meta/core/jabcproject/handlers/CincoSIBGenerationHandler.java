@@ -24,7 +24,6 @@ import org.eclipse.ui.progress.IProgressService;
 
 import de.jabc.cinco.meta.core.jabcproject.Activator;
 import de.jabc.cinco.meta.core.jabcproject.TransEM4SIBGenerator;
-import de.jabc.cinco.meta.core.utils.eapi.ResourceEAPI;
 
 /**
  * Our sample handler extends AbstractHandler, an IHandler base class.
@@ -49,16 +48,16 @@ public class CincoSIBGenerationHandler extends AbstractHandler {
 		IWorkbenchWindow window = HandlerUtil
 				.getActiveWorkbenchWindowChecked(event);
 		
-		GraphModel mgl = Activator.getDefault().getSelectionListener().getCurrentMGLGraphModel();
+		IFile file = Activator.getDefault().getSelectionListener().getCurrentMGLFile();
 		
 		
-		if (mgl != null) {
+		if (file != null && file.getFileExtension().equals("mgl")) {
 			try {
-				IPath modelPath = ResourceEAPI.eapi(mgl.eResource()).getFile().getLocation();
-				IProject mglProject = ResourceEAPI.eapi(mgl.eResource()).getFile().getProject();
+				IPath modelPath = file.getLocation();
+
 				IProgressService ps = window.getWorkbench()
 						.getProgressService();
-				prepareProject(mglProject);
+				prepareProject(file.getProject());
 				ResourceSet resourceSet = new ResourceSetImpl();
 				Resource mglResource = resourceSet.createResource(URI
 						.createFileURI(modelPath.toFile().getAbsolutePath()));
@@ -66,7 +65,7 @@ public class CincoSIBGenerationHandler extends AbstractHandler {
 
 				GraphModel mglModel = (GraphModel) mglResource.getContents()
 						.get(0);
-				new TransEM4SIBGenerator(mglProject,
+				new TransEM4SIBGenerator(file.getProject(),
 						mglModel).run(new NullProgressMonitor());
 
 			} catch (Exception e) {

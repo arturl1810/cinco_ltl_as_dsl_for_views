@@ -48,10 +48,10 @@ public class GenerateFeatureProjectHandler extends AbstractHandler {
 				.getActiveWorkbenchWindowChecked(event).getWorkbench()
 				.getProgressService();
 		try {
-			GraphModel model = MGLSelectionListener.INSTANCE.getCurrentMGLGraphModel();
-			if(model!=null){
-				
-				generateFeature(model);
+			IFile file = MGLSelectionListener.INSTANCE.getCurrentMGLFile();
+			if(file!=null){
+				ResourceSet rSet = new ResourceSetImpl();
+				generateFeature(file,rSet);
 				
 			}
 		} catch (Exception e) {
@@ -60,10 +60,14 @@ public class GenerateFeatureProjectHandler extends AbstractHandler {
 		return null;
 	}
 
-	private void generateFeature(GraphModel model) {
-		
+	private void generateFeature(IFile file, ResourceSet rSet) {
+		Resource res = rSet.createResource(URI
+				.createPlatformResourceURI(file.getFullPath()
+						.toPortableString(), true));
 		try {
-			
+			res.load(null);
+			GraphModel model = (GraphModel) res.getContents()
+					.get(0);
 			String packageName = ProjectCreator.getProjectSymbolicName(ProjectCreator.getProject(model.eResource())); 
 			String projectName = packageName + ".feature";
 			ArrayList<String> srcFolders = new ArrayList<>();
