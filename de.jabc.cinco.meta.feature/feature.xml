@@ -172,15 +172,56 @@
 
    <plugin
          id="de.jabc.cinco.meta.core.ge.style.generator"
-           download-size="0"
+         download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
-<plugin
+
+   <plugin
          id="de.jabc.cinco.meta.core.mgl.generator"
          download-size="0"
          install-size="0"
          version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="de.jabc.cinco.meta.plugin.ocl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="de.jabc.cinco.meta.plugin.primeviewer"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="de.jabc.cinco.meta.plugin.spreadsheet"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="de.jabc.cinco.meta.plugin.executer"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="de.jabc.cinco.meta.plugin.generator"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
          unpack="false"/>
 
 </feature>
