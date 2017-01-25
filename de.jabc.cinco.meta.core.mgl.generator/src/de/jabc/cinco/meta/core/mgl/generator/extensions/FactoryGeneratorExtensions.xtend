@@ -19,7 +19,7 @@ class FactoryGeneratorExtensions {
 	'''
 	
 	static def factoryMethod(ElementEClasses ecl,GraphModel model)'''
-	def create«ecl.modelElement.name»(){
+	static def create«ecl.modelElement.name»(){
 		val «ecl.mainEClass.name.toLowerCase» = «model.name.toLowerCase.toFirstUpper»Factory.eINSTANCE.create«ecl.mainEClass.name»
 		val «ecl.internalEClass.name.toLowerCase» = InternalFactory.eINSTANCE.create«ecl.internalEClass.name»
 		«ecl.mainEClass.name.toLowerCase».set«ecl.internalEClass.name»(«ecl.internalEClass.name.toLowerCase»);
