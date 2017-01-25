@@ -230,7 +230,9 @@ public class CincoProductProjectCreator {
 		bundles.add("de.jabc.cinco.meta.core.mgl.model");
 		bundles.add("de.jabc.cinco.meta.core.ge.style.model");
 		bundles.add("de.jabc.cinco.meta.core.ge.style");
+		bundles.add("de.jabc.cinco.meta.core.ge.style.generator.runtime");
 		bundles.add("de.jabc.cinco.meta.core.utils");
+		
 		if (features.contains(CODE_GENERATOR)) {
 			bundles.add("de.jabc.cinco.meta.plugin.generator.runtime");
 		}

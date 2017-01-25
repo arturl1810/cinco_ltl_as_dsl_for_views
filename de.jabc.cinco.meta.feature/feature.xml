@@ -30,13 +30,6 @@
          version="0.0.0"/>
 
    <plugin
-         id="de.jabc.cinco.meta.core.ge.generator"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="de.jabc.cinco.meta.core.ge.style.fragment"
          download-size="0"
          install-size="0"
@@ -93,38 +86,6 @@
          unpack="false"/>
 
    <plugin
-         id="de.jabc.cinco.meta.plugin.generator"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
-         id="de.jabc.cinco.meta.plugin.ocl"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
-         id="de.jabc.cinco.meta.plugin.primeviewer"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
-         id="de.jabc.cinco.meta.plugin.treeviewer"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
          id="de.jabc.cinco.meta.branding"
          download-size="0"
          install-size="0"
@@ -138,22 +99,7 @@
          unpack="false"/>
 
    <plugin
-         id="de.jabc.cinco.meta.plugin.executable"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
          id="de.jabc.cinco.meta.core"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="de.jabc.cinco.meta.core.ge.style.sibs"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -180,23 +126,7 @@
          unpack="false"/>
 
    <plugin
-         id="de.jabc.cinco.meta.plugin.spreadsheet"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
          id="de.jabc.cinco.meta.plugin.pyro"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-         
-   <plugin
-         id="de.jabc.cinco.meta.plugin.executer"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -225,9 +155,29 @@
          version="0.0.0"
          fragment="true"
          unpack="false"/>
-         
+
    <plugin
          id="de.jabc.cinco.meta.plugin.gratext.runtime"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="de.jabc.cinco.meta.core.ge.style"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="de.jabc.cinco.meta.core.ge.style.generator"
+           download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+<plugin
+         id="de.jabc.cinco.meta.core.mgl.generator"
          download-size="0"
          install-size="0"
          version="0.0.0"

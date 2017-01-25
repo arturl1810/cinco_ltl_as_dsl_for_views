@@ -2,30 +2,24 @@ package de.jabc.cinco.meta.core.mgl.generator
 
 import com.google.inject.Inject
 import de.jabc.cinco.meta.core.mgl.MGLEPackageRegistry
-import de.jabc.cinco.meta.core.mgl.transformation.MGL2Ecore
+import de.jabc.cinco.meta.core.pluginregistry.IMetaPlugin
 import de.jabc.cinco.meta.core.pluginregistry.PluginRegistry
 import de.jabc.cinco.meta.core.utils.URIHandler
+import de.jabc.cinco.meta.core.utils.WorkspaceUtil
 import de.jabc.cinco.meta.core.utils.projects.ProjectCreator
-import de.metaframe.jabc.framework.execution.DefaultLightweightExecutionEnvironment
-import de.metaframe.jabc.framework.execution.context.DefaultLightweightExecutionContext
-import de.metaframe.jabc.framework.execution.context.LightweightExecutionContext
-import graphmodel.GraphmodelPackage
-import java.io.ByteArrayOutputStream
 import java.util.ArrayList
 import java.util.Arrays
 import java.util.HashMap
 import java.util.HashSet
-import java.util.Set
+import java.util.Map
 import mgl.ContainingElement
 import mgl.GraphModel
-import mgl.GraphicalElementContainment
 import mgl.GraphicalModelElement
 import mgl.IncomingEdgeElementConnection
 import mgl.MglFactory
 import mgl.Node
 import mgl.NodeContainer
 import mgl.OutgoingEdgeElementConnection
-import mgl.impl.OutgoingEdgeElementConnectionImpl
 import org.eclipse.core.internal.runtime.InternalPlatform
 import org.eclipse.core.resources.ResourcesPlugin
 import org.eclipse.core.runtime.Path
@@ -34,9 +28,7 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenPackage
 import org.eclipse.emf.common.util.BasicEList
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.EPackage
-import org.eclipse.emf.ecore.EReference
 import org.eclipse.emf.ecore.resource.Resource
-import org.eclipse.emf.ecore.util.EcoreUtil
 import org.eclipse.emf.ecore.xmi.XMIResource
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl
@@ -44,9 +36,8 @@ import org.eclipse.pde.core.project.IBundleProjectService
 import org.eclipse.xtext.generator.IFileSystemAccess
 import org.eclipse.xtext.generator.IGenerator
 import org.eclipse.xtext.naming.IQualifiedNameProvider
-import transem.utility.helper.Tuple
 import org.eclipse.xtext.util.StringInputStream
-import de.jabc.cinco.meta.core.utils.WorkspaceUtil
+import transem.utility.helper.Tuple
 
 class MGLGenerator implements IGenerator {
 	@Inject extension IQualifiedNameProvider
@@ -64,44 +55,38 @@ class MGLGenerator implements IGenerator {
 		var bpd = service.getDescription(iFile.project);
 		var projectID = bpd.symbolicName
 		bc.ungetService(ref);
-
-		for(graphModel : input.allContents.toIterable.filter(typeof(GraphModel))){
-			
-			doGenerateEcoreByTransformation(projectName,projectID,graphModel,fsa,resourceUri)
-		}
+		
+		(input.contents.head as GraphModel)?.doGenerateEcoreByTransformation(projectName,projectID,fsa,resourceUri)
 	}
 	
-	def doGenerateEcoreByTransformation(String projectName, String projectID, GraphModel model, IFileSystemAccess access,URI resourceURI) {
-		
-		
-		
+	private def doGenerateEcoreByTransformation(GraphModel model, String projectName, String projectID, IFileSystemAccess access,URI resourceURI) {
+				
 		var interfaceGraphModel = PluginRegistry::getInstance().getRegisteredEcoreModels().get("abstractGraphModel");
 //		var mcGraphModel = PluginRegistry::getInstance().getRegisteredEcoreModels().get("mc");
 //		var generatable = PluginRegistry::getInstance().getRegisteredEcoreModels().get("generatable")
-		var LightweightExecutionContext context = new DefaultLightweightExecutionContext(null)
+//		var LightweightExecutionContext context = new DefaultLightweightExecutionContext(null)
 		var ecoreMap = PluginRegistry::getInstance().getRegisteredEcoreModels() 
 		var genModelMap = PluginRegistry::getInstance().getGenModelMap() //new HashMap<EPackage,String>
 		
 		var mglEPackages = MGLEPackageRegistry.INSTANCE.getMGLEPackages()
 		prepareGraphModel(model)
-		context.put("graphModel",model)
+//		context.put("graphModel",model)
 //		context.put("mcGraphModel",mcGraphModel)
-		context.put("abstractGraphModel",interfaceGraphModel)
-		context.put("genmodelMap",genModelMap)
-		context.put("mglEPackages",mglEPackages);
+//		context.put("abstractGraphModel",interfaceGraphModel)
+//		context.put("genmodelMap",genModelMap)
+//		context.put("mglEPackages",mglEPackages);
 		
 		// These modeld should be added automatically in the final version
 		
 		
-		context.put("registeredGeneratorPlugins",PluginRegistry::instance.pluginGenerators)
-		context.put("registeredPackageMap",ecoreMap)
+//		context.put("registeredGeneratorPlugins",PluginRegistry::instance.pluginGenerators)
+//		context.put("registeredPackageMap",ecoreMap)
 		
 		var uri = URI::createFileURI(model.name.toString.toFirstUpper+".ecore")
 		var xmiResource = new XMIResourceFactoryImpl().createResource(uri) as XMIResourceImpl
-		context.put("resource",xmiResource)
-		var environment = new DefaultLightweightExecutionEnvironment(context)
-		context.put("ExecutionEnvironment",environment)
-		var gdl2ecore = new MGL2Ecore
+//		context.put("resource",xmiResource)
+//		var environment = new DefaultLightweightExecutionEnvironment(context)
+//		context.put("ExecutionEnvironment",environment)
 		//var String x= gdl2ecore.execute(environment);
 		var x = "default"
 		val altGen = new MGLAlternateGenerator()
@@ -112,8 +97,10 @@ class MGLGenerator implements IGenerator {
 			
 			// var ePackage = context.get("ePackage") as EPackage
 			var ecorePath = "/model/"+model.fullyQualifiedName.toString("/")+".ecore".toFirstUpper
-			
-			
+			val map = new HashMap
+			map.put("graphModel", model)
+			map.put("ePackage", ePackage)
+			map.put("modelElements", altGen.modelElementsClasses)
 			
 			var projectPath = new Path(projectName)
 			val genModel = GenModelCreator::createGenModel(new Path(ecorePath),ePackage,projectName, projectID, projectPath)
@@ -122,15 +109,14 @@ class MGLGenerator implements IGenerator {
 				for(genPackage: genModel.genPackages){
 					genPackage.basePackage = model.package
 				}
-			
 			}
 			
 			var usedEcoreModels = new HashSet<EPackage>
 			
 			
-			val otherEcoreModels = context.get("usedEcoreModels") as Set<EPackage>
-			if(otherEcoreModels!=null)
-				usedEcoreModels += otherEcoreModels
+//			val otherEcoreModels = context.get("usedEcoreModels") as Set<EPackage>
+//			if(otherEcoreModels!=null)
+//				usedEcoreModels += otherEcoreModels
 			
 			if(!usedEcoreModels.nullOrEmpty){ 
 				for(key:usedEcoreModels){
@@ -144,47 +130,47 @@ class MGLGenerator implements IGenerator {
 				}
 			}
 			
-			var referencedMGLEPackages = context.get("referencedMGLEPackages") as Set<EPackage>
-			if(referencedMGLEPackages== null)
-				referencedMGLEPackages = new HashSet<EPackage>
-				
-			for(referencedMGLEPackage: referencedMGLEPackages){
-
-				var genModelPath = referencedMGLEPackage.eResource.URI.trimFileExtension.toString+".genmodel"
-				
-		
-				//System.err.println("************\n genmodel File: "+genModelPath +"\n*************")
-				
-					var genmodelUri = URI::createURI(genModelPath,true)
-				//	println("loading GenModel: "+genmodelUri)
-					var res = Resource.Factory.Registry.INSTANCE.getFactory(genmodelUri).createResource(genmodelUri); 
-					res.load(null)
-					for(referencedGenModel:res.contents.filter(typeof(GenModel))){
-						
-						//println("Adding genModel: "+ referencedGenModel)
-						for(referencedGenPackage: referencedGenModel.genPackages){
-							var dx = (genModel.usedGenPackages += referencedGenPackage)
-							//println("Adding genPackage:"+ referencedGenPackage)
-							//println("... "+ dx)
-							//println(genModel.usedGenPackages)
-						}	
-					}
-				
-				
-			}
+//			var referencedMGLEPackages = context.get("referencedMGLEPackages") as Set<EPackage>
+//			if(referencedMGLEPackages== null)
+//				referencedMGLEPackages = new HashSet<EPackage>
+//				
+//			for(referencedMGLEPackage: referencedMGLEPackages){
+//
+//				var genModelPath = referencedMGLEPackage.eResource.URI.trimFileExtension.toString+".genmodel"
+//				
+//		
+//				//System.err.println("************\n genmodel File: "+genModelPath +"\n*************")
+//				
+//					var genmodelUri = URI::createURI(genModelPath,true)
+//				//	println("loading GenModel: "+genmodelUri)
+//					var res = Resource.Factory.Registry.INSTANCE.getFactory(genmodelUri).createResource(genmodelUri); 
+//					res.load(null)
+//					for(referencedGenModel:res.contents.filter(typeof(GenModel))){
+//						
+//						//println("Adding genModel: "+ referencedGenModel)
+//						for(referencedGenPackage: referencedGenModel.genPackages){
+//							var dx = (genModel.usedGenPackages += referencedGenPackage)
+//							//println("Adding genPackage:"+ referencedGenPackage)
+//							//println("... "+ dx)
+//							//println(genModel.usedGenPackages)
+//						}	
+//					}
+//				
+//				
+//			}
 			
 			
 			
 			MGLEPackageRegistry.INSTANCE.addMGLEPackage(ePackage)
 			saveGenModel(genModel, model)
 			
-		 
+		 	callMetaPlugins(model, map)
 			
 			
 		}else if(x.equals("error")){
-			var exception = context.get("exception") as Exception
-			exception.printStackTrace
-			throw exception
+//			var exception = context.get("exception") as Exception
+//			exception.printStackTrace
+//			throw exception
 		}else{
 			
 		}
@@ -331,8 +317,6 @@ class MGLGenerator implements IGenerator {
 		}
 	}
 	
-	
-	
 	def addNodes(ContainingElement ce,int lower, int upper, Node...nodes){
 		var gec = MglFactory.eINSTANCE.createGraphicalElementContainment;
 		gec.setLowerBound(lower);
@@ -342,6 +326,21 @@ class MGLGenerator implements IGenerator {
 		
 	}
 	
+	/**
+	 * Collects the Metaplugins registered at the current {@link GraphModel} and executes them
+	 * 
+	 * @param mgl: The file representing the currently processed {@link GraphModel}
+	 * @param metaPluginParams: See {@link IMetaPlugin#execute IMetaPlugin}
+	 */
+	def callMetaPlugins(GraphModel gm, Map<String, Object> metaPluginParams) {
+		val generators = PluginRegistry.instance.pluginGenerators
+		val annotNames = gm.annotations.map[name]
+		val registeredMetaPlugins = generators.filter[name, mp | annotNames.contains(name)]
+		
+		registeredMetaPlugins.forEach[name, mp | mp.execute(metaPluginParams)]
+	}
+
+
 //	def inheritContainable(Iterable<NodeContainer> containers) {
 //		for(container: containers){
 //			var superType = (container.extends as NodeContainer)

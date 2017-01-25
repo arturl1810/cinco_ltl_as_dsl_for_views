@@ -434,4 +434,11 @@ class MGLAlternateGenerator {
 	def createGetterContent(EClass eClass, EStructuralFeature eFeature) '''
 		return getInternal«eClass.name»().get«eFeature.name.toFirstUpper»();
 	'''
+	
+	/**
+	 * Returns EClasses of generated model elements.
+	 */
+	def getModelElementsClasses() {
+		modelElementsMap.values
+	}
 }

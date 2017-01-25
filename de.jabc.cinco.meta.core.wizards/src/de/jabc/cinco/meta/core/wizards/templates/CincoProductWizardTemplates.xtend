@@ -8,6 +8,8 @@ import java.util.Collections
 import java.util.EnumSet
 import org.eclipse.emf.common.util.EList
 import org.eclipse.emf.common.util.BasicEList
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.appearance.StyleAppearanceProvider
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.customfeature.CincoCustomAction
 
 class CincoProductWizardTemplates {
 
@@ -768,7 +770,7 @@ package «packageName».appearance;
 import style.Appearance;
 import style.LineStyle;
 import style.StyleFactory;
-import de.jabc.cinco.meta.core.ge.style.model.appearance.StyleAppearanceProvider;
+import «StyleAppearanceProvider.name»;
 import «packageName».«modelName.toLowerCase».End;
 import «packageName».«modelName.toLowerCase».Transition;
 
@@ -916,7 +918,7 @@ import «packageName».«modelName.toLowerCase».Start;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.jface.dialogs.MessageDialog;
 
-import de.jabc.cinco.meta.core.ge.style.model.customfeature.CincoCustomAction;
+import «CincoCustomAction.name»;
 
 public class ShortestPathToEnd extends CincoCustomAction<Start> {
 	

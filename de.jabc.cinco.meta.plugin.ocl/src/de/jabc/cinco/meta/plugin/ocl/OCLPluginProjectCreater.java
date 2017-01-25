@@ -9,8 +9,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import mgl.GraphModel;
-
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -24,14 +22,12 @@ import de.jabc.cinco.meta.plugin.ocl.templates.PluginXmlTemplate;
 import de.jabc.cinco.meta.plugin.ocl.templates.ServiceLoaderTemplate;
 import de.jabc.cinco.meta.plugin.ocl.templates.StartUpActionTemplate;
 import de.jabc.cinco.meta.plugin.ocl.templates.ValidateActionTemplate;
-import de.metaframe.jabc.framework.execution.context.LightweightExecutionContext;
+import mgl.GraphModel;
 
 
 public class OCLPluginProjectCreater {
-	public static void createPlugin(LightweightExecutionContext context) throws IOException, CoreException {
-		GraphModel graphModel = (GraphModel) context.get("graphModel");
+	public static void createPlugin(GraphModel graphModel) throws IOException, CoreException {
 		String pluginPath = ".plugin.ocl";
-		String graphName = graphModel.getName();
 		List<String> exportedPackages = new ArrayList<>();
 		List<String> additionalNature = new ArrayList<>();
 		String projectName = graphModel.getPackage() + pluginPath;
@@ -102,8 +98,6 @@ public class OCLPluginProjectCreater {
 				new ServiceLoaderTemplate().create(projectName).toString(),
 				progressMonitor);
 		
-		
-		context.put("projectPath", projectPath);
 		
 		//Write the MANIFEST.MF
 		File maniFile = tvProject.getLocation().append("META-INF/MANIFEST.MF").toFile();

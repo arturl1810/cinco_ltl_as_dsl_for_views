@@ -6,7 +6,9 @@
   <version>0.8.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <modules><module>de.jabc.cinco.meta.branding</module>
+<!--
 <module>de.jabc.cinco.meta.core.ge.generator</module>
+-->
 <module>de.jabc.cinco.meta.core.ge.style</module>
 <module>de.jabc.cinco.meta.core.ge.style.generator</module>
 <module>de.jabc.cinco.meta.core.ge.style.generator.runtime</module>
@@ -17,9 +19,9 @@
 <module>de.jabc.cinco.meta.core.mgl</module>
 <module>de.jabc.cinco.meta.core.mgl.generator</module>
 <module>de.jabc.cinco.meta.core.mgl.model</module>
-<module>de.jabc.cinco.meta.plugin.spreadsheet</module>
+<!-- TODO: include again once migrated <module>de.jabc.cinco.meta.plugin.spreadsheet</module> -->
 <module>de.jabc.cinco.meta.plugin.pyro</module>
-<module>de.jabc.cinco.meta.plugin.executer</module>
+<!-- TODO: include again once migrated <module>de.jabc.cinco.meta.plugin.executer</module> -->
 <module>de.jabc.cinco.meta.plugin.gratext</module>
 <module>de.jabc.cinco.meta.plugin.gratext.runtime</module>
 <module>de.jabc.cinco.meta.plugin.mcam</module>
@@ -36,20 +38,20 @@
 <module>de.jabc.cinco.meta.core.utils</module>
 <module>de.jabc.cinco.meta.core.wizards</module>
 <module>de.jabc.cinco.meta.feature</module>
-<module>de.jabc.cinco.meta.plugin.generator</module>
+<!-- TODO: include again once migrated <module>de.jabc.cinco.meta.plugin.generator</module> -->
 <module>de.jabc.cinco.meta.plugin.generator.runtime</module>
-<module>de.jabc.cinco.meta.plugin.ocl</module>
-<module>de.jabc.cinco.meta.plugin.primeviewer</module>
-<module>de.jabc.cinco.meta.plugin.treeviewer</module>
+<!-- TODO: include again once migrated <module>de.jabc.cinco.meta.plugin.ocl</module> -->
+<!-- TODO: include again once migrated <module>de.jabc.cinco.meta.plugin.primeviewer</module> -->
+<!--<module>de.jabc.cinco.meta.plugin.treeviewer</module>-->
 <module>de.jabc.cinco.meta.product</module>
 <module>de.jabc.cinco.meta.core.ui</module>
-<module>de.jabc.cinco.meta.plugin.executable</module>
+<!-- TODO: include again once migrated <module>de.jabc.cinco.meta.plugin.executable</module> -->
 <module>de.jabc.cinco.meta.core</module>
 <!--<module>de.jabc.cinco.meta.updatesite</module>-->
 
-<module>de.jabc.cinco.meta.core.ge.style.sibs</module>
+<!--
 <module>de.jabc.cinco.meta.core.adapters</module>
-<module>de.jabc.cinco.meta.core.sibs</module>
+-->
 <module>de.jabc.cinco.meta.productdefinition</module>
 <module>de.jabc.cinco.meta.productdefinition.model</module>
 <module>de.jabc.cinco.meta.productdefinition.ui</module>
