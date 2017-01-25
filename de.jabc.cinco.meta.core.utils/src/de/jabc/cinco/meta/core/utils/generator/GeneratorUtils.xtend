@@ -392,6 +392,32 @@ class GeneratorUtils {
 		return n.primeReference.name
 	}
 	
+	def primeTypeName(Node n) {
+		val prime = n.primeReference
+		switch prime {
+			ReferencedEClass : prime.type.name
+			ReferencedModelElement : prime.type.name
+		}
+	}
+	
+	def String primeTypePackagePrefix(Node n) {
+		val prime = n.primeReference
+		switch prime {
+			ReferencedEClass : prime.type.EPackage.nsPrefix
+			ReferencedModelElement : prime.type.graphModel.fileExtension
+		}
+	}
+	
+	def String primeElementLabel(Node n) {
+		var labelAnnot = n.primeReference.annotations.filter[name == "pvLabel"]
+		if (!labelAnnot.isNullOrEmpty) {
+			var value = labelAnnot.get(0).value.get(0)
+			'''eElement.eGet(eElement.eClass().getEStructuralFeature("«value»")).toString()'''
+		} else {
+			n.primeTypeName
+		}
+	}
+	
 	/**
 	 * This method retrieves the {@link GraphModel} of the {@link ReferencedModelElement}'s type
 	 * and returns its nsUri {@see GraphModel}

@@ -67,6 +67,25 @@ public class ContentWriter {
 		writePluginXML(project, content.toString());
 	}
 	
+	public static void writePluginXML(IProject project, String content) {
+		IPath fileLocation = project.getLocation().append("plugin.xml");
+		File f = fileLocation.toFile();
+		if (f == null)
+			f = new File(fileLocation.toOSString());
+		try {
+			if (!f.exists())
+				f.createNewFile();
+			writePluginFrame(f);
+			String fileContents = content;
+			FileWriter fw = new FileWriter(f);
+			fw.write(fileContents);
+			fw.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	public static void writePluginXML(IProject project, List<CharSequence> extensions) {
 		IPath fileLocation = project.getLocation().append("plugin.xml");
 		File f = fileLocation.toFile();

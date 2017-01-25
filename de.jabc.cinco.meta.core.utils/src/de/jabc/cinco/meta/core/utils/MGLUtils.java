@@ -181,14 +181,16 @@ public class MGLUtils {
 	}
 	
 	/**
-	 * This methods returns all annotations of the given name annotated at the modelElement
+	 * This methods returns all annotation values of the given name annotated at the modelElement
 	 * 
 	 * @param annotationName
 	 * @param gm The model element for which the annotation should be searched 
 	 * @return A list containing all annotation values with the given name
 	 */
 	public static List<String> getAllAnnotation(String annotationName, ModelElement me) {
-		List<String> values = me.getAnnotations().stream().filter(a -> a.getName().equals(annotationName)).map(a -> a.getValue().get(0)).collect(Collectors.toList());
+		List<String> values = me.getAnnotations().stream().filter(a -> a.getName().equals(annotationName))
+				.map(a -> a.getValue().get(0))
+				.collect(Collectors.toList());
 		return values;
 	}
 }

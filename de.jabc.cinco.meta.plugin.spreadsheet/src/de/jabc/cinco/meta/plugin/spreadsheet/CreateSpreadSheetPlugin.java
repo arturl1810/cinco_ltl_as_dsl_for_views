@@ -6,6 +6,7 @@ import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import mgl.GraphModel;
@@ -18,7 +19,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 
-import de.jabc.cinco.meta.core.mgl.transformation.helper.ServiceException;
 import de.jabc.cinco.meta.plugin.template.CalculationExceptionTemplate;
 import de.jabc.cinco.meta.plugin.template.CalculationHandlerTemplate;
 import de.jabc.cinco.meta.plugin.template.ExporterTemplate;
@@ -42,10 +42,8 @@ import de.metaframe.jabc.framework.execution.context.LightweightExecutionContext
 
 public class CreateSpreadSheetPlugin {
 
-	public String execute(LightweightExecutionEnvironment environment)
-			throws ServiceException {
-		LightweightExecutionContext context = environment.getLocalContext().getGlobalContext();
-		
+	public String execute(Map<String, Object> map) {
+//		LightweightExecutionContext context = environment.getLocalContext().getGlobalContext();
 		
 		String pluginPath = ".plugin.spreadsheet";
 		String fileName = "export.xls";
@@ -62,7 +60,7 @@ public class CreateSpreadSheetPlugin {
 		ArrayList<CalculatingEdge> calculatingEdges = new ArrayList<CalculatingEdge>();
 		
 		try {
-			GraphModel graphModel = (GraphModel) context.get("graphModel");
+			GraphModel graphModel = (GraphModel) map.get("graphModel");
 			String graphName = graphModel.getName();
 			//Search for Graphmodel Annotation "spreadsheetexport" with one argument
 			for(mgl.Annotation anno: graphModel.getAnnotations()){
@@ -285,7 +283,7 @@ public class CreateSpreadSheetPlugin {
 					progressMonitor);
 			
 			
-			context.put("projectPath", projectPath);
+//			context.put("projectPath", projectPath);
 			
 			//Write the MANIFEST.MF
 			File maniFile = tvProject.getLocation().append("META-INF/MANIFEST.MF").toFile();
