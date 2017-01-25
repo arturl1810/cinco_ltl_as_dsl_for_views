@@ -36,8 +36,8 @@ class NodeResizeFeatures extends GeneratorUtils{
 		
 		/**
 		 * Checks if a shape can be resized
-		 * @param context: Contains the information, needed to let a feature resize a shape
-		 * @param apiCall: ApiCall shows if the Cinco Api is used
+		 * @param context : Contains the information, needed to let a feature resize a shape
+		 * @param apiCall : ApiCall shows if the Cinco Api is used
 		 * @return Returns true if the shape can be resized and false if not
 		*/
 		public boolean canResizeShape(«IResizeShapeContext.name» context, boolean apiCall) {
@@ -50,7 +50,7 @@ class NodeResizeFeatures extends GeneratorUtils{
 		
 		/**
 		 * Checks if a shape can be resized by using the method 'canResizeShape(context,apiCall)'
-		 * @param context: Contains the information, needed to let a feature create a shape
+		 * @param context : Contains the information, needed to let a feature create a shape
 		 * @return Returns if the shape can be resized and false if not
 		*/
 		@Override
@@ -60,7 +60,7 @@ class NodeResizeFeatures extends GeneratorUtils{
 		
 		/**
 		 * Resizes a shape
-		 * @param context: Contains the information, needed to let a feature resize a shape
+		 * @param context : Contains the information, needed to let a feature resize a shape
 		*/
 		@Override
 		public void resizeShape(final «IResizeShapeContext.name» context) {

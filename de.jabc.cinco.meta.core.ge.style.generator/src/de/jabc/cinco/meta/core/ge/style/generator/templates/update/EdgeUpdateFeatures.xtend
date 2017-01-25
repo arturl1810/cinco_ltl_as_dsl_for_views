@@ -41,7 +41,7 @@ class EdgeUpdateFeatures extends GeneratorUtils{
 		
 		/**
 		 * Call of the Superclass
-		 * @param fp: Fp is the parameter of the Superclass-Call
+		 * @param fp : Fp is the parameter of the Superclass-Call
 		*/
 		public UpdateFeature«e.fuName»(«IFeatureProvider.name» fp) {
 			super(fp);
@@ -49,7 +49,7 @@ class EdgeUpdateFeatures extends GeneratorUtils{
 		
 		/**
 		 * Checks if a pictogram element can be updated
-		 * @param context: Contains the information, needed to let a feature update a pictogram element
+		 * @param context : Contains the information, needed to let a feature update a pictogram element
 		 * @return Returns true if a pictogram element can be updated and false if not
 		*/
 		@Override
@@ -61,7 +61,7 @@ class EdgeUpdateFeatures extends GeneratorUtils{
 	
 		/**
 		 * Checks if an Update for a pictogram element is needed
-		 * @param context: Contains the information, needed to let a feature update a pictogram element
+		 * @param context : Contains the information, needed to let a feature update a pictogram element
 		 * @return Returns a 'true reason' or a 'false reason' to update a pictogram element
 		*/
 		@Override
@@ -84,7 +84,7 @@ class EdgeUpdateFeatures extends GeneratorUtils{
 		
 		/**
 		 * Checks if the update process was successful
-		 * @param context: Contains the information, needed to let a feature update a pictogram element
+		 * @param context : Contains the information, needed to let a feature update a pictogram element
 		 * @return Returns true if the update process was successful and false if not
 		*/
 		@Override
@@ -103,8 +103,8 @@ class EdgeUpdateFeatures extends GeneratorUtils{
 		
 		/**
 		 * Updates the text on an edge
-		 * @param «e.name.toLowerCase»: «e.name.toLowerCase» is the pictogram element that will be updated
-		 * @param pe: A representation of the model object 'Pictogram Element'
+		 * @param «e.name.toLowerCase» : «e.name.toLowerCase» is the pictogram element that will be updated
+		 * @param pe : A representation of the model object 'Pictogram Element'
 		*/
 		private void updateText( «e.fqBeanName» «e.flName», «PictogramElement.name» pe) {
 			if (pe instanceof «ContainerShape.name») {
@@ -143,8 +143,8 @@ class EdgeUpdateFeatures extends GeneratorUtils{
 		
 		/*
 		 * Checks if an update is needed
-		 * @param «e.name.toLowerCase»: «e.name.toLowerCase» is the pictogram element that will be updated
-		 * @param pe: A representation of the model object 'Pictogram Element'
+		 * @param «e.name.toLowerCase» : «e.name.toLowerCase» is the pictogram element that will be updated
+		 * @param pe : A representation of the model object 'Pictogram Element'
 		 * @return Returns true if an update is needed and false if not
 		*/
 		public static boolean checkUpdateNeeded(«e.graphModel.beanPackage».«e.fuName» «e.fuName.toFirstLower», «PictogramElement.name» pe) {

@@ -37,8 +37,8 @@ class NodeMoveFeatures extends GeneratorUtils{
 		
 		/**
 		 * Checks if a shape is moveable
-		 * @param context: Contains the information, needed to let a feature move a shape
-		 * @param apiCall: Apicall shows if the Cinco Api is used
+		 * @param context : Contains the information, needed to let a feature move a shape
+		 * @param apiCall : Apicall shows if the Cinco Api is used
 		 * @return Returns true if a shape can be moved and false if not
 		*/
 		public boolean canMoveShape(«IMoveShapeContext.name» context, boolean apiCall) {
@@ -63,7 +63,7 @@ class NodeMoveFeatures extends GeneratorUtils{
 		
 		/**
 		 * Checks if a shape is moveable by using the method 'canMoveShape(context,apiCall)'
-		 * @param context: Contains the information, needed to let a feature move a shape
+		 * @param context : Contains the information, needed to let a feature move a shape
 		 * @return Returns true if a shape can be moved and false if not
 		*/
 		@Override
@@ -73,7 +73,7 @@ class NodeMoveFeatures extends GeneratorUtils{
 	
 		/**
 		 * Moves a Shape by removing the shape at the source and adding it at the target
-		 * @param context: Contains the information, needed to let a feature move a shape
+		 * @param context : Contains the information, needed to let a feature move a shape
 		*/
 		@Override
 		public void moveShape(«IMoveShapeContext.name» context) {
@@ -113,7 +113,7 @@ class NodeMoveFeatures extends GeneratorUtils{
 		
 		/**
 		 * Tries to get the root of the pictogram element, the coordinates of the context and the source and target
-		 * @param context: Contains the information, needed to let a feature move a shape
+		 * @param context : Contains the information, needed to let a feature move a shape
 		*/
 		@Override
 		protected void postMoveShape(«IMoveShapeContext.name» context) {
@@ -150,7 +150,7 @@ class NodeMoveFeatures extends GeneratorUtils{
 
 		/**
 		 * Set-method for an error
-		 * @param error: Error is a value of the enum: MAX_CARDINALITY, MAX_IN, MAX_OUT, INVALID_SOURCE, INVALID_TARGET, INVALID_CONTAINER, INVALID_CLONE_TARGET, OK
+		 * @param error : Error is a value of the enum: MAX_CARDINALITY, MAX_IN, MAX_OUT, INVALID_SOURCE, INVALID_TARGET, INVALID_CONTAINER, INVALID_CLONE_TARGET, OK
 		*/
 		public void setError(«ECincoError.name» error) {
 			this.error = error;

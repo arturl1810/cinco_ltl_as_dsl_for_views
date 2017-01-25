@@ -30,11 +30,19 @@ public class CincoLayoutFeature extends AbstractLayoutFeature {
 
 	public static final String KEY_GA_NAME = "ga_name";
 	
+	/**
+	 * Call of the Superclass
+	 * @param fp Fp is the parameter of the superclass-call
+	 */
 	public CincoLayoutFeature(IFeatureProvider fp) {
 		super(fp);
-		// TODO Auto-generated constructor stub
 	}
 
+	/**
+	 * Checks if a model element can be layouted
+	 *  @param context The context that should be layouted
+	 *  @return Returns true if the model element can be layouted and false if not
+	 */
 	@Override
 	public boolean canLayout(org.eclipse.graphiti.features.context.ILayoutContext context) {
 		Object bo = getBusinessObjectForPictogramElement(context.getPictogramElement());
@@ -43,6 +51,11 @@ public class CincoLayoutFeature extends AbstractLayoutFeature {
 		return false;
 	}
 
+	/**
+	 * Checks if a pictogram element of the given context can be layouted
+	 * @param context The context that should be layouted
+	 * @return Returns true if the model element can be layouted and false if not
+	*/
 	@Override
 	public boolean layout(org.eclipse.graphiti.features.context.ILayoutContext context) {
 		org.eclipse.graphiti.mm.pictograms.PictogramElement pe = context.getPictogramElement();
@@ -55,12 +68,12 @@ public class CincoLayoutFeature extends AbstractLayoutFeature {
 	
 	/** 
 	 * Checks if the node was layouted
-	 * @param cs : The containershape
+	 * @param cs  The containershape
 	 * @return Returns true, if update process was successful
 	 */
 	private boolean layout(org.eclipse.graphiti.mm.pictograms.ContainerShape cs) {
 		for (org.eclipse.graphiti.mm.pictograms.Shape child : cs.getChildren()) {
-			CincoLayoutUtils.layout(cs.getGraphicsAlgorithm(), child.getGraphicsAlgorithm());
+			de.jabc.cinco.meta.core.ge.style.generator.runtime.utils.CincoLayoutUtils.layout(cs.getGraphicsAlgorithm(), child.getGraphicsAlgorithm());
 			if (child instanceof org.eclipse.graphiti.mm.pictograms.ContainerShape) {
 				layout((org.eclipse.graphiti.mm.pictograms.ContainerShape) child);
 			}

@@ -27,8 +27,8 @@ class NodeAddFeatures extends StyleUtils {
 
 	/**
 	 * Generates the 'Add-Feature' for a given node
-	 * @param n: The node
-	 * @param styles: The style
+	 * @param n : The node
+	 * @param styles : The style
 	 */
 	def doGenerateNodeAddFeature(Node n, Styles styles) {
 
@@ -40,7 +40,7 @@ public class AddFeature«n.fuName» extends «CincoAbstractAddFeature.name» {
 	
 	/**
 	 * Call of the Superclass
-	 * @param fp: Fp is the parameter of Superclass-call
+	 * @param fp : Fp is the parameter of Superclass-call
 	*/
 	public AddFeature«n.fuName»(«IFeatureProvider.name» fp) {
 		super(fp);
@@ -48,7 +48,7 @@ public class AddFeature«n.fuName» extends «CincoAbstractAddFeature.name» {
 	
 	/**
 	 * Checks if a context can be added.
-	 * @param context: Contains the information, needed to let a feature add a pictogram element
+	 * @param context : Contains the information, needed to let a feature add a pictogram element
 	 * @return Returns true if the context can be added and false if not.
 	*/
 	public boolean canAdd(«IAddContext.name» context) {
@@ -57,7 +57,7 @@ public class AddFeature«n.fuName» extends «CincoAbstractAddFeature.name» {
 	
 	/**
 	 * Adds a pictogram element to a ContainerShape.
-	 * @param context: Contains the information, needed to let a feature add a pictogram element
+	 * @param context : Contains the information, needed to let a feature add a pictogram element
 	*/
 	public «PictogramElement.name» add(«IAddContext.name» context) {
 		«n.fqBeanName» bo = («n.fqBeanName») context.getNewObject();
@@ -74,8 +74,8 @@ public class AddFeature«n.fuName» extends «CincoAbstractAddFeature.name» {
 	
 	/**
 	 * Links all Shapes by linking the given picotgram element to the given business or domain 
-	 * @param pe: A representation of the model object "Pictogram Element"
-	 * @param bo: A representation of the model object "EObject". EObject is the root of all modeled objects
+	 * @param pe : A representation of the model object "Pictogram Element"
+	 * @param bo : A representation of the model object "EObject". EObject is the root of all modeled objects
 	*/
 	private void linkAllShapes(«PictogramElement.name» pe, «EObject.name» bo) {
 		link(pe, bo);
@@ -89,8 +89,8 @@ public class AddFeature«n.fuName» extends «CincoAbstractAddFeature.name» {
 	
 	/**
 	 * Generates the 'Add-Feature' for a given node with the extra that nodes can be marked as 'prime'
-	 * @param n: The node
-	 * @param styles: The style
+	 * @param n : The node
+	 * @param styles : The style
 	 * 
 	 */
 	def doGeneratePrimeAddFeature(Node n,Styles styles) {
@@ -102,7 +102,7 @@ public class AddFeaturePrime«n.fuName» extends «CincoAbstractAddFeature.name�
 	
 	/**
 	 * Call of the superclass
-	 * @param fp: fp is the parameter of the Superclass-call
+	 * @param fp : fp is the parameter of the Superclass-call
 	*/
 	public AddFeaturePrime«n.fuName»(«IFeatureProvider.name» fp) {
 		super(fp);
@@ -110,7 +110,7 @@ public class AddFeaturePrime«n.fuName» extends «CincoAbstractAddFeature.name�
 	
 	/**
 	 * Checks if a context can be added
-	 * @param context: Contains the information, needed to let a feature add a pictogram element
+	 * @param context : Contains the information, needed to let a feature add a pictogram element
 	 * @return Returns true if the context can be added and false if not.
 	*/
 	public boolean canAdd(«IAddContext.name» context) {
@@ -130,7 +130,7 @@ public class AddFeaturePrime«n.fuName» extends «CincoAbstractAddFeature.name�
 	
 	/**
 	 * Adds a pictogram element to a ContainerShape.
-	 * @param context: Contains the information, needed to let a feature add a pictogram element 
+	 * @param context : Contains the information, needed to let a feature add a pictogram element 
 	*/
 	public «PictogramElement.name» add(«IAddContext.name» context) {
 		«n.packageNameCreate».CreateFeature«n.fuName» cf = 

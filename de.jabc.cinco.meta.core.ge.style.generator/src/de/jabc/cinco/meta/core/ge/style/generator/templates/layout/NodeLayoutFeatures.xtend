@@ -51,7 +51,7 @@ class NodeLayoutFeatures extends GeneratorUtils{
 		 */
 		private boolean layout(«ContainerShape.name» cs) {
 			for («Shape.name» child : cs.getChildren()) {
-				CincoLayoutUtils.layout(cs.getGraphicsAlgorithm(), child.getGraphicsAlgorithm());
+				de.jabc.cinco.meta.core.ge.style.generator.runtime.utils.CincoLayoutUtils.layout(cs.getGraphicsAlgorithm(), child.getGraphicsAlgorithm());
 				if (child instanceof «ContainerShape.name») {
 					layout((«ContainerShape.name») child);
 				}

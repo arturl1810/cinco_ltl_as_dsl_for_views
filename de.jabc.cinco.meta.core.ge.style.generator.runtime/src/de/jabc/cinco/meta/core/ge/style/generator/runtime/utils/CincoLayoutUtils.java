@@ -33,7 +33,7 @@ public class CincoLayoutUtils {
 	private static IGaService gaService = org.eclipse.graphiti.services.Graphiti.getGaService();
 	
 	/**
-	 * Sets the generel layout
+	 * Sets the generell layout
 	 * @param parent : GraphicsAlgorithm
 	 * @param ga : GraphicsAlgorithm
 	 */

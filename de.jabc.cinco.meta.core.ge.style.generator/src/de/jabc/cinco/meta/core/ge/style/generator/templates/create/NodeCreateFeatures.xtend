@@ -30,7 +30,7 @@ class NodeCreateFeatures extends GeneratorUtils{
 		
 		/**
 		 * Call of the Superclass
-		 * @param fp: Fp is the parameter of the Superclass-Call
+		 * @param fp : Fp is the parameter of the Superclass-Call
 		*/
 		public CreateFeature«n.fuName»(«IFeatureProvider.name» fp) {
 			super(fp, "«n.fuName»", "Create «n.fuName»");
@@ -48,8 +48,8 @@ class NodeCreateFeatures extends GeneratorUtils{
 	
 		/**
 		 * Checks if a context can be created
-		 * @param context Contains the information, needed to let a feature create a pictogram element
-		 * @param apiCall: ApiCall shows if the Cinco Api is used
+		 * @param context : Contains the information, needed to let a feature create a pictogram element
+		 * @param apiCall : ApiCall shows if the Cinco Api is used
 		 * @return Returns true if the context can be created and false if not
 		*/
 		public boolean canCreate(«ICreateContext.name» context, boolean apiCall) {
@@ -67,7 +67,7 @@ class NodeCreateFeatures extends GeneratorUtils{
 		
 		/**
 		 * Creates a pictogram element with the given 'context'
-		 * @param context: Contains the information, needed to let a feature create a pictogram element
+		 * @param context : Contains the information, needed to let a feature create a pictogram element
 		 * @return Returns a list with the created pictogram elements and its graphical representation
 	    */
 		public «Object.name»[] create(«ICreateContext.name» context) {
@@ -89,7 +89,7 @@ class NodeCreateFeatures extends GeneratorUtils{
 		
 		/**
 		 * Checks if a context can be created by using the method 'canCreate(context,apiCall)'
-		 * @param context: Contains the information, needed to let a feature create a pictogram element
+		 * @param context : Contains the information, needed to let a feature create a pictogram element
 		 * @return Returns true if the context can be created and false if not
 	    */
 		@Override
@@ -107,7 +107,7 @@ class NodeCreateFeatures extends GeneratorUtils{
 
 	    /**
 		 * Set-method for an error
-		 * @param error: Error is a value of the enum: MAX_CARDINALITY, MAX_IN, MAX_OUT, INVALID_SOURCE, INVALID_TARGET, INVALID_CONTAINER, INVALID_CLONE_TARGET, OK
+		 * @param error : Error is a value of the enum: MAX_CARDINALITY, MAX_IN, MAX_OUT, INVALID_SOURCE, INVALID_TARGET, INVALID_CONTAINER, INVALID_CLONE_TARGET, OK
 		*/
 		public void setError(«ECincoError.name» error) {
 			this.error = error;

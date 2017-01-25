@@ -151,7 +151,7 @@ class NodeUpdateFeatures extends GeneratorUtils{
 						«setValue(n)»
 						
 						«String.name» formatString = «Graphiti.name».getPeService().getPropertyValue(t, «n.graphModel.packageName».«n.graphModel.name»GraphitiUtils.KEY_FORMAT_STRING);
-						String oldVal = String.format(formatString, «fill(n)»);
+						String oldVal = String.format(formatString «fill(n)»);
 						«String.name» newVal = t.getValue();
 						return (!newVal.equals(oldVal));
 					} 

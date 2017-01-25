@@ -48,8 +48,8 @@ public class «gm.fuName»ImageProvider extends «AbstractImageProvider.name»
 
 	/**
 	 * Adds an image to the editor
-	 * @param id: Id of an image
-	 * @param path: Path of the image
+	 * @param id : Id of an image
+	 * @param path : Path of the image
 	 */
 	public void addImage(«String.name» id, «String.name» path) {
 		if (images == null) {
@@ -61,7 +61,7 @@ public class «gm.fuName»ImageProvider extends «AbstractImageProvider.name»
 	
 	/**
 	 * Returns the id of an image.
-	 * @param path: Path is the path of an image
+	 * @param path : Path is the path of an image
 	 * @return Returns the id of an image.
 	*/
 	public «String.name» getImageId(«String.name» path) {
@@ -135,7 +135,7 @@ public class «gm.fuName»ImageProvider extends «AbstractImageProvider.name»
 '''
 	/**
 	 * Auxiliary method to get all nodes with the annotation "icon"
-	 * @param gm: The Graphmodel
+	 * @param gm : The Graphmodel
 	 * @return Returns a list of all found nodes with the annotation "icon"
 	 */
 	def static EList<Node> getIconNodes(GraphModel gm) {

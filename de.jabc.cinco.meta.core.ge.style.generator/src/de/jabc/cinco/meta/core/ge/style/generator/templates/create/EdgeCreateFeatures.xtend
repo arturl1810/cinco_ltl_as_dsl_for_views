@@ -17,8 +17,8 @@ class EdgeCreateFeatures extends GeneratorUtils{
 
 	/**
 	 * Generates the 'Create-Feature' for a given edge 
-	 * @param e: The edge
-	 * @param styles: The style
+	 * @param e : The edge
+	 * @param styles : The style
 	 */
 	def doGenerateEdgeCreateFeature(Edge e, Styles styles) '''
 	package «e.packageNameCreate»;
@@ -29,7 +29,7 @@ class EdgeCreateFeatures extends GeneratorUtils{
 		
 		/**
 		 * Call of the Superclass
-		 * @param fp: Fp is the parameter of the Superclass-Call
+		 * @param fp : Fp is the parameter of the Superclass-Call
 		*/
 		public CreateFeature«e.fuName»(«IFeatureProvider.name» fp) {
 			super(fp, "«e.fuName»", "Create a new edge: «e.fuName»");
@@ -37,8 +37,8 @@ class EdgeCreateFeatures extends GeneratorUtils{
 		
 		/**
 	     * Checks if a context can be created
-		 * @param context: Contains the information, needed to let a feature create a connection
-		 * @param apiCall: ApiCall shows if the Cinco Api is used
+		 * @param context : Contains the information, needed to let a feature create a connection
+		 * @param apiCall : ApiCall shows if the Cinco Api is used
 		 * @return Returns true if the context can be created and false if not
 		*/
 		public boolean canCreate(«ICreateConnectionContext.name» context, boolean apiCall) {
@@ -61,7 +61,7 @@ class EdgeCreateFeatures extends GeneratorUtils{
 	
 		/**
 		 * Checks if a context can be created by using the method 'canCreate(context,apiCall)'
-		 * @param context: Contains the information, needed to let a feature create a connection
+		 * @param context : Contains the information, needed to let a feature create a connection
 		 * @return Returns true if the context can be created and false if not
 		*/
 		public boolean canCreate(«ICreateConnectionContext.name» context) {
@@ -70,7 +70,7 @@ class EdgeCreateFeatures extends GeneratorUtils{
 	
 		/**
 		 * Creates a connection between a source and a target and returns it
-		 * @param context: Contains the information, needed to let a feature create a connection
+		 * @param context : Contains the information, needed to let a feature create a connection
 		 * @return Returns the new connection between source and target
 		*/
 		@Override
@@ -98,7 +98,7 @@ class EdgeCreateFeatures extends GeneratorUtils{
 	
 		/**
 		 * Checks if a connection can start at the source with the given edge
-		 * @param context: Contains the information, needed to let a feature create a connection
+		 * @param context : Contains the information, needed to let a feature create a connection
 		 * @return Returns true if the connection can start to create and false if not
 		*/
 		@Override
@@ -116,7 +116,7 @@ class EdgeCreateFeatures extends GeneratorUtils{
 	
 		/**
 		 * Returns the business object of the pictogram element 'anchor'
-		 * @param anchor: Anchor is a representation of the model object 'Anchor'.
+		 * @param anchor : Anchor is a representation of the model object 'Anchor'.
 		 * @return Returns the business object of the pictogram element 'anchor'  or null if 'anchor' is null
 		*/
 		private «Object.name» getBusinessObject(«Anchor.name» anchor) {
@@ -165,7 +165,7 @@ class EdgeCreateFeatures extends GeneratorUtils{
 		
 		/**
 		 * Set-method for an error
-		 * @param error: Error is a value of the enum: MAX_CARDINALITY, MAX_IN, MAX_OUT, INVALID_SOURCE, INVALID_TARGET, INVALID_CONTAINER, INVALID_CLONE_TARGET, OK
+		 * @param error : Error is a value of the enum: MAX_CARDINALITY, MAX_IN, MAX_OUT, INVALID_SOURCE, INVALID_TARGET, INVALID_CONTAINER, INVALID_CLONE_TARGET, OK
 		*/
 		public void setError(«ECincoError.name» error) {
 			this.error = error;
