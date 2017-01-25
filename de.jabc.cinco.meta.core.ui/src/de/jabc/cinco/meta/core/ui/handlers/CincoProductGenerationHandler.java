@@ -101,7 +101,7 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 			Workload tasks = job.consume(50, String.format("Processing %s", mgl.getFullPath().lastSegment()));
 			tasks.task("Initializing...", () -> publishMglFile(mgl))
 				.task("Generating Ecore/GenModel...", () -> generateEcoreModel(mgl))
-				.task("Generating model code...", () -> generateGenmodelCode(mgl))
+				//.task("Generating model code...", () -> generateGenmodelCode(mgl))
 				.task("Generating Graphiti editor...", () -> generateGraphitiEditor(mgl))
 				.task("Generating API...", () -> generateApi(mgl))
 				.task("Generating Cinco SIBs...", () -> generateCincoSIBs(mgl))

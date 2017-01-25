@@ -8,6 +8,7 @@ import org.eclipse.emf.codegen.ecore.generator.Generator;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.generator.GenBaseGeneratorAdapter;
+import org.eclipse.emf.codegen.ecore.genmodel.util.GenModelUtil;
 import org.eclipse.emf.common.util.BasicMonitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -27,18 +28,15 @@ public class GeneratorHelper {
 		res.load(null);
 		for (EObject o : res.getContents()) {	
 			if (o instanceof GenModel) {
+				
 				GenModel genModel = (GenModel) o;
-				for (GenPackage gm : genModel.getUsedGenPackages()) {
-					if (!gm.getGenModel().equals(genModel)) {
-						genModel.getUsedGenPackages().add(gm);
+				
+				for (GenPackage gp : genModel.getUsedGenPackages()) {
+					if (!gp.getGenModel().equals(genModel)) {
+						genModel.getUsedGenPackages().add(gp);
 					}
 				}
-				//System.out.println(genModel.getUsedGenPackages());
-				genModel.setCanGenerate(true);
-				genModel.reconcile();
-				Generator generator = new Generator();
-				generator.setInput(genModel);
-				generator.generate(genModel, GenBaseGeneratorAdapter.MODEL_PROJECT_TYPE, new BasicMonitor());
+				generateGenModelCode(genModel);
 			}
 		}
 	}
@@ -58,6 +56,17 @@ public class GeneratorHelper {
 		IProject project = mglModelFile.getProject();
 		
 		generateGenModelCode(project, modelName);
+	}
+	/**
+	 * Generates Code from previously created/loaded Genmodel
+	 * @param genModel
+	 */
+	public static void generateGenModelCode(GenModel genModel){
+		genModel.reconcile();
+		genModel.setCanGenerate(true);
+		
+		Generator generator = GenModelUtil.createGenerator(genModel);
+		generator.generate(genModel, GenBaseGeneratorAdapter.MODEL_PROJECT_TYPE, new BasicMonitor());
 	}
 		
 }

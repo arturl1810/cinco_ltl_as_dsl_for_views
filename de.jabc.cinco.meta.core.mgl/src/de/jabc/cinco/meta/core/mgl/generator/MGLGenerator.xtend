@@ -38,6 +38,12 @@ import org.eclipse.xtext.generator.IGenerator
 import org.eclipse.xtext.naming.IQualifiedNameProvider
 import org.eclipse.xtext.util.StringInputStream
 import transem.utility.helper.Tuple
+import org.eclipse.emf.ecore.util.EcoreUtil
+import org.eclipse.emf.ecore.plugin.EcorePlugin
+import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage
+import graphmodel.GraphmodelPackage
+import org.eclipse.emf.codegen.ecore.genmodel.GenModelFactory
+import de.jabc.cinco.meta.core.utils.GeneratorHelper
 
 class MGLGenerator implements IGenerator {
 	@Inject extension IQualifiedNameProvider
@@ -104,7 +110,12 @@ class MGLGenerator implements IGenerator {
 			
 			var projectPath = new Path(projectName)
 			val genModel = GenModelCreator::createGenModel(new Path(ecorePath),ePackage,projectName, projectID, projectPath)
-			genModel.computeMissingUsedGenPackages
+			val genResource = model.eResource.resourceSet.createResource(URI.createURI("platform:/resource/de.jabc.cinco.meta.core.mgl.model/model/GraphModel.genmodel"))
+			genResource.load(null)
+			val graphModelGenModel = (genResource.contents.get(0) as GenModel)
+			
+			genModel.usedGenPackages+=graphModelGenModel.genPackages
+			
 			if(model.package!=null && model.package.length>0){
 				for(genPackage: genModel.genPackages){
 					genPackage.basePackage = model.package
@@ -163,7 +174,7 @@ class MGLGenerator implements IGenerator {
 			
 			MGLEPackageRegistry.INSTANCE.addMGLEPackage(ePackage)
 			saveGenModel(genModel, model)
-			
+			GeneratorHelper.generateGenModelCode(genModel)
 		 	callMetaPlugins(model, map)
 			
 			
@@ -196,8 +207,8 @@ class MGLGenerator implements IGenerator {
 		var outPath = ProjectCreator.getProject(model.eResource).fullPath.append("/src-gen/model/"+model.fullyQualifiedName+".ecore")	
 		var uri = URI::createPlatformResourceURI(outPath.toString)
 		
-		var ePackageResource = Resource.Factory.Registry.INSTANCE.getFactory(uri).createResource(uri)
-		ePackageResource.contents.add(ePackage)		
+		var ePackageResource = model.eResource.resourceSet.createResource(uri)
+		ePackageResource.contents+=ePackage	
 			var optionMap = new HashMap<String,Object>
 			optionMap.put(XMIResource.OPTION_URI_HANDLER,new URIHandler(ePackage))
 		ePackageResource.save(optionMap)	
@@ -210,7 +221,7 @@ class MGLGenerator implements IGenerator {
 	def saveGenModel(GenModel genModel, GraphModel model){
 		var outPath = ProjectCreator.getProject(model.eResource).fullPath.append("/src-gen/model/"+model.fullyQualifiedName+".genmodel")	
 		var uri = URI::createURI(outPath.toString)
-		var genModelResource = Resource.Factory.Registry.INSTANCE.getFactory(uri).createResource(uri)
+		var genModelResource = model.eResource.resourceSet.createResource(uri)
 		genModelResource.contents.add(genModel)
 		genModelResource.save(null)
 	}
