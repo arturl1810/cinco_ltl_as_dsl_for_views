@@ -4,12 +4,15 @@ import de.jabc.cinco.meta.core.mgl.generator.elements.ElementEClasses
 import de.jabc.cinco.meta.core.utils.dependency.DependencyGraph
 import de.jabc.cinco.meta.core.utils.dependency.DependencyNode
 import graphmodel.GraphmodelPackage
+import graphmodel.internal.InternalPackage
 import java.util.ArrayList
 import java.util.HashMap
 import mgl.Attribute
 import mgl.ComplexAttribute
+import mgl.ContainingElement
 import mgl.EDataTypeType
 import mgl.Edge
+import mgl.Enumeration
 import mgl.GraphModel
 import mgl.ModelElement
 import mgl.Node
@@ -19,6 +22,7 @@ import mgl.UserDefinedType
 import org.eclipse.emf.ecore.EClass
 import org.eclipse.emf.ecore.EClassifier
 import org.eclipse.emf.ecore.EDataType
+import org.eclipse.emf.ecore.EEnumLiteral
 import org.eclipse.emf.ecore.EOperation
 import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.EReference
@@ -27,12 +31,8 @@ import org.eclipse.emf.ecore.EcoreFactory
 import org.eclipse.emf.ecore.EcorePackage
 
 import static extension de.jabc.cinco.meta.core.mgl.generator.extensions.EcoreExtensions.*
-import static extension de.jabc.cinco.meta.core.mgl.generator.extensions.NodeMethodsGeneratorExtensions.*
 import static extension de.jabc.cinco.meta.core.mgl.generator.extensions.FactoryGeneratorExtensions.*
-import mgl.Enumeration
-import org.eclipse.emf.ecore.EEnumLiteral
-import mgl.ContainingElement
-import org.eclipse.xtext.generator.IFileSystemAccess
+import static extension de.jabc.cinco.meta.core.mgl.generator.extensions.NodeMethodsGeneratorExtensions.*
 
 class MGLAlternateGenerator {
 
@@ -43,7 +43,7 @@ class MGLAlternateGenerator {
 	HashMap<EReference, Type> toReferenceMap
 
 	val GraphmodelPackage graphModelPackage = GraphmodelPackage.eINSTANCE
-	val internalPackage = graphmodel.internal.InternalPackage.eINSTANCE
+	val internalPackage = InternalPackage.eINSTANCE
 
 	HashMap<String, ElementEClasses> eClassesMap
 
@@ -98,7 +98,7 @@ class MGLAlternateGenerator {
 		return epk
 	}
 
-	def createViewsEPackage(GraphModel model) {
+	private def createViewsEPackage(GraphModel model) {
 		var epk = EcoreFactory.eINSTANCE.createEPackage
 		epk.name = "views"
 		epk.nsPrefix = model.name.toLowerCase + "-views"
@@ -106,7 +106,7 @@ class MGLAlternateGenerator {
 		epk
 	}
 
-	def createInternalEPackage(GraphModel model) {
+	private def createInternalEPackage(GraphModel model) {
 		var epk = EcoreFactory.eINSTANCE.createEPackage
 		epk.name = "internal"
 		epk.nsPrefix = model.name.toLowerCase + "-internal"
@@ -114,7 +114,7 @@ class MGLAlternateGenerator {
 		epk
 	}
 
-	def createEPackage(GraphModel model) {
+	private def createEPackage(GraphModel model) {
 		var epk = EcoreFactory.eINSTANCE.createEPackage
 		epk.name = model.name.toLowerCase
 		epk.nsPrefix = model.name.toLowerCase
@@ -122,7 +122,7 @@ class MGLAlternateGenerator {
 		epk
 	}
 
-	def ElementEClasses createGraphModel(GraphModel model) {
+	private def ElementEClasses createGraphModel(GraphModel model) {
 		val gmClasses = model.createModelElementClasses
 		gmClasses.mainEClass.ESuperTypes += graphModelPackage.getEClassifier("GraphModel") as EClass
 		gmClasses.internalEClass.ESuperTypes += internalPackage.getEClassifier("InternalGraphModel") as EClass		
@@ -130,7 +130,7 @@ class MGLAlternateGenerator {
 
 	}
 
-	def Iterable<? extends ElementEClasses> createNodes(GraphModel model) {
+	private def Iterable<? extends ElementEClasses> createNodes(GraphModel model) {
 		val nodeClasses = new ArrayList<ElementEClasses>
 
 		var sorted = model.nodes.topSort
@@ -149,19 +149,19 @@ class MGLAlternateGenerator {
 		nodeClasses
 	}
 
-	def topSort(Iterable<? extends ModelElement> elements) {
+	private def topSort(Iterable<? extends ModelElement> elements) {
 		new DependencyGraph<ModelElement>(new ArrayList).createGraph(elements.map[el|el.dependencies], new ArrayList).
 			topSort
 
 	}
 
-	def DependencyNode<ModelElement> dependencies(ModelElement elem) {
+	private def DependencyNode<ModelElement> dependencies(ModelElement elem) {
 		val dNode = new DependencyNode<ModelElement>(elem)
 		dNode.addDependencies(elem.allSuperTypes.map[t|t].toList)
 		dNode
 	}
 
-	def void createInheritance(ModelElement me, GraphModel gm) {
+	private def void createInheritance(ModelElement me, GraphModel gm) {
 		if (me.extend != null) {
 			val elmClasses = eClassesMap.get(me.name)
 			val inh = eClassesMap.get(me.extend.name)
@@ -173,7 +173,7 @@ class MGLAlternateGenerator {
 //	def overrideGetView(ElementEClasses classes, ElementEClasses parent, GraphModel gm) {
 //		parent.mainEClass.EOperations.filter[eOp| parent.mainView==eOp.EType || parent.views.contains(eOp.EType)].forEach[op| classes.mainEClass.createGetView(op.EType as EClass,getterName,gm.package)]
 //	}
-	def ElementEClasses createModelElementClasses(ModelElement element) {
+	private def ElementEClasses createModelElementClasses(ModelElement element) {
 		val elementEClasses = new ElementEClasses
 		elementEClasses.modelElement = element
 		elementEClasses.mainEClass = element.createEClass
@@ -186,7 +186,7 @@ class MGLAlternateGenerator {
 		elementEClasses
 	}
 
-	def Iterable<? extends EClass> createViews(ModelElement element, ElementEClasses elementEClasses) {
+	private def Iterable<? extends EClass> createViews(ModelElement element, ElementEClasses elementEClasses) {
 
 		var views = new ArrayList<EClass>();
 
@@ -200,7 +200,7 @@ class MGLAlternateGenerator {
 		views
 	}
 
-	def createSubViews(ElementEClasses parent, ElementEClasses subClasses) {
+	private def createSubViews(ElementEClasses parent, ElementEClasses subClasses) {
 		var views = new ArrayList<EClass>
 		var getterName = "get" + parent.mainView.name
 		var viewName = subClasses.mainEClass.name + parent.mainView.name
@@ -218,7 +218,7 @@ class MGLAlternateGenerator {
 		views
 	}
 
-	def ModelElement getHighestSuperView(ModelElement view) {
+	private def ModelElement getHighestSuperView(ModelElement view) {
 		var v = view;
 		println(v.name)
 		while (v.extend != null) {
@@ -227,7 +227,7 @@ class MGLAlternateGenerator {
 		v
 	}
 
-	def createMainView(ModelElement element, ElementEClasses elmEClasses) {
+	private def createMainView(ModelElement element, ElementEClasses elmEClasses) {
 		val viewName = element.name + "View"
 		val getterName = "get" + viewName.toFirstUpper
 		val view = createView(viewName, getterName, elmEClasses,true )
@@ -235,7 +235,7 @@ class MGLAlternateGenerator {
 		view
 	}
 
-	def EClass createView(String name, String getterName, ElementEClasses elmEClasses, boolean mainView) {
+	private def EClass createView(String name, String getterName, ElementEClasses elmEClasses, boolean mainView) {
 		val eClass = elmEClasses.mainEClass
 		val internalEClass = elmEClasses.internalEClass
 		val element = elmEClasses.modelElement
@@ -266,11 +266,11 @@ class MGLAlternateGenerator {
 	}
 	
 
-	def EStructuralFeature internalEClassFeature(Attribute attr, EClass internalEClass){
+	private def EStructuralFeature internalEClassFeature(Attribute attr, EClass internalEClass){
 		internalEClass.EStructuralFeatures.findFirst[f |attr.name==f.name]		
 	}
-
-	def EClass createEClass(ModelElement element) {
+	
+	private def EClass createEClass(ModelElement element) {
 		var eClass = EcoreFactory.eINSTANCE.createEClass
 		eClass.name = element.name
 
@@ -281,26 +281,26 @@ class MGLAlternateGenerator {
 		eClass
 	}
 
-	def EClass createInternalEClass(ModelElement element, ElementEClasses elmEClasses) {
-		val eClass = elmEClasses.mainEClass
+	private def EClass createInternalEClass(ModelElement element, ElementEClasses elmEClasses) {
+//		val eClass = elmEClasses.mainEClass
 		val internalEClass = EcoreFactory.eINSTANCE.createEClass
 		internalEClass.name = "Internal" + element.name
 
-		eClass.createReference(
-			"internal" + element.name,
-			internalEClass,
-			0,
-			1,
-			true,
-			internalEClass.createReference(element.name.toFirstLower, eClass, 0, 1, false, null)
-		)
+//		eClass.createReference(
+//			"internal" + element.name,
+//			internalEClass,
+//			0,
+//			1,
+//			true,
+//			internalEClass.createReference(element.name.toFirstLower, eClass, 0, 1, false, null)
+//		)
 
 		element.attributes.forEach[attribute|internalEClass.createAttribute(attribute)]
 		
 		internalEClass
 	}
 
-	def Iterable<? extends ModelElement> allSuperTypes(ModelElement element) {
+	private  def Iterable<? extends ModelElement> allSuperTypes(ModelElement element) {
 		val superTypes = new ArrayList<ModelElement>
 		var current = element.extend
 		while (current.extend != null || current != current.extend) {
@@ -311,7 +311,7 @@ class MGLAlternateGenerator {
 		superTypes
 	}
 
-	def ModelElement extend(ModelElement element) {
+	private def ModelElement extend(ModelElement element) {
 		if (element instanceof Node) {
 			return element.extends
 		} else if (element instanceof Edge) {
@@ -322,7 +322,7 @@ class MGLAlternateGenerator {
 		null
 	}
 
-	def void createAttribute(EClass eClass, Attribute attribute) {
+	private  def void createAttribute(EClass eClass, Attribute attribute) {
 		if (attribute instanceof ComplexAttribute) {
 			if(attribute.type instanceof Enumeration){
 				eClass.createEAttributeFromAttribute(attribute)
@@ -335,27 +335,27 @@ class MGLAlternateGenerator {
 
 	}
 
-	def void createEAttributeFromAttribute(EClass eClass, Attribute attribute) {
+	private def void createEAttributeFromAttribute(EClass eClass, Attribute attribute) {
 		if(attribute instanceof PrimitiveAttribute){
 		eClass.createEAttribute(attribute.name, attribute.type.getEDataType, attribute.lowerBound, attribute.upperBound)
 		
 		}else if(attribute instanceof ComplexAttribute){
-			val enmAttr = eClass.createEAttribute(attribute.name, enumMap.get(attribute.type), attribute.lowerBound, attribute.upperBound)
+			eClass.createEAttribute(attribute.name, enumMap.get(attribute.type), attribute.lowerBound, attribute.upperBound)
 		}
 
 	}
 
-	def getEDataType(EDataTypeType type) {
+	private  def getEDataType(EDataTypeType type) {
 		EcorePackage.eINSTANCE.getEClassifier(type.literal) as EDataType
 	}
 
-	def void createEReferenceFromAttribute(EClass eClass, ComplexAttribute attribute) {
+	private def void createEReferenceFromAttribute(EClass eClass, ComplexAttribute attribute) {
 		val eReference = eClass.createReference(attribute.name, null, attribute.lowerBound, attribute.upperBound, false,
 			null)
 		toReferenceMap.put(eReference, attribute.type)
 	}
 
-	def Iterable<? extends ElementEClasses> createEdges(GraphModel model) {
+	private def Iterable<? extends ElementEClasses> createEdges(GraphModel model) {
 		val edg = new ArrayList<ElementEClasses> ();
 		model.edges.forEach[e| edg+= e.createModelElementClasses]
 		edg.forEach[ec|ec.mainEClass.ESuperTypes += graphModelPackage.getEClassifier("Edge") as EClass;
@@ -366,16 +366,16 @@ class MGLAlternateGenerator {
 
 	}
 
-	def Iterable<? extends ElementEClasses> createUserDefinedTypes(GraphModel model) {
+	private def Iterable<? extends ElementEClasses> createUserDefinedTypes(GraphModel model) {
 		model.types.filter(UserDefinedType).map[udt|udt.createModelElementClasses]
 
 	}
 
-	def Iterable<? extends EClassifier> createEnums(GraphModel model) {
+	private def Iterable<? extends EClassifier> createEnums(GraphModel model) {
 		model.types.filter(Enumeration).map[en| en.createEnumeration]
 	}
 	
-	def EClassifier createEnumeration(Enumeration enumeration){
+	private def EClassifier createEnumeration(Enumeration enumeration){
 		val eenum = EcoreFactory.eINSTANCE.createEEnum
 		eenum.name=enumeration.name
 		val lits = new ArrayList<EEnumLiteral>
@@ -386,20 +386,20 @@ class MGLAlternateGenerator {
 		
 	}
 
-	def createGetView(EClass modelElementClass, EClass view, String getterName, String ePackageName, String javaPackageName) {
+	private def createGetView(EClass modelElementClass, EClass view, String getterName, String ePackageName, String javaPackageName) {
 		val content = modelElementClass.createGetViewContent(view, ePackageName, javaPackageName)
 
 		modelElementClass.createEOperation(getterName, view, 0, 1, content.toString)
 
 	}
 
-	def createGetViewContent(EClass modelElementClass, EClass view, String ePackageName, String packageName) '''
+	private def createGetViewContent(EClass modelElementClass, EClass view, String ePackageName, String packageName) '''
 		«view.name» «view.name.toFirstLower» = «packageName».«ePackageName».views.ViewsFactory.eINSTANCE.create«view.name»();
-				«view.name.toFirstLower».setInternal«modelElementClass.name»(getInternal«modelElementClass.name»());
+				«view.name.toFirstLower».setInternal«modelElementClass.name»((«packageName».«ePackageName».internal.Internal«modelElementClass.name»)getInternalElement());
 				return «view.name.toFirstLower»;
 	'''
 
-	def createSetter(EClass view, EClass modelElementClass, EStructuralFeature eFeature) {
+	private def createSetter(EClass view, EClass modelElementClass, EStructuralFeature eFeature) {
 		val content = createSetterContent(modelElementClass, eFeature)
 		val parameter = EcoreFactory.eINSTANCE.createEParameter
 		parameter.name = eFeature.name.toFirstLower
@@ -416,11 +416,11 @@ class MGLAlternateGenerator {
 	}
 	
 
-	def createSetterContent(EClass modelElementClass, EStructuralFeature eFeature) '''
+	private def createSetterContent(EClass modelElementClass, EStructuralFeature eFeature) '''
 		getInternal«modelElementClass.name»().set«eFeature.name.toFirstUpper»(«eFeature.name»);
 	'''
 
-	def createGetter(EClass view, EClass modelElementClass, EStructuralFeature eFeature) {
+	private def createGetter(EClass view, EClass modelElementClass, EStructuralFeature eFeature) {
 		val content = createGetterContent(modelElementClass, eFeature)
 		val getterName = "get" + eFeature.name.toFirstUpper
 		val eOp = view.createEOperation(getterName, eFeature.EType, eFeature.lowerBound, eFeature.upperBound,
@@ -431,7 +431,7 @@ class MGLAlternateGenerator {
 
 	}
 
-	def createGetterContent(EClass eClass, EStructuralFeature eFeature) '''
+	private def createGetterContent(EClass eClass, EStructuralFeature eFeature) '''
 		return getInternal«eClass.name»().get«eFeature.name.toFirstUpper»();
 	'''
 	

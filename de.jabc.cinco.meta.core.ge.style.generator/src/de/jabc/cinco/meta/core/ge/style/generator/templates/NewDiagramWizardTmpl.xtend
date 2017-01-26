@@ -112,16 +112,16 @@ public class «gm.fuName»DiagramWizard extends «Wizard.name» implements «INe
 			«Diagram.name» diagram = 
 				«Graphiti.name».getPeService().createDiagram("«gm.fuName»", dName, true);
 			«gm.beanPackage».«gm.fuName» graph = «gm.package».factory.«gm.name»Factory.create«gm.fuName»();
-			graph.setId(«EcoreUtil.name».generateUUID());
+			graph.getInternalContainerElement().setId(«EcoreUtil.name».generateUUID());
 			try {
 				res.unload();
 				res.getContents().add(diagram);
-				res.getContents().add(graph);
+				res.getContents().add(graph.getInternalElement());
 				res.save(null);
 				
 				«IDiagramTypeProvider.name» dtp = «GraphitiUi.name».getExtensionManager().createDiagramTypeProvider(diagram, "«gm.packageName».«gm.fuName»DiagramTypeProvider");
 «««				«gm.fuName»GraphitiUtils.addToResource(diagram, dtp.getFeatureProvider());
-				dtp.getFeatureProvider().link(diagram, graph);
+				dtp.getFeatureProvider().link(diagram, graph.getInternalElement());
 
 
 				res.save(null);

@@ -22,7 +22,7 @@ class FactoryGeneratorExtensions {
 	static def create«ecl.modelElement.name»(){
 		val «ecl.mainEClass.name.toLowerCase» = «model.name.toLowerCase.toFirstUpper»Factory.eINSTANCE.create«ecl.mainEClass.name»
 		val «ecl.internalEClass.name.toLowerCase» = InternalFactory.eINSTANCE.create«ecl.internalEClass.name»
-		«ecl.mainEClass.name.toLowerCase».set«ecl.internalEClass.name»(«ecl.internalEClass.name.toLowerCase»);
+		«ecl.mainEClass.name.toLowerCase».setInternalElement(«ecl.internalEClass.name.toLowerCase»);
 		
 		return «ecl.mainEClass.name.toLowerCase»
 	}
