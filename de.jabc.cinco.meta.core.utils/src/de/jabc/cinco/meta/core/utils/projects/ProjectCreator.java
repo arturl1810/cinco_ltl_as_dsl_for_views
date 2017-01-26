@@ -41,6 +41,11 @@ import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 
+import de.jabc.cinco.meta.core.utils.CincoUtils;
+import mgl.GraphModel;
+import mgl.Node;
+import mgl.NodeContainer;
+
 public class ProjectCreator {
 
 	private static final List<String> DEFAULT_SOURCE = Arrays.asList(new String[] {"src", "src-gen"});
@@ -496,4 +501,43 @@ public class ProjectCreator {
 	
 		return project;
 	}
+	/**
+	 * Exports a Java package in the given project
+	 * @param project
+	 * @param packageName
+	 * @return true if package successfully exported, false if package already in exported list
+	 */
+	public static boolean exportPackage(IProject project,String packageName) {
+		IFile iManiFile= project.getFolder("META-INF").getFile("MANIFEST.MF");
+		try {
+			CincoUtils.refreshFiles(null, iManiFile);
+			Manifest manifest = new Manifest(iManiFile.getContents());
+			
+			String val = manifest.getMainAttributes().getValue("Export-Package");
+			if (val == null){
+				val = new String("");
+			} 
+			
+			
+			if (!val.contains(packageName)){
+				if (val.isEmpty())
+					val = val.concat(packageName);
+				else val = val.concat(","+packageName);
+			
+			
+			manifest.getMainAttributes().putValue("Export-Package", val);
+			
+			manifest.write(new FileOutputStream(iManiFile.getLocation().toFile()));
+			CincoUtils.refreshFiles(null, iManiFile);
+			return true;
+			}
+			
+		} catch (IOException | CoreException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	
+	
 }
