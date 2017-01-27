@@ -7,6 +7,7 @@ import ${AdapterPackage}.${GraphModelName}Adapter;
 import info.scce.mcam.framework.modules.CheckModule
 import java.util.Map
 
+import static extension org.jooq.lambda.Seq.toMap
 import de.jabc.cinco.meta.util.xapi.CollectionExtension
 
 public abstract class ${ClassName} extends CheckModule<${GraphModelName}Id, ${GraphModelName}Adapter> {

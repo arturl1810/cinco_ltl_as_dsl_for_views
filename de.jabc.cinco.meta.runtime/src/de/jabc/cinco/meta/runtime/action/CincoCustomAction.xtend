@@ -13,6 +13,9 @@ abstract class CincoCustomAction<T extends IdentifiableElement> extends CincoRun
 		true
 	}
 	
-    def boolean canExecute(T element)
+    def canExecute(T element) {
+    	true
+    }
+    
     def void execute(T element)
 } 

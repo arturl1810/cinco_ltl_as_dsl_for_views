@@ -254,7 +254,7 @@ class WorkbenchExtension extends de.jabc.cinco.meta.util.xapi.WorkbenchExtension
 	 *   or the containing resource is not associated with a file in the workspace.
 	 * @throws PartInitException if the editor could not be initialized 
 	 */
-	def static IEditorPart openEditor(EObject obj) {
+	def IEditorPart openEditor(EObject obj) {
 		extension val we = new WorkspaceExtension
 		extension val fe = new FileExtension
 		obj.getFile?.openInEditor
