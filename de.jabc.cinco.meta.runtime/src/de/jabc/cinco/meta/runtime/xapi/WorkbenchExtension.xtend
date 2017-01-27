@@ -1,5 +1,7 @@
 package de.jabc.cinco.meta.runtime.xapi
 
+import static org.eclipse.emf.ecore.util.EcoreUtil.equals
+
 import de.jabc.cinco.meta.util.xapi.WorkspaceExtension
 import graphmodel.GraphModel
 import graphmodel.IdentifiableElement
@@ -27,7 +29,6 @@ class WorkbenchExtension extends de.jabc.cinco.meta.util.xapi.WorkbenchExtension
 	
 	def getActiveDiagram() {
 		val ae = activeEditor
-		println("Active editor: " + ae)
 		ae?.diagram
 	}
 	
@@ -76,13 +77,7 @@ class WorkbenchExtension extends de.jabc.cinco.meta.util.xapi.WorkbenchExtension
 	}
 	
 	def getDiagramTypeProvider(DiagramEditor editor) {
-		val x = editor.diagramBehavior
-		println("diagramBehavior: " + x)
-		val y = x?.configurationProvider
-		println("configurationProvider: " + y)
-		val z = y?.diagramTypeProvider
-		println("diagramTypeProvider: " + z)
-		editor.diagramBehavior?.configurationProvider?.diagramTypeProvider
+		editor?.diagramTypeProvider
 	}
 	
 	def getDiagramTypeProvider(Diagram diagram) {
@@ -117,8 +112,16 @@ class WorkbenchExtension extends de.jabc.cinco.meta.util.xapi.WorkbenchExtension
 		editor.featureProvider?.getPictogramElementForBusinessObject(businessObject)
 	}
 	
-	def getPictogramElement(IdentifiableElement modelElement) {
-		modelElement.editor.featureProvider?.getPictogramElementForBusinessObject(modelElement)
+	def getPictogramElement(Diagram diagram, EObject businessObject) {
+		diagram.pictogramLinks
+			.filter[businessObjects.exists[equals(it, businessObject)]]
+			.map[pictogramElement]
+			.findFirst[it != null]
+	}
+	
+	def getPictogramElement(IdentifiableElement element) {
+		extension val ResourceExtension = new ResourceExtension
+		element.eResource.diagram.getPictogramElement(element)
 	}
 	
 	def testBusinessObjectType(PictogramElement pe, Class<?> cls) {
