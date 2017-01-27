@@ -44,7 +44,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import static de.jabc.cinco.meta.core.utils.eapi.Cinco.eapi;
+import de.jabc.cinco.meta.util.xapi.FileExtension;
 import mgl.Annotation;
 import mgl.Attribute;
 import mgl.GraphModel;
@@ -68,7 +68,6 @@ public class CincoUtils {
 	public static final String ID_DISABLE_SELECT = "select";
 	public static Set<String> DISABLE_NODE_VALUES = new HashSet<String>(Arrays.asList("create", "delete", "move", "resize", "select"));
 	public static Set<String> DISABLE_EDGE_VALUES = new HashSet<String>(Arrays.asList("create", "delete", "reconnect", "select"));
-	
 	
 	private final static String PLUGIN_FRAME = "<?xml version=\"1.0\" encoding=\""+System.getProperty("file.encoding")+"\"?>\n"
 			+ "<?eclipse version=\"3.0\"?>\n"
@@ -184,8 +183,7 @@ public class CincoUtils {
 			if (ID_STYLE.equals(a.getName())) {
 				String path = a.getValue().get(0);
 				IFile iFile = project.getFile(path);
-				Resource res = eapi(iFile).getResource();
-				return eapi(res).getContent(Styles.class);
+				return new FileExtension().getContent(iFile, Styles.class);
 			}
 		}
 		return null;

@@ -11,7 +11,7 @@ Require-Bundle: org.eclipse.pde;bundle-version="3.8.100",
  de.jabc.cinco.meta.core.ge.style.model,
  org.eclipse.core.resources
 Import-Package: de.jabc.cinco.meta.core.utils,
- de.jabc.cinco.meta.core.utils.eapi,
+ de.jabc.cinco.meta.util.xapi,
  de.jabc.cinco.meta.core.utils.xtext,
  org.eclipse.core.filebuffers.manipulation,
  org.eclipse.jdt.core,

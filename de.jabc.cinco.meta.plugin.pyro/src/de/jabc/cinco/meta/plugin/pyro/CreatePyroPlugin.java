@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.io.FileUtils;
-import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Path;
@@ -21,8 +21,6 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 
 import de.jabc.cinco.meta.core.utils.CincoUtils;
-import de.jabc.cinco.meta.core.utils.eapi.ContainerEAPI;
-import static de.jabc.cinco.meta.core.utils.eapi.ContainerEAPI.eapi;
 import de.jabc.cinco.meta.plugin.pyro.model.StyledEdge;
 import de.jabc.cinco.meta.plugin.pyro.model.StyledModelElement;
 import de.jabc.cinco.meta.plugin.pyro.model.StyledNode;
@@ -67,6 +65,7 @@ import de.jabc.cinco.meta.plugin.pyro.utils.EdgeParser;
 import de.jabc.cinco.meta.plugin.pyro.utils.FileHandler;
 import de.jabc.cinco.meta.plugin.pyro.utils.ModelParser;
 import de.jabc.cinco.meta.plugin.pyro.utils.NodeParser;
+import de.jabc.cinco.meta.util.xapi.WorkspaceExtension;
 import mgl.Annotation;
 import mgl.GraphModel;
 import mgl.GraphicalModelElement;
@@ -74,13 +73,16 @@ import mgl.Type;
 import style.Styles;
 
 public class CreatePyroPlugin {
+	
+	private static WorkspaceExtension workspace = new WorkspaceExtension();
+	
 	public static final String PYRO = "pyro";
 	public static final String PRIME = "primeviewer";
 	public static final String PRIME_LABEL = "pvLabel";
-	ContainerEAPI dywaAppfolder;
+	IFolder dywaAppfolder;
 	
 	public void execute(Set<GraphModel> graphModels,IProject project) throws IOException, URISyntaxException {
-		dywaAppfolder = eapi(eapi(project).createFolder("dywa-app"));
+		dywaAppfolder = workspace.createFolder(project,"dywa-app");
 		String jsPath = "js/pyro/";
 		String cssPath = "css/pyro/";
 		String businessPath = "/app-business/target/generated-sources/de/ls5/cinco/pyro/";
@@ -267,28 +269,27 @@ public class CreatePyroPlugin {
 				createFile(new CEdge(), styledEdge, businessPath+"transformation/api/"+graphModelPath+"C"+ styledEdge.getModelElement().getName()+".java", templateContainer);
 				createFile(new CEdgeImpl(), styledEdge, businessPath+"transformation/api/"+graphModelPath+"C"+ styledEdge.getModelElement().getName()+"Impl.java", templateContainer);
 			}					
-			FileHandler.copyResources("de.jabc.cinco.meta.plugin.pyro",dywaAppfolder.getFolder().getParent().getRawLocation().toOSString());
+			FileHandler.copyResources("de.jabc.cinco.meta.plugin.pyro",workspace.getFolder(dywaAppfolder).getParent().getRawLocation().toOSString());
 		}
 								
 	}
 	
-	
 	private void createFile(Templateable template,String path,TemplateContainer tc) throws IOException
 	{
-		dywaAppfolder.createFile(path, template.create(tc).toString(),true);
+		workspace.createFile(dywaAppfolder, path, template.create(tc).toString(),true);
 	}
 	
 	private void createFile(ElementTemplateable template,StyledModelElement sme,String path,TemplateContainer tc) throws IOException
 	{
-		dywaAppfolder.createFile(path, template.create(sme,tc).toString(),true);
+		workspace.createFile(dywaAppfolder, path, template.create(sme,tc).toString(),true);
 	}
 	private void createFile(AnnotationElementTemplateable template,StyledModelElement sme,mgl.Annotation anno,String path,TemplateContainer tc) throws IOException
 	{
-		dywaAppfolder.createFile(path, template.create(anno,sme,tc).toString(),true);
+		workspace.createFile(dywaAppfolder, path, template.create(anno,sme,tc).toString(),true);
 	}
 	
 	private void deleteFolder(String path) throws IOException {
-		File folder = new File(dywaAppfolder.getFolder().getFullPath().toOSString()+path);
+		File folder = new File(dywaAppfolder.getFullPath().toOSString()+path);
 		FileUtils.deleteDirectory(folder);
 	}
 	

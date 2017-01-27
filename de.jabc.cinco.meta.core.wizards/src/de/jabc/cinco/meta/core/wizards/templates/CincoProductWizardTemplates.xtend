@@ -495,16 +495,11 @@ import graphmodel.Node;
 import «packageName».«modelName.toLowerCase».End;
 import «packageName».«modelName.toLowerCase».Start;
 
-import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.jface.dialogs.MessageDialog;
 
-import de.jabc.cinco.meta.core.ge.style.model.customfeature.CincoCustomAction;
+import de.jabc.cinco.meta.runtime.action.CincoCustomAction;
 
 public class ShortestPathToEnd extends CincoCustomAction<Start> {
-	
-	public ShortestPathToEnd(IFeatureProvider fp) {
-		super(fp);
-	}
 	
 	@Override
 	public String getName() {

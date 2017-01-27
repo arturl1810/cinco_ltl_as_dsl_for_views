@@ -1,9 +1,5 @@
 package de.jabc.cinco.meta.core.ui.properties;
 
-import static de.jabc.cinco.meta.core.utils.eapi.Cinco.*;
-import static de.jabc.cinco.meta.core.utils.eapi.Cinco.Workbench.getActiveEditor;
-import static de.jabc.cinco.meta.core.utils.eapi.Cinco.Workspace.getFiles;
-
 import graphmodel.Container;
 import graphmodel.GraphModel;
 import graphmodel.ModelElement;
@@ -98,6 +94,8 @@ import de.jabc.cinco.meta.core.ui.listener.CincoTreeMenuListener;
 import de.jabc.cinco.meta.core.ui.utils.CincoPropertyUtils;
 import de.jabc.cinco.meta.core.ui.validator.TextValidator;
 import de.jabc.cinco.meta.plugin.gratext.runtime.editor.MultiPageGratextEditor;
+import de.jabc.cinco.meta.runtime.xapi.WorkbenchExtension;
+import de.jabc.cinco.meta.util.xapi.WorkspaceExtension;
 
 /**
  * @author kopetzki
@@ -105,6 +103,9 @@ import de.jabc.cinco.meta.plugin.gratext.runtime.editor.MultiPageGratextEditor;
  */
 public class CincoPropertyView extends ViewPart implements ISelectionListener, IPartListener2{
 
+	public static WorkbenchExtension workbench = new WorkbenchExtension();
+	public static WorkspaceExtension workspace = new WorkspaceExtension();
+	
 	private static Map<Class<? extends EObject>, IEMFListProperty> emfListPropertiesMap = new HashMap<Class<? extends EObject>, IEMFListProperty>();
 	private static Map<Class<? extends EObject>, List<EStructuralFeature>> attributesMap = new HashMap<Class<? extends EObject>, List<EStructuralFeature>>();
 	private static Map<Class<? extends EObject>, List<EStructuralFeature>> referencesMap = new HashMap<Class<? extends EObject>, List<EStructuralFeature>>();
@@ -796,7 +797,7 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				FileDialog dialog = new FileDialog(s, SWT.OPEN);
-				IProject project = eapi(getActiveEditor()).getProject();
+				IProject project = workbench.getProject(workbench.getActiveEditor());
 				if (project != null) {
 					IPath location = project.getLocation();
 					System.out.println("Setting browsee location via project: " + location.toString());
@@ -818,7 +819,7 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 				
 				String path = dialog.open();
 				if (path != null) {
-					List<IFile> files = getFiles(f -> f.getLocation().toPortableString().equals(path));
+					List<IFile> files = workspace.getFiles(workspace.getWorkspaceRoot(), f -> f.getLocation().toPortableString().equals(path));
 					IFile iFile = (files.isEmpty()) ? null : files.get(0);
 					if (iFile != null)
 						text.setText(iFile.getProjectRelativePath().toString());

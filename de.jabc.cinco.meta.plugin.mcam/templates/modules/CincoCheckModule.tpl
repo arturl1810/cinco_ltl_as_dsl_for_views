@@ -7,10 +7,11 @@ import ${AdapterPackage}.${GraphModelName}Adapter;
 import info.scce.mcam.framework.modules.CheckModule
 import java.util.Map
 
-import static extension de.jabc.cinco.meta.core.utils.CollectionExtension.*
-import static extension org.jooq.lambda.Seq.*
+import de.jabc.cinco.meta.util.xapi.CollectionExtension
 
 public abstract class ${ClassName} extends CheckModule<${GraphModelName}Id, ${GraphModelName}Adapter> {
+	
+	protected extension CollectionExtension = new CollectionExtension
 	
 	protected ${GraphModelName}Adapter adapter;
 	

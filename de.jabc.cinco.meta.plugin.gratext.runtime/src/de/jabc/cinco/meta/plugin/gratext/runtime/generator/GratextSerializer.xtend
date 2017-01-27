@@ -1,13 +1,13 @@
 package de.jabc.cinco.meta.plugin.gratext.runtime.generator
 
+import de.jabc.cinco.meta.core.utils.registry.NonEmptyRegistry
 import graphmodel.Edge
 import graphmodel.GraphModel
 import graphmodel.GraphmodelPackage
-import graphmodel.ModelElement
-import graphmodel.Node
-import graphmodel.ModelElementContainer
 import graphmodel.IdentifiableElement
-
+import graphmodel.ModelElement
+import graphmodel.ModelElementContainer
+import graphmodel.Node
 import java.util.ArrayList
 import java.util.Collection
 import java.util.List
@@ -18,20 +18,19 @@ import org.eclipse.emf.ecore.EClass
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.EStructuralFeature
 import org.eclipse.emf.ecore.resource.Resource
-
 import org.eclipse.graphiti.mm.algorithms.styles.Point
 import org.eclipse.graphiti.mm.pictograms.Connection
 import org.eclipse.graphiti.mm.pictograms.ConnectionDecorator
 import org.eclipse.graphiti.mm.pictograms.Diagram
 import org.eclipse.graphiti.mm.pictograms.FreeFormConnection
 import org.eclipse.graphiti.mm.pictograms.PictogramElement
-import static org.eclipse.graphiti.ui.services.GraphitiUi.getLinkService
 
-import de.jabc.cinco.meta.core.utils.registry.NonEmptyRegistry
-import static extension de.jabc.cinco.meta.core.utils.eapi.ResourceEAPI.getDiagram
-import static extension de.jabc.cinco.meta.core.utils.eapi.ResourceEAPI.getGraphModel
+import static org.eclipse.graphiti.ui.services.GraphitiUi.getLinkService
+import de.jabc.cinco.meta.runtime.xapi.ResourceExtension
 
 abstract class GratextSerializer {
+
+	static extension val ResourceExtension = new ResourceExtension
 
 	NonEmptyRegistry<ModelElement,PictogramElement>
 		peCache = new NonEmptyRegistry[linkService.getPictogramElements(diagram, it).get(0)]

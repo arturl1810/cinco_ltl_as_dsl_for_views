@@ -1,8 +1,6 @@
 package de.jabc.cinco.meta.core.ui.handlers;
 
-import static de.jabc.cinco.meta.core.utils.eapi.Cinco.eapi;
 import static de.jabc.cinco.meta.core.utils.job.JobFactory.job;
-import de.jabc.cinco.meta.core.utils.eapi.ResourceEAPI;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -56,6 +54,7 @@ import de.jabc.cinco.meta.core.utils.dependency.DependencyNode;
 import de.jabc.cinco.meta.core.utils.job.Workload;
 import de.jabc.cinco.meta.core.utils.projects.ProjectCreator;
 import de.jabc.cinco.meta.plugin.cpdpreprocessor.CPDPreprocessorPlugin;
+import de.jabc.cinco.meta.util.xapi.FileExtension;
 import mgl.GraphModel;
 import mgl.Import;
 import mgl.MglPackage;
@@ -83,6 +82,7 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 	private CincoProduct cpd;
 	private ExecutionEvent event;
 	private boolean autoBuild;
+	private FileExtension fileHelper;
 
 	/**
 	 * the command has been executed, so extract the needed information
@@ -198,8 +198,9 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 				}
 			});
 
+			FileExtension fileHelper = new FileExtension();
 			final Set<GraphModel> graphModels = new LinkedHashSet<>(
-					mgls.stream().map(n -> eapi(n).getResourceContent(GraphModel.class)).collect(Collectors.toList()));
+					mgls.stream().map(n -> fileHelper.getContent(n, GraphModel.class)).collect(Collectors.toList()));
 
 			new CPDPreprocessorPlugin().execute(graphModels, cpd, cpdFile.getProject());
 
@@ -230,7 +231,7 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 	 * @param mgls
 	 */
 	private void generateCPDPlugins(List<IFile> mgls) {
-		Set<GraphModel> graphModels = mgls.stream().map(n->eapi(n).getResourceContent(GraphModel.class)).collect(Collectors.toSet());
+		Set<GraphModel> graphModels = mgls.stream().map(n->fileHelper.getContent(n, GraphModel.class)).collect(Collectors.toSet());
 		PluginRegistry.
 		getInstance().
 		getPluginCPDGenerators().
@@ -251,7 +252,8 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 	private void init() {
 		commandService = (ICommandService) PlatformUI.getWorkbench().getService(ICommandService.class);
 		cpdFile = MGLSelectionListener.INSTANCE.getSelectedCPDFile();
-		cpd = eapi(cpdFile).getResourceContent(CincoProduct.class, 0);
+		fileHelper = new FileExtension();
+		cpd = fileHelper.getContent(cpdFile, CincoProduct.class, 0);
 	}
 
 	private void resetRegistries() {

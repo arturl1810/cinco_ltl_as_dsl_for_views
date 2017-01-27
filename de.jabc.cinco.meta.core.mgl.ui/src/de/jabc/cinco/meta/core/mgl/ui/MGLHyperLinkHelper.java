@@ -31,8 +31,8 @@ import com.google.inject.Provider;
 
 import de.jabc.cinco.meta.core.mgl.ui.internal.MGLActivator;
 import de.jabc.cinco.meta.core.utils.CincoUtils;
+import de.jabc.cinco.meta.util.xapi.ResourceExtension;
 
-import static de.jabc.cinco.meta.core.utils.eapi.ResourceEAPI.eapi;
 
 
 public class MGLHyperLinkHelper extends HyperlinkHelper {
@@ -73,7 +73,7 @@ public class MGLHyperLinkHelper extends HyperlinkHelper {
 		//creates an annotation of the object
 		Annotation annot = (Annotation) object;
 		if ("style".equals(annot.getName())) {
-			GraphModel gm = eapi(resource).getContent(GraphModel.class, 0);
+			GraphModel gm = new ResourceExtension().getContent(resource, GraphModel.class, 0);
 			if (gm == null)
 				return;
 
@@ -100,7 +100,7 @@ public class MGLHyperLinkHelper extends HyperlinkHelper {
 		} 
 		
 		else if (isJavaClassAnnotation(annot.getName())) {
-			GraphModel gModel = eapi(resource).getContent(GraphModel.class, 0);
+			GraphModel gModel = new ResourceExtension().getContent(resource, GraphModel.class, 0);
 			if(gModel == null){
 				return;
 			}

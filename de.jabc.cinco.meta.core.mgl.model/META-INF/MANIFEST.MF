@@ -7,8 +7,7 @@ Bundle-ClassPath: .
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Export-Package: de.jabc.cinco.meta.core.mgl.model,
- de.jabc.cinco.meta.core.mgl.model.constraints,
+Export-Package: de.jabc.cinco.meta.core.mgl.model.constraints,
  graphmodel,
  graphmodel.impl,
  graphmodel.util,

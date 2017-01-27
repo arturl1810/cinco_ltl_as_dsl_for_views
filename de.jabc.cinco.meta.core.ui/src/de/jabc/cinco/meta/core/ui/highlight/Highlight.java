@@ -1,8 +1,5 @@
 package de.jabc.cinco.meta.core.ui.highlight;
 
-import static de.jabc.cinco.meta.core.utils.eapi.Cinco.eapi;
-import static de.jabc.cinco.meta.core.utils.eapi.Cinco.Workbench.sync;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -28,6 +25,7 @@ import de.jabc.cinco.meta.core.ui.highlight.animation.HighlightFade;
 import de.jabc.cinco.meta.core.ui.highlight.animation.HighlightFlash;
 import de.jabc.cinco.meta.core.ui.highlight.animation.HighlightSwell;
 import de.jabc.cinco.meta.core.utils.registry.InstanceRegistry;
+import de.jabc.cinco.meta.runtime.xapi.WorkbenchExtension;
 import graphmodel.ModelElement;
 
 public class Highlight {
@@ -45,6 +43,8 @@ public class Highlight {
 	private HighlightAnimation animation;
 
 	private boolean on = false;
+	
+	private WorkbenchExtension workbenchX = new WorkbenchExtension();
 
 	public Highlight() {
 		ColorConstant c = ColorProvider.INSTANCE.get().next();
@@ -68,7 +68,7 @@ public class Highlight {
 	}
 
 	public Highlight add(ModelElement me) {
-		add(eapi(me).getPictogramElement());
+		add(workbenchX.getPictogramElement(me));
 		return this;
 	}
 
@@ -80,7 +80,7 @@ public class Highlight {
 	}
 
 	public Highlight remove(ModelElement me) {
-		remove(eapi(me).getPictogramElement());
+		remove(workbenchX.getPictogramElement(me));
 		return this;
 	}
 
@@ -380,7 +380,7 @@ public class Highlight {
 	}
 
 	private void registerConnectionDecoratorLayouter(PictogramElement pe) {
-		if (pe instanceof Connection) sync(() -> 
+		if (pe instanceof Connection) workbenchX.sync(() -> 
 			layouters.put(pe, ConnectionDecoratorLayouter.applyTo(pe))
 		);
 	}
@@ -403,7 +403,7 @@ public class Highlight {
 	private void refreshAll() {
 		if (isOn()) {
 			for (PictogramElement pe : affected) {
-				eapi(pe).refreshDecorators();
+				workbenchX.refreshDecorators(pe);
 			}
 //			WorkbenchUtil.refreshDiagram();
 		}
@@ -411,7 +411,7 @@ public class Highlight {
 	
 	private void refresh(PictogramElement pe) {
 		if (isOn()) {
-			eapi(pe).refreshDecorators();
+			workbenchX.refreshDecorators(pe);
 		}
 	}
 
