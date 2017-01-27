@@ -14,10 +14,12 @@ import org.eclipse.ui.ide.IDE
 class FileExtension {
 	
 	def URI getPlatformResourceURI(IFile file) {
+		println("Get file resoure URI: " + file.fullPath.toOSString)
 		URI.createPlatformResourceURI(file.fullPath.toOSString, true)
 	}
 	
 	def getResource(IFile file) {
+		println("Get file resoure")
 		new ResourceSetImpl().getResource(file.platformResourceURI, true)
 	}
 	

@@ -26,7 +26,9 @@ class WorkbenchExtension extends de.jabc.cinco.meta.util.xapi.WorkbenchExtension
 	}
 	
 	def getActiveDiagram() {
-		activeEditor?.diagram
+		val ae = activeEditor
+		println("Active editor: " + ae)
+		ae?.diagram
 	}
 	
 	def getActiveDiagramEditor(Predicate<IEditorPart> predicate) {
@@ -35,10 +37,10 @@ class WorkbenchExtension extends de.jabc.cinco.meta.util.xapi.WorkbenchExtension
 	
 	def DiagramEditor getDiagramEditor(IEditorPart editor) {
 		switch editor {
-			DiagramEditor: editor
 			MultiPageEditorPart: switch editor.selectedPage {
 				DiagramEditor: editor.selectedPage as DiagramEditor
 			}
+			DiagramEditor: editor
 		}
 	}
 	
@@ -74,6 +76,12 @@ class WorkbenchExtension extends de.jabc.cinco.meta.util.xapi.WorkbenchExtension
 	}
 	
 	def getDiagramTypeProvider(DiagramEditor editor) {
+		val x = editor.diagramBehavior
+		println("diagramBehavior: " + x)
+		val y = x?.configurationProvider
+		println("configurationProvider: " + y)
+		val z = y?.diagramTypeProvider
+		println("diagramTypeProvider: " + z)
 		editor.diagramBehavior?.configurationProvider?.diagramTypeProvider
 	}
 	
@@ -102,7 +110,7 @@ class WorkbenchExtension extends de.jabc.cinco.meta.util.xapi.WorkbenchExtension
 	}
 	
 	def getBusinessObject(PictogramElement pe) {
-		pe.editor.getBusinessObject(pe)
+		pe.editor?.getBusinessObject(pe)
 	}
 	
 	def getPictogramElement(DiagramEditor editor, Object businessObject) {

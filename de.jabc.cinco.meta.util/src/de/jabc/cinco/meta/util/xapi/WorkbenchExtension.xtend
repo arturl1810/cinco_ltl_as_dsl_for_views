@@ -20,21 +20,27 @@ class WorkbenchExtension {
 	}
 	
 	def  getActiveWorkbenchWindow() {
-		workbench?.activeWorkbenchWindow
+		val wb = workbench
+		println("Workbench: " + wb)
+		wb?.activeWorkbenchWindow
 	}
 
 	def  getActivePage() {
-		activeWorkbenchWindow?.activePage
+		val ww = activeWorkbenchWindow
+		println("Active activeWorkbenchWindow: " + ww)
+		ww?.activePage
 	}
 	
 	def  getActiveEditor() {
-		activePage?.activeEditor
+		val page = activePage
+		println("Active page: " + page)
+		page?.activeEditor
 	}
 	
 	def  getActiveEditor(Predicate<IEditorPart> predicate) {
-		activePage?.editorReferences
-			.findFirst[ref | predicate.test(ref.getEditor(true))]
-			.getEditor(true)
+		activePage?.editorReferences.findFirst[ref |
+			predicate.test(ref.getEditor(true))
+		]?.getEditor(true)
 	}
 	
 	/**
@@ -55,6 +61,7 @@ class WorkbenchExtension {
 	 * {@code null} if not existing.
 	 */
 	def Resource getResource(IEditorPart editor) {
+		println("Get editor resoure")
 		extension val FileExtension = new FileExtension
 		editor.file?.resource
 	}
@@ -64,6 +71,7 @@ class WorkbenchExtension {
 	 * {@code null} if not existing.
 	 */
 	def getFile(IEditorPart editor) {
+		println("Get editor file")
 		val editorInput = editor.editorInput
 		if (editorInput instanceof IPathEditorInput) {
 			val editorPath = (editorInput as IPathEditorInput).path
