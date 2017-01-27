@@ -12,6 +12,7 @@ import org.eclipse.graphiti.features.context.ICreateContext
 import org.eclipse.graphiti.mm.pictograms.PictogramElement
 import org.eclipse.graphiti.services.Graphiti
 import style.Styles
+import graphmodel.internal.InternalModelElementContainer
 
 class NodeCreateFeatures extends GeneratorUtils{
 	
@@ -55,8 +56,8 @@ class NodeCreateFeatures extends GeneratorUtils{
 		public boolean canCreate(«ICreateContext.name» context, boolean apiCall) {
 		if (apiCall) {
 			«Object.name» target = «Graphiti.name».getLinkService().getBusinessObjectForLinkedPictogramElement(context.getTargetContainer());
-			if (target instanceof «ModelElementContainer.name»)
-				if (! ((«ModelElementContainer.name») target).canContain(«n.fqBeanName».class)) {
+			if (target instanceof «InternalModelElementContainer.name»)
+				if (! ((«InternalModelElementContainer.name») target).canContain(«n.fqBeanName».class)) {
 					if (getError().equals(«ECincoError.name».OK))
 						setError(«ECincoError.name».MAX_CARDINALITY);
 				} else return true;
@@ -76,8 +77,8 @@ class NodeCreateFeatures extends GeneratorUtils{
 		«PictogramElement.name» target = context.getTargetContainer();
 		«EObject.name» targetBO = («EObject.name») getBusinessObjectForPictogramElement(target);
 
-		if (targetBO instanceof «ModelElementContainer.name») {
-			((«ModelElementContainer.name») targetBO).getModelElements().add(«n.flName»);		
+		if (targetBO instanceof «InternalModelElementContainer.name») {
+			((«InternalModelElementContainer.name») targetBO).getModelElements().add(«n.flName».getInternalElement());		
 		}
 
 		«PictogramElement.name» pe = null;

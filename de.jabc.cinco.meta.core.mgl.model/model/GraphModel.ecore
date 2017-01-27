@@ -443,6 +443,30 @@
     <eClassifiers xsi:type="ecore:EClass" name="InternalModelElementContainer" abstract="true"
         interface="true" eSuperTypes="#//IdentifiableElement">
       <eOperations name="getContainerElement" eType="#//ModelElementContainer"/>
+      <eOperations name="canContain" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="body" value="return getContainerElement().canContain(nodes);"/>
+        </eAnnotations>
+        <eParameters name="nodes" upperBound="-1">
+          <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaClass">
+            <eTypeArguments>
+              <eUpperBound eClassifier="#//Node"/>
+            </eTypeArguments>
+          </eGenericType>
+        </eParameters>
+      </eOperations>
+      <eOperations name="canContain" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="body" value="return getContainerElement().canContain(node);"/>
+        </eAnnotations>
+        <eParameters name="node">
+          <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaClass">
+            <eTypeArguments>
+              <eUpperBound eClassifier="#//Node"/>
+            </eTypeArguments>
+          </eGenericType>
+        </eParameters>
+      </eOperations>
       <eStructuralFeatures xsi:type="ecore:EReference" name="modelElements" upperBound="-1"
           eType="#//internal/InternalModelElement" containment="true" eOpposite="#//internal/InternalModelElement/container"/>
     </eClassifiers>
