@@ -166,6 +166,7 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 		  .onFinished(() -> printDebugOutput(event, startTime))
 		  .onFinishedShowMessage("Cinco Product generation completed successfully")
 //		  .onDone(() -> {restoreMGLBackups(backuppedMGLs); resetAutoBuild();})
+		  .onDone(() -> resetAutoBuild())
 		  .schedule();
 		
 		return null;
