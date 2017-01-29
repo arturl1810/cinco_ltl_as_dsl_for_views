@@ -600,7 +600,7 @@ import «packageName».«modelName.toLowerCase».Activity;
 
 import java.util.Random;
 
-import de.jabc.cinco.meta.core.ge.style.model.customfeature.CincoPostCreateHook;
+import de.jabc.cinco.meta.runtime.hook.CincoPostCreateHook;
 
 /**
  * Example post-create hook that randomly sets the name of the activity. Possible
@@ -651,7 +651,7 @@ import «packageName».api.cflowgraph.CLabeledTransition;
 import «packageName».api.cflowgraph.CStart;
 import «packageName».«modelName.toLowerCase».FlowGraph;
 import «packageName».graphiti.FlowGraphWrapper;
-import de.jabc.cinco.meta.core.ge.style.model.customfeature.CincoPostCreateHook;
+import de.jabc.cinco.meta.runtime.hook.CincoPostCreateHook;
 
 /**
  *  This post-create hook is part of the transformation API feature showcase. As it is defined
