@@ -21,6 +21,11 @@ public class CincoCustomActionFeature<T extends IdentifiableElement> extends Abs
     public String getName() {
     	return action.getName();
     }
+    
+    @Override
+    public boolean hasDoneChanges() {
+    	return action.hasDoneChanges();
+    }
 
     @SuppressWarnings("unchecked")
     @Override
