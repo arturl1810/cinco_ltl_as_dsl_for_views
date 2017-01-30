@@ -6,6 +6,7 @@ import org.eclipse.graphiti.features.impl.AbstractLayoutFeature;
 
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.utils.CincoLayoutUtils;
 import graphmodel.ModelElement;
+import graphmodel.internal.InternalModelElement;
 
 public class CincoLayoutFeature extends AbstractLayoutFeature {
 
@@ -46,7 +47,7 @@ public class CincoLayoutFeature extends AbstractLayoutFeature {
 	@Override
 	public boolean canLayout(org.eclipse.graphiti.features.context.ILayoutContext context) {
 		Object bo = getBusinessObjectForPictogramElement(context.getPictogramElement());
-		if (bo instanceof ModelElement)
+		if (bo instanceof InternalModelElement)
 			return true;
 		return false;
 	}

@@ -1,5 +1,6 @@
 package de.jabc.cinco.meta.core.ge.style.generator.runtime.features;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.ILayoutFeature;
 import org.eclipse.graphiti.features.IReason;
@@ -8,22 +9,17 @@ import org.eclipse.graphiti.features.context.impl.LayoutContext;
 import org.eclipse.graphiti.features.impl.AbstractUpdateFeature;
 import org.eclipse.graphiti.features.impl.Reason;
 import org.eclipse.graphiti.mm.algorithms.AbstractText;
-import org.eclipse.graphiti.mm.algorithms.Text;
 import org.eclipse.graphiti.mm.pictograms.Connection;
 import org.eclipse.graphiti.mm.pictograms.ConnectionDecorator;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.graphiti.services.Graphiti;
-import org.eclipse.graphiti.services.IGaService;
 
 import com.sun.el.ExpressionFactoryImpl;
 
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.expressionlanguage.ExpressionLanguageContext;
-
-import org.eclipse.emf.ecore.EObject;
-
-import graphmodel.ModelElement;
+import graphmodel.internal.InternalModelElement;
 
 public class CincoUpdateFeature extends AbstractUpdateFeature {
 
@@ -39,7 +35,7 @@ public class CincoUpdateFeature extends AbstractUpdateFeature {
 	public boolean canUpdate(IUpdateContext context) {
 		PictogramElement pe = context.getPictogramElement();
 		EObject bo = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
-		return (bo instanceof ModelElement);
+		return (bo instanceof InternalModelElement);
 	}
 
 	@Override
@@ -92,12 +88,10 @@ public class CincoUpdateFeature extends AbstractUpdateFeature {
 					String value = Graphiti.getPeService().getPropertyValue(t, "Params");
 					String formatString = Graphiti.getPeService().getPropertyValue(t, "formatString");
 					
-					elContext = new ExpressionLanguageContext( ((ModelElement) bo).getInternalElement());
+					elContext = new ExpressionLanguageContext(bo);
 					Object tmp2Value = factory.createValueExpression(elContext, value, Object.class).getValue(elContext); 
 					
 					t.setValue(String.format(formatString , tmp2Value));
-					IGaService gaService = Graphiti.getGaService();
-//					gaService.setSize(t, 50, 20);
 				} 
 				catch (java.util.IllegalFormatException ife) {
 					t.setValue("STRING FORMAT ERROR");
@@ -140,7 +134,7 @@ public class CincoUpdateFeature extends AbstractUpdateFeature {
 					String value = Graphiti.getPeService().getPropertyValue(t, "Params");  //zb. ${name}
 					String formatString = Graphiti.getPeService().getPropertyValue(t, "formatString");  //zb. %s
 					
-					elContext = new ExpressionLanguageContext(((ModelElement) bo).getInternalElement());
+					elContext = new ExpressionLanguageContext(bo);
 					Object tmp2Value = factory.createValueExpression(elContext, value, Object.class).getValue(elContext); 
 					
 					

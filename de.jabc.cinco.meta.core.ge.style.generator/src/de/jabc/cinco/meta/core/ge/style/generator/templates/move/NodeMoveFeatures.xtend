@@ -12,6 +12,9 @@ import mgl.Node
 import org.eclipse.graphiti.features.IFeatureProvider
 import org.eclipse.graphiti.features.context.IMoveShapeContext
 import style.Styles
+import graphmodel.internal.InternalModelElementContainer
+import graphmodel.internal.InternalContainer
+import graphmodel.internal.InternalEdge
 
 class NodeMoveFeatures extends GeneratorUtils{
 	
@@ -51,8 +54,8 @@ class NodeMoveFeatures extends GeneratorUtils{
 				«ELSE»
 				if (source != null && source.equals(target))
 					return true;
-				if (target instanceof graphmodel.ModelElementContainer)
-					return ((graphmodel.ModelElementContainer) target).canContain(«n.fqBeanName».class);
+				if (target instanceof «InternalModelElementContainer.name»)
+					return ((«InternalModelElementContainer.name») target).canContain(«n.fqBeanName».class);
 				if (getError().equals(«ECincoError.name».OK))
 					setError(«ECincoError.name».INVALID_CONTAINER);
 				return false;
@@ -80,32 +83,33 @@ class NodeMoveFeatures extends GeneratorUtils{
 			«Object.name» o = getBusinessObjectForPictogramElement(context.getShape());
 			«Object.name» source = getBusinessObjectForPictogramElement(context.getSourceContainer());
 			«Object.name» target = getBusinessObjectForPictogramElement(context.getTargetContainer());
-			if (source instanceof «Container.name») {
-				«Container.name» nc = («Container.name») source;
-				nc.getModelElements().remove((«n.fqBeanName») o);
+			if (source instanceof «InternalContainer.name») {
+				«InternalContainer.name» nc = («InternalContainer.name») source;
+				nc.getModelElements().remove((«n.fqInternalBeanName») o);
 			}
-			if (source instanceof «n.graphModel.beanPackage».«n.graphModel.name») {
-				«n.graphModel.beanPackage».«n.graphModel.name» tmp = («n.graphModel.beanPackage».«n.graphModel.name») source;
-				tmp.getModelElements().remove((«n.fqBeanName») o);
+			if (source instanceof «n.graphModel.fqInternalBeanName») {
+				«n.graphModel.fqInternalBeanName» tmp = («n.graphModel.fqInternalBeanName») source;
+				tmp.getModelElements().remove((«n.fqInternalBeanName») o);
 			}
-			if (target instanceof «n.graphModel.beanPackage».«n.graphModel.name») {
-				«n.graphModel.beanPackage».«n.graphModel.name» tmp = («n.graphModel.beanPackage».«n.graphModel.name») target;
-				tmp.getModelElements().add((«n.fqBeanName») o);
+			if (target instanceof «n.graphModel.fqInternalBeanName») {
+				«n.graphModel.fqInternalBeanName» tmp = («n.graphModel.fqInternalBeanName») target;
+				tmp.getModelElements().add((«n.fqInternalBeanName») o);
 			}
-			if (target instanceof «Container.name») {
-				«Container.name» tmp = («Container.name») target;
-				tmp.getModelElements().add((«n.fqBeanName») o);
+			if (target instanceof «InternalContainer.name») {
+				«InternalContainer.name» tmp = («InternalContainer.name») target;
+				tmp.getModelElements().add((«n.fqInternalBeanName») o);
 			}
 			
-			«HashSet.name»<«Edge.name»> all = new «HashSet.name»<>();
-			«n.fqBeanName» tmp = («n.fqBeanName») o;
+			«HashSet.name»<«InternalEdge.name»> all = new «HashSet.name»<>();
+			«n.fqInternalBeanName» tmp = («n.fqInternalBeanName») o;
 			all.addAll(tmp.getIncoming());
 			all.addAll(tmp.getOutgoing());
-			for («Edge.name» e : all) {
-			«ModelElementContainer.name» ce = e.getContainer();
-			«ModelElementContainer.name» common = «n.graphModel.packageName».«n.graphModel.name»GraphitiUtils.getInstance().getCommonContainer(ce, e);
-			ce.getModelElements().remove(e);
-			common.getModelElements().add(e);
+			for («InternalEdge.name» e : all) {
+				«InternalModelElementContainer.name» ce = e.getContainer();
+				«InternalModelElementContainer.name» common = 
+					«n.graphModel.packageName».«n.graphModel.name»GraphitiUtils.getInstance().getCommonContainer(ce.getContainerElement(), («Edge.name») e.getElement()).getInternalContainerElement();;
+				ce.getModelElements().remove(e);
+				common.getModelElements().add(e);
 			}
 
 			super.moveShape(context);
@@ -118,7 +122,7 @@ class NodeMoveFeatures extends GeneratorUtils{
 		@Override
 		protected void postMoveShape(«IMoveShapeContext.name» context) {
 			try {
-				«n.fqBeanName» _s = («n.fqBeanName») getBusinessObjectForPictogramElement(context.getPictogramElement());
+				«n.fqInternalBeanName» _s = («n.fqInternalBeanName») getBusinessObjectForPictogramElement(context.getPictogramElement());
 				//«n.graphModel.beanPackage».«n.graphModel.name» _root = _s.getRootElement();
 				//«n.graphModel.package».api.c«n.graphModel.name.toLowerCase».C«n.graphModel.name» _wrapped = «n.graphModel.package».graphiti.«n.graphModel.name»Wrapper.wrapGraphModel(_root, getDiagram());
 			
@@ -127,8 +131,8 @@ class NodeMoveFeatures extends GeneratorUtils{
 				int deltaX = context.getDeltaX();
 				int deltaY = context.getDeltaY();
 			
-				«ModelElementContainer.name» source = («ModelElementContainer.name») getBusinessObjectForPictogramElement(context.getSourceContainer());
-				«ModelElementContainer.name» target = («ModelElementContainer.name») getBusinessObjectForPictogramElement(context.getTargetContainer());
+				«InternalModelElementContainer.name» source = («InternalModelElementContainer.name») getBusinessObjectForPictogramElement(context.getSourceContainer());
+				«InternalModelElementContainer.name» target = («InternalModelElementContainer.name») getBusinessObjectForPictogramElement(context.getTargetContainer());
 		
 				//«n.graphModel.package».api.c«n.graphModel.name.toLowerCase».C«n.fuName» cModelElement= _wrapped.findC«n.fuName»(_s);
 				//graphicalgraphmodel.CModelElementContainer cSource = _wrapped.findCModelElementContainer(source);
