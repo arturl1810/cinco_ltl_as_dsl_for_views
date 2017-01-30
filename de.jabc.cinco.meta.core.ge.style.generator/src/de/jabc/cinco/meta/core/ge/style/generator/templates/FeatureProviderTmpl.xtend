@@ -97,7 +97,7 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 			«ENDFOR»
 			
 			«FOR ed : gm.edges»
-			if (bo.eClass().getName().equals("«ed.name»"))
+			if («ed.instanceofCheck("bo")»)
 				return new «gm.packageNameAdd».AddFeature«ed.name»(this);
 			«ENDFOR»
 		}
@@ -225,23 +225,6 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 	}
 	
 
-«««	@Override
-«««	public «IUpdateFeature.name» getUpdateFeature(«IUpdateContext.name» context) {
-«««		«PictogramElement.name» pe = context.getPictogramElement();
-«««		Object o = getBusinessObjectForPictogramElement(pe);
-«««		if (o instanceof «EObject.name») {
-«««			«EObject.name» bo = («EObject.name») o;
-«««			if ( (bo instanceof graphmodel.ModelElement) || bo instanceof graphmodel.GraphModel)
-«««				return new «CincoUpdateFeature.name»(this);
-««««««			if (bo.eClass().getName().equals("SomeNode"))
-««««««				return new UpdateSomeNodeFeature(this);
-««««««
-««««««			if (bo.eClass().getName().equals("Transition"))
-««««««				return new UpdateTransitionFeature(this);
-«««
-«««		}
-«««		return super.getUpdateFeature(context);
-«««	}
 
 	@Override
 	public «IReconnectionFeature.name» getReconnectionFeature(«IReconnectionContext.name» context) {
@@ -255,62 +238,6 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 		return super.getReconnectionFeature(context);
 	}
 
-«««	@Override
-«««	public «IMoveShapeFeature.name» getMoveShapeFeature(«IMoveShapeContext.name» context) {
-«««		«Object.name» o = getBusinessObjectForPictogramElement(context.getShape());
-«««		if (o instanceof «EObject.name») {
-«««			«EObject.name» bo = («EObject.name») o;
-«««			if (bo instanceof «Node.name»)
-«««				return new «CincoMoveShapeFeature.name»(this);
-««««««			if (bo.eClass().getName().equals("SomeNode"))
-««««««				return new MoveSomeNodeFeature(this);
-«««
-«««		}
-«««		return super.getMoveShapeFeature(context);
-«««	}
-
-«««	@Override
-«««	public «ILayoutFeature.name» getLayoutFeature(«ILayoutContext.name» context) {
-«««		«Object.name» o = getBusinessObjectForPictogramElement(context.getPictogramElement());
-«««		if (o instanceof «EObject.name») {
-«««			«EObject.name» bo = («EObject.name») o;
-«««			if (bo instanceof «ModelElement.name»)
-«««				return new «CincoLayoutFeature.name»(this);
-««««««			if (bo.eClass().getName().equals("SomeNode"))
-««««««				return new LayoutSomeNodeFeature(this);
-««««««
-««««««			if (bo.eClass().getName().equals("Transition"))
-««««««				return new LayoutTransitionFeature(this);
-«««
-«««		}
-«««		return super.getLayoutFeature(context);
-«««	}
-
-«««	@Override
-«««	public «IResizeShapeFeature.name» getResizeShapeFeature(«IResizeShapeContext.name» context) {
-«««		«Object.name» o = getBusinessObjectForPictogramElement(context.getPictogramElement());
-«««		if (o instanceof «EObject.name») {
-«««			«EObject.name» bo = («EObject.name») o;
-«««			if (bo instanceof «ModelElement.name»)
-«««				return new «CincoResizeFeature.name»(this);
-««««««			if (bo.eClass().getName().equals("SomeNode"))
-««««««				return new ResizeSomeNodeFeature(this);
-««««««
-««««««			if (bo.eClass().getName().equals("SomeGraph"))
-««««««				return new ResizeSomeGraphFeature(this);
-«««		}
-«««		return super.getResizeShapeFeature(context);
-«««	}
-
-«««	@Override
-«««	public ICopyFeature getCopyFeature(ICopyContext context) {
-«««		return new «gm.fuName»CopyFeature(this);
-«««	}
-«««	
-«««	@Override
-«««	public IPasteFeature getPasteFeature(IPasteContext context) {
-«««		return new «gm.fuName»PasteFeature(this);
-«««	}
 
 	@Override
 	public «ICustomFeature.name»[] getCustomFeatures(«ICustomContext.name» context) {

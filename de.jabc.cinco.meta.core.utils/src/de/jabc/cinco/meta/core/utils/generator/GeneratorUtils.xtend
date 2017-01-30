@@ -26,6 +26,8 @@ import org.eclipse.emf.ecore.EFactory
 import org.eclipse.emf.ecore.EPackage
 import de.jabc.cinco.meta.core.utils.CincoUtils
 import graphmodel.Container
+import de.jabc.cinco.meta.core.utils.dependency.DependencyGraph
+import de.jabc.cinco.meta.core.utils.dependency.DependencyNode
 
 class GeneratorUtils {
 	val static String ID_CONTAINER = "Containers";
@@ -569,5 +571,35 @@ class GeneratorUtils {
 		'''«me.beanPackage».internal.«me.fuInternalName»'''
 	}
 	
+	def topSort(Iterable<? extends ModelElement> elements) {
+		new DependencyGraph<ModelElement>(new ArrayList).createGraph(elements.map[el|el.dependencies], new ArrayList).
+			topSort
+	}
+	
+	def DependencyNode<ModelElement> dependencies(ModelElement elem) {
+		val dNode = new DependencyNode<ModelElement>(elem)
+		dNode.addDependencies(elem.allSuperTypes.map[t|t].toList)
+		dNode
+	}
+
+	def Iterable<? extends ModelElement> allSuperTypes(ModelElement element) {
+		val superTypes = new ArrayList<ModelElement>
+		var current = element.extend
+		while (current.extend != null || current != current.extend) {
+			superTypes += current
+			current = current.extend
+		}
+
+		superTypes
+	}
+
+	def ModelElement extend(ModelElement element) {
+		switch element {
+			Node : element.extends
+			Edge : element.extends
+			UserDefinedType : element.extends
+		}
+		null
+	}
 
 }

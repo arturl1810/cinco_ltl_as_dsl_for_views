@@ -12,6 +12,8 @@ import org.eclipse.graphiti.features.impl.AbstractCreateConnectionFeature
 import org.eclipse.graphiti.mm.pictograms.Anchor
 import org.eclipse.graphiti.mm.pictograms.Connection
 import style.Styles
+import graphmodel.internal.InternalNode
+import graphmodel.internal.InternalModelElement
 
 class EdgeCreateFeatures extends GeneratorUtils{
 
@@ -49,8 +51,8 @@ class EdgeCreateFeatures extends GeneratorUtils{
 				boolean srcOK = false;
 				boolean trgOK = false;
 				if (source != null && target != null) {
-					srcOK=((graphmodel.Node) source).canStart(«e.graphModel.beanPackage».«e.fuName».class);
-					trgOK=((graphmodel.Node) target).canEnd(«e.graphModel.beanPackage».«e.fuName».class);
+					srcOK=((«InternalNode.name») source).canStart(«e.graphModel.beanPackage».«e.fuName».class);
+					trgOK=((«InternalNode.name») target).canEnd(«e.graphModel.beanPackage».«e.fuName».class);
 				}
 				if (! (srcOK && trgOK) && getError().equals(«ECincoError.name».OK))
 					setError(«ECincoError.name».MAX_IN);
@@ -80,17 +82,18 @@ class EdgeCreateFeatures extends GeneratorUtils{
 			«Object.name» target = getBusinessObject(context.getTargetAnchor());
 
 			if (source != null && target != null) {
-				«e.graphModel.beanPackage».«e.fuName» «e.fuName.toLowerCase» = «e.fqFactoryName».create«e.fuName»();
-					if (source instanceof «ModelElement.name») {
+				«e.fqInternalBeanName» «e.fuName.toLowerCase» = 
+					(«e.fqInternalBeanName») «e.fqFactoryName».create«e.fuName»().getInternalElement();
+					if (source instanceof «InternalModelElement.name») {
 						«e.fuName.toLowerCase».setSourceElement( («Node.name») source);
 					}
-					if (target instanceof «ModelElement.name») {
+					if (target instanceof «InternalModelElement.name») {
 						«e.fuName.toLowerCase».setTargetElement( («Node.name») target);
 					}
 
 				«AddConnectionContext.name» addContext = 
 					new «AddConnectionContext.name»(context.getSourceAnchor(), context.getTargetAnchor());
-				addContext.setNewObject(«e.fuName.toLowerCase».getInternalElement());
+				addContext.setNewObject(«e.fuName.toLowerCase»);
 				connection = («Connection.name») getFeatureProvider().addIfPossible(addContext);
 			}
 			return connection;
@@ -104,8 +107,8 @@ class EdgeCreateFeatures extends GeneratorUtils{
 		@Override
 		public boolean canStartConnection(«ICreateConnectionContext.name» context) {
 			«Object.name» source = getBusinessObject(context.getSourceAnchor());
-			if (source instanceof graphmodel.Node) {	
-				if (! ((graphmodel.Node) source).canStart(«e.graphModel.beanPackage».«e.fuName».class)) {
+			if (source instanceof «InternalNode.name») {	
+				if (! ((«InternalNode.name») source).canStart(«e.graphModel.beanPackage».«e.fuName».class)) {
 					if (getError().equals(«ECincoError.name».OK))
 						setError(«ECincoError.name».MAX_OUT);
 				}
