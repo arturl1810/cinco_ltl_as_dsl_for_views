@@ -334,6 +334,8 @@ class StyleUtils extends GeneratorUtils {
 			«var a = aShape.position»
 			«IF a instanceof AbsolutPosition»
 				gaService.setLocation(«gaName», «a?.XPos», «a?.YPos»);
+				peService.setPropertyValue(«gaName», "«CincoLayoutFeature.KEY_HORIZONTAL»", "«CincoLayoutFeature.KEY_HORIZONTAL_UNDEFINED»");
+				peService.setPropertyValue(«gaName», "«CincoLayoutFeature.KEY_VERTICAL»", "«CincoLayoutFeature.KEY_VERTICAL_UNDEFINED»");
 			«ELSEIF a instanceof Alignment»
 				«var Alignment alignment = a as Alignment»
 				peService.setPropertyValue(«gaName», "«CincoLayoutFeature.KEY_HORIZONTAL»", "«alignment.getHorizontalValue»");
