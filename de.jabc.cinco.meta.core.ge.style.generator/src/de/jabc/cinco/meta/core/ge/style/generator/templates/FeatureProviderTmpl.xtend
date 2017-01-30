@@ -42,6 +42,9 @@ import org.eclipse.graphiti.mm.pictograms.PictogramElement
 import org.eclipse.graphiti.ui.features.DefaultFeatureProvider
 import graphmodel.Node
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoLayoutFeature
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoUpdateFeature
+import graphmodel.internal.InternalModelElement
+import graphmodel.internal.InternalNode
 
 class FeatureProviderTmpl extends GeneratorUtils{
 	
@@ -159,9 +162,9 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 		«Object.name» o = getBusinessObjectForPictogramElement(context.getPictogramElement());
 		if (o instanceof «EObject.name») {
 			«EObject.name» bo = («EObject.name») o;
-			if (bo instanceof «ModelElement.name»){
+			if (bo instanceof «InternalModelElement.name»){
 				
-					if (bo instanceof «Node.name»)
+					if (bo instanceof «InternalNode.name»)
 						return new «CincoLayoutFeature.name»(this);
 				
 				«FOR e : gm.edges»
@@ -211,8 +214,8 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 		«Object.name» o = getBusinessObjectForPictogramElement(context.getPictogramElement());
 		if (o instanceof «EObject.name») {
 			«EObject.name» bo = («EObject.name») o;
-			if (bo instanceof «ModelElement.name»){
-				return new de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoUpdateFeature(this);
+			if (bo instanceof «InternalModelElement.name»){
+				return new «CincoUpdateFeature.name»(this);
 «««				«FOR e : gm.edges»
 «««					if («e.instanceofCheck("bo")»)
 «««						//return new «e.packageNameUpdate».UpdateFeature«e.fuName»(this);
