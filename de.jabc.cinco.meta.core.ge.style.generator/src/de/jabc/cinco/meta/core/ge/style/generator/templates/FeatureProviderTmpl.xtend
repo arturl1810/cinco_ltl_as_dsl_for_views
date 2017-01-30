@@ -1,10 +1,13 @@
 package de.jabc.cinco.meta.core.ge.style.generator.templates
 
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.addfeature.LibraryComponentAddFeature
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoLayoutFeature
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoUpdateFeature
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.provider.CincoFeatureProvider
 import de.jabc.cinco.meta.core.utils.MGLUtils
 import de.jabc.cinco.meta.core.utils.generator.GeneratorUtils
-import graphmodel.ModelElement
+import graphmodel.internal.InternalModelElement
+import graphmodel.internal.InternalNode
 import mgl.GraphModel
 import org.eclipse.core.resources.IFile
 import org.eclipse.core.runtime.Assert
@@ -40,11 +43,6 @@ import org.eclipse.graphiti.features.context.impl.AddContext
 import org.eclipse.graphiti.features.custom.ICustomFeature
 import org.eclipse.graphiti.mm.pictograms.PictogramElement
 import org.eclipse.graphiti.ui.features.DefaultFeatureProvider
-import graphmodel.Node
-import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoLayoutFeature
-import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoUpdateFeature
-import graphmodel.internal.InternalModelElement
-import graphmodel.internal.InternalNode
 
 class FeatureProviderTmpl extends GeneratorUtils{
 	
@@ -182,7 +180,7 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 		«Object.name» o = getBusinessObjectForPictogramElement(context.getPictogramElement());
 		if (o instanceof «EObject.name») {
 			«EObject.name» bo = («EObject.name») o;
-			if (bo instanceof «ModelElement.name»){
+			if (bo instanceof «InternalModelElement.name»){
 				«FOR n : gm.nodes»
 					if («n.instanceofCheck("bo")»)
 						return new «n.packageNameResize».ResizeFeature«n.fuName»(this);
@@ -198,7 +196,7 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 		«Object.name» o = getBusinessObjectForPictogramElement(context.getPictogramElement());
 		if (o instanceof «EObject.name») {
 			«EObject.name» bo = («EObject.name») o;
-			if (bo instanceof «ModelElement.name»){
+			if (bo instanceof «InternalModelElement.name»){
 				«FOR n : gm.nodes»
 					if («n.instanceofCheck("bo")»)
 						return new «n.packageNameMove».MoveFeature«n.fuName»(this);
