@@ -78,17 +78,17 @@ class EdgeCreateFeatures extends GeneratorUtils{
 		@Override
 		public «Connection.name» create(«ICreateConnectionContext.name» context) {
 			«Connection.name» connection = null;
-			«Object.name» source = getBusinessObject(context.getSourceAnchor());
-			«Object.name» target = getBusinessObject(context.getTargetAnchor());
+			«InternalNode.name» source = («InternalNode.name») getBusinessObject(context.getSourceAnchor());
+			«InternalNode.name» target = («InternalNode.name») getBusinessObject(context.getTargetAnchor());
 
 			if (source != null && target != null) {
 				«e.fqInternalBeanName» «e.fuName.toLowerCase» = 
 					(«e.fqInternalBeanName») «e.fqFactoryName».create«e.fuName»().getInternalElement();
 					if (source instanceof «InternalModelElement.name») {
-						«e.fuName.toLowerCase».setSourceElement( («Node.name») source);
+						«e.fuName.toLowerCase».setSourceElement( («Node.name») source.getElement());
 					}
 					if (target instanceof «InternalModelElement.name») {
-						«e.fuName.toLowerCase».setTargetElement( («Node.name») target);
+						«e.fuName.toLowerCase».setTargetElement( («Node.name») target.getElement());
 					}
 
 				«AddConnectionContext.name» addContext = 

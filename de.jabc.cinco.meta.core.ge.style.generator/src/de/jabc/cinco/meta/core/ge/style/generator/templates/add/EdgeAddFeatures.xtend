@@ -70,7 +70,7 @@ class EdgeAddFeatures extends GeneratorUtils {
 		 */
 		public «PictogramElement.name» add(«IAddContext.name» context) {
 			«IAddConnectionContext.name» addConContext = («IAddConnectionContext.name») context;
-			«e.graphModel.beanPackage».«e.fuName» «e.fuName.toFirstLower» = («e.graphModel.beanPackage».«e.fuName») context.getNewObject();
+			«e.fqInternalBeanName» «e.fuName.toFirstLower» = («e.fqInternalBeanName») context.getNewObject();
 			if («e.fuName.toFirstLower».getId() == null || «e.fuName.toFirstLower».getId().isEmpty())
 				«e.fuName.toFirstLower».setId(«EcoreUtil.name».generateUUID());
 			«IPeCreateService.name» peCreateService = «Graphiti.name».getPeCreateService();
@@ -81,7 +81,7 @@ class EdgeAddFeatures extends GeneratorUtils {
 			
 			«IGaService.name» gaService = «Graphiti.name».getGaService();
 			«Polyline.name» polyline = gaService.createPolyline(connection);
-			 «e.graphModel.packageName».«e.graphModel.name»LayoutUtils.setdefaultStyle(polyline, getDiagram());
+			«e.graphModel.packageName».«e.graphModel.name»LayoutUtils.setdefaultStyle(polyline, getDiagram());
 			
 			«Object.name» sourceBo = addConContext.getSourceAnchor().getParent().getLink().getBusinessObjects().get(0);
 			«Object.name» targetBo = addConContext.getTargetAnchor().getParent().getLink().getBusinessObjects().get(0);
@@ -98,7 +98,7 @@ class EdgeAddFeatures extends GeneratorUtils {
 			}
 			
 			// create link and wire it
-			link(connection, «e.fuName.toFirstLower».getInternalElement());
+			link(connection, «e.fuName.toFirstLower»);
 			«ConnectionDecorator.name» cd;
 			«clear»
 			«FOR d : CincoUtils.getStyleForEdge(e, styles).decorator»			
@@ -172,8 +172,9 @@ class EdgeAddFeatures extends GeneratorUtils {
 			«ENDFOR»
 
 			«e.graphModel.beanPackage».«e.graphModel.name» «e.graphModel.name.toLowerCase» =  «e.graphModel.packageName».«e.graphModel.name»GraphitiUtils.addToResource(getDiagram(), this.getFeatureProvider());
-			«ModelElementContainer.name» container =  «e.graphModel.packageName».«e.graphModel.name»GraphitiUtils.getInstance().getCommonContainer(«e.graphModel.name.toLowerCase», «e.fuName.toFirstLower»);
-			container.getModelElements().add(«e.fuName.toFirstLower»);
+			«ModelElementContainer.name» container = 
+			«e.graphModel.packageName».«e.graphModel.name»GraphitiUtils.getInstance().getCommonContainer(«e.graphModel.name.toLowerCase», («graphmodel.Edge.name»)«e.fuName.toFirstLower».getElement());
+			container.getInternalContainerElement().getModelElements().add(«e.fuName.toFirstLower»);
 	
 			if (hook) {
 			}
@@ -192,7 +193,7 @@ class EdgeAddFeatures extends GeneratorUtils {
 		 * @return Returns true if the context can be added or false
 		 */
 		public boolean canAdd(«IAddContext.name» context) {
-			if (context instanceof «IAddConnectionContext.name» && context.getNewObject() instanceof «e.graphModel.beanPackage».«e.fuName») {
+			if (context instanceof «IAddConnectionContext.name» && context.getNewObject() instanceof «e.fqInternalBeanName») {
 				return true;
 			}
 			return false;
@@ -298,7 +299,7 @@ class EdgeAddFeatures extends GeneratorUtils {
 		 * @param «e.fuName.toFirstLower» : Name of the text
 		 * @param textValue : Value of the text
 		 */
-		private void createShapeText«counter»(«GraphicsAlgorithmContainer.name» gaContainer, «e.graphModel.beanPackage».«e.fuName» «e.fuName.toFirstLower» , «String.name» textValue) {
+		private void createShapeText«counter»(«GraphicsAlgorithmContainer.name» gaContainer, «e.fqInternalBeanName» «e.fuName.toFirstLower», «String.name» textValue) {
 			«IGaService.name» gaService = «Graphiti.name».getGaService();
 			«IPeService.name» peService = «Graphiti.name».getPeService();
 					
