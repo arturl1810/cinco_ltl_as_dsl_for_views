@@ -61,7 +61,7 @@ public class AddFeature«n.fuName» extends «CincoAbstractAddFeature.name» {
 	 * @param context : Contains the information, needed to let a feature add a pictogram element
 	*/
 	public «PictogramElement.name» add(«IAddContext.name» context) {
-		«n.fqBeanName» bo = («n.fqBeanName») context.getNewObject();
+		«n.fqInternalBeanName» bo = («n.fqInternalBeanName») context.getNewObject();
 		if (bo.getId() == null || bo.getId().isEmpty())
 			bo.setId(«EcoreUtil.name».generateUUID());
 		
@@ -79,8 +79,7 @@ public class AddFeature«n.fuName» extends «CincoAbstractAddFeature.name» {
 	 * @param bo : A representation of the model object "EObject". EObject is the root of all modeled objects
 	*/
 	private void linkAllShapes(«PictogramElement.name» pe, «EObject.name» bo) {
-		if (bo instanceof «ModelElement.name»)
-			link(pe, ((«ModelElement.name») bo).getInternalElement());
+		link(pe, bo);
 		if (pe instanceof «ContainerShape.name») {
 			((«ContainerShape.name») pe).getChildren().forEach(c -> linkAllShapes(c, bo));
 		}
@@ -145,8 +144,8 @@ public class AddFeaturePrime«n.fuName» extends «CincoAbstractAddFeature.name�
 		«Object.name»[] newObject = cf.create(cc);
 		if (newObject.length == 0) throw new «RuntimeException.name»("Failed to create object in \"CreateFeature«n.fuName»\"");
 		«Object.name» object = newObject[0];
-		if (object instanceof «n.fqBeanName») {
-			((«n.fqBeanName») object).setLibraryComponentUID(«EcoreUtil.name».getID((«EObject.name») context.getNewObject()));
+		if (object instanceof «n.fqInternalBeanName») {
+			((«n.fqInternalBeanName») object).setLibraryComponentUID(«EcoreUtil.name».getID((«EObject.name») context.getNewObject()));
 			«ReferenceRegistry.name».getInstance().addElement((«EObject.name») context.getNewObject());
 			«n.packageNameAdd».AddFeature«n.fuName» af = new «n.packageNameAdd».AddFeature«n.fuName»(getFeatureProvider());
 			«AddContext.name» ac = new «AddContext.name»(context, object);

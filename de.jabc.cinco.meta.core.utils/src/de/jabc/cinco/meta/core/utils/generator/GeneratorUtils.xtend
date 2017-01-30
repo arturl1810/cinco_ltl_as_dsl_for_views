@@ -40,7 +40,7 @@ class GeneratorUtils {
 	 * @param me The {@link ModelElemet} against which the check is executed. 
 	 */
 	def instanceofCheck(ModelElement me, String varName) 
-	'''«varName» instanceof «me.beanPackage».«me.fuName»'''
+	'''«varName» instanceof «me.beanPackage».internal.Internal«me.fuName»'''
 	
 	
 	def instanceofCheck(Annotatable a, String varName){
@@ -183,6 +183,14 @@ class GeneratorUtils {
 	 */
 	def fqBeanName(ModelElement me)
 	'''«me.beanPackage».«me.fuName»'''
+	
+	/**
+	 * Returns the fully qualified name of the generated internal business object java bean for the given {@link ModelElement}
+	 * 
+	 * @param me The {@link ModelElement} for which the fully qualified bean name should be retrieved
+	 */
+	def fqInternalBeanName(ModelElement me)
+	'''«me.beanPackage».internal.Internal«me.fuName»'''
 	
 	def fqBeanImplName(ModelElement me)
 	'''«me.beanPackage».impl.«me.fuName»Impl'''

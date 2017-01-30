@@ -90,7 +90,7 @@ class EdgeCreateFeatures extends GeneratorUtils{
 
 				«AddConnectionContext.name» addContext = 
 					new «AddConnectionContext.name»(context.getSourceAnchor(), context.getTargetAnchor());
-				addContext.setNewObject(«e.fuName.toLowerCase»);
+				addContext.setNewObject(«e.fuName.toLowerCase».getInternalElement());
 				connection = («Connection.name») getFeatureProvider().addIfPossible(addContext);
 			}
 			return connection;
