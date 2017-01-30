@@ -98,7 +98,7 @@ class EdgeAddFeatures extends GeneratorUtils {
 			}
 			
 			// create link and wire it
-			link(connection, «e.fuName.toFirstLower»);
+			link(connection, «e.fuName.toFirstLower».getInternalElement());
 			«ConnectionDecorator.name» cd;
 			«clear»
 			«FOR d : CincoUtils.getStyleForEdge(e, styles).decorator»			

@@ -19,6 +19,7 @@ import org.eclipse.graphiti.features.context.impl.CreateContext
 import org.eclipse.graphiti.features.context.impl.AddContext
 import de.jabc.cinco.meta.core.referenceregistry.ReferenceRegistry
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoAbstractAddFeature
+import graphmodel.ModelElement
 
 class NodeAddFeatures extends StyleUtils {
 	
@@ -78,7 +79,8 @@ public class AddFeature«n.fuName» extends «CincoAbstractAddFeature.name» {
 	 * @param bo : A representation of the model object "EObject". EObject is the root of all modeled objects
 	*/
 	private void linkAllShapes(«PictogramElement.name» pe, «EObject.name» bo) {
-		link(pe, bo);
+		if (bo instanceof «ModelElement.name»)
+			link(pe, ((«ModelElement.name») bo).getInternalElement());
 		if (pe instanceof «ContainerShape.name») {
 			((«ContainerShape.name») pe).getChildren().forEach(c -> linkAllShapes(c, bo));
 		}

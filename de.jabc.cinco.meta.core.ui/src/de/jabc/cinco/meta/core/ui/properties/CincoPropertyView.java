@@ -8,6 +8,8 @@ import graphmodel.Container;
 import graphmodel.GraphModel;
 import graphmodel.ModelElement;
 import graphmodel.ModelElementContainer;
+import graphmodel.internal.InternalGraphModel;
+import graphmodel.internal.InternalModelElement;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -160,8 +162,9 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 				pe = getPictogramElement(element);
 			
 			EObject bo = getBusinessObject(pe);
-			if (bo != null)
-				init_PropertyView(bo);
+			if (bo != null) {
+					init_PropertyView(bo);
+			}
 			else if (part instanceof MultiPageGratextEditor) {
 				clearPage();
 			}
@@ -630,9 +633,9 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 				if (!(element instanceof EObject))
 					return super.getText(element);
 
-				if (element instanceof ModelElement || element instanceof GraphModel)
+				if (element instanceof InternalModelElement || element instanceof InternalGraphModel)
 					return element.getClass().getSimpleName()
-							.replace("Impl", "");
+							.replace("Internal", "").replace("Impl", "");
 				
 				EObject eObject = (EObject) element;
 				EObject eContainer = eObject.eContainer();
