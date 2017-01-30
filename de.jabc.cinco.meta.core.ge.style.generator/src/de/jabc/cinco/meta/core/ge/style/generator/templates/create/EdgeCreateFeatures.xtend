@@ -80,7 +80,7 @@ class EdgeCreateFeatures extends GeneratorUtils{
 			«Object.name» target = getBusinessObject(context.getTargetAnchor());
 
 			if (source != null && target != null) {
-				«e.graphModel.beanPackage».«e.fuName» «e.fuName.toLowerCase» = «e.graphModel.beanPackage».«e.graphModel.fuName.toLowerCase.toFirstUpper»Factory.eINSTANCE.create«e.fuName»();
+				«e.graphModel.beanPackage».«e.fuName» «e.fuName.toLowerCase» = «e.fqFactoryName».create«e.fuName»();
 					if (source instanceof «ModelElement.name») {
 						«e.fuName.toLowerCase».setSourceElement( («Node.name») source);
 					}

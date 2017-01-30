@@ -65,22 +65,22 @@ public class CincoUpdateFeature extends AbstractUpdateFeature {
 	
 	/**
 	 * Updates the text of the object
-	 * @param node : Current object
+	 * @param bo : Current object
 	 * @param pe : PictroGramElement
 	 */
-	private void updateText(EObject node, PictogramElement pe) {
+	private void updateText(EObject bo, PictogramElement pe) {
 		if (pe instanceof ContainerShape) {
 			PictogramElement tmp = pe;
 			Object o = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(tmp);
-			if (node.equals(o) || o == null)
+			if (bo.equals(o) || o == null)
 			for (Shape _s : ((ContainerShape) pe).getChildren()) {
-				updateText(node, _s);
+				updateText(bo, _s);
 			}
 		} 
 		if (pe instanceof Connection) {
 			Connection connection = (Connection) pe;
 			for (ConnectionDecorator cd : connection.getConnectionDecorators()) {
-				updateText(node, cd); 
+				updateText(bo, cd); 
 			} 
 		} else {
 			if (pe.getGraphicsAlgorithm() instanceof AbstractText) {
@@ -92,7 +92,7 @@ public class CincoUpdateFeature extends AbstractUpdateFeature {
 					String value = Graphiti.getPeService().getPropertyValue(t, "Params");
 					String formatString = Graphiti.getPeService().getPropertyValue(t, "formatString");
 					
-					elContext = new ExpressionLanguageContext(node);
+					elContext = new ExpressionLanguageContext( ((ModelElement) bo).getInternalElement());
 					Object tmp2Value = factory.createValueExpression(elContext, value, Object.class).getValue(elContext); 
 					
 					t.setValue(String.format(formatString , tmp2Value));
@@ -111,27 +111,27 @@ public class CincoUpdateFeature extends AbstractUpdateFeature {
 
 	/**
 	 * Checks if the text needs to be updated
-	 * @param node : Current object
+	 * @param bo : Current object
 	 * @param pe : PictogramElement
 	 * @return Returns true if an update is needed
 	 */
-	public static <EObject> boolean checkUpdateNeeded(EObject node, PictogramElement pe) {
+	public static <EObject> boolean checkUpdateNeeded(EObject bo, PictogramElement pe) {
 		boolean updateNeeded;
 		if (pe instanceof ContainerShape) {
 			for (Shape _s : ((ContainerShape) pe).getChildren()) {
-				return checkUpdateNeeded(node, _s);
+				return checkUpdateNeeded(bo, _s);
 			}
 		} 
 		if (pe instanceof Connection) {
 			Connection connection = (Connection) pe;
 			for (ConnectionDecorator cd : connection.getConnectionDecorators()) {
-				updateNeeded = checkUpdateNeeded(node, cd);
+				updateNeeded = checkUpdateNeeded(bo, cd);
 				if (updateNeeded)
 					return true;
 			}
 		} else {
 			java.lang.Object o = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
-			if (pe.getGraphicsAlgorithm() instanceof AbstractText && node.equals(o)) {
+			if (pe.getGraphicsAlgorithm() instanceof AbstractText && bo.equals(o)) {
 				ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
 				try {
 					Thread.currentThread().setContextClassLoader(o.getClass().getClassLoader());
@@ -140,7 +140,7 @@ public class CincoUpdateFeature extends AbstractUpdateFeature {
 					String value = Graphiti.getPeService().getPropertyValue(t, "Params");  //zb. ${name}
 					String formatString = Graphiti.getPeService().getPropertyValue(t, "formatString");  //zb. %s
 					
-					elContext = new ExpressionLanguageContext(node);
+					elContext = new ExpressionLanguageContext(((ModelElement) bo).getInternalElement());
 					Object tmp2Value = factory.createValueExpression(elContext, value, Object.class).getValue(elContext); 
 					
 					

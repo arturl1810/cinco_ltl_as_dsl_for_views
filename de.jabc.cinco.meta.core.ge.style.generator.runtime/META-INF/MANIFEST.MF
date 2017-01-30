@@ -18,6 +18,7 @@ Export-Package: de.jabc.cinco.meta.core.ge.style.generator.runtime.addfeature,
  de.jabc.cinco.meta.core.ge.style.generator.runtime.createfeature,
  de.jabc.cinco.meta.core.ge.style.generator.runtime.customfeature,
  de.jabc.cinco.meta.core.ge.style.generator.runtime.errorhandling,
+ de.jabc.cinco.meta.core.ge.style.generator.runtime.expressionlanguage,
  de.jabc.cinco.meta.core.ge.style.generator.runtime.features,
  de.jabc.cinco.meta.core.ge.style.generator.runtime.provider,
  de.jabc.cinco.meta.core.ge.style.generator.runtime.utils

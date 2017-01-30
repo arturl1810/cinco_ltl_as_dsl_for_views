@@ -189,13 +189,20 @@ class GeneratorUtils {
 	
 	def fqBeanViewName(ModelElement me)
 	'''«me.beanPackage».views.impl.«me.fuName»ViewImpl'''
+//	
+//	/**
+//	 * Returns the fully qualified name of the {@link EFactory} class for the given {@link ModelElement}, i.e. for the
+//	 * {@link ModelElement}'s {@link GraphModel}. 
+//	 */
+//	def fqFactoryName(ModelElement me) 
+//	'''«me.graphModel.package».«me.graphModel.name.toLowerCase».«me.graphModel.name.toLowerCase.toFirstUpper»Factory'''
 	
 	/**
-	 * Returns the fully qualified name of the {@link EFactory} class for the given {@link ModelElement}, i.e. for the
-	 * {@link ModelElement}'s {@link GraphModel}. 
+	 * Returns the fully qualified name of the generated Factory for the new API.
 	 */
 	def fqFactoryName(ModelElement me) 
-	'''«me.graphModel.package».«me.graphModel.name.toLowerCase».«me.graphModel.name.toLowerCase.toFirstUpper»Factory'''
+	'''«me.graphModel.package».factory.«me.graphModel.fuName»Factory'''
+	
 	
 	def fqCreateFeatureName(ModelElement me)
 	'''«me.packageNameCreate».CreateFeature«me.fuName»'''

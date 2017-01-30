@@ -72,7 +72,7 @@ class NodeCreateFeatures extends GeneratorUtils{
 		 * @return Returns a list with the created pictogram elements and its graphical representation
 	    */
 		public «Object.name»[] create(«ICreateContext.name» context) {
-		«n.fqBeanName» «n.flName» = «n.fqFactoryName».eINSTANCE.create«n.fuName»();
+		«n.fqBeanName» «n.flName» = «n.fqFactoryName».create«n.fuName»();
 		setModelElement(«n.flName»);
 		«PictogramElement.name» target = context.getTargetContainer();
 		«EObject.name» targetBO = («EObject.name») getBusinessObjectForPictogramElement(target);

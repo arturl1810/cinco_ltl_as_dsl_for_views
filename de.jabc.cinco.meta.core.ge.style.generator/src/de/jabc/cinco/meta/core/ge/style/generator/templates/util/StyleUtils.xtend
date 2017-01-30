@@ -33,6 +33,7 @@ import style.Rectangle
 import style.RoundedRectangle
 import style.StyleFactory
 import style.Text
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.expressionlanguage.ExpressionLanguageContext
 
 class StyleUtils extends GeneratorUtils {
 
@@ -286,8 +287,9 @@ class StyleUtils extends GeneratorUtils {
 			«currentGaName.toString».setFilled(false);
 			«Thread.name».currentThread().setContextClassLoader(AddFeature«node.name».class.getClassLoader());
 		
-			«node.graphModel.packageNameExpression».«node.graphModel.fuName»ExpressionLanguageContext elContext = new «node.
-			graphModel.packageNameExpression».«node.graphModel.fuName»ExpressionLanguageContext(bo);
+			«ExpressionLanguageContext.name» elContext = 
+				new «ExpressionLanguageContext.name»(bo.getInternalElement());
+				
 			«Object.name» tmp0Value = factory.createValueExpression(elContext, "«getText(node)»", «Object.name».class).getValue(elContext);
 		
 			peService.setPropertyValue(«currentGaName.toString», «node.graphModel.packageName».«node.graphModel.fuName»GraphitiUtils.KEY_FORMAT_STRING, "«t.value»");
