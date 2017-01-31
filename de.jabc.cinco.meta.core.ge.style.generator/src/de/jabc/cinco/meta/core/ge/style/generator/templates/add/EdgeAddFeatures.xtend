@@ -34,6 +34,10 @@ import org.eclipse.graphiti.services.IPeCreateService
 import org.eclipse.graphiti.services.IPeService
 import style.AbstractShape
 import style.Styles
+import org.eclipse.emf.ecore.resource.Resource
+import org.eclipse.emf.ecore.EObject
+import graphmodel.internal.InternalGraphModel
+import de.jabc.cinco.meta.core.utils.eapi.ResourceEAPI
 
 class EdgeAddFeatures extends GeneratorUtils {
 	
@@ -170,10 +174,11 @@ class EdgeAddFeatures extends GeneratorUtils {
 				«ENDIF»
 				«ENDIF»
 			«ENDFOR»
-
-			«e.graphModel.beanPackage».«e.graphModel.name» «e.graphModel.name.toLowerCase» =  «e.graphModel.packageName».«e.graphModel.name»GraphitiUtils.addToResource(getDiagram(), this.getFeatureProvider());
+			
+			«Resource.name» eResource = ((«EObject.name») sourceBo).eResource();
+			«InternalGraphModel.name» internalGraphModel = «ResourceEAPI.name».getContent(eResource, «e.graphModel.fqInternalBeanName».class);
 			«ModelElementContainer.name» container = 
-			«e.graphModel.packageName».«e.graphModel.name»GraphitiUtils.getInstance().getCommonContainer(«e.graphModel.name.toLowerCase», («graphmodel.Edge.name»)«e.fuName.toFirstLower».getElement());
+				«e.graphModel.packageName».«e.graphModel.name»GraphitiUtils.getInstance().getCommonContainer(internalGraphModel.getElement(), («graphmodel.Edge.name»)«e.fuName.toFirstLower».getElement());
 			container.getInternalContainerElement().getModelElements().add(«e.fuName.toFirstLower»);
 	
 			if (hook) {

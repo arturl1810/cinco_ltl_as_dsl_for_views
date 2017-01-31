@@ -110,6 +110,7 @@ public class NewGraphitiCodeGenerator extends AbstractHandler{
 		bundles.add(Platform.getBundle("de.jabc.cinco.meta.core.ge.style.generator"));
 		bundles.add(Platform.getBundle("de.jabc.cinco.meta.core.referenceregistry"));
 		bundles.add(Platform.getBundle("de.jabc.cinco.meta.core.ui"));
+		bundles.add(Platform.getBundle("de.jabc.cinco.meta.core.utils"));
 		bundles.add(Platform.getBundle("de.jabc.cinco.meta.core.capi"));
 		bundles.add(Platform.getBundle("de.jabc.cinco.meta.core.wizards"));
 		bundles.add(Platform.getBundle("javax.el"));

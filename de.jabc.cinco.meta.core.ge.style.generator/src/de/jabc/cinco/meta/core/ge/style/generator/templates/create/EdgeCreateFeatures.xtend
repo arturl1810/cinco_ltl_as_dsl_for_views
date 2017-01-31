@@ -130,38 +130,10 @@ class EdgeCreateFeatures extends GeneratorUtils{
 			return null;
 		}
 
-«««		private boolean checkSource(«Object.name» source) {
-«««			if (source instanceof «e.graphModel.beanPackage».Start) {
-«««				if (((«e.graphModel.beanPackage».Start) source).getOutgoing(«e.graphModel.beanPackage».«e.fuName».class).size() < 1)
-«««					return true;
-«««				else setError(«ECincoError.name».MAX_OUT);
-«««			} 
-«««			if (getError().equals(«ECincoError.name».OK))
-«««				setError(«ECincoError.name».INVALID_SOURCE);
-«««
-«««			return false;
-«««		}
-«««
-«««		private boolean checkTarget(«Object.name» target){
-«««			if (target instanceof «e.graphModel.beanPackage».End) {
-«««				if (true) return true;
-«««				else setError(«ECincoError.name».MAX_IN);
-«««			}
-«««			if (target instanceof «e.graphModel.beanPackage».Activity) {
-«««				if (true)
-«««					return true;
-«««				else setError(«ECincoError.name».MAX_IN);
-«««			}
-«««			if (getError().equals(«ECincoError.name».OK))
-«««				setError(«ECincoError.name».INVALID_TARGET);
-«««
-«««			return false;
-«««		}
-		
 		/**
 		 * Get-method for an error
 		 * @return Returns an 'error' in which 'error' is  'ECincoError.OK'
-    	*/
+		*/
 		public «ECincoError.name» getError() {
 			return error;
 		}

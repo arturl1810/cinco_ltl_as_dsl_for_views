@@ -22,6 +22,8 @@ import org.eclipse.graphiti.ui.platform.GraphitiShapeEditPart
 import org.eclipse.graphiti.ui.platform.GraphitiConnectionEditPart
 import org.eclipse.graphiti.platform.IDiagramBehavior
 import de.jabc.cinco.meta.core.ge.style.generator.graphiti.utils.CincoGraphitiUtils
+import org.eclipse.graphiti.ui.internal.editor.DiagramBehaviorDummy
+import org.eclipse.graphiti.ui.editor.DiagramEditor
 
 class PropertyViewTmpl extends GeneratorUtils {
 
@@ -105,6 +107,7 @@ public class «gm.fuName»PropertyView implements «ISelectionListener.name» {
 	}
 	
 
+	
 	@Override
 	public void selectionChanged(«IWorkbenchPart.name» part, «ISelection.name» selection) {
 		if (isStructuredSelection(selection)) {
@@ -113,6 +116,10 @@ public class «gm.fuName»PropertyView implements «ISelectionListener.name» {
 			if (element instanceof «GraphicalEditPart.name»)
 				pe = getPictogramElement(element);
 			
+			«IDiagramBehavior.name» diagramBehavior = null;
+			if (part instanceof «DiagramEditor.name»){
+				diagramBehavior = ((«DiagramEditor.name») part).getDiagramBehavior();
+			}
 			«IDiagramBehavior.name» diagramBehavior = «CincoGraphitiUtils.name».getDiagramBehavior(pe);
 			if (diagramBehavior instanceof «DiagramBehavior.name») {
 				«DiagramBehavior.name» db = («DiagramBehavior.name») diagramBehavior;		
