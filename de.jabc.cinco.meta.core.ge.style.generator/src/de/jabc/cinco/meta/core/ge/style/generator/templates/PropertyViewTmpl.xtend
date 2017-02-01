@@ -120,7 +120,6 @@ public class «gm.fuName»PropertyView implements «ISelectionListener.name» {
 			if (part instanceof «DiagramEditor.name»){
 				diagramBehavior = ((«DiagramEditor.name») part).getDiagramBehavior();
 			}
-			«IDiagramBehavior.name» diagramBehavior = «CincoGraphitiUtils.name».getDiagramBehavior(pe);
 			if (diagramBehavior instanceof «DiagramBehavior.name») {
 				«DiagramBehavior.name» db = («DiagramBehavior.name») diagramBehavior;		
 				«EObject.name» bo = getBusinessObject(pe);
