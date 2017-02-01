@@ -87,7 +87,7 @@ public class DefaultHighlighter extends Highlighter {
 		try {
 			Node node = (Node) getBusinessObject(pe);
 			ModelElementContainer cont = (ModelElementContainer) getBusinessObject(containerShape);
-			return cont.equals(node.getContainer()) || cont.canContain(node.getClass());
+			return cont.equals(node.getContainer()) || cont.getInternalContainerElement().canContain(node.getClass());
 		} catch(RuntimeException e) {
 			return false;
 		}
