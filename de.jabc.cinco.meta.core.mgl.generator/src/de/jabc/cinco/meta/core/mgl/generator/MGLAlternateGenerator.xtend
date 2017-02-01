@@ -90,7 +90,7 @@ class MGLAlternateGenerator {
 
 		graphModel.nodes.forEach[node|
 			node.createInheritance(graphModel)
-			eClassesMap.get(node.name).mainEClass.EOperations+=node.createConnectionMethods(graphModel,eClassesMap)
+			node.createConnectionMethods(graphModel,eClassesMap)
 		]
 		
 		graphModel.edges.forEach[edge|edge.createInheritance(graphModel)]
@@ -145,6 +145,7 @@ class MGLAlternateGenerator {
 		nodeClasses.filter[n| (n instanceof ContainingElement)].forEach[nc|nc.mainEClass.ESuperTypes.add(graphModelPackage.getEClassifier("Container") as EClass);
 			nc.internalEClass.ESuperTypes.add(graphModelPackage.ESubpackages.filter[sp| sp.name.equals("internal")].get(0).getEClassifier("InternalContainer") as EClass);
 		]
+		
 		
 		nodeClasses
 	}
@@ -337,8 +338,8 @@ class MGLAlternateGenerator {
 
 	private def void createEAttributeFromAttribute(EClass eClass, Attribute attribute) {
 		if(attribute instanceof PrimitiveAttribute){
-		eClass.createEAttribute(attribute.name, attribute.type.getEDataType, attribute.lowerBound, attribute.upperBound)
-		
+		val eattr = eClass.createEAttribute(attribute.name, attribute.type.getEDataType, attribute.lowerBound, attribute.upperBound)
+		eattr.defaultValue = attribute.defaultValue
 		}else if(attribute instanceof ComplexAttribute){
 			eClass.createEAttribute(attribute.name, enumMap.get(attribute.type), attribute.lowerBound, attribute.upperBound)
 		}
@@ -441,4 +442,7 @@ class MGLAlternateGenerator {
 	def getModelElementsClasses() {
 		modelElementsMap.values
 	}
+	
+	
+	
 }
