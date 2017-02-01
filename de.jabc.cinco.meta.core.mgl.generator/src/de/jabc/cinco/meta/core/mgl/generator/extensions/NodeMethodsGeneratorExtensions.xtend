@@ -17,22 +17,21 @@ import static extension de.jabc.cinco.meta.core.mgl.generator.extensions.EcoreEx
 import static extension de.jabc.cinco.meta.core.utils.InheritanceUtil.*
 
 class NodeMethodsGeneratorExtensions {
-	static def Iterable<? extends EOperation> createConnectionMethods(Node node, GraphModel graphModel, HashMap<String, ElementEClasses> elmClasses){
+	static def void createConnectionMethods(Node node, GraphModel graphModel, HashMap<String, ElementEClasses> elmClasses){
 		 val eOps = new ArrayList<EOperation>
 		 
-		 eOps +=  node.connectionConstraints(graphModel,elmClasses)
-		 eOps += node.specializeGetSuccessors(graphModel,elmClasses)
+		 node.connectionConstraints(graphModel,elmClasses)
+		 node.specializeGetSuccessors(graphModel,elmClasses)
 		// eOps += node.canEndMethods(graphModel,elmClasses)
 		// eOps += node.startMethods(graphModel,elmClasses)
 		 //eOps += node.endMethods(graphModel,elmClasses)
 		 
-		 eOps
 		 
 	}
 	
-	static def EOperation specializeGetSuccessors(Node node, GraphModel model, HashMap<String, ElementEClasses> map) {
+	static def specializeGetSuccessors(Node node, GraphModel model, HashMap<String, ElementEClasses> map) {
 		
-		val nodeClass = map.get(node.name).mainEClass
+		val nodeClass = map.get(node.name).internalEClass
 
 		val lmNode = node.possibleSuccessors.lowestMutualSuperNode
 		val eTypeClass = if(lmNode==null)
@@ -43,16 +42,16 @@ class NodeMethodsGeneratorExtensions {
 	}
 	
 	static def getSuccessorsContent(EClass eTypeClass)'''
-		return getSuccessors(«eTypeClass.name».class);
+		return ((Node)this.getElement()).getSuccessors(«eTypeClass.name».class);
 	'''
 	
-	static def EOperation connectionConstraints(Node node, GraphModel graphModel, HashMap<String, ElementEClasses> elmClasses){
+	static def void connectionConstraints(Node node, GraphModel graphModel, HashMap<String, ElementEClasses> elmClasses){
 		val  incomingContent = (node.incomingConnectionConstraintsContent).toString
 		val  outgoingContent = (node.outgoingConnectionConstraintsContent).toString
-		val nodeClass = elmClasses.get(node.name).mainEClass
+		val nodeClass = elmClasses.get(node.name).internalEClass
 		val connectionConstraintClassifier = GraphmodelPackage.eINSTANCE.getEClassifier("ConnectionConstraint")
-		nodeClass.createEOperation("getIncomingConnectionConstraints",connectionConstraintClassifier,0,-1,incomingContent)
-		nodeClass.createEOperation("getOutgoingConnectionConstraints",connectionConstraintClassifier,0,-1,outgoingContent)
+		nodeClass.createEOperation("getOutgoingConstraints",connectionConstraintClassifier,0,-1,outgoingContent)
+		nodeClass.createEOperation("getIncomingConstraints",connectionConstraintClassifier,0,-1,incomingContent)
 		
 		
 	}
