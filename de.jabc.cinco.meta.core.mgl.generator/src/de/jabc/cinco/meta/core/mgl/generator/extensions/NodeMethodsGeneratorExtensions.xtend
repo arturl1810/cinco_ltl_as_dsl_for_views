@@ -1,7 +1,6 @@
 package de.jabc.cinco.meta.core.mgl.generator.extensions
 
 import de.jabc.cinco.meta.core.mgl.generator.elements.ElementEClasses
-import de.jabc.cinco.meta.core.utils.generator.GeneratorUtils
 import graphmodel.GraphmodelPackage
 import java.util.ArrayList
 import java.util.HashMap
@@ -24,7 +23,9 @@ import org.eclipse.emf.ecore.EcorePackage
 import static extension de.jabc.cinco.meta.core.mgl.generator.extensions.EcoreExtensions.*
 import static extension de.jabc.cinco.meta.core.utils.InheritanceUtil.*
 
-class NodeMethodsGeneratorExtensions extends GeneratorUtils{
+import de.jabc.cinco.meta.core.utils.generator.GeneratorUtils
+
+class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 	 def void createConnectionMethods(Node node, GraphModel graphModel, HashMap<String, ElementEClasses> elmClasses){
 		 val eOps = new ArrayList<EOperation>
 		 
