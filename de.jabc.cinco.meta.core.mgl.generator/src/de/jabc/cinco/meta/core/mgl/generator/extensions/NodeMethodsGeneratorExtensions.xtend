@@ -91,7 +91,7 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils{
 	}
 	
 	def getSuccessorsContent(EClass eTypeClass)'''
-		return ((Node)this.getElement()).getSuccessors(«eTypeClass.name».class);
+		return ((graphmodel.Node)this.getElement()).getSuccessors(«eTypeClass.name».class);
 	'''
 	
 	 def void connectionConstraints(Node node, GraphModel graphModel, HashMap<String, ElementEClasses> elmClasses){
