@@ -1,15 +1,19 @@
 package de.jabc.cinco.meta.core.ui.handlers;
 
-import static de.jabc.cinco.meta.core.utils.eapi.Cinco.eapi;
 import static de.jabc.cinco.meta.core.utils.job.JobFactory.job;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
@@ -26,6 +30,7 @@ import org.eclipse.core.resources.IWorkspaceDescription;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
@@ -35,6 +40,7 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.commands.ICommandService;
 import org.eclipse.ui.handlers.HandlerUtil;
+import org.eclipse.xtext.xbase.lib.Pair;
 
 import de.jabc.cinco.meta.core.BundleRegistry;
 import de.jabc.cinco.meta.core.mgl.MGLEPackageRegistry;
@@ -47,6 +53,8 @@ import de.jabc.cinco.meta.core.utils.dependency.DependencyGraph;
 import de.jabc.cinco.meta.core.utils.dependency.DependencyNode;
 import de.jabc.cinco.meta.core.utils.job.Workload;
 import de.jabc.cinco.meta.core.utils.projects.ProjectCreator;
+import de.jabc.cinco.meta.plugin.cpdpreprocessor.CPDPreprocessorPlugin;
+import de.jabc.cinco.meta.util.xapi.FileExtension;
 import mgl.GraphModel;
 import mgl.Import;
 import mgl.MglPackage;
@@ -74,6 +82,7 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 	private CincoProduct cpd;
 	private ExecutionEvent event;
 	private boolean autoBuild;
+	private FileExtension fileHelper;
 
 	/**
 	 * the command has been executed, so extract the needed information
@@ -97,21 +106,31 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 		    .task("Deleting previously generated resources...", this::deleteGeneratedResources)
 		    .task("Resetting registries...", this::resetRegistries);
 		
-		for (IFile mgl : mgls) { // execute the following tasks for each mgl file
-			Workload tasks = job.consume(50, String.format("Processing %s", mgl.getFullPath().lastSegment()));
-			tasks.task("Initializing...", () -> publishMglFile(mgl))
-				.task("Generating Ecore/GenModel...", () -> generateEcoreModel(mgl))
-				//.task("Generating model code...", () -> generateGenmodelCode(mgl))
-				.task("Generating Graphiti editor...", () -> generateGraphitiEditor(mgl))
-				.task("Generating API...", () -> generateApi(mgl))
-				.task("Generating Cinco SIBs...", () -> generateCincoSIBs(mgl))
-				.task("Generating product project...", () -> generateProductProject(mgl))
-				.task("Generating feature project...", () -> generateFeatureProject(mgl))
-				.task("Generating perspective...", () -> generatePerspective(mgl));
-			if (isGratextEnabled()) {
-				tasks.task("Generating Gratext model...", () -> generateGratextModel(mgl));
-			}
-		}
+		// FIXME this should be put to a CPDMetaPlugin as soon as the plugin structure has been fixed.
+//		final Map<IFile, IFile> backuppedMGLs = new HashMap<IFile, IFile>();
+//		job.consume(20, "Preprocess MGLs").task(() -> backuppedMGLs.putAll(preprocessMGLs(mgls)));
+		
+		// TODO this could be much nicer with nested jobs or JOOL/Seq and Xtend
+		job.consume(50 * mgls.size(), "Processing mgls").taskForEach(() ->
+			mgls.stream().flatMap(file -> {
+				final List<Pair<String, Runnable>> pairs = new LinkedList<>();
+				pairs.add(new Pair<>(String.format("Initializing... %s", file.getFullPath().lastSegment()), () -> publishMglFile(file)));
+				pairs.add(new Pair<>(String.format("Generating Ecore/GenModel...", file.getFullPath().lastSegment()), () -> generateEcoreModel(file)));
+				pairs.add(new Pair<>(String.format("Generating model code...", file.getFullPath().lastSegment()), () -> generateGenmodelCode(file)));
+				pairs.add(new Pair<>(String.format("Generating Graphiti editor...", file.getFullPath().lastSegment()), () -> generateGraphitiEditor(file)));
+				pairs.add(new Pair<>(String.format("Generating API...", file.getFullPath().lastSegment()), () -> generateApi(file)));
+				pairs.add(new Pair<>(String.format("Generating Cinco SIBs...", file.getFullPath().lastSegment()), () -> generateCincoSIBs(file)));
+				pairs.add(new Pair<>(String.format("Generating product project...", file.getFullPath().lastSegment()), () -> generateProductProject(file)));
+				pairs.add(new Pair<>(String.format("Generating feature project...", file.getFullPath().lastSegment()), () -> generateFeatureProject(file)));
+				pairs.add(new Pair<>(String.format("Generating perspective...", file.getFullPath().lastSegment()), () -> generatePerspective(file)));
+				pairs.add(new Pair<>(String.format("Generating Gratext model...", file.getFullPath().lastSegment()), () -> {
+					if (isGratextEnabled()) generateGratextModel(file);
+				}));
+				return pairs.stream();
+			}),
+			pair -> pair.getValue().run(),
+			pair -> pair.getKey()
+		);
 		
 		job.task("Generate CPD plugins", () -> generateCPDPlugins(mgls));
 		
@@ -124,13 +143,88 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 						t -> t.getFullPath().lastSegment());
 		}
 		
+//		job.task("Putting mgls back...", () -> {
+//			final Set<GraphModel> graphModels = new LinkedHashSet<>(
+//					preprocessedMGLs.stream().map(n -> eapi(n).getResourceContent(GraphModel.class)).collect(Collectors.toList()));
+//
+//			final Iterator<IFile> mglsIter = mgls.iterator();
+//			graphModels.forEach( gm -> {
+//				final Resource res = eapi(mglsIter.next()).getResource();
+//				res.getContents().clear();
+//				res.getContents().add(gm);
+//				try {
+//					res.save(null);
+//				}
+//				catch(Exception e){
+//					e.printStackTrace();
+//					throw new RuntimeException(e);
+//				}
+//			});
+//		});
+		
 		job.onCanceledShowMessage("Cinco Product generation has been canceled")
 		  .onFinished(() -> printDebugOutput(event, startTime))
 		  .onFinishedShowMessage("Cinco Product generation completed successfully")
-		  .onDone(this::resetAutoBuild)
+//		  .onDone(() -> {restoreMGLBackups(backuppedMGLs); resetAutoBuild();})
+		  .onDone(() -> resetAutoBuild())
 		  .schedule();
 		
 		return null;
+	}
+	
+	/**
+	 * backups all provided MGLs and afterwards applies the preprocessing meta plug-in to the original files (potentially changing them).
+	 * The returned map provides the reference to the backups for later restore.
+	 * 
+	 * @param mgls
+	 * @return The MGL backups for later restore; key=backup value=(changed) original.
+	 */
+	private Map<IFile, IFile> preprocessMGLs(List<IFile> mgls) {
+		
+		try {
+
+			Map<IFile, IFile> backups = new HashMap<IFile, IFile>();
+
+			IFolder backupFolder = mgls.get(0).getProject().getFolder("mgl-backups");
+			backupFolder.create(false,  false, null);
+
+			mgls.stream().forEach(mgl -> {
+				IFile targetFile = backupFolder.getFile(mgl.getName());
+				try {
+					mgl.copy(targetFile.getFullPath(), true, null);
+					backups.put(targetFile, mgl);
+				} catch (Exception e) {
+					e.printStackTrace();
+					throw new RuntimeException(e);
+				}
+			});
+
+			FileExtension fileHelper = new FileExtension();
+			final Set<GraphModel> graphModels = new LinkedHashSet<>(
+					mgls.stream().map(n -> fileHelper.getContent(n, GraphModel.class)).collect(Collectors.toList()));
+
+			new CPDPreprocessorPlugin().execute(graphModels, cpd, cpdFile.getProject());
+
+			graphModels.stream().map(gm -> gm.eResource()).forEach(res -> {
+				try {
+					res.save(null);
+				} catch (Exception e) {
+					e.printStackTrace();
+					throw new RuntimeException(e);
+				}
+			});
+
+			return backups;
+
+		}
+		catch (RuntimeException e) {
+			throw e;
+		}
+		catch (Throwable t) {
+			t.printStackTrace();
+			throw new RuntimeException(t);
+		}
+
 	}
 	
 	/**
@@ -138,7 +232,7 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 	 * @param mgls
 	 */
 	private void generateCPDPlugins(List<IFile> mgls) {
-		Set<GraphModel> graphModels = mgls.stream().map(n->eapi(n).getResourceContent(GraphModel.class)).collect(Collectors.toSet());
+		Set<GraphModel> graphModels = mgls.stream().map(n->fileHelper.getContent(n, GraphModel.class)).collect(Collectors.toSet());
 		PluginRegistry.
 		getInstance().
 		getPluginCPDGenerators().
@@ -159,7 +253,8 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 	private void init() {
 		commandService = (ICommandService) PlatformUI.getWorkbench().getService(ICommandService.class);
 		cpdFile = MGLSelectionListener.INSTANCE.getSelectedCPDFile();
-		cpd = eapi(cpdFile).getResourceContent(CincoProduct.class, 0);
+		fileHelper = new FileExtension();
+		cpd = fileHelper.getContent(cpdFile, CincoProduct.class, 0);
 	}
 
 	private void resetRegistries() {
@@ -477,6 +572,28 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 				System.err.println("[Gratext] WARN: Failed to reset state for \"Build Automatically\". "
 						+ "Should be " + autoBuild);
 				e.printStackTrace();
+			}
+		}
+	}
+	
+	/**
+	 * used to restore MGL backups:
+	 * copies every key IFile to the according value IFile, deletes the key IFile and also each key IFile's parent folder, if it is empty (e.g. when the last backup is restored)
+	 */
+	private void restoreMGLBackups(Map<IFile, IFile> mgls) {
+		for (Entry<IFile, IFile> entry : mgls.entrySet()) {
+			try {
+				IFile target = entry.getValue();
+				IFile source = entry.getKey();
+				target.delete(true, null);
+				source.copy(target.getFullPath(), true, null);
+				source.delete(true, null);
+				if (source.getParent().members().length == 0) {
+					source.getParent().delete(true, null);
+				}
+			} catch (CoreException e) {
+				e.printStackTrace();
+				throw new RuntimeException(e);
 			}
 		}
 	}

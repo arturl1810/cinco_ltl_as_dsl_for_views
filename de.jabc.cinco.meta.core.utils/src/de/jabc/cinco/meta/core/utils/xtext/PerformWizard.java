@@ -7,15 +7,15 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 
-import de.jabc.cinco.meta.core.ge.style.generator.runtime.customfeature.CincoCustomAction;
-import de.jabc.cinco.meta.core.ge.style.generator.runtime.customfeature.CincoDoubleClickAction;
-import de.jabc.cinco.meta.core.ge.style.generator.runtime.customfeature.CincoPostCreateHook;
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.customfeature.CincoPostMoveHook;
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.customfeature.CincoPostResizeHook;
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.customfeature.CincoPostSelectHook;
-import de.jabc.cinco.meta.core.ge.style.generator.runtime.customfeature.CincoPostValueChangeListener;
-import de.jabc.cinco.meta.core.ge.style.generator.runtime.customfeature.CincoPreDeleteHook;
-import de.jabc.cinco.meta.core.ge.style.generator.runtime.customfeature.CincoValuesProvider;
+import de.jabc.cinco.meta.runtime.action.CincoCustomAction;
+import de.jabc.cinco.meta.runtime.action.CincoDoubleClickAction;
+import de.jabc.cinco.meta.runtime.action.CincoPostValueChangeListener;
+import de.jabc.cinco.meta.runtime.hook.CincoPostCreateHook;
+import de.jabc.cinco.meta.runtime.hook.CincoPreDeleteHook;
+import de.jabc.cinco.meta.runtime.provider.CincoValuesProvider;
 import mgl.Annotation;
 import mgl.ModelElement;
 

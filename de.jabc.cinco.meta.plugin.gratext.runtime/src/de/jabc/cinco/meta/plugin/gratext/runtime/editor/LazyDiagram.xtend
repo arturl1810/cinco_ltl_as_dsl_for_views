@@ -1,5 +1,6 @@
 package de.jabc.cinco.meta.plugin.gratext.runtime.editor
 
+import de.jabc.cinco.meta.runtime.xapi.WorkbenchExtension
 import org.eclipse.graphiti.internal.IDiagramVersion
 import org.eclipse.graphiti.mm.algorithms.styles.StylesFactory
 import org.eclipse.graphiti.mm.algorithms.styles.StylesPackage
@@ -7,11 +8,12 @@ import org.eclipse.graphiti.mm.pictograms.PictogramsPackage
 import org.eclipse.graphiti.mm.pictograms.impl.DiagramImpl
 import org.eclipse.graphiti.util.IColorConstant
 
-import static de.jabc.cinco.meta.core.utils.eapi.ResourceEAPI.*
 import static org.eclipse.graphiti.internal.util.LookManager.getLook
 import static org.eclipse.graphiti.services.Graphiti.getGaService
 
 abstract class LazyDiagram extends DiagramImpl {
+	
+	static extension val WorkbenchExtension = new WorkbenchExtension
 	
 	// for debugging only
 	boolean debug = true
@@ -217,12 +219,6 @@ abstract class LazyDiagram extends DiagramImpl {
 
 	def setAvoidInitialization(boolean flag) {
 		avoidInitialization = flag
-	}
-	
-	def transact(Runnable runnable) {
-		edit(this).transact[
-			runnable.run
-		]
 	}
 	
 	private def addColor(IColorConstant colconst) {

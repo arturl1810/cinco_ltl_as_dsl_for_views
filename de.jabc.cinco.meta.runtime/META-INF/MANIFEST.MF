@@ -1,0 +1,30 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Cinco Runtime
+Bundle-SymbolicName: de.jabc.cinco.meta.runtime
+Bundle-Version: 0.8.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Require-Bundle: com.google.guava,
+ org.eclipse.xtext.xbase.lib,
+ org.eclipse.xtend.lib,
+ org.eclipse.xtend.lib.macro,
+ org.eclipse.ui,
+ org.eclipse.graphiti.ui,
+ org.eclipse.core.resources,
+ org.eclipse.emf.edit,
+ org.eclipse.graphiti,
+ de.jabc.cinco.meta.util
+Import-Package: graphmodel,
+ org.eclipse.emf.ecore.resource,
+ org.eclipse.gef.ui.parts,
+ org.eclipse.graphiti.mm.pictograms,
+ org.eclipse.ui.views.properties.tabbed,
+ org.jooq.lambda,
+ org.jooq.lambda.tuple
+Export-Package: de.jabc.cinco.meta.runtime,
+ de.jabc.cinco.meta.runtime.action,
+ de.jabc.cinco.meta.runtime.hook,
+ de.jabc.cinco.meta.runtime.provider,
+ de.jabc.cinco.meta.runtime.xapi
+Bundle-ActivationPolicy: lazy
+

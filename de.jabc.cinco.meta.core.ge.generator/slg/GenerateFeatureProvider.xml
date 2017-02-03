@@ -396,6 +396,7 @@ $context.featureProviderAddUpdateMoveImportsContent$
 import $context.localPkgName$.features.resize.*;
 import $context.localPkgName$.features.layout.*;
 
+import de.jabc.cinco.meta.core.ge.style.model.customfeature.CincoCustomActionFeature;
 import de.jabc.cinco.meta.core.ge.style.model.featureprovider.CincoFeatureProvider;
 import de.jabc.cinco.meta.core.ge.style.model.addfeature.LibraryComponentAddFeature;
 

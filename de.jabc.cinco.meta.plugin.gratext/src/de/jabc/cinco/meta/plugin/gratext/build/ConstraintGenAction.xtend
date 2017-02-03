@@ -17,12 +17,13 @@ import org.eclipse.jface.viewers.IStructuredSelection
 import org.eclipse.ui.IActionDelegate
 
 import static de.jabc.cinco.meta.core.utils.job.JobFactory.job
-import static de.jabc.cinco.meta.core.utils.eapi.Cinco.*
 
-import static extension de.jabc.cinco.meta.core.utils.eapi.ContainerEAPI.createFolder
 import static extension java.util.stream.StreamSupport.stream
+import de.jabc.cinco.meta.util.xapi.WorkspaceExtension
 
 class ConstraintGenAction implements IActionDelegate {
+	
+	private static WorkspaceExtension workspace = new WorkspaceExtension();
 	
 	static String GENFOLDER_NAME = "conview-gen"
 	
@@ -48,7 +49,7 @@ class ConstraintGenAction implements IActionDelegate {
 		if (fldr.exists) [|
 			fldr.delete(true, true, null)
 		].printException
-		genFolder = eapi(project).createFolder(GENFOLDER_NAME)
+		genFolder = workspace.createFolder(project, GENFOLDER_NAME)
 	}
 	
 	def run(IFile modelFile) {
@@ -58,7 +59,7 @@ class ConstraintGenAction implements IActionDelegate {
 	}
 	
 	def genFile(Node node) {
-		eapi(modelGenFolder).createFile(
+		workspace.createFile(modelGenFolder,
 			node.name + ".txt", node.genContent.toString)
 	}
 	
@@ -236,11 +237,11 @@ class ConstraintGenAction implements IActionDelegate {
 	}
 	
 	def createModelGenFolder(IFile modelFile) {
-		modelGenFolder = eapi(genFolder).createFolder(modelFile.projectRelativePath.removeFileExtension.lastSegment)
+		modelGenFolder = workspace.createFolder(genFolder, modelFile.projectRelativePath.removeFileExtension.lastSegment)
 	}
 	
 	def createFolder(IPath path) {
-		project.createFolder(path)
+		workspace.createFolder(project, path)
 	}
 	
 	def getResource(IFile file) {
@@ -257,7 +258,7 @@ class ConstraintGenAction implements IActionDelegate {
 	}
 	
 	def Stream<IFile> getModelFiles() {
-		eapi(project).getFiles(["mgl".equals(fileExtension)]).stream
+		workspace.getFiles(project, ["mgl".equals(fileExtension)]).stream
 	}
 	
 	def isDisabled(Node node) {

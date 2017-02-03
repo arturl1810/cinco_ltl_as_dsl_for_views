@@ -6,7 +6,6 @@ import de.jabc.cinco.meta.core.pluginregistry.IMetaPlugin
 import de.jabc.cinco.meta.core.pluginregistry.PluginRegistry
 import de.jabc.cinco.meta.core.utils.GeneratorHelper
 import de.jabc.cinco.meta.core.utils.URIHandler
-import de.jabc.cinco.meta.core.utils.WorkspaceUtil
 import de.jabc.cinco.meta.core.utils.projects.ProjectCreator
 import java.util.ArrayList
 import java.util.Arrays
@@ -39,6 +38,7 @@ import org.eclipse.xtext.naming.IQualifiedNameProvider
 import org.eclipse.xtext.util.StringInputStream
 import transem.utility.helper.Tuple
 import org.eclipse.core.runtime.IPath
+import de.jabc.cinco.meta.util.xapi.WorkspaceExtension
 
 class MGLGenerator implements IGenerator {
 	@Inject extension IQualifiedNameProvider
@@ -111,7 +111,7 @@ class MGLGenerator implements IGenerator {
 		val fullPath = path + "/" + name
 		val file = project.getFile(fullPath)
 		if (!file.exists) {
-			WorkspaceUtil.createResource(file, null)
+			new WorkspaceExtension().create(file)
 		}
 		file.setContents(new StringInputStream(factoryContent.toString), true, true, null)
 	}

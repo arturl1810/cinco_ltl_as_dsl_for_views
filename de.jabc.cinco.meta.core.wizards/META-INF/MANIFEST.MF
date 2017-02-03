@@ -10,7 +10,6 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.resources;bundle-version="3.8.1",
  org.eclipse.xtext.ui.shared;bundle-version="2.4.1",
  de.jabc.cinco.meta.core.mgl.model,
- de.jabc.cinco.meta.core.utils,
  org.eclipse.xtend.lib,
  com.google.guava,
  org.eclipse.xtext.xbase.lib,
@@ -19,5 +18,8 @@ Require-Bundle: org.eclipse.ui,
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: de.jabc.cinco.meta.core.ge.style.generator.runtime.appearance,
- de.jabc.cinco.meta.core.ge.style.generator.runtime.customfeature
+ de.jabc.cinco.meta.core.ge.style.generator.runtime.customfeature,
+ de.jabc.cinco.meta.core.utils,
+ de.jabc.cinco.meta.core.utils.projects,
+ de.jabc.cinco.meta.runtime.action
 

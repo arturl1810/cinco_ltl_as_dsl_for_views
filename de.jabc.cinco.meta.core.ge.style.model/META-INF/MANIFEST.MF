@@ -36,6 +36,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.transaction,
  org.eclipse.draw2d
 Bundle-ActivationPolicy: lazy
-Import-Package: org.eclipse.swt,
+Import-Package: de.jabc.cinco.meta.runtime.action,
+ org.eclipse.swt,
  org.eclipse.swt.graphics,
  org.eclipse.swt.widgets

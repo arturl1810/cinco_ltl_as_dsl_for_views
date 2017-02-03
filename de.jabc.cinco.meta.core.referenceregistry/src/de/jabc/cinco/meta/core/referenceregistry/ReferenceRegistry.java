@@ -131,7 +131,9 @@ public class ReferenceRegistry {
 			if (!refreshedOnStartup) {
 				reinitializeOnStartup(ResourcesPlugin.getWorkspace().getRoot());
 			} else {
-				reinitialize(ResourcesPlugin.getWorkspace().getRoot());
+				if (reinitJob == null) {
+					reinitialize(ResourcesPlugin.getWorkspace().getRoot());
+				}
 				if (reinitJob != null) try {
 					reinitJob.join();
 				} catch (InterruptedException e) {
@@ -438,7 +440,7 @@ public class ReferenceRegistry {
 		
 	
 	public void clearRegistry() {
-		System.out.println("Clearing");
+		System.out.println("Clearing Reference Registry...");
 		this.map = new HashMap<String, String>();
 		this.cachesMap = new HashMap<IProject, HashMap<String,EObject>>();
 		this.cache = new HashMap<String, EObject>();
@@ -446,6 +448,8 @@ public class ReferenceRegistry {
 	}
 	
 	public CompoundJob reinitialize(IContainer container) {
+		System.out.println("Reinitializing Reference Registry...");
+		
 		initKnownFileExtensions();
 		List<IFile> files = new ArrayList<>();
 		Map<String,EObject> objectsById = new HashMap<>();
@@ -479,7 +483,7 @@ public class ReferenceRegistry {
 	}
 	
 	public void reinitializeOnStartup(IContainer container) {
-		System.err.println("Reinitializing Reference Registry on startup...");
+		System.out.println("Reinitializing Reference Registry on startup...");
 		
 		long debugTime = System.currentTimeMillis();
 		

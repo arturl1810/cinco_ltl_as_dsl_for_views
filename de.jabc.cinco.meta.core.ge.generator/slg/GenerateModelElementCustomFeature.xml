@@ -189,7 +189,7 @@
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>new $context.className$(this), </string>
+      <string>new CincoCustomActionFeature(this, new $context.className$()), </string>
     </parameter>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>

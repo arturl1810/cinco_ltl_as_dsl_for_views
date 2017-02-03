@@ -1,7 +1,5 @@
 package de.jabc.cinco.meta.plugin.gratext.runtime.resource
 
-import static extension de.jabc.cinco.meta.core.utils.eapi.ResourceEAPI.edit
-
 import java.io.OutputStream
 import java.io.OutputStreamWriter
 import java.util.Map
@@ -15,8 +13,11 @@ import org.eclipse.emf.ecore.util.EcoreUtil
 import org.eclipse.xtext.util.CancelIndicator
 import org.eclipse.emf.ecore.impl.EClassImpl
 import org.eclipse.emf.ecore.InternalEObject
+import de.jabc.cinco.meta.runtime.xapi.ResourceExtension
 
 abstract class GratextResource extends LazyLinkingResource {
+	
+	extension val ResourceExtension = new ResourceExtension
 	
 	private Diagram diagram
 	private EObject model
@@ -170,9 +171,5 @@ abstract class GratextResource extends LazyLinkingResource {
 				it.resolveLazyCrossReferences(monitor)
 			]
 		}
-	}
-	
-	def transact(Runnable change) {
-		this.edit.transact(change)
 	}
 }

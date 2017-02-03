@@ -7,7 +7,6 @@ Bundle-Activator: de.jabc.cinco.meta.core.Activator
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui,
  org.eclipse.core.commands,
- de.jabc.cinco.meta.core.utils,
  org.eclipse.core.resources,
  org.eclipse.emf.ecore,
  org.eclipse.xtext.ui,
@@ -15,11 +14,12 @@ Require-Bundle: org.eclipse.core.runtime,
  de.jabc.cinco.meta.core.mgl.ui,
  de.jabc.cinco.meta.core.mgl,
  de.jabc.cinco.meta.libraries,
- de.jabc.cinco.meta.core.ui,
- de.jabc.cinco.meta.core.pluginregistry
+ de.jabc.cinco.meta.core.pluginregistry,
+ de.jabc.cinco.meta.core.ui
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Export-Package: de.jabc.cinco.meta.core,
  de.jabc.cinco.meta.core.feature.handler
-Import-Package: de.jabc.cinco.meta.core.ui.listener,
+Import-Package: de.jabc.cinco.meta.core,
+ de.jabc.cinco.meta.core.ui.listener,
  de.jabc.cinco.meta.core.utils.projects

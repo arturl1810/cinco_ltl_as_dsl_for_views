@@ -157,7 +157,8 @@
     </parameter>
     <parameter name="template">
       <string>if (bo instanceof $context.importPath$.$context.modelElement.name$) {
-	return new $context.className$(getFeatureProvider());
+	return new de.jabc.cinco.meta.core.ge.style.model.customfeature.CincoCustomActionFeature(
+		getFeatureProvider(), new $context.className$());
 }</string>
     </parameter>
     <finalbranches>default</finalbranches>

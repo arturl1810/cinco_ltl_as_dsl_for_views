@@ -1,18 +1,19 @@
 package de.jabc.cinco.meta.core.ui.templates
 
+import mgl.GraphModel
 import org.eclipse.core.resources.IFile
 import org.eclipse.ui.IFolderLayout
 import org.eclipse.ui.IPageLayout
 import org.eclipse.ui.IPerspectiveFactory
 import productDefinition.CincoProduct
-
-import mgl.GraphModel
-import static extension de.jabc.cinco.meta.core.utils.eapi.FileEAPI.getResourceContent 
-
+import de.jabc.cinco.meta.runtime.xapi.FileExtension
 
 class DefaultPerspectiveContent {
 	
-	def static generateDefaultPerspective(CincoProduct cp, String pName)
+	static extension val FileExtension = new FileExtension
+	
+	def static generateDefaultPerspective(CincoProduct cp, IFile cpdFile) {
+		var pName = cpdFile.project.name
 '''package «pName»;
 
 public class «cp.name.toFirstUpper»Perspective implements «IPerspectiveFactory.name» {
@@ -35,6 +36,7 @@ public class «cp.name.toFirstUpper»Perspective implements «IPerspectiveFactor
 	}
 	
 }'''
+}
 	
 	def static generateXMLPerspective(CincoProduct cp, String pName)'''
 	<extension
@@ -55,7 +57,7 @@ public class «cp.name.toFirstUpper»Perspective implements «IPerspectiveFactor
 		for (mgl : cp.mgls) {
 			var iRes = cpdFile.project.findMember(mgl.mglPath);
 			if (iRes instanceof IFile) {
-				var gm = iRes.getResourceContent(GraphModel, 0)
+				var gm = iRes.getContent(GraphModel, 0)
 				if (gm.annotations.exists[annot | annot.name.equals("mcam")])
 					return true;
 			}

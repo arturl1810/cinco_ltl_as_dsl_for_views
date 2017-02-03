@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<fragment>
+   <extension
+         id="id1"
+         name="name"
+         point="de.jabc.cinco.meta.core.pluginregistry.cpdplugin">
+      <cpd_metaplugin_description
+            cpdMetapluginService="de.jabc.cinco.meta.plugin.cpdpreprocessor.CPDPreprocessorPlugin"
+            recognized-annotation="preprocess"
+            validatorClass="de.jabc.cinco.meta.plugin.cpdpreprocessor.validation.PreprocessValidator">
+      </cpd_metaplugin_description>
+   </extension>
+   <extension
+         id="mglpreprocessplugin"
+         name="mglpreprocessplugin"
+         point="de.jabc.cinco.meta.core.pluginregistry.metaplugin">
+      <metaplugin_description
+            metapluginService="de.jabc.cinco.meta.plugin.cpdpreprocessor.MGLPreprocessPlugin">
+      </metaplugin_description>
+      <graphmodel-annotation
+            recognized-annotation="preprocess">
+      </graphmodel-annotation>
+      <annotation
+            recognized-annotation="preprocess">
+      </annotation>
+   </extension>
+
+</fragment>

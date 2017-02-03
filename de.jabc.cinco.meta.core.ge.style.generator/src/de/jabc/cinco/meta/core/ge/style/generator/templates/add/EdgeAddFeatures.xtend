@@ -37,7 +37,7 @@ import style.Styles
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.EObject
 import graphmodel.internal.InternalGraphModel
-import de.jabc.cinco.meta.core.utils.eapi.ResourceEAPI
+import de.jabc.cinco.meta.util.xapi.ResourceExtension
 
 class EdgeAddFeatures extends GeneratorUtils {
 	
@@ -176,7 +176,7 @@ class EdgeAddFeatures extends GeneratorUtils {
 			«ENDFOR»
 			
 			«Resource.name» eResource = ((«EObject.name») sourceBo).eResource();
-			«InternalGraphModel.name» internalGraphModel = «ResourceEAPI.name».getContent(eResource, «e.graphModel.fqInternalBeanName».class);
+			«InternalGraphModel.name» internalGraphModel = «ResourceExtension.name».getContent(eResource, «e.graphModel.fqInternalBeanName».class);
 			«ModelElementContainer.name» container = 
 				«e.graphModel.packageName».«e.graphModel.name»GraphitiUtils.getInstance().getCommonContainer(internalGraphModel.getElement(), («graphmodel.Edge.name»)«e.fuName.toFirstLower».getElement());
 			container.getInternalContainerElement().getModelElements().add(«e.fuName.toFirstLower»);

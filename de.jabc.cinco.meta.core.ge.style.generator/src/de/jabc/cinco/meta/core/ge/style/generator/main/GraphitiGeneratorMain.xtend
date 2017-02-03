@@ -163,7 +163,7 @@ class GraphitiGeneratorMain extends GeneratorUtils {
 		if (cp.getDefaultPerspective() != null && !cp.getDefaultPerspective().isEmpty())
 			return;
 		 
-		var defaultPerspectiveContent = DefaultPerspectiveContent::generateDefaultPerspective(cp, gm.packageName.toString)
+		var defaultPerspectiveContent = DefaultPerspectiveContent::generateDefaultPerspective(cp, cpdFile)
 		var defaultXMLPerspectiveContent = DefaultPerspectiveContent::generateXMLPerspective(cp, cpdFile.getProject().getName())
 		
 		ContentWriter::writeJavaFileInSrcGen(project, gm.packageName, cp.name+"Perspective.java",defaultPerspectiveContent)

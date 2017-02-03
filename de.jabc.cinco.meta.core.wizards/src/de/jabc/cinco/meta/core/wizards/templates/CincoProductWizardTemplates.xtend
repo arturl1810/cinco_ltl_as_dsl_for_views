@@ -9,7 +9,7 @@ import java.util.EnumSet
 import org.eclipse.emf.common.util.EList
 import org.eclipse.emf.common.util.BasicEList
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.appearance.StyleAppearanceProvider
-import de.jabc.cinco.meta.core.ge.style.generator.runtime.customfeature.CincoCustomAction
+import de.jabc.cinco.meta.runtime.action.CincoCustomAction
 
 class CincoProductWizardTemplates {
 
@@ -915,16 +915,11 @@ import graphmodel.Node;
 import «packageName».«modelName.toLowerCase».End;
 import «packageName».«modelName.toLowerCase».Start;
 
-import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.jface.dialogs.MessageDialog;
 
 import «CincoCustomAction.name»;
 
 public class ShortestPathToEnd extends CincoCustomAction<Start> {
-	
-	public ShortestPathToEnd(IFeatureProvider fp) {
-		super(fp);
-	}
 	
 	@Override
 	public String getName() {
@@ -1025,7 +1020,7 @@ import «packageName».«modelName.toLowerCase».Activity;
 
 import java.util.Random;
 
-import de.jabc.cinco.meta.core.ge.style.model.customfeature.CincoPostCreateHook;
+import de.jabc.cinco.meta.runtime.hook.CincoPostCreateHook;
 
 /**
  * Example post-create hook that randomly sets the name of the activity. Possible
@@ -1076,7 +1071,7 @@ import «packageName».api.cflowgraph.CLabeledTransition;
 import «packageName».api.cflowgraph.CStart;
 import «packageName».«modelName.toLowerCase».FlowGraph;
 import «packageName».graphiti.FlowGraphWrapper;
-import de.jabc.cinco.meta.core.ge.style.model.customfeature.CincoPostCreateHook;
+import de.jabc.cinco.meta.runtime.hook.CincoPostCreateHook;
 
 /**
  *  This post-create hook is part of the transformation API feature showcase. As it is defined

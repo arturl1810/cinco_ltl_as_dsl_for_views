@@ -1,7 +1,5 @@
 package de.jabc.cinco.meta.plugin.gratext.runtime.editor;
 
-import static de.jabc.cinco.meta.core.utils.eapi.Cinco.Workbench.*;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -36,11 +34,14 @@ import org.eclipse.xtext.ui.editor.model.XtextDocument;
 import org.eclipse.xtext.util.concurrent.IUnitOfWork;
 
 import de.jabc.cinco.meta.plugin.gratext.runtime.resource.GratextResource;
+import de.jabc.cinco.meta.runtime.xapi.WorkbenchExtension;
 
 
 
 public abstract class MultiPageGratextEditor extends MultiPageEditorPart implements IEditingDomainProvider, IGotoMarker {
 
+	private static WorkbenchExtension workbench = new WorkbenchExtension();
+	
 	private XtextEditor sourceEditor;
     private ArrayList<PageAwareEditorPart> pawEditors = new ArrayList<>();
     private HashMap<PageAwareEditorPart, PageAwareEditorDescriptor> pawEditorDescriptors = new HashMap<>();
@@ -112,7 +113,7 @@ public abstract class MultiPageGratextEditor extends MultiPageEditorPart impleme
     protected void createSourceEditorPage() {
     	sourceEditor = getSourceEditor();
 		IEditorInput input = getEditorInput();
-		sync(() -> {
+		workbench.sync(() -> {
 			try {
 				int index = addPage(sourceEditor, input);
 				setPageText(index, "Source");
@@ -134,7 +135,7 @@ public abstract class MultiPageGratextEditor extends MultiPageEditorPart impleme
 		int index = Math.max(0, getPageCount() - 1);
 		String name = desc.getName() != null ? desc.getName() : editor.getClass().getSimpleName();
 		
-		sync(() -> {
+		workbench.sync(() -> {
 			try {
 				addPage(index, editor , input);
 				setPageText(index, name);
@@ -423,7 +424,7 @@ public abstract class MultiPageGratextEditor extends MultiPageEditorPart impleme
 			}
 			if (innerState instanceof GratextResource) {
 				((GratextResource) innerState).onInternalStateChanged(() -> {
-					pawEditors.forEach(editor -> async(() -> {
+					pawEditors.forEach(editor -> workbench.async(() -> {
 						UpdatingEditorsRegistry.INSTANCE.put(editor);
 						editor.handleInnerStateChanged();
 						UpdatingEditorsRegistry.INSTANCE.poll();

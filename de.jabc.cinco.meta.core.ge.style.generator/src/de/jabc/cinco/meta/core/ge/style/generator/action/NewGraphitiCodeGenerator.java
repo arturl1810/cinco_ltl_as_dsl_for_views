@@ -37,8 +37,9 @@ import de.jabc.cinco.meta.core.utils.generator.GeneratorUtils;
 import de.jabc.cinco.meta.core.ui.listener.MGLSelectionListener;
 import de.jabc.cinco.meta.core.utils.CincoUtils;
 import de.jabc.cinco.meta.core.utils.MGLUtils;
-import de.jabc.cinco.meta.core.utils.eapi.Cinco;
 import de.jabc.cinco.meta.core.utils.projects.ProjectCreator;
+import de.jabc.cinco.meta.util.xapi.FileExtension;
+import de.jabc.cinco.meta.util.xapi.ResourceExtension;
 import mgl.GraphModel;
 import mgl.GraphicalModelElement;
 import mgl.IncomingEdgeElementConnection;
@@ -58,7 +59,7 @@ public class NewGraphitiCodeGenerator extends AbstractHandler{
 		NullProgressMonitor monitor = new NullProgressMonitor();
 		
 		String name_editorProject = file.getProject().getName().concat(".editor.graphiti");
-		GraphModel graphModel = Cinco.eapi(file).getResourceContent(mgl.GraphModel.class);
+		GraphModel graphModel = new FileExtension().getContent(file,mgl.GraphModel.class);
 		
 		if (graphModel == null) throw new RuntimeException("Could not load graphmodel from file: " + file);
 		graphModel = prepareGraphModel(graphModel);

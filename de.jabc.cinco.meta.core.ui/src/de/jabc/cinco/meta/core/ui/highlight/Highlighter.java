@@ -1,5 +1,7 @@
 package de.jabc.cinco.meta.core.ui.highlight;
 
+import static de.jabc.cinco.meta.core.ui.highlight.HighlightUtils.refreshDiagram;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -15,8 +17,6 @@ import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.dnd.AbstractTransferDropTargetListener;
 import org.eclipse.gef.dnd.TemplateTransferDragSourceListener;
-import org.eclipse.gef.palette.CombinedTemplateCreationEntry;
-import org.eclipse.gef.palette.PaletteTemplateEntry;
 import org.eclipse.gef.requests.CreateRequest;
 import org.eclipse.gef.requests.CreationFactory;
 import org.eclipse.gef.ui.palette.PaletteViewer;
@@ -38,7 +38,6 @@ import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.widgets.Control;
 
-import de.jabc.cinco.meta.core.utils.eapi.Cinco;
 import de.jabc.cinco.meta.core.utils.registry.InstanceRegistry;
 
 public abstract class Highlighter {
@@ -177,7 +176,7 @@ public abstract class Highlighter {
 					highlight.swell(0.2);
 				}
 			}
-			Cinco.Workbench.refreshDiagram();
+			refreshDiagram();
 		}
 		String contextKey = getContextKey();
 		highlightContexts.put(contextKey, highlights);

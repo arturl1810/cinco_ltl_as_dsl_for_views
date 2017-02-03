@@ -2,6 +2,8 @@ package de.jabc.cinco.meta.plugin.executer.generator.tracer
 
 import de.jabc.cinco.meta.plugin.executer.generator.tracer.MainTemplate
 import de.jabc.cinco.meta.plugin.executer.compounds.ExecutableGraphmodel
+import java.util.stream.Stream
+import java.util.stream.Collectors
 
 class MatchTemplate extends MainTemplate {
 	
@@ -63,7 +65,26 @@ class MatchTemplate extends MainTemplate {
 		public Set<CModelElement> getElements() {
 			return elements;
 		}
-	
+		
+		public  Set<? extends CModelElement> getElements(Class<? extends CModelElement> c)
+		{
+			return elements.stream().filter(n->c.isInstance(n)).map(n->c.cast(n)).collect(Collectors.toSet());
+		}
+		
+		«FOR node:Stream.concat(graphmodel.nodes.stream,graphmodel.edges.stream).collect(Collectors.toList)»
+		«{
+			var n = node.modelElement
+			'''
+			public Set<«graphmodel.sourceCApiPackage».C«n.name»> get«n.name»s() {
+				return elements.stream().filter(n->n instanceof «graphmodel.sourceCApiPackage».C«n.name»).map(n->(«graphmodel.sourceCApiPackage».C«n.name»)n).collect(Collectors.toSet());
+			}
+			
+			public «graphmodel.sourceCApiPackage».C«n.name» getFirst«n.name»() {
+				return («graphmodel.sourceCApiPackage».C«n.name»)elements.stream().filter(n->n instanceof «graphmodel.sourceCApiPackage».C«n.name»).findFirst().orElse(null);
+			}
+					'''	
+		}»
+		«ENDFOR»
 		public void setElements(Set<CModelElement> elements) {
 			this.elements = elements;
 		}

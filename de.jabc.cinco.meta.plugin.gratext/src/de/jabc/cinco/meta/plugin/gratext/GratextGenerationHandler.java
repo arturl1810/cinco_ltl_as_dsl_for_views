@@ -1,7 +1,5 @@
 package de.jabc.cinco.meta.plugin.gratext;
 
-import static de.jabc.cinco.meta.core.utils.eapi.Cinco.eapi;
-
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.net.URL;
@@ -24,9 +22,14 @@ import org.eclipse.core.runtime.jobs.Job;
 import de.jabc.cinco.meta.core.ui.listener.MGLSelectionListener;
 import de.jabc.cinco.meta.core.utils.EclipseFileUtils;
 import de.jabc.cinco.meta.plugin.gratext.build.GratextModelBuild;
+import de.jabc.cinco.meta.runtime.xapi.FileExtension;
+import de.jabc.cinco.meta.util.xapi.WorkspaceExtension;
 
 public class GratextGenerationHandler extends AbstractHandler {
 
+	private static FileExtension files = new FileExtension();
+	private static WorkspaceExtension workspace = new WorkspaceExtension();
+	
 	private static String ANTLR_PATCH_FILENAME = ".antlr-generator-3.2.0-patch.jar";
 	private static String DOWNLOAD_URL = "http://download.itemis.com/antlr-generator-3.2.0-patch.jar";
 	
@@ -38,7 +41,7 @@ public class GratextGenerationHandler extends AbstractHandler {
 			return null;
 		IProject mglProject = mglFile.getProject();
 		
-		GraphModel model = eapi(mglFile).getResourceContent(GraphModel.class, 0);
+		GraphModel model = files.getContent(mglFile, GraphModel.class, 0);
 		
 		Map<String, Object> ctx = new HashMap<>();
 		ctx.put("graphModel", model);
@@ -114,7 +117,7 @@ public class GratextGenerationHandler extends AbstractHandler {
 	private IFile downloadAntlrPatch(IProject project) {
 		try {
 			BufferedInputStream stream = new BufferedInputStream(new URL(DOWNLOAD_URL).openStream());
-			return eapi(project).createFile(ANTLR_PATCH_FILENAME, stream);
+			return workspace.createFile(project, ANTLR_PATCH_FILENAME, stream);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

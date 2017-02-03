@@ -138,7 +138,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 
-import de.jabc.cinco.meta.core.utils.eapi.Cinco.Workbench;
+import de.jabc.cinco.meta.runtime.xapi.WorkbenchExtension;
 
 import $context.packageName$.graphiti.*;
 
@@ -224,7 +224,7 @@ public class New$context.fuGraphModelName$DiagramWizard extends Wizard implement
 
 				res.save(null);
 
-				Workbench.openEditor(graph);
+				new WorkbenchExtension().openEditor(graph);
 				
 			} catch (IOException e) {
 				e.printStackTrace();

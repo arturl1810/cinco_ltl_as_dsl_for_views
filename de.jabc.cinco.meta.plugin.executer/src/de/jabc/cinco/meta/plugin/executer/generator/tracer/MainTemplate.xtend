@@ -1,6 +1,5 @@
 package de.jabc.cinco.meta.plugin.executer.generator.tracer
 
-import static extension de.jabc.cinco.meta.core.utils.eapi.ContainerEAPI.createFolder
 
 import de.jabc.cinco.meta.core.utils.projects.ProjectCreator
 import de.jabc.cinco.meta.plugin.executer.compounds.ExecutableGraphmodel
@@ -8,8 +7,11 @@ import mgl.Node
 import org.eclipse.core.resources.IProject
 import org.eclipse.core.runtime.NullProgressMonitor
 import mgl.ReferencedModelElement
+import de.jabc.cinco.meta.util.xapi.WorkspaceExtension
 
 abstract class MainTemplate {
+	
+	static extension WorkspaceExtension = new WorkspaceExtension
 	
 	protected ExecutableGraphmodel graphmodel
 	
@@ -44,6 +46,9 @@ abstract class MainTemplate {
 	
 	def String getSourceApiPackage(ExecutableGraphmodel graphmodel){
 		return graphmodel.graphModel.package+"."+graphmodel.graphModel.name.toLowerCase;
+	}
+	def String getSourceGraphitiPackage(ExecutableGraphmodel graphmodel){
+		return graphmodel.graphModel.package+".graphiti";
 	}
 	
 	def String getApiPackage(ExecutableGraphmodel graphmodel){

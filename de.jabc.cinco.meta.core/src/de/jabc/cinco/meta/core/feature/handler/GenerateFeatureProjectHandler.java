@@ -28,7 +28,7 @@ import com.google.inject.Inject;
 
 import de.jabc.cinco.meta.core.BundleRegistry;
 import de.jabc.cinco.meta.core.pluginregistry.PluginRegistry;
-import de.jabc.cinco.meta.core.ui.listener.MGLSelectionListener;
+import de.jabc.cinco.meta.core.ui.listener.MGLSelectionListener; 
 import de.jabc.cinco.meta.core.utils.projects.ProjectCreator;
 import de.metaframe.jabc.framework.execution.context.DefaultLightweightExecutionContext;
 import de.metaframe.jabc.framework.execution.context.LightweightExecutionContext;

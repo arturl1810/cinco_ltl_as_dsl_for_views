@@ -1,9 +1,9 @@
 package de.jabc.cinco.meta.core.ui.highlight;
 
-import static de.jabc.cinco.meta.core.utils.eapi.Cinco.Workbench.*;
-
-import graphmodel.ModelElementContainer;
-import graphmodel.Node;
+import static de.jabc.cinco.meta.core.ui.highlight.HighlightUtils.getBusinessObject;
+import static de.jabc.cinco.meta.core.ui.highlight.HighlightUtils.getContainerShapes;
+import static de.jabc.cinco.meta.core.ui.highlight.HighlightUtils.getShapes;
+import static de.jabc.cinco.meta.core.ui.highlight.HighlightUtils.testBusinessObjectType;
 
 import java.util.Collection;
 import java.util.Set;
@@ -21,8 +21,10 @@ import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 
-public class DefaultHighlighter extends Highlighter {
+import graphmodel.ModelElementContainer;
+import graphmodel.Node;
 
+public class DefaultHighlighter extends Highlighter {
 
 	@Override
 	protected Set<PictogramElement> getHighlightablesOnDrag(PictogramElement dragged) {
@@ -100,5 +102,4 @@ public class DefaultHighlighter extends Highlighter {
 				.setBackgroundColor(240, 255, 240)
 				.setPictogramElements(pe);
 	}
-	
 }

@@ -110,6 +110,7 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Map.Entry;
 
+import de.jabc.cinco.meta.util.xapi.WorkspaceExtension;
 
 import org.eclipse.core.resources.*;
 import org.eclipse.core.runtime.*;
@@ -123,6 +124,7 @@ import org.osgi.framework.Bundle;
 public class $context.graphModelName$ImageProvider extends AbstractImageProvider 
 	implements IImageProvider {
 
+	private WorkspaceExtension workspace = new WorkspaceExtension();
 	private Hashtable&lt;String, String&gt; images;
 	
 	public $context.fuGraphModelName$ImageProvider() {
@@ -143,7 +145,7 @@ public class $context.graphModelName$ImageProvider extends AbstractImageProvider
 				return e.getKey();
 		}
 		try {
-			java.util.List&lt;IFile&gt; files = de.jabc.cinco.meta.core.utils.WorkspaceUtil.getFiles(f -&gt; f.getFullPath().toString().contains(path));
+			java.util.List&lt;IFile&gt; files = workspace.getFiles(workspace.getWorkspaceRoot(), f -&gt; f.getFullPath().toString().contains(path));
 			if (files.size() == 1) {
 				IFile f = files.get(0);
 				URL url = f.getLocationURI().toURL();

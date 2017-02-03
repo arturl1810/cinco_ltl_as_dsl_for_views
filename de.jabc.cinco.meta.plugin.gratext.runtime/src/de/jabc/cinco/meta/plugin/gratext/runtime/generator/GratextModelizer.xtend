@@ -1,26 +1,22 @@
 package de.jabc.cinco.meta.plugin.gratext.runtime.generator
 
 import static org.eclipse.graphiti.ui.services.GraphitiUi.getExtensionManager
-import static extension de.jabc.cinco.meta.core.utils.eapi.ResourceEAPI.getGraphModel
 import static extension de.jabc.cinco.meta.plugin.gratext.runtime.generator.GratextGenerator.*
 
 import de.jabc.cinco.meta.core.utils.registry.NonEmptyRegistry
 import de.jabc.cinco.meta.plugin.gratext.runtime.generator.GratextModelTransformer
 import de.jabc.cinco.meta.plugin.gratext.runtime.editor.LazyDiagram
-
 import graphmodel.Edge
 import graphmodel.GraphModel
 import graphmodel.ModelElement
 import graphmodel.ModelElementContainer
 import graphmodel.Node
-
 import java.util.HashMap
 import java.util.List 
 import java.util.Map
-
 import org.eclipse.emf.ecore.EClass
-import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.EFactory
+import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.graphiti.dt.IDiagramTypeProvider
@@ -38,7 +34,14 @@ import org.eclipse.graphiti.mm.pictograms.Shape
 import org.eclipse.swt.SWTException
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoAbstractAddFeature
 
+import static org.eclipse.graphiti.ui.services.GraphitiUi.getExtensionManager
+
+import static extension de.jabc.cinco.meta.plugin.gratext.runtime.generator.GratextGenerator.*
+import de.jabc.cinco.meta.runtime.xapi.ResourceExtension
+
 abstract class GratextModelizer {
+	
+	extension val ResourceExtension = new ResourceExtension
 	
 	NonEmptyRegistry<ModelElementContainer,List<EObject>>
 		nodesInitialOrder = new NonEmptyRegistry[newArrayList]

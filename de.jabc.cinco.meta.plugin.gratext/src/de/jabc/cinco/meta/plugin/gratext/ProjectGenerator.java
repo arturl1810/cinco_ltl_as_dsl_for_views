@@ -1,7 +1,5 @@
 package de.jabc.cinco.meta.plugin.gratext;
 
-import static de.jabc.cinco.meta.core.utils.eapi.Cinco.*;
-
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
@@ -35,9 +33,13 @@ import de.jabc.cinco.meta.plugin.gratext.descriptor.FileDescriptor;
 import de.jabc.cinco.meta.plugin.gratext.descriptor.GraphModelDescriptor;
 import de.jabc.cinco.meta.plugin.gratext.descriptor.ProjectDescriptor;
 import de.jabc.cinco.meta.plugin.gratext.util.ModelDescriptorRegistry;
+import de.jabc.cinco.meta.runtime.xapi.FileExtension;
+import de.jabc.cinco.meta.util.xapi.WorkspaceExtension;
 
 public abstract class ProjectGenerator {
 
+	private static WorkspaceExtension workspace = new WorkspaceExtension();
+	
 	protected Map<String, Object> ctx;
 	
 	protected GraphModel model;
@@ -248,7 +250,7 @@ public abstract class ProjectGenerator {
 	}
 	
 	protected List<IFile> getWorkspaceFiles(String extension) {
-		return Workspace.getFiles(f -> !f.isDerived() && extension.equals(f.getFileExtension()));
+		return workspace.getFiles(workspace.getWorkspaceRoot(), f -> !f.isDerived() && extension.equals(f.getFileExtension()));
 	}
 		
 	public TemplateBasedFileCreator createFile(String fileName) {
@@ -264,9 +266,9 @@ public abstract class ProjectGenerator {
 			IContainer container = (folderName == null || folderName.trim().isEmpty())
 				? project
 				: folder(folderName);
-			return eapi(container)
+			return workspace
 //				.withProgressMonitor(getProgressMonitor())
-				.createFile(name, content);
+				.createFile(container, name, content);
 		} catch (Exception e) {
 			throw new GenerationException("Failed to create file " + name + " in folder " + folderName, e);
 		}
@@ -275,7 +277,7 @@ public abstract class ProjectGenerator {
 	protected IFolder folder(String folderName) throws CoreException {
 		if (folderName == null || folderName.trim().isEmpty())
 			return project.getFolder(project.getProjectRelativePath());
-		return Workspace.createResource(project.getFolder(folderName), null);
+		return workspace.create(project.getFolder(folderName));
 	}
 	
 	protected class SrcFileCreator {
