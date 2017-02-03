@@ -571,16 +571,6 @@ class GeneratorUtils {
 		'''«me.beanPackage».internal.«me.fuInternalName»'''
 	}
 	
-	def topSort(Iterable<? extends ModelElement> elements) {
-		new DependencyGraph<ModelElement>(new ArrayList).createGraph(elements.map[el|el.dependencies], new ArrayList).
-			topSort
-	}
-	
-	def DependencyNode<ModelElement> dependencies(ModelElement elem) {
-		val dNode = new DependencyNode<ModelElement>(elem)
-		dNode.addDependencies(elem.allSuperTypes.map[t|t].toList)
-		dNode
-	}
 
 	def Iterable<? extends ModelElement> allSuperTypes(ModelElement element) {
 		val superTypes = new ArrayList<ModelElement>

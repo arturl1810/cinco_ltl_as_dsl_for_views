@@ -32,9 +32,11 @@ import org.eclipse.emf.ecore.EcorePackage
 
 import static extension de.jabc.cinco.meta.core.mgl.generator.extensions.EcoreExtensions.*
 import static extension de.jabc.cinco.meta.core.mgl.generator.extensions.FactoryGeneratorExtensions.*
-import static extension de.jabc.cinco.meta.core.mgl.generator.extensions.NodeMethodsGeneratorExtensions.*
+//import static extension de.jabc.cinco.meta.core.mgl.generator.extensions.NodeMethodsGeneratorExtensions.*
+import mgl.NodeContainer
+import de.jabc.cinco.meta.core.mgl.generator.extensions.NodeMethodsGeneratorExtensions
 
-class MGLAlternateGenerator {
+class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 
 	HashMap<ModelElement, EClass> modelElementsMap
 
@@ -91,8 +93,13 @@ class MGLAlternateGenerator {
 		graphModel.nodes.forEach[node|
 			node.createInheritance(graphModel)
 			node.createConnectionMethods(graphModel,eClassesMap)
+			
 		]
 		
+		graphModel.nodes.filter(NodeContainer).forEach[container|
+			(container as NodeContainer).createGetContainmentConstraintsMethod(graphModel, eClassesMap)
+			
+		]
 		graphModel.edges.forEach[edge|edge.createInheritance(graphModel)]
 		graphModel.types.filter(UserDefinedType).forEach[udt|udt.createInheritance(graphModel)]
 		return epk
@@ -138,12 +145,14 @@ class MGLAlternateGenerator {
 		println(sorted.map[n|n.name])
 
 		sorted.forEach[node|nodeClasses += node.createModelElementClasses]
-		nodeClasses.filter[n| !(n instanceof ContainingElement)].forEach[nc|
+		nodeClasses.filter[n| !(n.modelElement instanceof ContainingElement)].forEach[nc|
 			nc.mainEClass.ESuperTypes.add(graphModelPackage.getEClassifier("Node") as EClass);
 			nc.internalEClass.ESuperTypes.add(graphModelPackage.ESubpackages.filter[sp| sp.name.equals("internal")].get(0).getEClassifier("InternalNode") as EClass);
 		]
-		nodeClasses.filter[n| (n instanceof ContainingElement)].forEach[nc|nc.mainEClass.ESuperTypes.add(graphModelPackage.getEClassifier("Container") as EClass);
+		nodeClasses.filter[n| (n.modelElement instanceof ContainingElement)].forEach[nc|
+			nc.mainEClass.ESuperTypes.add(graphModelPackage.getEClassifier("Container") as EClass);
 			nc.internalEClass.ESuperTypes.add(graphModelPackage.ESubpackages.filter[sp| sp.name.equals("internal")].get(0).getEClassifier("InternalContainer") as EClass);
+			
 		]
 		
 		
@@ -301,27 +310,6 @@ class MGLAlternateGenerator {
 		internalEClass
 	}
 
-	private  def Iterable<? extends ModelElement> allSuperTypes(ModelElement element) {
-		val superTypes = new ArrayList<ModelElement>
-		var current = element.extend
-		while (current.extend != null || current != current.extend) {
-			superTypes += current
-			current = current.extend
-		}
-
-		superTypes
-	}
-
-	private def ModelElement extend(ModelElement element) {
-		if (element instanceof Node) {
-			return element.extends
-		} else if (element instanceof Edge) {
-			return element.extends
-		} else if (element instanceof UserDefinedType) {
-			element.extends
-		}
-		null
-	}
 
 	private  def void createAttribute(EClass eClass, Attribute attribute) {
 		if (attribute instanceof ComplexAttribute) {
