@@ -116,7 +116,7 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 				final List<Pair<String, Runnable>> pairs = new LinkedList<>();
 				pairs.add(new Pair<>(String.format("Initializing... %s", file.getFullPath().lastSegment()), () -> publishMglFile(file)));
 				pairs.add(new Pair<>(String.format("Generating Ecore/GenModel...", file.getFullPath().lastSegment()), () -> generateEcoreModel(file)));
-				pairs.add(new Pair<>(String.format("Generating model code...", file.getFullPath().lastSegment()), () -> generateGenmodelCode(file)));
+//				pairs.add(new Pair<>(String.format("Generating model code...", file.getFullPath().lastSegment()), () -> generateGenmodelCode(file)));
 				pairs.add(new Pair<>(String.format("Generating Graphiti editor...", file.getFullPath().lastSegment()), () -> generateGraphitiEditor(file)));
 				pairs.add(new Pair<>(String.format("Generating API...", file.getFullPath().lastSegment()), () -> generateApi(file)));
 				pairs.add(new Pair<>(String.format("Generating Cinco SIBs...", file.getFullPath().lastSegment()), () -> generateCincoSIBs(file)));

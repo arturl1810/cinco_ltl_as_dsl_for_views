@@ -13,7 +13,7 @@ class DefaultPerspectiveContent {
 	static extension val FileExtension = new FileExtension
 	
 	def static generateDefaultPerspective(CincoProduct cp, IFile cpdFile) {
-		var pName = cpdFile.project.name
+		var pName = cpdFile.project.name+".editor.graphiti"
 '''package «pName»;
 
 public class «cp.name.toFirstUpper»Perspective implements «IPerspectiveFactory.name» {

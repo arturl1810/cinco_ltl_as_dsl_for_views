@@ -176,7 +176,7 @@ class EdgeAddFeatures extends GeneratorUtils {
 			«ENDFOR»
 			
 			«Resource.name» eResource = ((«EObject.name») sourceBo).eResource();
-			«InternalGraphModel.name» internalGraphModel = «ResourceExtension.name».getContent(eResource, «e.graphModel.fqInternalBeanName».class);
+			«InternalGraphModel.name» internalGraphModel = new «ResourceExtension.name»().getContent(eResource, «e.graphModel.fqInternalBeanName».class);
 			«ModelElementContainer.name» container = 
 				«e.graphModel.packageName».«e.graphModel.name»GraphitiUtils.getInstance().getCommonContainer(internalGraphModel.getElement(), («graphmodel.Edge.name»)«e.fuName.toFirstLower».getElement());
 			container.getInternalContainerElement().getModelElements().add(«e.fuName.toFirstLower»);
