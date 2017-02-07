@@ -40,7 +40,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CContainer" eSuperTypes="#//CModelElementContainer #//CNode"/>
   <eClassifiers xsi:type="ecore:EClass" name="CGraphModel" abstract="true" eSuperTypes="#//CModelElementContainer">
-    <eOperations name="getPictogramElement" eType="ecore:EClass ../../org.eclipse.graphiti.mm/model/graphiti.ecore#//pictograms/ContainerShape">
+    <eOperations name="getPictogramElement" eType="ecore:EClass platform:/plugin/org.eclipse.graphiti.mm/model/graphiti.ecore#//pictograms/ContainerShape">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="body" value="return this.getShape();"/>
       </eAnnotations>
@@ -53,8 +53,8 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="modelElement" lowerBound="1"
         eType="ecore:EClass ../../de.jabc.cinco.meta.core.mgl.model/model/GraphModel.ecore#//GraphModel"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="diagram" lowerBound="1"
-        eType="ecore:EClass ../../org.eclipse.graphiti.mm/model/graphiti.ecore#//pictograms/Diagram"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="shape" eType="ecore:EClass ../../org.eclipse.graphiti.mm/model/graphiti.ecore#//pictograms/ContainerShape"/>
+        eType="ecore:EClass platform:/plugin/org.eclipse.graphiti.mm/model/graphiti.ecore#//pictograms/Diagram"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="shape" eType="ecore:EClass platform:/plugin/org.eclipse.graphiti.mm/model/graphiti.ecore#//pictograms/ContainerShape"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CEdge" eSuperTypes="#//CModelElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="sourceElement" lowerBound="1"
@@ -179,7 +179,7 @@
         eType="#//CEdge" eOpposite="#//CEdge/sourceElement"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CModelElement" abstract="true" interface="true">
-    <eOperations name="getDiagram" eType="ecore:EClass ../../org.eclipse.graphiti.mm/model/graphiti.ecore#//pictograms/Diagram">
+    <eOperations name="getDiagram" eType="ecore:EClass platform:/plugin/org.eclipse.graphiti.mm/model/graphiti.ecore#//pictograms/Diagram">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="body" value="return getCRootElement().getDiagram();"/>
       </eAnnotations>
@@ -199,7 +199,7 @@
       </eAnnotations>
       <eParameters name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eOperations>
-    <eOperations name="getPictogramElement" eType="ecore:EClass ../../org.eclipse.graphiti.mm/model/graphiti.ecore#//pictograms/PictogramElement">
+    <eOperations name="getPictogramElement" eType="ecore:EClass platform:/plugin/org.eclipse.graphiti.mm/model/graphiti.ecore#//pictograms/PictogramElement">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="body" value="if (getPictogramElementSupplier() != null) {&#xA;&#x9;&#x9;return getPictogramElementSupplier().get();&#xA;&#x9;}&#xA;&#x9;return null;"/>
       </eAnnotations>
@@ -208,7 +208,7 @@
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="body" value="setPictogramElementSupplier(&#xA;&#x9;new Supplier&lt;PictogramElement>() {&#xA;&#x9;&#x9;@Override&#xA;&#x9;&#x9;public PictogramElement get() {&#xA;&#x9;&#x9;&#x9;return pe;&#xA;&#x9;&#x9;}&#xA;&#x9;});"/>
       </eAnnotations>
-      <eParameters name="pe" eType="ecore:EClass ../../org.eclipse.graphiti.mm/model/graphiti.ecore#//pictograms/PictogramElement"/>
+      <eParameters name="pe" eType="ecore:EClass platform:/plugin/org.eclipse.graphiti.mm/model/graphiti.ecore#//pictograms/PictogramElement"/>
     </eOperations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="container" eType="#//CModelElementContainer"
         eOpposite="#//CModelElementContainer/modelElements"/>
@@ -216,7 +216,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="pictogramElementSupplier"
         transient="true">
       <eGenericType eClassifier="#//PictogramElementSupplier">
-        <eTypeArguments eClassifier="ecore:EClass ../../org.eclipse.graphiti.mm/model/graphiti.ecore#//pictograms/PictogramElement"/>
+        <eTypeArguments eClassifier="ecore:EClass platform:/plugin/org.eclipse.graphiti.mm/model/graphiti.ecore#//pictograms/PictogramElement"/>
       </eGenericType>
     </eStructuralFeatures>
   </eClassifiers>

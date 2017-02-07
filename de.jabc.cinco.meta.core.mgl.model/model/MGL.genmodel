@@ -3,7 +3,7 @@
     xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/de.jabc.cinco.meta.core.mgl.model/src-gen" modelPluginID="de.jabc.cinco.meta.core.mgl.model"
     modelName="MGL" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
     importerID="org.eclipse.emf.importer.ecore" complianceLevel="8.0" copyrightFields="false"
-    usedGenPackages="../../org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore" operationReflection="true"
+    usedGenPackages="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore" operationReflection="true"
     importOrganizing="true">
   <foreignModel>MGL.ecore</foreignModel>
   <genPackages prefix="Mgl" disposableProviderFactory="true" ecorePackage="MGL.ecore#/">
@@ -80,7 +80,9 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGL.ecore#//Type/name"/>
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference MGL.ecore#//Type/typesOpposite"/>
     </genClasses>
-    <genClasses ecoreClass="MGL.ecore#//UserDefinedType"/>
+    <genClasses ecoreClass="MGL.ecore#//UserDefinedType">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MGL.ecore#//UserDefinedType/extends"/>
+    </genClasses>
     <genClasses ecoreClass="MGL.ecore#//Annotation">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGL.ecore#//Annotation/name"/>
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference MGL.ecore#//Annotation/parent"/>
