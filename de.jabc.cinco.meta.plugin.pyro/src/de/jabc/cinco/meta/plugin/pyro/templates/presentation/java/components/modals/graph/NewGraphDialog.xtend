@@ -6,7 +6,7 @@ import de.jabc.cinco.meta.plugin.pyro.utils.ModelParser
 import mgl.Annotation
 import mgl.GraphModel
 
-class NewGraphDialog implements Templateable{
+class NewGraphDialog extends Templateable{
 	
 	override create(TemplateContainer tc)
 	'''

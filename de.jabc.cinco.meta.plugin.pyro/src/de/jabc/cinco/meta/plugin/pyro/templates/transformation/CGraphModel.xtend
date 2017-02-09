@@ -9,7 +9,7 @@ import mgl.Attribute
 import mgl.ReferencedEClass
 import mgl.ReferencedType
 
-class CGraphModel implements Templateable{
+class CGraphModel extends Templateable{
 	
 	override create(TemplateContainer tc)
 	'''

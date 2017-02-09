@@ -3,7 +3,7 @@
     xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/de.jabc.cinco.meta.productdefinition.model/src-gen"
     modelPluginID="de.jabc.cinco.meta.productdefinition.model" modelName="ProductDefinition"
     rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container" importerID="org.eclipse.emf.importer.ecore"
-    complianceLevel="7.0" copyrightFields="false" usedGenPackages="../../org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore"
+    complianceLevel="7.0" copyrightFields="false" usedGenPackages="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore"
     operationReflection="true" importOrganizing="true">
   <foreignModel>ProductDefinition.ecore</foreignModel>
   <genPackages prefix="ProductDefinition" disposableProviderFactory="true" ecorePackage="ProductDefinition.ecore#/">
@@ -25,6 +25,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ProductDefinition.ecore#//CincoProduct/plugins"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ProductDefinition.ecore#//CincoProduct/mgls"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ProductDefinition.ecore#//CincoProduct/defaultPerspective"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ProductDefinition.ecore#//CincoProduct/annotations"/>
     </genClasses>
     <genClasses ecoreClass="ProductDefinition.ecore#//MGLDescriptor">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ProductDefinition.ecore#//MGLDescriptor/mglPath"/>
@@ -56,6 +57,10 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ProductDefinition.ecore#//Color/r"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ProductDefinition.ecore#//Color/g"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ProductDefinition.ecore#//Color/b"/>
+    </genClasses>
+    <genClasses ecoreClass="ProductDefinition.ecore#//Annotation">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ProductDefinition.ecore#//Annotation/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ProductDefinition.ecore#//Annotation/value"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

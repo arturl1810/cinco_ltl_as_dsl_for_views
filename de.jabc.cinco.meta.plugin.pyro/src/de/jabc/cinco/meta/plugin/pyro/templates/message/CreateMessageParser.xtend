@@ -10,7 +10,7 @@ import mgl.Node
 import mgl.NodeContainer
 import mgl.ReferencedEClass
 
-class CreateMessageParser implements Templateable{
+class CreateMessageParser extends Templateable{
 	
 	override create(TemplateContainer tc)
 	'''

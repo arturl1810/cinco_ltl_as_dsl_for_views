@@ -17,7 +17,10 @@ import mgl.GraphicalModelElement
 import mgl.Node
 import mgl.Type
 
-class EditorModelTemplate implements Templateable{
+
+class EditorModelTemplate extends Templateable{
+
+	
 	
 	override create(TemplateContainer tc)
 	'''

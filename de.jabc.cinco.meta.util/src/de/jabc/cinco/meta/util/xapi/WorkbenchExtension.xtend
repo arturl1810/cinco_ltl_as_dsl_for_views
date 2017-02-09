@@ -7,6 +7,7 @@ import org.eclipse.ui.IEditorPart
 import org.eclipse.ui.IPathEditorInput
 import org.eclipse.ui.PlatformUI
 import org.eclipse.emf.ecore.EObject
+import org.eclipse.emf.edit.domain.IEditingDomainProvider
 
 /**
  * Workbench-specific extension methods.
@@ -53,10 +54,30 @@ class WorkbenchExtension {
 	/**
 	 * Retrieves the underlying resource that represents this editor's input, or
 	 * {@code null} if not existing.
+	 * If the editor implements the interface {@code IEditingDomainProvider} the
+	 * resource is retrieved directly. If not or if the editing domain is
+	 * {@code null}, the resource is retrieved via the underlying file the editor's
+	 * input, if existing.
 	 */
 	def Resource getResource(IEditorPart editor) {
-		extension val FileExtension = new FileExtension
-		editor.file?.resource
+		val domain = editor.editingDomain
+		if (domain != null) {
+			domain.resourceSet.resources.head
+		} else {
+			extension val FileExtension = new FileExtension
+			editor.file?.resource
+		}
+	}
+	
+	/**
+	 * Retrieves the editing domain of the specified editor, or {@code null} if
+	 * not existing or this editor does not implement the interface
+	 * {@code IEditingDomainProvider}.
+	 */
+	def getEditingDomain(IEditorPart editor) {
+		switch editor {
+			IEditingDomainProvider: editor.editingDomain
+		}
 	}
 	
 	/**

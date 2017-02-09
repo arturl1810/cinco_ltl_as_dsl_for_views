@@ -11,7 +11,7 @@ import mgl.GraphicalModelElement
 import mgl.Node
 import mgl.NodeContainer
 
-class EditorConstraintTemplate implements Templateable{
+class EditorConstraintTemplate extends Templateable{
 
 	
 	def creatNodeGroup(Entry<String, List<StyledNode>> entry) 

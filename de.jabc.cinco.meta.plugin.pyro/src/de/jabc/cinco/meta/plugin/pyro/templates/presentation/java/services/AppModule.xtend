@@ -7,7 +7,7 @@ import mgl.GraphModel
 import mgl.Node
 import mgl.NodeContainer
 
-class AppModule implements Templateable {
+class AppModule extends Templateable {
 	
 	override create(TemplateContainer tc)
 	'''

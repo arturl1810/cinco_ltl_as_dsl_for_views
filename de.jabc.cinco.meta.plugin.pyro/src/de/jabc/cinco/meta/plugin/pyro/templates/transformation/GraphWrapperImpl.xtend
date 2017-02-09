@@ -3,7 +3,7 @@ package de.jabc.cinco.meta.plugin.pyro.templates.transformation
 import de.jabc.cinco.meta.plugin.pyro.model.TemplateContainer
 import de.jabc.cinco.meta.plugin.pyro.templates.Templateable
 
-class GraphWrapperImpl implements Templateable{
+class GraphWrapperImpl extends Templateable{
 	
 	override create(TemplateContainer tc)
 	'''

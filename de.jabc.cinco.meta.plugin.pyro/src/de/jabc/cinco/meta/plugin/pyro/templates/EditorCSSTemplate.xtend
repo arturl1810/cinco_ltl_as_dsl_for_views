@@ -3,7 +3,7 @@ package de.jabc.cinco.meta.plugin.pyro.templates
 import de.jabc.cinco.meta.plugin.pyro.model.StyledNode
 import de.jabc.cinco.meta.plugin.pyro.model.TemplateContainer
 
-class EditorCSSTemplate implements Templateable{
+class EditorCSSTemplate extends Templateable{
 
 	
 	def createNodeCSS(StyledNode styledNode)

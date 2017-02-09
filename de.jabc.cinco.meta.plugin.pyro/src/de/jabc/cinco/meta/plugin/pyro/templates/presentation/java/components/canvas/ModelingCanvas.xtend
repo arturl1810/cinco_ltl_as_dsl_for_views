@@ -4,7 +4,7 @@ import de.jabc.cinco.meta.plugin.pyro.model.TemplateContainer
 import de.jabc.cinco.meta.plugin.pyro.templates.Templateable
 import mgl.GraphModel
 
-class ModelingCanvas implements Templateable{
+class ModelingCanvas extends Templateable{
 	
 	override create(TemplateContainer tc)
 	'''

@@ -5,13 +5,15 @@ import mgl.Attribute
 import mgl.ComplexAttribute
 import mgl.PrimitiveAttribute
 
-interface Templateable {
-	 def CharSequence create(TemplateContainer tc);
-	 
-	 static def getType(Attribute attr) {
-	 	switch attr {
-	 		ComplexAttribute : attr.type.name
-	 		PrimitiveAttribute : attr.type.getName
-	 	}
-	 }
+abstract class Templateable {
+	
+	
+	def CharSequence create(TemplateContainer tc);
+	
+	static def getType(Attribute attr) {
+		switch attr {
+			ComplexAttribute : attr.type.name
+			PrimitiveAttribute : attr.type.getName
+		}
+	}
 }

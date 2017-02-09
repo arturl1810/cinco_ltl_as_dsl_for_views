@@ -4,7 +4,7 @@ import de.jabc.cinco.meta.plugin.pyro.model.TemplateContainer
 import de.jabc.cinco.meta.plugin.pyro.templates.Templateable
 import mgl.GraphModel
 
-class Menu implements Templateable{
+class Menu extends Templateable{
 	
 	override create(TemplateContainer tc)
 	'''

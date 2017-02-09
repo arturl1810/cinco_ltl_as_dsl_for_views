@@ -10,7 +10,7 @@ import mgl.Attribute
 import mgl.GraphModel
 import mgl.Type
 
-class AttributeMessageParser implements Templateable{
+class AttributeMessageParser extends Templateable{
 	
 	override create(TemplateContainer tc)
 	'''

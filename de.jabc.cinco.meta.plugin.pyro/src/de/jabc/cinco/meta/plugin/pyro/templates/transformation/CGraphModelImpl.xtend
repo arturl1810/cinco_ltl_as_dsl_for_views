@@ -18,7 +18,7 @@ import mgl.NodeContainer
 import mgl.ReferencedEClass
 import mgl.ReferencedType
 
-class CGraphModelImpl implements Templateable{
+class CGraphModelImpl extends Templateable{
 	
 	override create(TemplateContainer tc)
 	'''
