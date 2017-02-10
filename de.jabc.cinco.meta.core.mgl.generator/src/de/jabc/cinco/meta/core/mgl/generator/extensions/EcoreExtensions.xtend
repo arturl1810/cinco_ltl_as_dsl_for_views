@@ -7,6 +7,7 @@ import org.eclipse.emf.ecore.EReference
 import org.eclipse.emf.ecore.EcoreFactory
 import org.eclipse.emf.ecore.EParameter
 import org.eclipse.emf.ecore.EClassifier
+import org.eclipse.emf.ecore.EcorePackage
 
 class EcoreExtensions {
 	
@@ -56,5 +57,29 @@ class EcoreExtensions {
 		eOp
 	}
 	
+	def static createEOperation(EClass eClass, String name, EClassifier type, int lowerBound, int upperBound, CharSequence content, EParameter ...parameters){
+		createEOperation(eClass,name,type,lowerBound,upperBound,content.toString,parameters)
+	}
 	
+	def static createEParameter(EClass type, String name, int lowerBound, int upperBound) {
+		val eParam = EcoreFactory.eINSTANCE.createEParameter;
+		eParam.EType = type
+		eParam.name = name
+		eParam.lowerBound = lowerBound
+		eParam.upperBound = upperBound
+		eParam
+	}
+
+	def static createEParameter(EDataType type, String name, int lowerBound, int upperBound) {
+		val eParam = EcoreFactory.eINSTANCE.createEParameter;
+		eParam.EType = type
+		eParam.name = name
+		eParam.lowerBound = lowerBound
+		eParam.upperBound = upperBound
+		eParam
+	}
+
+	def static createEInt(String name, int lb, int ub) {
+		createEParameter(EcorePackage.eINSTANCE.EInt,name,lb,ub)
+	}	
 }

@@ -558,6 +558,13 @@ class GeneratorUtils {
 		return false;
 	}
 	
+	def getName(ContainingElement ce) {
+		switch ce {
+			GraphModel : ce.name
+			NodeContainer : ce.name
+		}
+	}
+	
 	def writeMethodCallPostSelect(ModelElement me){
 		var annot = CincoUtils.findAnnotationPostSelect(me);
 		if(annot != null)
