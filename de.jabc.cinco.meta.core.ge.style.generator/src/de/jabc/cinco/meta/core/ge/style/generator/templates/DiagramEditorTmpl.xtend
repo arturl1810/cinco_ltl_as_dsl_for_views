@@ -1,15 +1,14 @@
 package de.jabc.cinco.meta.core.ge.style.generator.templates
 
-import mgl.GraphModel
-import de.jabc.cinco.meta.core.utils.generator.GeneratorUtils;
-import org.eclipse.graphiti.ui.editor.DiagramEditor
 import de.jabc.cinco.meta.core.referenceregistry.ReferenceRegistry
-import org.eclipse.graphiti.mm.pictograms.PictogramLink
-import org.eclipse.emf.ecore.EObject
+import de.jabc.cinco.meta.core.ui.editor.CincoDiagramEditor
+import de.jabc.cinco.meta.core.utils.generator.GeneratorUtils
+import mgl.GraphModel
 import org.eclipse.core.runtime.IProgressMonitor
-import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm
 import org.eclipse.graphiti.features.context.impl.ResizeShapeContext
+import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm
 import org.eclipse.graphiti.mm.pictograms.Shape
+import org.eclipse.graphiti.ui.editor.DiagramEditor
 
 class DiagramEditorTmpl extends GeneratorUtils{
 
@@ -21,7 +20,7 @@ class DiagramEditorTmpl extends GeneratorUtils{
 def generateDiagramEditor(GraphModel gm) '''
 package «gm.packageName»;
 
-public class «gm.fuName»DiagramEditor extends «DiagramEditor.name» {
+public class «gm.fuName»DiagramEditor extends «CincoDiagramEditor.name» {
 	
 	@Override
 	public void initializeGraphicalViewer() {

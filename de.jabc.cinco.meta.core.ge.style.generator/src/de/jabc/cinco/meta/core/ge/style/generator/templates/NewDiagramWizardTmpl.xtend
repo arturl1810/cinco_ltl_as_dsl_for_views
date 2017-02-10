@@ -111,7 +111,7 @@ public class «gm.fuName»DiagramWizard extends «Wizard.name» implements «INe
 			«Resource.name» res = new «ResourceSetImpl.name»().createResource(resUri);
 			«Diagram.name» diagram = 
 				«Graphiti.name».getPeService().createDiagram("«gm.fuName»", dName, true);
-			«gm.beanPackage».«gm.fuName» graph = «gm.package».factory.«gm.name»Factory.create«gm.fuName»();
+			«gm.beanPackage».«gm.fuName» graph = «gm.package».factory.«gm.name»Factory.eINSTANCE.create«gm.fuName»();
 			graph.getInternalContainerElement().setId(«EcoreUtil.name».generateUUID());
 			try {
 				res.unload();

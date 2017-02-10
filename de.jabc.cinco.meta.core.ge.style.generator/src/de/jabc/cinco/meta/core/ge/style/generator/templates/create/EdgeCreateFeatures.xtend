@@ -83,7 +83,7 @@ class EdgeCreateFeatures extends GeneratorUtils{
 
 			if (source != null && target != null) {
 				«e.fqInternalBeanName» «e.fuName.toLowerCase» = 
-					(«e.fqInternalBeanName») «e.fqFactoryName».create«e.fuName»().getInternalElement();
+					(«e.fqInternalBeanName») «e.fqFactoryName».eINSTANCE.create«e.fuName»().getInternalElement();
 					if (source instanceof «InternalModelElement.name») {
 						«e.fuName.toLowerCase».setSourceElement( («Node.name») source.getElement());
 					}

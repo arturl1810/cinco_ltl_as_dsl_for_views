@@ -15,13 +15,11 @@ class ModelizerTemplate extends AbstractGratextTemplate {
 	override template() '''	
 		package «project.basePackage».generator
 		
-		import graphmodel.Edge
-		import graphmodel.ModelElement
+		import graphmodel.IdentifiableElement
+		import graphmodel.internal.InternalEdge
+		import graphmodel.internal.InternalModelElement
 		
 		import de.jabc.cinco.meta.plugin.gratext.runtime.generator.GratextModelizer
-		
-		import «graphmodel.package».«model.name.toLowerCase».«model.nameFirstUpper»Package
-		import «graphmodel.package».«model.name.toLowerCase».«model.nameFirstUpper»Factory
 		
 		import «project.basePackage».*
 		
@@ -29,9 +27,9 @@ class ModelizerTemplate extends AbstractGratextTemplate {
 			
 			new() {
 				super(
-					«model.nameFirstUpper»Factory.eINSTANCE,
-					«model.nameFirstUpper»Package.eINSTANCE,
-					«model.nameFirstUpper»Package.eINSTANCE.get«model.name»
+					«graphmodel.package».factory.«model.name»Factory.eINSTANCE,
+					«graphmodel.package».«model.name.toLowerCase».internal.InternalPackage.eINSTANCE,
+					«graphmodel.package».«model.name.toLowerCase».«model.nameFirstUpper»Package.eINSTANCE.get«model.name»
 				)
 			}
 			
@@ -39,42 +37,42 @@ class ModelizerTemplate extends AbstractGratextTemplate {
 				new «model.name»Diagram
 			}
 			
-			override getBendpoints(Edge edge) {
+			override getBendpoints(InternalEdge edge) {
 				(edge as _Edge).route?.points?.map[p | p.x -> p.y]
 			}
 			
-			override getDecoratorLocation(Edge edge, int index) {
+			override getDecoratorLocation(InternalEdge edge, int index) {
 				val loc = (edge as _Edge).decorations?.get(index)?.location
 				if (loc != null) loc.x -> loc.y
 			}
 			
-			override getIndex(ModelElement it) {
+			override getIndex(IdentifiableElement it) {
 				placement.index
 			}
 			
-			override setIndex(ModelElement element, int i) {
+			override setIndex(IdentifiableElement element, int i) {
 				val pm = (element as _Placed).placement
 				if (pm != null)
 					pm.index = i
 			}
 			
-			override getWidth(ModelElement it) {
+			override getWidth(InternalModelElement it) {
 				placement.width
 			}
 			
-			override getHeight(ModelElement it) {
+			override getHeight(InternalModelElement it) {
 				placement.height
 			}
 			
-			override getX(ModelElement it) {
+			override getX(InternalModelElement it) {
 				placement.x
 			}
 			
-			override getY(ModelElement it) {
+			override getY(InternalModelElement it) {
 				placement.y
 			}
 			
-			def getPlacement(ModelElement element) {
+			def getPlacement(IdentifiableElement element) {
 				val orgPm = (element as _Placed).placement
 				val newPm = «model.name»GratextFactory.eINSTANCE.create_Placement
 				if (orgPm != null) {

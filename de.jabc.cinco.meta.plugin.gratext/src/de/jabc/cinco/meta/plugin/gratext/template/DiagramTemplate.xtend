@@ -10,7 +10,7 @@ class DiagramTemplate extends AbstractGratextTemplate {
 		class «model.name»Diagram extends LazyDiagram {
 			
 			new() {
-				super("«model.name»", "«graphmodel.package».«model.name»DiagramTypeProvider")
+				super("«model.name»", "«graphmodel.package».editor.graphiti.«model.name»DiagramTypeProvider")
 			}
 		}
 	'''

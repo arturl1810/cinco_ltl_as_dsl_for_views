@@ -11,9 +11,11 @@ override template()
 package «project.basePackage»;
 
 import «providerFile.className»;
+import «graphmodel.package».factory.«graphmodel.name»Factory;
 
-import graphmodel.Edge;
 import graphmodel.Node;
+import graphmodel.internal.InternalEdge;
+import graphmodel.internal.InternalNode;
 
 import java.util.Collection;
 import java.util.Map;
@@ -55,10 +57,12 @@ public class «project.targetName»RuntimeModule extends «project.basePackage»
 
 		@Override
 		public void add(EObject object, String feature, Object value, String ruleName, INode node) throws ValueConverterException {
-			if (node.getSemanticElement() instanceof Edge) try {
-				Edge edge = (Edge) node.getSemanticElement();
-				Node source = (Node) node.getParent().getSemanticElement();
-				edge.setSourceElement(source);
+			if (node.getSemanticElement() instanceof InternalEdge) try {
+				InternalEdge edge = (InternalEdge) node.getSemanticElement();
+				InternalNode source = (InternalNode) node.getParent().getSemanticElement();
+				Node sourceBase = (Node) «graphmodel.name»Factory.eINSTANCE.create(source.eClass());
+				sourceBase.setInternalElement(source);
+				edge.setSourceElement(sourceBase);
 			} catch(Exception e) {
 		    		e.printStackTrace();
 		    }

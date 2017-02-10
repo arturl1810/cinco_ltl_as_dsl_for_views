@@ -1,13 +1,14 @@
 package de.jabc.cinco.meta.plugin.gratext.runtime.generator
 
 import de.jabc.cinco.meta.core.utils.registry.NonEmptyRegistry
-import graphmodel.Edge
-import graphmodel.GraphModel
-import graphmodel.GraphmodelPackage
+import de.jabc.cinco.meta.runtime.xapi.ResourceExtension
 import graphmodel.IdentifiableElement
-import graphmodel.ModelElement
-import graphmodel.ModelElementContainer
-import graphmodel.Node
+import graphmodel.internal.InternalEdge
+import graphmodel.internal.InternalGraphModel
+import graphmodel.internal.InternalModelElement
+import graphmodel.internal.InternalModelElementContainer
+import graphmodel.internal.InternalNode
+import graphmodel.internal.InternalPackage
 import java.util.ArrayList
 import java.util.Collection
 import java.util.List
@@ -26,29 +27,32 @@ import org.eclipse.graphiti.mm.pictograms.FreeFormConnection
 import org.eclipse.graphiti.mm.pictograms.PictogramElement
 
 import static org.eclipse.graphiti.ui.services.GraphitiUi.getLinkService
-import de.jabc.cinco.meta.runtime.xapi.ResourceExtension
 
 abstract class GratextSerializer {
 
 	static extension val ResourceExtension = new ResourceExtension
 
-	NonEmptyRegistry<ModelElement,PictogramElement>
+	NonEmptyRegistry<InternalModelElement,PictogramElement>
 		peCache = new NonEmptyRegistry[linkService.getPictogramElements(diagram, it).get(0)]
 			
-	NonEmptyRegistry<ModelElementContainer,List<Node>>
-		nodesInitialOrder = new NonEmptyRegistry[ModelElementContainer c | c.allNodes.sort]
+	NonEmptyRegistry<InternalModelElementContainer,List<InternalNode>>
+		nodesInitialOrder = new NonEmptyRegistry[InternalModelElementContainer c | c.allNodes.sort.toList]
 			
-	NonEmptyRegistry<ModelElementContainer,List<Node>>
-		nodesCurrentOrder = new NonEmptyRegistry[ModelElementContainer c | c.allNodes.sortBy[peIndex]]
+	NonEmptyRegistry<InternalModelElementContainer,List<InternalNode>>
+		nodesCurrentOrder = new NonEmptyRegistry[InternalModelElementContainer c | c.allNodes.sortBy[peIndex]]
 	
-	Diagram diagram
-	GraphModel model
-	
-	new (Resource res) {
-		this(res.diagram, res.graphModel)
+	def getAllNodes(InternalModelElementContainer c) {
+		c.modelElements.filter(InternalNode)
 	}
 	
-	new (Diagram diagram, GraphModel model) {
+	Diagram diagram
+	InternalGraphModel model
+	
+	new (Resource res) {
+		this(res.diagram, res.getContent(InternalGraphModel))
+	}
+	
+	new (Diagram diagram, InternalGraphModel model) {
 		this.diagram = diagram
 		this.model = model
 	}
@@ -66,7 +70,7 @@ abstract class GratextSerializer {
 		'''
 	}
 	
-	def String gratext(Node node) {
+	def String gratext(InternalNode node) {
 		'''
 		«node.name» «node.id» «node.placement» {
 			«node.attributes»
@@ -76,9 +80,9 @@ abstract class GratextSerializer {
 		''' 
 	}
 	
-	def String gratext(Edge edge) {
+	def String gratext(InternalEdge edge) {
 		'''
-		-«edge.name»-> «edge.targetElement.id» «edge.pe.route» «edge.pe.decorations» {
+		-«edge.name»-> «edge.targetElement.internalElement.id» «edge.pe.route» «edge.pe.decorations» {
 			id «edge.id»
 			«edge.attributes»
 		}
@@ -86,7 +90,7 @@ abstract class GratextSerializer {
 	}
 	
 	def name(EObject obj) {
-		obj.eClass.name
+		obj.eClass.name.replaceFirst("Internal","")
 	}
 	
 	def String attributes(EObject obj) {
@@ -94,11 +98,12 @@ abstract class GratextSerializer {
 	}
 	
 	def List<? extends EStructuralFeature> attributes(EClass cls) {
+		println("Switch: " + cls.name)
 		switch cls.name {
-			case "GraphModel": new ArrayList
-			case "Container": new ArrayList
-			case "Node": new ArrayList
-			case "Edge": new ArrayList
+			case "InternalGraphModel": new ArrayList
+			case "InternalContainer": new ArrayList
+			case "InternalNode": new ArrayList
+			case "InternalEdge": new ArrayList
 			default: combine(cls.getEAttributes, cls.getEReferences, cls.getESuperTypes.map[attributes].flatten)
 		}
 	}
@@ -109,31 +114,31 @@ abstract class GratextSerializer {
 	
 	def containments(IdentifiableElement element) {
 		switch element {
-			ModelElementContainer: nodesInitialOrder.get(element).map[gratext].join('\n')
+			InternalModelElementContainer: nodesInitialOrder.get(element).map[gratext].join('\n')
 		}
 	}
 	
-	def placement(Node node) {
+	def placement(InternalNode node) {
 		val ga = node.pe.graphicsAlgorithm
 		'''at «ga.x»,«ga.y» size «ga.width»,«ga.height» «node.index»'''
 	}
 	
-	def index(Node node) {
+	def index(InternalNode node) {
 		val org = nodesInitialOrder.get(node.container).indexOf(node)
 		val now = nodesCurrentOrder.get(node.container).indexOf(node)
 		if (org != now)
 			'''index «now»'''
 	}
 	
-	def peIndex(Node node) {
+	def peIndex(InternalNode node) {
 		node.pe.eContainer.eContents.indexOf(node.pe)
 	}
 	
-	def gratextIndex(Node node) {
-		node.container.allNodes.indexOf(node)
+	def gratextIndex(InternalNode node) {
+		node.container.modelElements.indexOf(node)
 	}
 	
-	def sort(List<Node> nodes) {
+	def sort(Iterable<InternalNode> nodes) {
 		nodes
 	}
 	
@@ -166,13 +171,13 @@ abstract class GratextSerializer {
 		'''decorate "«ga.name»" at («ga.x»,«ga.y»)'''
 	}
 	
-	def edges(Node node) {
-		node.getOutgoing(Edge).map[gratext].join('\n')
+	def edges(InternalNode node) {
+		node.getOutgoing(InternalEdge).map[gratext].join('\n')
 	}
 	
 	def gratext(List<? extends EStructuralFeature> ftrs, EObject obj) {
 		switch obj {
-			ModelElement: ftrs.filter[it.featureID != GraphmodelPackage.MODEL_ELEMENT__ID]
+			InternalModelElement: ftrs.filter[it.featureID != InternalPackage.INTERNAL_MODEL_ELEMENT__ID]
 			default: ftrs
 		}.map[gratext(obj)].filterNull.join('\n')
 	}
@@ -191,7 +196,7 @@ abstract class GratextSerializer {
 	
 	def valueGratext(Object obj) {
 		switch obj {
-			ModelElement: obj?.id
+			InternalModelElement: obj?.id
 			String: '"' + obj.replace("\\","\\\\").replace('"', '\\"').replace('\n', '\\n') + '"'
 			EObject: '''
 				«obj.name» {

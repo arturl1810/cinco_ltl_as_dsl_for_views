@@ -9,7 +9,7 @@ class SerializerTemplate extends AbstractGratextTemplate {
 	override template() '''
 		package «project.basePackage».generator
 		
-		import graphmodel.GraphModel
+		import graphmodel.internal.InternalGraphModel
 		
 		import org.eclipse.emf.ecore.resource.Resource
 		import org.eclipse.graphiti.mm.pictograms.Diagram
@@ -22,7 +22,7 @@ class SerializerTemplate extends AbstractGratextTemplate {
 				super(res)
 			}
 			
-			new(Diagram diagram, GraphModel model) {
+			new(Diagram diagram, InternalGraphModel model) {
 				super(diagram, model)
 			}
 		}

@@ -8,13 +8,11 @@ class GratextResourceTemplate extends AbstractGratextTemplate {
 	override template() '''
 		package «project.basePackage»
 		
-		import graphmodel.Node
+		import graphmodel.internal.InternalNode
 		
 		import de.jabc.cinco.meta.plugin.gratext.runtime.resource.GratextResource
 		import «serializer.className»
 		import «modelizer.className»
-		
-		import java.util.List
 		
 		class «model.name»GratextResource extends GratextResource {
 			
@@ -27,13 +25,13 @@ class GratextResourceTemplate extends AbstractGratextTemplate {
 			
 			override serialize() {
 				new «serializer.classSimpleName»(this) {
-					override sort(List<Node> nodes) {
+					override sort(Iterable<InternalNode> nodes) {
 						sortByInitialOrder(nodes)
 					}
 				}.run
 			}
 			
-			def sortByInitialOrder(List<Node> nodes) {
+			def sortByInitialOrder(Iterable<InternalNode> nodes) {
 				if (modelGen == null)
 					nodes
 				else nodes.sortWith[n1,n2 | 

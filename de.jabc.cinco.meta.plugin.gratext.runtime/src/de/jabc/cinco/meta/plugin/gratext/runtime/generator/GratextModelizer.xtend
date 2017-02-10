@@ -1,19 +1,23 @@
 package de.jabc.cinco.meta.plugin.gratext.runtime.generator
 
-import static org.eclipse.graphiti.ui.services.GraphitiUi.getExtensionManager
-import static extension de.jabc.cinco.meta.plugin.gratext.runtime.generator.GratextGenerator.*
-
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoAbstractAddFeature
 import de.jabc.cinco.meta.core.utils.registry.NonEmptyRegistry
-import de.jabc.cinco.meta.plugin.gratext.runtime.generator.GratextModelTransformer
 import de.jabc.cinco.meta.plugin.gratext.runtime.editor.LazyDiagram
-import graphmodel.Edge
-import graphmodel.GraphModel
-import graphmodel.ModelElement
-import graphmodel.ModelElementContainer
-import graphmodel.Node
+import de.jabc.cinco.meta.runtime.xapi.ResourceExtension
+import graphmodel.IdentifiableElement
+import graphmodel.internal.InternalEdge
+import graphmodel.internal.InternalGraphModel
+import graphmodel.internal.InternalModelElement
+import graphmodel.internal.InternalModelElementContainer
+import graphmodel.internal.InternalNode
 import java.util.HashMap
-import java.util.List 
+import java.util.List
 import java.util.Map
+import org.eclipse.core.runtime.IConfigurationElement
+import org.eclipse.core.runtime.IExtension
+import org.eclipse.core.runtime.IExtensionPoint
+import org.eclipse.core.runtime.IExtensionRegistry
+import org.eclipse.core.runtime.Platform
 import org.eclipse.emf.ecore.EClass
 import org.eclipse.emf.ecore.EFactory
 import org.eclipse.emf.ecore.EObject
@@ -25,33 +29,37 @@ import org.eclipse.graphiti.features.context.impl.AddBendpointContext
 import org.eclipse.graphiti.features.context.impl.AddConnectionContext
 import org.eclipse.graphiti.features.context.impl.AddContext
 import org.eclipse.graphiti.features.context.impl.AreaContext
-import org.eclipse.graphiti.features.context.impl.UpdateContext
 import org.eclipse.graphiti.mm.pictograms.Connection
 import org.eclipse.graphiti.mm.pictograms.ContainerShape
 import org.eclipse.graphiti.mm.pictograms.FreeFormConnection
 import org.eclipse.graphiti.mm.pictograms.PictogramElement
 import org.eclipse.graphiti.mm.pictograms.Shape
 import org.eclipse.swt.SWTException
-import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoAbstractAddFeature
 
 import static org.eclipse.graphiti.ui.services.GraphitiUi.getExtensionManager
 
 import static extension de.jabc.cinco.meta.plugin.gratext.runtime.generator.GratextGenerator.*
-import de.jabc.cinco.meta.runtime.xapi.ResourceExtension
+import org.eclipse.graphiti.features.context.impl.UpdateContext
+import graphmodel.GraphModel
+import graphmodel.ModelElement
+import graphmodel.Node
+import graphmodel.Edge
+import graphmodel.ModelElementContainer
+import org.eclipse.emf.ecore.impl.EObjectImpl
 
 abstract class GratextModelizer {
 	
 	extension val ResourceExtension = new ResourceExtension
 	
-	NonEmptyRegistry<ModelElementContainer,List<EObject>>
+	NonEmptyRegistry<IdentifiableElement,List<EObject>>
 		nodesInitialOrder = new NonEmptyRegistry[newArrayList]
 	
 	GratextModelTransformer transformer
 
-	Map<ModelElement, PictogramElement> pes = new HashMap
-	Map<String, ModelElement> byId = new HashMap
+	Map<IdentifiableElement, PictogramElement> pes = new HashMap
+	Map<String, IdentifiableElement> byId = new HashMap
 
-	GraphModel model
+	protected GraphModel model
 	LazyDiagram diagram
 	IDiagramTypeProvider dtp
 	IFeatureProvider fp
@@ -61,53 +69,68 @@ abstract class GratextModelizer {
 	}
 	
 	def run(Resource resource) {
-		val gratextModel = resource.graphModel
+		val gratextModel = resource.getContent(InternalGraphModel)
 		nodesInitialOrder.clear
 		gratextModel.cacheInitialOrder
 		diagram = createDiagram
 		model = transformer.transform(gratextModel)
+		println("returned: " + model)
+		println(" > eInternalContainer: " + (model as EObjectImpl).eInternalContainer())
 		diagram.initialization = [|
-			link(diagram, model)
-			nodes.forEach[add]
+			println("on diagram init: " + model)
+			println(" > eInternalContainer: " + (model as EObjectImpl).eInternalContainer())
+			link(diagram, model.internalElement)
+			nodes.map[internalElement].forEach[add]
 			edges.forEach[add]
 			diagram.update
 		]
 		diagram.avoidInitialization = true
+		println("before resource edit: " + model)
+		println(" > eInternalContainer: " + (model as EObjectImpl).eInternalContainer())
+		println(" > resource.size: " + resource.contents.size)
+		val internal = (model as EObjectImpl).eInternalContainer()
 		resource.edit[
 			resource.contents.remove(gratextModel)
-			resource.contents.add(0, model)
+			resource.contents.add(0, model.internalElement)
 			resource.contents.add(0, diagram)
 		]
+		println("after resource edit: " + model)
+		println(" > resource.size: " + resource.contents.size)
+		model.internalElement = internal as InternalGraphModel
+		println("after re-adding of internal: " + model)
+		println(" > eInternalContainer: " + (model as EObjectImpl).eInternalContainer())
+		println(" > resource.size: " + resource.contents.size)
 		diagram.avoidInitialization = false
 	}
 	
 	def LazyDiagram createDiagram()
 	
-	def void cacheInitialOrder(ModelElementContainer container) {
+	def void cacheInitialOrder(InternalModelElementContainer container) {
 		val children = nodesInitialOrder.get(container)
-		for (Node node : container.allNodes) {
+		for (InternalModelElement node : container.modelElements) {
 			if (node.index < 0) {
 				node.index = children.size
 			}
 			children.add(node)
-			if (node instanceof ModelElementContainer) {
+			if (node instanceof InternalModelElementContainer) {
 				cacheInitialOrder(node)
 			}
 		}
 	}
 	
-	def getInitialIndex(Node node) {
+	def getInitialIndex(InternalModelElement node) {
 		nodesInitialOrder.get(node.container.counterpart).indexOf(node.counterpart)
 	}
 	
-	def add(ModelElement bo) {
+	def add(InternalModelElement bo) {
+		println("Add " + bo)
 		switch bo {
-			Edge: add(bo, bo.addContext)
+			InternalEdge: add(bo, bo.getAddContext)
 			default: add(bo, bo.getAddContext(diagram))
 		}
 	}
 	
-	def add(ModelElement bo, AddContext ctx) {
+	def add(InternalModelElement bo, AddContext ctx) {
 		if (ctx != null) [| 
 			bo.cache(ctx.addIfPossible)
 			bo.postprocess
@@ -120,26 +143,26 @@ abstract class GratextModelizer {
 		}]
 	}
 	
-	def postprocess(ModelElement bo) {
+	def postprocess(InternalModelElement bo) {
 		val pe = bo.pe
 		if (pe == null) {
 			warn("Pictogram null. Failed to add " + bo)
 		} else switch bo {
-			Edge: {
+			InternalEdge: {
 				addBendpoints(bo, pe)
 				addDecorators(bo, pe as Connection)
 			}
-			ModelElementContainer :
+			InternalModelElementContainer :
 				bo.modelElements.forEach[
 					add(getAddContext(pe as ContainerShape))
 				]
 		}
 	}
 	
-	def List<Pair<Integer,Integer>> getBendpoints(Edge edge)
+	def List<Pair<Integer,Integer>> getBendpoints(InternalEdge edge)
 	
-	def addBendpoints(Edge edge, PictogramElement pe) {
-		(edge.counterpart as Edge).bendpoints?.forEach[ point, i |
+	def addBendpoints(InternalEdge edge, PictogramElement pe) {
+		(edge.counterpart as InternalEdge).bendpoints?.forEach[ point, i |
 			add(point, (pe as FreeFormConnection), i)
 		]
 	}
@@ -150,13 +173,13 @@ abstract class GratextModelizer {
 			featureProvider.getAddBendpointFeature(ctx), ctx);
 	}
 	
-	def addDecorators(Edge edge, Connection con) {
+	def addDecorators(InternalEdge edge, Connection con) {
 		val size = con.connectionDecorators?.size
 		for (var i = 0; i < size; i++)
-			con.updateDecorator(i, (edge.counterpart as Edge).getDecoratorLocation(i))
+			con.updateDecorator(i, (edge.counterpart as InternalEdge).getDecoratorLocation(i))
 	}
 	
-	def Pair<Integer,Integer> getDecoratorLocation(Edge edge, int index)
+	def Pair<Integer,Integer> getDecoratorLocation(InternalEdge edge, int index)
 	
 	def updateDecorator(Connection con, int index, Pair<Integer,Integer> location) {
 		val ga = [|	
@@ -178,34 +201,36 @@ abstract class GratextModelizer {
 		} else warn("Failed to retrieve AddFeature for " + ctx)
 	}
 	
-	def getAddContext(ModelElement bo, ContainerShape target) {
+	def getAddContext(InternalModelElement bo, ContainerShape target) {
 		new AddContext(new AreaContext, bo) => [
 			targetContainer = target
-			x = (bo.counterpart as ModelElement).x
-			y = (bo.counterpart as ModelElement).y
-			width = (bo.counterpart as ModelElement).width
-			height = (bo.counterpart as ModelElement).height
+			x = (bo.counterpart as InternalModelElement).x
+			y = (bo.counterpart as InternalModelElement).y
+			width = (bo.counterpart as InternalModelElement).width
+			height = (bo.counterpart as InternalModelElement).height
 		]
 	}
 	
-	def int getX(ModelElement element)
+	def int getX(InternalModelElement element)
 	
-	def int getY(ModelElement element)
+	def int getY(InternalModelElement element)
 	
-	def int getWidth(ModelElement element)
+	def int getWidth(InternalModelElement element)
 	
-	def int getHeight(ModelElement element)
+	def int getHeight(InternalModelElement element)
 	
-	def getAddContext(Edge edge) {
-		val srcAnchor = edge.sourceElement.pe.anchor
-		val tgtAnchor = edge.targetElement.pe.anchor
+	def getAddContext(InternalEdge edge) {
+		println("Add edge: " + edge)
+		println("Add edge.source: " + edge.sourceElement)
+		val srcAnchor = edge.sourceElement.internalElement.pe.anchor
+		val tgtAnchor = edge.targetElement.internalElement.pe.anchor
 		if (srcAnchor != null && tgtAnchor != null)
 			new AddConnectionContext(srcAnchor, tgtAnchor) => [
 				newObject = edge
 			]
 	}
 	
-	def getPe(ModelElement elm) {
+	def getPe(IdentifiableElement elm) {
 		pes.get(elm)
 	}
 	
@@ -214,6 +239,7 @@ abstract class GratextModelizer {
 	}
 	
 	def getCounterpart(EObject elm) {
+		println("getCounterpart: " + elm)
 		transformer.getCounterpart(elm)
 	}
 	
@@ -222,12 +248,15 @@ abstract class GratextModelizer {
 	}
 	
 	def getNodes() {
-		model.modelElements.filter(Node).sortBy[(counterpart as Node).index]
+		println("getNodes.model: " + model)
+		println("getNodes.model.internalContainer: " + model.internalContainerElement)
+		println("getNodes.model.internalContainer.modelElements: " + model.internalContainerElement.modelElements)
+		model.modelElements.filter(Node).sortBy[(counterpart as InternalNode).index]
 	}
 	
-	def int getIndex(ModelElement element)
+	def int getIndex(IdentifiableElement element)
 	
-	def void setIndex(ModelElement element, int i)
+	def void setIndex(IdentifiableElement element, int i)
 	
 	def link(PictogramElement pe, EObject bo) {
 		featureProvider.link(pe,bo)
@@ -241,7 +270,7 @@ abstract class GratextModelizer {
 		dtp ?: (dtp = extensionManager.createDiagramTypeProvider(diagram, diagram.diagramTypeProviderId))
 	}
 	
-	def cache(ModelElement bo, PictogramElement pe) {
+	def cache(IdentifiableElement bo, PictogramElement pe) {
 		byId.put(bo.id, bo)
 		pes.put(bo, pe)
 	}

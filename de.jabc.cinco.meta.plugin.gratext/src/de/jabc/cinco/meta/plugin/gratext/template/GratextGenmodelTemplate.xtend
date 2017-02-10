@@ -45,7 +45,8 @@ override template()
     «ENDFOR»
     «FOR cls:classes»«cls.toGenmodelXMI(ecoreFile.name)»«ENDFOR»
   </genPackages>
-  <usedGenPackages href="platform:/resource/«ctx.modelProjectSymbolicName»/src-gen/model/«model.name».genmodel#//«model.acronym»"/>
+  <usedGenPackages href="platform:/resource/«ctx.modelProjectSymbolicName»/src-gen/model/«model.name».genmodel#//«model.acronym.toFirstUpper»"/>
+  <usedGenPackages href="platform:/resource/«ctx.modelProjectSymbolicName»/src-gen/model/«model.name».genmodel#//Internal"/>
   <usedGenPackages href="platform:/plugin/de.jabc.cinco.meta.core.mgl.model/model/GraphModel.genmodel#//graphmodel"/>
 </genmodel:GenModel>
 '''

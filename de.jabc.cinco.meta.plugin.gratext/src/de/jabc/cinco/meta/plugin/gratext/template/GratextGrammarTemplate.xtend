@@ -137,7 +137,7 @@ def nodeRule(Node node) {
 def edgeRule(Edge edge) {
 	'''
 	«edge.name» returns «edge.name»:{«edge.name»}
-	'-«edge.name»->' _targetElement = [graphmodel::Node|_ID]
+	'-«edge.name»->' _targetElement = [graphmodel::InternalNode|_ID]
 	(route = _Route)?
 	(decorations += _Decoration)*
 	('{'
@@ -179,7 +179,7 @@ def type(Attribute attr) {
 		'''[«model.acronym»::«attr.type»|ID]'''
 		
 	}else if(attr instanceof PrimitiveAttribute){
-		attr.type.literal
+		'''_«attr.type.literal»'''
 	}
 }
 
@@ -225,9 +225,9 @@ def prime(Node node) {
 def imports() {
 '''
 import "«graphmodel.nsURI»/«project.acronym»"
-import "«graphmodel.nsURI»" as «model.acronym»
+import "«graphmodel.nsURI»/internal" as «model.acronym»
 «references.entrySet.map['''import "«it.value»" as «it.key»'''].join('\n')»
-import "http://www.jabc.de/cinco/gdl/graphmodel" as graphmodel
+import "http://www.jabc.de/cinco/gdl/graphmodel/internal" as graphmodel
 import "http://www.eclipse.org/emf/2002/Ecore" as _ecore
 '''	
 }

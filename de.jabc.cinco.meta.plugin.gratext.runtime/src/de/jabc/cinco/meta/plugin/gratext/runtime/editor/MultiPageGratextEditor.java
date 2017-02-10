@@ -408,12 +408,14 @@ public abstract class MultiPageGratextEditor extends MultiPageEditorPart impleme
 			 * the inner state that the Xtext Editor works with.
 			 */
     		XtextDocument doc = (XtextDocument) sourceEditor.getDocument();
-    		doc.internalModify(new IUnitOfWork.Void<XtextResource>() {
-				@Override
-				public void process(XtextResource state) throws Exception {
-					innerState = (GratextResource) state;
-				}
-			});
+    		if (doc != null) {
+	    		doc.internalModify(new IUnitOfWork.Void<XtextResource>() {
+					@Override
+					public void process(XtextResource state) throws Exception {
+						innerState = (GratextResource) state;
+					}
+				});
+    		}
 		}
 		if (innerState != null) {
 			if (hash != 0 && innerState.hashCode() != hash) {
