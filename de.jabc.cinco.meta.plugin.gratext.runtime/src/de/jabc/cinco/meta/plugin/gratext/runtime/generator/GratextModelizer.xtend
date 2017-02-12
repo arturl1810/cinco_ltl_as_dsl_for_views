@@ -4,7 +4,9 @@ import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoAbstract
 import de.jabc.cinco.meta.core.utils.registry.NonEmptyRegistry
 import de.jabc.cinco.meta.plugin.gratext.runtime.editor.LazyDiagram
 import de.jabc.cinco.meta.runtime.xapi.ResourceExtension
+import graphmodel.GraphModel
 import graphmodel.IdentifiableElement
+import graphmodel.Node
 import graphmodel.internal.InternalEdge
 import graphmodel.internal.InternalGraphModel
 import graphmodel.internal.InternalModelElement
@@ -13,15 +15,11 @@ import graphmodel.internal.InternalNode
 import java.util.HashMap
 import java.util.List
 import java.util.Map
-import org.eclipse.core.runtime.IConfigurationElement
-import org.eclipse.core.runtime.IExtension
-import org.eclipse.core.runtime.IExtensionPoint
-import org.eclipse.core.runtime.IExtensionRegistry
-import org.eclipse.core.runtime.Platform
 import org.eclipse.emf.ecore.EClass
 import org.eclipse.emf.ecore.EFactory
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.EPackage
+import org.eclipse.emf.ecore.impl.EObjectImpl
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.graphiti.dt.IDiagramTypeProvider
 import org.eclipse.graphiti.features.IFeatureProvider
@@ -29,6 +27,7 @@ import org.eclipse.graphiti.features.context.impl.AddBendpointContext
 import org.eclipse.graphiti.features.context.impl.AddConnectionContext
 import org.eclipse.graphiti.features.context.impl.AddContext
 import org.eclipse.graphiti.features.context.impl.AreaContext
+import org.eclipse.graphiti.features.context.impl.UpdateContext
 import org.eclipse.graphiti.mm.pictograms.Connection
 import org.eclipse.graphiti.mm.pictograms.ContainerShape
 import org.eclipse.graphiti.mm.pictograms.FreeFormConnection
@@ -39,13 +38,6 @@ import org.eclipse.swt.SWTException
 import static org.eclipse.graphiti.ui.services.GraphitiUi.getExtensionManager
 
 import static extension de.jabc.cinco.meta.plugin.gratext.runtime.generator.GratextGenerator.*
-import org.eclipse.graphiti.features.context.impl.UpdateContext
-import graphmodel.GraphModel
-import graphmodel.ModelElement
-import graphmodel.Node
-import graphmodel.Edge
-import graphmodel.ModelElementContainer
-import org.eclipse.emf.ecore.impl.EObjectImpl
 
 abstract class GratextModelizer {
 	
@@ -74,32 +66,20 @@ abstract class GratextModelizer {
 		gratextModel.cacheInitialOrder
 		diagram = createDiagram
 		model = transformer.transform(gratextModel)
-		println("returned: " + model)
-		println(" > eInternalContainer: " + (model as EObjectImpl).eInternalContainer())
 		diagram.initialization = [|
-			println("on diagram init: " + model)
-			println(" > eInternalContainer: " + (model as EObjectImpl).eInternalContainer())
 			link(diagram, model.internalElement)
 			nodes.map[internalElement].forEach[add]
 			edges.forEach[add]
 			diagram.update
 		]
 		diagram.avoidInitialization = true
-		println("before resource edit: " + model)
-		println(" > eInternalContainer: " + (model as EObjectImpl).eInternalContainer())
-		println(" > resource.size: " + resource.contents.size)
 		val internal = (model as EObjectImpl).eInternalContainer()
 		resource.edit[
 			resource.contents.remove(gratextModel)
 			resource.contents.add(0, model.internalElement)
 			resource.contents.add(0, diagram)
 		]
-		println("after resource edit: " + model)
-		println(" > resource.size: " + resource.contents.size)
 		model.internalElement = internal as InternalGraphModel
-		println("after re-adding of internal: " + model)
-		println(" > eInternalContainer: " + (model as EObjectImpl).eInternalContainer())
-		println(" > resource.size: " + resource.contents.size)
 		diagram.avoidInitialization = false
 	}
 	
@@ -123,7 +103,6 @@ abstract class GratextModelizer {
 	}
 	
 	def add(InternalModelElement bo) {
-		println("Add " + bo)
 		switch bo {
 			InternalEdge: add(bo, bo.getAddContext)
 			default: add(bo, bo.getAddContext(diagram))
@@ -220,10 +199,16 @@ abstract class GratextModelizer {
 	def int getHeight(InternalModelElement element)
 	
 	def getAddContext(InternalEdge edge) {
-		println("Add edge: " + edge)
-		println("Add edge.source: " + edge.sourceElement)
-		val srcAnchor = edge.sourceElement.internalElement.pe.anchor
-		val tgtAnchor = edge.targetElement.internalElement.pe.anchor
+		val srcAnchor = [|
+			edge.sourceElement.internalElement.pe.anchor
+		].onException[
+			warn("Failed to retrieve source of edge: " + edge.eClass.name + " " + edge.id)
+		]
+		val tgtAnchor = [|
+			edge.targetElement.internalElement.pe.anchor
+		].onException[
+			warn("Failed to retrieve target of edge: " + edge.eClass.name + " " + edge.id)
+		]
 		if (srcAnchor != null && tgtAnchor != null)
 			new AddConnectionContext(srcAnchor, tgtAnchor) => [
 				newObject = edge
@@ -239,7 +224,6 @@ abstract class GratextModelizer {
 	}
 	
 	def getCounterpart(EObject elm) {
-		println("getCounterpart: " + elm)
 		transformer.getCounterpart(elm)
 	}
 	
@@ -248,9 +232,6 @@ abstract class GratextModelizer {
 	}
 	
 	def getNodes() {
-		println("getNodes.model: " + model)
-		println("getNodes.model.internalContainer: " + model.internalContainerElement)
-		println("getNodes.model.internalContainer.modelElements: " + model.internalContainerElement.modelElements)
 		model.modelElements.filter(Node).sortBy[(counterpart as InternalNode).index]
 	}
 	
