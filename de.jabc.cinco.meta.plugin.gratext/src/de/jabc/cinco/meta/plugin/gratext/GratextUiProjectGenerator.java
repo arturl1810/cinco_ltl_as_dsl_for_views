@@ -6,6 +6,7 @@ import java.util.Set;
 
 import de.jabc.cinco.meta.plugin.gratext.template.GratextEditorTemplate;
 import de.jabc.cinco.meta.plugin.gratext.template.PageAwareDiagramEditorTemplate;
+import de.jabc.cinco.meta.plugin.gratext.template.ProposalProviderTemplate;
 import de.jabc.cinco.meta.plugin.gratext.template.UiPluginXmlTemplate;
 
 public class GratextUiProjectGenerator extends EmptyProjectGenerator {
@@ -72,6 +73,11 @@ public class GratextUiProjectGenerator extends EmptyProjectGenerator {
 			.inPackage(getProjectDescriptor().getBasePackage())
 			.createFile("PageAware" + getModelDescriptor().getName() + "DiagramEditor.java")
 			.withContent(PageAwareDiagramEditorTemplate.class);
+
+		inSrcFolder("src")
+			.inPackage(getProjectDescriptor().getBasePackage() + ".contentassist")
+			.createFile(getProjectDescriptor().getTargetName() + "ProposalProvider.xtend")
+			.withContent(ProposalProviderTemplate.class);
 		
 		createFile("plugin.xml")
 			.withContent(UiPluginXmlTemplate.class);
