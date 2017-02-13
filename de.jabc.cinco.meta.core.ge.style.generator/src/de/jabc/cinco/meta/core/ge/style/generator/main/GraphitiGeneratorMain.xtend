@@ -38,6 +38,7 @@ import org.eclipse.core.resources.IProject
 import org.eclipse.core.runtime.NullProgressMonitor
 import productDefinition.CincoProduct
 import style.Styles
+import de.jabc.cinco.meta.core.ge.style.generator.templates.reconnect.EdgeReconnectFeatures
 
 class GraphitiGeneratorMain extends GeneratorUtils { 
 	
@@ -66,6 +67,7 @@ class GraphitiGeneratorMain extends GeneratorUtils {
 	extension NodeUpdateFeatures = new NodeUpdateFeatures
 	extension EdgeUpdateFeatures = new EdgeUpdateFeatures
 	extension EdgeLayoutFeatures = new EdgeLayoutFeatures
+	extension EdgeReconnectFeatures = new EdgeReconnectFeatures
 	
 	var GraphModel gm
 	var IFile cpdFile
@@ -149,6 +151,10 @@ class GraphitiGeneratorMain extends GeneratorUtils {
 			
 			content = e.doGenerateEdgeLayoutFeature(styles)
 			ContentWriter::writeJavaFileInSrcGen(project, e.packageNameLayout, "LayoutFeature"+e.name.toFirstUpper+".java", content)
+			
+			content = e.doGenerateEdgeReconnectFeature
+			ContentWriter::writeJavaFileInSrcGen(project, e.packageNameReconnect, "ReconnectFeature"+e.fuName+".java", content)
+			
 		}
 		
 		var usedExtensions = CincoUtils.getUsedExtensions(gm);

@@ -175,6 +175,9 @@ class GeneratorUtils {
 	def packageNameUpdate(ModelElement me)
 	'''«me.graphModel.packageName».features.update'''
 	
+	def packageNameReconnect(ModelElement me)
+	'''«me.graphModel.packageName».features.reconnect'''
+	
 	/**
 	 * Returns the package name of the business object's java class which is generated for the given node
 	 * 

@@ -43,6 +43,7 @@ import org.eclipse.graphiti.features.context.impl.AddContext
 import org.eclipse.graphiti.features.custom.ICustomFeature
 import org.eclipse.graphiti.mm.pictograms.PictogramElement
 import org.eclipse.graphiti.ui.features.DefaultFeatureProvider
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.customfeature.GraphitiCustomFeature
 
 class FeatureProviderTmpl extends GeneratorUtils{
 	
@@ -249,7 +250,7 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 			if («me.instanceofCheck("bo")») {
 				return new «ICustomFeature.name»[] {
 					«FOR annotValue : MGLUtils.getAllAnnotation("contextMenuAction", me) SEPARATOR ","»
-					new «annotValue»(this)
+					new «GraphitiCustomFeature.name»<«me.fqBeanName»>(this,new «annotValue»())
 					«ENDFOR»
 				};
 			}
