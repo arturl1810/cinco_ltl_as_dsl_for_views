@@ -236,9 +236,21 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 						elemClasses.get(n.name).mainEClass,
 						1,
 						1,
-						ce.newNodeMethodContent(n),
+						ce.newNodeSimpleMethodContent(n),
 						createEInt("x",1,1),
 						createEInt("y",1,1)
+					)
+					
+				elemClasses.get(ce.name).mainEClass.
+					createEOperation("new"+n.fuName,
+						elemClasses.get(n.name).mainEClass,
+						1,
+						1,
+						ce.newNodeMethodContent(n),
+						createEInt("x",1,1),
+						createEInt("y",1,1),
+						createEInt("width",1,1),
+						createEInt("height",1,1)
 					)
 			]
 		} 
@@ -248,9 +260,14 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 				«n.fqBeanName» node = «n.fqFactoryName».create«n.fuName»();
 				this.getInternalContainerElement().getModelElements().add(node.getInternalElement());
 				node.move(x, y);
+				node.resize(width, height);
 				return node;
 			} else throw new «RuntimeException.name»(
 				«String.name».format("Cannot add node %s to %s", «n.fuName».class, this.getClass()));
+		'''
+
+		def newNodeSimpleMethodContent(ContainingElement ce, Node n) '''
+			return new«n.fuName»(x,y,-1,-1);
 		'''
 
 		def String edgesList(Iterable<Edge> edges) {

@@ -112,6 +112,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		]
 		graphModel.edges.forEach[edge|
 			edge.createInheritance(graphModel)
+			edge.createCanReconnectMethods(eClassesMap)
 			edge.createReconnectMethods(eClassesMap)
 		]
 		graphModel.types.filter(UserDefinedType).forEach[udt|udt.createInheritance(graphModel)]

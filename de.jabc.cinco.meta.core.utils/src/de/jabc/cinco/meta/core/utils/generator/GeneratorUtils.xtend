@@ -87,8 +87,15 @@ class GeneratorUtils {
 	/**
 	 * Returns the {@link ModelElement}'s name in first lower
 	 */
-	def flName(ModelElement me) {
+	def flName(Type me) {
 		me.name.toFirstLower
+	}
+	
+	def flName(ContainingElement ce) {
+		switch ce {
+			GraphModel : (ce as ModelElement).flName
+			NodeContainer : (ce as ModelElement).flName
+		}
 	}
 	
 	def fuInternalName(ModelElement me) {
@@ -185,6 +192,13 @@ class GeneratorUtils {
 	 */
 	def fqBeanName(ModelElement me)
 	'''«me.beanPackage».«me.fuName»'''
+	
+	def fqBeanName(ContainingElement ce) {
+		switch ce {
+			GraphModel : (ce as ModelElement).fqBeanName
+			NodeContainer : (ce as ModelElement).fqBeanName
+		}
+	}
 	
 	/**
 	 * Returns the fully qualified name of the generated internal business object java bean for the given {@link ModelElement}
