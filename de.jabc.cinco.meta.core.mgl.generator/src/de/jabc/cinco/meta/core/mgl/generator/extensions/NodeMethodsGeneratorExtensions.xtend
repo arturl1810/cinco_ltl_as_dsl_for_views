@@ -167,7 +167,7 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 
 		def newEdgeMethodContent(Node node, Edge edge) '''
 			if (target.canEnd(«edge.fuName».class)) {
-				«edge.fqBeanName» edge = «node.fqFactoryName».create«edge.fuName»();
+				«edge.fqBeanName» edge = «node.fqFactoryName».eINSTANCE.create«edge.fuName»();
 				edge.setSourceElement(this);
 				edge.setTargetElement(target);
 				return edge;
@@ -257,7 +257,7 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 
 		def newNodeMethodContent(ContainingElement ce, Node n) '''
 			if (this.canContain(«n.fuName».class)) {
-				«n.fqBeanName» node = «n.fqFactoryName».create«n.fuName»();
+				«n.fqBeanName» node = «n.fqFactoryName».eINSTANCE.create«n.fuName»();
 				this.getInternalContainerElement().getModelElements().add(node.getInternalElement());
 				node.move(x, y);
 				node.resize(width, height);

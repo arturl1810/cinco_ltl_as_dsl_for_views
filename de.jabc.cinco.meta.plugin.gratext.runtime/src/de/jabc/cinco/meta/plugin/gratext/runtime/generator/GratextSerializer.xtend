@@ -98,7 +98,6 @@ abstract class GratextSerializer {
 	}
 	
 	def List<? extends EStructuralFeature> attributes(EClass cls) {
-		println("Switch: " + cls.name)
 		switch cls.name {
 			case "InternalGraphModel": new ArrayList
 			case "InternalContainer": new ArrayList

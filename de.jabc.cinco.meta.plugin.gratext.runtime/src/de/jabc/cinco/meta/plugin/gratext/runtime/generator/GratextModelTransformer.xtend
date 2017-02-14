@@ -17,7 +17,6 @@ import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.EReference
 import org.eclipse.emf.ecore.EStructuralFeature
-import org.eclipse.emf.ecore.impl.EObjectImpl
 
 class GratextModelTransformer {
 	
@@ -40,8 +39,6 @@ class GratextModelTransformer {
 	
 	def GraphModel transform(InternalGraphModel model) {
 		model.map
-		println("return: " + baseModel)
-		println(" > eInternalContainer: " + (baseModel as EObjectImpl).eInternalContainer())
 		return baseModel
 	}
 	
@@ -59,7 +56,6 @@ class GratextModelTransformer {
 	}
 	
 	private def cache(IdentifiableElement baseElm, IdentifiableElement gtxElm) {
-		println("Cache: " + baseElm)
 		counterparts.put(baseElm, gtxElm)
 		counterparts.put(gtxElm, baseElm)
 		switch baseElm {
@@ -67,8 +63,7 @@ class GratextModelTransformer {
 		}
 	}
 	
-	private def <T extends InternalGraphModel> T map(T model) { 
-		println("MapInternalGraphModel: " + model)
+	private def <T extends InternalGraphModel> T map(T model) {
 		val cp = model.counterpart
 		if (cp != null)
 			return cp as T
@@ -87,7 +82,6 @@ class GratextModelTransformer {
 	}
 	
 	private def InternalModelElement map(InternalModelElement elm) {
-		println("MapInternalModelElement: " + elm)
 		val cp = elm.counterpart
 		if (cp != null)
 			return cp as InternalModelElement
@@ -116,20 +110,13 @@ class GratextModelTransformer {
 	}
 	
 	private def map(EReference ref, IdentifiableElement elm) {
-		println("MapReference: " + ref)
-		println("  > of: " + elm)
-		println("  > cp: " + elm.counterpart)
 		if (!"element".equals(ref.name)) {
 			val value = elm.counterpart.eGet(ref).mapValue
-			println("baseModel: " + baseModel)
-			println("before.set: " + (baseModel as EObjectImpl).eInternalContainer())
 			elm.eSet(ref, value)
-			println("after..set: " + (baseModel as EObjectImpl).eInternalContainer())
 		}
 	}
 	
 	private def Object mapValue(Object value) {
-		println("MapValue: " + value)
 		switch value {
 			InternalGraphModel: value.map
 			InternalModelElement: value.map
@@ -141,27 +128,19 @@ class GratextModelTransformer {
 	}
 	
 	private def attributes(EObject elm) {
-		println("GetAttributes: " + elm)
-		println(" > eClass: " + elm.eClass)
 		elm?.eClass?.getEAllAttributes
 	}
 	
 	private def references(EObject elm) {
-		println("GeReferences: " + elm)
-		println(" > eClass: " + elm.eClass)
 		elm?.eClass?.getEAllReferences
 	}
 	
 	private def toBase(InternalModelElement elm) {
-		println("toBase: " + elm)
 		elm.eClass.getESuperTypes
 			.filter[suty | {
-				println(" > pkg.find: " + baseModelPkg.eContents.filter(EClass).findFirst[name === suty.name])
-				println(" > pkg.contains: " + baseModelPkg.eContents.contains(suty))
 				baseModelPkg.eContents.filter(EClass).exists[name === suty.name]
 			}]
 			.map[suty | {
-				println(" > create: " + baseModelFct.create(suty))
 				baseModelFct.create(suty)
 			}]
 			.reduce[p1, p2 | p1] as ModelElement
