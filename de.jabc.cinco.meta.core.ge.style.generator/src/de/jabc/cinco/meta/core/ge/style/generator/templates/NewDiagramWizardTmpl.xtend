@@ -32,6 +32,7 @@ import org.eclipse.ui.ide.IDE
 import java.io.IOException
 import org.eclipse.ui.PartInitException
 import org.eclipse.swt.widgets.Composite
+import mgl.ContainingElement
 
 class NewDiagramWizardTmpl extends GeneratorUtils{
 	
@@ -111,7 +112,10 @@ public class «gm.fuName»DiagramWizard extends «Wizard.name» implements «INe
 			«Resource.name» res = new «ResourceSetImpl.name»().createResource(resUri);
 			«Diagram.name» diagram = 
 				«Graphiti.name».getPeService().createDiagram("«gm.fuName»", dName, true);
-			«gm.beanPackage».«gm.fuName» graph = «gm.package».factory.«gm.name»Factory.create«gm.fuName»();
+«««			«gm.beanPackage».«gm.fuName» graph = «gm.package».factory.«gm.name»Factory.create«gm.fuName»();
+			«gm.packageNameAPI».«gm.fuCName» graph = new «gm.packageNameAPI».«gm.fuCName»();
+			graph.setInternalElement(«gm.fqInternalFactoryName».eINSTANCE.createInternal«gm.fuName»());
+			graph.setPictogramElement(diagram);
 			graph.getInternalContainerElement().setId(«EcoreUtil.name».generateUUID());
 			try {
 				res.unload();
@@ -122,8 +126,13 @@ public class «gm.fuName»DiagramWizard extends «Wizard.name» implements «INe
 				«IDiagramTypeProvider.name» dtp = «GraphitiUi.name».getExtensionManager().createDiagramTypeProvider(diagram, "«gm.packageName».«gm.fuName»DiagramTypeProvider");
 «««				«gm.fuName»GraphitiUtils.addToResource(diagram, dtp.getFeatureProvider());
 				dtp.getFeatureProvider().link(diagram, graph.getInternalElement());
-
-
+				
+«««				TODO: This is quick and dirty...
+				«IF gm.booleanWriteMethodCallPostCreate»
+				«(gm as ContainingElement).fqBeanName» modelCreate = graph;
+				«gm.writeMethodCallPostCreate»
+				«ENDIF»
+				
 				res.save(null);
 
 				«IWorkbenchPage.name» page = «PlatformUI.name».getWorkbench().getActiveWorkbenchWindow().getActivePage();

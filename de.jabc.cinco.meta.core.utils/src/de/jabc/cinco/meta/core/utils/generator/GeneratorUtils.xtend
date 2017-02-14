@@ -102,8 +102,6 @@ class GeneratorUtils {
 		"Internal"+me.name.toFirstUpper
 	}
 	
-
-	
 	
 	/**
 	 * Returns the package name prefix for the generated graphiti sources.
@@ -595,6 +593,8 @@ class GeneratorUtils {
 		'''«me.beanPackage».internal.«me.fuInternalName»'''
 	}
 	
+	def fqInternalFactoryName(ModelElement me) 
+		'''«me.beanPackage».internal.InternalFactory''' 
 
 	def Iterable<? extends ModelElement> allSuperTypes(ModelElement element) {
 		val superTypes = new ArrayList<ModelElement>

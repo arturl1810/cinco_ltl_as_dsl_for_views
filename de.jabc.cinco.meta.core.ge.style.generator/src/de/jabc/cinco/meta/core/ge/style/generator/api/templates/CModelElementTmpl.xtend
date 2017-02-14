@@ -120,12 +120,15 @@ public «IF me.isIsAbstract»abstract«ENDIF» class «me.fuCName» extends «me
 		cc.setSourcePictogramElement(getPictogramElement());
 		cc.setTargetPictogramElement(((«target.fuCName») target).getPictogramElement());
 		
+		cc.setSourceAnchor(((«AnchorContainer.name»)this.getPictogramElement()).getAnchors().get(0));
+		cc.setTargetAnchor(((«AnchorContainer.name»)((«target.fuCName»)target).getPictogramElement()).getAnchors().get(0));
+		
 		«IFeatureProvider.name» fp = getFeatureProvider();
 		«e.fqCreateFeatureName» cf = new «e.fqCreateFeatureName»(fp);
 		if (fp instanceof «CincoFeatureProvider.name») {
 			Object[] retVal = ((«CincoFeatureProvider.name») fp).executeFeature(cf, cc);
-			«e.fuCName» tmp = («e.fuCName») retVal[0];
-			tmp.setPictogramElement((«PictogramElement.name») retVal[1]);
+			«e.fuCName» tmp = («e.fuCName») ((«e.fqInternalBeanName») retVal[0]).getElement();
+«««			tmp.setPictogramElement((«PictogramElement.name») retVal[1]);
 			return tmp;
 		}
 		return null;
@@ -218,7 +221,11 @@ public «IF me.isIsAbstract»abstract«ENDIF» class «me.fuCName» extends «me
 	«ENDIF»
 	
 	private «IFeatureProvider.name» getFeatureProvider() {
+		«IF !(me instanceof GraphModel)»
+		«Diagram.name» d = («Diagram.name») ((«me.graphModel.fuCName») this.getRootElement()).getPictogramElement();
+		«ELSE»
 		«Diagram.name» d = («Diagram.name») getPictogramElement();
+		«ENDIF»
 		return «GraphitiUi.name».getExtensionManager().createFeatureProvider(d);
 	}
 }
