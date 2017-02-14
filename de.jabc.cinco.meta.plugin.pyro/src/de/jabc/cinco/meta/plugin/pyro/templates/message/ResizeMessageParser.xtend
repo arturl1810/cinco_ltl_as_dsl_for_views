@@ -4,7 +4,7 @@ import de.jabc.cinco.meta.plugin.pyro.model.StyledNode
 import de.jabc.cinco.meta.plugin.pyro.model.TemplateContainer
 import de.jabc.cinco.meta.plugin.pyro.templates.Templateable
 
-class ResizeMessageParser implements Templateable{
+class ResizeMessageParser extends Templateable{
 	
 	override create(TemplateContainer tc)
 	'''

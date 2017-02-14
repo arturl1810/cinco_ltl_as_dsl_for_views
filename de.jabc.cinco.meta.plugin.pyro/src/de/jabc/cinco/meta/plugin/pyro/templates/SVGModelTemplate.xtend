@@ -15,7 +15,7 @@ import mgl.GraphicalModelElement
 import mgl.Node
 import mgl.Type
 
-class SVGModelTemplate implements Templateable{
+class SVGModelTemplate extends Templateable{
 	
 	override create(TemplateContainer tc)
 	'''

@@ -14,7 +14,7 @@ import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.EPackage
 import de.jabc.cinco.meta.plugin.pyro.model.TemplateContainer
 
-class CustomMessageParser implements Templateable{
+class CustomMessageParser extends Templateable{
 	
 	override create(TemplateContainer tc)
 	'''

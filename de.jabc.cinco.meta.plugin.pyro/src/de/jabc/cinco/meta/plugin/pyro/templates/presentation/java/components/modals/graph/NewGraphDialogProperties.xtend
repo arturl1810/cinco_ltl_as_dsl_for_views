@@ -3,7 +3,7 @@ package de.jabc.cinco.meta.plugin.pyro.templates.presentation.java.components.mo
 import de.jabc.cinco.meta.plugin.pyro.model.TemplateContainer
 import de.jabc.cinco.meta.plugin.pyro.templates.Templateable
 
-class NewGraphDialogProperties implements Templateable{
+class NewGraphDialogProperties extends Templateable{
 	
 	override create(TemplateContainer tc)
 	'''

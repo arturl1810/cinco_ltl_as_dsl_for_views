@@ -3,7 +3,7 @@ package de.jabc.cinco.meta.plugin.pyro.templates.presentation.resources.componen
 import de.jabc.cinco.meta.plugin.pyro.model.TemplateContainer
 import de.jabc.cinco.meta.plugin.pyro.templates.Templateable
 
-class ModelingCanvas implements Templateable{
+class ModelingCanvas extends Templateable{
 	
 	override create(TemplateContainer tc)
 	'''

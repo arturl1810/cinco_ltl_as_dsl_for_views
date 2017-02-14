@@ -3,7 +3,7 @@ package de.jabc.cinco.meta.plugin.pyro.templates.message
 import de.jabc.cinco.meta.plugin.pyro.model.TemplateContainer
 import de.jabc.cinco.meta.plugin.pyro.templates.Templateable
 
-class EditMessageParser implements Templateable{
+class EditMessageParser extends Templateable{
 	
 	override create(TemplateContainer tc)
 	'''

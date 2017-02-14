@@ -87,15 +87,20 @@ class GeneratorUtils {
 	/**
 	 * Returns the {@link ModelElement}'s name in first lower
 	 */
-	def flName(ModelElement me) {
+	def flName(Type me) {
 		me.name.toFirstLower
+	}
+	
+	def flName(ContainingElement ce) {
+		switch ce {
+			GraphModel : (ce as ModelElement).flName
+			NodeContainer : (ce as ModelElement).flName
+		}
 	}
 	
 	def fuInternalName(ModelElement me) {
 		"Internal"+me.name.toFirstUpper
 	}
-	
-
 	
 	
 	/**
@@ -168,6 +173,9 @@ class GeneratorUtils {
 	def packageNameUpdate(ModelElement me)
 	'''«me.graphModel.packageName».features.update'''
 	
+	def packageNameReconnect(ModelElement me)
+	'''«me.graphModel.packageName».features.reconnect'''
+	
 	/**
 	 * Returns the package name of the business object's java class which is generated for the given node
 	 * 
@@ -185,6 +193,13 @@ class GeneratorUtils {
 	 */
 	def fqBeanName(ModelElement me)
 	'''«me.beanPackage».«me.fuName»'''
+	
+	def fqBeanName(ContainingElement ce) {
+		switch ce {
+			GraphModel : (ce as ModelElement).fqBeanName
+			NodeContainer : (ce as ModelElement).fqBeanName
+		}
+	}
 	
 	/**
 	 * Returns the fully qualified name of the generated internal business object java bean for the given {@link ModelElement}
@@ -558,6 +573,13 @@ class GeneratorUtils {
 		return false;
 	}
 	
+	def getName(ContainingElement ce) {
+		switch ce {
+			GraphModel : ce.name
+			NodeContainer : ce.name
+		}
+	}
+	
 	def writeMethodCallPostSelect(ModelElement me){
 		var annot = CincoUtils.findAnnotationPostSelect(me);
 		if(annot != null)
@@ -571,6 +593,8 @@ class GeneratorUtils {
 		'''«me.beanPackage».internal.«me.fuInternalName»'''
 	}
 	
+	def fqInternalFactoryName(ModelElement me) 
+		'''«me.beanPackage».internal.InternalFactory''' 
 
 	def Iterable<? extends ModelElement> allSuperTypes(ModelElement element) {
 		val superTypes = new ArrayList<ModelElement>

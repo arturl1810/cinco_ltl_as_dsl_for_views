@@ -28,21 +28,6 @@ class APIUtils extends GeneratorUtils {
 		packageName = gm.package
 		gmName = gm.name
 	}
-
-	def getName(ContainingElement ce) {
-		if (ce instanceof NodeContainer)
-			return ce.name
-		if (ce instanceof GraphModel)
-			return ce.name
-	}
-	
-//	def getGraphModel(ModelElement me) {
-//		switch me {
-//			Node : me.rootElement
-//			Edge : me.rootElement
-//			GraphModel : me
-//		}
-//	}
 	
 	def GraphModel rootElement(Type t) {
 		if (t instanceof GraphModel)
@@ -50,19 +35,10 @@ class APIUtils extends GeneratorUtils {
 		else return rootElement(t.eContainer as Type)
 	}
 	
-	
-	
 	def fqn(Type t) {
 		'''«packageName».«gmName.toLowerCase».«t.name.toFirstUpper»'''
 	}
 	
-//	def fqn(Type t) {
-//		switch t {
-//			GraphModel : fqn(t as GraphModel)
-//			Node : fqn(t as Node)
-//			Edge : fqn(t as Edge)	
-//		}
-//	}
 	
 	def fqn(Node n)'''
 	«packageName».api.«n.name.toFirstUpper»'''

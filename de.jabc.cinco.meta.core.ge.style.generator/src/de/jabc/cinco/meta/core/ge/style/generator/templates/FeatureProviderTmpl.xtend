@@ -43,6 +43,9 @@ import org.eclipse.graphiti.features.context.impl.AddContext
 import org.eclipse.graphiti.features.custom.ICustomFeature
 import org.eclipse.graphiti.mm.pictograms.PictogramElement
 import org.eclipse.graphiti.ui.features.DefaultFeatureProvider
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.customfeature.GraphitiCustomFeature
+import org.eclipse.graphiti.features.context.ICreateConnectionContext
+import org.eclipse.graphiti.mm.pictograms.Connection
 
 class FeatureProviderTmpl extends GeneratorUtils{
 	
@@ -249,7 +252,7 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 			if («me.instanceofCheck("bo")») {
 				return new «ICustomFeature.name»[] {
 					«FOR annotValue : MGLUtils.getAllAnnotation("contextMenuAction", me) SEPARATOR ","»
-					new «annotValue»(this)
+					new «GraphitiCustomFeature.name»<«me.fqBeanName»>(this,new «annotValue»())
 					«ENDFOR»
 				};
 			}
@@ -261,11 +264,13 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 	
 	@Override
 	public «Object.name»[] executeFeature(final «IFeature.name» f, final «IContext.name» c) {
+		«TransactionalEditingDomain.name» dom = getDiagramTypeProvider().getDiagramBehavior().getEditingDomain();
+		if (dom == null) 
+			dom = «TransactionalEditingDomain.name».Factory.INSTANCE.createEditingDomain();
+		«Assert.name».isNotNull(dom, «String.name».format("The TransactionalEditingDomain is null"));
 		if (f instanceof «ICreateFeature.name») {
 			final «Object.name»[] created = new Object[2];
 			
-			«TransactionalEditingDomain.name» dom = getDiagramTypeProvider().getDiagramBehavior().getEditingDomain();
-			«Assert.name».isNotNull(dom, «String.name».format("The TransactionalEditingDomain is null"));
 			
 			dom.getCommandStack().execute(new «RecordingCommand.name»(dom, f.getName()) {
 				
@@ -283,6 +288,25 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 			});
 			
 			return created;
+			
+		} else if (f instanceof «ICreateConnectionFeature.name») {
+					final «Object.name»[] created = new «Object.name»[2];
+					
+					dom.getCommandStack().execute(new «RecordingCommand.name»(dom, f.getName()) {
+						
+						@Override
+						protected void doExecute() {
+							«ICreateConnectionFeature.name» cf = («ICreateConnectionFeature.name») f;
+							if (cf.canCreate((«ICreateConnectionContext.name») c)) {
+								«Connection.name» conn = cf.create((«ICreateConnectionContext.name») c);
+								if (conn != null) {
+									created[0] = conn.getLink().getBusinessObjects().get(0);
+									created[1] = conn;
+								}
+							}
+						}
+					});
+					return created;
 		} else {
 			getDiagramTypeProvider().getDiagramBehavior().executeFeature(f, c);
 			return null;

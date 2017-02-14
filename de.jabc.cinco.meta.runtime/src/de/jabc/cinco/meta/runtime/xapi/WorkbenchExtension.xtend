@@ -1,13 +1,11 @@
 package de.jabc.cinco.meta.runtime.xapi
 
-import static org.eclipse.emf.ecore.util.EcoreUtil.equals
-
 import de.jabc.cinco.meta.util.xapi.WorkspaceExtension
 import graphmodel.GraphModel
 import graphmodel.IdentifiableElement
 import java.util.function.Predicate
 import org.eclipse.emf.ecore.EObject
-import org.eclipse.emf.edit.domain.IEditingDomainProvider
+import org.eclipse.emf.ecore.util.EcoreUtil
 import org.eclipse.graphiti.mm.pictograms.Diagram
 import org.eclipse.graphiti.mm.pictograms.PictogramElement
 import org.eclipse.graphiti.ui.editor.DiagramEditor
@@ -15,6 +13,8 @@ import org.eclipse.jface.dialogs.MessageDialog
 import org.eclipse.swt.widgets.Display
 import org.eclipse.ui.IEditorPart
 import org.eclipse.ui.part.MultiPageEditorPart
+
+import static org.eclipse.emf.ecore.util.EcoreUtil.equals
 
 /**
  * Workbench-specific extension methods.
@@ -28,12 +28,14 @@ class WorkbenchExtension extends de.jabc.cinco.meta.util.xapi.WorkbenchExtension
 	}
 	
 	def getActiveDiagram() {
-		val ae = activeEditor
+		val ae = activeDiagramEditor
 		ae?.diagram
 	}
 	
-	def getActiveDiagramEditor(Predicate<IEditorPart> predicate) {
-		getActiveEditor(predicate).getDiagramEditor
+	def getActiveDiagramEditor(Predicate<DiagramEditor> predicate) {
+		activePage?.editorReferences.findFirst[ref |
+			predicate.test(ref.getEditor(true)?.diagramEditor)
+		]?.getEditor(true)?.diagramEditor
 	}
 	
 	def DiagramEditor getDiagramEditor(IEditorPart editor) {
@@ -46,26 +48,34 @@ class WorkbenchExtension extends de.jabc.cinco.meta.util.xapi.WorkbenchExtension
 	}
 	
 	def DiagramEditor getEditor(Diagram diagram) {
-		getActiveEditor[resource == diagram.eResource].getDiagramEditor
+		getActiveDiagramEditor[editor | editor.diagram == diagram]
 	}
 	
 	/**
-	 * Retrieves the editor the pictogram is currently edited in, if existent.
+	 * Retrieves the editor the pictogram element is currently edited in, if existent.
+	 * This is done by comparing the underlying resource that represents this
+	 * editor's input with the resource of the pictogram element.
 	 */
-	def getEditor(PictogramElement pe) {
-		getActiveDiagramEditor[resource == pe.eResource]
+	def getEditor(PictogramElement pictogramElement) {
+		getActiveDiagramEditor[resource == pictogramElement.eResource]
 	}
 	
 	/**
 	 * Retrieves the editor the model element is currently edited in, if existent.
+	 * This is done by comparing the underlying resource that represents this
+	 * editor's input with the resource of the model element.
 	 */
 	def getEditor(IdentifiableElement modelElement) {
 		getActiveDiagramEditor[resource == modelElement.eResource]
 	}
 	
-	def getDiagram(IdentifiableElement element) {
+	def getDiagram(PictogramElement pe) {
+		EcoreUtil.getRootContainer(pe) as Diagram
+	}
+	
+	def getDiagram(IdentifiableElement modelElement) {
 		extension val ext = new ResourceExtension
-		element.eResource?.diagram
+		modelElement.eResource?.diagram
 	}
 	
 	def getDiagramBehavior(Diagram diagram) {
@@ -130,14 +140,10 @@ class WorkbenchExtension extends de.jabc.cinco.meta.util.xapi.WorkbenchExtension
 	}
 	
 	/**
-	 * Retrieves the editing domain of this editor, or {@code null} if not existing
-	 * or this editor does not implement the interface
-	 * {@code IEditingDomainProvider}.
+	 * Retrieves the diagram that is currently edited in the specified editor.
 	 */
-	def getEditingDomain(IEditorPart editor) {
-		if (editor instanceof IEditingDomainProvider)
-			(editor as IEditingDomainProvider).editingDomain
-		else null
+	def getDiagram(DiagramEditor editor) {
+		editor.diagramTypeProvider.diagram
 	}
 	
 	/**

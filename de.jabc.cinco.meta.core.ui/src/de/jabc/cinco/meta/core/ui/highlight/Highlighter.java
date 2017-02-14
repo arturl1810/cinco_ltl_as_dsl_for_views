@@ -246,7 +246,7 @@ public abstract class Highlighter {
 		@SuppressWarnings("restriction")
 		public void dragStart(DragSourceEvent event) {
 			event.doit = false;
-			System.out.println("[Highlighter] dragStart doit=" + event.doit);
+//			System.out.println("[Highlighter] dragStart doit=" + event.doit);
 			try {
 //				System.out.println("[Highlighter] dragStart " + editor.getDiagramBehavior().getDiagramContainer().getGraphicalViewer().findHandleAt(new Point(event.x, event.y)));
 				

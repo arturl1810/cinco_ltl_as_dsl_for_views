@@ -3,8 +3,7 @@ package de.jabc.cinco.meta.core.ge.style.generator.templates.create
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.errorhandling.ECincoError
 import de.jabc.cinco.meta.core.utils.CincoUtils
 import de.jabc.cinco.meta.core.utils.generator.GeneratorUtils
-import graphmodel.ModelElement
-import graphmodel.ModelElementContainer
+import graphmodel.internal.InternalModelElementContainer
 import mgl.Node
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.graphiti.features.IFeatureProvider
@@ -12,7 +11,7 @@ import org.eclipse.graphiti.features.context.ICreateContext
 import org.eclipse.graphiti.mm.pictograms.PictogramElement
 import org.eclipse.graphiti.services.Graphiti
 import style.Styles
-import graphmodel.internal.InternalModelElementContainer
+
 
 class NodeCreateFeatures extends GeneratorUtils{
 	
@@ -72,7 +71,10 @@ class NodeCreateFeatures extends GeneratorUtils{
 		 * @return Returns a list with the created pictogram elements and its graphical representation
 	    */
 		public «Object.name»[] create(«ICreateContext.name» context) {
-		«n.fqBeanName» «n.flName» = «n.fqFactoryName».eINSTANCE.create«n.fuName»();
+		«n.fqBeanName» tmp = «n.fqFactoryName».eINSTANCE.create«n.fuName»();
+		// TODO: Currently the generated factory does not support the creation of the graphiti api elements.
+		«n.packageNameAPI».«n.fuCName» «n.flName» = new «n.packageNameAPI».«n.fuCName»();
+			«n.flName».setInternalElement(«n.graphModel.package».«n.graphModel.name.toLowerCase».internal.InternalFactory.eINSTANCE.createInternal«n.fuName»());
 		setModelElement(«n.flName»);
 		«PictogramElement.name» target = context.getTargetContainer();
 		«EObject.name» targetBO = («EObject.name») getBusinessObjectForPictogramElement(target);
@@ -85,6 +87,7 @@ class NodeCreateFeatures extends GeneratorUtils{
 		«IF !n.isPrime»
 		pe = addGraphicalRepresentation(context, «n.flName».getInternalElement());
 		«ENDIF»
+		«n.flName».setPictogramElement(pe);
 		return new «Object.name»[] {«n.flName», pe};
 	}
 		

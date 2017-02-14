@@ -140,6 +140,20 @@
         <details key="body" value="return getOutgoing(Edge.class);"/>
       </eAnnotations>
     </eOperations>
+    <eOperations name="move">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="((graphmodel.internal.InternalNode)getInternalElement()).setX(x);&#xA;((graphmodel.internal.InternalNode)getInternalElement()).setY(y);"/>
+      </eAnnotations>
+      <eParameters name="x" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <eParameters name="y" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eOperations>
+    <eOperations name="resize">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="((graphmodel.internal.InternalNode)getInternalElement()).setWidth(width);&#xA;((graphmodel.internal.InternalNode)getInternalElement()).setHeight(height);"/>
+      </eAnnotations>
+      <eParameters name="width" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <eParameters name="height" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eOperations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Edge" abstract="true" interface="true"
       eSuperTypes="#//ModelElement">

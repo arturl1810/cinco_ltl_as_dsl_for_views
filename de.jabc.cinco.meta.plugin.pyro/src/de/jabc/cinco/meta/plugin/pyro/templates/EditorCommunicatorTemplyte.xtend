@@ -2,7 +2,7 @@ package de.jabc.cinco.meta.plugin.pyro.templates
 
 import de.jabc.cinco.meta.plugin.pyro.model.TemplateContainer
 
-class EditorCommunicatorTemplyte implements Templateable {
+class EditorCommunicatorTemplyte extends Templateable {
 	
 	override create(TemplateContainer tc)
 	'''

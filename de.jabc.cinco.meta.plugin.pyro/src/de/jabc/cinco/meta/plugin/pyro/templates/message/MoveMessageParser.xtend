@@ -7,7 +7,7 @@ import de.jabc.cinco.meta.plugin.pyro.model.TemplateContainer
 import de.jabc.cinco.meta.plugin.pyro.templates.Templateable
 import mgl.GraphicalModelElement
 
-class MoveMessageParser implements Templateable{
+class MoveMessageParser extends Templateable{
 	
 	override create(TemplateContainer tc)
 	'''

@@ -21,7 +21,7 @@ import org.eclipse.emf.ecore.EClassifier
 import org.eclipse.emf.ecore.EReference
 import org.eclipse.emf.ecore.EStructuralFeature
 
-class CincoDBController implements Templateable {
+class CincoDBController extends Templateable {
 
 	override create(
 		TemplateContainer tc) '''

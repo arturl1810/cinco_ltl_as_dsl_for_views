@@ -33,10 +33,13 @@ import org.eclipse.emf.ecore.EcorePackage
 import static extension de.jabc.cinco.meta.core.mgl.generator.extensions.EcoreExtensions.*
 import static extension de.jabc.cinco.meta.core.mgl.generator.extensions.FactoryGeneratorExtensions.*
 //import static extension de.jabc.cinco.meta.core.mgl.generator.extensions.NodeMethodsGeneratorExtensions.*
+import static extension de.jabc.cinco.meta.core.mgl.generator.extensions.EdgeMethodsGeneratorExtension.*
 import mgl.NodeContainer
 import de.jabc.cinco.meta.core.mgl.generator.extensions.NodeMethodsGeneratorExtensions
 
 class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
+
+
 
 	HashMap<ModelElement, EClass> modelElementsMap
 
@@ -55,7 +58,6 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 	
 	def createFactory(GraphModel graphModel){
 		graphModel.createFactory(eClassesMap)
-		
 	}
 
 	def EPackage generateEcoreModel(GraphModel graphModel) {
@@ -90,17 +92,29 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		getterParameterMap.forEach[key, value|key.EType = value.EType]
 		setterParameterMap.forEach[key, value|key.EParameters.get(0).EType = value.EType]
 
+
+		graphModel.createCanNewNodeMethods(eClassesMap)
+		graphModel.createNewNodeMethods(eClassesMap)
+		
 		graphModel.nodes.forEach[node|
 			node.createInheritance(graphModel)
 			node.createConnectionMethods(graphModel,eClassesMap)
-			
+			node.createCanNewEdgeMethods(eClassesMap)
+			node.createNewEdgeMethods(eClassesMap)
+			node.createCanMoveToMethods(eClassesMap)
+			node.createMoveToMethods(eClassesMap)			
 		]
 		
 		graphModel.nodes.filter(NodeContainer).forEach[container|
 			(container as NodeContainer).createGetContainmentConstraintsMethod(graphModel, eClassesMap)
-			
+			container.createCanNewNodeMethods(eClassesMap)
+			container.createNewNodeMethods(eClassesMap)
 		]
-		graphModel.edges.forEach[edge|edge.createInheritance(graphModel)]
+		graphModel.edges.forEach[edge|
+			edge.createInheritance(graphModel)
+			edge.createCanReconnectMethods(eClassesMap)
+			edge.createReconnectMethods(eClassesMap)
+		]
 		graphModel.types.filter(UserDefinedType).forEach[udt|udt.createInheritance(graphModel)]
 		return epk
 	}

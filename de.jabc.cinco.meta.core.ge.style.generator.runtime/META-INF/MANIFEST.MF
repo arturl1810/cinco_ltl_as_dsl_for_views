@@ -10,7 +10,12 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.graphiti.mm,
  de.jabc.cinco.meta.core.ge.style.model,
  org.eclipse.graphiti.ui,
- org.eclipse.draw2d
+ org.eclipse.draw2d,
+ com.google.guava,
+ org.eclipse.xtext.xbase.lib,
+ org.eclipse.xtend.lib,
+ org.eclipse.xtend.lib.macro,
+ de.jabc.cinco.meta.runtime
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Export-Package: de.jabc.cinco.meta.core.ge.style.generator.runtime.addfeature,
