@@ -26,6 +26,10 @@ class GraphitiCustomFeature<T extends IdentifiableElement> extends AbstractCusto
 		return delegate.name
 	}
 	
+	override getName() {
+		return delegate.name
+	}
+	
 	override canExecute(ICustomContext context) {
 		val pe = context.pictogramElements.get(0);
 		val T bo = Graphiti.linkService.getBusinessObjectForLinkedPictogramElement(pe) as T

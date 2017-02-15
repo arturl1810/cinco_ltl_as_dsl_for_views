@@ -1053,7 +1053,7 @@ public class RandomActivityName extends CincoPostCreateHook<Activity> {
 		
 		int randomIndex = new Random().nextInt(names.length);
 
-		activity.setName(names[randomIndex]);
+		activity.getActivityView().setName(names[randomIndex]);
 
 	}
 	
@@ -1064,13 +1064,11 @@ public class RandomActivityName extends CincoPostCreateHook<Activity> {
 	def static generateInitFlowGraphHook(String modelName, String packageName) '''
 package «packageName».hooks;
 
-import «packageName».api.cflowgraph.CActivity;
-import «packageName».api.cflowgraph.CEnd;
-import «packageName».api.cflowgraph.CFlowGraph;
-import «packageName».api.cflowgraph.CLabeledTransition;
-import «packageName».api.cflowgraph.CStart;
 import «packageName».«modelName.toLowerCase».FlowGraph;
-import «packageName».graphiti.FlowGraphWrapper;
+import «packageName».«modelName.toLowerCase».Start;
+import «packageName».«modelName.toLowerCase».End;
+import «packageName».«modelName.toLowerCase».Activity;
+import «packageName».«modelName.toLowerCase».LabeledTransition;
 import de.jabc.cinco.meta.runtime.hook.CincoPostCreateHook;
 
 /**
@@ -1086,18 +1084,16 @@ public class InitializeFlowGraphModel extends CincoPostCreateHook<FlowGraph> {
 	@Override
 	public void postCreate(FlowGraph flowGraph) {
 		try {
-			// Initialize the API by wrapping the given FlowGraph model and the Diagram into one CFlowGraph
-			CFlowGraph cFlowGraph = FlowGraphWrapper.wrapGraphModel(flowGraph, getDiagram());
 			
 			// Create the three nodes
-			CStart start = cFlowGraph.newCStart(50, 50);
-			CActivity activity = cFlowGraph.newCActivity(150, 50);
-			CEnd end = cFlowGraph.newCEnd(310, 50);
+			Start start = flowGraph.newStart(50, 50);
+			Activity activity = flowGraph.newActivity(150, 50);
+			End end = flowGraph.newEnd(310, 50);
 			
 			// Connect the nodes with edges
-			start.newCTransition(activity);
-			CLabeledTransition labeledTransition = activity.newCLabeledTransition(end);
-			labeledTransition.setLabel("success");
+			start.newTransition(activity);
+			LabeledTransition labeledTransition = activity.newLabeledTransition(end);
+			labeledTransition.getLabeledTransitionView().setLabel("success");
 
 		} catch (Exception e) {
 			e.printStackTrace();

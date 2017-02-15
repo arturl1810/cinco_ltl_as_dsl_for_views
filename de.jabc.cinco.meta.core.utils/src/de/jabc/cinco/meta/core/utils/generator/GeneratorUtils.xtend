@@ -28,6 +28,7 @@ import de.jabc.cinco.meta.core.utils.CincoUtils
 import graphmodel.Container
 import de.jabc.cinco.meta.core.utils.dependency.DependencyGraph
 import de.jabc.cinco.meta.core.utils.dependency.DependencyNode
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.customfeature.GraphitiCustomFeature
 
 class GeneratorUtils {
 	val static String ID_CONTAINER = "Containers";
@@ -573,19 +574,35 @@ class GeneratorUtils {
 		return false;
 	}
 	
-	def getName(ContainingElement ce) {
-		switch ce {
-			GraphModel : ce.name
-			NodeContainer : ce.name
-		}
-	}
-	
 	def writeMethodCallPostSelect(ModelElement me){
 		var annot = CincoUtils.findAnnotationPostSelect(me);
 		if(annot != null)
 		{
 			var class = annot.value.get(0)
 			return '''new «class»().postSelect((«me.fqBeanName»)modelSelect);'''	
+		}
+	}
+
+	def booleanWriteMethodCallDoubleClick(ModelElement me){
+		var annot = CincoUtils.findAnnotationDoubleClick(me);
+		return annot != null;
+	}
+	
+	def writeMethodCallDoubleClick(ModelElement me){
+		var annot = CincoUtils.findAnnotationDoubleClick(me);
+		if(annot != null)
+		{
+			'''return new «GraphitiCustomFeature.name»<>(
+				getFeatureProvider(),
+				new «annot.value.get(0)»());
+			'''
+		}
+	}
+	
+	def getName(ContainingElement ce) {
+		switch ce {
+			GraphModel : ce.name
+			NodeContainer : ce.name
 		}
 	}
 	

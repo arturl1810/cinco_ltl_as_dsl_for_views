@@ -502,64 +502,42 @@ public class CincoUtils {
 		}
 	}
 
-	public static Annotation findAnnotationPostCreate(ModelElement me)
-	{
+	public static Annotation findAnnotation(ModelElement me, String annotName) {
 		EList<Annotation> anno = me.getAnnotations();
 		Iterator<Annotation> iter = anno.iterator();
 		while(iter.hasNext())
 		{
 			Annotation next = iter.next();
-			if(next.getName().equals("postCreate"))
+			if(next.getName().equals(annotName))
 			{
 				return next;
 			}
 		}
 		return null;
+	}
+	
+	public static Annotation findAnnotationPostCreate(ModelElement me)
+	{
+		return findAnnotation(me, "postCreate");
 	}
 	
 	public static Annotation findAnnotationPostMove(ModelElement me)
 	{
-		EList<Annotation> anno = me.getAnnotations();
-		Iterator<Annotation> iter = anno.iterator();
-		while(iter.hasNext())
-		{
-			Annotation next = iter.next();
-			if(next.getName().equals("postMove"))
-			{
-				return next;
-			}
-		}
-		return null;
+		return findAnnotation(me, "postMove");
 	}
 	
 	public static Annotation findAnnotationPostResize(ModelElement me)
 	{
-		EList<Annotation> anno = me.getAnnotations();
-		Iterator<Annotation> iter = anno.iterator();
-		while(iter.hasNext())
-		{
-			Annotation next = iter.next();
-			if(next.getName().equals("postResize"))
-			{
-				return next;
-			}
-		}
-		return null;
+		return findAnnotation(me, "postResize");
 	}
 	
 	public static Annotation findAnnotationPostSelect(ModelElement me)
 	{
-		EList<Annotation> anno = me.getAnnotations();
-		Iterator<Annotation> iter = anno.iterator();
-		while(iter.hasNext())
-		{
-			Annotation next = iter.next();
-			if(next.getName().equals("postSelect"))
-			{
-				return next;
-			}
-		}
-		return null;
+		return findAnnotation(me, "postSelect");
 	}
 	
+	public static Annotation findAnnotationDoubleClick(ModelElement me)
+	{
+		return findAnnotation(me, "doubleClickAction");
+	}
 }

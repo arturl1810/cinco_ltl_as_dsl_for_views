@@ -214,6 +214,9 @@ public class CincoProductProjectCreator {
 		if (features.contains(CUSTOM_ACTION)) {
 			exports.add(packageName + ".action");
 		}
+		if (features.contains(POST_CREATE_HOOKS)) {
+			exports.add(packageName + ".hooks");
+		}
 		if (features.contains(CODE_GENERATOR)) {
 			exports.add(packageName + ".codegen");
 		}
@@ -227,6 +230,8 @@ public class CincoProductProjectCreator {
 		bundles.add("org.eclipse.emf.ecore");
 		bundles.add("org.eclipse.jface");
 		bundles.add("org.eclipse.ui");
+		bundles.add("de.jabc.cinco.meta.runtime");
+		bundles.add("de.jabc.cinco.meta.util");
 		bundles.add("de.jabc.cinco.meta.core.mgl.model");
 		bundles.add("de.jabc.cinco.meta.core.ge.style.model");
 		bundles.add("de.jabc.cinco.meta.core.ge.style");
