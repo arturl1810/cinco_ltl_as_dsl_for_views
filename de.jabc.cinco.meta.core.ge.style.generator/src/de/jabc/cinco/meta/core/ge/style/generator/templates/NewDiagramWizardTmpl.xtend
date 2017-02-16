@@ -33,8 +33,9 @@ import java.io.IOException
 import org.eclipse.ui.PartInitException
 import org.eclipse.swt.widgets.Composite
 import mgl.ContainingElement
+import de.jabc.cinco.meta.core.ge.style.generator.templates.util.APIUtils
 
-class NewDiagramWizardTmpl extends GeneratorUtils{
+class NewDiagramWizardTmpl extends APIUtils{
 	
 /**
  * Generates the {@link Wizard} class code for the {@link GraphModel}.
@@ -112,24 +113,23 @@ public class «gm.fuName»DiagramWizard extends «Wizard.name» implements «INe
 			«Resource.name» res = new «ResourceSetImpl.name»().createResource(resUri);
 			«Diagram.name» diagram = 
 				«Graphiti.name».getPeService().createDiagram("«gm.fuName»", dName, true);
-«««			«gm.beanPackage».«gm.fuName» graph = «gm.package».factory.«gm.name»Factory.eINSTANCE.create«gm.fuName»();
-			«gm.packageNameAPI».«gm.fuCName» graph = new «gm.packageNameAPI».«gm.fuCName»();
-			graph.setInternalElement(«gm.fqInternalFactoryName».eINSTANCE.createInternal«gm.fuName»());
-			graph.setPictogramElement(diagram);
-			graph.getInternalContainerElement().setId(«EcoreUtil.name».generateUUID());
+			«gm.fqBeanName» «gm.flName» = «gm.fqFactoryName».eINSTANCE.create«gm.fuName»();
+			«gm.fqCName» «gm.flCName» = 
+				new «gm.fqCName»(«gm.flName», diagram);
+			«gm.flName».getInternalContainerElement().setId(«EcoreUtil.name».generateUUID());
 			try {
 				res.unload();
 				res.getContents().add(diagram);
-				res.getContents().add(graph.getInternalElement());
+				res.getContents().add(«gm.flName».getInternalElement());
 				res.save(null);
 				
 				«IDiagramTypeProvider.name» dtp = «GraphitiUi.name».getExtensionManager().createDiagramTypeProvider(diagram, "«gm.packageName».«gm.fuName»DiagramTypeProvider");
 «««				«gm.fuName»GraphitiUtils.addToResource(diagram, dtp.getFeatureProvider());
-				dtp.getFeatureProvider().link(diagram, graph.getInternalElement());
+				dtp.getFeatureProvider().link(diagram, «gm.flName».getInternalElement());
 				
 «««				TODO: This is quick and dirty...
 				«IF gm.booleanWriteMethodCallPostCreate»
-				«(gm as ContainingElement).fqBeanName» modelCreate = graph;
+				«(gm as ContainingElement).fqBeanName» modelCreate = «gm.flName»;
 				«gm.writeMethodCallPostCreate»
 				«ENDIF»
 				

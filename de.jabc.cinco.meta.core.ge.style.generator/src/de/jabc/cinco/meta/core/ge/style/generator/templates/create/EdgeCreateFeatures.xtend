@@ -82,22 +82,20 @@ class EdgeCreateFeatures extends GeneratorUtils{
 			«InternalNode.name» target = («InternalNode.name») getBusinessObject(context.getTargetAnchor());
 
 			if (source != null && target != null) {
-				«e.packageNameAPI».«e.fuCName» «e.flName» = new «e.packageNameAPI».«e.fuCName»();
-							«e.flName».setInternalElement(
-«««				«e.fqInternalBeanName» «e.fuName.toLowerCase» = 
-					(«e.fqInternalBeanName») «e.fqFactoryName».eINSTANCE.create«e.fuName»().getInternalElement());
-					if (source instanceof «InternalModelElement.name») {
-						«e.flName».setSourceElement( («Node.name») source.getElement());
-					}
-					if (target instanceof «InternalModelElement.name») {
-						«e.flName».setTargetElement( («Node.name») target.getElement());
-					}
+				
+				«e.fqBeanName» «e.flName» = «e.fqFactoryName».eINSTANCE.create«e.fuName»();
+				if (source instanceof «InternalModelElement.name») {
+					«e.flName».setSourceElement( («Node.name») source.getElement());
+				}
+				if (target instanceof «InternalModelElement.name») {
+					«e.flName».setTargetElement( («Node.name») target.getElement());
+				}
 
 				«AddConnectionContext.name» addContext = 
 					new «AddConnectionContext.name»(context.getSourceAnchor(), context.getTargetAnchor());
 				addContext.setNewObject(«e.flName».getInternalElement());
 				connection = («Connection.name») getFeatureProvider().addIfPossible(addContext);
-				«e.flName».setPictogramElement(connection);
+«««				«e.flName».setPictogramElement(connection);
 			}
 			return connection;
 		}	

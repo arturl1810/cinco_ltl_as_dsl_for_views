@@ -66,6 +66,9 @@ class APIUtils extends GeneratorUtils {
 		}
 	}
 	
+	def fqCName(ModelElement me) 
+	'''«me.packageNameAPI».«me.fuCName»'''
+	
 	def fqTypeName(PrimitiveAttribute a){
 		switch a.type{
 			case EBIG_DECIMAL: BigDecimal.name

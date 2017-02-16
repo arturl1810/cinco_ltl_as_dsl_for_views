@@ -71,9 +71,7 @@ class NodeCreateFeatures extends GeneratorUtils{
 		 * @return Returns a list with the created pictogram elements and its graphical representation
 	    */
 		public «Object.name»[] create(«ICreateContext.name» context) {
-		«n.fqBeanName» tmp = «n.fqFactoryName».eINSTANCE.create«n.fuName»();
-		// TODO: Currently the generated factory does not support the creation of the graphiti api elements.
-		«n.packageNameAPI».«n.fuCName» «n.flName» = new «n.packageNameAPI».«n.fuCName»();
+		«n.fqBeanName» «n.flName» = «n.fqFactoryName».eINSTANCE.create«n.fuName»();
 			«n.flName».setInternalElement(«n.graphModel.package».«n.graphModel.name.toLowerCase».internal.InternalFactory.eINSTANCE.createInternal«n.fuName»());
 		setModelElement(«n.flName»);
 		«PictogramElement.name» target = context.getTargetContainer();
@@ -86,8 +84,8 @@ class NodeCreateFeatures extends GeneratorUtils{
 		«PictogramElement.name» pe = null;
 		«IF !n.isPrime»
 		pe = addGraphicalRepresentation(context, «n.flName».getInternalElement());
+		«n.packageNameAPI».«n.fuCName» «n.flCName» = new «n.packageNameAPI».«n.fuCName»(«n.flName», pe);
 		«ENDIF»
-		«n.flName».setPictogramElement(pe);
 		return new «Object.name»[] {«n.flName», pe};
 	}
 		

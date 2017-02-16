@@ -92,12 +92,19 @@ class GeneratorUtils {
 		me.name.toFirstLower
 	}
 	
-	def flName(ContainingElement ce) {
-		switch ce {
-			GraphModel : (ce as ModelElement).flName
-			NodeContainer : (ce as ModelElement).flName
-		}
+	/**
+	 * Returns the {@link ModelElement}'s graphiti api name in first lower
+	 */
+	def flCName(Type me) {
+		'c'+me.fuName
 	}
+	
+//	def flName(ContainingElement ce) {
+//		switch ce {
+//			GraphModel : (ce as ModelElement).flName
+//			NodeContainer : (ce as ModelElement).flName
+//		}
+//	}
 	
 	def fuInternalName(ModelElement me) {
 		"Internal"+me.name.toFirstUpper
@@ -123,7 +130,7 @@ class GeneratorUtils {
 	def packageName(ModelElement me)
 	'''«me.graphModel.packageName»'''
 	
-	def packageNameAPI(ModelElement me)
+	def packageNameAPI(Type me)
 	'''«me.graphModel.packageName».api'''
 	/**
 	 * Returns the package name for the generated {@link ExpressionFactory}
@@ -192,10 +199,10 @@ class GeneratorUtils {
 	 * 
 	 * @param me The {@link ModelElement} for which the fully qualified bean name should be retrieved
 	 */
-	def fqBeanName(ModelElement me)
+	def dispatch CharSequence fqBeanName(ModelElement me)
 	'''«me.beanPackage».«me.fuName»'''
 	
-	def fqBeanName(ContainingElement ce) {
+	def dispatch fqBeanName(ContainingElement ce) {
 		switch ce {
 			GraphModel : (ce as ModelElement).fqBeanName
 			NodeContainer : (ce as ModelElement).fqBeanName
@@ -255,7 +262,7 @@ class GeneratorUtils {
 	 * 
 	 * @param me The {@link ModelElement} for which to retrieve the {@link GraphModel} 
 	 */
-	def getGraphModel(ModelElement me) {
+	def getGraphModel(Type me) {
 		if (me instanceof GraphModel)
 			return me
 		if (me instanceof Node) {

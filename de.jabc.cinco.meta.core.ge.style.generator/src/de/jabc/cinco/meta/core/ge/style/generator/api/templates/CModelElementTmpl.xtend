@@ -4,28 +4,27 @@ import de.jabc.cinco.meta.core.ge.style.generator.runtime.provider.CincoFeatureP
 import de.jabc.cinco.meta.core.ge.style.generator.templates.util.APIUtils
 import de.jabc.cinco.meta.core.utils.MGLUtils
 import mgl.ContainingElement
+import mgl.Edge
+import mgl.GraphModel
 import mgl.ModelElement
 import mgl.Node
+import org.eclipse.graphiti.datatypes.ILocation
 import org.eclipse.graphiti.features.IFeatureProvider
+import org.eclipse.graphiti.features.IMoveShapeFeature
+import org.eclipse.graphiti.features.IReconnectionFeature
 import org.eclipse.graphiti.features.context.impl.CreateConnectionContext
 import org.eclipse.graphiti.features.context.impl.CreateContext
+import org.eclipse.graphiti.features.context.impl.MoveShapeContext
+import org.eclipse.graphiti.features.context.impl.ReconnectionContext
+import org.eclipse.graphiti.mm.pictograms.Anchor
+import org.eclipse.graphiti.mm.pictograms.AnchorContainer
+import org.eclipse.graphiti.mm.pictograms.Connection
 import org.eclipse.graphiti.mm.pictograms.ContainerShape
 import org.eclipse.graphiti.mm.pictograms.Diagram
 import org.eclipse.graphiti.mm.pictograms.PictogramElement
-import org.eclipse.graphiti.ui.services.GraphitiUi
-import org.eclipse.graphiti.features.context.impl.MoveShapeContext
 import org.eclipse.graphiti.mm.pictograms.Shape
-import org.eclipse.graphiti.features.IMoveShapeFeature
-import mgl.GraphModel
-import mgl.Edge
-
-import static extension de.jabc.cinco.meta.core.utils.MGLUtils.*
-import org.eclipse.graphiti.mm.pictograms.Anchor
-import org.eclipse.graphiti.mm.pictograms.AnchorContainer
-import org.eclipse.graphiti.datatypes.ILocation
-import org.eclipse.graphiti.features.context.impl.ReconnectionContext
-import org.eclipse.graphiti.mm.pictograms.Connection
-import org.eclipse.graphiti.features.IReconnectionFeature
+import org.eclipse.graphiti.ui.services.GraphitiUi
+import de.jabc.cinco.meta.core.utils.xtext.PickColorApplier
 
 class CModelElementTmpl extends APIUtils {
 	
@@ -69,6 +68,18 @@ package «me.packageNameAPI»;
 public «IF me.isIsAbstract»abstract«ENDIF» class «me.fuCName» extends «me.fqBeanImplName» {
 	
 	private «PictogramElement.name» pe;
+	private «me.fqBeanName» me;
+	
+	«IF !me.isIsAbstract»
+	public «me.fuCName»(«me.fqBeanName» «me.flName») {
+		me = «me.flName»;
+	}
+	
+	public «me.fuCName»(«me.fqBeanName» «me.flName», «PictogramElement.name» pe) {
+		this(«me.flName»);
+		this.pe = pe;
+	}
+	«ENDIF»
 	
 	public «PictogramElement.name» getPictogramElement() {
 		return this.pe;
