@@ -115,9 +115,7 @@ public class «gm.fuName»DiagramWizard extends «Wizard.name» implements «INe
 				«Graphiti.name».getPeService().createDiagram("«gm.fuName»", dName, true);
 			«gm.fqBeanName» «gm.flName» = «gm.fqFactoryName».eINSTANCE.create«gm.fuName»();
 			«gm.fqCName» «gm.flCName» = 
-				new «gm.fqCName»();
-			«gm.flCName».setModelElement(«gm.flName»);
-			«gm.flCName».setPictogramElement(diagram);
+				new «gm.fqCName»(«gm.flName», diagram);
 			«gm.flName».getInternalContainerElement().setId(«EcoreUtil.name».generateUUID());
 			try {
 				res.unload();
@@ -130,7 +128,7 @@ public class «gm.fuName»DiagramWizard extends «Wizard.name» implements «INe
 				
 «««				TODO: This is quick and dirty...
 				«IF gm.booleanWriteMethodCallPostCreate»
-				«(gm as ContainingElement).fqBeanName» modelCreate = «gm.flName»;
+				«(gm as ContainingElement).fqBeanName» modelCreate = «gm.flCName»;
 				«gm.writeMethodCallPostCreate»
 				«ENDIF»
 				

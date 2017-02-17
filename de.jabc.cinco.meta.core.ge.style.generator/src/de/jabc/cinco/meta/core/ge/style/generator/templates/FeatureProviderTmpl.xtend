@@ -46,8 +46,9 @@ import org.eclipse.graphiti.ui.features.DefaultFeatureProvider
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.customfeature.GraphitiCustomFeature
 import org.eclipse.graphiti.features.context.ICreateConnectionContext
 import org.eclipse.graphiti.mm.pictograms.Connection
+import de.jabc.cinco.meta.core.ge.style.generator.templates.util.APIUtils
 
-class FeatureProviderTmpl extends GeneratorUtils{
+class FeatureProviderTmpl extends APIUtils{
 	
 /**
  * Generates the {@link IFeatureProvider} code for the Graphmodel
@@ -300,7 +301,11 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 							if (cf.canCreate((«ICreateConnectionContext.name») c)) {
 								«Connection.name» conn = cf.create((«ICreateConnectionContext.name») c);
 								if (conn != null) {
-									created[0] = conn.getLink().getBusinessObjects().get(0);
+									«EObject.name» bo = conn.getLink().getBusinessObjects().get(0);
+									«FOR me : gm.edges»
+									if («me.instanceofCheck("bo")»)
+										created[0] = new «me.fqCName»((«me.fqBeanName») ((«me.fqInternalBeanName») bo).getElement(), conn);
+									«ENDFOR»
 									created[1] = conn;
 								}
 							}

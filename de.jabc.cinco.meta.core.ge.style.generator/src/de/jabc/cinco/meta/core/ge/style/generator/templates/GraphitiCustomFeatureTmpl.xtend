@@ -47,7 +47,7 @@ class GraphitiCustomFeatureTmpl extends APIUtils {
 			T bo = (T) Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
 			«FOR me : gm.modelElements»
 			if («me.instanceofCheck("bo")») {
-				«me.fqCName» «me.flCName» = new «me.fqCName»((«me.fqBeanName») bo,pe);
+				«me.fqCName» «me.flCName» = new «me.fqCName»((«me.fqBeanName»)((«me.fqInternalBeanName») bo).getElement(), pe);
 				return delegate.canExecute((T) «me.flCName»);
 			}
 			«ENDFOR»
@@ -65,7 +65,7 @@ class GraphitiCustomFeatureTmpl extends APIUtils {
 			T bo = (T) Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
 			«FOR me : gm.modelElements»
 			if («me.instanceofCheck("bo")») {
-				«me.fqCName» «me.flCName» = new «me.fqCName»((«me.fqBeanName») bo,pe);
+				«me.fqCName» «me.flCName» = new «me.fqCName»((«me.fqBeanName»)((«me.fqInternalBeanName») bo).getElement(),pe);
 				delegate.execute((T) «me.flCName»);
 			}
 			«ENDFOR»

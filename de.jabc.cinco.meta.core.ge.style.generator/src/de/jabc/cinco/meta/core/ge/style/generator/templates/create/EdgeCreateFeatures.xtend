@@ -14,8 +14,9 @@ import org.eclipse.graphiti.mm.pictograms.Connection
 import style.Styles
 import graphmodel.internal.InternalNode
 import graphmodel.internal.InternalModelElement
+import de.jabc.cinco.meta.core.ge.style.generator.templates.util.APIUtils
 
-class EdgeCreateFeatures extends GeneratorUtils{
+class EdgeCreateFeatures extends APIUtils{
 
 	/**
 	 * Generates the 'Create-Feature' for a given edge 
@@ -95,7 +96,7 @@ class EdgeCreateFeatures extends GeneratorUtils{
 					new «AddConnectionContext.name»(context.getSourceAnchor(), context.getTargetAnchor());
 				addContext.setNewObject(«e.flName».getInternalElement());
 				connection = («Connection.name») getFeatureProvider().addIfPossible(addContext);
-«««				«e.flName».setPictogramElement(connection);
+				«e.fqCName» «e.flCName» = new «e.fqCName»(«e.flName», connection);
 			}
 			return connection;
 		}	

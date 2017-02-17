@@ -120,7 +120,7 @@ public «IF me.isIsAbstract»abstract«ENDIF» class «me.fuCName» extends «me
 	
 	«IF me instanceof Node»
 	«FOR e : MGLUtils::getOutgoingConnectingEdges(me as Node)»
-	«FOR target : MGLUtils::getPossibleTargets(e)»
+	«FOR target : e.possibleTargets»
 	@Override
 	public «e.fqBeanName» new«e.fuName»(«target.fqBeanName» target) {
 		if (!(target instanceof «target.fuCName»))
@@ -138,7 +138,7 @@ public «IF me.isIsAbstract»abstract«ENDIF» class «me.fuCName» extends «me
 		«e.fqCreateFeatureName» cf = new «e.fqCreateFeatureName»(fp);
 		if (fp instanceof «CincoFeatureProvider.name») {
 			Object[] retVal = ((«CincoFeatureProvider.name») fp).executeFeature(cf, cc);
-			«e.fuCName» tmp = («e.fuCName») ((«e.fqInternalBeanName») retVal[0]).getElement();
+			«e.fuCName» tmp = («e.fuCName») retVal[0];
 «««			tmp.setPictogramElement((«PictogramElement.name») retVal[1]);
 			return tmp;
 		}
@@ -232,12 +232,19 @@ public «IF me.isIsAbstract»abstract«ENDIF» class «me.fuCName» extends «me
 	«ENDIF»
 	
 	private «IFeatureProvider.name» getFeatureProvider() {
-		«IF !(me instanceof GraphModel)»
-		«Diagram.name» d = («Diagram.name») ((«me.graphModel.fuCName») this.getRootElement()).getPictogramElement();
-		«ELSE»
-		«Diagram.name» d = («Diagram.name») getPictogramElement();
-		«ENDIF»
-		return «GraphitiUi.name».getExtensionManager().createFeatureProvider(d);
+«««		«IF !(me instanceof GraphModel)»
+«««		«Diagram.name» d = («Diagram.name») ((«me.graphModel.fuCName») this.getRootElement()).getPictogramElement();
+«««		«ELSE»
+«««		«Diagram.name» d = («Diagram.name») getPictogramElement();
+«««		«ENDIF»
+		return «GraphitiUi.name».getExtensionManager().createFeatureProvider(getDiagram());
+	}
+	
+	private «Diagram.name» getDiagram() {
+		«PictogramElement.name» curr = pe;
+		while (curr.eContainer() != null)
+			curr = («PictogramElement.name») curr.eContainer();
+			return («Diagram.name») curr;
 	}
 }
 '''
