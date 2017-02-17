@@ -84,7 +84,9 @@ class NodeCreateFeatures extends GeneratorUtils{
 		«PictogramElement.name» pe = null;
 		«IF !n.isPrime»
 		pe = addGraphicalRepresentation(context, «n.flName».getInternalElement());
-		«n.packageNameAPI».«n.fuCName» «n.flCName» = new «n.packageNameAPI».«n.fuCName»(«n.flName», pe);
+		«n.packageNameAPI».«n.fuCName» «n.flCName» = new «n.packageNameAPI».«n.fuCName»();
+		«n.flCName».setModelElement(«n.flName»);
+		«n.flCName».setPictogramElement(pe);
 		«ENDIF»
 		return new «Object.name»[] {«n.flName», pe};
 	}

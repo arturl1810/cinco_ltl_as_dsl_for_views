@@ -252,7 +252,7 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 			if («me.instanceofCheck("bo")») {
 				return new «ICustomFeature.name»[] {
 					«FOR annotValue : MGLUtils.getAllAnnotation("contextMenuAction", me) SEPARATOR ","»
-					new «GraphitiCustomFeature.name»<«me.fqBeanName»>(this,new «annotValue»())
+					new «gm.fuName»GraphitiCustomFeature<«me.fqBeanName»>(this,new «annotValue»())
 					«ENDFOR»
 				};
 			}

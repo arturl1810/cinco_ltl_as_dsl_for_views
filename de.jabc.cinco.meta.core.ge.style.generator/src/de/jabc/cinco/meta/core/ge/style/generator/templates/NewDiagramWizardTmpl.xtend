@@ -115,7 +115,9 @@ public class «gm.fuName»DiagramWizard extends «Wizard.name» implements «INe
 				«Graphiti.name».getPeService().createDiagram("«gm.fuName»", dName, true);
 			«gm.fqBeanName» «gm.flName» = «gm.fqFactoryName».eINSTANCE.create«gm.fuName»();
 			«gm.fqCName» «gm.flCName» = 
-				new «gm.fqCName»(«gm.flName», diagram);
+				new «gm.fqCName»();
+			«gm.flCName».setModelElement(«gm.flName»);
+			«gm.flCName».setPictogramElement(diagram);
 			«gm.flName».getInternalContainerElement().setId(«EcoreUtil.name».generateUUID());
 			try {
 				res.unload();
@@ -124,7 +126,6 @@ public class «gm.fuName»DiagramWizard extends «Wizard.name» implements «INe
 				res.save(null);
 				
 				«IDiagramTypeProvider.name» dtp = «GraphitiUi.name».getExtensionManager().createDiagramTypeProvider(diagram, "«gm.packageName».«gm.fuName»DiagramTypeProvider");
-«««				«gm.fuName»GraphitiUtils.addToResource(diagram, dtp.getFeatureProvider());
 				dtp.getFeatureProvider().link(diagram, «gm.flName».getInternalElement());
 				
 «««				TODO: This is quick and dirty...

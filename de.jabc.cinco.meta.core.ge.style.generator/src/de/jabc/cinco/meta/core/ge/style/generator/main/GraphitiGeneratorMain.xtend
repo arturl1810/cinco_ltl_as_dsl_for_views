@@ -39,6 +39,7 @@ import org.eclipse.core.runtime.NullProgressMonitor
 import productDefinition.CincoProduct
 import style.Styles
 import de.jabc.cinco.meta.core.ge.style.generator.templates.reconnect.EdgeReconnectFeatures
+import de.jabc.cinco.meta.core.ge.style.generator.templates.GraphitiCustomFeatureTmpl
 
 class GraphitiGeneratorMain extends GeneratorUtils { 
 	
@@ -68,6 +69,7 @@ class GraphitiGeneratorMain extends GeneratorUtils {
 	extension EdgeUpdateFeatures = new EdgeUpdateFeatures
 	extension EdgeLayoutFeatures = new EdgeLayoutFeatures
 	extension EdgeReconnectFeatures = new EdgeReconnectFeatures
+	extension GraphitiCustomFeatureTmpl = new GraphitiCustomFeatureTmpl
 	
 	var GraphModel gm
 	var IFile cpdFile
@@ -106,6 +108,8 @@ class GraphitiGeneratorMain extends GeneratorUtils {
 		ContentWriter::writeJavaFileInSrcGen(project, gm.packageNameExpression, gm.name.toFirstUpper.concat("ExpressionLanguageResolver.java"), content)
 		content = gm.generateContext
 		ContentWriter::writeJavaFileInSrcGen(project, gm.packageNameExpression, gm.name.toFirstUpper.concat("ExpressionLanguageContext.java"), content)
+		content = gm.generateCustomFeature
+		ContentWriter::writeJavaFileInSrcGen(project, gm.packageName, gm.name.toFirstUpper.concat("GraphitiCustomFeature.java"), content)
 		
 		for (Node n : gm.nodes) {
 			if (n.isPrime){
