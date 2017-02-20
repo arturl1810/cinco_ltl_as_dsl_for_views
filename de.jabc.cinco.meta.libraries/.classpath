@@ -2,7 +2,7 @@
 <classpath>
 	<classpathentry exported="true" kind="lib" path="lib/jsp-api-2.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jboss-interceptors-api_1.2_spec-1.0.0.Alpha3.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/jool-0.9.12.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jool-0.9.12.jar" sourcepath="lib/jool-0.9.12-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/utility-sibs-1.1-adapters.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib_local/mcam_framework.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/commons-cli-1.2.jar"/>
