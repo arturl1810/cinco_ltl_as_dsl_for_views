@@ -63,8 +63,8 @@ class ViewTemplate extends MainTemplate {
 	import org.eclipse.ui.model.WorkbenchLabelProvider;
 	import org.eclipse.ui.part.ViewPart;
 	
-	import de.jabc.cinco.meta.core.utils.eapi.Cinco;
-	import de.jabc.cinco.meta.core.utils.WorkbenchUtil;
+	import de.jabc.cinco.meta.runtime.xapi.FileExtension;
+	import de.jabc.cinco.meta.runtime.xapi.WorkbenchExtension;
 	import graphmodel.GraphModel;
 	import «graphmodel.sourceCApiPackage».C«graphmodel.graphModel.name»;
 	import «graphmodel.CApiPackage».C«graphmodel.graphModel.name»ES;
@@ -507,14 +507,14 @@ class ViewTemplate extends MainTemplate {
 		/**
 		 * Passing the focus request to the viewer's control.
 		 */
-		public void setFocus() {
-			this.getSite().getShell().setFocus();
-			GraphModel g = WorkbenchUtil.getModel();
-			if(g instanceof «graphmodel.graphModel.name»){
-				this.«graphmodel.graphModel.name.toFirstLower» = («graphmodel.graphModel.name») g;
-				c«graphmodel.graphModel.name» = «graphmodel.graphModel.name»Wrapper.wrapGraphModel( «graphmodel.graphModel.name.toFirstLower»,WorkbenchUtil.getDiagram());
-			}
-		}
+		 public void setFocus() {
+		 		this.getSite().getShell().setFocus();
+		 		GraphModel g = new de.jabc.cinco.meta.runtime.xapi.WorkbenchExtension().getGraphModel(new de.jabc.cinco.meta.runtime.xapi.WorkbenchExtension().getActiveEditor());
+		 		if(g instanceof «graphmodel.graphModel.name»){
+		 			this.«graphmodel.graphModel.name.toFirstLower» = («graphmodel.graphModel.name») g;
+		 			c«graphmodel.graphModel.name» = «graphmodel.graphModel.name»Wrapper.wrapGraphModel( «graphmodel.graphModel.name.toFirstLower»,new WorkbenchExtension().getActiveDiagram());
+		 		}
+		 	}
 		
 		private void startNewTracer(Shell shell)
 		{

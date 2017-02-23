@@ -27,15 +27,21 @@ class ManifestTemplate extends MainTemplate {
 	 org.eclipse.ui,
 	 org.eclipse.core.runtime,
 	 org.eclipse.ui.workbench,
-	 org.eclipse.e4.core.di
+	 org.eclipse.e4.core.di,
+	 org.eclipse.emf,
+	 org.eclipse.emf.edit.ui,
+	 com.google.gson,
+	 org.eclipse.ui.views.properties.tabbed,
+	 org.eclipse.gef,
+	 de.jabc.cinco.meta.util
 	Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 	Bundle-ActivationPolicy: lazy
 	Import-Package: de.jabc.cinco.meta.core.mgl.model,
 	 de.jabc.cinco.meta.core.referenceregistry,
 	 de.jabc.cinco.meta.core.ui.highlight,
 	 de.jabc.cinco.meta.core.utils,
-	 de.jabc.cinco.meta.core.utils.eapi,
 	 de.jabc.cinco.meta.core.utils.job,
+	 de.jabc.cinco.meta.runtime.xapi,
 	 graphicalgraphmodel,
 	 graphmodel,
 	 «graphmodel.sourceCApiPackage»,
