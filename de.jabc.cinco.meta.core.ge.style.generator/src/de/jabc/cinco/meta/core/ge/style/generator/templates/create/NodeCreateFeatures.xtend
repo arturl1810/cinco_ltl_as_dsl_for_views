@@ -1,8 +1,8 @@
 package de.jabc.cinco.meta.core.ge.style.generator.templates.create
 
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.errorhandling.ECincoError
+import de.jabc.cinco.meta.core.ge.style.generator.templates.util.APIUtils
 import de.jabc.cinco.meta.core.utils.CincoUtils
-import de.jabc.cinco.meta.core.utils.generator.GeneratorUtils
 import graphmodel.internal.InternalModelElementContainer
 import mgl.Node
 import org.eclipse.emf.ecore.EObject
@@ -11,9 +11,9 @@ import org.eclipse.graphiti.features.context.ICreateContext
 import org.eclipse.graphiti.mm.pictograms.PictogramElement
 import org.eclipse.graphiti.services.Graphiti
 import style.Styles
+import graphmodel.ModelElementContainer
 
-
-class NodeCreateFeatures extends GeneratorUtils{
+class NodeCreateFeatures extends APIUtils{
 	
 
 	/** 
@@ -55,8 +55,8 @@ class NodeCreateFeatures extends GeneratorUtils{
 		public boolean canCreate(«ICreateContext.name» context, boolean apiCall) {
 		if (apiCall) {
 			«Object.name» target = «Graphiti.name».getLinkService().getBusinessObjectForLinkedPictogramElement(context.getTargetContainer());
-			if (target instanceof «InternalModelElementContainer.name»)
-				if (! ((«InternalModelElementContainer.name») target).canContain(«n.fqBeanName».class)) {
+			if (target instanceof «ModelElementContainer.name»)
+				if (! ((«ModelElementContainer.name») target).canContain(«n.fqBeanName».class)) {
 					if (getError().equals(«ECincoError.name».OK))
 						setError(«ECincoError.name».MAX_CARDINALITY);
 				} else return true;
@@ -71,23 +71,22 @@ class NodeCreateFeatures extends GeneratorUtils{
 		 * @return Returns a list with the created pictogram elements and its graphical representation
 	    */
 		public «Object.name»[] create(«ICreateContext.name» context) {
-		«n.fqBeanName» «n.flName» = «n.fqFactoryName».eINSTANCE.create«n.fuName»();
-			«n.flName».setInternalElement(«n.graphModel.package».«n.graphModel.name.toLowerCase».internal.InternalFactory.eINSTANCE.createInternal«n.fuName»());
-		setModelElement(«n.flName»);
-		«PictogramElement.name» target = context.getTargetContainer();
-		«EObject.name» targetBO = («EObject.name») getBusinessObjectForPictogramElement(target);
-
-		if (targetBO instanceof «InternalModelElementContainer.name») {
-			((«InternalModelElementContainer.name») targetBO).getModelElements().add(«n.flName».getInternalElement());		
+			«n.fqBeanName» «n.flName» = new «n.fqCName»();
+«««			«n.flName».setInternalElement(«n.graphModel.package».«n.graphModel.name.toLowerCase».internal.InternalFactory.eINSTANCE.createInternal«n.fuName»());
+			setModelElement(«n.flName»);
+			«PictogramElement.name» target = context.getTargetContainer();
+			«EObject.name» targetBO = («EObject.name») getBusinessObjectForPictogramElement(target);
+	
+			if (targetBO instanceof «ModelElementContainer.name») {
+				((«ModelElementContainer.name») targetBO).getInternalContainerElement().getModelElements().add(«n.flName».getInternalElement());
+			}
+	
+			«PictogramElement.name» pe = null;
+			«IF !n.isPrime»
+			pe = addGraphicalRepresentation(context, «n.flName»);
+			«ENDIF» 
+			return new «Object.name»[] {«n.flName», pe};
 		}
-
-		«PictogramElement.name» pe = null;
-		«IF !n.isPrime»
-		pe = addGraphicalRepresentation(context, «n.flName».getInternalElement());
-		«n.packageNameAPI».«n.fuCName» «n.flCName» = new «n.packageNameAPI».«n.fuCName»(«n.flName», pe);
-		«ENDIF»
-		return new «Object.name»[] {«n.flCName», pe};
-	}
 		
 		/**
 		 * Checks if a context can be created by using the method 'canCreate(context,apiCall)'

@@ -47,6 +47,8 @@ import de.jabc.cinco.meta.core.ge.style.generator.runtime.customfeature.Graphiti
 import org.eclipse.graphiti.features.context.ICreateConnectionContext
 import org.eclipse.graphiti.mm.pictograms.Connection
 import de.jabc.cinco.meta.core.ge.style.generator.templates.util.APIUtils
+import graphmodel.Node
+import graphmodel.ModelElement
 
 class FeatureProviderTmpl extends APIUtils{
 	
@@ -164,9 +166,9 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 		«Object.name» o = getBusinessObjectForPictogramElement(context.getPictogramElement());
 		if (o instanceof «EObject.name») {
 			«EObject.name» bo = («EObject.name») o;
-			if (bo instanceof «InternalModelElement.name»){
+			if (bo instanceof «ModelElement.name»){
 				
-					if (bo instanceof «InternalNode.name»)
+					if (bo instanceof «Node.name»)
 						return new «CincoLayoutFeature.name»(this);
 				
 				«FOR e : gm.edges»
@@ -184,7 +186,7 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 		«Object.name» o = getBusinessObjectForPictogramElement(context.getPictogramElement());
 		if (o instanceof «EObject.name») {
 			«EObject.name» bo = («EObject.name») o;
-			if (bo instanceof «InternalModelElement.name»){
+			if (bo instanceof «ModelElement.name»){
 				«FOR n : gm.nodes»
 					if («n.instanceofCheck("bo")»)
 						return new «n.packageNameResize».ResizeFeature«n.fuName»(this);
@@ -200,7 +202,7 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 		«Object.name» o = getBusinessObjectForPictogramElement(context.getPictogramElement());
 		if (o instanceof «EObject.name») {
 			«EObject.name» bo = («EObject.name») o;
-			if (bo instanceof «InternalModelElement.name»){
+			if (bo instanceof «ModelElement.name»){
 				«FOR n : gm.nodes»
 					if («n.instanceofCheck("bo")»)
 						return new «n.packageNameMove».MoveFeature«n.fuName»(this);
@@ -216,7 +218,7 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 		«Object.name» o = getBusinessObjectForPictogramElement(context.getPictogramElement());
 		if (o instanceof «EObject.name») {
 			«EObject.name» bo = («EObject.name») o;
-			if (bo instanceof «InternalModelElement.name»){
+			if (bo instanceof «ModelElement.name»){
 				return new «CincoUpdateFeature.name»(this);
 «««				«FOR e : gm.edges»
 «««					if («e.instanceofCheck("bo")»)
@@ -253,7 +255,7 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 			if («me.instanceofCheck("bo")») {
 				return new «ICustomFeature.name»[] {
 					«FOR annotValue : MGLUtils.getAllAnnotation("contextMenuAction", me) SEPARATOR ","»
-					new «gm.fuName»GraphitiCustomFeature<«me.fqBeanName»>(this,new «annotValue»())
+					new «GraphitiCustomFeature.name»<«me.fqBeanName»>(this,new «annotValue»())
 					«ENDFOR»
 				};
 			}
@@ -304,7 +306,7 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 									«EObject.name» bo = conn.getLink().getBusinessObjects().get(0);
 									«FOR me : gm.edges»
 									if («me.instanceofCheck("bo")»)
-										created[0] = new «me.fqCName»((«me.fqBeanName») ((«me.fqInternalBeanName») bo).getElement(), conn);
+										created[0] = new «me.fqCName»();
 									«ENDFOR»
 									created[1] = conn;
 								}

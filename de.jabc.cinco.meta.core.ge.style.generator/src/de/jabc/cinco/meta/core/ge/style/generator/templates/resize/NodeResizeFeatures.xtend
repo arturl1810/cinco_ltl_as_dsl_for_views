@@ -24,7 +24,7 @@ class NodeResizeFeatures extends GeneratorUtils{
 	
 	public class ResizeFeature«n.fuName» extends «CincoAbstractResizeFeature.name» {
 		
-		«n.fqInternalBeanName» bo;
+		«n.fqBeanName» bo;
 		
 		/**
 		 * Call of the Superclass
@@ -43,7 +43,7 @@ class NodeResizeFeatures extends GeneratorUtils{
 		public boolean canResizeShape(«IResizeShapeContext.name» context, boolean apiCall) {
 			if (apiCall) {
 				«Object.name» bo = getBusinessObjectForPictogramElement(context.getPictogramElement());
-				return (bo instanceof «n.fqInternalBeanName»);
+				return (bo instanceof «n.fqBeanName»);
 			}
 			return false;
 		}
@@ -70,7 +70,7 @@ class NodeResizeFeatures extends GeneratorUtils{
 			dom.getCommandStack().execute(new «RecordingCommand.name»(dom, "Resize") {
 				@Override
 				protected void doExecute() {
-					bo = («n.fqInternalBeanName») getBusinessObjectForPictogramElement(context.getPictogramElement());
+					bo = («n.fqBeanName») getBusinessObjectForPictogramElement(context.getPictogramElement());
 
 					«CincoResizeFeature.name».resize(context);
 					layoutPictogramElement(context.getPictogramElement());

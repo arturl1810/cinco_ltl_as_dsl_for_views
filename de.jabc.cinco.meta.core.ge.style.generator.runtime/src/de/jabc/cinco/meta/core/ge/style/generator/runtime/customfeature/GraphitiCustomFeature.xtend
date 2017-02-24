@@ -8,6 +8,7 @@ import org.eclipse.graphiti.features.context.ICustomContext
 import org.eclipse.graphiti.features.custom.AbstractCustomFeature
 import org.eclipse.graphiti.features.custom.ICustomFeature
 import org.eclipse.graphiti.services.Graphiti
+import graphmodel.ModelElement
 
 class GraphitiCustomFeature<T extends IdentifiableElement> extends AbstractCustomFeature implements ICustomFeature{
 	
@@ -34,6 +35,7 @@ class GraphitiCustomFeature<T extends IdentifiableElement> extends AbstractCusto
 		val pe = context.pictogramElements.get(0);
 		val T bo = Graphiti.linkService.getBusinessObjectForLinkedPictogramElement(pe) as T
 		switch bo {
+			ModelElement : delegate.canExecute(bo as T) 
 			InternalModelElement : delegate.canExecute(bo.element as T)
 			default : throw new RuntimeException("Error in canExecute with element: " + bo) 
 		}
@@ -43,6 +45,7 @@ class GraphitiCustomFeature<T extends IdentifiableElement> extends AbstractCusto
 		val pe = context.pictogramElements.get(0);
 		val T bo = Graphiti.linkService.getBusinessObjectForLinkedPictogramElement(pe) as T
 		switch bo {
+			ModelElement : delegate.execute(bo as T)
 			InternalModelElement : delegate.execute(bo.element as T)
 			default : throw new RuntimeException("Error in canExecute with element: " + bo) 
 		}

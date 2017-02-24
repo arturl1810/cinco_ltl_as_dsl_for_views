@@ -63,8 +63,7 @@ public class «gm.fuName»DiagramWizard extends «Wizard.name» implements «INe
 	}
 	
 	@Override
-	public void init(«IWorkbench.name» workbench, «IStructuredSelection.name» selection
-	) {
+	public void init(«IWorkbench.name» workbench, «IStructuredSelection.name» selection) {
 		ssel = selection;
 	}
 
@@ -113,9 +112,10 @@ public class «gm.fuName»DiagramWizard extends «Wizard.name» implements «INe
 			«Resource.name» res = new «ResourceSetImpl.name»().createResource(resUri);
 			«Diagram.name» diagram = 
 				«Graphiti.name».getPeService().createDiagram("«gm.fuName»", dName, true);
-			«gm.fqBeanName» «gm.flName» = «gm.fqFactoryName».eINSTANCE.create«gm.fuName»();
-			«gm.fqCName» «gm.flCName» = 
-				new «gm.fqCName»(«gm.flName», diagram);
+«««			«gm.fqBeanName» «gm.flName» = «gm.fqFactoryName».eINSTANCE.create«gm.fuName»();
+			«gm.fqCName» «gm.flName» = 
+				new «gm.fqCName»();
+«««			«gm.flName».setInternalElement(«gm.fqInternalFactoryName».eINSTANCE.createInternal«gm.fuName»());
 			«gm.flName».getInternalContainerElement().setId(«EcoreUtil.name».generateUUID());
 			try {
 				res.unload();
@@ -124,11 +124,11 @@ public class «gm.fuName»DiagramWizard extends «Wizard.name» implements «INe
 				res.save(null);
 				
 				«IDiagramTypeProvider.name» dtp = «GraphitiUi.name».getExtensionManager().createDiagramTypeProvider(diagram, "«gm.packageName».«gm.fuName»DiagramTypeProvider");
-				dtp.getFeatureProvider().link(diagram, «gm.flName».getInternalElement());
+				dtp.getFeatureProvider().link(diagram, «gm.flName»);
 				
 «««				TODO: This is quick and dirty...
 				«IF gm.booleanWriteMethodCallPostCreate»
-				«(gm as ContainingElement).fqBeanName» modelCreate = «gm.flCName»;
+				«(gm as ContainingElement).fqBeanName» modelCreate = «gm.flName»;
 				«gm.writeMethodCallPostCreate»
 				«ENDIF»
 				

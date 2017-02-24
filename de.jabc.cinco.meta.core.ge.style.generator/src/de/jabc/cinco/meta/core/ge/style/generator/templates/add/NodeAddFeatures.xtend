@@ -1,6 +1,8 @@
 package de.jabc.cinco.meta.core.ge.style.generator.templates.add
 
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoAbstractAddFeature
 import de.jabc.cinco.meta.core.ge.style.generator.templates.util.StyleUtils
+import de.jabc.cinco.meta.core.referenceregistry.ReferenceRegistry
 import de.jabc.cinco.meta.core.utils.CincoUtils
 import graphmodel.ModelElementContainer
 import mgl.Node
@@ -8,6 +10,8 @@ import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.util.EcoreUtil
 import org.eclipse.graphiti.features.IFeatureProvider
 import org.eclipse.graphiti.features.context.IAddContext
+import org.eclipse.graphiti.features.context.impl.AddContext
+import org.eclipse.graphiti.features.context.impl.CreateContext
 import org.eclipse.graphiti.mm.pictograms.ContainerShape
 import org.eclipse.graphiti.mm.pictograms.PictogramElement
 import org.eclipse.graphiti.services.Graphiti
@@ -15,13 +19,10 @@ import org.eclipse.graphiti.services.IGaService
 import org.eclipse.graphiti.services.IPeService
 import style.NodeStyle
 import style.Styles
-import org.eclipse.graphiti.features.context.impl.CreateContext
-import org.eclipse.graphiti.features.context.impl.AddContext
-import de.jabc.cinco.meta.core.referenceregistry.ReferenceRegistry
-import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoAbstractAddFeature
-import graphmodel.ModelElement
 
 class NodeAddFeatures extends StyleUtils {
+
+//	extension APIUtils = new APIUtils
 	
 	var Node n;
 	var NodeStyle s;
@@ -61,9 +62,12 @@ public class AddFeature«n.fuName» extends «CincoAbstractAddFeature.name» {
 	 * @param context : Contains the information, needed to let a feature add a pictogram element
 	*/
 	public «PictogramElement.name» add(«IAddContext.name» context) {
-		«n.fqInternalBeanName» bo = («n.fqInternalBeanName») context.getNewObject();
-		if (bo.getId() == null || bo.getId().isEmpty())
-			bo.setId(«EcoreUtil.name».generateUUID());
+		«n.fqBeanName» bo = («n.fqBeanName») context.getNewObject();
+		/**
+		 * Graphiti should not be responsible to set IDs.
+		 */
+		//if (bo.getId() == null || bo.getId().isEmpty())
+		//	bo.setId(«EcoreUtil.name».generateUUID());
 		
 		«ContainerShape.name» d = context.getTargetContainer();
 		

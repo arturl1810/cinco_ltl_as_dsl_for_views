@@ -19,7 +19,7 @@ import org.eclipse.graphiti.services.Graphiti;
 import com.sun.el.ExpressionFactoryImpl;
 
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.expressionlanguage.ExpressionLanguageContext;
-import graphmodel.internal.InternalModelElement;
+import graphmodel.ModelElement;
 
 public class CincoUpdateFeature extends AbstractUpdateFeature {
 
@@ -35,7 +35,7 @@ public class CincoUpdateFeature extends AbstractUpdateFeature {
 	public boolean canUpdate(IUpdateContext context) {
 		PictogramElement pe = context.getPictogramElement();
 		EObject bo = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
-		return (bo instanceof InternalModelElement);
+		return (bo instanceof ModelElement);
 	}
 
 	@Override
@@ -88,7 +88,7 @@ public class CincoUpdateFeature extends AbstractUpdateFeature {
 					String value = Graphiti.getPeService().getPropertyValue(t, "Params");
 					String formatString = Graphiti.getPeService().getPropertyValue(t, "formatString");
 					
-					elContext = new ExpressionLanguageContext(bo);
+					elContext = new ExpressionLanguageContext(((ModelElement) bo).getInternalElement());
 					Object tmp2Value = factory.createValueExpression(elContext, value, Object.class).getValue(elContext); 
 					
 					t.setValue(String.format(formatString , tmp2Value));
@@ -134,7 +134,7 @@ public class CincoUpdateFeature extends AbstractUpdateFeature {
 					String value = Graphiti.getPeService().getPropertyValue(t, "Params");  //zb. ${name}
 					String formatString = Graphiti.getPeService().getPropertyValue(t, "formatString");  //zb. %s
 					
-					elContext = new ExpressionLanguageContext(bo);
+					elContext = new ExpressionLanguageContext(((ModelElement) bo).getInternalElement());
 					Object tmp2Value = factory.createValueExpression(elContext, value, Object.class).getValue(elContext); 
 					
 					

@@ -68,17 +68,20 @@ package «me.packageNameAPI»;
 public «IF me.isIsAbstract»abstract«ENDIF» class «me.fuCName» extends «me.fqBeanImplName» {
 	
 	private «PictogramElement.name» pe;
-	private «me.fqBeanName» me;
-	
-	«IF !me.isIsAbstract»
-	public «me.fuCName»(«me.fqBeanName» «me.flName») {
-		me = «me.flName»;
+«««	private «me.fqBeanName» me;
+	«
+	IF !me.isIsAbstract»
+	public «me.fuCName»() {
+		this.setInternalElement(«me.fqInternalFactoryName».eINSTANCE.createInternal«me.fuName»());
 	}
-	
-	public «me.fuCName»(«me.fqBeanName» «me.flName», «PictogramElement.name» pe) {
-		this(«me.flName»);
-		this.pe = pe;
-	}
+«««	public «me.fuCName»(«me.fqBeanName» «me.flName») {
+«««		me = «me.flName»;
+«««	}
+«««	
+«««	public «me.fuCName»(«me.fqBeanName» «me.flName», «PictogramElement.name» pe) {
+«««		this(«me.flName»);
+«««		this.pe = pe;
+«««	}
 	«ENDIF»
 	
 	public «PictogramElement.name» getPictogramElement() {

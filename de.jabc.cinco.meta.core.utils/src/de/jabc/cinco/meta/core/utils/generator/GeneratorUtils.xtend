@@ -31,6 +31,7 @@ import de.jabc.cinco.meta.core.utils.dependency.DependencyNode
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.customfeature.GraphitiCustomFeature
 
 class GeneratorUtils {
+	
 	val static String ID_CONTAINER = "Containers";
 	val static String ID_NODES = "Nodes";
 	
@@ -43,7 +44,7 @@ class GeneratorUtils {
 	 * @param me The {@link ModelElemet} against which the check is executed. 
 	 */
 	def instanceofCheck(ModelElement me, String varName) 
-	'''«varName» instanceof «me.beanPackage».internal.Internal«me.fuName»'''
+	'''«varName» instanceof «me.fqBeanName»'''
 	
 	
 	def instanceofCheck(Annotatable a, String varName){

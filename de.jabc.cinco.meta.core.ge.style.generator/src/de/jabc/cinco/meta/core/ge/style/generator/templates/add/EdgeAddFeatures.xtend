@@ -74,7 +74,7 @@ class EdgeAddFeatures extends GeneratorUtils {
 		 */
 		public «PictogramElement.name» add(«IAddContext.name» context) {
 			«IAddConnectionContext.name» addConContext = («IAddConnectionContext.name») context;
-			«e.fqInternalBeanName» «e.fuName.toFirstLower» = («e.fqInternalBeanName») context.getNewObject();
+			«e.fqBeanName» «e.fuName.toFirstLower» = («e.fqBeanName») context.getNewObject();
 			if («e.fuName.toFirstLower».getId() == null || «e.fuName.toFirstLower».getId().isEmpty())
 				«e.fuName.toFirstLower».setId(«EcoreUtil.name».generateUUID());
 			«IPeCreateService.name» peCreateService = «Graphiti.name».getPeCreateService();
@@ -122,7 +122,9 @@ class EdgeAddFeatures extends GeneratorUtils {
 				«IF d.decoratorShape instanceof style.Text»	
 				«var textShape = d.decoratorShape as style.Text»
 				cd = peCreateService.createConnectionDecorator(connection, «d.movable»,«d.location», true);
-				createShapeText«text.length»(cd, «e.fuName.toFirstLower», "«textShape.value»");
+				createShapeText«text.length»(cd,
+					(«e.fqInternalBeanName») «e.fuName.toFirstLower».getInternalElement(),
+					"«textShape.value»");
 				link(cd, «e.fuName.toFirstLower»);
 				«{text.add(textShape); ""}»
 				«ELSEIF d.decoratorShape instanceof style.Polyline»
@@ -158,7 +160,9 @@ class EdgeAddFeatures extends GeneratorUtils {
 				«ELSEIF d.decoratorShape instanceof style.MultiText»
 				«var multitextShape = d.decoratorShape as style.MultiText»
 				cd = peCreateService.createConnectionDecorator(connection, «d.movable», «d.location», true);
-				createShapeMultiText«multitext.length»(cd, «e.fuName.toFirstLower», "«multitextShape.value»");
+				createShapeMultiText«multitext.length»(cd, 
+					(«e.fqInternalBeanName») «e.fuName.toFirstLower».getInternalElement(),
+					"«multitextShape.value»");
 				link(cd, «e.fuName.toFirstLower»);
 				«{multitext.add(multitextShape); ""}»				
 				«ELSEIF d.decoratorShape instanceof style.Image»
@@ -178,8 +182,8 @@ class EdgeAddFeatures extends GeneratorUtils {
 			«Resource.name» eResource = ((«EObject.name») sourceBo).eResource();
 			«InternalGraphModel.name» internalGraphModel = new «ResourceExtension.name»().getContent(eResource, «e.graphModel.fqInternalBeanName».class);
 			«ModelElementContainer.name» container = 
-				«e.graphModel.packageName».«e.graphModel.name»GraphitiUtils.getInstance().getCommonContainer(internalGraphModel.getElement(), («graphmodel.Edge.name»)«e.fuName.toFirstLower».getElement());
-			container.getInternalContainerElement().getModelElements().add(«e.fuName.toFirstLower»);
+				«e.graphModel.packageName».«e.graphModel.name»GraphitiUtils.getInstance().getCommonContainer(internalGraphModel.getElement(), «e.fuName.toFirstLower»);
+			container.getInternalContainerElement().getModelElements().add(«e.fuName.toFirstLower».getInternalElement());
 	
 			if (hook) {
 			}
@@ -198,7 +202,8 @@ class EdgeAddFeatures extends GeneratorUtils {
 		 * @return Returns true if the context can be added or false
 		 */
 		public boolean canAdd(«IAddContext.name» context) {
-			if (context instanceof «IAddConnectionContext.name» && context.getNewObject() instanceof «e.fqInternalBeanName») {
+			if (context instanceof «IAddConnectionContext.name» && 
+				context.getNewObject() instanceof «e.fqBeanName») {
 				return true;
 			}
 			return false;

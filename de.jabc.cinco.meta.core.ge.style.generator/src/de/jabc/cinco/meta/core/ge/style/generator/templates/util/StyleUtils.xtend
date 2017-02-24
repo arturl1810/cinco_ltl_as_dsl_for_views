@@ -94,7 +94,6 @@ class StyleUtils extends GeneratorUtils {
 
 			if (hook) {
 			}
-
 			
 			return «currentPeName»;
 		'''
@@ -288,7 +287,7 @@ class StyleUtils extends GeneratorUtils {
 			«Thread.name».currentThread().setContextClassLoader(AddFeature«node.name».class.getClassLoader());
 		
 			«ExpressionLanguageContext.name» elContext = 
-				new «ExpressionLanguageContext.name»(bo);
+				new «ExpressionLanguageContext.name»(bo.getInternalElement());
 				
 			«Object.name» tmp0Value = factory.createValueExpression(elContext, "«getText(node)»", «Object.name».class).getValue(elContext);
 		

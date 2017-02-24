@@ -1,10 +1,10 @@
 package de.jabc.cinco.meta.core.ge.style.generator.templates.create
 
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.errorhandling.ECincoError
-import de.jabc.cinco.meta.core.utils.generator.GeneratorUtils
+import de.jabc.cinco.meta.core.ge.style.generator.templates.util.APIUtils
+import graphmodel.ModelElement
 import graphmodel.Node
 import mgl.Edge
-import mgl.ModelElement
 import org.eclipse.graphiti.features.IFeatureProvider
 import org.eclipse.graphiti.features.context.ICreateConnectionContext
 import org.eclipse.graphiti.features.context.impl.AddConnectionContext
@@ -12,9 +12,6 @@ import org.eclipse.graphiti.features.impl.AbstractCreateConnectionFeature
 import org.eclipse.graphiti.mm.pictograms.Anchor
 import org.eclipse.graphiti.mm.pictograms.Connection
 import style.Styles
-import graphmodel.internal.InternalNode
-import graphmodel.internal.InternalModelElement
-import de.jabc.cinco.meta.core.ge.style.generator.templates.util.APIUtils
 
 class EdgeCreateFeatures extends APIUtils{
 
@@ -46,14 +43,14 @@ class EdgeCreateFeatures extends APIUtils{
 		*/
 		public boolean canCreate(«ICreateConnectionContext.name» context, boolean apiCall) {
 			if (apiCall) {
-				«Object.name» source = getBusinessObject(context.getSourceAnchor());
-				«Object.name» target = getBusinessObject(context.getTargetAnchor());
+				«Node.name» source = («Node.name») getBusinessObject(context.getSourceAnchor());
+				«Node.name» target = («Node.name») getBusinessObject(context.getTargetAnchor());
 		
 				boolean srcOK = false;
 				boolean trgOK = false;
 				if (source != null && target != null) {
-					srcOK=((«InternalNode.name») source).canStart(«e.graphModel.beanPackage».«e.fuName».class);
-					trgOK=((«InternalNode.name») target).canEnd(«e.graphModel.beanPackage».«e.fuName».class);
+					srcOK = source.canStart(«e.graphModel.beanPackage».«e.fuName».class);
+					trgOK = target.canEnd(«e.graphModel.beanPackage».«e.fuName».class);
 				}
 				if (! (srcOK && trgOK) && getError().equals(«ECincoError.name».OK))
 					setError(«ECincoError.name».MAX_IN);
@@ -79,24 +76,24 @@ class EdgeCreateFeatures extends APIUtils{
 		@Override
 		public «Connection.name» create(«ICreateConnectionContext.name» context) {
 			«Connection.name» connection = null;
-			«InternalNode.name» source = («InternalNode.name») getBusinessObject(context.getSourceAnchor());
-			«InternalNode.name» target = («InternalNode.name») getBusinessObject(context.getTargetAnchor());
+			«Node.name» source = («Node.name») getBusinessObject(context.getSourceAnchor());
+			«Node.name» target = («Node.name») getBusinessObject(context.getTargetAnchor());
 
 			if (source != null && target != null) {
 				
-				«e.fqBeanName» «e.flName» = «e.fqFactoryName».eINSTANCE.create«e.fuName»();
-				if (source instanceof «InternalModelElement.name») {
-					«e.flName».setSourceElement( («Node.name») source.getElement());
+				«e.fqBeanName» «e.flName» = 
+					new «e.fqCName»();
+				if (source instanceof «ModelElement.name») {
+					«e.flName».setSourceElement(source);
 				}
-				if (target instanceof «InternalModelElement.name») {
-					«e.flName».setTargetElement( («Node.name») target.getElement());
+				if (target instanceof «ModelElement.name») {
+					«e.flName».setTargetElement(target);
 				}
 
 				«AddConnectionContext.name» addContext = 
 					new «AddConnectionContext.name»(context.getSourceAnchor(), context.getTargetAnchor());
-				addContext.setNewObject(«e.flName».getInternalElement());
+				addContext.setNewObject(«e.flName»);
 				connection = («Connection.name») getFeatureProvider().addIfPossible(addContext);
-				«e.fqCName» «e.flCName» = new «e.fqCName»(«e.flName», connection);
 			}
 			return connection;
 		}	
@@ -109,8 +106,8 @@ class EdgeCreateFeatures extends APIUtils{
 		@Override
 		public boolean canStartConnection(«ICreateConnectionContext.name» context) {
 			«Object.name» source = getBusinessObject(context.getSourceAnchor());
-			if (source instanceof «InternalNode.name») {	
-				if (! ((«InternalNode.name») source).canStart(«e.graphModel.beanPackage».«e.fuName».class)) {
+			if (source instanceof «Node.name») {	
+				if (! ((«Node.name») source).canStart(«e.graphModel.beanPackage».«e.fuName».class)) {
 					if (getError().equals(«ECincoError.name».OK))
 						setError(«ECincoError.name».MAX_OUT);
 				}
