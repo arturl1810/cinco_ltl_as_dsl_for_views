@@ -24,9 +24,16 @@ class CollectionExtension {
 	 * 		in the sequence used for distinct object checking
 	 * @return a sequence that contains only distinct values.
 	 */
-	def <T> distinctByKey(Seq<T> seq, (T) => Object keyExtractor) {
-		val seen = new HashSet
+	def <T, U> distinctByKey(Seq<T> seq, (T) => U keyExtractor) {
+		val seen = new HashSet<U>
 		seq.filter[seen += keyExtractor.apply(it)]
+	}
+	
+	/**
+	 * Convenience extension function for calling {@link Seq#distinctByKey}.
+	 */
+	def <T, U> distinctByKey(Iterable<T> iterable, (T) => U keyExtractor) {
+		iterable.seq.distinctByKey(keyExtractor)
 	}
 	
 	/**
@@ -40,9 +47,16 @@ class CollectionExtension {
 	 * 		in the sequence used for duplicate checking
 	 * @return a sequence that contains only duplicates.
 	 */
-	def <T> duplicatesByKey(Seq<T> seq, (T) => Object keyExtractor) {
-		val seen = new HashSet
+	def <T, U> duplicatesByKey(Seq<T> seq, (T) => U keyExtractor) {
+		val seen = new HashSet<U>
 		seq.filter[!(seen += keyExtractor.apply(it))]
+	}
+	
+	/**
+	 * Convenience extension function for calling {@link Seq#duplicatesByKey}.
+	 */
+	def <T, U> duplicatesByKey(Iterable<T> iterable, (T) => U keyExtractor) {
+		iterable.seq.duplicatesByKey(keyExtractor)
 	}
 	
 	/**
