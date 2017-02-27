@@ -5,8 +5,10 @@ import de.jabc.cinco.meta.core.ui.editor.CincoDiagramEditor
 import de.jabc.cinco.meta.core.utils.generator.GeneratorUtils
 import mgl.GraphModel
 import org.eclipse.core.runtime.IProgressMonitor
+import org.eclipse.emf.ecore.EObject
 import org.eclipse.graphiti.features.context.impl.ResizeShapeContext
 import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm
+import org.eclipse.graphiti.mm.pictograms.PictogramLink
 import org.eclipse.graphiti.mm.pictograms.Shape
 import org.eclipse.graphiti.ui.editor.DiagramEditor
 
@@ -28,9 +30,9 @@ public class «gm.fuName»DiagramEditor extends «CincoDiagramEditor.name» {
 		
 		«ReferenceRegistry.name».getInstance().registerListener();
 	
-«««		for («PictogramLink.name» pl : «gm.fuName»GraphitiUtils.getInstance().getDTP().getDiagram().getPictogramLinks())
-«««			for («EObject.name» bo : pl.getBusinessObjects())
-«««				«gm.fuName»EContentAdapter.getInstance().addAdapter(bo);
+		for («PictogramLink.name» pl : «gm.fuName»GraphitiUtils.getInstance().getDTP().getDiagram().getPictogramLinks())
+			for («EObject.name» bo : pl.getBusinessObjects())
+				«gm.packageNameEContentAdapter».«gm.fuName»EContentAdapter.getInstance().addAdapter(bo);
 		
 	}
 	

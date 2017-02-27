@@ -46,6 +46,9 @@ class GeneratorUtils {
 	def instanceofCheck(ModelElement me, String varName) 
 	'''«varName» instanceof «me.fqBeanName»'''
 	
+	def internalInstanceofCheck(Type t, String varName) 
+	'''«varName» instanceof «t.fqInternalBeanName»'''
+	
 	
 	def instanceofCheck(Annotatable a, String varName){
 		if (a instanceof ModelElement) {
@@ -133,6 +136,10 @@ class GeneratorUtils {
 	
 	def packageNameAPI(Type me)
 	'''«me.graphModel.packageName».api'''
+	
+	def packageNameEContentAdapter(Type me)
+	'''«me.graphModel.packageName».content.adapter'''
+	
 	/**
 	 * Returns the package name for the generated {@link ExpressionFactory}
 	 * class
@@ -190,7 +197,7 @@ class GeneratorUtils {
 	 * 
 	 * @param me The {@link ModelElement} for which the bean package name is retrieved
 	 */
-	def beanPackage(ModelElement me)
+	def beanPackage(Type me)
 	'''«IF me instanceof UserDefinedType»«var gm = me.eContainer as GraphModel»«gm.package».«gm.name.toLowerCase»
 		«ELSE»
 		«me.graphModel.package».«me.graphModel.name.toLowerCase»«ENDIF»''' 
@@ -215,7 +222,7 @@ class GeneratorUtils {
 	 * 
 	 * @param me The {@link ModelElement} for which the fully qualified bean name should be retrieved
 	 */
-	def fqInternalBeanName(ModelElement me)
+	def fqInternalBeanName(Type me)
 	'''«me.beanPackage».internal.Internal«me.fuName»'''
 	
 	def fqBeanImplName(ModelElement me)
@@ -257,6 +264,9 @@ class GeneratorUtils {
 		mes.add(gm)
 		return mes
 	}
+	
+	def getDtpId(Type t)
+	'''«t.graphModel.package».«t.graphModel.fuName»DiagramTypeProvider'''
 	 
 	/**
 	 * Returns the {@link GraphModel} of the given {@link ModelElement}

@@ -4,6 +4,8 @@ import de.jabc.cinco.meta.core.ge.style.generator.templates.DiagramEditorTmpl
 import de.jabc.cinco.meta.core.ge.style.generator.templates.DiagramTypeProviderTmpl
 import de.jabc.cinco.meta.core.ge.style.generator.templates.FeatureProviderTmpl
 import de.jabc.cinco.meta.core.ge.style.generator.templates.FileExtensionContent
+import de.jabc.cinco.meta.core.ge.style.generator.templates.GraphModelEContentAdapterTmpl
+import de.jabc.cinco.meta.core.ge.style.generator.templates.GraphitiCustomFeatureTmpl
 import de.jabc.cinco.meta.core.ge.style.generator.templates.GraphitiUtilsTmpl
 import de.jabc.cinco.meta.core.ge.style.generator.templates.ImageProviderTmpl
 import de.jabc.cinco.meta.core.ge.style.generator.templates.LayoutFeatureTmpl
@@ -23,6 +25,7 @@ import de.jabc.cinco.meta.core.ge.style.generator.templates.expressionlanguage.R
 import de.jabc.cinco.meta.core.ge.style.generator.templates.layout.EdgeLayoutFeatures
 import de.jabc.cinco.meta.core.ge.style.generator.templates.layout.NodeLayoutFeatures
 import de.jabc.cinco.meta.core.ge.style.generator.templates.move.NodeMoveFeatures
+import de.jabc.cinco.meta.core.ge.style.generator.templates.reconnect.EdgeReconnectFeatures
 import de.jabc.cinco.meta.core.ge.style.generator.templates.resize.NodeResizeFeatures
 import de.jabc.cinco.meta.core.ge.style.generator.templates.update.EdgeUpdateFeatures
 import de.jabc.cinco.meta.core.ge.style.generator.templates.update.NodeUpdateFeatures
@@ -38,8 +41,7 @@ import org.eclipse.core.resources.IProject
 import org.eclipse.core.runtime.NullProgressMonitor
 import productDefinition.CincoProduct
 import style.Styles
-import de.jabc.cinco.meta.core.ge.style.generator.templates.reconnect.EdgeReconnectFeatures
-import de.jabc.cinco.meta.core.ge.style.generator.templates.GraphitiCustomFeatureTmpl
+import de.jabc.cinco.meta.core.ge.style.generator.templates.ModelElementEContentAdapter
 
 class GraphitiGeneratorMain extends GeneratorUtils { 
 	
@@ -69,6 +71,8 @@ class GraphitiGeneratorMain extends GeneratorUtils {
 	extension EdgeUpdateFeatures = new EdgeUpdateFeatures
 	extension EdgeLayoutFeatures = new EdgeLayoutFeatures
 	extension EdgeReconnectFeatures = new EdgeReconnectFeatures
+	extension GraphModelEContentAdapterTmpl = new GraphModelEContentAdapterTmpl
+	extension ModelElementEContentAdapter = new ModelElementEContentAdapter
 	extension GraphitiCustomFeatureTmpl = new GraphitiCustomFeatureTmpl
 	
 	var GraphModel gm
@@ -108,6 +112,8 @@ class GraphitiGeneratorMain extends GeneratorUtils {
 		ContentWriter::writeJavaFileInSrcGen(project, gm.packageNameExpression, gm.name.toFirstUpper.concat("ExpressionLanguageResolver.java"), content)
 		content = gm.generateContext
 		ContentWriter::writeJavaFileInSrcGen(project, gm.packageNameExpression, gm.name.toFirstUpper.concat("ExpressionLanguageContext.java"), content)
+		content = gm.generateGraphModelEContentAdapter
+		ContentWriter::writeJavaFileInSrcGen(project, gm.packageNameEContentAdapter, gm.name.toFirstUpper.concat("EContentAdapter.java"), content)
 //		content = gm.generateCustomFeature
 //		ContentWriter::writeJavaFileInSrcGen(project, gm.packageName, gm.name.toFirstUpper.concat("GraphitiCustomFeature.java"), content)
 		
@@ -122,6 +128,9 @@ class GraphitiGeneratorMain extends GeneratorUtils {
 			if (!n.isIsAbstract) {
 				content = n.doGenerateNodeCreateFeature(styles) 
 				ContentWriter::writeJavaFileInSrcGen(project, n.packageNameCreate, "CreateFeature"+n.name.toFirstUpper+".java", content)
+				
+				content = n.generateModelElementEContentAdapter
+				ContentWriter::writeJavaFileInSrcGen(project, n.packageNameEContentAdapter, n.name.toFirstUpper.concat("EContentAdapter.java"), content)
 			}
 			
 			content = n.doGenerateNodeDeleteFeature(styles)
@@ -148,6 +157,9 @@ class GraphitiGeneratorMain extends GeneratorUtils {
 			if (!e.isIsAbstract) {
 				content = e.doGenerateEdgeCreateFeature(styles)
 				ContentWriter::writeJavaFileInSrcGen(project, e.packageNameCreate, "CreateFeature"+e.name.toFirstUpper+".java", content)
+				
+				content = e.generateModelElementEContentAdapter
+				ContentWriter::writeJavaFileInSrcGen(project, e.packageNameEContentAdapter, e.name.toFirstUpper.concat("EContentAdapter.java"), content)
 			}
 			
 			content = e.doGenerateEdgeUpdateFeature(styles)

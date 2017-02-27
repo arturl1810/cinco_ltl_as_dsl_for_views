@@ -139,20 +139,20 @@ public class «gm.fuName»GraphitiUtils {
 		this.dtp = dtp;
 	}
 	
-«««	public «IDiagramTypeProvider.name» getDTP() {
-«««		if («PlatformUI.name».getWorkbench().getActiveWorkbenchWindow() == null ||
-«««				«PlatformUI.name».getWorkbench().getActiveWorkbenchWindow().getActivePage() == null) 
-«««			return loadByDarkFeature();
-«««		«IEditorPart.name» part = «PlatformUI.name».getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
-«««		if (part instanceof «gm.fuName»DiagramEditor)
-«««			return ((«gm.fuName»DiagramEditor) part).getDiagramTypeProvider();
-«««		return this.dtp;
-«««	}
+	public «IDiagramTypeProvider.name» getDTP() {
+		if («PlatformUI.name».getWorkbench().getActiveWorkbenchWindow() == null ||
+				«PlatformUI.name».getWorkbench().getActiveWorkbenchWindow().getActivePage() == null) 
+			return loadByDarkFeature();
+		«IEditorPart.name» part = «PlatformUI.name».getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+		if (part instanceof «gm.fuName»DiagramEditor)
+			return ((«gm.fuName»DiagramEditor) part).getDiagramTypeProvider();
+		return this.dtp;
+	}
 
-«««	private «IDiagramTypeProvider.name» loadByDarkFeature() {
-«««		«IDiagramTypeProvider.name» dtp = «GraphitiUi.name».getExtensionManager().createDiagramTypeProvider(«gm.fuName»Wrapper.DTP_ID);
-«««		return dtp;
-«««	}
+	private «IDiagramTypeProvider.name» loadByDarkFeature() {
+		«IDiagramTypeProvider.name» dtp = «GraphitiUi.name».getExtensionManager().createDiagramTypeProvider("«gm.dtpId»");
+		return dtp;
+	}
 
 	private void copy(«FileInputStream.name» fis, «FileOutputStream.name» fos) {
 		int b = 0;

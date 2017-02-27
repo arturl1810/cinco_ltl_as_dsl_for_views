@@ -187,7 +187,7 @@ class EdgeAddFeatures extends GeneratorUtils {
 	
 			if (hook) {
 			}
-			//«e.graphModel.name»EContentAdapter.getInstance().addAdapter(«e.fuName.toFirstLower»);
+			«e.packageNameEContentAdapter».«e.graphModel.name»EContentAdapter.getInstance().addAdapter(«e.fuName.toFirstLower»);
 	
 			«UpdateContext.name» uc = new «UpdateContext.name»(connection);
 			«IUpdateFeature.name» uf = getFeatureProvider().getUpdateFeature(uc);
