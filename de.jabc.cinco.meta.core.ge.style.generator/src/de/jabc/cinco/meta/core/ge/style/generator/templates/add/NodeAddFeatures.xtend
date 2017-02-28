@@ -19,6 +19,7 @@ import org.eclipse.graphiti.services.IGaService
 import org.eclipse.graphiti.services.IPeService
 import style.NodeStyle
 import style.Styles
+import graphmodel.internal.InternalModelElement
 
 class NodeAddFeatures extends StyleUtils {
 
@@ -62,7 +63,10 @@ public class AddFeature«n.fuName» extends «CincoAbstractAddFeature.name» {
 	 * @param context : Contains the information, needed to let a feature add a pictogram element
 	*/
 	public «PictogramElement.name» add(«IAddContext.name» context) {
-		«n.fqBeanName» bo = («n.fqBeanName») context.getNewObject();
+		Object newObject = context.getNewObject();
+		if (newObject instanceof «InternalModelElement.name»)
+			newObject = ((«InternalModelElement.name») newObject).getElement();
+		«n.fqBeanName» bo = («n.fqBeanName») newObject;
 		/**
 		 * Graphiti should not be responsible to set IDs.
 		 */

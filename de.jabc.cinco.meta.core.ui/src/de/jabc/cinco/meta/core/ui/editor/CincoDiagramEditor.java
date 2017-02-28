@@ -6,6 +6,7 @@ import org.eclipse.gef.tools.ConnectionCreationTool;
 import org.eclipse.gef.tools.CreationTool;
 import org.eclipse.gef.ui.palette.PaletteViewer;
 import org.eclipse.gef.ui.palette.PaletteViewerProvider;
+import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.ui.editor.DefaultPaletteBehavior;
 import org.eclipse.graphiti.ui.editor.DiagramBehavior;
 import org.eclipse.graphiti.ui.editor.DiagramEditor;
@@ -36,6 +37,14 @@ public class CincoDiagramEditor extends DiagramEditor {
 			protected void setInput(IDiagramEditorInput input) {
 				initRequiredPackages();
 				super.setInput(input);
+			}
+			
+			@Override
+			public void refreshContent() {
+				Diagram diagram = getDiagramTypeProvider().getDiagram();
+				if (diagram != null) {
+					super.refreshContent();
+				}
 			}
 		};
 	}

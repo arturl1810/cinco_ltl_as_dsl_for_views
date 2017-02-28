@@ -1,6 +1,8 @@
 package de.jabc.cinco.meta.plugin.gratext.template
 
 import de.jabc.cinco.meta.plugin.gratext.descriptor.GraphModelDescriptor
+import org.eclipse.emf.ecore.EPackage
+import org.eclipse.emf.ecore.EFactory
 
 class ModelizerTemplate extends AbstractGratextTemplate {
 	
@@ -27,7 +29,11 @@ class ModelizerTemplate extends AbstractGratextTemplate {
 			
 			new() {
 				super(
-					«graphmodel.package».factory.«model.name»Factory.eINSTANCE,
+					switch «EPackage.name».Registry.INSTANCE.get("«graphmodel.nsURI»") {
+						«EPackage.name» : («EPackage.name».Registry.INSTANCE.get("«graphmodel.nsURI»") as «EPackage.name»).EFactoryInstance
+						«EFactory.name» : («EPackage.name».Registry.INSTANCE.get("«graphmodel.nsURI»") as «EFactory.name»)
+					},
+«««					«graphmodel.package».factory.«model.name»Factory.eINSTANCE,
 					«graphmodel.package».«model.name.toLowerCase».internal.InternalPackage.eINSTANCE,
 					«graphmodel.package».«model.name.toLowerCase».«model.nameFirstUpper»Package.eINSTANCE.get«model.name»
 				)

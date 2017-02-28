@@ -25,6 +25,7 @@ import org.eclipse.graphiti.mm.pictograms.PictogramElement
 import org.eclipse.graphiti.mm.pictograms.Shape
 import org.eclipse.graphiti.ui.services.GraphitiUi
 import de.jabc.cinco.meta.core.utils.xtext.PickColorApplier
+import org.eclipse.emf.ecore.util.EcoreUtil
 
 class CModelElementTmpl extends APIUtils {
 	
@@ -73,15 +74,10 @@ public «IF me.isIsAbstract»abstract«ENDIF» class «me.fuCName» extends «me
 	IF !me.isIsAbstract»
 	public «me.fuCName»() {
 		this.setInternalElement(«me.fqInternalFactoryName».eINSTANCE.createInternal«me.fuName»());
+		«String.name» uid = «EcoreUtil.name».generateUUID();
+		this.setId(uid);
+		this.getInternalElement().setId(uid);
 	}
-«««	public «me.fuCName»(«me.fqBeanName» «me.flName») {
-«««		me = «me.flName»;
-«««	}
-«««	
-«««	public «me.fuCName»(«me.fqBeanName» «me.flName», «PictogramElement.name» pe) {
-«««		this(«me.flName»);
-«««		this.pe = pe;
-«««	}
 	«ENDIF»
 	
 	public «PictogramElement.name» getPictogramElement() {

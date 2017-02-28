@@ -164,6 +164,10 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 			
 			EObject bo = getBusinessObject(pe);
 			if (bo != null) {
+				if (bo instanceof InternalGraphModel)
+					bo = ((InternalGraphModel) bo).getElement();
+				if (bo instanceof InternalModelElement)
+					bo = ((InternalModelElement) bo).getElement();
 				if (bo instanceof GraphModel)
 					init_PropertyView(((GraphModel) bo).getInternalElement());
 				if (bo instanceof ModelElement)
@@ -747,8 +751,9 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 	private TransactionalEditingDomain getOrCreateEditingDomain(EObject bo) {
 		domain = TransactionUtil.getEditingDomain(bo);
 		if (domain == null)
-			TransactionalEditingDomain.Factory.INSTANCE.createEditingDomain(bo
-					.eResource().getResourceSet());
+			TransactionalEditingDomain.Factory.INSTANCE.createEditingDomain(bo.eResource().getResourceSet());
+		if (domain == null)
+			TransactionalEditingDomain.Factory.INSTANCE.createEditingDomain();
 		if (domain == null)
 			throw new RuntimeException("Could not get/create TransactionalEditingDomain for object: " + bo);
 		return domain;

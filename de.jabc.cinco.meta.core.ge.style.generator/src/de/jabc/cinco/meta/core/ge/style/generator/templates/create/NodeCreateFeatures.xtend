@@ -56,7 +56,9 @@ class NodeCreateFeatures extends APIUtils{
 		if (apiCall) {
 			«Object.name» target = «Graphiti.name».getLinkService().getBusinessObjectForLinkedPictogramElement(context.getTargetContainer());
 			if (target instanceof «ModelElementContainer.name»)
-				if (! ((«ModelElementContainer.name») target).canContain(«n.fqBeanName».class)) {
+				target = ((«ModelElementContainer.name») target).getInternalContainerElement();
+			if (target instanceof «InternalModelElementContainer.name»)
+				if (! ((«InternalModelElementContainer.name») target).canContain(«n.fqBeanName».class)) {
 					if (getError().equals(«ECincoError.name».OK))
 						setError(«ECincoError.name».MAX_CARDINALITY);
 				} else return true;
@@ -77,9 +79,11 @@ class NodeCreateFeatures extends APIUtils{
 			«PictogramElement.name» target = context.getTargetContainer();
 			«EObject.name» targetBO = («EObject.name») getBusinessObjectForPictogramElement(target);
 	
-			if (targetBO instanceof «ModelElementContainer.name») {
-				((«ModelElementContainer.name») targetBO).getInternalContainerElement().getModelElements().add(«n.flName».getInternalElement());
-			}
+			if (targetBO instanceof «ModelElementContainer.name») 
+				targetBO = ((«ModelElementContainer.name») targetBO).getInternalContainerElement();
+			
+			if (targetBO instanceof «InternalModelElementContainer.name»)
+				((«InternalModelElementContainer.name») targetBO).getModelElements().add(«n.flName».getInternalElement());
 	
 			«PictogramElement.name» pe = null;
 			«IF !n.isPrime»

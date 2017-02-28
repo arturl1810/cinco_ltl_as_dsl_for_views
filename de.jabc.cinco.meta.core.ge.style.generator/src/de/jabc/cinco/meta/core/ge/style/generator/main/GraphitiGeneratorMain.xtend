@@ -9,6 +9,7 @@ import de.jabc.cinco.meta.core.ge.style.generator.templates.GraphitiCustomFeatur
 import de.jabc.cinco.meta.core.ge.style.generator.templates.GraphitiUtilsTmpl
 import de.jabc.cinco.meta.core.ge.style.generator.templates.ImageProviderTmpl
 import de.jabc.cinco.meta.core.ge.style.generator.templates.LayoutFeatureTmpl
+import de.jabc.cinco.meta.core.ge.style.generator.templates.ModelElementEContentAdapter
 import de.jabc.cinco.meta.core.ge.style.generator.templates.NewDiagramWizardPageTmpl
 import de.jabc.cinco.meta.core.ge.style.generator.templates.NewDiagramWizardTmpl
 import de.jabc.cinco.meta.core.ge.style.generator.templates.PerspectiveTmpl
@@ -41,7 +42,7 @@ import org.eclipse.core.resources.IProject
 import org.eclipse.core.runtime.NullProgressMonitor
 import productDefinition.CincoProduct
 import style.Styles
-import de.jabc.cinco.meta.core.ge.style.generator.templates.ModelElementEContentAdapter
+import de.jabc.cinco.meta.core.ge.style.generator.templates.EmfFactoryTmpl
 
 class GraphitiGeneratorMain extends GeneratorUtils { 
 	
@@ -73,6 +74,7 @@ class GraphitiGeneratorMain extends GeneratorUtils {
 	extension EdgeReconnectFeatures = new EdgeReconnectFeatures
 	extension GraphModelEContentAdapterTmpl = new GraphModelEContentAdapterTmpl
 	extension ModelElementEContentAdapter = new ModelElementEContentAdapter
+	extension EmfFactoryTmpl = new EmfFactoryTmpl
 	extension GraphitiCustomFeatureTmpl = new GraphitiCustomFeatureTmpl
 	
 	var GraphModel gm
@@ -116,6 +118,8 @@ class GraphitiGeneratorMain extends GeneratorUtils {
 		ContentWriter::writeJavaFileInSrcGen(project, gm.packageNameEContentAdapter, gm.name.toFirstUpper.concat("EContentAdapter.java"), content)
 //		content = gm.generateCustomFeature
 //		ContentWriter::writeJavaFileInSrcGen(project, gm.packageName, gm.name.toFirstUpper.concat("GraphitiCustomFeature.java"), content)
+		content = gm.generateFactory
+		ContentWriter::writeJavaFileInSrcGen(project, gm.packageName, gm.name.toFirstUpper.concat("Factory.java"), content)
 		
 		for (Node n : gm.nodes) {
 			if (n.isPrime){

@@ -74,7 +74,7 @@ class GraphModelEContentAdapterTmpl extends APIUtils {
 				try {
 					«CustomContext.name» cc = new «CustomContext.name»();
 					cc.setPictogramElements(new «PictogramElement.name»[] {pe});
-				} catch («Exception.name	» e) {
+				} catch («Exception.name» e) {
 					e.printStackTrace();
 				}
 				refreshPropertyView();
