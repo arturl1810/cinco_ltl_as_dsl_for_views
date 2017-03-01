@@ -5,7 +5,6 @@ import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoAbstract
 import de.jabc.cinco.meta.core.ge.style.generator.templates.LayoutFeatureTmpl
 import de.jabc.cinco.meta.core.ge.style.generator.templates.util.StyleUtils
 import de.jabc.cinco.meta.core.utils.CincoUtils
-import de.jabc.cinco.meta.core.utils.generator.GeneratorUtils
 import graphmodel.ModelElementContainer
 import mgl.Edge
 import org.eclipse.emf.common.util.BasicEList
@@ -38,8 +37,9 @@ import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.EObject
 import graphmodel.internal.InternalGraphModel
 import de.jabc.cinco.meta.util.xapi.ResourceExtension
+import de.jabc.cinco.meta.core.ge.style.generator.templates.util.APIUtils
 
-class EdgeAddFeatures extends GeneratorUtils {
+class EdgeAddFeatures extends APIUtils {
 	
 	EList<style.Text> text = new BasicEList();
 	EList<style.MultiText> multitext = new BasicEList();
@@ -188,6 +188,8 @@ class EdgeAddFeatures extends GeneratorUtils {
 			if (hook) {
 			}
 			«e.packageNameEContentAdapter».«e.graphModel.name»EContentAdapter.getInstance().addAdapter(«e.fuName.toFirstLower»);
+	
+			((«e.fqCName») «e.fuName.toFirstLower»).setPictogramElement(connection);
 	
 			«UpdateContext.name» uc = new «UpdateContext.name»(connection);
 			«IUpdateFeature.name» uf = getFeatureProvider().getUpdateFeature(uc);

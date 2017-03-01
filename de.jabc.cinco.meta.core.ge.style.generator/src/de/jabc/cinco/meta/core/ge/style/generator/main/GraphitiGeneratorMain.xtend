@@ -43,6 +43,7 @@ import org.eclipse.core.runtime.NullProgressMonitor
 import productDefinition.CincoProduct
 import style.Styles
 import de.jabc.cinco.meta.core.ge.style.generator.templates.EmfFactoryTmpl
+import de.jabc.cinco.meta.core.ge.style.generator.templates.GraphitiResourceFactory
 
 class GraphitiGeneratorMain extends GeneratorUtils { 
 	
@@ -75,6 +76,7 @@ class GraphitiGeneratorMain extends GeneratorUtils {
 	extension GraphModelEContentAdapterTmpl = new GraphModelEContentAdapterTmpl
 	extension ModelElementEContentAdapter = new ModelElementEContentAdapter
 	extension EmfFactoryTmpl = new EmfFactoryTmpl
+	extension GraphitiResourceFactory = new GraphitiResourceFactory
 	extension GraphitiCustomFeatureTmpl = new GraphitiCustomFeatureTmpl
 	
 	var GraphModel gm
@@ -120,6 +122,9 @@ class GraphitiGeneratorMain extends GeneratorUtils {
 //		ContentWriter::writeJavaFileInSrcGen(project, gm.packageName, gm.name.toFirstUpper.concat("GraphitiCustomFeature.java"), content)
 		content = gm.generateFactory
 		ContentWriter::writeJavaFileInSrcGen(project, gm.packageName, gm.name.toFirstUpper.concat("Factory.java"), content)
+		content = gm.generateResourceFactory
+		ContentWriter::writeJavaFileInSrcGen(project, gm.packageName, gm.name.toFirstUpper.concat("ResourceFactory.java"), content)
+		
 		
 		for (Node n : gm.nodes) {
 			if (n.isPrime){

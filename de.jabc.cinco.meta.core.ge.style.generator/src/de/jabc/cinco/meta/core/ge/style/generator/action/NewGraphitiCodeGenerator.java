@@ -64,6 +64,7 @@ public class NewGraphitiCodeGenerator extends AbstractHandler{
 		if (graphModel == null) throw new RuntimeException("Could not load graphmodel from file: " + file);
 		graphModel = prepareGraphModel(graphModel);
 		IProject project = ProjectCreator.createDefaultPluginProject(name_editorProject, addReqBundles(graphModel, monitor), addExpPackages(graphModel));
+		ProjectCreator.addAdditionalNature(project, monitor, "org.eclipse.xtext.ui.shared.xtextNature");
 		copyImages(graphModel, project);
 
 		GraphitiGeneratorMain editorGenerator = new GraphitiGeneratorMain(graphModel,cpdFile, CincoUtils.getStyles(graphModel));

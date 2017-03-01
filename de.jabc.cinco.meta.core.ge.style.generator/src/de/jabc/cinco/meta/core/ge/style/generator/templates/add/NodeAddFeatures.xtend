@@ -20,10 +20,11 @@ import org.eclipse.graphiti.services.IPeService
 import style.NodeStyle
 import style.Styles
 import graphmodel.internal.InternalModelElement
+import de.jabc.cinco.meta.core.ge.style.generator.templates.util.APIUtils
 
 class NodeAddFeatures extends StyleUtils {
 
-//	extension APIUtils = new APIUtils
+	extension APIUtils = new APIUtils()
 	
 	var Node n;
 	var NodeStyle s;

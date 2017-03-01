@@ -114,6 +114,7 @@ public class «gm.fuName»DiagramWizard extends «Wizard.name» implements «INe
 				«Graphiti.name».getPeService().createDiagram("«gm.fuName»", dName, true);
 			«gm.fqCName» «gm.flName» = 
 				new «gm.fqCName»();
+			«gm.flName».setPictogramElement(diagram);
 			try {
 				res.unload();
 				res.getContents().add(diagram);

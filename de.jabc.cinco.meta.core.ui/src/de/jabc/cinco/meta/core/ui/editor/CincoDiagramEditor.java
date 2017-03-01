@@ -39,13 +39,13 @@ public class CincoDiagramEditor extends DiagramEditor {
 				super.setInput(input);
 			}
 			
-			@Override
-			public void refreshContent() {
-				Diagram diagram = getDiagramTypeProvider().getDiagram();
-				if (diagram != null) {
-					super.refreshContent();
-				}
-			}
+//			@Override
+//			public void refreshContent() {
+//				Diagram diagram = getDiagramTypeProvider().getDiagram();
+//				if (diagram != null) {
+//					super.refreshContent();
+//				}
+//			}
 		};
 	}
 	

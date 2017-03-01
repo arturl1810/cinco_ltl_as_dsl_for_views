@@ -538,6 +538,33 @@ public class ProjectCreator {
 		return false;
 	}
 	
-	
+	public static void addAdditionalNature(IProject project, IProgressMonitor monitor, String ... additionalNatures) {
+		IProgressMonitor localProgressMonitor = monitor;
+		if(localProgressMonitor==null)
+			localProgressMonitor = new NullProgressMonitor();
+		
+		final IProjectDescription projectDescription = ResourcesPlugin.getWorkspace().newProjectDescription(
+				project.getName());
+		projectDescription.setLocation(null);
+//		if (!project.exists())
+//			project.create(projectDescription, new SubProgressMonitor(monitor, 1));
+		
+		if (additionalNatures != null) {
+			String[] natures = new String[additionalNatures.length];
+			for (int i = 0; i < additionalNatures.length; i++) {
+				natures[i] = additionalNatures[i];
+			}				
+			projectDescription.setNatureIds(natures);
+		}
+
+//		project.open(new SubProgressMonitor(localProgressMonitor, 1));
+		
+		try {
+			project.setDescription(projectDescription, new SubProgressMonitor(localProgressMonitor, 1));
+		} catch (CoreException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	
 }

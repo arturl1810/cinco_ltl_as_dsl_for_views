@@ -35,7 +35,7 @@ import style.StyleFactory
 import style.Text
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.expressionlanguage.ExpressionLanguageContext
 
-class StyleUtils extends GeneratorUtils {
+class StyleUtils extends APIUtils {
 
 	private static var num = 0;
 	private static Node node;
@@ -63,6 +63,8 @@ class StyleUtils extends GeneratorUtils {
 			
 				linkAllShapes(«currentPeName», bo);
 				layoutPictogramElement(«currentPeName»);
+			
+			((«n.fqCName») bo).setPictogramElement(«currentPeName»);
 			
 			if (context.getWidth() != -1 && context.getHeight() != -1)  {
 			
@@ -96,6 +98,7 @@ class StyleUtils extends GeneratorUtils {
 
 			if (hook) {
 			}
+			
 			
 			return «currentPeName»;
 		'''

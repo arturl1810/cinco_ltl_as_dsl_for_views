@@ -6,6 +6,7 @@ import org.eclipse.emf.ecore.EPackage
 import org.eclipse.graphiti.dt.AbstractDiagramTypeProvider
 import org.eclipse.graphiti.dt.IDiagramTypeProvider
 import org.eclipse.graphiti.tb.IToolBehaviorProvider
+import org.eclipse.emf.ecore.EFactory
 
 class DiagramTypeProviderTmpl extends GeneratorUtils {
 	
@@ -28,8 +29,12 @@ public class «gm.fuName»DiagramTypeProvider extends «AbstractDiagramTypeProvi
 		«gm.fuName»GraphitiUtils.getInstance().setDTP(this);
 		«gm.fqPropertyView».initEStructuralFeatureInformation();
 		
-		«EPackage.name».Registry.INSTANCE.put("«gm.nsURI»", 
-			new «gm.packageName».«gm.fuName»Factory());
+		«Object.name» object = «EPackage.name».Registry.INSTANCE.get("«gm.nsURI»");
+		if (object instanceof «EPackage.name») {
+			((«EPackage.name») object).setEFactoryInstance(«gm.packageName».«gm.fuName»Factory.eINSTANCE);
+		} else if (object instanceof «EFactory.name»)
+			«EPackage.name».Registry.INSTANCE.put("«gm.nsURI»", 
+					«gm.packageName».«gm.fuName»Factory.eINSTANCE);
 	}
 
 	@Override
