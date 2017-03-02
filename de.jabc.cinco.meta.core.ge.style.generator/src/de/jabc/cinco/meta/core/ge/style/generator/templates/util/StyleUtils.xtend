@@ -61,7 +61,7 @@ class StyleUtils extends APIUtils {
 			
 				«n.packageNameEContentAdapter».«n.graphModel.fuName»EContentAdapter.getInstance().addAdapter(bo);
 			
-				linkAllShapes(«currentPeName», bo);
+				linkAllShapes(«currentPeName», bo.getInternalElement());
 				layoutPictogramElement(«currentPeName»);
 			
 			((«n.fqCName») bo).setPictogramElement(«currentPeName»);

@@ -102,7 +102,7 @@ class EdgeCreateFeatures extends APIUtils{
 			if (source != null && target != null) {
 				
 				«e.fqBeanName» «e.flName» = 
-					new «e.fqCName»();
+					(«e.fqCName») «e.packageName».«e.graphModel.fuName»Factory.eINSTANCE.create«e.fuName»();
 				if (source instanceof «ModelElement.name») {
 					«e.flName».setSourceElement(source);
 				}

@@ -543,23 +543,21 @@ public class ProjectCreator {
 		if(localProgressMonitor==null)
 			localProgressMonitor = new NullProgressMonitor();
 		
-		final IProjectDescription projectDescription = ResourcesPlugin.getWorkspace().newProjectDescription(
-				project.getName());
-		projectDescription.setLocation(null);
-//		if (!project.exists())
-//			project.create(projectDescription, new SubProgressMonitor(monitor, 1));
-		
-		if (additionalNatures != null) {
-			String[] natures = new String[additionalNatures.length];
-			for (int i = 0; i < additionalNatures.length; i++) {
-				natures[i] = additionalNatures[i];
-			}				
-			projectDescription.setNatureIds(natures);
-		}
-
-//		project.open(new SubProgressMonitor(localProgressMonitor, 1));
-		
 		try {
+			final IProjectDescription projectDescription = project.getDescription();
+			String[] oldNatures = projectDescription.getNatureIds();
+			if (additionalNatures != null) {
+				int size = additionalNatures.length + oldNatures.length;
+				
+				String[] natures = new String[size];
+				for (int i = 0; i < additionalNatures.length; i++) {
+					natures[i] = additionalNatures[i];
+				}
+				for (int i = additionalNatures.length;i<size;i++)
+					natures[i] = oldNatures[i-additionalNatures.length];
+				projectDescription.setNatureIds(natures);
+			}
+		
 			project.setDescription(projectDescription, new SubProgressMonitor(localProgressMonitor, 1));
 		} catch (CoreException e) {
 			// TODO Auto-generated catch block

@@ -73,7 +73,8 @@ class NodeCreateFeatures extends APIUtils{
 		 * @return Returns a list with the created pictogram elements and its graphical representation
 	    */
 		public «Object.name»[] create(«ICreateContext.name» context) {
-			«n.fqBeanName» «n.flName» = new «n.fqCName»();
+			«n.fqBeanName» «n.flName» = 
+				(«n.fqCName») «n.packageName».«n.graphModel.fuName»Factory.eINSTANCE.create«n.fuName»();
 «««			«n.flName».setInternalElement(«n.graphModel.package».«n.graphModel.name.toLowerCase».internal.InternalFactory.eINSTANCE.createInternal«n.fuName»());
 			setModelElement(«n.flName»);
 			«PictogramElement.name» target = context.getTargetContainer();

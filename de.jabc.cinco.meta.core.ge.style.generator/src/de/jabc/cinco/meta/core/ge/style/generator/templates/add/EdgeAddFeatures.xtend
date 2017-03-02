@@ -74,9 +74,9 @@ class EdgeAddFeatures extends APIUtils {
 		 */
 		public «PictogramElement.name» add(«IAddContext.name» context) {
 			«IAddConnectionContext.name» addConContext = («IAddConnectionContext.name») context;
-			«e.fqBeanName» «e.fuName.toFirstLower» = («e.fqBeanName») context.getNewObject();
-			if («e.fuName.toFirstLower».getId() == null || «e.fuName.toFirstLower».getId().isEmpty())
-				«e.fuName.toFirstLower».setId(«EcoreUtil.name».generateUUID());
+			«e.fqBeanName» «e.flName» = («e.fqBeanName») context.getNewObject();
+			if («e.flName».getId() == null || «e.flName».getId().isEmpty())
+				«e.flName».setId(«EcoreUtil.name».generateUUID());
 			«IPeCreateService.name» peCreateService = «Graphiti.name».getPeCreateService();
 	       
 			«Connection.name» connection = peCreateService.createFreeFormConnection(getDiagram());
@@ -102,7 +102,7 @@ class EdgeAddFeatures extends APIUtils {
 			}
 			
 			// create link and wire it
-			link(connection, «e.fuName.toFirstLower»);
+			link(connection, «e.flName».getInternalElement());
 			«ConnectionDecorator.name» cd;
 			«clear»
 			«FOR d : CincoUtils.getStyleForEdge(e, styles).decorator»			
@@ -123,57 +123,57 @@ class EdgeAddFeatures extends APIUtils {
 				«var textShape = d.decoratorShape as style.Text»
 				cd = peCreateService.createConnectionDecorator(connection, «d.movable»,«d.location», true);
 				createShapeText«text.length»(cd,
-					(«e.fqInternalBeanName») «e.fuName.toFirstLower».getInternalElement(),
+					(«e.fqInternalBeanName») «e.flName».getInternalElement(),
 					"«textShape.value»");
-				link(cd, «e.fuName.toFirstLower»);
+				link(cd, «e.flName»);
 				«{text.add(textShape); ""}»
 				«ELSEIF d.decoratorShape instanceof style.Polyline»
 				«var polylineShape = d.decoratorShape as style.Polyline»
 				cd = peCreateService.createConnectionDecorator(connection, «d.movable», «d.location», true);
 				«IF polylineShape.size != null»
-				createShapePolyline«polyline.length»(cd, «e.fuName.toFirstLower», «polylineShape.width», «polylineShape.heigth»);
+				createShapePolyline«polyline.length»(cd, «e.flName», «polylineShape.width», «polylineShape.heigth»);
 				«ELSE»
-				createShapePolyline«polyline.length»(cd, «e.fuName.toFirstLower»);
+				createShapePolyline«polyline.length»(cd, «e.flName»);
 				«ENDIF»
-				link(cd, «e.fuName.toFirstLower»);
+				link(cd, «e.flName»);
 				«{polyline.add(polylineShape); ""}»		
 				«ELSEIF d.decoratorShape instanceof style.Ellipse»
 				«var ellipseShape = d.decoratorShape as style.Ellipse»
 				cd = peCreateService.createConnectionDecorator(connection, «d.movable», «d.location», true);
 				«IF ellipseShape.size != null»
-				createShapeEllipse«ellipse.length»(cd, «e.fuName.toFirstLower», «ellipseShape.width», «ellipseShape.heigth»);
+				createShapeEllipse«ellipse.length»(cd, «e.flName», «ellipseShape.width», «ellipseShape.heigth»);
 				«ELSE»
-				createShapeEllipse«ellipse.length»(cd, «e.fuName.toFirstLower»);
+				createShapeEllipse«ellipse.length»(cd, «e.flName»);
 				«ENDIF»
-				link(cd, «e.fuName.toFirstLower»);
+				link(cd, «e.flName»);
 				«{ellipse.add(ellipseShape); ""}»				
 				«ELSEIF d.decoratorShape instanceof style.Polygon»
 				«var polygonShape = d.decoratorShape as style.Polygon»
 				cd = peCreateService.createConnectionDecorator(connection, «d.movable», «d.location», true);
 				«IF polygonShape.size != null»
-				createShapePolygon«polygon.length»(cd, «e.fuName.toFirstLower», «polygonShape.width», «polygonShape.heigth»);
+				createShapePolygon«polygon.length»(cd, «e.flName», «polygonShape.width», «polygonShape.heigth»);
 				«ELSE»
-				createShapePolygon«polygon.length»(cd, «e.fuName.toFirstLower»);
+				createShapePolygon«polygon.length»(cd, «e.flName»);
 				«ENDIF»
-				link(cd, «e.fuName.toFirstLower»);
+				link(cd, «e.flName»);
 				«{polygon.add(polygonShape); ""}»				
 				«ELSEIF d.decoratorShape instanceof style.MultiText»
 				«var multitextShape = d.decoratorShape as style.MultiText»
 				cd = peCreateService.createConnectionDecorator(connection, «d.movable», «d.location», true);
 				createShapeMultiText«multitext.length»(cd, 
-					(«e.fqInternalBeanName») «e.fuName.toFirstLower».getInternalElement(),
+					(«e.fqInternalBeanName») «e.flName».getInternalElement(),
 					"«multitextShape.value»");
-				link(cd, «e.fuName.toFirstLower»);
+				link(cd, «e.flName»);
 				«{multitext.add(multitextShape); ""}»				
 				«ELSEIF d.decoratorShape instanceof style.Image»
 				«var imageShape = d.decoratorShape as style.Image»
 				cd = peCreateService.createConnectionDecorator(connection, «d.movable»,«d.location», true);
 				«IF imageShape.size != null»
-				createShapeImage«image.length»(cd, «e.fuName.toFirstLower», "«imageShape.path»", «imageShape.width», «imageShape.heigth»);
+				createShapeImage«image.length»(cd, «e.flName», "«imageShape.path»", «imageShape.width», «imageShape.heigth»);
 				«ELSE»
-				createShapeImage«image.length»(cd, «e.fuName.toFirstLower», "«imageShape.path»");
+				createShapeImage«image.length»(cd, «e.flName», "«imageShape.path»");
 				«ENDIF»
-				link(cd, «e.fuName.toFirstLower»);
+				link(cd, «e.flName»);
 				«{image.add(imageShape); ""}»
 				«ENDIF»
 				«ENDIF»
@@ -182,14 +182,14 @@ class EdgeAddFeatures extends APIUtils {
 			«Resource.name» eResource = ((«EObject.name») sourceBo).eResource();
 			«InternalGraphModel.name» internalGraphModel = new «ResourceExtension.name»().getContent(eResource, «e.graphModel.fqInternalBeanName».class);
 			«ModelElementContainer.name» container = 
-				«e.graphModel.packageName».«e.graphModel.name»GraphitiUtils.getInstance().getCommonContainer(internalGraphModel.getElement(), «e.fuName.toFirstLower»);
-			container.getInternalContainerElement().getModelElements().add(«e.fuName.toFirstLower».getInternalElement());
+				«e.graphModel.packageName».«e.graphModel.name»GraphitiUtils.getInstance().getCommonContainer(internalGraphModel.getElement(), «e.flName»);
+			container.getInternalContainerElement().getModelElements().add(«e.flName».getInternalElement());
 	
 			if (hook) {
 			}
-			«e.packageNameEContentAdapter».«e.graphModel.name»EContentAdapter.getInstance().addAdapter(«e.fuName.toFirstLower»);
+			«e.packageNameEContentAdapter».«e.graphModel.name»EContentAdapter.getInstance().addAdapter(«e.flName»);
 	
-			((«e.fqCName») «e.fuName.toFirstLower»).setPictogramElement(connection);
+			((«e.fqCName») «e.flName»).setPictogramElement(connection);
 	
 			«UpdateContext.name» uc = new «UpdateContext.name»(connection);
 			«IUpdateFeature.name» uf = getFeatureProvider().getUpdateFeature(uc);
@@ -308,17 +308,17 @@ class EdgeAddFeatures extends APIUtils {
 		/**
 		 * Defines the appearance of the text
 		 * @param gaContainer : The container for the new graphics algorithm
-		 * @param «e.fuName.toFirstLower» : Name of the text
+		 * @param «e.flName» : Name of the text
 		 * @param textValue : Value of the text
 		 */
-		private void createShapeText«counter»(«GraphicsAlgorithmContainer.name» gaContainer, «e.fqInternalBeanName» «e.fuName.toFirstLower», «String.name» textValue) {
+		private void createShapeText«counter»(«GraphicsAlgorithmContainer.name» gaContainer, «e.fqInternalBeanName» «e.flName», «String.name» textValue) {
 			«IGaService.name» gaService = «Graphiti.name».getGaService();
 			«IPeService.name» peService = «Graphiti.name».getPeService();
 					
 			«ExpressionFactoryImpl.name» factory = new «ExpressionFactoryImpl.name»();
 			«e.graphModel.packageName».expression.«e.graphModel.fuName»ExpressionLanguageContext elContext = null;
 						
-			elContext = new  «e.graphModel.packageName».expression.«e.graphModel.fuName»ExpressionLanguageContext(«e.fuName.toFirstLower»);
+			elContext = new  «e.graphModel.packageName».expression.«e.graphModel.fuName»ExpressionLanguageContext(«e.flName»);
 			String value = "«StyleUtils.getText(e)»";
 			«Object.name» tmpValue = factory.createValueExpression(elContext, value, «Object.name».class).getValue(elContext);
 			
@@ -343,16 +343,16 @@ class EdgeAddFeatures extends APIUtils {
 		/**
 		 * Defines the appearance of the multitext
 		 * @param gaContainer : The container for the new graphics algorithm
-		 * @param «e.fuName.toFirstLower» : Name of the multitext
+		 * @param «e.flName» : Name of the multitext
 		 * @param textValue : Value of the multitext
 		 */
-		private void createShapeMultiText«counter»(«GraphicsAlgorithmContainer.name» gaContainer, «e.graphModel.beanPackage».«e.fuName» «e.fuName.toFirstLower», «String.name» textValue) {
+		private void createShapeMultiText«counter»(«GraphicsAlgorithmContainer.name» gaContainer, «e.graphModel.beanPackage».«e.fuName» «e.flName», «String.name» textValue) {
 			«IGaService.name» gaService = «Graphiti.name».getGaService();
 			«IPeService.name» peService = «Graphiti.name».getPeService();
 			
 			«MultiText.name» multitext = gaService.createMultiText(gaContainer);
 			multitext.setFilled(false);
-			«e.graphModel.packageName».expression.«e.graphModel.fuName»ExpressionLanguageContext elContext = new «e.graphModel.packageName».expression.«e.graphModel.fuName»ExpressionLanguageContext(«e.fuName.toFirstLower»);
+			«e.graphModel.packageName».expression.«e.graphModel.fuName»ExpressionLanguageContext elContext = new «e.graphModel.packageName».expression.«e.graphModel.fuName»ExpressionLanguageContext(«e.flName»);
 			Object tmpValue = factory.createValueExpression(elContext, "«StyleUtils.getText(e)»", «Object.name».class).getValue(elContext);
 			
 			peService.setPropertyValue(multitext, «e.graphModel.packageName».«e.graphModel.fuName»GraphitiUtils.KEY_FORMAT_STRING, textValue);
@@ -375,18 +375,18 @@ class EdgeAddFeatures extends APIUtils {
 		/**
 		 * Defines the appearance of the ellipse
 		 * @param gaContainer : The container for the new graphics algorithm
-		 * @param «e.fuName.toFirstLower» : Name of the ellipse
+		 * @param «e.flName» : Name of the ellipse
 		 * @param width : Width of the ellipse
 		 * @param height : Height of the ellipse
 		 */
-		private void createShapeEllipse«counter»(«GraphicsAlgorithmContainer.name» gaContainer, «e.graphModel.beanPackage».«e.fuName» «e.fuName.toFirstLower», «int.name» width, «int.name» height){
+		private void createShapeEllipse«counter»(«GraphicsAlgorithmContainer.name» gaContainer, «e.graphModel.beanPackage».«e.fuName» «e.flName», «int.name» width, «int.name» height){
 		«ELSE»
 		/**
 		 * Defines the appearance of the ellipse
 		 * @param gaContainer : The container for the new graphics algorithm
-		 * @param «e.fuName.toFirstLower» : Name of the ellipse
+		 * @param «e.flName» : Name of the ellipse
 		 */
-		private void createShapeEllipse«counter»(«GraphicsAlgorithmContainer.name» gaContainer, «e.graphModel.beanPackage».«e.fuName» «e.fuName.toFirstLower»){
+		private void createShapeEllipse«counter»(«GraphicsAlgorithmContainer.name» gaContainer, «e.graphModel.beanPackage».«e.fuName» «e.flName»){
 		«ENDIF»
 			«IGaService.name» gaService = «Graphiti.name».getGaService();
 			«IPeService.name» peService = «Graphiti.name».getPeService();
@@ -413,18 +413,18 @@ class EdgeAddFeatures extends APIUtils {
 		/**
 		 * Defines the appearance of the polyline
 		 * @param gaContainer : The container for the new graphics algorithm
-		 * @param «e.fuName.toFirstLower» : Name of the polyline
+		 * @param «e.flName» : Name of the polyline
 		 * @param width : Width of the polyline
 		 * @param height : Height of the polyline
 		 */
-		private void createShapePolyline«counter»(«GraphicsAlgorithmContainer.name» gaContainer, «e.graphModel.beanPackage».«e.fuName» «e.fuName.toFirstLower», «int.name» width, «int.name» height) {
+		private void createShapePolyline«counter»(«GraphicsAlgorithmContainer.name» gaContainer, «e.graphModel.beanPackage».«e.fuName» «e.flName», «int.name» width, «int.name» height) {
 		«ELSE»
 		/**
 		 * Defines the appearance of the polyline
 		 * @param gaContainer : The container for the new graphics algorithm
-		 * @param «e.fuName.toFirstLower» : Name of the polyline
+		 * @param «e.flName» : Name of the polyline
 		 */
-		private void createShapePolyline«counter»(«GraphicsAlgorithmContainer.name» gaContainer, «e.graphModel.beanPackage».«e.fuName» «e.fuName.toFirstLower») {
+		private void createShapePolyline«counter»(«GraphicsAlgorithmContainer.name» gaContainer, «e.graphModel.beanPackage».«e.fuName» «e.flName») {
 		«ENDIF»
 			«IGaService.name» gaService = «Graphiti.name».getGaService();
 			«IPeService.name» peService = «Graphiti.name».getPeService();
@@ -451,18 +451,18 @@ class EdgeAddFeatures extends APIUtils {
 		/**
 		 * Defines the appearance of the polygon
 		 * @param gaContainer : The container for the new graphics algorithm
-		 * @param «e.fuName.toFirstLower» : Name of the polygon
+		 * @param «e.flName» : Name of the polygon
 		 * @param width : Width of the polygon
 		 * @param height : Height of the polygon
 		 */
-		private void createShapePolygon«counter»(«GraphicsAlgorithmContainer.name» gaContainer, «e.graphModel.beanPackage».«e.fuName» «e.fuName.toFirstLower», «int.name» width, «int.name» height) {
+		private void createShapePolygon«counter»(«GraphicsAlgorithmContainer.name» gaContainer, «e.graphModel.beanPackage».«e.fuName» «e.flName», «int.name» width, «int.name» height) {
 		«ELSE»
 		/**
 		 * Defines the appearance of the polygon
 		 * @param gaContainer : The container for the new graphics algorithm
-		 * @param «e.fuName.toFirstLower» : Name of the polygon
+		 * @param «e.flName» : Name of the polygon
 		 */
-		private void createShapePolygon«counter»(«GraphicsAlgorithmContainer.name» gaContainer, «e.graphModel.beanPackage».«e.fuName» «e.fuName.toFirstLower») {
+		private void createShapePolygon«counter»(«GraphicsAlgorithmContainer.name» gaContainer, «e.graphModel.beanPackage».«e.fuName» «e.flName») {
 		«ENDIF»
 			«IGaService.name» gaService = «Graphiti.name».getGaService();
 			«IPeService.name» peService = «Graphiti.name».getPeService();
@@ -489,20 +489,20 @@ class EdgeAddFeatures extends APIUtils {
 		/**
 		 * Defines the appearance of the image
 		 * @param gaContainer : The container for the new graphics algorithm
-		 * @param «e.fuName.toFirstLower» : Name of the image
+		 * @param «e.flName» : Name of the image
 		 * @param path : Path of the image
 		 * @param width : Width of the image
 		 * @param height : Height of the image
 		 */
-		private void createShapeImage«counter»(«GraphicsAlgorithmContainer.name» gaContainer, «e.graphModel.beanPackage».«e.fuName» «e.fuName.toFirstLower», «String.name» path, «int.name» height, «int.name» width){
+		private void createShapeImage«counter»(«GraphicsAlgorithmContainer.name» gaContainer, «e.graphModel.beanPackage».«e.fuName» «e.flName», «String.name» path, «int.name» height, «int.name» width){
 		«ELSE»
 		/**
 		 * Defines the appearance of the image
 		 * @param gaContainer : The container for the new graphics algorithm
-		 * @param «e.fuName.toFirstLower» : Name of the image
+		 * @param «e.flName» : Name of the image
 		 * @param path : Path of the image
 		 */
-		private void createShapeImage«counter»(«GraphicsAlgorithmContainer.name» gaContainer, «e.graphModel.beanPackage».«e.fuName» «e.fuName.toFirstLower», «String.name» path){
+		private void createShapeImage«counter»(«GraphicsAlgorithmContainer.name» gaContainer, «e.graphModel.beanPackage».«e.fuName» «e.flName», «String.name» path){
 		«ENDIF»
 			«IGaService.name» gaService = «Graphiti.name».getGaService();
 			«IPeService.name» peService = «Graphiti.name».getPeService();

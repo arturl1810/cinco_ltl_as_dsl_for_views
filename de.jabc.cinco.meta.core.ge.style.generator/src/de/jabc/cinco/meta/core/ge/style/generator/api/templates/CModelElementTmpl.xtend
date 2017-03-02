@@ -73,10 +73,10 @@ public «IF me.isIsAbstract»abstract«ENDIF» class «me.fuCName» extends «me
 	«
 	IF !me.isIsAbstract»
 	public «me.fuCName»() {
-		this.setInternalElement(«me.fqInternalFactoryName».eINSTANCE.createInternal«me.fuName»());
-		«String.name» uid = «EcoreUtil.name».generateUUID();
-		this.setId(uid);
-		this.getInternalElement().setId(uid);
+«««		this.setInternalElement(«me.fqInternalFactoryName».eINSTANCE.createInternal«me.fuName»());
+«««		«String.name» uid = «EcoreUtil.name».generateUUID();
+«««		this.setId(uid);
+«««		this.getInternalElement().setId(uid);
 	}
 	«ENDIF»
 	

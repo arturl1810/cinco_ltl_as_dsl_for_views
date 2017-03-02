@@ -17,7 +17,6 @@ class PluginXMLTmpl extends GeneratorUtils {
 		pkgName = gm.packageName.toString
 		icon = gm.iconPath
 		fileExtension = gm.fileExtension
-//		return getCode		
 		return extensions
 	}
 	
@@ -33,7 +32,8 @@ class PluginXMLTmpl extends GeneratorUtils {
 			navigatorContent,
 			popupMenus,
 			referenceRegistry,
-			perspectives
+			perspectives,
+			contentParser
 		);
 		
 		return exts
@@ -240,6 +240,21 @@ class PluginXMLTmpl extends GeneratorUtils {
 		<FileExtensionsRegistry
 			class="«pkgName».«gmName»FileExtensions">
 		</FileExtensionsRegistry>
+	</extension>
+	'''
+	
+	def contentParser()  {
+		contentParser(pkgName, gmName)
+	}
+	
+	def contentParser(String pkgName, String gmName) '''
+	<extension
+	      point="org.eclipse.emf.ecore.content_parser">
+	<!--@CincoGen «gmName»-->
+	   <parser
+	         class="«pkgName».«gmName»APIParser"
+	         contentTypeIdentifier="«pkgName».«gmName»ContentType">
+	   </parser>
 	</extension>
 	'''
 }

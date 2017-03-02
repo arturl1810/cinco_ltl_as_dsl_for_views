@@ -113,7 +113,7 @@ public class «gm.fuName»DiagramWizard extends «Wizard.name» implements «INe
 			«Diagram.name» diagram = 
 				«Graphiti.name».getPeService().createDiagram("«gm.fuName»", dName, true);
 			«gm.fqCName» «gm.flName» = 
-				new «gm.fqCName»();
+				(«gm.fqCName») «gm.packageName».«gm.fuName»Factory.eINSTANCE.create«gm.fuName»();
 			«gm.flName».setPictogramElement(diagram);
 			try {
 				res.unload();
@@ -122,7 +122,7 @@ public class «gm.fuName»DiagramWizard extends «Wizard.name» implements «INe
 				res.save(null);
 				
 				«IDiagramTypeProvider.name» dtp = «GraphitiUi.name».getExtensionManager().createDiagramTypeProvider(diagram, "«gm.packageName».«gm.fuName»DiagramTypeProvider");
-				dtp.getFeatureProvider().link(diagram, «gm.flName»);
+				dtp.getFeatureProvider().link(diagram, «gm.flName».getInternalElement());
 				
 «««				TODO: This is quick and dirty...
 				«IF gm.booleanWriteMethodCallPostCreate»

@@ -8,6 +8,8 @@ import graphmodel.internal.InternalGraphModel
 import graphmodel.internal.InternalModelElement
 import org.eclipse.graphiti.mm.pictograms.Diagram
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl
+import org.eclipse.emf.ecore.resource.Resource
+import graphmodel.IdentifiableElement
 
 class GraphitiResourceFactory {
 	
@@ -22,18 +24,18 @@ class GraphitiResourceFactory {
 		new() {
 		}
 	
-		override Resource createResource(«URI.name» uri) {
+		override «Resource.name» createResource(«URI.name» uri) {
 			return new «gm.fuName»ApiResouce(uri)
 		} 
 	}
 	
-	class GraphitiApiResouce extends «XMIResourceImpl.name» {
+	class «gm.fuName»ApiResouce extends «XMIResourceImpl.name» {
 		
 		new() {
 			super()
 		}
 	
-		new(URI uri) {
+		new(«URI.name» uri) {
 			super(uri)
 		}
 	
@@ -41,38 +43,36 @@ class GraphitiResourceFactory {
 		override protected getEObjectByID(«String.name» id) {
 			val obj = super.getEObjectByID(id)
 			switch (obj) {
-				«InternalGraphModel.name»: obj.createAndUpdateGraphitiApiElement
-				«InternalModelElement.name»: obj.createAndUpdateGraphitiApiElement
+				«IdentifiableElement.name»: obj.createAndUpdateGraphitiApiElement
 			}
 			obj
 		}
 		
-		def createAndUpdateGraphitiApiElement(«InternalGraphModel.name» it) {
-			switch (it) {
-				«gm.fqInternalBeanName»: element = new «gm.fqCName»()
-			}
-		}
-		
-		def createAndUpdateGraphitiApiElement(«InternalModelElement.name» it) {
+		def createAndUpdateGraphitiApiElement(«IdentifiableElement.name» it) {
 			val pe = getLinkedPictogramElement
 			switch (it) {
 				«FOR me : gm.modelElements»
 				«me.fqInternalName» : {
 					var cElement = new «me.fqCName»()
 					cElement.pictogramElement = pe
+					it.element = cElement
+«««					new «me.fqCName»()
 				}
 				«ENDFOR»
 			}
+			it
 		}
 		
-		def getLinkedPictogramElement(«InternalModelElement.name» it) {
-			var d = this.getContent(«Diagram.name»)
+		def getLinkedPictogramElement(«IdentifiableElement.name» it) {
+			val conts = getContents
+			val d = conts.get(0) as «Diagram.name»;
+			if (it instanceof «InternalGraphModel.name»)
+				return d;
 			d.fetchLinkedElement(it)
 		}
 		
-		def fetchLinkedElement(«Diagram.name» d, «InternalModelElement.name» me) {
-			val head = d.pictogramLinks.filter[businessObjects.contains(me)].head.pictogramElement
-			head
+		def fetchLinkedElement(«Diagram.name» d, «IdentifiableElement.name» me) {
+			d.pictogramLinks?.filter[businessObjects.contains(me)].head.pictogramElement
 		}
 	}
 	'''

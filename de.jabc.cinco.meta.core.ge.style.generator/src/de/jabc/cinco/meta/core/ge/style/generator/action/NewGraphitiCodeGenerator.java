@@ -108,6 +108,7 @@ public class NewGraphitiCodeGenerator extends AbstractHandler{
 		bundles.add(Platform.getBundle("org.eclipse.ui.navigator"));
 		bundles.add(Platform.getBundle("org.eclipse.ui.views.properties.tabbed"));
 		bundles.add(Platform.getBundle("org.eclipse.gef"));
+		bundles.add(Platform.getBundle("org.eclipse.xtext.xbase.lib"));
 		bundles.add(Platform.getBundle("de.jabc.cinco.meta.core.ge.style.model"));
 		bundles.add(Platform.getBundle("de.jabc.cinco.meta.core.ge.style.generator"));
 		bundles.add(Platform.getBundle("de.jabc.cinco.meta.core.referenceregistry"));
