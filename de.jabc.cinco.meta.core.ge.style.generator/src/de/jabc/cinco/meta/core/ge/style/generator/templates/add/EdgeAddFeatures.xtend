@@ -125,7 +125,7 @@ class EdgeAddFeatures extends APIUtils {
 				createShapeText«text.length»(cd,
 					(«e.fqInternalBeanName») «e.flName».getInternalElement(),
 					"«textShape.value»");
-				link(cd, «e.flName»);
+				link(cd, «e.flName».getInternalElement());
 				«{text.add(textShape); ""}»
 				«ELSEIF d.decoratorShape instanceof style.Polyline»
 				«var polylineShape = d.decoratorShape as style.Polyline»
@@ -135,7 +135,7 @@ class EdgeAddFeatures extends APIUtils {
 				«ELSE»
 				createShapePolyline«polyline.length»(cd, «e.flName»);
 				«ENDIF»
-				link(cd, «e.flName»);
+				link(cd, «e.flName».getInternalElement());
 				«{polyline.add(polylineShape); ""}»		
 				«ELSEIF d.decoratorShape instanceof style.Ellipse»
 				«var ellipseShape = d.decoratorShape as style.Ellipse»
@@ -145,7 +145,7 @@ class EdgeAddFeatures extends APIUtils {
 				«ELSE»
 				createShapeEllipse«ellipse.length»(cd, «e.flName»);
 				«ENDIF»
-				link(cd, «e.flName»);
+				link(cd, «e.flName».getInternalElement());
 				«{ellipse.add(ellipseShape); ""}»				
 				«ELSEIF d.decoratorShape instanceof style.Polygon»
 				«var polygonShape = d.decoratorShape as style.Polygon»
@@ -155,7 +155,7 @@ class EdgeAddFeatures extends APIUtils {
 				«ELSE»
 				createShapePolygon«polygon.length»(cd, «e.flName»);
 				«ENDIF»
-				link(cd, «e.flName»);
+				link(cd, «e.flName».getInternalElement());
 				«{polygon.add(polygonShape); ""}»				
 				«ELSEIF d.decoratorShape instanceof style.MultiText»
 				«var multitextShape = d.decoratorShape as style.MultiText»
@@ -163,7 +163,7 @@ class EdgeAddFeatures extends APIUtils {
 				createShapeMultiText«multitext.length»(cd, 
 					(«e.fqInternalBeanName») «e.flName».getInternalElement(),
 					"«multitextShape.value»");
-				link(cd, «e.flName»);
+				link(cd, «e.flName».getInternalElement());
 				«{multitext.add(multitextShape); ""}»				
 				«ELSEIF d.decoratorShape instanceof style.Image»
 				«var imageShape = d.decoratorShape as style.Image»
@@ -173,7 +173,7 @@ class EdgeAddFeatures extends APIUtils {
 				«ELSE»
 				createShapeImage«image.length»(cd, «e.flName», "«imageShape.path»");
 				«ENDIF»
-				link(cd, «e.flName»);
+				link(cd, «e.flName».getInternalElement());
 				«{image.add(imageShape); ""}»
 				«ENDIF»
 				«ENDIF»

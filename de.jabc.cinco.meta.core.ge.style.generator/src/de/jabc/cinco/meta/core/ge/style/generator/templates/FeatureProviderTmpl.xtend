@@ -91,7 +91,7 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 			boolean sameResource = bo.eResource() != null ? bo.eResource().equals(getDiagramTypeProvider().getDiagram().eResource()) : true ;
 			
 			«FOR me : gm.nodes»
-			if (sameResource && «instanceofCheck(me,"bo")») 
+			if (sameResource && «internalInstanceofCheck(me,"bo")») 
 				return new «gm.packageNameAdd».AddFeature«me.fuName»(this);
 			«IF isPrime(me)»
 			if((bo.eClass().getName().equals("«me.primeReference.primeType»")
@@ -103,7 +103,7 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 			«ENDFOR»
 			
 			«FOR ed : gm.edges»
-			if («ed.instanceofCheck("bo")»)
+			if («ed.internalInstanceofCheck("bo")»)
 				return new «gm.packageNameAdd».AddFeature«ed.name»(this);
 			«ENDFOR»
 		}
@@ -146,18 +146,12 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 	@Override
 	public «IDeleteFeature.name» getDeleteFeature(«IDeleteContext.name» context) {
 		«EObject.name» bo = («EObject.name») getBusinessObjectForPictogramElement(context.getPictogramElement());
-
+		
 		«FOR n : gm.nodes»
-		if («n.instanceofCheck("bo")»)
+		if («n.internalInstanceofCheck("bo")»)
 			return new «n.packageNameDelete».DeleteFeature«n.fuName»(this);
 		«ENDFOR»
 		
-«««		if (bo instanceof info.scce.cinco.product.somegraph.somegraph.SomeNode)
-«««			return new DeleteSomeNodeFeature(this);
-«««
-«««		if (bo instanceof info.scce.cinco.product.somegraph.somegraph.Transition)
-«««			return new DeleteTransitionFeature(this);
-
 		return super.getDeleteFeature(context);
 	}
 	
@@ -166,13 +160,14 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 		«Object.name» o = getBusinessObjectForPictogramElement(context.getPictogramElement());
 		if (o instanceof «EObject.name») {
 			«EObject.name» bo = («EObject.name») o;
-			if (bo instanceof «ModelElement.name»){
+			
+			if (bo instanceof «InternalModelElement.name»){
 				
-					if (bo instanceof «Node.name»)
+					if (bo instanceof «InternalNode.name»)
 						return new «CincoLayoutFeature.name»(this);
 				
 				«FOR e : gm.edges»
-					if («e.instanceofCheck("bo")»)
+					if («e.internalInstanceofCheck("bo")»)
 					    return new «e.packageNameLayout».LayoutFeature«e.fuName»(this);
 				«ENDFOR»
 			}
@@ -186,9 +181,10 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 		«Object.name» o = getBusinessObjectForPictogramElement(context.getPictogramElement());
 		if (o instanceof «EObject.name») {
 			«EObject.name» bo = («EObject.name») o;
-			if (bo instanceof «ModelElement.name»){
+			
+			if (bo instanceof «InternalModelElement.name»){
 				«FOR n : gm.nodes»
-					if («n.instanceofCheck("bo")»)
+					if («n.internalInstanceofCheck("bo")»)
 						return new «n.packageNameResize».ResizeFeature«n.fuName»(this);
 				«ENDFOR»
 			}
@@ -202,9 +198,10 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 		«Object.name» o = getBusinessObjectForPictogramElement(context.getPictogramElement());
 		if (o instanceof «EObject.name») {
 			«EObject.name» bo = («EObject.name») o;
-			if (bo instanceof «ModelElement.name»){
+			
+			if (bo instanceof «InternalModelElement.name»){
 				«FOR n : gm.nodes»
-					if («n.instanceofCheck("bo")»)
+					if («n.internalInstanceofCheck("bo")»)
 						return new «n.packageNameMove».MoveFeature«n.fuName»(this);
 				«ENDFOR»
 			}
@@ -218,12 +215,9 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 		«Object.name» o = getBusinessObjectForPictogramElement(context.getPictogramElement());
 		if (o instanceof «EObject.name») {
 			«EObject.name» bo = («EObject.name») o;
-			if (bo instanceof «ModelElement.name»){
+			
+			if (bo instanceof «InternalModelElement.name»){
 				return new «CincoUpdateFeature.name»(this);
-«««				«FOR e : gm.edges»
-«««					if («e.instanceofCheck("bo")»)
-«««						//return new «e.packageNameUpdate».UpdateFeature«e.fuName»(this);
-«««				«ENDFOR»
 			}
 		}
 
@@ -251,8 +245,12 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 		«Object.name» o = getBusinessObjectForPictogramElement(pe);
 		if (o instanceof «EObject.name») {
 			«EObject.name» bo = («EObject.name») o;
+			
+			if (bo instanceof «InternalModelElement.name»)
+				bo = ((«InternalModelElement.name») bo).getElement();
+			
 			«FOR me : gm.modelElements»
-			if («me.instanceofCheck("bo")») {
+			if («me.internalInstanceofCheck("bo")») {
 				return new «ICustomFeature.name»[] {
 					«FOR annotValue : MGLUtils.getAllAnnotation("contextMenuAction", me) SEPARATOR ","»
 					new «GraphitiCustomFeature.name»<«me.fqBeanName»>(this,new «annotValue»())
@@ -273,7 +271,6 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 		«Assert.name».isNotNull(dom, «String.name».format("The TransactionalEditingDomain is null"));
 		if (f instanceof «ICreateFeature.name») {
 			final «Object.name»[] created = new Object[2];
-			
 			
 			dom.getCommandStack().execute(new «RecordingCommand.name»(dom, f.getName()) {
 				
@@ -305,7 +302,7 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 								if (conn != null) {
 									«EObject.name» bo = conn.getLink().getBusinessObjects().get(0);
 									«FOR me : gm.edges»
-									if («me.instanceofCheck("bo")»)
+									if («me.internalInstanceofCheck("bo")»)
 										created[0] = new «me.fqCName»();
 									«ENDFOR»
 									created[1] = conn;

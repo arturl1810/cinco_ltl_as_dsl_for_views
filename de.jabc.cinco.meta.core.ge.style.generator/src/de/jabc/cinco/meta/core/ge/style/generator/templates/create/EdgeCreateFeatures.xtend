@@ -14,6 +14,7 @@ import org.eclipse.graphiti.mm.pictograms.Connection
 import style.Styles
 import graphmodel.internal.InternalNode
 import org.eclipse.emf.ecore.EObject
+import graphmodel.internal.InternalModelElement
 
 class EdgeCreateFeatures extends APIUtils{
 
@@ -45,23 +46,15 @@ class EdgeCreateFeatures extends APIUtils{
 		*/
 		public boolean canCreate(«ICreateConnectionContext.name» context, boolean apiCall) {
 			if (apiCall) {
-				«Node.name» source = null;
-				«Node.name» target = null;
+				«InternalNode.name» source = («InternalNode.name») getBusinessObject(context.getSourceAnchor());
+				«InternalNode.name» target = («InternalNode.name») getBusinessObject(context.getTargetAnchor());
 				
-				«Object.name» sBo = getBusinessObject(context.getSourceAnchor());
-				«Object.name» tBo = getBusinessObject(context.getTargetAnchor());
 				
-				if (sBo instanceof «InternalNode.name») source = («Node.name») ((«InternalNode.name») sBo).getElement();
-				else source = («Node.name») sBo;
-				
-				if (tBo instanceof «InternalNode.name») target = («Node.name») ((«InternalNode.name») tBo).getElement();
-				else target = («Node.name») tBo;
-		
 				boolean srcOK = false;
 				boolean trgOK = false;
 				if (source != null && target != null) {
-					srcOK = source.canStart(«e.graphModel.beanPackage».«e.fuName».class);
-					trgOK = target.canEnd(«e.graphModel.beanPackage».«e.fuName».class);
+					srcOK = source.canStart(«e.fqBeanName».class);
+					trgOK = target.canEnd(«e.fqBeanName».class);
 				}
 				if (! (srcOK && trgOK) && getError().equals(«ECincoError.name».OK))
 					setError(«ECincoError.name».MAX_IN);
@@ -87,27 +80,18 @@ class EdgeCreateFeatures extends APIUtils{
 		@Override
 		public «Connection.name» create(«ICreateConnectionContext.name» context) {
 			«Connection.name» connection = null;
-			«Node.name» source = null;
-			«Node.name» target = null;
+			«InternalNode.name» source = («InternalNode.name») getBusinessObject(context.getSourceAnchor());
+			«InternalNode.name» target = («InternalNode.name») getBusinessObject(context.getTargetAnchor());
 			
-			«Object.name» sBo = getBusinessObject(context.getSourceAnchor());
-			«Object.name» tBo = getBusinessObject(context.getTargetAnchor());
-			
-			if (sBo instanceof «InternalNode.name») source = («Node.name») ((«InternalNode.name») sBo).getElement();
-			else source = («Node.name») sBo;
-			
-			if (tBo instanceof «InternalNode.name») target = («Node.name») ((«InternalNode.name») tBo).getElement();
-			else target = («Node.name») tBo;
-
 			if (source != null && target != null) {
 				
 				«e.fqBeanName» «e.flName» = 
 					(«e.fqCName») «e.packageName».«e.graphModel.fuName»Factory.eINSTANCE.create«e.fuName»();
-				if (source instanceof «ModelElement.name») {
-					«e.flName».setSourceElement(source);
+				if (source instanceof «InternalModelElement.name») {
+					«e.flName».setSourceElement((«Node.name») source.getElement());
 				}
-				if (target instanceof «ModelElement.name») {
-					«e.flName».setTargetElement(target);
+				if (target instanceof «InternalModelElement.name») {
+					«e.flName».setTargetElement((«Node.name») target.getElement());
 				}
 
 				«AddConnectionContext.name» addContext = 
@@ -126,10 +110,9 @@ class EdgeCreateFeatures extends APIUtils{
 		@Override
 		public boolean canStartConnection(«ICreateConnectionContext.name» context) {
 			«Object.name» source = getBusinessObject(context.getSourceAnchor());
-			if (source instanceof «InternalNode.name»)
-				source = ((«InternalNode.name») source).getElement();
-			if (source instanceof «Node.name») {	
-				if (! ((«Node.name») source).canStart(«e.graphModel.beanPackage».«e.fuName».class)) {
+
+			if (source instanceof «InternalNode.name») {	
+				if (! ((«InternalNode.name») source).canStart(«e.fqBeanName».class)) {
 					if (getError().equals(«ECincoError.name».OK))
 						setError(«ECincoError.name».MAX_OUT);
 				}

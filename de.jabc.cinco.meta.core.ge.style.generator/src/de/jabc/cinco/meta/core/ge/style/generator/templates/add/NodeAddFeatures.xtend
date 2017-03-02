@@ -65,14 +65,7 @@ public class AddFeature«n.fuName» extends «CincoAbstractAddFeature.name» {
 	*/
 	public «PictogramElement.name» add(«IAddContext.name» context) {
 		Object newObject = context.getNewObject();
-		if (newObject instanceof «InternalModelElement.name»)
-			newObject = ((«InternalModelElement.name») newObject).getElement();
-		«n.fqBeanName» bo = («n.fqBeanName») newObject;
-		/**
-		 * Graphiti should not be responsible to set IDs.
-		 */
-		//if (bo.getId() == null || bo.getId().isEmpty())
-		//	bo.setId(«EcoreUtil.name».generateUUID());
+		«n.fqInternalBeanName» bo = («n.fqInternalBeanName») newObject;
 		
 		«ContainerShape.name» d = context.getTargetContainer();
 		

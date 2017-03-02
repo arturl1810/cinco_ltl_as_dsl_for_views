@@ -88,7 +88,7 @@ class NodeCreateFeatures extends APIUtils{
 	
 			«PictogramElement.name» pe = null;
 			«IF !n.isPrime»
-			pe = addGraphicalRepresentation(context, «n.flName»);
+			pe = addGraphicalRepresentation(context, «n.flName».getInternalElement());
 			«ENDIF» 
 			return new «Object.name»[] {«n.flName», pe};
 		}

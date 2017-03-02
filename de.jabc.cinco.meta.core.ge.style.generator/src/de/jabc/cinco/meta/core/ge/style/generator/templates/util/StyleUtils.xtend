@@ -61,10 +61,10 @@ class StyleUtils extends APIUtils {
 			
 				«n.packageNameEContentAdapter».«n.graphModel.fuName»EContentAdapter.getInstance().addAdapter(bo);
 			
-				linkAllShapes(«currentPeName», bo.getInternalElement());
+				linkAllShapes(«currentPeName», bo);
 				layoutPictogramElement(«currentPeName»);
 			
-			((«n.fqCName») bo).setPictogramElement(«currentPeName»);
+			((«n.fqCName») bo.getElement()).setPictogramElement(«currentPeName»);
 			
 			if (context.getWidth() != -1 && context.getHeight() != -1)  {
 			
@@ -292,7 +292,7 @@ class StyleUtils extends APIUtils {
 			«Thread.name».currentThread().setContextClassLoader(AddFeature«node.name».class.getClassLoader());
 		
 			«ExpressionLanguageContext.name» elContext = 
-				new «ExpressionLanguageContext.name»(bo.getInternalElement());
+				new «ExpressionLanguageContext.name»(bo);
 				
 			«Object.name» tmp0Value = factory.createValueExpression(elContext, "«getText(node)»", «Object.name».class).getValue(elContext);
 		
