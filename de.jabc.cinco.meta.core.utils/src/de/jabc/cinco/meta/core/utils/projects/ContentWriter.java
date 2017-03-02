@@ -19,6 +19,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
@@ -63,6 +64,32 @@ public class ContentWriter {
 		
 	}
 
+	public static void writeFile(IProject p, String folderName, CharSequence packageName,	String fileName, CharSequence content) {
+		
+		NullProgressMonitor monitor = new NullProgressMonitor();
+		
+		IFolder folder = p.getFolder(folderName);
+		IFolder packageFolder = null;
+		try {
+			if (!folder.exists()) {
+				folder.create(true, true, monitor);
+			}
+			packageFolder = folder.getFolder(new Path(packageName.toString().replaceAll("\\.", "/")));
+			if (!packageFolder.exists())
+				packageFolder.create(true, true, monitor);
+			IFile f = packageFolder.getFile(fileName);
+			File file = f.getLocation().toFile();
+			FileWriter fw = new FileWriter(file);
+			fw.write(content.toString());
+			fw.close();
+		} catch (CoreException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
 	public static void writePluginXML(IProject project, CharSequence content) {
 		writePluginXML(project, content.toString());
 	}
@@ -81,7 +108,6 @@ public class ContentWriter {
 			fw.write(fileContents);
 			fw.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

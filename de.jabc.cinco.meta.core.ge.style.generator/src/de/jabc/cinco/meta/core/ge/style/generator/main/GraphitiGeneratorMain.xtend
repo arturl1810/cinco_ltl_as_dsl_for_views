@@ -123,7 +123,7 @@ class GraphitiGeneratorMain extends GeneratorUtils {
 		content = gm.generateFactory
 		ContentWriter::writeJavaFileInSrcGen(project, gm.packageName, gm.name.toFirstUpper.concat("Factory.java"), content)
 		content = gm.generateResourceFactory
-		ContentWriter::writeJavaFileInSrcGen(project, gm.packageName, gm.name.toFirstUpper.concat("ResourceFactory.java"), content)
+		ContentWriter::writeFile(project, "src-gen", gm.packageName, gm.name.toFirstUpper.concat("ResourceFactory.xtend"), content)
 		
 		
 		for (Node n : gm.nodes) {

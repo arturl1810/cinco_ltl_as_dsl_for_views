@@ -14,7 +14,9 @@ class GraphitiResourceFactory {
 	extension APIUtils = new APIUtils
 	
 	def generateResourceFactory(GraphModel gm)'''
+	package «gm.packageName»
 	
+	import org.eclipse.emf.ecore.resource.Resource.Factory
 	
 	class «gm.fuName»APIParser implements «Factory.name» {
 		new() {
