@@ -246,9 +246,6 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 		if (o instanceof «EObject.name») {
 			«EObject.name» bo = («EObject.name») o;
 			
-			if (bo instanceof «InternalModelElement.name»)
-				bo = ((«InternalModelElement.name») bo).getElement();
-			
 			«FOR me : gm.modelElements»
 			if («me.internalInstanceofCheck("bo")») {
 				return new «ICustomFeature.name»[] {

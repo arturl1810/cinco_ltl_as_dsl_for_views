@@ -72,7 +72,7 @@ class GraphitiResourceFactory {
 		}
 		
 		def fetchLinkedElement(«Diagram.name» d, «IdentifiableElement.name» me) {
-			d.pictogramLinks?.filter[businessObjects.contains(me)].head.pictogramElement
+			d.pictogramLinks?.filter[businessObjects.contains(me)].head?.pictogramElement
 		}
 	}
 	'''
