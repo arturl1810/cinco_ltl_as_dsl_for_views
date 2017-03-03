@@ -161,7 +161,7 @@ public class «gm.fuName»ToolBehaviorProvider extends «DefaultToolBehaviorProv
 		«Object.name» bo = pes[0].getLink().getBusinessObjects().get(0);
 		«FOR me : gm.modelElements»
 		«IF me.booleanWriteMethodCallDoubleClick»
-		if («me.instanceofCheck("bo")») 
+		if («me.internalInstanceofCheck("bo")») 
 			«me.writeMethodCallDoubleClick»
 		«ENDIF»
 		«ENDFOR»
