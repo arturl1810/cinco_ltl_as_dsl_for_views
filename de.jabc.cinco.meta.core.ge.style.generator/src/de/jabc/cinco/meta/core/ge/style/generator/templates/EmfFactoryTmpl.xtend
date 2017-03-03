@@ -21,7 +21,7 @@ class EmfFactoryTmpl {
 		public «EObject.name» create(«EClass.name» eClass) {
 			«FOR me : gm.modelElements»
 			if (eClass.getName().equals("«me.name»"))
-				return new «me.fqCName»();
+				return create«me.fuName»();
 			«ENDFOR»
 			return super.create(eClass);
 		}
