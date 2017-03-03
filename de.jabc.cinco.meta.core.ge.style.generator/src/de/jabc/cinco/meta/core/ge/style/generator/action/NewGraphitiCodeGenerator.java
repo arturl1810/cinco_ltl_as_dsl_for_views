@@ -101,6 +101,7 @@ public class NewGraphitiCodeGenerator extends AbstractHandler{
 		
 		bundles.add(Platform.getBundle("org.eclipse.emf.transaction"));
 		bundles.add(Platform.getBundle("org.eclipse.graphiti"));
+		bundles.add(Platform.getBundle("org.eclipse.graphiti.mm"));
 		bundles.add(Platform.getBundle("org.eclipse.graphiti.ui"));
 		bundles.add(Platform.getBundle("org.eclipse.core.resources"));
 		bundles.add(Platform.getBundle("org.eclipse.ui"));

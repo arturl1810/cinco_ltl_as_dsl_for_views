@@ -205,7 +205,7 @@ class EdgeAddFeatures extends APIUtils {
 		 */
 		public boolean canAdd(«IAddContext.name» context) {
 			if (context instanceof «IAddConnectionContext.name» && 
-				context.getNewObject() instanceof «e.fqBeanName») {
+				context.getNewObject() instanceof «e.fqInternalBeanName») {
 				return true;
 			}
 			return false;

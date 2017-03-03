@@ -96,7 +96,7 @@ class EdgeCreateFeatures extends APIUtils{
 
 				«AddConnectionContext.name» addContext = 
 					new «AddConnectionContext.name»(context.getSourceAnchor(), context.getTargetAnchor());
-				addContext.setNewObject(«e.flName»);
+				addContext.setNewObject(«e.flName».getInternalElement());
 				connection = («Connection.name») getFeatureProvider().addIfPossible(addContext);
 			}
 			return connection;
