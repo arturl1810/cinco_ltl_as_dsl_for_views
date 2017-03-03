@@ -74,7 +74,7 @@ class EdgeAddFeatures extends APIUtils {
 		 */
 		public «PictogramElement.name» add(«IAddContext.name» context) {
 			«IAddConnectionContext.name» addConContext = («IAddConnectionContext.name») context;
-			«e.fqBeanName» «e.flName» = («e.fqBeanName») context.getNewObject();
+			«e.fqInternalBeanName» «e.flName» = («e.fqInternalBeanName») context.getNewObject();
 			if («e.flName».getId() == null || «e.flName».getId().isEmpty())
 				«e.flName».setId(«EcoreUtil.name».generateUUID());
 			«IPeCreateService.name» peCreateService = «Graphiti.name».getPeCreateService();
@@ -102,7 +102,7 @@ class EdgeAddFeatures extends APIUtils {
 			}
 			
 			// create link and wire it
-			link(connection, «e.flName».getInternalElement());
+			link(connection, «e.flName»);
 			«ConnectionDecorator.name» cd;
 			«clear»
 			«FOR d : CincoUtils.getStyleForEdge(e, styles).decorator»			
@@ -123,9 +123,9 @@ class EdgeAddFeatures extends APIUtils {
 				«var textShape = d.decoratorShape as style.Text»
 				cd = peCreateService.createConnectionDecorator(connection, «d.movable»,«d.location», true);
 				createShapeText«text.length»(cd,
-					(«e.fqInternalBeanName») «e.flName».getInternalElement(),
+					(«e.fqInternalBeanName») «e.flName»,
 					"«textShape.value»");
-				link(cd, «e.flName».getInternalElement());
+				link(cd, «e.flName»);
 				«{text.add(textShape); ""}»
 				«ELSEIF d.decoratorShape instanceof style.Polyline»
 				«var polylineShape = d.decoratorShape as style.Polyline»
@@ -135,7 +135,7 @@ class EdgeAddFeatures extends APIUtils {
 				«ELSE»
 				createShapePolyline«polyline.length»(cd, «e.flName»);
 				«ENDIF»
-				link(cd, «e.flName».getInternalElement());
+				link(cd, «e.flName»);
 				«{polyline.add(polylineShape); ""}»		
 				«ELSEIF d.decoratorShape instanceof style.Ellipse»
 				«var ellipseShape = d.decoratorShape as style.Ellipse»
@@ -145,7 +145,7 @@ class EdgeAddFeatures extends APIUtils {
 				«ELSE»
 				createShapeEllipse«ellipse.length»(cd, «e.flName»);
 				«ENDIF»
-				link(cd, «e.flName».getInternalElement());
+				link(cd, «e.flName»);
 				«{ellipse.add(ellipseShape); ""}»				
 				«ELSEIF d.decoratorShape instanceof style.Polygon»
 				«var polygonShape = d.decoratorShape as style.Polygon»
@@ -155,15 +155,15 @@ class EdgeAddFeatures extends APIUtils {
 				«ELSE»
 				createShapePolygon«polygon.length»(cd, «e.flName»);
 				«ENDIF»
-				link(cd, «e.flName».getInternalElement());
+				link(cd, «e.flName»);
 				«{polygon.add(polygonShape); ""}»				
 				«ELSEIF d.decoratorShape instanceof style.MultiText»
 				«var multitextShape = d.decoratorShape as style.MultiText»
 				cd = peCreateService.createConnectionDecorator(connection, «d.movable», «d.location», true);
 				createShapeMultiText«multitext.length»(cd, 
-					(«e.fqInternalBeanName») «e.flName».getInternalElement(),
+					(«e.fqInternalBeanName») «e.flName»,
 					"«multitextShape.value»");
-				link(cd, «e.flName».getInternalElement());
+				link(cd, «e.flName»);
 				«{multitext.add(multitextShape); ""}»				
 				«ELSEIF d.decoratorShape instanceof style.Image»
 				«var imageShape = d.decoratorShape as style.Image»
@@ -173,7 +173,7 @@ class EdgeAddFeatures extends APIUtils {
 				«ELSE»
 				createShapeImage«image.length»(cd, «e.flName», "«imageShape.path»");
 				«ENDIF»
-				link(cd, «e.flName».getInternalElement());
+				link(cd, «e.flName»);
 				«{image.add(imageShape); ""}»
 				«ENDIF»
 				«ENDIF»
@@ -182,14 +182,14 @@ class EdgeAddFeatures extends APIUtils {
 			«Resource.name» eResource = ((«EObject.name») sourceBo).eResource();
 			«InternalGraphModel.name» internalGraphModel = new «ResourceExtension.name»().getContent(eResource, «e.graphModel.fqInternalBeanName».class);
 			«ModelElementContainer.name» container = 
-				«e.graphModel.packageName».«e.graphModel.name»GraphitiUtils.getInstance().getCommonContainer(internalGraphModel.getElement(), «e.flName»);
-			container.getInternalContainerElement().getModelElements().add(«e.flName».getInternalElement());
+				«e.graphModel.packageName».«e.graphModel.name»GraphitiUtils.getInstance().getCommonContainer(internalGraphModel.getElement(), («graphmodel.Edge.name») «e.flName».getElement());
+			container.getInternalContainerElement().getModelElements().add(«e.flName»);
 	
 			if (hook) {
 			}
 			«e.packageNameEContentAdapter».«e.graphModel.name»EContentAdapter.getInstance().addAdapter(«e.flName»);
 	
-			((«e.fqCName») «e.flName»).setPictogramElement(connection);
+			((«e.fqCName») «e.flName».getElement()).setPictogramElement(connection);
 	
 			«UpdateContext.name» uc = new «UpdateContext.name»(connection);
 			«IUpdateFeature.name» uf = getFeatureProvider().getUpdateFeature(uc);

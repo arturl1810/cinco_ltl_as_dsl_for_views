@@ -47,7 +47,7 @@ public class CincoLayoutFeature extends AbstractLayoutFeature {
 	@Override
 	public boolean canLayout(org.eclipse.graphiti.features.context.ILayoutContext context) {
 		Object bo = getBusinessObjectForPictogramElement(context.getPictogramElement());
-		if (bo instanceof ModelElement)
+		if (bo instanceof InternalModelElement)
 			return true;
 		return false;
 	}

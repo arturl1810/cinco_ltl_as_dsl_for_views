@@ -54,8 +54,8 @@ class NodeMoveFeatures extends GeneratorUtils{
 				«ELSE»
 				if (source != null && source.equals(target))
 					return true;
-				if (target instanceof «ModelElementContainer.name»)
-					return ((«ModelElementContainer.name») target).canContain(«n.fqBeanName».class);
+				if (target instanceof «InternalModelElementContainer.name»)
+					return ((«InternalModelElementContainer.name») target).canContain(«n.fqBeanName».class);
 				if (getError().equals(«ECincoError.name».OK))
 					setError(«ECincoError.name».INVALID_CONTAINER);
 				return false;
@@ -83,33 +83,33 @@ class NodeMoveFeatures extends GeneratorUtils{
 			«Object.name» o = getBusinessObjectForPictogramElement(context.getShape());
 			«Object.name» source = getBusinessObjectForPictogramElement(context.getSourceContainer());
 			«Object.name» target = getBusinessObjectForPictogramElement(context.getTargetContainer());
-			if (source instanceof «Container.name») {
-				«Container.name» nc = («Container.name») source;
-				nc.getModelElements().remove((«n.fqBeanName») o);
+			if (source instanceof «InternalContainer.name») {
+				«InternalContainer.name» nc = («InternalContainer.name») source;
+				nc.getModelElements().remove((«n.fqInternalBeanName») o);
 			}
-			if (source instanceof «n.graphModel.fqBeanName») {
-				«n.graphModel.fqBeanName» tmp = («n.graphModel.fqBeanName») source;
-				tmp.getModelElements().remove((«n.fqBeanName») o);
+			if (source instanceof «n.graphModel.fqInternalBeanName») {
+				«n.graphModel.fqInternalBeanName» tmp = («n.graphModel.fqInternalBeanName») source;
+				tmp.getModelElements().remove((«n.fqInternalBeanName») o);
 			}
-			if (target instanceof «n.graphModel.fqBeanName») {
-				«n.graphModel.fqBeanName» tmp = («n.graphModel.fqBeanName») target;
-				tmp.getModelElements().add((«n.fqBeanName») o);
+			if (target instanceof «n.graphModel.fqInternalBeanName») {
+				«n.graphModel.fqInternalBeanName» tmp = («n.graphModel.fqInternalBeanName») target;
+				tmp.getModelElements().add((«n.fqInternalBeanName») o);
 			}
-			if (target instanceof «Container.name») {
-				«Container.name» tmp = («Container.name») target;
-				tmp.getModelElements().add((«n.fqBeanName») o);
+			if (target instanceof «InternalContainer.name») {
+				«InternalContainer.name» tmp = («InternalContainer.name») target;
+				tmp.getModelElements().add((«n.fqInternalBeanName») o);
 			}
 			
-			«HashSet.name»<«Edge.name»> all = new «HashSet.name»<>();
-			«n.fqBeanName» tmp = («n.fqBeanName») o;
+			«HashSet.name»<«InternalEdge.name»> all = new «HashSet.name»<>();
+			«n.fqInternalBeanName» tmp = («n.fqInternalBeanName») o;
 			all.addAll(tmp.getIncoming());
 			all.addAll(tmp.getOutgoing());
-			for («Edge.name» e : all) {
-				«ModelElementContainer.name» ce = e.getContainer();
+			for («InternalEdge.name» e : all) {
+				«InternalModelElementContainer.name» ce = e.getContainer();
 				«ModelElementContainer.name» common = 
-					«n.graphModel.packageName».«n.graphModel.name»GraphitiUtils.getInstance().getCommonContainer(ce, e);
+					«n.graphModel.packageName».«n.graphModel.name»GraphitiUtils.getInstance().getCommonContainer(ce.getContainerElement(), («Edge.name») e.getElement());
 				ce.getModelElements().remove(e);
-				common.getModelElements().add(e);
+				common.getInternalContainerElement().getModelElements().add(e);
 			}
 
 			super.moveShape(context);
@@ -123,15 +123,15 @@ class NodeMoveFeatures extends GeneratorUtils{
 		protected void postMoveShape(«IMoveShapeContext.name» context) {
 			try {
 				«n.fqBeanName» _s = 
-					(«n.fqBeanName») getBusinessObjectForPictogramElement(context.getPictogramElement());
+					(«n.fqBeanName») ((«n.fqInternalBeanName») getBusinessObjectForPictogramElement(context.getPictogramElement())).getElement();
 			
 				int x = context.getX();
 				int y = context.getY();
 				int deltaX = context.getDeltaX();
 				int deltaY = context.getDeltaY();
 			
-				«ModelElementContainer.name» source = («ModelElementContainer.name») getBusinessObjectForPictogramElement(context.getSourceContainer());
-				«ModelElementContainer.name» target = («ModelElementContainer.name») getBusinessObjectForPictogramElement(context.getTargetContainer());
+				«InternalModelElementContainer.name» source = («InternalModelElementContainer.name») getBusinessObjectForPictogramElement(context.getSourceContainer());
+				«InternalModelElementContainer.name» target = («InternalModelElementContainer.name») getBusinessObjectForPictogramElement(context.getTargetContainer());
 			
 			} catch (Exception e) {
 			

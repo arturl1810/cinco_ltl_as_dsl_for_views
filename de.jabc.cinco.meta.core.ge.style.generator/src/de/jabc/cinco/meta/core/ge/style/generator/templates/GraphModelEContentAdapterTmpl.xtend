@@ -54,7 +54,8 @@ class GraphModelEContentAdapterTmpl extends APIUtils {
 		public void notifyChanged(«Notification.name» notification) {
 			«Object.name» o = notification.getNotifier();
 			if («gm.internalInstanceofCheck("o")») {
-				«gm.fqBeanName» tmp = («gm.fqBeanName») ((«gm.fqInternalBeanName») o).getElement();
+				«gm.fqInternalBeanName» tmp = 
+					(«gm.fqInternalBeanName») o;
 				if (getDiagram() == null)
 					return;
 				«List.name»<«PictogramElement.name»> pes = «Graphiti.name».getLinkService().getPictogramElements(getDiagram(), tmp);
@@ -84,15 +85,10 @@ class GraphModelEContentAdapterTmpl extends APIUtils {
 		}
 	
 		public void addAdapter(«EObject.name» bo) {
-			if («gm.instanceofCheck("bo")») {
-				if (!((«gm.fqBeanName») bo).getInternalElement().eAdapters().contains(getInstance()))
-					((«gm.fqBeanName») bo).getInternalElement().eAdapters().add(getInstance());
-			}
-			«
-			FOR me : gm.modelElements»
-			if («me.instanceofCheck("bo")») {
-				if (!((«me.fqBeanName») bo).getInternalElement().eAdapters().contains(«me.fuName»EContentAdapter.getInstance()))
-					((«me.fqBeanName») bo).getInternalElement().eAdapters().add(«me.fuName»EContentAdapter.getInstance());
+			«FOR me : gm.modelElements»
+			if («me.internalInstanceofCheck("bo")») {
+				if (!bo.eAdapters().contains(«me.fuName»EContentAdapter.getInstance()))
+					bo.eAdapters().add(«me.fuName»EContentAdapter.getInstance());
 			}
 			«ENDFOR»
 			

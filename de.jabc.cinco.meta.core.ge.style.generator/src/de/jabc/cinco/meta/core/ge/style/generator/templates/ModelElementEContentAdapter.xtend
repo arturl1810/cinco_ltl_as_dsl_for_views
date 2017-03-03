@@ -34,8 +34,8 @@ class ModelElementEContentAdapter extends GeneratorUtils{
 			if (invalidFeature((«EStructuralFeature.name») notification.getFeature()))
 				return;
 			if («me.internalInstanceofCheck("o")») {
-				«me.fqBeanName» tmp = 
-					(«me.fqBeanName») ((«me.fqInternalBeanName») o).getElement();
+				«me.fqInternalBeanName» tmp = 
+					(«me.fqInternalBeanName») o;
 				if (getDiagram() == null)
 					return;
 				«List.name»<«PictogramElement.name»> pes = «Graphiti.name».getLinkService().getPictogramElements(getDiagram(), tmp);

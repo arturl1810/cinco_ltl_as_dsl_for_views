@@ -164,14 +164,7 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 			
 			EObject bo = getBusinessObject(pe);
 			if (bo != null) {
-				if (bo instanceof InternalGraphModel)
-					bo = ((InternalGraphModel) bo).getElement();
-				if (bo instanceof InternalModelElement)
-					bo = ((InternalModelElement) bo).getElement();
-				if (bo instanceof GraphModel)
-					init_PropertyView(((GraphModel) bo).getInternalElement());
-				if (bo instanceof ModelElement)
-					init_PropertyView(((ModelElement) bo).getInternalElement());
+				init_PropertyView(bo);
 			}
 			else if (part instanceof MultiPageGratextEditor) {
 				clearPage();
