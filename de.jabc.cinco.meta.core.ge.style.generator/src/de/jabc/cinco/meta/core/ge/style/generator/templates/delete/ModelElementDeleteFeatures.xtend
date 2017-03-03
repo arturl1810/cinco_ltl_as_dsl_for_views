@@ -10,20 +10,21 @@ import org.eclipse.graphiti.features.context.IDeleteContext
 import org.eclipse.graphiti.mm.pictograms.PictogramElement
 import org.eclipse.graphiti.services.Graphiti
 import style.Styles
+import mgl.ModelElement
 
-class NodeDeleteFeatures extends GeneratorUtils{
+class ModelElementDeleteFeatures extends GeneratorUtils{
 	
 	/**
 	 * Generates the Class 'DeleteFeature' for the graphmodel gm
  	 * @param n : Node
  	 * @param styles : Styles
  	 */
-	def doGenerateNodeDeleteFeature(Node n, Styles styles)'''
-	package «n.packageNameDelete»;
+	def doGenerateModelElementDeleteFeature(ModelElement me, Styles styles)'''
+	package «me.packageNameDelete»;
 	
-	public class DeleteFeature«n.fuName» extends «CincoDeleteFeature.name» {
+	public class DeleteFeature«me.fuName» extends «CincoDeleteFeature.name» {
 
-		public DeleteFeature«n.fuName»(«IFeatureProvider.name» fp) {
+		public DeleteFeature«me.fuName»(«IFeatureProvider.name» fp) {
 			super(fp);
 		}
 		
@@ -37,7 +38,7 @@ class NodeDeleteFeatures extends GeneratorUtils{
 			if (apiCall) {
 				«PictogramElement.name» pe = context.getPictogramElement();
 				«EObject.name» bo = «Graphiti.name».getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
-				if (bo instanceof «n.fqBeanName») {
+				if (bo instanceof «me.fqInternalBeanName») {
 					return true;
 				}
 				return super.canDelete(context);
@@ -47,7 +48,7 @@ class NodeDeleteFeatures extends GeneratorUtils{
 		
 		@Override
 		public boolean canDelete(«IDeleteContext.name» context) {
-			return canDelete(context, «!CincoUtils.isDeleteDisabled(n)»);
+			return canDelete(context, «!CincoUtils.isDeleteDisabled(me)»);
 		}
 		
 	

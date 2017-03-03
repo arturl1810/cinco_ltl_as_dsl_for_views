@@ -2,10 +2,12 @@ package de.jabc.cinco.meta.core.ge.style.generator.main
 
 import de.jabc.cinco.meta.core.ge.style.generator.templates.DiagramEditorTmpl
 import de.jabc.cinco.meta.core.ge.style.generator.templates.DiagramTypeProviderTmpl
+import de.jabc.cinco.meta.core.ge.style.generator.templates.EmfFactoryTmpl
 import de.jabc.cinco.meta.core.ge.style.generator.templates.FeatureProviderTmpl
 import de.jabc.cinco.meta.core.ge.style.generator.templates.FileExtensionContent
 import de.jabc.cinco.meta.core.ge.style.generator.templates.GraphModelEContentAdapterTmpl
 import de.jabc.cinco.meta.core.ge.style.generator.templates.GraphitiCustomFeatureTmpl
+import de.jabc.cinco.meta.core.ge.style.generator.templates.GraphitiResourceFactory
 import de.jabc.cinco.meta.core.ge.style.generator.templates.GraphitiUtilsTmpl
 import de.jabc.cinco.meta.core.ge.style.generator.templates.ImageProviderTmpl
 import de.jabc.cinco.meta.core.ge.style.generator.templates.LayoutFeatureTmpl
@@ -20,7 +22,7 @@ import de.jabc.cinco.meta.core.ge.style.generator.templates.add.EdgeAddFeatures
 import de.jabc.cinco.meta.core.ge.style.generator.templates.add.NodeAddFeatures
 import de.jabc.cinco.meta.core.ge.style.generator.templates.create.EdgeCreateFeatures
 import de.jabc.cinco.meta.core.ge.style.generator.templates.create.NodeCreateFeatures
-import de.jabc.cinco.meta.core.ge.style.generator.templates.delete.NodeDeleteFeatures
+import de.jabc.cinco.meta.core.ge.style.generator.templates.delete.ModelElementDeleteFeatures
 import de.jabc.cinco.meta.core.ge.style.generator.templates.expressionlanguage.ContextTmp
 import de.jabc.cinco.meta.core.ge.style.generator.templates.expressionlanguage.ResolverTmp
 import de.jabc.cinco.meta.core.ge.style.generator.templates.layout.EdgeLayoutFeatures
@@ -42,8 +44,6 @@ import org.eclipse.core.resources.IProject
 import org.eclipse.core.runtime.NullProgressMonitor
 import productDefinition.CincoProduct
 import style.Styles
-import de.jabc.cinco.meta.core.ge.style.generator.templates.EmfFactoryTmpl
-import de.jabc.cinco.meta.core.ge.style.generator.templates.GraphitiResourceFactory
 
 class GraphitiGeneratorMain extends GeneratorUtils { 
 	
@@ -63,7 +63,7 @@ class GraphitiGeneratorMain extends GeneratorUtils {
 	extension ResolverTmp = new ResolverTmp
 	extension NodeAddFeatures = new NodeAddFeatures
 	extension NodeCreateFeatures = new NodeCreateFeatures
-	extension NodeDeleteFeatures = new NodeDeleteFeatures
+	extension ModelElementDeleteFeatures = new ModelElementDeleteFeatures
 	extension EdgeAddFeatures = new EdgeAddFeatures
 	extension EdgeCreateFeatures = new EdgeCreateFeatures
 	extension NodeLayoutFeatures = new NodeLayoutFeatures
@@ -142,7 +142,7 @@ class GraphitiGeneratorMain extends GeneratorUtils {
 				ContentWriter::writeJavaFileInSrcGen(project, n.packageNameEContentAdapter, n.name.toFirstUpper.concat("EContentAdapter.java"), content)
 			}
 			
-			content = n.doGenerateNodeDeleteFeature(styles)
+			content = n.doGenerateModelElementDeleteFeature(styles)
 			ContentWriter::writeJavaFileInSrcGen(project, n.packageNameDelete, "DeleteFeature"+n.name.toFirstUpper+".java", content)
 			
 			content = n.doGenerateNodeLayoutFeature(styles)
@@ -171,6 +171,9 @@ class GraphitiGeneratorMain extends GeneratorUtils {
 				ContentWriter::writeJavaFileInSrcGen(project, e.packageNameEContentAdapter, e.name.toFirstUpper.concat("EContentAdapter.java"), content)
 			}
 			
+			content = e.doGenerateModelElementDeleteFeature(styles)
+			ContentWriter::writeJavaFileInSrcGen(project, e.packageNameDelete, "DeleteFeature"+e.name.toFirstUpper+".java", content)
+			
 			content = e.doGenerateEdgeUpdateFeature(styles)
 			ContentWriter::writeJavaFileInSrcGen(project, e.packageNameUpdate, "UpdateFeature"+e.name.toFirstUpper+".java", content)
 			
@@ -179,6 +182,7 @@ class GraphitiGeneratorMain extends GeneratorUtils {
 			
 			content = e.doGenerateEdgeReconnectFeature
 			ContentWriter::writeJavaFileInSrcGen(project, e.packageNameReconnect, "ReconnectFeature"+e.fuName+".java", content)
+			
 			
 		}
 		

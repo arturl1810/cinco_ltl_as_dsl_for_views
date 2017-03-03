@@ -298,10 +298,7 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 								«Connection.name» conn = cf.create((«ICreateConnectionContext.name») c);
 								if (conn != null) {
 									«EObject.name» bo = conn.getLink().getBusinessObjects().get(0);
-									«FOR me : gm.edges»
-									if («me.internalInstanceofCheck("bo")»)
-										created[0] = new «me.fqCName»();
-									«ENDFOR»
+									created[0] = ((«InternalModelElement.name») bo).getElement();
 									created[1] = conn;
 								}
 							}
