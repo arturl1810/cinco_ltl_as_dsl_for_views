@@ -35,7 +35,8 @@ class PluginXMLTmpl extends GeneratorUtils {
 			popupMenus,
 			referenceRegistry,
 			perspectives,
-			contentParser
+			contentParser,
+			factoryOverride
 		);
 		
 		return exts
