@@ -11,12 +11,14 @@ class PluginXMLTmpl extends GeneratorUtils {
 	private String pkgName
 	private String icon
 	private String fileExtension
+	private String nsUri
 
 	def generatePluginXML(GraphModel gm){
 		gmName = gm.name
 		pkgName = gm.packageName.toString
 		icon = gm.iconPath
 		fileExtension = gm.fileExtension
+		this.nsUri = gm.nsURI
 		return extensions
 	}
 	
@@ -256,5 +258,19 @@ class PluginXMLTmpl extends GeneratorUtils {
 	         contentTypeIdentifier="«pkgName».«gmName»ContentType">
 	   </parser>
 	</extension>
+	'''
+	def factoryOverride() {
+		factoryOverride(pkgName, gmName)
+	}
+	
+	def factoryOverride(String pkgName, String gmName) '''
+	<extension
+		point="org.eclipse.emf.ecore.factory_override">
+	<!--@CincoGen «gmName»-->
+	   		<factory
+	        	class="«pkgName».«gmName»Factory"
+	        	uri="«nsUri»">
+	   		</factory>
+		</extension>
 	'''
 }

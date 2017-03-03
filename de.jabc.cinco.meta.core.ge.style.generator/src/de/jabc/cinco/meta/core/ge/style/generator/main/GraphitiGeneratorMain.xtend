@@ -77,7 +77,6 @@ class GraphitiGeneratorMain extends GeneratorUtils {
 	extension ModelElementEContentAdapter = new ModelElementEContentAdapter
 	extension EmfFactoryTmpl = new EmfFactoryTmpl
 	extension GraphitiResourceFactory = new GraphitiResourceFactory
-	extension GraphitiCustomFeatureTmpl = new GraphitiCustomFeatureTmpl
 	
 	var GraphModel gm
 	var IFile cpdFile
@@ -124,7 +123,6 @@ class GraphitiGeneratorMain extends GeneratorUtils {
 		ContentWriter::writeJavaFileInSrcGen(project, gm.packageName, gm.name.toFirstUpper.concat("Factory.java"), content)
 		content = gm.generateResourceFactory
 		ContentWriter::writeFile(project, "src-gen", gm.packageName, gm.name.toFirstUpper.concat("ResourceFactory.xtend"), content)
-		
 		
 		for (Node n : gm.nodes) {
 			if (n.isPrime){

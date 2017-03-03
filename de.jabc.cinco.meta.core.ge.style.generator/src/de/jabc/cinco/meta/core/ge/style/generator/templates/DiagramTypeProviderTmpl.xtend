@@ -28,13 +28,6 @@ public class «gm.fuName»DiagramTypeProvider extends «AbstractDiagramTypeProvi
 		«gm.fuName»GraphitiUtils.getInstance().loadImages();
 		«gm.fuName»GraphitiUtils.getInstance().setDTP(this);
 		«gm.fqPropertyView».initEStructuralFeatureInformation();
-		
-		«Object.name» object = «EPackage.name».Registry.INSTANCE.get("«gm.nsURI»");
-		if (object instanceof «EPackage.name») {
-			((«EPackage.name») object).setEFactoryInstance(«gm.packageName».«gm.fuName»Factory.eINSTANCE);
-		} else if (object instanceof «EFactory.name»)
-			«EPackage.name».Registry.INSTANCE.put("«gm.nsURI»", 
-					«gm.packageName».«gm.fuName»Factory.eINSTANCE);
 	}
 
 	@Override
