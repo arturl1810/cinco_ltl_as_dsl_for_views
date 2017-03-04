@@ -28,6 +28,7 @@ import de.jabc.cinco.meta.core.utils.xtext.PickColorApplier
 import org.eclipse.emf.ecore.util.EcoreUtil
 import java.util.List
 import org.eclipse.graphiti.services.Graphiti
+import org.eclipse.emf.ecore.EObject
 
 class CModelElementTmpl extends APIUtils {
 	
@@ -86,6 +87,12 @@ public «IF me.isIsAbstract»abstract«ENDIF» class «me.fuCName» extends «me
 		«IF !(me instanceof GraphModel)»
 		if (pe == null)
 			this.pe = ((«me.graphModel.fqCName») getRootElement()).fetchPictogramElement(this);
+		«ELSE»
+		if (pe == null) {
+			«EObject.name» bo = this.eResource().getContents().get(0);
+			if (bo instanceof «Diagram.name»)
+				pe = («Diagram.name») bo;
+		}
 		«ENDIF»
 		return this.pe;
 	}
@@ -246,7 +253,7 @@ public «IF me.isIsAbstract»abstract«ENDIF» class «me.fuCName» extends «me
 	}
 	
 	private «Diagram.name» getDiagram() {
-		«PictogramElement.name» curr = pe;
+		«PictogramElement.name» curr = getPictogramElement();
 		while (curr.eContainer() != null)
 			curr = («PictogramElement.name») curr.eContainer();
 			return («Diagram.name») curr;
