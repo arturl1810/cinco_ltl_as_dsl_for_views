@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>7def08b0-45b0-4f5d-9629-657ab3028508</id>
   <name>GenerateAddNodeFeature</name>
-  <changecounter>1923</changecounter>
+  <changecounter>1929</changecounter>
   <sib>
     <id>b89523ed-9916-4f61-a5e9-9e1d8838a845</id>
     <name>PutExpression_1</name>
@@ -381,7 +381,7 @@ public class Add$context.modelElementName$Feature extends CincoAbstractAddFeatur
   </edge>
   <edge>
     <source>296012e1-d2e0-4228-9d8c-ede42d53b69c</source>
-    <target>fe24d92a-f68f-432e-8322-e04657863492</target>
+    <target>42c9be47-6582-4b19-af25-747c24c9bcdd</target>
     <point>120.0,266.0</point>
     <point>120.0,528.0</point>
     <labelposition>500.0,0.0</labelposition>
@@ -426,57 +426,8 @@ public class Add$context.modelElementName$Feature extends CincoAbstractAddFeatur
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
-  <sib>
-    <id>fe24d92a-f68f-432e-8322-e04657863492</id>
-    <name>GetNodePrimeReference</name>
-    <label>GetNodePrimeReference</label>
-    <sib-uid>mgl/mgl/GetNodePrimeReference</sib-uid>
-    <taxonomy>de.jabc.cinco.meta.core.ge.sib.mgl.GetNodePrimeReference</taxonomy>
-    <position>41.0,333.0</position>
-    <parameter name="nodeKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>node</key>
-          <scope>DECLARED</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="nodeprimeReferenceKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>primeRef</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-  </sib>
-  <sib>
-    <id>34bac75f-5a18-400f-9ae2-f09f6cc9ecaa</id>
-    <name>CheckVariable</name>
-    <label>isPrimeRef</label>
-    <sib-uid>basic-sibs/CheckVariable</sib-uid>
-    <taxonomy>de.jabc.sib.common.basic.CheckVariable</taxonomy>
-    <position>82.0,738.0</position>
-    <parameter name="variable">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>primeRef</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>emptyString</finalbranches>
-    <finalbranches>error</finalbranches>
-    <finalbranches>false</finalbranches>
-    <finalbranches>true</finalbranches>
-  </sib>
   <edge>
-    <source>fe24d92a-f68f-432e-8322-e04657863492</source>
+    <source>42c9be47-6582-4b19-af25-747c24c9bcdd</source>
     <target>7fb47318-a83d-4813-b386-01e79a68e99a</target>
     <point>120.0,369.0</point>
     <point>120.0,511.0</point>
@@ -484,7 +435,7 @@ public class Add$context.modelElementName$Feature extends CincoAbstractAddFeatur
     <branch>default</branch>
   </edge>
   <edge>
-    <source>34bac75f-5a18-400f-9ae2-f09f6cc9ecaa</source>
+    <source>af91ce77-9914-4acf-899d-f34f69c8d25b</source>
     <target>514d2abb-2516-42a7-9c91-c09504f10dda</target>
     <point>117.0,769.0</point>
     <point>117.0,889.0</point>
@@ -733,7 +684,7 @@ public class Add$context.modelElementName$Feature extends CincoAbstractAddFeatur
     <finalbranches>error</finalbranches>
   </sib>
   <edge>
-    <source>34bac75f-5a18-400f-9ae2-f09f6cc9ecaa</source>
+    <source>af91ce77-9914-4acf-899d-f34f69c8d25b</source>
     <target>ccabf017-ba9d-4d9c-94a0-bb4ed47671df</target>
     <point>117.0,769.0</point>
     <point>267.0,769.0</point>
@@ -1273,7 +1224,7 @@ Leaving Generate ${nodeName} AddFeature </expression>
   </sib>
   <edge>
     <source>7fb47318-a83d-4813-b386-01e79a68e99a</source>
-    <target>34bac75f-5a18-400f-9ae2-f09f6cc9ecaa</target>
+    <target>af91ce77-9914-4acf-899d-f34f69c8d25b</target>
     <point>120.0,480.0</point>
     <point>129.0,762.0</point>
     <branch>default</branch>
@@ -1384,15 +1335,58 @@ Leaving Generate ${nodeName} AddFeature </expression>
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
   </sib>
+  <sib>
+    <id>af91ce77-9914-4acf-899d-f34f69c8d25b</id>
+    <name>CheckVariable</name>
+    <label>isPrimeRef</label>
+    <sib-uid>ge-util-sibs/IsPrimeNode</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsPrimeNode</taxonomy>
+    <position>82.5,738.0</position>
+    <parameter name="node">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>node</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>false</finalbranches>
+    <finalbranches>true</finalbranches>
+  </sib>
+  <sib>
+    <id>42c9be47-6582-4b19-af25-747c24c9bcdd</id>
+    <name>GetNodePrimeReference</name>
+    <label>GetNodePrimeReference</label>
+    <sib-uid>ge-util-sibs/GetPrimeReference</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.GetPrimeReference</taxonomy>
+    <position>41.0,333.0</position>
+    <parameter name="nodeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>node</key>
+          <scope>DECLARED</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="nodeprimeReferenceKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>primeRef</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
   <parameter>
     <name>modelElementKey</name>
     <field>modelElementKey</field>
     <sib>5814d032-c924-4985-aeca-fd4deeba15f3</sib>
-  </parameter>
-  <parameter>
-    <name>modelElementKey</name>
-    <field>nodeKey</field>
-    <sib>fe24d92a-f68f-432e-8322-e04657863492</sib>
   </parameter>
   <parameter>
     <name>modelElementKey</name>
@@ -1408,6 +1402,16 @@ Leaving Generate ${nodeName} AddFeature </expression>
     <name>modelElementKey</name>
     <field>modelElementKey</field>
     <sib>7fb47318-a83d-4813-b386-01e79a68e99a</sib>
+  </parameter>
+  <parameter>
+    <name>modelElementKey</name>
+    <field>node</field>
+    <sib>af91ce77-9914-4acf-899d-f34f69c8d25b</sib>
+  </parameter>
+  <parameter>
+    <name>modelElementKey</name>
+    <field>nodeKey</field>
+    <sib>42c9be47-6582-4b19-af25-747c24c9bcdd</sib>
   </parameter>
   <values>
     <entry>
@@ -1459,22 +1463,12 @@ Leaving Generate ${nodeName} AddFeature </expression>
   <branch>
     <name>error</name>
     <branch>error</branch>
-    <sib>34bac75f-5a18-400f-9ae2-f09f6cc9ecaa</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
     <sib>ccabf017-ba9d-4d9c-94a0-bb4ed47671df</sib>
   </branch>
   <branch>
     <name>error</name>
     <branch>error</branch>
     <sib>814245de-6dc8-4511-b290-69abaa62e6a8</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>fe24d92a-f68f-432e-8322-e04657863492</sib>
   </branch>
   <branch>
     <name>error</name>
@@ -1555,5 +1549,15 @@ Leaving Generate ${nodeName} AddFeature </expression>
     <name>default</name>
     <branch>default</branch>
     <sib>14638ad3-47f5-47d9-a057-7e754a7e0b27</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>af91ce77-9914-4acf-899d-f34f69c8d25b</sib>
+  </branch>
+  <branch>
+    <name>error</name>
+    <branch>error</branch>
+    <sib>42c9be47-6582-4b19-af25-747c24c9bcdd</sib>
   </branch>
 </model>

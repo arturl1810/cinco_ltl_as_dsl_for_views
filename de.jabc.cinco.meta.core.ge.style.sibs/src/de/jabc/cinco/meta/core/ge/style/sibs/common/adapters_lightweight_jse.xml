@@ -1,5 +1,12 @@
 <serviceAdapters defaultAdapter="de.jabc.cinco.meta.core.ge.style.sibs.adapter.ServiceAdapter">
 	
+	<serviceAdapter uid="ge-util-sibs/GetPrimeReference">
+		<service>getPrimeReference</service>
+			<arguments>
+				<argument name="nodeKey" />
+				<argument name="nodeprimeReferenceKey" />
+			</arguments>
+    </serviceAdapter>
 	<serviceAdapter uid="ge-util-sibs/GetNSUri">
 		<service>getNSUri</service>
 			<arguments>

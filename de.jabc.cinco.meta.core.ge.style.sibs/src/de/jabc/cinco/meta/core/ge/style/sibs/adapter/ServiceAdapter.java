@@ -1240,10 +1240,45 @@ public class ServiceAdapter {
 		
 		try {
 			Node n = (Node) context.get(node);
-			if (n.getPrimeReference() == null) {
+//			if (n.getPrimeReference() == null) {
+//				return Branches.FALSE;
+//			} else return Branches.TRUE;
+			boolean prime = false;
+			while (n != null) {
+				if (n.getPrimeReference() != null) {
+					prime = true;
+				}
+				n = n.getExtends();
+			}
+			if (!prime) {
 				return Branches.FALSE;
 			} else return Branches.TRUE;
 			
+		} catch (Exception e) {
+			context.put("exception", e);
+			return Branches.ERROR;
+		}
+		
+	}
+	
+	public static String getPrimeReference(LightweightExecutionEnvironment env,
+			ContextKeyFoundation nodeKey, ContextKeyFoundation nodeprimeReferenceKey) {
+		
+		LightweightExecutionContext context = env.getLocalContext();
+		
+		try {
+			Node n = (Node) context.get(nodeKey);
+			Object prime = null;
+			while (n != null) {
+				if (n.getPrimeReference() != null) {
+					prime = n.getPrimeReference();
+				}
+				n = n.getExtends();
+			}
+			if (prime != null) {
+				context.put(nodeprimeReferenceKey, prime);
+			}
+			return Branches.DEFAULT;
 		} catch (Exception e) {
 			context.put("exception", e);
 			return Branches.ERROR;
