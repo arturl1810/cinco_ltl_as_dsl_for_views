@@ -1,6 +1,6 @@
 package de.jabc.cinco.meta.core.ge.style.generator.templates.util
 
-import de.jabc.cinco.meta.core.utils.MGLUtils
+import de.jabc.cinco.meta.core.utils.MGLUtil
 import java.util.ArrayList
 import java.util.List
 import mgl.Attribute
@@ -157,30 +157,30 @@ class APIUtils extends GeneratorUtils {
 	}
 	
 	def outgoingConnectingEdges(Node n) {
-		MGLUtils.getOutgoingConnectingEdges(n)
+		MGLUtil.getOutgoingConnectingEdges(n)
 	}
 	
 	def incomingConnectingEdges(Node n) {
-		MGLUtils.getIncomingConnectingEdges(n)
+		MGLUtil.getIncomingConnectingEdges(n)
 	}
 	
 	def getPossibleSources(Edge edge) {
-		MGLUtils.getPossibleSources(edge)
+		MGLUtil.getPossibleSources(edge)
 	}
 	def getPossibleTargets(Edge edge) {
-		MGLUtils.getPossibleTargets(edge)
+		MGLUtil.getPossibleTargets(edge)
 	}
 	
 	def getPossibleContainers(Node n) {
-		MGLUtils.getPossibleContainers(n);
+		MGLUtil.getPossibleContainers(n);
 	}
 	
 	def getContainableNodes(GraphModel gm) {
-		MGLUtils.getContainableNodes(gm as ContainingElement);
+		MGLUtil.getContainableNodes(gm as ContainingElement);
 	}
 	
 	def getContainableNodes(ContainingElement nc) {
-		MGLUtils.getContainableNodes(nc);
+		MGLUtil.getContainableNodes(nc);
 	}
 	
 	def createEdgeFeaturePrefix(String s) {

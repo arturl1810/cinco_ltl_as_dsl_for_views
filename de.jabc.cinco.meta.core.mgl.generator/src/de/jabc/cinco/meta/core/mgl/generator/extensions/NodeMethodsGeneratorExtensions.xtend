@@ -23,7 +23,7 @@ import org.eclipse.emf.ecore.EcorePackage
 
 import static extension de.jabc.cinco.meta.core.mgl.generator.extensions.EcoreExtensions.*
 import static extension de.jabc.cinco.meta.core.utils.InheritanceUtil.*
-import static extension de.jabc.cinco.meta.core.utils.MGLUtils.*
+import static extension de.jabc.cinco.meta.core.utils.MGLUtil.*
 
 class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 

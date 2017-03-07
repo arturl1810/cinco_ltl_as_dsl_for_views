@@ -36,7 +36,7 @@ import de.jabc.cinco.meta.core.ge.style.generator.main.GraphitiGeneratorMain;
 import de.jabc.cinco.meta.core.utils.generator.GeneratorUtils;
 import de.jabc.cinco.meta.core.ui.listener.MGLSelectionListener;
 import de.jabc.cinco.meta.core.utils.CincoUtils;
-import de.jabc.cinco.meta.core.utils.MGLUtils;
+import de.jabc.cinco.meta.core.utils.MGLUtil;
 import de.jabc.cinco.meta.core.utils.projects.ProjectCreator;
 import de.jabc.cinco.meta.util.xapi.FileExtension;
 import de.jabc.cinco.meta.util.xapi.ResourceExtension;
@@ -135,7 +135,7 @@ public class NewGraphitiCodeGenerator extends AbstractHandler{
 	}
 	
 	private void copyImages(GraphModel graphModel, IProject project) {
-		HashMap<String, URL> allImages = MGLUtils.getAllImages(graphModel);
+		HashMap<String, URL> allImages = MGLUtil.getAllImages(graphModel);
 		File f;
 		try {
 			IFolder iconsFolder = project.getFolder("icons");

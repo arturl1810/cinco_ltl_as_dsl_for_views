@@ -2,7 +2,7 @@ package de.jabc.cinco.meta.core.ge.style.generator.api.templates
 
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.provider.CincoFeatureProvider
 import de.jabc.cinco.meta.core.ge.style.generator.templates.util.APIUtils
-import de.jabc.cinco.meta.core.utils.MGLUtils
+import de.jabc.cinco.meta.core.utils.MGLUtil
 import mgl.ContainingElement
 import mgl.Edge
 import mgl.GraphModel
@@ -102,7 +102,7 @@ public «IF me.isIsAbstract»abstract«ENDIF» class «me.fuCName» extends «me
 	}
 	
 	«IF me instanceof ContainingElement»
-	«FOR n : MGLUtils::getContainableNodes(me).filter[!isIsAbstract]»
+	«FOR n : MGLUtil::getContainableNodes(me).filter[!isIsAbstract]»
 	@Override
 	public «n.fqBeanName» new«n.fuName»(int x, int y) {
 		return new«n.fuName»(x,y,-1,-1);
@@ -131,7 +131,7 @@ public «IF me.isIsAbstract»abstract«ENDIF» class «me.fuCName» extends «me
 	«ENDIF»
 	
 	«IF me instanceof Node»
-	«FOR e : MGLUtils::getOutgoingConnectingEdges(me as Node)»
+	«FOR e : MGLUtil::getOutgoingConnectingEdges(me as Node)»
 	«FOR target : e.possibleTargets»
 	@Override
 	public «e.fqBeanName» new«e.fuName»(«target.fqBeanName» target) {
@@ -160,7 +160,7 @@ public «IF me.isIsAbstract»abstract«ENDIF» class «me.fuCName» extends «me
 	«ENDFOR»
 	«ENDFOR»
 	
-	«FOR cont : MGLUtils::getPossibleContainers(me as Node)»
+	«FOR cont : MGLUtil::getPossibleContainers(me as Node)»
 	@Override
 	public void moveTo(«cont.fqBeanName» target, int x, int y) {
 		«MoveShapeContext.name» mc = new «MoveShapeContext.name»((«Shape.name») this.pe);

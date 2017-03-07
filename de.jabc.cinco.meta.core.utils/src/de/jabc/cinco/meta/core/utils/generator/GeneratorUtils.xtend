@@ -32,6 +32,7 @@ import de.jabc.cinco.meta.core.ge.style.generator.runtime.customfeature.Graphiti
 
 class GeneratorUtils {
 	
+	
 	val static String ID_CONTAINER = "Containers";
 	val static String ID_NODES = "Nodes";
 	

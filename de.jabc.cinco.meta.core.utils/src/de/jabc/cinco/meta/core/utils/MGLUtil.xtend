@@ -24,8 +24,12 @@ import org.eclipse.emf.common.util.TreeIterator
 import org.eclipse.emf.ecore.EObject
 import style.Image
 import style.Styles
+import de.jabc.cinco.meta.core.utils.generator.GeneratorUtils
 
-class MGLUtils {
+class MGLUtil {
+
+	static extension GeneratorUtils = new GeneratorUtils
+
 	def static Set<ContainingElement> getNodeContainers(GraphModel gm) {
 		var Set<ContainingElement> nodeContainers = gm.getNodes().stream().filter([n|(n instanceof ContainingElement)]).
 			map([nc|typeof(ContainingElement).cast(nc)]).collect(Collectors::toSet())
@@ -170,4 +174,13 @@ class MGLUtils {
 	 		PrimitiveAttribute : attr.type.getName
 	 	}
 	 }
+	 
+	 def static getPostCreateHookExtensions(GraphModel it) {
+	 	modelElements.map[annotations].flatten.filter[name == "postCreate"].map[value.get(0)]
+	 }
+	 
+	 def static postCreate(Type it, String varname) {
+	 	if (annotations.filter[name == "postCreate"].isEmpty) "" else '''«varname».postCreate'''
+	 }
+	 
 }

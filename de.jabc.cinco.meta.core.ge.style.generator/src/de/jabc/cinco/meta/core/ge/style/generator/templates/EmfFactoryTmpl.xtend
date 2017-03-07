@@ -29,8 +29,8 @@ class EmfFactoryTmpl {
 		«FOR me : gm.modelElements»
 		@Override
 		public «me.fqBeanName» create«me.fuName»() {
+			«me.fqInternalBeanName» ime = («me.fqInternalBeanName») «me.fqFactoryName».eINSTANCE.create«me.fuName»().getInternalElement();
 			«me.fqCName» me = new «me.fqCName»();
-			«me.fqInternalBeanName» ime = «me.fqInternalFactoryName».eINSTANCE.createInternal«me.fuName»();
 			ime.setElement(me);
 			ime.setId(«EcoreUtil.name».generateUUID());
 			return me;

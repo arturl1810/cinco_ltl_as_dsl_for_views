@@ -4,7 +4,7 @@ import de.jabc.cinco.meta.core.ge.style.generator.runtime.addfeature.LibraryComp
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoLayoutFeature
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoUpdateFeature
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.provider.CincoFeatureProvider
-import de.jabc.cinco.meta.core.utils.MGLUtils
+import de.jabc.cinco.meta.core.utils.MGLUtil
 import de.jabc.cinco.meta.core.utils.generator.GeneratorUtils
 import graphmodel.internal.InternalModelElement
 import graphmodel.internal.InternalNode
@@ -249,7 +249,7 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 			«FOR me : gm.modelElements»
 			if («me.internalInstanceofCheck("bo")») {
 				return new «ICustomFeature.name»[] {
-					«FOR annotValue : MGLUtils.getAllAnnotation("contextMenuAction", me) SEPARATOR ","»
+					«FOR annotValue : MGLUtil.getAllAnnotation("contextMenuAction", me) SEPARATOR ","»
 					new «GraphitiCustomFeature.name»<«me.fqBeanName»>(this,new «annotValue»())
 					«ENDFOR»
 				};

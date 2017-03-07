@@ -6,7 +6,7 @@ import java.util.HashMap
 import mgl.Edge
 
 import static extension de.jabc.cinco.meta.core.mgl.generator.extensions.EcoreExtensions.*
-import static extension de.jabc.cinco.meta.core.utils.MGLUtils.*
+import static extension de.jabc.cinco.meta.core.utils.MGLUtil.*
 import mgl.Node
 import org.eclipse.emf.ecore.EcorePackage
 

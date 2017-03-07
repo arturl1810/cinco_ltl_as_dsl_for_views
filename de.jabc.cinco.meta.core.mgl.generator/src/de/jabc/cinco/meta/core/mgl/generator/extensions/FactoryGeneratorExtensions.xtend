@@ -3,8 +3,10 @@ package de.jabc.cinco.meta.core.mgl.generator.extensions
 import de.jabc.cinco.meta.core.mgl.generator.elements.ElementEClasses
 import java.util.HashMap
 import mgl.GraphModel
+import static de.jabc.cinco.meta.core.utils.MGLUtil.*
 
 class FactoryGeneratorExtensions {
+	
 	
 	// FIXME: Switching over GraphModel / ModelElement should not be necessary. Introduce a common super class InternalIdentifiableElement instead?
 	static def createFactory(GraphModel graphmodel, HashMap<String,ElementEClasses> elmClasses)'''
@@ -30,6 +32,10 @@ class FactoryGeneratorExtensions {
 		
 		class «graphmodel.name»Factory extends «graphmodel.name.toLowerCase.toFirstUpper»FactoryImpl {
 			
+«««			Can't call this method as extension...
+			«FOR postCreate : getPostCreateHookExtensions(graphmodel)»
+			extension «postCreate» = new «postCreate»
+			«ENDFOR»
 			final extension InternalFactory = InternalFactory.eINSTANCE
 			public static «graphmodel.name»Factory eINSTANCE = «graphmodel.name»Factory.init
 			
@@ -75,11 +81,17 @@ class FactoryGeneratorExtensions {
 	static def specificCreateMethods(Iterable<ElementEClasses> ecls) {
 		ecls.map[modelElement].map['''
 			override create«name»() {
-				super.create«name» => [ internal = createInternal«name» ]
+				val n = super.create«name»
+				n => [ internal = createInternal«name» ]
+				«postCreate(it, "n")»
+				n
 			}
 			
 			def create«name»(InternalModelElement ime) {
-				super.create«name» => [ internal = ime ]
+				val n = super.create«name»
+				n => [ internal = ime ]
+				«postCreate(it, "n")»
+				n
 			}
 «««			override def create«ecl.modelElement.name»(){
 «««				val «ecl.mainEClass.name.toLowerCase» = «model.name.toLowerCase.toFirstUpper»Factory.eINSTANCE.create«ecl.mainEClass.name»
