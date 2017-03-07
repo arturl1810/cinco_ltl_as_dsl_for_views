@@ -82,16 +82,21 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 
 		}
 
+		/**
+		 * Generate the specialized getSuccessors method if the common super node type is *not* {@link graphmodel.Node}
+		 * The method for the common super type {@link graphmodel.Node} is implemented in 
+		 * {@link graphmodel.Node#getSuccessors}
+		 */
 		def specializeGetSuccessors(Node node, GraphModel model, HashMap<String, ElementEClasses> map) {
 
 			val nodeClass = map.get(node.name).internalEClass
 
 			val lmNode = node.possibleSuccessors.lowestMutualSuperNode
 			val eTypeClass = if (lmNode == null)
-					GraphmodelPackage.eINSTANCE.getEClassifier("Node") as EClass
+					return
 				else
 					map.get(lmNode.name).mainEClass
-
+					
 			nodeClass.createEOperation("getSuccessors", eTypeClass, 0, -1, eTypeClass.getSuccessorsContent.toString)
 		}
 

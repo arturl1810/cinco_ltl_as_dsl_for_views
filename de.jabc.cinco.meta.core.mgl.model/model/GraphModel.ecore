@@ -21,6 +21,9 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Node" abstract="true" eSuperTypes="#//ModelElement">
     <eOperations name="getSuccessors" upperBound="-1">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="EList&lt;graphmodel.internal.InternalNode> iSucc= ((graphmodel.internal.InternalNode) this.getInternalElement()).getSuccessors();&#xA;java.util.List&lt;M> collect = iSucc.stream().map(iNode -> (M) iNode.getElement()).collect(java.util.stream.Collectors.toList());&#xA;EList&lt;M> successors = new org.eclipse.emf.common.util.BasicEList&lt;M>(collect);&#xA;return successors;"/>
+      </eAnnotations>
       <eGenericType eTypeParameter="#//Node/getSuccessors/M"/>
       <eTypeParameters name="M">
         <eBounds eClassifier="#//Node"/>
@@ -28,7 +31,7 @@
     </eOperations>
     <eOperations name="getSuccessors" upperBound="-1">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="java.util.List&lt;T> it = ((graphmodel.internal.InternalNode) getInternalElement()).getSuccessors().stream()&#xA;&#x9;&#x9;&#x9;&#x9;.filter(iNode -> clazz.isInstance(iNode.getElement())).map(iNode -> clazz.cast(iNode.getElement()))&#xA;&#x9;&#x9;&#x9;&#x9;.collect(java.util.stream.Collectors.toList());&#xA;&#x9;&#x9;org.eclipse.emf.common.util.BasicEList&lt;T> bl = new org.eclipse.emf.common.util.BasicEList&lt;T>();&#xA;&#x9;&#x9;bl.addAll(it);&#xA;return bl;"/>
+        <details key="body" value="EList&lt;Node> successors = this.getSuccessors();&#xA;EList&lt;T> retval = new org.eclipse.emf.common.util.BasicEList&lt;T>();&#xA;for (Node n : successors) {&#xA;&#x9;if (clazz.isAssignableFrom(n.getClass())) {&#xA;&#x9;&#x9;retval.add((T) n);&#xA;&#x9;}&#xA;}&#xA;return retval;"/>
       </eAnnotations>
       <eGenericType eTypeParameter="#//Node/getSuccessors.1/T"/>
       <eTypeParameters name="T">
@@ -41,7 +44,9 @@
       </eParameters>
     </eOperations>
     <eOperations name="getPredecessors" upperBound="-1">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel"/>
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="EList&lt;graphmodel.internal.InternalNode> iSucc= ((graphmodel.internal.InternalNode) this.getInternalElement()).getPredecessors();&#xA;java.util.List&lt;M> collect = iSucc.stream().map(iNode -> (M) iNode.getElement()).collect(java.util.stream.Collectors.toList());&#xA;EList&lt;M> successors = new org.eclipse.emf.common.util.BasicEList&lt;M>(collect);&#xA;return successors;"/>
+      </eAnnotations>
       <eGenericType eTypeParameter="#//Node/getPredecessors/M"/>
       <eTypeParameters name="M">
         <eBounds eClassifier="#//Node"/>
@@ -49,7 +54,7 @@
     </eOperations>
     <eOperations name="getPredecessors" upperBound="-1">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="java.util.List&lt;T> it = ((graphmodel.internal.InternalNode) getInternalElement()).getPredecessors().stream()&#xA;&#x9;&#x9;&#x9;&#x9;.filter(iNode -> clazz.isInstance(iNode.getElement())).map(iNode -> clazz.cast(iNode.getElement()))&#xA;&#x9;&#x9;&#x9;&#x9;.collect(java.util.stream.Collectors.toList());&#xA;&#x9;&#x9;org.eclipse.emf.common.util.BasicEList&lt;T> bl = new org.eclipse.emf.common.util.BasicEList&lt;T>();&#xA;&#x9;&#x9;bl.addAll(it);&#xA;&#x9;&#x9;return bl;"/>
+        <details key="body" value="EList&lt;Node> successors = this.getPredecessors();&#xA;EList&lt;T> retval = new org.eclipse.emf.common.util.BasicEList&lt;T>();&#xA;for (Node n : successors) {&#xA;&#x9;if (clazz.isAssignableFrom(n.getClass())) {&#xA;&#x9;&#x9;retval.add((T) n);&#xA;&#x9;}&#xA;}&#xA;return retval;"/>
       </eAnnotations>
       <eGenericType eTypeParameter="#//Node/getPredecessors.1/T"/>
       <eTypeParameters name="T">
@@ -292,7 +297,7 @@
     <eClassifiers xsi:type="ecore:EClass" name="InternalNode" eSuperTypes="#//internal/InternalModelElement">
       <eOperations name="getSuccessors" upperBound="-1">
         <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-          <details key="body" value="return new org.eclipse.emf.common.util.BasicEList&lt;M>();&#xA;&#x9;&#x9;"/>
+          <details key="body" value="return (EList&lt;M>) getSuccessors(InternalNode.class);"/>
         </eAnnotations>
         <eGenericType eTypeParameter="#//internal/InternalNode/getSuccessors/M"/>
         <eTypeParameters name="M">
@@ -301,7 +306,7 @@
       </eOperations>
       <eOperations name="getSuccessors" upperBound="-1">
         <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-          <details key="body" value="EList&lt;T> list = new org.eclipse.emf.common.util.BasicEList&lt;T>();&#xA;&#x9;&#x9;if(clazz!=null){&#xA;&#x9;&#x9;&#x9;for(InternalEdge e: this.getOutgoing()){&#xA;&#x9;&#x9;&#x9;&#x9;if(clazz.isInstance(e.getTargetElement())){&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;list.add(clazz.cast(e.getTargetElement()));&#xA;&#x9;&#x9;&#x9;&#x9;}&#xA;&#x9;&#x9;&#x9;}&#xA;&#x9;&#x9;}else{&#xA;&#x9;&#x9;&#x9;throw new NullPointerException(&quot;Class must not be null.&quot;);&#xA;&#x9;&#x9;}&#xA;&#x9;&#x9;&#xA;&#x9;&#x9;return org.eclipse.emf.common.util.ECollections.unmodifiableEList(list);"/>
+          <details key="body" value="EList&lt;T> list = new org.eclipse.emf.common.util.BasicEList&lt;T>();&#xA;if(clazz!=null){&#xA;&#x9;for(InternalEdge e: this.getOutgoing()){&#xA;&#x9;&#x9;if(clazz.isInstance(e.get_targetElement())){&#xA;&#x9;&#x9;&#x9;list.add(clazz.cast(e.get_targetElement()));&#xA;&#x9;&#x9;}&#xA;&#x9;}&#xA;}else{&#xA;&#x9;throw new NullPointerException(&quot;Class must not be null.&quot;);&#xA;}&#xA;&#x9;&#x9;&#xA;&#x9;&#x9;return org.eclipse.emf.common.util.ECollections.unmodifiableEList(list);"/>
         </eAnnotations>
         <eGenericType eTypeParameter="#//internal/InternalNode/getSuccessors.1/T"/>
         <eTypeParameters name="T">
@@ -315,7 +320,7 @@
       </eOperations>
       <eOperations name="getPredecessors" upperBound="-1">
         <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-          <details key="body" value="return new org.eclipse.emf.common.util.BasicEList&lt;M>();&#xA;&#x9;&#x9;"/>
+          <details key="body" value="return (EList&lt;M>) getPredecessors(InternalNode.class);"/>
         </eAnnotations>
         <eGenericType eTypeParameter="#//internal/InternalNode/getPredecessors/M"/>
         <eTypeParameters name="M">
@@ -324,7 +329,7 @@
       </eOperations>
       <eOperations name="getPredecessors" upperBound="-1">
         <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-          <details key="body" value="EList&lt;T> list = new org.eclipse.emf.common.util.BasicEList&lt;T>();&#xA;&#x9;&#x9;if(clazz!=null){&#xA;&#x9;&#x9;&#x9;for(InternalEdge e: this.getIncoming()){&#xA;&#x9;&#x9;&#x9;&#x9;if(clazz.isInstance(e.getSourceElement())){&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;list.add(clazz.cast(e.getSourceElement()));&#xA;&#x9;&#x9;&#x9;&#x9;}&#xA;&#x9;&#x9;&#x9;}&#xA;&#x9;&#x9;}else{&#xA;&#x9;&#x9;&#x9;throw new NullPointerException(&quot;Class must not be null.&quot;);&#xA;&#x9;&#x9;}&#xA;&#x9;&#x9;&#xA;&#x9;&#x9;return org.eclipse.emf.common.util.ECollections.unmodifiableEList(list);"/>
+          <details key="body" value="EList&lt;T> list = new org.eclipse.emf.common.util.BasicEList&lt;T>();&#xA;if(clazz!=null){&#xA;&#x9;for(InternalEdge e: this.getIncoming()){&#xA;&#x9;&#x9;if(clazz.isInstance(e.get_sourceElement())){&#xA;&#x9;&#x9;&#x9;list.add(clazz.cast(e.get_sourceElement()));&#xA;&#x9;&#x9;}&#xA;&#x9;}&#xA;}else{&#xA;&#x9;throw new NullPointerException(&quot;Class must not be null.&quot;);&#xA;}&#xA;&#x9;&#x9;&#xA;&#x9;&#x9;return org.eclipse.emf.common.util.ECollections.unmodifiableEList(list);"/>
         </eAnnotations>
         <eGenericType eTypeParameter="#//internal/InternalNode/getPredecessors.1/T"/>
         <eTypeParameters name="T">

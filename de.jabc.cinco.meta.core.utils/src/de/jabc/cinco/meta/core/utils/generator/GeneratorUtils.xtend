@@ -644,9 +644,9 @@ class GeneratorUtils {
 
 	def ModelElement extend(ModelElement element) {
 		switch element {
-			Node : element.extends
-			Edge : element.extends
-			UserDefinedType : element.extends
+			Node : return element.extends
+			Edge : return element.extends
+			UserDefinedType : return element.extends
 		}
 		null
 	}
