@@ -175,12 +175,24 @@ class MGLUtil {
 	 	}
 	 }
 	 
-	 def static getPostCreateHookExtensions(GraphModel it) {
-	 	modelElements.map[annotations].flatten.filter[name == "postCreate"].map[value.get(0)]
+	 def static getPostCreateHooks(GraphModel it) {
+	 	modelElements.map[annotations.filter[name == "postCreate"]].map[postCreates].join("\n")
 	 }
 	 
+	 private def static postCreates(Iterable<Annotation> it) {
+	 	if (!empty) 
+	 	'''
+		private def postCreates(«(get(0).parent as ModelElement).fqBeanName» me) {
+			«map[generatePostCreateCall].join("\n")»
+		}'''
+	 	else ""
+	 }
+	 
+	 private def static generatePostCreateCall(Annotation it)
+	 '''new «value.get(0)»().postCreate(me)''' 
+	 
 	 def static postCreate(Type it, String varname) {
-	 	if (annotations.filter[name == "postCreate"].isEmpty) "" else '''«varname».postCreate'''
+	 	if (annotations.filter[name == "postCreate"].isEmpty) "" else '''«varname».postCreates'''
 	 }
 	 
 }

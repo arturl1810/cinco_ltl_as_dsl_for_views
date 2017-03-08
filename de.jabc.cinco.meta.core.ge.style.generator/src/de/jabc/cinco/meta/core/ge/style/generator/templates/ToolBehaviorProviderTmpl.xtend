@@ -189,72 +189,72 @@ public class «gm.fuName»ToolBehaviorProvider extends «DefaultToolBehaviorProv
 		
 			@Override
 			protected void doExecute() {
-				«FOR n : gm.modelElements»
-				«IF n instanceof Node»
-				«IF booleanWriteMethodCallPostCreate(n)»
-				if(f instanceof  «packageNameCreate(n)».CreateFeature«n.fuName»)
-				{
-					graphmodel.ModelElement modelCreate = ((«CincoCreateFeature.name») f).getModelElement();
-					«writeMethodCallPostCreate(n)»
-				}
-				«ENDIF»
-				«ENDIF»
-				«IF n instanceof Edge»
-				«IF booleanWriteMethodCallPostCreate(n)»
-				if(f instanceof «packageNameCreate(n)».CreateFeature«n.fuName»)
-				{
-					graphmodel.ModelElement modelCreate = ((«CincoCreateFeature.name») f).getModelElement();
-					«writeMethodCallPostCreate(n)»
-				}
-				«ENDIF»
-				«ENDIF»
-				«IF booleanWriteMethodCallPostMove(n)»
-				if (c instanceof «MoveShapeContext.name»)
-				{
-					«Diagram.name» diagram = f.getFeatureProvider().getDiagramTypeProvider().getDiagram();
-					int x = ((«MoveShapeContext.name») c).getX();
-					int y = ((«MoveShapeContext.name») c).getY();
-					int deltaX = ((«MoveShapeContext.name») c).getDeltaX();
-					int deltaY = ((«MoveShapeContext.name») c).getDeltaY();
-					«ContainerShape.name» sourceShape = ((«MoveShapeContext.name») c).getSourceContainer();
-					«ContainerShape.name» targetShape = ((«MoveShapeContext.name») c).getTargetContainer();
-					
-					«EObject.name»[] sourceModel = «Graphiti.name».getLinkService().getAllBusinessObjectsForLinkedPictogramElement(sourceShape);
-					«EObject.name»[] targetModel = «Graphiti.name».getLinkService().getAllBusinessObjectsForLinkedPictogramElement(targetShape);
-					info.scce.cinco.product.«gm.name.toLowerCase».api.c«gm.name.toLowerCase».C«gm.name» containerGraph = info.scce.cinco.product.«gm.name.toLowerCase».graphiti.«gm.name»Wrapper.wrapGraphModel(((«ModelElementContainer.name»)sourceModel[0]).getModelElements().get(0).getRootElement(), diagram);
-					«CModelElementContainer.name» CSource = containerGraph.findCModelElementContainer((«ModelElementContainer.name»)sourceModel[0]);
-					«CModelElementContainer.name» CTarget = containerGraph.findCModelElementContainer((«ModelElementContainer.name»)targetModel[0]);
-					
-					«PictogramElement.name» shape = ((«MoveShapeContext.name»)c).getPictogramElement();
-					«EObject.name»[] modelMove = «Graphiti.name».getLinkService().getAllBusinessObjectsForLinkedPictogramElement(shape);
-					info.scce.cinco.product.«gm.name.toLowerCase».api.c«gm.name.toLowerCase».C«gm.name» graph = info.scce.cinco.product.«gm.name.toLowerCase».graphiti.«gm.name»Wrapper.wrapGraphModel(((«n.fqBeanName»)modelMove[0]).getRootElement(), diagram);
-					info.scce.cinco.product.«gm.name.toLowerCase».api.c«gm.name.toLowerCase».C«n.name» «n.name.toLowerCase» = graph.findC«n.name»((«n.fqBeanName»)modelMove[0]);
-					«writeMethodCallPostMove(n)»
-				}
-				«ENDIF»
-				«IF booleanWriteMethodCallPostResize(n)» 
-				if (c instanceof «ResizeShapeContext.name»)
-				{
-					int height = ((«ResizeShapeContext.name») c).getHeight();
-					int width = ((«ResizeShapeContext.name») c).getWidth();
-					int direction = ((«ResizeShapeContext.name») c).getDirection();
-					
-					«PictogramElement.name» shape = ((«ResizeShapeContext.name»)c).getPictogramElement();
-					«EObject.name»[] modelResize = «Graphiti.name».getLinkService().getAllBusinessObjectsForLinkedPictogramElement(shape);
-					«Diagram.name» diagram = f.getFeatureProvider().getDiagramTypeProvider().getDiagram();
-					info.scce.cinco.product.«gm.name.toLowerCase».api.c«gm.name.toLowerCase».C«gm.name» graph = info.scce.cinco.product.«gm.name.toLowerCase».graphiti.«gm.name»Wrapper.wrapGraphModel(((«n.fqBeanName»)modelResize[0]).getRootElement(), diagram);
-					info.scce.cinco.product.«gm.name.toLowerCase».api.c«gm.name.toLowerCase».C«n.name» «n.name.toLowerCase» = graph.findC«n.name»((«n.fqBeanName»)modelResize[0]);
-					«writeMethodCallPostResize(n)»
-				}
-				«ENDIF»
-	«««		«IF booleanWriteMethodCallPostSelect(n)»
-	«««		if(c instanceof SelectShapeContext)
-	«««		{
-	«««			graphmodel.ModelElement modelSelect = ((de.jabc.cinco.meta.core.ge.style.model.createfeature.CincoCreateFeature) f).getModelElement();
-	«««			«writeMethodCallPostSelect(n)»
-	«««		}
-	«««		«ENDIF»
-			«ENDFOR»
+«««				«FOR n : gm.modelElements»
+«««				«IF n instanceof Node»
+«««				«IF booleanWriteMethodCallPostCreate(n)»
+«««				if(f instanceof  «packageNameCreate(n)».CreateFeature«n.fuName»)
+«««				{
+«««					graphmodel.ModelElement modelCreate = ((«CincoCreateFeature.name») f).getModelElement();
+«««					«writeMethodCallPostCreate(n)»
+«««				}
+«««				«ENDIF»
+«««				«ENDIF»
+«««				«IF n instanceof Edge»
+«««				«IF booleanWriteMethodCallPostCreate(n)»
+«««				if(f instanceof «packageNameCreate(n)».CreateFeature«n.fuName»)
+«««				{
+«««					graphmodel.ModelElement modelCreate = ((«CincoCreateFeature.name») f).getModelElement();
+«««					«writeMethodCallPostCreate(n)»
+«««				}
+«««				«ENDIF»
+«««				«ENDIF»
+«««				«IF booleanWriteMethodCallPostMove(n)»
+«««				if (c instanceof «MoveShapeContext.name»)
+«««				{
+«««					«Diagram.name» diagram = f.getFeatureProvider().getDiagramTypeProvider().getDiagram();
+«««					int x = ((«MoveShapeContext.name») c).getX();
+«««					int y = ((«MoveShapeContext.name») c).getY();
+«««					int deltaX = ((«MoveShapeContext.name») c).getDeltaX();
+«««					int deltaY = ((«MoveShapeContext.name») c).getDeltaY();
+«««					«ContainerShape.name» sourceShape = ((«MoveShapeContext.name») c).getSourceContainer();
+«««					«ContainerShape.name» targetShape = ((«MoveShapeContext.name») c).getTargetContainer();
+«««					
+«««					«EObject.name»[] sourceModel = «Graphiti.name».getLinkService().getAllBusinessObjectsForLinkedPictogramElement(sourceShape);
+«««					«EObject.name»[] targetModel = «Graphiti.name».getLinkService().getAllBusinessObjectsForLinkedPictogramElement(targetShape);
+«««					info.scce.cinco.product.«gm.name.toLowerCase».api.c«gm.name.toLowerCase».C«gm.name» containerGraph = info.scce.cinco.product.«gm.name.toLowerCase».graphiti.«gm.name»Wrapper.wrapGraphModel(((«ModelElementContainer.name»)sourceModel[0]).getModelElements().get(0).getRootElement(), diagram);
+«««					«CModelElementContainer.name» CSource = containerGraph.findCModelElementContainer((«ModelElementContainer.name»)sourceModel[0]);
+«««					«CModelElementContainer.name» CTarget = containerGraph.findCModelElementContainer((«ModelElementContainer.name»)targetModel[0]);
+«««					
+«««					«PictogramElement.name» shape = ((«MoveShapeContext.name»)c).getPictogramElement();
+«««					«EObject.name»[] modelMove = «Graphiti.name».getLinkService().getAllBusinessObjectsForLinkedPictogramElement(shape);
+«««					info.scce.cinco.product.«gm.name.toLowerCase».api.c«gm.name.toLowerCase».C«gm.name» graph = info.scce.cinco.product.«gm.name.toLowerCase».graphiti.«gm.name»Wrapper.wrapGraphModel(((«n.fqBeanName»)modelMove[0]).getRootElement(), diagram);
+«««					info.scce.cinco.product.«gm.name.toLowerCase».api.c«gm.name.toLowerCase».C«n.name» «n.name.toLowerCase» = graph.findC«n.name»((«n.fqBeanName»)modelMove[0]);
+«««					«writeMethodCallPostMove(n)»
+«««				}
+«««				«ENDIF»
+«««				«IF booleanWriteMethodCallPostResize(n)» 
+«««				if (c instanceof «ResizeShapeContext.name»)
+«««				{
+«««					int height = ((«ResizeShapeContext.name») c).getHeight();
+«««					int width = ((«ResizeShapeContext.name») c).getWidth();
+«««					int direction = ((«ResizeShapeContext.name») c).getDirection();
+«««					
+«««					«PictogramElement.name» shape = ((«ResizeShapeContext.name»)c).getPictogramElement();
+«««					«EObject.name»[] modelResize = «Graphiti.name».getLinkService().getAllBusinessObjectsForLinkedPictogramElement(shape);
+«««					«Diagram.name» diagram = f.getFeatureProvider().getDiagramTypeProvider().getDiagram();
+«««					info.scce.cinco.product.«gm.name.toLowerCase».api.c«gm.name.toLowerCase».C«gm.name» graph = info.scce.cinco.product.«gm.name.toLowerCase».graphiti.«gm.name»Wrapper.wrapGraphModel(((«n.fqBeanName»)modelResize[0]).getRootElement(), diagram);
+«««					info.scce.cinco.product.«gm.name.toLowerCase».api.c«gm.name.toLowerCase».C«n.name» «n.name.toLowerCase» = graph.findC«n.name»((«n.fqBeanName»)modelResize[0]);
+«««					«writeMethodCallPostResize(n)»
+«««				}
+«««				«ENDIF»
+«««	«««		«IF booleanWriteMethodCallPostSelect(n)»
+«««	«««		if(c instanceof SelectShapeContext)
+«««	«««		{
+«««	«««			graphmodel.ModelElement modelSelect = ((de.jabc.cinco.meta.core.ge.style.model.createfeature.CincoCreateFeature) f).getModelElement();
+«««	«««			«writeMethodCallPostSelect(n)»
+«««	«««		}
+«««	«««		«ENDIF»
+«««			«ENDFOR»
 			}
 		});
 	}

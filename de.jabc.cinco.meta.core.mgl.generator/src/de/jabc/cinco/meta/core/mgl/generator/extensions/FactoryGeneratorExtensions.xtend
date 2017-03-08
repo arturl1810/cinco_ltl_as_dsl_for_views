@@ -3,8 +3,8 @@ package de.jabc.cinco.meta.core.mgl.generator.extensions
 import de.jabc.cinco.meta.core.mgl.generator.elements.ElementEClasses
 import java.util.HashMap
 import mgl.GraphModel
-import static de.jabc.cinco.meta.core.utils.MGLUtil.*
 
+import static de.jabc.cinco.meta.core.utils.MGLUtil.*
 class FactoryGeneratorExtensions {
 	
 	
@@ -33,9 +33,6 @@ class FactoryGeneratorExtensions {
 		class «graphmodel.name»Factory extends «graphmodel.name.toLowerCase.toFirstUpper»FactoryImpl {
 			
 «««			Can't call this method as extension...
-			«FOR postCreate : getPostCreateHookExtensions(graphmodel)»
-			extension «postCreate» = new «postCreate»
-			«ENDFOR»
 			final extension InternalFactory = InternalFactory.eINSTANCE
 			public static «graphmodel.name»Factory eINSTANCE = «graphmodel.name»Factory.init
 			
@@ -62,7 +59,9 @@ class FactoryGeneratorExtensions {
 					}
 				]
 			}
-			
+
+			«getPostCreateHooks(graphmodel)»
+		
 «««			private static def setUID(«IdentifiableElement.name» me) {
 «««				«EcoreUtil.name».setID(me, «EcoreUtil.name».generateUUID);
 «««			}
@@ -102,5 +101,6 @@ class FactoryGeneratorExtensions {
 «««				return «ecl.mainEClass.name.toLowerCase»
 «««			}
 		'''].join
+		
 	}
 }
