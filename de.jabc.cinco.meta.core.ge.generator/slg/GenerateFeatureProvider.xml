@@ -2,7 +2,7 @@
 <model version="2.1">
   <id>5f357517-18d4-4780-adc3-30879fedbfb1</id>
   <name>GenerateFeatureProvider</name>
-  <changecounter>907</changecounter>
+  <changecounter>917</changecounter>
   <sib>
     <id>23fb1326-f00d-4e42-845a-cdf6492fc417</id>
     <name>PutExpression</name>
@@ -153,9 +153,9 @@
   </sib>
   <edge>
     <source>35ff4ed8-a4f5-4a93-b61f-f657f98df6b9</source>
-    <target>bc34bd25-2d89-46cd-a748-689d1fc55055</target>
-    <point>510.0,375.0</point>
-    <point>510.0,630.0</point>
+    <target>4773cdc8-1fe1-4bc6-abf2-e32ccb730695</target>
+    <point>491.8181818181818,551.0</point>
+    <point>438.0,604.8</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
   </edge>
@@ -746,63 +746,6 @@ public class $context.graphModelName$FeatureProvider extends DefaultFeatureProvi
     <finalbranches>default</finalbranches>
     <finalbranches>error</finalbranches>
   </sib>
-  <sib>
-    <id>bc34bd25-2d89-46cd-a748-689d1fc55055</id>
-    <name>GetNodePrimeReference</name>
-    <label>GetNodePrimeReference</label>
-    <sib-uid>mgl/mgl/GetNodePrimeReference</sib-uid>
-    <taxonomy>de.jabc.cinco.meta.core.ge.sib.mgl.GetNodePrimeReference</taxonomy>
-    <position>428.0,723.0</position>
-    <parameter name="nodeKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>node</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <parameter name="nodeprimeReferenceKey">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>primeRef</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>default</finalbranches>
-    <finalbranches>error</finalbranches>
-  </sib>
-  <sib>
-    <id>6b27cfcd-6b44-4456-b5d4-cd82bfa93ee9</id>
-    <name>CheckVariable</name>
-    <label>isPrimeRef</label>
-    <sib-uid>basic-sibs/CheckVariable</sib-uid>
-    <taxonomy>de.jabc.sib.common.basic.CheckVariable</taxonomy>
-    <position>277.0,618.0</position>
-    <parameter name="variable">
-      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
-        <ContextKeyFoundation>
-          <key>primeRef</key>
-          <scope>LOCAL</scope>
-          <scopeMutable>true</scopeMutable>
-        </ContextKeyFoundation>
-      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
-    </parameter>
-    <finalbranches>emptyString</finalbranches>
-    <finalbranches>error</finalbranches>
-    <finalbranches>false</finalbranches>
-    <finalbranches>true</finalbranches>
-  </sib>
-  <edge>
-    <source>bc34bd25-2d89-46cd-a748-689d1fc55055</source>
-    <target>6b27cfcd-6b44-4456-b5d4-cd82bfa93ee9</target>
-    <point>510.0,630.0</point>
-    <point>315.0,630.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>default</branch>
-  </edge>
   <edge>
     <source>1dde31c6-2ac1-4499-b922-80d82b8475d3</source>
     <target>fcfd6d9c-235d-4ed7-a723-aec00ce14336</target>
@@ -812,10 +755,10 @@ public class $context.graphModelName$FeatureProvider extends DefaultFeatureProvi
     <branch>default</branch>
   </edge>
   <edge>
-    <source>6b27cfcd-6b44-4456-b5d4-cd82bfa93ee9</source>
+    <source>4773cdc8-1fe1-4bc6-abf2-e32ccb730695</source>
     <target>e60f14d8-aacc-46cc-b0c5-09598a5cdee5</target>
-    <point>315.0,645.0</point>
-    <point>315.0,525.0</point>
+    <point>387.0,592.8</point>
+    <point>333.0,547.8</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>false</branch>
   </edge>
@@ -825,7 +768,7 @@ public class $context.graphModelName$FeatureProvider extends DefaultFeatureProvi
     <label>GetEClassName</label>
     <sib-uid>ecore/ecore/GetEClassName</sib-uid>
     <taxonomy>transem.ecore.sib.ecore.GetEClassName</taxonomy>
-    <position>260.5,843.0</position>
+    <position>260.5,873.0</position>
     <parameter name="eClassKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -889,35 +832,6 @@ if (bo instanceof $context.importPath$.$context.node.name$)
     <point>120.0,420.0</point>
     <labelposition>500.0,0.0</labelposition>
     <branch>default</branch>
-  </edge>
-  <sib>
-    <id>9c2bf433-91ff-423c-8dd4-b78272c26fe3</id>
-    <name>PrintConsoleMessage_1</name>
-    <label>PrintConsoleMessage</label>
-    <sib-uid>io-sibs/PrintConsoleMessage</sib-uid>
-    <taxonomy>de.jabc.sib.common.io.PrintConsoleMessage</taxonomy>
-    <position>444.5,843.0</position>
-    <parameter name="error">
-      <boolean>false</boolean>
-    </parameter>
-    <parameter name="message">
-      <de.metaframe.common.sib.parameter.ContextExpression>
-        <ContextExpressionFoundation>
-          <expression>EMPTY STRING!!!</expression>
-          <clazz>java.lang.Object</clazz>
-          <classMutable>false</classMutable>
-        </ContextExpressionFoundation>
-      </de.metaframe.common.sib.parameter.ContextExpression>
-    </parameter>
-    <finalbranches>default</finalbranches>
-  </sib>
-  <edge>
-    <source>6b27cfcd-6b44-4456-b5d4-cd82bfa93ee9</source>
-    <target>9c2bf433-91ff-423c-8dd4-b78272c26fe3</target>
-    <point>315.0,630.0</point>
-    <point>510.0,735.0</point>
-    <labelposition>500.0,0.0</labelposition>
-    <branch>emptyString</branch>
   </edge>
   <edge>
     <source>8ffecb62-718e-4075-a27b-23c3da46af23</source>
@@ -2058,7 +1972,7 @@ import $context.localPkgName$.features.reconnect.*;</string>
     <label>GetReferencedEClassType</label>
     <sib-uid>mgl/mgl/GetReferencedEClassType</sib-uid>
     <taxonomy>de.jabc.cinco.meta.core.sibs.mgl.sib.mgl.GetReferencedEClassType</taxonomy>
-    <position>226.5,723.0</position>
+    <position>226.5,783.0</position>
     <parameter name="referencedEClassKey">
       <de.metaframe.jabc.framework.sib.parameter.ContextKey>
         <ContextKeyFoundation>
@@ -2110,13 +2024,6 @@ import $context.localPkgName$.features.reconnect.*;</string>
     <branch>default</branch>
   </edge>
   <edge>
-    <source>6b27cfcd-6b44-4456-b5d4-cd82bfa93ee9</source>
-    <target>270ad7aa-324a-4b81-834a-06bfc45a98a9</target>
-    <point>377.0,668.0</point>
-    <point>326.5,773.0</point>
-    <branch>true</branch>
-  </edge>
-  <edge>
     <source>23fb1326-f00d-4e42-845a-cdf6492fc417</source>
     <target>f16abaeb-c960-4c51-99b2-00c0af6f613b</target>
     <point>139.5,68.0</point>
@@ -2156,6 +2063,69 @@ import $context.localPkgName$.features.reconnect.*;</string>
     <point>60.0,795.0</point>
     <point>111.0,536.0</point>
     <branch>true</branch>
+  </edge>
+  <sib>
+    <id>4773cdc8-1fe1-4bc6-abf2-e32ccb730695</id>
+    <name>IsPrimeNode</name>
+    <label>IsPrimeNode</label>
+    <sib-uid>ge-util-sibs/IsPrimeNode</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.IsPrimeNode</taxonomy>
+    <position>275.0,603.0</position>
+    <parameter name="node">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>node</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>error</finalbranches>
+    <finalbranches>false</finalbranches>
+    <finalbranches>true</finalbranches>
+  </sib>
+  <sib>
+    <id>4e9072a6-7291-4fe2-b255-c81db47358b1</id>
+    <name>GetPrimeReference</name>
+    <label>GetPrimeReference</label>
+    <sib-uid>ge-util-sibs/GetPrimeReference</sib-uid>
+    <taxonomy>de.jabc.cinco.meta.core.ge.style.sibs.common.GetPrimeReference</taxonomy>
+    <position>256.0,693.0</position>
+    <parameter name="nodeKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>node</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <parameter name="nodeprimeReferenceKey">
+      <de.metaframe.jabc.framework.sib.parameter.ContextKey>
+        <ContextKeyFoundation>
+          <key>primeRef</key>
+          <scope>LOCAL</scope>
+          <scopeMutable>true</scopeMutable>
+        </ContextKeyFoundation>
+      </de.metaframe.jabc.framework.sib.parameter.ContextKey>
+    </parameter>
+    <finalbranches>default</finalbranches>
+    <finalbranches>error</finalbranches>
+  </sib>
+  <edge>
+    <source>4773cdc8-1fe1-4bc6-abf2-e32ccb730695</source>
+    <target>4e9072a6-7291-4fe2-b255-c81db47358b1</target>
+    <point>333.0,648.4363636363636</point>
+    <point>462.0,730.5272727272727</point>
+    <labelposition>500.0,0.0</labelposition>
+    <branch>true</branch>
+  </edge>
+  <edge>
+    <source>4e9072a6-7291-4fe2-b255-c81db47358b1</source>
+    <target>270ad7aa-324a-4b81-834a-06bfc45a98a9</target>
+    <point>330.0,720.0</point>
+    <point>313.0,772.0</point>
+    <branch>default</branch>
   </edge>
   <values/>
   <branch>
@@ -2227,16 +2197,6 @@ import $context.localPkgName$.features.reconnect.*;</string>
     <name>error</name>
     <branch>error</branch>
     <sib>1dde31c6-2ac1-4499-b922-80d82b8475d3</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>bc34bd25-2d89-46cd-a748-689d1fc55055</sib>
-  </branch>
-  <branch>
-    <name>error</name>
-    <branch>error</branch>
-    <sib>6b27cfcd-6b44-4456-b5d4-cd82bfa93ee9</sib>
   </branch>
   <branch>
     <name>error</name>
