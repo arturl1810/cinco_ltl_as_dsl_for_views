@@ -69,21 +69,13 @@ public class «me.fuCViewName» extends «me.fqBeanViewName» {
 def doGenerateImpl(ModelElement me)'''
 package «me.packageNameAPI»;
 
-public «IF me.isIsAbstract»abstract«ENDIF» class «me.fuCName» extends «me.fqBeanImplName» {
+public «IF me.isIsAbstract»abstract«ENDIF» class «me.fuCName» extends «me.fqBeanImplName» implements «me.grincoInterface»{
 	
 	private «PictogramElement.name» pe;
-«««	private «me.fqBeanName» me;
-	«
-	IF !me.isIsAbstract»
-	public «me.fuCName»() {
-«««		this.setInternalElement(«me.fqInternalFactoryName».eINSTANCE.createInternal«me.fuName»());
-«««		«String.name» uid = «EcoreUtil.name».generateUUID();
-«««		this.setId(uid);
-«««		this.getInternalElement().setId(uid);
-	}
-	«ENDIF»
 	
-	public «PictogramElement.name» getPictogramElement() {
+	«me.constructor»
+	
+	public «me.pictogramElementReturnType» getPictogramElement() {
 		«IF !(me instanceof GraphModel)»
 		if (pe == null)
 			this.pe = ((«me.graphModel.fqCName») getRootElement()).fetchPictogramElement(this);
@@ -94,10 +86,10 @@ public «IF me.isIsAbstract»abstract«ENDIF» class «me.fuCName» extends «me
 				pe = («Diagram.name») bo;
 		}
 		«ENDIF»
-		return this.pe;
+		return («me.pictogramElementReturnType») this.pe;
 	}
 	
-	public void setPictogramElement(«PictogramElement.name» pe) {
+	public void setPictogramElement(«me.pictogramElementReturnType» pe) {
 		this.pe = pe;
 	}
 	
@@ -122,7 +114,7 @@ public «IF me.isIsAbstract»abstract«ENDIF» class «me.fuCName» extends «me
 			if (fp instanceof «CincoFeatureProvider.name») {
 				Object[] retVal = ((«CincoFeatureProvider.name») fp).executeFeature(cf, cc);
 				«n.fuCName» tmp = («n.fuCName») retVal[0];
-				tmp.setPictogramElement((«PictogramElement.name») retVal[1]);
+				tmp.setPictogramElement((«n.pictogramElementReturnType») retVal[1]);
 				return tmp;
 			}
 			return null;

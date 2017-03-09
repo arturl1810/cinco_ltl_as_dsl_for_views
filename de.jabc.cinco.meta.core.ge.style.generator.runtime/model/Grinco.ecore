@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="grinco" nsURI="http://cinco.scce.info/grinco" nsPrefix="grinco">
+  <eClassifiers xsi:type="ecore:EClass" name="GrincoElement" abstract="true" eSuperTypes="../../de.jabc.cinco.meta.core.mgl.model/model/GraphModel.ecore#//IdentifiableElement">
+    <eTypeParameters name="T">
+      <eBounds eClassifier="ecore:EClass platform:/plugin/org.eclipse.graphiti.mm/model/graphiti.ecore#//pictograms/PictogramElement"/>
+    </eTypeParameters>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="pictogramElement">
+      <eGenericType eTypeParameter="#//GrincoElement/T"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GrincoEdge">
+    <eGenericSuperTypes eClassifier="#//GrincoElement">
+      <eTypeArguments eClassifier="ecore:EClass platform:/plugin/org.eclipse.graphiti.mm/model/graphiti.ecore#//pictograms/Connection"/>
+    </eGenericSuperTypes>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GrincoGraphmodel">
+    <eGenericSuperTypes eClassifier="#//GrincoElement">
+      <eTypeArguments eClassifier="ecore:EClass platform:/plugin/org.eclipse.graphiti.mm/model/graphiti.ecore#//pictograms/Diagram"/>
+    </eGenericSuperTypes>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GrincoNode">
+    <eGenericSuperTypes eClassifier="#//GrincoElement">
+      <eTypeArguments eClassifier="ecore:EClass platform:/plugin/org.eclipse.graphiti.mm/model/graphiti.ecore#//pictograms/ContainerShape"/>
+    </eGenericSuperTypes>
+    <eGenericSuperTypes eClassifier="ecore:EClass ../../de.jabc.cinco.meta.core.mgl.model/model/GraphModel.ecore#//Node"/>
+  </eClassifiers>
+</ecore:EPackage>
