@@ -85,12 +85,13 @@ class WorkbenchExtension {
 	 * {@code null} if not existing.
 	 */
 	def getFile(IEditorPart editor) {
-		val editorInput = editor.editorInput
+		val editorInput = editor?.editorInput
 		if (editorInput instanceof IPathEditorInput) {
-			val editorPath = (editorInput as IPathEditorInput).path
 			extension val WorkspaceExtension = new WorkspaceExtension
-			val files = workspaceRoot.getFiles[IFile f | f.fullPath == editorPath || f.location == editorPath]
-			if (files.size() == 1)
+			val files = workspaceRoot.getFiles[
+				fullPath == editorInput.path || location == editorInput.path
+			]
+			if (files.size == 1)
 				return files.get(0)
 		}
 		return null

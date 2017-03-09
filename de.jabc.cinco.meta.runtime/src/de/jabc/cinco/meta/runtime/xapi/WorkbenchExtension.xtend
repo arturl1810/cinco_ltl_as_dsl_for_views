@@ -164,7 +164,7 @@ class WorkbenchExtension extends de.jabc.cinco.meta.util.xapi.WorkbenchExtension
 	 */
 	def getDiagram(IEditorPart editor) {
 		extension val ext = new ResourceExtension
-		editor.resource.diagram
+		editor?.resource?.diagram
 	}
 	
 	/**
@@ -185,7 +185,7 @@ class WorkbenchExtension extends de.jabc.cinco.meta.util.xapi.WorkbenchExtension
 	 */
 	def getGraphModel(IEditorPart editor) {
 		extension val ext = new ResourceExtension
-		editor.resource.graphModel
+		editor?.resource?.graphModel
 	}
 	
 	/**
@@ -207,7 +207,7 @@ class WorkbenchExtension extends de.jabc.cinco.meta.util.xapi.WorkbenchExtension
 	 */
 	def <T extends GraphModel> T getGraphModel(IEditorPart editor, Class<T> modelClass) {
 		extension val ext = new ResourceExtension
-		editor.resource.getContent(modelClass, 1)
+		editor?.resource?.getContent(modelClass, 1)
 	}
 	
 	def getLinkedGraphModel(Diagram diagram) {
