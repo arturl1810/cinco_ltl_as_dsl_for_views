@@ -276,6 +276,10 @@ _EDouble returns _ecore::EDouble:
 	_SIGN? _INT? '.' _INT
 ;
 
+_EFloat returns _ecore::EFloat:
+	_SIGN? _INT? '.' _INT
+;
+
 _EBoolean returns _ecore::EBoolean:
 	'true' | 'false'
 ;
