@@ -39,7 +39,7 @@ def interfaces(Node node) {
 	var str = '''<eSuperTypes href="#//_Placed"/>'''
 	if (model.resp(node).isEdgeSource)
 		str += '''<eSuperTypes href="#//_EdgeSource"/>'''
-	if (node.primeReference != null)
+	if (model.resp(node).primeReference != null)
 		str += '''<eSuperTypes href="#//_Prime"/>'''
 	return str
 }

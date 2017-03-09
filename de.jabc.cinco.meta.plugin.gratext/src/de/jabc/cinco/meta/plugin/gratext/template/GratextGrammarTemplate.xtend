@@ -208,9 +208,9 @@ def attributes(ModelElement elm) {
 }
 
 def prime(Node node) {
-	val ref = node.primeReference
+	val ref = model.resp(node).primeReference
+//	println(node.name + ".prime: " + ref)
 	if (ref != null) {
-//		println(node.name + ".prime: " + ref)
 		'''( '«ref.name»' prime = «ref.type» | 'libraryComponentUID' libraryComponentUID = _EString )'''
 	}
 }
