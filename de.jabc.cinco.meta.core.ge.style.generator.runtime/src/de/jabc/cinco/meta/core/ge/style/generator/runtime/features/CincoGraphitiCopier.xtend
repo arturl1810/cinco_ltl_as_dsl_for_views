@@ -22,12 +22,12 @@ class CincoGraphitiCopier {
 			Shape: peCopy = pe.copy as PictogramElement
 			Connection: peCopy = pe.copy as PictogramElement
 		}
+		println(peCopy)
 	}
 	
 	def copy(InternalModelElement ime) {
 		var InternalModelElement meCopy
 		switch (ime) {
-//			InternalContainer : meCopy = ime.copy
 			InternalNode: meCopy = ime.copy
 			InternalEdge: meCopy = ime.copy
 		}
@@ -56,10 +56,11 @@ class CincoGraphitiCopier {
 	}
 	
 	def create EcoreUtil.copy(a) copy(Anchor a) {
-		outgoingConnections.clear
-		incomingConnections.clear
+		outgoingConnections?.clear
+		incomingConnections?.clear
 		outgoingConnections.addAll(a.outgoingConnections.map[copy])
 		incomingConnections.addAll(a.incomingConnections.map[copy])
+		parent = (a.eContainer as Shape).copy
 	}
 	
 	def InternalNode create EcoreUtil.copy(n) copy(InternalNode n) {
