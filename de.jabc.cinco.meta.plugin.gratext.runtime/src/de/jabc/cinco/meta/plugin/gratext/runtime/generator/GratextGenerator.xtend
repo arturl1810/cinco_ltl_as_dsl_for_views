@@ -195,25 +195,6 @@ abstract class GratextGenerator<T extends GraphModel> {
 	}
 	
 	static def execute(TransactionalEditingDomain domain, Runnable runnable) {
-		
-		var Integer x = null;
-		try {
-			x = Integer.parseInt("fourtytwo");
-		} catch(NumberFormatException e) {
-			e.printStackTrace();
-			x = 42;
-		}
-		
-		val y = try {
-			Integer.parseInt("fourtytwo")
-		} catch(NumberFormatException e) {
-			e.printStackTrace
-			42
-		}
-		
-		
-		
-		
 		domain.getCommandStack().execute(new RecordingCommand(domain) {
 			override doExecute() {
 				[ runnable.run ].onException[ warn ]
@@ -222,6 +203,23 @@ abstract class GratextGenerator<T extends GraphModel> {
 	}
 	
 	def static void main(String[] args) {
+		
+//		var Integer x = null;
+//		try {
+//			x = Integer.parseInt("fourtytwo");
+//		} catch(NumberFormatException e) {
+//			e.printStackTrace();
+//			x = 42;
+//		}
+//		
+//		val y = try {
+//			Integer.parseInt("fourtytwo")
+//		} catch(NumberFormatException e) {
+//			e.printStackTrace
+//			42
+//		}
+//		
+		
 		val x1 = null ?: 42
 		println("x1 = " + x1)
 		

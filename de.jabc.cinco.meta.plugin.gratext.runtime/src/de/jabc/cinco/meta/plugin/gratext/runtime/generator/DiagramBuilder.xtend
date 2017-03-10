@@ -1,25 +1,18 @@
 package de.jabc.cinco.meta.plugin.gratext.runtime.generator
 
-import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoAbstractAddFeature
-import de.jabc.cinco.meta.core.utils.registry.NonEmptyRegistry
-import de.jabc.cinco.meta.plugin.gratext.runtime.editor.LazyDiagram
-import de.jabc.cinco.meta.runtime.xapi.ResourceExtension
+import graphmodel.Edge
 import graphmodel.GraphModel
 import graphmodel.IdentifiableElement
 import graphmodel.Node
 import graphmodel.internal.InternalEdge
-import graphmodel.internal.InternalGraphModel
 import graphmodel.internal.InternalModelElement
 import graphmodel.internal.InternalModelElementContainer
-import graphmodel.internal.InternalNode
-import java.util.HashMap
-import java.util.List
-import java.util.Map
-import org.eclipse.emf.ecore.EClass
-import org.eclipse.emf.ecore.EFactory
+
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoAbstractAddFeature
+import de.jabc.cinco.meta.plugin.gratext.runtime.editor.LazyDiagram
+import de.jabc.cinco.meta.runtime.xapi.ResourceExtension
+
 import org.eclipse.emf.ecore.EObject
-import org.eclipse.emf.ecore.EPackage
-import org.eclipse.emf.ecore.impl.EObjectImpl
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.graphiti.dt.IDiagramTypeProvider
 import org.eclipse.graphiti.features.IFeatureProvider
@@ -35,22 +28,19 @@ import org.eclipse.graphiti.mm.pictograms.PictogramElement
 import org.eclipse.graphiti.mm.pictograms.Shape
 import org.eclipse.swt.SWTException
 
-import static org.eclipse.graphiti.ui.services.GraphitiUi.getExtensionManager
+import java.util.HashMap
+import java.util.List
+import java.util.Map
 
+import static org.eclipse.graphiti.ui.services.GraphitiUi.getExtensionManager
 import static extension de.jabc.cinco.meta.plugin.gratext.runtime.generator.GratextGenerator.*
-import graphmodel.Edge
+
 
 abstract class DiagramBuilder {
 	
 	extension val ResourceExtension = new ResourceExtension
 	
-//	NonEmptyRegistry<IdentifiableElement,List<EObject>>
-//		nodesInitialOrder = new NonEmptyRegistry[newArrayList]
-	
-//	GratextModelTransformer transformer
-
 	Map<IdentifiableElement, PictogramElement> pes = new HashMap
-	Map<String, IdentifiableElement> byId = new HashMap
 
 	GraphModel model
 	LazyDiagram diagram
@@ -63,11 +53,6 @@ abstract class DiagramBuilder {
 	}
 	
 	def build(Resource resource) {
-//		val gratextModel = resource.getContent(InternalGraphModel)
-//		nodesInitialOrder.clear
-//		gratextModel.cacheInitialOrder
-//		diagram = createDiagram
-//		model = transformer.transform(gratextModel)
 		diagram.initialization = [|
 			diagram.linkTo(model.internalElement)
 			nodes.map[internalElement].forEach[add]
@@ -75,39 +60,16 @@ abstract class DiagramBuilder {
 			diagram.update
 		]
 		diagram.avoidInitialization = true
-		val internal = (model as EObjectImpl).eInternalContainer()
 		resource.transact[
-//			resource.contents.remove(gratextModel)
-//			resource.contents.add(0, model.internalElement)
 			resource.contents.add(0, diagram)
 		]
-		model.internalElement = internal as InternalGraphModel
 		diagram.avoidInitialization = false
 	}
 	
-//	def LazyDiagram createDiagram()
-	
-//	def void cacheInitialOrder(InternalModelElementContainer container) {
-//		val children = nodesInitialOrder.get(container)
-//		for (InternalModelElement node : container.modelElements) {
-//			if (node.index < 0) {
-//				node.index = children.size
-//			}
-//			children.add(node)
-//			if (node instanceof InternalModelElementContainer) {
-//				cacheInitialOrder(node)
-//			}
-//		}
-//	}
-	
-//	def getInitialIndex(InternalModelElement node) {
-//		nodesInitialOrder.get(node.container.counterpart).indexOf(node.counterpart)
-//	}
-	
-	def add(InternalModelElement bo) {
-		switch bo {
-			InternalEdge: add(bo, bo.getAddContext)
-			default: add(bo, bo.getAddContext(diagram))
+	def add(InternalModelElement it) {
+		switch it {
+			InternalEdge: add(getAddContext)
+			default: add(getAddContext(diagram))
 		}
 	}
 	
@@ -167,8 +129,8 @@ abstract class DiagramBuilder {
 			con.connectionDecorators?.get(index)?.graphicsAlgorithm
 		].printException
 		if (ga != null && location != null) {
-			ga.x = location?.key
-			ga.y = location?.value
+			ga.x = location.key
+			ga.y = location.value
 		} else warn("Failed to retrieve decorator shape (index=" + index + ") of " + con)
 	}
 	
@@ -250,12 +212,10 @@ abstract class DiagramBuilder {
 	}
 	
 	def cache(IdentifiableElement bo, PictogramElement pe) {
-		byId.put(bo.id, bo)
 		pes.put(bo, pe)
 	}
 	
 	def clearCache() {
-		byId.clear
 		pes.clear
 	}
 	

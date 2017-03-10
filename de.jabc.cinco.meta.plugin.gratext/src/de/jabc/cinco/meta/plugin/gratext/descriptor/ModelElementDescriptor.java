@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 import mgl.Attribute;
 import mgl.ModelElement;
 import mgl.Node;
+import mgl.ReferencedType;
 
 public class ModelElementDescriptor<T extends ModelElement> {
 	
@@ -52,6 +53,10 @@ public class ModelElementDescriptor<T extends ModelElement> {
 	
 	public List<Attribute> getAttributes() {
 		return attributes;
+	}
+	
+	public ReferencedType getPrimeReference() {
+		return null;
 	}
 	
 	public Set<T> getSubTypes() {
