@@ -334,6 +334,8 @@ class StyleUtils extends APIUtils {
 			if (context.getWidth() < 0 && context.getHeight() < 0) 
 				gaService.setLocation(«gaName», context.getX() + «a?.XPos», context.getY() + «a?.YPos»);
 			else gaService.setLocation(«gaName», context.getX(), context.getY());
+			peService.setPropertyValue(«gaName», "«CincoLayoutFeature.KEY_HORIZONTAL»", "«CincoLayoutFeature.KEY_HORIZONTAL_UNDEFINED»");
+			peService.setPropertyValue(«gaName», "«CincoLayoutFeature.KEY_VERTICAL»", "«CincoLayoutFeature.KEY_VERTICAL_UNDEFINED»");
 		«ELSE»
 			«var a = aShape.position»
 			«IF a instanceof AbsolutPosition»
