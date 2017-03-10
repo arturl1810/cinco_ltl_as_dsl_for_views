@@ -38,69 +38,71 @@ import org.eclipse.swt.SWTException
 import static org.eclipse.graphiti.ui.services.GraphitiUi.getExtensionManager
 
 import static extension de.jabc.cinco.meta.plugin.gratext.runtime.generator.GratextGenerator.*
+import graphmodel.Edge
 
-abstract class GratextModelizer {
+abstract class DiagramBuilder {
 	
 	extension val ResourceExtension = new ResourceExtension
 	
-	NonEmptyRegistry<IdentifiableElement,List<EObject>>
-		nodesInitialOrder = new NonEmptyRegistry[newArrayList]
+//	NonEmptyRegistry<IdentifiableElement,List<EObject>>
+//		nodesInitialOrder = new NonEmptyRegistry[newArrayList]
 	
-	GratextModelTransformer transformer
+//	GratextModelTransformer transformer
 
 	Map<IdentifiableElement, PictogramElement> pes = new HashMap
 	Map<String, IdentifiableElement> byId = new HashMap
 
-	protected GraphModel model
+	GraphModel model
 	LazyDiagram diagram
 	IDiagramTypeProvider dtp
 	IFeatureProvider fp
 	
-	new(EFactory modelFct, EPackage modelPkg, EClass modelCls) {
-		transformer = new GratextModelTransformer(modelFct, modelPkg, modelCls)
+	new(LazyDiagram diagram, GraphModel model) {
+		this.diagram = diagram
+		this.model = model
 	}
 	
-	def run(Resource resource) {
-		val gratextModel = resource.getContent(InternalGraphModel)
-		nodesInitialOrder.clear
-		gratextModel.cacheInitialOrder
-		diagram = createDiagram
-		model = transformer.transform(gratextModel)
+	def build(Resource resource) {
+//		val gratextModel = resource.getContent(InternalGraphModel)
+//		nodesInitialOrder.clear
+//		gratextModel.cacheInitialOrder
+//		diagram = createDiagram
+//		model = transformer.transform(gratextModel)
 		diagram.initialization = [|
-			link(diagram, model.internalElement)
+			diagram.linkTo(model.internalElement)
 			nodes.map[internalElement].forEach[add]
-			edges.forEach[add]
+			edges.map[internalElement].forEach[add]
 			diagram.update
 		]
 		diagram.avoidInitialization = true
 		val internal = (model as EObjectImpl).eInternalContainer()
-		resource.edit[
-			resource.contents.remove(gratextModel)
-			resource.contents.add(0, model.internalElement)
+		resource.transact[
+//			resource.contents.remove(gratextModel)
+//			resource.contents.add(0, model.internalElement)
 			resource.contents.add(0, diagram)
 		]
 		model.internalElement = internal as InternalGraphModel
 		diagram.avoidInitialization = false
 	}
 	
-	def LazyDiagram createDiagram()
+//	def LazyDiagram createDiagram()
 	
-	def void cacheInitialOrder(InternalModelElementContainer container) {
-		val children = nodesInitialOrder.get(container)
-		for (InternalModelElement node : container.modelElements) {
-			if (node.index < 0) {
-				node.index = children.size
-			}
-			children.add(node)
-			if (node instanceof InternalModelElementContainer) {
-				cacheInitialOrder(node)
-			}
-		}
-	}
+//	def void cacheInitialOrder(InternalModelElementContainer container) {
+//		val children = nodesInitialOrder.get(container)
+//		for (InternalModelElement node : container.modelElements) {
+//			if (node.index < 0) {
+//				node.index = children.size
+//			}
+//			children.add(node)
+//			if (node instanceof InternalModelElementContainer) {
+//				cacheInitialOrder(node)
+//			}
+//		}
+//	}
 	
-	def getInitialIndex(InternalModelElement node) {
-		nodesInitialOrder.get(node.container.counterpart).indexOf(node.counterpart)
-	}
+//	def getInitialIndex(InternalModelElement node) {
+//		nodesInitialOrder.get(node.container.counterpart).indexOf(node.counterpart)
+//	}
 	
 	def add(InternalModelElement bo) {
 		switch bo {
@@ -141,7 +143,7 @@ abstract class GratextModelizer {
 	def List<Pair<Integer,Integer>> getBendpoints(InternalEdge edge)
 	
 	def addBendpoints(InternalEdge edge, PictogramElement pe) {
-		(edge.counterpart as InternalEdge).bendpoints?.forEach[ point, i |
+		edge.bendpoints?.forEach[ point, i |
 			add(point, (pe as FreeFormConnection), i)
 		]
 	}
@@ -155,7 +157,7 @@ abstract class GratextModelizer {
 	def addDecorators(InternalEdge edge, Connection con) {
 		val size = con.connectionDecorators?.size
 		for (var i = 0; i < size; i++)
-			con.updateDecorator(i, (edge.counterpart as InternalEdge).getDecoratorLocation(i))
+			con.updateDecorator(i, edge.getDecoratorLocation(i))
 	}
 	
 	def Pair<Integer,Integer> getDecoratorLocation(InternalEdge edge, int index)
@@ -183,10 +185,10 @@ abstract class GratextModelizer {
 	def getAddContext(InternalModelElement bo, ContainerShape target) {
 		new AddContext(new AreaContext, bo) => [
 			targetContainer = target
-			x = (bo.counterpart as InternalModelElement).x
-			y = (bo.counterpart as InternalModelElement).y
-			width = (bo.counterpart as InternalModelElement).width
-			height = (bo.counterpart as InternalModelElement).height
+			x = bo.x
+			y = bo.y
+			width = bo.width
+			height = bo.height
 		]
 	}
 	
@@ -223,23 +225,19 @@ abstract class GratextModelizer {
 		(pe as Shape)?.anchors?.get(0)
 	}
 	
-	def getCounterpart(EObject elm) {
-		transformer.getCounterpart(elm)
+	def getNodes() {
+		model.modelElements.filter(Node).sortBy[index]
 	}
 	
 	def getEdges() {
-		transformer.edges
-	}
-	
-	def getNodes() {
-		model.modelElements.filter(Node).sortBy[(counterpart as InternalNode).index]
+		model.modelElements.filter(Edge)
 	}
 	
 	def int getIndex(IdentifiableElement element)
 	
 	def void setIndex(IdentifiableElement element, int i)
 	
-	def link(PictogramElement pe, EObject bo) {
+	def linkTo(PictogramElement pe, EObject bo) {
 		featureProvider.link(pe,bo)
 	}
 	

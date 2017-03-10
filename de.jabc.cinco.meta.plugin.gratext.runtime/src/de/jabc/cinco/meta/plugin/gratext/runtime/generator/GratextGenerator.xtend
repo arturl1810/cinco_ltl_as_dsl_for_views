@@ -40,9 +40,9 @@ abstract class GratextGenerator<T extends GraphModel> {
 		val fileUri = URI.createPlatformResourceURI(file.getFullPath().toOSString(), true);
 		val resource = new ResourceSetImpl().getResource(fileUri, true);
 		init(file, resource)
-		val outFolder = [| 
+		val outFolder = [
 			createFolder(new Path(outFolderName))
-		].onException[warn(it.message)]
+		].onException[ warn(message) ]
 		target = createFile(new Path(fileName(file)), outFolder, template.toString)
 	}
 	
@@ -95,8 +95,16 @@ abstract class GratextGenerator<T extends GraphModel> {
 		return new ResourceSetImpl().createResource(uri)
 	}
 	
-	def warn(String msg) {
-		System.out.println("[" + class.simpleName + "] WARN: " + msg);
+//	def warn(String msg) {
+//		System.out.println("[" + class.simpleName + "] WARN: " + msg);
+//	}
+	
+	static def warn(Exception e) {
+		System.out.println("WARN: " + e.class.simpleName + " " + e.message);
+	}
+	
+	static def warn(String msg) {
+		System.out.println("WARN: " + /* class.simpleName + " " + */ msg);
 	}
 	
 	static def IProgressMonitor getMonitor() {
@@ -169,69 +177,144 @@ abstract class GratextGenerator<T extends GraphModel> {
 	}
 	
 	static def <T extends EObject> T edit(T obj, Runnable runnable) {
-		val domain = [|
+		val domain = [
 			TransactionUtil.getEditingDomain(obj)
 				?: TransactionalEditingDomain.Factory.INSTANCE.createEditingDomain(obj.eResource.resourceSet)
 		].printException
-		domain.execute(runnable)
+		domain?.execute(runnable)
 		return obj
 	}
 	
 	static def Resource edit(Resource res, Runnable runnable) {
-		var domain = [|
+		var domain = [
 			TransactionUtil.getEditingDomain(res)
 				?: TransactionalEditingDomain.Factory.INSTANCE.createEditingDomain(res.resourceSet)
 		].printException
-		domain.execute(runnable)
+		domain?.execute(runnable)
 		return res
 	}
 	
 	static def execute(TransactionalEditingDomain domain, Runnable runnable) {
+		
+		var Integer x = null;
+		try {
+			x = Integer.parseInt("fourtytwo");
+		} catch(NumberFormatException e) {
+			e.printStackTrace();
+			x = 42;
+		}
+		
+		val y = try {
+			Integer.parseInt("fourtytwo")
+		} catch(NumberFormatException e) {
+			e.printStackTrace
+			42
+		}
+		
+		
+		
+		
 		domain.getCommandStack().execute(new RecordingCommand(domain) {
 			override doExecute() {
-				[| runnable.run ].printException
+				[ runnable.run ].onException[ warn ]
 			}
 		})
 	}
 	
-	static def <T> T mapException(()=>T proc, (Exception)=>Exception handler) {
+	def static void main(String[] args) {
+		val x1 = null ?: 42
+		println("x1 = " + x1)
+		
+		val x2 = [ return null as Integer ] ?: 42
+		println("x2 = " + x2)
+		
+		val x3 = [ Integer.parseInt("fourtytwo") ] ?: 42
+		println("x3 = " + x3)
+		
+		val str = "fourtytwo"
+		val dft = 42
+		val x4 = [
+			Integer.parseInt(str)
+		].onException[
+			warn("Failed to parse '" + str + "'. Switching to default: " + dft)
+		] ?: dft
+		println("x4 = " + x4)
+		
+		val x5 = [ Integer.parseInt("fourtytwo") ].ignoreException ?: 42
+		println("x5 = " + x5)
+		
+		val func = [ String s | Integer.parseInt(s) ] // defines function  (String) => int
+		val x6 = [ func.apply("fourtytwo") ] ?: 42 
+		println("x6 = " + x6)
+	}
+	
+	static def <T> ?: ((Object) => T proc, T defaultVal) {
+		proc?.onException[
+			System.out.println("WARN: " + class.simpleName + " " + message + ". Defaulting to: " + defaultVal)
+		] ?: defaultVal
+	}
+	
+	static def <T> mapException((Object) => T proc, (Exception) => Class<? extends Exception> excls) {
 		try {
-			proc.apply
+			proc.apply(null)
 		} catch (Exception e) {
-			throw handler.apply(e)
+			throw [
+				excls.apply(e).getConstructor(Throwable)?.newInstance(e)
+			].onException[
+				excls.apply(e).newInstance
+			]
 		}
 	}
 	
-	static def <T> onException(()=>T proc, (Exception)=>void handler) {
+	static def mapException((Object) => void proc, (Exception) => Class<? extends Exception> excls) {
 		try {
-			proc.apply
+			proc.apply(null)
+		} catch (Exception e) {
+			throw [
+				excls.apply(e).getConstructor(Throwable)?.newInstance(e)
+			].onException[
+				excls.apply(e).newInstance
+			]
+		}
+	}
+	
+	static def <T> onFail((Object) => T proc, T dflt) {
+		try {
+			proc.apply(null)
+		} catch (Exception e) {
+			dflt
+		}
+	}
+	
+	static def <T> onException((Object) => T proc, (Exception) => void handler) {
+		try {
+			proc.apply(null)
 		} catch (Exception e) {
 			handler.apply(e)
 		}
 	}
 	
-	static def onException(()=>void proc, (Exception)=>void handler) {
+	static def onException((Object) => void proc, (Exception) => void handler) {
 		try {
-			proc.apply
+			proc.apply(null)
 		} catch (Exception e) {
 			handler.apply(e)
 		}
 	}
 	
-	static def <T> printException(()=>T proc) {
-		try {
-			proc.apply
-		} catch (Exception e) {
-			e.printStackTrace
-		}
+	static def <T> printException((Object) => T proc) {
+		proc.onException[printStackTrace]
 	}
 	
-	static def printException(()=>void proc) {
-		try {
-			proc.apply
-		} catch (Exception e) {
-			e.printStackTrace
-		}
+	static def printException((Object) => void proc) {
+		proc.onException[printStackTrace]
 	}
 	
+	static def <T> ignoreException((Object) => T proc) {
+		proc.onException[]
+	}
+	
+	static def ignoreException((Object) => void proc) {
+		proc.onException[]
+	}
 }
