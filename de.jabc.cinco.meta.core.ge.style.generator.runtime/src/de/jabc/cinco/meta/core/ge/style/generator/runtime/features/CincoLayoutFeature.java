@@ -3,9 +3,12 @@ package de.jabc.cinco.meta.core.ge.style.generator.runtime.features;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ILayoutContext;
 import org.eclipse.graphiti.features.impl.AbstractLayoutFeature;
+import org.eclipse.graphiti.mm.pictograms.ContainerShape;
+import org.eclipse.graphiti.mm.pictograms.Shape;
 
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.utils.CincoLayoutUtils;
 import graphmodel.ModelElement;
+import graphmodel.Node;
 import graphmodel.internal.InternalModelElement;
 
 public class CincoLayoutFeature extends AbstractLayoutFeature {
@@ -60,23 +63,30 @@ public class CincoLayoutFeature extends AbstractLayoutFeature {
 	@Override
 	public boolean layout(org.eclipse.graphiti.features.context.ILayoutContext context) {
 		org.eclipse.graphiti.mm.pictograms.PictogramElement pe = context.getPictogramElement();
+		Object bo = getBusinessObjectForPictogramElement(pe);
 		if (pe instanceof org.eclipse.graphiti.mm.pictograms.ContainerShape) {
-			layout((org.eclipse.graphiti.mm.pictograms.ContainerShape) pe);
+			layout((org.eclipse.graphiti.mm.pictograms.ContainerShape) pe, bo);
 			return true;
 		}
 		return false;
 	}
 	
 	/** 
-	 * Checks if the node was layouted
+	 * Layouts the {@link Node}'s {@link ContainerShape} (graphical representation) and their child {@link Shape}s
+	 * if they belong to the {@link Node}. Graphical representations of nodes contained in a Container will not be
+	 * layouted
 	 * @param cs  The containershape
+	 * @param bo 
 	 * @return Returns true, if update process was successful
 	 */
-	private boolean layout(org.eclipse.graphiti.mm.pictograms.ContainerShape cs) {
+	private boolean layout(org.eclipse.graphiti.mm.pictograms.ContainerShape cs, Object bo) {
 		for (org.eclipse.graphiti.mm.pictograms.Shape child : cs.getChildren()) {
-			de.jabc.cinco.meta.core.ge.style.generator.runtime.utils.CincoLayoutUtils.layout(cs.getGraphicsAlgorithm(), child.getGraphicsAlgorithm());
-			if (child instanceof org.eclipse.graphiti.mm.pictograms.ContainerShape) {
-				layout((org.eclipse.graphiti.mm.pictograms.ContainerShape) child);
+			Object childBo = getBusinessObjectForPictogramElement(child);
+			if (childBo == null || bo.equals(childBo)) {
+				de.jabc.cinco.meta.core.ge.style.generator.runtime.utils.CincoLayoutUtils.layout(cs.getGraphicsAlgorithm(), child.getGraphicsAlgorithm());
+				if (child instanceof org.eclipse.graphiti.mm.pictograms.ContainerShape) {
+					layout((org.eclipse.graphiti.mm.pictograms.ContainerShape) child, bo);
+				}
 			}
 		}
 		return true;

@@ -9,6 +9,7 @@ import org.eclipse.graphiti.mm.pictograms.PictogramElement
 import org.eclipse.graphiti.mm.pictograms.Shape
 import org.eclipse.graphiti.services.Graphiti
 import org.eclipse.graphiti.ui.features.AbstractPasteFeature
+import org.eclipse.graphiti.mm.pictograms.PictogramLink
 
 class CincoPasteFeature extends AbstractPasteFeature{
 	
@@ -34,8 +35,16 @@ class CincoPasteFeature extends AbstractPasteFeature{
 	def void addToTarget(PictogramElement pe, ContainerShape cs) {
 		cs.children.add(pe as Shape);
 		var container = cs.link.businessObjects.get(0) as InternalModelElementContainer 
-		container.modelElements.add(pe.link.businessObjects.get(0) as InternalModelElement)
-		diagram.pictogramLinks.add(pe.link)
+		val ime = pe.link.businessObjects.get(0) as InternalModelElement
+		container.modelElements.add(ime)
+		pe.addPictogramLinks
+	}
+	
+	def void addPictogramLinks(PictogramElement pe) {
+		if (!diagram.pictogramLinks.contains(pe.link))
+			diagram.pictogramLinks.add(pe.link)
+		if (pe instanceof ContainerShape)
+			pe.children.forEach[addPictogramLinks]
 	}
 	
 	def moveBy(PictogramElement pe, int x, int y) {

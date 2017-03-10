@@ -12,6 +12,7 @@ import org.eclipse.graphiti.mm.pictograms.PictogramElement
 import org.eclipse.graphiti.mm.pictograms.PictogramLink
 import org.eclipse.graphiti.mm.pictograms.PictogramsFactory
 import org.eclipse.graphiti.mm.pictograms.Shape
+import graphmodel.internal.InternalModelElementContainer
 
 class CincoGraphitiCopier {
 	
@@ -26,7 +27,7 @@ class CincoGraphitiCopier {
 	def copy(InternalModelElement ime) {
 		var InternalModelElement meCopy
 		switch (ime) {
-			InternalContainer : meCopy = ime.copy
+//			InternalContainer : meCopy = ime.copy
 			InternalNode: meCopy = ime.copy
 			InternalEdge: meCopy = ime.copy
 		}
@@ -62,13 +63,14 @@ class CincoGraphitiCopier {
 	}
 	
 	def InternalNode create EcoreUtil.copy(n) copy(InternalNode n) {
-		incoming.clear
-		outgoing.clear
-		incoming.addAll(n.incoming.map[copy])
-		outgoing.addAll(n.outgoing.map[copy])
+		if (n instanceof InternalModelElementContainer) {
+			(it as InternalModelElementContainer).modelElements.clear()
+			(it as InternalModelElementContainer).modelElements.addAll(n.modelElements.map[copy])
+		}
 	}
 	
 	def InternalContainer create (c as InternalNode).copy as InternalContainer copy(InternalContainer c) {
+		modelElements.clear
 		modelElements.addAll(modelElements.map[copy])
 	}
 	
