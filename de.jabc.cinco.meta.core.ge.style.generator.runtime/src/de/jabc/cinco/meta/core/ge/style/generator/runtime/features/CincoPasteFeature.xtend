@@ -13,6 +13,7 @@ import org.eclipse.graphiti.mm.pictograms.PictogramElement
 import org.eclipse.graphiti.mm.pictograms.Shape
 import org.eclipse.graphiti.services.Graphiti
 import org.eclipse.graphiti.ui.features.AbstractPasteFeature
+import org.eclipse.graphiti.mm.pictograms.Diagram
 
 class CincoPasteFeature extends AbstractPasteFeature{
 	

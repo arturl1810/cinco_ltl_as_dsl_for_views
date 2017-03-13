@@ -9,6 +9,7 @@ import org.eclipse.graphiti.ui.features.AbstractCopyFeature
 import org.eclipse.graphiti.mm.pictograms.Connection
 import java.util.ArrayList
 import java.util.HashSet
+import graphmodel.internal.InternalGraphModel
 
 class CincoCopyFeature extends AbstractCopyFeature {
 	
@@ -19,21 +20,20 @@ class CincoCopyFeature extends AbstractCopyFeature {
 	}
 
 	override boolean canCopy(ICopyContext context) {
-		true
+		!(context.pictogramElements.get(0).businessObjectForPictogramElement instanceof InternalGraphModel)
 	}
 
 	override void copy(ICopyContext context) {
 		var pes = new HashSet<PictogramElement>()
 		pes.addAll(context.getPictogramElements.toList)
 		var connections = pes.edges
-		connections.forEach[println(it)]
 		pes.addAll(connections)
 		var Object[] objects = newArrayOfSize(pes.length)
 		var result = pes.map[(it as PictogramElement).copyPE]
 		for (i : 0..<pes.length) {
 			objects.set(i, result.get(i))
 		}
-		println(result)
+//		println(result)
 		putToClipboard(objects)
 	}
 
