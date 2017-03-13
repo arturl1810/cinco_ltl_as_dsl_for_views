@@ -153,7 +153,7 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 	public «IDeleteFeature.name» getDeleteFeature(«IDeleteContext.name» context) {
 		«EObject.name» bo = («EObject.name») getBusinessObjectForPictogramElement(context.getPictogramElement());
 		
-		«FOR n : gm.nodes»
+		«FOR n : gm.modelElements.filter[!(it instanceof GraphModel)]»
 		if («n.internalInstanceofCheck("bo")»)
 			return new «n.packageNameDelete».DeleteFeature«n.fuName»(this);
 		«ENDFOR»

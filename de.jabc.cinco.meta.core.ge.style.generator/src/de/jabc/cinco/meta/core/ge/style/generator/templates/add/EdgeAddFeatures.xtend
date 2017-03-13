@@ -38,6 +38,7 @@ import org.eclipse.emf.ecore.EObject
 import graphmodel.internal.InternalGraphModel
 import de.jabc.cinco.meta.util.xapi.ResourceExtension
 import de.jabc.cinco.meta.core.ge.style.generator.templates.util.APIUtils
+import graphmodel.internal.InternalModelElementContainer
 
 class EdgeAddFeatures extends APIUtils {
 	
@@ -181,9 +182,8 @@ class EdgeAddFeatures extends APIUtils {
 			
 			«Resource.name» eResource = ((«EObject.name») sourceBo).eResource();
 			«InternalGraphModel.name» internalGraphModel = new «ResourceExtension.name»().getContent(eResource, «e.graphModel.fqInternalBeanName».class);
-			«ModelElementContainer.name» container = 
-				«e.graphModel.packageName».«e.graphModel.name»GraphitiUtils.getInstance().getCommonContainer(internalGraphModel.getElement(), («graphmodel.Edge.name») «e.flName».getElement());
-			container.getInternalContainerElement().getModelElements().add(«e.flName»);
+			«InternalModelElementContainer.name» container = «CincoUtils.name».getCommonContainer(internalGraphModel, «e.flName»);
+					container.getModelElements().add(«e.flName»);
 	
 			if (hook) {
 			}

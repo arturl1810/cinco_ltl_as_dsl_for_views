@@ -5,6 +5,8 @@ import graphmodel.internal.InternalEdge
 import graphmodel.internal.InternalGraphModel
 import graphmodel.internal.InternalModelElement
 import graphmodel.internal.InternalModelElementContainer
+import graphmodel.internal.InternalNode
+import org.eclipse.emf.ecore.util.EcoreUtil
 import org.eclipse.graphiti.features.IFeatureProvider
 import org.eclipse.graphiti.features.context.IPasteContext
 import org.eclipse.graphiti.mm.pictograms.Connection
@@ -13,7 +15,6 @@ import org.eclipse.graphiti.mm.pictograms.PictogramElement
 import org.eclipse.graphiti.mm.pictograms.Shape
 import org.eclipse.graphiti.services.Graphiti
 import org.eclipse.graphiti.ui.features.AbstractPasteFeature
-import org.eclipse.graphiti.mm.pictograms.Diagram
 
 class CincoPasteFeature extends AbstractPasteFeature{
 	
@@ -32,7 +33,8 @@ class CincoPasteFeature extends AbstractPasteFeature{
 		copies = copies.map[copyPE]
 		copies.forEach[moveBy(100,100)]
 		val target = context.pictogramElements.get(0) as ContainerShape
-		copies.forEach[(it as PictogramElement).addToTarget(target)]
+		copies.filter(typeof(Shape)).forEach[(it as PictogramElement).addToTarget(target)]
+		copies.filter(typeof(Connection)).forEach[(it as PictogramElement).addToTarget(target)]
 	}
 	
 	
@@ -72,9 +74,9 @@ class CincoPasteFeature extends AbstractPasteFeature{
 	def InternalModelElementContainer getCommonContainer(InternalModelElementContainer ce, InternalEdge e) {
 		var source = e.get_sourceElement();
 		var target = e.get_targetElement();
-		if (org.eclipse.emf.ecore.util.EcoreUtil.isAncestor(ce, source) && org.eclipse.emf.ecore.util.EcoreUtil.isAncestor(ce, target)) {
+		if (EcoreUtil.isAncestor(ce, source) && EcoreUtil.isAncestor(ce, target)) {
 			for (InternalContainer c : ce.modelElements.filter[it instanceof InternalContainer].map[it as InternalContainer]) {
-				if (org.eclipse.emf.ecore.util.EcoreUtil.isAncestor(c, source) && org.eclipse.emf.ecore.util.EcoreUtil.isAncestor(c, target)) {
+				if (EcoreUtil.isAncestor(c, source) && EcoreUtil.isAncestor(c, target)) {
 					return getCommonContainer(c, e);
 				}
 			}

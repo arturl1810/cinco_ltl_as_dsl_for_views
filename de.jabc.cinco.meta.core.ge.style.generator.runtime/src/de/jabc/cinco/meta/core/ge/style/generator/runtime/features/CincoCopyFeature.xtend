@@ -33,7 +33,6 @@ class CincoCopyFeature extends AbstractCopyFeature {
 		for (i : 0..<pes.length) {
 			objects.set(i, result.get(i))
 		}
-//		println(result)
 		putToClipboard(objects)
 	}
 

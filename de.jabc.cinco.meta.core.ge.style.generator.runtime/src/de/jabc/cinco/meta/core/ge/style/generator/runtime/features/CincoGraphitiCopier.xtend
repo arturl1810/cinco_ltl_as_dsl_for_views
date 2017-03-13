@@ -3,7 +3,9 @@ package de.jabc.cinco.meta.core.ge.style.generator.runtime.features
 import graphmodel.internal.InternalContainer
 import graphmodel.internal.InternalEdge
 import graphmodel.internal.InternalModelElement
+import graphmodel.internal.InternalModelElementContainer
 import graphmodel.internal.InternalNode
+import java.util.Collection
 import org.eclipse.emf.ecore.util.EcoreUtil
 import org.eclipse.graphiti.mm.pictograms.Anchor
 import org.eclipse.graphiti.mm.pictograms.Connection
@@ -12,9 +14,17 @@ import org.eclipse.graphiti.mm.pictograms.PictogramElement
 import org.eclipse.graphiti.mm.pictograms.PictogramLink
 import org.eclipse.graphiti.mm.pictograms.PictogramsFactory
 import org.eclipse.graphiti.mm.pictograms.Shape
-import graphmodel.internal.InternalModelElementContainer
+import java.util.HashSet
+import org.eclipse.graphiti.mm.pictograms.ConnectionDecorator
 
 class CincoGraphitiCopier {
+	
+	def copyPE(Collection<PictogramElement> pes) {
+		var copies = new HashSet<PictogramElement>()
+		copies.addAll(pes.filter(Connection).map[copy])
+		copies.addAll(pes.filter(Shape).map[copy])
+		copies
+	}
 	
 	def copyPE(PictogramElement pe) {
 		var PictogramElement peCopy
@@ -22,7 +32,6 @@ class CincoGraphitiCopier {
 			Shape: peCopy = pe.copy as PictogramElement
 			Connection: peCopy = pe.copy as PictogramElement
 		}
-//		println(peCopy)
 	}
 	
 	def copy(InternalModelElement ime) {
@@ -37,7 +46,9 @@ class CincoGraphitiCopier {
 	
 	def create EcoreUtil.copy(s) copy(Shape s) {
 		anchors.clear
-		link = s.link.copy
+		anchors.addAll(s.anchors.map[copy])
+//		ConnectionDecorators may have no link
+		link = s.link?.copy
 		if (s instanceof ContainerShape) {
 			(it as ContainerShape).children.clear;
 			(it as ContainerShape).children.addAll(s.children.map[copy])
@@ -48,6 +59,8 @@ class CincoGraphitiCopier {
 		link = conn.link.copy
 		start = conn.start.copy
 		end = conn.end.copy
+		connectionDecorators.clear
+		connectionDecorators.addAll(conn.connectionDecorators.map[copy as ConnectionDecorator])
 	}
 	
 	def create PictogramsFactory.eINSTANCE.createPictogramLink copy(PictogramLink link) {
