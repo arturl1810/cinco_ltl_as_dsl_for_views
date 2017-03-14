@@ -34,6 +34,7 @@ import style.RoundedRectangle
 import style.StyleFactory
 import style.Text
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.expressionlanguage.ExpressionLanguageContext
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.utils.CincoLayoutUtils
 
 class StyleUtils extends APIUtils {
 
@@ -194,19 +195,17 @@ class StyleUtils extends APIUtils {
 		pointsString = "";
 		for (int i : points) {
 			pointsString += String.valueOf(i)+",";
-		}
-		peService.setPropertyValue(«currentGaName», «node.graphModel.packageName».«node.graphModel.fuName»LayoutUtils.KEY_INITIAL_POINTS, pointsString);
+		} //«node.graphModel.packageName».«node.graphModel.fuName»LayoutUtils.KEY_INITIAL_POINTS, pointsString);
+		peService.setPropertyValue(«currentGaName»,«CincoLayoutUtils.typeName».KEY_INITIAL_POINTS, pointsString);
 		
 		if(!(«currentPeName».getContainer() instanceof «Diagram.name»))
-			peService.setPropertyValue(«currentGaName»,«node.graphModel.packageName».«node.graphModel.fuName»LayoutUtils.KEY_INITIAL_PARENT_SIZE, "" + «currentPeName».getContainer().getGraphicsAlgorithm().getWidth() + "," + «currentPeName».getContainer().getGraphicsAlgorithm().getHeight());
-		else peService.setPropertyValue(«currentGaName», «node.graphModel.packageName».«node.graphModel.fuName»LayoutUtils.KEY_INITIAL_PARENT_SIZE, "" + «currentPeName».getGraphicsAlgorithm().getWidth() + "," + «currentPeName».getGraphicsAlgorithm().getHeight()); 
+			peService.setPropertyValue(«currentGaName»,«CincoLayoutUtils.typeName».KEY_INITIAL_PARENT_SIZE, "" + «currentPeName».getContainer().getGraphicsAlgorithm().getWidth() + "," + «currentPeName».getContainer().getGraphicsAlgorithm().getHeight());
+		else peService.setPropertyValue(«currentGaName»,«CincoLayoutUtils.typeName».KEY_INITIAL_PARENT_SIZE, "" + «currentPeName».getGraphicsAlgorithm().getWidth() + "," + «currentPeName».getGraphicsAlgorithm().getHeight()); 
 		
 			«node.graphModel.packageName».«node.graphModel.fuName»LayoutUtils.set_FlowGraphDefaultAppearanceStyle(«currentGaName», getDiagram());
 			gaService.setLocation(«currentGaName», 0, 0);
-			peService.setPropertyValue(«currentGaName», «node.graphModel.packageName».«node.graphModel.fuName»LayoutUtils.KEY_HORIZONTAL, «node.
-			graphModel.packageName».«node.graphModel.fuName»LayoutUtils.KEY_HORIZONTAL_UNDEFINED);
-			peService.setPropertyValue(«currentGaName», «node.graphModel.packageName».«node.graphModel.fuName»LayoutUtils.KEY_VERTICAL, «node.
-			graphModel.packageName».«node.graphModel.fuName»LayoutUtils.KEY_VERTICAL_UNDEFINED);
+			peService.setPropertyValue(«currentGaName»,«CincoLayoutUtils.typeName».KEY_HORIZONTAL, «CincoLayoutUtils.typeName».KEY_HORIZONTAL_UNDEFINED);
+			peService.setPropertyValue(«currentGaName», «CincoLayoutUtils.typeName».KEY_VERTICAL,«CincoLayoutUtils.typeName».KEY_VERTICAL_UNDEFINED);
 		
 	'''
 	/**
@@ -262,19 +261,17 @@ class StyleUtils extends APIUtils {
 		
 		if (!parentIsDiagram) {
 			«currentGaName» = gaService.createPolyline(«currentPeName», points);
-			peService.setPropertyValue(«currentGaName», «node.graphModel.packageName».«node.graphModel.fuName»LayoutUtils.KEY_INITIAL_PARENT_SIZE, "" + «currentPeName».getContainer().getGraphicsAlgorithm().getWidth() + "," + «currentPeName».getContainer().getGraphicsAlgorithm().getHeight()); 
+			peService.setPropertyValue(«currentGaName», «CincoLayoutUtils.typeName».KEY_INITIAL_PARENT_SIZE, "" + «currentPeName».getContainer().getGraphicsAlgorithm().getWidth() + "," + «currentPeName».getContainer().getGraphicsAlgorithm().getHeight()); 
 		} else {
 			«currentGaName» = gaService.createPolyline(«currentPeName», new int[] {0,0,10,10,20,0,});
-			peService.setPropertyValue(«currentGaName»,«node.graphModel.packageName».«node.graphModel.fuName»LayoutUtils.KEY_INITIAL_PARENT_SIZE, "" + width + "," + height); 
+			peService.setPropertyValue(«currentGaName»,«CincoLayoutUtils.typeName».KEY_INITIAL_PARENT_SIZE, "" + width + "," + height); 
 		}
 		
-		peService.setPropertyValue(«currentGaName», «node.graphModel.packageName».«node.graphModel.fuName»LayoutUtils.KEY_INITIAL_POINTS, pointsString);
+		peService.setPropertyValue(«currentGaName», «CincoLayoutUtils.typeName».KEY_INITIAL_POINTS, pointsString);
 		«node.graphModel.packageName».«node.graphModel.fuName»LayoutUtils.set_FlowGraphDefaultAppearanceStyle(«currentGaName», getDiagram());
 		gaService.setLocation(«currentGaName», 0, 0);
-		peService.setPropertyValue(«currentGaName»,«node.graphModel.packageName».«node.graphModel.fuName»LayoutUtils.KEY_HORIZONTAL, «node.
-			graphModel.packageName».«node.graphModel.fuName»LayoutUtils.KEY_HORIZONTAL_UNDEFINED);
-		peService.setPropertyValue(«currentGaName», «node.graphModel.packageName».«node.graphModel.fuName»LayoutUtils.KEY_VERTICAL, «node.
-			graphModel.packageName».«node.graphModel.fuName»LayoutUtils.KEY_VERTICAL_UNDEFINED);
+		peService.setPropertyValue(«currentGaName»,«CincoLayoutUtils.typeName».KEY_HORIZONTAL,«CincoLayoutUtils.typeName».KEY_HORIZONTAL_UNDEFINED);
+		peService.setPropertyValue(«currentGaName»,«CincoLayoutUtils.typeName».KEY_VERTICAL, «CincoLayoutUtils.typeName».KEY_VERTICAL_UNDEFINED);
 		
 		
 	'''

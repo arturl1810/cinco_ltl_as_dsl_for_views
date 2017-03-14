@@ -131,7 +131,7 @@ class EdgeAddFeatures extends APIUtils {
 				«var polylineShape = d.decoratorShape as style.Polyline»
 				cd = peCreateService.createConnectionDecorator(connection, «d.movable», «d.location», true);
 				«IF polylineShape.size != null»
-				createShapePolyline«polyline.length»(cd, «e.flName», «polylineShape.width», «polylineShape.heigth»);
+				createShapePolyline«polyline.length»(cd,(«e.beanPackage».«e.fuName»)«e.flName», «polylineShape.width», «polylineShape.heigth»);
 				«ELSE»
 				createShapePolyline«polyline.length»(cd, «e.flName»);
 				«ENDIF»
@@ -140,10 +140,10 @@ class EdgeAddFeatures extends APIUtils {
 				«ELSEIF d.decoratorShape instanceof style.Ellipse»
 				«var ellipseShape = d.decoratorShape as style.Ellipse»
 				cd = peCreateService.createConnectionDecorator(connection, «d.movable», «d.location», true);
-				«IF ellipseShape.size != null»
-				createShapeEllipse«ellipse.length»(cd, «e.flName», «ellipseShape.width», «ellipseShape.heigth»);
+				«IF ellipseShape.size != null» 
+				createShapeEllipse«ellipse.length»(cd, («e.beanPackage».«e.fuName»)«e.flName», «ellipseShape.width», «ellipseShape.heigth»);
 				«ELSE»
-				createShapeEllipse«ellipse.length»(cd, «e.flName»);
+				createShapeEllipse«ellipse.length»(cd,  «e.flName»);
 				«ENDIF»
 				link(cd, «e.flName»);
 				«{ellipse.add(ellipseShape); ""}»				
@@ -151,7 +151,7 @@ class EdgeAddFeatures extends APIUtils {
 				«var polygonShape = d.decoratorShape as style.Polygon»
 				cd = peCreateService.createConnectionDecorator(connection, «d.movable», «d.location», true);
 				«IF polygonShape.size != null»
-				createShapePolygon«polygon.length»(cd, «e.flName», «polygonShape.width», «polygonShape.heigth»);
+				createShapePolygon«polygon.length»(cd, («e.beanPackage».«e.fuName»)«e.flName», «polygonShape.width», «polygonShape.heigth»);
 				«ELSE»
 				createShapePolygon«polygon.length»(cd, «e.flName»);
 				«ENDIF»
@@ -169,7 +169,7 @@ class EdgeAddFeatures extends APIUtils {
 				«var imageShape = d.decoratorShape as style.Image»
 				cd = peCreateService.createConnectionDecorator(connection, «d.movable»,«d.location», true);
 				«IF imageShape.size != null»
-				createShapeImage«image.length»(cd, «e.flName», "«imageShape.path»", «imageShape.width», «imageShape.heigth»);
+				createShapeImage«image.length»(cd, («e.beanPackage».«e.fuName»)«e.flName», "«imageShape.path»", «imageShape.width», «imageShape.heigth»);
 				«ELSE»
 				createShapeImage«image.length»(cd, «e.flName», "«imageShape.path»");
 				«ENDIF»
