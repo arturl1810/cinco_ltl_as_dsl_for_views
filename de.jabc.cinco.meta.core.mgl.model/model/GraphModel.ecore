@@ -253,17 +253,6 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="IdentifiableElement" abstract="true"
       interface="true">
-    <eOperations name="equals" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="return (obj==this) || (obj != null &amp;&amp; obj instanceof graphmodel.IdentifiableElement &amp;&amp; ((graphmodel.IdentifiableElement)obj).getId()==this.getId());"/>
-      </eAnnotations>
-      <eParameters name="obj" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
-    </eOperations>
-    <eOperations name="hashCode" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="return java.util.Objects.hash(getId());"/>
-      </eAnnotations>
-    </eOperations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
         defaultValueLiteral="" iD="true"/>
   </eClassifiers>
