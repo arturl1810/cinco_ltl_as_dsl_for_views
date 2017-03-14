@@ -255,7 +255,6 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 		cpdFile = MGLSelectionListener.INSTANCE.getSelectedCPDFile();
 		fileHelper = new FileExtension();
 		cpd = fileHelper.getContent(cpdFile, CincoProduct.class, 0);
-		MGLSelectionListener.INSTANCE.setCurrentCPD(cpd);
 	}
 
 	private void resetRegistries() {
