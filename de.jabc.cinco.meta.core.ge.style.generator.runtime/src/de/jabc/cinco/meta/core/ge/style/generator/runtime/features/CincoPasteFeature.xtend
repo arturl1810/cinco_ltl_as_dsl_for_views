@@ -1,24 +1,26 @@
 package de.jabc.cinco.meta.core.ge.style.generator.runtime.features
 
-import graphmodel.internal.InternalContainer
+import de.jabc.cinco.meta.runtime.xapi.GraphModelExtension
 import graphmodel.internal.InternalEdge
 import graphmodel.internal.InternalGraphModel
 import graphmodel.internal.InternalModelElement
 import graphmodel.internal.InternalModelElementContainer
-import graphmodel.internal.InternalNode
-import org.eclipse.emf.ecore.util.EcoreUtil
+import java.util.List
 import org.eclipse.graphiti.features.IFeatureProvider
 import org.eclipse.graphiti.features.context.IPasteContext
+import org.eclipse.graphiti.mm.algorithms.styles.StylesFactory
 import org.eclipse.graphiti.mm.pictograms.Connection
 import org.eclipse.graphiti.mm.pictograms.ContainerShape
+import org.eclipse.graphiti.mm.pictograms.Diagram
+import org.eclipse.graphiti.mm.pictograms.FreeFormConnection
 import org.eclipse.graphiti.mm.pictograms.PictogramElement
 import org.eclipse.graphiti.mm.pictograms.Shape
-import org.eclipse.graphiti.services.Graphiti
 import org.eclipse.graphiti.ui.features.AbstractPasteFeature
 
 class CincoPasteFeature extends AbstractPasteFeature{
 	
 	extension CincoGraphitiCopier = new CincoGraphitiCopier
+	extension GraphModelExtension = new GraphModelExtension
 	
 	new(IFeatureProvider fp) {
 		super(fp)
@@ -31,7 +33,7 @@ class CincoPasteFeature extends AbstractPasteFeature{
 	override paste(IPasteContext context) {
 		var copies = copiesFromClipBoard.map[it as PictogramElement]
 		copies = copies.map[copyPE]
-		copies.forEach[moveBy(100,100)]
+		copies.translate(context)
 		val target = context.pictogramElements.get(0) as ContainerShape
 		copies.filter(typeof(Shape)).forEach[(it as PictogramElement).addToTarget(target)]
 		copies.filter(typeof(Connection)).forEach[(it as PictogramElement).addToTarget(target)]
@@ -65,25 +67,41 @@ class CincoPasteFeature extends AbstractPasteFeature{
 			pe.children.forEach[addPictogramLinks]
 	}
 	
-	def moveBy(PictogramElement pe, int x, int y) {
-		var newX = pe.graphicsAlgorithm.x + x
-		var newY = pe.graphicsAlgorithm.y + y
-		Graphiti.gaService.setLocation(pe.graphicsAlgorithm, newX, newY)
-	}
-	
-	def InternalModelElementContainer getCommonContainer(InternalModelElementContainer ce, InternalEdge e) {
-		var source = e.get_sourceElement();
-		var target = e.get_targetElement();
-		if (EcoreUtil.isAncestor(ce, source) && EcoreUtil.isAncestor(ce, target)) {
-			for (InternalContainer c : ce.modelElements.filter[it instanceof InternalContainer].map[it as InternalContainer]) {
-				if (EcoreUtil.isAncestor(c, source) && EcoreUtil.isAncestor(c, target)) {
-					return getCommonContainer(c, e);
+	def translate(List<PictogramElement> pes, IPasteContext context) {
+		val target = context.pictogramElements.get(0)
+		
+		val minX = pes.filter(typeof(Shape)).minBy[graphicsAlgorithm.x].graphicsAlgorithm.x
+		val minY = pes.filter(typeof(Shape)).minBy[graphicsAlgorithm.y].graphicsAlgorithm.y
+		
+		println("min x : " + minX + "/ min y : " + minY)
+		
+		pes.forEach[ pe | 
+			switch (pe) {
+				Shape: {
+					pe.graphicsAlgorithm.x = context.x - target.containerShift.x + (pe.graphicsAlgorithm.x - minX)
+					pe.graphicsAlgorithm.y = context.y - target.containerShift.y + (pe.graphicsAlgorithm.y - minY)
+				}
+				FreeFormConnection: {
+					pe.bendpoints.forEach[bp |
+						println("bendpoint before: " + bp.x + "/" + bp.y)
+						bp.x = context.x + (bp.x - minX)
+						bp.y = context.y + (bp.y - minY)
+						println("bendpoint after: " + bp.x + "/" + bp.y)
+					]
 				}
 			}
-		} else if (ce instanceof InternalModelElement) {
-			getCommonContainer(ce.getContainer(), e);
-		}
-		ce
+		]
 	}
 	
+	
+	private def containerShift(PictogramElement pe) {
+		var current = pe
+		var p = StylesFactory.eINSTANCE.createPoint => [x=0; y=0]
+		while (current instanceof Shape && !(current instanceof Diagram)) {
+			p.x = p.x + current.graphicsAlgorithm.x
+			p.y = p.y + current.graphicsAlgorithm.y
+			current = current.eContainer as PictogramElement
+		}
+		p
+	}
 }

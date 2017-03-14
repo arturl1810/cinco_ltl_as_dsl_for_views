@@ -4,17 +4,15 @@ import de.jabc.cinco.meta.core.ge.style.generator.runtime.errorhandling.ECincoEr
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoMoveShapeFeature
 import de.jabc.cinco.meta.core.utils.CincoUtils
 import de.jabc.cinco.meta.core.utils.generator.GeneratorUtils
-import graphmodel.Container
-import graphmodel.Edge
-import graphmodel.ModelElementContainer
+import graphmodel.internal.InternalContainer
+import graphmodel.internal.InternalEdge
+import graphmodel.internal.InternalModelElementContainer
 import java.util.HashSet
 import mgl.Node
 import org.eclipse.graphiti.features.IFeatureProvider
 import org.eclipse.graphiti.features.context.IMoveShapeContext
 import style.Styles
-import graphmodel.internal.InternalModelElementContainer
-import graphmodel.internal.InternalContainer
-import graphmodel.internal.InternalEdge
+import de.jabc.cinco.meta.runtime.xapi.GraphModelExtension
 
 class NodeMoveFeatures extends GeneratorUtils{
 	
@@ -84,19 +82,23 @@ class NodeMoveFeatures extends GeneratorUtils{
 			«Object.name» source = getBusinessObjectForPictogramElement(context.getSourceContainer());
 			«Object.name» target = getBusinessObjectForPictogramElement(context.getTargetContainer());
 			if (source instanceof «InternalContainer.name») {
-				«InternalContainer.name» nc = («InternalContainer.name») source;
+				«InternalContainer.name» nc = 
+					(«InternalContainer.name») source;
 				nc.getModelElements().remove((«n.fqInternalBeanName») o);
 			}
 			if (source instanceof «n.graphModel.fqInternalBeanName») {
-				«n.graphModel.fqInternalBeanName» tmp = («n.graphModel.fqInternalBeanName») source;
+				«n.graphModel.fqInternalBeanName» tmp = 
+					(«n.graphModel.fqInternalBeanName») source;
 				tmp.getModelElements().remove((«n.fqInternalBeanName») o);
 			}
 			if (target instanceof «n.graphModel.fqInternalBeanName») {
-				«n.graphModel.fqInternalBeanName» tmp = («n.graphModel.fqInternalBeanName») target;
+				«n.graphModel.fqInternalBeanName» tmp = 
+					(«n.graphModel.fqInternalBeanName») target;
 				tmp.getModelElements().add((«n.fqInternalBeanName») o);
 			}
 			if (target instanceof «InternalContainer.name») {
-				«InternalContainer.name» tmp = («InternalContainer.name») target;
+				«InternalContainer.name» tmp = 
+					(«InternalContainer.name») target;
 				tmp.getModelElements().add((«n.fqInternalBeanName») o);
 			}
 			
@@ -106,39 +108,40 @@ class NodeMoveFeatures extends GeneratorUtils{
 			all.addAll(tmp.getOutgoing());
 			for («InternalEdge.name» e : all) {
 				«InternalModelElementContainer.name» ce = e.getContainer();
-				«ModelElementContainer.name» common = 
-					«n.graphModel.packageName».«n.graphModel.name»GraphitiUtils.getInstance().getCommonContainer(ce.getContainerElement(), («Edge.name») e.getElement());
+				«InternalModelElementContainer.name» common = 
+					new «GraphModelExtension.name»().getCommonContainer(ce, e);
 				ce.getModelElements().remove(e);
-				common.getInternalContainerElement().getModelElements().add(e);
+				common.getModelElements().add(e);
 			}
 
 			super.moveShape(context);
 		}
 		
-		/**
-		 * Tries to get the root of the pictogram element, the coordinates of the context and the source and target
-		 * @param context : Contains the information, needed to let a feature move a shape
-		*/
-		@Override
-		protected void postMoveShape(«IMoveShapeContext.name» context) {
-			try {
-				«n.fqBeanName» _s = 
-					(«n.fqBeanName») ((«n.fqInternalBeanName») getBusinessObjectForPictogramElement(context.getPictogramElement())).getElement();
-			
-				int x = context.getX();
-				int y = context.getY();
-				int deltaX = context.getDeltaX();
-				int deltaY = context.getDeltaY();
-			
-				«InternalModelElementContainer.name» source = («InternalModelElementContainer.name») getBusinessObjectForPictogramElement(context.getSourceContainer());
-				«InternalModelElementContainer.name» target = («InternalModelElementContainer.name») getBusinessObjectForPictogramElement(context.getTargetContainer());
-			
-			} catch (Exception e) {
-			
-			}
-			super.postMoveShape(context);
-		}
-
+«««		Do not generate postMove method. It should be executed in the new API
+«««		/**
+«««		 * Tries to get the root of the pictogram element, the coordinates of the context and the source and target
+«««		 * @param context : Contains the information, needed to let a feature move a shape
+«««		*/
+«««		@Override
+«««		protected void postMoveShape(«IMoveShapeContext.name» context) {
+«««			try {
+«««				«n.fqBeanName» _s = 
+«««					(«n.fqBeanName») ((«n.fqInternalBeanName») getBusinessObjectForPictogramElement(context.getPictogramElement())).getElement();
+«««			
+«««				int x = context.getX();
+«««				int y = context.getY();
+«««				int deltaX = context.getDeltaX();
+«««				int deltaY = context.getDeltaY();
+«««			
+«««				«InternalModelElementContainer.name» source = («InternalModelElementContainer.name») getBusinessObjectForPictogramElement(context.getSourceContainer());
+«««				«InternalModelElementContainer.name» target = («InternalModelElementContainer.name») getBusinessObjectForPictogramElement(context.getTargetContainer());
+«««			
+«««			} catch (Exception e) {
+«««			
+«««			}
+«««			super.postMoveShape(context);
+«««		}
+«««
 		/**
 		 * Get-method for an error
 		 * @return Returns an 'error' in which 'error' is  'ECincoError.OK'

@@ -546,20 +546,4 @@ public class CincoUtils {
 		return findAnnotation(me, "doubleClickAction");
 	}
 	
-	public static InternalModelElementContainer getCommonContainer(InternalModelElementContainer ce, InternalEdge e) {
-		InternalNode source = e.get_sourceElement();
-		InternalNode target = e.get_targetElement();
-		if (org.eclipse.emf.ecore.util.EcoreUtil.isAncestor(ce, source) && org.eclipse.emf.ecore.util.EcoreUtil.isAncestor(ce, target)) {
-			for (InternalModelElement c : ce.getModelElements()) {
-				if (c instanceof InternalModelElementContainer) {
-					if (org.eclipse.emf.ecore.util.EcoreUtil.isAncestor(c, source) && org.eclipse.emf.ecore.util.EcoreUtil.isAncestor(c, target)) {
-						return getCommonContainer((InternalModelElementContainer) c, e);
-					}
-				}
-			}
-		} else if (ce instanceof InternalModelElement) {
-			getCommonContainer(((InternalModelElement) ce).getContainer(), e);
-		}
-		return ce;
-	}
 }

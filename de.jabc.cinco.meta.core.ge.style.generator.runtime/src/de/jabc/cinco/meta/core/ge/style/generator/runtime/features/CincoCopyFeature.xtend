@@ -1,15 +1,18 @@
 package de.jabc.cinco.meta.core.ge.style.generator.runtime.features
 
+import graphmodel.internal.InternalGraphModel
+import java.util.ArrayList
+import java.util.HashSet
+import java.util.List
+import java.util.Set
 import org.eclipse.graphiti.features.IFeatureProvider
 import org.eclipse.graphiti.features.context.ICopyContext
 import org.eclipse.graphiti.mm.pictograms.Anchor
 import org.eclipse.graphiti.mm.pictograms.AnchorContainer
+import org.eclipse.graphiti.mm.pictograms.Connection
+import org.eclipse.graphiti.mm.pictograms.ContainerShape
 import org.eclipse.graphiti.mm.pictograms.PictogramElement
 import org.eclipse.graphiti.ui.features.AbstractCopyFeature
-import org.eclipse.graphiti.mm.pictograms.Connection
-import java.util.ArrayList
-import java.util.HashSet
-import graphmodel.internal.InternalGraphModel
 
 class CincoCopyFeature extends AbstractCopyFeature {
 	
@@ -36,16 +39,26 @@ class CincoCopyFeature extends AbstractCopyFeature {
 		putToClipboard(objects)
 	}
 
-	private def edges(PictogramElement[] pes) {
-		pes.map[ pe |
+	private def edges(Set<PictogramElement> pes) {
+		val allpes = pes.map[allContainedPes].flatten
+		allpes.dropWhile[it instanceof Connection]
+		allpes.map[ pe |
 			if (pe instanceof AnchorContainer) {
-				pe.anchors.map[connection(pes)]
+				pe.anchors?.map[connection(allpes)]
 			}
-		].flatten.flatten
+		].flatten.flatten.clone
 	}
 	
-	private def connection(Anchor a, PictogramElement[] pes) {
-		val connections  = (a.incomingConnections + a.outgoingConnections)
-		connections.filter[pes.contains(start.parent) && pes.contains(end.parent)].toSet
+	private def connection(Anchor a, Iterable<PictogramElement> pes) {
+		val connections  = (a?.incomingConnections + a?.outgoingConnections)
+		connections.filter[pes.toSet.contains(start.parent) && pes.toSet.contains(end.parent)].toSet
+	}
+	
+	private def Iterable<PictogramElement> allContainedPes(PictogramElement pe) {
+		if (pe instanceof ContainerShape) {
+			#[pe] + pe.children.map[allContainedPes].flatten
+		}
+		else #[pe]
+
 	}
 }
