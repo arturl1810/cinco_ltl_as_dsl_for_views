@@ -1,14 +1,17 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
-Bundle-SymbolicName: de.jabc.cinco.meta.core.ge.style.generator.runtime
+Bundle-SymbolicName: de.jabc.cinco.meta.core.ge.style.generator.runtime;singleton:=true
 Bundle-Version: 0.8.0.qualifier
+Bundle-ClassPath: .
 Bundle-Activator: de.jabc.cinco.meta.core.ge.style.generator.runtime.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
+ org.eclipse.emf.ecore;visibility:=reexport,
  org.eclipse.graphiti,
- org.eclipse.graphiti.mm,
+ org.eclipse.graphiti.mm;visibility:=reexport,
  de.jabc.cinco.meta.core.ge.style.model,
+ de.jabc.cinco.meta.core.mgl.model;visibility:=reexport,
  org.eclipse.graphiti.ui,
  org.eclipse.draw2d,
  com.google.guava,
@@ -21,14 +24,19 @@ Require-Bundle: org.eclipse.ui,
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Export-Package: de.jabc.cinco.meta.core.ge.style.generator.runtime.addfeature,
- de.jabc.cinco.meta.core.ge.style.generator.runtime.appearance;uses:="style",
+ de.jabc.cinco.meta.core.ge.style.generator.runtime.appearance;
+  uses:="style",
  de.jabc.cinco.meta.core.ge.style.generator.runtime.createfeature,
  de.jabc.cinco.meta.core.ge.style.generator.runtime.customfeature,
  de.jabc.cinco.meta.core.ge.style.generator.runtime.errorhandling,
  de.jabc.cinco.meta.core.ge.style.generator.runtime.expressionlanguage,
  de.jabc.cinco.meta.core.ge.style.generator.runtime.features,
  de.jabc.cinco.meta.core.ge.style.generator.runtime.provider,
- de.jabc.cinco.meta.core.ge.style.generator.runtime.utils
+ de.jabc.cinco.meta.core.ge.style.generator.runtime.utils,
+ grinco,
+ grinco.impl,
+ grinco.util
 Bundle-Vendor: %providerName
+Bundle-Localization: plugin
 Import-Package: com.sun.el;version="2.2.0",
  javax.el

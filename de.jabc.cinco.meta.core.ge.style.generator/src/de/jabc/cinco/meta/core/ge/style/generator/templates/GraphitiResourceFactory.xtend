@@ -54,7 +54,7 @@ class GraphitiResourceFactory {
 				«FOR me : gm.modelElements»
 				«me.fqInternalName» : {
 					var cElement = new «me.fqCName»()
-					cElement.pictogramElement = pe
+					cElement.pictogramElement = pe as «me.pictogramElementReturnType»
 					it.element = cElement
 «««					new «me.fqCName»()
 				}

@@ -47,6 +47,11 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import de.jabc.cinco.meta.util.xapi.FileExtension;
+import graphmodel.internal.InternalContainer;
+import graphmodel.internal.InternalEdge;
+import graphmodel.internal.InternalModelElement;
+import graphmodel.internal.InternalModelElementContainer;
+import graphmodel.internal.InternalNode;
 import mgl.Annotation;
 import mgl.Attribute;
 import mgl.Edge;
@@ -540,4 +545,5 @@ public class CincoUtils {
 	{
 		return findAnnotation(me, "doubleClickAction");
 	}
+	
 }

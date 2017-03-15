@@ -49,6 +49,12 @@ import org.eclipse.graphiti.mm.pictograms.Connection
 import de.jabc.cinco.meta.core.ge.style.generator.templates.util.APIUtils
 import graphmodel.Node
 import graphmodel.ModelElement
+import org.eclipse.graphiti.features.ICopyFeature
+import org.eclipse.graphiti.features.IPasteFeature
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoCopyFeature
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoPasteFeature
+import org.eclipse.graphiti.features.context.ICopyContext
+import org.eclipse.graphiti.features.context.IPasteContext
 
 class FeatureProviderTmpl extends APIUtils{
 	
@@ -147,7 +153,7 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 	public «IDeleteFeature.name» getDeleteFeature(«IDeleteContext.name» context) {
 		«EObject.name» bo = («EObject.name») getBusinessObjectForPictogramElement(context.getPictogramElement());
 		
-		«FOR n : gm.nodes»
+		«FOR n : gm.modelElements.filter[!(it instanceof GraphModel)]»
 		if («n.internalInstanceofCheck("bo")»)
 			return new «n.packageNameDelete».DeleteFeature«n.fuName»(this);
 		«ENDFOR»
@@ -258,6 +264,16 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 			«ENDFOR»
 		}
 		return new «ICustomFeature.name»[] {};
+	}
+	
+	@Override
+	public «ICopyFeature.name» getCopyFeature(«ICopyContext.name» context) {
+		return new «CincoCopyFeature.name»(this);
+	}
+		
+	@Override
+	public «IPasteFeature.name» getPasteFeature(«IPasteContext.name» context) {
+		return new «CincoPasteFeature.name»(this);
 	}
 	
 	@Override

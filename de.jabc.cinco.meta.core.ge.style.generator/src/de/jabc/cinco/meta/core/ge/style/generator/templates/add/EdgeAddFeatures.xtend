@@ -3,12 +3,17 @@ package de.jabc.cinco.meta.core.ge.style.generator.templates.add
 import com.sun.el.ExpressionFactoryImpl
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoAbstractAddFeature
 import de.jabc.cinco.meta.core.ge.style.generator.templates.LayoutFeatureTmpl
+import de.jabc.cinco.meta.core.ge.style.generator.templates.util.APIUtils
 import de.jabc.cinco.meta.core.ge.style.generator.templates.util.StyleUtils
 import de.jabc.cinco.meta.core.utils.CincoUtils
-import graphmodel.ModelElementContainer
+import de.jabc.cinco.meta.util.xapi.ResourceExtension
+import graphmodel.internal.InternalGraphModel
+import graphmodel.internal.InternalModelElementContainer
 import mgl.Edge
 import org.eclipse.emf.common.util.BasicEList
 import org.eclipse.emf.common.util.EList
+import org.eclipse.emf.ecore.EObject
+import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.util.EcoreUtil
 import org.eclipse.graphiti.features.IFeatureProvider
 import org.eclipse.graphiti.features.IUpdateFeature
@@ -33,11 +38,7 @@ import org.eclipse.graphiti.services.IPeCreateService
 import org.eclipse.graphiti.services.IPeService
 import style.AbstractShape
 import style.Styles
-import org.eclipse.emf.ecore.resource.Resource
-import org.eclipse.emf.ecore.EObject
-import graphmodel.internal.InternalGraphModel
-import de.jabc.cinco.meta.util.xapi.ResourceExtension
-import de.jabc.cinco.meta.core.ge.style.generator.templates.util.APIUtils
+import de.jabc.cinco.meta.runtime.xapi.GraphModelExtension
 
 class EdgeAddFeatures extends APIUtils {
 	
@@ -181,9 +182,8 @@ class EdgeAddFeatures extends APIUtils {
 			
 			«Resource.name» eResource = ((«EObject.name») sourceBo).eResource();
 			«InternalGraphModel.name» internalGraphModel = new «ResourceExtension.name»().getContent(eResource, «e.graphModel.fqInternalBeanName».class);
-			«ModelElementContainer.name» container = 
-				«e.graphModel.packageName».«e.graphModel.name»GraphitiUtils.getInstance().getCommonContainer(internalGraphModel.getElement(), («graphmodel.Edge.name») «e.flName».getElement());
-			container.getInternalContainerElement().getModelElements().add(«e.flName»);
+			«InternalModelElementContainer.name» container = new «GraphModelExtension.name»().getCommonContainer(internalGraphModel, «e.flName»);
+					container.getModelElements().add(«e.flName»);
 	
 			if (hook) {
 			}

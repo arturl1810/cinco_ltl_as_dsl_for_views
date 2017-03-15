@@ -3,6 +3,10 @@ package de.jabc.cinco.meta.core.ge.style.generator.runtime.features;
 import graphmodel.Edge;
 import graphmodel.GraphModel;
 import graphmodel.ModelElementContainer;
+import graphmodel.internal.InternalContainer;
+import graphmodel.internal.InternalEdge;
+import graphmodel.internal.InternalGraphModel;
+import graphmodel.internal.InternalModelElementContainer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,10 +44,10 @@ public abstract class CincoDeleteFeature extends DefaultDeleteFeature {
 	public void postDelete(IDeleteContext context) {
 		Object object = getBusinessObjectForPictogramElement(getDiagram());
 		
-		if (!(object instanceof GraphModel))
+		if (!(object instanceof InternalGraphModel))
 			return;
 		
-		ModelElementContainer mec = (ModelElementContainer) object;
+		InternalModelElementContainer mec = (InternalModelElementContainer) object;
 		deleteDanglingEdges(mec);
 	}
 
@@ -114,12 +118,17 @@ public abstract class CincoDeleteFeature extends DefaultDeleteFeature {
 		
 	}
 	
-	private void deleteDanglingEdges(ModelElementContainer mec) {
-		List<Edge> danglingEdges = mec.getAllEdges().stream().filter(e -> e.getSourceElement() == null || e.getTargetElement() == null).collect(Collectors.toList());
+	private void deleteDanglingEdges(InternalModelElementContainer mec) {
+		List<InternalEdge> danglingEdges = mec.getModelElements().stream().filter(e -> e instanceof InternalEdge)
+				.map(e -> (InternalEdge) e)
+				.filter(e -> e.get_sourceElement() == null || e.get_targetElement() == null)
+				.collect(Collectors.toList());
+		
 		List<PictogramElement> pes = Graphiti.getLinkService().getPictogramElements(getDiagram(), danglingEdges.stream().map(e -> (EObject) e).collect(Collectors.toList()), true);
-		deleteBusinessObjects(danglingEdges.toArray(new graphmodel.Edge[0]));
+//		List<PictogramElement> pes = Graphiti.getLinkService().getPictogramElements(getDiagram(), danglingEdges.stream().map(e -> (EObject) e).collect(Collectors.toList()), false);
+		deleteBusinessObjects(danglingEdges.toArray(new InternalEdge[0]));
 		deleteBusinessObjects(pes.toArray(new PictogramElement[pes.size()]));
-		mec.getAllContainers().forEach(c -> deleteDanglingEdges(c));
+		mec.getModelElements().stream().filter(me -> me instanceof InternalContainer).forEach(c -> deleteDanglingEdges((InternalModelElementContainer) c));
 	}
 
 	private List<Object> collectCompositeConnectionsBOs(CompositeConnection composite) {
