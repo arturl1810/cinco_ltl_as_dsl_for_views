@@ -69,7 +69,7 @@ public class «me.fuCViewName» extends «me.fqBeanViewName» {
 def doGenerateImpl(ModelElement me)'''
 package «me.packageNameAPI»;
 
-public «IF me.isIsAbstract»abstract«ENDIF» class «me.fuCName» extends «me.fqBeanImplName» implements «me.grincoInterface»{
+public «IF me.isIsAbstract»abstract«ENDIF» class «me.fuCName» extends «me.fqBeanImplName» {
 	
 	private «PictogramElement.name» pe;
 	
