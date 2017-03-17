@@ -2,7 +2,7 @@ package de.jabc.cinco.meta.core.ge.style.generator.runtime.features
 
 import graphmodel.internal.InternalEdge
 import graphmodel.internal.InternalFactory
-import graphmodel.internal.Point
+import graphmodel.internal._Point
 import org.eclipse.graphiti.features.IFeatureProvider
 import org.eclipse.graphiti.features.context.IMoveBendpointContext
 import org.eclipse.graphiti.features.impl.DefaultMoveBendpointFeature
@@ -21,7 +21,7 @@ class CincoMoveBendpointFeature extends DefaultMoveBendpointFeature {
 		var boolean retval = super.moveBendpoint(context)
 		var FreeFormConnection connection = context.getConnection()
 		var InternalEdge edge = (getBusinessObjectForPictogramElement(connection) as InternalEdge)
-		var Point p = InternalFactory.eINSTANCE.createPoint() => [x = context.x; y = context.y]
+		var _Point p = InternalFactory.eINSTANCE.create_Point() => [x = context.x; y = context.y]
 		edge.getBendpoints().set(context.getBendpointIndex(), p)
 		return retval
 	}

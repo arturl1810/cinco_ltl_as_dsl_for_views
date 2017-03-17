@@ -187,9 +187,9 @@
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference GraphModel.ecore#//internal/InternalGraphModel/element"/>
         <genOperations ecoreOperation="GraphModel.ecore#//internal/InternalGraphModel/getContainerElement"/>
       </genClasses>
-      <genClasses ecoreClass="GraphModel.ecore#//internal/Point">
-        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute GraphModel.ecore#//internal/Point/x"/>
-        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute GraphModel.ecore#//internal/Point/y"/>
+      <genClasses ecoreClass="GraphModel.ecore#//internal/_Point">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute GraphModel.ecore#//internal/_Point/x"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute GraphModel.ecore#//internal/_Point/y"/>
       </genClasses>
     </nestedGenPackages>
   </genPackages>
