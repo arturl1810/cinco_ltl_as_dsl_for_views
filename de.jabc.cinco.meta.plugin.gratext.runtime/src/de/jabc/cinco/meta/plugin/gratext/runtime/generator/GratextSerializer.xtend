@@ -118,8 +118,9 @@ abstract class GratextSerializer {
 	}
 	
 	def placement(InternalNode node) {
-		val ga = node.pe.graphicsAlgorithm
-		'''at «ga.x»,«ga.y» size «ga.width»,«ga.height» «node.index»'''
+//		val ga = node.pe.graphicsAlgorithm
+//		'''at «ga.x»,«ga.y» size «ga.width»,«ga.height» «node.index»'''
+		'''at «node.x»,«node.y» size «node.width»,«node.height» «node.index»'''
 	}
 	
 	def index(InternalNode node) {

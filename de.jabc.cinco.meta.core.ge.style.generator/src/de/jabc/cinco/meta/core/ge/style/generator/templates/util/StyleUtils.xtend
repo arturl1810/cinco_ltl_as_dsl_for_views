@@ -96,6 +96,11 @@ class StyleUtils extends APIUtils {
 			
 			peService.createChopboxAnchor(«currentPeName»);
 			layoutPictogramElement(«currentPeName»);
+			
+			bo.setX(«currentPeName».getGraphicsAlgorithm().getX());
+			bo.setY(«currentPeName».getGraphicsAlgorithm().getY());
+			bo.setWidth(«currentPeName».getGraphicsAlgorithm().getWidth());
+			bo.setHeight(«currentPeName».getGraphicsAlgorithm().getHeight());
 
 			if (hook) {
 			}

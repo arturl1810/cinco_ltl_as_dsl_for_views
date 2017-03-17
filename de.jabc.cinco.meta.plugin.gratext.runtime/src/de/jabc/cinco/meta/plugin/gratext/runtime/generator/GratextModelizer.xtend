@@ -38,6 +38,7 @@ import org.eclipse.swt.SWTException
 import static org.eclipse.graphiti.ui.services.GraphitiUi.getExtensionManager
 
 import static extension de.jabc.cinco.meta.plugin.gratext.runtime.generator.GratextGenerator.*
+import graphmodel.internal.Point
 
 abstract class GratextModelizer {
 	
@@ -146,8 +147,8 @@ abstract class GratextModelizer {
 		]
 	}
 	
-	def add(Pair<Integer,Integer> p, FreeFormConnection connection, int index) {
-		val ctx = new AddBendpointContext(connection, p.key, p.value, index)
+	def add(Point p, FreeFormConnection connection, int index) {
+		val ctx = new AddBendpointContext(connection, p.x, p.y, index)
 		diagramTypeProvider.diagramBehavior.executeFeature(
 			featureProvider.getAddBendpointFeature(ctx), ctx);
 	}
