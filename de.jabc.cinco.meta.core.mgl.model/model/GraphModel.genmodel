@@ -49,6 +49,14 @@
       </genOperations>
       <genOperations ecoreOperation="GraphModel.ecore#//Node/getIncoming.1"/>
       <genOperations ecoreOperation="GraphModel.ecore#//Node/getOutgoing.1"/>
+      <genOperations ecoreOperation="GraphModel.ecore#//Node/move">
+        <genParameters ecoreParameter="GraphModel.ecore#//Node/move/x"/>
+        <genParameters ecoreParameter="GraphModel.ecore#//Node/move/y"/>
+      </genOperations>
+      <genOperations ecoreOperation="GraphModel.ecore#//Node/resize">
+        <genParameters ecoreParameter="GraphModel.ecore#//Node/resize/width"/>
+        <genParameters ecoreParameter="GraphModel.ecore#//Node/resize/height"/>
+      </genOperations>
     </genClasses>
     <genClasses image="false" ecoreClass="GraphModel.ecore#//Edge">
       <genOperations ecoreOperation="GraphModel.ecore#//Edge/getSourceElement"/>
@@ -145,6 +153,9 @@
             ecoreFeature="ecore:EReference GraphModel.ecore#//internal/InternalEdge/_sourceElement"/>
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
             ecoreFeature="ecore:EReference GraphModel.ecore#//internal/InternalEdge/_targetElement"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference GraphModel.ecore#//internal/InternalEdge/bendpoints"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference GraphModel.ecore#//internal/InternalEdge/decorators"/>
         <genOperations ecoreOperation="GraphModel.ecore#//internal/InternalEdge/getSourceElement"/>
         <genOperations ecoreOperation="GraphModel.ecore#//internal/InternalEdge/getTargetElement"/>
         <genOperations ecoreOperation="GraphModel.ecore#//internal/InternalEdge/setSourceElement">
@@ -176,6 +187,15 @@
       <genClasses image="false" ecoreClass="GraphModel.ecore#//internal/InternalGraphModel">
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference GraphModel.ecore#//internal/InternalGraphModel/element"/>
         <genOperations ecoreOperation="GraphModel.ecore#//internal/InternalGraphModel/getContainerElement"/>
+      </genClasses>
+      <genClasses ecoreClass="GraphModel.ecore#//internal/_Point">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute GraphModel.ecore#//internal/_Point/x"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute GraphModel.ecore#//internal/_Point/y"/>
+      </genClasses>
+      <genClasses ecoreClass="GraphModel.ecore#//internal/_Decoration">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute GraphModel.ecore#//internal/_Decoration/nameHint"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference GraphModel.ecore#//internal/_Decoration/locationShift"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute GraphModel.ecore#//internal/_Decoration/location"/>
       </genClasses>
     </nestedGenPackages>
   </genPackages>

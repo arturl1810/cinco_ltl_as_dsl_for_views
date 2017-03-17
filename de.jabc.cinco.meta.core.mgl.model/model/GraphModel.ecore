@@ -446,6 +446,10 @@
           eOpposite="#//internal/InternalNode/outgoing"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="_targetElement" eType="#//internal/InternalNode"
           eOpposite="#//internal/InternalNode/incoming"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="bendpoints" upperBound="-1"
+          eType="#//internal/_Point" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="decorators" upperBound="-1"
+          eType="#//internal/_Decoration"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="InternalContainer" eSuperTypes="#//internal/InternalNode #//internal/InternalModelElementContainer">
       <eOperations name="getContainerElement" eType="#//ModelElementContainer">
@@ -510,6 +514,16 @@
       </eOperations>
       <eStructuralFeatures xsi:type="ecore:EReference" name="element" eType="#//GraphModel"
           containment="true" eOpposite="#//GraphModel/internalElement"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="_Point">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="x" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="y" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="_Decoration">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="nameHint" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="locationShift" eType="#//internal/_Point"
+          containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="location" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
     </eClassifiers>
   </eSubpackages>
 </ecore:EPackage>

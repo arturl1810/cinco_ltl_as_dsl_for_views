@@ -9,6 +9,8 @@ import de.jabc.cinco.meta.core.utils.CincoUtils
 import de.jabc.cinco.meta.util.xapi.ResourceExtension
 import graphmodel.internal.InternalGraphModel
 import graphmodel.internal.InternalModelElementContainer
+import graphmodel.internal._Decoration
+import graphmodel.internal._Point
 import mgl.Edge
 import org.eclipse.emf.common.util.BasicEList
 import org.eclipse.emf.common.util.EList
@@ -39,6 +41,7 @@ import org.eclipse.graphiti.services.IPeService
 import style.AbstractShape
 import style.Styles
 import de.jabc.cinco.meta.runtime.xapi.GraphModelExtension
+import graphmodel.internal.InternalFactory
 
 class EdgeAddFeatures extends APIUtils {
 	
@@ -105,6 +108,8 @@ class EdgeAddFeatures extends APIUtils {
 			// create link and wire it
 			link(connection, «e.flName»);
 			«ConnectionDecorator.name» cd;
+			«_Decoration.name» _d = «InternalFactory.name».eINSTANCE.create_Decoration();
+			«_Point.name» _p = «InternalFactory.name».eINSTANCE.create_Point();
 			«clear»
 			«FOR d : CincoUtils.getStyleForEdge(e, styles).decorator»			
 				«IF d.predefinedDecorator != null »	
@@ -175,6 +180,15 @@ class EdgeAddFeatures extends APIUtils {
 				createShapeImage«image.length»(cd, «e.flName», "«imageShape.path»");
 				«ENDIF»
 				link(cd, «e.flName»);
+				_d = «InternalFactory.name».eINSTANCE.create_Decoration();
+				_p = «InternalFactory.name».eINSTANCE.create_Point();
+				_d.setLocation(«d.location»);
+				_d.setNameHint(cd.getGraphicsAlgorithm().getClass().getSimpleName());
+				_p.setX(cd.getGraphicsAlgorithm().getX());
+				_p.setY(cd.getGraphicsAlgorithm().getY());
+				_d.setLocationShift(_p);
+				labeledTransition.getDecorators().add(«CincoUtils.getStyleForEdge(e, styles).decorator.indexOf(d)», _d);
+				peService.setPropertyValue(cd, "cdIndex", "«CincoUtils.getStyleForEdge(e, styles).decorator.indexOf(d)»");
 				«{image.add(imageShape); ""}»
 				«ENDIF»
 				«ENDIF»
