@@ -449,7 +449,7 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="bendpoints" upperBound="-1"
           eType="#//internal/_Point" containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="decorators" upperBound="-1"
-          eType="#//internal/_Decoration"/>
+          eType="#//internal/_Decoration" containment="true"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="InternalContainer" eSuperTypes="#//internal/InternalNode #//internal/InternalModelElementContainer">
       <eOperations name="getContainerElement" eType="#//ModelElementContainer">

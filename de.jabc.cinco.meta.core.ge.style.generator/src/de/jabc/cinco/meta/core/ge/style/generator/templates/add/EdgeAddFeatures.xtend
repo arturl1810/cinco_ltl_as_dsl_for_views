@@ -81,9 +81,9 @@ class EdgeAddFeatures extends APIUtils {
 			«e.fqInternalBeanName» «e.flName» = («e.fqInternalBeanName») context.getNewObject();
 			if («e.flName».getId() == null || «e.flName».getId().isEmpty())
 				«e.flName».setId(«EcoreUtil.name».generateUUID());
-			«IPeCreateService.name» peCreateService = «Graphiti.name».getPeCreateService();
+			«IPeService.name» peService = «Graphiti.name».getPeService();
 	       
-			«Connection.name» connection = peCreateService.createFreeFormConnection(getDiagram());
+			«Connection.name» connection = peService.createFreeFormConnection(getDiagram());
 			connection.setStart(addConContext.getSourceAnchor());
 			connection.setEnd(addConContext.getTargetAnchor());
 			
@@ -113,9 +113,17 @@ class EdgeAddFeatures extends APIUtils {
 			«clear»
 			«FOR d : CincoUtils.getStyleForEdge(e, styles).decorator»			
 				«IF d.predefinedDecorator != null »	
-				cd = peCreateService.createConnectionDecorator(connection, false,«d.location», true);
+				cd = peService.createConnectionDecorator(connection, false,«d.location», true);
 				de.jabc.cinco.meta.core.ge.style.generator.runtime.utils.CincoLayoutUtils.create«d.predefinedDecorator.shape.name()»(cd);
-
+				_d = «InternalFactory.name».eINSTANCE.create_Decoration();
+				_p = «InternalFactory.name».eINSTANCE.create_Point();
+				_d.setLocation(«d.location»);
+				_d.setNameHint(cd.getGraphicsAlgorithm().getClass().getSimpleName().substring(0,cd.getGraphicsAlgorithm().getClass().getSimpleName().lastIndexOf("Impl")));
+				_p.setX(cd.getGraphicsAlgorithm().getX());
+				_p.setY(cd.getGraphicsAlgorithm().getY());
+				_d.setLocationShift(_p);
+				«e.flName».getDecorators().add(«CincoUtils.getStyleForEdge(e, styles).decorator.indexOf(d)», _d);
+				peService.setPropertyValue(cd, "cdIndex", "«CincoUtils.getStyleForEdge(e, styles).decorator.indexOf(d)»");
 				«IF d.predefinedDecorator.shape.name() == "ARROW"»				
 				«e.graphModel.packageName».«e.graphModel.fuName»LayoutUtils.setdefaultStyle(cd.getGraphicsAlgorithm(), getDiagram());
 				«ENDIF»
@@ -127,7 +135,7 @@ class EdgeAddFeatures extends APIUtils {
 				«IF d.decoratorShape != null»	
 				«IF d.decoratorShape instanceof style.Text»	
 				«var textShape = d.decoratorShape as style.Text»
-				cd = peCreateService.createConnectionDecorator(connection, «d.movable»,«d.location», true);
+				cd = peService.createConnectionDecorator(connection, «d.movable»,«d.location», true);
 				createShapeText«text.length»(cd,
 					(«e.fqInternalBeanName») «e.flName»,
 					"«textShape.value»");
@@ -135,7 +143,7 @@ class EdgeAddFeatures extends APIUtils {
 				«{text.add(textShape); ""}»
 				«ELSEIF d.decoratorShape instanceof style.Polyline»
 				«var polylineShape = d.decoratorShape as style.Polyline»
-				cd = peCreateService.createConnectionDecorator(connection, «d.movable», «d.location», true);
+				cd = peService.createConnectionDecorator(connection, «d.movable», «d.location», true);
 				«IF polylineShape.size != null»
 				createShapePolyline«polyline.length»(cd, «e.flName», «polylineShape.width», «polylineShape.heigth»);
 				«ELSE»
@@ -145,7 +153,7 @@ class EdgeAddFeatures extends APIUtils {
 				«{polyline.add(polylineShape); ""}»		
 				«ELSEIF d.decoratorShape instanceof style.Ellipse»
 				«var ellipseShape = d.decoratorShape as style.Ellipse»
-				cd = peCreateService.createConnectionDecorator(connection, «d.movable», «d.location», true);
+				cd = peService.createConnectionDecorator(connection, «d.movable», «d.location», true);
 				«IF ellipseShape.size != null»
 				createShapeEllipse«ellipse.length»(cd, «e.flName», «ellipseShape.width», «ellipseShape.heigth»);
 				«ELSE»
@@ -155,7 +163,7 @@ class EdgeAddFeatures extends APIUtils {
 				«{ellipse.add(ellipseShape); ""}»				
 				«ELSEIF d.decoratorShape instanceof style.Polygon»
 				«var polygonShape = d.decoratorShape as style.Polygon»
-				cd = peCreateService.createConnectionDecorator(connection, «d.movable», «d.location», true);
+				cd = peService.createConnectionDecorator(connection, «d.movable», «d.location», true);
 				«IF polygonShape.size != null»
 				createShapePolygon«polygon.length»(cd, «e.flName», «polygonShape.width», «polygonShape.heigth»);
 				«ELSE»
@@ -165,7 +173,7 @@ class EdgeAddFeatures extends APIUtils {
 				«{polygon.add(polygonShape); ""}»				
 				«ELSEIF d.decoratorShape instanceof style.MultiText»
 				«var multitextShape = d.decoratorShape as style.MultiText»
-				cd = peCreateService.createConnectionDecorator(connection, «d.movable», «d.location», true);
+				cd = peService.createConnectionDecorator(connection, «d.movable», «d.location», true);
 				createShapeMultiText«multitext.length»(cd, 
 					(«e.fqInternalBeanName») «e.flName»,
 					"«multitextShape.value»");
@@ -173,24 +181,24 @@ class EdgeAddFeatures extends APIUtils {
 				«{multitext.add(multitextShape); ""}»				
 				«ELSEIF d.decoratorShape instanceof style.Image»
 				«var imageShape = d.decoratorShape as style.Image»
-				cd = peCreateService.createConnectionDecorator(connection, «d.movable»,«d.location», true);
+				cd = peService.createConnectionDecorator(connection, «d.movable»,«d.location», true);
 				«IF imageShape.size != null»
 				createShapeImage«image.length»(cd, «e.flName», "«imageShape.path»", «imageShape.width», «imageShape.heigth»);
 				«ELSE»
 				createShapeImage«image.length»(cd, «e.flName», "«imageShape.path»");
 				«ENDIF»
 				link(cd, «e.flName»);
+				«{image.add(imageShape); ""}»
+				«ENDIF»
 				_d = «InternalFactory.name».eINSTANCE.create_Decoration();
 				_p = «InternalFactory.name».eINSTANCE.create_Point();
 				_d.setLocation(«d.location»);
-				_d.setNameHint(cd.getGraphicsAlgorithm().getClass().getSimpleName());
+				_d.setNameHint(cd.getGraphicsAlgorithm().getClass().getSimpleName().substring(0,cd.getGraphicsAlgorithm().getClass().getSimpleName().lastIndexOf("Impl")));
 				_p.setX(cd.getGraphicsAlgorithm().getX());
 				_p.setY(cd.getGraphicsAlgorithm().getY());
 				_d.setLocationShift(_p);
-				labeledTransition.getDecorators().add(«CincoUtils.getStyleForEdge(e, styles).decorator.indexOf(d)», _d);
+				«e.flName».getDecorators().add(«CincoUtils.getStyleForEdge(e, styles).decorator.indexOf(d)», _d);
 				peService.setPropertyValue(cd, "cdIndex", "«CincoUtils.getStyleForEdge(e, styles).decorator.indexOf(d)»");
-				«{image.add(imageShape); ""}»
-				«ENDIF»
 				«ENDIF»
 			«ENDFOR»
 			
