@@ -19,9 +19,6 @@ import mgl.PrimitiveAttribute
 import java.math.BigDecimal
 import java.math.BigInteger
 import de.jabc.cinco.meta.core.utils.generator.GeneratorUtils
-import grinco.GrincoNode
-import grinco.GrincoGraphmodel
-import grinco.GrincoEdge
 import org.eclipse.graphiti.mm.pictograms.ContainerShape
 import org.eclipse.graphiti.mm.pictograms.Connection
 
@@ -198,14 +195,6 @@ class APIUtils extends GeneratorUtils {
 	
 	def createNodeFeaturePrefix(String s) {
 		packageName + ".graphiti.features.create.nodes." + s
-	}
-	
-	def grincoInterface(ModelElement me) {
-		switch (me) {
-			Node : '''«GrincoNode.name»'''
-			Edge : '''«GrincoEdge.name»'''
-			GraphModel : '''«GrincoGraphmodel.name»'''
-		}
 	}
 	
 	def pictogramElementReturnType(ModelElement me) {
