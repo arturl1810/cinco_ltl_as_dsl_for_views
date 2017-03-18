@@ -12,6 +12,7 @@ import graphmodel.internal.InternalGraphModel
 import graphmodel.internal.InternalModelElement
 import graphmodel.internal.InternalModelElementContainer
 import graphmodel.internal.InternalNode
+import graphmodel.internal._Point
 import java.util.HashMap
 import java.util.List
 import java.util.Map
@@ -146,8 +147,8 @@ abstract class GratextModelizer {
 		]
 	}
 	
-	def add(Pair<Integer,Integer> p, FreeFormConnection connection, int index) {
-		val ctx = new AddBendpointContext(connection, p.key, p.value, index)
+	def add(_Point p, FreeFormConnection connection, int index) {
+		val ctx = new AddBendpointContext(connection, p.x, p.y, index)
 		diagramTypeProvider.diagramBehavior.executeFeature(
 			featureProvider.getAddBendpointFeature(ctx), ctx);
 	}
