@@ -22,8 +22,8 @@ class SerializerTemplate extends AbstractGratextTemplate {
 				super(res)
 			}
 			
-			new(Diagram diagram, InternalGraphModel model) {
-				super(diagram, model)
+			new(/*Diagram diagram,*/ InternalGraphModel model) {
+				super(/*diagram,*/ model)
 			}
 		}
 	'''
