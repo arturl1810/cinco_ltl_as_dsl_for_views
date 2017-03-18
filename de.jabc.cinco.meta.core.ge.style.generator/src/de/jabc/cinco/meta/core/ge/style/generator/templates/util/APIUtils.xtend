@@ -1,26 +1,26 @@
 package de.jabc.cinco.meta.core.ge.style.generator.templates.util
 
 import de.jabc.cinco.meta.core.utils.MGLUtil
+import de.jabc.cinco.meta.core.utils.generator.GeneratorUtils
+import java.math.BigDecimal
+import java.math.BigInteger
 import java.util.ArrayList
 import java.util.List
 import mgl.Attribute
+import mgl.ComplexAttribute
 import mgl.ContainingElement
 import mgl.Edge
 import mgl.GraphModel
 import mgl.ModelElement
 import mgl.Node
 import mgl.NodeContainer
+import mgl.PrimitiveAttribute
 import mgl.Type
 import org.eclipse.graphiti.features.IFeatureProvider
+import org.eclipse.graphiti.mm.pictograms.Connection
+import org.eclipse.graphiti.mm.pictograms.ContainerShape
 import org.eclipse.graphiti.mm.pictograms.Diagram
 import org.eclipse.graphiti.ui.services.GraphitiUi
-import mgl.ComplexAttribute
-import mgl.PrimitiveAttribute
-import java.math.BigDecimal
-import java.math.BigInteger
-import de.jabc.cinco.meta.core.utils.generator.GeneratorUtils
-import org.eclipse.graphiti.mm.pictograms.ContainerShape
-import org.eclipse.graphiti.mm.pictograms.Connection
 
 class APIUtils extends GeneratorUtils {
 

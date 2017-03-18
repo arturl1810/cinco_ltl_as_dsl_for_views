@@ -29,6 +29,7 @@ class CincoCopyFeature extends AbstractCopyFeature {
 	override void copy(ICopyContext context) {
 		var pes = new HashSet<PictogramElement>()
 		pes.addAll(context.getPictogramElements.toList)
+		pes.computeUpperLeft
 		var connections = pes.edges
 		pes.addAll(connections)
 		var Object[] objects = newArrayOfSize(pes.length)

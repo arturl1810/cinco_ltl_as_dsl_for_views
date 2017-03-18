@@ -154,8 +154,7 @@
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
             ecoreFeature="ecore:EReference GraphModel.ecore#//internal/InternalEdge/_targetElement"/>
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference GraphModel.ecore#//internal/InternalEdge/bendpoints"/>
-        <genFeatures notify="false" createChild="false" propertySortChoices="true"
-            ecoreFeature="ecore:EReference GraphModel.ecore#//internal/InternalEdge/decorators"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference GraphModel.ecore#//internal/InternalEdge/decorators"/>
         <genOperations ecoreOperation="GraphModel.ecore#//internal/InternalEdge/getSourceElement"/>
         <genOperations ecoreOperation="GraphModel.ecore#//internal/InternalEdge/getTargetElement"/>
         <genOperations ecoreOperation="GraphModel.ecore#//internal/InternalEdge/setSourceElement">

@@ -1,13 +1,5 @@
 package de.jabc.cinco.meta.core.ge.style.generator.runtime.features;
 
-import graphmodel.Edge;
-import graphmodel.GraphModel;
-import graphmodel.ModelElementContainer;
-import graphmodel.internal.InternalContainer;
-import graphmodel.internal.InternalEdge;
-import graphmodel.internal.InternalGraphModel;
-import graphmodel.internal.InternalModelElementContainer;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,6 +17,11 @@ import org.eclipse.graphiti.mm.pictograms.Connection;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.ui.features.DefaultDeleteFeature;
+
+import graphmodel.internal.InternalContainer;
+import graphmodel.internal.InternalEdge;
+import graphmodel.internal.InternalGraphModel;
+import graphmodel.internal.InternalModelElementContainer;
 
 public abstract class CincoDeleteFeature extends DefaultDeleteFeature {
 

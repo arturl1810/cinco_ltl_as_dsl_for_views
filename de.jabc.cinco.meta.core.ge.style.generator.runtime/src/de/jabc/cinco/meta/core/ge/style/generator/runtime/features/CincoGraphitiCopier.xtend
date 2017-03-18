@@ -6,18 +6,24 @@ import graphmodel.internal.InternalModelElement
 import graphmodel.internal.InternalModelElementContainer
 import graphmodel.internal.InternalNode
 import java.util.Collection
+import java.util.HashSet
 import org.eclipse.emf.ecore.util.EcoreUtil
 import org.eclipse.graphiti.mm.pictograms.Anchor
 import org.eclipse.graphiti.mm.pictograms.Connection
+import org.eclipse.graphiti.mm.pictograms.ConnectionDecorator
 import org.eclipse.graphiti.mm.pictograms.ContainerShape
 import org.eclipse.graphiti.mm.pictograms.PictogramElement
 import org.eclipse.graphiti.mm.pictograms.PictogramLink
 import org.eclipse.graphiti.mm.pictograms.PictogramsFactory
 import org.eclipse.graphiti.mm.pictograms.Shape
-import java.util.HashSet
-import org.eclipse.graphiti.mm.pictograms.ConnectionDecorator
+import org.eclipse.graphiti.ui.services.GraphitiUi
 
 class CincoGraphitiCopier {
+	
+	static int minX
+	static int minY
+	static int minXabs
+	static int minYabs
 	
 	def copyPE(Collection<PictogramElement> pes) {
 		var copies = new HashSet<PictogramElement>()
@@ -94,5 +100,20 @@ class CincoGraphitiCopier {
 		set_targetElement(e.get_targetElement.copy)
 	}
 	
+	def void computeUpperLeft(Collection<PictogramElement> pes) {
+		minX = pes.filter(typeof(Shape)).minBy[graphicsAlgorithm.x].graphicsAlgorithm.x
+		minY = pes.filter(typeof(Shape)).minBy[graphicsAlgorithm.y].graphicsAlgorithm.y
+		
+		minXabs = pes.filter(typeof(Shape)).minBy[locationRelativeToDiagram.x].locationRelativeToDiagram.x
+		minYabs = pes.filter(typeof(Shape)).minBy[locationRelativeToDiagram.y].locationRelativeToDiagram.y
+	}
 	
+	private def getLocationRelativeToDiagram(Shape it) {
+		GraphitiUi.uiLayoutService.getLocationRelativeToDiagram(it)
+	}
+	
+	def getMinX(){ return minX}
+	def getMinY(){ return minY}
+	def getMinXabs(){ return minXabs}
+	def getMinYabs(){ return minYabs}
 }

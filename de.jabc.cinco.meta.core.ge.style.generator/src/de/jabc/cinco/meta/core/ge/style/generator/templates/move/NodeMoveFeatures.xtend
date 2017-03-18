@@ -13,6 +13,7 @@ import org.eclipse.graphiti.features.IFeatureProvider
 import org.eclipse.graphiti.features.context.IMoveShapeContext
 import style.Styles
 import de.jabc.cinco.meta.runtime.xapi.GraphModelExtension
+import graphmodel.internal.InternalNode
 
 class NodeMoveFeatures extends GeneratorUtils{
 	
@@ -115,6 +116,8 @@ class NodeMoveFeatures extends GeneratorUtils{
 			}
 
 			super.moveShape(context);
+			((«InternalNode.name») o).setX(context.getX());
+			((«InternalNode.name») o).setY(context.getY());
 		}
 		
 «««		Do not generate postMove method. It should be executed in the new API

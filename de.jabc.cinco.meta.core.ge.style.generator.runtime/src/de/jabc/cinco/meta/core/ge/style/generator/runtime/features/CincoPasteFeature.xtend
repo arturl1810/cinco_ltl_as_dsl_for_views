@@ -70,11 +70,8 @@ class CincoPasteFeature extends AbstractPasteFeature{
 	def translate(List<PictogramElement> pes, IPasteContext context) {
 		val target = context.pictogramElements.get(0)
 		
-		val minX = pes.filter(typeof(Shape)).minBy[graphicsAlgorithm.x].graphicsAlgorithm.x
-		val minY = pes.filter(typeof(Shape)).minBy[graphicsAlgorithm.y].graphicsAlgorithm.y
-		
-		println("min x : " + minX + "/ min y : " + minY)
-		
+		println("context x : " + context.x + "/ context y : " + context.y)
+		println("abs min x : " + minXabs + "/ abs min y : " + minYabs)
 		pes.forEach[ pe | 
 			switch (pe) {
 				Shape: {
@@ -82,12 +79,17 @@ class CincoPasteFeature extends AbstractPasteFeature{
 					pe.graphicsAlgorithm.y = context.y - target.containerShift.y + (pe.graphicsAlgorithm.y - minY)
 				}
 				FreeFormConnection: {
-					pe.bendpoints.forEach[bp |
-						println("bendpoint before: " + bp.x + "/" + bp.y)
-						bp.x = context.x + (bp.x - minX)
-						bp.y = context.y + (bp.y - minY)
-						println("bendpoint after: " + bp.x + "/" + bp.y)
-					]
+//					pe.bendpoints.forEach[bp |
+//						println("bendpoint before: " + bp.x + "/" + bp.y)
+//						bp.x = context.x + (bp.x - minX)
+//						bp.y = context.y + (bp.y - minY)
+//						println("bendpoint after: " + bp.x + "/" + bp.y)
+//					]
+					for (p : pe.bendpoints) {
+						println("Bendpoint at:\t" + p.x + "/" + p.y)
+						p.x = context.x + (p.x - minXabs)
+						p.y = context.y + (p.y - minYabs)
+					}
 				}
 			}
 		]

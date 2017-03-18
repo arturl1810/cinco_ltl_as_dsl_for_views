@@ -1,11 +1,17 @@
 package de.jabc.cinco.meta.core.ge.style.generator.templates
 
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.addfeature.LibraryComponentAddFeature
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.customfeature.GraphitiCustomFeature
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoAddBendpointFeature
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoCopyFeature
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoLayoutFeature
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoMoveBendpointFeature
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoPasteFeature
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoRemoveBendpointFeature
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoUpdateFeature
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.provider.CincoFeatureProvider
+import de.jabc.cinco.meta.core.ge.style.generator.templates.util.APIUtils
 import de.jabc.cinco.meta.core.utils.MGLUtil
-import de.jabc.cinco.meta.core.utils.generator.GeneratorUtils
 import graphmodel.internal.InternalModelElement
 import graphmodel.internal.InternalNode
 import mgl.GraphModel
@@ -19,6 +25,7 @@ import org.eclipse.emf.transaction.RecordingCommand
 import org.eclipse.emf.transaction.TransactionalEditingDomain
 import org.eclipse.graphiti.dt.IDiagramTypeProvider
 import org.eclipse.graphiti.features.IAddFeature
+import org.eclipse.graphiti.features.ICopyFeature
 import org.eclipse.graphiti.features.ICreateConnectionFeature
 import org.eclipse.graphiti.features.ICreateFeature
 import org.eclipse.graphiti.features.IDeleteFeature
@@ -26,35 +33,37 @@ import org.eclipse.graphiti.features.IFeature
 import org.eclipse.graphiti.features.IFeatureProvider
 import org.eclipse.graphiti.features.ILayoutFeature
 import org.eclipse.graphiti.features.IMoveShapeFeature
+import org.eclipse.graphiti.features.IPasteFeature
 import org.eclipse.graphiti.features.IReconnectionFeature
 import org.eclipse.graphiti.features.IResizeShapeFeature
 import org.eclipse.graphiti.features.IUpdateFeature
 import org.eclipse.graphiti.features.context.IAddContext
 import org.eclipse.graphiti.features.context.IContext
+import org.eclipse.graphiti.features.context.ICopyContext
+import org.eclipse.graphiti.features.context.ICreateConnectionContext
 import org.eclipse.graphiti.features.context.ICreateContext
 import org.eclipse.graphiti.features.context.ICustomContext
 import org.eclipse.graphiti.features.context.IDeleteContext
 import org.eclipse.graphiti.features.context.ILayoutContext
 import org.eclipse.graphiti.features.context.IMoveShapeContext
+import org.eclipse.graphiti.features.context.IPasteContext
 import org.eclipse.graphiti.features.context.IReconnectionContext
 import org.eclipse.graphiti.features.context.IResizeShapeContext
 import org.eclipse.graphiti.features.context.IUpdateContext
 import org.eclipse.graphiti.features.context.impl.AddContext
 import org.eclipse.graphiti.features.custom.ICustomFeature
+import org.eclipse.graphiti.mm.pictograms.Connection
 import org.eclipse.graphiti.mm.pictograms.PictogramElement
 import org.eclipse.graphiti.ui.features.DefaultFeatureProvider
-import de.jabc.cinco.meta.core.ge.style.generator.runtime.customfeature.GraphitiCustomFeature
-import org.eclipse.graphiti.features.context.ICreateConnectionContext
-import org.eclipse.graphiti.mm.pictograms.Connection
-import de.jabc.cinco.meta.core.ge.style.generator.templates.util.APIUtils
-import graphmodel.Node
-import graphmodel.ModelElement
-import org.eclipse.graphiti.features.ICopyFeature
-import org.eclipse.graphiti.features.IPasteFeature
-import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoCopyFeature
-import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoPasteFeature
-import org.eclipse.graphiti.features.context.ICopyContext
-import org.eclipse.graphiti.features.context.IPasteContext
+import org.eclipse.graphiti.features.context.IMoveBendpointContext
+import org.eclipse.graphiti.features.context.IAddBendpointContext
+import org.eclipse.graphiti.features.context.IRemoveBendpointContext
+import org.eclipse.graphiti.features.IMoveBendpointFeature
+import org.eclipse.graphiti.features.IAddBendpointFeature
+import org.eclipse.graphiti.features.IRemoveBendpointFeature
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoMoveConnectionDecoratorFeature
+import org.eclipse.graphiti.features.IMoveConnectionDecoratorFeature
+import org.eclipse.graphiti.features.context.IMoveConnectionDecoratorContext
 
 class FeatureProviderTmpl extends APIUtils{
 	
@@ -264,6 +273,26 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 			«ENDFOR»
 		}
 		return new «ICustomFeature.name»[] {};
+	}
+	
+	@Override
+	public «IMoveBendpointFeature.name» getMoveBendpointFeature(«IMoveBendpointContext.name» context) {
+		return new «CincoMoveBendpointFeature.name»(this);
+	}
+	
+	@Override
+	public «IAddBendpointFeature.name» getAddBendpointFeature(«IAddBendpointContext.name» context) {
+		return new «CincoAddBendpointFeature.name»(this);
+	}
+	
+	@Override
+	public «IRemoveBendpointFeature.name» getRemoveBendpointFeature(«IRemoveBendpointContext.name» context) {
+		return new «CincoRemoveBendpointFeature.name»(this);
+	}
+	
+	@Override
+	public «IMoveConnectionDecoratorFeature.name» getMoveConnectionDecoratorFeature(«IMoveConnectionDecoratorContext.name» context) {
+		return new «CincoMoveConnectionDecoratorFeature.name»(this);
 	}
 	
 	@Override

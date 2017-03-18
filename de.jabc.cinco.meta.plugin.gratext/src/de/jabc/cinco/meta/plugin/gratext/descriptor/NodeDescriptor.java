@@ -12,6 +12,7 @@ import mgl.IncomingEdgeElementConnection;
 import mgl.ModelElement;
 import mgl.Node;
 import mgl.OutgoingEdgeElementConnection;
+import mgl.ReferencedType;
 
 public class NodeDescriptor<T extends Node> extends ModelElementDescriptor<T> {
 	
@@ -103,4 +104,15 @@ public class NodeDescriptor<T extends Node> extends ModelElementDescriptor<T> {
 		return (T) instance().getExtends();
 	}
 	
+	@Override
+	public ReferencedType getPrimeReference() {
+		ReferencedType prime = instance().getPrimeReference();
+		if (prime == null) {
+			T superType = getSuperType();
+			if (superType != null) {
+				return getModel().resp(superType).getPrimeReference();
+			}
+		}
+		return prime;
+	}
 }

@@ -215,7 +215,7 @@ def attributes(ModelElement elm) {
 }
 
 def prime(Node node) {
-	val ref = node.primeReference
+	val ref = model.resp(node).primeReference
 	if (ref != null) {
 //		println(node.name + ".prime: " + ref)
 		'''( '«ref.name»' prime = «ref.type» | 'libraryComponentUID' libraryComponentUID = _EString )'''
@@ -277,6 +277,10 @@ _EInt returns _ecore::EInt:
 
 _ELong returns _ecore::ELong:
 	_SIGN? _INT
+;
+
+_EFloat returns _ecore::EFloat:
+	_SIGN? _INT? '.' _INT
 ;
 
 _EDouble returns _ecore::EDouble:

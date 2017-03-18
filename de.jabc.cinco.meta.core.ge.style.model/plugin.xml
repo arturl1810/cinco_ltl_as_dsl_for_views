@@ -17,8 +17,7 @@
       <!-- @generated GraphicalGraphModel -->
       <package
             uri="http://cinco.scce.info/graphicalgraphmodel"
-            class="graphicalgraphmodel.GraphicalgraphmodelPackage"
-            genModel="model/GraphicalGraphModel.genmodel"/>
+            class="graphicalgraphmodel.GraphicalgraphmodelPackage"/>
    </extension>
 
 </plugin>
