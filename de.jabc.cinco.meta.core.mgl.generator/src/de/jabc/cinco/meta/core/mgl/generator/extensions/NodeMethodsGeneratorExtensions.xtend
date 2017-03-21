@@ -24,6 +24,10 @@ import org.eclipse.emf.ecore.EcorePackage
 import static extension de.jabc.cinco.meta.core.mgl.generator.extensions.EcoreExtensions.*
 import static extension de.jabc.cinco.meta.core.utils.InheritanceUtil.*
 import static extension de.jabc.cinco.meta.core.utils.MGLUtil.*
+import de.jabc.cinco.meta.runtime.xapi.GraphModelExtension
+import graphmodel.internal.InternalNode
+import graphmodel.ModelElementContainer
+import graphmodel.internal.InternalPackage
 
 class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 
@@ -208,14 +212,42 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 			val nodeEClass = elemClasses.get(node.name).mainEClass
 			containers.forEach[
 				c |	nodeEClass.createEOperation("moveTo",null,1,1,node.moveToMethodContent(c), 
-					elemClasses.get(c.name).mainEClass.createEParameter(c.name.toFirstLower,1,1), createEInt("x",1,1), createEInt("y",1,1)
-				)
+						elemClasses.get(c.name).mainEClass.createEParameter(c.name.toFirstLower,1,1), createEInt("x",1,1), createEInt("y",1,1)
+					)
+					
+					nodeEClass.createEOperation("_moveTo",null,1,1,node._moveToMethodContent(c), 
+						elemClasses.get(c.name).mainEClass.createEParameter(c.name.toFirstLower,1,1), createEInt("x",1,1), createEInt("y",1,1)
+					)
 			]
+			
+			nodeEClass.createEOperation("postMove", null,1,1,node.postMoveContent,
+				GraphmodelPackage.eINSTANCE.modelElementContainer.createEParameter("source",1,1),
+				GraphmodelPackage.eINSTANCE.modelElementContainer.createEParameter("target",1,1),
+				createEInt("x",1,1),
+				createEInt("y",1,1),
+				createEInt("deltaX",1,1), 
+				createEInt("deltaY",1,1)
+			)
 		}
 
 		def moveToMethodContent(Node node, ContainingElement ce) '''
+			«ModelElementContainer.name» source = this.getContainer();
+			int deltaX = ((«InternalNode.name») this.getInternalElement()).getX();
+			int deltaY = ((«InternalNode.name») this.getInternalElement()).getY();
+			_moveTo(«ce.name.toFirstLower», x, y);
+			«IF node.booleanWriteMethodCallPostMove»
+			postMove(source, «ce.name.toFirstLower», x,y, deltaX, deltaY);
+			«ENDIF»
+		'''
+
+		def _moveToMethodContent(Node node, ContainingElement ce) '''
 			«ce.name.toFirstLower».getInternalContainerElement().getModelElements().add(this.getInternalElement());
 			this.move(x, y);
+			new «GraphModelExtension.name»().moveEdgesToCommonContainer((«InternalNode.name») this.getInternalElement());
+		'''
+
+		def postMoveContent(Node n) '''
+			«n.writeMethodCallPostMove("this", "source", "target", "x", "y", "deltaX", "deltaY")»
 		'''
 
 		def createCanNewNodeMethods(ContainingElement ce, HashMap<String, ElementEClasses> elemClasses) {

@@ -14,8 +14,12 @@ import org.eclipse.graphiti.features.context.IMoveShapeContext
 import style.Styles
 import de.jabc.cinco.meta.runtime.xapi.GraphModelExtension
 import graphmodel.internal.InternalNode
+import de.jabc.cinco.meta.core.ge.style.generator.templates.util.APIUtils
+import mgl.ModelElement
 
 class NodeMoveFeatures extends GeneratorUtils{
+	
+	extension APIUtils = new APIUtils
 	
 	/**
 	 * Generates the 'Move-Feature' for a given node
@@ -79,45 +83,54 @@ class NodeMoveFeatures extends GeneratorUtils{
 		*/
 		@Override
 		public void moveShape(«IMoveShapeContext.name» context) {
-			«Object.name» o = getBusinessObjectForPictogramElement(context.getShape());
-			«Object.name» source = getBusinessObjectForPictogramElement(context.getSourceContainer());
-			«Object.name» target = getBusinessObjectForPictogramElement(context.getTargetContainer());
-			if (source instanceof «InternalContainer.name») {
-				«InternalContainer.name» nc = 
-					(«InternalContainer.name») source;
-				nc.getModelElements().remove((«n.fqInternalBeanName») o);
-			}
-			if (source instanceof «n.graphModel.fqInternalBeanName») {
-				«n.graphModel.fqInternalBeanName» tmp = 
-					(«n.graphModel.fqInternalBeanName») source;
-				tmp.getModelElements().remove((«n.fqInternalBeanName») o);
-			}
-			if (target instanceof «n.graphModel.fqInternalBeanName») {
-				«n.graphModel.fqInternalBeanName» tmp = 
-					(«n.graphModel.fqInternalBeanName») target;
-				tmp.getModelElements().add((«n.fqInternalBeanName») o);
-			}
-			if (target instanceof «InternalContainer.name») {
-				«InternalContainer.name» tmp = 
-					(«InternalContainer.name») target;
-				tmp.getModelElements().add((«n.fqInternalBeanName») o);
-			}
+			«n.fqInternalBeanName» o = («n.fqInternalBeanName») getBusinessObjectForPictogramElement(context.getShape());
+			«InternalModelElementContainer.name» target = («InternalModelElementContainer.name») getBusinessObjectForPictogramElement(context.getTargetContainer());
 			
-			«HashSet.name»<«InternalEdge.name»> all = new «HashSet.name»<>();
-			«n.fqInternalBeanName» tmp = («n.fqInternalBeanName») o;
-			all.addAll(tmp.getIncoming());
-			all.addAll(tmp.getOutgoing());
-			for («InternalEdge.name» e : all) {
-				«InternalModelElementContainer.name» ce = e.getContainer();
-				«InternalModelElementContainer.name» common = 
-					new «GraphModelExtension.name»().getCommonContainer(ce, e);
-				ce.getModelElements().remove(e);
-				common.getModelElements().add(e);
-			}
-
 			super.moveShape(context);
-			((«InternalNode.name») o).setX(context.getX());
-			((«InternalNode.name») o).setY(context.getY());
+			
+			if (o.getElement() instanceof «n.fqCName») {
+				«n.possibleContainers.map[pc | 
+					'''
+					if («internalInstanceofCheck(pc as ModelElement, "target")»)
+						((«n.fqBeanName») o.getElement()).
+						moveTo((«pc.fqBeanName») target.getContainerElement(), context.getX(), context.getY());'''
+				].join("\n")»
+			}
+«««			if (source instanceof «InternalContainer.name») {
+«««				«InternalContainer.name» nc = 
+«««					(«InternalContainer.name») source;
+«««				nc.getModelElements().remove((«n.fqInternalBeanName») o);
+«««			}
+«««			if (source instanceof «n.graphModel.fqInternalBeanName») {
+«««				«n.graphModel.fqInternalBeanName» tmp = 
+«««					(«n.graphModel.fqInternalBeanName») source;
+«««				tmp.getModelElements().remove((«n.fqInternalBeanName») o);
+«««			}
+«««			if (target instanceof «n.graphModel.fqInternalBeanName») {
+«««				«n.graphModel.fqInternalBeanName» tmp = 
+«««					(«n.graphModel.fqInternalBeanName») target;
+«««				tmp.getModelElements().add((«n.fqInternalBeanName») o);
+«««			}
+«««			if (target instanceof «InternalContainer.name») {
+«««				«InternalContainer.name» tmp = 
+«««					(«InternalContainer.name») target;
+«««				tmp.getModelElements().add((«n.fqInternalBeanName») o);
+«««			}
+«««			
+«««			«HashSet.name»<«InternalEdge.name»> all = new «HashSet.name»<>();
+«««			«n.fqInternalBeanName» tmp = («n.fqInternalBeanName») o;
+«««			all.addAll(tmp.getIncoming());
+«««			all.addAll(tmp.getOutgoing());
+«««			for («InternalEdge.name» e : all) {
+«««				«InternalModelElementContainer.name» ce = e.getContainer();
+«««				«InternalModelElementContainer.name» common = 
+«««					new «GraphModelExtension.name»().getCommonContainer(ce, e);
+«««				ce.getModelElements().remove(e);
+«««				common.getModelElements().add(e);
+«««			}
+«««
+«««			((«InternalNode.name») o).setX(context.getX());
+«««			((«InternalNode.name») o).setY(context.getY());
 		}
 		
 «««		Do not generate postMove method. It should be executed in the new API

@@ -5,7 +5,9 @@ import graphmodel.ModelElement
 import graphmodel.internal.InternalEdge
 import graphmodel.internal.InternalModelElement
 import graphmodel.internal.InternalModelElementContainer
+import graphmodel.internal.InternalNode
 import org.eclipse.emf.ecore.util.EcoreUtil
+import java.util.HashSet
 
 /**
  * Workbench-specific extension methods.
@@ -54,4 +56,16 @@ class GraphModelExtension {
 		}
 		return ce;
 	}
+	
+	def void moveEdgesToCommonContainer(InternalNode node) {
+		val allEdges = new HashSet<InternalEdge>()
+		allEdges.addAll(node.incoming)
+		allEdges.addAll(node.outgoing)
+		allEdges.forall[e | 
+			var common = getCommonContainer(e.container, e)
+			e.container.modelElements.remove(e)
+			common.modelElements.add(e)
+		]
+	}
+	
 }

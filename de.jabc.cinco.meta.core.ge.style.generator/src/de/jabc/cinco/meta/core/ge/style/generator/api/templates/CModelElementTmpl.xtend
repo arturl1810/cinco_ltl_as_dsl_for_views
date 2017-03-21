@@ -29,6 +29,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil
 import java.util.List
 import org.eclipse.graphiti.services.Graphiti
 import org.eclipse.emf.ecore.EObject
+import org.eclipse.graphiti.features.impl.DefaultMoveShapeFeature
 
 class CModelElementTmpl extends APIUtils {
 	
@@ -154,7 +155,7 @@ public «IF me.isIsAbstract»abstract«ENDIF» class «me.fuCName» extends «me
 	
 	«FOR cont : MGLUtil::getPossibleContainers(me as Node)»
 	@Override
-	public void moveTo(«cont.fqBeanName» target, int x, int y) {
+	public void _moveTo(«cont.fqBeanName» target, int x, int y) {
 		«MoveShapeContext.name» mc = new «MoveShapeContext.name»((«Shape.name») this.pe);
 		if (!(target instanceof «cont.fuCName»))
 			throw new «RuntimeException.name»(
@@ -168,32 +169,14 @@ public «IF me.isIsAbstract»abstract«ENDIF» class «me.fuCName» extends «me
 		mc.setY(y);
 		
 		«IFeatureProvider.name» fp = getFeatureProvider();
-		«IMoveShapeFeature.name» mf = fp.getMoveShapeFeature(mc);
+		«IMoveShapeFeature.name» mf = new «DefaultMoveShapeFeature.name»(fp); 
 		if (fp instanceof «CincoFeatureProvider.name») {
 			((«CincoFeatureProvider.name») fp).executeFeature(mf, mc);
+			super._moveTo(target,x,y);
 		}
 	}
 	
 	«ENDFOR»
-	«ENDIF»
-	
-	«IF !(me instanceof GraphModel) && !(me instanceof Edge)»
-	@Override
-	public void move(int x, int y) {
-		«MoveShapeContext.name» mc = new «MoveShapeContext.name»((«Shape.name») this.pe);
-		
-		mc.setTargetContainer((«ContainerShape.name») this.getContainer().eContainer());
-		mc.setSourceContainer((«ContainerShape.name») this.getPictogramElement());
-		
-		mc.setX(x);
-		mc.setY(y);
-		
-		«IFeatureProvider.name» fp = getFeatureProvider();
-		«IMoveShapeFeature.name» mf = fp.getMoveShapeFeature(mc);
-		if (fp instanceof «CincoFeatureProvider.name») {
-			((«CincoFeatureProvider.name») fp).executeFeature(mf, mc);
-		}
-	}
 	«ENDIF»
 	
 	«IF me instanceof Edge»
