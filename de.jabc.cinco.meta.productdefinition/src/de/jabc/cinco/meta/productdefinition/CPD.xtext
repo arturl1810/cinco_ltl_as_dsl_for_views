@@ -28,6 +28,7 @@ CincoProduct returns CincoProduct:
 		('about' '{' about=About '}')?
 		('plugins' '{'plugins+=QName (','plugins+=QName)*'}')?
 		('features' '{'features+=QName (','features+=QName)*'}')?
+		('extensionClasses''{'extensionClasses+=QName (','extensionClasses+=QName)*'}' )?
 	'}'
 	;
 
