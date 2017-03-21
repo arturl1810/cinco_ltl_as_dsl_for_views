@@ -147,7 +147,7 @@
     </eOperations>
     <eOperations name="move">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="((graphmodel.internal.InternalNode)getInternalElement()).setX(x);&#xA;((graphmodel.internal.InternalNode)getInternalElement()).setY(y);"/>
+        <details key="body" value="int deltaX = x - ((graphmodel.internal.InternalNode)this.getInternalElement()).getX();&#xA;int deltaY = y - ((graphmodel.internal.InternalNode)this.getInternalElement()).getY();&#xA;((graphmodel.internal.InternalNode)getInternalElement()).setX(x);&#xA;((graphmodel.internal.InternalNode)getInternalElement()).setY(y);&#xA;postMove(getContainer(), getContainer(), x,y,deltaX, deltaY);"/>
       </eAnnotations>
       <eParameters name="x" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
       <eParameters name="y" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
@@ -158,6 +158,14 @@
       </eAnnotations>
       <eParameters name="width" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
       <eParameters name="height" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eOperations>
+    <eOperations name="postMove">
+      <eParameters name="source" eType="#//ModelElementContainer"/>
+      <eParameters name="target" eType="#//ModelElementContainer"/>
+      <eParameters name="x" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <eParameters name="y" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <eParameters name="deltaX" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <eParameters name="deltaY" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     </eOperations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Edge" abstract="true" interface="true"

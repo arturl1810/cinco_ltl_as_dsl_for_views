@@ -179,6 +179,26 @@ public «IF me.isIsAbstract»abstract«ENDIF» class «me.fuCName» extends «me
 	«ENDFOR»
 	«ENDIF»
 	
+	«IF !(me instanceof GraphModel) && !(me instanceof Edge)»
+	@Override
+	public void move(int x, int y) {
+		«MoveShapeContext.name» mc = new «MoveShapeContext.name»((«Shape.name») this.pe);
+		
+		mc.setTargetContainer((«ContainerShape.name») this.getPictogramElement().eContainer());
+		mc.setSourceContainer((«ContainerShape.name») this.getPictogramElement().eContainer());
+		
+		mc.setX(x);
+		mc.setY(y);
+		
+		«IFeatureProvider.name» fp = getFeatureProvider();
+		«IMoveShapeFeature.name» mf = new «DefaultMoveShapeFeature.name»(fp);
+		if (fp instanceof «CincoFeatureProvider.name») {
+			((«CincoFeatureProvider.name») fp).executeFeature(mf, mc);
+			super.move(x, y);
+		}
+	}
+	«ENDIF»
+	
 	«IF me instanceof Edge»
 	«FOR source : me.possibleSources»
 	@Override
