@@ -57,6 +57,14 @@
         <genParameters ecoreParameter="GraphModel.ecore#//Node/resize/width"/>
         <genParameters ecoreParameter="GraphModel.ecore#//Node/resize/height"/>
       </genOperations>
+      <genOperations ecoreOperation="GraphModel.ecore#//Node/postMove">
+        <genParameters ecoreParameter="GraphModel.ecore#//Node/postMove/source"/>
+        <genParameters ecoreParameter="GraphModel.ecore#//Node/postMove/target"/>
+        <genParameters ecoreParameter="GraphModel.ecore#//Node/postMove/x"/>
+        <genParameters ecoreParameter="GraphModel.ecore#//Node/postMove/y"/>
+        <genParameters ecoreParameter="GraphModel.ecore#//Node/postMove/deltaX"/>
+        <genParameters ecoreParameter="GraphModel.ecore#//Node/postMove/deltaY"/>
+      </genOperations>
     </genClasses>
     <genClasses image="false" ecoreClass="GraphModel.ecore#//Edge">
       <genOperations ecoreOperation="GraphModel.ecore#//Edge/getSourceElement"/>
