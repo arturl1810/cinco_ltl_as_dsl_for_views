@@ -76,9 +76,10 @@ class WorkbenchExtension extends de.jabc.cinco.meta.util.xapi.WorkbenchExtension
 	 * @see #getActiveEditor()
 	 */
 	def getDiagramEditor(Predicate<DiagramEditor> predicate) {
-		activePage?.editorReferences?.findFirst[ref |
-			predicate.test(ref.getEditor(true)?.diagramEditor)
-		]?.getEditor(true)?.diagramEditor
+		activePage?.editorReferences
+			?.map[getEditor(true)?.diagramEditor]
+			.filterNull
+			.findFirst[predicate.test(it)]
 	}
 	
 	/**
