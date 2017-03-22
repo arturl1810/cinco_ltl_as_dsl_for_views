@@ -137,15 +137,31 @@ class CollectionExtension {
 	}
 	
 	/**
-	 * Filters keys by class from a sequence of tuples (i.e., a map sequence).
+	 * Filters keys by class from a sequence of tuples (i.e., a map sequence). That means, keys that match 
+	 * the class are returned, but keys that do not match are not. Hence, the returned sequence of tuples 
+	 * are typed with the given class. 
 	 * 
 	 * @param mapSeq a sequence of tuples.
 	 * @param c the class to filter for.
 	 * @return a mapping sequence with key/value pairs filtered by the class of the key.
 	 */
 	def <K,V, N extends K> Seq<Tuple2<N, V>> filterKeys(Seq<Tuple2<K, V>> mapSeq, Class<N> c) {
-		val it = mapSeq.unzip
+		// filter the elements that match the type from the tuples
+		val it = mapSeq.filter[c.isInstance(v1)].unzip
+		// cast the keys to the matched type (the filtering is done before on the tuples!)
 		v1.ofType(c).zip(v2)
+	}
+	
+	/**
+	 * Filters keys by lambda from a sequence of tuples (i.e., a map sequence). That means, keys that match 
+	 * the given filter criterion (represented by the lambda) are returned.
+	 * 
+	 * @param mapSeq a sequence of tuples.
+	 * @param keyExtractor the filter criterion.
+	 * @return a  mapping sequence with key/value pairs filtered by the filter criterion {@code keyExtractor}.
+	 */
+	def <K, V> filterKeys(Seq<Tuple2<K, V>> mapSeq, (K) => boolean keyExtractor) {
+		mapSeq.filter[keyExtractor.apply(v1)]
 	}
 	
 	/**
