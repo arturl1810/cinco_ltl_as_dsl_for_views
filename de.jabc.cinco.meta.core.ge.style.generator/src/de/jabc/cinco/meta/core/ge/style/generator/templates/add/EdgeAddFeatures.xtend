@@ -209,7 +209,7 @@ class EdgeAddFeatures extends APIUtils {
 	
 			if (hook) {
 			}
-			«e.packageNameEContentAdapter».«e.graphModel.name»EContentAdapter.getInstance().addAdapter(«e.flName»);
+«««			«e.packageNameEContentAdapter».«e.graphModel.name»EContentAdapter.getInstance().addAdapter(«e.flName»);
 	
 			((«e.fqCName») «e.flName».getElement()).setPictogramElement(connection);
 	

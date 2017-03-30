@@ -36,9 +36,11 @@ import static extension de.jabc.cinco.meta.core.mgl.generator.extensions.Factory
 import static extension de.jabc.cinco.meta.core.mgl.generator.extensions.EdgeMethodsGeneratorExtension.*
 import mgl.NodeContainer
 import de.jabc.cinco.meta.core.mgl.generator.extensions.NodeMethodsGeneratorExtensions
+import de.jabc.cinco.meta.core.mgl.generator.extensions.AdapterGeneratorExtension
 
 class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 
+	extension AdapterGeneratorExtension = new AdapterGeneratorExtension
 
 
 	HashMap<ModelElement, EClass> modelElementsMap
@@ -58,6 +60,10 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 	
 	def createFactory(GraphModel graphModel){
 		graphModel.createFactory(eClassesMap)
+	}
+	
+	def createAdapter(ModelElement me) {
+		me.generateAdapter
 	}
 
 	def EPackage generateEcoreModel(GraphModel graphModel) {

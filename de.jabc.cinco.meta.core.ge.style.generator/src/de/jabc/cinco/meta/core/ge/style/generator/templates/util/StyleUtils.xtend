@@ -60,7 +60,7 @@ class StyleUtils extends APIUtils {
 				
 				«aShape.recursiveCall(currentPeName.toString)»
 			
-				«n.packageNameEContentAdapter».«n.graphModel.fuName»EContentAdapter.getInstance().addAdapter(bo);
+«««				«n.packageNameEContentAdapter».«n.graphModel.fuName»EContentAdapter.getInstance().addAdapter(bo);
 			
 				linkAllShapes(«currentPeName», bo);
 				layoutPictogramElement(«currentPeName»);
