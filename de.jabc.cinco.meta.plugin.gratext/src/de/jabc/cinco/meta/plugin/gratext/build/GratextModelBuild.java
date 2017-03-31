@@ -23,6 +23,7 @@ import org.eclipse.emf.codegen.ecore.genmodel.generator.GenBaseGeneratorAdapter;
 import org.eclipse.emf.codegen.ecore.genmodel.util.GenModelUtil;
 import org.eclipse.emf.codegen.util.CodeGenUtil;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 
@@ -102,7 +103,18 @@ public class GratextModelBuild extends ReiteratingJob {
 	private void runGenmodel() {
 		if (!failed) try {
 			monitor.setTaskName("Genmodel job: " + project.getName());
-			Resource res = new ResourceSetImpl().getResource(
+			ResourceSetImpl resSet = new ResourceSetImpl();
+			
+			/*
+			 * The URI used to load the GenModel determines how relative URIs within
+			 * it are resolved. If platform:/resource/{...} is used computing the
+			 * PlatformURIMap is necessary to resolve the locations correctly, e.g.
+			 * by mapping on platform:/plugin/{...} URIs.
+			 */
+			resSet.getURIConverter().getURIMap().putAll(
+					EcorePlugin.computePlatformURIMap(true));
+			
+			Resource res = resSet.getResource(
 					URI.createPlatformResourceURI(genmodel.getFullPath().toString(), true),true);
 			res.load(null);
 			res.getContents().stream()

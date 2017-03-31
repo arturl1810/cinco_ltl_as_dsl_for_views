@@ -8,7 +8,6 @@ import java.util.ArrayList
 class GratextEcoreTemplate extends AbstractGratextTemplate {
 
 def graphModelURI() '''«graphmodel.nsURI»/internal'''
-//def graphModelEcorePlatformResourceURI() '''platform:/resource/info.scce.cinco.product.flowgraph/src-gen/model/FlowGraph.ecore'''
 def graphModelEcorePlatformResourceURI() '''platform:/resource/«modelProjectSymbolicName»/src-gen/model/«model.name».ecore'''
 
 
@@ -67,7 +66,6 @@ override template()
   </eClassifiers>
   «FOR node:model.nodes»
   <eClassifiers xsi:type="ecore:EClass" name="«node.name»" abstract="«node.isIsAbstract»">
-«««  	<eSuperTypes href="«graphModelURI»#//Internal«node.name»"/>
 	<eSuperTypes href="«graphModelEcorePlatformResourceURI»#//internal/Internal«node.name»"/>
   	«interfaces(node)»
   </eClassifiers>
