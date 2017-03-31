@@ -166,7 +166,7 @@ class PluginXMLTmpl extends GeneratorUtils {
 		point="org.eclipse.core.contenttype.contentTypes">
 	<!--@CincoGen «gmName»-->
 		<content-type
-			file-extensions="flowgraph"
+			file-extensions="«gmName»"
 			id="«pkgName».«gmName»ContentType"
 			name="«gmName» Content Type"
 			priority="normal">
@@ -185,7 +185,7 @@ class PluginXMLTmpl extends GeneratorUtils {
 		<objectContribution
 			adaptable="false"
 			id="«pkgName».«gmName»ObjectContributor"
-			nameFilter="*flowgraph"
+			nameFilter="*«gmName»"
 			objectClass="org.eclipse.core.resources.IResource">
 			<action
 				class="«pkgName».graphiti.Create«gmName»Diagram"
