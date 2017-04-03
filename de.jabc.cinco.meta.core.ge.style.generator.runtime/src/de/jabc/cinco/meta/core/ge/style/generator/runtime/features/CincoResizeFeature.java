@@ -20,7 +20,6 @@ import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.services.IPeService;
-//import info.scce.cinco.product.flowgraph.graphiti.features.layout.FlowGraphLayoutUtils;
 
 public class CincoResizeFeature extends CincoAbstractResizeFeature {
 	
@@ -292,15 +291,6 @@ public class CincoResizeFeature extends CincoAbstractResizeFeature {
 		polyline.getPoints().forEach(p -> p.setY(p.getY() + deltaY));
 	}
 	
-//	private static boolean isInnerShape(GraphicsAlgorithm ga) {
-//		if (ga instanceof AbstractText
-//				|| Graphiti.getPeService().getProperty(ga, FlowGraphLayoutUtils.KEY_HORIZONTAL).equals(FlowGraphLayoutUtils.KEY_HORIZONTAL_UNDEFINED))
-//			return true;
-//		if (bo instanceof Node)
-//			return false;
-//		return !(bo instanceof Container && sharesBusinessObject(ga));
-//	}
-
 	private static boolean sharesBusinessObject(GraphicsAlgorithm ga) {
 		EObject linkedBO = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(ga.getPictogramElement());
 		while (linkedBO == null) {
