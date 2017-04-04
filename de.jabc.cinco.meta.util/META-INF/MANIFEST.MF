@@ -15,6 +15,6 @@ Require-Bundle: com.google.guava,
  org.eclipse.emf.transaction,
  org.eclipse.ui,
  org.eclipse.ui.ide
-Export-Package: de.jabc.cinco.meta.util.xapi
+Export-Package: de.jabc.cinco.meta.util.xapi;x-friends:="de.jabc.cinco.meta.runtime"
 Bundle-ActivationPolicy: lazy
 
