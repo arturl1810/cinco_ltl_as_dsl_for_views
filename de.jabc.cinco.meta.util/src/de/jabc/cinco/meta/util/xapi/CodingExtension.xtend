@@ -75,4 +75,34 @@ class CodingExtension {
 	def warn(Object caller, CharSequence msg) {
 		System.err.println('''[«caller?.class.simpleName»] WARN: «msg»''')
 	}
+	
+	/**
+	 * TODO Documentation and usage example.
+	 * 
+	 * <pre>
+	 * 
+	 * </pre>
+	 * 
+	 * @param it
+	 * @param block
+	 */
+	def <T, U> let(T it, (T) => void block) {
+		block.apply(it)
+		it
+	}
+	
+	/**
+	 * TODO Documentation and usage example.
+	 * 
+	 * <pre>
+	 * 
+	 * </pre>
+	 * 
+	 * @param it
+	 * @param block
+	 */
+	def <T> T guard(T it, () => void block) {
+        if (it == null) block.apply()
+        return it
+    }
 }
