@@ -105,7 +105,7 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 			«EObject.name» bo = («EObject.name») o;
 			boolean sameResource = bo.eResource() != null ? bo.eResource().equals(getDiagramTypeProvider().getDiagram().eResource()) : true ;
 			
-			«FOR me : gm.nodes»
+			«FOR me : gm.nodes.filter[!isIsAbstract]»
 			if (sameResource && «internalInstanceofCheck(me,"bo")») 
 				return new «gm.packageNameAdd».AddFeature«me.fuName»(this);
 			«IF isPrime(me)»
@@ -162,7 +162,7 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 	public «IDeleteFeature.name» getDeleteFeature(«IDeleteContext.name» context) {
 		«EObject.name» bo = («EObject.name») getBusinessObjectForPictogramElement(context.getPictogramElement());
 		
-		«FOR n : gm.modelElements.filter[!(it instanceof GraphModel)]»
+		«FOR n : gm.modelElements.filter[!(it instanceof GraphModel) && !isIsAbstract]»
 		if («n.internalInstanceofCheck("bo")»)
 			return new «n.packageNameDelete».DeleteFeature«n.fuName»(this);
 		«ENDFOR»
@@ -198,7 +198,7 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 			«EObject.name» bo = («EObject.name») o;
 			
 			if (bo instanceof «InternalModelElement.name»){
-				«FOR n : gm.nodes»
+				«FOR n : gm.nodes.filter[!isIsAbstract]»
 					if («n.internalInstanceofCheck("bo")»)
 						return new «n.packageNameResize».ResizeFeature«n.fuName»(this);
 				«ENDFOR»
@@ -215,7 +215,7 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 			«EObject.name» bo = («EObject.name») o;
 			
 			if (bo instanceof «InternalModelElement.name»){
-				«FOR n : gm.nodes»
+				«FOR n : gm.nodes.filter[!isIsAbstract]»
 					if («n.internalInstanceofCheck("bo")»)
 						return new «n.packageNameMove».MoveFeature«n.fuName»(this);
 				«ENDFOR»

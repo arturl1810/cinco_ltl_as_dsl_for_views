@@ -101,7 +101,7 @@ public class «gm.fuName»LayoutUtils {
 	«ENDFOR»
 	
 	
-	«FOR node : gm.nodes»
+	«FOR node : gm.nodes.filter[!isIsAbstract]»
 	«searchInAppearance(node,st)»
 	«FOR app : appList»
 	«getInlineMethode(app)»

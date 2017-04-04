@@ -124,7 +124,7 @@ class GraphitiGeneratorMain extends GeneratorUtils {
 		content = gm.generateResourceFactory
 		ContentWriter::writeFile(project, "src-gen", gm.packageName, gm.name.toFirstUpper.concat("ResourceFactory.xtend"), content)
 		
-		for (Node n : gm.nodes) {
+		for (Node n : gm.nodes.filter[!isIsAbstract]) {
 			if (n.isPrime){
 				content = n.doGeneratePrimeAddFeature(styles)
 				ContentWriter::writeJavaFileInSrcGen(project, n.packageNameAdd, "AddFeaturePrime"+n.name.toFirstUpper+".java", content)
@@ -157,7 +157,7 @@ class GraphitiGeneratorMain extends GeneratorUtils {
 			
 		}
 		
-		for (Edge e : gm.edges) {
+		for (Edge e : gm.edges.filter[!isIsAbstract]) {
 			content = e.doGenerateEdgeAddFeature(styles)
 			ContentWriter::writeJavaFileInSrcGen(project, e.packageNameAdd, "AddFeature"+e.name.toFirstUpper+".java", content)
 
