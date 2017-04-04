@@ -32,7 +32,6 @@ class EmfFactoryTmpl {
 			«me.fqInternalBeanName» ime = («me.fqInternalBeanName») «me.fqFactoryName».eINSTANCE.create«me.fuName»().getInternalElement();
 			«me.fqCName» me = new «me.fqCName»();
 			ime.setElement(me);
-			ime.setId(«EcoreUtil.name».generateUUID());
 			return me;
 		}
 		«ENDFOR»

@@ -79,8 +79,6 @@ class EdgeAddFeatures extends APIUtils {
 		public «PictogramElement.name» add(«IAddContext.name» context) {
 			«IAddConnectionContext.name» addConContext = («IAddConnectionContext.name») context;
 			«e.fqInternalBeanName» «e.flName» = («e.fqInternalBeanName») context.getNewObject();
-			if («e.flName».getId() == null || «e.flName».getId().isEmpty())
-				«e.flName».setId(«EcoreUtil.name».generateUUID());
 			«IPeService.name» peService = «Graphiti.name».getPeService();
 	       
 			«Connection.name» connection = peService.createFreeFormConnection(getDiagram());

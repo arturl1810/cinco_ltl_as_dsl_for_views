@@ -46,7 +46,8 @@ class CincoGraphitiCopier {
 			InternalNode: meCopy = ime.copy
 			InternalEdge: meCopy = ime.copy
 		}
-		meCopy.id = EcoreUtil::generateUUID
+		EcoreUtil::setID(meCopy,EcoreUtil::generateUUID)
+		
 		meCopy
 	}
 	
