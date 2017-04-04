@@ -7,7 +7,7 @@ import graphmodel.internal.InternalEdge
 import graphmodel.internal.InternalGraphModel
 import graphmodel.internal.InternalModelElement
 import java.util.ArrayList
-import java.util.HashMap
+import java.util.IdentityHashMap
 import java.util.List
 import java.util.Map
 import org.eclipse.emf.ecore.EAttribute
@@ -20,7 +20,7 @@ import org.eclipse.emf.ecore.EStructuralFeature
 
 class GratextModelTransformer {
 	
-	private Map<IdentifiableElement,IdentifiableElement> counterparts = new HashMap
+	private Map<IdentifiableElement,IdentifiableElement> counterparts = new IdentityHashMap
 	private List<InternalEdge> edges = new ArrayList
 
 	private EFactory baseModelFct
@@ -69,6 +69,7 @@ class GratextModelTransformer {
 			return cp as T
 		baseModel = baseModelFct.create(baseModelCls) as GraphModel
 		val internalModel = baseModel.internalElement as T
+		println("The Internal Element: "+internalModel)
 		cache(internalModel, model)
 		internalModel.attributes.map(internalModel)
 		internalModel.references.map(internalModel)
@@ -96,6 +97,7 @@ class GratextModelTransformer {
 	}
 	
 	private def map(List<? extends EStructuralFeature> ftrs, IdentifiableElement elm) {
+		println("Map Attributes/EReferences of: "+ elm)
 		ftrs.forEach[
 			switch it {
 				EAttribute: it.map(elm)

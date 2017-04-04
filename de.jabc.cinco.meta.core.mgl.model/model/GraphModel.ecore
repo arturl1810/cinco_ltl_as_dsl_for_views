@@ -293,8 +293,23 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="IdentifiableElement" abstract="true"
       interface="true">
+    <eOperations name="equals" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return obj != null &amp;&amp; ((obj == this) || obj instanceof graphmodel.IdentifiableElement&#xA;&#x9;&#x9;&#x9;&#x9;&amp;&amp; ((graphmodel.IdentifiableElement) obj).getId() == this.getId()&#xA;&#x9;&#x9;&#x9;&#x9;&amp;&amp; obj.getClass().getName().equals(this.getClass().getName()));"/>
+      </eAnnotations>
+      <eParameters name="obj" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+    </eOperations>
+    <eOperations name="hashCode" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return java.util.Objects.hash(getId(),getClass().getName());"/>
+      </eAnnotations>
+    </eOperations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
-        defaultValueLiteral="" iD="true"/>
+        defaultValueLiteral="" derived="true" iD="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="suppressedSetVisibility" value="true"/>
+      </eAnnotations>
+    </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ContainmentConstraint" instanceClassName="de.jabc.cinco.meta.core.mgl.model.constraints.ContainmentConstraint"
       abstract="true" interface="true"/>

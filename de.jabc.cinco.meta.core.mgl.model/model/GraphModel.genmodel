@@ -107,6 +107,10 @@
     </genClasses>
     <genClasses image="false" ecoreClass="GraphModel.ecore#//IdentifiableElement">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute GraphModel.ecore#//IdentifiableElement/id"/>
+      <genOperations ecoreOperation="GraphModel.ecore#//IdentifiableElement/equals">
+        <genParameters ecoreParameter="GraphModel.ecore#//IdentifiableElement/equals/obj"/>
+      </genOperations>
+      <genOperations ecoreOperation="GraphModel.ecore#//IdentifiableElement/hashCode"/>
     </genClasses>
     <genClasses image="false" ecoreClass="GraphModel.ecore#//ContainmentConstraint"/>
     <genClasses image="false" ecoreClass="GraphModel.ecore#//ConnectionConstraint"/>
