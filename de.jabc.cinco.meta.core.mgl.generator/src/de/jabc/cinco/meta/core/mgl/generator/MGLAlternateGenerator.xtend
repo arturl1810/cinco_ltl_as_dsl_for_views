@@ -59,7 +59,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 	HashMap<Type,EClassifier> enumMap
 	
 	def createFactory(GraphModel graphModel){
-		graphModel.createFactory(eClassesMap)
+		graphModel.createFactory(eClassesMap.filter[p1, p2|!p2.mainEClass.abstract])
 	}
 	
 	def createAdapter(ModelElement me) {
@@ -100,7 +100,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 
 
 		graphModel.createCanNewNodeMethods(eClassesMap)
-		graphModel.createNewNodeMethods(eClassesMap)
+		graphModel.createNewNodeMethods(eClassesMap.filter[p1,p2| !p2.mainEClass.abstract])
 		
 		graphModel.nodes.forEach[node|
 			node.createInheritance(graphModel)
@@ -307,7 +307,9 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		inheritMap.put(element, element.extend)
 
 		modelElementsMap.put(element, eClass);
-
+		if(element.isIsAbstract)
+			eClass.abstract = true
+			
 		eClass
 	}
 

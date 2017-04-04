@@ -2,10 +2,14 @@ package de.jabc.cinco.meta.core.mgl.generator.extensions
 
 import de.jabc.cinco.meta.core.mgl.generator.elements.ElementEClasses
 import de.jabc.cinco.meta.core.utils.generator.GeneratorUtils
+import de.jabc.cinco.meta.runtime.xapi.GraphModelExtension
 import graphmodel.GraphmodelPackage
+import graphmodel.ModelElementContainer
+import graphmodel.internal.InternalNode
 import java.util.ArrayList
 import java.util.HashMap
 import java.util.List
+import java.util.Map
 import mgl.ContainingElement
 import mgl.Edge
 import mgl.EdgeElementConnection
@@ -24,10 +28,6 @@ import org.eclipse.emf.ecore.EcorePackage
 import static extension de.jabc.cinco.meta.core.mgl.generator.extensions.EcoreExtensions.*
 import static extension de.jabc.cinco.meta.core.utils.InheritanceUtil.*
 import static extension de.jabc.cinco.meta.core.utils.MGLUtil.*
-import de.jabc.cinco.meta.runtime.xapi.GraphModelExtension
-import graphmodel.internal.InternalNode
-import graphmodel.ModelElementContainer
-import graphmodel.internal.InternalPackage
 
 class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 
@@ -251,7 +251,7 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 		'''
 
 		def createCanNewNodeMethods(ContainingElement ce, HashMap<String, ElementEClasses> elemClasses) {
-			ce.containableNodes.forEach[n | 
+			ce.containableNodes.filter[!isAbstract].forEach[n | 
 				elemClasses.get(ce.name).mainEClass.
 					createEOperation("canNew"+n.fuName,
 						EcorePackage.eINSTANCE.EBoolean,
@@ -266,8 +266,11 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 			return this.canContain(«n.fuName».class);
 		'''
 
-		def createNewNodeMethods(ContainingElement ce, HashMap<String, ElementEClasses> elemClasses) {
-			ce.containableNodes.forEach[n | 
+		def createNewNodeMethods(ContainingElement ce, Map<String, ElementEClasses> elemClasses) {
+			println("the containing element: "+ce)
+			println("them elmClasses:" + elemClasses)
+			ce.containableNodes.filter[!isIsAbstract].forEach[n | 
+				println("the containable node: "+n)
 				elemClasses.get(ce.name).mainEClass.
 					createEOperation("new"+n.fuName,
 						elemClasses.get(n.name).mainEClass,

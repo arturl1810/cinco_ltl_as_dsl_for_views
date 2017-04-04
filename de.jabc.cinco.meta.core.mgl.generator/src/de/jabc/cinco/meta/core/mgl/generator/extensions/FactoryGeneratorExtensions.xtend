@@ -1,19 +1,18 @@
 package de.jabc.cinco.meta.core.mgl.generator.extensions
 
 import de.jabc.cinco.meta.core.mgl.generator.elements.ElementEClasses
-import java.util.HashMap
+import de.jabc.cinco.meta.core.utils.generator.GeneratorUtils
+import java.util.Map
 import mgl.GraphModel
 
 import static de.jabc.cinco.meta.core.utils.MGLUtil.*
-import org.eclipse.emf.ecore.xmi.impl.RootXMLContentHandlerImpl.Describer
-import de.jabc.cinco.meta.core.utils.generator.GeneratorUtils
 
 class FactoryGeneratorExtensions {
 	
 	static extension GeneratorUtils = new GeneratorUtils
 	
 	// FIXME: Switching over GraphModel / ModelElement should not be necessary. Introduce a common super class InternalIdentifiableElement instead?
-	static def createFactory(GraphModel graphmodel, HashMap<String,ElementEClasses> elmClasses)'''
+	static def createFactory(GraphModel graphmodel, Map<String,ElementEClasses> elmClasses)'''
 		package «graphmodel.package».factory
 		
 		import static extension org.eclipse.emf.ecore.util.EcoreUtil.*
@@ -85,17 +84,27 @@ class FactoryGeneratorExtensions {
 	
 	static def specificCreateMethods(Iterable<ElementEClasses> ecls) {
 		ecls.map[modelElement].map['''
-			override create«name»() {
+		
+			def create«name»(String ID){
 				val n = super.create«name»
-				n => [ internal = createInternal«name» ]
+				val ime = createInternal«name»
+				n => [ internal = ime]
+				setID(n,ID)
+				setID(ime,generateUUID)
 				«postCreate(it, "n")»
 				n.internalElement.eAdapters.add(new «graphModel.package».adapter.«name»EContentAdapter)
 				n
+				
+			}
+		
+			override create«name»() {
+				create«name»(generateUUID)
 			}
 			
 			def create«name»(InternalModelElement ime) {
-				val n = super.create«name»
+				val n = create«name»
 				n => [ internal = ime ]
+				setID(ime,generateUUID)
 				«postCreate(it, "n")»
 				n.internalElement.eAdapters.add(new «graphModel.package».adapter.«name»EContentAdapter)
 				n
