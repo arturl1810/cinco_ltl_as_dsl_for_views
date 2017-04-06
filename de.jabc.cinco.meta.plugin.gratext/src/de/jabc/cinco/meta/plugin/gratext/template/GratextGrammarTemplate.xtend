@@ -184,8 +184,8 @@ def type(ReferencedType ref) {
 	if (type != null) {
 		val entry = switch type {
 			GraphModel: type.acronym -> type.name
-			Node: 		type.graphModel.acronym -> type.graphModel.name
-			Edge: 		type.graphModel.acronym -> type.graphModel.name
+			Node: 		type.graphModel.acronym -> type.name
+			Edge: 		type.graphModel.acronym -> type.name
 			EClass: 	type.EPackage.acronym -> type.name
 		}
 //		println(" > Type: " + entry)
