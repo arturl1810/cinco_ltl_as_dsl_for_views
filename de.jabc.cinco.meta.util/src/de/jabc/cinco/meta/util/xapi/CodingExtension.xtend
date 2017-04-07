@@ -7,6 +7,7 @@ import java.io.StringWriter
  * Coding-specific extension methods.
  * 
  * @author Steve Bosselmann
+ * @author Johannes Neubauer
  */
 class CodingExtension {
 	
