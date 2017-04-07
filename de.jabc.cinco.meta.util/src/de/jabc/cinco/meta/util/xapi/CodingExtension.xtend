@@ -102,7 +102,15 @@ class CodingExtension {
 	 * @param block
 	 */
 	def <T> T guard(T it, () => void block) {
-        if (it == null) block.apply()
-        return it
+        if (it == null) {
+        	block.apply()
+        	throw new IllegalArgumentException("guarded value is null")
+        }
+        it
+    }
+    
+    def <T> T guard(T it) {
+    	if (it == null) throw new IllegalArgumentException("guarded value is null")
+        it
     }
 }
