@@ -282,6 +282,7 @@ public class Add$context.edgeName$Feature extends CincoAbstractAddFeature {
 		link(connection, $context.meIdentifier$);
 
 		ConnectionDecorator cd;
+		Polyline dummy;
 		$context.connectionDecoratorInitContent$
 
 		$context.importPath$.$context.graphModelName$ $context.lcGraphModelName$ = $context.graphModelName$GraphitiUtils.addToResource(getDiagram(), this.getFeatureProvider());
@@ -1098,7 +1099,9 @@ link(cd, $context.meIdentifier$);
     </parameter>
     <parameter name="template">
       <string>cd = peCreateService.createConnectionDecorator(connection, $context.decoratorIsMovable$, $context.decoratorLocation$, true);
-$context.graphModelName$LayoutUtils.create$context.predefinedDecorator.shape$(cd);
+dummy = gaService.createPolyline(null);
+$context.graphModelName$LayoutUtils.set$context.appearance.name$Style(dummy, getDiagram());
+$context.graphModelName$LayoutUtils.create$context.predefinedDecorator.shape$(cd, dummy.getLineWidth());
 $context.graphModelName$LayoutUtils.set$context.appearance.name$Style(cd.getGraphicsAlgorithm(), getDiagram());
 /*link(cd, $context.meIdentifier$);*/
 </string>
@@ -1298,7 +1301,9 @@ $context.graphModelName$LayoutUtils.set$context.appearance.name$Style(cd.getGrap
     </parameter>
     <parameter name="template">
       <string>cd = peCreateService.createConnectionDecorator(connection, $context.decoratorIsMovable$, $context.decoratorLocation$, true);
-$context.graphModelName$LayoutUtils.create$context.predefinedDecorator.shape$(cd);
+dummy = gaService.createPolyline(null);
+$context.graphModelName$LayoutUtils.set_$context.graphModelName$DefaultAppearanceStyle(dummy, getDiagram());
+$context.graphModelName$LayoutUtils.create$context.predefinedDecorator.shape$(cd, dummy.getLineWidth());
 $context.graphModelName$LayoutUtils.set_$context.graphModelName$DefaultAppearanceStyle(cd.getGraphicsAlgorithm(), getDiagram());
 /*link(cd, $context.meIdentifier$);*/
 </string>
