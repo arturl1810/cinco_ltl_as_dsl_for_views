@@ -6,6 +6,8 @@ import java.util.Map
 import mgl.GraphModel
 
 import static de.jabc.cinco.meta.core.utils.MGLUtil.*
+import mgl.GraphicalModelElement
+import mgl.Type
 
 class FactoryGeneratorExtensions {
 	
@@ -82,8 +84,12 @@ class FactoryGeneratorExtensions {
 		}
 	'''
 	
-	static def specificCreateMethods(Iterable<ElementEClasses> ecls) {
-		ecls.map[modelElement].map['''
+	dispatch static def specificCreateMethods(Iterable<ElementEClasses> ecls) {
+		ecls.map[modelElement].map[specificCreateMethod].join
+		
+	}
+	
+	dispatch static def specificCreateMethod(GraphicalModelElement it)'''
 		
 			def create«name»(String ID){
 				val n = super.create«name»
@@ -117,7 +123,30 @@ class FactoryGeneratorExtensions {
 «««				
 «««				return «ecl.mainEClass.name.toLowerCase»
 «««			}
-		'''].join
-		
-	}
+		'''
+	
+	dispatch static def specificCreateMethod(Type it)'''
+«««			def create«name»(){
+«««				val n = super.create«name»
+«««				//val ime = createInternal«name»
+«««				//n => [ internal = ime]
+«««				//n.internalElement.eAdapters.add(new «graphModel.package».adapter.«name»EContentAdapter)
+«««				n
+«««				
+«««			}
+«««			def create«name»(InternalModelElement ime) {
+«««				val n = create«name»
+«««				//n => [ internal = ime ]
+«««				//n.internalElement.eAdapters.add(new «graphModel.package».adapter.«name»EContentAdapter)
+«««				n
+«««			}
+«««			override def create«ecl.modelElement.name»(){
+«««				val «ecl.mainEClass.name.toLowerCase» = «model.name.toLowerCase.toFirstUpper»Factory.eINSTANCE.create«ecl.mainEClass.name»
+«««				val «ecl.internalEClass.name.toLowerCase» = InternalFactory.eINSTANCE.create«ecl.internalEClass.name»
+«««				«ecl.mainEClass.name.toLowerCase».setInternalElement(«ecl.internalEClass.name.toLowerCase»);
+«««				«ecl.mainEClass.name.toLowerCase».setUID();
+«««				
+«««				return «ecl.mainEClass.name.toLowerCase»
+«««			}
+		'''
 }

@@ -285,6 +285,9 @@ class GeneratorUtils {
 			var e = me as Edge
 			return e.graphModel
 		}
+		if(me instanceof Type){
+			me.eContainer as GraphModel
+		}
 	}
 	
 	def getExtends(ModelElement me) {

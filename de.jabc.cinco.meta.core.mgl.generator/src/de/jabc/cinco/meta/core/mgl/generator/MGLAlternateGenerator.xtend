@@ -89,9 +89,9 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		
 		
 		epk.EClassifiers += elementEClasses.map[ec|ec.mainEClass]
-		internalEPackage.EClassifiers += elementEClasses.map[ec|ec.internalEClass]
-		viewsEPackage.EClassifiers += elementEClasses.map[ec|ec.mainView]
-		viewsEPackage.EClassifiers += elementEClasses.map[ec|ec.views].flatten
+		internalEPackage.EClassifiers += elementEClasses.filter[internalEClass!=null].map[internalEClass]
+		viewsEPackage.EClassifiers += elementEClasses.filter[mainView!=null].map[mainView]
+		viewsEPackage.EClassifiers += elementEClasses.filter[!views.nullOrEmpty].map[views].flatten
 	
 		
 		toReferenceMap.forEach[key, value|key.EType = eClassesMap.get(value.name).mainEClass]
@@ -205,15 +205,22 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 //	}
 	private def ElementEClasses createModelElementClasses(ModelElement element) {
 		val elementEClasses = new ElementEClasses
-		elementEClasses.modelElement = element
-		elementEClasses.mainEClass = element.createEClass
-		elementEClasses.internalEClass = element.createInternalEClass(elementEClasses)
-		elementEClasses.mainView = createMainView(element, elementEClasses)
-		elementEClasses.views += createViews(element, elementEClasses)
-
+		if(!(element instanceof Enumeration)){
+			
+			elementEClasses.modelElement = element
+			elementEClasses.mainEClass = element.createEClass
+			
+				elementEClasses.internalEClass = element.createInternalEClass(elementEClasses)
+				elementEClasses.mainView = createMainView(element, elementEClasses)
+				elementEClasses.views += createViews(element, elementEClasses)
+			
+			
 		eClassesMap.put(elementEClasses.mainEClass.name, elementEClasses)
 
-		elementEClasses
+	
+		
+		}
+	elementEClasses
 	}
 
 	private def Iterable<? extends EClass> createViews(ModelElement element, ElementEClasses elementEClasses) {
@@ -378,10 +385,21 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 	}
 
 	private def Iterable<? extends ElementEClasses> createUserDefinedTypes(GraphModel model) {
-		model.types.filter(UserDefinedType).map[udt|udt.createModelElementClasses]
+		val internalTypeClass = internalPackage.internalType
+		val typeClass = graphModelPackage.getType
+		var udts = model.types.filter(UserDefinedType).map[udt|println(udt);udt.createModelElementClasses]
+		udts = 
+		udts.map[
+			internalEClass.ESuperTypes+=internalTypeClass
+			mainEClass.ESuperTypes+=typeClass
+			
+			it
+		]
+		udts
 
 	}
-
+	
+	
 	private def Iterable<? extends EClassifier> createEnums(GraphModel model) {
 		model.types.filter(Enumeration).map[en| en.createEnumeration]
 	}

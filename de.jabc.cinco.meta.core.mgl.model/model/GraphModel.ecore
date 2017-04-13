@@ -315,6 +315,11 @@
       abstract="true" interface="true"/>
   <eClassifiers xsi:type="ecore:EClass" name="ConnectionConstraint" instanceClassName="de.jabc.cinco.meta.core.mgl.model.constraints.ConnectionConstraint"
       abstract="true" interface="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Type" abstract="true" interface="true"
+      eSuperTypes="#//IdentifiableElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="internalElement" eType="#//internal/InternalType"
+        eOpposite="#//internal/InternalType/element"/>
+  </eClassifiers>
   <eSubpackages name="internal" nsURI="http://www.jabc.de/cinco/gdl/graphmodel/internal"
       nsPrefix="graphmodel-internal">
     <eClassifiers xsi:type="ecore:EClass" name="InternalNode" eSuperTypes="#//internal/InternalModelElement">
@@ -482,7 +487,7 @@
       </eOperations>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="InternalModelElementContainer" abstract="true"
-        interface="true" eSuperTypes="#//IdentifiableElement">
+        interface="true" eSuperTypes="#//internal/InternalIdentifiableElement">
       <eOperations name="getContainerElement" eType="#//ModelElementContainer"/>
       <eOperations name="canContain" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
         <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
@@ -516,7 +521,7 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="modelElements" upperBound="-1"
           eType="#//internal/InternalModelElement" containment="true" eOpposite="#//internal/InternalModelElement/container"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="InternalModelElement" eSuperTypes="#//IdentifiableElement">
+    <eClassifiers xsi:type="ecore:EClass" name="InternalModelElement" eSuperTypes="#//internal/InternalIdentifiableElement">
       <eOperations name="getRootElement" eType="#//internal/InternalGraphModel">
         <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
           <details key="body" value="InternalModelElementContainer container = this.getContainer();&#xA;&#x9;&#x9;&#x9;&#x9;if(container!=null){&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;while(container!=null &amp;&amp; !(container instanceof InternalGraphModel))&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;container= ((InternalModelElement)container).getContainer();&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;if(container!=null)&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;return (InternalGraphModel)container;&#xA;&#x9;&#x9;&#x9;&#x9;}&#xA;&#x9;&#x9;&#x9;&#x9;&#xA;&#x9;&#x9;&#x9;&#x9;&#xA;&#x9;&#x9;&#x9;&#x9;return null;"/>
@@ -547,6 +552,12 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="locationShift" eType="#//internal/_Point"
           containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="location" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="InternalIdentifiableElement" abstract="true"
+        interface="true" eSuperTypes="#//IdentifiableElement"/>
+    <eClassifiers xsi:type="ecore:EClass" name="InternalType" abstract="true" eSuperTypes="#//internal/InternalIdentifiableElement">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="element" eType="#//Type"
+          eOpposite="#//Type/internalElement"/>
     </eClassifiers>
   </eSubpackages>
 </ecore:EPackage>

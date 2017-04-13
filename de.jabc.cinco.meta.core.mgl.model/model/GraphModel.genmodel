@@ -114,6 +114,9 @@
     </genClasses>
     <genClasses image="false" ecoreClass="GraphModel.ecore#//ContainmentConstraint"/>
     <genClasses image="false" ecoreClass="GraphModel.ecore#//ConnectionConstraint"/>
+    <genClasses image="false" ecoreClass="GraphModel.ecore#//Type">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference GraphModel.ecore#//Type/internalElement"/>
+    </genClasses>
     <nestedGenPackages prefix="Internal" basePackage="graphmodel" disposableProviderFactory="true"
         ecorePackage="GraphModel.ecore#//internal">
       <genClasses ecoreClass="GraphModel.ecore#//internal/InternalNode">
@@ -207,6 +210,10 @@
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute GraphModel.ecore#//internal/_Decoration/nameHint"/>
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference GraphModel.ecore#//internal/_Decoration/locationShift"/>
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute GraphModel.ecore#//internal/_Decoration/location"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="GraphModel.ecore#//internal/InternalIdentifiableElement"/>
+      <genClasses image="false" ecoreClass="GraphModel.ecore#//internal/InternalType">
+        <genFeatures createChild="false" ecoreFeature="ecore:EReference GraphModel.ecore#//internal/InternalType/element"/>
       </genClasses>
     </nestedGenPackages>
   </genPackages>
