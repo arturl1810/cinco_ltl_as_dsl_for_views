@@ -439,14 +439,20 @@ class CodingExtension {
 	}
 	
 	/**
-	 * TODO Documentation and usage example.
+	 * This is an alternative to the => operator in order to create a 
+	 * with/let block. A benefit of this extension method is, that it 
+	 * allows optional execution if the left expression evaluates to 
+	 * <code>null</code>.
 	 * 
 	 * <pre>
-	 * 
+	 * nullableStuff?.let [ 
+	 *   // do something with `it` as it will never be null
+	 * ]
 	 * </pre>
 	 * 
-	 * @param it
-	 * @param block
+	 * @param it the object used as receiver.
+	 * @param block the let/with lambda expression.
+	 * @return the receiver.
 	 */
 	def <T, U> let(T it, (T) => void block) {
 		block.apply(it)
@@ -454,14 +460,19 @@ class CodingExtension {
 	}
 	
 	/**
-	 * TODO Documentation and usage example.
+	 * Performs/forces an early exit of the calling method (via an illegal argument exception) if the left expression evaluates to 
+	 * <code>null</code>. The code block may be used to do some cleanup before exiting. 
 	 * 
 	 * <pre>
-	 * 
+	 * val a = nullableStuff.guard [ 
+	 * 	// do some cleanup.
+	 * ]
+	 * // this will be executed, iff `nullableStuff` is not `null`.
 	 * </pre>
 	 * 
-	 * @param it
-	 * @param block
+	 * @param it the object to be checked for being a null pointer.
+	 * @param block a lambda expression for doing some cleanup.
+	 * @return the receiver (if it wasn't <code>null</code>).
 	 */
 	def <T> T guard(T it, () => void block) {
         if (it == null) {
@@ -471,6 +482,18 @@ class CodingExtension {
         it
     }
     
+    /**
+     * Performs/forces an early exit of the calling method (via an illegal argument exception) if the left expression evaluates to 
+	 * <code>null</code>.
+	 * 
+	 * <pre>
+	 * val a = nullableStuff.guard
+	 * // this will be executed, iff `nullableStuff` is not `null`.
+	 * </pre>
+	 * 
+	 * @param it the object to be checked for being a null pointer.
+	 * @return the receiver (if it wasn't <code>null</code>).
+     */
     def <T> T guard(T it) {
     	if (it == null) throw new IllegalArgumentException("guarded value is null")
         it
