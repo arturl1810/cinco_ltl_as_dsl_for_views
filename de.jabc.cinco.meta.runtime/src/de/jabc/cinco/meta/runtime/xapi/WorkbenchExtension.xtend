@@ -1,6 +1,5 @@
 package de.jabc.cinco.meta.runtime.xapi
 
-import de.jabc.cinco.meta.util.xapi.WorkspaceExtension
 import graphmodel.GraphModel
 import graphmodel.IdentifiableElement
 import java.util.function.Predicate

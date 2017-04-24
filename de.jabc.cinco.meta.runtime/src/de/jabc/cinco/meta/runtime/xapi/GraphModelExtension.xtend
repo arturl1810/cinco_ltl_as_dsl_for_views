@@ -1,6 +1,5 @@
 package de.jabc.cinco.meta.runtime.xapi
 
-import de.jabc.cinco.meta.util.xapi.CodingExtension
 import graphmodel.Edge
 import graphmodel.IdentifiableElement
 import graphmodel.ModelElement

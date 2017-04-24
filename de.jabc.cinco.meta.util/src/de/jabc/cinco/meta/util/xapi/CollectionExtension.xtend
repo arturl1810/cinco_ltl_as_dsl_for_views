@@ -1,6 +1,7 @@
 package de.jabc.cinco.meta.util.xapi
 
 import java.util.HashSet
+import org.eclipse.xtext.xbase.lib.Functions.Function1
 import org.jooq.lambda.Seq
 import org.jooq.lambda.tuple.Tuple2
 
@@ -224,5 +225,40 @@ class CollectionExtension {
 		val dupe = seq.duplicate
 		val deleteItems = dupe.v1.flatMap[associator.apply(it)].distinct
 		dupe.v2.removeAll(deleteItems)
+	}
+	
+	/**
+	 * Returns the elements of {@code unfiltered} that do not satisfy a predicate. The resulting
+	 * iterable's iterator does not support {@code remove()}. The returned iterable is a view on
+	 * the original elements. Changes in the unfiltered original are reflected in the view.
+	 * 
+	 * @param unfiltered
+	 *            the unfiltered iterable. May not be <code>null</code>.
+	 * @param predicate
+	 *            the predicate. May not be <code>null</code>.
+	 * @return an iterable that contains only the elements that do not fulfill the predicate.
+	 *   Never <code>null</code>.
+	 */
+	@Pure
+	def <T> Iterable<T> drop(Iterable<T> unfiltered, Function1<? super T, Boolean> predicate) {
+		unfiltered.filter[!predicate.apply(it)]
+	}
+	
+	/**
+	 * Returns all instances that are not of class {@code type} in {@code unfiltered}. The returned
+	 * iterable has elements whose class is neither {@code type} or a subclass of {@code type}. The
+	 * returned iterable's iterator does not support {@code remove()}. The returned iterable is a
+	 * view on the original elements. Changes in the unfiltered original are reflected in the view.
+	 * 
+	 * @param unfiltered
+	 *            the unfiltered iterable. May not be <code>null</code>.
+	 * @param type
+	 *            the type of elements to be dropped
+	 * @return an iterable containing all elements of the original iterable that are not of the type
+	 *   to be excluded. Never <code>null</code>.
+	 */
+	@Pure
+	def <T> Iterable<T> drop(Iterable<T> unfiltered, Class<?> type) {
+		unfiltered.filter[!type.isInstance(it)]
 	}
 }
