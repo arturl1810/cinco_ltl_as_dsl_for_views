@@ -45,6 +45,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import de.jabc.cinco.meta.util.xapi.FileExtension;
+import mgl.Annotatable;
 import mgl.Annotation;
 import mgl.Attribute;
 import mgl.GraphModel;
@@ -66,8 +67,12 @@ public class CincoUtils {
 	public static final String ID_DISABLE_RESIZE = "resize";
 	public static final String ID_DISABLE_RECONNECT = "reconnect";
 	public static final String ID_DISABLE_SELECT = "select";
+	public static final String ID_DISABLE_HIGHLIGHT = "disableHighlight";
+	public static final String ID_DISABLE_HIGHLIGHT_CONTAINMENT = "containment";
+	public static final String ID_DISABLE_HIGHLIGHT_RECONNECT = "reconnection";
 	public static Set<String> DISABLE_NODE_VALUES = new HashSet<String>(Arrays.asList("create", "delete", "move", "resize", "select"));
 	public static Set<String> DISABLE_EDGE_VALUES = new HashSet<String>(Arrays.asList("create", "delete", "reconnect", "select"));
+	public static Set<String> DISABLE_HIGHLIGHT_VALUES = new HashSet<String>(Arrays.asList("containment", "reconnection"));
 	
 	private final static String PLUGIN_FRAME = "<?xml version=\"1.0\" encoding=\""+System.getProperty("file.encoding")+"\"?>\n"
 			+ "<?eclipse version=\"3.0\"?>\n"
@@ -98,10 +103,46 @@ public class CincoUtils {
 		return isDisabled(me, ID_DISABLE_DELETE);
 	}
 	
-	public static boolean isDisabled(ModelElement me, String id) {
+	public static boolean isDisabled(ModelElement me) {
+		Set<String> values = DISABLE_NODE_VALUES;
+		if (me instanceof mgl.Edge)
+			values = DISABLE_EDGE_VALUES;
+		for (Annotation annot : me.getAnnotations())
+			if (annot.getName().equals(ID_DISABLE))
+				return (annot.getValue().isEmpty() || annot.getValue().containsAll(values));
+		return false;
+	}
+	
+	private static boolean isDisabled(ModelElement me, String id) {
 		for (Annotation annot : me.getAnnotations()) {
 			if (annot.getName().equals(ID_DISABLE)) {
 				return (annot.getValue().isEmpty() || annot.getValue().contains(id));
+			}
+		}
+		return false;
+	}
+	
+	public static boolean isHighlightContainmentDisabled(Annotatable me) {
+		return isHighlightDisabled(me, ID_DISABLE_HIGHLIGHT_CONTAINMENT);
+	}
+	
+	public static boolean isHighlightReconnectDisabled(Annotatable me) {
+		return isHighlightDisabled(me, ID_DISABLE_HIGHLIGHT_RECONNECT);
+	}
+	
+	public static boolean isHighlightDisabled(Annotatable me) {
+		for (Annotation annot : me.getAnnotations()) {
+			if (annot.getName().equals(ID_DISABLE_HIGHLIGHT)) {
+				return annot.getValue().isEmpty() || annot.getValue().containsAll(DISABLE_HIGHLIGHT_VALUES);
+			}
+		}
+		return false;
+	}
+	
+	private static boolean isHighlightDisabled(Annotatable me, String id) {
+		for (Annotation annot : me.getAnnotations()) {
+			if (annot.getName().equals(ID_DISABLE_HIGHLIGHT)) {
+				return annot.getValue().isEmpty() || annot.getValue().contains(id);
 			}
 		}
 		return false;

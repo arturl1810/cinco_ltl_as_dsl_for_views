@@ -1,6 +1,7 @@
 package de.jabc.cinco.meta.core.ge.style.fragment;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -50,9 +51,13 @@ public class StylesValidator implements IMetaPluginValidator {
 			return null;
 		Annotation annotation = (Annotation) eObject;
 		ModelElement me = getModelElement((Annotation) eObject);
-		if (me instanceof GraphModel && annotation.getName().equals(CincoUtils.ID_STYLE))
-			ep = checkGraphModelStyleAnnotation((GraphModel) me, annotation);
-		
+		if (me instanceof GraphModel) {
+			if (annotation.getName().equals(CincoUtils.ID_STYLE))
+				ep = checkGraphModelStyleAnnotation((GraphModel) me, annotation);
+			if (annotation.getName().equals(CincoUtils.ID_DISABLE_HIGHLIGHT)) 
+				ep = checkGraphModelDisableHighlight((GraphModel) me, annotation);
+		}
+			
 		if (me instanceof Node && annotation.getName().equals(CincoUtils.ID_STYLE)) {
 			ep = checkNodeContainerStyleAnnotation((Node) me, annotation);
 		}
@@ -73,27 +78,21 @@ public class StylesValidator implements IMetaPluginValidator {
 	}
 	
 	private ErrorPair<String, EStructuralFeature> checkDisable(ModelElement me,	Annotation annotation) {
-		if (me instanceof Node) {
-			for (String s : annotation.getValue()) {
-				if (!CincoUtils.DISABLE_NODE_VALUES.contains(s))
-					return new ErrorPair<String, EStructuralFeature>(
-							"Invalid value: \"" +s+ "\". Possible values are: " + CincoUtils.DISABLE_NODE_VALUES, 
-							annotation.eClass().getEStructuralFeature(MglPackage.ANNOTATION__NAME)
-							);
-			}
+		ErrorPair<String, EStructuralFeature> result = null;
+		if (me instanceof Node)
+			result = checkPredefinedValue(CincoUtils.DISABLE_NODE_VALUES, annotation);
+		if (me instanceof Edge)
+			result = checkPredefinedValue(CincoUtils.DISABLE_EDGE_VALUES, annotation);
+		return result;
+	}
+	
+	private ErrorPair<String, EStructuralFeature> checkPredefinedValue(Collection<String> values, Annotation annotation) {
+		for (String s : annotation.getValue()) {
+			if (!values.contains(s))
+				return new ErrorPair<String, EStructuralFeature>(
+					"Invalid value: \"" +s+ "\". Possible values are: " + values, 
+					annotation.eClass().getEStructuralFeature(MglPackage.ANNOTATION__NAME));
 		}
-		
-		if (me instanceof Edge) {
-			for (String s : annotation.getValue()) {
-				if (!CincoUtils.DISABLE_EDGE_VALUES.contains(s)) {
-					return new ErrorPair<String, EStructuralFeature>(
-							"Invalid value: \"" +s+ "\". Possible values are: " + CincoUtils.DISABLE_EDGE_VALUES, 
-							annotation.eClass().getEStructuralFeature(MglPackage.ANNOTATION__NAME)
-							);
-				}
-			}
-		}
-		
 		return null;
 	}
 	
@@ -284,6 +283,10 @@ public class StylesValidator implements IMetaPluginValidator {
 						annot.eClass().getEStructuralFeature("value"));
 		}
 		return null;
+	}
+	
+	private ErrorPair<String, EStructuralFeature> checkGraphModelDisableHighlight(GraphModel me, Annotation annotation) {
+		return checkPredefinedValue(CincoUtils.DISABLE_HIGHLIGHT_VALUES, annotation);
 	}
 	
 	private ModelElement getModelElement(Annotation annot) {
