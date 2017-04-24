@@ -2,6 +2,7 @@ package de.jabc.cinco.meta.core.ui.editor;
 
 import org.eclipse.gef.KeyHandler;
 import org.eclipse.gef.Tool;
+import org.eclipse.gef.dnd.TemplateTransferDragSourceListener;
 import org.eclipse.gef.tools.ConnectionCreationTool;
 import org.eclipse.gef.tools.CreationTool;
 import org.eclipse.gef.ui.palette.PaletteViewer;
@@ -42,7 +43,7 @@ public class CincoDiagramEditor extends DiagramEditor {
 	
 	
 	public void onPaletteViewerCreated(PaletteViewer pViewer) {
-		// default: do nothing
+		pViewer.addDragSourceListener(new TemplateTransferDragSourceListener(pViewer));
 	}
 	
 	public void initRequiredPackages() {
