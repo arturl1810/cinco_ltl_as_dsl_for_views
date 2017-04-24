@@ -69,7 +69,7 @@ public class CincoUtils {
 	public static final String ID_DISABLE_SELECT = "select";
 	public static final String ID_DISABLE_HIGHLIGHT = "disableHighlight";
 	public static final String ID_DISABLE_HIGHLIGHT_CONTAINMENT = "containment";
-	public static final String ID_DISABLE_HIGHLIGHT_RECONNECT = "reconnection";
+	public static final String ID_DISABLE_HIGHLIGHT_RECONNECTION = "reconnection";
 	public static Set<String> DISABLE_NODE_VALUES = new HashSet<String>(Arrays.asList("create", "delete", "move", "resize", "select"));
 	public static Set<String> DISABLE_EDGE_VALUES = new HashSet<String>(Arrays.asList("create", "delete", "reconnect", "select"));
 	public static Set<String> DISABLE_HIGHLIGHT_VALUES = new HashSet<String>(Arrays.asList("containment", "reconnection"));
@@ -126,8 +126,8 @@ public class CincoUtils {
 		return isHighlightDisabled(me, ID_DISABLE_HIGHLIGHT_CONTAINMENT);
 	}
 	
-	public static boolean isHighlightReconnectDisabled(Annotatable me) {
-		return isHighlightDisabled(me, ID_DISABLE_HIGHLIGHT_RECONNECT);
+	public static boolean isHighlightReconnectionDisabled(Annotatable me) {
+		return isHighlightDisabled(me, ID_DISABLE_HIGHLIGHT_RECONNECTION);
 	}
 	
 	public static boolean isHighlightDisabled(Annotatable me) {

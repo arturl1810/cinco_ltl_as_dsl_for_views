@@ -17,6 +17,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.function.Predicate;
+import java.util.function.Supplier;
 import java.util.jar.Manifest;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -29,6 +31,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import mgl.Annotatable;
 import mgl.Annotation;
 import mgl.Attribute;
 import mgl.ContainingElement;
@@ -1693,6 +1696,36 @@ public class ServiceAdapter {
 		}
 		
 		return Branches.FALSE;
+	}
+
+	public static String isHighlightDisabled(LightweightExecutionEnvironment env, ContextKeyFoundation element) {
+		return check(env, element,
+			CincoUtils::isHighlightDisabled
+		);
+	}
+
+	public static String isHighlightContainmentDisabled(LightweightExecutionEnvironment env, ContextKeyFoundation element) {
+		return check(env, element,
+			CincoUtils::isHighlightContainmentDisabled
+		);
+	}
+
+	public static String isHighlightReconnectionDisabled(LightweightExecutionEnvironment env, ContextKeyFoundation element) {
+		return check(env, element,
+			CincoUtils::isHighlightReconnectionDisabled
+		);
+	}
+	
+	private static <T> String check(LightweightExecutionEnvironment env, ContextKeyFoundation key, Predicate<T> check) {
+		LightweightExecutionContext context = env.getLocalContext();
+		try {
+			@SuppressWarnings("unchecked")
+			T obj = (T) context.get(key);
+			return check.test(obj) ? Branches.TRUE : Branches.FALSE;
+		} catch (Exception e) {
+			context.put("exception", e);
+			return Branches.ERROR;
+		}
 	}
 
 	public static String isAttributeReadOnly(LightweightExecutionEnvironment env,
