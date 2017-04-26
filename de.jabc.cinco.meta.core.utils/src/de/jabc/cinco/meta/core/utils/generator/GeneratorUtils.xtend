@@ -285,6 +285,9 @@ class GeneratorUtils {
 			var e = me as Edge
 			return e.graphModel
 		}
+		if(me instanceof Type){
+			me.eContainer as GraphModel
+		}
 	}
 	
 	def getExtends(ModelElement me) {
@@ -544,13 +547,14 @@ class GeneratorUtils {
 	 * 
 	 * @param me The processed {@link ModelElement} 
 	 */
-	def writeMethodCallPostMove(ModelElement me){
+	def writeMethodCallPostMove(ModelElement me, String meName, String sourceName, String targetName, 
+		String xName, String yName, 
+		String deltaXName, 	String deltaYName) {
 		var annot = CincoUtils.findAnnotationPostMove(me);
 		if(annot != null)
 		{
 			var class = annot.value.get(0)
-			
-			return '''new «class»().postMove(«me.name.toLowerCase», CSource, CTarget, x ,y, deltaX, deltaY);'''
+			return '''new «class»().postMove(«meName», «sourceName», «targetName», «xName» ,«yName», «deltaXName», «deltaYName»);'''
 		}
 	}
 	

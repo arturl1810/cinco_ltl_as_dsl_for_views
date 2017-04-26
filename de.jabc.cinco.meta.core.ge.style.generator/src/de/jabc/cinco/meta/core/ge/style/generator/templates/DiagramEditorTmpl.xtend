@@ -30,9 +30,9 @@ public class «gm.fuName»DiagramEditor extends «CincoDiagramEditor.name» {
 		
 		«ReferenceRegistry.name».getInstance().registerListener();
 	
-		for («PictogramLink.name» pl : «gm.fuName»GraphitiUtils.getInstance().getDTP().getDiagram().getPictogramLinks())
-			for («EObject.name» bo : pl.getBusinessObjects())
-				«gm.packageNameEContentAdapter».«gm.fuName»EContentAdapter.getInstance().addAdapter(bo);
+«««		for («PictogramLink.name» pl : «gm.fuName»GraphitiUtils.getInstance().getDTP().getDiagram().getPictogramLinks())
+«««			for («EObject.name» bo : pl.getBusinessObjects())
+«««				«gm.packageNameEContentAdapter».«gm.fuName»EContentAdapter.getInstance().addAdapter(bo);
 		
 	}
 	

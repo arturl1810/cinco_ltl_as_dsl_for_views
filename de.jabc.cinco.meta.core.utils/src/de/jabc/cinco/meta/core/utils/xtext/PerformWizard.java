@@ -7,7 +7,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 
-import de.jabc.cinco.meta.core.ge.style.generator.runtime.customfeature.CincoPostMoveHook;
+import de.jabc.cinco.meta.runtime.hook.CincoPostMoveHook;
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.customfeature.CincoPostResizeHook;
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.customfeature.CincoPostSelectHook;
 import de.jabc.cinco.meta.runtime.action.CincoCustomAction;

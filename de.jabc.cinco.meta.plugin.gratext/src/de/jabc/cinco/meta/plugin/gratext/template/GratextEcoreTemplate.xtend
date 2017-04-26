@@ -8,6 +8,8 @@ import java.util.ArrayList
 class GratextEcoreTemplate extends AbstractGratextTemplate {
 
 def graphModelURI() '''«graphmodel.nsURI»/internal'''
+def graphModelEcorePlatformResourceURI() '''platform:/resource/«modelProjectSymbolicName»/src-gen/model/«model.name».ecore'''
+
 
 def classes() {
 	val classes = new ArrayList<E_Class>
@@ -60,18 +62,17 @@ override template()
 «««    <details key="validationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL"/>
   </eAnnotations>
   <eClassifiers xsi:type="ecore:EClass" name="«model.name»">
-  	 <eSuperTypes href="platform:/resource/info.scce.cinco.product.flowgraph/src-gen/model/FlowGraph.ecore#//internal/Internal«model.name»"/>
+  	 <eSuperTypes href="«graphModelEcorePlatformResourceURI»#//internal/Internal«model.name»"/>
   </eClassifiers>
   «FOR node:model.nodes»
   <eClassifiers xsi:type="ecore:EClass" name="«node.name»" abstract="«node.isIsAbstract»">
-«««  	<eSuperTypes href="«graphModelURI»#//Internal«node.name»"/>
-	<eSuperTypes href="platform:/resource/info.scce.cinco.product.flowgraph/src-gen/model/FlowGraph.ecore#//internal/Internal«node.name»"/>
+	<eSuperTypes href="«graphModelEcorePlatformResourceURI»#//internal/Internal«node.name»"/>
   	«interfaces(node)»
   </eClassifiers>
   «ENDFOR»
   «FOR edge:model.edges»
   <eClassifiers xsi:type="ecore:EClass" name="«edge.name»">
-  	<eSuperTypes href="platform:/resource/info.scce.cinco.product.flowgraph/src-gen/model/FlowGraph.ecore#//internal/Internal«edge.name»"/>
+  	<eSuperTypes href="«graphModelEcorePlatformResourceURI»#//internal/Internal«edge.name»"/>
   	<eSuperTypes href="#//_Edge"/>
   </eClassifiers>
   «ENDFOR»

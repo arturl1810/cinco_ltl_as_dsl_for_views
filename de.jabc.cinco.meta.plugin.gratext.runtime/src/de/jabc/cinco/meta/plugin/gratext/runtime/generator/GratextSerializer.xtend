@@ -9,6 +9,8 @@ import graphmodel.internal.InternalModelElement
 import graphmodel.internal.InternalModelElementContainer
 import graphmodel.internal.InternalNode
 import graphmodel.internal.InternalPackage
+import graphmodel.internal._Decoration
+import graphmodel.internal._Point
 import java.util.ArrayList
 import java.util.Collection
 import java.util.List
@@ -19,21 +21,17 @@ import org.eclipse.emf.ecore.EClass
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.EStructuralFeature
 import org.eclipse.emf.ecore.resource.Resource
-import org.eclipse.graphiti.mm.algorithms.styles.Point
-import org.eclipse.graphiti.mm.pictograms.Connection
-import org.eclipse.graphiti.mm.pictograms.ConnectionDecorator
-import org.eclipse.graphiti.mm.pictograms.Diagram
-import org.eclipse.graphiti.mm.pictograms.FreeFormConnection
-import org.eclipse.graphiti.mm.pictograms.PictogramElement
+//import org.eclipse.graphiti.mm.pictograms.Diagram
+//import org.eclipse.graphiti.mm.pictograms.PictogramElement
 
-import static org.eclipse.graphiti.ui.services.GraphitiUi.getLinkService
 
 abstract class GratextSerializer {
 
 	static extension val ResourceExtension = new ResourceExtension
 
-	NonEmptyRegistry<InternalModelElement,PictogramElement>
-		peCache = new NonEmptyRegistry[linkService.getPictogramElements(diagram, it).get(0)]
+//  All information are now persisted in th
+//	NonEmptyRegistry<InternalModelElement,PictogramElement>
+//		peCache = new NonEmptyRegistry[linkService.getPictogramElements(diagram, it).get(0)]
 			
 	NonEmptyRegistry<InternalModelElementContainer,List<InternalNode>>
 		nodesInitialOrder = new NonEmptyRegistry[InternalModelElementContainer c | c.allNodes.sort.toList]
@@ -45,15 +43,15 @@ abstract class GratextSerializer {
 		c.modelElements.filter(InternalNode)
 	}
 	
-	Diagram diagram
+//	Diagram diagram
 	InternalGraphModel model
 	
 	new (Resource res) {
-		this(res.diagram, res.getContent(InternalGraphModel))
+		this(/*res.diagram,*/ res.getContent(InternalGraphModel))
 	}
 	
-	new (Diagram diagram, InternalGraphModel model) {
-		this.diagram = diagram
+	new (/*Diagram diagram,*/ InternalGraphModel model) {
+//		this.diagram = diagram
 		this.model = model
 	}
 	
@@ -82,7 +80,7 @@ abstract class GratextSerializer {
 	
 	def String gratext(InternalEdge edge) {
 		'''
-		-«edge.name»-> «edge.targetElement.internalElement.id» «edge.pe.route» «edge.pe.decorations» {
+		-«edge.name»-> «edge.targetElement.internalElement.id» «edge.route» «edge.decorations» {
 			id «edge.id»
 			«edge.attributes»
 		}
@@ -118,8 +116,7 @@ abstract class GratextSerializer {
 	}
 	
 	def placement(InternalNode node) {
-		val ga = node.pe.graphicsAlgorithm
-		'''at «ga.x»,«ga.y» size «ga.width»,«ga.height» «node.index»'''
+		'''at «node.x»,«node.y» size «node.width»,«node.height» «node.index»'''
 	}
 	
 	def index(InternalNode node) {
@@ -130,7 +127,7 @@ abstract class GratextSerializer {
 	}
 	
 	def peIndex(InternalNode node) {
-		node.pe.eContainer.eContents.indexOf(node.pe)
+		node.eContainer.eContents.indexOf(node)
 	}
 	
 	def gratextIndex(InternalNode node) {
@@ -141,33 +138,30 @@ abstract class GratextSerializer {
 		nodes
 	}
 	
-	def route(PictogramElement pe) {
-		val points = switch pe {
-			FreeFormConnection case !pe.bendpoints.empty:
-				pe.bendpoints.map[gratext].join(' ')
-		}
+	def route(InternalEdge edge) {
+		val points = 
+			if (!edge.bendpoints.empty)
+				edge.bendpoints.map[gratext].join(' ')
+				
 		if (points != null)
 			'''via «points»'''
 	}
 	
-	def decorations(PictogramElement pe) {
-		switch pe {
-			Connection case !pe.connectionDecorators.empty:
-				pe.connectionDecorators.map[gratext].join(' ')
-		}
+	def decorations(InternalEdge edge) {
+			edge.decorators?.map[gratext].join(' ')
 	}
 	
-	def pe(EObject obj) {
-		peCache.get(obj)
-	}
+//	def pe(EObject obj) {
+//		peCache.get(obj)
+//	}
 	
-	def gratext(Point p) {
+	def gratext(_Point p) {
 		'''(«p.x»,«p.y»)'''
 	}
 	
-	def gratext(ConnectionDecorator dec) {
-		val ga = dec.graphicsAlgorithm
-		'''decorate "«ga.name»" at («ga.x»,«ga.y»)'''
+	def gratext(_Decoration dec) {
+//		val ga = dec.graphicsAlgorithm
+		'''decorate "«dec.nameHint»" at («dec.locationShift.x»,«dec.locationShift.y»)'''
 	}
 	
 	def edges(InternalNode node) {

@@ -195,7 +195,7 @@
     </eOperations>
     <eOperations name="setId">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="org.eclipse.emf.transaction.TransactionalEditingDomain dom = org.eclipse.emf.transaction.TransactionalEditingDomain.Factory.INSTANCE.getEditingDomain(modelElement.eResource().getResourceSet());&#xA;&#x9;&#x9;if (dom == null)&#xA;&#x9;&#x9;&#x9;dom = org.eclipse.emf.transaction.TransactionalEditingDomain.Factory.INSTANCE.createEditingDomain(modelElement.eResource().getResourceSet());&#xA;&#x9;&#x9;dom.getCommandStack().execute(new org.eclipse.emf.transaction.RecordingCommand(dom) {&#xA;&#x9;&#x9;&#xA;&#x9;&#x9;&#x9;@Override&#xA;&#x9;&#x9;&#x9;protected void doExecute() {&#xA;&#x9;&#x9;&#x9;&#x9;getModelElement().setId(id);&#xA;&#x9;&#x9;&#x9;}&#xA;&#x9;&#x9;});"/>
+        <details key="body" value="org.eclipse.emf.transaction.TransactionalEditingDomain dom = org.eclipse.emf.transaction.TransactionalEditingDomain.Factory.INSTANCE.getEditingDomain(modelElement.eResource().getResourceSet());&#xA;&#x9;&#x9;if (dom == null)&#xA;&#x9;&#x9;&#x9;dom = org.eclipse.emf.transaction.TransactionalEditingDomain.Factory.INSTANCE.createEditingDomain(modelElement.eResource().getResourceSet());&#xA;&#x9;&#x9;dom.getCommandStack().execute(new org.eclipse.emf.transaction.RecordingCommand(dom) {&#xA;&#x9;&#x9;&#xA;&#x9;&#x9;&#x9;@Override&#xA;&#x9;&#x9;&#x9;protected void doExecute() {&#xA;&#x9;&#x9;&#x9;&#x9;org.eclipse.emf.ecore.util.EcoreUtil.setID(getModelElement(),id);&#xA;&#x9;&#x9;&#x9;}&#xA;&#x9;&#x9;});"/>
       </eAnnotations>
       <eParameters name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eOperations>

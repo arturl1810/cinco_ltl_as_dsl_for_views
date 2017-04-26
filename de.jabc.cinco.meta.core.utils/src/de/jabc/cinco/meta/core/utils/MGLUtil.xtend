@@ -189,10 +189,18 @@ class MGLUtil {
 	 }
 	 
 	 private def static generatePostCreateCall(Annotation it)
-	 '''new «value.get(0)»().postCreate(me)''' 
+	 '''new «value.get(0)»().postCreate(me)'''
 	 
 	 def static postCreate(Type it, String varname) {
 	 	if (annotations.filter[name == "postCreate"].isEmpty) "" else '''«varname».postCreates'''
 	 }
+	 
+	 def static postAttributeValueChange(ModelElement it, String varName) {
+	 	annotations.filter[name == "postAttributeValueChange"].map[generatePostAttributeValueChange(varName)].join("\n")
+	 }
+	 
+	 def static generatePostAttributeValueChange(Annotation it, String varName) '''
+	 new «value.get(0)»().handleChange(«varName».element as «parent.fqBeanName»)
+	 '''
 	 
 }

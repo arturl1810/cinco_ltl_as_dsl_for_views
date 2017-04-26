@@ -39,6 +39,7 @@ import org.eclipse.xtext.util.StringInputStream
 import transem.utility.helper.Tuple
 import org.eclipse.core.runtime.IPath
 import de.jabc.cinco.meta.util.xapi.WorkspaceExtension
+import de.jabc.cinco.meta.core.utils.projects.ContentWriter
 
 class MGLGenerator implements IGenerator {
 	@Inject extension IQualifiedNameProvider
@@ -69,6 +70,7 @@ class MGLGenerator implements IGenerator {
 		val altGen = new MGLAlternateGenerator()
 		var ePackage = altGen.generateEcoreModel(model)
 		generateFactory(altGen, model, access)
+		generateAdapter(altGen, model, access)
 		saveEcoreModel(ePackage, model)
 
 		var ecorePath = "/model/" + model.fullyQualifiedName.toString("/") + ".ecore".toFirstUpper
@@ -114,6 +116,19 @@ class MGLGenerator implements IGenerator {
 			new WorkspaceExtension().create(file)
 		}
 		file.setContents(new StringInputStream(factoryContent.toString), true, true, null)
+	}
+	
+	protected def void generateAdapter(MGLAlternateGenerator altGen, GraphModel model, IFileSystemAccess access) {
+		val project = ProjectCreator.getProject(model.eResource)
+		val packageName = model.package + ".adapter"
+		var adapterContent = altGen.createAdapter(model)
+		var fileName = model.name + "EContentAdapter.xtend"
+		ContentWriter::writeFile(project,"src-gen",packageName,fileName,adapterContent.toString)
+		for (n : model.nodes + model.edges) {
+			fileName = n.name + "EContentAdapter.xtend"
+			adapterContent = altGen.createAdapter(n)
+			ContentWriter::writeFile(project,"src-gen",packageName,fileName,adapterContent.toString)
+		}
 	}
 
 	def saveEcoreModel(EPackage ePackage, GraphModel model) {

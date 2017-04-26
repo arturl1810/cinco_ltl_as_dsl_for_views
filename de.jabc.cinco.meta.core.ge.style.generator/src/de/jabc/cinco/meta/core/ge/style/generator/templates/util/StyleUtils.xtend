@@ -60,7 +60,7 @@ class StyleUtils extends APIUtils {
 				
 				«aShape.recursiveCall(currentPeName.toString)»
 			
-				«n.packageNameEContentAdapter».«n.graphModel.fuName»EContentAdapter.getInstance().addAdapter(bo);
+«««				«n.packageNameEContentAdapter».«n.graphModel.fuName»EContentAdapter.getInstance().addAdapter(bo);
 			
 				linkAllShapes(«currentPeName», bo);
 				layoutPictogramElement(«currentPeName»);
@@ -96,6 +96,11 @@ class StyleUtils extends APIUtils {
 			
 			peService.createChopboxAnchor(«currentPeName»);
 			layoutPictogramElement(«currentPeName»);
+			
+			bo.setX(«currentPeName».getGraphicsAlgorithm().getX());
+			bo.setY(«currentPeName».getGraphicsAlgorithm().getY());
+			bo.setWidth(«currentPeName».getGraphicsAlgorithm().getWidth());
+			bo.setHeight(«currentPeName».getGraphicsAlgorithm().getHeight());
 
 			if (hook) {
 			}
@@ -202,7 +207,7 @@ class StyleUtils extends APIUtils {
 			peService.setPropertyValue(«currentGaName»,«CincoLayoutUtils.typeName».KEY_INITIAL_PARENT_SIZE, "" + «currentPeName».getContainer().getGraphicsAlgorithm().getWidth() + "," + «currentPeName».getContainer().getGraphicsAlgorithm().getHeight());
 		else peService.setPropertyValue(«currentGaName»,«CincoLayoutUtils.typeName».KEY_INITIAL_PARENT_SIZE, "" + «currentPeName».getGraphicsAlgorithm().getWidth() + "," + «currentPeName».getGraphicsAlgorithm().getHeight()); 
 		
-			«node.graphModel.packageName».«node.graphModel.fuName»LayoutUtils.set_FlowGraphDefaultAppearanceStyle(«currentGaName», getDiagram());
+			«node.graphModel.packageName».«node.graphModel.fuName»LayoutUtils.set_«node.graphModel.fuName»DefaultAppearanceStyle(«currentGaName», getDiagram());
 			gaService.setLocation(«currentGaName», 0, 0);
 			peService.setPropertyValue(«currentGaName»,«CincoLayoutUtils.typeName».KEY_HORIZONTAL, «CincoLayoutUtils.typeName».KEY_HORIZONTAL_UNDEFINED);
 			peService.setPropertyValue(«currentGaName», «CincoLayoutUtils.typeName».KEY_VERTICAL,«CincoLayoutUtils.typeName».KEY_VERTICAL_UNDEFINED);
@@ -268,7 +273,7 @@ class StyleUtils extends APIUtils {
 		}
 		
 		peService.setPropertyValue(«currentGaName», «CincoLayoutUtils.typeName».KEY_INITIAL_POINTS, pointsString);
-		«node.graphModel.packageName».«node.graphModel.fuName»LayoutUtils.set_FlowGraphDefaultAppearanceStyle(«currentGaName», getDiagram());
+		«node.graphModel.packageName».«node.graphModel.fuName»LayoutUtils.set_«node.graphModel.fuName»DefaultAppearanceStyle(«currentGaName», getDiagram());
 		gaService.setLocation(«currentGaName», 0, 0);
 		peService.setPropertyValue(«currentGaName»,«CincoLayoutUtils.typeName».KEY_HORIZONTAL,«CincoLayoutUtils.typeName».KEY_HORIZONTAL_UNDEFINED);
 		peService.setPropertyValue(«currentGaName»,«CincoLayoutUtils.typeName».KEY_VERTICAL, «CincoLayoutUtils.typeName».KEY_VERTICAL_UNDEFINED);

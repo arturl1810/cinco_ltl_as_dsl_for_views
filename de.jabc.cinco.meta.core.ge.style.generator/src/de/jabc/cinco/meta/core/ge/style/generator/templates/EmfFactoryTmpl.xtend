@@ -19,20 +19,19 @@ class EmfFactoryTmpl {
 		
 		@Override
 		public «EObject.name» create(«EClass.name» eClass) {
-			«FOR me : gm.modelElements»
+			«FOR me : gm.modelElements.filter[!isIsAbstract]»
 			if (eClass.getName().equals("«me.name»"))
 				return create«me.fuName»();
 			«ENDFOR»
 			return super.create(eClass);
 		}
 		
-		«FOR me : gm.modelElements»
+		«FOR me : gm.modelElements.filter[!isIsAbstract]»
 		@Override
 		public «me.fqBeanName» create«me.fuName»() {
 			«me.fqInternalBeanName» ime = («me.fqInternalBeanName») «me.fqFactoryName».eINSTANCE.create«me.fuName»().getInternalElement();
 			«me.fqCName» me = new «me.fqCName»();
 			ime.setElement(me);
-			ime.setId(«EcoreUtil.name».generateUUID());
 			return me;
 		}
 		«ENDFOR»

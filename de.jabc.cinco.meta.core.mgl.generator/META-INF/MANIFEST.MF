@@ -16,8 +16,9 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Export-Package: de.jabc.cinco.meta.core.mgl.generator,
  de.jabc.cinco.meta.core.mgl.generator.extensions
-Import-Package: de.jabc.cinco.meta.core.utils.dependency,
+Import-Package: de.jabc.cinco.meta.core.utils,
+ de.jabc.cinco.meta.core.utils.dependency,
  de.jabc.cinco.meta.core.utils.generator,
- org.eclipse.xtext.generator,
- de.jabc.cinco.meta.core.utils
+ de.jabc.cinco.meta.runtime.xapi,
+ org.eclipse.xtext.generator
 

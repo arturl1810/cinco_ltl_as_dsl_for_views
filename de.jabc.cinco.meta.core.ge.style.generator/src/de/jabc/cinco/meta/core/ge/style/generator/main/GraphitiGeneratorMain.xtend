@@ -115,8 +115,8 @@ class GraphitiGeneratorMain extends GeneratorUtils {
 		ContentWriter::writeJavaFileInSrcGen(project, gm.packageNameExpression, gm.name.toFirstUpper.concat("ExpressionLanguageResolver.java"), content)
 		content = gm.generateContext
 		ContentWriter::writeJavaFileInSrcGen(project, gm.packageNameExpression, gm.name.toFirstUpper.concat("ExpressionLanguageContext.java"), content)
-		content = gm.generateGraphModelEContentAdapter
-		ContentWriter::writeJavaFileInSrcGen(project, gm.packageNameEContentAdapter, gm.name.toFirstUpper.concat("EContentAdapter.java"), content)
+//		content = gm.generateGraphModelEContentAdapter
+//		ContentWriter::writeJavaFileInSrcGen(project, gm.packageNameEContentAdapter, gm.name.toFirstUpper.concat("EContentAdapter.java"), content)
 //		content = gm.generateCustomFeature
 //		ContentWriter::writeJavaFileInSrcGen(project, gm.packageName, gm.name.toFirstUpper.concat("GraphitiCustomFeature.java"), content)
 		content = gm.generateFactory
@@ -124,7 +124,7 @@ class GraphitiGeneratorMain extends GeneratorUtils {
 		content = gm.generateResourceFactory
 		ContentWriter::writeFile(project, "src-gen", gm.packageName, gm.name.toFirstUpper.concat("ResourceFactory.xtend"), content)
 		
-		for (Node n : gm.nodes) {
+		for (Node n : gm.nodes.filter[!isIsAbstract]) {
 			if (n.isPrime){
 				content = n.doGeneratePrimeAddFeature(styles)
 				ContentWriter::writeJavaFileInSrcGen(project, n.packageNameAdd, "AddFeaturePrime"+n.name.toFirstUpper+".java", content)
@@ -136,8 +136,8 @@ class GraphitiGeneratorMain extends GeneratorUtils {
 				content = n.doGenerateNodeCreateFeature(styles) 
 				ContentWriter::writeJavaFileInSrcGen(project, n.packageNameCreate, "CreateFeature"+n.name.toFirstUpper+".java", content)
 				
-				content = n.generateModelElementEContentAdapter
-				ContentWriter::writeJavaFileInSrcGen(project, n.packageNameEContentAdapter, n.name.toFirstUpper.concat("EContentAdapter.java"), content)
+//				content = n.generateModelElementEContentAdapter
+//				ContentWriter::writeJavaFileInSrcGen(project, n.packageNameEContentAdapter, n.name.toFirstUpper.concat("EContentAdapter.java"), content)
 			}
 			
 			content = n.doGenerateModelElementDeleteFeature(styles)
@@ -157,7 +157,7 @@ class GraphitiGeneratorMain extends GeneratorUtils {
 			
 		}
 		
-		for (Edge e : gm.edges) {
+		for (Edge e : gm.edges.filter[!isIsAbstract]) {
 			content = e.doGenerateEdgeAddFeature(styles)
 			ContentWriter::writeJavaFileInSrcGen(project, e.packageNameAdd, "AddFeature"+e.name.toFirstUpper+".java", content)
 
@@ -165,8 +165,8 @@ class GraphitiGeneratorMain extends GeneratorUtils {
 				content = e.doGenerateEdgeCreateFeature(styles)
 				ContentWriter::writeJavaFileInSrcGen(project, e.packageNameCreate, "CreateFeature"+e.name.toFirstUpper+".java", content)
 				
-				content = e.generateModelElementEContentAdapter
-				ContentWriter::writeJavaFileInSrcGen(project, e.packageNameEContentAdapter, e.name.toFirstUpper.concat("EContentAdapter.java"), content)
+//				content = e.generateModelElementEContentAdapter
+//				ContentWriter::writeJavaFileInSrcGen(project, e.packageNameEContentAdapter, e.name.toFirstUpper.concat("EContentAdapter.java"), content)
 			}
 			
 			content = e.doGenerateModelElementDeleteFeature(styles)

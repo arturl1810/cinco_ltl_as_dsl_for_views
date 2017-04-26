@@ -2,10 +2,14 @@ package de.jabc.cinco.meta.core.mgl.generator.extensions
 
 import de.jabc.cinco.meta.core.mgl.generator.elements.ElementEClasses
 import de.jabc.cinco.meta.core.utils.generator.GeneratorUtils
+import de.jabc.cinco.meta.runtime.xapi.GraphModelExtension
 import graphmodel.GraphmodelPackage
+import graphmodel.ModelElementContainer
+import graphmodel.internal.InternalNode
 import java.util.ArrayList
 import java.util.HashMap
 import java.util.List
+import java.util.Map
 import mgl.ContainingElement
 import mgl.Edge
 import mgl.EdgeElementConnection
@@ -208,18 +212,46 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 			val nodeEClass = elemClasses.get(node.name).mainEClass
 			containers.forEach[
 				c |	nodeEClass.createEOperation("moveTo",null,1,1,node.moveToMethodContent(c), 
-					elemClasses.get(c.name).mainEClass.createEParameter(c.name.toFirstLower,1,1), createEInt("x",1,1), createEInt("y",1,1)
-				)
+						elemClasses.get(c.name).mainEClass.createEParameter(c.name.toFirstLower,1,1), createEInt("x",1,1), createEInt("y",1,1)
+					)
+					
+					nodeEClass.createEOperation("_moveTo",null,1,1,node._moveToMethodContent(c), 
+						elemClasses.get(c.name).mainEClass.createEParameter(c.name.toFirstLower,1,1), createEInt("x",1,1), createEInt("y",1,1)
+					)
 			]
+			
+			nodeEClass.createEOperation("postMove", null,1,1,node.postMoveContent,
+				GraphmodelPackage.eINSTANCE.modelElementContainer.createEParameter("source",1,1),
+				GraphmodelPackage.eINSTANCE.modelElementContainer.createEParameter("target",1,1),
+				createEInt("x",1,1),
+				createEInt("y",1,1),
+				createEInt("deltaX",1,1), 
+				createEInt("deltaY",1,1)
+			)
 		}
 
 		def moveToMethodContent(Node node, ContainingElement ce) '''
+			«ModelElementContainer.name» source = this.getContainer();
+			int deltaX = ((«InternalNode.name») this.getInternalElement()).getX();
+			int deltaY = ((«InternalNode.name») this.getInternalElement()).getY();
+			_moveTo(«ce.name.toFirstLower», x, y);
+			«IF node.booleanWriteMethodCallPostMove»
+			postMove(source, «ce.name.toFirstLower», x,y, deltaX, deltaY);
+			«ENDIF»
+		'''
+
+		def _moveToMethodContent(Node node, ContainingElement ce) '''
 			«ce.name.toFirstLower».getInternalContainerElement().getModelElements().add(this.getInternalElement());
 			this.move(x, y);
+			new «GraphModelExtension.name»().moveEdgesToCommonContainer((«InternalNode.name») this.getInternalElement());
+		'''
+
+		def postMoveContent(Node n) '''
+			«n.writeMethodCallPostMove("this", "source", "target", "x", "y", "deltaX", "deltaY")»
 		'''
 
 		def createCanNewNodeMethods(ContainingElement ce, HashMap<String, ElementEClasses> elemClasses) {
-			ce.containableNodes.forEach[n | 
+			ce.containableNodes.filter[!isAbstract].forEach[n | 
 				elemClasses.get(ce.name).mainEClass.
 					createEOperation("canNew"+n.fuName,
 						EcorePackage.eINSTANCE.EBoolean,
@@ -234,8 +266,11 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 			return this.canContain(«n.fuName».class);
 		'''
 
-		def createNewNodeMethods(ContainingElement ce, HashMap<String, ElementEClasses> elemClasses) {
-			ce.containableNodes.forEach[n | 
+		def createNewNodeMethods(ContainingElement ce, Map<String, ElementEClasses> elemClasses) {
+			println("the containing element: "+ce)
+			println("them elmClasses:" + elemClasses)
+			ce.containableNodes.filter[!isIsAbstract].forEach[n | 
+				println("the containable node: "+n)
 				elemClasses.get(ce.name).mainEClass.
 					createEOperation("new"+n.fuName,
 						elemClasses.get(n.name).mainEClass,
