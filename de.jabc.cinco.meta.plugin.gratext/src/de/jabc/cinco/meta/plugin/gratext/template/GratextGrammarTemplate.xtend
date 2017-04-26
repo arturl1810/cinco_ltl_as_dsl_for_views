@@ -80,7 +80,7 @@ def modelRule() {
 
 
 def containerRule(NodeContainer node) {
-	val outEdges = model.resp(node).outgoingEdges
+	val outEdges = model.resp(node).nonAbstractOutgoingEdges
 	val containables = model.resp(node).nonAbstractContainables
 	'''
 	«node.name» returns «node.name»:{«node.name»}
@@ -112,7 +112,7 @@ def containerRule(NodeContainer node) {
 
 
 def nodeRule(Node node) {
-	val outEdges = model.resp(node).outgoingEdges
+	val outEdges = model.resp(node).nonAbstractOutgoingEdges
 	'''
 	«node.name» returns «node.name»:{«node.name»}
 	'«node.name»' (id = _ID)? placement = _Placement
