@@ -7,4 +7,5 @@ Fragment-Host: de.jabc.cinco.meta.core.pluginregistry
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: de.jabc.cinco.meta.core.utils,
  org.eclipse.pde.core
-Import-Package: de.jabc.cinco.meta.core
+Import-Package: de.jabc.cinco.meta.core,
+ de.metaframe.jabc.framework.execution.context

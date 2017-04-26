@@ -49,6 +49,14 @@
       </genOperations>
       <genOperations ecoreOperation="GraphModel.ecore#//Node/getIncoming.1"/>
       <genOperations ecoreOperation="GraphModel.ecore#//Node/getOutgoing.1"/>
+      <genOperations ecoreOperation="GraphModel.ecore#//Node/move">
+        <genParameters ecoreParameter="GraphModel.ecore#//Node/move/x"/>
+        <genParameters ecoreParameter="GraphModel.ecore#//Node/move/y"/>
+      </genOperations>
+      <genOperations ecoreOperation="GraphModel.ecore#//Node/resize">
+        <genParameters ecoreParameter="GraphModel.ecore#//Node/resize/width"/>
+        <genParameters ecoreParameter="GraphModel.ecore#//Node/resize/height"/>
+      </genOperations>
     </genClasses>
     <genClasses image="false" ecoreClass="GraphModel.ecore#//Edge">
       <genOperations ecoreOperation="GraphModel.ecore#//Edge/getSourceElement"/>
