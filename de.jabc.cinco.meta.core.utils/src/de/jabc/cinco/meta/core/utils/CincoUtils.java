@@ -45,6 +45,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import de.jabc.cinco.meta.util.xapi.FileExtension;
+import de.jabc.cinco.meta.util.xapi.WorkspaceExtension;
 import mgl.Annotatable;
 import mgl.Annotation;
 import mgl.Attribute;
@@ -57,6 +58,9 @@ import style.Styles;
 
 
 public class CincoUtils {
+	
+	static WorkspaceExtension workspaceExtension = new WorkspaceExtension();
+	static FileExtension fileExtension = new FileExtension();
 
 	public static final String ID_STYLE = "style";
 	public static final String ID_ICON = "icon";
@@ -322,29 +326,27 @@ public class CincoUtils {
 		extensions.add(gModel.getFileExtension());
 		return extensions;
 	}
-
-	private static GenModel getImportedGenmodel(Import i) {
-		URI genModelURI = URI.createURI(FilenameUtils.removeExtension(i.getImportURI()).concat(".genmodel"));
-		Resource res = new ResourceSetImpl().getResource(genModelURI, true);
-		if (res != null)
-			try {
-				res.load(null);
-				EObject genModel = res.getContents().get(0);
-				if (genModel instanceof GenModel)
-					return (GenModel) genModel;
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		return null;
+	
+	public static IFile getFile(URI uri, EObject obj) {
+		IFile file = null;
+		if (uri.isPlatformResource()) {
+			file = workspaceExtension.getFile(uri);
+		} else {
+			file = workspaceExtension.getResource(obj).getProject().getFile(new Path(uri.toString()));
+		}
+		return file;
+	}
+	
+	public static GenModel getImportedGenmodel(Import i) {
+		URI uri = URI.createURI(FilenameUtils.removeExtension(i.getImportURI()).concat(".genmodel"));
+		IFile file = getFile(uri, i);
+		return fileExtension.getContent(file, GenModel.class, 0);
 	}
 
-	private static GraphModel getImportedGraphModel(Import i) {
-		URI gmURI = URI.createURI(i.getImportURI(), true);
-		Resource res = new ResourceSetImpl().getResource(gmURI, true);
-		EObject graphModel = res.getContents().get(0);
-		if (graphModel instanceof GraphModel)
-			return (GraphModel) graphModel;
-		return null;
+	public static GraphModel getImportedGraphModel(Import i) {
+		URI uri = URI.createURI(i.getImportURI(), true);
+		IFile file = getFile(uri, i);
+		return fileExtension.getContent(file, GraphModel.class, 0);
 	}
 	
 	private static String getFileExtension(GenModel genModel) {

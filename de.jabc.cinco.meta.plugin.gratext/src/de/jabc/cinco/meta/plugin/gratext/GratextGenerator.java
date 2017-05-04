@@ -22,6 +22,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 
+import de.jabc.cinco.meta.core.utils.CincoUtils;
 import de.jabc.cinco.meta.core.utils.projects.ProjectCreator;
 import de.jabc.cinco.meta.plugin.gratext.template.SerializerTemplate;
 import de.jabc.cinco.meta.plugin.gratext.template.DiagramTemplate;
@@ -58,7 +59,7 @@ public class GratextGenerator extends ProjectGenerator {
 	protected void init(Map<String, Object> context) {
 		model.getImports().forEach(i -> {
 			if (i.getImportURI().endsWith(".mgl")) {
-				GraphModel gm = getImportedGraphModel(i);
+				GraphModel gm = CincoUtils.getImportedGraphModel(i);
 				String gmName = gm.getName().substring(0, 1).toUpperCase();
 				if (gm.getName().length() > 1) {
 					gmName += gm.getName().substring(1).toLowerCase();
@@ -71,7 +72,7 @@ public class GratextGenerator extends ProjectGenerator {
 				genModelURIs.put(gm.getNsURI(), genModelUri);
 			}
 			if (i.getImportURI().endsWith(".ecore")) {
-				GenModel gm = getImportedGenmodel(i);
+				GenModel gm = CincoUtils.getImportedGenmodel(i);
 				gm.getGenPackages().forEach(genPkg -> {
 					String genPackage = genPkg.getBasePackage() + "." + genPkg.getEcorePackage().getName() + "." + genPkg.getPrefix() + "Package";
 					genPackages.put(genPkg.getNSURI(), genPackage);
@@ -315,28 +316,5 @@ public class GratextGenerator extends ProjectGenerator {
 	
 	public Set<String> getGenPackageReferences() {
 		return referenced;
-	}
-	
-	private GenModel getImportedGenmodel(Import i) {
-		URI genModelURI = URI.createURI(new Path(i.getImportURI()).removeFileExtension().addFileExtension("genmodel").toString());
-		Resource res = new ResourceSetImpl().getResource(genModelURI, true);
-		if (res != null) try {
-			res.load(null);
-			EObject genModel = res.getContents().get(0);
-			if (genModel instanceof GenModel)
-				return (GenModel) genModel;
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-
-	private GraphModel getImportedGraphModel(Import i) {
-		URI gmURI = URI.createURI(i.getImportURI(), true);
-		Resource res = new ResourceSetImpl().getResource(gmURI, true);
-		EObject graphModel = res.getContents().get(0);
-		if (graphModel instanceof GraphModel)
-			return (GraphModel) graphModel;
-		return null;
 	}
 }

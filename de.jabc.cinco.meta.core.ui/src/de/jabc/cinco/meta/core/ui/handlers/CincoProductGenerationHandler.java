@@ -432,12 +432,16 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 					if(eObj instanceof GraphModel){
 						GraphModel gm = (GraphModel)eObj;
 						String projectSymbolicName = ProjectCreator.getProjectSymbolicName(project);
-						DependencyNode dn = new DependencyNode(gm.eResource().getURI().toPlatformString(true).replace("/"+projectSymbolicName,""));
+						DependencyNode dn = new DependencyNode(gm.eResource().getURI().toPlatformString(true).replace("/"+projectSymbolicName+"/",""));
 						//ArrayList<String> before = new ArrayList<String>();
 						for(Import imprt : gm.getImports()){
 							if(imprt.getImportURI().endsWith(".mgl")){
-								if(!imprt.isStealth())
-									dn.getDependsOf().add(imprt.getImportURI().replace("platform:/resource/"+projectSymbolicName,""));
+								if(!imprt.isStealth()) {
+									String importStr = imprt.getImportURI().replace("platform:/resource/"+projectSymbolicName+"/","");
+									if (importStr.startsWith("/"))
+										importStr = importStr.substring(1);
+									dn.getDependsOf().add(importStr);
+								}
 							}
 						}
 						dns.add(dn);

@@ -19,6 +19,9 @@ import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.xtext.scoping.IScope
 import org.eclipse.xtext.scoping.Scopes
 import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider
+import org.eclipse.core.resources.IFile
+import org.eclipse.core.runtime.Path
+import org.eclipse.core.resources.ResourcesPlugin
 
 /**
  * This class contains custom scoping description.
@@ -47,8 +50,8 @@ class MGLScopeProvider extends AbstractDeclarativeScopeProvider {
 		val rSet = refType.eResource.resourceSet
 			var res = null as Resource
 				try{
-					loadResource(refType.imprt.importURI)
-					res = rSet.getResource(URI.createURI(refType.imprt.importURI),true)
+					val file = getFile(refType.imprt.importURI, refType.eResource)
+					res = rSet.getResource(getURI(file), true)
 				}catch(Exception e){
 					return null;
 				}
@@ -71,12 +74,11 @@ class MGLScopeProvider extends AbstractDeclarativeScopeProvider {
 				
 				scope = Scopes.scopeFor(types)
 			}else{
-				
 				val rSet = refType.eResource.resourceSet
 				var res = null as Resource
 				try{
-					loadResource(refType.imprt.importURI)
-					res = rSet.getResource(URI.createURI(refType.imprt.importURI),true)
+					val file = getFile(refType.imprt.importURI, refType.eResource)
+					res = rSet.getResource(getURI(file), true)
 				}catch(Exception e){
 					return null;
 				}
@@ -111,6 +113,25 @@ class MGLScopeProvider extends AbstractDeclarativeScopeProvider {
 		}catch(Exception e){
 			throw new RuntimeException(e);
 		}
+	}
+	
+	def URI getURI(IFile file) {
+        if (file.exists) 
+        	URI.createPlatformResourceURI(file.getFullPath().toPortableString(), true)
+        else null
+	}
+	
+	def IFile getFile(String path, Resource res) {
+        if (path == null || path.isEmpty)
+        	return null
+        val root = ResourcesPlugin.workspace.root
+        val resFile = if (res.URI.isPlatform)
+        	root.getFile(new Path(res.getURI().toPlatformString(true)))
+        else root.getFileForLocation(Path.fromOSString(res.getURI().path()))
+        val uri = URI.createURI(path)
+        if (uri.isPlatform)
+        	root.getFile(new Path(uri.toPlatformString(true)))
+        else resFile.getProject().getFile(path)
 	}
 	
 }
