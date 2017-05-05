@@ -14,25 +14,25 @@ def graphModelEcorePlatformResourceURI() '''platform:/resource/«modelProjectSym
 def classes() {
 	val classes = new ArrayList<E_Class>
 	classes.addAll(Arrays.asList(
-		new E_Class("_Point")
-			.add(new E_Attribute("x", E_Type.EInt).defaultValue("0"))
-			.add(new E_Attribute("y", E_Type.EInt).defaultValue("0")),
-		new E_Class("_Placement").supertypes("#//_Point")
-			.add(new E_Attribute("width", E_Type.EInt).defaultValue("-1"))
-			.add(new E_Attribute("height", E_Type.EInt).defaultValue("-1"))
-			.add(new E_Attribute("index", E_Type.EInt).defaultValue("-1")),
-		new E_Interface("_Placed")
-			.add(new E_Reference("placement", "#//_Placement").containment(true)),
-		new E_Class("_Route")
-			.add(new E_Reference("points", "#//_Point").containment(true).upper(-1)),
-		new E_Class("_Decoration")
-			.add(new E_Attribute("namehint", E_Type.EString).defaultValue(""))
-			.add(new E_Reference("location", "#//_Point").containment(true)),
+//		new E_Class("_Point")
+//			.add(new E_Attribute("x", E_Type.EInt).defaultValue("0"))
+//			.add(new E_Attribute("y", E_Type.EInt).defaultValue("0")),
+//		new E_Class("_Placement").supertypes("#//_Point")
+//			.add(new E_Attribute("width", E_Type.EInt).defaultValue("-1"))
+//			.add(new E_Attribute("height", E_Type.EInt).defaultValue("-1"))
+//			.add(new E_Attribute("index", E_Type.EInt).defaultValue("-1")),
+//		new E_Interface("_Placed")
+//			.add(new E_Reference("placement", "#//_Placement").containment(true)),
+//		new E_Class("_Route")
+//			.add(new E_Reference("points", "#//_Point").containment(true).upper(-1)),
+//		new E_Class("_Decoration")
+//			.add(new E_Attribute("namehint", E_Type.EString).defaultValue(""))
+//			.add(new E_Reference("location", "#//_Point").containment(true)),
 		new E_Interface("_EdgeSource")
 			.add(new E_Reference("outgoingEdges", "#//_Edge").containment(true).upper(-1)),
-		new E_Interface("_Edge")
-			.add(new E_Reference("route", "#//_Route").containment(true))
-			.add(new E_Reference("decorations", "#//_Decoration").containment(true).upper(-1)),
+		new E_Interface("_Edge"),
+//			.add(new E_Reference("route", "#//_Route").containment(true))
+//			.add(new E_Reference("decorations", "#//_Decoration").containment(true).upper(-1)),
 		new E_Interface("_Prime")
 			.add(new E_Reference("prime", "ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"))
 	))
@@ -40,7 +40,8 @@ def classes() {
 }
 
 def interfaces(Node node) {
-	var str = '''<eSuperTypes href="#//_Placed"/>'''
+//	var str = '''<eSuperTypes href="#//_Placed"/>'''
+	var str = ''''''
 	if (model.resp(node).isEdgeSource)
 		str += '''<eSuperTypes href="#//_EdgeSource"/>'''
 	if (model.resp(node).primeReference != null)
