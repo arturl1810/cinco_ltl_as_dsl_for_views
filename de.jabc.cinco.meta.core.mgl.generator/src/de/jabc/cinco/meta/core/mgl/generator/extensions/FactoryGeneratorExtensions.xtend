@@ -89,6 +89,23 @@ class FactoryGeneratorExtensions {
 		
 	}
 	
+	dispatch static def specificCreateMethod(GraphModel gm)'''
+	
+		def create«gm.fuName»(String ID){
+			val n = super.create«gm.fuName»
+			val ime = createInternal«gm.fuName»
+			n => [ internal = ime]
+			setID(n,ID)
+			setID(ime,generateUUID)
+			n.internalElement.eAdapters.add(new «gm.package».adapter.«gm.fuName»EContentAdapter)
+			n	
+		}
+			
+		override create«gm.fuName»() {
+			create«gm.fuName»(generateUUID)
+		}
+		'''
+	
 	dispatch static def specificCreateMethod(GraphicalModelElement it)'''
 		
 			def create«name»(String ID){

@@ -30,6 +30,8 @@ import java.util.List
 import org.eclipse.graphiti.services.Graphiti
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.graphiti.features.impl.DefaultMoveShapeFeature
+import org.eclipse.graphiti.ui.features.DefaultDeleteFeature
+import org.eclipse.graphiti.features.context.impl.DeleteContext
 
 class CModelElementTmpl extends APIUtils {
 	
@@ -191,10 +193,22 @@ public «IF me.isIsAbstract»abstract«ENDIF» class «me.fuCName» extends «me
 		mc.setY(y);
 		
 		«IFeatureProvider.name» fp = getFeatureProvider();
-		«IMoveShapeFeature.name» mf = new «DefaultMoveShapeFeature.name»(fp);
+		«IMoveShapeFeature.name» mf = new «DefaultDeleteFeature.name»(fp);
 		if (fp instanceof «CincoFeatureProvider.name») {
 			((«CincoFeatureProvider.name») fp).executeFeature(mf, mc);
 			super.move(x, y);
+		}
+	}
+	
+	@Override
+	public void delete{
+		«MoveShapeContext.name» mc = new «DeleteContext.name»((«Shape.name») this.pe);
+			
+		«IFeatureProvider.name» fp = getFeatureProvider();
+		«IMoveShapeFeature.name» mf = new «DefaultMoveShapeFeature.name»(fp);
+		if (fp instanceof «CincoFeatureProvider.name») {
+			((«CincoFeatureProvider.name») fp).executeFeature(mf, mc);
+			super.delete();
 		}
 	}
 	«ENDIF»

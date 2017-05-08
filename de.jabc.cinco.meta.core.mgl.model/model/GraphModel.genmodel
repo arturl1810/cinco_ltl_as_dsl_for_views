@@ -65,6 +65,7 @@
         <genParameters ecoreParameter="GraphModel.ecore#//Node/postMove/deltaX"/>
         <genParameters ecoreParameter="GraphModel.ecore#//Node/postMove/deltaY"/>
       </genOperations>
+      <genOperations ecoreOperation="GraphModel.ecore#//Node/delete"/>
     </genClasses>
     <genClasses image="false" ecoreClass="GraphModel.ecore#//Edge">
       <genOperations ecoreOperation="GraphModel.ecore#//Edge/getSourceElement"/>
