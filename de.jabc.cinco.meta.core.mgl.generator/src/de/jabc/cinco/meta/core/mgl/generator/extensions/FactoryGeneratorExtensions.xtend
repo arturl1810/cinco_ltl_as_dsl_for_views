@@ -89,6 +89,23 @@ class FactoryGeneratorExtensions {
 		ecls.map[modelElement].map[specificCreateMethod].join
 	}
 	
+	dispatch static def specificCreateMethod(GraphModel gm)'''
+	
+		def create«gm.fuName»(String ID){
+			val n = super.create«gm.fuName»
+			val ime = createInternal«gm.fuName»
+			n => [ internal = ime]
+			setID(n,ID)
+			setID(ime,generateUUID)
+			n.internalElement.eAdapters.add(new «gm.package».adapter.«gm.fuName»EContentAdapter)
+			n	
+		}
+			
+		override create«gm.fuName»() {
+			create«gm.fuName»(generateUUID)
+		}
+		'''
+	
 	dispatch static def specificCreateMethod(GraphicalModelElement it)'''
 		
 			def create«name»(String ID){
@@ -124,33 +141,6 @@ class FactoryGeneratorExtensions {
 «««				return «ecl.mainEClass.name.toLowerCase»
 «««			}
 		'''
-	
-	dispatch static def specificCreateMethod(GraphModel it)'''
-		def create«name»(String ID){
-			val n = super.create«name»
-			val ime = createInternal«name»
-			n => [ internal = ime]
-			setID(n,ID)
-			setID(ime,generateUUID)
-			«postCreate(it, "n")»
-			n.internalElement.eAdapters.add(new «graphModel.package».adapter.«name»EContentAdapter)
-			n
-			
-		}
-	
-		override create«name»() {
-			create«name»(generateUUID)
-		}
-		
-		def create«name»(InternalModelElement ime) {
-			val n = create«name»
-			n => [ internal = ime ]
-			setID(ime,generateUUID)
-			«postCreate(it, "n")»
-			n.internalElement.eAdapters.add(new «graphModel.package».adapter.«name»EContentAdapter)
-			n
-		}
-	'''
 	
 	dispatch static def specificCreateMethod(Type it)'''
 «««			def create«name»(){

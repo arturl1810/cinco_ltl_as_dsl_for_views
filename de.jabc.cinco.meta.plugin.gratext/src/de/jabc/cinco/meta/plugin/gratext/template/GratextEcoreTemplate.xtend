@@ -77,6 +77,11 @@ override template()
   	<eSuperTypes href="#//_Edge"/>
   </eClassifiers>
   «ENDFOR»
+  «FOR type:model.userDefinedTypes»
+  <eClassifiers xsi:type="ecore:EClass" name="«type.name»" abstract="«type.isIsAbstract»">
+  	<eSuperTypes href="«graphModelEcorePlatformResourceURI»#//internal/Internal«type.name»"/>
+  </eClassifiers>
+    «ENDFOR»
   «FOR cls:classes»«cls.toXMI»«ENDFOR»
 </ecore:EPackage>
 '''

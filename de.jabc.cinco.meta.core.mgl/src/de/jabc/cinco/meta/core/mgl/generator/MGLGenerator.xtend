@@ -57,18 +57,18 @@ class MGLGenerator implements IGenerator {
 		var projectID = bpd.symbolicName
 		bc.ungetService(ref);
 
-		(input.contents.head as GraphModel)?.doGenerateEcoreByTransformation(projectName, projectID, fsa, resourceUri)
+		(input.contents.head as GraphModel)?.doGenerateEcoreByTransformation(projectName, projectID, fsa, resourceUri,MGLEPackageRegistry.INSTANCE.MGLEPackages)
 	}
 
 	private def doGenerateEcoreByTransformation(GraphModel model, String projectName, String projectID,
-		IFileSystemAccess access, URI resourceURI) {
+		IFileSystemAccess access, URI resourceURI, Iterable<EPackage> mglEPackages) {
 
 		var genModelMap = PluginRegistry::getInstance().getGenModelMap()
 
 		prepareGraphModel(model)
 
 		val altGen = new MGLAlternateGenerator()
-		var ePackage = altGen.generateEcoreModel(model)
+		var ePackage = altGen.generateEcoreModel(model,mglEPackages).head
 		generateFactory(altGen, model, access)
 		generateAdapter(altGen, model, access)
 		saveEcoreModel(ePackage, model)
@@ -100,6 +100,8 @@ class MGLGenerator implements IGenerator {
 		saveGenModel(genModel, model)
 		GeneratorHelper.generateGenModelCode(genModel)
 		callMetaPlugins(model, map)
+		
+		
 
 	}
 
