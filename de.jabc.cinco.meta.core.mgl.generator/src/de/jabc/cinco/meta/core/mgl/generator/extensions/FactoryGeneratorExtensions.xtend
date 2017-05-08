@@ -142,33 +142,6 @@ class FactoryGeneratorExtensions {
 «««			}
 		'''
 	
-	dispatch static def specificCreateMethod(GraphModel it)'''
-		def create«name»(String ID){
-			val n = super.create«name»
-			val ime = createInternal«name»
-			n => [ internal = ime]
-			setID(n,ID)
-			setID(ime,generateUUID)
-			«postCreate(it, "n")»
-			n.internalElement.eAdapters.add(new «graphModel.package».adapter.«name»EContentAdapter)
-			n
-			
-		}
-	
-		override create«name»() {
-			create«name»(generateUUID)
-		}
-		
-		def create«name»(InternalModelElement ime) {
-			val n = create«name»
-			n => [ internal = ime ]
-			setID(ime,generateUUID)
-			«postCreate(it, "n")»
-			n.internalElement.eAdapters.add(new «graphModel.package».adapter.«name»EContentAdapter)
-			n
-		}
-	'''
-	
 	dispatch static def specificCreateMethod(Type it)'''
 «««			def create«name»(){
 «««				val n = super.create«name»

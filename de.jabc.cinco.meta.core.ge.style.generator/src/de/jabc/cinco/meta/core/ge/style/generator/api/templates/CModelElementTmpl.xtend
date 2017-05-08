@@ -32,6 +32,7 @@ import org.eclipse.emf.ecore.EObject
 import org.eclipse.graphiti.features.impl.DefaultMoveShapeFeature
 import org.eclipse.graphiti.ui.features.DefaultDeleteFeature
 import org.eclipse.graphiti.features.context.impl.DeleteContext
+import org.eclipse.graphiti.features.IDeleteFeature
 
 class CModelElementTmpl extends APIUtils {
 	
@@ -193,7 +194,7 @@ public «IF me.isIsAbstract»abstract«ENDIF» class «me.fuCName» extends «me
 		mc.setY(y);
 		
 		«IFeatureProvider.name» fp = getFeatureProvider();
-		«IMoveShapeFeature.name» mf = new «DefaultDeleteFeature.name»(fp);
+		«IMoveShapeFeature.name» mf = new «DefaultMoveShapeFeature.name»(fp);
 		if (fp instanceof «CincoFeatureProvider.name») {
 			((«CincoFeatureProvider.name») fp).executeFeature(mf, mc);
 			super.move(x, y);
@@ -201,11 +202,11 @@ public «IF me.isIsAbstract»abstract«ENDIF» class «me.fuCName» extends «me
 	}
 	
 	@Override
-	public void delete{
-		«MoveShapeContext.name» mc = new «DeleteContext.name»((«Shape.name») this.pe);
+	public void delete(){
+		«DeleteContext.name» mc = new «DeleteContext.name»((«Shape.name») this.pe);
 			
 		«IFeatureProvider.name» fp = getFeatureProvider();
-		«IMoveShapeFeature.name» mf = new «DefaultMoveShapeFeature.name»(fp);
+		«IDeleteFeature.name» mf = new «DefaultDeleteFeature.name»(fp);
 		if (fp instanceof «CincoFeatureProvider.name») {
 			((«CincoFeatureProvider.name») fp).executeFeature(mf, mc);
 			super.delete();
