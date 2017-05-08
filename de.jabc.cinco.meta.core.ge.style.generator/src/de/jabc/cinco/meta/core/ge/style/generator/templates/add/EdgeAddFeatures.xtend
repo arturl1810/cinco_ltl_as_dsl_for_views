@@ -6,7 +6,9 @@ import de.jabc.cinco.meta.core.ge.style.generator.templates.LayoutFeatureTmpl
 import de.jabc.cinco.meta.core.ge.style.generator.templates.util.APIUtils
 import de.jabc.cinco.meta.core.ge.style.generator.templates.util.StyleUtils
 import de.jabc.cinco.meta.core.utils.CincoUtils
+import de.jabc.cinco.meta.runtime.xapi.GraphModelExtension
 import de.jabc.cinco.meta.util.xapi.ResourceExtension
+import graphmodel.internal.InternalFactory
 import graphmodel.internal.InternalGraphModel
 import graphmodel.internal.InternalModelElementContainer
 import graphmodel.internal._Decoration
@@ -16,7 +18,6 @@ import org.eclipse.emf.common.util.BasicEList
 import org.eclipse.emf.common.util.EList
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.resource.Resource
-import org.eclipse.emf.ecore.util.EcoreUtil
 import org.eclipse.graphiti.features.IFeatureProvider
 import org.eclipse.graphiti.features.IUpdateFeature
 import org.eclipse.graphiti.features.context.IAddConnectionContext
@@ -36,12 +37,9 @@ import org.eclipse.graphiti.mm.pictograms.FreeFormConnection
 import org.eclipse.graphiti.mm.pictograms.PictogramElement
 import org.eclipse.graphiti.services.Graphiti
 import org.eclipse.graphiti.services.IGaService
-import org.eclipse.graphiti.services.IPeCreateService
 import org.eclipse.graphiti.services.IPeService
 import style.AbstractShape
 import style.Styles
-import de.jabc.cinco.meta.runtime.xapi.GraphModelExtension
-import graphmodel.internal.InternalFactory
 
 class EdgeAddFeatures extends APIUtils {
 	
@@ -106,8 +104,8 @@ class EdgeAddFeatures extends APIUtils {
 			// create link and wire it
 			link(connection, «e.flName»);
 			«ConnectionDecorator.name» cd;
-			«_Decoration.name» _d = «InternalFactory.name».eINSTANCE.create_Decoration();
-			«_Point.name» _p = «InternalFactory.name».eINSTANCE.create_Point();
+			«_Decoration.name» _d;// = «InternalFactory.name».eINSTANCE.create_Decoration();
+			«_Point.name» _p;// = «InternalFactory.name».eINSTANCE.create_Point();
 			«clear»
 			«FOR d : CincoUtils.getStyleForEdge(e, styles).decorator»			
 				«IF d.predefinedDecorator != null »	
@@ -120,8 +118,8 @@ class EdgeAddFeatures extends APIUtils {
 				_p.setX(cd.getGraphicsAlgorithm().getX());
 				_p.setY(cd.getGraphicsAlgorithm().getY());
 				_d.setLocationShift(_p);
-				«e.flName».getDecorators().add(«CincoUtils.getStyleForEdge(e, styles).decorator.indexOf(d)», _d);
-				peService.setPropertyValue(cd, "cdIndex", "«CincoUtils.getStyleForEdge(e, styles).decorator.indexOf(d)»");
+«««				«e.flName».getDecorators().add(«CincoUtils.getStyleForEdge(e, styles).decorator.indexOf(d)», _d);
+«««				peService.setPropertyValue(cd, "cdIndex", "«CincoUtils.getStyleForEdge(e, styles).decorator.indexOf(d)»");
 				«IF d.predefinedDecorator.shape.name() == "ARROW"»				
 				«e.graphModel.packageName».«e.graphModel.fuName»LayoutUtils.setdefaultStyle(cd.getGraphicsAlgorithm(), getDiagram());
 				«ENDIF»
@@ -195,9 +193,10 @@ class EdgeAddFeatures extends APIUtils {
 				_p.setX(cd.getGraphicsAlgorithm().getX());
 				_p.setY(cd.getGraphicsAlgorithm().getY());
 				_d.setLocationShift(_p);
-				«e.flName».getDecorators().add(«CincoUtils.getStyleForEdge(e, styles).decorator.indexOf(d)», _d);
 				peService.setPropertyValue(cd, "cdIndex", "«CincoUtils.getStyleForEdge(e, styles).decorator.indexOf(d)»");
 				«ENDIF»
+			if («e.flName».getDecorators().size() <= «CincoUtils.getStyleForEdge(e, styles).decorator.indexOf(d)»)
+				«e.flName».getDecorators().add(«CincoUtils.getStyleForEdge(e, styles).decorator.indexOf(d)», _d);
 			«ENDFOR»
 			
 			«Resource.name» eResource = ((«EObject.name») sourceBo).eResource();

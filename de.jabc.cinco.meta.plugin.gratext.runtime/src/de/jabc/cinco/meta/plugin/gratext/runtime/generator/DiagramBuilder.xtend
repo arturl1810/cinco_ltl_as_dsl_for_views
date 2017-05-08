@@ -1,5 +1,8 @@
 package de.jabc.cinco.meta.plugin.gratext.runtime.generator
 
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoAbstractAddFeature
+import de.jabc.cinco.meta.plugin.gratext.runtime.editor.LazyDiagram
+import de.jabc.cinco.meta.runtime.xapi.ResourceExtension
 import graphmodel.Edge
 import graphmodel.GraphModel
 import graphmodel.IdentifiableElement
@@ -7,11 +10,11 @@ import graphmodel.Node
 import graphmodel.internal.InternalEdge
 import graphmodel.internal.InternalModelElement
 import graphmodel.internal.InternalModelElementContainer
-
-import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoAbstractAddFeature
-import de.jabc.cinco.meta.plugin.gratext.runtime.editor.LazyDiagram
-import de.jabc.cinco.meta.runtime.xapi.ResourceExtension
-
+import graphmodel.internal.InternalNode
+import graphmodel.internal._Point
+import java.util.ArrayList
+import java.util.HashMap
+import java.util.Map
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.graphiti.dt.IDiagramTypeProvider
@@ -28,15 +31,9 @@ import org.eclipse.graphiti.mm.pictograms.PictogramElement
 import org.eclipse.graphiti.mm.pictograms.Shape
 import org.eclipse.swt.SWTException
 
-import java.util.HashMap
-import java.util.List
-import java.util.Map
-
 import static org.eclipse.graphiti.ui.services.GraphitiUi.getExtensionManager
+
 import static extension de.jabc.cinco.meta.plugin.gratext.runtime.generator.GratextGenerator.*
-import graphmodel.internal._Point
-import graphmodel.internal.InternalNode
-import java.util.ArrayList
 
 abstract class DiagramBuilder {
 	
@@ -95,7 +92,6 @@ abstract class DiagramBuilder {
 		} else switch bo {
 			InternalEdge: {
 				addBendpoints(bo, pe)
-//				addDecorators(bo, pe as Connection)
 			}
 			InternalModelElementContainer :
 				bo.modelElements.filter(InternalNode).forEach[
@@ -104,11 +100,9 @@ abstract class DiagramBuilder {
 		}
 	}
 	
-//	def List<Pair<Integer,Integer>> getBendpoints(InternalEdge edge)
 	
 	def addBendpoints(InternalEdge edge, PictogramElement pe) {
 		new ArrayList(edge.bendpoints).forEach[ point, i|
-//		edge.bendpoints?.forEach[ point, i |
 			add(point, (pe as FreeFormConnection), i)
 		]
 	}
@@ -118,14 +112,6 @@ abstract class DiagramBuilder {
 		diagramTypeProvider.diagramBehavior.executeFeature(
 			featureProvider.getAddBendpointFeature(ctx), ctx);
 	}
-	
-//	def addDecorators(InternalEdge edge, Connection con) {
-//		val size = con.connectionDecorators?.size
-//		for (var i = 0; i < size; i++)
-//			con.updateDecorator(i, edge.getDecoratorLocation(i))
-//	}
-	
-//	def Pair<Integer,Integer> getDecoratorLocation(InternalEdge edge, int index)
 	
 	def updateDecorator(Connection con, int index, Pair<Integer,Integer> location) {
 		val ga = [	
@@ -156,14 +142,6 @@ abstract class DiagramBuilder {
 			height = bo.height
 		]
 	}
-	
-//	def int getX(InternalModelElement element)
-//	
-//	def int getY(InternalModelElement element)
-//	
-//	def int getWidth(InternalModelElement element)
-//	
-//	def int getHeight(InternalModelElement element)
 	
 	def getAddContext(InternalEdge edge) {
 		val srcAnchor = [
@@ -197,10 +175,6 @@ abstract class DiagramBuilder {
 	def getEdges() {
 		model.modelElements.filter(Edge)
 	}
-	
-//	def int getIndex(IdentifiableElement element)
-//	
-//	def void setIndex(IdentifiableElement element, int i)
 	
 	def linkTo(PictogramElement pe, EObject bo) {
 		featureProvider.link(pe,bo)
