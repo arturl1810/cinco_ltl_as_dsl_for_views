@@ -156,7 +156,7 @@ def edgeRule(Edge edge) {
 
 def typeRule(UserDefinedType type) {
 	'''
-	«type.name» returns «model.acronym»Internal::Internal«type.name»:{«model.acronym»Internal::Internal«type.name»}
+	«type.name» returns «type.name»:{«type.name»}
 	'«type.name»' '{'
 		«attributes(type)»
 	'}'
@@ -230,7 +230,7 @@ def imports() {
 '''
 import "«graphmodel.nsURI»/«project.acronym»"
 import "«graphmodel.nsURI»" as «model.acronym»
-import "«graphmodel.nsURI»/internal" as «model.acronym»Internal
+«««import "«graphmodel.nsURI»/internal" as «model.acronym»Internal
 «references.entrySet.map['''import "«it.value»" as «it.key»'''].join('\n')»
 import "http://www.jabc.de/cinco/gdl/graphmodel/internal" as _graphmodel
 import "http://www.eclipse.org/emf/2002/Ecore" as _ecore
