@@ -46,39 +46,39 @@ class ModelizerTemplate extends AbstractGratextTemplate {
 				super.run(resource)
 				new DiagramBuilder(new «model.name»Diagram, model) {
 		
-					override getBendpoints(InternalEdge it) {
-						(counterpart as _Edge)?.route?.points?.map[x -> y]
-					}
-		
-					override getDecoratorLocation(InternalEdge it, int index) {
-						val loc = (counterpart as _Edge)?.decorations?.get(index)?.location
-						if (loc != null)
-							loc.x -> loc.y
-					}
-		
-					override getIndex(IdentifiableElement it) {
-						counterpart.placement.index
-					}
-		
-					override setIndex(IdentifiableElement it, int i) {
-						counterpart.placement.setIndex(i)
-					}
-		
-					override getX(InternalModelElement it) {
-						counterpart.placement.x
-					}
-		
-					override getY(InternalModelElement it) {
-						counterpart.placement.y
-					}
-		
-					override getWidth(InternalModelElement it) {
-						counterpart.placement.width
-					}
-		
-					override getHeight(InternalModelElement it) {
-						counterpart.placement.height
-					}
+«««					override getBendpoints(InternalEdge it) {
+«««						(counterpart as _Edge)?.route?.points?.map[x -> y]
+«««					}
+«««		
+«««					override getDecoratorLocation(InternalEdge it, int index) {
+«««						val loc = (counterpart as _Edge)?.decorations?.get(index)?.location
+«««						if (loc != null)
+«««							loc.x -> loc.y
+«««					}
+«««		
+«««					override getIndex(IdentifiableElement it) {
+«««						counterpart.placement.index
+«««					}
+«««		
+«««					override setIndex(IdentifiableElement it, int i) {
+«««						counterpart.placement.setIndex(i)
+«««					}
+«««		
+«««					override getX(InternalModelElement it) {
+«««						counterpart.placement.x
+«««					}
+«««		
+«««					override getY(InternalModelElement it) {
+«««						counterpart.placement.y
+«««					}
+«««		
+«««					override getWidth(InternalModelElement it) {
+«««						counterpart.placement.width
+«««					}
+«««		
+«««					override getHeight(InternalModelElement it) {
+«««						counterpart.placement.height
+«««					}
 					
 				}.build(resource)
 			}
@@ -93,28 +93,28 @@ class ModelizerTemplate extends AbstractGratextTemplate {
 				transformer.getCounterpart(elm)
 			}
 			
-			override getIndex(IdentifiableElement element) {
-				element.placement.index
-			}
-			
-			override setIndex(IdentifiableElement element, int i) {
-				element.placement.index = i
-			}
-			
-			def getPlacement(IdentifiableElement elm) {
-				val newPm = «model.name»GratextFactory.eINSTANCE.create_Placement
-				if (elm instanceof _Placed) {
-					val orgPm = elm.placement
-					if (orgPm != null) {
-						if(orgPm.x != 0) newPm.x = orgPm.x
-						if(orgPm.y != 0) newPm.y = orgPm.y
-						if(orgPm.width >= 0) newPm.width = orgPm.width
-						if(orgPm.height >= 0) newPm.height = orgPm.height
-						if(orgPm.index >= 0) newPm.index = orgPm.index
-					}
-				}
-				return newPm
-			}
+«««			override getIndex(IdentifiableElement element) {
+«««				element.placement.index
+«««			}
+«««			
+«««			override setIndex(IdentifiableElement element, int i) {
+«««				element.placement.index = i
+«««			}
+«««			
+«««			def getPlacement(IdentifiableElement elm) {
+«««				val newPm = «model.name»GratextFactory.eINSTANCE.create_Placement
+«««				if (elm instanceof _Placed) {
+«««					val orgPm = elm.placement
+«««					if (orgPm != null) {
+«««						if(orgPm.x != 0) newPm.x = orgPm.x
+«««						if(orgPm.y != 0) newPm.y = orgPm.y
+«««						if(orgPm.width >= 0) newPm.width = orgPm.width
+«««						if(orgPm.height >= 0) newPm.height = orgPm.height
+«««						if(orgPm.index >= 0) newPm.index = orgPm.index
+«««					}
+«««				}
+«««				return newPm
+«««			}
 		}
 	'''
 		

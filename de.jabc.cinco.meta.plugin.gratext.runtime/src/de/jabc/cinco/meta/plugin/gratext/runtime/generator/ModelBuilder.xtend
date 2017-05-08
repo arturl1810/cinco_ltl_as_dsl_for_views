@@ -47,8 +47,8 @@ abstract class ModelBuilder {
 	def void cacheInitialOrder(InternalModelElementContainer container) {
 		val children = nodesInitialOrder.get(container)
 		container.modelElements.forEach[
-			if (index < 0)
-				index = children.size
+//			if (index < 0)
+//				index = children.size
 			children.add(it)
 			switch it {
 				InternalModelElementContainer: cacheInitialOrder
@@ -69,11 +69,11 @@ abstract class ModelBuilder {
 	}
 	
 	def getNodes() {
-		model.modelElements.filter(Node).sortBy[(counterpart as InternalNode).index]
+		model.modelElements.filter(Node)//.sortBy[(counterpart as InternalNode).index]
 	}
 	
-	def int getIndex(IdentifiableElement element)
-	
-	def void setIndex(IdentifiableElement element, int i)
+//	def int getIndex(IdentifiableElement element)
+//	
+//	def void setIndex(IdentifiableElement element, int i)
 	
 }

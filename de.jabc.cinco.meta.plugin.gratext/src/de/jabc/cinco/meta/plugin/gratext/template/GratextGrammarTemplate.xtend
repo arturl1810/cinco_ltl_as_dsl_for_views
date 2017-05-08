@@ -86,7 +86,10 @@ def containerRule(NodeContainer node) {
 	val containables = model.resp(node).nonAbstractContainables
 	'''
 	«node.name» returns «node.name»:{«node.name»}
-	'«node.name»' (id = _ID)? placement = _Placement
+	'«node.name»' (id = _ID)? ( ('at' x=_EInt ',' y=_EInt)?
+			& ('size' width=_EInt ',' height=_EInt)?
+«««			& ('index' index=_EInt)? 
+			)
 	('{'
 		«attributes(node)»
 		«IF !containables.empty»
@@ -117,7 +120,10 @@ def nodeRule(Node node) {
 	val outEdges = model.resp(node).outgoingEdges
 	'''
 	«node.name» returns «node.name»:{«node.name»}
-	'«node.name»' (id = _ID)? placement = _Placement
+	'«node.name»' (id = _ID)? ( ('at' x=_EInt ',' y=_EInt)?
+		& ('size' width=_EInt ',' height=_EInt)?
+«««		& ('index' index=_EInt)? 
+		)
 	('{'
 		«attributes(node)»
 		«IF !outEdges.empty»
@@ -138,8 +144,8 @@ def edgeRule(Edge edge) {
 	'''
 	«edge.name» returns «edge.name»:{«edge.name»}
 	'-«edge.name»->' _targetElement = [graphmodel::InternalNode|_ID]
-	(route = _Route)?
-	(decorations += _Decoration)*
+	('via' (bendpoints += _Point)+)?
+	(decorators += _Decoration)*
 	('{'
 		('id' id = _ID)?
 		«attributes(edge)»
@@ -250,21 +256,21 @@ grammar «project.basePackage».«project.targetName» hidden(_WS, _ML_COMMENT, 
 
 «FOR type:model.enumerations»«enumRule(type)»«ENDFOR»
 
-_Placement returns _Placement:{_Placement}
-	( ('at' x=_EInt ',' y=_EInt)?
-	& ('size' width=_EInt ',' height=_EInt)?
-	& ('index' index=_EInt)? )
+«««_Placement :
+«««	( ('at' x=_EInt ',' y=_EInt)?
+«««	& ('size' width=_EInt ',' height=_EInt)?
+«««	& ('index' index=_EInt)? )
+«««;
+
+_Decoration returns graphmodel::_Decoration:{graphmodel::_Decoration}
+	'decorate' (nameHint = _EString)? 'at' locationShift = _Point
 ;
 
-_Decoration returns _Decoration:{_Decoration}
-	'decorate' (namehint = _EString)? 'at' location = _Point
-;
+«««_Route returns _Route:{_Route}
+«««	'via' (points += _Point)+
+«««;
 
-_Route returns _Route:{_Route}
-	'via' (points += _Point)+
-;
-
-_Point returns _Point:{_Point}
+_Point returns graphmodel::_Point:{graphmodel::_Point}
 	'(' x = _EInt ',' y = _EInt ')'
 ;
 

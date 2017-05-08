@@ -34,6 +34,8 @@ import org.eclipse.ui.PartInitException
 import org.eclipse.swt.widgets.Composite
 import mgl.ContainingElement
 import de.jabc.cinco.meta.core.ge.style.generator.templates.util.APIUtils
+import de.jabc.cinco.meta.runtime.xapi.WorkbenchExtension
+import org.eclipse.emf.ecore.EPackage
 
 class NewDiagramWizardTmpl extends APIUtils{
 	
@@ -106,39 +108,35 @@ public class «gm.fuName»DiagramWizard extends «Wizard.name» implements «INe
 		«IWorkspaceRoot.name» root = «ResourcesPlugin.name».getWorkspace().getRoot();
 		«IResource.name» containerResource = root.getContainerForLocation(new «Path.name»(dir));
 		if (containerResource instanceof «IContainer.name») {
-			«IPath.name» filePath = new «Path.name»(containerResource.getFullPath().append(fNameWithExt).toOSString());
-			«IFile.name» file = root.getFile(filePath);
-			«URI.name» resUri = «URI.name».createPlatformResourceURI(filePath.toOSString() ,true);
-			«Resource.name» res = new «ResourceSetImpl.name»().createResource(resUri);
-			«Diagram.name» diagram = 
-				«Graphiti.name».getPeService().createDiagram("«gm.fuName»", dName, true);
-			«gm.fqCName» «gm.flName» = 
-				(«gm.fqCName») «gm.packageName».«gm.fuName»Factory.eINSTANCE.create«gm.fuName»();
-			«gm.flName».setPictogramElement(diagram);
 			try {
+				«IPath.name» filePath = new «Path.name»(containerResource.getFullPath().append(fNameWithExt).toOSString());
+				«IFile.name» file = root.getFile(filePath);
+				«URI.name» resUri = «URI.name».createPlatformResourceURI(filePath.toOSString() ,true);
+				«Resource.name» res = new «ResourceSetImpl.name»().createResource(resUri);
 				res.unload();
+				«Diagram.name» diagram = 
+					«Graphiti.name».getPeService().createDiagram("«gm.fuName»", dName, true);
 				res.getContents().add(diagram);
+				«gm.packageName».«gm.fuName»Factory eFactory = 
+					(«gm.packageName».«gm.fuName»Factory) «EPackage.name».Registry.INSTANCE.getEFactory("«gm.nsURI»");
+				«gm.fqCName» «gm.flName» = («gm.fqCName») eFactory.create«gm.fuName»();
+«««					(«gm.fqCName») «gm.packageName».«gm.fuName»Factory.eINSTANCE.create«gm.fuName»();
 				res.getContents().add(«gm.flName».getInternalElement());
-				res.save(null);
+				«gm.flName».setPictogramElement(diagram);
 				
 				«IDiagramTypeProvider.name» dtp = «GraphitiUi.name».getExtensionManager().createDiagramTypeProvider(diagram, "«gm.packageName».«gm.fuName»DiagramTypeProvider");
 				dtp.getFeatureProvider().link(diagram, «gm.flName».getInternalElement());
 				
-«««				TODO: This is quick and dirty...
-				«IF gm.booleanWriteMethodCallPostCreate»
-				«(gm as ContainingElement).fqBeanName» modelCreate = «gm.flName»;
-				«gm.writeMethodCallPostCreate»
-				«ENDIF»
+«««				TODO: This is quick and dirty... 
+«««				«IF gm.booleanWriteMethodCallPostCreate»
+«««				«(gm as ContainingElement).fqBeanName» modelCreate = «gm.flName»;
+«««				«gm.writeMethodCallPostCreate»
+«««				«ENDIF»
 				
 				res.save(null);
 
-				«IWorkbenchPage.name» page = «PlatformUI.name».getWorkbench().getActiveWorkbenchWindow().getActivePage();
-				
-				«IDE.name».openEditor(page, file,"«gm.packageName».«gm.fuName»Editor", true);
-				
+				new «WorkbenchExtension.name»().openEditor(«gm.flName»);
 			} catch («IOException.name» e) {
-				e.printStackTrace();
-			} catch («PartInitException.name» e) {
 				e.printStackTrace();
 			}
 		}
