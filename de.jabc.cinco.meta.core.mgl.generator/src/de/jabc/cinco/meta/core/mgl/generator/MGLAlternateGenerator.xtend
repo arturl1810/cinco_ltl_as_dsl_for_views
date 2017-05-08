@@ -37,6 +37,7 @@ import static extension de.jabc.cinco.meta.core.mgl.generator.extensions.EdgeMet
 import mgl.NodeContainer
 import de.jabc.cinco.meta.core.mgl.generator.extensions.NodeMethodsGeneratorExtensions
 import de.jabc.cinco.meta.core.mgl.generator.extensions.AdapterGeneratorExtension
+import mgl.ReferencedModelElement
 
 class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 
@@ -58,6 +59,8 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 	HashMap<EOperation, EStructuralFeature> getterParameterMap
 	HashMap<Type,EClassifier> enumMap
 	
+	HashMap<Node, EOperation>  operationReferencedTypeMap
+	
 	def createFactory(GraphModel graphModel){
 		graphModel.createFactory(eClassesMap.filter[p1, p2|!p2.mainEClass.abstract])
 	}
@@ -66,7 +69,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		me.generateAdapter
 	}
 
-	def EPackage generateEcoreModel(GraphModel graphModel) {
+	def Iterable<EPackage> generateEcoreModel(GraphModel graphModel, Iterable<EPackage> mglEPackages) {
 		eClassesMap = new HashMap
 		modelElementsMap = new HashMap
 		inheritMap = new HashMap
@@ -74,9 +77,13 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		setterParameterMap = new HashMap
 		getterParameterMap = new HashMap
 		enumMap = new HashMap
+		operationReferencedTypeMap = new HashMap
 		val elementEClasses = new ArrayList<ElementEClasses>
 
-		var epk = createEPackage(graphModel)
+		val epk = createEPackage(graphModel)
+		val newEPackages = new ArrayList<EPackage>
+		newEPackages += epk
+		newEPackages+=mglEPackages
 		val internalEPackage = createInternalEPackage(graphModel)
 		val viewsEPackage = createViewsEPackage(graphModel)
 		epk.ESubpackages += internalEPackage
@@ -97,7 +104,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		toReferenceMap.forEach[key, value|key.EType = eClassesMap.get(value.name).mainEClass]
 		getterParameterMap.forEach[key, value|key.EType = value.EType]
 		setterParameterMap.forEach[key, value|key.EParameters.get(0).EType = value.EType]
-
+		operationReferencedTypeMap.forEach[node, operation| operation.setPrimeType(node, newEPackages)]
 
 		graphModel.createCanNewNodeMethods(eClassesMap)
 		graphModel.createNewNodeMethods(eClassesMap.filter[p1,p2| !p2.mainEClass.abstract])
@@ -122,7 +129,15 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 			edge.createReconnectMethods(eClassesMap)
 		]
 		graphModel.types.filter(UserDefinedType).forEach[udt|udt.createInheritance(graphModel)]
-		return epk
+		return newEPackages
+	}
+	
+	def void setPrimeType(EOperation operation, Node node, Iterable<EPackage> ePackages){
+		
+		val prime = node.primeReference as ReferencedModelElement
+		val etype = ePackages.findFirst[nsURI==prime.type.graphModel.nsURI].getEClassifier(prime.type.name) as EClass
+		operation.EType = etype
+
 	}
 
 	private def createViewsEPackage(GraphModel model) {
@@ -175,10 +190,41 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 			
 		]
 		
+		nodeClasses.filter[ (modelElement as Node).prime].filter[(modelElement as Node).primeReference.imprt==null || !(modelElement as Node).primeReference.imprt.stealth].forEach[createPrimeReference]
 		
 		nodeClasses
 	}
-
+	
+	def void createPrimeReference(ElementEClasses nc) {
+		val node = nc.modelElement as Node
+		val operationName = '''get«node.primeName.toFirstUpper»'''
+		val primeType = EcorePackage.eINSTANCE.EObject
+		nc.internalEClass.createEAttribute("libraryComponentUID", EcorePackage.eINSTANCE.EString,0,1)
+		val op = nc.mainEClass.createEOperation(operationName, primeType, 0,1,node.primeReferenceGetter)
+		if(node.primeReference instanceof ReferencedModelElement)
+			operationReferencedTypeMap.put(node, op)
+		
+		
+	}
+	
+	def getPrimeReferenceGetter(Node node)'''
+		String uid = ((«node.fqInternalBeanName»)getInternalElement()).getLibraryComponentUID();
+		return «node.primeTypeCast»de.jabc.cinco.meta.core.referenceregistry.ReferenceRegistry.getInstance().getEObject(uid);
+		
+	'''
+	
+	def getPrimeTypeCast(Node node){
+			switch(node.primeReference){
+				case node.primeReference instanceof ReferencedModelElement : return '''(«node.primeTypeName»)'''
+				default: return ''''''
+			}
+	}
+	
+	/**
+	 * Returns Cast fpr prime referenced ModelElement or EClass
+	 * Will return
+	 */
+	
 	private def topSort(Iterable<? extends ModelElement> elements) {
 		new DependencyGraph<ModelElement>(new ArrayList).createGraph(elements.map[el|el.dependencies], new ArrayList).
 			topSort

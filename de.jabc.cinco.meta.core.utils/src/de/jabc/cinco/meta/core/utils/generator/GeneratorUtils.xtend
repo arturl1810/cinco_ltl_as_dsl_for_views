@@ -439,6 +439,19 @@ class GeneratorUtils {
 	}
 	
 	/**
+	 * @param The processed {@ling Node}
+	 * @return The Referenced EClass
+	 */
+	 def EClass primeTypeEClass(Node n){
+	 	val prime = n.primeReference
+	 	switch prime{
+	 		ReferencedEClass : prime.type
+	 		
+	 	}
+	 	
+	 } 
+	
+	/**
 	 * @param The processed {@link Node}
 	 * @return The {@link Node}'s prime reference name
 	 */
