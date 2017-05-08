@@ -396,7 +396,7 @@ class GeneratorUtils {
 	 * @return The {@link String} value of the {@link Node}'s "icon" annotation 
 	 * and the empty {@link String} if no icon annotation provided  
 	 */
-	def String getIconNodeValue(Node n){
+	def String getIconNodeValue(ModelElement n){
 		var icon ="";
 		var EList <Annotation> annots = n.annotations;
 		for (annot : annots){
@@ -404,6 +404,8 @@ class GeneratorUtils {
 				icon = annot.value.get(0);
 			}
 		}
+		if (n instanceof GraphModel)
+			return n.iconPath
 		return icon;		
 	}
 	

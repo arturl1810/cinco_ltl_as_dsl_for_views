@@ -20,6 +20,7 @@ import org.eclipse.emf.common.util.EList
 import mgl.GraphModel
 import mgl.Node
 import org.eclipse.emf.common.util.BasicEList
+import mgl.ModelElement
 
 class ImageProviderTmpl extends GeneratorUtils {
 
@@ -138,8 +139,8 @@ public class «gm.fuName»ImageProvider extends «AbstractImageProvider.name»
 	 * @param gm : The Graphmodel
 	 * @return Returns a list of all found nodes with the annotation "icon"
 	 */
-	def static EList<Node> getIconNodes(GraphModel gm) {
-		var EList<Node> foundNodes = new BasicEList<Node>();
+	def static EList<ModelElement> getIconNodes(GraphModel gm) {
+		var EList<ModelElement> foundNodes = new BasicEList<ModelElement>();
 		var EList<Node> nodes = gm.nodes;
 		for (node : nodes) {
 			var EList<mgl.Annotation> annots = node.annotations;
@@ -149,6 +150,9 @@ public class «gm.fuName»ImageProvider extends «AbstractImageProvider.name»
 				}
 			}
 		}
+		if (!gm.iconPath.nullOrEmpty)
+			foundNodes.add(gm);
+		
 		return foundNodes;
 	}
 

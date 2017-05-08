@@ -43,6 +43,8 @@ import style.Styles
 
 class EdgeAddFeatures extends APIUtils {
 	
+	extension StyleUtils = new StyleUtils
+	
 	EList<style.Text> text = new BasicEList();
 	EList<style.MultiText> multitext = new BasicEList();
 	EList<style.Polyline> polyline = new BasicEList();
@@ -106,95 +108,100 @@ class EdgeAddFeatures extends APIUtils {
 			«ConnectionDecorator.name» cd;
 			«_Decoration.name» _d;// = «InternalFactory.name».eINSTANCE.create_Decoration();
 			«_Point.name» _p;// = «InternalFactory.name».eINSTANCE.create_Point();
-			«clear»
-			«FOR d : CincoUtils.getStyleForEdge(e, styles).decorator»			
-				«IF d.predefinedDecorator != null »	
-				cd = peService.createConnectionDecorator(connection, false,«d.location», true);
-				de.jabc.cinco.meta.core.ge.style.generator.runtime.utils.CincoLayoutUtils.create«d.predefinedDecorator.shape.name()»(cd);
-				_d = «InternalFactory.name».eINSTANCE.create_Decoration();
-				_p = «InternalFactory.name».eINSTANCE.create_Point();
-				_d.setLocation(«d.location»);
-				_d.setNameHint(cd.getGraphicsAlgorithm().getClass().getSimpleName().substring(0,cd.getGraphicsAlgorithm().getClass().getSimpleName().lastIndexOf("Impl")));
-				_p.setX(cd.getGraphicsAlgorithm().getX());
-				_p.setY(cd.getGraphicsAlgorithm().getY());
-				_d.setLocationShift(_p);
-«««				«e.flName».getDecorators().add(«CincoUtils.getStyleForEdge(e, styles).decorator.indexOf(d)», _d);
-«««				peService.setPropertyValue(cd, "cdIndex", "«CincoUtils.getStyleForEdge(e, styles).decorator.indexOf(d)»");
-				«IF d.predefinedDecorator.shape.name() == "ARROW"»				
-				«e.graphModel.packageName».«e.graphModel.fuName»LayoutUtils.setdefaultStyle(cd.getGraphicsAlgorithm(), getDiagram());
-				«ENDIF»
-				«IF d.predefinedDecorator.shape.name() != "ARROW"»
-				«e.graphModel.packageName».«e.graphModel.fuName»LayoutUtils.set_«e.graphModel.fuName»DefaultAppearanceStyle(cd.getGraphicsAlgorithm(), getDiagram());
-				«ENDIF»
-				«ENDIF»
+«««			«clear»
+			
+			«FOR d : CincoUtils.getStyleForEdge(e, styles).decorator»
+			_d = «InternalFactory.name».eINSTANCE.create_Decoration();
+			_p = «InternalFactory.name».eINSTANCE.create_Point();
+			cd = peService.createConnectionDecorator(connection, «d.movable»,«d.location», true);
+			«d.call(e)»
+			«IF d.decoratorShape != null»
+			_d.setNameHint(cd.getGraphicsAlgorithm().getClass().getSimpleName().substring(0,cd.getGraphicsAlgorithm().getClass().getSimpleName().lastIndexOf("Impl")));
+			_p.setX(cd.getGraphicsAlgorithm().getX());
+			_p.setY(cd.getGraphicsAlgorithm().getY());
+			«ENDIF»
+			_d.setLocation(«d.location»);
+			_d.setLocationShift(_p);
+			
+«««				«IF d.predefinedDecorator != null »	
+«««				cd = peService.createConnectionDecorator(connection, false,«d.location», true);
+«««				de.jabc.cinco.meta.core.ge.style.generator.runtime.utils.CincoLayoutUtils.create«d.predefinedDecorator.shape.name()»(cd);
+«««				«IF d.predefinedDecorator.shape.name() == "ARROW"»				
+«««				«e.graphModel.packageName».«e.graphModel.fuName»LayoutUtils.setdefaultStyle(cd.getGraphicsAlgorithm(), getDiagram());
+«««				«ENDIF»
+«««				«IF d.predefinedDecorator.shape.name() != "ARROW"»
+«««				«e.graphModel.packageName».«e.graphModel.fuName»LayoutUtils.set_«e.graphModel.fuName»DefaultAppearanceStyle(cd.getGraphicsAlgorithm(), getDiagram());
+«««				«ENDIF»
+«««				«ENDIF»
 				
-				«IF d.decoratorShape != null»	
-				«IF d.decoratorShape instanceof style.Text»	
-				«var textShape = d.decoratorShape as style.Text»
-				cd = peService.createConnectionDecorator(connection, «d.movable»,«d.location», true);
-				createShapeText«text.length»(cd,
-					(«e.fqInternalBeanName») «e.flName»,
-					"«textShape.value»");
-				link(cd, «e.flName»);
-				«{text.add(textShape); ""}»
-				«ELSEIF d.decoratorShape instanceof style.Polyline»
-				«var polylineShape = d.decoratorShape as style.Polyline»
-				cd = peService.createConnectionDecorator(connection, «d.movable», «d.location», true);
-				«IF polylineShape.size != null»
-				createShapePolyline«polyline.length»(cd,(«e.beanPackage».«e.fuName»)«e.flName», «polylineShape.width», «polylineShape.heigth»);
-				«ELSE»
-				createShapePolyline«polyline.length»(cd, «e.flName»);
-				«ENDIF»
-				link(cd, «e.flName»);
-				«{polyline.add(polylineShape); ""}»		
-				«ELSEIF d.decoratorShape instanceof style.Ellipse»
-				«var ellipseShape = d.decoratorShape as style.Ellipse»
-				cd = peService.createConnectionDecorator(connection, «d.movable», «d.location», true);
-				«IF ellipseShape.size != null»
-				createShapeEllipse«ellipse.length»(cd, «e.flName», «ellipseShape.width», «ellipseShape.heigth»);
-				«ELSE»
-				createShapeEllipse«ellipse.length»(cd,  «e.flName»);
-				«ENDIF»
-				link(cd, «e.flName»);
-				«{ellipse.add(ellipseShape); ""}»				
-				«ELSEIF d.decoratorShape instanceof style.Polygon»
-				«var polygonShape = d.decoratorShape as style.Polygon»
-				cd = peService.createConnectionDecorator(connection, «d.movable», «d.location», true);
-				«IF polygonShape.size != null»
-				createShapePolygon«polygon.length»(cd, («e.beanPackage».«e.fuName»)«e.flName», «polygonShape.width», «polygonShape.heigth»);
-				«ELSE»
-				createShapePolygon«polygon.length»(cd, «e.flName»);
-				«ENDIF»
-				link(cd, «e.flName»);
-				«{polygon.add(polygonShape); ""}»				
-				«ELSEIF d.decoratorShape instanceof style.MultiText»
-				«var multitextShape = d.decoratorShape as style.MultiText»
-				cd = peService.createConnectionDecorator(connection, «d.movable», «d.location», true);
-				createShapeMultiText«multitext.length»(cd, 
-					(«e.fqInternalBeanName») «e.flName»,
-					"«multitextShape.value»");
-				link(cd, «e.flName»);
-				«{multitext.add(multitextShape); ""}»				
-				«ELSEIF d.decoratorShape instanceof style.Image»
-				«var imageShape = d.decoratorShape as style.Image»
-				cd = peService.createConnectionDecorator(connection, «d.movable»,«d.location», true);
-				«IF imageShape.size != null»
-				createShapeImage«image.length»(cd, («e.beanPackage».«e.fuName»)«e.flName», "«imageShape.path»", «imageShape.width», «imageShape.heigth»);
-				«ELSE»
-				createShapeImage«image.length»(cd, «e.flName», "«imageShape.path»");
-				«ENDIF»
-				link(cd, «e.flName»);
-				«{image.add(imageShape); ""}»
-				«ENDIF»
-				_d = «InternalFactory.name».eINSTANCE.create_Decoration();
-				_p = «InternalFactory.name».eINSTANCE.create_Point();
-				_d.setLocation(«d.location»);
-				_d.setNameHint(cd.getGraphicsAlgorithm().getClass().getSimpleName().substring(0,cd.getGraphicsAlgorithm().getClass().getSimpleName().lastIndexOf("Impl")));
-				_p.setX(cd.getGraphicsAlgorithm().getX());
-				_p.setY(cd.getGraphicsAlgorithm().getY());
-				_d.setLocationShift(_p);
-				peService.setPropertyValue(cd, "cdIndex", "«CincoUtils.getStyleForEdge(e, styles).decorator.indexOf(d)»");
-				«ENDIF»
+«««				«IF d.decoratorShape != null»	
+«««				«IF d.decoratorShape instanceof style.Text»	
+«««				«var textShape = d.decoratorShape as style.Text»
+«««				cd = peService.createConnectionDecorator(connection, «d.movable»,«d.location», true);
+«««				createShapeText«text.length»(cd,
+«««					(«e.fqInternalBeanName») «e.flName»,
+«««					"«textShape.value»");
+«««				link(cd, «e.flName»);
+«««				«{text.add(textShape); ""}»
+«««				«ELSEIF d.decoratorShape instanceof style.Polyline»
+«««				«var polylineShape = d.decoratorShape as style.Polyline»
+«««				cd = peService.createConnectionDecorator(connection, «d.movable», «d.location», true);
+«««				«IF polylineShape.size != null»
+«««				createShapePolyline«polyline.length»(cd,(«e.beanPackage».«e.fuName»)«e.flName», «polylineShape.width», «polylineShape.heigth»);
+«««				«ELSE»
+«««				createShapePolyline«polyline.length»(cd, «e.flName»);
+«««				«ENDIF»
+«««				link(cd, «e.flName»);
+«««				«{polyline.add(polylineShape); ""}»		
+«««				«ELSEIF d.decoratorShape instanceof style.Ellipse»
+«««				«var ellipseShape = d.decoratorShape as style.Ellipse»
+«««				cd = peService.createConnectionDecorator(connection, «d.movable», «d.location», true);
+«««				«IF ellipseShape.size != null»
+«««				createShapeEllipse«ellipse.length»(cd, «e.flName», «ellipseShape.width», «ellipseShape.heigth»);
+«««				«ELSE»
+«««				createShapeEllipse«ellipse.length»(cd,  «e.flName»);
+«««				«ENDIF»
+«««				link(cd, «e.flName»);
+«««				«{ellipse.add(ellipseShape); ""}»				
+«««				«ELSEIF d.decoratorShape instanceof style.Polygon»
+«««				«var polygonShape = d.decoratorShape as style.Polygon»
+«««				cd = peService.createConnectionDecorator(connection, «d.movable», «d.location», true);
+«««				«IF polygonShape.size != null»
+«««				createShapePolygon«polygon.length»(cd, («e.beanPackage».«e.fuName»)«e.flName», «polygonShape.width», «polygonShape.heigth»);
+«««				«ELSE»
+«««				createShapePolygon«polygon.length»(cd, «e.flName»);
+«««				«ENDIF»
+«««				link(cd, «e.flName»);
+«««				«{polygon.add(polygonShape); ""}»				
+«««				«ELSEIF d.decoratorShape instanceof style.MultiText»
+«««				«var multitextShape = d.decoratorShape as style.MultiText»
+«««				cd = peService.createConnectionDecorator(connection, «d.movable», «d.location», true);
+«««				createShapeMultiText«multitext.length»(cd, 
+«««					(«e.fqInternalBeanName») «e.flName»,
+«««					"«multitextShape.value»");
+«««				link(cd, «e.flName»);
+«««				«{multitext.add(multitextShape); ""}»				
+«««				«ELSEIF d.decoratorShape instanceof style.Image»
+«««				«var imageShape = d.decoratorShape as style.Image»
+«««				cd = peService.createConnectionDecorator(connection, «d.movable»,«d.location», true);
+«««				«IF imageShape.size != null»
+«««				createShapeImage«image.length»(cd, («e.beanPackage».«e.fuName»)«e.flName», "«imageShape.path»", «imageShape.width», «imageShape.heigth»);
+«««				«ELSE»
+«««				createShapeImage«image.length»(cd, «e.flName», "«imageShape.path»");
+«««				«ENDIF»
+«««				link(cd, «e.flName»);
+«««				«{image.add(imageShape); ""}»
+«««				«ENDIF»
+«««				_d = «InternalFactory.name».eINSTANCE.create_Decoration();
+«««				_p = «InternalFactory.name».eINSTANCE.create_Point();
+«««				_d.setLocation(«d.location»);
+«««				_d.setNameHint(cd.getGraphicsAlgorithm().getClass().getSimpleName().substring(0,cd.getGraphicsAlgorithm().getClass().getSimpleName().lastIndexOf("Impl")));
+«««				_p.setX(cd.getGraphicsAlgorithm().getX());
+«««				_p.setY(cd.getGraphicsAlgorithm().getY());
+«««				_d.setLocationShift(_p);
+«««				«ENDIF»
+			peService.setPropertyValue(cd, "cdIndex", "«CincoUtils.getStyleForEdge(e, styles).decorator.indexOf(d)»");
+			link(cd, «e.flName»);
 			if («e.flName».getDecorators().size() <= «CincoUtils.getStyleForEdge(e, styles).decorator.indexOf(d)»)
 				«e.flName».getDecorators().add(«CincoUtils.getStyleForEdge(e, styles).decorator.indexOf(d)», _d);
 			«ENDFOR»
@@ -206,7 +213,6 @@ class EdgeAddFeatures extends APIUtils {
 	
 			if (hook) {
 			}
-«««			«e.packageNameEContentAdapter».«e.graphModel.name»EContentAdapter.getInstance().addAdapter(«e.flName»);
 	
 			((«e.fqCName») «e.flName».getElement()).setPictogramElement(connection);
 	
@@ -230,7 +236,9 @@ class EdgeAddFeatures extends APIUtils {
 			return false;
 		}
 		
-		«shapeMethods(e)»	
+		«FOR d : CincoUtils.getStyleForEdge(e, styles).decorator.filter[decoratorShape != null]»
+		«d.code(e)»
+		«ENDFOR»
 	}
 	'''
 	}
@@ -527,7 +535,7 @@ class EdgeAddFeatures extends APIUtils {
 			«IPeService.name» peService = «Graphiti.name».getPeService();
 						
 			«String.name» imageId = «e.graphModel.packageName».«e.graphModel.fuName»GraphitiUtils.getInstance().getImageId(path);
-			«Image.name» image= gaService.createImage(gaContainer, imageId);
+			«Image.name» image = gaService.createImage(gaContainer, imageId);
 			gaService.setSize(image, width ,height);
 		}
 		

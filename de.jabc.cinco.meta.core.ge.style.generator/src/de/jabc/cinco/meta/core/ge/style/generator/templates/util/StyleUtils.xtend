@@ -1,27 +1,34 @@
 package de.jabc.cinco.meta.core.ge.style.generator.templates.util
 
 import com.sun.el.ExpressionFactoryImpl
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.expressionlanguage.ExpressionLanguageContext
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoAbstractResizeFeature
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoLayoutFeature
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoResizeFeature
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.utils.CincoLayoutUtils
 import de.jabc.cinco.meta.core.ge.style.generator.templates.LayoutFeatureTmpl
-import de.jabc.cinco.meta.core.utils.generator.GeneratorUtils
 import java.util.LinkedList
 import mgl.Edge
 import mgl.Node
 import org.eclipse.emf.common.util.EList
 import org.eclipse.emf.ecore.util.EcoreUtil
 import org.eclipse.graphiti.features.context.impl.ResizeShapeContext
+import org.eclipse.graphiti.mm.GraphicsAlgorithmContainer
 import org.eclipse.graphiti.mm.algorithms.styles.Style
 import org.eclipse.graphiti.mm.pictograms.Diagram
 import org.eclipse.graphiti.mm.pictograms.Shape
+import org.eclipse.graphiti.services.Graphiti
+import org.eclipse.graphiti.services.IGaService
+import org.eclipse.graphiti.services.IPeService
 import style.AbsolutPosition
 import style.AbstractShape
 import style.Alignment
 import style.Appearance
 import style.BooleanEnum
+import style.ConnectionDecorator
 import style.ContainerShape
 import style.Ellipse
+import style.GraphicsAlgorithm
 import style.Image
 import style.LineStyle
 import style.MultiText
@@ -29,12 +36,11 @@ import style.NodeStyle
 import style.Point
 import style.Polygon
 import style.Polyline
+import style.PredefinedDecorator
 import style.Rectangle
 import style.RoundedRectangle
 import style.StyleFactory
 import style.Text
-import de.jabc.cinco.meta.core.ge.style.generator.runtime.expressionlanguage.ExpressionLanguageContext
-import de.jabc.cinco.meta.core.ge.style.generator.runtime.utils.CincoLayoutUtils
 
 class StyleUtils extends APIUtils {
 
@@ -315,10 +321,10 @@ class StyleUtils extends APIUtils {
 	'''
 
 	def dispatch getCode(Image p, CharSequence currentGaName, CharSequence currentPeName) '''
-		«org.eclipse.graphiti.mm.algorithms.Image.name» «currentGaName» = gaService.createPlainImage(«currentPeName», "«p.path»");
+		«org.eclipse.graphiti.mm.algorithms.Image.name» «currentGaName» = gaService.createImage(«currentPeName», "«p.path»");
 	'''
 
-	def static setSize(AbstractShape a, CharSequence gaName) '''
+	def setSize(AbstractShape a, CharSequence gaName) '''
 		if (context.getWidth() > 0 && context.getHeight() > 0)
 			gaService.setSize(«gaName»,context.getWidth(),context.getHeight());
 		else gaService.setSize(«gaName», «a.size?.width», «a.size?.height»);
@@ -351,6 +357,8 @@ class StyleUtils extends APIUtils {
 				peService.setPropertyValue(«gaName», "«CincoLayoutFeature.KEY_MARGIN_VERTICAL»", "«alignment?.YMargin»");
 			«ELSEIF a == null»
 				gaService.setLocation(«gaName», 0, 0);
+				peService.setPropertyValue(«gaName», "«CincoLayoutFeature.KEY_HORIZONTAL»", "«CincoLayoutFeature.KEY_HORIZONTAL_UNDEFINED»");
+				peService.setPropertyValue(«gaName», "«CincoLayoutFeature.KEY_VERTICAL»", "«CincoLayoutFeature.KEY_VERTICAL_UNDEFINED»");
 			«ENDIF»
 		«ENDIF»
 	'''
@@ -384,6 +392,94 @@ class StyleUtils extends APIUtils {
 		}
 	'''
 
+	def call(ConnectionDecorator cd, Edge e) {
+		if (cd.predefinedDecorator != null) return cd.predefinedDecorator.cdCall(e)
+		if (cd.decoratorShape != null) return cd.decoratorShape.cdShapeCall(e)
+	}
+
+	
+	def cdCall(PredefinedDecorator pd, Edge e) '''
+		de.jabc.cinco.meta.core.ge.style.generator.runtime.utils.CincoLayoutUtils.create«pd.shape.getName»(cd);
+		«e.graphModel.packageName».«e.graphModel.fuName»LayoutUtils.setdefaultStyle(cd.getGraphicsAlgorithm(), getDiagram());
+	'''
+	
+	def cdShapeCall(GraphicsAlgorithm ga, Edge e) {
+		if (ga instanceof Text || ga instanceof MultiText)
+		'''createShape«ga.class.simpleName.replaceFirst("Impl", "")»(cd, («e.fqInternalBeanName») «e.flName», "«ga.value»", "«e.text»");'''
+	}
+	
+	def code(ConnectionDecorator cd, Edge e) {
+		'''cd = peService.createConnectionDecorator(connection, «cd.movable»,«cd.location», true);'''+
+		if (cd.predefinedDecorator != null) cd.predefinedDecorator.cdCode(e)
+		if (cd.decoratorShape != null) cd.decoratorShape.cdShapeCode(e)
+	}
+	
+	def cdShapeCode(GraphicsAlgorithm ga, Edge e) '''
+		«IF (ga instanceof style.Text || ga instanceof MultiText)»
+		private void createShape«ga.simpleName»(«GraphicsAlgorithmContainer.name» gaContainer, «e.fqInternalBeanName» «e.flName», «String.name» textValue, «String.name» attrValue) {
+		«ELSE»
+		private void createShape«ga.simpleName»(«GraphicsAlgorithmContainer.name» gaContainer, «e.fqInternalBeanName» «e.flName», int width, int height) {
+		«ENDIF»
+			«IGaService.name» gaService = «Graphiti.name».getGaService();
+			«IPeService.name» peService = «Graphiti.name».getPeService();
+			
+			«ga.cdCode(e)»
+			
+			«IF ga.size != null»
+			gaService.setSize(«ga.simpleName.toLowerCase», width, height);
+			«ENDIF»
+			«appearanceCode(ga as AbstractShape,ga.simpleName.toLowerCase)»
+		}
+	'''
+	
+	def dispatch cdCode(Text ga, Edge e) '''
+		«ExpressionFactoryImpl.name» factory = new «ExpressionFactoryImpl.name»();
+		«e.graphModel.packageName».expression.«e.graphModel.fuName»ExpressionLanguageContext elContext = null;
+								
+		elContext = new  «e.graphModel.packageName».expression.«e.graphModel.fuName»ExpressionLanguageContext(«e.flName»);
+		String value = attrValue;
+		«Object.name» tmpValue = factory.createValueExpression(elContext, value, «Object.name».class).getValue(elContext);
+		
+		«org.eclipse.graphiti.mm.algorithms.Text.name» text = gaService.createDefaultText(getDiagram(), gaContainer);			
+		text.setValue(String.format(textValue , tmpValue));
+		peService.setPropertyValue(text, «e.graphModel.packageName».«e.graphModel.fuName»GraphitiUtils.KEY_FORMAT_STRING,textValue);
+		peService.setPropertyValue(text, "Params", value);
+	'''
+	
+	def dispatch cdCode(MultiText ga, Edge e) '''
+		«MultiText.name» multitext = gaService.createMultiText(gaContainer);
+		multitext.setFilled(false);
+		«e.graphModel.packageName».expression.«e.graphModel.fuName»ExpressionLanguageContext elContext = new «e.graphModel.packageName».expression.«e.graphModel.fuName»ExpressionLanguageContext(«e.flName»);
+		Object tmpValue = factory.createValueExpression(elContext, attrValue, «Object.name».class).getValue(elContext);
+		
+		peService.setPropertyValue(multitext, «e.graphModel.packageName».«e.graphModel.fuName»GraphitiUtils.KEY_FORMAT_STRING, textValue);
+		multitext.setValue(String.format(textValue , tmpValue));
+	'''
+	
+	def dispatch cdCode(Ellipse ga, Edge e) {
+		ga.getCode("ellipse", "gaContainer")	
+	}
+	
+	def dispatch cdCode(Rectangle ga, Edge e) {
+		ga.getCode("rectangle", "gaContainer")
+	} 
+	
+	def dispatch cdCode(RoundedRectangle ga, Edge e) {
+		ga.getCode("roundedRectangle", "gaContainer")
+	}
+	
+	def dispatch cdCode(Polyline p, Edge e) '''
+		«org.eclipse.graphiti.mm.algorithms.Polyline.name» polyline = gaService.createPolyline(gaContainer, new int[] {«p.points.map[x +","+y].join(",")»});
+	'''
+	
+	def dispatch cdCode(Polygon p, Edge e) '''
+		«org.eclipse.graphiti.mm.algorithms.Polygon.name» polygon = gaService.createPolygon(gaContainer, new int[] {«p.points.map[x +","+y].join(",")»});
+	'''
+	def dispatch cdCode(Image ga, Edge e) {
+		ga.getCode("image", "gaContainer")
+	}
+	
+	
 	def static setAppearance(AbstractShape aShape, CharSequence gaName) {
 		var app = if(aShape.referencedAppearance == null) aShape.inlineAppearance else aShape.referencedAppearance
 		var Appearance newApp = StyleFactory.eINSTANCE.createAppearance
@@ -454,12 +550,11 @@ class StyleUtils extends APIUtils {
 
 	def recursiveCall(AbstractShape aShape, String containerShapeName) {
 		if (aShape instanceof ContainerShape) {
-			for (child : aShape.children) {
-				return '''
-				{
-					«child.getCode(containerShapeName)»
-				}'''
-			}
+			aShape.children.map[ '''
+			{
+				«getCode(containerShapeName)»
+			}'''
+			].join("\n")
 		}
 	}
 	/**
@@ -475,24 +570,24 @@ class StyleUtils extends APIUtils {
 			}
 		}
 	}
+	
+	def size(GraphicsAlgorithm ga) {
+		switch (ga) {
+			AbstractShape: ga.size
+		}
+	}
 
-//	def static getAnnotationStyleShapeValue(Node n, Styles styles) {
-//		var style = CincoUtils.getStyleForNode(n, styles)
-//		val mainShape = style.mainShape
-//		var result = getTextValue(mainShape)
-//		return result
-//	}
-//
-//	def static getTextValue(AbstractShape shape) {
-//		if (shape instanceof ContainerShape) {
-//			var children = shape.children
-//			for (child : children) {
-//				return getTextValue(child)
-//			}
-//		}
-//		if (shape instanceof Text)
-//			return shape.value
-//	}
+	def value(GraphicsAlgorithm ga) {
+		switch (ga) {
+			Text: ga.value
+			MultiText: ga.value
+		}
+	}
+
+	def simpleName(GraphicsAlgorithm ga) {
+		ga.class.simpleName.replaceFirst("Impl", "")
+	}
+
 	/**
 	 * Auxiliary method to get the text of a node
 	 * @param n : The node
