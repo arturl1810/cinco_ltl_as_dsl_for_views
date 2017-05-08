@@ -4,12 +4,14 @@ import de.jabc.cinco.meta.plugin.gratext.GratextGenerator
 import java.util.HashMap
 import java.util.Map
 import mgl.Attribute
+import mgl.ComplexAttribute
 import mgl.Edge
 import mgl.Enumeration
 import mgl.GraphModel
 import mgl.ModelElement
 import mgl.Node
 import mgl.NodeContainer
+import mgl.PrimitiveAttribute
 import mgl.ReferencedEClass
 import mgl.ReferencedModelElement
 import mgl.ReferencedType
@@ -17,9 +19,6 @@ import mgl.UserDefinedType
 import org.eclipse.emf.ecore.EClass
 import org.eclipse.emf.ecore.ENamedElement
 import org.eclipse.emf.ecore.EObject
-import mgl.ComplexAttribute
-import mgl.PrimitiveAttribute
-import org.eclipse.emf.ecore.EcorePackage
 
 class GratextGrammarTemplate extends AbstractGratextTemplate {
 
@@ -40,10 +39,11 @@ def initReferences(ReferencedType reftype) {
 }
 
 def addToReferences(EObject obj) {
+	
 	val entry = switch obj {
 		GraphModel: obj.acronym -> obj.nsURI
-		Node: 		obj.graphModel.acronym -> obj.graphModel.nsURI
-		Edge:		obj.graphModel.acronym -> obj.graphModel.nsURI
+		Node: 		obj.acronym -> obj.graphModel.nsURI
+		Edge:		obj.acronym -> obj.graphModel.nsURI
 		EClass:		obj.EPackage.acronym -> obj.EPackage.nsURI
 	}
 	if (!graphmodel.nsURI.equals(entry.value)) {
@@ -143,7 +143,7 @@ def nodeRule(Node node) {
 def edgeRule(Edge edge) {
 	'''
 	«edge.name» returns «edge.name»:{«edge.name»}
-	'-«edge.name»->' _targetElement = [graphmodel::InternalNode|_ID]
+	'-«edge.name»->' _targetElement = [_graphmodel::InternalNode|_ID]
 	('via' (bendpoints += _Point)+)?
 	(decorators += _Decoration)*
 	('{'
@@ -156,7 +156,7 @@ def edgeRule(Edge edge) {
 
 def typeRule(UserDefinedType type) {
 	'''
-	«type.name» returns «model.acronym»::«type.name»:{«model.acronym»::«type.name»}
+	«type.name» returns «model.acronym»Internal::Internal«type.name»:{«model.acronym»Internal::Internal«type.name»}
 	'«type.name»' '{'
 		«attributes(type)»
 	'}'
@@ -197,11 +197,10 @@ def type(ReferencedType ref) {
 	if (type != null) {
 		val entry = switch type {
 			GraphModel: type.acronym -> type.name
-			Node: 		type.graphModel.acronym -> type.graphModel.name
-			Edge: 		type.graphModel.acronym -> type.graphModel.name
+			Node: 		type.graphModel.acronym -> type.name
+			Edge: 		type.graphModel.acronym -> type.name
 			EClass: 	type.EPackage.acronym -> type.name
 		}
-//		println(" > Type: " + entry)
 		'''[«entry.key»::«entry.value»|_ID]'''
 	}
 }
@@ -209,8 +208,8 @@ def type(ReferencedType ref) {
 def attributes(ModelElement elm) {
 	val attrs = model.resp(elm).attributes
 	val attrsStr = attrs.map[switch it {
-		case (upperBound < 0) || (upperBound > 1): '''( '«it.name»' '[' ( «it.name» += «type(it)» ( ',' «it.name» += «type(it)» )* )? ']' )?'''
-		default: '''( '«it.name»' «it.name» = «type(it)» )?'''
+		case (upperBound < 0) || (upperBound > 1): '''( '«it.name»' '[' ( ^«it.name» += «type(it)» ( ',' ^«it.name» += «type(it)» )* )? ']' )?'''
+		default: '''( '«it.name»' ^«it.name» = «type(it)» )?'''
 	}].join(' &\n')
 	val primeStr = switch elm {
 		Node: elm.prime
@@ -223,7 +222,6 @@ def attributes(ModelElement elm) {
 def prime(Node node) {
 	val ref = model.resp(node).primeReference
 	if (ref != null) {
-//		println(node.name + ".prime: " + ref)
 		'''( '«ref.name»' prime = «ref.type» | 'libraryComponentUID' libraryComponentUID = _EString )'''
 	}
 }
@@ -231,9 +229,10 @@ def prime(Node node) {
 def imports() {
 '''
 import "«graphmodel.nsURI»/«project.acronym»"
-import "«graphmodel.nsURI»/internal" as «model.acronym»
+import "«graphmodel.nsURI»" as «model.acronym»
+import "«graphmodel.nsURI»/internal" as «model.acronym»Internal
 «references.entrySet.map['''import "«it.value»" as «it.key»'''].join('\n')»
-import "http://www.jabc.de/cinco/gdl/graphmodel/internal" as graphmodel
+import "http://www.jabc.de/cinco/gdl/graphmodel/internal" as _graphmodel
 import "http://www.eclipse.org/emf/2002/Ecore" as _ecore
 '''	
 }
@@ -262,7 +261,7 @@ grammar «project.basePackage».«project.targetName» hidden(_WS, _ML_COMMENT, 
 «««	& ('index' index=_EInt)? )
 «««;
 
-_Decoration returns graphmodel::_Decoration:{graphmodel::_Decoration}
+_Decoration returns _graphmodel::_Decoration:{_graphmodel::_Decoration}
 	'decorate' (nameHint = _EString)? 'at' locationShift = _Point
 ;
 
@@ -270,7 +269,7 @@ _Decoration returns graphmodel::_Decoration:{graphmodel::_Decoration}
 «««	'via' (points += _Point)+
 «««;
 
-_Point returns graphmodel::_Point:{graphmodel::_Point}
+_Point returns _graphmodel::_Point:{_graphmodel::_Point}
 	'(' x = _EInt ',' y = _EInt ')'
 ;
 
