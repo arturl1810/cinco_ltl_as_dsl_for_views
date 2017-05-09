@@ -64,6 +64,7 @@ import org.eclipse.graphiti.features.IRemoveBendpointFeature
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoMoveConnectionDecoratorFeature
 import org.eclipse.graphiti.features.IMoveConnectionDecoratorFeature
 import org.eclipse.graphiti.features.context.IMoveConnectionDecoratorContext
+import graphmodel.internal.InternalGraphModel
 
 class FeatureProviderTmpl extends APIUtils{
 	
@@ -131,7 +132,7 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 		«Resource.name» res = new «ResourceSetImpl.name»().getResource(fileUri, true);
 		if (res != null) {
 			for («EObject.name» o : res.getContents()) {
-				if (o instanceof «graphmodel.GraphModel.name») {
+				if (o instanceof «InternalGraphModel.name») {
 					return o;
 				}
 			}

@@ -21,6 +21,7 @@ import style.NodeStyle
 import style.Styles
 import graphmodel.internal.InternalModelElement
 import de.jabc.cinco.meta.core.ge.style.generator.templates.util.APIUtils
+import graphmodel.internal.InternalModelElementContainer
 
 class NodeAddFeatures extends StyleUtils {
 
@@ -121,13 +122,13 @@ public class AddFeaturePrime«n.fuName» extends «CincoAbstractAddFeature.name�
 		«EObject.name» target = 
 			«Graphiti.name».getLinkService().getBusinessObjectForLinkedPictogramElement(container);
 		«EObject.name» bo = («EObject.name») context.getNewObject();
-		if (!(target instanceof «ModelElementContainer.name»))
+		if (!(target instanceof «InternalModelElementContainer.name»))
 			return false;
 		if((bo.eClass().getName().equals("«n.primeReference.primeType»")
 				|| (bo.eClass().getEAllSuperTypes().stream().anyMatch(_superClass -> _superClass.getName().equals("«n.primeReference.primeType»"))))
 				&& bo.eClass().getEPackage().getNsURI().equals("«n.primeReference.nsURI»"))
 		
-			return ((«ModelElementContainer.name») target).canContain(«n.fqBeanName».class);
+			return ((«InternalModelElementContainer.name») target).canContain(«n.fqBeanName».class);
 		return false;
 	}
 	

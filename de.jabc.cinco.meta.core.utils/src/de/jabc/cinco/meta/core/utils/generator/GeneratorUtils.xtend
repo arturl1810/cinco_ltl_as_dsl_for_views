@@ -429,7 +429,7 @@ class GeneratorUtils {
 	 * @return The name of the prime reference's type
 	 */
 	dispatch def primeType(ReferencedModelElement rme) {
-		return rme.type.name
+		return "Internal"+rme.type.name
 	}
 	
 	/**
@@ -496,7 +496,7 @@ class GeneratorUtils {
 	 * @return The {@link GraphModel#getNsURI nsURI} of the {@link ReferencedModelElement}'s {@link GraphModel}
 	 */
 	dispatch def nsURI(ReferencedModelElement rem) {
-		return rem.type.graphModel.nsURI
+		return rem.type.graphModel.nsURI+"/internal"
 	}
 	
 	/**
