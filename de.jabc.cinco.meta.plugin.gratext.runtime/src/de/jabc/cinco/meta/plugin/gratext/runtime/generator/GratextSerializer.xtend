@@ -43,7 +43,7 @@ abstract class GratextSerializer {
 		c.modelElements.filter(InternalNode)
 	}
 	
-//	Diagram diagram
+//	Diagram diagram 
 	InternalGraphModel model
 	
 	new (Resource res) {

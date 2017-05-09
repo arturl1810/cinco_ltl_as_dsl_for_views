@@ -69,7 +69,7 @@ class GratextModelTransformer {
 			return cp as T
 		baseModel = baseModelFct.create(baseModelCls) as GraphModel
 		val internalModel = baseModel.internalElement as T
-		println("The Internal Element: "+internalModel)
+//		println("The Internal Element: "+internalModel)
 		cache(internalModel, model)
 		internalModel.attributes.map(internalModel)
 		internalModel.references.map(internalModel)
@@ -97,7 +97,7 @@ class GratextModelTransformer {
 	}
 	
 	private def map(List<? extends EStructuralFeature> ftrs, IdentifiableElement elm) {
-		println("Map Attributes/EReferences of: "+ elm)
+//		println("Map Attributes/EReferences of: "+ elm)
 		ftrs.forEach[
 			switch it {
 				EAttribute: it.map(elm)
