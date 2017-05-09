@@ -66,6 +66,7 @@
         <genParameters ecoreParameter="GraphModel.ecore#//Node/postMove/deltaY"/>
       </genOperations>
       <genOperations ecoreOperation="GraphModel.ecore#//Node/delete"/>
+      <genOperations ecoreOperation="GraphModel.ecore#//Node/preDelete"/>
     </genClasses>
     <genClasses image="false" ecoreClass="GraphModel.ecore#//Edge">
       <genOperations ecoreOperation="GraphModel.ecore#//Edge/getSourceElement"/>
@@ -76,6 +77,8 @@
       <genOperations ecoreOperation="GraphModel.ecore#//Edge/setTargetElement">
         <genParameters ecoreParameter="GraphModel.ecore#//Edge/setTargetElement/targetElement"/>
       </genOperations>
+      <genOperations ecoreOperation="GraphModel.ecore#//Edge/delete"/>
+      <genOperations ecoreOperation="GraphModel.ecore#//Edge/preDelete"/>
     </genClasses>
     <genClasses ecoreClass="GraphModel.ecore#//Container">
       <genOperations ecoreOperation="GraphModel.ecore#//Container/getInternalContainerElement"/>

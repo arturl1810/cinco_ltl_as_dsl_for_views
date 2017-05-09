@@ -66,8 +66,6 @@ class StyleUtils extends APIUtils {
 				
 				«aShape.recursiveCall(currentPeName.toString)»
 			
-«««				«n.packageNameEContentAdapter».«n.graphModel.fuName»EContentAdapter.getInstance().addAdapter(bo);
-			
 				linkAllShapes(«currentPeName», bo);
 				layoutPictogramElement(«currentPeName»);
 			
@@ -405,13 +403,14 @@ class StyleUtils extends APIUtils {
 	
 	def cdShapeCall(GraphicsAlgorithm ga, Edge e) {
 		if (ga instanceof Text || ga instanceof MultiText)
-		'''createShape«ga.class.simpleName.replaceFirst("Impl", "")»(cd, («e.fqInternalBeanName») «e.flName», "«ga.value»", "«e.text»");'''
+		'''createShape«ga.simpleName»(cd, («e.fqInternalBeanName») «e.flName», "«ga.value»", "«e.text»");'''
+		else 
+		'''createShape«ga.simpleName»(cd, («e.fqInternalBeanName») «e.flName», «ga.size?.width», «ga.size?.height»);'''
 	}
 	
 	def code(ConnectionDecorator cd, Edge e) {
-		'''cd = peService.createConnectionDecorator(connection, «cd.movable»,«cd.location», true);'''+
-		if (cd.predefinedDecorator != null) cd.predefinedDecorator.cdCode(e)
-		if (cd.decoratorShape != null) cd.decoratorShape.cdShapeCode(e)
+		if (cd.predefinedDecorator != null) return cd.predefinedDecorator.cdCode(e)
+		if (cd.decoratorShape != null) return cd.decoratorShape.cdShapeCode(e)
 	}
 	
 	def cdShapeCode(GraphicsAlgorithm ga, Edge e) '''
@@ -427,6 +426,8 @@ class StyleUtils extends APIUtils {
 			
 			«IF ga.size != null»
 			gaService.setSize(«ga.simpleName.toLowerCase», width, height);
+			«ELSE»
+			gaService.setSize(«ga.simpleName.toLowerCase», 25, 25);
 			«ENDIF»
 			«appearanceCode(ga as AbstractShape,ga.simpleName.toLowerCase)»
 		}

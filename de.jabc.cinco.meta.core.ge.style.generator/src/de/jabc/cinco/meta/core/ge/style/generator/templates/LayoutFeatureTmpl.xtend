@@ -1,33 +1,20 @@
 package de.jabc.cinco.meta.core.ge.style.generator.templates
 
-import de.jabc.cinco.meta.core.utils.generator.GeneratorUtils;
-import de.jabc.cinco.meta.core.utils.CincoUtils
+import de.jabc.cinco.meta.core.utils.generator.GeneratorUtils
 import java.util.HashMap
 import java.util.Map
 import mgl.GraphModel
-import mgl.Node
-import org.eclipse.graphiti.datatypes.IDimension
-import org.eclipse.graphiti.mm.GraphicsAlgorithmContainer
+import org.eclipse.emf.common.util.BasicEList
+import org.eclipse.emf.common.util.EList
 import org.eclipse.graphiti.mm.algorithms.AbstractText
-import org.eclipse.graphiti.mm.algorithms.Ellipse
 import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm
-import org.eclipse.graphiti.mm.algorithms.MultiText
-import org.eclipse.graphiti.mm.algorithms.Polygon
-import org.eclipse.graphiti.mm.algorithms.Polyline
-import org.eclipse.graphiti.mm.algorithms.Text
-import org.eclipse.graphiti.mm.algorithms.styles.Font
 import org.eclipse.graphiti.mm.pictograms.Diagram
 import org.eclipse.graphiti.services.Graphiti
 import org.eclipse.graphiti.services.IGaService
-import org.eclipse.graphiti.services.IPeService
-import org.eclipse.graphiti.ui.services.GraphitiUi
-import style.LineStyle
-import org.eclipse.graphiti.mm.pictograms.Shape
-import style.Appearance
-import org.eclipse.emf.common.util.EList
-import org.eclipse.emf.common.util.BasicEList
 import style.AbstractShape
+import style.Appearance
 import style.ContainerShape
+import style.LineStyle
 import style.Styles
 
 class LayoutFeatureTmpl extends GeneratorUtils{
@@ -35,7 +22,7 @@ class LayoutFeatureTmpl extends GeneratorUtils{
 public static Map<AbstractShape,String> shapeMap = new HashMap<AbstractShape,String>;
 var counter1 = 0;
 var counter2 = 0
-EList<Appearance> appList = new BasicEList <Appearance>();
+EList<Appearance> appList = new BasicEList<Appearance>();
 	
 	/**
 	 * Generates the Class 'LayoutUtils' for the graphmodel gm
@@ -100,12 +87,9 @@ public class «gm.fuName»LayoutUtils {
 	}
 	«ENDFOR»
 	
-	
-	«FOR node : gm.nodes.filter[!isIsAbstract]»
-	«searchInAppearance(node,st)»
-	«FOR app : appList»
+	«gm.initInlineAppearances(st)»
+	 «FOR app : appList»
 	«getInlineMethode(app)»
-	«ENDFOR»
 	«ENDFOR»
 	
 	/**
@@ -189,17 +173,24 @@ public class «gm.fuName»LayoutUtils {
 		'''
 	}
 	
-	/**
-	 * Calls the methode inlineAppearance with the mainshape of Node n
-	 * @param n : The node
-	 * @param styles : Styles
-	 */
-	def searchInAppearance(Node n, Styles styles){
-		var nodeStyle = CincoUtils.getStyleForNode(n,styles)
-		val mainShape = nodeStyle.mainShape
-		appList.clear
-		inlineAppearance(mainShape)	
-	}
+//	/**
+//	 * Calls the methode inlineAppearance with the mainshape of Node n
+//	 * @param n : The node
+//	 * @param styles : Styles
+//	 */
+//	def searchInAppearance(Node n, Styles styles){
+//		var nodeStyle = CincoUtils.getStyleForNode(n,styles)
+//		val mainShape = nodeStyle.mainShape
+//		appList.clear
+//		inlineAppearance(mainShape)	
+//	}
+//	
+//	def searchInAppearance(Edge e, Styles styles){
+//		var edgeStyle = CincoUtils.getStyleForEdge(e,styles)
+//		val decorators = edgeStyle.decorator
+//		appList.clear
+//		inlineAppearance(mainShape)	
+//	}
 	
 	/**
 	 * Search for all inlineappearance of the Shape, creates a methode-call
@@ -302,4 +293,16 @@ public class «gm.fuName»LayoutUtils {
 		else return '''ga.setLineVisible(true); '''  
 	}
 	
+	
+	def initInlineAppearances(GraphModel gm, Styles styles) {
+		styles.eResource.allContents.forEach[
+			if (it instanceof AbstractShape) {
+				if (inlineAppearance != null) {
+					counter2 = counter2+1
+					appList.add(inlineAppearance);
+					shapeMap.put(it, "set" + counter2 + "InlineStyle")
+				}
+			} 
+		]		
+	}
 }
