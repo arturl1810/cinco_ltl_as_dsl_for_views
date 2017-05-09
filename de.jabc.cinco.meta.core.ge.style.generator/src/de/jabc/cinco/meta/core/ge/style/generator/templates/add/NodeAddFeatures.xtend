@@ -147,11 +147,12 @@ public class AddFeaturePrime«n.fuName» extends «CincoAbstractAddFeature.name�
 		«Object.name»[] newObject = cf.create(cc);
 		if (newObject.length == 0) throw new «RuntimeException.name»("Failed to create object in \"CreateFeature«n.fuName»\"");
 		«Object.name» object = newObject[0];
-		if (object instanceof «n.fqInternalBeanName») {
-			((«n.fqInternalBeanName») object).setLibraryComponentUID(«EcoreUtil.name».getID((«EObject.name») context.getNewObject()));
+		if (object instanceof «n.fqBeanName») {
+			«n.fqInternalBeanName» ime = («n.fqInternalBeanName») ((«n.fqBeanName») object).getInternalElement();
+			ime.setLibraryComponentUID(«EcoreUtil.name».getID((«EObject.name») context.getNewObject()));
 			«ReferenceRegistry.name».getInstance().addElement((«EObject.name») context.getNewObject());
 			«n.packageNameAdd».AddFeature«n.fuName» af = new «n.packageNameAdd».AddFeature«n.fuName»(getFeatureProvider());
-			«AddContext.name» ac = new «AddContext.name»(context, object);
+			«AddContext.name» ac = new «AddContext.name»(context, ime);
 			if (af.canAdd(ac))
 				return af.add(ac);
 		}
