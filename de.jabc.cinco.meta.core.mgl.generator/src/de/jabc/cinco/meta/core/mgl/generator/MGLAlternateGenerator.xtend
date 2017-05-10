@@ -102,7 +102,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		viewsEPackage.EClassifiers += elementEClasses.filter[!views.nullOrEmpty].map[views].flatten
 	
 		
-		toReferenceMap.forEach[key, value|key.EType = eClassesMap.get(value.name).mainEClass]
+		toReferenceMap.forEach[key, value|key.EType = eClassesMap.get(value.name).internalEClass]
 		getterParameterMap.forEach[key, value|key.EType = value.EType]
 		setterParameterMap.forEach[key, value|key.EParameters.get(0).EType = value.EType]
 		operationReferencedTypeMap.forEach[node, operation| operation.setPrimeType(node, newEPackages)]
@@ -439,7 +439,8 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 	}
 
 	private def void createEReferenceFromAttribute(EClass eClass, ComplexAttribute attribute) {
-		val eReference = eClass.createReference(attribute.name, null, attribute.lowerBound, attribute.upperBound, false,
+		val containment = attribute.type instanceof UserDefinedType
+		val eReference = eClass.createReference(attribute.name, null, attribute.lowerBound, attribute.upperBound, containment,
 			null)
 		toReferenceMap.put(eReference, attribute.type)
 	}

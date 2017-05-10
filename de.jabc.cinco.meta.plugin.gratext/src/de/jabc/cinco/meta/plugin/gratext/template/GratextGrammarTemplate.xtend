@@ -157,7 +157,7 @@ def edgeRule(Edge edge) {
 def typeRule(UserDefinedType type) {
 	'''
 	«type.name» returns «type.name»:{«type.name»}
-	'«type.name»' '{'
+	'«type.name»' (id = _ID)? '{'
 		«attributes(type)»
 	'}'
 	;
@@ -171,21 +171,19 @@ def enumRule(Enumeration type) {
 	;
 	'''
 }
-//TODO: Proper Handling of Attributes	
+
 def type(Attribute attr) {
-//	if (model.contains(attr.type)) {
-//		if (model.containsEnumeration(attr.type) || model.containsUserDefinedType(attr.type))
-//			attr.type
-//		else 
-//	} else attr.type
-	if(attr instanceof ComplexAttribute){
-		if(attr.type.eContainer == attr.eContainer || attr.type.eContainer == attr.eContainer.eContainer)
-		attr.type.name
-		else
-		'''[«model.acronym»::«attr.type»|ID]'''
-		
-	}else if(attr instanceof PrimitiveAttribute){
-		'''_«attr.type.literal»'''
+	switch attr {
+		PrimitiveAttribute:
+			'''_«attr.type.literal»'''
+		ComplexAttribute:
+			if (model.contains(attr.type.name)) {
+				if (model.containsEnumeration(attr.type.name) || model.containsUserDefinedType(attr.type.name)) {
+					attr.type.name
+				} else {
+					'''[«attr.type.name»|_ID]'''
+				}
+			}
 	}
 }
 
@@ -222,7 +220,7 @@ def attributes(ModelElement elm) {
 def prime(Node node) {
 	val ref = model.resp(node).primeReference
 	if (ref != null) {
-		'''( '«ref.name»' prime = «ref.type» | 'libraryComponentUID' libraryComponentUID = _EString )'''
+		'''( '«ref.name»' prime = «ref.type» | 'libraryComponentUID' libraryComponentUID = _ID )'''
 	}
 }
 
