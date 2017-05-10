@@ -41,8 +41,14 @@ import style.Rectangle
 import style.RoundedRectangle
 import style.StyleFactory
 import style.Text
+import de.jabc.cinco.meta.core.utils.MGLUtil
+import mgl.ModelElement
+import java.util.List
+import java.util.regex.Pattern
 
 class StyleUtils extends APIUtils {
+
+	static extension MGLUtil
 
 	private static var num = 0;
 	private static Node node;
@@ -558,18 +564,41 @@ class StyleUtils extends APIUtils {
 			].join("\n")
 		}
 	}
+	
+	
+	def getText(ModelElement me) {
+		val annot = MGLUtil.getAnnotation(me, "style")
+		val values = annot.value 
+		switch (me) {
+			Node: me.getText(values)
+			Edge: me.getText(values)
+		}
+	} 
+	
 	/**
 	 * 
 	 */
-	def static getText(Edge e){
-		var annot = e.annotations
-		for( an : annot){
-			var name = an.name
-			if(name.equals("style")){
-				var value = an.value
-				return listToString(value)
-			}
-		}
+	private def dispatch getText(Edge e, EList<String> vals){
+		vals.subList(1,vals.size).join(",")
+	}
+	
+	/**
+	 * Auxiliary method to get the text of a node
+	 * @param n : The node
+	 * @return Returns the string with the text of a node
+	 */
+	private def dispatch getText(Node n, EList<String> vals) {
+		if (n.isPrime) {
+			val expPattner = Pattern.compile("\\$\\{(.*)\\}")
+			vals.subList(1,vals.size)
+			.map[
+				val m = expPattner.matcher(it)
+				if (m.matches) {
+					MGLUtil::refactorIfPrimeAttribute(n,m.group(1))
+				}
+			].join(",")	
+			
+		} else vals.subList(1,vals.size).join(",")
 	}
 	
 	def size(GraphicsAlgorithm ga) {
@@ -589,30 +618,6 @@ class StyleUtils extends APIUtils {
 		ga.class.simpleName.replaceFirst("Impl", "")
 	}
 
-	/**
-	 * Auxiliary method to get the text of a node
-	 * @param n : The node
-	 * @return Returns the string with the text of a node
-	 */
-	def static getText(Node n) {
-		var listAnnot = n.annotations;
-		var annot = listAnnot.get(0);
-		var listValue = annot.value;
-		return listToString(listValue);
-	}
-
-	def static listToString(EList<String> list) {
-		var string = "";
-		if (list.size > 1) {
-			for (var i = 1; i < list.size - 1; i++) {
-				string += list.get(i);
-				string += ", ";
-			}
-			string += list.get(list.size - 1);
-		} else
-			string += list.get(list.size - 1);
-		return string;
-	}
 
 	/**
 	 * Reads out the points of a polygon

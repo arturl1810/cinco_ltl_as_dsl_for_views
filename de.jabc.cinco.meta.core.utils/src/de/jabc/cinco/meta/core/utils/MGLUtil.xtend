@@ -25,6 +25,7 @@ import org.eclipse.emf.ecore.EObject
 import style.Image
 import style.Styles
 import de.jabc.cinco.meta.core.utils.generator.GeneratorUtils
+import mgl.ReferencedModelElement
 
 class MGLUtil {
 
@@ -155,6 +156,10 @@ class MGLUtil {
 		return paths
 	}
 
+	def static getAnnotation(ModelElement me, String annotName) {
+		me.annotations.filter[name == annotName]?.head
+	}
+
 	/** 
 	 * This methods returns all annotation values of the given name annotated at the modelElement
 	 * @param annotationName
@@ -173,6 +178,13 @@ class MGLUtil {
 	 		ComplexAttribute : attr.type.name
 	 		PrimitiveAttribute : attr.type.getName
 	 	}
+	 }
+	 
+	 def static refactorIfPrimeAttribute(Node n,String s) {
+	 	if (n.isPrime && (n.primeReference instanceof ReferencedModelElement) 
+	 		&& s.startsWith(n.primeReference.name) )
+	 		
+	 		"${"+s.replaceFirst("\\.", ".internalElement.")+"}"
 	 }
 	 
 	 def static getPostCreateHooks(GraphModel it) {
