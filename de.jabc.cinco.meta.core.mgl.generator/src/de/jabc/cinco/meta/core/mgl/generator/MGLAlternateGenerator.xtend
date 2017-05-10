@@ -202,14 +202,26 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		val primeType = EcorePackage.eINSTANCE.EObject
 		nc.internalEClass.createEAttribute("libraryComponentUID", EcorePackage.eINSTANCE.EString,0,1)
 		val op = nc.mainEClass.createEOperation(operationName, primeType, 0,1,node.primeReferenceGetter)
-		if(node.primeReference instanceof ReferencedModelElement)
+		val internalOp = nc.internalEClass.createEOperation(operationName, primeType, 0,1,node.primeReferenceInternalGetter)
+		if(node.primeReference instanceof ReferencedModelElement) {
 			operationReferencedTypeMap.put(node, op)
+			operationReferencedTypeMap.put(node, internalOp)
+		}
 		
 		
 	}
 	
 	def getPrimeReferenceGetter(Node node)'''
 		String uid = ((«node.fqInternalBeanName»)getInternalElement()).getLibraryComponentUID();
+		«IF node.primeReference instanceof ReferencedEClass»
+		return «node.primeTypeCast»de.jabc.cinco.meta.core.referenceregistry.ReferenceRegistry.getInstance().getEObject(uid);
+		«ELSE»
+		return «node.primeTypeCast» («node.internalPrimeTypeCast» de.jabc.cinco.meta.core.referenceregistry.ReferenceRegistry.getInstance().getEObject(uid)).getElement();
+		«ENDIF»
+	'''
+
+	def getPrimeReferenceInternalGetter(Node node)'''
+		String uid = getLibraryComponentUID();
 		«IF node.primeReference instanceof ReferencedEClass»
 		return «node.primeTypeCast»de.jabc.cinco.meta.core.referenceregistry.ReferenceRegistry.getInstance().getEObject(uid);
 		«ELSE»
