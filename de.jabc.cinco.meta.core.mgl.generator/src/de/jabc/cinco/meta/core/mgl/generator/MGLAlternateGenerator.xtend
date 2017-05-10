@@ -38,6 +38,7 @@ import mgl.NodeContainer
 import de.jabc.cinco.meta.core.mgl.generator.extensions.NodeMethodsGeneratorExtensions
 import de.jabc.cinco.meta.core.mgl.generator.extensions.AdapterGeneratorExtension
 import mgl.ReferencedModelElement
+import mgl.ReferencedEClass
 
 class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 
@@ -209,13 +210,25 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 	
 	def getPrimeReferenceGetter(Node node)'''
 		String uid = ((«node.fqInternalBeanName»)getInternalElement()).getLibraryComponentUID();
+		«IF node.primeReference instanceof ReferencedEClass»
 		return «node.primeTypeCast»de.jabc.cinco.meta.core.referenceregistry.ReferenceRegistry.getInstance().getEObject(uid);
-		
+		«ELSE»
+		return «node.primeTypeCast» («node.internalPrimeTypeCast» de.jabc.cinco.meta.core.referenceregistry.ReferenceRegistry.getInstance().getEObject(uid)).getElement();
+		«ENDIF»
 	'''
 	
 	def getPrimeTypeCast(Node node){
 			switch(node.primeReference){
 				case node.primeReference instanceof ReferencedModelElement : return '''(«node.primeTypeName»)'''
+				default: return ''''''
+			}
+	}
+	
+	def getInternalPrimeTypeCast(Node node){
+			switch(node.primeReference){
+				case node.primeReference instanceof ReferencedModelElement : {
+					return '''(«(node.primeReference as ReferencedModelElement).type.fqInternalBeanName»)'''
+				}
 				default: return ''''''
 			}
 	}
