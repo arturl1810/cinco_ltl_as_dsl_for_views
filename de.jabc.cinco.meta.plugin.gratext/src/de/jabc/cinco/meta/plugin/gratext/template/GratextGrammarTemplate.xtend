@@ -88,7 +88,7 @@ def containerRule(NodeContainer node) {
 	«node.name» returns «node.name»:{«node.name»}
 	'«node.name»' (id = _ID)? ( ('at' x=_EInt ',' y=_EInt)?
 			& ('size' width=_EInt ',' height=_EInt)?
-«««			& ('index' index=_EInt)? 
+			& ('index' index=_EInt)? 
 			)
 	('{'
 		«attributes(node)»
@@ -122,7 +122,7 @@ def nodeRule(Node node) {
 	«node.name» returns «node.name»:{«node.name»}
 	'«node.name»' (id = _ID)? ( ('at' x=_EInt ',' y=_EInt)?
 		& ('size' width=_EInt ',' height=_EInt)?
-«««		& ('index' index=_EInt)? 
+		& ('index' index=_EInt)? 
 		)
 	('{'
 		«attributes(node)»

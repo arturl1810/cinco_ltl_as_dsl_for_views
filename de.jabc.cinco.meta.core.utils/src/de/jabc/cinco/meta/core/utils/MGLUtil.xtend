@@ -185,6 +185,7 @@ class MGLUtil {
 	 		&& s.startsWith(n.primeReference.name) )
 	 		
 	 		"${"+s.replaceFirst("\\.", ".internalElement.")+"}"
+	 	else "${"+s+"}"
 	 }
 	 
 	 def static getPostCreateHooks(GraphModel it) {

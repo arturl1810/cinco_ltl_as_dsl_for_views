@@ -595,7 +595,7 @@ class StyleUtils extends APIUtils {
 				val m = expPattner.matcher(it)
 				if (m.matches) {
 					MGLUtil::refactorIfPrimeAttribute(n,m.group(1))
-				}
+				} else it
 			].join(",")	
 			
 		} else vals.subList(1,vals.size).join(",")

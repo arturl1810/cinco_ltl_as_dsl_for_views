@@ -151,16 +151,12 @@ abstract class GratextSerializer {
 			edge.decorators?.map[gratext].join(' ')
 	}
 	
-//	def pe(EObject obj) {
-//		peCache.get(obj)
-//	}
 	
 	def gratext(_Point p) {
 		'''(«p.x»,«p.y»)'''
 	}
 	
 	def gratext(_Decoration dec) {
-//		val ga = dec.graphicsAlgorithm
 		'''decorate "«dec.nameHint»" at («dec.locationShift.x»,«dec.locationShift.y»)'''
 	}
 	

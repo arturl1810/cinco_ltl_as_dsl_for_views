@@ -67,6 +67,7 @@ override template()
   </eClassifiers>
   «FOR node:model.nodes»
   <eClassifiers xsi:type="ecore:EClass" name="«node.name»" abstract="«node.isIsAbstract»">
+  <eStructuralFeatures xsi:type="ecore:EAttribute" name="index" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
 	<eSuperTypes href="«graphModelEcorePlatformResourceURI»#//internal/Internal«node.name»"/>
   	«interfaces(node)»
   </eClassifiers>
@@ -81,7 +82,7 @@ override template()
   <eClassifiers xsi:type="ecore:EClass" name="«type.name»" abstract="«type.isIsAbstract»">
   	<eSuperTypes href="«graphModelEcorePlatformResourceURI»#//internal/Internal«type.name»"/>
   </eClassifiers>
-    «ENDFOR»
+  «ENDFOR»
   «FOR cls:classes»«cls.toXMI»«ENDFOR»
 </ecore:EPackage>
 '''
