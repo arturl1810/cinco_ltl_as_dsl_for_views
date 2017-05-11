@@ -1,7 +1,6 @@
 package de.jabc.cinco.meta.core.referenceregistry;
 
 import static de.jabc.cinco.meta.core.utils.job.JobFactory.job;
-import graphmodel.GraphModel;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -50,6 +49,7 @@ import de.jabc.cinco.meta.core.referenceregistry.implementing.IFileExtensionSupp
 import de.jabc.cinco.meta.core.referenceregistry.listener.RegistryPartListener;
 import de.jabc.cinco.meta.core.referenceregistry.listener.RegistryResourceChangeListener;
 import de.jabc.cinco.meta.core.utils.job.CompoundJob;
+import graphmodel.internal.InternalGraphModel;
 
 public class ReferenceRegistry {
 
@@ -612,7 +612,7 @@ public class ReferenceRegistry {
 		if (contents != null && contents.size() == 2) {
 			EObject o1 = contents.get(0);
 			EObject o2 = contents.get(1);
-			return (o1 instanceof Diagram && o2 instanceof GraphModel);
+			return (o1 instanceof Diagram && o2 instanceof InternalGraphModel);
 		}
 		// If the resource is an arbitrary library created with EMF
 		else if (contents != null && contents.size() == 1)
@@ -687,14 +687,14 @@ public class ReferenceRegistry {
 		return extensions;
 	}
 
-	public GraphModel getGraphModelFromURI(URI uri) {
+	public InternalGraphModel getGraphModelFromURI(URI uri) {
 		String searchFor = toWorkspaceRelativeURI(uri).toPlatformString(true);
 		for (Entry<IProject, HashMap<String, String>> map : registriesMap.entrySet()) {
 			for (Entry<String, String> e : map.getValue().entrySet()) {
 				if (e.getValue().equals(searchFor)) {
 					EObject eObj = cachesMap.get(map.getKey()).get(e.getKey());
-					if (eObj instanceof GraphModel)
-						return (GraphModel) eObj;
+					if (eObj instanceof InternalGraphModel)
+						return (InternalGraphModel) eObj;
 				}
 			}
 		}
