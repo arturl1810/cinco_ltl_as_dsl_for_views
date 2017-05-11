@@ -201,10 +201,11 @@ public class GraphModelCodeGenerationHandler extends AbstractHandler {
 	
 	private void retrieveGenerator() {
 		try {
-			String graphModelClassName = 
-					graphModel.getClass().getName().replace("Impl", "").replace(".impl", "");
+			System.err.println("### model.class: " + graphModel.getClass());
+//			String graphModelClassName = 
+//					graphModel.getClass().getName().replace("Impl", "").replace(".impl", "");
 			List<GeneratorDiscription<GraphModel>> generatorDescriptions =
-					GraphModelGeneratorRegistry.INSTANCE.getAllGenerators(graphModelClassName);
+					GraphModelGeneratorRegistry.INSTANCE.getAllGenerators(graphModel.getClass());
 			if (generatorDescriptions != null && !generatorDescriptions.isEmpty()) 
 				generatorDescription = generatorDescriptions.get(0);
 		} catch(Exception e) {

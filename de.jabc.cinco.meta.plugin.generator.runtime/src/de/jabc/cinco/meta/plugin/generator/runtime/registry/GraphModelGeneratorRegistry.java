@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.commons.lang.ClassUtils;
+import org.eclipse.emf.ecore.EClass;
+
 import de.jabc.cinco.meta.plugin.generator.runtime.IGenerator;
 
 public class GraphModelGeneratorRegistry<T extends GraphModel> {
@@ -34,5 +37,19 @@ public class GraphModelGeneratorRegistry<T extends GraphModel> {
 	
 	public List<GeneratorDiscription<T>> getAllGenerators(String graphModelClassName){
 		return this.generators.get(graphModelClassName);
+	}
+	
+	public List<GeneratorDiscription<T>> getAllGenerators(Class<?> graphModelClass){
+		List<GeneratorDiscription<T>> list = this.generators.get(graphModelClass.getName().replace("Impl", "").replace(".impl", ""));
+		if (list != null && !list.isEmpty())
+			return list;
+		for (Object ntrfc : ClassUtils.getAllInterfaces(graphModelClass)) {
+			if (ntrfc instanceof Class) {
+				list = getAllGenerators((Class<?>) ntrfc);
+				if (list != null && !list.isEmpty())
+					return list;
+			}
+		}
+		return list;
 	}
 }
