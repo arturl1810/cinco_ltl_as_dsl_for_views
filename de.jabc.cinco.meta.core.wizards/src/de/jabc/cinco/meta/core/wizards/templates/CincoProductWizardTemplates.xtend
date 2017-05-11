@@ -821,18 +821,18 @@ class Generate implements IGenerator<«modelName»> {
 	
 	override generate(«modelName» model, IPath targetDir, IProgressMonitor monitor) {
 
-		if (model.modelName.nullOrEmpty)
+		if (model.«modelName.toFirstLower»View.modelName.nullOrEmpty)
 			throw new RuntimeException("Model's name must be set.")
 
 		val code = generateCode(model);
-		val targetFile = ResourcesPlugin.workspace.root.getFileForLocation(targetDir.append(model.modelName + ".txt"))
+		val targetFile = ResourcesPlugin.workspace.root.getFileForLocation(targetDir.append(model.«modelName.toFirstLower»View.modelName + ".txt"))
 
 		EclipseFileUtils.writeToFile(targetFile, code)
 
 	}
 
 	private def generateCode(«modelName» model) «"'''"»
-		=== «"«"»model.modelName«"»"» ===
+		=== «"«"»model.«modelName.toFirstLower»View.modelName«"»"» ===
 		
 		The model contains «"«"»model.allNodes.size«"»"» nodes. Here's some general information about them:
 		

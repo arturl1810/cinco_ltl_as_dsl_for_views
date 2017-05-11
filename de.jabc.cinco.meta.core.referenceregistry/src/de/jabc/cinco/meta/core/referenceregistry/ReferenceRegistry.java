@@ -399,7 +399,8 @@ public class ReferenceRegistry {
 		MessageDialog.openError(
 				Display.getCurrent().getActiveShell(), 
 				"Error adding Library Component", 
-				"The object " + bo + " has no id feature. Can't add it to the registry");
+				"The object " + bo + " has no id feature or the id is not set. "
+						+ "Can't add it to the registry");
 	}
 
 	private EObject loadObject(String objectId, String resourcePath) {
