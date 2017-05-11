@@ -6,7 +6,6 @@ import graphmodel.Node
 import graphmodel.internal.InternalGraphModel
 import graphmodel.internal.InternalModelElement
 import graphmodel.internal.InternalModelElementContainer
-import graphmodel.internal.InternalNode
 
 import de.jabc.cinco.meta.core.utils.registry.NonEmptyRegistry
 import de.jabc.cinco.meta.runtime.xapi.ResourceExtension
@@ -18,6 +17,7 @@ import org.eclipse.emf.ecore.resource.Resource
 import java.util.List
 
 import static extension de.jabc.cinco.meta.plugin.gratext.runtime.generator.GratextGenerator.*
+import graphmodel.internal.InternalNode
 
 abstract class ModelBuilder {
 	
@@ -47,8 +47,8 @@ abstract class ModelBuilder {
 	def void cacheInitialOrder(InternalModelElementContainer container) {
 		val children = nodesInitialOrder.get(container)
 		container.modelElements.forEach[
-//			if (index < 0)
-//				index = children.size
+			if (elementIndex < 0)
+				elementIndex = children.size
 			children.add(it)
 			switch it {
 				InternalModelElementContainer: cacheInitialOrder
@@ -69,11 +69,11 @@ abstract class ModelBuilder {
 	}
 	
 	def getNodes() {
-		model.modelElements.filter(Node)//.sortBy[(counterpart as InternalNode).index]
+		model.modelElements.filter(Node).sortBy[counterpart.elementIndex]
 	}
 	
-//	def int getIndex(IdentifiableElement element)
-//	
-//	def void setIndex(IdentifiableElement element, int i)
+	def int getElementIndex(IdentifiableElement element)
+	
+	def void setElementIndex(IdentifiableElement element, int i)
 	
 }

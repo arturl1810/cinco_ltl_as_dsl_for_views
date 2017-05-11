@@ -56,13 +56,13 @@ class ModelizerTemplate extends AbstractGratextTemplate {
 «««							loc.x -> loc.y
 «««					}
 «««		
-«««					override getIndex(IdentifiableElement it) {
-«««						counterpart.placement.index
-«««					}
-«««		
-«««					override setIndex(IdentifiableElement it, int i) {
-«««						counterpart.placement.setIndex(i)
-«««					}
+					override getIndex(IdentifiableElement it) {
+						counterpart.elementIndex
+					}
+		
+					override setIndex(IdentifiableElement it, int i) {
+						counterpart.elementIndex = i
+					}
 «««		
 «««					override getX(InternalModelElement it) {
 «««						counterpart.placement.x
@@ -93,14 +93,17 @@ class ModelizerTemplate extends AbstractGratextTemplate {
 				transformer.getCounterpart(elm)
 			}
 			
-«««			override getIndex(IdentifiableElement element) {
-«««				element.placement.index
-«««			}
-«««			
-«««			override setIndex(IdentifiableElement element, int i) {
-«««				element.placement.index = i
-«««			}
-«««			
+			override getElementIndex(IdentifiableElement element) {
+				if (element instanceof _Placed)
+					element.index
+				else -1
+			}
+			
+			override setElementIndex(IdentifiableElement element, int i) {
+				if (element instanceof _Placed && i >= 0)
+					(element as _Placed).index = i
+			}
+			
 «««			def getPlacement(IdentifiableElement elm) {
 «««				val newPm = «model.name»GratextFactory.eINSTANCE.create_Placement
 «««				if (elm instanceof _Placed) {

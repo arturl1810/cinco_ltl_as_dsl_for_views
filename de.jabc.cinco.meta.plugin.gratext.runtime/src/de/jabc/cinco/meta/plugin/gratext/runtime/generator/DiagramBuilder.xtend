@@ -169,12 +169,16 @@ abstract class DiagramBuilder {
 	}
 	
 	def getNodes() {
-		model.modelElements.filter(Node)//.sortBy[index]
+		model.modelElements.filter(Node).sortBy[index]
 	}
 	
 	def getEdges() {
 		model.modelElements.filter(Edge)
 	}
+	
+	def int getIndex(IdentifiableElement element)
+	
+	def void setIndex(IdentifiableElement element, int i)
 	
 	def linkTo(PictogramElement pe, EObject bo) {
 		featureProvider.link(pe,bo)
