@@ -240,7 +240,6 @@ public class GraphModelDescriptor extends Descriptor<GraphModel> {
 	public List<UserDefinedType> getUserDefinedTypes() {
 		return instance().getTypes().stream()
 				.filter(UserDefinedType.class::isInstance)
-				.filter(type -> !(type instanceof Enumeration))
 				.map(UserDefinedType.class::cast)
 				.collect(Collectors.toList());
 	}

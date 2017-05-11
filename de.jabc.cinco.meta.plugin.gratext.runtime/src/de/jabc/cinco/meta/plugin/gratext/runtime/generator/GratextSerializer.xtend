@@ -11,7 +11,6 @@ import graphmodel.internal.InternalNode
 import graphmodel.internal.InternalPackage
 import graphmodel.internal._Decoration
 import graphmodel.internal._Point
-import java.util.ArrayList
 import java.util.Collection
 import java.util.List
 import java.util.stream.Collectors
@@ -97,10 +96,11 @@ abstract class GratextSerializer {
 	
 	def List<? extends EStructuralFeature> attributes(EClass cls) {
 		switch cls.name {
-			case "InternalGraphModel": new ArrayList
-			case "InternalContainer": new ArrayList
-			case "InternalNode": new ArrayList
-			case "InternalEdge": new ArrayList
+			case "InternalGraphModel": #[]
+			case "InternalContainer": #[]
+			case "InternalNode": #[]
+			case "InternalEdge": #[]
+			case "InternalType": #[]
 			default: combine(cls.getEAttributes, cls.getEReferences, cls.getESuperTypes.map[attributes].flatten)
 		}
 	}

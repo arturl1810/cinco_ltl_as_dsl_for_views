@@ -177,12 +177,10 @@ def type(Attribute attr) {
 		PrimitiveAttribute:
 			'''_«attr.type.literal»'''
 		ComplexAttribute:
-			if (model.contains(attr.type.name)) {
-				if (model.containsEnumeration(attr.type.name) || model.containsUserDefinedType(attr.type.name)) {
-					attr.type.name
-				} else {
-					'''[«attr.type.name»|_ID]'''
-				}
+			if (model.containsEnumeration(attr.type.name) || model.containsUserDefinedType(attr.type.name)) {
+				attr.type.name
+			} else if (model.contains(attr.type.name)) {
+				'''[«attr.type.name»|_ID]'''
 			}
 	}
 }
@@ -220,7 +218,7 @@ def attributes(ModelElement elm) {
 def prime(Node node) {
 	val ref = model.resp(node).primeReference
 	if (ref != null) {
-		'''( '«ref.name»' prime = «ref.type» | 'libraryComponentUID' libraryComponentUID = _ID )'''
+		'''( '«ref.name»' prime = «ref.type» | 'libraryComponentUID' libraryComponentUID = _STRING )'''
 	}
 }
 

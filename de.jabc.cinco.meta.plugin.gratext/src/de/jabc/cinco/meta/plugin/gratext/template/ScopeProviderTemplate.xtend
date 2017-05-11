@@ -1,6 +1,8 @@
 package de.jabc.cinco.meta.plugin.gratext.template
 
 import mgl.Edge
+import mgl.ComplexAttribute
+import mgl.ModelElement
 
 class ScopeProviderTemplate extends AbstractGratextTemplate {
 
@@ -29,26 +31,24 @@ class ScopeProviderTemplate extends AbstractGratextTemplate {
 		class «project.targetName»ScopeProvider extends AbstractDeclarativeScopeProvider {
 			
 			override getScope(EObject context, EReference reference) {
-				switch reference.name {
-					case "_targetElement": switch context {
-						«model.nonAbstractEdges.map[
-						'''
-						^«name»: context.root.scopeForContents(
-								«targetNodes.map[name].join(',\n')» )
-						'''	
-						].join('\n')»
-						default: super.getScope(context, reference)
-					}
-					default: super.getScope(context, reference)
-				}
+				getScope(context, reference.name) ?: super.getScope(context, reference)
+			}
+			
+			dispatch def IScope getScope(EObject element, String refName) {
+				null
+			}
+			
+			«model.instance.scopeMethodTmpl ?: ""»
+			«model.nonAbstractNodes.map[scopeMethodTmpl].filterNull.join('\n')»
+			«model.nonAbstractEdges.map[scopeMethodTmpl].filterNull.join('\n')»
+			«model.userDefinedTypes.map[scopeMethodTmpl].filterNull.join('\n')»
+			
+			def scopeForContents(EObject obj, Class<?>... types) {
+				obj.root.contents.filter(anyTypeOf(types)).toList.scope
 			}
 			
 			def root(EObject context) {
 				EcoreUtil2.getRootContainer(context)
-			}
-			
-			def scopeForContents(EObject obj, Class<?>... types) {
-				obj.contents.filter(anyTypeOf(types)).toList.scope
 			}
 			
 			def contents(EObject obj) {
@@ -65,4 +65,24 @@ class ScopeProviderTemplate extends AbstractGratextTemplate {
 			}
 		}
 		'''
+	
+	def scopeMethodTmpl(ModelElement it) {
+		val modelElementRefs = model.resp(it).attributes
+			.filter(ComplexAttribute)
+			.filter[model.contains(type.name)]
+			.filter[!model.containsUserDefinedType(type.name)]
+		if (it instanceof Edge || !modelElementRefs.isEmpty) '''
+			dispatch def IScope getScope(^«name» element, String refName) {
+				switch refName {
+					«if (it instanceof Edge) '''
+					case "_targetElement": element.scopeForContents(
+						«targetNodes.map[name].join(',\n')» )
+					'''»
+					«modelElementRefs.map['''
+						case "«name»": element.scopeForContents(«type.name»)
+					'''].join("\n")»
+				}
+			}
+		'''
+	}
 }
