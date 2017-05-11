@@ -3,6 +3,7 @@ package de.jabc.cinco.meta.runtime.xapi
 import org.eclipse.core.resources.IFile
 import org.eclipse.graphiti.mm.pictograms.Diagram
 import graphmodel.GraphModel
+import graphmodel.internal.InternalGraphModel
 
 /**
  * File-specific extension methods.
@@ -42,7 +43,7 @@ class FileExtension extends de.jabc.cinco.meta.util.xapi.FileExtension {
 	 * @throws RuntimeException if accessing the resource failed.
 	 */
 	def getGraphModel(IFile file) {
-		getContent(file, GraphModel, 1)
+		getContent(file, InternalGraphModel, 1).element
 	}
 	
 	/**

@@ -7,12 +7,10 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 import java.util.Set;
 import java.util.jar.Attributes;
 import java.util.jar.Manifest;
@@ -34,6 +32,7 @@ import org.osgi.framework.Bundle;
 
 import de.jabc.cinco.meta.core.BundleRegistry;
 import de.jabc.cinco.meta.core.utils.BuildProperties;
+import de.jabc.cinco.meta.core.utils.CincoUtils;
 import de.jabc.cinco.meta.core.utils.projects.ProjectCreator;
 import mgl.GraphModel;
 
@@ -229,13 +228,8 @@ public class CreateCodeGeneratorPlugin{
 	@SuppressWarnings("resource")
 	private void addExtension(IFile plFile, String extension,String graphModelName) throws CoreException {
 		if(plFile.exists()){
-			
-				InputStream l = plFile.getContents(true);
-				String contents = new Scanner(l, "UTF-8").useDelimiter("\\A").next();
-				contents = removeGeneratorEntries(contents, graphModelName);
-				contents = contents.replace("</plugin>", extension+"\n</plugin>");
-				plFile.setContents(new StringInputStream(contents), true, true, new NullProgressMonitor());
-			
+			String commentID = String.format("<!--@MetaPlugin Generatable %s-->",graphModelName);
+			CincoUtils.addExtension(plFile.getLocation().toString(), extension, commentID, plFile.getProject().getName());
 		}else{
 			String pluginXML = String.format("<plugin>\n %s\n </plugin>",extension);
 			plFile.create(new StringInputStream(pluginXML), true,	new NullProgressMonitor());

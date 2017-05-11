@@ -99,6 +99,7 @@ class FactoryGeneratorExtensions {
 			n => [ internal = ime]
 			setID(n,ID)
 			setID(ime,generateUUID)
+			«postCreate(gm, "n")»
 			n.internalElement.eAdapters.add(new «gm.package».adapter.«gm.fuName»EContentAdapter)
 			n	
 		}

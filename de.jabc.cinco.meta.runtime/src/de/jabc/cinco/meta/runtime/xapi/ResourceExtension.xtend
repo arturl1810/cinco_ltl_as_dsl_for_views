@@ -3,6 +3,7 @@ package de.jabc.cinco.meta.runtime.xapi
 import org.eclipse.graphiti.mm.pictograms.Diagram
 import org.eclipse.emf.ecore.resource.Resource
 import graphmodel.GraphModel
+import graphmodel.internal.InternalGraphModel
 
 /**
  * Resource-specific extension methods.
@@ -42,7 +43,7 @@ class ResourceExtension extends de.jabc.cinco.meta.util.xapi.ResourceExtension {
 	 * @throws RuntimeException if accessing the resource failed.
 	 */
 	def getGraphModel(Resource resource) {
-		getContent(resource, GraphModel, 1)
+		getContent(resource, InternalGraphModel, 1).element
 	}
 	
 	/**
