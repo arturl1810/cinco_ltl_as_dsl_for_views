@@ -135,9 +135,6 @@ class GraphitiGeneratorMain extends GeneratorUtils {
 			if (!n.isIsAbstract) {
 				content = n.doGenerateNodeCreateFeature(styles) 
 				ContentWriter::writeJavaFileInSrcGen(project, n.packageNameCreate, "CreateFeature"+n.name.toFirstUpper+".java", content)
-				
-//				content = n.generateModelElementEContentAdapter
-//				ContentWriter::writeJavaFileInSrcGen(project, n.packageNameEContentAdapter, n.name.toFirstUpper.concat("EContentAdapter.java"), content)
 			}
 			
 			content = n.doGenerateModelElementDeleteFeature(styles)
@@ -164,9 +161,6 @@ class GraphitiGeneratorMain extends GeneratorUtils {
 			if (!e.isIsAbstract) {
 				content = e.doGenerateEdgeCreateFeature(styles)
 				ContentWriter::writeJavaFileInSrcGen(project, e.packageNameCreate, "CreateFeature"+e.name.toFirstUpper+".java", content)
-				
-//				content = e.generateModelElementEContentAdapter
-//				ContentWriter::writeJavaFileInSrcGen(project, e.packageNameEContentAdapter, e.name.toFirstUpper.concat("EContentAdapter.java"), content)
 			}
 			
 			content = e.doGenerateModelElementDeleteFeature(styles)

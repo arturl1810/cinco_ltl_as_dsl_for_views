@@ -67,10 +67,12 @@ Attribute returns Attribute:
 ;
 
 PrimitiveAttribute returns PrimitiveAttribute:
+	(annotations+=Annotation)*
 	(notChangeable?='final')? (unique?='unique')? 'attr' type=EDataTypeType 'as' name=EString ('[' lowerBound=EInt (',' ((upperBound=BoundValue)))? ']')?  (':=' defaultValue=EString)?
 ;
 
 ComplexAttribute returns ComplexAttribute:
+	(annotations+=Annotation)*
 	(notChangeable?='final')? (unique?='unique')? (override?='override')? 'attr' type=[Type|EString] 'as' name=EString ('[' lowerBound=EInt (',' ((upperBound=BoundValue)))? ']')?  (':=' defaultValue=EString)?
 ;
 

@@ -60,7 +60,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 	HashMap<EOperation, EStructuralFeature> getterParameterMap
 	HashMap<Type,EClassifier> enumMap
 	
-	HashMap<Node, EOperation>  operationReferencedTypeMap
+	HashMap<EOperation, Node>  operationReferencedTypeMap
 	
 	def createFactory(GraphModel graphModel){
 		graphModel.createFactory(eClassesMap.filter[p1, p2|!p2.mainEClass.abstract])
@@ -105,7 +105,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		toReferenceMap.forEach[key, value|key.EType = eClassesMap.get(value.name).internalEClass]
 		getterParameterMap.forEach[key, value|key.EType = value.EType]
 		setterParameterMap.forEach[key, value|key.EParameters.get(0).EType = value.EType]
-		operationReferencedTypeMap.forEach[node, operation| operation.setPrimeType(node, newEPackages)]
+		operationReferencedTypeMap.forEach[operation, node| operation.setPrimeType(node, newEPackages)]
 
 		graphModel.createCanNewNodeMethods(eClassesMap)
 		graphModel.createNewNodeMethods(eClassesMap.filter[p1,p2| !p2.mainEClass.abstract])
@@ -204,8 +204,8 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		val op = nc.mainEClass.createEOperation(operationName, primeType, 0,1,node.primeReferenceGetter)
 		val internalOp = nc.internalEClass.createEOperation(operationName, primeType, 0,1,node.primeReferenceInternalGetter)
 		if(node.primeReference instanceof ReferencedModelElement) {
-			operationReferencedTypeMap.put(node, op)
-			operationReferencedTypeMap.put(node, internalOp)
+			operationReferencedTypeMap.put(op, node)
+			operationReferencedTypeMap.put(internalOp, node)
 		}
 		
 		

@@ -45,6 +45,7 @@ import de.jabc.cinco.meta.core.utils.MGLUtil
 import mgl.ModelElement
 import java.util.List
 import java.util.regex.Pattern
+import javax.el.ELException
 
 class StyleUtils extends APIUtils {
 
@@ -314,14 +315,43 @@ class StyleUtils extends APIUtils {
 			«currentGaName.toString».setValue(String.format("«t.value»", tmp0Value));
 		} catch (java.util.IllegalFormatException ife) {
 			«currentGaName.toString».setValue("STRING FORMAT ERROR");
+		} catch («ELException.name» ele) {
+			if (ele.getCause() instanceof «NullPointerException.name»)
+				«currentGaName».setValue("null");
 		} finally {
 			«Thread.name».currentThread().setContextClassLoader(contextClassLoader);
 		}
 		
 	'''
 
-	def dispatch getCode(MultiText p, CharSequence currentGaName, CharSequence currentPeName) '''
+	def dispatch getCode(MultiText t, CharSequence currentGaName, CharSequence currentPeName) '''
 		«org.eclipse.graphiti.mm.algorithms.MultiText.name» «currentGaName» = gaService.createPlainMultiText(«currentPeName»);
+		
+		«ExpressionFactoryImpl.name» factory = new com.sun.el.ExpressionFactoryImpl();
+		«LinkedList.name» <«Shape.name»>linkingList = new «LinkedList.name» <«Shape.name»>();
+		linkingList.add(«currentPeName.toString»);
+		«ClassLoader.name» contextClassLoader = «Thread.name».currentThread().getContextClassLoader();
+		try {
+			«currentGaName.toString».setFilled(false);
+			«Thread.name».currentThread().setContextClassLoader(AddFeature«node.name».class.getClassLoader());
+		
+			«ExpressionLanguageContext.name» elContext = 
+				new «ExpressionLanguageContext.name»(bo);
+				
+			«Object.name» tmp0Value = factory.createValueExpression(elContext, "«getText(node)»", «Object.name».class).getValue(elContext);
+		
+			peService.setPropertyValue(«currentGaName.toString», «node.graphModel.packageName».«node.graphModel.fuName»GraphitiUtils.KEY_FORMAT_STRING, "«t.value»");
+
+			peService.setPropertyValue(«currentGaName.toString», "Params","«getText(node)»");
+			«currentGaName.toString».setValue(String.format("«t.value»", tmp0Value));
+		} catch (java.util.IllegalFormatException ife) {
+			«currentGaName.toString».setValue("STRING FORMAT ERROR");
+		} catch («ELException.name» ele) {
+			if (ele.getCause() instanceof «NullPointerException.name»)
+				«currentGaName».setValue("null");
+		} finally {
+			«Thread.name».currentThread().setContextClassLoader(contextClassLoader);
+		}
 	'''
 
 	def dispatch getCode(Image p, CharSequence currentGaName, CharSequence currentPeName) '''

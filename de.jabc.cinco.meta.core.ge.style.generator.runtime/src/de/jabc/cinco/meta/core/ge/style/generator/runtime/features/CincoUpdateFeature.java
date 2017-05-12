@@ -1,5 +1,8 @@
 package de.jabc.cinco.meta.core.ge.style.generator.runtime.features;
 
+import javax.el.ELException;
+import javax.el.PropertyNotFoundException;
+
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.ILayoutFeature;
@@ -83,11 +86,12 @@ public class CincoUpdateFeature extends AbstractUpdateFeature {
 			if (pe.getGraphicsAlgorithm() instanceof AbstractText) {
 				ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
 				AbstractText t = (AbstractText) pe.getGraphicsAlgorithm();
+				String formatString = "";
 				try {
 					Thread.currentThread().setContextClassLoader(CincoUpdateFeature.class.getClassLoader());
 					
 					String value = Graphiti.getPeService().getPropertyValue(t, "Params");
-					String formatString = Graphiti.getPeService().getPropertyValue(t, "formatString");
+					formatString = Graphiti.getPeService().getPropertyValue(t, "formatString");
 					
 					elContext = new ExpressionLanguageContext(bo);
 					Object tmp2Value = factory.createValueExpression(elContext, value, Object.class).getValue(elContext); 
@@ -97,6 +101,15 @@ public class CincoUpdateFeature extends AbstractUpdateFeature {
 				catch (java.util.IllegalFormatException ife) {
 					t.setValue("STRING FORMAT ERROR");
 				} 
+				catch (PropertyNotFoundException pne) {
+					t.setValue("PROPERTY NOT FOUND: "+ formatString);
+				}
+				catch (NullPointerException npe) {
+					t.setValue("NULL");
+				}
+				catch (ELException ele) {
+					t.setValue("null");
+				}
 				finally {
 					Thread.currentThread().setContextClassLoader(contextClassLoader);
 				}
@@ -128,12 +141,13 @@ public class CincoUpdateFeature extends AbstractUpdateFeature {
 			java.lang.Object o = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
 			if (pe.getGraphicsAlgorithm() instanceof AbstractText && bo.equals(o)) {
 				ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
+				String formatString = "";
 				try {
 					Thread.currentThread().setContextClassLoader(o.getClass().getClassLoader());
 					AbstractText t = (AbstractText) pe.getGraphicsAlgorithm();
 					
 					String value = Graphiti.getPeService().getPropertyValue(t, "Params");  //zb. ${name}
-					String formatString = Graphiti.getPeService().getPropertyValue(t, "formatString");  //zb. %s
+					formatString = Graphiti.getPeService().getPropertyValue(t, "formatString");  //zb. %s
 					
 					elContext = new ExpressionLanguageContext(bo);
 					Object tmp2Value = factory.createValueExpression(elContext, value, Object.class).getValue(elContext); 
@@ -143,6 +157,19 @@ public class CincoUpdateFeature extends AbstractUpdateFeature {
 					String newVal = t.getValue();
 					return (!newVal.equals(oldVal));
 				} 
+				catch (java.util.IllegalFormatException ife) {
+					return true;
+				} 
+				catch (PropertyNotFoundException pne) {
+					return true;
+				}
+				catch (NullPointerException npe) {
+					return true;
+				}
+				catch (ELException ele) {
+					return true;
+				}
+				
 				finally {
 					Thread.currentThread().setContextClassLoader(contextClassLoader);
 				}
