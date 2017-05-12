@@ -3,7 +3,7 @@ package de.jabc.cinco.meta.core.ge.style.generator.templates.add
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoAbstractAddFeature
 import de.jabc.cinco.meta.core.ge.style.generator.templates.util.StyleUtils
 import de.jabc.cinco.meta.core.referenceregistry.ReferenceRegistry
-import de.jabc.cinco.meta.core.utils.CincoUtils
+import de.jabc.cinco.meta.core.utils.CincoUtil
 import graphmodel.ModelElementContainer
 import mgl.Node
 import org.eclipse.emf.ecore.EObject
@@ -38,7 +38,7 @@ class NodeAddFeatures extends StyleUtils {
 	def doGenerateNodeAddFeature(Node n, Styles styles) {
 
 		this.n = n
-		s = CincoUtils.getStyleForNode(n,styles)
+		s = CincoUtil.getStyleForNode(n,styles)
 '''package «n.packageNameAdd»;
 
 public class AddFeature«n.fuName» extends «CincoAbstractAddFeature.name» {
@@ -99,7 +99,7 @@ public class AddFeature«n.fuName» extends «CincoAbstractAddFeature.name» {
 	 */
 	def doGeneratePrimeAddFeature(Node n,Styles styles) {
 		this.n = n
-		s=CincoUtils.getStyleForNode(n, styles)
+		s=CincoUtil.getStyleForNode(n, styles)
 '''package «n.packageNameAdd»;
 
 public class AddFeaturePrime«n.fuName» extends «CincoAbstractAddFeature.name» {

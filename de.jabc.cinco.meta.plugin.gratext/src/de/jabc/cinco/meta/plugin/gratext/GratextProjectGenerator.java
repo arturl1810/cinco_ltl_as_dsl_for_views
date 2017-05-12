@@ -24,7 +24,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 
-import de.jabc.cinco.meta.core.utils.CincoUtils;
+import de.jabc.cinco.meta.core.utils.CincoUtil;
 import de.jabc.cinco.meta.core.utils.projects.ProjectCreator;
 import de.jabc.cinco.meta.plugin.gratext.descriptor.GraphModelDescriptor;
 import de.jabc.cinco.meta.plugin.gratext.descriptor.ProjectDescriptor;
@@ -61,7 +61,7 @@ public class GratextProjectGenerator extends ProjectGenerator {
 	}
 	
 	private void collectImports() {
-		for (String ext : CincoUtils.getUsedExtensions(model)) {
+		for (String ext : CincoUtil.getUsedExtensions(model)) {
 			System.out.println("[GratextGen]  > ext: " + ext);
 		}
 		

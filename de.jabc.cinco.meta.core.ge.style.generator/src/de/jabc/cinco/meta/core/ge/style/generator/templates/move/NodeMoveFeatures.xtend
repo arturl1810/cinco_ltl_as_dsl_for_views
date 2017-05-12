@@ -2,7 +2,7 @@ package de.jabc.cinco.meta.core.ge.style.generator.templates.move
 
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.errorhandling.ECincoError
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoMoveShapeFeature
-import de.jabc.cinco.meta.core.utils.CincoUtils
+import de.jabc.cinco.meta.core.utils.CincoUtil
 import de.jabc.cinco.meta.core.utils.generator.GeneratorUtils
 import graphmodel.internal.InternalContainer
 import graphmodel.internal.InternalEdge
@@ -74,7 +74,7 @@ class NodeMoveFeatures extends GeneratorUtils{
 		*/
 		@Override
 		public boolean canMoveShape(«IMoveShapeContext.name» context) {
-			return canMoveShape(context, «!CincoUtils.isMoveDisabled(n)»);
+			return canMoveShape(context, «!CincoUtil.isMoveDisabled(n)»);
 		}
 	
 		/**
@@ -184,7 +184,7 @@ class NodeMoveFeatures extends GeneratorUtils{
 	 */
 	def isFixed(Node n, Styles styles)
 	{
-		var style = CincoUtils.getStyleForNode(n, styles);
+		var style = CincoUtil.getStyleForNode(n, styles);
 		return style.fixed;
 	}
 }

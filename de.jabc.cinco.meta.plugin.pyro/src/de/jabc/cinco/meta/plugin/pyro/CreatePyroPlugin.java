@@ -20,7 +20,7 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 
-import de.jabc.cinco.meta.core.utils.CincoUtils;
+import de.jabc.cinco.meta.core.utils.CincoUtil;
 import de.jabc.cinco.meta.plugin.pyro.model.StyledEdge;
 import de.jabc.cinco.meta.plugin.pyro.model.StyledModelElement;
 import de.jabc.cinco.meta.plugin.pyro.model.StyledNode;
@@ -139,7 +139,7 @@ public class CreatePyroPlugin {
 				
 		// For all imported or referenced GraphModels
 		for(GraphModel iteratorModel:graphModels) {
-			Styles styles = CincoUtils.getStyles(iteratorModel,project);
+			Styles styles = CincoUtil.getStyles(iteratorModel,project);
 
 			String graphModelPath = toFirstLower(iteratorModel.getName()) + "/";
 					

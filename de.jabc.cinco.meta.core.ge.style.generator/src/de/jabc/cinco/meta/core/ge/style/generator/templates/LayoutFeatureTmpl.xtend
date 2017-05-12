@@ -16,6 +16,7 @@ import style.Appearance
 import style.ContainerShape
 import style.LineStyle
 import style.Styles
+import org.eclipse.graphiti.mm.algorithms.Image
 
 class LayoutFeatureTmpl extends GeneratorUtils{
 	
@@ -33,6 +34,7 @@ EList<Appearance> appList = new BasicEList<Appearance>();
 '''package «gm.packageName»;
 
 public class «gm.fuName»LayoutUtils {
+	
 	private static «IGaService.name» gaService = «Graphiti.name».getGaService();
 	
 	«var styles = st»
@@ -111,6 +113,52 @@ public class «gm.fuName»LayoutUtils {
 		ga.setLineVisible(!false);
 		
 		}
+		
+		public static void updateStyleFromAppearance(«GraphicsAlgorithm.name» ga, «Appearance.name» appearance, «Diagram.name» diagram) {
+				if (appearance != null) {
+					if (appearance.getImagePath() != null && ga instanceof «Image.name») {
+						String imageId = «gm.packageName».«gm.fuName»GraphitiUtils.getInstance().getImageId(appearance.getImagePath());
+						((«Image.name») ga).setId(imageId);
+					}			
+		
+					if (appearance.getAngle() != -1 && ga instanceof «AbstractText.name») {
+						((«AbstractText.name») ga).setRotation((double) appearance.getAngle());
+					}
+					
+					if (appearance.getBackground() != null) {
+						ga.setBackground(gaService.manageColor(diagram, appearance.getBackground().getR(),
+							appearance.getBackground().getG(), 
+							appearance.getBackground().getB()));
+					}
+					
+					if (appearance.getForeground() != null) {
+						ga.setForeground(gaService.manageColor(diagram, appearance.getForeground().getR(),
+							appearance.getForeground().getG(), 
+							appearance.getForeground().getB()));
+					}
+					
+					if (appearance.getFont() != null && ga instanceof «AbstractText.name») {
+						((«AbstractText.name») ga).setFont(gaService.manageFont(diagram, 
+							appearance.getFont().getFontName(), 
+							appearance.getFont().getSize(),
+							appearance.getFont().isIsItalic(), 
+							appearance.getFont().isIsBold()));
+					}
+					
+					if (appearance.getTransparency() != -1) {
+						ga.setTransparency(appearance.getTransparency());
+					}
+					
+					if (!appearance.getLineStyle().equals(«LineStyle.name».UNSPECIFIED))
+						ga.setLineStyle(«org.eclipse.graphiti.mm.algorithms.styles.LineStyle.name».getByName(appearance.getLineStyle().getName()));
+					
+					if (appearance.getLineWidth() != -1)
+						ga.setLineWidth(appearance.getLineWidth());
+					
+					ga.setLineVisible(!appearance.getLineInVisible());
+					
+				}
+			}
 }
 
 '''
@@ -172,25 +220,6 @@ public class «gm.fuName»LayoutUtils {
 		 
 		'''
 	}
-	
-//	/**
-//	 * Calls the methode inlineAppearance with the mainshape of Node n
-//	 * @param n : The node
-//	 * @param styles : Styles
-//	 */
-//	def searchInAppearance(Node n, Styles styles){
-//		var nodeStyle = CincoUtils.getStyleForNode(n,styles)
-//		val mainShape = nodeStyle.mainShape
-//		appList.clear
-//		inlineAppearance(mainShape)	
-//	}
-//	
-//	def searchInAppearance(Edge e, Styles styles){
-//		var edgeStyle = CincoUtils.getStyleForEdge(e,styles)
-//		val decorators = edgeStyle.decorator
-//		appList.clear
-//		inlineAppearance(mainShape)	
-//	}
 	
 	/**
 	 * Search for all inlineappearance of the Shape, creates a methode-call
@@ -305,4 +334,6 @@ public class «gm.fuName»LayoutUtils {
 			} 
 		]		
 	}
+	
+	
 }

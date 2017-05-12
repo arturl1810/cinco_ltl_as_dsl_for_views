@@ -29,7 +29,7 @@ import style.GraphicsAlgorithm;
 import style.NodeStyle;
 import style.Style;
 import style.Styles;
-import de.jabc.cinco.meta.core.utils.CincoUtils;
+import de.jabc.cinco.meta.core.utils.CincoUtil;
 import de.jabc.cinco.meta.core.utils.PathValidator;
 import de.jabc.cinco.meta.plugin.pyro.CreatePyroPlugin;
 
@@ -52,7 +52,7 @@ public class FileHandler {
 	public static void copyImages(GraphModel graphModel,String resourcePath,IProject iProject) {
 		try {
 			String path = resourcePath + "/img/pyro/"+ CreatePyroPlugin.toFirstLower(graphModel.getName())+"/";
-			Styles styles = CincoUtils.getStyles(graphModel,iProject);
+			Styles styles = CincoUtil.getStyles(graphModel,iProject);
 			for(Style style:styles.getStyles()){
 				if(style instanceof NodeStyle){
 					copyImage(((NodeStyle)style).getMainShape(),path);

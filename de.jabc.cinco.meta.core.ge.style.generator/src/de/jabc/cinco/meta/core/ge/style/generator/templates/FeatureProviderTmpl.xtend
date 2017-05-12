@@ -231,10 +231,12 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 		«Object.name» o = getBusinessObjectForPictogramElement(context.getPictogramElement());
 		if (o instanceof «EObject.name») {
 			«EObject.name» bo = («EObject.name») o;
-			
-			if (bo instanceof «InternalModelElement.name»){
-				return new «CincoUpdateFeature.name»(this);
-			}
+
+«««			Specific update feature needed due to appearance provider...
+			«FOR me : gm.modelElements.filter[!(it instanceof GraphModel)]»
+			if («me.internalInstanceofCheck("bo")»)
+				return new «me.packageNameUpdate».UpdateFeature«me.fuName»(this);
+			«ENDFOR»
 		}
 
 		return super.getUpdateFeature(context);

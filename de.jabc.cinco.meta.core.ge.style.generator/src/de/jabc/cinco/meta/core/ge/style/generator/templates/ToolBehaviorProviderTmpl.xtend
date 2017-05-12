@@ -38,7 +38,7 @@ import org.eclipse.graphiti.tb.ContextButtonEntry
 import org.eclipse.graphiti.tb.DefaultToolBehaviorProvider
 import org.eclipse.graphiti.tb.IContextButtonPadData
 
-import static extension de.jabc.cinco.meta.core.utils.CincoUtils.*
+import static extension de.jabc.cinco.meta.core.utils.CincoUtil.*
 
 class ToolBehaviorProviderTmpl extends GeneratorUtils{
 	

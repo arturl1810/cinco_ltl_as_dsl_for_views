@@ -41,7 +41,7 @@ import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 
-import de.jabc.cinco.meta.core.utils.CincoUtils;
+import de.jabc.cinco.meta.core.utils.CincoUtil;
 import mgl.GraphModel;
 import mgl.Node;
 import mgl.NodeContainer;
@@ -510,7 +510,7 @@ public class ProjectCreator {
 	public static boolean exportPackage(IProject project,String packageName) {
 		IFile iManiFile= project.getFolder("META-INF").getFile("MANIFEST.MF");
 		try {
-			CincoUtils.refreshFiles(null, iManiFile);
+			CincoUtil.refreshFiles(null, iManiFile);
 			Manifest manifest = new Manifest(iManiFile.getContents());
 			
 			String val = manifest.getMainAttributes().getValue("Export-Package");
@@ -528,7 +528,7 @@ public class ProjectCreator {
 			manifest.getMainAttributes().putValue("Export-Package", val);
 			
 			manifest.write(new FileOutputStream(iManiFile.getLocation().toFile()));
-			CincoUtils.refreshFiles(null, iManiFile);
+			CincoUtil.refreshFiles(null, iManiFile);
 			return true;
 			}
 			

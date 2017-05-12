@@ -12,7 +12,7 @@ import style.PredefinedDecorator;
 import style.Style;
 import style.Styles;
 import style.Text;
-import de.jabc.cinco.meta.core.utils.CincoUtils;
+import de.jabc.cinco.meta.core.utils.CincoUtil;
 import de.jabc.cinco.meta.plugin.pyro.model.StyledConnector;
 import de.jabc.cinco.meta.plugin.pyro.model.StyledEdge;
 import de.jabc.cinco.meta.plugin.pyro.model.StyledLabel;
@@ -37,7 +37,7 @@ public class EdgeParser {
 			
 			styledEdge.setLabel(lables);
 			
-			Style style = CincoUtils.findStyle(styles, styleName);
+			Style style = CincoUtil.findStyle(styles, styleName);
 			if(style instanceof EdgeStyle) {
 				EdgeStyle edgeStyle = (EdgeStyle) style;
 				Appearance edgeShapeAppearance, shapeAppearance;

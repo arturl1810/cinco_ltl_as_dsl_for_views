@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import de.jabc.cinco.meta.core.utils.CincoUtils;
+import de.jabc.cinco.meta.core.utils.CincoUtil;
 import de.jabc.cinco.meta.plugin.pyro.model.NodeShape;
 import de.jabc.cinco.meta.plugin.pyro.model.StyledLabel;
 import de.jabc.cinco.meta.plugin.pyro.model.StyledNode;
@@ -59,7 +59,7 @@ public class NodeParser{
 				styledNode.setLabel(lables);
 			}
 			
-			Style style = CincoUtils.findStyle(styles, styleName);
+			Style style = CincoUtil.findStyle(styles, styleName);
 			if(style instanceof NodeStyle) {
 				NodeStyle nodeStyle = (NodeStyle) style;
 				AbstractShape nodeShape = nodeStyle.getMainShape();

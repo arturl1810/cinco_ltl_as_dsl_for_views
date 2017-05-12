@@ -35,7 +35,7 @@ import de.jabc.cinco.meta.core.ge.style.generator.api.main.CincoApiGeneratorMain
 import de.jabc.cinco.meta.core.ge.style.generator.main.GraphitiGeneratorMain;
 import de.jabc.cinco.meta.core.utils.generator.GeneratorUtils;
 import de.jabc.cinco.meta.core.ui.listener.MGLSelectionListener;
-import de.jabc.cinco.meta.core.utils.CincoUtils;
+import de.jabc.cinco.meta.core.utils.CincoUtil;
 import de.jabc.cinco.meta.core.utils.MGLUtil;
 import de.jabc.cinco.meta.core.utils.projects.ProjectCreator;
 import de.jabc.cinco.meta.util.xapi.FileExtension;
@@ -67,7 +67,7 @@ public class NewGraphitiCodeGenerator extends AbstractHandler{
 		ProjectCreator.addAdditionalNature(project, monitor, "org.eclipse.xtext.ui.shared.xtextNature");
 		copyImages(graphModel, project);
 
-		GraphitiGeneratorMain editorGenerator = new GraphitiGeneratorMain(graphModel,cpdFile, CincoUtils.getStyles(graphModel));
+		GraphitiGeneratorMain editorGenerator = new GraphitiGeneratorMain(graphModel,cpdFile, CincoUtil.getStyles(graphModel));
 		editorGenerator.doGenerate(project);
 		
 		CincoApiGeneratorMain apiGenerator = new CincoApiGeneratorMain(graphModel);
@@ -159,7 +159,7 @@ public class NewGraphitiCodeGenerator extends AbstractHandler{
 				fileis.close();
 				os.flush();
 				os.close();
-				CincoUtils.refreshFiles(null, project.getFolder("resources-gen/icons").getFile("_Connection.gif"));
+				CincoUtil.refreshFiles(null, project.getFolder("resources-gen/icons").getFile("_Connection.gif"));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

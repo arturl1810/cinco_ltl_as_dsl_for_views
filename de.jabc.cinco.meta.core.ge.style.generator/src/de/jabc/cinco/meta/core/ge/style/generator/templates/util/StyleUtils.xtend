@@ -183,10 +183,10 @@ class StyleUtils extends APIUtils {
 	 * @param currentPeName : The 'Shape' of a 'Impl' of a shape e.g. 'polygonImplSHAPE25
 	 */
 	def dispatch getCode(Polygon p, CharSequence currentGaName, CharSequence currentPeName)'''
-		points = new «int»[] {«printPoints(p)»};
+		points = new «int»[] {«p.points.map[x +"," + y].join(",")»};
 				
-		xs = new «int»[] {«printX(p)»};
-		ys = new «int»[] {«printY(p)»};
+		xs = new «int»[] {«p.points.map[x].join(",")»};
+		ys = new «int»[] {«p.points.map[y].join(",")»};
 		
 		minX = «node.graphModel.packageName».«node.graphModel.fuName»GraphitiUtils.getInstance().min(xs);
 		maxX = «node.graphModel.packageName».«node.graphModel.fuName»GraphitiUtils.getInstance().max(xs);
@@ -248,10 +248,10 @@ class StyleUtils extends APIUtils {
 	 */
 	def dispatch getCode(Polyline p, CharSequence currentGaName, CharSequence currentPeName) '''
 
-		points = new «int»[] {«printPoints(p)»};
+		points = new «int»[] {«p.points.map[ x+","+y].join(",")»};
 				
-		xs = new «int»[] {«printX(p)»};
-		ys = new «int»[] {«printY(p)»};
+		xs = new «int»[] {«p.points.map[x].join(",")»};
+		ys = new «int»[] {«p.points.map[y].join(",")»};
 		
 		minX = «node.graphModel.packageName».«node.graphModel.fuName»GraphitiUtils.getInstance().min(xs);
 		maxX = «node.graphModel.packageName».«node.graphModel.fuName»GraphitiUtils.getInstance().max(xs);
@@ -647,88 +647,4 @@ class StyleUtils extends APIUtils {
 	def simpleName(GraphicsAlgorithm ga) {
 		ga.class.simpleName.replaceFirst("Impl", "")
 	}
-
-
-	/**
-	 * Reads out the points of a polygon
-	 * @param p : The polygon
-	 * @return Returns the points of the polygon
-	 */
-	def static String printPoints(Polygon p) {
-		var EList<Point> polyPoints = p.points;
-		var pointValues = "";
-		for (points : polyPoints) {
-			pointValues += points.x + "," + points.y + ",";
-		}
-		return pointValues
-	}
-	
-	/**
-	 * Reads out the points of a polyline
-	 * @param p : The polyline
-	 * @return Returns the points of the polyline
-	 */
-	def static String printPoints(Polyline p) {
-		var EList<Point> polyPoints = p.points;
-		var pointValues = "";
-		for (points : polyPoints) {
-			pointValues += points.x + "," + points.y + ",";
-		}
-		return pointValues
-	}
-	/**
-	 * Reads out the x-values of a polygon
-	 * @param p : The polygon
-	 * @return Returns the x-values of the polygon
-	 */	
-	def static String printX(Polygon p) {
-		var EList<Point> polyPoints = p.points;
-		var pointX = "";
-		for (points : polyPoints) {
-			pointX += points.x + ",";
-		}
-		return pointX;
-	}
-	
-	/**
-	 * Reads out the y-values of a polygon
-	 * @param p : The polygon
-	 * @return Returns the y-values of the polygon
-	 */	
-	def static String printY(Polygon p) {
-		var EList<Point> polyPoints = p.points;
-		var pointY = "";
-		for (points : polyPoints) {
-			pointY += points.y + ",";
-		}
-		return pointY;
-	}
-
-	/**
-	 * Reads out the x-values of a polyline
-	 * @param p : The polyline
-	 * @return Returns the x-values of the polyline
-	 */	
-	def static String printX(Polyline p) {
-		var EList<Point> polyPoints = p.points;
-		var pointX = "";
-		for (points : polyPoints) {
-			pointX += points.x + ",";
-		}
-		return pointX;
-	}
-	/**
-	 * Reads out the y-values of a polyline
-	 * @param p : The polyline
-	 * @return Returns the y-values of the polyline
-	 */		
-	def static String printY(Polyline p) {
-		var EList<Point> polyPoints = p.points;
-		var pointY = "";
-		for (points : polyPoints) {
-			pointY += points.y + ",";
-		}
-		return pointY;
-	}
-	
 }

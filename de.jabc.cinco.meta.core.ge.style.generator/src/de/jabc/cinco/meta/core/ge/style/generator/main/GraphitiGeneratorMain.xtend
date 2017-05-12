@@ -30,10 +30,9 @@ import de.jabc.cinco.meta.core.ge.style.generator.templates.layout.NodeLayoutFea
 import de.jabc.cinco.meta.core.ge.style.generator.templates.move.NodeMoveFeatures
 import de.jabc.cinco.meta.core.ge.style.generator.templates.reconnect.EdgeReconnectFeatures
 import de.jabc.cinco.meta.core.ge.style.generator.templates.resize.NodeResizeFeatures
-import de.jabc.cinco.meta.core.ge.style.generator.templates.update.EdgeUpdateFeatures
-import de.jabc.cinco.meta.core.ge.style.generator.templates.update.NodeUpdateFeatures
+import de.jabc.cinco.meta.core.ge.style.generator.templates.update.ModelElementUpdateFeatures
 import de.jabc.cinco.meta.core.ui.templates.DefaultPerspectiveContent
-import de.jabc.cinco.meta.core.utils.CincoUtils
+import de.jabc.cinco.meta.core.utils.CincoUtil
 import de.jabc.cinco.meta.core.utils.generator.GeneratorUtils
 import de.jabc.cinco.meta.core.utils.projects.ContentWriter
 import mgl.Edge
@@ -69,12 +68,9 @@ class GraphitiGeneratorMain extends GeneratorUtils {
 	extension NodeLayoutFeatures = new NodeLayoutFeatures
 	extension NodeResizeFeatures = new NodeResizeFeatures
 	extension NodeMoveFeatures = new NodeMoveFeatures
-	extension NodeUpdateFeatures = new NodeUpdateFeatures
-	extension EdgeUpdateFeatures = new EdgeUpdateFeatures
+	extension ModelElementUpdateFeatures = new ModelElementUpdateFeatures
 	extension EdgeLayoutFeatures = new EdgeLayoutFeatures
 	extension EdgeReconnectFeatures = new EdgeReconnectFeatures
-	extension GraphModelEContentAdapterTmpl = new GraphModelEContentAdapterTmpl
-	extension ModelElementEContentAdapter = new ModelElementEContentAdapter
 	extension EmfFactoryTmpl = new EmfFactoryTmpl
 	extension GraphitiResourceFactory = new GraphitiResourceFactory
 	
@@ -149,7 +145,7 @@ class GraphitiGeneratorMain extends GeneratorUtils {
 			content = n.doGenerateNodeMoveFeature(styles)
 			ContentWriter::writeJavaFileInSrcGen(project, n.packageNameMove, "MoveFeature"+n.name.toFirstUpper+".java", content)
 			
-			content = n.doGenerateNodeUpdateFeature(styles)
+			content = n.doGenerateModelElementUpdateFeature(styles)
 			ContentWriter::writeJavaFileInSrcGen(project, n.packageNameUpdate, "UpdateFeature"+n.name.toFirstUpper+".java", content)
 			
 		}
@@ -166,7 +162,7 @@ class GraphitiGeneratorMain extends GeneratorUtils {
 			content = e.doGenerateModelElementDeleteFeature(styles)
 			ContentWriter::writeJavaFileInSrcGen(project, e.packageNameDelete, "DeleteFeature"+e.name.toFirstUpper+".java", content)
 			
-			content = e.doGenerateEdgeUpdateFeature(styles)
+			content = e.doGenerateModelElementUpdateFeature(styles)
 			ContentWriter::writeJavaFileInSrcGen(project, e.packageNameUpdate, "UpdateFeature"+e.name.toFirstUpper+".java", content)
 			
 			content = e.doGenerateEdgeLayoutFeature(styles)
@@ -178,14 +174,14 @@ class GraphitiGeneratorMain extends GeneratorUtils {
 			
 		}
 		
-		var usedExtensions = CincoUtils.getUsedExtensions(gm);
+		var usedExtensions = CincoUtil.getUsedExtensions(gm);
 	    var fileExtensionClassContent = new FileExtensionContent(gm, usedExtensions).generateJavaClassContents(gm);
 	    ContentWriter::writeJavaFileInSrcGen(project, gm.packageName, gm.name.toFirstUpper+ "FileExtensions" +".java",fileExtensionClassContent)
 		
 		var pluginXMLContent = gm.generatePluginXML
 
 		
-		var cp = CincoUtils::getCPD(cpdFile) as CincoProduct
+		var cp = CincoUtil::getCPD(cpdFile) as CincoProduct
 		
 		if (cp.getDefaultPerspective() != null && !cp.getDefaultPerspective().isEmpty())
 			return;
@@ -199,7 +195,7 @@ class GraphitiGeneratorMain extends GeneratorUtils {
 		pluginXMLContent.add(defaultXMLPerspectiveContent)
 				
 		ContentWriter::writePluginXML(project, pluginXMLContent)
-		CincoUtils.refreshProject(new NullProgressMonitor(), project)
+		CincoUtil.refreshProject(new NullProgressMonitor(), project)
 		
 		 
 	

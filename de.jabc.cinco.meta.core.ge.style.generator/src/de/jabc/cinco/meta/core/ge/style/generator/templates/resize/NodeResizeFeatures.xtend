@@ -2,7 +2,7 @@ package de.jabc.cinco.meta.core.ge.style.generator.templates.resize
 
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoAbstractResizeFeature
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoResizeFeature
-import de.jabc.cinco.meta.core.utils.CincoUtils
+import de.jabc.cinco.meta.core.utils.CincoUtil
 import de.jabc.cinco.meta.core.utils.generator.GeneratorUtils
 import mgl.Node
 import org.eclipse.emf.transaction.RecordingCommand
@@ -55,7 +55,7 @@ class NodeResizeFeatures extends GeneratorUtils{
 		*/
 		@Override
 		public boolean canResizeShape(«IResizeShapeContext.name» context) {
-			return canResizeShape(context, «!CincoUtils.isResizeDisabled(n)»);
+			return canResizeShape(context, «!CincoUtil.isResizeDisabled(n)»);
 		}
 		
 		/**

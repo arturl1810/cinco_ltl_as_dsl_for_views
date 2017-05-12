@@ -141,7 +141,7 @@ class MGLUtil {
 					PathValidator::getURLForString(gm, iconPath))
 			}
 		}
-		var Styles styles = CincoUtils::getStyles(gm)
+		var Styles styles = CincoUtil::getStyles(gm)
 		for (var TreeIterator<EObject> it = styles.eResource().getAllContents(); it.hasNext();) {
 			var EObject o = it.next()
 			if (o instanceof Image) {
@@ -159,6 +159,10 @@ class MGLUtil {
 	def static getAnnotation(ModelElement me, String annotName) {
 		me.annotations.filter[name == annotName]?.head
 	}
+	
+	def static getGraphModel(ModelElement me) {
+		return me.graphModel
+	}
 
 	/** 
 	 * This methods returns all annotation values of the given name annotated at the modelElement
@@ -175,7 +179,7 @@ class MGLUtil {
 	
 	def static getType(Attribute attr) {
 	 	switch attr {
-	 		ComplexAttribute : attr.type.name
+	 		ComplexAttribute : attr.type.name 
 	 		PrimitiveAttribute : attr.type.getName
 	 	}
 	 }

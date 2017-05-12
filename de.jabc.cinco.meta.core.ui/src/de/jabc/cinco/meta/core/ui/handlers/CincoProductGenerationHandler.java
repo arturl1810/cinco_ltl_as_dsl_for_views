@@ -45,7 +45,7 @@ import de.jabc.cinco.meta.core.mgl.MGLEPackageRegistry;
 import de.jabc.cinco.meta.core.pluginregistry.PluginRegistry;
 import de.jabc.cinco.meta.core.ui.listener.MGLSelectionListener;
 import de.jabc.cinco.meta.core.ui.templates.NewProjectWizardGenerator;
-import de.jabc.cinco.meta.core.utils.CincoUtils;
+import de.jabc.cinco.meta.core.utils.CincoUtil;
 import de.jabc.cinco.meta.core.utils.GeneratorHelper;
 import de.jabc.cinco.meta.core.utils.dependency.DependencyGraph;
 import de.jabc.cinco.meta.core.utils.dependency.DependencyNode;
@@ -504,7 +504,7 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 	}
 	
 	private void generateDefaultPerspective(IFile mglFile) {
-		CincoProduct cp = (CincoProduct) CincoUtils.getCPD(cpdFile);
+		CincoProduct cp = (CincoProduct) CincoUtil.getCPD(cpdFile);
 		
 		IProject p = cpdFile.getProject();
 		IFile pluginXML = p.getFile("plugin.xml");
@@ -519,8 +519,8 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 //				de.jabc.cinco.meta.core.ui.templates.DefaultPerspectiveContent.generateXMLPerspective(cp, cpdFile.getProject().getName());
 		
 		IFile file = p.getFile("src-gen/"+p.getName().replace(".", "/")+"/"+cp.getName()+"Perspective.java");
-//		CincoUtils.writeContentToFile(file, defaultPerspectiveContent.toString());
-//		CincoUtils.addExtension(pluginXML.getLocation().toString(), defaultXMLPerspectiveContent.toString(), extensionCommentID, p.getName());
+//		CincoUtil.writeContentToFile(file, defaultPerspectiveContent.toString());
+//		CincoUtil.addExtension(pluginXML.getLocation().toString(), defaultXMLPerspectiveContent.toString(), extensionCommentID, p.getName());
 	}
 	
 	private void execute(String commandId) {
@@ -598,7 +598,7 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 	
 	private void generateProjectWizard() {
 		System.out.println("Generating Project Wizard");
-		CincoProduct cp = (CincoProduct) CincoUtils.getCPD(cpdFile);
+		CincoProduct cp = (CincoProduct) CincoUtil.getCPD(cpdFile);
 		
 		IProject p = cpdFile.getProject();
 		IFile pluginXML = p.getFile("plugin.xml");
@@ -613,9 +613,9 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 				NewProjectWizardGenerator.generateNavigatorXML(cp, cpdFile.getProject().getName(), navigatorExtensionCommentID);
 		
 		IFile file = p.getFile("src-gen/"+p.getName().replace(".", "/")+"/"+cp.getName()+"ProjectWizard.java");
-		CincoUtils.writeContentToFile(file, wizardJavaCode.toString());
-		CincoUtils.addExtension(pluginXML.getLocation().toString(), newWizardXML.toString(), wizardExtensionCommentID, p.getName());
-		CincoUtils.addExtension(pluginXML.getLocation().toString(), navigatorXML.toString(), navigatorExtensionCommentID, p.getName());
+		CincoUtil.writeContentToFile(file, wizardJavaCode.toString());
+		CincoUtil.addExtension(pluginXML.getLocation().toString(), newWizardXML.toString(), wizardExtensionCommentID, p.getName());
+		CincoUtil.addExtension(pluginXML.getLocation().toString(), navigatorXML.toString(), navigatorExtensionCommentID, p.getName());
 	}
 	
 	private void build(IProject project) {

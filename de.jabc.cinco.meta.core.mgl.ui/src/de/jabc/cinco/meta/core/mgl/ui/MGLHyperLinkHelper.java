@@ -30,7 +30,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import de.jabc.cinco.meta.core.mgl.ui.internal.MGLActivator;
-import de.jabc.cinco.meta.core.utils.CincoUtils;
+import de.jabc.cinco.meta.core.utils.CincoUtil;
 import de.jabc.cinco.meta.util.xapi.ResourceExtension;
 
 
@@ -77,7 +77,7 @@ public class MGLHyperLinkHelper extends HyperlinkHelper {
 			if (gm == null)
 				return;
 
-			Style style = CincoUtils.findStyle(CincoUtils.getStyles(gm), annot.getValue().get(0));
+			Style style = CincoUtil.findStyle(CincoUtil.getStyles(gm), annot.getValue().get(0));
 			if (style == null)
 				return;
 

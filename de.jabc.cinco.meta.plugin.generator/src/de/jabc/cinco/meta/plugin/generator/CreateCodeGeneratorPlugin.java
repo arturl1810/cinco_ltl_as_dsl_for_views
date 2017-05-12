@@ -32,7 +32,7 @@ import org.osgi.framework.Bundle;
 
 import de.jabc.cinco.meta.core.BundleRegistry;
 import de.jabc.cinco.meta.core.utils.BuildProperties;
-import de.jabc.cinco.meta.core.utils.CincoUtils;
+import de.jabc.cinco.meta.core.utils.CincoUtil;
 import de.jabc.cinco.meta.core.utils.projects.ProjectCreator;
 import mgl.GraphModel;
 
@@ -229,7 +229,7 @@ public class CreateCodeGeneratorPlugin{
 	private void addExtension(IFile plFile, String extension,String graphModelName) throws CoreException {
 		if(plFile.exists()){
 			String commentID = String.format("<!--@MetaPlugin Generatable %s-->",graphModelName);
-			CincoUtils.addExtension(plFile.getLocation().toString(), extension, commentID, plFile.getProject().getName());
+			CincoUtil.addExtension(plFile.getLocation().toString(), extension, commentID, plFile.getProject().getName());
 		}else{
 			String pluginXML = String.format("<plugin>\n %s\n </plugin>",extension);
 			plFile.create(new StringInputStream(pluginXML), true,	new NullProgressMonitor());

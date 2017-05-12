@@ -1,7 +1,7 @@
 package de.jabc.cinco.meta.core.ge.style.generator.templates.delete
 
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoDeleteFeature
-import de.jabc.cinco.meta.core.utils.CincoUtils
+import de.jabc.cinco.meta.core.utils.CincoUtil
 import de.jabc.cinco.meta.core.utils.generator.GeneratorUtils
 import mgl.Node
 import org.eclipse.emf.ecore.EObject
@@ -48,7 +48,7 @@ class ModelElementDeleteFeatures extends GeneratorUtils{
 		
 		@Override
 		public boolean canDelete(«IDeleteContext.name» context) {
-			return canDelete(context, «!CincoUtils.isDeleteDisabled(me)»);
+			return canDelete(context, «!CincoUtil.isDeleteDisabled(me)»);
 		}
 		
 	

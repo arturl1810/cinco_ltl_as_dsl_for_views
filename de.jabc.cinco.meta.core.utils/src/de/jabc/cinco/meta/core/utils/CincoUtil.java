@@ -43,21 +43,16 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.xtext.util.StringInputStream;
 import org.w3c.dom.Document;
-import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import de.jabc.cinco.meta.util.xapi.FileExtension;
-import graphmodel.internal.InternalContainer;
-import graphmodel.internal.InternalEdge;
-import graphmodel.internal.InternalModelElement;
-import graphmodel.internal.InternalModelElementContainer;
-import graphmodel.internal.InternalNode;
 import mgl.Annotation;
 import mgl.Attribute;
 import mgl.Edge;
 import mgl.GraphModel;
 import mgl.Import;
 import mgl.ModelElement;
+import mgl.Node;
 import productDefinition.CincoProduct;
 import style.EdgeStyle;
 import style.NodeStyle;
@@ -65,7 +60,7 @@ import style.Style;
 import style.Styles;
 
 
-public class CincoUtils {
+public class CincoUtil {
 
 	public static final String ID_STYLE = "style";
 	public static final String ID_ICON = "icon";
@@ -165,7 +160,6 @@ public class CincoUtils {
 		for (Annotation a : gm.getAnnotations()) {
 			if (ID_STYLE.equals(a.getName())) {
 				String path = a.getValue().get(0);
-//				URI uri = URI.createURI(path, true);
 				URI uri = PathValidator.getURIForString(gm, path);
 				try {
 					Resource res = null;
@@ -194,6 +188,24 @@ public class CincoUtils {
 				}
 			}
 		}
+		return null;
+	}
+	
+	public static boolean hasAppearanceProvider(ModelElement me) {
+		Style style = getStyleForModelElement(me, getStyles(MGLUtil.getGraphModel(me)));
+		return style.getAppearanceProvider() != null && !style.getAppearanceProvider().isEmpty();
+	}
+	
+	public static String getAppearanceProvider(ModelElement me) {
+		Style style = getStyleForModelElement(me, getStyles(MGLUtil.getGraphModel(me)));
+		return style.getAppearanceProvider().replaceAll("\\\"", "");
+	}
+	
+	public static Style getStyleForModelElement(mgl.ModelElement me , Styles st) {
+		if (me instanceof Node)
+			return getStyleForNode((mgl.Node) me, st);
+		if (me instanceof Edge)
+			return getStyleForEdge((mgl.Edge) me, st);
 		return null;
 	}
 	
@@ -461,7 +473,7 @@ public class CincoUtils {
 			doc.getDocumentElement().normalize();
 			NodeList extensionNodes = doc.getElementsByTagName("extension");
 			for (int extensionIndex = 0; extensionIndex < extensionNodes.getLength(); extensionIndex++) {
-				Node extensionNode = extensionNodes.item(extensionIndex);				
+				org.w3c.dom.Node extensionNode = extensionNodes.item(extensionIndex);				
 				// https://stackoverflow.com/questions/2223020/convert-an-org-w3c-dom-node-into-a-string
 				StringWriter writer = new StringWriter();
 				Transformer transformer = TransformerFactory.newInstance().newTransformer();

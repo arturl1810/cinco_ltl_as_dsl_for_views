@@ -5,7 +5,7 @@ import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoAbstract
 import de.jabc.cinco.meta.core.ge.style.generator.templates.LayoutFeatureTmpl
 import de.jabc.cinco.meta.core.ge.style.generator.templates.util.APIUtils
 import de.jabc.cinco.meta.core.ge.style.generator.templates.util.StyleUtils
-import de.jabc.cinco.meta.core.utils.CincoUtils
+import de.jabc.cinco.meta.core.utils.CincoUtil
 import de.jabc.cinco.meta.runtime.xapi.GraphModelExtension
 import de.jabc.cinco.meta.util.xapi.ResourceExtension
 import graphmodel.internal.InternalFactory
@@ -93,7 +93,7 @@ class EdgeAddFeatures extends APIUtils {
 			«_Decoration.name» _d;// = «InternalFactory.name».eINSTANCE.create_Decoration();
 			«_Point.name» _p;// = «InternalFactory.name».eINSTANCE.create_Point();
 			
-			«FOR d : CincoUtils.getStyleForEdge(e, styles).decorator»
+			«FOR d : CincoUtil.getStyleForEdge(e, styles).decorator»
 			_d = «InternalFactory.name».eINSTANCE.create_Decoration();
 			_p = «InternalFactory.name».eINSTANCE.create_Point();
 			cd = peService.createConnectionDecorator(connection, «d.movable»,«d.location», true);
@@ -106,10 +106,10 @@ class EdgeAddFeatures extends APIUtils {
 			_d.setLocation(«d.location»);
 			_d.setLocationShift(_p);
 			
-			peService.setPropertyValue(cd, "cdIndex", "«CincoUtils.getStyleForEdge(e, styles).decorator.indexOf(d)»");
+			peService.setPropertyValue(cd, "cdIndex", "«CincoUtil.getStyleForEdge(e, styles).decorator.indexOf(d)»");
 			link(cd, «e.flName»);
-			if («e.flName».getDecorators().size() <= «CincoUtils.getStyleForEdge(e, styles).decorator.indexOf(d)»)
-				«e.flName».getDecorators().add(«CincoUtils.getStyleForEdge(e, styles).decorator.indexOf(d)», _d);
+			if («e.flName».getDecorators().size() <= «CincoUtil.getStyleForEdge(e, styles).decorator.indexOf(d)»)
+				«e.flName».getDecorators().add(«CincoUtil.getStyleForEdge(e, styles).decorator.indexOf(d)», _d);
 			«ENDFOR»
 			
 			«Resource.name» eResource = ((«EObject.name») sourceBo).eResource();
@@ -142,7 +142,7 @@ class EdgeAddFeatures extends APIUtils {
 			return false;
 		}
 		
-		«FOR d : CincoUtils.getStyleForEdge(e, styles).decorator.filter[decoratorShape != null]»
+		«FOR d : CincoUtil.getStyleForEdge(e, styles).decorator.filter[decoratorShape != null]»
 		«d.code(e)»
 		«ENDFOR»
 	}

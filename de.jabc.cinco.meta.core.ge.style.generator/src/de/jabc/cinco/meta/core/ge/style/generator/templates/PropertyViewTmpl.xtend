@@ -10,7 +10,7 @@ import org.eclipse.ui.IWorkbenchPart
 import org.eclipse.jface.viewers.ISelection
 import org.eclipse.jface.viewers.IStructuredSelection
 
-import static extension de.jabc.cinco.meta.core.utils.CincoUtils.* import mgl.UserDefinedType
+import static extension de.jabc.cinco.meta.core.utils.CincoUtil.* import mgl.UserDefinedType
 import mgl.Attribute
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.gef.GraphicalEditPart

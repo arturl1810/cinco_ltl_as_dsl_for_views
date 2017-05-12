@@ -2,7 +2,7 @@ package de.jabc.cinco.meta.core.ge.style.generator.templates.create
 
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.errorhandling.ECincoError
 import de.jabc.cinco.meta.core.ge.style.generator.templates.util.APIUtils
-import de.jabc.cinco.meta.core.utils.CincoUtils
+import de.jabc.cinco.meta.core.utils.CincoUtil
 import graphmodel.internal.InternalModelElementContainer
 import mgl.Node
 import org.eclipse.emf.ecore.EObject
@@ -100,7 +100,7 @@ class NodeCreateFeatures extends APIUtils{
 	    */
 		@Override
 		public boolean canCreate(«ICreateContext.name» context) {
-			return canCreate(context, «!CincoUtils.isCreateDisabled(n)»);
+			return canCreate(context, «!CincoUtil.isCreateDisabled(n)»);
 		}
 		
 		/**

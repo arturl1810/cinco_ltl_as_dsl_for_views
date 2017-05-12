@@ -24,7 +24,7 @@ import org.eclipse.emf.common.util.EList
 import org.eclipse.emf.ecore.EClass
 import org.eclipse.emf.ecore.EFactory
 import org.eclipse.emf.ecore.EPackage
-import de.jabc.cinco.meta.core.utils.CincoUtils
+import de.jabc.cinco.meta.core.utils.CincoUtil
 import graphmodel.Container
 import de.jabc.cinco.meta.core.utils.dependency.DependencyGraph
 import de.jabc.cinco.meta.core.utils.dependency.DependencyNode
@@ -421,7 +421,7 @@ class GeneratorUtils {
 	}
 
 	def isCreateDisabled(ModelElement me) {
-		CincoUtils::isCreateDisabled(me)
+		CincoUtil::isCreateDisabled(me)
 	}
 
 	/**
@@ -525,7 +525,7 @@ class GeneratorUtils {
 	 */
 	def booleanWriteMethodCallPostCreate(ModelElement me){
 		
-		var annot = CincoUtils.findAnnotationPostCreate(me);
+		var annot = CincoUtil.findAnnotationPostCreate(me);
 		if(annot != null)
 			return true;
 		return false;
@@ -537,7 +537,7 @@ class GeneratorUtils {
 	 * @param me The processed {@link ModelElement} 
 	 */
 	def writeMethodCallPostCreate(ModelElement me){
-		var annot = CincoUtils.findAnnotationPostCreate(me);
+		var annot = CincoUtil.findAnnotationPostCreate(me);
 		if(annot != null)
 		{
 			var class = annot.value.get(0)
@@ -551,7 +551,7 @@ class GeneratorUtils {
 	 * @param me The processed {@link ModelElement} 
 	 */
 	 def booleanWriteMethodCallPostMove(ModelElement me){
-		var annot = CincoUtils.findAnnotationPostMove(me);
+		var annot = CincoUtil.findAnnotationPostMove(me);
 		if(annot != null)
 			return true;
 		return false;
@@ -565,7 +565,7 @@ class GeneratorUtils {
 	def writeMethodCallPostMove(ModelElement me, String meName, String sourceName, String targetName, 
 		String xName, String yName, 
 		String deltaXName, 	String deltaYName) {
-		var annot = CincoUtils.findAnnotationPostMove(me);
+		var annot = CincoUtil.findAnnotationPostMove(me);
 		if(annot != null)
 		{
 			var class = annot.value.get(0)
@@ -579,7 +579,7 @@ class GeneratorUtils {
 	 * @param me The processed {@link ModelElement} 
 	 */
 	def booleanWriteMethodCallPostResize(ModelElement me){
-		var annot = CincoUtils.findAnnotationPostResize(me);
+		var annot = CincoUtil.findAnnotationPostResize(me);
 		if(annot != null)
 			return true;
 		return false;
@@ -591,7 +591,7 @@ class GeneratorUtils {
 	 * @param me The processed {@link ModelElement} 
 	 */
 	def writeMethodCallPostResize(ModelElement me){
-		var annot = CincoUtils.findAnnotationPostResize(me);
+		var annot = CincoUtil.findAnnotationPostResize(me);
 		me.graphModel
 		if(annot != null)
 		{
@@ -606,14 +606,14 @@ class GeneratorUtils {
 	 * @param me The processed {@link ModelElement} 
 	 */
 	def booleanWriteMethodCallPostSelect(ModelElement me){
-		var annot = CincoUtils.findAnnotationPostSelect(me);
+		var annot = CincoUtil.findAnnotationPostSelect(me);
 		if(annot != null)
 			return true;
 		return false;
 	}
 	
 	def writeMethodCallPostSelect(ModelElement me){
-		var annot = CincoUtils.findAnnotationPostSelect(me);
+		var annot = CincoUtil.findAnnotationPostSelect(me);
 		if(annot != null)
 		{
 			var class = annot.value.get(0)
@@ -622,12 +622,12 @@ class GeneratorUtils {
 	}
 
 	def booleanWriteMethodCallDoubleClick(ModelElement me){
-		var annot = CincoUtils.findAnnotationDoubleClick(me);
+		var annot = CincoUtil.findAnnotationDoubleClick(me);
 		return annot != null;
 	}
 	
 	def writeMethodCallDoubleClick(ModelElement me){
-		var annot = CincoUtils.findAnnotationDoubleClick(me);
+		var annot = CincoUtil.findAnnotationDoubleClick(me);
 		if(annot != null)
 		{
 			'''return new «GraphitiCustomFeature.name»<>(

@@ -22,15 +22,13 @@ import org.eclipse.graphiti.services.Graphiti;
 import com.sun.el.ExpressionFactoryImpl;
 
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.expressionlanguage.ExpressionLanguageContext;
-import graphmodel.ModelElement;
 import graphmodel.internal.InternalModelElement;
 
-public class CincoUpdateFeature extends AbstractUpdateFeature {
+abstract public class CincoUpdateFeature extends AbstractUpdateFeature {
 
 	private static ExpressionFactoryImpl factory = new ExpressionFactoryImpl();
 	private static ExpressionLanguageContext elContext;
-		
-	
+
 	public CincoUpdateFeature(IFeatureProvider fp) {
 		super(fp);
 	}
@@ -56,32 +54,42 @@ public class CincoUpdateFeature extends AbstractUpdateFeature {
 		PictogramElement pe = context.getPictogramElement();
 		EObject bo = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
 		updateText(bo, pe);
+		if (pe instanceof Connection)
+			updateStyle(bo, (Connection) pe);
+		if (pe instanceof ConnectionDecorator) {
+			updateStyle(bo, ((ConnectionDecorator) pe).getConnection());
+		} else if (pe instanceof Shape) {
+			updateStyle(bo, (Shape) pe);
+		}
 		LayoutContext lContext = new LayoutContext(context.getPictogramElement());
 		ILayoutFeature lf = getFeatureProvider().getLayoutFeature(lContext);
 		if (lf.canLayout(lContext))
-			return lf.layout(lContext);	
+			return lf.layout(lContext);
 		return false;
 	}
-	
+
 	/**
 	 * Updates the text of the object
-	 * @param bo : Current object
-	 * @param pe : PictroGramElement
+	 * 
+	 * @param bo
+	 *            : Current object
+	 * @param pe
+	 *            : PictroGramElement
 	 */
 	private void updateText(EObject bo, PictogramElement pe) {
 		if (pe instanceof ContainerShape) {
 			PictogramElement tmp = pe;
 			Object o = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(tmp);
 			if (bo.equals(o) || o == null)
-			for (Shape _s : ((ContainerShape) pe).getChildren()) {
-				updateText(bo, _s);
-			}
-		} 
+				for (Shape _s : ((ContainerShape) pe).getChildren()) {
+					updateText(bo, _s);
+				}
+		}
 		if (pe instanceof Connection) {
 			Connection connection = (Connection) pe;
 			for (ConnectionDecorator cd : connection.getConnectionDecorators()) {
-				updateText(bo, cd); 
-			} 
+				updateText(bo, cd);
+			}
 		} else {
 			if (pe.getGraphicsAlgorithm() instanceof AbstractText) {
 				ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
@@ -89,28 +97,24 @@ public class CincoUpdateFeature extends AbstractUpdateFeature {
 				String formatString = "";
 				try {
 					Thread.currentThread().setContextClassLoader(CincoUpdateFeature.class.getClassLoader());
-					
+
 					String value = Graphiti.getPeService().getPropertyValue(t, "Params");
 					formatString = Graphiti.getPeService().getPropertyValue(t, "formatString");
-					
+
 					elContext = new ExpressionLanguageContext(bo);
-					Object tmp2Value = factory.createValueExpression(elContext, value, Object.class).getValue(elContext); 
-					
-					t.setValue(String.format(formatString , tmp2Value));
-				} 
-				catch (java.util.IllegalFormatException ife) {
+					Object tmp2Value = factory.createValueExpression(elContext, value, Object.class)
+							.getValue(elContext);
+
+					t.setValue(String.format(formatString, tmp2Value));
+				} catch (java.util.IllegalFormatException ife) {
 					t.setValue("STRING FORMAT ERROR");
-				} 
-				catch (PropertyNotFoundException pne) {
-					t.setValue("PROPERTY NOT FOUND: "+ formatString);
-				}
-				catch (NullPointerException npe) {
+				} catch (PropertyNotFoundException pne) {
+					t.setValue("PROPERTY NOT FOUND: " + formatString);
+				} catch (NullPointerException npe) {
 					t.setValue("NULL");
-				}
-				catch (ELException ele) {
+				} catch (ELException ele) {
 					t.setValue("null");
-				}
-				finally {
+				} finally {
 					Thread.currentThread().setContextClassLoader(contextClassLoader);
 				}
 			}
@@ -119,8 +123,11 @@ public class CincoUpdateFeature extends AbstractUpdateFeature {
 
 	/**
 	 * Checks if the text needs to be updated
-	 * @param bo : Current object
-	 * @param pe : PictogramElement
+	 * 
+	 * @param bo
+	 *            : Current object
+	 * @param pe
+	 *            : PictogramElement
 	 * @return Returns true if an update is needed
 	 */
 	public static <EObject> boolean checkUpdateNeeded(EObject bo, PictogramElement pe) {
@@ -129,7 +136,7 @@ public class CincoUpdateFeature extends AbstractUpdateFeature {
 			for (Shape _s : ((ContainerShape) pe).getChildren()) {
 				return checkUpdateNeeded(bo, _s);
 			}
-		} 
+		}
 		if (pe instanceof Connection) {
 			Connection connection = (Connection) pe;
 			for (ConnectionDecorator cd : connection.getConnectionDecorators()) {
@@ -145,31 +152,29 @@ public class CincoUpdateFeature extends AbstractUpdateFeature {
 				try {
 					Thread.currentThread().setContextClassLoader(o.getClass().getClassLoader());
 					AbstractText t = (AbstractText) pe.getGraphicsAlgorithm();
-					
-					String value = Graphiti.getPeService().getPropertyValue(t, "Params");  //zb. ${name}
-					formatString = Graphiti.getPeService().getPropertyValue(t, "formatString");  //zb. %s
-					
+
+					String value = Graphiti.getPeService().getPropertyValue(t, "Params"); // zb.
+																							// ${name}
+					formatString = Graphiti.getPeService().getPropertyValue(t, "formatString"); // zb.
+																								// %s
+
 					elContext = new ExpressionLanguageContext(bo);
-					Object tmp2Value = factory.createValueExpression(elContext, value, Object.class).getValue(elContext); 
-					
-					
+					Object tmp2Value = factory.createValueExpression(elContext, value, Object.class)
+							.getValue(elContext);
+
 					String oldVal = String.format(formatString, tmp2Value);
 					String newVal = t.getValue();
 					return (!newVal.equals(oldVal));
-				} 
-				catch (java.util.IllegalFormatException ife) {
+				} catch (java.util.IllegalFormatException ife) {
 					return true;
-				} 
-				catch (PropertyNotFoundException pne) {
+				} catch (PropertyNotFoundException pne) {
 					return true;
-				}
-				catch (NullPointerException npe) {
+				} catch (NullPointerException npe) {
 					return true;
-				}
-				catch (ELException ele) {
+				} catch (ELException ele) {
 					return true;
 				}
-				
+
 				finally {
 					Thread.currentThread().setContextClassLoader(contextClassLoader);
 				}
@@ -177,5 +182,8 @@ public class CincoUpdateFeature extends AbstractUpdateFeature {
 		}
 		return false;
 	}
-}
 
+	abstract protected void updateStyle(EObject me, Connection s);
+
+	abstract protected void updateStyle(EObject me, Shape s);
+}
