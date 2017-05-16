@@ -13,6 +13,8 @@ import org.eclipse.graphiti.features.context.impl.ReconnectionContext
 import graphmodel.Node
 import org.eclipse.graphiti.features.context.impl.UpdateContext
 import org.eclipse.graphiti.features.IUpdateFeature
+import graphmodel.internal.InternalNode
+import graphmodel.internal.InternalEdge
 
 class EdgeReconnectFeatures {
 	
@@ -55,11 +57,11 @@ class EdgeReconnectFeatures {
 				if (newAnchor != null) {
 					«Object.name» bo = getBusinessObjectForPictogramElement(context.getNewAnchor().getParent());
 					if («ReconnectionContext.name».RECONNECT_TARGET.equals(context.getReconnectType())) {
-						return ((graphmodel.Node) bo).canEnd(«e.fqBeanName».class);
+						return ((«InternalNode.name») bo).canEnd(«e.fqBeanName».class);
 					}
 					
 					if («ReconnectionContext.name».RECONNECT_SOURCE.equals(context.getReconnectType())) {
-						return ((«Node.name») bo).canStart(«e.fqBeanName».class);
+						return ((«InternalNode.name») bo).canStart(«e.fqBeanName».class);
 					}
 				}
 				return false;
@@ -81,16 +83,16 @@ class EdgeReconnectFeatures {
 			«Object.name» boEdge = getBusinessObjectForPictogramElement(context.getConnection());
 			
 			if («ReconnectionContext.name».RECONNECT_TARGET.equalsIgnoreCase(context.getReconnectType()) && 
-					boEdge instanceof «graphmodel.Edge.name») {
+					boEdge instanceof «InternalEdge.name») {
 				
-				«graphmodel.Edge.name» edge = («graphmodel.Edge.name») boEdge;
-				edge.setTargetElement((«graphmodel.Node.name») boNode);
+				«InternalEdge.name» edge = («InternalEdge.name») boEdge;
+				edge.set_targetElement((«InternalNode.name») boNode);
 			}
 	
 			if («ReconnectionContext.name».RECONNECT_SOURCE.equals(context.getReconnectType()) && 
-				boEdge instanceof «graphmodel.Edge.name») {
-				«graphmodel.Edge.name» edge = («graphmodel.Edge.name») boEdge;
-				edge.setSourceElement((«graphmodel.Node.name») boNode);
+				boEdge instanceof «InternalEdge.name») {
+				«InternalEdge.name» edge = («InternalEdge.name») boEdge;
+				edge.set_sourceElement((«InternalNode.name») boNode); 
 			}
 	
 			«UpdateContext.name» uc = new «UpdateContext.name»(context.getConnection());

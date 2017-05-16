@@ -33,6 +33,8 @@ import org.eclipse.graphiti.features.impl.DefaultMoveShapeFeature
 import org.eclipse.graphiti.ui.features.DefaultDeleteFeature
 import org.eclipse.graphiti.features.context.impl.DeleteContext
 import org.eclipse.graphiti.features.IDeleteFeature
+import org.eclipse.graphiti.features.context.impl.UpdateContext
+import org.eclipse.graphiti.features.IUpdateFeature
 
 class CModelElementTmpl extends APIUtils {
 	
@@ -253,6 +255,19 @@ public «IF me.isIsAbstract»abstract«ENDIF» class «me.fuCName» extends «me
 	«ENDFOR»	
 	«ENDIF»
 	
+	public void update() {
+		try {
+			«IFeatureProvider.name» fp = getFeatureProvider();
+			«UpdateContext.name» uc = new «UpdateContext.name»(getPictogramElement());
+			«IUpdateFeature.name» uf = fp.getUpdateFeature(uc);
+			if (fp instanceof «CincoFeatureProvider.name») {
+				((«CincoFeatureProvider.name») fp).executeFeature(uf, uc);
+			}
+		} catch («NullPointerException.name» e) {
+			return;
+		}
+	}
+	
 	private «IFeatureProvider.name» getFeatureProvider() {
 «««		«IF !(me instanceof GraphModel)»
 «««		«Diagram.name» d = («Diagram.name») ((«me.graphModel.fuCName») this.getRootElement()).getPictogramElement();
@@ -266,7 +281,10 @@ public «IF me.isIsAbstract»abstract«ENDIF» class «me.fuCName» extends «me
 		«PictogramElement.name» curr = getPictogramElement();
 		while (curr.eContainer() != null)
 			curr = («PictogramElement.name») curr.eContainer();
-			return («Diagram.name») curr;
+		if (curr instanceof «Connection.name») {
+			return ((«Connection.name») curr).getParent();
+		}
+		return («Diagram.name») curr;
 	}
 	
 	«IF me instanceof GraphModel»

@@ -2,6 +2,7 @@ package de.jabc.cinco.meta.core.ge.style.generator.templates.add
 
 import com.sun.el.ExpressionFactoryImpl
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoAbstractAddFeature
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.utils.CincoLayoutUtils
 import de.jabc.cinco.meta.core.ge.style.generator.templates.LayoutFeatureTmpl
 import de.jabc.cinco.meta.core.ge.style.generator.templates.util.APIUtils
 import de.jabc.cinco.meta.core.ge.style.generator.templates.util.StyleUtils
@@ -37,13 +38,16 @@ class EdgeAddFeatures extends APIUtils {
 	
 	extension StyleUtils = new StyleUtils
 	
+	private static int index = 0;
+	
 	/**
 	 * Generates the Class 'AddFeature' for the Edge e
 	 * @param e : The edge
 	 * @param styles : Styles
 	 */
 	def doGenerateEdgeAddFeature(Edge e, Styles styles) {
-								'''
+	index = 0;
+	'''
 	package «e.packageNameAdd»;
 	
 	public class AddFeature«e.fuName» extends «CincoAbstractAddFeature.name» {
@@ -72,6 +76,8 @@ class EdgeAddFeatures extends APIUtils {
 			«IGaService.name» gaService = «Graphiti.name».getGaService();
 			«Polyline.name» polyline = gaService.createPolyline(connection);
 			«e.graphModel.packageName».«e.graphModel.name»LayoutUtils.setdefaultStyle(polyline, getDiagram());
+			«Graphiti.name».getPeService().setPropertyValue(
+				polyline, «CincoLayoutUtils.name».KEY_GA_NAME, "connection");
 			
 			«Object.name» sourceBo = addConContext.getSourceAnchor().getParent().getLink().getBusinessObjects().get(0);
 			«Object.name» targetBo = addConContext.getTargetAnchor().getParent().getLink().getBusinessObjects().get(0);
@@ -98,6 +104,8 @@ class EdgeAddFeatures extends APIUtils {
 			_p = «InternalFactory.name».eINSTANCE.create_Point();
 			cd = peService.createConnectionDecorator(connection, «d.movable»,«d.location», true);
 			«d.call(e)»
+			«Graphiti.name».getPeService().setPropertyValue(
+				cd.getGraphicsAlgorithm(), «CincoLayoutUtils.name».KEY_GA_NAME, "«d.gaName»");
 			«IF d.decoratorShape != null»
 			_d.setNameHint(cd.getGraphicsAlgorithm().getClass().getSimpleName().substring(0,cd.getGraphicsAlgorithm().getClass().getSimpleName().lastIndexOf("Impl")));
 			_p.setX(cd.getGraphicsAlgorithm().getX());
@@ -161,5 +169,12 @@ class EdgeAddFeatures extends APIUtils {
 		else '''«e.graphModel.packageName».«e.graphModel.name»LayoutUtils.set_«e.graphModel.name»DefaultAppearanceStyle(«currentGaName», getDiagram());'''
 	}
 	
+	def getGaName(style.ConnectionDecorator cd) {
+		if (!cd.name.isNullOrEmpty) return cd.name
+		else {
+			if (cd.predefinedDecorator != null) return cd.predefinedDecorator.shape.toString+index++
+			if (cd.decoratorShape != null) return "Shape"+index++
+		} 
+	}
 //	
 }

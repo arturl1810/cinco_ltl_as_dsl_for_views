@@ -73,6 +73,7 @@ class GraphitiGeneratorMain extends GeneratorUtils {
 	extension EdgeReconnectFeatures = new EdgeReconnectFeatures
 	extension EmfFactoryTmpl = new EmfFactoryTmpl
 	extension GraphitiResourceFactory = new GraphitiResourceFactory
+	extension ModelElementEContentAdapter = new ModelElementEContentAdapter
 	
 	var GraphModel gm
 	var IFile cpdFile
@@ -172,6 +173,11 @@ class GraphitiGeneratorMain extends GeneratorUtils {
 			ContentWriter::writeJavaFileInSrcGen(project, e.packageNameReconnect, "ReconnectFeature"+e.fuName+".java", content)
 			
 			
+		}
+		
+		for (me : gm.modelElements.filter[!isIsAbstract]) {
+			content = me.doGenerateModelElementEContentAdapter
+			ContentWriter::writeJavaFileInSrcGen(project, me.packageNameEContentAdapter, me.fuName+"EContentAdapter.java", content)
 		}
 		
 		var usedExtensions = CincoUtil.getUsedExtensions(gm);

@@ -123,6 +123,7 @@ class MGLGenerator implements IGenerator {
 	protected def void generateAdapter(MGLAlternateGenerator altGen, GraphModel model, IFileSystemAccess access) {
 		val project = ProjectCreator.getProject(model.eResource)
 		val packageName = model.package + ".adapter"
+		ProjectCreator.exportPackage(project,packageName)
 		var adapterContent = altGen.createAdapter(model)
 		var fileName = model.name + "EContentAdapter.xtend"
 		ContentWriter::writeFile(project,"src-gen",packageName,fileName,adapterContent.toString)

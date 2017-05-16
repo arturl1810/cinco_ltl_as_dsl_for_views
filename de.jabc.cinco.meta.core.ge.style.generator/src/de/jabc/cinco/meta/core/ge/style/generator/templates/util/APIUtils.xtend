@@ -37,10 +37,12 @@ class APIUtils extends GeneratorUtils {
 		else return rootElement(t.eContainer as Type)
 	}
 	
+	def cInstanceofCheck(ModelElement me, String varName) 
+	'''«varName» instanceof «me.fqCName»'''
+	
 	def fqn(Type t) {
 		'''«packageName».«gmName.toLowerCase».«t.name.toFirstUpper»'''
 	}
-	
 	
 	def fqn(Node n)'''
 	«packageName».api.«n.name.toFirstUpper»'''

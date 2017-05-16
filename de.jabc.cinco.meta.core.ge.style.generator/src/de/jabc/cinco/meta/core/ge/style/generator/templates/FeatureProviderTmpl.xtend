@@ -249,9 +249,10 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 		«Object.name» o = getBusinessObjectForPictogramElement(context.getConnection());
 		if (o instanceof «EObject.name») {
 			«EObject.name» bo = («EObject.name») o;
-«««			if (bo.eClass().getName().equals("Transition"))
-«««				return new ReconnectTransitionFeature(this);
-
+			«FOR e : gm.edges»
+			if («e.internalInstanceofCheck("o")»)
+				return new «e.packageNameReconnect».ReconnectFeature«e.fuName»(this);
+			«ENDFOR»
 		}
 		return super.getReconnectionFeature(context);
 	}

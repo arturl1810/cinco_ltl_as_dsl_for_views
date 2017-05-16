@@ -41,7 +41,10 @@ class ModelElementUpdateFeatures extends GeneratorUtils{
 			«String.name» gaName = «Graphiti.name».getPeService().getPropertyValue(s.getGraphicsAlgorithm(), «CincoLayoutFeature.name».KEY_GA_NAME);
 			if (gaName != null && !gaName.isEmpty() && d != null) {
 				«me.graphModel.packageName».«me.graphModel.fuName»LayoutUtils
-					.updateStyleFromAppearance(s.getGraphicsAlgorithm(), new «CincoUtil::getAppearanceProvider(me)»().getAppearance((«me.fqBeanName») bo, gaName), d);
+					.updateStyleFromAppearance(
+						s.getGraphicsAlgorithm(), 
+						new «CincoUtil::getAppearanceProvider(me)»().getAppearance(
+							(«me.fqBeanName»)((«me.fqInternalBeanName») bo).getElement(), gaName), d);
 			}
 			«Object.name» object = «Graphiti.name».getLinkService().getBusinessObjectForLinkedPictogramElement(s);
 			if («me.instanceofCheck("object")») {
@@ -62,7 +65,10 @@ class ModelElementUpdateFeatures extends GeneratorUtils{
 			String gaName = «Graphiti.name».getPeService().getPropertyValue(s.getGraphicsAlgorithm(), «CincoLayoutFeature.name».KEY_GA_NAME);
 			if (gaName != null && !gaName.isEmpty() && d != null) {
 				«me.graphModel.packageName».«me.graphModel.fuName»LayoutUtils.
-					updateStyleFromAppearance(s.getGraphicsAlgorithm(), new «CincoUtil::getAppearanceProvider(me)»().getAppearance((«me.fqBeanName»)bo, gaName), d);
+					updateStyleFromAppearance(
+						s.getGraphicsAlgorithm(), 
+						new «CincoUtil::getAppearanceProvider(me)»().getAppearance(
+							(«me.fqBeanName»)((«me.fqInternalBeanName») bo).getElement(), gaName), d);
 			}
 			«Object.name» object = «Graphiti.name».getLinkService().getBusinessObjectForLinkedPictogramElement(s);
 			if («me.instanceofCheck("object")») {
