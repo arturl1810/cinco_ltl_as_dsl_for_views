@@ -490,23 +490,6 @@ public class CincoUtil {
 		}
 	}
 	
-	private static ArrayList<String> getExtensions(String origText) {
-		ArrayList<String> extensions = new ArrayList<>();
-		String[] lines = origText.split("\n");
-		StringBuilder sb = new StringBuilder();
-		for (String s : lines) {
-			if (s.contains("<extension")) 
-				sb = new StringBuilder();
-			
-			sb.append(s.concat("\n"));
-			
-			if (s.contains("</extension>")) 
-				extensions.add(sb.toString());
-			
-		}
-		return extensions;
-	}
-	
 	public static void writeContentToFile(IFile f, String contents) {
 		StringInputStream sis = new StringInputStream(contents);
 		try {

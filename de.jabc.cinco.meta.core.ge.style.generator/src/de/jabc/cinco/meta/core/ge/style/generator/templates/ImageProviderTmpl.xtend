@@ -23,8 +23,6 @@ import org.eclipse.emf.common.util.BasicEList
 import mgl.ModelElement
 
 class ImageProviderTmpl extends GeneratorUtils {
-
-
 	
 /**
  * Generates the {@link IImageProvider} code
@@ -93,7 +91,7 @@ public class «gm.fuName»ImageProvider extends «AbstractImageProvider.name»
 	 * Each image is logged in by adding the images and creating the related path.
 	*/
 	public void initImages() {
-		«Bundle.name» b = «Platform.name».getBundle("«gm.package».editor.graphiti");
+		«Bundle.name» b = «Platform.name».getBundle("«gm.projectName».editor.graphiti");
 		«File.name» file;
 		try {
 			«URL.name» url = null;

@@ -43,6 +43,8 @@ import org.eclipse.core.resources.IProject
 import org.eclipse.core.runtime.NullProgressMonitor
 import productDefinition.CincoProduct
 import style.Styles
+import java.util.List
+import java.util.ArrayList
 
 class GraphitiGeneratorMain extends GeneratorUtils { 
 	
@@ -77,7 +79,8 @@ class GraphitiGeneratorMain extends GeneratorUtils {
 	
 	var GraphModel gm
 	var IFile cpdFile
-	Styles styles
+	var Styles styles
+	var List<CharSequence> pluginXMLContent = new ArrayList<CharSequence>
 	
 	new (GraphModel gm, IFile cpdFile, Styles s) {
 		this.gm = gm
@@ -184,27 +187,28 @@ class GraphitiGeneratorMain extends GeneratorUtils {
 	    var fileExtensionClassContent = new FileExtensionContent(gm, usedExtensions).generateJavaClassContents(gm);
 	    ContentWriter::writeJavaFileInSrcGen(project, gm.packageName, gm.name.toFirstUpper+ "FileExtensions" +".java",fileExtensionClassContent)
 		
-		var pluginXMLContent = gm.generatePluginXML
-
-		
+		pluginXMLContent = gm.generatePluginXML
+				
+		ContentWriter::writePluginXML(project, pluginXMLContent, '''<!--@CincoGen «gm.fuName»-->''')
+		CincoUtil.refreshProject(new NullProgressMonitor(), project)
+	
+	}
+	
+	def addPerspectiveContent() {
 		var cp = CincoUtil::getCPD(cpdFile) as CincoProduct
-		
+		cp.addPerspectiveContent(pluginXMLContent, cpdFile.project)
+	}
+	
+	private def addPerspectiveContent(CincoProduct cp, List<CharSequence> pluginXMLContent, IProject project) {
 		if (cp.getDefaultPerspective() != null && !cp.getDefaultPerspective().isEmpty())
 			return;
 		 
 		var defaultPerspectiveContent = DefaultPerspectiveContent::generateDefaultPerspective(cp, cpdFile)
 		var defaultXMLPerspectiveContent = DefaultPerspectiveContent::generateXMLPerspective(cp, cpdFile.getProject().getName())
 		
-		ContentWriter::writeJavaFileInSrcGen(project, gm.packageName, cp.name+"Perspective.java",defaultPerspectiveContent)
-		
-		
+		ContentWriter::writeJavaFileInSrcGen(project, cpdFile.project.name+".editor.graphiti", cp.name+"Perspective.java",defaultPerspectiveContent)
 		pluginXMLContent.add(defaultXMLPerspectiveContent)
-				
-		ContentWriter::writePluginXML(project, pluginXMLContent)
-		CincoUtil.refreshProject(new NullProgressMonitor(), project)
 		
-		 
-	
 	}
 	
 }

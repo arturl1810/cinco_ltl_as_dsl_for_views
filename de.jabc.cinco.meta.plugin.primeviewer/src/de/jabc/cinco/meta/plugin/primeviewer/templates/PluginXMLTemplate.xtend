@@ -10,7 +10,7 @@ class PluginXMLTemplate {
 	static extension GeneratorUtils = new GeneratorUtils
 	
 	def static doGeneratePluginXMLContent(Iterable<Node> primeNodes, IProject p) {
-		ContentWriter::writePluginXML(p, primeNodes.content)
+		ContentWriter::writePluginXML(p, primeNodes.content, "")
 	}
 	
 	def static getContent(Iterable<Node> primeNodes)'''

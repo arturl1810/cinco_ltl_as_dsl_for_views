@@ -229,6 +229,10 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		«ENDIF»
 	'''
 	
+	/**
+	 * Returns cast for prime referenced ModelElement or EClass
+	 * will return
+	 */
 	def getPrimeTypeCast(Node node){
 			switch(node.primeReference){
 				case node.primeReference instanceof ReferencedModelElement : return '''(«node.primeTypeName»)'''
@@ -244,11 +248,6 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 				default: return ''''''
 			}
 	}
-	
-	/**
-	 * Returns Cast fpr prime referenced ModelElement or EClass
-	 * Will return
-	 */
 	
 	private def topSort(Iterable<? extends ModelElement> elements) {
 		new DependencyGraph<ModelElement>(new ArrayList).createGraph(elements.map[el|el.dependencies], new ArrayList).
@@ -447,7 +446,9 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 
 	private def Iterable<? extends ElementEClasses> createEdges(GraphModel model) {
 		val edg = new ArrayList<ElementEClasses> ();
-		model.edges.forEach[e| edg+= e.createModelElementClasses]
+		model.edges.topSort.forEach[edg+=createModelElementClasses]
+//		model.edges.filter[it.extend == null].forEach[e| edg+= e.createModelElementClasses]
+//		model.edges.filter[it.extend != null].forEach[e| edg+= e.createModelElementClasses]
 		edg.forEach[ec|ec.mainEClass.ESuperTypes += graphModelPackage.getEClassifier("Edge") as EClass;
 			ec.internalEClass.ESuperTypes += internalPackage.getEClassifier("InternalEdge") as EClass
 		]
@@ -459,7 +460,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 	private def Iterable<? extends ElementEClasses> createUserDefinedTypes(GraphModel model) {
 		val internalTypeClass = internalPackage.internalType
 		val typeClass = graphModelPackage.getType
-		var udts = model.types.filter(UserDefinedType).map[udt|println(udt);udt.createModelElementClasses]
+		var udts = model.types.filter(UserDefinedType).topSort.map[udt|println(udt);udt.createModelElementClasses]
 		udts = 
 		udts.map[
 			internalEClass.ESuperTypes+=internalTypeClass

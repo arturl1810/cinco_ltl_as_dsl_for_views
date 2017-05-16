@@ -1,5 +1,13 @@
 package de.jabc.cinco.meta.core.utils.generator
 
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.customfeature.GraphitiCustomFeature
+import de.jabc.cinco.meta.core.utils.CincoUtil
+import de.jabc.cinco.meta.util.xapi.CollectionExtension
+import de.jabc.cinco.meta.util.xapi.FileExtension
+import de.jabc.cinco.meta.util.xapi.ResourceExtension
+import de.jabc.cinco.meta.util.xapi.WorkbenchExtension
+import de.jabc.cinco.meta.util.xapi.WorkspaceExtension
+import graphmodel.Container
 import java.util.ArrayList
 import java.util.HashMap
 import java.util.List
@@ -22,16 +30,22 @@ import mgl.Type
 import mgl.UserDefinedType
 import org.eclipse.emf.common.util.EList
 import org.eclipse.emf.ecore.EClass
-import org.eclipse.emf.ecore.EFactory
 import org.eclipse.emf.ecore.EPackage
-import de.jabc.cinco.meta.core.utils.CincoUtil
-import graphmodel.Container
-import de.jabc.cinco.meta.core.utils.dependency.DependencyGraph
-import de.jabc.cinco.meta.core.utils.dependency.DependencyNode
-import de.jabc.cinco.meta.core.ge.style.generator.runtime.customfeature.GraphitiCustomFeature
+import org.eclipse.graphiti.features.IAddFeature
+import org.eclipse.graphiti.features.ICreateFeature
+import org.eclipse.graphiti.features.IDeleteFeature
+import org.eclipse.graphiti.features.ILayoutFeature
+import org.eclipse.graphiti.features.IMoveFeature
+import org.eclipse.graphiti.features.IResizeFeature
+import org.eclipse.graphiti.features.IUpdateFeature
 
 class GeneratorUtils {
 	
+	protected extension CollectionExtension = new CollectionExtension
+    protected extension WorkspaceExtension = new WorkspaceExtension
+    protected extension WorkbenchExtension = new WorkbenchExtension
+    protected extension ResourceExtension = new ResourceExtension
+    protected extension FileExtension = new FileExtension
 	
 	val static String ID_CONTAINER = "Containers";
 	val static String ID_NODES = "Nodes";
@@ -115,6 +129,12 @@ class GeneratorUtils {
 		"Internal"+me.name.toFirstUpper
 	}
 	
+	/**
+	 * Returns the project name of the project containing the MGL for the given {@link mgl.GraphModel}
+	 * 
+	 */
+	def projectName(GraphModel gm) 
+	'''«gm.eResource.file.project.name»''' 
 	
 	/**
 	 * Returns the package name prefix for the generated graphiti sources.
@@ -644,7 +664,7 @@ class GeneratorUtils {
 		}
 	}
 	
-	def fqInternalName(mgl.ModelElement me) {
+	def fqInternalName(ModelElement me) {
 		'''«me.beanPackage».internal.«me.fuInternalName»'''
 	}
 	
