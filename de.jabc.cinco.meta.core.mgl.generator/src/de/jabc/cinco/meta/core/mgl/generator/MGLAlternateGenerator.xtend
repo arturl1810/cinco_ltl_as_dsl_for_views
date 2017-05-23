@@ -280,9 +280,9 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 			elementEClasses.modelElement = element
 			elementEClasses.mainEClass = element.createEClass
 			
-				elementEClasses.internalEClass = element.createInternalEClass(elementEClasses)
-				elementEClasses.mainView = createMainView(element, elementEClasses)
-				elementEClasses.views += createViews(element, elementEClasses)
+			elementEClasses.internalEClass = element.createInternalEClass(elementEClasses)
+			elementEClasses.mainView = createMainView(element, elementEClasses)
+			elementEClasses.views += createViews(element, elementEClasses)
 			
 			
 		eClassesMap.put(elementEClasses.mainEClass.name, elementEClasses)
@@ -524,7 +524,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 
 	private def createGetter(EClass view, EClass modelElementClass, EStructuralFeature eFeature) {
 		val content = createGetterContent(modelElementClass, eFeature)
-		val getterName = if (eFeature.EType.toString.equals("EBoolean")) "is" else "get" + eFeature.name.toFirstUpper
+		val getterName = eFeature.getterPrefix + eFeature.name.toFirstUpper
 		val eOp = view.createEOperation(getterName, eFeature.EType, eFeature.lowerBound, eFeature.upperBound,
 			content.toString)
 		if (eFeature.EType == null) {
@@ -534,7 +534,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 	}
 
 	private def createGetterContent(EClass eClass, EStructuralFeature eFeature) '''
-		return getInternal«eClass.name»().get«eFeature.name.toFirstUpper»();
+		return getInternal«eClass.name»().«eFeature.getterPrefix»«eFeature.name.toFirstUpper»();
 	'''
 	
 	/**
@@ -544,6 +544,8 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		modelElementsMap.values
 	}
 	
-	
+	def getterPrefix(EStructuralFeature eFeature) {
+		if (eFeature.EType.name.equals("EBoolean")) '''is''' else '''get'''
+	}
 	
 }
