@@ -108,7 +108,7 @@ class GeneratorUtils {
 	 * Returns the {@link ModelElement}'s name in first lower
 	 */
 	def flName(Type me) {
-		me.name.toFirstLower
+		"_"+me.name.toFirstLower
 	}
 	
 	/**

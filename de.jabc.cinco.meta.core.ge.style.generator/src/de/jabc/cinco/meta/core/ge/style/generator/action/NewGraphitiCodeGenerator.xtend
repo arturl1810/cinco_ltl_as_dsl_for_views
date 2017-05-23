@@ -1,5 +1,13 @@
 package de.jabc.cinco.meta.core.ge.style.generator.action
 
+import de.jabc.cinco.meta.core.ge.style.generator.api.main.CincoApiGeneratorMain
+import de.jabc.cinco.meta.core.ge.style.generator.main.GraphitiGeneratorMain
+import de.jabc.cinco.meta.core.ui.listener.MGLSelectionListener
+import de.jabc.cinco.meta.core.utils.CincoUtil
+import de.jabc.cinco.meta.core.utils.MGLUtil
+import de.jabc.cinco.meta.core.utils.generator.GeneratorUtils
+import de.jabc.cinco.meta.core.utils.projects.ProjectCreator
+import de.jabc.cinco.meta.util.xapi.FileExtension
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileNotFoundException
@@ -16,14 +24,16 @@ import java.util.List
 import java.util.Map.Entry
 import java.util.Set
 import java.util.stream.Collectors
+import mgl.GraphModel
+import mgl.GraphicalModelElement
+import mgl.IncomingEdgeElementConnection
+import mgl.OutgoingEdgeElementConnection
 import org.eclipse.core.commands.AbstractHandler
 import org.eclipse.core.commands.ExecutionEvent
 import org.eclipse.core.commands.ExecutionException
 import org.eclipse.core.resources.IFile
 import org.eclipse.core.resources.IFolder
 import org.eclipse.core.resources.IProject
-import org.eclipse.core.resources.IWorkspace
-import org.eclipse.core.resources.ResourcesPlugin
 import org.eclipse.core.runtime.CoreException
 import org.eclipse.core.runtime.FileLocator
 import org.eclipse.core.runtime.IProgressMonitor
@@ -31,25 +41,16 @@ import org.eclipse.core.runtime.NullProgressMonitor
 import org.eclipse.core.runtime.Path
 import org.eclipse.core.runtime.Platform
 import org.osgi.framework.Bundle
-import de.jabc.cinco.meta.core.ge.style.generator.api.main.CincoApiGeneratorMain
-import de.jabc.cinco.meta.core.ge.style.generator.main.GraphitiGeneratorMain
-import de.jabc.cinco.meta.core.utils.generator.GeneratorUtils
-import de.jabc.cinco.meta.core.ui.listener.MGLSelectionListener
-import de.jabc.cinco.meta.core.utils.CincoUtil
-import de.jabc.cinco.meta.core.utils.MGLUtil
-import de.jabc.cinco.meta.core.utils.projects.ProjectCreator
-import de.jabc.cinco.meta.util.xapi.FileExtension
-import de.jabc.cinco.meta.util.xapi.ResourceExtension
-import mgl.GraphModel
-import mgl.GraphicalModelElement
-import mgl.IncomingEdgeElementConnection
-import mgl.OutgoingEdgeElementConnection
+import productDefinition.CincoProduct
 
 class NewGraphitiCodeGenerator extends AbstractHandler {
+	
+	
 	IProject project = null
+	Set<String> unprocessedMGLS = new HashSet<String>()
 
 	override Object execute(ExecutionEvent event) throws ExecutionException {
-		var IFile file = MGLSelectionListener.INSTANCE.getCurrentMGLFile()
+		val IFile file = MGLSelectionListener.INSTANCE.getCurrentMGLFile()
 		var IFile cpdFile = MGLSelectionListener.INSTANCE.getSelectedCPDFile()
 		
 		if(file === null) 
@@ -57,10 +58,14 @@ class NewGraphitiCodeGenerator extends AbstractHandler {
 		if(cpdFile === null) 
 			throw new RuntimeException("No current cpd file in MGLSelectionListener...");
 		
+		val cpd = CincoUtil::getCPD(cpdFile) as CincoProduct
+		
+		
 		var NullProgressMonitor monitor = new NullProgressMonitor()
 		var String name_editorProject = file.getProject().getName().concat(".editor.graphiti")
-		var GraphModel graphModel = new FileExtension().getContent(file, mgl.GraphModel)
+		var GraphModel graphModel = new FileExtension().getContent(file, GraphModel)
 		if(graphModel === null) throw new RuntimeException('''Could not load graphmodel from file: «file»''');
+		
 		graphModel = prepareGraphModel(graphModel)
 	
 		if (project === null || !project.exists()) {
@@ -68,6 +73,12 @@ class NewGraphitiCodeGenerator extends AbstractHandler {
 			ProjectCreator.addAdditionalNature(project, monitor, "org.eclipse.xtext.ui.shared.xtextNature")
 			new GraphitiGeneratorMain(graphModel, cpdFile, CincoUtil.getStyles(graphModel)).addPerspectiveContent()
 		}
+		
+		if (unprocessedMGLS.nullOrEmpty) {
+			unprocessedMGLS.addAll(cpd.mgls.map[mglPath])
+			project.getFolder("src-gen").delete(true, null)
+		}
+		
 		copyImages(graphModel, project)
 		addExpPackages(graphModel).forEach[ProjectCreator.exportPackage(project, it)]
 		var GraphitiGeneratorMain editorGenerator = new GraphitiGeneratorMain(graphModel, cpdFile,CincoUtil.getStyles(graphModel))
@@ -75,6 +86,8 @@ class NewGraphitiCodeGenerator extends AbstractHandler {
 		
 		var CincoApiGeneratorMain apiGenerator = new CincoApiGeneratorMain(graphModel)
 		apiGenerator.doGenerate(project)
+		println(file.projectRelativePath)
+		unprocessedMGLS.remove(file.projectRelativePath.toString)
 		
 		return null
 	}

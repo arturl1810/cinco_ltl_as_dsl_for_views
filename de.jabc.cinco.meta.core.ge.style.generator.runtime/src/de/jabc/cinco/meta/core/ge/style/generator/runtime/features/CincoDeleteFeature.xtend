@@ -1,4 +1,12 @@
 package de.jabc.cinco.meta.core.ge.style.generator.runtime.features
+
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.adapter.CincoEContentAdapter
+import graphmodel.internal.InternalContainer
+import graphmodel.internal.InternalEdge
+import graphmodel.internal.InternalGraphModel
+import graphmodel.internal.InternalModelElement
+import graphmodel.internal.InternalModelElementContainer
+import graphmodel.internal.InternalNode
 import java.util.ArrayList
 import java.util.List
 import java.util.stream.Collectors
@@ -16,19 +24,14 @@ import org.eclipse.graphiti.mm.pictograms.Connection
 import org.eclipse.graphiti.mm.pictograms.PictogramElement
 import org.eclipse.graphiti.services.Graphiti
 import org.eclipse.graphiti.ui.features.DefaultDeleteFeature
-import de.jabc.cinco.meta.core.ge.style.generator.runtime.adapter.CincoEContentAdapter
-import graphmodel.ModelElement
-import graphmodel.internal.InternalContainer
-import graphmodel.internal.InternalEdge
-import graphmodel.internal.InternalGraphModel
-import graphmodel.internal.InternalModelElement
-import graphmodel.internal.InternalModelElementContainer
-import graphmodel.internal.InternalNode
+
 abstract class CincoDeleteFeature extends DefaultDeleteFeature {
+	 
 	 new(IFeatureProvider fp) {
 		super(fp)// TODO Auto-generated constructor stub
 		
 	}
+	
 	def abstract boolean canDelete(IDeleteContext dc, boolean apiCall) 
 	
 	override void preDelete(IDeleteContext context) {
@@ -51,8 +54,8 @@ abstract class CincoDeleteFeature extends DefaultDeleteFeature {
 	}
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.graphiti.ui.features.DefaultDeleteFeature#delete(org.eclipse.graphiti.features.context.IDeleteContext)
-	 * Copied the method from @see org.eclipse.graphiti.ui.features.DefaultDeleteFeature#delete(org.eclipse.graphiti.features.context.IDeleteContext)
+	 * @see DefaultDeleteFeature#delete(org.eclipse.graphiti.features.context.IDeleteContext)
+	 * Copied the method from @see DefaultDeleteFeature#delete(org.eclipse.graphiti.features.context.IDeleteContext)
 	 * with one change: The required remove feature is created instead of retrieved from the feature provider. As consequence, it is possible to 
 	 * disable the default "Remove" entry in the context menu. 
 	 */
