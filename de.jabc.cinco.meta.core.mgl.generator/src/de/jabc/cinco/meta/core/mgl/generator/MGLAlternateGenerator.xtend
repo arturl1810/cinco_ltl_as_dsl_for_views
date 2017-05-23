@@ -545,7 +545,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 	}
 	
 	def getterPrefix(EStructuralFeature eFeature) {
-		if (eFeature.EType.name.equals("EBoolean")) '''is''' else '''get'''
+		if (eFeature.EType != null && eFeature.EType.name.equals("EBoolean")) '''is''' else '''get'''
 	}
 	
 }

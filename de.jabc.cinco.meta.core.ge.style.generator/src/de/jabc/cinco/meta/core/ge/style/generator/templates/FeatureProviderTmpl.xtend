@@ -233,7 +233,7 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 			«EObject.name» bo = («EObject.name») o;
 
 «««			Specific update feature needed due to appearance provider...
-			«FOR me : gm.modelElements.filter[!(it instanceof GraphModel)]»
+			«FOR me : gm.modelElements.filter[!(it instanceof GraphModel) && !isIsAbstract]»
 			if («me.internalInstanceofCheck("bo")»)
 				return new «me.packageNameUpdate».UpdateFeature«me.fuName»(this);
 			«ENDFOR»

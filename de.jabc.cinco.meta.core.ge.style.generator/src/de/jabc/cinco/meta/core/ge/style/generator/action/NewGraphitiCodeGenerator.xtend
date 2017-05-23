@@ -75,7 +75,7 @@ class NewGraphitiCodeGenerator extends AbstractHandler {
 		}
 		
 		if (unprocessedMGLS.nullOrEmpty) {
-			unprocessedMGLS.addAll(cpd.mgls.map[mglPath])
+			unprocessedMGLS.addAll(cpd.mgls.filter[!isDontGenerate].map[mglPath])
 			project.getFolder("src-gen").delete(true, null)
 		}
 		
