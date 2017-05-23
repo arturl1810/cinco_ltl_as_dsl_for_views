@@ -425,9 +425,9 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 
 	private def void createEAttributeFromAttribute(EClass eClass, Attribute attribute) {
 		if(attribute instanceof PrimitiveAttribute){
-		val eattr = eClass.createEAttribute(attribute.name, attribute.type.getEDataType, attribute.lowerBound, attribute.upperBound)
-		eattr.defaultValue = attribute.defaultValue
-		}else if(attribute instanceof ComplexAttribute){
+			val eattr = eClass.createEAttribute(attribute.name, attribute.type.getEDataType, attribute.lowerBound, attribute.upperBound)
+			eattr.defaultValue = attribute.defaultValue
+		} else if(attribute instanceof ComplexAttribute){
 			eClass.createEAttribute(attribute.name, enumMap.get(attribute.type), attribute.lowerBound, attribute.upperBound)
 		}
 
@@ -524,7 +524,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 
 	private def createGetter(EClass view, EClass modelElementClass, EStructuralFeature eFeature) {
 		val content = createGetterContent(modelElementClass, eFeature)
-		val getterName = "get" + eFeature.name.toFirstUpper
+		val getterName = if (eFeature.EType.toString.equals("EBoolean")) "is" else "get" + eFeature.name.toFirstUpper
 		val eOp = view.createEOperation(getterName, eFeature.EType, eFeature.lowerBound, eFeature.upperBound,
 			content.toString)
 		if (eFeature.EType == null) {
