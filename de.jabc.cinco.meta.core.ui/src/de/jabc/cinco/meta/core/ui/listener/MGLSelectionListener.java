@@ -5,6 +5,7 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.IWorkbenchPart;
+import productDefinition.CincoProduct;
 
 public class MGLSelectionListener implements ISelectionListener{
 
@@ -12,6 +13,7 @@ public class MGLSelectionListener implements ISelectionListener{
 	IWorkbenchPart part = null;
 	IFile selectedFile = null;
 	private IFile selectedMGLFile = null;
+	private CincoProduct selectedCPD;
 	
 	public static MGLSelectionListener INSTANCE = new MGLSelectionListener(); 
 		
@@ -46,6 +48,16 @@ public class MGLSelectionListener implements ISelectionListener{
 	
 	public IFile getSelectedCPDFile(){
 		return this.selectedFile;
+	}
+	
+	
+	public CincoProduct getSelectedCPD(){
+		return this.selectedCPD;
+	}
+
+	public void setCurrentCPD(CincoProduct cpd) {
+		this.selectedCPD = cpd;
+		
 	}
 	
 }

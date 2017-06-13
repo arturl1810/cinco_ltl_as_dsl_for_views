@@ -1,6 +1,7 @@
 package de.jabc.cinco.meta.util.xapi
 
 import java.util.HashSet
+import org.eclipse.xtext.xbase.lib.Functions.Function1
 import org.jooq.lambda.Seq
 import org.jooq.lambda.tuple.Tuple2
 
@@ -24,9 +25,16 @@ class CollectionExtension {
 	 * 		in the sequence used for distinct object checking
 	 * @return a sequence that contains only distinct values.
 	 */
-	def <T> distinctByKey(Seq<T> seq, (T) => Object keyExtractor) {
-		val seen = new HashSet
+	def <T, U> distinctByKey(Seq<T> seq, (T) => U keyExtractor) {
+		val seen = new HashSet<U>
 		seq.filter[seen += keyExtractor.apply(it)]
+	}
+	
+	/**
+	 * Convenience extension function for calling {@link Seq#distinctByKey}.
+	 */
+	def <T, U> distinctByKey(Iterable<T> iterable, (T) => U keyExtractor) {
+		iterable.seq.distinctByKey(keyExtractor)
 	}
 	
 	/**
@@ -40,9 +48,16 @@ class CollectionExtension {
 	 * 		in the sequence used for duplicate checking
 	 * @return a sequence that contains only duplicates.
 	 */
-	def <T> duplicatesByKey(Seq<T> seq, (T) => Object keyExtractor) {
-		val seen = new HashSet
+	def <T, U> duplicatesByKey(Seq<T> seq, (T) => U keyExtractor) {
+		val seen = new HashSet<U>
 		seq.filter[!(seen += keyExtractor.apply(it))]
+	}
+	
+	/**
+	 * Convenience extension function for calling {@link Seq#duplicatesByKey}.
+	 */
+	def <T, U> duplicatesByKey(Iterable<T> iterable, (T) => U keyExtractor) {
+		iterable.seq.duplicatesByKey(keyExtractor)
 	}
 	
 	/**
@@ -123,15 +138,31 @@ class CollectionExtension {
 	}
 	
 	/**
-	 * Filters keys by class from a sequence of tuples (i.e., a map sequence).
+	 * Filters keys by class from a sequence of tuples (i.e., a map sequence). That means, keys that match 
+	 * the class are returned, but keys that do not match are not. Hence, the returned sequence of tuples 
+	 * are typed with the given class. 
 	 * 
 	 * @param mapSeq a sequence of tuples.
 	 * @param c the class to filter for.
 	 * @return a mapping sequence with key/value pairs filtered by the class of the key.
 	 */
 	def <K,V, N extends K> Seq<Tuple2<N, V>> filterKeys(Seq<Tuple2<K, V>> mapSeq, Class<N> c) {
-		val it = mapSeq.unzip
+		// filter the elements that match the type from the tuples
+		val it = mapSeq.filter[c.isInstance(v1)].unzip
+		// cast the keys to the matched type (the filtering is done before on the tuples!)
 		v1.ofType(c).zip(v2)
+	}
+	
+	/**
+	 * Filters keys by lambda from a sequence of tuples (i.e., a map sequence). That means, keys that match 
+	 * the given filter criterion (represented by the lambda) are returned.
+	 * 
+	 * @param mapSeq a sequence of tuples.
+	 * @param keyExtractor the filter criterion.
+	 * @return a  mapping sequence with key/value pairs filtered by the filter criterion {@code keyExtractor}.
+	 */
+	def <K, V> filterKeys(Seq<Tuple2<K, V>> mapSeq, (K) => boolean keyExtractor) {
+		mapSeq.filter[keyExtractor.apply(v1)]
 	}
 	
 	/**
@@ -194,5 +225,40 @@ class CollectionExtension {
 		val dupe = seq.duplicate
 		val deleteItems = dupe.v1.flatMap[associator.apply(it)].distinct
 		dupe.v2.removeAll(deleteItems)
+	}
+	
+	/**
+	 * Returns the elements of {@code unfiltered} that do not satisfy a predicate. The resulting
+	 * iterable's iterator does not support {@code remove()}. The returned iterable is a view on
+	 * the original elements. Changes in the unfiltered original are reflected in the view.
+	 * 
+	 * @param unfiltered
+	 *            the unfiltered iterable. May not be <code>null</code>.
+	 * @param predicate
+	 *            the predicate. May not be <code>null</code>.
+	 * @return an iterable that contains only the elements that do not fulfill the predicate.
+	 *   Never <code>null</code>.
+	 */
+	@Pure
+	def <T> Iterable<T> drop(Iterable<T> unfiltered, Function1<? super T, Boolean> predicate) {
+		unfiltered.filter[!predicate.apply(it)]
+	}
+	
+	/**
+	 * Returns all instances that are not of class {@code type} in {@code unfiltered}. The returned
+	 * iterable has elements whose class is neither {@code type} or a subclass of {@code type}. The
+	 * returned iterable's iterator does not support {@code remove()}. The returned iterable is a
+	 * view on the original elements. Changes in the unfiltered original are reflected in the view.
+	 * 
+	 * @param unfiltered
+	 *            the unfiltered iterable. May not be <code>null</code>.
+	 * @param type
+	 *            the type of elements to be dropped
+	 * @return an iterable containing all elements of the original iterable that are not of the type
+	 *   to be excluded. Never <code>null</code>.
+	 */
+	@Pure
+	def <T> Iterable<T> drop(Iterable<T> unfiltered, Class<?> type) {
+		unfiltered.filter[!type.isInstance(it)]
 	}
 }

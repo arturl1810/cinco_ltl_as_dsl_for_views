@@ -96,10 +96,11 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 			return null;
 		
 		init(); // retrieve command service and cpd file
-		mglTopSort(); // collect and sort mgl files
+		int numMGLs = countMGLsToGenerate();
 		
 		Workload job = job("Generate Cinco Product")
 		  .consume(10, "Initializing...")
+		    .task("Collecting MGLs...", this::mglTopSort)
 			.task("Disabling auto-build...", this::disableAutoBuild)
 		    .task("Deleting previously generated resources...", this::deleteGeneratedResources)
 		    .task("Resetting registries...", this::resetRegistries);
@@ -109,7 +110,7 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 //		job.consume(20, "Preprocess MGLs").task(() -> backuppedMGLs.putAll(preprocessMGLs(mgls)));
 		
 		// TODO this could be much nicer with nested jobs or JOOL/Seq and Xtend
-		job.consume(50 * mgls.size(), "Processing mgls").taskForEach(() ->
+		job.consume(50 * numMGLs, "Processing MGLs").taskForEach(() ->
 			mgls.stream().flatMap(file -> {
 				final List<Pair<String, Runnable>> pairs = new LinkedList<>();
 				pairs.add(new Pair<>(String.format("Initializing... %s", file.getFullPath().lastSegment()), () -> publishMglFile(file)));
@@ -136,7 +137,7 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 			.task("Generating project wizard...", this::generateProjectWizard);
 		
 		if (isGratextEnabled()) {
-			job.consumeConcurrent(mgls.size() * 60, "Building Gratext...")
+			job.consumeConcurrent(60 * numMGLs, "Building Gratext...")
 			    .taskForEach(() -> mgls.stream(), this::buildGratext,
 						t -> t.getFullPath().lastSegment());
 		}
@@ -253,6 +254,7 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 		cpdFile = MGLSelectionListener.INSTANCE.getSelectedCPDFile();
 		fileHelper = new FileExtension();
 		cpd = fileHelper.getContent(cpdFile, CincoProduct.class, 0);
+		MGLSelectionListener.INSTANCE.setCurrentCPD(cpd);
 	}
 
 	private void resetRegistries() {
@@ -435,8 +437,12 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 						//ArrayList<String> before = new ArrayList<String>();
 						for(Import imprt : gm.getImports()){
 							if(imprt.getImportURI().endsWith(".mgl")){
-								if(!imprt.isStealth())
-									dn.getDependsOf().add(imprt.getImportURI().replace("platform:/resource/"+projectSymbolicName,""));
+								if(!imprt.isStealth()) {
+									String importStr = imprt.getImportURI().replace("platform:/resource/"+projectSymbolicName+"/","");
+									if (importStr.startsWith("/"))
+										importStr = importStr.substring(1);
+									dn.getDependsOf().add(importStr);
+								}
 							}
 						}
 						dns.add(dn);
@@ -483,6 +489,10 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 //		List<String> lst = mglPrios.entrySet().stream().sorted((a,b) -> Integer.compare(a.getValue(),b.getValue())).map(e -> e.getKey()).collect(Collectors.toList());
 //		return Lists.reverse(lst);
 		
+	}
+	
+	private int countMGLsToGenerate() {
+		return (int) cpd.getMgls().stream().filter((mgl) -> !mgl.isDontGenerate()).count();
 	}
 
 	private EPackage getEPackageForMGL(IFile mglFile, IProject project){

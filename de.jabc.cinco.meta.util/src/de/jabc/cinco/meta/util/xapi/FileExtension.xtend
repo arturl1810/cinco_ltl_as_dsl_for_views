@@ -56,7 +56,7 @@ class FileExtension {
 	 */
 	def getEditor(IFile file) {
 		extension val ext = new WorkbenchExtension
-		getActiveEditor[resource == file.resource]
+		getEditor[resource == file.resource]
 	}
 	
 	/**

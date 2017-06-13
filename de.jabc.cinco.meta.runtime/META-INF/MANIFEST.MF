@@ -13,7 +13,7 @@ Require-Bundle: com.google.guava,
  org.eclipse.core.resources,
  org.eclipse.emf.edit,
  org.eclipse.graphiti,
- de.jabc.cinco.meta.util
+ de.jabc.cinco.meta.util;visibility:=reexport
 Import-Package: graphmodel,
  graphmodel.internal,
  org.eclipse.emf.ecore.resource,

@@ -121,21 +121,21 @@ class ResourceExtension {
 	 */
 	def getEditor(Resource res) {
 		extension val ext = new WorkbenchExtension
-		getActiveEditor[resource == res]
+		getEditor[resource == res]
 	}
 	
 	/**
-	 * Convenient method to wrap a modification of an EObject in a recording command.
+	 * Convenient method to wrap a modification of a {@link Resource} in a
+	 * {@link RecordingCommand}.
+	 * Retrieves a {@link TransactionalEditingDomain} for the specified object
+	 * via {@link TransactionUtil#getEditingDomain(EObject)}. If none is found,
+	 * a new one is created.
 	 * 
-	 * <p>Retrieves a TransactionalEditingDomain for the specified object via the
-	 * {@linkplain TransactionUtil#getEditingDomain(EObject)}, hence it should be ensured
-	 * that it exists.
-	 * 
-	 * @param obj  The object for which to access the TransactionalEditingDomain.
-	 * @return  An Edit object whose application is wrapped into the recording command.
+	 * @param resource to be modified.
+	 * @param runnable that performs the actual modification.
 	 */
-	def transact(Resource res, Runnable runnable) {
-		val domain = getEditingDomain(res)
+	def transact(Resource resource, Runnable runnable) {
+		val domain = resource.editingDomain
 		domain.commandStack.execute(new RecordingCommand(domain) {
 			override protected doExecute() {
 				try { runnable.run } catch(IllegalStateException e) {

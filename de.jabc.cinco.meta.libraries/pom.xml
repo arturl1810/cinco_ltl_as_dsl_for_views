@@ -364,6 +364,12 @@
 								  <artifactId>jool</artifactId>
 								  <version>0.9.12</version>
 								</artifactItem>
+								<artifactItem>
+								  <groupId>org.jooq</groupId>
+								  <artifactId>jool</artifactId>
+                                  <classifier>sources</classifier>
+								  <version>0.9.12</version>
+								</artifactItem>
 							</artifactItems>
 							<outputDirectory>${basedir}/lib</outputDirectory>
 							<overWriteReleases>false</overWriteReleases>

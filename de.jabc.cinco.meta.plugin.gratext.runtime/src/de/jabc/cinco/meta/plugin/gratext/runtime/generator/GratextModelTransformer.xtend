@@ -17,6 +17,7 @@ import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.EReference
 import org.eclipse.emf.ecore.EStructuralFeature
+import java.util.IdentityHashMap
 
 class GratextModelTransformer {
 	

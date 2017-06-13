@@ -102,7 +102,6 @@ public abstract class Highlighter {
 	 * @return
 	 */
 	public Highlighter listenToPaletteDrag(PaletteViewer viewer) {
-		System.out.println("Add PaletteDragSourceListener to " + viewer);
 		viewer.addDragSourceListener(new PaletteDragSourceListener(viewer));
 		return this;
 	}

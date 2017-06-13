@@ -271,7 +271,7 @@
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>new $context.className$(getFeatureProvider()).execute(cc);
+      <string>new de.jabc.cinco.meta.core.ge.style.model.customfeature.CincoPostValueChangeFeature(getFeatureProvider(), $context.className$()).execute(cc);
 </string>
     </parameter>
     <finalbranches>default</finalbranches>
@@ -384,7 +384,7 @@
       </de.metaframe.jabc.framework.sib.parameter.ContextKey>
     </parameter>
     <parameter name="template">
-      <string>new $context.className$(getFeatureProvider()).execute(cc);
+      <string>new de.jabc.cinco.meta.core.ge.style.model.customfeature.CincoPostValueChangeFeature(getFeatureProvider(), new $context.className$()).execute(cc);
 </string>
     </parameter>
     <finalbranches>default</finalbranches>

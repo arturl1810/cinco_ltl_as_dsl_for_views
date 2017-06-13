@@ -319,35 +319,38 @@ public class $context.graphModelName$LayoutUtils {
 		}
 	}
 
-	public static void createCIRCLE(GraphicsAlgorithmContainer gaContainer) {
+	public static void createCIRCLE(GraphicsAlgorithmContainer gaContainer, int lineWidth) {
 		IGaService gaService = Graphiti.getGaService();
-		IPeService peService = Graphiti.getPeService();
 		Ellipse tmp = gaService.createEllipse(gaContainer);
-		gaService.setSize(tmp, 12, 12);
-		gaService.setLocation(tmp, tmp.getX() + $context.xDelta$, tmp.getY());
+		int size = 12+lineWidth*2;
+		gaService.setSize(tmp, size, size);
+		gaService.setLocation(tmp, tmp.getX() - 2, tmp.getY());
 		tmp.setFilled(true);
 	}
 
-	public static  void createTRIANGLE(GraphicsAlgorithmContainer gaContainer) {
+	public static void createTRIANGLE(GraphicsAlgorithmContainer gaContainer, int lineWidth) {
 		IGaService gaService = Graphiti.getGaService();
-		IPeService peService = Graphiti.getPeService();
-		Polygon tmp = gaService.createPolygon(gaContainer, new int[] {-11,-8, 0,0, -11,8, -11,-8});
-		gaService.setLocation(tmp, tmp.getX() + $context.xDelta$, tmp.getY());
+		int dX = 10 + lineWidth*2;
+		int dY = (int) (5 + lineWidth*1.5);
+		Polygon tmp = gaService.createPolygon(gaContainer, new int[] { -dX,-dY,  0,0,  -dX,dY });
+		gaService.setLocation(tmp, tmp.getX() + 2, tmp.getY());
 		tmp.setFilled(true);
 	}
 
-	public static  void createARROW(GraphicsAlgorithmContainer gaContainer) {
+	public static void createARROW(GraphicsAlgorithmContainer gaContainer, int lineWidth) {
 		IGaService gaService = Graphiti.getGaService();
-		IPeService peService = Graphiti.getPeService();
-		Polyline tmp = gaService.createPolyline(gaContainer, new int[] {-10,-4, 0,0, -10,4});
-		gaService.setLocation(tmp, tmp.getX() + $context.xDelta$, tmp.getY());
+		int dX = 7 + lineWidth*2;
+		int dY = 1 + lineWidth*2;
+		Polyline tmp = gaService.createPolyline(gaContainer, new int[] { -dX,-dY,  0,0,  -dX,dY });
+		gaService.setLocation(tmp, tmp.getX() + 2, tmp.getY());
 	}
 
-	public static  void createDIAMOND(GraphicsAlgorithmContainer gaContainer) {
+	public static void createDIAMOND(GraphicsAlgorithmContainer gaContainer, int lineWidth) {
 		IGaService gaService = Graphiti.getGaService();
-		IPeService peService = Graphiti.getPeService();
-		Polygon tmp = gaService.createPolygon(gaContainer, new int[] {-9,-6, 0,0, -9,6, -18,0, -9,-6});
-		gaService.setLocation(tmp, tmp.getX() + $context.xDelta$, tmp.getY());
+		int dX = 8 + lineWidth;
+		int dY = 5 + lineWidth;
+		Polygon tmp = gaService.createPolygon(gaContainer, new int[] { -dX,-dY,  0,0,  -dX,dY,  -dX*2,0 });
+		gaService.setLocation(tmp, tmp.getX() + 2, tmp.getY());
 		tmp.setFilled(true);
 	}
 	

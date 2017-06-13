@@ -1,6 +1,5 @@
 package de.jabc.cinco.meta.runtime.xapi
 
-import de.jabc.cinco.meta.util.xapi.WorkspaceExtension
 import graphmodel.GraphModel
 import graphmodel.IdentifiableElement
 import java.util.function.Predicate
@@ -23,117 +22,265 @@ import static org.eclipse.emf.ecore.util.EcoreUtil.equals
  */
 class WorkbenchExtension extends de.jabc.cinco.meta.util.xapi.WorkbenchExtension {
 	
+	/**
+	 * Retrieves the diagram that currently is edited in the active editor
+	 * in the active workbench window.
+	 * Returns {@code null} if any of these entities cannot be retrieved instead
+	 * of throwing exceptions.
+	 * 
+	 * @return the active diagram, or {@code null} if it cannot be retrieved
+	 *   for whatever reason.
+	 */
+	def getActiveDiagram() {
+		activeDiagramEditor?.diagram
+	}
+	
+	/**
+	 * Retrieves the graph model that currently is edited in the active editor
+	 * in the active workbench window.
+	 * Returns {@code null} if any of these entities cannot be retrieved instead
+	 * of throwing exceptions.
+	 * 
+	 * @return the active graph model, or {@code null} if it cannot be retrieved
+	 *   for whatever reason.
+	 */
+	def getActiveGraphModel() {
+		activeEditor?.graphModel
+	}
+	
+	/**
+	 * Retrieves the active editor in the active page of the active workbench window,
+	 * iff it is a diagram editor.
+	 * Returns {@code null} if any of these entities cannot be retrieved instead
+	 * of throwing exceptions.
+	 * 
+	 * @return the active diagram editor, or {@code null} if the active editor 
+	 *   cannot be retrieved for whatever reason or it is not a diagram editor.
+	 * @see #getActiveEditor()
+	 */
 	def DiagramEditor getActiveDiagramEditor() {
 		activeEditor?.getDiagramEditor
 	}
 	
-	def getActiveDiagram() {
-		val ae = activeDiagramEditor
-		ae?.diagram
+	/**
+	 * Retrieves the active editor in the active page of the active workbench window,
+	 * iff it is a diagram editor and it fulfills the specified predicate.
+	 * Returns {@code null} if any of these entities cannot be retrieved instead
+	 * of throwing exceptions.
+	 * 
+	 * @param predicate to be tested against the diagram editor.
+	 * @return the active diagram editor, or {@code null} if the active editor 
+	 *   cannot be retrieved for whatever reason or it is not a diagram editor
+	 *   or it does not fulfill the specified predicate.
+	 * @see #getActiveEditor()
+	 */
+	def getDiagramEditor(Predicate<DiagramEditor> predicate) {
+		activePage?.editorReferences
+			?.map[getEditor(true)?.diagramEditor]
+			.filterNull
+			.findFirst[predicate.test(it)]
 	}
 	
-	def getActiveDiagramEditor(Predicate<DiagramEditor> predicate) {
-		activePage?.editorReferences.findFirst[ref |
-			predicate.test(ref.getEditor(true)?.diagramEditor)
-		]?.getEditor(true)?.diagramEditor
-	}
-	
+	/**
+	 * Retrieves the diagram editor from the specified editor. This is either
+	 * the specified editor itself or if the selected page of the specified
+	 * editor if it is a multi-page editor and the selected page is a diagram
+	 * editor.
+	 * 
+	 * @param editor to retrieve the diagram editor from.
+	 * @return the active diagram editor, or {@code null} if it cannot be
+	 *   retrieved for whatever reason.
+	 */
 	def DiagramEditor getDiagramEditor(IEditorPart editor) {
 		switch editor {
-			MultiPageEditorPart: switch editor.selectedPage {
-				DiagramEditor: editor.selectedPage as DiagramEditor
-			}
+			MultiPageEditorPart: 
+				switch editor.selectedPage {
+					DiagramEditor: editor.selectedPage as DiagramEditor
+				}
 			DiagramEditor: editor
 		}
 	}
 	
+	/**
+	 * Retrieves the diagram editor of the specified diagram.
+	 * 
+	 * @param diagram to retrieve the editor for.
+	 * @return the diagram editor, or {@code null} if it cannot be
+	 *   retrieved for whatever reason.
+	 */
 	def DiagramEditor getEditor(Diagram diagram) {
-		getActiveDiagramEditor[editor | editor.diagram == diagram]
+		getDiagramEditor[editor | editor.diagram == diagram]
 	}
 	
 	/**
-	 * Retrieves the editor the pictogram element is currently edited in, if existent.
-	 * This is done by comparing the underlying resource that represents this
-	 * editor's input with the resource of the pictogram element.
+	 * Retrieves the diagram editor of the specified pictogram element.
+	 * 
+	 * @param pictogramElement to retrieve the editor for.
+	 * @return the diagram editor, or {@code null} if it cannot be
+	 *   retrieved for whatever reason.
 	 */
 	def getEditor(PictogramElement pictogramElement) {
-		getActiveDiagramEditor[resource == pictogramElement.eResource]
+		getDiagramEditor[resource == pictogramElement.eResource]
 	}
 	
 	/**
-	 * Retrieves the editor the model element is currently edited in, if existent.
-	 * This is done by comparing the underlying resource that represents this
-	 * editor's input with the resource of the model element.
+	 * Retrieves the diagram editor of the specified model element.
+	 * 
+	 * @param modelElement to retrieve the editor for.
+	 * @return the diagram editor, or {@code null} if it cannot be
+	 *   retrieved for whatever reason.
 	 */
 	def getEditor(IdentifiableElement modelElement) {
-		getActiveDiagramEditor[resource == modelElement.eResource]
+		getDiagramEditor[resource == modelElement.eResource]
 	}
 	
-	def getDiagram(PictogramElement pe) {
-		EcoreUtil.getRootContainer(pe) as Diagram
+	/**
+	 * Retrieves the diagram of the specified pictogram element.
+	 * 
+	 * @param pictogramElement to retrieve the diagram for.
+	 * @return the diagram, or {@code null} if it cannot be
+	 *   retrieved for whatever reason.
+	 */
+	def getDiagram(PictogramElement pictogramElement) {
+		EcoreUtil.getRootContainer(pictogramElement) as Diagram
 	}
 	
+	/**
+	 * Retrieves the diagram of the specified model element.
+	 * 
+	 * @param modelElement to retrieve the diagram for.
+	 * @return the diagram, or {@code null} if it cannot be
+	 *   retrieved for whatever reason.
+	 */
 	def getDiagram(IdentifiableElement modelElement) {
 		extension val ext = new ResourceExtension
 		modelElement.eResource?.diagram
 	}
 	
+	/**
+	 * Retrieves the {@link DiagramBehavior} of the specified diagram.
+	 * 
+	 * @param diagram to retrieve the {@link DiagramBehavior} for.
+	 * @return the {@link DiagramBehavior}, or {@code null} if it cannot be
+	 *   retrieved for whatever reason.
+	 */
 	def getDiagramBehavior(Diagram diagram) {
 		diagram.editor?.diagramBehavior
 	}
 	
-	def getDiagramBehavior(PictogramElement pe) {
-		pe.editor?.diagramBehavior
+	/**
+	 * Retrieves the {@link DiagramBehavior} of the diagram of the specified
+	 * pictogram element.
+	 * 
+	 * @param pictogramElement to retrieve the {@link DiagramBehavior} for.
+	 * @return the {@link DiagramBehavior}, or {@code null} if it cannot be
+	 *   retrieved for whatever reason.
+	 */
+	def getDiagramBehavior(PictogramElement pictogramElement) {
+		pictogramElement.editor?.diagramBehavior
 	}
 	
+	/**
+	 * Retrieves the {@link DiagramTypeProvider} of the specified
+	 * diagram editor.
+	 * 
+	 * @param editor to retrieve the {@link DiagramTypeProvider} for.
+	 * @return the {@link DiagramTypeProvider}, or {@code null} if it cannot
+	 *   be retrieved for whatever reason.
+	 */
 	def getDiagramTypeProvider(DiagramEditor editor) {
 		editor?.diagramTypeProvider
 	}
 	
+	/**
+	 * Retrieves the {@link DiagramTypeProvider} of the specified diagram.
+	 * 
+	 * @param diagram to retrieve the {@link DiagramTypeProvider} for.
+	 * @return the {@link DiagramTypeProvider}, or {@code null} if it cannot
+	 *   be retrieved for whatever reason.
+	 */
 	def getDiagramTypeProvider(Diagram diagram) {
 		diagram.editor?.diagramTypeProvider
 	}
 	
-	def getDiagramTypeProvider(PictogramElement pe) {
-		pe.editor?.diagramTypeProvider
+	/**
+	 * Retrieves the {@link DiagramTypeProvider} of the specified pictogram
+	 * element.
+	 * 
+	 * @param pictogramElement to retrieve the {@link DiagramTypeProvider} for.
+	 * @return the {@link DiagramTypeProvider}, or {@code null} if it cannot
+	 *   be retrieved for whatever reason.
+	 */
+	def getDiagramTypeProvider(PictogramElement pictogramElement) {
+		pictogramElement.editor?.diagramTypeProvider
 	}
 	
+	/**
+	 * Retrieves the {@link FeatureProvider} of the specified diagram editor.
+	 * 
+	 * @param editor to retrieve the {@link FeatureProvider} for.
+	 * @return the {@link FeatureProvider}, or {@code null} if it cannot
+	 *   be retrieved for whatever reason.
+	 */
 	def getFeatureProvider(DiagramEditor editor) {
 		editor.diagramTypeProvider?.featureProvider
 	}
 	
+	/**
+	 * Retrieves the {@link FeatureProvider} of the specified diagram.
+	 * 
+	 * @param diagram to retrieve the {@link FeatureProvider} for.
+	 * @return the {@link FeatureProvider}, or {@code null} if it cannot
+	 *   be retrieved for whatever reason.
+	 */
 	def getFeatureProvider(Diagram diagram) {
 		diagram.diagramTypeProvider?.featureProvider
 	}
 	
-	def getFeatureProvider(PictogramElement pe) {
-		pe.diagramTypeProvider?.featureProvider
+	/**
+	 * Retrieves the {@link FeatureProvider} of the specified pictogram element.
+	 * 
+	 * @param pictogramElement to retrieve the {@link FeatureProvider} for.
+	 * @return the {@link FeatureProvider}, or {@code null} if it cannot
+	 *   be retrieved for whatever reason.
+	 */
+	def getFeatureProvider(PictogramElement pictogramElement) {
+		pictogramElement.diagramTypeProvider?.featureProvider
 	}
 	
-	def getBusinessObject(DiagramEditor editor, PictogramElement pe) {
-		editor.featureProvider?.getBusinessObjectForPictogramElement(pe)
+	/**
+	 * Retrieves the business object linked to the specified pictogram element.
+	 * 
+	 * @param pictogramElement to retrieve the business object for.
+	 * @return the business object, or {@code null} if it cannot
+	 *   be retrieved for whatever reason.
+	 */
+	def getBusinessObject(PictogramElement pictogramElement) {
+		pictogramElement.editor?.featureProvider?.getBusinessObjectForPictogramElement(pictogramElement)
 	}
 	
-	def getBusinessObject(PictogramElement pe) {
-		pe.editor?.getBusinessObject(pe)
-	}
-	
-	def getPictogramElement(DiagramEditor editor, Object businessObject) {
-		editor.featureProvider?.getPictogramElementForBusinessObject(businessObject)
-	}
-	
-	def getPictogramElement(Diagram diagram, EObject businessObject) {
-		diagram.pictogramLinks
-			.filter[businessObjects.exists[equals(it, businessObject)]]
+	/**
+	 * Retrieves the pictogram element linked to the specified element.
+	 * 
+	 * @param element to retrieve the pictogram element for.
+	 * @return the pictogram element, or {@code null} if it cannot
+	 *   be retrieved for whatever reason.
+	 */
+	def getPictogramElement(IdentifiableElement element) {
+		extension val ResourceExtension = new ResourceExtension
+		element.eResource?.diagram?.pictogramLinks
+			.filter[businessObjects.exists[equals(it, element)]]
 			.map[pictogramElement]
 			.findFirst[it != null]
 	}
 	
-	def getPictogramElement(IdentifiableElement element) {
-		extension val ResourceExtension = new ResourceExtension
-		element.eResource.diagram.getPictogramElement(element)
-	}
-	
+	/**
+	 * Retrieves the pictogram element linked to the specified element.
+	 * 
+	 * @param element to retrieve the pictogram element for.
+	 * @return the pictogram element, or {@code null} if it cannot
+	 *   be retrieved for whatever reason.
+	 */
 	def testBusinessObjectType(PictogramElement pe, Class<?> cls) {
 		val bo = pe.businessObject
 		bo != null && cls.isAssignableFrom(bo.class)
@@ -143,7 +290,7 @@ class WorkbenchExtension extends de.jabc.cinco.meta.util.xapi.WorkbenchExtension
 	 * Retrieves the diagram that is currently edited in the specified editor.
 	 */
 	def getDiagram(DiagramEditor editor) {
-		editor.diagramTypeProvider.diagram
+		editor.diagramTypeProvider?.diagram
 	}
 	
 	/**
@@ -164,7 +311,7 @@ class WorkbenchExtension extends de.jabc.cinco.meta.util.xapi.WorkbenchExtension
 	 */
 	def getDiagram(IEditorPart editor) {
 		extension val ext = new ResourceExtension
-		editor.resource.diagram
+		editor?.resource?.diagram
 	}
 	
 	/**
@@ -185,7 +332,7 @@ class WorkbenchExtension extends de.jabc.cinco.meta.util.xapi.WorkbenchExtension
 	 */
 	def getGraphModel(IEditorPart editor) {
 		extension val ext = new ResourceExtension
-		editor.resource.graphModel
+		editor.resource?.graphModel
 	}
 	
 	/**
@@ -207,7 +354,7 @@ class WorkbenchExtension extends de.jabc.cinco.meta.util.xapi.WorkbenchExtension
 	 */
 	def <T extends GraphModel> T getGraphModel(IEditorPart editor, Class<T> modelClass) {
 		extension val ext = new ResourceExtension
-		editor.resource.getContent(modelClass, 1)
+		editor?.resource?.getContent(modelClass, 1)
 	}
 	
 	def getLinkedGraphModel(Diagram diagram) {
@@ -223,7 +370,7 @@ class WorkbenchExtension extends de.jabc.cinco.meta.util.xapi.WorkbenchExtension
 	}
 	
 	def refreshDecorators(PictogramElement pe) {
-		async[| pe.editor.diagramBehavior?.refreshRenderingDecorators(pe) ]
+		async[| pe.editor?.diagramBehavior?.refreshRenderingDecorators(pe) ]
 	}
 	
 	def getDisplay() {

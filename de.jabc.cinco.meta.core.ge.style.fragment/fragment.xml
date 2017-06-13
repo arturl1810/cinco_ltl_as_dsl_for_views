@@ -137,6 +137,9 @@
       <attribute-annotation
             recognized-annotation="file">
       </attribute-annotation>
+      <graphmodel-annotation
+            recognized-annotation="disableHighlight">
+      </graphmodel-annotation>
    </extension>
 
 </fragment>

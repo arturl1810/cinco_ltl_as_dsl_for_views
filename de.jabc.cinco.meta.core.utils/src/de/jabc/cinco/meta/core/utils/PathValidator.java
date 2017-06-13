@@ -46,7 +46,7 @@ public class PathValidator {
 		}
 		
 		else {
-			return checkRelativePath(path);
+			return checkFileExists(getFile(path));
 		}
 	}
 
@@ -63,11 +63,9 @@ public class PathValidator {
 		}
 		
 		else {
-			retval = checkRelativePath(path);
-			if (retval == null || retval.isEmpty()) {
-				return pathToURI(path);
-			}
-				
+			IFile file = getFile(path);
+			if (file.exists())
+				return getURI(file);
 		}
 		return null;
 	}
@@ -170,6 +168,18 @@ public class PathValidator {
 			return null;
 		return URI.createPlatformResourceURI(file.getFullPath().toPortableString(), true);
 	}
+	private static String checkFileExists(IFile file) {
+        if (!file.exists()) {
+			return "The specified file: \""+file.getFullPath()+"\" does not exist.";
+		}
+		return "";
+	}
+	
+	private static URI getURI(IFile file) {
+        if (!file.exists()) 
+			return null;
+		return URI.createPlatformResourceURI(file.getFullPath().toPortableString(), true);
+	}
 	
 	private static URL pathToURL(URI resURI, String path) {
         if (path != null && path.isEmpty())
@@ -214,4 +224,19 @@ public class PathValidator {
 		return file;
 	}
 	
+	private static IFile getFile(String path) {
+        if (path == null || path.isEmpty())
+        	return null;
+        IFile resFile = null;
+        if (res.getURI().isPlatform()) {
+        	resFile = root.getFile(new Path(res.getURI().toPlatformString(true)));
+        } else {
+        	resFile = root.getFileForLocation(Path.fromOSString(res.getURI().path()));
+        }
+        URI uri = URI.createURI(path);
+        if (uri.isPlatform())
+        	return root.getFile(new Path(uri.toPlatformString(true)));
+        else
+        	return resFile.getProject().getFile(path);
+	}
 }

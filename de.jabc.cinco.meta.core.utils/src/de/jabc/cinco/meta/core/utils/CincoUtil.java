@@ -46,6 +46,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
 import de.jabc.cinco.meta.util.xapi.FileExtension;
+import de.jabc.cinco.meta.util.xapi.WorkspaceExtension;
+import mgl.Annotatable;
 import mgl.Annotation;
 import mgl.Attribute;
 import mgl.Edge;
@@ -61,6 +63,9 @@ import style.Styles;
 
 
 public class CincoUtil {
+	
+	static WorkspaceExtension workspaceExtension = new WorkspaceExtension();
+	static FileExtension fileExtension = new FileExtension();
 
 	public static final String ID_STYLE = "style";
 	public static final String ID_ICON = "icon";
@@ -72,8 +77,12 @@ public class CincoUtil {
 	public static final String ID_DISABLE_RECONNECT = "reconnect";
 	public static final String ID_DISABLE_SELECT = "select";
 	public static final String ID_ATTRIBUTE_HIDDEN = "propertiesViewHidden";
+	public static final String ID_DISABLE_HIGHLIGHT = "disableHighlight";
+	public static final String ID_DISABLE_HIGHLIGHT_CONTAINMENT = "containment";
+	public static final String ID_DISABLE_HIGHLIGHT_RECONNECTION = "reconnection";
 	public static Set<String> DISABLE_NODE_VALUES = new HashSet<String>(Arrays.asList("create", "delete", "move", "resize", "select"));
 	public static Set<String> DISABLE_EDGE_VALUES = new HashSet<String>(Arrays.asList("create", "delete", "reconnect", "select"));
+	public static Set<String> DISABLE_HIGHLIGHT_VALUES = new HashSet<String>(Arrays.asList("containment", "reconnection"));
 	
 	private final static String PLUGIN_FRAME = "<?xml version=\"1.0\" encoding=\""+System.getProperty("file.encoding")+"\"?>\n"
 			+ "<?eclipse version=\"3.0\"?>\n"
@@ -104,10 +113,46 @@ public class CincoUtil {
 		return isDisabled(me, ID_DISABLE_DELETE);
 	}
 	
-	public static boolean isDisabled(ModelElement me, String id) {
+	public static boolean isDisabled(ModelElement me) {
+		Set<String> values = DISABLE_NODE_VALUES;
+		if (me instanceof mgl.Edge)
+			values = DISABLE_EDGE_VALUES;
+		for (Annotation annot : me.getAnnotations())
+			if (annot.getName().equals(ID_DISABLE))
+				return (annot.getValue().isEmpty() || annot.getValue().containsAll(values));
+		return false;
+	}
+	
+	private static boolean isDisabled(ModelElement me, String id) {
 		for (Annotation annot : me.getAnnotations()) {
 			if (annot.getName().equals(ID_DISABLE)) {
 				return (annot.getValue().isEmpty() || annot.getValue().contains(id));
+			}
+		}
+		return false;
+	}
+	
+	public static boolean isHighlightContainmentDisabled(Annotatable me) {
+		return isHighlightDisabled(me, ID_DISABLE_HIGHLIGHT_CONTAINMENT);
+	}
+	
+	public static boolean isHighlightReconnectionDisabled(Annotatable me) {
+		return isHighlightDisabled(me, ID_DISABLE_HIGHLIGHT_RECONNECTION);
+	}
+	
+	public static boolean isHighlightDisabled(Annotatable me) {
+		for (Annotation annot : me.getAnnotations()) {
+			if (annot.getName().equals(ID_DISABLE_HIGHLIGHT)) {
+				return annot.getValue().isEmpty() || annot.getValue().containsAll(DISABLE_HIGHLIGHT_VALUES);
+			}
+		}
+		return false;
+	}
+	
+	private static boolean isHighlightDisabled(Annotatable me, String id) {
+		for (Annotation annot : me.getAnnotations()) {
+			if (annot.getName().equals(ID_DISABLE_HIGHLIGHT)) {
+				return annot.getValue().isEmpty() || annot.getValue().contains(id);
 			}
 		}
 		return false;
@@ -346,29 +391,27 @@ public class CincoUtil {
 		extensions.add(gModel.getFileExtension());
 		return extensions;
 	}
-
-	private static GenModel getImportedGenmodel(Import i) {
-		URI genModelURI = URI.createURI(FilenameUtils.removeExtension(i.getImportURI()).concat(".genmodel"));
-		Resource res = new ResourceSetImpl().getResource(genModelURI, true);
-		if (res != null)
-			try {
-				res.load(null);
-				EObject genModel = res.getContents().get(0);
-				if (genModel instanceof GenModel)
-					return (GenModel) genModel;
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		return null;
+	
+	public static IFile getFile(URI uri, EObject obj) {
+		IFile file = null;
+		if (uri.isPlatformResource()) {
+			file = workspaceExtension.getFile(uri);
+		} else {
+			file = workspaceExtension.getResource(obj).getProject().getFile(new Path(uri.toString()));
+		}
+		return file;
+	}
+	
+	public static GenModel getImportedGenmodel(Import i) {
+		URI uri = URI.createURI(FilenameUtils.removeExtension(i.getImportURI()).concat(".genmodel"));
+		IFile file = getFile(uri, i);
+		return fileExtension.getContent(file, GenModel.class, 0);
 	}
 
-	private static GraphModel getImportedGraphModel(Import i) {
-		URI gmURI = URI.createURI(i.getImportURI(), true);
-		Resource res = new ResourceSetImpl().getResource(gmURI, true);
-		EObject graphModel = res.getContents().get(0);
-		if (graphModel instanceof GraphModel)
-			return (GraphModel) graphModel;
-		return null;
+	public static GraphModel getImportedGraphModel(Import i) {
+		URI uri = URI.createURI(i.getImportURI(), true);
+		IFile file = getFile(uri, i);
+		return fileExtension.getContent(file, GraphModel.class, 0);
 	}
 	
 	private static String getFileExtension(GenModel genModel) {

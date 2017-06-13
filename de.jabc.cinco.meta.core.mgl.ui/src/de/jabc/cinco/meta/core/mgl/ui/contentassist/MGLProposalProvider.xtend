@@ -13,12 +13,21 @@ import mgl.Annotation
 import mgl.Attribute
 import mgl.Edge
 import mgl.GraphModel
+import mgl.ModelElement
 import mgl.Node
 import mgl.NodeContainer
+import mgl.ReferencedEClass
 import mgl.ReferencedModelElement
 import mgl.ReferencedType
+import mgl.Type
 import mgl.UserDefinedType
+import org.eclipse.core.resources.IFile
+import org.eclipse.core.resources.ResourcesPlugin
+import org.eclipse.core.runtime.Path
+import org.eclipse.emf.common.util.URI
+import org.eclipse.emf.ecore.EClass
 import org.eclipse.emf.ecore.EObject
+import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.xtext.Assignment
 import org.eclipse.xtext.RuleCall
 import org.eclipse.xtext.ui.editor.contentassist.ConfigurableCompletionProposal
@@ -317,7 +326,8 @@ class MGLProposalProvider extends AbstractMGLProposalProvider {
 			}	
 		}else{
 			val rSet = refType.eResource.resourceSet
-			val res = rSet.getResource(URI.createURI(refType.imprt.importURI),true)
+			val file = getFile(refType.imprt.importURI, refType.eResource)
+			val res = rSet.getResource(getURI(file), true)
 			if(res!=null){
 				for(m: res.allContents.toList.filter[d| d instanceof ModelElement]){
 					acceptor.accept(createCompletionProposal((m as ModelElement).name,context))
@@ -330,13 +340,33 @@ class MGLProposalProvider extends AbstractMGLProposalProvider {
 	override completeReferencedEClass_Type(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor){
 		val refType = model as ReferencedEClass
 		val rSet = refType.eResource.resourceSet
-			val res = rSet.getResource(URI.createURI(refType.imprt.importURI),true)
+			val file = getFile(refType.imprt.importURI, refType.eResource)
+			val res = rSet.getResource(getURI(file), true)
 			if(res!=null){
 				for(m: res.allContents.toList.filter[d| d instanceof EClass]){
 					acceptor.accept(createCompletionProposal((m as EClass).name,context))
 				}
 			}
 		
+	}
+	
+	def URI getURI(IFile file) {
+        if (file.exists) 
+        	URI.createPlatformResourceURI(file.getFullPath().toPortableString(), true)
+        else null
+	}
+	
+	def IFile getFile(String path, Resource res) {
+        if (path == null || path.isEmpty)
+        	return null
+        val root = ResourcesPlugin.workspace.root
+        val resFile = if (res.URI.isPlatform)
+        	root.getFile(new Path(res.getURI().toPlatformString(true)))
+        else root.getFileForLocation(Path.fromOSString(res.getURI().path()))
+        val uri = URI.createURI(path)
+        if (uri.isPlatform)
+        	root.getFile(new Path(uri.toPlatformString(true)))
+        else resFile.getProject().getFile(path)
 	}
 	
 }
