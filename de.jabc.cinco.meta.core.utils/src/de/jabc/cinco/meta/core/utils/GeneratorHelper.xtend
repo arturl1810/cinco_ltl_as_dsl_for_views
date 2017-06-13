@@ -5,8 +5,12 @@ import de.jabc.cinco.meta.util.xapi.ResourceExtension
 import java.io.IOException
 import org.eclipse.core.resources.IFile
 import org.eclipse.core.resources.IProject
+import org.eclipse.emf.codegen.ecore.generator.Generator
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage
+import org.eclipse.emf.codegen.ecore.genmodel.generator.GenBaseGeneratorAdapter
+import org.eclipse.emf.codegen.ecore.genmodel.util.GenModelUtil
+import org.eclipse.emf.common.util.BasicMonitor
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.resource.Resource
@@ -14,8 +18,6 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 
 class GeneratorHelper {
 	
-	static extension ResourceExtension = new ResourceExtension
-	static extension FileExtension = new FileExtension
 	
 	def static void generateGenModelCode(IProject project, String modelName) throws IOException {
 		var IFile genModelFile = project.getFile('''src-gen/model/«modelName».genmodel''')
@@ -29,10 +31,7 @@ class GeneratorHelper {
 				var GenModel genModel = (o as GenModel)
 				for (GenPackage gp : genModel.getUsedGenPackages()) {
 					
-					if(gp.genModel.eResource === null || !gp.genModel.eResource().getResourceSet().equals(resourceSet)) 
-						resourceSet.getResources().add(gp.eResource())
-					
-					if (!gp.getGenModel().equals(genModel)) {
+					if (gp.getGenModel != null && !gp.getGenModel().equals(genModel)) {
 						genModel.getUsedGenPackages().add(gp)
 					}
 				}
@@ -60,12 +59,8 @@ class GeneratorHelper {
 	 */
 	def static void generateGenModelCode(GenModel genModel) {
 		// Change method and call generateGenModelCode(IProject project, String modelName) throws IOException{
-		val project = genModel.eResource.file.project
-		val modelName = genModel.modelName
-		generateGenModelCode(project, modelName)
-//		genModel.reconcile()
-//		genModel.setCanGenerate(true)
-//		var Generator generator = GenModelUtil.createGenerator(genModel)
-//		generator.generate(genModel, GenBaseGeneratorAdapter.MODEL_PROJECT_TYPE, new BasicMonitor())
+		genModel.setCanGenerate(true)
+		var Generator generator = GenModelUtil.createGenerator(genModel)
+		generator.generate(genModel, GenBaseGeneratorAdapter.MODEL_PROJECT_TYPE, new BasicMonitor())
 	}
 }

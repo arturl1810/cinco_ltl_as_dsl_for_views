@@ -5,8 +5,13 @@ import de.jabc.cinco.meta.core.mgl.MGLEPackageRegistry
 import de.jabc.cinco.meta.core.pluginregistry.IMetaPlugin
 import de.jabc.cinco.meta.core.pluginregistry.PluginRegistry
 import de.jabc.cinco.meta.core.utils.GeneratorHelper
+import de.jabc.cinco.meta.core.utils.PathValidator
 import de.jabc.cinco.meta.core.utils.URIHandler
+import de.jabc.cinco.meta.core.utils.projects.ContentWriter
 import de.jabc.cinco.meta.core.utils.projects.ProjectCreator
+import de.jabc.cinco.meta.runtime.xapi.FileExtension
+import de.jabc.cinco.meta.runtime.xapi.ResourceExtension
+import de.jabc.cinco.meta.util.xapi.WorkspaceExtension
 import java.util.ArrayList
 import java.util.Arrays
 import java.util.HashMap
@@ -15,6 +20,7 @@ import java.util.Map
 import mgl.ContainingElement
 import mgl.GraphModel
 import mgl.GraphicalModelElement
+import mgl.Import
 import mgl.IncomingEdgeElementConnection
 import mgl.MglFactory
 import mgl.Node
@@ -22,11 +28,13 @@ import mgl.NodeContainer
 import mgl.OutgoingEdgeElementConnection
 import org.eclipse.core.internal.runtime.InternalPlatform
 import org.eclipse.core.resources.ResourcesPlugin
+import org.eclipse.core.runtime.IPath
 import org.eclipse.core.runtime.Path
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage
 import org.eclipse.emf.common.util.BasicEList
 import org.eclipse.emf.common.util.URI
+import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.xmi.XMIResource
@@ -37,9 +45,9 @@ import org.eclipse.xtext.generator.IGenerator
 import org.eclipse.xtext.naming.IQualifiedNameProvider
 import org.eclipse.xtext.util.StringInputStream
 import transem.utility.helper.Tuple
-import org.eclipse.core.runtime.IPath
-import de.jabc.cinco.meta.util.xapi.WorkspaceExtension
-import de.jabc.cinco.meta.core.utils.projects.ContentWriter
+import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl
+import org.eclipse.emf.ecore.EcoreFactory
+import org.eclipse.emf.ecore.EFactory
 
 class MGLGenerator implements IGenerator {
 	@Inject extension IQualifiedNameProvider
@@ -89,7 +97,6 @@ class MGLGenerator implements IGenerator {
 				var res = new XMIResourceImpl(URI::createURI(genModelMap.get(key)))
 				res.load(null)
 				for (genPackage : res.allContents.toIterable.filter(typeof(GenPackage))) {
-
 					genModel.usedGenPackages += genPackage
 				}
 
@@ -100,8 +107,6 @@ class MGLGenerator implements IGenerator {
 		saveGenModel(genModel, model)
 		GeneratorHelper.generateGenModelCode(genModel)
 		callMetaPlugins(model, map)
-		
-		
 
 	}
 
@@ -285,8 +290,8 @@ class MGLGenerator implements IGenerator {
 			URI.createURI("platform:/resource/de.jabc.cinco.meta.core.mgl.model/model/GraphModel.genmodel"))
 		genResource.load(null)
 		val graphModelGenModel = (genResource.contents.get(0) as GenModel)
-
 		genModel.usedGenPackages += graphModelGenModel.genPackages
+		genModel.addImportedPackages(model)
 
 		if (model.package != null && model.package.length > 0) {
 			for (genPackage : genModel.genPackages) {
@@ -294,6 +299,22 @@ class MGLGenerator implements IGenerator {
 			}
 		}
 		return genModel
+	}
+	
+	private def addImportedPackages(GenModel genModel, GraphModel graphModel){
+		genModel.reconcile
+		var gp = genModel.genPackages.filter[NSURI != graphModel.nsURI]
+		val resSet = graphModel.eResource.resourceSet
+		gp.forEach[
+			var ePackage = EPackage.Registry.INSTANCE.getEPackage(it.NSURI)
+			var ePackageURI = ePackage.eResource.URI
+			var uri = URI.createURI(ePackageURI.toString.replace(".ecore", ".genmodel"))
+			val res = resSet.createResource(uri)
+			res.load(null)
+			var genM = res.contents.get(0) as GenModel
+			genModel.usedGenPackages += genM.genPackages
+		]
+		genModel.genPackages.removeAll(gp)
 	}
 	
 
