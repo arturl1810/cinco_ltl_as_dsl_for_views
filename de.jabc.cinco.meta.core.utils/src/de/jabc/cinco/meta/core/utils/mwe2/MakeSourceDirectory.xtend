@@ -1,121 +1,144 @@
 package de.jabc.cinco.meta.core.utils.mwe2
 
 import java.io.File
+import java.nio.charset.Charset
+import java.nio.file.Files
+import java.nio.file.Paths
 import javax.xml.parsers.DocumentBuilderFactory
+import javax.xml.transform.OutputKeys
 import javax.xml.transform.TransformerFactory
 import javax.xml.transform.dom.DOMSource
 import javax.xml.transform.stream.StreamResult
-import org.eclipse.emf.mwe2.runtime.workflow.IWorkflowComponent
+import org.apache.log4j.Logger
 import org.eclipse.emf.mwe2.runtime.workflow.IWorkflowContext
 import org.w3c.dom.Attr
 import org.w3c.dom.Document
 import org.w3c.dom.Element
-import org.w3c.dom.Node
-import org.apache.log4j.Logger
-import javax.xml.transform.OutputKeys
+import org.w3c.dom.NodeList
+import org.eclipse.emf.mwe2.runtime.workflow.IWorkflowComponent
 
 class MakeSourceDirectory implements IWorkflowComponent {
 	
 	private static final Logger log = Logger.getLogger(MakeSourceDirectory);
-
+	
 	String srcDir = null
 	String project = null
+	boolean addGitIgnore = false
+	boolean cleanIfExisting = false
+	boolean createIfMissing = true
 
-	def String getSrcDir() {
-		return srcDir
+
+	def setSrcDir(String str) {
+		srcDir = str
 	}
 
-	def void setSrcDir(String srcDir) {
-		this.srcDir = srcDir
-	}
-
-	def String getProject() {
-		return project
-	}
-
-	def void setProject(String project) {
-		this.project = project
-	}
-
-	override void invoke(IWorkflowContext arg0) {
-		
-		if (srcDir.nullOrEmpty) {
-			log.error("srcDir property must be set")
-			throw new IllegalArgumentException("srcDir property must be set")
-		}
-
-		if (project.nullOrEmpty) {
-			log.error("project property must be set")
-			throw new IllegalArgumentException("project property must be set")
-		}
-			
-		if (srcDir.contains("/")) {
-			log.error("srcDir must not contain /")
-			throw new IllegalArgumentException("srcDir must not contain /")
-		}
-		
-		var File fSrcDir = new File(project + "/" + srcDir)
-		
-		if (fSrcDir.exists && !fSrcDir.directory) {
-			log.error('''file "«srcDir»" exists, but is no directory''')
-			throw new IllegalStateException('''srcDir "«srcDir»" exists, but is no directory''')
-		}	
-
-		if (!fSrcDir.exists) {
-			log.info('''directory "«srcDir»" does not exist in «project» yet. Creating it.''')
-			fSrcDir.mkdir
-		}
-			
-		srcDir.addToClasspathIfNotAlreay
-		
+	def setProject(String str) {
+		project = str
 	}
 	
-	def addToClasspathIfNotAlreay(String srcDir) {
-		var File fClasspath = new File(project + "/.classpath")
-		val builder = DocumentBuilderFactory.newInstance().newDocumentBuilder
-		val doc = builder.parse(fClasspath)
-		val entries = doc.getElementsByTagName("classpathentry")
-		val root = doc.getElementsByTagName("classpath").item(0) as Element
-		var entryExists = false
-		for (var i = 0; i < entries.length; i++) {
-			val entry = entries.item(i)
-			if (entry.nodeType == Node.ELEMENT_NODE) {
-				val elementry = entry as Element	
-				if (elementry.isSrcEntry(srcDir)) {
-					entryExists = true	
-				}
+	def setAddGitIgnore(boolean flag) {
+		addGitIgnore = flag
+	}
+	
+	def setCleanIfExisting(boolean flag) {
+		cleanIfExisting = flag
+	}
+	
+	def setCreateIfMissing(boolean flag) {
+		createIfMissing = flag
+	}
+
+	override invoke(IWorkflowContext arg0) {
+		project.nullOrEmpty ?: "project property must be set"
+		val fProject = Paths.get(project).toFile
+		!fProject.exists ?: '''project «project» does not exist'''
+		
+		srcDir.nullOrEmpty ?: "srcDir property must be set"
+		srcDir.contains("/") ?: "srcDir must not contain /"
+		val fSrcDir = Paths.get(project, srcDir).toFile
+		if (!fSrcDir.exists) {
+			if (createIfMissing) {
+				log.info('''Creating directory "«fSrcDir»"''')
+				fSrcDir.mkdir
+			}
+		} else {
+			!fSrcDir.isDirectory ?: '''file "«fSrcDir»" exists, but is no directory'''
+			if (cleanIfExisting) {
+				log.info('''Cleaning "«fSrcDir»"''')
+				fSrcDir.clean
 			}
 		}
-		if (!entryExists) {
-			log.info('''src entry for "«srcDir»" does not exist in «project»/.classpath. Adding it.''')
-			val newEntry = doc.createElement("classpathentry")
-			newEntry.setAttribute("kind", "src")
-			newEntry.setAttribute("path", srcDir)
-			root.appendChild(newEntry)
-			doc.writeToClasspathFile
+			
+		val fGitIgnore = Paths.get(project, srcDir, ".gitignore")
+		if (addGitIgnore && !fGitIgnore.toFile.exists) {
+			log.info('''Creating file "«fGitIgnore»"''')
+			Files.write(fGitIgnore, #["*", "!.gitignore"], Charset.forName("UTF-8"));
 		}
 		
+		addToClasspathIfMissing
 	}
 	
-	def isSrcEntry(Element e, String srcDir) {
-		val kind = (e.attributes.getNamedItem("kind") as Attr).value
-		val path = (e.attributes.getNamedItem("path") as Attr).value
+	/**
+	 * Convenient operator for handling assertions.
+	 */
+	private def ?: (boolean test, String message) {
+		if (test) {
+			log.error(message)
+			throw new IllegalArgumentException(message)
+		}
+	}
+	
+	private def addToClasspathIfMissing() {
+		val fClasspath = Paths.get(project, ".classpath").toFile
+		val builder = DocumentBuilderFactory.newInstance.newDocumentBuilder
+		val doc = builder.parse(fClasspath)
+		val entries = doc.getElementsByTagName("classpathentry")
+		if (!entries.containsSrcEntry) {
+			log.info('''Adding "«srcDir»" to «fClasspath».''')
+			val root = doc.getElementsByTagName("classpath").item(0)
+			root.appendChild(doc.createElement("classpathentry") => [
+				setAttribute("kind", "src")
+				setAttribute("path", srcDir)
+			])
+			doc.writeToClasspathFile(fClasspath)
+		}
+	}
+	
+	private def containsSrcEntry(NodeList entries) {
+		for (i : 0..entries.length) {
+			switch entry : entries.item(i) {
+				Element : if (entry.isSrcEntry(srcDir))
+					return true
+			}
+		}
+		return false
+	}
+	
+	private def isSrcEntry(Element e, String srcDir) {
+		val kind = (e.attributes.getNamedItem("kind") as Attr)?.value
+		val path = (e.attributes.getNamedItem("path") as Attr)?.value
 		kind == "src" && path == srcDir
 	}
 
-	def writeToClasspathFile(Document doc) {
-		val transformer = TransformerFactory.newInstance().newTransformer();
-		transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-	    transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-		val output = new StreamResult(new File(project + "/.classpath"));
-		val input = new DOMSource(doc);
-		transformer.transform(input, output);
+	private def writeToClasspathFile(Document doc, File fClasspath) {
+		TransformerFactory.newInstance.newTransformer => [
+			setOutputProperty(OutputKeys.ENCODING, "UTF-8")
+			setOutputProperty(OutputKeys.INDENT, "yes")
+			transform(
+				new DOMSource(doc),
+				new StreamResult(fClasspath)
+			)
+		]
 	}
 	
-
-	override void postInvoke() { // TODO Auto-generated method stub
+	private def clean(File fSrcDir) {
+		fSrcDir.listFiles?.forEach[
+			if (isDirectory) clean
+			else if (!delete) log.error('''Couldn't delete "«it»"''')
+		]
 	}
+	
+	override void postInvoke() { /* nothing to do here */ }
 
-	override void preInvoke() { // TODO Auto-generated method stub
-	}
+	override void preInvoke() { /* nothing to do here */ }
 }
