@@ -52,10 +52,12 @@ class StyleUtils extends APIUtils {
 	static extension MGLUtil
 
 	private static var num = 0;
+	private static int index = 0;
 	private static Node node;
 
 	def getAlgorithmCode(AbstractShape aShape, String containerShapeName, Node n) {
 		node = n;
+		index = 0;
 		'''
 				«var currentPeName = getShapeName(aShape)»
 				«var currentGaName = getGAName(aShape)»
@@ -434,14 +436,14 @@ class StyleUtils extends APIUtils {
 	
 	def cdCall(PredefinedDecorator pd, Edge e) '''
 		de.jabc.cinco.meta.core.ge.style.generator.runtime.utils.CincoLayoutUtils.create«pd.shape.getName»(cd);
-		«e.graphModel.packageName».«e.graphModel.fuName»LayoutUtils.setdefaultStyle(cd.getGraphicsAlgorithm(), getDiagram());
+		«e.graphModel.packageName».«e.graphModel.fuName»LayoutUtils.set_«node.graphModel.name»DefaultAppearanceStyle(cd.getGraphicsAlgorithm(), getDiagram());
 	'''
 	
 	def cdShapeCall(GraphicsAlgorithm ga, Edge e) {
 		if (ga instanceof Text || ga instanceof MultiText)
-		'''createShape«ga.simpleName»(cd, («e.fqInternalBeanName») «e.flName», "«ga.value»", "«e.text»");'''
+		'''createShape«ga.hashName»(cd, («e.fqInternalBeanName») «e.flName», "«ga.value»", "«e.text»");'''
 		else 
-		'''createShape«ga.simpleName»(cd, («e.fqInternalBeanName») «e.flName», «ga.size?.width», «ga.size?.height»);'''
+		'''createShape«ga.hashName»(cd, («e.fqInternalBeanName») «e.flName», «ga.size?.width», «ga.size?.height»);'''
 	}
 	
 	def code(ConnectionDecorator cd, Edge e) {
@@ -451,9 +453,9 @@ class StyleUtils extends APIUtils {
 	
 	def cdShapeCode(GraphicsAlgorithm ga, Edge e) '''
 		«IF (ga instanceof style.Text || ga instanceof MultiText)»
-		private void createShape«ga.simpleName»(«GraphicsAlgorithmContainer.name» gaContainer, «e.fqInternalBeanName» «e.flName», «String.name» textValue, «String.name» attrValue) {
+		private void createShape«ga.hashName»(«GraphicsAlgorithmContainer.name» gaContainer, «e.fqInternalBeanName» «e.flName», «String.name» textValue, «String.name» attrValue) {
 		«ELSE»
-		private void createShape«ga.simpleName»(«GraphicsAlgorithmContainer.name» gaContainer, «e.fqInternalBeanName» «e.flName», int width, int height) {
+		private void createShape«ga.hashName»(«GraphicsAlgorithmContainer.name» gaContainer, «e.fqInternalBeanName» «e.flName», int width, int height) {
 		«ENDIF»
 			«IGaService.name» gaService = «Graphiti.name».getGaService();
 			«IPeService.name» peService = «Graphiti.name».getPeService();
@@ -644,7 +646,19 @@ class StyleUtils extends APIUtils {
 		}
 	}
 
+	def hashName(GraphicsAlgorithm ga) {
+		ga.class.simpleName.replaceFirst("Impl", "")+ga.hashCode
+	}
+	
 	def simpleName(GraphicsAlgorithm ga) {
 		ga.class.simpleName.replaceFirst("Impl", "")
+	}
+	
+	def getGaName(style.ConnectionDecorator cd) {
+		if (!cd.name.isNullOrEmpty) return cd.name
+		else {
+			if (cd.predefinedDecorator != null) return cd.predefinedDecorator.shape.toString+index++
+			if (cd.decoratorShape != null) return "Shape"+index++
+		} 
 	}
 }

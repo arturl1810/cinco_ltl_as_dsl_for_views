@@ -433,7 +433,7 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 					if(eObj instanceof GraphModel){
 						GraphModel gm = (GraphModel)eObj;
 						String projectSymbolicName = ProjectCreator.getProjectSymbolicName(project);
-						DependencyNode<String> dn = new DependencyNode<String>(gm.eResource().getURI().toPlatformString(true).replace("/"+projectSymbolicName,""));
+						DependencyNode<String> dn = new DependencyNode<String>(gm.eResource().getURI().toPlatformString(true).replace("/"+projectSymbolicName+"/",""));
 						//ArrayList<String> before = new ArrayList<String>();
 						for(Import imprt : gm.getImports()){
 							if(imprt.getImportURI().endsWith(".mgl")){

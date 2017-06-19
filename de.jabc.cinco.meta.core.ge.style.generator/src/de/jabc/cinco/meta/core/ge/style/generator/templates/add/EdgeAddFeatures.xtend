@@ -38,7 +38,7 @@ class EdgeAddFeatures extends APIUtils {
 	
 	extension StyleUtils = new StyleUtils
 	
-	private static int index = 0;
+	
 	
 	/**
 	 * Generates the Class 'AddFeature' for the Edge e
@@ -46,7 +46,6 @@ class EdgeAddFeatures extends APIUtils {
 	 * @param styles : Styles
 	 */
 	def doGenerateEdgeAddFeature(Edge e, Styles styles) {
-	index = 0;
 	'''
 	package «e.packageNameAdd»;
 	
@@ -75,7 +74,7 @@ class EdgeAddFeatures extends APIUtils {
 			
 			«IGaService.name» gaService = «Graphiti.name».getGaService();
 			«Polyline.name» polyline = gaService.createPolyline(connection);
-			«e.graphModel.packageName».«e.graphModel.name»LayoutUtils.setdefaultStyle(polyline, getDiagram());
+			«e.graphModel.packageName».«e.graphModel.name»LayoutUtils.set_«e.graphModel.name»DefaultAppearanceStyle(polyline, getDiagram());
 			«Graphiti.name».getPeService().setPropertyValue(
 				polyline, «CincoLayoutUtils.name».KEY_GA_NAME, "connection");
 			
@@ -169,12 +168,6 @@ class EdgeAddFeatures extends APIUtils {
 		else '''«e.graphModel.packageName».«e.graphModel.name»LayoutUtils.set_«e.graphModel.name»DefaultAppearanceStyle(«currentGaName», getDiagram());'''
 	}
 	
-	def getGaName(style.ConnectionDecorator cd) {
-		if (!cd.name.isNullOrEmpty) return cd.name
-		else {
-			if (cd.predefinedDecorator != null) return cd.predefinedDecorator.shape.toString+index++
-			if (cd.decoratorShape != null) return "Shape"+index++
-		} 
-	}
+	
 //	
 }
