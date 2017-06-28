@@ -280,10 +280,6 @@ _ELong returns _ecore::ELong:
 	_SIGN? _INT
 ;
 
-_EFloat returns _ecore::EFloat:
-	_SIGN? _INT? '.' _INT
-;
-
 _EDouble returns _ecore::EDouble:
 	_SIGN? _INT? '.' _INT
 ;
