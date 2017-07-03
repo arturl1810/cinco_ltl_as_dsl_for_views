@@ -87,7 +87,7 @@ class MGLUtil {
 	def static Set<Node> getContainableNodes(ContainingElement ce) {
 		var GraphModel gm
 		if(ce instanceof NodeContainer) gm = ((ce as NodeContainer)).getGraphModel() else gm = ce as GraphModel
-		var Set<Node> nodes = gm.getNodes().stream().filter([n|isContained(ce, n)]).collect(Collectors::toSet())
+		var Set<Node> nodes = gm.getNodes().filter[n|isContained(ce, n)].toSet
 		return nodes
 	}
 

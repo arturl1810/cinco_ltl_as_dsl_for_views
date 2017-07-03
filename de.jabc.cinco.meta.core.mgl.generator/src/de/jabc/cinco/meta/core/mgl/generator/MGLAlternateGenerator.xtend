@@ -130,6 +130,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		
 		graphModel.nodes.filter(NodeContainer).forEach[container|
 			(container as NodeContainer).createGetContainmentConstraintsMethod(graphModel, eClassesMap)
+			(container as NodeContainer).createModelElementGetter(graphModel, eClassesMap)
 			container.createCanNewNodeMethods(eClassesMap)
 			container.createNewNodeMethods(eClassesMap)
 		]

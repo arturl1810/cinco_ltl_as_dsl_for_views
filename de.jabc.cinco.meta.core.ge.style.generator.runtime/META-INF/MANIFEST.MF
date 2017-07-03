@@ -23,7 +23,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.emf.transaction
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
-Export-Package: de.jabc.cinco.meta.core.ge.style.generator.runtime.adapter,
+Export-Package: de.jabc.cinco.meta.core.ge.style.generator.runtime,
+ de.jabc.cinco.meta.core.ge.style.generator.runtime.adapter,
  de.jabc.cinco.meta.core.ge.style.generator.runtime.addfeature,
  de.jabc.cinco.meta.core.ge.style.generator.runtime.appearance;uses:="style",
  de.jabc.cinco.meta.core.ge.style.generator.runtime.createfeature,
