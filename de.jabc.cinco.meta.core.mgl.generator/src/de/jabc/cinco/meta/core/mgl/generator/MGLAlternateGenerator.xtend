@@ -328,7 +328,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		views += view
 		for (v : parent.views) {
 			viewName = subClasses.mainEClass.name + v.name
-			getterName = "get" + subClasses.modelElement.highestSuperView.name + "View"
+			getterName = "get" + v.highestSuperView.name + "View"
 			val sv = createView(viewName, getterName, subClasses,false)
 			sv.ESuperTypes += v
 			views += sv
@@ -337,11 +337,11 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		views
 	}
 
-	private def ModelElement getHighestSuperView(ModelElement view) {
+	private def EClass getHighestSuperView(EClass view) {
 		var v = view;
 		println(v.name)
-		while (v.extend != null) {
-			v = v.extend
+		while (!v.ESuperTypes.nullOrEmpty && v.ESuperTypes.get(0) != null) {
+			v = v.ESuperTypes.get(0)
 		}
 		v
 	}
@@ -372,9 +372,10 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 			if(!(attr instanceof ComplexAttribute && (attr as ComplexAttribute).override && mainView)){
 					val feature = attr.internalEClassFeature(internalEClass)
 					if(feature!=null){
-						if(attr instanceof ComplexAttribute){
-							view.createComplexGetter(eClass,attr)
-							view.createComplexSetter(eClass,attr)	
+						if(attr instanceof ComplexAttribute && !((attr as ComplexAttribute).type instanceof Enumeration)){
+							
+							view.createComplexGetter(eClass,(attr as ComplexAttribute))
+							view.createComplexSetter(eClass,(attr as ComplexAttribute))
 						}else{
 							view.createGetter(eClass, feature)
 							view.createSetter(eClass, feature)
