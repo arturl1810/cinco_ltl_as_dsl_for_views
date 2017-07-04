@@ -81,5 +81,9 @@ class EcoreExtensions {
 
 	def static createEInt(String name, int lb, int ub) {
 		createEParameter(EcorePackage.eINSTANCE.EInt,name,lb,ub)
-	}	
+	}
+	
+	def static createEObject(String name, int lb, int ub) {
+		createEParameter(EcorePackage.eINSTANCE.EObject,name,lb,ub)
+	}
 }

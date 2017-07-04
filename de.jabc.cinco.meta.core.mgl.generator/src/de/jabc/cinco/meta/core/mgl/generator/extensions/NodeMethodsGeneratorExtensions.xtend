@@ -269,30 +269,57 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 	def createNewNodeMethods(ContainingElement ce, Map<String, ElementEClasses> elemClasses) {
 		println("the containing element: "+ce)
 		println("them elmClasses:" + elemClasses)
-		ce.containableNodes.filter[!isIsAbstract].forEach[n | 
-			println("the containable node: "+n)
-			elemClasses.get(ce.name).mainEClass.
-				createEOperation("new"+n.fuName,
-					elemClasses.get(n.name).mainEClass,
-					1,
-					1,
-					ce.newNodeSimpleMethodContent(n),
-					createEInt("x",1,1),
-					createEInt("y",1,1)
-				)
-				
-			elemClasses.get(ce.name).mainEClass.
-				createEOperation("new"+n.fuName,
-					elemClasses.get(n.name).mainEClass,
-					1,
-					1,
-					ce.newNodeMethodContent(n),
-					createEInt("x",1,1),
-					createEInt("y",1,1),
-					createEInt("width",1,1),
-					createEInt("height",1,1)
-				)
-		]
+		ce.containableNodes.filter[!isIsAbstract && !isPrime].forEach[n | 
+
+				elemClasses.get(ce.name).mainEClass.
+					createEOperation("new"+n.fuName,
+						elemClasses.get(n.name).mainEClass,
+						1,
+						1,
+						ce.newNodeSimpleMethodContent(n),
+						createEInt("x",1,1),
+						createEInt("y",1,1)
+					)
+					
+				elemClasses.get(ce.name).mainEClass.
+					createEOperation("new"+n.fuName,
+						elemClasses.get(n.name).mainEClass,
+						1,
+						1,
+						ce.newNodeMethodContent(n),
+						createEInt("x",1,1),
+						createEInt("y",1,1),
+						createEInt("width",1,1),
+						createEInt("height",1,1)
+					)
+			]
+			
+		ce.containableNodes.filter[!isIsAbstract && isPrime].forEach[n | 
+
+				elemClasses.get(ce.name).mainEClass.
+					createEOperation("new"+n.fuName,
+						elemClasses.get(n.name).mainEClass,
+						1,
+						1,
+						ce.newPrimeNodeSimpleMethodContent(n),
+						createEObject(n.primeName, 1,1),
+						createEInt("x",1,1),
+						createEInt("y",1,1)
+					)
+					
+				elemClasses.get(ce.name).mainEClass.
+					createEOperation("new"+n.fuName,
+						elemClasses.get(n.name).mainEClass,
+						1,
+						1,
+						ce.newPrimeNodeMethodContent(n),
+						createEObject(n.primeName, 1,1),
+						createEInt("x",1,1),
+						createEInt("y",1,1),
+						createEInt("width",1,1),
+						createEInt("height",1,1)
+					)
+			]
 	} 
 
 	def newNodeMethodContent(ContainingElement ce, Node n) '''
@@ -310,6 +337,21 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 		return new«n.fuName»(x,y,-1,-1);
 	'''
 
+	def newPrimeNodeMethodContent(ContainingElement ce, Node n) '''
+		if (this.canContain(«n.fuName».class)) {
+			«n.fqBeanName» node = «n.fqFactoryName».eINSTANCE.create«n.fuName»();
+			this.getInternalContainerElement().getModelElements().add(node.getInternalElement());
+			node.move(x, y);
+			node.resize(width, height);
+			return node;
+		} else throw new «RuntimeException.name»(
+			«String.name».format("Cannot add node %s to %s", «n.fuName».class, this.getClass()));
+	'''
+
+	def newPrimeNodeSimpleMethodContent(ContainingElement ce, Node n) '''
+		return new«n.fuName»(«n.primeName»,x,y,-1,-1);
+	'''
+
 	def createModelElementGetter(ContainingElement ce, GraphModel gm, HashMap<String, ElementEClasses> elmClasses) {
 		ce.containableNodes.forEach[
 			elmClasses.get(ce.name).mainEClass.createEOperation(
@@ -321,6 +363,44 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 			)
 		]
 	}
+
+	def createGraphicalInformationGetter(Node n, HashMap<String, ElementEClasses> elemClasses) {
+		elemClasses.get(n.name).mainEClass.createEOperation(
+			"getX",
+			EcorePackage.eINSTANCE.EInt,
+			1,
+			1,
+			getterContent("X")
+		)
+		
+		elemClasses.get(n.name).mainEClass.createEOperation(
+			"getY",
+			EcorePackage.eINSTANCE.EInt,
+			1,
+			1,
+			getterContent("Y")
+		)
+		
+		elemClasses.get(n.name).mainEClass.createEOperation(
+			"getWidth",
+			EcorePackage.eINSTANCE.EInt,
+			1,
+			1,
+			getterContent("Width")
+		)
+		
+		elemClasses.get(n.name).mainEClass.createEOperation(
+			"getHeight",
+			EcorePackage.eINSTANCE.EInt,
+			1,
+			1,
+			getterContent("Height")
+		)
+	}
+
+	def getterContent(String variableName) '''
+		return ((«InternalNode.name») getInternalElement()).get«variableName»(); 
+	'''
 
 	def modelElementGetterContent(ModelElement me) '''
 		return getModelElements(«me.fqBeanName».class);

@@ -125,7 +125,8 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 			node.createCanNewEdgeMethods(eClassesMap)
 			node.createNewEdgeMethods(eClassesMap)
 			node.createCanMoveToMethods(eClassesMap)
-			node.createMoveToMethods(eClassesMap)			
+			node.createMoveToMethods(eClassesMap)
+			node.createGraphicalInformationGetter(eClassesMap)	
 		]
 		
 		graphModel.nodes.filter(NodeContainer).forEach[container|

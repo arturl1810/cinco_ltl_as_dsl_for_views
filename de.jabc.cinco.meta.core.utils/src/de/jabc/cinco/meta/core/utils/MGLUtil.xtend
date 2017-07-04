@@ -29,6 +29,8 @@ import mgl.ReferencedModelElement
 
 class MGLUtil {
 
+	static var subClasses = new HashMap<ModelElement, List<ModelElement>>
+
 	static extension GeneratorUtils = new GeneratorUtils
 
 	def static Set<ContainingElement> getNodeContainers(GraphModel gm) {
@@ -103,12 +105,18 @@ class MGLUtil {
 		if(t instanceof GraphModel) return (t as GraphModel) else return getRootElement((t.eContainer() as Type))
 	}
 
+
+	/**
+	 * Returns if a {@link mgl.Node} is contained by the {@link ContainingElement}. The containment is computed
+	 * by direct containment or a super type containment. 
+	 * 
+	 */
 	def private static boolean isContained(ContainingElement ce, Node n) {
 		if(ce instanceof GraphModel && ce.getContainableElements().isEmpty()) return true
-		var Set<GraphicalElementContainment> containments = ce.getContainableElements().stream().filter([ec |
-			(ec.getTypes().size() === 0 || ec.getTypes().contains(n)) &&
+		var Set<GraphicalElementContainment> containments = ce.getContainableElements().filter[ec |
+			(ec.types.size() === 0 || ec.types.contains(n) || n.allSuperTypes.exists[ec.types.contains(it)]) &&
 				(ec.getUpperBound() > 0 || ec.getUpperBound() === -1)
-		]).collect(Collectors::toSet())
+		].toSet
 		return containments.size() > 0
 	}
 
@@ -182,6 +190,26 @@ class MGLUtil {
 	 		ComplexAttribute : attr.type.name 
 	 		PrimitiveAttribute : attr.type.getName
 	 	}
+	 }
+	 
+	 def static getAllSubclasses(ModelElement me) {
+	 	if (!subClasses.containsKey(me)) {
+	 		subClasses.computeSubclasses(me)
+	 		subClasses.forEach[element, subs|
+	 			println("Element: " + element +" and subtypes:\n " + subs)
+	 		]
+	 	}
+	 	subClasses.get(me)
+	 }
+	 
+	 def static computeSubclasses(HashMap<ModelElement, List<ModelElement>> map, ModelElement me) {
+	 	val gm = me.graphModel
+		var subTypes = gm.modelElements.map[ element | 
+	 		gm.modelElements.filter[ sub |
+	 			sub.allSuperTypes.toSet.contains(element)
+	 		].toList
+	 	].flatten.toList
+	 	subClasses.put(me, subTypes)
 	 }
 	 
 	 def static refactorIfPrimeAttribute(Node n,String s) {

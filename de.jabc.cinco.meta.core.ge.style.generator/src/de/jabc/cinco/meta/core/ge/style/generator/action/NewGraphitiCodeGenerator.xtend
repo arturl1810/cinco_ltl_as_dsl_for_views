@@ -42,12 +42,14 @@ import org.eclipse.core.runtime.Path
 import org.eclipse.core.runtime.Platform
 import org.osgi.framework.Bundle
 import productDefinition.CincoProduct
+import org.eclipse.core.resources.ResourcesPlugin
 
 class NewGraphitiCodeGenerator extends AbstractHandler {
 	
 	
 	IProject project = null
 	Set<String> unprocessedMGLS = new HashSet<String>()
+
 
 	override Object execute(ExecutionEvent event) throws ExecutionException {
 		val IFile file = MGLSelectionListener.INSTANCE.getCurrentMGLFile()
@@ -67,12 +69,14 @@ class NewGraphitiCodeGenerator extends AbstractHandler {
 		if(graphModel === null) throw new RuntimeException('''Could not load graphmodel from file: «file»''');
 		
 		graphModel = prepareGraphModel(graphModel)
-	
-		if (project === null || !project.exists()) {
+		
+		var p = ResourcesPlugin.workspace.root.getProject(name_editorProject)
+		
+		if (p != null && !p.exists) {
 			project = ProjectCreator.createDefaultPluginProject(name_editorProject,addReqBundles(cpdFile.getProject(), monitor), new ArrayList)
 			ProjectCreator.addAdditionalNature(project, monitor, "org.eclipse.xtext.ui.shared.xtextNature")
 			new GraphitiGeneratorMain(graphModel, cpdFile, CincoUtil.getStyles(graphModel)).addPerspectiveContent()
-		}
+		} else project = p
 		
 		if (unprocessedMGLS.nullOrEmpty) {
 			unprocessedMGLS.addAll(cpd.mgls.filter[!isDontGenerate].map[mglPath])

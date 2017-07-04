@@ -269,6 +269,9 @@ class GeneratorUtils {
 	def fqCreateFeatureName(ModelElement me)
 	'''«me.packageNameCreate».CreateFeature«me.fuName»'''
 	
+	def fqPrimeAddFeatureName(ModelElement me)
+	'''«me.packageNameAdd».AddFeaturePrime«me.fuName»'''
+	
 	/**
 	 * Returns the fully qulified name of the generated property view class
 	 */
@@ -276,7 +279,7 @@ class GeneratorUtils {
 	'''«me.graphModel.packageName».property.view.«me.graphModel.fuName»PropertyView'''
 	
 	/**
-	 * Returns the package name for the generated {@link IDeleteFeature} implementing classes
+	 * Returns all model elements of the {@link mgl.GraphModel} including the GraphModel itself
 	 */
 	def modelElements(GraphModel gm) {
 		var List<ModelElement> mes = new ArrayList<ModelElement>;
@@ -468,7 +471,6 @@ class GeneratorUtils {
 	 	val prime = n.primeReference
 	 	switch prime{
 	 		ReferencedEClass : prime.type
-	 		
 	 	}
 	 	
 	 } 

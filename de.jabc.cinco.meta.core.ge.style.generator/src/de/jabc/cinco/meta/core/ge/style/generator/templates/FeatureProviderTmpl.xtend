@@ -354,6 +354,25 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 						}
 					});
 					return created;
+		} else if (f instanceof «IAddFeature.name») {
+					final «Object.name»[] created = new «Object.name»[2];
+					
+					dom.getCommandStack().execute(new «RecordingCommand.name»(dom, f.getName()) {
+						
+						@Override
+						protected void doExecute() {
+							«IAddFeature.name» af = («IAddFeature.name») f;
+							if (af.canAdd((«IAddContext.name») c)) {
+								«PictogramElement.name» pe = af.add((«IAddContext.name») c);
+								if (pe != null) {
+									«EObject.name» bo = pe.getLink().getBusinessObjects().get(0);
+									created[0] = ((«InternalModelElement.name») bo).getElement();
+									created[1] = pe;
+								}
+							}
+						}
+					});
+					return created;
 		} else {
 			getDiagramTypeProvider().getDiagramBehavior().executeFeature(f, c);
 			return null;
