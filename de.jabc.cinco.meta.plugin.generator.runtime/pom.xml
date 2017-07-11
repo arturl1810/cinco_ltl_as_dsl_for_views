@@ -24,6 +24,11 @@
 
 	<pluginRepositories>
 		<pluginRepository>
+			<id>maven-edu</id>
+			<name>LS5 Internal Maven Repository</name>
+			<url>https://ls5svn.cs.tu-dortmund.de/maven-edu/</url>
+		</pluginRepository>
+		<pluginRepository>
 			<id>vulturius-webdav</id>
 			<name>jABC Repository</name>
 			<url>https://vulturius.cs.tu-dortmund.de/maven</url>
