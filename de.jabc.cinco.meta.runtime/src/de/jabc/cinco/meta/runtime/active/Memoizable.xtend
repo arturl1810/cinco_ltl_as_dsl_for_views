@@ -1,6 +1,8 @@
 package de.jabc.cinco.meta.runtime.active
 
+import java.util.HashMap
 import java.util.List
+import java.util.stream.Stream
 import org.eclipse.xtend.lib.macro.Active
 import org.eclipse.xtend.lib.macro.TransformationContext
 import org.eclipse.xtend.lib.macro.TransformationParticipant
@@ -8,11 +10,10 @@ import org.eclipse.xtend.lib.macro.declaration.CompilationStrategy.CompilationCo
 import org.eclipse.xtend.lib.macro.declaration.MutableMethodDeclaration
 import org.eclipse.xtend.lib.macro.declaration.TypeReference
 import org.eclipse.xtend.lib.macro.declaration.Visibility
-import java.util.HashMap
-import java.util.stream.Stream
 
 @Active(MemoizeProcessor)
 annotation Memoizable {
+	int expectedSize = 666;
 }
 
 class MemoizeProcessor implements TransformationParticipant<MutableMethodDeclaration> {
@@ -100,8 +101,12 @@ abstract class ParametrizedMethodMemoizer extends MethodMemoizer {
 	}
 
 	final override cacheFieldInit(extension CompilationContext context) '''
-		new «cacheFieldType.toJavaCode»(1000)
+		new «cacheFieldType.toJavaCode»((int)(«expectedSize»*1.5))
 	'''
+	
+	def getExpectedSize() {
+		method.findAnnotation(Memoizable.findTypeGlobally).getIntValue("expectedSize")
+	}
 
 	final override cacheCall(extension CompilationContext context) '''
 		try {
