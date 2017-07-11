@@ -9,6 +9,7 @@ import org.eclipse.xtend.lib.macro.declaration.MutableMethodDeclaration
 import org.eclipse.xtend.lib.macro.declaration.TypeReference
 import org.eclipse.xtend.lib.macro.declaration.Visibility
 import java.util.HashMap
+import java.util.stream.Stream
 
 @Active(MemoizeProcessor)
 annotation Memoizable {
@@ -44,7 +45,18 @@ class ParameterlessMethodMemoizer extends MethodMemoizer {
 			final «wrappedReturnType.toJavaCode» cacheValue = «initMethodName»();
 			«cacheFieldName» = cacheValue;
 		}
-		return «cacheFieldName»;
+		
+		«IF !Stream.newTypeReference.isAssignableFrom(wrappedReturnType)»
+			// for non-lazy return types, return the cached value.
+			return «cacheFieldName»;
+		«ELSE»
+			«val typeArgument = wrappedReturnType.actualTypeArguments.head»
+			// for lazy iterations use the duplicate feature of Jooq.
+			final org.jooq.lambda.tuple.Tuple2<Seq<«typeArgument.toJavaCode»>, Seq<«typeArgument.toJavaCode»>> cacheValueDupe = 
+				org.jooq.lambda.Seq.seq(«cacheFieldName»).duplicate();
+			«cacheFieldName» = cacheValueDupe.v1;
+			return cacheValueDupe.v2;
+		«ENDIF»
 	'''
 	
 }
@@ -101,10 +113,20 @@ abstract class ParametrizedMethodMemoizer extends MethodMemoizer {
 				// and store the result for future calls. 
 				«cacheFieldName».put(cacheKey, cacheValue);
 			}
-			return «cacheFieldName».get(cacheKey);
+			«IF !Stream.newTypeReference.isAssignableFrom(wrappedReturnType)»
+				// for non-lazy return types, return the cached value.
+				return «cacheFieldName».get(cacheKey);
+			«ELSE»
+				«val typeArgument = wrappedReturnType.actualTypeArguments.head»
+				// for lazy iterations use the duplicate feature of Jooq.
+				final org.jooq.lambda.tuple.Tuple2<Seq<«typeArgument.toJavaCode»>, Seq<«typeArgument.toJavaCode»>> cacheValueDupe = 
+					org.jooq.lambda.Seq.seq(«cacheFieldName».get(cacheKey)).duplicate();
+				«cacheFieldName».put(cacheKey, cacheValueDupe.v1);
+				return cacheValueDupe.v2;
+			«ENDIF»
 		}
 		catch (Throwable e) {
-			throw «typeof(Exceptions).newTypeReference.toJavaCode».sneakyThrow(e.getCause());
+			throw «Exceptions.newTypeReference.toJavaCode».sneakyThrow(e.getCause());
 		}
 	'''
 
