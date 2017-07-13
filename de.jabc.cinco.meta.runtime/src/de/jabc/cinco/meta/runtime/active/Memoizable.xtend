@@ -124,7 +124,10 @@ abstract class ParametrizedMethodMemoizer extends MethodMemoizer {
 			«ELSE»
 				«val typeArgument = wrappedReturnType.actualTypeArguments.head»
 				// for lazy iterations use the duplicate feature of Jooq.
-				final org.jooq.lambda.tuple.Tuple2<Seq<«typeArgument.toJavaCode»>, Seq<«typeArgument.toJavaCode»>> cacheValueDupe = 
+				final org.jooq.lambda.tuple.Tuple2<
+					org.jooq.lambda.Seq<«typeArgument.toJavaCode»>, 
+					org.jooq.lambda.Seq<«typeArgument.toJavaCode»>
+				> cacheValueDupe = 
 					org.jooq.lambda.Seq.seq(«cacheFieldName».get(cacheKey)).duplicate();
 				«cacheFieldName».put(cacheKey, cacheValueDupe.v1);
 				return cacheValueDupe.v2;
