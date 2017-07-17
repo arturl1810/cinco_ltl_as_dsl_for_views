@@ -78,7 +78,11 @@ class EcoreExtensions {
 		eParam.upperBound = upperBound
 		eParam
 	}
-
+	
+	def static createEString(String name, int lb, int ub) {
+		createEParameter(EcorePackage.eINSTANCE.EString,name,lb,ub)
+	}
+	
 	def static createEInt(String name, int lb, int ub) {
 		createEParameter(EcorePackage.eINSTANCE.EInt,name,lb,ub)
 	}

@@ -148,7 +148,7 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 			for (target : edge.possibleTargets) {
 				val sourceEClass = elemClasses.get(node.name).mainEClass
 				val targetEClass = elemClasses.get(target.name).mainEClass
-				val content = edge.canNewEdgeMethodContent
+				var content = edge.canNewEdgeMethodContent
 				sourceEClass.createEOperation(operationName, EcorePackage.eINSTANCE.EBoolean, 0, 1, content,
 					targetEClass.createEParameter("target", 1, 1))
 			}
@@ -174,6 +174,16 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 		}
 	}
 
+	def newIdEdgeMethodContent(Node node, Edge edge) '''
+		if (target.canEnd(«edge.fuName».class)) {
+			«edge.fqBeanName» edge = «node.fqFactoryName».eINSTANCE.create«edge.fuName»(id);
+			edge.setSourceElement(this);
+			edge.setTargetElement(target);
+			return edge;
+		}
+		else return null;
+	'''
+	
 	def newEdgeMethodContent(Node node, Edge edge) '''
 		if (target.canEnd(«edge.fuName».class)) {
 			«edge.fqBeanName» edge = «node.fqFactoryName».eINSTANCE.create«edge.fuName»();
@@ -183,7 +193,7 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 		}
 		else return null;
 	'''
-
+	
 	
 	def createCanMoveToMethods(Node node, HashMap<String, ElementEClasses> elemClasses) {
 		val containers = node.possibleContainers
@@ -270,7 +280,7 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 		println("the containing element: "+ce)
 		println("them elmClasses:" + elemClasses)
 		ce.containableNodes.filter[!isIsAbstract && !isPrime].forEach[n | 
-
+					
 				elemClasses.get(ce.name).mainEClass.
 					createEOperation("new"+n.fuName,
 						elemClasses.get(n.name).mainEClass,
@@ -287,6 +297,19 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 						1,
 						1,
 						ce.newNodeMethodContent(n),
+						createEInt("x",1,1),
+						createEInt("y",1,1),
+						createEInt("width",1,1),
+						createEInt("height",1,1)
+					)
+					
+				elemClasses.get(ce.name).mainEClass.
+					createEOperation("new"+n.fuName,
+						elemClasses.get(n.name).mainEClass,
+						1,
+						1,
+						ce.newIdNodeMethodContent(n),
+						createEString("id",1,1),
 						createEInt("x",1,1),
 						createEInt("y",1,1),
 						createEInt("width",1,1),
@@ -319,8 +342,33 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 						createEInt("width",1,1),
 						createEInt("height",1,1)
 					)
+					
+				elemClasses.get(ce.name).mainEClass.
+					createEOperation("new"+n.fuName,
+						elemClasses.get(n.name).mainEClass,
+						1,
+						1,
+						ce.newIdPrimeNodeMethodContent(n),
+						createEObject(n.primeName, 1,1),
+						createEString("id", 1,1),
+						createEInt("x",1,1),
+						createEInt("y",1,1),
+						createEInt("width",1,1),
+						createEInt("height",1,1)
+					)
 			]
 	} 
+
+	def newIdNodeMethodContent(ContainingElement ce, Node n) '''
+		if (this.canContain(«n.fuName».class)) {
+			«n.fqBeanName» node = «n.fqFactoryName».eINSTANCE.create«n.fuName»(id);
+			this.getInternalContainerElement().getModelElements().add(node.getInternalElement());
+			node.move(x, y);
+			node.resize(width, height);
+			return node;
+		} else throw new «RuntimeException.name»(
+			«String.name».format("Cannot add node %s to %s", «n.fuName».class, this.getClass()));
+	'''
 
 	def newNodeMethodContent(ContainingElement ce, Node n) '''
 		if (this.canContain(«n.fuName».class)) {
@@ -335,6 +383,17 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 
 	def newNodeSimpleMethodContent(ContainingElement ce, Node n) '''
 		return new«n.fuName»(x,y,-1,-1);
+	'''
+
+	def newIdPrimeNodeMethodContent(ContainingElement ce, Node n) '''
+		if (this.canContain(«n.fuName».class)) {
+			«n.fqBeanName» node = «n.fqFactoryName».eINSTANCE.create«n.fuName»(id);
+			this.getInternalContainerElement().getModelElements().add(node.getInternalElement());
+			node.move(x, y);
+			node.resize(width, height);
+			return node;
+		} else throw new «RuntimeException.name»(
+			«String.name».format("Cannot add node %s to %s", «n.fuName».class, this.getClass()));
 	'''
 
 	def newPrimeNodeMethodContent(ContainingElement ce, Node n) '''
