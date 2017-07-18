@@ -314,7 +314,7 @@ class StyleUtils extends APIUtils {
 			peService.setPropertyValue(«currentGaName.toString», «node.graphModel.packageName».«node.graphModel.fuName»GraphitiUtils.KEY_FORMAT_STRING, "«t.value»");
 
 			peService.setPropertyValue(«currentGaName.toString», "Params","«getText(node)»");
-			«currentGaName.toString».setValue(String.format("«t.value»", tmp0Value));
+			«currentGaName.toString».setValue(String.format("«t.value»", ((«String.name») tmp0Value).split(";")));
 		} catch (java.util.IllegalFormatException ife) {
 			«currentGaName.toString».setValue("STRING FORMAT ERROR");
 		} catch («ELException.name» ele) {
@@ -345,7 +345,7 @@ class StyleUtils extends APIUtils {
 			peService.setPropertyValue(«currentGaName.toString», «node.graphModel.packageName».«node.graphModel.fuName»GraphitiUtils.KEY_FORMAT_STRING, "«t.value»");
 
 			peService.setPropertyValue(«currentGaName.toString», "Params","«getText(node)»");
-			«currentGaName.toString».setValue(String.format("«t.value»", tmp0Value));
+			«currentGaName.toString».setValue(String.format("«t.value»", ((«String.name») tmp0Value).split(";")));
 		} catch (java.util.IllegalFormatException ife) {
 			«currentGaName.toString».setValue("STRING FORMAT ERROR");
 		} catch («ELException.name» ele) {
@@ -611,7 +611,7 @@ class StyleUtils extends APIUtils {
 	 * 
 	 */
 	private def dispatch getText(Edge e, EList<String> vals){
-		vals.subList(1,vals.size).join(",")
+		vals.subList(1,vals.size).join(";")
 	}
 	
 	/**
@@ -628,9 +628,9 @@ class StyleUtils extends APIUtils {
 				if (m.matches) {
 					MGLUtil::refactorIfPrimeAttribute(n,m.group(1))
 				} else it
-			].join(",")	
+			].join(";")	
 			
-		} else vals.subList(1,vals.size).join(",")
+		} else vals.subList(1,vals.size).join(";")
 	}
 	
 	def size(GraphicsAlgorithm ga) {
