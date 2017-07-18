@@ -1,0 +1,31 @@
+.link-tools .tool-options {
+    display: block;
+}
+
+
+.pyro_edge_highlight > .connection {
+    stroke: #d98824 !important;
+    stroke-dasharray: 5,5;
+}
+
+.pyro_edge_highlight > .marker-target {
+    fill: #d98824 !important;
+}
+
+.pyro_edge_highlight > .marker-source {
+    fill: #d98824 !important;
+}
+
+.joint-link .marker-arrowheads .marker-arrowhead,
+.joint-link .marker-vertex-group .marker-vertex,
+.joint-link .marker-vertex-group .marker-vertex:hover {
+    fill: #337ab7;
+}
+
+.joint-link .marker-arrowheads .marker-arrowhead:hover {
+    fill: #3d9de4;
+}
+
+.joint-link .link-tools .link-tool .tool-remove circle {
+    fill: #f30015;
+}

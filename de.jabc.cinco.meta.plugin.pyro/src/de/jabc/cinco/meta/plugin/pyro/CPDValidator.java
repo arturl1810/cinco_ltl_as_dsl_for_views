@@ -16,9 +16,9 @@ public class CPDValidator implements IMetaPluginValidator {
 			Annotation a = (Annotation) eObject;
 			if(a.getName().equals("pyro"))
 			{
-				if(!a.getValue().isEmpty()){
+				if(a.getValue().size()!=1){
 						return new ErrorPair<String,EStructuralFeature>(
-								"No arguments allowed.",
+								"One argument needed",
 								eObject.eClass().getEStructuralFeature("value")
 								);						
 				}

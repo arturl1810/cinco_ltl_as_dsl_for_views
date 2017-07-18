@@ -44,6 +44,7 @@ import org.eclipse.xtext.xbase.lib.Pair;
 
 import de.jabc.cinco.meta.core.BundleRegistry;
 import de.jabc.cinco.meta.core.mgl.MGLEPackageRegistry;
+import de.jabc.cinco.meta.core.pluginregistry.CPDAnnotation;
 import de.jabc.cinco.meta.core.pluginregistry.PluginRegistry;
 import de.jabc.cinco.meta.core.ui.listener.MGLSelectionListener;
 import de.jabc.cinco.meta.core.ui.templates.NewProjectWizardGenerator;
@@ -233,10 +234,12 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 	 * @param mgls
 	 */
 	private void generateCPDPlugins(List<IFile> mgls) {
+		System.out.println("Generating CPD Plugins");
+		Set<CPDAnnotation> cpdAnnotations = PluginRegistry.
+				getInstance().
+				getPluginCPDGenerators();
 		Set<GraphModel> graphModels = mgls.stream().map(n->fileHelper.getContent(n, GraphModel.class)).collect(Collectors.toSet());
-		PluginRegistry.
-		getInstance().
-		getPluginCPDGenerators().
+		cpdAnnotations.
 		stream().
 		filter(
 				n->cpd.

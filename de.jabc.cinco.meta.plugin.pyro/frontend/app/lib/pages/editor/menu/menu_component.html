@@ -1,0 +1,96 @@
+<header class="navbar navbar-static-top" style="border-radius: 5px;margin-left: 5px;margin-right: 5px;padding-right: 5px;background-color: rgb(82, 82, 82);color: #cacaca;">
+        <div class="navbar-header">
+            <a class="navbar-brand" href (click)="back.emit($event)">
+                <img alt="Brand" src="assets/img/pyro_flame_white.svg" style="height: 40px;margin-top: -10px;">
+            </a>
+            <button aria-expanded="false" class="collapsed navbar-toggle" data-target="#bs-navbar" data-toggle="collapse" type="button">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button> <a href (click)="back.emit($event)" style="color: white;" class="navbar-brand">Pyro</a>
+        </div>
+        <nav class="collapse navbar-collapse" id="bs-navbar">
+            <ul class="nav navbar-nav">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" style="color: white;" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Project <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href (click)="openModalShowNewProjectModal($event)">New...</a></li>
+                        <li><a href (click)="saveProject($event)">Save</a></li>
+                        <li><a href (click)="openModalShowUserInfoModal($event)">User Info...</a></li>
+                        <li><a href (click)="openModalShowSharedModal($event)">Sharing...</a></li>
+                        <li><a href (click)="openModalShowDeleteProjectModal($event)">Delete</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href (click)="back.emit($event)">Projects</a></li>
+                        <li><a href (click)="logout.emit($event)">Quit</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" style="color: white;" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">View <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href (click)="scaleGraph(true,$event)"><span class="glyphicon glyphicon-plus-sign"></span> Scale</a></li>
+                        <li><a href (click)="scaleGraph(false,$event)"><span class="glyphicon glyphicon-minus-sign"></span> Scale</a></li>
+                        <li><a href (click)="showView($event)">Show View...</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" style="color: white;" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Routing <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li class="dropdown-header">Routing modes</li>
+                        <li [class.active]="isActiveRouter(null)"><a href (click)="changeRouteLayout(null,$event)">Default</a></li>
+                        <li [class.active]="isActiveRouter('orthogonal')"><a href (click)="changeRouteLayout('orthogonal',$event)">Orthogonal</a></li>
+                        <li [class.active]="isActiveRouter('metro')"><a href (click)="changeRouteLayout('metro',$event)">Metro</a></li>
+                        <li [class.active]="isActiveRouter('manhattan')"><a href (click)="changeRouteLayout('manhattan',$event)">Manhatten</a></li>
+                        <li class="dropdown-header">Connector layout</li>
+                        <li [class.active]="isActiveConnector('normal')"><a href (click)="changeConnectorLayout('normal',$event)">Normal</a></li>
+                        <li [class.active]="isActiveConnector('smooth')"><a href (click)="changeConnectorLayout('smooth',$event)">Smooth</a></li>
+                        <li [class.active]="isActiveConnector('rounded')"><a href (click)="changeConnectorLayout('rounded',$event)">Rounded</a></li>
+                        <li [class.active]="isActiveConnector('jumpover')"><a href (click)="changeConnectorLayout('jumpover',$event)">Jumpover</a></li>
+                    </ul>
+                </li>
+                <li><p class="navbar-text">{{project.name}}</p></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right" style="padding-right: 10px;">
+                <li><a href (click)="openModalShowSettingsModal($event)" style="color: white;">Settings</a></li>
+                <li><a href (click)="showInfo($event)" style="color: white;">Info</a></li>
+                <li><p class="navbar-text">Signed in as {{user.username}}</p></li>
+                <li><a href (click)="logout.emit($event)" style="color: white;" >Logout</a></li>
+            </ul>
+        </nav>
+</header>
+<user-info
+        *ngIf="showUserInfoModal"
+        [user]="user"
+        (close)="showUserInfoModal=false"
+>
+</user-info>
+<new-project
+        *ngIf="showNewProjectModal"
+        [user]="user"
+        (newProject)="openCurrentProject($event)"
+        (close)="showNewProjectModal=false"
+>
+</new-project>
+<shared
+        *ngIf="showSharedModal"
+        [user]="user"
+        [project]="project"
+        (close)="showSharedModal=false"
+>
+</shared>
+<delete-project
+        *ngIf="showDeleteProjectModal"
+        [user]="user"
+        [project]="project"
+        (close)="showDeleteProjectModal=false"
+        (delete)="deleteProject($event)"
+>
+</delete-project>
+<settings
+        *ngIf="showSettingsModal"
+        [user]="user"
+        [project]="project"
+        [graphModel]="currentGraphModel"
+        (close)="showSettingsModal=false"
+>
+</settings>

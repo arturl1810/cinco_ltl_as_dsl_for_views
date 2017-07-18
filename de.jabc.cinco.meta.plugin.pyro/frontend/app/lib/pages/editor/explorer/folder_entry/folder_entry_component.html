@@ -1,0 +1,72 @@
+<span *ngIf="!editMode">
+    <span
+        (click)="openFolder($event)"
+        [ngClass]="getFolderClass()"
+    ></span> <a href (click)="openFolder($event)" style="color: white;">{{folder.name}}</a>
+    <button
+        style="padding-left: 0;padding-right: 0;color: white;"
+        (click)="createInnerFolder(folder)"
+        type="button"
+        class="btn btn-xs btn-link btn-success"
+    >
+        <span class="glyphicon glyphicon-folder-close"></span>
+    </button>
+    <button
+        style="padding-left: 0;padding-right: 0;color: white;"
+        (click)="createInnerFile(folder)"
+        type="button"
+        class="btn btn-xs btn-link btn-success"
+    >
+        <span class="glyphicon glyphicon-file"></span>
+    </button>
+    <button
+        style="padding-left: 0;padding-right: 0;color: white;"
+        (click)="editEntry($event)"
+        type="button"
+        class="btn btn-xs btn-link btn-default"
+    >
+        <span class="glyphicon glyphicon-pencil"></span>
+    </button>
+    <button
+        style="padding-left: 0;padding-right: 0;color: white;"
+        (click)="delete.emit(folder)"
+        type="button"
+        class="btn btn-xs btn-link btn-danger"
+    >
+        <span class="glyphicon glyphicon-trash"></span>
+    </button>
+</span>
+<span *ngIf="editMode">
+    <span
+        (click)="openFolder($event)"
+        [ngClass]="getFolderClass()"
+    ></span>
+    <input type="text" [(ngModel)]="folder.name" style="color: #8e8e8e;" required>
+    <button
+        style="padding-left: 0;padding-right: 0;color: white;"
+        class="btn btn-default btn-xs btn-link"
+        (click)="save($event)"
+        type="button"
+    >
+        <span class="glyphicon glyphicon-ok"></span>
+    </button>
+</span>
+<ul [hidden]="!open" style="LIST-STYLE-TYPE: none;">
+    <li *ngFor="let entry of folder.innerFolders" style="white-space: nowrap">
+        <folder-entry
+            [folder]="entry"
+            (createFile)="createInnerFile($event)"
+            (createFolder)="createInnerFolder($event)"
+            (hasDeleted)="hasDeleted.emit($event)"
+            (delete)="removeFolder($event)"
+            (openGraphModel)="openGraphModel.emit($event)"
+        ></folder-entry>
+    </li>
+    <li *ngFor="let graph of folder.graphModels" style="white-space: nowrap">
+        <graph-entry
+            [graph]="graph"
+            (openGraphModel)="openGraphModel.emit($event)"
+            (delete)="deleteGraph($event)"
+        ></graph-entry>
+    </li>
+</ul>

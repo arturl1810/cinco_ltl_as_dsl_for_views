@@ -1,0 +1,34 @@
+<span>
+    <span *ngIf="editMode">
+        <span class="glyphicon glyphicon-file"></span>
+        <input type="text" [(ngModel)]="graph.filename" style="color: #8e8e8e;">
+        <button
+            class="btn btn-default btn-xs btn-link"
+            style="padding-left: 0;padding-right: 0;color: white;"
+            (click)="save($event)"
+            type="button"
+        >
+            <span class="glyphicon glyphicon-ok"></span>
+        </button>
+    </span>
+    <span *ngIf="!editMode">
+        <span class="glyphicon glyphicon-file"></span> <span (click)="selectGraphModel(graph,$event)"><a href (click)="selectGraphModel(graph,$event)" style="color: white;">{{graph.filename}}</a></span>
+        <button
+            class="btn btn-xs btn-link btn-default"
+            type="button"
+            (click)="editGraph($event)"
+            style="padding-left: 0;padding-right: 0;color: white;"
+        >
+            <span class="glyphicon glyphicon-pencil"></span>
+        </button>
+        <button
+            class="btn btn-xs btn-link btn-danger"
+            type="button"
+            (click)="delete.emit(graph)"
+            style="padding-left: 0;padding-right: 0;color: white;"
+        >
+            <span class="glyphicon glyphicon-trash"></span>
+        </button>
+    </span>
+</span>
+

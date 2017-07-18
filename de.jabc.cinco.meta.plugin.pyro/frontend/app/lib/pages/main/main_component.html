@@ -1,0 +1,34 @@
+<div class="main-class">
+    <div class="site-wrapper">
+
+        <div class="site-wrapper-inner">
+
+            <div class="cover-container">
+
+                <div class="clearfix">
+                    <div class="inner">
+                        <a class="navbar-brand" href (click)="back.emit($event)">
+                            <img alt="Brand" src="assets/img/pyro_flame_white.svg" style="height: 40px;margin-top: -10px;">
+                        </a>
+                        <h3 class="masthead-brand">Pyro</h3>
+                        <nav>
+                            <ul class="nav masthead-nav">
+                                <li [ngClass]="{'active':minorStateClass('welcome')}"><a href (click)="changeState('welcome',$event)">Home</a></li>
+                                <li [ngClass]="{'active':minorStateClass('features')}"><a href (click)="changeState('features',$event)">Features</a></li>
+                                <li [ngClass]="{'active':minorStateClass('login')}"><a href (click)="changeState('login',$event)">Login</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+                <ng-content></ng-content>
+                <div>
+                    <div class="inner">
+                        <p>Created by <a href="http://cinco.scce.info/">CINCO</a>, designed by Philip Zweihoff.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>

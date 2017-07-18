@@ -17,12 +17,12 @@ public class CPDAcceptor implements ICPDMetaPluginAcceptor {
 
 	@Override
 	public List<String> getAcceptedStrings(Annotation annotation) {
-		return Arrays.asList("foo");
+		return Arrays.asList("pyro");
 	}
 
 	@Override
 	public IReplacementTextApplier getTextApplier(Annotation annotation) {
-		if(annotation.getName().equals("pyro") && annotation.getValue().size()<=2) {
+		if(annotation.getName().equals("pyro") && annotation.getValue().size()<=1) {
 			return new ChooseFolderApplier(annotation,false);
 
 		}

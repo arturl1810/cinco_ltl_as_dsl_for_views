@@ -1,0 +1,38 @@
+<div class="modal fade in" id="createProjectModal" tabindex="-1" role="dialog" aria-labelledby="createProjectlabel" style="display: block; padding-left: 0px;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button (click)="close.emit($event)" type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="createProjectLabel">Create a new Project</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="projectName">Project Name</label>
+                        <input #projectName type="text" class="form-control" id="projectName" placeholder="Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="projectDescription">Project Description</label>
+                        <textarea #projectDescription class="form-control" id="projectDescription" placeholder="Description"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <p *ngIf="user.knownUsers.isNotEmpty">Share your project with your known users</p>
+                        <div class="row" *ngFor="let knownUser of user.knownUsers">
+                            <div class="col-sm-12" >
+                                <div class="checkbox">
+                                    <label>
+                                        <input [checked]="isToggeled(knownUser)" (click)="toggelUser(knownUser)" type="checkbox"> {{knownUser.username}}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button (click)="createNewProject(projectName.value,projectDescription.value)" type="button" class="btn btn-success">Create Project</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" (click)="close.emit($event)">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
