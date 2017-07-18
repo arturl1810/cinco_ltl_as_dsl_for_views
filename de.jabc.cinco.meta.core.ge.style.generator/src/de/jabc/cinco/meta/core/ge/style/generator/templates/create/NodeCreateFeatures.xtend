@@ -12,6 +12,7 @@ import org.eclipse.graphiti.mm.pictograms.PictogramElement
 import org.eclipse.graphiti.services.Graphiti
 import style.Styles
 import graphmodel.ModelElementContainer
+import graphmodel.internal.InternalContainer
 
 class NodeCreateFeatures extends APIUtils{
 	
@@ -73,12 +74,11 @@ class NodeCreateFeatures extends APIUtils{
 		 * @return Returns a list with the created pictogram elements and its graphical representation
 	    */
 		public «Object.name»[] create(«ICreateContext.name» context) {
-			«n.fqBeanName» «n.flName» = 
-				(«n.fqCName») «n.packageName».«n.graphModel.fuName»Factory.eINSTANCE.create«n.fuName»();
-«««			«n.flName».setInternalElement(«n.graphModel.package».«n.graphModel.name.toLowerCase».internal.InternalFactory.eINSTANCE.createInternal«n.fuName»());
-			setModelElement(«n.flName»);
 			«PictogramElement.name» target = context.getTargetContainer();
 			«EObject.name» targetBO = («EObject.name») getBusinessObjectForPictogramElement(target);
+			«n.fqBeanName» «n.flName» = 
+				(«n.fqCName») «n.packageName».«n.graphModel.fuName»Factory.eINSTANCE.create«n.fuName»((«InternalModelElementContainer.name») targetBO);
+			setModelElement(«n.flName»);
 	
 			if (targetBO instanceof «ModelElementContainer.name») 
 				targetBO = ((«ModelElementContainer.name») targetBO).getInternalContainerElement();

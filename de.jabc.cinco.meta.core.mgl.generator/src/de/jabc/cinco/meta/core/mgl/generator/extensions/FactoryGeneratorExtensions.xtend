@@ -10,6 +10,8 @@ import mgl.GraphicalModelElement
 import mgl.Type
 import mgl.ModelElement
 import mgl.UserDefinedType
+import graphmodel.internal.InternalContainer
+import graphmodel.internal.InternalModelElement
 
 class FactoryGeneratorExtensions {
 	
@@ -30,7 +32,9 @@ class FactoryGeneratorExtensions {
 		import «graphmodel.package».«graphmodel.name.toLowerCase».adapter.*
 		
 		import graphmodel.internal.InternalModelElement
+		import graphmodel.internal.InternalModelElementContainer
 		import graphmodel.internal.InternalGraphModel
+		import graphmodel.internal.InternalContainer
 		import graphmodel.ModelElement
 		import graphmodel.IdentifiableElement
 		import graphmodel.GraphModel
@@ -103,7 +107,7 @@ class FactoryGeneratorExtensions {
 			n.internalElement.eAdapters.add(new «gm.package».adapter.«gm.fuName»EContentAdapter)
 			n	
 		}
-			
+		
 		override create«gm.fuName»() {
 			create«gm.fuName»(generateUUID)
 		}
@@ -111,30 +115,45 @@ class FactoryGeneratorExtensions {
 	
 	dispatch static def specificCreateMethod(ModelElement it)'''
 		
-			def create«name»(String ID){
-				val n = super.create«name»
-				val ime = createInternal«name»
-				n => [ internal = ime]
-				setID(n,ID)
-				setID(ime,generateUUID)
-				«postCreate(it, "n")»
-				«IF !(it instanceof UserDefinedType)»n.internalElement.eAdapters.add(new «graphModel.package».adapter.«name»EContentAdapter)«ENDIF»
-				n
-				
-			}
+		def create«name»(String ID, InternalModelElement ime, InternalModelElementContainer parent){
+			val n = super.create«name»
+			n => [ internal = if (ime == null) createInternal«name» else ime]
+			n.internalElement.container = parent
+			setID(n,ID)
+			setID(n.internalElement,generateUUID)
+			«postCreate(it, "n")»
+			«IF !(it instanceof UserDefinedType)»n.internalElement.eAdapters.add(new «graphModel.package».adapter.«name»EContentAdapter)«ENDIF»
+			n
+		}
 		
-			override create«name»() {
-				create«name»(generateUUID)
-			}
-			
-			def create«name»(InternalModelElement ime) {
-				val n = create«name»
-				n => [ internal = ime ]
-				setID(ime,generateUUID)
-				«postCreate(it, "n")»
-				 «IF !(it instanceof UserDefinedType)»n.internalElement.eAdapters.add(new «graphModel.package».adapter.«name»EContentAdapter)«ENDIF»
-				n
-			}
+		def create«name»(String ID){
+			create«name»(ID,null,null)
+«««			val n = super.create«name»
+«««			val ime = createInternal«name»
+«««			n => [ internal = ime]
+«««			setID(n,ID)
+«««			setID(ime,generateUUID)
+«««			«postCreate(it, "n")»
+«««			«IF !(it instanceof UserDefinedType)»n.internalElement.eAdapters.add(new «graphModel.package».adapter.«name»EContentAdapter)«ENDIF»
+«««			n
+		}
+		
+		def create«name»(InternalModelElementContainer parent){
+			create«name»(generateUUID,null,parent)
+		}
+		
+		override create«name»() {
+			create«name»(generateUUID)
+		}
+		
+		def create«name»(InternalModelElement ime) {
+			val n = create«name»
+			n => [ internal = ime ]
+			setID(ime,generateUUID)
+			«postCreate(it, "n")»
+			 «IF !(it instanceof UserDefinedType)»n.internalElement.eAdapters.add(new «graphModel.package».adapter.«name»EContentAdapter)«ENDIF»
+			n
+		}
 «««			override def create«ecl.modelElement.name»(){
 «««				val «ecl.mainEClass.name.toLowerCase» = «model.name.toLowerCase.toFirstUpper»Factory.eINSTANCE.create«ecl.mainEClass.name»
 «««				val «ecl.internalEClass.name.toLowerCase» = InternalFactory.eINSTANCE.create«ecl.internalEClass.name»
