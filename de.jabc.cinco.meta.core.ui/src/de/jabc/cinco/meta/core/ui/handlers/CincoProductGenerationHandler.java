@@ -1,7 +1,14 @@
 package de.jabc.cinco.meta.core.ui.handlers;
 
 import static de.jabc.cinco.meta.core.utils.job.JobFactory.job;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -36,7 +43,9 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.commands.ICommandService;
 import org.eclipse.ui.handlers.HandlerUtil;
@@ -62,19 +71,22 @@ import productDefinition.CincoProduct;
 import productDefinition.MGLDescriptor;
 import transem.utility.helper.Tuple;
 
-
 /**
  * Our sample handler extends AbstractHandler, an IHandler base class.
+ * 
  * @see org.eclipse.core.commands.IHandler
  * @see org.eclipse.core.commands.AbstractHandler
  */
 public class CincoProductGenerationHandler extends AbstractHandler {
-	
+
+	private Long lastGenerationTime = 0L;
+
 	/**
 	 * The constructor.
 	 */
-	public CincoProductGenerationHandler() {}
-	
+	public CincoProductGenerationHandler() {
+	}
+
 	ICommandService commandService;
 	private RuntimeException reason;
 	private List<IFile> mgls;
@@ -85,109 +97,135 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 	private FileExtension fileHelper;
 
 	/**
-	 * the command has been executed, so extract the needed information
-	 * from the application context and run the build job.
+	 * the command has been executed, so extract the needed information from the
+	 * application context and run the build job.
 	 */
 	synchronized public Object execute(ExecutionEvent executionEvent) throws ExecutionException {
 		long startTime = System.nanoTime();
-		System.err.println("Starting at: "+startTime);
+		System.err.println("Starting at: " + startTime);
 		event = executionEvent;
-		
+
 		StructuredSelection selection = (StructuredSelection) HandlerUtil.getActiveMenuSelection(event);
 		if (!(selection.getFirstElement() instanceof IFile))
 			return null;
-		
+
 		init(); // retrieve command service and cpd file
+		readGenerationTimestamp();
+
+		Workload job = job("Generate Cinco Product").consume(10, "Initializing...")
+				.task("Collecting MGLs...", this::mglTopSort).task("Disabling auto-build...", this::disableAutoBuild)
+				.task("Deleting previously generated resources...", this::deleteGeneratedResources)
+				.task("Resetting registries...", this::resetRegistries);
+
 		int numMGLs = countMGLsToGenerate();
-		
-		Workload job = job("Generate Cinco Product")
-		  .consume(10, "Initializing...")
-		    .task("Collecting MGLs...", this::mglTopSort)
-			.task("Disabling auto-build...", this::disableAutoBuild)
-		    .task("Deleting previously generated resources...", this::deleteGeneratedResources)
-		    .task("Resetting registries...", this::resetRegistries);
-		
-		// FIXME this should be put to a CPDMetaPlugin as soon as the plugin structure has been fixed.
-//		final Map<IFile, IFile> backuppedMGLs = new HashMap<IFile, IFile>();
-//		job.consume(20, "Preprocess MGLs").task(() -> backuppedMGLs.putAll(preprocessMGLs(mgls)));
-		
-		// TODO this could be much nicer with nested jobs or JOOL/Seq and Xtend
-		job.consume(50 * numMGLs, "Processing MGLs").taskForEach(() ->
-			mgls.stream().flatMap(file -> {
-				final List<Pair<String, Runnable>> pairs = new LinkedList<>();
-				pairs.add(new Pair<>(String.format("Initializing... %s", file.getFullPath().lastSegment()), () -> publishMglFile(file)));
-				pairs.add(new Pair<>(String.format("Generating Ecore/GenModel...", file.getFullPath().lastSegment()), () -> generateEcoreModel(file)));
-				pairs.add(new Pair<>(String.format("Generating model code...", file.getFullPath().lastSegment()), () -> generateGenmodelCode(file)));
-				pairs.add(new Pair<>(String.format("Generating Graphiti editor...", file.getFullPath().lastSegment()), () -> generateGraphitiEditor(file)));
-				pairs.add(new Pair<>(String.format("Generating API...", file.getFullPath().lastSegment()), () -> generateApi(file)));
-				pairs.add(new Pair<>(String.format("Generating Cinco SIBs...", file.getFullPath().lastSegment()), () -> generateCincoSIBs(file)));
-				pairs.add(new Pair<>(String.format("Generating product project...", file.getFullPath().lastSegment()), () -> generateProductProject(file)));
-				pairs.add(new Pair<>(String.format("Generating feature project...", file.getFullPath().lastSegment()), () -> generateFeatureProject(file)));
-				pairs.add(new Pair<>(String.format("Generating perspective...", file.getFullPath().lastSegment()), () -> generatePerspective(file)));
-				pairs.add(new Pair<>(String.format("Generating Gratext model...", file.getFullPath().lastSegment()), () -> {
-					if (isGratextEnabled()) generateGratextModel(file);
-				}));
-				return pairs.stream();
-			}),
-			pair -> pair.getValue().run(),
-			pair -> pair.getKey()
-		);
-		
-		job.task("Generate CPD plugins", () -> generateCPDPlugins(mgls));
-		
-		job.consume(5, "Global Processing")
-			.task("Generating project wizard...", this::generateProjectWizard);
-		
-		if (isGratextEnabled()) {
-			job.consumeConcurrent(60 * numMGLs, "Building Gratext...")
-			    .taskForEach(() -> mgls.stream(), this::buildGratext,
-						t -> t.getFullPath().lastSegment());
+
+		if (numMGLs == 0) {
+			Display display = getDisplay();
+			if (MessageDialog.openQuestion(display.getActiveShell(), "Cinco Product Generator",
+					"No model changes! \n \n Generate anyways? :-$")) {
+				deleteGenerationTimestamp();
+				numMGLs = countMGLsToGenerate();
+			} else {
+				return null;
+			}
+
 		}
-		
-//		job.task("Putting mgls back...", () -> {
-//			final Set<GraphModel> graphModels = new LinkedHashSet<>(
-//					preprocessedMGLs.stream().map(n -> eapi(n).getResourceContent(GraphModel.class)).collect(Collectors.toList()));
-//
-//			final Iterator<IFile> mglsIter = mgls.iterator();
-//			graphModels.forEach( gm -> {
-//				final Resource res = eapi(mglsIter.next()).getResource();
-//				res.getContents().clear();
-//				res.getContents().add(gm);
-//				try {
-//					res.save(null);
-//				}
-//				catch(Exception e){
-//					e.printStackTrace();
-//					throw new RuntimeException(e);
-//				}
-//			});
-//		});
-		
-		job.onCanceledShowMessage("Cinco Product generation has been canceled")
-		  .onFinished(() -> printDebugOutput(event, startTime))
-		  .onFinishedShowMessage("Cinco Product generation completed successfully")
-//		  .onDone(() -> {restoreMGLBackups(backuppedMGLs); resetAutoBuild();})
-		  .onDone(() -> resetAutoBuild())
-		  .schedule();
-		
+
+		// FIXME this should be put to a CPDMetaPlugin as soon as the plugin
+		// structure has been fixed.
+		// final Map<IFile, IFile> backuppedMGLs = new HashMap<IFile, IFile>();
+		// job.consume(20, "Preprocess MGLs").task(() ->
+		// backuppedMGLs.putAll(preprocessMGLs(mgls)));
+
+		// TODO this could be much nicer with nested jobs or JOOL/Seq and Xtend
+		job.consume(50 * numMGLs, "Processing MGLs").taskForEach(() -> mgls.stream().flatMap(file -> {
+			final List<Pair<String, Runnable>> pairs = new LinkedList<>();
+			pairs.add(new Pair<>(String.format("Initializing... %s", file.getFullPath().lastSegment()),
+					() -> publishMglFile(file)));
+			pairs.add(new Pair<>(String.format("Generating Ecore/GenModel...", file.getFullPath().lastSegment()),
+					() -> generateEcoreModel(file)));
+			pairs.add(new Pair<>(String.format("Generating model code...", file.getFullPath().lastSegment()),
+					() -> generateGenmodelCode(file)));
+			pairs.add(new Pair<>(String.format("Generating Graphiti editor...", file.getFullPath().lastSegment()),
+					() -> generateGraphitiEditor(file)));
+			pairs.add(new Pair<>(String.format("Generating API...", file.getFullPath().lastSegment()),
+					() -> generateApi(file)));
+			pairs.add(new Pair<>(String.format("Generating Cinco SIBs...", file.getFullPath().lastSegment()),
+					() -> generateCincoSIBs(file)));
+			pairs.add(new Pair<>(String.format("Generating product project...", file.getFullPath().lastSegment()),
+					() -> generateProductProject(file)));
+			pairs.add(new Pair<>(String.format("Generating feature project...", file.getFullPath().lastSegment()),
+					() -> generateFeatureProject(file)));
+			pairs.add(new Pair<>(String.format("Generating perspective...", file.getFullPath().lastSegment()),
+					() -> generatePerspective(file)));
+			pairs.add(new Pair<>(String.format("Generating Gratext model...", file.getFullPath().lastSegment()), () -> {
+				if (isGratextEnabled())
+					generateGratextModel(file);
+			}));
+			return pairs.stream();
+		}), pair -> pair.getValue().run(), pair -> pair.getKey());
+
+		job.task("Generate CPD plugins", () -> generateCPDPlugins(mgls));
+
+		job.consume(5, "Global Processing").task("Generating project wizard...", this::generateProjectWizard);
+
+		if (isGratextEnabled()) {
+			job.consumeConcurrent(60 * numMGLs, "Building Gratext...").taskForEach(() -> mgls.stream(),
+					this::buildGratext, t -> t.getFullPath().lastSegment());
+		}
+
+		// job.task("Putting mgls back...", () -> {
+		// final Set<GraphModel> graphModels = new LinkedHashSet<>(
+		// preprocessedMGLs.stream().map(n ->
+		// eapi(n).getResourceContent(GraphModel.class)).collect(Collectors.toList()));
+		//
+		// final Iterator<IFile> mglsIter = mgls.iterator();
+		// graphModels.forEach( gm -> {
+		// final Resource res = eapi(mglsIter.next()).getResource();
+		// res.getContents().clear();
+		// res.getContents().add(gm);
+		// try {
+		// res.save(null);
+		// }
+		// catch(Exception e){
+		// e.printStackTrace();
+		// throw new RuntimeException(e);
+		// }
+		// });
+		// });
+
+		job.onCanceledShowMessage("Cinco Product generation has been canceled").onFinished(() -> {
+			writeGenerationTimestamp();
+			printDebugOutput(event, startTime);
+		}).onFinishedShowMessage("Cinco Product generation completed successfully")
+				// .onDone(() -> {restoreMGLBackups(backuppedMGLs);
+				// resetAutoBuild();})
+				.onDone(() -> resetAutoBuild()).schedule();
+
 		return null;
 	}
-	
+
+	private Display getDisplay() {
+		return Display.getCurrent() != null ? Display.getCurrent() : Display.getDefault();
+	}
+
 	/**
-	 * backups all provided MGLs and afterwards applies the preprocessing meta plug-in to the original files (potentially changing them).
-	 * The returned map provides the reference to the backups for later restore.
+	 * backups all provided MGLs and afterwards applies the preprocessing meta
+	 * plug-in to the original files (potentially changing them). The returned
+	 * map provides the reference to the backups for later restore.
 	 * 
 	 * @param mgls
-	 * @return The MGL backups for later restore; key=backup value=(changed) original.
+	 * @return The MGL backups for later restore; key=backup value=(changed)
+	 *         original.
 	 */
 	private Map<IFile, IFile> preprocessMGLs(List<IFile> mgls) {
-		
+
 		try {
 
 			Map<IFile, IFile> backups = new HashMap<IFile, IFile>();
 
 			IFolder backupFolder = mgls.get(0).getProject().getFolder("mgl-backups");
-			backupFolder.create(false,  false, null);
+			backupFolder.create(false, false, null);
 
 			mgls.stream().forEach(mgl -> {
 				IFile targetFile = backupFolder.getFile(mgl.getName());
@@ -217,38 +255,27 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 
 			return backups;
 
-		}
-		catch (RuntimeException e) {
+		} catch (RuntimeException e) {
 			throw e;
-		}
-		catch (Throwable t) {
+		} catch (Throwable t) {
 			t.printStackTrace();
 			throw new RuntimeException(t);
 		}
 
 	}
-	
+
 	/**
 	 * Executes the CPD meta plug ins
+	 * 
 	 * @param mgls
 	 */
 	private void generateCPDPlugins(List<IFile> mgls) {
-		Set<GraphModel> graphModels = mgls.stream().map(n->fileHelper.getContent(n, GraphModel.class)).collect(Collectors.toSet());
-		PluginRegistry.
-		getInstance().
-		getPluginCPDGenerators().
-		stream().
-		filter(
-				n->cpd.
-				getAnnotations().
-				stream().
-				filter(e->e.
-						getName().
-						equals(n.getAnnotationName())).
-						findAny().
-						isPresent()
-				).
-		forEach(n->n.getPlugin().execute(graphModels,cpd,cpdFile.getProject()));
+		Set<GraphModel> graphModels = mgls.stream().map(n -> fileHelper.getContent(n, GraphModel.class))
+				.collect(Collectors.toSet());
+		PluginRegistry.getInstance().getPluginCPDGenerators().stream()
+				.filter(n -> cpd.getAnnotations().stream().filter(e -> e.getName().equals(n.getAnnotationName()))
+						.findAny().isPresent())
+				.forEach(n -> n.getPlugin().execute(graphModels, cpd, cpdFile.getProject()));
 	}
 
 	private void init() {
@@ -262,38 +289,43 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 	private void resetRegistries() {
 		BundleRegistry.resetRegistry();
 		MGLEPackageRegistry.resetRegistry();
-		
+
 	}
 
 	private void printDebugOutput(ExecutionEvent event, long startTime) {
 		long stopTime = System.nanoTime();
-		System.err.println("Stopping at: "+stopTime);
-		System.err.println(String.format("Generation took %s of your earth minutes.",(stopTime-startTime)*Math.pow(10,-9)/60));
+		System.err.println("Stopping at: " + stopTime);
+		System.err.println(String.format("Generation took %s of your earth minutes.",
+				(stopTime - startTime) * Math.pow(10, -9) / 60));
 	}
 
 	private void displayErrorDialog(ExecutionEvent event, Exception e1) {
-//		StringWriter sw = new StringWriter();
-//		PrintWriter pw = new PrintWriter(sw);
-//		e1.printStackTrace(pw);
-//		
-//		List<Status> children = new ArrayList<>();
-//		
-//		String pluginId = event.getTrigger().getClass().getCanonicalName();
-//		for (String line : sw.toString().split(System.lineSeparator())) {
-//			Status status = new Status(IStatus.ERROR, pluginId, line);
-//			children.add(status);
-//		}
-//		
-//		MultiStatus mstat = new MultiStatus(pluginId, IStatus.ERROR, children.toArray(new IStatus[children.size()]), e1.getLocalizedMessage(), e1);
-//		Display display = Display.getCurrent();
-//		if(display==null)
-//			display = Display.getDefault();
-//		display.asyncExec(() ->{
-//		ErrorDialog.openError(HandlerUtil.getActiveShell(event), "Error in Cinco Product Generation", "An error occured during generation: ", mstat);});
-		
+		// StringWriter sw = new StringWriter();
+		// PrintWriter pw = new PrintWriter(sw);
+		// e1.printStackTrace(pw);
+		//
+		// List<Status> children = new ArrayList<>();
+		//
+		// String pluginId = event.getTrigger().getClass().getCanonicalName();
+		// for (String line : sw.toString().split(System.lineSeparator())) {
+		// Status status = new Status(IStatus.ERROR, pluginId, line);
+		// children.add(status);
+		// }
+		//
+		// MultiStatus mstat = new MultiStatus(pluginId, IStatus.ERROR,
+		// children.toArray(new IStatus[children.size()]),
+		// e1.getLocalizedMessage(), e1);
+		// Display display = Display.getCurrent();
+		// if(display==null)
+		// display = Display.getDefault();
+		// display.asyncExec(() ->{
+		// ErrorDialog.openError(HandlerUtil.getActiveShell(event), "Error in
+		// Cinco Product Generation", "An error occured during generation: ",
+		// mstat);});
+
 		e1.printStackTrace();
 	}
-	
+
 	private void publishMglFile(IFile mglFile) {
 		MGLSelectionListener.INSTANCE.putMGLFile(mglFile);
 	}
@@ -301,46 +333,49 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 	private void generateEcoreModel(IFile mglFile) {
 		execute("de.jabc.cinco.meta.core.mgl.ui.mglgenerationcommand");
 	}
-	
+
 	private void generateGenmodelCode(IFile mglFile) {
 		try {
 			GeneratorHelper.generateGenModelCode(mglFile);
 		} catch (IOException e) {
-			reason = new RuntimeException(String.format("Generation of %s failed", mglFile.getFullPath().lastSegment()),e);
+			reason = new RuntimeException(String.format("Generation of %s failed", mglFile.getFullPath().lastSegment()),
+					e);
 			throw reason;
 		}
 	}
-	
+
 	private void generateGraphitiEditor(IFile mglFile) {
 		execute("de.jabc.cinco.meta.core.ge.generator.generateeditorcommand");
 	}
-	
+
 	private void generateApi(IFile mglFile) {
 		IProject apiProject = mglFile.getProject();
-		if (apiProject.exists()) try {
-			GeneratorHelper.generateGenModelCode(apiProject, "C"+mglFile.getName().split("\\.")[0]);
-		} catch (IOException e) {
-			reason = new RuntimeException(String.format("Generation of %s failed", mglFile.getFullPath().lastSegment()),e);
-			throw reason;
-		}
+		if (apiProject.exists())
+			try {
+				GeneratorHelper.generateGenModelCode(apiProject, "C" + mglFile.getName().split("\\.")[0]);
+			} catch (IOException e) {
+				reason = new RuntimeException(
+						String.format("Generation of %s failed", mglFile.getFullPath().lastSegment()), e);
+				throw reason;
+			}
 	}
-	
+
 	private void generateCincoSIBs(IFile mglFile) {
 		execute("de.jabc.cinco.meta.core.jabcproject.commands.generateCincoSIBsCommand");
 	}
-	
+
 	private void generateProductProject(IFile mglFile) {
 		execute("cpd.handler.ui.generate");
 	}
-	
+
 	private void generateFeatureProject(IFile mglFile) {
 		execute("de.jabc.cinco.meta.core.generatefeature");
 	}
-	
+
 	private void generatePerspective(IFile mglFile) {
 		generateDefaultPerspective(mglFile);
 	}
-	
+
 	private void generateGratextModel(IFile mglFile) {
 		if (isGratextEnabled()) {
 			execute("de.jabc.cinco.meta.plugin.gratext.generategratext");
@@ -352,14 +387,15 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 			execute("de.jabc.cinco.meta.plugin.gratext.buildgratext");
 		}
 	}
-	
+
 	private boolean isGratextEnabled() {
 		return cpd.getAnnotations().stream().noneMatch(ann -> "disableGratext".equals(ann.getName()));
 	}
-	
+
 	private EObject loadModel(IFile cpdFile, String fileExtension, EPackage ePkg) throws IOException, CoreException {
 		URI createPlatformResourceURI = URI.createPlatformResourceURI(cpdFile.getFullPath().toPortableString(), true);
-		Resource res = Resource.Factory.Registry.INSTANCE.getFactory(createPlatformResourceURI, fileExtension).createResource(createPlatformResourceURI);
+		Resource res = Resource.Factory.Registry.INSTANCE.getFactory(createPlatformResourceURI, fileExtension)
+				.createResource(createPlatformResourceURI);
 		ResourceSet set = ePkg.eResource().getResourceSet();
 		res.load(cpdFile.getContents(), null);
 		return res.getContents().get(0);
@@ -369,20 +405,18 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 		IProject project = cpdFile.getProject();
 		try {
 			ArrayList<String> gmPackages = new ArrayList<>();
-			for(MGLDescriptor mgl: cpd.getMgls()){
-				if(!mgl.isDontGenerate()){
+			for (MGLDescriptor mgl : cpd.getMgls()) {
+				if (isGenerationRequired(mgl)) {
 					String mglPath = mgl.getMglPath();
 					IFile mglFile = project.getFile(mglPath);
 					try {
-						EObject eObj = loadModel(mglFile,"mgl",MglPackage.eINSTANCE);
-						
-						
-							if(eObj instanceof GraphModel)
-								gmPackages.add(((GraphModel)eObj).getPackage());
-						
-					
+						EObject eObj = loadModel(mglFile, "mgl", MglPackage.eINSTANCE);
+
+						if (eObj instanceof GraphModel)
+							gmPackages.add(((GraphModel) eObj).getPackage());
+
 					} catch (IOException e) {
-						
+
 						e.printStackTrace();
 					}
 				}
@@ -390,14 +424,13 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 			}
 			Collection<IResource> toDelete = new ArrayList<>();
 			toDelete.add(project.findMember("resources-gen/"));
-			if(project.getFolder("src-gen/").exists()){
+			if (project.getFolder("src-gen/").exists()) {
 				for (IResource member : project.getFolder("src-gen/").members()) {
-					if (member instanceof IFolder
-							&& !member.getName().equals("model")) {
+					if (member instanceof IFolder && !member.getName().equals("model")) {
 
-						for(String e: gmPackages){
-							if(e.startsWith(member.getName()))
-								toDelete.add(((IFolder)member.getParent()).getFolder(toPath(e)));
+						for (String e : gmPackages) {
+							if (e.startsWith(member.getName()))
+								toDelete.add(((IFolder) member.getParent()).getFolder(toPath(e)));
 						}
 					}
 				}
@@ -405,8 +438,7 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 
 			for (IResource resource : toDelete) {
 				if (resource != null) {
-					resource.delete(org.eclipse.core.resources.IResource.FORCE,
-							null);
+					resource.delete(org.eclipse.core.resources.IResource.FORCE, null);
 				}
 			}
 
@@ -415,30 +447,32 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 		}
 
 	}
-	
-	private List<IFile> mglTopSort(){
+
+	private List<IFile> mglTopSort() {
 		IProject project = cpdFile.getProject();
-		ArrayList<Tuple<String,List<String>>> unsorted = new ArrayList<>();
-		HashMap<String,Integer> mglPrios = new HashMap<>();
+		ArrayList<Tuple<String, List<String>>> unsorted = new ArrayList<>();
+		HashMap<String, Integer> mglPrios = new HashMap<>();
 		List<DependencyNode> dns = new ArrayList<DependencyNode>();
 		List<String> stacked = new ArrayList<>();
-		for(MGLDescriptor mgl: cpd.getMgls()){
+		for (MGLDescriptor mgl : cpd.getMgls()) {
 			String mglPath = mgl.getMglPath();
 			IFile mglFile = project.getFile(mglPath);
-			
-			if(!mgl.isDontGenerate()){
-				
+
+			if (isGenerationRequired(mgl)) {
+
 				try {
-					EObject eObj = loadModel(mglFile,"mgl",MglPackage.eINSTANCE);
-					if(eObj instanceof GraphModel){
-						GraphModel gm = (GraphModel)eObj;
+					EObject eObj = loadModel(mglFile, "mgl", MglPackage.eINSTANCE);
+					if (eObj instanceof GraphModel) {
+						GraphModel gm = (GraphModel) eObj;
 						String projectSymbolicName = ProjectCreator.getProjectSymbolicName(project);
-						DependencyNode dn = new DependencyNode(gm.eResource().getURI().toPlatformString(true).replace("/"+projectSymbolicName+"/",""));
-						//ArrayList<String> before = new ArrayList<String>();
-						for(Import imprt : gm.getImports()){
-							if(imprt.getImportURI().endsWith(".mgl")){
-								if(!imprt.isStealth()) {
-									String importStr = imprt.getImportURI().replace("platform:/resource/"+projectSymbolicName+"/","");
+						DependencyNode dn = new DependencyNode(gm.eResource().getURI().toPlatformString(true)
+								.replace("/" + projectSymbolicName + "/", ""));
+						// ArrayList<String> before = new ArrayList<String>();
+						for (Import imprt : gm.getImports()) {
+							if (imprt.getImportURI().endsWith(".mgl")) {
+								if (!imprt.isStealth()) {
+									String importStr = imprt.getImportURI()
+											.replace("platform:/resource/" + projectSymbolicName + "/", "");
 									if (importStr.startsWith("/"))
 										importStr = importStr.substring(1);
 									dn.getDependsOf().add(importStr);
@@ -446,111 +480,114 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 							}
 						}
 						dns.add(dn);
-//						//eObj.eResource().getURI().toPlatformString(true)
-//						Tuple<String,List<String>> tuple = new Tuple<>(mglPath,before);
-//						unsorted.add(tuple);
-//						//eObj.eResource().getURI().toPlatformString(true)
-//						mglPrios.put(mglPath,0);
-						
+						// //eObj.eResource().getURI().toPlatformString(true)
+						// Tuple<String,List<String>> tuple = new
+						// Tuple<>(mglPath,before);
+						// unsorted.add(tuple);
+						// //eObj.eResource().getURI().toPlatformString(true)
+						// mglPrios.put(mglPath,0);
+
 					}
 				} catch (IOException | CoreException e) {
-					
+
 					e.printStackTrace();
 				}
-			}else{
-				stacked.add("/"+mgl.getMglPath());
-				MGLEPackageRegistry.INSTANCE.addMGLEPackage(getEPackageForMGL(mglFile,project));
+			} else {
+				stacked.add("/" + mgl.getMglPath());
+				MGLEPackageRegistry.INSTANCE.addMGLEPackage(getEPackageForMGL(mglFile, project));
 			}
-			
+
 		}
-		DependencyGraph dg = DependencyGraph.createGraph(dns,stacked);
+		DependencyGraph dg = DependencyGraph.createGraph(dns, stacked);
 		mgls = dg.topSort().stream().map(path -> cpdFile.getProject().getFile(path)).collect(Collectors.toList());
 		return mgls;
-		//HashMap<String,Integer> mglPrios = new HashMap<>();
-//		for(Tuple<String, List<String>> e: unsorted){
-//			Integer prio = mglPrios.get(e.getLeft());
-//			
-//				ArrayList<Integer> prios = new ArrayList<Integer>();
-//				for(String ep: e.getRight()){
-//					Integer p = mglPrios.get(ep);
-//					if(p==null)
-//						p = 0;
-//					
-//					prios.add(p);
-//				}
-//				if(prios.size()>0)
-//					prio=prios.stream().min(Integer::min).get()-1;
-//				else
-//					prio=0;
-//				mglPrios.put(e.getLeft(),prio);
-//			
-//			
-//		}
-//		List<String> lst = mglPrios.entrySet().stream().sorted((a,b) -> Integer.compare(a.getValue(),b.getValue())).map(e -> e.getKey()).collect(Collectors.toList());
-//		return Lists.reverse(lst);
-		
-	}
-	
-	private int countMGLsToGenerate() {
-		return (int) cpd.getMgls().stream().filter((mgl) -> !mgl.isDontGenerate()).count();
+		// HashMap<String,Integer> mglPrios = new HashMap<>();
+		// for(Tuple<String, List<String>> e: unsorted){
+		// Integer prio = mglPrios.get(e.getLeft());
+		//
+		// ArrayList<Integer> prios = new ArrayList<Integer>();
+		// for(String ep: e.getRight()){
+		// Integer p = mglPrios.get(ep);
+		// if(p==null)
+		// p = 0;
+		//
+		// prios.add(p);
+		// }
+		// if(prios.size()>0)
+		// prio=prios.stream().min(Integer::min).get()-1;
+		// else
+		// prio=0;
+		// mglPrios.put(e.getLeft(),prio);
+		//
+		//
+		// }
+		// List<String> lst = mglPrios.entrySet().stream().sorted((a,b) ->
+		// Integer.compare(a.getValue(),b.getValue())).map(e ->
+		// e.getKey()).collect(Collectors.toList());
+		// return Lists.reverse(lst);
+
 	}
 
-	private EPackage getEPackageForMGL(IFile mglFile, IProject project){
+	private EPackage getEPackageForMGL(IFile mglFile, IProject project) {
 		String ecoreName = mglFile.getName().replace(mglFile.getFileExtension(), "ecore");
-		String ecorePath = project.getFile("src-gen/model/"+ecoreName).getProjectRelativePath().makeAbsolute().toString();
-		URI uri = URI.createPlatformResourceURI(ProjectCreator.getProjectSymbolicName(project)+"/src-gen/model/"+ecoreName, true);
+		String ecorePath = project.getFile("src-gen/model/" + ecoreName).getProjectRelativePath().makeAbsolute()
+				.toString();
+		URI uri = URI.createPlatformResourceURI(
+				ProjectCreator.getProjectSymbolicName(project) + "/src-gen/model/" + ecoreName, true);
 		Resource res = Resource.Factory.Registry.INSTANCE.getFactory(uri).createResource(uri);
 		try {
 			res.load(null);
 			return (EPackage) res.getContents().get(0);
 		} catch (IOException e) {
-		
-			throw new RuntimeException("Failed to load ecore model: "+ecoreName,e);
+
+			throw new RuntimeException("Failed to load ecore model: " + ecoreName, e);
 		}
 	}
 
 	private String toPath(String e) {
 		return e.replace('.', '/');
 	}
-	
+
 	private void generateDefaultPerspective(IFile mglFile) {
 		CincoProduct cp = (CincoProduct) CincoUtils.getCPD(cpdFile);
-		
+
 		IProject p = cpdFile.getProject();
 		IFile pluginXML = p.getFile("plugin.xml");
-		String extensionCommentID = "<!--@CincoGen "+cp.getName().toUpperCase()+"-->";
-		
+		String extensionCommentID = "<!--@CincoGen " + cp.getName().toUpperCase() + "-->";
+
 		if (cp.getDefaultPerspective() != null && !cp.getDefaultPerspective().isEmpty())
 			return;
-		
-		CharSequence defaultPerspectiveContent = 
-				de.jabc.cinco.meta.core.ui.templates.DefaultPerspectiveContent.generateDefaultPerspective(cp, cpdFile);
-		CharSequence defaultXMLPerspectiveContent = 
-				de.jabc.cinco.meta.core.ui.templates.DefaultPerspectiveContent.generateXMLPerspective(cp, cpdFile.getProject().getName());
-		
-		IFile file = p.getFile("src-gen/"+p.getName().replace(".", "/")+"/"+cp.getName()+"Perspective.java");
+
+		CharSequence defaultPerspectiveContent = de.jabc.cinco.meta.core.ui.templates.DefaultPerspectiveContent
+				.generateDefaultPerspective(cp, cpdFile);
+		CharSequence defaultXMLPerspectiveContent = de.jabc.cinco.meta.core.ui.templates.DefaultPerspectiveContent
+				.generateXMLPerspective(cp, cpdFile.getProject().getName());
+
+		IFile file = p.getFile("src-gen/" + p.getName().replace(".", "/") + "/" + cp.getName() + "Perspective.java");
 		CincoUtils.writeContentToFile(file, defaultPerspectiveContent.toString());
-		CincoUtils.addExtension(pluginXML.getLocation().toString(), defaultXMLPerspectiveContent.toString(), extensionCommentID, p.getName());
+		CincoUtils.addExtension(pluginXML.getLocation().toString(), defaultXMLPerspectiveContent.toString(),
+				extensionCommentID, p.getName());
 	}
-	
+
 	private void execute(String commandId) {
 		try {
 			commandService.getCommand(commandId).executeWithChecks(event);
 		} catch (ExecutionException | NotDefinedException | NotEnabledException | NotHandledException e) {
 			IFile mglFile = MGLSelectionListener.INSTANCE.getCurrentMGLFile();
 			reason = (mglFile != null)
-				? new RuntimeException(String.format("Generation of %s failed", mglFile.getFullPath().lastSegment()), e)
-				: new RuntimeException(String.format("Generation of %s failed", cpdFile.getName()), e);
+					? new RuntimeException(
+							String.format("Generation of %s failed", mglFile.getFullPath().lastSegment()), e)
+					: new RuntimeException(String.format("Generation of %s failed", cpdFile.getName()), e);
 			throw reason;
 		}
 	}
-	
+
 	private boolean isAutoBuild() {
 		IWorkspace workspace = ResourcesPlugin.getWorkspace();
 		IWorkspaceDescription desc = workspace.getDescription();
 		return desc.isAutoBuilding();
 	}
-	
+
 	private void disableAutoBuild() {
 		try {
 			setAutoBuild(false);
@@ -561,7 +598,7 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 			}
 		}
 	}
-	
+
 	private void setAutoBuild(boolean enable) throws CoreException {
 		IWorkspace workspace = ResourcesPlugin.getWorkspace();
 		IWorkspaceDescription desc = workspace.getDescription();
@@ -571,22 +608,23 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 			workspace.setDescription(desc);
 		}
 	}
-	
+
 	private void resetAutoBuild() {
 		try {
 			setAutoBuild(autoBuild);
 		} catch (Exception e) {
 			if (!autoBuild != isAutoBuild()) {
-				System.err.println("[Gratext] WARN: Failed to reset state for \"Build Automatically\". "
-						+ "Should be " + autoBuild);
+				System.err.println("[Gratext] WARN: Failed to reset state for \"Build Automatically\". " + "Should be "
+						+ autoBuild);
 				e.printStackTrace();
 			}
 		}
 	}
-	
+
 	/**
-	 * used to restore MGL backups:
-	 * copies every key IFile to the according value IFile, deletes the key IFile and also each key IFile's parent folder, if it is empty (e.g. when the last backup is restored)
+	 * used to restore MGL backups: copies every key IFile to the according
+	 * value IFile, deletes the key IFile and also each key IFile's parent
+	 * folder, if it is empty (e.g. when the last backup is restored)
 	 */
 	private void restoreMGLBackups(Map<IFile, IFile> mgls) {
 		for (Entry<IFile, IFile> entry : mgls.entrySet()) {
@@ -605,29 +643,31 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 			}
 		}
 	}
-	
+
 	private void generateProjectWizard() {
 		System.out.println("Generating Project Wizard");
 		CincoProduct cp = (CincoProduct) CincoUtils.getCPD(cpdFile);
-		
+
 		IProject p = cpdFile.getProject();
 		IFile pluginXML = p.getFile("plugin.xml");
-		String wizardExtensionCommentID = "<!--@CincoGen PROJECT_WIZARD_"+cp.getName().toUpperCase()+"_WIZ -->";
-		String navigatorExtensionCommentID = "<!--@CincoGen PROJECT_WIZARD_"+cp.getName().toUpperCase()+"_NAV -->";
-		
-		CharSequence wizardJavaCode = 
-				NewProjectWizardGenerator.generateWizardJavaCode(cp, cpdFile.getProject().getName());
-		CharSequence newWizardXML = 
-				NewProjectWizardGenerator.generateNewWizardXML(cp, cpdFile.getProject().getName(), wizardExtensionCommentID);
-		CharSequence navigatorXML = 
-				NewProjectWizardGenerator.generateNavigatorXML(cp, cpdFile.getProject().getName(), navigatorExtensionCommentID);
-		
-		IFile file = p.getFile("src-gen/"+p.getName().replace(".", "/")+"/"+cp.getName()+"ProjectWizard.java");
+		String wizardExtensionCommentID = "<!--@CincoGen PROJECT_WIZARD_" + cp.getName().toUpperCase() + "_WIZ -->";
+		String navigatorExtensionCommentID = "<!--@CincoGen PROJECT_WIZARD_" + cp.getName().toUpperCase() + "_NAV -->";
+
+		CharSequence wizardJavaCode = NewProjectWizardGenerator.generateWizardJavaCode(cp,
+				cpdFile.getProject().getName());
+		CharSequence newWizardXML = NewProjectWizardGenerator.generateNewWizardXML(cp, cpdFile.getProject().getName(),
+				wizardExtensionCommentID);
+		CharSequence navigatorXML = NewProjectWizardGenerator.generateNavigatorXML(cp, cpdFile.getProject().getName(),
+				navigatorExtensionCommentID);
+
+		IFile file = p.getFile("src-gen/" + p.getName().replace(".", "/") + "/" + cp.getName() + "ProjectWizard.java");
 		CincoUtils.writeContentToFile(file, wizardJavaCode.toString());
-		CincoUtils.addExtension(pluginXML.getLocation().toString(), newWizardXML.toString(), wizardExtensionCommentID, p.getName());
-		CincoUtils.addExtension(pluginXML.getLocation().toString(), navigatorXML.toString(), navigatorExtensionCommentID, p.getName());
+		CincoUtils.addExtension(pluginXML.getLocation().toString(), newWizardXML.toString(), wizardExtensionCommentID,
+				p.getName());
+		CincoUtils.addExtension(pluginXML.getLocation().toString(), navigatorXML.toString(),
+				navigatorExtensionCommentID, p.getName());
 	}
-	
+
 	private void build(IProject project) {
 		try {
 			project.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, null);
@@ -635,7 +675,11 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 			e.printStackTrace();
 		}
 	}
-	
+
+	private int countMGLsToGenerate() {
+		return (int) cpd.getMgls().stream().filter((mgl) -> isGenerationRequired(mgl)).count();
+	}
+
 	private void buildWorkspace() {
 		try {
 			ResourcesPlugin.getWorkspace().build(IncrementalProjectBuilder.FULL_BUILD, null);
@@ -643,6 +687,137 @@ public class CincoProductGenerationHandler extends AbstractHandler {
 			e.printStackTrace();
 		}
 	}
-	
-	
+
+	private void readGenerationTimestamp() {
+		String targetFilePath = getFilePath(cpdFile);
+		if (targetFilePath == null) {
+			lastGenerationTime = 0L;
+			return;
+		}
+
+		File fname = new File(targetFilePath);
+		if (!fname.exists()) {
+			lastGenerationTime = 0L;
+			return;
+		}
+
+		String line = null;
+		StringBuilder stringBuilder = new StringBuilder();
+		String ls = System.getProperty("line.separator");
+
+		BufferedReader reader;
+		try {
+			reader = new BufferedReader(new FileReader(targetFilePath));
+			while ((line = reader.readLine()) != null) {
+				stringBuilder.append(line);
+				// stringBuilder.append(ls);
+			}
+			lastGenerationTime = Long.parseLong(stringBuilder.toString());
+			reader.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	private void writeGenerationTimestamp() {
+		String targetFilePath = getFilePath(cpdFile);
+		File fname = new File(targetFilePath);
+		
+		deleteGenerationTimestamp();
+		
+		try {
+			fname.getParentFile().mkdirs();
+			fname.createNewFile();
+			Writer file = new FileWriter(fname);
+			file.write(Long.toString(System.currentTimeMillis()));
+			file.flush();
+			file.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	private void deleteGenerationTimestamp() {
+		String targetFilePath = getFilePath(cpdFile);
+		File fname = new File(targetFilePath);
+		fname.delete();
+		lastGenerationTime = 0L;
+	}
+
+	public static String getFilePath(IFile cpd) {
+		String sep = File.separator;
+		String folderPath = cpd.getProject().getLocation().toFile().toString() + sep + "src-gen" + sep + "model";
+		String filename = cpd.getName() + ".generated";
+		return folderPath + sep + filename;
+	}
+
+	private boolean hasChanged(File file) {
+		if (lastGenerationTime <= 0)
+			return true;
+		if (file.lastModified() > lastGenerationTime)
+			return true;
+		return false;
+	}
+
+	private boolean isGenerationRequired(String mglFileString) {
+		return isGenerationRequired(cpdFile.getProject().getFile(mglFileString));
+	}
+
+	private boolean isGenerationRequired(MGLDescriptor mgl) {
+		return isGenerationRequired(mgl.getMglPath());
+	}
+
+	@SuppressWarnings("restriction")
+	private boolean isGenerationRequired(IFile mglFile) {
+		String mglPath = mglFile.getLocation().toString()
+				.replace(mglFile.getProject().getLocation().toString() + File.separator, "");
+		fileHelper = new FileExtension();
+		GraphModel mgl = fileHelper.getContent(mglFile, GraphModel.class, 0);
+
+		for (MGLDescriptor mglDesc : cpd.getMgls()) {
+			String mglDescPath = mglDesc.getMglPath();
+			if (!mglPath.equals(mglDescPath))
+				continue;
+
+			if (mglDesc.isForceGenerate())
+				return true;
+
+			if (mglDesc.isDontGenerate())
+				return false;
+		}
+
+		if (hasChanged(mglFile.getLocation().toFile())) {
+			// System.out.println("MGL '" + mglFile.getName() + "' changed!
+			// Generation required");
+			return true;
+		}
+
+		List<String> styles = new ArrayList<String>();
+		String projectPath = mglFile.getProject().getLocation().toFile().toString();
+
+		mgl.getAnnotations().stream().filter((ann -> "style".equals(ann.getName())))
+				.forEach(ann -> styles.add(ann.getValue().get(0)));
+
+		for (String stylePathString : styles) {
+			File styleFile = new File(projectPath + File.separator + stylePathString);
+			if (styleFile.exists()) {
+				if (hasChanged(styleFile)) {
+					// System.out.println("Style '" + styleFile.getName() + "'
+					// changed! Generation for MGL '" + mglFile.getName() + "'
+					// required");
+					return true;
+				}
+			}
+		}
+
+		// System.out.println("No Generation for '" + mglFile.getName() + "'
+		// required");
+		return false;
+	}
+
 }

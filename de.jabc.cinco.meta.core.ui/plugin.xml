@@ -25,6 +25,25 @@
      </command>
   </extension>
   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            id="de.jabc.cinco.meta.core.ui.forcebuild.cpd"
+            objectClass="org.eclipse.core.resources.IFile"
+            adaptable="true"
+            nameFilter="*.cpd">
+         <menu id="cincodebug.main"
+               path="additions"
+               label="Cinco Debug Tools">
+         </menu>
+         <action 
+               id="de.jabc.cinco.meta.core.ui.forceGenerate"
+               class="de.jabc.cinco.meta.core.ui.forceGenerate.ForceGenerateAction"
+               label="Force Complete Generation"
+               menubarPath="cincodebug.main/group1">
+         </action>
+      </objectContribution>
+   </extension>
+  <extension
         id="de.jabc.cinco.meta.core.mgl.ui.menus.productgeneration"
         name="Cinco Product Generation Menu"
         point="org.eclipse.ui.menus">
