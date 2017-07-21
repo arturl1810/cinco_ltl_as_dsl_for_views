@@ -169,6 +169,7 @@ class EditorComponent extends Generatable {
 	
 	  void changedProperties(PropertyMessage pm)
 	  {
+	  	canvasComponent.updateProperties(pm.delegate);
 	    sendMessage(pm);
 	  }
 	

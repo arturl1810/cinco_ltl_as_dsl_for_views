@@ -6,6 +6,7 @@ import mgl.GraphModel
 import mgl.Edge
 import mgl.Node
 import mgl.NodeContainer
+import mgl.ContainingElement
 
 class GraphmodelComponent extends Generatable {
 
@@ -241,6 +242,8 @@ class GraphmodelComponent extends Generatable {
 		  	 	      //message callbacks
 		  	 	      cb_element_selected,
 		  	 	      cb_graphmodel_selected,
+		  	 	      cb_update_bendpoint,
+		  	 	      cb_can_move_node,
 		  	 	      «FOR elem : g.nodes + g.edges SEPARATOR ","»
 		  	 	      	«IF elem instanceof Node»
 		  	 	      		cb_create_node_«elem.name.lowEscapeDart»,
@@ -252,10 +255,10 @@ class GraphmodelComponent extends Generatable {
 		  	 	      	«IF elem instanceof Edge»
 		  	 	      		cb_create_edge_«elem.name.lowEscapeDart»,
 		  	 	      		cb_remove_edge_«elem.name.lowEscapeDart»,
-		  	 	      		cb_reconnect_edge_«elem.name.lowEscapeDart»,
-		  	 	      		cb_update_bendpoint_«elem.name.lowEscapeDart»
+		  	 	      		cb_reconnect_edge_«elem.name.lowEscapeDart»
 		  	 	      	«ENDIF»
 		  	 	      «ENDFOR»
+  	 	      		
 				]);
 			});
 		  }
@@ -294,7 +297,11 @@ class GraphmodelComponent extends Generatable {
 		   
 		   void updateRouting() {
 		   	js.context.callMethod('update_routing_«g.name.lowEscapeDart»',[currentGraphModel.router,currentGraphModel.connector]);
-	   	   }
+			}
+		
+			void updateProperties(IdentifiableElement ie) {
+				updateElement(ie);
+			}
 		  
 		  /// create the current graphmodel initailly
 		  void initialized() {
@@ -376,6 +383,37 @@ class GraphmodelComponent extends Generatable {
 		   		]);
 		 		
 		 	}
+		 	
+		 	dynamic cb_can_move_node(int dywaId,int containerId) {
+		 		var node = findElement(dywaId) as Node;
+		 		var container = findElement(containerId) as ModelElementContainer;
+		 		if(node.container!=container)
+		 		{
+		 		  if(container is «g.name.fuEscapeDart»)
+		 		  {
+		 			«g.containmemntCheck(g)»
+		 		  }
+		 			«FOR container:g.nodes.filter(NodeContainer)»
+		 		  if(container is «container.name.fuEscapeDart»)
+		 		  {
+		 			  «container.containmemntCheck(g)»
+		 		  }
+		 			«ENDFOR»
+		 		  return {
+		 			'x':node.x,
+		 			'y':node.y,
+		 			'containerId':node.container.dywaId
+		 			};
+		 		}
+		 		return true;
+		 	}
+		 	
+		 	void remove_node_cascade(Node node) {
+		 		if(node == null){ return; }
+		 		«FOR node : g.nodes»
+		 		else if(node is «node.name.fuEscapeDart») { remove_node_cascade_«node.name.lowEscapeDart»(node); }
+		 		«ENDFOR»
+		 	}
 			 
 			 //for each node
 			 «FOR node : g.nodes»
@@ -413,8 +451,30 @@ class GraphmodelComponent extends Generatable {
 			 	    });
 			 	}
 			 	
+			 	void remove_node_cascade_«node.name.lowEscapeDart»(«node.name.fuEscapeDart» node) {
+			 		«IF node instanceof NodeContainer»
+			 		node.modelElements.where((n)=>n is Node).forEach((n)=>remove_node_cascade(n));
+			 		«ENDIF»
+			 		//remove connected edges
+			 		node.outgoing.forEach((e) {
+			 			e.target.incoming.remove(e);
+			 			e.container.modelElements.remove(e);
+			 			e.container = null;
+			 			js.context.callMethod('remove_edge__«g.name.lowEscapeDart»', [e.dywaId]);
+			 		});
+			 		node.outgoing.clear();
+			 		node.incoming.forEach((e) {
+			 			e.source.outgoing.remove(e);
+			 			e.container.modelElements.remove(e);
+			 			e.container = null;
+			 			js.context.callMethod('remove_edge__«g.name.lowEscapeDart»', [e.dywaId]);
+			 		});
+			 		node.incoming.clear();
+			 		js.context.callMethod('remove_node_«node.name.lowEscapeDart»_«g.name.lowEscapeDart»', [node.dywaId]);
+			 	}
+			 	
 			 	void cb_remove_node_«node.name.lowEscapeDart»(int dywaId) {
-			 		var node = findElement(dywaId) as Node;
+			 		var node = findElement(dywaId) as «node.name.fuEscapeDart»;
 			 		var container = findElement(node.container.dywaId) as ModelElementContainer;
 			 	    var m = commandGraph.sendRemoveNodeCommand(dywaId,container.dywaId,node.x,node.y,"«g.name.lowEscapeDart».«node.name.escapeDart»",user);
 			 	    graphService.sendMessage(m).then((m){
@@ -423,25 +483,11 @@ class GraphmodelComponent extends Generatable {
 			 	    		container.modelElements.remove(node);
 			 	    		node.container = null;
 			 	    			«'''
-								//remove connected edges
-								node.outgoing.forEach((e) {
-									e.target.incoming.remove(e);
-									e.container.modelElements.remove(e);
-									e.container = null;
-									js.context.callMethod('remove_edge__«g.name.lowEscapeDart»', [e.dywaId]);
-								});
-								node.outgoing.clear();
-								node.incoming.forEach((e) {
-									e.source.outgoing.remove(e);
-									e.container.modelElements.remove(e);
-									e.container = null;
-									js.context.callMethod('remove_edge__«g.name.lowEscapeDart»', [e.dywaId]);
-								});
-								node.incoming.clear();
-								commandGraph.collectElements(container);
-								if(container is! GraphModel){
-									updateElement(container as ModelElement);
-								}
+			 	    			remove_node_cascade_«node.name.lowEscapeDart»(node);
+			 	    			commandGraph.collectElements(container);
+			 	    			if(container is! GraphModel){
+			 	    			updateElement(container as ModelElement);
+			 	    			}
 			 	    			'''.propagation»
 			 	    	}
 			 	    });
@@ -497,6 +543,7 @@ class GraphmodelComponent extends Generatable {
 			 // for each edge
 			 «FOR edge : g.edges»
 			 	void create_edge_«edge.name.lowEscapeDart»(«edge.name.escapeDart» edge) {
+			 		
 			 	    js.context.callMethod('create_edge_«edge.name.lowEscapeDart»_«g.name.lowEscapeDart»',
 			 	    [ edge.source.dywaId,
 			 	    edge.target.dywaId,
@@ -509,13 +556,13 @@ class GraphmodelComponent extends Generatable {
 			 	    edge.styleArgs() ]);
 			 	}
 			 	
-			 	void cb_create_edge_«edge.name.lowEscapeDart»(int sourceId,int targetId,String cellId) {
+			 	void cb_create_edge_«edge.name.lowEscapeDart»(int sourceId,int targetId,String cellId, List positions) {
 			 		var source = findElement(sourceId) as Node;
 			 		var target = findElement(targetId) as Node;
 			 	    var m = commandGraph.sendCreateEdgeCommand("«g.name.lowEscapeDart».«edge.name.escapeDart»",targetId,sourceId,user);
 			 	    graphService.sendMessage(m).then((m){
 			 	     if(m is ValidCreatedMessage){
-			 	    	var edge = new Transition();
+			 	    	var edge = new «edge.name.fuEscapeDart»();
 			 	    	edge.dywaId = m.dywaId;
 			 	    	edge.dywaVersion = m.dywaVersion;
 			 	    	edge.dywaName = m.dywaName;
@@ -529,6 +576,12 @@ class GraphmodelComponent extends Generatable {
 			 	    	updateElement(edge,cellId: cellId);
 			 	    	updateElement(source);
 			 	    	updateElement(target);
+			 	    	if(positions!=null){
+			 	    		if(positions.length>0){
+			 	    			cb_update_bendpoint(positions,edge.dywaId);
+			 	    		}
+			 	    	}
+			 	    	
 			 	    	selectionChanged.emit(edge);
 			 	     }
 			 	    });
@@ -538,7 +591,7 @@ class GraphmodelComponent extends Generatable {
 			 		var edge = findElement(dywaId) as Edge;
 			 	    var m = commandGraph.sendRemoveEdgeCommand(dywaId,edge.source.dywaId,edge.target.dywaId,"«g.name.lowEscapeDart».«edge.name.escapeDart»",user);
 			 	    graphService.sendMessage(m).then((m){
-			 	    	if(m is ValidCreatedMessage){
+			 	    	if(m is ValidMessage){
 			 	    		selectionChanged.emit(currentGraphModel);
 			 	    		var source = edge.source;
 			 	    		source.outgoing.remove(edge);
@@ -549,11 +602,11 @@ class GraphmodelComponent extends Generatable {
 			 	    		updateElement(target);
 			 	    		edge.target = null;
 			 	    		edge.container.modelElements.remove(edge);
-			 	    		edge.container = null;
 			 	    		commandGraph.collectElements(edge.container);
+			 	    		edge.container = null;
 			 	    		
-		 	    		}
-					});
+			 	           }
+			 		});
 			 	}
 			 	
 			 	void cb_reconnect_edge_«edge.name.lowEscapeDart»(int sourceId,int targetId,int dywaId,) {
@@ -582,25 +635,25 @@ class GraphmodelComponent extends Generatable {
 			 	    }
 			 	}
 			 	
-			 	void cb_update_bendpoint_«edge.name.lowEscapeDart»(List positions,int dywaId) {
-			 		var edge = findElement(dywaId) as Edge;
-			 		//check if update is present
-			 		if(check_bendpoint_update(edge,positions)) {
-			 	      var m = commandGraph.sendUpdateBendPointCommand(dywaId,positions,user);
-			 	      graphService.sendMessage(m).then((m){
-			 	    	  if(m is ValidMessage){
-			 	    		edge.bendingPoints.clear();
-			 	    		positions.forEach((p){
-			 	    			var b = new BendingPoint();
-			 	    			b.x = p['x'];
-			 	    			b.y = p['y'];
-			 	    			edge.bendingPoints.add(b);
-			 	    		});
-			 	    	  }
-			 	      });
-			 		}
-			 	}
 		«ENDFOR»
+		 	void cb_update_bendpoint(List positions,int dywaId) {
+		 		var edge = findElement(dywaId) as Edge;
+		 		//check if update is present
+		 		if(check_bendpoint_update(edge,positions)) {
+		 	      var m = commandGraph.sendUpdateBendPointCommand(dywaId,positions,user);
+		 	      graphService.sendMessage(m).then((m){
+		 	    	  if(m is ValidMessage){
+		 	    		edge.bendingPoints.clear();
+		 	    		positions.forEach((p){
+		 	    			var b = new BendingPoint();
+		 	    			b.x = p['x'];
+		 	    			b.y = p['y'];
+		 	    			edge.bendingPoints.add(b);
+		 	    		});
+		 	    	  }
+		 	      });
+		 		}
+		 	}
 		
 		  void prepareCommandGraph()
 		  {
@@ -651,9 +704,42 @@ class GraphmodelComponent extends Generatable {
 	def contentGraphModelComponentTemplate(
 		GraphModel g) '''
 		<div style="overflow: auto;">
-			<div ondragover="confirm_drop(event)" ondrop="drop_on_canvas_«g.name.lowEscapeDart»(event)" id="paper_«g.name.lowEscapeDart»" style="border: gray;
+			<div ondragover="confirm_drop_«g.name.lowEscapeDart»(event)" ondrop="drop_on_canvas_«g.name.lowEscapeDart»(event)" id="paper_«g.name.lowEscapeDart»" style="border: gray;
 			   	border-width: 5px;
 			   border-style: solid;"></div>
 		</div>
+	'''
+	
+	def containmemntCheck(ContainingElement container,GraphModel g)
+	'''
+			 			«IF container.containableElements.empty»
+			 				return true;
+			 			«ELSE»
+			 				«FOR group:container.containableElements.get(0).containingElement.containableElements.indexed»
+			 				 	//check if type can be contained in group
+			 				 	if(
+			 				«FOR containableTypeName:group.value.types.map[name].map[selfAndSubTypeNames(g)].flatten.toSet SEPARATOR "||"»
+			 				 		node is «containableTypeName»
+			 				«ENDFOR»
+			 				 	) {
+			 				«IF group.value.upperBound>-1»
+			 					int group«group.key»Size = 0;
+			 					«FOR containableTypeName:group.value.types.map[name].map[selfAndSubTypeNames(g)].flatten.toSet»
+			 					 	group«group.key»Size += container.modelElements.where((n)=>n is «containableTypeName»).length;
+			 					«ENDFOR»
+			 					if(«IF group.value.upperBound>-1»group«group.key»Size<«group.value.upperBound»«ELSE»true«ENDIF»){
+			 					 	return true;
+			 					}
+			 				«ELSE»
+			 					return true;
+			 				«ENDIF»
+			 				}
+			 				«ENDFOR»
+			 				return {
+			 				 	'x':node.x,
+			 				 	'y':node.y,
+			 				 	'containerId':node.container.dywaId
+			 				};
+			 			«ENDIF»
 	'''
 }

@@ -13,8 +13,12 @@ var $mouse_clicked_menu = false;
 var $mouse_over_cell = false;
 //stores the link which is used for creation
 var $temp_link = null;
+//stores the link if multiple links can be created
+var $temp_link_multi = null;
 //stores if the possible edge menu is displayed
 var $edge_menu_shown = false;
+//stores if the possible edge menu is displayed
+var $edge_to_create = null;
 
 joint.shapes.pyro = {};
 joint.shapes.pyro.PyroLink = joint.dia.Link.extend({
@@ -86,8 +90,19 @@ function getIncoming(node,graph) {
 function filterEdgesByType(edges,type) {
     return edges
         .filter(function (element) {
-            return element.model.type == type;
+            return element.attributes.type == type;
         });
+}
+
+function getContainedByType(target,type,graph) {
+    if(target==null) {
+        return graph.getCells().filter(function (element) {
+            return element.attributes.parent==null && element.attributes.type===type;
+        });
+    }
+    return graph.getCells().filter(function (element) {
+        return element.attributes.parent===target.model.attributes.id && element.attributes.type===type;
+    });
 }
 
 /**
@@ -231,10 +246,9 @@ Hover Menu Control
 function show_menu(x,y,width,height,cellView,paper) {
     $menu_cell = cellView;
     //position of top left corner
-    var cpos = getPaperToScreenPosition(x,y,paper);
-    var px = cpos.x+width-40;
-    var py = cpos.y-40;
-    py += $(document).scrollTop();
+    //var cpos = getPaperToScreenPosition(x,y,paper);
+    var px = x+width;
+    var py = y-40;
     $('#hover-menu').offset({ top: py, left: px });
 }
 
@@ -280,7 +294,7 @@ function control_pointer(cellView,borderWidth,evt,paper) {
     }
 }
 
-function init_menu_eventsystem(paper,graph) {
+function init_menu_eventsystem(paper,graph,remove_node) {
     var hover_menu = $('#hover-menu');
     var menu_remove = $('#menu-remove');
     var menu_edge = $('#menu-edge');
@@ -292,8 +306,9 @@ function init_menu_eventsystem(paper,graph) {
     menu_remove.off();
     menu_remove.on('click',function (evt) {
         if($menu_cell!==null){
-            var cell = $graph_somegraph.getCell($menu_cell.model.id);
-            cell.remove({'disconnectLinks':true});
+            var cell = graph.getCell($menu_cell.model.id);
+            remove_node(cell);
+            //cell.remove({'disconnectLinks':true});
             $mouse_over_menu=false;
             $menu_cell=null;
             $mouse_clicked_menu = false;
@@ -333,15 +348,16 @@ function init_menu_eventsystem(paper,graph) {
         cellView.el.addEventListener("mousemove", function (e) {
             control_pointer(cellView,borderWidth,e,paper);
         });
+        var el = $(cellView.el);
         //show menu
         show_menu(
-            cellView.model.attributes.position.x,
-            cellView.model.attributes.position.y,
-            cellView.model.attributes.size.width,
-            cellView.model.attributes.size.height,
+           el.offset().left,
+           el.offset().top,
+           el.width(),
+           el.height(),
             cellView,
             paper
-        )
+        );
     });
     paper.on('cell:mouseleave',function(cellView){
         $mouse_over_cell = false;
@@ -423,7 +439,15 @@ function update_single_edge_routing(link,router,connector) {
     link.set('connector', { name: connector });
 }
 
+function remove_edge_creation_menu() {
+    if($edge_menu_shown) {
+        $('#pyro_edge_menu').remove();
+        $edge_menu_shown = false;
+    }
+}
+
 function create_edge_menu(target_view,possibleEdges,x,y,paper,graph) {
+    $temp_link_multi = $temp_link;
     var btn_group = $('<div id="pyro_edge_menu" class="btn-group-vertical btn-group-xs" style="position: absolute;z-index: 99999;top: '+y+'px;left: '+x+'px;"></div>');
     $('body').append(btn_group);
     $edge_menu_shown = true;
@@ -431,25 +455,27 @@ function create_edge_menu(target_view,possibleEdges,x,y,paper,graph) {
         if (possibleEdges.hasOwnProperty(edgeKey)) {
             var edge = possibleEdges[edgeKey];
             var button = $('<button type="button" class="btn btn-default">'+edge.name+'</button>');
-            button.click(function () {
-                create_edge(target_view,edge.type,paper,graph);
+
+            btn_group.append(button);
+
+            $(button).on('click',function () {
+                var e = possibleEdges[this.innerText];
+                create_edge(target_view,e.type,paper,graph);
                 $edge_menu_shown = false;
                 $('#pyro_edge_menu').remove();
             });
-            btn_group.append(button);
         }
     }
 }
 
 function create_edge(target_view,possibleEdge,paper,graph) {
-    if($temp_link.model.attributes.source.id===target_view.model.id) {
-        graph.addCell(possibleEdge.type);
+    if($temp_link_multi.model.attributes.source.id===target_view.model.id) {
+        graph.addCell(possibleEdge);
         fitContent(paper);
     } else {
-        graph.addCell(possibleEdge.type);
+        graph.addCell(possibleEdge);
     }
-    graph.removeCells([$temp_link]);
-    $temp_link = null;
+    $temp_link_multi = null;
 
 }
 
@@ -599,6 +625,7 @@ function update_element_internal(cellId,dywaId,dywaName,dywaVersion,styleAgs,gra
         element.attributes.attrs.dywaVersion = dywaVersion;
         element.attributes.attrs.styleArgs = styleAgs;
     }
+
     
 }
 
@@ -625,6 +652,7 @@ function remove_node_internal(dywaId,graph)
 {
     var node = findElementByDywaId(dywaId,graph);
     node.remove({disconnectLinks:true});
+    
 }
 
 function resize_node_internal(width,height,dywaId,graph)
@@ -683,7 +711,7 @@ function unblock_user_interaction(paper) {
 /**
  * Resets all listeners and register new ones
  */
-function init_event_system(paper,graph)
+function init_event_system(paper,graph,remove_cascade)
 {
     $menu_cell = null;
     $mouse_over_menu = false;
@@ -693,7 +721,7 @@ function init_event_system(paper,graph)
     $edge_menu_shown = false;
     init_edge_eventsystem(paper);
     init_highlighter_eventsystem(paper,graph);
-    init_menu_eventsystem(paper,graph);
+    init_menu_eventsystem(paper,graph,remove_cascade);
 }
 
 
@@ -706,5 +734,6 @@ function confirm_drop(ev) {
  * @param ev
  */
 function start_drag_element(ev) {
+    $edge_to_create = ev.target.dataset.typename;
 	ev.dataTransfer.setData("typename", ev.target.dataset.typename);
 }

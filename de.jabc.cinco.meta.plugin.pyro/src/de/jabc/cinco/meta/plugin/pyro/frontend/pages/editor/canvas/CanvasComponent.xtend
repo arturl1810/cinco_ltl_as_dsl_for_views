@@ -67,6 +67,14 @@ class CanvasComponent extends Generatable {
 	    tabChanged = new EventEmitter();
 	  }
 	  
+	  void updateProperties(IdentifiableElement element) {
+	  	«FOR g:gc.graphMopdels»
+	  	if(«g.name.lowEscapeDart»CanvasComponent!=null) {
+	   		  «g.name.lowEscapeDart»CanvasComponent.updateProperties(element);
+	   		}
+	   	«ENDFOR»
+	  }
+	  
 	  void updateScale() {
 	  	«FOR g:gc.graphMopdels»
 	  	if(«g.name.lowEscapeDart»CanvasComponent!=null) {

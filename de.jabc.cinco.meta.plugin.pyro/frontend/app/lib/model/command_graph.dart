@@ -128,12 +128,30 @@ abstract class CommandGraph {
     return cmd;
   }
 
-  CompoundCommandMessage sendRemoveNodeCommand(int nodeId,int containerId,int x,int y,String type,PyroUser user)
+  CompoundCommandMessage sendRemoveNodeCommand(int nodeId,int containerId,int x,int y,String type,PyroUser user,{Set edgeCache})
   {
-    var ccm = _send(_removeNodeCommand(nodeId,containerId,x,y,type),user);
+    var queue = new List<Command>();
+    if(edgeCache==null){
+      edgeCache = new Set<Edge>();
+    }
     Node node = modelMap[nodeId];
-    node.outgoing.forEach((e)=>ccm.cmd.queue.add(_removeEdgeCommand(e.dywaId,e.source.dywaId,e.target.dywaId,e.runtimeType.toString())));
-    node.incoming.forEach((e)=>ccm.cmd.queue.add(_removeEdgeCommand(e.dywaId,e.source.dywaId,e.target.dywaId,e.runtimeType.toString())));
+    if(node is Container) {
+      node.modelElements.forEach((n){
+        queue.addAll(sendRemoveNodeCommand(n.dywaId,node.dywaId,n.x,n.y,"${currentGraphModel.runtimeType.toString().toLowerCase()}.${n.runtimeType.toString()}",user,edgeCache: edgeCache).cmd.queue);
+      });
+    }
+    var ccm = _send(_removeNodeCommand(nodeId,containerId,x,y,type),user);
+    ccm.cmd.queue.insertAll(0,queue);
+    node.outgoing.forEach((e){
+      if(edgeCache.add(e)){
+        ccm.cmd.queue.add(_removeEdgeCommand(e.dywaId,e.source.dywaId,e.target.dywaId,"${currentGraphModel.runtimeType.toString().toLowerCase()}.${e.runtimeType.toString()}"));
+      }
+    });
+    node.incoming.forEach((e){
+      if(edgeCache.add(e)){
+        ccm.cmd.queue.add(_removeEdgeCommand(e.dywaId,e.source.dywaId,e.target.dywaId,"${currentGraphModel.runtimeType.toString().toLowerCase()}.${e.runtimeType.toString()}"));
+      }
+    });
     return ccm;
   }
 
@@ -401,7 +419,7 @@ abstract class CommandGraph {
     void execUpdateBendPointCanvas(UpdateBendPointCommand cmd);
 
 
-    UpdateBendPointCommand _updateBendPointCommand(int edgeId,List positions)
+    UpdateBendPointCommand updateBendPointCommand(int edgeId,List positions)
     {
       UpdateBendPointCommand cmd = new UpdateBendPointCommand();
       cmd.delegateId = edgeId;
@@ -411,12 +429,12 @@ abstract class CommandGraph {
   
     CompoundCommandMessage sendUpdateBendPointCommand(int edgeId,List positions,PyroUser user)
     {
-      return _send(_updateBendPointCommand(edgeId,positions),user);
+      return _send(updateBendPointCommand(edgeId,positions),user);
     }
   
     UpdateBendPointCommand _invertUpdateBendPointCommand(UpdateBendPointCommand cmd)
     {
-      return _updateBendPointCommand(cmd.delegateId,cmd.positions);
+      return updateBendPointCommand(cmd.delegateId,cmd.positions);
     }
 
 

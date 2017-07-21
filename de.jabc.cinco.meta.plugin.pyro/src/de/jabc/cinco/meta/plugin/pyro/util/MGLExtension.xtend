@@ -197,13 +197,17 @@ class MGLExtension {
 			if(subType instanceof Node){
 				val l = new LinkedList
 				l.add(subType)
-				l.addAll(subType.extends.name.subTypes(g))
+				if(subType.extends!=null){
+					l.addAll(subType.extends.name.subTypes(g))					
+				}
 				return l
 			}
 			if(subType instanceof Edge){
 				val l = new LinkedList
 				l.add(subType)
-				l.addAll(subType.extends.name.subTypes(g))
+				if(subType.extends !=null){
+					l.addAll(subType.extends.name.subTypes(g))					
+				}
 				return l
 			}
 		}

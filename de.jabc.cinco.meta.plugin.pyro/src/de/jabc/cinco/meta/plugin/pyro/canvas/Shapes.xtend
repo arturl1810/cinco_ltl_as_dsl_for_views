@@ -4,11 +4,18 @@ import de.jabc.cinco.meta.plugin.pyro.util.Generatable
 import de.jabc.cinco.meta.plugin.pyro.util.GeneratorCompound
 import java.math.BigDecimal
 import java.math.RoundingMode
+import java.util.HashMap
+import java.util.LinkedHashMap
+import java.util.LinkedList
 import java.util.List
+import java.util.Map
+import java.util.regex.Matcher
+import java.util.regex.Pattern
 import mgl.Edge
 import mgl.GraphModel
 import mgl.GraphicalModelElement
 import mgl.Node
+import org.eclipse.emf.ecore.EObject
 import style.AbsolutPosition
 import style.AbstractPosition
 import style.AbstractShape
@@ -21,6 +28,7 @@ import style.DecoratorShapes
 import style.EdgeStyle
 import style.Ellipse
 import style.Font
+import style.GraphicsAlgorithm
 import style.HAlignment
 import style.Image
 import style.LineStyle
@@ -31,13 +39,12 @@ import style.Polyline
 import style.PredefinedDecorator
 import style.Rectangle
 import style.RoundedRectangle
+import style.Shape
 import style.Size
 import style.Styles
 import style.Text
 import style.VAlignment
-import java.util.LinkedList
-import java.util.Map
-import java.util.HashMap
+import org.eclipse.xtext.debug.IStratumBreakpointSupport.DefaultImpl
 
 class Shapes extends Generatable {
 	
@@ -56,7 +63,13 @@ class Shapes extends Generatable {
 		val styleForNode = node.styling(styles) as NodeStyle
 		val markups = styleForNode.mainShape.collectMarkupTags("x",0).entrySet
 		val markupCSS = styleForNode.mainShape.collectMarkupCSSTags("x",0,null).entrySet
-		val noneTextual = markups.filter[!key.isTextual].toList
+		val noneTextual = new LinkedList
+		for(it:markups){
+			if(!key.isTextual){
+				noneTextual.add(it)
+			}
+		}
+		//val noneTextual = markups.filter[!key.isTextual].toList
 		val textual = markups.filter[key.isTextual].toList
 		'''
 		joint.shapes.«g.name.lowEscapeDart».«node.name.fuEscapeDart» = joint.shapes.basic.Generic.extend({
@@ -110,11 +123,39 @@ class Shapes extends Generatable {
 		return l
 	}
 	
-	def Map<AbstractShape,CharSequence> collectMarkupCSSTags(AbstractShape shape,String prefix,int i,String ref){
+	def Map<AbstractShape,CharSequence> collectSelectorTags(AbstractShape shape,String prefix,int i){
 		val l = new HashMap
+		l.put(shape,shape.selector(prefix,i))
+		if(shape instanceof ContainerShape) {
+			shape.children.forEach[n,idx|l.putAll(n.collectSelectorTags(i+"x",idx))]			
+		}
+		return l
+	}
+	
+	def Map<EObject,CharSequence> collectMarkupTags(GraphicsAlgorithm shape,String prefix,int i){
+		val l = new HashMap
+		l.put(shape,shape.markup(prefix,i))
+		if(shape instanceof ContainerShape) {
+			shape.children.forEach[n,idx|l.putAll(n.collectMarkupTags(i+"x",idx))]			
+		}
+		return l
+	}
+	
+	
+	def Map<AbstractShape,CharSequence> collectMarkupCSSTags(AbstractShape shape,String prefix,int i,String ref){
+		val l = new LinkedHashMap
 		l.put(shape,shape.markupCSS(prefix,i,ref))
 		if(shape instanceof ContainerShape) {
 			shape.children.forEach[n,idx|l.putAll(n.collectMarkupCSSTags(i+"x",idx,'''«prefix.tagClass(i)»'''))]			
+		}
+		return l
+	}
+	
+	def Map<EObject,CharSequence> collectMarkupCSSTags(GraphicsAlgorithm shape,String prefix,int i,String ref){
+		val l = new LinkedHashMap
+		l.put(shape,shape.markupCSS(prefix,i,ref))
+		if(shape instanceof ContainerShape) {
+			shape.children.forEach[n,idx|l.putAll(n.collectMarkupCSSTags(i+"x",idx,ref))]			
 		}
 		return l
 	}
@@ -144,6 +185,32 @@ class Shapes extends Generatable {
 	def dispatch markup(RoundedRectangle shape,String s,int i)
 	'''<rect class="«s.tagClass(i)»" />'''
 	
+	
+	def dispatch selector(Rectangle shape,String s,int i)
+	'''rect.«s.tagClass(i)»'''
+	
+	def dispatch selector(Text shape,String s,int i)
+	'''text.«s.tagClass(i)»'''
+	
+	def dispatch selector(MultiText shape,String s,int i)
+	'''text.«s.tagClass(i)»'''
+	
+	def dispatch selector(Ellipse shape,String s,int i)
+	'''ellipse.«s.tagClass(i)»'''
+	
+	def dispatch selector(Polyline shape,String s,int i)
+	'''polyline.«s.tagClass(i)»'''
+	
+	def dispatch selector(Polygon shape,String s,int i)
+	'''polygon.«s.tagClass(i)»'''
+	
+	def dispatch selector(Image shape,String s,int i)
+	'''image.«s.tagClass(i)»'''
+	
+	def dispatch selector(RoundedRectangle shape,String s,int i)
+	'''rect.«s.tagClass(i)»'''
+	
+	
 	def dispatch markupCSS(Rectangle shape,String s,int i,String ref)
 	'''
 	'rect.«s.tagClass(i)»':{
@@ -166,7 +233,7 @@ class Shapes extends Generatable {
 			return ""
 		}
 		'''
-		'ref':'«string»',
+		'ref':'.«string»',
 		'''
 	}
 	
@@ -174,7 +241,7 @@ class Shapes extends Generatable {
 	'''
 	'text.«s.tagClass(i)»':{
 		«ref.ref»
-		'text':'«shape.value»',
+		'text':'',
 		«shape.shapeCSS»
 	}
 	'''
@@ -183,7 +250,7 @@ class Shapes extends Generatable {
 	'''
 	'text.«s.tagClass(i)»':{
 		«ref.ref»
-		'text':'«shape.value»',
+		'text':'',
 		«shape.shapeCSS»
 	}
 	'''
@@ -452,7 +519,7 @@ class Shapes extends Generatable {
 				'<path class="marker-source"/>'+
 				'<path class="marker-target"/>'+
 				'<path class="connection-wrap"/>'+
-				'<g class="labels">«styleForEdge.decorator.decoratorMarkups.replaceAll("\n","")»</g>'+
+				'<g class="labels"></g>'+
 				'<g class="marker-vertices"/>'+
 				'<g class="marker-arrowheads"/>'+
 				'<g class="link-tools" />',
@@ -463,18 +530,34 @@ class Shapes extends Generatable {
 			                «styleForEdge.appearance»
 			            },
 			            '.marker-target': { 
+			            	«IF styleForEdge.targetMarker!=null»
+			            	«styleForEdge.targetMarker.markerCSS»
+			            	«ELSE»
 			            	fill: '#000', stroke: '#000'
+			            	«ENDIF»
 			            },
 			            '.marker-source': { 
+			            	«IF styleForEdge.sourceMarker!=null»
+			            	«styleForEdge.sourceMarker.markerCSS»
+			            	«ELSE»
 			            	fill: '#000', stroke: '#000'
+			            	«ENDIF»
 			            }
 			        },
-			        labels:{
+			        labels:[
 			        	«styleForEdge.decorator.decoratorCSS»
-			        }
+			        ]
 			    }
 			});
 		'''
+	}
+	
+	def getTargetMarker(EdgeStyle style){
+		style.decorator.findFirst[n|n.location==1.0]
+	}
+	
+	def getSourceMarker(EdgeStyle style){
+		style.decorator.findFirst[n|n.location==0.0]
 	}
 	
 	def decoratorMarkups(List<ConnectionDecorator> cds){
@@ -485,21 +568,44 @@ class Shapes extends Generatable {
 		result
 	}
 	
-	def decoratorCSS(List<ConnectionDecorator> cds){
-		var result = ""
-		for(var i = 0;i<cds.length;i++){
-			result += cds.get(i).decoratorCSS("x",i)+"\n"
+	def decoratorCSS(List<ConnectionDecorator> cds)
+	'''
+	«FOR cd:cds.filter[n|n.decoratorShape instanceof Text ||n.decoratorShape instanceof MultiText].indexed SEPARATOR ","»
+	{
+		position: «cd.value.location»,
+		markup:'<text class="pyro«cd.key»link"/>',
+	    attrs: {
+			'text.pyro«cd.key»link': {
+				«{
+					val shape = cd.value.decoratorShape as Shape
+					'''
+					text:'«shape.getText»',
+					«shape.shapeCSS»
+					'''
+				}»
+			}
+	     }
+	}
+	«ENDFOR»
+	'''
+	
+	def String getText(Shape shape){
+		if(shape instanceof Text){
+			return shape.value
 		}
-		result
+		if(shape instanceof MultiText){
+			return shape.value
+		}
+		return ""
 	}
 	
-	def decoratorMarkupsCSS(List<ConnectionDecorator> cds){
-		var result = ""
-		for(var i = 0;i<cds.length;i++){
-			result += cds.get(i).decoratorCSS("x",i)+"\n"
-		}
-		result
-	}
+//	def decoratorMarkupsCSS(List<ConnectionDecorator> cds){
+//		var result = ""
+//		for(var i = 0;i<cds.length;i++){
+//			result += cds.get(i).decoratorCSS("x",i)+"\n"
+//		}
+//		result
+//	}
 	
 	def decoratorMarkup(ConnectionDecorator cd,String s,int i)
 	'''
@@ -507,36 +613,47 @@ class Shapes extends Generatable {
 	«IF cd.predefinedDecorator!=null»
 	<path class="predefined-«s»«i»"/>
 	«ELSE»
-	«cd.decoratorShape.markup(s,i)»
+	«cd.decoratorShape.collectMarkupTags(s,i).entrySet.map[value].join»
 	«ENDIF»
 	</g>
 	'''
 		
-	
-	def decoratorCSS(ConnectionDecorator cd,String s,int i)
+		
+	def markerCSS(ConnectionDecorator cd)
 	'''
-	'.positional-«s»«i»':{
-		position: «cd.location»
-	},
 	«IF cd.predefinedDecorator!=null»
-	'.predefined-«s»«i»' : {
 		d: '«cd.predefinedDecorator.shape.polyline»',
 		«cd.predefinedDecorator.appearance»,
 		markerWidth:4,
-		markerHeight:4,
-	},
-	«ELSE»
-	«cd.decoratorShape.markupCSS(s,i,'''positional-«s»«i»''')»
+		markerHeight:4
 	«ENDIF»
-
 	'''
+	
+//	def decoratorCSS(ConnectionDecorator cd,String s,int i)
+//	'''
+//	'.positional-«s»«i»':{
+//		position: «cd.location»
+//	},
+//	«IF cd.predefinedDecorator!=null»
+//	'.predefined-«s»«i»' : {
+//		d: '«cd.predefinedDecorator.shape.polyline»',
+//		«cd.predefinedDecorator.appearance»,
+//		markerWidth:4,
+//		markerHeight:4,
+//	},
+//	«ELSE»
+//	«cd.decoratorShape.collectMarkupCSSTags(s,i,'''positional-«s»«i»''').entrySet.map[value].join(",")»
+//	«ENDIF»
+//
+//	'''
+	
 	
 	def polyline(DecoratorShapes ds){
 		switch(ds){
-			case ARROW:return "M 0,0 L 4,2 0,4"
+			case ARROW:return "M 0,0 L 5,-5 M 0,0 L 5,5"
 			case CIRCLE:return "M 100, 100 m -75, 0 a 75,75 0 1,0 150,0 a 75,75 0 1,0 -150,0"
 			case DIAMOND:return "M 50 0 100 100 50 200 0 100 Z"
-			case TRIANGLE:return "M 2 0 L 0 1 L 2 2 z"
+			case TRIANGLE:return "M 26 0 L 0 13 L 26 26 z"
 		}
 	}
 	
@@ -550,5 +667,9 @@ class Shapes extends Generatable {
 	«g.edges.map[createEdge(styles)].join("\n")»
 	
 	'''
+	
+	
+	
+	
 	
 }
