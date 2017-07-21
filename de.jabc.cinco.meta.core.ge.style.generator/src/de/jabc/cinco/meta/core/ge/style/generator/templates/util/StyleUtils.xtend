@@ -314,7 +314,9 @@ class StyleUtils extends APIUtils {
 			peService.setPropertyValue(«currentGaName.toString», «node.graphModel.packageName».«node.graphModel.fuName»GraphitiUtils.KEY_FORMAT_STRING, "«t.value»");
 
 			peService.setPropertyValue(«currentGaName.toString», "Params","«getText(node)»");
-			«currentGaName.toString».setValue(String.format("«t.value»", ((«String.name») tmp0Value).split(";")));
+			if (tmp0Value != null)
+				«currentGaName.toString».setValue(String.format("«t.value»", ((«String.name») tmp0Value).split(";")));
+			else «currentGaName.toString».setValue("");
 		} catch (java.util.IllegalFormatException ife) {
 			«currentGaName.toString».setValue("STRING FORMAT ERROR");
 		} catch («ELException.name» ele) {
@@ -345,7 +347,9 @@ class StyleUtils extends APIUtils {
 			peService.setPropertyValue(«currentGaName.toString», «node.graphModel.packageName».«node.graphModel.fuName»GraphitiUtils.KEY_FORMAT_STRING, "«t.value»");
 
 			peService.setPropertyValue(«currentGaName.toString», "Params","«getText(node)»");
-			«currentGaName.toString».setValue(String.format("«t.value»", ((«String.name») tmp0Value).split(";")));
+			if (tmp0Value != null)
+				«currentGaName.toString».setValue(String.format("«t.value»", ((«String.name») tmp0Value).split(";")));
+			else «currentGaName.toString».setValue("");
 		} catch (java.util.IllegalFormatException ife) {
 			«currentGaName.toString».setValue("STRING FORMAT ERROR");
 		} catch («ELException.name» ele) {

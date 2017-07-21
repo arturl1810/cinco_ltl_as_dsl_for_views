@@ -104,8 +104,9 @@ abstract public class CincoUpdateFeature extends AbstractUpdateFeature {
 					elContext = new ExpressionLanguageContext(bo);
 					Object tmp2Value = factory.createValueExpression(elContext, value, Object.class)
 							.getValue(elContext);
-
-					t.setValue(String.format(formatString, ((String) tmp2Value).split(";")));
+					if (tmp2Value != null)
+						t.setValue(String.format(formatString, ((String) tmp2Value).split(";")));
+					else t.setValue("");
 				} catch (java.util.IllegalFormatException ife) {
 					t.setValue("STRING FORMAT ERROR");
 				} catch (PropertyNotFoundException pne) {
@@ -161,8 +162,10 @@ abstract public class CincoUpdateFeature extends AbstractUpdateFeature {
 					elContext = new ExpressionLanguageContext(bo);
 					Object tmp2Value = factory.createValueExpression(elContext, value, Object.class)
 							.getValue(elContext);
-
-					String oldVal = String.format(formatString, ((String) tmp2Value).split(";"));
+					
+					String oldVal = "";
+					if (tmp2Value != null)
+						oldVal = String.format(formatString, ((String) tmp2Value).split(";"));
 					String newVal = t.getValue();
 					return (!newVal.equals(oldVal));
 				} catch (java.util.IllegalFormatException ife) {

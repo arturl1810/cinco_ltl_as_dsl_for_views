@@ -115,44 +115,51 @@ class FactoryGeneratorExtensions {
 	
 	dispatch static def specificCreateMethod(ModelElement it)'''
 		
-		def create«name»(String ID, InternalModelElement ime, InternalModelElementContainer parent){
+		
+		/**
+		 * This method creates an «name» with the given id. Post create hook won't be triggered.
+		 *
+		 * @param ID: The id for the new element
+		 * @param ime: The internal model element {@link graphmodel.internal.InternalModelElement}
+		 * @param parent: The parent element of the newly created element. Needed if a post create hook accesses the parent
+		 * element of the created element
+		 * @param ID: Indicates, if the post create hook should be executed
+		 */
+		def create«name»(String ID, InternalModelElement ime, InternalModelElementContainer parent, boolean hook){
 			val n = super.create«name»
 			n => [ internal = if (ime == null) createInternal«name» else ime]
 			n.internalElement.container = parent
 			setID(n,ID)
 			setID(n.internalElement,generateUUID)
-			«postCreate(it, "n")»
+			if (hook)
+				«postCreate(it, "n")»
 			«IF !(it instanceof UserDefinedType)»n.internalElement.eAdapters.add(new «graphModel.package».adapter.«name»EContentAdapter)«ENDIF»
 			n
 		}
 		
+		/**
+		 * This method creates an «name» with the given id. Post create hook won't be triggered.
+		 */
 		def create«name»(String ID){
-			create«name»(ID,null,null)
-«««			val n = super.create«name»
-«««			val ime = createInternal«name»
-«««			n => [ internal = ime]
-«««			setID(n,ID)
-«««			setID(ime,generateUUID)
-«««			«postCreate(it, "n")»
-«««			«IF !(it instanceof UserDefinedType)»n.internalElement.eAdapters.add(new «graphModel.package».adapter.«name»EContentAdapter)«ENDIF»
-«««			n
+			create«name»(ID,null,null,false)
 		}
 		
+		/**
+		 * This method creates an «name» with the given id. Post create hook will be triggered.
+		 */
 		def create«name»(InternalModelElementContainer parent){
-			create«name»(generateUUID,null,parent)
+			create«name»(generateUUID,null,parent,true)
 		}
 		
 		override create«name»() {
 			create«name»(generateUUID)
 		}
 		
+		/**
+		 * This method creates an «name» with the given id. Post create hook won't be triggered.
+		 */
 		def create«name»(InternalModelElement ime) {
-			val n = create«name»
-			n => [ internal = ime ]
-			setID(ime,generateUUID)
-			«postCreate(it, "n")»
-			 «IF !(it instanceof UserDefinedType)»n.internalElement.eAdapters.add(new «graphModel.package».adapter.«name»EContentAdapter)«ENDIF»
-			n
+			create«name»(generateUUID,ime,null,false)
 		}
 «««			override def create«ecl.modelElement.name»(){
 «««				val «ecl.mainEClass.name.toLowerCase» = «model.name.toLowerCase.toFirstUpper»Factory.eINSTANCE.create«ecl.mainEClass.name»
