@@ -6,7 +6,6 @@ import 'message.dart';
 
 
 abstract class CommandGraph {
-  Map<int,IdentifiableElement> modelMap;
 
   List<CompoundCommand> commandStack;
 
@@ -17,7 +16,6 @@ abstract class CommandGraph {
 
   CommandGraph(GraphModel this.currentGraphModel,{Map jsog})
   {
-    modelMap = new Map();
 
     if(jsog==null){
       this.commandStack = new List();
@@ -38,23 +36,13 @@ abstract class CommandGraph {
         this.undoneCommandStack = new List();
       }
     }
-    collectElements(this.currentGraphModel);
   }
 
-
-
-  void collectElements(ModelElementContainer mec)
-  {
-    modelMap.putIfAbsent(mec.dywaId,() => mec);
-    mec.modelElements.forEach((n) {
-      if(n is ModelElementContainer){
-        collectElements(n);
-      }
-      else{
-        modelMap.putIfAbsent(n.dywaId,() => n);
-      }
-    });
+  IdentifiableElement findElement(id){
+    if(id==currentGraphModel.dywaId)return currentGraphModel;
+    return currentGraphModel.allElements().where((e)=>e is ModelElement).firstWhere((e)=>e.dywaId==id);
   }
+  
 
   /// action triggered by the server
   /// after a valid command has been propagated
@@ -66,7 +54,8 @@ abstract class CommandGraph {
     //set position
     newNode.x = cmd.x;
     newNode.y = cmd.y;
-    ModelElementContainer mec = modelMap[cmd.containerId];
+    newNode.dywaId = cmd.delegateId;
+    ModelElementContainer mec = findElement(cmd.containerId);
     //set containment
     newNode.container = mec;
     mec.modelElements.add(newNode);
@@ -106,8 +95,8 @@ abstract class CommandGraph {
 
   void _execRemoveNodeCommand(RemoveNodeCommand cmd,bool propagate)
   {
-    Node node  = modelMap[cmd.delegateId];
-    node.container.modelElements.remove(node);
+    Node node  = findElement(cmd.delegateId);
+    (findElement(cmd.containerId) as ModelElementContainer).modelElements.remove(node);
     node.container = null;
     if(propagate) {
       // call canvas
@@ -122,6 +111,10 @@ abstract class CommandGraph {
     RemoveNodeCommand cmd = new RemoveNodeCommand();
     cmd.delegateId = nodeId;
     cmd.containerId = containerId;
+    Node node = findElement(nodeId);
+    cmd.dywaName = node.dywaName;
+    cmd.dywaVersion = node.dywaVersion;
+    cmd.type = node.$type();
     cmd.x = x;
     cmd.y = y;
     cmd.type = type;
@@ -134,7 +127,7 @@ abstract class CommandGraph {
     if(edgeCache==null){
       edgeCache = new Set<Edge>();
     }
-    Node node = modelMap[nodeId];
+    Node node = findElement(nodeId);
     if(node is Container) {
       node.modelElements.forEach((n){
         queue.addAll(sendRemoveNodeCommand(n.dywaId,node.dywaId,n.x,n.y,"${currentGraphModel.runtimeType.toString().toLowerCase()}.${n.runtimeType.toString()}",user,edgeCache: edgeCache).cmd.queue);
@@ -157,19 +150,23 @@ abstract class CommandGraph {
 
   CreateNodeCommand _invertRemoveNodeCommand(RemoveNodeCommand cmd)
   {
-    return _createNodeCommand(cmd.type,cmd.x,cmd.y,cmd.containerId);
+    var cc = _createNodeCommand(cmd.type,cmd.x,cmd.y,cmd.containerId);
+    cc.delegateId = cmd.delegateId;
+    cc.dywaVersion = cmd.dywaVersion;
+    cc.dywaName = cmd.dywaName;
+    return cc;
   }
 
   void _execMoveNode(MoveNodeCommand cmd,bool propagate)
   {
-    Node node = modelMap[cmd.delegateId];
+    Node node = findElement(cmd.delegateId);
     node.x = cmd.x;
     node.y = cmd.y;
     if(cmd.containerId!=node.container.dywaId) {
       //remove from old container
       node.container.modelElements.remove(node);
       //add to new container
-      ModelElementContainer mec = modelMap[cmd.containerId];
+      ModelElementContainer mec = findElement(cmd.containerId);
       node.container = mec;
       mec.modelElements.add(node);
     }
@@ -187,7 +184,11 @@ abstract class CommandGraph {
     MoveNodeCommand cmd = new MoveNodeCommand();
     cmd.delegateId = id;
     cmd.containerId = containerId;
-    Node node = modelMap[id];
+    Node node = findElement(id);
+    cmd.dywaName = node.dywaName;
+    cmd.dywaVersion = node.dywaVersion;
+    cmd.oldContainerId = node.container.dywaId;
+    cmd.type = node.$type();
     cmd.x = newX;
     cmd.oldX = node.x;
     cmd.y = newY;
@@ -207,7 +208,7 @@ abstract class CommandGraph {
 
   void _execResizeNodeCommand(ResizeNodeCommand cmd,bool propagate)
   {
-    Node node = modelMap[cmd.delegateId];
+    Node node = findElement(cmd.delegateId);
     node.width = cmd.width;
     node.height = cmd.height;
     if(propagate) {
@@ -222,8 +223,11 @@ abstract class CommandGraph {
   ResizeNodeCommand _resizeNodeCommand(int id,int newWidth,int newHeight)
   {
     ResizeNodeCommand cmd = new ResizeNodeCommand();
-    Node node = modelMap[id];
+    Node node = findElement(id);
     cmd.delegateId = id;
+    cmd.dywaName = node.dywaName;
+    cmd.dywaVersion = node.dywaVersion;
+    cmd.type = node.$type();
     cmd.width = newWidth;
     cmd.oldWidth = node.width;
     cmd.height = newHeight;
@@ -243,7 +247,7 @@ abstract class CommandGraph {
 
   void _execRotateNodeCommand(RotateNodeCommand cmd,bool propagate)
   {
-    Node node = modelMap[cmd.delegateId];
+    Node node = findElement(cmd.delegateId);
     node.angle = cmd.angle;
     if(propagate) {
       // call canvas
@@ -257,8 +261,11 @@ abstract class CommandGraph {
   {
     RotateNodeCommand cmd = new RotateNodeCommand();
     cmd.delegateId = id;
+    Node node = findElement(id);
+    cmd.dywaName = node.dywaName;
+    cmd.dywaVersion = node.dywaVersion;
+    cmd.type = node.$type();
     cmd.angle = newAngle;
-    Node node = modelMap[id];
     cmd.oldAngle = node.angle;
     return cmd;
   }
@@ -276,8 +283,11 @@ abstract class CommandGraph {
   void _execCreateEdgeCommand(CreateEdgeCommand cmd,bool propagate)
   {
     Edge edge = execCreateEdgeType(cmd.type);
-    Node source = modelMap[cmd.sourceId];
-    Node target = modelMap[cmd.targetId];
+    edge.dywaId=cmd.delegateId;
+    edge.dywaVersion=cmd.dywaVersion;
+    edge.dywaName=cmd.dywaName;
+    Node source = findElement(cmd.sourceId);
+    Node target = findElement(cmd.targetId);
     // set source
     edge.source = source;
     source.outgoing.add(edge);
@@ -285,8 +295,8 @@ abstract class CommandGraph {
     edge.target = target;
     target.incoming.add(edge);
     // set container
-    edge.container = source.container;
-    source.container.modelElements.add(edge);
+    edge.container = currentGraphModel;
+    currentGraphModel.modelElements.add(edge);
     if(propagate) {
       // call canvas
       execCreateEdgeCommandCanvas(cmd);
@@ -318,10 +328,10 @@ abstract class CommandGraph {
 
   void _execRemoveEdgeCommand(RemoveEdgeCommand cmd,bool propagate)
   {
-    Edge edge = modelMap[cmd.delegateId];
-    edge.source.outgoing.remove(edge);
-    edge.target.incoming.remove(edge);
-    edge.container.modelElements.remove(edge);
+    Edge edge = findElement(cmd.delegateId);
+    (findElement(cmd.sourceId) as Node).outgoing.remove(edge);
+    (findElement(cmd.targetId) as Node).incoming.remove(edge);
+    currentGraphModel.modelElements.remove(edge);
     if(propagate) {
       // call canvas
       execRemoveEdgeCommandCanvas(cmd);
@@ -333,7 +343,11 @@ abstract class CommandGraph {
   RemoveEdgeCommand _removeEdgeCommand(int id,int sourceId,int targetId,String type)
   {
     RemoveEdgeCommand cmd = new RemoveEdgeCommand();
+    Edge edge = findElement(id);
     cmd.delegateId = id;
+    cmd.dywaName = edge.dywaName;
+    cmd.dywaVersion = edge.dywaVersion;
+    cmd.type = edge.$type();
     cmd.sourceId = sourceId;
     cmd.targetId = targetId;
     return cmd;
@@ -346,15 +360,19 @@ abstract class CommandGraph {
 
   CreateEdgeCommand _invertRemoveEdgeCommand(RemoveEdgeCommand cmd)
   {
-    return _createEdgeCommand(cmd.type,cmd.sourceId,cmd.targetId);
+    var cec = _createEdgeCommand(cmd.type,cmd.targetId,cmd.sourceId);
+    cec.delegateId=cmd.delegateId;
+    cec.dywaName=cmd.dywaName;
+    cec.dywaVersion=cmd.dywaVersion;
+    return cec;
   }
 
   void _execReconnectEdgeCommand(ReconnectEdgeCommand cmd,bool propagate)
   {
-    Edge edge = modelMap[cmd.delegateId];
+    Edge edge = findElement(cmd.delegateId);
     if(cmd.sourceId != edge.source.dywaId) {
       edge.source.outgoing.remove(edge);
-      Node newSource = modelMap[cmd.sourceId];
+      Node newSource = findElement(cmd.sourceId);
       newSource.outgoing.add(edge);
       edge.source = newSource;
       //reset container
@@ -365,7 +383,7 @@ abstract class CommandGraph {
     }
     if(cmd.targetId != edge.target.dywaId) {
       edge.target.incoming.remove(edge);
-      Node newTarget = modelMap[cmd.targetId];
+      Node newTarget = findElement(cmd.targetId);
       newTarget.incoming.add(edge);
       edge.target = newTarget;
     }
@@ -382,7 +400,10 @@ abstract class CommandGraph {
   {
     ReconnectEdgeCommand cmd = new ReconnectEdgeCommand();
     cmd.delegateId = edgeId;
-    Edge edge = modelMap[cmd.delegateId];
+    Edge edge = findElement(cmd.delegateId);
+    cmd.dywaName = edge.dywaName;
+    cmd.dywaVersion = edge.dywaVersion;
+    cmd.type = edge.$type();
     cmd.sourceId = newSourceId;
     cmd.oldSourceId = edge.source.dywaId;
     cmd.targetId = newTargetId;
@@ -402,7 +423,7 @@ abstract class CommandGraph {
 
   void _execUpdateBendPoint(UpdateBendPointCommand cmd,bool propagate)
     {
-      Edge edge = modelMap[cmd.delegateId];
+      Edge edge = findElement(cmd.delegateId);
       edge.bendingPoints.clear();
       cmd.positions.forEach((n){
         BendingPoint bp = new BendingPoint();
@@ -419,22 +440,25 @@ abstract class CommandGraph {
     void execUpdateBendPointCanvas(UpdateBendPointCommand cmd);
 
 
-    UpdateBendPointCommand updateBendPointCommand(int edgeId,List positions)
+    UpdateBendPointCommand updateBendPointCommand(int edgeId,List positions,List oldPositions)
     {
       UpdateBendPointCommand cmd = new UpdateBendPointCommand();
+      Edge edge = findElement(edgeId);
       cmd.delegateId = edgeId;
+      cmd.type = edge.$type();
       cmd.positions = positions;
+      cmd.oldPositions = oldPositions;
       return cmd;
     }
   
-    CompoundCommandMessage sendUpdateBendPointCommand(int edgeId,List positions,PyroUser user)
+    CompoundCommandMessage sendUpdateBendPointCommand(int edgeId,List positions,List oldPositions,PyroUser user)
     {
-      return _send(updateBendPointCommand(edgeId,positions),user);
+      return _send(updateBendPointCommand(edgeId,positions,oldPositions),user);
     }
   
     UpdateBendPointCommand _invertUpdateBendPointCommand(UpdateBendPointCommand cmd)
     {
-      return updateBendPointCommand(cmd.delegateId,cmd.positions);
+      return updateBendPointCommand(cmd.delegateId,cmd.oldPositions,cmd.positions);
     }
 
 
@@ -481,13 +505,17 @@ abstract class CommandGraph {
 
   CompoundCommandMessage undo(PyroUser user)
   {
+    if(commandStack.isEmpty){
+      return null;
+    }
     //take last executed command
     CompoundCommand cc = commandStack.last;
+
     //invert command
     CompoundCommand undoCC = new CompoundCommand();
     cc.queue.reversed.forEach((c) => undoCC.queue.add(_invertCommand(c)));
     //send command
-    return new CompoundCommandMessage(currentGraphModel.dywaId,UNDO_MESSAGE_TYPE,cc,user.dywaId);
+    return new CompoundCommandMessage(currentGraphModel.dywaId,UNDO_MESSAGE_TYPE,undoCC,user.dywaId);
   }
 
   void _receiveValidUndo(CompoundCommand cc)
@@ -495,9 +523,10 @@ abstract class CommandGraph {
     // add to undone commands
     undoneCommandStack.add(cc);
     // remove from stack
-    commandStack.remove(cc);
+    commandStack.removeLast();
     // execute the valid undo command
     // on the business model
+    print("UNDOOO");
     cc.queue.forEach((c){
       _execCommand(c,true);
     });
@@ -513,13 +542,22 @@ abstract class CommandGraph {
     if(undoneCommandStack.isNotEmpty){
       //take the last undone command
       CompoundCommand cc = undoneCommandStack.last;
-      return new CompoundCommandMessage(currentGraphModel.dywaId,REDO_MESSAGE_TYPE,cc,user.dywaId);
+
+      //invert command
+      CompoundCommand redoCC = new CompoundCommand();
+      cc.queue.reversed.forEach((c) => redoCC.queue.add(_invertCommand(c)));
+
+
+
+      return new CompoundCommandMessage(currentGraphModel.dywaId,REDO_MESSAGE_TYPE,redoCC,user.dywaId);
     }
     return null;
   }
 
   void _receiveValidRedo(CompoundCommand cc)
   {
+
+    print("REDOO");
     // put the redone command back to the command stack
     commandStack.add(cc);
     // remove the redone command from the undone
@@ -588,10 +626,16 @@ abstract class CommandGraph {
       case BASIC_INVALID_ANSWER_TYPE:_receiveMyInvalidCommand(ccm.cmd);break;
       case BASIC_VALID_ANSWER_TYPE:_receiveMyValidCommand(ccm.cmd);break;
       case UNDO_VALID_ANSWER_TYPE:_receiveValidUndo(ccm.cmd);break;
+      case UNDO_MESSAGE_TYPE:_receiveValidUndo(ccm.cmd);break;
       case UNDO_INVALID_ANSWER_TYPE:_receiveInvalidUndo(ccm.cmd);break;
       case REDO_VALID_ANSWER_TYPE:_receiveValidRedo(ccm.cmd);break;
+      case REDO_MESSAGE_TYPE:_receiveValidRedo(ccm.cmd);break;
       case REDO_INVALID_ANSWER_TYPE:_receiveInvalidRedo(ccm.cmd);break;
     }
+  }
+  
+  void storeCommand(CompoundCommand cc){
+      _addToQueue(cc);
   }
 
 

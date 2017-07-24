@@ -642,10 +642,15 @@ function add_edge_internal(element,graph,router,connector){
 function move_node_internal(x,y,dywaId,containerId,graph)
 {
     var node = findElementByDywaId(dywaId,graph);
-    var container = findElementByDywaId(containerId,graph);
-    container.embed(node);
-    node.translate(0, 0);
-    node.translate(x, y);
+    if(node.parent){
+        var parent = graph.getCell(node.parent);
+        parent.unembed(node);
+    }
+    if(containerId>0) {
+        var container = findElementByDywaId(containerId, graph);
+        container.embed(node);
+    }
+    node.position(x, y,{ parentRealtive: true });
 }
 
 function remove_node_internal(dywaId,graph)
@@ -655,10 +660,13 @@ function remove_node_internal(dywaId,graph)
     
 }
 
-function resize_node_internal(width,height,dywaId,graph)
+function resize_node_internal(width,height,dywaId,graph,paper)
 {
     var node = findElementByDywaId(dywaId,graph);
     node.resize(width,height,{direction:'bottom-right'});
+    var cell = paper.findViewByModel(node);
+    cell.unhighlight();
+    cell.highlight();
 }
 
 function rotate_node_internal(angle,dywaId,graph)
@@ -676,16 +684,20 @@ function remove_edge_internal(dywaId,graph)
 function reconnect_edge_internal(sourceId,targetId,dywaId,graph)
 {
     var edge = findElementByDywaId(dywaId,graph);
-    edge.source = findElementByDywaId(sourceId, graph);
-    edge.target = findElementByDywaId(targetId,graph);
+    edge.set('source',findElementByDywaId(sourceId, graph));
+    edge.set('target',findElementByDywaId(targetId,graph));
     edge.reparent();
-    edge.remove();
 }
 
 function update_bendpoint_internal(positions,dywaId,graph)
 {
-    var edge = findElementByDywaId(dywaId,graph);
-    edge.set('vertices',positions);
+    var link = findElementByDywaId(dywaId,graph);
+    if(positions!==null) {
+        link.set('vertices', positions['o'].map(function (n) {
+            return {x:n.x,y:n.y};
+        }));
+    }
+
 }
 
 /*

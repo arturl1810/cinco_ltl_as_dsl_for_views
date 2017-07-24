@@ -598,6 +598,9 @@ class Model extends Generatable {
 		    return map;
 		}
 		
+		@override
+		String $type()=>"«g.name.lowEscapeDart».«element.name.fuEscapeDart»";
+		
 		static «element.name» fromJSOG(Map jsog,Map cache)
 		{
 			return new «element.name»(jsog: jsog,cache: cache);

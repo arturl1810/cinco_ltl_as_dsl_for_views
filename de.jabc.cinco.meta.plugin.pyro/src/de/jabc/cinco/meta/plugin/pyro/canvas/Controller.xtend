@@ -481,7 +481,11 @@ class Controller extends Generatable{
 		 * @param containerId
 		 */
 		function move_node_«node.name.lowEscapeDart»_«g.name.lowEscapeDart»(x,y,dywaId,containerId) {
-		    move_node_internal(x,y,dywaId,containerId,$graph_«g.name.lowEscapeDart»);
+		    if(containerId==$graphmodel_id_«g.name.lowEscapeDart»){
+		        move_node_internal(x,y,dywaId,-1,$graph_«g.name.lowEscapeDart»);
+		    } else {
+		        move_node_internal(x,y,dywaId,containerId,$graph_«g.name.lowEscapeDart»);
+		    }
 		    return 'ready';
 		}
 		
@@ -504,7 +508,7 @@ class Controller extends Generatable{
 		 * @param dywaId
 		 */
 		function resize_node_«node.name.lowEscapeDart»_«g.name.lowEscapeDart»(width,height,dywaId) {
-		    resize_node_internal(width,height,dywaId,$graph_«g.name.lowEscapeDart»);
+		    resize_node_internal(width,height,dywaId,$graph_«g.name.lowEscapeDart»,$paper_«g.name.lowEscapeDart»);
 		    return 'ready';
 		}
 		
@@ -559,9 +563,11 @@ class Controller extends Generatable{
 		        source: { id: sourceN.id },
 		        target: { id: targetN.id }
 		    });
-		    link.set('vertices', positions['o']['_source'].map(function (n) {
-		       return {x:n.x,y:n.y};
-		    }));
+		    if(positions!==null){
+			    link.set('vertices', positions['o']['_source'].map(function (n) {
+			       return {x:n.x,y:n.y};
+			    }));
+		    }
 		    add_edge_internal(link,$graph_«g.name.lowEscapeDart»,$router_«g.name.lowEscapeDart»,$connector_«g.name.lowEscapeDart»);
 		    update_element_«g.name.lowEscapeDart»(link.attributes.id,dywaId,dywaVersion,dywaName,styleArgs);
 «««		    «"link".addLinkListeners(edge,g)»

@@ -13,6 +13,8 @@
         (changeLayout)="changeLayout($event)"
         (changeScale)="changeScale($event)"
         (openProject)="openProject.emit($event)"
+        (undo)="triggerUndo($event)"
+        (redo)="triggerRedo($event)"
     >
     </menu>
     <div style="padding-left: 0;padding-right: 0;">

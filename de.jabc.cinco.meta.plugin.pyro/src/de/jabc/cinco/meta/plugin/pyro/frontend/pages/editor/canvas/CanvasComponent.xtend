@@ -91,6 +91,21 @@ class CanvasComponent extends Generatable {
 	  	«ENDFOR»
 	  }
 	  
+	  void undo() {
+	  «FOR g:gc.graphMopdels»
+	  	if(«g.name.lowEscapeDart»CanvasComponent!=null) {
+	    	«g.name.lowEscapeDart»CanvasComponent.undo();
+	  	}
+	  «ENDFOR»
+	  }
+	  	  
+	  void redo() {
+	  «FOR g:gc.graphMopdels»
+		if(«g.name.lowEscapeDart»CanvasComponent!=null) {
+    		«g.name.lowEscapeDart»CanvasComponent.redo();
+		}
+	  «ENDFOR»
+		  }
 	
 	  @override
 	  void ngOnInit()

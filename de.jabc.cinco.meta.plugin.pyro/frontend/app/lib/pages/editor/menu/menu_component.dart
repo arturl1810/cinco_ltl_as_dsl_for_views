@@ -27,6 +27,10 @@ class MenuComponent implements OnInit {
   EventEmitter changeScale;
   @Output()
   EventEmitter openProject;
+  @Output()
+  EventEmitter redo;
+  @Output()
+  EventEmitter undo;
 
 
   @Input()
@@ -51,6 +55,8 @@ class MenuComponent implements OnInit {
     changeLayout = new EventEmitter();
     openProject = new EventEmitter();
     changeScale = new EventEmitter();
+    redo = new EventEmitter();
+    undo = new EventEmitter();
   }
 
   @override
@@ -151,6 +157,20 @@ class MenuComponent implements OnInit {
     e.preventDefault();
     currentGraphModel.connector=type;
     changeLayout.emit(type);
+  }
+
+  void triggerRedo(dynamic e) {
+    e.preventDefault();
+    if(currentGraphModel!=null){
+      redo.emit({});
+    }
+  }
+
+  void triggerUndo(dynamic e) {
+    e.preventDefault();
+    if(currentGraphModel!=null){
+      undo.emit({});
+    }
   }
 
 }

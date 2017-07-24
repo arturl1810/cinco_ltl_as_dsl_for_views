@@ -336,9 +336,11 @@ class ReconnectEdgeCommand extends EdgeCommand {
 
 class UpdateBendPointCommand extends Command {
   List positions;
+  List oldPositions;
 
   UpdateBendPointCommand() {
     positions = new List();
+    oldPositions = new List();
   }
 
   static UpdateBendPointCommand fromJSOG(Map jsog)
@@ -352,6 +354,12 @@ class UpdateBendPointCommand extends Command {
       pos['y']=value['y'];
       cmd.positions.add(pos);
     }
+    for(var value in jsog['oldPositions']) {
+      Map pos = new Map();
+      pos['x']=value['x'];
+      pos['y']=value['y'];
+      cmd.oldPositions.add(pos);
+    }
     return cmd;
   }
 
@@ -362,6 +370,7 @@ class UpdateBendPointCommand extends Command {
     map['type'] = type;
     
     map['positions'] = positions.map((n)=>{'x':n.x,'y':n.y});
+    map['oldPositions'] = oldPositions.map((n)=>{'x':n.x,'y':n.y});
 
     return map;
   }

@@ -16,6 +16,8 @@ abstract class IdentifiableElement implements PyroElement{
   int dywaId;
   int dywaVersion;
   String dywaName;
+  
+  String $type();
 }
 
 abstract class ModelElement implements IdentifiableElement{

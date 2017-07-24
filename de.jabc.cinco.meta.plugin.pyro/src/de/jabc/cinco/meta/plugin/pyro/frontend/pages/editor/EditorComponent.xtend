@@ -129,6 +129,24 @@ class EditorComponent extends Generatable {
 	    }
 	
 	  }
+	  
+	  void triggerUndo(dynamic e)
+	  {
+	  	if(currentGraphModel != null) {
+	    	canvasComponent.undo();
+	    } else {
+	    	notificationComponent.displayMessage("No graphmodel present to undo",AlertType.WARNING);
+	    }
+	  }
+	  
+	  void triggerRedo(dynamic e)
+	  {
+	  	if(currentGraphModel != null) {
+	  		canvasComponent.redo();
+	  	} else {
+	  	   	notificationComponent.displayMessage("No graphmodel present to redo",AlertType.WARNING);
+	  	}
+	  }
 	
 	  void hasDeletedGraph(GraphModel g)
 	  {

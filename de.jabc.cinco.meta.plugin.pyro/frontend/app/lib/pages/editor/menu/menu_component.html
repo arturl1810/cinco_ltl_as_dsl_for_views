@@ -48,6 +48,8 @@
                         <li [class.active]="isActiveConnector('jumpover')"><a href (click)="changeConnectorLayout('jumpover',$event)">Jumpover</a></li>
                     </ul>
                 </li>
+                <li><a style="color: white" href (click)="triggerUndo($event)"><span class="glyphicon glyphicon-triangle-left"></span> Undo</a></li>
+                <li><a style="color: white" href (click)="triggerRedo($event)"><span class="glyphicon glyphicon-triangle-right"></span> Redo</a></li>
                 <li><p class="navbar-text">{{project.name}}</p></li>
             </ul>
             <ul class="nav navbar-nav navbar-right" style="padding-right: 10px;">
