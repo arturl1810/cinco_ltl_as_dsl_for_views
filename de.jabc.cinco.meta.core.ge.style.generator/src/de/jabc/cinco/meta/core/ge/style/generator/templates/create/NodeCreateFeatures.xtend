@@ -3,16 +3,17 @@ package de.jabc.cinco.meta.core.ge.style.generator.templates.create
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.errorhandling.ECincoError
 import de.jabc.cinco.meta.core.ge.style.generator.templates.util.APIUtils
 import de.jabc.cinco.meta.core.utils.CincoUtil
+import de.jabc.cinco.meta.core.utils.MGLUtil
+import graphmodel.ModelElementContainer
 import graphmodel.internal.InternalModelElementContainer
 import mgl.Node
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.graphiti.features.IFeatureProvider
 import org.eclipse.graphiti.features.context.ICreateContext
+import org.eclipse.graphiti.mm.pictograms.ContainerShape
 import org.eclipse.graphiti.mm.pictograms.PictogramElement
 import org.eclipse.graphiti.services.Graphiti
 import style.Styles
-import graphmodel.ModelElementContainer
-import graphmodel.internal.InternalContainer
 
 class NodeCreateFeatures extends APIUtils{
 	
@@ -77,7 +78,7 @@ class NodeCreateFeatures extends APIUtils{
 			«PictogramElement.name» target = context.getTargetContainer();
 			«EObject.name» targetBO = («EObject.name») getBusinessObjectForPictogramElement(target);
 			«n.fqBeanName» «n.flName» = 
-				(«n.fqCName») «n.packageName».«n.graphModel.fuName»Factory.eINSTANCE.create«n.fuName»((«InternalModelElementContainer.name») targetBO);
+				(«n.fqCName») «n.packageName».«n.graphModel.fuName»Factory.eINSTANCE.create«n.fuName»();
 			setModelElement(«n.flName»);
 	
 			if (targetBO instanceof «ModelElementContainer.name») 

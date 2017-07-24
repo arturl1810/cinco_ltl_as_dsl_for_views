@@ -36,6 +36,9 @@ import org.eclipse.graphiti.features.IDeleteFeature
 import org.eclipse.graphiti.features.context.impl.UpdateContext
 import org.eclipse.graphiti.features.IUpdateFeature
 import org.eclipse.graphiti.features.context.impl.AddContext
+import org.eclipse.graphiti.features.context.impl.ResizeShapeContext
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoResizeFeature
+import graphmodel.IdentifiableElement
 
 class CModelElementTmpl extends APIUtils {
 	
@@ -76,7 +79,8 @@ public class «me.fuCViewName» extends «me.fqBeanViewName» {
 def doGenerateImpl(ModelElement me)'''
 package «me.packageNameAPI»;
 
-public «IF me.isIsAbstract»abstract«ENDIF» class «me.fuCName» extends «me.fqBeanImplName» {
+public «IF me.isIsAbstract»abstract«ENDIF» class «me.fuCName» extends «me.fqBeanImplName» 
+	«IF !me.allSuperTypes.empty» implements «FOR st: me.allSuperTypes SEPARATOR ","» «st.fqBeanName» «ENDFOR» «ENDIF»{
 	
 	private «PictogramElement.name» pe;
 	
@@ -190,12 +194,11 @@ public «IF me.isIsAbstract»abstract«ENDIF» class «me.fuCName» extends «me
 	@Override
 	public void _moveTo(«cont.fqBeanName» target, int x, int y) {
 		«MoveShapeContext.name» mc = new «MoveShapeContext.name»((«Shape.name») this.pe);
-		if (!(target instanceof «cont.fuCName»))
-			throw new «RuntimeException.name»(
-				«String.name».format("Parameter \"target\" of wrong type: Expected type: %s, given type %s", 
-				«cont.fuCName».class, target.getClass()));
-		
-		mc.setTargetContainer((«ContainerShape.name») ((«cont.fuCName») target).getPictogramElement());
+«««		if (!(target instanceof «cont.fuCName»))
+«««			throw new «RuntimeException.name»(
+«««				«String.name».format("Parameter \"target\" of wrong type: Expected type: %s, given type %s", 
+«««				«cont.fuCName».class, target.getClass()));
+		mc.setTargetContainer((«ContainerShape.name») getPictogramElement(target));
 		mc.setSourceContainer((«ContainerShape.name») this.getPictogramElement());
 		
 		mc.setX(x);
@@ -210,6 +213,21 @@ public «IF me.isIsAbstract»abstract«ENDIF» class «me.fuCName» extends «me
 	}
 	
 	«ENDFOR»
+	
+	@Override
+	public void resize(int width, int height) {
+		«ResizeShapeContext.name» rc = new «ResizeShapeContext.name»(getPictogramElement());
+		«CincoResizeFeature.name» rf = new «CincoResizeFeature.name»(getFeatureProvider());
+		
+		rc.setSize(width, height);	
+		rc.setLocation(getX(), getY());
+		rf.activateApiCall(true);		
+		
+		if (rf.canResizeShape(rc))
+			rf.resizeShape(rc);
+		
+		super.resize(width, height);
+	}
 	«ENDIF»
 	
 	«IF !(me instanceof GraphModel) && !(me instanceof Edge)»
@@ -234,7 +252,7 @@ public «IF me.isIsAbstract»abstract«ENDIF» class «me.fuCName» extends «me
 	@Override
 	public void delete(){
 		«DeleteContext.name» mc = new «DeleteContext.name»((«Shape.name») this.pe);
-			
+		
 		«IFeatureProvider.name» fp = getFeatureProvider();
 		«IDeleteFeature.name» mf = new «DefaultDeleteFeature.name»(fp);
 		if (fp instanceof «CincoFeatureProvider.name») {
@@ -314,6 +332,28 @@ public «IF me.isIsAbstract»abstract«ENDIF» class «me.fuCName» extends «me
 		}
 		return («Diagram.name») curr;
 	}
+	
+	«IF me instanceof Node»
+	private «ContainerShape.name» getPictogramElement(«IdentifiableElement.name» target) {
+		«FOR st : me.allSuperTypes»
+		if («st.instanceofCheck("target")»)
+			return ((«st.fqCName») target).getPictogramElement();
+		«ENDFOR»
+		
+		return null;
+	}
+	«ENDIF»
+	
+	«IF me instanceof Edge»
+	private «Connection.name» getPictogramElement(«IdentifiableElement.name» target) {
+		«FOR st : me.allSuperTypes»
+		if («st.instanceofCheck("target")»)
+			return ((«st.fqCName») target).getPictogramElement();
+		«ENDFOR»
+		
+		return null;
+	}
+	«ENDIF»
 	
 	«IF me instanceof GraphModel»
 	public «PictogramElement.name» fetchPictogramElement(«graphmodel.ModelElement.name» me) {

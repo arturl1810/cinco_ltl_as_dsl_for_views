@@ -38,15 +38,15 @@ class EmfFactoryTmpl {
 			return me;
 		}
 		
-		«IF !(me instanceof GraphModel)»
-		public «me.fqBeanName» create«me.fuName»(«InternalModelElementContainer.name» parent) {
-			«me.fqInternalBeanName» ime = («me.fqInternalBeanName») «me.fqFactoryName».eINSTANCE.create«me.fuName»(parent).getInternalElement();
-			«me.fqCName» me = new «me.fqCName»();
-			ime.eAdapters().add(«me.packageNameEContentAdapter».«me.fuName»EContentAdapter.getInstance());
-			ime.setElement(me);
-			return me;
-		}
-		«ENDIF»
+«««		«IF !(me instanceof GraphModel)»
+«««		public «me.fqBeanName» create«me.fuName»(«InternalModelElementContainer.name» parent) {
+«««			«me.fqInternalBeanName» ime = («me.fqInternalBeanName») «me.fqFactoryName».eINSTANCE.create«me.fuName»(parent).getInternalElement();
+«««			«me.fqCName» me = new «me.fqCName»();
+«««			ime.eAdapters().add(«me.packageNameEContentAdapter».«me.fuName»EContentAdapter.getInstance());
+«««			ime.setElement(me);
+«««			return me;
+«««		}
+«««		«ENDIF»
 		«ENDFOR»
 	
 	}

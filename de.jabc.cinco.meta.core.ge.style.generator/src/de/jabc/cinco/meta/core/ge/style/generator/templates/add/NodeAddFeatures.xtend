@@ -22,6 +22,7 @@ import style.Styles
 import graphmodel.internal.InternalModelElement
 import de.jabc.cinco.meta.core.ge.style.generator.templates.util.APIUtils
 import graphmodel.internal.InternalModelElementContainer
+import de.jabc.cinco.meta.core.utils.MGLUtil
 
 class NodeAddFeatures extends StyleUtils {
 
@@ -153,8 +154,10 @@ public class AddFeaturePrime«n.fuName» extends «CincoAbstractAddFeature.name�
 			«ReferenceRegistry.name».getInstance().addElement((«EObject.name») context.getNewObject());
 			«n.packageNameAdd».AddFeature«n.fuName» af = new «n.packageNameAdd».AddFeature«n.fuName»(getFeatureProvider());
 			«AddContext.name» ac = new «AddContext.name»(context, ime);
-			if (af.canAdd(ac))
-				return af.add(ac);
+			if (af.canAdd(ac)) {
+				«PictogramElement.name» pe = af.add(ac);
+				return pe;
+			}
 		}
 		return null;
 	}

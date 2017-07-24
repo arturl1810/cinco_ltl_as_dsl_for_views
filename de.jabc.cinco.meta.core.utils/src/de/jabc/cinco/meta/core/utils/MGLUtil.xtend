@@ -224,10 +224,14 @@ class MGLUtil {
 	 	modelElements.map[annotations.filter[name == "postCreate"]].map[postCreates].join("\n")
 	 }
 	 
+	 def static hasPostCreateHook(ModelElement me) {
+	 	!me.annotations.filter["postCreate".equals(name)].isEmpty
+	 }
+	 
 	 private def static postCreates(Iterable<Annotation> it) {
 	 	if (!empty) 
 	 	'''
-		private def postCreates(«(get(0).parent as ModelElement).fqBeanName» me) {
+		public def postCreates(«(get(0).parent as ModelElement).fqBeanName» me) {
 			«map[generatePostCreateCall].join("\n")»
 		}'''
 	 	else ""

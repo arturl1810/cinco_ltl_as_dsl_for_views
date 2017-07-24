@@ -151,24 +151,27 @@ class FactoryGeneratorExtensions {
 			create«name»(generateUUID,null,parent,true)
 		}
 		
-		override create«name»() {
-			create«name»(generateUUID)
+		/**
+		 * This method creates an «name» with the given id. Post create hook will be triggered.
+		 */
+		def create«name»(String ID, InternalModelElementContainer parent){
+			create«name»(ID,null,parent,true)
 		}
-		
+
+		def create«name»(String ID, InternalModelElement ime, InternalModelElementContainer parent){
+			create«name»(ID,ime,parent,true)
+		}
+
 		/**
 		 * This method creates an «name» with the given id. Post create hook won't be triggered.
 		 */
 		def create«name»(InternalModelElement ime) {
 			create«name»(generateUUID,ime,null,false)
 		}
-«««			override def create«ecl.modelElement.name»(){
-«««				val «ecl.mainEClass.name.toLowerCase» = «model.name.toLowerCase.toFirstUpper»Factory.eINSTANCE.create«ecl.mainEClass.name»
-«««				val «ecl.internalEClass.name.toLowerCase» = InternalFactory.eINSTANCE.create«ecl.internalEClass.name»
-«««				«ecl.mainEClass.name.toLowerCase».setInternalElement(«ecl.internalEClass.name.toLowerCase»);
-«««				«ecl.mainEClass.name.toLowerCase».setUID();
-«««				
-«««				return «ecl.mainEClass.name.toLowerCase»
-«««			}
+		
+		override create«name»() {
+			create«name»(generateUUID)
+		}
 		'''
 	
 //	dispatch static def specificCreateMethod(Type it)'''
