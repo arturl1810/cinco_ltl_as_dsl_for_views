@@ -120,12 +120,12 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 			node.createNewEdgeMethods(eClassesMap)
 			node.createCanMoveToMethods(eClassesMap)
 			node.createMoveToMethods(eClassesMap)
-			//node.createGraphicalInformationGetter(eClassesMap)	
+			node.createGraphicalInformationGetter(eClassesMap)	
 		]
 		
 		graphModel.nodes.filter(NodeContainer).forEach[container|
 			(container as NodeContainer).createGetContainmentConstraintsMethod(graphModel, eClassesMap)
-			//(container as NodeContainer).createModelElementGetter(graphModel, eClassesMap)
+			(container as NodeContainer).createModelElementGetter(graphModel, eClassesMap)
 			container.createCanNewNodeMethods(eClassesMap)
 			container.createNewNodeMethods(eClassesMap)
 		]

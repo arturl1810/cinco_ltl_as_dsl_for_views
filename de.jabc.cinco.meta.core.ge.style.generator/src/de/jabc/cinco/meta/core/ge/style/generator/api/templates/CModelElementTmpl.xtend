@@ -140,23 +140,23 @@ public «IF me.isIsAbstract»abstract«ENDIF» class «me.fuCName» extends «me
 		
 		@Override
 		public «n.fqBeanName» new«n.fuName»(«EObject.name» «n.primeReference.name», int x, int y, int width, int height) {
-				«AddContext.name» ac = new «AddContext.name»();
-				ac.setLocation(10, 10);
-				ac.setTargetContainer((«ContainerShape.name») getPictogramElement());
-				
-				ac.setLocation(x,y);
-				ac.setSize(width,height);
-				
-				«IFeatureProvider.name» fp = getFeatureProvider();
-				«n.fqPrimeAddFeatureName» af = new «n.fqPrimeAddFeatureName»(fp);
-				if (fp instanceof «CincoFeatureProvider.name») {
-					Object[] retVal = ((«CincoFeatureProvider.name») fp).executeFeature(af, ac);
-					«n.fuCName» tmp = («n.fuCName») retVal[0];
-					tmp.setPictogramElement((«n.pictogramElementReturnType») retVal[1]);
-					return tmp;
-				}
-				return null;
+			«AddContext.name» ac = new «AddContext.name»();
+			ac.setLocation(10, 10);
+			ac.setTargetContainer((«ContainerShape.name») getPictogramElement());
+			
+			ac.setLocation(x,y);
+			ac.setSize(width,height);
+			
+			«IFeatureProvider.name» fp = getFeatureProvider();
+			«n.fqPrimeAddFeatureName» af = new «n.fqPrimeAddFeatureName»(fp);
+			if (fp instanceof «CincoFeatureProvider.name») {
+				Object[] retVal = ((«CincoFeatureProvider.name») fp).executeFeature(af, ac);
+				«n.fuCName» tmp = («n.fuCName») retVal[0];
+				tmp.setPictogramElement((«n.pictogramElementReturnType») retVal[1]);
+				return tmp;
 			}
+			return null;
+		}
 		«ENDFOR»
 	«ENDIF»
 	
