@@ -284,20 +284,20 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 	private def ElementEClasses createModelElementClasses(ModelElement element) {
 		val elementEClasses = new ElementEClasses
 		if(!(element instanceof Enumeration)){
-			
+
 			elementEClasses.modelElement = element
 			elementEClasses.mainEClass = element.createEClass
-			
+
 			elementEClasses.internalEClass = element.createInternalEClass(elementEClasses)
 			elementEClasses.mainView = createMainView(element, elementEClasses)
 			elementEClasses.views += createViews(element, elementEClasses)
 			element.nonConflictingAttributes.forEach[att| var ec= elementEClasses.mainEClass;ec.createGetter(ec,att);ec.createSetter(ec,att)]
-			
-			
+
+			elementEClasses.createTypedInternalGetter
 		eClassesMap.put(elementEClasses.mainEClass.name, elementEClasses)
 
-	
-		
+
+
 		}
 	elementEClasses
 	}
@@ -589,37 +589,45 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 				content.toString)
 			complexGetterParameterMap.put(eOp,attr.type)
 		}
-		
+
 	}
-	
+
 	private dispatch def createGetterContent(EClass eClass, ComplexAttribute attr) '''
 		return («attr.type.name»)getInternal«eClass.name»().get«attr.name.toFirstUpper»().getElement();
 	'''
-	
-	
-	
-	
+
+
+	def createTypedInternalGetter(ElementEClasses elmClasses){
+		val methodName = '''getInternal«elmClasses.modelElement.name»'''
+		elmClasses.mainEClass.createEOperation(methodName,elmClasses.internalEClass,0,1,elmClasses.typedInternalGetterContent)
+	}
+
+	def typedInternalGetterContent(ElementEClasses elmClasses)'''
+	return («elmClasses.modelElement.fqInternalBeanName») getInternalElement();
+	'''
+
+
 	/**
 	 * Returns EClasses of generated model elements.
 	 */
 	def getModelElementsClasses() {
 		modelElementsMap.values
 	}
-	
+
 	def getterPrefix(PrimitiveAttribute attr) {
 		if (attr.type != null && attr.type==mgl.EDataTypeType.EBOOLEAN) '''is''' else '''get'''
 	}
-	
+
 	def Iterable<? extends Attribute> allAttributes(ModelElement modelElement){
 		val allAttributes = new HashMap<String,Attribute>
 		val mes =modelElement.allSuperTypes.topSort
 		mes+=modelElement
 		mes.forEach[attributes.forEach[allAttributes.put(name,it)]]
 		allAttributes.values
-		
-		
-	} 
-	
+
+
+	}
+
 	def Iterable<?extends Attribute> nonConflictingAttributes(ModelElement me){
 		me.allAttributes.filter [attr|
 			!(attr instanceof ComplexAttribute) || !(me.subTypes.map[st|st.allAttributes].flatten.exists [e|
