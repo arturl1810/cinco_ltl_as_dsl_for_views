@@ -63,6 +63,7 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.awt.SWT_AWT;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -463,7 +464,7 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 			date.setEnabled(!readOnlyAttributes.contains(attr));
 		}  
 		
-		else if (attr.getEAttributeType() instanceof EEnum || attr.getEAttributeType().getName().equals("EBoolean")) {
+		else if (attr.getEAttributeType() instanceof EEnum) {
 			Combo combo = new Combo(comp, SWT.BORDER | SWT.DROP_DOWN | SWT.READ_ONLY);
 			combo.setLayoutData(textLayoutData);
 			ComboViewer cv = new ComboViewer(combo);
@@ -479,6 +480,15 @@ public class CincoPropertyView extends ViewPart implements ISelectionListener, I
 			context.bindValue(uiProp, modelObs);
 			combo.setEnabled(!readOnlyAttributes.contains(attr));
 		} 
+		
+		else if (attr.getEAttributeType().getName().equals("EBoolean")) {
+			Button checkBox = new Button(comp, SWT.CHECK | SWT.BORDER);
+			ISWTObservableValue uiProp = WidgetProperties.selection().observe(checkBox);
+			IObservableValue modelObs = EMFEditProperties.value(domain,attr).observe(bo);
+			
+			context.bindValue(uiProp, modelObs);
+			checkBox.setEnabled(!readOnlyAttributes.contains(attr));
+		}
 		else if (fileAttributes.contains(attr)) {
 			Composite fileComposite = new Composite(comp, SWT.NONE);
 			fileComposite.setLayout(new GridLayout(2, false));
