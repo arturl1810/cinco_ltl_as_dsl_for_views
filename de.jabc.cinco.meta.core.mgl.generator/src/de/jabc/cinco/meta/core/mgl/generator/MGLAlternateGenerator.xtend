@@ -363,8 +363,8 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 			gm = element
 		else
 			gm = (element.eContainer as GraphModel)
-		
-		
+
+
 		element.allAttributes.forEach [attr| 
 			if(!(attr instanceof ComplexAttribute && (attr as ComplexAttribute).override && mainView)){
 					val feature = attr.internalEClassFeature(internalEClass)
@@ -372,23 +372,23 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 						view.createGetter(eClass, attr)
 							//view.createSetter(eClass, feature)
 						view.createSetter(eClass, attr)
-						
+
 					}
-				
+
 			}
-			
+
 		]
-		
-		
+
+
 		eClass.createGetView(view, getterName, gm.name.toLowerCase, gm.package)
 		view
 	}
-	
+
 
 	private def EStructuralFeature internalEClassFeature(Attribute attr, EClass internalEClass){
 		internalEClass.EStructuralFeatures.findFirst[f |attr.name==f.name]		
 	}
-	
+
 	private def EClass createEClass(ModelElement element) {
 		var eClass = EcoreFactory.eINSTANCE.createEClass
 		eClass.name = element.name
@@ -398,7 +398,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		modelElementsMap.put(element, eClass);
 		if(element.isIsAbstract)
 			eClass.abstract = true
-			
+
 		eClass
 	}
 
@@ -418,7 +418,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 
 		//element.attributes.forEach[attribute|internalEClass.createAttribute(attribute)]
 		element.allAttributes.forEach[attribute|internalEClass.createAttribute(attribute)]
-		
+
 		internalEClass
 	}
 
@@ -475,21 +475,21 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		val typeClass = graphModelPackage.getType
 		val udts = new HashMap<ModelElement,ElementEClasses>
 		model.types.filter(UserDefinedType).topSort.forEach[udt|println(udt);udts.put(udt,udt.createModelElementClasses)]
-		
+
 		udts.values.forEach[
 			internalEClass.ESuperTypes+=internalTypeClass
 			mainEClass.ESuperTypes+=typeClass
-			
+
 		]
 		udts
 
 	}
-	
-	
+
+
 	private def Iterable<? extends EClassifier> createEnums(GraphModel model) {
 		model.types.filter(Enumeration).map[en| en.createEnumeration]
 	}
-	
+
 	private def EClassifier createEnumeration(Enumeration enumeration){
 		val eenum = EcoreFactory.eINSTANCE.createEEnum
 		eenum.name=enumeration.name
@@ -498,7 +498,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		eenum.ELiterals+=lits
 		enumMap.put(enumeration,eenum)
 		eenum
-		
+
 	}
 
 	private def createGetView(EClass modelElementClass, EClass view, String getterName, String ePackageName, String javaPackageName) {
@@ -524,16 +524,16 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		val opType = attr.type.EDataType
 		parameter.EType = opType
 		view.createEOperation(setterName, null, 0, 1, content.toString, parameter)
-		
+
 
 	}
-	
+
 	private dispatch def createSetter(EClass view, EClass modelElementClass,ComplexAttribute attr){
 		if(!(attr.type instanceof Enumeration)){
 			val content = createComplexSetterContent(modelElementClass,attr)
 			val parameter = EcoreFactory.eINSTANCE.createEParameter
 			parameter.name = attr.name.toFirstLower
-			
+
 			val setterName = "set" + attr.name.toFirstUpper
 			parameter.upperBound = 1
 			parameter.lowerBound = 0
@@ -541,46 +541,44 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 			complexSetterParameterMap.put(eOp, attr.type)
 		}
 	}
-	
-	
-	
+
+
+
 //	private def createSetter(EClass view, EClass modelElementClass, Attribute attr) {
 //		val content = createSetterContent(modelElementClass, attr.name)
 //		val parameter = EcoreFactory.eINSTANCE.createEParameter
 //		parameter.name = attr.name.toFirstLower
-//		
+//
 //		val setterName = "set" + attr.name.toFirstUpper
 //		parameter.upperBound = 1
 //		parameter.lowerBound = 0
 //		val eOp = view.createEOperation(setterName, null, 0, 1, content.toString, parameter)
 //		setterParameterMap.put(eOp, attr)
-//		
 //	}
-	
-	
+
+
 	private def createSetterContent(EClass modelElementClass, String featureName) '''
 		getInternal«modelElementClass.name»().set«featureName.toFirstUpper»(«featureName»);
 	'''
-	
-	
-	
+
+
 	private def createComplexSetterContent(EClass modelElementClass, ComplexAttribute attr) '''
 		getInternal«modelElementClass.name»().set«attr.name.toFirstUpper»((«attr.type.fqInternalBeanName»)«attr.name».getInternalElement());
 	'''
-	
+
 	private dispatch def createGetter(EClass view, EClass modelElementClass, PrimitiveAttribute attr) {
 		val content = createGetterContent(modelElementClass, attr)
 		val getterName = attr.getterPrefix + attr.name.toFirstUpper
 		val opType = attr.type.EDataType
 		view.createEOperation(getterName, opType, attr.lowerBound, attr.upperBound, content.toString)
-		
+
 
 	}
 
 	private dispatch def createGetterContent(EClass eClass, PrimitiveAttribute attr) '''
 		return getInternal«eClass.name»().«attr.getterPrefix»«attr.name.toFirstUpper»();
 	'''
-	
+
 	private dispatch def createGetter(EClass view, EClass modelElementClass,ComplexAttribute attr) {
 		if(!(attr.type instanceof Enumeration)){
 			val content = createGetterContent(modelElementClass, attr)
