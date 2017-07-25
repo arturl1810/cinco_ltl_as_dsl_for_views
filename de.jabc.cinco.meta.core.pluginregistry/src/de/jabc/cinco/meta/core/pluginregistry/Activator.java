@@ -15,6 +15,7 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
 import de.jabc.cinco.meta.core.pluginregistry.impl.PluginRegistryEntryImpl;
+import de.jabc.cinco.meta.core.pluginregistry.proposalprovider.ICPDMetaPluginAcceptor;
 import de.jabc.cinco.meta.core.pluginregistry.proposalprovider.IMetaPluginAcceptor;
 import de.jabc.cinco.meta.core.pluginregistry.validation.IMetaPluginValidator;
 //import de.jabc.cinco.meta.core.pluginregistry.service.helper.Service;
@@ -55,6 +56,13 @@ public class Activator extends AbstractUIPlugin {
 		plugin = this;
 		
 		IExtensionRegistry registry = Platform.getExtensionRegistry();
+		
+		IExtensionPoint cpdpoint = registry
+				.getExtensionPoint("de.jabc.cinco.meta.core.pluginregistry.cpdplugin");
+		IExtension[] cpdextensions = cpdpoint.getExtensions();
+		for (IExtension extension : cpdextensions)
+			readCPDExtension(extension);
+		
 		IExtensionPoint point = registry
 				.getExtensionPoint("de.jabc.cinco.meta.core.pluginregistry.metaplugin");
 		if (point == null)
@@ -256,6 +264,78 @@ public class Activator extends AbstractUIPlugin {
 			pEntry.setAcceptor(metaPluginAcceptor);
 			PluginRegistry.getInstance().registerMetaPlugin(pEntry);
 
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	private void readCPDExtension(IExtension extension) {
+		try{
+			for (IConfigurationElement elem : extension
+					.getConfigurationElements()) {
+			
+				if (elem.getName().equals("cpd_metaplugin_description")) {
+					String serviceName = elem.getAttribute("cpdMetapluginService");
+					String annotationName = elem.getAttribute("recognized-annotation");
+					if(serviceName!=null&&annotationName!=null){
+						CPDAnnotation annotation = new CPDAnnotation();
+						annotation.setAnnotationName(annotationName);
+						{
+							Class serviceClass;
+							
+							serviceClass = this.getClass().getClassLoader()
+									.loadClass(serviceName);
+							
+							Class params[] = new Class[0];
+							
+							Constructor s = serviceClass.getConstructor(params);
+							
+							ICPDMetaPlugin metaPluginService = (ICPDMetaPlugin) s.newInstance();	
+							annotation.setPlugin(metaPluginService);
+						}
+						
+						//check if acceptor is there
+						String acceptorname = elem.getAttribute("acceptor");
+						if(acceptorname!=null){
+							Class serviceClass;
+							
+							serviceClass = this.getClass().getClassLoader()
+									.loadClass(acceptorname);
+							
+							Class params[] = new Class[0];
+							
+							Constructor s = serviceClass.getConstructor(params);
+							
+							ICPDMetaPluginAcceptor metaPluginAcceptor = (ICPDMetaPluginAcceptor) s.newInstance();
+							annotation.setAcceptor(metaPluginAcceptor);
+						}
+						
+						//check if validatorClass is there
+						String validatorClass = elem.getAttribute("validatorClass");
+						if(validatorClass!=null){
+							Class serviceClass;
+							
+							serviceClass = this.getClass().getClassLoader()
+									.loadClass(validatorClass);
+							
+							Class params[] = new Class[0];
+							
+							Constructor s = serviceClass.getConstructor(params);
+							
+							IMetaPluginValidator metaPluginValidator = (IMetaPluginValidator) s.newInstance();
+							annotation.setValidator(metaPluginValidator);
+						}
+
+						PluginRegistry.getInstance().registerCPDMetaPlugin(annotation);
+					}
+
+				
+				}
+			}
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
