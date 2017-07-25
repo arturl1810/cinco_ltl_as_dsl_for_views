@@ -20,6 +20,8 @@ var $edge_menu_shown = false;
 //stores if the possible edge menu is displayed
 var $edge_to_create = null;
 
+var $node_resize_last_direction = null;
+
 joint.shapes.pyro = {};
 joint.shapes.pyro.PyroLink = joint.dia.Link.extend({
 
@@ -278,6 +280,7 @@ function control_pointer(cellView,borderWidth,evt,paper) {
         rp.y,
         borderWidth
     );
+    $node_resize_last_direction = border;
     if(border!==false){
         switch(border){
             case 'top-right':cellView.el.style.cursor = 'ne-resize';break;
@@ -660,10 +663,10 @@ function remove_node_internal(dywaId,graph)
     
 }
 
-function resize_node_internal(width,height,dywaId,graph,paper)
+function resize_node_internal(width,height,direction,dywaId,graph,paper)
 {
     var node = findElementByDywaId(dywaId,graph);
-    node.resize(width,height,{direction:'bottom-right'});
+    node.resize(width,height,{direction:direction});
     var cell = paper.findViewByModel(node);
     cell.unhighlight();
     cell.highlight();

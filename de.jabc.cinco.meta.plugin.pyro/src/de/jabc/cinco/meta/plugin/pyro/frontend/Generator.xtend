@@ -1,39 +1,28 @@
 package de.jabc.cinco.meta.plugin.pyro.frontend
 
+import de.jabc.cinco.meta.core.utils.CincoUtils
 import de.jabc.cinco.meta.plugin.pyro.frontend.deserializer.Deserializer
 import de.jabc.cinco.meta.plugin.pyro.frontend.model.Model
 import de.jabc.cinco.meta.plugin.pyro.frontend.pages.editor.EditorComponent
 import de.jabc.cinco.meta.plugin.pyro.frontend.pages.editor.canvas.CanvasComponent
 import de.jabc.cinco.meta.plugin.pyro.frontend.pages.editor.canvas.graphs.graphmodel.GraphmodelComponent
-import de.jabc.cinco.meta.plugin.pyro.frontend.pages.editor.explorer.ExplorerComponent
-import de.jabc.cinco.meta.plugin.pyro.frontend.pages.editor.explorer.folderentry.FolderEntryComponent
-import de.jabc.cinco.meta.plugin.pyro.frontend.pages.editor.explorer.folderentry.create.CreateFolderComponent
-import de.jabc.cinco.meta.plugin.pyro.frontend.pages.editor.explorer.graphentry.GraphEntryComponent
 import de.jabc.cinco.meta.plugin.pyro.frontend.pages.editor.explorer.graphentry.create.CreateFileComponent
 import de.jabc.cinco.meta.plugin.pyro.frontend.pages.editor.map.MapComponent
-import de.jabc.cinco.meta.plugin.pyro.frontend.pages.editor.menu.MenuComponent
 import de.jabc.cinco.meta.plugin.pyro.frontend.pages.editor.palette.PaletteComponent
 import de.jabc.cinco.meta.plugin.pyro.frontend.pages.editor.palette.graphs.graphmodel.PaletteBuilder
 import de.jabc.cinco.meta.plugin.pyro.frontend.pages.editor.palette.list.ListComponent
-import de.jabc.cinco.meta.plugin.pyro.frontend.pages.editor.properties.PropertiesComponent
 import de.jabc.cinco.meta.plugin.pyro.frontend.pages.editor.properties.graphs.graphmodel.GraphmodelTree
 import de.jabc.cinco.meta.plugin.pyro.frontend.pages.editor.properties.graphs.graphmodel.IdentifiableElementPropertyComponent
 import de.jabc.cinco.meta.plugin.pyro.frontend.pages.editor.properties.graphs.graphmodel.PropertyComponent
 import de.jabc.cinco.meta.plugin.pyro.frontend.pages.editor.properties.tree.TreeComponet
 import de.jabc.cinco.meta.plugin.pyro.frontend.pages.editor.properties.tree.node.TreeNodeComponent
-import de.jabc.cinco.meta.plugin.pyro.frontend.pages.projects.ProjectsComponent
-import de.jabc.cinco.meta.plugin.pyro.frontend.pages.projects.deleteproject.DeleteProjectComponent
-import de.jabc.cinco.meta.plugin.pyro.frontend.pages.projects.newproject.NewProjectComponent
-import de.jabc.cinco.meta.plugin.pyro.frontend.pages.projects.settings.SettingsComponent
-import de.jabc.cinco.meta.plugin.pyro.frontend.pages.users.finduser.FindUserComponent
-import de.jabc.cinco.meta.plugin.pyro.frontend.pages.users.info.UserInfoComponent
-import de.jabc.cinco.meta.plugin.pyro.frontend.pages.users.shared.SharedComponent
-import de.jabc.cinco.meta.plugin.pyro.util.FileGenerator
-import de.jabc.cinco.meta.plugin.pyro.util.GeneratorCompound
-import mgl.UserDefinedType
 import de.jabc.cinco.meta.plugin.pyro.frontend.service.GraphService
+import de.jabc.cinco.meta.plugin.pyro.util.FileGenerator
+import de.jabc.cinco.meta.plugin.pyro.util.FileHandler
+import de.jabc.cinco.meta.plugin.pyro.util.GeneratorCompound
 import de.jabc.cinco.meta.plugin.pyro.util.MGLExtension
-import java.util.logging.FileHandler
+import mgl.UserDefinedType
+import org.eclipse.core.resources.IProject
 
 class Generator extends FileGenerator{
 	
@@ -43,7 +32,7 @@ class Generator extends FileGenerator{
 		super(base)
 	}
 	
-	def generate(GeneratorCompound gc)
+	def generate(GeneratorCompound gc,IProject iProject)
 	{
 		
 		val graphModels = gc.graphMopdels
@@ -93,9 +82,10 @@ class Generator extends FileGenerator{
 				gen.contentDispatcher
 			)
 			graphModels.forEach[g|{
+				val styles = CincoUtils.getStyles(g, iProject)
 				generateFile(path,
 					gen.fileNameGraphModel(g.name),
-					gen.contentGraphmodel(g)
+					gen.contentGraphmodel(g,styles)
 				)
 			}]
 		}
@@ -286,7 +276,7 @@ class Generator extends FileGenerator{
 		
 		//copy icons
 		gc.graphMopdels.forEach[g|
-			g.elements.filter[hasIcon].forEach[e|de.jabc.cinco.meta.plugin.pyro.util.FileHandler.copyFile(e,e.eclipseIconPath,basePath+"/web/"+e.iconPath(g.name,false).toString.toLowerCase)]
+			g.elements.filter[hasIcon].forEach[e|FileHandler.copyFile(e,e.eclipseIconPath,basePath+"/web/"+e.iconPath(g.name,false).toString.toLowerCase)]
 		]
 
 	}

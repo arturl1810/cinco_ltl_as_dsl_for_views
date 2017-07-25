@@ -71,26 +71,28 @@ abstract class CommandGraph {
 
   /// actions triggered by the js canvas
   /// creating commands that are send to the server
-  CreateNodeCommand _createNodeCommand(String type,int x,int y,int containerId)
+  CreateNodeCommand _createNodeCommand(String type,int x,int y,int containerId,int width, int height)
   {
     CreateNodeCommand cmd = new CreateNodeCommand();
     cmd.containerId = containerId;
     cmd.x = x;
     cmd.y = y;
     cmd.type = type;
+    cmd.height = height;
+    cmd.width = width;
     return cmd;
   }
 
-  CompoundCommandMessage sendCreateNodeCommand(String type,int x,int y,int containerId,PyroUser user)
+  CompoundCommandMessage sendCreateNodeCommand(String type,int x,int y,int containerId,int width,int height,PyroUser user)
   {
-    return _send(_createNodeCommand(type,x,y,containerId),user);
+    return _send(_createNodeCommand(type,x,y,containerId,width,height),user);
   }
 
   RemoveNodeCommand _invertCreateNodeCommand(CreateNodeCommand cmd)
   {
     //create remove node command
     //exec command with propagation
-    return _removeNodeCommand(cmd.delegateId,cmd.containerId,cmd.x,cmd.y,cmd.type);
+    return _removeNodeCommand(cmd.delegateId,cmd.containerId,cmd.x,cmd.y,cmd.width,cmd.height);
   }
 
   void _execRemoveNodeCommand(RemoveNodeCommand cmd,bool propagate)
@@ -106,7 +108,7 @@ abstract class CommandGraph {
 
   void execRemoveNodeCommandCanvas(RemoveNodeCommand cmd);
 
-  RemoveNodeCommand _removeNodeCommand(int nodeId,int containerId,int x,int y,String type)
+  RemoveNodeCommand _removeNodeCommand(int nodeId,int containerId,int x,int y,int width,int height)
   {
     RemoveNodeCommand cmd = new RemoveNodeCommand();
     cmd.delegateId = nodeId;
@@ -117,11 +119,12 @@ abstract class CommandGraph {
     cmd.type = node.$type();
     cmd.x = x;
     cmd.y = y;
-    cmd.type = type;
+    cmd.width = width;
+    cmd.height = height;
     return cmd;
   }
 
-  CompoundCommandMessage sendRemoveNodeCommand(int nodeId,int containerId,int x,int y,String type,PyroUser user,{Set edgeCache})
+  CompoundCommandMessage sendRemoveNodeCommand(int nodeId,PyroUser user,{Set edgeCache})
   {
     var queue = new List<Command>();
     if(edgeCache==null){
@@ -130,19 +133,19 @@ abstract class CommandGraph {
     Node node = findElement(nodeId);
     if(node is Container) {
       node.modelElements.forEach((n){
-        queue.addAll(sendRemoveNodeCommand(n.dywaId,node.dywaId,n.x,n.y,"${currentGraphModel.runtimeType.toString().toLowerCase()}.${n.runtimeType.toString()}",user,edgeCache: edgeCache).cmd.queue);
+        queue.addAll(sendRemoveNodeCommand(n.dywaId,user,edgeCache: edgeCache).cmd.queue);
       });
     }
-    var ccm = _send(_removeNodeCommand(nodeId,containerId,x,y,type),user);
+    var ccm = _send(_removeNodeCommand(nodeId,node.container.dywaId,node.x,node.y,node.width,node.height),user);
     ccm.cmd.queue.insertAll(0,queue);
     node.outgoing.forEach((e){
       if(edgeCache.add(e)){
-        ccm.cmd.queue.add(_removeEdgeCommand(e.dywaId,e.source.dywaId,e.target.dywaId,"${currentGraphModel.runtimeType.toString().toLowerCase()}.${e.runtimeType.toString()}"));
+        ccm.cmd.queue.add(_removeEdgeCommand(e.dywaId,e.source.dywaId,e.target.dywaId));
       }
     });
     node.incoming.forEach((e){
       if(edgeCache.add(e)){
-        ccm.cmd.queue.add(_removeEdgeCommand(e.dywaId,e.source.dywaId,e.target.dywaId,"${currentGraphModel.runtimeType.toString().toLowerCase()}.${e.runtimeType.toString()}"));
+        ccm.cmd.queue.add(_removeEdgeCommand(e.dywaId,e.source.dywaId,e.target.dywaId));
       }
     });
     return ccm;
@@ -150,7 +153,7 @@ abstract class CommandGraph {
 
   CreateNodeCommand _invertRemoveNodeCommand(RemoveNodeCommand cmd)
   {
-    var cc = _createNodeCommand(cmd.type,cmd.x,cmd.y,cmd.containerId);
+    var cc = _createNodeCommand(cmd.type,cmd.x,cmd.y,cmd.containerId,cmd.width,cmd.height);
     cc.delegateId = cmd.delegateId;
     cc.dywaVersion = cmd.dywaVersion;
     cc.dywaName = cmd.dywaName;
@@ -220,10 +223,11 @@ abstract class CommandGraph {
   void execResizeNodeCommandCanvas(ResizeNodeCommand cmd);
 
 
-  ResizeNodeCommand _resizeNodeCommand(int id,int newWidth,int newHeight)
+  ResizeNodeCommand _resizeNodeCommand(int id,int newWidth,int newHeight,String direction)
   {
     ResizeNodeCommand cmd = new ResizeNodeCommand();
     Node node = findElement(id);
+    cmd.direction = direction;
     cmd.delegateId = id;
     cmd.dywaName = node.dywaName;
     cmd.dywaVersion = node.dywaVersion;
@@ -235,14 +239,14 @@ abstract class CommandGraph {
     return cmd;
   }
 
-  CompoundCommandMessage sendResizeNodeCommand(int id,int newWidth,int newHeight,PyroUser user)
+  CompoundCommandMessage sendResizeNodeCommand(int id,int newWidth,int newHeight,String direction,PyroUser user)
   {
-    return _send(_resizeNodeCommand(id,newWidth,newHeight),user);
+    return _send(_resizeNodeCommand(id,newWidth,newHeight,direction),user);
   }
 
   ResizeNodeCommand _invertResizeNode(ResizeNodeCommand cmd)
   {
-    return _resizeNodeCommand(cmd.delegateId,cmd.oldWidth,cmd.oldHeight);
+    return _resizeNodeCommand(cmd.delegateId,cmd.oldWidth,cmd.oldHeight,cmd.direction);
   }
 
   void _execRotateNodeCommand(RotateNodeCommand cmd,bool propagate)
@@ -297,6 +301,9 @@ abstract class CommandGraph {
     // set container
     edge.container = currentGraphModel;
     currentGraphModel.modelElements.add(edge);
+    
+    edge.bendingPoints = new List.from(cmd.positions);
+    
     if(propagate) {
       // call canvas
       execCreateEdgeCommandCanvas(cmd);
@@ -307,28 +314,30 @@ abstract class CommandGraph {
 
   void execCreateEdgeCommandCanvas(CreateEdgeCommand cmd);
 
-  CreateEdgeCommand _createEdgeCommand(String type,int targetId,int sourceId)
+  CreateEdgeCommand _createEdgeCommand(String type,int targetId,int sourceId,List<BendingPoint> bendpoints)
   {
     CreateEdgeCommand cmd = new CreateEdgeCommand();
+    cmd.positions = bendpoints;
     cmd.sourceId = sourceId;
     cmd.targetId = targetId;
     cmd.type = type;
     return cmd;
   }
 
-  CompoundCommandMessage sendCreateEdgeCommand(String type,int targetId,int sourceId,PyroUser user)
+  CompoundCommandMessage sendCreateEdgeCommand(String type,int targetId,int sourceId,List<BendingPoint> positions,PyroUser user)
   {
-    return _send(_createEdgeCommand(type,targetId,sourceId),user);
+    return _send(_createEdgeCommand(type,targetId,sourceId,positions),user);
   }
 
   RemoveEdgeCommand _invertCreateEdgeCommand(CreateEdgeCommand cmd)
   {
-    return _removeEdgeCommand(cmd.delegateId,cmd.sourceId,cmd.targetId,cmd.type);
+    return _removeEdgeCommand(cmd.delegateId,cmd.sourceId,cmd.targetId);
   }
 
   void _execRemoveEdgeCommand(RemoveEdgeCommand cmd,bool propagate)
   {
     Edge edge = findElement(cmd.delegateId);
+    edge.bendingPoints.clear();
     (findElement(cmd.sourceId) as Node).outgoing.remove(edge);
     (findElement(cmd.targetId) as Node).incoming.remove(edge);
     currentGraphModel.modelElements.remove(edge);
@@ -340,11 +349,12 @@ abstract class CommandGraph {
 
   void execRemoveEdgeCommandCanvas(RemoveEdgeCommand cmd);
 
-  RemoveEdgeCommand _removeEdgeCommand(int id,int sourceId,int targetId,String type)
+  RemoveEdgeCommand _removeEdgeCommand(int id,int sourceId,int targetId)
   {
     RemoveEdgeCommand cmd = new RemoveEdgeCommand();
     Edge edge = findElement(id);
     cmd.delegateId = id;
+    cmd.positions = new List.from(edge.bendingPoints);
     cmd.dywaName = edge.dywaName;
     cmd.dywaVersion = edge.dywaVersion;
     cmd.type = edge.$type();
@@ -355,12 +365,12 @@ abstract class CommandGraph {
 
   CompoundCommandMessage sendRemoveEdgeCommand(int id,int sourceId,int targetId,String type,PyroUser user)
   {
-    return _send(_removeEdgeCommand(id,sourceId,targetId,type),user);
+    return _send(_removeEdgeCommand(id,sourceId,targetId),user);
   }
 
   CreateEdgeCommand _invertRemoveEdgeCommand(RemoveEdgeCommand cmd)
   {
-    var cec = _createEdgeCommand(cmd.type,cmd.targetId,cmd.sourceId);
+    var cec = _createEdgeCommand(cmd.type,cmd.targetId,cmd.sourceId,cmd.positions);
     cec.delegateId=cmd.delegateId;
     cec.dywaName=cmd.dywaName;
     cec.dywaVersion=cmd.dywaVersion;

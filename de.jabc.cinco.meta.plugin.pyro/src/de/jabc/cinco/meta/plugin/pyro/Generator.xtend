@@ -24,7 +24,7 @@ class Generator {
 			copyResources("frontend/app/lib",path)
 			copyResources("frontend/app/web",path)
 			val frontEndGen = new de.jabc.cinco.meta.plugin.pyro.frontend.Generator(path)
-			frontEndGen.generate(gc)
+			frontEndGen.generate(gc,iProject)
 			//generate modeling canvas
 			val modelingGen = new de.jabc.cinco.meta.plugin.pyro.canvas.Generator(path)
 			modelingGen.generator(gc,iProject)

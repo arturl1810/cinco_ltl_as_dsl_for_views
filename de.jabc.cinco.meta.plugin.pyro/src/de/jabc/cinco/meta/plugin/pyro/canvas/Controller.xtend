@@ -176,7 +176,7 @@ class Controller extends Generatable{
 	 	        if(cellView.model.attributes.type=='«g.name.lowEscapeDart».«node.name.escapeDart»'){
 	 	        	//check if container has changed
 	 	        	move_node_«node.name.lowEscapeDart»_«g.name.lowEscapeDart»_hook(cellView);
-	 	        	$cb_functions_«g.name.lowEscapeDart».cb_resize_node_«node.name.lowEscapeDart»(cellView.model.attributes.size.width,cellView.model.attributes.size.height,cellView.model.attributes.attrs.dywaId);
+	 	        	$cb_functions_«g.name.lowEscapeDart».cb_resize_node_«node.name.lowEscapeDart»(cellView.model.attributes.size.width,cellView.model.attributes.size.height,$node_resize_last_direction,cellView.model.attributes.attrs.dywaId);
 	 	        }
 	 	        «ENDFOR»
 	 	        «FOR edge:g.edges»
@@ -224,6 +224,17 @@ class Controller extends Generatable{
 		            var link = $graph_«g.name.lowEscapeDart».getCell(cellView.attributes.id);
 		            var source = link.getSourceElement();
 		            var target = link.getTargetElement();
+		            if(source.id===target.id){
+		            	var p1 = {
+		            		x:source.attributes.position.x,
+		            		y:source.attributes.position.y-source.attributes.size.height
+		            	};
+		                var p2 = {
+		                    x:source.attributes.position.x-source.attributes.size.width,
+		                    y:source.attributes.position.y
+		                };
+		                link.set('vertices', [p1,p2]);
+		            }
 		            $cb_functions_«g.name.lowEscapeDart».cb_create_edge_«edge.name.lowEscapeDart»(
 		              source.attributes.attrs.dywaId,
 		              target.attributes.attrs.dywaId,
@@ -409,25 +420,44 @@ class Controller extends Generatable{
 		 * @param styleArgs
 		 * @returns {*}
 		 */
-		function create_node_«node.name.lowEscapeDart»_«g.name.lowEscapeDart»(x,y,dywaId,containerId,dywaName,dywaVersion,styleArgs) {
-		    var elem = new joint.shapes.«g.name.lowEscapeDart».«node.name.escapeDart»({
-		        position: {
-		            x: x,
-		            y: y
-		        },
-		        attrs:{
-		            dywaId:dywaId,
-		            dywaName:dywaName,
-		            dywaVersion:dywaVersion
-		        }
-		    });
+		function create_node_«node.name.lowEscapeDart»_«g.name.lowEscapeDart»(x,y,width,height,dywaId,containerId,dywaName,dywaVersion,styleArgs) {
+		    var elem = null;
+		    if(width != null && height != null) {
+		    	elem = new joint.shapes.«g.name.lowEscapeDart».«node.name.escapeDart»({
+		    		position: {
+		    		    x: x,
+		    		    y: y
+		    		},
+		    		size: {
+		    		  	width:width,
+		    		   	height:height
+		    		},
+		    		attrs:{
+		    		    dywaId:dywaId,
+		    		    dywaName:dywaName,
+		    		    dywaVersion:dywaVersion
+		    		}
+		    	});
+		    } else {
+			    elem = new joint.shapes.«g.name.lowEscapeDart».«node.name.escapeDart»({
+			        position: {
+			            x: x,
+			            y: y
+			        },
+			        attrs:{
+			            dywaId:dywaId,
+			            dywaName:dywaName,
+			            dywaVersion:dywaVersion
+			        }
+			    });
+		    }
 		    add_node_internal(elem,$graph_«g.name.lowEscapeDart»,$paper_«g.name.lowEscapeDart»);
 		    if(containerId>-1&&containerId!=$graphmodel_id_«g.name.lowEscapeDart»){
 		    	findElementByDywaId(containerId,$graph_«g.name.lowEscapeDart»).embed(elem);
 			}
 			update_element_«g.name.lowEscapeDart»(elem.attributes.id,dywaId,dywaVersion,dywaName,styleArgs);
 		    if(!$_disable_events_«g.name.lowEscapeDart»){
-		    	$cb_functions_«g.name.lowEscapeDart».cb_create_node_«node.name.lowEscapeDart»(x, y, elem.attributes.id,containerId);
+		    	$cb_functions_«g.name.lowEscapeDart».cb_create_node_«node.name.lowEscapeDart»(x, y,elem.attributes.size.width,elem.attributes.size.height, elem.attributes.id,containerId);
 		    }
 		    return 'ready';
 		}
@@ -507,8 +537,8 @@ class Controller extends Generatable{
 		 * @param height
 		 * @param dywaId
 		 */
-		function resize_node_«node.name.lowEscapeDart»_«g.name.lowEscapeDart»(width,height,dywaId) {
-		    resize_node_internal(width,height,dywaId,$graph_«g.name.lowEscapeDart»,$paper_«g.name.lowEscapeDart»);
+		function resize_node_«node.name.lowEscapeDart»_«g.name.lowEscapeDart»(width,height,direction,dywaId) {
+		    resize_node_internal(width,height,direction,dywaId,$graph_«g.name.lowEscapeDart»,$paper_«g.name.lowEscapeDart»);
 		    return 'ready';
 		}
 		
@@ -564,7 +594,7 @@ class Controller extends Generatable{
 		        target: { id: targetN.id }
 		    });
 		    if(positions!==null){
-			    link.set('vertices', positions['o']['_source'].map(function (n) {
+			    link.set('vertices', positions['o'].map(function (n) {
 			       return {x:n.x,y:n.y};
 			    }));
 		    }
@@ -635,7 +665,7 @@ class Controller extends Generatable{
 		            //foreach node
 		            «FOR node:g.nodes» 
 		            case '«g.name.lowEscapeDart».«node.name.escapeDart»':{
-		            	create_node_«node.name.lowEscapeDart»_«g.name.lowEscapeDart»(x,y,-1,containerDywaId,"undefined",-1,null);
+		            	create_node_«node.name.lowEscapeDart»_«g.name.lowEscapeDart»(x,y,null,null,-1,containerDywaId,"undefined",-1,null);
 			            break;
 		            }
 		            «ENDFOR»
@@ -839,29 +869,7 @@ class Controller extends Generatable{
     		«ENDIF»
 			if(«IF incomingGroup.value.upperBound < 0»true«ELSE»incommingGroupSize«incomingGroup.key»<«incomingGroup.value.upperBound»«ENDIF»)
 			{
-				
-				if(sourceNode.attributes.id===targetNode.model.id)
-				{
-					var pos = sourceNode.attributes.position;
-					var size = sourceNode.attributes.size;
-					«g.possibleEdges(group,incomingGroup.value).indexed.map[n|
-				'''
-					var link«n.key» = new joint.shapes.«g.name.lowEscapeDart».«n.value.name.fuEscapeDart»({
-					source: { id: sourceNode.attributes.id }, target: { id: targetNode.model.id },
-					vertices: [
-						{ x: pos.x-size.width, y: pos.y-size.height },
-						{ x: pos.x-size.width, y: pos.y }
-						]
-					});
-					possibleEdges['«n.value.name.fuEscapeDart»'] = {
-					    name: '«n.value.name.fuEscapeDart»',
-					    type: link«n.key»
-					};
-				'''].join»
-				}
-				else
-				{
-					«g.possibleEdges(group,incomingGroup.value).indexed.map[n|'''
+				«g.possibleEdges(group,incomingGroup.value).indexed.map[n|'''
 					var link«n.key» = new joint.shapes.«g.name.lowEscapeDart».«n.value.name.fuEscapeDart»({
 					    source: { id: sourceNode.attributes.id }, target: { id: targetNode.model.id }
 					});
@@ -870,7 +878,6 @@ class Controller extends Generatable{
 						type: link«n.key»
 					};
 				'''].join»
-				}
 			}
 		«ENDFOR»
 	}

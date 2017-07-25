@@ -64,7 +64,7 @@ class GraphmodelComponent extends Generatable {
 		      «FOR edge : g.edges»
 		      	if(cmd.type=='«g.name.lowEscapeDart».«edge.name.escapeDart»'){
 		      	  js.context.callMethod('create_edge_«edge.name.lowEscapeDart»_«g.name.lowEscapeDart»',[
-		      	    cmd.sourceId,cmd.targetId,cmd.delegateId,cmd.dywaName,cmd.dywaVersion,null,e.styleArgs()
+		      	    cmd.sourceId,cmd.targetId,cmd.delegateId,cmd.dywaName,cmd.dywaVersion,cmd.positions,e.styleArgs()
 		      	  ]);
 		      	  return;
 		      	}
@@ -99,7 +99,7 @@ class GraphmodelComponent extends Generatable {
 		      «FOR node : g.nodes»
 		      	if(cmd.type=='«g.name.lowEscapeDart».«node.name.escapeDart»'){
 		      	  js.context.callMethod('create_node_«node.name.lowEscapeDart»_«g.name.lowEscapeDart»',[
-		      	    cmd.x,cmd.y,cmd.delegateId,cmd.containerId,cmd.dywaName,cmd.dywaVersion,e.styleArgs()
+		      	    cmd.x,cmd.y,cmd.width,cmd.height,cmd.delegateId,cmd.containerId,cmd.dywaName,cmd.dywaVersion,e.styleArgs()
 		      	  ]);
 		      	  return;
 		      	}
@@ -135,7 +135,7 @@ class GraphmodelComponent extends Generatable {
 		  	    «FOR node : g.nodes»
 		  	    	if(cmd.type=='«g.name.lowEscapeDart».«node.name.escapeDart»'){
 		  	    	  js.context.callMethod('resize_node_«node.name.lowEscapeDart»_«g.name.lowEscapeDart»',[
-		  	    	    cmd.width,cmd.height,cmd.delegateId
+		  	    	    cmd.width,cmd.height,cmd.direction,cmd.delegateId
 		  	    	  ]);
 		  	    	  return;
 		  	    	}
@@ -446,6 +446,8 @@ class GraphmodelComponent extends Generatable {
 			 	    js.context.callMethod('create_node_«node.name.lowEscapeDart»_«g.name.lowEscapeDart»',
 			 	    [ node.x,
 			 	    	node.y,
+			 	    	node.width,
+			 	    	node.height,
 			 	    	node.dywaId,
 			 	    	node.container.dywaId,
 			 	    	node.dywaName,
@@ -453,9 +455,9 @@ class GraphmodelComponent extends Generatable {
 			 	    	node.styleArgs() ]);
 			 	}
 			 	
-			 	void cb_create_node_«node.name.lowEscapeDart»(int x,int y,String cellId,int containerId) {
+			 	void cb_create_node_«node.name.lowEscapeDart»(int x,int y,int width,int height,String cellId,int containerId) {
 			 		var container = findElement(containerId) as ModelElementContainer;
-			 	    var ccm = commandGraph.sendCreateNodeCommand("«g.name.lowEscapeDart».«node.name.escapeDart»",x,y,containerId,user);
+			 	    var ccm = commandGraph.sendCreateNodeCommand("«g.name.lowEscapeDart».«node.name.escapeDart»",x,y,containerId,width,height,user);
 			 	    graphService.sendMessage(ccm).then((m){
 			 	    if(m is ValidCreatedMessage){
 			 	    	var node = 	new «node.name.fuEscapeDart»();
@@ -502,7 +504,7 @@ class GraphmodelComponent extends Generatable {
 			 	void cb_remove_node_«node.name.lowEscapeDart»(int dywaId) {
 			 		var node = findElement(dywaId) as «node.name.fuEscapeDart»;
 			 		var container = findElement(node.container.dywaId) as ModelElementContainer;
-			 	    var ccm = commandGraph.sendRemoveNodeCommand(dywaId,container.dywaId,node.x,node.y,"«g.name.lowEscapeDart».«node.name.escapeDart»",user);
+			 	    var ccm = commandGraph.sendRemoveNodeCommand(dywaId,user);
 			 	    graphService.sendMessage(ccm).then((m){
 			 	    	if(m is ValidMessage){
 			 	    		selectionChanged.emit(currentGraphModel);
@@ -544,10 +546,10 @@ class GraphmodelComponent extends Generatable {
 			 	   });
 			 	}
 			 	
-			 	void cb_resize_node_«node.name.lowEscapeDart»(int width,int height,int dywaId) {
+			 	void cb_resize_node_«node.name.lowEscapeDart»(int width,int height,String direction,int dywaId) {
 			 		var node = findElement(dywaId) as Node;
 			 		if(node.width!=width||node.height!=height) {
-			 	      var ccm = commandGraph.sendResizeNodeCommand(dywaId,width,height,user);
+			 	      var ccm = commandGraph.sendResizeNodeCommand(dywaId,width,height,direction,user);
 			 	      graphService.sendMessage(ccm).then((m){
 			 	    	if(m is ValidMessage){
 			 	    		node.width = width;
@@ -590,7 +592,16 @@ class GraphmodelComponent extends Generatable {
 			 	void cb_create_edge_«edge.name.lowEscapeDart»(int sourceId,int targetId,String cellId, List positions) {
 			 		var source = findElement(sourceId) as Node;
 			 		var target = findElement(targetId) as Node;
-			 	    var ccm = commandGraph.sendCreateEdgeCommand("«g.name.lowEscapeDart».«edge.name.escapeDart»",targetId,sourceId,user);
+			 		var currentBendpoints = new List<BendingPoint>();
+			 		if(positions!=null){
+			 		  positions.forEach((p){
+			 			var b = new BendingPoint();
+			 			b.x = p['x'];
+			 			b.y = p['y'];
+			 			currentBendpoints.add(b);
+			 		  });
+			 		}
+			 	    var ccm = commandGraph.sendCreateEdgeCommand("«g.name.lowEscapeDart».«edge.name.escapeDart»",targetId,sourceId,currentBendpoints,user);
 			 	    graphService.sendMessage(ccm).then((m){
 			 	     if(m is ValidCreatedMessage){
 			 	    	var edge = new «edge.name.fuEscapeDart»();
@@ -603,14 +614,10 @@ class GraphmodelComponent extends Generatable {
 			 	    	source.outgoing.add(edge);
 			 	    	edge.target = target;
 			 	    	target.incoming.add(edge);
+			 	    	edge.bendingPoints = new List.from(currentBendpoints);
 			 	    	updateElement(edge,cellId: cellId);
 			 	    	updateElement(source);
 			 	    	updateElement(target);
-			 	    	if(positions!=null){
-			 	    		if(positions.length>0){
-			 	    			cb_update_bendpoint(positions,edge.dywaId);
-			 	    		}
-			 	    	}
 			 	    	ccm.cmd.queue.first.delegateId=edge.dywaId;
 			 	    	commandGraph.storeCommand(ccm.cmd);
 			 	    	selectionChanged.emit(edge);

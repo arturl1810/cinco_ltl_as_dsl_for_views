@@ -1,4 +1,5 @@
 import '../deserializer/command_property_deserializer.dart';
+import '../model/core.dart';
 
 abstract class Command {
   int delegateId;
@@ -48,6 +49,8 @@ abstract class EdgeCommand extends Command {
 class CreateNodeCommand extends NodeCommand {
   int x;
   int y;
+  int width;
+  int height;
   int containerId;
 
   static CreateNodeCommand fromJSOG(Map jsog)
@@ -60,6 +63,8 @@ class CreateNodeCommand extends NodeCommand {
 
     cmd.x = jsog['x'];
     cmd.y = jsog['y'];
+    cmd.height = jsog['height'];
+    cmd.width = jsog['width'];
     cmd.containerId = jsog['containerId'];
     return cmd;
   }
@@ -74,6 +79,8 @@ class CreateNodeCommand extends NodeCommand {
 
     map['x'] = x;
     map['y'] = y;
+    map['width'] = width;
+    map['height'] = height;
     map['containerId'] = containerId;
     return map;
   }
@@ -127,6 +134,8 @@ class MoveNodeCommand extends NodeCommand {
 class RemoveNodeCommand extends NodeCommand {
   int x;
   int y;
+  int width;
+  int height;
   int containerId;
 
   static RemoveNodeCommand fromJSOG(Map jsog)
@@ -139,6 +148,8 @@ class RemoveNodeCommand extends NodeCommand {
 
     cmd.x = jsog['x'];
     cmd.y = jsog['y'];
+    cmd.height = jsog['height'];
+    cmd.width = jsog['width'];
     cmd.containerId = jsog['containerId'];
     return cmd;
   }
@@ -153,6 +164,8 @@ class RemoveNodeCommand extends NodeCommand {
 
     map['x'] = x;
     map['y'] = y;
+    map['width'] = width;
+    map['height'] = height;
     map['containerId'] = containerId;
 
     return map;
@@ -164,6 +177,7 @@ class ResizeNodeCommand extends NodeCommand {
   int oldHeight;
   int width;
   int height;
+  String direction;
 
   static ResizeNodeCommand fromJSOG(Map jsog)
   {
@@ -177,6 +191,7 @@ class ResizeNodeCommand extends NodeCommand {
     cmd.oldHeight = jsog['oldHeight'];
     cmd.width = jsog['width'];
     cmd.height = jsog['height'];
+    cmd.direction = jsog['directtion'];
     return cmd;
   }
 
@@ -192,6 +207,7 @@ class ResizeNodeCommand extends NodeCommand {
     map['oldHeight'] = oldWidth;
     map['width'] = width;
     map['height'] = height;
+    map['direction'] = direction;
 
     return map;
   }
@@ -233,6 +249,7 @@ class RotateNodeCommand extends NodeCommand {
 class CreateEdgeCommand extends EdgeCommand {
   int sourceId;
   int targetId;
+  List<BendingPoint> positions;
 
   static CreateEdgeCommand fromJSOG(Map jsog)
   {
@@ -244,6 +261,9 @@ class CreateEdgeCommand extends EdgeCommand {
 
     cmd.sourceId = jsog['sourceId'];
     cmd.targetId = jsog['targetId'];
+    for(var b in jsog['positions']) {
+      cmd.positions.add(new BendingPoint(jsog: b));
+    }
     return cmd;
   }
 
@@ -257,6 +277,8 @@ class CreateEdgeCommand extends EdgeCommand {
 
     map['sourceId'] = sourceId;
     map['targetId'] = targetId;
+    
+    map['positions'] = positions.map((b)=>b.toJSOG(new Map()));
 
     return map;
   }
@@ -265,12 +287,17 @@ class CreateEdgeCommand extends EdgeCommand {
 class RemoveEdgeCommand extends EdgeCommand {
   int sourceId;
   int targetId;
+  List<BendingPoint> positions;
 
   static RemoveEdgeCommand fromJSOG(Map jsog)
   {
     RemoveEdgeCommand cmd = new RemoveEdgeCommand();
     cmd.delegateId = jsog['delegateId'];
     cmd.type = jsog['type'];
+
+    for(var b in jsog['positions']) {
+      cmd.positions.add(new BendingPoint(jsog: b));
+    }
 
     cmd.sourceId = jsog['sourceId'];
     cmd.targetId = jsog['targetId'];
@@ -289,7 +316,7 @@ class RemoveEdgeCommand extends EdgeCommand {
 
     map['sourceId'] = sourceId;
     map['targetId'] = targetId;
-
+    map['positions'] = positions.map((b)=>b.toJSOG(new Map()));
     return map;
   }
 }
@@ -335,8 +362,8 @@ class ReconnectEdgeCommand extends EdgeCommand {
 
 
 class UpdateBendPointCommand extends Command {
-  List positions;
-  List oldPositions;
+  List<BendingPoint> positions;
+  List<BendingPoint> oldPositions;
 
   UpdateBendPointCommand() {
     positions = new List();
@@ -349,16 +376,10 @@ class UpdateBendPointCommand extends Command {
     cmd.delegateId = jsog['delegateId'];
     cmd.type = jsog['type'];
     for(var value in jsog['positions']) {
-      Map pos = new Map();
-      pos['x']=value['x'];
-      pos['y']=value['y'];
-      cmd.positions.add(pos);
+      cmd.positions.add(new BendingPoint(jsog: value));
     }
     for(var value in jsog['oldPositions']) {
-      Map pos = new Map();
-      pos['x']=value['x'];
-      pos['y']=value['y'];
-      cmd.oldPositions.add(pos);
+      cmd.oldPositions.add(new BendingPoint(jsog: value));
     }
     return cmd;
   }
@@ -369,8 +390,8 @@ class UpdateBendPointCommand extends Command {
     map['delegateId'] = delegateId;
     map['type'] = type;
     
-    map['positions'] = positions.map((n)=>{'x':n.x,'y':n.y});
-    map['oldPositions'] = oldPositions.map((n)=>{'x':n.x,'y':n.y});
+    map['positions'] = positions.map((n)=>n.toJSOG(new Map()));
+    map['oldPositions'] = oldPositions.map((n)=>n.toJSOG(new Map()));
 
     return map;
   }
