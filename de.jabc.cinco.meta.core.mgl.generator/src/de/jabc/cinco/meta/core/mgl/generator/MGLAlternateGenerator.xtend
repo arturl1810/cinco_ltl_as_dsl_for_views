@@ -131,6 +131,13 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		return newEPackages
 	}
 	
+	/**
+     * Returns EClasses of generated model elements.
+     */
+	def getModelElementsClasses() {
+		modelElementsMap.values
+	}
+
 	private def initializeMaps() {
 		eClassesMap = new HashMap
 		modelElementsMap = new HashMap
