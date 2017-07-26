@@ -1,6 +1,8 @@
 package de.jabc.cinco.meta.core.mgl.generator
 
 import de.jabc.cinco.meta.core.mgl.generator.elements.ElementEClasses
+import de.jabc.cinco.meta.core.mgl.generator.extensions.AdapterGeneratorExtension
+import de.jabc.cinco.meta.core.mgl.generator.extensions.NodeMethodsGeneratorExtensions
 import de.jabc.cinco.meta.core.utils.dependency.DependencyGraph
 import de.jabc.cinco.meta.core.utils.dependency.DependencyNode
 import graphmodel.GraphmodelPackage
@@ -14,9 +16,13 @@ import mgl.EDataTypeType
 import mgl.Edge
 import mgl.Enumeration
 import mgl.GraphModel
+import mgl.GraphicalElementContainment
 import mgl.ModelElement
 import mgl.Node
+import mgl.NodeContainer
 import mgl.PrimitiveAttribute
+import mgl.ReferencedEClass
+import mgl.ReferencedModelElement
 import mgl.Type
 import mgl.UserDefinedType
 import org.eclipse.emf.ecore.EClass
@@ -25,20 +31,15 @@ import org.eclipse.emf.ecore.EDataType
 import org.eclipse.emf.ecore.EEnumLiteral
 import org.eclipse.emf.ecore.EOperation
 import org.eclipse.emf.ecore.EPackage
+import org.eclipse.emf.ecore.EParameter
 import org.eclipse.emf.ecore.EReference
 import org.eclipse.emf.ecore.EStructuralFeature
 import org.eclipse.emf.ecore.EcoreFactory
 import org.eclipse.emf.ecore.EcorePackage
 
 import static extension de.jabc.cinco.meta.core.mgl.generator.extensions.EcoreExtensions.*
-import static extension de.jabc.cinco.meta.core.mgl.generator.extensions.FactoryGeneratorExtensions.*
-//import static extension de.jabc.cinco.meta.core.mgl.generator.extensions.NodeMethodsGeneratorExtensions.*
 import static extension de.jabc.cinco.meta.core.mgl.generator.extensions.EdgeMethodsGeneratorExtension.*
-import mgl.NodeContainer
-import de.jabc.cinco.meta.core.mgl.generator.extensions.NodeMethodsGeneratorExtensions
-import de.jabc.cinco.meta.core.mgl.generator.extensions.AdapterGeneratorExtension
-import mgl.ReferencedModelElement
-import mgl.ReferencedEClass
+import static extension de.jabc.cinco.meta.core.mgl.generator.extensions.FactoryGeneratorExtensions.*
 
 class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 
@@ -57,7 +58,9 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 	HashMap<String, ElementEClasses> eClassesMap
 
 	HashMap<EOperation, Type> complexGetterParameterMap
-	HashMap<EOperation, Type> complexSetterParameterMap
+	HashMap<EParameter, Type> complexSetterParameterMap
+	HashMap<EOperation, Type> enumGetterParameterMap
+	HashMap<EParameter, Type> enumSetterParameterMap
 	HashMap<Type,EClassifier> enumMap
 	
 	HashMap<EOperation, Node>  operationReferencedTypeMap
@@ -73,14 +76,8 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 	}
 
 	def Iterable<EPackage> generateEcoreModel(GraphModel graphModel, Iterable<EPackage> mglEPackages) {
-		eClassesMap = new HashMap
-		modelElementsMap = new HashMap
-		inheritMap = new HashMap
-		toReferenceMap = new HashMap
-		complexSetterParameterMap = new HashMap
-		complexGetterParameterMap = new HashMap
-		enumMap = new HashMap
-		operationReferencedTypeMap = new HashMap
+		initializeMaps
+		enumGetterParameterMap = new HashMap
 		val elementEClasses = new HashMap<ModelElement,ElementEClasses>
 
 		val epk = createEPackage(graphModel)
@@ -106,8 +103,10 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		
 		toReferenceMap.forEach[key, value|key.EType = eClassesMap.get(value.name).internalEClass]
 		//toReferenceMap.forEach[key, value|key.EType = eClassesMap.get(value.name).mainEClass]
-		complexGetterParameterMap.forEach[key,value| key.EType = elementEClasses.get(value).mainEClass]
-		complexSetterParameterMap.forEach[key,value| key.EParameters.get(0).EType = elementEClasses.get(value).mainEClass]
+		complexGetterParameterMap.forEach[key,value| println(value);key.EType = elementEClasses.get(value).mainEClass]
+		complexSetterParameterMap.forEach[key,value| key.EType = elementEClasses.get(value).mainEClass]
+		enumSetterParameterMap.forEach[key,value|key.EType = enumMap.get(value)]
+		enumGetterParameterMap.forEach[key,value|key.EType = enumMap.get(value)]
 		operationReferencedTypeMap.forEach[operation, node| operation.setPrimeType(node, newEPackages)]
 
 		graphModel.createCanNewNodeMethods(eClassesMap)
@@ -136,6 +135,18 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		]
 		graphModel.types.filter(UserDefinedType).forEach[udt|udt.createInheritance(graphModel)]
 		return newEPackages
+	}
+	
+	private def initializeMaps() {
+		eClassesMap = new HashMap
+		modelElementsMap = new HashMap
+		inheritMap = new HashMap
+		toReferenceMap = new HashMap
+		complexSetterParameterMap = new HashMap
+		complexGetterParameterMap = new HashMap
+		enumMap = new HashMap
+		operationReferencedTypeMap = new HashMap
+		enumSetterParameterMap = new HashMap
 	}
 	
 	def void setPrimeType(EOperation operation, Node node, Iterable<EPackage> ePackages){
@@ -529,17 +540,27 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 	}
 
 	private dispatch def createSetter(EClass view, EClass modelElementClass,ComplexAttribute attr){
+		var CharSequence content
+		val setterName = "set" + attr.name.toFirstUpper
+		val parameter = EcoreFactory.eINSTANCE.createEParameter
+		parameter.name = attr.name.toFirstLower
+		parameter.upperBound = 1
+		parameter.lowerBound = 0
 		if(!(attr.type instanceof Enumeration)){
-			val content = createComplexSetterContent(modelElementClass,attr)
-			val parameter = EcoreFactory.eINSTANCE.createEParameter
-			parameter.name = attr.name.toFirstLower
-
-			val setterName = "set" + attr.name.toFirstUpper
-			parameter.upperBound = 1
-			parameter.lowerBound = 0
-			val eOp = view.createEOperation(setterName, null, 0, 1, content.toString, parameter)
-			complexSetterParameterMap.put(eOp, attr.type)
+			content = modelElementClass.createComplexSetterContent(attr)	
+		}else{
+			content = modelElementClass.createSetterContent(attr.name)
 		}
+		view.createEOperation(setterName, null, 0, 1, content, parameter)
+		putSetterParameter(parameter, attr.type)
+	}
+	
+	private dispatch def Type putSetterParameter(EParameter parameter, Enumeration type) {
+		enumSetterParameterMap.put(parameter, type)
+	}
+	
+	private dispatch def Type putSetterParameter(EParameter parameter, Type type) {
+		complexSetterParameterMap.put(parameter, type)
 	}
 
 
@@ -567,7 +588,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 	'''
 
 	private dispatch def createGetter(EClass view, EClass modelElementClass, PrimitiveAttribute attr) {
-		val content = createGetterContent(modelElementClass, attr)
+		val content = createGetterContent(modelElementClass, attr.name,attr.getterPrefix)
 		val getterName = attr.getterPrefix + attr.name.toFirstUpper
 		val opType = attr.type.EDataType
 		view.createEOperation(getterName, opType, attr.lowerBound, attr.upperBound, content.toString)
@@ -575,22 +596,32 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 
 	}
 
-	private dispatch def createGetterContent(EClass eClass, PrimitiveAttribute attr) '''
-		return getInternal«eClass.name»().«attr.getterPrefix»«attr.name.toFirstUpper»();
+	private def createGetterContent(EClass eClass, String attrName, CharSequence getterPrefix) '''
+		return getInternal«eClass.name»().«getterPrefix»«attrName.toFirstUpper»();
 	'''
 
 	private dispatch def createGetter(EClass view, EClass modelElementClass,ComplexAttribute attr) {
+		var CharSequence content
 		if(!(attr.type instanceof Enumeration)){
-			val content = createGetterContent(modelElementClass, attr)
-			val getterName = "get" + attr.name.toFirstUpper
-			val eOp = view.createEOperation(getterName, null, attr.lowerBound, attr.upperBound,
-				content.toString)
-			complexGetterParameterMap.put(eOp,attr.type)
+			content = createComplexGetterContent(modelElementClass, attr)
+		}else{
+			content = modelElementClass.createGetterContent(attr.name, '''get''')
 		}
+		val getterName = "get" + attr.name.toFirstUpper
+		val eOp = view.createEOperation(getterName, null, attr.lowerBound, attr.upperBound,content.toString)
+		putToGetterMap(eOp,attr.type)
 
 	}
+	
+	dispatch def putToGetterMap(EOperation eOp, Type type){
+		complexGetterParameterMap.put(eOp,type)	
+	}
+	
+	dispatch def putToGetterMap(EOperation eOp, Enumeration type){
+		enumGetterParameterMap.put(eOp,type)
+	}
 
-	private dispatch def createGetterContent(EClass eClass, ComplexAttribute attr) '''
+	private def createComplexGetterContent(EClass eClass, ComplexAttribute attr) '''
 		return («attr.type.name»)getInternal«eClass.name»().get«attr.name.toFirstUpper»().getElement();
 	'''
 
