@@ -77,7 +77,6 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 
 	def Iterable<EPackage> generateEcoreModel(GraphModel graphModel, Iterable<EPackage> mglEPackages) {
 		initializeMaps
-		enumGetterParameterMap = new HashMap
 		val elementEClasses = new HashMap<ModelElement,ElementEClasses>
 
 		val epk = createEPackage(graphModel)
@@ -147,6 +146,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		enumMap = new HashMap
 		operationReferencedTypeMap = new HashMap
 		enumSetterParameterMap = new HashMap
+		enumGetterParameterMap = new HashMap
 	}
 	
 	def void setPrimeType(EOperation operation, Node node, Iterable<EPackage> ePackages){
