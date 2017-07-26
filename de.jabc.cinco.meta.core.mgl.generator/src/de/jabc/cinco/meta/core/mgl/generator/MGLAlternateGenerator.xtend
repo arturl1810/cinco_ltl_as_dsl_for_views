@@ -13,10 +13,8 @@ import mgl.Attribute
 import mgl.ComplexAttribute
 import mgl.ContainingElement
 import mgl.EDataTypeType
-import mgl.Edge
 import mgl.Enumeration
 import mgl.GraphModel
-import mgl.GraphicalElementContainment
 import mgl.ModelElement
 import mgl.Node
 import mgl.NodeContainer
@@ -644,7 +642,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 	}
 
 	def getterPrefix(PrimitiveAttribute attr) {
-		if (attr.type != null && attr.type==mgl.EDataTypeType.EBOOLEAN) '''is''' else '''get'''
+		if (attr.type != null && attr.type==EDataTypeType.EBOOLEAN) '''is''' else '''get'''
 	}
 
 	def Iterable<? extends Attribute> allAttributes(ModelElement modelElement){
@@ -664,14 +662,12 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 			])
 		]
 	}
-	
+
 	/**
 	 *  Returns the sub types of a model element that are defined in the same MGL GraphModel 
 	 */
 	def Iterable<?extends ModelElement> subTypes(ModelElement it){
-		 
 		graphModel.modelElements.filter[me|me.allSuperTypes.exists[e|e==it]]
-		
 	}
-	
+
 }
