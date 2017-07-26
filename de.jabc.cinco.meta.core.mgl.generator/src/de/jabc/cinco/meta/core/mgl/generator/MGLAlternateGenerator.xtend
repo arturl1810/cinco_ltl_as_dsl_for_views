@@ -90,16 +90,13 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		elementEClasses.putAll(graphModel.createNodes)
 		elementEClasses.putAll(graphModel.createEdges)
 		elementEClasses.putAll(graphModel.createUserDefinedTypes)
-		
-		
+
 		epk.EClassifiers += elementEClasses.values.map[ec|ec.mainEClass]
 		internalEPackage.EClassifiers += elementEClasses.values.filter[internalEClass!=null].map[internalEClass]
 		viewsEPackage.EClassifiers += elementEClasses.values.filter[mainView!=null].map[mainView]
 		viewsEPackage.EClassifiers += elementEClasses.values.filter[!views.nullOrEmpty].map[views].flatten
-	
-		
+
 		toReferenceMap.forEach[key, value|key.EType = eClassesMap.get(value.name).internalEClass]
-		//toReferenceMap.forEach[key, value|key.EType = eClassesMap.get(value.name).mainEClass]
 		complexGetterParameterMap.forEach[key,value| println(value);key.EType = elementEClasses.get(value).mainEClass]
 		complexSetterParameterMap.forEach[key,value| key.EType = elementEClasses.get(value).mainEClass]
 		enumSetterParameterMap.forEach[key,value|key.EType = enumMap.get(value)]
@@ -147,7 +144,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		enumGetterParameterMap = new HashMap
 	}
 	
-	def void setPrimeType(EOperation operation, Node node, Iterable<EPackage> ePackages){
+	private def void setPrimeType(EOperation operation, Node node, Iterable<EPackage> ePackages){
 		
 		val prime = node.primeReference as ReferencedModelElement
 		val etype = ePackages.findFirst[nsURI==prime.type.graphModel.nsURI].getEClassifier(prime.type.name) as EClass
@@ -183,7 +180,6 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		val gmClasses = model.createModelElementClasses
 		gmClasses.mainEClass.ESuperTypes += graphModelPackage.getEClassifier("GraphModel") as EClass
 		gmClasses.internalEClass.ESuperTypes += internalPackage.getEClassifier("InternalGraphModel") as EClass		
-		//gmClasses
 		val map = new HashMap
 		map.put(model,gmClasses)
 		map
@@ -213,7 +209,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		nodeClasses
 	}
 	
-	def void createPrimeReference(ElementEClasses nc) {
+	private def void createPrimeReference(ElementEClasses nc) {
 		val node = nc.modelElement as Node
 		val operationName = '''get«node.primeName.toFirstUpper»'''
 		val primeType = EcorePackage.eINSTANCE.EObject
@@ -228,7 +224,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		
 	}
 	
-	def getPrimeReferenceGetter(Node node)'''
+	private def getPrimeReferenceGetter(Node node)'''
 		String uid = ((«node.fqInternalBeanName»)getInternalElement()).getLibraryComponentUID();
 		«IF node.primeReference instanceof ReferencedEClass»
 		return «node.primeTypeCast»de.jabc.cinco.meta.core.referenceregistry.ReferenceRegistry.getInstance().getEObject(uid);
@@ -237,7 +233,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		«ENDIF»
 	'''
 
-	def getPrimeReferenceInternalGetter(Node node)'''
+	private def getPrimeReferenceInternalGetter(Node node)'''
 		String uid = getLibraryComponentUID();
 		«IF node.primeReference instanceof ReferencedEClass»
 		return «node.primeTypeCast»de.jabc.cinco.meta.core.referenceregistry.ReferenceRegistry.getInstance().getEObject(uid);
@@ -250,14 +246,14 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 	 * Returns cast for prime referenced ModelElement or EClass
 	 * will return
 	 */
-	def getPrimeTypeCast(Node node){
+	private def getPrimeTypeCast(Node node){
 			switch(node.primeReference){
 				case node.primeReference instanceof ReferencedModelElement : return '''(«node.primeTypeName»)'''
 				default: return ''''''
 			}
 	}
 	
-	def getInternalPrimeTypeCast(Node node){
+	private def getInternalPrimeTypeCast(Node node){
 			switch(node.primeReference){
 				case node.primeReference instanceof ReferencedModelElement : {
 					return '''(«(node.primeReference as ReferencedModelElement).type.fqInternalBeanName»)'''
@@ -283,13 +279,9 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 			val elmClasses = eClassesMap.get(me.name)
 			val inh = eClassesMap.get(me.extend.name)
 			elmClasses.mainEClass.ESuperTypes += inh.mainEClass
-		// elmClasses.overrideGetView(inh,gm)
 		}
 	}
 
-//	def overrideGetView(ElementEClasses classes, ElementEClasses parent, GraphModel gm) {
-//		parent.mainEClass.EOperations.filter[eOp| parent.mainView==eOp.EType || parent.views.contains(eOp.EType)].forEach[op| classes.mainEClass.createGetView(op.EType as EClass,getterName,gm.package)]
-//	}
 	private def ElementEClasses createModelElementClasses(ModelElement element) {
 		val elementEClasses = new ElementEClasses
 		if(!(element instanceof Enumeration)){
@@ -373,26 +365,20 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		else
 			gm = (element.eContainer as GraphModel)
 
-
-		element.allAttributes.forEach [attr| 
-			if(!(attr instanceof ComplexAttribute && (attr as ComplexAttribute).override && mainView)){
-					val feature = attr.internalEClassFeature(internalEClass)
-					if(feature!=null){
-						view.createGetter(eClass, attr)
-							//view.createSetter(eClass, feature)
-						view.createSetter(eClass, attr)
-
-					}
-
+		element.allAttributes.forEach [ attr |
+			if (!(attr instanceof ComplexAttribute && (attr as ComplexAttribute).override && mainView)) {
+				val feature = attr.internalEClassFeature(internalEClass)
+				if (feature != null) {
+					view.createGetter(eClass, attr)
+					view.createSetter(eClass, attr)
+				}
 			}
 
 		]
 
-
 		eClass.createGetView(view, getterName, gm.name.toLowerCase, gm.package)
 		view
 	}
-
 
 	private def EStructuralFeature internalEClassFeature(Attribute attr, EClass internalEClass){
 		internalEClass.EStructuralFeatures.findFirst[f |attr.name==f.name]		
@@ -412,20 +398,8 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 	}
 
 	private def EClass createInternalEClass(ModelElement element, ElementEClasses elmEClasses) {
-//		val eClass = elmEClasses.mainEClass
 		val internalEClass = EcoreFactory.eINSTANCE.createEClass
 		internalEClass.name = "Internal" + element.name
-
-//		eClass.createReference(
-//			"internal" + element.name,
-//			internalEClass,
-//			0,
-//			1,
-//			true,
-//			internalEClass.createReference(element.name.toFirstLower, eClass, 0, 1, false, null)
-//		)
-
-		//element.attributes.forEach[attribute|internalEClass.createAttribute(attribute)]
 		element.allAttributes.forEach[attribute|internalEClass.createAttribute(attribute)]
 
 		internalEClass
@@ -469,8 +443,6 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 	private def HashMap<ModelElement,? extends ElementEClasses> createEdges(GraphModel model) {
 		val edg = new HashMap<ModelElement,ElementEClasses> ();
 		model.edges.topSort.forEach[edg.put(it,createModelElementClasses)]
-//		model.edges.filter[it.extend == null].forEach[e| edg+= e.createModelElementClasses]
-//		model.edges.filter[it.extend != null].forEach[e| edg+= e.createModelElementClasses]
 		edg.values.forEach[ec|ec.mainEClass.ESuperTypes += graphModelPackage.getEClassifier("Edge") as EClass;
 			ec.internalEClass.ESuperTypes += internalPackage.getEClassifier("InternalEdge") as EClass
 		]
@@ -493,7 +465,6 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		udts
 
 	}
-
 
 	private def Iterable<? extends EClassifier> createEnums(GraphModel model) {
 		model.types.filter(Enumeration).map[en| en.createEnumeration]
@@ -534,7 +505,6 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		parameter.EType = opType
 		view.createEOperation(setterName, null, 0, 1, content.toString, parameter)
 
-
 	}
 
 	private dispatch def createSetter(EClass view, EClass modelElementClass,ComplexAttribute attr){
@@ -561,25 +531,9 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		complexSetterParameterMap.put(parameter, type)
 	}
 
-
-
-//	private def createSetter(EClass view, EClass modelElementClass, Attribute attr) {
-//		val content = createSetterContent(modelElementClass, attr.name)
-//		val parameter = EcoreFactory.eINSTANCE.createEParameter
-//		parameter.name = attr.name.toFirstLower
-//
-//		val setterName = "set" + attr.name.toFirstUpper
-//		parameter.upperBound = 1
-//		parameter.lowerBound = 0
-//		val eOp = view.createEOperation(setterName, null, 0, 1, content.toString, parameter)
-//		setterParameterMap.put(eOp, attr)
-//	}
-
-
 	private def createSetterContent(EClass modelElementClass, String featureName) '''
 		getInternal«modelElementClass.name»().set«featureName.toFirstUpper»(«featureName»);
 	'''
-
 
 	private def createComplexSetterContent(EClass modelElementClass, ComplexAttribute attr) '''
 		getInternal«modelElementClass.name»().set«attr.name.toFirstUpper»((«attr.type.fqInternalBeanName»)«attr.name».getInternalElement());
@@ -590,7 +544,6 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		val getterName = attr.getterPrefix + attr.name.toFirstUpper
 		val opType = attr.type.EDataType
 		view.createEOperation(getterName, opType, attr.lowerBound, attr.upperBound, content.toString)
-
 
 	}
 
@@ -624,28 +577,20 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 	'''
 
 
-	def createTypedInternalGetter(ElementEClasses elmClasses){
+	private def createTypedInternalGetter(ElementEClasses elmClasses){
 		val methodName = '''getInternal«elmClasses.modelElement.name»'''
 		elmClasses.mainEClass.createEOperation(methodName,elmClasses.internalEClass,0,1,elmClasses.typedInternalGetterContent)
 	}
 
-	def typedInternalGetterContent(ElementEClasses elmClasses)'''
+	private def typedInternalGetterContent(ElementEClasses elmClasses)'''
 	return («elmClasses.modelElement.fqInternalBeanName») getInternalElement();
 	'''
 
-
-	/**
-	 * Returns EClasses of generated model elements.
-	 */
-	def getModelElementsClasses() {
-		modelElementsMap.values
-	}
-
-	def getterPrefix(PrimitiveAttribute attr) {
+	private def getterPrefix(PrimitiveAttribute attr) {
 		if (attr.type != null && attr.type==EDataTypeType.EBOOLEAN) '''is''' else '''get'''
 	}
 
-	def Iterable<? extends Attribute> allAttributes(ModelElement modelElement){
+	private def Iterable<? extends Attribute> allAttributes(ModelElement modelElement){
 		val allAttributes = new HashMap<String,Attribute>
 		val mes =modelElement.allSuperTypes.topSort
 		mes+=modelElement
@@ -655,7 +600,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 
 	}
 
-	def Iterable<?extends Attribute> nonConflictingAttributes(ModelElement me){
+	private def Iterable<?extends Attribute> nonConflictingAttributes(ModelElement me){
 		me.allAttributes.filter [attr|
 			!(attr instanceof ComplexAttribute) || !(me.subTypes.map[st|st.allAttributes].flatten.exists [e|
 				e.name == attr.name && (e as ComplexAttribute).override
@@ -666,7 +611,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 	/**
 	 *  Returns the sub types of a model element that are defined in the same MGL GraphModel 
 	 */
-	def Iterable<?extends ModelElement> subTypes(ModelElement it){
+	private def Iterable<?extends ModelElement> subTypes(ModelElement it){
 		graphModel.modelElements.filter[me|me.allSuperTypes.exists[e|e==it]]
 	}
 

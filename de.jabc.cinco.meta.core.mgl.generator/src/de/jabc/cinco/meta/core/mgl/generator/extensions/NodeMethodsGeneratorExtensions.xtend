@@ -20,7 +20,6 @@ import mgl.ModelElement
 import mgl.Node
 import mgl.NodeContainer
 import org.eclipse.emf.ecore.EClass
-import org.eclipse.emf.ecore.EOperation
 import org.eclipse.emf.ecore.EParameter
 import org.eclipse.emf.ecore.EcoreFactory
 import org.eclipse.emf.ecore.EcorePackage
@@ -32,14 +31,8 @@ import static extension de.jabc.cinco.meta.core.utils.MGLUtil.*
 class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 
 	def void createConnectionMethods(Node node, GraphModel graphModel, HashMap<String, ElementEClasses> elmClasses) {
-		val eOps = new ArrayList<EOperation>
-
 		node.connectionConstraints(graphModel, elmClasses)
 		node.specializeGetSuccessors(graphModel, elmClasses)
-
-	// eOps += node.canEndMethods(graphModel,elmClasses)
-	// eOps += node.startMethods(graphModel,elmClasses)
-	// eOps += node.endMethods(graphModel,elmClasses)
 	}
 
 	def void createGetContainmentConstraintsMethod(NodeContainer elem, GraphModel graphModel,
@@ -143,7 +136,6 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 		val edges = node.outgoingConnectingEdges
 		for (edge : edges) {
 			val operationName = "canNew" + edge.fuName
-			val edgeEClass = elemClasses.get(edge.name).mainEClass
 			for (target : edge.possibleTargets) {
 				val sourceEClass = elemClasses.get(node.name).mainEClass
 				val targetEClass = elemClasses.get(target.name).mainEClass
