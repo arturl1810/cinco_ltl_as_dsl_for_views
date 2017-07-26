@@ -114,8 +114,8 @@ class MGLUtil {
 	def private static boolean isContained(ContainingElement ce, Node n) {
 		if(ce instanceof GraphModel && ce.getContainableElements().isEmpty()) return true
 		var Set<GraphicalElementContainment> containments = ce.getContainableElements().filter[ec |
-			(ec.types.size() === 0 || ec.types.contains(n) || n.allSuperTypes.exists[ec.types.contains(it)]) &&
-				(ec.getUpperBound() > 0 || ec.getUpperBound() === -1)
+			(ec.types.contains(n) || n.allSuperTypes.exists[ec.types.contains(it)]) &&
+				(ec.getUpperBound() != 0)
 		].toSet
 		return containments.size() > 0
 	}

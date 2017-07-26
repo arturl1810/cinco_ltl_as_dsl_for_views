@@ -231,7 +231,7 @@ class GeneratorUtils {
 	def dispatch CharSequence fqBeanName(ModelElement me)
 	'''«me.beanPackage».«me.fuName»'''
 	
-	def dispatch fqBeanName(ContainingElement ce) {
+	def dispatch CharSequence fqBeanName(ContainingElement ce) {
 		switch ce {
 			GraphModel : (ce as ModelElement).fqBeanName
 			NodeContainer : (ce as ModelElement).fqBeanName
@@ -487,8 +487,8 @@ class GeneratorUtils {
 	def primeTypeName(Node n) {
 		val prime = n.primeReference
 		switch prime {
-			ReferencedEClass : prime.type.name
-			ReferencedModelElement : prime.type.name
+			ReferencedEClass : prime.type.fqBeanName
+			ReferencedModelElement : prime.type.fqBeanName
 		}
 	}
 	
@@ -500,7 +500,7 @@ class GeneratorUtils {
 		}
 	}
 	
-	def String primeElementLabel(Node n) {
+	def primeElementLabel(Node n) {
 		var labelAnnot = n.primeReference.annotations.filter[name == "pvLabel"]
 		if (!labelAnnot.isNullOrEmpty) {
 			var value = labelAnnot.get(0).value.get(0)
