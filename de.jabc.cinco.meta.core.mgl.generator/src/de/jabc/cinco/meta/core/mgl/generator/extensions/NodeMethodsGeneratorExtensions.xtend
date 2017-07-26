@@ -48,17 +48,16 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 		val elc = elmClasses.get(elem.name)
 		elc.internalEClass.createEOperation("getContainmentConstraints",
 			GraphmodelPackage.eINSTANCE.containmentConstraint, 0, -1,
-			elc.modelElement.containmentConstraintContent.toString);
+			elc.modelElement.containmentConstraintContent);
 
 	}
 
 	def containmentConstraintContent(ModelElement modelElement) '''
 		 org.eclipse.emf.common.util.BasicEList<ContainmentConstraint>constraints = 
 			new org.eclipse.emf.common.util.BasicEList<ContainmentConstraint>();
-		«FOR ce : (modelElement as ContainingElement).containableElements»
+		«FOR ce : (modelElement as ContainingElement).allContainmentConstraints»
 			«ce.containmentConstraint»
 		«ENDFOR»
-		constraints.addAll(super.getContainmentConstraints());
 		return constraints;
 		
 	'''
@@ -482,5 +481,54 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 			]
 		].flatten.flatten.map[it as Node].toList
 	}
+
+	/**
+	 * Collects all containment constraints of a given ContainingElement including all inherited
+	 * containment constraints.
+	 * Will Fail if ContainignElement is not instance of NodeContainer or GraphModel.
+	 * @param ce - ContainingElement (May be GraphModel or NodeContainer)
+	 * @return Iterable containing references to containment reference defined in ce and inherited from other
+	 * ContainingElements
+	 * */
+	def getAllContainmentConstraints(ContainingElement ce){
+		ce.containableElements+ce.allSuperTypes.map[containableElements].flatten
+	}
+
+	/**
+	 * Returns List of all super types of a ContainingElement
+	 * List contains of GraphModel if ce is instance of GraphModel
+	 * or NodeContainer if ce is instance of NodeContainer.
+	 * Fails otherwise.
+	 * May return empty list.
+	 * @param ce - ContainingElement (May be GraphModel or NodeContainer)
+	 * @return ArrayList containing super types of ce
+	 */
+	def allSuperTypes(ContainingElement ce){
+		val superTypes = new ArrayList<ContainingElement>
+		var sType = ce.extend
+
+		while(sType!=null){
+			superTypes.add(sType)
+			sType = sType.extend
+		}
+		superTypes
+	}
+
+	/**
+	 * Returns Inherited Type of a ContainingElement. This  may be a GraphModel if ce is a GraphModel
+	 * or NodeContainer if ce is instance of NodeContainer
+	 * Fails otherwise.
+	 * May return @null.
+	 * @param ce: ContainingElement
+	 * @returns ContainingElement
+	 */
+	def ContainingElement extend(ContainingElement ce){
+		switch(ce){
+			case ce instanceof GraphModel: return ((ce as GraphModel).extends) as ContainingElement
+			case ce instanceof NodeContainer: return ((ce as NodeContainer).extends) as ContainingElement
+			default : throw new IllegalArgumentException(String.format("Can not match Type: %s", ce))
+		}
+
+	}
+
 }
-	
