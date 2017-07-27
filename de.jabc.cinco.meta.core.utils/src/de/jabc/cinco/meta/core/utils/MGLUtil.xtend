@@ -253,6 +253,7 @@ class MGLUtil {
 	 private def static generatePostCreateCall(Annotation it)
 	 '''new «value.get(0)»().postCreate(me)'''
 	 
+	 
 	def static postCreate(Type it, String varname) {
 		if (annotations.filter[name == "postCreate"].isEmpty) "" else '''«varname».postCreates'''
 	}

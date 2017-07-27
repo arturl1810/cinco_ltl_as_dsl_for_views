@@ -87,20 +87,6 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 	
 	«me.constructor»
 	
-	public «me.pictogramElementReturnType» getPictogramElement() {
-		«IF !(me instanceof GraphModel)»
-		if (pe == null)
-			this.pe = ((«me.graphModel.fqCName») getRootElement()).fetchPictogramElement(this);
-		«ELSE»
-		if (pe == null) {
-			«EObject.name» bo = this.eResource().getContents().get(0);
-			if (bo instanceof «Diagram.name»)
-				pe = («Diagram.name») bo;
-		}
-		«ENDIF»
-		return («me.pictogramElementReturnType») this.pe;
-	}
-	
 	public void setPictogramElement(«me.pictogramElementReturnType» pe) {
 		this.pe = pe;
 	}
@@ -326,6 +312,9 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 	}
 	
 	private «Diagram.name» getDiagram() {
+		«graphmodel.GraphModel.name» gm = getRootElement();
+		if (gm instanceof «me.rootElement.fqCName»)
+			return ((«me.rootElement.fqCName») gm).getPictogramElement();
 		«PictogramElement.name» curr = getPictogramElement();
 		while (curr.eContainer() != null)
 			curr = («PictogramElement.name») curr.eContainer();

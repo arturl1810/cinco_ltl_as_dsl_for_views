@@ -448,6 +448,22 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 		)
 	}
 
+	def createPreDeleteMethods(ModelElement me, HashMap<String, ElementEClasses> elemClasses) {
+		elemClasses.get(me.name).mainEClass.createEOperation(
+			"preDelete",
+			null,
+			1,1,
+			me.preDeleteContent
+		)
+	}
+
+	def preDeleteContent(ModelElement me) {
+		val annot = me.getAnnotation("preDelete")
+		if (annot != null) '''
+		new «annot.value.get(0)»().preDelete(this);
+		'''
+	}
+
 	def getterContent(String variableName) '''
 		return ((«InternalNode.name») getInternalElement()).get«variableName»(); 
 	'''
