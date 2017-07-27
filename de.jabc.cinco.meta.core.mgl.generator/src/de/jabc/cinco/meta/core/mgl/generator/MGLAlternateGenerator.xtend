@@ -582,7 +582,12 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 	}
 
 	private def createComplexGetterContent(EClass eClass, ComplexAttribute attr) '''
-		return («attr.type.name»)getInternal«eClass.name»().get«attr.name.toFirstUpper»().getElement();
+	«attr.type.fqInternalBeanName» «attr.name.toLowerCase» = getInternal«eClass.name»().get«attr.name.toFirstUpper»();
+	if(«attr.name.toLowerCase»!=null){
+		return («attr.type.name»)«attr.name.toLowerCase».getElement();
+	}else{
+		return null;
+	}
 	'''
 
 
