@@ -35,21 +35,21 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 		node.specializeGetSuccessors(graphModel, elmClasses)
 	}
 
-	def void createGetContainmentConstraintsMethod(NodeContainer elem, GraphModel graphModel,
+	def void createGetContainmentConstraintsMethod(ContainingElement elem,
 		HashMap<String, ElementEClasses> elmClasses) {
 
 		val elc = elmClasses.get(elem.name)
 		elc.internalEClass.createEOperation("getContainmentConstraints",
 			GraphmodelPackage.eINSTANCE.containmentConstraint, 0, -1,
-			elc.modelElement.containmentConstraintContent);
+			elem.containmentConstraintContent);
 
 	}
 
-	def containmentConstraintContent(ModelElement modelElement) '''
+	def containmentConstraintContent(ContainingElement ce) '''
 		 org.eclipse.emf.common.util.BasicEList<ContainmentConstraint>constraints = 
 			new org.eclipse.emf.common.util.BasicEList<ContainmentConstraint>();
-		«FOR ce : (modelElement as ContainingElement).allContainmentConstraints»
-			«ce.containmentConstraint»
+		«FOR cc : ce.allContainmentConstraints»
+			«cc.containmentConstraint»
 		«ENDFOR»
 		return constraints;
 		
@@ -402,7 +402,7 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 		return new«n.fuName»(«n.primeName»,x,y,-1,-1);
 	'''
 
-	def createModelElementGetter(ContainingElement ce, GraphModel gm, HashMap<String, ElementEClasses> elmClasses) {
+	def createModelElementGetter(ContainingElement ce, HashMap<String, ElementEClasses> elmClasses) {
 		ce.containableNodes.forEach[
 			elmClasses.get(ce.name).mainEClass.createEOperation(
 				"get"+fuName+"s",
