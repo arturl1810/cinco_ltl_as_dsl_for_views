@@ -39,6 +39,7 @@ import org.eclipse.graphiti.features.context.impl.AddContext
 import org.eclipse.graphiti.features.context.impl.ResizeShapeContext
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoResizeFeature
 import graphmodel.IdentifiableElement
+import mgl.NodeContainer
 
 class CModelElementTmpl extends APIUtils {
 	
@@ -79,7 +80,7 @@ public class «me.fuCViewName» extends «me.fqBeanViewName» {
 def doGenerateImpl(ModelElement me)'''
 package «me.packageNameAPI»;
 
-public «IF me.isIsAbstract»abstract«ENDIF» class «me.fuCName» extends «me.fqBeanImplName» 
+public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me.fqBeanImplName» 
 	«IF !me.allSuperTypes.empty» implements «FOR st: me.allSuperTypes SEPARATOR ","» «st.fqBeanName» «ENDFOR» «ENDIF»{
 	
 	private «PictogramElement.name» pe;
@@ -104,7 +105,7 @@ public «IF me.isIsAbstract»abstract«ENDIF» class «me.fuCName» extends «me
 		this.pe = pe;
 	}
 	
-	«IF me instanceof ContainingElement»
+	«IF me instanceof NodeContainer»
 	«FOR n : MGLUtil::getContainableNodes(me).filter[!isIsAbstract && !isPrime]»
 	@Override
 	public «n.fqBeanName» new«n.fuName»(int x, int y) {
@@ -157,7 +158,7 @@ public «IF me.isIsAbstract»abstract«ENDIF» class «me.fuCName» extends «me
 			}
 			return null;
 		}
-		«ENDFOR»
+	«ENDFOR»
 	«ENDIF»
 	
 	«IF me instanceof Node»
@@ -310,6 +311,7 @@ public «IF me.isIsAbstract»abstract«ENDIF» class «me.fuCName» extends «me
 				((«CincoFeatureProvider.name») fp).executeFeature(uf, uc);
 			}
 		} catch («NullPointerException.name» e) {
+			e.printStackTrace();
 			return;
 		}
 	}

@@ -138,6 +138,8 @@ class StyleUtils extends APIUtils {
 	'''
 
 	def appearanceCode(AbstractShape shape, CharSequence currentGaName) {
+		'''peService.setPropertyValue(«currentGaName», "«CincoLayoutFeature.KEY_GA_NAME»", "«currentGaName»");
+		'''+
 		if (shape.referencedAppearance != null) '''«node.packageName».«node.graphModel.name»LayoutUtils.set«shape.referencedAppearance.name»Style(«currentGaName», getDiagram());'''
 		else if (shape.inlineAppearance != null)  ''' «node.packageName».«node.graphModel.name»LayoutUtils.«LayoutFeatureTmpl.shapeMap.get(shape)»(«currentGaName», getDiagram());'''
 		else '''«node.graphModel.packageName».«node.graphModel.name»LayoutUtils.set_«node.graphModel.name»DefaultAppearanceStyle(«currentGaName», getDiagram());'''

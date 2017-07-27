@@ -88,7 +88,10 @@ class MGLUtil {
 
 	def static Set<Node> getContainableNodes(ContainingElement ce) {
 		var GraphModel gm
-		if(ce instanceof NodeContainer) gm = ((ce as NodeContainer)).getGraphModel() else gm = ce as GraphModel
+		if (ce instanceof NodeContainer) 
+			gm = ((ce as NodeContainer)).getGraphModel() 
+		else gm = ce as GraphModel
+		
 		var Set<Node> nodes = gm.getNodes().filter[n|isContained(ce, n)].toSet
 		return nodes
 	}
@@ -112,12 +115,19 @@ class MGLUtil {
 	 * 
 	 */
 	def private static boolean isContained(ContainingElement ce, Node n) {
-		if(ce instanceof GraphModel && ce.getContainableElements().isEmpty()) return true
+		if (ce instanceof GraphModel && ce.getContainableElements().isEmpty()) return true
+		
 		var Set<GraphicalElementContainment> containments = ce.getContainableElements().filter[ec |
-			(ec.types.contains(n) || n.allSuperTypes.exists[ec.types.contains(it)]) &&
-				(ec.getUpperBound() != 0)
+			(ec.types.contains(n) || n.allSuperTypes.exists[ec.types.contains(it)]
+			) && (ec.getUpperBound() != 0)
 		].toSet
-		return containments.size() > 0
+		
+		var containedInSuperType = false
+		switch (ce) {
+			NodeContainer: containedInSuperType = ce.allSuperTypes.exists[isContained((it as NodeContainer), n)]
+		}
+		
+		return containments.size() > 0 || containedInSuperType 
 	}
 
 	/** 

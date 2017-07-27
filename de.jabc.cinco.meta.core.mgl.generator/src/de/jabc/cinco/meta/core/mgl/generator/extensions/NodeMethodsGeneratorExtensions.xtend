@@ -363,7 +363,7 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 
 	def newNodeMethodContent(ContainingElement ce, Node n) '''
 		if (this.canContain(«n.fuName».class)) {
-			«n.fqBeanName» node = «n.fqFactoryName».eINSTANCE.create«n.fuName»(this.getInternalElement());
+			«n.fqBeanName» node = «n.fqFactoryName».eINSTANCE.create«n.fuName»((InternalModelElementContainer) this.getInternalElement());
 			this.getInternalContainerElement().getModelElements().add(node.getInternalElement());
 			node.move(x, y);
 			node.resize(width, height);
