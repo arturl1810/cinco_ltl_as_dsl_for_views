@@ -47,10 +47,10 @@ class ModelElementUpdateFeatures extends GeneratorUtils{
 							(«me.fqBeanName»)((«me.fqInternalBeanName») bo).getElement(), gaName), d);
 			}
 			«Object.name» object = «Graphiti.name».getLinkService().getBusinessObjectForLinkedPictogramElement(s);
-			if («me.instanceofCheck("object")») {
+			if («me.internalInstanceofCheck("object")») {
 				if (s instanceof «ContainerShape.name») {
 					for («Shape.name» g : ((«ContainerShape.name») s).getChildren()) {
-						updateStyle((«me.fqBeanName») object, g);
+						updateStyle((«me.fqInternalBeanName») object, g);
 					}
 				}
 			}
@@ -71,10 +71,10 @@ class ModelElementUpdateFeatures extends GeneratorUtils{
 							(«me.fqBeanName»)((«me.fqInternalBeanName») bo).getElement(), gaName), d);
 			}
 			«Object.name» object = «Graphiti.name».getLinkService().getBusinessObjectForLinkedPictogramElement(s);
-			if («me.instanceofCheck("object")») {
+			if («me.internalInstanceofCheck("object")») {
 				
 				for («Shape.name» g : s.getConnectionDecorators()) {
-					updateStyle((«me.fqBeanName») object, g);
+					updateStyle((«me.fqInternalBeanName») object, g);
 				}
 				
 			}
