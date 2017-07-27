@@ -38,11 +38,11 @@ import org.eclipse.emf.ecore.EcorePackage
 import static extension de.jabc.cinco.meta.core.mgl.generator.extensions.EcoreExtensions.*
 import static extension de.jabc.cinco.meta.core.mgl.generator.extensions.EdgeMethodsGeneratorExtension.*
 import static extension de.jabc.cinco.meta.core.mgl.generator.extensions.FactoryGeneratorExtensions.*
+import static extension de.jabc.cinco.meta.core.utils.MGLUtil.*
 
 class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 
 	extension AdapterGeneratorExtension = new AdapterGeneratorExtension
-
 
 	HashMap<ModelElement, EClass> modelElementsMap
 
@@ -271,17 +271,6 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 			}
 	}
 	
-	private def topSort(Iterable<? extends ModelElement> elements) {
-		new DependencyGraph<ModelElement>(new ArrayList).createGraph(elements.map[dependencies], new ArrayList).
-			topSort
-
-	}
-
-	private def DependencyNode<ModelElement> dependencies(ModelElement it) {
-		val dNode = new DependencyNode<ModelElement>(it)
-		dNode.addDependencies(allSuperTypes.map[t|t].toList)
-		dNode
-	}
 
 	private def void createInheritance(ModelElement me, GraphModel gm) {
 		if (me.extend != null) {
@@ -602,31 +591,6 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 
 	private def getterPrefix(PrimitiveAttribute attr) {
 		if (attr.type != null && attr.type==EDataTypeType.EBOOLEAN) '''is''' else '''get'''
-	}
-
-	private def Iterable<? extends Attribute> allAttributes(ModelElement modelElement){
-		val allAttributes = new HashMap<String,Attribute>
-		val mes =modelElement.allSuperTypes.topSort
-		mes+=modelElement
-		mes.forEach[attributes.forEach[allAttributes.put(name,it)]]
-		allAttributes.values
-
-
-	}
-
-	private def Iterable<?extends Attribute> nonConflictingAttributes(ModelElement me){
-		me.allAttributes.filter [attr|
-			!(attr instanceof ComplexAttribute) || !(me.subTypes.map[st|st.allAttributes].flatten.exists [e|
-				e.name == attr.name && (e as ComplexAttribute).override
-			])
-		]
-	}
-
-	/**
-	 *  Returns the sub types of a model element that are defined in the same MGL GraphModel 
-	 */
-	private def Iterable<?extends ModelElement> subTypes(ModelElement it){
-		graphModel.modelElements.filter[me|me.allSuperTypes.exists[e|e==it]]
 	}
 
 }

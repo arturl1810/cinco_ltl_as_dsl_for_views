@@ -25,6 +25,8 @@ import de.jabc.cinco.meta.core.ge.style.generator.graphiti.utils.CincoGraphitiUt
 import org.eclipse.graphiti.ui.internal.editor.DiagramBehaviorDummy
 import org.eclipse.graphiti.ui.editor.DiagramEditor
 
+import static extension de.jabc.cinco.meta.core.utils.MGLUtil.*
+
 class PropertyViewTmpl extends GeneratorUtils {
 
 /**
@@ -61,7 +63,7 @@ public class «gm.fuName»PropertyView implements «ISelectionListener.name» {
 		«FOR n : gm.nodes»
 		«CincoPropertyView.name».init_EStructuralFeatures(«n.beanPackage».internal.impl.Internal«n.fuName»Impl.class, 
 			new «EStructuralFeature.name»[] {
-			«FOR attr : n.attributes.filter[!isAttributeHidden] SEPARATOR ","»
+			«FOR attr : n.allAttributes.filter[!isAttributeHidden] SEPARATOR ","»
 «««				«gm.beanPackage».«gm.name.toLowerCase.toFirstUpper»Package.eINSTANCE.get«n.fuName»_«attr.name.toFirstUpper»()
 				«gm.beanPackage».internal.InternalPackage.eINSTANCE.getInternal«n.fuName»_«attr.name.toFirstUpper»()
 			«ENDFOR»
@@ -72,7 +74,7 @@ public class «gm.fuName»PropertyView implements «ISelectionListener.name» {
 		«FOR e : gm.edges»
 		«CincoPropertyView.name».init_EStructuralFeatures(«e.beanPackage».internal.impl.Internal«e.fuName»Impl.class, 
 			new «EStructuralFeature.name»[] {
-			«FOR attr : e.attributes.filter[!isAttributeHidden] SEPARATOR ","»
+			«FOR attr : e.allAttributes.filter[!isAttributeHidden] SEPARATOR ","»
 «««				«gm.beanPackage».«gm.name.toLowerCase.toFirstUpper»Package.eINSTANCE.get«e.fuName»_«attr.name.toFirstUpper»()
 				«gm.beanPackage».internal.InternalPackage.eINSTANCE.getInternal«e.fuName»_«attr.name.toFirstUpper»()
 			«ENDFOR»
@@ -83,7 +85,7 @@ public class «gm.fuName»PropertyView implements «ISelectionListener.name» {
 		«FOR t : gm.types.filter[t | t instanceof UserDefinedType].map[t | t as UserDefinedType]»
 		«CincoPropertyView.name».init_EStructuralFeatures(«t.beanPackage».internal.impl.Internal«t.fuName»Impl.class, 
 			new «EStructuralFeature.name»[] {
-			«FOR attr : t.attributes.filter[!isAttributeHidden] SEPARATOR ","»
+			«FOR attr : t.allAttributes.filter[!isAttributeHidden] SEPARATOR ","»
 «««				«gm.beanPackage».«gm.name.toLowerCase.toFirstUpper»Package.eINSTANCE.get«t.fuName»_«attr.name.toFirstUpper»()
 				«gm.beanPackage».internal.InternalPackage.eINSTANCE.getInternal«t.fuName»_«attr.name.toFirstUpper»()
 			«ENDFOR»

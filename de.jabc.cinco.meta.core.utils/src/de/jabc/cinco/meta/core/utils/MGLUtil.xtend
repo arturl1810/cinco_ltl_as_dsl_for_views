@@ -26,6 +26,9 @@ import style.Image
 import style.Styles
 import de.jabc.cinco.meta.core.utils.generator.GeneratorUtils
 import mgl.ReferencedModelElement
+import java.util.ArrayList
+import de.jabc.cinco.meta.core.utils.dependency.DependencyNode
+import de.jabc.cinco.meta.core.utils.dependency.DependencyGraph
 
 class MGLUtil {
 
@@ -34,15 +37,15 @@ class MGLUtil {
 	static extension GeneratorUtils = new GeneratorUtils
 
 	def static Set<ContainingElement> getNodeContainers(GraphModel gm) {
-		var Set<ContainingElement> nodeContainers = gm.getNodes().stream().filter([n|(n instanceof ContainingElement)]).
-			map([nc|typeof(ContainingElement).cast(nc)]).collect(Collectors::toSet())
+		var Set<ContainingElement> nodeContainers = gm.getNodes().filter([n|(n instanceof ContainingElement)]).
+			map([nc|typeof(ContainingElement).cast(nc)]).toSet
 		nodeContainers.add(gm)
 		return nodeContainers
 	}
 
 	def static Set<Node> getPossibleTargets(Edge ce) {
 		val HashSet<Node> targets = new HashSet()
-		ce.getEdgeElementConnections().stream().filter([eec|eec instanceof IncomingEdgeElementConnection]).forEach([ieec |
+		ce.getEdgeElementConnections().filter([eec|eec instanceof IncomingEdgeElementConnection]).forEach([ieec |
 			targets.add((ieec.eContainer() as Node))
 		])
 		return targets
@@ -199,8 +202,8 @@ class MGLUtil {
 	 	switch attr {
 	 		ComplexAttribute : attr.type.name 
 	 		PrimitiveAttribute : attr.type.getName
-	 	}
-	 }
+		}
+	}
 	 
 	 def static getAllSubclasses(ModelElement me) {
 	 	if (!subClasses.containsKey(me)) {
@@ -250,16 +253,51 @@ class MGLUtil {
 	 private def static generatePostCreateCall(Annotation it)
 	 '''new «value.get(0)»().postCreate(me)'''
 	 
-	 def static postCreate(Type it, String varname) {
-	 	if (annotations.filter[name == "postCreate"].isEmpty) "" else '''«varname».postCreates'''
-	 }
+	def static postCreate(Type it, String varname) {
+		if (annotations.filter[name == "postCreate"].isEmpty) "" else '''«varname».postCreates'''
+	}
 	 
-	 def static postAttributeValueChange(ModelElement it, String varName) {
-	 	annotations.filter[name == "postAttributeValueChange"].map[generatePostAttributeValueChange(varName)].join("\n")
-	 }
+	def static postAttributeValueChange(ModelElement it, String varName) {
+		annotations.filter[name == "postAttributeValueChange"].map[generatePostAttributeValueChange(varName)].join("\n")
+	}
 	 
-	 def static generatePostAttributeValueChange(Annotation it, String varName) '''
-	 new «value.get(0)»().handleChange(«varName».element as «parent.fqBeanName»)
-	 '''
+	def static generatePostAttributeValueChange(Annotation it, String varName) '''
+	new «value.get(0)»().handleChange(«varName».element as «parent.fqBeanName»)
+	'''
 	 
+	def static Iterable<? extends Attribute> allAttributes(ModelElement modelElement){
+		val allAttributes = new HashMap<String,Attribute>
+		val mes =modelElement.allSuperTypes.topSort
+		mes+=modelElement
+		mes.forEach[attributes.forEach[allAttributes.put(name,it)]]
+		allAttributes.values
+	}
+
+	def static Iterable<?extends Attribute> nonConflictingAttributes(ModelElement me){
+		me.allAttributes.filter [attr|
+			!(attr instanceof ComplexAttribute) || !(me.subTypes.map[st|st.allAttributes].flatten.exists [e|
+				e.name == attr.name && (e as ComplexAttribute).override
+			])
+		]
+	}
+	
+	/**
+	 *  Returns the sub types of a model element that are defined in the same MGL GraphModel 
+	 */
+	def static Iterable<?extends ModelElement> subTypes(ModelElement it){
+		graphModel.modelElements.filter[me|me.allSuperTypes.exists[e|e==it]]
+	}
+	
+	def static topSort(Iterable<? extends ModelElement> elements) {
+		new DependencyGraph<ModelElement>(new ArrayList).createGraph(elements.map[dependencies], new ArrayList).
+			topSort
+
+	}
+	
+	def static DependencyNode<ModelElement> dependencies(ModelElement it) {
+		val dNode = new DependencyNode<ModelElement>(it)
+		dNode.addDependencies(allSuperTypes.map[t|t].toList)
+		dNode
+	}
+	
 }
