@@ -34,7 +34,7 @@ CincoProduct returns CincoProduct:
 
 MGLDescriptor returns MGLDescriptor:
 	{MGLDescriptor}
-	(dontGenerate?='generateNOT')? 'mgl' mglPath=EString
+    (dontGenerate?='generateNOT')? (forceGenerate?='forceGenerate')? 'mgl' mglPath=EString
 ;
 
 

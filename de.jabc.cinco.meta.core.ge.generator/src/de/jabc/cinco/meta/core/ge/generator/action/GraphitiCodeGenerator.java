@@ -380,7 +380,7 @@ public class GraphitiCodeGenerator extends AbstractHandler {
 				
 				if (result.equals("error")) {
 					Exception e = (Exception) context.get("exception");
-					throw new ExecutionException(e.getMessage());
+					throw new IllegalStateException(e);
 				}
 				
 //				p.refreshLocal(IResource.DEPTH_INFINITE, monitor);
