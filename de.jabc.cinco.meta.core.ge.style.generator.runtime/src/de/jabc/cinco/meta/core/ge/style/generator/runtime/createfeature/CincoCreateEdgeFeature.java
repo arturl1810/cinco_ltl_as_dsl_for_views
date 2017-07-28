@@ -5,15 +5,14 @@ import graphmodel.ModelElement;
 
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICreateConnectionContext;
-import org.eclipse.graphiti.features.context.ICreateContext;
+import org.eclipse.graphiti.features.impl.AbstractCreateConnectionFeature;
 import org.eclipse.graphiti.features.impl.AbstractCreateFeature;
 
-public abstract class CincoCreateFeature<T extends ModelElement> extends AbstractCreateFeature{
+public abstract class CincoCreateEdgeFeature<T extends ModelElement> extends AbstractCreateConnectionFeature{
 
 	T newModelElement;
-	boolean apiCall;
 	
-	public CincoCreateFeature(IFeatureProvider fp, String name, String description) {
+	public CincoCreateEdgeFeature(IFeatureProvider fp, String name, String description) {
 		super(fp, name, description);
 	}
 
@@ -27,6 +26,6 @@ public abstract class CincoCreateFeature<T extends ModelElement> extends Abstrac
 		newModelElement = model;
 	}
 	
-	public abstract boolean canCreate(ICreateContext context, boolean apiCall);
+	public abstract boolean canCreate(ICreateConnectionContext context, boolean apiCall);
 	
 }

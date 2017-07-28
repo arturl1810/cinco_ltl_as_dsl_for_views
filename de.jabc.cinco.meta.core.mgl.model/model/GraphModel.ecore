@@ -169,7 +169,7 @@
     </eOperations>
     <eOperations name="delete">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="preDelete();&#xA;org.eclipse.emf.ecore.util.EcoreUtil.delete(this);"/>
+        <details key="body" value="preDelete();&#xA;org.eclipse.emf.ecore.util.EcoreUtil.delete(this.getInternalElement());"/>
       </eAnnotations>
     </eOperations>
     <eOperations name="preDelete">
@@ -202,7 +202,7 @@
     </eOperations>
     <eOperations name="delete">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="preDelete();&#xA;org.eclipse.emf.ecore.util.EcoreUtil.delete(this);"/>
+        <details key="body" value="preDelete();&#xA;org.eclipse.emf.ecore.util.EcoreUtil.delete(this.getInternalElement());"/>
       </eAnnotations>
     </eOperations>
     <eOperations name="preDelete">

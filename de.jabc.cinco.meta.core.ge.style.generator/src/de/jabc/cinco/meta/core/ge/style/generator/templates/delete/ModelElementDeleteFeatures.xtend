@@ -54,7 +54,9 @@ class ModelElementDeleteFeatures extends GeneratorUtils{
 	
 		@Override
 		public void delete(«IDeleteContext.name» context) {
-			super.delete(context);		
+			«Object.name» bo = getBusinessObjectForPictogramElement(context.getPictogramElement());
+			if (bo instanceof «me.fqInternalBeanName»)
+				((«me.fqBeanName»)((«me.fqInternalBeanName») bo).getElement()).delete();
 		}
 	
 		@Override

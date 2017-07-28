@@ -65,6 +65,8 @@ import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoMoveConn
 import org.eclipse.graphiti.features.IMoveConnectionDecoratorFeature
 import org.eclipse.graphiti.features.context.IMoveConnectionDecoratorContext
 import graphmodel.internal.InternalGraphModel
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.createfeature.CincoCreateFeature
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.createfeature.CincoCreateEdgeFeature
 
 class FeatureProviderTmpl extends APIUtils{
 	
@@ -315,15 +317,15 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 		if (dom == null) 
 			dom = «TransactionalEditingDomain.name».Factory.INSTANCE.createEditingDomain();
 		«Assert.name».isNotNull(dom, «String.name».format("The TransactionalEditingDomain is null"));
-		if (f instanceof «ICreateFeature.name») {
+		if (f instanceof «CincoCreateFeature.name») {
 			final «Object.name»[] created = new Object[2];
 			
 			dom.getCommandStack().execute(new «RecordingCommand.name»(dom, f.getName()) {
 				
 				@Override
 				protected void doExecute() {
-					«ICreateFeature.name» cf = («ICreateFeature.name») f;
-					if (cf.canCreate((«ICreateContext.name») c)) {
+					«CincoCreateFeature.name» cf = («CincoCreateFeature.name») f;
+					if (cf.canCreate((«ICreateContext.name») c, true)) {
 						«Object.name»[] result = cf.create((«ICreateContext.name») c);
 						if (result.length == 2) {
 							created[0] = result[0];
@@ -335,15 +337,15 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 			
 			return created;
 			
-		} else if (f instanceof «ICreateConnectionFeature.name») {
+		} else if (f instanceof «CincoCreateEdgeFeature.name») {
 					final «Object.name»[] created = new «Object.name»[2];
 					
 					dom.getCommandStack().execute(new «RecordingCommand.name»(dom, f.getName()) {
 						
 						@Override
 						protected void doExecute() {
-							«ICreateConnectionFeature.name» cf = («ICreateConnectionFeature.name») f;
-							if (cf.canCreate((«ICreateConnectionContext.name») c)) {
+							«CincoCreateEdgeFeature.name» cf = («CincoCreateEdgeFeature.name») f;
+							if (cf.canCreate((«CincoCreateEdgeFeature.name») c, true)) {
 								«Connection.name» conn = cf.create((«ICreateConnectionContext.name») c);
 								if (conn != null) {
 									«EObject.name» bo = conn.getLink().getBusinessObjects().get(0);

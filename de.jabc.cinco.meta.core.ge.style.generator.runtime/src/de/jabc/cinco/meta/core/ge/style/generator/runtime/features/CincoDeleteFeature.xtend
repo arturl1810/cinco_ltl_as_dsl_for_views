@@ -52,8 +52,8 @@ abstract class CincoDeleteFeature extends DefaultDeleteFeature {
 		var InternalModelElementContainer mec=(object as InternalModelElementContainer) 
 		deleteDanglingEdges(mec) 
 	}
-	/*
-	 * (non-Javadoc)
+	/**
+	 * 
 	 * @see DefaultDeleteFeature#delete(org.eclipse.graphiti.features.context.IDeleteContext)
 	 * Copied the method from @see DefaultDeleteFeature#delete(org.eclipse.graphiti.features.context.IDeleteContext)
 	 * with one change: The required remove feature is created instead of retrieved from the feature provider. As consequence, it is possible to 
@@ -111,6 +111,7 @@ abstract class CincoDeleteFeature extends DefaultDeleteFeature {
 		deleteBusinessObjects(businessObjectsForPictogramElement) 
 		postDelete(context) 
 	}
+	
 	def private void deleteDanglingEdges(InternalModelElementContainer mec) {
 		var List<InternalEdge> danglingEdges=mec.getModelElements().stream().filter([e | e instanceof InternalEdge]).map([e | (e as InternalEdge)]).filter([e | e.get_sourceElement() === null || e.get_targetElement() === null]).collect(Collectors.toList()) 
 		var List<PictogramElement> pes=Graphiti.getLinkService().getPictogramElements(getDiagram(), danglingEdges.stream().map([e | (e as EObject)]).collect(Collectors.toList()), true) 

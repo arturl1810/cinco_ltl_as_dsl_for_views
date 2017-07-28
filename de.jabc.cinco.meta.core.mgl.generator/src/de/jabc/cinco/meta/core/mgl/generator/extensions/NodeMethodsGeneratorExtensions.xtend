@@ -462,6 +462,7 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 		if (annot != null) '''
 		new «annot.value.get(0)»().preDelete(this);
 		'''
+		else ""
 	}
 
 	def getterContent(String variableName) '''

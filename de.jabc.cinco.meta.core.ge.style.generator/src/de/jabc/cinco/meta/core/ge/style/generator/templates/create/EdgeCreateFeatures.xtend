@@ -2,9 +2,16 @@ package de.jabc.cinco.meta.core.ge.style.generator.templates.create
 
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.errorhandling.ECincoError
 import de.jabc.cinco.meta.core.ge.style.generator.templates.util.APIUtils
-import graphmodel.ModelElement
+import de.jabc.cinco.meta.runtime.xapi.GraphModelExtension
+import de.jabc.cinco.meta.runtime.xapi.ResourceExtension
 import graphmodel.Node
+import graphmodel.internal.InternalGraphModel
+import graphmodel.internal.InternalModelElement
+import graphmodel.internal.InternalModelElementContainer
+import graphmodel.internal.InternalNode
 import mgl.Edge
+import org.eclipse.emf.ecore.EObject
+import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.graphiti.features.IFeatureProvider
 import org.eclipse.graphiti.features.context.ICreateConnectionContext
 import org.eclipse.graphiti.features.context.impl.AddConnectionContext
@@ -12,9 +19,6 @@ import org.eclipse.graphiti.features.impl.AbstractCreateConnectionFeature
 import org.eclipse.graphiti.mm.pictograms.Anchor
 import org.eclipse.graphiti.mm.pictograms.Connection
 import style.Styles
-import graphmodel.internal.InternalNode
-import org.eclipse.emf.ecore.EObject
-import graphmodel.internal.InternalModelElement
 
 class EdgeCreateFeatures extends APIUtils{
 
@@ -87,6 +91,13 @@ class EdgeCreateFeatures extends APIUtils{
 				
 				«e.fqBeanName» «e.flName» = 
 					(«e.fqCName») «e.packageName».«e.graphModel.fuName»Factory.eINSTANCE.create«e.fuName»();
+				
+				«Resource.name» eResource = ((«EObject.name») source).eResource();
+				«InternalGraphModel.name» internalGraphModel = new «ResourceExtension.name»().getContent(eResource, «e.graphModel.fqInternalBeanName».class);
+				«InternalModelElementContainer.name» container = 
+					new «GraphModelExtension.name»().getCommonContainer(internalGraphModel, «e.flName».getInternal«e.fuName»());
+						container.getModelElements().add(«e.flName».getInternal«e.fuName»());
+					
 				if (source instanceof «InternalModelElement.name») {
 					«e.flName».setSourceElement((«Node.name») source.getElement());
 				}

@@ -33,6 +33,7 @@ import org.eclipse.graphiti.services.IGaService
 import org.eclipse.graphiti.services.IPeService
 import style.AbstractShape
 import style.Styles
+import de.jabc.cinco.meta.core.utils.MGLUtil
 
 class EdgeAddFeatures extends APIUtils {
 	
@@ -119,15 +120,11 @@ class EdgeAddFeatures extends APIUtils {
 				«e.flName».getDecorators().add(«CincoUtil.getStyleForEdge(e, styles).decorator.indexOf(d)», _d);
 			«ENDFOR»
 			
-			«Resource.name» eResource = ((«EObject.name») sourceBo).eResource();
-			«InternalGraphModel.name» internalGraphModel = new «ResourceExtension.name»().getContent(eResource, «e.graphModel.fqInternalBeanName».class);
-			«InternalModelElementContainer.name» container = new «GraphModelExtension.name»().getCommonContainer(internalGraphModel, «e.flName»);
-					container.getModelElements().add(«e.flName»);
-	
-			if (hook) {
-			}
-	
 			((«e.fqCName») «e.flName».getElement()).setPictogramElement(connection);
+	
+			«IF MGLUtil::hasPostCreateHook(e)»
+			«e.packageName».«e.graphModel.fuName»Factory.eINSTANCE.postCreates((«e.fqBeanName») «e.flName».getElement());
+			«ENDIF»
 	
 			«UpdateContext.name» uc = new «UpdateContext.name»(connection);
 			«IUpdateFeature.name» uf = getFeatureProvider().getUpdateFeature(uc);

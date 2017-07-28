@@ -43,39 +43,7 @@ import mgl.NodeContainer
 
 class CEdgeTmpl extends APIUtils {
 	
-def doGenerateView(Edge me)'''
-package «me.packageNameAPI»;
-
-public class «me.fuCViewName» extends «me.fqBeanViewName» {
-	
-«««	«IF me instanceof NodeContainer»
-«««	«FOR n : MGLUtils::getContainableNodes(me as NodeContainer).filter[!isIsAbstract]»
-«««	public «n.fqBeanName» new«n.fuName»(int x, int y);
-«««	public «n.fqBeanName» new«n.fuName»(int x, int y, int width, int height);
-«««	«ENDFOR»
-«««	«ENDIF»
-«««	
-«««	«IF me instanceof Node»
-«««	«FOR e : MGLUtils::getOutgoingConnectingEdges(me as Node)»
-«««	«FOR target : MGLUtils::getPossibleTargets(e)»
-«««	public «e.fuCName» new«e.fuName»(«target.fuCName» cTarget);
-«««	«ENDFOR»
-«««	«ENDFOR»
-«««	
-«««	public void move(int x, int y);
-«««	«FOR cont : MGLUtils::getPossibleContainers(me as Node)»
-«««	public void move(«cont.fuCName» target, int x, int y);
-«««	«ENDFOR»
-«««	
-«««	«IF me.isPrime»
-«««	public «EObject.name» get«me.primeName.toFirstUpper»();
-«««	«ENDIF»
-«««	
-«««	«ENDIF»
-	
-}
-
-'''
+extension CModelElementTmpl = new CModelElementTmpl
 
 def doGenerateImpl(Edge me)'''
 package «me.packageNameAPI»;
@@ -134,20 +102,6 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 	}
 	«ENDFOR»	
 	
-	public void update() {
-		try {
-			«IFeatureProvider.name» fp = getFeatureProvider();
-			«UpdateContext.name» uc = new «UpdateContext.name»(getPictogramElement());
-			«IUpdateFeature.name» uf = fp.getUpdateFeature(uc);
-			if (fp instanceof «CincoFeatureProvider.name») {
-				((«CincoFeatureProvider.name») fp).executeFeature(uf, uc);
-			}
-		} catch («NullPointerException.name» e) {
-			e.printStackTrace();
-			return;
-		}
-	}
-	
 	private «IFeatureProvider.name» getFeatureProvider() {
 		return «GraphitiUi.name».getExtensionManager().createFeatureProvider(getDiagram());
 	}
@@ -173,7 +127,46 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 		
 		return null;
 	}
+	
+	«me.updateContent»
+	
+	«me.deleteContent»
 }
 '''
 	
+	
+	
+def doGenerateView(Edge me)'''
+package «me.packageNameAPI»;
+
+public class «me.fuCViewName» extends «me.fqBeanViewName» {
+	
+«««	«IF me instanceof NodeContainer»
+«««	«FOR n : MGLUtils::getContainableNodes(me as NodeContainer).filter[!isIsAbstract]»
+«««	public «n.fqBeanName» new«n.fuName»(int x, int y);
+«««	public «n.fqBeanName» new«n.fuName»(int x, int y, int width, int height);
+«««	«ENDFOR»
+«««	«ENDIF»
+«««	
+«««	«IF me instanceof Node»
+«««	«FOR e : MGLUtils::getOutgoingConnectingEdges(me as Node)»
+«««	«FOR target : MGLUtils::getPossibleTargets(e)»
+«««	public «e.fuCName» new«e.fuName»(«target.fuCName» cTarget);
+«««	«ENDFOR»
+«««	«ENDFOR»
+«««	
+«««	public void move(int x, int y);
+«««	«FOR cont : MGLUtils::getPossibleContainers(me as Node)»
+«««	public void move(«cont.fuCName» target, int x, int y);
+«««	«ENDFOR»
+«««	
+«««	«IF me.isPrime»
+«««	public «EObject.name» get«me.primeName.toFirstUpper»();
+«««	«ENDIF»
+«««	
+«««	«ENDIF»
+	
+}
+
+'''
 } 

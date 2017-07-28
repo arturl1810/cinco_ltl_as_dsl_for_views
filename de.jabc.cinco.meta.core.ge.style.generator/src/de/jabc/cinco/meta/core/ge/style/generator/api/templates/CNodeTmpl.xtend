@@ -1,81 +1,42 @@
 package de.jabc.cinco.meta.core.ge.style.generator.api.templates
 
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoResizeFeature
 import de.jabc.cinco.meta.core.ge.style.generator.runtime.provider.CincoFeatureProvider
 import de.jabc.cinco.meta.core.ge.style.generator.templates.util.APIUtils
 import de.jabc.cinco.meta.core.utils.MGLUtil
-import mgl.ContainingElement
-import mgl.Edge
-import mgl.GraphModel
-import mgl.ModelElement
+import graphmodel.GraphModel
+import graphmodel.IdentifiableElement
 import mgl.Node
-import org.eclipse.graphiti.datatypes.ILocation
+import mgl.NodeContainer
+import org.eclipse.emf.ecore.EObject
+import org.eclipse.graphiti.features.IDeleteFeature
 import org.eclipse.graphiti.features.IFeatureProvider
 import org.eclipse.graphiti.features.IMoveShapeFeature
-import org.eclipse.graphiti.features.IReconnectionFeature
+import org.eclipse.graphiti.features.IUpdateFeature
+import org.eclipse.graphiti.features.context.impl.AddContext
 import org.eclipse.graphiti.features.context.impl.CreateConnectionContext
 import org.eclipse.graphiti.features.context.impl.CreateContext
+import org.eclipse.graphiti.features.context.impl.DeleteContext
 import org.eclipse.graphiti.features.context.impl.MoveShapeContext
-import org.eclipse.graphiti.features.context.impl.ReconnectionContext
-import org.eclipse.graphiti.mm.pictograms.Anchor
+import org.eclipse.graphiti.features.context.impl.ResizeShapeContext
+import org.eclipse.graphiti.features.context.impl.UpdateContext
+import org.eclipse.graphiti.features.impl.DefaultMoveShapeFeature
 import org.eclipse.graphiti.mm.pictograms.AnchorContainer
 import org.eclipse.graphiti.mm.pictograms.Connection
 import org.eclipse.graphiti.mm.pictograms.ContainerShape
 import org.eclipse.graphiti.mm.pictograms.Diagram
 import org.eclipse.graphiti.mm.pictograms.PictogramElement
 import org.eclipse.graphiti.mm.pictograms.Shape
-import org.eclipse.graphiti.ui.services.GraphitiUi
-import de.jabc.cinco.meta.core.utils.xtext.PickColorApplier
-import org.eclipse.emf.ecore.util.EcoreUtil
-import java.util.List
-import org.eclipse.graphiti.services.Graphiti
-import org.eclipse.emf.ecore.EObject
-import org.eclipse.graphiti.features.impl.DefaultMoveShapeFeature
 import org.eclipse.graphiti.ui.features.DefaultDeleteFeature
-import org.eclipse.graphiti.features.context.impl.DeleteContext
-import org.eclipse.graphiti.features.IDeleteFeature
-import org.eclipse.graphiti.features.context.impl.UpdateContext
-import org.eclipse.graphiti.features.IUpdateFeature
-import org.eclipse.graphiti.features.context.impl.AddContext
-import org.eclipse.graphiti.features.context.impl.ResizeShapeContext
-import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoResizeFeature
-import graphmodel.IdentifiableElement
-import mgl.NodeContainer
+import org.eclipse.graphiti.ui.services.GraphitiUi
+import org.eclipse.graphiti.features.context.impl.RemoveContext
+import org.eclipse.graphiti.features.IRemoveFeature
+import org.eclipse.graphiti.features.impl.DefaultRemoveFeature
 
 class CNodeTmpl extends APIUtils {
-	
-def doGenerateView(Node me)'''
-package «me.packageNameAPI»;
 
-public class «me.fuCViewName» extends «me.fqBeanViewName» {
-	
-«««	«IF me instanceof NodeContainer»
-«««	«FOR n : MGLUtils::getContainableNodes(me as NodeContainer).filter[!isIsAbstract]»
-«««	public «n.fqBeanName» new«n.fuName»(int x, int y);
-«««	public «n.fqBeanName» new«n.fuName»(int x, int y, int width, int height);
-«««	«ENDFOR»
-«««	«ENDIF»
-«««	
-«««	«IF me instanceof Node»
-«««	«FOR e : MGLUtils::getOutgoingConnectingEdges(me as Node)»
-«««	«FOR target : MGLUtils::getPossibleTargets(e)»
-«««	public «e.fuCName» new«e.fuName»(«target.fuCName» cTarget);
-«««	«ENDFOR»
-«««	«ENDFOR»
-«««	
-«««	public void move(int x, int y);
-«««	«FOR cont : MGLUtils::getPossibleContainers(me as Node)»
-«««	public void move(«cont.fuCName» target, int x, int y);
-«««	«ENDFOR»
-«««	
-«««	«IF me.isPrime»
-«««	public «EObject.name» get«me.primeName.toFirstUpper»();
-«««	«ENDIF»
-«««	
-«««	«ENDIF»
-	
-}
+extension CModelElementTmpl = new CModelElementTmpl
 
-'''
 
 def doGenerateImpl(Node me)'''
 package «me.packageNameAPI»;
@@ -183,38 +144,12 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 		}
 	}
 	
-	@Override
-	public void delete(){
-		«DeleteContext.name» mc = new «DeleteContext.name»((«Shape.name») this.pe);
-		
-		«IFeatureProvider.name» fp = getFeatureProvider();
-		«IDeleteFeature.name» mf = new «DefaultDeleteFeature.name»(fp);
-		if (fp instanceof «CincoFeatureProvider.name») {
-			((«CincoFeatureProvider.name») fp).executeFeature(mf, mc);
-			super.delete();
-		}
-	}
-	
-	public void update() {
-		try {
-			«IFeatureProvider.name» fp = getFeatureProvider();
-			«UpdateContext.name» uc = new «UpdateContext.name»(getPictogramElement());
-			«IUpdateFeature.name» uf = fp.getUpdateFeature(uc);
-			if (fp instanceof «CincoFeatureProvider.name») {
-				((«CincoFeatureProvider.name») fp).executeFeature(uf, uc);
-			}
-		} catch («NullPointerException.name» e) {
-			e.printStackTrace();
-			return;
-		}
-	}
-	
 	private «IFeatureProvider.name» getFeatureProvider() {
 		return «GraphitiUi.name».getExtensionManager().createFeatureProvider(getDiagram());
 	}
 	
 	private «Diagram.name» getDiagram() {
-		«graphmodel.GraphModel.name» gm = getRootElement();
+		«GraphModel.name» gm = getRootElement();
 		if (gm instanceof «me.rootElement.fqCName»)
 			return ((«me.rootElement.fqCName») gm).getPictogramElement();
 		«PictogramElement.name» curr = getPictogramElement();
@@ -290,7 +225,45 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 		}
 	«ENDFOR»
 	«ENDIF»
+	
+	«me.updateContent»
+	
+	«me.deleteContent»
 }
 '''
 	
+	
+def doGenerateView(Node me)'''
+package «me.packageNameAPI»;
+
+public class «me.fuCViewName» extends «me.fqBeanViewName» {
+	
+«««	«IF me instanceof NodeContainer»
+«««	«FOR n : MGLUtils::getContainableNodes(me as NodeContainer).filter[!isIsAbstract]»
+«««	public «n.fqBeanName» new«n.fuName»(int x, int y);
+«««	public «n.fqBeanName» new«n.fuName»(int x, int y, int width, int height);
+«««	«ENDFOR»
+«««	«ENDIF»
+«««	
+«««	«IF me instanceof Node»
+«««	«FOR e : MGLUtils::getOutgoingConnectingEdges(me as Node)»
+«««	«FOR target : MGLUtils::getPossibleTargets(e)»
+«««	public «e.fuCName» new«e.fuName»(«target.fuCName» cTarget);
+«««	«ENDFOR»
+«««	«ENDFOR»
+«««	
+«««	public void move(int x, int y);
+«««	«FOR cont : MGLUtils::getPossibleContainers(me as Node)»
+«««	public void move(«cont.fuCName» target, int x, int y);
+«««	«ENDFOR»
+«««	
+«««	«IF me.isPrime»
+«««	public «EObject.name» get«me.primeName.toFirstUpper»();
+«««	«ENDIF»
+«««	
+«««	«ENDIF»
+	
+}
+
+'''
 } 
