@@ -48,7 +48,7 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 	def containmentConstraintContent(ContainingElement ce) '''
 		 org.eclipse.emf.common.util.BasicEList<ContainmentConstraint>constraints = 
 			new org.eclipse.emf.common.util.BasicEList<ContainmentConstraint>();
-		«FOR cc : ce.allContainmentConstraints»
+		«FOR cc : ce.allContainmentConstraints.filter[types.size>0]»
 			«cc.containmentConstraint»
 		«ENDFOR»
 		return constraints;
@@ -57,8 +57,17 @@ class NodeMethodsGeneratorExtensions extends GeneratorUtils {
 
 	def containmentConstraint(
 		GraphicalElementContainment gec) '''
-		constraints.add(new ContainmentConstraint(«gec.lowerBound»,«gec.upperBound»,«gec.types.map[fqBeanName+".class"].join(",")»));
+		constraints.add(new ContainmentConstraint(«gec.lowerBound»,«gec.upperBound»,«containedClasses(gec)»));
 	'''
+	
+	protected def String containedClasses(GraphicalElementContainment gec) {
+		if(gec.types.size>0){
+			gec.types.map[fqBeanName+".class"].join(",")
+		}else{
+			(gec.containingElement.eContainer as GraphModel).nodes.map[fqBeanName+".class"].join(",")
+		}
+		
+	}
 
 	def EParameter classParam(EClass gen, String name) {
 		val param = EcoreFactory.eINSTANCE.createEParameter
