@@ -96,7 +96,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 		viewsEPackage.EClassifiers += elementEClasses.values.filter[mainView!=null].map[mainView]
 		viewsEPackage.EClassifiers += elementEClasses.values.filter[!views.nullOrEmpty].map[views].flatten
 
-		toReferenceMap.forEach[key, value|key.EType = eClassesMap.get(value.name).internalEClass]
+		toReferenceMap.forEach[key, value|key.EType = eClassesMap.get(value.name).mainEClass]
 		complexGetterParameterMap.forEach[key,value| println(value);key.EType = elementEClasses.get(value).mainEClass]
 		complexSetterParameterMap.forEach[key,value| key.EType = elementEClasses.get(value).mainEClass]
 		enumSetterParameterMap.forEach[key,value|key.EType = enumMap.get(value)]
@@ -295,9 +295,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 			element.nonConflictingAttributes.forEach[att| var ec= elementEClasses.mainEClass;ec.createGetter(ec,att);ec.createSetter(ec,att)]
 
 			elementEClasses.createTypedInternalGetter
-		eClassesMap.put(elementEClasses.mainEClass.name, elementEClasses)
-
-
+			eClassesMap.put(elementEClasses.mainEClass.name, elementEClasses)
 
 		}
 	elementEClasses
@@ -536,7 +534,7 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 	'''
 
 	private def createComplexSetterContent(EClass modelElementClass, ComplexAttribute attr) '''
-		getInternal«modelElementClass.name»().set«attr.name.toFirstUpper»((«attr.type.fqInternalBeanName»)«attr.name».getInternalElement());
+		getInternal«modelElementClass.name»().set«attr.name.toFirstUpper»(«attr.name»);
 	'''
 
 	private dispatch def createGetter(EClass view, EClass modelElementClass, PrimitiveAttribute attr) {
@@ -573,12 +571,13 @@ class MGLAlternateGenerator extends NodeMethodsGeneratorExtensions{
 	}
 
 	private def createComplexGetterContent(EClass eClass, ComplexAttribute attr) '''
-	«attr.type.fqInternalBeanName» «attr.name.toLowerCase» = getInternal«eClass.name»().get«attr.name.toFirstUpper»();
-	if(«attr.name.toLowerCase»!=null){
-		return («attr.type.name»)«attr.name.toLowerCase».getElement();
-	}else{
-		return null;
-	}
+«««	«attr.type.fqInternalBeanName» «attr.name.toLowerCase» = 
+	return getInternal«eClass.name»().get«attr.name.toFirstUpper»();
+«««	if(«attr.name.toLowerCase»!=null){
+«««		return («attr.type.name»)«attr.name.toLowerCase».getElement();
+«««	}else{
+«««		return null;
+«««	}
 	'''
 
 
