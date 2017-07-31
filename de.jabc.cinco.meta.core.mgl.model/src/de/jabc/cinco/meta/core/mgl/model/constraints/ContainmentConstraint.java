@@ -27,6 +27,7 @@ public class ContainmentConstraint {
 	 * @param upperBound - upper bound of constraint
 	 * @param types - list of types of containable elements
 	 */
+	@SafeVarargs
 	public ContainmentConstraint(int lowerBound, int upperBound,Class<? extends Node>... types){
 		
 		this.types = Arrays.asList(types);
