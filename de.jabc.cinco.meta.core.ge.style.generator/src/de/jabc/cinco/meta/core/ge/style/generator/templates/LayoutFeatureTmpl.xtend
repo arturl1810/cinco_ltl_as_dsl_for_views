@@ -17,10 +17,11 @@ import style.ContainerShape
 import style.LineStyle
 import style.Styles
 import org.eclipse.graphiti.mm.algorithms.Image
+import style.EdgeStyle
 
 class LayoutFeatureTmpl extends GeneratorUtils{
 	
-public static Map<AbstractShape,String> shapeMap = new HashMap<AbstractShape,String>;
+public static Map<Object,String> shapeMap = new HashMap<Object,String>;
 var counter1 = 0;
 var counter2 = 0
 EList<Appearance> appList = new BasicEList<Appearance>();
@@ -90,8 +91,8 @@ public class «gm.fuName»LayoutUtils {
 	«ENDFOR»
 	
 	«gm.initInlineAppearances(st)»
-	 «FOR app : appList»
-	«getInlineMethode(app)»
+	«FOR app : appList»
+	«getInlineMethod(app)»
 	«ENDFOR»
 	
 	/**
@@ -166,7 +167,7 @@ public class «gm.fuName»LayoutUtils {
 	 * Generates methode(s) for all inlinestyles of the Appearance inline
 	 * @param inline : Appearance
 	 */
-	def getInlineMethode(Appearance inline)
+	def getInlineMethod(Appearance inline)
 	{
 		counter1 = counter1+1
 		return '''
@@ -222,7 +223,7 @@ public class «gm.fuName»LayoutUtils {
 	}
 	
 	/**
-	 * Search for all inlineappearance of the Shape, creates a methode-call
+	 * Search for all inlineappearance of the Shape, creates a method-call
 	 * @param shape : AbstractShape
 	 */
 	def void inlineAppearance(AbstractShape shape){
@@ -239,7 +240,7 @@ public class «gm.fuName»LayoutUtils {
 	}
 
 	/**
-	 * Generates a methode-call of 'setBackground'
+	 * Generates a method-call of 'setBackground'
 	 * @param app : Appearance
 	 */
 	def String createBackground(Appearance app){
@@ -253,7 +254,7 @@ public class «gm.fuName»LayoutUtils {
 	}
 	
 	/**
-	 * Generates a methode-call of 'setForeground'
+	 * Generates a method-call of 'setForeground'
 	 * @param app : Appearance
 	 */
 	def String createForeground(Appearance app){
@@ -267,7 +268,7 @@ public class «gm.fuName»LayoutUtils {
 	}
 	
 	/**
-	 * Generates a methode-call of 'setLineStyle'
+	 * Generates a method-call of 'setLineStyle'
 	 * @param app : Appearance
 	 */
 	def String createLineStyle(Appearance app){
@@ -281,7 +282,7 @@ public class «gm.fuName»LayoutUtils {
 	}
 	
 	/**
-	 * Generates a methode-call of 'setLineWidth'
+	 * Generates a method-call of 'setLineWidth'
 	 * @param app : Appearance
 	 */
 	def String createLineWidth(Appearance app){
@@ -295,7 +296,7 @@ public class «gm.fuName»LayoutUtils {
 	}
 	
 	/**
-	 * Generates a methode-call of 'setTransparency'
+	 * Generates a method-call of 'setTransparency'
 	 * @param app : Appearance
 	 */
 	def String createTransparency(Appearance app){
@@ -309,7 +310,7 @@ public class «gm.fuName»LayoutUtils {
 	}
 	
 	/**
-	 * Generates a methode-call of 'setLineVisible'
+	 * Generates a method-call of 'setLineVisible'
 	 * @param app : Appearance
 	 */
 	def String createLineVisible(Appearance app){
@@ -331,7 +332,14 @@ public class «gm.fuName»LayoutUtils {
 					appList.add(inlineAppearance);
 					shapeMap.put(it, "set" + counter2 + "InlineStyle")
 				}
-			} 
+			}
+			if (it instanceof EdgeStyle) {
+				if (inlineAppearance != null) {
+					counter2 = counter2+1
+					appList.add(inlineAppearance)
+					shapeMap.put(it, "set" + counter2 + "InlineStyle")
+				}
+			}
 		]		
 	}
 	

@@ -145,6 +145,12 @@ class StyleUtils extends APIUtils {
 		else '''«node.graphModel.packageName».«node.graphModel.name»LayoutUtils.set_«node.graphModel.name»DefaultAppearanceStyle(«currentGaName», getDiagram());'''
 	}
 
+	def appearanceCode(PredefinedDecorator shape, CharSequence currentGaName) {
+		if (shape.referencedAppearance != null) '''«node.packageName».«node.graphModel.name»LayoutUtils.set«shape.referencedAppearance.name»Style(«currentGaName», getDiagram());'''
+		else if (shape.inlineAppearance != null)  ''' «node.packageName».«node.graphModel.name»LayoutUtils.«LayoutFeatureTmpl.shapeMap.get(shape)»(«currentGaName», getDiagram());'''
+		else '''«node.graphModel.packageName».«node.graphModel.name»LayoutUtils.set_«node.graphModel.name»DefaultAppearanceStyle(«currentGaName», getDiagram());'''
+	}
+
 	/**
 	 * This method writes the {@link org.eclipse.graphiti.mm.pictograms.ContainerShape} initialization code.
 	 *	
@@ -451,7 +457,8 @@ class StyleUtils extends APIUtils {
 	
 	def cdCall(PredefinedDecorator pd, Edge e) '''
 		de.jabc.cinco.meta.core.ge.style.generator.runtime.utils.CincoLayoutUtils.create«pd.shape.getName»(cd);
-		«e.graphModel.packageName».«e.graphModel.fuName»LayoutUtils.set_«node.graphModel.name»DefaultAppearanceStyle(cd.getGraphicsAlgorithm(), getDiagram());
+«««		«e.graphModel.packageName».«e.graphModel.fuName»LayoutUtils.set_«node.graphModel.name»DefaultAppearanceStyle(cd.getGraphicsAlgorithm(), getDiagram());
+		«pd.appearanceCode("cd.getGraphicsAlgorithm()")»
 	'''
 	
 	def cdShapeCall(GraphicsAlgorithm ga, Edge e) {

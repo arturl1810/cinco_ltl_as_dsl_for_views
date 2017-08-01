@@ -53,10 +53,11 @@ class GraphitiResourceFactory {
 			switch (it) {
 				«FOR me : gm.modelElements.filter[!isIsAbstract]»
 				«me.fqInternalName» : {
-					var cElement = new «me.fqCName»()
+					var cElement =	if (it.element instanceof «me.fqCName»)
+										it.element as «me.fqCName»
+									else new «me.fqCName»
 					cElement.pictogramElement = pe as «me.pictogramElementReturnType»
 					it.element = cElement
-«««					new «me.fqCName»()
 				}
 				«ENDFOR»
 			}

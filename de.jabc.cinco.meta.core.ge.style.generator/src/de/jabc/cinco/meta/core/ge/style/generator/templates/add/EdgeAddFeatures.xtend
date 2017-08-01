@@ -7,16 +7,11 @@ import de.jabc.cinco.meta.core.ge.style.generator.templates.LayoutFeatureTmpl
 import de.jabc.cinco.meta.core.ge.style.generator.templates.util.APIUtils
 import de.jabc.cinco.meta.core.ge.style.generator.templates.util.StyleUtils
 import de.jabc.cinco.meta.core.utils.CincoUtil
-import de.jabc.cinco.meta.runtime.xapi.GraphModelExtension
-import de.jabc.cinco.meta.util.xapi.ResourceExtension
+import de.jabc.cinco.meta.core.utils.MGLUtil
 import graphmodel.internal.InternalFactory
-import graphmodel.internal.InternalGraphModel
-import graphmodel.internal.InternalModelElementContainer
 import graphmodel.internal._Decoration
 import graphmodel.internal._Point
 import mgl.Edge
-import org.eclipse.emf.ecore.EObject
-import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.graphiti.features.IFeatureProvider
 import org.eclipse.graphiti.features.IUpdateFeature
 import org.eclipse.graphiti.features.context.IAddConnectionContext
@@ -33,13 +28,13 @@ import org.eclipse.graphiti.services.IGaService
 import org.eclipse.graphiti.services.IPeService
 import style.AbstractShape
 import style.Styles
-import de.jabc.cinco.meta.core.utils.MGLUtil
+
+import static extension de.jabc.cinco.meta.core.utils.CincoUtil.*
+import style.EdgeStyle
 
 class EdgeAddFeatures extends APIUtils {
 	
 	extension StyleUtils = new StyleUtils
-	
-	
 	
 	/**
 	 * Generates the Class 'AddFeature' for the Edge e
@@ -75,7 +70,8 @@ class EdgeAddFeatures extends APIUtils {
 			
 			«IGaService.name» gaService = «Graphiti.name».getGaService();
 			«Polyline.name» polyline = gaService.createPolyline(connection);
-			«e.graphModel.packageName».«e.graphModel.name»LayoutUtils.set_«e.graphModel.name»DefaultAppearanceStyle(polyline, getDiagram());
+«««			«e.graphModel.packageName».«e.graphModel.name»LayoutUtils.set_«e.graphModel.name»DefaultAppearanceStyle(polyline, getDiagram());
+			«e.getStyleForEdge(styles).appearanceCodeEdge("polyline", e)»
 			«Graphiti.name».getPeService().setPropertyValue(
 				polyline, «CincoLayoutUtils.name».KEY_GA_NAME, "connection");
 			
@@ -98,8 +94,8 @@ class EdgeAddFeatures extends APIUtils {
 			«ConnectionDecorator.name» cd;
 			«_Decoration.name» _d;// = «InternalFactory.name».eINSTANCE.create_Decoration();
 			«_Point.name» _p;// = «InternalFactory.name».eINSTANCE.create_Point();
-			
-			«FOR d : CincoUtil.getStyleForEdge(e, styles).decorator»
+			«Polyline.name» dummy;
+			«FOR d : e.getStyleForEdge(styles).decorator»
 			_d = «InternalFactory.name».eINSTANCE.create_Decoration();
 			_p = «InternalFactory.name».eINSTANCE.create_Point();
 			cd = peService.createConnectionDecorator(connection, «d.movable»,«d.location», true);
@@ -159,9 +155,9 @@ class EdgeAddFeatures extends APIUtils {
 	 * @param currentGaName : String
 	 * @param e : The edge
 	 */
-	def appearanceCodeEdge(AbstractShape shape, String currentGaName, Edge e) {
+	def appearanceCodeEdge(EdgeStyle shape, String currentGaName, Edge e) {
 		if (shape.referencedAppearance != null) '''«e.packageName».«e.graphModel.name»LayoutUtils.set«shape.referencedAppearance.name»Style(«currentGaName», getDiagram());'''
-		else if (shape.inlineAppearance != null)  ''' «e.packageName».«e.graphModel.name»LayoutUtils.«LayoutFeatureTmpl.shapeMap.get(shape)»(«currentGaName», getDiagram());'''
+		else if (shape.inlineAppearance != null)  '''«e.packageName».«e.graphModel.name»LayoutUtils.«LayoutFeatureTmpl.shapeMap.get(shape)»(«currentGaName», getDiagram());'''
 		else '''«e.graphModel.packageName».«e.graphModel.name»LayoutUtils.set_«e.graphModel.name»DefaultAppearanceStyle(«currentGaName», getDiagram());'''
 	}
 	
