@@ -33,6 +33,7 @@ class EmfFactoryTmpl {
 		public «me.fqBeanName» create«me.fuName»() {
 			«me.fqInternalBeanName» ime = («me.fqInternalBeanName») «me.fqFactoryName».eINSTANCE.create«me.fuName»().getInternalElement();
 			«me.fqCName» me = new «me.fqCName»();
+			me.setId(ime.getElement().getId());
 			ime.setElement(me);
 			ime.eAdapters().add(«me.packageNameEContentAdapter».«me.fuName»EContentAdapter.getInstance());
 			return me;
