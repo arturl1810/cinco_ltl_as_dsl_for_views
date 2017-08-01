@@ -131,8 +131,9 @@ class FactoryGeneratorExtensions {
 			n.internalElement.container = parent
 			setID(n,ID)
 			setID(n.internalElement,generateUUID)
-			if (hook)
+			if (hook) {
 				«postCreate(it, "n")»
+			}
 			«IF !(it instanceof UserDefinedType)»n.internalElement.eAdapters.add(new «graphModel.package».adapter.«name»EContentAdapter)«ENDIF»
 			n
 		}
