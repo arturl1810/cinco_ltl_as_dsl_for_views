@@ -28,5 +28,10 @@ public class DependencyNode {
 	public String getPath() {
 		return this.path;
 	}
+
+	@Override
+	public String toString() {
+		return "DependencyNode [path=" + path + "]";
+	}
 	
 }

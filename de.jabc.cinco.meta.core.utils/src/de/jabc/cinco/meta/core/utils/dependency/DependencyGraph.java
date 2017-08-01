@@ -4,15 +4,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 import java.util.Stack;
 
 public class DependencyGraph {
 	HashMap<String,DependencyNode> nodes;
-	private List<String> ignore;
 	
-	public DependencyGraph(List<String> ignore){
-		this.ignore = ignore;
+	public DependencyGraph(){
 		this.nodes = new HashMap<String, DependencyNode>();
 	}
 	
@@ -20,10 +17,9 @@ public class DependencyGraph {
 		nodes.put(node.getPath(),node);
 	}
 	
-	public static DependencyGraph createGraph(Collection<DependencyNode> nodes, List<String> stacked){
-		DependencyGraph dpg = new DependencyGraph(stacked);
+	public static DependencyGraph createGraph(Collection<DependencyNode> nodes){
+		DependencyGraph dpg = new DependencyGraph();
 		nodes.forEach(node -> dpg.addNode(node));
-		
 		return dpg;
 	}
 	
@@ -32,6 +28,7 @@ public class DependencyGraph {
 		Stack<String> stck = new Stack<>();
 		List<String> toVisit = new ArrayList<>();
 		
+		// Init: get root elements
 		for(String key: this.nodes.keySet()){
 			if(nodes.get(key).getDependsOf().size()==0){
 				stck.push(key);
@@ -46,9 +43,6 @@ public class DependencyGraph {
  			for(String current: toVisit){
  				lastCurrent = current;
 				DependencyNode dn = nodes.get(current);
-				for(String ign: this.ignore){
-					dn.removeDependency(ign);
-				}
 				for(String stacked : stck){
 					dn.removeDependency(stacked);
 					
@@ -63,10 +57,6 @@ public class DependencyGraph {
  			else
  				throw new RuntimeException(String.format("Could not resolve MGL Dependencies, Dependency Graph contains circles, including '%s'.",lastCurrent));
 		}
-		
-		
-		
-		
 		return stck;
 	}
 }
