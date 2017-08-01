@@ -345,7 +345,7 @@ public class «gm.fuName»FeatureProvider extends «DefaultFeatureProvider.name�
 						@Override
 						protected void doExecute() {
 							«CincoCreateEdgeFeature.name» cf = («CincoCreateEdgeFeature.name») f;
-							if (cf.canCreate((«CincoCreateEdgeFeature.name») c, true)) {
+							if (cf.canCreate((«ICreateConnectionContext.name») c, true)) {
 								«Connection.name» conn = cf.create((«ICreateConnectionContext.name») c);
 								if (conn != null) {
 									«EObject.name» bo = conn.getLink().getBusinessObjects().get(0);

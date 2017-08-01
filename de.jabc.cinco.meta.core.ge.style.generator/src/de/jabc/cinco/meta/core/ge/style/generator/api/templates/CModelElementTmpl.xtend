@@ -33,6 +33,7 @@ public void update() {
 '''
 
 def getDeleteContent(ModelElement me) '''
+«IF !me.isIsAbstract»
 @Override
 public void delete(){
 	«RemoveContext.name» rc = new «RemoveContext.name»(this.pe);
@@ -45,6 +46,7 @@ public void delete(){
 		super.delete();
 	}
 }
+«ENDIF»
 '''
 
 def doGenerateImpl(ModelElement me)'''

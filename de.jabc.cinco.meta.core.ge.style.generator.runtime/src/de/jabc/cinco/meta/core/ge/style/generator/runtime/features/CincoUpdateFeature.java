@@ -100,13 +100,17 @@ abstract public class CincoUpdateFeature extends AbstractUpdateFeature {
 
 					String value = Graphiti.getPeService().getPropertyValue(t, "Params");
 					formatString = Graphiti.getPeService().getPropertyValue(t, "formatString");
-
 					elContext = new ExpressionLanguageContext(bo);
-					Object tmp2Value = factory.createValueExpression(elContext, value, Object.class)
-							.getValue(elContext);
-					if (tmp2Value != null)
-						t.setValue(String.format(formatString, ((String) tmp2Value).split(";")));
-					else t.setValue("");
+					
+					java.lang.Object _values[] = new java.lang.Object[value.split(";").length];
+					for (int i=0; i < _values.length; i++)
+						_values[i] = "";
+						
+					for (int i=0; i < value.split(";").length;i++) {
+						_values[i] = factory.createValueExpression(elContext, value.split(";")[i], java.lang.Object.class).getValue(elContext);
+					}
+					
+					t.setValue(String.format(formatString,_values));
 				} catch (java.util.IllegalFormatException ife) {
 					t.setValue("STRING FORMAT ERROR");
 				} catch (PropertyNotFoundException pne) {
@@ -114,6 +118,7 @@ abstract public class CincoUpdateFeature extends AbstractUpdateFeature {
 				} catch (NullPointerException npe) {
 					t.setValue("NULL");
 				} catch (ELException ele) {
+					ele.printStackTrace();
 					t.setValue("null");
 				} finally {
 					Thread.currentThread().setContextClassLoader(contextClassLoader);
@@ -154,18 +159,21 @@ abstract public class CincoUpdateFeature extends AbstractUpdateFeature {
 					Thread.currentThread().setContextClassLoader(o.getClass().getClassLoader());
 					AbstractText t = (AbstractText) pe.getGraphicsAlgorithm();
 
-					String value = Graphiti.getPeService().getPropertyValue(t, "Params"); // zb.
-																							// ${name}
-					formatString = Graphiti.getPeService().getPropertyValue(t, "formatString"); // zb.
-																								// %s
-
+					String value = Graphiti.getPeService().getPropertyValue(t, "Params");
+					formatString = Graphiti.getPeService().getPropertyValue(t, "formatString");
 					elContext = new ExpressionLanguageContext(bo);
-					Object tmp2Value = factory.createValueExpression(elContext, value, Object.class)
-							.getValue(elContext);
+					
+					java.lang.Object _values[] = new java.lang.Object[value.split(";").length];
+					for (int i=0; i < _values.length; i++)
+						_values[i] = "";
+					String elex = value.split(";")[0];
+					factory.createValueExpression(elContext, elex, java.lang.Object.class).getValue(elContext);
+					for (int i=0; i < value.split(";").length;i++) {
+						_values[i] = factory.createValueExpression(elContext, value.split(";")[i], java.lang.Object.class).getValue(elContext);
+					}
 					
 					String oldVal = "";
-					if (tmp2Value != null)
-						oldVal = String.format(formatString, ((String) tmp2Value).split(";"));
+					oldVal = String.format(formatString,_values);
 					String newVal = t.getValue();
 					return (!newVal.equals(oldVal));
 				} catch (java.util.IllegalFormatException ife) {
@@ -175,6 +183,7 @@ abstract public class CincoUpdateFeature extends AbstractUpdateFeature {
 				} catch (NullPointerException npe) {
 					return true;
 				} catch (ELException ele) {
+					ele.printStackTrace();
 					return true;
 				}
 

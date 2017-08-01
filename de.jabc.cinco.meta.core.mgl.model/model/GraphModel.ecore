@@ -173,7 +173,9 @@
       </eAnnotations>
     </eOperations>
     <eOperations name="preDelete">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel"/>
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value=""/>
+      </eAnnotations>
     </eOperations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Edge" abstract="true" interface="true"
@@ -206,7 +208,9 @@
       </eAnnotations>
     </eOperations>
     <eOperations name="preDelete">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel"/>
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value=""/>
+      </eAnnotations>
     </eOperations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Container" abstract="true" interface="true"

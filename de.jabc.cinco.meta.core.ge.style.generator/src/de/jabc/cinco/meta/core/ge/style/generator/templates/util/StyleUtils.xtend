@@ -310,15 +310,24 @@ class StyleUtils extends APIUtils {
 		
 			«ExpressionLanguageContext.name» elContext = 
 				new «ExpressionLanguageContext.name»(bo);
+			
+			«String.name» _expression = "«getText(node)»";
+			«Object.name» _values[] = new «Object.name»[_expression.split(";").length];
+			for (int i=0; i < _values.length; i++)
+				_values[i] = "";
 				
-			«Object.name» tmp0Value = factory.createValueExpression(elContext, "«getText(node)»", «Object.name».class).getValue(elContext);
+			for (int i=0; i < _expression.split(";").length;i++) {
+				_values[i] = factory.createValueExpression(elContext, _expression.split(";")[i], «Object.name».class).getValue(elContext);
+			}
+			
+«««			«Object.name» tmp0Value = factory.createValueExpression(elContext, "«getText(node)»", «Object.name».class).getValue(elContext);
 		
 			peService.setPropertyValue(«currentGaName.toString», «node.graphModel.packageName».«node.graphModel.fuName»GraphitiUtils.KEY_FORMAT_STRING, "«t.value»");
 
 			peService.setPropertyValue(«currentGaName.toString», "Params","«getText(node)»");
-			if (tmp0Value != null)
-				«currentGaName.toString».setValue(String.format("«t.value»", ((«String.name») tmp0Value).split(";")));
-			else «currentGaName.toString».setValue("");
+«««			if (tmp0Value != null)
+			«currentGaName.toString».setValue(String.format("«t.value»", _values));
+«««			else «currentGaName.toString».setValue("");
 		} catch (java.util.IllegalFormatException ife) {
 			«currentGaName.toString».setValue("STRING FORMAT ERROR");
 		} catch («ELException.name» ele) {

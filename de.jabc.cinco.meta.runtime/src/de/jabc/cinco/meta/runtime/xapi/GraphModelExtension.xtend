@@ -80,8 +80,10 @@ class GraphModelExtension {
 		allEdges.addAll(node.outgoing)
 		allEdges.forall[e | 
 			var common = getCommonContainer(e.container, e)
-			e.container.modelElements.remove(e)
-			common.modelElements.add(e)
+			if (!common.equals(e.container)) {
+				e.container.modelElements.remove(e)
+				common.modelElements.add(e)
+			}
 		]
 	}
 	
