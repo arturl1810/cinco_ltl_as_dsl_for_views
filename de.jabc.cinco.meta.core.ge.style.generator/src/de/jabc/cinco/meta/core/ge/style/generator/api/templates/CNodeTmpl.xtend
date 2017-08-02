@@ -229,6 +229,8 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 	«me.updateContent»
 	
 	«me.deleteContent»
+	
+	«me.highlightContent»
 }
 '''
 	

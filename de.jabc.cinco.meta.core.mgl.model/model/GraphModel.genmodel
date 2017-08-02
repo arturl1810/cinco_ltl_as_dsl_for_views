@@ -67,6 +67,17 @@
       </genOperations>
       <genOperations ecoreOperation="GraphModel.ecore#//Node/delete"/>
       <genOperations ecoreOperation="GraphModel.ecore#//Node/preDelete"/>
+      <genOperations ecoreOperation="GraphModel.ecore#//Node/canMoveTo">
+        <genParameters ecoreParameter="GraphModel.ecore#//Node/canMoveTo/targetContainer"/>
+      </genOperations>
+      <genOperations ecoreOperation="GraphModel.ecore#//Node/moveTo">
+        <genParameters ecoreParameter="GraphModel.ecore#//Node/moveTo/targetContainer"/>
+        <genParameters ecoreParameter="GraphModel.ecore#//Node/moveTo/x"/>
+        <genParameters ecoreParameter="GraphModel.ecore#//Node/moveTo/y"/>
+      </genOperations>
+      <genOperations ecoreOperation="GraphModel.ecore#//Node/canClone">
+        <genParameters ecoreParameter="GraphModel.ecore#//Node/canClone/targetContainer"/>
+      </genOperations>
     </genClasses>
     <genClasses image="false" ecoreClass="GraphModel.ecore#//Edge">
       <genOperations ecoreOperation="GraphModel.ecore#//Edge/getSourceElement"/>
@@ -79,6 +90,9 @@
       </genOperations>
       <genOperations ecoreOperation="GraphModel.ecore#//Edge/delete"/>
       <genOperations ecoreOperation="GraphModel.ecore#//Edge/preDelete"/>
+      <genOperations ecoreOperation="GraphModel.ecore#//Edge/canClone">
+        <genParameters ecoreParameter="GraphModel.ecore#//Edge/canClone/targetContainer"/>
+      </genOperations>
     </genClasses>
     <genClasses ecoreClass="GraphModel.ecore#//Container">
       <genOperations ecoreOperation="GraphModel.ecore#//Container/getInternalContainerElement"/>
@@ -87,6 +101,7 @@
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference GraphModel.ecore#//ModelElement/internalElement"/>
       <genOperations ecoreOperation="GraphModel.ecore#//ModelElement/getContainer"/>
       <genOperations ecoreOperation="GraphModel.ecore#//ModelElement/getRootElement"/>
+      <genOperations ecoreOperation="GraphModel.ecore#//ModelElement/highlight"/>
     </genClasses>
     <genClasses image="false" ecoreClass="GraphModel.ecore#//ModelElementContainer">
       <genOperations ecoreOperation="GraphModel.ecore#//ModelElementContainer/getModelElements">

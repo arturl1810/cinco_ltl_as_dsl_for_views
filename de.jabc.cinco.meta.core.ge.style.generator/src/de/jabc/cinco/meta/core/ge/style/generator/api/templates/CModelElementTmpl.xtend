@@ -12,6 +12,9 @@ import org.eclipse.graphiti.features.impl.DefaultRemoveFeature
 import org.eclipse.graphiti.mm.pictograms.PictogramElement
 import org.eclipse.graphiti.mm.pictograms.Shape
 import org.eclipse.graphiti.ui.services.GraphitiUi
+import org.eclipse.graphiti.mm.pictograms.Diagram
+import org.eclipse.graphiti.platform.IDiagramBehavior
+import org.eclipse.graphiti.ui.editor.DiagramBehavior
 
 class CModelElementTmpl extends APIUtils {
 	
@@ -47,6 +50,20 @@ public void delete(){
 	}
 }
 «ENDIF»
+'''
+
+def getHighlightContent(ModelElement me) '''
+@Override
+public void highlight() {
+«««	«Diagram.name» d = («Diagram.name») this.getDiagram();
+«««	«CincoFeatureProvider.name» provider = («CincoFeatureProvider.name») «GraphitiUi.name».getExtensionManager().createFeatureProvider(d);
+	«IDiagramBehavior.name» idb = «me.packageName».«me.graphModel.fuName»GraphitiUtils.getInstance().getDTP().getDiagramBehavior();
+	if (idb instanceof «DiagramBehavior.name») {
+		«DiagramBehavior.name» db = («DiagramBehavior.name») idb;
+		db.setPictogramElementForSelection(getPictogramElement());
+		db.selectBufferedPictogramElements();
+	}
+}
 '''
 
 def doGenerateImpl(ModelElement me)'''

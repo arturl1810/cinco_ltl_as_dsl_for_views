@@ -177,9 +177,38 @@
         <details key="body" value=""/>
       </eAnnotations>
     </eOperations>
+    <eOperations name="canMoveTo" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return targetContainer.canContain(this.getClass());"/>
+      </eAnnotations>
+      <eParameters name="targetContainer" lowerBound="1" eType="#//ModelElementContainer"/>
+    </eOperations>
+    <eOperations name="moveTo">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="int deltaX = x - ((graphmodel.internal.InternalNode)this.getInternalElement()).getX();&#xA;int deltaY = y - ((graphmodel.internal.InternalNode)this.getInternalElement()).getY();&#xA;((graphmodel.internal.InternalNode)getInternalElement()).setX(x);&#xA;((graphmodel.internal.InternalNode)getInternalElement()).setY(y);&#xA;postMove(getContainer(), getContainer(), x,y,deltaX, deltaY);"/>
+      </eAnnotations>
+      <eParameters name="targetContainer" lowerBound="1" eType="#//ModelElementContainer"/>
+      <eParameters name="x" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <eParameters name="y" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eOperations>
+    <eOperations name="canClone" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return targetContainer.canContain(this.getClass());"/>
+      </eAnnotations>
+      <eParameters name="targetContainer" eType="#//ModelElementContainer"/>
+    </eOperations>
+    <eOperations name="clone">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="InternalNode copy = (InternalNode) EcoreUtil.copy(this.getInternalElement());&#xA;EcoreUtil.setID(copy, getId());&#xA;targetContainer.getInternalContainerElement().getModelElements().add(copy);&#xA;return (T) copy.getElement();"/>
+      </eAnnotations>
+      <eGenericType eTypeParameter="#//Node/clone/T"/>
+      <eTypeParameters name="T">
+        <eBounds eClassifier="#//Node"/>
+      </eTypeParameters>
+      <eParameters name="targetContainer" eType="#//ModelElementContainer"/>
+    </eOperations>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Edge" abstract="true" interface="true"
-      eSuperTypes="#//ModelElement">
+  <eClassifiers xsi:type="ecore:EClass" name="Edge" eSuperTypes="#//ModelElement">
     <eOperations name="getSourceElement" eType="#//Node">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="body" value="return ((graphmodel.internal.InternalEdge)getInternalElement()).getSourceElement();"/>
@@ -212,6 +241,24 @@
         <details key="body" value=""/>
       </eAnnotations>
     </eOperations>
+    <eOperations name="canClone" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return source.canStart(this.getClass()) &amp;&amp; target.canEnd(this.getClass());"/>
+      </eAnnotations>
+      <eParameters name="source" eType="#//Node"/>
+      <eParameters name="target" eType="#//Node"/>
+    </eOperations>
+    <eOperations name="clone">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="InternalEdge copy = (InternalEdge) EcoreUtil.copy(this.getInternalElement());&#xA;copy.set_sourceElement((InternalNode) source.getInternalElement());&#xA;copy.set_targetElement((InternalNode) target.getInternalElement());&#xA;EObject container = source.getContainer().getInternalContainerElement();&#xA;while (container != null &amp;&amp; !EcoreUtil.isAncestor(container, target)) {&#xA;&#x9;container = container.eContainer();&#xA;}&#xA;if (container != null) {&#xA;&#x9;((InternalModelElementContainer) container).getModelElements().add(copy);&#xA;} else {&#xA;&#x9;container = target.getContainer().getInternalContainerElement();&#xA;&#x9;while (container != null &amp;&amp; !EcoreUtil.isAncestor(container, source)) {&#xA;&#x9;&#x9;container = container.eContainer();&#xA;&#x9;}&#xA;&#x9;if (container != null) {&#xA;&#x9;&#x9;((InternalModelElementContainer) container).getModelElements().add(copy);&#xA;&#x9;} else {&#xA;&#x9;&#x9;source.getRootElement().getInternalContainerElement().getModelElements().add(copy);&#xA;&#x9;}&#xA;} &#xA;return (T) copy.getElement();"/>
+      </eAnnotations>
+      <eGenericType eTypeParameter="#//Edge/clone/T"/>
+      <eTypeParameters name="T">
+        <eBounds eClassifier="#//Edge"/>
+      </eTypeParameters>
+      <eParameters name="source" eType="#//Node"/>
+      <eParameters name="target" eType="#//Node"/>
+    </eOperations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Container" abstract="true" interface="true"
       eSuperTypes="#//ModelElementContainer #//Node">
@@ -230,6 +277,11 @@
     <eOperations name="getRootElement" eType="#//GraphModel">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="body" value="return getInternalElement().getRootElement().getElement();"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="highlight">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value=""/>
       </eAnnotations>
     </eOperations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="internalElement" lowerBound="1"
