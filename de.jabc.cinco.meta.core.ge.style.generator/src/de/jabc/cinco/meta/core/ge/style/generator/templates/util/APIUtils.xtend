@@ -70,7 +70,14 @@ class APIUtils extends GeneratorUtils {
 		}
 	}
 	
-	def fqCName(ModelElement me) 
+	def dispatch fqCName(GraphModel t) {
+		switch (t) {
+			GraphModel : (t as ModelElement).fqCName
+			NodeContainer : (t as ModelElement).fqCName
+		}
+	}
+	
+	def fqCName(Type me) 
 	'''«me.packageNameAPI».«me.fuCName»'''
 	
 	def fqTypeName(PrimitiveAttribute a){

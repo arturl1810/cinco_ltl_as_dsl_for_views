@@ -32,6 +32,9 @@ import org.eclipse.graphiti.ui.services.GraphitiUi
 import org.eclipse.graphiti.features.context.impl.RemoveContext
 import org.eclipse.graphiti.features.IRemoveFeature
 import org.eclipse.graphiti.features.impl.DefaultRemoveFeature
+import de.jabc.cinco.meta.core.ge.style.generator.runtime.features.CincoGraphitiCopier
+import mgl.ModelElement
+import graphmodel.ModelElementContainer
 
 class CNodeTmpl extends APIUtils {
 
@@ -50,7 +53,7 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 	
 	public «me.pictogramElementReturnType» getPictogramElement() {
 		if (pe == null)
-			this.pe = ((«me.graphModel.fqCName») getRootElement()).fetchPictogramElement(this);
+			this.pe = ((«(me.graphModel as ModelElement).fqCName») getRootElement()).fetchPictogramElement(this);
 		return («me.pictogramElementReturnType») this.pe;
 	}
 	
@@ -150,8 +153,8 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 	
 	private «Diagram.name» getDiagram() {
 		«GraphModel.name» gm = getRootElement();
-		if (gm instanceof «me.rootElement.fqCName»)
-			return ((«me.rootElement.fqCName») gm).getPictogramElement();
+		if (gm instanceof «(me.rootElement as ModelElement).fqCName»)
+			return ((«(me.rootElement as ModelElement).fqCName») gm).getPictogramElement();
 		«PictogramElement.name» curr = getPictogramElement();
 		while (curr.eContainer() != null)
 			curr = («PictogramElement.name») curr.eContainer();
@@ -225,6 +228,30 @@ public «IF me.isIsAbstract»abstract «ENDIF»class «me.fuCName» extends «me
 		}
 	«ENDFOR»
 	«ENDIF»
+	
+	@Override
+	public <T extends «graphmodel.Node.name»> T clone(«ModelElementContainer.name» targetContainer) {
+		«graphmodel.Node.name» clone = super.clone(targetContainer);
+		if (!(clone instanceof «me.fqCName»))
+			throw new «RuntimeException.name»(«String.name».format("The cloned node is of type: %s, but it should be an instance of %s", clone, «me.fqCName».class));
+		else {
+			«CincoGraphitiCopier.name» copier = new «CincoGraphitiCopier.name»();
+			«PictogramElement.name» peClone = copier.copyPE(this.getPictogramElement());
+			«ContainerShape.name» parentContainerShape = null;
+			copier.relink(peClone, clone.getInternalElement());
+			«FOR c : me.possibleContainers.filter(mgl.GraphModel)»
+			if (targetContainer instanceof «c.fqCName»)
+				parentContainerShape = ((«c.fqCName») targetContainer).getPictogramElement();
+			«ENDFOR»
+			«FOR c : me.possibleContainers.filter(NodeContainer)»
+			if (targetContainer instanceof «c.fqCName»)
+				parentContainerShape = ((«c.fqCName») targetContainer).getPictogramElement();
+			«ENDFOR»
+			parentContainerShape.getChildren().add((«Shape.name») peClone);
+			((«me.fqCName») clone).setPictogramElement((«ContainerShape.name») peClone);
+			return (T) clone;
+		}
+	}
 	
 	«me.updateContent»
 	

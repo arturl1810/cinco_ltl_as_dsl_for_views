@@ -17,6 +17,7 @@ import org.eclipse.graphiti.mm.pictograms.PictogramLink
 import org.eclipse.graphiti.mm.pictograms.PictogramsFactory
 import org.eclipse.graphiti.mm.pictograms.Shape
 import org.eclipse.graphiti.ui.services.GraphitiUi
+import org.eclipse.emf.ecore.EObject
 
 class CincoGraphitiCopier {
 	
@@ -107,6 +108,13 @@ class CincoGraphitiCopier {
 		
 		minXabs = pes.filter(typeof(Shape)).minBy[locationRelativeToDiagram.x].locationRelativeToDiagram.x
 		minYabs = pes.filter(typeof(Shape)).minBy[locationRelativeToDiagram.y].locationRelativeToDiagram.y
+	}
+	
+	def void relink(PictogramElement pe, EObject bo) {
+		pe.link.businessObjects.clear
+		pe.link.businessObjects.add(bo)
+		if (pe instanceof ContainerShape)
+			pe.children.forEach[relink(bo)]
 	}
 	
 	private def getLocationRelativeToDiagram(Shape it) {
