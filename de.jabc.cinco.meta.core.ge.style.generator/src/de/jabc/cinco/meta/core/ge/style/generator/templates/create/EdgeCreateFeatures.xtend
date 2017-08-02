@@ -95,7 +95,7 @@ class EdgeCreateFeatures extends APIUtils{
 				«Resource.name» eResource = ((«EObject.name») source).eResource();
 				«InternalGraphModel.name» internalGraphModel = new «ResourceExtension.name»().getContent(eResource, «e.graphModel.fqInternalBeanName».class);
 				«InternalModelElementContainer.name» container = 
-					new «GraphModelExtension.name»().getCommonContainer(internalGraphModel, «e.flName».getInternal«e.fuName»());
+					new «GraphModelExtension.name»().getCommonContainer(internalGraphModel, source, target);
 						container.getModelElements().add(«e.flName».getInternal«e.fuName»());
 					
 				if (source instanceof «InternalModelElement.name») {

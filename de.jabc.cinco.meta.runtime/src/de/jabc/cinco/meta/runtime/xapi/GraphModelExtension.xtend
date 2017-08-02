@@ -74,6 +74,23 @@ class GraphModelExtension {
 		return ce;
 	}
 	
+	def InternalModelElementContainer getCommonContainer(InternalModelElementContainer ce, InternalNode n, InternalNode m) {
+		var source = n;
+		var target = m;
+		if (EcoreUtil.isAncestor(ce, source) && EcoreUtil.isAncestor(ce, target)) {
+			for (InternalModelElement c : ce.getModelElements()) {
+				if (c instanceof InternalModelElementContainer) {
+					if (EcoreUtil.isAncestor(c, source) && EcoreUtil.isAncestor(c, target)) {
+						return c.getCommonContainer(source,target);
+					}
+				}
+			}
+		} else if (ce instanceof InternalModelElement) {
+			return ce.container.getCommonContainer(source,target);
+		}
+		return ce;
+	}
+	
 	def void moveEdgesToCommonContainer(InternalNode node) {
 		val allEdges = new HashSet<InternalEdge>()
 		allEdges.addAll(node.incoming)
